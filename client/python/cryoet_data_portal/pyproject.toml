@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cryoet_data_portal"
+dynamic = ["version"]
+description = "API Client to facilitate the use of the CryoET Portal. For more information about the API and the project visit https://github.com/chanzuckerberg/cryoet-data-portal/"
+authors = [
+    { name = "Chan Zuckerberg Initiative", email = "cryoetdataportal@chanzuckerberg.com" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">= 3.7, < 3.11"  # Python 3.11 is pending numba support
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS :: MacOS X",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+dependencies= [
+    "requests",
+    "boto3",
+    "scipy",
+]
+
+[project.urls]
+homepage = "https://github.com/chanzuckerberg/cryoet-data-portal"
+repository = "https://github.com/chanzuckerberg/cryoet-data-portal"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["cryoet_data_portal*"]  # package names should match these glob patterns (["*"] by default)
+exclude = ["tests*"]  # exclude packages matching these glob patterns (empty by default)
+
+[tool.setuptools_scm]
+root = "../../.."
+
+[tool.black]
+line-length = 120
+target_version = ['py39']
+
+[tool.mypy]
+show_error_codes = true
+ignore_missing_imports = true
+warn_unreachable = true
+strict = true
+plugins = "numpy.typing.mypy_plugin"
+
+[tool.pytest.ini_options]
+markers = [
+    "expensive: too expensive to run regularly or in CI",
+]
+
+[tool.ruff]
+select = ["E", "F", "B", "I"]
+ignore = ["E501", "E402", "C408", ]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.isort]
+known-first-party =["cryoet_data_portal"]
