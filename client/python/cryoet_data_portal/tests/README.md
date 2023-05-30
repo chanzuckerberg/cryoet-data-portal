@@ -1,10 +1,10 @@
 # Test README
 
-This directory contains tests of the cellxgene-census package API, _and_ the use of the API on the
-live "corpus", i.e., data in the public Census S3 bucket. The tests use Pytest, and have
+This directory contains tests of the cryoet_data_portal package API, _and_ the use of the API on the
+live "corpus", i.e., data in the public data portal S3 bucket. The tests use Pytest, and have
 Pytest marks to control which tests are run.
 
-Tests can be run in the usual manner. First, ensure you have cellxgene-census installed, e.g., from the top-level repo directory:
+Tests can be run in the usual manner. First, ensure you have cryoet_data_portal installed, e.g., from the top-level repo directory:
 
 > pip install -e ./client/python/cryoet_data_portal/
 
