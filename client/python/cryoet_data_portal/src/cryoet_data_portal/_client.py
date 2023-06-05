@@ -1,4 +1,5 @@
 import os
+
 import pathlib
 from typing import Optional
 
@@ -27,6 +28,8 @@ class Client:
         ds = self.ds
         if not query_filters:
             query_filters = {}
+        else:
+            query_filters = {"where": query_filters}
         gql_type = getattr(ds, gql_class_name)
         scalar_fields = [getattr(gql_type, fieldname) for fieldname in cls._get_scalar_fields()]
         query = dsl_gql(DSLQuery(getattr(ds.query_root, gql_class_name)(**query_filters).select(*scalar_fields)))

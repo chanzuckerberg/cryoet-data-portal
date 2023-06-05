@@ -1,5 +1,5 @@
 import os
-from typing import Optional
+from typing import Iterable, Optional
 
 from ._file_tools import download_directory, download_https
 from ._gql_base import (
@@ -16,12 +16,6 @@ from ._gql_base import (
 
 class Dataset(Model):
     _gql_type = "datasets"
-
-    # Placeholders to be replaced at the end of this file
-    tomograms = None
-    runs = None
-    authors = None
-    funding_sources = None
 
     id = IntField()
     title = StringField()
@@ -48,11 +42,16 @@ class Dataset(Model):
     s3_prefix = StringField()
     https_prefix = StringField()
 
+    tomograms: Iterable["Tomogram"] = ListRelationship("Tomogram", "id", "dataset_id")
+    runs: Iterable["Run"] = ListRelationship("Run", "id", "dataset_id")
+    authors: Iterable["DatasetAuthor"] = ListRelationship("DatasetAuthor", "id", "dataset_id")
+    funding_sources: Iterable["DatasetFunding"] = ListRelationship("DatasetFunding", "id", "dataset_id")
+
 
 class DatasetAuthor(Model):
     _gql_type = "dataset_authors"
 
-    dataset = ItemRelationship(Dataset, "dataset_id", "id")
+    dataset: Dataset = ItemRelationship(Dataset, "dataset_id", "id")
 
     id = IntField()
     dataset_id = IntField()
@@ -68,7 +67,7 @@ class DatasetAuthor(Model):
 class DatasetFunding(Model):
     _gql_type = "dataset_funding"
 
-    dataset = ItemRelationship(Dataset, "dataset_id", "id")
+    dataset: Dataset = ItemRelationship(Dataset, "dataset_id", "id")
 
     id = IntField()
     dataset_id = IntField()
@@ -79,7 +78,7 @@ class DatasetFunding(Model):
 class Run(Model):
     _gql_type = "runs"
 
-    dataset = ItemRelationship(Dataset, "dataset_id", "id")
+    dataset: Dataset = ItemRelationship(Dataset, "dataset_id", "id")
 
     id = IntField()
     dataset_id = IntField()
@@ -108,6 +107,10 @@ class Run(Model):
     s3_prefix = StringField()
     https_prefix = StringField()
 
+    tomograms: Iterable["Tomogram"] = ListRelationship("Tomogram", "id", "run_id")
+    annotations: Iterable["Tomogram"] = ListRelationship("Annotation", "id", "run_id")
+    tiltseries: Iterable["Tomogram"] = ListRelationship("TiltSeries", "id", "run_id")
+
     def download_everything(self):
         download_directory(self.s3_prefix, self.dataset.s3_prefix)
 
@@ -118,8 +121,8 @@ class Run(Model):
 class Tomogram(Model):
     _gql_type = "tomograms"
 
-    dataset = ItemRelationship(Dataset, "dataset_id", "id")
-    run = ItemRelationship(Run, "run_id", "id")
+    dataset: Dataset = ItemRelationship(Dataset, "dataset_id", "id")
+    run: Run = ItemRelationship(Run, "run_id", "id")
 
     id = IntField()
     dataset_id = IntField()
@@ -165,7 +168,7 @@ class Tomogram(Model):
 class Annotation(Model):
     _gql_type = "annotations"
 
-    run = ItemRelationship(Run, "run_id", "id")
+    run: Run = ItemRelationship(Run, "run_id", "id")
 
     id = IntField()
     run_id = IntField()
@@ -192,6 +195,8 @@ class Annotation(Model):
     confidence_recall = FloatField()
     ground_truth_used = StringField()
 
+    authors: Iterable["AnnotationAuthor"] = ListRelationship("AnnotationAuthor", "id", "annotation_id")
+
     def download(self, dest_path: Optional[str] = None):
         download_https(self.https_metadata_path, dest_path)
         download_https(self.https_annotations_path, dest_path)
@@ -200,7 +205,7 @@ class Annotation(Model):
 class AnnotationAuthor(Model):
     _gql_type = "annotation_authors"
 
-    annotation = ItemRelationship(Annotation, "annotation_id", "id")
+    annotation: Annotation = ItemRelationship(Annotation, "annotation_id", "id")
 
     id = IntField()
     annotation_id = IntField()
@@ -217,7 +222,7 @@ class AnnotationAuthor(Model):
 class TiltSeries(Model):
     _gql_type = "tiltseries"
 
-    run = ItemRelationship(Run, "run_id", "id")
+    run: Run = ItemRelationship(Run, "run_id", "id")
 
     id = IntField()
     run_id = IntField()
@@ -237,16 +242,12 @@ class TiltSeries(Model):
     https_alignment_file = StringField()
 
 
-# The list relationships are declared here since we have some circular
-# relationships and we need all models to be defined before we can have
-# them refer to each other.
-Dataset.tomograms = ListRelationship(Tomogram, "id", "dataset_id")
-Dataset.runs = ListRelationship(Run, "id", "dataset_id")
-Dataset.authors = ListRelationship(DatasetAuthor, "id", "dataset_id")
-Dataset.funding_sources = ListRelationship(DatasetFunding, "id", "dataset_id")
-
-Run.tomograms = ListRelationship(Tomogram, "id", "run_id")
-Run.annotations = ListRelationship(Annotation, "id", "run_id")
-Run.tiltseries = ListRelationship(TiltSeries, "id", "run_id")
-
-Annotation.authors = ListRelationship(AnnotationAuthor, "id", "annotation_id")
+# Perform any additional configuration work for these models.
+Dataset.setup()
+DatasetAuthor.setup()
+DatasetFunding.setup()
+Run.setup()
+Tomogram.setup()
+Annotation.setup()
+AnnotationAuthor.setup()
+TiltSeries.setup()
