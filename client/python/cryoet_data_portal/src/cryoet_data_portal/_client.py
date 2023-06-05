@@ -14,7 +14,6 @@ class Client:
             url = "https://graphql-cryoet-api.cryoet.prod.si.czi.technology/v1/graphql"
         transport = RequestsHTTPTransport(
             url=url,
-            verify=False,
             retries=3,
         )
 
