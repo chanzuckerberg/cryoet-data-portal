@@ -22,7 +22,7 @@ Here is a summary of the datasets that have been provided. A full description ca
 ### Getting Started Links
 - [Quick Start](https://www.google.com/)
 - [Data and schema](https://www.google.com/)
-- [Python API for download](https://www.google.com/)
+- [Python API Client](https://github.com/chanzuckerberg/cryoet-data-portal/tree/main/client/python/cryoet_data_portal)
 - [napari plugin](https://www.google.com/)
 
 
