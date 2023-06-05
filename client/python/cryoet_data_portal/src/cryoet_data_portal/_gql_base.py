@@ -180,10 +180,11 @@ class Model:
         return cls._gql_type
 
     @classmethod
-    def find(cls, client: Client, query_filters=Iterable[GQLExpression]):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         filters = {}
-        for expression in query_filters:
-            filters.update(expression.to_gql())
+        if query_filters:
+            for expression in query_filters:
+                filters.update(expression.to_gql())
         return client.find(cls, filters)
 
     @classmethod
