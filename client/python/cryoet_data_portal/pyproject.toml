@@ -30,7 +30,7 @@ classifiers = [
 dependencies= [
     "requests",
     "boto3",
-    "gql",
+    "gql[requests]",
     "tqdm",
 ]
 
