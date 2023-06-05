@@ -1,0 +1,6900 @@
+schema {
+  query: query_root
+  subscription: subscription_root
+}
+
+"""whether this query should be cached (Hasura Cloud only)"""
+directive @cached(
+  """measured in seconds"""
+  ttl: Int! = 60
+
+  """refresh the cache entry"""
+  refresh: Boolean! = false
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'.
+"""
+input Boolean_comparison_exp {
+  _eq: Boolean
+  _gt: Boolean
+  _gte: Boolean
+  _in: [Boolean!]
+  _is_null: Boolean
+  _lt: Boolean
+  _lte: Boolean
+  _neq: Boolean
+  _nin: [Boolean!]
+}
+
+"""
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+
+  """does the column match the given case-insensitive pattern"""
+  _ilike: String
+  _in: [String!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _is_null: Boolean
+
+  """does the column match the given pattern"""
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+
+  """does the column NOT match the given case-insensitive pattern"""
+  _nilike: String
+  _nin: [String!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+
+  """does the column NOT match the given pattern"""
+  _nlike: String
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+
+  """does the column NOT match the given SQL regular expression"""
+  _nsimilar: String
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+
+  """does the column match the given SQL regular expression"""
+  _similar: String
+}
+
+"""Authors for an annotation"""
+type annotation_authors {
+  """Address of the institution an annotator is affiliated with."""
+  affiliation_address: String
+
+  """
+  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+  """
+  affiliation_identifier: String
+
+  """
+  Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
+  """
+  affiliation_name: String
+
+  """An object relationship"""
+  annotation: annotations!
+
+  """Reference to the annotation this author contributed to"""
+  annotation_id: Int!
+
+  """
+  Indicating whether an annotator is the corresponding author (YES or NO)
+  """
+  corresponding_author_status: Boolean
+
+  """Email address for this author"""
+  email: String
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: Int!
+
+  """Full name of an annotation author (e.g. Jane Doe)."""
+  name: String!
+
+  """A unique, persistent identifier for researchers, provided by ORCID."""
+  orcid: String
+
+  """
+  Indicating whether an annotator is the main person executing the annotation, especially on manual annotation (YES or NO)
+  """
+  primary_annotator_status: Boolean
+}
+
+"""
+aggregated selection of "annotation_authors"
+"""
+type annotation_authors_aggregate {
+  aggregate: annotation_authors_aggregate_fields
+  nodes: [annotation_authors!]!
+}
+
+input annotation_authors_aggregate_bool_exp {
+  bool_and: annotation_authors_aggregate_bool_exp_bool_and
+  bool_or: annotation_authors_aggregate_bool_exp_bool_or
+  count: annotation_authors_aggregate_bool_exp_count
+}
+
+input annotation_authors_aggregate_bool_exp_bool_and {
+  arguments: annotation_authors_select_column_annotation_authors_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: annotation_authors_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input annotation_authors_aggregate_bool_exp_bool_or {
+  arguments: annotation_authors_select_column_annotation_authors_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: annotation_authors_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input annotation_authors_aggregate_bool_exp_count {
+  arguments: [annotation_authors_select_column!]
+  distinct: Boolean
+  filter: annotation_authors_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "annotation_authors"
+"""
+type annotation_authors_aggregate_fields {
+  avg: annotation_authors_avg_fields
+  count(columns: [annotation_authors_select_column!], distinct: Boolean): Int!
+  max: annotation_authors_max_fields
+  min: annotation_authors_min_fields
+  stddev: annotation_authors_stddev_fields
+  stddev_pop: annotation_authors_stddev_pop_fields
+  stddev_samp: annotation_authors_stddev_samp_fields
+  sum: annotation_authors_sum_fields
+  var_pop: annotation_authors_var_pop_fields
+  var_samp: annotation_authors_var_samp_fields
+  variance: annotation_authors_variance_fields
+}
+
+"""
+order by aggregate values of table "annotation_authors"
+"""
+input annotation_authors_aggregate_order_by {
+  avg: annotation_authors_avg_order_by
+  count: order_by
+  max: annotation_authors_max_order_by
+  min: annotation_authors_min_order_by
+  stddev: annotation_authors_stddev_order_by
+  stddev_pop: annotation_authors_stddev_pop_order_by
+  stddev_samp: annotation_authors_stddev_samp_order_by
+  sum: annotation_authors_sum_order_by
+  var_pop: annotation_authors_var_pop_order_by
+  var_samp: annotation_authors_var_samp_order_by
+  variance: annotation_authors_variance_order_by
+}
+
+"""aggregate avg on columns"""
+type annotation_authors_avg_fields {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: Float
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: Float
+}
+
+"""
+order by avg() on columns of table "annotation_authors"
+"""
+input annotation_authors_avg_order_by {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: order_by
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "annotation_authors". All fields are combined with a logical 'AND'.
+"""
+input annotation_authors_bool_exp {
+  _and: [annotation_authors_bool_exp!]
+  _not: annotation_authors_bool_exp
+  _or: [annotation_authors_bool_exp!]
+  affiliation_address: String_comparison_exp
+  affiliation_identifier: String_comparison_exp
+  affiliation_name: String_comparison_exp
+  annotation: annotations_bool_exp
+  annotation_id: Int_comparison_exp
+  corresponding_author_status: Boolean_comparison_exp
+  email: String_comparison_exp
+  id: Int_comparison_exp
+  name: String_comparison_exp
+  orcid: String_comparison_exp
+  primary_annotator_status: Boolean_comparison_exp
+}
+
+"""aggregate max on columns"""
+type annotation_authors_max_fields {
+  """Address of the institution an annotator is affiliated with."""
+  affiliation_address: String
+
+  """
+  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+  """
+  affiliation_identifier: String
+
+  """
+  Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
+  """
+  affiliation_name: String
+
+  """Reference to the annotation this author contributed to"""
+  annotation_id: Int
+
+  """Email address for this author"""
+  email: String
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: Int
+
+  """Full name of an annotation author (e.g. Jane Doe)."""
+  name: String
+
+  """A unique, persistent identifier for researchers, provided by ORCID."""
+  orcid: String
+}
+
+"""
+order by max() on columns of table "annotation_authors"
+"""
+input annotation_authors_max_order_by {
+  """Address of the institution an annotator is affiliated with."""
+  affiliation_address: order_by
+
+  """
+  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+  """
+  affiliation_identifier: order_by
+
+  """
+  Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
+  """
+  affiliation_name: order_by
+
+  """Reference to the annotation this author contributed to"""
+  annotation_id: order_by
+
+  """Email address for this author"""
+  email: order_by
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: order_by
+
+  """Full name of an annotation author (e.g. Jane Doe)."""
+  name: order_by
+
+  """A unique, persistent identifier for researchers, provided by ORCID."""
+  orcid: order_by
+}
+
+"""aggregate min on columns"""
+type annotation_authors_min_fields {
+  """Address of the institution an annotator is affiliated with."""
+  affiliation_address: String
+
+  """
+  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+  """
+  affiliation_identifier: String
+
+  """
+  Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
+  """
+  affiliation_name: String
+
+  """Reference to the annotation this author contributed to"""
+  annotation_id: Int
+
+  """Email address for this author"""
+  email: String
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: Int
+
+  """Full name of an annotation author (e.g. Jane Doe)."""
+  name: String
+
+  """A unique, persistent identifier for researchers, provided by ORCID."""
+  orcid: String
+}
+
+"""
+order by min() on columns of table "annotation_authors"
+"""
+input annotation_authors_min_order_by {
+  """Address of the institution an annotator is affiliated with."""
+  affiliation_address: order_by
+
+  """
+  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+  """
+  affiliation_identifier: order_by
+
+  """
+  Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
+  """
+  affiliation_name: order_by
+
+  """Reference to the annotation this author contributed to"""
+  annotation_id: order_by
+
+  """Email address for this author"""
+  email: order_by
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: order_by
+
+  """Full name of an annotation author (e.g. Jane Doe)."""
+  name: order_by
+
+  """A unique, persistent identifier for researchers, provided by ORCID."""
+  orcid: order_by
+}
+
+"""Ordering options when selecting data from "annotation_authors"."""
+input annotation_authors_order_by {
+  affiliation_address: order_by
+  affiliation_identifier: order_by
+  affiliation_name: order_by
+  annotation: annotations_order_by
+  annotation_id: order_by
+  corresponding_author_status: order_by
+  email: order_by
+  id: order_by
+  name: order_by
+  orcid: order_by
+  primary_annotator_status: order_by
+}
+
+"""
+select columns of table "annotation_authors"
+"""
+enum annotation_authors_select_column {
+  """column name"""
+  affiliation_address
+
+  """column name"""
+  affiliation_identifier
+
+  """column name"""
+  affiliation_name
+
+  """column name"""
+  annotation_id
+
+  """column name"""
+  corresponding_author_status
+
+  """column name"""
+  email
+
+  """column name"""
+  id
+
+  """column name"""
+  name
+
+  """column name"""
+  orcid
+
+  """column name"""
+  primary_annotator_status
+}
+
+"""
+select "annotation_authors_aggregate_bool_exp_bool_and_arguments_columns" columns of table "annotation_authors"
+"""
+enum annotation_authors_select_column_annotation_authors_aggregate_bool_exp_bool_and_arguments_columns {
+  """column name"""
+  corresponding_author_status
+
+  """column name"""
+  primary_annotator_status
+}
+
+"""
+select "annotation_authors_aggregate_bool_exp_bool_or_arguments_columns" columns of table "annotation_authors"
+"""
+enum annotation_authors_select_column_annotation_authors_aggregate_bool_exp_bool_or_arguments_columns {
+  """column name"""
+  corresponding_author_status
+
+  """column name"""
+  primary_annotator_status
+}
+
+"""aggregate stddev on columns"""
+type annotation_authors_stddev_fields {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: Float
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: Float
+}
+
+"""
+order by stddev() on columns of table "annotation_authors"
+"""
+input annotation_authors_stddev_order_by {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: order_by
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type annotation_authors_stddev_pop_fields {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: Float
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "annotation_authors"
+"""
+input annotation_authors_stddev_pop_order_by {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: order_by
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type annotation_authors_stddev_samp_fields {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: Float
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "annotation_authors"
+"""
+input annotation_authors_stddev_samp_order_by {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: order_by
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: order_by
+}
+
+"""aggregate sum on columns"""
+type annotation_authors_sum_fields {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: Int
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: Int
+}
+
+"""
+order by sum() on columns of table "annotation_authors"
+"""
+input annotation_authors_sum_order_by {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: order_by
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: order_by
+}
+
+"""aggregate var_pop on columns"""
+type annotation_authors_var_pop_fields {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: Float
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: Float
+}
+
+"""
+order by var_pop() on columns of table "annotation_authors"
+"""
+input annotation_authors_var_pop_order_by {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: order_by
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type annotation_authors_var_samp_fields {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: Float
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: Float
+}
+
+"""
+order by var_samp() on columns of table "annotation_authors"
+"""
+input annotation_authors_var_samp_order_by {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: order_by
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: order_by
+}
+
+"""aggregate variance on columns"""
+type annotation_authors_variance_fields {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: Float
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: Float
+}
+
+"""
+order by variance() on columns of table "annotation_authors"
+"""
+input annotation_authors_variance_order_by {
+  """Reference to the annotation this author contributed to"""
+  annotation_id: order_by
+
+  """Numeric identifier for this annotation author (this may change!)"""
+  id: order_by
+}
+
+"""Inoformation about annotations for a given run"""
+type annotations {
+  """
+  Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
+  """
+  annotation_method: String!
+
+  """
+  DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
+  """
+  annotation_publication: String
+
+  """An array relationship"""
+  authors(
+    """distinct select on columns"""
+    distinct_on: [annotation_authors_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotation_authors_order_by!]
+
+    """filter the rows returned"""
+    where: annotation_authors_bool_exp
+  ): [annotation_authors!]!
+
+  """An aggregate relationship"""
+  authors_aggregate(
+    """distinct select on columns"""
+    distinct_on: [annotation_authors_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotation_authors_order_by!]
+
+    """filter the rows returned"""
+    where: annotation_authors_bool_exp
+  ): annotation_authors_aggregate!
+
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: numeric
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: numeric
+
+  """Date when an annotation set is initially received by the Data Portal."""
+  deposition_date: date!
+
+  """
+  Whether an annotation is considered ground truth, as determined by the annotator.
+  """
+  ground_truth_status: Boolean!
+
+  """Annotation filename used as ground truth for precision and recall"""
+  ground_truth_used: String
+
+  """https path for the annotations file for these annotations"""
+  https_annotations_path: String
+
+  """https path for the metadata json file for this annotation"""
+  https_metadata_path: String!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+
+  """Date when an annotation was last modified in the Data Portal"""
+  last_modified_date: date
+
+  """Number of objects identified"""
+  object_count: Int!
+
+  """
+  A textual description of the annotation object, can be a longer description to include additional information not covered by the Annotation object name and state.
+  """
+  object_description: String
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: numeric
+
+  """Gene Ontology Cellular Component identifier for the annotation object"""
+  object_id: String!
+
+  """
+  Name of the object being annotated (e.g. ribosome, nuclear pore complex, actin filament, membrane)
+  """
+  object_name: String!
+
+  """Molecule state annotated (e.g. open, closed)"""
+  object_state: String
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: numeric
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: numeric
+
+  """Date when annotation data is made public by the Data Portal."""
+  release_date: date!
+
+  """An object relationship"""
+  run: runs!
+
+  """Reference to the run these annotations are a part of"""
+  run_id: Int!
+
+  """s3 path for the annotations file for these annotations"""
+  s3_annotations_path: String
+
+  """s3 path for the metadata json file for this annotation"""
+  s3_metadata_path: String!
+
+  """The format are the individual annotations are stored in"""
+  shape_type: String!
+}
+
+"""
+aggregated selection of "annotations"
+"""
+type annotations_aggregate {
+  aggregate: annotations_aggregate_fields
+  nodes: [annotations!]!
+}
+
+input annotations_aggregate_bool_exp {
+  bool_and: annotations_aggregate_bool_exp_bool_and
+  bool_or: annotations_aggregate_bool_exp_bool_or
+  count: annotations_aggregate_bool_exp_count
+}
+
+input annotations_aggregate_bool_exp_bool_and {
+  arguments: annotations_select_column_annotations_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: annotations_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input annotations_aggregate_bool_exp_bool_or {
+  arguments: annotations_select_column_annotations_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: annotations_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input annotations_aggregate_bool_exp_count {
+  arguments: [annotations_select_column!]
+  distinct: Boolean
+  filter: annotations_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "annotations"
+"""
+type annotations_aggregate_fields {
+  avg: annotations_avg_fields
+  count(columns: [annotations_select_column!], distinct: Boolean): Int!
+  max: annotations_max_fields
+  min: annotations_min_fields
+  stddev: annotations_stddev_fields
+  stddev_pop: annotations_stddev_pop_fields
+  stddev_samp: annotations_stddev_samp_fields
+  sum: annotations_sum_fields
+  var_pop: annotations_var_pop_fields
+  var_samp: annotations_var_samp_fields
+  variance: annotations_variance_fields
+}
+
+"""
+order by aggregate values of table "annotations"
+"""
+input annotations_aggregate_order_by {
+  avg: annotations_avg_order_by
+  count: order_by
+  max: annotations_max_order_by
+  min: annotations_min_order_by
+  stddev: annotations_stddev_order_by
+  stddev_pop: annotations_stddev_pop_order_by
+  stddev_samp: annotations_stddev_samp_order_by
+  sum: annotations_sum_order_by
+  var_pop: annotations_var_pop_order_by
+  var_samp: annotations_var_samp_order_by
+  variance: annotations_variance_order_by
+}
+
+"""aggregate avg on columns"""
+type annotations_avg_fields {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: Float
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Number of objects identified"""
+  object_count: Float
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: Float
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: Float
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: Float
+
+  """Reference to the run these annotations are a part of"""
+  run_id: Float
+}
+
+"""
+order by avg() on columns of table "annotations"
+"""
+input annotations_avg_order_by {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: order_by
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Number of objects identified"""
+  object_count: order_by
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: order_by
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: order_by
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: order_by
+
+  """Reference to the run these annotations are a part of"""
+  run_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "annotations". All fields are combined with a logical 'AND'.
+"""
+input annotations_bool_exp {
+  _and: [annotations_bool_exp!]
+  _not: annotations_bool_exp
+  _or: [annotations_bool_exp!]
+  annotation_method: String_comparison_exp
+  annotation_publication: String_comparison_exp
+  authors: annotation_authors_bool_exp
+  authors_aggregate: annotation_authors_aggregate_bool_exp
+  confidence_precision: numeric_comparison_exp
+  confidence_recall: numeric_comparison_exp
+  deposition_date: date_comparison_exp
+  ground_truth_status: Boolean_comparison_exp
+  ground_truth_used: String_comparison_exp
+  https_annotations_path: String_comparison_exp
+  https_metadata_path: String_comparison_exp
+  id: Int_comparison_exp
+  last_modified_date: date_comparison_exp
+  object_count: Int_comparison_exp
+  object_description: String_comparison_exp
+  object_diameter: numeric_comparison_exp
+  object_id: String_comparison_exp
+  object_name: String_comparison_exp
+  object_state: String_comparison_exp
+  object_weight: numeric_comparison_exp
+  object_width: numeric_comparison_exp
+  release_date: date_comparison_exp
+  run: runs_bool_exp
+  run_id: Int_comparison_exp
+  s3_annotations_path: String_comparison_exp
+  s3_metadata_path: String_comparison_exp
+  shape_type: String_comparison_exp
+}
+
+"""aggregate max on columns"""
+type annotations_max_fields {
+  """
+  Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
+  """
+  annotation_method: String
+
+  """
+  DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
+  """
+  annotation_publication: String
+
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: numeric
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: numeric
+
+  """Date when an annotation set is initially received by the Data Portal."""
+  deposition_date: date
+
+  """Annotation filename used as ground truth for precision and recall"""
+  ground_truth_used: String
+
+  """https path for the annotations file for these annotations"""
+  https_annotations_path: String
+
+  """https path for the metadata json file for this annotation"""
+  https_metadata_path: String
+
+  """Numeric identifier (May change!)"""
+  id: Int
+
+  """Date when an annotation was last modified in the Data Portal"""
+  last_modified_date: date
+
+  """Number of objects identified"""
+  object_count: Int
+
+  """
+  A textual description of the annotation object, can be a longer description to include additional information not covered by the Annotation object name and state.
+  """
+  object_description: String
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: numeric
+
+  """Gene Ontology Cellular Component identifier for the annotation object"""
+  object_id: String
+
+  """
+  Name of the object being annotated (e.g. ribosome, nuclear pore complex, actin filament, membrane)
+  """
+  object_name: String
+
+  """Molecule state annotated (e.g. open, closed)"""
+  object_state: String
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: numeric
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: numeric
+
+  """Date when annotation data is made public by the Data Portal."""
+  release_date: date
+
+  """Reference to the run these annotations are a part of"""
+  run_id: Int
+
+  """s3 path for the annotations file for these annotations"""
+  s3_annotations_path: String
+
+  """s3 path for the metadata json file for this annotation"""
+  s3_metadata_path: String
+
+  """The format are the individual annotations are stored in"""
+  shape_type: String
+}
+
+"""
+order by max() on columns of table "annotations"
+"""
+input annotations_max_order_by {
+  """
+  Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
+  """
+  annotation_method: order_by
+
+  """
+  DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
+  """
+  annotation_publication: order_by
+
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: order_by
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: order_by
+
+  """Date when an annotation set is initially received by the Data Portal."""
+  deposition_date: order_by
+
+  """Annotation filename used as ground truth for precision and recall"""
+  ground_truth_used: order_by
+
+  """https path for the annotations file for these annotations"""
+  https_annotations_path: order_by
+
+  """https path for the metadata json file for this annotation"""
+  https_metadata_path: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Date when an annotation was last modified in the Data Portal"""
+  last_modified_date: order_by
+
+  """Number of objects identified"""
+  object_count: order_by
+
+  """
+  A textual description of the annotation object, can be a longer description to include additional information not covered by the Annotation object name and state.
+  """
+  object_description: order_by
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: order_by
+
+  """Gene Ontology Cellular Component identifier for the annotation object"""
+  object_id: order_by
+
+  """
+  Name of the object being annotated (e.g. ribosome, nuclear pore complex, actin filament, membrane)
+  """
+  object_name: order_by
+
+  """Molecule state annotated (e.g. open, closed)"""
+  object_state: order_by
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: order_by
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: order_by
+
+  """Date when annotation data is made public by the Data Portal."""
+  release_date: order_by
+
+  """Reference to the run these annotations are a part of"""
+  run_id: order_by
+
+  """s3 path for the annotations file for these annotations"""
+  s3_annotations_path: order_by
+
+  """s3 path for the metadata json file for this annotation"""
+  s3_metadata_path: order_by
+
+  """The format are the individual annotations are stored in"""
+  shape_type: order_by
+}
+
+"""aggregate min on columns"""
+type annotations_min_fields {
+  """
+  Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
+  """
+  annotation_method: String
+
+  """
+  DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
+  """
+  annotation_publication: String
+
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: numeric
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: numeric
+
+  """Date when an annotation set is initially received by the Data Portal."""
+  deposition_date: date
+
+  """Annotation filename used as ground truth for precision and recall"""
+  ground_truth_used: String
+
+  """https path for the annotations file for these annotations"""
+  https_annotations_path: String
+
+  """https path for the metadata json file for this annotation"""
+  https_metadata_path: String
+
+  """Numeric identifier (May change!)"""
+  id: Int
+
+  """Date when an annotation was last modified in the Data Portal"""
+  last_modified_date: date
+
+  """Number of objects identified"""
+  object_count: Int
+
+  """
+  A textual description of the annotation object, can be a longer description to include additional information not covered by the Annotation object name and state.
+  """
+  object_description: String
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: numeric
+
+  """Gene Ontology Cellular Component identifier for the annotation object"""
+  object_id: String
+
+  """
+  Name of the object being annotated (e.g. ribosome, nuclear pore complex, actin filament, membrane)
+  """
+  object_name: String
+
+  """Molecule state annotated (e.g. open, closed)"""
+  object_state: String
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: numeric
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: numeric
+
+  """Date when annotation data is made public by the Data Portal."""
+  release_date: date
+
+  """Reference to the run these annotations are a part of"""
+  run_id: Int
+
+  """s3 path for the annotations file for these annotations"""
+  s3_annotations_path: String
+
+  """s3 path for the metadata json file for this annotation"""
+  s3_metadata_path: String
+
+  """The format are the individual annotations are stored in"""
+  shape_type: String
+}
+
+"""
+order by min() on columns of table "annotations"
+"""
+input annotations_min_order_by {
+  """
+  Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
+  """
+  annotation_method: order_by
+
+  """
+  DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
+  """
+  annotation_publication: order_by
+
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: order_by
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: order_by
+
+  """Date when an annotation set is initially received by the Data Portal."""
+  deposition_date: order_by
+
+  """Annotation filename used as ground truth for precision and recall"""
+  ground_truth_used: order_by
+
+  """https path for the annotations file for these annotations"""
+  https_annotations_path: order_by
+
+  """https path for the metadata json file for this annotation"""
+  https_metadata_path: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Date when an annotation was last modified in the Data Portal"""
+  last_modified_date: order_by
+
+  """Number of objects identified"""
+  object_count: order_by
+
+  """
+  A textual description of the annotation object, can be a longer description to include additional information not covered by the Annotation object name and state.
+  """
+  object_description: order_by
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: order_by
+
+  """Gene Ontology Cellular Component identifier for the annotation object"""
+  object_id: order_by
+
+  """
+  Name of the object being annotated (e.g. ribosome, nuclear pore complex, actin filament, membrane)
+  """
+  object_name: order_by
+
+  """Molecule state annotated (e.g. open, closed)"""
+  object_state: order_by
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: order_by
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: order_by
+
+  """Date when annotation data is made public by the Data Portal."""
+  release_date: order_by
+
+  """Reference to the run these annotations are a part of"""
+  run_id: order_by
+
+  """s3 path for the annotations file for these annotations"""
+  s3_annotations_path: order_by
+
+  """s3 path for the metadata json file for this annotation"""
+  s3_metadata_path: order_by
+
+  """The format are the individual annotations are stored in"""
+  shape_type: order_by
+}
+
+"""Ordering options when selecting data from "annotations"."""
+input annotations_order_by {
+  annotation_method: order_by
+  annotation_publication: order_by
+  authors_aggregate: annotation_authors_aggregate_order_by
+  confidence_precision: order_by
+  confidence_recall: order_by
+  deposition_date: order_by
+  ground_truth_status: order_by
+  ground_truth_used: order_by
+  https_annotations_path: order_by
+  https_metadata_path: order_by
+  id: order_by
+  last_modified_date: order_by
+  object_count: order_by
+  object_description: order_by
+  object_diameter: order_by
+  object_id: order_by
+  object_name: order_by
+  object_state: order_by
+  object_weight: order_by
+  object_width: order_by
+  release_date: order_by
+  run: runs_order_by
+  run_id: order_by
+  s3_annotations_path: order_by
+  s3_metadata_path: order_by
+  shape_type: order_by
+}
+
+"""
+select columns of table "annotations"
+"""
+enum annotations_select_column {
+  """column name"""
+  annotation_method
+
+  """column name"""
+  annotation_publication
+
+  """column name"""
+  confidence_precision
+
+  """column name"""
+  confidence_recall
+
+  """column name"""
+  deposition_date
+
+  """column name"""
+  ground_truth_status
+
+  """column name"""
+  ground_truth_used
+
+  """column name"""
+  https_annotations_path
+
+  """column name"""
+  https_metadata_path
+
+  """column name"""
+  id
+
+  """column name"""
+  last_modified_date
+
+  """column name"""
+  object_count
+
+  """column name"""
+  object_description
+
+  """column name"""
+  object_diameter
+
+  """column name"""
+  object_id
+
+  """column name"""
+  object_name
+
+  """column name"""
+  object_state
+
+  """column name"""
+  object_weight
+
+  """column name"""
+  object_width
+
+  """column name"""
+  release_date
+
+  """column name"""
+  run_id
+
+  """column name"""
+  s3_annotations_path
+
+  """column name"""
+  s3_metadata_path
+
+  """column name"""
+  shape_type
+}
+
+"""
+select "annotations_aggregate_bool_exp_bool_and_arguments_columns" columns of table "annotations"
+"""
+enum annotations_select_column_annotations_aggregate_bool_exp_bool_and_arguments_columns {
+  """column name"""
+  ground_truth_status
+}
+
+"""
+select "annotations_aggregate_bool_exp_bool_or_arguments_columns" columns of table "annotations"
+"""
+enum annotations_select_column_annotations_aggregate_bool_exp_bool_or_arguments_columns {
+  """column name"""
+  ground_truth_status
+}
+
+"""aggregate stddev on columns"""
+type annotations_stddev_fields {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: Float
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Number of objects identified"""
+  object_count: Float
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: Float
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: Float
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: Float
+
+  """Reference to the run these annotations are a part of"""
+  run_id: Float
+}
+
+"""
+order by stddev() on columns of table "annotations"
+"""
+input annotations_stddev_order_by {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: order_by
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Number of objects identified"""
+  object_count: order_by
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: order_by
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: order_by
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: order_by
+
+  """Reference to the run these annotations are a part of"""
+  run_id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type annotations_stddev_pop_fields {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: Float
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Number of objects identified"""
+  object_count: Float
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: Float
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: Float
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: Float
+
+  """Reference to the run these annotations are a part of"""
+  run_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "annotations"
+"""
+input annotations_stddev_pop_order_by {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: order_by
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Number of objects identified"""
+  object_count: order_by
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: order_by
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: order_by
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: order_by
+
+  """Reference to the run these annotations are a part of"""
+  run_id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type annotations_stddev_samp_fields {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: Float
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Number of objects identified"""
+  object_count: Float
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: Float
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: Float
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: Float
+
+  """Reference to the run these annotations are a part of"""
+  run_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "annotations"
+"""
+input annotations_stddev_samp_order_by {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: order_by
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Number of objects identified"""
+  object_count: order_by
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: order_by
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: order_by
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: order_by
+
+  """Reference to the run these annotations are a part of"""
+  run_id: order_by
+}
+
+"""aggregate sum on columns"""
+type annotations_sum_fields {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: numeric
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: numeric
+
+  """Numeric identifier (May change!)"""
+  id: Int
+
+  """Number of objects identified"""
+  object_count: Int
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: numeric
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: numeric
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: numeric
+
+  """Reference to the run these annotations are a part of"""
+  run_id: Int
+}
+
+"""
+order by sum() on columns of table "annotations"
+"""
+input annotations_sum_order_by {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: order_by
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Number of objects identified"""
+  object_count: order_by
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: order_by
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: order_by
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: order_by
+
+  """Reference to the run these annotations are a part of"""
+  run_id: order_by
+}
+
+"""aggregate var_pop on columns"""
+type annotations_var_pop_fields {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: Float
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Number of objects identified"""
+  object_count: Float
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: Float
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: Float
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: Float
+
+  """Reference to the run these annotations are a part of"""
+  run_id: Float
+}
+
+"""
+order by var_pop() on columns of table "annotations"
+"""
+input annotations_var_pop_order_by {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: order_by
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Number of objects identified"""
+  object_count: order_by
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: order_by
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: order_by
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: order_by
+
+  """Reference to the run these annotations are a part of"""
+  run_id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type annotations_var_samp_fields {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: Float
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Number of objects identified"""
+  object_count: Float
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: Float
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: Float
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: Float
+
+  """Reference to the run these annotations are a part of"""
+  run_id: Float
+}
+
+"""
+order by var_samp() on columns of table "annotations"
+"""
+input annotations_var_samp_order_by {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: order_by
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Number of objects identified"""
+  object_count: order_by
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: order_by
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: order_by
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: order_by
+
+  """Reference to the run these annotations are a part of"""
+  run_id: order_by
+}
+
+"""aggregate variance on columns"""
+type annotations_variance_fields {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: Float
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Number of objects identified"""
+  object_count: Float
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: Float
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: Float
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: Float
+
+  """Reference to the run these annotations are a part of"""
+  run_id: Float
+}
+
+"""
+order by variance() on columns of table "annotations"
+"""
+input annotations_variance_order_by {
+  """
+  Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+  """
+  confidence_precision: order_by
+
+  """
+  Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+  """
+  confidence_recall: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Number of objects identified"""
+  object_count: order_by
+
+  """
+  Diameter of the annotation object in Angstrom; applicable if the object shape is point or vector
+  """
+  object_diameter: order_by
+
+  """Molecular weight of the annotation object, in Dalton"""
+  object_weight: order_by
+
+  """
+  Average width of the annotation object in Angstroms; applicable if the object shape is line
+  """
+  object_width: order_by
+
+  """Reference to the run these annotations are a part of"""
+  run_id: order_by
+}
+
+"""Authors of a dataset"""
+type dataset_authors {
+  """Address of the institution an author is affiliated with."""
+  affiliation_address: String
+
+  """
+  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+  """
+  affiliation_identifier: String
+
+  """Name of the institutions an author is affiliated with. Comma separated"""
+  affiliation_name: String
+
+  """Indicating whether an author is the corresponding author"""
+  corresponding_author_status: Boolean
+
+  """An object relationship"""
+  dataset: datasets!
+  dataset_id: Int!
+
+  """Email address for each author"""
+  email: String
+  id: Int!
+
+  """Full name of a dataset author (e.g. Jane Doe)."""
+  name: String!
+
+  """A unique, persistent identifier for researchers, provided by ORCID."""
+  orcid: String
+}
+
+"""
+aggregated selection of "dataset_authors"
+"""
+type dataset_authors_aggregate {
+  aggregate: dataset_authors_aggregate_fields
+  nodes: [dataset_authors!]!
+}
+
+input dataset_authors_aggregate_bool_exp {
+  bool_and: dataset_authors_aggregate_bool_exp_bool_and
+  bool_or: dataset_authors_aggregate_bool_exp_bool_or
+  count: dataset_authors_aggregate_bool_exp_count
+}
+
+input dataset_authors_aggregate_bool_exp_bool_and {
+  arguments: dataset_authors_select_column_dataset_authors_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: dataset_authors_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input dataset_authors_aggregate_bool_exp_bool_or {
+  arguments: dataset_authors_select_column_dataset_authors_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: dataset_authors_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input dataset_authors_aggregate_bool_exp_count {
+  arguments: [dataset_authors_select_column!]
+  distinct: Boolean
+  filter: dataset_authors_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "dataset_authors"
+"""
+type dataset_authors_aggregate_fields {
+  avg: dataset_authors_avg_fields
+  count(columns: [dataset_authors_select_column!], distinct: Boolean): Int!
+  max: dataset_authors_max_fields
+  min: dataset_authors_min_fields
+  stddev: dataset_authors_stddev_fields
+  stddev_pop: dataset_authors_stddev_pop_fields
+  stddev_samp: dataset_authors_stddev_samp_fields
+  sum: dataset_authors_sum_fields
+  var_pop: dataset_authors_var_pop_fields
+  var_samp: dataset_authors_var_samp_fields
+  variance: dataset_authors_variance_fields
+}
+
+"""
+order by aggregate values of table "dataset_authors"
+"""
+input dataset_authors_aggregate_order_by {
+  avg: dataset_authors_avg_order_by
+  count: order_by
+  max: dataset_authors_max_order_by
+  min: dataset_authors_min_order_by
+  stddev: dataset_authors_stddev_order_by
+  stddev_pop: dataset_authors_stddev_pop_order_by
+  stddev_samp: dataset_authors_stddev_samp_order_by
+  sum: dataset_authors_sum_order_by
+  var_pop: dataset_authors_var_pop_order_by
+  var_samp: dataset_authors_var_samp_order_by
+  variance: dataset_authors_variance_order_by
+}
+
+"""aggregate avg on columns"""
+type dataset_authors_avg_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by avg() on columns of table "dataset_authors"
+"""
+input dataset_authors_avg_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "dataset_authors". All fields are combined with a logical 'AND'.
+"""
+input dataset_authors_bool_exp {
+  _and: [dataset_authors_bool_exp!]
+  _not: dataset_authors_bool_exp
+  _or: [dataset_authors_bool_exp!]
+  affiliation_address: String_comparison_exp
+  affiliation_identifier: String_comparison_exp
+  affiliation_name: String_comparison_exp
+  corresponding_author_status: Boolean_comparison_exp
+  dataset: datasets_bool_exp
+  dataset_id: Int_comparison_exp
+  email: String_comparison_exp
+  id: Int_comparison_exp
+  name: String_comparison_exp
+  orcid: String_comparison_exp
+}
+
+"""aggregate max on columns"""
+type dataset_authors_max_fields {
+  """Address of the institution an author is affiliated with."""
+  affiliation_address: String
+
+  """
+  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+  """
+  affiliation_identifier: String
+
+  """Name of the institutions an author is affiliated with. Comma separated"""
+  affiliation_name: String
+  dataset_id: Int
+
+  """Email address for each author"""
+  email: String
+  id: Int
+
+  """Full name of a dataset author (e.g. Jane Doe)."""
+  name: String
+
+  """A unique, persistent identifier for researchers, provided by ORCID."""
+  orcid: String
+}
+
+"""
+order by max() on columns of table "dataset_authors"
+"""
+input dataset_authors_max_order_by {
+  """Address of the institution an author is affiliated with."""
+  affiliation_address: order_by
+
+  """
+  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+  """
+  affiliation_identifier: order_by
+
+  """Name of the institutions an author is affiliated with. Comma separated"""
+  affiliation_name: order_by
+  dataset_id: order_by
+
+  """Email address for each author"""
+  email: order_by
+  id: order_by
+
+  """Full name of a dataset author (e.g. Jane Doe)."""
+  name: order_by
+
+  """A unique, persistent identifier for researchers, provided by ORCID."""
+  orcid: order_by
+}
+
+"""aggregate min on columns"""
+type dataset_authors_min_fields {
+  """Address of the institution an author is affiliated with."""
+  affiliation_address: String
+
+  """
+  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+  """
+  affiliation_identifier: String
+
+  """Name of the institutions an author is affiliated with. Comma separated"""
+  affiliation_name: String
+  dataset_id: Int
+
+  """Email address for each author"""
+  email: String
+  id: Int
+
+  """Full name of a dataset author (e.g. Jane Doe)."""
+  name: String
+
+  """A unique, persistent identifier for researchers, provided by ORCID."""
+  orcid: String
+}
+
+"""
+order by min() on columns of table "dataset_authors"
+"""
+input dataset_authors_min_order_by {
+  """Address of the institution an author is affiliated with."""
+  affiliation_address: order_by
+
+  """
+  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+  """
+  affiliation_identifier: order_by
+
+  """Name of the institutions an author is affiliated with. Comma separated"""
+  affiliation_name: order_by
+  dataset_id: order_by
+
+  """Email address for each author"""
+  email: order_by
+  id: order_by
+
+  """Full name of a dataset author (e.g. Jane Doe)."""
+  name: order_by
+
+  """A unique, persistent identifier for researchers, provided by ORCID."""
+  orcid: order_by
+}
+
+"""Ordering options when selecting data from "dataset_authors"."""
+input dataset_authors_order_by {
+  affiliation_address: order_by
+  affiliation_identifier: order_by
+  affiliation_name: order_by
+  corresponding_author_status: order_by
+  dataset: datasets_order_by
+  dataset_id: order_by
+  email: order_by
+  id: order_by
+  name: order_by
+  orcid: order_by
+}
+
+"""
+select columns of table "dataset_authors"
+"""
+enum dataset_authors_select_column {
+  """column name"""
+  affiliation_address
+
+  """column name"""
+  affiliation_identifier
+
+  """column name"""
+  affiliation_name
+
+  """column name"""
+  corresponding_author_status
+
+  """column name"""
+  dataset_id
+
+  """column name"""
+  email
+
+  """column name"""
+  id
+
+  """column name"""
+  name
+
+  """column name"""
+  orcid
+}
+
+"""
+select "dataset_authors_aggregate_bool_exp_bool_and_arguments_columns" columns of table "dataset_authors"
+"""
+enum dataset_authors_select_column_dataset_authors_aggregate_bool_exp_bool_and_arguments_columns {
+  """column name"""
+  corresponding_author_status
+}
+
+"""
+select "dataset_authors_aggregate_bool_exp_bool_or_arguments_columns" columns of table "dataset_authors"
+"""
+enum dataset_authors_select_column_dataset_authors_aggregate_bool_exp_bool_or_arguments_columns {
+  """column name"""
+  corresponding_author_status
+}
+
+"""aggregate stddev on columns"""
+type dataset_authors_stddev_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by stddev() on columns of table "dataset_authors"
+"""
+input dataset_authors_stddev_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type dataset_authors_stddev_pop_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "dataset_authors"
+"""
+input dataset_authors_stddev_pop_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type dataset_authors_stddev_samp_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "dataset_authors"
+"""
+input dataset_authors_stddev_samp_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""aggregate sum on columns"""
+type dataset_authors_sum_fields {
+  dataset_id: Int
+  id: Int
+}
+
+"""
+order by sum() on columns of table "dataset_authors"
+"""
+input dataset_authors_sum_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""aggregate var_pop on columns"""
+type dataset_authors_var_pop_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by var_pop() on columns of table "dataset_authors"
+"""
+input dataset_authors_var_pop_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type dataset_authors_var_samp_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by var_samp() on columns of table "dataset_authors"
+"""
+input dataset_authors_var_samp_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""aggregate variance on columns"""
+type dataset_authors_variance_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by variance() on columns of table "dataset_authors"
+"""
+input dataset_authors_variance_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""Funding sources for a dataset"""
+type dataset_funding {
+  """An object relationship"""
+  dataset: datasets!
+  dataset_id: Int!
+
+  """Name of the funding agency."""
+  funding_agency_name: String!
+
+  """Grant identifier provided by the funding agency."""
+  grant_id: String
+  id: Int!
+}
+
+"""
+aggregated selection of "dataset_funding"
+"""
+type dataset_funding_aggregate {
+  aggregate: dataset_funding_aggregate_fields
+  nodes: [dataset_funding!]!
+}
+
+input dataset_funding_aggregate_bool_exp {
+  count: dataset_funding_aggregate_bool_exp_count
+}
+
+input dataset_funding_aggregate_bool_exp_count {
+  arguments: [dataset_funding_select_column!]
+  distinct: Boolean
+  filter: dataset_funding_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "dataset_funding"
+"""
+type dataset_funding_aggregate_fields {
+  avg: dataset_funding_avg_fields
+  count(columns: [dataset_funding_select_column!], distinct: Boolean): Int!
+  max: dataset_funding_max_fields
+  min: dataset_funding_min_fields
+  stddev: dataset_funding_stddev_fields
+  stddev_pop: dataset_funding_stddev_pop_fields
+  stddev_samp: dataset_funding_stddev_samp_fields
+  sum: dataset_funding_sum_fields
+  var_pop: dataset_funding_var_pop_fields
+  var_samp: dataset_funding_var_samp_fields
+  variance: dataset_funding_variance_fields
+}
+
+"""
+order by aggregate values of table "dataset_funding"
+"""
+input dataset_funding_aggregate_order_by {
+  avg: dataset_funding_avg_order_by
+  count: order_by
+  max: dataset_funding_max_order_by
+  min: dataset_funding_min_order_by
+  stddev: dataset_funding_stddev_order_by
+  stddev_pop: dataset_funding_stddev_pop_order_by
+  stddev_samp: dataset_funding_stddev_samp_order_by
+  sum: dataset_funding_sum_order_by
+  var_pop: dataset_funding_var_pop_order_by
+  var_samp: dataset_funding_var_samp_order_by
+  variance: dataset_funding_variance_order_by
+}
+
+"""aggregate avg on columns"""
+type dataset_funding_avg_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by avg() on columns of table "dataset_funding"
+"""
+input dataset_funding_avg_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "dataset_funding". All fields are combined with a logical 'AND'.
+"""
+input dataset_funding_bool_exp {
+  _and: [dataset_funding_bool_exp!]
+  _not: dataset_funding_bool_exp
+  _or: [dataset_funding_bool_exp!]
+  dataset: datasets_bool_exp
+  dataset_id: Int_comparison_exp
+  funding_agency_name: String_comparison_exp
+  grant_id: String_comparison_exp
+  id: Int_comparison_exp
+}
+
+"""aggregate max on columns"""
+type dataset_funding_max_fields {
+  dataset_id: Int
+
+  """Name of the funding agency."""
+  funding_agency_name: String
+
+  """Grant identifier provided by the funding agency."""
+  grant_id: String
+  id: Int
+}
+
+"""
+order by max() on columns of table "dataset_funding"
+"""
+input dataset_funding_max_order_by {
+  dataset_id: order_by
+
+  """Name of the funding agency."""
+  funding_agency_name: order_by
+
+  """Grant identifier provided by the funding agency."""
+  grant_id: order_by
+  id: order_by
+}
+
+"""aggregate min on columns"""
+type dataset_funding_min_fields {
+  dataset_id: Int
+
+  """Name of the funding agency."""
+  funding_agency_name: String
+
+  """Grant identifier provided by the funding agency."""
+  grant_id: String
+  id: Int
+}
+
+"""
+order by min() on columns of table "dataset_funding"
+"""
+input dataset_funding_min_order_by {
+  dataset_id: order_by
+
+  """Name of the funding agency."""
+  funding_agency_name: order_by
+
+  """Grant identifier provided by the funding agency."""
+  grant_id: order_by
+  id: order_by
+}
+
+"""Ordering options when selecting data from "dataset_funding"."""
+input dataset_funding_order_by {
+  dataset: datasets_order_by
+  dataset_id: order_by
+  funding_agency_name: order_by
+  grant_id: order_by
+  id: order_by
+}
+
+"""
+select columns of table "dataset_funding"
+"""
+enum dataset_funding_select_column {
+  """column name"""
+  dataset_id
+
+  """column name"""
+  funding_agency_name
+
+  """column name"""
+  grant_id
+
+  """column name"""
+  id
+}
+
+"""aggregate stddev on columns"""
+type dataset_funding_stddev_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by stddev() on columns of table "dataset_funding"
+"""
+input dataset_funding_stddev_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type dataset_funding_stddev_pop_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "dataset_funding"
+"""
+input dataset_funding_stddev_pop_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type dataset_funding_stddev_samp_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "dataset_funding"
+"""
+input dataset_funding_stddev_samp_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""aggregate sum on columns"""
+type dataset_funding_sum_fields {
+  dataset_id: Int
+  id: Int
+}
+
+"""
+order by sum() on columns of table "dataset_funding"
+"""
+input dataset_funding_sum_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""aggregate var_pop on columns"""
+type dataset_funding_var_pop_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by var_pop() on columns of table "dataset_funding"
+"""
+input dataset_funding_var_pop_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type dataset_funding_var_samp_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by var_samp() on columns of table "dataset_funding"
+"""
+input dataset_funding_var_samp_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""aggregate variance on columns"""
+type dataset_funding_variance_fields {
+  dataset_id: Float
+  id: Float
+}
+
+"""
+order by variance() on columns of table "dataset_funding"
+"""
+input dataset_funding_variance_order_by {
+  dataset_id: order_by
+  id: order_by
+}
+
+"""Dataset Metadata"""
+type datasets {
+  """An array relationship"""
+  authors(
+    """distinct select on columns"""
+    distinct_on: [dataset_authors_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dataset_authors_order_by!]
+
+    """filter the rows returned"""
+    where: dataset_authors_bool_exp
+  ): [dataset_authors!]!
+
+  """An aggregate relationship"""
+  authors_aggregate(
+    """distinct select on columns"""
+    distinct_on: [dataset_authors_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dataset_authors_order_by!]
+
+    """filter the rows returned"""
+    where: dataset_authors_bool_exp
+  ): dataset_authors_aggregate!
+
+  """Cell line or strain for the sample."""
+  cell_line_name: String
+
+  """Name of the company from which the sample is sourced from."""
+  cell_line_source: String
+
+  """
+  Name of the cell from which a biological sample used in a CryoET study is derived from.
+  """
+  cell_name: String
+
+  """Cell Ontology identifier for the cell type"""
+  cell_type_id: String
+
+  """
+  DOIs for publications that cite the dataset. Use a comma to separate multiple DOIs.
+  """
+  dataset_citations: String
+
+  """
+  DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
+  """
+  dataset_publications: String
+
+  """Date when a dataset is initially received by the Data Portal."""
+  deposition_date: date!
+
+  """
+  A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
+  """
+  description: String!
+
+  """An array relationship"""
+  funding_sources(
+    """distinct select on columns"""
+    distinct_on: [dataset_funding_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dataset_funding_order_by!]
+
+    """filter the rows returned"""
+    where: dataset_funding_bool_exp
+  ): [dataset_funding!]!
+
+  """An aggregate relationship"""
+  funding_sources_aggregate(
+    """distinct select on columns"""
+    distinct_on: [dataset_funding_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dataset_funding_order_by!]
+
+    """filter the rows returned"""
+    where: dataset_funding_bool_exp
+  ): dataset_funding_aggregate!
+
+  """Describe Cryo-ET grid preparation."""
+  grid_preparation: String
+
+  """The https directory path where this dataset is contained"""
+  https_prefix: String!
+
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: Int!
+
+  """Date when a released dataset is last modified."""
+  last_modified_date: date
+
+  """
+  Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
+  """
+  organism_name: String
+
+  """NCBI taxonomy identifier for the organism, e.g. 9606"""
+  organism_taxid: String
+
+  """
+  Describe other setup not covered by sample preparation or grid preparation that may make this dataset unique in  the same publication
+  """
+  other_setup: String
+
+  """
+  If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
+  """
+  related_database_entries: String
+
+  """
+  If a CryoET dataset is also deposited into another database, e.g. EMPAIR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/).  Use a comma to separate multiple links.
+  """
+  related_database_links: String
+
+  """Date when a dataset is made available on the Data Portal."""
+  release_date: date!
+
+  """An array relationship"""
+  runs(
+    """distinct select on columns"""
+    distinct_on: [runs_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [runs_order_by!]
+
+    """filter the rows returned"""
+    where: runs_bool_exp
+  ): [runs!]!
+
+  """An aggregate relationship"""
+  runs_aggregate(
+    """distinct select on columns"""
+    distinct_on: [runs_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [runs_order_by!]
+
+    """filter the rows returned"""
+    where: runs_bool_exp
+  ): runs_aggregate!
+
+  """The S3 public bucket path where this dataset is contained"""
+  s3_prefix: String!
+
+  """Describe how the sample was prepared."""
+  sample_preparation: String
+
+  """
+  Type of samples used in a CryoET study. (cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other)
+  """
+  sample_type: String!
+
+  """UBERON identifier for the tissue"""
+  tissue_id: String
+
+  """
+  Name of the tissue from which a biological sample used in a CryoET study is derived from.
+  """
+  tissue_name: String
+
+  """Title of a CryoET dataset"""
+  title: String!
+
+  """An array relationship"""
+  tomograms(
+    """distinct select on columns"""
+    distinct_on: [tomograms_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomograms_order_by!]
+
+    """filter the rows returned"""
+    where: tomograms_bool_exp
+  ): [tomograms!]!
+
+  """An aggregate relationship"""
+  tomograms_aggregate(
+    """distinct select on columns"""
+    distinct_on: [tomograms_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomograms_order_by!]
+
+    """filter the rows returned"""
+    where: tomograms_bool_exp
+  ): tomograms_aggregate!
+}
+
+"""
+aggregated selection of "datasets"
+"""
+type datasets_aggregate {
+  aggregate: datasets_aggregate_fields
+  nodes: [datasets!]!
+}
+
+"""
+aggregate fields of "datasets"
+"""
+type datasets_aggregate_fields {
+  avg: datasets_avg_fields
+  count(columns: [datasets_select_column!], distinct: Boolean): Int!
+  max: datasets_max_fields
+  min: datasets_min_fields
+  stddev: datasets_stddev_fields
+  stddev_pop: datasets_stddev_pop_fields
+  stddev_samp: datasets_stddev_samp_fields
+  sum: datasets_sum_fields
+  var_pop: datasets_var_pop_fields
+  var_samp: datasets_var_samp_fields
+  variance: datasets_variance_fields
+}
+
+"""aggregate avg on columns"""
+type datasets_avg_fields {
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "datasets". All fields are combined with a logical 'AND'.
+"""
+input datasets_bool_exp {
+  _and: [datasets_bool_exp!]
+  _not: datasets_bool_exp
+  _or: [datasets_bool_exp!]
+  authors: dataset_authors_bool_exp
+  authors_aggregate: dataset_authors_aggregate_bool_exp
+  cell_line_name: String_comparison_exp
+  cell_line_source: String_comparison_exp
+  cell_name: String_comparison_exp
+  cell_type_id: String_comparison_exp
+  dataset_citations: String_comparison_exp
+  dataset_publications: String_comparison_exp
+  deposition_date: date_comparison_exp
+  description: String_comparison_exp
+  funding_sources: dataset_funding_bool_exp
+  funding_sources_aggregate: dataset_funding_aggregate_bool_exp
+  grid_preparation: String_comparison_exp
+  https_prefix: String_comparison_exp
+  id: Int_comparison_exp
+  last_modified_date: date_comparison_exp
+  organism_name: String_comparison_exp
+  organism_taxid: String_comparison_exp
+  other_setup: String_comparison_exp
+  related_database_entries: String_comparison_exp
+  related_database_links: String_comparison_exp
+  release_date: date_comparison_exp
+  runs: runs_bool_exp
+  runs_aggregate: runs_aggregate_bool_exp
+  s3_prefix: String_comparison_exp
+  sample_preparation: String_comparison_exp
+  sample_type: String_comparison_exp
+  tissue_id: String_comparison_exp
+  tissue_name: String_comparison_exp
+  title: String_comparison_exp
+  tomograms: tomograms_bool_exp
+  tomograms_aggregate: tomograms_aggregate_bool_exp
+}
+
+"""aggregate max on columns"""
+type datasets_max_fields {
+  """Cell line or strain for the sample."""
+  cell_line_name: String
+
+  """Name of the company from which the sample is sourced from."""
+  cell_line_source: String
+
+  """
+  Name of the cell from which a biological sample used in a CryoET study is derived from.
+  """
+  cell_name: String
+
+  """Cell Ontology identifier for the cell type"""
+  cell_type_id: String
+
+  """
+  DOIs for publications that cite the dataset. Use a comma to separate multiple DOIs.
+  """
+  dataset_citations: String
+
+  """
+  DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
+  """
+  dataset_publications: String
+
+  """Date when a dataset is initially received by the Data Portal."""
+  deposition_date: date
+
+  """
+  A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
+  """
+  description: String
+
+  """Describe Cryo-ET grid preparation."""
+  grid_preparation: String
+
+  """The https directory path where this dataset is contained"""
+  https_prefix: String
+
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: Int
+
+  """Date when a released dataset is last modified."""
+  last_modified_date: date
+
+  """
+  Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
+  """
+  organism_name: String
+
+  """NCBI taxonomy identifier for the organism, e.g. 9606"""
+  organism_taxid: String
+
+  """
+  Describe other setup not covered by sample preparation or grid preparation that may make this dataset unique in  the same publication
+  """
+  other_setup: String
+
+  """
+  If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
+  """
+  related_database_entries: String
+
+  """
+  If a CryoET dataset is also deposited into another database, e.g. EMPAIR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/).  Use a comma to separate multiple links.
+  """
+  related_database_links: String
+
+  """Date when a dataset is made available on the Data Portal."""
+  release_date: date
+
+  """The S3 public bucket path where this dataset is contained"""
+  s3_prefix: String
+
+  """Describe how the sample was prepared."""
+  sample_preparation: String
+
+  """
+  Type of samples used in a CryoET study. (cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other)
+  """
+  sample_type: String
+
+  """UBERON identifier for the tissue"""
+  tissue_id: String
+
+  """
+  Name of the tissue from which a biological sample used in a CryoET study is derived from.
+  """
+  tissue_name: String
+
+  """Title of a CryoET dataset"""
+  title: String
+}
+
+"""aggregate min on columns"""
+type datasets_min_fields {
+  """Cell line or strain for the sample."""
+  cell_line_name: String
+
+  """Name of the company from which the sample is sourced from."""
+  cell_line_source: String
+
+  """
+  Name of the cell from which a biological sample used in a CryoET study is derived from.
+  """
+  cell_name: String
+
+  """Cell Ontology identifier for the cell type"""
+  cell_type_id: String
+
+  """
+  DOIs for publications that cite the dataset. Use a comma to separate multiple DOIs.
+  """
+  dataset_citations: String
+
+  """
+  DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
+  """
+  dataset_publications: String
+
+  """Date when a dataset is initially received by the Data Portal."""
+  deposition_date: date
+
+  """
+  A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
+  """
+  description: String
+
+  """Describe Cryo-ET grid preparation."""
+  grid_preparation: String
+
+  """The https directory path where this dataset is contained"""
+  https_prefix: String
+
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: Int
+
+  """Date when a released dataset is last modified."""
+  last_modified_date: date
+
+  """
+  Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
+  """
+  organism_name: String
+
+  """NCBI taxonomy identifier for the organism, e.g. 9606"""
+  organism_taxid: String
+
+  """
+  Describe other setup not covered by sample preparation or grid preparation that may make this dataset unique in  the same publication
+  """
+  other_setup: String
+
+  """
+  If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
+  """
+  related_database_entries: String
+
+  """
+  If a CryoET dataset is also deposited into another database, e.g. EMPAIR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/).  Use a comma to separate multiple links.
+  """
+  related_database_links: String
+
+  """Date when a dataset is made available on the Data Portal."""
+  release_date: date
+
+  """The S3 public bucket path where this dataset is contained"""
+  s3_prefix: String
+
+  """Describe how the sample was prepared."""
+  sample_preparation: String
+
+  """
+  Type of samples used in a CryoET study. (cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other)
+  """
+  sample_type: String
+
+  """UBERON identifier for the tissue"""
+  tissue_id: String
+
+  """
+  Name of the tissue from which a biological sample used in a CryoET study is derived from.
+  """
+  tissue_name: String
+
+  """Title of a CryoET dataset"""
+  title: String
+}
+
+"""Ordering options when selecting data from "datasets"."""
+input datasets_order_by {
+  authors_aggregate: dataset_authors_aggregate_order_by
+  cell_line_name: order_by
+  cell_line_source: order_by
+  cell_name: order_by
+  cell_type_id: order_by
+  dataset_citations: order_by
+  dataset_publications: order_by
+  deposition_date: order_by
+  description: order_by
+  funding_sources_aggregate: dataset_funding_aggregate_order_by
+  grid_preparation: order_by
+  https_prefix: order_by
+  id: order_by
+  last_modified_date: order_by
+  organism_name: order_by
+  organism_taxid: order_by
+  other_setup: order_by
+  related_database_entries: order_by
+  related_database_links: order_by
+  release_date: order_by
+  runs_aggregate: runs_aggregate_order_by
+  s3_prefix: order_by
+  sample_preparation: order_by
+  sample_type: order_by
+  tissue_id: order_by
+  tissue_name: order_by
+  title: order_by
+  tomograms_aggregate: tomograms_aggregate_order_by
+}
+
+"""
+select columns of table "datasets"
+"""
+enum datasets_select_column {
+  """column name"""
+  cell_line_name
+
+  """column name"""
+  cell_line_source
+
+  """column name"""
+  cell_name
+
+  """column name"""
+  cell_type_id
+
+  """column name"""
+  dataset_citations
+
+  """column name"""
+  dataset_publications
+
+  """column name"""
+  deposition_date
+
+  """column name"""
+  description
+
+  """column name"""
+  grid_preparation
+
+  """column name"""
+  https_prefix
+
+  """column name"""
+  id
+
+  """column name"""
+  last_modified_date
+
+  """column name"""
+  organism_name
+
+  """column name"""
+  organism_taxid
+
+  """column name"""
+  other_setup
+
+  """column name"""
+  related_database_entries
+
+  """column name"""
+  related_database_links
+
+  """column name"""
+  release_date
+
+  """column name"""
+  s3_prefix
+
+  """column name"""
+  sample_preparation
+
+  """column name"""
+  sample_type
+
+  """column name"""
+  tissue_id
+
+  """column name"""
+  tissue_name
+
+  """column name"""
+  title
+}
+
+"""aggregate stddev on columns"""
+type datasets_stddev_fields {
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type datasets_stddev_pop_fields {
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type datasets_stddev_samp_fields {
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: Float
+}
+
+"""aggregate sum on columns"""
+type datasets_sum_fields {
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: Int
+}
+
+"""aggregate var_pop on columns"""
+type datasets_var_pop_fields {
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: Float
+}
+
+"""aggregate var_samp on columns"""
+type datasets_var_samp_fields {
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: Float
+}
+
+"""aggregate variance on columns"""
+type datasets_variance_fields {
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: Float
+}
+
+scalar date
+
+"""
+Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'.
+"""
+input date_comparison_exp {
+  _eq: date
+  _gt: date
+  _gte: date
+  _in: [date!]
+  _is_null: Boolean
+  _lt: date
+  _lte: date
+  _neq: date
+  _nin: [date!]
+}
+
+scalar numeric
+
+"""
+Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'.
+"""
+input numeric_comparison_exp {
+  _eq: numeric
+  _gt: numeric
+  _gte: numeric
+  _in: [numeric!]
+  _is_null: Boolean
+  _lt: numeric
+  _lte: numeric
+  _neq: numeric
+  _nin: [numeric!]
+}
+
+"""column ordering options"""
+enum order_by {
+  """in ascending order, nulls last"""
+  asc
+
+  """in ascending order, nulls first"""
+  asc_nulls_first
+
+  """in ascending order, nulls last"""
+  asc_nulls_last
+
+  """in descending order, nulls first"""
+  desc
+
+  """in descending order, nulls first"""
+  desc_nulls_first
+
+  """in descending order, nulls last"""
+  desc_nulls_last
+}
+
+type query_root {
+  """
+  fetch data from the table: "annotation_authors"
+  """
+  annotation_authors(
+    """distinct select on columns"""
+    distinct_on: [annotation_authors_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotation_authors_order_by!]
+
+    """filter the rows returned"""
+    where: annotation_authors_bool_exp
+  ): [annotation_authors!]!
+
+  """
+  fetch aggregated fields from the table: "annotation_authors"
+  """
+  annotation_authors_aggregate(
+    """distinct select on columns"""
+    distinct_on: [annotation_authors_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotation_authors_order_by!]
+
+    """filter the rows returned"""
+    where: annotation_authors_bool_exp
+  ): annotation_authors_aggregate!
+
+  """
+  fetch data from the table: "annotation_authors" using primary key columns
+  """
+  annotation_authors_by_pk(
+    """Numeric identifier for this annotation author (this may change!)"""
+    id: Int!
+  ): annotation_authors
+
+  """An array relationship"""
+  annotations(
+    """distinct select on columns"""
+    distinct_on: [annotations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotations_order_by!]
+
+    """filter the rows returned"""
+    where: annotations_bool_exp
+  ): [annotations!]!
+
+  """An aggregate relationship"""
+  annotations_aggregate(
+    """distinct select on columns"""
+    distinct_on: [annotations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotations_order_by!]
+
+    """filter the rows returned"""
+    where: annotations_bool_exp
+  ): annotations_aggregate!
+
+  """fetch data from the table: "annotations" using primary key columns"""
+  annotations_by_pk(
+    """Numeric identifier (May change!)"""
+    id: Int!
+  ): annotations
+
+  """
+  fetch data from the table: "dataset_authors"
+  """
+  dataset_authors(
+    """distinct select on columns"""
+    distinct_on: [dataset_authors_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dataset_authors_order_by!]
+
+    """filter the rows returned"""
+    where: dataset_authors_bool_exp
+  ): [dataset_authors!]!
+
+  """
+  fetch aggregated fields from the table: "dataset_authors"
+  """
+  dataset_authors_aggregate(
+    """distinct select on columns"""
+    distinct_on: [dataset_authors_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dataset_authors_order_by!]
+
+    """filter the rows returned"""
+    where: dataset_authors_bool_exp
+  ): dataset_authors_aggregate!
+
+  """fetch data from the table: "dataset_authors" using primary key columns"""
+  dataset_authors_by_pk(id: Int!): dataset_authors
+
+  """
+  fetch data from the table: "dataset_funding"
+  """
+  dataset_funding(
+    """distinct select on columns"""
+    distinct_on: [dataset_funding_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dataset_funding_order_by!]
+
+    """filter the rows returned"""
+    where: dataset_funding_bool_exp
+  ): [dataset_funding!]!
+
+  """
+  fetch aggregated fields from the table: "dataset_funding"
+  """
+  dataset_funding_aggregate(
+    """distinct select on columns"""
+    distinct_on: [dataset_funding_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dataset_funding_order_by!]
+
+    """filter the rows returned"""
+    where: dataset_funding_bool_exp
+  ): dataset_funding_aggregate!
+
+  """fetch data from the table: "dataset_funding" using primary key columns"""
+  dataset_funding_by_pk(id: Int!): dataset_funding
+
+  """
+  fetch data from the table: "datasets"
+  """
+  datasets(
+    """distinct select on columns"""
+    distinct_on: [datasets_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [datasets_order_by!]
+
+    """filter the rows returned"""
+    where: datasets_bool_exp
+  ): [datasets!]!
+
+  """
+  fetch aggregated fields from the table: "datasets"
+  """
+  datasets_aggregate(
+    """distinct select on columns"""
+    distinct_on: [datasets_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [datasets_order_by!]
+
+    """filter the rows returned"""
+    where: datasets_bool_exp
+  ): datasets_aggregate!
+
+  """fetch data from the table: "datasets" using primary key columns"""
+  datasets_by_pk(
+    """
+    An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+    """
+    id: Int!
+  ): datasets
+
+  """An array relationship"""
+  runs(
+    """distinct select on columns"""
+    distinct_on: [runs_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [runs_order_by!]
+
+    """filter the rows returned"""
+    where: runs_bool_exp
+  ): [runs!]!
+
+  """An aggregate relationship"""
+  runs_aggregate(
+    """distinct select on columns"""
+    distinct_on: [runs_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [runs_order_by!]
+
+    """filter the rows returned"""
+    where: runs_bool_exp
+  ): runs_aggregate!
+
+  """fetch data from the table: "runs" using primary key columns"""
+  runs_by_pk(
+    """Numeric identifier (May change!)"""
+    id: Int!
+  ): runs
+
+  """An array relationship"""
+  tiltseries(
+    """distinct select on columns"""
+    distinct_on: [tiltseries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tiltseries_order_by!]
+
+    """filter the rows returned"""
+    where: tiltseries_bool_exp
+  ): [tiltseries!]!
+
+  """An aggregate relationship"""
+  tiltseries_aggregate(
+    """distinct select on columns"""
+    distinct_on: [tiltseries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tiltseries_order_by!]
+
+    """filter the rows returned"""
+    where: tiltseries_bool_exp
+  ): tiltseries_aggregate!
+
+  """fetch data from the table: "tiltseries" using primary key columns"""
+  tiltseries_by_pk(id: Int!): tiltseries
+
+  """An array relationship"""
+  tomograms(
+    """distinct select on columns"""
+    distinct_on: [tomograms_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomograms_order_by!]
+
+    """filter the rows returned"""
+    where: tomograms_bool_exp
+  ): [tomograms!]!
+
+  """An aggregate relationship"""
+  tomograms_aggregate(
+    """distinct select on columns"""
+    distinct_on: [tomograms_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomograms_order_by!]
+
+    """filter the rows returned"""
+    where: tomograms_bool_exp
+  ): tomograms_aggregate!
+
+  """fetch data from the table: "tomograms" using primary key columns"""
+  tomograms_by_pk(
+    """Numeric identifier for this tomogram (this may change!)"""
+    id: Int!
+  ): tomograms
+}
+
+"""Data related to an experiment run"""
+type runs {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: Int!
+
+  """An array relationship"""
+  annotations(
+    """distinct select on columns"""
+    distinct_on: [annotations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotations_order_by!]
+
+    """filter the rows returned"""
+    where: annotations_bool_exp
+  ): [annotations!]!
+
+  """An aggregate relationship"""
+  annotations_aggregate(
+    """distinct select on columns"""
+    distinct_on: [annotations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotations_order_by!]
+
+    """filter the rows returned"""
+    where: annotations_bool_exp
+  ): annotations_aggregate!
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: numeric!
+
+  """Name of the camera manufacturer"""
+  camera_manufacturer: String!
+
+  """Camera model name"""
+  camera_model: String!
+
+  """Software used to collect data"""
+  data_acquisition_software: String!
+
+  """An object relationship"""
+  dataset: datasets!
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: Int!
+
+  """The https directory path where this dataset is contained"""
+  https_prefix: String!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+
+  """
+  Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
+  """
+  microscope_additional_info: String
+
+  """Energy filter setup used"""
+  microscope_energy_filter: String!
+
+  """Image corrector setup"""
+  microscope_image_corrector: String!
+
+  """Name of the microscope manufacturer"""
+  microscope_manufacturer: String!
+
+  """Microscope model name"""
+  microscope_model: String!
+
+  """Phase plate configuration"""
+  microscope_phase_plate: String!
+
+  """Short name for the tilt series"""
+  name: String!
+
+  """
+  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
+  """
+  related_empiar_entry: String
+
+  """The S3 public bucket path where this dataset is contained"""
+  s3_prefix: String!
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: numeric!
+
+  """Rotation angle in degrees"""
+  tilt_axis: numeric
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: numeric!
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: numeric!
+  tilt_range: numeric!
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: Int!
+
+  """Tilt step in degrees"""
+  tilt_step: numeric!
+
+  """The order of stage tilting during acquisition of the data"""
+  tilting_scheme: String!
+
+  """An array relationship"""
+  tiltseries(
+    """distinct select on columns"""
+    distinct_on: [tiltseries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tiltseries_order_by!]
+
+    """filter the rows returned"""
+    where: tiltseries_bool_exp
+  ): [tiltseries!]!
+
+  """An aggregate relationship"""
+  tiltseries_aggregate(
+    """distinct select on columns"""
+    distinct_on: [tiltseries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tiltseries_order_by!]
+
+    """filter the rows returned"""
+    where: tiltseries_bool_exp
+  ): tiltseries_aggregate!
+
+  """An array relationship"""
+  tomograms(
+    """distinct select on columns"""
+    distinct_on: [tomograms_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomograms_order_by!]
+
+    """filter the rows returned"""
+    where: tomograms_bool_exp
+  ): [tomograms!]!
+
+  """An aggregate relationship"""
+  tomograms_aggregate(
+    """distinct select on columns"""
+    distinct_on: [tomograms_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomograms_order_by!]
+
+    """filter the rows returned"""
+    where: tomograms_bool_exp
+  ): tomograms_aggregate!
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: numeric!
+}
+
+"""
+aggregated selection of "runs"
+"""
+type runs_aggregate {
+  aggregate: runs_aggregate_fields
+  nodes: [runs!]!
+}
+
+input runs_aggregate_bool_exp {
+  count: runs_aggregate_bool_exp_count
+}
+
+input runs_aggregate_bool_exp_count {
+  arguments: [runs_select_column!]
+  distinct: Boolean
+  filter: runs_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "runs"
+"""
+type runs_aggregate_fields {
+  avg: runs_avg_fields
+  count(columns: [runs_select_column!], distinct: Boolean): Int!
+  max: runs_max_fields
+  min: runs_min_fields
+  stddev: runs_stddev_fields
+  stddev_pop: runs_stddev_pop_fields
+  stddev_samp: runs_stddev_samp_fields
+  sum: runs_sum_fields
+  var_pop: runs_var_pop_fields
+  var_samp: runs_var_samp_fields
+  variance: runs_variance_fields
+}
+
+"""
+order by aggregate values of table "runs"
+"""
+input runs_aggregate_order_by {
+  avg: runs_avg_order_by
+  count: order_by
+  max: runs_max_order_by
+  min: runs_min_order_by
+  stddev: runs_stddev_order_by
+  stddev_pop: runs_stddev_pop_order_by
+  stddev_samp: runs_stddev_samp_order_by
+  sum: runs_sum_order_by
+  var_pop: runs_var_pop_order_by
+  var_samp: runs_var_samp_order_by
+  variance: runs_variance_order_by
+}
+
+"""aggregate avg on columns"""
+type runs_avg_fields {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: Float
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: Float
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: Float
+
+  """Rotation angle in degrees"""
+  tilt_axis: Float
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: Float
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: Float
+  tilt_range: Float
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: Float
+
+  """Tilt step in degrees"""
+  tilt_step: Float
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: Float
+}
+
+"""
+order by avg() on columns of table "runs"
+"""
+input runs_avg_order_by {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: order_by
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: order_by
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: order_by
+
+  """Rotation angle in degrees"""
+  tilt_axis: order_by
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: order_by
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: order_by
+  tilt_range: order_by
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: order_by
+
+  """Tilt step in degrees"""
+  tilt_step: order_by
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "runs". All fields are combined with a logical 'AND'.
+"""
+input runs_bool_exp {
+  _and: [runs_bool_exp!]
+  _not: runs_bool_exp
+  _or: [runs_bool_exp!]
+  acceleration_voltage: Int_comparison_exp
+  annotations: annotations_bool_exp
+  annotations_aggregate: annotations_aggregate_bool_exp
+  binning_from_frames: numeric_comparison_exp
+  camera_manufacturer: String_comparison_exp
+  camera_model: String_comparison_exp
+  data_acquisition_software: String_comparison_exp
+  dataset: datasets_bool_exp
+  dataset_id: Int_comparison_exp
+  https_prefix: String_comparison_exp
+  id: Int_comparison_exp
+  microscope_additional_info: String_comparison_exp
+  microscope_energy_filter: String_comparison_exp
+  microscope_image_corrector: String_comparison_exp
+  microscope_manufacturer: String_comparison_exp
+  microscope_model: String_comparison_exp
+  microscope_phase_plate: String_comparison_exp
+  name: String_comparison_exp
+  related_empiar_entry: String_comparison_exp
+  s3_prefix: String_comparison_exp
+  spherical_aberration_constant: numeric_comparison_exp
+  tilt_axis: numeric_comparison_exp
+  tilt_max: numeric_comparison_exp
+  tilt_min: numeric_comparison_exp
+  tilt_range: numeric_comparison_exp
+  tilt_series_quality: Int_comparison_exp
+  tilt_step: numeric_comparison_exp
+  tilting_scheme: String_comparison_exp
+  tiltseries: tiltseries_bool_exp
+  tiltseries_aggregate: tiltseries_aggregate_bool_exp
+  tomograms: tomograms_bool_exp
+  tomograms_aggregate: tomograms_aggregate_bool_exp
+  total_flux: numeric_comparison_exp
+}
+
+"""aggregate max on columns"""
+type runs_max_fields {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: Int
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: numeric
+
+  """Name of the camera manufacturer"""
+  camera_manufacturer: String
+
+  """Camera model name"""
+  camera_model: String
+
+  """Software used to collect data"""
+  data_acquisition_software: String
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: Int
+
+  """The https directory path where this dataset is contained"""
+  https_prefix: String
+
+  """Numeric identifier (May change!)"""
+  id: Int
+
+  """
+  Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
+  """
+  microscope_additional_info: String
+
+  """Energy filter setup used"""
+  microscope_energy_filter: String
+
+  """Image corrector setup"""
+  microscope_image_corrector: String
+
+  """Name of the microscope manufacturer"""
+  microscope_manufacturer: String
+
+  """Microscope model name"""
+  microscope_model: String
+
+  """Phase plate configuration"""
+  microscope_phase_plate: String
+
+  """Short name for the tilt series"""
+  name: String
+
+  """
+  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
+  """
+  related_empiar_entry: String
+
+  """The S3 public bucket path where this dataset is contained"""
+  s3_prefix: String
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: numeric
+
+  """Rotation angle in degrees"""
+  tilt_axis: numeric
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: numeric
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: numeric
+  tilt_range: numeric
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: Int
+
+  """Tilt step in degrees"""
+  tilt_step: numeric
+
+  """The order of stage tilting during acquisition of the data"""
+  tilting_scheme: String
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: numeric
+}
+
+"""
+order by max() on columns of table "runs"
+"""
+input runs_max_order_by {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: order_by
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: order_by
+
+  """Name of the camera manufacturer"""
+  camera_manufacturer: order_by
+
+  """Camera model name"""
+  camera_model: order_by
+
+  """Software used to collect data"""
+  data_acquisition_software: order_by
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: order_by
+
+  """The https directory path where this dataset is contained"""
+  https_prefix: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """
+  Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
+  """
+  microscope_additional_info: order_by
+
+  """Energy filter setup used"""
+  microscope_energy_filter: order_by
+
+  """Image corrector setup"""
+  microscope_image_corrector: order_by
+
+  """Name of the microscope manufacturer"""
+  microscope_manufacturer: order_by
+
+  """Microscope model name"""
+  microscope_model: order_by
+
+  """Phase plate configuration"""
+  microscope_phase_plate: order_by
+
+  """Short name for the tilt series"""
+  name: order_by
+
+  """
+  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
+  """
+  related_empiar_entry: order_by
+
+  """The S3 public bucket path where this dataset is contained"""
+  s3_prefix: order_by
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: order_by
+
+  """Rotation angle in degrees"""
+  tilt_axis: order_by
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: order_by
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: order_by
+  tilt_range: order_by
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: order_by
+
+  """Tilt step in degrees"""
+  tilt_step: order_by
+
+  """The order of stage tilting during acquisition of the data"""
+  tilting_scheme: order_by
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: order_by
+}
+
+"""aggregate min on columns"""
+type runs_min_fields {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: Int
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: numeric
+
+  """Name of the camera manufacturer"""
+  camera_manufacturer: String
+
+  """Camera model name"""
+  camera_model: String
+
+  """Software used to collect data"""
+  data_acquisition_software: String
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: Int
+
+  """The https directory path where this dataset is contained"""
+  https_prefix: String
+
+  """Numeric identifier (May change!)"""
+  id: Int
+
+  """
+  Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
+  """
+  microscope_additional_info: String
+
+  """Energy filter setup used"""
+  microscope_energy_filter: String
+
+  """Image corrector setup"""
+  microscope_image_corrector: String
+
+  """Name of the microscope manufacturer"""
+  microscope_manufacturer: String
+
+  """Microscope model name"""
+  microscope_model: String
+
+  """Phase plate configuration"""
+  microscope_phase_plate: String
+
+  """Short name for the tilt series"""
+  name: String
+
+  """
+  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
+  """
+  related_empiar_entry: String
+
+  """The S3 public bucket path where this dataset is contained"""
+  s3_prefix: String
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: numeric
+
+  """Rotation angle in degrees"""
+  tilt_axis: numeric
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: numeric
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: numeric
+  tilt_range: numeric
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: Int
+
+  """Tilt step in degrees"""
+  tilt_step: numeric
+
+  """The order of stage tilting during acquisition of the data"""
+  tilting_scheme: String
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: numeric
+}
+
+"""
+order by min() on columns of table "runs"
+"""
+input runs_min_order_by {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: order_by
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: order_by
+
+  """Name of the camera manufacturer"""
+  camera_manufacturer: order_by
+
+  """Camera model name"""
+  camera_model: order_by
+
+  """Software used to collect data"""
+  data_acquisition_software: order_by
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: order_by
+
+  """The https directory path where this dataset is contained"""
+  https_prefix: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """
+  Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
+  """
+  microscope_additional_info: order_by
+
+  """Energy filter setup used"""
+  microscope_energy_filter: order_by
+
+  """Image corrector setup"""
+  microscope_image_corrector: order_by
+
+  """Name of the microscope manufacturer"""
+  microscope_manufacturer: order_by
+
+  """Microscope model name"""
+  microscope_model: order_by
+
+  """Phase plate configuration"""
+  microscope_phase_plate: order_by
+
+  """Short name for the tilt series"""
+  name: order_by
+
+  """
+  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
+  """
+  related_empiar_entry: order_by
+
+  """The S3 public bucket path where this dataset is contained"""
+  s3_prefix: order_by
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: order_by
+
+  """Rotation angle in degrees"""
+  tilt_axis: order_by
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: order_by
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: order_by
+  tilt_range: order_by
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: order_by
+
+  """Tilt step in degrees"""
+  tilt_step: order_by
+
+  """The order of stage tilting during acquisition of the data"""
+  tilting_scheme: order_by
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: order_by
+}
+
+"""Ordering options when selecting data from "runs"."""
+input runs_order_by {
+  acceleration_voltage: order_by
+  annotations_aggregate: annotations_aggregate_order_by
+  binning_from_frames: order_by
+  camera_manufacturer: order_by
+  camera_model: order_by
+  data_acquisition_software: order_by
+  dataset: datasets_order_by
+  dataset_id: order_by
+  https_prefix: order_by
+  id: order_by
+  microscope_additional_info: order_by
+  microscope_energy_filter: order_by
+  microscope_image_corrector: order_by
+  microscope_manufacturer: order_by
+  microscope_model: order_by
+  microscope_phase_plate: order_by
+  name: order_by
+  related_empiar_entry: order_by
+  s3_prefix: order_by
+  spherical_aberration_constant: order_by
+  tilt_axis: order_by
+  tilt_max: order_by
+  tilt_min: order_by
+  tilt_range: order_by
+  tilt_series_quality: order_by
+  tilt_step: order_by
+  tilting_scheme: order_by
+  tiltseries_aggregate: tiltseries_aggregate_order_by
+  tomograms_aggregate: tomograms_aggregate_order_by
+  total_flux: order_by
+}
+
+"""
+select columns of table "runs"
+"""
+enum runs_select_column {
+  """column name"""
+  acceleration_voltage
+
+  """column name"""
+  binning_from_frames
+
+  """column name"""
+  camera_manufacturer
+
+  """column name"""
+  camera_model
+
+  """column name"""
+  data_acquisition_software
+
+  """column name"""
+  dataset_id
+
+  """column name"""
+  https_prefix
+
+  """column name"""
+  id
+
+  """column name"""
+  microscope_additional_info
+
+  """column name"""
+  microscope_energy_filter
+
+  """column name"""
+  microscope_image_corrector
+
+  """column name"""
+  microscope_manufacturer
+
+  """column name"""
+  microscope_model
+
+  """column name"""
+  microscope_phase_plate
+
+  """column name"""
+  name
+
+  """column name"""
+  related_empiar_entry
+
+  """column name"""
+  s3_prefix
+
+  """column name"""
+  spherical_aberration_constant
+
+  """column name"""
+  tilt_axis
+
+  """column name"""
+  tilt_max
+
+  """column name"""
+  tilt_min
+
+  """column name"""
+  tilt_range
+
+  """column name"""
+  tilt_series_quality
+
+  """column name"""
+  tilt_step
+
+  """column name"""
+  tilting_scheme
+
+  """column name"""
+  total_flux
+}
+
+"""aggregate stddev on columns"""
+type runs_stddev_fields {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: Float
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: Float
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: Float
+
+  """Rotation angle in degrees"""
+  tilt_axis: Float
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: Float
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: Float
+  tilt_range: Float
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: Float
+
+  """Tilt step in degrees"""
+  tilt_step: Float
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: Float
+}
+
+"""
+order by stddev() on columns of table "runs"
+"""
+input runs_stddev_order_by {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: order_by
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: order_by
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: order_by
+
+  """Rotation angle in degrees"""
+  tilt_axis: order_by
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: order_by
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: order_by
+  tilt_range: order_by
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: order_by
+
+  """Tilt step in degrees"""
+  tilt_step: order_by
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type runs_stddev_pop_fields {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: Float
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: Float
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: Float
+
+  """Rotation angle in degrees"""
+  tilt_axis: Float
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: Float
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: Float
+  tilt_range: Float
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: Float
+
+  """Tilt step in degrees"""
+  tilt_step: Float
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: Float
+}
+
+"""
+order by stddev_pop() on columns of table "runs"
+"""
+input runs_stddev_pop_order_by {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: order_by
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: order_by
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: order_by
+
+  """Rotation angle in degrees"""
+  tilt_axis: order_by
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: order_by
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: order_by
+  tilt_range: order_by
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: order_by
+
+  """Tilt step in degrees"""
+  tilt_step: order_by
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type runs_stddev_samp_fields {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: Float
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: Float
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: Float
+
+  """Rotation angle in degrees"""
+  tilt_axis: Float
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: Float
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: Float
+  tilt_range: Float
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: Float
+
+  """Tilt step in degrees"""
+  tilt_step: Float
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: Float
+}
+
+"""
+order by stddev_samp() on columns of table "runs"
+"""
+input runs_stddev_samp_order_by {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: order_by
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: order_by
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: order_by
+
+  """Rotation angle in degrees"""
+  tilt_axis: order_by
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: order_by
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: order_by
+  tilt_range: order_by
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: order_by
+
+  """Tilt step in degrees"""
+  tilt_step: order_by
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: order_by
+}
+
+"""aggregate sum on columns"""
+type runs_sum_fields {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: Int
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: numeric
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: Int
+
+  """Numeric identifier (May change!)"""
+  id: Int
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: numeric
+
+  """Rotation angle in degrees"""
+  tilt_axis: numeric
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: numeric
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: numeric
+  tilt_range: numeric
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: Int
+
+  """Tilt step in degrees"""
+  tilt_step: numeric
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: numeric
+}
+
+"""
+order by sum() on columns of table "runs"
+"""
+input runs_sum_order_by {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: order_by
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: order_by
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: order_by
+
+  """Rotation angle in degrees"""
+  tilt_axis: order_by
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: order_by
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: order_by
+  tilt_range: order_by
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: order_by
+
+  """Tilt step in degrees"""
+  tilt_step: order_by
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: order_by
+}
+
+"""aggregate var_pop on columns"""
+type runs_var_pop_fields {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: Float
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: Float
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: Float
+
+  """Rotation angle in degrees"""
+  tilt_axis: Float
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: Float
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: Float
+  tilt_range: Float
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: Float
+
+  """Tilt step in degrees"""
+  tilt_step: Float
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: Float
+}
+
+"""
+order by var_pop() on columns of table "runs"
+"""
+input runs_var_pop_order_by {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: order_by
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: order_by
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: order_by
+
+  """Rotation angle in degrees"""
+  tilt_axis: order_by
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: order_by
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: order_by
+  tilt_range: order_by
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: order_by
+
+  """Tilt step in degrees"""
+  tilt_step: order_by
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: order_by
+}
+
+"""aggregate var_samp on columns"""
+type runs_var_samp_fields {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: Float
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: Float
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: Float
+
+  """Rotation angle in degrees"""
+  tilt_axis: Float
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: Float
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: Float
+  tilt_range: Float
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: Float
+
+  """Tilt step in degrees"""
+  tilt_step: Float
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: Float
+}
+
+"""
+order by var_samp() on columns of table "runs"
+"""
+input runs_var_samp_order_by {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: order_by
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: order_by
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: order_by
+
+  """Rotation angle in degrees"""
+  tilt_axis: order_by
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: order_by
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: order_by
+  tilt_range: order_by
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: order_by
+
+  """Tilt step in degrees"""
+  tilt_step: order_by
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: order_by
+}
+
+"""aggregate variance on columns"""
+type runs_variance_fields {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: Float
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: Float
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier (May change!)"""
+  id: Float
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: Float
+
+  """Rotation angle in degrees"""
+  tilt_axis: Float
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: Float
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: Float
+  tilt_range: Float
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: Float
+
+  """Tilt step in degrees"""
+  tilt_step: Float
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: Float
+}
+
+"""
+order by variance() on columns of table "runs"
+"""
+input runs_variance_order_by {
+  """Electron Microscope Accelerator voltage in volts"""
+  acceleration_voltage: order_by
+
+  """Describes the binning factor from frames to tilt series file"""
+  binning_from_frames: order_by
+
+  """Reference to the dataset this run is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier (May change!)"""
+  id: order_by
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  spherical_aberration_constant: order_by
+
+  """Rotation angle in degrees"""
+  tilt_axis: order_by
+
+  """Maximal tilt angle in degrees"""
+  tilt_max: order_by
+
+  """Minimal tilt angle in degrees"""
+  tilt_min: order_by
+  tilt_range: order_by
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tilt_series_quality: order_by
+
+  """Tilt step in degrees"""
+  tilt_step: order_by
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  total_flux: order_by
+}
+
+type subscription_root {
+  """
+  fetch data from the table: "annotation_authors"
+  """
+  annotation_authors(
+    """distinct select on columns"""
+    distinct_on: [annotation_authors_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotation_authors_order_by!]
+
+    """filter the rows returned"""
+    where: annotation_authors_bool_exp
+  ): [annotation_authors!]!
+
+  """
+  fetch aggregated fields from the table: "annotation_authors"
+  """
+  annotation_authors_aggregate(
+    """distinct select on columns"""
+    distinct_on: [annotation_authors_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotation_authors_order_by!]
+
+    """filter the rows returned"""
+    where: annotation_authors_bool_exp
+  ): annotation_authors_aggregate!
+
+  """
+  fetch data from the table: "annotation_authors" using primary key columns
+  """
+  annotation_authors_by_pk(
+    """Numeric identifier for this annotation author (this may change!)"""
+    id: Int!
+  ): annotation_authors
+
+  """An array relationship"""
+  annotations(
+    """distinct select on columns"""
+    distinct_on: [annotations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotations_order_by!]
+
+    """filter the rows returned"""
+    where: annotations_bool_exp
+  ): [annotations!]!
+
+  """An aggregate relationship"""
+  annotations_aggregate(
+    """distinct select on columns"""
+    distinct_on: [annotations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotations_order_by!]
+
+    """filter the rows returned"""
+    where: annotations_bool_exp
+  ): annotations_aggregate!
+
+  """fetch data from the table: "annotations" using primary key columns"""
+  annotations_by_pk(
+    """Numeric identifier (May change!)"""
+    id: Int!
+  ): annotations
+
+  """
+  fetch data from the table: "dataset_authors"
+  """
+  dataset_authors(
+    """distinct select on columns"""
+    distinct_on: [dataset_authors_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dataset_authors_order_by!]
+
+    """filter the rows returned"""
+    where: dataset_authors_bool_exp
+  ): [dataset_authors!]!
+
+  """
+  fetch aggregated fields from the table: "dataset_authors"
+  """
+  dataset_authors_aggregate(
+    """distinct select on columns"""
+    distinct_on: [dataset_authors_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dataset_authors_order_by!]
+
+    """filter the rows returned"""
+    where: dataset_authors_bool_exp
+  ): dataset_authors_aggregate!
+
+  """fetch data from the table: "dataset_authors" using primary key columns"""
+  dataset_authors_by_pk(id: Int!): dataset_authors
+
+  """
+  fetch data from the table: "dataset_funding"
+  """
+  dataset_funding(
+    """distinct select on columns"""
+    distinct_on: [dataset_funding_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dataset_funding_order_by!]
+
+    """filter the rows returned"""
+    where: dataset_funding_bool_exp
+  ): [dataset_funding!]!
+
+  """
+  fetch aggregated fields from the table: "dataset_funding"
+  """
+  dataset_funding_aggregate(
+    """distinct select on columns"""
+    distinct_on: [dataset_funding_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dataset_funding_order_by!]
+
+    """filter the rows returned"""
+    where: dataset_funding_bool_exp
+  ): dataset_funding_aggregate!
+
+  """fetch data from the table: "dataset_funding" using primary key columns"""
+  dataset_funding_by_pk(id: Int!): dataset_funding
+
+  """
+  fetch data from the table: "datasets"
+  """
+  datasets(
+    """distinct select on columns"""
+    distinct_on: [datasets_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [datasets_order_by!]
+
+    """filter the rows returned"""
+    where: datasets_bool_exp
+  ): [datasets!]!
+
+  """
+  fetch aggregated fields from the table: "datasets"
+  """
+  datasets_aggregate(
+    """distinct select on columns"""
+    distinct_on: [datasets_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [datasets_order_by!]
+
+    """filter the rows returned"""
+    where: datasets_bool_exp
+  ): datasets_aggregate!
+
+  """fetch data from the table: "datasets" using primary key columns"""
+  datasets_by_pk(
+    """
+    An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+    """
+    id: Int!
+  ): datasets
+
+  """An array relationship"""
+  runs(
+    """distinct select on columns"""
+    distinct_on: [runs_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [runs_order_by!]
+
+    """filter the rows returned"""
+    where: runs_bool_exp
+  ): [runs!]!
+
+  """An aggregate relationship"""
+  runs_aggregate(
+    """distinct select on columns"""
+    distinct_on: [runs_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [runs_order_by!]
+
+    """filter the rows returned"""
+    where: runs_bool_exp
+  ): runs_aggregate!
+
+  """fetch data from the table: "runs" using primary key columns"""
+  runs_by_pk(
+    """Numeric identifier (May change!)"""
+    id: Int!
+  ): runs
+
+  """An array relationship"""
+  tiltseries(
+    """distinct select on columns"""
+    distinct_on: [tiltseries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tiltseries_order_by!]
+
+    """filter the rows returned"""
+    where: tiltseries_bool_exp
+  ): [tiltseries!]!
+
+  """An aggregate relationship"""
+  tiltseries_aggregate(
+    """distinct select on columns"""
+    distinct_on: [tiltseries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tiltseries_order_by!]
+
+    """filter the rows returned"""
+    where: tiltseries_bool_exp
+  ): tiltseries_aggregate!
+
+  """fetch data from the table: "tiltseries" using primary key columns"""
+  tiltseries_by_pk(id: Int!): tiltseries
+
+  """An array relationship"""
+  tomograms(
+    """distinct select on columns"""
+    distinct_on: [tomograms_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomograms_order_by!]
+
+    """filter the rows returned"""
+    where: tomograms_bool_exp
+  ): [tomograms!]!
+
+  """An aggregate relationship"""
+  tomograms_aggregate(
+    """distinct select on columns"""
+    distinct_on: [tomograms_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomograms_order_by!]
+
+    """filter the rows returned"""
+    where: tomograms_bool_exp
+  ): tomograms_aggregate!
+
+  """fetch data from the table: "tomograms" using primary key columns"""
+  tomograms_by_pk(
+    """Numeric identifier for this tomogram (this may change!)"""
+    id: Int!
+  ): tomograms
+}
+
+"""Tilt Series Metadata"""
+type tiltseries {
+  https_alignment_file: String!
+  https_angle_list: String!
+  https_collection_metadata: String
+  https_mrc_bin1: String!
+  https_mrc_bin2: String!
+  https_mrc_bin4: String!
+  https_omezarr_dir: String!
+  id: Int!
+
+  """An object relationship"""
+  run: runs!
+  run_id: Int!
+  s3_alignment_file: String!
+  s3_angle_list: String!
+  s3_collection_metadata: String
+  s3_mrc_bin1: String!
+  s3_mrc_bin2: String!
+  s3_mrc_bin4: String!
+  s3_omezarr_dir: String!
+}
+
+"""
+aggregated selection of "tiltseries"
+"""
+type tiltseries_aggregate {
+  aggregate: tiltseries_aggregate_fields
+  nodes: [tiltseries!]!
+}
+
+input tiltseries_aggregate_bool_exp {
+  count: tiltseries_aggregate_bool_exp_count
+}
+
+input tiltseries_aggregate_bool_exp_count {
+  arguments: [tiltseries_select_column!]
+  distinct: Boolean
+  filter: tiltseries_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "tiltseries"
+"""
+type tiltseries_aggregate_fields {
+  avg: tiltseries_avg_fields
+  count(columns: [tiltseries_select_column!], distinct: Boolean): Int!
+  max: tiltseries_max_fields
+  min: tiltseries_min_fields
+  stddev: tiltseries_stddev_fields
+  stddev_pop: tiltseries_stddev_pop_fields
+  stddev_samp: tiltseries_stddev_samp_fields
+  sum: tiltseries_sum_fields
+  var_pop: tiltseries_var_pop_fields
+  var_samp: tiltseries_var_samp_fields
+  variance: tiltseries_variance_fields
+}
+
+"""
+order by aggregate values of table "tiltseries"
+"""
+input tiltseries_aggregate_order_by {
+  avg: tiltseries_avg_order_by
+  count: order_by
+  max: tiltseries_max_order_by
+  min: tiltseries_min_order_by
+  stddev: tiltseries_stddev_order_by
+  stddev_pop: tiltseries_stddev_pop_order_by
+  stddev_samp: tiltseries_stddev_samp_order_by
+  sum: tiltseries_sum_order_by
+  var_pop: tiltseries_var_pop_order_by
+  var_samp: tiltseries_var_samp_order_by
+  variance: tiltseries_variance_order_by
+}
+
+"""aggregate avg on columns"""
+type tiltseries_avg_fields {
+  id: Float
+  run_id: Float
+}
+
+"""
+order by avg() on columns of table "tiltseries"
+"""
+input tiltseries_avg_order_by {
+  id: order_by
+  run_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "tiltseries". All fields are combined with a logical 'AND'.
+"""
+input tiltseries_bool_exp {
+  _and: [tiltseries_bool_exp!]
+  _not: tiltseries_bool_exp
+  _or: [tiltseries_bool_exp!]
+  https_alignment_file: String_comparison_exp
+  https_angle_list: String_comparison_exp
+  https_collection_metadata: String_comparison_exp
+  https_mrc_bin1: String_comparison_exp
+  https_mrc_bin2: String_comparison_exp
+  https_mrc_bin4: String_comparison_exp
+  https_omezarr_dir: String_comparison_exp
+  id: Int_comparison_exp
+  run: runs_bool_exp
+  run_id: Int_comparison_exp
+  s3_alignment_file: String_comparison_exp
+  s3_angle_list: String_comparison_exp
+  s3_collection_metadata: String_comparison_exp
+  s3_mrc_bin1: String_comparison_exp
+  s3_mrc_bin2: String_comparison_exp
+  s3_mrc_bin4: String_comparison_exp
+  s3_omezarr_dir: String_comparison_exp
+}
+
+"""aggregate max on columns"""
+type tiltseries_max_fields {
+  https_alignment_file: String
+  https_angle_list: String
+  https_collection_metadata: String
+  https_mrc_bin1: String
+  https_mrc_bin2: String
+  https_mrc_bin4: String
+  https_omezarr_dir: String
+  id: Int
+  run_id: Int
+  s3_alignment_file: String
+  s3_angle_list: String
+  s3_collection_metadata: String
+  s3_mrc_bin1: String
+  s3_mrc_bin2: String
+  s3_mrc_bin4: String
+  s3_omezarr_dir: String
+}
+
+"""
+order by max() on columns of table "tiltseries"
+"""
+input tiltseries_max_order_by {
+  https_alignment_file: order_by
+  https_angle_list: order_by
+  https_collection_metadata: order_by
+  https_mrc_bin1: order_by
+  https_mrc_bin2: order_by
+  https_mrc_bin4: order_by
+  https_omezarr_dir: order_by
+  id: order_by
+  run_id: order_by
+  s3_alignment_file: order_by
+  s3_angle_list: order_by
+  s3_collection_metadata: order_by
+  s3_mrc_bin1: order_by
+  s3_mrc_bin2: order_by
+  s3_mrc_bin4: order_by
+  s3_omezarr_dir: order_by
+}
+
+"""aggregate min on columns"""
+type tiltseries_min_fields {
+  https_alignment_file: String
+  https_angle_list: String
+  https_collection_metadata: String
+  https_mrc_bin1: String
+  https_mrc_bin2: String
+  https_mrc_bin4: String
+  https_omezarr_dir: String
+  id: Int
+  run_id: Int
+  s3_alignment_file: String
+  s3_angle_list: String
+  s3_collection_metadata: String
+  s3_mrc_bin1: String
+  s3_mrc_bin2: String
+  s3_mrc_bin4: String
+  s3_omezarr_dir: String
+}
+
+"""
+order by min() on columns of table "tiltseries"
+"""
+input tiltseries_min_order_by {
+  https_alignment_file: order_by
+  https_angle_list: order_by
+  https_collection_metadata: order_by
+  https_mrc_bin1: order_by
+  https_mrc_bin2: order_by
+  https_mrc_bin4: order_by
+  https_omezarr_dir: order_by
+  id: order_by
+  run_id: order_by
+  s3_alignment_file: order_by
+  s3_angle_list: order_by
+  s3_collection_metadata: order_by
+  s3_mrc_bin1: order_by
+  s3_mrc_bin2: order_by
+  s3_mrc_bin4: order_by
+  s3_omezarr_dir: order_by
+}
+
+"""Ordering options when selecting data from "tiltseries"."""
+input tiltseries_order_by {
+  https_alignment_file: order_by
+  https_angle_list: order_by
+  https_collection_metadata: order_by
+  https_mrc_bin1: order_by
+  https_mrc_bin2: order_by
+  https_mrc_bin4: order_by
+  https_omezarr_dir: order_by
+  id: order_by
+  run: runs_order_by
+  run_id: order_by
+  s3_alignment_file: order_by
+  s3_angle_list: order_by
+  s3_collection_metadata: order_by
+  s3_mrc_bin1: order_by
+  s3_mrc_bin2: order_by
+  s3_mrc_bin4: order_by
+  s3_omezarr_dir: order_by
+}
+
+"""
+select columns of table "tiltseries"
+"""
+enum tiltseries_select_column {
+  """column name"""
+  https_alignment_file
+
+  """column name"""
+  https_angle_list
+
+  """column name"""
+  https_collection_metadata
+
+  """column name"""
+  https_mrc_bin1
+
+  """column name"""
+  https_mrc_bin2
+
+  """column name"""
+  https_mrc_bin4
+
+  """column name"""
+  https_omezarr_dir
+
+  """column name"""
+  id
+
+  """column name"""
+  run_id
+
+  """column name"""
+  s3_alignment_file
+
+  """column name"""
+  s3_angle_list
+
+  """column name"""
+  s3_collection_metadata
+
+  """column name"""
+  s3_mrc_bin1
+
+  """column name"""
+  s3_mrc_bin2
+
+  """column name"""
+  s3_mrc_bin4
+
+  """column name"""
+  s3_omezarr_dir
+}
+
+"""aggregate stddev on columns"""
+type tiltseries_stddev_fields {
+  id: Float
+  run_id: Float
+}
+
+"""
+order by stddev() on columns of table "tiltseries"
+"""
+input tiltseries_stddev_order_by {
+  id: order_by
+  run_id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type tiltseries_stddev_pop_fields {
+  id: Float
+  run_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "tiltseries"
+"""
+input tiltseries_stddev_pop_order_by {
+  id: order_by
+  run_id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type tiltseries_stddev_samp_fields {
+  id: Float
+  run_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "tiltseries"
+"""
+input tiltseries_stddev_samp_order_by {
+  id: order_by
+  run_id: order_by
+}
+
+"""aggregate sum on columns"""
+type tiltseries_sum_fields {
+  id: Int
+  run_id: Int
+}
+
+"""
+order by sum() on columns of table "tiltseries"
+"""
+input tiltseries_sum_order_by {
+  id: order_by
+  run_id: order_by
+}
+
+"""aggregate var_pop on columns"""
+type tiltseries_var_pop_fields {
+  id: Float
+  run_id: Float
+}
+
+"""
+order by var_pop() on columns of table "tiltseries"
+"""
+input tiltseries_var_pop_order_by {
+  id: order_by
+  run_id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type tiltseries_var_samp_fields {
+  id: Float
+  run_id: Float
+}
+
+"""
+order by var_samp() on columns of table "tiltseries"
+"""
+input tiltseries_var_samp_order_by {
+  id: order_by
+  run_id: order_by
+}
+
+"""aggregate variance on columns"""
+type tiltseries_variance_fields {
+  id: Float
+  run_id: Float
+}
+
+"""
+order by variance() on columns of table "tiltseries"
+"""
+input tiltseries_variance_order_by {
+  id: order_by
+  run_id: order_by
+}
+
+"""information about the tomograms in the CryoET Data Portal"""
+type tomograms {
+  ctf_corrected: Boolean
+
+  """An object relationship"""
+  dataset: datasets!
+
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: Int!
+
+  """
+  Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
+  """
+  fiducial_alignment_status: String!
+
+  """https path to this tomogram in MRC format (no scaling)"""
+  https_mrc_scale0: String!
+
+  """https path to this tomogram in MRC format (downscaled to 50%)"""
+  https_mrc_scale1: String!
+
+  """https path to this tomogram in MRC format (downscaled to 25%)"""
+  https_mrc_scale2: String!
+
+  """HTTPS path to the this multiscale omezarr tomogram"""
+  https_omezarr_dir: String!
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: Int!
+
+  """
+  Is this tomogram considered the canonical tomogram for the run experiment? True=Yes
+  """
+  is_canonical: Boolean
+
+  """Short name for this tomogram"""
+  name: String!
+
+  """Describe additional processing used to derive the tomogram"""
+  processing: String!
+
+  """Processing software used to derive the tomogram"""
+  processing_software: String
+
+  """Describe reconstruction method (Weighted backprojection, SART, SIRT)"""
+  reconstruction_method: String!
+
+  """Name of software used for reconstruction"""
+  reconstruction_software: String!
+
+  """An object relationship"""
+  run: runs!
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: Int!
+
+  """S3 path to this tomogram in MRC format (downscaled to 50%)"""
+  s3_mrc_scale1: String!
+
+  """S3 path to this tomogram in MRC format (downscaled to 25%)"""
+  s3_mrc_scale2: String!
+
+  """S3 path to this tomogram in MRC format (no scaling)"""
+  s3_mrc_scale0: String!
+
+  """S3 path to the this multiscale omezarr tomogram"""
+  s3_omezarr_dir: String!
+
+  """comma separated x,y,z dimensions of the unscaled tomogram"""
+  scale0_dimensions: String!
+
+  """comma separated x,y,z dimensions of the scale1 tomogram"""
+  scale1_dimensions: String!
+
+  """comma separated x,y,z dimensions of the scale2 tomogram"""
+  scale2_dimensions: String!
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: Int!
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: Int!
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: Int!
+
+  """
+  Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
+  """
+  tomogram_version: String!
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: numeric!
+}
+
+"""
+aggregated selection of "tomograms"
+"""
+type tomograms_aggregate {
+  aggregate: tomograms_aggregate_fields
+  nodes: [tomograms!]!
+}
+
+input tomograms_aggregate_bool_exp {
+  bool_and: tomograms_aggregate_bool_exp_bool_and
+  bool_or: tomograms_aggregate_bool_exp_bool_or
+  count: tomograms_aggregate_bool_exp_count
+}
+
+input tomograms_aggregate_bool_exp_bool_and {
+  arguments: tomograms_select_column_tomograms_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: tomograms_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input tomograms_aggregate_bool_exp_bool_or {
+  arguments: tomograms_select_column_tomograms_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: tomograms_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input tomograms_aggregate_bool_exp_count {
+  arguments: [tomograms_select_column!]
+  distinct: Boolean
+  filter: tomograms_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "tomograms"
+"""
+type tomograms_aggregate_fields {
+  avg: tomograms_avg_fields
+  count(columns: [tomograms_select_column!], distinct: Boolean): Int!
+  max: tomograms_max_fields
+  min: tomograms_min_fields
+  stddev: tomograms_stddev_fields
+  stddev_pop: tomograms_stddev_pop_fields
+  stddev_samp: tomograms_stddev_samp_fields
+  sum: tomograms_sum_fields
+  var_pop: tomograms_var_pop_fields
+  var_samp: tomograms_var_samp_fields
+  variance: tomograms_variance_fields
+}
+
+"""
+order by aggregate values of table "tomograms"
+"""
+input tomograms_aggregate_order_by {
+  avg: tomograms_avg_order_by
+  count: order_by
+  max: tomograms_max_order_by
+  min: tomograms_min_order_by
+  stddev: tomograms_stddev_order_by
+  stddev_pop: tomograms_stddev_pop_order_by
+  stddev_samp: tomograms_stddev_samp_order_by
+  sum: tomograms_sum_order_by
+  var_pop: tomograms_var_pop_order_by
+  var_samp: tomograms_var_samp_order_by
+  variance: tomograms_variance_order_by
+}
+
+"""aggregate avg on columns"""
+type tomograms_avg_fields {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: Float
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: Float
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: Float
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: Float
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: Float
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: Float
+}
+
+"""
+order by avg() on columns of table "tomograms"
+"""
+input tomograms_avg_order_by {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: order_by
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: order_by
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: order_by
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: order_by
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: order_by
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "tomograms". All fields are combined with a logical 'AND'.
+"""
+input tomograms_bool_exp {
+  _and: [tomograms_bool_exp!]
+  _not: tomograms_bool_exp
+  _or: [tomograms_bool_exp!]
+  ctf_corrected: Boolean_comparison_exp
+  dataset: datasets_bool_exp
+  dataset_id: Int_comparison_exp
+  fiducial_alignment_status: String_comparison_exp
+  https_mrc_scale0: String_comparison_exp
+  https_mrc_scale1: String_comparison_exp
+  https_mrc_scale2: String_comparison_exp
+  https_omezarr_dir: String_comparison_exp
+  id: Int_comparison_exp
+  is_canonical: Boolean_comparison_exp
+  name: String_comparison_exp
+  processing: String_comparison_exp
+  processing_software: String_comparison_exp
+  reconstruction_method: String_comparison_exp
+  reconstruction_software: String_comparison_exp
+  run: runs_bool_exp
+  run_id: Int_comparison_exp
+  s3_mrc_scale1: String_comparison_exp
+  s3_mrc_scale2: String_comparison_exp
+  s3_mrc_scale0: String_comparison_exp
+  s3_omezarr_dir: String_comparison_exp
+  scale0_dimensions: String_comparison_exp
+  scale1_dimensions: String_comparison_exp
+  scale2_dimensions: String_comparison_exp
+  size_x: Int_comparison_exp
+  size_y: Int_comparison_exp
+  size_z: Int_comparison_exp
+  tomogram_version: String_comparison_exp
+  voxel_spacing: numeric_comparison_exp
+}
+
+"""aggregate max on columns"""
+type tomograms_max_fields {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: Int
+
+  """
+  Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
+  """
+  fiducial_alignment_status: String
+
+  """https path to this tomogram in MRC format (no scaling)"""
+  https_mrc_scale0: String
+
+  """https path to this tomogram in MRC format (downscaled to 50%)"""
+  https_mrc_scale1: String
+
+  """https path to this tomogram in MRC format (downscaled to 25%)"""
+  https_mrc_scale2: String
+
+  """HTTPS path to the this multiscale omezarr tomogram"""
+  https_omezarr_dir: String
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: Int
+
+  """Short name for this tomogram"""
+  name: String
+
+  """Describe additional processing used to derive the tomogram"""
+  processing: String
+
+  """Processing software used to derive the tomogram"""
+  processing_software: String
+
+  """Describe reconstruction method (Weighted backprojection, SART, SIRT)"""
+  reconstruction_method: String
+
+  """Name of software used for reconstruction"""
+  reconstruction_software: String
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: Int
+
+  """S3 path to this tomogram in MRC format (downscaled to 50%)"""
+  s3_mrc_scale1: String
+
+  """S3 path to this tomogram in MRC format (downscaled to 25%)"""
+  s3_mrc_scale2: String
+
+  """S3 path to this tomogram in MRC format (no scaling)"""
+  s3_mrc_scale0: String
+
+  """S3 path to the this multiscale omezarr tomogram"""
+  s3_omezarr_dir: String
+
+  """comma separated x,y,z dimensions of the unscaled tomogram"""
+  scale0_dimensions: String
+
+  """comma separated x,y,z dimensions of the scale1 tomogram"""
+  scale1_dimensions: String
+
+  """comma separated x,y,z dimensions of the scale2 tomogram"""
+  scale2_dimensions: String
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: Int
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: Int
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: Int
+
+  """
+  Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
+  """
+  tomogram_version: String
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: numeric
+}
+
+"""
+order by max() on columns of table "tomograms"
+"""
+input tomograms_max_order_by {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: order_by
+
+  """
+  Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
+  """
+  fiducial_alignment_status: order_by
+
+  """https path to this tomogram in MRC format (no scaling)"""
+  https_mrc_scale0: order_by
+
+  """https path to this tomogram in MRC format (downscaled to 50%)"""
+  https_mrc_scale1: order_by
+
+  """https path to this tomogram in MRC format (downscaled to 25%)"""
+  https_mrc_scale2: order_by
+
+  """HTTPS path to the this multiscale omezarr tomogram"""
+  https_omezarr_dir: order_by
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: order_by
+
+  """Short name for this tomogram"""
+  name: order_by
+
+  """Describe additional processing used to derive the tomogram"""
+  processing: order_by
+
+  """Processing software used to derive the tomogram"""
+  processing_software: order_by
+
+  """Describe reconstruction method (Weighted backprojection, SART, SIRT)"""
+  reconstruction_method: order_by
+
+  """Name of software used for reconstruction"""
+  reconstruction_software: order_by
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: order_by
+
+  """S3 path to this tomogram in MRC format (downscaled to 50%)"""
+  s3_mrc_scale1: order_by
+
+  """S3 path to this tomogram in MRC format (downscaled to 25%)"""
+  s3_mrc_scale2: order_by
+
+  """S3 path to this tomogram in MRC format (no scaling)"""
+  s3_mrc_scale0: order_by
+
+  """S3 path to the this multiscale omezarr tomogram"""
+  s3_omezarr_dir: order_by
+
+  """comma separated x,y,z dimensions of the unscaled tomogram"""
+  scale0_dimensions: order_by
+
+  """comma separated x,y,z dimensions of the scale1 tomogram"""
+  scale1_dimensions: order_by
+
+  """comma separated x,y,z dimensions of the scale2 tomogram"""
+  scale2_dimensions: order_by
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: order_by
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: order_by
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: order_by
+
+  """
+  Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
+  """
+  tomogram_version: order_by
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: order_by
+}
+
+"""aggregate min on columns"""
+type tomograms_min_fields {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: Int
+
+  """
+  Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
+  """
+  fiducial_alignment_status: String
+
+  """https path to this tomogram in MRC format (no scaling)"""
+  https_mrc_scale0: String
+
+  """https path to this tomogram in MRC format (downscaled to 50%)"""
+  https_mrc_scale1: String
+
+  """https path to this tomogram in MRC format (downscaled to 25%)"""
+  https_mrc_scale2: String
+
+  """HTTPS path to the this multiscale omezarr tomogram"""
+  https_omezarr_dir: String
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: Int
+
+  """Short name for this tomogram"""
+  name: String
+
+  """Describe additional processing used to derive the tomogram"""
+  processing: String
+
+  """Processing software used to derive the tomogram"""
+  processing_software: String
+
+  """Describe reconstruction method (Weighted backprojection, SART, SIRT)"""
+  reconstruction_method: String
+
+  """Name of software used for reconstruction"""
+  reconstruction_software: String
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: Int
+
+  """S3 path to this tomogram in MRC format (downscaled to 50%)"""
+  s3_mrc_scale1: String
+
+  """S3 path to this tomogram in MRC format (downscaled to 25%)"""
+  s3_mrc_scale2: String
+
+  """S3 path to this tomogram in MRC format (no scaling)"""
+  s3_mrc_scale0: String
+
+  """S3 path to the this multiscale omezarr tomogram"""
+  s3_omezarr_dir: String
+
+  """comma separated x,y,z dimensions of the unscaled tomogram"""
+  scale0_dimensions: String
+
+  """comma separated x,y,z dimensions of the scale1 tomogram"""
+  scale1_dimensions: String
+
+  """comma separated x,y,z dimensions of the scale2 tomogram"""
+  scale2_dimensions: String
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: Int
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: Int
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: Int
+
+  """
+  Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
+  """
+  tomogram_version: String
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: numeric
+}
+
+"""
+order by min() on columns of table "tomograms"
+"""
+input tomograms_min_order_by {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: order_by
+
+  """
+  Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
+  """
+  fiducial_alignment_status: order_by
+
+  """https path to this tomogram in MRC format (no scaling)"""
+  https_mrc_scale0: order_by
+
+  """https path to this tomogram in MRC format (downscaled to 50%)"""
+  https_mrc_scale1: order_by
+
+  """https path to this tomogram in MRC format (downscaled to 25%)"""
+  https_mrc_scale2: order_by
+
+  """HTTPS path to the this multiscale omezarr tomogram"""
+  https_omezarr_dir: order_by
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: order_by
+
+  """Short name for this tomogram"""
+  name: order_by
+
+  """Describe additional processing used to derive the tomogram"""
+  processing: order_by
+
+  """Processing software used to derive the tomogram"""
+  processing_software: order_by
+
+  """Describe reconstruction method (Weighted backprojection, SART, SIRT)"""
+  reconstruction_method: order_by
+
+  """Name of software used for reconstruction"""
+  reconstruction_software: order_by
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: order_by
+
+  """S3 path to this tomogram in MRC format (downscaled to 50%)"""
+  s3_mrc_scale1: order_by
+
+  """S3 path to this tomogram in MRC format (downscaled to 25%)"""
+  s3_mrc_scale2: order_by
+
+  """S3 path to this tomogram in MRC format (no scaling)"""
+  s3_mrc_scale0: order_by
+
+  """S3 path to the this multiscale omezarr tomogram"""
+  s3_omezarr_dir: order_by
+
+  """comma separated x,y,z dimensions of the unscaled tomogram"""
+  scale0_dimensions: order_by
+
+  """comma separated x,y,z dimensions of the scale1 tomogram"""
+  scale1_dimensions: order_by
+
+  """comma separated x,y,z dimensions of the scale2 tomogram"""
+  scale2_dimensions: order_by
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: order_by
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: order_by
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: order_by
+
+  """
+  Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
+  """
+  tomogram_version: order_by
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: order_by
+}
+
+"""Ordering options when selecting data from "tomograms"."""
+input tomograms_order_by {
+  ctf_corrected: order_by
+  dataset: datasets_order_by
+  dataset_id: order_by
+  fiducial_alignment_status: order_by
+  https_mrc_scale0: order_by
+  https_mrc_scale1: order_by
+  https_mrc_scale2: order_by
+  https_omezarr_dir: order_by
+  id: order_by
+  is_canonical: order_by
+  name: order_by
+  processing: order_by
+  processing_software: order_by
+  reconstruction_method: order_by
+  reconstruction_software: order_by
+  run: runs_order_by
+  run_id: order_by
+  s3_mrc_scale1: order_by
+  s3_mrc_scale2: order_by
+  s3_mrc_scale0: order_by
+  s3_omezarr_dir: order_by
+  scale0_dimensions: order_by
+  scale1_dimensions: order_by
+  scale2_dimensions: order_by
+  size_x: order_by
+  size_y: order_by
+  size_z: order_by
+  tomogram_version: order_by
+  voxel_spacing: order_by
+}
+
+"""
+select columns of table "tomograms"
+"""
+enum tomograms_select_column {
+  """column name"""
+  ctf_corrected
+
+  """column name"""
+  dataset_id
+
+  """column name"""
+  fiducial_alignment_status
+
+  """column name"""
+  https_mrc_scale0
+
+  """column name"""
+  https_mrc_scale1
+
+  """column name"""
+  https_mrc_scale2
+
+  """column name"""
+  https_omezarr_dir
+
+  """column name"""
+  id
+
+  """column name"""
+  is_canonical
+
+  """column name"""
+  name
+
+  """column name"""
+  processing
+
+  """column name"""
+  processing_software
+
+  """column name"""
+  reconstruction_method
+
+  """column name"""
+  reconstruction_software
+
+  """column name"""
+  run_id
+
+  """column name"""
+  s3_mrc_scale1
+
+  """column name"""
+  s3_mrc_scale2
+
+  """column name"""
+  s3_mrc_scale0
+
+  """column name"""
+  s3_omezarr_dir
+
+  """column name"""
+  scale0_dimensions
+
+  """column name"""
+  scale1_dimensions
+
+  """column name"""
+  scale2_dimensions
+
+  """column name"""
+  size_x
+
+  """column name"""
+  size_y
+
+  """column name"""
+  size_z
+
+  """column name"""
+  tomogram_version
+
+  """column name"""
+  voxel_spacing
+}
+
+"""
+select "tomograms_aggregate_bool_exp_bool_and_arguments_columns" columns of table "tomograms"
+"""
+enum tomograms_select_column_tomograms_aggregate_bool_exp_bool_and_arguments_columns {
+  """column name"""
+  ctf_corrected
+
+  """column name"""
+  is_canonical
+}
+
+"""
+select "tomograms_aggregate_bool_exp_bool_or_arguments_columns" columns of table "tomograms"
+"""
+enum tomograms_select_column_tomograms_aggregate_bool_exp_bool_or_arguments_columns {
+  """column name"""
+  ctf_corrected
+
+  """column name"""
+  is_canonical
+}
+
+"""aggregate stddev on columns"""
+type tomograms_stddev_fields {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: Float
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: Float
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: Float
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: Float
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: Float
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: Float
+}
+
+"""
+order by stddev() on columns of table "tomograms"
+"""
+input tomograms_stddev_order_by {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: order_by
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: order_by
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: order_by
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: order_by
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: order_by
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type tomograms_stddev_pop_fields {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: Float
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: Float
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: Float
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: Float
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: Float
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: Float
+}
+
+"""
+order by stddev_pop() on columns of table "tomograms"
+"""
+input tomograms_stddev_pop_order_by {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: order_by
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: order_by
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: order_by
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: order_by
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: order_by
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type tomograms_stddev_samp_fields {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: Float
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: Float
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: Float
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: Float
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: Float
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: Float
+}
+
+"""
+order by stddev_samp() on columns of table "tomograms"
+"""
+input tomograms_stddev_samp_order_by {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: order_by
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: order_by
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: order_by
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: order_by
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: order_by
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: order_by
+}
+
+"""aggregate sum on columns"""
+type tomograms_sum_fields {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: Int
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: Int
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: Int
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: Int
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: Int
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: Int
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: numeric
+}
+
+"""
+order by sum() on columns of table "tomograms"
+"""
+input tomograms_sum_order_by {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: order_by
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: order_by
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: order_by
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: order_by
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: order_by
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: order_by
+}
+
+"""aggregate var_pop on columns"""
+type tomograms_var_pop_fields {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: Float
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: Float
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: Float
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: Float
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: Float
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: Float
+}
+
+"""
+order by var_pop() on columns of table "tomograms"
+"""
+input tomograms_var_pop_order_by {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: order_by
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: order_by
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: order_by
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: order_by
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: order_by
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: order_by
+}
+
+"""aggregate var_samp on columns"""
+type tomograms_var_samp_fields {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: Float
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: Float
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: Float
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: Float
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: Float
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: Float
+}
+
+"""
+order by var_samp() on columns of table "tomograms"
+"""
+input tomograms_var_samp_order_by {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: order_by
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: order_by
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: order_by
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: order_by
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: order_by
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: order_by
+}
+
+"""aggregate variance on columns"""
+type tomograms_variance_fields {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: Float
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: Float
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: Float
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: Float
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: Float
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: Float
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: Float
+}
+
+"""
+order by variance() on columns of table "tomograms"
+"""
+input tomograms_variance_order_by {
+  """Reference to the dataset this tomogram is a part of"""
+  dataset_id: order_by
+
+  """Numeric identifier for this tomogram (this may change!)"""
+  id: order_by
+
+  """Reference to the run this tomogram is a part of"""
+  run_id: order_by
+
+  """Number of pixels in the 3D data fast axis"""
+  size_x: order_by
+
+  """Number of pixels in the 3D data medium axis"""
+  size_y: order_by
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  size_z: order_by
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxel_spacing: order_by
+}
+

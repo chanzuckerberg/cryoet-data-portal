@@ -10,7 +10,8 @@ except ImportError:
     # for python <=3.7
     import importlib_metadata as metadata  # type: ignore[no-redef]
 
-from ._client import get_client
+from ._client import Client
+from ._models import Annotation, AnnotationAuthor, Dataset, DatasetAuthor, DatasetFunding, Run, TiltSeries, Tomogram
 
 try:
     __version__ = metadata.version("cryoet_data_portal")
@@ -19,5 +20,13 @@ except metadata.PackageNotFoundError:
     __version__ = "0.0.0-unknown"
 
 __all__ = [
-    "get_client",
+    "Client",
+    "Annotation",
+    "AnnotationAuthor",
+    "Dataset",
+    "DatasetAuthor",
+    "DatasetFunding",
+    "Run",
+    "TiltSeries",
+    "Tomogram",
 ]

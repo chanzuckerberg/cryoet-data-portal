@@ -11,7 +11,7 @@ authors = [
 ]
 license = { text = "MIT" }
 readme = "README.md"
-requires-python = ">= 3.7, < 3.11"  # Python 3.11 is pending numba support
+requires-python = ">= 3.7"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -30,7 +30,8 @@ classifiers = [
 dependencies= [
     "requests",
     "boto3",
-    "scipy",
+    "gql",
+    "tqdm",
 ]
 
 [project.urls]
@@ -54,7 +55,6 @@ show_error_codes = true
 ignore_missing_imports = true
 warn_unreachable = true
 strict = true
-plugins = "numpy.typing.mypy_plugin"
 
 [tool.pytest.ini_options]
 markers = [
