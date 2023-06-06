@@ -1,5 +1,4 @@
 import os
-
 import pathlib
 from typing import Optional
 
@@ -12,7 +11,7 @@ class Client:
     def __init__(self, url: Optional[str] = None):
         # Use our default API URL
         if not url:
-            url = "https://graphql-cryoet-api.cryoet.prod.si.czi.technology/v1/graphql"
+            url = "https://graphql.cryoetdataportal.cziscience.com/v1/graphql"
         transport = RequestsHTTPTransport(
             url=url,
             retries=3,
