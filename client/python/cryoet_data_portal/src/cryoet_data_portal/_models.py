@@ -108,8 +108,8 @@ class Run(Model):
     https_prefix = StringField()
 
     tomograms: Iterable["Tomogram"] = ListRelationship("Tomogram", "id", "run_id")
-    annotations: Iterable["Tomogram"] = ListRelationship("Annotation", "id", "run_id")
-    tiltseries: Iterable["Tomogram"] = ListRelationship("TiltSeries", "id", "run_id")
+    annotations: Iterable["Annotation"] = ListRelationship("Annotation", "id", "run_id")
+    tiltseries: Iterable["TiltSeries"] = ListRelationship("TiltSeries", "id", "run_id")
 
     def download_everything(self):
         download_directory(self.s3_prefix, self.dataset.s3_prefix)
@@ -152,9 +152,9 @@ class Tomogram(Model):
     scale2_dimensions = StringField()
     ctf_corrected = BooleanField()
 
-    def download_omezarr(self):
+    def download_omezarr(self, dest_path: Optional[str] = None):
         recursive_prefix = "/".join(self.s3_omezarr_dir.split("/")[:-1]) + "/"
-        download_directory(self.s3_omezarr_dir, recursive_prefix)
+        download_directory(self.s3_omezarr_dir, recursive_prefix, dest_path)
 
     def download_mrcfile(self, dest_path: Optional[str] = None, binning: Optional[int] = None):
         url = self.https_mrc_scale0
@@ -240,6 +240,27 @@ class TiltSeries(Model):
     https_angle_list = StringField()
     s3_alignment_file = StringField()
     https_alignment_file = StringField()
+
+    def download_collection_metadata(self, dest_path: Optional[str] = None):
+        download_https(self.https_collection_metadata, dest_path)
+
+    def download_angle_list(self, dest_path: Optional[str] = None):
+        download_https(self.https_angle_list, dest_path)
+
+    def download_alignment_file(self, dest_path: Optional[str] = None):
+        download_https(self.https_alignment_file, dest_path)
+
+    def download_omezarr(self, dest_path: Optional[str] = None):
+        recursive_prefix = "/".join(self.s3_omezarr_dir.split("/")[:-1]) + "/"
+        download_directory(self.s3_omezarr_dir, recursive_prefix, dest_path)
+
+    def download_mrcfile(self, dest_path: Optional[str] = None, binning: Optional[int] = None):
+        url = self.https_mrc_bin1
+        if binning == 2:
+            url = self.https_mrc_bin2
+        if binning == 4:
+            url = self.https_mrc_bin4
+        download_https(url, dest_path)
 
 
 # Perform any additional configuration work for these models.

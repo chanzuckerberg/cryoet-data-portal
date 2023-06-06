@@ -9,10 +9,6 @@ from botocore.client import Config
 from tqdm import tqdm
 
 
-def download_omezarr(https_url: str, dest_path: str):
-    pass
-
-
 def get_anon_s3_client():
     return boto3.client("s3", config=Config(signature_version=UNSIGNED))
 
