@@ -1,4 +1,5 @@
 import functools
+from datetime import datetime
 from importlib import import_module
 from typing import Any, Dict, Iterable, Optional
 
@@ -71,6 +72,9 @@ class BaseField(GQLField):
         self.cls = cls
         self.name = name
 
+    def convert(self, value):
+        return value
+
 
 class StringField(BaseField):
     ...
@@ -81,7 +85,9 @@ class IntField(BaseField):
 
 
 class DateField(BaseField):
-    ...
+    def convert(self, value):
+        if value:
+            return datetime.date(datetime.strptime(value, "%Y-%m-%d"))
 
 
 class BooleanField(BaseField):
@@ -147,12 +153,14 @@ class ListRelationship(Relationship):
 
 
 class Model:
+    """The base class that all CryoET Portal model classes descend from."""
     _gql_type: str
 
     def __init__(self, client: Client, **kwargs):
         self._client = client
         for k in self._get_scalar_fields():
-            setattr(self, k, kwargs.get(k))
+            value = getattr(self, k).convert(kwargs.get(k))
+            setattr(self, k, value)
 
     def to_dict(self):
         return {k: getattr(self, k) for k in self._get_scalar_fields()}
@@ -181,6 +189,46 @@ class Model:
 
     @classmethod
     def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
+        """Find objects based on a set of search filters.
+
+        Search filters are combined with *and* so all results will match all filters.
+
+        Expressions must be in the format:
+            {ModelSubclass.field} {operator} {value}
+
+        Supported operators are: `==`, `!=`, `>`, `>=`, `<`, `<=`, `like`, `ilike`, `_in`
+
+        - `like` is a partial match, with the `%` character being a wildcard
+        - `ilike` is similar to `like` but case-insensitive
+        - `_in` accepts a list of values that are acceptable matches.
+
+        Values may be strings or numbers depending on the type of the field being matched, and `_in` supports a list of values of the field's corresponding type.
+
+        `ModelSubclass.field` may be an arbitrarily nested path to any field on any related model, such as:
+            `ModelSubclass.related_class.related_field.second_related_class.second_field`
+
+        Args:
+            client:
+                A CryoET Portal API Client
+            query_filters:
+                A set of expressions that narrow down the search results
+
+        Returns:
+            A list of matching Model objects.
+
+        Examples:
+            Get all results for this type:
+
+            >>> Runs.find(client)
+                for run in runs:
+                    print(run.name)
+
+            Filter runs by attributes, including attributes in related models:
+            >>> Runs.find(client, query_filters=[Runs.camera_model == "K2 Summit", Runs.tomograms.size_x > 900])
+                for run in runs:
+                    print(run.name)
+
+        """
         filters = {}
         if query_filters:
             for expression in query_filters:
@@ -189,6 +237,23 @@ class Model:
 
     @classmethod
     def get_by_id(cls, client: Client, id: int):
+        """Find objects by primary key
+
+        Args:
+            client:
+                A CryoET Portal API Client
+            id:
+                Unique identifier for the object
+
+        Returns:
+            A matching Model object.
+
+        Examples:
+            Get a Run by ID:
+
+            >>> run = Runs.get_by_id(client), 1
+                print(run.name)
+        """
         filters = {"id": {"_eq": id}}
         return client.find_one(cls, filters)
 
