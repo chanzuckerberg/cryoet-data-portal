@@ -153,7 +153,8 @@ class ListRelationship(Relationship):
 
 
 class Model:
-    """The base class that all CryoET Portal model classes descend from."""
+    """The base class that all CryoET Portal Domain Object classes descend from. Documented methods apply to all domain objects."""
+
     _gql_type: str
 
     def __init__(self, client: Client, **kwargs):
