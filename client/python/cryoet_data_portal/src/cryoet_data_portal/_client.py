@@ -8,24 +8,21 @@ from gql.transport.requests import RequestsHTTPTransport
 
 
 class Client:
-    """A GraphQL Client library that can traverse all of the metadata in the CryoET Data Portal"""
-
-    def __init__(self, url: Optional[str] = None):
-        """Create a new client to interact with the CryoET Data Portal API
+    """A GraphQL Client library that can traverse all of the metadata in the CryoET Data Portal
 
         Args:
-            url:
-                The API URL to connect to, defaults to "https://graphql.cryoetdataportal.cziscience.com/v1/graphql"
+            url (Optional[str]): The API URL to connect to, defaults to "https://graphql.cryoetdataportal.cziscience.com/v1/graphql"
 
         Returns:
             A GraphQL API Client library
-            It can be used as a context manager, which will automatically close upon exit.
 
         Examples:
             Generate a client that connects to the default GraphQL API:
 
             >>> client = cryoet_data_portal.Client()
-        """
+    """
+
+    def __init__(self, url: Optional[str] = None):
         # Use our default API URL
         if not url:
             url = "https://graphql.cryoetdataportal.cziscience.com/v1/graphql"

@@ -163,7 +163,9 @@ class Model:
             value = getattr(self, k).convert(kwargs.get(k))
             setattr(self, k, value)
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, Any]:
+        """Return a dictionary representation of this object's attributes
+        """
         return {k: getattr(self, k) for k in self._get_scalar_fields()}
 
     @classmethod
@@ -195,18 +197,18 @@ class Model:
         Search filters are combined with *and* so all results will match all filters.
 
         Expressions must be in the format:
-            {ModelSubclass.field} {operator} {value}
+            ``ModelSubclass.field`` ``{operator}`` ``{value}``
 
-        Supported operators are: `==`, `!=`, `>`, `>=`, `<`, `<=`, `like`, `ilike`, `_in`
+        Supported operators are: ``==``, ``!=``, ``>``, ``>=``, ``<``, ``<=``, ``like``, ``ilike``, ``_in``
 
-        - `like` is a partial match, with the `%` character being a wildcard
-        - `ilike` is similar to `like` but case-insensitive
-        - `_in` accepts a list of values that are acceptable matches.
+        - ``like`` is a partial match, with the `%` character being a wildcard
+        - ``ilike`` is similar to ``like`` but case-insensitive
+        - ``_in`` accepts a list of values that are acceptable matches.
 
         Values may be strings or numbers depending on the type of the field being matched, and `_in` supports a list of values of the field's corresponding type.
 
-        `ModelSubclass.field` may be an arbitrarily nested path to any field on any related model, such as:
-            `ModelSubclass.related_class.related_field.second_related_class.second_field`
+        ``ModelSubclass.field`` may be an arbitrarily nested path to any field on any related model, such as:
+            ``ModelSubclass.related_class_field.related_field.second_related_class_field.second_field``
 
         Args:
             client:
@@ -218,17 +220,14 @@ class Model:
             A list of matching Model objects.
 
         Examples:
-            Get all results for this type:
-
-            >>> Runs.find(client)
-                for run in runs:
-                    print(run.name)
 
             Filter runs by attributes, including attributes in related models:
-            >>> Runs.find(client, query_filters=[Runs.camera_model == "K2 Summit", Runs.tomograms.size_x > 900])
-                for run in runs:
-                    print(run.name)
 
+            >>> runs_list = Runs.find(client, query_filters=[Runs.camera_model == "K2 Summit", Runs.tomograms.size_x > 900])
+
+            Get all results for this type:
+
+            >>> runs_object = Runs.find(client)
         """
         filters = {}
         if query_filters:

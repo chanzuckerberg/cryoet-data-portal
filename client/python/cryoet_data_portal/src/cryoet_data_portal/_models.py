@@ -40,6 +40,7 @@ class Dataset(Model):
         title (str): Title of a CryoET dataset
         tomograms (list[Tomogram]): An array relationship with Tomogram
     """
+
     _gql_type = "datasets"
 
     id: int = IntField()
@@ -97,6 +98,7 @@ class DatasetAuthor(Model):
         name (str): Full name of a dataset author (e.g. Jane Doe).
         orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
     """
+
     _gql_type = "dataset_authors"
 
     dataset: Dataset = ItemRelationship(Dataset, "dataset_id", "id")
@@ -122,6 +124,7 @@ class DatasetFunding(Model):
         funding_agency_name (str): Name of the funding agency.
         grant_id (str): Grant identifier provided by the funding agency.
     """
+
     _gql_type = "dataset_funding"
 
     dataset: Dataset = ItemRelationship(Dataset, "dataset_id", "id")
@@ -167,6 +170,7 @@ class Run(Model):
         tomograms (list[Tomogram]): An array relationship with Tomograms that correspond to this run
         total_flux (float): Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
     """
+
     _gql_type = "runs"
 
     dataset: Dataset = ItemRelationship(Dataset, "dataset_id", "id")
@@ -248,6 +252,7 @@ class Tomogram(Model):
         tomogram_version (str): Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
         voxel_spacing (float): Voxel spacing equal in all three axes in angstroms
     """
+
     _gql_type = "tomograms"
 
     dataset: Dataset = ItemRelationship(Dataset, "dataset_id", "id")
@@ -336,6 +341,7 @@ class Annotation(Model):
         s3_metadata_path (str): s3 path for the metadata json file for this annotation
         shape_type (str): The format are the individual annotations are stored in
     """
+
     _gql_type = "annotations"
 
     run: Run = ItemRelationship(Run, "run_id", "id")
@@ -388,6 +394,7 @@ class AnnotationAuthor(Model):
         orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
         primary_annotator_status (bool): Indicating whether an annotator is the main person executing the annotation, especially on manual annotation (YES or NO)
     """
+
     _gql_type = "annotation_authors"
 
     annotation: Annotation = ItemRelationship(Annotation, "annotation_id", "id")
@@ -408,24 +415,25 @@ class TiltSeries(Model):
     """File locations for key files in a run's TiltSeries
 
     Args:
-        id: Int!
-        https_alignment_file: String!
-        https_angle_list: String!
-        https_collection_metadata: String
-        https_mrc_bin1: String!
-        https_mrc_bin2: String!
-        https_mrc_bin4: String!
-        https_omezarr_dir: String!
+        id (int): Numeric identifier for this tilt series (this may change!)
+        https_alignment_file (str): https path to the alignment file for this tiltseries
+        https_angle_list (str): https path to the angle list file for this tiltseries
+        https_collection_metadata (str): https path to the collection metadata file for this tiltseries
+        https_mrc_bin1 (str): https path to this tiltseries in MRC format (no scaling)
+        https_mrc_bin2 (str): https path to this tiltseries in MRC format (downscaled to 50%)
+        https_mrc_bin4 (str): https path to this tiltseries in MRC format (downscaled to 25%)
+        https_omezarr_dir (str): https path to the this multiscale omezarr tiltseries
         run (Run): An object relationship with the run this tiltseries is a part of
-        run_id: Int!
-        s3_alignment_file: String!
-        s3_angle_list: String!
-        s3_collection_metadata: String
-        s3_mrc_bin1: String!
-        s3_mrc_bin2: String!
-        s3_mrc_bin4: String!
-        s3_omezarr_dir: String!
+        run_id (int): Reference to the run this tiltseries is a part of
+        s3_alignment_file (str): s3 path to the alignment file for this tiltseries
+        s3_angle_list (str): s3 path to the angle list file for this tiltseries
+        s3_collection_metadata (str): s3 path to the collection metadata file for this tiltseries
+        s3_mrc_bin1 (str): s3 path to this tiltseries in MRC format (no scaling)
+        s3_mrc_bin2 (str): s3 path to this tiltseries in MRC format (downscaled to 50%)
+        s3_mrc_bin4 (str): s3 path to this tiltseries in MRC format (downscaled to 25%)
+        s3_omezarr_dir (str): s3 path to the this multiscale omezarr tiltseries
     """
+
     _gql_type = "tiltseries"
 
     run: Run = ItemRelationship(Run, "run_id", "id")
