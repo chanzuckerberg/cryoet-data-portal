@@ -95,7 +95,7 @@
                 
                 
                 <div class="version">
-                    0.1.dev1+g9143ba2
+                    0.0.2
                 </div>
                 
             
@@ -117,8 +117,9 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quick start</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#python-quick-start">Python quick start</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#browse-data-in-the-portal">Browse data in the portal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#find-all-tomograms-for-a-certain-organism-and-download-preview-sized-mrc-files">Find all tomograms for a certain organism and download preview-sized MRC files:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#filtering-by-properties-on-related-objects">Filtering by properties on related objects:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#open-a-tomogram-in-napari">Open a tomogram in Napari</a></li>
 </ul>
 </li>
 </ul>
@@ -168,7 +169,7 @@
 <p><strong>Contents</strong></p>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="#installation"><span class="std std-ref">Installation</span></a>.</p></li>
-<li><p><a class="reference internal" href="#python-quick-start"><span class="xref myst">Python quick start</span></a>.</p></li>
+<li><p><a class="reference internal" href="#python-quick-start"><span class="std std-ref">Python quick start</span></a>.</p></li>
 </ol>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
@@ -185,41 +186,80 @@
 <section id="python-quick-start">
 <h2>Python quick start<a class="headerlink" href="#python-quick-start" title="Permalink to this heading">¶</a></h2>
 <p>Below are 3 examples of common operations you can do with the client.</p>
+<section id="browse-data-in-the-portal">
+<h3>Browse data in the portal<a class="headerlink" href="#browse-data-in-the-portal" title="Permalink to this heading">¶</a></h3>
+<p>The following iterates over all datasets in the portal, then all runs per dataset, then all tomograms per run</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Dataset</span>
+
+<span class="c1"># Instantiate a client, using the data portal GraphQL API by default</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+
+<span class="c1"># Iterate over all datasets</span>
+<span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset: </span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">dataset</span><span class="o">.</span><span class="n">runs</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - run: </span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">tomo</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">tomograms</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - tomo: </span><span class="si">{</span><span class="n">tomo</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And outputs the name of each object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Dataset</span><span class="p">:</span> <span class="n">Fatty</span> <span class="n">acid</span> <span class="n">synthase</span> <span class="p">(</span><span class="n">FAS</span><span class="p">)</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span> <span class="n">pombe</span> <span class="n">cells</span>
+  <span class="o">-</span> <span class="n">run</span><span class="p">:</span> <span class="n">TS_026</span>
+    <span class="o">-</span> <span class="n">tomo</span><span class="p">:</span> <span class="n">TS_026</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</section>
 <section id="find-all-tomograms-for-a-certain-organism-and-download-preview-sized-mrc-files">
 <h3>Find all tomograms for a certain organism and download preview-sized MRC files:<a class="headerlink" href="#find-all-tomograms-for-a-certain-organism-and-download-preview-sized-mrc-files" title="Permalink to this heading">¶</a></h3>
-<p>The following iterates over all tomograms in</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
+<p>The following iterates over all tomograms related to a specific organism and downloads a 25% scale preview tomogram in MRC format for each one.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 
 <span class="c1"># Instantiate a client, using the data portal GraphQL API by default</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 
 <span class="c1"># Find all tomograms related to a specific organism</span>
-<span class="n">tomos</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomograms</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">organism</span> <span class="o">==</span> <span class="s2">&quot;Caenorhabditis elegans&quot;</span><span class="p">])</span>
+<span class="n">tomos</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">organism_name</span> <span class="o">==</span> <span class="s2">&quot;Caenorhabditis elegans&quot;</span><span class="p">]</span>
+<span class="p">)</span>
 <span class="k">for</span> <span class="n">tomo</span> <span class="ow">in</span> <span class="n">tomos</span><span class="p">:</span>
-
     <span class="c1"># Access any useful metadata for each tomogram</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">tomo</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
-    <span class="c1"># Download a 25% size preview image</span>
-    <span class="n">tomo</span><span class="o">.</span><span class="n">download_mrcfile</span><span class="p">(</span><span class="n">binning</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="c1"># Print the tomogram metadata as a json string</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tomo</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+
+    <span class="c1"># Download a 25% size preview image (uncomment to actually download files)</span>
+    <span class="c1"># tomo.download_mrcfile(binning=4)</span>
+
 </pre></div>
 </div>
 <p>Downloads display a progress bar by default:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>TS_026
-Downloading<span class="w"> </span>https://files.cryoetdataportal.cziscience.com/10000/TS_026/Tomograms/CanonicalTomogram/TS_026_bin4.mrc<span class="w"> </span>to<span class="w"> </span>/Users/yourusername/path/to/TS_026_bin4.mrc
-<span class="m">100</span>%<span class="p">|</span>████████████████████████████████████████████████████████████████<span class="p">|</span><span class="w"> </span><span class="m">55</span>.7M/55.7M<span class="w"> </span><span class="o">[</span><span class="m">00</span>:01&lt;<span class="m">00</span>:00,<span class="w"> </span><span class="m">30</span>.6MiB/s<span class="o">]</span>
-TS_027
-Downloading<span class="w"> </span>https://files.cryoetdataportal.cziscience.com/10000/TS_027/Tomograms/CanonicalTomogram/TS_027_bin4.mrc<span class="w"> </span>to<span class="w"> </span>/Users/yourusername/path/to/TS_027_bin4.mrc
-<span class="m">100</span>%<span class="p">|</span>████████████████████████████████████████████████████████████████<span class="p">|</span><span class="w"> </span><span class="m">27</span>.8M/27.8M<span class="w"> </span><span class="o">[</span><span class="m">00</span>:01&lt;<span class="m">00</span>:00,<span class="w"> </span><span class="m">25</span>.4MiB/s<span class="o">]</span>
-TS_028
-Downloading<span class="w"> </span>https://files.cryoetdataportal.cziscience.com/10000/TS_028/Tomograms/CanonicalTomogram/TS_028_bin4.mrc<span class="w"> </span>to<span class="w"> </span>/Users/yourusername/path/to/TS_028_bin4.mrc
-<span class="m">100</span>%<span class="p">|</span>████████████████████████████████████████████████████████████████<span class="p">|</span><span class="w"> </span><span class="m">27</span>.8M/27.8M<span class="w"> </span><span class="o">[</span><span class="m">00</span>:01&lt;<span class="m">00</span>:00,<span class="w"> </span><span class="m">26</span>.1MiB/s<span class="o">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Position_128_2
+{
+    &quot;id&quot;: 21,
+    &quot;dataset_id&quot;: 10004,
+    &quot;run_id&quot;: 21,
+    &quot;name&quot;: &quot;Position_128_2&quot;,
+    &lt;truncated&gt;
+}
+Downloading https://files.cryoetdataportal.cziscience.com/10004/Position_128_2/Tomograms/CanonicalTomogram/Position_128_2_bin4.mrc to /Users/yourusername/path/to/Position_128_2_bin4.mrc
+100%|████████████████████████████████████████████████████████████████| 55.7M/55.7M [00:01&lt;00:00, 30.6MiB/s]
+Position_129_2
+{
+... more output ...
 </pre></div>
 </div>
 </section>
-<section id="filtering-by-properties-on-related-objects">
-<h3>Filtering by properties on related objects:<a class="headerlink" href="#filtering-by-properties-on-related-objects" title="Permalink to this heading">¶</a></h3>
-<p>The following finds all runs with a particular annotator and minimum tomogram size, and opens the first one in napari.</p>
+<section id="open-a-tomogram-in-napari">
+<h3>Open a tomogram in Napari<a class="headerlink" href="#open-a-tomogram-in-napari" title="Permalink to this heading">¶</a></h3>
+<p>The following finds all runs with a particular annotator and minimum tomogram size, and opens the first one in Napari.</p>
+<ul class="simple">
+<li><p>[https://napari.org/stable/tutorials/fundamentals/installation.html](click here).</p></li>
+</ul>
+<p>For more information on how to install Napari, <a class="reference external" href="https://napari.org/stable/tutorials/fundamentals/installation.html">click here</a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Run</span>
 <span class="kn">import</span> <span class="nn">napari</span>
 
