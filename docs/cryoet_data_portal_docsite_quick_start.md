@@ -5,7 +5,7 @@ This page provides details to start using the CryoET Data Portal.
 **Contents**
 
 1. [Installation](#installation).
-2. [Python quick start](python-quick-start).
+2. [Python quick start](#python-quick-start).
 
 ## Installation
 
@@ -27,9 +27,37 @@ pip install -U cryoet-data-portal
 
 Below are 3 examples of common operations you can do with the client.
 
+### Browse data in the portal
+
+The following iterates over all datasets in the portal, then all runs per dataset, then all tomograms per run
+
+```python
+from cryoet_data_portal import Client, Dataset
+
+# Instantiate a client, using the data portal GraphQL API by default
+client = Client()
+
+# Iterate over all datasets
+for dataset in Dataset.find(client):
+    print(f"Dataset: {dataset.title}")
+    for run in dataset.runs:
+        print(f"  - run: {run.name}")
+        for tomo in run.tomograms:
+            print(f"    - tomo: {tomo.name}")
+```
+
+And outputs the name of each object:
+
+```
+Dataset: Fatty acid synthase (FAS) in S. pombe cells
+  - run: TS_026
+    - tomo: TS_026
+...
+```
+
 ### Find all tomograms for a certain organism and download preview-sized MRC files:
 
-The following iterates over all tomograms in 
+The following iterates over all tomograms related to a specific organism and downloads a 25% scale preview tomogram in MRC format for each one.
 
 ```python
 import json
@@ -72,9 +100,13 @@ Position_129_2
 ... more output ...
 ```
 
-### Filtering by properties on related objects:
+### Open a tomogram in Napari
 
-The following finds all runs with a particular annotator and minimum tomogram size, and opens the first one in napari.
+The following finds all runs with a particular annotator and minimum tomogram size, and opens the first one in Napari.
+
+- [https://napari.org/stable/tutorials/fundamentals/installation.html](click here).
+
+For more information on how to install Napari, [click here](https://napari.org/stable/tutorials/fundamentals/installation.html).
 
 ```python
 from cryoet_data_portal import Client, Run
