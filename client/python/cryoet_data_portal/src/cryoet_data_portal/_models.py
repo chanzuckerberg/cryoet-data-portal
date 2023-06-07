@@ -23,7 +23,7 @@ class Dataset(Model):
         description (str): A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
         funding_sources: List[FundingSource] An array relationship with FundingSource
         grid_preparation (str): Describe Cryo-ET grid preparation.
-        https_prefix (str): The https directory path where this dataset is contained
+        https_prefix (str): The HTTPS directory path where this dataset is contained
         last_modified_date (date):Date when a released dataset is last modified.
         organism_name (str): Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
         organism_taxid (str): NCBI taxonomy identifier for the organism, e.g. 9606
@@ -148,7 +148,7 @@ class Run(Model):
         data_acquisition_software: (str): Software used to collect data
         dataset (Dataset): An object relationship with the dataset this run is a part of
         dataset_id (int): Reference to the dataset this run is a part of
-        https_prefix (str): The https directory path where this dataset is contained
+        https_prefix (str): The HTTPS directory path where this dataset is contained
         microscope_additional_info (str):  Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
         microscope_energy_filter: (str): Energy filter setup used
         microscope_image_corrector (str): Image corrector setup
@@ -227,9 +227,9 @@ class Tomogram(Model):
         dataset (Dataset): An object relationship with the dataset this tomogram is a part of
         dataset_id (int): Reference to the dataset this tomogram is a part of
         fiducial_alignment_status (str): Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
-        https_mrc_scale0 (str): https path to this tomogram in MRC format (no scaling)
-        https_mrc_scale1 (str): https path to this tomogram in MRC format (downscaled to 50%)
-        https_mrc_scale2 (str): https path to this tomogram in MRC format (downscaled to 25%)
+        https_mrc_scale0 (str): HTTPS path to this tomogram in MRC format (no scaling)
+        https_mrc_scale1 (str): HTTPS path to this tomogram in MRC format (downscaled to 50%)
+        https_mrc_scale2 (str): HTTPS path to this tomogram in MRC format (downscaled to 25%)
         https_omezarr_dir (str): HTTPS path to the this multiscale omezarr tomogram
         is_canonical (bool): Is this tomogram considered the canonical tomogram for the run experiment? True=Yes
         name (str): Short name for this tomogram
@@ -323,8 +323,8 @@ class Annotation(Model):
         deposition_date (date): Date when an annotation set is initially received by the Data Portal.
         ground_truth_status (bool): Whether an annotation is considered ground truth, as determined by the annotator.
         ground_truth_used (str): Annotation filename used as ground truth for precision and recall
-        https_annotations_path (str): https path for the annotations file for these annotations
-        https_metadata_path (str): https path for the metadata json file for this annotation
+        https_annotations_path (str): HTTPS path for the annotations file for these annotations
+        https_metadata_path (str): HTTPS path for the metadata json file for this annotation
         last_modified_date (date): Date when an annotation was last modified in the Data Portal
         object_count (int): Number of objects identified
         object_description (str): A textual description of the annotation object, can be a longer description to include additional information not covered by the Annotation object name and state.
@@ -337,8 +337,8 @@ class Annotation(Model):
         release_date (date): Date when annotation data is made public by the Data Portal.
         run (Run): An object relationship with the run this annotation is a part of
         run_id (int): Reference to the run these annotations are a part of
-        s3_annotations_path (str): s3 path for the annotations file for these annotations
-        s3_metadata_path (str): s3 path for the metadata json file for this annotation
+        s3_annotations_path (str): S3 path for the annotations file for these annotations
+        s3_metadata_path (str): S3 path for the metadata json file for this annotation
         shape_type (str): The format are the individual annotations are stored in
     """
 
@@ -388,11 +388,11 @@ class AnnotationAuthor(Model):
         affiliation_name (str): Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
         annotation (Annotation): An object relationship with the annotation this author is a part of
         annotation_id (int): Reference to the annotation this author contributed to
-        corresponding_author_status (bool): Indicating whether an annotator is the corresponding author (YES or NO)
+        corresponding_author_status (bool): Indicating whether an annotator is the corresponding author
         email (str): Email address for this author
         name (str): Full name of an annotation author (e.g. Jane Doe).
         orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
-        primary_annotator_status (bool): Indicating whether an annotator is the main person executing the annotation, especially on manual annotation (YES or NO)
+        primary_annotator_status (bool): Indicating whether an annotator is the main person executing the annotation, especially on manual annotation
     """
 
     _gql_type = "annotation_authors"
@@ -414,24 +414,24 @@ class AnnotationAuthor(Model):
 class TiltSeries(Model):
     """File locations for key files in a run's TiltSeries
 
-    Args:
+    Attributes:
         id (int): Numeric identifier for this tilt series (this may change!)
-        https_alignment_file (str): https path to the alignment file for this tiltseries
-        https_angle_list (str): https path to the angle list file for this tiltseries
-        https_collection_metadata (str): https path to the collection metadata file for this tiltseries
-        https_mrc_bin1 (str): https path to this tiltseries in MRC format (no scaling)
-        https_mrc_bin2 (str): https path to this tiltseries in MRC format (downscaled to 50%)
-        https_mrc_bin4 (str): https path to this tiltseries in MRC format (downscaled to 25%)
-        https_omezarr_dir (str): https path to the this multiscale omezarr tiltseries
+        https_alignment_file (str): HTTPS path to the alignment file for this tiltseries
+        https_angle_list (str): HTTPS path to the angle list file for this tiltseries
+        https_collection_metadata (str): HTTPS path to the collection metadata file for this tiltseries
+        https_mrc_bin1 (str): HTTPS path to this tiltseries in MRC format (no scaling)
+        https_mrc_bin2 (str): HTTPS path to this tiltseries in MRC format (downscaled to 50%)
+        https_mrc_bin4 (str): HTTPS path to this tiltseries in MRC format (downscaled to 25%)
+        https_omezarr_dir (str): HTTPS path to the this multiscale omezarr tiltseries
         run (Run): An object relationship with the run this tiltseries is a part of
         run_id (int): Reference to the run this tiltseries is a part of
-        s3_alignment_file (str): s3 path to the alignment file for this tiltseries
-        s3_angle_list (str): s3 path to the angle list file for this tiltseries
-        s3_collection_metadata (str): s3 path to the collection metadata file for this tiltseries
-        s3_mrc_bin1 (str): s3 path to this tiltseries in MRC format (no scaling)
-        s3_mrc_bin2 (str): s3 path to this tiltseries in MRC format (downscaled to 50%)
-        s3_mrc_bin4 (str): s3 path to this tiltseries in MRC format (downscaled to 25%)
-        s3_omezarr_dir (str): s3 path to the this multiscale omezarr tiltseries
+        s3_alignment_file (str): S3 path to the alignment file for this tiltseries
+        s3_angle_list (str): S3 path to the angle list file for this tiltseries
+        s3_collection_metadata (str): S3 path to the collection metadata file for this tiltseries
+        s3_mrc_bin1 (str): S3 path to this tiltseries in MRC format (no scaling)
+        s3_mrc_bin2 (str): S3 path to this tiltseries in MRC format (downscaled to 50%)
+        s3_mrc_bin4 (str): S3 path to this tiltseries in MRC format (downscaled to 25%)
+        s3_omezarr_dir (str): S3 path to the this multiscale omezarr tiltseries
     """
 
     _gql_type = "tiltseries"
