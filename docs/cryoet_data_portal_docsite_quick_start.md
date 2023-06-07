@@ -5,7 +5,7 @@ This page provides details to start using the CryoET Data Portal.
 **Contents**
 
 1. [Installation](#installation).
-2. [Python quick start](python-quick-start).
+2. [Python quick start](#python-quick-start).
 
 ## Installation
 
@@ -27,44 +27,86 @@ pip install -U cryoet-data-portal
 
 Below are 3 examples of common operations you can do with the client.
 
-### Find all tomograms for a certain organism and download preview-sized MRC files:
+### Browse data in the portal
 
-The following iterates over all tomograms in 
+The following iterates over all datasets in the portal, then all runs per dataset, then all tomograms per run
 
 ```python
+from cryoet_data_portal import Client, Dataset
+
+# Instantiate a client, using the data portal GraphQL API by default
+client = Client()
+
+# Iterate over all datasets
+for dataset in Dataset.find(client):
+    print(f"Dataset: {dataset.title}")
+    for run in dataset.runs:
+        print(f"  - run: {run.name}")
+        for tomo in run.tomograms:
+            print(f"    - tomo: {tomo.name}")
+```
+
+And outputs the name of each object:
+
+```
+Dataset: Fatty acid synthase (FAS) in S. pombe cells
+  - run: TS_026
+    - tomo: TS_026
+...
+```
+
+### Find all tomograms for a certain organism and download preview-sized MRC files:
+
+The following iterates over all tomograms related to a specific organism and downloads a 25% scale preview tomogram in MRC format for each one.
+
+```python
+import json
 from cryoet_data_portal import Client, Tomogram
 
 # Instantiate a client, using the data portal GraphQL API by default
 client = Client()
 
 # Find all tomograms related to a specific organism
-tomos = Tomogram.find(client, [Tomograms.dataset.organism == "Caenorhabditis elegans"])
+tomos = Tomogram.find(
+    client, [Tomogram.dataset.organism_name == "Caenorhabditis elegans"]
+)
 for tomo in tomos:
-
     # Access any useful metadata for each tomogram
     print(tomo.name)
 
-    # Download a 25% size preview image
-    tomo.download_mrcfile(binning=4)
+    # Print the tomogram metadata as a json string
+    print(json.dumps(tomo.to_dict(), indent=4))
+
+    # Download a 25% size preview image (uncomment to actually download files)
+    # tomo.download_mrcfile(binning=4)
+
 ```
 
 Downloads display a progress bar by default:
 
-```bash
-TS_026
-Downloading https://files.cryoetdataportal.cziscience.com/10000/TS_026/Tomograms/CanonicalTomogram/TS_026_bin4.mrc to /Users/yourusername/path/to/TS_026_bin4.mrc
+```
+Position_128_2
+{
+    "id": 21,
+    "dataset_id": 10004,
+    "run_id": 21,
+    "name": "Position_128_2",
+    <truncated>
+}
+Downloading https://files.cryoetdataportal.cziscience.com/10004/Position_128_2/Tomograms/CanonicalTomogram/Position_128_2_bin4.mrc to /Users/yourusername/path/to/Position_128_2_bin4.mrc
 100%|████████████████████████████████████████████████████████████████| 55.7M/55.7M [00:01<00:00, 30.6MiB/s]
-TS_027
-Downloading https://files.cryoetdataportal.cziscience.com/10000/TS_027/Tomograms/CanonicalTomogram/TS_027_bin4.mrc to /Users/yourusername/path/to/TS_027_bin4.mrc
-100%|████████████████████████████████████████████████████████████████| 27.8M/27.8M [00:01<00:00, 25.4MiB/s]
-TS_028
-Downloading https://files.cryoetdataportal.cziscience.com/10000/TS_028/Tomograms/CanonicalTomogram/TS_028_bin4.mrc to /Users/yourusername/path/to/TS_028_bin4.mrc
-100%|████████████████████████████████████████████████████████████████| 27.8M/27.8M [00:01<00:00, 26.1MiB/s]
+Position_129_2
+{
+... more output ...
 ```
 
-### Filtering by properties on related objects:
+### Open a tomogram in Napari
 
-The following finds all runs with a particular annotator and minimum tomogram size, and opens the first one in napari.
+The following finds all runs with a particular annotator and minimum tomogram size, and opens the first one in Napari.
+
+- [https://napari.org/stable/tutorials/fundamentals/installation.html](click here).
+
+For more information on how to install Napari, [click here](https://napari.org/stable/tutorials/fundamentals/installation.html).
 
 ```python
 from cryoet_data_portal import Client, Run

@@ -60,17 +60,17 @@ class GQLField:
         return GQLExpression(self, "_in", value)
 
     def configure(self, cls, name):
-        self.cls = cls
-        self.name = name
+        self._cls = cls
+        self._name = name
 
     def to_gql(self):
-        return self.name
+        return self._name
 
 
 class BaseField(GQLField):
     def __init__(self, cls: Optional[type] = None, name: Optional[str] = None):
-        self.cls = cls
-        self.name = name
+        self._cls = cls
+        self._name = name
 
     def convert(self, value):
         return value
@@ -101,7 +101,7 @@ class FloatField(BaseField):
 class QueryChain(GQLField):
     def __init__(self, relationship, attr):
         self.__current_query = getattr(relationship.related_class, attr)
-        self.__name = [relationship.name, attr]
+        self.__name = [relationship._name, attr]
 
     def __getattr__(self, attr):
         self.__current_query = getattr(self.__current_query, attr)
@@ -121,8 +121,8 @@ class Relationship(GQLField):
         self.dest_field = dest_field
 
         # Helpers for resolving GQL field names.
-        self.cls = cls
-        self.name = name
+        self._cls = cls
+        self._name = name
 
     def resolve_class(self):
         if type(self.related_class) is not type:
@@ -139,17 +139,20 @@ class ItemRelationship(Relationship):
     def __get__(self, obj, obj_class=None):
         if obj is None:
             return self
-        filters = obj._client.generate_filters(self.related_class, self.dest_field, getattr(obj, self.source_field))
-        res = obj._client.find_one(self.related_class, filters)
-        return res
+        for item in self.related_class.find(
+            obj._client, [getattr(self.related_class, self.dest_field) == getattr(obj, self.source_field)]
+        ):
+            return item
 
 
 class ListRelationship(Relationship):
     def __get__(self, obj, obj_class=None):
         if obj is None:
             return self
-        filters = obj._client.generate_filters(self.related_class, self.dest_field, getattr(obj, self.source_field))
-        return obj._client.find(self.related_class, filters)
+        res = self.related_class.find(
+            obj._client, [getattr(self.related_class, self.dest_field) == getattr(obj, self.source_field)]
+        )
+        return res
 
 
 class Model:
@@ -164,8 +167,7 @@ class Model:
             setattr(self, k, value)
 
     def to_dict(self) -> Dict[str, Any]:
-        """Return a dictionary representation of this object's attributes
-        """
+        """Return a dictionary representation of this object's attributes"""
         return {k: getattr(self, k) for k in self._get_scalar_fields()}
 
     @classmethod
@@ -254,8 +256,7 @@ class Model:
             >>> run = Runs.get_by_id(client), 1
                 print(run.name)
         """
-        filters = {"id": {"_eq": id}}
-        return client.find_one(cls, filters)
+        return client.find_one(cls, [cls.id == id])
 
     @classmethod
     def setup(cls):
