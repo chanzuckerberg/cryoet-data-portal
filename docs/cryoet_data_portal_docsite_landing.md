@@ -20,9 +20,9 @@ Here is a summary of the datasets that have been provided. A full description ca
 | Acknowledgement | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1101/2023.04.28.538734](https://www.biorxiv.org/content/10.1101/2023.04.28.538734v1) |
 
 ### Getting Started Links
-- [Quick Start](https://www.google.com/)
-- [Data and schema](https://www.google.com/)
-- [Python API Client](https://github.com/chanzuckerberg/cryoet-data-portal/tree/main/client/python/cryoet_data_portal)
+- [Quick Start](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_quick_start.html)
+- [Metadata and schema](https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#)
+- [Python API Client](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html)
 - [napari plugin](https://www.google.com/)
 
 
@@ -39,12 +39,7 @@ Some of the data used in this work was provided by the group (s) of Julia Mahami
   Segmentation experts and developers are also encouraged to get in touch with the data providers (Julia Mahamid and Jürgen Plitzco) if they feel they have developed a useful tool that might help to process the entirety of the datasets (which are much larger than the subsets provided for the portal) more efficiently or effectively.
 
 ## CryoET Data Portal Data and Schema
-A description of the CryoET Portal data and its schema is detailed [here](https://www.google.com/).
-
-  ⚠️ Note that the data may include…:
-  - Movies of the raw data?
-- Aligned tilt series?  Etc.. etc.
-- Annotations
+A description of the CryoET Portal data and its schema is detailed [here](https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#).
   
 ## CryoET Data Portal Plans
 This is a prototype of a cryoET Data Portal providing queryable and organized data from cryoET experiments. The initial target users are segmentation algorithm developers to produce annotations for diverse macromolecules in the tomogram that may be used for high-resolution subtomogram averaging.  This portal is not intended to be a final product but rather a first step to start a discussion in the wider community as to what is needed with such a portal. We welcome feedback from the community on the data structure, design and functionality. Once we have gathered some feedback we plan to organize a community-wide workshop to discuss next steps.
