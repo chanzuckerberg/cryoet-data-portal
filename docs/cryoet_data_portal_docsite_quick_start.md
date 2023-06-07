@@ -32,20 +32,26 @@ Below are 3 examples of common operations you can do with the client.
 The following iterates over all tomograms in 
 
 ```python
+import json
 from cryoet_data_portal import Client, Tomogram
 
 # Instantiate a client, using the data portal GraphQL API by default
 client = Client()
 
 # Find all tomograms related to a specific organism
-tomos = Tomogram.find(client, [Tomograms.dataset.organism == "Caenorhabditis elegans"])
+tomos = Tomogram.find(
+    client, [Tomogram.dataset.organism_name == "Caenorhabditis elegans"]
+)
 for tomo in tomos:
-
     # Access any useful metadata for each tomogram
     print(tomo.name)
 
-    # Download a 25% size preview image
-    tomo.download_mrcfile(binning=4)
+    # Print the tomogram metadata as a json string
+    print(json.dumps(tomo.to_dict(), indent=4))
+
+    # Download a 25% size preview image (uncomment to actually download files)
+    # tomo.download_mrcfile(binning=4)
+
 ```
 
 Downloads display a progress bar by default:
