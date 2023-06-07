@@ -13,8 +13,9 @@
   
 
   
-  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/favicon_32x32_v2.png"/>
-  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/favicon_16x16_v2.png"/>
+  <link rel="icon" type="image/png" sizes="64x64" href="_static/img/czii-favicon_64x64.png"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/czii-favicon_32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/czii-favicon_16x16.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -58,11 +59,11 @@
         <div style="padding: 0 16px; display: flex; height: inherit; align-items: center; justify-content: space-between;">
             <span style="display:flex; gap: 32px; align-items: center;">
                 <a href="https://www.czimaginginstitute.org/">
-                  <img src="_static/img/czi-imaging-institute.png" />
+                  <img src="_static/img/czi-imaging-institute.png" style="height: 45px; width: 45px;" />
                 </a>
                 <span style="display:flex; gap: 16px;">
                     <span class="navbar-cet-link">
-                      <a class="navbar-cet-anchor" href="index.html">CryooET Data Portal</a>    
+                      <a class="navbar-cet-anchor" href="index.html">CryoET Data Portal</a>    
                   </span>
                 </span>
             </span>
@@ -91,7 +92,7 @@
                 
                 
                 <div class="version">
-                    0.1.dev1+gf8ca252
+                    0.1.dev1+g9143ba2
                 </div>
                 
             
@@ -416,20 +417,36 @@
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.https_alignment_file">https_alignment_file (cryoet_data_portal.TiltSeries attribute)</a>
+</li>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.https_angle_list">https_angle_list (cryoet_data_portal.TiltSeries attribute)</a>
+</li>
       <li><a href="python-api.html#cryoet_data_portal.Annotation.https_annotations_path">https_annotations_path (cryoet_data_portal.Annotation attribute)</a>
 </li>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.https_collection_metadata">https_collection_metadata (cryoet_data_portal.TiltSeries attribute)</a>
+</li>
       <li><a href="python-api.html#cryoet_data_portal.Annotation.https_metadata_path">https_metadata_path (cryoet_data_portal.Annotation attribute)</a>
+</li>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.https_mrc_bin1">https_mrc_bin1 (cryoet_data_portal.TiltSeries attribute)</a>
+</li>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.https_mrc_bin2">https_mrc_bin2 (cryoet_data_portal.TiltSeries attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.https_mrc_bin4">https_mrc_bin4 (cryoet_data_portal.TiltSeries attribute)</a>
 </li>
       <li><a href="python-api.html#cryoet_data_portal.Tomogram.https_mrc_scale0">https_mrc_scale0 (cryoet_data_portal.Tomogram attribute)</a>
 </li>
       <li><a href="python-api.html#cryoet_data_portal.Tomogram.https_mrc_scale1">https_mrc_scale1 (cryoet_data_portal.Tomogram attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python-api.html#cryoet_data_portal.Tomogram.https_mrc_scale2">https_mrc_scale2 (cryoet_data_portal.Tomogram attribute)</a>
 </li>
-      <li><a href="python-api.html#cryoet_data_portal.Tomogram.https_omezarr_dir">https_omezarr_dir (cryoet_data_portal.Tomogram attribute)</a>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.https_omezarr_dir">https_omezarr_dir (cryoet_data_portal.TiltSeries attribute)</a>
+
+      <ul>
+        <li><a href="python-api.html#cryoet_data_portal.Tomogram.https_omezarr_dir">(cryoet_data_portal.Tomogram attribute)</a>
 </li>
+      </ul></li>
       <li><a href="python-api.html#cryoet_data_portal.Dataset.https_prefix">https_prefix (cryoet_data_portal.Dataset attribute)</a>
 
       <ul>
@@ -454,6 +471,8 @@
         <li><a href="python-api.html#cryoet_data_portal.DatasetFunding.id">(cryoet_data_portal.DatasetFunding attribute)</a>
 </li>
         <li><a href="python-api.html#cryoet_data_portal.Run.id">(cryoet_data_portal.Run attribute)</a>
+</li>
+        <li><a href="python-api.html#cryoet_data_portal.TiltSeries.id">(cryoet_data_portal.TiltSeries attribute)</a>
 </li>
         <li><a href="python-api.html#cryoet_data_portal.Tomogram.id">(cryoet_data_portal.Tomogram attribute)</a>
 </li>
@@ -589,12 +608,16 @@
       <li><a href="python-api.html#cryoet_data_portal.Annotation.run">run (cryoet_data_portal.Annotation attribute)</a>
 
       <ul>
+        <li><a href="python-api.html#cryoet_data_portal.TiltSeries.run">(cryoet_data_portal.TiltSeries attribute)</a>
+</li>
         <li><a href="python-api.html#cryoet_data_portal.Tomogram.run">(cryoet_data_portal.Tomogram attribute)</a>
 </li>
       </ul></li>
       <li><a href="python-api.html#cryoet_data_portal.Annotation.run_id">run_id (cryoet_data_portal.Annotation attribute)</a>
 
       <ul>
+        <li><a href="python-api.html#cryoet_data_portal.TiltSeries.run_id">(cryoet_data_portal.TiltSeries attribute)</a>
+</li>
         <li><a href="python-api.html#cryoet_data_portal.Tomogram.run_id">(cryoet_data_portal.Tomogram attribute)</a>
 </li>
       </ul></li>
@@ -606,9 +629,21 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.s3_alignment_file">s3_alignment_file (cryoet_data_portal.TiltSeries attribute)</a>
+</li>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.s3_angle_list">s3_angle_list (cryoet_data_portal.TiltSeries attribute)</a>
+</li>
       <li><a href="python-api.html#cryoet_data_portal.Annotation.s3_annotations_path">s3_annotations_path (cryoet_data_portal.Annotation attribute)</a>
 </li>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.s3_collection_metadata">s3_collection_metadata (cryoet_data_portal.TiltSeries attribute)</a>
+</li>
       <li><a href="python-api.html#cryoet_data_portal.Annotation.s3_metadata_path">s3_metadata_path (cryoet_data_portal.Annotation attribute)</a>
+</li>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.s3_mrc_bin1">s3_mrc_bin1 (cryoet_data_portal.TiltSeries attribute)</a>
+</li>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.s3_mrc_bin2">s3_mrc_bin2 (cryoet_data_portal.TiltSeries attribute)</a>
+</li>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.s3_mrc_bin4">s3_mrc_bin4 (cryoet_data_portal.TiltSeries attribute)</a>
 </li>
       <li><a href="python-api.html#cryoet_data_portal.Tomogram.s3_mrc_scale0">s3_mrc_scale0 (cryoet_data_portal.Tomogram attribute)</a>
 </li>
@@ -616,8 +651,14 @@
 </li>
       <li><a href="python-api.html#cryoet_data_portal.Tomogram.s3_mrc_scale2">s3_mrc_scale2 (cryoet_data_portal.Tomogram attribute)</a>
 </li>
-      <li><a href="python-api.html#cryoet_data_portal.Tomogram.s3_omezarr_dir">s3_omezarr_dir (cryoet_data_portal.Tomogram attribute)</a>
+      <li><a href="python-api.html#cryoet_data_portal.TiltSeries.s3_omezarr_dir">s3_omezarr_dir (cryoet_data_portal.TiltSeries attribute)</a>
+
+      <ul>
+        <li><a href="python-api.html#cryoet_data_portal.Tomogram.s3_omezarr_dir">(cryoet_data_portal.Tomogram attribute)</a>
 </li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python-api.html#cryoet_data_portal.Dataset.s3_prefix">s3_prefix (cryoet_data_portal.Dataset attribute)</a>
 
       <ul>
@@ -626,8 +667,6 @@
       </ul></li>
       <li><a href="python-api.html#cryoet_data_portal.Dataset.sample_preparation">sample_preparation (cryoet_data_portal.Dataset attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python-api.html#cryoet_data_portal.Dataset.sample_type">sample_type (cryoet_data_portal.Dataset attribute)</a>
 </li>
       <li><a href="python-api.html#cryoet_data_portal.Tomogram.scale0_dimensions">scale0_dimensions (cryoet_data_portal.Tomogram attribute)</a>

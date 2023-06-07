@@ -14,8 +14,9 @@
   
 
   
-  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/favicon_32x32_v2.png"/>
-  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/favicon_16x16_v2.png"/>
+  <link rel="icon" type="image/png" sizes="64x64" href="_static/img/czii-favicon_64x64.png"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/czii-favicon_32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/czii-favicon_16x16.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -61,11 +62,11 @@
         <div style="padding: 0 16px; display: flex; height: inherit; align-items: center; justify-content: space-between;">
             <span style="display:flex; gap: 32px; align-items: center;">
                 <a href="https://www.czimaginginstitute.org/">
-                  <img src="_static/img/czi-imaging-institute.png" />
+                  <img src="_static/img/czi-imaging-institute.png" style="height: 45px; width: 45px;" />
                 </a>
                 <span style="display:flex; gap: 16px;">
                     <span class="navbar-cet-link">
-                      <a class="navbar-cet-anchor" href="index.html">CryooET Data Portal</a>    
+                      <a class="navbar-cet-anchor" href="index.html">CryoET Data Portal</a>    
                   </span>
                 </span>
             </span>
@@ -94,7 +95,7 @@
                 
                 
                 <div class="version">
-                    0.1.dev1+gf8ca252
+                    0.1.dev1+g9143ba2
                 </div>
                 
             
@@ -328,6 +329,23 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#tiltseries">TiltSeries</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#cryoet_data_portal.TiltSeries"><code class="docutils literal notranslate"><span class="pre">TiltSeries</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.id"><code class="docutils literal notranslate"><span class="pre">TiltSeries.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.https_alignment_file"><code class="docutils literal notranslate"><span class="pre">TiltSeries.https_alignment_file</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.https_angle_list"><code class="docutils literal notranslate"><span class="pre">TiltSeries.https_angle_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.https_collection_metadata"><code class="docutils literal notranslate"><span class="pre">TiltSeries.https_collection_metadata</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.https_mrc_bin1"><code class="docutils literal notranslate"><span class="pre">TiltSeries.https_mrc_bin1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.https_mrc_bin2"><code class="docutils literal notranslate"><span class="pre">TiltSeries.https_mrc_bin2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.https_mrc_bin4"><code class="docutils literal notranslate"><span class="pre">TiltSeries.https_mrc_bin4</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.https_omezarr_dir"><code class="docutils literal notranslate"><span class="pre">TiltSeries.https_omezarr_dir</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.run"><code class="docutils literal notranslate"><span class="pre">TiltSeries.run</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.run_id"><code class="docutils literal notranslate"><span class="pre">TiltSeries.run_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.s3_alignment_file"><code class="docutils literal notranslate"><span class="pre">TiltSeries.s3_alignment_file</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.s3_angle_list"><code class="docutils literal notranslate"><span class="pre">TiltSeries.s3_angle_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.s3_collection_metadata"><code class="docutils literal notranslate"><span class="pre">TiltSeries.s3_collection_metadata</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.s3_mrc_bin1"><code class="docutils literal notranslate"><span class="pre">TiltSeries.s3_mrc_bin1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.s3_mrc_bin2"><code class="docutils literal notranslate"><span class="pre">TiltSeries.s3_mrc_bin2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.s3_mrc_bin4"><code class="docutils literal notranslate"><span class="pre">TiltSeries.s3_mrc_bin4</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.s3_omezarr_dir"><code class="docutils literal notranslate"><span class="pre">TiltSeries.s3_omezarr_dir</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.download_alignment_file"><code class="docutils literal notranslate"><span class="pre">TiltSeries.download_alignment_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.download_angle_list"><code class="docutils literal notranslate"><span class="pre">TiltSeries.download_angle_list()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.download_collection_metadata"><code class="docutils literal notranslate"><span class="pre">TiltSeries.download_collection_metadata()</span></code></a></li>
@@ -552,7 +570,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Dataset.https_prefix">
 <span class="sig-name descname"><span class="pre">https_prefix</span></span><a class="headerlink" href="#cryoet_data_portal.Dataset.https_prefix" title="Permalink to this definition">¶</a></dt>
-<dd><p>The https directory path where this dataset is contained</p>
+<dd><p>The HTTPS directory path where this dataset is contained</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
@@ -1243,7 +1261,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Run.https_prefix">
 <span class="sig-name descname"><span class="pre">https_prefix</span></span><a class="headerlink" href="#cryoet_data_portal.Run.https_prefix" title="Permalink to this definition">¶</a></dt>
-<dd><p>The https directory path where this dataset is contained</p>
+<dd><p>The HTTPS directory path where this dataset is contained</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
@@ -1620,7 +1638,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Tomogram.https_mrc_scale0">
 <span class="sig-name descname"><span class="pre">https_mrc_scale0</span></span><a class="headerlink" href="#cryoet_data_portal.Tomogram.https_mrc_scale0" title="Permalink to this definition">¶</a></dt>
-<dd><p>https path to this tomogram in MRC format (no scaling)</p>
+<dd><p>HTTPS path to this tomogram in MRC format (no scaling)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
@@ -1631,7 +1649,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Tomogram.https_mrc_scale1">
 <span class="sig-name descname"><span class="pre">https_mrc_scale1</span></span><a class="headerlink" href="#cryoet_data_portal.Tomogram.https_mrc_scale1" title="Permalink to this definition">¶</a></dt>
-<dd><p>https path to this tomogram in MRC format (downscaled to 50%)</p>
+<dd><p>HTTPS path to this tomogram in MRC format (downscaled to 50%)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
@@ -1642,7 +1660,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Tomogram.https_mrc_scale2">
 <span class="sig-name descname"><span class="pre">https_mrc_scale2</span></span><a class="headerlink" href="#cryoet_data_portal.Tomogram.https_mrc_scale2" title="Permalink to this definition">¶</a></dt>
-<dd><p>https path to this tomogram in MRC format (downscaled to 25%)</p>
+<dd><p>HTTPS path to this tomogram in MRC format (downscaled to 25%)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
@@ -2088,7 +2106,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Annotation.https_annotations_path">
 <span class="sig-name descname"><span class="pre">https_annotations_path</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.https_annotations_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>https path for the annotations file for these annotations</p>
+<dd><p>HTTPS path for the annotations file for these annotations</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
@@ -2099,7 +2117,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Annotation.https_metadata_path">
 <span class="sig-name descname"><span class="pre">https_metadata_path</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.https_metadata_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>https path for the metadata json file for this annotation</p>
+<dd><p>HTTPS path for the metadata json file for this annotation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
@@ -2242,7 +2260,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Annotation.s3_annotations_path">
 <span class="sig-name descname"><span class="pre">s3_annotations_path</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.s3_annotations_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>s3 path for the annotations file for these annotations</p>
+<dd><p>S3 path for the annotations file for these annotations</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
@@ -2253,7 +2271,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Annotation.s3_metadata_path">
 <span class="sig-name descname"><span class="pre">s3_metadata_path</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.s3_metadata_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>s3 path for the metadata json file for this annotation</p>
+<dd><p>S3 path for the metadata json file for this annotation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
@@ -2421,7 +2439,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.AnnotationAuthor.corresponding_author_status">
 <span class="sig-name descname"><span class="pre">corresponding_author_status</span></span><a class="headerlink" href="#cryoet_data_portal.AnnotationAuthor.corresponding_author_status" title="Permalink to this definition">¶</a></dt>
-<dd><p>Indicating whether an annotator is the corresponding author (YES or NO)</p>
+<dd><p>Indicating whether an annotator is the corresponding author</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
@@ -2465,7 +2483,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.AnnotationAuthor.primary_annotator_status">
 <span class="sig-name descname"><span class="pre">primary_annotator_status</span></span><a class="headerlink" href="#cryoet_data_portal.AnnotationAuthor.primary_annotator_status" title="Permalink to this definition">¶</a></dt>
-<dd><p>Indicating whether an annotator is the main person executing the annotation, especially on manual annotation (YES or NO)</p>
+<dd><p>Indicating whether an annotator is the main person executing the annotation, especially on manual annotation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
@@ -2553,29 +2571,193 @@
 <dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryoet_data_portal.</span></span><span class="sig-name descname"><span class="pre">TiltSeries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cryoet_data_portal.Client" title="cryoet_data_portal._client.Client"><span class="pre">Client</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TiltSeries" title="Permalink to this definition">¶</a></dt>
 <dd><p>File locations for key files in a run’s TiltSeries</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Numeric identifier for this tilt series (this may change!)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Numeric identifier for this tilt series (this may change!)</p></li>
-<li><p><strong>https_alignment_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – https path to the alignment file for this tiltseries</p></li>
-<li><p><strong>https_angle_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – https path to the angle list file for this tiltseries</p></li>
-<li><p><strong>https_collection_metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – https path to the collection metadata file for this tiltseries</p></li>
-<li><p><strong>https_mrc_bin1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – https path to this tiltseries in MRC format (no scaling)</p></li>
-<li><p><strong>https_mrc_bin2</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – https path to this tiltseries in MRC format (downscaled to 50%)</p></li>
-<li><p><strong>https_mrc_bin4</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – https path to this tiltseries in MRC format (downscaled to 25%)</p></li>
-<li><p><strong>https_omezarr_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – https path to the this multiscale omezarr tiltseries</p></li>
-<li><p><strong>run</strong> (<a class="reference internal" href="#cryoet_data_portal.Run" title="cryoet_data_portal.Run"><em>Run</em></a>) – An object relationship with the run this tiltseries is a part of</p></li>
-<li><p><strong>run_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Reference to the run this tiltseries is a part of</p></li>
-<li><p><strong>s3_alignment_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – s3 path to the alignment file for this tiltseries</p></li>
-<li><p><strong>s3_angle_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – s3 path to the angle list file for this tiltseries</p></li>
-<li><p><strong>s3_collection_metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – s3 path to the collection metadata file for this tiltseries</p></li>
-<li><p><strong>s3_mrc_bin1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – s3 path to this tiltseries in MRC format (no scaling)</p></li>
-<li><p><strong>s3_mrc_bin2</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – s3 path to this tiltseries in MRC format (downscaled to 50%)</p></li>
-<li><p><strong>s3_mrc_bin4</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – s3 path to this tiltseries in MRC format (downscaled to 25%)</p></li>
-<li><p><strong>s3_omezarr_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – s3 path to the this multiscale omezarr tiltseries</p></li>
-</ul>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.https_alignment_file">
+<span class="sig-name descname"><span class="pre">https_alignment_file</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.https_alignment_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTPS path to the alignment file for this tiltseries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.https_angle_list">
+<span class="sig-name descname"><span class="pre">https_angle_list</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.https_angle_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTPS path to the angle list file for this tiltseries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.https_collection_metadata">
+<span class="sig-name descname"><span class="pre">https_collection_metadata</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.https_collection_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTPS path to the collection metadata file for this tiltseries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.https_mrc_bin1">
+<span class="sig-name descname"><span class="pre">https_mrc_bin1</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.https_mrc_bin1" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTPS path to this tiltseries in MRC format (no scaling)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.https_mrc_bin2">
+<span class="sig-name descname"><span class="pre">https_mrc_bin2</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.https_mrc_bin2" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTPS path to this tiltseries in MRC format (downscaled to 50%)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.https_mrc_bin4">
+<span class="sig-name descname"><span class="pre">https_mrc_bin4</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.https_mrc_bin4" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTPS path to this tiltseries in MRC format (downscaled to 25%)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.https_omezarr_dir">
+<span class="sig-name descname"><span class="pre">https_omezarr_dir</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.https_omezarr_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTPS path to the this multiscale omezarr tiltseries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.run">
+<span class="sig-name descname"><span class="pre">run</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object relationship with the run this tiltseries is a part of</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cryoet_data_portal.Run" title="cryoet_data_portal.Run">Run</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.run_id">
+<span class="sig-name descname"><span class="pre">run_id</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.run_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference to the run this tiltseries is a part of</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.s3_alignment_file">
+<span class="sig-name descname"><span class="pre">s3_alignment_file</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.s3_alignment_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>S3 path to the alignment file for this tiltseries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.s3_angle_list">
+<span class="sig-name descname"><span class="pre">s3_angle_list</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.s3_angle_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>S3 path to the angle list file for this tiltseries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.s3_collection_metadata">
+<span class="sig-name descname"><span class="pre">s3_collection_metadata</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.s3_collection_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>S3 path to the collection metadata file for this tiltseries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.s3_mrc_bin1">
+<span class="sig-name descname"><span class="pre">s3_mrc_bin1</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.s3_mrc_bin1" title="Permalink to this definition">¶</a></dt>
+<dd><p>S3 path to this tiltseries in MRC format (no scaling)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.s3_mrc_bin2">
+<span class="sig-name descname"><span class="pre">s3_mrc_bin2</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.s3_mrc_bin2" title="Permalink to this definition">¶</a></dt>
+<dd><p>S3 path to this tiltseries in MRC format (downscaled to 50%)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.s3_mrc_bin4">
+<span class="sig-name descname"><span class="pre">s3_mrc_bin4</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.s3_mrc_bin4" title="Permalink to this definition">¶</a></dt>
+<dd><p>S3 path to this tiltseries in MRC format (downscaled to 25%)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.s3_omezarr_dir">
+<span class="sig-name descname"><span class="pre">s3_omezarr_dir</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.s3_omezarr_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>S3 path to the this multiscale omezarr tiltseries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.download_alignment_file">
 <span class="sig-name descname"><span class="pre">download_alignment_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.download_alignment_file" title="Permalink to this definition">¶</a></dt>
