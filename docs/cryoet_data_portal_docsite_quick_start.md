@@ -56,16 +56,20 @@ for tomo in tomos:
 
 Downloads display a progress bar by default:
 
-```bash
-TS_026
-Downloading https://files.cryoetdataportal.cziscience.com/10000/TS_026/Tomograms/CanonicalTomogram/TS_026_bin4.mrc to /Users/yourusername/path/to/TS_026_bin4.mrc
+```
+Position_128_2
+{
+    "id": 21,
+    "dataset_id": 10004,
+    "run_id": 21,
+    "name": "Position_128_2",
+    <truncated>
+}
+Downloading https://files.cryoetdataportal.cziscience.com/10004/Position_128_2/Tomograms/CanonicalTomogram/Position_128_2_bin4.mrc to /Users/yourusername/path/to/Position_128_2_bin4.mrc
 100%|████████████████████████████████████████████████████████████████| 55.7M/55.7M [00:01<00:00, 30.6MiB/s]
-TS_027
-Downloading https://files.cryoetdataportal.cziscience.com/10000/TS_027/Tomograms/CanonicalTomogram/TS_027_bin4.mrc to /Users/yourusername/path/to/TS_027_bin4.mrc
-100%|████████████████████████████████████████████████████████████████| 27.8M/27.8M [00:01<00:00, 25.4MiB/s]
-TS_028
-Downloading https://files.cryoetdataportal.cziscience.com/10000/TS_028/Tomograms/CanonicalTomogram/TS_028_bin4.mrc to /Users/yourusername/path/to/TS_028_bin4.mrc
-100%|████████████████████████████████████████████████████████████████| 27.8M/27.8M [00:01<00:00, 26.1MiB/s]
+Position_129_2
+{
+... more output ...
 ```
 
 ### Filtering by properties on related objects:
