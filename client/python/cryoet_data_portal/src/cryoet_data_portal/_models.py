@@ -3,16 +3,8 @@ from datetime import date
 from typing import Iterable, Optional
 
 from ._file_tools import download_directory, download_https
-from ._gql_base import (
-    BooleanField,
-    DateField,
-    FloatField,
-    IntField,
-    ItemRelationship,
-    ListRelationship,
-    Model,
-    StringField,
-)
+from ._gql_base import (BooleanField, DateField, FloatField, IntField,
+                        ItemRelationship, ListRelationship, Model, StringField)
 
 
 class Dataset(Model):
@@ -21,9 +13,9 @@ class Dataset(Model):
     Attributes:
         id (int): An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
         authors (List[DatasetAuthor]): An array relationship with DatasetAuthor
-        cell_line_name (str): Cell line or strain for the sample.
-        cell_line_source (str): Name of the company from which the sample is sourced from.
         cell_name (str): Name of the cell from which a biological sample used in a CryoET study is derived from.
+        cell_strain_id (str): Link to more information about the cell strain
+        cell_strain_name (str): Cell line or strain for the sample.
         cell_type_id (str): Cell Ontology identifier for the cell type
         dataset_citations (str): DOIs for publications that cite the dataset. Use a comma to separate multiple DOIs.
         dataset_publications (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
@@ -46,7 +38,6 @@ class Dataset(Model):
         tissue_id (str): UBERON identifier for the tissue
         tissue_name (str): Name of the tissue from which a biological sample used in a CryoET study is derived from.
         title (str): Title of a CryoET dataset
-        tomograms (list[Tomogram]): An array relationship with Tomogram
     """
 
     _gql_type = "datasets"
@@ -68,15 +59,14 @@ class Dataset(Model):
     tissue_id: str = StringField()
     cell_name: str = StringField()
     cell_type_id: str = StringField()
-    cell_line_name: str = StringField()
-    cell_line_source: str = StringField()
+    cell_strain_name: str = StringField()
+    cell_strain_id: str = StringField()
     sample_preparation: str = StringField()
     grid_preparation: str = StringField()
     other_setup: str = StringField()
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
 
-    tomograms: Iterable["Tomogram"] = ListRelationship("Tomogram", "id", "dataset_id")
     runs: Iterable["Run"] = ListRelationship("Run", "id", "dataset_id")
     authors: Iterable["DatasetAuthor"] = ListRelationship("DatasetAuthor", "id", "dataset_id")
     funding_sources: Iterable["DatasetFunding"] = ListRelationship("DatasetFunding", "id", "dataset_id")
@@ -99,6 +89,7 @@ class DatasetAuthor(Model):
         affiliation_address (str): Address of the institution an author is affiliated with.
         affiliation_identifier (str):  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
         affiliation_name (str): Name of the institutions an author is affiliated with. Comma separated
+        primary_author_status (bool): Indicating whether an annotator is the main person executing the annotation, especially on manual annotation
         corresponding_author_status (bool):Indicating whether an author is the corresponding author
         dataset (Dataset): An object relationship with the dataset this author correspods to
         dataset_id (int): Numeric identifier for the dataset this author corresponds to
@@ -116,6 +107,7 @@ class DatasetAuthor(Model):
     orcid: str = StringField()
     name: str = StringField()
     corresponding_author_status: int = BooleanField()
+    primary_author_status: int = BooleanField()
     email: str = StringField()
     affiliation_name: str = StringField()
     affiliation_address: str = StringField()
@@ -148,35 +140,13 @@ class Run(Model):
 
     Attributes:
         id (int): Numeric identifier (May change!)
-        acceleration_voltage (int): Electron Microscope Accelerator voltage in volts
-        annotations (list[Annotation]): An array relationship with the annotations associated with this run
-        binning_from_frames (float): Describes the binning factor from frames to tilt series file
-        camera_manufacturer: (str): Name of the camera manufacturer
-        camera_model (str): Camera model name
-        data_acquisition_software: (str): Software used to collect data
         dataset (Dataset): An object relationship with the dataset this run is a part of
         dataset_id (int): Reference to the dataset this run is a part of
+        name (str): Short name for the experiment run
         https_prefix (str): The HTTPS directory path where this dataset is contained
-        microscope_additional_info (str):  Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
-        microscope_energy_filter: (str): Energy filter setup used
-        microscope_image_corrector (str): Image corrector setup
-        microscope_manufacturer (str): Name of the microscope manufacturer
-        microscope_model (str): Microscope model name
-        microscope_phase_plate (str): Phase plate configuration
-        name (str): Short name for the tilt series
-        related_empiar_entry (str):  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
         s3_prefix (str): The S3 public bucket path where this dataset is contained
-        spherical_aberration_constant (float): Spherical Aberration Constant of the objective lens in millimeters
-        tilt_axis (float): Rotation angle in degrees
-        tilt_max (float): Maximal tilt angle in degrees
-        tilt_min (float): Minimal tilt angle in degrees
-        tilt_range (float): Total tilt range in degrees
-        tilt_series_quality (int): Author assessment of tilt series quality within the dataset (1-5, 5 is best)
-        tilt_step (float): Tilt step in degrees
-        tilting_scheme (str): The order of stage tilting during acquisition of the data
         tiltseries (list[TiltSeries]): An array relationship with TiltSeries that correspond to this run
-        tomograms (list[Tomogram]): An array relationship with Tomograms that correspond to this run
-        total_flux (float): Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+        tomogram_voxel_spacings (list[TomogramVoxelSpacing]): An array relationship with the Tomogram Voxel Spacings created from this run
     """
 
     _gql_type = "runs"
@@ -186,33 +156,50 @@ class Run(Model):
     id: int = IntField()
     dataset_id: int = IntField()
     name: str = StringField()
-    acceleration_voltage: int = IntField()
-    spherical_aberration_constant: float = FloatField()
-    microscope_manufacturer: str = StringField()
-    microscope_model: str = StringField()
-    microscope_energy_filter: str = StringField()
-    microscope_phase_plate: str = StringField()
-    microscope_image_corrector: str = StringField()
-    microscope_additional_info: str = StringField()
-    camera_manufacturer: str = StringField()
-    camera_model: str = StringField()
-    tilt_min: float = FloatField()
-    tilt_max: float = FloatField()
-    tilt_range: float = FloatField()
-    tilt_step: float = FloatField()
-    tilting_scheme: str = StringField()
-    tilt_axis: float = FloatField()
-    total_flux: float = FloatField()
-    data_acquisition_software: float = FloatField()
-    related_empiar_entry: str = StringField()
-    binning_from_frames: float = FloatField()
-    tilt_series_quality: int = IntField()
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
 
-    tomograms: Iterable["Tomogram"] = ListRelationship("Tomogram", "id", "run_id")
-    annotations: Iterable["Annotation"] = ListRelationship("Annotation", "id", "run_id")
+    tomogram_voxel_spacings: Iterable["TomogramVoxelSpacing"] = ListRelationship("TomogramVoxelSpacing", "id", "run_id")
     tiltseries: Iterable["TiltSeries"] = ListRelationship("TiltSeries", "id", "run_id")
+
+    def download_everything(self, dest_path: Optional[str] = None):
+        """Download all of the data for this run.
+
+        Args:
+            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+        """
+        download_directory(self.s3_prefix, self.dataset.s3_prefix, dest_path)
+
+    def download_frames(self, dest_path: Optional[str] = None):
+        download_directory(os.path.join(self.s3_prefix, "Frames"), self.dataset.s3_prefix)
+
+
+class TomogramVoxelSpacing(Model):
+    """Metadata for a set of tomograms of a given voxel spacing
+
+    Attributes:
+        id (int): Numeric identifier (May change!)
+        annotations (list[Annotation]): An array relationship with the annotations associated with this voxel spacing
+        https_prefix (str): The HTTPS directory path where this dataset is contained
+        run (Run): An object relationship with the run this voxel spacing is a part of
+        run_id (int): Reference to the dataset this run is a part of
+        s3_prefix (str): The S3 public bucket path where this dataset is contained
+        tomograms (list[Tomogram]): An array relationship with Tomograms of this voxel spacing
+        voxel_spacing (float): The voxel spacing for the tomograms in this set
+    """
+
+    _gql_type = "tomogram_voxel_spacings"
+
+    run: Run = ItemRelationship(Run, "run_id", "id")
+
+    id: int = IntField()
+    run_id: int = IntField()
+    voxel_spacing: float = FloatField()
+    s3_prefix: str = StringField()
+    https_prefix: str = StringField()
+
+    tomograms: Iterable["Tomogram"] = ListRelationship("Tomogram", "id", "tomogram_voxel_spacing_id")
+    annotations: Iterable["Annotation"] = ListRelationship("Annotation", "id", "tomogram_voxel_spacing_id")
 
     def download_everything(self, dest_path: Optional[str] = None):
         """Download all of the data for this run.
@@ -245,8 +232,6 @@ class Tomogram(Model):
         processing_software (str): Processing software used to derive the tomogram
         reconstruction_method (str):Describe reconstruction method (Weighted backprojection, SART, SIRT)
         reconstruction_software (str):Name of software used for reconstruction
-        run (Run): An object relationship with the run this tomogram is a part of
-        run_id (int): Reference to the run this tomogram is a part of
         s3_mrc_scale1 (str):S3 path to this tomogram in MRC format (downscaled to 50%)
         s3_mrc_scale2 (str):S3 path to this tomogram in MRC format (downscaled to 25%)
         s3_mrc_scale0 (str):S3 path to this tomogram in MRC format (no scaling)
@@ -258,22 +243,22 @@ class Tomogram(Model):
         size_y (int): Number of pixels in the 3D data medium axis
         size_z (int):  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
         tomogram_version (str): Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
+        tomogram_voxel_spacing (TomogramVoxelSpacing): An object relationship with a specific voxel spacing for this experiment run
         voxel_spacing (float): Voxel spacing equal in all three axes in angstroms
     """
 
     _gql_type = "tomograms"
 
-    dataset: Dataset = ItemRelationship(Dataset, "dataset_id", "id")
-    run: Run = ItemRelationship(Run, "run_id", "id")
+    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(
+        TomogramVoxelSpacing, "tomogram_voxel_spacing_id", "id"
+    )
 
     id: int = IntField()
-    dataset_id: int = IntField()
-    run_id: int = IntField()
+    tomogram_voxel_spacing_id: int = IntField()
     name: str = StringField()
     size_x: int = IntField()
     size_y: int = IntField()
     size_z: int = IntField()
-    voxel_spacing: float = FloatField()
     fiducial_alignment_status: str = StringField()
     reconstruction_method: str = StringField()
     reconstruction_software: str = StringField()
@@ -293,6 +278,7 @@ class Tomogram(Model):
     scale1_dimensions: str = StringField()
     scale2_dimensions: str = StringField()
     ctf_corrected: int = BooleanField()
+    voxel_spacing: float = FloatField()
 
     def download_omezarr(self, dest_path: Optional[str] = None):
         """Download the omezarr version of this tomogram
@@ -325,6 +311,7 @@ class Annotation(Model):
         id (int): Numeric identifier (May change!)
         annotation_method (str): Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
         annotation_publication (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
+        annotation_software (str): Software used for generating this annotation
         authors (list[Author]): An array relationship with the authors of this annotation
         confidence_precision (float): Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
         confidence_recall (float): Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
@@ -343,8 +330,8 @@ class Annotation(Model):
         object_weight (float): Molecular weight of the annotation object, in Dalton
         object_width (float): Average width of the annotation object in Angstroms; applicable if the object shape is line
         release_date (date): Date when annotation data is made public by the Data Portal.
-        run (Run): An object relationship with the run this annotation is a part of
-        run_id (int): Reference to the run these annotations are a part of
+        tomogram_voxel_spacing (TomogramVoxelSpacing): An object relationship with a specific voxel spacing for this annotation
+        tomogram_voxel_spacing_id (int): Reference to the tomogram voxel spacing group this annotation applies to
         s3_annotations_path (str): S3 path for the annotations file for these annotations
         s3_metadata_path (str): S3 path for the metadata json file for this annotation
         shape_type (str): The format are the individual annotations are stored in
@@ -352,10 +339,12 @@ class Annotation(Model):
 
     _gql_type = "annotations"
 
-    run: Run = ItemRelationship(Run, "run_id", "id")
+    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(
+        TomogramVoxelSpacing, "tomogram_voxel_spacing_id", "id"
+    )
 
     id: int = IntField()
-    run_id: int = IntField()
+    tomogram_voxel_spacing_id: int = IntField()
     s3_metadata_path: str = StringField()
     https_metadata_path: str = StringField()
     s3_annotations_path: str = StringField()
@@ -365,6 +354,7 @@ class Annotation(Model):
     last_modified_date: date = DateField()
     annotation_publication: str = StringField()
     annotation_method: str = StringField()
+    annotation_software: str = StringField()
     ground_truth_status: int = BooleanField()
     object_name: str = StringField()
     object_id: str = StringField()
@@ -420,10 +410,17 @@ class AnnotationAuthor(Model):
 
 
 class TiltSeries(Model):
-    """File locations for key files in a run's TiltSeries
+    """Metadata about how a tilt series was generated, and locations of output files
 
     Attributes:
         id (int): Numeric identifier for this tilt series (this may change!)
+        run (Run): An object relationship with the run this tiltseries is a part of
+        run_id (int): Reference to the run this tiltseries is a part of
+        acceleration_voltage (int): Electron Microscope Accelerator voltage in volts
+        binning_from_frames (float): Describes the binning factor from frames to tilt series file
+        camera_manufacturer: (str): Name of the camera manufacturer
+        camera_model (str): Camera model name
+        data_acquisition_software: (str): Software used to collect data
         https_alignment_file (str): HTTPS path to the alignment file for this tiltseries
         https_angle_list (str): HTTPS path to the angle list file for this tiltseries
         https_collection_metadata (str): HTTPS path to the collection metadata file for this tiltseries
@@ -431,8 +428,13 @@ class TiltSeries(Model):
         https_mrc_bin2 (str): HTTPS path to this tiltseries in MRC format (downscaled to 50%)
         https_mrc_bin4 (str): HTTPS path to this tiltseries in MRC format (downscaled to 25%)
         https_omezarr_dir (str): HTTPS path to the this multiscale omezarr tiltseries
-        run (Run): An object relationship with the run this tiltseries is a part of
-        run_id (int): Reference to the run this tiltseries is a part of
+        microscope_additional_info (str):  Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
+        microscope_energy_filter: (str): Energy filter setup used
+        microscope_image_corrector (str): Image corrector setup
+        microscope_manufacturer (str): Name of the microscope manufacturer
+        microscope_model (str): Microscope model name
+        microscope_phase_plate (str): Phase plate configuration
+        related_empiar_entry (str):  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
         s3_alignment_file (str): S3 path to the alignment file for this tiltseries
         s3_angle_list (str): S3 path to the angle list file for this tiltseries
         s3_collection_metadata (str): S3 path to the collection metadata file for this tiltseries
@@ -440,6 +442,15 @@ class TiltSeries(Model):
         s3_mrc_bin2 (str): S3 path to this tiltseries in MRC format (downscaled to 50%)
         s3_mrc_bin4 (str): S3 path to this tiltseries in MRC format (downscaled to 25%)
         s3_omezarr_dir (str): S3 path to the this multiscale omezarr tiltseries
+        spherical_aberration_constant (float): Spherical Aberration Constant of the objective lens in millimeters
+        tilt_axis (float): Rotation angle in degrees
+        tilt_max (float): Maximal tilt angle in degrees
+        tilt_min (float): Minimal tilt angle in degrees
+        tilt_range (float): Total tilt range in degrees
+        tilt_series_quality (int): Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+        tilt_step (float): Tilt step in degrees
+        tilting_scheme (str): The order of stage tilting during acquisition of the data
+        total_flux (float): Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
     """
 
     _gql_type = "tiltseries"
@@ -462,6 +473,27 @@ class TiltSeries(Model):
     https_angle_list: str = StringField()
     s3_alignment_file: str = StringField()
     https_alignment_file: str = StringField()
+    acceleration_voltage: int = IntField()
+    spherical_aberration_constant: float = FloatField()
+    microscope_manufacturer: str = StringField()
+    microscope_model: str = StringField()
+    microscope_energy_filter: str = StringField()
+    microscope_phase_plate: str = StringField()
+    microscope_image_corrector: str = StringField()
+    microscope_additional_info: str = StringField()
+    camera_manufacturer: str = StringField()
+    camera_model: str = StringField()
+    tilt_min: float = FloatField()
+    tilt_max: float = FloatField()
+    tilt_range: float = FloatField()
+    tilt_step: float = FloatField()
+    tilting_scheme: str = StringField()
+    tilt_axis: float = FloatField()
+    total_flux: float = FloatField()
+    data_acquisition_software: float = FloatField()
+    related_empiar_entry: str = StringField()
+    binning_from_frames: float = FloatField()
+    tilt_series_quality: int = IntField()
 
     def download_collection_metadata(self, dest_path: Optional[str] = None):
         """Download the collection metadata for this tiltseries
@@ -520,3 +552,4 @@ Tomogram.setup()
 Annotation.setup()
 AnnotationAuthor.setup()
 TiltSeries.setup()
+TomogramVoxelSpacing.setup()
