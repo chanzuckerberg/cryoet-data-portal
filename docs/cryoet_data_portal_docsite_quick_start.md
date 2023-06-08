@@ -42,16 +42,20 @@ for dataset in Dataset.find(client):
     print(f"Dataset: {dataset.title}")
     for run in dataset.runs:
         print(f"  - run: {run.name}")
-        for tomo in run.tomograms:
-            print(f"    - tomo: {tomo.name}")
+        for tvs in run.tomogram_voxel_spacings:
+            print(f"    - voxel spacing: {tvs.voxel_spacing}")
+            for tomo in tvs.tomograms:
+                print(f"        - tomo: {tomo.name}")
+
 ```
 
 And outputs the name of each object:
 
 ```
-Dataset: Fatty acid synthase (FAS) in S. pombe cells
+Dataset: S. pombe cells with defocus
   - run: TS_026
-    - tomo: TS_026
+    - voxel spacing: 13.48
+        - tomo: TS_026
 ...
 ```
 
@@ -61,6 +65,7 @@ The following iterates over all tomograms related to a specific organism and dow
 
 ```python
 import json
+
 from cryoet_data_portal import Client, Tomogram
 
 # Instantiate a client, using the data portal GraphQL API by default
@@ -68,7 +73,11 @@ client = Client()
 
 # Find all tomograms related to a specific organism
 tomos = Tomogram.find(
-    client, [Tomogram.dataset.organism_name == "Caenorhabditis elegans"]
+    client,
+    [
+        Tomogram.tomogram_voxel_spacing.run.dataset.organism_name
+        == "Schizosaccharomyces pombe"
+    ],
 )
 for tomo in tomos:
     # Access any useful metadata for each tomogram
@@ -79,68 +88,58 @@ for tomo in tomos:
 
     # Download a 25% size preview image (uncomment to actually download files)
     # tomo.download_mrcfile(binning=4)
-
 ```
 
 Downloads display a progress bar by default:
 
 ```
-Position_128_2
+TS_026
 {
-    "id": 21,
-    "dataset_id": 10004,
-    "run_id": 21,
-    "name": "Position_128_2",
-    <truncated>
-}
-Downloading https://files.cryoetdataportal.cziscience.com/10004/Position_128_2/Tomograms/CanonicalTomogram/Position_128_2_bin4.mrc to /Users/yourusername/path/to/Position_128_2_bin4.mrc
-100%|████████████████████████████████████████████████████████████████| 55.7M/55.7M [00:01<00:00, 30.6MiB/s]
-Position_129_2
-{
+    "id": 121,
+    "tomogram_voxel_spacing_id": 1,
+    "name": "TS_026",
 ... more output ...
 ```
 
 ### Open a tomogram in Napari
 
-The following finds all runs with a particular annotator and minimum tomogram size, and opens the first one in Napari.
+The following finds all tomograms with a particular annotator and minimum tomogram size, and opens the first one in Napari.
 
 - [https://napari.org/stable/tutorials/fundamentals/installation.html](click here).
 
 For more information on how to install Napari, [click here](https://napari.org/stable/tutorials/fundamentals/installation.html).
 
 ```python
-from cryoet_data_portal import Client, Run
 import napari
 
+from cryoet_data_portal import Client, Tomogram
 
 client = Client()
 
-# Find all runs with annotations by Florian Beck and at least 300 voxels
+# Find all tomograms with annotations by Sara Goetz and at least 300 voxels
 # in the Z dimension
-runs = Run.find(
+tomograms = Tomogram.find(
     client,
     [
-        Run.annotations.authors.name._in(["Florian Beck"]),
-        Run.tomograms.size_z > 300,
+        Tomogram.tomogram_voxel_spacing.annotations.authors.name._in(["Sara Goetz"]),
+        Tomogram.size_z > 300,
     ],
 )
 
-for run in runs:
-    print(run.name)
-    # Open the omezarr for the first tomogram in this run in napari
-    for tomo in run.tomograms:
-        url = tomo.https_omezarr_dir
-        
-        viewer = napari.Viewer()
-        viewer.open(url, plugin="napari-ome-zarr")
-        break
+for tomo in tomograms:
+    print(tomo.name)
+    print(tomo.size_z)
+    url = tomo.https_omezarr_dir
+
+    viewer = napari.Viewer()
+    viewer.open(url, plugin="napari-ome-zarr")
     break
 
-    
 ```
 
-Napari will open omezarr tomograms after printing the run name
+Napari will open omezarr tomograms after printing the run name and z-size
 
 ``` bash
-Position_128_2
+TS_026
+1000
 ```

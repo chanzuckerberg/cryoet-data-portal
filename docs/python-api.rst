@@ -10,7 +10,7 @@ If you prefer to query our API endpoint directly, it's available at `https://gra
 A simplified diagram of the graph data model is below:
 
 .. image:: _static/img/data_model.png
-  :width: 800
+  :width: 1000
   :alt: Simplified data model
 
 Client
@@ -40,6 +40,12 @@ DatasetFunding
 Run
 --------------
 .. autoclass:: cryoet_data_portal.Run
+   :members:
+   :inherited-members:
+
+TomogramVoxelSpacing
+----------------
+.. autoclass:: cryoet_data_portal.TomogramVoxelSpacing
    :members:
    :inherited-members:
 
