@@ -175,7 +175,7 @@ class Run(Model):
 
 
 class TomogramVoxelSpacing(Model):
-    """Metadata for a set of tomograms of a given voxel spacing
+    """Metadata for a set of tomograms and annotations of a given voxel spacing
 
     Attributes:
         id (int): Numeric identifier (May change!)
@@ -207,10 +207,7 @@ class TomogramVoxelSpacing(Model):
         Args:
             dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
         """
-        download_directory(self.s3_prefix, self.dataset.s3_prefix, dest_path)
-
-    def download_frames(self, dest_path: Optional[str] = None):
-        download_directory(os.path.join(self.s3_prefix, "Frames"), self.dataset.s3_prefix)
+        download_directory(self.s3_prefix, self.run.s3_prefix, dest_path)
 
 
 class Tomogram(Model):
