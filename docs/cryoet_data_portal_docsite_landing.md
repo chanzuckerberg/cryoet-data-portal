@@ -29,7 +29,15 @@ Here is a summary of the datasets that have been provided. A full description ca
 - [File formats](https://docs.google.com/document/d/1YfzaS7spKOQMrBAUIfQquWskijWDUhpEURxW7nkmwaU/edit#?usp=sharing)
 - [napari plugin](https://www.google.com/)
 
+## S3 Bucket Info
+The CryoET Data Portal S3 bucket supports public access. The bucket URL is:
 
+  `s3://cryoet-data-portal-public`
+
+  To list the bucket contents with the S3 CLI without credentials, please use the following:
+
+  `aws s3 ls --no-sign-request s3://cryoet-data-portal-public`
+  
 ## Citing the CryoET Data Portal
  
 Data from the portal must acknowledge the data providers and the original publications as follows (inserting of omitting as needed based on which datasets are used):
