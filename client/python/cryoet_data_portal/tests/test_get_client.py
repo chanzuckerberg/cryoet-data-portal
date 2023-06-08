@@ -8,7 +8,7 @@ def test_get_client() -> None:
     for run in runs:
         run_count += 1
         tomo_count = 0
-        for _ in run.tomograms:
+        for _ in run.tomogram_voxel_spacings:
             tomo_count += 1
         assert tomo_count >= 1
     assert run_count >= 1
