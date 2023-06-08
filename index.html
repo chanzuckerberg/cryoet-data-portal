@@ -94,7 +94,7 @@
                 
                 
                 <div class="version">
-                    1.0.0
+                    0.1.dev1+g453b3a7
                 </div>
                 
             
@@ -218,15 +218,22 @@ Here is a summary of the datasets that have been provided. A full description ca
 <li><p><a class="reference external" href="https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_quick_start.html">Quick Start</a></p></li>
 <li><p><a class="reference external" href="https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html">Python API Client</a></p></li>
 <li><p><a class="reference external" href="https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#?usp=sharing">Metadata and schema</a></p></li>
-<li><p>[File formats] (https://docs.google.com/document/d/1YfzaS7spKOQMrBAUIfQquWskijWDUhpEURxW7nkmwaU/edit#?usp=sharing)</p></li>
+<li><p><a class="reference external" href="https://docs.google.com/document/d/1YfzaS7spKOQMrBAUIfQquWskijWDUhpEURxW7nkmwaU/edit#?usp=sharing">File formats</a></p></li>
 <li><p><a class="reference external" href="https://www.google.com/">napari plugin</a></p></li>
 </ul>
 </section>
 </section>
+<section id="s3-bucket-info">
+<h2>S3 Bucket Info<a class="headerlink" href="#s3-bucket-info" title="Permalink to this heading">¶</a></h2>
+<p>The CryoET Data Portal S3 bucket supports public access. The bucket URL is:</p>
+<p><code class="docutils literal notranslate"><span class="pre">s3://cryoet-data-portal-public</span></code></p>
+<p>To list the bucket contents with the S3 CLI without credentials, please use the following:</p>
+<p><code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">s3</span> <span class="pre">ls</span> <span class="pre">--no-sign-request</span> <span class="pre">s3://cryoet-data-portal-public</span></code></p>
+</section>
 <section id="citing-the-cryoet-data-portal">
 <h2>Citing the CryoET Data Portal<a class="headerlink" href="#citing-the-cryoet-data-portal" title="Permalink to this heading">¶</a></h2>
 <p>Data from the portal must acknowledge the data providers and the original publications as follows (inserting of omitting as needed based on which datasets are used):
-Some of the data used in this work was provided by the group (s) of Julia Mahamid (EMBL)/Juergen Plitzco (MPI). The work is described more fully in the publication:</p>
+Some of the data used in this work was provided by the group (s) of Julia Mahamid (EMBL)/Juergen Plitzko (MPI). The work is described more fully in the publication:</p>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Provider</p></th>
@@ -248,7 +255,7 @@ Some of the data used in this work was provided by the group (s) of Julia Mahami
 </tr>
 </tbody>
 </table>
-<p>Segmentation experts and developers are also encouraged to get in touch with the data providers (Julia Mahamid and Jürgen Plitzco) if they feel they have developed a useful tool that might help to process the entirety of the datasets (which are much larger than the subsets provided for the portal) more efficiently or effectively.</p>
+<p>Segmentation experts and developers are also encouraged to get in touch with the data providers (Julia Mahamid and Jürgen Plitzko) if they feel they have developed a useful tool that might help to process the entirety of the datasets (which are much larger than the subsets provided for the portal) more efficiently or effectively.</p>
 </section>
 <section id="cryoet-data-portal-data-and-schema">
 <h2>CryoET Data Portal Data and Schema<a class="headerlink" href="#cryoet-data-portal-data-and-schema" title="Permalink to this heading">¶</a></h2>
