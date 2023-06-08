@@ -95,7 +95,7 @@
                 
                 
                 <div class="version">
-                    0.0.2
+                    1.0.0
                 </div>
                 
             
@@ -199,14 +199,18 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset: </span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">dataset</span><span class="o">.</span><span class="n">runs</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - run: </span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">tomo</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">tomograms</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - tomo: </span><span class="si">{</span><span class="n">tomo</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">tvs</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - voxel spacing: </span><span class="si">{</span><span class="n">tvs</span><span class="o">.</span><span class="n">voxel_spacing</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">tomo</span> <span class="ow">in</span> <span class="n">tvs</span><span class="o">.</span><span class="n">tomograms</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;        - tomo: </span><span class="si">{</span><span class="n">tomo</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
 </pre></div>
 </div>
 <p>And outputs the name of each object:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Dataset</span><span class="p">:</span> <span class="n">Fatty</span> <span class="n">acid</span> <span class="n">synthase</span> <span class="p">(</span><span class="n">FAS</span><span class="p">)</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span> <span class="n">pombe</span> <span class="n">cells</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Dataset</span><span class="p">:</span> <span class="n">S</span><span class="o">.</span> <span class="n">pombe</span> <span class="n">cells</span> <span class="k">with</span> <span class="n">defocus</span>
   <span class="o">-</span> <span class="n">run</span><span class="p">:</span> <span class="n">TS_026</span>
-    <span class="o">-</span> <span class="n">tomo</span><span class="p">:</span> <span class="n">TS_026</span>
+    <span class="o">-</span> <span class="n">voxel</span> <span class="n">spacing</span><span class="p">:</span> <span class="mf">13.48</span>
+        <span class="o">-</span> <span class="n">tomo</span><span class="p">:</span> <span class="n">TS_026</span>
 <span class="o">...</span>
 </pre></div>
 </div>
@@ -215,6 +219,7 @@
 <h3>Find all tomograms for a certain organism and download preview-sized MRC files:<a class="headerlink" href="#find-all-tomograms-for-a-certain-organism-and-download-preview-sized-mrc-files" title="Permalink to this heading">¶</a></h3>
 <p>The following iterates over all tomograms related to a specific organism and downloads a 25% scale preview tomogram in MRC format for each one.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+
 <span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 
 <span class="c1"># Instantiate a client, using the data portal GraphQL API by default</span>
@@ -222,7 +227,11 @@
 
 <span class="c1"># Find all tomograms related to a specific organism</span>
 <span class="n">tomos</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
-    <span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">organism_name</span> <span class="o">==</span> <span class="s2">&quot;Caenorhabditis elegans&quot;</span><span class="p">]</span>
+    <span class="n">client</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">organism_name</span>
+        <span class="o">==</span> <span class="s2">&quot;Schizosaccharomyces pombe&quot;</span>
+    <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">for</span> <span class="n">tomo</span> <span class="ow">in</span> <span class="n">tomos</span><span class="p">:</span>
     <span class="c1"># Access any useful metadata for each tomogram</span>
@@ -233,65 +242,55 @@
 
     <span class="c1"># Download a 25% size preview image (uncomment to actually download files)</span>
     <span class="c1"># tomo.download_mrcfile(binning=4)</span>
-
 </pre></div>
 </div>
 <p>Downloads display a progress bar by default:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Position_128_2
-{
-    &quot;id&quot;: 21,
-    &quot;dataset_id&quot;: 10004,
-    &quot;run_id&quot;: 21,
-    &quot;name&quot;: &quot;Position_128_2&quot;,
-    &lt;truncated&gt;
-}
-Downloading https://files.cryoetdataportal.cziscience.com/10004/Position_128_2/Tomograms/CanonicalTomogram/Position_128_2_bin4.mrc to /Users/yourusername/path/to/Position_128_2_bin4.mrc
-100%|████████████████████████████████████████████████████████████████| 55.7M/55.7M [00:01&lt;00:00, 30.6MiB/s]
-Position_129_2
-{
-... more output ...
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TS_026</span>
+<span class="p">{</span>
+    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">121</span><span class="p">,</span>
+    <span class="s2">&quot;tomogram_voxel_spacing_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span>
+<span class="o">...</span> <span class="n">more</span> <span class="n">output</span> <span class="o">...</span>
 </pre></div>
 </div>
 </section>
 <section id="open-a-tomogram-in-napari">
 <h3>Open a tomogram in Napari<a class="headerlink" href="#open-a-tomogram-in-napari" title="Permalink to this heading">¶</a></h3>
-<p>The following finds all runs with a particular annotator and minimum tomogram size, and opens the first one in Napari.</p>
+<p>The following finds all tomograms with a particular annotator and minimum tomogram size, and opens the first one in Napari.</p>
 <ul class="simple">
 <li><p>[https://napari.org/stable/tutorials/fundamentals/installation.html](click here).</p></li>
 </ul>
 <p>For more information on how to install Napari, <a class="reference external" href="https://napari.org/stable/tutorials/fundamentals/installation.html">click here</a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Run</span>
-<span class="kn">import</span> <span class="nn">napari</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">napari</span>
 
+<span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 
-<span class="c1"># Find all runs with annotations by Florian Beck and at least 300 voxels</span>
+<span class="c1"># Find all tomograms with annotations by Sara Goetz and at least 300 voxels</span>
 <span class="c1"># in the Z dimension</span>
-<span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
+<span class="n">tomograms</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
     <span class="n">client</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="n">Run</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">authors</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s2">&quot;Florian Beck&quot;</span><span class="p">]),</span>
-        <span class="n">Run</span><span class="o">.</span><span class="n">tomograms</span><span class="o">.</span><span class="n">size_z</span> <span class="o">&gt;</span> <span class="mi">300</span><span class="p">,</span>
+        <span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">authors</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s2">&quot;Sara Goetz&quot;</span><span class="p">]),</span>
+        <span class="n">Tomogram</span><span class="o">.</span><span class="n">size_z</span> <span class="o">&gt;</span> <span class="mi">300</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
 
-<span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-    <span class="c1"># Open the omezarr for the first tomogram in this run in napari</span>
-    <span class="k">for</span> <span class="n">tomo</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">tomograms</span><span class="p">:</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">tomo</span><span class="o">.</span><span class="n">https_omezarr_dir</span>
-        
-        <span class="n">viewer</span> <span class="o">=</span> <span class="n">napari</span><span class="o">.</span><span class="n">Viewer</span><span class="p">()</span>
-        <span class="n">viewer</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="s2">&quot;napari-ome-zarr&quot;</span><span class="p">)</span>
-        <span class="k">break</span>
+<span class="k">for</span> <span class="n">tomo</span> <span class="ow">in</span> <span class="n">tomograms</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tomo</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tomo</span><span class="o">.</span><span class="n">size_z</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">tomo</span><span class="o">.</span><span class="n">https_omezarr_dir</span>
+
+    <span class="n">viewer</span> <span class="o">=</span> <span class="n">napari</span><span class="o">.</span><span class="n">Viewer</span><span class="p">()</span>
+    <span class="n">viewer</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="s2">&quot;napari-ome-zarr&quot;</span><span class="p">)</span>
     <span class="k">break</span>
 
-    
 </pre></div>
 </div>
-<p>Napari will open omezarr tomograms after printing the run name</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Position_128_2
+<p>Napari will open omezarr tomograms after printing the run name and z-size</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>TS_026
+<span class="m">1000</span>
 </pre></div>
 </div>
 </section>

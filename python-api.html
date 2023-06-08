@@ -95,7 +95,7 @@
                 
                 
                 <div class="version">
-                    0.0.2
+                    1.0.0
                 </div>
                 
             
@@ -125,9 +125,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#cryoet_data_portal.Dataset"><code class="docutils literal notranslate"><span class="pre">Dataset</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.id"><code class="docutils literal notranslate"><span class="pre">Dataset.id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.authors"><code class="docutils literal notranslate"><span class="pre">Dataset.authors</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.cell_line_name"><code class="docutils literal notranslate"><span class="pre">Dataset.cell_line_name</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.cell_line_source"><code class="docutils literal notranslate"><span class="pre">Dataset.cell_line_source</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.cell_name"><code class="docutils literal notranslate"><span class="pre">Dataset.cell_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.cell_strain_id"><code class="docutils literal notranslate"><span class="pre">Dataset.cell_strain_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.cell_strain_name"><code class="docutils literal notranslate"><span class="pre">Dataset.cell_strain_name</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.cell_type_id"><code class="docutils literal notranslate"><span class="pre">Dataset.cell_type_id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.dataset_citations"><code class="docutils literal notranslate"><span class="pre">Dataset.dataset_citations</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.dataset_publications"><code class="docutils literal notranslate"><span class="pre">Dataset.dataset_publications</span></code></a></li>
@@ -150,7 +150,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.tissue_id"><code class="docutils literal notranslate"><span class="pre">Dataset.tissue_id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.tissue_name"><code class="docutils literal notranslate"><span class="pre">Dataset.tissue_name</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.title"><code class="docutils literal notranslate"><span class="pre">Dataset.title</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.tomograms"><code class="docutils literal notranslate"><span class="pre">Dataset.tomograms</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.download_everything"><code class="docutils literal notranslate"><span class="pre">Dataset.download_everything()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.find"><code class="docutils literal notranslate"><span class="pre">Dataset.find()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Dataset.get_by_id"><code class="docutils literal notranslate"><span class="pre">Dataset.get_by_id()</span></code></a></li>
@@ -165,6 +164,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.DatasetAuthor.affiliation_address"><code class="docutils literal notranslate"><span class="pre">DatasetAuthor.affiliation_address</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.DatasetAuthor.affiliation_identifier"><code class="docutils literal notranslate"><span class="pre">DatasetAuthor.affiliation_identifier</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.DatasetAuthor.affiliation_name"><code class="docutils literal notranslate"><span class="pre">DatasetAuthor.affiliation_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.DatasetAuthor.primary_author_status"><code class="docutils literal notranslate"><span class="pre">DatasetAuthor.primary_author_status</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.DatasetAuthor.corresponding_author_status"><code class="docutils literal notranslate"><span class="pre">DatasetAuthor.corresponding_author_status</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.DatasetAuthor.dataset"><code class="docutils literal notranslate"><span class="pre">DatasetAuthor.dataset</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.DatasetAuthor.dataset_id"><code class="docutils literal notranslate"><span class="pre">DatasetAuthor.dataset_id</span></code></a></li>
@@ -195,39 +195,35 @@
 <li class="toctree-l2"><a class="reference internal" href="#run">Run</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#cryoet_data_portal.Run"><code class="docutils literal notranslate"><span class="pre">Run</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.id"><code class="docutils literal notranslate"><span class="pre">Run.id</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.acceleration_voltage"><code class="docutils literal notranslate"><span class="pre">Run.acceleration_voltage</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.annotations"><code class="docutils literal notranslate"><span class="pre">Run.annotations</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.binning_from_frames"><code class="docutils literal notranslate"><span class="pre">Run.binning_from_frames</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.camera_manufacturer"><code class="docutils literal notranslate"><span class="pre">Run.camera_manufacturer</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.camera_model"><code class="docutils literal notranslate"><span class="pre">Run.camera_model</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.data_acquisition_software"><code class="docutils literal notranslate"><span class="pre">Run.data_acquisition_software</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.dataset"><code class="docutils literal notranslate"><span class="pre">Run.dataset</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.dataset_id"><code class="docutils literal notranslate"><span class="pre">Run.dataset_id</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.https_prefix"><code class="docutils literal notranslate"><span class="pre">Run.https_prefix</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.microscope_additional_info"><code class="docutils literal notranslate"><span class="pre">Run.microscope_additional_info</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.microscope_energy_filter"><code class="docutils literal notranslate"><span class="pre">Run.microscope_energy_filter</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.microscope_image_corrector"><code class="docutils literal notranslate"><span class="pre">Run.microscope_image_corrector</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.microscope_manufacturer"><code class="docutils literal notranslate"><span class="pre">Run.microscope_manufacturer</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.microscope_model"><code class="docutils literal notranslate"><span class="pre">Run.microscope_model</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.microscope_phase_plate"><code class="docutils literal notranslate"><span class="pre">Run.microscope_phase_plate</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.name"><code class="docutils literal notranslate"><span class="pre">Run.name</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.related_empiar_entry"><code class="docutils literal notranslate"><span class="pre">Run.related_empiar_entry</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.https_prefix"><code class="docutils literal notranslate"><span class="pre">Run.https_prefix</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.s3_prefix"><code class="docutils literal notranslate"><span class="pre">Run.s3_prefix</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.spherical_aberration_constant"><code class="docutils literal notranslate"><span class="pre">Run.spherical_aberration_constant</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.tilt_axis"><code class="docutils literal notranslate"><span class="pre">Run.tilt_axis</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.tilt_max"><code class="docutils literal notranslate"><span class="pre">Run.tilt_max</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.tilt_min"><code class="docutils literal notranslate"><span class="pre">Run.tilt_min</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.tilt_range"><code class="docutils literal notranslate"><span class="pre">Run.tilt_range</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.tilt_series_quality"><code class="docutils literal notranslate"><span class="pre">Run.tilt_series_quality</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.tilt_step"><code class="docutils literal notranslate"><span class="pre">Run.tilt_step</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.tilting_scheme"><code class="docutils literal notranslate"><span class="pre">Run.tilting_scheme</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.tiltseries"><code class="docutils literal notranslate"><span class="pre">Run.tiltseries</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.tomograms"><code class="docutils literal notranslate"><span class="pre">Run.tomograms</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.total_flux"><code class="docutils literal notranslate"><span class="pre">Run.total_flux</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.tomogram_voxel_spacings"><code class="docutils literal notranslate"><span class="pre">Run.tomogram_voxel_spacings</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.download_everything"><code class="docutils literal notranslate"><span class="pre">Run.download_everything()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.find"><code class="docutils literal notranslate"><span class="pre">Run.find()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.get_by_id"><code class="docutils literal notranslate"><span class="pre">Run.get_by_id()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Run.to_dict"><code class="docutils literal notranslate"><span class="pre">Run.to_dict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tomogramvoxelspacing">TomogramVoxelSpacing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing"><code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.id"><code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.annotations"><code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing.annotations</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.https_prefix"><code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing.https_prefix</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.run"><code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing.run</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.run_id"><code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing.run_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.s3_prefix"><code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing.s3_prefix</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.tomograms"><code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing.tomograms</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.voxel_spacing"><code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing.voxel_spacing</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.download_everything"><code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing.download_everything()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.find"><code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing.find()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.get_by_id"><code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing.get_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.to_dict"><code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing.to_dict()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -249,8 +245,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.processing_software"><code class="docutils literal notranslate"><span class="pre">Tomogram.processing_software</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.reconstruction_method"><code class="docutils literal notranslate"><span class="pre">Tomogram.reconstruction_method</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.reconstruction_software"><code class="docutils literal notranslate"><span class="pre">Tomogram.reconstruction_software</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.run"><code class="docutils literal notranslate"><span class="pre">Tomogram.run</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.run_id"><code class="docutils literal notranslate"><span class="pre">Tomogram.run_id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.s3_mrc_scale1"><code class="docutils literal notranslate"><span class="pre">Tomogram.s3_mrc_scale1</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.s3_mrc_scale2"><code class="docutils literal notranslate"><span class="pre">Tomogram.s3_mrc_scale2</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.s3_mrc_scale0"><code class="docutils literal notranslate"><span class="pre">Tomogram.s3_mrc_scale0</span></code></a></li>
@@ -262,6 +256,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.size_y"><code class="docutils literal notranslate"><span class="pre">Tomogram.size_y</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.size_z"><code class="docutils literal notranslate"><span class="pre">Tomogram.size_z</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.tomogram_version"><code class="docutils literal notranslate"><span class="pre">Tomogram.tomogram_version</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.tomogram_voxel_spacing"><code class="docutils literal notranslate"><span class="pre">Tomogram.tomogram_voxel_spacing</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.voxel_spacing"><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.download_mrcfile"><code class="docutils literal notranslate"><span class="pre">Tomogram.download_mrcfile()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.download_omezarr"><code class="docutils literal notranslate"><span class="pre">Tomogram.download_omezarr()</span></code></a></li>
@@ -277,6 +272,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.id"><code class="docutils literal notranslate"><span class="pre">Annotation.id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.annotation_method"><code class="docutils literal notranslate"><span class="pre">Annotation.annotation_method</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.annotation_publication"><code class="docutils literal notranslate"><span class="pre">Annotation.annotation_publication</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.annotation_software"><code class="docutils literal notranslate"><span class="pre">Annotation.annotation_software</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.authors"><code class="docutils literal notranslate"><span class="pre">Annotation.authors</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.confidence_precision"><code class="docutils literal notranslate"><span class="pre">Annotation.confidence_precision</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.confidence_recall"><code class="docutils literal notranslate"><span class="pre">Annotation.confidence_recall</span></code></a></li>
@@ -295,8 +291,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.object_weight"><code class="docutils literal notranslate"><span class="pre">Annotation.object_weight</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.object_width"><code class="docutils literal notranslate"><span class="pre">Annotation.object_width</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.release_date"><code class="docutils literal notranslate"><span class="pre">Annotation.release_date</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.run"><code class="docutils literal notranslate"><span class="pre">Annotation.run</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.run_id"><code class="docutils literal notranslate"><span class="pre">Annotation.run_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.tomogram_voxel_spacing"><code class="docutils literal notranslate"><span class="pre">Annotation.tomogram_voxel_spacing</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.tomogram_voxel_spacing_id"><code class="docutils literal notranslate"><span class="pre">Annotation.tomogram_voxel_spacing_id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.s3_annotations_path"><code class="docutils literal notranslate"><span class="pre">Annotation.s3_annotations_path</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.s3_metadata_path"><code class="docutils literal notranslate"><span class="pre">Annotation.s3_metadata_path</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.shape_type"><code class="docutils literal notranslate"><span class="pre">Annotation.shape_type</span></code></a></li>
@@ -330,6 +326,13 @@
 <li class="toctree-l2"><a class="reference internal" href="#tiltseries">TiltSeries</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#cryoet_data_portal.TiltSeries"><code class="docutils literal notranslate"><span class="pre">TiltSeries</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.id"><code class="docutils literal notranslate"><span class="pre">TiltSeries.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.run"><code class="docutils literal notranslate"><span class="pre">TiltSeries.run</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.run_id"><code class="docutils literal notranslate"><span class="pre">TiltSeries.run_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.acceleration_voltage"><code class="docutils literal notranslate"><span class="pre">TiltSeries.acceleration_voltage</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.binning_from_frames"><code class="docutils literal notranslate"><span class="pre">TiltSeries.binning_from_frames</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.camera_manufacturer"><code class="docutils literal notranslate"><span class="pre">TiltSeries.camera_manufacturer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.camera_model"><code class="docutils literal notranslate"><span class="pre">TiltSeries.camera_model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.data_acquisition_software"><code class="docutils literal notranslate"><span class="pre">TiltSeries.data_acquisition_software</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.https_alignment_file"><code class="docutils literal notranslate"><span class="pre">TiltSeries.https_alignment_file</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.https_angle_list"><code class="docutils literal notranslate"><span class="pre">TiltSeries.https_angle_list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.https_collection_metadata"><code class="docutils literal notranslate"><span class="pre">TiltSeries.https_collection_metadata</span></code></a></li>
@@ -337,8 +340,13 @@
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.https_mrc_bin2"><code class="docutils literal notranslate"><span class="pre">TiltSeries.https_mrc_bin2</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.https_mrc_bin4"><code class="docutils literal notranslate"><span class="pre">TiltSeries.https_mrc_bin4</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.https_omezarr_dir"><code class="docutils literal notranslate"><span class="pre">TiltSeries.https_omezarr_dir</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.run"><code class="docutils literal notranslate"><span class="pre">TiltSeries.run</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.run_id"><code class="docutils literal notranslate"><span class="pre">TiltSeries.run_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.microscope_additional_info"><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_additional_info</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.microscope_energy_filter"><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_energy_filter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.microscope_image_corrector"><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_image_corrector</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.microscope_manufacturer"><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_manufacturer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.microscope_model"><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.microscope_phase_plate"><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_phase_plate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.related_empiar_entry"><code class="docutils literal notranslate"><span class="pre">TiltSeries.related_empiar_entry</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.s3_alignment_file"><code class="docutils literal notranslate"><span class="pre">TiltSeries.s3_alignment_file</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.s3_angle_list"><code class="docutils literal notranslate"><span class="pre">TiltSeries.s3_angle_list</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.s3_collection_metadata"><code class="docutils literal notranslate"><span class="pre">TiltSeries.s3_collection_metadata</span></code></a></li>
@@ -346,6 +354,15 @@
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.s3_mrc_bin2"><code class="docutils literal notranslate"><span class="pre">TiltSeries.s3_mrc_bin2</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.s3_mrc_bin4"><code class="docutils literal notranslate"><span class="pre">TiltSeries.s3_mrc_bin4</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.s3_omezarr_dir"><code class="docutils literal notranslate"><span class="pre">TiltSeries.s3_omezarr_dir</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.spherical_aberration_constant"><code class="docutils literal notranslate"><span class="pre">TiltSeries.spherical_aberration_constant</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.tilt_axis"><code class="docutils literal notranslate"><span class="pre">TiltSeries.tilt_axis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.tilt_max"><code class="docutils literal notranslate"><span class="pre">TiltSeries.tilt_max</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.tilt_min"><code class="docutils literal notranslate"><span class="pre">TiltSeries.tilt_min</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.tilt_range"><code class="docutils literal notranslate"><span class="pre">TiltSeries.tilt_range</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.tilt_series_quality"><code class="docutils literal notranslate"><span class="pre">TiltSeries.tilt_series_quality</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.tilt_step"><code class="docutils literal notranslate"><span class="pre">TiltSeries.tilt_step</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.tilting_scheme"><code class="docutils literal notranslate"><span class="pre">TiltSeries.tilting_scheme</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.total_flux"><code class="docutils literal notranslate"><span class="pre">TiltSeries.total_flux</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.download_alignment_file"><code class="docutils literal notranslate"><span class="pre">TiltSeries.download_alignment_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.download_angle_list"><code class="docutils literal notranslate"><span class="pre">TiltSeries.download_angle_list()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.TiltSeries.download_collection_metadata"><code class="docutils literal notranslate"><span class="pre">TiltSeries.download_collection_metadata()</span></code></a></li>
@@ -405,7 +422,7 @@
 <p>The Python API client is primarily a GraphQL client that interacts with our GraphQL API endpoint. The data model for the python API client and the GraphQL API are identical.</p>
 <p>If you prefer to query our API endpoint directly, it’s available at <a class="reference external" href="https://graphql.cryoetdataportal.cziscience.com/v1/graphql">https://graphql.cryoetdataportal.cziscience.com/v1/graphql</a></p>
 <p>A simplified diagram of the graph data model is below:</p>
-<a class="reference internal image-reference" href="_images/data_model.png"><img alt="Simplified data model" src="_images/data_model.png" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="_images/data_model.png"><img alt="Simplified data model" src="_images/data_model.png" style="width: 1000px;" /></a>
 </section>
 <section id="client">
 <h2>Client<a class="headerlink" href="#client" title="Permalink to this heading">¶</a></h2>
@@ -458,31 +475,31 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Dataset.cell_line_name">
-<span class="sig-name descname"><span class="pre">cell_line_name</span></span><a class="headerlink" href="#cryoet_data_portal.Dataset.cell_line_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Cell line or strain for the sample.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Dataset.cell_line_source">
-<span class="sig-name descname"><span class="pre">cell_line_source</span></span><a class="headerlink" href="#cryoet_data_portal.Dataset.cell_line_source" title="Permalink to this definition">¶</a></dt>
-<dd><p>Name of the company from which the sample is sourced from.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Dataset.cell_name">
 <span class="sig-name descname"><span class="pre">cell_name</span></span><a class="headerlink" href="#cryoet_data_portal.Dataset.cell_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of the cell from which a biological sample used in a CryoET study is derived from.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.Dataset.cell_strain_id">
+<span class="sig-name descname"><span class="pre">cell_strain_id</span></span><a class="headerlink" href="#cryoet_data_portal.Dataset.cell_strain_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Link to more information about the cell strain</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.Dataset.cell_strain_name">
+<span class="sig-name descname"><span class="pre">cell_strain_name</span></span><a class="headerlink" href="#cryoet_data_portal.Dataset.cell_strain_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cell line or strain for the sample.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
@@ -732,17 +749,6 @@
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Dataset.tomograms">
-<span class="sig-name descname"><span class="pre">tomograms</span></span><a class="headerlink" href="#cryoet_data_portal.Dataset.tomograms" title="Permalink to this definition">¶</a></dt>
-<dd><p>An array relationship with Tomogram</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference internal" href="#cryoet_data_portal.Tomogram" title="cryoet_data_portal.Tomogram">Tomogram</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="cryoet_data_portal.Dataset.download_everything">
 <span class="sig-name descname"><span class="pre">download_everything</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Dataset.download_everything" title="Permalink to this definition">¶</a></dt>
@@ -874,6 +880,17 @@
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.DatasetAuthor.primary_author_status">
+<span class="sig-name descname"><span class="pre">primary_author_status</span></span><a class="headerlink" href="#cryoet_data_portal.DatasetAuthor.primary_author_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicating whether an annotator is the main person executing the annotation, especially on manual annotation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1171,72 +1188,6 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.acceleration_voltage">
-<span class="sig-name descname"><span class="pre">acceleration_voltage</span></span><a class="headerlink" href="#cryoet_data_portal.Run.acceleration_voltage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Electron Microscope Accelerator voltage in volts</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.annotations">
-<span class="sig-name descname"><span class="pre">annotations</span></span><a class="headerlink" href="#cryoet_data_portal.Run.annotations" title="Permalink to this definition">¶</a></dt>
-<dd><p>An array relationship with the annotations associated with this run</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference internal" href="#cryoet_data_portal.Annotation" title="cryoet_data_portal.Annotation">Annotation</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.binning_from_frames">
-<span class="sig-name descname"><span class="pre">binning_from_frames</span></span><a class="headerlink" href="#cryoet_data_portal.Run.binning_from_frames" title="Permalink to this definition">¶</a></dt>
-<dd><p>Describes the binning factor from frames to tilt series file</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.camera_manufacturer">
-<span class="sig-name descname"><span class="pre">camera_manufacturer</span></span><a class="headerlink" href="#cryoet_data_portal.Run.camera_manufacturer" title="Permalink to this definition">¶</a></dt>
-<dd><p>(str): Name of the camera manufacturer</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.camera_model">
-<span class="sig-name descname"><span class="pre">camera_model</span></span><a class="headerlink" href="#cryoet_data_portal.Run.camera_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Camera model name</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.data_acquisition_software">
-<span class="sig-name descname"><span class="pre">data_acquisition_software</span></span><a class="headerlink" href="#cryoet_data_portal.Run.data_acquisition_software" title="Permalink to this definition">¶</a></dt>
-<dd><p>(str): Software used to collect data</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Run.dataset">
 <span class="sig-name descname"><span class="pre">dataset</span></span><a class="headerlink" href="#cryoet_data_portal.Run.dataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>An object relationship with the dataset this run is a part of</p>
@@ -1259,97 +1210,20 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.Run.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#cryoet_data_portal.Run.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Short name for the experiment run</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Run.https_prefix">
 <span class="sig-name descname"><span class="pre">https_prefix</span></span><a class="headerlink" href="#cryoet_data_portal.Run.https_prefix" title="Permalink to this definition">¶</a></dt>
 <dd><p>The HTTPS directory path where this dataset is contained</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.microscope_additional_info">
-<span class="sig-name descname"><span class="pre">microscope_additional_info</span></span><a class="headerlink" href="#cryoet_data_portal.Run.microscope_additional_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Other microscope optical setup information, in addition to energy filter, phase plate and image corrector</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.microscope_energy_filter">
-<span class="sig-name descname"><span class="pre">microscope_energy_filter</span></span><a class="headerlink" href="#cryoet_data_portal.Run.microscope_energy_filter" title="Permalink to this definition">¶</a></dt>
-<dd><p>(str): Energy filter setup used</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.microscope_image_corrector">
-<span class="sig-name descname"><span class="pre">microscope_image_corrector</span></span><a class="headerlink" href="#cryoet_data_portal.Run.microscope_image_corrector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Image corrector setup</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.microscope_manufacturer">
-<span class="sig-name descname"><span class="pre">microscope_manufacturer</span></span><a class="headerlink" href="#cryoet_data_portal.Run.microscope_manufacturer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Name of the microscope manufacturer</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.microscope_model">
-<span class="sig-name descname"><span class="pre">microscope_model</span></span><a class="headerlink" href="#cryoet_data_portal.Run.microscope_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Microscope model name</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.microscope_phase_plate">
-<span class="sig-name descname"><span class="pre">microscope_phase_plate</span></span><a class="headerlink" href="#cryoet_data_portal.Run.microscope_phase_plate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Phase plate configuration</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#cryoet_data_portal.Run.name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Short name for the tilt series</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.related_empiar_entry">
-<span class="sig-name descname"><span class="pre">related_empiar_entry</span></span><a class="headerlink" href="#cryoet_data_portal.Run.related_empiar_entry" title="Permalink to this definition">¶</a></dt>
-<dd><p>If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
@@ -1369,94 +1243,6 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.spherical_aberration_constant">
-<span class="sig-name descname"><span class="pre">spherical_aberration_constant</span></span><a class="headerlink" href="#cryoet_data_portal.Run.spherical_aberration_constant" title="Permalink to this definition">¶</a></dt>
-<dd><p>Spherical Aberration Constant of the objective lens in millimeters</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.tilt_axis">
-<span class="sig-name descname"><span class="pre">tilt_axis</span></span><a class="headerlink" href="#cryoet_data_portal.Run.tilt_axis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rotation angle in degrees</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.tilt_max">
-<span class="sig-name descname"><span class="pre">tilt_max</span></span><a class="headerlink" href="#cryoet_data_portal.Run.tilt_max" title="Permalink to this definition">¶</a></dt>
-<dd><p>Maximal tilt angle in degrees</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.tilt_min">
-<span class="sig-name descname"><span class="pre">tilt_min</span></span><a class="headerlink" href="#cryoet_data_portal.Run.tilt_min" title="Permalink to this definition">¶</a></dt>
-<dd><p>Minimal tilt angle in degrees</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.tilt_range">
-<span class="sig-name descname"><span class="pre">tilt_range</span></span><a class="headerlink" href="#cryoet_data_portal.Run.tilt_range" title="Permalink to this definition">¶</a></dt>
-<dd><p>Total tilt range in degrees</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.tilt_series_quality">
-<span class="sig-name descname"><span class="pre">tilt_series_quality</span></span><a class="headerlink" href="#cryoet_data_portal.Run.tilt_series_quality" title="Permalink to this definition">¶</a></dt>
-<dd><p>Author assessment of tilt series quality within the dataset (1-5, 5 is best)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.tilt_step">
-<span class="sig-name descname"><span class="pre">tilt_step</span></span><a class="headerlink" href="#cryoet_data_portal.Run.tilt_step" title="Permalink to this definition">¶</a></dt>
-<dd><p>Tilt step in degrees</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.tilting_scheme">
-<span class="sig-name descname"><span class="pre">tilting_scheme</span></span><a class="headerlink" href="#cryoet_data_portal.Run.tilting_scheme" title="Permalink to this definition">¶</a></dt>
-<dd><p>The order of stage tilting during acquisition of the data</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Run.tiltseries">
 <span class="sig-name descname"><span class="pre">tiltseries</span></span><a class="headerlink" href="#cryoet_data_portal.Run.tiltseries" title="Permalink to this definition">¶</a></dt>
 <dd><p>An array relationship with TiltSeries that correspond to this run</p>
@@ -1468,23 +1254,12 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.tomograms">
-<span class="sig-name descname"><span class="pre">tomograms</span></span><a class="headerlink" href="#cryoet_data_portal.Run.tomograms" title="Permalink to this definition">¶</a></dt>
-<dd><p>An array relationship with Tomograms that correspond to this run</p>
+<dt class="sig sig-object py" id="cryoet_data_portal.Run.tomogram_voxel_spacings">
+<span class="sig-name descname"><span class="pre">tomogram_voxel_spacings</span></span><a class="headerlink" href="#cryoet_data_portal.Run.tomogram_voxel_spacings" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array relationship with the Tomogram Voxel Spacings created from this run</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference internal" href="#cryoet_data_portal.Tomogram" title="cryoet_data_portal.Tomogram">Tomogram</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Run.total_flux">
-<span class="sig-name descname"><span class="pre">total_flux</span></span><a class="headerlink" href="#cryoet_data_portal.Run.total_flux" title="Permalink to this definition">¶</a></dt>
-<dd><p>Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing" title="cryoet_data_portal.TomogramVoxelSpacing">TomogramVoxelSpacing</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1568,6 +1343,185 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="cryoet_data_portal.Run.to_dict">
 <span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cryoet_data_portal.Run.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a dictionary representation of this object’s attributes</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="tomogramvoxelspacing">
+<h2>TomogramVoxelSpacing<a class="headerlink" href="#tomogramvoxelspacing" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryoet_data_portal.TomogramVoxelSpacing">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryoet_data_portal.</span></span><span class="sig-name descname"><span class="pre">TomogramVoxelSpacing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cryoet_data_portal.Client" title="cryoet_data_portal._client.Client"><span class="pre">Client</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metadata for a set of tomograms and annotations of a given voxel spacing</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TomogramVoxelSpacing.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Numeric identifier (May change!)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TomogramVoxelSpacing.annotations">
+<span class="sig-name descname"><span class="pre">annotations</span></span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.annotations" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array relationship with the annotations associated with this voxel spacing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference internal" href="#cryoet_data_portal.Annotation" title="cryoet_data_portal.Annotation">Annotation</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TomogramVoxelSpacing.https_prefix">
+<span class="sig-name descname"><span class="pre">https_prefix</span></span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.https_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>The HTTPS directory path where this dataset is contained</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TomogramVoxelSpacing.run">
+<span class="sig-name descname"><span class="pre">run</span></span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object relationship with the run this voxel spacing is a part of</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cryoet_data_portal.Run" title="cryoet_data_portal.Run">Run</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TomogramVoxelSpacing.run_id">
+<span class="sig-name descname"><span class="pre">run_id</span></span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.run_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference to the dataset this run is a part of</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TomogramVoxelSpacing.s3_prefix">
+<span class="sig-name descname"><span class="pre">s3_prefix</span></span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.s3_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>The S3 public bucket path where this dataset is contained</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TomogramVoxelSpacing.tomograms">
+<span class="sig-name descname"><span class="pre">tomograms</span></span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.tomograms" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array relationship with Tomograms of this voxel spacing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference internal" href="#cryoet_data_portal.Tomogram" title="cryoet_data_portal.Tomogram">Tomogram</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TomogramVoxelSpacing.voxel_spacing">
+<span class="sig-name descname"><span class="pre">voxel_spacing</span></span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.voxel_spacing" title="Permalink to this definition">¶</a></dt>
+<dd><p>The voxel spacing for the tomograms in this set</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryoet_data_portal.TomogramVoxelSpacing.download_everything">
+<span class="sig-name descname"><span class="pre">download_everything</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.download_everything" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download all of the data for this run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dest_path</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Choose a destination directory. Defaults to $CWD.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryoet_data_portal.TomogramVoxelSpacing.find">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cryoet_data_portal.Client" title="cryoet_data_portal._client.Client"><span class="pre">Client</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.11)"><span class="pre">Iterable</span></a><span class="p"><span class="pre">[</span></span><span class="pre">GQLExpression</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.find" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find objects based on a set of search filters.</p>
+<p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
+<dl class="simple">
+<dt>Expressions must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
+</dd>
+</dl>
+<p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ilike</span></code> is similar to <code class="docutils literal notranslate"><span class="pre">like</span></code> but case-insensitive</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_in</span></code> accepts a list of values that are acceptable matches.</p></li>
+</ul>
+<p>Values may be strings or numbers depending on the type of the field being matched, and <cite>_in</cite> supports a list of values of the field’s corresponding type.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> may be an arbitrarily nested path to any field on any related model, such as:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.related_class_field.related_field.second_related_class_field.second_field</span></code></p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> – A CryoET Portal API Client</p></li>
+<li><p><strong>query_filters</strong> – A set of expressions that narrow down the search results</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of matching Model objects.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Filter runs by attributes, including attributes in related models:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runs_list</span> <span class="o">=</span> <span class="n">Runs</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Runs</span><span class="o">.</span><span class="n">camera_model</span> <span class="o">==</span> <span class="s2">&quot;K2 Summit&quot;</span><span class="p">,</span> <span class="n">Runs</span><span class="o">.</span><span class="n">tomograms</span><span class="o">.</span><span class="n">size_x</span> <span class="o">&gt;</span> <span class="mi">900</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runs_object</span> <span class="o">=</span> <span class="n">Runs</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryoet_data_portal.TomogramVoxelSpacing.get_by_id">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cryoet_data_portal.Client" title="cryoet_data_portal._client.Client"><span class="pre">Client</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.get_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find objects by primary key</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> – A CryoET Portal API Client</p></li>
+<li><p><strong>id</strong> – Unique identifier for the object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A matching Model object.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Get a Run by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run</span> <span class="o">=</span> <span class="n">Runs</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">),</span> <span class="mi">1</span>
+<span class="go">    print(run.name)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryoet_data_portal.TomogramVoxelSpacing.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a dictionary representation of this object’s attributes</p>
 </dd></dl>
 
@@ -1746,28 +1700,6 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Tomogram.run">
-<span class="sig-name descname"><span class="pre">run</span></span><a class="headerlink" href="#cryoet_data_portal.Tomogram.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>An object relationship with the run this tomogram is a part of</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#cryoet_data_portal.Run" title="cryoet_data_portal.Run">Run</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Tomogram.run_id">
-<span class="sig-name descname"><span class="pre">run_id</span></span><a class="headerlink" href="#cryoet_data_portal.Tomogram.run_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reference to the run this tomogram is a part of</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Tomogram.s3_mrc_scale1">
 <span class="sig-name descname"><span class="pre">s3_mrc_scale1</span></span><a class="headerlink" href="#cryoet_data_portal.Tomogram.s3_mrc_scale1" title="Permalink to this definition">¶</a></dt>
 <dd><p>S3 path to this tomogram in MRC format (downscaled to 50%)</p>
@@ -1884,6 +1816,17 @@
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.Tomogram.tomogram_voxel_spacing">
+<span class="sig-name descname"><span class="pre">tomogram_voxel_spacing</span></span><a class="headerlink" href="#cryoet_data_portal.Tomogram.tomogram_voxel_spacing" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object relationship with a specific voxel spacing for this experiment run</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing" title="cryoet_data_portal.TomogramVoxelSpacing">TomogramVoxelSpacing</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2030,6 +1973,17 @@
 <dt class="sig sig-object py" id="cryoet_data_portal.Annotation.annotation_publication">
 <span class="sig-name descname"><span class="pre">annotation_publication</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.annotation_publication" title="Permalink to this definition">¶</a></dt>
 <dd><p>DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.Annotation.annotation_software">
+<span class="sig-name descname"><span class="pre">annotation_software</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.annotation_software" title="Permalink to this definition">¶</a></dt>
+<dd><p>Software used for generating this annotation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
@@ -2236,20 +2190,20 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Annotation.run">
-<span class="sig-name descname"><span class="pre">run</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>An object relationship with the run this annotation is a part of</p>
+<dt class="sig sig-object py" id="cryoet_data_portal.Annotation.tomogram_voxel_spacing">
+<span class="sig-name descname"><span class="pre">tomogram_voxel_spacing</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.tomogram_voxel_spacing" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object relationship with a specific voxel spacing for this annotation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#cryoet_data_portal.Run" title="cryoet_data_portal.Run">Run</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing" title="cryoet_data_portal.TomogramVoxelSpacing">TomogramVoxelSpacing</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Annotation.run_id">
-<span class="sig-name descname"><span class="pre">run_id</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.run_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reference to the run these annotations are a part of</p>
+<dt class="sig sig-object py" id="cryoet_data_portal.Annotation.tomogram_voxel_spacing_id">
+<span class="sig-name descname"><span class="pre">tomogram_voxel_spacing_id</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.tomogram_voxel_spacing_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference to the tomogram voxel spacing group this annotation applies to</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
@@ -2570,7 +2524,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryoet_data_portal.</span></span><span class="sig-name descname"><span class="pre">TiltSeries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cryoet_data_portal.Client" title="cryoet_data_portal._client.Client"><span class="pre">Client</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TiltSeries" title="Permalink to this definition">¶</a></dt>
-<dd><p>File locations for key files in a run’s TiltSeries</p>
+<dd><p>Metadata about how a tilt series was generated, and locations of output files</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.id">
 <span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.id" title="Permalink to this definition">¶</a></dt>
@@ -2578,6 +2532,83 @@
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.run">
+<span class="sig-name descname"><span class="pre">run</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object relationship with the run this tiltseries is a part of</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cryoet_data_portal.Run" title="cryoet_data_portal.Run">Run</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.run_id">
+<span class="sig-name descname"><span class="pre">run_id</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.run_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference to the run this tiltseries is a part of</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.acceleration_voltage">
+<span class="sig-name descname"><span class="pre">acceleration_voltage</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.acceleration_voltage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Electron Microscope Accelerator voltage in volts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.binning_from_frames">
+<span class="sig-name descname"><span class="pre">binning_from_frames</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.binning_from_frames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the binning factor from frames to tilt series file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.camera_manufacturer">
+<span class="sig-name descname"><span class="pre">camera_manufacturer</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.camera_manufacturer" title="Permalink to this definition">¶</a></dt>
+<dd><p>(str): Name of the camera manufacturer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.camera_model">
+<span class="sig-name descname"><span class="pre">camera_model</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.camera_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Camera model name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.data_acquisition_software">
+<span class="sig-name descname"><span class="pre">data_acquisition_software</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.data_acquisition_software" title="Permalink to this definition">¶</a></dt>
+<dd><p>(str): Software used to collect data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2660,23 +2691,78 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.run">
-<span class="sig-name descname"><span class="pre">run</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>An object relationship with the run this tiltseries is a part of</p>
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.microscope_additional_info">
+<span class="sig-name descname"><span class="pre">microscope_additional_info</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.microscope_additional_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Other microscope optical setup information, in addition to energy filter, phase plate and image corrector</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#cryoet_data_portal.Run" title="cryoet_data_portal.Run">Run</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.run_id">
-<span class="sig-name descname"><span class="pre">run_id</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.run_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reference to the run this tiltseries is a part of</p>
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.microscope_energy_filter">
+<span class="sig-name descname"><span class="pre">microscope_energy_filter</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.microscope_energy_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>(str): Energy filter setup used</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.microscope_image_corrector">
+<span class="sig-name descname"><span class="pre">microscope_image_corrector</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.microscope_image_corrector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Image corrector setup</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.microscope_manufacturer">
+<span class="sig-name descname"><span class="pre">microscope_manufacturer</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.microscope_manufacturer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the microscope manufacturer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.microscope_model">
+<span class="sig-name descname"><span class="pre">microscope_model</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.microscope_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Microscope model name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.microscope_phase_plate">
+<span class="sig-name descname"><span class="pre">microscope_phase_plate</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.microscope_phase_plate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Phase plate configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.related_empiar_entry">
+<span class="sig-name descname"><span class="pre">related_empiar_entry</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.related_empiar_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2754,6 +2840,105 @@
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.spherical_aberration_constant">
+<span class="sig-name descname"><span class="pre">spherical_aberration_constant</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.spherical_aberration_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Spherical Aberration Constant of the objective lens in millimeters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.tilt_axis">
+<span class="sig-name descname"><span class="pre">tilt_axis</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.tilt_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotation angle in degrees</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.tilt_max">
+<span class="sig-name descname"><span class="pre">tilt_max</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.tilt_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximal tilt angle in degrees</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.tilt_min">
+<span class="sig-name descname"><span class="pre">tilt_min</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.tilt_min" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimal tilt angle in degrees</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.tilt_range">
+<span class="sig-name descname"><span class="pre">tilt_range</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.tilt_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Total tilt range in degrees</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.tilt_series_quality">
+<span class="sig-name descname"><span class="pre">tilt_series_quality</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.tilt_series_quality" title="Permalink to this definition">¶</a></dt>
+<dd><p>Author assessment of tilt series quality within the dataset (1-5, 5 is best)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.tilt_step">
+<span class="sig-name descname"><span class="pre">tilt_step</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.tilt_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tilt step in degrees</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.tilting_scheme">
+<span class="sig-name descname"><span class="pre">tilting_scheme</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.tilting_scheme" title="Permalink to this definition">¶</a></dt>
+<dd><p>The order of stage tilting during acquisition of the data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.TiltSeries.total_flux">
+<span class="sig-name descname"><span class="pre">total_flux</span></span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.total_flux" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
