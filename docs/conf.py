@@ -60,7 +60,7 @@ html_js_files = [
     ),
 ]
 
-# -- Options myst -------------------------------------------------
+# -- Options for myst -------------------------------------------------
 myst_enable_extensions = ['colon_fence']
 
 
