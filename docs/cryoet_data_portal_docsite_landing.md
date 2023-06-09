@@ -21,7 +21,7 @@ Electron Tomography workflow and the data we provide.
 
 Here is a summary of the datasets that have been provided. A full description can be found below under [Data and schema](https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#?usp=sharing). The data can be downloaded through a [Python API](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
   
-| Provider | Julia Mahamid | Julia Mahamid | Jürgen Pltzco |
+| Provider | Julia Mahamid | Julia Mahamid | Jürgen Plitzko |
 | ----------- | ----------- | ----------- | ----------- |
 | Dataset name | 10000 | 10001 | 10004 |
 | Sample | S. Pombe | S.Pombe | C. elegans |
