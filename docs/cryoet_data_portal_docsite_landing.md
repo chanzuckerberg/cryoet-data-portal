@@ -11,15 +11,15 @@ The Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Instit
 
 Electron Tomography workflow and the data we provide.
 
-A. Sample is rotated to different tilt angles and electrons pass through to produce projection images of the 3D volume
+**A.** Sample is rotated to different tilt angles and electrons pass through to produce projection images of the 3D volume
 
-B. We provide raw movie frames collected by a direct detector and may also provide these stacked into a tilt series of images
+**B.** We provide raw movie frames collected by a direct detector and may also provide these stacked into a tilt series of images
 
-C. A 3D tomographic reconstructed volume is produced by back projecting projections which are first corrected in a variety of ways (motion correction, CTF estimation, etc.)
+**C.** A 3D tomographic reconstructed volume is produced by back projecting projections which are first corrected in a variety of ways (motion correction, CTF estimation, etc.)
 
-D. We provide the 3D volume together with point annotations of (at least one) macromolecular complex for each volume
+**D.** We provide the 3D volume together with point annotations of (at least one) macromolecular complex for each volume
 
-Here is a summary of the datasets that have been provided. A full description can be found below under Data and schema (hyperlink to Data and schema). The data can be downloaded through a Python API (hyperlink to Python API).
+Here is a summary of the datasets that have been provided. A full description can be found below under [Data and schema](https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#?usp=sharing). The data can be downloaded through a [Python API](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
   
 | Provider | Julia Mahamid | Julia Mahamid | Jürgen Pltzco |
 | ----------- | ----------- | ----------- | ----------- |
@@ -42,11 +42,11 @@ Here is a summary of the datasets that have been provided. A full description ca
 ## S3 Bucket Info
 The CryoET Data Portal S3 bucket supports public access. The bucket URL is:
 
-  `s3://cryoet-data-portal-public`
+    `s3://cryoet-data-portal-public`
 
   To list the bucket contents with the S3 CLI without credentials, please use the following:
 
-  `aws s3 ls --no-sign-request s3://cryoet-data-portal-public`
+    `aws s3 ls --no-sign-request s3://cryoet-data-portal-public`
   
 ## Citing the CryoET Data Portal
  
