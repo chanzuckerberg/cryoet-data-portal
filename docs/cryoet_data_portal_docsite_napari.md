@@ -11,7 +11,7 @@ Installing complex Python packages like napari can be difficult, especially as i
 We strongly recommend isolating your installation in an environment to manage this complexity.
 If you followed the quick start guide and already created a virtual environment to install the `cryoet-data-portal` package, you *may* be able to reuse that environment for installing napari.
 
-However, many napari users and developers use the `conda` environment manager, 
+However, many napari users and developers use the `conda` environment manager, so we recommend that here instead.
 Download and install [miniconda](https://docs.conda.io/en/latest/miniconda.html) and run the following commands to create and activate a conda environment.
 
 ```shell
@@ -19,7 +19,7 @@ conda create -y -n napari-env -c conda-forge python=3.9
 conda activate napari-env
 ```
 
-Regardless of the environment, installing the latest version of napari with `pip` should work for most platforms.
+From here, installing the latest version of napari with `pip` should work for most platforms.
 
 ```shell
 pip install -U "napari[all]"
