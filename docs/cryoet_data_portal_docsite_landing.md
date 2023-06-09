@@ -2,6 +2,9 @@
 
 The Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute) has developed the prototype CryoET Data Portal providing queryable and organized data from cryoET experiments. The initial target users are segmentation algorithm developers to produce annotations for diverse macromolecules in the tomogram that may be used for high-resolution subtomogram averaging. We currently have 185 tomograms from four datasets contributed by the groups of Julia Mahamid and Jürgen Plitzko. Each of these tomograms have a minimum of “ground truth” point annotations of ribosomes. We also provide a python API to query and download the data. This portal is not intended to be a final product, but rather, a first step to start a discussion in the wider community as to what is needed with such a portal. We welcome feedback from the community on the data structure, design and functionality. Once we have gathered some feedback we plan to organize a community-wide workshop to discuss next steps.
 
+| Share your thoughts on the cryoET data portal in this [short survey](https://forms.gle/ANyFtvqCRBSHyHfV6)! |
+| --- |
+
 ## Get Started:
 
 Each of the data sets provides all or some of the following data: (i) raw movies, (ii) unaligned tilt series, (iii) aligned tilt series, (iv) annotations. 
@@ -26,7 +29,15 @@ Here is a summary of the datasets that have been provided. A full description ca
 - [File formats](https://docs.google.com/document/d/1YfzaS7spKOQMrBAUIfQquWskijWDUhpEURxW7nkmwaU/edit#?usp=sharing)
 - [napari](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html)
 
+## S3 Bucket Info
+The CryoET Data Portal S3 bucket supports public access. The bucket URL is:
 
+  `s3://cryoet-data-portal-public`
+
+  To list the bucket contents with the S3 CLI without credentials, please use the following:
+
+  `aws s3 ls --no-sign-request s3://cryoet-data-portal-public`
+  
 ## Citing the CryoET Data Portal
  
 Data from the portal must acknowledge the data providers and the original publications as follows (inserting of omitting as needed based on which datasets are used):
