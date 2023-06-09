@@ -7,8 +7,18 @@ The Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Instit
 
 ## Get Started:
 
-Each of the data sets provides all or some of the following data: (i) raw movies, (ii) unaligned tilt series, (iii) aligned tilt series, (iv) annotations. 
-<add image>
+![Screenshot 2023-06-09 at 10 40 22 AM](https://github.com/chanzuckerberg/cryoet-data-portal/assets/100323416/79dd79c7-86d1-4621-a6c6-2b5e8e164abe)
+
+Electron Tomography workflow and the data we provide.
+
+A. Sample is rotated to different tilt angles and electrons pass through to produce projection images of the 3D volume
+
+B. We provide raw movie frames collected by a direct detector and may also provide these stacked into a tilt series of images
+
+C. A 3D tomographic reconstructed volume is produced by back projecting projections which are first corrected in a variety of ways (motion correction, CTF estimation, etc.)
+
+D. We provide the 3D volume together with point annotations of (at least one) macromolecular complex for each volume
+
 Here is a summary of the datasets that have been provided. A full description can be found below under Data and schema (hyperlink to Data and schema). The data can be downloaded through a Python API (hyperlink to Python API).
   
 | Provider | Julia Mahamid | Julia Mahamid | Jürgen Pltzco |
