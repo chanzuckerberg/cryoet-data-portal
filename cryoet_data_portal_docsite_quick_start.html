@@ -95,7 +95,7 @@
                 
                 
                 <div class="version">
-                    0.1.dev1+g1a26ef1
+                    0.1.dev1+g2dab208
                 </div>
                 
             
@@ -119,12 +119,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#python-quick-start">Python quick start</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#browse-data-in-the-portal">Browse data in the portal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#find-all-tomograms-for-a-certain-organism-and-download-preview-sized-mrc-files">Find all tomograms for a certain organism and download preview-sized MRC files:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#open-a-tomogram-in-napari">Open a tomogram in Napari</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="python-api.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_napari.html">napari</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_FAQ.html">FAQ</a></li>
 </ul>
 
@@ -178,7 +178,7 @@
 <span class="nb">source</span><span class="w"> </span>./venv/bin/activate
 </pre></div>
 </div>
-<p>Install the <code class="docutils literal notranslate"><span class="pre">cryoet-data-portal</span></code> package via pip:</p>
+<p>Install the latest <code class="docutils literal notranslate"><span class="pre">cryoet-data-portal</span></code> package via pip:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>cryoet-data-portal
 </pre></div>
 </div>
@@ -251,46 +251,6 @@
     <span class="s2">&quot;tomogram_voxel_spacing_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span>
 <span class="o">...</span> <span class="n">more</span> <span class="n">output</span> <span class="o">...</span>
-</pre></div>
-</div>
-</section>
-<section id="open-a-tomogram-in-napari">
-<h3>Open a tomogram in Napari<a class="headerlink" href="#open-a-tomogram-in-napari" title="Permalink to this heading">¶</a></h3>
-<p>The following finds all tomograms with a particular annotator and minimum tomogram size, and opens the first one in Napari.</p>
-<ul class="simple">
-<li><p>[https://napari.org/stable/tutorials/fundamentals/installation.html](click here).</p></li>
-</ul>
-<p>For more information on how to install Napari, <a class="reference external" href="https://napari.org/stable/tutorials/fundamentals/installation.html">click here</a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">napari</span>
-
-<span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
-
-<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
-
-<span class="c1"># Find all tomograms with annotations by Sara Goetz and at least 300 voxels</span>
-<span class="c1"># in the Z dimension</span>
-<span class="n">tomograms</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
-    <span class="n">client</span><span class="p">,</span>
-    <span class="p">[</span>
-        <span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">authors</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s2">&quot;Sara Goetz&quot;</span><span class="p">]),</span>
-        <span class="n">Tomogram</span><span class="o">.</span><span class="n">size_z</span> <span class="o">&gt;</span> <span class="mi">300</span><span class="p">,</span>
-    <span class="p">],</span>
-<span class="p">)</span>
-
-<span class="k">for</span> <span class="n">tomo</span> <span class="ow">in</span> <span class="n">tomograms</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">tomo</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">tomo</span><span class="o">.</span><span class="n">size_z</span><span class="p">)</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="n">tomo</span><span class="o">.</span><span class="n">https_omezarr_dir</span>
-
-    <span class="n">viewer</span> <span class="o">=</span> <span class="n">napari</span><span class="o">.</span><span class="n">Viewer</span><span class="p">()</span>
-    <span class="n">viewer</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="s2">&quot;napari-ome-zarr&quot;</span><span class="p">)</span>
-    <span class="k">break</span>
-
-</pre></div>
-</div>
-<p>Napari will open omezarr tomograms after printing the run name and z-size</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>TS_026
-<span class="m">1000</span>
 </pre></div>
 </div>
 </section>
