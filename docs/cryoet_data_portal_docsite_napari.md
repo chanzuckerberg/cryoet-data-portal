@@ -64,7 +64,7 @@ The simplest way to open local files and folders in napari is to drag and drop t
 Alternatively, access napari's file menu and click on *Open File(s)* or *Open Folder* items to select local files and folders.
 
 
-## Display a tomogram from the portal
+## Display a tomogram
 
 Instead of opening files manually in napari, you can write Python to automate this process.
 The following code finds all tomograms with a particular annotator and minimum tomogram size
@@ -113,11 +113,9 @@ TS_026
 though this may take a while depending on your network connection.
 
 
-## Browse the portal with our plugin
+## Browse the portal
 
 We built [a plugin that lets you browse the CryoET Data Portal in napari](https://github.com/chanzuckerberg/napari-cryoet-data-portal) to quickly display tomograms, annotations, and metadata
-
-![napari with the CryoET Data Portal widget showing](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843)
 
 This plugin is not yet available on PyPI, but the latest development version can be installed with `pip` as long as `git` is also available.
 
@@ -125,8 +123,10 @@ This plugin is not yet available on PyPI, but the latest development version can
 pip install git+https://github.com/chanzuckerberg/napari-cryoet-data-portal.git
 ```
 
-To access the plugin, first open napari then navigate to the plugin menu and open the portal widget.
+After installation, navigate to napari's *Plugins* menu and click on the *CryoET Data Portal* item.
 
 ![The napari plugin menu showing the CryoET Data Portal item](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/ca114f36-6254-43cf-a006-0043f7654613)
 
 See the [plugin's README](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) for details on how to use it.
+
+![napari with the CryoET Data Portal widget showing](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843)
