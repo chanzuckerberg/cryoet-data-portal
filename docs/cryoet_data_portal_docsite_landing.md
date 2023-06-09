@@ -29,7 +29,7 @@ Here is a summary of the datasets that have been provided. A full description ca
 | Raw movies | Yes | Yes | Yes |
 | Raw tilts | Yes | Yes | No |
 | 3D volumes | Yes | Yes | Yes |
-| Point Annotations (number of particles) | Ribosome, FAS | Ribosome | Ribosome |
+| Point Annotations | Ribosome, FAS | Ribosome | Ribosome |
 | Acknowledgement | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1101/2023.04.28.538734](https://www.biorxiv.org/content/10.1101/2023.04.28.538734v1) |
 
 ### Getting Started Links
