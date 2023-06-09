@@ -40,7 +40,7 @@ Here is a summary of the datasets that have been provided. A full description ca
 - [napari](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html)
 
 ## S3 Bucket Info
-The CryoET Data Portal S3 bucket supports public access. The bucket URI is:
+The CryoET Data Portal S3 bucket supports public access. The bucket URL is:
 
 ```
 s3://cryoet-data-portal-public
