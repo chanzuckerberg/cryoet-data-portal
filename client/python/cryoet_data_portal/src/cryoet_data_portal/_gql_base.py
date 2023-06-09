@@ -256,7 +256,9 @@ class Model:
             >>> run = Runs.get_by_id(client), 1
                 print(run.name)
         """
-        return client.find_one(cls, [cls.id == id])
+        results = cls.find(client, [cls.id == id])
+        for result in results:
+            return result
 
     @classmethod
     def setup(cls):
