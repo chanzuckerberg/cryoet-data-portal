@@ -2,18 +2,16 @@
 
 [napari](https://napari.org) is a general purpose interactive image viewer for Python
 with some support for cryoET data formats and for streaming data from remote storage services like AWS-S3.
-
 We added some extra tools and documentation to help use napari with the CryoET Data Portal.
 
 
 ## Installation
 
 Installing complex Python packages like napari can be difficult, especially as it and its dependencies evolve over time.
-We strongly recommend isolating your installation in a virtual or conda environment to manage this complexity.
+We strongly recommend isolating your installation in an environment to manage this complexity.
+If you followed the quick start guide and already created a virtual environment to install the `cryoet-data-portal` package, you *may* be able to reuse that environment for installing napari.
 
-If you followed the quick start guide and already created a Python environment to install the `cryoet-data-portal` package, you may be able to reuse that environment for installing napari.
-
-However, many napari users and developers use the `conda` environment manager instead, so you are likely to have more success with that.
+However, many napari users and developers use the `conda` environment manager, 
 Download and install [miniconda](https://docs.conda.io/en/latest/miniconda.html) and run the following commands to create and activate a conda environment.
 
 ```shell
@@ -21,13 +19,13 @@ conda create -y -n napari-env -c conda-forge python=3.9
 conda activate napari-env
 ```
 
-From here installing the latest version of napari with `pip` should work for most platforms.
+Regardless of the environment, installing the latest version of napari with `pip` should work for most platforms.
 
 ```shell
 pip install -U "napari[all]"
 ```
 
-:::attention
+:::{attention}
 For ARM macOS (Apple Silicon), pre-built packages of Qt5 are not available on PyPI, so the above command will fail.
 Instead, either install Qt6 separately with the following two commands
 
@@ -39,14 +37,13 @@ pip install -U PyQt6
 or use `conda` or `mamba` as described in the [latest napari installation instructions](https://napari.org/dev/tutorials/fundamentals/installation.html#install-as-python-package-recommended).
 :::
 
-After successful installation, open napari by running
+After successful installation, open napari by simply running
 
 ```shell
 napari
 ```
-
-from your terminal.
-See the [main napari documentation for other ways to run napari](https://napari.org/stable/tutorials/fundamentals/getting_started.html).
+from the command line.
+Also see the [main napari documentation for other ways to run napari](https://napari.org/stable/tutorials/fundamentals/getting_started.html).
 
 If you run into problems with the commands above, see the [latest napari documentation for more detailed installation instructions](https://napari.org/dev/tutorials/fundamentals/installation.html#install-as-python-package-recommended) or reach out to cryoetdataportal@chanzuckerberg.org.
 
@@ -73,7 +70,7 @@ Instead of opening files manually in napari, you can write Python to automate th
 The following code finds all tomograms with a particular annotator and minimum tomogram size
 using the Python client and opens the first one in napari.
 
-:::attention
+:::{attention}
 This example depends on installing the napari-ome-zarr plugin mentioned above.
 :::
 
@@ -118,7 +115,7 @@ though this may take a while depending on your network connection.
 
 ## Browse the portal with our plugin
 
-We built [a plugin that lets you browse the CryoET Data Portal in napari to quickly display tomograms, annotations, and metadata](https://github.com/chanzuckerberg/napari-cryoet-data-portal).
+We built [a plugin that lets you browse the CryoET Data Portal in napari](https://github.com/chanzuckerberg/napari-cryoet-data-portal) to quickly display tomograms, annotations, and metadata
 
 ![napari with the CryoET Data Portal widget showing](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843)
 

@@ -8,4 +8,5 @@
    cryoet_data_portal_docsite_installation.md
    cryoet_data_portal_docsite_quick_start.md
    python-api
+   cryoet_data_portal_docsite_napari.md
    cryoet_data_portal_docsite_FAQ.md

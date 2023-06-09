@@ -60,6 +60,9 @@ html_js_files = [
     ),
 ]
 
+# -- Options myst -------------------------------------------------
+myst_enable_extensions = ['colon_fence']
+
 
 def setup(app):
     app.add_css_file("css/custom.css")
