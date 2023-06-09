@@ -46,13 +46,13 @@ napari
 from your terminal.
 See the [main napari documentation for other ways to run napari](https://napari.org/stable/tutorials/fundamentals/getting_started.html).
 
-If you run into problems with the commands above, see the [latest napari documentation for alternative and more detailed installation instructions](https://napari.org/dev/tutorials/fundamentals/installation.html#install-as-python-package-recommended) or reach out to cryoetdataportal@chanzuckerberg.org.
+If you run into problems with the commands above, see the [latest napari documentation for more detailed installation instructions](https://napari.org/dev/tutorials/fundamentals/installation.html#install-as-python-package-recommended) or reach out to cryoetdataportal@chanzuckerberg.org.
 
 
 ### Plugins
 
 napari has some built-in functionality, but relies heavily on an ecosystem of plugins to
-provide compatibility with the wide variety of data formats in the scientific imaging community.
+provide support for the wide variety of data formats in the scientific imaging community.
 
 For the CryoET Data Portal, we recommend installing two plugins to read the formats used to store tomograms.
 
@@ -61,6 +61,7 @@ pip install -U napari_mrcfile_reader napari_ome_zarr
 ```
 
 After installing these two plugins, you should be able open tomograms from the data portal in both the MRC and OME-zarr formats.
+The simplest way to open local files and directories in napari is to drag and drop them from your operating systems file explorer onto napari's main canvas.
 
 TODO: screenshots on how to open files in napari.
 
@@ -74,10 +75,14 @@ Instead, create new environments to experiment with new sets of related plugins.
 :::
 
 
-## Display a tomogram
+## Display a tomogram from the portal
 
 The following code finds all tomograms with a particular annotator and minimum tomogram size,
 and opens the first one in napari.
+
+:::attention
+This example depends on installing the plugins mentioned above.
+:::
 
 ```python
 import napari
@@ -107,8 +112,8 @@ for tomo in tomograms:
 napari.run()
 ```
 
-napari should open and display the multi-scale OME-zarr tomogram after printing the
-run name and z-size
+After running this from the command line, napari should open and display the multi-scale
+OME-zarr tomogram after printing the run name and z-size
 
 ```
 TS_026
@@ -124,13 +129,15 @@ We built [a plugin that lets you browse the CryoET Data Portal in napari to quic
 
 TODO: screenshot/video
 
-This plugin is not yet available on PyPI, but the latest development version can be installed with `pip` as long as you also have `git` installed.
+This plugin is not yet available on PyPI, but the latest development version can be installed with `pip` as long as `git` is also available.
 
 ```shell
 pip install git+https://github.com/chanzuckerberg/napari-cryoet-data-portal.git
 ```
 
-TODO: step 1, open napari
+To access the plugin, first open napari.
+
+TODO: screenshot of initial napari
 
 TODO: step 2, locate the plugin menu and open the portal widget 
 
