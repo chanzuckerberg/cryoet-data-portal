@@ -49,7 +49,7 @@ See the [main napari documentation for other ways to run napari](https://napari.
 If you run into problems with the commands above, see the [latest napari documentation for more detailed installation instructions](https://napari.org/dev/tutorials/fundamentals/installation.html#install-as-python-package-recommended) or reach out to cryoetdataportal@chanzuckerberg.org.
 
 
-### Plugins
+## Plugins
 
 napari has some built-in functionality, but relies heavily on an ecosystem of plugins to
 provide support for the wide variety of data formats in the scientific imaging community.
@@ -61,22 +61,13 @@ pip install -U napari_mrcfile_reader napari_ome_zarr
 ```
 
 After installing these two plugins, you should be able open tomograms from the data portal in both the MRC and OME-zarr formats.
-The simplest way to open local files and directories in napari is to drag and drop them from your operating systems file explorer onto napari's main canvas.
-
-TODO: screenshots on how to open files in napari.
-
-Feel free to take a look at [the napari hub](https://www.napari-hub.org/) too see the variety of other napari plugins available.
-
-:::warning
-Be careful not to install too many different napari plugins in a single environment.
-Each plugin is its own Python package with its own dependencies and version constraints,
-so installing many packages in one environment can cause problems and even break napari itself.
-Instead, create new environments to experiment with new sets of related plugins.
-:::
+The simplest way to open local files and folders in napari is to drag and drop them from a file explorer onto napari's main canvas.
+Alternatively, access napari's file menu and click on *Open File(s)* or *Open Folder* items to select local files and folders.
 
 
 ## Display a tomogram from the portal
 
+Instead of opening files manually in napari, you can write Python to automate this process.
 The following code finds all tomograms with a particular annotator and minimum tomogram size,
 and opens the first one in napari.
 
@@ -127,7 +118,7 @@ though this may take a while depending on your network connection.
 
 We built [a plugin that lets you browse the CryoET Data Portal in napari to quickly display tomograms, annotations, and metadata](https://github.com/chanzuckerberg/napari-cryoet-data-portal).
 
-TODO: screenshot/video
+![napari with the CryoET Data Portal widget showing](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843)
 
 This plugin is not yet available on PyPI, but the latest development version can be installed with `pip` as long as `git` is also available.
 
@@ -135,44 +126,8 @@ This plugin is not yet available on PyPI, but the latest development version can
 pip install git+https://github.com/chanzuckerberg/napari-cryoet-data-portal.git
 ```
 
-To access the plugin, first open napari.
+To access the plugin, first open napari then navigate to the plugin menu and open the portal widget.
 
-![The initial napari window](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/97709d96-ff05-4abe-a5e3-87a06d49d9ed)
+![The napari plugin menu showing the CryoET Data Portal item](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843)
 
-Navigate to the plugin menu and open the portal widget.
-
-![The napari plugin menu show the CryoET Data Portal item](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843)
-
-Click the *Connect* button to establish a connection to the data portal.
-
-![Connect button and editable URI to the portal](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/6ad49072-6ed4-4b19-8d15-b9ad373f96df)
-
-After connecting to the portal, datasets are added below as they are found.
-
-![Datasets and tomograms in the portal shown as an interactive tree](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/8d20d886-ae65-4b36-b025-4d2360d2fa66)
-
-Datasets and tomograms can be filtered by specifying a regular expression pattern.
-TODO: link to QRegularExpression docs.
-
-![Datasets and tomograms filtered by the text 26, so that only two are shown](https://github.com/chanzuckerberg/napari-cryoet-data-portal/assets/2608297/437cb5e3-ac53-4fc0-83a9-53cd4c9f67c1)
-
-Selecting a dataset displays its metadata, which can be similarly explored and filtered with a regular expression.
-
-![Metadata of dataset 10000 shown as an interactive tree of keys and values](https://github.com/chanzuckerberg/napari-cryoet-data-portal/assets/2608297/f9793891-84e9-4a82-af2f-51b68bcf4287)
-
-Selecting a tomogram displays its metadata and also opens the lowest resolution tomogram and all of its associated point annotations in the napari viewer.
-
-![Metadata of tomogram TS_026 shown as an interactive tree of keys and values](https://github.com/chanzuckerberg/napari-cryoet-data-portal/assets/2608297/1dabcaa0-c232-4b1d-adc7-b431b4a80418)
-
-Higher resolution tomograms can be loaded instead by selecting a different resolution and clicking the *Open* button.
-
-![Open button and resolution selector showing high resolution](https://github.com/chanzuckerberg/napari-cryoet-data-portal/assets/2608297/9132c68a-dd8e-420b-b31e-746baa9fc2bd)
-
-In this case, napari only loads the data that needs to be displayed in the canvas.
-While this can reduce the amount of data loaded, it may also cause performance problems when initially opening and exploring the data.
-
-In general, finding and fetching data from the portal can take a long time.
-All plugin operations that fetch data from the portal try to run concurrently in order to keep interaction with napari and the plugin as responsive as possible.
-These operations can also be cancelled by clicking the *Cancel* button.
-
-![Progress bar with loading status and cancel button](https://github.com/chanzuckerberg/napari-cryoet-data-portal/assets/2608297/b0ba4a69-5f24-4aaf-99d5-37541cfff17f)
+See the [Usage section in the README of the plugin](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) for details on how to use it.
