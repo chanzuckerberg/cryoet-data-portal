@@ -2,6 +2,9 @@
 
 The Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute) has developed the prototype CryoET Data Portal providing queryable and organized data from cryoET experiments. The initial target users are segmentation algorithm developers to produce annotations for diverse macromolecules in the tomogram that may be used for high-resolution subtomogram averaging. We currently have 185 tomograms from four datasets contributed by the groups of Julia Mahamid and Jürgen Plitzko. Each of these tomograms have a minimum of “ground truth” point annotations of ribosomes. We also provide a python API to query and download the data. This portal is not intended to be a final product, but rather, a first step to start a discussion in the wider community as to what is needed with such a portal. We welcome feedback from the community on the data structure, design and functionality. Once we have gathered some feedback we plan to organize a community-wide workshop to discuss next steps.
 
+| Share your thoughts on the cryoET data portal in this [short survey](https://forms.gle/ANyFtvqCRBSHyHfV6)! |
+| --- |
+
 ## Get Started:
 
 Each of the data sets provides all or some of the following data: (i) raw movies, (ii) unaligned tilt series, (iii) aligned tilt series, (iv) annotations. 
