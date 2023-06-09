@@ -137,17 +137,19 @@ pip install git+https://github.com/chanzuckerberg/napari-cryoet-data-portal.git
 
 To access the plugin, first open napari.
 
-TODO: screenshot of initial napari
+![The initial napari window](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/97709d96-ff05-4abe-a5e3-87a06d49d9ed)
 
-TODO: step 2, locate the plugin menu and open the portal widget 
+Navigate to the plugin menu and open the portal widget.
+
+![The napari plugin menu show the CryoET Data Portal item](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843)
 
 Click the *Connect* button to establish a connection to the data portal.
 
-![Connect button and editable URI to the portal](https://github.com/chanzuckerberg/napari-cryoet-data-portal/assets/2608297/bad1dbb7-2752-4b1a-b9d2-d0d685e4536c)
+![Connect button and editable URI to the portal](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/6ad49072-6ed4-4b19-8d15-b9ad373f96df)
 
 After connecting to the portal, datasets are added below as they are found.
 
-![Datasets and tomograms in the portal shown as an interactive tree](https://github.com/chanzuckerberg/napari-cryoet-data-portal/assets/2608297/47ececbd-40e6-4374-9c64-18a07ce36bf2)
+![Datasets and tomograms in the portal shown as an interactive tree](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/8d20d886-ae65-4b36-b025-4d2360d2fa66)
 
 Datasets and tomograms can be filtered by specifying a regular expression pattern.
 TODO: link to QRegularExpression docs.
