@@ -27,7 +27,7 @@ Here is a summary of the datasets that have been provided. A full description ca
 - [Python API Client](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html)
 - [Metadata and schema](https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#?usp=sharing)
 - [File formats](https://docs.google.com/document/d/1YfzaS7spKOQMrBAUIfQquWskijWDUhpEURxW7nkmwaU/edit#?usp=sharing)
-- [napari plugin](https://github.com/chanzuckerberg/napari-cryoet-data-portal#napari-cryoet-data-portal)
+- [napari](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html)
 
 ## S3 Bucket Info
 The CryoET Data Portal S3 bucket supports public access. The bucket URL is:
