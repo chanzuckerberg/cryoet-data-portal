@@ -125,7 +125,7 @@ pip install git+https://github.com/chanzuckerberg/napari-cryoet-data-portal.git
 
 After installation, navigate to napari's *Plugins* menu and click on the *CryoET Data Portal* item.
 
-![The napari plugin menu showing the CryoET Data Portal item](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/ca114f36-6254-43cf-a006-0043f7654613)
+![The napari plugin menu showing the CryoET Data Portal item](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/f129cdab-f97d-4514-a631-f9401d7c7bac)
 
 See the [plugin's README](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) for details on how to use it.
 
