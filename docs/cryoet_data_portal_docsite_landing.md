@@ -1,6 +1,6 @@
 # CryoET Data Portal
 
-The Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute) has developed the prototype CryoET Data Portal providing queryable and organized data from cryoET experiments. The initial target users are segmentation algorithm developers to produce annotations for diverse macromolecules in the tomogram that may be used for high-resolution subtomogram averaging. We currently have 185 tomograms from four datasets contributed by the groups of Julia Mahamid and Jürgen Plitzko. Each of these tomograms have a minimum of “ground truth” point annotations of ribosomes. We also provide a python API to query and download the data. This portal is not intended to be a final product, but rather, a first step to start a discussion in the wider community as to what is needed with such a portal. We welcome feedback from the community on the data structure, design and functionality. Once we have gathered some feedback we plan to organize a community-wide workshop to discuss next steps.
+The Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute) has developed the prototype CryoET Data Portal providing queryable and organized data from cryoET experiments. The initial target users are segmentation algorithm developers to produce annotations for diverse macromolecules in the tomogram that may be used for high-resolution subtomogram averaging. We currently have 185 tomograms from three datasets contributed by the groups of Julia Mahamid and Jürgen Plitzko. Each of these tomograms have a minimum of “ground truth” point annotations of ribosomes. We also provide a python API to query and download the data. This portal is not intended to be a final product, but rather, a first step to start a discussion in the wider community as to what is needed with such a portal. We welcome feedback from the community on the data structure, design and functionality. Once we have gathered some feedback we plan to organize a community-wide workshop to discuss next steps.
 
 | Share your thoughts on the cryoET data portal in this [short survey](https://forms.gle/ANyFtvqCRBSHyHfV6)! |
 | --- |
@@ -19,7 +19,7 @@ Here is a summary of the datasets that have been provided. A full description ca
 | Raw movies | Yes | Yes | Yes |
 | Raw tilts | Yes | Yes | No |
 | 3D volumes | Yes | Yes | Yes |
-| Point Annotations (number of particles) | Ribosome (##), FAS (##) | Ribosome | Ribosome |
+| Point Annotations (number of particles) | Ribosome, FAS | Ribosome | Ribosome |
 | Acknowledgement | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1101/2023.04.28.538734](https://www.biorxiv.org/content/10.1101/2023.04.28.538734v1) |
 
 ### Getting Started Links
@@ -57,6 +57,6 @@ A description of the CryoET Portal data and its schema is detailed [here](https:
 This is a prototype of a cryoET Data Portal providing queryable and organized data from cryoET experiments. The initial target users are segmentation algorithm developers to produce annotations for diverse macromolecules in the tomogram that may be used for high-resolution subtomogram averaging.  This portal is not intended to be a final product but rather a first step to start a discussion in the wider community as to what is needed with such a portal. We welcome feedback from the community on the data structure, design and functionality. Once we have gathered some feedback we plan to organize a community-wide workshop to discuss next steps.
 
 ## Questions, Feedback, and Issues/Bugs
-- Users are encouraged to submit questions, bugs, and feature requests for the CryoET Data Portal via [Github issues](https://github.com/chanzuckerberg/cryoet-portal/issues).
+- Users are encouraged to submit questions, bugs, and feature requests for the CryoET Data Portal via [Github issues](https://github.com/chanzuckerberg/cryoet-dataportal/issues).
 - Questions? Email us at cryoetdataportal@chanzuckerberg.com 
 - If you believe you have found a security issue, please disclose it by contacting security@chanzuckerberg.com.
