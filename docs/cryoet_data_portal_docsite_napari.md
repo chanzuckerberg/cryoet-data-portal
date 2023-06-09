@@ -1,4 +1,4 @@
-# CryoET with napari
+# napari
 
 [napari](https://napari.org) is a general purpose interactive image viewer for Python
 with some support for cryoET data formats and for streaming data from remote storage services like AWS-S3.
@@ -64,7 +64,7 @@ The simplest way to open local files and folders in napari is to drag and drop t
 Alternatively, access napari's file menu and click on *Open File(s)* or *Open Folder* items to select local files and folders.
 
 
-## Display a tomogram
+## Open a tomogram
 
 Instead of opening files manually in napari, you can write Python to automate this process.
 The following code finds all tomograms with a particular annotator and minimum tomogram size
@@ -113,7 +113,7 @@ TS_026
 though this may take a while depending on your network connection.
 
 
-## Browse the portal
+## Data portal plugin
 
 We also built [a plugin that lets you browse the CryoET Data Portal in napari](https://github.com/chanzuckerberg/napari-cryoet-data-portal) to quickly display tomograms, annotations, and metadata
 
