@@ -54,7 +54,7 @@ aws s3 ls --no-sign-request s3://cryoet-data-portal-public
   
 ## Citing the CryoET Data Portal
  
-Data from the portal must acknowledge the data providers and the original publications as follows (inserting of omitting as needed based on which datasets are used):
+Data from the portal must acknowledge the data providers and the original publications as follows (inserting or omitting as needed based on which datasets are used):
 Some of the data used in this work was provided by the group (s) of Julia Mahamid (EMBL)/Jürgen Plitzko (MPI). The work is described more fully in the publication:
 
 | Provider | Julia Mahamid | Julia Mahamid | Jürgen Plitzko |
