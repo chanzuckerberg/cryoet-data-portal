@@ -45,7 +45,7 @@ napari
 from the command line.
 Also see the [main napari documentation for other ways to run napari](https://napari.org/stable/tutorials/fundamentals/getting_started.html).
 
-If you run into problems with the commands above, see the [latest napari documentation for more detailed installation instructions](https://napari.org/dev/tutorials/fundamentals/installation.html#install-as-python-package-recommended) or reach out to cryoetdataportal@chanzuckerberg.org.
+If you run into problems with the commands above, see the [latest napari documentation for more detailed installation instructions](https://napari.org/dev/tutorials/fundamentals/installation.html#install-as-python-package-recommended) or reach out to cryoetdataportal@chanzuckerberg.org
 
 
 ## Plugins
