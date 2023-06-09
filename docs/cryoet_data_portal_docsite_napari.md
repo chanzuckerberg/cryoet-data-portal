@@ -12,14 +12,16 @@ Installing complex Python packages like napari can be difficult, especially as i
 We strongly recommend isolating your installation in a virtual or conda environment to manage this complexity.
 
 If you followed the quick start guide and already created a Python environment to install the `cryoet-data-portal` package, you may be able to reuse that environment for installing napari.
-Otherwise, create and activate a new environment with the following commands.
+
+However, many napari users and developers use the `conda` environment manager instead, so you are likely to have more success with that.
+Download and install [miniconda](https://docs.conda.io/en/latest/miniconda.html) and run the following commands to create and activate a conda environment.
 
 ```shell
-python -m venv ./venv
-source ./venv/bin/activate
+conda create -y -n napari-env -c conda-forge python=3.9
+conda activate napari-env
 ```
 
-For many platforms, installing the latest version of napari with `pip` should work.
+From here installing the latest version of napari with `pip` should work for most platforms.
 
 ```shell
 pip install -U "napari[all]"
@@ -61,18 +63,18 @@ pip install -U napari_mrcfile_reader napari_ome_zarr
 ```
 
 After installing these two plugins, you should be able open tomograms from the data portal in both the MRC and OME-zarr formats.
-The simplest way to open local files and folders in napari is to drag and drop them from a file explorer onto napari's main canvas.
+The simplest way to open local files and folders in napari is to drag and drop them onto napari's main canvas.
 Alternatively, access napari's file menu and click on *Open File(s)* or *Open Folder* items to select local files and folders.
 
 
 ## Display a tomogram from the portal
 
 Instead of opening files manually in napari, you can write Python to automate this process.
-The following code finds all tomograms with a particular annotator and minimum tomogram size,
-and opens the first one in napari.
+The following code finds all tomograms with a particular annotator and minimum tomogram size
+using the Python client and opens the first one in napari.
 
 :::attention
-This example depends on installing the plugins mentioned above.
+This example depends on installing the napari-ome-zarr plugin mentioned above.
 :::
 
 ```python
@@ -128,6 +130,6 @@ pip install git+https://github.com/chanzuckerberg/napari-cryoet-data-portal.git
 
 To access the plugin, first open napari then navigate to the plugin menu and open the portal widget.
 
-![The napari plugin menu showing the CryoET Data Portal item](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843)
+![The napari plugin menu showing the CryoET Data Portal item](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/ca114f36-6254-43cf-a006-0043f7654613)
 
-See the [Usage section in the README of the plugin](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) for details on how to use it.
+See the [plugin's README](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) for details on how to use it.
