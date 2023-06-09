@@ -115,7 +115,9 @@ though this may take a while depending on your network connection.
 
 ## Browse the portal
 
-We built [a plugin that lets you browse the CryoET Data Portal in napari](https://github.com/chanzuckerberg/napari-cryoet-data-portal) to quickly display tomograms, annotations, and metadata
+We also built [a plugin that lets you browse the CryoET Data Portal in napari](https://github.com/chanzuckerberg/napari-cryoet-data-portal) to quickly display tomograms, annotations, and metadata
+
+![napari with the CryoET Data Portal widget showing](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843)
 
 This plugin is not yet available on PyPI, but the latest development version can be installed with `pip` as long as `git` is also available.
 
@@ -123,10 +125,8 @@ This plugin is not yet available on PyPI, but the latest development version can
 pip install git+https://github.com/chanzuckerberg/napari-cryoet-data-portal.git
 ```
 
-After installation, navigate to napari's *Plugins* menu and click on the *CryoET Data Portal* item.
+After installation, navigate to napari's *Plugins* menu and click on the *CryoET Data Portal* item to open the browser.
 
 ![The napari plugin menu showing the CryoET Data Portal item](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/f129cdab-f97d-4514-a631-f9401d7c7bac)
 
 See the [plugin's README](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) for details on how to use it.
-
-![napari with the CryoET Data Portal widget showing](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843)
