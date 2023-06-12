@@ -7,7 +7,7 @@ The Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Instit
 
 ## Get Started:
 
-![Screenshot 2023-06-09 at 10 40 22 AM](https://github.com/chanzuckerberg/cryoet-data-portal/assets/100323416/79dd79c7-86d1-4621-a6c6-2b5e8e164abe)
+![CZII Graphic Github](https://github.com/chanzuckerberg/cryoet-data-portal/assets/100323416/dc425098-d949-479f-b2f2-325f1c944784)
 
 Electron Tomography workflow and the data we provide.
 
