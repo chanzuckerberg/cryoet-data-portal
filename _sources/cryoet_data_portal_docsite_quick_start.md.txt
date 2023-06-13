@@ -17,7 +17,7 @@ python -m venv ./venv
 source ./venv/bin/activate
 ```
 
-Install the latest `cryoet-data-portal` package via pip:
+Install the `cryoet-data-portal` package via pip:
 
 ```shell
 pip install -U cryoet-data-portal
@@ -99,4 +99,47 @@ TS_026
     "tomogram_voxel_spacing_id": 1,
     "name": "TS_026",
 ... more output ...
+```
+
+### Open a tomogram in Napari
+
+The following finds all tomograms with a particular annotator and minimum tomogram size, and opens the first one in Napari.
+
+- [https://napari.org/stable/tutorials/fundamentals/installation.html](click here).
+
+For more information on how to install Napari, [click here](https://napari.org/stable/tutorials/fundamentals/installation.html).
+
+```python
+import napari
+
+from cryoet_data_portal import Client, Tomogram
+
+client = Client()
+
+# Find all tomograms with annotations by Sara Goetz and at least 300 voxels
+# in the Z dimension
+tomograms = Tomogram.find(
+    client,
+    [
+        Tomogram.tomogram_voxel_spacing.annotations.authors.name._in(["Sara Goetz"]),
+        Tomogram.size_z > 300,
+    ],
+)
+
+for tomo in tomograms:
+    print(tomo.name)
+    print(tomo.size_z)
+    url = tomo.https_omezarr_dir
+
+    viewer = napari.Viewer()
+    viewer.open(url, plugin="napari-ome-zarr")
+    break
+
+```
+
+Napari will open omezarr tomograms after printing the run name and z-size
+
+``` bash
+TS_026
+1000
 ```
