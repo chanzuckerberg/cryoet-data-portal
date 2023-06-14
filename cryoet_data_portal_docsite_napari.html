@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="robots" content="noindex">
+  <meta name="googlebot" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>napari &mdash; cryoet-data-portal  documentation</title>
+  
+
+  
+  <link rel="icon" type="image/png" sizes="64x64" href="_static/img/czii-favicon_64x64.png"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/czii-favicon_32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/czii-favicon_16x16.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script data-domain="chanzuckerberg.github.io/cryoet-data-portal" defer="defer" src="https://plausible.io/js/script.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="FAQ" href="cryoet_data_portal_docsite_FAQ.html" />
+    <link rel="prev" title="Python API" href="python-api.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div style="height: 100vh; overflow: hidden;">
+     
+    <!-- top 48px for navbar height -->
+    <div class="navbar-cet">
+        <div style="padding: 0 16px; display: flex; height: inherit; align-items: center; justify-content: space-between;">
+            <span style="display:flex; gap: 32px; align-items: center;">
+                <a href="https://www.czimaginginstitute.org/">
+                  <img src="_static/img/czi-imaging-institute.png" style="height: 45px; width: 45px;" />
+                </a>
+                <span style="display:flex; gap: 16px;">
+                    <span class="navbar-cet-link">
+                      <a class="navbar-cet-anchor" href="index.html">CryoET Data Portal</a>    
+                  </span>
+                </span>
+            </span>
+
+            <span class="navbar-cet-link">
+              <a class="navbar-cet-anchor" href="https://www.czimaginginstitute.org/">CZI Imaging Institute</a>
+            </span>
+        </div>
+    </div>
+    <div style="width: 100%; height: 100%; overflow: auto; padding-top: 48px;">
+        
+        <!-- top 48px for navbar height -->
+        <nav data-toggle="wy-nav-shift" class="wy-nav-side" style="top: 48px;" >
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search" >
+            
+
+            
+                <a href="index.html" class="icon icon-home"> cryoet-data-portal
+            
+
+            
+            </a>
+
+            
+                
+                
+                <div class="version">
+                    0.1.dev1+g8a50d83
+                </div>
+                
+            
+
+            
+
+            
+            </div>
+
+            
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+            
+                
+                
+                
+                
+                
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_quick_start.html">Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-api.html">Python API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">napari</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plugins">Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#open-a-tomogram">Open a tomogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-portal-plugin">Data portal plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_FAQ.html">FAQ</a></li>
+</ul>
+
+                
+            
+            </div>
+            
+        </div>
+        </nav>
+
+        <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+            
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="index.html">cryoet-data-portal</a>
+            
+        </nav>
+
+
+        <div class="wy-nav-content">
+            
+            <div class="rst-content">
+            
+            <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">napari</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cryoet_data_portal_docsite_napari.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+            <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <section id="napari">
+<h1>napari<a class="headerlink" href="#napari" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="https://napari.org">napari</a> is a general purpose interactive image viewer for Python
+with some support for cryoET data formats and for streaming data from remote storage services like AWS-S3.
+We added some extra tools and documentation to help use napari with the CryoET Data Portal.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
+<p>Installing complex Python packages like napari can be difficult, especially as it and its dependencies evolve over time.
+We strongly recommend isolating your installation in an environment to manage this complexity.
+If you followed the quick start guide and already created a virtual environment to install the <code class="docutils literal notranslate"><span class="pre">cryoet-data-portal</span></code> package, you <em>may</em> be able to reuse that environment for installing napari.</p>
+<p>However, many napari users and developers use the <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment manager, so we recommend that here instead.
+Download and install <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">miniconda</a> and run the following commands to create and activate a conda environment.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-y<span class="w"> </span>-n<span class="w"> </span>napari-env<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9
+conda<span class="w"> </span>activate<span class="w"> </span>napari-env
+</pre></div>
+</div>
+<p>From here, installing the latest version of napari with <code class="docutils literal notranslate"><span class="pre">pip</span></code> should work for most platforms.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span><span class="s2">&quot;napari[all]&quot;</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>For ARM macOS (Apple Silicon), pre-built packages of Qt5 are not available on PyPI, so the above command will fail.
+Instead, either install Qt6 separately with the following two commands</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>napari
+pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>PyQt6
+</pre></div>
+</div>
+<p>or use <code class="docutils literal notranslate"><span class="pre">conda</span></code> or <code class="docutils literal notranslate"><span class="pre">mamba</span></code> as described in the <a class="reference external" href="https://napari.org/dev/tutorials/fundamentals/installation.html#install-as-python-package-recommended">latest napari installation instructions</a>.</p>
+</div>
+<p>After successful installation, open napari by simply running</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>napari
+</pre></div>
+</div>
+<p>from the command line.
+Also see the <a class="reference external" href="https://napari.org/stable/tutorials/fundamentals/getting_started.html">main napari documentation for other ways to run napari</a>.</p>
+<p>If you run into problems with the commands above, see the <a class="reference external" href="https://napari.org/dev/tutorials/fundamentals/installation.html#install-as-python-package-recommended">latest napari documentation for more detailed installation instructions</a> or reach out to cryoetdataportal&#64;chanzuckerberg.org</p>
+</section>
+<section id="plugins">
+<h2>Plugins<a class="headerlink" href="#plugins" title="Permalink to this heading">¶</a></h2>
+<p>napari has some built-in functionality, but relies heavily on an ecosystem of plugins to
+provide support for the wide variety of data formats in the scientific imaging community.</p>
+<p>For the CryoET Data Portal, we recommend installing two plugins to read the formats used to store tomograms.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>napari_mrcfile_reader<span class="w"> </span>napari_ome_zarr
+</pre></div>
+</div>
+<p>After installing these two plugins, you should be able open tomograms from the data portal in both the MRC and OME-zarr formats.
+The simplest way to open local files and folders in napari is to drag and drop them onto napari’s main canvas.
+Alternatively, access napari’s file menu and click on <em>Open File(s)</em> or <em>Open Folder</em> items to select local files and folders.</p>
+</section>
+<section id="open-a-tomogram">
+<h2>Open a tomogram<a class="headerlink" href="#open-a-tomogram" title="Permalink to this heading">¶</a></h2>
+<p>Instead of opening files manually in napari, you can write Python to automate this process.
+The following code finds all tomograms with a particular annotator and minimum tomogram size
+using the Python client and opens the first one in napari.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>This example depends on installing the napari-ome-zarr plugin mentioned above.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">napari</span>
+
+<span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+
+<span class="c1"># Find all tomograms with annotations by Sara Goetz and at least 300 voxels</span>
+<span class="c1"># in the Z dimension</span>
+<span class="n">tomograms</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">authors</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s2">&quot;Sara Goetz&quot;</span><span class="p">]),</span>
+        <span class="n">Tomogram</span><span class="o">.</span><span class="n">size_z</span> <span class="o">&gt;</span> <span class="mi">300</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">tomo</span> <span class="ow">in</span> <span class="n">tomograms</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tomo</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tomo</span><span class="o">.</span><span class="n">size_z</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">tomo</span><span class="o">.</span><span class="n">https_omezarr_dir</span>
+    <span class="n">viewer</span> <span class="o">=</span> <span class="n">napari</span><span class="o">.</span><span class="n">Viewer</span><span class="p">()</span>
+    <span class="n">viewer</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="s2">&quot;napari-ome-zarr&quot;</span><span class="p">)</span>
+    <span class="k">break</span>
+
+<span class="n">napari</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>After running this from the command line, napari should open and display the multi-scale
+OME-zarr tomogram after printing the run name and z-size</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TS_026</span>
+<span class="mi">1000</span>
+</pre></div>
+</div>
+<p>though this may take a while depending on your network connection.</p>
+</section>
+<section id="data-portal-plugin">
+<h2>Data portal plugin<a class="headerlink" href="#data-portal-plugin" title="Permalink to this heading">¶</a></h2>
+<p>We also built <a class="reference external" href="https://github.com/chanzuckerberg/napari-cryoet-data-portal">a plugin that lets you browse the CryoET Data Portal in napari</a> to quickly display tomograms, annotations, and metadata</p>
+<p><img alt="napari with the CryoET Data Portal widget showing" src="https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843" /></p>
+<p>This plugin is not yet available on PyPI, but the latest development version can be installed with <code class="docutils literal notranslate"><span class="pre">pip</span></code> as long as <code class="docutils literal notranslate"><span class="pre">git</span></code> is also available.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/chanzuckerberg/napari-cryoet-data-portal.git
+</pre></div>
+</div>
+<p>After installation, navigate to napari’s <em>Plugins</em> menu and click on the <em>CryoET Data Portal</em> item to open the browser.</p>
+<p><img alt="The napari plugin menu showing the CryoET Data Portal item" src="https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/f129cdab-f97d-4514-a631-f9401d7c7bac" /></p>
+<p>See the <a class="reference external" href="https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage">plugin’s README</a> for details on how to use it.</p>
+</section>
+</section>
+
+
+            </div>
+            
+            </div>
+            <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="python-api.html" class="btn btn-neutral float-left" title="Python API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cryoet_data_portal_docsite_FAQ.html" class="btn btn-neutral float-right" title="FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2023 Chan Zuckerberg Initiative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+            </div>
+        </div>
+
+        </section>
+
+    </div>
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

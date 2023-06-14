@@ -93,7 +93,7 @@
                 
                 
                 <div class="version">
-                    1.0.1
+                    0.1.dev1+g8a50d83
                 </div>
                 
             
@@ -114,6 +114,7 @@
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_quick_start.html">Quick start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python-api.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_napari.html">napari</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_FAQ.html">FAQ</a></li>
 </ul>
 
@@ -154,18 +155,28 @@
                 
   <section id="cryoet-data-portal">
 <h1>CryoET Data Portal<a class="headerlink" href="#cryoet-data-portal" title="Permalink to this heading">¶</a></h1>
-<p>The Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute) has developed the prototype CryoET Data Portal providing queryable and organized data from cryoET experiments. The initial target users are segmentation algorithm developers to produce annotations for diverse macromolecules in the tomogram that may be used for high-resolution subtomogram averaging. We currently have 185 tomograms from four datasets contributed by the groups of Julia Mahamid and Jürgen Plitzko. Each of these tomograms have a minimum of “ground truth” point annotations of ribosomes. We also provide a python API to query and download the data. This portal is not intended to be a final product, but rather, a first step to start a discussion in the wider community as to what is needed with such a portal. We welcome feedback from the community on the data structure, design and functionality. Once we have gathered some feedback we plan to organize a community-wide workshop to discuss next steps.</p>
+<p>The Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute) has developed the prototype CryoET Data Portal providing queryable and organized data from cryoET experiments. The initial target users are segmentation algorithm developers to produce annotations for diverse macromolecules in the tomogram that may be used for high-resolution subtomogram averaging. We currently have 120 tomograms from three datasets contributed by the groups of Julia Mahamid and Jürgen Plitzko. Each of these tomograms have a minimum of “ground truth” point annotations of ribosomes. We also provide a Python API to query and download the data. This portal is not intended to be a final product, but rather, a first step to start a discussion in the wider community as to what is needed with such a portal. We welcome feedback from the community on the data structure, design and functionality. Once we have gathered some feedback we plan to organize a community-wide workshop to discuss next steps.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Share your thoughts on the cryoET data portal in this <a class="reference external" href="https://forms.gle/ANyFtvqCRBSHyHfV6">short survey</a>!</p></th>
+</tr>
+</thead>
+</table>
 <section id="get-started">
 <h2>Get Started:<a class="headerlink" href="#get-started" title="Permalink to this heading">¶</a></h2>
-<p>Each of the data sets provides all or some of the following data: (i) raw movies, (ii) unaligned tilt series, (iii) aligned tilt series, (iv) annotations.
-<add image>
-Here is a summary of the datasets that have been provided. A full description can be found below under Data and schema (hyperlink to Data and schema). The data can be downloaded through a Python API (hyperlink to Python API).</p>
+<p><img alt="CZII Graphic Github" src="https://github.com/chanzuckerberg/cryoet-data-portal/assets/100323416/dc425098-d949-479f-b2f2-325f1c944784" /></p>
+<p>Electron Tomography workflow and the data we provide.</p>
+<p><strong>A.</strong> Sample is rotated to different tilt angles and electrons pass through to produce projection images of the 3D volume</p>
+<p><strong>B.</strong> We provide raw movie frames collected by a direct detector and may also provide these stacked into a tilt series of images</p>
+<p><strong>C.</strong> A 3D tomographic reconstructed volume is produced by back projecting projections which are first corrected in a variety of ways (motion correction, CTF estimation, etc.)</p>
+<p><strong>D.</strong> We provide the 3D volume together with point annotations of (at least one) macromolecular complex for each volume</p>
+<p>Here is a summary of the datasets that have been provided. A full description can be found below under <a class="reference external" href="https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#?usp=sharing">Data and schema</a>. The data can be downloaded through a <a class="reference external" href="https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html">Python API</a>.</p>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Provider</p></th>
 <th class="head"><p>Julia Mahamid</p></th>
 <th class="head"><p>Julia Mahamid</p></th>
-<th class="head"><p>Jürgen Pltzco</p></th>
+<th class="head"><p>Jürgen Plitzko</p></th>
 </tr>
 </thead>
 <tbody>
@@ -199,8 +210,8 @@ Here is a summary of the datasets that have been provided. A full description ca
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>Point Annotations (number of particles)</p></td>
-<td><p>Ribosome (##), FAS (##)</p></td>
+<tr class="row-even"><td><p>Point annotations</p></td>
+<td><p>Ribosome, FAS</p></td>
 <td><p>Ribosome</p></td>
 <td><p>Ribosome</p></td>
 </tr>
@@ -218,32 +229,36 @@ Here is a summary of the datasets that have been provided. A full description ca
 <li><p><a class="reference external" href="https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html">Python API Client</a></p></li>
 <li><p><a class="reference external" href="https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#?usp=sharing">Metadata and schema</a></p></li>
 <li><p><a class="reference external" href="https://docs.google.com/document/d/1YfzaS7spKOQMrBAUIfQquWskijWDUhpEURxW7nkmwaU/edit#?usp=sharing">File formats</a></p></li>
-<li><p><a class="reference external" href="https://www.google.com/">napari plugin</a></p></li>
+<li><p><a class="reference external" href="https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html">napari</a></p></li>
 </ul>
 </section>
 </section>
 <section id="s3-bucket-info">
 <h2>S3 Bucket Info<a class="headerlink" href="#s3-bucket-info" title="Permalink to this heading">¶</a></h2>
 <p>The CryoET Data Portal S3 bucket supports public access. The bucket URL is:</p>
-<p><code class="docutils literal notranslate"><span class="pre">s3://cryoet-data-portal-public</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s3</span><span class="p">:</span><span class="o">//</span><span class="n">cryoet</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">portal</span><span class="o">-</span><span class="n">public</span>
+</pre></div>
+</div>
 <p>To list the bucket contents with the S3 CLI without credentials, please use the following:</p>
-<p><code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">s3</span> <span class="pre">ls</span> <span class="pre">--no-sign-request</span> <span class="pre">s3://cryoet-data-portal-public</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aws</span> <span class="n">s3</span> <span class="n">ls</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">sign</span><span class="o">-</span><span class="n">request</span> <span class="n">s3</span><span class="p">:</span><span class="o">//</span><span class="n">cryoet</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">portal</span><span class="o">-</span><span class="n">public</span>
+</pre></div>
+</div>
 </section>
 <section id="citing-the-cryoet-data-portal">
 <h2>Citing the CryoET Data Portal<a class="headerlink" href="#citing-the-cryoet-data-portal" title="Permalink to this heading">¶</a></h2>
-<p>Data from the portal must acknowledge the data providers and the original publications as follows (inserting of omitting as needed based on which datasets are used):
-Some of the data used in this work was provided by the group (s) of Julia Mahamid (EMBL)/Juergen Plitzko (MPI). The work is described more fully in the publication:</p>
+<p>Data from the portal must acknowledge the data providers and the original publications as follows (inserting or omitting as needed based on which datasets are used):
+Some of the data used in this work was provided by the group (s) of Julia Mahamid (EMBL)/Jürgen Plitzko (MPI). The work is described more fully in the publication:</p>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Provider</p></th>
 <th class="head"><p>Julia Mahamid</p></th>
 <th class="head"><p>Julia Mahamid</p></th>
-<th class="head"><p>Jürgen Pltzco</p></th>
+<th class="head"><p>Jürgen Plitzko</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Dataset name</p></td>
-<td><p>100000</p></td>
+<td><p>10000</p></td>
 <td><p>10001</p></td>
 <td><p>10004</p></td>
 </tr>
@@ -267,7 +282,7 @@ Some of the data used in this work was provided by the group (s) of Julia Mahami
 <section id="questions-feedback-and-issues-bugs">
 <h2>Questions, Feedback, and Issues/Bugs<a class="headerlink" href="#questions-feedback-and-issues-bugs" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>Users are encouraged to submit questions, bugs, and feature requests for the CryoET Data Portal via <a class="reference external" href="https://github.com/chanzuckerberg/cryoet-portal/issues">Github issues</a>.</p></li>
+<li><p>Users are encouraged to submit questions, bugs, and feature requests for the CryoET Data Portal via <a class="reference external" href="https://github.com/chanzuckerberg/cryoet-data-portal/issues">Github issues</a>.</p></li>
 <li><p>Questions? Email us at cryoetdataportal&#64;chanzuckerberg.com</p></li>
 <li><p>If you believe you have found a security issue, please disclose it by contacting security&#64;chanzuckerberg.com.</p></li>
 </ul>
