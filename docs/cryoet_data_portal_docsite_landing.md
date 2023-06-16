@@ -71,6 +71,7 @@ A description of the CryoET Portal data and its schema is detailed [here](https:
 This is a prototype of a cryoET Data Portal providing queryable and organized data from cryoET experiments. The initial target users are segmentation algorithm developers to produce annotations for diverse macromolecules in the tomogram that may be used for high-resolution subtomogram averaging.  This portal is not intended to be a final product but rather a first step to start a discussion in the wider community as to what is needed with such a portal. We welcome feedback from the community on the data structure, design and functionality. Once we have gathered some feedback we plan to organize a community-wide workshop to discuss next steps.
 
 ## Questions, Feedback, and Issues/Bugs
-- Users are encouraged to submit questions, bugs, and feature requests for the CryoET Data Portal via [Github issues](https://github.com/chanzuckerberg/cryoet-data-portal/issues).
-- Questions? Email us at cryoetdataportal@chanzuckerberg.com 
+- Share your thoughts on the cryoET data portal in this [short survey](https://bit.ly/cryoet-data-portal-survey)!
+- Users are encouraged to submit questions, bugs, and feature requests for the CryoET Data Portal via [GitHub issues](https://github.com/chanzuckerberg/cryoet-data-portal/issues).
+- Questions? Email us at cryoetdataportal@chanzuckerberg.com.
 - If you believe you have found a security issue, please disclose it by contacting security@chanzuckerberg.com.
