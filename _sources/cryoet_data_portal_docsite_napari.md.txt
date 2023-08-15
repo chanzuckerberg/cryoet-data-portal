@@ -119,10 +119,10 @@ We also built [a plugin that lets you browse the CryoET Data Portal in napari](h
 
 ![napari with the CryoET Data Portal widget showing](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843)
 
-This plugin is not yet available on PyPI, but the latest development version can be installed with `pip` as long as `git` is also available.
+This plugin can be installed from PyPI by running
 
 ```shell
-pip install git+https://github.com/chanzuckerberg/napari-cryoet-data-portal.git
+pip install napari-cryoet-data-portal
 ```
 
 After installation, navigate to napari's *Plugins* menu and click on the *CryoET Data Portal* item to open the browser.
