@@ -1,6 +1,4 @@
 import { ComplexFilter, DefaultDropdownMenuOption } from '@czi-sds/components'
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import type { MetaFunction } from '@remix-run/node'
 
@@ -22,18 +20,8 @@ const OPTIONS: DefaultDropdownMenuOption[] = [
 export default function HomePage() {
   return (
     <div className="p-8 pt-24">
-      <AppBar className="px-8">
-        <Toolbar className="!p-0">
-          <Typography variant="h4">CryoET Data Portal</Typography>
-        </Toolbar>
-      </AppBar>
-
       <Typography variant="h2" component="h1">
         Hello, CryoET Data Portal!
-      </Typography>
-
-      <Typography className="text-red-500" variant="h3" component="h1">
-        what is up fam
       </Typography>
 
       <ComplexFilter
