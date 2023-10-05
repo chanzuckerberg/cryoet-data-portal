@@ -1,5 +1,6 @@
-import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+
+import { Overlay } from 'app/components/Overlay'
 
 import { LiveReloadEvent } from './event'
 
@@ -34,17 +35,8 @@ export const LiveReloadOverlay =
         }, [])
 
         return (
-          <AnimatePresence>
-            {visible && (
-              <motion.div
-                className="bg-black/60 flex items-center fixed top-0 left-0 justify-center w-screen h-screen"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <p className="text-5xl text-white">Live Reloading...</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <Overlay open={visible}>
+            <p className="text-5xl text-white">Live Reloading...</p>
+          </Overlay>
         )
       }
