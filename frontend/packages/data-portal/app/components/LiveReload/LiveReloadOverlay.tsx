@@ -37,7 +37,7 @@ export const LiveReloadOverlay =
           <AnimatePresence>
             {visible && (
               <motion.div
-                className="bg-black/60 flex items-center absolute top-0 left-0 justify-center w-screen h-screen"
+                className="bg-black/60 flex items-center fixed top-0 left-0 justify-center w-screen h-screen"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
