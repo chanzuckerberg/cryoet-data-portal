@@ -6,7 +6,6 @@ import { cssBundleHref } from '@remix-run/css-bundle'
 import { json, LinksFunction } from '@remix-run/node'
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -16,6 +15,7 @@ import {
 import { defaults } from 'lodash-es'
 import { useContext } from 'react'
 
+import { LiveReload, LiveReloadOverlay } from './components/LiveReload'
 import { ClientStyleContext } from './context/ClientStyle.context'
 import {
   ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
@@ -102,6 +102,7 @@ const Document = withEmotionCache(
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
+          <LiveReloadOverlay />
         </body>
       </html>
     )

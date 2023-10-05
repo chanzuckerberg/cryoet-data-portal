@@ -28,6 +28,7 @@
     "@remix-run/serve": "^2.0.1",
     "@remix-run/server-runtime": "^2.0.1",
     "clsx": "^2.0.0",
+    "framer-motion": "^10.16.4",
     "isbot": "^3.7.0",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
