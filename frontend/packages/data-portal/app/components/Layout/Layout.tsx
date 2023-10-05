@@ -9,7 +9,7 @@ export function Layout({ children }: { children: ReactNode }) {
     <main className="flex flex-col flex-auto">
       <TopNavigation />
       <Drawer />
-      {children}
+      <div className="flex flex-col flex-[1_0_auto]">{children}</div>
       <Footer />
     </main>
   )

@@ -1,4 +1,3 @@
-import { defaultTheme } from '@czi-sds/components'
 import { withEmotionCache } from '@emotion/react'
 // eslint-disable-next-line cryoet-data-portal/no-root-mui-import
 import { unstable_useEnhancedEffect as useEnhancedEffect } from '@mui/material'
@@ -23,6 +22,7 @@ import {
   EnvironmentContext,
 } from './context/Environment.context'
 import tailwindStyles from './tailwind.css'
+import { theme } from './theme'
 
 interface DocumentProps {
   children: React.ReactNode
@@ -75,10 +75,7 @@ const Document = withEmotionCache(
 
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width,initial-scale=1" />
-          <meta
-            name="theme-color"
-            content={defaultTheme.palette.primary.main}
-          />
+          <meta name="theme-color" content={theme.palette.primary.main} />
           <Meta />
 
           <Links />
