@@ -1,5 +1,5 @@
-import { DemoPage } from 'app/components/DemoPage'
+import { Demo } from 'app/components/Demo'
 
 export default function AllDatasetsPage() {
-  return <DemoPage>All Datasets Page</DemoPage>
+  return <Demo>All Datasets Page</Demo>
 }

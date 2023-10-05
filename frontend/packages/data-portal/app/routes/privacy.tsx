@@ -1,5 +1,5 @@
-import { DemoPage } from 'app/components/DemoPage'
+import { Demo } from 'app/components/Demo'
 
 export default function PrivacyPage() {
-  return <DemoPage>Privacy Page</DemoPage>
+  return <Demo>Privacy Page</Demo>
 }

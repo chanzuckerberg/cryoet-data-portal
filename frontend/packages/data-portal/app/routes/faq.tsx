@@ -1,5 +1,5 @@
-import { DemoPage } from 'app/components/DemoPage'
+import { Demo } from 'app/components/Demo'
 
 export default function FaqPage() {
-  return <DemoPage>FAQ Page</DemoPage>
+  return <Demo>FAQ Page</Demo>
 }

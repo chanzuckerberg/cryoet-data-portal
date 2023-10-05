@@ -1,5 +1,5 @@
-import { DemoPage } from 'app/components/DemoPage'
+import { Demo } from 'app/components/Demo'
 
 export default function LicensePage() {
-  return <DemoPage>License Page</DemoPage>
+  return <Demo>License Page</Demo>
 }
