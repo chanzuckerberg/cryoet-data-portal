@@ -15,6 +15,7 @@ import {
 import { defaults } from 'lodash-es'
 import { useContext } from 'react'
 
+import { Layout } from './components/Layout'
 import { LiveReload, LiveReloadOverlay } from './components/LiveReload'
 import { ClientStyleContext } from './context/ClientStyle.context'
 import {
@@ -96,7 +97,7 @@ const Document = withEmotionCache(
         </head>
         <body className="h-screen w-screen flex flex-col flex-auto">
           <EnvironmentContext.Provider value={ENV}>
-            {children}
+            <Layout>{children}</Layout>
           </EnvironmentContext.Provider>
 
           <ScrollRestoration />
