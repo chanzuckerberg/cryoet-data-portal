@@ -1,6 +1,13 @@
-import { ComplexFilter, DefaultDropdownMenuOption } from '@czi-sds/components'
+import {
+  Button,
+  ComplexFilter,
+  DefaultDropdownMenuOption,
+} from '@czi-sds/components'
 import Typography from '@mui/material/Typography'
 import type { MetaFunction } from '@remix-run/node'
+import { useAtom } from 'jotai'
+
+import { drawerOpenAtom } from 'app/state/drawer'
 
 export const meta: MetaFunction = () => {
   return [
@@ -18,8 +25,14 @@ const OPTIONS: DefaultDropdownMenuOption[] = [
 ]
 
 export default function HomePage() {
+  const [drawerOpen, setDrawerOpen] = useAtom(drawerOpenAtom)
+
   return (
     <div className="p-8 pt-24">
+      <Button onClick={() => setDrawerOpen((prev) => !prev)}>
+        {drawerOpen ? 'Close' : 'Open'} Drawer
+      </Button>
+
       <Typography variant="h2" component="h1">
         Hello, CryoET Data Portal!
       </Typography>
