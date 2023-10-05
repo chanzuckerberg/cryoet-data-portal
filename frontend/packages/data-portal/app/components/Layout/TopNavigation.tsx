@@ -12,7 +12,13 @@ export function TopNavigation() {
   const { pathname } = useLocation()
 
   return (
-    <nav className="bg-sds-gray-black text-sds-gray-white flex h-[45px] items-center px-sds-xl sticky top-0">
+    <nav
+      className={cns(
+        'bg-sds-gray-black text-sds-gray-white',
+        'flex h-[45px] items-center px-sds-xl',
+        'sticky top-0 z-30',
+      )}
+    >
       <CryoETHomeLink />
 
       {/* Add empty space to push content to right */}
