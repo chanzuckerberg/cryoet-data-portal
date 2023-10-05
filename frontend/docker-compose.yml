@@ -1,10 +1,12 @@
-version: '3.8'
-
+version: "3.8"
 services:
-  data-portal:
-    image: cryoet-data-portal/data-portal
+  frontend:
+    image: frontend
+    platform: linux/arm64
+    profiles:
+    - '*'
     build:
       context: .
       dockerfile: packages/data-portal/Dockerfile
     ports:
-      - 8080:8080
+      - 8081:8080
