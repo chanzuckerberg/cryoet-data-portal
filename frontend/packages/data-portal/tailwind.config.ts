@@ -3,7 +3,7 @@ import type { Config } from 'tailwindcss'
 
 // eslint-disable-next-line import/no-default-export
 export default {
-  content: ['./src/**/*.{ts,tsx,scss}'],
+  content: ['./app/**/*.{ts,tsx,scss}'],
   theme: {
     extend: sds,
   },

@@ -12,8 +12,8 @@ import { hydrateRoot } from 'react-dom/client'
 import {
   ClientStyleContext,
   ClientStyleContextValue,
-} from 'src/context/ClientStyle.context'
-import { createEmotionCache } from 'src/utils/createEmotionCache'
+} from './context/ClientStyle.context'
+import { createEmotionCache } from './utils/createEmotionCache'
 
 interface ClientCacheProviderProps {
   children: React.ReactNode

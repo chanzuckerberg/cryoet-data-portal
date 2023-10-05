@@ -16,12 +16,12 @@ import {
 import { defaults } from 'lodash-es'
 import { useContext } from 'react'
 
-import { ClientStyleContext } from 'src/context/ClientStyle.context'
+import { ClientStyleContext } from './context/ClientStyle.context'
 import {
   ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
   EnvironmentContext,
-} from 'src/context/Environment.context'
-import tailwindStyles from 'src/tailwind.css'
+} from './context/Environment.context'
+import tailwindStyles from './tailwind.css'
 
 interface DocumentProps {
   children: React.ReactNode

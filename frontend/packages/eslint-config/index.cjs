@@ -29,13 +29,13 @@ module.exports = {
 
     // TypeScript and React source code.
     {
-      files: ['./src/**/*.ts{,x}'],
+      files: ['./app/**/*.ts{,x}'],
       extends: [configs.typescript, configs.react],
     },
 
     // Unit tests
     {
-      files: ['./src/**/*.test.ts{,x}'],
+      files: ['./app/**/*.test.ts{,x}'],
       extends: [configs.typescript, configs.react, configs.tests],
     },
 
@@ -46,11 +46,11 @@ module.exports = {
     */
     {
       files: [
-        './src/**/*.tsx',
-        './src/**/*.hooks.ts',
-        './src/hooks/*.ts',
-        './src/**/hooks.ts',
-        './src/**/*.test.ts{,x}',
+        './app/**/*.tsx',
+        './app/**/*.hooks.ts',
+        './app/hooks/*.ts',
+        './app/**/hooks.ts',
+        './app/**/*.test.ts{,x}',
       ],
       rules: {
         '@typescript-eslint/explicit-module-boundary-types': 'off',
@@ -64,7 +64,12 @@ module.exports = {
       definitions are generated using `export default styles`.
     */
     {
-      files: ['./src/app/**/*.ts{,x}', './src/**/*.module.scss.d.ts'],
+      files: [
+        './app/root.tsx',
+        './app/entry.*.tsx',
+        './app/routes/**/*.tsx',
+        './app/**/*.module.scss.d.ts',
+      ],
       rules: {
         'import/no-default-export': 'off',
         'import/prefer-default-export': 'error',

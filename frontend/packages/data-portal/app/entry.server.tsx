@@ -10,7 +10,7 @@ import type { EntryContext } from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
 import { renderToString } from 'react-dom/server'
 
-import { createEmotionCache } from 'src/utils/createEmotionCache'
+import { createEmotionCache } from 'app/utils/createEmotionCache'
 
 export default function handleRequest(
   request: Request,
