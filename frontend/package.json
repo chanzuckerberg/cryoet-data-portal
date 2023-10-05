@@ -6,7 +6,7 @@
     "clean": "rm -rf .cache && pnpm --parallel clean",
     "clean:node-modules": "rm -rf node_modules && rm -rf packages/*/node_modules",
     "dev": "pnpm --parallel dev",
-    "lint": "run-p lint:*",
+    "lint": "run-p -l lint:*",
     "lint:packages": "pnpm --parallel lint",
     "lint:prettier": "prettier --check ."
   },
