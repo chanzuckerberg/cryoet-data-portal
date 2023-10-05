@@ -1,11 +1,11 @@
 import { useLocation } from '@remix-run/react'
 
-import { CryoETIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
 
 import { AboutAndHelpDropdown } from './AboutAndHelpDropdown'
+import { CryoETHomeLink } from './CryoETHomeLink'
 import { ToolsDropdown } from './ToolsDropdown'
 
 export function TopNavigation() {
@@ -13,10 +13,7 @@ export function TopNavigation() {
 
   return (
     <nav className="bg-sds-gray-black text-sds-gray-white flex h-[45px] items-center px-sds-xl sticky top-0">
-      <CryoETIcon />
-      <Link className="text-sds-header-m font-semibold ml-2 " to="/">
-        {i18n.title}
-      </Link>
+      <CryoETHomeLink />
 
       {/* Add empty space to push content to right */}
       <div className="flex-grow" />
