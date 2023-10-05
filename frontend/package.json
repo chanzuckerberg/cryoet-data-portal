@@ -6,8 +6,6 @@
     "clean": "rm -rf .cache && pnpm --parallel clean",
     "clean:node-modules": "rm -rf node_modules && rm -rf packages/*/node_modules",
     "dev": "pnpm --parallel dev",
-    "dev:data-portal": "pnpm --filter data-portal dev",
-    "dev:graphiql": "pnpm --filter graphiql dev",
     "lint": "run-p lint:*",
     "lint:packages": "pnpm --parallel lint",
     "lint:prettier": "prettier --check ."

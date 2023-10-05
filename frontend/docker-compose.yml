@@ -8,11 +8,3 @@ services:
       dockerfile: packages/data-portal/Dockerfile
     ports:
       - 8080:8080
-
-  graphiql:
-    image: cryoet-data-portal/graphiql
-    build:
-      context: .
-      dockerfile: packages/graphiql/Dockerfile
-    ports:
-      - 8081:80

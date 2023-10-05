@@ -2,12 +2,11 @@
 
 This directory contains the entire source code for the CryoET Data Portal Frontend, organized as a monorepo containing several packages that have different responsibilities:
 
-| Package       | Description                                                   |
-| ------------- | ------------------------------------------------------------- |
-| data-portal   | Main web interface for the data portal.                       |
-| eslint-config | Shared eslint config                                          |
-| eslint-plugin | Shared eslint plugin for defining custom rules                |
-| graphiql      | Web interface for interacting with the data portalGraphQL API |
+| Package       | Description                                    |
+| ------------- | ---------------------------------------------- |
+| data-portal   | Main web interface for the data portal.        |
+| eslint-config | Shared eslint config                           |
+| eslint-plugin | Shared eslint plugin for defining custom rules |
 
 ## Quick Start
 
@@ -38,15 +37,13 @@ npm -g install pnpm
 pnpm install
 ```
 
-## Start Dev Servers
+## Start Dev Server
 
-The root `package.json` includes scripts for running any or all dev servers on the frontend. The following table lists the command and what dev servers it starts up:
+The npm script `dev` can be used for starting the data portal dev server:
 
-| Command           | Servers         | URL                   |
-| ----------------- | --------------- | --------------------- |
-| `dev`             | All dev servers | All URLs below        |
-| `dev:data-portal` | Data Portal     | http://localhost:8080 |
-| `dev:graphiql`    | GraphiQL        | http://localhost:8081 |
+```sh
+pnpm dev
+```
 
 ## Docker Compose
 
@@ -55,9 +52,6 @@ A docker compose file is provided for convenience in starting up and destroying 
 ```sh
 # Start all services
 docker-compose up
-
-# Start specific service
-docker-compose up data-portal
 
 # Start services in background
 docker-compose up -d
