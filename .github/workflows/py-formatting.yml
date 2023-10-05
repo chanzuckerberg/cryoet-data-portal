@@ -2,6 +2,9 @@ name: Python Linting
 
 on:
   pull_request:
+    paths:
+      - 'client/python/**'
+      - '.github/workflows/**' # Re-run if a workflow is modified - useful to test workflow changes in PRs
   push:
     branches: [main]
 
@@ -13,7 +16,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
+          python-version: '3.9'
       - name: check backend
         uses: pre-commit/action@v3.0.0
-
