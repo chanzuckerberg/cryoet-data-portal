@@ -37,7 +37,7 @@ export function Drawer() {
             }}
             transition={{ duration: theme.transitions.duration.complex / 1000 }}
           >
-            <Paper className="flex flex-auto" elevation={6}>
+            <Paper className="flex flex-auto" elevation={10}>
               <Demo>Drawer</Demo>
             </Paper>
           </motion.div>
