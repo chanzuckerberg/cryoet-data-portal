@@ -1,0 +1,11 @@
+.menuItem {
+  span {
+    display: flex;
+    flex: auto;
+
+    span {
+      display: flex;
+      flex: auto;
+    }
+  }
+}
