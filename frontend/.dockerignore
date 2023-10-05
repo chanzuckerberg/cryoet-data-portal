@@ -7,6 +7,7 @@
 dist/
 docker-compose.yml
 node_modules/
+packages/**/*.css.d.ts
 packages/**/.cache
 packages/**/.eslintignore
 packages/**/.eslintrc.cjs
