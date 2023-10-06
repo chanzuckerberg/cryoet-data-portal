@@ -2,6 +2,9 @@ name: Python cryoet_data_portal package unit tests
 
 on:
   pull_request:
+    paths:
+      - 'client/python/**'
+      - '.github/workflows/**' # Re-run if a workflow is modified - useful to test workflow changes in PRs
   push:
     branches: [main]
 
@@ -12,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        python-version: ['3.7', '3.8', '3.9', '3.10']
 
     steps:
       - uses: actions/checkout@v3
