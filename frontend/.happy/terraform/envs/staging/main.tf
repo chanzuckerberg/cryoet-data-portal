@@ -14,8 +14,8 @@ module "stack" {
       health_check_path     = "/"
       name                  = "frontend"
       path                  = "/*"
-      platform_architecture = "arm64"
       port                  = 8081
+      desired_count         = 1
       priority              = 0
       service_type          = "EXTERNAL"
       success_codes         = "200-499"
