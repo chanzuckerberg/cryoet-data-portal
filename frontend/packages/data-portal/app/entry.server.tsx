@@ -1,4 +1,3 @@
-import { defaultTheme } from '@czi-sds/components'
 import {
   CacheProvider,
   ThemeProvider as EmotionThemeProvider,
@@ -11,6 +10,8 @@ import { RemixServer } from '@remix-run/react'
 import { renderToString } from 'react-dom/server'
 
 import { createEmotionCache } from 'app/utils/createEmotionCache'
+
+import { theme } from './theme'
 
 export default function handleRequest(
   request: Request,
@@ -25,8 +26,8 @@ export default function handleRequest(
     return (
       <CacheProvider value={cache}>
         <StyledEngineProvider>
-          <ThemeProvider theme={defaultTheme}>
-            <EmotionThemeProvider theme={defaultTheme}>
+          <ThemeProvider theme={theme}>
+            <EmotionThemeProvider theme={theme}>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <CssBaseline />
               <RemixServer context={remixContext} url={request.url} />

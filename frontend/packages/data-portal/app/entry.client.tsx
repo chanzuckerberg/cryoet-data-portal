@@ -1,4 +1,3 @@
-import { defaultTheme } from '@czi-sds/components'
 import {
   CacheProvider,
   ThemeProvider as EmotionThemeProvider,
@@ -13,6 +12,7 @@ import {
   ClientStyleContext,
   ClientStyleContextValue,
 } from './context/ClientStyle.context'
+import { theme } from './theme'
 import { createEmotionCache } from './utils/createEmotionCache'
 
 interface ClientCacheProviderProps {
@@ -44,8 +44,8 @@ function hydrate() {
       document,
       <ClientCacheProvider>
         <StyledEngineProvider>
-          <ThemeProvider theme={defaultTheme}>
-            <EmotionThemeProvider theme={defaultTheme}>
+          <ThemeProvider theme={theme}>
+            <EmotionThemeProvider theme={theme}>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <CssBaseline />
               <RemixBrowser />
