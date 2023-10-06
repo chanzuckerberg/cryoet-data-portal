@@ -14,7 +14,7 @@ module "stack" {
       health_check_path     = "/"
       name                  = "frontend"
       path                  = "/*"
-      port                  = 8081
+      port                  = 8080
       priority              = 0
       service_type          = "EXTERNAL"
       success_codes         = "200-499"
