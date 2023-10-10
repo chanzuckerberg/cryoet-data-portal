@@ -1,0 +1,27 @@
+repos:
+- repo: https://github.com/psf/black-pre-commit-mirror
+  rev: 23.9.1
+  hooks:
+  - id: black
+    files: backend|client/python
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.0.292
+  hooks:
+  - id: ruff
+    files: backend|client/python
+    args:
+    - --fix
+- repo: https://github.com/pre-commit/mirrors-prettier
+  rev: v3.0.3
+  hooks:
+  - id: prettier
+    files: frontend
+- repo: local
+  hooks:
+  - id: pnpm-lint
+    name: pnpm lint
+    entry: pnpm --parallel lint
+    language: system
+    types_or: [javascript, jsx, ts, tsx]
+    files: frontend
+    pass_filenames: false
