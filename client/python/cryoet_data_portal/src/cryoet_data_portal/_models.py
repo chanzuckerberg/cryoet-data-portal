@@ -3,8 +3,16 @@ from datetime import date
 from typing import Iterable, Optional
 
 from ._file_tools import download_directory, download_https
-from ._gql_base import (BooleanField, DateField, FloatField, IntField,
-                        ItemRelationship, ListRelationship, Model, StringField)
+from ._gql_base import (
+    BooleanField,
+    DateField,
+    FloatField,
+    IntField,
+    ItemRelationship,
+    ListRelationship,
+    Model,
+    StringField,
+)
 
 
 class Dataset(Model):
@@ -68,8 +76,16 @@ class Dataset(Model):
     https_prefix: str = StringField()
 
     runs: Iterable["Run"] = ListRelationship("Run", "id", "dataset_id")
-    authors: Iterable["DatasetAuthor"] = ListRelationship("DatasetAuthor", "id", "dataset_id")
-    funding_sources: Iterable["DatasetFunding"] = ListRelationship("DatasetFunding", "id", "dataset_id")
+    authors: Iterable["DatasetAuthor"] = ListRelationship(
+        "DatasetAuthor",
+        "id",
+        "dataset_id",
+    )
+    funding_sources: Iterable["DatasetFunding"] = ListRelationship(
+        "DatasetFunding",
+        "id",
+        "dataset_id",
+    )
 
     def download_everything(self, dest_path: Optional[str] = None):
         """Download all of the data for this dataset.
@@ -159,7 +175,11 @@ class Run(Model):
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
 
-    tomogram_voxel_spacings: Iterable["TomogramVoxelSpacing"] = ListRelationship("TomogramVoxelSpacing", "id", "run_id")
+    tomogram_voxel_spacings: Iterable["TomogramVoxelSpacing"] = ListRelationship(
+        "TomogramVoxelSpacing",
+        "id",
+        "run_id",
+    )
     tiltseries: Iterable["TiltSeries"] = ListRelationship("TiltSeries", "id", "run_id")
 
     def download_everything(self, dest_path: Optional[str] = None):
@@ -171,7 +191,10 @@ class Run(Model):
         download_directory(self.s3_prefix, self.dataset.s3_prefix, dest_path)
 
     def download_frames(self, dest_path: Optional[str] = None):
-        download_directory(os.path.join(self.s3_prefix, "Frames"), self.dataset.s3_prefix)
+        download_directory(
+            os.path.join(self.s3_prefix, "Frames"),
+            self.dataset.s3_prefix,
+        )
 
 
 class TomogramVoxelSpacing(Model):
@@ -198,8 +221,16 @@ class TomogramVoxelSpacing(Model):
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
 
-    tomograms: Iterable["Tomogram"] = ListRelationship("Tomogram", "id", "tomogram_voxel_spacing_id")
-    annotations: Iterable["Annotation"] = ListRelationship("Annotation", "id", "tomogram_voxel_spacing_id")
+    tomograms: Iterable["Tomogram"] = ListRelationship(
+        "Tomogram",
+        "id",
+        "tomogram_voxel_spacing_id",
+    )
+    annotations: Iterable["Annotation"] = ListRelationship(
+        "Annotation",
+        "id",
+        "tomogram_voxel_spacing_id",
+    )
 
     def download_everything(self, dest_path: Optional[str] = None):
         """Download all of the data for this run.
@@ -247,7 +278,9 @@ class Tomogram(Model):
     _gql_type = "tomograms"
 
     tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(
-        TomogramVoxelSpacing, "tomogram_voxel_spacing_id", "id"
+        TomogramVoxelSpacing,
+        "tomogram_voxel_spacing_id",
+        "id",
     )
 
     id: int = IntField()
@@ -286,7 +319,11 @@ class Tomogram(Model):
         recursive_prefix = "/".join(self.s3_omezarr_dir.split("/")[:-1]) + "/"
         download_directory(self.s3_omezarr_dir, recursive_prefix, dest_path)
 
-    def download_mrcfile(self, dest_path: Optional[str] = None, binning: Optional[int] = None):
+    def download_mrcfile(
+        self,
+        dest_path: Optional[str] = None,
+        binning: Optional[int] = None,
+    ):
         """Download an MRC file with a given binning factor
 
         Args:
@@ -337,7 +374,9 @@ class Annotation(Model):
     _gql_type = "annotations"
 
     tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(
-        TomogramVoxelSpacing, "tomogram_voxel_spacing_id", "id"
+        TomogramVoxelSpacing,
+        "tomogram_voxel_spacing_id",
+        "id",
     )
 
     id: int = IntField()
@@ -366,7 +405,11 @@ class Annotation(Model):
     confidence_recall: float = FloatField()
     ground_truth_used: str = StringField()
 
-    authors: Iterable["AnnotationAuthor"] = ListRelationship("AnnotationAuthor", "id", "annotation_id")
+    authors: Iterable["AnnotationAuthor"] = ListRelationship(
+        "AnnotationAuthor",
+        "id",
+        "annotation_id",
+    )
 
     def download(self, dest_path: Optional[str] = None):
         download_https(self.https_metadata_path, dest_path)
@@ -525,7 +568,11 @@ class TiltSeries(Model):
         recursive_prefix = "/".join(self.s3_omezarr_dir.split("/")[:-1]) + "/"
         download_directory(self.s3_omezarr_dir, recursive_prefix, dest_path)
 
-    def download_mrcfile(self, dest_path: Optional[str] = None, binning: Optional[int] = None):
+    def download_mrcfile(
+        self,
+        dest_path: Optional[str] = None,
+        binning: Optional[int] = None,
+    ):
         """Download an MRC file with a given binning factor
 
         Args:

@@ -1,10 +1,10 @@
-version: "3.8"
+version: '3.8'
 services:
   frontend:
     image: frontend
     platform: linux/amd64
     profiles:
-    - '*'
+      - '*'
     build:
       context: .
       dockerfile: packages/data-portal/Dockerfile

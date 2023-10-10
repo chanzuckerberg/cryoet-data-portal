@@ -11,7 +11,17 @@ except ImportError:
     import importlib_metadata as metadata  # type: ignore[no-redef]
 
 from ._client import Client
-from ._models import Annotation, AnnotationAuthor, Dataset, DatasetAuthor, DatasetFunding, Run, TiltSeries, Tomogram, TomogramVoxelSpacing
+from ._models import (
+    Annotation,
+    AnnotationAuthor,
+    Dataset,
+    DatasetAuthor,
+    DatasetFunding,
+    Run,
+    TiltSeries,
+    Tomogram,
+    TomogramVoxelSpacing,
+)
 
 try:
     __version__ = metadata.version("cryoet_data_portal")

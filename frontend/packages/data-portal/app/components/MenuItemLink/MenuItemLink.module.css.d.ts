@@ -1,5 +1,4 @@
 declare const styles: {
-  readonly "menuItem": string;
-};
-export = styles;
-
+  readonly menuItem: string
+}
+export = styles

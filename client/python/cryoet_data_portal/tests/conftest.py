@@ -3,7 +3,11 @@ import pytest
 
 def pytest_addoption(parser: pytest.Parser) -> None:
     parser.addoption(
-        "--expensive", action="store_true", dest="expensive", default=False, help="enable 'expensive' decorated tests"
+        "--expensive",
+        action="store_true",
+        dest="expensive",
+        default=False,
+        help="enable 'expensive' decorated tests",
     )
 
 
