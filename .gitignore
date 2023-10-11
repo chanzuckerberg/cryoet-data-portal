@@ -131,3 +131,6 @@ dmypy.json
 
 .idea
 .terraform
+
+# Files specific to this repo
+webdav_settings.json

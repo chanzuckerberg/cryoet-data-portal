@@ -1,0 +1,6 @@
+{
+     "url": "https://some-webdav-server.com",
+     "path": "/webdav/prefix",
+     "cookies": {"foo": "bar"},
+     "headers": {"X-SomeHeader": "someValue"}
+}
