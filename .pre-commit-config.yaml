@@ -20,7 +20,7 @@ repos:
   hooks:
   - id: pnpm-lint
     name: pnpm lint
-    entry: pnpm --parallel lint
+    entry: pnpm -r --parallel lint:fix
     language: system
     types_or: [javascript, jsx, ts, tsx]
     files: frontend
