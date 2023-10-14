@@ -1,0 +1,58 @@
+# Workflow for running several tests for PRs and pushes to the main branch for
+# data portal frontend code.
+
+name: Frontend Tests
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "frontend/**"
+  pull_request:
+    branches:
+      - "**"
+    paths:
+      - "frontend/**"
+
+defaults:
+  run:
+    working-directory: frontend/
+
+jobs:
+  # Runs several tests on the frontend codebase to check for code style,
+  # formatting, best practices, and run unit/integration tests.
+  tests:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.8.x
+
+      - name: Install PNPM
+        run: npm install pnpm
+
+      - name: Install dependencies with PNPM
+        run: pnpm install --frozen-lockfile
+
+      - name: ${{ matrix.name }}
+        run: ${{ matrix.run }}
+
+    # Run linters and tests as matrix strategies so that they:
+    #   1. Show up as separate GitHub checks.
+    #   2. So we can reuse the Node.js and PNPM installation steps
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: jest
+            run: pnpm -r test
+
+          - name: tsc
+            run: pnpm -r type-check

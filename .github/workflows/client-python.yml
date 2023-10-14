@@ -1,37 +1,50 @@
-name: Python cryoet_data_portal package unit tests
+name: Python Client Tests
 
 on:
-  pull_request:
+  push:
+    branches:
+      - main
     paths:
       - 'client/python/**'
-      - '.github/workflows/**' # Re-run if a workflow is modified - useful to test workflow changes in PRs
-  push:
-    branches: [main]
+      - '.github/workflows/**'
+  pull_request:
+    branches:
+      - '**'
+    paths:
+      - 'client/python/**'
+      - '.github/workflows/**'
 
 jobs:
-  unit_tests_python_client:
+  test-client-python:
+    name: Test Python Client
     runs-on: ubuntu-latest
-
+    
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
         python-version: ['3.7', '3.8', '3.9', '3.10']
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+    
       - name: Install dependencies
         run: |
           python -m pip install -U pip setuptools wheel
           pip install -r ./client/python/cryoet_data_portal/scripts/requirements-dev.txt
           pip install -e ./client/python/cryoet_data_portal/
+
       - name: Test with pytest (API)
         run: |
           PYTHONPATH=. coverage run --parallel-mode -m pytest -v -rP --durations=20 ./client/python/cryoet_data_portal/tests/
-      - uses: actions/upload-artifact@v3
+
+      - name: Upload Coverage
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./.coverage*
@@ -39,27 +52,34 @@ jobs:
 
   submit-codecoverage:
     needs:
-      - unit_tests_python_client
+      - test-client-python
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Repo
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: actions/download-artifact@v3
+
+      - name: Download Coverage
+        uses: actions/download-artifact@v3
         with:
           name: coverage
           path: .
-      - uses: actions/setup-python@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: install requirements
+
+      - name: Install Requirements
         run: |
           pip install coverage
-      - name: coverage report
+      - name: Generate Coverage Report
         run: |
           coverage combine
           coverage xml
-      - name: Upload coverage to Codecov
+
+      - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
