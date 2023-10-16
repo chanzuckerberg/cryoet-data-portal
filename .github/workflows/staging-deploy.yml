@@ -7,8 +7,12 @@ on:
 
 # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
 permissions:
-      id-token: write
-      contents: read
+  id-token: write
+  contents: read
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   deploy-to-staging:
