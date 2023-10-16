@@ -10,12 +10,12 @@ permissions:
   id-token: write
   contents: read
 
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   deploy-to-staging:
+    concurrency:
+      group: staging-frontend-deploy-${{ github.ref }}
+      cancel-in-progress: true
+
     name: deploy staging branch
     runs-on: ubuntu-latest
     environment: staging
@@ -38,7 +38,7 @@ jobs:
           DOCKER_REPO: ${{ secrets.ECR_REPO }}/
           ENV: staging
         with:
-          stack-name: staging
+          stack-name: frontend
           create-tag: true
           tag: ${{ env.STACK_NAME }}
           tfe-token: ${{ secrets.TFE_TOKEN }}

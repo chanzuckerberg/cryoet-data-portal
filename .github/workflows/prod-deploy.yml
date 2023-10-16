@@ -7,13 +7,13 @@ permissions:
       id-token: write
       contents: read
 
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
 
   deploy-to-prod:
+    concurrency:
+      group: prod-frontend-deploy-${{ github.ref }}
+      cancel-in-progress: true
+
     name: deploy prod branch
     runs-on: ubuntu-latest
     environment: prod
@@ -36,7 +36,7 @@ jobs:
           DOCKER_REPO: ${{ secrets.ECR_REPO }}/
           ENV: prod
         with:
-          stack-name: prod
+          stack-name: frontend
           create-tag: true
           tag: ${{ env.STACK_NAME }}
           tfe-token: ${{ secrets.TFE_TOKEN }}
