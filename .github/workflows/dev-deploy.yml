@@ -1,9 +1,9 @@
-name: Push to dev cluster
+name: Deploy to dev cluster
 
 on:
   push:
     branches:
-      - 'dev-*'
+      - "dev-*"
   delete:
     branches:
       - "dev-*"
@@ -12,13 +12,6 @@ on:
 permissions:
       id-token: write
       contents: read
-
-#env:
-  # Force using BuildKit instead of normal Docker, required so that metadata
-  # is written/read to allow us to use layers of previous builds as cache.
-#  DOCKER_BUILDKIT: 1
-#  COMPOSE_DOCKER_CLI_BUILD: 1
-#  DOCKER_REPO: ${{ secrets.ECR_REPO }}/
 
 jobs:
   deploy-to-dev:
@@ -46,35 +39,36 @@ jobs:
           else
             echo $GITHUB_REF_NAME | tr '[:upper:]' '[:lower:]' | xargs -I {} -n 1 echo STACK_NAME={} >> $GITHUB_ENV
           fi
-      - name: Create update dev stack
+      - name: Create or update dev stack
         if: ${{ github.event_name == 'push' }}
         uses: chanzuckerberg/github-actions/.github/actions/deploy-happy-stack@v1.24.0
         env:
+          # Force using BuildKit instead of normal Docker, required so that metadata
+          # is written/read to allow us to use layers of previous builds as cache.
           DOCKER_BUILDKIT: 1
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_REPO: ${{ secrets.ECR_REPO }}/
           ENV: dev
         with:
           stack-name: ${{ env.STACK_NAME }}
-          create-tag: "true"
+          create-tag: true
           tag: ${{ env.STACK_NAME }}
           tfe-token: ${{ secrets.TFE_TOKEN }}
           working-directory: ./frontend
-          env: "dev"
-          operation: "create-or-update"
+          env: dev
+          operation: create-or-update
 
-#      - name: Delete dev set up stack name
-#        if: ${{ github.event_name == 'delete' && startsWith(github.event.ref, 'dev-') }}
-#        run: |
-#          echo ${{ github.event.ref }} | tr '[:upper:]' '[:lower:]' | xargs -I {} -n 1 echo DELETE_STACK_NAME={} >> $GITHUB_ENV
-#
-#      - name: Delete dev
-#        if: ${{ github.event_name == 'delete' && startsWith(github.event.ref, 'dev-') }}
-#        uses: chanzuckerberg/github-actions/.github/actions/deploy-happy-stack@v1.24.0
-#        env:
-#          ENV: dev
-#        with:
-#          stack-name: ${{ env.DELETE_STACK_NAME }}
-#          operation: "delete"
-#          tfe-token: ${{ secrets.TFE_TOKEN }}
-#          env: "dev"
+      - name: Delete dev set up stack name
+        if: ${{ github.event_name == 'delete' && startsWith(github.event.ref, 'dev-') }}
+        run: |
+          echo ${{ github.event.ref }} | tr '[:upper:]' '[:lower:]' | xargs -I {} -n 1 echo DELETE_STACK_NAME={} >> $GITHUB_ENV
+      - name: Delete dev
+        if: ${{ github.event_name == 'delete' && startsWith(github.event.ref, 'dev-') }}
+        uses: chanzuckerberg/github-actions/.github/actions/deploy-happy-stack@v1.24.0
+        env:
+          ENV: dev
+        with:
+          stack-name: ${{ env.DELETE_STACK_NAME }}
+          operation: delete
+          tfe-token: ${{ secrets.TFE_TOKEN }}
+          env: dev
