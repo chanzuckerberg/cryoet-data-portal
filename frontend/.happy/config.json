@@ -52,8 +52,8 @@
         "services": {
             "frontend": {
                 "build": {
-                    "context": "packages/data-portal",
-                    "dockerfile": "Dockerfile"
+                    "context": ".",
+                    "dockerfile": "packages/data-portal/Dockerfile"
                 },
                 "health_check_path": "/",
                 "name": "frontend",
