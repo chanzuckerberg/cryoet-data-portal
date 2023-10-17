@@ -25,7 +25,9 @@ jobs:
           node-version: 20.8.x
       
       - name: Install PNPM
-        run: npm install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.0
 
       - name: Install dependencies with PNPM
         run: pnpm install --frozen-lockfile
