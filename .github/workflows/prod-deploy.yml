@@ -1,0 +1,45 @@
+on:
+  push:
+    branches:
+      - "main"
+      
+permissions:
+      id-token: write
+      contents: read
+
+jobs:
+
+  deploy-to-prod:
+    concurrency:
+      group: prod-frontend-deploy-${{ github.ref }}
+      cancel-in-progress: true
+
+    name: deploy prod branch
+    runs-on: ubuntu-latest
+    environment: prod
+    if: github.repository == 'chanzuckerberg/cryoet-data-portal'
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          mask-aws-account-id: true
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-duration-seconds: 1200
+      - name: Create or update stack
+        uses: chanzuckerberg/github-actions/.github/actions/deploy-happy-stack@v1.24.0
+        env:
+          # Force using BuildKit instead of normal Docker, required so that metadata
+          # is written/read to allow us to use layers of previous builds as cache.
+          DOCKER_BUILDKIT: 1
+          COMPOSE_DOCKER_CLI_BUILD: 1
+          DOCKER_REPO: ${{ secrets.ECR_REPO }}/
+          ENV: prod
+        with:
+          stack-name: frontend
+          create-tag: true
+          tag: ${{ env.STACK_NAME }}
+          tfe-token: ${{ secrets.TFE_TOKEN }}
+          working-directory: ./frontend
+          env: prod
+          operation: create-or-update
