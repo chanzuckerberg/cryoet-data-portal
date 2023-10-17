@@ -24,6 +24,5 @@ data "kubernetes_namespace" "happy-namespace" {
   }
 }
 provider "datadog" {
-  app_key = "FAKE_APP_KEY"
-  api_key = "FAKE_API_KEY"
+  validate = false
 }
