@@ -29,7 +29,7 @@ export const LiveReloadOverlay =
 
         const [websocketClosedReason, setWebsocketClosedReason] = useState('')
 
-        useTimeoutEffect(
+        const [, reset] = useTimeoutEffect(
           () => setShowBuildFailureWarning(true),
           visible ? 5000 : undefined,
         )
@@ -40,6 +40,7 @@ export const LiveReloadOverlay =
 
             switch (detail.type) {
               case LiveReloadEventType.Started:
+                reset()
                 setVisible(true)
                 setEventData((prev) => {
                   const next = {
@@ -77,7 +78,7 @@ export const LiveReloadOverlay =
 
           return () =>
             window.removeEventListener(LIVE_RELOAD_EVENT, handleLiveReloadEvent)
-        }, [])
+        }, [reset])
 
         return (
           <Overlay open={visible}>
