@@ -20,7 +20,7 @@ export function useIsLoading() {
 
   const [isLoadingDebounced, setIsLoadingDebounced] = useDebouncedState(
     isLoading,
-    500,
+    250,
   )
 
   useEffect(
