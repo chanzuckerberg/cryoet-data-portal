@@ -6,15 +6,15 @@
     "build:codegen": "graphql-codegen",
     "build:tcm": "tcm -p 'app/**/*.module.css'",
     "build:remix": "remix build",
-    "clean": "del build public/build .cache/ node_modules/.cache/",
+    "clean": "del build public/build .cache/ node_modules/.cache/ app/__generated__/",
     "dev": "pnpm build:codegen && run-p -l dev:*",
     "dev:codegen": "pnpm build:codegen -w",
-    "dev:remix": "PORT=8080 remix dev",
+    "dev:remix": "remix dev --manual -c 'node --loader ts-node/esm --watch-path server.ts --watch server.ts'",
     "dev:tcm": "pnpm build:tcm -w",
     "lint": "eslint --report-unused-disable-directives --max-warnings 0 .",
     "lint:fix": "pnpm lint --fix",
     "preinstall": "npx only-allow pnpm",
-    "start": "PORT=8080 remix-serve build/index.js",
+    "start": "NODE_ENV=production node --lodaer ts-node/esm server.ts",
     "test": "jest"
   },
   "dependencies": {
