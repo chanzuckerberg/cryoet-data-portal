@@ -1,8 +1,7 @@
 import { MenuDropdown } from 'app/components/MenuDropdown'
+import { MenuItemHeader } from 'app/components/MenuItemHeader'
 import { MenuItemLink } from 'app/components/MenuItemLink'
 import { i18n } from 'app/i18n'
-
-import { MenuItemHeader } from '../MenuItemHeader'
 
 export function AboutAndHelpDropdown({ className }: { className?: string }) {
   return (
