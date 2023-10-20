@@ -6,11 +6,11 @@ import { TopNavigation } from './TopNavigation'
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
-    <main className="flex flex-col flex-auto">
+    <>
       <TopNavigation />
       <Drawer />
-      <div className="flex flex-col flex-[1_0_auto]">{children}</div>
+      <main className="flex flex-col flex-[1_0_auto]">{children}</main>
       <Footer />
-    </main>
+    </>
   )
 }
