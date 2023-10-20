@@ -1,4 +1,4 @@
-import { LiveReloadEvent } from './event'
+import { LIVE_RELOAD_EVENT, LiveReloadEventType } from './event'
 
 /**
  * LiveReload component inlined from remix-run/react:
@@ -26,33 +26,53 @@ export const LiveReload =
             dangerouslySetInnerHTML={{
               __html: js`
                 function remixLiveReloadConnect(config) {
-                  let REMIX_DEV_ORIGIN = ${JSON.stringify(
+                  const REMIX_DEV_ORIGIN = ${JSON.stringify(
                     process.env.REMIX_DEV_ORIGIN,
                   )}
 
-                  let protocol =
+                  const protocol =
                     REMIX_DEV_ORIGIN ? new URL(REMIX_DEV_ORIGIN).protocol.replace(/^http/, "ws") :
                     location.protocol === "https:" ? "wss:" : "ws:" // remove in v2?
 
-                  let hostname = REMIX_DEV_ORIGIN ? new URL(REMIX_DEV_ORIGIN).hostname : location.hostname
-                  let url = new URL(protocol + "//" + hostname + "/socket")
+                  const hostname = REMIX_DEV_ORIGIN ? new URL(REMIX_DEV_ORIGIN).hostname : location.hostname
+                  const url = new URL(protocol + "//" + hostname + "/socket")
 
                   url.port =
                     ${port} ||
                     (REMIX_DEV_ORIGIN ? new URL(REMIX_DEV_ORIGIN).port : 8002)
 
-                  let ws = new WebSocket(url.href)
+                  const ws = new WebSocket(url.href)
+
+                  const logEvent = (data) => window.dispatchEvent(
+                    new CustomEvent(
+                      '${LIVE_RELOAD_EVENT}',
+                      { detail: data },
+                    ),
+                  )
 
                   ws.onmessage = async (message) => {
-                    let event = JSON.parse(message.data)
+                    const event = JSON.parse(message.data)
 
                     if (event.type === "LOG") {
                       console.log(event.message)
 
-                      if (event.message.includes('file changed')) {
-                        window.dispatchEvent(new CustomEvent('${
-                          LiveReloadEvent.Started
-                        }'))
+                      const match = /file (created|changed|deleted): (.*)/.exec(event.message)
+
+                      if (match) {
+                        const [, action, file] = match
+
+                        logEvent({
+                          type: '${LiveReloadEventType.Started}',
+                          action,
+                          file,
+                        })
+
+                        // because changing files may trigger an update, we
+                        // defer sending the "Completed" event until the HMR
+                        // event is processed.
+                        if (action !== 'changed' && event.message.includes('rebuilt')) {
+                          logEvent({ type: '${LiveReloadEventType.Completed}' })
+                        }
                       }
                     }
 
@@ -68,7 +88,10 @@ export const LiveReload =
                         return
                       }
 
-                      if (!event.updates || !event.updates.length) return
+                      if (!event.updates || !event.updates.length) {
+                        logEvent({ type: '${LiveReloadEventType.Completed}' })
+                        return
+                      }
 
                       let updateAccepted = false
                       let needsRevalidation = new Set()
@@ -110,9 +133,7 @@ export const LiveReload =
                         window.location.reload()
                       }
 
-                      window.dispatchEvent(new CustomEvent('${
-                        LiveReloadEvent.Completed
-                      }'))
+                      logEvent({ type: '${LiveReloadEventType.Completed}' })
                     }
                   }
 
@@ -121,14 +142,14 @@ export const LiveReload =
                       config.onOpen()
                     }
 
-                    window.dispatchEvent(new CustomEvent('${
-                      LiveReloadEvent.Connected
-                    }'))
+                    logEvent({ type: '${LiveReloadEventType.Connected}' })
                   }
 
                   ws.onclose = (event) => {
+                    let message = ''
                     if (event.code === 1006) {
-                      console.log("Remix dev asset server web socket closed. Reconnecting...")
+                      message = 'Remix dev asset server web socket closed. Reconnecting...'
+                      console.log(message)
 
                       setTimeout(
                         () =>
@@ -139,20 +160,26 @@ export const LiveReload =
                       )
                     }
 
-                    window.dispatchEvent(new CustomEvent('${
-                      LiveReloadEvent.Closed
-                    }'))
+                    logEvent({
+                      type: '${LiveReloadEventType.Closed}',
+                      code: event.code,
+                      ...(message ? { message } : {})
+                    })
                   }
 
                   ws.onerror = (error) => {
-                    console.log("Remix dev asset server web socket error:")
+                    const errorMessage = "Remix dev asset server web socket error:"
+                    console.log(errorMessage)
                     console.error(error)
 
-                    window.dispatchEvent(new CustomEvent('${
-                      LiveReloadEvent.Error
-                    }', { detail: error }))
+                    logEvent({
+                      type: '${LiveReloadEventType.Error}',
+                      message: errorMessage,
+                      error: error instanceof Error ? error.message : String(error)
+                    })
                   }
                 }
+
                 remixLiveReloadConnect()
               `,
             }}
