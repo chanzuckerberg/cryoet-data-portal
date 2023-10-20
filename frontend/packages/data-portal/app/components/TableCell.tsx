@@ -17,9 +17,9 @@ export function TableCell({
   primaryText?: string
   renderLoadingSkeleton?(): ReactNode
 }) {
-  const isLoading = useIsLoading()
+  const { isLoadingDebounced } = useIsLoading()
 
-  if (loadingSkeleton && isLoading) {
+  if (loadingSkeleton && isLoadingDebounced) {
     return (
       <CellComponent className={className}>
         {renderLoadingSkeleton()}
@@ -33,7 +33,9 @@ export function TableCell({
 
   return (
     <CellComponent className={className}>
-      {loadingSkeleton && isLoading ? renderLoadingSkeleton() : children}
+      {loadingSkeleton && isLoadingDebounced
+        ? renderLoadingSkeleton()
+        : children}
     </CellComponent>
   )
 }

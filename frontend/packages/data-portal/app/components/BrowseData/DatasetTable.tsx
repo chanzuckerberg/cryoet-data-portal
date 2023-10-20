@@ -13,7 +13,7 @@ import Paper from '@mui/material/Paper'
 import Skeleton from '@mui/material/Skeleton'
 import TableContainer from '@mui/material/TableContainer'
 import { useLoaderData, useSearchParams } from '@remix-run/react'
-import { random, range } from 'lodash-es'
+import { range } from 'lodash-es'
 import { ComponentProps, ReactNode } from 'react'
 
 import { GetDatasetsDataQuery } from 'app/__generated__/graphql'
@@ -96,8 +96,8 @@ export function DatasetTable() {
     | CellHeaderDirection
     | undefined
 
-  const isLoading = useIsLoading()
-  const datasets = isLoading
+  const { isLoadingDebounced } = useIsLoading()
+  const datasets = isLoadingDebounced
     ? range(0, MAX_PER_PAGE).map(
         (value) =>
           ({
@@ -157,7 +157,7 @@ export function DatasetTable() {
             const empiarID = empiarIDMatch?.[1]
 
             // TODO use dataset annotated objects
-            const annotatedObjects = range(0, random(0, 10))
+            const annotatedObjects = range(0, 10)
               .map((val) => `Object ${val}`)
               .map((obj) => <li key={obj}>{obj}</li>)
 
@@ -178,7 +178,7 @@ export function DatasetTable() {
 
                   <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                     <p className="text-sm font-semibold text-sds-primary-400">
-                      {isLoading ? (
+                      {isLoadingDebounced ? (
                         <Skeleton className="max-w-[70%]" variant="rounded" />
                       ) : (
                         <Link to={`/datasets/${dataset.id}`}>
@@ -188,7 +188,7 @@ export function DatasetTable() {
                     </p>
 
                     <p className="text-xs text-sds-gray-600">
-                      {isLoading ? (
+                      {isLoadingDebounced ? (
                         <>
                           <Skeleton
                             className="max-w-[80%] mt-2"

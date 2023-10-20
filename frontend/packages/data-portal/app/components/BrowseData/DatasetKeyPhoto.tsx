@@ -11,11 +11,11 @@ export function DatasetKeyPhoto({
   datasetTitle: string
   src?: string
 }) {
-  const isLoading = useIsLoading()
+  const { isLoadingDebounced } = useIsLoading()
   const containerClassName =
     'min-w-[134px] min-h-[100px] max-w-[134px] max-h-[100px]'
 
-  if (isLoading) {
+  if (isLoadingDebounced) {
     return <Skeleton className={containerClassName} variant="rounded" />
   }
 
