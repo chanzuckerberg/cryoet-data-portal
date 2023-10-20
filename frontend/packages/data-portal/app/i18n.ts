@@ -16,6 +16,7 @@ export const i18n = {
   github: 'GitHub',
   goToDocs: 'Go to Documentation',
   helpAndReport: 'Help & Report',
+  keyPhoto: 'key photo',
   license: 'License',
   napariPlugin: 'napari Plugin',
   privacy: 'Privacy',

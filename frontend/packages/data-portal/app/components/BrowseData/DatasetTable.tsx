@@ -23,39 +23,7 @@ import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { cns } from 'app/utils/cns'
 
-function DatasetKeyPhoto({
-  datasetTitle,
-  src,
-}: {
-  datasetTitle: string
-  src?: string
-}) {
-  const isLoading = useIsLoading()
-  const containerClassName =
-    'min-w-[134px] min-h-[100px] max-w-[134px] max-h-[100px]'
-
-  if (isLoading) {
-    return <Skeleton className={containerClassName} variant="rounded" />
-  }
-
-  return (
-    <div
-      className={cns(
-        containerClassName,
-        'flex items-center justify-center bg-[#d9d9d9]',
-
-        // crop image to container dimensions
-        'overflow-hidden object-cover',
-      )}
-    >
-      {src ? (
-        <img alt={`key visualization for dataset ${datasetTitle}`} src={src} />
-      ) : (
-        <p className="text-sds-gray-400 text-sm">key photo</p>
-      )}
-    </div>
-  )
-}
+import { DatasetKeyPhoto } from './DatasetKeyPhoto'
 
 function AnnotatedObjectsList({
   className,
