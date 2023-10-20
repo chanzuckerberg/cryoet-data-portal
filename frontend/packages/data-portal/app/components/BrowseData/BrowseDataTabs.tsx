@@ -31,14 +31,12 @@ export function BrowseDataTabs() {
       value={tab}
     >
       <Tab
-        label={`${i18n.datasets} ${
-          data.datasets_aggregate.aggregate?.count ?? 0
-        }`}
+        label={i18n.datasetsTab(data.datasets_aggregate.aggregate?.count ?? 0)}
         value={BrowseDataTab.Datasets}
       />
 
       <Tab
-        label={`${i18n.runs} ${data.runs_aggregate.aggregate?.count ?? 0}`}
+        label={i18n.runsTab(data.runs_aggregate.aggregate?.count ?? 0)}
         value={BrowseDataTab.Runs}
       />
     </Tabs>
