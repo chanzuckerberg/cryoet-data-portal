@@ -20,6 +20,7 @@ export const i18n = {
   keyPhoto: 'key photo',
   license: 'License',
   napariPlugin: 'napari Plugin',
+  portalId: (id: number | string) => `Portal ID: ${id}`,
   privacy: 'Privacy',
   privacyPolicy: 'Privacy Policy',
   reportIssueOnGithub: 'Report Issue on GitHub',

@@ -21,6 +21,7 @@ import { Link } from 'app/components/Link'
 import { TableCell } from 'app/components/TableCell'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useIsLoading } from 'app/hooks/useIsLoading'
+import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
 
 import { DatasetKeyPhoto } from './DatasetKeyPhoto'
@@ -179,7 +180,7 @@ export function DatasetTable() {
                   <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                     <p className="text-sm font-semibold text-sds-primary-400">
                       {isLoadingDebounced ? (
-                        <Skeleton className="max-w-[70%]" variant="rounded" />
+                        <Skeleton className="max-w-[70%]" variant="text" />
                       ) : (
                         <Link to={`/datasets/${dataset.id}`}>
                           {dataset.title}
@@ -189,15 +190,23 @@ export function DatasetTable() {
 
                     <p className="text-xs text-sds-gray-600">
                       {isLoadingDebounced ? (
+                        <Skeleton className="max-w-[120px]" variant="text" />
+                      ) : (
+                        i18n.portalId(dataset.id ? dataset.id : '--')
+                      )}
+                    </p>
+
+                    <p className="text-xs text-sds-gray-500 mt-sds-s">
+                      {isLoadingDebounced ? (
                         <>
                           <Skeleton
                             className="max-w-[80%] mt-2"
-                            variant="rounded"
+                            variant="text"
                           />
 
                           <Skeleton
                             className=" max-w-[50%] mt-2"
-                            variant="rounded"
+                            variant="text"
                           />
                         </>
                       ) : (
