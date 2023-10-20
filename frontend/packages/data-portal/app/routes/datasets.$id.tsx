@@ -16,6 +16,7 @@ const GET_DATASET_BY_ID = gql(`
   query GetDatasetById($id: Int) {
     datasets(where: { id: { _eq: $id } }) {
       id
+      deposition_date
       last_modified_date
       release_date
     }
@@ -85,7 +86,11 @@ export default function DatasetByIdPage() {
           <div className="flex items-center gap-sds-xs text-xs text-sds-gray-600">
             <p>{i18n.releaseDate(dataset.release_date)}</p>
             <div className="h-3 w-px bg-sds-gray-400" />
-            <p>{i18n.lastModified(dataset.last_modified_date ?? '--')}</p>
+            <p>
+              {i18n.lastModified(
+                dataset.last_modified_date ?? dataset.deposition_date,
+              )}
+            </p>
           </div>
         </div>
       </header>
