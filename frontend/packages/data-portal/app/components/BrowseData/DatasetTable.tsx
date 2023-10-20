@@ -164,7 +164,7 @@ export function DatasetTable() {
               .map((val) => `Object ${val}`)
               .map((obj) => <li key={obj}>{obj}</li>)
 
-            const previousUrl = `${location.pathname}?${location.search}`
+            const previousUrl = `${location.pathname}${location.search}`
             const datasetUrl = `/datasets/${
               dataset.id
             }?prev=${encodeURIComponent(previousUrl)}`
