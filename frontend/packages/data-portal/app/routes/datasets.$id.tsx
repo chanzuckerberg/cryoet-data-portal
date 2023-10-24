@@ -1,24 +1,71 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
-import { Icon } from '@czi-sds/components'
-import { useLoaderData, useSearchParams } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 
 import { gql } from 'app/__generated__'
-import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
+import { DatasetMetadataDrawer } from 'app/components/Dataset'
+import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
 import { Demo } from 'app/components/Demo'
-import { Link } from 'app/components/Link'
-import { i18n } from 'app/i18n'
-import { cns } from 'app/utils/cns'
+import {
+  useCloseDatasetDrawerOnUnmount,
+  useDatasetDrawer,
+} from 'app/state/drawer'
 
 const GET_DATASET_BY_ID = gql(`
   query GetDatasetById($id: Int) {
     datasets(where: { id: { _eq: $id } }) {
-      id
-      deposition_date
+      # Dataset dates
       last_modified_date
       release_date
+      deposition_date
+
+      # Dataset metadata
+      id
+      title
+      description
+      funding_sources {
+        funding_agency_name
+      }
+
+      # TODO Grant ID
+      related_database_entries
+      dataset_citations
+
+      # Sample and experiments data
+      sample_type
+      organism_name
+      tissue_name
+      cell_name
+      cell_strain_name
+      # TODO cellular component
+      sample_preparation
+      grid_preparation
+      other_setup
+
+      # TODO add query for getting all unique affiliation names by dataset ID.
+      # For now we need to query all authors that have non-null affiliation
+      # names and then get unique values from the response.
+      authors(where: {affiliation_name: {_is_null: false}}) {
+        name
+        affiliation_name
+      }
+
+      # Tilt Series
+      runs(limit: 1) {
+        tiltseries(limit: 1) {
+          acceleration_voltage
+          spherical_aberration_constant
+          microscope_manufacturer
+          microscope_model
+          microscope_energy_filter
+          microscope_phase_plate
+          microscope_image_corrector
+          microscope_additional_info
+          camera_manufacturer
+          camera_model
+        }
+      }
     }
   }
 `)
@@ -51,51 +98,20 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function DatasetByIdPage() {
-  const [params] = useSearchParams()
-  const previousUrl = params.get('prev')
-
-  const {
-    datasets: [dataset],
-  } = useLoaderData<GetDatasetByIdQuery>()
+  const drawer = useDatasetDrawer()
+  useCloseDatasetDrawerOnUnmount()
 
   return (
     <>
-      <header className="flex flex-col items-center justify-center w-full min-h-[48px]">
-        <div
-          className={cns(
-            'flex items-center',
-            'px-sds-xl py-sds-l',
-            'w-full max-w-content',
-            previousUrl ? 'justify-between' : 'justify-end',
-          )}
-        >
-          {previousUrl && (
-            <Link className="flex items-center gap-1" to={previousUrl}>
-              <Icon
-                sdsIcon="chevronLeft"
-                sdsSize="xs"
-                sdsType="iconButton"
-                className="!w-[10px] !h-[10px] !fill-sds-primary-400"
-              />
-              <span className="text-sds-primary-400 font-semibold text-sm">
-                Back to results
-              </span>
-            </Link>
-          )}
+      <DatasetHeader />
 
-          <div className="flex items-center gap-sds-xs text-xs text-sds-gray-600">
-            <p>{i18n.releaseDate(dataset.release_date)}</p>
-            <div className="h-3 w-px bg-sds-gray-400" />
-            <p>
-              {i18n.lastModified(
-                dataset.last_modified_date ?? dataset.deposition_date,
-              )}
-            </p>
-          </div>
-        </div>
-      </header>
+      <Demo>
+        <button onClick={drawer.toggle} type="button">
+          Toggle Drawer
+        </button>
+      </Demo>
 
-      <Demo>Dataset {dataset.id}</Demo>
+      <DatasetMetadataDrawer />
     </>
   )
 }
