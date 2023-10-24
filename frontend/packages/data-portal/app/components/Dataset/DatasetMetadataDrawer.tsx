@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react'
 import { Demo } from 'app/components/Demo'
 import { Drawer } from 'app/components/Drawer'
 import { TabData, Tabs } from 'app/components/Tabs'
+import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
 import { useDatasetDrawer } from 'app/state/drawer'
 import { cns } from 'app/utils/cns'
@@ -33,6 +34,7 @@ const ACTIVE_TAB_PARAM = 'tab'
 
 export function DatasetMetadataDrawer() {
   const drawer = useDatasetDrawer()
+  const dataset = useDatasetById()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const activeTab = (searchParams.get(ACTIVE_TAB_PARAM) ??
@@ -68,10 +70,7 @@ export function DatasetMetadataDrawer() {
             </p>
 
             <p className="text-sds-header-xl font-semibold text-black leading-[30px] line-clamp-3">
-              really long title that is so long that we need to wrap it in 3
-              lines but clamp it at 3 lines max because of how long the text
-              really is because the text is so long it has to be clamped
-              {/* {dataset.title} */}
+              {dataset.title}
             </p>
           </div>
 
