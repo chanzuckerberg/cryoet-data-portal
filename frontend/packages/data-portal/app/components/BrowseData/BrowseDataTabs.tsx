@@ -1,7 +1,8 @@
-import { Tab, Tabs } from '@czi-sds/components'
 import { useLoaderData, useLocation, useNavigate } from '@remix-run/react'
+import { useMemo } from 'react'
 
 import { GetToolbarDataQuery } from 'app/__generated__/graphql'
+import { TabData, Tabs } from 'app/components/Tabs'
 import { i18n } from 'app/i18n'
 
 export enum BrowseDataTab {
@@ -17,28 +18,28 @@ export function BrowseDataTabs() {
     : BrowseDataTab.Runs
 
   const data = useLoaderData<GetToolbarDataQuery>()
+  const datasetCount = data.datasets_aggregate.aggregate?.count ?? 0
+  const runCount = data.runs_aggregate.aggregate?.count ?? 0
+
+  const tabOptions = useMemo<TabData<BrowseDataTab>[]>(
+    () => [
+      {
+        label: i18n.datasetsTab(datasetCount),
+        value: BrowseDataTab.Datasets,
+      },
+      {
+        label: i18n.runsTab(runCount),
+        value: BrowseDataTab.Runs,
+      },
+    ],
+    [datasetCount, runCount],
+  )
 
   return (
-    // TODO fix TypeScript issue upstream. For some reason the Tabs component is
-    // requiring every prop to be passed rather than making it optional.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     <Tabs
-      sdsSize="large"
-      onChange={(_, nextTab: BrowseDataTab) =>
-        navigate(`/browse-data/${nextTab}`)
-      }
+      onChange={(nextTab) => navigate(`/browse-data/${nextTab}`)}
       value={tab}
-    >
-      <Tab
-        label={i18n.datasetsTab(data.datasets_aggregate.aggregate?.count ?? 0)}
-        value={BrowseDataTab.Datasets}
-      />
-
-      <Tab
-        label={i18n.runsTab(data.runs_aggregate.aggregate?.count ?? 0)}
-        value={BrowseDataTab.Runs}
-      />
-    </Tabs>
+      tabs={tabOptions}
+    />
   )
 }
