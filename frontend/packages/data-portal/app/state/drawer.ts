@@ -2,7 +2,7 @@ import { useUnmountEffect } from '@react-hookz/web'
 import { atom, useAtom, useSetAtom } from 'jotai'
 import { useMemo } from 'react'
 
-export const datasetDrawerOpenAtom = atom(false)
+const datasetDrawerOpenAtom = atom(false)
 
 export function useDatasetDrawer() {
   const [open, setOpen] = useAtom(datasetDrawerOpenAtom)

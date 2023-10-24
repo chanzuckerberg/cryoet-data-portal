@@ -1,13 +1,12 @@
 import { ButtonIcon } from '@czi-sds/components'
 import { useSearchParams } from '@remix-run/react'
-import { useAtom } from 'jotai'
 import { useEffect, useRef } from 'react'
 
 import { Demo } from 'app/components/Demo'
 import { Drawer } from 'app/components/Drawer'
 import { TabData, Tabs } from 'app/components/Tabs'
 import { i18n } from 'app/i18n'
-import { datasetDrawerOpenAtom } from 'app/state/drawer'
+import { useDatasetDrawer } from 'app/state/drawer'
 import { cns } from 'app/utils/cns'
 
 import { DatasetMetadataTable } from './DatasetMetadataTable'
@@ -33,7 +32,7 @@ const TAB_OPTIONS: TabData<MetadataTab>[] = [
 const ACTIVE_TAB_PARAM = 'tab'
 
 export function DatasetMetadataDrawer() {
-  const [open, setOpen] = useAtom(datasetDrawerOpenAtom)
+  const drawer = useDatasetDrawer()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const activeTab = (searchParams.get(ACTIVE_TAB_PARAM) ??
@@ -42,25 +41,25 @@ export function DatasetMetadataDrawer() {
   const initialLoadRef = useRef(true)
   if (initialLoadRef.current && searchParams.has(ACTIVE_TAB_PARAM)) {
     initialLoadRef.current = false
-    setOpen(true)
+    drawer.setOpen(true)
   }
 
   useEffect(() => {
-    if (open && searchParams.get(ACTIVE_TAB_PARAM) !== activeTab) {
+    if (drawer.open && searchParams.get(ACTIVE_TAB_PARAM) !== activeTab) {
       setSearchParams((params) => {
         params.set(ACTIVE_TAB_PARAM, activeTab)
         return params
       })
-    } else if (!open) {
+    } else if (!drawer.open) {
       setSearchParams((params) => {
         params.delete(ACTIVE_TAB_PARAM)
         return params
       })
     }
-  }, [activeTab, open, searchParams, setSearchParams])
+  }, [activeTab, drawer.open, searchParams, setSearchParams])
 
   return (
-    <Drawer open={open} onClose={() => setOpen(false)}>
+    <Drawer open={drawer.open} onClose={() => drawer.setOpen(false)}>
       <div className="flex flex-col flex-auto">
         <header className="flex items-start justify-between px-sds-xl pt-sds-xl pb-sds-xxl">
           <div className="flex flex-col gap-sds-s">
@@ -77,7 +76,7 @@ export function DatasetMetadataDrawer() {
           </div>
 
           <ButtonIcon
-            onClick={() => setOpen(false)}
+            onClick={() => drawer.setOpen(false)}
             sdsIcon="xMark"
             sdsIconProps={{
               color: 'gray',
