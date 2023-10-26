@@ -12,7 +12,7 @@ import {
 import Paper from '@mui/material/Paper'
 import Skeleton from '@mui/material/Skeleton'
 import TableContainer from '@mui/material/TableContainer'
-import { useLoaderData, useSearchParams } from '@remix-run/react'
+import { useLoaderData, useLocation, useSearchParams } from '@remix-run/react'
 import { range } from 'lodash-es'
 import { ComponentProps, ReactNode } from 'react'
 
@@ -110,6 +110,8 @@ export function DatasetTable() {
       )
     : data.datasets
 
+  const location = useLocation()
+
   return (
     // Need to subtract 244px from 100vw to account for the sidebar and padding:
     // sidebar width = 200px, padding = 22px * 2 = 44px
@@ -162,6 +164,11 @@ export function DatasetTable() {
               .map((val) => `Object ${val}`)
               .map((obj) => <li key={obj}>{obj}</li>)
 
+            const previousUrl = `${location.pathname}${location.search}`
+            const datasetUrl = `/datasets/${
+              dataset.id
+            }?prev=${encodeURIComponent(previousUrl)}`
+
             return (
               <TableRow className="hover:!bg-sds-gray-100" key={dataset.title}>
                 {/* Dataset information cell  */}
@@ -183,9 +190,7 @@ export function DatasetTable() {
                       {isLoadingDebounced ? (
                         <Skeleton className="max-w-[70%]" variant="text" />
                       ) : (
-                        <Link to={`/datasets/${dataset.id}`}>
-                          {dataset.title}
-                        </Link>
+                        <Link to={datasetUrl}>{dataset.title}</Link>
                       )}
                     </p>
 
@@ -229,7 +234,7 @@ export function DatasetTable() {
                           {dataset.authors.length > AUTHOR_MAX && (
                             <Link
                               className="text-sds-primary-500 inline"
-                              to={`/datasets/${dataset.id}`}
+                              to={datasetUrl}
                             >
                               + {dataset.authors.length + 1 - AUTHOR_MAX} more
                             </Link>
