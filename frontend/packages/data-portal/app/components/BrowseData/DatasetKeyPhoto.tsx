@@ -12,8 +12,7 @@ export function DatasetKeyPhoto({
   src?: string
 }) {
   const { isLoadingDebounced } = useIsLoading()
-  const containerClassName =
-    'min-w-[134px] min-h-[100px] max-w-[134px] max-h-[100px]'
+  const containerClassName = 'flex-shrink-0 basis-[134px] h-[100px]'
 
   if (isLoadingDebounced) {
     return <Skeleton className={containerClassName} variant="rounded" />

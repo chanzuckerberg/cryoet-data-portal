@@ -164,6 +164,7 @@ export function DatasetTable() {
 
             return (
               <TableRow className="hover:!bg-sds-gray-100" key={dataset.title}>
+                {/* Dataset information cell  */}
                 <TableCell
                   className={cns(
                     'flex px-sds-s py-sds-l gap-sds-m',
