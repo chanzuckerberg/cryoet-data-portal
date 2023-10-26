@@ -16,6 +16,17 @@ repos:
   hooks:
   - id: prettier
     files: frontend
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.5.0
+  hooks:
+  - id: check-toml
+  - id: check-yaml
+    exclude: frontend  # covered by prettier
+  - id: check-json
+    exclude: frontend  # covered by prettier
+  - id: check-merge-conflict
+  - id: end-of-file-fixer
+  - id: trailing-whitespace
 - repo: local
   hooks:
   - id: pnpm-lint
