@@ -25,27 +25,16 @@
       "terraform_directory": ".happy/terraform/envs/prod",
       "task_launch_type": "k8s"
     },
-    "api": {},
-    "stack_defaults": {
-      "create_dashboard": false,
-      "routing_method": "CONTEXT",
-      "services": {
-        "frontend": {
-          "build": {
-            "context": ".",
-            "dockerfile": "packages/data-portal/Dockerfile"
-          },
-          "health_check_path": "/",
-          "name": "frontend",
-          "path": "/*",
-          "port": 8080,
-          "priority": 0,
-          "service_type": "EXTERNAL",
-          "success_codes": "200-499",
-          "platform_architecture": "amd64"
-        }
+    "staging": {
+      "aws_profile": "cryoet-dev",
+      "aws_region": "us-west-2",
+      "k8s": {
+        "namespace": "cryoet-staging-happy-happy-env",
+        "cluster_id": "cryoet-staging-eks",
+        "auth_method": "eks"
       },
-      "stack_defaults": "git@github.com:chanzuckerberg/happy//terraform/modules/happy-stack-eks?ref=main"
+      "terraform_directory": ".happy/terraform/envs/staging",
+      "task_launch_type": "k8s"
     }
   },
   "services": ["frontend"],
@@ -61,8 +50,8 @@
     "services": {
       "frontend": {
         "build": {
-          "context": "packages/data-portal",
-          "dockerfile": "Dockerfile"
+          "context": ".",
+          "dockerfile": "packages/data-portal/Dockerfile"
         },
         "health_check_path": "/",
         "name": "frontend",
