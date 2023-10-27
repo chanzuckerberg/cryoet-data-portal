@@ -43,6 +43,8 @@ const GET_DATASET_BY_ID = gql(`
       authors(distinct_on: name) {
         name
         email
+        primary_author_status
+        corresponding_author_status
       }
 
       # Tilt Series
