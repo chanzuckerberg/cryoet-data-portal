@@ -46,6 +46,7 @@ export const i18n = {
   otherSetup: 'Other Setup',
   phasePlate: 'Phase Plate',
   portalId: (id: number | string) => `Portal ID: ${id}`,
+  portalIdBlank: 'Portal ID:',
   privacy: 'Privacy',
   privacyPolicy: 'Privacy Policy',
   relatedDatabases: 'Related Databases',
