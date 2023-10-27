@@ -81,8 +81,7 @@ export function DatasetHeader() {
           </div>
 
           {/* actions */}
-          <div className="flex flex-row gap-sds-m justify-between min-w-[315px]">
-            {/* TODO: @kne42 to clarify icon margin (SDS component does not match design exactly) */}
+          <div className="flex flex-row row-start-2 col-start-2 gap-sds-m justify-between min-w-[315px]">
             <Button
               startIcon={
                 <Icon sdsIcon="download" sdsType="button" sdsSize="l" />
