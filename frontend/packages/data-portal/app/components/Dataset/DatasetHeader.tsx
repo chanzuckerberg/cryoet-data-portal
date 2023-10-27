@@ -17,8 +17,8 @@ export function DatasetHeader() {
     <header className="flex flex-col items-center justify-center w-full min-h-[48px] px-sds-xl pt-sds-l">
       <div
         className={cns(
-          // create grid with 2 even cols, 1 min height row, 1 grow height row
-          'grid grid-cols-2 grid-rows-[1fr_auto]',
+          // create grid with fit content 1st row / 2nd col
+          'grid grid-cols-[auto_1fr] grid-rows-[1fr_auto]',
           'w-full max-w-content',
           'justify-between',
           'gap-sds-l',
@@ -77,7 +77,8 @@ export function DatasetHeader() {
         </div>
 
         {/* actions */}
-        <div className="flex flex-row gap-sds-m justify-end">
+        <div className="flex flex-row gap-sds-m justify-between min-w-[315px]">
+          {/* TODO: @kne42 to clarify icon margin (SDS component does not match design exactly) */}
           <Button
             startIcon={<Icon sdsIcon="download" sdsType="button" sdsSize="l" />}
             sdsType="primary"
