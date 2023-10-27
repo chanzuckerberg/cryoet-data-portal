@@ -1,4 +1,4 @@
-import { TableData } from 'app/components/MetadataTable'
+import { TableData } from 'app/components/Table/MetadataTable'
 
 export function getTableData(...metadata: TableData[]) {
   return metadata.map((data) => {
