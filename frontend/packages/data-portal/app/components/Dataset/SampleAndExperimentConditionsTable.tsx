@@ -5,7 +5,7 @@ import { AccordionMetadataTable } from './AccordionMetadataTable'
 import { getTableData } from './utils'
 
 export function SampleAndExperimentConditionsTable() {
-  const dataset = useDatasetById()
+  const { dataset } = useDatasetById()
 
   const sampleAndExperimentConditions = getTableData(
     {

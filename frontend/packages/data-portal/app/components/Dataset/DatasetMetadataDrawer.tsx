@@ -34,7 +34,7 @@ const ACTIVE_TAB_PARAM = 'tab'
 
 export function DatasetMetadataDrawer() {
   const drawer = useDatasetDrawer()
-  const dataset = useDatasetById()
+  const { dataset } = useDatasetById()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const activeTab = (searchParams.get(ACTIVE_TAB_PARAM) ??

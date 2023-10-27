@@ -5,7 +5,7 @@ import { AccordionMetadataTable } from './AccordionMetadataTable'
 import { getTableData } from './utils'
 
 export function DatasetMetadataTable() {
-  const dataset = useDatasetById()
+  const { dataset, authors } = useDatasetById()
   const datasetMetadata = getTableData(
     {
       label: i18n.depositionDate,
@@ -13,7 +13,7 @@ export function DatasetMetadataTable() {
     },
     {
       label: i18n.affiliationName,
-      values: dataset.authors
+      values: authors
         .map((author) => author.affiliation_name)
         .filter((value): value is string => !!value),
     },

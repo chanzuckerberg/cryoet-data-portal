@@ -40,12 +40,9 @@ const GET_DATASET_BY_ID = gql(`
       grid_preparation
       other_setup
 
-      # TODO add query for getting all unique affiliation names by dataset ID.
-      # For now we need to query all authors that have non-null affiliation
-      # names and then get unique values from the response.
-      authors(where: {affiliation_name: {_is_null: false}}) {
+      authors(distinct_on: name) {
         name
-        affiliation_name
+        email
       }
 
       # Tilt Series
@@ -63,6 +60,10 @@ const GET_DATASET_BY_ID = gql(`
           camera_model
         }
       }
+    }
+    dataset_authors(distinct_on: name, where: {dataset_id: {_eq: $id}, affiliation_name: {_is_null: false}}) {
+      name
+      affiliation_name
     }
   }
 `)
@@ -99,9 +100,11 @@ export default function DatasetByIdPage() {
 
   return (
     <>
-      <DatasetHeader />
+      <div className="mx-sds-xl max-w-content">
+        <DatasetHeader />
 
-      <Demo>Nothing Here</Demo>
+        <Demo>Nothing Here</Demo>
+      </div>
 
       <DatasetMetadataDrawer />
     </>

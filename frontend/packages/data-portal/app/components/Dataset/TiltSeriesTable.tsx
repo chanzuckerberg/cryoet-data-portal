@@ -5,7 +5,7 @@ import { AccordionMetadataTable } from './AccordionMetadataTable'
 import { getTableData } from './utils'
 
 export function TiltSeriesTable() {
-  const dataset = useDatasetById()
+  const { dataset } = useDatasetById()
 
   const tiltSeriesData = dataset.runs[0]?.tiltseries[0]
   const tiltSeries = tiltSeriesData

@@ -10,6 +10,7 @@ export const i18n = {
   additionalMicroscopeOpticalSetup: 'Additional microscope optical setup',
   affiliationName: 'Affiliation Name',
   api: 'API',
+  authors: 'Authors',
   browseData: 'Browse Data',
   cameraManufacturer: 'Camera Manufacturer',
   cameraModel: 'Camera Model',
