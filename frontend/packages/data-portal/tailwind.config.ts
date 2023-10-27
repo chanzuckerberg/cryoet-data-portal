@@ -5,7 +5,13 @@ import type { Config } from 'tailwindcss'
 export default {
   content: ['./app/**/*.{ts,tsx,scss}'],
   theme: {
-    extend: sds,
+    extend: {
+      ...sds,
+
+      maxWidth: {
+        content: '1600px',
+      },
+    },
   },
   plugins: [],
 } satisfies Config

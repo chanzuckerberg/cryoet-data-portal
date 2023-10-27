@@ -6709,4 +6709,3 @@ input tomograms_variance_order_by {
   """Voxel spacing equal in all three axes in angstroms"""
   voxel_spacing: order_by
 }
-

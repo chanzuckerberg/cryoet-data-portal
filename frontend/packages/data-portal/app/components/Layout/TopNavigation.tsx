@@ -32,7 +32,7 @@ export function TopNavigation() {
             ? 'text-sds-gray-white'
             : 'text-sds-gray-400',
         )}
-        to="/datasets"
+        to="/browse-data/datasets"
       >
         {i18n.browseData}
       </Link>

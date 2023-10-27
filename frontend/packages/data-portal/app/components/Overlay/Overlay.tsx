@@ -26,7 +26,7 @@ export function Overlay({
     <AnimatePresence>
       {open && (
         <motion.div
-          className="bg-black/60 flex items-center fixed top-0 left-0 justify-center w-screen h-screen"
+          className="bg-black/75 flex items-center fixed top-0 left-0 justify-center w-screen h-screen z-[999]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
