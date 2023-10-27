@@ -4,12 +4,14 @@ import { useSearchParams } from '@remix-run/react'
 import { Link } from 'app/components/Link'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
+import { useDatasetDrawer } from 'app/state/drawer'
 import { cns } from 'app/utils/cns'
 
 export function DatasetHeader() {
   const [params] = useSearchParams()
   const previousUrl = params.get('prev')
   const dataset = useDatasetById()
+  const drawer = useDatasetDrawer()
 
   return (
     <header className="flex flex-col items-center justify-center w-full min-h-[48px] px-sds-xl pt-sds-l">
@@ -89,6 +91,7 @@ export function DatasetHeader() {
             }
             sdsType="secondary"
             sdsStyle="rounded"
+            onClick={drawer.toggle}
           >
             More Info
           </Button>

@@ -7,10 +7,7 @@ import { apolloClient } from 'app/apollo.server'
 import { DatasetMetadataDrawer } from 'app/components/Dataset'
 import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
 import { Demo } from 'app/components/Demo'
-import {
-  useCloseDatasetDrawerOnUnmount,
-  useDatasetDrawer,
-} from 'app/state/drawer'
+import { useCloseDatasetDrawerOnUnmount } from 'app/state/drawer'
 
 const GET_DATASET_BY_ID = gql(`
   query GetDatasetById($id: Int) {
@@ -98,18 +95,13 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function DatasetByIdPage() {
-  const drawer = useDatasetDrawer()
   useCloseDatasetDrawerOnUnmount()
 
   return (
     <>
       <DatasetHeader />
 
-      <Demo>
-        <button onClick={drawer.toggle} type="button">
-          Toggle Drawer
-        </button>
-      </Demo>
+      <Demo>Nothing Here</Demo>
 
       <DatasetMetadataDrawer />
     </>
