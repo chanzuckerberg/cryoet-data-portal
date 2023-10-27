@@ -8,31 +8,40 @@ export function TableCell({
   children,
   className,
   loadingSkeleton = true,
+  maxWidth,
+  minWidth,
   primaryText,
   renderLoadingSkeleton = () => <Skeleton variant="text" />,
 }: {
   children?: ReactNode
   className?: string
   loadingSkeleton?: boolean
+  maxWidth?: number
+  minWidth?: number
   primaryText?: string
   renderLoadingSkeleton?(): ReactNode
 }) {
   const { isLoadingDebounced } = useIsLoading()
+  const cellProps = {
+    className,
+    style: {
+      maxWidth,
+      minWidth,
+    },
+  }
 
   if (loadingSkeleton && isLoadingDebounced) {
     return (
-      <CellComponent className={className}>
-        {renderLoadingSkeleton()}
-      </CellComponent>
+      <CellComponent {...cellProps}>{renderLoadingSkeleton()}</CellComponent>
     )
   }
 
   if (primaryText) {
-    return <CellBasic className={className} primaryText={primaryText} />
+    return <CellBasic primaryText={primaryText} {...cellProps} />
   }
 
   return (
-    <CellComponent className={className}>
+    <CellComponent {...cellProps}>
       {loadingSkeleton && isLoadingDebounced
         ? renderLoadingSkeleton()
         : children}
