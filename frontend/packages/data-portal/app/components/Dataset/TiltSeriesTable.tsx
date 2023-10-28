@@ -7,7 +7,7 @@ import { getTableData } from './utils'
 export function TiltSeriesTable() {
   const { dataset } = useDatasetById()
 
-  const tiltSeriesData = dataset.runs[0]?.tiltseries[0]
+  const tiltSeriesData = dataset.run_metadata[0].tiltseries[0]
   const tiltSeries = tiltSeriesData
     ? getTableData(
         {

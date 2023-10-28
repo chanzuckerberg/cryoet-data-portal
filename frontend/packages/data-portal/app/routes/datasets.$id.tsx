@@ -1,12 +1,18 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
+import { Pagination } from '@czi-sds/components'
+import { useSearchParams } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 
 import { gql } from 'app/__generated__'
 import { apolloClient } from 'app/apollo.server'
 import { DatasetMetadataDrawer } from 'app/components/Dataset'
 import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
-import { Demo } from 'app/components/Demo'
+import { RunCount } from 'app/components/Dataset/RunCount'
+import { RunsTable } from 'app/components/Dataset/RunsTable'
+import { FilterPanel } from 'app/components/FilterPanel'
+import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useCloseDatasetDrawerOnUnmount } from 'app/state/drawer'
 
 const GET_DATASET_BY_ID = gql(`
@@ -57,7 +63,7 @@ const GET_DATASET_BY_ID = gql(`
       dataset_publications
 
       # Tilt Series
-      runs(limit: 1) {
+      run_metadata: runs(limit: 1) {
         tiltseries(limit: 1) {
           acceleration_voltage
           spherical_aberration_constant
@@ -69,6 +75,25 @@ const GET_DATASET_BY_ID = gql(`
           microscope_additional_info
           camera_manufacturer
           camera_model
+        }
+      }
+
+      runs {
+        id
+        name
+
+        tiltseries_aggregate {
+          aggregate {
+            avg {
+              tilt_series_quality
+            }
+          }
+        }
+      }
+
+      runs_aggregate {
+        aggregate {
+          count
         }
       }
     }
@@ -103,14 +128,46 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function DatasetByIdPage() {
+  const dataset = useDatasetById()
+
   useCloseDatasetDrawerOnUnmount()
+
+  const [searchParams, setSearchParams] = useSearchParams()
+  const page = +(searchParams.get('page') ?? '1')
+
+  function setPage(nextPage: number) {
+    setSearchParams((prev) => {
+      prev.set('page', `${nextPage}`)
+      return prev
+    })
+  }
 
   return (
     <>
       <div className="mx-sds-xl max-w-content">
         <DatasetHeader />
 
-        <Demo>Nothing Here</Demo>
+        <div className="flex flex-auto">
+          <FilterPanel />
+
+          <div className="flex flex-col flex-auto flex-shrink-0 items-center">
+            <div className="flex flex-col flex-auto w-full max-w-content p-sds-xl pb-sds-xxl">
+              <RunCount />
+              <RunsTable />
+
+              <div className="w-full flex justify-center">
+                <Pagination
+                  currentPage={page}
+                  pageSize={MAX_PER_PAGE}
+                  totalCount={dataset.runs_aggregate.aggregate?.count ?? 0}
+                  onNextPage={() => setPage(page + 1)}
+                  onPreviousPage={() => setPage(page - 1)}
+                  onPageChange={(nextPage) => setPage(nextPage)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <DatasetMetadataDrawer />
