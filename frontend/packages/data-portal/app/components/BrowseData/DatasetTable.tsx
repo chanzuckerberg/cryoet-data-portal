@@ -1,47 +1,27 @@
 /* eslint-disable react/no-unstable-nested-components */
 
-import { CellHeader, CellHeaderDirection, Tooltip } from '@czi-sds/components'
-import Paper from '@mui/material/Paper'
+import { CellHeader, CellHeaderDirection } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
 import { useLocation, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { ReactNode, useMemo } from 'react'
+import { useMemo } from 'react'
 
+import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { Table, TableCell } from 'app/components/Table'
 import { EMPIAR_ID } from 'app/constants/external-dbs'
-import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { Dataset, useDatasets } from 'app/hooks/useDatasets'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { i18n } from 'app/i18n'
-import { cns } from 'app/utils/cns'
 
-import { DatasetKeyPhoto } from './DatasetKeyPhoto'
-
-function AnnotatedObjectsList({
-  className,
-  children,
-}: {
-  className?: string
-  children: ReactNode
-}) {
-  return (
-    <ul className={cns('list-none flex flex-col gap-sds-xs', className)}>
-      {children}
-    </ul>
-  )
-}
+import { AnnotatedObjectsList } from '../AnnotatedObjectsList'
 
 /**
  * Max number of authors to show for dataset.
  */
 const AUTHOR_MAX = 7
-
-/**
- * Max number of annotated objects to show for dataset.
- */
-const ANNOTATED_OBJECTS_MAX = 4
 
 const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
   (value) =>
@@ -106,8 +86,8 @@ export function DatasetTable() {
               minWidth={450}
               maxWidth={800}
             >
-              <DatasetKeyPhoto
-                datasetTitle={dataset.title}
+              <KeyPhoto
+                title={dataset.title}
                 // TODO use dataset keyphoto
                 src="https://cataas.com/cat"
               />
@@ -219,9 +199,7 @@ export function DatasetTable() {
         header: i18n.annotatedObjects,
         cell() {
           // TODO use dataset annotated objects
-          const annotatedObjects = range(0, 10)
-            .map((val) => `Object ${val}`)
-            .map((obj) => <li key={obj}>{obj}</li>)
+          const annotatedObjects = range(0, 10).map((val) => `Object ${val}`)
 
           return (
             <TableCell
@@ -238,48 +216,7 @@ export function DatasetTable() {
               {annotatedObjects.length === 0 ? (
                 '--'
               ) : (
-                <AnnotatedObjectsList>
-                  {annotatedObjects.slice(
-                    0,
-                    annotatedObjects.length > ANNOTATED_OBJECTS_MAX
-                      ? ANNOTATED_OBJECTS_MAX - 1
-                      : Infinity,
-                  )}
-
-                  {annotatedObjects.length > ANNOTATED_OBJECTS_MAX && (
-                    <li>
-                      <Tooltip
-                        classes={{ tooltip: '!p-0 !bg-transparent' }}
-                        placement="left"
-                        title={
-                          <Paper
-                            className="p-sds-m text-black w-[250px]"
-                            elevation={4}
-                          >
-                            <AnnotatedObjectsList className="font-semibold">
-                              {annotatedObjects.slice(0, 4)}
-                              <li>
-                                really long object with a long name that is long
-                                for some reason other than being long
-                              </li>
-                              {annotatedObjects.slice(4)}
-                            </AnnotatedObjectsList>
-                          </Paper>
-                        }
-                      >
-                        <div
-                          className={cns(
-                            'bg-sds-gray-200 text-sds-gray-600 hover:cursor-pointer',
-                            'rounded-sds-m py-sds-xxxs px-sds-xxs inline',
-                          )}
-                        >
-                          {annotatedObjects.length + 1 - ANNOTATED_OBJECTS_MAX}{' '}
-                          More Objects
-                        </div>
-                      </Tooltip>
-                    </li>
-                  )}
-                </AnnotatedObjectsList>
+                <AnnotatedObjectsList annotatedObjects={annotatedObjects} />
               )}
             </TableCell>
           )

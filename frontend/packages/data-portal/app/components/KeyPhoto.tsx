@@ -4,13 +4,7 @@ import { useIsLoading } from 'app/hooks/useIsLoading'
 import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
 
-export function DatasetKeyPhoto({
-  datasetTitle,
-  src,
-}: {
-  datasetTitle: string
-  src?: string
-}) {
+export function KeyPhoto({ src, title }: { src?: string; title: string }) {
   const { isLoadingDebounced } = useIsLoading()
   const containerClassName = 'flex-shrink-0 basis-[134px] aspect-[4/3]'
 
@@ -30,7 +24,7 @@ export function DatasetKeyPhoto({
       )}
     >
       {src ? (
-        <img alt={`key visualization for dataset ${datasetTitle}`} src={src} />
+        <img alt={`key visualization for ${title}`} src={src} />
       ) : (
         <p className="text-sds-gray-400 text-sm">{i18n.keyPhoto}</p>
       )}
