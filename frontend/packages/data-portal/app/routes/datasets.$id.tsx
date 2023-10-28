@@ -16,7 +16,7 @@ import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useCloseDatasetDrawerOnUnmount } from 'app/state/drawer'
 
 const GET_DATASET_BY_ID = gql(`
-  query GetDatasetById($id: Int) {
+  query GetDatasetById($id: Int, $run_limit: Int, $run_offset: Int) {
     datasets(where: { id: { _eq: $id } }) {
       # Dataset dates
       last_modified_date
@@ -78,7 +78,7 @@ const GET_DATASET_BY_ID = gql(`
         }
       }
 
-      runs {
+      runs(limit: $run_limit, offset: $run_offset) {
         id
         name
 
@@ -100,8 +100,11 @@ const GET_DATASET_BY_ID = gql(`
   }
 `)
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
+
+  const url = new URL(request.url)
+  const page = +(url.searchParams.get('page') ?? '1')
 
   if (Number.isNaN(+id)) {
     throw new Response(null, {
@@ -114,6 +117,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
     query: GET_DATASET_BY_ID,
     variables: {
       id: +id,
+      run_limit: MAX_PER_PAGE,
+      run_offset: (page - 1) * MAX_PER_PAGE,
     },
   })
 
