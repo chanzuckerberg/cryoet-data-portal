@@ -5,11 +5,8 @@ import { useSearchParams } from '@remix-run/react'
 import { gql } from 'app/__generated__'
 import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
-import {
-  BrowseDataFilterCount,
-  DatasetTable,
-  FilterPanel,
-} from 'app/components/BrowseData'
+import { BrowseDataFilterCount, DatasetTable } from 'app/components/BrowseData'
+import { FilterPanel } from 'app/components/FilterPanel'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useDatasets } from 'app/hooks/useDatasets'
 
