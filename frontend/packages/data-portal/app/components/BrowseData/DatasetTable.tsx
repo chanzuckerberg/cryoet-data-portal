@@ -16,6 +16,7 @@ import { ComponentProps, ReactNode } from 'react'
 import { GetDatasetsDataQuery } from 'app/__generated__/graphql'
 import { Link } from 'app/components/Link'
 import { TableCell } from 'app/components/TableCell'
+import { EMPIAR_ID } from 'app/constants/external-dbs'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { i18n } from 'app/i18n'
@@ -151,7 +152,7 @@ export function DatasetTable() {
 
         <tbody>
           {datasets.map((dataset) => {
-            const empiarIDMatch = /EMPIAR-([\d]+)/.exec(
+            const empiarIDMatch = EMPIAR_ID.exec(
               dataset.dataset_publications ?? '',
             )
             const empiarID = empiarIDMatch?.[1]

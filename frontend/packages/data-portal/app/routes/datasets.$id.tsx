@@ -47,6 +47,10 @@ const GET_DATASET_BY_ID = gql(`
         corresponding_author_status
       }
 
+      # publication info
+      related_database_entries
+      dataset_publications
+
       # Tilt Series
       runs(limit: 1) {
         tiltseries(limit: 1) {

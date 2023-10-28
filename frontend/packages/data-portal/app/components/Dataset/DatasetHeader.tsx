@@ -15,7 +15,7 @@ export function DatasetHeader() {
   const drawer = useDatasetDrawer()
 
   return (
-    <header className="flex flex-col items-center justify-center w-full min-h-[48px]">
+    <header className="flex flex-col items-center justify-center w-full min-h-[48px] pb-sds-xxl">
       <div className="flex flex-col justify-start gap-sds-xxl">
         <div
           className={cns(
