@@ -21,6 +21,7 @@ export function Table<T>({
   columns,
   data,
   tableProps,
+  withFiltersSidebar,
 }: {
   classes?: {
     body?: string
@@ -32,6 +33,7 @@ export function Table<T>({
   columns: ColumnDef<T>[]
   data: T[]
   tableProps?: TableProps
+  withFiltersSidebar?: boolean
 }) {
   const table = useReactTable<T>({
     columns,
@@ -40,7 +42,15 @@ export function Table<T>({
   })
 
   return (
-    <TableContainer className={classes?.container}>
+    <TableContainer
+      className={cns(
+        classes?.container,
+
+        // Need to subtract 244px from 100vw to account for the sidebar and padding:
+        // sidebar width = 200px, padding = 22px * 2 = 44px
+        withFiltersSidebar && 'max-w-[calc(100vw-244px)]',
+      )}
+    >
       <SDSTable {...tableProps} className={cns('!table-auto', classes?.table)}>
         <TableHeader>
           {table.getFlatHeaders().map((header) => {

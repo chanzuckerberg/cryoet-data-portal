@@ -234,13 +234,9 @@ export function DatasetTable() {
 
   return (
     <Table
-      classes={{
-        // Need to subtract 244px from 100vw to account for the sidebar and padding:
-        // sidebar width = 200px, padding = 22px * 2 = 44px
-        container: 'max-w-[calc(100vw-244px)]',
-      }}
       data={isLoadingDebounced ? LOADING_DATASETS : datasets}
       columns={columns}
+      withFiltersSidebar
     />
   )
 }
