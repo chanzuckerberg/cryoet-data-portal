@@ -2,9 +2,14 @@ import clsx from 'clsx'
 
 import { EnvelopeIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
+import {
+  DatabaseType,
+  LABEL_MAP,
+  REGEX_MAP,
+  URL_MAP,
+} from 'app/constants/external-dbs'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
-import { REGEX_MAP, DatabaseType, URL_MAP, LABEL_MAP } from 'app/constants/external-dbs'
 
 interface DatabaseEntryProps {
   entry: string
@@ -34,7 +39,9 @@ function DatabaseEntry(props: DatabaseEntryProps) {
       <span className="text-sds-gray-black font-semibold">
         {LABEL_MAP.get(dbtype)}:
       </span>
-      <Link className="text-sds-primary-400" to={URL_MAP.get(dbtype) + id}>{entry}</Link>
+      <Link className="text-sds-primary-400" to={URL_MAP.get(dbtype) + id}>
+        {entry}
+      </Link>
     </p>
   )
 }

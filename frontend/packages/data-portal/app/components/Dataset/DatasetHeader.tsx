@@ -20,7 +20,7 @@ export function DatasetHeader() {
         <div
           className={cns(
             // create grid with fit content 1st row / 2nd col
-            'grid grid-cols-[auto_1fr] grid-rows-[1fr_auto]',
+            'grid grid-cols-[1fr_auto] grid-rows-[1fr_auto]',
             'w-full',
             'justify-between',
             'gap-x-sds-xxl',
