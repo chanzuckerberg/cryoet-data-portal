@@ -2,14 +2,9 @@ import clsx from 'clsx'
 
 import { EnvelopeIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
-import {
-  DatabaseType,
-  LABEL_MAP,
-  REGEX_MAP,
-  URL_MAP,
-} from 'app/constants/external-dbs'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
+import { REGEX_MAP, DatabaseType, URL_MAP, LABEL_MAP } from 'app/constants/external-dbs'
 
 interface DatabaseEntryProps {
   entry: string
@@ -39,9 +34,7 @@ function DatabaseEntry(props: DatabaseEntryProps) {
       <span className="text-sds-gray-black font-semibold">
         {LABEL_MAP.get(dbtype)}:
       </span>
-      <Link className="text-sds-primary-400" to={URL_MAP.get(dbtype) + id}>
-        {entry}
-      </Link>
+      <Link className="text-sds-primary-400" to={URL_MAP.get(dbtype) + id}>{entry}</Link>
     </p>
   )
 }
@@ -70,7 +63,7 @@ export function DatasetDescription() {
     .map((e) => e.trim())
 
   const envelopeIcon = (
-    <EnvelopeIcon className="text-sds-gray-400 ml-sds-xxxs align-top inline-block h-sds-icon-xs w-sds-icon-xs" />
+    <EnvelopeIcon className="text-sds-gray-400 mx-sds-xxxs align-top inline-block h-sds-icon-xs w-sds-icon-xs" />
   )
 
   // use clsx here instead of cns since it erroneously merges text-sds-gray-500 and text-sds-caps-xxxs
@@ -133,7 +126,7 @@ export function DatasetDescription() {
         <div className="flex-1 max-w-[260px] flex flex-col gap-sds-xs">
           <h3 className={sectionHeaderStyles}>{i18n.publications}</h3>
           {publicationEntries ? (
-            <ul>
+            <ul className="flex flex-col gap-sds-xxs">
               {publicationEntries.map((e) => (
                 <li>
                   <DatabaseEntry entry={e} />
@@ -147,7 +140,7 @@ export function DatasetDescription() {
         <div className="flex-1 max-w-[260px] flex flex-col gap-sds-xs">
           <h3 className={sectionHeaderStyles}>{i18n.relatedDatabases}</h3>
           {relatedDatabaseEntries ? (
-            <ul>
+            <ul className="flex flex-col gap-sds-xxs">
               {relatedDatabaseEntries.map((e) => (
                 <li>
                   <DatabaseEntry entry={e} />
