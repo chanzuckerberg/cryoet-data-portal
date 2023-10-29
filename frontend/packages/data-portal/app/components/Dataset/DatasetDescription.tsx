@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { HTMLProps } from 'react'
 
 import { EnvelopeIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
@@ -10,6 +11,13 @@ import {
 } from 'app/constants/external-dbs'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
+
+// use clsx here instead of cns since it erroneously merges text-sds-gray-500 and text-sds-caps-xxxs
+const sectionHeaderStyles = clsx(
+  'font-semibold uppercase',
+  'text-sds-gray-500',
+  'text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps',
+)
 
 interface DatabaseEntryProps {
   entry: string
@@ -46,6 +54,35 @@ function DatabaseEntry(props: DatabaseEntryProps) {
   )
 }
 
+interface DatabaseListProps {
+  title: string
+  entries?: string[]
+  className?: HTMLProps<HTMLElement>['className']
+}
+
+function DatabaseList(props: DatabaseListProps) {
+  const { title, entries, className } = props
+
+  return (
+    <div className={clsx(className, 'flex flex-col gap-sds-xs')}>
+      <h3 className={sectionHeaderStyles}>{title}</h3>
+      {entries ? (
+        <ul className="flex flex-col gap-sds-xxs">
+          {entries.map((e) => (
+            <li>
+              <DatabaseEntry entry={e} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-400">
+          {i18n.notSubmitted}
+        </p>
+      )}
+    </div>
+  )
+}
+
 export function DatasetDescription() {
   const { dataset } = useDatasetById()
 
@@ -71,19 +108,6 @@ export function DatasetDescription() {
 
   const envelopeIcon = (
     <EnvelopeIcon className="text-sds-gray-400 mx-sds-xxxs align-top inline-block h-sds-icon-xs w-sds-icon-xs" />
-  )
-
-  // use clsx here instead of cns since it erroneously merges text-sds-gray-500 and text-sds-caps-xxxs
-  const sectionHeaderStyles = clsx(
-    'font-semibold uppercase',
-    'text-sds-gray-500',
-    'text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps',
-  )
-
-  const notSubmittedText = (
-    <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-400">
-      {i18n.notSubmitted}
-    </p>
   )
 
   return (
@@ -130,34 +154,17 @@ export function DatasetDescription() {
         </p>
       </div>
       <div className="flex flex-row gap-sds-xxl">
-        <div className="flex-1 max-w-[260px] flex flex-col gap-sds-xs">
-          <h3 className={sectionHeaderStyles}>{i18n.publications}</h3>
-          {publicationEntries ? (
-            <ul className="flex flex-col gap-sds-xxs">
-              {publicationEntries.map((e) => (
-                <li>
-                  <DatabaseEntry entry={e} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            notSubmittedText
-          )}
-        </div>
-        <div className="flex-1 max-w-[260px] flex flex-col gap-sds-xs">
-          <h3 className={sectionHeaderStyles}>{i18n.relatedDatabases}</h3>
-          {relatedDatabaseEntries ? (
-            <ul className="flex flex-col gap-sds-xxs">
-              {relatedDatabaseEntries.map((e) => (
-                <li>
-                  <DatabaseEntry entry={e} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            notSubmittedText
-          )}
-        </div>
+        <DatabaseList
+          title={i18n.publications}
+          entries={publicationEntries}
+          className="flex-1 max-w-[260px]"
+        />
+        <DatabaseList
+          title={i18n.relatedDatabases}
+          entries={relatedDatabaseEntries}
+          className="flex-1 max-w-[260px]"
+        />
+        {/* extra div to turn it into 3 columns */}
         <div className="flex-1" />
       </div>
     </div>
