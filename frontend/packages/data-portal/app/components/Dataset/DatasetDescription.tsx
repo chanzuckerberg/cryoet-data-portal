@@ -1,5 +1,6 @@
 import clsx from 'clsx'
-import { HTMLProps } from 'react'
+import { HTMLProps, useState } from 'react'
+import { Button } from '@czi-sds/components'
 
 import { EnvelopeIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
@@ -58,21 +59,51 @@ interface DatabaseListProps {
   title: string
   entries?: string[]
   className?: HTMLProps<HTMLElement>['className']
+  collapseAfter?: number
 }
 
 function DatabaseList(props: DatabaseListProps) {
-  const { title, entries, className } = props
+  const { title, entries, className, collapseAfter } = props
+  const collapsible =
+    collapseAfter !== undefined &&
+    collapseAfter >= 0 &&
+    entries !== undefined &&
+    entries.length > collapseAfter
+  const [collapsed, setCollapsed] = useState(true)
 
   return (
     <div className={clsx(className, 'flex flex-col gap-sds-xs')}>
       <h3 className={sectionHeaderStyles}>{title}</h3>
       {entries ? (
-        <ul className="flex flex-col gap-sds-xxs">
-          {entries.map((e) => (
-            <li>
-              <DatabaseEntry entry={e} />
-            </li>
-          ))}
+        <ul
+          className={clsx(
+            'flex flex-col gap-sds-xxs',
+            collapsible && 'transition-[max-height_0.2s_ease-out]',
+          )}
+        >
+          {entries.map(
+            (e, i) =>
+              !(collapsible && collapsed && i + 1 > collapseAfter) && (
+                <li>
+                  <DatabaseEntry entry={e} />
+                </li>
+              ),
+          )}
+          {collapsible && (
+            <div>
+              <Button
+                sdsType="primary"
+                sdsStyle="minimal"
+                onClick={() => setCollapsed(!collapsed)}
+                // remove whitespace
+                style={{ minWidth: 0, padding: 0 }}
+              >
+                {collapsed
+                  ? i18n.plusMore(entries.length - collapseAfter)
+                  : i18n.showLess}
+              </Button>
+            </div>
+          )}
         </ul>
       ) : (
         <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-400">
@@ -98,6 +129,7 @@ export function DatasetDescription() {
       !(author.primary_author_status || author.corresponding_author_status),
   )
 
+  // clean up entries into lists
   const publicationEntries = dataset.dataset_publications
     ?.split(',')
     .map((e) => e.trim())
@@ -162,6 +194,7 @@ export function DatasetDescription() {
         <DatabaseList
           title={i18n.relatedDatabases}
           entries={relatedDatabaseEntries}
+          collapseAfter={1}
           className="flex-1 max-w-[260px]"
         />
         {/* extra div to turn it into 3 columns */}
