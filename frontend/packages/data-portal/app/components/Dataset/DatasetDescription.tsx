@@ -1,6 +1,6 @@
+import { Button } from '@czi-sds/components'
 import clsx from 'clsx'
 import { HTMLProps, useState } from 'react'
-import { Button } from '@czi-sds/components'
 
 import { EnvelopeIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
