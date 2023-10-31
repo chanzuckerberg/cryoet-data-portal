@@ -145,7 +145,7 @@ export function DatasetDescription() {
   )
 
   return (
-    <div className="flex flex-col w-full gap-sds-xl">
+    <div className="flex flex-col gap-sds-xl">
       <p className="text-sds-body-m leading-sds-body-m">
         {dataset.description}
       </p>
