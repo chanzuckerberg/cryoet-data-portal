@@ -242,6 +242,9 @@ importers:
       typed-css-modules:
         specifier: ^0.8.0
         version: 0.8.0
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
 
   packages/eslint-config:
     dependencies:
