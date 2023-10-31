@@ -87,7 +87,9 @@ class IntField(BaseField):
 class DateField(BaseField):
     def convert(self, value):
         if value:
-            return datetime.date(datetime.strptime(value, "%Y-%m-%d"))
+            return datetime.date(
+                datetime.strptime(value, "%Y-%m-%d").astimezone(datetime.timezone.utc),
+            )
 
 
 class BooleanField(BaseField):
@@ -115,7 +117,14 @@ class QueryChain(GQLField):
 class Relationship(GQLField):
     descriptor_class: type
 
-    def __init__(self, related_class, source_field, dest_field, cls: Optional[type] = None, name: Optional[str] = None):
+    def __init__(
+        self,
+        related_class,
+        source_field,
+        dest_field,
+        cls: Optional[type] = None,
+        name: Optional[str] = None,
+    ):
         self.related_class = related_class
         self.source_field = source_field
         self.dest_field = dest_field
@@ -140,7 +149,11 @@ class ItemRelationship(Relationship):
         if obj is None:
             return self
         for item in self.related_class.find(
-            obj._client, [getattr(self.related_class, self.dest_field) == getattr(obj, self.source_field)]
+            obj._client,
+            [
+                getattr(self.related_class, self.dest_field)
+                == getattr(obj, self.source_field),
+            ],
         ):
             return item
 
@@ -150,7 +163,11 @@ class ListRelationship(Relationship):
         if obj is None:
             return self
         res = self.related_class.find(
-            obj._client, [getattr(self.related_class, self.dest_field) == getattr(obj, self.source_field)]
+            obj._client,
+            [
+                getattr(self.related_class, self.dest_field)
+                == getattr(obj, self.source_field),
+            ],
         )
         return res
 
@@ -193,7 +210,11 @@ class Model:
         return cls._gql_type
 
     @classmethod
-    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """Find objects based on a set of search filters.
 
         Search filters are combined with *and* so all results will match all filters.

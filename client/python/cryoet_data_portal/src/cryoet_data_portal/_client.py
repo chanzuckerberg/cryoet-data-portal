@@ -31,7 +31,12 @@ class Client:
             retries=3,
         )
 
-        with open(os.path.join(pathlib.Path(__file__).parent.resolve(), "data/schema.graphql")) as f:
+        with open(
+            os.path.join(
+                pathlib.Path(__file__).parent.resolve(),
+                "data/schema.graphql",
+            ),
+        ) as f:
             schema_str = f.read()
 
         self.client = GQLClient(transport=transport, schema=schema_str)
@@ -39,13 +44,18 @@ class Client:
 
     def build_query(self, cls, gql_class_name: str, query_filters=None):
         ds = self.ds
-        if not query_filters:
-            query_filters = {}
-        else:
-            query_filters = {"where": query_filters}
+        query_filters = {} if not query_filters else {"where": query_filters}
         gql_type = getattr(ds, gql_class_name)
-        scalar_fields = [getattr(gql_type, fieldname) for fieldname in cls._get_scalar_fields()]
-        query = dsl_gql(DSLQuery(getattr(ds.query_root, gql_class_name)(**query_filters).select(*scalar_fields)))
+        scalar_fields = [
+            getattr(gql_type, fieldname) for fieldname in cls._get_scalar_fields()
+        ]
+        query = dsl_gql(
+            DSLQuery(
+                getattr(ds.query_root, gql_class_name)(**query_filters).select(
+                    *scalar_fields,
+                ),
+            ),
+        )
         return query
 
     def find(self, cls, query_filters=None):

@@ -1,6 +1,6 @@
 # CryoET Portal api client
 
-The `cryoet_data_portal` package provides a python client to facilitate the use of the Cryo-Electron Tomography Portal. For more information about the API and the project visit the [chanzuckerberg/cryoet-data-portal GitHub repo](https://github.com/chanzuckerberg/cryoet-data-portal/). 
+The `cryoet_data_portal` package provides a python client to facilitate the use of the Cryo-Electron Tomography Portal. For more information about the API and the project visit the [chanzuckerberg/cryoet-data-portal GitHub repo](https://github.com/chanzuckerberg/cryoet-data-portal/).
 
 
 ## For More Help

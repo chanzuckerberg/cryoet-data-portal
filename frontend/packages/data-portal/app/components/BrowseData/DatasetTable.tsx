@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable react/no-unstable-nested-components */
-
 import {
   CellHeader,
   CellHeaderDirection,

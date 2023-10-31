@@ -1,3 +1,4 @@
+import logging
 import os
 from typing import Optional
 from urllib.parse import urlparse
@@ -7,6 +8,8 @@ import requests
 from botocore import UNSIGNED
 from botocore.client import Config
 from tqdm import tqdm
+
+logger = logging.getLogger("cryoet-data-portal")
 
 
 def get_anon_s3_client():
@@ -18,35 +21,42 @@ def parse_s3_url(url: str) -> (str, str):
     return parsed.netloc, parsed.path
 
 
-def download_https(url: str, dest_path: Optional[str] = None, with_progress: bool = True):
+def download_https(
+    url: str,
+    dest_path: Optional[str] = None,
+    with_progress: bool = True,
+):
     dest_path = get_destination_path(url, dest_path)
     fetch_request = requests.get(url, stream=True)
     total_size = int(fetch_request.headers["content-length"])
     block_size = 1024 * 512
-    print(f"Downloading {url} to {dest_path}")
+    logger.info("Downloading %s to %s", url, dest_path)
     with tqdm(
         total=total_size,
         unit="iB",
         unit_scale=True,
         disable=(not with_progress),
-    ) as progress_bar:
-        with open(dest_path, "wb") as f:
-            for data in fetch_request.iter_content(block_size):
-                progress_bar.update(len(data))
-                f.write(data)
+    ) as progress_bar, open(dest_path, "wb") as f:
+        for data in fetch_request.iter_content(block_size):
+            progress_bar.update(len(data))
+            f.write(data)
 
 
-def get_destination_path(url: str, dest_path: Optional[str], recursive_from_prefix: Optional[str] = None) -> str:
+def get_destination_path(
+    url: str,
+    dest_path: Optional[str],
+    recursive_from_prefix: Optional[str] = None,
+) -> str:
     if not dest_path:
         dest_path = os.getcwd()
     dest_path = os.path.abspath(dest_path)
 
-    if not recursive_from_prefix:
-        # If the dest path is a directory, append the url's file name to it.
-        if os.path.isdir(dest_path):
-            return os.path.join(dest_path, os.path.basename(url))
     if not os.path.isdir(dest_path):
-        raise NotImplementedError("Recursive downloads require a base directory")
+        if recursive_from_prefix:
+            raise ValueError("Recursive downloads require a base directory")
+    else:
+        # If the dest path is a directory, append the url's file name to it.
+        return os.path.join(dest_path, os.path.basename(url))
 
     # If we're downloading recursively, we need to add the dest URL
     # (minus the prefix) to the dest path.
@@ -60,7 +70,10 @@ def get_destination_path(url: str, dest_path: Optional[str], recursive_from_pref
 
 # This requires bucket listing so we'll need to use s3 instead of https
 def download_directory(
-    s3_url: str, recursive_from_prefix: str, dest_path: Optional[str] = None, with_progress: bool = True
+    s3_url: str,
+    recursive_from_prefix: str,
+    dest_path: Optional[str] = None,
+    with_progress: bool = True,
 ):
     s3_client = get_anon_s3_client()
     paginator = s3_client.get_paginator("list_objects_v2")
@@ -82,11 +95,20 @@ def download_directory(
         disable=(not with_progress),
     ) as progress_bar:
         for key, size in files.items():
-            local_file = get_destination_path(f"s3://{bucket}/{key}", dest_path, recursive_from_prefix)
+            local_file = get_destination_path(
+                f"s3://{bucket}/{key}",
+                dest_path,
+                recursive_from_prefix,
+            )
             # Don't re-download files we already have
             if os.path.exists(local_file):
                 stats = os.stat(local_file)
                 if stats.st_size == size:
                     progress_bar.update(size)
                     continue
-            s3_client.download_file(bucket, key, local_file, Callback=progress_bar.update)
+            s3_client.download_file(
+                bucket,
+                key,
+                local_file,
+                Callback=progress_bar.update,
+            )

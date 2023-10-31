@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-
 import { BrowseDataSearch } from './BrowseDataSearch'
 import { BrowseDataTabs } from './BrowseDataTabs'
 

@@ -1,0 +1,69 @@
+name: Pre-Commit Formatting
+
+on:
+  pull_request:
+    paths:
+      - 'client/**'
+      - 'frontend/**'
+      - 'backend/**'
+      - '.github/workflows/**' # Re-run if a workflow is modified - useful to test workflow changes in PRs
+  push:
+    branches:
+    - main
+
+jobs:
+  pre-commit-checks:
+    name: pre-commit checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            frontend:
+              - 'frontend/**'
+
+      - uses: actions/setup-node@v3
+        if: steps.changes.outputs.frontend == 'true'
+        with:
+          node-version: 20.8.x
+
+      - name: Install PNPM
+        if: steps.changes.outputs.frontend == 'true'
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.0
+          run_install: false
+
+      - name: Get pnpm store directory
+        if: steps.changes.outputs.frontend == 'true'
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        if: steps.changes.outputs.frontend == 'true'
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies with PNPM
+        if: steps.changes.outputs.frontend == 'true'
+        run: pnpm install --frozen-lockfile
+        working-directory: frontend
+
+      - name: Build GraphQL Types
+        if: steps.changes.outputs.frontend == 'true'
+        run: pnpm build
+        working-directory: frontend/packages/data-portal
+
+      - name: run pre-commit
+        uses: pre-commit/action@v3.0.0

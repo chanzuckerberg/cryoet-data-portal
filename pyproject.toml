@@ -1,0 +1,34 @@
+# common tooling configs
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+target_version = ['py39']
+
+[tool.ruff]
+select = [
+    "E", "W",  # pycodestyle
+    "F",  # pyflakes
+    "B",  # bugbear
+    "I",  # isort
+    "N",  # pep8-naming
+    "ASYNC",  # async
+    "COM",  # commas
+    "C4",  # comprehensions
+    "DTZ",  # datetimez
+    "ISC",  # implicit-str-concat
+    "G",  # logging-format
+    "T20",  # print
+    "SIM",  # simplify
+]
+ignore = [
+    "E501",  # line too long
+    "C408",  # rewrite empty built-ins as literals
+]
+line-length = 79
+target-version = "py39"
+
+[tool.ruff.isort]
+known-first-party =["cryoet_data_portal"]
+
+[tool.ruff.flake8-quotes]
+docstring-quotes = "double"
