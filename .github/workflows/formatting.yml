@@ -27,8 +27,6 @@ jobs:
           filters: |
             frontend:
               - 'frontend/**'
-            tsx:
-              - '*.tsx'
 
       - uses: actions/setup-node@v3
         if: steps.changes.outputs.frontend == 'true'
@@ -63,7 +61,7 @@ jobs:
         working-directory: frontend
 
       - name: Build GraphQL Types
-        if: steps.changes.outputs.frontend == 'true' && steps.changes.outputs.tsx == 'true'
+        if: steps.changes.outputs.frontend == 'true'
         run: pnpm build
         working-directory: frontend/packages/data-portal
 

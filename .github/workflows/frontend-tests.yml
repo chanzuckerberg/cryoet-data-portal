@@ -39,8 +39,28 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8.9.0
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
       - name: Install dependencies with PNPM
         run: pnpm install --frozen-lockfile
+        working-directory: frontend
+
+      - name: Build GraphQL Types
+        run: pnpm build
+        working-directory: frontend/packages/data-portal
 
       - name: ${{ matrix.name }}
         run: ${{ matrix.run }}
