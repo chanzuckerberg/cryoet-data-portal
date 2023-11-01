@@ -47,6 +47,11 @@ const GET_DATASET_BY_ID = gql(`
         corresponding_author_status
       }
 
+      authors_with_affiliation: authors(where: {affiliation_name: {_is_null: false}}) {
+        name
+        affiliation_name
+      }
+
       # publication info
       related_database_entries
       dataset_publications
@@ -66,10 +71,6 @@ const GET_DATASET_BY_ID = gql(`
           camera_model
         }
       }
-    }
-    dataset_authors(distinct_on: name, where: {dataset_id: {_eq: $id}, affiliation_name: {_is_null: false}}) {
-      name
-      affiliation_name
     }
   }
 `)
