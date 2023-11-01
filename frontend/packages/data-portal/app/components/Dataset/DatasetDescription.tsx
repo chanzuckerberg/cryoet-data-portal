@@ -1,11 +1,12 @@
 import { Button } from '@czi-sds/components'
 import clsx from 'clsx'
-import { HTMLProps, useState } from 'react'
+import { useState } from 'react'
 
 import { EnvelopeIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import {
   DatabaseType,
+  DOI_ID,
   LABEL_MAP,
   REGEX_MAP,
   URL_MAP,
@@ -58,7 +59,7 @@ function DatabaseEntry(props: DatabaseEntryProps) {
 interface DatabaseListProps {
   title: string
   entries?: string[]
-  className?: HTMLProps<HTMLElement>['className']
+  className?: string
   collapseAfter?: number
 }
 
@@ -84,7 +85,7 @@ function DatabaseList(props: DatabaseListProps) {
           {entries.map(
             (e, i) =>
               !(collapsible && collapsed && i + 1 > collapseAfter) && (
-                <li>
+                <li key={e}>
                   <DatabaseEntry entry={e} />
                 </li>
               ),
@@ -133,6 +134,7 @@ export function DatasetDescription() {
   const publicationEntries = dataset.dataset_publications
     ?.split(',')
     .map((e) => e.trim())
+    .filter((e) => DOI_ID.exec(e)) // only show DOI links
 
   const relatedDatabaseEntries = dataset.related_database_entries
     ?.split(',')
@@ -158,7 +160,7 @@ export function DatasetDescription() {
                 {!(
                   authorsOther.length + authorsCorresponding.length === 0 &&
                   arr.length - 1 === i
-                ) && <>; </>}
+                ) && '; '}
               </>
             ))}
           </span>
@@ -166,9 +168,8 @@ export function DatasetDescription() {
             {authorsOther.map((author, i, arr) => (
               <>
                 {author.name}
-                {!(
-                  authorsCorresponding.length === 0 && arr.length - 1 === i
-                ) && <>; </>}
+                {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
+                  '; '}
               </>
             ))}
             {authorsCorresponding.map((author, i, arr) => (
@@ -179,7 +180,7 @@ export function DatasetDescription() {
                 ) : (
                   envelopeIcon
                 )}
-                {!(arr.length - 1 === i) && <>; </>}
+                {!(arr.length - 1 === i) && '; '}
               </>
             ))}
           </span>
