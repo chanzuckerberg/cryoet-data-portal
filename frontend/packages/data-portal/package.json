@@ -11,7 +11,7 @@
     "dev:codegen": "pnpm build:codegen -w",
     "dev:remix": "remix dev --manual -c 'node --loader ts-node/esm --watch-path server.ts --watch server.ts'",
     "dev:tcm": "pnpm build:tcm -w",
-    "lint": "eslint --report-unused-disable-directives --max-warnings 0 .",
+    "lint": "pnpm build:codegen && eslint --report-unused-disable-directives --max-warnings 0 .",
     "lint:fix": "pnpm lint --fix",
     "preinstall": "npx only-allow pnpm",
     "start": "NODE_ENV=production node --loader ts-node/esm server.ts",
