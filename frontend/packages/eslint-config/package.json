@@ -2,6 +2,12 @@
   "name": "eslint-config-cryoet-data-portal",
   "type": "module",
   "main": "./index.cjs",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "clean:modules": "rm -rf node_modules",
+    "lint": "prettier -c .",
+    "lint:fix": "prettier -w ."
+  },
   "dependencies": {
     "eslint": "^8.51.0",
     "eslint-config-airbnb": "^19.0.4",
