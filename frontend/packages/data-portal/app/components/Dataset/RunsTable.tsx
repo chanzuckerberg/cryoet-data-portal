@@ -61,7 +61,7 @@ export function RunsTable() {
       }),
 
       columnHelper.accessor(
-        (run) => run.tiltseries_aggregate.aggregate?.avg?.tilt_series_quality,
+        (run) => run.tiltseries_aggregate?.aggregate?.avg?.tilt_series_quality,
         {
           header: i18n.tiltSeriesQualityScore,
           cell: ({ getValue }) => {

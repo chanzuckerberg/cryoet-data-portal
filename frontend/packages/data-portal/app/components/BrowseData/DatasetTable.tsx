@@ -183,16 +183,19 @@ export function DatasetTable() {
         ),
       }),
 
-      columnHelper.accessor('runs_aggregate.aggregate.count', {
-        header: i18n.runs,
-        cell: ({ getValue }) => (
-          <TableCell
-            primaryText={String(getValue() ?? 0).padStart(4, '0')}
-            minWidth={70}
-            maxWidth={100}
-          />
-        ),
-      }),
+      columnHelper.accessor(
+        (dataset) => dataset.runs_aggregate.aggregate?.count,
+        {
+          header: i18n.runs,
+          cell: ({ getValue }) => (
+            <TableCell
+              primaryText={String(getValue() ?? 0).padStart(4, '0')}
+              minWidth={70}
+              maxWidth={100}
+            />
+          ),
+        },
+      ),
 
       columnHelper.display({
         id: 'annotated-objects',

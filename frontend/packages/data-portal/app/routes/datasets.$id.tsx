@@ -14,6 +14,7 @@ import { FilterPanel } from 'app/components/FilterPanel'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useCloseDatasetDrawerOnUnmount } from 'app/state/drawer'
+import { cns } from 'app/utils/cns'
 
 const GET_DATASET_BY_ID = gql(`
   query GetDatasetById($id: Int, $run_limit: Int, $run_offset: Int) {
@@ -148,34 +149,44 @@ export default function DatasetByIdPage() {
   }
 
   return (
-    <>
-      <div className="mx-sds-xl max-w-content">
-        <DatasetHeader />
+    <div className="flex flex-col flex-auto">
+      <DatasetHeader />
 
-        <div className="flex flex-auto">
-          <FilterPanel />
+      <div className="flex flex-auto">
+        <FilterPanel />
 
-          <div className="flex flex-col flex-auto flex-shrink-0 items-center">
-            <div className="flex flex-col flex-auto w-full max-w-content p-sds-xl pb-sds-xxl">
-              <RunCount />
-              <RunsTable />
+        <div
+          className={cns(
+            'flex flex-col flex-auto flex-shrink-0 screen-2040:items-center',
+            'p-sds-xl pb-sds-xxl',
+            'border-t border-sds-gray-300',
+          )}
+        >
+          <div
+            className={cns(
+              'flex flex-col flex-auto w-full max-w-content',
 
-              <div className="w-full flex justify-center">
-                <Pagination
-                  currentPage={page}
-                  pageSize={MAX_PER_PAGE}
-                  totalCount={dataset.runs_aggregate.aggregate?.count ?? 0}
-                  onNextPage={() => setPage(page + 1)}
-                  onPreviousPage={() => setPage(page - 1)}
-                  onPageChange={(nextPage) => setPage(nextPage)}
-                />
-              </div>
+              // Translate to the left by half the filter panel width to align with the header
+              'screen-2040:translate-x-[-100px]',
+            )}
+          >
+            <RunCount />
+            <RunsTable />
+
+            <div className="w-full flex justify-center">
+              <Pagination
+                currentPage={page}
+                pageSize={MAX_PER_PAGE}
+                totalCount={dataset.runs_aggregate.aggregate?.count ?? 0}
+                onNextPage={() => setPage(page + 1)}
+                onPreviousPage={() => setPage(page - 1)}
+                onPageChange={(nextPage) => setPage(nextPage)}
+              />
             </div>
           </div>
         </div>
       </div>
-
       <DatasetMetadataDrawer />
-    </>
+    </div>
   )
 }

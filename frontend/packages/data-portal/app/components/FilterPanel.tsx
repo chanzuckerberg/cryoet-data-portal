@@ -6,7 +6,7 @@ export function FilterPanel() {
       className={cns(
         'flex flex-col flex-shrink-0',
         'w-[200px] items-center justify-center',
-        'border-r border-sds-gray-300',
+        'border-t border-r border-sds-gray-300',
       )}
     >
       <p>Filters</p>
