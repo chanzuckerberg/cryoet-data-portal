@@ -1,21 +1,22 @@
 import Skeleton from '@mui/material/Skeleton'
+import { match, P } from 'ts-pattern'
 
-import { useIsLoading } from 'app/hooks/useIsLoading'
 import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
 
-export function KeyPhoto({ src, title }: { src?: string; title: string }) {
-  const { isLoadingDebounced } = useIsLoading()
-  const containerClassName = 'flex-shrink-0 basis-[134px] aspect-[4/3]'
-
-  if (isLoadingDebounced) {
-    return <Skeleton className={containerClassName} variant="rounded" />
-  }
-
+export function KeyPhoto({
+  loading,
+  src,
+  title,
+}: {
+  loading?: boolean
+  src?: string
+  title: string
+}) {
   return (
     <div
       className={cns(
-        containerClassName,
+        'flex-shrink-0 basis-[134px] aspect-[4/3]',
         'flex items-center justify-center bg-[#d9d9d9]',
         'rounded-sds-m',
 
@@ -23,11 +24,14 @@ export function KeyPhoto({ src, title }: { src?: string; title: string }) {
         'overflow-hidden object-cover',
       )}
     >
-      {src ? (
-        <img alt={`key visualization for ${title}`} src={src} />
-      ) : (
-        <p className="text-sds-gray-400 text-sm">{i18n.keyPhoto}</p>
-      )}
+      {match([src, loading])
+        .with([P._, true], () => <Skeleton variant="rounded" />)
+        .with([P.string, false], () => (
+          <img alt={`key visualization for ${title}`} src={src} />
+        ))
+        .otherwise(() => (
+          <p className="text-sds-gray-400 text-sm">{i18n.keyPhoto}</p>
+        ))}
     </div>
   )
 }

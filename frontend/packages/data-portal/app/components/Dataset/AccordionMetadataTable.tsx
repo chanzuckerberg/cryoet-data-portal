@@ -16,7 +16,7 @@ export function AccordionMetadataTable({
       <MetadataTable
         data={data}
         tableCellProps={{
-          loadingSkeleton: false,
+          renderLoadingSkeleton: false,
         }}
       />
     </Accordion>

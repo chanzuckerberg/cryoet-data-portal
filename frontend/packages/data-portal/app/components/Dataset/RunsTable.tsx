@@ -9,7 +9,7 @@ import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { Table, TableCell } from 'app/components/Table'
-import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
+import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { TiltSeriesScore } from 'app/constants/tiltSeries'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useIsLoading } from 'app/hooks/useIsLoading'
@@ -34,30 +34,34 @@ export function RunsTable() {
     return [
       columnHelper.accessor('name', {
         header: i18n.run,
-        cell({ row: { original: run } }) {
-          return (
-            <TableCell
-              className="flex flex-auto gap-4"
-              minWidth={250}
-              maxWidth={300}
-            >
-              <KeyPhoto
-                title={run.name}
-                // TODO use dataset keyphoto
-                src="https://cataas.com/cat"
-              />
+        cell: ({ row: { original: run } }) => (
+          <TableCell
+            className="flex flex-auto gap-4"
+            minWidth={250}
+            maxWidth={300}
+            renderLoadingSkeleton={false}
+          >
+            <KeyPhoto
+              title={run.name}
+              // TODO use dataset keyphoto
+              src="https://cataas.com/cat"
+              loading={isLoadingDebounced}
+            />
 
-              <div className="flex flex-col flex-auto min-h-[100px]">
+            <div className="flex flex-col flex-auto min-h-[100px]">
+              {isLoadingDebounced ? (
+                <Skeleton className="max-w-[150px]" variant="text" />
+              ) : (
                 <Link
                   className="text-sds-primary-500 font-semibold"
                   to={`/runs/${run.id}`}
                 >
                   {run.name}
                 </Link>
-              </div>
-            </TableCell>
-          )
-        },
+              )}
+            </div>
+          </TableCell>
+        ),
       }),
 
       columnHelper.accessor(
@@ -91,25 +95,22 @@ export function RunsTable() {
             <TableCell
               minWidth={120}
               maxWidth={400}
-              renderLoadingSkeleton={() => (
-                <div className="flex flex-col gap-2">
-                  {range(0, ANNOTATED_OBJECTS_MAX).map((val) => (
-                    <Skeleton key={`skeleton-${val}`} variant="rounded" />
-                  ))}
-                </div>
-              )}
+              renderLoadingSkeleton={false}
             >
               {annotatedObjects.length === 0 ? (
                 '--'
               ) : (
-                <AnnotatedObjectsList annotatedObjects={annotatedObjects} />
+                <AnnotatedObjectsList
+                  annotatedObjects={annotatedObjects}
+                  isLoading={isLoadingDebounced}
+                />
               )}
             </TableCell>
           )
         },
       }),
     ] as ColumnDef<Run>[]
-  }, [])
+  }, [isLoadingDebounced])
 
   return (
     <Table

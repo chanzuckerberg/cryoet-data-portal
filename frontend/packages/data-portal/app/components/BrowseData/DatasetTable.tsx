@@ -82,7 +82,7 @@ export function DatasetTable() {
           return (
             <TableCell
               className="flex px-sds-s py-sds-l gap-sds-m"
-              loadingSkeleton={false}
+              renderLoadingSkeleton={false}
               minWidth={450}
               maxWidth={800}
             >
@@ -90,6 +90,7 @@ export function DatasetTable() {
                 title={dataset.title}
                 // TODO use dataset keyphoto
                 src="https://cataas.com/cat"
+                loading={isLoadingDebounced}
               />
 
               <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">

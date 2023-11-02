@@ -7,7 +7,6 @@ import { useIsLoading } from 'app/hooks/useIsLoading'
 export function TableCell({
   children,
   className,
-  loadingSkeleton = true,
   maxWidth,
   minWidth,
   primaryText,
@@ -19,7 +18,7 @@ export function TableCell({
   maxWidth?: number
   minWidth?: number
   primaryText?: string
-  renderLoadingSkeleton?(): ReactNode
+  renderLoadingSkeleton?: (() => ReactNode) | false
 }) {
   const { isLoadingDebounced } = useIsLoading()
   const cellProps = {
@@ -30,7 +29,7 @@ export function TableCell({
     },
   }
 
-  if (loadingSkeleton && isLoadingDebounced) {
+  if (renderLoadingSkeleton && isLoadingDebounced) {
     return (
       <CellComponent {...cellProps}>{renderLoadingSkeleton()}</CellComponent>
     )
@@ -42,7 +41,7 @@ export function TableCell({
 
   return (
     <CellComponent {...cellProps}>
-      {loadingSkeleton && isLoadingDebounced
+      {renderLoadingSkeleton && isLoadingDebounced
         ? renderLoadingSkeleton()
         : children}
     </CellComponent>

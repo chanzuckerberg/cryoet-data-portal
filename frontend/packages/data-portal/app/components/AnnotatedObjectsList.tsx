@@ -1,5 +1,7 @@
 import { Tooltip } from '@czi-sds/components'
 import Paper from '@mui/material/Paper'
+import Skeleton from '@mui/material/Skeleton'
+import { range } from 'lodash-es'
 import { ReactNode } from 'react'
 
 import { ANNOTATED_OBJECTS_MAX } from 'app/constants/pagination'
@@ -22,14 +24,20 @@ function List({
 
 export function AnnotatedObjectsList({
   annotatedObjects,
+  isLoading,
 }: {
   annotatedObjects: string[]
+  isLoading?: boolean
 }) {
   if (annotatedObjects.length === 0) {
     return null
   }
 
-  const nodes = annotatedObjects.map((obj) => <li key={obj}>{obj}</li>)
+  const nodes = isLoading
+    ? range(0, ANNOTATED_OBJECTS_MAX).map((val) => (
+        <Skeleton key={`skeleton-${val}`} variant="rounded" />
+      ))
+    : annotatedObjects.map((obj) => <li key={obj}>{obj}</li>)
 
   return (
     <List>
