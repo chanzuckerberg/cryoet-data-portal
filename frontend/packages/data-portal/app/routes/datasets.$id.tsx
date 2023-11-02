@@ -7,10 +7,7 @@ import { apolloClient } from 'app/apollo.server'
 import { DatasetMetadataDrawer } from 'app/components/Dataset'
 import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
 import { Demo } from 'app/components/Demo'
-import {
-  useCloseDatasetDrawerOnUnmount,
-  useDatasetDrawer,
-} from 'app/state/drawer'
+import { useCloseDatasetDrawerOnUnmount } from 'app/state/drawer'
 
 const GET_DATASET_BY_ID = gql(`
   query GetDatasetById($id: Int) {
@@ -43,13 +40,21 @@ const GET_DATASET_BY_ID = gql(`
       grid_preparation
       other_setup
 
-      # TODO add query for getting all unique affiliation names by dataset ID.
-      # For now we need to query all authors that have non-null affiliation
-      # names and then get unique values from the response.
-      authors(where: {affiliation_name: {_is_null: false}}) {
+      authors(distinct_on: name) {
+        name
+        email
+        primary_author_status
+        corresponding_author_status
+      }
+
+      authors_with_affiliation: authors(where: {affiliation_name: {_is_null: false}}) {
         name
         affiliation_name
       }
+
+      # publication info
+      related_database_entries
+      dataset_publications
 
       # Tilt Series
       runs(limit: 1) {
@@ -98,18 +103,15 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function DatasetByIdPage() {
-  const drawer = useDatasetDrawer()
   useCloseDatasetDrawerOnUnmount()
 
   return (
     <>
-      <DatasetHeader />
+      <div className="mx-sds-xl max-w-content">
+        <DatasetHeader />
 
-      <Demo>
-        <button onClick={drawer.toggle} type="button">
-          Toggle Drawer
-        </button>
-      </Demo>
+        <Demo>Nothing Here</Demo>
+      </div>
 
       <DatasetMetadataDrawer />
     </>

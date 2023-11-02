@@ -15,7 +15,7 @@ export function TopNavigation() {
     <nav
       className={cns(
         'bg-sds-gray-black text-sds-gray-white',
-        'flex h-[45px] items-center px-sds-xl',
+        'flex h-[45px] flex-shrink-0 items-center px-sds-xl',
         'sticky top-0 z-30',
       )}
     >

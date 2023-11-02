@@ -7,5 +7,5 @@ export function useDatasetById() {
     datasets: [dataset],
   } = useLoaderData<GetDatasetByIdQuery>()
 
-  return dataset
+  return { dataset }
 }
