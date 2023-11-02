@@ -12,7 +12,7 @@ export function DatasetKeyPhoto({
   src?: string
 }) {
   const { isLoadingDebounced } = useIsLoading()
-  const containerClassName = 'flex-shrink-0 basis-[134px] h-[100px]'
+  const containerClassName = 'flex-shrink-0 basis-[134px] aspect-[4/3]'
 
   if (isLoadingDebounced) {
     return <Skeleton className={containerClassName} variant="rounded" />
@@ -23,6 +23,7 @@ export function DatasetKeyPhoto({
       className={cns(
         containerClassName,
         'flex items-center justify-center bg-[#d9d9d9]',
+        'rounded-sds-m',
 
         // crop image to container dimensions
         'overflow-hidden object-cover',
