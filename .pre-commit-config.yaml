@@ -26,8 +26,8 @@ repos:
   hooks:
   - id: pnpm-lint
     name: pnpm lint
-    entry: pnpm lint
+    entry: sh -c 'cd frontend && pnpm -r lint'
     language: system
-    types_or: [javascript, jsx, ts, tsx]
-    files: frontend
+    types: [file]
+    files: frontend/.*\.(cjs|js|ts|tsx|json|css|md|yml)$
     pass_filenames: false
