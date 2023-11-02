@@ -9,7 +9,7 @@ on:
       - '.github/workflows/**' # Re-run if a workflow is modified - useful to test workflow changes in PRs
   push:
     branches:
-    - main
+      - main
 
 jobs:
   pre-commit-checks:
@@ -59,11 +59,6 @@ jobs:
         if: steps.changes.outputs.frontend == 'true'
         run: pnpm install --frozen-lockfile
         working-directory: frontend
-
-      - name: Build GraphQL Types
-        if: steps.changes.outputs.frontend == 'true'
-        run: pnpm build
-        working-directory: frontend/packages/data-portal
 
       - name: run pre-commit
         uses: pre-commit/action@v3.0.0

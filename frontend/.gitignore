@@ -1,2 +1,3 @@
 __generated__
+**/*.module.css.d.ts
 node_modules/

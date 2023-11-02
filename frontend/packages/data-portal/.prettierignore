@@ -1,0 +1,4 @@
+__generated__/
+**/*.module.css.d.ts
+build/
+public/build/
