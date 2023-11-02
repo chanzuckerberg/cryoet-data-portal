@@ -49,6 +49,7 @@ export const i18n = {
   microscopeModel: 'Microscope model',
   moderate: 'Moderate',
   napariPlugin: 'napari Plugin',
+  nMoreObjects: (count: number) => `${count} More Objects`,
   notSubmitted: 'Not Submitted',
   organism: 'Organism',
   organismName: 'Organism Name',

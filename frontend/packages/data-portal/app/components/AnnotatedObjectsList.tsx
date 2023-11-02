@@ -3,6 +3,7 @@ import Paper from '@mui/material/Paper'
 import { ReactNode } from 'react'
 
 import { ANNOTATED_OBJECTS_MAX } from 'app/constants/pagination'
+import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
 
 function List({
@@ -65,7 +66,7 @@ export function AnnotatedObjectsList({
                 'rounded-sds-m py-sds-xxxs px-sds-xxs inline',
               )}
             >
-              {nodes.length + 1 - ANNOTATED_OBJECTS_MAX} More Objects
+              {i18n.nMoreObjects(nodes.length + 1 - ANNOTATED_OBJECTS_MAX)}
             </div>
           </Tooltip>
         </li>
