@@ -22,7 +22,7 @@
     "lint:stylelint": "stylelint 'app/**/*.css'",
     "lint:stylelint:fix": "pnpm lint:stylelint --fix",
     "start": "NODE_ENV=production node --loader ts-node/esm server.ts",
-    "test": "jest",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
     "type-check": "tsc -p tsconfig.json --noEmit"
   },
   "//": "note: SDS 18.1.2 has bug in Button component",
