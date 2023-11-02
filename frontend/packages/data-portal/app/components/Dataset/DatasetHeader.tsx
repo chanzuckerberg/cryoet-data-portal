@@ -1,8 +1,8 @@
 import { Button, Icon } from '@czi-sds/components'
 import { useSearchParams } from '@remix-run/react'
 
-import { DatasetKeyPhoto } from 'app/components/BrowseData/DatasetKeyPhoto'
 import { DatasetDescription } from 'app/components/Dataset/DatasetDescription'
+import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
@@ -124,10 +124,7 @@ export function DatasetHeader() {
             <div className="flex-1 flex w-full">
               <div className="flex-initial w-sds-xxl" />
               <div className="flex-shrink-0 w-full max-w-[465px]">
-                <DatasetKeyPhoto
-                  datasetTitle={dataset.title}
-                  src="https://cataas.com/cat"
-                />
+                <KeyPhoto title={dataset.title} src="https://cataas.com/cat" />
               </div>
             </div>
           </div>
