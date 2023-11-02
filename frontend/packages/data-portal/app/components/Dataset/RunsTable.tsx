@@ -25,7 +25,7 @@ const LOADING_RUNS = range(0, MAX_PER_PAGE).map(() => ({}) as Run)
 
 export function RunsTable() {
   const { isLoadingDebounced } = useIsLoading()
-  const dataset = useDatasetById()
+  const { dataset } = useDatasetById()
   const runs = dataset.runs as unknown as Run[]
 
   const columns = useMemo(() => {

@@ -133,7 +133,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 }
 
 export default function DatasetByIdPage() {
-  const dataset = useDatasetById()
+  const { dataset } = useDatasetById()
 
   useCloseDatasetDrawerOnUnmount()
 
