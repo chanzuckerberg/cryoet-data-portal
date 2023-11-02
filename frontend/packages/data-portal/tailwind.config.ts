@@ -8,6 +8,10 @@ export default {
     extend: {
       ...sds,
 
+      screens: {
+        'screen-2040': '2040px',
+      },
+
       maxWidth: {
         content: '1600px',
       },

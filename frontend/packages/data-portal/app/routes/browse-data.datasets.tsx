@@ -1,16 +1,14 @@
 import { CellHeaderDirection, Pagination } from '@czi-sds/components'
 import { json, LoaderFunctionArgs } from '@remix-run/node'
-import { useLoaderData, useSearchParams } from '@remix-run/react'
+import { useSearchParams } from '@remix-run/react'
 
 import { gql } from 'app/__generated__'
-import { GetDatasetsDataQuery, Order_By } from 'app/__generated__/graphql'
+import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
-import {
-  BrowseDataFilterCount,
-  DatasetTable,
-  FilterPanel,
-} from 'app/components/BrowseData'
+import { BrowseDataFilterCount, DatasetTable } from 'app/components/BrowseData'
+import { FilterPanel } from 'app/components/FilterPanel'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { useDatasets } from 'app/hooks/useDatasets'
 
 const GET_DATASETS_DATA_QUERY = gql(`
   query GetDatasetsData(
@@ -92,7 +90,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function BrowseDatasetsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const page = +(searchParams.get('page') ?? '1')
-  const data = useLoaderData<GetDatasetsDataQuery>()
+  const { datasetCount } = useDatasets()
 
   function setPage(nextPage: number) {
     setSearchParams((prev) => {
@@ -113,7 +111,7 @@ export default function BrowseDatasetsPage() {
           <Pagination
             currentPage={page}
             pageSize={MAX_PER_PAGE}
-            totalCount={data.datasets_aggregate.aggregate?.count ?? 0}
+            totalCount={datasetCount}
             onNextPage={() => setPage(page + 1)}
             onPreviousPage={() => setPage(page - 1)}
             onPageChange={(nextPage) => setPage(nextPage)}

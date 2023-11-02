@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react'
 
 import { Accordion } from 'app/components/Accordion'
-import { MetadataTable } from 'app/components/MetadataTable'
+import { MetadataTable } from 'app/components/Table'
 
 type AccordionProps = Pick<ComponentProps<typeof Accordion>, 'id' | 'header'>
 type MetadataTableProps = Pick<ComponentProps<typeof MetadataTable>, 'data'>
@@ -16,7 +16,7 @@ export function AccordionMetadataTable({
       <MetadataTable
         data={data}
         tableCellProps={{
-          loadingSkeleton: false,
+          renderLoadingSkeleton: false,
         }}
       />
     </Accordion>

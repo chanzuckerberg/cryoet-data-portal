@@ -3,8 +3,9 @@ import TableBody from '@mui/material/TableBody'
 import TableRow from '@mui/material/TableRow'
 import { ComponentProps, ReactNode } from 'react'
 
-import { TableCell } from 'app/components/TableCell'
 import { cns } from 'app/utils/cns'
+
+import { TableCell } from './TableCell'
 
 export interface TableData {
   label: string
