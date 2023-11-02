@@ -8,12 +8,12 @@ on:
     branches:
       - main
     paths:
-      - "frontend/**"
+      - 'frontend/**'
   pull_request:
     branches:
-      - "**"
+      - '**'
     paths:
-      - "frontend/**"
+      - 'frontend/**'
 
 defaults:
   run:
@@ -59,7 +59,7 @@ jobs:
         working-directory: frontend
 
       - name: Build GraphQL Types
-        run: pnpm build
+        run: pnpm build:codegen
         working-directory: frontend/packages/data-portal
 
       - name: ${{ matrix.name }}
