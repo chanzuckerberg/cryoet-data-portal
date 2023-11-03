@@ -1,8 +1,8 @@
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
 
-import { AccordionMetadataTable } from './AccordionMetadataTable'
-import { getTableData } from './utils'
+import { AccordionMetadataTable } from '../AccordionMetadataTable'
+import { getTableData } from '../utils'
 
 export function SampleAndExperimentConditionsTable() {
   const { dataset } = useDatasetById()

@@ -10,9 +10,9 @@ import { i18n } from 'app/i18n'
 import { useDatasetDrawer } from 'app/state/drawer'
 import { cns } from 'app/utils/cns'
 
+import { TiltSeriesTable } from '../TiltSeriesTable'
 import { DatasetMetadataTable } from './DatasetMetadataTable'
 import { SampleAndExperimentConditionsTable } from './SampleAndExperimentConditionsTable'
-import { TiltSeriesTable } from './TiltSeriesTable'
 
 enum MetadataTab {
   Metadata = 'metadata',
@@ -110,7 +110,9 @@ export function DatasetMetadataDrawer() {
             <>
               <DatasetMetadataTable />
               <SampleAndExperimentConditionsTable />
-              <TiltSeriesTable />
+              <TiltSeriesTable
+                datasetTiltSeries={dataset.run_metadata[0].tiltseries[0]}
+              />
             </>
           )}
 
