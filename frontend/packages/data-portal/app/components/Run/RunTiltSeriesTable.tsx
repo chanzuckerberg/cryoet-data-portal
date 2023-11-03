@@ -12,6 +12,17 @@ const SELECT_FIELDS = [
   TiltSeriesKeys.CameraManufacturer,
   TiltSeriesKeys.CameraModel,
   TiltSeriesKeys.EnergyFilter,
+  TiltSeriesKeys.DataAcquisitionSoftware,
+  TiltSeriesKeys.PixelSpacing,
+  TiltSeriesKeys.TiltAxis,
+  TiltSeriesKeys.TiltRange,
+  TiltSeriesKeys.TiltStep,
+  TiltSeriesKeys.TiltingScheme,
+  TiltSeriesKeys.TotalFlux,
+  TiltSeriesKeys.BinningFromFrames,
+  TiltSeriesKeys.SeriesIsAligned,
+  TiltSeriesKeys.AlignedBinning,
+  TiltSeriesKeys.RelatedEmpiarEntry,
 ]
 
 export function RunTiltSeriesTable() {
