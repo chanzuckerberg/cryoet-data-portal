@@ -1,9 +1,6 @@
 import { Tiltseries } from 'app/__generated__/graphql'
+import { TableData } from 'app/components/Table'
 import { i18n } from 'app/i18n'
-
-import { AccordionMetadataTable } from './AccordionMetadataTable'
-import { TableData } from './Table'
-import { getTableData } from './utils'
 
 export const enum TiltSeriesKeys {
   AccelerationVoltage,
@@ -18,7 +15,7 @@ export const enum TiltSeriesKeys {
   SphericalAberrationConstant,
 }
 
-const TILT_SERIES_VALUE_MAPPINGS = new Map([
+export const TILT_SERIES_VALUE_MAPPINGS = new Map([
   [
     TiltSeriesKeys.AccelerationVoltage,
     (data: Partial<Tiltseries>): TableData => {
@@ -42,7 +39,7 @@ const TILT_SERIES_VALUE_MAPPINGS = new Map([
     (data: Partial<Tiltseries>): TableData => {
       return {
         label: i18n.energyFilter,
-        values: [data.microscope_energy_filter],
+        values: [data.microscope_energy_filter!],
       }
     },
   ],
@@ -110,29 +107,3 @@ const TILT_SERIES_VALUE_MAPPINGS = new Map([
     },
   ],
 ])
-
-interface TiltSeriesTableProps {
-  tiltSeriesData?: Partial<Tiltseries>
-  fields: TiltSeriesKeys[]
-}
-
-export function TiltSeriesTable(props: TiltSeriesTableProps) {
-  const { tiltSeriesData, fields } = props
-
-  const tiltSeries = tiltSeriesData
-    ? getTableData(
-        ...fields.map((field) => {
-          const getData = TILT_SERIES_VALUE_MAPPINGS.get(field)
-          return getData!(tiltSeriesData)
-        }),
-      )
-    : []
-
-  return (
-    <AccordionMetadataTable
-      id="tilt-series"
-      header={i18n.tiltSeries}
-      data={tiltSeries}
-    />
-  )
-}

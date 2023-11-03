@@ -2,7 +2,7 @@ import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
 
 import { AccordionMetadataTable } from '../AccordionMetadataTable'
-import { getTableData } from '../utils'
+import { getTableData } from '../TiltSeriesTable/utils'
 
 export function DatasetMetadataTable() {
   const { dataset } = useDatasetById()
