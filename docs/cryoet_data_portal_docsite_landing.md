@@ -28,7 +28,7 @@ Here is a summary of the datasets that have been provided. A full description ca
 | Provider | Julia Mahamid | Julia Mahamid | Jürgen Plitzko |
 | ----------- | ----------- | ----------- | ----------- |
 | Dataset name | 10000 | 10001 | 10004 |
-| Sample | S. Pombe | S.Pombe | C. elegans |
+| Sample | S. pombe | S. pombe | C. elegans |
 | # tomos | 10 | 10 | 100 |
 | Raw movies | Yes | Yes | Yes |
 | Raw tilts | Yes | Yes | No |
