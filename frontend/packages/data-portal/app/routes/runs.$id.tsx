@@ -6,6 +6,8 @@ import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { gql } from 'app/__generated__'
 import { apolloClient } from 'app/apollo.server'
 import { Demo } from 'app/components/Demo'
+import { RunMetadataDrawer } from 'app/components/Run/RunMetadataDrawer'
+import { useCloseDrawerOnUnmount, useDrawer } from 'app/state/drawer'
 
 const GET_RUN_BY_ID_QUERY = gql(`
   query GetRunById($id: Int) {
@@ -68,9 +70,21 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
 export default function RunByIdPage() {
   const params = useParams()
+  const drawer = useDrawer()
+  useCloseDrawerOnUnmount()
+
   return (
-    <Demo>
-      <span className="text-5xl">Run Page ID = {params.id}</span>
-    </Demo>
+    <>
+      <Demo>
+        <div className="flex flex-col gap-sds-xl">
+          <span className="text-5xl">Run Page ID = {params.id}</span>
+
+          <button onClick={drawer.toggle} type="button">
+            Toggle Drawer
+          </button>
+        </div>
+      </Demo>
+      <RunMetadataDrawer />
+    </>
   )
 }
