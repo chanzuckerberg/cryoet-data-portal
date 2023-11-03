@@ -13,7 +13,7 @@ import { RunsTable } from 'app/components/Dataset/RunsTable'
 import { FilterPanel } from 'app/components/FilterPanel'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useDatasetById } from 'app/hooks/useDatasetById'
-import { useCloseDatasetDrawerOnUnmount } from 'app/state/drawer'
+import { useCloseDrawerOnUnmount } from 'app/state/drawer'
 import { cns } from 'app/utils/cns'
 
 const GET_DATASET_BY_ID = gql(`
@@ -136,7 +136,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 export default function DatasetByIdPage() {
   const { dataset } = useDatasetById()
 
-  useCloseDatasetDrawerOnUnmount()
+  useCloseDrawerOnUnmount()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const page = +(searchParams.get('page') ?? '1')

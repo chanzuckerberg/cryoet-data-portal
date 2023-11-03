@@ -2,10 +2,10 @@ import { useUnmountEffect } from '@react-hookz/web'
 import { atom, useAtom, useSetAtom } from 'jotai'
 import { useMemo } from 'react'
 
-const datasetDrawerOpenAtom = atom(false)
+const drawerOpenAtom = atom(false)
 
-export function useDatasetDrawer() {
-  const [open, setOpen] = useAtom(datasetDrawerOpenAtom)
+export function useDrawer() {
+  const [open, setOpen] = useAtom(drawerOpenAtom)
 
   return useMemo(
     () => ({
@@ -17,8 +17,8 @@ export function useDatasetDrawer() {
   )
 }
 
-export function useCloseDatasetDrawerOnUnmount() {
-  const setDrawerOpen = useSetAtom(datasetDrawerOpenAtom)
+export function useCloseDrawerOnUnmount() {
+  const setDrawerOpen = useSetAtom(drawerOpenAtom)
 
   // Reset drawer state on page unmount
   useUnmountEffect(() => setDrawerOpen(false))

@@ -6,14 +6,14 @@ import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
-import { useDatasetDrawer } from 'app/state/drawer'
+import { useDrawer } from 'app/state/drawer'
 import { cns } from 'app/utils/cns'
 
 export function DatasetHeader() {
   const [params] = useSearchParams()
   const previousUrl = params.get('prev')
   const { dataset } = useDatasetById()
-  const drawer = useDatasetDrawer()
+  const drawer = useDrawer()
 
   return (
     <div className="flex flex-auto justify-center px-sds-xl pt-sds-l pb-sds-xxl">

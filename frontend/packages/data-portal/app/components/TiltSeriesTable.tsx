@@ -1,4 +1,4 @@
-import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
+import { GetDatasetByIdQuery, GetRunByIdQuery } from 'app/__generated__/graphql'
 import { i18n } from 'app/i18n'
 
 import { AccordionMetadataTable } from './AccordionMetadataTable'
@@ -6,13 +6,13 @@ import { getTableData } from './utils'
 
 interface TiltSeriesTableProps {
   datasetTiltSeries?: GetDatasetByIdQuery['datasets'][number]['run_metadata'][number]['tiltseries'][number]
-  // runTiltSeries?: GetRunByIdQuery['runs'][number]['tiltseries'][number]
+  runTiltSeries?: GetRunByIdQuery['runs'][number]['tiltseries'][number]
 }
 
 export function TiltSeriesTable(props: TiltSeriesTableProps) {
-  const { datasetTiltSeries } = props
+  const { datasetTiltSeries, runTiltSeries } = props
 
-  const tiltSeriesData = datasetTiltSeries
+  const tiltSeriesData = datasetTiltSeries ?? runTiltSeries
   const tiltSeries = tiltSeriesData
     ? getTableData(
         {
