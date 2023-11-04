@@ -13,6 +13,8 @@ export function RunHeader() {
   const { run } = useRunById()
   const drawer = useDrawer()
 
+  const tiltSeries = run.tiltseries[0]
+
   return (
     <PageHeader
       actions={
@@ -40,6 +42,7 @@ export function RunHeader() {
       backToResultsLabel={run.dataset.title}
       lastModifiedDate="2023-12-16"
       metadata={[
+        // TODO fetch frames from API
         { key: i18n.frames, value: i18n.nFiles(0) },
 
         {
@@ -84,15 +87,24 @@ export function RunHeader() {
             data={[
               {
                 label: i18n.tiltQuality,
-                values: ['20'],
+                values:
+                  typeof tiltSeries.tilt_series_quality === 'number'
+                    ? [String(tiltSeries.tilt_series_quality)]
+                    : [],
               },
               {
                 label: i18n.tiltRange,
-                values: ['-40 to 58'],
+                values:
+                  typeof tiltSeries.tilt_min === 'number' &&
+                  typeof tiltSeries.tilt_max === 'number'
+                    ? [String(tiltSeries.tilt_series_quality)]
+                    : [],
               },
               {
                 label: i18n.tiltScheme,
-                values: ['Starting tilt to min then max'],
+                values: tiltSeries.tilting_scheme
+                  ? [tiltSeries.tilting_scheme]
+                  : [],
               },
             ]}
           />
@@ -105,12 +117,17 @@ export function RunHeader() {
                 values: ['10.00Å, 13.70Å'],
               },
               {
-                label: i18n.tiltRange,
-                values: ['-40 to 58'],
+                label: i18n.tomogramProcessing,
+                values: run.tomogram_stats
+                  .flatMap((stats) => stats.tomograms)
+                  .map((tomogram) => tomogram.processing),
               },
               {
-                label: i18n.tiltScheme,
-                values: ['Starting tilt to min then max'],
+                label: i18n.annotatedObjects,
+                inline: true,
+                values: run.annotation_stats
+                  .flatMap((stats) => stats.annotations)
+                  .map((annotation) => annotation.object_name),
               },
             ]}
           />
