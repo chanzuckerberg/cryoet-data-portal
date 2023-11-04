@@ -5,7 +5,7 @@ import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
 
 export function KeyPhoto({
-  loading,
+  loading = false,
   src,
   title,
 }: {
