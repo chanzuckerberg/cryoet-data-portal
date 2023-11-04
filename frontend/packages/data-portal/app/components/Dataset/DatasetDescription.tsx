@@ -2,15 +2,10 @@ import { Button } from '@czi-sds/components'
 import clsx from 'clsx'
 import { useState } from 'react'
 
+import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { EnvelopeIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
-import {
-  DatabaseType,
-  DOI_ID,
-  LABEL_MAP,
-  REGEX_MAP,
-  URL_MAP,
-} from 'app/constants/external-dbs'
+import { DOI_ID } from 'app/constants/external-dbs'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
 
@@ -20,41 +15,6 @@ const sectionHeaderStyles = clsx(
   'text-sds-gray-500',
   'text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps',
 )
-
-interface DatabaseEntryProps {
-  entry: string
-}
-
-function DatabaseEntry(props: DatabaseEntryProps) {
-  const { entry } = props
-  let dbtype: DatabaseType | undefined
-  let id: string = ''
-
-  for (const [dbt, pattern] of REGEX_MAP) {
-    const match = pattern.exec(entry)
-    if (match !== null) {
-      dbtype = dbt
-      // eslint-disable-next-line prefer-destructuring
-      id = match[1]
-      break
-    }
-  }
-
-  if (dbtype === undefined) {
-    return <p>{entry}</p>
-  }
-
-  return (
-    <p className="text-sds-body-xxs leading-sds-body-xxs flex flex-row gap-sds-xs">
-      <span className="text-sds-gray-black font-semibold">
-        {LABEL_MAP.get(dbtype)}:
-      </span>
-      <Link className="text-sds-primary-400" to={URL_MAP.get(dbtype) + id}>
-        {entry}
-      </Link>
-    </p>
-  )
-}
 
 interface DatabaseListProps {
   title: string

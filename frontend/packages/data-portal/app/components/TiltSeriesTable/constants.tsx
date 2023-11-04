@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unused-imports/no-unused-vars */
 import { Tiltseries } from 'app/__generated__/graphql'
-import { Link } from 'app/components/Link'
+import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { TableData } from 'app/components/Table'
-import { EMPIAR_URL } from 'app/constants/external-dbs'
 import { i18n } from 'app/i18n'
 
 export const enum TiltSeriesKeys {
@@ -154,11 +153,7 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
       return {
         label: i18n.relatedEmpiarEntry,
         renderValue: data.related_empiar_entry
-          ? (value) => (
-              <Link className="text-sds-info-400" to={`${EMPIAR_URL}${value}`}>
-                {value}
-              </Link>
-            )
+          ? (value) => <DatabaseEntry entry={value} inline />
           : undefined,
         values: data.related_empiar_entry ? [data.related_empiar_entry] : [],
       }
