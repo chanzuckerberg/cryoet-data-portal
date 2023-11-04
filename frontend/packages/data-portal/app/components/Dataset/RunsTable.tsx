@@ -119,7 +119,7 @@ export function RunsTable() {
         },
       }),
     ] as ColumnDef<Run>[]
-  }, [isLoadingDebounced])
+  }, [isLoadingDebounced, location.pathname, location.search])
 
   return (
     <Table
