@@ -18,16 +18,11 @@ export function AccordionMetadataTable({
   id,
   initialOpen = true,
   tableCellProps,
-  tableHeaderProps,
 }: AccordionProps & MetadataTableProps) {
   return (
     <Accordion id={id} header={header} initialOpen={initialOpen}>
       <MetadataTable
         data={data}
-        tableHeaderProps={{
-          renderLoadingSkeleton: false,
-          ...tableHeaderProps,
-        }}
         tableCellProps={{
           renderLoadingSkeleton: false,
           ...tableCellProps,
