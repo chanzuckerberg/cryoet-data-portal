@@ -108,7 +108,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
 
       tomogram_stats: tomogram_voxel_spacings {
-        annotations {
+        annotations(distinct_on: object_name) {
           object_name
         }
 
@@ -118,7 +118,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
           }
         }
 
-        tomograms {
+        tomograms(distinct_on: processing) {
           processing
         }
 
