@@ -10,6 +10,7 @@ import { TableCell } from './TableCell'
 
 export interface TableData {
   className?: string
+  inline?: boolean
   label: string
   renderValue?(value: string): ReactNode
   values: string[] | (() => string[])
@@ -44,7 +45,7 @@ export function MetadataTable({
                 key={datum.label + values.join(', ')}
               >
                 <TableCell {...tableCellProps}>
-                  <span className="font-semibold text-sds-gray-600 text-sds-header-s leading-sds-header-s">
+                  <span className="text-sds-gray-600 text-sds-header-s leading-sds-header-s font-semibold">
                     {datum.label}
                   </span>
                 </TableCell>
@@ -54,13 +55,18 @@ export function MetadataTable({
                     .with(0, () => null)
                     .with(1, () => datum.renderValue?.(values[0]) ?? values[0])
                     .otherwise(() => (
-                      <ul className="list-none">
-                        {values.map((value) => (
+                      <ul className="list-none flex flex-wrap gap-1">
+                        {values.map((value, valueIdx) => (
                           <li
-                            className={cns('overflow-x-auto', datum.className)}
+                            className={cns(
+                              'overflow-x-auto',
+                              datum.inline && 'inline-block',
+                              datum.className,
+                            )}
                             key={value}
                           >
                             {datum.renderValue?.(value) ?? value}
+                            {valueIdx < values.length - 1 && ', '}
                           </li>
                         ))}
                       </ul>
