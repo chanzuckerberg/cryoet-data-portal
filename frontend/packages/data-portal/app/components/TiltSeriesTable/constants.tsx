@@ -90,7 +90,7 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
     TiltSeriesKeys.DataAcquisitionSoftware,
     (data: Partial<Tiltseries>): TableData => {
       return {
-        label: i18n.dataAquisitionSoftware,
+        label: i18n.dataAcquisitionSoftware,
         values: [data.data_acquisition_software!],
       }
     },

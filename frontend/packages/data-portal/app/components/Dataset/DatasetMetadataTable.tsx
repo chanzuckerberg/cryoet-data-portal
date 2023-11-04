@@ -65,8 +65,8 @@ export function DatasetMetadataTable(props: DatasetMetadataTableProps) {
     !!allFields && {
       label:
         dataset.authors && dataset.authors.length === 1
-          ? i18n.Author
-          : i18n.Authors,
+          ? i18n.author
+          : i18n.authors,
       renderValue: () => {
         return <DatasetAuthors authors={dataset.authors as AuthorInfo[]} />
       },
