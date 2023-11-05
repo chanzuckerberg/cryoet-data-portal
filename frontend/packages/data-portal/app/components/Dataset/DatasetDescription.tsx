@@ -3,11 +3,11 @@ import clsx from 'clsx'
 import { useState } from 'react'
 
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
-import { EnvelopeIcon } from 'app/components/icons'
-import { Link } from 'app/components/Link'
 import { DOI_ID } from 'app/constants/external-dbs'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
+
+import { DatasetAuthors } from './DatasetAuthors'
 
 // use clsx here instead of cns since it erroneously merges text-sds-gray-500 and text-sds-caps-xxxs
 const sectionHeaderStyles = clsx(
@@ -36,16 +36,11 @@ function DatabaseList(props: DatabaseListProps) {
     <div className={clsx(className, 'flex flex-col gap-sds-xs')}>
       <h3 className={sectionHeaderStyles}>{title}</h3>
       {entries ? (
-        <ul
-          className={clsx(
-            'flex flex-col gap-sds-xxs',
-            collapsible && 'transition-[max-height_0.2s_ease-out]',
-          )}
-        >
+        <ul className="flex flex-col gap-sds-xxs">
           {entries.map(
             (e, i) =>
               !(collapsible && collapsed && i + 1 > collapseAfter) && (
-                <li key={e}>
+                <li className="text-sds-body-xxs leading-sds-body-xxs" key={e}>
                   <DatabaseEntry entry={e} />
                 </li>
               ),
@@ -78,18 +73,6 @@ function DatabaseList(props: DatabaseListProps) {
 export function DatasetDescription() {
   const { dataset } = useDatasetById()
 
-  // TODO: make the below grouping more efficient and/or use GraphQL ordering
-  const authorsPrimary = dataset.authors.filter(
-    (author) => author.primary_author_status,
-  )
-  const authorsCorresponding = dataset.authors.filter(
-    (author) => author.corresponding_author_status,
-  )
-  const authorsOther = dataset.authors.filter(
-    (author) =>
-      !(author.primary_author_status || author.corresponding_author_status),
-  )
-
   // clean up entries into lists
   const publicationEntries = dataset.dataset_publications
     ?.split(',')
@@ -100,10 +83,6 @@ export function DatasetDescription() {
     ?.split(',')
     .map((e) => e.trim())
 
-  const envelopeIcon = (
-    <EnvelopeIcon className="text-sds-gray-400 mx-sds-xxxs align-top inline-block h-sds-icon-xs w-sds-icon-xs" />
-  )
-
   return (
     <div className="flex flex-col gap-sds-xl">
       <p className="text-sds-body-m leading-sds-body-m">
@@ -111,40 +90,10 @@ export function DatasetDescription() {
       </p>
       <div className="flex flex-col gap-sds-xs">
         <h3 className={sectionHeaderStyles}>{i18n.authors}</h3>
-        {/* TODO: let's find a better way of doing this */}
-        <p className="text-sds-body-xxs leading-sds-body-xxs">
-          <span className="font-semibold">
-            {authorsPrimary.map((author, i, arr) => (
-              <>
-                {author.name}
-                {!(
-                  authorsOther.length + authorsCorresponding.length === 0 &&
-                  arr.length - 1 === i
-                ) && '; '}
-              </>
-            ))}
-          </span>
-          <span className="text-sds-gray-600">
-            {authorsOther.map((author, i, arr) => (
-              <>
-                {author.name}
-                {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
-                  '; '}
-              </>
-            ))}
-            {authorsCorresponding.map((author, i, arr) => (
-              <>
-                {author.name}
-                {author.email ? (
-                  <Link to={`mailto:${author.email}`}>{envelopeIcon}</Link>
-                ) : (
-                  envelopeIcon
-                )}
-                {!(arr.length - 1 === i) && '; '}
-              </>
-            ))}
-          </span>
-        </p>
+        <DatasetAuthors
+          authors={dataset.authors}
+          className="text-sds-body-xxs leading-sds-body-xxs"
+        />
       </div>
       <div className="flex flex-row gap-sds-xxl">
         <DatabaseList

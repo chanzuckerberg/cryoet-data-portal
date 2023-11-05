@@ -37,6 +37,52 @@ const GET_RUN_BY_ID_QUERY = gql(`
         id
         binning_from_frames
       }
+
+      dataset {
+        # Dataset dates
+        last_modified_date
+        release_date
+        deposition_date
+
+        # Dataset metadata
+        id
+        title
+        description
+        funding_sources {
+          funding_agency_name
+        }
+
+        # TODO Grant ID
+        related_database_entries
+        dataset_citations
+
+        # Sample and experiments data
+        sample_type
+        organism_name
+        tissue_name
+        cell_name
+        cell_strain_name
+        # TODO cellular component
+        sample_preparation
+        grid_preparation
+        other_setup
+
+        authors(distinct_on: name) {
+          name
+          email
+          primary_author_status
+          corresponding_author_status
+        }
+
+        authors_with_affiliation: authors(where: {affiliation_name: {_is_null: false}}) {
+          name
+          affiliation_name
+        }
+
+        # publication info
+        related_database_entries
+        dataset_publications
+      }
     }
   }
 `)

@@ -66,7 +66,7 @@ export function DatasetHeader() {
               {/* portal ID */}
               <div className="flex flex-row items-center justify-left gap-sds-xxs text-sds-gray-500">
                 <p className="font-semibold uppercase text-sds-caps-xxs leading-sds-caps-xxs tracking-sds-caps">
-                  {i18n.portalIdBlank}
+                  {i18n.portalIdBlank}:
                 </p>
                 <p className="text-sds-body-s leading-sds-body-s">
                   {dataset.id}
