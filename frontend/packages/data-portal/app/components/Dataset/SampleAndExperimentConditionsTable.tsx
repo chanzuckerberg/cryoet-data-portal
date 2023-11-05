@@ -1,16 +1,20 @@
-import { useDatasetById } from 'app/hooks/useDatasetById'
+import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
+import { getTableData } from 'app/components/TiltSeriesTable/utils'
 import { i18n } from 'app/i18n'
 
-import { AccordionMetadataTable } from '../AccordionMetadataTable'
-import { getTableData } from '../TiltSeriesTable/utils'
+import { DatasetType } from './type'
 
-export function SampleAndExperimentConditionsTable() {
-  const { dataset } = useDatasetById()
-
+export function SampleAndExperimentConditionsTable({
+  dataset,
+  initialOpen,
+}: {
+  dataset: DatasetType
+  initialOpen?: boolean
+}) {
   const sampleAndExperimentConditions = getTableData(
     {
       label: i18n.sampleType,
-      values: [dataset.sample_type],
+      values: [dataset.sample_type!],
     },
     {
       label: i18n.organismName,
@@ -52,6 +56,7 @@ export function SampleAndExperimentConditionsTable() {
       id="sample-and-experimental-conditions"
       header={i18n.sampleAndExperimentConditions}
       data={sampleAndExperimentConditions}
+      initialOpen={initialOpen}
     />
   )
 }

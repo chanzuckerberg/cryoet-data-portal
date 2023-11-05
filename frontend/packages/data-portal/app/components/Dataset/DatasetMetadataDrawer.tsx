@@ -12,7 +12,7 @@ export function DatasetMetadataDrawer() {
   return (
     <MetadataDrawer title={dataset.title} label={i18n.datasetDetails}>
       <DatasetMetadataTable dataset={dataset} />
-      <SampleAndExperimentConditionsTable />
+      <SampleAndExperimentConditionsTable dataset={dataset} />
       <DatasetTiltSeriesTable />
     </MetadataDrawer>
   )
