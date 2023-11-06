@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
-import { useParams } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { sum } from 'lodash-es'
 
 import { gql } from 'app/__generated__'
 import { apolloClient } from 'app/apollo.server'
-import { Demo } from 'app/components/Demo'
+import { FilterPanel } from 'app/components/FilterPanel'
 import { RunHeader } from 'app/components/Run'
+import { AnnotationTable } from 'app/components/Run/AnnotationTable'
+import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
-import { useCloseDrawerOnUnmount, useDrawer } from 'app/state/drawer'
+import { useRunById } from 'app/hooks/useRunById'
+import { useCloseDrawerOnUnmount } from 'app/state/drawer'
 
 const GET_RUN_BY_ID_QUERY = gql(`
   query GetRunById($id: Int, $limit: Int, $offset: Int) {
@@ -100,9 +103,22 @@ const GET_RUN_BY_ID_QUERY = gql(`
           confidence_recall
           object_count
           object_name
+          ground_truth_status
+          s3_annotations_path
 
-          authors {
+          # We only show up to 2 authors in the table, so only fetch up to 2 but
+          # sort by primary status so that primary authors show up first.
+          authors(order_by: { primary_annotator_status: desc }, limit: 2) {
             name
+            primary_annotator_status
+          }
+
+          # Fetch author count to show author overflow count if there are more
+          # than 2 authors
+          authors_aggregate {
+            aggregate {
+              count
+            }
           }
         }
       }
@@ -175,20 +191,21 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
 export default function RunByIdPage() {
   useCloseDrawerOnUnmount()
-  const params = useParams()
-  const drawer = useDrawer()
+  const { run } = useRunById()
+
+  const totalCount = sum(
+    run.tomogram_stats.flatMap(
+      (stats) => stats.annotations_aggregate.aggregate?.count ?? 0,
+    ),
+  )
 
   return (
-    <div className="flex flex-col flex-auto">
-      <RunHeader />
-
-      <Demo>
-        <span className="text-5xl">Run Page ID = {params.id}</span>
-
-        <button onClick={drawer.toggle} type="button">
-          Toggle Drawer
-        </button>
-      </Demo>
-    </div>
+    <TablePageLayout
+      filteredCount={totalCount}
+      filterPanel={<FilterPanel />}
+      header={<RunHeader />}
+      table={<AnnotationTable />}
+      totalCount={totalCount}
+    />
   )
 }
