@@ -1,12 +1,15 @@
 import { CellBasic, CellComponent } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
 import { ReactNode } from 'react'
+import { match } from 'ts-pattern'
 
 import { useIsLoading } from 'app/hooks/useIsLoading'
+import { cns } from 'app/utils/cns'
 
 export function TableCell({
   children,
   className,
+  horizontalAlign,
   maxWidth,
   minWidth,
   primaryText,
@@ -14,6 +17,7 @@ export function TableCell({
 }: {
   children?: ReactNode
   className?: string
+  horizontalAlign?: 'left' | 'center' | 'right'
   loadingSkeleton?: boolean
   maxWidth?: number
   minWidth?: number
@@ -22,7 +26,15 @@ export function TableCell({
 }) {
   const { isLoadingDebounced } = useIsLoading()
   const cellProps = {
-    className,
+    className: cns(
+      match(horizontalAlign)
+        .with('left', () => '!text-left')
+        .with('center', () => '!text-center')
+        .with('right', () => '!text-right !pr-8')
+        .otherwise(() => ''),
+
+      className,
+    ),
     style: {
       maxWidth,
       minWidth,
