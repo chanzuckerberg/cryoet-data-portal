@@ -8,6 +8,7 @@ import { useDrawer } from 'app/state/drawer'
 
 import { KeyPhoto } from '../KeyPhoto'
 import { MetadataTable } from '../Table'
+import { TiltSeriesQualityScoreBadge } from '../TiltSeriesQualityScoreBadge'
 
 export function RunHeader() {
   const { run } = useRunById()
@@ -91,6 +92,9 @@ export function RunHeader() {
                   typeof tiltSeries.tilt_series_quality === 'number'
                     ? [String(tiltSeries.tilt_series_quality)]
                     : [],
+                renderValue: (value) => (
+                  <TiltSeriesQualityScoreBadge score={+value} />
+                ),
               },
               {
                 label: i18n.tiltRange,
