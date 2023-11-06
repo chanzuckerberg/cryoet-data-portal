@@ -1,20 +1,17 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
-import { Pagination } from '@czi-sds/components'
-import { useSearchParams } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 
 import { gql } from 'app/__generated__'
 import { apolloClient } from 'app/apollo.server'
 import { DatasetMetadataDrawer } from 'app/components/Dataset'
 import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
-import { RunCount } from 'app/components/Dataset/RunCount'
 import { RunsTable } from 'app/components/Dataset/RunsTable'
 import { FilterPanel } from 'app/components/FilterPanel'
+import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useCloseDrawerOnUnmount } from 'app/state/drawer'
-import { cns } from 'app/utils/cns'
 
 const GET_DATASET_BY_ID = gql(`
   query GetDatasetById($id: Int, $run_limit: Int, $run_offset: Int) {
@@ -138,55 +135,15 @@ export default function DatasetByIdPage() {
 
   useCloseDrawerOnUnmount()
 
-  const [searchParams, setSearchParams] = useSearchParams()
-  const page = +(searchParams.get('page') ?? '1')
-
-  function setPage(nextPage: number) {
-    setSearchParams((prev) => {
-      prev.set('page', `${nextPage}`)
-      return prev
-    })
-  }
-
   return (
-    <div className="flex flex-col flex-auto">
-      <DatasetHeader />
-
-      <div className="flex flex-auto">
-        <FilterPanel />
-
-        <div
-          className={cns(
-            'flex flex-col flex-auto flex-shrink-0 screen-2040:items-center',
-            'p-sds-xl pb-sds-xxl',
-            'border-t border-sds-gray-300',
-          )}
-        >
-          <div
-            className={cns(
-              'flex flex-col flex-auto w-full max-w-content',
-
-              // Translate to the left by half the filter panel width to align with the header
-              'screen-2040:translate-x-[-100px]',
-            )}
-          >
-            <RunCount />
-            <RunsTable />
-
-            <div className="w-full flex justify-center">
-              <Pagination
-                currentPage={page}
-                pageSize={MAX_PER_PAGE}
-                totalCount={dataset.runs_aggregate.aggregate?.count ?? 0}
-                onNextPage={() => setPage(page + 1)}
-                onPreviousPage={() => setPage(page - 1)}
-                onPageChange={(nextPage) => setPage(nextPage)}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <DatasetMetadataDrawer />
-    </div>
+    <TablePageLayout
+      drawer={<DatasetMetadataDrawer />}
+      // TODO add filter count when filters are added
+      filteredCount={dataset.runs_aggregate.aggregate?.count ?? 0}
+      filterPanel={<FilterPanel />}
+      header={<DatasetHeader />}
+      table={<RunsTable />}
+      totalCount={dataset.runs_aggregate.aggregate?.count ?? 0}
+    />
   )
 }

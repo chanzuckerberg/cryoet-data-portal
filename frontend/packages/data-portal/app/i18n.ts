@@ -46,6 +46,8 @@ export const i18n = {
   false: 'False',
   faq: 'FAQ',
   fiducialAlignmentStatus: 'Fiducial Alignment Status',
+  filterCount: (count: number, max: number, type: string) =>
+    `${count} of ${max} ${type}`,
   frames: 'Frames',
   fundingAgency: 'Funding Agency',
   github: 'GitHub',

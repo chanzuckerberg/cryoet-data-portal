@@ -1,12 +1,12 @@
-import { CellHeaderDirection, Pagination } from '@czi-sds/components'
+import { CellHeaderDirection } from '@czi-sds/components'
 import { json, LoaderFunctionArgs } from '@remix-run/node'
-import { useSearchParams } from '@remix-run/react'
 
 import { gql } from 'app/__generated__'
 import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
-import { BrowseDataFilterCount, DatasetTable } from 'app/components/BrowseData'
+import { DatasetTable } from 'app/components/BrowseData'
 import { FilterPanel } from 'app/components/FilterPanel'
+import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useDatasets } from 'app/hooks/useDatasets'
 
@@ -88,36 +88,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function BrowseDatasetsPage() {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const page = +(searchParams.get('page') ?? '1')
-  const { datasetCount } = useDatasets()
-
-  function setPage(nextPage: number) {
-    setSearchParams((prev) => {
-      prev.set('page', `${nextPage}`)
-      return prev
-    })
-  }
+  const { datasetCount, filteredDatasetCount } = useDatasets()
 
   return (
-    <div className="flex flex-auto">
-      <FilterPanel />
-
-      <div className="flex flex-col flex-auto items-center gap-sds-xxl py-sds-xl px-sds-xl">
-        <BrowseDataFilterCount />
-        <DatasetTable />
-
-        <div className="w-full flex justify-center">
-          <Pagination
-            currentPage={page}
-            pageSize={MAX_PER_PAGE}
-            totalCount={datasetCount}
-            onNextPage={() => setPage(page + 1)}
-            onPreviousPage={() => setPage(page - 1)}
-            onPageChange={(nextPage) => setPage(nextPage)}
-          />
-        </div>
-      </div>
-    </div>
+    <TablePageLayout
+      filteredCount={filteredDatasetCount}
+      filterPanel={<FilterPanel />}
+      table={<DatasetTable />}
+      totalCount={datasetCount}
+    />
   )
 }
