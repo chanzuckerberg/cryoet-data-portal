@@ -1,16 +1,16 @@
 import { Button } from '@czi-sds/components'
-import clsx from 'clsx'
 import { useState } from 'react'
 
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { DOI_ID } from 'app/constants/external-dbs'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
+import { cns, cnsNoMerge } from 'app/utils/cns'
 
 import { DatasetAuthors } from './DatasetAuthors'
 
 // use clsx here instead of cns since it erroneously merges text-sds-gray-500 and text-sds-caps-xxxs
-const sectionHeaderStyles = clsx(
+const sectionHeaderStyles = cnsNoMerge(
   'font-semibold uppercase',
   'text-sds-gray-500',
   'text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps',
@@ -33,10 +33,15 @@ function DatabaseList(props: DatabaseListProps) {
   const [collapsed, setCollapsed] = useState(true)
 
   return (
-    <div className={clsx(className, 'flex flex-col gap-sds-xs')}>
+    <div className={cns(className, 'flex flex-col gap-sds-xs')}>
       <h3 className={sectionHeaderStyles}>{title}</h3>
       {entries ? (
-        <ul className="flex flex-col gap-sds-xxs">
+        <ul
+          className={cns(
+            'flex flex-col gap-sds-xxs',
+            collapsible && 'transition-[max-height_0.2s_ease-out]',
+          )}
+        >
           {entries.map(
             (e, i) =>
               !(collapsible && collapsed && i + 1 > collapseAfter) && (
