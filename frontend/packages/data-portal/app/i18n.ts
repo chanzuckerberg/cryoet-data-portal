@@ -116,6 +116,8 @@ export const i18n = {
   true: 'True',
   unitAngstrom: (x: number) => `${x}Å`,
   unitDegree: (x: number) => `${x}°`,
+  unitMilimeter: (x: number) => `${x} mm`,
+  unitVolts: (x: number) => `${x} V`,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueToValue: (x: any, y: any) => `${x} to ${y}`,
   veryPoor: 'Very Poor',

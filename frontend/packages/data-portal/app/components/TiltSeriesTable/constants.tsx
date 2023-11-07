@@ -35,7 +35,9 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
     (data: Partial<Tiltseries>): TableData => {
       return {
         label: i18n.accelerationVoltage,
-        values: [`${data.acceleration_voltage as unknown as number}`],
+        values: [
+          i18n.unitVolts(data.acceleration_voltage as unknown as number),
+        ],
       }
     },
   ],
@@ -173,7 +175,7 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
     (data: Partial<Tiltseries>): TableData => {
       return {
         label: i18n.sphericalAberrationConstant,
-        values: [`${data.spherical_aberration_constant}`],
+        values: [i18n.unitMilimeter(+data.spherical_aberration_constant)],
       }
     },
   ],
@@ -182,7 +184,7 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
     (data: Partial<Tiltseries>): TableData => {
       return {
         label: i18n.tiltAxis,
-        values: [`${data.tilt_axis}°`],
+        values: [i18n.unitDegree(+data.tilt_axis)],
       }
     },
   ],
@@ -214,7 +216,7 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
     (data: Partial<Tiltseries>): TableData => {
       return {
         label: i18n.tiltStep,
-        values: [`${data.tilt_step}°`],
+        values: [i18n.unitDegree(+data.tilt_step)],
       }
     },
   ],
