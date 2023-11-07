@@ -18,6 +18,7 @@ export function TomogramsTable() {
     {
       label: i18n.reconstructionMethod,
       values: [tomo.reconstruction_method],
+      className: 'capitalize',
     },
     {
       label: i18n.processingSoftware,
