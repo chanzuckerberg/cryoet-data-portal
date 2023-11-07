@@ -3,6 +3,8 @@ import { getTableData } from 'app/components/utils'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 
+import { Matrix4x4 } from './Matrix4x4'
+
 export function TomogramsTable() {
   const { run } = useRunById()
 
@@ -46,7 +48,10 @@ export function TomogramsTable() {
     },
     {
       label: i18n.affineTransformationMatrix,
-      values: ['TBD'],
+      values: ['1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1'],
+      renderValue: (value) => {
+        return <Matrix4x4 matrix={value} />
+      },
     },
   )
 
