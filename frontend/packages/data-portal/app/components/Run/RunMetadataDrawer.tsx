@@ -5,6 +5,7 @@ import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 
 import { RunTiltSeriesTable } from './RunTiltSeriesTable'
+import { TomogramsTable } from './TomogramsTable'
 
 export function RunMetadataDrawer() {
   const { run } = useRunById()
@@ -21,6 +22,7 @@ export function RunMetadataDrawer() {
         initialOpen={false}
       />
       <RunTiltSeriesTable />
+      <TomogramsTable />
     </MetadataDrawer>
   )
 }

@@ -1,5 +1,5 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
-import { getTableData } from 'app/components/TiltSeriesTable/utils'
+import { getTableData } from 'app/components/utils'
 import { i18n } from 'app/i18n'
 
 import { DatasetType } from './type'

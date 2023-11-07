@@ -1,9 +1,9 @@
 import { Tiltseries } from 'app/__generated__/graphql'
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
+import { getTableData } from 'app/components/utils'
 import { i18n } from 'app/i18n'
 
 import { TILT_SERIES_VALUE_MAPPINGS, TiltSeriesKeys } from './constants'
-import { getTableData } from './utils'
 
 interface TiltSeriesTableProps {
   tiltSeriesData?: Partial<Tiltseries>

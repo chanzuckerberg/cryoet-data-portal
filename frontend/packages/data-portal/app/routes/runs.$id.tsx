@@ -83,6 +83,22 @@ const GET_RUN_BY_ID_QUERY = gql(`
         related_database_entries
         dataset_publications
       }
+
+      tomogram_voxel_spacings(limit: 1) {
+        tomograms(limit: 1) {
+          ctf_corrected
+          fiducial_alignment_status
+          name
+          processing
+          reconstruction_method
+          processing_software
+          reconstruction_software
+          size_x
+          size_y
+          size_z
+          voxel_spacing
+        }
+      }
     }
   }
 `)

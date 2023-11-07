@@ -4,7 +4,7 @@ import { Dataset_Funding } from 'app/__generated__/graphql'
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { Link } from 'app/components/Link'
-import { getTableData } from 'app/components/TiltSeriesTable/utils'
+import { getTableData } from 'app/components/utils'
 import { DOI_ID } from 'app/constants/external-dbs'
 import { i18n } from 'app/i18n'
 
