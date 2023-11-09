@@ -11,13 +11,16 @@ export interface TableData {
   label: string
   values: string[] | (() => string[])
   renderValue?(value: string): ReactNode
+  className?: string
 }
 
 export function MetadataTable({
   data,
+  tableHeaderProps,
   tableCellProps,
 }: {
   data: TableData[]
+  tableHeaderProps?: ComponentProps<typeof TableCell>
   tableCellProps?: ComponentProps<typeof TableCell>
 }) {
   return (
@@ -32,12 +35,19 @@ export function MetadataTable({
               className={cns(idx % 2 !== 0 && 'bg-sds-gray-100')}
               key={datum.label + values.join(', ')}
             >
-              <TableCell {...tableCellProps}>{datum.label}</TableCell>
+              <TableCell {...tableHeaderProps}>
+                <span className="font-semibold text-sds-gray-600">
+                  {datum.label}
+                </span>
+              </TableCell>
 
               <TableCell {...tableCellProps}>
                 <ul className="list-none">
                   {values.map((value) => (
-                    <li className="overflow-x-auto" key={value}>
+                    <li
+                      className={cns('overflow-x-auto', datum.className)}
+                      key={value}
+                    >
                       {datum.renderValue?.(value) ?? value}
                     </li>
                   ))}
