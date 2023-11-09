@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable unused-imports/no-unused-vars */
+
 import { Tiltseries } from 'app/__generated__/graphql'
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { TableData } from 'app/components/Table'
@@ -52,7 +52,7 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
   ],
   [
     TiltSeriesKeys.AlignedBinning,
-    (data: Partial<Tiltseries>): TableData => {
+    (_data: Partial<Tiltseries>): TableData => {
       return {
         label: i18n.alignedTiltSeriesBinning,
         values: ['TBD'],
@@ -142,7 +142,7 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
   ],
   [
     TiltSeriesKeys.PixelSpacing,
-    (data: Partial<Tiltseries>): TableData => {
+    (_data: Partial<Tiltseries>): TableData => {
       return {
         label: i18n.pixelSpacing,
         values: ['TBD'],
@@ -163,7 +163,7 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
   ],
   [
     TiltSeriesKeys.SeriesIsAligned,
-    (data: Partial<Tiltseries>): TableData => {
+    (_data: Partial<Tiltseries>): TableData => {
       return {
         label: i18n.seriesIsAligned,
         values: ['TBD'],

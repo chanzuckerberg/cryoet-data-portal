@@ -118,8 +118,7 @@ export const i18n = {
   unitDegree: (x: number) => `${x}°`,
   unitMilimeter: (x: number) => `${x} mm`,
   unitVolts: (x: number) => `${x} V`,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  valueToValue: (x: any, y: any) => `${x} to ${y}`,
+  valueToValue: (x: string, y: string) => `${x} to ${y}`,
   veryPoor: 'Very Poor',
   yes: 'Yes',
 }
