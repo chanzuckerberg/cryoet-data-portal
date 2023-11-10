@@ -142,7 +142,7 @@ export function PageHeader({
                 sdsStyle="rounded"
                 onClick={onMoreInfoClick}
               >
-                More Info
+                {i18n.moreInfo}
               </Button>
             </div>
           </div>

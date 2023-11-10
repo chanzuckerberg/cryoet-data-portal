@@ -64,7 +64,7 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
     (data: Partial<Tiltseries>): TableData => {
       return {
         label: i18n.bingingFromFrames,
-        values: [data.binning_from_frames],
+        values: [String(data.binning_from_frames)],
       }
     },
   ],
@@ -175,7 +175,9 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
     (data: Partial<Tiltseries>): TableData => {
       return {
         label: i18n.sphericalAberrationConstant,
-        values: [i18n.unitMilimeter(+data.spherical_aberration_constant)],
+        values: [
+          i18n.unitMilimeter(+(data.spherical_aberration_constant ?? 0)),
+        ],
       }
     },
   ],
@@ -184,7 +186,7 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
     (data: Partial<Tiltseries>): TableData => {
       return {
         label: i18n.tiltAxis,
-        values: [i18n.unitDegree(+data.tilt_axis)],
+        values: [i18n.unitDegree(+(data.tilt_axis ?? 0))],
       }
     },
   ],
@@ -204,8 +206,8 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
         label: i18n.tiltRange,
         values: [
           i18n.valueToValue(
-            i18n.unitDegree(+data.tilt_min),
-            i18n.unitDegree(+data.tilt_max),
+            i18n.unitDegree(+(data.tilt_min ?? 0)),
+            i18n.unitDegree(+(data.tilt_max ?? 0)),
           ),
         ],
       }
@@ -216,7 +218,7 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
     (data: Partial<Tiltseries>): TableData => {
       return {
         label: i18n.tiltStep,
-        values: [i18n.unitDegree(+data.tilt_step)],
+        values: [i18n.unitDegree(+(data.tilt_step ?? 0))],
       }
     },
   ],
@@ -225,7 +227,7 @@ export const TILT_SERIES_VALUE_MAPPINGS = new Map([
     (data: Partial<Tiltseries>): TableData => {
       return {
         label: i18n.totalFlux,
-        values: [i18n.unitAngstrom(+data.total_flux)],
+        values: [i18n.unitAngstrom(+(data.total_flux ?? 0))],
       }
     },
   ],
