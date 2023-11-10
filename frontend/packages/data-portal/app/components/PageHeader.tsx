@@ -9,6 +9,7 @@ import { cns } from 'app/utils/cns'
 interface PageHeaderMetadata {
   key: string
   value: string
+  uppercase?: boolean
 }
 
 export function PageHeader({
@@ -86,12 +87,17 @@ export function PageHeader({
               {/* metadata */}
               {metadata.length > 0 && (
                 <ul className="list-none flex gap-sds-l">
-                  {metadata.map(({ key, value }) => (
+                  {metadata.map(({ key, value, uppercase }) => (
                     <li
                       className="flex flex-row items-center justify-left gap-sds-xxs text-sds-gray-500"
                       key={key + value}
                     >
-                      <span className="font-semibold text-sds-caps-xxs leading-sds-caps-xxs tracking-sds-caps">
+                      <span
+                        className={cns(
+                          'font-semibold text-sds-caps-xxs leading-sds-caps-xxs tracking-sds-caps',
+                          uppercase && 'uppercase',
+                        )}
+                      >
                         {key}:
                       </span>
 

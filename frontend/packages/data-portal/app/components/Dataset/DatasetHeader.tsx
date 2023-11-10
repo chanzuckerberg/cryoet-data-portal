@@ -23,7 +23,13 @@ export function DatasetHeader() {
         </Button>
       }
       lastModifiedDate={dataset.last_modified_date ?? dataset.deposition_date}
-      metadata={[{ key: i18n.portalIdBlank, value: String(dataset.id) }]}
+      metadata={[
+        {
+          key: i18n.portalIdBlank,
+          value: String(dataset.id),
+          uppercase: true,
+        },
+      ]}
       onMoreInfoClick={drawer.toggle}
       releaseDate={dataset.release_date}
       title={dataset.title}
