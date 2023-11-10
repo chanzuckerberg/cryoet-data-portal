@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 
 import Skeleton from '@mui/material/Skeleton'
+import { useLocation } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
 import { useMemo } from 'react'
@@ -27,6 +28,7 @@ export function RunsTable() {
   const { isLoadingDebounced } = useIsLoading()
   const { dataset } = useDatasetById()
   const runs = dataset.runs as unknown as Run[]
+  const location = useLocation()
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Run>()
@@ -34,34 +36,41 @@ export function RunsTable() {
     return [
       columnHelper.accessor('name', {
         header: i18n.run,
-        cell: ({ row: { original: run } }) => (
-          <TableCell
-            className="flex flex-auto gap-4"
-            minWidth={250}
-            maxWidth={300}
-            renderLoadingSkeleton={false}
-          >
-            <KeyPhoto
-              title={run.name}
-              // TODO use dataset keyphoto
-              src="https://cataas.com/cat"
-              loading={isLoadingDebounced}
-            />
+        cell({ row: { original: run } }) {
+          const previousUrl = `${location.pathname}${location.search}`
+          const runUrl = `/runs/${run.id}?prev=${encodeURIComponent(
+            previousUrl,
+          )}`
 
-            <div className="flex flex-col flex-auto min-h-[100px]">
-              {isLoadingDebounced ? (
-                <Skeleton className="max-w-[150px]" variant="text" />
-              ) : (
-                <Link
-                  className="text-sds-primary-500 font-semibold"
-                  to={`/runs/${run.id}`}
-                >
-                  {run.name}
-                </Link>
-              )}
-            </div>
-          </TableCell>
-        ),
+          return (
+            <TableCell
+              className="flex flex-auto gap-4"
+              minWidth={250}
+              maxWidth={300}
+              renderLoadingSkeleton={false}
+            >
+              <KeyPhoto
+                title={run.name}
+                // TODO use dataset keyphoto
+                src="https://cataas.com/cat"
+                loading={isLoadingDebounced}
+              />
+
+              <div className="flex flex-col flex-auto min-h-[100px]">
+                {isLoadingDebounced ? (
+                  <Skeleton className="max-w-[150px]" variant="text" />
+                ) : (
+                  <Link
+                    className="text-sds-primary-500 font-semibold"
+                    to={runUrl}
+                  >
+                    {run.name}
+                  </Link>
+                )}
+              </div>
+            </TableCell>
+          )
+        },
       }),
 
       columnHelper.accessor(
@@ -110,7 +119,7 @@ export function RunsTable() {
         },
       }),
     ] as ColumnDef<Run>[]
-  }, [isLoadingDebounced])
+  }, [isLoadingDebounced, location.pathname, location.search])
 
   return (
     <Table
