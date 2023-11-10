@@ -101,7 +101,12 @@ export function RunHeader() {
                 values:
                   typeof tiltSeries.tilt_min === 'number' &&
                   typeof tiltSeries.tilt_max === 'number'
-                    ? [String(tiltSeries.tilt_series_quality)]
+                    ? [
+                        i18n.valueToValue(
+                          i18n.unitDegree(tiltSeries.tilt_min),
+                          i18n.unitDegree(tiltSeries.tilt_max),
+                        ),
+                      ]
                     : [],
               },
               {

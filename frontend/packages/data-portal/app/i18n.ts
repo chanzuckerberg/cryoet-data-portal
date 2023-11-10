@@ -111,7 +111,6 @@ export const i18n = {
   tiltingScheme: 'Tilting Scheme',
   tiltQuality: 'Tilt Quality',
   tiltRange: 'Tilt Range',
-  tiltRangeValue: (min: number, max: number) => `${min}° to ${max}°`,
   tiltScheme: 'Tilt Scheme',
   tiltSeries: 'Tilt-Series',
   tiltSeriesQualityScore: 'Tilt-Series Quality Score',
