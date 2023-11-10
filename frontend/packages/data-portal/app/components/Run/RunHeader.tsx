@@ -66,7 +66,7 @@ export function RunHeader() {
           key: i18n.annotations,
           value: i18n.nFiles(
             sum(
-              run.annotation_stats.flatMap(
+              run.tomogram_stats.flatMap(
                 (stats) => stats.annotations_aggregate.aggregate?.count ?? 0,
               ),
             ),
@@ -129,7 +129,7 @@ export function RunHeader() {
               {
                 label: i18n.annotatedObjects,
                 inline: true,
-                values: run.annotation_stats
+                values: run.tomogram_stats
                   .flatMap((stats) => stats.annotations)
                   .map((annotation) => annotation.object_name),
               },

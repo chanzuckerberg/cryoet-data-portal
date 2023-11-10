@@ -9,7 +9,7 @@ type AccordionProps = Pick<
 >
 type MetadataTableProps = Pick<
   ComponentProps<typeof MetadataTable>,
-  'data' | 'tableCellProps' | 'tableHeaderProps'
+  'data' | 'tableCellProps'
 >
 
 export function AccordionMetadataTable({
