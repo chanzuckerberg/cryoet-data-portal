@@ -11,6 +11,7 @@ import { useIsLoading } from 'app/hooks/useIsLoading'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { useDrawer } from 'app/state/drawer'
+import { getAnnotationTitle } from 'app/utils/annotation'
 import { cnsNoMerge } from 'app/utils/cns'
 
 import { Table, TableCell } from '../Table'
@@ -71,7 +72,7 @@ export function AnnotationTable() {
           >
             <div className="flex gap-sds-xs">
               <p className="text-sds-header-s leading-sds-header-s">
-                {annotation.s3_annotations_path?.split('/').at(-1) ?? '--'}
+                {getAnnotationTitle(annotation)}
               </p>
 
               {annotation.ground_truth_status && (
