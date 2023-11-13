@@ -75,7 +75,8 @@ export function RunHeader() {
           ),
         },
       ]}
-      onMoreInfoClick={drawer.toggle}
+      onMoreInfoClick={() => drawer.setActiveDrawerId('run-metadata')}
+      // TODO add release date data
       releaseDate="2023-09-30"
       title={run.name}
     >

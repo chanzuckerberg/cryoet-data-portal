@@ -11,7 +11,11 @@ export function RunMetadataDrawer() {
   const { run } = useRunById()
 
   return (
-    <MetadataDrawer title={run.name} label={i18n.runDetails}>
+    <MetadataDrawer
+      drawerId="run-metadata"
+      title={run.name}
+      label={i18n.runDetails}
+    >
       <DatasetMetadataTable
         allFields
         dataset={run.dataset}
