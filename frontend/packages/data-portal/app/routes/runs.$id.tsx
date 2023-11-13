@@ -12,7 +12,6 @@ import { RunMetadataDrawer } from 'app/components/Run/RunMetadataDrawer'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useRunById } from 'app/hooks/useRunById'
-import { useCloseDrawerOnUnmount } from 'app/state/drawer'
 
 const GET_RUN_BY_ID_QUERY = gql(`
   query GetRunById($id: Int, $limit: Int, $offset: Int) {
@@ -191,7 +190,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 }
 
 export default function RunByIdPage() {
-  useCloseDrawerOnUnmount()
   const { run } = useRunById()
 
   const totalCount = sum(

@@ -11,7 +11,6 @@ import { FilterPanel } from 'app/components/FilterPanel'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useDatasetById } from 'app/hooks/useDatasetById'
-import { useCloseDrawerOnUnmount } from 'app/state/drawer'
 
 const GET_DATASET_BY_ID = gql(`
   query GetDatasetById($id: Int, $run_limit: Int, $run_offset: Int) {
@@ -132,8 +131,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
 export default function DatasetByIdPage() {
   const { dataset } = useDatasetById()
-
-  useCloseDrawerOnUnmount()
 
   return (
     <TablePageLayout

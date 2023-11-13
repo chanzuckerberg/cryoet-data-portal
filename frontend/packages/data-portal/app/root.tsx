@@ -21,6 +21,7 @@ import {
   ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
   EnvironmentContext,
 } from './context/Environment.context'
+import { useCloseDrawerOnUnmount } from './state/drawer'
 import tailwindStyles from './tailwind.css'
 import { theme } from './theme'
 
@@ -115,6 +116,8 @@ export const links: LinksFunction = () => [
 // https://remix.run/api/conventions#default-export
 // https://remix.run/api/conventions#route-filenames
 export default function App() {
+  useCloseDrawerOnUnmount()
+
   return (
     <Document>
       <Outlet />
