@@ -2,17 +2,17 @@ import { withEmotionCache } from '@emotion/react'
 // eslint-disable-next-line cryoet-data-portal/no-root-mui-import
 import { unstable_useEnhancedEffect as useEnhancedEffect } from '@mui/material'
 import { cssBundleHref } from '@remix-run/css-bundle'
-import { json, LinksFunction } from '@remix-run/node'
+import { LinksFunction } from '@remix-run/node'
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
 } from '@remix-run/react'
 import { defaults } from 'lodash-es'
 import { useContext } from 'react'
+import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
 import { Layout } from './components/Layout'
 import { LiveReload, LiveReloadOverlay } from './components/LiveReload'
@@ -30,7 +30,7 @@ interface DocumentProps {
 }
 
 export function loader() {
-  return json({
+  return typedjson({
     ENV: defaults(
       {
         API_URL: process.env.API_URL,
@@ -44,7 +44,7 @@ export function loader() {
 const Document = withEmotionCache(
   ({ children, title }: DocumentProps, emotionCache) => {
     const clientStyleData = useContext(ClientStyleContext)
-    const { ENV } = useLoaderData<typeof loader>()
+    const { ENV } = useTypedLoaderData<typeof loader>()
 
     // Only executed on client
     useEnhancedEffect(() => {

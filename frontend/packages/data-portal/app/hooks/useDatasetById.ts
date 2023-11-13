@@ -1,11 +1,11 @@
-import { useLoaderData } from '@remix-run/react'
+import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
 
 export function useDatasetById() {
   const {
     datasets: [dataset],
-  } = useLoaderData<GetDatasetByIdQuery>()
+  } = useTypedLoaderData<GetDatasetByIdQuery>()
 
   return { dataset }
 }

@@ -1,5 +1,6 @@
-import { useLoaderData, useLocation, useNavigate } from '@remix-run/react'
+import { useLocation, useNavigate } from '@remix-run/react'
 import { useMemo } from 'react'
+import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetToolbarDataQuery } from 'app/__generated__/graphql'
 import { TabData, Tabs } from 'app/components/Tabs'
@@ -17,7 +18,7 @@ export function BrowseDataTabs() {
     ? BrowseDataTab.Datasets
     : BrowseDataTab.Runs
 
-  const data = useLoaderData<GetToolbarDataQuery>()
+  const data = useTypedLoaderData<GetToolbarDataQuery>()
   const datasetCount = data.datasets_aggregate.aggregate?.count ?? 0
   const runCount = data.runs_aggregate.aggregate?.count ?? 0
 
