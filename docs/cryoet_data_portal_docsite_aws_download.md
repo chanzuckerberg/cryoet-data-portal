@@ -1,11 +1,27 @@
 # Download Data Using Amazon Web Services (AWS)
 
-This page provides details on how to use Amazon Web Services (AWS) to download data from the CryoET Data Portal.
+This page provides details on how to use Amazon Web Services (AWS) Command Line Interface (CLI) tool to download data from the CryoET Data Portal.
 
-**Contents**
+## Quickstart
+1. Download the installer: [MacOS Installer Download](https://awscli.amazonaws.com/AWSCLIV2.pkg) / [Windows Installer Download](https://awscli.amazonaws.com/AWSCLIV2.msi)
+2. Open installer and complete installation following prompts. (No further steps are needed to use the tool.)
+3. Open terminal (MacOS) or command prompt (Windows).
+4. Paste the command from the download prompt for the desired data into terminal / command prompt and hit enter.
+5. Alternatively, use the following command inserting the S3 URL and the desired download destination in the spaces provided. `aws s3 cp --no-sign-request [s3 bucket URL] [Local destination path]`
+
+For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
+
+```
+aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
+
+```
+In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow [these instructions to optimize download speed](#optimize-download-speed)
+
+For more detailed instructions, please refer to the sections below.
 
 1. [Installation](#installation).
 2. [Download Data](#download-data).
+3. [Optimize Download Speed](#optimize-download-speed)
 
 ## Installation
 
@@ -65,12 +81,14 @@ To download a file, We can use the `s3` and `cp` as the `<command>` and `<subcom
 aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
 
 ```
-The file should appear in your specified directory and the output in terminal/command prompt should be something like:
+The file should appear in your specified directory and the output in terminal / command prompt should be something like:
 ```
 download: s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json to ./tomogram_metadata.json
 ```
 
 In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. 
+
+## Optimize Download Speed
 
 You can optimize your download speed by configuring your AWS CLI with the below command, which will increase your transfer rate to ~50 MB/s if your connection has sufficient bandwidth. 
 ```
