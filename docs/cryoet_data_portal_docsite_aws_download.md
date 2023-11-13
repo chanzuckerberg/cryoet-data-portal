@@ -7,7 +7,10 @@ This page provides details on how to use Amazon Web Services (AWS) Command Line 
 2. Open installer and complete installation following prompts. (No further steps are needed to use the tool.)
 3. Open terminal (MacOS) or command prompt (Windows).
 4. Copy and paste the command from the download prompt for the desired data into terminal / command prompt and hit enter.
-5. Alternatively, create a custom command inserting the S3 URL of the data and the desired download destination in the spaces provided. `aws s3 cp --no-sign-request [s3 bucket URL] [Local destination path]`
+5. Alternatively, create a custom command inserting the S3 URL of the data and the desired download destination in the spaces provided.
+```
+aws s3 cp --no-sign-request [s3 bucket URL] [Local destination path]
+```
 
 For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
 
