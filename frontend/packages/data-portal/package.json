@@ -25,11 +25,10 @@
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
     "type-check": "tsc -p tsconfig.json --noEmit"
   },
-  "//": "note: SDS 18.1.2 has bug in Button component",
   "dependencies": {
     "@apollo/client": "^3.8.5",
     "@babel/runtime": "^7.23.2",
-    "@czi-sds/components": "18.1.1",
+    "@czi-sds/components": "^18.1.0",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",

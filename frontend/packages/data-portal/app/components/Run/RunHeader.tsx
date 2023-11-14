@@ -1,6 +1,7 @@
 import { Button, Icon } from '@czi-sds/components'
 import { sum } from 'lodash-es'
 
+import { Link } from 'app/components/Link'
 import { PageHeader } from 'app/components/PageHeader'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
@@ -15,6 +16,7 @@ export function RunHeader() {
   const drawer = useDrawer()
 
   const tiltSeries = run.tiltseries[0]
+  const keyPhotoURL = 'https://cataas.com/cat'
 
   return (
     <PageHeader
@@ -79,7 +81,9 @@ export function RunHeader() {
     >
       <div className="flex gap-sds-xxl p-sds-xl border-t-[3px] border-sds-gray-200">
         <div className="max-w-[300px] max-h-[212px] flex-shrink-0">
-          <KeyPhoto title={run.name} src="https://cataas.com/cat" />
+          <Link to={keyPhotoURL}>
+            <KeyPhoto title={run.name} src={keyPhotoURL} />
+          </Link>
         </div>
 
         <div className="flex gap-sds-xxl flex-col lg:flex-row">

@@ -8,6 +8,7 @@ import { apolloClient } from 'app/apollo.server'
 import { FilterPanel } from 'app/components/FilterPanel'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationTable } from 'app/components/Run/AnnotationTable'
+import { RunMetadataDrawer } from 'app/components/Run/RunMetadataDrawer'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useRunById } from 'app/hooks/useRunById'
@@ -201,6 +202,7 @@ export default function RunByIdPage() {
 
   return (
     <TablePageLayout
+      drawer={<RunMetadataDrawer />}
       filteredCount={totalCount}
       filterPanel={<FilterPanel />}
       header={<RunHeader />}
