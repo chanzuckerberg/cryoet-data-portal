@@ -1,15 +1,17 @@
 # Download Data Using Amazon Web Services (AWS)
 
-This page provides details on how to use Amazon Web Services (AWS) Command Line Interface (CLI) tool to download data from the CryoET Data Portal.
+This page provides details on how to use Amazon Web Services (AWS) Command Line Interface (CLI) tool to download data from the CryoET Data Portal. 
+
+**The Data Portal's S3 bucket is public**, so it can be used without credential sign in by specifying `--no-sign-request` in your commands. In only a few minutes, you can get started downloading data following the steps in the [Quickstart Guide](#quickstart), and for more details, refer to the [Installation](#installation), [Download Data](#download-data), and [Optimize Download Speed](#optimize-download-speed) in-depth explanations.
 
 ## Quickstart
 1. Download the installer: [MacOS Installer Download](https://awscli.amazonaws.com/AWSCLIV2.pkg) / [Windows Installer Download](https://awscli.amazonaws.com/AWSCLIV2.msi)
-2. Open installer and complete installation following prompts. (No further steps are needed to use the tool.)
+2. Open installer and complete installation following prompts. (No further steps, since credentials ARE NOT needed to use the tool.)
 3. Open terminal (MacOS) or command prompt (Windows).
 4. Copy and paste the command from the download prompt for the desired data into terminal / command prompt and hit enter.
 5. Alternatively, create a custom command inserting the S3 URL of the data and the desired download destination in the spaces provided.
 ```
-aws s3 cp --no-sign-request [s3 bucket URL] [Local destination path]
+aws s3 cp --no-sign-request [S3 bucket URL] [Local destination path]
 ```
 
 For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
@@ -56,7 +58,7 @@ aws-cli/2.10.0 Python/3.11.2 Windows/10 exe/AMD64 prompt/off
 
 To download data, we'll run commands in terminal (MacOS) or command prompt (Windows). The basic structure of these commands is below:
 ```
-aws <command> <subcommand> <flags> [options and parameters (often s3 URL)]
+aws <command> <subcommand> <flags> [options and parameters (often S3 URL)]
 ```
 If you followed the above installation instructions, which did not include setting up credentials, use `--no-sign-request` as a `<flag>` in all of your AWS CLI commands to indicate that you are accessing the bucket without signing in.
 
