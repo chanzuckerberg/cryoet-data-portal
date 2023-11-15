@@ -51,7 +51,7 @@ export function TomogramsTable() {
       label: i18n.affineTransformationMatrix,
       values: ['1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1'],
       renderValue: (value) => {
-        return <Matrix4x4 matrix={value} />
+        return <Matrix4x4 matrix={String(value)} />
       },
     },
   )
