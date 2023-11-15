@@ -9,14 +9,14 @@ import { cns } from 'app/utils/cns'
 import { TableCount } from './Table/TableCount'
 
 export function TablePageLayout({
-  drawer,
+  drawers,
   filterPanel,
   header,
   totalCount,
   filteredCount,
   table,
 }: {
-  drawer?: ReactNode
+  drawers?: ReactNode
   filteredCount: number
   filterPanel: ReactNode
   header?: ReactNode
@@ -77,7 +77,7 @@ export function TablePageLayout({
         </div>
       </div>
 
-      {drawer}
+      {drawers}
     </div>
   )
 }

@@ -134,7 +134,7 @@ export default function DatasetByIdPage() {
 
   return (
     <TablePageLayout
-      drawer={<DatasetMetadataDrawer />}
+      drawers={<DatasetMetadataDrawer />}
       // TODO add filter count when filters are added
       filteredCount={dataset.runs_aggregate.aggregate?.count ?? 0}
       filterPanel={<FilterPanel />}
