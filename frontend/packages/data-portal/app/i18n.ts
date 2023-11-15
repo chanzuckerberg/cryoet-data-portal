@@ -23,6 +23,7 @@ export const i18n = {
   api: 'API',
   author: 'Author',
   authors: 'Authors',
+  authorsMaybePlural: 'Author(s)',
   availableProcessing: 'Available Processing',
   backToResults: 'Back to Results',
   bingingFromFrames: 'Binning from Frames',

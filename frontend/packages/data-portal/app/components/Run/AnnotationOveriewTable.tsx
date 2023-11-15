@@ -27,7 +27,7 @@ export function AnnotationOverviewTable() {
           values: [annotation.last_modified_date ?? '--'],
         },
         {
-          label: i18n.authors,
+          label: i18n.authorsMaybePlural,
           // TODO render author emails
           // TODO render bold primary author
           values: annotation.authors.map((author) => author.name),
@@ -35,10 +35,6 @@ export function AnnotationOverviewTable() {
         {
           label: i18n.lastModifiedBlank,
           values: [annotation.last_modified_date ?? '--'],
-        },
-        {
-          label: i18n.authors,
-          values: annotation.authors.map((author) => author.name),
         },
         {
           label: i18n.affiliationNames,
