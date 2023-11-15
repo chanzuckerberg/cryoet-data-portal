@@ -5,10 +5,11 @@ import {
   REGEX_MAP,
   URL_MAP,
 } from 'app/constants/external-dbs'
+import { TableDataValue } from 'app/types/table'
 import { cns } from 'app/utils/cns'
 
 interface DatabaseEntryProps {
-  entry: string
+  entry: TableDataValue
   inline?: boolean
 }
 
@@ -18,7 +19,7 @@ export function DatabaseEntry(props: DatabaseEntryProps) {
   let id: string = ''
 
   for (const [dbt, pattern] of REGEX_MAP) {
-    const match = pattern.exec(entry)
+    const match = pattern.exec(String(entry))
     if (match !== null) {
       dbtype = dbt
       // eslint-disable-next-line prefer-destructuring

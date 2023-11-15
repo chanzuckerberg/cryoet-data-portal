@@ -7,12 +7,12 @@ import { gql } from 'app/__generated__'
 import { apolloClient } from 'app/apollo.server'
 import { FilterPanel } from 'app/components/FilterPanel'
 import { RunHeader } from 'app/components/Run'
+import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
 import { AnnotationTable } from 'app/components/Run/AnnotationTable'
 import { RunMetadataDrawer } from 'app/components/Run/RunMetadataDrawer'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useRunById } from 'app/hooks/useRunById'
-import { useCloseDrawerOnUnmount } from 'app/state/drawer'
 
 const GET_RUN_BY_ID_QUERY = gql(`
   query GetRunById($id: Int, $limit: Int, $offset: Int) {
@@ -100,22 +100,32 @@ const GET_RUN_BY_ID_QUERY = gql(`
 
       annotation_table: tomogram_voxel_spacings {
         annotations(limit: $limit, offset: $offset) {
+          annotation_method
+          annotation_publication
+          annotation_software
           confidence_precision
           confidence_recall
-          object_count
-          object_name
+          deposition_date
           ground_truth_status
+          ground_truth_used
+          last_modified_date
+          object_count
+          object_description
+          object_name
+          object_state
+          release_date
           s3_annotations_path
+          shape_type
 
-          # We only show up to 2 authors in the table, so only fetch up to 2 but
-          # sort by primary status so that primary authors show up first.
-          authors(order_by: { primary_annotator_status: desc }, limit: 2) {
+          authors(order_by: { primary_annotator_status: desc }) {
             name
             primary_annotator_status
           }
 
-          # Fetch author count to show author overflow count if there are more
-          # than 2 authors
+          author_affiliations: authors(distinct_on: affiliation_name) {
+            affiliation_name
+          }
+
           authors_aggregate {
             aggregate {
               count
@@ -191,7 +201,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 }
 
 export default function RunByIdPage() {
-  useCloseDrawerOnUnmount()
   const { run } = useRunById()
 
   const totalCount = sum(
@@ -202,7 +211,12 @@ export default function RunByIdPage() {
 
   return (
     <TablePageLayout
-      drawer={<RunMetadataDrawer />}
+      drawers={
+        <>
+          <RunMetadataDrawer />
+          <AnnotationDrawer />
+        </>
+      }
       filteredCount={totalCount}
       filterPanel={<FilterPanel />}
       header={<RunHeader />}

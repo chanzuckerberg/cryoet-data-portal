@@ -3,14 +3,16 @@
 import { Button, CellHeader } from '@czi-sds/components'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
+import { useAnnotation } from 'app/state/annotation'
 import { useDrawer } from 'app/state/drawer'
+import { getAnnotationTitle } from 'app/utils/annotation'
 import { cnsNoMerge } from 'app/utils/cns'
 
 import { Table, TableCell } from '../Table'
@@ -31,10 +33,21 @@ function ConfidenceValue({ value }: { value: number }) {
   )
 }
 
+const MAX_AUTHORS = 2
+
 export function AnnotationTable() {
   const { isLoadingDebounced } = useIsLoading()
   const { run } = useRunById()
-  const drawer = useDrawer()
+  const { setActiveDrawerId } = useDrawer()
+  const { setActiveAnnotation } = useAnnotation()
+
+  const openAnnotationDrawer = useCallback(
+    (annotation: Annotation) => {
+      setActiveAnnotation(annotation)
+      setActiveDrawerId('annotation-metadata')
+    },
+    [setActiveAnnotation, setActiveDrawerId],
+  )
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Annotation>()
@@ -71,7 +84,7 @@ export function AnnotationTable() {
           >
             <div className="flex gap-sds-xs">
               <p className="text-sds-header-s leading-sds-header-s">
-                {annotation.s3_annotations_path?.split('/').at(-1) ?? '--'}
+                {getAnnotationTitle(annotation)}
               </p>
 
               {annotation.ground_truth_status && (
@@ -89,23 +102,21 @@ export function AnnotationTable() {
             </div>
 
             <ul className="list-none flex gap-1 text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
-              {annotation.authors.map((author, idx) => {
-                const authorLength = annotation.authors.length
-                const totalAuthorCount =
-                  annotation.authors_aggregate.aggregate?.count ?? 0
+              {annotation.authors.slice(0, MAX_AUTHORS).map((author, idx) => {
+                const totalAuthorCount = annotation.authors.length
 
                 return (
                   <li className="flex items-center" key={author.name}>
                     <span>{author.name}</span>
-                    <span>{idx < authorLength - 1 && ', '}</span>
+                    <span>{idx < MAX_AUTHORS - 1 && ', '}</span>
 
-                    {idx === authorLength - 1 && idx < totalAuthorCount - 1 && (
+                    {idx === MAX_AUTHORS - 1 && idx < totalAuthorCount - 1 && (
                       <Button
                         sdsType="primary"
                         sdsStyle="minimal"
-                        onClick={drawer.toggle}
+                        onClick={() => openAnnotationDrawer(annotation)}
                       >
-                        {i18n.plusMore(totalAuthorCount - authorLength)}
+                        {i18n.plusMore(totalAuthorCount - MAX_AUTHORS)}
                       </Button>
                     )}
                   </li>
@@ -143,12 +154,12 @@ export function AnnotationTable() {
         id: 'annotation-actions',
         // Render empty cell header so that it doesn't break the table layout
         header: () => <CellHeader>{null}</CellHeader>,
-        cell: () => (
+        cell: ({ row: { original: annotation } }) => (
           <TableCell minWidth={85} maxWidth={120}>
             <Button
               sdsType="primary"
               sdsStyle="minimal"
-              onClick={drawer.toggle}
+              onClick={() => openAnnotationDrawer(annotation)}
             >
               {i18n.moreInfo}
             </Button>
@@ -156,11 +167,12 @@ export function AnnotationTable() {
         ),
       }),
     ] as ColumnDef<Annotation>[]
-  }, [drawer.toggle])
+  }, [openAnnotationDrawer])
 
-  const annotations = run.annotation_table.flatMap(
-    (data) => data.annotations,
-  ) as unknown as Annotation[]
+  const annotations = useMemo(
+    () => run.annotation_table.flatMap((data) => data.annotations),
+    [run.annotation_table],
+  )
 
   return (
     <Table

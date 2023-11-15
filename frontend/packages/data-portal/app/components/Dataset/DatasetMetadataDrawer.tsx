@@ -10,7 +10,11 @@ export function DatasetMetadataDrawer() {
   const { dataset } = useDatasetById()
 
   return (
-    <MetadataDrawer title={dataset.title} label={i18n.datasetDetails}>
+    <MetadataDrawer
+      drawerId="dataset-metadata"
+      title={dataset.title}
+      label={i18n.datasetDetails}
+    >
       <DatasetMetadataTable dataset={dataset} />
       <SampleAndExperimentConditionsTable dataset={dataset} />
       <DatasetTiltSeriesTable />

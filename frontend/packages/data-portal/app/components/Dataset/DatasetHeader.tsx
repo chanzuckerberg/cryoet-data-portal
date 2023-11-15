@@ -30,7 +30,7 @@ export function DatasetHeader() {
           uppercase: true,
         },
       ]}
-      onMoreInfoClick={drawer.toggle}
+      onMoreInfoClick={() => drawer.setActiveDrawerId('dataset-metadata')}
       releaseDate={dataset.release_date}
       title={dataset.title}
     >

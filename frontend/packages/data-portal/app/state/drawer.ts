@@ -2,24 +2,28 @@ import { useUnmountEffect } from '@react-hookz/web'
 import { atom, useAtom, useSetAtom } from 'jotai'
 import { useMemo } from 'react'
 
-const drawerOpenAtom = atom(false)
+export type DrawerId =
+  | 'dataset-metadata'
+  | 'run-metadata'
+  | 'annotation-metadata'
+
+const activeDrawerIdAtom = atom<DrawerId | null>(null)
 
 export function useDrawer() {
-  const [open, setOpen] = useAtom(drawerOpenAtom)
+  const [activeDrawerId, setActiveDrawerId] = useAtom(activeDrawerIdAtom)
 
   return useMemo(
     () => ({
-      open,
-      setOpen,
-      toggle: () => setOpen((prev) => !prev),
+      activeDrawerId,
+      setActiveDrawerId,
     }),
-    [open, setOpen],
+    [activeDrawerId, setActiveDrawerId],
   )
 }
 
 export function useCloseDrawerOnUnmount() {
-  const setDrawerOpen = useSetAtom(drawerOpenAtom)
+  const setActiveDrawerId = useSetAtom(activeDrawerIdAtom)
 
   // Reset drawer state on page unmount
-  useUnmountEffect(() => setDrawerOpen(false))
+  useUnmountEffect(() => setActiveDrawerId(null))
 }

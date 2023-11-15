@@ -1,20 +1,13 @@
 import { Table } from '@czi-sds/components'
 import TableBody from '@mui/material/TableBody'
 import TableRow from '@mui/material/TableRow'
-import { ComponentProps, ReactNode } from 'react'
+import { ComponentProps } from 'react'
 import { match } from 'ts-pattern'
 
+import { TableData } from 'app/types/table'
 import { cns } from 'app/utils/cns'
 
 import { TableCell } from './TableCell'
-
-export interface TableData {
-  className?: string
-  inline?: boolean
-  label: string
-  renderValue?(value: string): ReactNode
-  values: string[] | (() => string[])
-}
 
 export function MetadataTable({
   data,
