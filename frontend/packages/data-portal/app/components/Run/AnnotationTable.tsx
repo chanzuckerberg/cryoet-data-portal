@@ -33,6 +33,8 @@ function ConfidenceValue({ value }: { value: number }) {
   )
 }
 
+const MAX_AUTHORS = 2
+
 export function AnnotationTable() {
   const { isLoadingDebounced } = useIsLoading()
   const { run } = useRunById()
@@ -100,23 +102,21 @@ export function AnnotationTable() {
             </div>
 
             <ul className="list-none flex gap-1 text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
-              {annotation.authors.map((author, idx) => {
-                const authorLength = annotation.authors.length
-                const totalAuthorCount =
-                  annotation.authors_aggregate.aggregate?.count ?? 0
+              {annotation.authors.slice(0, MAX_AUTHORS).map((author, idx) => {
+                const totalAuthorCount = annotation.authors.length
 
                 return (
                   <li className="flex items-center" key={author.name}>
                     <span>{author.name}</span>
-                    <span>{idx < authorLength - 1 && ', '}</span>
+                    <span>{idx < MAX_AUTHORS - 1 && ', '}</span>
 
-                    {idx === authorLength - 1 && idx < totalAuthorCount - 1 && (
+                    {idx === MAX_AUTHORS - 1 && idx < totalAuthorCount - 1 && (
                       <Button
                         sdsType="primary"
                         sdsStyle="minimal"
-                        onClick={drawer.toggle}
+                        onClick={() => openAnnotationDrawer(annotation)}
                       >
-                        {i18n.plusMore(totalAuthorCount - authorLength)}
+                        {i18n.plusMore(totalAuthorCount - MAX_AUTHORS)}
                       </Button>
                     )}
                   </li>
