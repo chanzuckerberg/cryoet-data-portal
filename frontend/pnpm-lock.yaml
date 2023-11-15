@@ -21,8 +21,8 @@ importers:
         specifier: ^7.23.2
         version: 7.23.2
       '@czi-sds/components':
-        specifier: 18.1.1
-        version: 18.1.1(@emotion/core@11.0.0)(@emotion/css@11.11.2)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/base@5.0.0-beta.19)(@mui/icons-material@5.14.13)(@mui/lab@5.0.0-alpha.148)(@mui/material@5.14.13)(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^18.1.2
+        version: 18.1.2(@emotion/core@11.0.0)(@emotion/css@11.11.2)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/base@5.0.0-beta.19)(@mui/icons-material@5.14.13)(@mui/lab@5.0.0-alpha.148)(@mui/material@5.14.13)(react-dom@18.2.0)(react@18.2.0)
       '@emotion/cache':
         specifier: ^11.11.0
         version: 11.11.0
@@ -1101,8 +1101,8 @@ packages:
       postcss-selector-parser: 6.0.13
     dev: true
 
-  /@czi-sds/components@18.1.1(@emotion/core@11.0.0)(@emotion/css@11.11.2)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/base@5.0.0-beta.19)(@mui/icons-material@5.14.13)(@mui/lab@5.0.0-alpha.148)(@mui/material@5.14.13)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-cOt6SAG2Pp0RMmhclyrsMfx39l2zjujrm8iPm6GajmHeg8GA4Ig6dN2wfP5DJBF7x6oIyXtWTIgGAfOUt2ghYg==}
+  /@czi-sds/components@18.1.2(@emotion/core@11.0.0)(@emotion/css@11.11.2)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/base@5.0.0-beta.19)(@mui/icons-material@5.14.13)(@mui/lab@5.0.0-alpha.148)(@mui/material@5.14.13)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-AHWj87km/4XB7K4cGnFOwlyPBgKOHJ3K2zU8qwNvY5ghOnpctdt434c+oby3/njUg4uJZFmP83DjiyToDqB9/g==}
     peerDependencies:
       '@emotion/core': ^11.0.0
       '@emotion/css': ^11.11.0
