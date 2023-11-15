@@ -1,10 +1,8 @@
-import { TableData } from 'app/components/Table/MetadataTable'
+import { TableData } from 'app/types/table'
 
-export function getTableData(...metadata: (TableData | boolean)[]) {
+export function getTableData(...metadata: Array<TableData | boolean>) {
   return metadata
-    .filter((i): i is TableData => {
-      return Boolean(i)
-    })
+    .filter((data): data is TableData => !!data)
     .map((data) => {
       const values = (
         data.values instanceof Function ? data.values() : data.values

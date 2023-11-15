@@ -2,8 +2,8 @@
 
 import { Tiltseries } from 'app/__generated__/graphql'
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
-import { TableData } from 'app/components/Table'
 import { i18n } from 'app/i18n'
+import { TableData } from 'app/types/table'
 
 export const enum TiltSeriesKeys {
   AccelerationVoltage,

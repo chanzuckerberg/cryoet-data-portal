@@ -1,7 +1,7 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
-import { getTableData } from 'app/components/utils'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
+import { getTableData } from 'app/utils/table'
 
 import { Matrix4x4 } from './Matrix4x4'
 
