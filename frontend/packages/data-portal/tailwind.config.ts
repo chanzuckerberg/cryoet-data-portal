@@ -1,5 +1,19 @@
 import sds from '@czi-sds/components/dist/tailwind.json'
 import type { Config } from 'tailwindcss'
+import defaultTheme from 'tailwindcss/defaultTheme'
+import plugin from 'tailwindcss/plugin'
+
+const backgroundImageSrcPlugin = plugin(({ addUtilities, theme, e }) => {
+  const values = theme('backgroundImageSrc')
+  if (values) {
+    const utilities = Object.entries(values).map(([key, value]) => {
+      return {
+        [`.${e(`bg-img-${key}`)}`]: { '--tw-background-image': `${value}` },
+      }
+    })
+    addUtilities(utilities)
+  }
+})
 
 // eslint-disable-next-line import/no-default-export
 export default {
@@ -14,7 +28,7 @@ export default {
 
       maxWidth: {
         content: '1600px',
-        'mdx-content': '800px',
+        'content-small': '800px',
       },
 
       // overwrite faulty SDS line heights
@@ -40,7 +54,25 @@ export default {
         'sds-caps-xxxs': '16px',
         'sds-caps-xxxxs': '14px',
       },
+
+      backgroundImage: () => {
+        const values = Object.entries(defaultTheme.backgroundImage)
+          .filter(([key]) => key.includes('to'))
+          .map(([key, value]) => {
+            return {
+              [`gradient-img-${key.slice(
+                key.indexOf('-') + 1,
+              )}`]: `${value}, var(--tw-background-image)`,
+            }
+          })
+        return values.reduce((prev, curr) => ({ ...prev, ...curr }))
+      },
+
+      backgroundImageSrc: {
+        'landing-header':
+          "url('https://images.unsplash.com/photo-1576086213369-97a306d36557')",
+      },
     },
   },
-  plugins: [],
+  plugins: [backgroundImageSrcPlugin],
 } satisfies Config
