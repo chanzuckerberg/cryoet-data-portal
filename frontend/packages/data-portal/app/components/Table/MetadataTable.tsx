@@ -46,7 +46,11 @@ export function MetadataTable({
                 <TableCell {...tableCellProps}>
                   {match(values.length)
                     .with(0, () => null)
-                    .with(1, () => datum.renderValue?.(values[0]) ?? values[0])
+                    .with(1, () => (
+                      <span className={datum.className}>
+                        {datum.renderValue?.(values[0]) ?? values[0]}
+                      </span>
+                    ))
                     .otherwise(() => (
                       <ul className="list-none flex flex-wrap gap-1">
                         {values.map((value, valueIdx) => (
