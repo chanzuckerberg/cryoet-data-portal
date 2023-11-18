@@ -6,7 +6,6 @@ import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
 
-import { FilterPanel } from './FilterPanel'
 import { TableCount } from './Table/TableCount'
 
 export function TablePageLayout({
@@ -41,7 +40,16 @@ export function TablePageLayout({
       {header}
 
       <div className="flex flex-auto">
-        {filterPanel && <FilterPanel>{filterPanel}</FilterPanel>}
+        {filterPanel && (
+          <div
+            className={cns(
+              'flex flex-col flex-shrink-0 w-[235px]',
+              'border-t border-r border-sds-gray-300',
+            )}
+          >
+            {filterPanel}
+          </div>
+        )}
 
         <div
           className={cns(

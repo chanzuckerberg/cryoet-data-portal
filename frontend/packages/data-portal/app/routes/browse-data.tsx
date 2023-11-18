@@ -3,7 +3,7 @@ import { json } from '@remix-run/server-runtime'
 
 import { gql } from 'app/__generated__'
 import { apolloClient } from 'app/apollo.server'
-import { BrowseDataHeader } from 'app/components/BrowseData/BrowseDataHeader'
+import { BrowseDataHeader } from 'app/components/BrowseData'
 
 const GET_TOOLBAR_DATA_QUERY = gql(`
   query GetToolbarData {
