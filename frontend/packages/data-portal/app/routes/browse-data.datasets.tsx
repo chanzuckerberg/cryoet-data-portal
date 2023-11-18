@@ -63,7 +63,7 @@ const GET_DATASETS_DATA_QUERY = gql(`
       }
     }
 
-    organism_names: datasets(distinct_on:organism_name) {
+    organism_names: datasets(distinct_on: organism_name) {
       organism_name
     }
 

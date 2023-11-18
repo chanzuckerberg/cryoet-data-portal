@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { FilterSection, SelectFilter } from 'app/components/Filters'
 import { DatasetFilterQueryParams } from 'app/constants/query'
 import { useDatasetFilter } from 'app/hooks/useDatasetFilter'
+import { useDatasets } from 'app/hooks/useDatasets'
 import { i18n } from 'app/i18n'
 import { BaseFilterOption } from 'app/types/filter'
 
@@ -11,10 +12,11 @@ export function SampleAndExperimentFilterSection() {
     updateValue,
     sampleAndExperimentConditions: { organismNames },
   } = useDatasetFilter()
+  const { organismNames: allOrganismNames } = useDatasets()
 
   const organismNameOptions = useMemo(
-    () => organismNames.map<BaseFilterOption>((name) => ({ value: name })),
-    [organismNames],
+    () => allOrganismNames.map<BaseFilterOption>((name) => ({ value: name })),
+    [allOrganismNames],
   )
 
   const organismNameValue = useMemo(
