@@ -48,14 +48,34 @@ const GET_DATASETS_DATA_QUERY = gql(`
       }
     }
 
-    filtered_datasets_aggregate: datasets_aggregate(
-      where: {
-        title: { _ilike: $query },
-      },
-    ) {
+    filtered_datasets_aggregate: datasets_aggregate(where: $filter) {
       aggregate {
         count
       }
+    }
+
+    organism_names: datasets(distinct_on:organism_name) {
+      organism_name
+    }
+
+    camera_manufacturers: tiltseries(distinct_on: camera_manufacturer) {
+      camera_manufacturer
+    }
+
+    reconstruction_methods: tomograms(distinct_on: reconstruction_method) {
+      reconstruction_method
+    }
+
+    reconstruction_softwares:tomograms(distinct_on: reconstruction_software) {
+      reconstruction_software
+    }
+
+    object_names: annotations(distinct_on: object_name) {
+      object_name
+    }
+
+    object_shape_types: annotations(distinct_on: shape_type) {
+      shape_type
     }
   }
 `)
