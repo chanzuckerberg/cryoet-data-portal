@@ -6,11 +6,12 @@ import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
 
+import { FilterPanel } from './FilterPanel'
 import { TableCount } from './Table/TableCount'
 
 export function TablePageLayout({
   drawers,
-  filterPanel,
+  filters: filterPanel,
   header,
   totalCount,
   filteredCount,
@@ -18,7 +19,7 @@ export function TablePageLayout({
 }: {
   drawers?: ReactNode
   filteredCount: number
-  filterPanel: ReactNode
+  filters?: ReactNode
   header?: ReactNode
   table: ReactNode
   totalCount: number
@@ -38,7 +39,7 @@ export function TablePageLayout({
       {header}
 
       <div className="flex flex-auto">
-        {filterPanel}
+        {filterPanel && <FilterPanel>{filterPanel}</FilterPanel>}
 
         <div
           className={cns(
