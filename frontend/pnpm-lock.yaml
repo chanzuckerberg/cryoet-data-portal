@@ -140,6 +140,9 @@ importers:
       ts-pattern:
         specifier: ^5.0.5
         version: 5.0.5
+      utility-types:
+        specifier: ^3.10.0
+        version: 3.10.0
     devDependencies:
       '@parcel/watcher':
         specifier: ^2.3.0
@@ -11543,6 +11546,11 @@ packages:
       is-generator-function: 1.0.10
       is-typed-array: 1.1.12
       which-typed-array: 1.1.11
+    dev: false
+
+  /utility-types@3.10.0:
+    resolution: {integrity: sha512-O11mqxmi7wMKCo6HKFt5AhO4BwY3VV68YU07tgxfz8zJTIxr4BpsezN49Ffwy9j3ZpwwJp4fkRwjRzq3uWE6Rg==}
+    engines: {node: '>= 4'}
     dev: false
 
   /utils-merge@1.0.1:
