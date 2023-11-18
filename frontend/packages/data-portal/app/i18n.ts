@@ -40,6 +40,7 @@ export const i18n = {
   cellName: 'Cell Name',
   cellularComponent: 'Cellular Component',
   citations: 'Citations',
+  clearFilters: 'Clear Filters',
   confidence: 'confidence',
   cookiePolicy: 'Cookie Policy',
   ctfCorrected: 'Ctf Corrected',
@@ -68,7 +69,9 @@ export const i18n = {
   filterByAnyOfTheFollowing: 'Filter by any of the following',
   filterCount: (count: number, max: number, type: string) =>
     `${count} of ${max} ${type}`,
+  filterNoResultsFound: 'No results were found',
   filterRange: 'Filter Range',
+  filterTooRestrictive: 'The applied filters may be too restrictive.',
   frames: 'Frames',
   fundingAgency: 'Funding Agency',
   github: 'GitHub',

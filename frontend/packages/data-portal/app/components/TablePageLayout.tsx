@@ -11,16 +11,18 @@ import { TableCount } from './Table/TableCount'
 
 export function TablePageLayout({
   drawers,
+  filteredCount,
   filters: filterPanel,
   header,
-  totalCount,
-  filteredCount,
+  noResults,
   table,
+  totalCount,
 }: {
   drawers?: ReactNode
   filteredCount: number
   filters?: ReactNode
   header?: ReactNode
+  noResults?: ReactNode
   table: ReactNode
   totalCount: number
 }) {
@@ -63,6 +65,8 @@ export function TablePageLayout({
             />
 
             {table}
+
+            {filteredCount === 0 && noResults}
 
             <div className="w-full flex justify-center">
               <Pagination

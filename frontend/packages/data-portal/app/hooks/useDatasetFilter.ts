@@ -84,6 +84,16 @@ export function useDatasetFilter() {
     () => ({
       ...getDatasetFilter(searchParams),
 
+      reset() {
+        setSearchParams((prev) => {
+          Object.values(DatasetFilterQueryParams).forEach((param) =>
+            prev.delete(param),
+          )
+
+          return prev
+        })
+      },
+
       updateValue(
         param: DatasetFilterQueryParams,
         value?:

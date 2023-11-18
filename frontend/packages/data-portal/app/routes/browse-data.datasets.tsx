@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { CellHeaderDirection } from '@czi-sds/components'
+import { Button, CellHeaderDirection } from '@czi-sds/components'
 import { json, LoaderFunctionArgs } from '@remix-run/node'
 import { isNumber } from 'lodash-es'
 import { match } from 'ts-pattern'
@@ -10,14 +10,17 @@ import { Datasets_Bool_Exp, Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
 import { DatasetTable } from 'app/components/BrowseData'
 import { DatasetFilter } from 'app/components/DatasetFilter'
+import { NoResults } from 'app/components/NoResults'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { DEFAULT_TILT_MAX, DEFAULT_TILT_MIN } from 'app/constants/tiltSeries'
 import {
   DatasetFilterState,
   getDatasetFilter,
+  useDatasetFilter,
 } from 'app/hooks/useDatasetFilter'
 import { useDatasets } from 'app/hooks/useDatasets'
+import { i18n } from 'app/i18n'
 import { getSelfCreatingObject } from 'app/utils/proxy'
 
 const GET_DATASETS_DATA_QUERY = gql(`
@@ -267,6 +270,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function BrowseDatasetsPage() {
   const { datasetCount, filteredDatasetCount } = useDatasets()
+  const { reset } = useDatasetFilter()
 
   return (
     <TablePageLayout
@@ -274,6 +278,13 @@ export default function BrowseDatasetsPage() {
       filters={<DatasetFilter />}
       table={<DatasetTable />}
       totalCount={datasetCount}
+      noResults={
+        <NoResults
+          title={i18n.filterNoResultsFound}
+          description={i18n.filterTooRestrictive}
+          actions={<Button onClick={reset}>{i18n.clearFilters}</Button>}
+        />
+      }
     />
   )
 }
