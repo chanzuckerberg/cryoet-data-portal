@@ -55,6 +55,10 @@ export default {
         'sds-caps-xxxxs': '14px',
       },
 
+      dropShadow: {
+        'landing-header': '0 0 7px rgba(0, 0, 0, 0.5)',
+      },
+
       backgroundImage: () => {
         const values = Object.entries(defaultTheme.backgroundImage)
           .filter(([key]) => key.includes('to'))

@@ -155,6 +155,7 @@ export const i18n = {
   showLess: 'Show Less',
   size: 'Size',
   smallestAvailableVoxelSpacing: 'Smallest Available Voxel Spacing',
+  species: 'Species',
   sphericalAberrationConstant: 'Spherical Aberration Constant',
   submitFeedback: 'Submit Feedback',
   terms: 'Terms',
