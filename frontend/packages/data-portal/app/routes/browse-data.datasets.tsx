@@ -25,7 +25,6 @@ const GET_DATASETS_DATA_QUERY = gql(`
     $limit: Int,
     $offset: Int,
     $order_by_dataset: order_by,
-    $query: String,
     $filter: datasets_bool_exp,
   ) {
     datasets(
@@ -97,8 +96,13 @@ function getTiltValue(value: string | null) {
   return null
 }
 
-function getFilter(datasetFilter: DatasetFilterState) {
+function getFilter(datasetFilter: DatasetFilterState, query: string) {
   const filter = getSelfCreatingObject<Datasets_Bool_Exp>()
+
+  // Text search by dataset title
+  if (query) {
+    filter.title._ilike = `%${query}%`
+  }
 
   // Included contents filters
   // Ground truth filter
@@ -254,8 +258,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
       order_by_dataset: orderBy,
-      query: `%${search}%`,
-      filter: getFilter(getDatasetFilter(url.searchParams)),
+      filter: getFilter(getDatasetFilter(url.searchParams), search),
     },
   })
 
