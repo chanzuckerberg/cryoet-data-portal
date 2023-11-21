@@ -21,6 +21,8 @@ class Dataset(Model):
     Attributes:
         id (int): An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
         authors (List[DatasetAuthor]): An array relationship with DatasetAuthor
+        cell_component_name (str): Name of the cellular component
+        cell_component_id (str): If the dataset focuses on a specific part of a cell, the subset is included here
         cell_name (str): Name of the cell from which a biological sample used in a CryoET study is derived from.
         cell_strain_id (str): Link to more information about the cell strain
         cell_strain_name (str): Cell line or strain for the sample.
@@ -33,6 +35,8 @@ class Dataset(Model):
         grid_preparation (str): Describe Cryo-ET grid preparation.
         https_prefix (str): The HTTPS directory path where this dataset is contained
         last_modified_date (date):Date when a released dataset is last modified.
+        key_photo_url (str): URL for the dataset preview image.
+        key_photo_thumbnail_url (str): URL for the thumbnail of preview image.
         organism_name (str): Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
         organism_taxid (str): NCBI taxonomy identifier for the organism, e.g. 9606
         other_setup (str): Describe other setup not covered by sample preparation or grid preparation that may make this dataset unique in  the same publication
@@ -74,6 +78,10 @@ class Dataset(Model):
     other_setup: str = StringField()
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
+    key_photo_url: str = StringField()
+    key_photo_thumbnail_url: str = StringField()
+    cell_component_name: str = StringField()
+    cell_component_id: str = StringField()
 
     runs: Iterable["Run"] = ListRelationship("Run", "id", "dataset_id")
     authors: Iterable["DatasetAuthor"] = ListRelationship(
@@ -105,12 +113,13 @@ class DatasetAuthor(Model):
         affiliation_address (str): Address of the institution an author is affiliated with.
         affiliation_identifier (str):  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
         affiliation_name (str): Name of the institutions an author is affiliated with. Comma separated
-        primary_author_status (bool): Indicating whether an annotator is the main person executing the annotation, especially on manual annotation
+        author_list_order (int): The order in which the author appears in the publication
         corresponding_author_status (bool):Indicating whether an author is the corresponding author
         dataset (Dataset): An object relationship with the dataset this author correspods to
         dataset_id (int): Numeric identifier for the dataset this author corresponds to
         email (str): Email address for each autho
         name (str): Full name of a dataset author (e.g. Jane Doe).
+        primary_author_status (bool): Indicating whether an annotator is the main person executing the annotation, especially on manual annotation
         orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
     """
 
@@ -128,6 +137,7 @@ class DatasetAuthor(Model):
     affiliation_name: str = StringField()
     affiliation_address: str = StringField()
     affiliation_identifier: str = StringField()
+    author_list_order: int = IntField()
 
 
 class DatasetFunding(Model):
@@ -246,22 +256,25 @@ class Tomogram(Model):
 
     Attributes:
         id (int): Numeric identifier for this tomogram (this may change!)
+        affine_transformation_matrix (str): The flip or rotation transformation of this author submitted tomogram is indicated here
         ctf_corrected (bool): Whether this tomogram is CTF corrected
         dataset (Dataset): An object relationship with the dataset this tomogram is a part of
         dataset_id (int): Reference to the dataset this tomogram is a part of
         fiducial_alignment_status (str): Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
         https_mrc_scale0 (str): HTTPS path to this tomogram in MRC format (no scaling)
-        https_mrc_scale1 (str): HTTPS path to this tomogram in MRC format (downscaled to 50%)
-        https_mrc_scale2 (str): HTTPS path to this tomogram in MRC format (downscaled to 25%)
         https_omezarr_dir (str): HTTPS path to the this multiscale omezarr tomogram
         is_canonical (bool): Is this tomogram considered the canonical tomogram for the run experiment? True=Yes
+        key_photo_url (str): URL for the key photo
+        key_photo_thumbnail_url (str): URL for the thumbnail of key photo
         name (str): Short name for this tomogram
+        neuroglancer_config (str): the compact json of neuroglancer config
+        offset_x (int): x offset data relative to the canonical tomogram in pixels
+        offset_y (int): y offset data relative to the canonical tomogram in pixels
+        offset_z (int):  z offset data relative to the canonical tomogram in pixels
         processing (str): Describe additional processing used to derive the tomogram
         processing_software (str): Processing software used to derive the tomogram
         reconstruction_method (str):Describe reconstruction method (Weighted backprojection, SART, SIRT)
         reconstruction_software (str):Name of software used for reconstruction
-        s3_mrc_scale1 (str):S3 path to this tomogram in MRC format (downscaled to 50%)
-        s3_mrc_scale2 (str):S3 path to this tomogram in MRC format (downscaled to 25%)
         s3_mrc_scale0 (str):S3 path to this tomogram in MRC format (no scaling)
         s3_omezarr_dir (str):S3 path to the this multiscale omezarr tomogram
         scale0_dimensions (str):comma separated x,y,z dimensions of the unscaled tomogram
@@ -299,16 +312,24 @@ class Tomogram(Model):
     s3_omezarr_dir: str = StringField()
     https_omezarr_dir: str = StringField()
     s3_mrc_scale0: str = StringField()
-    s3_mrc_scale1: str = StringField()
-    s3_mrc_scale2: str = StringField()
     https_mrc_scale0: str = StringField()
-    https_mrc_scale1: str = StringField()
-    https_mrc_scale2: str = StringField()
     scale0_dimensions: str = StringField()
     scale1_dimensions: str = StringField()
     scale2_dimensions: str = StringField()
     ctf_corrected: int = BooleanField()
     voxel_spacing: float = FloatField()
+    offset_x: int = IntField()
+    offset_y: int = IntField()
+    offset_z: int = IntField()
+    affine_transformation_matrix: str = StringField()
+    key_photo_url: str = StringField()
+    key_photo_thumbnail_url: str = StringField()
+    neuroglancer_config: str = StringField()
+    authors: Iterable["TomogramAuthor"] = ListRelationship(
+        "TomogramAuthor",
+        "id",
+        "tomogram_id",
+    )
 
     def download_omezarr(self, dest_path: Optional[str] = None):
         """Download the omezarr version of this tomogram
@@ -319,23 +340,57 @@ class Tomogram(Model):
         recursive_prefix = "/".join(self.s3_omezarr_dir.split("/")[:-1]) + "/"
         download_directory(self.s3_omezarr_dir, recursive_prefix, dest_path)
 
-    def download_mrcfile(
-        self,
-        dest_path: Optional[str] = None,
-        binning: Optional[int] = None,
-    ):
-        """Download an MRC file with a given binning factor
+    def download_mrcfile(self, dest_path: Optional[str] = None):
+        """Download an MRC file of this tomogram
 
         Args:
             dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
-            binning (Optional[int], optional): _description_. Downscaling factor for the MRC file to download, either 1, 2, or 4. Defaults to 1 (full size)
         """
         url = self.https_mrc_scale0
-        if binning == 2:
-            url = self.https_mrc_scale1
-        if binning == 4:
-            url = self.https_mrc_scale2
         download_https(url, dest_path)
+
+    def download_all_annotations(self, dest_path: Optional[str] = None):
+        """Download all annotations  of this tomogram
+
+        Args:
+            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+        """
+        pass
+
+
+class TomogramAuthor(Model):
+    """Metadata for a tomogram's authors
+
+    Attributes:
+        id (int): Numeric identifier for this tomogram's author (this may change!)
+        affiliation_address (str): Address of the institution an author is affiliated with.
+        affiliation_identifier (str): A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+        affiliation_name (str): Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
+        author_list_order (int): The order in which the author appears in the publication
+        tomogram (Tomogram): An object relationship with the Tomogram this author is a part of
+        tomogram_id (int): Reference to the tomogram this author contributed to
+        corresponding_author_status (bool): Indicating whether an author is the corresponding author
+        email (str): Email address for this author
+        name (str): Full name of an author (e.g. Jane Doe).
+        orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
+        primary_author_status (bool): Indicating whether an annotator is the main person executing the annotation, especially on manual annotation
+    """
+
+    _gql_type = "tomogram_authors"
+
+    tomogram: Tomogram = ItemRelationship(Tomogram, "tomogram_id", "id")
+
+    id: int = IntField()
+    tomogram_id: int = IntField()
+    name: str = StringField()
+    orcid: str = StringField()
+    corresponding_author_status: int = BooleanField()
+    primary_author_status: int = BooleanField()
+    email: str = StringField()
+    affiliation_name: str = StringField()
+    affiliation_address: str = StringField()
+    affiliation_identifier: str = StringField()
+    author_list_order: int = IntField()
 
 
 class Annotation(Model):
@@ -593,6 +648,7 @@ DatasetAuthor.setup()
 DatasetFunding.setup()
 Run.setup()
 Tomogram.setup()
+TomogramAuthor.setup()
 Annotation.setup()
 AnnotationAuthor.setup()
 TiltSeries.setup()
