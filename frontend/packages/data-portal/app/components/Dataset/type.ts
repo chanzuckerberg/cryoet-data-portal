@@ -1,6 +1,7 @@
-import { Dataset_Authors, Datasets } from 'app/__generated__/graphql'
-import { RecursivePartial } from 'app/utils/RecursivePartial'
+import { DeepPartial } from 'utility-types'
 
-export type DatasetType = RecursivePartial<Datasets> & {
-  authors_with_affiliation?: RecursivePartial<Dataset_Authors>[]
+import { Dataset_Authors, Datasets } from 'app/__generated__/graphql'
+
+export type DatasetType = DeepPartial<Datasets> & {
+  authors_with_affiliation?: DeepPartial<Dataset_Authors>[]
 }

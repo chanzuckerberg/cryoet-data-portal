@@ -25,10 +25,8 @@ rules:
 
   selector-max-compound-selectors: null
   selector-no-qualifying-type: null
-  'scss/function-no-unknown':
+
+  function-no-unknown:
     - true
     - ignoreFunctions:
-        - calculate-rem
-        - strip
         - theme
-        - viewport-clamp

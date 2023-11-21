@@ -35,5 +35,30 @@ module.exports = {
         }
       },
     },
+
+    'prefer-lodash-es': {
+      meta: {
+        fixable: 'code',
+      },
+
+      create(context) {
+        return {
+          ImportDeclaration(node) {
+            const value = node.source.value || ''
+
+            if (typeof value === 'string' && value === 'lodash') {
+              context.report({
+                node,
+                message: "Don't use lodash, prefer lodash-es.",
+
+                fix(fixer) {
+                  return fixer.replaceText(node.source, "'lodash-es'")
+                },
+              })
+            }
+          },
+        }
+      },
+    },
   },
 }

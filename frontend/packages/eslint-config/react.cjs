@@ -3,8 +3,6 @@ module.exports = {
   plugins: ['cryoet-data-portal'],
 
   rules: {
-    'cryoet-data-portal/no-root-mui-import': 'error',
-
     // Prop types aren't necessary since we have TypeScript interfaces for prop
     // types.
     'react/prop-types': 'off',

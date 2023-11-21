@@ -13,6 +13,9 @@ module.exports = {
   plugins: ['simple-import-sort', 'unused-imports'],
 
   rules: {
+    'cryoet-data-portal/no-root-mui-import': 'error',
+    'cryoet-data-portal/prefer-lodash-es': 'error',
+
     // It's helpful to split functionality into multiple functions within a class.
     'class-methods-use-this': 'off',
 

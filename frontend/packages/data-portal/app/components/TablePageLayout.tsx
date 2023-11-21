@@ -10,16 +10,18 @@ import { TableCount } from './Table/TableCount'
 
 export function TablePageLayout({
   drawers,
-  filterPanel,
-  header,
-  totalCount,
   filteredCount,
+  filters: filterPanel,
+  header,
+  noResults,
   table,
+  totalCount,
 }: {
   drawers?: ReactNode
   filteredCount: number
-  filterPanel: ReactNode
+  filters?: ReactNode
   header?: ReactNode
+  noResults?: ReactNode
   table: ReactNode
   totalCount: number
 }) {
@@ -38,7 +40,16 @@ export function TablePageLayout({
       {header}
 
       <div className="flex flex-auto">
-        {filterPanel}
+        {filterPanel && (
+          <div
+            className={cns(
+              'flex flex-col flex-shrink-0 w-[235px]',
+              'border-t border-r border-sds-gray-300',
+            )}
+          >
+            {filterPanel}
+          </div>
+        )}
 
         <div
           className={cns(
@@ -62,6 +73,8 @@ export function TablePageLayout({
             />
 
             {table}
+
+            {filteredCount === 0 && noResults}
 
             <div className="w-full flex justify-center">
               <Pagination

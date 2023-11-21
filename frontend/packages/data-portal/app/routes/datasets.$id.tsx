@@ -7,7 +7,6 @@ import { apolloClient } from 'app/apollo.server'
 import { DatasetMetadataDrawer } from 'app/components/Dataset'
 import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
 import { RunsTable } from 'app/components/Dataset/RunsTable'
-import { FilterPanel } from 'app/components/FilterPanel'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useDatasetById } from 'app/hooks/useDatasetById'
@@ -137,7 +136,6 @@ export default function DatasetByIdPage() {
       drawers={<DatasetMetadataDrawer />}
       // TODO add filter count when filters are added
       filteredCount={dataset.runs_aggregate.aggregate?.count ?? 0}
-      filterPanel={<FilterPanel />}
       header={<DatasetHeader />}
       table={<RunsTable />}
       totalCount={dataset.runs_aggregate.aggregate?.count ?? 0}

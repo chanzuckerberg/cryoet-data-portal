@@ -5,7 +5,6 @@ import { sum } from 'lodash-es'
 
 import { gql } from 'app/__generated__'
 import { apolloClient } from 'app/apollo.server'
-import { FilterPanel } from 'app/components/FilterPanel'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
 import { AnnotationTable } from 'app/components/Run/AnnotationTable'
@@ -218,7 +217,6 @@ export default function RunByIdPage() {
         </>
       }
       filteredCount={totalCount}
-      filterPanel={<FilterPanel />}
       header={<RunHeader />}
       table={<AnnotationTable />}
       totalCount={totalCount}
