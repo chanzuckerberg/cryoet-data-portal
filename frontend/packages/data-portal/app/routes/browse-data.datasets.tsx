@@ -77,7 +77,7 @@ const GET_DATASETS_DATA_QUERY = gql(`
       reconstruction_method
     }
 
-    reconstruction_softwares:tomograms(distinct_on: reconstruction_software) {
+    reconstruction_softwares: tomograms(distinct_on: reconstruction_software) {
       reconstruction_software
     }
 
@@ -85,8 +85,10 @@ const GET_DATASETS_DATA_QUERY = gql(`
       object_name
     }
 
-    object_shape_types: annotations(distinct_on: shape_type) {
-      shape_type
+    object_shape_types: annotations {
+      files(distinct_on: shape_type) {
+        shape_type
+      }
     }
   }
 `)

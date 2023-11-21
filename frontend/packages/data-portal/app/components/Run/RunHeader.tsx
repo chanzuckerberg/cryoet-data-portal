@@ -94,7 +94,7 @@ export function RunHeader() {
               {
                 label: i18n.tiltQuality,
                 values:
-                  typeof tiltSeries.tilt_series_quality === 'number'
+                  typeof tiltSeries?.tilt_series_quality === 'number'
                     ? [String(tiltSeries.tilt_series_quality)]
                     : [],
                 renderValue: (value) => (
@@ -104,8 +104,8 @@ export function RunHeader() {
               {
                 label: i18n.tiltRange,
                 values:
-                  typeof tiltSeries.tilt_min === 'number' &&
-                  typeof tiltSeries.tilt_max === 'number'
+                  typeof tiltSeries?.tilt_min === 'number' &&
+                  typeof tiltSeries?.tilt_max === 'number'
                     ? [
                         i18n.valueToValue(
                           i18n.unitDegree(tiltSeries.tilt_min),
@@ -116,7 +116,7 @@ export function RunHeader() {
               },
               {
                 label: i18n.tiltScheme,
-                values: tiltSeries.tilting_scheme
+                values: tiltSeries?.tilting_scheme
                   ? [tiltSeries.tilting_scheme]
                   : [],
               },

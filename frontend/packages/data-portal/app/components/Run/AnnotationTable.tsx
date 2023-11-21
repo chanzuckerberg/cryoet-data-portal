@@ -20,7 +20,13 @@ import { Table, TableCell } from '../Table'
 type Annotation =
   GetRunByIdQuery['runs'][number]['annotation_table'][number]['annotations'][number]
 
-const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map(() => ({}) as Annotation)
+type AnnotationFile = Annotation['files'][number]
+
+type AnnotationRowData = Annotation & AnnotationFile
+
+const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map(
+  () => ({}) as AnnotationRowData,
+)
 
 function ConfidenceValue({ value }: { value: number }) {
   return (
@@ -50,9 +56,9 @@ export function AnnotationTable() {
   )
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<Annotation>()
+    const columnHelper = createColumnHelper<AnnotationRowData>()
 
-    function getConfidenceCell(key: keyof Annotation, header: string) {
+    function getConfidenceCell(key: keyof AnnotationRowData, header: string) {
       return columnHelper.accessor(key, {
         header: () => <CellHeader horizontalAlign="right">{header}</CellHeader>,
         cell: ({ getValue }) => {
@@ -74,7 +80,7 @@ export function AnnotationTable() {
     }
 
     return [
-      columnHelper.accessor('s3_annotations_path', {
+      columnHelper.accessor('s3_path', {
         header: i18n.annotations,
         cell: ({ row: { original: annotation } }) => (
           <TableCell
@@ -166,11 +172,19 @@ export function AnnotationTable() {
           </TableCell>
         ),
       }),
-    ] as ColumnDef<Annotation>[]
+    ] as ColumnDef<AnnotationRowData>[]
   }, [openAnnotationDrawer])
 
   const annotations = useMemo(
-    () => run.annotation_table.flatMap((data) => data.annotations),
+    () =>
+      run.annotation_table.flatMap((data) =>
+        data.annotations.flatMap((annotation) =>
+          annotation.files.map((file) => ({
+            ...annotation,
+            ...file,
+          })),
+        ),
+      ) as AnnotationRowData[],
     [run.annotation_table],
   )
 

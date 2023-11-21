@@ -113,8 +113,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
           object_name
           object_state
           release_date
-          s3_annotations_path
-          shape_type
+
+          files {
+            s3_path
+            shape_type
+          }
 
           authors(order_by: { primary_annotator_status: desc }) {
             name
