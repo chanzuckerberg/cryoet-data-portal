@@ -2,6 +2,7 @@ import { Button } from '@czi-sds/components'
 import { styled } from '@mui/material/styles'
 
 import { i18n } from 'app/i18n'
+import { theme } from 'app/theme'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
 function MetricField({ title, count }: { title: string; count: number }) {
@@ -25,12 +26,12 @@ function MetricField({ title, count }: { title: string; count: number }) {
 }
 
 const CTAButton = styled(Button)({
-  'background-color': '#eaeaea',
-  color: '#000',
+  'background-color': theme.palette.grey[200],
+  color: theme.palette.common.black,
   filter: 'drop-shadow(0 0 7px rgba(0, 0, 0, 0.5))',
   '&:hover': {
-    color: '#000',
-    'background-color': '#fff',
+    color: theme.palette.common.black,
+    'background-color': theme.palette.common.white,
   },
 })
 

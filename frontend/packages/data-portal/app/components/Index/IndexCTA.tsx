@@ -45,7 +45,7 @@ export function IndexCTA() {
           buttonText="Browse Data"
           url="/browse-data/datasets"
         />
-        <div className="bg-sds-gray-200 w-[2px] row-span-2" />
+        <div className="bg-sds-gray-200 w-sds-xxxs row-span-2" />
         <CTA
           title="Contribute your Data"
           text="We encourage you to share datasets and/or annotations to existing data. Click below to fill out the inquiry form."

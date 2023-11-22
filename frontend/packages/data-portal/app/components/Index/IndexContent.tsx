@@ -1,6 +1,7 @@
 import { Link } from 'app/components/Link'
 import { CZ_URL, CZII_URL, EMPIAR_URL } from 'app/constants/external-links'
 
+import { IndexContributors } from './IndexContributors'
 import { IndexCTA } from './IndexCTA'
 
 export function IndexContent() {
@@ -63,6 +64,17 @@ export function IndexContent() {
           </div>
         </div>
         <IndexCTA />
+        <IndexContributors />
+        <div className="flex flex-col gap-sds-m">
+          <div className="flex-initial h-sds-xxxs bg-sds-gray-200" />
+          <p className="text-sds-body-xxxs leading-sds-body-xxxs text-sds-gray-600">
+            Top Image: The inner workings of an algal cell as depicted with
+            cryo-electron tomography, which aggregates multiple snapshots of a
+            single piece of material. Visible are the Golgi apparatus (green and
+            magenta), and vesicles (multi-colored circles). | Photo credit: Y.
+            S. Bykkov et al./eLIFE (CC BY 4.0)
+          </p>
+        </div>
       </div>
     </div>
   )
