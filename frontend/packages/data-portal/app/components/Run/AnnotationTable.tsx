@@ -5,28 +5,18 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
 import { useCallback, useMemo } from 'react'
 
-import { GetRunByIdQuery } from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
-import { useAnnotation } from 'app/state/annotation'
+import { Annotation, useAnnotation } from 'app/state/annotation'
 import { useDrawer } from 'app/state/drawer'
 import { getAnnotationTitle } from 'app/utils/annotation'
 import { cnsNoMerge } from 'app/utils/cns'
 
 import { Table, TableCell } from '../Table'
 
-type Annotation =
-  GetRunByIdQuery['runs'][number]['annotation_table'][number]['annotations'][number]
-
-type AnnotationFile = Annotation['files'][number]
-
-type AnnotationRowData = Annotation & AnnotationFile
-
-const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map(
-  () => ({}) as AnnotationRowData,
-)
+const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map(() => ({}) as Annotation)
 
 function ConfidenceValue({ value }: { value: number }) {
   return (
@@ -56,9 +46,9 @@ export function AnnotationTable() {
   )
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<AnnotationRowData>()
+    const columnHelper = createColumnHelper<Annotation>()
 
-    function getConfidenceCell(key: keyof AnnotationRowData, header: string) {
+    function getConfidenceCell(key: keyof Annotation, header: string) {
       return columnHelper.accessor(key, {
         header: () => <CellHeader horizontalAlign="right">{header}</CellHeader>,
         cell: ({ getValue }) => {
@@ -172,7 +162,7 @@ export function AnnotationTable() {
           </TableCell>
         ),
       }),
-    ] as ColumnDef<AnnotationRowData>[]
+    ] as ColumnDef<Annotation>[]
   }, [openAnnotationDrawer])
 
   const annotations = useMemo(
@@ -184,7 +174,7 @@ export function AnnotationTable() {
             ...file,
           })),
         ),
-      ) as AnnotationRowData[],
+      ) as Annotation[],
     [run.annotation_table],
   )
 
