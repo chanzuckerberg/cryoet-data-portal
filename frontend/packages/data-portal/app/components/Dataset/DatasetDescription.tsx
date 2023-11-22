@@ -2,7 +2,7 @@ import { Button } from '@czi-sds/components'
 import { useState } from 'react'
 
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
-import { DOI_ID } from 'app/constants/external-dbs'
+import { DOI_ID } from 'app/constants/external-links'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
 import { cns, cnsNoMerge } from 'app/utils/cns'

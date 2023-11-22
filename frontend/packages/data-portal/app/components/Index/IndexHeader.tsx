@@ -45,7 +45,7 @@ export function IndexHeader() {
         'bg-img-landing-header',
         // layout
         'w-full h-[325px]',
-        'py-sds-xxl',
+        'py-sds-xxl px-sds-xl',
         'flex flex-col items-center justify-center',
         // background'
         'bg-gradient-img-to-b bg-cover bg-top',

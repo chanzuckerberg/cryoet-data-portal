@@ -4,7 +4,7 @@ import {
   LABEL_MAP,
   REGEX_MAP,
   URL_MAP,
-} from 'app/constants/external-dbs'
+} from 'app/constants/external-links'
 import { TableDataValue } from 'app/types/table'
 import { cns } from 'app/utils/cns'
 

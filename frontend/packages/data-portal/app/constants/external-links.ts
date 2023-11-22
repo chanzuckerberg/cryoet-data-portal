@@ -1,3 +1,6 @@
+export const CZII_URL = 'https://www.czimaginginstitute.org/'
+export const CZ_URL = 'https://chanzuckerberg.com/'
+
 export const EMPIAR_ID = /EMPIAR-([\d]+)/
 export const EMDB_ID = /EMD-([\d]+)/
 export const DOI_ID = /(10\..+\/.+)/
