@@ -5,20 +5,16 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
 import { useCallback, useMemo } from 'react'
 
-import { GetRunByIdQuery } from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
-import { useAnnotation } from 'app/state/annotation'
+import { Annotation, useAnnotation } from 'app/state/annotation'
 import { useDrawer } from 'app/state/drawer'
 import { getAnnotationTitle } from 'app/utils/annotation'
 import { cnsNoMerge } from 'app/utils/cns'
 
 import { Table, TableCell } from '../Table'
-
-type Annotation =
-  GetRunByIdQuery['runs'][number]['annotation_table'][number]['annotations'][number]
 
 const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map(() => ({}) as Annotation)
 
@@ -74,7 +70,7 @@ export function AnnotationTable() {
     }
 
     return [
-      columnHelper.accessor('s3_annotations_path', {
+      columnHelper.accessor('s3_path', {
         header: i18n.annotations,
         cell: ({ row: { original: annotation } }) => (
           <TableCell
@@ -170,7 +166,15 @@ export function AnnotationTable() {
   }, [openAnnotationDrawer])
 
   const annotations = useMemo(
-    () => run.annotation_table.flatMap((data) => data.annotations),
+    () =>
+      run.annotation_table.flatMap((data) =>
+        data.annotations.flatMap((annotation) =>
+          annotation.files.map((file) => ({
+            ...annotation,
+            ...file,
+          })),
+        ),
+      ) as Annotation[],
     [run.annotation_table],
   )
 

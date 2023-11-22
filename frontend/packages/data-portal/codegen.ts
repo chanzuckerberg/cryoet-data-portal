@@ -2,7 +2,7 @@ import { CodegenConfig } from '@graphql-codegen/cli'
 
 const SCHEMA_URL =
   process.env.API_URL ||
-  'https://graphql.cryoetdataportal.cziscience.com/v1/graphql'
+  'https://graphql-cryoet-api.cryoet.staging.si.czi.technology/v1/graphql'
 
 const config: CodegenConfig = {
   schema: SCHEMA_URL,

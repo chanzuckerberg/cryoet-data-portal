@@ -77,7 +77,7 @@ const GET_DATASETS_DATA_QUERY = gql(`
       reconstruction_method
     }
 
-    reconstruction_softwares:tomograms(distinct_on: reconstruction_software) {
+    reconstruction_softwares: tomograms(distinct_on: reconstruction_software) {
       reconstruction_software
     }
 
@@ -85,8 +85,10 @@ const GET_DATASETS_DATA_QUERY = gql(`
       object_name
     }
 
-    object_shape_types: annotations(distinct_on: shape_type) {
-      shape_type
+    object_shape_types: annotations {
+      files(distinct_on: shape_type) {
+        shape_type
+      }
     }
   }
 `)
@@ -234,7 +236,7 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
 
   // Object shape type filter
   if (objectShapeTypes.length > 0) {
-    filter.runs.tomogram_voxel_spacings.annotations.shape_type._in =
+    filter.runs.tomogram_voxel_spacings.annotations.files.shape_type._in =
       objectShapeTypes
   }
 
