@@ -21,7 +21,7 @@ Electron Tomography workflow and the data we provide.
 
 **C.** A 3D tomographic reconstructed volume is produced by back projecting projections which are first corrected in a variety of ways (motion correction, CTF estimation, etc.)
 
-**D.** We provide the 3D volume together with point annotations of (at least one) macromolecular complex for each volume
+**D.** We provide the 3D volume together with any available point annotations or semantic segmentations of macromolecular complexes for each volume
 
 Here is a summary of the datasets that have been provided. A full description can be found below under [Data and schema](https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#?usp=sharing). The data can be downloaded through a [Python API](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
 
