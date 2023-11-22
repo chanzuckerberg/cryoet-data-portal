@@ -236,7 +236,7 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
 
   // Object shape type filter
   if (objectShapeTypes.length > 0) {
-    filter.runs.tomogram_voxel_spacings.annotations.shape_type._in =
+    filter.runs.tomogram_voxel_spacings.annotations.files.shape_type._in =
       objectShapeTypes
   }
 
