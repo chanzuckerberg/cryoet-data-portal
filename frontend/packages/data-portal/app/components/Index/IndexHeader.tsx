@@ -1,6 +1,8 @@
 import { Button } from '@czi-sds/components'
 import { styled } from '@mui/material/styles'
+import { useTypedLoaderData } from 'remix-typedjson'
 
+import { LandingPageDataQuery } from 'app/__generated__/graphql'
 import { i18n } from 'app/i18n'
 import { theme } from 'app/theme'
 import { cns, cnsNoMerge } from 'app/utils/cns'
@@ -40,6 +42,12 @@ const DIVIDER = (
 )
 
 export function IndexHeader() {
+  const data = useTypedLoaderData<LandingPageDataQuery>()
+
+  const datasets = data.datasets_aggregate.aggregate?.count
+  const species = data.species_aggregate.aggregate?.count
+  const tomograms = data.tomograms_aggregate.aggregate?.count
+
   return (
     <div
       className={cnsNoMerge(
@@ -62,11 +70,11 @@ export function IndexHeader() {
             Open access to annotated cryoET tomograms
           </h1>
           <div className="flex flex-row justify-center w-full">
-            <MetricField title={i18n.datasets} count={53} />
+            <MetricField title={i18n.datasets} count={datasets} />
             {DIVIDER}
-            <MetricField title={i18n.species} count={9} />
+            <MetricField title={i18n.species} count={species} />
             {DIVIDER}
-            <MetricField title={i18n.tomograms} count={13861} />
+            <MetricField title={i18n.tomograms} count={tomograms} />
           </div>
           <CTAButton sdsType="primary" sdsStyle="rounded">
             {i18n.browseData}
