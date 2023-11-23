@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { LandingPageDataQuery } from 'app/__generated__/graphql'
+import { Link } from 'app/components/Link'
 import { i18n } from 'app/i18n'
 import { theme } from 'app/theme'
 import { cns, cnsNoMerge } from 'app/utils/cns'
@@ -76,13 +77,17 @@ export function IndexHeader() {
             {DIVIDER}
             <MetricField title={i18n.tomograms} count={tomograms ?? 0} />
           </div>
-          <CTAButton sdsType="primary" sdsStyle="rounded">
-            {i18n.browseData}
-          </CTAButton>
+          <Link to="/browse-data/datasets">
+            <CTAButton sdsType="primary" sdsStyle="rounded">
+              {i18n.browseData}
+            </CTAButton>
+          </Link>
         </div>
-        <p className="underline underline-offset-1 decoration-1 text-sds-body-xxs leading-none drop-shadow-landing-header">
-          {i18n.orExploreViaApi}
-        </p>
+        <Link to="https://chanzuckerberg.github.io/cryoet-data-portal/">
+          <p className="underline underline-offset-1 decoration-1 text-sds-body-xxs leading-none drop-shadow-landing-header">
+            {i18n.orExploreViaApi}
+          </p>
+        </Link>
       </div>
     </div>
   )
