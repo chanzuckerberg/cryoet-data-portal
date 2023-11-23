@@ -1,6 +1,7 @@
 import { Button } from '@czi-sds/components'
 
 import { Link } from 'app/components/Link'
+import { i18n } from 'app/i18n'
 
 function CTA({
   title,
@@ -40,16 +41,16 @@ export function IndexCTA() {
       </h3>
       <div className="w-full grid grid-cols-[1fr_auto_1fr] grid-rows-[1fr_auto] grid-flow-col gap-y-sds-xl gap-x-sds-xxl">
         <CTA
-          title="View and Download Datasets"
-          text="Find and visualize cryoET datasets in the portal and download to use for your own work."
-          buttonText="Browse Data"
+          title={i18n.viewAndDownloadDatasets}
+          text={i18n.viewDatasetsCta}
+          buttonText={i18n.browseData}
           url="/browse-data/datasets"
         />
         <div className="bg-sds-gray-200 w-sds-xxxs row-span-2" />
         <CTA
-          title="Contribute your Data"
-          text="We encourage you to share datasets and/or annotations to existing data. Click below to fill out the inquiry form."
-          buttonText="Tell us More"
+          title={i18n.contributeYourData}
+          text={i18n.contributeCta}
+          buttonText={i18n.tellUsMore}
           // TODO: fill this out when form page created
           url="/"
         />

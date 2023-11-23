@@ -46,6 +46,9 @@ export const i18n = {
   citations: 'Citations',
   clearFilters: 'Clear Filters',
   confidence: 'confidence',
+  contributeCta:
+    'We encourage you to share datasets and/or annotations to existing data. Click below to fill out the inquiry form.',
+  contributeYourData: 'Contribute your Data',
   cookiePolicy: 'Cookie Policy',
   ctfCorrected: 'Ctf Corrected',
   curatorRecommended: 'Curator Recommended',
@@ -94,6 +97,7 @@ export const i18n = {
   imageCorrector: 'Image Corrector',
   includedContents: 'Included Contents',
   keyPhoto: 'key photo',
+  landingHeaderTitle: 'Open access to annotated cryoET tomograms',
   lastModified: (date: string) => `Last Modified: ${date}`,
   lastModifiedBlank: 'Last Modified',
   license: 'License',
@@ -118,6 +122,7 @@ export const i18n = {
   objectName: 'Object Name',
   objectShapeType: 'Object Shape Type',
   objectState: 'Object State',
+  orExploreViaApi: 'or explore via API',
   organism: 'Organism',
   organismName: 'Organism Name',
   otherSetup: 'Other Setup',
@@ -158,6 +163,7 @@ export const i18n = {
   species: 'Species',
   sphericalAberrationConstant: 'Spherical Aberration Constant',
   submitFeedback: 'Submit Feedback',
+  tellUsMore: 'Tell us More',
   terms: 'Terms',
   termsOfUse: 'Terms of Use',
   tiltAxis: 'Tilt Axis',
@@ -188,5 +194,8 @@ export const i18n = {
   unitVolts: (x: number) => `${x} V`,
   valueToValue: (x: string, y: string) => `${x} to ${y}`,
   veryPoor: 'Very Poor',
+  viewAndDownloadDatasets: 'View and Download Datasets',
+  viewDatasetsCta:
+    'Find and visualize cryoET datasets in the portal and download to use for your own work.',
   yes: 'Yes',
 }

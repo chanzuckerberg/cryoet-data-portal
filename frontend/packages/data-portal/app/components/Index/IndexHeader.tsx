@@ -67,21 +67,21 @@ export function IndexHeader() {
       <div className="flex flex-col items-center gap-sds-m text-white">
         <div className="flex flex-col gap-sds-xl items-center">
           <h1 className="text-[32px] leading-[34px] font-sds-semibold font-semibold drop-shadow-landing-header">
-            Open access to annotated cryoET tomograms
+            {i18n.landingHeaderTitle}
           </h1>
           <div className="flex flex-row justify-center w-full">
-            <MetricField title={i18n.datasets} count={datasets} />
+            <MetricField title={i18n.datasets} count={datasets ?? 0} />
             {DIVIDER}
-            <MetricField title={i18n.species} count={species} />
+            <MetricField title={i18n.species} count={species ?? 0} />
             {DIVIDER}
-            <MetricField title={i18n.tomograms} count={tomograms} />
+            <MetricField title={i18n.tomograms} count={tomograms ?? 0} />
           </div>
           <CTAButton sdsType="primary" sdsStyle="rounded">
             {i18n.browseData}
           </CTAButton>
         </div>
         <p className="underline underline-offset-1 decoration-1 text-sds-body-xxs leading-none drop-shadow-landing-header">
-          or explore via API
+          {i18n.orExploreViaApi}
         </p>
       </div>
     </div>
