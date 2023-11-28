@@ -7,6 +7,7 @@ import { apolloClient } from 'app/apollo.server'
 import { DatasetMetadataDrawer } from 'app/components/Dataset'
 import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
 import { RunsTable } from 'app/components/Dataset/RunsTable'
+import { DownloadModal } from 'app/components/Download'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useDatasetById } from 'app/hooks/useDatasetById'
@@ -14,6 +15,8 @@ import { useDatasetById } from 'app/hooks/useDatasetById'
 const GET_DATASET_BY_ID = gql(`
   query GetDatasetById($id: Int, $run_limit: Int, $run_offset: Int) {
     datasets(where: { id: { _eq: $id } }) {
+      s3_prefix
+
       # Dataset dates
       last_modified_date
       release_date
@@ -133,6 +136,13 @@ export default function DatasetByIdPage() {
 
   return (
     <TablePageLayout
+      downloadModal={
+        <DownloadModal
+          datasetId={dataset.id}
+          s3DatasetPrefix={dataset.s3_prefix}
+          type="dataset"
+        />
+      }
       drawers={<DatasetMetadataDrawer />}
       // TODO add filter count when filters are added
       filteredCount={dataset.runs_aggregate.aggregate?.count ?? 0}
