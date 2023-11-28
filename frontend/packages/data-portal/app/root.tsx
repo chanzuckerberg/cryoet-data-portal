@@ -84,7 +84,7 @@ const Document = withEmotionCache(
     const { i18n } = useTranslation()
 
     return (
-      <html lang={locale} dir={i18n.dir()}>
+      <html lang={locale} dir={i18n?.dir?.()}>
         <head>
           {title ? <title>{title}</title> : null}
 
