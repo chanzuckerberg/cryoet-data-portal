@@ -3,6 +3,7 @@ export enum QueryParams {
   AuthorOrcid = 'author_orcid',
   AvailableFiles = 'files',
   CameraManufacturer = 'camera_manufacturer',
+  Download = 'download',
   EmdbId = 'emdb_id',
   EmpiarId = 'empiar_id',
   FiducialAlignmentStatus = 'fiducial_alignment',
