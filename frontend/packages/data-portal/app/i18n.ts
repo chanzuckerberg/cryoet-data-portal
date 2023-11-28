@@ -2,6 +2,10 @@
  * Temporary solution for organizing strings in the codebase until a blocking
  * issue in `remix-i18next` is resolved:
  * https://github.com/sergiodxa/remix-i18next/issues/143
+ *
+ * TODO Remove when rest of application is refactored to use i18next.
+ *
+ * @deprecated Use i18next and translations in `public/locales/<lang>/translation.json` instead.
  */
 export const i18n = {
   about: 'About',

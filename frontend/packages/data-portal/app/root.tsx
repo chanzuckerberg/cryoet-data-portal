@@ -2,7 +2,7 @@ import { withEmotionCache } from '@emotion/react'
 // eslint-disable-next-line cryoet-data-portal/no-root-mui-import
 import { unstable_useEnhancedEffect as useEnhancedEffect } from '@mui/material'
 import { cssBundleHref } from '@remix-run/css-bundle'
-import { LinksFunction } from '@remix-run/node'
+import { LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
 import {
   Links,
   Meta,
@@ -12,6 +12,8 @@ import {
 } from '@remix-run/react'
 import { defaults } from 'lodash-es'
 import { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useChangeLanguage } from 'remix-i18next'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
 import { Layout } from './components/Layout'
@@ -21,6 +23,7 @@ import {
   ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
   EnvironmentContext,
 } from './context/Environment.context'
+import { i18next } from './i18next.server'
 import { useCloseDrawerOnUnmount } from './state/drawer'
 import tailwindStyles from './tailwind.css'
 import { theme } from './theme'
@@ -30,8 +33,11 @@ interface DocumentProps {
   title?: string
 }
 
-export function loader() {
+export async function loader({ request }: LoaderFunctionArgs) {
+  const locale = await i18next.getLocale(request)
+
   return typedjson({
+    locale,
     ENV: defaults(
       {
         API_URL: process.env.API_URL,
@@ -45,7 +51,13 @@ export function loader() {
 const Document = withEmotionCache(
   ({ children, title }: DocumentProps, emotionCache) => {
     const clientStyleData = useContext(ClientStyleContext)
-    const { ENV } = useTypedLoaderData<typeof loader>()
+    const { ENV, locale } = useTypedLoaderData<typeof loader>()
+
+    // This hook will change the i18n instance language to the current locale
+    // detected by the loader, this way, when we do something to change the
+    // language, this locale will change and i18next will load the correct
+    // translation files
+    useChangeLanguage(locale)
 
     // Only executed on client
     useEnhancedEffect(() => {
@@ -69,8 +81,10 @@ const Document = withEmotionCache(
       clientStyleData.reset()
     }, [])
 
+    const { i18n } = useTranslation()
+
     return (
-      <html lang="en">
+      <html lang={locale} dir={i18n.dir()}>
         <head>
           {title ? <title>{title}</title> : null}
 
