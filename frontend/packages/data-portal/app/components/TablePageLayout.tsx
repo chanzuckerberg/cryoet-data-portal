@@ -10,6 +10,7 @@ import { cns } from 'app/utils/cns'
 import { TableCount } from './Table/TableCount'
 
 export function TablePageLayout({
+  downloadModal,
   drawers,
   filteredCount,
   filters: filterPanel,
@@ -18,6 +19,7 @@ export function TablePageLayout({
   table,
   totalCount,
 }: {
+  downloadModal?: ReactNode
   drawers?: ReactNode
   filteredCount: number
   filters?: ReactNode
@@ -45,6 +47,8 @@ export function TablePageLayout({
 
   return (
     <LayoutContext.Provider value={contextValue}>
+      {downloadModal}
+
       <div className="flex flex-col flex-auto">
         {header}
 
