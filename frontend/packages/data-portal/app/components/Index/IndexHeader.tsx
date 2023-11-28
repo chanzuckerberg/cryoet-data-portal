@@ -21,8 +21,7 @@ function MetricField({ title, count }: { title: string; count: number }) {
         {title}
       </p>
       <p className="text-sds-header-l leading-sds-header-l drop-shadow-landing-header">
-        {/* https://stackoverflow.com/a/27761572 */}
-        {count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+        {count.toLocaleString()}
       </p>
     </div>
   )
