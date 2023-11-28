@@ -1,4 +1,4 @@
-export enum DatasetFilterQueryParams {
+export enum QueryParams {
   AuthorName = 'author',
   AuthorOrcid = 'author_orcid',
   AvailableFiles = 'files',

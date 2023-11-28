@@ -3,24 +3,24 @@ import {
   InputFilterData,
   MultiInputFilter,
 } from 'app/components/Filters'
-import { DatasetFilterQueryParams } from 'app/constants/query'
+import { QueryParams } from 'app/constants/query'
 import { i18n } from 'app/i18n'
 
 const DATASET_ID_FILTERS: InputFilterData[] = [
   {
     id: 'portal-id-input',
     label: `${i18n.portalIdBlank}:`,
-    queryParam: DatasetFilterQueryParams.PortalId,
+    queryParam: QueryParams.PortalId,
   },
   {
     id: 'empiar-id-input',
     label: `${i18n.empiarID}:`,
-    queryParam: DatasetFilterQueryParams.EmpiarId,
+    queryParam: QueryParams.EmpiarId,
   },
   {
     id: 'emdb-id-input',
     label: `${i18n.emdb}:`,
-    queryParam: DatasetFilterQueryParams.EmdbId,
+    queryParam: QueryParams.EmdbId,
   },
 ]
 
@@ -28,12 +28,12 @@ const AUTHOR_FILTERS: InputFilterData[] = [
   {
     id: 'author-name-input',
     label: `${i18n.authorName}:`,
-    queryParam: DatasetFilterQueryParams.AuthorName,
+    queryParam: QueryParams.AuthorName,
   },
   {
     id: 'author-orcid-input',
     label: `${i18n.authorOrcid}:`,
-    queryParam: DatasetFilterQueryParams.AuthorOrcid,
+    queryParam: QueryParams.AuthorOrcid,
   },
 ]
 

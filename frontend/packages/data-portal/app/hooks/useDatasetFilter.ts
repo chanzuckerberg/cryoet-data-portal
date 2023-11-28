@@ -2,7 +2,7 @@ import { useSearchParams } from '@remix-run/react'
 import { useMemo } from 'react'
 import { match, P } from 'ts-pattern'
 
-import { DatasetFilterQueryParams } from 'app/constants/query'
+import { QueryParams } from 'app/constants/query'
 import {
   AvailableFilesFilterValue,
   BaseFilterOption,
@@ -13,64 +13,57 @@ export function getDatasetFilter(searchParams: URLSearchParams) {
   return {
     includedContents: {
       isGroundTruthEnabled:
-        searchParams.get(DatasetFilterQueryParams.GroundTruthAnnotation) ===
-        'true',
+        searchParams.get(QueryParams.GroundTruthAnnotation) === 'true',
 
       availableFiles: searchParams.getAll(
-        DatasetFilterQueryParams.AvailableFiles,
+        QueryParams.AvailableFiles,
       ) as AvailableFilesFilterValue[],
 
       numberOfRuns: JSON.parse(
-        searchParams.get(DatasetFilterQueryParams.NumberOfRuns) ?? 'null',
+        searchParams.get(QueryParams.NumberOfRuns) ?? 'null',
       ) as NumberOfRunsFilterValue | null,
     },
 
     ids: {
-      portal: searchParams.get(DatasetFilterQueryParams.PortalId),
-      empiar: searchParams.get(DatasetFilterQueryParams.EmpiarId),
-      emdb: searchParams.get(DatasetFilterQueryParams.EmdbId),
+      portal: searchParams.get(QueryParams.PortalId),
+      empiar: searchParams.get(QueryParams.EmpiarId),
+      emdb: searchParams.get(QueryParams.EmdbId),
     },
 
     author: {
-      name: searchParams.get(DatasetFilterQueryParams.AuthorName),
-      orcid: searchParams.get(DatasetFilterQueryParams.AuthorOrcid),
+      name: searchParams.get(QueryParams.AuthorName),
+      orcid: searchParams.get(QueryParams.AuthorOrcid),
     },
 
     sampleAndExperimentConditions: {
-      organismNames: searchParams.getAll(DatasetFilterQueryParams.Organism),
+      organismNames: searchParams.getAll(QueryParams.Organism),
     },
 
     hardware: {
-      cameraManufacturer: searchParams.get(
-        DatasetFilterQueryParams.CameraManufacturer,
-      ),
+      cameraManufacturer: searchParams.get(QueryParams.CameraManufacturer),
     },
 
     tiltSeries: {
-      min: searchParams.get(DatasetFilterQueryParams.TiltRangeMin) ?? '',
-      max: searchParams.get(DatasetFilterQueryParams.TiltRangeMax) ?? '',
+      min: searchParams.get(QueryParams.TiltRangeMin) ?? '',
+      max: searchParams.get(QueryParams.TiltRangeMax) ?? '',
     },
 
     tomogram: {
       fiducialAlignmentStatus: searchParams.get(
-        DatasetFilterQueryParams.FiducialAlignmentStatus,
+        QueryParams.FiducialAlignmentStatus,
       ),
 
-      reconstructionMethod: searchParams.get(
-        DatasetFilterQueryParams.ReconstructionMethod,
-      ),
+      reconstructionMethod: searchParams.get(QueryParams.ReconstructionMethod),
 
       reconstructionSoftware: searchParams.get(
-        DatasetFilterQueryParams.ReconstructionSoftware,
+        QueryParams.ReconstructionSoftware,
       ),
     },
 
     annotation: {
-      objectNames: searchParams.getAll(DatasetFilterQueryParams.ObjectName),
+      objectNames: searchParams.getAll(QueryParams.ObjectName),
 
-      objectShapeTypes: searchParams.getAll(
-        DatasetFilterQueryParams.ObjectShapeType,
-      ),
+      objectShapeTypes: searchParams.getAll(QueryParams.ObjectShapeType),
     },
   }
 }
@@ -86,16 +79,14 @@ export function useDatasetFilter() {
 
       reset() {
         setSearchParams((prev) => {
-          Object.values(DatasetFilterQueryParams).forEach((param) =>
-            prev.delete(param),
-          )
+          Object.values(QueryParams).forEach((param) => prev.delete(param))
 
           return prev
         })
       },
 
       updateValue(
-        param: DatasetFilterQueryParams,
+        param: QueryParams,
         value?:
           | string
           | null

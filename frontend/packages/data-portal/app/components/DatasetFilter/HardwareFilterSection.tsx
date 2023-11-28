@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { FilterSection, SelectFilter } from 'app/components/Filters'
-import { DatasetFilterQueryParams } from 'app/constants/query'
+import { QueryParams } from 'app/constants/query'
 import { useDatasetFilter } from 'app/hooks/useDatasetFilter'
 import { useDatasets } from 'app/hooks/useDatasets'
 import { i18n } from 'app/i18n'
@@ -31,7 +31,7 @@ export function HardwareFilterSection() {
         value={cameraManufacturerValue}
         label={i18n.cameraManufacturer}
         onChange={(option) =>
-          updateValue(DatasetFilterQueryParams.CameraManufacturer, option)
+          updateValue(QueryParams.CameraManufacturer, option)
         }
       />
     </FilterSection>
