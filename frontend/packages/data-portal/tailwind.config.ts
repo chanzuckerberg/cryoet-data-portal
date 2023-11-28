@@ -73,8 +73,7 @@ export default {
       },
 
       backgroundImageSrc: {
-        'landing-header':
-          "url('https://images.unsplash.com/photo-1576086213369-97a306d36557')",
+        'landing-header': "url('/images/index-header.png')",
       },
     },
   },

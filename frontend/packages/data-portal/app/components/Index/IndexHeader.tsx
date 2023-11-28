@@ -57,7 +57,7 @@ export function IndexHeader() {
         'py-sds-xxl px-sds-xl',
         'flex flex-col items-center justify-center',
         // background'
-        'bg-gradient-img-to-b bg-cover bg-top',
+        'bg-gradient-img-to-b bg-auto bg-no-repeat bg-black bg-top',
         // values ripped from figma: `background: linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0.75) 16.69%, rgba(0, 0, 0, 0.3) 88.71%);`
         'from-black',
         'via-[rgba(0,0,0,0.75)] via-[16.69%]',
