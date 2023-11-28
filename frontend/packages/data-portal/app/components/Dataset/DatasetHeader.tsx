@@ -40,7 +40,10 @@ export function DatasetHeader() {
         </div>
 
         <div className="flex-1 w-full max-w-[465px]">
-          <KeyPhoto title={dataset.title} src="https://cataas.com/cat" />
+          <KeyPhoto
+            title={dataset.title}
+            src="https://loremflickr.com/400/400/cat"
+          />
         </div>
       </div>
     </PageHeader>

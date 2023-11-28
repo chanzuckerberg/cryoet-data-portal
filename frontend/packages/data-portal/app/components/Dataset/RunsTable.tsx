@@ -52,7 +52,7 @@ export function RunsTable() {
               <KeyPhoto
                 title={run.name}
                 // TODO use dataset keyphoto
-                src="https://cataas.com/cat"
+                src="https://loremflickr.com/400/400/cat"
                 loading={isLoadingDebounced}
               />
 

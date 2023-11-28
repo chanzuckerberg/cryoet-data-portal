@@ -16,7 +16,7 @@ export function RunHeader() {
   const drawer = useDrawer()
 
   const tiltSeries = run.tiltseries[0]
-  const keyPhotoURL = 'https://cataas.com/cat'
+  const keyPhotoURL = 'https://loremflickr.com/400/400/cat'
 
   return (
     <PageHeader
