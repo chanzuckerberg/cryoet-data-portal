@@ -182,7 +182,6 @@ export function AnnotationTable() {
     <Table
       data={isLoadingDebounced ? LOADING_ANNOTATIONS : annotations}
       columns={columns}
-      withFiltersSidebar
     />
   )
 }

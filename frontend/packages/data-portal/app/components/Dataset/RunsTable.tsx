@@ -122,10 +122,6 @@ export function RunsTable() {
   }, [isLoadingDebounced, location.pathname, location.search])
 
   return (
-    <Table
-      data={isLoadingDebounced ? LOADING_RUNS : runs}
-      columns={columns}
-      withFiltersSidebar
-    />
+    <Table data={isLoadingDebounced ? LOADING_RUNS : runs} columns={columns} />
   )
 }

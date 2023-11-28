@@ -240,7 +240,6 @@ export function DatasetTable() {
     <Table
       data={isLoadingDebounced ? LOADING_DATASETS : datasets}
       columns={columns}
-      withFiltersSidebar
     />
   )
 }
