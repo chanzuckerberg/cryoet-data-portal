@@ -25,6 +25,7 @@ export function I18n({ i18nKey, components, linkProps, ...props }: Props) {
       // Components to use when replacing inline i18n JSX.
       components={{
         bold: <span className="font-bold" />,
+        semibold: <span className="font-semibold" />,
         code: <span className="font-mono" />,
 
         url: (
