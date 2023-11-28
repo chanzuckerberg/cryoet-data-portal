@@ -4,8 +4,14 @@ import { GetRunByIdQuery } from 'app/__generated__/graphql'
 
 export function useRunById() {
   const {
-    runs: [run],
-  } = useTypedLoaderData<GetRunByIdQuery>()
+    data: {
+      runs: [run],
+    },
+    fileSizeMap,
+  } = useTypedLoaderData<{
+    data: GetRunByIdQuery
+    fileSizeMap: Record<string, number>
+  }>()
 
-  return { run }
+  return { run, fileSizeMap }
 }

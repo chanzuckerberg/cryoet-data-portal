@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { FilterSection, SelectFilter } from 'app/components/Filters'
-import { DatasetFilterQueryParams } from 'app/constants/query'
+import { QueryParams } from 'app/constants/query'
 import { useDatasetFilter } from 'app/hooks/useDatasetFilter'
 import { useDatasets } from 'app/hooks/useDatasets'
 import { i18n } from 'app/i18n'
@@ -63,7 +63,7 @@ export function TomogramMetadataFilterSection() {
         value={fiducialAlignmentOption}
         label={i18n.fiducialAlignmentStatus}
         onChange={(option) =>
-          updateValue(DatasetFilterQueryParams.FiducialAlignmentStatus, option)
+          updateValue(QueryParams.FiducialAlignmentStatus, option)
         }
       />
 
@@ -72,7 +72,7 @@ export function TomogramMetadataFilterSection() {
         value={reconstructionMethodValue}
         label={i18n.reconstructionMethod}
         onChange={(option) =>
-          updateValue(DatasetFilterQueryParams.ReconstructionMethod, option)
+          updateValue(QueryParams.ReconstructionMethod, option)
         }
       />
 
@@ -81,7 +81,7 @@ export function TomogramMetadataFilterSection() {
         value={reconstructionSoftwareValue}
         label={i18n.reconstructionSoftware}
         onChange={(option) =>
-          updateValue(DatasetFilterQueryParams.ReconstructionSoftware, option)
+          updateValue(QueryParams.ReconstructionSoftware, option)
         }
       />
     </FilterSection>

@@ -1,8 +1,11 @@
-export enum DatasetFilterQueryParams {
+export enum QueryParams {
   AuthorName = 'author',
   AuthorOrcid = 'author_orcid',
   AvailableFiles = 'files',
   CameraManufacturer = 'camera_manufacturer',
+  DownloadConfig = 'download-config',
+  DownloadStep = 'download-step',
+  DownloadTab = 'download-tab',
   EmdbId = 'emdb_id',
   EmpiarId = 'empiar_id',
   FiducialAlignmentStatus = 'fiducial_alignment',
@@ -16,4 +19,6 @@ export enum DatasetFilterQueryParams {
   ReconstructionSoftware = 'reconstruction_software',
   TiltRangeMax = 'tilt_max',
   TiltRangeMin = 'tilt_min',
+  TomogramProcessing = 'tomogram-processing',
+  TomogramSampling = 'tomogram-sampling',
 }

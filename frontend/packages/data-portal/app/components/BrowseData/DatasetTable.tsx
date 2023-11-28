@@ -89,7 +89,7 @@ export function DatasetTable() {
               <KeyPhoto
                 title={dataset.title}
                 // TODO use dataset keyphoto
-                src="https://cataas.com/cat"
+                src="https://loremflickr.com/400/400/cat"
                 loading={isLoadingDebounced}
               />
 
@@ -240,7 +240,6 @@ export function DatasetTable() {
     <Table
       data={isLoadingDebounced ? LOADING_DATASETS : datasets}
       columns={columns}
-      withFiltersSidebar
     />
   )
 }

@@ -15,6 +15,11 @@ export default {
 
     // Material UI
     /@mui\/.*/,
+
+    // Remix I18next
+    'remix-i18next',
+    'accept-language-parser',
+    'intl-parse-accept-language',
   ],
   serverMinify: true,
 }

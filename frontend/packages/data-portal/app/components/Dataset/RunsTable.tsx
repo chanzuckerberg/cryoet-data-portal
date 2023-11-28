@@ -52,7 +52,7 @@ export function RunsTable() {
               <KeyPhoto
                 title={run.name}
                 // TODO use dataset keyphoto
-                src="https://cataas.com/cat"
+                src="https://loremflickr.com/400/400/cat"
                 loading={isLoadingDebounced}
               />
 
@@ -122,10 +122,6 @@ export function RunsTable() {
   }, [isLoadingDebounced, location.pathname, location.search])
 
   return (
-    <Table
-      data={isLoadingDebounced ? LOADING_RUNS : runs}
-      columns={columns}
-      withFiltersSidebar
-    />
+    <Table data={isLoadingDebounced ? LOADING_RUNS : runs} columns={columns} />
   )
 }

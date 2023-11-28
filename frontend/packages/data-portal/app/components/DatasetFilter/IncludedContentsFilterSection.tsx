@@ -5,7 +5,7 @@ import {
   FilterSection,
   SelectFilter,
 } from 'app/components/Filters'
-import { DatasetFilterQueryParams } from 'app/constants/query'
+import { QueryParams } from 'app/constants/query'
 import { useDatasetFilter } from 'app/hooks/useDatasetFilter'
 import { i18n } from 'app/i18n'
 import {
@@ -60,10 +60,7 @@ export function IncludedContentsFilterSection() {
       <BooleanFilter
         label={i18n.groundTruthAnnotation}
         onChange={(value) =>
-          updateValue(
-            DatasetFilterQueryParams.GroundTruthAnnotation,
-            value ? 'true' : null,
-          )
+          updateValue(QueryParams.GroundTruthAnnotation, value ? 'true' : null)
         }
         value={isGroundTruthEnabled}
       />
@@ -73,9 +70,7 @@ export function IncludedContentsFilterSection() {
         options={AVAILABLE_FILES_OPTIONS}
         value={availableFilesOptions}
         label={i18n.availableFiles}
-        onChange={(options) =>
-          updateValue(DatasetFilterQueryParams.AvailableFiles, options)
-        }
+        onChange={(options) => updateValue(QueryParams.AvailableFiles, options)}
       />
 
       <SelectFilter
@@ -84,7 +79,7 @@ export function IncludedContentsFilterSection() {
         label={i18n.numberOfRuns}
         onChange={(option) =>
           updateValue(
-            DatasetFilterQueryParams.NumberOfRuns,
+            QueryParams.NumberOfRuns,
             option ? JSON.stringify(option.value) : null,
           )
         }

@@ -2,7 +2,7 @@ import { useSearchParams } from '@remix-run/react'
 import { isEqual } from 'lodash-es'
 import { useCallback, useMemo, useState } from 'react'
 
-import { DatasetFilterQueryParams } from 'app/constants/query'
+import { QueryParams } from 'app/constants/query'
 import { i18n } from 'app/i18n'
 
 import { DropdownFilterButton } from './DropdownFilterButton'
@@ -11,7 +11,7 @@ import { InputFilter } from './InputFilter'
 export interface InputFilterData {
   id: string
   label: string
-  queryParam: DatasetFilterQueryParams
+  queryParam: QueryParams
 }
 
 export function MultiInputFilter({

@@ -2,7 +2,7 @@ import { InputText } from '@czi-sds/components'
 import { useState } from 'react'
 import { match, P } from 'ts-pattern'
 
-import { DatasetFilterQueryParams } from 'app/constants/query'
+import { QueryParams } from 'app/constants/query'
 import { DEFAULT_TILT_MAX, DEFAULT_TILT_MIN } from 'app/constants/tiltSeries'
 import { useDatasetFilter } from 'app/hooks/useDatasetFilter'
 import { i18n } from 'app/i18n'
@@ -97,8 +97,8 @@ export function TiltRangeFilter() {
       disabled={isDisabled}
       label={i18n.tiltRange}
       onApply={() => {
-        updateValue(DatasetFilterQueryParams.TiltRangeMin, tiltMin)
-        updateValue(DatasetFilterQueryParams.TiltRangeMax, tiltMax)
+        updateValue(QueryParams.TiltRangeMin, tiltMin)
+        updateValue(QueryParams.TiltRangeMax, tiltMax)
       }}
       onCancel={() => {
         setTiltMin(tiltMinParam)
@@ -107,8 +107,8 @@ export function TiltRangeFilter() {
       onRemoveFilter={() => {
         setTiltMin('')
         setTiltMax('')
-        updateValue(DatasetFilterQueryParams.TiltRangeMin, null)
-        updateValue(DatasetFilterQueryParams.TiltRangeMax, null)
+        updateValue(QueryParams.TiltRangeMin, null)
+        updateValue(QueryParams.TiltRangeMax, null)
       }}
     >
       <div className="flex items-center gap-sds-s max-w-[320px] mt-sds-xs">

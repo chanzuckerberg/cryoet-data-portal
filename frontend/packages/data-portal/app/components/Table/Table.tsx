@@ -14,6 +14,7 @@ import {
 } from '@tanstack/react-table'
 import { Fragment } from 'react'
 
+import { useLayout } from 'app/context/Layout.context'
 import { cns } from 'app/utils/cns'
 
 export function Table<T>({
@@ -21,7 +22,6 @@ export function Table<T>({
   columns,
   data,
   tableProps,
-  withFiltersSidebar,
 }: {
   classes?: {
     body?: string
@@ -33,8 +33,9 @@ export function Table<T>({
   columns: ColumnDef<T>[]
   data: T[]
   tableProps?: TableProps
-  withFiltersSidebar?: boolean
 }) {
+  const { hasFilters } = useLayout()
+
   const table = useReactTable<T>({
     columns,
     data,
@@ -48,7 +49,7 @@ export function Table<T>({
 
         // Need to subtract 244px from 100vw to account for the sidebar and padding:
         // sidebar width = 200px, padding = 22px * 2 = 44px
-        withFiltersSidebar && 'max-w-[calc(100vw-244px)]',
+        hasFilters && 'max-w-[calc(100vw-244px)]',
       )}
     >
       <SDSTable {...tableProps} className={cns('!table-auto', classes?.table)}>

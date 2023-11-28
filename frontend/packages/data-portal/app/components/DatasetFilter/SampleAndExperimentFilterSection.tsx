@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { FilterSection, SelectFilter } from 'app/components/Filters'
-import { DatasetFilterQueryParams } from 'app/constants/query'
+import { QueryParams } from 'app/constants/query'
 import { useDatasetFilter } from 'app/hooks/useDatasetFilter'
 import { useDatasets } from 'app/hooks/useDatasets'
 import { i18n } from 'app/i18n'
@@ -32,9 +32,7 @@ export function SampleAndExperimentFilterSection() {
         options={organismNameOptions}
         value={organismNameValue}
         label={i18n.organismName}
-        onChange={(options) =>
-          updateValue(DatasetFilterQueryParams.Organism, options)
-        }
+        onChange={(options) => updateValue(QueryParams.Organism, options)}
       />
     </FilterSection>
   )

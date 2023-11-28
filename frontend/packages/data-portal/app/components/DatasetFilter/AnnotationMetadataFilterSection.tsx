@@ -2,7 +2,7 @@ import { useSearchParams } from '@remix-run/react'
 import { useMemo } from 'react'
 
 import { FilterSection, SelectFilter } from 'app/components/Filters'
-import { DatasetFilterQueryParams } from 'app/constants/query'
+import { QueryParams } from 'app/constants/query'
 import { useDatasets } from 'app/hooks/useDatasets'
 import { i18n } from 'app/i18n'
 import { BaseFilterOption } from 'app/types/filter'
@@ -18,9 +18,7 @@ export function AnnotationMetadataFilterSection() {
 
   const objectNameValue = useMemo<BaseFilterOption[]>(
     () =>
-      searchParams
-        .getAll(DatasetFilterQueryParams.ObjectName)
-        .map((value) => ({ value })),
+      searchParams.getAll(QueryParams.ObjectName).map((value) => ({ value })),
     [searchParams],
   )
 
@@ -32,7 +30,7 @@ export function AnnotationMetadataFilterSection() {
   const objectShapeTypeValue = useMemo<BaseFilterOption[]>(
     () =>
       searchParams
-        .getAll(DatasetFilterQueryParams.ObjectShapeType)
+        .getAll(QueryParams.ObjectShapeType)
         .map((value) => ({ value })),
     [searchParams],
   )
@@ -46,10 +44,10 @@ export function AnnotationMetadataFilterSection() {
         label={i18n.objectName}
         onChange={(options) =>
           setSearchParams((prev) => {
-            prev.delete(DatasetFilterQueryParams.ObjectName)
+            prev.delete(QueryParams.ObjectName)
 
             options?.forEach((option) =>
-              prev.append(DatasetFilterQueryParams.ObjectName, option.value),
+              prev.append(QueryParams.ObjectName, option.value),
             )
 
             return prev
@@ -64,13 +62,10 @@ export function AnnotationMetadataFilterSection() {
         label={i18n.objectShapeType}
         onChange={(options) =>
           setSearchParams((prev) => {
-            prev.delete(DatasetFilterQueryParams.ObjectShapeType)
+            prev.delete(QueryParams.ObjectShapeType)
 
             options?.forEach((option) =>
-              prev.append(
-                DatasetFilterQueryParams.ObjectShapeType,
-                option.value,
-              ),
+              prev.append(QueryParams.ObjectShapeType, option.value),
             )
 
             return prev
