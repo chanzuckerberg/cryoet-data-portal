@@ -95,6 +95,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
           ctf_corrected
           fiducial_alignment_status
           name
+          neuroglancer_config
           processing
           processing_software
           reconstruction_method
