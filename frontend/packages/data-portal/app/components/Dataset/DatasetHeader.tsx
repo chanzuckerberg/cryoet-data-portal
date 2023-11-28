@@ -4,12 +4,15 @@ import { DatasetDescription } from 'app/components/Dataset/DatasetDescription'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { PageHeader } from 'app/components/PageHeader'
 import { useDatasetById } from 'app/hooks/useDatasetById'
-import { i18n } from 'app/i18n'
+import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
+import { useI18n } from 'app/hooks/useI18n'
 import { useDrawer } from 'app/state/drawer'
 
 export function DatasetHeader() {
   const { dataset } = useDatasetById()
   const drawer = useDrawer()
+  const { t } = useI18n()
+  const { openDatasetDownloadModal } = useDownloadModalQueryParamState()
 
   return (
     <PageHeader
@@ -18,14 +21,15 @@ export function DatasetHeader() {
           startIcon={<Icon sdsIcon="download" sdsType="button" sdsSize="l" />}
           sdsType="primary"
           sdsStyle="rounded"
+          onClick={openDatasetDownloadModal}
         >
-          {i18n.downloadDataset}
+          {t('downloadDataset')}
         </Button>
       }
       lastModifiedDate={dataset.last_modified_date ?? dataset.deposition_date}
       metadata={[
         {
-          key: i18n.portalIdBlank,
+          key: t('portalIdBlank'),
           value: String(dataset.id),
           uppercase: true,
         },

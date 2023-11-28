@@ -1,22 +1,26 @@
 import { Button, Icon } from '@czi-sds/components'
 import { sum } from 'lodash-es'
 
+import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { PageHeader } from 'app/components/PageHeader'
+import { MetadataTable } from 'app/components/Table'
+import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
+import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
+import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { useDrawer } from 'app/state/drawer'
 
-import { KeyPhoto } from '../KeyPhoto'
-import { MetadataTable } from '../Table'
-import { TiltSeriesQualityScoreBadge } from '../TiltSeriesQualityScoreBadge'
-
 export function RunHeader() {
   const { run } = useRunById()
   const drawer = useDrawer()
+  const { t } = useI18n()
 
   const tiltSeries = run.tiltseries[0]
   const keyPhotoURL = 'https://loremflickr.com/400/400/cat'
+
+  const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
 
   return (
     <PageHeader
@@ -27,18 +31,16 @@ export function RunHeader() {
             sdsType="primary"
             sdsStyle="rounded"
           >
-            View Tomogram
+            {t('viewTomogram')}
           </Button>
 
           <Button
             startIcon={<Icon sdsIcon="download" sdsType="button" sdsSize="l" />}
-            endIcon={
-              <Icon sdsIcon="chevronDown" sdsType="button" sdsSize="s" />
-            }
-            sdsType="secondary"
+            sdsType="primary"
             sdsStyle="rounded"
+            onClick={openTomogramDownloadModal}
           >
-            Download
+            {t('download')}...
           </Button>
         </>
       }
@@ -133,7 +135,7 @@ export function RunHeader() {
               {
                 label: i18n.tomogramProcessing,
                 values: run.tomogram_stats
-                  .flatMap((stats) => stats.tomograms)
+                  .flatMap((stats) => stats.tomogram_processing)
                   .map((tomogram) => tomogram.processing),
               },
               {
