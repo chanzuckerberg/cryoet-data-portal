@@ -152,6 +152,11 @@ The Portal's API reference can be found [here](https://chanzuckerberg.github.io/
 
 ## How do I use the Portal's API to select data?
 
+Every class in the API has a `find` method which can be used to select all objects that match criteria provided in a query. The `find` method utilizes operators to create queries. 
+
+
+
+The Portal's API reference can be found [here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
 
 ## What is the dataset identifier and portal ID?
 
