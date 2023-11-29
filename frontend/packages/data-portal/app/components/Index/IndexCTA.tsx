@@ -1,7 +1,8 @@
 import { Button } from '@czi-sds/components'
 
+import { I18n } from 'app/components/I18n'
 import { Link } from 'app/components/Link'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 
 function CTA({
   title,
@@ -34,25 +35,26 @@ function CTA({
 }
 
 export function IndexCTA() {
+  const { t } = useI18n()
+
   return (
     <div className="py-sds-xxl flex flex-col gap-sds-xl relative after:h-full after:w-[200vw] after:bg-sds-primary-100 after:absolute after:top-0 after:-translate-x-1/2 after:-z-10">
       <h3 className="font-sds-semibold font-semibold text-sds-header-xl leading-sds-header-xl">
-        Help us achieve this vision
+        <I18n i18nKey="helpUsAchieveThisVision" />
       </h3>
       <div className="w-full grid grid-cols-[1fr_auto_1fr] grid-rows-[1fr_auto] grid-flow-col gap-y-sds-xl gap-x-sds-xxl">
         <CTA
-          title={i18n.viewAndDownloadDatasets}
-          text={i18n.viewDatasetsCta}
-          buttonText={i18n.browseData}
+          title={t('viewAndDownloadDatasets')}
+          text={t('viewDatasetsCta')}
+          buttonText={t('browseData')}
           url="/browse-data/datasets"
         />
         <div className="bg-sds-gray-200 w-sds-xxxs row-span-2" />
         <CTA
-          title={i18n.contributeYourData}
-          text={i18n.contributeCta}
-          buttonText={i18n.tellUsMore}
-          // TODO: fill this out when form page created
-          url="/"
+          title={t('contributeYourData')}
+          text={t('contributeCta')}
+          buttonText={t('tellUsMore')}
+          url={t('urlDataContributionForm')}
         />
       </div>
     </div>

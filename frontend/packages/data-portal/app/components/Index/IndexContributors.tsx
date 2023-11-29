@@ -1,3 +1,5 @@
+import { I18n } from 'app/components/I18n'
+
 const CONTRIBUTORS = `
 David Agard
 Ben Barad
@@ -33,7 +35,7 @@ export function IndexContributors() {
   return (
     <div className="flex flex-col gap-sds-xl h-full">
       <h3 className="font-sds-semibold font-semibold text-sds-header-xl leading-sds-header-xl">
-        Thank You to our Data Contributors…
+        <I18n i18nKey="thankYouToOurDataContributors" />
       </h3>
       <ul className="grid grid-flow-col grid-rows-[repeat(7,_minmax(0,_1fr))] grid-cols-4 gap-y-sds-xxs gap-x-sds-xl">
         {contributors.map((name) => (

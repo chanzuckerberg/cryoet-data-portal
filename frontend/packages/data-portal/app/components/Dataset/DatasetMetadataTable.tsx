@@ -4,7 +4,7 @@ import { isString } from 'lodash-es'
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { Link } from 'app/components/Link'
-import { DOI_ID } from 'app/constants/external-links'
+import { DOI_ID } from 'app/constants/external-dbs'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 

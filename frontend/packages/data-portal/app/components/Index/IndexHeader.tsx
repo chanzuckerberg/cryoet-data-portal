@@ -3,8 +3,9 @@ import { styled } from '@mui/material/styles'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { LandingPageDataQuery } from 'app/__generated__/graphql'
+import { I18n } from 'app/components/I18n'
 import { Link } from 'app/components/Link'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 import { theme } from 'app/theme'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
@@ -42,6 +43,7 @@ const DIVIDER = (
 )
 
 export function IndexHeader() {
+  const { t } = useI18n()
   const data = useTypedLoaderData<LandingPageDataQuery>()
 
   const datasets = data.datasets_aggregate.aggregate?.count
@@ -67,24 +69,24 @@ export function IndexHeader() {
       <div className="flex flex-col items-center gap-sds-m text-white">
         <div className="flex flex-col gap-sds-xl items-center">
           <h1 className="text-[32px] leading-[34px] font-sds-semibold font-semibold drop-shadow-landing-header">
-            {i18n.landingHeaderTitle}
+            <I18n i18nKey="landingHeaderTitle" />
           </h1>
           <div className="flex flex-row justify-center w-full">
-            <MetricField title={i18n.datasets} count={datasets ?? 0} />
+            <MetricField title={t('datasets')} count={datasets ?? 0} />
             {DIVIDER}
-            <MetricField title={i18n.species} count={species ?? 0} />
+            <MetricField title={t('species')} count={species ?? 0} />
             {DIVIDER}
-            <MetricField title={i18n.tomograms} count={tomograms ?? 0} />
+            <MetricField title={t('tomograms')} count={tomograms ?? 0} />
           </div>
           <Link to="/browse-data/datasets">
             <CTAButton sdsType="primary" sdsStyle="rounded">
-              {i18n.browseData}
+              <I18n i18nKey="browseData" />
             </CTAButton>
           </Link>
         </div>
-        <Link to="https://chanzuckerberg.github.io/cryoet-data-portal/">
+        <Link to={t('apiDocLink')}>
           <p className="underline underline-offset-1 decoration-1 text-sds-body-xxs leading-none drop-shadow-landing-header">
-            {i18n.orExploreViaApi}
+            <I18n i18nKey="orExploreViaApi" />
           </p>
         </Link>
       </div>
