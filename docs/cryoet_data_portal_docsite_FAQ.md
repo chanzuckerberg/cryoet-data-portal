@@ -144,19 +144,53 @@ The CryoET Data Portal napari plugin can be used to visualize tomograms, annotat
 
 ## How do I download data using the Portal's API?
 
-The `Dataset` and `Run` classes both have `download_everything` methods which allow you to download all data associated with either an entire dataset or a single run within that dataset, respectively. 
+The `Dataset`, `Run`, and `TomogramVoxelSpacing` classes have `download_everything` methods which allow you to download all data associated with one of those objects. 
 
-`download_mrcfile` and `download_omezarr`
+The `Tomogram` class has `download_mrcfile` and `download_omezarr` methods to download the tomogram as a MRC or OME-Zarr file, respectively.
 
-The Portal's API reference can be found [here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
+The `TiltSeries` class has `download_mrcfile` and `download_omezarr` methods as well as `download_alignment_file`, `download_angle_list` `download_collection_metadata` to download the files associated with a tiltseries.
+
+All of the download methods default to downloading the data to your current working directory, unless a destination path is provided. The general structure of these commands is `object.download_method(OPTIONAL DESTINATION PATH)`. For example, to download the `TS_026` tomogram in OME-Zarr format to your current working directory use:
+
+```python
+from cryoet_data_portal import Client, Tomogram
+
+# Instantiate a client, using the data portal GraphQL API by default
+client = Client()
+
+# Query the Tomogram class to find the tomogram named TS_026 
+tomo = Tomogram.find(client, query_filters=[Tomogram.name == "TS_026"])
+
+# Download tomogram
+tomo.download_omezarr()
+```
+
+For more examples of downloading data with the API, check out the [tutorial here](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_quick_start.html#python-quick-start). The Data Portal API reference can be found [here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
 
 ## How do I use the Portal's API to select data?
 
-Every class in the API has a `find` method which can be used to select all objects that match criteria provided in a query. The `find` method utilizes operators to create queries. 
+Every class in the Data Portal API has a `find` method which can be used to select all objects that match criteria provided in a query. The `find` method utilizes python comparison operators `==`, `!=`, `>`, `>=`, `<`, `<=` as well as `like`, `ilike`, and `_in` methods used to search for strings that match a given pattern, to create queries. 
 
+- `like` is a partial match, with the % character being a wildcard
+- `ilike` is similar to like but case-insensitive
+- `_in` accepts a list of values that are acceptable matches.
 
+The general structure of these commands is `class.find(client, query_filters=[LIST QUERIES HERE])`. For example, the script below will print the names of all runs that have "ts" in their name and more than 900 pixels in their "fast" axis.
 
-The Portal's API reference can be found [here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
+```python
+from cryoet_data_portal import Client, Run
+
+# Instantiate a client, using the data portal GraphQL API by default
+client = Client()
+
+# Query the Run class for runs with "TS" (case-insensitive) in their name and x pixels > 900
+runs_list = Run.find(client, query_filters=[Run.name.ilike("%TS%"), Run.tomogram_voxel_spacings.tomograms.size_x > 900])
+
+for run in runs_list:
+    print(run.name)
+```
+
+For more examples of using the `find` operator, check out the [tutorial here](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_quick_start.html#python-quick-start). The Data Portal API reference can be found [here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
 
 ## What is the dataset identifier and portal ID?
 
