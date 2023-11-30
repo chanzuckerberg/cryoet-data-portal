@@ -39,7 +39,9 @@ export function IndexContributors() {
       </h3>
       <ul className="grid grid-flow-col grid-rows-[repeat(7,_minmax(0,_1fr))] grid-cols-4 gap-y-sds-xxs gap-x-sds-xl">
         {contributors.map((name) => (
-          <li className="text-sds-body-xs leading-sds-body-xs">{name}</li>
+          <li key={name} className="text-sds-body-xs leading-sds-body-xs">
+            {name}
+          </li>
         ))}
       </ul>
     </div>
