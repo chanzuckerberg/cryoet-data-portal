@@ -29,6 +29,7 @@ const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
       authors: [],
       id: value,
       title: `loading-dataset-${value}`,
+      runs: [],
       runs_aggregate: {},
     }) as Dataset,
 )
@@ -199,12 +200,21 @@ export function DatasetTable() {
         },
       ),
 
-      columnHelper.display({
-        id: 'annotated-objects',
+      columnHelper.accessor((dataset) => dataset.runs, {
         header: t('annotatedObjects'),
-        cell() {
-          // TODO use dataset annotated objects
-          const annotatedObjects = range(0, 10).map((val) => `Object ${val}`)
+        cell({ getValue }) {
+          const runs = getValue()
+          const annotatedObjects = Array.from(
+            new Set(
+              runs.flatMap((run) =>
+                run.tomogram_voxel_spacings.flatMap((voxelSpacing) =>
+                  voxelSpacing.annotations.flatMap(
+                    (annotation) => annotation.object_name,
+                  ),
+                ),
+              ),
+            ),
+          )
 
           return (
             <TableCell

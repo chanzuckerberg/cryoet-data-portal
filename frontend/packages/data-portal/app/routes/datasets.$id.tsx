@@ -89,6 +89,12 @@ const GET_DATASET_BY_ID = gql(`
             }
           }
         }
+
+        tomogram_voxel_spacings {
+          annotations(distinct_on: object_name) {
+            object_name
+          }
+        }
       }
 
       runs_aggregate {

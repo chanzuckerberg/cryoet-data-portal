@@ -51,6 +51,14 @@ const GET_DATASETS_DATA_QUERY = gql(`
           count
         }
       }
+
+      runs {
+        tomogram_voxel_spacings {
+          annotations(distinct_on: object_name) {
+            object_name
+          }
+        }
+      }
     }
 
     datasets_aggregate {

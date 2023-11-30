@@ -93,12 +93,19 @@ export function RunsTable() {
         },
       ),
 
-      columnHelper.display({
-        id: 'annotated-objects',
+      columnHelper.accessor((run) => run.tomogram_voxel_spacings, {
         header: i18n.annotatedObjects,
-        cell() {
-          // TODO use dataset annotated objects
-          const annotatedObjects = range(0, 10).map((val) => `Object ${val}`)
+        cell({ getValue }) {
+          const voxelSpacings = getValue()
+          const annotatedObjects = Array.from(
+            new Set(
+              voxelSpacings.flatMap((voxelSpacing) =>
+                voxelSpacing.annotations.flatMap(
+                  (annotation) => annotation.object_name,
+                ),
+              ),
+            ),
+          )
 
           return (
             <TableCell
