@@ -148,7 +148,7 @@ The `Dataset`, `Run`, and `TomogramVoxelSpacing` classes have `download_everythi
 
 The `Tomogram` class has `download_mrcfile` and `download_omezarr` methods to download the tomogram as a MRC or OME-Zarr file, respectively.
 
-The `TiltSeries` class has `download_mrcfile` and `download_omezarr` methods as well as `download_alignment_file`, `download_angle_list` `download_collection_metadata` to download the files associated with a tiltseries.
+The `TiltSeries` class has `download_mrcfile` and `download_omezarr` methods as well as `download_alignment_file`, `download_angle_list` `download_collection_metadata` to download the files associated with a tilt series.
 
 All of the download methods default to downloading the data to your current working directory, unless a destination path is provided. The general structure of these commands is `object.download_method(OPTIONAL DESTINATION PATH)`. For example, to download the `TS_026` tomogram in OME-Zarr format to your current working directory use:
 
