@@ -136,7 +136,7 @@ To learn more about configuring your AWS CLI, refer to the [documentation here](
 
 ## How do I use Neuroglancer to visual tomograms with their annotations?
 
-All tomograms in the Data Portal are viewable in Neuroglancer along with their annotations. You can open a tomogram in Neuroglancer by clicking the blue `View Tomogram` button on any run page in the Portal. This will open an instance of Neuroglancer in a separate tab of your browser with the selected data along with their annotations already loaded. For more information about visualizing data with Neuroglancer, check out the documentation from Connectomics, the team that develops Neuorglancer, [here](https://connectomics.readthedocs.io/en/latest/external/neuroglancer.html#basic-usage).
+All tomograms in the Data Portal are viewable in Neuroglancer along with their annotations. You can open a tomogram in Neuroglancer by clicking the blue `View Tomogram` button on any run page in the Portal. This will open an instance of Neuroglancer in a separate tab of your browser with the selected data along with their annotations already loaded. For more information about visualizing data with Neuroglancer, check out the documentation from Connectomics, the team that develops Neuroglancer, [here](https://connectomics.readthedocs.io/en/latest/external/neuroglancer.html#basic-usage).
 
 ## How do I use napari to visual tomograms with their annotations?
 
