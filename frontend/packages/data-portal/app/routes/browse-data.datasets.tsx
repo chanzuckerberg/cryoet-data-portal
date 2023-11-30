@@ -39,7 +39,7 @@ const GET_DATASETS_DATA_QUERY = gql(`
       id
       title
       organism_name
-      dataset_publications
+      related_database_entries
 
       authors {
         name

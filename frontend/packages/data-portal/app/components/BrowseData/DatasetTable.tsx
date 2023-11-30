@@ -10,11 +10,11 @@ import { useMemo } from 'react'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { Table, TableCell } from 'app/components/Table'
-import { EMPIAR_ID } from 'app/constants/external-dbs'
+import { EMPIAR_ID, EMPIAR_URL } from 'app/constants/external-dbs'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { Dataset, useDatasets } from 'app/hooks/useDatasets'
+import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
-import { i18n } from 'app/i18n'
 
 import { AnnotatedObjectsList } from '../AnnotatedObjectsList'
 
@@ -34,6 +34,7 @@ const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
 )
 
 export function DatasetTable() {
+  const { t } = useI18n()
   const { datasets } = useDatasets()
 
   const [searchParams, setSearchParams] = useSearchParams()
@@ -70,7 +71,7 @@ export function DatasetTable() {
               setSearchParams(nextParams)
             }}
           >
-            {i18n.dataset}
+            {t('dataset')}
           </CellHeader>
         ),
         cell({ row: { original: dataset } }) {
@@ -106,7 +107,7 @@ export function DatasetTable() {
                   {isLoadingDebounced ? (
                     <Skeleton className="max-w-[120px]" variant="text" />
                   ) : (
-                    i18n.portalId(dataset.id ? dataset.id : '--')
+                    `${t('portalId')}: ${dataset.id}`
                   )}
                 </p>
 
@@ -150,8 +151,8 @@ export function DatasetTable() {
         },
       }),
 
-      columnHelper.accessor('dataset_publications', {
-        header: i18n.empiarID,
+      columnHelper.accessor('related_database_entries', {
+        header: t('empiarID'),
         cell({ getValue }) {
           const empiarIDMatch = EMPIAR_ID.exec(getValue() ?? '')
           const empiarID = empiarIDMatch?.[1]
@@ -161,7 +162,7 @@ export function DatasetTable() {
               {empiarID ? (
                 <Link
                   className="text-sds-primary-500 inline"
-                  to={`/empiar/${empiarID}`}
+                  to={`${EMPIAR_URL}${empiarID}`}
                 >
                   EMPIAR-{empiarID}
                 </Link>
@@ -174,7 +175,7 @@ export function DatasetTable() {
       }),
 
       columnHelper.accessor('organism_name', {
-        header: i18n.organismName,
+        header: t('organismName'),
         cell: ({ getValue }) => (
           <TableCell
             primaryText={getValue() ?? '--'}
@@ -187,7 +188,7 @@ export function DatasetTable() {
       columnHelper.accessor(
         (dataset) => dataset.runs_aggregate.aggregate?.count,
         {
-          header: i18n.runs,
+          header: t('runs'),
           cell: ({ getValue }) => (
             <TableCell
               primaryText={String(getValue() ?? 0).padStart(4, '0')}
@@ -200,7 +201,7 @@ export function DatasetTable() {
 
       columnHelper.display({
         id: 'annotated-objects',
-        header: i18n.annotatedObjects,
+        header: t('annotatedObjects'),
         cell() {
           // TODO use dataset annotated objects
           const annotatedObjects = range(0, 10).map((val) => `Object ${val}`)
@@ -234,6 +235,7 @@ export function DatasetTable() {
     location.search,
     searchParams,
     setSearchParams,
+    t,
   ])
 
   return (

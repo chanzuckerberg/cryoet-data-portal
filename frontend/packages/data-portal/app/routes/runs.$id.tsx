@@ -102,6 +102,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
             is_canonical: { _eq: true }
           },
         ) {
+          affine_transformation_matrix
           ctf_corrected
           fiducial_alignment_status
           name
