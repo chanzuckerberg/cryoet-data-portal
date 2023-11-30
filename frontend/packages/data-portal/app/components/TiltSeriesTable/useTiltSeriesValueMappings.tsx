@@ -131,7 +131,9 @@ export function useTiltSeriesValueMappings(tiltSeries?: Partial<Tiltseries>) {
       [TiltSeriesKeys.TiltRange]: {
         label: t('tiltRange'),
         values: [
-          isNumber(tiltSeries?.tilt_min) && isNumber(tiltSeries.tilt_max)
+          tiltSeries &&
+          isNumber(tiltSeries?.tilt_min) &&
+          isNumber(tiltSeries.tilt_max)
             ? t('valueToValue', {
                 value1: t('unitDegree', { value: tiltSeries.tilt_min }),
                 value2: t('unitDegree', { value: tiltSeries.tilt_max }),
