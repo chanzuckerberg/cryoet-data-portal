@@ -132,12 +132,25 @@ export function AnnotationTable() {
         ),
       }),
 
+      columnHelper.accessor('shape_type', {
+        header: () => (
+          <CellHeader horizontalAlign="right">
+            {i18n.objectShapeType}
+          </CellHeader>
+        ),
+        cell: ({ getValue }) => (
+          <TableCell horizontalAlign="right" minWidth={100} maxWidth={150}>
+            {getValue()}
+          </TableCell>
+        ),
+      }),
+
       columnHelper.accessor('object_count', {
         header: () => (
           <CellHeader horizontalAlign="right">{i18n.objectCount}</CellHeader>
         ),
         cell: ({ getValue }) => (
-          <TableCell horizontalAlign="right" minWidth={100} maxWidth={120}>
+          <TableCell horizontalAlign="right" minWidth={85} maxWidth={120}>
             {getValue()}
           </TableCell>
         ),
@@ -151,7 +164,7 @@ export function AnnotationTable() {
         // Render empty cell header so that it doesn't break the table layout
         header: () => <CellHeader>{null}</CellHeader>,
         cell: ({ row: { original: annotation } }) => (
-          <TableCell minWidth={85} maxWidth={120}>
+          <TableCell minWidth={85} maxWidth={100}>
             <Button
               sdsType="primary"
               sdsStyle="minimal"
