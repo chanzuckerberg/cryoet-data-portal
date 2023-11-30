@@ -125,6 +125,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
           last_modified_date
           object_count
           object_description
+          object_id
           object_name
           object_state
           release_date
