@@ -202,7 +202,7 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
 
 Thank you for considering submitting data to the Portal! 
 
-Contributions can be raw data (tilt series and movie frames) + resulting tomograms, a new tomogram for existing raw data in the Portal generated using a different algorithm, and/or annotations of existing tomograms. We will work with you directly to upload the data to the Portal. Please fill out [this contribution survey](https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=Contribution+from+portal&hide_Event=true), which is also found through the `Tell Us More` button on the bottom of Portal pages. We will then reach out to you to start the process of uploading your data. We have a ~6 month release cycle, so please allow time for the data to become available through the portal. 
+Contributions can be raw data (tilt series and movie frames) + resulting tomograms, a new tomogram for existing raw data in the Portal generated using a different algorithm, and/or annotations of existing tomograms. We will work with you directly to upload the data to the Portal. Please fill out [this contribution survey](https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=Contribution+from+portal&hide_Event=true), which is also found through the `Tell Us More` button on the bottom of Portal homepage. We will then reach out to you to start the process of uploading your data. We have a ~6 month release cycle, so please allow time for the data to become available through the portal. 
 
 In the future, we plan to implement a self-upload process so that users can add their data to the Portal on their own.
 
