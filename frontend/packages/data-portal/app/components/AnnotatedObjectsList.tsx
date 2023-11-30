@@ -71,7 +71,8 @@ export function AnnotatedObjectsList({
             <div
               className={cns(
                 'bg-sds-gray-200 text-sds-gray-600 hover:cursor-pointer',
-                'rounded-sds-m py-sds-xxxs px-sds-xxs inline',
+                'text-sds-body-xxxs leading-sds-body-xxxs',
+                'rounded-sds-m py-sds-xxxs px-sds-xs inline',
               )}
             >
               {i18n.nMoreObjects(nodes.length + 1 - ANNOTATED_OBJECTS_MAX)}
