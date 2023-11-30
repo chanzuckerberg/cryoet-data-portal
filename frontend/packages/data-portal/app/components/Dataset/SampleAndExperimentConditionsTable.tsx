@@ -1,5 +1,5 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
 import { DatasetType } from './type'
@@ -11,42 +11,43 @@ export function SampleAndExperimentConditionsTable({
   dataset: DatasetType
   initialOpen?: boolean
 }) {
+  const { t } = useI18n()
+
   const sampleAndExperimentConditions = getTableData(
     {
-      label: i18n.sampleType,
+      label: t('sampleType'),
       values: [dataset.sample_type!],
     },
     {
-      label: i18n.organismName,
+      label: t('organismName'),
       values: [dataset.organism_name ?? ''],
     },
     {
-      label: i18n.tissueName,
+      label: t('tissueName'),
       values: [dataset.organism_name ?? ''],
     },
     {
-      label: i18n.cellName,
+      label: t('cellName'),
       values: [dataset.cell_name ?? ''],
     },
     {
-      label: i18n.cellLineOrStrainName,
+      label: t('cellLineOrStrainName'),
       values: [dataset.cell_strain_name ?? ''],
     },
     {
-      label: i18n.cellularComponent,
-      // TODO implement when data is available
-      values: ['TBD'],
+      label: t('cellularComponent'),
+      values: [dataset.cell_component_name ?? ''],
     },
     {
-      label: i18n.samplePreparation,
+      label: t('samplePreparation'),
       values: dataset.sample_preparation?.split(',') ?? [''],
     },
     {
-      label: i18n.gridPreparation,
+      label: t('gridPreparation'),
       values: dataset.grid_preparation?.split(',') ?? [''],
     },
     {
-      label: i18n.otherSetup,
+      label: t('otherSetup'),
       values: [dataset.other_setup ?? ''],
     },
   )
@@ -54,7 +55,7 @@ export function SampleAndExperimentConditionsTable({
   return (
     <AccordionMetadataTable
       id="sample-and-experimental-conditions"
-      header={i18n.sampleAndExperimentConditions}
+      header={t('sampleAndExperimentConditions')}
       data={sampleAndExperimentConditions}
       initialOpen={initialOpen}
     />

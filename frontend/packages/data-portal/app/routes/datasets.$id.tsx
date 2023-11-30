@@ -36,15 +36,15 @@ const GET_DATASET_BY_ID = gql(`
       dataset_citations
 
       # Sample and experiments data
-      sample_type
-      organism_name
-      tissue_name
+      cell_component_name
       cell_name
       cell_strain_name
-      # TODO cellular component
-      sample_preparation
       grid_preparation
+      organism_name
       other_setup
+      sample_preparation
+      sample_type
+      tissue_name
 
       authors(distinct_on: name) {
         name

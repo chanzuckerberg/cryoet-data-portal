@@ -53,6 +53,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
 
       dataset {
+        cell_component_name
         cell_name
         cell_strain_name
         dataset_citations
