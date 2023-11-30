@@ -134,11 +134,11 @@ aws configure set default.s3.max_concurrent_requests 30
 
 To learn more about configuring your AWS CLI, refer to the [documentation here](https://docs.aws.amazon.com/cli/latest/topic/s3-config.html).
 
-## How do I use Neuroglancer to visual tomograms with their annotations?
+## How do I use Neuroglancer to visualize tomograms with their annotations?
 
 All tomograms in the Data Portal are viewable in Neuroglancer along with their annotations. You can open a tomogram in Neuroglancer by clicking the blue `View Tomogram` button on any run page in the Portal. This will open an instance of Neuroglancer in a separate tab of your browser with the selected data along with their annotations already loaded. For more information about visualizing data with Neuroglancer, check out the documentation from Connectomics, the team that develops Neuroglancer, [here](https://connectomics.readthedocs.io/en/latest/external/neuroglancer.html#basic-usage).
 
-## How do I use napari to visual tomograms with their annotations?
+## How do I use napari to visualize tomograms with their annotations?
 
 The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html) to learn more about napari and CryoET Data Poral.
 
@@ -202,7 +202,7 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
 
 Thank you for considering submitting data to the Portal! 
 
-Contributions can be raw data (tilt series and movie frames) + resulting tomograms, a new tomogram for existing raw data in the Portal generated using a different algorithm, and/or annotations of existing tomograms. We will work with you directly to upload the data to the Portal. Please fill out [this contribution survey](ADD LINK TO SURVEY), which is also found through the `Tell Us More` button on the bottom of Portal pages. We will then reach out to you to start the process of uploading your data. We have a ~6 month release cycle, so please allow time for the data to become available through the portal. 
+Contributions can be raw data (tilt series and movie frames) + resulting tomograms, a new tomogram for existing raw data in the Portal generated using a different algorithm, and/or annotations of existing tomograms. We will work with you directly to upload the data to the Portal. Please fill out [this contribution survey](https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=Contribution+from+portal&hide_Event=true), which is also found through the `Tell Us More` button on the bottom of Portal pages. We will then reach out to you to start the process of uploading your data. We have a ~6 month release cycle, so please allow time for the data to become available through the portal. 
 
 In the future, we plan to implement a self-upload process so that users can add their data to the Portal on their own.
 
