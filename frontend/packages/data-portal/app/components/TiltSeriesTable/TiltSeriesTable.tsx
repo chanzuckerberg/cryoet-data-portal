@@ -1,32 +1,32 @@
 import { Tiltseries } from 'app/__generated__/graphql'
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
-import { TILT_SERIES_VALUE_MAPPINGS, TiltSeriesKeys } from './constants'
+import { TiltSeriesKeys } from './constants'
+import { useTiltSeriesValueMappings } from './useTiltSeriesValueMappings'
 
 interface TiltSeriesTableProps {
   tiltSeriesData?: Partial<Tiltseries>
   fields: TiltSeriesKeys[]
 }
 
-export function TiltSeriesTable(props: TiltSeriesTableProps) {
-  const { tiltSeriesData, fields } = props
+export function TiltSeriesTable({
+  tiltSeriesData,
+  fields,
+}: TiltSeriesTableProps) {
+  const { t } = useI18n()
+  const mappings = useTiltSeriesValueMappings(tiltSeriesData)
 
-  const tiltSeries = tiltSeriesData
-    ? getTableData(
-        ...fields.map((field) => {
-          const getData = TILT_SERIES_VALUE_MAPPINGS.get(field)
-          return getData!(tiltSeriesData)
-        }),
-      )
+  const tableData = tiltSeriesData
+    ? getTableData(...fields.map((field) => mappings[field]))
     : []
 
   return (
     <AccordionMetadataTable
       id="tilt-series"
-      header={i18n.tiltSeries}
-      data={tiltSeries}
+      header={t('tiltSeries')}
+      data={tableData}
     />
   )
 }

@@ -26,17 +26,20 @@ const GET_RUN_BY_ID_QUERY = gql(`
 
       tiltseries {
         acceleration_voltage
+        aligned_tiltseries_binning
         binning_from_frames
         camera_manufacturer
         camera_model
         data_acquisition_software
         id
+        is_aligned
         microscope_additional_info
         microscope_energy_filter
         microscope_image_corrector
         microscope_manufacturer
         microscope_model
         microscope_phase_plate
+        pixel_spacing
         related_empiar_entry
         spherical_aberration_constant
         tilt_axis
