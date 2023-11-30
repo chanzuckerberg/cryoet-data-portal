@@ -169,7 +169,7 @@ For more examples of downloading data with the API, check out the [tutorial here
 
 ## How do I use the Portal's API to select data?
 
-Every class in the Data Portal API has a `find` method which can be used to select all objects that match criteria provided in a query. The `find` method utilizes python comparison operators `==`, `!=`, `>`, `>=`, `<`, `<=` as well as `like`, `ilike`, and `_in` methods used to search for strings that match a given pattern, to create queries. 
+Every class in the Data Portal API has a `find` method which can be used to select all objects that match criteria provided in a query. The `find` method utilizes python comparison operators `==`, `!=`, `>`, `>=`, `<`, `<=`, as well as `like`, `ilike`, and `_in` methods used to search for strings that match a given pattern, to create queries. 
 
 - `like` is a partial match, with the % character being a wildcard
 - `ilike` is similar to like but case-insensitive
