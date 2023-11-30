@@ -78,8 +78,6 @@ export function RunHeader() {
         },
       ]}
       onMoreInfoClick={() => drawer.setActiveDrawerId('run-metadata')}
-      // TODO add release date data
-      releaseDate="2023-09-30"
       title={run.name}
     >
       <div className="flex gap-sds-xxl p-sds-xl border-t-[3px] border-sds-gray-200">
