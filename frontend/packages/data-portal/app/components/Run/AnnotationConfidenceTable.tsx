@@ -1,9 +1,10 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
 
 export function AnnotationConfidenceTable() {
   const { activeAnnotation: annotation } = useAnnotation()
+  const { t } = useI18n()
 
   if (!annotation) {
     return null
@@ -14,37 +15,37 @@ export function AnnotationConfidenceTable() {
   return (
     <AccordionMetadataTable
       id="annotation-confidence"
-      header={i18n.annotationConfidence}
+      header={t('annotationConfidence')}
       data={[
         {
-          label: i18n.groundTruthStatus,
-          values: [isGroundTruth ? i18n.true : i18n.false],
+          label: t('groundTruthStatus'),
+          values: [isGroundTruth ? t('true') : t('false')],
         },
         {
-          label: i18n.curatorRecommended,
-          values: ['TBD'],
+          label: t('curatorRecommended'),
+          values: [annotation.is_curator_recommended ? t('yes') : '--'],
         },
         {
-          label: i18n.groundTruthUsed,
+          label: t('groundTruthUsed'),
           values: [
             isGroundTruth
-              ? i18n.notApplicable
+              ? t('notApplicable')
               : annotation.ground_truth_used ?? '--',
           ],
         },
         {
-          label: i18n.precision,
+          label: t('precision'),
           values: [
             isGroundTruth
-              ? i18n.notApplicable
+              ? t('notApplicable')
               : annotation.confidence_precision ?? '--',
           ],
         },
         {
-          label: i18n.recall,
+          label: t('recall'),
           values: [
             isGroundTruth
-              ? i18n.notApplicable
+              ? t('notApplicable')
               : annotation.confidence_recall ?? '--',
           ],
         },
