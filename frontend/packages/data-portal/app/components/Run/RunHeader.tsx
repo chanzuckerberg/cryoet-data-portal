@@ -18,7 +18,8 @@ export function RunHeader() {
   const { t } = useI18n()
 
   const tiltSeries = run.tiltseries[0]
-  const keyPhotoURL = 'https://loremflickr.com/400/400/cat'
+  const keyPhotoURL =
+    run.tomogram_voxel_spacings[0]?.tomograms[0]?.key_photo_url
 
   const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
 
@@ -83,10 +84,14 @@ export function RunHeader() {
       title={run.name}
     >
       <div className="flex gap-sds-xxl p-sds-xl border-t-[3px] border-sds-gray-200">
-        <div className="max-w-[300px] max-h-[212px] flex-shrink-0">
-          <Link to={keyPhotoURL}>
-            <KeyPhoto title={run.name} src={keyPhotoURL} />
-          </Link>
+        <div className="max-w-[300px] h-full aspect-[4/3] flex-shrink-0">
+          {keyPhotoURL ? (
+            <Link to={keyPhotoURL}>
+              <KeyPhoto title={run.name} src={keyPhotoURL} />
+            </Link>
+          ) : (
+            <KeyPhoto title={run.name} />
+          )}
         </div>
 
         <div className="flex gap-sds-xxl flex-col lg:flex-row">

@@ -88,8 +88,7 @@ export function DatasetTable() {
             >
               <KeyPhoto
                 title={dataset.title}
-                // TODO use dataset keyphoto
-                src="https://loremflickr.com/400/400/cat"
+                src={dataset.key_photo_thumbnail_url ?? undefined}
                 loading={isLoadingDebounced}
               />
 

@@ -51,8 +51,10 @@ export function RunsTable() {
             >
               <KeyPhoto
                 title={run.name}
-                // TODO use dataset keyphoto
-                src="https://loremflickr.com/400/400/cat"
+                src={
+                  run.tomogram_voxel_spacings[0]?.tomograms[0]
+                    ?.key_photo_thumbnail_url ?? undefined
+                }
                 loading={isLoadingDebounced}
               />
 

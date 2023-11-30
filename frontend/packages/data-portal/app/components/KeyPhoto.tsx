@@ -1,7 +1,7 @@
 import Skeleton from '@mui/material/Skeleton'
 import { match, P } from 'ts-pattern'
 
-import { i18n } from 'app/i18n'
+import { KeyPhotoFallbackIcon } from 'app/components/icons'
 import { cns } from 'app/utils/cns'
 
 export function KeyPhoto({
@@ -17,7 +17,7 @@ export function KeyPhoto({
     <div
       className={cns(
         'flex-shrink-0 basis-[134px] aspect-[4/3]',
-        'flex items-center justify-center bg-[#d9d9d9]',
+        'flex items-center justify-center bg-sds-gray-100',
         'rounded-sds-m',
 
         // crop image to container dimensions
@@ -27,10 +27,14 @@ export function KeyPhoto({
       {match([src, loading])
         .with([P._, true], () => <Skeleton variant="rounded" />)
         .with([P.string, false], () => (
-          <img alt={`key visualization for ${title}`} src={src} />
+          <img
+            alt={`key visualization for ${title}`}
+            src={src}
+            className="w-full"
+          />
         ))
         .otherwise(() => (
-          <p className="text-sds-gray-400 text-sm">{i18n.keyPhoto}</p>
+          <KeyPhotoFallbackIcon className="text-sds-gray-200 aspect-square w-1/5" />
         ))}
     </div>
   )

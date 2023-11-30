@@ -46,7 +46,7 @@ export function DatasetHeader() {
         <div className="flex-1 w-full max-w-[465px]">
           <KeyPhoto
             title={dataset.title}
-            src="https://loremflickr.com/400/400/cat"
+            src={dataset.key_photo_url ?? undefined}
           />
         </div>
       </div>

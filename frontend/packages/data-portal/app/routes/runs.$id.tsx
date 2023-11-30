@@ -94,6 +94,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
         tomograms(limit: 1) {
           ctf_corrected
           fiducial_alignment_status
+          key_photo_url
           name
           processing
           processing_software

@@ -40,6 +40,7 @@ const GET_DATASETS_DATA_QUERY = gql(`
       title
       organism_name
       dataset_publications
+      key_photo_thumbnail_url
 
       authors {
         name
