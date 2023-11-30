@@ -91,7 +91,12 @@ const GET_RUN_BY_ID_QUERY = gql(`
         id
         s3_prefix
 
-        tomograms(limit: 1) {
+        tomograms(
+          limit: 1,
+          where: {
+            is_canonical: { _eq: true }
+          },
+        ) {
           ctf_corrected
           fiducial_alignment_status
           name
