@@ -87,6 +87,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
 
         funding_sources {
           funding_agency_name
+          grant_id
         }
       }
 

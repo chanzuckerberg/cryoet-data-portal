@@ -26,11 +26,12 @@ const GET_DATASET_BY_ID = gql(`
       id
       title
       description
+
       funding_sources {
         funding_agency_name
+        grant_id
       }
 
-      # TODO Grant ID
       related_database_entries
       dataset_citations
 
