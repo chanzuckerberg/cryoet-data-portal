@@ -13,8 +13,8 @@ import { Table, TableCell } from 'app/components/Table'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { TiltSeriesScore } from 'app/constants/tiltSeries'
 import { useDatasetById } from 'app/hooks/useDatasetById'
+import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
-import { i18n } from 'app/i18n'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
 
 import { AnnotatedObjectsList } from '../AnnotatedObjectsList'
@@ -29,13 +29,14 @@ export function RunsTable() {
   const { dataset } = useDatasetById()
   const runs = dataset.runs as unknown as Run[]
   const location = useLocation()
+  const { t } = useI18n()
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Run>()
 
     return [
       columnHelper.accessor('name', {
-        header: i18n.run,
+        header: t('run'),
         cell({ row: { original: run } }) {
           const previousUrl = `${location.pathname}${location.search}`
           const runUrl = `/runs/${run.id}?prev=${encodeURIComponent(
@@ -76,7 +77,7 @@ export function RunsTable() {
       columnHelper.accessor(
         (run) => run.tiltseries_aggregate?.aggregate?.avg?.tilt_series_quality,
         {
-          header: i18n.tiltSeriesQualityScore,
+          header: t('tiltSeriesQualityScore'),
           cell: ({ getValue }) => {
             const score = getValue() as TiltSeriesScore | null | undefined
 
@@ -94,7 +95,7 @@ export function RunsTable() {
       ),
 
       columnHelper.accessor((run) => run.tomogram_voxel_spacings, {
-        header: i18n.annotatedObjects,
+        header: t('annotatedObjects'),
         cell({ getValue }) {
           const voxelSpacings = getValue()
           const annotatedObjects = Array.from(
@@ -126,7 +127,7 @@ export function RunsTable() {
         },
       }),
     ] as ColumnDef<Run>[]
-  }, [isLoadingDebounced, location.pathname, location.search])
+  }, [isLoadingDebounced, location.pathname, location.search, t])
 
   return (
     <Table data={isLoadingDebounced ? LOADING_RUNS : runs} columns={columns} />
