@@ -112,6 +112,7 @@
   "keyPhoto": "key photo",
   "lastModified": "Last Modified: {{date}}",
   "lastModifiedBlank": "Last Modified",
+  "lastUpdated": "Last Updated",
   "license": "License",
   "limitOneValuePerField": "Limit one value per field",
   "meetsAll": "Meets all",
