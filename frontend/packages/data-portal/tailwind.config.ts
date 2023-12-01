@@ -14,6 +14,7 @@ export default {
 
       maxWidth: {
         content: '1600px',
+        'mdx-content': '800px',
       },
 
       // overwrite faulty SDS line heights
