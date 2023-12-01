@@ -1,9 +1,17 @@
-import { resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import Backend from 'i18next-fs-backend'
 import { RemixI18Next } from 'remix-i18next'
 
 import { i18n } from './i18next'
+
+const DIRNAME = dirname(fileURLToPath(import.meta.url))
+
+export const LOCALES_PATH = resolve(
+  DIRNAME,
+  '../public/locales/{{lng}}/{{ns}}.json',
+)
 
 export const i18next = new RemixI18Next({
   detection: {
@@ -16,7 +24,7 @@ export const i18next = new RemixI18Next({
   i18next: {
     ...i18n,
     backend: {
-      loadPath: resolve('./public/locales/{{lng}}/{{ns}}.json'),
+      loadPath: LOCALES_PATH,
     },
   },
 

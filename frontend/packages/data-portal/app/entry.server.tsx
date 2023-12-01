@@ -9,14 +9,13 @@ import type { EntryContext } from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
 import { createInstance } from 'i18next'
 import Backend from 'i18next-fs-backend'
-import { resolve } from 'path'
 import { renderToString } from 'react-dom/server'
 import { I18nextProvider, initReactI18next } from 'react-i18next'
 
 import { createEmotionCache } from 'app/utils/createEmotionCache'
 
 import { i18n } from './i18next'
-import { i18next } from './i18next.server'
+import { i18next, LOCALES_PATH } from './i18next.server'
 import { theme } from './theme'
 
 export default async function handleRequest(
@@ -39,7 +38,7 @@ export default async function handleRequest(
       ...i18n,
       lng,
       ns,
-      backend: { loadPath: resolve('./public/locales/{{lng}}/{{ns}}.json') },
+      backend: { loadPath: LOCALES_PATH },
     })
 
   function MuiRemixServer() {
