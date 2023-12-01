@@ -21,18 +21,26 @@ export function RunHeader() {
   const keyPhotoURL = 'https://loremflickr.com/400/400/cat'
 
   const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
+  const neuroglancerConfig = run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
+    ?.neuroglancer_config
 
   return (
     <PageHeader
       actions={
         <>
-          <Button
-            startIcon={<Icon sdsIcon="table" sdsType="button" sdsSize="s" />}
-            sdsType="primary"
-            sdsStyle="rounded"
-          >
-            {t('viewTomogram')}
-          </Button>
+          {neuroglancerConfig && (
+            <Button
+              to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(
+                neuroglancerConfig,
+              )}`}
+              startIcon={<Icon sdsIcon="table" sdsType="button" sdsSize="s" />}
+              sdsType="primary"
+              sdsStyle="rounded"
+              component={Link}
+            >
+              <span>{t('viewTomogram')}</span>
+            </Button>
+          )}
 
           <Button
             startIcon={<Icon sdsIcon="download" sdsType="button" sdsSize="l" />}
