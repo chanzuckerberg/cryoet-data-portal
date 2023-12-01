@@ -26,17 +26,20 @@ const GET_RUN_BY_ID_QUERY = gql(`
 
       tiltseries {
         acceleration_voltage
+        aligned_tiltseries_binning
         binning_from_frames
         camera_manufacturer
         camera_model
         data_acquisition_software
         id
+        is_aligned
         microscope_additional_info
         microscope_energy_filter
         microscope_image_corrector
         microscope_manufacturer
         microscope_model
         microscope_phase_plate
+        pixel_spacing
         related_empiar_entry
         spherical_aberration_constant
         tilt_axis
@@ -50,6 +53,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
 
       dataset {
+        cell_component_name
         cell_name
         cell_strain_name
         dataset_citations
@@ -84,6 +88,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
 
         funding_sources {
           funding_agency_name
+          grant_id
         }
       }
 
@@ -91,7 +96,13 @@ const GET_RUN_BY_ID_QUERY = gql(`
         id
         s3_prefix
 
-        tomograms(limit: 1) {
+        tomograms(
+          limit: 1,
+          where: {
+            is_canonical: { _eq: true }
+          },
+        ) {
+          affine_transformation_matrix
           ctf_corrected
           fiducial_alignment_status
           name
@@ -117,9 +128,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
           deposition_date
           ground_truth_status
           ground_truth_used
+          is_curator_recommended
           last_modified_date
           object_count
           object_description
+          object_id
           object_name
           object_state
           release_date

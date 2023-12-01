@@ -39,7 +39,7 @@ const GET_DATASETS_DATA_QUERY = gql(`
       id
       title
       organism_name
-      dataset_publications
+      related_database_entries
 
       authors {
         name
@@ -49,6 +49,14 @@ const GET_DATASETS_DATA_QUERY = gql(`
       runs_aggregate {
         aggregate {
           count
+        }
+      }
+
+      runs {
+        tomogram_voxel_spacings {
+          annotations(distinct_on: object_name) {
+            object_name
+          }
         }
       }
     }

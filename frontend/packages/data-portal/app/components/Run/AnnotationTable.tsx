@@ -6,9 +6,9 @@ import { range } from 'lodash-es'
 import { useCallback, useMemo } from 'react'
 
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { useRunById } from 'app/hooks/useRunById'
-import { i18n } from 'app/i18n'
 import { Annotation, useAnnotation } from 'app/state/annotation'
 import { useDrawer } from 'app/state/drawer'
 import { getAnnotationTitle } from 'app/utils/annotation'
@@ -19,11 +19,13 @@ import { Table, TableCell } from '../Table'
 const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map(() => ({}) as Annotation)
 
 function ConfidenceValue({ value }: { value: number }) {
+  const { t } = useI18n()
+
   return (
     <div className="flex flex-col gap-sds-xxxs">
       <p className="text-sds-header-s leading-sds-header-s">{value}%</p>
       <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
-        {i18n.confidence}
+        {t('confidence')}
       </p>
     </div>
   )
@@ -36,6 +38,7 @@ export function AnnotationTable() {
   const { run } = useRunById()
   const { setActiveDrawerId } = useDrawer()
   const { setActiveAnnotation } = useAnnotation()
+  const { t } = useI18n()
 
   const openAnnotationDrawer = useCallback(
     (annotation: Annotation) => {
@@ -60,7 +63,7 @@ export function AnnotationTable() {
                 <ConfidenceValue value={value} />
               ) : (
                 <p className="text-sds-body-xs leading-sds-body-xs">
-                  {i18n.na}
+                  {t('na')}
                 </p>
               )}
             </TableCell>
@@ -71,7 +74,7 @@ export function AnnotationTable() {
 
     return [
       columnHelper.accessor('s3_path', {
-        header: i18n.annotations,
+        header: t('annotations'),
         cell: ({ row: { original: annotation } }) => (
           <TableCell
             className="flex flex-col !items-start"
@@ -92,7 +95,7 @@ export function AnnotationTable() {
                     'text-sds-body-xxxs leading-sds-body-xxxs text-sds-gray-white whitespace-nowrap',
                   )}
                 >
-                  {i18n.groundTruth}
+                  {t('groundTruth')}
                 </div>
               )}
             </div>
@@ -104,7 +107,11 @@ export function AnnotationTable() {
                 return (
                   <li className="flex items-center" key={author.name}>
                     <span>{author.name}</span>
-                    <span>{idx < MAX_AUTHORS - 1 && ', '}</span>
+                    <span>
+                      {annotation.authors.length > 1 &&
+                        idx < MAX_AUTHORS - 1 &&
+                        ', '}
+                    </span>
 
                     {idx === MAX_AUTHORS - 1 && idx < totalAuthorCount - 1 && (
                       <Button
@@ -112,7 +119,9 @@ export function AnnotationTable() {
                         sdsStyle="minimal"
                         onClick={() => openAnnotationDrawer(annotation)}
                       >
-                        {i18n.plusMore(totalAuthorCount - MAX_AUTHORS)}
+                        {t('plusMore', {
+                          count: totalAuthorCount - MAX_AUTHORS,
+                        })}
                       </Button>
                     )}
                   </li>
@@ -124,7 +133,7 @@ export function AnnotationTable() {
       }),
 
       columnHelper.accessor('object_name', {
-        header: i18n.annotationObject,
+        header: t('annotationObject'),
         cell: ({ getValue }) => (
           <TableCell minWidth={120} maxWidth={250}>
             {getValue()}
@@ -132,38 +141,51 @@ export function AnnotationTable() {
         ),
       }),
 
-      columnHelper.accessor('object_count', {
+      columnHelper.accessor('shape_type', {
         header: () => (
-          <CellHeader horizontalAlign="right">{i18n.objectCount}</CellHeader>
+          <CellHeader horizontalAlign="right">
+            {t('objectShapeType')}
+          </CellHeader>
         ),
         cell: ({ getValue }) => (
-          <TableCell horizontalAlign="right" minWidth={100} maxWidth={120}>
+          <TableCell horizontalAlign="right" minWidth={100} maxWidth={150}>
             {getValue()}
           </TableCell>
         ),
       }),
 
-      getConfidenceCell('confidence_precision', i18n.precision),
-      getConfidenceCell('confidence_recall', i18n.recall),
+      columnHelper.accessor('object_count', {
+        header: () => (
+          <CellHeader horizontalAlign="right">{t('objectCount')}</CellHeader>
+        ),
+        cell: ({ getValue }) => (
+          <TableCell horizontalAlign="right" minWidth={85} maxWidth={120}>
+            {getValue()}
+          </TableCell>
+        ),
+      }),
+
+      getConfidenceCell('confidence_precision', t('precision')),
+      getConfidenceCell('confidence_recall', t('recall')),
 
       columnHelper.display({
         id: 'annotation-actions',
         // Render empty cell header so that it doesn't break the table layout
         header: () => <CellHeader>{null}</CellHeader>,
         cell: ({ row: { original: annotation } }) => (
-          <TableCell minWidth={85} maxWidth={120}>
+          <TableCell minWidth={85} maxWidth={100}>
             <Button
               sdsType="primary"
               sdsStyle="minimal"
               onClick={() => openAnnotationDrawer(annotation)}
             >
-              {i18n.moreInfo}
+              {t('moreInfo')}
             </Button>
           </TableCell>
         ),
       }),
     ] as ColumnDef<Annotation>[]
-  }, [openAnnotationDrawer])
+  }, [openAnnotationDrawer, t])
 
   const annotations = useMemo(
     () =>

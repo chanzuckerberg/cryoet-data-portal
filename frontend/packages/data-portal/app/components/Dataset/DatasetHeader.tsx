@@ -29,7 +29,7 @@ export function DatasetHeader() {
       lastModifiedDate={dataset.last_modified_date ?? dataset.deposition_date}
       metadata={[
         {
-          key: t('portalIdBlank'),
+          key: t('portalId'),
           value: String(dataset.id),
           uppercase: true,
         },

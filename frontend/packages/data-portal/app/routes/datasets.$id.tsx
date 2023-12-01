@@ -26,24 +26,25 @@ const GET_DATASET_BY_ID = gql(`
       id
       title
       description
+
       funding_sources {
         funding_agency_name
+        grant_id
       }
 
-      # TODO Grant ID
       related_database_entries
       dataset_citations
 
       # Sample and experiments data
-      sample_type
-      organism_name
-      tissue_name
+      cell_component_name
       cell_name
       cell_strain_name
-      # TODO cellular component
-      sample_preparation
       grid_preparation
+      organism_name
       other_setup
+      sample_preparation
+      sample_type
+      tissue_name
 
       authors(distinct_on: name) {
         name
@@ -86,6 +87,12 @@ const GET_DATASET_BY_ID = gql(`
             avg {
               tilt_series_quality
             }
+          }
+        }
+
+        tomogram_voxel_spacings {
+          annotations(distinct_on: object_name) {
+            object_name
           }
         }
       }
