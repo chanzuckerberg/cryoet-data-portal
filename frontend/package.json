@@ -4,7 +4,7 @@
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm -r build",
     "clean": "pnpm -r clean",
-    "clean:modules": "pnpm '/clean:modules:.*/'",
+    "clean:modules": "run-p -l 'clean:modules:*'",
     "clean:modules:root": "rm -rf node_modules",
     "clean:modules:packages": "pnpm -r clean:modules",
     "data-portal": "pnpm --filter data-portal",
@@ -14,6 +14,7 @@
     "test": "pnpm -r test"
   },
   "devDependencies": {
-    "prettier": "^3.0.3"
+    "prettier": "^3.0.3",
+    "npm-run-all": "^4.1.5"
   }
 }
