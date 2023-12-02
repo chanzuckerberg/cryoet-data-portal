@@ -284,6 +284,7 @@ export default function BrowseDatasetsPage() {
 
   return (
     <TablePageLayout
+      type={i18n.datasets}
       filteredCount={filteredDatasetCount}
       filters={<DatasetFilter />}
       table={<DatasetTable />}

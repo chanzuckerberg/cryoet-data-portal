@@ -4,7 +4,6 @@ import { ReactNode, useMemo } from 'react'
 
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { LayoutContext, LayoutContextValue } from 'app/context/Layout.context'
-import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
 
 import { TableCount } from './Table/TableCount'
@@ -18,6 +17,7 @@ export function TablePageLayout({
   noResults,
   table,
   totalCount,
+  type,
 }: {
   downloadModal?: ReactNode
   drawers?: ReactNode
@@ -27,6 +27,7 @@ export function TablePageLayout({
   noResults?: ReactNode
   table: ReactNode
   totalCount: number
+  type: string
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
   const page = +(searchParams.get('page') ?? '1')
@@ -84,7 +85,7 @@ export function TablePageLayout({
               <TableCount
                 filteredCount={filteredCount}
                 totalCount={totalCount}
-                type={i18n.runs}
+                type={type}
               />
 
               {table}

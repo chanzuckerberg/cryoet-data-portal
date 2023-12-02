@@ -89,7 +89,7 @@ export function RunHeader() {
       title={run.name}
     >
       <div className="flex gap-sds-xxl p-sds-xl border-t-[3px] border-sds-gray-200">
-        <div className="max-w-[300px] max-h-[212px] flex-shrink-0">
+        <div className="max-w-[300px] max-h-[213px] overflow-clip rounded-sds-m flex-shrink-0">
           <Link to={keyPhotoURL}>
             <KeyPhoto title={run.name} src={keyPhotoURL} />
           </Link>

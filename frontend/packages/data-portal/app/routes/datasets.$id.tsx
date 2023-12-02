@@ -11,6 +11,7 @@ import { DownloadModal } from 'app/components/Download'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useDatasetById } from 'app/hooks/useDatasetById'
+import { i18n } from 'app/i18n'
 
 const GET_DATASET_BY_ID = gql(`
   query GetDatasetById($id: Int, $run_limit: Int, $run_offset: Int) {
@@ -143,6 +144,7 @@ export default function DatasetByIdPage() {
 
   return (
     <TablePageLayout
+      type={i18n.runs}
       downloadModal={
         <DownloadModal
           datasetId={dataset.id}

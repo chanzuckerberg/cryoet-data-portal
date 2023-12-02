@@ -16,6 +16,7 @@ import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useRunById } from 'app/hooks/useRunById'
+import { i18n } from 'app/i18n'
 import { DownloadConfig } from 'app/types/download'
 
 const GET_RUN_BY_ID_QUERY = gql(`
@@ -299,6 +300,7 @@ export default function RunByIdPage() {
 
   return (
     <TablePageLayout
+      type={i18n.annotations}
       downloadModal={
         <DownloadModal
           allTomogramProcessing={allTomogramProcessing}
