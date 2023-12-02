@@ -10,7 +10,7 @@ export function MdxContent() {
 
   return (
     <div className="py-sds-xxl px-sds-xl flex flex-auto justify-center">
-      <div className="w-full max-w-mdx-content">
+      <div className="w-full max-w-content-small">
         <MDXRemote
           {...content}
           components={{
