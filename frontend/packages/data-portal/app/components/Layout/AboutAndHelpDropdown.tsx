@@ -13,6 +13,10 @@ export function AboutAndHelpDropdown({ className }: { className?: string }) {
       <MenuItemLink to="/faq">{i18n.faq}</MenuItemLink>
       {/* <MenuItemLink to="/license">{i18n.license}</MenuItemLink> */}
       <MenuItemLink to="/privacy">{i18n.privacyPolicy}</MenuItemLink>
+      {/* <MenuItemLink to="/terms" divider> */}
+      <MenuItemLink to="/data-submission-policy">
+        {i18n.dataSubmissionPolicy}
+      </MenuItemLink>
       {/* <MenuItemLink to="/terms" divider>
         {i18n.termsOfUse}
       </MenuItemLink> */}

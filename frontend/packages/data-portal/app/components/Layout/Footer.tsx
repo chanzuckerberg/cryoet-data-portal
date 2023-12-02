@@ -39,10 +39,6 @@ const LEGAL_LINKS = [
   //   label: i18n.license,
   //   href: 'https://example.com',
   // },
-  {
-    label: i18n.cookiePolicy,
-    href: '/data-submission-policy',
-  },
 ]
 
 export function Footer() {

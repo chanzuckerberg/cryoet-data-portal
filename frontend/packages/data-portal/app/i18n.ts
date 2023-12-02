@@ -63,6 +63,7 @@ export const i18n = {
   datasets: 'Datasets',
   datasetsTab: (count: number) => `Datasets ${count}`,
   datasetTitle: 'Dataset Title',
+  dataSubmissionPolicy: 'Data Submission Policy',
   depositionDate: 'Deposition Date',
   description: 'Description',
   documentation: 'Documentation',
