@@ -90,7 +90,7 @@ export function RunHeader() {
       title={run.name}
     >
       <div className="flex gap-sds-xxl p-sds-xl border-t-[3px] border-sds-gray-200">
-        <div className="max-w-[300px] max-h-[213px] overflow-clip rounded-sds-m flex-shrink-0">
+        <div className="max-w-[300px] max-h-[213px] grow overflow-clip rounded-sds-m flex-shrink-0">
           {keyPhotoURL ? (
             <Link to={keyPhotoURL}>
               <KeyPhoto title={run.name} src={keyPhotoURL} />
@@ -100,7 +100,7 @@ export function RunHeader() {
           )}
         </div>
 
-        <div className="flex gap-sds-xxl flex-col lg:flex-row">
+        <div className="flex flex-1 gap-sds-xxl flex-col lg:flex-row">
           <MetadataTable
             title={i18n.tiltSeries}
             data={[
