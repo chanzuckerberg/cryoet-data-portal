@@ -22,18 +22,26 @@ export function RunHeader() {
     run.tomogram_voxel_spacings[0]?.tomograms[0]?.key_photo_url
 
   const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
+  const neuroglancerConfig = run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
+    ?.neuroglancer_config
 
   return (
     <PageHeader
       actions={
         <>
-          <Button
-            startIcon={<Icon sdsIcon="table" sdsType="button" sdsSize="s" />}
-            sdsType="primary"
-            sdsStyle="rounded"
-          >
-            {t('viewTomogram')}
-          </Button>
+          {neuroglancerConfig && (
+            <Button
+              to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(
+                neuroglancerConfig,
+              )}`}
+              startIcon={<Icon sdsIcon="table" sdsType="button" sdsSize="s" />}
+              sdsType="primary"
+              sdsStyle="rounded"
+              component={Link}
+            >
+              <span>{t('viewTomogram')}</span>
+            </Button>
+          )}
 
           <Button
             startIcon={<Icon sdsIcon="download" sdsType="button" sdsSize="l" />}
@@ -79,12 +87,10 @@ export function RunHeader() {
         },
       ]}
       onMoreInfoClick={() => drawer.setActiveDrawerId('run-metadata')}
-      // TODO add release date data
-      releaseDate="2023-09-30"
       title={run.name}
     >
       <div className="flex gap-sds-xxl p-sds-xl border-t-[3px] border-sds-gray-200">
-        <div className="max-w-[300px] h-full aspect-[4/3] flex-shrink-0">
+        <div className="max-w-[300px] max-h-[213px] overflow-clip rounded-sds-m flex-shrink-0">
           {keyPhotoURL ? (
             <Link to={keyPhotoURL}>
               <KeyPhoto title={run.name} src={keyPhotoURL} />

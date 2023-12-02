@@ -34,7 +34,7 @@ export function MetadataTable({
 
             return (
               <TableRow
-                className={cns(idx % 2 !== 0 && 'bg-sds-gray-100')}
+                className={cns((idx + 1) % 2 !== 0 && 'bg-sds-gray-100')}
                 key={datum.label + values.join(', ')}
               >
                 <TableCell {...tableCellProps}>

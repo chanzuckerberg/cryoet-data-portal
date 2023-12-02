@@ -107,7 +107,7 @@ export const i18n = {
   na: 'NA',
   nameOrId: 'Name/ID',
   napariPlugin: 'napari Plugin',
-  nFiles: (count: number) => `${count} File${count > 1 ? 's' : ''}`,
+  nFiles: (count: number) => `${count} File${count !== 1 ? 's' : ''}`,
   nMoreObjects: (count: number) => `${count} More Objects`,
   no: 'No',
   notApplicable: 'Not Applicable',

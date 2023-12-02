@@ -11,6 +11,7 @@ import { DownloadModal } from 'app/components/Download'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useDatasetById } from 'app/hooks/useDatasetById'
+import { i18n } from 'app/i18n'
 
 const GET_DATASET_BY_ID = gql(`
   query GetDatasetById($id: Int, $run_limit: Int, $run_offset: Int) {
@@ -29,24 +30,25 @@ const GET_DATASET_BY_ID = gql(`
       id
       title
       description
+
       funding_sources {
         funding_agency_name
+        grant_id
       }
 
-      # TODO Grant ID
       related_database_entries
       dataset_citations
 
       # Sample and experiments data
-      sample_type
-      organism_name
-      tissue_name
+      cell_component_name
       cell_name
       cell_strain_name
-      # TODO cellular component
-      sample_preparation
       grid_preparation
+      organism_name
       other_setup
+      sample_preparation
+      sample_type
+      tissue_name
 
       authors(distinct_on: name) {
         name
@@ -92,7 +94,10 @@ const GET_DATASET_BY_ID = gql(`
           }
         }
 
-        tomogram_voxel_spacings(limit: 1) {
+        tomogram_voxel_spacings {
+          annotations(distinct_on: object_name) {
+            object_name
+          }
           tomograms(limit: 1) {
             key_photo_thumbnail_url
           }
@@ -145,6 +150,7 @@ export default function DatasetByIdPage() {
 
   return (
     <TablePageLayout
+      type={i18n.runs}
       downloadModal={
         <DownloadModal
           datasetId={dataset.id}

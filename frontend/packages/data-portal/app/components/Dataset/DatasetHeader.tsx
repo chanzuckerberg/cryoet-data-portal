@@ -29,7 +29,7 @@ export function DatasetHeader() {
       lastModifiedDate={dataset.last_modified_date ?? dataset.deposition_date}
       metadata={[
         {
-          key: t('portalIdBlank'),
+          key: t('portalId'),
           value: String(dataset.id),
           uppercase: true,
         },
@@ -38,16 +38,19 @@ export function DatasetHeader() {
       releaseDate={dataset.release_date}
       title={dataset.title}
     >
-      <div className="flex flex-row justify-between px-sds-xl pb-sds-xxl">
+      <div className="flex flex-row justify-between gap-sds-xxl px-sds-xl pb-sds-xxl">
         <div className="flex-1 min-w-[300px]">
           <DatasetDescription />
         </div>
 
-        <div className="flex-1 w-full max-w-[465px]">
-          <KeyPhoto
-            title={dataset.title}
-            src={dataset.key_photo_url ?? undefined}
-          />
+        {/* 465 + 38 = 503px */}
+        <div className="flex-1 max-w-[503px] text-right">
+          <div className="max-w-[465px] w-full inline-block">
+            <KeyPhoto
+              title={dataset.title}
+              src={dataset.key_photo_url ?? undefined}
+            />
+          </div>
         </div>
       </div>
     </PageHeader>
