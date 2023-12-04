@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from '@remix-run/react'
+import { useLocation } from '@remix-run/react'
 import { useMemo } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
@@ -11,8 +11,9 @@ export enum BrowseDataTab {
   Runs = 'runs',
 }
 
+// TODO: uncomment features when implemented
 export function BrowseDataTabs() {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const { pathname } = useLocation()
   const tab = pathname.includes('/browse-data/datasets')
     ? BrowseDataTab.Datasets
@@ -20,7 +21,7 @@ export function BrowseDataTabs() {
 
   const data = useTypedLoaderData<GetToolbarDataQuery>()
   const datasetCount = data.datasets_aggregate.aggregate?.count ?? 0
-  const runCount = data.runs_aggregate.aggregate?.count ?? 0
+  // const runCount = data.runs_aggregate.aggregate?.count ?? 0
 
   const tabOptions = useMemo<TabData<BrowseDataTab>[]>(
     () => [
@@ -28,17 +29,19 @@ export function BrowseDataTabs() {
         label: i18n.datasetsTab(datasetCount),
         value: BrowseDataTab.Datasets,
       },
-      {
-        label: i18n.runsTab(runCount),
-        value: BrowseDataTab.Runs,
-      },
+      // {
+      //   label: i18n.runsTab(runCount),
+      //   value: BrowseDataTab.Runs,
+      // },
     ],
-    [datasetCount, runCount],
+    [datasetCount],
+    // [datasetCount, runCount],
   )
 
   return (
     <Tabs
-      onChange={(nextTab) => navigate(`/browse-data/${nextTab}`)}
+      // onChange={(nextTab) => navigate(`/browse-data/${nextTab}`)}
+      onChange={() => null}
       value={tab}
       tabs={tabOptions}
     />
