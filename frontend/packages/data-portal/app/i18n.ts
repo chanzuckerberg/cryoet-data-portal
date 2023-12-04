@@ -146,7 +146,7 @@ export const i18n = {
   releaseDate: (date: string) => `Release Date: ${date}`,
   releaseDateBlank: 'Release Date',
   reportIssueOnGithub: 'Report Issue on GitHub',
-  resolutionsAvailable: 'Resolutions Available',
+  resolutionsAvailable: 'Samplings Available',
   run: 'Run',
   runCount: (count: number, max: number) => `${count} of ${max} Runs`,
   runDetails: 'Run Details',

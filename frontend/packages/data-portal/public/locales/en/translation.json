@@ -172,7 +172,7 @@
   "releaseDate": "Release Date: {{date}}",
   "releaseDateBlank": "Release Date",
   "reportIssueOnGithub": "Report Issue on GitHub",
-  "resolutionsAvailable": "Resolutions Available",
+  "resolutionsAvailable": "Samplings Available",
   "run": "Run",
   "runDataIncludes": "Run data includes all available movie frames, tilt series image stack, tomograms, annotations, and associated metadata.",
   "runDetails": "Run Details",
