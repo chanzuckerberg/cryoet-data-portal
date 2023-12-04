@@ -106,6 +106,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
           affine_transformation_matrix
           ctf_corrected
           fiducial_alignment_status
+          key_photo_url
           name
           neuroglancer_config
           processing

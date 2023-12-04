@@ -18,6 +18,9 @@ const GET_DATASET_BY_ID = gql(`
     datasets(where: { id: { _eq: $id } }) {
       s3_prefix
 
+      # key photo
+      key_photo_url
+
       # Dataset dates
       last_modified_date
       release_date
@@ -94,6 +97,9 @@ const GET_DATASET_BY_ID = gql(`
         tomogram_voxel_spacings {
           annotations(distinct_on: object_name) {
             object_name
+          }
+          tomograms(limit: 1) {
+            key_photo_thumbnail_url
           }
         }
       }
