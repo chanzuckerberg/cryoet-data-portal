@@ -9,6 +9,9 @@ module "stack" {
   stack_prefix     = "/${var.stack_name}"
   app_name         = var.app
   deployment_stage = "prod"
+  additional_env_vars = {
+    ENV = "prod"
+  }
   services = {
     frontend = {
       health_check_path     = "/"
