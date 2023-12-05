@@ -196,7 +196,15 @@ For more examples of using the `find` operator, check out the [tutorial here](ht
 
 ## What is the meaning of the tilt series quality score?
 
+The tilt series quality score/rating is a relative subjective scale meant for comparing tilt series within a dataset. The contributor of the dataset assigns quality scores to each of the tilt series to communicate their quality estimate to users. Below is an example scale based mainly on alignability and usefulness for the intended analysis.
 
+| Rating | Quality | Description |
+| -------| ----------- | ----- |
+| 5 | Excellent | Full Tilt Series/Reconstructions could be used in publication ready figures. |
+| 4 | Good | Full Tilt Series/Reconstructions are useful for analysis (subtomogram averaging, segmentation).|
+| 3 | Medium | Minor parts of the tilt series (projection images) need to be or have been discarded prior to reconstruction and analysis. |
+| 2 | Marginal | Major parts of the tilt series (projection images) need to be or have been discarded prior to reconstruction and analysis. Useful for analysis only after heavy manual intervention.|
+| 1 | Low   | Not useful for analysis with current tools (not alignable), useful as a test case for problematic data only.|
 
 ## What is the dataset identifier and Portal ID?
 
