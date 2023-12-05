@@ -66,6 +66,7 @@
   "datasets": "Datasets",
   "datasetsTab": "Datasets {{count}}",
   "datasetTitle": "Dataset Title",
+  "dataSubmissionPolicy": "Data Submission Policy",
   "depositionDate": "Deposition Date",
   "description": "Description",
   "directDownload": "Direct Download",

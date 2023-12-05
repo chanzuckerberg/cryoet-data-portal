@@ -2,9 +2,9 @@ import { MdxContent } from 'app/components/MDX'
 import { getLocalFileContent } from 'app/utils/repo.server'
 
 export async function loader() {
-  return getLocalFileContent('website-docs/privacy-policy.mdx')
+  return getLocalFileContent('website-docs/data-submission-policy.mdx')
 }
 
-export default function PrivacyPage() {
+export default function DataSubmissionPolicyPage() {
   return <MdxContent />
 }

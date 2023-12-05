@@ -1,8 +1,11 @@
 import { AxiosResponse } from 'axios'
+import { readFileSync } from 'fs'
 import { serialize } from 'next-mdx-remote/serialize'
 import { Octokit } from 'octokit'
+import { dirname, resolve } from 'path'
 import sectionize from 'remark-sectionize'
 import { typedjson } from 'remix-typedjson'
+import { fileURLToPath } from 'url'
 
 import { axios } from 'app/axios'
 
@@ -33,9 +36,7 @@ export async function getRepoFileContent(path: string): Promise<RepoFile> {
   }
 }
 
-export async function getRepoFileContentResponse(path: string) {
-  const { content, lastModified } = await getRepoFileContent(path)
-
+async function serializeMdx(content: string, lastModified: Date | null) {
   return typedjson({
     lastModified,
     content: await serialize(content, {
@@ -44,4 +45,20 @@ export async function getRepoFileContentResponse(path: string) {
       },
     }),
   })
+}
+
+export async function getRepoFileContentResponse(path: string) {
+  const { content, lastModified } = await getRepoFileContent(path)
+
+  return serializeMdx(content, lastModified)
+}
+
+export async function getLocalFileContent(path: string) {
+  const scriptDir = dirname(fileURLToPath(import.meta.url))
+  const mdxContent = readFileSync(
+    resolve(scriptDir, `../../../../${path}`),
+    'utf-8',
+  )
+
+  return serializeMdx(mdxContent, null)
 }

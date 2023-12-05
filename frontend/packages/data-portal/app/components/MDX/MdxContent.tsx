@@ -3,6 +3,8 @@ import { MDXRemote } from 'next-mdx-remote'
 import { useMdxFile } from 'app/hooks/useMdxFile'
 
 import { MdxAccordion } from './MdxAccordion'
+import { MdxBody } from './MdxBody'
+import { MdxEmail } from './MdxEmail'
 import { MdxPageTitle } from './MdxPageTitle'
 
 export function MdxContent() {
@@ -15,6 +17,8 @@ export function MdxContent() {
           {...content}
           components={{
             Accordion: MdxAccordion,
+            Body: MdxBody,
+            Email: MdxEmail,
             PageTitle: MdxPageTitle,
           }}
         />
