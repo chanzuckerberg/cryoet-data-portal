@@ -10,7 +10,7 @@ Jane Ding
 Ben Engel
 Ryan Feathers
 Sara Goetz
-Danielle Grotjhan
+Danielle Grotjahn
 Gus Hart
 Grant Jensen
 Mohammed Kaplan

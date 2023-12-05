@@ -29,19 +29,19 @@ const DEV_LINKS = [
 const LEGAL_LINKS = [
   {
     label: i18n.privacy,
-    href: 'https://example.com',
+    href: '/privacy',
   },
-  {
-    label: i18n.terms,
-    href: 'https://example.com',
-  },
-  {
-    label: i18n.license,
-    href: 'https://example.com',
-  },
+  // {
+  //   label: i18n.terms,
+  //   href: 'https://example.com',
+  // },
+  // {
+  //   label: i18n.license,
+  //   href: 'https://example.com',
+  // },
   {
     label: i18n.cookiePolicy,
-    href: 'https://example.com',
+    href: '/data-submission-policy',
   },
 ]
 
