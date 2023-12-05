@@ -18,8 +18,9 @@ module "stack" {
       priority              = 0
       service_type          = "EXTERNAL"
       success_codes         = "200-499"
-      memory                = "1500Mi"
-      cpu                   = "1500m"
+      memory                = "2000Mi"
+      cpu                   = "2000m"
+      initial_delay_seconds = 100
     }
   }
   create_dashboard = false
