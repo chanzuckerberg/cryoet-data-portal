@@ -123,6 +123,11 @@ const Document = withEmotionCache(
 )
 
 export const links: LinksFunction = () => [
+  {
+    rel: 'icon',
+    href: '/favicon.png',
+    type: 'image/png',
+  },
   { rel: 'stylesheet', href: tailwindStyles },
   ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
 ]
