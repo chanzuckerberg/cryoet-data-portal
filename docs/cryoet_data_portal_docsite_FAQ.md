@@ -27,7 +27,7 @@ For more information about submiting issues on Github, please refer to [Github's
 The CryoET Data Portal uses the following data schema:
 
 1. A dataset is a community contributed set of image files for tilt series, reconstructed tomograms, and if available, cellular and/or subcellular annotation files. Every dataset contains only one sample type prepared and imaged with the same conditions. The dataset title, such as `S. pombe cryo-FIB lamellae acquired with defocus-only`, summarizes these conditions. Samples can be a cell, tissue or organism; intact organelle; in-vitro mixture of macromolecules or their complex; or in-silico synthetic data, where the experimental conditions are kept constant. Downloading a dataset downloads all files, including all available tilt series, tomograms, and annotations.
-2. A run is one experiment, or replicate, associated with a dataset, where all runs in a dataset have the same sample and imaging conditions. Every run contains a collection of all tomography data and annotations related to imaging one physical location in a sample. It typically contains one tilt series and all associated data (e.g. movie frames, tilt series image stack, tomograms, annotations, and metadata), but in some cases, it may be a set of tilt series that form a mosaic. When downloading a run, you may download only the tomograms or the tomograms and available annotations.
+2. A run is one experiment, or replicate, associated with a dataset, where all runs in a dataset have the same sample and imaging conditions. Every run contains a collection of all tomography data and annotations related to imaging one physical location in a sample. It typically contains one tilt series and all associated data (e.g. movie frames, tilt series image stack, tomograms, annotations, and metadata), but in some cases, it may be a set of tilt series that form a mosaic. When downloading a run from a Portal page, you may choose to download the tomogram or all available annotations. To download all data associated with a run (i.e. all available movie frames, tilt series image stack, tomograms, annotations, and associated metadata), please refer to the [API download guide](#How-do-I-download-data-using-the-Portal's-API?).
 3. An annotation is a point or segmentation indicating the location of a macromolecular complex in the tomogram. On the run page, you may choose to download tomograms with their annotations.
 
 Descriptions of all terminology and metadata used in the Portal is provided [here](https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#?usp=sharing). You can refer to a graphic of the [data schema here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html#data-model).
@@ -36,11 +36,13 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
 
 Below are details on how to use the Amazon Web Services (AWS) Command Line Interface (CLI) tool to download data from the CryoET Data Portal. 
 
-**The Data Portal's S3 bucket is public**, so it can be used without credential sign in by specifying `--no-sign-request` in your commands. In only a few minutes, you can get started downloading data following the steps in the [Quickstart Guide](#quickstart), and for more details, refer to the [Installation](#installation), [Download Data](#download-data), and [Optimize Download Speed](#optimize-download-speed) in-depth explanations.
+**The Data Portal's S3 bucket is public**, so it can be used without sign-in credentials by specifying `--no-sign-request` in your commands. We recommend following our [Quickstart Guide](#quickstart) to get started downloading data in only a few minutes. 
+
+For more details or to troubleshoot, refer to the [Installation](#installation), [Download Data](#download-data), and [Optimize Download Speed](#optimize-download-speed) in-depth explanations.
 
 ### Quickstart
 1. Download the installer: [MacOS Installer Download](https://awscli.amazonaws.com/AWSCLIV2.pkg) / [Windows Installer Download](https://awscli.amazonaws.com/AWSCLIV2.msi)
-2. Open installer and complete installation following prompts. (No further steps, since credentials ARE NOT needed to use the tool.)
+2. Open installer and complete installation following the prompts. (No further steps, since credentials ARE NOT needed to use the tool.)
 3. Open terminal (MacOS) or command prompt (Windows).
 4. Copy and paste the command from the download prompt for the desired data into terminal / command prompt and hit enter.
 5. Alternatively, create a custom command inserting the S3 URL of the data and the desired download destination in the spaces provided.
@@ -93,7 +95,7 @@ To download data, we'll run commands in terminal (MacOS) or command prompt (Wind
 ```
 aws <command> <subcommand> <flags> [options and parameters (often S3 URL)]
 ```
-If you followed the above installation instructions, which did not include setting up credentials, use `--no-sign-request` as a `<flag>` in all of your AWS CLI commands to indicate that you are accessing the bucket without signing in.
+If you followed the above installation instructions, which did not include setting up sign in credentials, use `--no-sign-request` as a `<flag>` in all of your AWS CLI commands to indicate that you are accessing the bucket without signing in.
 
 The URL of the CryoET Data Portal is `s3://cryoet-data-portal-public`, and each dataset in the bucket has its own unique URL such as `s3://cryoet-data-portal-public/10000/TS_026`.
 
@@ -113,7 +115,7 @@ PRE 10001/
 PRE 10004/
 ```
 
-To download a file, We can use the `s3` and `cp` as the `<command>` and `<subcommand>`, respectively. The basic structure of this command is `aws s3 cp --no-sign-request [s3 bucket URL] [Local destination path]`, where the `Local destination path` is whereever you'd like the file to be downloaded. For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
+To download a file, We can use the `s3` and `cp` as the `<command>` and `<subcommand>`, respectively. The basic structure of this command is `aws s3 cp --no-sign-request [s3 bucket URL] [Local destination path]`, where the `Local destination path` is wherever you'd like the file to be downloaded. For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
 
 ```
 aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
@@ -192,7 +194,11 @@ for run in runs_list:
 
 For more examples of using the `find` operator, check out the [tutorial here](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_quick_start.html#python-quick-start). The Data Portal API reference can be found [here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
 
-## What is the dataset identifier and portal ID?
+## What is the meaning of the tilt series quality score?
+
+
+
+## What is the dataset identifier and Portal ID?
 
 The dataset identifier in the API refers to the Portal ID provided in the Portal. This number is assigned by the Data Portal as a unique identifier for a dataset and is used as the directory name in the data filetree.
 
@@ -207,5 +213,3 @@ Contributions can be raw data (tilt series and movie frames) + resulting tomogra
 We will work with you to upload the data to the Portal. Please fill out [this contribution form](https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=Contribution+from+portal&hide_Event=true), which is also found through the `Tell Us More` button on the bottom of the Portal homepage. We will then reach out to you to start the process of uploading your data. We have a ~6 month release cycle, so please allow time for the data to become available through the portal. 
 
 In the future, we plan to implement a self-upload process so that users can add their data to the Portal on their own.
-
-**Last Updated: November 28, 2023.**
