@@ -50,9 +50,13 @@ const GET_DATASET_BY_ID = gql(`
       sample_type
       tissue_name
 
+      # TODO Remove distinct_on when data is verified to be unique
       authors(
-        distinct_on: author_list_order,
-        order_by: { author_list_order: asc },
+        distinct_on: name,
+        order_by: {
+          author_list_order: asc,
+          name: asc,
+        },
       ) {
         name
         email
