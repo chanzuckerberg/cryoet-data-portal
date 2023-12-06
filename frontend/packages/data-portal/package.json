@@ -74,6 +74,7 @@
     "react-i18next": "^13.5.0",
     "react-is": "^18.2.0",
     "react-transition-group": "^4.4.5",
+    "remark-gfm": "<4.0.0",
     "remark-sectionize": "^2.0.0",
     "remix-i18next": "^5.4.0",
     "remix-typedjson": "^0.2.2",
