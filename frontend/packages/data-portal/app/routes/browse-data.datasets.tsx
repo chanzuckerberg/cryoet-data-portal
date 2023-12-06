@@ -43,7 +43,14 @@ const GET_DATASETS_DATA_QUERY = gql(`
       key_photo_thumbnail_url
       related_database_entries
 
-      authors {
+      # TODO Remove distinct_on when data is verified to be unique
+      authors(
+        distinct_on: name,
+        order_by: {
+          author_list_order: asc,
+          name: asc,
+        },
+      ) {
         name
         primary_author_status
       }
