@@ -30,7 +30,7 @@ export function TableCell({
       match(horizontalAlign)
         .with('left', () => '!text-left')
         .with('center', () => '!text-center')
-        .with('right', () => '!text-right !pr-8')
+        .with('right', () => '!text-right')
         .otherwise(() => ''),
 
       className,
@@ -38,6 +38,7 @@ export function TableCell({
     style: {
       maxWidth,
       minWidth,
+      width: maxWidth,
     },
   }
 

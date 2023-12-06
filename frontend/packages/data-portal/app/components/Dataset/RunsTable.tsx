@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 
+import { Button } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
 import { useLocation } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
@@ -9,7 +10,7 @@ import { useMemo } from 'react'
 import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
-import { Table, TableCell } from 'app/components/Table'
+import { PageTable, TableCell } from 'app/components/Table'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { TiltSeriesScore } from 'app/constants/tiltSeries'
 import { useDatasetById } from 'app/hooks/useDatasetById'
@@ -45,7 +46,7 @@ export function RunsTable() {
 
           return (
             <TableCell
-              className="flex flex-auto gap-4"
+              className="flex flex-grow gap-4 overflow-ellipsis"
               minWidth={250}
               maxWidth={300}
               renderLoadingSkeleton={false}
@@ -59,16 +60,11 @@ export function RunsTable() {
                 loading={isLoadingDebounced}
               />
 
-              <div className="flex flex-col flex-auto min-h-[100px]">
+              <div className="min-h-[100px] overflow-ellipsis overflow-hidden text-sds-primary-500 font-semibold">
                 {isLoadingDebounced ? (
                   <Skeleton className="max-w-[150px]" variant="text" />
                 ) : (
-                  <Link
-                    className="text-sds-primary-500 font-semibold"
-                    to={runUrl}
-                  >
-                    {run.name}
-                  </Link>
+                  <Link to={runUrl}>{run.name}</Link>
                 )}
               </div>
             </TableCell>
@@ -84,7 +80,7 @@ export function RunsTable() {
             const score = getValue() as TiltSeriesScore | null | undefined
 
             return (
-              <TableCell>
+              <TableCell minWidth={100} maxWidth={210} className="flex-grow">
                 {typeof score === 'number' && inQualityScoreRange(score) ? (
                   <TiltSeriesQualityScoreBadge score={score} />
                 ) : (
@@ -112,9 +108,10 @@ export function RunsTable() {
 
           return (
             <TableCell
-              minWidth={120}
-              maxWidth={400}
+              minWidth={250}
+              maxWidth={500}
               renderLoadingSkeleton={false}
+              className="flex-grow-[2]"
             >
               {annotatedObjects.length === 0 ? (
                 '--'
@@ -128,10 +125,45 @@ export function RunsTable() {
           )
         },
       }),
+
+      columnHelper.accessor(
+        (run) =>
+          run.tomogram_voxel_spacings[0]?.tomograms[0]?.neuroglancer_config,
+        {
+          id: 'viewTomogram',
+          header: '',
+          cell({ getValue }) {
+            const neuroglancerConfig = getValue()
+            return (
+              <TableCell
+                className="flex-grow-[2]"
+                horizontalAlign="right"
+                minWidth={150}
+              >
+                {neuroglancerConfig && (
+                  <Button
+                    to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(
+                      neuroglancerConfig,
+                    )}`}
+                    sdsType="secondary"
+                    sdsStyle="square"
+                    component={Link}
+                  >
+                    {t('viewTomogram')}
+                  </Button>
+                )}
+              </TableCell>
+            )
+          },
+        },
+      ),
     ] as ColumnDef<Run>[]
   }, [isLoadingDebounced, location.pathname, location.search, t])
 
   return (
-    <Table data={isLoadingDebounced ? LOADING_RUNS : runs} columns={columns} />
+    <PageTable
+      data={isLoadingDebounced ? LOADING_RUNS : runs}
+      columns={columns}
+    />
   )
 }

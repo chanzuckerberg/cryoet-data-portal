@@ -9,7 +9,7 @@ import { useMemo } from 'react'
 
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
-import { Table, TableCell } from 'app/components/Table'
+import { PageTable, TableCell } from 'app/components/Table'
 import { EMPIAR_ID, EMPIAR_URL } from 'app/constants/external-dbs'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { Dataset, useDatasets } from 'app/hooks/useDatasets'
@@ -248,7 +248,7 @@ export function DatasetTable() {
   ])
 
   return (
-    <Table
+    <PageTable
       data={isLoadingDebounced ? LOADING_DATASETS : datasets}
       columns={columns}
     />
