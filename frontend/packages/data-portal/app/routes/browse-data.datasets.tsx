@@ -43,7 +43,10 @@ const GET_DATASETS_DATA_QUERY = gql(`
       key_photo_thumbnail_url
       related_database_entries
 
-      authors {
+      authors(
+        distinct_on: author_list_order,
+        order_by: { author_list_order: asc }
+      ) {
         name
         primary_author_status
       }

@@ -75,7 +75,10 @@ const GET_RUN_BY_ID_QUERY = gql(`
         tissue_name
         title
 
-        authors(distinct_on: name) {
+        authors(
+          distinct_on: author_list_order,
+          order_by: { author_list_order: asc },
+        ) {
           name
           email
           primary_author_status
