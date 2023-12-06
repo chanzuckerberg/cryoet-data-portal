@@ -14,7 +14,7 @@ import { useDrawer } from 'app/state/drawer'
 import { getAnnotationTitle } from 'app/utils/annotation'
 import { cnsNoMerge } from 'app/utils/cns'
 
-import { Table, TableCell } from '../Table'
+import { PageTable, TableCell } from '../Table'
 
 const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map(() => ({}) as Annotation)
 
@@ -53,7 +53,11 @@ export function AnnotationTable() {
 
     function getConfidenceCell(key: keyof Annotation, header: string) {
       return columnHelper.accessor(key, {
-        header: () => <CellHeader horizontalAlign="right">{header}</CellHeader>,
+        header: () => (
+          <CellHeader horizontalAlign="right" hideSortIcon>
+            {header}
+          </CellHeader>
+        ),
         cell: ({ getValue }) => {
           const value = getValue() as number | null
 
@@ -143,7 +147,7 @@ export function AnnotationTable() {
 
       columnHelper.accessor('shape_type', {
         header: () => (
-          <CellHeader horizontalAlign="right">
+          <CellHeader horizontalAlign="right" hideSortIcon>
             {t('objectShapeType')}
           </CellHeader>
         ),
@@ -156,7 +160,9 @@ export function AnnotationTable() {
 
       columnHelper.accessor('object_count', {
         header: () => (
-          <CellHeader horizontalAlign="right">{t('objectCount')}</CellHeader>
+          <CellHeader horizontalAlign="right" hideSortIcon>
+            {t('objectCount')}
+          </CellHeader>
         ),
         cell: ({ getValue }) => (
           <TableCell horizontalAlign="right" minWidth={85} maxWidth={120}>
@@ -171,7 +177,7 @@ export function AnnotationTable() {
       columnHelper.display({
         id: 'annotation-actions',
         // Render empty cell header so that it doesn't break the table layout
-        header: () => <CellHeader>{null}</CellHeader>,
+        header: () => <CellHeader hideSortIcon>{null}</CellHeader>,
         cell: ({ row: { original: annotation } }) => (
           <TableCell minWidth={85} maxWidth={100}>
             <Button
@@ -201,7 +207,7 @@ export function AnnotationTable() {
   )
 
   return (
-    <Table
+    <PageTable
       data={isLoadingDebounced ? LOADING_ANNOTATIONS : annotations}
       columns={columns}
     />

@@ -100,6 +100,7 @@ const GET_DATASET_BY_ID = gql(`
           }
           tomograms(limit: 1) {
             key_photo_thumbnail_url
+            neuroglancer_config
           }
         }
       }
