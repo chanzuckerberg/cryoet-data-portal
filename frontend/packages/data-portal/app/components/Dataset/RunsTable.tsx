@@ -46,7 +46,7 @@ export function RunsTable() {
 
           return (
             <TableCell
-              className="flex flex-auto gap-4"
+              className="flex flex-grow gap-4 overflow-ellipsis"
               minWidth={250}
               maxWidth={300}
               renderLoadingSkeleton={false}
@@ -60,16 +60,11 @@ export function RunsTable() {
                 loading={isLoadingDebounced}
               />
 
-              <div className="flex flex-col flex-auto min-h-[100px]">
+              <div className="min-h-[100px] overflow-ellipsis overflow-hidden text-sds-primary-500 font-semibold">
                 {isLoadingDebounced ? (
                   <Skeleton className="max-w-[150px]" variant="text" />
                 ) : (
-                  <Link
-                    className="text-sds-primary-500 font-semibold"
-                    to={runUrl}
-                  >
-                    {run.name}
-                  </Link>
+                  <Link to={runUrl}>{run.name}</Link>
                 )}
               </div>
             </TableCell>
@@ -85,7 +80,7 @@ export function RunsTable() {
             const score = getValue() as TiltSeriesScore | null | undefined
 
             return (
-              <TableCell minWidth={100} maxWidth={210}>
+              <TableCell minWidth={100} maxWidth={210} className="flex-grow">
                 {typeof score === 'number' && inQualityScoreRange(score) ? (
                   <TiltSeriesQualityScoreBadge score={score} />
                 ) : (
@@ -116,6 +111,7 @@ export function RunsTable() {
               minWidth={250}
               maxWidth={500}
               renderLoadingSkeleton={false}
+              className="flex-grow-[2]"
             >
               {annotatedObjects.length === 0 ? (
                 '--'
@@ -139,7 +135,11 @@ export function RunsTable() {
           cell({ getValue }) {
             const neuroglancerConfig = getValue()
             return (
-              <TableCell horizontalAlign="right" minWidth={150}>
+              <TableCell
+                className="flex-grow-[2]"
+                horizontalAlign="right"
+                minWidth={150}
+              >
                 {neuroglancerConfig && (
                   <Button
                     to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(
