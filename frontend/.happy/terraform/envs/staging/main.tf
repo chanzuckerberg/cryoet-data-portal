@@ -15,6 +15,7 @@ module "stack" {
   deployment_stage = "staging"
   additional_env_vars = {
     API_URL = data.aws_ssm_parameter.graphql_endpoint.value
+    ENV = "staging"
   }
   services = {
     frontend = {
