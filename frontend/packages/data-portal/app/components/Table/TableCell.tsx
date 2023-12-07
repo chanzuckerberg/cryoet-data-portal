@@ -49,7 +49,18 @@ export function TableCell({
   }
 
   if (primaryText) {
-    return <CellBasic primaryText={primaryText} {...cellProps} />
+    return (
+      <CellBasic
+        tooltipProps={{
+          classes: {
+            arrow: '!text-white',
+            tooltip: '!bg-white !text-black',
+          },
+        }}
+        primaryText={primaryText}
+        {...cellProps}
+      />
+    )
   }
 
   return (
