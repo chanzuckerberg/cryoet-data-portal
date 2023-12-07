@@ -1,20 +1,21 @@
 /* eslint-disable react/no-unstable-nested-components */
 
-import { Button, CellHeader } from '@czi-sds/components'
+import { Button } from '@czi-sds/components'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { useCallback, useMemo } from 'react'
+import { ComponentProps, useCallback, useMemo } from 'react'
 
+import { I18n } from 'app/components/I18n'
+import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { useRunById } from 'app/hooks/useRunById'
 import { Annotation, useAnnotation } from 'app/state/annotation'
 import { useDrawer } from 'app/state/drawer'
+import { I18nKeys } from 'app/types/i18n'
 import { getAnnotationTitle } from 'app/utils/annotation'
 import { cnsNoMerge } from 'app/utils/cns'
-
-import { PageTable, TableCell } from '../Table'
 
 const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map(() => ({}) as Annotation)
 
@@ -51,10 +52,25 @@ export function AnnotationTable() {
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Annotation>()
 
-    function getConfidenceCell(key: keyof Annotation, header: string) {
+    function getConfidenceCell({
+      cellHeaderProps,
+      header,
+      key,
+      tooltipI18nKey,
+    }: {
+      cellHeaderProps?: Partial<ComponentProps<typeof CellHeader>>
+      header: string
+      key: keyof Annotation
+      tooltipI18nKey?: I18nKeys
+    }) {
       return columnHelper.accessor(key, {
         header: () => (
-          <CellHeader horizontalAlign="right" hideSortIcon>
+          <CellHeader
+            horizontalAlign="right"
+            hideSortIcon
+            tooltip={tooltipI18nKey ? <I18n i18nKey={tooltipI18nKey} /> : null}
+            {...cellHeaderProps}
+          >
             {header}
           </CellHeader>
         ),
@@ -171,8 +187,29 @@ export function AnnotationTable() {
         ),
       }),
 
-      getConfidenceCell('confidence_precision', t('precision')),
-      getConfidenceCell('confidence_recall', t('recall')),
+      getConfidenceCell({
+        key: 'confidence_precision',
+        header: t('precision'),
+        tooltipI18nKey: 'precisionTooltip',
+
+        cellHeaderProps: {
+          arrowPadding: {
+            left: 100,
+          },
+        },
+      }),
+
+      getConfidenceCell({
+        key: 'confidence_recall',
+        header: t('recall'),
+        tooltipI18nKey: 'recallTooltip',
+
+        cellHeaderProps: {
+          arrowPadding: {
+            left: 120,
+          },
+        },
+      }),
 
       columnHelper.display({
         id: 'annotation-actions',

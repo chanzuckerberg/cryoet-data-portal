@@ -15,11 +15,16 @@ export interface TooltipArrowPadding {
   top?: number
 }
 
-export interface TooltipProps {
+export interface TooltipProps
+  extends Omit<
+    SDSTooltipProps,
+    'children' | 'PopperOptions' | 'title' | 'arrow'
+  > {
   arrowPadding?: TooltipArrowPadding
   children: ReactNode
-  tooltip: ReactNode
+  className?: string
   offset?: TooltipOffset
+  tooltip: ReactNode
 }
 
 export function getTooltipProps({
@@ -27,6 +32,9 @@ export function getTooltipProps({
   offset,
 }: Pick<TooltipProps, 'arrowPadding' | 'offset'> = {}) {
   return {
+    arrow: true,
+    leaveDelay: 0,
+
     classes: {
       arrow: '!text-white',
 
@@ -67,18 +75,20 @@ export function getTooltipProps({
 }
 
 export function Tooltip({
-  children,
-  tooltip,
   arrowPadding,
+  children,
+  className,
   offset,
+  tooltip,
+  ...props
 }: TooltipProps) {
   return (
     <SDSTooltip
-      arrow
       title={tooltip}
       {...getTooltipProps({ arrowPadding, offset })}
+      {...props}
     >
-      <>{children}</>
+      <div className={className}>{children}</div>
     </SDSTooltip>
   )
 }
