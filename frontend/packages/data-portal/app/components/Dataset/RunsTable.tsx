@@ -79,7 +79,15 @@ export function RunsTable() {
       columnHelper.accessor(
         (run) => run.tiltseries_aggregate?.aggregate?.avg?.tilt_series_quality,
         {
-          header: t('tiltSeriesQualityScore'),
+          id: 'tilt-series-quality',
+          header: () => (
+            <CellHeader
+              hideSortIcon
+              tooltip={<I18n i18nKey="tiltSeriesTooltip" />}
+            >
+              {t('tiltSeriesQualityScore')}
+            </CellHeader>
+          ),
           cell: ({ getValue }) => {
             const score = getValue() as TiltSeriesScore | null | undefined
 

@@ -1,6 +1,7 @@
 import { Button, Icon } from '@czi-sds/components'
 import { sum } from 'lodash-es'
 
+import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { PageHeader } from 'app/components/PageHeader'
@@ -105,6 +106,7 @@ export function RunHeader() {
             title={i18n.tiltSeries}
             data={[
               {
+                labelTooltip: <I18n i18nKey="tiltSeriesTooltip" />,
                 label: i18n.tiltQuality,
                 values:
                   typeof tiltSeries?.tilt_series_quality === 'number'
