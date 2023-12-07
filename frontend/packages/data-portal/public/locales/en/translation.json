@@ -201,6 +201,8 @@
   "sphericalAberrationConstant": "Spherical Aberration Constant",
   "stepCount": "Step {{count} of {max}}",
   "submitFeedback": "Submit Feedback",
+  "surveyBanner": "Share first impressions, or sign up for invites to future feedback activities in <url to='$t(surveyLink)'>this short form</url>.",
+  "surveyLink": "https://airtable.com/apppmytRJXoXYTO9w/shrjmV9knAC7E7VVM?prefill_Event=Banner&hide_Event=true",
   "tellUsMore": "Tell us More",
   "terms": "Terms",
   "termsOfUse": "Terms of Use",
