@@ -7,6 +7,7 @@ import { ComponentProps, useCallback, useMemo } from 'react'
 
 import { I18n } from 'app/components/I18n'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
+import { Tooltip } from 'app/components/Tooltip'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
@@ -107,16 +108,21 @@ export function AnnotationTable() {
               </p>
 
               {annotation.ground_truth_status && (
-                <div
-                  className={cnsNoMerge(
-                    'px-sds-xs py-sds-xxxs',
-                    'flex items-center justify-center',
-                    'rounded-sds-m bg-sds-info-400',
-                    'text-sds-body-xxxs leading-sds-body-xxxs text-sds-gray-white whitespace-nowrap',
-                  )}
+                <Tooltip
+                  tooltip={<I18n i18nKey="groundTruthTooltip" />}
+                  placement="top"
                 >
-                  {t('groundTruth')}
-                </div>
+                  <div
+                    className={cnsNoMerge(
+                      'px-sds-xs py-sds-xxxs',
+                      'flex items-center justify-center',
+                      'rounded-sds-m bg-sds-info-400',
+                      'text-sds-body-xxxs leading-sds-body-xxxs text-sds-gray-white whitespace-nowrap',
+                    )}
+                  >
+                    {t('groundTruth')}
+                  </div>
+                </Tooltip>
               )}
             </div>
 
