@@ -64,12 +64,12 @@ export function DatasetMetadataTable({
     },
 
     !!allFields && {
-      label: t('releaseDateBlank'),
+      label: t('releaseDate'),
       values: [dataset.release_date!],
     },
 
     !!allFields && {
-      label: t('lastModifiedBlank'),
+      label: t('lastModified'),
       values: [dataset.last_modified_date!],
     },
 

@@ -89,79 +89,84 @@ export function RunHeader() {
       ]}
       onMoreInfoClick={() => drawer.setActiveDrawerId('run-metadata')}
       title={run.name}
-    >
-      <div className="flex gap-sds-xxl p-sds-xl border-t-[3px] border-sds-gray-200">
-        <div className="max-w-[300px] max-h-[213px] grow overflow-clip rounded-sds-m flex-shrink-0">
-          {keyPhotoURL ? (
-            <Link to={keyPhotoURL}>
-              <KeyPhoto title={run.name} src={keyPhotoURL} />
-            </Link>
-          ) : (
-            <KeyPhoto title={run.name} />
-          )}
-        </div>
+      renderHeader={({ moreInfo }) => (
+        <div className="flex gap-sds-xxl p-sds-xl border-t-[3px] border-sds-gray-200">
+          <div className="max-w-[300px] max-h-[213px] grow overflow-clip rounded-sds-m flex-shrink-0">
+            {keyPhotoURL ? (
+              <Link to={keyPhotoURL}>
+                <KeyPhoto title={run.name} src={keyPhotoURL} />
+              </Link>
+            ) : (
+              <KeyPhoto title={run.name} />
+            )}
+          </div>
 
-        <div className="flex flex-1 gap-sds-xxl flex-col lg:flex-row">
-          <MetadataTable
-            title={i18n.tiltSeries}
-            data={[
-              {
-                labelTooltip: <I18n i18nKey="tiltSeriesTooltip" />,
-                label: i18n.tiltQuality,
-                values:
-                  typeof tiltSeries?.tilt_series_quality === 'number'
-                    ? [String(tiltSeries.tilt_series_quality)]
-                    : [],
-                renderValue: (value) => (
-                  <TiltSeriesQualityScoreBadge score={+value} />
-                ),
-              },
-              {
-                label: i18n.tiltRange,
-                values:
-                  typeof tiltSeries?.tilt_min === 'number' &&
-                  typeof tiltSeries?.tilt_max === 'number'
-                    ? [
-                        i18n.valueToValue(
-                          i18n.unitDegree(tiltSeries.tilt_min),
-                          i18n.unitDegree(tiltSeries.tilt_max),
-                        ),
-                      ]
-                    : [],
-              },
-              {
-                label: i18n.tiltScheme,
-                values: tiltSeries?.tilting_scheme
-                  ? [tiltSeries.tilting_scheme]
-                  : [],
-              },
-            ]}
-          />
+          <div className="flex flex-col gap-sds-xl">
+            <div className="flex flex-1 gap-sds-xxl flex-col lg:flex-row">
+              <MetadataTable
+                title={i18n.tiltSeries}
+                data={[
+                  {
+                    labelTooltip: <I18n i18nKey="tiltSeriesTooltip" />,
+                    label: i18n.tiltQuality,
+                    values:
+                      typeof tiltSeries?.tilt_series_quality === 'number'
+                        ? [String(tiltSeries.tilt_series_quality)]
+                        : [],
+                    renderValue: (value) => (
+                      <TiltSeriesQualityScoreBadge score={+value} />
+                    ),
+                  },
+                  {
+                    label: i18n.tiltRange,
+                    values:
+                      typeof tiltSeries?.tilt_min === 'number' &&
+                      typeof tiltSeries?.tilt_max === 'number'
+                        ? [
+                            i18n.valueToValue(
+                              i18n.unitDegree(tiltSeries.tilt_min),
+                              i18n.unitDegree(tiltSeries.tilt_max),
+                            ),
+                          ]
+                        : [],
+                  },
+                  {
+                    label: i18n.tiltScheme,
+                    values: tiltSeries?.tilting_scheme
+                      ? [tiltSeries.tilting_scheme]
+                      : [],
+                  },
+                ]}
+              />
 
-          <MetadataTable
-            title={i18n.tomogram}
-            data={[
-              {
-                label: i18n.resolutionsAvailable,
-                values: ['10.00Å, 13.70Å'],
-              },
-              {
-                label: i18n.tomogramProcessing,
-                values: run.tomogram_stats
-                  .flatMap((stats) => stats.tomogram_processing)
-                  .map((tomogram) => tomogram.processing),
-              },
-              {
-                label: i18n.annotatedObjects,
-                inline: true,
-                values: run.tomogram_stats
-                  .flatMap((stats) => stats.annotations)
-                  .map((annotation) => annotation.object_name),
-              },
-            ]}
-          />
+              <MetadataTable
+                title={i18n.tomogram}
+                data={[
+                  {
+                    label: i18n.resolutionsAvailable,
+                    values: ['10.00Å, 13.70Å'],
+                  },
+                  {
+                    label: i18n.tomogramProcessing,
+                    values: run.tomogram_stats
+                      .flatMap((stats) => stats.tomogram_processing)
+                      .map((tomogram) => tomogram.processing),
+                  },
+                  {
+                    label: i18n.annotatedObjects,
+                    inline: true,
+                    values: run.tomogram_stats
+                      .flatMap((stats) => stats.annotations)
+                      .map((annotation) => annotation.object_name),
+                  },
+                ]}
+              />
+            </div>
+
+            {moreInfo}
+          </div>
         </div>
-      </div>
-    </PageHeader>
+      )}
+    />
   )
 }
