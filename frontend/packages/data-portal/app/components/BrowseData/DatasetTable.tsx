@@ -1,22 +1,22 @@
 /* eslint-disable react/no-unstable-nested-components */
 
-import { CellHeader, CellHeaderDirection } from '@czi-sds/components'
+import { CellHeaderDirection } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
 import { useLocation, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
 import { useMemo } from 'react'
 
+import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
+import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
-import { PageTable, TableCell } from 'app/components/Table'
+import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { EMPIAR_ID, EMPIAR_URL } from 'app/constants/external-dbs'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { Dataset, useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
-
-import { AnnotatedObjectsList } from '../AnnotatedObjectsList'
 
 /**
  * Max number of authors to show for dataset.
@@ -188,7 +188,12 @@ export function DatasetTable() {
       columnHelper.accessor(
         (dataset) => dataset.runs_aggregate.aggregate?.count,
         {
-          header: t('runs'),
+          id: 'runs',
+          header: () => (
+            <CellHeader hideSortIcon tooltip={<I18n i18nKey="runsTooltip" />}>
+              {t('runs')}
+            </CellHeader>
+          ),
           cell: ({ getValue }) => (
             <TableCell
               primaryText={String(getValue() ?? 0).padStart(4, '0')}

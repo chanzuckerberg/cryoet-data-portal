@@ -8,18 +8,18 @@ import { range } from 'lodash-es'
 import { useMemo } from 'react'
 
 import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
+import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
+import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
-import { PageTable, TableCell } from 'app/components/Table'
+import { CellHeader, PageTable, TableCell } from 'app/components/Table'
+import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { TiltSeriesScore } from 'app/constants/tiltSeries'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
-
-import { AnnotatedObjectsList } from '../AnnotatedObjectsList'
-import { TiltSeriesQualityScoreBadge } from '../TiltSeriesQualityScoreBadge'
 
 type Run = GetDatasetByIdQuery['datasets'][number]['runs'][number]
 
@@ -37,7 +37,11 @@ export function RunsTable() {
 
     return [
       columnHelper.accessor('name', {
-        header: t('run'),
+        header: () => (
+          <CellHeader tooltip={<I18n i18nKey="runsTooltip" />}>
+            {t('runs')}
+          </CellHeader>
+        ),
         cell({ row: { original: run } }) {
           const previousUrl = `${location.pathname}${location.search}`
           const runUrl = `/runs/${run.id}?prev=${encodeURIComponent(
