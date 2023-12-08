@@ -91,7 +91,7 @@ export function RunHeader() {
       title={run.name}
       renderHeader={({ moreInfo }) => (
         <div className="flex gap-sds-xxl p-sds-xl border-t-[3px] border-sds-gray-200">
-          <div className="max-w-[300px] max-h-[213px] grow overflow-clip rounded-sds-m flex-shrink-0">
+          <div className="max-w-[300px] max-h-[213px] grow overflow-clip rounded-sds-m flex-shrink-0 flex items-center">
             {keyPhotoURL ? (
               <Link to={keyPhotoURL}>
                 <KeyPhoto title={run.name} src={keyPhotoURL} />
@@ -102,9 +102,10 @@ export function RunHeader() {
           </div>
 
           <div className="flex flex-col gap-sds-xl">
-            <div className="flex flex-1 gap-sds-xxl flex-col lg:flex-row">
+            <div className="flex gap-sds-xxl flex-col lg:flex-row">
               <MetadataTable
                 title={i18n.tiltSeries}
+                tableCellLabelProps={{ maxWidth: 100, minWidth: 100 }}
                 data={[
                   {
                     labelTooltip: <I18n i18nKey="tiltSeriesTooltip" />,
@@ -144,6 +145,7 @@ export function RunHeader() {
 
               <MetadataTable
                 title={i18n.tomogram}
+                tableCellLabelProps={{ maxWidth: 180, minWidth: 100 }}
                 data={[
                   {
                     label: i18n.resolutionsAvailable,

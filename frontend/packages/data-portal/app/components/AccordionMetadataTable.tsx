@@ -9,7 +9,7 @@ type AccordionProps = Pick<
 >
 type MetadataTableProps = Pick<
   ComponentProps<typeof MetadataTable>,
-  'data' | 'tableCellProps'
+  'data' | 'tableCellLabelProps' | 'tableCellValueProps'
 >
 
 export function AccordionMetadataTable({
@@ -17,15 +17,23 @@ export function AccordionMetadataTable({
   header,
   id,
   initialOpen = true,
-  tableCellProps,
+  tableCellLabelProps,
+  tableCellValueProps,
 }: AccordionProps & MetadataTableProps) {
   return (
     <Accordion id={id} header={header} initialOpen={initialOpen}>
       <MetadataTable
         data={data}
-        tableCellProps={{
+        tableCellLabelProps={{
           renderLoadingSkeleton: false,
-          ...tableCellProps,
+          minWidth: 170,
+          maxWidth: 170,
+          ...tableCellLabelProps,
+        }}
+        tableCellValueProps={{
+          renderLoadingSkeleton: false,
+          minWidth: 170,
+          ...tableCellValueProps,
         }}
       />
     </Accordion>
