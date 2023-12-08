@@ -3,6 +3,7 @@ import Skeleton from '@mui/material/Skeleton'
 import { ReactNode } from 'react'
 import { match } from 'ts-pattern'
 
+import { getTooltipProps, Tooltip, TooltipProps } from 'app/components/Tooltip'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { cns } from 'app/utils/cns'
 
@@ -14,6 +15,8 @@ export function TableCell({
   minWidth,
   primaryText,
   renderLoadingSkeleton = () => <Skeleton variant="text" />,
+  tooltip,
+  tooltipProps,
 }: {
   children?: ReactNode
   className?: string
@@ -23,6 +26,8 @@ export function TableCell({
   minWidth?: number
   primaryText?: string
   renderLoadingSkeleton?: (() => ReactNode) | false
+  tooltip?: ReactNode
+  tooltipProps?: Partial<TooltipProps>
 }) {
   const { isLoadingDebounced } = useIsLoading()
   const cellProps = {
@@ -49,14 +54,30 @@ export function TableCell({
   }
 
   if (primaryText) {
-    return <CellBasic primaryText={primaryText} {...cellProps} />
+    return (
+      <CellBasic
+        primaryText={primaryText}
+        tooltipProps={getTooltipProps(tooltipProps)}
+        {...cellProps}
+      />
+    )
   }
 
-  return (
-    <CellComponent {...cellProps}>
+  let content = (
+    <>
       {renderLoadingSkeleton && isLoadingDebounced
         ? renderLoadingSkeleton()
         : children}
-    </CellComponent>
+    </>
   )
+
+  if (tooltip) {
+    content = (
+      <Tooltip tooltip={tooltip} {...tooltipProps}>
+        <div>{content}</div>
+      </Tooltip>
+    )
+  }
+
+  return <CellComponent {...cellProps}>{content}</CellComponent>
 }

@@ -11,11 +11,13 @@ import { TableCell } from './TableCell'
 
 export function MetadataTable({
   data,
-  tableCellProps,
+  tableCellLabelProps,
+  tableCellValueProps,
   title,
 }: {
   data: TableData[]
-  tableCellProps?: ComponentProps<typeof TableCell>
+  tableCellLabelProps?: ComponentProps<typeof TableCell>
+  tableCellValueProps?: ComponentProps<typeof TableCell>
   title?: string
 }) {
   return (
@@ -37,13 +39,18 @@ export function MetadataTable({
                 className={cns((idx + 1) % 2 !== 0 && 'bg-sds-gray-100')}
                 key={datum.label + values.join(', ')}
               >
-                <TableCell {...tableCellProps}>
+                <TableCell
+                  className="!p-sds-s"
+                  tooltip={datum.labelTooltip}
+                  tooltipProps={datum.labelTooltipProps}
+                  {...tableCellLabelProps}
+                >
                   <span className="text-sds-gray-600 text-sds-header-s leading-sds-header-s font-semibold">
                     {datum.label}
                   </span>
                 </TableCell>
 
-                <TableCell {...tableCellProps}>
+                <TableCell className="!p-sds-s" {...tableCellValueProps}>
                   {match(values.length)
                     .with(0, () => null)
                     .with(1, () => (

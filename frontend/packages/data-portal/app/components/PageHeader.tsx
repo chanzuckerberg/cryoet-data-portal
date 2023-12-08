@@ -3,7 +3,7 @@ import { useSearchParams } from '@remix-run/react'
 import { ReactNode } from 'react'
 
 import { Link } from 'app/components/Link'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
 interface PageHeaderMetadata {
@@ -14,25 +14,26 @@ interface PageHeaderMetadata {
 
 export function PageHeader({
   actions,
-  backToResultsLabel = i18n.backToResults,
-  children,
+  backToResultsLabel,
   lastModifiedDate,
   metadata = [],
   onMoreInfoClick,
   releaseDate,
+  renderHeader,
   title,
 }: {
   actions?: ReactNode
   backToResultsLabel?: string
-  children?: ReactNode
   lastModifiedDate?: string
   metadata?: PageHeaderMetadata[]
   onMoreInfoClick?(): void
   releaseDate?: string
+  renderHeader?({ moreInfo }: { moreInfo?: ReactNode }): ReactNode
   title: ReactNode
 }) {
   const [params] = useSearchParams()
   const previousUrl = params.get('prev')
+  const { t } = useI18n()
 
   return (
     <div className="flex flex-auto justify-center">
@@ -67,7 +68,7 @@ export function PageHeader({
                     className="!w-[10px] !h-[10px] !fill-sds-primary-400"
                   />
                   <span className="text-sds-primary-400 font-semibold text-sds-header-s leading-sds-header-s">
-                    {backToResultsLabel}
+                    {backToResultsLabel ?? t('backToResults')}
                   </span>
                 </Link>
               </div>
@@ -120,12 +121,18 @@ export function PageHeader({
                   'my-sds-l',
                 )}
               >
-                {releaseDate && <p>{i18n.releaseDate(releaseDate)}</p>}
+                {releaseDate && (
+                  <p>
+                    {t('releaseDate')}: {releaseDate}
+                  </p>
+                )}
 
                 <div className="h-3 w-px bg-sds-gray-400" />
 
                 {lastModifiedDate && (
-                  <p>{i18n.lastModified(lastModifiedDate)}</p>
+                  <p>
+                    {t('lastModified')}: {lastModifiedDate}
+                  </p>
                 )}
               </div>
             )}
@@ -134,20 +141,36 @@ export function PageHeader({
             <div className="flex flex-row row-start-2 col-start-2 gap-sds-m justify-between min-w-[315px]">
               {actions}
 
-              <Button
-                startIcon={
-                  <Icon sdsIcon="infoCircle" sdsType="button" sdsSize="l" />
-                }
-                sdsType="secondary"
-                sdsStyle="rounded"
-                onClick={onMoreInfoClick}
-              >
-                {i18n.moreInfo}
-              </Button>
+              {onMoreInfoClick && (
+                <Button
+                  startIcon={
+                    <Icon sdsIcon="infoCircle" sdsType="button" sdsSize="l" />
+                  }
+                  sdsType="secondary"
+                  sdsStyle="rounded"
+                  onClick={onMoreInfoClick}
+                >
+                  {t('moreInfo')}
+                </Button>
+              )}
             </div>
           </div>
 
-          {children}
+          {renderHeader?.({
+            moreInfo: onMoreInfoClick && (
+              <div className="flex w-full">
+                <Button
+                  className="flex items-center gap-sds-xxs"
+                  sdsType="primary"
+                  sdsStyle="minimal"
+                  onClick={onMoreInfoClick}
+                >
+                  <Icon sdsIcon="infoCircle" sdsSize="s" sdsType="button" />
+                  <span>{t('moreInfo')}</span>
+                </Button>
+              </div>
+            ),
+          })}
         </div>
       </header>
     </div>
