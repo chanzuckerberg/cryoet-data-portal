@@ -1,3 +1,4 @@
+import rehypePrism from '@mapbox/rehype-prism'
 import { AxiosResponse } from 'axios'
 import { readFileSync } from 'fs'
 import { serialize } from 'next-mdx-remote/serialize'
@@ -43,6 +44,7 @@ async function serializeMdx(content: string, lastModified: Date | null) {
     content: await serialize(content, {
       mdxOptions: {
         remarkPlugins: [sectionize, remarkGfm],
+        rehypePlugins: [rehypePrism],
       },
     }),
   })
