@@ -1,3 +1,5 @@
+import { Fragment } from 'react'
+
 import { Dataset_Authors } from 'app/__generated__/graphql'
 import { EnvelopeIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
@@ -6,6 +8,10 @@ export type AuthorInfo = Pick<
   Dataset_Authors,
   'name' | 'primary_author_status' | 'corresponding_author_status' | 'email'
 >
+
+function getAuthorKey(author: AuthorInfo) {
+  return author.name + author.email
+}
 
 export function DatasetAuthors({
   authors,
@@ -35,25 +41,25 @@ export function DatasetAuthors({
     <p className={className}>
       <span className="font-semibold">
         {authorsPrimary.map((author, i, arr) => (
-          <>
+          <Fragment key={getAuthorKey(author)}>
             {author.name}
             {!(
               authorsOther.length + authorsCorresponding.length === 0 &&
               arr.length - 1 === i
             ) && '; '}
-          </>
+          </Fragment>
         ))}
       </span>
       <span className="text-sds-gray-600">
         {authorsOther.map((author, i, arr) => (
-          <>
+          <Fragment key={getAuthorKey(author)}>
             {author.name}
             {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
               '; '}
-          </>
+          </Fragment>
         ))}
         {authorsCorresponding.map((author, i, arr) => (
-          <>
+          <Fragment key={getAuthorKey(author)}>
             {author.name}
             {author.email ? (
               <Link to={`mailto:${author.email}`}>{envelopeIcon}</Link>
@@ -61,7 +67,7 @@ export function DatasetAuthors({
               envelopeIcon
             )}
             {!(arr.length - 1 === i) && '; '}
-          </>
+          </Fragment>
         ))}
       </span>
     </p>
