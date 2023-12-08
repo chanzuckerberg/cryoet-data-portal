@@ -199,9 +199,7 @@ export function AnnotationTable() {
         tooltipI18nKey: 'precisionTooltip',
 
         cellHeaderProps: {
-          arrowPadding: {
-            left: 100,
-          },
+          arrowPadding: { left: 100 },
         },
       }),
 
@@ -211,9 +209,7 @@ export function AnnotationTable() {
         tooltipI18nKey: 'recallTooltip',
 
         cellHeaderProps: {
-          arrowPadding: {
-            left: 120,
-          },
+          arrowPadding: { left: 120 },
         },
       }),
 

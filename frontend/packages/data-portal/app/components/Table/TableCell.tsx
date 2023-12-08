@@ -1,9 +1,9 @@
-import { CellBasic, CellComponent, TooltipProps } from '@czi-sds/components'
+import { CellBasic, CellComponent } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
 import { ReactNode } from 'react'
 import { match } from 'ts-pattern'
 
-import { Tooltip } from 'app/components/Tooltip'
+import { getTooltipProps, Tooltip, TooltipProps } from 'app/components/Tooltip'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { cns } from 'app/utils/cns'
 
@@ -57,7 +57,7 @@ export function TableCell({
     return (
       <CellBasic
         primaryText={primaryText}
-        tooltipProps={tooltipProps}
+        tooltipProps={getTooltipProps(tooltipProps)}
         {...cellProps}
       />
     )

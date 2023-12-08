@@ -190,7 +190,11 @@ export function DatasetTable() {
         {
           id: 'runs',
           header: () => (
-            <CellHeader hideSortIcon tooltip={<I18n i18nKey="runsTooltip" />}>
+            <CellHeader
+              hideSortIcon
+              tooltip={<I18n i18nKey="runsTooltip" />}
+              arrowPadding={{ right: 270 }}
+            >
               {t('runs')}
             </CellHeader>
           ),

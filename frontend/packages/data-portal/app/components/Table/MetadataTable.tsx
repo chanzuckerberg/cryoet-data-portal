@@ -37,7 +37,11 @@ export function MetadataTable({
                 className={cns((idx + 1) % 2 !== 0 && 'bg-sds-gray-100')}
                 key={datum.label + values.join(', ')}
               >
-                <TableCell tooltip={datum.labelTooltip} {...tableCellProps}>
+                <TableCell
+                  tooltip={datum.labelTooltip}
+                  tooltipProps={datum.labelTooltipProps}
+                  {...tableCellProps}
+                >
                   <span className="text-sds-gray-600 text-sds-header-s leading-sds-header-s font-semibold">
                     {datum.label}
                   </span>

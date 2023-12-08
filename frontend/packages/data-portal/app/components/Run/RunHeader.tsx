@@ -108,6 +108,9 @@ export function RunHeader() {
                 data={[
                   {
                     labelTooltip: <I18n i18nKey="tiltSeriesTooltip" />,
+                    labelTooltipProps: {
+                      arrowPadding: { right: 230 },
+                    },
                     label: i18n.tiltQuality,
                     values:
                       typeof tiltSeries?.tilt_series_quality === 'number'

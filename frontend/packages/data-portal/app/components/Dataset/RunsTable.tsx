@@ -38,7 +38,10 @@ export function RunsTable() {
     return [
       columnHelper.accessor('name', {
         header: () => (
-          <CellHeader tooltip={<I18n i18nKey="runsTooltip" />}>
+          <CellHeader
+            tooltip={<I18n i18nKey="runsTooltip" />}
+            arrowPadding={{ right: 260 }}
+          >
             {t('runs')}
           </CellHeader>
         ),

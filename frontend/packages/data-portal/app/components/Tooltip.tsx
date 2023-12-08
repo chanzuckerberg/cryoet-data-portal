@@ -46,7 +46,7 @@ export function getTooltipProps({
       ),
     },
 
-    PopperOptions: {
+    PopperProps: {
       popperOptions: {
         modifiers: [
           ...(offset
