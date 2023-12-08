@@ -5,7 +5,7 @@ import {
 } from '@czi-sds/components'
 import { ReactNode } from 'react'
 
-import styles from './MdxAccodion.module.css'
+import styles from './MdxAccordion.module.css'
 
 export function MdxAccordion({
   children,
