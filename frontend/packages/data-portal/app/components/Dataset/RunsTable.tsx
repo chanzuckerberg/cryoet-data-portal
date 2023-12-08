@@ -61,7 +61,7 @@ export function RunsTable() {
               <KeyPhoto
                 title={run.name}
                 src={
-                  run.tomogram_voxel_spacings[0]?.tomograms[0]
+                  run.tomogram_voxel_spacings?.[0]?.tomograms?.[0]
                     ?.key_photo_thumbnail_url ?? undefined
                 }
                 loading={isLoadingDebounced}
@@ -113,7 +113,7 @@ export function RunsTable() {
           const voxelSpacings = getValue()
           const annotatedObjects = Array.from(
             new Set(
-              voxelSpacings.flatMap((voxelSpacing) =>
+              voxelSpacings?.flatMap?.((voxelSpacing) =>
                 voxelSpacing.annotations.flatMap(
                   (annotation) => annotation.object_name,
                 ),
@@ -143,7 +143,7 @@ export function RunsTable() {
 
       columnHelper.accessor(
         (run) =>
-          run.tomogram_voxel_spacings[0]?.tomograms[0]?.neuroglancer_config,
+          run.tomogram_voxel_spacings?.[0]?.tomograms?.[0]?.neuroglancer_config,
         {
           id: 'viewTomogram',
           header: '',
