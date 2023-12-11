@@ -3,7 +3,7 @@ from cryoet_data_portal import Client, Dataset, Run
 
 def test_relationships() -> None:
     client = Client()
-    datasets = Dataset.find(client)
+    datasets = Dataset.find(client, [Dataset.id == 10000])
     ds = next(datasets)
     assert ds
     assert next(ds.authors)
@@ -13,7 +13,7 @@ def test_relationships() -> None:
     vs = next(run.tomogram_voxel_spacings)
     assert vs
     assert next(run.tiltseries)
-    anno = vs.annotations
+    anno = next(vs.annotations)
     assert anno
     assert next(anno.files)
     assert next(anno.authors)
@@ -24,9 +24,8 @@ def test_relationships() -> None:
 
 def test_relationships_reverse() -> None:
     client = Client()
-    datasets = Dataset.find(client)
+    datasets = Dataset.find(client, [Dataset.id == 10000])
 
-    datasets = Dataset.find(client)
     ds = next(datasets)
     ds_author = next(ds.authors)
     run = next(Run.find(client, [Run.dataset.id == ds.id]))
