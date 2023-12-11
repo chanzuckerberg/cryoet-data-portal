@@ -194,8 +194,7 @@ class Run(Model):
 
     def download_frames(self, dest_path: Optional[str] = None):
         download_directory(
-            os.path.join(self.s3_prefix, "Frames"),
-            self.dataset.s3_prefix,
+            os.path.join(self.s3_prefix, "Frames"), self.dataset.s3_prefix, dest_path
         )
 
 
@@ -454,9 +453,20 @@ class Annotation(Model):
         "annotation_id",
     )
 
-    def download(self, dest_path: Optional[str] = None):
+    def download(
+        self,
+        dest_path: Optional[str] = None,
+        format: Optional[str] = None,
+        shape: Optional[str] = None,
+    ):
         download_https(self.https_metadata_path, dest_path)
-        download_https(self.https_annotations_path, dest_path)
+        for file in self.files:
+            if format and file.format != format:
+                continue
+            if shape and file.shape_type != shape:
+                continue
+            print(file.https_path)
+            file.download(dest_path)
 
 
 class AnnotationFile(Model):
@@ -484,9 +494,16 @@ class AnnotationFile(Model):
     https_path: str = StringField()
     id: int = IntField()
     annotation_id: int = IntField()
-    s3_path: str = StringField()
+    https_path: str = StringField()
     s3_path: str = StringField()
     shape_type: str = StringField()
+
+    def download(self, dest_path: Optional[str] = None):
+        if self.format == "zarr":
+            recursive_prefix = "/".join(self.s3_omezarr_dir.split("/")[:-1]) + "/"
+            download_directory(self.s3_omezarr_dir, recursive_prefix, dest_path)
+        else:
+            download_https(self.https_path, dest_path)
 
 
 class AnnotationAuthor(Model):
@@ -538,8 +555,6 @@ class TiltSeries(Model):
         https_angle_list (str): HTTPS path to the angle list file for this tiltseries
         https_collection_metadata (str): HTTPS path to the collection metadata file for this tiltseries
         https_mrc_bin1 (str): HTTPS path to this tiltseries in MRC format (no scaling)
-        https_mrc_bin2 (str): HTTPS path to this tiltseries in MRC format (downscaled to 50%)
-        https_mrc_bin4 (str): HTTPS path to this tiltseries in MRC format (downscaled to 25%)
         https_omezarr_dir (str): HTTPS path to the this multiscale omezarr tiltseries
         microscope_additional_info (str):  Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
         microscope_energy_filter: (str): Energy filter setup used
@@ -552,8 +567,6 @@ class TiltSeries(Model):
         s3_angle_list (str): S3 path to the angle list file for this tiltseries
         s3_collection_metadata (str): S3 path to the collection metadata file for this tiltseries
         s3_mrc_bin1 (str): S3 path to this tiltseries in MRC format (no scaling)
-        s3_mrc_bin2 (str): S3 path to this tiltseries in MRC format (downscaled to 50%)
-        s3_mrc_bin4 (str): S3 path to this tiltseries in MRC format (downscaled to 25%)
         s3_omezarr_dir (str): S3 path to the this multiscale omezarr tiltseries
         spherical_aberration_constant (float): Spherical Aberration Constant of the objective lens in millimeters
         tilt_axis (float): Rotation angle in degrees
@@ -644,19 +657,13 @@ class TiltSeries(Model):
     def download_mrcfile(
         self,
         dest_path: Optional[str] = None,
-        binning: Optional[int] = None,
     ):
-        """Download an MRC file with a given binning factor
+        """Download an MRC file for this tiltseries
 
         Args:
             dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
-            binning (Optional[int], optional): _description_. Downscaling factor for the MRC file to download, either 1, 2, or 4. Defaults to 1 (full size)
         """
         url = self.https_mrc_bin1
-        if binning == 2:
-            url = self.https_mrc_bin2
-        if binning == 4:
-            url = self.https_mrc_bin4
         download_https(url, dest_path)
 
 
