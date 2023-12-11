@@ -4,37 +4,46 @@ from cryoet_data_portal import Client, Dataset, Run
 def test_relationships() -> None:
     client = Client()
     datasets = Dataset.find(client)
-    dataset_count = 0
-    run_count = 0
-    tomo_count = 0
-    tomo_authors_count = 0
-    anno_authors_count = 0
-    anno_files_count = 0
-    ds_authors_count = 0
-    for dataset in datasets:
-        dataset_count += 1
-        for _ in dataset.authors:
-            ds_authors_count += 1
-        for run in Run.find(client, [Run.dataset.id == dataset.id]):
-            run_count += 1
-            assert run.dataset_id == dataset.id
-            for vs in run.tomogram_voxel_spacings:
-                for anno in vs.annotations:
-                    for _ in anno.files:
-                        anno_files_count += 1
-                    for _ in anno.authors:
-                        anno_authors_count += 1
-                for tomo in vs.tomograms:
-                    tomo_count += 1
-                    for _ in tomo.authors:
-                        tomo_authors_count += 1
-                break
-            break
-        break
-    assert dataset_count > 0
-    assert run_count > 0
-    assert tomo_count > 0
-    assert tomo_authors_count > 0
-    assert anno_authors_count > 0
-    assert anno_files_count > 0
-    assert ds_authors_count > 0
+    ds = next(datasets)
+    assert ds
+    assert next(ds.authors)
+    run = next(Run.find(client, [Run.dataset.id == ds.id]))
+    assert run
+    assert run.dataset_id == ds.id
+    vs = next(run.tomogram_voxel_spacings)
+    assert vs
+    assert next(run.tiltseries)
+    anno = vs.annotations
+    assert anno
+    assert next(anno.files)
+    assert next(anno.authors)
+    tomo = next(vs.tomograms)
+    assert tomo
+    assert next(tomo.authors)
+
+
+def test_relationships_reverse() -> None:
+    client = Client()
+    datasets = Dataset.find(client)
+
+    datasets = Dataset.find(client)
+    ds = next(datasets)
+    ds_author = next(ds.authors)
+    run = next(Run.find(client, [Run.dataset.id == ds.id]))
+    ts = next(run.tiltseries)
+    vs = next(run.tomogram_voxel_spacings)
+    anno = next(vs.annotations)
+    anno_file = next(anno.files)
+    anno_author = next(anno.authors)
+    tomo = next(vs.tomograms)
+    tomo_author = next(tomo.authors)
+
+    assert tomo_author.tomogram
+    assert tomo.tomogram_voxel_spacing
+    assert anno_author.annotation
+    assert anno_file.annotation
+    assert anno.tomogram_voxel_spacing
+    assert vs.run
+    assert ts.run
+    assert ds_author.dataset
+    assert run.dataset
