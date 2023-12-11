@@ -95,6 +95,23 @@ input String_comparison_exp {
   _similar: String
 }
 
+scalar _numeric
+
+"""
+Boolean expression to compare columns of type "_numeric". All fields are combined with logical 'AND'.
+"""
+input _numeric_comparison_exp {
+  _eq: _numeric
+  _gt: _numeric
+  _gte: _numeric
+  _in: [_numeric!]
+  _is_null: Boolean
+  _lt: _numeric
+  _lte: _numeric
+  _neq: _numeric
+  _nin: [_numeric!]
+}
+
 """Authors for an annotation"""
 type annotation_authors {
   """Address of the institution an annotator is affiliated with."""
@@ -1985,6 +2002,9 @@ type dataset_authors {
   """Name of the institutions an author is affiliated with. Comma separated"""
   affiliation_name: String
 
+  """The order in which the author appears in the publication"""
+  author_list_order: Int
+
   """Indicating whether an author is the corresponding author"""
   corresponding_author_status: Boolean
 
@@ -2075,6 +2095,8 @@ input dataset_authors_aggregate_order_by {
 
 """aggregate avg on columns"""
 type dataset_authors_avg_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
   dataset_id: Float
   id: Float
 }
@@ -2083,6 +2105,8 @@ type dataset_authors_avg_fields {
 order by avg() on columns of table "dataset_authors"
 """
 input dataset_authors_avg_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
   dataset_id: order_by
   id: order_by
 }
@@ -2097,6 +2121,7 @@ input dataset_authors_bool_exp {
   affiliation_address: String_comparison_exp
   affiliation_identifier: String_comparison_exp
   affiliation_name: String_comparison_exp
+  author_list_order: Int_comparison_exp
   corresponding_author_status: Boolean_comparison_exp
   dataset: datasets_bool_exp
   dataset_id: Int_comparison_exp
@@ -2119,6 +2144,9 @@ type dataset_authors_max_fields {
 
   """Name of the institutions an author is affiliated with. Comma separated"""
   affiliation_name: String
+
+  """The order in which the author appears in the publication"""
+  author_list_order: Int
   dataset_id: Int
 
   """Email address for each author"""
@@ -2146,6 +2174,9 @@ input dataset_authors_max_order_by {
 
   """Name of the institutions an author is affiliated with. Comma separated"""
   affiliation_name: order_by
+
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
   dataset_id: order_by
 
   """Email address for each author"""
@@ -2171,6 +2202,9 @@ type dataset_authors_min_fields {
 
   """Name of the institutions an author is affiliated with. Comma separated"""
   affiliation_name: String
+
+  """The order in which the author appears in the publication"""
+  author_list_order: Int
   dataset_id: Int
 
   """Email address for each author"""
@@ -2198,6 +2232,9 @@ input dataset_authors_min_order_by {
 
   """Name of the institutions an author is affiliated with. Comma separated"""
   affiliation_name: order_by
+
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
   dataset_id: order_by
 
   """Email address for each author"""
@@ -2216,6 +2253,7 @@ input dataset_authors_order_by {
   affiliation_address: order_by
   affiliation_identifier: order_by
   affiliation_name: order_by
+  author_list_order: order_by
   corresponding_author_status: order_by
   dataset: datasets_order_by
   dataset_id: order_by
@@ -2238,6 +2276,9 @@ enum dataset_authors_select_column {
 
   """column name"""
   affiliation_name
+
+  """column name"""
+  author_list_order
 
   """column name"""
   corresponding_author_status
@@ -2285,6 +2326,8 @@ enum dataset_authors_select_column_dataset_authors_aggregate_bool_exp_bool_or_ar
 
 """aggregate stddev on columns"""
 type dataset_authors_stddev_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
   dataset_id: Float
   id: Float
 }
@@ -2293,12 +2336,16 @@ type dataset_authors_stddev_fields {
 order by stddev() on columns of table "dataset_authors"
 """
 input dataset_authors_stddev_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
   dataset_id: order_by
   id: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type dataset_authors_stddev_pop_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
   dataset_id: Float
   id: Float
 }
@@ -2307,12 +2354,16 @@ type dataset_authors_stddev_pop_fields {
 order by stddev_pop() on columns of table "dataset_authors"
 """
 input dataset_authors_stddev_pop_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
   dataset_id: order_by
   id: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type dataset_authors_stddev_samp_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
   dataset_id: Float
   id: Float
 }
@@ -2321,12 +2372,16 @@ type dataset_authors_stddev_samp_fields {
 order by stddev_samp() on columns of table "dataset_authors"
 """
 input dataset_authors_stddev_samp_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
   dataset_id: order_by
   id: order_by
 }
 
 """aggregate sum on columns"""
 type dataset_authors_sum_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Int
   dataset_id: Int
   id: Int
 }
@@ -2335,12 +2390,16 @@ type dataset_authors_sum_fields {
 order by sum() on columns of table "dataset_authors"
 """
 input dataset_authors_sum_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
   dataset_id: order_by
   id: order_by
 }
 
 """aggregate var_pop on columns"""
 type dataset_authors_var_pop_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
   dataset_id: Float
   id: Float
 }
@@ -2349,12 +2408,16 @@ type dataset_authors_var_pop_fields {
 order by var_pop() on columns of table "dataset_authors"
 """
 input dataset_authors_var_pop_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
   dataset_id: order_by
   id: order_by
 }
 
 """aggregate var_samp on columns"""
 type dataset_authors_var_samp_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
   dataset_id: Float
   id: Float
 }
@@ -2363,12 +2426,16 @@ type dataset_authors_var_samp_fields {
 order by var_samp() on columns of table "dataset_authors"
 """
 input dataset_authors_var_samp_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
   dataset_id: order_by
   id: order_by
 }
 
 """aggregate variance on columns"""
 type dataset_authors_variance_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
   dataset_id: Float
   id: Float
 }
@@ -2377,6 +2444,8 @@ type dataset_authors_variance_fields {
 order by variance() on columns of table "dataset_authors"
 """
 input dataset_authors_variance_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
   dataset_id: order_by
   id: order_by
 }
@@ -3803,6 +3872,29 @@ type query_root {
     id: Int!
   ): tomogram_authors
 
+  """
+  fetch data from the table: "tomogram_type"
+  """
+  tomogram_type(
+    """distinct select on columns"""
+    distinct_on: [tomogram_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomogram_type_order_by!]
+
+    """filter the rows returned"""
+    where: tomogram_type_bool_exp
+  ): [tomogram_type!]!
+
+  """fetch data from the table: "tomogram_type" using primary key columns"""
+  tomogram_type_by_pk(value: String!): tomogram_type
+
   """An array relationship"""
   tomogram_voxel_spacings(
     """distinct select on columns"""
@@ -4441,6 +4533,43 @@ type subscription_root {
     """filter the rows returned"""
     where: tomogram_authors_bool_exp
   ): [tomogram_authors!]!
+
+  """
+  fetch data from the table: "tomogram_type"
+  """
+  tomogram_type(
+    """distinct select on columns"""
+    distinct_on: [tomogram_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomogram_type_order_by!]
+
+    """filter the rows returned"""
+    where: tomogram_type_bool_exp
+  ): [tomogram_type!]!
+
+  """fetch data from the table: "tomogram_type" using primary key columns"""
+  tomogram_type_by_pk(value: String!): tomogram_type
+
+  """
+  fetch data from the table in a streaming manner: "tomogram_type"
+  """
+  tomogram_type_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [tomogram_type_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: tomogram_type_bool_exp
+  ): [tomogram_type!]!
 }
 
 """Tilt Series Metadata"""
@@ -4454,7 +4583,7 @@ type tiltseries {
   aligned_tiltseries_binning: Int
 
   """Describes the binning factor from frames to tilt series file"""
-  binning_from_frames: numeric!
+  binning_from_frames: numeric
 
   """Name of the camera manufacturer"""
   camera_manufacturer: String!
@@ -4467,7 +4596,7 @@ type tiltseries {
 
   """Number of frames associated to the tilt series"""
   frames_count: Int
-  https_alignment_file: String!
+  https_alignment_file: String
   https_angle_list: String
   https_collection_metadata: String
   https_mrc_bin1: String!
@@ -4508,7 +4637,7 @@ type tiltseries {
   """An object relationship"""
   run: runs!
   run_id: Int!
-  s3_alignment_file: String!
+  s3_alignment_file: String
   s3_angle_list: String
   s3_collection_metadata: String
   s3_mrc_bin1: String!
@@ -6017,6 +6146,9 @@ type tomogram_authors {
   """
   affiliation_name: String
 
+  """The order in which the author appears in the publication"""
+  author_list_order: Int!
+
   """Indicating whether an author is the corresponding author (YES or NO)"""
   corresponding_author_status: Boolean
 
@@ -6115,6 +6247,9 @@ input tomogram_authors_aggregate_order_by {
 
 """aggregate avg on columns"""
 type tomogram_authors_avg_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: Float
 
@@ -6126,6 +6261,9 @@ type tomogram_authors_avg_fields {
 order by avg() on columns of table "tomogram_authors"
 """
 input tomogram_authors_avg_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: order_by
 
@@ -6143,6 +6281,7 @@ input tomogram_authors_bool_exp {
   affiliation_address: String_comparison_exp
   affiliation_identifier: String_comparison_exp
   affiliation_name: String_comparison_exp
+  author_list_order: Int_comparison_exp
   corresponding_author_status: Boolean_comparison_exp
   email: String_comparison_exp
   id: Int_comparison_exp
@@ -6167,6 +6306,9 @@ type tomogram_authors_max_fields {
   Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
   """
   affiliation_name: String
+
+  """The order in which the author appears in the publication"""
+  author_list_order: Int
 
   """Email address for this author"""
   email: String
@@ -6201,6 +6343,9 @@ input tomogram_authors_max_order_by {
   """
   affiliation_name: order_by
 
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
+
   """Email address for this author"""
   email: order_by
 
@@ -6231,6 +6376,9 @@ type tomogram_authors_min_fields {
   Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
   """
   affiliation_name: String
+
+  """The order in which the author appears in the publication"""
+  author_list_order: Int
 
   """Email address for this author"""
   email: String
@@ -6265,6 +6413,9 @@ input tomogram_authors_min_order_by {
   """
   affiliation_name: order_by
 
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
+
   """Email address for this author"""
   email: order_by
 
@@ -6286,6 +6437,7 @@ input tomogram_authors_order_by {
   affiliation_address: order_by
   affiliation_identifier: order_by
   affiliation_name: order_by
+  author_list_order: order_by
   corresponding_author_status: order_by
   email: order_by
   id: order_by
@@ -6308,6 +6460,9 @@ enum tomogram_authors_select_column {
 
   """column name"""
   affiliation_name
+
+  """column name"""
+  author_list_order
 
   """column name"""
   corresponding_author_status
@@ -6355,6 +6510,9 @@ enum tomogram_authors_select_column_tomogram_authors_aggregate_bool_exp_bool_or_
 
 """aggregate stddev on columns"""
 type tomogram_authors_stddev_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: Float
 
@@ -6366,6 +6524,9 @@ type tomogram_authors_stddev_fields {
 order by stddev() on columns of table "tomogram_authors"
 """
 input tomogram_authors_stddev_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: order_by
 
@@ -6375,6 +6536,9 @@ input tomogram_authors_stddev_order_by {
 
 """aggregate stddev_pop on columns"""
 type tomogram_authors_stddev_pop_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: Float
 
@@ -6386,6 +6550,9 @@ type tomogram_authors_stddev_pop_fields {
 order by stddev_pop() on columns of table "tomogram_authors"
 """
 input tomogram_authors_stddev_pop_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: order_by
 
@@ -6395,6 +6562,9 @@ input tomogram_authors_stddev_pop_order_by {
 
 """aggregate stddev_samp on columns"""
 type tomogram_authors_stddev_samp_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: Float
 
@@ -6406,6 +6576,9 @@ type tomogram_authors_stddev_samp_fields {
 order by stddev_samp() on columns of table "tomogram_authors"
 """
 input tomogram_authors_stddev_samp_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: order_by
 
@@ -6439,6 +6612,9 @@ input tomogram_authors_stream_cursor_value_input {
   """
   affiliation_name: String
 
+  """The order in which the author appears in the publication"""
+  author_list_order: Int
+
   """Indicating whether an author is the corresponding author (YES or NO)"""
   corresponding_author_status: Boolean
 
@@ -6465,6 +6641,9 @@ input tomogram_authors_stream_cursor_value_input {
 
 """aggregate sum on columns"""
 type tomogram_authors_sum_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Int
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: Int
 
@@ -6476,6 +6655,9 @@ type tomogram_authors_sum_fields {
 order by sum() on columns of table "tomogram_authors"
 """
 input tomogram_authors_sum_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: order_by
 
@@ -6485,6 +6667,9 @@ input tomogram_authors_sum_order_by {
 
 """aggregate var_pop on columns"""
 type tomogram_authors_var_pop_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: Float
 
@@ -6496,6 +6681,9 @@ type tomogram_authors_var_pop_fields {
 order by var_pop() on columns of table "tomogram_authors"
 """
 input tomogram_authors_var_pop_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: order_by
 
@@ -6505,6 +6693,9 @@ input tomogram_authors_var_pop_order_by {
 
 """aggregate var_samp on columns"""
 type tomogram_authors_var_samp_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: Float
 
@@ -6516,6 +6707,9 @@ type tomogram_authors_var_samp_fields {
 order by var_samp() on columns of table "tomogram_authors"
 """
 input tomogram_authors_var_samp_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: order_by
 
@@ -6525,6 +6719,9 @@ input tomogram_authors_var_samp_order_by {
 
 """aggregate variance on columns"""
 type tomogram_authors_variance_fields {
+  """The order in which the author appears in the publication"""
+  author_list_order: Float
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: Float
 
@@ -6536,11 +6733,123 @@ type tomogram_authors_variance_fields {
 order by variance() on columns of table "tomogram_authors"
 """
 input tomogram_authors_variance_order_by {
+  """The order in which the author appears in the publication"""
+  author_list_order: order_by
+
   """Numeric identifier for this tomogram author (this may change!)"""
   id: order_by
 
   """Reference to the tomogram this author contributed to"""
   tomogram_id: order_by
+}
+
+"""The type of tomograms"""
+type tomogram_type {
+  description: String
+
+  """An array relationship"""
+  tomograms(
+    """distinct select on columns"""
+    distinct_on: [tomograms_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomograms_order_by!]
+
+    """filter the rows returned"""
+    where: tomograms_bool_exp
+  ): [tomograms!]!
+
+  """An aggregate relationship"""
+  tomograms_aggregate(
+    """distinct select on columns"""
+    distinct_on: [tomograms_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomograms_order_by!]
+
+    """filter the rows returned"""
+    where: tomograms_bool_exp
+  ): tomograms_aggregate!
+  value: String!
+}
+
+"""
+Boolean expression to filter rows from the table "tomogram_type". All fields are combined with a logical 'AND'.
+"""
+input tomogram_type_bool_exp {
+  _and: [tomogram_type_bool_exp!]
+  _not: tomogram_type_bool_exp
+  _or: [tomogram_type_bool_exp!]
+  description: String_comparison_exp
+  tomograms: tomograms_bool_exp
+  tomograms_aggregate: tomograms_aggregate_bool_exp
+  value: String_comparison_exp
+}
+
+enum tomogram_type_enum {
+  """"""
+  CANONICAL
+
+  """"""
+  UNKOWN
+}
+
+"""
+Boolean expression to compare columns of type "tomogram_type_enum". All fields are combined with logical 'AND'.
+"""
+input tomogram_type_enum_comparison_exp {
+  _eq: tomogram_type_enum
+  _in: [tomogram_type_enum!]
+  _is_null: Boolean
+  _neq: tomogram_type_enum
+  _nin: [tomogram_type_enum!]
+}
+
+"""Ordering options when selecting data from "tomogram_type"."""
+input tomogram_type_order_by {
+  description: order_by
+  tomograms_aggregate: tomograms_aggregate_order_by
+  value: order_by
+}
+
+"""
+select columns of table "tomogram_type"
+"""
+enum tomogram_type_select_column {
+  """column name"""
+  description
+
+  """column name"""
+  value
+}
+
+"""
+Streaming cursor of the table "tomogram_type"
+"""
+input tomogram_type_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: tomogram_type_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input tomogram_type_stream_cursor_value_input {
+  description: String
+  value: String
 }
 
 """The tomograms for each run are grouped by their voxel spacing"""
@@ -6903,7 +7212,7 @@ type tomograms {
   """
   The flip or rotation transformation of this author submitted tomogram is indicated here
   """
-  affine_transformation_matrix: String
+  affine_transformation_matrix: _numeric
 
   """An array relationship"""
   authors(
@@ -7020,6 +7329,9 @@ type tomograms {
   """
   size_z: Int!
 
+  """An object relationship"""
+  tomogram_type: tomogram_type
+
   """
   Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
   """
@@ -7028,6 +7340,7 @@ type tomograms {
   """An object relationship"""
   tomogram_voxel_spacing: tomogram_voxel_spacings
   tomogram_voxel_spacing_id: Int
+  type: tomogram_type_enum
 
   """Voxel spacing equal in all three axes in angstroms"""
   voxel_spacing: numeric!
@@ -7171,7 +7484,7 @@ input tomograms_bool_exp {
   _and: [tomograms_bool_exp!]
   _not: tomograms_bool_exp
   _or: [tomograms_bool_exp!]
-  affine_transformation_matrix: String_comparison_exp
+  affine_transformation_matrix: _numeric_comparison_exp
   authors: tomogram_authors_bool_exp
   authors_aggregate: tomogram_authors_aggregate_bool_exp
   ctf_corrected: Boolean_comparison_exp
@@ -7199,19 +7512,16 @@ input tomograms_bool_exp {
   size_x: Int_comparison_exp
   size_y: Int_comparison_exp
   size_z: Int_comparison_exp
+  tomogram_type: tomogram_type_bool_exp
   tomogram_version: String_comparison_exp
   tomogram_voxel_spacing: tomogram_voxel_spacings_bool_exp
   tomogram_voxel_spacing_id: Int_comparison_exp
+  type: tomogram_type_enum_comparison_exp
   voxel_spacing: numeric_comparison_exp
 }
 
 """aggregate max on columns"""
 type tomograms_max_fields {
-  """
-  The flip or rotation transformation of this author submitted tomogram is indicated here
-  """
-  affine_transformation_matrix: String
-
   """
   Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
   """
@@ -7300,11 +7610,6 @@ order by max() on columns of table "tomograms"
 """
 input tomograms_max_order_by {
   """
-  The flip or rotation transformation of this author submitted tomogram is indicated here
-  """
-  affine_transformation_matrix: order_by
-
-  """
   Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
   """
   fiducial_alignment_status: order_by
@@ -7389,11 +7694,6 @@ input tomograms_max_order_by {
 
 """aggregate min on columns"""
 type tomograms_min_fields {
-  """
-  The flip or rotation transformation of this author submitted tomogram is indicated here
-  """
-  affine_transformation_matrix: String
-
   """
   Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
   """
@@ -7481,11 +7781,6 @@ type tomograms_min_fields {
 order by min() on columns of table "tomograms"
 """
 input tomograms_min_order_by {
-  """
-  The flip or rotation transformation of this author submitted tomogram is indicated here
-  """
-  affine_transformation_matrix: order_by
-
   """
   Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
   """
@@ -7598,9 +7893,11 @@ input tomograms_order_by {
   size_x: order_by
   size_y: order_by
   size_z: order_by
+  tomogram_type: tomogram_type_order_by
   tomogram_version: order_by
   tomogram_voxel_spacing: tomogram_voxel_spacings_order_by
   tomogram_voxel_spacing_id: order_by
+  type: order_by
   voxel_spacing: order_by
 }
 
@@ -7691,6 +7988,9 @@ enum tomograms_select_column {
 
   """column name"""
   tomogram_voxel_spacing_id
+
+  """column name"""
+  type
 
   """column name"""
   voxel_spacing
@@ -8151,3 +8451,4 @@ input tomograms_variance_order_by {
   """Voxel spacing equal in all three axes in angstroms"""
   voxel_spacing: order_by
 }
+

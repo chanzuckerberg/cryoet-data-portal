@@ -105,7 +105,7 @@ class DatasetAuthor(Model):
         affiliation_address (str): Address of the institution an author is affiliated with.
         affiliation_identifier (str):  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
         affiliation_name (str): Name of the institutions an author is affiliated with. Comma separated
-        author_list_order (int): The order in which the author appears in the publication
+        author_list_order(int): The order in which the author appears in the publication
         corresponding_author_status (bool):Indicating whether an author is the corresponding author
         dataset (Dataset): An object relationship with the dataset this author correspods to
         dataset_id (int): Numeric identifier for the dataset this author corresponds to
