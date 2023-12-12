@@ -1,8 +1,10 @@
+import rehypePrism from '@mapbox/rehype-prism'
 import { AxiosResponse } from 'axios'
 import { readFileSync } from 'fs'
 import { serialize } from 'next-mdx-remote/serialize'
 import { Octokit } from 'octokit'
 import { dirname, resolve } from 'path'
+import remarkGfm from 'remark-gfm'
 import sectionize from 'remark-sectionize'
 import { typedjson } from 'remix-typedjson'
 import { fileURLToPath } from 'url'
@@ -41,7 +43,8 @@ async function serializeMdx(content: string, lastModified: Date | null) {
     lastModified,
     content: await serialize(content, {
       mdxOptions: {
-        remarkPlugins: [sectionize],
+        remarkPlugins: [sectionize, remarkGfm],
+        rehypePlugins: [rehypePrism],
       },
     }),
   })

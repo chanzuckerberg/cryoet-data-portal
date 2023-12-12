@@ -4,6 +4,13 @@ import { useMdxFile } from 'app/hooks/useMdxFile'
 
 import { MdxAccordion } from './MdxAccordion'
 import { MdxBody } from './MdxBody'
+import {
+  MdxClass,
+  MdxFunction,
+  MdxOperator,
+  MdxPunctuation,
+  MdxString,
+} from './MdxCode'
 import { MdxEmail } from './MdxEmail'
 import { MdxPageTitle } from './MdxPageTitle'
 
@@ -18,7 +25,12 @@ export function MdxContent() {
           components={{
             Accordion: MdxAccordion,
             Body: MdxBody,
+            Class: MdxClass,
             Email: MdxEmail,
+            Function: MdxFunction,
+            Str: MdxString,
+            Op: MdxOperator,
+            Punc: MdxPunctuation,
             PageTitle: MdxPageTitle,
           }}
         />

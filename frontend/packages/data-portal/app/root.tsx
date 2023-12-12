@@ -102,6 +102,8 @@ const Document = withEmotionCache(
             rel="stylesheet"
           />
 
+          <link href="/fonts/ANDALEMO.ttf" rel="stylesheet" />
+
           <meta
             name="emotion-insertion-point"
             content="emotion-insertion-point"

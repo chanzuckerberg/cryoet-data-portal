@@ -81,7 +81,6 @@ Once AWS CLI is installed, you will be able to use it in terminal (MacOS) or com
 2. Open the file and follow the instructions provided in the installer window.
 
 To confirm successful installation, open terminal and type `aws --version` to list the version of the AWS CLI installed. If installation was successful, you should see an output like:
-
 ```
 aws-cli/2.7.25 Python/3.10.6 Darwin/23.0.0 source/arm64 prompt/off
 ```
@@ -142,7 +141,6 @@ In the above example, the download happened very quickly because the file was on
 ## Optimize Download Speed
 
 You can optimize your download speed by configuring your AWS CLI with the below command, which will increase your transfer rate to ~50 MB/s if your connection has sufficient bandwidth.
-
 ```
 aws configure set default.s3.max_concurrent_requests 30
 ```
@@ -165,17 +163,15 @@ The CryoET Data Portal napari plugin can be used to visualize tomograms, annotat
 
 <Accordion title="How do I download data using the Portal's API?">
 
-- The `Dataset`, `Run`, and `TomogramVoxelSpacing` classes have `download_everything` methods which allow you to download all data associated with one of those objects.
+- The <Class>`Dataset`</Class>, <Class>`Run`</Class>, and <Class>`TomogramVoxelSpacing`</Class> classes have <Function>`download_everything`</Function> methods which allow you to download all data associated with one of those objects.
 
-- The `Tomogram` class has `download_mrcfile` and `download_omezarr` methods to download the tomogram as a MRC or OME-Zarr file, respectively.
+- The <Class>`Tomogram`</Class> class has <Function>`download_mrcfile`</Function> and <Function>`download_omezarr`</Function> methods to download the tomogram as a MRC or OME-Zarr file, respectively.
 
-- The `TiltSeries` class has `download_mrcfile` and `download_omezarr` methods as well as `download_alignment_file`, `download_angle_list` `download_collection_metadata` to download the files associated with a tilt series.
+- The <Class>`TiltSeries`</Class> class has <Function>`download_mrcfile`</Function> and <Function>`download_omezarr`</Function> methods as well as <Function>`download_alignment_file`</Function>, <Function>`download_angle_list`</Function>, and <Function>`download_collection_metadata`</Function> to download the files associated with a tilt series.
 
-All of the download methods default to downloading the data to your current working directory, unless a destination path is provided. The general structure of these commands is `object.download_method(OPTIONAL DESTINATION PATH)`. For example, to download the `TS_026` tomogram in OME-Zarr format to your current working directory use:
+All of the download methods default to downloading the data to your current working directory, unless a destination path is provided. The general structure of these commands is `object.download_method(OPTIONAL DESTINATION PATH)`. For example, to download the <Str>`TS_026`</Str> tomogram in OME-Zarr format to your current working directory use:
 
 ```python
-from cryoet_data_portal import Client, Tomogram
-
 # Instantiate a client, using the data portal GraphQL API by default
 client = Client()
 
@@ -192,11 +188,11 @@ For more examples of downloading data with the API, check out the [tutorial here
 
 <Accordion title="How do I use the Portal's API to select data?">
 
-Every class in the Data Portal API has a `find` method which can be used to select all objects that match criteria provided in a query. The `find` method utilizes python comparison operators `==`, `!=`, `>`, `>=`, `<`, `<=`, as well as `like`, `ilike`, and `_in` methods used to search for strings that match a given pattern, to create queries.
+Every class in the Data Portal API has a <Function>`find`</Function> method which can be used to select all objects that match criteria provided in a query. The <Function>`find`</Function> method utilizes python comparison operators <Op>`==`</Op>, <Op>`!=`</Op>, <Op>`>`</Op>, <Op>`>=`</Op>, <Op>`<`</Op>, <Op>`<=`</Op>, as well as <Function>`like`</Function>, <Function>`ilike`</Function>, and <Function>`_in`</Function> methods used to search for strings that match a given pattern, to create queries.
 
-- `like` is a partial match, with the % character being a wildcard
-- `ilike` is similar to like but case-insensitive
-- `_in` accepts a list of values that are acceptable matches.
+- <Function>`like`</Function> is a partial match, with the % character being a wildcard
+- <Function>`ilike`</Function> is similar to like but case-insensitive
+- <Function>`_in`</Function> accepts a list of values that are acceptable matches.
 
 The general structure of these commands is `class.find(client, query_filters=[LIST QUERIES HERE])`. For example, the script below will print the names of all runs that have "ts" in their name and more than 900 pixels in their "fast" axis.
 
@@ -213,7 +209,7 @@ for run in runs_list:
     print(run.name)
 ```
 
-For more examples of using the `find` operator, check out the [tutorial here](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_quick_start.html#python-quick-start). The Data Portal API reference can be found [here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
+For more examples of using the <Function>`find`</Function> operator, check out the [tutorial here](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_quick_start.html#python-quick-start). The Data Portal API reference can be found [here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
 
 </Accordion>
 
@@ -222,7 +218,7 @@ For more examples of using the `find` operator, check out the [tutorial here](ht
 The tilt series quality score/rating is a relative subjective scale meant for comparing tilt series within a dataset. The contributor of the dataset assigns quality scores to each of the tilt series to communicate their quality estimate to users. Below is an example scale based mainly on alignability and usefulness for the intended analysis.
 
 | Rating | Quality   | Description                                                                                                                                                                          |
-| ------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| :----: | :-------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 5      | Excellent | Full Tilt Series/Reconstructions could be used in publication ready figures.                                                                                                         |
 | 4      | Good      | Full Tilt Series/Reconstructions are useful for analysis (subtomogram averaging, segmentation).                                                                                      |
 | 3      | Medium    | Minor parts of the tilt series (projection images) need to be or have been discarded prior to reconstruction and analysis.                                                           |
