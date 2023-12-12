@@ -222,6 +222,9 @@ importers:
       '@types/lodash-es':
         specifier: ^4.17.9
         version: 4.17.9
+      '@types/mapbox__rehype-prism':
+        specifier: ^0.8.3
+        version: 0.8.3
       '@types/morgan':
         specifier: ^1.9.6
         version: 1.9.6
@@ -3952,6 +3955,13 @@ packages:
 
   /@types/lodash@4.14.199:
     resolution: {integrity: sha512-Vrjz5N5Ia4SEzWWgIVwnHNEnb1UE1XMkvY5DGXrAeOGE9imk0hgTHh5GyDjLDJi9OTCn9oo9dXH1uToK1VRfrg==}
+    dev: true
+
+  /@types/mapbox__rehype-prism@0.8.3:
+    resolution: {integrity: sha512-ayRTSAVHT0XpvKmx5GFN5luxwabuPb3EL06b3hRU0mnv30ETdcGmguk6C20R5EFVv6bWsfG8Jh6OUf+mMIqLdw==}
+    dependencies:
+      '@types/hast': 2.3.6
+      unified: 10.1.2
     dev: true
 
   /@types/mdast@3.0.13:
