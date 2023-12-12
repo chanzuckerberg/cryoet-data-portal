@@ -1,9 +1,17 @@
+import { useTypedLoaderData } from 'remix-typedjson'
+
+import { LandingPageDataQuery } from 'app/__generated__/graphql'
 import { I18n } from 'app/components/I18n'
 
 import { IndexContributors } from './IndexContributors'
 import { IndexCTA } from './IndexCTA'
 
 export function IndexContent() {
+  const data = useTypedLoaderData<LandingPageDataQuery>()
+
+  const datasets = data.datasets_aggregate.aggregate?.count ?? 0
+  const tomograms = data.tomograms_aggregate.aggregate?.count ?? 0
+
   return (
     <div className="px-sds-xl w-[100vw] overflow-x-clip flex flex-col items-center">
       <div className="flex flex-col max-w-content-small py-sds-xxl gap-sds-xxl">
@@ -16,7 +24,13 @@ export function IndexContent() {
               <I18n i18nKey="landingPageCopy1" />
             </p>
             <p>
-              <I18n i18nKey="landingPageCopy2" />
+              <I18n
+                i18nKey="landingPageCopy2"
+                values={{
+                  count1: tomograms.toLocaleString(),
+                  count2: datasets.toLocaleString(),
+                }}
+              />
             </p>
             <p>
               <I18n i18nKey="landingPageCopy3" />
