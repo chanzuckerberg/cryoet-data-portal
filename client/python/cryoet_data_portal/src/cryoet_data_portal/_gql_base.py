@@ -1,5 +1,5 @@
 import functools
-from datetime import datetime
+from datetime import datetime, timezone
 from importlib import import_module
 from typing import Any, Dict, Iterable, Optional
 
@@ -88,7 +88,7 @@ class DateField(BaseField):
     def convert(self, value):
         if value:
             return datetime.date(
-                datetime.strptime(value, "%Y-%m-%d").astimezone(datetime.timezone.utc),
+                datetime.strptime(value, "%Y-%m-%d").astimezone(timezone.utc),
             )
 
 

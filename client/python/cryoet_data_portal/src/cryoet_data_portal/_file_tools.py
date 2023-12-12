@@ -51,12 +51,8 @@ def get_destination_path(
         dest_path = os.getcwd()
     dest_path = os.path.abspath(dest_path)
 
-    if not os.path.isdir(dest_path):
-        if recursive_from_prefix:
-            raise ValueError("Recursive downloads require a base directory")
-    else:
-        # If the dest path is a directory, append the url's file name to it.
-        return os.path.join(dest_path, os.path.basename(url))
+    if not os.path.isdir(dest_path) and recursive_from_prefix:
+        raise ValueError("Recursive downloads require a base directory")
 
     # If we're downloading recursively, we need to add the dest URL
     # (minus the prefix) to the dest path.

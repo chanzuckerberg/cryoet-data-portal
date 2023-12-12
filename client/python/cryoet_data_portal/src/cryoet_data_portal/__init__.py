@@ -14,12 +14,14 @@ from ._client import Client
 from ._models import (
     Annotation,
     AnnotationAuthor,
+    AnnotationFile,
     Dataset,
     DatasetAuthor,
     DatasetFunding,
     Run,
     TiltSeries,
     Tomogram,
+    TomogramAuthor,
     TomogramVoxelSpacing,
 )
 
@@ -32,6 +34,7 @@ except metadata.PackageNotFoundError:
 __all__ = [
     "Client",
     "Annotation",
+    "AnnotationFile",
     "AnnotationAuthor",
     "Dataset",
     "DatasetAuthor",
@@ -39,5 +42,6 @@ __all__ = [
     "Run",
     "TiltSeries",
     "Tomogram",
+    "TomogramAuthor",
     "TomogramVoxelSpacing",
 ]
