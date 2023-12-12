@@ -30,7 +30,7 @@ export function TopNavigation() {
 
           pathname.startsWith('/datasets')
             ? 'text-sds-gray-white'
-            : 'text-sds-gray-400',
+            : 'text-sds-gray-400 hover:text-sds-gray-white',
         )}
         to="/browse-data/datasets"
       >

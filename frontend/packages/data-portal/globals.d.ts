@@ -9,3 +9,9 @@ declare namespace NodeJS {
     readonly SPLIT_IO_SERVER_KEY: string
   }
 }
+
+declare module 'remark-sectionize' {
+  const plugin: import('unified').Pluggable
+  // eslint-disable-next-line import/no-default-export
+  export default plugin
+}

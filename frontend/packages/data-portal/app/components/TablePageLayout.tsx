@@ -4,7 +4,6 @@ import { ReactNode, useMemo } from 'react'
 
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { LayoutContext, LayoutContextValue } from 'app/context/Layout.context'
-import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
 
 import { TableCount } from './Table/TableCount'
@@ -18,6 +17,7 @@ export function TablePageLayout({
   noResults,
   table,
   totalCount,
+  type,
 }: {
   downloadModal?: ReactNode
   drawers?: ReactNode
@@ -27,6 +27,7 @@ export function TablePageLayout({
   noResults?: ReactNode
   table: ReactNode
   totalCount: number
+  type: string
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
   const page = +(searchParams.get('page') ?? '1')
@@ -67,8 +68,9 @@ export function TablePageLayout({
           <div
             className={cns(
               'flex flex-col flex-auto flex-shrink-0 screen-2040:items-center',
-              'p-sds-xl pb-sds-xxl',
+              'pt-sds-xl pb-sds-xxl',
               'border-t border-sds-gray-300',
+              'overflow-x-scroll max-w-full',
             )}
           >
             <div
@@ -81,25 +83,29 @@ export function TablePageLayout({
                 filterPanel && 'max-w-content',
               )}
             >
-              <TableCount
-                filteredCount={filteredCount}
-                totalCount={totalCount}
-                type={i18n.runs}
-              />
-
-              {table}
-
-              {filteredCount === 0 && noResults}
-
-              <div className="w-full flex justify-center">
-                <Pagination
-                  currentPage={page}
-                  pageSize={MAX_PER_PAGE}
+              <div className="px-sds-xl">
+                <TableCount
+                  filteredCount={filteredCount}
                   totalCount={totalCount}
-                  onNextPage={() => setPage(page + 1)}
-                  onPreviousPage={() => setPage(page - 1)}
-                  onPageChange={(nextPage) => setPage(nextPage)}
+                  type={type}
                 />
+              </div>
+
+              <div className="overflow-x-scroll">{table}</div>
+
+              <div className="px-sds-xl">
+                {filteredCount === 0 && noResults}
+
+                <div className="w-full flex justify-center">
+                  <Pagination
+                    currentPage={page}
+                    pageSize={MAX_PER_PAGE}
+                    totalCount={totalCount}
+                    onNextPage={() => setPage(page + 1)}
+                    onPreviousPage={() => setPage(page - 1)}
+                    onPageChange={(nextPage) => setPage(nextPage)}
+                  />
+                </div>
               </div>
             </div>
           </div>

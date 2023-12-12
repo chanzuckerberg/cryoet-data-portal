@@ -21,7 +21,8 @@ const SELECT_FIELDS = [
   TiltSeriesKeys.TotalFlux,
   TiltSeriesKeys.BinningFromFrames,
   TiltSeriesKeys.SeriesIsAligned,
-  TiltSeriesKeys.AlignedBinning,
+  // not done on the backend yet
+  // TiltSeriesKeys.AlignedBinning,
   TiltSeriesKeys.RelatedEmpiarEntry,
 ]
 

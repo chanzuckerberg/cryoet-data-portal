@@ -1,40 +1,52 @@
-import { ComplexFilter, DefaultDropdownMenuOption } from '@czi-sds/components'
-import Typography from '@mui/material/Typography'
 import type { MetaFunction } from '@remix-run/node'
+import { json } from '@remix-run/server-runtime'
+
+import { gql } from 'app/__generated__'
+import { apolloClient } from 'app/apollo.server'
+import { IndexContent, IndexHeader } from 'app/components/Index'
+
+const LANDING_PAGE_DATA_QUERY = gql(`
+  query LandingPageData {
+    datasets_aggregate {
+      aggregate {
+        count(distinct: true)
+      }
+    }
+    species_aggregate: datasets_aggregate {
+      aggregate {
+        count(distinct: true, columns: organism_taxid)
+      }
+    }
+    tomograms_aggregate {
+      aggregate {
+        count(distinct: true)
+      }
+    }
+  }
+`)
+
+export async function loader() {
+  const { data } = await apolloClient.query({
+    query: LANDING_PAGE_DATA_QUERY,
+  })
+
+  return json(data)
+}
 
 export const meta: MetaFunction = () => {
   return [
     {
-      title: 'Remix Starter',
-      description: 'Welcome to remix!',
+      title: 'CryoET Data Portal',
+      description: 'Welcome to the CryoET Data Portal!',
     },
   ]
 }
 
-const OPTIONS: DefaultDropdownMenuOption[] = [
-  { name: 'Filter Item 1', section: 'Section 1' },
-  { name: 'Filter Item 2', section: 'Section 1' },
-  { name: 'Filter Item 3', section: 'Section 2' },
-]
-
 export default function HomePage() {
   return (
-    <div className="p-8 pt-24">
-      <Typography variant="h2" component="h1">
-        Hello, CryoET Data Portal!
-      </Typography>
-
-      <ComplexFilter
-        className="translate-x-[-6px] mt-sds-s"
-        label="SDS Complex Filter"
-        onChange={() => {}}
-        options={OPTIONS}
-        search
-        DropdownMenuProps={{
-          groupBy: (option: DefaultDropdownMenuOption) =>
-            option.section as string,
-        }}
-      />
+    <div className="flex flex-col items-center">
+      <IndexHeader />
+      <IndexContent />
     </div>
   )
 }

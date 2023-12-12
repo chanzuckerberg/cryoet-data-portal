@@ -11,11 +11,13 @@ import { TableCell } from './TableCell'
 
 export function MetadataTable({
   data,
-  tableCellProps,
+  tableCellLabelProps,
+  tableCellValueProps,
   title,
 }: {
   data: TableData[]
-  tableCellProps?: ComponentProps<typeof TableCell>
+  tableCellLabelProps?: ComponentProps<typeof TableCell>
+  tableCellValueProps?: ComponentProps<typeof TableCell>
   title?: string
 }) {
   return (
@@ -34,19 +36,28 @@ export function MetadataTable({
 
             return (
               <TableRow
-                className={cns(idx % 2 !== 0 && 'bg-sds-gray-100')}
+                className={cns((idx + 1) % 2 !== 0 && 'bg-sds-gray-100')}
                 key={datum.label + values.join(', ')}
               >
-                <TableCell {...tableCellProps}>
+                <TableCell
+                  className="!p-sds-s"
+                  tooltip={datum.labelTooltip}
+                  tooltipProps={datum.labelTooltipProps}
+                  {...tableCellLabelProps}
+                >
                   <span className="text-sds-gray-600 text-sds-header-s leading-sds-header-s font-semibold">
                     {datum.label}
                   </span>
                 </TableCell>
 
-                <TableCell {...tableCellProps}>
+                <TableCell className="!p-sds-s" {...tableCellValueProps}>
                   {match(values.length)
                     .with(0, () => null)
-                    .with(1, () => datum.renderValue?.(values[0]) ?? values[0])
+                    .with(1, () => (
+                      <span className={datum.className}>
+                        {datum.renderValue?.(values[0]) ?? values[0]}
+                      </span>
+                    ))
                     .otherwise(() => (
                       <ul className="list-none flex flex-wrap gap-1">
                         {values.map((value, valueIdx) => (

@@ -19,10 +19,10 @@ const TAB_OPTIONS: TabData<MetadataTab>[] = [
     label: i18n.metadata,
     value: MetadataTab.Metadata,
   },
-  {
-    label: i18n.howToCite,
-    value: MetadataTab.HowToCite,
-  },
+  // {
+  //   label: i18n.howToCite,
+  //   value: MetadataTab.HowToCite,
+  // },
 ]
 
 const ACTIVE_TAB_PARAM = 'tab'
@@ -109,12 +109,13 @@ export function MetadataDrawer({
             className="!m-0"
             tabs={TAB_OPTIONS}
             value={activeTab}
-            onChange={(tab) =>
-              setSearchParams((params) => {
-                params.set(ACTIVE_TAB_PARAM, tab)
-                return params
-              })
-            }
+            onChange={() => null}
+            // onChange={(tab) =>
+            //   setSearchParams((params) => {
+            //     params.set(ACTIVE_TAB_PARAM, tab)
+            //     return params
+            //   })
+            // }
           />
         </div>
 

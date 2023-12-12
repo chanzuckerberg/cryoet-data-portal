@@ -1,6 +1,7 @@
 import { Button, Icon } from '@czi-sds/components'
 import { sum } from 'lodash-es'
 
+import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { PageHeader } from 'app/components/PageHeader'
@@ -18,21 +19,30 @@ export function RunHeader() {
   const { t } = useI18n()
 
   const tiltSeries = run.tiltseries[0]
-  const keyPhotoURL = 'https://loremflickr.com/400/400/cat'
+  const keyPhotoURL =
+    run.tomogram_voxel_spacings[0]?.tomograms[0]?.key_photo_url
 
   const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
+  const neuroglancerConfig = run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
+    ?.neuroglancer_config
 
   return (
     <PageHeader
       actions={
         <>
-          <Button
-            startIcon={<Icon sdsIcon="table" sdsType="button" sdsSize="s" />}
-            sdsType="primary"
-            sdsStyle="rounded"
-          >
-            {t('viewTomogram')}
-          </Button>
+          {neuroglancerConfig && (
+            <Button
+              to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(
+                neuroglancerConfig,
+              )}`}
+              startIcon={<Icon sdsIcon="table" sdsType="button" sdsSize="s" />}
+              sdsType="primary"
+              sdsStyle="rounded"
+              component={Link}
+            >
+              <span>{t('viewTomogram')}</span>
+            </Button>
+          )}
 
           <Button
             startIcon={<Icon sdsIcon="download" sdsType="button" sdsSize="l" />}
@@ -78,77 +88,90 @@ export function RunHeader() {
         },
       ]}
       onMoreInfoClick={() => drawer.setActiveDrawerId('run-metadata')}
-      // TODO add release date data
-      releaseDate="2023-09-30"
       title={run.name}
-    >
-      <div className="flex gap-sds-xxl p-sds-xl border-t-[3px] border-sds-gray-200">
-        <div className="max-w-[300px] max-h-[212px] flex-shrink-0">
-          <Link to={keyPhotoURL}>
-            <KeyPhoto title={run.name} src={keyPhotoURL} />
-          </Link>
-        </div>
+      renderHeader={({ moreInfo }) => (
+        <div className="flex gap-sds-xxl p-sds-xl border-t-[3px] border-sds-gray-200">
+          <div className="max-w-[300px] max-h-[213px] grow overflow-clip rounded-sds-m flex-shrink-0 flex items-center">
+            {keyPhotoURL ? (
+              <Link to={keyPhotoURL}>
+                <KeyPhoto title={run.name} src={keyPhotoURL} />
+              </Link>
+            ) : (
+              <KeyPhoto title={run.name} />
+            )}
+          </div>
 
-        <div className="flex gap-sds-xxl flex-col lg:flex-row">
-          <MetadataTable
-            title={i18n.tiltSeries}
-            data={[
-              {
-                label: i18n.tiltQuality,
-                values:
-                  typeof tiltSeries?.tilt_series_quality === 'number'
-                    ? [String(tiltSeries.tilt_series_quality)]
-                    : [],
-                renderValue: (value) => (
-                  <TiltSeriesQualityScoreBadge score={+value} />
-                ),
-              },
-              {
-                label: i18n.tiltRange,
-                values:
-                  typeof tiltSeries?.tilt_min === 'number' &&
-                  typeof tiltSeries?.tilt_max === 'number'
-                    ? [
-                        i18n.valueToValue(
-                          i18n.unitDegree(tiltSeries.tilt_min),
-                          i18n.unitDegree(tiltSeries.tilt_max),
-                        ),
-                      ]
-                    : [],
-              },
-              {
-                label: i18n.tiltScheme,
-                values: tiltSeries?.tilting_scheme
-                  ? [tiltSeries.tilting_scheme]
-                  : [],
-              },
-            ]}
-          />
+          <div className="flex flex-col gap-sds-xl">
+            <div className="flex gap-sds-xxl flex-col lg:flex-row">
+              <MetadataTable
+                title={i18n.tiltSeries}
+                tableCellLabelProps={{ maxWidth: 100, minWidth: 100 }}
+                data={[
+                  {
+                    labelTooltip: <I18n i18nKey="tiltSeriesTooltip" />,
+                    labelTooltipProps: {
+                      arrowPadding: { right: 230 },
+                    },
+                    label: i18n.tiltQuality,
+                    values:
+                      typeof tiltSeries?.tilt_series_quality === 'number'
+                        ? [String(tiltSeries.tilt_series_quality)]
+                        : [],
+                    renderValue: (value) => (
+                      <TiltSeriesQualityScoreBadge score={+value} />
+                    ),
+                  },
+                  {
+                    label: i18n.tiltRange,
+                    values:
+                      typeof tiltSeries?.tilt_min === 'number' &&
+                      typeof tiltSeries?.tilt_max === 'number'
+                        ? [
+                            i18n.valueToValue(
+                              i18n.unitDegree(tiltSeries.tilt_min),
+                              i18n.unitDegree(tiltSeries.tilt_max),
+                            ),
+                          ]
+                        : [],
+                  },
+                  {
+                    label: i18n.tiltScheme,
+                    values: tiltSeries?.tilting_scheme
+                      ? [tiltSeries.tilting_scheme]
+                      : [],
+                  },
+                ]}
+              />
 
-          <MetadataTable
-            title={i18n.tomogram}
-            data={[
-              {
-                label: i18n.resolutionsAvailable,
-                values: ['10.00Å, 13.70Å'],
-              },
-              {
-                label: i18n.tomogramProcessing,
-                values: run.tomogram_stats
-                  .flatMap((stats) => stats.tomogram_processing)
-                  .map((tomogram) => tomogram.processing),
-              },
-              {
-                label: i18n.annotatedObjects,
-                inline: true,
-                values: run.tomogram_stats
-                  .flatMap((stats) => stats.annotations)
-                  .map((annotation) => annotation.object_name),
-              },
-            ]}
-          />
+              <MetadataTable
+                title={i18n.tomogram}
+                tableCellLabelProps={{ maxWidth: 180, minWidth: 100 }}
+                data={[
+                  {
+                    label: i18n.resolutionsAvailable,
+                    values: ['10.00Å, 13.70Å'],
+                  },
+                  {
+                    label: i18n.tomogramProcessing,
+                    values: run.tomogram_stats
+                      .flatMap((stats) => stats.tomogram_processing)
+                      .map((tomogram) => tomogram.processing),
+                  },
+                  {
+                    label: i18n.annotatedObjects,
+                    inline: true,
+                    values: run.tomogram_stats
+                      .flatMap((stats) => stats.annotations)
+                      .map((annotation) => annotation.object_name),
+                  },
+                ]}
+              />
+            </div>
+
+            {moreInfo}
+          </div>
         </div>
-      </div>
-    </PageHeader>
+      )}
+    />
   )
 }

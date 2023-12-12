@@ -16,6 +16,7 @@ import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useRunById } from 'app/hooks/useRunById'
+import { i18n } from 'app/i18n'
 import { DownloadConfig } from 'app/types/download'
 
 const GET_RUN_BY_ID_QUERY = gql(`
@@ -26,17 +27,20 @@ const GET_RUN_BY_ID_QUERY = gql(`
 
       tiltseries {
         acceleration_voltage
+        aligned_tiltseries_binning
         binning_from_frames
         camera_manufacturer
         camera_model
         data_acquisition_software
         id
+        is_aligned
         microscope_additional_info
         microscope_energy_filter
         microscope_image_corrector
         microscope_manufacturer
         microscope_model
         microscope_phase_plate
+        pixel_spacing
         related_empiar_entry
         spherical_aberration_constant
         tilt_axis
@@ -50,6 +54,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
 
       dataset {
+        cell_component_name
         cell_name
         cell_strain_name
         dataset_citations
@@ -70,7 +75,14 @@ const GET_RUN_BY_ID_QUERY = gql(`
         tissue_name
         title
 
-        authors(distinct_on: name) {
+        # TODO Remove distinct_on when data is verified to be unique
+        authors(
+          distinct_on: name,
+          order_by: {
+            author_list_order: asc,
+            name: asc,
+          },
+        ) {
           name
           email
           primary_author_status
@@ -84,6 +96,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
 
         funding_sources {
           funding_agency_name
+          grant_id
         }
       }
 
@@ -91,10 +104,18 @@ const GET_RUN_BY_ID_QUERY = gql(`
         id
         s3_prefix
 
-        tomograms(limit: 1) {
+        tomograms(
+          limit: 1,
+          where: {
+            is_canonical: { _eq: true }
+          },
+        ) {
+          affine_transformation_matrix
           ctf_corrected
           fiducial_alignment_status
+          key_photo_url
           name
+          neuroglancer_config
           processing
           processing_software
           reconstruction_method
@@ -116,9 +137,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
           deposition_date
           ground_truth_status
           ground_truth_used
+          is_curator_recommended
           last_modified_date
           object_count
           object_description
+          object_id
           object_name
           object_state
           release_date
@@ -285,6 +308,7 @@ export default function RunByIdPage() {
 
   return (
     <TablePageLayout
+      type={i18n.annotations}
       downloadModal={
         <DownloadModal
           allTomogramProcessing={allTomogramProcessing}

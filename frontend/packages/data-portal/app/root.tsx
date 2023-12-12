@@ -102,6 +102,8 @@ const Document = withEmotionCache(
             rel="stylesheet"
           />
 
+          <link href="/fonts/ANDALEMO.ttf" rel="stylesheet" />
+
           <meta
             name="emotion-insertion-point"
             content="emotion-insertion-point"
@@ -123,9 +125,18 @@ const Document = withEmotionCache(
 )
 
 export const links: LinksFunction = () => [
+  {
+    rel: 'icon',
+    href: '/favicon.png',
+    type: 'image/png',
+  },
   { rel: 'stylesheet', href: tailwindStyles },
   ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
 ]
+
+export const handle = {
+  i18n: 'translation',
+}
 
 // https://remix.run/api/conventions#default-export
 // https://remix.run/api/conventions#route-filenames

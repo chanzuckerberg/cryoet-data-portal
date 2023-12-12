@@ -1,8 +1,11 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
 
+import { Link } from '../Link'
+
 export function AnnotationObjectTable() {
+  const { t } = useI18n()
   const { activeAnnotation: annotation } = useAnnotation()
 
   if (!annotation) {
@@ -12,26 +15,34 @@ export function AnnotationObjectTable() {
   return (
     <AccordionMetadataTable
       id="annotation-object"
-      header={i18n.annotationObject}
+      header={t('annotationObject')}
       data={[
         {
-          label: i18n.objectName,
+          label: t('objectName'),
           values: [annotation.object_name],
         },
         {
-          label: i18n.goId,
-          values: ['TBD'],
+          label: t('goId'),
+          values: [annotation.object_id.replace('_', ':')],
+          renderValue: (value) => (
+            <Link
+              className="text-sds-primary-400"
+              to={`https://amigo.geneontology.org/amigo/term/${value}`}
+            >
+              {String(value)}
+            </Link>
+          ),
         },
         {
-          label: i18n.objectShapeType,
+          label: t('objectShapeType'),
           values: [annotation.shape_type],
         },
         {
-          label: i18n.objectState,
+          label: t('objectState'),
           values: [annotation.object_state ?? '--'],
         },
         {
-          label: i18n.objectDescription,
+          label: t('objectDescription'),
           values: [annotation.object_description ?? '--'],
         },
       ]}

@@ -1,29 +1,33 @@
 /* eslint-disable react/no-unstable-nested-components */
 
-import { Button, CellHeader } from '@czi-sds/components'
+import { Button } from '@czi-sds/components'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { useCallback, useMemo } from 'react'
+import { ComponentProps, useCallback, useMemo } from 'react'
 
+import { I18n } from 'app/components/I18n'
+import { CellHeader, PageTable, TableCell } from 'app/components/Table'
+import { Tooltip } from 'app/components/Tooltip'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { useRunById } from 'app/hooks/useRunById'
-import { i18n } from 'app/i18n'
 import { Annotation, useAnnotation } from 'app/state/annotation'
 import { useDrawer } from 'app/state/drawer'
+import { I18nKeys } from 'app/types/i18n'
 import { getAnnotationTitle } from 'app/utils/annotation'
 import { cnsNoMerge } from 'app/utils/cns'
-
-import { Table, TableCell } from '../Table'
 
 const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map(() => ({}) as Annotation)
 
 function ConfidenceValue({ value }: { value: number }) {
+  const { t } = useI18n()
+
   return (
     <div className="flex flex-col gap-sds-xxxs">
       <p className="text-sds-header-s leading-sds-header-s">{value}%</p>
       <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
-        {i18n.confidence}
+        {t('confidence')}
       </p>
     </div>
   )
@@ -36,6 +40,7 @@ export function AnnotationTable() {
   const { run } = useRunById()
   const { setActiveDrawerId } = useDrawer()
   const { setActiveAnnotation } = useAnnotation()
+  const { t } = useI18n()
 
   const openAnnotationDrawer = useCallback(
     (annotation: Annotation) => {
@@ -48,9 +53,28 @@ export function AnnotationTable() {
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Annotation>()
 
-    function getConfidenceCell(key: keyof Annotation, header: string) {
+    function getConfidenceCell({
+      cellHeaderProps,
+      header,
+      key,
+      tooltipI18nKey,
+    }: {
+      cellHeaderProps?: Partial<ComponentProps<typeof CellHeader>>
+      header: string
+      key: keyof Annotation
+      tooltipI18nKey?: I18nKeys
+    }) {
       return columnHelper.accessor(key, {
-        header: () => <CellHeader horizontalAlign="right">{header}</CellHeader>,
+        header: () => (
+          <CellHeader
+            horizontalAlign="right"
+            hideSortIcon
+            tooltip={tooltipI18nKey ? <I18n i18nKey={tooltipI18nKey} /> : null}
+            {...cellHeaderProps}
+          >
+            {header}
+          </CellHeader>
+        ),
         cell: ({ getValue }) => {
           const value = getValue() as number | null
 
@@ -60,7 +84,7 @@ export function AnnotationTable() {
                 <ConfidenceValue value={value} />
               ) : (
                 <p className="text-sds-body-xs leading-sds-body-xs">
-                  {i18n.na}
+                  {t('na')}
                 </p>
               )}
             </TableCell>
@@ -71,7 +95,7 @@ export function AnnotationTable() {
 
     return [
       columnHelper.accessor('s3_path', {
-        header: i18n.annotations,
+        header: t('annotations'),
         cell: ({ row: { original: annotation } }) => (
           <TableCell
             className="flex flex-col !items-start"
@@ -84,16 +108,21 @@ export function AnnotationTable() {
               </p>
 
               {annotation.ground_truth_status && (
-                <div
-                  className={cnsNoMerge(
-                    'px-sds-xs py-sds-xxxs',
-                    'flex items-center justify-center',
-                    'rounded-sds-m bg-sds-info-400',
-                    'text-sds-body-xxxs leading-sds-body-xxxs text-sds-gray-white whitespace-nowrap',
-                  )}
+                <Tooltip
+                  tooltip={<I18n i18nKey="groundTruthTooltip" />}
+                  placement="top"
                 >
-                  {i18n.groundTruth}
-                </div>
+                  <div
+                    className={cnsNoMerge(
+                      'px-sds-xs py-sds-xxxs',
+                      'flex items-center justify-center',
+                      'rounded-sds-m bg-sds-info-400',
+                      'text-sds-body-xxxs leading-sds-body-xxxs text-sds-gray-white whitespace-nowrap',
+                    )}
+                  >
+                    {t('groundTruth')}
+                  </div>
+                </Tooltip>
               )}
             </div>
 
@@ -104,7 +133,11 @@ export function AnnotationTable() {
                 return (
                   <li className="flex items-center" key={author.name}>
                     <span>{author.name}</span>
-                    <span>{idx < MAX_AUTHORS - 1 && ', '}</span>
+                    <span>
+                      {annotation.authors.length > 1 &&
+                        idx < MAX_AUTHORS - 1 &&
+                        ', '}
+                    </span>
 
                     {idx === MAX_AUTHORS - 1 && idx < totalAuthorCount - 1 && (
                       <Button
@@ -112,7 +145,9 @@ export function AnnotationTable() {
                         sdsStyle="minimal"
                         onClick={() => openAnnotationDrawer(annotation)}
                       >
-                        {i18n.plusMore(totalAuthorCount - MAX_AUTHORS)}
+                        {t('plusMore', {
+                          count: totalAuthorCount - MAX_AUTHORS,
+                        })}
                       </Button>
                     )}
                   </li>
@@ -124,7 +159,7 @@ export function AnnotationTable() {
       }),
 
       columnHelper.accessor('object_name', {
-        header: i18n.annotationObject,
+        header: t('annotationObject'),
         cell: ({ getValue }) => (
           <TableCell minWidth={120} maxWidth={250}>
             {getValue()}
@@ -132,38 +167,70 @@ export function AnnotationTable() {
         ),
       }),
 
-      columnHelper.accessor('object_count', {
+      columnHelper.accessor('shape_type', {
         header: () => (
-          <CellHeader horizontalAlign="right">{i18n.objectCount}</CellHeader>
+          <CellHeader horizontalAlign="right" hideSortIcon>
+            {t('objectShapeType')}
+          </CellHeader>
         ),
         cell: ({ getValue }) => (
-          <TableCell horizontalAlign="right" minWidth={100} maxWidth={120}>
+          <TableCell horizontalAlign="right" minWidth={100} maxWidth={150}>
             {getValue()}
           </TableCell>
         ),
       }),
 
-      getConfidenceCell('confidence_precision', i18n.precision),
-      getConfidenceCell('confidence_recall', i18n.recall),
+      columnHelper.accessor('object_count', {
+        header: () => (
+          <CellHeader horizontalAlign="right" hideSortIcon>
+            {t('objectCount')}
+          </CellHeader>
+        ),
+        cell: ({ getValue }) => (
+          <TableCell horizontalAlign="right" minWidth={85} maxWidth={120}>
+            {getValue()}
+          </TableCell>
+        ),
+      }),
+
+      getConfidenceCell({
+        key: 'confidence_precision',
+        header: t('precision'),
+        tooltipI18nKey: 'precisionTooltip',
+
+        cellHeaderProps: {
+          arrowPadding: { left: 100 },
+        },
+      }),
+
+      getConfidenceCell({
+        key: 'confidence_recall',
+        header: t('recall'),
+        tooltipI18nKey: 'recallTooltip',
+
+        cellHeaderProps: {
+          arrowPadding: { left: 120 },
+        },
+      }),
 
       columnHelper.display({
         id: 'annotation-actions',
         // Render empty cell header so that it doesn't break the table layout
-        header: () => <CellHeader>{null}</CellHeader>,
+        header: () => <CellHeader hideSortIcon>{null}</CellHeader>,
         cell: ({ row: { original: annotation } }) => (
-          <TableCell minWidth={85} maxWidth={120}>
+          <TableCell minWidth={85} maxWidth={100}>
             <Button
               sdsType="primary"
               sdsStyle="minimal"
               onClick={() => openAnnotationDrawer(annotation)}
             >
-              {i18n.moreInfo}
+              {t('moreInfo')}
             </Button>
           </TableCell>
         ),
       }),
     ] as ColumnDef<Annotation>[]
-  }, [openAnnotationDrawer])
+  }, [openAnnotationDrawer, t])
 
   const annotations = useMemo(
     () =>
@@ -179,7 +246,7 @@ export function AnnotationTable() {
   )
 
   return (
-    <Table
+    <PageTable
       data={isLoadingDebounced ? LOADING_ANNOTATIONS : annotations}
       columns={columns}
     />

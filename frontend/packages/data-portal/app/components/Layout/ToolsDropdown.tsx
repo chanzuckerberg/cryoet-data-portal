@@ -6,7 +6,7 @@ export function ToolsDropdown({ className }: { className?: string }) {
   return (
     <MenuDropdown className={className} title={i18n.tools}>
       <MenuItemLink to="https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html">
-        {i18n.faq}
+        {i18n.api}
       </MenuItemLink>
 
       <MenuItemLink to="https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html">
