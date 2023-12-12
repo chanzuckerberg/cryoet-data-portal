@@ -475,7 +475,6 @@ class Annotation(Model):
                 continue
             if shape and file.shape_type != shape:
                 continue
-            print(file.https_path)
             file.download(dest_path)
 
 
