@@ -202,7 +202,7 @@ class Run(Model):
 
     def download_frames(self, dest_path: Optional[str] = None):
         download_directory(
-            os.path.join(self.s3_prefix, "Frames"), self.dataset.s3_prefix, dest_path
+            os.path.join(self.s3_prefix, "Frames"), self.dataset.s3_prefix, dest_path,
         )
 
 
