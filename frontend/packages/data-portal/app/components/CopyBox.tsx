@@ -7,11 +7,13 @@ import { cns } from 'app/utils/cns'
 export function CopyBox({
   className,
   content,
+  onCopy,
   title,
   titleClassName,
 }: {
   className?: string
   content: ReactNode
+  onCopy?(): void
   title?: ReactNode
   titleClassName?: string
 }) {
@@ -40,7 +42,12 @@ export function CopyBox({
 
         <Button
           className="!min-w-0 uppercase !p-0"
-          onClick={() => navigator.clipboard.writeText(String(content))}
+          onClick={() => {
+            onCopy?.()
+
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            navigator.clipboard.writeText(String(content))
+          }}
         >
           {t('copy')}
         </Button>
