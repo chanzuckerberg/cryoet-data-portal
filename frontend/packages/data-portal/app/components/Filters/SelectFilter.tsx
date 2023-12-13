@@ -3,7 +3,7 @@ import {
   DefaultAutocompleteOption,
   Value,
 } from '@czi-sds/components'
-import { isArray } from 'lodash-es'
+import { isArray, isEqual } from 'lodash-es'
 import { useCallback, useMemo } from 'react'
 
 import { BaseFilterOption } from 'app/types/filter'
@@ -89,6 +89,10 @@ export function SelectFilter<
       multiple={multiple}
       options={sdsOptions}
       onChange={(nextOptions) => {
+        if (isEqual(nextOptions, sdsValue)) {
+          return
+        }
+
         if (isArray(nextOptions)) {
           onChange(
             nextOptions.map(convertSdsOptionToBaseOption) as unknown as Value<
