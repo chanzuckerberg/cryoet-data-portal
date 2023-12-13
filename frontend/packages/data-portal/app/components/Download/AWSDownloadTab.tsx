@@ -24,7 +24,7 @@ export function AWSDownloadTab() {
     .with(['runs', DownloadConfig.AllAnnotations], () => s3AnnotationsPrefix)
     .otherwise(() => s3TomogramPrefix)
 
-  const awsCommand = `aws s3 sync ${s3Path} .`
+  const awsCommand = `aws s3 --no-sign-request sync ${s3Path} .`
 
   return (
     <div className="py-sds-xl">
