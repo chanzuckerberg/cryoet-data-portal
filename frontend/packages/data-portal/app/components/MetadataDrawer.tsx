@@ -85,7 +85,7 @@ export function MetadataDrawer({
 
   const plausible = usePlausible()
   useEffect(() => {
-    if (prevIsOpen !== isOpen) {
+    if (typeof prevIsOpen === 'boolean' && prevIsOpen !== isOpen) {
       plausible(Events.ToggleMetadataDrawer, { type: drawerId, open: isOpen })
     }
   }, [drawerId, isOpen, plausible, prevIsOpen])
