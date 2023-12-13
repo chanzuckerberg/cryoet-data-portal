@@ -7,26 +7,30 @@ import { I18n } from 'app/components/I18n'
 import { useDownloadModalContext } from 'app/context/DownloadModal.context'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
+import { useLogPlausibleCopyEvent } from 'app/hooks/useLogPlausibleCopyEvent'
 import { DownloadConfig } from 'app/types/download'
 
 export function APIDownloadTab() {
   const { t } = useI18n()
-  const { datasetId, tomogramVoxelId, type, tomogramId } =
+  const { datasetId, tomogramId, tomogramVoxelId, type } =
     useDownloadModalContext()
   const { downloadConfig } = useDownloadModalQueryParamState()
+  const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
 
-  const { label, resourceId } = useMemo(
+  const { label, resourceId, logType } = useMemo(
     () =>
       match({ type, downloadConfig })
         .with({ type: 'dataset' }, () => ({
           label: t('datasetId'),
           resourceId: datasetId,
+          logType: 'dataset-id',
         }))
         .with(
           { type: 'runs', downloadConfig: DownloadConfig.AllAnnotations },
           () => ({
             label: t('voxelSpacingId'),
             resourceId: tomogramVoxelId,
+            logType: 'voxel-spacing-id',
           }),
         )
         .otherwise(() => ({
@@ -34,6 +38,7 @@ export function APIDownloadTab() {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           label: t('tomogramId'),
           resourceId: tomogramId,
+          logType: 'tomogram-id',
         })),
     [datasetId, downloadConfig, t, tomogramId, tomogramVoxelId, type],
   )
@@ -44,7 +49,12 @@ export function APIDownloadTab() {
         <I18n i18nKey="preferToDownloadViaApi" />
       </Callout>
 
-      <CopyBox className="mt-sds-l" content={resourceId} title={label} />
+      <CopyBox
+        className="mt-sds-l"
+        content={resourceId}
+        title={label}
+        onCopy={() => logPlausibleCopyEvent(logType, String(resourceId))}
+      />
     </div>
   )
 }

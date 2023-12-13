@@ -5,6 +5,7 @@ import { I18n } from 'app/components/I18n'
 import { useDownloadModalContext } from 'app/context/DownloadModal.context'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
+import { useLogPlausibleCopyEvent } from 'app/hooks/useLogPlausibleCopyEvent'
 import { DownloadConfig } from 'app/types/download'
 
 import { SelectSaveDestination } from './SelectSaveDestination'
@@ -14,6 +15,7 @@ export function AWSDownloadTab() {
   const { downloadConfig } = useDownloadModalQueryParamState()
   const { s3DatasetPrefix, s3TomogramPrefix, s3TomogramVoxelPrefix, type } =
     useDownloadModalContext()
+  const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
 
   const s3AnnotationsPrefix = s3TomogramVoxelPrefix
     ? `${s3TomogramVoxelPrefix}Annotations`
@@ -34,6 +36,7 @@ export function AWSDownloadTab() {
         content={awsCommand}
         title={`2. ${t('copyAndRunAwsS3Command')}`}
         titleClassName="text-sds-header-s leading-sds-header-s font-semibold mt-sds-l"
+        onCopy={() => logPlausibleCopyEvent('aws-s3-command', awsCommand)}
       />
       <div className="mt-sds-xxs">
         <I18n i18nKey="youMustHaveCliInstalled" />

@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { match, P } from 'ts-pattern'
 
 import { QueryParams } from 'app/constants/query'
+import { Events, usePlausible } from 'app/hooks/usePlausible'
 import {
   AvailableFilesFilterValue,
   BaseFilterOption,
@@ -72,6 +73,7 @@ export type DatasetFilterState = ReturnType<typeof getDatasetFilter>
 
 export function useDatasetFilter() {
   const [searchParams, setSearchParams] = useSearchParams()
+  const plausible = usePlausible()
 
   return useMemo(
     () => ({
@@ -94,6 +96,18 @@ export function useDatasetFilter() {
           | BaseFilterOption
           | BaseFilterOption[],
       ) {
+        plausible(Events.Filter, {
+          field: param,
+          value: match(value)
+            .with(P.string, P.nullish, (val) => val)
+            .with(P.array(P.string), (val) => val.join(','))
+            .with(P.array(P.any), (val) =>
+              val.map((option) => option.value).join(','),
+            )
+            .otherwise((val) => val.value),
+          type: 'dataset',
+        })
+
         setSearchParams((prev) => {
           prev.delete(param)
 
@@ -117,6 +131,6 @@ export function useDatasetFilter() {
         })
       },
     }),
-    [searchParams, setSearchParams],
+    [plausible, searchParams, setSearchParams],
   )
 }

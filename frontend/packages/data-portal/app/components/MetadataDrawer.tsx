@@ -1,10 +1,12 @@
 import { ButtonIcon } from '@czi-sds/components'
+import { usePrevious } from '@react-hookz/web'
 import { useSearchParams } from '@remix-run/react'
 import { ReactNode, useCallback, useEffect, useRef } from 'react'
 
 import { Demo } from 'app/components/Demo'
 import { Drawer } from 'app/components/Drawer'
 import { TabData, Tabs } from 'app/components/Tabs'
+import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { i18n } from 'app/i18n'
 import { DrawerId, useDrawer } from 'app/state/drawer'
 import { cns } from 'app/utils/cns'
@@ -78,11 +80,18 @@ export function MetadataDrawer({
     onClose?.()
   }, [drawer, onClose])
 
+  const isOpen = drawer.activeDrawerId === drawerId && !disabled
+  const prevIsOpen = usePrevious(isOpen)
+
+  const plausible = usePlausible()
+  useEffect(() => {
+    if (prevIsOpen !== isOpen) {
+      plausible(Events.OpenMetadataDrawer, { type: drawerId })
+    }
+  }, [drawerId, isOpen, plausible, prevIsOpen])
+
   return (
-    <Drawer
-      open={drawer.activeDrawerId === drawerId && !disabled}
-      onClose={handleClose}
-    >
+    <Drawer open={isOpen} onClose={handleClose}>
       <div className="flex flex-col flex-auto">
         <header className="flex items-start justify-between px-sds-xl pt-sds-xl pb-sds-xxl">
           <div className="flex flex-col gap-sds-s">

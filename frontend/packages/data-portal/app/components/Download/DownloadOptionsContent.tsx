@@ -80,7 +80,13 @@ export function DownloadOptionsContent() {
       {downloadTab && (
         <div className="border-b-2 border-sds-gray-200">
           <Tabs
-            onChange={(tab) => setDownloadTab(tab)}
+            onChange={(tab) =>
+              setDownloadTab({
+                tab,
+                datasetId,
+                runId,
+              })
+            }
             tabs={downloadTabs}
             value={downloadTab}
           />

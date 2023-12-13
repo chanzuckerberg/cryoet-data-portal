@@ -48,7 +48,12 @@ export function RunHeader() {
             startIcon={<Icon sdsIcon="download" sdsType="button" sdsSize="l" />}
             sdsType="primary"
             sdsStyle="rounded"
-            onClick={openTomogramDownloadModal}
+            onClick={() =>
+              openTomogramDownloadModal({
+                datasetId: run.dataset.id,
+                runId: run.id,
+              })
+            }
           >
             {t('download')}...
           </Button>

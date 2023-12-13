@@ -2,11 +2,19 @@ import { useCallback, useMemo } from 'react'
 
 import { QueryParams } from 'app/constants/query'
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
+import { removeNullishValues } from 'app/utils/object'
 
+import {
+  Events,
+  PlausibleDownloadModalPayload,
+  usePlausible,
+} from './usePlausible'
 import { stringParam, useQueryParam, useQueryParams } from './useQueryParam'
 
 export function useDownloadModalQueryParamState() {
-  const [downloadTab, setDownloadTab] = useQueryParam<DownloadTab>(
+  const plausible = usePlausible()
+
+  const [downloadTab, setDownloadTabState] = useQueryParam<DownloadTab>(
     QueryParams.DownloadTab,
   )
 
@@ -33,23 +41,82 @@ export function useDownloadModalQueryParamState() {
     [QueryParams.TomogramSampling]: stringParam(),
   })
 
+  const getPlausiblePayload = useCallback(
+    ({
+      datasetId,
+      fileSize,
+      runId,
+      ...rest
+    }: PlausibleDownloadModalPayload = {}) =>
+      removeNullishValues({
+        datasetId,
+        fileSize,
+        runId,
+        tomogramProcessing: rest.tomogramProcessing ?? tomogramProcessing,
+        tomogramSampling: rest.tomogramSampling ?? tomogramSampling,
+        step: rest.step ?? downloadStep ?? DownloadStep.Download,
+        config: rest.config ?? downloadConfig,
+        tab: rest.tab ?? downloadTab,
+      }) as PlausibleDownloadModalPayload,
+    [
+      downloadConfig,
+      downloadStep,
+      downloadTab,
+      tomogramProcessing,
+      tomogramSampling,
+    ],
+  )
+
+  const setDownloadTab = useCallback(
+    (payload: PlausibleDownloadModalPayload<{ tab: DownloadTab }>) => {
+      plausible(Events.ClickDownloadTab, getPlausiblePayload(payload))
+      setDownloadTabState(payload.tab)
+    },
+    [getPlausiblePayload, plausible, setDownloadTabState],
+  )
+
   const openDatasetDownloadModal = useCallback(
-    () => setDownloadTab(DownloadTab.AWS),
-    [setDownloadTab],
+    (payload: PlausibleDownloadModalPayload) => {
+      plausible(
+        Events.OpenDownloadModal,
+        getPlausiblePayload({
+          ...payload,
+          tab: DownloadTab.AWS,
+        }),
+      )
+
+      setDownloadTabState(DownloadTab.AWS)
+    },
+    [getPlausiblePayload, plausible, setDownloadTabState],
   )
 
   const openTomogramDownloadModal = useCallback(
-    () => setDownloadStep(DownloadStep.Configure),
-    [setDownloadStep],
+    (payload: PlausibleDownloadModalPayload) => {
+      plausible(
+        Events.OpenDownloadModal,
+        getPlausiblePayload({
+          ...payload,
+          step: DownloadStep.Configure,
+        }),
+      )
+
+      setDownloadStep(DownloadStep.Configure)
+    },
+    [getPlausiblePayload, plausible, setDownloadStep],
   )
 
   const closeDownloadModal = useCallback(
-    () => setDownloadParams(null),
-    [setDownloadParams],
+    (payload: PlausibleDownloadModalPayload) => {
+      plausible(Events.CloseDownloadModal, getPlausiblePayload(payload))
+      setDownloadParams(null)
+    },
+    [getPlausiblePayload, plausible, setDownloadParams],
   )
 
   const configureDownload = useCallback(
-    () =>
+    (payload: PlausibleDownloadModalPayload) => {
+      plausible(Events.ClickNextToDownloadOptions, getPlausiblePayload(payload))
+
       setDownloadParams((prev) => ({
         [QueryParams.DownloadTab]:
           prev?.[QueryParams.DownloadConfig] === DownloadConfig.Tomogram
@@ -57,17 +124,24 @@ export function useDownloadModalQueryParamState() {
             : DownloadTab.AWS,
 
         [QueryParams.DownloadStep]: DownloadStep.Download,
-      })),
-    [setDownloadParams],
+      }))
+    },
+    [getPlausiblePayload, plausible, setDownloadParams],
   )
 
   const goBackToConfigure = useCallback(
-    () =>
+    (payload: PlausibleDownloadModalPayload) => {
+      plausible(
+        Events.ClickBackToConfigureDownload,
+        getPlausiblePayload(payload),
+      )
+
       setDownloadParams({
         [QueryParams.DownloadStep]: DownloadStep.Configure,
         [QueryParams.DownloadTab]: null,
-      }),
-    [setDownloadParams],
+      })
+    },
+    [getPlausiblePayload, plausible, setDownloadParams],
   )
 
   const setTomogramConfig = useCallback(
@@ -101,6 +175,7 @@ export function useDownloadModalQueryParamState() {
     downloadConfig,
     downloadStep,
     downloadTab,
+    getPlausiblePayload,
     goBackToConfigure,
     isModalOpen,
     openDatasetDownloadModal,
