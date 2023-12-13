@@ -22,7 +22,7 @@ export enum Events {
   CopyDownloadInfo = 'Copy download info',
   Filter = 'Filter',
   OpenDownloadModal = 'Open download modal',
-  OpenMetadataDrawer = 'Open Metadata Drawer',
+  ToggleMetadataDrawer = 'Toggle metadata drawer',
 }
 
 export type PlausibleDownloadModalPayload<T = object> = T & {
@@ -59,7 +59,8 @@ export type EventPayloads = {
     type: 'dataset'
   }
 
-  [Events.OpenMetadataDrawer]: {
+  [Events.ToggleMetadataDrawer]: {
+    open: boolean
     type: DrawerId
   }
 }
