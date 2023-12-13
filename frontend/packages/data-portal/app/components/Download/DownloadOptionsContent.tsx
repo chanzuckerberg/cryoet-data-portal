@@ -45,8 +45,7 @@ export function DownloadOptionsContent() {
     [downloadConfig, t],
   )
 
-  const { datasetId, fileSize, runName, showAllAnnotations } =
-    useDownloadModalContext()
+  const { runId, datasetId, fileSize, runName } = useDownloadModalContext()
 
   if (!downloadTab) {
     return null
@@ -70,7 +69,7 @@ export function DownloadOptionsContent() {
       {isNumber(fileSize) && (
         <ModalSubtitle label={t('fileSize')} value={prettyBytes(fileSize)} />
       )}
-      {showAllAnnotations && (
+      {downloadConfig === DownloadConfig.AllAnnotations && (
         <ModalSubtitle label={t('annotations')} value={t('all')} />
       )}
 

@@ -316,13 +316,13 @@ export default function RunByIdPage() {
           datasetId={run.dataset.id}
           fileSize={fileSize ?? undefined}
           httpsPath={activeTomogram?.https_mrc_scale0 ?? undefined}
+          runId={run.id}
           runName={run.name}
           s3DatasetPrefix={run.dataset.s3_prefix}
           s3TomogramVoxelPrefix={
             run.tomogram_voxel_spacings.at(0)?.s3_prefix ?? undefined
           }
           s3TomogramPrefix={activeTomogram?.s3_mrc_scale0 ?? undefined}
-          showAllAnnotations={downloadConfig === DownloadConfig.AllAnnotations}
           tomogramId={activeTomogram?.id ?? undefined}
           tomogramVoxelId={run.tomogram_voxel_spacings.at(0)?.id ?? undefined}
           type="runs"
