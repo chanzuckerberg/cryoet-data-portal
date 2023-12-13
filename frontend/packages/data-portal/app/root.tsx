@@ -23,6 +23,7 @@ import {
   ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
   EnvironmentContext,
 } from './context/Environment.context'
+import { PLAUSIBLE_ENV_URL_MAP } from './hooks/usePlausible'
 import { i18next } from './i18next.server'
 import { useCloseDrawerOnUnmount } from './state/drawer'
 import tailwindStyles from './tailwind.css'
@@ -42,6 +43,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       {
         API_URL: process.env.API_URL,
         ENV: process.env.ENV,
+        LOCALHOST_PLAUSIBLE_TRACKING: process.env.LOCALHOST_PLAUSIBLE_TRACKING,
       },
       ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
     ),
@@ -105,6 +107,12 @@ const Document = withEmotionCache(
           <meta
             name="emotion-insertion-point"
             content="emotion-insertion-point"
+          />
+
+          <script
+            defer
+            data-domain={PLAUSIBLE_ENV_URL_MAP[ENV.ENV]}
+            src="/plausible.js"
           />
         </head>
         <body className="h-screen w-screen flex flex-col flex-auto">
