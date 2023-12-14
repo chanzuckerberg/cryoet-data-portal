@@ -1,3 +1,4 @@
+sphinx<7
 nbsphinx
 myst-parser
-sphinx-rtd-theme < 7
+sphinx-rtd-theme
