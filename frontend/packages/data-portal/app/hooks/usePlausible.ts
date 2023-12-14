@@ -9,8 +9,7 @@ export const PLAUSIBLE_ENV_URL_MAP: Record<NodeJS.ProcessEnv['ENV'], string> = {
   local: 'frontend.cryoet.dev.si.czi.technology',
   dev: 'frontend.cryoet.dev.si.czi.technology',
   staging: 'frontend.cryoet.staging.si.czi.technology',
-  // TODO Change to prod domain
-  prod: 'frontend.cryoet.prod.si.czi.technology',
+  prod: 'cryoetdataportal.czscience.com',
 }
 
 export enum Events {
