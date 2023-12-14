@@ -37,7 +37,14 @@ export function AnnotatedObjectsList({
     ? range(0, ANNOTATED_OBJECTS_MAX).map((val) => (
         <Skeleton key={`skeleton-${val}`} variant="rounded" />
       ))
-    : annotatedObjects.map((obj) => <li key={obj}>{obj}</li>)
+    : annotatedObjects.map((obj) => (
+        <li
+          className="text-ellipsis line-clamp-1 break-all capitalize"
+          key={obj}
+        >
+          {obj}
+        </li>
+      ))
 
   return (
     <List>
@@ -55,16 +62,7 @@ export function AnnotatedObjectsList({
             placement="left"
             title={
               <Paper className="p-sds-m text-black w-[250px]" elevation={4}>
-                <List className="font-semibold">
-                  {nodes.slice(0, 4)}
-
-                  <li>
-                    really long object with a long name that is long for some
-                    reason other than being long
-                  </li>
-
-                  {nodes.slice(4)}
-                </List>
+                <List className="font-semibold">{nodes}</List>
               </Paper>
             }
           >

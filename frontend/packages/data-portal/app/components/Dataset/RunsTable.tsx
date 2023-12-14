@@ -53,7 +53,7 @@ export function RunsTable() {
 
           return (
             <TableCell
-              className="flex flex-grow gap-4 overflow-ellipsis"
+              className="flex w-[25%] gap-4 overflow-ellipsis"
               minWidth={250}
               maxWidth={300}
               renderLoadingSkeleton={false}
@@ -95,7 +95,7 @@ export function RunsTable() {
             const score = getValue() as TiltSeriesScore | null | undefined
 
             return (
-              <TableCell minWidth={100} maxWidth={210} className="flex-grow">
+              <TableCell minWidth={100} maxWidth={210} className="w-[15%]">
                 {typeof score === 'number' && inQualityScoreRange(score) ? (
                   <TiltSeriesQualityScoreBadge score={score} />
                 ) : (
@@ -126,7 +126,7 @@ export function RunsTable() {
               minWidth={250}
               maxWidth={500}
               renderLoadingSkeleton={false}
-              className="flex-grow-[2]"
+              className="w-[35%]"
             >
               {annotatedObjects.length === 0 ? (
                 '--'
@@ -150,11 +150,7 @@ export function RunsTable() {
           cell({ getValue }) {
             const neuroglancerConfig = getValue()
             return (
-              <TableCell
-                className="flex-grow-[2]"
-                horizontalAlign="right"
-                minWidth={150}
-              >
+              <TableCell horizontalAlign="right" minWidth={150}>
                 {neuroglancerConfig && (
                   <Button
                     to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(

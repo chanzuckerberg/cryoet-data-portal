@@ -43,7 +43,6 @@ export function TableCell({
     style: {
       maxWidth,
       minWidth,
-      width: maxWidth,
     },
   }
 
