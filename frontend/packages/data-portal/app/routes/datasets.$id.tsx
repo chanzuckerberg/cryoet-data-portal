@@ -162,6 +162,7 @@ export default function DatasetByIdPage() {
       downloadModal={
         <DownloadModal
           datasetId={dataset.id}
+          datasetTitle={dataset.title}
           s3DatasetPrefix={dataset.s3_prefix}
           type="dataset"
         />

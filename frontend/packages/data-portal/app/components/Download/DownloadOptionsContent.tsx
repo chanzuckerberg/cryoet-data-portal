@@ -45,7 +45,8 @@ export function DownloadOptionsContent() {
     [downloadConfig, t],
   )
 
-  const { runId, datasetId, fileSize, runName } = useDownloadModalContext()
+  const { runId, datasetId, datasetTitle, fileSize, runName } =
+    useDownloadModalContext()
 
   if (!downloadTab) {
     return null
@@ -55,7 +56,7 @@ export function DownloadOptionsContent() {
 
   return (
     <>
-      <ModalSubtitle label={t('dataset')} value={datasetId} />
+      <ModalSubtitle label={t('dataset')} value={datasetTitle} />
       {runName && <ModalSubtitle label={t('run')} value={runName} />}
       {tomogramSampling && (
         <ModalSubtitle label={t('tomogramSampling')} value={tomogramSampling} />

@@ -83,7 +83,7 @@ export function AnnotationTable() {
               {typeof value === 'number' ? (
                 <ConfidenceValue value={value} />
               ) : (
-                <p className="text-sds-body-xs leading-sds-body-xs">
+                <p className="text-sds-body-xs leading-sds-body-xs text-sds-gray-500">
                   {t('na')}
                 </p>
               )}
@@ -98,12 +98,12 @@ export function AnnotationTable() {
         header: t('annotations'),
         cell: ({ row: { original: annotation } }) => (
           <TableCell
-            className="flex flex-col !items-start"
+            className="flex flex-col gap-sds-xxxs !items-start"
             minWidth={250}
             renderLoadingSkeleton={false}
           >
             <div className="flex gap-sds-xs">
-              <p className="text-sds-header-s leading-sds-header-s">
+              <p className="text-sds-header-s leading-sds-header-s text-ellipsis line-clamp-1 break-all">
                 {getAnnotationTitle(annotation)}
               </p>
 
@@ -127,7 +127,7 @@ export function AnnotationTable() {
             </div>
 
             <ul className="list-none flex gap-1 text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
-              {annotation.authors.slice(0, MAX_AUTHORS).map((author, idx) => {
+              {annotation.authors?.slice(0, MAX_AUTHORS).map((author, idx) => {
                 const totalAuthorCount = annotation.authors.length
 
                 return (
@@ -162,7 +162,9 @@ export function AnnotationTable() {
         header: t('annotationObject'),
         cell: ({ getValue }) => (
           <TableCell minWidth={120} maxWidth={250}>
-            {getValue()}
+            <div className="line-clamp-2 text-ellipsis capitalize">
+              {getValue()}
+            </div>
           </TableCell>
         ),
       }),

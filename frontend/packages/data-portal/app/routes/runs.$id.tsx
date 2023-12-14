@@ -314,6 +314,7 @@ export default function RunByIdPage() {
           allTomogramProcessing={allTomogramProcessing}
           allTomogramResolutions={allTomogramResolutions}
           datasetId={run.dataset.id}
+          datasetTitle={run.dataset.title}
           fileSize={fileSize ?? undefined}
           httpsPath={activeTomogram?.https_mrc_scale0 ?? undefined}
           runId={run.id}

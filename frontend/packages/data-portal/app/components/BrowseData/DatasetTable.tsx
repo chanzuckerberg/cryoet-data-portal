@@ -88,11 +88,13 @@ export function DatasetTable() {
               minWidth={450}
               maxWidth={800}
             >
-              <KeyPhoto
-                title={dataset.title}
-                src={dataset.key_photo_thumbnail_url ?? undefined}
-                loading={isLoadingDebounced}
-              />
+              <Link to={datasetUrl} className="flex-shrink-0 w-[134px]">
+                <KeyPhoto
+                  title={dataset.title}
+                  src={dataset.key_photo_thumbnail_url ?? undefined}
+                  loading={isLoadingDebounced}
+                />
+              </Link>
 
               <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                 <p className="text-sm font-semibold text-sds-primary-400">
@@ -200,7 +202,7 @@ export function DatasetTable() {
           ),
           cell: ({ getValue }) => (
             <TableCell
-              primaryText={String(getValue() ?? 0).padStart(4, '0')}
+              primaryText={String(getValue() ?? 0)}
               minWidth={70}
               maxWidth={100}
             />
@@ -209,6 +211,7 @@ export function DatasetTable() {
       ),
 
       columnHelper.accessor((dataset) => dataset.runs, {
+        // TODO: fix overflow for this header
         header: t('annotatedObjects'),
         cell({ getValue }) {
           const runs = getValue()
@@ -228,6 +231,7 @@ export function DatasetTable() {
             <TableCell
               minWidth={120}
               maxWidth={400}
+              className="w-[15%]"
               renderLoadingSkeleton={() => (
                 <div className="flex flex-col gap-2">
                   {range(0, ANNOTATED_OBJECTS_MAX).map((val) => (
