@@ -564,7 +564,7 @@ class TiltSeries(Model):
         https_angle_list (str): HTTPS path to the angle list file for this tiltseries
         https_collection_metadata (str): HTTPS path to the collection metadata file for this tiltseries
         https_mrc_bin1 (str): HTTPS path to this tiltseries in MRC format (no scaling)
-        https_omezarr_dir (str): HTTPS path to this tomogram in multiscale OME-Zarr format 
+        https_omezarr_dir (str): HTTPS path to this tomogram in multiscale OME-Zarr format
         microscope_additional_info (str):  Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
         microscope_energy_filter: (str): Energy filter setup used
         microscope_image_corrector (str): Image corrector setup
