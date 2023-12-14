@@ -49,7 +49,10 @@ export function TomogramsTable() {
     },
     {
       label: i18n.affineTransformationMatrix,
-      values: ['1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1'],
+      values: [
+        tomo.affine_transformation_matrix?.flat().join(' ') ??
+          '1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1',
+      ],
       renderValue: (value) => {
         return <Matrix4x4 matrix={String(value)} />
       },

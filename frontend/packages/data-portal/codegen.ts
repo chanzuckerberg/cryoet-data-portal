@@ -20,6 +20,7 @@ const config: CodegenConfig = {
         scalars: {
           date: 'string',
           numeric: 'number',
+          _numeric: 'number[][]',
         },
       },
     },
