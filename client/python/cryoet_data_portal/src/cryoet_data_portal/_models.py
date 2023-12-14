@@ -29,7 +29,7 @@ class Dataset(Model):
         cell_type_id (str): Cell Ontology identifier for the cell type
         dataset_citations (str): DOIs for publications that cite the dataset. Use a comma to separate multiple DOIs.
         dataset_publications (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
-        deposition_date: date! Date when a dataset is initially received by the Data Portal.
+        deposition_date: Date when a dataset is initially received by the Data Portal.
         description (str): A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
         funding_sources: List[FundingSource] An array relationship with FundingSource
         grid_preparation (str): Describe Cryo-ET grid preparation.
@@ -41,7 +41,7 @@ class Dataset(Model):
         organism_taxid (str): NCBI taxonomy identifier for the organism, e.g. 9606
         other_setup (str): Describe other setup not covered by sample preparation or grid preparation that may make this dataset unique in  the same publication
         related_database_entries (str): If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
-        related_database_links (str): If a CryoET dataset is also deposited into another database, e.g. EMPAIR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/).  Use a comma to separate multiple links.
+        related_database_links (str): If a CryoET dataset is also deposited into another database, e.g. EMPIAR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/).  Use a comma to separate multiple links.
         release_date (date): Date when a dataset is made available on the Data Portal.
         runs: List[Run] An array relationship with Run
         s3_prefix (str): The S3 public bucket path where this dataset is contained
@@ -115,9 +115,9 @@ class DatasetAuthor(Model):
         affiliation_name (str): Name of the institutions an author is affiliated with. Comma separated
         author_list_order(int): The order in which the author appears in the publication
         corresponding_author_status (bool):Indicating whether an author is the corresponding author
-        dataset (Dataset): An object relationship with the dataset this author correspods to
+        dataset (Dataset): An object relationship with the dataset this author corresponds to
         dataset_id (int): Numeric identifier for the dataset this author corresponds to
-        email (str): Email address for each autho
+        email (str): Email address for each author
         name (str): Full name of a dataset author (e.g. Jane Doe).
         primary_author_status (bool): Indicating whether an annotator is the main person executing the annotation, especially on manual annotation
         orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
@@ -145,7 +145,7 @@ class DatasetFunding(Model):
 
     Attributes:
         id (int): A numeric identifier for this funding record
-        dataset (Dataset): An object relationship with the dataset this funding source correspods to
+        dataset (Dataset): An object relationship with the dataset this funding source corresponds to
         dataset_id (int): Numeric identifier for the dataset this funding source corresponds to
         funding_agency_name (str): Name of the funding agency.
         grant_id (str): Grant identifier provided by the funding agency.
@@ -263,7 +263,7 @@ class Tomogram(Model):
         dataset_id (int): Reference to the dataset this tomogram is a part of
         fiducial_alignment_status (str): Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
         https_mrc_scale0 (str): HTTPS path to this tomogram in MRC format (no scaling)
-        https_omezarr_dir (str): HTTPS path to the this multiscale omezarr tomogram
+        https_omezarr_dir (str): HTTPS path to this tomogram in multiscale OME-Zarr format
         is_canonical (bool): Is this tomogram considered the canonical tomogram for the run experiment? True=Yes
         key_photo_url (str): URL for the key photo
         key_photo_thumbnail_url (str): URL for the thumbnail of key photo
@@ -274,10 +274,10 @@ class Tomogram(Model):
         offset_z (int):  z offset data relative to the canonical tomogram in pixels
         processing (str): Describe additional processing used to derive the tomogram
         processing_software (str): Processing software used to derive the tomogram
-        reconstruction_method (str):Describe reconstruction method (Weighted backprojection, SART, SIRT)
+        reconstruction_method (str):Describe reconstruction method (Weighted back-projection, SART, SIRT)
         reconstruction_software (str):Name of software used for reconstruction
         s3_mrc_scale0 (str):S3 path to this tomogram in MRC format (no scaling)
-        s3_omezarr_dir (str):S3 path to the this multiscale omezarr tomogram
+        s3_omezarr_dir (str):S3 path to this tomogram in multiscale OME-Zarr format
         scale0_dimensions (str):comma separated x,y,z dimensions of the unscaled tomogram
         scale1_dimensions (str):comma separated x,y,z dimensions of the scale1 tomogram
         scale2_dimensions (str):comma separated x,y,z dimensions of the scale2 tomogram
@@ -335,7 +335,7 @@ class Tomogram(Model):
     )
 
     def download_omezarr(self, dest_path: Optional[str] = None):
-        """Download the omezarr version of this tomogram
+        """Download the OME-Zarr version of this tomogram
 
         Args:
             dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
@@ -564,7 +564,7 @@ class TiltSeries(Model):
         https_angle_list (str): HTTPS path to the angle list file for this tiltseries
         https_collection_metadata (str): HTTPS path to the collection metadata file for this tiltseries
         https_mrc_bin1 (str): HTTPS path to this tiltseries in MRC format (no scaling)
-        https_omezarr_dir (str): HTTPS path to the this multiscale omezarr tiltseries
+        https_omezarr_dir (str): HTTPS path to this tomogram in multiscale OME-Zarr format
         microscope_additional_info (str):  Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
         microscope_energy_filter: (str): Energy filter setup used
         microscope_image_corrector (str): Image corrector setup
@@ -576,7 +576,7 @@ class TiltSeries(Model):
         s3_angle_list (str): S3 path to the angle list file for this tiltseries
         s3_collection_metadata (str): S3 path to the collection metadata file for this tiltseries
         s3_mrc_bin1 (str): S3 path to this tiltseries in MRC format (no scaling)
-        s3_omezarr_dir (str): S3 path to the this multiscale omezarr tiltseries
+        s3_omezarr_dir (str): S3 path to this tomogram in multiscale OME-Zarr format
         spherical_aberration_constant (float): Spherical Aberration Constant of the objective lens in millimeters
         tilt_axis (float): Rotation angle in degrees
         tilt_max (float): Maximal tilt angle in degrees
