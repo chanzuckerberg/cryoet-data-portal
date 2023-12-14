@@ -29,7 +29,7 @@ class Dataset(Model):
         cell_type_id (str): Cell Ontology identifier for the cell type
         dataset_citations (str): DOIs for publications that cite the dataset. Use a comma to separate multiple DOIs.
         dataset_publications (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
-        deposition_date: date! Date when a dataset is initially received by the Data Portal.
+        deposition_date: Date when a dataset is initially received by the Data Portal.
         description (str): A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
         funding_sources: List[FundingSource] An array relationship with FundingSource
         grid_preparation (str): Describe Cryo-ET grid preparation.

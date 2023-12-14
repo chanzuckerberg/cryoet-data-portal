@@ -239,18 +239,18 @@ class Model:
             query_filters:
                 A set of expressions that narrow down the search results
 
-        Returns:
-            A list of matching Model objects.
+        Yields:
+            Matching Model objects.
 
         Examples:
 
             Filter runs by attributes, including attributes in related models:
 
-            >>> runs_list = Runs.find(client, query_filters=[Runs.camera_model == "K2 Summit", Runs.tomograms.size_x > 900])
+            >>> runs = Run.find(client, query_filters=[Run.name == "TS_026", Run.dataset.id == 10000])
 
             Get all results for this type:
 
-            >>> runs_object = Runs.find(client)
+            >>> runs = Run.find(client)
         """
         filters = {}
         if query_filters:
@@ -269,12 +269,12 @@ class Model:
                 Unique identifier for the object
 
         Returns:
-            A matching Model object.
+            A matching Model object if found, None otherwise.
 
         Examples:
             Get a Run by ID:
 
-            >>> run = Runs.get_by_id(client), 1
+            >>> run = Run.get_by_id(client, 1)
                 print(run.name)
         """
         results = cls.find(client, [cls.id == id])
