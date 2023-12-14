@@ -89,7 +89,7 @@ export function ConfigureDownloadContent() {
   const {
     allTomogramProcessing = [],
     allTomogramResolutions = [],
-    datasetId,
+    datasetTitle,
     runName,
     runId,
   } = useDownloadModalContext()
@@ -129,7 +129,7 @@ export function ConfigureDownloadContent() {
 
   return (
     <>
-      <ModalSubtitle label={t('dataset')} value={datasetId} />
+      <ModalSubtitle label={t('dataset')} value={datasetTitle} />
       {runName && <ModalSubtitle label={t('run')} value={runName} />}
 
       <p className="mt-sds-xl text-sds-body-m leading-sds-body-m font-semibold">

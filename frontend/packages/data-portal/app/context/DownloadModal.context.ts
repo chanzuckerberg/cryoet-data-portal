@@ -11,6 +11,7 @@ export interface DownloadModalContextValue {
   allTomogramProcessing?: string[]
   allTomogramResolutions?: TomogramResolution[]
   datasetId?: number
+  datasetTitle?: string
   fileSize?: number
   httpsPath?: string
   runId?: number
