@@ -55,9 +55,21 @@ Tomogram
    :members:
    :inherited-members:
 
+TomogramAuthor
+--------------
+.. autoclass:: cryoet_data_portal.TomogramAuthor
+   :members:
+   :inherited-members:
+
 Annotation
 --------------
 .. autoclass:: cryoet_data_portal.Annotation
+   :members:
+   :inherited-members:
+
+AnnotationFile
+--------------
+.. autoclass:: cryoet_data_portal.AnnotationFile
    :members:
    :inherited-members:
 
