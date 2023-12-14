@@ -45,8 +45,7 @@ export function DownloadOptionsContent() {
     [downloadConfig, t],
   )
 
-  const { datasetId, fileSize, runName, showAllAnnotations } =
-    useDownloadModalContext()
+  const { runId, datasetId, fileSize, runName } = useDownloadModalContext()
 
   if (!downloadTab) {
     return null
@@ -70,7 +69,7 @@ export function DownloadOptionsContent() {
       {isNumber(fileSize) && (
         <ModalSubtitle label={t('fileSize')} value={prettyBytes(fileSize)} />
       )}
-      {showAllAnnotations && (
+      {downloadConfig === DownloadConfig.AllAnnotations && (
         <ModalSubtitle label={t('annotations')} value={t('all')} />
       )}
 
@@ -81,7 +80,13 @@ export function DownloadOptionsContent() {
       {downloadTab && (
         <div className="border-b-2 border-sds-gray-200">
           <Tabs
-            onChange={(tab) => setDownloadTab(tab)}
+            onChange={(tab) =>
+              setDownloadTab({
+                tab,
+                datasetId,
+                runId,
+              })
+            }
             tabs={downloadTabs}
             value={downloadTab}
           />

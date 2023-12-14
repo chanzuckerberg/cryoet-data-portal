@@ -1,11 +1,15 @@
 import { Link } from 'app/components/Link'
 import { useDownloadModalContext } from 'app/context/DownloadModal.context'
+import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
+import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { cns } from 'app/utils/cns'
 
 export function DirectDownloadTab() {
   const { t } = useI18n()
-  const { httpsPath } = useDownloadModalContext()
+  const { httpsPath, datasetId, runId, fileSize } = useDownloadModalContext()
+  const plausible = usePlausible()
+  const { getPlausiblePayload } = useDownloadModalQueryParamState()
 
   return (
     <div className="pt-sds-xl">
@@ -28,6 +32,16 @@ export function DirectDownloadTab() {
             'bg-white text-sds-primary-400',
           )}
           to={httpsPath}
+          onClick={() =>
+            plausible(Events.ClickDownloadTomogram, {
+              downloadUrl: httpsPath,
+              ...getPlausiblePayload({
+                datasetId,
+                fileSize,
+                runId,
+              }),
+            })
+          }
         >
           {t('downloadNow')}
         </Link>

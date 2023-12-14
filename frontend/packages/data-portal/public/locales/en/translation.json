@@ -180,6 +180,7 @@
   "run": "Run",
   "runDataIncludes": "Run data includes all available movie frames, tilt series image stack, tomograms, annotations, and associated metadata.",
   "runDetails": "Run Details",
+  "runId": "Run ID",
   "runs": "Runs",
   "runsTab": "Runs {{count}}",
   "runsTooltip": "<semibold>Run:</semibold> A tomography run is a collection of all data and annotations related to one physical location in a biological specimen. <url to='/faq?accordion=data-schema'>Learn More</url>",

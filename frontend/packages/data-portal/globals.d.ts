@@ -6,7 +6,7 @@ declare namespace NodeJS {
     readonly CLOUDWATCH_RUM_IDENTITY_POOL_ID?: string
     readonly CLOUDWATCH_RUM_ROLE_ARN?: string
     readonly ENV: 'local' | 'dev' | 'staging' | 'prod'
-    readonly SPLIT_IO_SERVER_KEY: string
+    readonly LOCALHOST_PLAUSIBLE_TRACKING: 'true' | 'false'
   }
 }
 

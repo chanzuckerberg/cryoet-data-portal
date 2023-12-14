@@ -13,11 +13,11 @@ export interface DownloadModalContextValue {
   datasetId?: number
   fileSize?: number
   httpsPath?: string
+  runId?: number
   runName?: string
   s3DatasetPrefix?: string
   s3TomogramPrefix?: string
   s3TomogramVoxelPrefix?: string
-  showAllAnnotations?: boolean
   tomogramId?: number
   tomogramVoxelId?: number
   type: DownloadModalType

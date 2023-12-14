@@ -14,6 +14,7 @@ import { ModalSubtitle } from 'app/components/ModalSubtitle'
 import { useDownloadModalContext } from 'app/context/DownloadModal.context'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
+import { useLogPlausibleCopyEvent } from 'app/hooks/useLogPlausibleCopyEvent'
 import { DownloadConfig } from 'app/types/download'
 import { cns } from 'app/utils/cns'
 
@@ -90,6 +91,7 @@ export function ConfigureDownloadContent() {
     allTomogramResolutions = [],
     datasetId,
     runName,
+    runId,
   } = useDownloadModalContext()
 
   const tomogramSamplingOptions = useMemo<SelectOption[]>(
@@ -122,6 +124,8 @@ export function ConfigureDownloadContent() {
       setTomogramConfig(`${tomogram.voxel_spacing}`, processing)
     }
   }, [allTomogramProcessing, allTomogramResolutions, setTomogramConfig])
+
+  const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
 
   return (
     <>
@@ -191,27 +195,28 @@ export function ConfigureDownloadContent() {
         />
       </RadioGroup>
 
-      <Callout className="!w-full" intent="info" expandable>
-        <CalloutTitle>
-          <p className="text-sds-body-xs leading-sds-body-xs">
-            <I18n i18nKey="downloadAllRunData" />
+      {runId && (
+        <Callout className="!w-full" intent="info" expandable>
+          <CalloutTitle>
+            <p className="text-sds-body-xs leading-sds-body-xs">
+              <I18n i18nKey="downloadAllRunData" />
+            </p>
+
+            <p className="text-sds-body-xs leading-sds-body-xs">
+              {t('runDataIncludes')}
+            </p>
+          </CalloutTitle>
+
+          <p className="text-sds-header-xs leading-sds-header-xs mt-sds-default font-semibold">
+            {t('runId')}
           </p>
 
-          <p className="text-sds-body-xs leading-sds-body-xs">
-            {t('runDataIncludes')}
-          </p>
-        </CalloutTitle>
-
-        <p className="text-sds-header-xs leading-sds-header-xs mt-sds-default font-semibold">
-          [TBD ID]
-        </p>
-        <CopyBox content="00000000" />
-
-        <p className="text-sds-header-xs leading-sds-header-xs mt-sds-l font-semibold">
-          [TBD ID]
-        </p>
-        <CopyBox content="00000000" />
-      </Callout>
+          <CopyBox
+            content={runId}
+            onCopy={() => logPlausibleCopyEvent('run-id', String(runId))}
+          />
+        </Callout>
+      )}
     </>
   )
 }
