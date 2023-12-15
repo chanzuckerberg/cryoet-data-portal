@@ -7,6 +7,7 @@ import { isArray, isEqual } from 'lodash-es'
 import { useCallback, useMemo } from 'react'
 
 import { BaseFilterOption } from 'app/types/filter'
+import { cns } from 'app/utils/cns'
 
 import styles from './SelectFilter.module.css'
 
@@ -18,18 +19,26 @@ export function SelectFilter<
   Option extends BaseFilterOption,
   Multiple extends boolean = false,
 >({
+  className,
+  groupBy: groupByProp,
   label,
   multiple,
   onChange,
   options,
+  popperClassName,
   search,
+  title,
   value,
 }: {
+  className?: string
+  groupBy?: (option: Value<Option, Multiple>) => string
   label: string
   multiple?: Multiple
   onChange(value: Value<Option, Multiple>): void
   options: Option[]
+  popperClassName?: string
   search?: boolean
+  title?: string
   value?: Value<Option, Multiple>
 }) {
   const labelValueMap = useMemo(
@@ -80,14 +89,26 @@ export function SelectFilter<
     return null
   }, [convertBaseOptionToSdsOption, value])
 
+  const groupBy = groupByProp
+    ? (option: DefaultAutocompleteOption) =>
+        groupByProp(convertSdsOptionToBaseOption(option))
+    : undefined
+
   return (
     <ComplexFilter
-      className={styles.filter}
+      className={cns(styles.filter, className)}
       value={sdsValue}
       label={label}
       search={search}
       multiple={multiple}
       options={sdsOptions}
+      DropdownMenuProps={{
+        groupBy,
+        title,
+        PopperBaseProps: {
+          className: popperClassName,
+        },
+      }}
       onChange={(nextOptions) => {
         if (isEqual(nextOptions, sdsValue)) {
           return

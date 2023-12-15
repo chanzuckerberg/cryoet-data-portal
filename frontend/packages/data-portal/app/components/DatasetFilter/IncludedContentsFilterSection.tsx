@@ -7,6 +7,7 @@ import {
 } from 'app/components/Filters'
 import { QueryParams } from 'app/constants/query'
 import { useDatasetFilter } from 'app/hooks/useDatasetFilter'
+import { useI18n } from 'app/hooks/useI18n'
 import { i18n } from 'app/i18n'
 import {
   AvailableFilesFilterOption,
@@ -55,6 +56,8 @@ export function IncludedContentsFilterSection() {
     [numberOfRuns],
   )
 
+  const { t } = useI18n()
+
   return (
     <FilterSection title={i18n.includedContents}>
       <BooleanFilter
@@ -71,6 +74,8 @@ export function IncludedContentsFilterSection() {
         value={availableFilesOptions}
         label={i18n.availableFiles}
         onChange={(options) => updateValue(QueryParams.AvailableFiles, options)}
+        title={`${t('resultsMustIncludeAllFileTypes')}:`}
+        popperClassName="max-w-[244px]"
       />
 
       <SelectFilter

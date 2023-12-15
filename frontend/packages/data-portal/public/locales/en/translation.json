@@ -177,6 +177,7 @@
   "releaseDate": "Release Date",
   "reportIssueOnGithub": "Report Issue on GitHub",
   "resolutionsAvailable": "Samplings Available",
+  "resultsMustIncludeAllFileTypes": "Results must include all selected file types",
   "run": "Run",
   "runDataIncludes": "Run data includes all available movie frames, tilt series image stack, tomograms, annotations, and associated metadata.",
   "runDetails": "Run Details",
