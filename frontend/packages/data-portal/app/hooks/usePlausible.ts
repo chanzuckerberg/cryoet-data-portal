@@ -76,7 +76,7 @@ export function usePlausible() {
         name: event,
         domain: PLAUSIBLE_ENV_URL_MAP[ENV],
         url: window.location.href,
-        ...payloads[0],
+        props: payloads[0],
       }
 
       if (ENV === 'local') {
