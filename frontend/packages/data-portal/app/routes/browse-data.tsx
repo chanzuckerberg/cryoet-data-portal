@@ -29,6 +29,11 @@ export async function loader() {
   return json(data)
 }
 
+export function shouldRevalidate() {
+  // Data is static so we don't have to refetch every time.
+  return false
+}
+
 export default function BrowseDataPage() {
   return (
     <div className="flex flex-col flex-auto">

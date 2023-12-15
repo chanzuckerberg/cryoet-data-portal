@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
+import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 
 import { gql } from 'app/__generated__'
@@ -10,8 +11,10 @@ import { RunsTable } from 'app/components/Dataset/RunsTable'
 import { DownloadModal } from 'app/components/Download'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { QueryParams } from 'app/constants/query'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
+import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 const GET_DATASET_BY_ID = gql(`
   query GetDatasetById($id: Int, $run_limit: Int, $run_offset: Int) {
@@ -125,7 +128,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
 
   const url = new URL(request.url)
-  const page = +(url.searchParams.get('page') ?? '1')
+  const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
 
   if (Number.isNaN(+id)) {
     throw new Response(null, {
@@ -151,6 +154,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   }
 
   return json(data)
+}
+
+export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
+  return shouldRevalidatePage(args)
 }
 
 export default function DatasetByIdPage() {

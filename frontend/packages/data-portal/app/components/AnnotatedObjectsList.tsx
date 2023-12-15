@@ -37,14 +37,19 @@ export function AnnotatedObjectsList({
     ? range(0, ANNOTATED_OBJECTS_MAX).map((val) => (
         <Skeleton key={`skeleton-${val}`} variant="rounded" />
       ))
-    : annotatedObjects.map((obj) => (
-        <li
-          className="text-ellipsis line-clamp-1 break-all capitalize"
-          key={obj}
-        >
-          {obj}
-        </li>
-      ))
+    : annotatedObjects
+        .slice()
+        .sort((val1, val2) =>
+          val1.toLowerCase().localeCompare(val2.toLocaleLowerCase()),
+        )
+        .map((obj) => (
+          <li
+            className="text-ellipsis line-clamp-1 break-all capitalize"
+            key={obj}
+          >
+            {obj}
+          </li>
+        ))
 
   return (
     <List>

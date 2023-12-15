@@ -50,6 +50,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
   })
 }
 
+export function shouldRevalidate() {
+  // Data returned from the root is pretty static, so we can disable
+  // revalidation forever to disable re-fetching root data.
+  return false
+}
+
 const Document = withEmotionCache(
   ({ children, title }: DocumentProps, emotionCache) => {
     const clientStyleData = useContext(ClientStyleContext)
