@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-
 import { Button, CellHeaderDirection } from '@czi-sds/components'
 import { json, LoaderFunctionArgs } from '@remix-run/node'
 import { isNumber } from 'lodash-es'
