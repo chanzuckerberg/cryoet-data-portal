@@ -122,6 +122,11 @@ const Document = withEmotionCache(
             data-domain={PLAUSIBLE_ENV_URL_MAP[ENV.ENV]}
             src="/plausible.js"
           />
+
+          <meta
+            name="google-site-verification"
+            content="OmFoN8OF-Q-v6YeozSkfLTAJ2khAHkkV7ONfH4mVa5w"
+          />
         </head>
         <body className="h-screen w-screen flex flex-col flex-auto">
           <EnvironmentContext.Provider value={ENV}>
