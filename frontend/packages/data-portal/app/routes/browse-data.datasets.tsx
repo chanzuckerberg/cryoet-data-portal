@@ -21,7 +21,6 @@ import {
 } from 'app/hooks/useDatasetFilter'
 import { useDatasets } from 'app/hooks/useDatasets'
 import { i18n } from 'app/i18n'
-import { getSelfCreatingObject } from 'app/utils/proxy'
 
 const GET_DATASETS_DATA_QUERY = gql(`
   query GetDatasetsData(
@@ -119,74 +118,160 @@ function getTiltValue(value: string | null) {
 }
 
 function getFilter(datasetFilter: DatasetFilterState, query: string) {
-  const filter = getSelfCreatingObject<Datasets_Bool_Exp>()
+  const filters: Datasets_Bool_Exp[] = []
 
   // Text search by dataset title
   if (query) {
-    filter.title._ilike = `%${query}%`
+    filters.push({
+      title: {
+        _ilike: `%${query}%`,
+      },
+    })
   }
 
   // Included contents filters
   // Ground truth filter
   if (datasetFilter.includedContents.isGroundTruthEnabled) {
-    filter.runs.tomogram_voxel_spacings.annotations.ground_truth_status._eq =
-      true
+    filters.push({
+      runs: {
+        tomogram_voxel_spacings: {
+          annotations: {
+            ground_truth_status: {
+              _eq: true,
+            },
+          },
+        },
+      },
+    })
   }
 
   // Available files filter
   datasetFilter.includedContents.availableFiles.forEach((file) =>
     match(file)
-      .with('raw-frames', () => {
-        filter.runs.tiltseries.binning_from_frames._gt = 0
-      })
-      .with('tilt-series', () => {
-        filter.runs.tiltseries_aggregate.count.predicate._gt = 0
-      })
-      .with('tilt-series-alignment', () => {
-        filter.runs.tiltseries.https_alignment_file._is_null = false
-      })
-      .with('tomogram', () => {
-        filter.runs.tomogram_voxel_spacings.tomograms_aggregate.count.predicate._gt = 0
-      })
+      .with('raw-frames', () =>
+        filters.push({
+          runs: {
+            tiltseries: {
+              binning_from_frames: {
+                _gt: 0,
+              },
+            },
+          },
+        }),
+      )
+      .with('tilt-series', () =>
+        filters.push({
+          runs: {
+            tiltseries_aggregate: {
+              count: {
+                predicate: {
+                  _gt: 0,
+                },
+              },
+            },
+          },
+        }),
+      )
+      .with('tilt-series-alignment', () =>
+        filters.push({
+          runs: {
+            tiltseries: {
+              https_alignment_file: {
+                _is_null: false,
+              },
+            },
+          },
+        }),
+      )
+      .with('tomogram', () =>
+        filters.push({
+          runs: {
+            tomogram_voxel_spacings: {
+              tomograms_aggregate: {
+                count: {
+                  predicate: {
+                    _gt: 0,
+                  },
+                },
+              },
+            },
+          },
+        }),
+      )
       .exhaustive(),
   )
 
   // Number of runs filter
   if (datasetFilter.includedContents.numberOfRuns) {
     const runCount = +datasetFilter.includedContents.numberOfRuns.slice(1)
-    filter.runs_aggregate.count.predicate._gte = runCount
+    filters.push({
+      runs_aggregate: {
+        count: {
+          predicate: { _gte: runCount },
+        },
+      },
+    })
   }
 
   // Id filters
+  const idFilters: Datasets_Bool_Exp[] = []
 
   // Portal ID filter
   const portalId = +(datasetFilter.ids.portal ?? Number.NaN)
   if (!Number.isNaN(portalId) && portalId > 0) {
-    filter.id._eq = portalId
+    idFilters.push({
+      id: {
+        _eq: portalId,
+      },
+    })
   }
 
   // Empiar filter
   const empiarId = datasetFilter.ids.empiar
   if (empiarId) {
-    filter.dataset_publications._like = `%EMPIAR-${empiarId}%`
+    idFilters.push({
+      related_database_entries: {
+        _like: `%EMPIAR-${empiarId}%`,
+      },
+    })
   }
 
   // EMDB filter
   const emdbId = datasetFilter.ids.emdb
   if (emdbId) {
-    filter.dataset_publications._like = `%EMD-${emdbId}%`
+    idFilters.push({
+      related_database_entries: {
+        _like: `%EMD-${emdbId}%`,
+      },
+    })
+  }
+
+  if (idFilters.length > 0) {
+    filters.push({ _or: idFilters })
   }
 
   // Author filters
 
   // Author name filter
   if (datasetFilter.author.name) {
-    filter.authors.name._ilike = `%${datasetFilter.author.name}%`
+    filters.push({
+      authors: {
+        name: {
+          _ilike: `%${datasetFilter.author.name}%`,
+        },
+      },
+    })
   }
 
   // Author Orcid filter
   if (datasetFilter.author.orcid) {
-    filter.authors.orcid._ilike = `%${datasetFilter.author.orcid}%`
+    filters.push({
+      authors: {
+        orcid: {
+          _ilike: `%${datasetFilter.author.orcid}%`,
+        },
+      },
+    })
   }
 
   // Sample and experiment condition filters
@@ -194,14 +279,23 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
 
   // Organism name filter
   if (organismNames.length > 0) {
-    filter.organism_name._in = organismNames
+    filters.push({
+      organism_name: { _in: organismNames },
+    })
   }
 
   // Hardware filters
   // Camera manufacturer filter
   if (datasetFilter.hardware.cameraManufacturer) {
-    filter.runs.tiltseries.camera_manufacturer._eq =
-      datasetFilter.hardware.cameraManufacturer
+    filters.push({
+      runs: {
+        tiltseries: {
+          camera_manufacturer: {
+            _eq: datasetFilter.hardware.cameraManufacturer,
+          },
+        },
+      },
+    })
   }
 
   // Tilt series metadata filters
@@ -217,29 +311,76 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
   }
 
   // Tilt range filter
-  if (tiltMin && tiltMax) {
-    filter.runs.tiltseries.tilt_min._gte = tiltMin
-    filter.runs.tiltseries.tilt_max._lte = tiltMax
+  if (tiltMin) {
+    filters.push({
+      runs: {
+        tiltseries: {
+          tilt_range: {
+            _gte: tiltMin,
+          },
+        },
+      },
+    })
+  }
+
+  if (tiltMax) {
+    filters.push({
+      runs: {
+        tiltseries: {
+          tilt_range: {
+            _lte: tiltMax,
+          },
+        },
+      },
+    })
   }
 
   // Tomogram metadata filters
   if (datasetFilter.tomogram.fiducialAlignmentStatus) {
-    filter.runs.tomogram_voxel_spacings.tomograms.fiducial_alignment_status._eq =
-      datasetFilter.tomogram.fiducialAlignmentStatus === 'true'
-        ? 'FIDUCIAL'
-        : 'NON_FIDUCIAL'
+    filters.push({
+      runs: {
+        tomogram_voxel_spacings: {
+          tomograms: {
+            fiducial_alignment_status: {
+              _eq:
+                datasetFilter.tomogram.fiducialAlignmentStatus === 'true'
+                  ? 'FIDUCIAL'
+                  : 'NON_FIDUCIAL',
+            },
+          },
+        },
+      },
+    })
   }
 
   // Reconstruction method filter
   if (datasetFilter.tomogram.reconstructionMethod) {
-    filter.runs.tomogram_voxel_spacings.tomograms.reconstruction_method._eq =
-      datasetFilter.tomogram.reconstructionMethod
+    filters.push({
+      runs: {
+        tomogram_voxel_spacings: {
+          tomograms: {
+            reconstruction_method: {
+              _eq: datasetFilter.tomogram.reconstructionMethod,
+            },
+          },
+        },
+      },
+    })
   }
 
   // Reconstruction software filter
   if (datasetFilter.tomogram.reconstructionSoftware) {
-    filter.runs.tomogram_voxel_spacings.tomograms.reconstruction_software._eq =
-      datasetFilter.tomogram.reconstructionSoftware
+    filters.push({
+      runs: {
+        tomogram_voxel_spacings: {
+          tomograms: {
+            reconstruction_software: {
+              _eq: datasetFilter.tomogram.reconstructionSoftware,
+            },
+          },
+        },
+      },
+    })
   }
 
   // Annotation filters
@@ -247,17 +388,37 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
 
   // Object names filter
   if (objectNames.length > 0) {
-    filter.runs.tomogram_voxel_spacings.annotations.object_name._in =
-      objectNames
+    filters.push({
+      runs: {
+        tomogram_voxel_spacings: {
+          annotations: {
+            object_name: {
+              _in: objectNames,
+            },
+          },
+        },
+      },
+    })
   }
 
   // Object shape type filter
   if (objectShapeTypes.length > 0) {
-    filter.runs.tomogram_voxel_spacings.annotations.files.shape_type._in =
-      objectShapeTypes
+    filters.push({
+      runs: {
+        tomogram_voxel_spacings: {
+          annotations: {
+            files: {
+              shape_type: {
+                _in: objectShapeTypes,
+              },
+            },
+          },
+        },
+      },
+    })
   }
 
-  return filter
+  return { _and: filters } as Datasets_Bool_Exp
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
