@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
+import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { AxiosResponse } from 'axios'
 import { isNumber, sum } from 'lodash-es'
@@ -14,10 +15,12 @@ import { AnnotationTable } from 'app/components/Run/AnnotationTable'
 import { RunMetadataDrawer } from 'app/components/Run/RunMetadataDrawer'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { QueryParams } from 'app/constants/query'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { DownloadConfig } from 'app/types/download'
+import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 const GET_RUN_BY_ID_QUERY = gql(`
   query GetRunById($id: Int, $limit: Int, $offset: Int) {
@@ -225,7 +228,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   }
 
   const url = new URL(request.url)
-  const page = +(url.searchParams.get('page') ?? '1')
+  const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
 
   const { data } = await apolloClient.query({
     query: GET_RUN_BY_ID_QUERY,
@@ -272,6 +275,10 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     data,
     fileSizeMap,
   })
+}
+
+export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
+  return shouldRevalidatePage(args)
 }
 
 export default function RunByIdPage() {

@@ -18,7 +18,23 @@ import { I18nKeys } from 'app/types/i18n'
 import { getAnnotationTitle } from 'app/utils/annotation'
 import { cnsNoMerge } from 'app/utils/cns'
 
-const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map(() => ({}) as Annotation)
+const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<Annotation>(() => ({
+  annotation_method: '',
+  author_affiliations: [],
+  authors_aggregate: {},
+  authors: [],
+  confidence_precision: 0,
+  deposition_date: '',
+  files: [],
+  ground_truth_status: false,
+  https_path: '',
+  object_count: 0,
+  object_id: '',
+  object_name: '',
+  release_date: '',
+  s3_path: '',
+  shape_type: '',
+}))
 
 function ConfidenceValue({ value }: { value: number }) {
   const { t } = useI18n()

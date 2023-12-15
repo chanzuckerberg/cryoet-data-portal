@@ -23,7 +23,12 @@ import { inQualityScoreRange } from 'app/utils/tiltSeries'
 
 type Run = GetDatasetByIdQuery['datasets'][number]['runs'][number]
 
-const LOADING_RUNS = range(0, MAX_PER_PAGE).map(() => ({}) as Run)
+const LOADING_RUNS = range(0, MAX_PER_PAGE).map<Run>(() => ({
+  id: 0,
+  name: '',
+  tiltseries_aggregate: {},
+  tomogram_voxel_spacings: [],
+}))
 
 export function RunsTable() {
   const { isLoadingDebounced } = useIsLoading()
