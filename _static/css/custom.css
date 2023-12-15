@@ -8,8 +8,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar-cet {
     width: 100%;
-    height: 48px; 
-    background-color: #10161A; 
+    height: 48px;
+    background-color: #10161A;
     position: fixed;
     z-index: 1;
 }

@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Download Data Using Amazon Web Services (AWS) &mdash; cryoet-data-portal  documentation</title>
+  
+
+  
+  <link rel="icon" type="image/png" sizes="64x64" href="_static/img/czii-favicon_64x64.png"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/czii-favicon_32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/czii-favicon_16x16.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script data-domain="chanzuckerberg.github.io/cryoet-data-portal" defer="defer" src="https://plausible.io/js/script.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div style="height: 100vh; overflow: hidden;">
+     
+    <!-- top 48px for navbar height -->
+    <div class="navbar-cet">
+        <div style="padding: 0 16px; display: flex; height: inherit; align-items: center; justify-content: space-between;">
+            <span style="display:flex; gap: 32px; align-items: center;">
+                <a href="https://www.czimaginginstitute.org/">
+                  <img src="_static/img/czi-imaging-institute.png" style="height: 45px; width: 45px;" />
+                </a>
+                <span style="display:flex; gap: 16px;">
+                    <span class="navbar-cet-link">
+                      <a class="navbar-cet-anchor" href="index.html">CryoET Data Portal</a>
+                  </span>
+                </span>
+            </span>
+
+            <span class="navbar-cet-link">
+              <a class="navbar-cet-anchor" href="https://www.czimaginginstitute.org/">CZI Imaging Institute</a>
+            </span>
+        </div>
+    </div>
+    <div style="width: 100%; height: 100%; overflow: auto; padding-top: 48px;">
+        
+        <!-- top 48px for navbar height -->
+        <nav data-toggle="wy-nav-shift" class="wy-nav-side" style="top: 48px;" >
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search" >
+            
+
+            
+                <a href="index.html" class="icon icon-home"> cryoet-data-portal
+            
+
+            
+            </a>
+
+            
+                
+                
+                <div class="version">
+                    0.1.dev1+g5bc0f0b
+                </div>
+                
+            
+
+            
+
+            
+            </div>
+
+            
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+            
+                
+                
+                
+                
+                
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_quick_start.html">Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-api.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_napari.html">napari</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_FAQ.html">FAQ</a></li>
+</ul>
+
+                
+            
+            </div>
+            
+        </div>
+        </nav>
+
+        <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+            
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="index.html">cryoet-data-portal</a>
+            
+        </nav>
+
+
+        <div class="wy-nav-content">
+            
+            <div class="rst-content">
+            
+            <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Download Data Using Amazon Web Services (AWS)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cryoet_data_portal_docsite_aws_download.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+            <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <section id="download-data-using-amazon-web-services-aws">
+<h1>Download Data Using Amazon Web Services (AWS)<a class="headerlink" href="#download-data-using-amazon-web-services-aws" title="Permalink to this heading">¶</a></h1>
+<p>This page provides details on how to use Amazon Web Services (AWS) Command Line Interface (CLI) tool to download data from the CryoET Data Portal.</p>
+<p><strong>The Data Portal’s S3 bucket is public</strong>, so it can be used without credential sign in by specifying <code class="docutils literal notranslate"><span class="pre">--no-sign-request</span></code> in your commands. In only a few minutes, you can get started downloading data following the steps in the <a class="reference internal" href="#quickstart"><span class="std std-ref">Quickstart Guide</span></a>, and for more details, refer to the <a class="reference internal" href="#installation"><span class="std std-ref">Installation</span></a>, <a class="reference internal" href="#download-data"><span class="std std-ref">Download Data</span></a>, and <a class="reference internal" href="#optimize-download-speed"><span class="std std-ref">Optimize Download Speed</span></a> in-depth explanations.</p>
+<section id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Download the installer: <a class="reference external" href="https://awscli.amazonaws.com/AWSCLIV2.pkg">MacOS Installer Download</a> / <a class="reference external" href="https://awscli.amazonaws.com/AWSCLIV2.msi">Windows Installer Download</a></p></li>
+<li><p>Open installer and complete installation following prompts. (No further steps, since credentials ARE NOT needed to use the tool.)</p></li>
+<li><p>Open terminal (MacOS) or command prompt (Windows).</p></li>
+<li><p>Copy and paste the command from the download prompt for the desired data into terminal / command prompt and hit enter.</p></li>
+<li><p>Alternatively, create a custom command inserting the S3 URL of the data and the desired download destination in the spaces provided.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aws</span> <span class="n">s3</span> <span class="n">cp</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">sign</span><span class="o">-</span><span class="n">request</span> <span class="p">[</span><span class="n">S3</span> <span class="n">bucket</span> <span class="n">URL</span><span class="p">]</span> <span class="p">[</span><span class="n">Local</span> <span class="n">destination</span> <span class="n">path</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>For example, to download a particular JSON file of tomogram metadata into a folder called “Downloads” use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aws</span> <span class="n">s3</span> <span class="n">cp</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">sign</span><span class="o">-</span><span class="n">request</span> <span class="n">s3</span><span class="p">:</span><span class="o">//</span><span class="n">cryoet</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">portal</span><span class="o">-</span><span class="n">public</span><span class="o">/</span><span class="mi">10000</span><span class="o">/</span><span class="n">TS_026</span><span class="o">/</span><span class="n">Tomograms</span><span class="o">/</span><span class="n">VoxelSpacing13</span><span class="mf">.48</span><span class="o">/</span><span class="n">CanonicalTomogram</span><span class="o">/</span><span class="n">tomogram_metadata</span><span class="o">.</span><span class="n">json</span> <span class="o">~/</span><span class="n">Downloads</span><span class="o">/</span>
+
+</pre></div>
+</div>
+<p>In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow <a class="reference internal" href="#optimize-download-speed"><span class="std std-ref">these instructions to optimize download speed</span></a></p>
+<p>For more detailed instructions, please refer to the sections below.</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#installation"><span class="std std-ref">Installation</span></a></p></li>
+<li><p><a class="reference internal" href="#download-data"><span class="std std-ref">Download Data</span></a></p></li>
+<li><p><a class="reference internal" href="#optimize-download-speed"><span class="std std-ref">Optimize Download Speed</span></a></p></li>
+</ol>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
+<p>The CryoET Data Portal uses AWS S3 buckets to host the data. The AWS Command Line Interface (CLI) tool will be used for downloading data from this S3 bucket <code class="docutils literal notranslate"><span class="pre">s3://cryoet-data-portal-public</span></code>. The simplest way to use this tool is to install it without setting up any credentials, and those instructions are below for MacOS and Windows. However, you may also complete a full installation and credential setup using the instructions provided by <a class="reference external" href="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html">AWS here</a>.</p>
+<p>Once AWS CLI is installed, you will be able to use it in terminal (MacOS) or command prompt (Windows) to download data. AWS CLI will not show up as an app on your desktop however since it is a command-line only tool.</p>
+<section id="macos-installation">
+<h3>MacOS Installation<a class="headerlink" href="#macos-installation" title="Permalink to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Download the installer pkg file using this URL: <a class="reference external" href="https://awscli.amazonaws.com/AWSCLIV2.pkg">https://awscli.amazonaws.com/AWSCLIV2.pkg</a></p></li>
+<li><p>Open the file and follow the instructions provided in the installer window.</p></li>
+</ol>
+<p>To confirm successful installation, open terminal and type <code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">--version</span></code> to list the version of the AWS CLI installed. If installation was successful, you should see an output like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aws</span><span class="o">-</span><span class="n">cli</span><span class="o">/</span><span class="mf">2.7.25</span> <span class="n">Python</span><span class="o">/</span><span class="mf">3.10.6</span> <span class="n">Darwin</span><span class="o">/</span><span class="mf">23.0.0</span> <span class="n">source</span><span class="o">/</span><span class="n">arm64</span> <span class="n">prompt</span><span class="o">/</span><span class="n">off</span>
+</pre></div>
+</div>
+</section>
+<section id="windows-installation">
+<h3>Windows Installation<a class="headerlink" href="#windows-installation" title="Permalink to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Download the installer pkg file using this URL: <a class="reference external" href="https://awscli.amazonaws.com/AWSCLIV2.msi">https://awscli.amazonaws.com/AWSCLIV2.msi</a></p></li>
+<li><p>Open the file and follow the instructions provided in the installer window.</p></li>
+</ol>
+<p>To confirm successful installation, open a command prompt window (open the Start menu and search for cmd) and type <code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">--version</span></code> to list the version of the AWS CLI installed. If installation was successful, you should see an output like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aws</span><span class="o">-</span><span class="n">cli</span><span class="o">/</span><span class="mf">2.10.0</span> <span class="n">Python</span><span class="o">/</span><span class="mf">3.11.2</span> <span class="n">Windows</span><span class="o">/</span><span class="mi">10</span> <span class="n">exe</span><span class="o">/</span><span class="n">AMD64</span> <span class="n">prompt</span><span class="o">/</span><span class="n">off</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="download-data">
+<h2>Download Data<a class="headerlink" href="#download-data" title="Permalink to this heading">¶</a></h2>
+<p>To download data, we’ll run commands in terminal (MacOS) or command prompt (Windows). The basic structure of these commands is below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aws</span> <span class="o">&lt;</span><span class="n">command</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">subcommand</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">flags</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">options</span> <span class="ow">and</span> <span class="n">parameters</span> <span class="p">(</span><span class="n">often</span> <span class="n">S3</span> <span class="n">URL</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>If you followed the above installation instructions, which did not include setting up credentials, use <code class="docutils literal notranslate"><span class="pre">--no-sign-request</span></code> as a <code class="docutils literal notranslate"><span class="pre">&lt;flag&gt;</span></code> in all of your AWS CLI commands to indicate that you are accessing the bucket without signing in.</p>
+<p>The URL of the CryoET Data Portal is <code class="docutils literal notranslate"><span class="pre">s3://cryoet-data-portal-public</span></code>, and each dataset in the bucket has its own unique URL such as <code class="docutils literal notranslate"><span class="pre">s3://cryoet-data-portal-public/10000/TS_026</span></code>.</p>
+<p>To list all files in a directory, use the <code class="docutils literal notranslate"><span class="pre">s3</span></code> and <code class="docutils literal notranslate"><span class="pre">ls</span></code> as the <code class="docutils literal notranslate"><span class="pre">&lt;command&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;subcommand&gt;</span></code>, respectively.</p>
+<p>The basic structure of this command is <code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">s3</span> <span class="pre">ls</span> <span class="pre">--no-sign-request</span> <span class="pre">[s3</span> <span class="pre">bucket</span> <span class="pre">URL]</span></code>. For example, to list all data in the portal use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aws</span> <span class="n">s3</span> <span class="n">ls</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">sign</span><span class="o">-</span><span class="n">request</span> <span class="n">s3</span><span class="p">:</span><span class="o">//</span><span class="n">cryoet</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">portal</span><span class="o">-</span><span class="n">public</span>
+</pre></div>
+</div>
+<p>The output should be a list of dataset IDs, for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PRE</span> <span class="mi">10000</span><span class="o">/</span>
+<span class="n">PRE</span> <span class="mi">10001</span><span class="o">/</span>
+<span class="n">PRE</span> <span class="mi">10004</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>To download a file, We can use the <code class="docutils literal notranslate"><span class="pre">s3</span></code> and <code class="docutils literal notranslate"><span class="pre">cp</span></code> as the <code class="docutils literal notranslate"><span class="pre">&lt;command&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;subcommand&gt;</span></code>, respectively. The basic structure of this command is <code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">s3</span> <span class="pre">cp</span> <span class="pre">--no-sign-request</span> <span class="pre">[s3</span> <span class="pre">bucket</span> <span class="pre">URL]</span> <span class="pre">[Local</span> <span class="pre">destination</span> <span class="pre">path]</span></code>, where the <code class="docutils literal notranslate"><span class="pre">Local</span> <span class="pre">destination</span> <span class="pre">path</span></code> is whereever you’d like the file to be downloaded. For example, to download a particular JSON file of tomogram metadata into a folder called “Downloads” use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aws</span> <span class="n">s3</span> <span class="n">cp</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">sign</span><span class="o">-</span><span class="n">request</span> <span class="n">s3</span><span class="p">:</span><span class="o">//</span><span class="n">cryoet</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">portal</span><span class="o">-</span><span class="n">public</span><span class="o">/</span><span class="mi">10000</span><span class="o">/</span><span class="n">TS_026</span><span class="o">/</span><span class="n">Tomograms</span><span class="o">/</span><span class="n">VoxelSpacing13</span><span class="mf">.48</span><span class="o">/</span><span class="n">CanonicalTomogram</span><span class="o">/</span><span class="n">tomogram_metadata</span><span class="o">.</span><span class="n">json</span> <span class="o">~/</span><span class="n">Downloads</span><span class="o">/</span>
+
+</pre></div>
+</div>
+<p>The file should appear in your specified directory and the output in terminal / command prompt should be something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">download</span><span class="p">:</span> <span class="n">s3</span><span class="p">:</span><span class="o">//</span><span class="n">cryoet</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">portal</span><span class="o">-</span><span class="n">public</span><span class="o">/</span><span class="mi">10000</span><span class="o">/</span><span class="n">TS_026</span><span class="o">/</span><span class="n">Tomograms</span><span class="o">/</span><span class="n">VoxelSpacing13</span><span class="mf">.48</span><span class="o">/</span><span class="n">CanonicalTomogram</span><span class="o">/</span><span class="n">tomogram_metadata</span><span class="o">.</span><span class="n">json</span> <span class="n">to</span> <span class="o">./</span><span class="n">tomogram_metadata</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<p>In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files.</p>
+</section>
+<section id="optimize-download-speed">
+<h2>Optimize Download Speed<a class="headerlink" href="#optimize-download-speed" title="Permalink to this heading">¶</a></h2>
+<p>You can optimize your download speed by configuring your AWS CLI with the below command, which will increase your transfer rate to ~50 MB/s if your connection has sufficient bandwidth.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aws</span> <span class="n">configure</span> <span class="nb">set</span> <span class="n">default</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">max_concurrent_requests</span> <span class="mi">30</span>
+</pre></div>
+</div>
+<p>To learn more about configuring your AWS CLI, refer to the <a class="reference external" href="https://docs.aws.amazon.com/cli/latest/topic/s3-config.html">documentation here</a>.</p>
+</section>
+</section>
+
+
+            </div>
+            
+            </div>
+            <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2023 Chan Zuckerberg Initiative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+            </div>
+        </div>
+
+        </section>
+
+    </div>
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-# Installation 
+# Installation
 
 ## Requirements
 
@@ -6,7 +6,7 @@ The CryoET Data Portal Client requires a Linux or MacOS system with:
 
 - Python 3.7 to Python 3.10. Or R, supported versions TBD.
 - Recommended: >16 GB of memory.
-- Recommended: >5 Mbps internet connection. 
+- Recommended: >5 Mbps internet connection.
 - Recommended: for increased performance, use the API through an AWS-EC2 instance from the region `us-west-2`. The CryoET Portal data are hosted in a AWS-S3 bucket in that region.
 
 

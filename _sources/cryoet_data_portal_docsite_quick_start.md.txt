@@ -86,8 +86,8 @@ for tomo in tomos:
     # Print the tomogram metadata as a json string
     print(json.dumps(tomo.to_dict(), indent=4))
 
-    # Download a 25% size preview image (uncomment to actually download files)
-    # tomo.download_mrcfile(binning=4)
+    # Download a tomogram in the MRC format (uncomment to actually download files)
+    # tomo.download_mrcfile()
 ```
 
 Downloads display a progress bar by default:
