@@ -17,7 +17,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
   }
 
   // eslint-disable-next-line no-console
-  console.log('Sending plausible event', JSON.stringify(payload))
+  console.log(`Sending plausible event to client ${clientIp}`)
 
   const response = await fetch('https://plausible.io/api/event', payload)
   const responseBody = await response.text()
