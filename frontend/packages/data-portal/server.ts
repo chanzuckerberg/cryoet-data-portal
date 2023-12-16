@@ -8,6 +8,8 @@ import fs from 'fs'
 import morgan from 'morgan'
 import sourceMapSupport from 'source-map-support'
 
+import { ServerContext } from 'app/types/context'
+
 // patch in Remix runtime globals
 installGlobals()
 sourceMapSupport.install()
@@ -25,11 +27,7 @@ async function reimportServer() {
 }
 
 // Create a request handler that watches for changes to the server build during development.
-async function createDevRequestHandler() {
-  // We'll make chokidar a dev dependency so it doesn't get bundled in production.
-  const chokidar =
-    process.env.NODE_ENV === 'development' ? await import('chokidar') : null
-
+async function getRequestHandler() {
   async function handleServerUpdate() {
     // 1. re-import the server build
     build = await reimportServer()
@@ -45,17 +43,24 @@ async function createDevRequestHandler() {
     broadcastDevReady(build)
   }
 
-  chokidar
-    ?.watch(WATCH_PATH, { ignoreInitial: true })
-    .on('add', handleServerUpdate)
-    .on('change', handleServerUpdate)
+  if (process.env.NODE_ENV === 'development') {
+    // We'll make chokidar a dev dependency so it doesn't get bundled in production.
+    const chokidar =
+      process.env.NODE_ENV === 'development' ? await import('chokidar') : null
+
+    chokidar
+      ?.watch(WATCH_PATH, { ignoreInitial: true })
+      .on('add', handleServerUpdate)
+      .on('change', handleServerUpdate)
+  }
 
   // wrap request handler to make sure its recreated with the latest build for every request
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       await createRequestHandler({
         build,
-        mode: 'development',
+        mode: process.env.NODE_ENV,
+        getLoadContext: () => ({ clientIp: req.ip }) as ServerContext,
       })(req, res, next)
     } catch (error) {
       next(error)
@@ -85,15 +90,7 @@ async function main() {
   app.use(morgan('tiny'))
 
   // Check if the server is running in development mode and use the devBuild to reflect realtime changes in the codebase.
-  app.all(
-    '*',
-    process.env.NODE_ENV === 'development'
-      ? await createDevRequestHandler()
-      : createRequestHandler({
-          build,
-          mode: process.env.NODE_ENV,
-        }),
-  )
+  app.all('*', await getRequestHandler())
 
   const port = process.env.PORT || 8080
   app.listen(port, () => {
