@@ -4,7 +4,8 @@ import { ServerContext } from 'app/types/context'
 import { removeNullishValues } from 'app/utils/object'
 
 export async function action({ request, context }: ActionFunctionArgs) {
-  const { clientIp } = context as ServerContext
+  let { clientIp } = context as ServerContext
+  clientIp = clientIp.replace('::ffff:', '')
 
   const payload = {
     body: request.body,
