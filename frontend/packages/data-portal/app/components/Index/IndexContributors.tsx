@@ -21,7 +21,7 @@ Jun Liu
 Julia Mahamid
 Michaela Medina
 Jürgen Plitzko
-Ricado Righetto
+Ricardo Righetto
 Kem Sochacki
 Matt Swulius
 Liang Xue
