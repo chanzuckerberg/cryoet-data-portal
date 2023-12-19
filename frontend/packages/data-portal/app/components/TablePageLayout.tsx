@@ -78,9 +78,7 @@ export function TablePageLayout({
                 'flex flex-col flex-auto w-full',
 
                 // Translate to the left by half the filter panel width to align with the header
-                'screen-2040:translate-x-[-100px]',
-
-                filterPanel && 'max-w-content',
+                filterPanel && 'screen-2040:translate-x-[-100px] max-w-content',
               )}
             >
               <div className="px-sds-xl">
