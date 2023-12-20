@@ -22,6 +22,7 @@ export enum Events {
   Filter = 'Filter',
   OpenDownloadModal = 'Open download modal',
   ToggleMetadataDrawer = 'Toggle metadata drawer',
+  ViewTomogram = 'View tomogram',
 }
 
 export type PlausibleDownloadModalPayload<T = object> = T & {
@@ -61,6 +62,13 @@ export type EventPayloads = {
   [Events.ToggleMetadataDrawer]: {
     open: boolean
     type: DrawerId
+  }
+
+  [Events.ViewTomogram]: {
+    datasetId: number
+    organism: string
+    runId: number
+    tomogramId: number | string
   }
 }
 

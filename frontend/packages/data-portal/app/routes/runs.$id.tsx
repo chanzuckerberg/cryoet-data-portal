@@ -116,6 +116,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
           affine_transformation_matrix
           ctf_corrected
           fiducial_alignment_status
+          id
           key_photo_url
           name
           neuroglancer_config
@@ -313,6 +314,8 @@ export default function RunByIdPage() {
   const fileSize =
     activeTomogram && fileSizeMap[activeTomogram.https_mrc_scale0]
 
+  const tomogram = run.tomogram_voxel_spacings.at(0)
+
   return (
     <TablePageLayout
       type={i18n.annotations}
@@ -327,12 +330,10 @@ export default function RunByIdPage() {
           runId={run.id}
           runName={run.name}
           s3DatasetPrefix={run.dataset.s3_prefix}
-          s3TomogramVoxelPrefix={
-            run.tomogram_voxel_spacings.at(0)?.s3_prefix ?? undefined
-          }
+          s3TomogramVoxelPrefix={tomogram?.s3_prefix ?? undefined}
           s3TomogramPrefix={activeTomogram?.s3_mrc_scale0 ?? undefined}
           tomogramId={activeTomogram?.id ?? undefined}
-          tomogramVoxelId={run.tomogram_voxel_spacings.at(0)?.id ?? undefined}
+          tomogramVoxelId={tomogram?.id ?? undefined}
           type="runs"
         />
       }

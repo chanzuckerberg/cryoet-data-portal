@@ -9,6 +9,7 @@ import { MetadataTable } from 'app/components/Table'
 import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
+import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { useDrawer } from 'app/state/drawer'
@@ -19,29 +20,57 @@ export function RunHeader() {
   const { t } = useI18n()
 
   const tiltSeries = run.tiltseries[0]
-  const keyPhotoURL =
-    run.tomogram_voxel_spacings[0]?.tomograms[0]?.key_photo_url
+
+  const tomogram = run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
+  const keyPhotoURL = tomogram?.key_photo_url
+  const neuroglancerConfig = tomogram?.neuroglancer_config
 
   const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
-  const neuroglancerConfig = run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
-    ?.neuroglancer_config
+  const plausible = usePlausible()
+
+  function trackViewTomogram() {
+    plausible(Events.ViewTomogram, {
+      datasetId: run.dataset.id,
+      datasetProvider: 'provider',
+      organism: run.dataset.organism_name ?? 'None',
+      runId: run.id,
+      tomogramId: tomogram?.id ?? 'None',
+    })
+  }
 
   return (
     <PageHeader
       actions={
         <>
           {neuroglancerConfig && (
-            <Button
-              to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(
-                neuroglancerConfig,
-              )}`}
-              startIcon={<Icon sdsIcon="table" sdsType="button" sdsSize="s" />}
-              sdsType="primary"
-              sdsStyle="rounded"
-              component={Link}
+            // We need to disable this rule because we need the div to capture
+            // bubbled click events from the link button below. This is because
+            // Plausible automatically adds event listeners to every link on the
+            // page to track outbound links, so we can't attach a click listener
+            // to the link directly because Plausible will overwrite it.
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+            <div
+              onClick={trackViewTomogram}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  trackViewTomogram()
+                }
+              }}
             >
-              <span>{t('viewTomogram')}</span>
-            </Button>
+              <Button
+                to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(
+                  neuroglancerConfig,
+                )}`}
+                startIcon={
+                  <Icon sdsIcon="table" sdsType="button" sdsSize="s" />
+                }
+                sdsType="primary"
+                sdsStyle="rounded"
+                component={Link}
+              >
+                <span>{t('viewTomogram')}</span>
+              </Button>
+            </div>
           )}
 
           <Button
