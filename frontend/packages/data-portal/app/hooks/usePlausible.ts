@@ -5,14 +5,6 @@ import { useEnvironment } from 'app/context/Environment.context'
 import { DrawerId } from 'app/state/drawer'
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
 
-const PLAUSIBLE_EXTENSIONS = [
-  'outbound-links',
-  'file-downloads',
-  ...(process.env.LOCALHOST_PLAUSIBLE_TRACKING === 'true' ? ['local'] : []),
-].join('.')
-
-export const PLAUSIBLE_URL = `https://plausible.io/js/script.${PLAUSIBLE_EXTENSIONS}.js`
-
 export const PLAUSIBLE_ENV_URL_MAP: Record<NodeJS.ProcessEnv['ENV'], string> = {
   local: 'frontend.cryoet.dev.si.czi.technology',
   dev: 'frontend.cryoet.dev.si.czi.technology',
@@ -30,6 +22,7 @@ export enum Events {
   Filter = 'Filter',
   OpenDownloadModal = 'Open download modal',
   ToggleMetadataDrawer = 'Toggle metadata drawer',
+  ViewTomogram = 'View tomogram',
 }
 
 export type PlausibleDownloadModalPayload<T = object> = T & {
@@ -69,6 +62,13 @@ export type EventPayloads = {
   [Events.ToggleMetadataDrawer]: {
     open: boolean
     type: DrawerId
+  }
+
+  [Events.ViewTomogram]: {
+    datasetId: number
+    organism: string
+    runId: number
+    tomogramId: number | string
   }
 }
 
@@ -111,4 +111,18 @@ export function usePlausible() {
   )
 
   return logPlausibleEvent
+}
+
+export function getPlausibleUrl({
+  hasLocalhostTracking,
+}: {
+  hasLocalhostTracking: boolean
+}) {
+  const extensions = [
+    'outbound-links',
+    'file-downloads',
+    ...(hasLocalhostTracking ? ['local'] : []),
+  ].join('.')
+
+  return `https://plausible.io/js/script.${extensions}.js`
 }

@@ -1,8 +1,12 @@
 import { Link as RemixLink, LinkProps } from '@remix-run/react'
+import { ForwardedRef, forwardRef } from 'react'
 
 import { isExternalUrl } from 'app/utils/url'
 
-export function Link({ to, ...props }: LinkProps) {
+function BaseLink(
+  { to, ...props }: LinkProps,
+  ref: ForwardedRef<HTMLAnchorElement>,
+) {
   let newTabProps: Partial<LinkProps> = {}
 
   if (typeof to === 'string' && isExternalUrl(to)) {
@@ -14,5 +18,7 @@ export function Link({ to, ...props }: LinkProps) {
     }
   }
 
-  return <RemixLink to={to} {...props} {...newTabProps} />
+  return <RemixLink ref={ref} to={to} {...props} {...newTabProps} />
 }
+
+export const Link = forwardRef(BaseLink)

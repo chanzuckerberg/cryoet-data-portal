@@ -1,9 +1,13 @@
 import { pick } from 'lodash-es'
 
-import { PLAUSIBLE_URL } from 'app/hooks/usePlausible'
+import { getPlausibleUrl } from 'app/hooks/usePlausible'
 
 export async function loader() {
-  const response = await fetch(PLAUSIBLE_URL)
+  const plausibleUrl = getPlausibleUrl({
+    hasLocalhostTracking: process.env.LOCALHOST_PLAUSIBLE_TRACKING === 'true',
+  })
+
+  const response = await fetch(plausibleUrl)
   const script = await response.text()
   const { status, headers } = response
 
