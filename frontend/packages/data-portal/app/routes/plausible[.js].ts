@@ -1,14 +1,9 @@
 import { pick } from 'lodash-es'
 
-export async function loader() {
-  const extensions = [
-    'outbound-links',
-    'file-downloads',
-    ...(process.env.LOCALHOST_PLAUSIBLE_TRACKING === 'true' ? ['local'] : []),
-  ].join('.')
-  const plausibleUrl = `https://plausible.io/js/script.${extensions}.js`
+import { PLAUSIBLE_URL } from 'app/hooks/usePlausible'
 
-  const response = await fetch(plausibleUrl)
+export async function loader() {
+  const response = await fetch(PLAUSIBLE_URL)
   const script = await response.text()
   const { status, headers } = response
 
