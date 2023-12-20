@@ -23,7 +23,7 @@ import {
   ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
   EnvironmentContext,
 } from './context/Environment.context'
-import { PLAUSIBLE_ENV_URL_MAP } from './hooks/usePlausible'
+import { PLAUSIBLE_ENV_URL_MAP, PLAUSIBLE_URL } from './hooks/usePlausible'
 import { i18next } from './i18next.server'
 import { useCloseDrawerOnUnmount } from './state/drawer'
 import tailwindStyles from './tailwind.css'
@@ -120,7 +120,9 @@ const Document = withEmotionCache(
           <script
             defer
             data-domain={PLAUSIBLE_ENV_URL_MAP[ENV.ENV]}
-            src="/plausible.js"
+            // TODO Fix proxying
+            // src="/plausible.js"
+            src={PLAUSIBLE_URL}
           />
 
           <meta
