@@ -31,7 +31,6 @@ export function RunHeader() {
   function trackViewTomogram() {
     plausible(Events.ViewTomogram, {
       datasetId: run.dataset.id,
-      datasetProvider: 'provider',
       organism: run.dataset.organism_name ?? 'None',
       runId: run.id,
       tomogramId: tomogram?.id ?? 'None',
@@ -189,7 +188,7 @@ export function RunHeader() {
                     label: i18n.tomogramProcessing,
                     values: run.tomogram_stats
                       .flatMap((stats) => stats.tomogram_processing)
-                      .map((tomogram) => tomogram.processing),
+                      .map((tomo) => tomo.processing),
                   },
                   {
                     label: i18n.annotatedObjects,
