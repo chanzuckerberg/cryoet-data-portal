@@ -120,7 +120,7 @@ const Document = withEmotionCache(
           <script
             defer
             data-domain={PLAUSIBLE_ENV_URL_MAP[ENV.ENV]}
-            // TODO Fix proxying
+            // TODO Fix proxying for plausible
             // src="/plausible.js"
             src={getPlausibleUrl({
               hasLocalhostTracking: ENV.LOCALHOST_PLAUSIBLE_TRACKING === 'true',

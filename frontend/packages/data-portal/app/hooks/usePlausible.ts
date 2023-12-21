@@ -72,6 +72,10 @@ export type EventPayloads = {
   }
 }
 
+// TODO Fix proxying for plausible
+// const PLAUSIBLE_EVENT_API = '/api/event'
+const PLAUSIBLE_EVENT_API = 'https://plausible.io/api/event'
+
 export function usePlausible() {
   const { ENV, LOCALHOST_PLAUSIBLE_TRACKING } = useEnvironment()
 
@@ -101,7 +105,7 @@ export function usePlausible() {
       }
 
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      axios.post('/api/event', payload, {
+      axios.post(PLAUSIBLE_EVENT_API, payload, {
         headers: {
           'Content-Type': 'application/json',
         },
