@@ -134,7 +134,7 @@ export function RunHeader() {
             )}
           </div>
 
-          <div className="flex flex-col gap-sds-xl">
+          <div className="flex flex-col gap-sds-xl flex-auto">
             <div className="flex gap-sds-xxl flex-col lg:flex-row">
               <MetadataTable
                 title={i18n.tiltSeries}
