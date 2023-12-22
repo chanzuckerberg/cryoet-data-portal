@@ -11,9 +11,12 @@ import { Tooltip } from 'app/components/Tooltip'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
+import {
+  MetadataDrawerId,
+  useMetadataDrawer,
+} from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
 import { Annotation, useAnnotation } from 'app/state/annotation'
-import { useDrawer } from 'app/state/drawer'
 import { I18nKeys } from 'app/types/i18n'
 import { getAnnotationTitle } from 'app/utils/annotation'
 import { cnsNoMerge } from 'app/utils/cns'
@@ -54,16 +57,16 @@ const MAX_AUTHORS = 2
 export function AnnotationTable() {
   const { isLoadingDebounced } = useIsLoading()
   const { run } = useRunById()
-  const { setActiveDrawerId } = useDrawer()
+  const { toggleDrawer } = useMetadataDrawer()
   const { setActiveAnnotation } = useAnnotation()
   const { t } = useI18n()
 
   const openAnnotationDrawer = useCallback(
     (annotation: Annotation) => {
       setActiveAnnotation(annotation)
-      setActiveDrawerId('annotation-metadata')
+      toggleDrawer(MetadataDrawerId.Annotation)
     },
-    [setActiveAnnotation, setActiveDrawerId],
+    [toggleDrawer, setActiveAnnotation],
   )
 
   const columns = useMemo(() => {

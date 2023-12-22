@@ -2,8 +2,9 @@ import axios from 'axios'
 import { useCallback } from 'react'
 
 import { useEnvironment } from 'app/context/Environment.context'
-import { DrawerId } from 'app/state/drawer'
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
+
+import { MetadataDrawerId } from './useMetadataDrawer'
 
 export const PLAUSIBLE_ENV_URL_MAP: Record<NodeJS.ProcessEnv['ENV'], string> = {
   local: 'frontend.cryoet.dev.si.czi.technology',
@@ -61,7 +62,7 @@ export type EventPayloads = {
 
   [Events.ToggleMetadataDrawer]: {
     open: boolean
-    type: DrawerId
+    type: MetadataDrawerId
   }
 
   [Events.ViewTomogram]: {

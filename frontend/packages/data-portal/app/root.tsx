@@ -25,7 +25,6 @@ import {
 } from './context/Environment.context'
 import { getPlausibleUrl, PLAUSIBLE_ENV_URL_MAP } from './hooks/usePlausible'
 import { i18next } from './i18next.server'
-import { useCloseDrawerOnUnmount } from './state/drawer'
 import tailwindStyles from './tailwind.css'
 import { theme } from './theme'
 
@@ -164,8 +163,6 @@ export const handle = {
 // https://remix.run/api/conventions#default-export
 // https://remix.run/api/conventions#route-filenames
 export default function App() {
-  useCloseDrawerOnUnmount()
-
   return (
     <Document>
       <Outlet />
