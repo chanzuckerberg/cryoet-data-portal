@@ -6,11 +6,14 @@ import { PageHeader } from 'app/components/PageHeader'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
-import { useDrawer } from 'app/state/drawer'
+import {
+  MetadataDrawerId,
+  useMetadataDrawer,
+} from 'app/hooks/useMetadataDrawer'
 
 export function DatasetHeader() {
   const { dataset } = useDatasetById()
-  const drawer = useDrawer()
+  const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
   const { openDatasetDownloadModal } = useDownloadModalQueryParamState()
 
@@ -34,7 +37,7 @@ export function DatasetHeader() {
           uppercase: true,
         },
       ]}
-      onMoreInfoClick={() => drawer.setActiveDrawerId('dataset-metadata')}
+      onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Dataset)}
       releaseDate={dataset.release_date}
       title={dataset.title}
       renderHeader={({ moreInfo }) => (

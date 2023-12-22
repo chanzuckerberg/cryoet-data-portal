@@ -9,14 +9,17 @@ import { MetadataTable } from 'app/components/Table'
 import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
+import {
+  MetadataDrawerId,
+  useMetadataDrawer,
+} from 'app/hooks/useMetadataDrawer'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
-import { useDrawer } from 'app/state/drawer'
 
 export function RunHeader() {
   const { run } = useRunById()
-  const drawer = useDrawer()
+  const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
 
   const tiltSeries = run.tiltseries[0]
@@ -120,7 +123,7 @@ export function RunHeader() {
           ),
         },
       ]}
-      onMoreInfoClick={() => drawer.setActiveDrawerId('run-metadata')}
+      onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Run)}
       title={run.name}
       renderHeader={({ moreInfo }) => (
         <div className="flex gap-sds-xxl p-sds-xl border-t-[3px] border-sds-gray-200">

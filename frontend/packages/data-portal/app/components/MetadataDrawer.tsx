@@ -1,20 +1,18 @@
 import { ButtonIcon } from '@czi-sds/components'
 import { usePrevious } from '@react-hookz/web'
-import { useSearchParams } from '@remix-run/react'
-import { ReactNode, useCallback, useEffect, useRef } from 'react'
+import { ReactNode, useCallback, useEffect } from 'react'
 
 import { Demo } from 'app/components/Demo'
 import { Drawer } from 'app/components/Drawer'
 import { TabData, Tabs } from 'app/components/Tabs'
+import {
+  MetadataDrawerId,
+  MetadataTab,
+  useMetadataDrawer,
+} from 'app/hooks/useMetadataDrawer'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { i18n } from 'app/i18n'
-import { DrawerId, useDrawer } from 'app/state/drawer'
 import { cns } from 'app/utils/cns'
-
-enum MetadataTab {
-  Metadata = 'metadata',
-  HowToCite = 'howToCite',
-}
 
 const TAB_OPTIONS: TabData<MetadataTab>[] = [
   {
@@ -27,12 +25,10 @@ const TAB_OPTIONS: TabData<MetadataTab>[] = [
   // },
 ]
 
-const ACTIVE_TAB_PARAM = 'tab'
-
 interface MetaDataDrawerProps {
   children: ReactNode
   disabled?: boolean
-  drawerId: DrawerId
+  drawerId: MetadataDrawerId
   label: string
   onClose?(): void
   title: string
@@ -46,41 +42,14 @@ export function MetadataDrawer({
   onClose,
   title,
 }: MetaDataDrawerProps) {
-  const drawer = useDrawer()
-
-  const [searchParams, setSearchParams] = useSearchParams()
-  const activeTab = (searchParams.get(ACTIVE_TAB_PARAM) ??
-    MetadataTab.Metadata) as MetadataTab
-
-  const initialLoadRef = useRef(true)
-  if (initialLoadRef.current && searchParams.has(ACTIVE_TAB_PARAM)) {
-    initialLoadRef.current = false
-    drawer.setActiveDrawerId(drawerId)
-  }
-
-  useEffect(() => {
-    if (
-      drawer.activeDrawerId &&
-      searchParams.get(ACTIVE_TAB_PARAM) !== activeTab
-    ) {
-      setSearchParams((params) => {
-        params.set(ACTIVE_TAB_PARAM, activeTab)
-        return params
-      })
-    } else if (!drawer.activeDrawerId) {
-      setSearchParams((params) => {
-        params.delete(ACTIVE_TAB_PARAM)
-        return params
-      })
-    }
-  }, [activeTab, drawer.activeDrawerId, searchParams, setSearchParams])
+  const drawer = useMetadataDrawer()
 
   const handleClose = useCallback(() => {
-    drawer.setActiveDrawerId(null)
+    drawer.closeDrawer()
     onClose?.()
   }, [drawer, onClose])
 
-  const isOpen = drawer.activeDrawerId === drawerId && !disabled
+  const isOpen = drawer.activeDrawer === drawerId && !disabled
   const prevIsOpen = usePrevious(isOpen)
 
   const plausible = usePlausible()
@@ -117,14 +86,8 @@ export function MetadataDrawer({
           <Tabs
             className="!m-0"
             tabs={TAB_OPTIONS}
-            value={activeTab}
+            value={drawer.activeTab ?? MetadataTab.Metadata}
             onChange={() => null}
-            // onChange={(tab) =>
-            //   setSearchParams((params) => {
-            //     params.set(ACTIVE_TAB_PARAM, tab)
-            //     return params
-            //   })
-            // }
           />
         </div>
 
@@ -133,13 +96,15 @@ export function MetadataDrawer({
             'flex flex-col flex-auto',
             'px-sds-xl pt-sds-xl pb-sds-xxl',
 
-            activeTab === MetadataTab.Metadata &&
+            drawer.activeTab === MetadataTab.Metadata &&
               'divide-y divide-sds-gray-300',
           )}
         >
-          {activeTab === MetadataTab.Metadata && children}
+          {drawer.activeTab === MetadataTab.Metadata && children}
 
-          {activeTab === MetadataTab.HowToCite && <Demo>How to cite</Demo>}
+          {drawer.activeTab === MetadataTab.HowToCite && (
+            <Demo>How to cite</Demo>
+          )}
         </div>
       </div>
     </Drawer>

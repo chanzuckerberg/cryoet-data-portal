@@ -1,4 +1,5 @@
 import { MetadataDrawer } from 'app/components/MetadataDrawer'
+import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
 import { i18n } from 'app/i18n'
 import { useAnnotation } from 'app/state/annotation'
 import { getAnnotationTitle } from 'app/utils/annotation'
@@ -13,7 +14,7 @@ export function AnnotationDrawer() {
   return (
     <MetadataDrawer
       disabled={!activeAnnotation}
-      drawerId="annotation-metadata"
+      drawerId={MetadataDrawerId.Annotation}
       label={i18n.annotationDetails}
       title={getAnnotationTitle(activeAnnotation)}
       onClose={() => setActiveAnnotation(null)}

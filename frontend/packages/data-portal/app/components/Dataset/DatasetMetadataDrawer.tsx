@@ -1,5 +1,6 @@
 import { MetadataDrawer } from 'app/components/MetadataDrawer'
 import { useDatasetById } from 'app/hooks/useDatasetById'
+import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
 import { i18n } from 'app/i18n'
 
 import { DatasetMetadataTable } from './DatasetMetadataTable'
@@ -11,7 +12,7 @@ export function DatasetMetadataDrawer() {
 
   return (
     <MetadataDrawer
-      drawerId="dataset-metadata"
+      drawerId={MetadataDrawerId.Dataset}
       title={dataset.title}
       label={i18n.datasetDetails}
     >
