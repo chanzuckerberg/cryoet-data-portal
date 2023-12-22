@@ -450,6 +450,8 @@ export default function BrowseDatasetsPage() {
   const { datasetCount, filteredDatasetCount } = useDatasets()
   const { reset } = useDatasetFilter()
 
+  console.log('breh', { datasetCount, filteredDatasetCount })
+
   return (
     <TablePageLayout
       type={i18n.datasets}
