@@ -94,16 +94,22 @@ export function TablePageLayout({
               <div className="px-sds-xl">
                 {filteredCount === 0 && noResults}
 
-                <div className="w-full flex justify-center">
-                  <Pagination
-                    currentPage={page}
-                    pageSize={MAX_PER_PAGE}
-                    totalCount={totalCount}
-                    onNextPage={() => setPage(page + 1)}
-                    onPreviousPage={() => setPage(page - 1)}
-                    onPageChange={(nextPage) => setPage(nextPage)}
-                  />
-                </div>
+                {filteredCount > MAX_PER_PAGE && (
+                  <div className="w-full flex justify-center mt-sds-xxl">
+                    <Pagination
+                      currentPage={page}
+                      pageSize={MAX_PER_PAGE}
+                      totalCount={
+                        totalCount === filteredCount
+                          ? totalCount
+                          : filteredCount
+                      }
+                      onNextPage={() => setPage(page + 1)}
+                      onPreviousPage={() => setPage(page - 1)}
+                      onPageChange={(nextPage) => setPage(nextPage)}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>
