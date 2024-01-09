@@ -26,6 +26,7 @@ const AVAILABLE_FILES_OPTIONS: AvailableFilesFilterOption[] = [
   { value: 'raw-frames', label: i18n.rawFrames },
   { value: 'tilt-series', label: i18n.tiltSeries },
   { value: 'tilt-series-alignment', label: i18n.tiltSeriesAlignment },
+  { value: 'tomogram', label: i18n.tomogram },
 ]
 
 const AVAILABLE_FILES_CLASS_NAME = 'select-available-files'
