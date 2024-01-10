@@ -78,12 +78,9 @@ const GET_RUN_BY_ID_QUERY = gql(`
         tissue_name
         title
 
-        # TODO Remove distinct_on when data is verified to be unique
         authors(
-          distinct_on: name,
           order_by: {
             author_list_order: asc,
-            name: asc,
           },
         ) {
           name
