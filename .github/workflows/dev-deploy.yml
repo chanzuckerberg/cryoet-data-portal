@@ -48,7 +48,6 @@ jobs:
         with:
           stack-name: ${{ env.STACK_NAME }}
           create-tag: true
-          tag: ${{ env.STACK_NAME }}
           tfe-token: ${{ secrets.TFE_TOKEN }}
           working-directory: ./frontend
           env: dev
