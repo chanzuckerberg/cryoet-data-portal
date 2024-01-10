@@ -22,7 +22,6 @@ function FallbackRender({ error, resetErrorBoundary }: FallbackProps) {
 
   useEffect(() => {
     if (logId) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       sendLogs([
         {
           level: LogLevel.Error,
