@@ -71,6 +71,7 @@ export function DatasetTable() {
 
               setSearchParams(nextParams)
             }}
+            errorLogId="dataset-table-title-and-photo-header"
           >
             {t('dataset')}
           </CellHeader>
@@ -87,6 +88,7 @@ export function DatasetTable() {
               renderLoadingSkeleton={false}
               minWidth={450}
               maxWidth={800}
+              errorLogId="dataset-table-title-and-photo"
             >
               <Link to={datasetUrl} className="flex-shrink-0 w-[134px]">
                 <KeyPhoto
@@ -160,7 +162,11 @@ export function DatasetTable() {
           const empiarID = empiarIDMatch?.[1]
 
           return (
-            <TableCell minWidth={120} maxWidth={130}>
+            <TableCell
+              minWidth={120}
+              maxWidth={130}
+              errorLogId="dataset-table-empiar-id"
+            >
               {empiarID ? (
                 <Link
                   className="text-sds-primary-500 inline"
@@ -183,6 +189,7 @@ export function DatasetTable() {
             primaryText={getValue() ?? '--'}
             minWidth={100}
             maxWidth={400}
+            errorLogId="dataset-table-organism-name"
           />
         ),
       }),
@@ -196,6 +203,7 @@ export function DatasetTable() {
               hideSortIcon
               tooltip={<I18n i18nKey="runsTooltip" />}
               arrowPadding={{ right: 270 }}
+              errorLogId="dataset-table-runs-header"
             >
               {t('runs')}
             </CellHeader>
@@ -205,6 +213,7 @@ export function DatasetTable() {
               primaryText={String(getValue() ?? 0)}
               minWidth={70}
               maxWidth={100}
+              errorLogId="dataset-table-runs"
             />
           ),
         },
@@ -239,6 +248,7 @@ export function DatasetTable() {
                   ))}
                 </div>
               )}
+              errorLogId="dataset-table-annotated-objects"
             >
               {annotatedObjects.length === 0 ? (
                 '--'
