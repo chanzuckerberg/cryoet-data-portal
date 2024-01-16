@@ -33,10 +33,13 @@ export function TablePageLayout({
   const page = +(searchParams.get('page') ?? '1')
 
   if (Math.ceil(filteredCount / MAX_PER_PAGE) < page) {
-    setSearchParams((prev) => {
-      prev.delete('page')
-      return prev
-    })
+    setSearchParams(
+      (prev) => {
+        prev.delete('page')
+        return prev
+      },
+      { replace: true },
+    )
   }
 
   function setPage(nextPage: number) {
