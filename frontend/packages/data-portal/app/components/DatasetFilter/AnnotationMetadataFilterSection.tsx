@@ -49,6 +49,7 @@ export function AnnotationMetadataFilterSection() {
             options?.forEach((option) =>
               prev.append(QueryParams.ObjectName, option.value),
             )
+            prev.delete('page')
 
             return prev
           })

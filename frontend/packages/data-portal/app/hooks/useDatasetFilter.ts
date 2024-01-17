@@ -82,6 +82,7 @@ export function useDatasetFilter() {
       reset() {
         setSearchParams((prev) => {
           Object.values(QueryParams).forEach((param) => prev.delete(param))
+          prev.delete('page')
 
           return prev
         })
@@ -110,6 +111,7 @@ export function useDatasetFilter() {
 
         setSearchParams((prev) => {
           prev.delete(param)
+          prev.delete('page')
 
           if (!value) {
             return prev
