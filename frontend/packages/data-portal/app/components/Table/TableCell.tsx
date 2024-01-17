@@ -3,7 +3,6 @@ import Skeleton from '@mui/material/Skeleton'
 import { ReactNode } from 'react'
 import { match } from 'ts-pattern'
 
-import { ErrorBoundary } from 'app/components/ErrorBoundary'
 import { getTooltipProps, Tooltip, TooltipProps } from 'app/components/Tooltip'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { cns } from 'app/utils/cns'
@@ -11,7 +10,6 @@ import { cns } from 'app/utils/cns'
 export function TableCell({
   children,
   className,
-  errorLogId,
   horizontalAlign,
   maxWidth,
   minWidth,
@@ -22,7 +20,6 @@ export function TableCell({
 }: {
   children?: ReactNode
   className?: string
-  errorLogId?: string
   horizontalAlign?: 'left' | 'center' | 'right'
   loadingSkeleton?: boolean
   maxWidth?: number
@@ -81,9 +78,5 @@ export function TableCell({
     )
   }
 
-  return (
-    <ErrorBoundary logId={errorLogId}>
-      <CellComponent {...cellProps}>{content}</CellComponent>
-    </ErrorBoundary>
-  )
+  return <CellComponent {...cellProps}>{content}</CellComponent>
 }
