@@ -5,7 +5,7 @@ import { LogApiRequestBody, LogApiResponse, LogEntry } from 'app/types/logging'
 let LOG_QUEUE: LogEntry[] = []
 let logQueueTimeoutId: number | null = null
 
-export function sendLogs(logs: LogEntry[]) {
+export function sendLogs(...logs: LogEntry[]) {
   LOG_QUEUE.push(...logs)
 
   if (!logQueueTimeoutId) {

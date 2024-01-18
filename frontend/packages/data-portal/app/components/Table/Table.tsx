@@ -12,8 +12,8 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { Fragment } from 'react'
 
+import { ErrorBoundary } from 'app/components/ErrorBoundary'
 import { useLayout } from 'app/context/Layout.context'
 import { cns } from 'app/utils/cns'
 
@@ -42,6 +42,10 @@ export function Table<T>({
     getCoreRowModel: getCoreRowModel(),
   })
 
+  function getLogId(id: string) {
+    return `${tableProps?.id ? `${tableProps.id}-` : ''}table-${id}`
+  }
+
   return (
     <TableContainer
       className={cns(
@@ -61,13 +65,16 @@ export function Table<T>({
             )
 
             return (
-              <Fragment key={header.id}>
+              <ErrorBoundary
+                key={header.id}
+                logId={getLogId(`header-${header.id}`)}
+              >
                 {typeof content !== 'string' ? (
                   content
                 ) : (
                   <CellHeader hideSortIcon>{content}</CellHeader>
                 )}
-              </Fragment>
+              </ErrorBoundary>
             )
           })}
         </TableHeader>
@@ -76,9 +83,12 @@ export function Table<T>({
           {table.getRowModel().rows.map((row) => (
             <TableRow key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <Fragment key={cell.id}>
+                <ErrorBoundary
+                  key={cell.id}
+                  logId={getLogId(`cell-${cell.id}`)}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </Fragment>
+                </ErrorBoundary>
               ))}
             </TableRow>
           ))}
