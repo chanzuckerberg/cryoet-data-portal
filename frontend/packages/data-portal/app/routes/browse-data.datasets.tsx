@@ -147,7 +147,7 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
         filters.push({
           runs: {
             tiltseries: {
-              binning_from_frames: {
+              frames_count: {
                 _gt: 0,
               },
             },
