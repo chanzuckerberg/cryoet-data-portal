@@ -4,12 +4,25 @@ import { isString } from 'lodash-es'
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { Link } from 'app/components/Link'
-import { DOI_ID } from 'app/constants/external-dbs'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
 import { AuthorInfo, DatasetAuthors } from './DatasetAuthors'
 import { DatasetType } from './type'
+
+function DatabaseEntryList({ entries }: { entries: string }) {
+  return (
+    <ul className="flex flex-col gap-sds-xs text-sds-body-s leading-sds-body-xs">
+      {entries.split(',').map((entry) => {
+        return (
+          <li key={entry}>
+            <DatabaseEntry entry={entry.trim()} inline />
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
 
 interface DatasetMetadataTableProps {
   dataset: DatasetType
@@ -113,41 +126,26 @@ export function DatasetMetadataTable({
 
     {
       label: t('relatedDatabases'),
-      values: dataset.related_database_entries
-        ? dataset.related_database_entries.split(',').map((e) => e.trim())
-        : [],
-      renderValue: (value) => {
-        return <DatabaseEntry entry={value} inline />
+      values: [dataset.related_database_entries ?? ''],
+      renderValue: (value: string) => {
+        return <DatabaseEntryList entries={value} />
       },
-      className: 'text-sds-body-s leading-sds-body-s',
     },
 
     !!allFields && {
       label: t('publications'),
-      values: dataset.dataset_publications
-        ? dataset.dataset_publications
-            .split(',')
-            .map((e) => e.trim())
-            .filter((e) => DOI_ID.exec(e))
-        : [],
-      renderValue: (value) => {
-        return <DatabaseEntry entry={value} inline />
+      values: [dataset.dataset_publications ?? ''],
+      renderValue: (value: string) => {
+        return <DatabaseEntryList entries={value} />
       },
-      className: 'text-sds-body-s leading-sds-body-s',
     },
 
     {
       label: t('citations'),
-      values: dataset.dataset_citations
-        ? dataset.dataset_citations
-            .split(',')
-            .map((e) => e.trim())
-            .filter((e) => DOI_ID.exec(e))
-        : [],
-      renderValue: (value) => {
-        return <DatabaseEntry entry={value} inline />
+      values: [dataset.dataset_citations ?? ''],
+      renderValue: (value: string) => {
+        return <DatabaseEntryList entries={value} />
       },
-      className: 'text-sds-body-s leading-sds-body-s',
     },
   )
 

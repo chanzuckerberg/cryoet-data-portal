@@ -45,7 +45,7 @@ export function DatabaseEntry(props: DatabaseEntryProps) {
         className={cns('text-sds-info-400', inline && 'truncate')}
         to={URL_MAP.get(dbtype) + id}
       >
-        {entry}
+        {dbtype === DatabaseType.DOI ? id : entry}
       </Link>
     </p>
   )
