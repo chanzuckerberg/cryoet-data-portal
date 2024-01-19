@@ -67,7 +67,7 @@ export function DatasetMetadataTable({
 
     !!allFields && {
       label: t('description'),
-      values: [dataset.description!],
+      values: [dataset.description ?? ''],
       className: 'text-ellipsis line-clamp-3',
     },
 
@@ -78,12 +78,12 @@ export function DatasetMetadataTable({
 
     !!allFields && {
       label: t('releaseDate'),
-      values: [dataset.release_date!],
+      values: [dataset.release_date ?? ''],
     },
 
     !!allFields && {
-      label: t('lastModified'),
-      values: [dataset.last_modified_date!],
+      label: t('lastModifiedDate'),
+      values: [dataset.last_modified_date ?? ''],
     },
 
     !!allFields && {
@@ -95,14 +95,15 @@ export function DatasetMetadataTable({
         return <DatasetAuthors authors={dataset.authors as AuthorInfo[]} />
       },
       values: [],
-      className: 'leading-[20px]',
+      className: 'leading-sds-body-xs',
     },
 
     {
-      label: t('affiliationName'),
-      values: dataset
-        .authors_with_affiliation!.map((author) => author.affiliation_name!)
-        .filter((value): value is string => !!value),
+      label: t('affiliationNames'),
+      values:
+        dataset.authors_with_affiliation
+          ?.map((author) => author.affiliation_name ?? '')
+          .filter((value): value is string => !!value) ?? [],
     },
 
     {
