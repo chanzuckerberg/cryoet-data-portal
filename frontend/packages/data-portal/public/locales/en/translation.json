@@ -75,7 +75,7 @@
   "downloadAllAnnotations": "Download All Annotations",
   "downloadAllAnnotationsInThisRun": "Download all annotations in this run.",
   "downloadAllRunData": "<semibold>Download all run data via our API.</semibold> <url to='$t(apiDocLink)'>Visit API documentation.</url>",
-  "downloadDataset": "Download Dataset",
+  "downloadDataset": "Download Dataset...",
   "downloadNow": "Download Now",
   "downloadOptions": "Download Options",
   "downloadTomogram": "Download Tomogram",
