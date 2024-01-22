@@ -55,5 +55,4 @@ Segmentation experts and developers are also encouraged to get in touch with the
 
 ## Questions, Feedback, and Issues/Bugs
 - Users are encouraged to submit questions, bugs, and feature requests for the CryoET Data Portal via [GitHub issues](https://github.com/chanzuckerberg/cryoet-data-portal/issues).
-- Questions? Email us at cryoetdataportal@chanzuckerberg.com.
 - If you believe you have found a security issue, please disclose it by contacting security@chanzuckerberg.com.
