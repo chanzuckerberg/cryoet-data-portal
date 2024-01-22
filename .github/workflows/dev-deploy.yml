@@ -29,8 +29,8 @@ jobs:
           role-duration-seconds: 1200
       - name: Setting up stack name
         run: |
-          if [[ ${#GITHUB_REF_NAME} -gt 32 ]]; then
-            echo "branch name: ${GITHUB_REF_NAME}, length ${#GITHUB_REF_NAME}, is $((${#GITHUB_REF_NAME} - 32)) characters too long, please use a branch name that's 32 characters or shorter"
+          if [[ ${#GITHUB_REF_NAME} -gt 25 ]]; then
+            echo "branch name: ${GITHUB_REF_NAME}, length ${#GITHUB_REF_NAME}, is $((${#GITHUB_REF_NAME} - 25)) characters too long, please use a branch name that's 25 characters or shorter"
             exit 1
           else
             echo $GITHUB_REF_NAME | tr '[:upper:]' '[:lower:]' | xargs -I {} -n 1 echo STACK_NAME={} >> $GITHUB_ENV
