@@ -99,14 +99,6 @@ export function DatasetMetadataTable({
     },
 
     {
-      label: t('affiliationNames'),
-      values:
-        dataset.authors_with_affiliation
-          ?.map((author) => author.affiliation_name ?? '')
-          .filter((value): value is string => !!value) ?? [],
-    },
-
-    {
       label: t('grantID'),
       values: Array.from(
         new Set(
