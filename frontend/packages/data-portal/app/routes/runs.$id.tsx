@@ -58,8 +58,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
 
       dataset {
         cell_component_name
+        cell_component_id
         cell_name
         cell_strain_name
+        cell_strain_id
+        cell_type_id
         dataset_citations
         dataset_publications
         deposition_date
@@ -68,6 +71,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
         id
         last_modified_date
         organism_name
+        organism_taxid
         other_setup
         related_database_entries
         related_database_entries
@@ -76,6 +80,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
         sample_preparation
         sample_type
         tissue_name
+        tissue_id
         title
 
         authors(
