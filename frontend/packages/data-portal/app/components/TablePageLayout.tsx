@@ -1,6 +1,6 @@
 import { Pagination } from '@czi-sds/components'
 import { useSearchParams } from '@remix-run/react'
-import { ReactNode, useMemo } from 'react'
+import { ReactNode, useEffect, useMemo } from 'react'
 
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { LayoutContext, LayoutContextValue } from 'app/context/Layout.context'
@@ -32,15 +32,17 @@ export function TablePageLayout({
   const [searchParams, setSearchParams] = useSearchParams()
   const page = +(searchParams.get('page') ?? '1')
 
-  if (Math.ceil(filteredCount / MAX_PER_PAGE) < page) {
-    setSearchParams(
-      (prev) => {
-        prev.delete('page')
-        return prev
-      },
-      { replace: true },
-    )
-  }
+  useEffect(() => {
+    if (Math.ceil(filteredCount / MAX_PER_PAGE) < page) {
+      setSearchParams(
+        (prev) => {
+          prev.delete('page')
+          return prev
+        },
+        { replace: true },
+      )
+    }
+  }, [filteredCount, page, setSearchParams])
 
   function setPage(nextPage: number) {
     setSearchParams((prev) => {
