@@ -1,9 +1,6 @@
 version: "3.8"
 
 services:
-  # Mock boto with persistence.
-  # To use it from the CLI: aws --endpoint-url=http://localhost:4000 s3 ls
-  # To reset all services without restarting the container: curl -X POST http://localhost:4000/moto-api/reset
   nginx:
     image: nginx
     ports:
