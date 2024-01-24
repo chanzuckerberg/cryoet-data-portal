@@ -1,0 +1,19 @@
+table:
+  name: annotation_files
+  schema: public
+object_relationships:
+  - name: annotation
+    using:
+      foreign_key_constraint_on: annotation_id
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - annotation_id
+        - id
+        - shape_type
+        - format
+        - https_path
+        - s3_path
+      filter: {}
+      allow_aggregations: true

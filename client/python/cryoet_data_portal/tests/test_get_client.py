@@ -1,9 +1,8 @@
 from cryoet_data_portal import Client, Dataset, Run
 
 
-def test_relationships() -> None:
-    client = Client()
-    datasets = Dataset.find(client, [Dataset.id == 10000])
+def test_relationships(client) -> None:
+    datasets = Dataset.find(client, [Dataset.id == 20001])
     ds = next(datasets)
     assert ds
     assert next(ds.authors)
@@ -22,9 +21,8 @@ def test_relationships() -> None:
     assert next(tomo.authors)
 
 
-def test_relationships_reverse() -> None:
-    client = Client()
-    datasets = Dataset.find(client, [Dataset.id == 10000])
+def test_relationships_reverse(client) -> None:
+    datasets = Dataset.find(client, [Dataset.id == 20001])
 
     ds = next(datasets)
     ds_author = next(ds.authors)
