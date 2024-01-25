@@ -61,4 +61,11 @@ jobs:
         working-directory: frontend
 
       - name: run pre-commit
+        if: steps.changes.outputs.frontend == 'true'
         uses: pre-commit/action@v3.0.0
+
+      - name: run pre-commit without pnpm
+        if: steps.changes.outputs.frontend == 'true'
+        uses: pre-commit/action@v3.0.0
+        env:
+          SKIP: pnpm-lint
