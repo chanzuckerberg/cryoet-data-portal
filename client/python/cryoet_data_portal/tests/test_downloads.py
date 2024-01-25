@@ -135,7 +135,7 @@ def test_dataset_downloaders(tmp_dir, client):
     assert os.path.exists(
         os.path.join(
             tmp_dir,
-            "20001/RUN1/TomogramVoxelSpacing13.48/annotations/mitochondria.mrc",
+            "20001/RUN1/TomogramVoxelSpacing13.48/Annotations/mitochondria.mrc",
         ),
     )
 
