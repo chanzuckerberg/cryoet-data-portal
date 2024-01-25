@@ -1,4 +1,4 @@
-from cryoet_data_portal import Client, Dataset, Run
+from cryoet_data_portal import Dataset, Run
 
 
 def test_relationships(client) -> None:

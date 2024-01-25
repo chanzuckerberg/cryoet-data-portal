@@ -1,12 +1,10 @@
 import os
-import pathlib
 import tempfile
 
 import pytest
 
 from cryoet_data_portal import (
     Annotation,
-    Client,
     Dataset,
     Run,
     TiltSeries,
@@ -24,7 +22,8 @@ def tmp_dir():
 def test_download_annotations(tmp_dir, client) -> None:
     """download a single annotation file for a dataset, using format/shape filters"""
     annos = Annotation.find(
-        client, [Annotation.tomogram_voxel_spacing.run.dataset.id == 20001]
+        client,
+        [Annotation.tomogram_voxel_spacing.run.dataset.id == 20001],
     )
     anno = next(annos)
     assert anno
@@ -43,19 +42,17 @@ def test_download_all_annotations_including_zarr(tmp_dir, client) -> None:
                 Annotation.tomogram_voxel_spacing.run.name == "RUN1",
                 Annotation.object_name == "Mitochondria",
             ],
-        )
+        ),
     )
     assert anno
     anno.download(tmp_dir)
     files = os.listdir(tmp_dir)
-    assert set(files) == set(
-        [
-            "mitochondria.mrc",
-            "mitochondria.zarr",
-            "mitochondria.ndjson",
-            "author1-mitochondria-1.0.json",
-        ]
-    )
+    assert set(files) == {
+        "mitochondria.mrc",
+        "mitochondria.zarr",
+        "mitochondria.ndjson",
+        "author1-mitochondria-1.0.json",
+    }
     assert os.path.exists(os.path.join(tmp_dir, "mitochondria.zarr/0"))
 
 
@@ -67,7 +64,10 @@ def test_download_relative_path(tmp_dir, client) -> None:
     dest_dir = os.path.join(tmp_dir, subdir_name)
     os.makedirs(dest_dir)
     tomo = next(
-        Tomogram.find(client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001])
+        Tomogram.find(
+            client,
+            [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001],
+        ),
     )
     assert tomo
     tomo.download_all_annotations(subdir_name, "json")
@@ -80,7 +80,10 @@ def test_download_without_path(tmp_dir, client) -> None:
     # Change the process' CWD to the tmp dir
     os.chdir(tmp_dir)
     tomo = next(
-        Tomogram.find(client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001])
+        Tomogram.find(
+            client,
+            [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001],
+        ),
     )
     assert tomo
     tomo.download_all_annotations(format="json")
@@ -93,7 +96,10 @@ def test_download_default_dir(tmp_dir, client) -> None:
     # Change the process' CWD to the tmp dir
     os.chdir(tmp_dir)
     tomo = next(
-        Tomogram.find(client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001])
+        Tomogram.find(
+            client,
+            [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001],
+        ),
     )
     assert tomo
     tomo.download_all_annotations(None, "json")
@@ -128,8 +134,9 @@ def test_dataset_downloaders(tmp_dir, client):
     assert files == ["20001"]
     assert os.path.exists(
         os.path.join(
-            tmp_dir, "20001/RUN1/TomogramVoxelSpacing13.48/annotations/mitochondria.mrc"
-        )
+            tmp_dir,
+            "20001/RUN1/TomogramVoxelSpacing13.48/annotations/mitochondria.mrc",
+        ),
     )
 
 
@@ -149,14 +156,14 @@ def test_tvs_download(tmp_dir, client):
             [
                 TomogramVoxelSpacing.run.name == "RUN2",
             ],
-        )
+        ),
     )
     assert tvs
     tvs.download_everything(tmp_dir)
     files = os.listdir(tmp_dir)
     assert set(files) == {"TomogramVoxelSpacing7.56"}
     assert os.path.exists(
-        os.path.join(tmp_dir, "TomogramVoxelSpacing7.56/Annotations/ribosome.ndjson")
+        os.path.join(tmp_dir, "TomogramVoxelSpacing7.56/Annotations/ribosome.ndjson"),
     )
 
 
@@ -168,7 +175,7 @@ def test_tomogram_download(tmp_dir, client):
                 Tomogram.tomogram_voxel_spacing.run.name == "RUN2",
                 Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001,
             ],
-        )
+        ),
     )
     assert tomo
     tomo.download_omezarr(tmp_dir)
