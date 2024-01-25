@@ -13,7 +13,8 @@ logger = logging.getLogger("cryoet-data-portal")
 
 
 def get_anon_s3_client():
-    if boto_url := os.getenv("BOTO_ENDPOINT_URL"):
+    boto_url = os.getenv("BOTO_ENDPOINT_URL")
+    if boto_url:
         # Allow tests to use a signature version other than UNSIGNED due to https://github.com/boto/botocore/issues/2442
         signature_version = os.getenv("BOTO_SIGNATURE_VERSION", UNSIGNED)
         return boto3.client(
@@ -66,7 +67,6 @@ def get_destination_path(
     # If we're downloading recursively, we need to add the dest URL
     # (minus the prefix) to the dest path.
     if not recursive_from_prefix:
-        print(os.path.basename(url))
         recursive_from_prefix = url[0 : -len(os.path.basename(url))]
     path_suffix = url[len(recursive_from_prefix) :]
     dest_path = os.path.join(dest_path, os.path.dirname(path_suffix))

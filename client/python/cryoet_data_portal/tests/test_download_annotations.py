@@ -4,8 +4,15 @@ import tempfile
 
 import pytest
 
-from cryoet_data_portal import (Annotation, Client, Dataset, Run, TiltSeries,
-                                Tomogram, TomogramVoxelSpacing)
+from cryoet_data_portal import (
+    Annotation,
+    Client,
+    Dataset,
+    Run,
+    TiltSeries,
+    Tomogram,
+    TomogramVoxelSpacing,
+)
 
 
 @pytest.fixture
