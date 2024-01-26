@@ -81,6 +81,7 @@ function DownloadModalContent() {
       }}
       onClose={closeModal}
       open={!!isModalOpen}
+      canClickOutsideClose={false}
     >
       <div className="flex justify-between">
         <p className="text-sds-header-xl leading-sds-header-xl font-semibold pt-4">
