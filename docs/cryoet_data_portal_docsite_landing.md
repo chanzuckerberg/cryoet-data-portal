@@ -19,13 +19,13 @@ Electron Tomography workflow and the data we provide.
 **D.** We provide the 3D volume together with any available point annotations or semantic segmentations of macromolecular complexes for each volume
 
 ### CryoET Data Portal Data and Schema
-A description of the CryoET Portal data and its schema is detailed [here](https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#?usp=sharing).
+A description of the CryoET Portal data and its schema is detailed [here](https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#?usp=sharing). TODO FIX
 
 ### Getting Started Links
 - [Quick Start](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_quick_start.html)
 - [Python API Client](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html)
-- [Metadata and schema](https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#?usp=sharing)
-- [File formats](https://docs.google.com/document/d/1YfzaS7spKOQMrBAUIfQquWskijWDUhpEURxW7nkmwaU/edit#?usp=sharing)
+- [Metadata and schema](https://docs.google.com/document/d/11h0u3YYF1EWCTjxu3ObShx26HgLAfJhn9I_tIaeQ6GI/edit#?usp=sharing) TODO FIX
+- [File formats](https://docs.google.com/document/d/1YfzaS7spKOQMrBAUIfQquWskijWDUhpEURxW7nkmwaU/edit#?usp=sharing) TODO FIX
 - [napari](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html)
 
 ## S3 Bucket Info
