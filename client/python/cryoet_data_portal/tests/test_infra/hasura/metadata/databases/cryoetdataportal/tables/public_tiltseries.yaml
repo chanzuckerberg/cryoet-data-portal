@@ -1,0 +1,55 @@
+table:
+  name: tiltseries
+  schema: public
+object_relationships:
+  - name: run
+    using:
+      foreign_key_constraint_on: run_id
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - acceleration_voltage
+        - aligned_tiltseries_binning
+        - binning_from_frames
+        - camera_manufacturer
+        - camera_model
+        - data_acquisition_software
+        - frames_count
+        - https_alignment_file
+        - https_angle_list
+        - https_collection_metadata
+        - https_mrc_bin1
+        - https_omezarr_dir
+        - id
+        - is_aligned
+        - microscope_additional_info
+        - microscope_energy_filter
+        - microscope_image_corrector
+        - microscope_manufacturer
+        - microscope_model
+        - microscope_phase_plate
+        - pixel_spacing
+        - related_empiar_entry
+        - run_id
+        - s3_alignment_file
+        - s3_angle_list
+        - s3_collection_metadata
+        - s3_mrc_bin1
+        - s3_omezarr_dir
+        - spherical_aberration_constant
+        - tilt_axis
+        - tilt_max
+        - tilt_min
+        - tilt_range
+        - tilt_series_quality
+        - tilt_step
+        - tilting_scheme
+        - total_flux
+      filter: {}
+      allow_aggregations: true
+      query_root_fields:
+        - select_aggregate
+        - select
+        - select_by_pk
+      subscription_root_fields: []

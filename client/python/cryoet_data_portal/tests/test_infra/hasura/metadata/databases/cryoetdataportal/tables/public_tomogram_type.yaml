@@ -1,0 +1,21 @@
+table:
+  name: tomogram_type
+  schema: public
+is_enum: true
+array_relationships:
+  - name: tomograms
+    using:
+      manual_configuration:
+        column_mapping:
+          value: type
+        insertion_order: null
+        remote_table:
+          name: tomograms
+          schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - value
+        - description
+      filter: {}

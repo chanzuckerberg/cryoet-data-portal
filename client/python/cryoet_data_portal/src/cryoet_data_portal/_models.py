@@ -203,7 +203,7 @@ class Run(Model):
     def download_frames(self, dest_path: Optional[str] = None):
         download_directory(
             os.path.join(self.s3_prefix, "Frames"),
-            self.dataset.s3_prefix,
+            self.s3_prefix,
             dest_path,
         )
 
@@ -352,13 +352,22 @@ class Tomogram(Model):
         url = self.https_mrc_scale0
         download_https(url, dest_path)
 
-    def download_all_annotations(self, dest_path: Optional[str] = None):
-        """Download all annotations  of this tomogram
+    def download_all_annotations(
+        self,
+        dest_path: Optional[str] = None,
+        format: Optional[str] = None,
+        shape: Optional[str] = None,
+    ):
+        """Download all annotation files for this tomogram
 
         Args:
             dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+            shape (Optional[str], optional): Choose a specific shape type to download (e.g.: OrientedPoint, SegmentationMask)
+            format (Optional[str], optional): Choose a specific file format to download (e.g.: mrc, ndjson)
         """
-        pass
+        vs = self.tomogram_voxel_spacing
+        for anno in vs.annotations:
+            anno.download(dest_path, format, shape)
 
 
 class TomogramAuthor(Model):
@@ -469,6 +478,13 @@ class Annotation(Model):
         format: Optional[str] = None,
         shape: Optional[str] = None,
     ):
+        """Download annotation files for a given format and/or shape
+
+        Args:
+            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+            shape (Optional[str], optional): Choose a specific shape type to download (e.g.: OrientedPoint, SegmentationMask)
+            format (Optional[str], optional): Choose a specific file format to download (e.g.: mrc, ndjson)
+        """
         download_https(self.https_metadata_path, dest_path)
         for file in self.files:
             if format and file.format != format:
@@ -509,8 +525,8 @@ class AnnotationFile(Model):
 
     def download(self, dest_path: Optional[str] = None):
         if self.format == "zarr":
-            recursive_prefix = "/".join(self.s3_omezarr_dir.split("/")[:-1]) + "/"
-            download_directory(self.s3_omezarr_dir, recursive_prefix, dest_path)
+            recursive_prefix = "/".join(self.s3_path.split("/")[:-1]) + "/"
+            download_directory(self.s3_path, recursive_prefix, dest_path)
         else:
             download_https(self.https_path, dest_path)
 

@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - "4444:80"
+    volumes:
+      - ./test_infra/test_files:/usr/share/nginx/html
+  motoserver:
+    image: motoserver/moto:4.1.0
+    ports:
+      - "4000:4000"
+    environment:
+      - MOTO_PORT=4000
+      - S3_IGNORE_SUBDOMAIN_BUCKETNAME=True
+    volumes:
+      - ./bin:/moto/bin
+  db:
+    image: postgres:14.2
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-d', 'cryoetdataportal', '-U', 'postgres']
+    environment:
+      POSTGRES_DB: cryoetdataportal
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      # The postgres image declares a mounted volume at /var/lib/postgresql/data
+      # by default, which means that the data in that directory is difficult to
+      # snapshot and export. Here, we're telling Postgres to use this (non-mounted)
+      # directory as its storage location instead so it works with our db snapshot
+      # workflow.
+      PGDATA: /var/lib/cryoetdataportal/data
+    volumes:
+      - ./test_infra:/test_infra
+    ports:
+      - '5432:5432'
+  graphql-engine:
+    image: hasura/graphql-engine:v2.25.1.cli-migrations-v3
+    ports:
+      - "8080:8080"
+    restart: always
+    volumes:
+      - ./test_infra/hasura/migrations:/hasura-migrations
+      - ./test_infra/hasura/metadata:/hasura-metadata
+    environment:
+      ## postgres database to store Hasura metadata
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@db:5432/cryoetdataportal
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgres@db:5432/cryoetdataportal
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+    depends_on:
+      db:
+        condition: service_healthy

@@ -1,0 +1,28 @@
+table:
+  name: tomogram_authors
+  schema: public
+object_relationships:
+  - name: tomogram
+    using:
+      foreign_key_constraint_on: tomogram_id
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - affiliation_address
+        - affiliation_identifier
+        - affiliation_name
+        - author_list_order
+        - corresponding_author_status
+        - email
+        - id
+        - name
+        - orcid
+        - primary_author_status
+        - tomogram_id
+      filter: {}
+      allow_aggregations: true
+      query_root_fields:
+        - select_aggregate
+        - select
+        - select_by_pk
