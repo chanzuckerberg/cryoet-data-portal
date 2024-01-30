@@ -242,7 +242,7 @@
   "urlCZII": "https://www.czimaginginstitute.org/",
   "urlDataContributionForm": "https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=Portal&hide_Event=true",
   "urlEMPIAR": "https://www.ebi.ac.uk/empiar/",
-  "valueToValue": "{{value1} to {value2}}",
+  "valueToValue": "{{value1}} to {{value2}}",
   "veryPoor": "Very Poor",
   "viaApi": "via API",
   "viaAwsS3": "via AWS S3",
