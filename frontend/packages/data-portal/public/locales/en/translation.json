@@ -126,6 +126,7 @@
   "landingPageCopy5": "Ultimately, our vision is to contribute to developing a large, open-access database of annotated and validated 3D structural information for cells that researchers can use to gain new insights into cellular and structural biology.",
   "landingPageWelcomeBlurb": "Welcome to the CryoET Data Portal, a project built by the <url to='$t(urlCZII)'>Chan Zuckerberg Imaging Institute</url> and the <url to='$t(urlCZ)'>Chan Zuckerberg Initiative</url>.",
   "lastModified": "Last Modified",
+  "lastModifiedDate": "Last Modified Date",
   "lastUpdated": "Last Updated",
   "license": "License",
   "limitOneValuePerField": "Limit one value per field",

@@ -44,14 +44,19 @@ const GET_DATASET_BY_ID = gql(`
 
       # Sample and experiments data
       cell_component_name
+      cell_component_id
       cell_name
       cell_strain_name
+      cell_strain_id
+      cell_type_id
       grid_preparation
       organism_name
+      organism_taxid
       other_setup
       sample_preparation
       sample_type
       tissue_name
+      tissue_id
       authors(
         order_by: {
           author_list_order: asc,

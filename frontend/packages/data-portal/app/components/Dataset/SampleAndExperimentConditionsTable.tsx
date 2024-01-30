@@ -1,8 +1,35 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
+import { Link } from 'app/components/Link'
+import { NIH, OBO } from 'app/constants/datasetInfoLinks'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
 import { DatasetType } from './type'
+
+function InfoLink({
+  value,
+  id,
+  isOBO,
+}: {
+  value?: string | null
+  id?: string | null
+  isOBO?: boolean
+}) {
+  if (!value) {
+    return <span>--</span>
+  }
+
+  if (id) {
+    const link = `${isOBO ? OBO : NIH}${isOBO ? id.replaceAll(':', '_') : id}`
+    return (
+      <Link to={link} className="text-sds-info-400">
+        {value}
+      </Link>
+    )
+  }
+
+  return <span>{value}</span>
+}
 
 export function SampleAndExperimentConditionsTable({
   dataset,
@@ -20,23 +47,55 @@ export function SampleAndExperimentConditionsTable({
     },
     {
       label: t('organismName'),
-      values: [dataset.organism_name ?? ''],
+      renderValue: () => {
+        return (
+          <InfoLink value={dataset.organism_name} id={dataset.organism_taxid} />
+        )
+      },
+      values: [],
     },
     {
       label: t('tissueName'),
-      values: [dataset.organism_name ?? ''],
+      renderValue: () => {
+        return (
+          <InfoLink value={dataset.tissue_name} id={dataset.tissue_id} isOBO />
+        )
+      },
+      values: [],
     },
     {
       label: t('cellName'),
-      values: [dataset.cell_name ?? ''],
+      renderValue: () => {
+        return (
+          <InfoLink value={dataset.cell_name} id={dataset.cell_type_id} isOBO />
+        )
+      },
+      values: [],
     },
     {
       label: t('cellLineOrStrainName'),
-      values: [dataset.cell_strain_name ?? ''],
+      renderValue: () => {
+        return (
+          <InfoLink
+            value={dataset.cell_strain_name}
+            id={dataset.cell_strain_id}
+          />
+        )
+      },
+      values: [],
     },
     {
       label: t('cellularComponent'),
-      values: [dataset.cell_component_name ?? ''],
+      renderValue: () => {
+        return (
+          <InfoLink
+            value={dataset.cell_component_name}
+            id={dataset.cell_component_id}
+            isOBO
+          />
+        )
+      },
+      values: [],
     },
     {
       label: t('samplePreparation'),
