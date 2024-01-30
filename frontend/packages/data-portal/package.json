@@ -13,6 +13,8 @@
     "dev:codegen": "pnpm build:codegen -w",
     "dev:remix": "remix dev --manual -c 'node --loader ts-node/esm --watch-path server.ts --watch server.ts'",
     "dev:tcm": "pnpm build:tcm -w",
+    "e2e": "playwright test",
+    "e2e:debug": "playwright test --ui",
     "lint": "pnpm build:codegen && run-p -l 'lint:!(fix)'",
     "lint:fix": "run-p -l 'lint:*:fix'",
     "lint:eslint": "eslint --report-unused-disable-directives --max-warnings 0 .",
