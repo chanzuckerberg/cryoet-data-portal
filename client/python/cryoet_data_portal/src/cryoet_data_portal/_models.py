@@ -1,6 +1,6 @@
 import os
 from datetime import date
-from typing import Iterable, Optional
+from typing import List, Optional
 
 from ._file_tools import download_directory, download_https
 from ._gql_base import (
@@ -83,13 +83,13 @@ class Dataset(Model):
     cell_component_name: str = StringField()
     cell_component_id: str = StringField()
 
-    runs: Iterable["Run"] = ListRelationship("Run", "id", "dataset_id")
-    authors: Iterable["DatasetAuthor"] = ListRelationship(
+    runs: List["Run"] = ListRelationship("Run", "id", "dataset_id")
+    authors: List["DatasetAuthor"] = ListRelationship(
         "DatasetAuthor",
         "id",
         "dataset_id",
     )
-    funding_sources: Iterable["DatasetFunding"] = ListRelationship(
+    funding_sources: List["DatasetFunding"] = ListRelationship(
         "DatasetFunding",
         "id",
         "dataset_id",
@@ -185,12 +185,12 @@ class Run(Model):
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
 
-    tomogram_voxel_spacings: Iterable["TomogramVoxelSpacing"] = ListRelationship(
+    tomogram_voxel_spacings: List["TomogramVoxelSpacing"] = ListRelationship(
         "TomogramVoxelSpacing",
         "id",
         "run_id",
     )
-    tiltseries: Iterable["TiltSeries"] = ListRelationship("TiltSeries", "id", "run_id")
+    tiltseries: List["TiltSeries"] = ListRelationship("TiltSeries", "id", "run_id")
 
     def download_everything(self, dest_path: Optional[str] = None):
         """Download all of the data for this run.
@@ -232,12 +232,12 @@ class TomogramVoxelSpacing(Model):
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
 
-    tomograms: Iterable["Tomogram"] = ListRelationship(
+    tomograms: List["Tomogram"] = ListRelationship(
         "Tomogram",
         "id",
         "tomogram_voxel_spacing_id",
     )
-    annotations: Iterable["Annotation"] = ListRelationship(
+    annotations: List["Annotation"] = ListRelationship(
         "Annotation",
         "id",
         "tomogram_voxel_spacing_id",
@@ -328,7 +328,7 @@ class Tomogram(Model):
     key_photo_thumbnail_url: str = StringField()
     neuroglancer_config: str = StringField()
     type: str = StringField()
-    authors: Iterable["TomogramAuthor"] = ListRelationship(
+    authors: List["TomogramAuthor"] = ListRelationship(
         "TomogramAuthor",
         "id",
         "tomogram_id",
@@ -461,12 +461,12 @@ class Annotation(Model):
     s3_metadata_path: str = StringField()
     tomogram_voxel_spacing_id: int = IntField()
 
-    authors: Iterable["AnnotationAuthor"] = ListRelationship(
+    authors: List["AnnotationAuthor"] = ListRelationship(
         "AnnotationAuthor",
         "id",
         "annotation_id",
     )
-    files: Iterable["AnnotationFile"] = ListRelationship(
+    files: List["AnnotationFile"] = ListRelationship(
         "AnnotationFile",
         "id",
         "annotation_id",
