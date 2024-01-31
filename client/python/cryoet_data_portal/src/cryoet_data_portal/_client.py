@@ -61,8 +61,7 @@ class Client:
     def find(self, cls, query_filters=None):
         gql_type = cls._get_gql_type()
         response = self.client.execute(self.build_query(cls, gql_type, query_filters))
-        for item in response[gql_type]:
-            yield cls(self, **item)
+        return [cls(self, **item) for item in response[gql_type]]
 
     def find_one(self, *args, **kwargs):
         for result in self.find(*args, **kwargs):
