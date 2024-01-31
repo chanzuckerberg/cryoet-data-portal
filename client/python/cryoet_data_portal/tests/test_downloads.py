@@ -62,7 +62,8 @@ def test_download_relative_path(tmp_dir, client) -> None:
     dest_dir = os.path.join(tmp_dir, subdir_name)
     os.makedirs(dest_dir)
     tomo = Tomogram.find(
-        client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001],
+        client,
+        [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001],
     )[0]
     assert tomo
     tomo.download_all_annotations(subdir_name, "json")
@@ -75,7 +76,8 @@ def test_download_without_path(tmp_dir, client) -> None:
     # Change the process' CWD to the tmp dir
     os.chdir(tmp_dir)
     tomo = Tomogram.find(
-        client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001],
+        client,
+        [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001],
     )[0]
     assert tomo
     tomo.download_all_annotations(format="json")
@@ -88,7 +90,8 @@ def test_download_default_dir(tmp_dir, client) -> None:
     # Change the process' CWD to the tmp dir
     os.chdir(tmp_dir)
     tomo = Tomogram.find(
-        client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001],
+        client,
+        [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001],
     )[0]
     assert tomo
     tomo.download_all_annotations(None, "json")
