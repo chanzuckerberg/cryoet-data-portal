@@ -93,7 +93,7 @@
                 
                 
                 <div class="version">
-                    2.0.0
+                    3.0.0
                 </div>
                 
             
@@ -319,6 +319,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.tomogram_voxel_spacing"><code class="docutils literal notranslate"><span class="pre">Annotation.tomogram_voxel_spacing</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.tomogram_voxel_spacing_id"><code class="docutils literal notranslate"><span class="pre">Annotation.tomogram_voxel_spacing_id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.s3_metadata_path"><code class="docutils literal notranslate"><span class="pre">Annotation.s3_metadata_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.download"><code class="docutils literal notranslate"><span class="pre">Annotation.download()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.find"><code class="docutils literal notranslate"><span class="pre">Annotation.find()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.get_by_id"><code class="docutils literal notranslate"><span class="pre">Annotation.get_by_id()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.to_dict"><code class="docutils literal notranslate"><span class="pre">Annotation.to_dict()</span></code></a></li>
@@ -1979,11 +1980,15 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryoet_data_portal.Tomogram.download_all_annotations">
-<span class="sig-name descname"><span class="pre">download_all_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Tomogram.download_all_annotations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Download all annotations  of this tomogram</p>
+<span class="sig-name descname"><span class="pre">download_all_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Tomogram.download_all_annotations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download all annotation files for this tomogram</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dest_path</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Choose a destination directory. Defaults to $CWD.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dest_path</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Choose a destination directory. Defaults to $CWD.</p></li>
+<li><p><strong>shape</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Choose a specific shape type to download (e.g.: OrientedPoint, SegmentationMask)</p></li>
+<li><p><strong>format</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Choose a specific file format to download (e.g.: mrc, ndjson)</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -2529,6 +2534,21 @@
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryoet_data_portal.Annotation.download">
+<span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Annotation.download" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download annotation files for a given format and/or shape</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dest_path</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Choose a destination directory. Defaults to $CWD.</p></li>
+<li><p><strong>shape</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Choose a specific shape type to download (e.g.: OrientedPoint, SegmentationMask)</p></li>
+<li><p><strong>format</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Choose a specific file format to download (e.g.: mrc, ndjson)</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
