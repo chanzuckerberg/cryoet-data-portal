@@ -238,6 +238,7 @@
   "unitDegree": "{{value}}°",
   "unitMillimeter": "{{value}} mm",
   "unitVolts": "{{value}} V",
+  "urlAPIQuickstart": "https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_quick_start.html",
   "urlCZ": "https://chanzuckerberg.com/",
   "urlCZII": "https://www.czimaginginstitute.org/",
   "urlDataContributionForm": "https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=Portal&hide_Event=true",
