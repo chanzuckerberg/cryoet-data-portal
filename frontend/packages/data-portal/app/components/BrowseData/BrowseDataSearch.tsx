@@ -1,7 +1,7 @@
 import { InputSearch } from '@czi-sds/components'
 import { useDebouncedEffect } from '@react-hookz/web'
 import { useSearchParams } from '@remix-run/react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { i18n } from 'app/i18n'
 
@@ -17,8 +17,15 @@ export function BrowseDataSearch() {
   const [query, setQuery] = useState(searchParams.get('search') ?? '')
 
   // If the user hasn't typed in a key for 500ms, then update the search params.
+  const initialLoadRef = useRef(true)
   useDebouncedEffect(
-    () =>
+    () => {
+      // do not init search param on initial load to prevent refetch
+      if (initialLoadRef.current) {
+        initialLoadRef.current = false
+        return
+      }
+
       setSearchParams((prev) => {
         if (query) {
           prev.set('search', query)
@@ -27,7 +34,8 @@ export function BrowseDataSearch() {
         }
 
         return prev
-      }),
+      })
+    },
     [query],
     SEARCH_QUERY_DEBOUNCE_TIME_MS,
   )
