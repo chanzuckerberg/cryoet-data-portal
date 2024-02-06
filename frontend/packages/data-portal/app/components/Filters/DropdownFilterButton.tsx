@@ -23,7 +23,7 @@ export function DropdownFilterButton({
 }: {
   activeFilters: ActiveDropdownFilterData[]
   children: ReactNode
-  description: ReactNode
+  description?: ReactNode
   disabled?: boolean
   label: string
   onApply(): void
@@ -113,7 +113,7 @@ export function DropdownFilterButton({
           {description}
           {children}
 
-          <div className="flex items-center gap-sds-default mt-5">
+          <div className="flex items-center gap-sds-default mt-sds-l">
             <Button
               disabled={disabled}
               sdsType="primary"

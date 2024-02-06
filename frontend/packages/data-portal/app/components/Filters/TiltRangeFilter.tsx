@@ -17,11 +17,13 @@ import {
 
 function TiltRangeInput({
   id,
+  label,
   onChange,
   placeholder,
   value,
 }: {
   id: string
+  label: string
   onChange(value: string): void
   placeholder: number
   value: string
@@ -29,17 +31,23 @@ function TiltRangeInput({
   const { t } = useI18n()
 
   return (
-    <InputText
-      id={id}
-      className="!min-w-[85px] !mb-0"
-      label={id}
-      hideLabel
-      placeholder={t('unitDegree', { value: placeholder })}
-      value={value}
-      onChange={(event) => onChange(event.target.value)}
-      type="number"
-      fullWidth
-    />
+    <div className="flex flex-col gap-sds-xxxs">
+      <p className="text-sds-body-xs leading-sds-body-xs tracking-sds-default">
+        {label}:
+      </p>
+
+      <InputText
+        id={id}
+        className="!min-w-[85px] !mb-0"
+        label={id}
+        hideLabel
+        placeholder={t('unitDegree', { value: placeholder })}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        type="number"
+        fullWidth
+      />
+    </div>
   )
 }
 
@@ -90,17 +98,6 @@ export function TiltRangeFilter() {
           },
         ])
         .otherwise(() => [])}
-      description={
-        <>
-          <p className="text-sds-header-xs leading-sds-header-xs font-semibold">
-            {t('tiltRangeFilterTitle')}
-          </p>
-
-          <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
-            {t('tiltRangeFilterDescription')}
-          </p>
-        </>
-      }
       disabled={isDisabled}
       label={t('tiltRange')}
       onApply={() => {
@@ -124,26 +121,28 @@ export function TiltRangeFilter() {
         setTiltMax('')
       }}
     >
-      <div className="flex items-center gap-sds-s max-w-[320px] mt-sds-xs">
-        <TiltRangeInput
-          id="tilt-min-input"
-          placeholder={DEFAULT_TILT_RANGE_MIN}
-          value={tiltMin}
-          onChange={setTiltMin}
-        />
+      <div className="flex flex-col gap-sds-xs max-w-[320px] mt-sds-xs">
+        <div className="flex items-center gap-sds-l">
+          <TiltRangeInput
+            label={t('tiltRangeMin')}
+            id="tilt-min-input"
+            placeholder={DEFAULT_TILT_RANGE_MIN}
+            value={tiltMin}
+            onChange={setTiltMin}
+          />
 
-        <div className="flex items-center gap-sds-xs whitespace-nowrap">
-          <span>≤</span>
-          <span>{t('filterRange')}</span>
-          <span>≤</span>
+          <TiltRangeInput
+            label={t('tiltRangeMax')}
+            id="tilt-max-input"
+            placeholder={DEFAULT_TILT_RANGE_MAX}
+            value={tiltMax}
+            onChange={setTiltMax}
+          />
         </div>
 
-        <TiltRangeInput
-          id="tilt-max-input"
-          placeholder={DEFAULT_TILT_RANGE_MAX}
-          value={tiltMax}
-          onChange={setTiltMax}
-        />
+        <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
+          {t('tiltRangeFilterDescription')}
+        </p>
       </div>
     </DropdownFilterButton>
   )
