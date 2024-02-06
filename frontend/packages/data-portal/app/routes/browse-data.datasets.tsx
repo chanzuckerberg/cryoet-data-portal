@@ -9,8 +9,8 @@ import { ErrorBoundary } from 'app/components/ErrorBoundary'
 import { NoResults } from 'app/components/NoResults'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
-import { useDatasetFilter } from 'app/hooks/useDatasetFilter'
 import { useDatasets } from 'app/hooks/useDatasets'
+import { useFilter } from 'app/hooks/useFilter'
 import { i18n } from 'app/i18n'
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -40,7 +40,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function BrowseDatasetsPage() {
   const { datasetCount, filteredDatasetCount } = useDatasets()
-  const { reset } = useDatasetFilter()
+  const { reset } = useFilter()
 
   return (
     <TablePageLayout

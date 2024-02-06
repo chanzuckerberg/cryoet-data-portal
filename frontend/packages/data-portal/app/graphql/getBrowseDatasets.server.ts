@@ -6,10 +6,7 @@ import { gql } from 'app/__generated__'
 import { Datasets_Bool_Exp, Order_By } from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { DEFAULT_TILT_MAX, DEFAULT_TILT_MIN } from 'app/constants/tiltSeries'
-import {
-  DatasetFilterState,
-  getDatasetFilter,
-} from 'app/hooks/useDatasetFilter'
+import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
 const GET_DATASETS_DATA_QUERY = gql(`
   query GetDatasetsData(
@@ -102,7 +99,7 @@ function getTiltValue(value: string | null) {
   return null
 }
 
-function getFilter(datasetFilter: DatasetFilterState, query: string) {
+function getFilter(datasetFilter: FilterState, query: string) {
   const filters: Datasets_Bool_Exp[] = []
 
   // Text search by dataset title
@@ -422,7 +419,7 @@ export async function getBrowseDatasets({
   return client.query({
     query: GET_DATASETS_DATA_QUERY,
     variables: {
-      filter: getFilter(getDatasetFilter(params), query),
+      filter: getFilter(getFilterState(params), query),
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
       order_by_dataset: orderBy,

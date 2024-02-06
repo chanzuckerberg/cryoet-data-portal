@@ -1,4 +1,4 @@
-import { useSearchParams } from '@remix-run/react'
+import { useLocation, useSearchParams } from '@remix-run/react'
 import { useMemo } from 'react'
 import { match, P } from 'ts-pattern'
 
@@ -10,7 +10,7 @@ import {
   NumberOfRunsFilterValue,
 } from 'app/types/filter'
 
-export function getDatasetFilter(searchParams: URLSearchParams) {
+export function getFilterState(searchParams: URLSearchParams) {
   return {
     includedContents: {
       isGroundTruthEnabled:
@@ -69,15 +69,19 @@ export function getDatasetFilter(searchParams: URLSearchParams) {
   }
 }
 
-export type DatasetFilterState = ReturnType<typeof getDatasetFilter>
+export type FilterState = ReturnType<typeof getFilterState>
 
-export function useDatasetFilter() {
+export function useFilter() {
   const [searchParams, setSearchParams] = useSearchParams()
   const plausible = usePlausible()
+  const location = useLocation()
+  const filterType = match(location.pathname)
+    .with(P.string.regex(/\/runs/), () => 'run' as const)
+    .otherwise(() => 'dataset' as const)
 
   return useMemo(
     () => ({
-      ...getDatasetFilter(searchParams),
+      ...getFilterState(searchParams),
 
       reset() {
         setSearchParams((prev) => {
@@ -106,7 +110,7 @@ export function useDatasetFilter() {
               val.map((option) => option.value).join(','),
             )
             .otherwise((val) => val.value),
-          type: 'dataset',
+          type: filterType,
         })
 
         setSearchParams((prev) => {
@@ -133,6 +137,6 @@ export function useDatasetFilter() {
         })
       },
     }),
-    [plausible, searchParams, setSearchParams],
+    [filterType, plausible, searchParams, setSearchParams],
   )
 }

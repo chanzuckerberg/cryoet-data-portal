@@ -4,7 +4,7 @@ import { match, P } from 'ts-pattern'
 
 import { QueryParams } from 'app/constants/query'
 import { DEFAULT_TILT_MAX, DEFAULT_TILT_MIN } from 'app/constants/tiltSeries'
-import { useDatasetFilter } from 'app/hooks/useDatasetFilter'
+import { useFilter } from 'app/hooks/useFilter'
 import { i18n } from 'app/i18n'
 
 import {
@@ -42,7 +42,7 @@ export function TiltRangeFilter() {
   const {
     updateValue,
     tiltSeries: { min: tiltMinParam, max: tiltMaxParam },
-  } = useDatasetFilter()
+  } = useFilter()
 
   const [tiltMin, setTiltMin] = useState(tiltMinParam)
   const [tiltMax, setTiltMax] = useState(tiltMaxParam)
