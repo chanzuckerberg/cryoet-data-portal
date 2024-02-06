@@ -5,7 +5,7 @@ import { match, P } from 'ts-pattern'
 import { QueryParams } from 'app/constants/query'
 import { DEFAULT_TILT_MAX, DEFAULT_TILT_MIN } from 'app/constants/tiltSeries'
 import { useFilter } from 'app/hooks/useFilter'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 
 import {
   ActiveDropdownFilterData,
@@ -23,13 +23,15 @@ function TiltRangeInput({
   placeholder: number
   value: string
 }) {
+  const { t } = useI18n()
+
   return (
     <InputText
       id={id}
       className="!min-w-[85px] !mb-0"
       label={id}
       hideLabel
-      placeholder={i18n.unitDegree(placeholder)}
+      placeholder={t('unitDegree', { value: placeholder })}
       value={value}
       onChange={(event) => onChange(event.target.value)}
       type="number"
@@ -39,8 +41,10 @@ function TiltRangeInput({
 }
 
 export function TiltRangeFilter() {
+  const { t } = useI18n()
+
   const {
-    updateValue,
+    updateValues,
     tiltSeries: { min: tiltMinParam, max: tiltMaxParam },
   } = useFilter()
 
@@ -60,55 +64,61 @@ export function TiltRangeFilter() {
         .returnType<ActiveDropdownFilterData[]>()
         .with([P.not(''), ''], () => [
           {
-            value: i18n.valueToValue(
-              i18n.unitDegree(+tiltMin),
-              i18n.unitDegree(DEFAULT_TILT_MAX),
-            ),
+            value: t('valueToValue', {
+              value1: t('unitDegree', { value: tiltMin }),
+              value2: t('unitDegree', { value: DEFAULT_TILT_MAX }),
+            }),
           },
         ])
         .with(['', P.not('')], () => [
           {
-            value: i18n.valueToValue(
-              i18n.unitDegree(DEFAULT_TILT_MIN),
-              i18n.unitDegree(+tiltMax),
-            ),
+            value: t('valueToValue', {
+              value1: t('unitDegree', { value: DEFAULT_TILT_MIN }),
+              value2: t('unitDegree', { value: tiltMax }),
+            }),
           },
         ])
         .with([P.not(''), P.not('')], () => [
           {
-            value: i18n.valueToValue(
-              i18n.unitDegree(+tiltMin),
-              i18n.unitDegree(+tiltMax),
-            ),
+            value: t('valueToValue', {
+              value1: t('unitDegree', { value: tiltMin }),
+              value2: t('unitDegree', { value: tiltMax }),
+            }),
           },
         ])
         .otherwise(() => [])}
       description={
         <>
           <p className="text-sds-header-xs leading-sds-header-xs font-semibold">
-            {i18n.tiltRangeFilterTitle}
+            {t('tiltRangeFilterTitle')}
           </p>
 
           <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
-            {i18n.tiltRangeFilterDescription}
+            {t('tiltRangeFilterDescription')}
           </p>
         </>
       }
       disabled={isDisabled}
-      label={i18n.tiltRange}
+      label={t('tiltRange')}
       onApply={() => {
-        updateValue(QueryParams.TiltRangeMin, tiltMin)
-        updateValue(QueryParams.TiltRangeMax, tiltMax)
+        updateValues({
+          [QueryParams.TiltRangeMin]: tiltMin,
+          [QueryParams.TiltRangeMax]: tiltMax,
+        })
       }}
       onCancel={() => {
         setTiltMin(tiltMinParam)
         setTiltMin(tiltMaxParam)
       }}
       onRemoveFilter={() => {
+        updateValues({
+          [QueryParams.TiltRangeMin]: null,
+          [QueryParams.TiltRangeMax]: null,
+        })
+      }}
+      onOpen={() => {
         setTiltMin('')
         setTiltMax('')
-        updateValue(QueryParams.TiltRangeMin, null)
-        updateValue(QueryParams.TiltRangeMax, null)
       }}
     >
       <div className="flex items-center gap-sds-s max-w-[320px] mt-sds-xs">
@@ -121,7 +131,7 @@ export function TiltRangeFilter() {
 
         <div className="flex items-center gap-sds-xs whitespace-nowrap">
           <span>≤</span>
-          <span>{i18n.filterRange}</span>
+          <span>{t('filterRange')}</span>
           <span>≤</span>
         </div>
 
