@@ -45,7 +45,7 @@ export function DropdownFilterButton({
       >
         <span
           className={cns(
-            'font-semibold group-hover:text-black transition-colors',
+            'font-semibold group-hover:text-black transition-colors text-sm',
             open ? 'text-black' : 'text-sds-gray-500',
           )}
         >

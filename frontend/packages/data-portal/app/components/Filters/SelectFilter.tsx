@@ -9,7 +9,7 @@ import { useCallback, useMemo } from 'react'
 import { BaseFilterOption } from 'app/types/filter'
 import { cns } from 'app/utils/cns'
 
-import styles from './SelectFilter.module.css'
+import styles from './Filters.module.css'
 
 /**
  * Wrapper over ComplexFilter to add a type parameter for the autocomplete
@@ -96,7 +96,7 @@ export function SelectFilter<
 
   return (
     <ComplexFilter
-      className={cns(styles.filter, className)}
+      className={cns(styles.select, className)}
       value={sdsValue}
       label={label}
       search={search}

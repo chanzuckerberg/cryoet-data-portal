@@ -1,11 +1,18 @@
-.filter {
-  /* stylelint-disable-next-line selector-class-pattern */
+/* stylelint-disable selector-class-pattern */
+
+.boolean {
+  :global(.MuiTypography-root) {
+    font-size: theme('fontSize.sds-body-s') !important;
+  }
+}
+
+.select {
   :global(.MuiButtonBase-root) {
     /* Adjust padding to match our UI designs */
     padding: 5px theme('padding.sds-s');
 
     ~ div {
-      padding-left: theme('padding.sds-s');
+      @apply pl-sds-s;
     }
   }
 
