@@ -130,6 +130,12 @@ const GET_DATASET_BY_ID = gql(`
       }
 
       run_stats: runs {
+        tomogram_voxel_spacings {
+          annotations(distinct_on: object_name) {
+            object_name
+          }
+        }
+
         tiltseries(distinct_on: tilt_series_quality) {
           tilt_series_quality
         }
