@@ -96,7 +96,7 @@ export function SelectFilter<
 
   return (
     <ComplexFilter
-      className={cns('flex items-center', styles.select, className)}
+      className={cns('flex flex-col justify-center', styles.select, className)}
       value={sdsValue}
       label={label}
       search={search}
@@ -106,7 +106,7 @@ export function SelectFilter<
         groupBy,
         title,
         PopperBaseProps: {
-          className: popperClassName,
+          className: cns(popperClassName, styles.popper),
         },
       }}
       onChange={(nextOptions) => {

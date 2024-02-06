@@ -8,6 +8,8 @@
 
 .select {
   :global(.MuiButtonBase-root) {
+    @apply w-max;
+
     /* Adjust padding to match our UI designs */
     padding: 5px theme('padding.sds-s');
 
@@ -20,5 +22,11 @@
     @apply text-sds-body-xs leading-sds-body-xs text-sds-gray-500;
 
     letter-spacing: 0.3px;
+  }
+}
+
+.popper {
+  :global(.MuiMenuItem-root) > span:nth-child(1) {
+    @apply flex items-center justify-center;
   }
 }
