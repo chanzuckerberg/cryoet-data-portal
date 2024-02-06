@@ -3,7 +3,10 @@ import { useState } from 'react'
 import { match, P } from 'ts-pattern'
 
 import { QueryParams } from 'app/constants/query'
-import { DEFAULT_TILT_MAX, DEFAULT_TILT_MIN } from 'app/constants/tiltSeries'
+import {
+  DEFAULT_TILT_RANGE_MAX,
+  DEFAULT_TILT_RANGE_MIN,
+} from 'app/constants/tiltSeries'
 import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
 
@@ -66,14 +69,14 @@ export function TiltRangeFilter() {
           {
             value: t('valueToValue', {
               value1: t('unitDegree', { value: tiltMin }),
-              value2: t('unitDegree', { value: DEFAULT_TILT_MAX }),
+              value2: t('unitDegree', { value: DEFAULT_TILT_RANGE_MAX }),
             }),
           },
         ])
         .with(['', P.not('')], () => [
           {
             value: t('valueToValue', {
-              value1: t('unitDegree', { value: DEFAULT_TILT_MIN }),
+              value1: t('unitDegree', { value: DEFAULT_TILT_RANGE_MIN }),
               value2: t('unitDegree', { value: tiltMax }),
             }),
           },
@@ -124,7 +127,7 @@ export function TiltRangeFilter() {
       <div className="flex items-center gap-sds-s max-w-[320px] mt-sds-xs">
         <TiltRangeInput
           id="tilt-min-input"
-          placeholder={DEFAULT_TILT_MIN}
+          placeholder={DEFAULT_TILT_RANGE_MIN}
           value={tiltMin}
           onChange={setTiltMin}
         />
@@ -137,7 +140,7 @@ export function TiltRangeFilter() {
 
         <TiltRangeInput
           id="tilt-max-input"
-          placeholder={DEFAULT_TILT_MAX}
+          placeholder={DEFAULT_TILT_RANGE_MAX}
           value={tiltMax}
           onChange={setTiltMax}
         />

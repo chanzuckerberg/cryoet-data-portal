@@ -6,5 +6,5 @@ export enum TiltSeriesScore {
   Excellent = 5,
 }
 
-export const DEFAULT_TILT_MIN = 0
-export const DEFAULT_TILT_MAX = 180
+export const DEFAULT_TILT_RANGE_MIN = 0
+export const DEFAULT_TILT_RANGE_MAX = 180

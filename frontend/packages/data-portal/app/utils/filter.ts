@@ -1,7 +1,10 @@
 import { isNumber } from 'lodash-es'
 
 import { Runs_Bool_Exp } from 'app/__generated__/graphql'
-import { DEFAULT_TILT_MAX, DEFAULT_TILT_MIN } from 'app/constants/tiltSeries'
+import {
+  DEFAULT_TILT_RANGE_MAX,
+  DEFAULT_TILT_RANGE_MIN,
+} from 'app/constants/tiltSeries'
 
 export function getTiltValue(value: string | null) {
   if (value && !Number.isNaN(+value)) {
@@ -19,11 +22,11 @@ export function getTiltRangeFilter(
   let tiltMax = getTiltValue(initialTiltMax)
 
   if (isNumber(tiltMin) && !isNumber(tiltMax)) {
-    tiltMax = DEFAULT_TILT_MAX
+    tiltMax = DEFAULT_TILT_RANGE_MAX
   }
 
   if (!isNumber(tiltMin) && isNumber(tiltMax)) {
-    tiltMin = DEFAULT_TILT_MIN
+    tiltMin = DEFAULT_TILT_RANGE_MIN
   }
 
   // Tilt range filter
