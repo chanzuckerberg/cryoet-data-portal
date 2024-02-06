@@ -18,7 +18,6 @@ import { TiltSeriesScore } from 'app/constants/tiltSeries'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
-import { usePlausible } from 'app/hooks/usePlausible'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
 
 import { ViewTomogramButton } from '../ViewTomogramButton'
@@ -38,7 +37,6 @@ export function RunsTable() {
   const runs = dataset.runs as unknown as Run[]
   const location = useLocation()
   const { t } = useI18n()
-  const plausible = usePlausible()
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Run>()
