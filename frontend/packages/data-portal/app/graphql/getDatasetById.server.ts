@@ -129,7 +129,7 @@ const GET_DATASET_BY_ID = gql(`
         }
       }
 
-      quality_scores: runs {
+      run_stats: runs {
         tiltseries(distinct_on: tilt_series_quality) {
           tilt_series_quality
         }
