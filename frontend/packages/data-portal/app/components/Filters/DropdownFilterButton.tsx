@@ -18,6 +18,7 @@ export function DropdownFilterButton({
   label,
   onApply,
   onCancel,
+  onOpen,
   onRemoveFilter,
 }: {
   activeFilters: ActiveDropdownFilterData[]
@@ -27,6 +28,7 @@ export function DropdownFilterButton({
   label: string
   onApply(): void
   onCancel(): void
+  onOpen?(): void
   onRemoveFilter(filter: ActiveDropdownFilterData): void
 }) {
   const [open, setOpen] = useState(false)
@@ -41,7 +43,10 @@ export function DropdownFilterButton({
           open && '!bg-sds-gray-100',
         )}
         ref={buttonRef}
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() => {
+          setOpen((prev) => !prev)
+          onOpen?.()
+        }}
       >
         <span
           className={cns(
