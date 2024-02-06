@@ -168,6 +168,18 @@ function getFilter(filterState: FilterState) {
     })
   }
 
+  if (filterState.annotation.objectNames.length > 0) {
+    filters.push({
+      tomogram_voxel_spacings: {
+        annotations: {
+          object_name: {
+            _in: filterState.annotation.objectNames,
+          },
+        },
+      },
+    })
+  }
+
   return { _and: filters } as Runs_Bool_Exp
 }
 
