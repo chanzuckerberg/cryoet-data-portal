@@ -23,13 +23,9 @@ export function QualityScoreFilter() {
     () =>
       Array.from(
         new Set(
-          dataset.run_stats
-            .flatMap((run) =>
-              run.tiltseries.map(
-                (tiltSeries) => tiltSeries.tilt_series_quality,
-              ),
-            )
-            .concat(3, 4),
+          dataset.run_stats.flatMap((run) =>
+            run.tiltseries.map((tiltSeries) => tiltSeries.tilt_series_quality),
+          ),
         ),
       ) as TiltSeriesScore[],
     [dataset.run_stats],
