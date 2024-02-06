@@ -109,7 +109,9 @@ const GET_DATASET_BY_ID = gql(`
           annotations(distinct_on: object_name) {
             object_name
           }
+
           tomograms(limit: 1) {
+            id
             key_photo_thumbnail_url
             neuroglancer_config
           }

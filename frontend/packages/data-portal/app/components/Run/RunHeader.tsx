@@ -13,9 +13,10 @@ import {
   MetadataDrawerId,
   useMetadataDrawer,
 } from 'app/hooks/useMetadataDrawer'
-import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
+
+import { ViewTomogramButton } from '../ViewTomogramButton'
 
 export function RunHeader() {
   const { run } = useRunById()
@@ -29,51 +30,26 @@ export function RunHeader() {
   const neuroglancerConfig = tomogram?.neuroglancer_config
 
   const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
-  const plausible = usePlausible()
-
-  function trackViewTomogram() {
-    plausible(Events.ViewTomogram, {
-      datasetId: run.dataset.id,
-      organism: run.dataset.organism_name ?? 'None',
-      runId: run.id,
-      tomogramId: tomogram?.id ?? 'None',
-    })
-  }
 
   return (
     <PageHeader
       actions={
         <>
-          {neuroglancerConfig && (
-            // We need to disable this rule because we need the div to capture
-            // bubbled click events from the link button below. This is because
-            // Plausible automatically adds event listeners to every link on the
-            // page to track outbound links, so we can't attach a click listener
-            // to the link directly because Plausible will overwrite it.
-            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-            <div
-              onClick={trackViewTomogram}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter') {
-                  trackViewTomogram()
-                }
-              }}
-            >
-              <Button
-                to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(
-                  neuroglancerConfig,
-                )}`}
-                startIcon={
-                  <Icon sdsIcon="table" sdsType="button" sdsSize="s" />
-                }
-                sdsType="primary"
-                sdsStyle="rounded"
-                component={Link}
-              >
-                <span>{t('viewTomogram')}</span>
-              </Button>
-            </div>
-          )}
+          <ViewTomogramButton
+            neuroglancerConfig={neuroglancerConfig}
+            buttonProps={{
+              sdsStyle: 'rounded',
+              sdsType: 'primary',
+              startIcon: <Icon sdsIcon="table" sdsType="button" sdsSize="s" />,
+            }}
+            event={{
+              datasetId: run.dataset.id,
+              organism: run.dataset.organism_name ?? 'None',
+              runId: run.id,
+              tomogramId: tomogram?.id ?? 'None',
+              type: 'run',
+            }}
+          />
 
           <Button
             startIcon={<Icon sdsIcon="download" sdsType="button" sdsSize="l" />}
