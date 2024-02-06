@@ -47,6 +47,7 @@ export function getFilterState(searchParams: URLSearchParams) {
     tiltSeries: {
       min: searchParams.get(QueryParams.TiltRangeMin) ?? '',
       max: searchParams.get(QueryParams.TiltRangeMax) ?? '',
+      qualityScore: searchParams.getAll(QueryParams.QualityScore),
     },
 
     tomogram: {

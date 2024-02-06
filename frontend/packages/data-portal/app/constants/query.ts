@@ -17,6 +17,7 @@ export enum QueryParams {
   Organism = 'organism',
   Page = 'page',
   PortalId = 'portal_id',
+  QualityScore = 'quality_score',
   ReconstructionMethod = 'reconstruction_method',
   ReconstructionSoftware = 'reconstruction_software',
   Tab = 'tab',
