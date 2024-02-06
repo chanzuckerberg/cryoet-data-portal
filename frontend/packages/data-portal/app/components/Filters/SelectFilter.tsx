@@ -96,7 +96,7 @@ export function SelectFilter<
 
   return (
     <ComplexFilter
-      className={cns(styles.select, className)}
+      className={cns('flex items-center', styles.select, className)}
       value={sdsValue}
       label={label}
       search={search}
