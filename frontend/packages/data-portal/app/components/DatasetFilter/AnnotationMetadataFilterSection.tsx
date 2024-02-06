@@ -1,76 +1,49 @@
-import { useSearchParams } from '@remix-run/react'
 import { useMemo } from 'react'
 
-import { FilterSection, SelectFilter } from 'app/components/Filters'
+import {
+  AnnotatedObjectNameFilter,
+  FilterSection,
+  SelectFilter,
+} from 'app/components/Filters'
 import { QueryParams } from 'app/constants/query'
 import { useDatasets } from 'app/hooks/useDatasets'
-import { i18n } from 'app/i18n'
+import { useFilter } from 'app/hooks/useFilter'
+import { useI18n } from 'app/hooks/useI18n'
 import { BaseFilterOption } from 'app/types/filter'
 
 export function AnnotationMetadataFilterSection() {
-  const { objectNames, objectShapeTypes } = useDatasets()
-  const [searchParams, setSearchParams] = useSearchParams()
-
-  const objectNameOptions = useMemo(
-    () => objectNames.map<BaseFilterOption>((value) => ({ value })),
-    [objectNames],
-  )
-
-  const objectNameValue = useMemo<BaseFilterOption[]>(
-    () =>
-      searchParams.getAll(QueryParams.ObjectName).map((value) => ({ value })),
-    [searchParams],
-  )
+  const { objectNames, objectShapeTypes: allObjectShapeTypes } = useDatasets()
+  const {
+    updateValue,
+    annotation: { objectShapeTypes },
+  } = useFilter()
 
   const objectShapeTypeOptions = useMemo(
-    () => objectShapeTypes.map<BaseFilterOption>((value) => ({ value })),
-    [objectShapeTypes],
+    () => allObjectShapeTypes.map<BaseFilterOption>((value) => ({ value })),
+    [allObjectShapeTypes],
   )
 
   const objectShapeTypeValue = useMemo<BaseFilterOption[]>(
-    () =>
-      searchParams
-        .getAll(QueryParams.ObjectShapeType)
-        .map((value) => ({ value })),
-    [searchParams],
+    () => objectShapeTypes.map((value) => ({ value })),
+    [objectShapeTypes],
   )
 
+  const { t } = useI18n()
+
   return (
-    <FilterSection title={i18n.annotationMetadata}>
-      <SelectFilter
-        multiple
-        options={objectNameOptions}
-        value={objectNameValue}
-        label={i18n.objectName}
-        onChange={(options) =>
-          setSearchParams((prev) => {
-            prev.delete(QueryParams.ObjectName)
-
-            options?.forEach((option) =>
-              prev.append(QueryParams.ObjectName, option.value),
-            )
-            prev.delete('page')
-
-            return prev
-          })
-        }
+    <FilterSection title={t('annotationMetadata')}>
+      <AnnotatedObjectNameFilter
+        allObjectNames={objectNames}
+        label={t('objectName')}
       />
 
       <SelectFilter
         multiple
         options={objectShapeTypeOptions}
         value={objectShapeTypeValue}
-        label={i18n.objectShapeType}
+        label={t('objectShapeType')}
         onChange={(options) =>
-          setSearchParams((prev) => {
-            prev.delete(QueryParams.ObjectShapeType)
-
-            options?.forEach((option) =>
-              prev.append(QueryParams.ObjectShapeType, option.value),
-            )
-
-            return prev
-          })
+          updateValue(QueryParams.ObjectShapeType, options)
         }
       />
     </FilterSection>
