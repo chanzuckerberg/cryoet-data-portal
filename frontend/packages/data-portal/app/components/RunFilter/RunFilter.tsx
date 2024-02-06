@@ -7,7 +7,7 @@ export function RunFilter() {
   const { t } = useI18n()
 
   return (
-    <div className="px-sds-l flex flex-col gap-1">
+    <div className="px-sds-l flex flex-col gap-sds-xxs">
       <p className="text-sds-header-m leading-sds-header-m px-sds-s pt-sds-xl font-semibold">
         {t('filterBy')}:
       </p>
