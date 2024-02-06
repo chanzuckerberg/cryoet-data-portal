@@ -106,7 +106,7 @@ export function SelectFilter<
         groupBy,
         title,
         PopperBaseProps: {
-          className: cns(popperClassName, styles.popper),
+          className: cns(popperClassName, multiple && styles.popper),
         },
       }}
       onChange={(nextOptions) => {
