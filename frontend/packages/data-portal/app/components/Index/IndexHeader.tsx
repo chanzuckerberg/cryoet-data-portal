@@ -84,7 +84,7 @@ export function IndexHeader() {
             </CTAButton>
           </Link>
         </div>
-        <Link to={t('apiDocLink')}>
+        <Link to={t('urlAPIQuickstart')}>
           <p className="underline underline-offset-1 decoration-1 text-sds-body-xxs leading-none drop-shadow-landing-header">
             <I18n i18nKey="orExploreViaApi" />
           </p>
