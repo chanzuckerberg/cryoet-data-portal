@@ -3,8 +3,16 @@ from datetime import date
 from typing import List, Optional
 
 from ._file_tools import download_directory, download_https
-from ._gql_base import (BooleanField, DateField, FloatField, IntField,
-                        ItemRelationship, ListRelationship, Model, StringField)
+from ._gql_base import (
+    BooleanField,
+    DateField,
+    FloatField,
+    IntField,
+    ItemRelationship,
+    ListRelationship,
+    Model,
+    StringField,
+)
 
 
 class Dataset(Model):
