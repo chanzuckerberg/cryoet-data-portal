@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
 
-import { Button } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
 import { useLocation } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
@@ -20,6 +19,8 @@ import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
+
+import { ViewTomogramButton } from '../ViewTomogramButton'
 
 type Run = GetDatasetByIdQuery['datasets'][number]['runs'][number]
 
@@ -152,29 +153,42 @@ export function RunsTable() {
         {
           id: 'viewTomogram',
           header: '',
-          cell({ getValue }) {
+          cell({ row, getValue }) {
             const neuroglancerConfig = getValue()
+
+            const run = row.original
+            const tomogram = run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
+
             return (
               <TableCell horizontalAlign="right" minWidth={150}>
-                {neuroglancerConfig && (
-                  <Button
-                    to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(
-                      neuroglancerConfig,
-                    )}`}
-                    sdsType="secondary"
-                    sdsStyle="square"
-                    component={Link}
-                  >
-                    {t('viewTomogram')}
-                  </Button>
-                )}
+                <ViewTomogramButton
+                  buttonProps={{
+                    sdsType: 'secondary',
+                    sdsStyle: 'square',
+                  }}
+                  event={{
+                    datasetId: dataset.id,
+                    organism: dataset.organism_name ?? 'None',
+                    runId: run.id,
+                    tomogramId: tomogram?.id ?? 'None',
+                    type: 'dataset',
+                  }}
+                  neuroglancerConfig={neuroglancerConfig}
+                />
               </TableCell>
             )
           },
         },
       ),
     ] as ColumnDef<Run>[]
-  }, [isLoadingDebounced, location.pathname, location.search, t])
+  }, [
+    dataset.id,
+    dataset.organism_name,
+    isLoadingDebounced,
+    location.pathname,
+    location.search,
+    t,
+  ])
 
   return (
     <PageTable
