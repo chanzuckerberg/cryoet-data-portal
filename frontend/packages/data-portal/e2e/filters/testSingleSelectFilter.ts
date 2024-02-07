@@ -1,0 +1,107 @@
+import apollo from '@apollo/client'
+import { Page, test } from '@playwright/test'
+import { BROWSE_DATASETS_URL } from 'e2e/constants'
+
+import { QueryParams } from 'app/constants/query'
+import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
+
+import { getDatasetTableFilterValidator, validateTable } from './utils'
+
+async function openFilterDropdown(page: Page, label: string) {
+  await page.getByRole('button', { name: label }).click()
+}
+
+async function selectFilterOption(page: Page, label: string) {
+  await page
+    .getByRole('option', { name: label })
+    .locator('span')
+    .first()
+    .click()
+
+  await page.keyboard.press('Escape')
+}
+
+async function removeFilterOption(page: Page, label: string) {
+  await page.click(`[role=button]:has-text("${label}") svg`)
+}
+
+export function testSingleSelectFilter({
+  label,
+  queryParam,
+  serialize = (value) => value,
+  values,
+}: {
+  label: string
+  queryParam: QueryParams
+  serialize?(value: string): string
+  values: string[]
+}) {
+  return (client: apollo.ApolloClient<apollo.NormalizedCacheObject>) =>
+    test.describe(label, () => {
+      values.forEach((value) =>
+        test(`should filter when selecting ${value}`, async ({ page }) => {
+          const url = new URL(BROWSE_DATASETS_URL)
+          const params = url.searchParams
+          params.set(queryParam, serialize(value) ?? value)
+
+          const fetchData = getBrowseDatasets({
+            client,
+            params,
+          })
+
+          await page.goto(BROWSE_DATASETS_URL)
+
+          await openFilterDropdown(page, label)
+          await selectFilterOption(page, value)
+          await page.waitForURL(url.href)
+
+          const { data } = await fetchData
+          await validateTable({
+            page,
+            browseDatasetsData: data,
+            validateRows: getDatasetTableFilterValidator(data),
+          })
+        }),
+      )
+
+      test('should filter when opening URL', async ({ page }) => {
+        const url = new URL(BROWSE_DATASETS_URL)
+        const params = url.searchParams
+        params.append(queryParam, serialize(values[0]))
+
+        const fetchData = getBrowseDatasets({
+          client,
+          params,
+        })
+
+        await page.goto(url.href)
+
+        const { data } = await fetchData
+        await validateTable({
+          page,
+          browseDatasetsData: data,
+          validateRows: getDatasetTableFilterValidator(data),
+        })
+      })
+
+      test('should disable filter when deselecting', async ({ page }) => {
+        const fetchData = getBrowseDatasets({
+          client,
+        })
+
+        const url = new URL(BROWSE_DATASETS_URL)
+        url.searchParams.append(queryParam, serialize(values[0]))
+
+        await page.goto(url.href)
+        await removeFilterOption(page, values[0])
+        await page.waitForURL(BROWSE_DATASETS_URL)
+
+        const { data } = await fetchData
+        await validateTable({
+          page,
+          browseDatasetsData: data,
+          validateRows: getDatasetTableFilterValidator(data),
+        })
+      })
+    })
+}
