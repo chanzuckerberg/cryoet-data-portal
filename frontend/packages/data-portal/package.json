@@ -90,7 +90,7 @@
   },
   "devDependencies": {
     "@parcel/watcher": "^2.3.0",
-    "@playwright/test": "^1.41.1",
+    "@playwright/test": "^1.41.2",
     "@remix-run/dev": "^2.0.1",
     "@tailwindcss/typography": "^0.5.10",
     "@testing-library/jest-dom": "^6.1.4",
@@ -113,7 +113,7 @@
     "eslint-plugin-cryoet-data-portal": "*",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "playwright": "^1.41.1",
+    "playwright": "^1.41.2",
     "postcss": "^8.4.31",
     "postcss-nesting": "^12.0.1",
     "stylelint": "^15.10.3",
