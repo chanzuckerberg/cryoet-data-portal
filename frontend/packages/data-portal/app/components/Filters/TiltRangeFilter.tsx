@@ -76,7 +76,7 @@ export function TiltRangeFilter() {
         .with([P.not(''), ''], () => [
           {
             value: t('valueToValue', {
-              value1: t('unitDegree', { value: tiltMin }),
+              value1: t('unitDegree', { value: tiltMinParam }),
               value2: t('unitDegree', { value: DEFAULT_TILT_RANGE_MAX }),
             }),
           },
@@ -85,15 +85,15 @@ export function TiltRangeFilter() {
           {
             value: t('valueToValue', {
               value1: t('unitDegree', { value: DEFAULT_TILT_RANGE_MIN }),
-              value2: t('unitDegree', { value: tiltMax }),
+              value2: t('unitDegree', { value: tiltMaxParam }),
             }),
           },
         ])
         .with([P.not(''), P.not('')], () => [
           {
             value: t('valueToValue', {
-              value1: t('unitDegree', { value: tiltMin }),
-              value2: t('unitDegree', { value: tiltMax }),
+              value1: t('unitDegree', { value: tiltMinParam }),
+              value2: t('unitDegree', { value: tiltMaxParam }),
             }),
           },
         ])
@@ -108,17 +108,13 @@ export function TiltRangeFilter() {
       }}
       onCancel={() => {
         setTiltMin(tiltMinParam)
-        setTiltMin(tiltMaxParam)
+        setTiltMax(tiltMaxParam)
       }}
       onRemoveFilter={() => {
         updateValues({
           [QueryParams.TiltRangeMin]: null,
           [QueryParams.TiltRangeMax]: null,
         })
-      }}
-      onOpen={() => {
-        setTiltMin('')
-        setTiltMax('')
       }}
     >
       <div className="flex flex-col gap-sds-xs max-w-[320px] mt-sds-xs">
