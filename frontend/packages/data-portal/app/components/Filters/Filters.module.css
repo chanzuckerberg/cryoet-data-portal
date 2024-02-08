@@ -15,6 +15,10 @@
 
     ~ div {
       @apply pl-sds-s;
+
+      &:empty {
+        @apply hidden;
+      }
     }
   }
 
