@@ -1,19 +1,31 @@
+name: Deploy to prod
 on:
   schedule:
-    # Weekdays Mon-Fri @ 17:00 UTC (9AM PST [winter] / 10AM PDT [summer])
-    - cron: '0 17 * * 1-5'
+    # Weekdays Mon-Fri @ 18:00 UTC (10AM PST [winter] / 11AM PDT [summer])
+    - cron: '0 18 * * 1-5'
 permissions:
   id-token: write
   contents: read
 
 jobs:
+#  run-staging-e2e:
+#    concurrency:
+#      group: staging-frontend-e2e-${{ github.ref }}
+#      cancel-in-progress: true
+#    name: Run e2e test on staging
+#    runs-on: ubuntu-latest
+#    environment: staging
+#    if: ${{ github.repository == 'chanzuckerberg/cryoet-data-portal' }}
+#    steps:
+#      Run e2e tests
+
   deploy-to-prod:
     concurrency:
       group: prod-frontend-deploy-${{ github.ref }}
       cancel-in-progress: true
-
     name: deploy prod branch
     runs-on: ubuntu-latest
+#    needs: run-staging-e2e
     environment: prod
     # The secret IS_DEPLOY_ALLOWED can be used to gate the prod deploys
     if: ${{ github.repository == 'chanzuckerberg/cryoet-data-portal' && secrets.IS_DEPLOY_ALLOWED == 'true' }}
