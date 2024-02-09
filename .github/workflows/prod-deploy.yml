@@ -1,14 +1,12 @@
 on:
-  push:
-    branches:
-      - "main"
-
+  schedule:
+    # Weekdays Mon-Fri @ 17:00 UTC (9AM PST [winter] / 10AM PDT [summer])
+    - cron: '0 17 * * 1-5'
 permissions:
-      id-token: write
-      contents: read
+  id-token: write
+  contents: read
 
 jobs:
-
   deploy-to-prod:
     concurrency:
       group: prod-frontend-deploy-${{ github.ref }}
@@ -17,7 +15,8 @@ jobs:
     name: deploy prod branch
     runs-on: ubuntu-latest
     environment: prod
-    if: github.repository == 'chanzuckerberg/cryoet-data-portal'
+    # The secret IS_DEPLOY_ALLOWED can be used to gate the prod deploys
+    if: ${{ github.repository == 'chanzuckerberg/cryoet-data-portal' && secrets.IS_DEPLOY_ALLOWED == 'true' }}
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
