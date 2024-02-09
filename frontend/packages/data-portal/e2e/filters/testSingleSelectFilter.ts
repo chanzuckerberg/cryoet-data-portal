@@ -1,5 +1,5 @@
-import apollo from '@apollo/client'
 import { Page, test } from '@playwright/test'
+import { getApolloClient } from 'e2e/apollo'
 import { BROWSE_DATASETS_URL } from 'e2e/constants'
 
 import { QueryParams } from 'app/constants/query'
@@ -36,45 +36,29 @@ export function testSingleSelectFilter({
   serialize?(value: string): string
   values: string[]
 }) {
-  return (client: apollo.ApolloClient<apollo.NormalizedCacheObject>) =>
-    test.describe(label, () => {
-      values.forEach((value) =>
-        test(`should filter when selecting ${value}`, async ({ page }) => {
-          const expectedUrl = new URL(BROWSE_DATASETS_URL)
-          const params = expectedUrl.searchParams
-          params.set(queryParam, serialize(value) ?? value)
+  test.describe(label, () => {
+    let client = getApolloClient()
 
-          const fetchExpectedData = getBrowseDatasets({
-            client,
-            params,
-          })
+    test.beforeEach(() => {
+      client = getApolloClient()
+    })
 
-          await page.goto(BROWSE_DATASETS_URL)
-
-          await openFilterDropdown(page, label)
-          await selectFilterOption(page, value)
-          await page.waitForURL(expectedUrl.href)
-
-          const { data } = await fetchExpectedData
-          await validateTable({
-            page,
-            browseDatasetsData: data,
-            validateRows: getDatasetTableFilterValidator(data),
-          })
-        }),
-      )
-
-      test('should filter when opening URL', async ({ page }) => {
+    values.forEach((value) =>
+      test(`should filter when selecting ${value}`, async ({ page }) => {
         const expectedUrl = new URL(BROWSE_DATASETS_URL)
         const params = expectedUrl.searchParams
-        params.append(queryParam, serialize(values[0]))
+        params.set(queryParam, serialize(value) ?? value)
 
         const fetchExpectedData = getBrowseDatasets({
           client,
           params,
         })
 
-        await page.goto(expectedUrl.href)
+        await page.goto(BROWSE_DATASETS_URL)
+
+        await openFilterDropdown(page, label)
+        await selectFilterOption(page, value)
+        await page.waitForURL(expectedUrl.href)
 
         const { data } = await fetchExpectedData
         await validateTable({
@@ -82,26 +66,47 @@ export function testSingleSelectFilter({
           browseDatasetsData: data,
           validateRows: getDatasetTableFilterValidator(data),
         })
+      }),
+    )
+
+    test('should filter when opening URL', async ({ page }) => {
+      const expectedUrl = new URL(BROWSE_DATASETS_URL)
+      const params = expectedUrl.searchParams
+      params.append(queryParam, serialize(values[0]))
+
+      const fetchExpectedData = getBrowseDatasets({
+        client,
+        params,
       })
 
-      test('should disable filter when deselecting', async ({ page }) => {
-        const fetchExpectedData = getBrowseDatasets({
-          client,
-        })
+      await page.goto(expectedUrl.href)
 
-        const expectedUrl = new URL(BROWSE_DATASETS_URL)
-        expectedUrl.searchParams.append(queryParam, serialize(values[0]))
-
-        await page.goto(expectedUrl.href)
-        await removeFilterOption(page, values[0])
-        await page.waitForURL(BROWSE_DATASETS_URL)
-
-        const { data } = await fetchExpectedData
-        await validateTable({
-          page,
-          browseDatasetsData: data,
-          validateRows: getDatasetTableFilterValidator(data),
-        })
+      const { data } = await fetchExpectedData
+      await validateTable({
+        page,
+        browseDatasetsData: data,
+        validateRows: getDatasetTableFilterValidator(data),
       })
     })
+
+    test('should disable filter when deselecting', async ({ page }) => {
+      const fetchExpectedData = getBrowseDatasets({
+        client,
+      })
+
+      const expectedUrl = new URL(BROWSE_DATASETS_URL)
+      expectedUrl.searchParams.append(queryParam, serialize(values[0]))
+
+      await page.goto(expectedUrl.href)
+      await removeFilterOption(page, values[0])
+      await page.waitForURL(BROWSE_DATASETS_URL)
+
+      const { data } = await fetchExpectedData
+      await validateTable({
+        page,
+        browseDatasetsData: data,
+        validateRows: getDatasetTableFilterValidator(data),
+      })
+    })
+  })
 }

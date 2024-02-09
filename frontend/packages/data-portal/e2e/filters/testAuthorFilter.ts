@@ -1,5 +1,6 @@
 import apollo from '@apollo/client'
 import { Page, test } from '@playwright/test'
+import { getApolloClient } from 'e2e/apollo'
 import { BROWSE_DATASETS_URL, E2E_CONFIG } from 'e2e/constants'
 
 import { QueryParams } from 'app/constants/query'
@@ -99,10 +100,14 @@ function testFilter({
   })
 }
 
-export function testAuthorFilter(
-  client: apollo.ApolloClient<apollo.NormalizedCacheObject>,
-) {
+export function testAuthorFilter() {
   test.describe('Author', () => {
+    let client = getApolloClient()
+
+    test.beforeEach(() => {
+      client = getApolloClient()
+    })
+
     testFilter({
       client,
       queryParam: QueryParams.AuthorName,

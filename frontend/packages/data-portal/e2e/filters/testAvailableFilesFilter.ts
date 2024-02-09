@@ -1,5 +1,5 @@
-import apollo from '@apollo/client'
 import { Page, test } from '@playwright/test'
+import { getApolloClient } from 'e2e/apollo'
 import { BROWSE_DATASETS_URL } from 'e2e/constants'
 
 import { QueryParams } from 'app/constants/query'
@@ -22,10 +22,14 @@ async function clearAvailableFileOption(page: Page, labels: string[]) {
   )
 }
 
-export function testAvailableFilesFilter(
-  client: apollo.ApolloClient<apollo.NormalizedCacheObject>,
-) {
+export function testAvailableFilesFilter() {
   test.describe('Available Files', () => {
+    let client = getApolloClient()
+
+    test.beforeEach(() => {
+      client = getApolloClient()
+    })
+
     const filterOptions = [
       { value: 'raw-frames', label: 'Raw Frames' },
       { value: 'tilt-series', label: 'Tilt Series' },

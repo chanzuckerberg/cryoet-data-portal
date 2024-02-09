@@ -1,5 +1,5 @@
-import apollo from '@apollo/client'
 import { expect, Page, test } from '@playwright/test'
+import { getApolloClient } from 'e2e/apollo'
 import { BROWSE_DATASETS_URL, E2E_CONFIG } from 'e2e/constants'
 import { isString } from 'lodash-es'
 
@@ -24,10 +24,14 @@ async function deselectNumberOfRuns(page: Page, value: string) {
   await page.click(`[role=button]:has-text("${value}") svg`)
 }
 
-export function testOrganismNameFilter(
-  client: apollo.ApolloClient<apollo.NormalizedCacheObject>,
-) {
+export function testOrganismNameFilter() {
   test.describe('Organism Name', () => {
+    let client = getApolloClient()
+
+    test.beforeEach(() => {
+      client = getApolloClient()
+    })
+
     test('should filter by organism name', async ({ page }) => {
       const expectedUrl = new URL(BROWSE_DATASETS_URL)
       const params = expectedUrl.searchParams

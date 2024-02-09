@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 
-import apollo from '@apollo/client'
 import { test } from '@playwright/test'
+import { getApolloClient } from 'e2e/apollo'
 import { BROWSE_DATASETS_URL } from 'e2e/constants'
 
 import { QueryParams } from 'app/constants/query'
@@ -9,10 +9,14 @@ import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 
 import { getDatasetTableFilterValidator, validateTable } from './utils'
 
-export function testGroundTruthAnnotationFilter(
-  client: apollo.ApolloClient<apollo.NormalizedCacheObject>,
-) {
+export function testGroundTruthAnnotationFilter() {
   test.describe('Ground Truth Annotation', () => {
+    let client = getApolloClient()
+
+    test.beforeEach(() => {
+      client = getApolloClient()
+    })
+
     test('should filter on click', async ({ page }) => {
       const expectedUrl = new URL(BROWSE_DATASETS_URL)
       const params = expectedUrl.searchParams

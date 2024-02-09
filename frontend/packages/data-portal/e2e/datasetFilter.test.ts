@@ -1,6 +1,3 @@
-import { test } from '@playwright/test'
-import { getApolloClient } from 'e2e/apollo'
-
 import { QueryParams } from 'app/constants/query'
 
 import { E2E_CONFIG } from './constants'
@@ -13,62 +10,52 @@ import {
   testSingleSelectFilter,
 } from './filters'
 
-let client = getApolloClient()
+testGroundTruthAnnotationFilter()
+testAvailableFilesFilter()
+testDatasetIdsFilter()
+testAuthorFilter()
+testOrganismNameFilter()
 
-test.beforeEach(() => {
-  client = getApolloClient()
+testSingleSelectFilter({
+  label: 'Number of Runs',
+  queryParam: QueryParams.NumberOfRuns,
+  values: ['>1', '>5', '>10', '>20', '>100'],
+  serialize: JSON.stringify,
 })
 
-const tests = [
-  testGroundTruthAnnotationFilter,
-  testAvailableFilesFilter,
-  testDatasetIdsFilter,
-  testAuthorFilter,
-  testOrganismNameFilter,
+testSingleSelectFilter({
+  label: 'Camera Manufacturer',
+  queryParam: QueryParams.CameraManufacturer,
+  values: [E2E_CONFIG.cameraManufacturer],
+})
 
-  testSingleSelectFilter({
-    label: 'Number of Runs',
-    queryParam: QueryParams.NumberOfRuns,
-    values: ['>1', '>5', '>10', '>20', '>100'],
-    serialize: JSON.stringify,
-  }),
+testSingleSelectFilter({
+  label: 'Fiducial Alignment Status',
+  queryParam: QueryParams.FiducialAlignmentStatus,
+  values: ['True', 'False'],
+  serialize: (value) => value.toLowerCase(),
+})
 
-  testSingleSelectFilter({
-    label: 'Camera Manufacturer',
-    queryParam: QueryParams.CameraManufacturer,
-    values: [E2E_CONFIG.cameraManufacturer],
-  }),
+testSingleSelectFilter({
+  label: 'Reconstruction Method',
+  queryParam: QueryParams.ReconstructionMethod,
+  values: [E2E_CONFIG.reconstructionMethod],
+})
 
-  testSingleSelectFilter({
-    label: 'Fiducial Alignment Status',
-    queryParam: QueryParams.FiducialAlignmentStatus,
-    values: ['True', 'False'],
-    serialize: (value) => value.toLowerCase(),
-  }),
+testSingleSelectFilter({
+  label: 'Reconstruction Software',
+  queryParam: QueryParams.ReconstructionSoftware,
+  values: [E2E_CONFIG.reconstructionSoftware],
+})
 
-  testSingleSelectFilter({
-    label: 'Reconstruction Method',
-    queryParam: QueryParams.ReconstructionMethod,
-    values: [E2E_CONFIG.reconstructionMethod],
-  }),
+testSingleSelectFilter({
+  label: 'Object Name',
+  queryParam: QueryParams.ObjectName,
+  values: [E2E_CONFIG.objectName],
+})
 
-  testSingleSelectFilter({
-    label: 'Reconstruction Software',
-    queryParam: QueryParams.ReconstructionSoftware,
-    values: [E2E_CONFIG.reconstructionSoftware],
-  }),
-
-  testSingleSelectFilter({
-    label: 'Object Name',
-    queryParam: QueryParams.ObjectName,
-    values: [E2E_CONFIG.objectName],
-  }),
-
-  testSingleSelectFilter({
-    label: 'Object Shape Type',
-    queryParam: QueryParams.ObjectShapeType,
-    values: [E2E_CONFIG.objectShapeType],
-  }),
-]
-
-tests.forEach((runTest) => runTest(client))
+testSingleSelectFilter({
+  label: 'Object Shape Type',
+  queryParam: QueryParams.ObjectShapeType,
+  values: [E2E_CONFIG.objectShapeType],
+})
