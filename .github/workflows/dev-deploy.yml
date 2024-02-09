@@ -3,10 +3,10 @@ name: Deploy to dev cluster
 on:
   push:
     branches:
-      - "dev-*"
+      - 'dev-*'
   delete:
     branches:
-      - "dev-*"
+      - 'dev-*'
 
 # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
 permissions:
@@ -52,6 +52,13 @@ jobs:
           working-directory: ./frontend
           env: dev
           operation: create-or-update
+
+      - name: Annotate workflow run with frontend URL
+        if: ${{ github.event_name == 'push' }} && success()
+        run: |
+          echo "# Frontend URL:" >> $GITHUB_STEP_SUMMARY
+          echo >> $GITHUB_STEP_SUMMARY
+          echo "https://${{ env.STACK_NAME }}.cryoet.dev.si.czi.technology" >> $GITHUB_STEP_SUMMARY
 
       - name: Delete dev set up stack name
         if: ${{ github.event_name == 'delete' && startsWith(github.event.ref, 'dev-') }}
