@@ -35,11 +35,11 @@ export function testAvailableFilesFilter(
 
     filterOptions.forEach((option) =>
       test(`should filter when selecting ${option.label}`, async ({ page }) => {
-        const url = new URL(BROWSE_DATASETS_URL)
-        const params = url.searchParams
+        const expectedUrl = new URL(BROWSE_DATASETS_URL)
+        const params = expectedUrl.searchParams
         params.append(QueryParams.AvailableFiles, option.value)
 
-        const fetchData = getBrowseDatasets({
+        const fetchExpectedData = getBrowseDatasets({
           client,
           params,
         })
@@ -47,9 +47,9 @@ export function testAvailableFilesFilter(
         await page.goto(BROWSE_DATASETS_URL)
         await clickAvailableFilesButton(page)
         await selectAvailableFilesOption(page, option.label)
-        await page.waitForURL(url.href)
+        await page.waitForURL(expectedUrl.href)
 
-        const { data } = await fetchData
+        const { data } = await fetchExpectedData
         await validateTable({
           page,
           browseDatasetsData: data,
@@ -59,10 +59,10 @@ export function testAvailableFilesFilter(
     )
 
     test('should filter when selecting multiple', async ({ page }) => {
-      const url = new URL(BROWSE_DATASETS_URL)
-      await page.goto(url.href)
+      const expectedUrl = new URL(BROWSE_DATASETS_URL)
+      await page.goto(expectedUrl.href)
 
-      const params = url.searchParams
+      const params = expectedUrl.searchParams
       const files = [
         { value: 'raw-frames', label: 'Raw Frames' },
         { value: 'tilt-series-alignment', label: 'Tilt Series Alignment' },
@@ -71,16 +71,16 @@ export function testAvailableFilesFilter(
       for (const { value, label } of files) {
         params.append(QueryParams.AvailableFiles, value)
 
-        const fetchData = getBrowseDatasets({
+        const fetchExpectedData = getBrowseDatasets({
           client,
           params,
         })
 
         await clickAvailableFilesButton(page)
         await selectAvailableFilesOption(page, label)
-        await page.waitForURL(url.href)
+        await page.waitForURL(expectedUrl.href)
 
-        const { data } = await fetchData
+        const { data } = await fetchExpectedData
         await validateTable({
           page,
           browseDatasetsData: data,
@@ -90,19 +90,19 @@ export function testAvailableFilesFilter(
     })
 
     test('should filter when opening URL', async ({ page }) => {
-      const url = new URL(BROWSE_DATASETS_URL)
-      const params = url.searchParams
+      const expectedUrl = new URL(BROWSE_DATASETS_URL)
+      const params = expectedUrl.searchParams
       params.append(QueryParams.AvailableFiles, 'raw-frames')
       params.append(QueryParams.AvailableFiles, 'tilt-series-alignment')
 
-      const fetchData = getBrowseDatasets({
+      const fetchExpectedData = getBrowseDatasets({
         client,
         params,
       })
 
-      await page.goto(url.href)
+      await page.goto(expectedUrl.href)
 
-      const { data } = await fetchData
+      const { data } = await fetchExpectedData
       await validateTable({
         page,
         browseDatasetsData: data,
@@ -111,24 +111,24 @@ export function testAvailableFilesFilter(
     })
 
     test('should disable filter when deselecting', async ({ page }) => {
-      const fetchData = getBrowseDatasets({
+      const fetchExpectedData = getBrowseDatasets({
         client,
       })
 
-      const url = new URL(BROWSE_DATASETS_URL)
-      url.searchParams.append(QueryParams.AvailableFiles, 'raw-frames')
-      url.searchParams.append(
+      const expectedUrl = new URL(BROWSE_DATASETS_URL)
+      expectedUrl.searchParams.append(QueryParams.AvailableFiles, 'raw-frames')
+      expectedUrl.searchParams.append(
         QueryParams.AvailableFiles,
         'tilt-series-alignment',
       )
 
-      await page.goto(url.href)
+      await page.goto(expectedUrl.href)
       await clickAvailableFilesButton(page)
       await selectAvailableFilesOption(page, 'Raw Frames')
       await clearAvailableFileOption(page, ['Tilt Series Alignment'])
       await page.waitForURL(BROWSE_DATASETS_URL)
 
-      const { data } = await fetchData
+      const { data } = await fetchExpectedData
       await validateTable({
         page,
         browseDatasetsData: data,

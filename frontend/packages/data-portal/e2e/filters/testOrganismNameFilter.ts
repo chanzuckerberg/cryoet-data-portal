@@ -29,10 +29,10 @@ export function testOrganismNameFilter(
 ) {
   test.describe('Organism Name', () => {
     test('should filter by organism name', async ({ page }) => {
-      const url = new URL(BROWSE_DATASETS_URL)
-      const params = url.searchParams
+      const expectedUrl = new URL(BROWSE_DATASETS_URL)
+      const params = expectedUrl.searchParams
       params.append(QueryParams.Organism, E2E_CONFIG.organismName1)
-      const fetchData = getBrowseDatasets({
+      const fetchExpectedData = getBrowseDatasets({
         client,
         params,
       })
@@ -40,9 +40,9 @@ export function testOrganismNameFilter(
       await page.goto(BROWSE_DATASETS_URL)
       await openOrganismNameFilter(page)
       await selectOrganismNames(page, E2E_CONFIG.organismName1)
-      await page.waitForURL(url.href)
+      await page.waitForURL(expectedUrl.href)
 
-      const { data } = await fetchData
+      const { data } = await fetchExpectedData
       await validateTable({
         page,
         browseDatasetsData: data,
@@ -51,18 +51,18 @@ export function testOrganismNameFilter(
     })
 
     test('should filter when opening URL', async ({ page }) => {
-      const url = new URL(BROWSE_DATASETS_URL)
-      const params = url.searchParams
+      const expectedUrl = new URL(BROWSE_DATASETS_URL)
+      const params = expectedUrl.searchParams
       params.append(QueryParams.Organism, E2E_CONFIG.organismName1)
 
-      const fetchData = getBrowseDatasets({
+      const fetchExpectedData = getBrowseDatasets({
         client,
         params,
       })
 
-      await page.goto(url.href)
+      await page.goto(expectedUrl.href)
 
-      const { data } = await fetchData
+      const { data } = await fetchExpectedData
       await validateTable({
         page,
         browseDatasetsData: data,
@@ -71,19 +71,19 @@ export function testOrganismNameFilter(
     })
 
     test('should filter multiple values', async ({ page }) => {
-      const url = new URL(BROWSE_DATASETS_URL)
-      const params = url.searchParams
+      const expectedUrl = new URL(BROWSE_DATASETS_URL)
+      const params = expectedUrl.searchParams
       params.append(QueryParams.Organism, E2E_CONFIG.organismName1)
       params.append(QueryParams.Organism, E2E_CONFIG.organismName2)
 
-      const fetchData = getBrowseDatasets({
+      const fetchExpectedData = getBrowseDatasets({
         client,
         params,
       })
 
-      await page.goto(url.href)
+      await page.goto(expectedUrl.href)
 
-      const { data } = await fetchData
+      const { data } = await fetchExpectedData
       await validateTable({
         page,
         browseDatasetsData: data,
@@ -92,7 +92,7 @@ export function testOrganismNameFilter(
     })
 
     test('should filter values within filter dropdown', async ({ page }) => {
-      const fetchData = getBrowseDatasets({ client })
+      const fetchExpectedData = getBrowseDatasets({ client })
 
       await page.goto(BROWSE_DATASETS_URL)
       await openOrganismNameFilter(page)
@@ -101,7 +101,7 @@ export function testOrganismNameFilter(
       await searchInput.click()
       await searchInput.fill(E2E_CONFIG.organismNameQuery)
 
-      const { data } = await fetchData
+      const { data } = await fetchExpectedData
       const organismNames = data.organism_names
         .map((name) => name.organism_name)
         .filter(isString)
@@ -120,17 +120,17 @@ export function testOrganismNameFilter(
     })
 
     test('should clear filter', async ({ page }) => {
-      const fetchData = getBrowseDatasets({ client })
+      const fetchExpectedData = getBrowseDatasets({ client })
 
-      const url = new URL(BROWSE_DATASETS_URL)
-      const params = url.searchParams
+      const expectedUrl = new URL(BROWSE_DATASETS_URL)
+      const params = expectedUrl.searchParams
       params.append(QueryParams.Organism, E2E_CONFIG.organismName1)
 
-      await page.goto(url.href)
+      await page.goto(expectedUrl.href)
       await deselectNumberOfRuns(page, E2E_CONFIG.organismName1)
       await page.waitForURL(BROWSE_DATASETS_URL)
 
-      const { data } = await fetchData
+      const { data } = await fetchExpectedData
       await validateTable({
         page,
         browseDatasetsData: data,

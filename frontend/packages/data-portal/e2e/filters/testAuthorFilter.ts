@@ -44,18 +44,18 @@ function testFilter({
   const value = E2E_CONFIG[valueKey]
 
   test(`should filter by ${label}`, async ({ page }) => {
-    const url = new URL(BROWSE_DATASETS_URL)
-    const params = url.searchParams
+    const expectedUrl = new URL(BROWSE_DATASETS_URL)
+    const params = expectedUrl.searchParams
     params.append(queryParam, value)
-    const fetchData = getBrowseDatasets({ client, params })
+    const fetchExpectedData = getBrowseDatasets({ client, params })
 
     await page.goto(BROWSE_DATASETS_URL)
     await openAuthorFilter(page)
     await fillAuthorFilterInput(page, label, value)
     await applyAuthorFilter(page)
-    await page.waitForURL(url.href)
+    await page.waitForURL(expectedUrl.href)
 
-    const { data } = await fetchData
+    const { data } = await fetchExpectedData
     await validateTable({
       page,
       browseDatasetsData: data,
@@ -64,14 +64,14 @@ function testFilter({
   })
 
   test(`should filter by ${label} when opening URL`, async ({ page }) => {
-    const url = new URL(BROWSE_DATASETS_URL)
-    const params = url.searchParams
+    const expectedUrl = new URL(BROWSE_DATASETS_URL)
+    const params = expectedUrl.searchParams
     params.append(queryParam, value)
-    const fetchData = getBrowseDatasets({ client, params })
+    const fetchExpectedData = getBrowseDatasets({ client, params })
 
-    await page.goto(url.href)
+    await page.goto(expectedUrl.href)
 
-    const { data } = await fetchData
+    const { data } = await fetchExpectedData
     await validateTable({
       page,
       browseDatasetsData: data,
@@ -80,17 +80,17 @@ function testFilter({
   })
 
   test(`should clear ${label} filter`, async ({ page }) => {
-    const fetchData = getBrowseDatasets({ client })
+    const fetchExpectedData = getBrowseDatasets({ client })
 
-    const url = new URL(BROWSE_DATASETS_URL)
-    const params = url.searchParams
+    const expectedUrl = new URL(BROWSE_DATASETS_URL)
+    const params = expectedUrl.searchParams
     params.append(queryParam, value)
 
-    await page.goto(url.href)
+    await page.goto(expectedUrl.href)
     await clearAuthorFilter(page, label, value)
     await page.waitForURL(BROWSE_DATASETS_URL)
 
-    const { data } = await fetchData
+    const { data } = await fetchExpectedData
     await validateTable({
       page,
       browseDatasetsData: data,

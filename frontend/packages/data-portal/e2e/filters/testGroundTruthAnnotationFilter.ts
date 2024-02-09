@@ -14,21 +14,20 @@ export function testGroundTruthAnnotationFilter(
 ) {
   test.describe('Ground Truth Annotation', () => {
     test('should filter on click', async ({ page }) => {
-      const url = new URL(BROWSE_DATASETS_URL)
-      const params = url.searchParams
+      const expectedUrl = new URL(BROWSE_DATASETS_URL)
+      const params = expectedUrl.searchParams
       params.set(QueryParams.GroundTruthAnnotation, 'true')
 
-      const fetchData = getBrowseDatasets({
+      const fetchExpectedData = getBrowseDatasets({
         client,
         params,
       })
 
       await page.goto(BROWSE_DATASETS_URL)
-
       await page.getByText('Ground Truth Annotation').click()
-      await page.waitForURL(url.href)
+      await page.waitForURL(expectedUrl.href)
 
-      const { data } = await fetchData
+      const { data } = await fetchExpectedData
       await validateTable({
         page,
         browseDatasetsData: data,
@@ -37,16 +36,16 @@ export function testGroundTruthAnnotationFilter(
     })
 
     test('should filter when opening URL', async ({ page }) => {
-      const url = new URL(BROWSE_DATASETS_URL)
-      url.searchParams.set(QueryParams.GroundTruthAnnotation, 'true')
-      const fetchData = getBrowseDatasets({
+      const expectedUrl = new URL(BROWSE_DATASETS_URL)
+      expectedUrl.searchParams.set(QueryParams.GroundTruthAnnotation, 'true')
+      const fetchExpectedData = getBrowseDatasets({
         client,
-        params: url.searchParams,
+        params: expectedUrl.searchParams,
       })
 
-      await page.goto(url.href)
+      await page.goto(expectedUrl.href)
 
-      const { data } = await fetchData
+      const { data } = await fetchExpectedData
       await validateTable({
         page,
         browseDatasetsData: data,
@@ -55,19 +54,17 @@ export function testGroundTruthAnnotationFilter(
     })
 
     test('should disable filter on click', async ({ page }) => {
-      const fetchData = getBrowseDatasets({ client })
+      const fetchExpectedData = getBrowseDatasets({ client })
 
-      const url = new URL(BROWSE_DATASETS_URL)
-
-      const params = url.searchParams
+      const expectedUrl = new URL(BROWSE_DATASETS_URL)
+      const params = expectedUrl.searchParams
       params.set(QueryParams.GroundTruthAnnotation, 'true')
 
-      await page.goto(url.href)
-
+      await page.goto(expectedUrl.href)
       await page.getByText('Ground Truth Annotation').click()
       await page.waitForURL(BROWSE_DATASETS_URL)
 
-      const { data } = await fetchData
+      const { data } = await fetchExpectedData
       await validateTable({
         page,
         browseDatasetsData: data,
