@@ -1,5 +1,3 @@
-/* eslint-disable no-await-in-loop */
-
 import apollo from '@apollo/client'
 import { Page, test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'

@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 import { expect, Page } from '@playwright/test'
 
 import { GetDatasetsDataQuery } from 'app/__generated__/graphql'
