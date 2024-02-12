@@ -2,7 +2,7 @@
 module.exports = {
   preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'jsdom',
-  testMatch: ['./app/**/*.test.ts?(x)'],
+  testPathIgnorePatterns: ['./e2e'],
 
   moduleNameMapper: {
     '^app/(.*)$': '<rootDir>/app/$1',
