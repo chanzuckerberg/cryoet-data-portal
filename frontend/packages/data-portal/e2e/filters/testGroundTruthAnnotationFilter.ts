@@ -1,5 +1,3 @@
-/* eslint-disable no-await-in-loop */
-
 import { test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
 import { BROWSE_DATASETS_URL } from 'e2e/constants'
