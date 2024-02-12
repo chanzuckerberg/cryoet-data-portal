@@ -1,23 +1,17 @@
 import { match, P } from 'ts-pattern'
 
 import { TiltSeriesScore } from 'app/constants/tiltSeries'
-import { i18n } from 'app/i18n'
+import { useTiltScoreI18n } from 'app/hooks/useTiltScoreI18n'
 import { cns } from 'app/utils/cns'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
-
-const TILT_SERIES_SCORE_I18N: Record<TiltSeriesScore, string> = {
-  [TiltSeriesScore.VeryPoor]: i18n.veryPoor,
-  [TiltSeriesScore.Poor]: i18n.poor,
-  [TiltSeriesScore.Moderate]: i18n.moderate,
-  [TiltSeriesScore.Good]: i18n.good,
-  [TiltSeriesScore.Excellent]: i18n.excellent,
-}
 
 export function TiltSeriesQualityScoreBadge({
   score,
 }: {
   score: TiltSeriesScore | number
 }) {
+  const tiltScoreI18n = useTiltScoreI18n()
+
   if (!inQualityScoreRange(score)) {
     return null
   }
@@ -47,7 +41,7 @@ export function TiltSeriesQualityScoreBadge({
           .otherwise(() => ''),
       )}
     >
-      {score} - {TILT_SERIES_SCORE_I18N[score]}
+      {score} - {tiltScoreI18n[score]}
     </div>
   )
 }

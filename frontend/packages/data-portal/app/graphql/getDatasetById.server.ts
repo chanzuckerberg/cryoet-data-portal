@@ -1,10 +1,18 @@
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 
 import { gql } from 'app/__generated__'
+import { Runs_Bool_Exp } from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { FilterState, getFilterState } from 'app/hooks/useFilter'
+import { getTiltRangeFilter } from 'app/utils/filter'
 
 const GET_DATASET_BY_ID = gql(`
-  query GetDatasetById($id: Int, $run_limit: Int, $run_offset: Int) {
+  query GetDatasetById(
+    $id: Int,
+    $run_limit: Int,
+    $run_offset: Int,
+    $filter: runs_bool_exp,
+  ) {
     datasets(where: { id: { _eq: $id } }) {
       s3_prefix
 
@@ -80,7 +88,11 @@ const GET_DATASET_BY_ID = gql(`
         }
       }
 
-      runs(limit: $run_limit, offset: $run_offset) {
+      runs(
+        limit: $run_limit,
+        offset: $run_offset,
+        where: $filter,
+      ) {
         id
         name
 
@@ -110,18 +122,59 @@ const GET_DATASET_BY_ID = gql(`
           count
         }
       }
+
+      filtered_runs_count: runs_aggregate(where: $filter) {
+        aggregate {
+          count
+        }
+      }
+
+      run_stats: runs {
+        tiltseries(distinct_on: tilt_series_quality) {
+          tilt_series_quality
+        }
+      }
     }
   }
 `)
+
+function getFilter(filterState: FilterState) {
+  const filters: Runs_Bool_Exp[] = []
+
+  const tiltRangeFilter = getTiltRangeFilter(
+    filterState.tiltSeries.min,
+    filterState.tiltSeries.max,
+  )
+
+  if (tiltRangeFilter) {
+    filters.push(tiltRangeFilter)
+  }
+
+  if (filterState.tiltSeries.qualityScore.length > 0) {
+    filters.push({
+      tiltseries: {
+        tilt_series_quality: {
+          _in: filterState.tiltSeries.qualityScore
+            .map((score) => +score)
+            .filter((val) => !Number.isNaN(val)),
+        },
+      },
+    })
+  }
+
+  return { _and: filters } as Runs_Bool_Exp
+}
 
 export async function getDatasetById({
   client,
   id,
   page = 1,
+  params = new URLSearchParams(),
 }: {
   client: ApolloClient<NormalizedCacheObject>
   id: number
   page?: number
+  params?: URLSearchParams
 }) {
   return client.query({
     query: GET_DATASET_BY_ID,
@@ -129,6 +182,7 @@ export async function getDatasetById({
       id,
       run_limit: MAX_PER_PAGE,
       run_offset: (page - 1) * MAX_PER_PAGE,
+      filter: getFilter(getFilterState(params)),
     },
   })
 }

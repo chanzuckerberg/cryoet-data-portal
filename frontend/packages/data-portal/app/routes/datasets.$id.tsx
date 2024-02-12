@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
-import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 
 import { apolloClient } from 'app/apollo.server'
@@ -8,12 +7,12 @@ import { DatasetMetadataDrawer } from 'app/components/Dataset'
 import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
 import { RunsTable } from 'app/components/Dataset/RunsTable'
 import { DownloadModal } from 'app/components/Download'
+import { RunFilter } from 'app/components/RunFilter'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { i18n } from 'app/i18n'
-import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
@@ -32,6 +31,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     id,
     page,
     client: apolloClient,
+    params: url.searchParams,
   })
 
   if (data.datasets.length === 0) {
@@ -42,10 +42,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   }
 
   return json(data)
-}
-
-export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
-  return shouldRevalidatePage(args)
 }
 
 export default function DatasetByIdPage() {
@@ -63,11 +59,11 @@ export default function DatasetByIdPage() {
         />
       }
       drawers={<DatasetMetadataDrawer />}
-      // TODO add filter count when filters are added
-      filteredCount={dataset.runs_aggregate.aggregate?.count ?? 0}
+      filteredCount={dataset.filtered_runs_count.aggregate?.count ?? 0}
       header={<DatasetHeader />}
       table={<RunsTable />}
       totalCount={dataset.runs_aggregate.aggregate?.count ?? 0}
+      filters={<RunFilter />}
     />
   )
 }

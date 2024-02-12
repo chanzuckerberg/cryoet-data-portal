@@ -2,8 +2,8 @@ import { useMemo } from 'react'
 
 import { FilterSection, SelectFilter } from 'app/components/Filters'
 import { QueryParams } from 'app/constants/query'
-import { useDatasetFilter } from 'app/hooks/useDatasetFilter'
 import { useDatasets } from 'app/hooks/useDatasets'
+import { useFilter } from 'app/hooks/useFilter'
 import { i18n } from 'app/i18n'
 import { BaseFilterOption } from 'app/types/filter'
 
@@ -18,7 +18,7 @@ export function HardwareFilterSection() {
   const {
     updateValue,
     hardware: { cameraManufacturer },
-  } = useDatasetFilter()
+  } = useFilter()
 
   const cameraManufacturerValue = useMemo<BaseFilterOption | null>(() => {
     return cameraManufacturer ? { value: cameraManufacturer } : null

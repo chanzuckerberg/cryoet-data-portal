@@ -2,8 +2,8 @@ import { useMemo } from 'react'
 
 import { FilterSection, SelectFilter } from 'app/components/Filters'
 import { QueryParams } from 'app/constants/query'
-import { useDatasetFilter } from 'app/hooks/useDatasetFilter'
 import { useDatasets } from 'app/hooks/useDatasets'
+import { useFilter } from 'app/hooks/useFilter'
 import { i18n } from 'app/i18n'
 import {
   BaseFilterOption,
@@ -24,7 +24,7 @@ export function TomogramMetadataFilterSection() {
       reconstructionMethod,
       reconstructionSoftware,
     },
-  } = useDatasetFilter()
+  } = useFilter()
 
   const fiducialAlignmentOption = useMemo(() => {
     if (fiducialAlignmentStatus === null) {

@@ -1,15 +1,11 @@
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { isNumber } from 'lodash-es'
 import { match } from 'ts-pattern'
 
 import { gql } from 'app/__generated__'
 import { Datasets_Bool_Exp, Order_By } from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
-import { DEFAULT_TILT_MAX, DEFAULT_TILT_MIN } from 'app/constants/tiltSeries'
-import {
-  DatasetFilterState,
-  getDatasetFilter,
-} from 'app/hooks/useDatasetFilter'
+import { FilterState, getFilterState } from 'app/hooks/useFilter'
+import { getTiltRangeFilter } from 'app/utils/filter'
 
 const GET_DATASETS_DATA_QUERY = gql(`
   query GetDatasetsData(
@@ -94,15 +90,7 @@ const GET_DATASETS_DATA_QUERY = gql(`
   }
 `)
 
-function getTiltValue(value: string | null) {
-  if (value && !Number.isNaN(+value)) {
-    return +value
-  }
-
-  return null
-}
-
-function getFilter(datasetFilter: DatasetFilterState, query: string) {
+function getFilter(filterState: FilterState, query: string) {
   const filters: Datasets_Bool_Exp[] = []
 
   // Text search by dataset title
@@ -116,7 +104,7 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
 
   // Included contents filters
   // Ground truth filter
-  if (datasetFilter.includedContents.isGroundTruthEnabled) {
+  if (filterState.includedContents.isGroundTruthEnabled) {
     filters.push({
       runs: {
         tomogram_voxel_spacings: {
@@ -131,7 +119,7 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
   }
 
   // Available files filter
-  datasetFilter.includedContents.availableFiles.forEach((file) =>
+  filterState.includedContents.availableFiles.forEach((file) =>
     match(file)
       .with('raw-frames', () =>
         filters.push({
@@ -187,8 +175,8 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
   )
 
   // Number of runs filter
-  if (datasetFilter.includedContents.numberOfRuns) {
-    const runCount = +datasetFilter.includedContents.numberOfRuns.slice(1)
+  if (filterState.includedContents.numberOfRuns) {
+    const runCount = +filterState.includedContents.numberOfRuns.slice(1)
     filters.push({
       runs_aggregate: {
         count: {
@@ -202,7 +190,7 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
   const idFilters: Datasets_Bool_Exp[] = []
 
   // Portal ID filter
-  const portalId = +(datasetFilter.ids.portal ?? Number.NaN)
+  const portalId = +(filterState.ids.portal ?? Number.NaN)
   if (!Number.isNaN(portalId) && portalId > 0) {
     idFilters.push({
       id: {
@@ -212,7 +200,7 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
   }
 
   // Empiar filter
-  const empiarId = datasetFilter.ids.empiar
+  const empiarId = filterState.ids.empiar
   if (empiarId) {
     idFilters.push({
       related_database_entries: {
@@ -222,7 +210,7 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
   }
 
   // EMDB filter
-  const emdbId = datasetFilter.ids.emdb
+  const emdbId = filterState.ids.emdb
   if (emdbId) {
     idFilters.push({
       related_database_entries: {
@@ -238,29 +226,29 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
   // Author filters
 
   // Author name filter
-  if (datasetFilter.author.name) {
+  if (filterState.author.name) {
     filters.push({
       authors: {
         name: {
-          _ilike: `%${datasetFilter.author.name}%`,
+          _ilike: `%${filterState.author.name}%`,
         },
       },
     })
   }
 
   // Author Orcid filter
-  if (datasetFilter.author.orcid) {
+  if (filterState.author.orcid) {
     filters.push({
       authors: {
         orcid: {
-          _ilike: `%${datasetFilter.author.orcid}%`,
+          _ilike: `%${filterState.author.orcid}%`,
         },
       },
     })
   }
 
   // Sample and experiment condition filters
-  const { organismNames } = datasetFilter.sampleAndExperimentConditions
+  const { organismNames } = filterState.sampleAndExperimentConditions
 
   // Organism name filter
   if (organismNames.length > 0) {
@@ -271,12 +259,12 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
 
   // Hardware filters
   // Camera manufacturer filter
-  if (datasetFilter.hardware.cameraManufacturer) {
+  if (filterState.hardware.cameraManufacturer) {
     filters.push({
       runs: {
         tiltseries: {
           camera_manufacturer: {
-            _eq: datasetFilter.hardware.cameraManufacturer,
+            _eq: filterState.hardware.cameraManufacturer,
           },
         },
       },
@@ -284,51 +272,26 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
   }
 
   // Tilt series metadata filters
-  let tiltMin = getTiltValue(datasetFilter.tiltSeries.min)
-  let tiltMax = getTiltValue(datasetFilter.tiltSeries.max)
+  const tiltRangeFilter = getTiltRangeFilter(
+    filterState.tiltSeries.min,
+    filterState.tiltSeries.max,
+  )
 
-  if (isNumber(tiltMin) && !isNumber(tiltMax)) {
-    tiltMax = DEFAULT_TILT_MAX
-  }
-
-  if (!isNumber(tiltMin) && isNumber(tiltMax)) {
-    tiltMin = DEFAULT_TILT_MIN
-  }
-
-  // Tilt range filter
-  if (tiltMin) {
+  if (tiltRangeFilter) {
     filters.push({
-      runs: {
-        tiltseries: {
-          tilt_range: {
-            _gte: tiltMin,
-          },
-        },
-      },
-    })
-  }
-
-  if (tiltMax) {
-    filters.push({
-      runs: {
-        tiltseries: {
-          tilt_range: {
-            _lte: tiltMax,
-          },
-        },
-      },
+      runs: tiltRangeFilter,
     })
   }
 
   // Tomogram metadata filters
-  if (datasetFilter.tomogram.fiducialAlignmentStatus) {
+  if (filterState.tomogram.fiducialAlignmentStatus) {
     filters.push({
       runs: {
         tomogram_voxel_spacings: {
           tomograms: {
             fiducial_alignment_status: {
               _eq:
-                datasetFilter.tomogram.fiducialAlignmentStatus === 'true'
+                filterState.tomogram.fiducialAlignmentStatus === 'true'
                   ? 'FIDUCIAL'
                   : 'NON_FIDUCIAL',
             },
@@ -339,13 +302,13 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
   }
 
   // Reconstruction method filter
-  if (datasetFilter.tomogram.reconstructionMethod) {
+  if (filterState.tomogram.reconstructionMethod) {
     filters.push({
       runs: {
         tomogram_voxel_spacings: {
           tomograms: {
             reconstruction_method: {
-              _eq: datasetFilter.tomogram.reconstructionMethod,
+              _eq: filterState.tomogram.reconstructionMethod,
             },
           },
         },
@@ -354,13 +317,13 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
   }
 
   // Reconstruction software filter
-  if (datasetFilter.tomogram.reconstructionSoftware) {
+  if (filterState.tomogram.reconstructionSoftware) {
     filters.push({
       runs: {
         tomogram_voxel_spacings: {
           tomograms: {
             reconstruction_software: {
-              _eq: datasetFilter.tomogram.reconstructionSoftware,
+              _eq: filterState.tomogram.reconstructionSoftware,
             },
           },
         },
@@ -369,7 +332,7 @@ function getFilter(datasetFilter: DatasetFilterState, query: string) {
   }
 
   // Annotation filters
-  const { objectNames, objectShapeTypes } = datasetFilter.annotation
+  const { objectNames, objectShapeTypes } = filterState.annotation
 
   // Object names filter
   if (objectNames.length > 0) {
@@ -422,7 +385,7 @@ export async function getBrowseDatasets({
   return client.query({
     query: GET_DATASETS_DATA_QUERY,
     variables: {
-      filter: getFilter(getDatasetFilter(params), query),
+      filter: getFilter(getFilterState(params), query),
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
       order_by_dataset: orderBy,

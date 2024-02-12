@@ -1,5 +1,5 @@
-import { useSearchParams } from '@remix-run/react'
-import { useMemo } from 'react'
+import { useLocation, useSearchParams } from '@remix-run/react'
+import { useCallback, useMemo } from 'react'
 import { match, P } from 'ts-pattern'
 
 import { QueryParams } from 'app/constants/query'
@@ -10,7 +10,7 @@ import {
   NumberOfRunsFilterValue,
 } from 'app/types/filter'
 
-export function getDatasetFilter(searchParams: URLSearchParams) {
+export function getFilterState(searchParams: URLSearchParams) {
   return {
     includedContents: {
       isGroundTruthEnabled:
@@ -47,6 +47,7 @@ export function getDatasetFilter(searchParams: URLSearchParams) {
     tiltSeries: {
       min: searchParams.get(QueryParams.TiltRangeMin) ?? '',
       max: searchParams.get(QueryParams.TiltRangeMax) ?? '',
+      qualityScore: searchParams.getAll(QueryParams.QualityScore),
     },
 
     tomogram: {
@@ -69,15 +70,53 @@ export function getDatasetFilter(searchParams: URLSearchParams) {
   }
 }
 
-export type DatasetFilterState = ReturnType<typeof getDatasetFilter>
+export type FilterState = ReturnType<typeof getFilterState>
 
-export function useDatasetFilter() {
+type FilterValue =
+  | string
+  | null
+  | string[]
+  | BaseFilterOption
+  | BaseFilterOption[]
+
+function normalizeFilterValue(value: FilterValue) {
+  return match(value)
+    .returnType<string[]>()
+    .with(P.array(P.string), (val) => val)
+    .with(P.array({ value: P.string }), (val) => val.map((v) => v.value))
+    .with(P.string, (val) => [val])
+    .with({ value: P.string }, (val) => [val.value])
+    .otherwise(() => [])
+}
+
+export function useFilter() {
   const [searchParams, setSearchParams] = useSearchParams()
   const plausible = usePlausible()
+  const location = useLocation()
+  const filterType = match(location.pathname)
+    .with(P.string.regex(/\/runs/), () => 'run' as const)
+    .otherwise(() => 'dataset' as const)
+
+  const logPlausibleEvent = useCallback(
+    (param: QueryParams, value?: FilterValue) => {
+      plausible(Events.Filter, {
+        field: param,
+        value: match(value)
+          .with(P.string, P.nullish, (val) => val)
+          .with(P.array(P.string), (val) => val.join(','))
+          .with(P.array(P.any), (val) =>
+            val.map((option) => option.value).join(','),
+          )
+          .otherwise((val) => val.value),
+        type: filterType,
+      })
+    },
+    [filterType, plausible],
+  )
 
   return useMemo(
     () => ({
-      ...getDatasetFilter(searchParams),
+      ...getFilterState(searchParams),
 
       reset() {
         setSearchParams((prev) => {
@@ -88,51 +127,41 @@ export function useDatasetFilter() {
         })
       },
 
-      updateValue(
-        param: QueryParams,
-        value?:
-          | string
-          | null
-          | string[]
-          | BaseFilterOption
-          | BaseFilterOption[],
-      ) {
-        plausible(Events.Filter, {
-          field: param,
-          value: match(value)
-            .with(P.string, P.nullish, (val) => val)
-            .with(P.array(P.string), (val) => val.join(','))
-            .with(P.array(P.any), (val) =>
-              val.map((option) => option.value).join(','),
-            )
-            .otherwise((val) => val.value),
-          type: 'dataset',
-        })
+      updateValue(param: QueryParams, value?: FilterValue) {
+        logPlausibleEvent(param, value)
 
         setSearchParams((prev) => {
           prev.delete(param)
           prev.delete('page')
 
-          if (!value) {
-            return prev
+          if (value) {
+            normalizeFilterValue(value).forEach((v) => prev.append(param, v))
           }
 
-          const values = match(value)
-            .returnType<string[]>()
-            .with(P.array(P.string), (val) => val)
-            .with(P.array({ value: P.string }), (val) =>
-              val.map((v) => v.value),
-            )
-            .with(P.string, (val) => [val])
-            .with({ value: P.string }, (val) => [val.value])
-            .otherwise(() => [])
+          return prev
+        })
+      },
 
-          values.forEach((v) => prev.append(param, v))
+      updateValues(params: Partial<Record<QueryParams, FilterValue>>) {
+        const entries = Object.entries(params) as [QueryParams, FilterValue][]
+        entries.forEach(([param, value]) => logPlausibleEvent(param, value))
+
+        setSearchParams((prev) => {
+          prev.delete('page')
+
+          entries.forEach(([param, value]) => {
+            prev.delete(param)
+
+            if (value) {
+              normalizeFilterValue(value).forEach((v) => prev.append(param, v))
+            }
+          })
 
           return prev
         })
       },
     }),
-    [plausible, searchParams, setSearchParams],
+
+    [logPlausibleEvent, searchParams, setSearchParams],
   )
 }

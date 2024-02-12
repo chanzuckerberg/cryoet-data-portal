@@ -3,9 +3,12 @@ import { useState } from 'react'
 import { match, P } from 'ts-pattern'
 
 import { QueryParams } from 'app/constants/query'
-import { DEFAULT_TILT_MAX, DEFAULT_TILT_MIN } from 'app/constants/tiltSeries'
-import { useDatasetFilter } from 'app/hooks/useDatasetFilter'
-import { i18n } from 'app/i18n'
+import {
+  DEFAULT_TILT_RANGE_MAX,
+  DEFAULT_TILT_RANGE_MIN,
+} from 'app/constants/tiltSeries'
+import { useFilter } from 'app/hooks/useFilter'
+import { useI18n } from 'app/hooks/useI18n'
 
 import {
   ActiveDropdownFilterData,
@@ -14,35 +17,47 @@ import {
 
 function TiltRangeInput({
   id,
+  label,
   onChange,
   placeholder,
   value,
 }: {
   id: string
+  label: string
   onChange(value: string): void
   placeholder: number
   value: string
 }) {
+  const { t } = useI18n()
+
   return (
-    <InputText
-      id={id}
-      className="!min-w-[85px] !mb-0"
-      label={id}
-      hideLabel
-      placeholder={i18n.unitDegree(placeholder)}
-      value={value}
-      onChange={(event) => onChange(event.target.value)}
-      type="number"
-      fullWidth
-    />
+    <div className="flex flex-col gap-sds-xxxs">
+      <p className="text-sds-body-xs leading-sds-body-xs tracking-sds-default">
+        {label}:
+      </p>
+
+      <InputText
+        id={id}
+        className="!min-w-[85px] !mb-0"
+        label={id}
+        hideLabel
+        placeholder={t('unitDegree', { value: placeholder })}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        type="number"
+        fullWidth
+      />
+    </div>
   )
 }
 
 export function TiltRangeFilter() {
+  const { t } = useI18n()
+
   const {
-    updateValue,
+    updateValues,
     tiltSeries: { min: tiltMinParam, max: tiltMaxParam },
-  } = useDatasetFilter()
+  } = useFilter()
 
   const [tiltMin, setTiltMin] = useState(tiltMinParam)
   const [tiltMax, setTiltMax] = useState(tiltMaxParam)
@@ -60,77 +75,70 @@ export function TiltRangeFilter() {
         .returnType<ActiveDropdownFilterData[]>()
         .with([P.not(''), ''], () => [
           {
-            value: i18n.valueToValue(
-              i18n.unitDegree(+tiltMin),
-              i18n.unitDegree(DEFAULT_TILT_MAX),
-            ),
+            value: t('valueToValue', {
+              value1: t('unitDegree', { value: tiltMinParam }),
+              value2: t('unitDegree', { value: DEFAULT_TILT_RANGE_MAX }),
+            }),
           },
         ])
         .with(['', P.not('')], () => [
           {
-            value: i18n.valueToValue(
-              i18n.unitDegree(DEFAULT_TILT_MIN),
-              i18n.unitDegree(+tiltMax),
-            ),
+            value: t('valueToValue', {
+              value1: t('unitDegree', { value: DEFAULT_TILT_RANGE_MIN }),
+              value2: t('unitDegree', { value: tiltMaxParam }),
+            }),
           },
         ])
         .with([P.not(''), P.not('')], () => [
           {
-            value: i18n.valueToValue(
-              i18n.unitDegree(+tiltMin),
-              i18n.unitDegree(+tiltMax),
-            ),
+            value: t('valueToValue', {
+              value1: t('unitDegree', { value: tiltMinParam }),
+              value2: t('unitDegree', { value: tiltMaxParam }),
+            }),
           },
         ])
         .otherwise(() => [])}
-      description={
-        <>
-          <p className="text-sds-header-xs leading-sds-header-xs font-semibold">
-            {i18n.tiltRangeFilterTitle}
-          </p>
-
-          <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
-            {i18n.tiltRangeFilterDescription}
-          </p>
-        </>
-      }
       disabled={isDisabled}
-      label={i18n.tiltRange}
+      label={t('tiltRange')}
       onApply={() => {
-        updateValue(QueryParams.TiltRangeMin, tiltMin)
-        updateValue(QueryParams.TiltRangeMax, tiltMax)
+        updateValues({
+          [QueryParams.TiltRangeMin]: tiltMin,
+          [QueryParams.TiltRangeMax]: tiltMax,
+        })
       }}
       onCancel={() => {
         setTiltMin(tiltMinParam)
-        setTiltMin(tiltMaxParam)
+        setTiltMax(tiltMaxParam)
       }}
       onRemoveFilter={() => {
-        setTiltMin('')
-        setTiltMax('')
-        updateValue(QueryParams.TiltRangeMin, null)
-        updateValue(QueryParams.TiltRangeMax, null)
+        updateValues({
+          [QueryParams.TiltRangeMin]: null,
+          [QueryParams.TiltRangeMax]: null,
+        })
       }}
     >
-      <div className="flex items-center gap-sds-s max-w-[320px] mt-sds-xs">
-        <TiltRangeInput
-          id="tilt-min-input"
-          placeholder={DEFAULT_TILT_MIN}
-          value={tiltMin}
-          onChange={setTiltMin}
-        />
+      <div className="flex flex-col gap-sds-xs max-w-[320px] mt-sds-xs">
+        <div className="flex items-center gap-sds-l">
+          <TiltRangeInput
+            label={t('tiltRangeMin')}
+            id="tilt-min-input"
+            placeholder={DEFAULT_TILT_RANGE_MIN}
+            value={tiltMin}
+            onChange={setTiltMin}
+          />
 
-        <div className="flex items-center gap-sds-xs whitespace-nowrap">
-          <span>≤</span>
-          <span>{i18n.filterRange}</span>
-          <span>≤</span>
+          <TiltRangeInput
+            label={t('tiltRangeMax')}
+            id="tilt-max-input"
+            placeholder={DEFAULT_TILT_RANGE_MAX}
+            value={tiltMax}
+            onChange={setTiltMax}
+          />
         </div>
 
-        <TiltRangeInput
-          id="tilt-max-input"
-          placeholder={DEFAULT_TILT_MAX}
-          value={tiltMax}
-          onChange={setTiltMax}
-        />
+        <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
+          {t('tiltRangeFilterDescription')}
+        </p>
       </div>
     </DropdownFilterButton>
   )

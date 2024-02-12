@@ -18,15 +18,17 @@ export function DropdownFilterButton({
   label,
   onApply,
   onCancel,
+  onOpen,
   onRemoveFilter,
 }: {
   activeFilters: ActiveDropdownFilterData[]
   children: ReactNode
-  description: ReactNode
+  description?: ReactNode
   disabled?: boolean
   label: string
   onApply(): void
   onCancel(): void
+  onOpen?(): void
   onRemoveFilter(filter: ActiveDropdownFilterData): void
 }) {
   const [open, setOpen] = useState(false)
@@ -41,11 +43,14 @@ export function DropdownFilterButton({
           open && '!bg-sds-gray-100',
         )}
         ref={buttonRef}
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() => {
+          setOpen((prev) => !prev)
+          onOpen?.()
+        }}
       >
         <span
           className={cns(
-            'font-semibold group-hover:text-black transition-colors',
+            'font-semibold group-hover:text-black transition-colors text-sm',
             open ? 'text-black' : 'text-sds-gray-500',
           )}
         >
@@ -108,7 +113,7 @@ export function DropdownFilterButton({
           {description}
           {children}
 
-          <div className="flex items-center gap-sds-default mt-5">
+          <div className="flex items-center gap-sds-default mt-sds-l">
             <Button
               disabled={disabled}
               sdsType="primary"

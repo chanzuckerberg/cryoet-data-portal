@@ -57,7 +57,7 @@ export type EventPayloads = {
     field: string
     value?: string | null
     // Add type field for future filters
-    type: 'dataset'
+    type: 'dataset' | 'run'
   }
 
   [Events.ToggleMetadataDrawer]: {

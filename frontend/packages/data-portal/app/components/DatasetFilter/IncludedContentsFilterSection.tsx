@@ -6,7 +6,7 @@ import {
   SelectFilter,
 } from 'app/components/Filters'
 import { QueryParams } from 'app/constants/query'
-import { useDatasetFilter } from 'app/hooks/useDatasetFilter'
+import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
 import { i18n } from 'app/i18n'
 import {
@@ -36,7 +36,7 @@ export function IncludedContentsFilterSection() {
   const {
     updateValue,
     includedContents: { isGroundTruthEnabled, availableFiles, numberOfRuns },
-  } = useDatasetFilter()
+  } = useFilter()
 
   const availableFilesOptions = useMemo(
     () =>

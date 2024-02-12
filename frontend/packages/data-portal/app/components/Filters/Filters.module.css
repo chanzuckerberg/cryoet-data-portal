@@ -1,0 +1,36 @@
+/* stylelint-disable selector-class-pattern */
+
+.boolean {
+  :global(.MuiTypography-root) {
+    font-size: theme('fontSize.sds-body-s') !important;
+  }
+}
+
+.select {
+  :global(.MuiButtonBase-root) {
+    @apply w-max;
+
+    /* Adjust padding to match our UI designs */
+    padding: 5px theme('padding.sds-s');
+
+    ~ div {
+      @apply pl-sds-s;
+
+      &:empty {
+        @apply hidden;
+      }
+    }
+  }
+
+  :global(#meets-all) {
+    @apply text-sds-body-xs leading-sds-body-xs text-sds-gray-500;
+
+    letter-spacing: 0.3px;
+  }
+}
+
+.popper {
+  :global(.MuiMenuItem-root) > span:nth-child(1) {
+    @apply flex items-center justify-center;
+  }
+}
