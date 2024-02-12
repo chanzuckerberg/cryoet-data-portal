@@ -92,7 +92,7 @@
   "fileSize": "File Size",
   "filterBy": "Filter by",
   "filterByAnyOfTheFollowing": "Filter by any of the following",
-  "filterCountOfMaxType": "{{count} of {max} {type}}",
+  "filterCountOfMaxType": "{{count}} of {{max}} {{type}}",
   "filterNoResultsFound": "No results were found",
   "filterRange": "Filter Range",
   "filterTooRestrictive": "The applied filters may be too restrictive.",

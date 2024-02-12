@@ -5,6 +5,7 @@
 
 const configs = {
   dev: require.resolve('./dev.cjs'),
+  e2e: require.resolve('./e2e.cjs'),
   react: require.resolve('./react.cjs'),
   tests: require.resolve('./tests.cjs'),
   typescript: require.resolve('./typescript.cjs'),
@@ -37,6 +38,12 @@ module.exports = {
     {
       files: ['./app/**/*.test.ts{,x}'],
       extends: [configs.typescript, configs.react, configs.tests],
+    },
+
+    // E2E tests
+    {
+      files: ['./e2e/**/*.ts'],
+      extends: [configs.typescript, configs.react, configs.dev, configs.e2e],
     },
 
     /*

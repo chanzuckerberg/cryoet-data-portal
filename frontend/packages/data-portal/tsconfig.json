@@ -18,6 +18,6 @@
     "target": "esnext",
     "incremental": true
   },
-  "include": ["*.d.ts", "*.ts", "app/**/*.ts", "app/**/*.tsx"],
+  "include": ["*.d.ts", "*.ts", "app/**/*.ts", "app/**/*.tsx", "e2e/**/*.ts"],
   "exclude": ["node_modules"]
 }
