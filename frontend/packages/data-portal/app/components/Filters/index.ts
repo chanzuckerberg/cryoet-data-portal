@@ -1,3 +1,4 @@
+export * from './AnnotationObjectNameFilter'
 export * from './BooleanFilter'
 export * from './Filters'
 export * from './FilterSection'

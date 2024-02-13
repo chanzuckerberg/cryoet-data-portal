@@ -130,6 +130,12 @@ const GET_DATASET_BY_ID = gql(`
       }
 
       run_stats: runs {
+        tomogram_voxel_spacings {
+          annotations(distinct_on: object_name) {
+            object_name
+          }
+        }
+
         tiltseries(distinct_on: tilt_series_quality) {
           tilt_series_quality
         }
@@ -157,6 +163,18 @@ function getFilter(filterState: FilterState) {
           _in: filterState.tiltSeries.qualityScore
             .map((score) => +score)
             .filter((val) => !Number.isNaN(val)),
+        },
+      },
+    })
+  }
+
+  if (filterState.annotation.objectNames.length > 0) {
+    filters.push({
+      tomogram_voxel_spacings: {
+        annotations: {
+          object_name: {
+            _in: filterState.annotation.objectNames,
+          },
         },
       },
     })
