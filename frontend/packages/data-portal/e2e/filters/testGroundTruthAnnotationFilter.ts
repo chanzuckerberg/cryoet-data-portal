@@ -5,7 +5,7 @@ import { BROWSE_DATASETS_URL } from 'e2e/constants'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 
-import { getDatasetTableFilterValidator, validateTable } from './utils'
+import { getDatasetTableFilterValidator, goTo, validateTable } from './utils'
 
 export function testGroundTruthAnnotationFilter() {
   test.describe('Ground Truth Annotation', () => {
@@ -25,7 +25,7 @@ export function testGroundTruthAnnotationFilter() {
         params,
       })
 
-      await page.goto(BROWSE_DATASETS_URL)
+      await goTo(page, BROWSE_DATASETS_URL)
       await page.getByText('Ground Truth Annotation').click()
       await page.waitForURL(expectedUrl.href)
 
@@ -45,7 +45,7 @@ export function testGroundTruthAnnotationFilter() {
         params: expectedUrl.searchParams,
       })
 
-      await page.goto(expectedUrl.href)
+      await goTo(page, expectedUrl.href)
 
       const { data } = await fetchExpectedData
       await validateTable({
@@ -62,7 +62,7 @@ export function testGroundTruthAnnotationFilter() {
       const params = expectedUrl.searchParams
       params.set(QueryParams.GroundTruthAnnotation, 'true')
 
-      await page.goto(expectedUrl.href)
+      await goTo(page, expectedUrl.href)
       await page.getByText('Ground Truth Annotation').click()
       await page.waitForURL(BROWSE_DATASETS_URL)
 

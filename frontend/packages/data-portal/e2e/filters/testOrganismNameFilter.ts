@@ -6,7 +6,7 @@ import { isString } from 'lodash-es'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 
-import { getDatasetTableFilterValidator, validateTable } from './utils'
+import { getDatasetTableFilterValidator, goTo, validateTable } from './utils'
 
 async function openOrganismNameFilter(page: Page) {
   await page.getByRole('button', { name: 'Organism Name' }).click()
@@ -41,7 +41,7 @@ export function testOrganismNameFilter() {
         params,
       })
 
-      await page.goto(BROWSE_DATASETS_URL)
+      await goTo(page, BROWSE_DATASETS_URL)
       await openOrganismNameFilter(page)
       await selectOrganismNames(page, E2E_CONFIG.organismName1)
       await page.waitForURL(expectedUrl.href)
@@ -64,7 +64,7 @@ export function testOrganismNameFilter() {
         params,
       })
 
-      await page.goto(expectedUrl.href)
+      await goTo(page, expectedUrl.href)
 
       const { data } = await fetchExpectedData
       await validateTable({
@@ -85,7 +85,7 @@ export function testOrganismNameFilter() {
         params,
       })
 
-      await page.goto(expectedUrl.href)
+      await goTo(page, expectedUrl.href)
 
       const { data } = await fetchExpectedData
       await validateTable({
@@ -98,7 +98,7 @@ export function testOrganismNameFilter() {
     test('should filter values within filter dropdown', async ({ page }) => {
       const fetchExpectedData = getBrowseDatasets({ client })
 
-      await page.goto(BROWSE_DATASETS_URL)
+      await goTo(page, BROWSE_DATASETS_URL)
       await openOrganismNameFilter(page)
 
       const searchInput = page.getByRole('combobox', { name: 'Search' })
@@ -130,7 +130,7 @@ export function testOrganismNameFilter() {
       const params = expectedUrl.searchParams
       params.append(QueryParams.Organism, E2E_CONFIG.organismName1)
 
-      await page.goto(expectedUrl.href)
+      await goTo(page, expectedUrl.href)
       await deselectNumberOfRuns(page, E2E_CONFIG.organismName1)
       await page.waitForURL(BROWSE_DATASETS_URL)
 
