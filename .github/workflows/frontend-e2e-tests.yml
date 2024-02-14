@@ -13,7 +13,7 @@ jobs:
   frontend-e2e-tests:
     strategy:
       matrix:
-        browser: [chrome]
+        browser: [chrome, firefox, webkit]
         shardCurrent: [1, 2, 3, 4, 5]
         shardTotal: [5]
 
