@@ -51,7 +51,7 @@ jobs:
   e2e-test-staging:
     name: E2E Tests
     needs: deploy-to-staging
-    uses: chanzuckerberg/cryoet-data-porta/.github/workflows/frontend-e2e-tests.yml@main
+    uses: chanzuckerberg/cryoet-data-portal/.github/workflows/frontend-e2e-tests.yml@main
     secrets: inherit
     with:
       environment: staging
