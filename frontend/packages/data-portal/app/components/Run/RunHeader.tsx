@@ -161,7 +161,7 @@ export function RunHeader() {
                 data={[
                   {
                     label: i18n.resolutionsAvailable,
-                    values: ['10.00Å, 13.70Å'],
+                    values: ['10.00Å', '13.70Å'],
                   },
                   {
                     label: i18n.tomogramProcessing,
