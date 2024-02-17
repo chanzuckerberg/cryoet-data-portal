@@ -5,7 +5,7 @@ import { BROWSE_DATASETS_URL } from 'e2e/constants'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 
-import { getDatasetTableFilterValidator, validateTable } from './utils'
+import { getDatasetTableFilterValidator, goTo, validateTable } from './utils'
 
 async function clickAvailableFilesButton(page: Page) {
   await page.getByRole('button', { name: 'Available Files' }).click()
@@ -48,7 +48,7 @@ export function testAvailableFilesFilter() {
           params,
         })
 
-        await page.goto(BROWSE_DATASETS_URL)
+        await goTo(page, BROWSE_DATASETS_URL)
         await clickAvailableFilesButton(page)
         await selectAvailableFilesOption(page, option.label)
         await page.waitForURL(expectedUrl.href)
@@ -64,7 +64,7 @@ export function testAvailableFilesFilter() {
 
     test('should filter when selecting multiple', async ({ page }) => {
       const expectedUrl = new URL(BROWSE_DATASETS_URL)
-      await page.goto(expectedUrl.href)
+      await goTo(page, expectedUrl.href)
 
       const params = expectedUrl.searchParams
       const files = [
@@ -104,7 +104,7 @@ export function testAvailableFilesFilter() {
         params,
       })
 
-      await page.goto(expectedUrl.href)
+      await goTo(page, expectedUrl.href)
 
       const { data } = await fetchExpectedData
       await validateTable({
@@ -126,7 +126,7 @@ export function testAvailableFilesFilter() {
         'tilt-series-alignment',
       )
 
-      await page.goto(expectedUrl.href)
+      await goTo(page, expectedUrl.href)
       await clickAvailableFilesButton(page)
       await selectAvailableFilesOption(page, 'Raw Frames')
       await clearAvailableFileOption(page, ['Tilt Series Alignment'])

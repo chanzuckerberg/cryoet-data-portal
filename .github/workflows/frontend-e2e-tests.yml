@@ -1,0 +1,80 @@
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+    secrets:
+      E2E_CONFIG:
+        required: true
+
+jobs:
+  frontend-e2e-tests:
+    strategy:
+      matrix:
+        browser: [chrome, firefox, webkit]
+        shardCurrent: [1, 2, 3, 4, 5]
+        shardTotal: [5]
+
+    concurrency:
+      group: frontend-e2e-${{ github.ref }}-${{ matrix.browser }}-${{ matrix.shardCurrent }}-${{ matrix.shardTotal}}
+      cancel-in-progress: true
+
+    name: ${{ matrix.browser }} ${{ matrix.shardCurrent}}/${{  matrix.shardTotal }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.8.x
+
+      - name: Install PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.0
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies with PNPM
+        run: pnpm install --frozen-lockfile
+        working-directory: frontend
+
+      - name: Installing playwright browsers
+        run: pnpm e2e:install-browsers
+        working-directory: frontend/packages/data-portal
+
+      - name: Build GraphQL Types
+        run: pnpm build:codegen
+        working-directory: frontend/packages/data-portal
+
+      - name: Run E2E tests
+        run: pnpm e2e --shard ${{ matrix.shardCurrent }}/${{ matrix.shardTotal }}
+        working-directory: frontend/packages/data-portal
+        env:
+          API_URL: ${{ vars.API_URL }}
+          BROWSER: ${{ matrix.browser }}
+          E2E_CONFIG: ${{ secrets.E2E_CONFIG }}
+          CI: true
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 3

@@ -5,7 +5,7 @@ import { BROWSE_DATASETS_URL } from 'e2e/constants'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 
-import { getDatasetTableFilterValidator, validateTable } from './utils'
+import { getDatasetTableFilterValidator, goTo, validateTable } from './utils'
 
 async function openFilterDropdown(page: Page, label: string) {
   await page.getByRole('button', { name: label }).click()
@@ -54,7 +54,7 @@ export function testSingleSelectFilter({
           params,
         })
 
-        await page.goto(BROWSE_DATASETS_URL)
+        await goTo(page, BROWSE_DATASETS_URL)
 
         await openFilterDropdown(page, label)
         await selectFilterOption(page, value)
@@ -79,7 +79,7 @@ export function testSingleSelectFilter({
         params,
       })
 
-      await page.goto(expectedUrl.href)
+      await goTo(page, expectedUrl.href)
 
       const { data } = await fetchExpectedData
       await validateTable({
@@ -97,7 +97,7 @@ export function testSingleSelectFilter({
       const expectedUrl = new URL(BROWSE_DATASETS_URL)
       expectedUrl.searchParams.append(queryParam, serialize(values[0]))
 
-      await page.goto(expectedUrl.href)
+      await goTo(page, expectedUrl.href)
       await removeFilterOption(page, values[0])
       await page.waitForURL(BROWSE_DATASETS_URL)
 
