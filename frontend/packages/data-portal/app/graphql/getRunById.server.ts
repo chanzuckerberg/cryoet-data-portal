@@ -124,6 +124,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
           deposition_date
           ground_truth_status
           ground_truth_used
+          id
           is_curator_recommended
           last_modified_date
           object_count

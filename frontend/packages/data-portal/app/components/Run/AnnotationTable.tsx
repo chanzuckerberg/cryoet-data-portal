@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 
-import { Button } from '@czi-sds/components'
+import { Button, Icon } from '@czi-sds/components'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
 import { ComponentProps, useCallback, useMemo } from 'react'
@@ -9,6 +9,7 @@ import { I18n } from 'app/components/I18n'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import {
@@ -18,8 +19,7 @@ import {
 import { useRunById } from 'app/hooks/useRunById'
 import { Annotation, useAnnotation } from 'app/state/annotation'
 import { I18nKeys } from 'app/types/i18n'
-import { getAnnotationTitle } from 'app/utils/annotation'
-import { cnsNoMerge } from 'app/utils/cns'
+import { cns, cnsNoMerge } from 'app/utils/cns'
 
 const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<Annotation>(() => ({
   annotation_method: '',
@@ -30,13 +30,11 @@ const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<Annotation>(() => ({
   deposition_date: '',
   files: [],
   ground_truth_status: false,
-  https_path: '',
+  id: 0,
   object_count: 0,
   object_id: '',
   object_name: '',
   release_date: '',
-  s3_path: '',
-  shape_type: '',
 }))
 
 function ConfidenceValue({ value }: { value: number }) {
@@ -60,6 +58,8 @@ export function AnnotationTable() {
   const { toggleDrawer } = useMetadataDrawer()
   const { setActiveAnnotation } = useAnnotation()
   const { t } = useI18n()
+
+  const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
 
   const openAnnotationDrawer = useCallback(
     (annotation: Annotation) => {
@@ -98,7 +98,7 @@ export function AnnotationTable() {
           const value = getValue() as number | null
 
           return (
-            <TableCell horizontalAlign="right" minWidth={85} maxWidth={120}>
+            <TableCell horizontalAlign="right" minWidth={81} maxWidth={120}>
               {typeof value === 'number' ? (
                 <ConfidenceValue value={value} />
               ) : (
@@ -113,17 +113,22 @@ export function AnnotationTable() {
     }
 
     return [
-      columnHelper.accessor('s3_path', {
-        header: t('annotations'),
+      columnHelper.accessor('id', {
+        header: t('annotationId'),
         cell: ({ row: { original: annotation } }) => (
           <TableCell
             className="flex flex-col gap-sds-xxxs !items-start"
             minWidth={250}
             renderLoadingSkeleton={false}
           >
-            <div className="flex gap-sds-xs">
-              <p className="text-sds-header-s leading-sds-header-s text-ellipsis line-clamp-1 break-all">
-                {getAnnotationTitle(annotation)}
+            <div className="flex gap-sds-xs items-center">
+              <p
+                className={cns(
+                  'text-sds-body-m leading-sds-body-m font-semibold',
+                  'text-ellipsis line-clamp-1 break-all',
+                )}
+              >
+                {annotation.id}
               </p>
 
               {annotation.ground_truth_status && (
@@ -135,8 +140,8 @@ export function AnnotationTable() {
                     className={cnsNoMerge(
                       'px-sds-xs py-sds-xxxs',
                       'flex items-center justify-center',
-                      'rounded-sds-m bg-sds-info-400',
-                      'text-sds-body-xxxs leading-sds-body-xxxs text-sds-gray-white whitespace-nowrap',
+                      'rounded-sds-m bg-sds-info-200',
+                      'text-sds-body-xxxs leading-sds-body-xxxs text-sds-info-600 whitespace-nowrap',
                     )}
                   >
                     {t('groundTruth')}
@@ -177,8 +182,24 @@ export function AnnotationTable() {
         ),
       }),
 
+      columnHelper.accessor('deposition_date', {
+        header: () => (
+          <CellHeader hideSortIcon className="whitespace-nowrap text-ellipsis">
+            {t('depositionDate')}
+          </CellHeader>
+        ),
+
+        cell: ({ getValue }) => (
+          <TableCell minWidth={91} maxWidth={120}>
+            <div className="line-clamp-2 text-ellipsis capitalize">
+              {getValue()}
+            </div>
+          </TableCell>
+        ),
+      }),
+
       columnHelper.accessor('object_name', {
-        header: t('annotationObject'),
+        header: t('objectName'),
         cell: ({ getValue }) => (
           <TableCell minWidth={120} maxWidth={250}>
             <div className="line-clamp-2 text-ellipsis capitalize">
@@ -188,28 +209,35 @@ export function AnnotationTable() {
         ),
       }),
 
-      columnHelper.accessor('shape_type', {
-        header: () => (
-          <CellHeader horizontalAlign="right" hideSortIcon>
-            {t('objectShapeType')}
-          </CellHeader>
-        ),
+      columnHelper.accessor('files', {
+        id: 'shape-type',
+        header: t('objectShapeType'),
+
         cell: ({ getValue }) => (
-          <TableCell horizontalAlign="right" minWidth={100} maxWidth={150}>
-            {getValue()}
+          <TableCell minWidth={100} maxWidth={150}>
+            {getValue().at(0)?.shape_type ?? '--'}
           </TableCell>
         ),
       }),
 
-      columnHelper.accessor('object_count', {
+      columnHelper.accessor('id', {
+        id: 'method-type',
+
         header: () => (
-          <CellHeader horizontalAlign="right" hideSortIcon>
-            {t('objectCount')}
+          <CellHeader className="whitespace-nowrap" hideSortIcon>
+            {t('methodType')}
           </CellHeader>
         ),
-        cell: ({ getValue }) => (
-          <TableCell horizontalAlign="right" minWidth={85} maxWidth={120}>
-            {getValue()}
+
+        cell: ({ row: { original: annotation } }) => (
+          <TableCell minWidth={81} maxWidth={120}>
+            <Button
+              sdsType="primary"
+              sdsStyle="minimal"
+              onClick={() => openAnnotationDrawer(annotation)}
+            >
+              {t('automated')}
+            </Button>
           </TableCell>
         ),
       }),
@@ -239,30 +267,61 @@ export function AnnotationTable() {
         // Render empty cell header so that it doesn't break the table layout
         header: () => <CellHeader hideSortIcon>{null}</CellHeader>,
         cell: ({ row: { original: annotation } }) => (
-          <TableCell minWidth={85} maxWidth={100}>
-            <Button
-              sdsType="primary"
-              sdsStyle="minimal"
-              onClick={() => openAnnotationDrawer(annotation)}
-            >
-              {t('moreInfo')}
-            </Button>
+          <TableCell minWidth={120} maxWidth={120}>
+            <div className="flex flex-col gap-sds-xs">
+              <Button
+                sdsType="primary"
+                sdsStyle="minimal"
+                onClick={() => openAnnotationDrawer(annotation)}
+                startIcon={
+                  <Icon sdsIcon="infoCircle" sdsSize="s" sdsType="button" />
+                }
+              >
+                <span>{t('moreInfo')}</span>
+              </Button>
+
+              <Button
+                sdsType="primary"
+                sdsStyle="minimal"
+                onClick={() =>
+                  openTomogramDownloadModal({
+                    datasetId: run.dataset.id,
+                    runId: run.id,
+                  })
+                }
+                startIcon={
+                  <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
+                }
+              >
+                {t('download')}
+              </Button>
+            </div>
           </TableCell>
         ),
       }),
     ] as ColumnDef<Annotation>[]
-  }, [openAnnotationDrawer, t])
+  }, [
+    openAnnotationDrawer,
+    openTomogramDownloadModal,
+    run.dataset.id,
+    run.id,
+    t,
+  ])
 
-  const annotations = useMemo(
+  console.log('breh', run)
+
+  const annotations = useMemo<Annotation[]>(
     () =>
       run.annotation_table.flatMap((data) =>
-        data.annotations.flatMap((annotation) =>
-          annotation.files.map((file) => ({
-            ...annotation,
-            ...file,
-          })),
-        ),
-      ) as Annotation[],
+        data.annotations.map((annotation) => ({
+          ...annotation,
+          authors: annotation.authors.concat(
+            { name: 'Foo Bar' },
+            { name: 'Bar Foo' },
+            { name: 'Jeremy Asuncion' },
+          ),
+        })),
+      ),
     [run.annotation_table],
   )
 
