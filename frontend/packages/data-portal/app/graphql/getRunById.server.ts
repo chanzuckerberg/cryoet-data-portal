@@ -115,7 +115,15 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
 
       annotation_table: tomogram_voxel_spacings {
-        annotations(limit: $limit, offset: $offset) {
+        annotations(
+          limit: $limit,
+          offset: $offset,
+          order_by: [
+            { ground_truth_status: desc }
+            { deposition_date: desc }
+            { id: desc }
+          ],
+        ) {
           annotation_method
           annotation_publication
           annotation_software
