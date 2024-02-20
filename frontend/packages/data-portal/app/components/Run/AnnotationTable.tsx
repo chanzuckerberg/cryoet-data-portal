@@ -317,17 +317,7 @@ export function AnnotationTable() {
   ])
 
   const annotations = useMemo<Annotation[]>(
-    () =>
-      run.annotation_table.flatMap((data) =>
-        data.annotations.map((annotation) => ({
-          ...annotation,
-          authors: annotation.authors.concat(
-            { name: 'Foo Bar' },
-            { name: 'Bar Foo' },
-            { name: 'Jeremy Asuncion' },
-          ),
-        })),
-      ),
+    () => run.annotation_table.flatMap((data) => data.annotations),
     [run.annotation_table],
   )
 
