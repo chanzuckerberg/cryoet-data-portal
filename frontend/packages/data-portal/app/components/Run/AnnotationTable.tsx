@@ -20,6 +20,7 @@ import { useRunById } from 'app/hooks/useRunById'
 import { Annotation, useAnnotation } from 'app/state/annotation'
 import { I18nKeys } from 'app/types/i18n'
 import { cns, cnsNoMerge } from 'app/utils/cns'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 
 const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<Annotation>(() => ({
   annotation_method: '',
@@ -68,6 +69,8 @@ export function AnnotationTable() {
     },
     [toggleDrawer, setActiveAnnotation],
   )
+
+  const showMethodType = useFeatureFlag('methodType')
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Annotation>()
@@ -220,27 +223,31 @@ export function AnnotationTable() {
         ),
       }),
 
-      columnHelper.accessor('id', {
-        id: 'method-type',
+      ...(showMethodType
+        ? [
+            columnHelper.accessor('id', {
+              id: 'method-type',
 
-        header: () => (
-          <CellHeader className="whitespace-nowrap" hideSortIcon>
-            {t('methodType')}
-          </CellHeader>
-        ),
+              header: () => (
+                <CellHeader className="whitespace-nowrap" hideSortIcon>
+                  {t('methodType')}
+                </CellHeader>
+              ),
 
-        cell: ({ row: { original: annotation } }) => (
-          <TableCell minWidth={81} maxWidth={120}>
-            <Button
-              sdsType="primary"
-              sdsStyle="minimal"
-              onClick={() => openAnnotationDrawer(annotation)}
-            >
-              {t('automated')}
-            </Button>
-          </TableCell>
-        ),
-      }),
+              cell: ({ row: { original: annotation } }) => (
+                <TableCell minWidth={81} maxWidth={120}>
+                  <Button
+                    sdsType="primary"
+                    sdsStyle="minimal"
+                    onClick={() => openAnnotationDrawer(annotation)}
+                  >
+                    {t('automated')}
+                  </Button>
+                </TableCell>
+              ),
+            }),
+          ]
+        : []),
 
       getConfidenceCell({
         key: 'confidence_precision',
@@ -305,10 +312,9 @@ export function AnnotationTable() {
     openTomogramDownloadModal,
     run.dataset.id,
     run.id,
+    showMethodType,
     t,
   ])
-
-  console.log('breh', run)
 
   const annotations = useMemo<Annotation[]>(
     () =>
