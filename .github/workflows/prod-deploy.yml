@@ -90,6 +90,7 @@ jobs:
       - name: tag release
         run: |
           git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
           git tag -a frontend-v${{ steps.extract-version.outputs.result }} -m "Release frontend v${{ steps.extract-version.outputs.result }}"
           git push origin frontend-v${{ steps.extract-version.outputs.result }}
 
