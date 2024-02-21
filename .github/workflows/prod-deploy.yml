@@ -1,13 +1,106 @@
 on:
-  push:
-    branches:
-      - "main"
+  workflow_dispatch:
 
 permissions:
-      id-token: write
-      contents: read
+  contents: write
+  id-token: write
+  pull-requests: write
 
 jobs:
+  create-frontend-release:
+    concurrency:
+      group: create-frontend-release-${{ github.ref }}
+      cancel-in-progress: true
+
+    outputs:
+      pr: ${{ steps.release.outputs.pr }}
+      prs_created: ${{ steps.release.outputs.prs_created }}
+
+    name: generate frontend changelog
+    runs-on: ubuntu-latest
+    if: github.repository == 'chanzuckerberg/cryoet-data-portal'
+    steps:
+      - name: create changelog
+        uses: google-github-actions/release-please-action@v4
+        id: release
+        with:
+          # TODO Configuring using manifest file as workaround until we move the frontend to its own repo
+          config-file: release-please.config.json
+          manifest-file: release-please.manifest.json
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  tag-frontend-release:
+    concurrency:
+      group: tag-frontend-release-${{ github.ref }}
+      cancel-in-progress: true
+
+    outputs:
+      tag: frontend-v${{ steps.extract-version.outputs.result }}
+
+    name: tag frontend release
+    runs-on: ubuntu-latest
+    if: ${{ (github.repository == 'chanzuckerberg/cryoet-data-portal') && (needs.create-frontend-release.outputs.prs_created == 'true') }}
+    needs: create-frontend-release
+    steps:
+      - name: merge release PR
+        uses: actions/github-script@v7
+        id: merge-release-pr
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const pr = ${{ needs.create-frontend-release.outputs.pr }}
+            console.log(`Merging release PR #${pr.number}`)
+
+            const [owner, repo] = '${{ github.repository }}'.split('/')
+
+            const [mergeResponse] = await Promise.all([
+              github.rest.pulls.merge({
+                owner,
+                repo,
+                pull_number: pr.number,
+                merge_method: 'squash',
+              }),
+
+              github.rest.issues.removeLabel({
+                owner,
+                repo,
+                issue_number: pr.number,
+                name: 'autorelease: pending'
+              }),
+
+              github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: pr.number,
+                labels: ['autorelease: tagged']
+              }),
+            ])
+
+            return mergeResponse.data.sha
+
+      - name: checkout repo for tagging
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.merge-release-pr.outputs.result }}
+
+      - name: extract version
+        id: extract-version
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const pr = ${{ needs.create-frontend-release.outputs.pr }}
+            const version = pr.title.split(' ').at(-1)
+            return version
+
+      - name: tag release
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git tag -a frontend-v${{ steps.extract-version.outputs.result }} -m "Release frontend v${{ steps.extract-version.outputs.result }}"
+          git push origin frontend-v${{ steps.extract-version.outputs.result }}
 
   deploy-to-prod:
     concurrency:
@@ -17,7 +110,8 @@ jobs:
     name: deploy prod branch
     runs-on: ubuntu-latest
     environment: prod
-    if: github.repository == 'chanzuckerberg/cryoet-data-portal'
+    if: ${{ (github.repository == 'chanzuckerberg/cryoet-data-portal') && (needs.create-frontend-release.outputs.prs_created == 'true') }}
+    needs: tag-frontend-release
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
