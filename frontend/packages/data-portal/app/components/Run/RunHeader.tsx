@@ -161,6 +161,7 @@ export function RunHeader() {
                 data={[
                   {
                     label: i18n.resolutionsAvailable,
+                    inline: true,
                     values: run.tomogram_stats
                       .flatMap((stats) => stats.tomogram_resolutions)
                       .map((resolutions) => resolutions.voxel_spacing),
