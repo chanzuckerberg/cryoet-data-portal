@@ -47,6 +47,7 @@ jobs:
           working-directory: ./frontend
           env: staging
           operation: create-or-update
+          github-repo-branch: "main"
 
   e2e-test-staging:
     name: E2E Tests
