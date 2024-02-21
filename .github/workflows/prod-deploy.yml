@@ -41,6 +41,7 @@ jobs:
     steps:
       - name: merge release PR
         uses: actions/github-script@v7
+        id: merge-release-pr
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           result-encoding: string
@@ -50,7 +51,7 @@ jobs:
 
             const [owner, repo] = '${{ github.repository }}'.split('/')
 
-            await Promise.all([
+            const [mergeResponse] = await Promise.all([
               github.rest.pulls.merge({
                 owner,
                 repo,
@@ -73,8 +74,12 @@ jobs:
               }),
             ])
 
+            return mergeResponse.sha
+
       - name: checkout repo for tagging
         uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.merge-release-pr.outputs.result }}
 
       - name: extract version
         id: extract-version
