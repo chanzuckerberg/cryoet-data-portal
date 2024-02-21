@@ -164,7 +164,9 @@ export function RunHeader() {
                     inline: true,
                     values: run.tomogram_stats
                       .flatMap((stats) => stats.tomogram_resolutions)
-                      .map((resolutions) => resolutions.voxel_spacing),
+                      .map((resolutions) =>
+                        t('unitAngstrom', { value: resolutions.voxel_spacing }),
+                      ),
                   },
                   {
                     label: i18n.tomogramProcessing,
