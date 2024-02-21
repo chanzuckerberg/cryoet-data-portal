@@ -102,7 +102,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: prod
     if: ${{ (github.repository == 'chanzuckerberg/cryoet-data-portal') && (needs.create-frontend-release.outputs.prs_created == 'true') }}
-    needs: create-frontend-release
+    needs: tag-frontend-release
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
