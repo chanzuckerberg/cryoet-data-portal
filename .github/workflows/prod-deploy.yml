@@ -34,6 +34,9 @@ jobs:
       group: tag-frontend-release-${{ github.ref }}
       cancel-in-progress: true
 
+    outputs:
+      tag: frontend-v${{ steps.extract-version.outputs.result }}
+
     name: tag frontend release
     runs-on: ubuntu-latest
     if: ${{ (github.repository == 'chanzuckerberg/cryoet-data-portal') && (needs.create-frontend-release.outputs.prs_created == 'true') }}
