@@ -74,7 +74,7 @@ jobs:
               }),
             ])
 
-            return mergeResponse.sha
+            return mergeResponse.data.sha
 
       - name: checkout repo for tagging
         uses: actions/checkout@v4
