@@ -1,0 +1,22 @@
+{
+  "bootstrap-sha": "79825da91dd20c3be2f47912285e2c977848af32",
+  "skip-github-release": true,
+  "changelog-sections": [
+    { "type": "feat", "section": "✨ Features" },
+    { "type": "fix", "section": "🐞 Bug Fixes" },
+    { "type": "perf", "section": "⚡️ Performance Improvements" },
+    { "type": "revert", "section": "↩️ Reverts" },
+    { "type": "docs", "section": "📝 Documentation" },
+    { "type": "style", "section": "💅 Styles" },
+    { "type": "chore", "section": "🧹 Miscellaneous Chores" },
+    { "type": "refactor", "section": "♻️ Code Refactoring" },
+    { "type": "test", "section": "🧪 Tests" },
+    { "type": "build", "section": "🛠️ Build System" },
+    { "type": "ci", "section": "⚙ Continuous Integration" }
+  ],
+  "packages": {
+    "frontend": {
+      "release-type": "node"
+    }
+  }
+}
