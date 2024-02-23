@@ -1,7 +1,7 @@
 name: Deploy to prod
 
 on:
-  workflow_dispatch:  
+  workflow_dispatch:
   schedule:
     # Weekdays Mon-Fri @ 18:00 UTC (10AM PST [winter] / 11AM PDT [summer])
     - cron: '0 18 * * 1-5'
@@ -11,6 +11,13 @@ permissions:
   pull-requests: write
 
 jobs:
+  run-staging-e2e-test:
+    name: Run e2e test on staging
+    uses: chanzuckerberg/cryoet-data-portal/.github/workflows/frontend-e2e-tests.yml@main
+    secrets: inherit
+    with:
+      environment: staging
+
   create-frontend-release:
     concurrency:
       group: create-frontend-release-${{ github.ref }}
@@ -22,6 +29,7 @@ jobs:
 
     name: generate frontend changelog
     runs-on: ubuntu-latest
+    needs: run-staging-e2e-test
     if: github.repository == 'chanzuckerberg/cryoet-data-portal'
     steps:
       - name: create changelog
@@ -106,25 +114,16 @@ jobs:
           git tag -a frontend-v${{ steps.extract-version.outputs.result }} -m "Release frontend v${{ steps.extract-version.outputs.result }}"
           git push origin frontend-v${{ steps.extract-version.outputs.result }}
 
-  run-staging-e2e-test:
-    name: Run e2e test on staging
-#    needs: changelog funsies
-    uses: chanzuckerberg/cryoet-data-portal/.github/workflows/frontend-e2e-tests.yml@main
-    secrets: inherit
-    with:
-      environment: staging
-
   deploy-to-prod:
     concurrency:
       group: prod-frontend-deploy-${{ github.ref }}
       cancel-in-progress: true
     name: deploy prod branch
     runs-on: ubuntu-latest
-    needs: run-staging-e2e-test
-    environment: prod
-    # The secret IS_DEPLOY_ALLOWED can be used to gate the prod deploys
-    if: ${{ (github.repository == 'chanzuckerberg/cryoet-data-portal') && (secrets.IS_DEPLOY_ALLOWED == 'true') && (needs.create-frontend-release.outputs.prs_created == 'true') }}
     needs: tag-frontend-release
+    environment: prod
+    # The secret IS_DEPLOY_ALLOWED is used to manually gate the prod deploys
+    if: ${{ (github.repository == 'chanzuckerberg/cryoet-data-portal') && (secrets.IS_DEPLOY_ALLOWED == 'true') && (needs.create-frontend-release.outputs.prs_created == 'true') }}
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -150,7 +149,7 @@ jobs:
           working-directory: ./frontend
           env: prod
           operation: create-or-update
-          github-repo-branch: "main"
+          github-repo-branch: ${{ needs.tag-frontend-release.outputs.tag }}
 
   run-prod-e2e-test:
     name: Run e2e test on staging
