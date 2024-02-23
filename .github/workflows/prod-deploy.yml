@@ -15,6 +15,8 @@ jobs:
     name: Run e2e test on staging
     uses: chanzuckerberg/cryoet-data-portal/.github/workflows/frontend-e2e-tests.yml@main
     secrets: inherit
+    # The secret IS_DEPLOY_ALLOWED is used to manually gate the prod deploys
+    if: ${{ secrets.IS_DEPLOY_ALLOWED == 'true' }}
     with:
       environment: staging
 
@@ -30,7 +32,7 @@ jobs:
     name: generate frontend changelog
     runs-on: ubuntu-latest
     needs: run-staging-e2e-test
-    if: ${{ (github.repository == 'chanzuckerberg/cryoet-data-portal') && (secrets.IS_DEPLOY_ALLOWED == 'true') }}
+    if: ${{ (github.repository == 'chanzuckerberg/cryoet-data-portal') }}
     steps:
       - name: create changelog
         uses: google-github-actions/release-please-action@v4
@@ -122,7 +124,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [create-frontend-release, tag-frontend-release]
     environment: prod
-    # The secret IS_DEPLOY_ALLOWED is used to manually gate the prod deploys
     if: ${{ (github.repository == 'chanzuckerberg/cryoet-data-portal') && (needs.create-frontend-release.outputs.prs_created == 'true') }}
     steps:
       - name: Configure AWS Credentials
