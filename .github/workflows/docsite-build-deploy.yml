@@ -2,8 +2,8 @@ name: Build and Deploy Docsite
 on:
   workflow_dispatch: # Used to make post-release docfixes
   push:
-    tags:
-      - '*'
+    tags-ignore:
+      - 'frontend-*'
 
 permissions:
   contents: write
