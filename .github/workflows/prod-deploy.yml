@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
 
     if: |
-      github.repository == 'codemonkey800/cryoet-data-portal' &&
+      github.repository == 'chanzuckerberg/cryoet-data-portal' &&
       github.event.inputs.skip-tagging != 'true'
 
     steps:
@@ -67,7 +67,7 @@ jobs:
 
     name: tag frontend release
     runs-on: ubuntu-latest
-    if: github.repository == 'codemonkey800/cryoet-data-portal'
+    if: github.repository == 'chanzuckerberg/cryoet-data-portal'
     needs: find-frontend-release-pr
     steps:
       - name: merge release PR
@@ -165,7 +165,7 @@ jobs:
 
     if: |
       always() &&
-      github.repository == 'codemonkey800/cryoet-data-portal' &&
+      github.repository == 'chanzuckerberg/cryoet-data-portal' &&
       (
         needs.find-frontend-release-pr.result == 'success' ||
         (needs.find-frontend-release-pr.result == 'skipped' && github.event.inputs.skip-tagging == 'true')
