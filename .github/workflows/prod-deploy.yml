@@ -1,7 +1,10 @@
-name: Frontend Production Release
+name: Deploy to prod
 
 on:
   workflow_dispatch:
+  schedule:
+    # Weekdays Mon-Fri @ 18:00 UTC (10AM PST [winter] / 11AM PDT [summer])
+    - cron: '0 18 * * 1-5'
 
 permissions:
   contents: write
@@ -9,6 +12,15 @@ permissions:
   pull-requests: write
 
 jobs:
+  run-staging-e2e-test:
+    name: Run e2e test on staging
+    uses: chanzuckerberg/cryoet-data-portal/.github/workflows/frontend-e2e-tests.yml@main
+    secrets: inherit
+    # The secret IS_DEPLOY_ALLOWED is used to manually gate the prod deploys
+    if: ${{ secrets.IS_DEPLOY_ALLOWED == 'true' }}
+    with:
+      environment: staging
+
   find-frontend-release-pr:
     concurrency:
       group: create-frontend-release-${{ github.ref }}
@@ -19,9 +31,8 @@ jobs:
 
     name: find release PR
     runs-on: ubuntu-latest
-
     if: github.repository == 'chanzuckerberg/cryoet-data-portal'
-
+    needs: run-staging-e2e-test
     steps:
       - name: find release PR
         uses: actions/github-script@v7
@@ -144,7 +155,6 @@ jobs:
     concurrency:
       group: prod-frontend-deploy-${{ github.ref }}
       cancel-in-progress: true
-
     name: deploy prod branch
     runs-on: ubuntu-latest
     environment: prod
@@ -175,3 +185,12 @@ jobs:
           working-directory: ./frontend
           env: prod
           operation: create-or-update
+          github-repo-branch: ${{ needs.tag-frontend-release.outputs.tag }}
+
+  run-prod-e2e-test:
+    name: Run e2e test on staging
+    needs: deploy-to-prod
+    uses: chanzuckerberg/cryoet-data-portal/.github/workflows/frontend-e2e-tests.yml@main
+    secrets: inherit
+    with:
+      environment: prod
