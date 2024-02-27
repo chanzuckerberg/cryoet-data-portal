@@ -110,7 +110,7 @@ jobs:
 
             return {
               version,
-              tag: `cryoet-data-portal-web-v${version}`,
+              tag: `web-v${version}`,
             }
 
       - name: tag release
