@@ -144,13 +144,6 @@ jobs:
                 issue_number: pr.number,
                 labels: ['autorelease: tagged']
               }),
-
-              await github.rest.issues.createComment({
-                owner,
-                repo,
-                issue_number: pr.number,
-                body: `PR released and tagged in [${tag}](https://github.com/${owner}/${repo}/releases/tag/${tag}).`
-              })
             ])
 
   deploy-to-prod:
