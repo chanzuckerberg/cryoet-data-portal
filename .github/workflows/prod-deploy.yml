@@ -2,10 +2,6 @@ name: Frontend Production Release
 
 on:
   workflow_dispatch:
-    inputs:
-      skip-tagging:
-        type: boolean
-        description: Skip merging and tagging a release.
 
 permissions:
   contents: write
@@ -24,9 +20,7 @@ jobs:
     name: find release PR
     runs-on: ubuntu-latest
 
-    if: |
-      github.repository == 'chanzuckerberg/cryoet-data-portal' &&
-      github.event.inputs.skip-tagging != 'true'
+    if: github.repository == 'chanzuckerberg/cryoet-data-portal'
 
     steps:
       - name: find release PR
@@ -155,19 +149,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: prod
     needs: [find-frontend-release-pr, tag-frontend-release]
-
-    if: |
-      always() &&
-      github.repository == 'chanzuckerberg/cryoet-data-portal' &&
-      (
-        needs.find-frontend-release-pr.result == 'success' ||
-        (needs.find-frontend-release-pr.result == 'skipped' && github.event.inputs.skip-tagging == 'true')
-      ) &&
-      (
-        needs.tag-frontend-release.result == 'success' ||
-        (needs.tag-frontend-release.result == 'skipped' && github.event.inputs.skip-tagging == 'true')
-      )
-
+    if: github.repository == 'chanzuckerberg/cryoet-data-portal'
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
