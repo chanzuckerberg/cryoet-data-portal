@@ -188,7 +188,7 @@ jobs:
           github-repo-branch: ${{ needs.tag-frontend-release.outputs.tag }}
 
   run-prod-e2e-test:
-    name: Run e2e test on staging
+    name: Run e2e test on prod
     needs: deploy-to-prod
     uses: chanzuckerberg/cryoet-data-portal/.github/workflows/frontend-e2e-tests.yml@main
     secrets: inherit
