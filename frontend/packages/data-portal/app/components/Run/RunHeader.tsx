@@ -161,7 +161,12 @@ export function RunHeader() {
                 data={[
                   {
                     label: i18n.resolutionsAvailable,
-                    values: ['10.00Å', '13.70Å'],
+                    inline: true,
+                    values: run.tomogram_stats
+                      .flatMap((stats) => stats.tomogram_resolutions)
+                      .map((resolutions) =>
+                        t('unitAngstrom', { value: resolutions.voxel_spacing }),
+                      ),
                   },
                   {
                     label: i18n.tomogramProcessing,

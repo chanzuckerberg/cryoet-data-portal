@@ -6,7 +6,7 @@ import { BROWSE_DATASETS_URL, E2E_CONFIG } from 'e2e/constants'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 
-import { getDatasetTableFilterValidator, validateTable } from './utils'
+import { getDatasetTableFilterValidator, goTo, validateTable } from './utils'
 
 async function openDatasetIds(page: Page) {
   await page.getByRole('button', { name: 'Dataset IDs' }).click()
@@ -50,7 +50,7 @@ function testFilter({
     params.append(queryParam, value)
     const fetchExpectedData = getBrowseDatasets({ client, params })
 
-    await page.goto(BROWSE_DATASETS_URL)
+    await goTo(page, BROWSE_DATASETS_URL)
     await openDatasetIds(page)
     await fillDatasetIdInput(page, label, value)
     await applyDatasetIdFilter(page)
@@ -71,7 +71,7 @@ function testFilter({
 
     const fetchExpectedData = getBrowseDatasets({ client, params })
 
-    await page.goto(expectedUrl.href)
+    await goTo(page, expectedUrl.href)
 
     const { data } = await fetchExpectedData
     await validateTable({
@@ -87,7 +87,7 @@ function testFilter({
     const expectedUrl = new URL(BROWSE_DATASETS_URL)
     expectedUrl.searchParams.append(queryParam, value)
 
-    await page.goto(expectedUrl.href)
+    await goTo(page, expectedUrl.href)
     await clearDatasetIdFilter(page, label, value)
     await page.waitForURL(BROWSE_DATASETS_URL)
 

@@ -1,5 +1,5 @@
 import rehypePrism from '@mapbox/rehype-prism'
-import { AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { readFileSync } from 'fs'
 import { serialize } from 'next-mdx-remote/serialize'
 import { Octokit } from 'octokit'
@@ -8,8 +8,6 @@ import remarkGfm from 'remark-gfm'
 import sectionize from 'remark-sectionize'
 import { typedjson } from 'remix-typedjson'
 import { fileURLToPath } from 'url'
-
-import { axios } from 'app/axios'
 
 const octokit = new Octokit()
 

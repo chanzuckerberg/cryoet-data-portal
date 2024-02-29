@@ -2,11 +2,10 @@
 
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { isNumber, sum } from 'lodash-es'
 
 import { apolloClient } from 'app/apollo.server'
-import { axios } from 'app/axios'
 import { DownloadModal } from 'app/components/Download'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'

@@ -3,7 +3,9 @@ name: Deploy to staging
 on:
   push:
     branches:
-      - "main"
+      - main
+    paths:
+      - 'frontend/**'
 
 # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
 permissions:
@@ -45,3 +47,11 @@ jobs:
           working-directory: ./frontend
           env: staging
           operation: create-or-update
+
+  e2e-test-staging:
+    name: E2E Tests
+    needs: deploy-to-staging
+    uses: chanzuckerberg/cryoet-data-portal/.github/workflows/frontend-e2e-tests.yml@main
+    secrets: inherit
+    with:
+      environment: staging

@@ -3,6 +3,8 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+const BROWSER = process.env.E2E_BROWSER
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -26,6 +28,8 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    video: 'retain-on-failure',
   },
 
   /* Configure projects for major browsers */
@@ -35,15 +39,15 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
 
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
 
     /* Test against mobile viewports. */
     // {
@@ -64,7 +68,7 @@ export default defineConfig({
     //   name: 'Google Chrome',
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
-  ],
+  ].filter((project) => !BROWSER || project.name === BROWSER),
 
   /* Run your local dev server before starting the tests */
   // webServer: {

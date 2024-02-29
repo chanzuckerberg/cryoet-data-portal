@@ -1,5 +1,6 @@
 {
-  "name": "cryoet-data-portal",
+  "name": "web",
+  "version": "1.1.1",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm -r build",

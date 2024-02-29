@@ -6,7 +6,7 @@ import { BROWSE_DATASETS_URL, E2E_CONFIG } from 'e2e/constants'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 
-import { getDatasetTableFilterValidator, validateTable } from './utils'
+import { getDatasetTableFilterValidator, goTo, validateTable } from './utils'
 
 async function openAuthorFilter(page: Page) {
   await page.getByRole('button', { name: 'Author' }).click()
@@ -50,7 +50,7 @@ function testFilter({
     params.append(queryParam, value)
     const fetchExpectedData = getBrowseDatasets({ client, params })
 
-    await page.goto(BROWSE_DATASETS_URL)
+    await goTo(page, BROWSE_DATASETS_URL)
     await openAuthorFilter(page)
     await fillAuthorFilterInput(page, label, value)
     await applyAuthorFilter(page)
@@ -70,7 +70,7 @@ function testFilter({
     params.append(queryParam, value)
     const fetchExpectedData = getBrowseDatasets({ client, params })
 
-    await page.goto(expectedUrl.href)
+    await goTo(page, expectedUrl.href)
 
     const { data } = await fetchExpectedData
     await validateTable({
@@ -87,7 +87,7 @@ function testFilter({
     const params = expectedUrl.searchParams
     params.append(queryParam, value)
 
-    await page.goto(expectedUrl.href)
+    await goTo(page, expectedUrl.href)
     await clearAuthorFilter(page, label, value)
     await page.waitForURL(BROWSE_DATASETS_URL)
 
