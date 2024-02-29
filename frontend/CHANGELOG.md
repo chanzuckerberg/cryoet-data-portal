@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.1.0...web-v1.1.1) (2024-02-29)
+
+
+### 🐞 Bug Fixes
+
+* prod deploy tagging ([#516](https://github.com/chanzuckerberg/cryoet-data-portal/issues/516)) ([2a4524d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/2a4524d53fac1bf6219bbfa8e49d5d6b9995d2c8))
+
+
+### 🧹 Miscellaneous Chores
+
+* add sh to readme ([#518](https://github.com/chanzuckerberg/cryoet-data-portal/issues/518)) ([ac54fd4](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ac54fd40fc2749ab2e0b190a6b8c61109ef12a37))
+
 ## [1.1.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.0.1...web-v1.1.0) (2024-02-29)
 
 
