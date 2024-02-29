@@ -68,7 +68,7 @@ jobs:
       cancel-in-progress: true
 
     outputs:
-      tag: fromJson(steps.get-tag-name.outputs.result).tag
+      tag: ${{ fromJson(steps.get-tag-name.outputs.result).tag }}
 
     name: tag frontend release
     runs-on: ubuntu-latest
