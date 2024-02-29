@@ -49,7 +49,7 @@ pnpm dev
 
 A docker compose file is provided for convenience in starting up and destroying frontend services during local development:
 
-```sh
+```
 # Start all services
 docker-compose up
 
