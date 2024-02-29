@@ -16,4 +16,6 @@ jobs:
   conventional_commit_title:
     runs-on: [ARM64, self-hosted, Linux]
     steps:
-      - uses: chanzuckerberg/github-actions/.github/actions/conventional-commits@v2.1.0
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
