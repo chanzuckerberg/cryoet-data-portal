@@ -9,6 +9,7 @@ export enum QueryParams {
   EmdbId = 'emdb_id',
   EmpiarId = 'empiar_id',
   FiducialAlignmentStatus = 'fiducial_alignment',
+  FileFormat = 'file-format',
   GroundTruthAnnotation = 'ground_truth',
   MetadataDrawer = 'metadata',
   NumberOfRuns = 'runs',
