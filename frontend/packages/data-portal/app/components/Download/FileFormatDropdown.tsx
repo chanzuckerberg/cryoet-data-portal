@@ -20,6 +20,10 @@ const FILE_FORMAT_TOOLTIP_I18N: Record<string, I18nKeys> = {
 
 const FILE_FORMAT_ORDER = ['.mrc', '.zarr', '.ndjson']
 
+/**
+ * Renders select dropdown with file formats specified in the `fileFormats`
+ * prop. The only allowed file formats so far are `.mrc`, `.zarr` and `.ndjson`.
+ */
 export function FileFormatDropdown({ fileFormats }: { fileFormats: string[] }) {
   const { t } = useI18n()
   const { fileFormat, setFileFormat } = useDownloadModalQueryParamState()
