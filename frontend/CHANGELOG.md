@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.1.1...web-v1.2.0) (2024-03-02)
+
+
+### ✨ Features
+
+* file format dropdown ([#526](https://github.com/chanzuckerberg/cryoet-data-portal/issues/526)) ([4f0ad0b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4f0ad0b9e0e2a660908c5531ad68d2e1f49862db))
+
 ## [1.1.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.1.0...web-v1.1.1) (2024-02-29)
 
 
