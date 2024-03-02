@@ -35,6 +35,7 @@ export type PlausibleDownloadModalPayload<T = object> = T & {
   tab?: DownloadTab
   tomogramProcessing?: string
   tomogramSampling?: string
+  fileFormat?: string
 }
 
 export type DownloadModalPropKeys = keyof PlausibleDownloadModalPayload

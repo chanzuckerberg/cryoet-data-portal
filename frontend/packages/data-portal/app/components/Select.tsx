@@ -1,15 +1,19 @@
 import {
   DefaultDropdownMenuOption,
   DropdownMenu,
+  Icon,
   InputDropdown,
 } from '@czi-sds/components'
-import { useMemo, useState } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 
 import { cns } from 'app/utils/cns'
+
+import { Tooltip, TooltipProps } from './Tooltip'
 
 export interface SelectOption {
   key: string
   value: string
+  label?: string
 }
 
 export function Select({
@@ -21,6 +25,8 @@ export function Select({
   showActiveValue = true,
   showDetails = true,
   title,
+  tooltip,
+  tooltipProps,
 }: {
   activeKey: string | null
   className?: string
@@ -30,30 +36,54 @@ export function Select({
   showActiveValue?: boolean
   showDetails?: boolean
   title?: string
+  tooltip?: ReactNode
+  tooltipProps?: Partial<TooltipProps>
 }) {
   const activeOption = useMemo(
     () => options.find((option) => option.key === activeKey ?? null),
     [activeKey, options],
   )
 
+  const labelMap = useMemo(
+    () =>
+      Object.fromEntries(
+        options.map((option) => [option.label ?? option.key, option.key]),
+      ),
+    [options],
+  )
+
   const sdsOptions = options.map<DefaultDropdownMenuOption>((option) => ({
-    name: option.key,
+    name: option.label ?? option.key,
     details: showDetails ? option.value : undefined,
   }))
 
   const activeSdsOption =
-    sdsOptions.find((option) => option.name === activeOption?.key) ?? null
+    sdsOptions.find((option) => labelMap[option.name] === activeOption?.key) ??
+    null
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [open, setOpen] = useState(false)
 
   return (
     <div className={cns('flex flex-col gap-sds-xxs', className)}>
-      {title && (
-        <p className="text-sds-header-xs leading-sds-header-xs font-semibold">
-          {title}:
-        </p>
-      )}
+      <div className="flex items-center gap-sds-xxs">
+        {title && (
+          <p className="text-sds-header-xs leading-sds-header-xs font-semibold">
+            {title}:
+          </p>
+        )}
+
+        {tooltip && (
+          <Tooltip tooltip={tooltip} {...tooltipProps}>
+            <Icon
+              color="gray"
+              sdsIcon="infoCircle"
+              sdsSize="xs"
+              sdsType="static"
+            />
+          </Tooltip>
+        )}
+      </div>
 
       <InputDropdown
         className="w-full"
@@ -72,7 +102,9 @@ export function Select({
         options={sdsOptions}
         value={activeSdsOption}
         anchorEl={anchorEl}
-        onChange={(_, option) => onChange(option?.name ?? null)}
+        onChange={(_, option) =>
+          onChange(option ? labelMap[option.name] : null)
+        }
         onClickAway={() => {
           setAnchorEl(null)
           setOpen(false)

@@ -17,7 +17,7 @@
  *    `serverSideTranslations()` function for each page that uses the locale.
  */
 
-import type { KeyPrefix } from 'i18next'
+import type { ParseKeys } from 'i18next'
 
 import translation from '../../public/locales/en/translation.json'
 
@@ -53,4 +53,4 @@ declare module 'i18next' {
   }
 }
 
-export type I18nKeys = KeyPrefix<I18nNamespace>
+export type I18nKeys = ParseKeys<I18nNamespace>
