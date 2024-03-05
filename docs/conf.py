@@ -23,6 +23,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "myst_parser",
+    "sphinx_toolbox.collapse"
 ]
 
 napoleon_custom_sections = ["Lifecycle"]
