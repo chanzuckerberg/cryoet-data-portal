@@ -13,7 +13,7 @@ This page provides details to start using the CryoET Data Portal.
 
 The CryoET Data Portal Client requires a Linux or MacOS system with:
 
-- Python 3.7 to Python 3.10. Or R, supported versions TBD.
+- Python 3.7 to Python 3.11.
 - Recommended: >16 GB of memory.
 - Recommended: >5 Mbps internet connection.
 - Recommended: for increased performance, use the API through an AWS-EC2 instance from the region `us-west-2`. The CryoET Portal data are hosted in a AWS-S3 bucket in that region.
@@ -30,12 +30,12 @@ source ./venv/bin/activate
 Install the latest `cryoet_data_portal` package via pip:
 
 ```shell
-pip install -U cryoet_data_portal
+pip install cryoet_data_portal
 ```
 
 ## Python quick start
 
-Below are 3 examples of common operations you can do with the client.
+Below are 3 examples of common operations you can do with the client. Check out the [examples page](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_examples.html) for more code snippets.
 
 ### Browse data in the portal
 
