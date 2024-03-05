@@ -33,12 +33,17 @@ export function useDownloadModalQueryParamState() {
     QueryParams.TomogramSampling,
   )
 
+  const [fileFormat, setFileFormat] = useQueryParam<string>(
+    QueryParams.FileFormat,
+  )
+
   const [, setDownloadParams] = useQueryParams({
     [QueryParams.DownloadConfig]: stringParam<DownloadConfig>(),
     [QueryParams.DownloadStep]: stringParam<DownloadStep>(),
     [QueryParams.DownloadTab]: stringParam<DownloadTab>(),
     [QueryParams.TomogramProcessing]: stringParam(),
     [QueryParams.TomogramSampling]: stringParam(),
+    [QueryParams.FileFormat]: stringParam(),
   })
 
   const getPlausiblePayload = useCallback(
@@ -175,6 +180,7 @@ export function useDownloadModalQueryParamState() {
     downloadConfig,
     downloadStep,
     downloadTab,
+    fileFormat,
     getPlausiblePayload,
     goBackToConfigure,
     isModalOpen,
@@ -185,6 +191,7 @@ export function useDownloadModalQueryParamState() {
     setDownloadParams,
     setDownloadStep,
     setDownloadTab,
+    setFileFormat,
     setTomogramConfig,
     setTomogramProcessing,
     setTomogramSampling,
