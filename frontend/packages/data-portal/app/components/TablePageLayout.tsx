@@ -2,10 +2,12 @@ import { Pagination } from '@czi-sds/components'
 import { useSearchParams } from '@remix-run/react'
 import { ReactNode, useEffect, useMemo } from 'react'
 
+import { TABLE_PAGE_LAYOUT_LOG_ID } from 'app/constants/error'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { LayoutContext, LayoutContextValue } from 'app/context/Layout.context'
 import { cns } from 'app/utils/cns'
 
+import { ErrorBoundary } from './ErrorBoundary'
 import { TableCount } from './Table/TableCount'
 
 export function TablePageLayout({
@@ -101,7 +103,9 @@ export function TablePageLayout({
                 />
               </div>
 
-              <div className="overflow-x-scroll">{table}</div>
+              <ErrorBoundary logId={TABLE_PAGE_LAYOUT_LOG_ID}>
+                <div className="overflow-x-scroll">{table}</div>
+              </ErrorBoundary>
 
               <div className="px-sds-xl">
                 {filteredCount === 0 && noResults}
