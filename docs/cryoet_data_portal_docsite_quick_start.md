@@ -30,7 +30,7 @@ source ./venv/bin/activate
 Install the latest `cryoet_data_portal` package via pip:
 
 ```shell
-pip install cryoet_data_portal
+pip install -U cryoet-data-portal
 ```
 
 ## Python quick start
