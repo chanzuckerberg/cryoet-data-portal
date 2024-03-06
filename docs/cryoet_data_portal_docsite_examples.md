@@ -27,7 +27,7 @@ terms = [t.name for t in terms]
 
 # Query the portal for all annotation matching those terms
 client = Client()
-portal_objects = list(Annotation.find(client, [Annotation.object_id._in(terms)]))
+portal_objects = Annotation.find(client, [Annotation.object_id._in(terms)])
 
 # Runs that contain annotations with that term
 object_runs = set([po.tomogram_voxel_spacing.run.id for po in portal_objects])
@@ -137,8 +137,8 @@ from cryoet_data_portal import Client, AnnotationFile
 client = Client()
 
 # Select all zarr annotation files in dataset 10000
-ret = list(AnnotationFile.find(client, [AnnotationFile.annotation.tomogram_voxel_spacing.run.dataset_id == 10000,  
-                                        AnnotationFile.format == 'zarr']))
+ret = AnnotationFile.find(client, [AnnotationFile.annotation.tomogram_voxel_spacing.run.dataset_id == 10000,  
+                                        AnnotationFile.format == 'zarr'])
   ```
 </details>
 
@@ -156,7 +156,7 @@ import ndjson
 client = Client()
 
 # Get all ndjson annotation files for dataset 10000
-ret = list(AnnotationFile.find(client, [AnnotationFile.annotation.tomogram_voxel_spacing.run.dataset_id == 10000,  AnnotationFile.format == 'ndjson']))
+ret = AnnotationFile.find(client, [AnnotationFile.annotation.tomogram_voxel_spacing.run.dataset_id == 10000,  AnnotationFile.format == 'ndjson'])
 
 # Create an S3 filesystem instance
 fs = s3fs.S3FileSystem(anon=True)
@@ -181,7 +181,7 @@ from cryoet_data_portal import Client, Dataset
 client = Client()
 
 # FInd all datasets, that have tiltseries with 1 or more frame files
-datasets_with_frames = list(Dataset.find(client, [Dataset.runs.tiltseries.frames_count > 0]))
+datasets_with_frames = Dataset.find(client, [Dataset.runs.tiltseries.frames_count > 0])
   ```
 </details>
 
@@ -197,7 +197,7 @@ from cryoet_data_portal import Client, Tomogram
 client = Client()
 
 # Get all tomograms with voxel spacing <= 10 Angstroms/voxel
-tomos = list(Tomogram.find(client, [Tomogram.voxel_spacing <= 10]))
+tomos = Tomogram.find(client, [Tomogram.voxel_spacing <= 10])
 
 # S3 URIs for MRCs 
 s3mrc = [t.s3_mrc_scale0 for t in tomos]
@@ -220,7 +220,7 @@ import matplotlib.pyplot as plt
 client = Client()
 
 # Get all available runs
-datasets = list(Dataset.find(client))
+datasets = Dataset.find(client)
 
 # Get unique organism names
 species = [d.organism_name for d in datasets]
@@ -229,7 +229,7 @@ unique_species = set(species)
 # Count the Runs
 num_runs_per_species = {}
 for spec in unique_species:
-    num_runs_per_species[spec] = len(list(Run.find(client, [Run.dataset.organism_name == spec])))
+    num_runs_per_species[spec] = len(Run.find(client, [Run.dataset.organism_name == spec]))
 
 # Sort by number
 sorted_by_run = {t[0]: t[1] for t in sorted(num_runs_per_species.items(), key=lambda kv: (kv[1], kv[0]))}
@@ -254,7 +254,7 @@ import os
 
 client = Client()
 
-runs = list(Run.find(client, [Run.dataset_id == 10004]))
+runs = Run.find(client, [Run.dataset_id == 10004])
 
 # One run instance
 run = runs[0]
