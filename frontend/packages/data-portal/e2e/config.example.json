@@ -3,8 +3,8 @@
   "authorOrcId": "<orc-id>",
   "cameraManufacturer": "FEI",
   "datasetId": "10002",
-  "emdbId": "EMD-17241",
-  "empairId": "EMPIAR-11221",
+  "emdbId": "17241",
+  "empiarId": "11221",
   "objectName": "Actin filament",
   "objectShapeType": "OrientedPoint",
   "organismName1": "Bacillus subtilis",
@@ -13,5 +13,6 @@
   "reconstructionMethod": "Weighted back projection",
   "reconstructionObjectName": "Actin filament",
   "reconstructionSoftware": "IMOD",
+  "runId": "12431",
   "url": "http://localhost:8080"
 }
