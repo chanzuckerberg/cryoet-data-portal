@@ -186,7 +186,7 @@ datasets_with_frames = list(Dataset.find(client, [Dataset.runs.tiltseries.frames
 </details>
 
 <details>
-  <summary>Find all tomograms with voxel spacing below a thredhold</summary>
+  <summary>Find all tomograms with voxel spacing below a threshold</summary>
   
   Select data of a specific resolution
   
