@@ -6,6 +6,7 @@ import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { useI18n } from 'app/hooks/useI18n'
 import { TableData } from 'app/types/table'
 
+import { Katex } from '../Katex'
 import { TiltSeriesKeys } from './constants'
 
 export function useTiltSeriesValueMappings(tiltSeries?: Partial<Tiltseries>) {
@@ -86,6 +87,12 @@ export function useTiltSeriesValueMappings(tiltSeries?: Partial<Tiltseries>) {
       [TiltSeriesKeys.PixelSpacing]: {
         label: t('pixelSpacing'),
         values: [tiltSeries?.pixel_spacing ?? '--'],
+        renderValue: (value) => (
+          <p className="flex gap-1 items-center">
+            <span>{value}</span>
+            <Katex math="\frac{e^-}{\text{\AA}^2}" />
+          </p>
+        ),
       },
 
       [TiltSeriesKeys.RelatedEmpiarEntry]: {
@@ -153,11 +160,13 @@ export function useTiltSeriesValueMappings(tiltSeries?: Partial<Tiltseries>) {
 
       [TiltSeriesKeys.TotalFlux]: {
         label: t('totalFlux'),
-        values: [
-          tiltSeries?.total_flux
-            ? t('unitAngstrom', { value: tiltSeries.total_flux })
-            : '--',
-        ],
+        values: [tiltSeries?.total_flux ? tiltSeries.total_flux : '--'],
+        renderValue: (value) => (
+          <p className="flex gap-1 items-center">
+            <span>{value}</span>
+            <Katex math="\frac{\text{\AA}}{px}" />
+          </p>
+        ),
       },
     }),
     [tiltSeries, t],
