@@ -72,7 +72,7 @@ export function Table<T>({
                 {typeof content !== 'string' ? (
                   content
                 ) : (
-                  <CellHeader hideSortIcon>{content}</CellHeader>
+                  <CellHeader>{content}</CellHeader>
                 )}
               </ErrorBoundary>
             )
