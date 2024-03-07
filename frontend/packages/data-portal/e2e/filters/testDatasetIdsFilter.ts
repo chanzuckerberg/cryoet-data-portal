@@ -119,7 +119,7 @@ export function testDatasetIdsFilter() {
       client,
       queryParam: QueryParams.EmpiarId,
       label: 'Empiar ID',
-      valueKey: 'empairId',
+      valueKey: 'empiarId',
     })
 
     testFilter({

@@ -84,9 +84,9 @@ function DownloadModalContent() {
       canClickOutsideClose={false}
     >
       <div className="flex justify-between">
-        <p className="text-sds-header-xl leading-sds-header-xl font-semibold pt-4">
+        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold pt-4">
           {modalData.title}
-        </p>
+        </h2>
 
         <button onClick={closeModal} type="button">
           <Icon

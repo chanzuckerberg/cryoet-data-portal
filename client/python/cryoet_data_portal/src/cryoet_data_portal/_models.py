@@ -259,8 +259,6 @@ class Tomogram(Model):
         id (int): Numeric identifier for this tomogram (this may change!)
         affine_transformation_matrix (str): The flip or rotation transformation of this author submitted tomogram is indicated here
         ctf_corrected (bool): Whether this tomogram is CTF corrected
-        dataset (Dataset): An object relationship with the dataset this tomogram is a part of
-        dataset_id (int): Reference to the dataset this tomogram is a part of
         fiducial_alignment_status (str): Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
         https_mrc_scale0 (str): HTTPS path to this tomogram in MRC format (no scaling)
         https_omezarr_dir (str): HTTPS path to this tomogram in multiscale OME-Zarr format
