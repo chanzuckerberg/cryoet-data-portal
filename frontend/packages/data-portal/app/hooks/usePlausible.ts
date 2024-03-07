@@ -27,9 +27,11 @@ export enum Events {
 }
 
 export type PlausibleDownloadModalPayload<T = object> = T & {
+  annotationId?: number
   config?: DownloadConfig
   datasetId?: number
   fileSize?: number
+  objectShapeType?: string
   runId?: number
   step?: DownloadStep
   tab?: DownloadTab

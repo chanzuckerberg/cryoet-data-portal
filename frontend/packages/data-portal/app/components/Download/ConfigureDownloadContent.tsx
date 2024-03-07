@@ -20,6 +20,7 @@ import { cns } from 'app/utils/cns'
 
 import { CopyBox } from '../CopyBox'
 import { Select, SelectOption } from '../Select'
+import { FileFormatDropdown } from './FileFormatDropdown'
 
 function Radio({
   children,
@@ -73,7 +74,7 @@ function Radio({
   )
 }
 
-export function ConfigureDownloadContent() {
+function ConfigureTomogramDownloadContent() {
   const { t } = useI18n()
 
   const {
@@ -89,8 +90,6 @@ export function ConfigureDownloadContent() {
   const {
     allTomogramProcessing = [],
     allTomogramResolutions = [],
-    datasetTitle,
-    runName,
     runId,
   } = useDownloadModalContext()
 
@@ -129,13 +128,6 @@ export function ConfigureDownloadContent() {
 
   return (
     <>
-      <ModalSubtitle label={t('dataset')} value={datasetTitle} />
-      {runName && <ModalSubtitle label={t('run')} value={runName} />}
-
-      <p className="mt-sds-xl text-sds-body-m leading-sds-body-m font-semibold">
-        {t('selectDownload')}
-      </p>
-
       <RadioGroup
         className="flex flex-col gap-sds-xxs flex-grow"
         value={downloadConfig}
@@ -216,6 +208,57 @@ export function ConfigureDownloadContent() {
             onCopy={() => logPlausibleCopyEvent('run-id', String(runId))}
           />
         </Callout>
+      )}
+    </>
+  )
+}
+
+function ConfigureAnnotationDownloadContent() {
+  const { annotationId, objectShapeType } = useDownloadModalQueryParamState()
+  const { allAnnotations } = useDownloadModalContext()
+
+  const fileFormats = useMemo<string[]>(() => {
+    const formats = annotationId
+      ? allAnnotations
+          ?.get(+annotationId)
+          ?.files.filter(
+            (annotation) => annotation.shape_type === objectShapeType,
+          )
+          .map((annotation) => `.${annotation.format}`)
+      : null
+    return formats ?? []
+  }, [allAnnotations, annotationId, objectShapeType])
+
+  return <FileFormatDropdown className="pt-sds-l" fileFormats={fileFormats} />
+}
+
+export function ConfigureDownloadContent() {
+  const { t } = useI18n()
+  const { datasetTitle, runName, objectName } = useDownloadModalContext()
+  const { annotationId, objectShapeType } = useDownloadModalQueryParamState()
+
+  return (
+    <>
+      <ModalSubtitle label={t('dataset')} value={datasetTitle} />
+      {runName && <ModalSubtitle label={t('run')} value={runName} />}
+      {annotationId && (
+        <ModalSubtitle label={t('annotationId')} value={annotationId} />
+      )}
+      {objectName && (
+        <ModalSubtitle label={t('objectName')} value={objectName} />
+      )}
+      {objectShapeType && (
+        <ModalSubtitle label={t('objectShapeType')} value={objectShapeType} />
+      )}
+
+      <p className="mt-sds-xl text-sds-body-m leading-sds-body-m font-semibold">
+        {t('selectDownload')}
+      </p>
+
+      {annotationId ? (
+        <ConfigureAnnotationDownloadContent />
+      ) : (
+        <ConfigureTomogramDownloadContent />
       )}
     </>
   )

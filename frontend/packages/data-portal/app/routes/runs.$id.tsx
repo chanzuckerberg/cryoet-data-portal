@@ -98,7 +98,13 @@ export default function RunByIdPage() {
     stats.tomogram_processing.map((tomogram) => tomogram.processing),
   )
 
-  const { downloadConfig, tomogramProcessing, tomogramSampling } =
+  const allAnnotations = new Map(
+    run.annotation_table
+      .flatMap((table) => table.annotations.map((annotation) => annotation))
+      .map((annotation) => [annotation.id, annotation]),
+  )
+
+  const { downloadConfig, tomogramProcessing, tomogramSampling, annotationId } =
     useDownloadModalQueryParamState()
 
   const activeTomogram =
@@ -122,10 +128,16 @@ export default function RunByIdPage() {
         <DownloadModal
           allTomogramProcessing={allTomogramProcessing}
           allTomogramResolutions={allTomogramResolutions}
+          allAnnotations={allAnnotations}
           datasetId={run.dataset.id}
           datasetTitle={run.dataset.title}
           fileSize={fileSize ?? undefined}
           httpsPath={activeTomogram?.https_mrc_scale0 ?? undefined}
+          objectName={
+            annotationId
+              ? allAnnotations?.get(+annotationId)?.object_name
+              : undefined
+          }
           runId={run.id}
           runName={run.name}
           s3DatasetPrefix={run.dataset.s3_prefix}
@@ -133,7 +145,7 @@ export default function RunByIdPage() {
           s3TomogramPrefix={activeTomogram?.s3_mrc_scale0 ?? undefined}
           tomogramId={activeTomogram?.id ?? undefined}
           tomogramVoxelId={tomogram?.id ?? undefined}
-          type="runs"
+          type={annotationId ? 'annotation' : 'runs'}
         />
       }
       drawers={

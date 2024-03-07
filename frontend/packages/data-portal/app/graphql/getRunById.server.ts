@@ -143,6 +143,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
           release_date
 
           files {
+            format
             https_path
             s3_path
             shape_type
