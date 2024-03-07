@@ -8,7 +8,7 @@ from gql.transport.requests import RequestsHTTPTransport
 
 
 class Client:
-    """A GraphQL Client library that can traverse all of the metadata in the CryoET Data Portal
+    """A GraphQL Client library that can traverse all the metadata in the CryoET Data Portal
 
     Args:
         url (Optional[str]): The API URL to connect to, defaults to "https://graphql.cryoetdataportal.cziscience.com/v1/graphql"
