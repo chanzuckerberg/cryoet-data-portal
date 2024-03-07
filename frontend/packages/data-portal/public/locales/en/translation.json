@@ -262,7 +262,7 @@
   "valueToValue": "{{value1}} to {{value2}}",
   "veryPoor": "Very Poor",
   "viaApi": "via API",
-  "viaAwsS3": "via AWS S3",
+  "viaAwsS3": "via AWS CLI",
   "viaCurl": "via cURL",
   "viewAndDownloadDatasets": "View and Download Datasets",
   "viewDatasetsCta": "Find and visualize cryoET datasets in the portal and download to use for your work.",
