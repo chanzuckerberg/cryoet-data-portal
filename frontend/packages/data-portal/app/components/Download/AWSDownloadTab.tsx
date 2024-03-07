@@ -12,7 +12,7 @@ import { SelectSaveDestination } from './SelectSaveDestination'
 
 export function getAwsCommand(s3Path: string | undefined): string {
   const destinationPath = s3Path?.replace(/\/$/, '').split('/').pop()
-  return `aws s3 --no-sign-request sync ${s3Path} ${destinationPath}`
+  return `aws s3 --no-sign-request cp ${s3Path} ${destinationPath}`
 }
 
 export function AWSDownloadTab() {
