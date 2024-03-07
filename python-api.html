@@ -93,7 +93,7 @@
                 
                 
                 <div class="version">
-                    2.0.0
+                    0.1.dev1+gd6d8e87
                 </div>
                 
             
@@ -236,8 +236,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.id"><code class="docutils literal notranslate"><span class="pre">Tomogram.id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.affine_transformation_matrix"><code class="docutils literal notranslate"><span class="pre">Tomogram.affine_transformation_matrix</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.ctf_corrected"><code class="docutils literal notranslate"><span class="pre">Tomogram.ctf_corrected</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.dataset"><code class="docutils literal notranslate"><span class="pre">Tomogram.dataset</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.dataset_id"><code class="docutils literal notranslate"><span class="pre">Tomogram.dataset_id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.fiducial_alignment_status"><code class="docutils literal notranslate"><span class="pre">Tomogram.fiducial_alignment_status</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.https_mrc_scale0"><code class="docutils literal notranslate"><span class="pre">Tomogram.https_mrc_scale0</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.https_omezarr_dir"><code class="docutils literal notranslate"><span class="pre">Tomogram.https_omezarr_dir</span></code></a></li>
@@ -469,7 +467,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="cryoet_data_portal.Client">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryoet_data_portal.</span></span><span class="sig-name descname"><span class="pre">Client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Client" title="Permalink to this definition">¶</a></dt>
-<dd><p>A GraphQL Client library that can traverse all of the metadata in the CryoET Data Portal</p>
+<dd><p>A GraphQL Client library that can traverse all the metadata in the CryoET Data Portal</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>url</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em>) – The API URL to connect to, defaults to “<a class="reference external" href="https://graphql.cryoetdataportal.cziscience.com/v1/graphql">https://graphql.cryoetdataportal.cziscience.com/v1/graphql</a>”</p>
@@ -1658,28 +1656,6 @@
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Tomogram.dataset">
-<span class="sig-name descname"><span class="pre">dataset</span></span><a class="headerlink" href="#cryoet_data_portal.Tomogram.dataset" title="Permalink to this definition">¶</a></dt>
-<dd><p>An object relationship with the dataset this tomogram is a part of</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#cryoet_data_portal.Dataset" title="cryoet_data_portal.Dataset">Dataset</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cryoet_data_portal.Tomogram.dataset_id">
-<span class="sig-name descname"><span class="pre">dataset_id</span></span><a class="headerlink" href="#cryoet_data_portal.Tomogram.dataset_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reference to the dataset this tomogram is a part of</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
