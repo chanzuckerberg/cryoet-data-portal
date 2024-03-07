@@ -7,3 +7,5 @@ import { useTranslation, UseTranslationOptions } from 'react-i18next'
 export function useI18n(options?: UseTranslationOptions<undefined>) {
   return useTranslation('translation', options)
 }
+
+export type I18nTFunction = ReturnType<typeof useI18n>['t']

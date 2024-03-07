@@ -5,6 +5,7 @@ import { Tiltseries } from 'app/__generated__/graphql'
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { useI18n } from 'app/hooks/useI18n'
 import { TableData } from 'app/types/table'
+import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 
 import { TiltSeriesKeys } from './constants'
 
@@ -134,10 +135,7 @@ export function useTiltSeriesValueMappings(tiltSeries?: Partial<Tiltseries>) {
           tiltSeries &&
           isNumber(tiltSeries?.tilt_min) &&
           isNumber(tiltSeries.tilt_max)
-            ? t('valueToValue', {
-                value1: t('unitDegree', { value: tiltSeries.tilt_min }),
-                value2: t('unitDegree', { value: tiltSeries.tilt_max }),
-              })
+            ? getTiltRangeLabel(t, tiltSeries.tilt_min, tiltSeries.tilt_max)
             : '--',
         ],
       },
