@@ -1,0 +1,418 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Examples &mdash; cryoet-data-portal  documentation</title>
+  
+
+  
+  <link rel="icon" type="image/png" sizes="64x64" href="_static/img/czii-favicon_64x64.png"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/czii-favicon_32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/czii-favicon_16x16.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script data-domain="chanzuckerberg.github.io/cryoet-data-portal" defer="defer" src="https://plausible.io/js/script.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="napari" href="cryoet_data_portal_docsite_napari.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div style="height: 100vh; overflow: hidden;">
+     
+    <!-- top 48px for navbar height -->
+    <div class="navbar-cet">
+        <div style="padding: 0 16px; display: flex; height: inherit; align-items: center; justify-content: space-between;">
+            <span style="display:flex; gap: 32px; align-items: center;">
+                <a href="https://www.czimaginginstitute.org/">
+                  <img src="_static/img/czi-imaging-institute.png" style="height: 45px; width: 45px;" />
+                </a>
+                <span style="display:flex; gap: 16px;">
+                    <span class="navbar-cet-link">
+                      <a class="navbar-cet-anchor" href="index.html">CryoET Data Portal | Documentation</a>
+                  </span>
+                </span>
+            </span>
+
+            <span class="navbar-cet-link">
+              <a class="navbar-cet-anchor" href="https://cryoetdataportal.czscience.com/">CryoET Data Portal</a>
+            </span>
+        </div>
+    </div>
+    <div style="width: 100%; height: 100%; overflow: auto; padding-top: 48px;">
+        
+        <!-- top 48px for navbar height -->
+        <nav data-toggle="wy-nav-shift" class="wy-nav-side" style="top: 48px;" >
+        <div class="wy-side-scroll">
+
+            
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+            
+                
+                
+                
+                
+                
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_quick_start.html">Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-api.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_napari.html">napari</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a></li>
+</ul>
+
+                
+            
+            </div>
+            
+        </div>
+        </nav>
+
+        <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+            
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="index.html">cryoet-data-portal</a>
+            
+        </nav>
+
+
+        <div class="wy-nav-content">
+            
+            <div class="rst-content">
+            
+            <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cryoet_data_portal_docsite_examples.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+            <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <section id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h1>
+<p>Below are code snippets for completing various tasks using the Python Client API. Have an example you’d like to share with the community? Submit a <a class="reference external" href="https://github.com/chanzuckerberg/cryoet-data-portal/issues">GitHub issue</a> and include “Example:” in your title.</p>
+<details>
+  <summary>Query by annotated object or Gene Ontology terms using owlready2 library</summary>
+<p>Find all membrane annotations, including when the annotation has a subclass of membrane.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">owlready2</span> <span class="k">as</span> <span class="nn">owl</span>
+<span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Annotation</span>
+
+<span class="c1"># Get Gene Ontology</span>
+<span class="n">onto</span> <span class="o">=</span> <span class="n">owl</span><span class="o">.</span><span class="n">get_ontology</span><span class="p">(</span><span class="s1">&#39;https://purl.obolibrary.org/obo/go.owl&#39;</span><span class="p">)</span>
+<span class="n">onto</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># Get all terms that are subclasses of &quot;membrane&quot;, GO_0016020 ID</span>
+<span class="c1"># -  http://purl.obolibrary.org/obo/GO_0016020 is general membrane term (should match 10000, 10001, 10010)</span>
+<span class="c1"># -  http://purl.obolibrary.org/obo/GO_0005874 is general microtubule term (should match 10000, 10001)</span>
+<span class="c1"># -  http://purl.obolibrary.org/obo/GO_0035869 ciliary transition zone (should match 10009)</span>
+<span class="n">terms</span> <span class="o">=</span> <span class="n">onto</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">subclass_of</span> <span class="o">=</span> <span class="n">onto</span><span class="o">.</span><span class="n">search_one</span><span class="p">(</span><span class="n">iri</span> <span class="o">=</span> <span class="s2">&quot;*GO_0016020&quot;</span><span class="p">))</span>
+
+<span class="c1"># Get IRIs</span>
+<span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">]</span>
+
+<span class="c1"># Query the portal for all annotation matching those terms</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+<span class="n">portal_objects</span> <span class="o">=</span> <span class="n">Annotation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Annotation</span><span class="o">.</span><span class="n">object_id</span><span class="o">.</span><span class="n">_in</span><span class="p">(</span><span class="n">terms</span><span class="p">)])</span>
+
+<span class="c1"># Runs that contain annotations with that term</span>
+<span class="n">object_runs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">po</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">po</span> <span class="ow">in</span> <span class="n">portal_objects</span><span class="p">])</span>
+
+<span class="c1"># Datasets that contain annotations with that term</span>
+<span class="n">object_datasets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">po</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="k">for</span> <span class="n">po</span> <span class="ow">in</span> <span class="n">portal_objects</span><span class="p">])</span>
+</pre></div>
+</div>
+</details>
+<details>
+  <summary>List zarr file contents using the zarr-package and HTTPS link</summary>
+<p>Stream data using https</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
+<span class="kn">import</span> <span class="nn">zarr</span>
+
+<span class="c1"># An example Tomogram</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+<span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Obtain the HTTPS URL to the tomogram </span>
+<span class="n">url</span> <span class="o">=</span> <span class="n">tomo</span><span class="o">.</span><span class="n">https_omezarr_dir</span>
+
+<span class="c1"># List the zarr contents</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open_group</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;multiscales&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;datasets&quot;</span><span class="p">]:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;coordinateTransformations&quot;</span><span class="p">])</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">])</span>
+  <span class="n">path</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">info_items</span><span class="p">())</span>
+</pre></div>
+</div>
+</details>
+<details>
+  <summary>List zarr-file contents using the ome-zarr-package and HTTPS link</summary>
+<p>Stream data using https</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
+<span class="kn">from</span> <span class="nn">ome_zarr.io</span> <span class="kn">import</span> <span class="n">parse_url</span>
+<span class="kn">from</span> <span class="nn">ome_zarr.reader</span> <span class="kn">import</span> <span class="n">Reader</span>
+
+<span class="c1"># An example Tomogram</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+<span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Obtain the Zarr store </span>
+<span class="n">url</span> <span class="o">=</span> <span class="n">tomo</span><span class="o">.</span><span class="n">https_omezarr_dir</span>
+<span class="n">store</span> <span class="o">=</span> <span class="n">parse_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">store</span>
+
+<span class="c1"># List the zarr contents</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="n">parse_url</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+<span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">reader</span><span class="p">())</span>
+<span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+</details>
+<details>
+  <summary>List zarr-file contents using the zarr-package and s3 link</summary>
+<p>Stream data via S3</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
+<span class="kn">import</span> <span class="nn">zarr</span>
+
+<span class="c1"># An example Tomogram</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+<span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Open and list contents</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open_group</span><span class="p">(</span><span class="n">tomo</span><span class="o">.</span><span class="n">s3_omezarr_dir</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">info_items</span><span class="p">()</span>
+</pre></div>
+</div>
+</details>
+<details>
+  <summary>Open a tomogram array the zarr-package and https link</summary>
+<p>Stream data using https</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
+<span class="kn">import</span> <span class="nn">zarr</span>
+
+<span class="c1"># An example Tomogram</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+<span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open_array</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tomo</span><span class="o">.</span><span class="n">https_omezarr_dir</span><span class="si">}</span><span class="s2">/0&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</details>
+<details>
+  <summary>Find all annotation files available in Zarr-format from a dataset</summary>
+<p>Use as training data for a segmentation model</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">AnnotationFile</span> 
+
+<span class="c1"># Get the client</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+
+<span class="c1"># Select all zarr annotation files in dataset 10000</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">AnnotationFile</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">,</span>  
+                                      <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s1">&#39;zarr&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</details>
+<details>
+  <summary>Open a Point-annotation file and stream the contents from S3</summary>
+<p>Use as training data for a particle picking model</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">AnnotationFile</span>
+<span class="kn">import</span> <span class="nn">s3fs</span>
+<span class="kn">import</span> <span class="nn">ndjson</span>
+
+<span class="c1"># Get a client instance</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+
+<span class="c1"># Get all ndjson annotation files for dataset 10000</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">AnnotationFile</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">,</span>  <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s1">&#39;ndjson&#39;</span><span class="p">])</span>
+
+<span class="c1"># Create an S3 filesystem instance</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="n">s3fs</span><span class="o">.</span><span class="n">S3FileSystem</span><span class="p">(</span><span class="n">anon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Open the first file and print the first annotation</span>
+<span class="n">name</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">object_name</span>
+<span class="k">with</span> <span class="n">fs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">s3_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">pointfile</span><span class="p">:</span>
+  <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">ndjson</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">pointfile</span><span class="p">):</span>
+      <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">point</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">point</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">point</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">][</span><span class="s1">&#39;z&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</details>
+<details>
+  <summary>Find all datasets that have movie frames available</summary>
+<p>Start processing the raw data</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Dataset</span>
+
+<span class="c1"># Get client instance</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+
+<span class="c1"># FInd all datasets, that have tiltseries with 1 or more frame files</span>
+<span class="n">datasets_with_frames</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Dataset</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">tiltseries</span><span class="o">.</span><span class="n">frames_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</details>
+<details>
+  <summary>Find all tomograms with voxel spacing below a threshold</summary>
+<p>Select data of a specific resolution</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
+
+<span class="c1"># Get client instance</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+
+<span class="c1"># Get all tomograms with voxel spacing &lt;= 10 Angstroms/voxel</span>
+<span class="n">tomos</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">voxel_spacing</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">])</span>
+
+<span class="c1"># S3 URIs for MRCs </span>
+<span class="n">s3mrc</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">s3_mrc_scale0</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tomos</span><span class="p">]</span>
+
+<span class="c1"># S3 URIs for Zarrs</span>
+<span class="n">s3zarr</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">s3_omezarr_dir</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tomos</span><span class="p">]</span>
+</pre></div>
+</div>
+</details>
+<details>
+  <summary>Compute statistics on the portal data using the API client</summary>
+<p>Find how many runs there are in total for a given species</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">Run</span><span class="p">,</span> <span class="n">Annotation</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Get client instance</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+
+<span class="c1"># Get all available runs</span>
+<span class="n">datasets</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+
+<span class="c1"># Get unique organism names</span>
+<span class="n">species</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">organism_name</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">datasets</span><span class="p">]</span>
+<span class="n">unique_species</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">species</span><span class="p">)</span>
+
+<span class="c1"># Count the Runs</span>
+<span class="n">num_runs_per_species</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">unique_species</span><span class="p">:</span>
+  <span class="n">num_runs_per_species</span><span class="p">[</span><span class="n">spec</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">organism_name</span> <span class="o">==</span> <span class="n">spec</span><span class="p">]))</span>
+
+<span class="c1"># Sort by number</span>
+<span class="n">sorted_by_run</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">num_runs_per_species</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">kv</span><span class="p">:</span> <span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">]))}</span>
+
+<span class="c1"># Plot results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span><span class="o">.</span><span class="n">set_figwidth</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">sorted_by_run</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">sorted_by_run</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</details>
+<details>
+  <summary>Download the movie stacks of one run using S3 file streaming</summary>
+<p>Start processing from raw data</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Run</span>
+<span class="kn">import</span> <span class="nn">s3fs</span> 
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
+
+<span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10004</span><span class="p">])</span>
+
+<span class="c1"># One run instance</span>
+<span class="n">run</span> <span class="o">=</span> <span class="n">runs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">fs</span> <span class="o">=</span> <span class="n">s3fs</span><span class="o">.</span><span class="n">S3FileSystem</span><span class="p">(</span><span class="n">anon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># This is where the frames live</span>
+<span class="n">frames_dir</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">s3_prefix</span> <span class="o">+</span> <span class="s1">&#39;Frames/&#39;</span>
+
+<span class="c1"># S3 allows listing</span>
+<span class="n">frames_list</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">frames_dir</span><span class="p">)</span>
+
+<span class="c1"># Retrieval</span>
+<span class="n">outdir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;/tmp/</span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">/Frames/&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">frames_list</span><span class="p">:</span>
+  <span class="n">fs</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</details>
+</section>
+
+
+            </div>
+            
+            </div>
+            <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cryoet_data_portal_docsite_napari.html" class="btn btn-neutral float-left" title="napari" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2023 Chan Zuckerberg Initiative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+            </div>
+        </div>
+
+        </section>
+
+    </div>
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
