@@ -18,8 +18,6 @@ import { i18n } from 'app/i18n'
 
 import { ViewTomogramButton } from '../ViewTomogramButton'
 
-const TABLE_COLUMN_WIDTH = 100
-
 export function RunHeader() {
   const { run } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
