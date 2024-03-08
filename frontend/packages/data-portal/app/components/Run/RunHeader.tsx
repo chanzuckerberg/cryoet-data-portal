@@ -15,6 +15,7 @@ import {
 } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
+import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 
 import { ViewTomogramButton } from '../ViewTomogramButton'
 
@@ -134,14 +135,15 @@ export function RunHeader() {
                     ),
                   },
                   {
-                    label: i18n.tiltRange,
+                    label: t('tiltRange'),
                     values:
                       typeof tiltSeries?.tilt_min === 'number' &&
                       typeof tiltSeries?.tilt_max === 'number'
                         ? [
-                            i18n.valueToValue(
-                              i18n.unitDegree(tiltSeries.tilt_min),
-                              i18n.unitDegree(tiltSeries.tilt_max),
+                            getTiltRangeLabel(
+                              t,
+                              tiltSeries.tilt_min,
+                              tiltSeries.tilt_max,
                             ),
                           ]
                         : [],
