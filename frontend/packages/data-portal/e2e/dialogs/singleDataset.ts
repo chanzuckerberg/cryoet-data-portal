@@ -1,3 +1,5 @@
+/* eslint-disable playwright/no-skipped-test */
+
 import { expect, test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
 import { goTo } from 'e2e/filters/utils'
@@ -124,7 +126,12 @@ export function testSingleDatasetDownloadDialog() {
       await page.waitForURL(expectedUrl.href)
     })
 
-    test('should copy from aws tab', async ({ page, context }) => {
+    test('should copy from aws tab', async ({ page, browserName }) => {
+      test.skip(
+        browserName === 'webkit',
+        'Skipping for safari because clipboard permissions are not availabe.',
+      )
+
       const url = constructDialogUrl(SINGLE_DATASET_URL, {
         tab: DownloadTab.AWS,
       })
@@ -145,7 +152,12 @@ export function testSingleDatasetDownloadDialog() {
       expect(clipboardValue).toContain(E2E_CONFIG.datasetId)
     })
 
-    test('should copy from api tab', async ({ page, context }) => {
+    test('should copy from api tab', async ({ page, browserName }) => {
+      test.skip(
+        browserName === 'webkit',
+        'Skipping for safari because clipboard permissions are not availabe.',
+      )
+
       const url = constructDialogUrl(SINGLE_DATASET_URL, {
         tab: DownloadTab.API,
       })
