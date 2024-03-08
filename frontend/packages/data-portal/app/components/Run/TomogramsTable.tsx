@@ -8,7 +8,11 @@ import { Matrix4x4 } from './Matrix4x4'
 export function TomogramsTable() {
   const { run } = useRunById()
 
-  const tomo = run.tomogram_voxel_spacings[0].tomograms[0]
+  const tomo = run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
+
+  if (!tomo) {
+    return null
+  }
 
   const tomogramsTableData = getTableData(
     {
