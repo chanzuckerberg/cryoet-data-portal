@@ -12,6 +12,8 @@ type MetadataTableProps = Pick<
   'data' | 'tableCellLabelProps' | 'tableCellValueProps'
 >
 
+const COLUMN_WIDTH = 170
+
 export function AccordionMetadataTable({
   data,
   header,
@@ -26,13 +28,12 @@ export function AccordionMetadataTable({
         data={data}
         tableCellLabelProps={{
           renderLoadingSkeleton: false,
-          minWidth: 170,
-          maxWidth: 170,
+          width: { min: COLUMN_WIDTH, max: COLUMN_WIDTH },
           ...tableCellLabelProps,
         }}
         tableCellValueProps={{
           renderLoadingSkeleton: false,
-          minWidth: 170,
+          width: { min: COLUMN_WIDTH },
           ...tableCellValueProps,
         }}
       />
