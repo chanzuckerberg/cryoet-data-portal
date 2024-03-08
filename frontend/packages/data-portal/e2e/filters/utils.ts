@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test'
+import { expect, Page, test } from '@playwright/test'
 
 import { GetDatasetsDataQuery } from 'app/__generated__/graphql'
 
@@ -79,4 +79,12 @@ export async function goTo(page: Page, url: string) {
 
   // eslint-disable-next-line playwright/no-wait-for-timeout
   await page.waitForTimeout(TIME_UNTIL_INTERACTIVE)
+}
+
+export function skipClipboardTestsForWebkit(browserName: string) {
+  // eslint-disable-next-line playwright/no-skipped-test
+  test.skip(
+    browserName === 'webkit',
+    'Skipping for safari because clipboard permissions are not availabe.',
+  )
 }

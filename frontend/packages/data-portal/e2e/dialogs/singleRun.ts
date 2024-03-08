@@ -1,8 +1,6 @@
-/* eslint-disable playwright/no-skipped-test */
-
 import { expect, test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
-import { goTo } from 'e2e/filters/utils'
+import { goTo, skipClipboardTestsForWebkit } from 'e2e/filters/utils'
 
 import { getAwsCommand } from 'app/components/Download/AWSDownloadTab'
 import { getCurlCommand } from 'app/components/Download/CurlDownloadTab'
@@ -296,10 +294,7 @@ export function testSingleRunDownloadDialog() {
       })
 
       test('should copy from aws tab', async ({ page, browserName }) => {
-        test.skip(
-          browserName === 'webkit',
-          'Skipping for safari because clipboard permissions are not availabe.',
-        )
+        skipClipboardTestsForWebkit(browserName)
 
         const initialUrl = constructDialogUrl(SINGLE_RUN_URL, {
           step: DownloadStep.Download,
@@ -327,10 +322,7 @@ export function testSingleRunDownloadDialog() {
       })
 
       test('should copy from api tab', async ({ page, browserName }) => {
-        test.skip(
-          browserName === 'webkit',
-          'Skipping for safari because clipboard permissions are not availabe.',
-        )
+        skipClipboardTestsForWebkit(browserName)
 
         const initialUrl = constructDialogUrl(SINGLE_RUN_URL, {
           step: DownloadStep.Download,
@@ -545,10 +537,7 @@ export function testSingleRunDownloadDialog() {
       })
 
       test('should copy from aws tab', async ({ page, browserName }) => {
-        test.skip(
-          browserName === 'webkit',
-          'Skipping for safari because clipboard permissions are not availabe.',
-        )
+        skipClipboardTestsForWebkit(browserName)
 
         const { data } = await fetchData()
         const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
@@ -589,10 +578,7 @@ export function testSingleRunDownloadDialog() {
       })
 
       test('should copy from api tab', async ({ page, browserName }) => {
-        test.skip(
-          browserName === 'webkit',
-          'Skipping for safari because clipboard permissions are not availabe.',
-        )
+        skipClipboardTestsForWebkit(browserName)
 
         const { data } = await fetchData()
         const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
@@ -631,10 +617,7 @@ export function testSingleRunDownloadDialog() {
       })
 
       test('should copy from curl tab', async ({ page, browserName }) => {
-        test.skip(
-          browserName === 'webkit',
-          'Skipping for safari because clipboard permissions are not availabe.',
-        )
+        skipClipboardTestsForWebkit(browserName)
 
         const { data } = await fetchData()
         const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
