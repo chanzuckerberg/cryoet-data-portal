@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
+import { goTo, skipClipboardTestsForWebkit } from 'e2e/filters/utils'
 
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { DownloadTab } from 'app/types/download'
@@ -21,7 +22,7 @@ async function fetchData() {
 export function testSingleDatasetDownloadDialog() {
   test.describe('Single Dataset', () => {
     test('should open when clicking download button', async ({ page }) => {
-      await page.goto(SINGLE_DATASET_URL)
+      await goTo(page, SINGLE_DATASET_URL)
       await page
         .getByRole('button', { name: translations.downloadDataset })
         .click()
@@ -33,7 +34,7 @@ export function testSingleDatasetDownloadDialog() {
     })
 
     test('should display dataset name', async ({ page }) => {
-      await page.goto(SINGLE_DATASET_URL)
+      await goTo(page, SINGLE_DATASET_URL)
       await page
         .getByRole('button', { name: translations.downloadDataset })
         .click()
@@ -52,7 +53,7 @@ export function testSingleDatasetDownloadDialog() {
         tab: DownloadTab.AWS,
       })
 
-      await page.goto(initialUrl.href)
+      await goTo(page, initialUrl.href)
       const dialog = await validateDialogOpen(
         page,
         translations.downloadOptions,
@@ -67,7 +68,7 @@ export function testSingleDatasetDownloadDialog() {
         tab: DownloadTab.API,
       })
 
-      await page.goto(initialUrl.href)
+      await goTo(page, initialUrl.href)
       const dialog = await validateDialogOpen(
         page,
         translations.downloadOptions,
@@ -85,7 +86,7 @@ export function testSingleDatasetDownloadDialog() {
         tab: DownloadTab.API,
       })
 
-      await page.goto(initialUrl.href)
+      await goTo(page, initialUrl.href)
       const dialog = await validateDialogOpen(
         page,
         translations.downloadOptions,
@@ -108,7 +109,7 @@ export function testSingleDatasetDownloadDialog() {
         tab: DownloadTab.AWS,
       })
 
-      await page.goto(initialUrl.href)
+      await goTo(page, initialUrl.href)
       const dialog = await validateDialogOpen(
         page,
         translations.downloadOptions,
@@ -123,13 +124,14 @@ export function testSingleDatasetDownloadDialog() {
       await page.waitForURL(expectedUrl.href)
     })
 
-    test('should copy from aws tab', async ({ page, context }) => {
+    test('should copy from aws tab', async ({ page, browserName }) => {
+      skipClipboardTestsForWebkit(browserName)
+
       const url = constructDialogUrl(SINGLE_DATASET_URL, {
         tab: DownloadTab.AWS,
       })
 
-      await page.goto(url.href)
-      await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+      await goTo(page, url.href)
 
       const dialog = await validateDialogOpen(
         page,
@@ -145,13 +147,14 @@ export function testSingleDatasetDownloadDialog() {
       expect(clipboardValue).toContain(E2E_CONFIG.datasetId)
     })
 
-    test('should copy from api tab', async ({ page, context }) => {
+    test('should copy from api tab', async ({ page, browserName }) => {
+      skipClipboardTestsForWebkit(browserName)
+
       const url = constructDialogUrl(SINGLE_DATASET_URL, {
         tab: DownloadTab.API,
       })
 
-      await page.goto(url.href)
-      await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+      await goTo(page, url.href)
 
       const dialog = await validateDialogOpen(
         page,
@@ -171,7 +174,7 @@ export function testSingleDatasetDownloadDialog() {
         tab: DownloadTab.AWS,
       })
 
-      await page.goto(url.href)
+      await goTo(page, url.href)
 
       const dialog = await validateDialogOpen(
         page,
@@ -188,7 +191,7 @@ export function testSingleDatasetDownloadDialog() {
         tab: DownloadTab.AWS,
       })
 
-      await page.goto(url.href)
+      await goTo(page, url.href)
 
       const dialog = await validateDialogOpen(
         page,
