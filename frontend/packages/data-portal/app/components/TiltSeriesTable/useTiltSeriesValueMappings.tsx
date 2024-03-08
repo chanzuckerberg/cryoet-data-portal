@@ -90,7 +90,7 @@ export function useTiltSeriesValueMappings(tiltSeries?: Partial<Tiltseries>) {
         renderValue: (value) => (
           <p className="flex gap-1 items-center">
             <span>{value}</span>
-            <Katex math="\frac{e^-}{\text{\AA}^2}" />
+            <Katex math="\frac{\text{\AA}}{px}" />
           </p>
         ),
       },
@@ -164,7 +164,7 @@ export function useTiltSeriesValueMappings(tiltSeries?: Partial<Tiltseries>) {
         renderValue: (value) => (
           <p className="flex gap-1 items-center">
             <span>{value}</span>
-            <Katex math="\frac{\text{\AA}}{px}" />
+            <Katex math="\frac{e^-}{\text{\AA}^2}" />
           </p>
         ),
       },
