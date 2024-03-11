@@ -2,13 +2,12 @@
 
 Below are code snippets for completing various tasks using the Python Client API. Have an example you'd like to share with the community? Submit a [GitHub issue](https://github.com/chanzuckerberg/cryoet-data-portal/issues) and include "Example:" in your title.
 
-
 <details>
   <summary>Query by annotated object or Gene Ontology terms using owlready2 library</summary>
-  
-  Find all membrane annotations, including when the annotation has a subclass of membrane.
-  
-  ```python
+
+Find all membrane annotations, including when the annotation has a subclass of membrane.
+
+```python
 import owlready2 as owl
 from cryoet_data_portal import Client, Annotation
 
@@ -34,15 +33,16 @@ object_runs = set([po.tomogram_voxel_spacing.run.id for po in portal_objects])
 
 # Datasets that contain annotations with that term
 object_datasets = set([po.tomogram_voxel_spacing.run.dataset_id for po in portal_objects])
-  ```
+```
+
 </details>
 
 <details>
   <summary>List zarr file contents using the zarr-package and HTTPS link</summary>
-  
-  Stream data using https
-  
-  ```python
+
+Stream data using https
+
+```python
 from cryoet_data_portal import Client, Tomogram
 import zarr
 
@@ -50,26 +50,27 @@ import zarr
 client = Client()
 tomo = Tomogram.find(client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 10000])[0]
 
-# Obtain the HTTPS URL to the tomogram 
+# Obtain the HTTPS URL to the tomogram
 url = tomo.https_omezarr_dir
 
 # List the zarr contents
 g = zarr.open_group(url, mode="r")
 for i in g.attrs["multiscales"][0]["datasets"]:
-    print(i["coordinateTransformations"])
-    print(i["path"])
-    path = i["path"]
-    x = zarr.open(f"{url}/{path}")
-    print(x.info_items())
-  ```
+  print(i["coordinateTransformations"])
+  print(i["path"])
+  path = i["path"]
+  x = zarr.open(f"{url}/{path}")
+  print(x.info_items())
+```
+
 </details>
 
 <details>
   <summary>List zarr-file contents using the ome-zarr-package and HTTPS link</summary>
-  
-  Stream data using https
-  
-  ```python
+
+Stream data using https
+
+```python
 from cryoet_data_portal import Client, Tomogram
 from ome_zarr.io import parse_url
 from ome_zarr.reader import Reader
@@ -78,7 +79,7 @@ from ome_zarr.reader import Reader
 client = Client()
 tomo = Tomogram.find(client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 10000])[0]
 
-# Obtain the Zarr store 
+# Obtain the Zarr store
 url = tomo.https_omezarr_dir
 store = parse_url(url, mode="r").store
 
@@ -86,15 +87,16 @@ store = parse_url(url, mode="r").store
 reader = Reader(parse_url(url))
 nodes = list(reader())
 nodes[0].data
-  ```
+```
+
 </details>
 
 <details>
   <summary>List zarr-file contents using the zarr-package and s3 link</summary>
-  
-  Stream data via S3
-  
-  ```python
+
+Stream data via S3
+
+```python
 from cryoet_data_portal import Client, Tomogram
 import zarr
 
@@ -105,15 +107,16 @@ tomo = Tomogram.find(client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 
 # Open and list contents
 g = zarr.open_group(tomo.s3_omezarr_dir, mode='r')
 g.info_items()
-  ```
+```
+
 </details>
 
 <details>
   <summary>Open a tomogram array the zarr-package and https link</summary>
-  
-  Stream data using https
-  
-  ```python
+
+Stream data using https
+
+```python
 from cryoet_data_portal import Client, Tomogram
 import zarr
 
@@ -122,32 +125,34 @@ client = Client()
 tomo = Tomogram.find(client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 10000])[0]
 
 g = zarr.open_array(f"{tomo.https_omezarr_dir}/0", mode='r')
-  ```
+```
+
 </details>
 
 <details>
   <summary>Find all annotation files available in Zarr-format from a dataset</summary>
-  
-  Use as training data for a segmentation model
-  
-  ```python
-from cryoet_data_portal import Client, AnnotationFile 
+
+Use as training data for a segmentation model
+
+```python
+from cryoet_data_portal import Client, AnnotationFile
 
 # Get the client
 client = Client()
 
 # Select all zarr annotation files in dataset 10000
-ret = AnnotationFile.find(client, [AnnotationFile.annotation.tomogram_voxel_spacing.run.dataset_id == 10000,  
-                                        AnnotationFile.format == 'zarr'])
-  ```
+ret = AnnotationFile.find(client, [AnnotationFile.annotation.tomogram_voxel_spacing.run.dataset_id == 10000,
+                                      AnnotationFile.format == 'zarr'])
+```
+
 </details>
 
 <details>
   <summary>Open a Point-annotation file and stream the contents from S3</summary>
-  
-  Use as training data for a particle picking model
-  
-  ```python
+
+Use as training data for a particle picking model
+
+```python
 from cryoet_data_portal import Client, AnnotationFile
 import s3fs
 import ndjson
@@ -164,17 +169,18 @@ fs = s3fs.S3FileSystem(anon=True)
 # Open the first file and print the first annotation
 name = ret[0].annotation.object_name
 with fs.open(ret[0].s3_path) as pointfile:
-    for point in ndjson.reader(pointfile):
-        print(f"A {name} at {point['location']['x']}, {point['location']['y']}, {point['location']['z']}")
-  ```
+  for point in ndjson.reader(pointfile):
+      print(f"A {name} at {point['location']['x']}, {point['location']['y']}, {point['location']['z']}")
+```
+
 </details>
 
 <details>
   <summary>Find all datasets that have movie frames available</summary>
-  
-  Start processing the raw data
-  
-  ```python
+
+Start processing the raw data
+
+```python
 from cryoet_data_portal import Client, Dataset
 
 # Get client instance
@@ -182,15 +188,16 @@ client = Client()
 
 # FInd all datasets, that have tiltseries with 1 or more frame files
 datasets_with_frames = Dataset.find(client, [Dataset.runs.tiltseries.frames_count > 0])
-  ```
+```
+
 </details>
 
 <details>
   <summary>Find all tomograms with voxel spacing below a threshold</summary>
-  
-  Select data of a specific resolution
-  
-  ```python
+
+Select data of a specific resolution
+
+```python
 from cryoet_data_portal import Client, Tomogram
 
 # Get client instance
@@ -199,20 +206,21 @@ client = Client()
 # Get all tomograms with voxel spacing <= 10 Angstroms/voxel
 tomos = Tomogram.find(client, [Tomogram.voxel_spacing <= 10])
 
-# S3 URIs for MRCs 
+# S3 URIs for MRCs
 s3mrc = [t.s3_mrc_scale0 for t in tomos]
 
 # S3 URIs for Zarrs
 s3zarr = [t.s3_omezarr_dir for t in tomos]
-  ```
+```
+
 </details>
 
 <details>
   <summary>Compute statistics on the portal data using the API client</summary>
-  
-  Find how many runs there are in total for a given species
-  
-  ```python
+
+Find how many runs there are in total for a given species
+
+```python
 from cryoet_data_portal import Client, Dataset, Run, Annotation
 import matplotlib.pyplot as plt
 
@@ -229,7 +237,7 @@ unique_species = set(species)
 # Count the Runs
 num_runs_per_species = {}
 for spec in unique_species:
-    num_runs_per_species[spec] = len(Run.find(client, [Run.dataset.organism_name == spec]))
+  num_runs_per_species[spec] = len(Run.find(client, [Run.dataset.organism_name == spec]))
 
 # Sort by number
 sorted_by_run = {t[0]: t[1] for t in sorted(num_runs_per_species.items(), key=lambda kv: (kv[1], kv[0]))}
@@ -239,17 +247,18 @@ plt.figure().set_figwidth(20)
 plt.bar(sorted_by_run.keys(), sorted_by_run.values(), color='g')
 plt.xticks(rotation=30, ha='right')
 plt.show()
-  ```
+```
+
 </details>
 
 <details>
   <summary>Download the movie stacks of one run using S3 file streaming</summary>
-  
-  Start processing from raw data
-  
-  ```python
+
+Start processing from raw data
+
+```python
 from cryoet_data_portal import Client, Run
-import s3fs 
+import s3fs
 import os
 
 client = Client()
@@ -272,6 +281,7 @@ outdir = f'/tmp/{run.name}/Frames/'
 os.makedirs(outdir, exist_ok=True)
 
 for file in frames_list:
-    fs.get_file(file, f'{outdir}{os.path.basename(file)}')
-  ```
+  fs.get_file(file, f'{outdir}{os.path.basename(file)}')
+```
+
 </details>
