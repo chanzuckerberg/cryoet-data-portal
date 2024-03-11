@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
+import { goTo, skipClipboardTestsForWebkit } from 'e2e/filters/utils'
 
 import { getAwsCommand } from 'app/components/Download/AWSDownloadTab'
 import { getCurlCommand } from 'app/components/Download/CurlDownloadTab'
@@ -30,7 +31,7 @@ async function fetchData() {
 export function testSingleRunDownloadDialog() {
   test.describe('Single Run', () => {
     test('should open when clicking download button', async ({ page }) => {
-      await page.goto(SINGLE_RUN_URL)
+      await goTo(page, SINGLE_RUN_URL)
       await page.getByRole('button', { name: translations.download }).click()
       await validateDialogOpen(page, translations.configureDownload)
       const expectedUrl = constructDialogUrl(SINGLE_RUN_URL, {
@@ -43,7 +44,7 @@ export function testSingleRunDownloadDialog() {
       const initialUrl = constructDialogUrl(SINGLE_RUN_URL, {
         step: DownloadStep.Configure,
       })
-      await page.goto(initialUrl.href)
+      await goTo(page, initialUrl.href)
       await validateDialogOpen(page, translations.configureDownload)
     })
 
@@ -56,7 +57,7 @@ export function testSingleRunDownloadDialog() {
       const runName = data.runs[0].name
       const datasetName = data.runs[0].dataset.title
 
-      await page.goto(initialUrl.href)
+      await goTo(page, initialUrl.href)
       await validateDialogOpen(page, translations.configureDownload, [
         `${translations.dataset}: ${datasetName}`,
         `${translations.run}: ${runName}`,
@@ -68,7 +69,7 @@ export function testSingleRunDownloadDialog() {
         step: DownloadStep.Configure,
         config: DownloadConfig.AllAnnotations,
       })
-      await page.goto(initialUrl.href)
+      await goTo(page, initialUrl.href)
       const dialog = await validateDialogOpen(
         page,
         translations.configureDownload,
@@ -85,7 +86,7 @@ export function testSingleRunDownloadDialog() {
         const initialUrl = constructDialogUrl(SINGLE_RUN_URL, {
           step: DownloadStep.Configure,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.configureDownload,
@@ -111,7 +112,7 @@ export function testSingleRunDownloadDialog() {
           step: DownloadStep.Configure,
           config: DownloadConfig.AllAnnotations,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.configureDownload,
@@ -127,7 +128,7 @@ export function testSingleRunDownloadDialog() {
           step: DownloadStep.Configure,
           config: DownloadConfig.Tomogram,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.configureDownload,
@@ -157,7 +158,7 @@ export function testSingleRunDownloadDialog() {
           step: DownloadStep.Configure,
           config: DownloadConfig.AllAnnotations,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.configureDownload,
@@ -181,7 +182,7 @@ export function testSingleRunDownloadDialog() {
           config: DownloadConfig.AllAnnotations,
           tab: DownloadTab.AWS,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.downloadOptions,
@@ -204,7 +205,7 @@ export function testSingleRunDownloadDialog() {
           config: DownloadConfig.AllAnnotations,
           tab: DownloadTab.AWS,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.downloadOptions,
@@ -220,7 +221,7 @@ export function testSingleRunDownloadDialog() {
           config: DownloadConfig.AllAnnotations,
           tab: DownloadTab.API,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.downloadOptions,
@@ -240,7 +241,7 @@ export function testSingleRunDownloadDialog() {
         const runName = data.runs[0].name
         const datasetName = data.runs[0].dataset.title
 
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         await validateDialogOpen(page, translations.downloadOptions, [
           `${translations.dataset}: ${datasetName}`,
           `${translations.run}: ${runName}`,
@@ -254,7 +255,7 @@ export function testSingleRunDownloadDialog() {
           config: DownloadConfig.AllAnnotations,
           tab: DownloadTab.AWS,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.downloadOptions,
@@ -276,7 +277,7 @@ export function testSingleRunDownloadDialog() {
           config: DownloadConfig.AllAnnotations,
           tab: DownloadTab.API,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.downloadOptions,
@@ -292,14 +293,15 @@ export function testSingleRunDownloadDialog() {
         await page.waitForURL(expectedUrl.href)
       })
 
-      test('should copy from aws tab', async ({ page, context }) => {
+      test('should copy from aws tab', async ({ page, browserName }) => {
+        skipClipboardTestsForWebkit(browserName)
+
         const initialUrl = constructDialogUrl(SINGLE_RUN_URL, {
           step: DownloadStep.Download,
           config: DownloadConfig.AllAnnotations,
           tab: DownloadTab.AWS,
         })
-        await page.goto(initialUrl.href)
-        await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+        await goTo(page, initialUrl.href)
 
         const dialog = await validateDialogOpen(
           page,
@@ -319,14 +321,15 @@ export function testSingleRunDownloadDialog() {
         expect(clipboardValue).toBe(getAwsCommand(s3Prefix))
       })
 
-      test('should copy from api tab', async ({ page, context }) => {
+      test('should copy from api tab', async ({ page, browserName }) => {
+        skipClipboardTestsForWebkit(browserName)
+
         const initialUrl = constructDialogUrl(SINGLE_RUN_URL, {
           step: DownloadStep.Download,
           config: DownloadConfig.AllAnnotations,
           tab: DownloadTab.API,
         })
-        await page.goto(initialUrl.href)
-        await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+        await goTo(page, initialUrl.href)
 
         const dialog = await validateDialogOpen(
           page,
@@ -352,7 +355,7 @@ export function testSingleRunDownloadDialog() {
           config: DownloadConfig.AllAnnotations,
           tab: DownloadTab.AWS,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.downloadOptions,
@@ -370,7 +373,7 @@ export function testSingleRunDownloadDialog() {
           config: DownloadConfig.AllAnnotations,
           tab: DownloadTab.AWS,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.downloadOptions,
@@ -386,7 +389,7 @@ export function testSingleRunDownloadDialog() {
         const initialUrl = constructDialogUrl(SINGLE_RUN_URL, {
           step: DownloadStep.Configure,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.configureDownload,
@@ -428,7 +431,7 @@ export function testSingleRunDownloadDialog() {
             processing: tomogram.processing,
           },
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.configureDownload,
@@ -447,7 +450,7 @@ export function testSingleRunDownloadDialog() {
           step: DownloadStep.Configure,
           config: DownloadConfig.AllAnnotations,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.configureDownload,
@@ -485,7 +488,7 @@ export function testSingleRunDownloadDialog() {
               tab,
             })
 
-            await page.goto(initialUrl.href)
+            await goTo(page, initialUrl.href)
             const dialog = await validateDialogOpen(
               page,
               translations.downloadOptions,
@@ -515,7 +518,7 @@ export function testSingleRunDownloadDialog() {
               config: DownloadConfig.Tomogram,
               tab: fromTab,
             })
-            await page.goto(initialUrl.href)
+            await goTo(page, initialUrl.href)
             const dialog = await validateDialogOpen(
               page,
               translations.downloadOptions,
@@ -533,7 +536,9 @@ export function testSingleRunDownloadDialog() {
         })
       })
 
-      test('should copy from aws tab', async ({ page, context }) => {
+      test('should copy from aws tab', async ({ page, browserName }) => {
+        skipClipboardTestsForWebkit(browserName)
+
         const { data } = await fetchData()
         const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
         const activeTomogram =
@@ -553,8 +558,7 @@ export function testSingleRunDownloadDialog() {
           },
           tab: DownloadTab.AWS,
         })
-        await page.goto(initialUrl.href)
-        await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+        await goTo(page, initialUrl.href)
 
         const dialog = await validateDialogOpen(
           page,
@@ -573,7 +577,9 @@ export function testSingleRunDownloadDialog() {
         expect(clipboardValue).toBe(getAwsCommand(s3Prefix))
       })
 
-      test('should copy from api tab', async ({ page, context }) => {
+      test('should copy from api tab', async ({ page, browserName }) => {
+        skipClipboardTestsForWebkit(browserName)
+
         const { data } = await fetchData()
         const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
         const activeTomogram =
@@ -593,8 +599,7 @@ export function testSingleRunDownloadDialog() {
           },
           tab: DownloadTab.API,
         })
-        await page.goto(initialUrl.href)
-        await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+        await goTo(page, initialUrl.href)
 
         const dialog = await validateDialogOpen(
           page,
@@ -611,7 +616,9 @@ export function testSingleRunDownloadDialog() {
         expect(clipboardValue).toBe(String(activeTomogram?.id))
       })
 
-      test('should copy from curl tab', async ({ page, context }) => {
+      test('should copy from curl tab', async ({ page, browserName }) => {
+        skipClipboardTestsForWebkit(browserName)
+
         const { data } = await fetchData()
         const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
         const activeTomogram =
@@ -631,8 +638,7 @@ export function testSingleRunDownloadDialog() {
           },
           tab: DownloadTab.Curl,
         })
-        await page.goto(initialUrl.href)
-        await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+        await goTo(page, initialUrl.href)
 
         const dialog = await validateDialogOpen(
           page,
@@ -664,7 +670,7 @@ export function testSingleRunDownloadDialog() {
           },
           tab: DownloadTab.AWS,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.downloadOptions,
@@ -687,7 +693,7 @@ export function testSingleRunDownloadDialog() {
           },
           tab: DownloadTab.AWS,
         })
-        await page.goto(initialUrl.href)
+        await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
           page,
           translations.downloadOptions,

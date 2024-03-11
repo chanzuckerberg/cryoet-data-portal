@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.2.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.2.0...web-v1.2.1) (2024-03-08)
+
+
+### 🐞 Bug Fixes
+
+* initial load render error ([#531](https://github.com/chanzuckerberg/cryoet-data-portal/issues/531)) ([0d2af5f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/0d2af5f528804b05b19f2a616f395b4faecdc1e2))
+* no tomogram error ([#559](https://github.com/chanzuckerberg/cryoet-data-portal/issues/559)) ([a96f1c1](https://github.com/chanzuckerberg/cryoet-data-portal/commit/a96f1c106345824170f426da4c2c734bed4040fc))
+* pixel spacing and total flux units ([#558](https://github.com/chanzuckerberg/cryoet-data-portal/issues/558)) ([59a5bda](https://github.com/chanzuckerberg/cryoet-data-portal/commit/59a5bda7e5e2cf45bd8a66b12bef1fa874084a8a))
+* update aws command ([#550](https://github.com/chanzuckerberg/cryoet-data-portal/issues/550)) ([5f46cef](https://github.com/chanzuckerberg/cryoet-data-portal/commit/5f46cef560df62791c1b3b5e9e18026b691a2ef0))
+
+
+### 💅 Styles
+
+* fix method type styling ([#566](https://github.com/chanzuckerberg/cryoet-data-portal/issues/566)) ([445b43f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/445b43f21992e53b1f3f8e8d2d6edbe109765837))
+
+
+### 🧹 Miscellaneous Chores
+
+* add e2e tests for download dialogs ([#510](https://github.com/chanzuckerberg/cryoet-data-portal/issues/510)) ([206c81c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/206c81c37f074d241653d26e75408711ea5d4fe4))
+* update tilt range label ([#552](https://github.com/chanzuckerberg/cryoet-data-portal/issues/552)) ([abdb1a2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/abdb1a2bfbe64736cf464f9480e94239a7cf4b22))
+
+
+### ⚙ Continuous Integration
+
+* fix download e2e tests ([#561](https://github.com/chanzuckerberg/cryoet-data-portal/issues/561)) ([ac4e2dc](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ac4e2dcd5df76f344bc7bc3ad6221efb8aa625e2))
+
 ## [1.2.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.1.1...web-v1.2.0) (2024-03-02)
 
 
