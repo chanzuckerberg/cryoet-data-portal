@@ -5,7 +5,6 @@ import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
 import { DatasetTable } from 'app/components/BrowseData'
 import { DatasetFilter } from 'app/components/DatasetFilter'
-import { ErrorBoundary } from 'app/components/ErrorBoundary'
 import { NoResults } from 'app/components/NoResults'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
@@ -46,16 +45,8 @@ export default function BrowseDatasetsPage() {
     <TablePageLayout
       type={i18n.datasets}
       filteredCount={filteredDatasetCount}
-      filters={
-        <ErrorBoundary logId="dataset-root-filter">
-          <DatasetFilter />
-        </ErrorBoundary>
-      }
-      table={
-        <ErrorBoundary logId="dataset-root-table">
-          <DatasetTable />
-        </ErrorBoundary>
-      }
+      filters={<DatasetFilter />}
+      table={<DatasetTable />}
       totalCount={datasetCount}
       noResults={
         <NoResults

@@ -6,12 +6,16 @@ import { useLogPlausibleCopyEvent } from 'app/hooks/useLogPlausibleCopyEvent'
 
 import { SelectSaveDestination } from './SelectSaveDestination'
 
+export function getCurlCommand(httpsPath?: string): string {
+  return `curl -o local.mrc "${httpsPath}"`
+}
+
 export function CurlDownloadTab() {
   const { t } = useI18n()
   const { httpsPath } = useDownloadModalContext()
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
 
-  const curlCommand = `curl -o local.mrc "${httpsPath}"`
+  const curlCommand = getCurlCommand(httpsPath)
 
   return (
     <div className="pt-sds-xl">

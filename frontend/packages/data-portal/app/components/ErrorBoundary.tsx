@@ -1,10 +1,13 @@
 import { Button } from '@czi-sds/components'
+import { useSessionStorageValue } from '@react-hookz/web'
 import { createContext, ReactNode, useContext, useEffect } from 'react'
 import {
   ErrorBoundary as ReactErrorBoundary,
   FallbackProps,
 } from 'react-error-boundary'
 
+import { TABLE_PAGE_LAYOUT_LOG_ID } from 'app/constants/error'
+import { LocalStorageKeys } from 'app/constants/localStorage'
 import { useI18n } from 'app/hooks/useI18n'
 import { LogLevel } from 'app/types/logging'
 import { sendLogs } from 'app/utils/logging'
@@ -16,10 +19,20 @@ interface FallbackRenderContextValue {
 
 const FallbackRenderContext = createContext<FallbackRenderContextValue>({})
 
+const MAX_RELOADS_FOR_TABLE_RENDER_ERROR = 3
+
 function FallbackRender({ error, resetErrorBoundary }: FallbackProps) {
   const { t } = useI18n()
   const { logId } = useContext(FallbackRenderContext)
   const errorMessage = getErrorMessage(error)
+
+  const tableRenderErrorCountStorage = useSessionStorageValue(
+    LocalStorageKeys.TableRenderErrorPageReloadCount,
+    {
+      defaultValue: 0,
+      parse: (val) => (val ? +val : 0),
+    },
+  )
 
   useEffect(() => {
     if (logId) {
@@ -34,8 +47,17 @@ function FallbackRender({ error, resetErrorBoundary }: FallbackProps) {
           },
         ],
       })
+
+      if (
+        logId === TABLE_PAGE_LAYOUT_LOG_ID &&
+        (tableRenderErrorCountStorage.value ?? 0) <
+          MAX_RELOADS_FOR_TABLE_RENDER_ERROR
+      ) {
+        tableRenderErrorCountStorage.set((prev) => (prev ?? 0) + 1)
+        window.location.reload()
+      }
     }
-  }, [errorMessage, logId])
+  }, [errorMessage, logId, tableRenderErrorCountStorage])
 
   return (
     <div role="alert" className="p-2">

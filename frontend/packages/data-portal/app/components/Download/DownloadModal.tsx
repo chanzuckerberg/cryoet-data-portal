@@ -93,9 +93,9 @@ function DownloadModalContent() {
               {modalData.subtitle}
             </p>
           )}
-          <p className="text-sds-header-xl leading-sds-header-xl font-semibold">
+          <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
             {modalData.title}
-          </p>
+          </h2>
         </div>
 
         <div>

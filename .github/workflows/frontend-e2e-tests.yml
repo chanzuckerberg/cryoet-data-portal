@@ -13,7 +13,7 @@ jobs:
   frontend-e2e-tests:
     strategy:
       matrix:
-        browser: [chrome, firefox, webkit]
+        browser: [chromium, firefox, webkit]
         shardCurrent: [1, 2, 3, 4, 5]
         shardTotal: [5]
 
@@ -68,7 +68,7 @@ jobs:
         working-directory: frontend/packages/data-portal
         env:
           API_URL: ${{ vars.API_URL }}
-          BROWSER: ${{ matrix.browser }}
+          E2E_BROWSER: ${{ matrix.browser }}
           E2E_CONFIG: ${{ secrets.E2E_CONFIG }}
           CI: true
 

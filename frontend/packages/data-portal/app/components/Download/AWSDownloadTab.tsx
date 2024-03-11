@@ -10,6 +10,11 @@ import { DownloadConfig } from 'app/types/download'
 
 import { SelectSaveDestination } from './SelectSaveDestination'
 
+export function getAwsCommand(s3Path: string | undefined): string {
+  const destinationPath = s3Path?.replace(/\/$/, '').split('/').pop()
+  return `aws s3 --no-sign-request cp ${s3Path} ${destinationPath}`
+}
+
 export function AWSDownloadTab() {
   const { t } = useI18n()
   const { downloadConfig } = useDownloadModalQueryParamState()
@@ -26,8 +31,7 @@ export function AWSDownloadTab() {
     .with(['runs', DownloadConfig.AllAnnotations], () => s3AnnotationsPrefix)
     .otherwise(() => s3TomogramPrefix)
 
-  const destinationPath = s3Path?.replace(/\/$/, '').split('/').pop()
-  const awsCommand = `aws s3 --no-sign-request sync ${s3Path} ${destinationPath}`
+  const awsCommand = getAwsCommand(s3Path)
 
   return (
     <div className="py-sds-xl">

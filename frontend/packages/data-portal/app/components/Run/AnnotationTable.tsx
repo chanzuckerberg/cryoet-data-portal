@@ -236,13 +236,14 @@ export function AnnotationTable() {
 
               cell: ({ row: { original: annotation } }) => (
                 <TableCell minWidth={81} maxWidth={120}>
-                  <Button
-                    sdsType="primary"
-                    sdsStyle="minimal"
+                  {/* convert to link when activate annotation state is moved to URL */}
+                  <button
+                    className="text-sds-primary-400 text-sds-header-s leading-sds-header-s"
                     onClick={() => openAnnotationDrawer(annotation)}
+                    type="button"
                   >
                     {t('automated')}
-                  </Button>
+                  </button>
                 </TableCell>
               ),
             }),
