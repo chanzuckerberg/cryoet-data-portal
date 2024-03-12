@@ -1,8 +1,9 @@
 import { createContext, useContext } from 'react'
 
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
+import { Annotation } from 'app/state/annotation'
 
-export type DownloadModalType = 'dataset' | 'runs'
+export type DownloadModalType = 'dataset' | 'runs' | 'annotation'
 
 export type TomogramResolution =
   GetRunByIdQuery['runs'][number]['tomogram_stats'][number]['tomogram_resolutions'][number]
@@ -10,10 +11,12 @@ export type TomogramResolution =
 export interface DownloadModalContextValue {
   allTomogramProcessing?: string[]
   allTomogramResolutions?: TomogramResolution[]
+  allAnnotations?: Map<number, Annotation>
   datasetId?: number
   datasetTitle?: string
   fileSize?: number
   httpsPath?: string
+  objectName?: string
   runId?: number
   runName?: string
   s3DatasetPrefix?: string

@@ -60,7 +60,7 @@ export function AnnotationTable() {
   const { setActiveAnnotation } = useAnnotation()
   const { t } = useI18n()
 
-  const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
+  const { openAnnotationDownloadModal } = useDownloadModalQueryParamState()
 
   const openAnnotationDrawer = useCallback(
     (annotation: Annotation) => {
@@ -292,9 +292,12 @@ export function AnnotationTable() {
                 sdsType="primary"
                 sdsStyle="minimal"
                 onClick={() =>
-                  openTomogramDownloadModal({
+                  openAnnotationDownloadModal({
                     datasetId: run.dataset.id,
                     runId: run.id,
+                    annotationId: annotation.id,
+                    // FIXME: are we supposed to only access the 1st option? (this is how it is done elsewhere)
+                    objectShapeType: annotation.files[0].shape_type,
                   })
                 }
                 startIcon={
@@ -310,7 +313,7 @@ export function AnnotationTable() {
     ] as ColumnDef<Annotation>[]
   }, [
     openAnnotationDrawer,
-    openTomogramDownloadModal,
+    openAnnotationDownloadModal,
     run.dataset.id,
     run.id,
     showMethodType,
