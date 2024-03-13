@@ -13,11 +13,14 @@ A simplified diagram of the graph data model is below:
   :width: 1000
   :alt: Simplified data model
 
+<details>
+  <summary>Client</summary>
 Client
 ------
-.. autoclass:: cryoet_data_portal.Client
-   :members:
-   :inherited-members:
+  .. autoclass:: cryoet_data_portal.Client
+     :members:
+     :inherited-members:
+</details>
 
 Dataset
 -------
