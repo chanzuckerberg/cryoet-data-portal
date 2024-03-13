@@ -1,5 +1,7 @@
 import {
   AnnotatedObjectNameFilter,
+  AnnotatedObjectShapeTypeFilter,
+  GroundTruthAnnotationFilter,
   TiltRangeFilter,
 } from 'app/components/Filters'
 import { useDatasetById } from 'app/hooks/useDatasetById'
@@ -9,7 +11,7 @@ import { QualityScoreFilter } from './QualityScoreFilter'
 
 export function RunFilter() {
   const { t } = useI18n()
-  const { objectNames } = useDatasetById()
+  const { objectNames, objectShapeTypes } = useDatasetById()
 
   return (
     <div className="pl-sds-l flex flex-col gap-sds-xxs">
@@ -17,12 +19,14 @@ export function RunFilter() {
         {t('filterBy')}:
       </p>
 
+      <GroundTruthAnnotationFilter />
       <QualityScoreFilter />
       <TiltRangeFilter />
       <AnnotatedObjectNameFilter
         allObjectNames={objectNames}
         label={t('annotatedObjectName')}
       />
+      <AnnotatedObjectShapeTypeFilter allObjectShapeTypes={objectShapeTypes} />
     </div>
   )
 }
