@@ -75,16 +75,6 @@ export function AnnotationOverviewTable() {
               },
             ]
           : []),
-        // {
-        //   label: t('affiliationNames'),
-        //   values: Array.from(
-        //     new Set(
-        //       annotation.author_affiliations
-        //         .flatMap((author) => author.affiliation_name)
-        //         .filter((value): value is string => !!value),
-        //     ),
-        //   ),
-        // },
         {
           label: t('annotationMethod'),
           values: [annotation.annotation_method],
