@@ -92,7 +92,12 @@ export function DatasetMetadataTable({
           ? t('author')
           : t('authors'),
       renderValue: () => {
-        return <DatasetAuthors authors={dataset.authors as AuthorInfo[]} />
+        return (
+          <DatasetAuthors
+            authors={dataset.authors as AuthorInfo[]}
+            separator=","
+          />
+        )
       },
       values: [],
       className: 'leading-sds-body-xs',

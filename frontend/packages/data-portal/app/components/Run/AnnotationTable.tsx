@@ -5,6 +5,7 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
 import { ComponentProps, useCallback, useMemo } from 'react'
 
+import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
 import { I18n } from 'app/components/I18n'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
@@ -50,8 +51,6 @@ function ConfidenceValue({ value }: { value: number }) {
     </div>
   )
 }
-
-const MAX_AUTHORS = 2
 
 export function AnnotationTable() {
   const { isLoadingDebounced } = useIsLoading()
@@ -153,34 +152,13 @@ export function AnnotationTable() {
               )}
             </div>
 
-            <ul className="list-none flex gap-1 text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
-              {annotation.authors?.slice(0, MAX_AUTHORS).map((author, idx) => {
-                const totalAuthorCount = annotation.authors.length
-
-                return (
-                  <li className="flex items-center" key={author.name}>
-                    <span>{author.name}</span>
-                    <span>
-                      {annotation.authors.length > 1 &&
-                        idx < MAX_AUTHORS - 1 &&
-                        ', '}
-                    </span>
-
-                    {idx === MAX_AUTHORS - 1 && idx < totalAuthorCount - 1 && (
-                      <Button
-                        sdsType="primary"
-                        sdsStyle="minimal"
-                        onClick={() => openAnnotationDrawer(annotation)}
-                      >
-                        {t('plusMore', {
-                          count: totalAuthorCount - MAX_AUTHORS,
-                        })}
-                      </Button>
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
+            <div className=" text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
+              <DatasetAuthors
+                authors={annotation.authors}
+                separator=","
+                compact
+              />
+            </div>
           </TableCell>
         ),
       }),
