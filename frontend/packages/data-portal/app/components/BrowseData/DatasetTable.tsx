@@ -88,7 +88,10 @@ export function DatasetTable() {
                 minWidth={450}
                 maxWidth={800}
               >
-                <Link to={datasetUrl} className="flex-shrink-0 w-[134px]">
+                <Link
+                  to={datasetUrl}
+                  className="flex-shrink-0 w-[134px] self-start"
+                >
                   <KeyPhoto
                     title={dataset.title}
                     src={dataset.key_photo_thumbnail_url ?? undefined}
