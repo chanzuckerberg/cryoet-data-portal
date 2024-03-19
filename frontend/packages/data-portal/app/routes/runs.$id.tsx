@@ -37,6 +37,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     id,
     page,
     client: apolloClient,
+    params: url.searchParams,
   })
 
   if (data.runs.length === 0) {
@@ -84,9 +85,16 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 export default function RunByIdPage() {
   const { run, fileSizeMap } = useRunById()
 
+  // TODO: convert to useMemo
   const totalCount = sum(
     run.tomogram_stats.flatMap(
       (stats) => stats.annotations_aggregate.aggregate?.count ?? 0,
+    ),
+  )
+
+  const filteredCount = sum(
+    run.tomogram_stats.flatMap(
+      (stats) => stats.filtered_annotations_count.aggregate?.count ?? 0,
     ),
   )
 
@@ -154,7 +162,7 @@ export default function RunByIdPage() {
           <AnnotationDrawer />
         </>
       }
-      filteredCount={totalCount}
+      filteredCount={filteredCount}
       header={<RunHeader />}
       table={<AnnotationTable />}
       totalCount={totalCount}

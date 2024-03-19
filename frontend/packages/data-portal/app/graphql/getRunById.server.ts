@@ -1,10 +1,13 @@
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import { URLSearchParams } from 'url'
 
 import { gql } from 'app/__generated__'
+import { Annotations_Bool_Exp } from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
 const GET_RUN_BY_ID_QUERY = gql(`
-  query GetRunById($id: Int, $limit: Int, $offset: Int) {
+  query GetRunById($id: Int, $limit: Int, $offset: Int, $filter: annotations_bool_exp) {
     runs(where: { id: { _eq: $id } }) {
       id
       name
@@ -118,6 +121,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
         annotations(
           limit: $limit,
           offset: $offset,
+          where: $filter,
           order_by: [
             { ground_truth_status: desc }
             { deposition_date: desc }
@@ -177,6 +181,12 @@ const GET_RUN_BY_ID_QUERY = gql(`
           }
         }
 
+        filtered_annotations_count: annotations_aggregate(where: $filter) {
+          aggregate {
+            count
+          }
+        }
+
         tomogram_processing: tomograms(distinct_on: processing) {
           processing
         }
@@ -211,14 +221,23 @@ const GET_RUN_BY_ID_QUERY = gql(`
   }
 `)
 
+// eslint-disable-next-line
+function getFilter(_filterState: FilterState) {
+  const filters: Annotations_Bool_Exp[] = []
+
+  return { _and: filters } as Annotations_Bool_Exp
+}
+
 export async function getRunById({
   client,
   id,
   page = 1,
+  params = new URLSearchParams(),
 }: {
   client: ApolloClient<NormalizedCacheObject>
   id: number
   page?: number
+  params?: URLSearchParams
 }) {
   return client.query({
     query: GET_RUN_BY_ID_QUERY,
@@ -226,6 +245,7 @@ export async function getRunById({
       id,
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
+      filter: getFilter(getFilterState(params)),
     },
   })
 }
