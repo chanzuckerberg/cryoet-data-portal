@@ -214,20 +214,16 @@ function ConfigureTomogramDownloadContent() {
 }
 
 function ConfigureAnnotationDownloadContent() {
-  const { annotationId, objectShapeType } = useDownloadModalQueryParamState()
-  const { allAnnotations } = useDownloadModalContext()
+  const { objectShapeType } = useDownloadModalQueryParamState()
+  const { activeAnnotation } = useDownloadModalContext()
 
-  const fileFormats = useMemo<string[]>(() => {
-    const formats = annotationId
-      ? allAnnotations
-          ?.get(+annotationId)
-          ?.files.filter(
-            (annotation) => annotation.shape_type === objectShapeType,
-          )
-          .map((annotation) => `.${annotation.format}`)
-      : null
-    return formats ?? []
-  }, [allAnnotations, annotationId, objectShapeType])
+  const fileFormats = useMemo<string[]>(
+    () =>
+      activeAnnotation?.files
+        .filter((annotation) => annotation.shape_type === objectShapeType)
+        .map((annotation) => `.${annotation.format}`) ?? [],
+    [activeAnnotation?.files, objectShapeType],
+  )
 
   return <FileFormatDropdown className="pt-sds-l" fileFormats={fileFormats} />
 }
