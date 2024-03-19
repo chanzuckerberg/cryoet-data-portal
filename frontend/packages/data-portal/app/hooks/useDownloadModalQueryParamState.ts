@@ -159,13 +159,17 @@ export function useDownloadModalQueryParamState() {
       plausible(Events.ClickNextToDownloadOptions, getPlausiblePayload(payload))
 
       setDownloadParams((prev) => ({
-        [QueryParams.DownloadTab]: match([
-          prev?.[QueryParams.DownloadConfig],
-          prev?.[QueryParams.AnnotationId],
-        ])
+        [QueryParams.DownloadTab]: match({
+          annotationId: prev?.[QueryParams.AnnotationId],
+          downloadConfig: prev?.[QueryParams.DownloadConfig],
+          fileFormat: prev?.[QueryParams.FileFormat],
+        })
           .with(
-            [DownloadConfig.Tomogram, null],
-            [null, P.string],
+            { downloadConfig: DownloadConfig.Tomogram },
+            {
+              annotationId: P.string,
+              fileFormat: P.not('zarr'),
+            },
             () => DownloadTab.Download,
           )
           .otherwise(() => DownloadTab.AWS),
