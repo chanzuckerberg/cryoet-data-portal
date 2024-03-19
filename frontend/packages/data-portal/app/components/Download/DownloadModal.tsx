@@ -43,45 +43,46 @@ function DownloadModalContent() {
     [closeDownloadModal, plausiblePayload],
   )
 
-  const modalData = useMemo(
-    () =>
-      match({ downloadStep, type })
-        .with(
-          { type: 'dataset' },
-          { type: 'runs', downloadStep: DownloadStep.Download },
-          { type: 'annotation', downloadStep: DownloadStep.Download },
-          () => ({
-            buttonDisabled: false,
-            buttonText: t('close'),
-            content: <DownloadOptionsContent />,
-            onClick: closeModal,
-            showBackButton: ['runs', 'annotation'].includes(type),
-            subtitle:
-              type === 'runs' ? t('stepCount', { count: 2, max: 2 }) : null,
-            title: t('downloadOptions'),
-          }),
-        )
-        .otherwise(() => ({
-          buttonDisabled: annotationId ? !fileFormat : !downloadConfig,
-          buttonText: t('next'),
-          content: <ConfigureDownloadContent />,
-          onClick: () => configureDownload(plausiblePayload),
-          showBackButton: false,
-          subtitle: t('stepCount', { count: 1, max: 2 }),
-          title: t('configureDownload'),
-        })),
-    [
-      annotationId,
-      closeModal,
-      configureDownload,
-      downloadConfig,
-      downloadStep,
-      fileFormat,
-      plausiblePayload,
-      t,
-      type,
-    ],
-  )
+  const modalData = useMemo(() => {
+    const hasMultipleSteps = ['runs', 'annotation'].includes(type)
+
+    return match({ downloadStep, type })
+      .with(
+        { type: 'dataset' },
+        { type: 'runs', downloadStep: DownloadStep.Download },
+        { type: 'annotation', downloadStep: DownloadStep.Download },
+        () => ({
+          buttonDisabled: false,
+          buttonText: t('close'),
+          content: <DownloadOptionsContent />,
+          onClick: closeModal,
+          showBackButton: hasMultipleSteps,
+          subtitle: hasMultipleSteps
+            ? t('stepCount', { count: 2, max: 2 })
+            : null,
+          title: t('downloadOptions'),
+        }),
+      )
+      .otherwise(() => ({
+        buttonDisabled: annotationId ? !fileFormat : !downloadConfig,
+        buttonText: t('next'),
+        content: <ConfigureDownloadContent />,
+        onClick: () => configureDownload(plausiblePayload),
+        showBackButton: false,
+        subtitle: t('stepCount', { count: 1, max: 2 }),
+        title: t('configureDownload'),
+      }))
+  }, [
+    annotationId,
+    closeModal,
+    configureDownload,
+    downloadConfig,
+    downloadStep,
+    fileFormat,
+    plausiblePayload,
+    t,
+    type,
+  ])
 
   return (
     <Dialog
