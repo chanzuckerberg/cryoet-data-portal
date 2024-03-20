@@ -1,4 +1,5 @@
 import {
+  AuthorFilter,
   FilterSection,
   InputFilterData,
   MultiInputFilter,
@@ -24,24 +25,11 @@ const DATASET_ID_FILTERS: InputFilterData[] = [
   },
 ]
 
-const AUTHOR_FILTERS: InputFilterData[] = [
-  {
-    id: 'author-name-input',
-    label: `${i18n.authorName}:`,
-    queryParam: QueryParams.AuthorName,
-  },
-  {
-    id: 'author-orcid-input',
-    label: `${i18n.authorOrcid}:`,
-    queryParam: QueryParams.AuthorOrcid,
-  },
-]
-
 export function NameOrIdFilterSection() {
   return (
     <FilterSection title={i18n.nameOrId}>
       <MultiInputFilter label={i18n.datasetIds} filters={DATASET_ID_FILTERS} />
-      <MultiInputFilter label={i18n.author} filters={AUTHOR_FILTERS} />
+      <AuthorFilter />
     </FilterSection>
   )
 }

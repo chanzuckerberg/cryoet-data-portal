@@ -2,28 +2,26 @@ import { FilterPanel } from 'app/components/FilterPanel'
 import {
   AnnotatedObjectNameFilter,
   AnnotatedObjectShapeTypeFilter,
-  GroundTruthAnnotationFilter,
-  TiltRangeFilter,
+  AuthorFilter,
 } from 'app/components/Filters'
-import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
+import { useRunById } from 'app/hooks/useRunById'
 
-import { QualityScoreFilter } from './QualityScoreFilter'
-
-export function RunFilter() {
+export function AnnotationFilter() {
   const { t } = useI18n()
-  const { objectNames, objectShapeTypes } = useDatasetById()
+  const { objectNames, objectShapeTypes } = useRunById()
 
   return (
     <FilterPanel>
-      <GroundTruthAnnotationFilter />
-      <QualityScoreFilter />
-      <TiltRangeFilter />
+      <AuthorFilter />
       <AnnotatedObjectNameFilter
-        allObjectNames={objectNames}
         label={t('annotatedObjectName')}
+        allObjectNames={objectNames}
       />
+      {/* GO ID */}
       <AnnotatedObjectShapeTypeFilter allObjectShapeTypes={objectShapeTypes} />
+      {/* Method Type */}
+      {/* Annotation Software */}
     </FilterPanel>
   )
 }
