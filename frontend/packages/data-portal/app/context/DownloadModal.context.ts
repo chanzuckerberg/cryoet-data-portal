@@ -10,6 +10,7 @@ export type TomogramResolution =
 
 export interface DownloadModalContextValue {
   activeAnnotation?: Annotation | null
+  activeTomogramResolution?: TomogramResolution | null
   allTomogramProcessing?: string[]
   allTomogramResolutions?: TomogramResolution[]
   datasetId?: number
