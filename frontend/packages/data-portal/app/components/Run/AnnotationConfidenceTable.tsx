@@ -22,16 +22,13 @@ export function AnnotationConfidenceTable() {
           values: [isGroundTruth ? t('true') : t('false')],
         },
         {
-          label: t('curatorRecommended'),
-          values: [annotation.is_curator_recommended ? t('yes') : '--'],
-        },
-        {
           label: t('groundTruthUsed'),
           values: [
             isGroundTruth
               ? t('notApplicable')
               : annotation.ground_truth_used ?? '--',
           ],
+          className: 'text-sds-gray-500',
         },
         {
           label: t('precision'),
@@ -40,6 +37,7 @@ export function AnnotationConfidenceTable() {
               ? t('notApplicable')
               : annotation.confidence_precision ?? '--',
           ],
+          className: 'text-sds-gray-500',
         },
         {
           label: t('recall'),
@@ -48,6 +46,7 @@ export function AnnotationConfidenceTable() {
               ? t('notApplicable')
               : annotation.confidence_recall ?? '--',
           ],
+          className: 'text-sds-gray-500',
         },
       ]}
     />
