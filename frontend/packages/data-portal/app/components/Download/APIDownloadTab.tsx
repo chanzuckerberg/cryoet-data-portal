@@ -46,8 +46,9 @@ export function APIDownloadTab() {
             <>
               from cryoet_data_portal import Client, Annotation
               <br />
-              annotation = next(Annotation.find(client, [id == {annotationId}]))
+              client = Client()
               <br />
+              annotation = next(Annotation.find(client, [id == {annotationId}]))
               <br />
               annotation.{downloadFunction}()
             </>
