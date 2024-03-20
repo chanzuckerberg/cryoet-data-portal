@@ -1,6 +1,6 @@
 import { Callout } from '@czi-sds/components'
 import { useMemo } from 'react'
-import { match } from 'ts-pattern'
+import { match, P } from 'ts-pattern'
 
 import { CopyBox } from 'app/components/CopyBox'
 import { I18n } from 'app/components/I18n'
@@ -26,7 +26,7 @@ export function APIDownloadTab() {
 
   const { label, content, logType } = useMemo(
     () =>
-      match({ annotationId, type, downloadConfig })
+      match({ fileFormat, type, downloadConfig })
         .with({ type: 'dataset' }, () => ({
           label: t('datasetId'),
           content: datasetId,
@@ -40,7 +40,29 @@ export function APIDownloadTab() {
             logType: 'voxel-spacing-id',
           }),
         )
-        .with({ type: 'annotation' }, () => ({
+        .with(
+          {
+            type: 'runs',
+            downloadConfig: DownloadConfig.Tomogram,
+            fileFormat: P.string,
+          },
+          () => ({
+            label: t('copyApiCodeSnippet'),
+            content: (
+              <>
+                from cryoet_data_portal import Client, Tomogram
+                <br />
+                client = Client()
+                <br />
+                tomogram = Tomogram.get_by_id(client, {tomogramId})
+                <br />
+                tomogram.{downloadFunction}()
+              </>
+            ),
+            logType: 'tomogram-code-snippet',
+          }),
+        )
+        .with({ type: 'annotation', fileFormat: P.string }, () => ({
           label: t('copyApiCodeSnippet'),
           content: (
             <>
@@ -67,6 +89,7 @@ export function APIDownloadTab() {
       datasetId,
       downloadConfig,
       downloadFunction,
+      fileFormat,
       t,
       tomogramId,
       tomogramVoxelId,
@@ -79,9 +102,7 @@ export function APIDownloadTab() {
       <Callout className="!w-full" intent="info">
         <I18n
           i18nKey={
-            annotationId
-              ? 'preferToDownloadViaApiCode'
-              : 'preferToDownloadViaApi'
+            fileFormat ? 'preferToDownloadViaApiCode' : 'preferToDownloadViaApi'
           }
         />
       </Callout>
