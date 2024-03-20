@@ -34,6 +34,7 @@ export function DownloadOptionsContent() {
     fileFormat,
     objectShapeType,
   } = useDownloadModalQueryParamState()
+  const { activeTomogramResolution } = useDownloadModalContext()
 
   const downloadTabs = useMemo<TabData<DownloadTab>[]>(
     () => [
@@ -72,8 +73,15 @@ export function DownloadOptionsContent() {
       {objectShapeType && (
         <ModalSubtitle label={t('objectShapeType')} value={objectShapeType} />
       )}
-      {tomogramSampling && (
-        <ModalSubtitle label={t('tomogramSampling')} value={tomogramSampling} />
+      {tomogramSampling && activeTomogramResolution && (
+        <ModalSubtitle
+          label={t('tomogramSampling')}
+          value={`${t('unitAngstrom', { value: tomogramSampling })}, (${
+            activeTomogramResolution.size_x
+          }, ${activeTomogramResolution.size_y}, ${
+            activeTomogramResolution.size_z
+          })px`}
+        />
       )}
       {tomogramProcessing && (
         <ModalSubtitle

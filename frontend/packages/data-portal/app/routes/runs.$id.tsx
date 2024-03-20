@@ -2,7 +2,7 @@
 
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { sum } from 'lodash-es'
+import { isNumber, sum } from 'lodash-es'
 import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
@@ -122,12 +122,23 @@ export default function RunByIdPage() {
     enabled: fileFormat !== 'zarr',
   })
 
+  const activeTomogramResolution = useMemo(
+    () =>
+      allTomogramResolutions.find((resolution) =>
+        tomogramSampling !== null && isNumber(+tomogramSampling)
+          ? resolution.voxel_spacing === +tomogramSampling
+          : false,
+      ),
+    [allTomogramResolutions, tomogramSampling],
+  )
+
   return (
     <TablePageLayout
       type={i18n.annotations}
       downloadModal={
         <DownloadModal
           activeAnnotation={activeAnnotation}
+          activeTomogramResolution={activeTomogramResolution}
           allTomogramProcessing={allTomogramProcessing}
           allTomogramResolutions={allTomogramResolutions}
           datasetId={run.dataset.id}
@@ -140,10 +151,15 @@ export default function RunByIdPage() {
           s3Path={match({
             annotationId,
             downloadConfig,
+            fileFormat,
           })
             .with(
-              { downloadConfig: DownloadConfig.Tomogram },
+              { downloadConfig: DownloadConfig.Tomogram, fileFormat: 'mrc' },
               () => activeTomogram?.s3_mrc_scale0,
+            )
+            .with(
+              { downloadConfig: DownloadConfig.Tomogram, fileFormat: 'zarr' },
+              () => activeTomogram?.s3_omezarr_dir,
             )
             .with({ downloadConfig: DownloadConfig.AllAnnotations }, () =>
               tomogram?.s3_prefix
