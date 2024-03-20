@@ -5,11 +5,13 @@ export function InputFilter({
   label,
   onChange,
   value,
+  hideLabel,
 }: {
   id: string
   label: string
   onChange(value: string): void
   value: string
+  hideLabel?: boolean
 }) {
   return (
     <div>
@@ -19,6 +21,7 @@ export function InputFilter({
         onChange={(event) => onChange(event.target.value)}
         value={value}
         fullWidth
+        hideLabel={hideLabel}
       />
     </div>
   )

@@ -5,7 +5,7 @@ import { useI18n } from 'app/hooks/useI18n'
 
 import { InputFilterData, MultiInputFilter } from './MultiInputFilter'
 
-export function AuthorFilter() {
+export function AuthorFilter({ label }: { label: string }) {
   const { t } = useI18n()
 
   const AUTHOR_FILTERS = useMemo<InputFilterData[]>(
@@ -24,5 +24,5 @@ export function AuthorFilter() {
     [t],
   )
 
-  return <MultiInputFilter label={t('author')} filters={AUTHOR_FILTERS} />
+  return <MultiInputFilter label={label} filters={AUTHOR_FILTERS} />
 }

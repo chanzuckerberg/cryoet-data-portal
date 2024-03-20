@@ -12,14 +12,19 @@ export interface InputFilterData {
   id: string
   label: string
   queryParam: QueryParams
+  hideLabel?: boolean
 }
 
 export function MultiInputFilter({
   filters,
   label,
+  title,
+  subtitle,
 }: {
   filters: InputFilterData[]
   label: string
+  title?: string
+  subtitle?: string
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -52,11 +57,11 @@ export function MultiInputFilter({
       description={
         <>
           <p className="text-sds-header-xs leading-sds-header-xs font-semibold">
-            {i18n.filterByAnyOfTheFollowing}
+            {title ?? i18n.filterByAnyOfTheFollowing}
           </p>
 
           <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
-            ({i18n.limitOneValuePerField})
+            {subtitle ?? `(${i18n.limitOneValuePerField})`}
           </p>
         </>
       }
@@ -104,6 +109,7 @@ export function MultiInputFilter({
             value={values[filter.id]}
             id={filter.id}
             label={filter.label}
+            hideLabel={filter.hideLabel}
             onChange={(value) =>
               setValues((prev) => ({
                 ...prev,

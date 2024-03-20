@@ -6,6 +6,7 @@ import axios, { AxiosResponse } from 'axios'
 import { isNumber, sum } from 'lodash-es'
 
 import { apolloClient } from 'app/apollo.server'
+import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
 import { DownloadModal } from 'app/components/Download'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
@@ -162,6 +163,7 @@ export default function RunByIdPage() {
           <AnnotationDrawer />
         </>
       }
+      filters={<AnnotationFilter />}
       filteredCount={filteredCount}
       header={<RunHeader />}
       table={<AnnotationTable />}

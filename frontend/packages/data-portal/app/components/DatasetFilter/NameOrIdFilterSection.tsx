@@ -29,7 +29,7 @@ export function NameOrIdFilterSection() {
   return (
     <FilterSection title={i18n.nameOrId}>
       <MultiInputFilter label={i18n.datasetIds} filters={DATASET_ID_FILTERS} />
-      <AuthorFilter />
+      <AuthorFilter label={i18n.author} />
     </FilterSection>
   )
 }

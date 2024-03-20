@@ -11,6 +11,7 @@ export enum QueryParams {
   EmpiarId = 'empiar_id',
   FiducialAlignmentStatus = 'fiducial_alignment',
   FileFormat = 'file-format',
+  GoId = 'go-id',
   GroundTruthAnnotation = 'ground_truth',
   MetadataDrawer = 'metadata',
   NumberOfRuns = 'runs',
