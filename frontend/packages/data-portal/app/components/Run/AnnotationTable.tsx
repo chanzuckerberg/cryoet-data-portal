@@ -71,6 +71,7 @@ export function AnnotationTable() {
   )
 
   const showMethodType = useFeatureFlag('methodType')
+  const showAnnotationDownload = useFeatureFlag('downloadSingleAnnotation')
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Annotation>()
@@ -288,36 +289,39 @@ export function AnnotationTable() {
                 <span>{t('moreInfo')}</span>
               </Button>
 
-              <Button
-                sdsType="primary"
-                sdsStyle="minimal"
-                onClick={() =>
-                  openAnnotationDownloadModal({
-                    datasetId: run.dataset.id,
-                    runId: run.id,
-                    annotationId: annotation.id,
-                    // FIXME: are we supposed to only access the 1st option? (this is how it is done elsewhere)
-                    objectShapeType: annotation.files[0].shape_type,
-                  })
-                }
-                startIcon={
-                  <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
-                }
-              >
-                {t('download')}
-              </Button>
+              {showAnnotationDownload && (
+                <Button
+                  sdsType="primary"
+                  sdsStyle="minimal"
+                  onClick={() =>
+                    openAnnotationDownloadModal({
+                      datasetId: run.dataset.id,
+                      runId: run.id,
+                      annotationId: annotation.id,
+                      // FIXME: are we supposed to only access the 1st option? (this is how it is done elsewhere)
+                      objectShapeType: annotation.files[0].shape_type,
+                    })
+                  }
+                  startIcon={
+                    <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
+                  }
+                >
+                  {t('download')}
+                </Button>
+              )}
             </div>
           </TableCell>
         ),
       }),
     ] as ColumnDef<Annotation>[]
   }, [
+    t,
+    showMethodType,
     openAnnotationDrawer,
+    showAnnotationDownload,
     openAnnotationDownloadModal,
     run.dataset.id,
     run.id,
-    showMethodType,
-    t,
   ])
 
   const annotations = useMemo<Annotation[]>(
