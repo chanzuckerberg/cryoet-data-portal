@@ -11,6 +11,7 @@ import Backend from 'i18next-http-backend'
 import { startTransition, useMemo, useState } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import { initReactI18next } from 'react-i18next'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { getInitialNamespaces } from 'remix-i18next'
 
 import {
@@ -67,20 +68,24 @@ async function hydrate() {
       },
     })
 
+  const client = new QueryClient()
+
   startTransition(() => {
     hydrateRoot(
       document,
-      <ClientCacheProvider>
-        <StyledEngineProvider>
-          <ThemeProvider theme={theme}>
-            <EmotionThemeProvider theme={theme}>
-              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-              <CssBaseline />
-              <RemixBrowser />
-            </EmotionThemeProvider>
-          </ThemeProvider>
-        </StyledEngineProvider>
-      </ClientCacheProvider>,
+      <QueryClientProvider client={client}>
+        <ClientCacheProvider>
+          <StyledEngineProvider>
+            <ThemeProvider theme={theme}>
+              <EmotionThemeProvider theme={theme}>
+                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                <CssBaseline />
+                <RemixBrowser />
+              </EmotionThemeProvider>
+            </ThemeProvider>
+          </StyledEngineProvider>
+        </ClientCacheProvider>
+      </QueryClientProvider>,
     )
   })
 }

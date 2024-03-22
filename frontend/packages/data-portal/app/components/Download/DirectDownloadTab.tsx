@@ -17,10 +17,6 @@ export function DirectDownloadTab() {
         <span className="text-sds-header-s leading-sds-header-s font-semibold">
           {t('clickToDownloadViaBrowser')}
         </span>
-
-        <span className="text-sds-body-xs leading-sds-body-xs text-sds-gray-500">
-          ({t('mrcFormat')})
-        </span>
       </p>
 
       {httpsPath && (
