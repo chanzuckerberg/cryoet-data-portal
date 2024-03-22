@@ -173,6 +173,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       tomogram_stats: tomogram_voxel_spacings {
         annotations {
           object_name
+          annotation_software
 
           files(distinct_on: shape_type) {
             shape_type

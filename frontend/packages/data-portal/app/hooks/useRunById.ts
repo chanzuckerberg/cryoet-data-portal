@@ -19,7 +19,7 @@ export function useRunById() {
       Array.from(
         new Set(
           run.tomogram_stats.flatMap((voxelSpacing) =>
-            voxelSpacing.annotations.flatMap(
+            voxelSpacing.annotations.map(
               (annotation) => annotation.object_name,
             ),
           ),
@@ -34,7 +34,7 @@ export function useRunById() {
         new Set(
           run.tomogram_stats.flatMap((voxelSpacing) =>
             voxelSpacing.annotations.flatMap((annotation) =>
-              annotation.files.flatMap((file) => file.shape_type),
+              annotation.files.map((file) => file.shape_type),
             ),
           ),
         ),
@@ -42,5 +42,25 @@ export function useRunById() {
     [run],
   )
 
-  return { run, fileSizeMap, objectNames, objectShapeTypes }
+  const annotationSoftwares = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          run.tomogram_stats.flatMap((voxelSpacing) =>
+            voxelSpacing.annotations
+              .filter((annotation) => annotation.annotation_software)
+              .map((annotation) => annotation.annotation_software as string),
+          ),
+        ),
+      ),
+    [run],
+  )
+
+  return {
+    run,
+    fileSizeMap,
+    objectNames,
+    objectShapeTypes,
+    annotationSoftwares,
+  }
 }

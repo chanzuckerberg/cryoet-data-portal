@@ -7,12 +7,13 @@ import {
 import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
 
+import { AnnotationSoftwareFilter } from './AnnotationSoftwareFilter'
 import { GeneOntologyFilter } from './GeneOntologyFilter'
 import { MethodTypeFilter } from './MethodTypeFilter'
 
 export function AnnotationFilter() {
   const { t } = useI18n()
-  const { objectNames, objectShapeTypes } = useRunById()
+  const { objectNames, objectShapeTypes, annotationSoftwares } = useRunById()
 
   return (
     <FilterPanel>
@@ -24,7 +25,7 @@ export function AnnotationFilter() {
       <GeneOntologyFilter />
       <AnnotatedObjectShapeTypeFilter allObjectShapeTypes={objectShapeTypes} />
       <MethodTypeFilter />
-      {/* Annotation Software */}
+      <AnnotationSoftwareFilter allAnnotationSoftwares={annotationSoftwares} />
     </FilterPanel>
   )
 }

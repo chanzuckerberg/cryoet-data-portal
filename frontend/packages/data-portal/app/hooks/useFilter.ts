@@ -63,11 +63,13 @@ export function getFilterState(searchParams: URLSearchParams) {
     },
 
     annotation: {
+      annotationSoftwares: searchParams.getAll(QueryParams.AnnotationSoftware),
+
+      methodTypes: searchParams.getAll(QueryParams.MethodType),
+
       objectNames: searchParams.getAll(QueryParams.ObjectName),
 
       objectShapeTypes: searchParams.getAll(QueryParams.ObjectShapeType),
-
-      methodTypes: searchParams.getAll(QueryParams.MethodType),
     },
   }
 }
