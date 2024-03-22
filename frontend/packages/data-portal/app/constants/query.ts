@@ -14,6 +14,7 @@ export enum QueryParams {
   GoId = 'go-id',
   GroundTruthAnnotation = 'ground_truth',
   MetadataDrawer = 'metadata',
+  MethodType = 'method-type',
   NumberOfRuns = 'runs',
   ObjectName = 'object',
   ObjectShapeType = 'object_shape',

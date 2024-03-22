@@ -66,6 +66,8 @@ export function getFilterState(searchParams: URLSearchParams) {
       objectNames: searchParams.getAll(QueryParams.ObjectName),
 
       objectShapeTypes: searchParams.getAll(QueryParams.ObjectShapeType),
+
+      methodTypes: searchParams.getAll(QueryParams.MethodType),
     },
   }
 }
