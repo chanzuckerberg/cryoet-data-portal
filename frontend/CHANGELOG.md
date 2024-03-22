@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.3.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.2.1...web-v1.3.0) (2024-03-22)
+
+
+### ✨ Features
+
+* add additional filters to single dataset page ([#573](https://github.com/chanzuckerberg/cryoet-data-portal/issues/573)) ([8f4e688](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8f4e688ddda40d5f20b764760f7606fdd344d6a2))
+* single annotation download dialog step 1 ([#557](https://github.com/chanzuckerberg/cryoet-data-portal/issues/557)) ([2610ec6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/2610ec678b718ddaaa8bc40e430650c60241c8f8))
+
+
+### 🧹 Miscellaneous Chores
+
+* hide download annotation button behind flag ([#604](https://github.com/chanzuckerberg/cryoet-data-portal/issues/604)) ([1a5a7da](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1a5a7da26bf5ac97543d0a469c8eb2752ba04430))
+* support multiple envs for feature flags ([#576](https://github.com/chanzuckerberg/cryoet-data-portal/issues/576)) ([b53b2c0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b53b2c00f983faade5aa0bad814469b58e9b6b78))
+* update annotation metadata panel ([#575](https://github.com/chanzuckerberg/cryoet-data-portal/issues/575)) ([984d2f9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/984d2f94a6f5b3ce47a40c83e61f83c1065e4f1c))
+
 ## [1.2.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.2.0...web-v1.2.1) (2024-03-08)
 
 
