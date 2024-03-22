@@ -65,6 +65,8 @@ export function getFilterState(searchParams: URLSearchParams) {
     annotation: {
       annotationSoftwares: searchParams.getAll(QueryParams.AnnotationSoftware),
 
+      goId: searchParams.get(QueryParams.GoId),
+
       methodTypes: searchParams.getAll(QueryParams.MethodType),
 
       objectNames: searchParams.getAll(QueryParams.ObjectName),

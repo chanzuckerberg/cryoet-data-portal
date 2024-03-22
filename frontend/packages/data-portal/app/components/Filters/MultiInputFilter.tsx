@@ -51,7 +51,7 @@ export function MultiInputFilter({
       activeFilters={filters
         .filter((filter) => searchParams.has(filter.queryParam))
         .map((filter) => ({
-          label: filter.label,
+          label: filters.length > 1 ? filter.label : '',
           value: values[filter.id],
         }))}
       description={

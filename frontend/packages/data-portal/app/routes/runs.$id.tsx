@@ -80,7 +80,18 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 }
 
 export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
-  return shouldRevalidatePage(args)
+  return shouldRevalidatePage({
+    ...args,
+    paramsToRefetch: [
+      QueryParams.AuthorName,
+      QueryParams.AuthorOrcid,
+      QueryParams.ObjectName,
+      QueryParams.GoId,
+      QueryParams.ObjectShapeType,
+      QueryParams.MethodType,
+      QueryParams.AnnotationSoftware,
+    ],
+  })
 }
 
 export default function RunByIdPage() {
