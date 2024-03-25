@@ -129,8 +129,8 @@ importers:
         specifier: ^2.4.3
         version: 2.4.3(@types/react@18.2.28)(react@18.2.0)
       katex:
-        specifier: ^0.16.9
-        version: 0.16.9
+        specifier: ^0.16.10
+        version: 0.16.10
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -8675,8 +8675,8 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /katex@0.16.9:
-    resolution: {integrity: sha512-fsSYjWS0EEOwvy81j3vRA8TEAhQhKiqO+FQaKWp0m39qwOzHVBgAUBIXWj1pB+O2W3fIpNa6Y9KSKCVbfPhyAQ==}
+  /katex@0.16.10:
+    resolution: {integrity: sha512-ZiqaC04tp2O5utMsl2TEZTXxa6WSC4yo0fv5ML++D3QZv/vx2Mct0mTlRx3O+uUkjfuAgOkzsCmq5MiUEsDDdA==}
     hasBin: true
     dependencies:
       commander: 8.3.0
