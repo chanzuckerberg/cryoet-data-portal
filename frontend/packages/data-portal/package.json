@@ -66,7 +66,7 @@
     "i18next-http-backend": "^2.4.1",
     "isbot": "^3.7.0",
     "jotai": "^2.4.3",
-    "katex": "^0.16.9",
+    "katex": "^0.16.10",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "morgan": "^1.10.0",
