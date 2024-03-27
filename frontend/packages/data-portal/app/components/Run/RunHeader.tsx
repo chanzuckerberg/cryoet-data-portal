@@ -19,6 +19,8 @@ import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 
 import { ViewTomogramButton } from '../ViewTomogramButton'
 
+const TABLE_COLUMN_WIDTH = 100
+
 export function RunHeader() {
   const { run } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
@@ -118,7 +120,9 @@ export function RunHeader() {
             <div className="flex gap-sds-xxl flex-col lg:flex-row">
               <MetadataTable
                 title={i18n.tiltSeries}
-                tableCellLabelProps={{ maxWidth: 100, minWidth: 100 }}
+                tableCellLabelProps={{
+                  width: { min: 100, max: 100 },
+                }}
                 data={[
                   {
                     labelTooltip: <I18n i18nKey="tiltSeriesTooltip" />,
@@ -159,7 +163,7 @@ export function RunHeader() {
 
               <MetadataTable
                 title={i18n.tomogram}
-                tableCellLabelProps={{ maxWidth: 180, minWidth: 100 }}
+                tableCellLabelProps={{ width: { min: 100, max: 180 } }}
                 data={[
                   {
                     label: i18n.resolutionsAvailable,
