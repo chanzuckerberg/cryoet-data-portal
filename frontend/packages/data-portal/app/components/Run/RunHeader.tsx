@@ -19,8 +19,6 @@ import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 
 import { ViewTomogramButton } from '../ViewTomogramButton'
 
-const TABLE_COLUMN_WIDTH = 100
-
 export function RunHeader() {
   const { run } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
