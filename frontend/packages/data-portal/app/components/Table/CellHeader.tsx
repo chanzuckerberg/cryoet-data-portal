@@ -17,6 +17,7 @@ export function CellHeader({
   showSort = false,
   tooltip,
   width: columnWidth,
+  children,
   ...props
 }: Omit<
   CellHeaderProps,
@@ -48,6 +49,8 @@ export function CellHeader({
         minWidth: columnWidth?.min,
       }}
       hideSortIcon={!showSort}
-    />
+    >
+      <span className="line-clamp-1">{children}</span>
+    </SDSCellHeader>
   )
 }
