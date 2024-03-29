@@ -14,6 +14,7 @@ import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { RunTableWidths } from 'app/constants/table'
 import { TiltSeriesScore } from 'app/constants/tiltSeries'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
@@ -47,6 +48,7 @@ export function RunsTable() {
           <CellHeader
             tooltip={<I18n i18nKey="runsTooltip" />}
             arrowPadding={{ right: 260 }}
+            width={RunTableWidths.name}
           >
             {t('runs')}
           </CellHeader>
@@ -59,9 +61,8 @@ export function RunsTable() {
 
           return (
             <TableCell
-              className="flex w-[25%] gap-4 overflow-ellipsis"
-              minWidth={250}
-              maxWidth={300}
+              className="flex w-full gap-4 overflow-ellipsis"
+              width={RunTableWidths.name}
               renderLoadingSkeleton={false}
             >
               <KeyPhoto
@@ -91,17 +92,18 @@ export function RunsTable() {
           id: 'tilt-series-quality',
           header: () => (
             <CellHeader
-              hideSortIcon
               tooltip={<I18n i18nKey="tiltSeriesTooltip" />}
+              width={RunTableWidths.tiltSeriesQuality}
             >
               {t('tiltSeriesQualityScore')}
             </CellHeader>
           ),
+
           cell: ({ getValue }) => {
             const score = getValue() as TiltSeriesScore | null | undefined
 
             return (
-              <TableCell minWidth={100} maxWidth={210} className="w-[15%]">
+              <TableCell width={RunTableWidths.tiltSeriesQuality}>
                 {typeof score === 'number' && inQualityScoreRange(score) ? (
                   <TiltSeriesQualityScoreBadge score={score} />
                 ) : (
@@ -114,7 +116,14 @@ export function RunsTable() {
       ),
 
       columnHelper.accessor((run) => run.tomogram_voxel_spacings, {
-        header: t('annotatedObjects'),
+        id: 'annotatedObjects',
+
+        header: () => (
+          <CellHeader width={RunTableWidths.annotatedObjects}>
+            {t('annotatedObjects')}
+          </CellHeader>
+        ),
+
         cell({ getValue }) {
           const voxelSpacings = getValue()
           const annotatedObjects = Array.from(
@@ -129,10 +138,8 @@ export function RunsTable() {
 
           return (
             <TableCell
-              minWidth={250}
-              maxWidth={500}
               renderLoadingSkeleton={false}
-              className="w-[35%]"
+              width={RunTableWidths.annotatedObjects}
             >
               {annotatedObjects.length === 0 ? (
                 '--'
@@ -152,7 +159,8 @@ export function RunsTable() {
           run.tomogram_voxel_spacings?.[0]?.tomograms?.[0]?.neuroglancer_config,
         {
           id: 'viewTomogram',
-          header: '',
+          header: () => <CellHeader width={RunTableWidths.actions} />,
+
           cell({ row, getValue }) {
             const neuroglancerConfig = getValue()
 
@@ -160,7 +168,7 @@ export function RunsTable() {
             const tomogram = run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
 
             return (
-              <TableCell horizontalAlign="right" minWidth={150}>
+              <TableCell horizontalAlign="right" width={RunTableWidths.actions}>
                 <ViewTomogramButton
                   buttonProps={{
                     sdsType: 'secondary',
