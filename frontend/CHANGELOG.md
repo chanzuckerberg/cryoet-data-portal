@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.3.0...web-v1.3.1) (2024-03-29)
+
+
+### 🐞 Bug Fixes
+
+* table column sizing ([#551](https://github.com/chanzuckerberg/cryoet-data-portal/issues/551)) ([174f52c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/174f52c9f4e43c080e857ae59a8c569d174122d5))
+
+
+### 🧹 Miscellaneous Chores
+
+* **deps:** bump express from 4.18.2 to 4.19.2 in /frontend ([#607](https://github.com/chanzuckerberg/cryoet-data-portal/issues/607)) ([d94d8a5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d94d8a5654a522eb47fbf98fb7eaaf11db60c6ea))
+* **deps:** bump katex from 0.16.9 to 0.16.10 in /frontend ([#606](https://github.com/chanzuckerberg/cryoet-data-portal/issues/606)) ([34e48df](https://github.com/chanzuckerberg/cryoet-data-portal/commit/34e48df1bbf7d58a5489ee94d705e5d08e3df4aa))
+
 ## [1.3.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.2.1...web-v1.3.0) (2024-03-22)
 
 
