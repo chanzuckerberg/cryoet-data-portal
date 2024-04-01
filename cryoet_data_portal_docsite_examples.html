@@ -164,7 +164,7 @@
 </div>
 </details>
 <details>
-  <summary>List zarr file contents using the zarr-package and HTTPS link</summary>
+  <summary>List zarr file contents using the zarr package and HTTPS link</summary>
 <p>Stream data using https</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 <span class="kn">import</span> <span class="nn">zarr</span>
@@ -173,7 +173,7 @@
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 <span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="c1"># Obtain the HTTPS URL to the tomogram </span>
+<span class="c1"># Obtain the HTTPS URL to the tomogram</span>
 <span class="n">url</span> <span class="o">=</span> <span class="n">tomo</span><span class="o">.</span><span class="n">https_omezarr_dir</span>
 
 <span class="c1"># List the zarr contents</span>
@@ -188,7 +188,7 @@
 </div>
 </details>
 <details>
-  <summary>List zarr-file contents using the ome-zarr-package and HTTPS link</summary>
+  <summary>List zarr-file contents using the ome-zarr package and HTTPS link</summary>
 <p>Stream data using https</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 <span class="kn">from</span> <span class="nn">ome_zarr.io</span> <span class="kn">import</span> <span class="n">parse_url</span>
@@ -198,7 +198,7 @@
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 <span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="c1"># Obtain the Zarr store </span>
+<span class="c1"># Obtain the Zarr store</span>
 <span class="n">url</span> <span class="o">=</span> <span class="n">tomo</span><span class="o">.</span><span class="n">https_omezarr_dir</span>
 <span class="n">store</span> <span class="o">=</span> <span class="n">parse_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">store</span>
 
@@ -210,7 +210,7 @@
 </div>
 </details>
 <details>
-  <summary>List zarr-file contents using the zarr-package and s3 link</summary>
+  <summary>List zarr-file contents using the zarr package and S3 link</summary>
 <p>Stream data via S3</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 <span class="kn">import</span> <span class="nn">zarr</span>
@@ -226,7 +226,7 @@
 </div>
 </details>
 <details>
-  <summary>Open a tomogram array the zarr-package and https link</summary>
+  <summary>Open a tomogram array using the zarr package and HTTPS link</summary>
 <p>Stream data using https</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 <span class="kn">import</span> <span class="nn">zarr</span>
@@ -240,15 +240,15 @@
 </div>
 </details>
 <details>
-  <summary>Find all annotation files available in Zarr-format from a dataset</summary>
+  <summary>Find all annotation files available in ZARR format from a dataset</summary>
 <p>Use as training data for a segmentation model</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">AnnotationFile</span> 
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">AnnotationFile</span>
 
 <span class="c1"># Get the client</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 
 <span class="c1"># Select all zarr annotation files in dataset 10000</span>
-<span class="n">ret</span> <span class="o">=</span> <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">AnnotationFile</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">,</span>  
+<span class="n">ret</span> <span class="o">=</span> <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">AnnotationFile</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">,</span>
                                       <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s1">&#39;zarr&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -301,7 +301,7 @@
 <span class="c1"># Get all tomograms with voxel spacing &lt;= 10 Angstroms/voxel</span>
 <span class="n">tomos</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">voxel_spacing</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">])</span>
 
-<span class="c1"># S3 URIs for MRCs </span>
+<span class="c1"># S3 URIs for MRCs</span>
 <span class="n">s3mrc</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">s3_mrc_scale0</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tomos</span><span class="p">]</span>
 
 <span class="c1"># S3 URIs for Zarrs</span>
@@ -345,7 +345,7 @@
   <summary>Download the movie stacks of one run using S3 file streaming</summary>
 <p>Start processing from raw data</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Run</span>
-<span class="kn">import</span> <span class="nn">s3fs</span> 
+<span class="kn">import</span> <span class="nn">s3fs</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>

@@ -1,8 +1,8 @@
-# CryoET Data Portal | Documentation 
+# CryoET Data Portal | Documentation
 
-The [Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute)](https://www.czimaginginstitute.org/) has made a beta release of the [CryoET Data Portal](https://cryoetdataportal.czscience.com) providing queryable and organized data from CryoET experiments. Each of the over 10,000 tomograms on the Portal have a minimum of “ground truth” point annotations of ribosomes. 
+The [Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute)](https://www.czimaginginstitute.org/) has made a beta release of the [CryoET Data Portal](https://cryoetdataportal.czscience.com) providing queryable and organized data from CryoET experiments. Each of the over 10,000 tomograms on the Portal have a minimum of “ground truth” point annotations of ribosomes.
 
-This site provides additional documentation for accessing the [CryoET Data Portal](https://cryoetdataportal.czscience.com) through its [Python API](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html) to query and download the data. The initial target users are segmentation algorithm developers to produce annotations for diverse macromolecules in the tomogram that may be used for high-resolution subtomogram averaging. 
+This site provides additional documentation for accessing the [CryoET Data Portal](https://cryoetdataportal.czscience.com) through its [Python API](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html) to query and download the data. The initial target users are segmentation algorithm developers to produce annotations for diverse macromolecules in the tomogram that may be used for high-resolution subtomogram averaging.
 
 We welcome feedback from the community on the data structure, design and functionality. Share first impressions, or sign up for invites to future feedback activities in [this short form](https://airtable.com/apppmytRJXoXYTO9w/shrjmV9knAC7E7VVM?prefill_Event=P1BannerF&hide_Event=true). Submit questions, bugs, and feature requests for the CryoET Data Portal via [GitHub issues](https://github.com/chanzuckerberg/cryoet-data-portal/issues).
 
@@ -55,4 +55,3 @@ Some of the data used in this work was provided by the group(s) of Julia Mahamid
 :::{Note}
 Segmentation experts and developers are also encouraged to get in touch with the data providers if they feel they have developed a useful tool that might help to process the entirety of the datasets (which are much larger than the subsets provided for the portal) more efficiently or effectively.
 :::
-
