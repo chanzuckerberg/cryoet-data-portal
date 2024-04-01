@@ -15,6 +15,7 @@ import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { EMPIAR_ID, EMPIAR_URL } from 'app/constants/external-dbs'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
+import { DatasetTableWidths } from 'app/constants/table'
 import { Dataset, useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
@@ -54,6 +55,7 @@ export function DatasetTable() {
         columnHelper.accessor('id', {
           header: () => (
             <CellHeader
+              showSort
               active={datasetSort !== undefined}
               direction={datasetSort}
               onClick={(event) => {
@@ -71,10 +73,12 @@ export function DatasetTable() {
 
                 setSearchParams(nextParams)
               }}
+              width={DatasetTableWidths.id}
             >
               {t('dataset')}
             </CellHeader>
           ),
+
           cell({ row: { original: dataset } }) {
             const previousUrl = `${location.pathname}${location.search}`
             const datasetUrl = `/datasets/${
@@ -85,8 +89,7 @@ export function DatasetTable() {
               <TableCell
                 className="flex px-sds-s py-sds-l gap-sds-m"
                 renderLoadingSkeleton={false}
-                minWidth={450}
-                maxWidth={800}
+                width={DatasetTableWidths.id}
               >
                 <Link
                   to={datasetUrl}
@@ -141,13 +144,18 @@ export function DatasetTable() {
         }),
 
         columnHelper.accessor('related_database_entries', {
-          header: t('empiarID'),
+          header: () => (
+            <CellHeader width={DatasetTableWidths.empiarId}>
+              {t('empiarID')}
+            </CellHeader>
+          ),
+
           cell({ getValue }) {
             const empiarIDMatch = EMPIAR_ID.exec(getValue() ?? '')
             const empiarID = empiarIDMatch?.[1]
 
             return (
-              <TableCell minWidth={120} maxWidth={130}>
+              <TableCell width={DatasetTableWidths.empiarId}>
                 {empiarID ? (
                   <Link
                     className="text-sds-primary-500 inline"
@@ -164,12 +172,16 @@ export function DatasetTable() {
         }),
 
         columnHelper.accessor('organism_name', {
-          header: t('organismName'),
+          header: () => (
+            <CellHeader width={DatasetTableWidths.organismName}>
+              {t('organismName')}
+            </CellHeader>
+          ),
+
           cell: ({ getValue }) => (
             <TableCell
               primaryText={getValue() ?? '--'}
-              minWidth={100}
-              maxWidth={400}
+              width={DatasetTableWidths.organismName}
             />
           ),
         }),
@@ -178,28 +190,35 @@ export function DatasetTable() {
           (dataset) => dataset.runs_aggregate.aggregate?.count,
           {
             id: 'runs',
+
             header: () => (
               <CellHeader
-                hideSortIcon
                 tooltip={<I18n i18nKey="runsTooltip" />}
                 arrowPadding={{ right: 270 }}
+                width={DatasetTableWidths.runs}
               >
                 {t('runs')}
               </CellHeader>
             ),
+
             cell: ({ getValue }) => (
               <TableCell
                 primaryText={String(getValue() ?? 0)}
-                minWidth={70}
-                maxWidth={100}
+                width={DatasetTableWidths.runs}
               />
             ),
           },
         ),
 
         columnHelper.accessor((dataset) => dataset.runs, {
-          // TODO: fix overflow for this header
-          header: t('annotatedObjects'),
+          id: 'annotatedObjects',
+
+          header: () => (
+            <CellHeader width={DatasetTableWidths.annotatedObjects}>
+              {t('annotatedObjects')}
+            </CellHeader>
+          ),
+
           cell({ getValue }) {
             const runs = getValue()
             const annotatedObjects = Array.from(
@@ -216,9 +235,7 @@ export function DatasetTable() {
 
             return (
               <TableCell
-                minWidth={120}
-                maxWidth={400}
-                className="w-[15%]"
+                width={DatasetTableWidths.annotatedObjects}
                 renderLoadingSkeleton={() => (
                   <div className="flex flex-col gap-2">
                     {range(0, ANNOTATED_OBJECTS_MAX).map((val) => (

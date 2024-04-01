@@ -19,11 +19,13 @@ export function DatasetAuthors({
   className,
   separator = ';',
   compact = false,
+  subtle = false,
 }: {
   authors: AuthorInfo[]
   className?: string
   separator?: string
   compact?: boolean
+  subtle?: boolean
 }) {
   // TODO: make the below grouping more efficient and/or use GraphQL ordering
   const authorsPrimary = authors.filter(
@@ -67,7 +69,7 @@ export function DatasetAuthors({
           </Fragment>
         ))}
       </span>
-      <span className={cns(!compact && 'text-sds-gray-600')}>
+      <span className={cns(subtle && !compact && 'text-sds-gray-600')}>
         {compact
           ? otherCollapsed
           : authorsOther.map((author, i, arr) => (
