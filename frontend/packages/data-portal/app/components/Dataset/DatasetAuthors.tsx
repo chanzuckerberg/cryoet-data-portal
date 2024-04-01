@@ -50,7 +50,7 @@ export function DatasetAuthors({
       if (authorsCorresponding.length === 0) {
         return ellipsis
       }
-      return `${ellipsis}${separator} `
+      return `${ellipsis} ${separator} `
     }
     return null
   }, [authorsOther, authorsCorresponding, compact, separator])
