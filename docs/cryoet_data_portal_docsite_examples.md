@@ -38,7 +38,7 @@ object_datasets = set([po.tomogram_voxel_spacing.run.dataset_id for po in portal
 </details>
 
 <details>
-  <summary>List zarr file contents using the zarr-package and HTTPS link</summary>
+  <summary>List zarr file contents using the zarr package and HTTPS link</summary>
 
 Stream data using https
 
@@ -66,7 +66,7 @@ for i in g.attrs["multiscales"][0]["datasets"]:
 </details>
 
 <details>
-  <summary>List zarr-file contents using the ome-zarr-package and HTTPS link</summary>
+  <summary>List zarr-file contents using the ome-zarr package and HTTPS link</summary>
 
 Stream data using https
 
@@ -92,7 +92,7 @@ nodes[0].data
 </details>
 
 <details>
-  <summary>List zarr-file contents using the zarr-package and s3 link</summary>
+  <summary>List zarr-file contents using the zarr package and S3 link</summary>
 
 Stream data via S3
 
@@ -112,7 +112,7 @@ g.info_items()
 </details>
 
 <details>
-  <summary>Open a tomogram array the zarr-package and https link</summary>
+  <summary>Open a tomogram array using the zarr package and HTTPS link</summary>
 
 Stream data using https
 
@@ -130,7 +130,7 @@ g = zarr.open_array(f"{tomo.https_omezarr_dir}/0", mode='r')
 </details>
 
 <details>
-  <summary>Find all annotation files available in Zarr-format from a dataset</summary>
+  <summary>Find all annotation files available in ZARR format from a dataset</summary>
 
 Use as training data for a segmentation model
 

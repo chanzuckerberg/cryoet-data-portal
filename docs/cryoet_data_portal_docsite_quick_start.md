@@ -71,7 +71,7 @@ Dataset: S. pombe cells with defocus
 
 ### Find all tomograms for a certain organism and download preview-sized MRC files:
 
-The following iterates over all tomograms related to a specific organism and downloads a 25% scale preview tomogram in MRC format for each one.
+The following iterates over all tomograms related to a specific organism and downloads each tomogram in MRC format.
 
 ```python
 import json
