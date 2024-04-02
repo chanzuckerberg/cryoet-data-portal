@@ -1,4 +1,4 @@
-import { isNumber } from 'lodash-es'
+import { isNumber, isString } from 'lodash-es'
 import prettyBytes from 'pretty-bytes'
 import { ComponentType, useMemo } from 'react'
 
@@ -37,8 +37,7 @@ export function DownloadOptionsContent() {
 
   const downloadTabs = useMemo<TabData<DownloadTab>[]>(
     () => [
-      ...(downloadConfig === DownloadConfig.Tomogram ||
-      (annotationId && fileFormat !== 'zarr')
+      ...(isString(fileFormat) && fileFormat !== 'zarr'
         ? [
             { value: DownloadTab.Download, label: t('directDownload') },
             { value: DownloadTab.Curl, label: t('viaCurl') },
@@ -48,7 +47,7 @@ export function DownloadOptionsContent() {
       { value: DownloadTab.AWS, label: t('viaAwsS3') },
       { value: DownloadTab.API, label: t('viaApi') },
     ],
-    [annotationId, downloadConfig, fileFormat, t],
+    [fileFormat, t],
   )
 
   const { datasetId, datasetTitle, fileSize, objectName, runId, runName } =

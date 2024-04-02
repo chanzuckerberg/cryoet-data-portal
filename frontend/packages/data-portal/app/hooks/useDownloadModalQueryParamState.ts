@@ -161,15 +161,10 @@ export function useDownloadModalQueryParamState() {
       setDownloadParams((prev) => ({
         [QueryParams.DownloadTab]: match({
           annotationId: prev?.[QueryParams.AnnotationId],
-          downloadConfig: prev?.[QueryParams.DownloadConfig],
           fileFormat: prev?.[QueryParams.FileFormat],
         })
           .with(
-            { downloadConfig: DownloadConfig.Tomogram },
-            {
-              annotationId: P.string,
-              fileFormat: P.not('zarr'),
-            },
+            { fileFormat: P.string.and(P.not('zarr')) },
             () => DownloadTab.Download,
           )
           .otherwise(() => DownloadTab.AWS),
