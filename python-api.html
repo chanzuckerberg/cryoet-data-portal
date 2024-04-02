@@ -825,9 +825,18 @@
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <dl class="simple">
-<dt>Expressions must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
+<dt>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<dl class="simple">
+<dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
+<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -1037,9 +1046,18 @@
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <dl class="simple">
-<dt>Expressions must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
+<dt>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<dl class="simple">
+<dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
+<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -1172,9 +1190,18 @@
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <dl class="simple">
-<dt>Expressions must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
+<dt>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<dl class="simple">
+<dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
+<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -1351,9 +1378,18 @@
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <dl class="simple">
-<dt>Expressions must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
+<dt>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<dl class="simple">
+<dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
+<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -1530,9 +1566,18 @@
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <dl class="simple">
-<dt>Expressions must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
+<dt>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<dl class="simple">
+<dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
+<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -1977,9 +2022,18 @@
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <dl class="simple">
-<dt>Expressions must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
+<dt>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<dl class="simple">
+<dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
+<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -2189,9 +2243,18 @@
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <dl class="simple">
-<dt>Expressions must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
+<dt>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<dl class="simple">
+<dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
+<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -2515,9 +2578,18 @@
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <dl class="simple">
-<dt>Expressions must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
+<dt>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<dl class="simple">
+<dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
+<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -2672,9 +2744,18 @@
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <dl class="simple">
-<dt>Expressions must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
+<dt>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<dl class="simple">
+<dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
+<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -2873,9 +2954,18 @@
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <dl class="simple">
-<dt>Expressions must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
+<dt>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<dl class="simple">
+<dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
+<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -3415,9 +3505,18 @@
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <dl class="simple">
-<dt>Expressions must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
+<dt>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field</span></code> <code class="docutils literal notranslate"><span class="pre">{operator}</span></code> <code class="docutils literal notranslate"><span class="pre">{value}</span></code></p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<dl class="simple">
+<dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
+<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
