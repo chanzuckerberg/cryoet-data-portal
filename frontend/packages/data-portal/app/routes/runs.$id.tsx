@@ -2,7 +2,7 @@
 
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { sum } from 'lodash-es'
+import { isNumber, sum } from 'lodash-es'
 import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
@@ -122,12 +122,23 @@ export default function RunByIdPage() {
     enabled: fileFormat !== 'zarr',
   })
 
+  const activeTomogramResolution = useMemo(
+    () =>
+      allTomogramResolutions.find((resolution) =>
+        tomogramSampling !== null && isNumber(+tomogramSampling)
+          ? resolution.voxel_spacing === +tomogramSampling
+          : false,
+      ),
+    [allTomogramResolutions, tomogramSampling],
+  )
+
   return (
     <TablePageLayout
       type={i18n.annotations}
       downloadModal={
         <DownloadModal
           activeAnnotation={activeAnnotation}
+          activeTomogramResolution={activeTomogramResolution}
           allTomogramProcessing={allTomogramProcessing}
           allTomogramResolutions={allTomogramResolutions}
           datasetId={run.dataset.id}
