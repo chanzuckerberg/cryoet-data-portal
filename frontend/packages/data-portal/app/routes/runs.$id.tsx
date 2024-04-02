@@ -2,8 +2,7 @@
 
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import axios, { AxiosResponse } from 'axios'
-import { isNumber, sum } from 'lodash-es'
+import { sum } from 'lodash-es'
 import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
@@ -17,6 +16,7 @@ import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
+import { useFileSize } from 'app/hooks/useFileSize'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { DownloadConfig } from 'app/types/download'
@@ -48,35 +48,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     })
   }
 
-  const fileSizeMap: Record<string, number> = {}
-
-  // TODO Remove when file size is provided by DB
-  await Promise.allSettled(
-    Array.from(
-      new Set(
-        data.runs.flatMap((run) =>
-          run.tomogram_stats.flatMap((stats) =>
-            stats.tomogram_resolutions.flatMap(
-              (tomogram) => tomogram.https_mrc_scale0,
-            ),
-          ),
-        ),
-      ),
-    ).map(async (httpsPath) => {
-      // TypeScript throws error without type cast
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      const res = (await axios.head(httpsPath)) as AxiosResponse
-      const contentLength = res.headers['content-length'] as string | null
-      if (contentLength && isNumber(+contentLength)) {
-        fileSizeMap[httpsPath] = +contentLength
-      }
-    }),
-  )
-
-  return json({
-    data,
-    fileSizeMap,
-  })
+  return json(data)
 }
 
 export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
@@ -84,7 +56,7 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 }
 
 export default function RunByIdPage() {
-  const { run, fileSizeMap } = useRunById()
+  const { run } = useRunById()
 
   const totalCount = sum(
     run.tomogram_stats.flatMap(
@@ -124,9 +96,6 @@ export default function RunByIdPage() {
       )) ||
     null
 
-  const fileSize =
-    activeTomogram && fileSizeMap[activeTomogram.https_mrc_scale0]
-
   const tomogram = run.tomogram_voxel_spacings.at(0)
 
   const activeAnnotation = annotationId
@@ -149,6 +118,10 @@ export default function RunByIdPage() {
     objectShapeType,
   ])
 
+  const { data: fileSize } = useFileSize(httpsPath, {
+    enabled: fileFormat !== 'zarr',
+  })
+
   return (
     <TablePageLayout
       type={i18n.annotations}
@@ -159,7 +132,7 @@ export default function RunByIdPage() {
           allTomogramResolutions={allTomogramResolutions}
           datasetId={run.dataset.id}
           datasetTitle={run.dataset.title}
-          fileSize={fileSize ?? undefined}
+          fileSize={fileSize}
           httpsPath={httpsPath}
           objectName={activeAnnotation?.object_name}
           runId={run.id}

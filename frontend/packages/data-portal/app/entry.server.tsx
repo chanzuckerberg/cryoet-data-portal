@@ -11,6 +11,7 @@ import { createInstance } from 'i18next'
 import Backend from 'i18next-fs-backend'
 import { renderToString } from 'react-dom/server'
 import { I18nextProvider, initReactI18next } from 'react-i18next'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 import { createEmotionCache } from 'app/utils/createEmotionCache'
 
@@ -42,20 +43,24 @@ export default async function handleRequest(
     })
 
   function MuiRemixServer() {
+    const client = new QueryClient()
+
     return (
-      <I18nextProvider i18n={instance}>
-        <CacheProvider value={cache}>
-          <StyledEngineProvider>
-            <ThemeProvider theme={theme}>
-              <EmotionThemeProvider theme={theme}>
-                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                <CssBaseline />
-                <RemixServer context={remixContext} url={request.url} />
-              </EmotionThemeProvider>
-            </ThemeProvider>
-          </StyledEngineProvider>
-        </CacheProvider>
-      </I18nextProvider>
+      <QueryClientProvider client={client}>
+        <I18nextProvider i18n={instance}>
+          <CacheProvider value={cache}>
+            <StyledEngineProvider>
+              <ThemeProvider theme={theme}>
+                <EmotionThemeProvider theme={theme}>
+                  {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                  <CssBaseline />
+                  <RemixServer context={remixContext} url={request.url} />
+                </EmotionThemeProvider>
+              </ThemeProvider>
+            </StyledEngineProvider>
+          </CacheProvider>
+        </I18nextProvider>
+      </QueryClientProvider>
     )
   }
 
