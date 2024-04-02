@@ -124,7 +124,7 @@ function DownloadModalContent() {
           <Button
             onClick={goBackToConfigure}
             sdsStyle="rounded"
-            sdsType="primary"
+            sdsType="secondary"
           >
             {t('back')}
           </Button>
