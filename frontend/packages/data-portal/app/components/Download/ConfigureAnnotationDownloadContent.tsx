@@ -13,7 +13,7 @@ export function ConfigureAnnotationDownloadContent() {
     () =>
       activeAnnotation?.files
         .filter((annotation) => annotation.shape_type === objectShapeType)
-        .map((annotation) => `.${annotation.format}`) ?? [],
+        .map((annotation) => annotation.format) ?? [],
     [activeAnnotation?.files, objectShapeType],
   )
 

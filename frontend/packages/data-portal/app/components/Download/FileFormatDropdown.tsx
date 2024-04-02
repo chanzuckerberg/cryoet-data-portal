@@ -9,18 +9,18 @@ import { I18nKeys } from 'app/types/i18n'
 import { cns } from 'app/utils/cns'
 
 export const FILE_FORMAT_LABEL_I18N: Record<string, I18nKeys> = {
-  '.mrc': 'fileMrc',
-  '.zarr': 'fileOmeZarr',
-  '.ndjson': 'fileNdJson',
+  mrc: 'fileMrc',
+  zarr: 'fileOmeZarr',
+  ndjson: 'fileNdJson',
 }
 
 const FILE_FORMAT_TOOLTIP_I18N: Record<string, I18nKeys> = {
-  '.mrc': 'fileFormatTooltipMrc',
-  '.zarr': 'fileFormatTooltipZarr',
-  '.ndjson': 'fileFormatTooltipNdJson',
+  mrc: 'fileFormatTooltipMrc',
+  zarr: 'fileFormatTooltipZarr',
+  ndjson: 'fileFormatTooltipNdJson',
 }
 
-export const FILE_FORMAT_ORDER = ['.mrc', '.zarr', '.ndjson']
+export const FILE_FORMAT_ORDER = ['mrc', 'zarr', 'ndjson']
 
 /**
  * Renders select dropdown with file formats specified in the `fileFormats`
