@@ -4,6 +4,8 @@ import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 import axios, { AxiosResponse } from 'axios'
 import { isNumber, sum } from 'lodash-es'
+import { useMemo } from 'react'
+import { match } from 'ts-pattern'
 
 import { apolloClient } from 'app/apollo.server'
 import { DownloadModal } from 'app/components/Download'
@@ -131,6 +133,22 @@ export default function RunByIdPage() {
     ? allAnnotations.get(+annotationId)
     : null
 
+  const httpsPath = useMemo(() => {
+    if (activeAnnotation) {
+      return activeAnnotation.files?.find(
+        (file) =>
+          file.format === fileFormat && file.shape_type === objectShapeType,
+      )?.https_path
+    }
+
+    return activeTomogram?.https_mrc_scale0 ?? undefined
+  }, [
+    activeAnnotation,
+    activeTomogram?.https_mrc_scale0,
+    fileFormat,
+    objectShapeType,
+  ])
+
   return (
     <TablePageLayout
       type={i18n.annotations}
@@ -142,7 +160,7 @@ export default function RunByIdPage() {
           datasetId={run.dataset.id}
           datasetTitle={run.dataset.title}
           fileSize={fileSize ?? undefined}
-          httpsPath={activeTomogram?.https_mrc_scale0 ?? undefined}
+          httpsPath={httpsPath}
           objectName={activeAnnotation?.object_name}
           runId={run.id}
           runName={run.name}
