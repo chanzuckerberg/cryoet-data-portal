@@ -88,7 +88,10 @@ export function DownloadOptionsContent() {
         />
       )}
       {isNumber(fileSize) && (
-        <ModalSubtitle label={t('fileSize')} value={prettyBytes(fileSize)} />
+        <ModalSubtitle
+          label={t('estimatedDownloadSize')}
+          value={prettyBytes(fileSize)}
+        />
       )}
       {downloadConfig === DownloadConfig.AllAnnotations && (
         <ModalSubtitle label={t('annotations')} value={t('all')} />
