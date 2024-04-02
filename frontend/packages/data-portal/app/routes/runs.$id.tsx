@@ -151,10 +151,15 @@ export default function RunByIdPage() {
           s3Path={match({
             annotationId,
             downloadConfig,
+            fileFormat,
           })
             .with(
-              { downloadConfig: DownloadConfig.Tomogram },
+              { downloadConfig: DownloadConfig.Tomogram, fileFormat: 'mrc' },
               () => activeTomogram?.s3_mrc_scale0,
+            )
+            .with(
+              { downloadConfig: DownloadConfig.Tomogram, fileFormat: 'zarr' },
+              () => activeTomogram?.s3_omezarr_dir,
             )
             .with({ downloadConfig: DownloadConfig.AllAnnotations }, () =>
               tomogram?.s3_prefix
