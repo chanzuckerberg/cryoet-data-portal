@@ -9,17 +9,13 @@ export function DirectDownloadTab() {
   const { t } = useI18n()
   const { httpsPath, datasetId, runId, fileSize } = useDownloadModalContext()
   const plausible = usePlausible()
-  const { getPlausiblePayload, fileFormat } = useDownloadModalQueryParamState()
+  const { getPlausiblePayload } = useDownloadModalQueryParamState()
 
   return (
     <div className="pt-sds-xl">
       <p className="flex items-center gap-sds-xxs">
         <span className="text-sds-header-s leading-sds-header-s font-semibold">
           {t('clickToDownloadViaBrowser')}
-        </span>
-
-        <span className="text-sds-body-xs leading-sds-body-xs text-sds-gray-500">
-          ({fileFormat} {t('format')})
         </span>
       </p>
 
