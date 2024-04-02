@@ -19,7 +19,7 @@ export function AWSDownloadTab() {
   const awsCommand = getAwsCommand(s3Path)
 
   return (
-    <div className="py-sds-xl">
+    <div className="pt-sds-xl">
       <SelectSaveDestination />
 
       <CopyBox

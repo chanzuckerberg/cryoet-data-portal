@@ -1,9 +1,9 @@
-import { Link } from 'app/components/Link'
+import { Button } from '@czi-sds/components'
+
 import { useDownloadModalContext } from 'app/context/DownloadModal.context'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
-import { cns } from 'app/utils/cns'
 
 export function DirectDownloadTab() {
   const { t } = useI18n()
@@ -20,14 +20,11 @@ export function DirectDownloadTab() {
       </p>
 
       {httpsPath && (
-        <Link
-          className={cns(
-            'inline-block mt-sds-xxxs mb-sds-l',
-            'border border-sds-primary-400 rounded-sds-m',
-            'py-[7px] px-sds-l',
-            'bg-white text-sds-primary-400',
-          )}
-          to={httpsPath}
+        <Button
+          className="!mt-sds-xs !mb-sds-l"
+          sdsType="secondary"
+          sdsStyle="square"
+          href={httpsPath}
           onClick={() =>
             plausible(Events.ClickDownloadTomogram, {
               downloadUrl: httpsPath,
@@ -40,7 +37,7 @@ export function DirectDownloadTab() {
           }
         >
           {t('downloadNow')}
-        </Link>
+        </Button>
       )}
 
       <p className="text-sds-body-xs leading-sds-body-xs text-sds-gray-500">

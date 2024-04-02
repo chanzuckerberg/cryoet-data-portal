@@ -76,7 +76,7 @@ export function APIDownloadTab() {
 
   return (
     <div className="pt-sds-xl">
-      <Callout className="!w-full" intent="info">
+      <Callout className="!w-full !mt-0" intent="info">
         <I18n
           i18nKey={
             annotationId
