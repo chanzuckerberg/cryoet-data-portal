@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react'
+import { match, P } from 'ts-pattern'
 
 import { QueryParams } from 'app/constants/query'
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
@@ -74,12 +75,14 @@ export function useDownloadModalQueryParamState() {
         step: rest.step ?? downloadStep ?? DownloadStep.Download,
         config: rest.config ?? downloadConfig,
         tab: rest.tab ?? downloadTab,
+        fileFormat: rest.fileFormat ?? fileFormat,
       }) as PlausibleDownloadModalPayload,
     [
       annotationId,
       downloadConfig,
       downloadStep,
       downloadTab,
+      fileFormat,
       objectShapeType,
       tomogramProcessing,
       tomogramSampling,
@@ -156,10 +159,16 @@ export function useDownloadModalQueryParamState() {
       plausible(Events.ClickNextToDownloadOptions, getPlausiblePayload(payload))
 
       setDownloadParams((prev) => ({
-        [QueryParams.DownloadTab]:
-          prev?.[QueryParams.DownloadConfig] === DownloadConfig.Tomogram
-            ? DownloadTab.Download
-            : DownloadTab.AWS,
+        [QueryParams.DownloadTab]: match([
+          prev?.[QueryParams.DownloadConfig],
+          prev?.[QueryParams.AnnotationId],
+        ])
+          .with(
+            [DownloadConfig.Tomogram, null],
+            [null, P.string],
+            () => DownloadTab.Download,
+          )
+          .otherwise(() => DownloadTab.AWS),
 
         [QueryParams.DownloadStep]: DownloadStep.Download,
       }))
