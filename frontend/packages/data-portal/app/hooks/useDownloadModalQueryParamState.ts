@@ -33,6 +33,14 @@ export function useDownloadModalQueryParamState() {
     QueryParams.TomogramSampling,
   )
 
+  const [annotationId, setAnnotationId] = useQueryParam<string>(
+    QueryParams.AnnotationId,
+  )
+
+  const [objectShapeType, setObjectShapeType] = useQueryParam<string>(
+    QueryParams.ObjectShapeType,
+  )
+
   const [fileFormat, setFileFormat] = useQueryParam<string>(
     QueryParams.FileFormat,
   )
@@ -43,6 +51,8 @@ export function useDownloadModalQueryParamState() {
     [QueryParams.DownloadTab]: stringParam<DownloadTab>(),
     [QueryParams.TomogramProcessing]: stringParam(),
     [QueryParams.TomogramSampling]: stringParam(),
+    [QueryParams.AnnotationId]: stringParam(),
+    [QueryParams.ObjectShapeType]: stringParam(),
     [QueryParams.FileFormat]: stringParam(),
   })
 
@@ -59,14 +69,18 @@ export function useDownloadModalQueryParamState() {
         runId,
         tomogramProcessing: rest.tomogramProcessing ?? tomogramProcessing,
         tomogramSampling: rest.tomogramSampling ?? tomogramSampling,
+        annotationId: rest.annotationId ?? annotationId,
+        objectShapeType: rest.objectShapeType ?? objectShapeType,
         step: rest.step ?? downloadStep ?? DownloadStep.Download,
         config: rest.config ?? downloadConfig,
         tab: rest.tab ?? downloadTab,
       }) as PlausibleDownloadModalPayload,
     [
+      annotationId,
       downloadConfig,
       downloadStep,
       downloadTab,
+      objectShapeType,
       tomogramProcessing,
       tomogramSampling,
     ],
@@ -108,6 +122,25 @@ export function useDownloadModalQueryParamState() {
       setDownloadStep(DownloadStep.Configure)
     },
     [getPlausiblePayload, plausible, setDownloadStep],
+  )
+
+  const openAnnotationDownloadModal = useCallback(
+    (payload: PlausibleDownloadModalPayload) => {
+      plausible(
+        Events.OpenDownloadModal,
+        getPlausiblePayload({
+          ...payload,
+          step: DownloadStep.Configure,
+        }),
+      )
+
+      setDownloadParams({
+        [QueryParams.DownloadStep]: DownloadStep.Configure,
+        [QueryParams.AnnotationId]: String(payload.annotationId),
+        [QueryParams.ObjectShapeType]: payload.objectShapeType,
+      })
+    },
+    [getPlausiblePayload, plausible, setDownloadParams],
   )
 
   const closeDownloadModal = useCallback(
@@ -175,6 +208,7 @@ export function useDownloadModalQueryParamState() {
   )
 
   return {
+    annotationId,
     closeDownloadModal,
     configureDownload,
     downloadConfig,
@@ -184,14 +218,18 @@ export function useDownloadModalQueryParamState() {
     getPlausiblePayload,
     goBackToConfigure,
     isModalOpen,
+    objectShapeType,
+    openAnnotationDownloadModal,
     openDatasetDownloadModal,
     openTomogramDownloadModal,
     setAllAnnotationsConfig,
+    setAnnotationId,
     setDownloadConfig,
     setDownloadParams,
     setDownloadStep,
     setDownloadTab,
     setFileFormat,
+    setObjectShapeType,
     setTomogramConfig,
     setTomogramProcessing,
     setTomogramSampling,

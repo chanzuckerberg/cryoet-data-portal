@@ -6,6 +6,7 @@ import { QueryParams } from 'app/constants/query'
 
 type QueryParamStateSetter<T> = (
   value: T | null | ((prev: T | null) => T | null),
+  replace?: boolean,
 ) => void
 
 function defaultSerialize(value: unknown) {
@@ -36,24 +37,27 @@ export function useQueryParam<T>(
   )
 
   const setValue = useCallback<QueryParamStateSetter<T>>(
-    (nextValue) =>
-      setSearchParams((prev) => {
-        const prevValue = prev.get(queryParam)
-        prev.delete(queryParam)
+    (nextValue, replace = false) =>
+      setSearchParams(
+        (prev) => {
+          const prevValue = prev.get(queryParam)
+          prev.delete(queryParam)
 
-        if (nextValue) {
-          prev.set(
-            queryParam,
-            serialize(
-              isFunction(nextValue)
-                ? nextValue(prevValue as T | null)
-                : nextValue,
-            ),
-          )
-        }
+          if (nextValue) {
+            prev.set(
+              queryParam,
+              serialize(
+                isFunction(nextValue)
+                  ? nextValue(prevValue as T | null)
+                  : nextValue,
+              ),
+            )
+          }
 
-        return prev
-      }),
+          return prev
+        },
+        { replace },
+      ),
     [queryParam, serialize, setSearchParams],
   )
 

@@ -1,4 +1,5 @@
 export enum QueryParams {
+  AnnotationId = 'annotation_id',
   AuthorName = 'author',
   AuthorOrcid = 'author_orcid',
   AvailableFiles = 'files',

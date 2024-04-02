@@ -52,6 +52,8 @@ function DownloadModalContent() {
             content: <DownloadOptionsContent />,
             onClick: closeModal,
             showBackButton: type === 'runs',
+            subtitle:
+              type === 'runs' ? t('stepCount', { count: 2, max: 2 }) : null,
             title: t('downloadOptions'),
           }),
         )
@@ -61,6 +63,7 @@ function DownloadModalContent() {
           content: <ConfigureDownloadContent />,
           onClick: () => configureDownload(plausiblePayload),
           showBackButton: false,
+          subtitle: t('stepCount', { count: 1, max: 2 }),
           title: t('configureDownload'),
         })),
     [
@@ -84,18 +87,27 @@ function DownloadModalContent() {
       canClickOutsideClose={false}
     >
       <div className="flex justify-between">
-        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold pt-4">
-          {modalData.title}
-        </h2>
+        <div className="flex-col gap-sds-xxs py-sds-xxs">
+          {modalData.subtitle && (
+            <p className="text-sds-gray-500 text-sds-body-xs leading-sds-body-xs">
+              {modalData.subtitle}
+            </p>
+          )}
+          <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
+            {modalData.title}
+          </h2>
+        </div>
 
-        <button onClick={closeModal} type="button">
-          <Icon
-            sdsIcon="xMark"
-            sdsSize="s"
-            sdsType="iconButton"
-            className="!fill-sds-gray-500"
-          />
-        </button>
+        <div>
+          <button onClick={closeModal} type="button">
+            <Icon
+              sdsIcon="xMark"
+              sdsSize="s"
+              sdsType="iconButton"
+              className="!fill-sds-gray-500"
+            />
+          </button>
+        </div>
       </div>
 
       {modalData.content}

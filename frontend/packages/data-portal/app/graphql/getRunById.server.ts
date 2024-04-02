@@ -143,6 +143,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
           release_date
 
           files {
+            format
             https_path
             s3_path
             shape_type
@@ -151,6 +152,8 @@ const GET_RUN_BY_ID_QUERY = gql(`
           authors(order_by: { primary_annotator_status: desc }) {
             name
             primary_annotator_status
+            corresponding_author_status
+            email
           }
 
           author_affiliations: authors(distinct_on: affiliation_name) {

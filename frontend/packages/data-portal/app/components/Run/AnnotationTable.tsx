@@ -9,6 +9,7 @@ import { I18n } from 'app/components/I18n'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { AnnotationTableWidths } from 'app/constants/table'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
@@ -78,7 +79,7 @@ export function AnnotationTable() {
   const { setActiveAnnotation } = useAnnotation()
   const { t } = useI18n()
 
-  const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
+  const { openAnnotationDownloadModal } = useDownloadModalQueryParamState()
 
   const openAnnotationDrawer = useCallback(
     (annotation: Annotation) => {
@@ -89,6 +90,7 @@ export function AnnotationTable() {
   )
 
   const showMethodType = useFeatureFlag('methodType')
+  const showAnnotationDownload = useFeatureFlag('downloadSingleAnnotation')
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Annotation>()
@@ -108,8 +110,8 @@ export function AnnotationTable() {
         header: () => (
           <CellHeader
             horizontalAlign="right"
-            hideSortIcon
             tooltip={tooltipI18nKey ? <I18n i18nKey={tooltipI18nKey} /> : null}
+            width={AnnotationTableWidths.confidenceCell}
             {...cellHeaderProps}
           >
             {header}
@@ -119,7 +121,10 @@ export function AnnotationTable() {
           const value = getValue() as number | null
 
           return (
-            <TableCell horizontalAlign="right" minWidth={81} maxWidth={120}>
+            <TableCell
+              horizontalAlign="right"
+              width={AnnotationTableWidths.confidenceCell}
+            >
               {typeof value === 'number' ? (
                 <ConfidenceValue value={value} />
               ) : (
@@ -135,12 +140,17 @@ export function AnnotationTable() {
 
     return [
       columnHelper.accessor('id', {
-        header: t('annotationId'),
+        header: () => (
+          <CellHeader width={AnnotationTableWidths.id}>
+            {t('annotationId')}
+          </CellHeader>
+        ),
+
         cell: ({ row: { original: annotation } }) => (
           <TableCell
             className="flex flex-col gap-sds-xxxs !items-start"
-            minWidth={250}
             renderLoadingSkeleton={false}
+            width={AnnotationTableWidths.id}
           >
             <div className="flex gap-sds-xs items-center">
               <p
@@ -205,13 +215,16 @@ export function AnnotationTable() {
 
       columnHelper.accessor('deposition_date', {
         header: () => (
-          <CellHeader hideSortIcon className="whitespace-nowrap text-ellipsis">
+          <CellHeader
+            className="whitespace-nowrap text-ellipsis"
+            width={AnnotationTableWidths.depositionDate}
+          >
             {t('depositionDate')}
           </CellHeader>
         ),
 
         cell: ({ getValue }) => (
-          <TableCell minWidth={91} maxWidth={120}>
+          <TableCell width={AnnotationTableWidths.depositionDate}>
             <div className="line-clamp-2 text-ellipsis capitalize">
               {getValue()}
             </div>
@@ -220,9 +233,14 @@ export function AnnotationTable() {
       }),
 
       columnHelper.accessor('object_name', {
-        header: t('objectName'),
+        header: () => (
+          <CellHeader width={AnnotationTableWidths.objectName}>
+            {t('objectName')}
+          </CellHeader>
+        ),
+
         cell: ({ getValue }) => (
-          <TableCell minWidth={120} maxWidth={250}>
+          <TableCell width={AnnotationTableWidths.objectName}>
             <div className="line-clamp-2 text-ellipsis capitalize">
               {getValue()}
             </div>
@@ -232,10 +250,15 @@ export function AnnotationTable() {
 
       columnHelper.accessor('files', {
         id: 'shape-type',
-        header: t('objectShapeType'),
+
+        header: () => (
+          <CellHeader width={AnnotationTableWidths.files}>
+            {t('objectShapeType')}
+          </CellHeader>
+        ),
 
         cell: ({ getValue }) => (
-          <TableCell minWidth={100} maxWidth={150}>
+          <TableCell width={AnnotationTableWidths.files}>
             {getValue().at(0)?.shape_type ?? '--'}
           </TableCell>
         ),
@@ -251,6 +274,7 @@ export function AnnotationTable() {
                   className="whitespace-nowrap"
                   tooltip={<I18n i18nKey="methodTypeInfo" />}
                   hideSortIcon
+                  width={AnnotationTableWidths.methodType}
                 >
                   {t('methodType')}
                 </CellHeader>
@@ -262,8 +286,7 @@ export function AnnotationTable() {
 
                 return (
                   <TableCell
-                    minWidth={81}
-                    maxWidth={120}
+                    width={AnnotationTableWidths.methodType}
                     tooltip={<I18n i18nKey={methodTooltipLabels[methodType]} />}
                     tooltipProps={{ placement: 'top' }}
                   >
@@ -308,9 +331,10 @@ export function AnnotationTable() {
       columnHelper.display({
         id: 'annotation-actions',
         // Render empty cell header so that it doesn't break the table layout
-        header: () => <CellHeader hideSortIcon>{null}</CellHeader>,
+        header: () => <CellHeader width={AnnotationTableWidths.actions} />,
+
         cell: ({ row: { original: annotation } }) => (
-          <TableCell minWidth={120} maxWidth={120}>
+          <TableCell width={AnnotationTableWidths.actions}>
             <div className="flex flex-col gap-sds-xs">
               <Button
                 sdsType="primary"
@@ -323,33 +347,39 @@ export function AnnotationTable() {
                 <span>{t('moreInfo')}</span>
               </Button>
 
-              <Button
-                sdsType="primary"
-                sdsStyle="minimal"
-                onClick={() =>
-                  openTomogramDownloadModal({
-                    datasetId: run.dataset.id,
-                    runId: run.id,
-                  })
-                }
-                startIcon={
-                  <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
-                }
-              >
-                {t('download')}
-              </Button>
+              {showAnnotationDownload && (
+                <Button
+                  sdsType="primary"
+                  sdsStyle="minimal"
+                  onClick={() =>
+                    openAnnotationDownloadModal({
+                      datasetId: run.dataset.id,
+                      runId: run.id,
+                      annotationId: annotation.id,
+                      // FIXME: are we supposed to only access the 1st option? (this is how it is done elsewhere)
+                      objectShapeType: annotation.files[0].shape_type,
+                    })
+                  }
+                  startIcon={
+                    <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
+                  }
+                >
+                  {t('download')}
+                </Button>
+              )}
             </div>
           </TableCell>
         ),
       }),
     ] as ColumnDef<Annotation>[]
   }, [
+    t,
+    showMethodType,
     openAnnotationDrawer,
-    openTomogramDownloadModal,
+    showAnnotationDownload,
+    openAnnotationDownloadModal,
     run.dataset.id,
     run.id,
-    showMethodType,
-    t,
   ])
 
   const annotations = useMemo<Annotation[]>(
