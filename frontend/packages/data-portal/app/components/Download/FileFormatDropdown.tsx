@@ -8,7 +8,7 @@ import { useI18n } from 'app/hooks/useI18n'
 import { I18nKeys } from 'app/types/i18n'
 import { cns } from 'app/utils/cns'
 
-const FILE_FORMAT_LABEL_I18N: Record<string, I18nKeys> = {
+export const FILE_FORMAT_LABEL_I18N: Record<string, I18nKeys> = {
   '.mrc': 'fileMrc',
   '.zarr': 'fileOmeZarr',
   '.ndjson': 'fileNdJson',
