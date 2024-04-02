@@ -57,7 +57,7 @@
   "contributeYourData": "Contribute your Data",
   "cookiePolicy": "Cookie Policy",
   "copy": " Copy",
-  "copyAndRunAwsS3Command": "Copy and run AWS S3 command in your terminal",
+  "copyAndRunAwsCliCommand": "Copy and run AWS CLI command in your terminal",
   "copyAndRunCurlCommand": "Copy and run cURL command in your terminal",
   "copyApiCodeSnippet": "Copy API Code Snippet",
   "ctfCorrected": "Ctf Corrected",
