@@ -121,23 +121,23 @@ export default function RunByIdPage() {
 
   const tomogram = run.tomogram_voxel_spacings.at(0)
 
+  const activeAnnotation = annotationId
+    ? allAnnotations.get(+annotationId)
+    : null
+
   return (
     <TablePageLayout
       type={i18n.annotations}
       downloadModal={
         <DownloadModal
+          activeAnnotation={activeAnnotation}
           allTomogramProcessing={allTomogramProcessing}
           allTomogramResolutions={allTomogramResolutions}
-          allAnnotations={allAnnotations}
           datasetId={run.dataset.id}
           datasetTitle={run.dataset.title}
           fileSize={fileSize ?? undefined}
           httpsPath={activeTomogram?.https_mrc_scale0 ?? undefined}
-          objectName={
-            annotationId
-              ? allAnnotations?.get(+annotationId)?.object_name
-              : undefined
-          }
+          objectName={activeAnnotation?.object_name}
           runId={run.id}
           runName={run.name}
           s3DatasetPrefix={run.dataset.s3_prefix}
