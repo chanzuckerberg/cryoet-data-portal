@@ -104,8 +104,14 @@ export default function RunByIdPage() {
       .map((annotation) => [annotation.id, annotation]),
   )
 
-  const { downloadConfig, tomogramProcessing, tomogramSampling, annotationId } =
-    useDownloadModalQueryParamState()
+  const {
+    downloadConfig,
+    tomogramProcessing,
+    tomogramSampling,
+    annotationId,
+    fileFormat,
+    objectShapeType,
+  } = useDownloadModalQueryParamState()
 
   const activeTomogram =
     (downloadConfig === DownloadConfig.Tomogram &&
@@ -140,9 +146,29 @@ export default function RunByIdPage() {
           objectName={activeAnnotation?.object_name}
           runId={run.id}
           runName={run.name}
-          s3DatasetPrefix={run.dataset.s3_prefix}
-          s3TomogramVoxelPrefix={tomogram?.s3_prefix ?? undefined}
-          s3TomogramPrefix={activeTomogram?.s3_mrc_scale0 ?? undefined}
+          s3Path={match({
+            annotationId,
+            downloadConfig,
+          })
+            .with(
+              { downloadConfig: DownloadConfig.Tomogram },
+              () => activeTomogram?.s3_mrc_scale0,
+            )
+            .with({ downloadConfig: DownloadConfig.AllAnnotations }, () =>
+              tomogram?.s3_prefix
+                ? `${tomogram.s3_prefix}Annotations`
+                : undefined,
+            )
+            .with(
+              { annotationId },
+              () =>
+                activeAnnotation?.files.find(
+                  (file) =>
+                    file.format === fileFormat &&
+                    file.shape_type === objectShapeType,
+                )?.s3_path,
+            )
+            .otherwise(() => undefined)}
           tomogramId={activeTomogram?.id ?? undefined}
           tomogramVoxelId={tomogram?.id ?? undefined}
           type={annotationId ? 'annotation' : 'runs'}
