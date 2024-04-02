@@ -219,8 +219,16 @@ class Model:
 
         Search filters are combined with *and* so all results will match all filters.
 
-        Expressions must be in the format:
+        Expressions with python-native operators (``==``, ``!=``, ``>``, ``>=``, ``<``, ``<=``) must be in the format:
             ``ModelSubclass.field`` ``{operator}`` ``{value}``
+        example:
+            ``Tomogram.voxel_spacing.run.name == "RUN1"``
+
+        Expressions with method operators (``like``, ``ilike``, ``_in``) must be in the format:
+            ``ModelSubclass.field.{operator}({value})``
+        examples:
+            ``Tomogram.voxel_spacing.run.name.like("%RUN1%")``
+            ``Tomogram.voxel_spacing.run.name._in(["RUN1", "RUN2"])``
 
         Supported operators are: ``==``, ``!=``, ``>``, ``>=``, ``<``, ``<=``, ``like``, ``ilike``, ``_in``
 
@@ -228,7 +236,7 @@ class Model:
         - ``ilike`` is similar to ``like`` but case-insensitive
         - ``_in`` accepts a list of values that are acceptable matches.
 
-        Values may be strings or numbers depending on the type of the field being matched, and `_in` supports a list of values of the field's corresponding type.
+        Values may be strings, numbers depending on the type of the field being matched, and `_in` supports a list of values of the field's corresponding type.
 
         ``ModelSubclass.field`` may be an arbitrarily nested path to any field on any related model, such as:
             ``ModelSubclass.related_class_field.related_field.second_related_class_field.second_field``
