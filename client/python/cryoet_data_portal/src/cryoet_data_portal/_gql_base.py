@@ -236,7 +236,7 @@ class Model:
         - ``ilike`` is similar to ``like`` but case-insensitive
         - ``_in`` accepts a list of values that are acceptable matches.
 
-        Values may be strings, numbers depending on the type of the field being matched, and `_in` supports a list of values of the field's corresponding type.
+        Values may be strings or numbers depending on the type of the field being matched, and `_in` supports a list of values of the field's corresponding type.
 
         ``ModelSubclass.field`` may be an arbitrarily nested path to any field on any related model, such as:
             ``ModelSubclass.related_class_field.related_field.second_related_class_field.second_field``
