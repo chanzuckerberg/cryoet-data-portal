@@ -37,7 +37,8 @@ export function DownloadOptionsContent() {
 
   const downloadTabs = useMemo<TabData<DownloadTab>[]>(
     () => [
-      ...(downloadConfig === DownloadConfig.Tomogram || annotationId
+      ...(downloadConfig === DownloadConfig.Tomogram ||
+      (annotationId && fileFormat !== 'zarr')
         ? [
             { value: DownloadTab.Download, label: t('directDownload') },
             { value: DownloadTab.Curl, label: t('viaCurl') },
@@ -47,7 +48,7 @@ export function DownloadOptionsContent() {
       { value: DownloadTab.AWS, label: t('viaAwsS3') },
       { value: DownloadTab.API, label: t('viaApi') },
     ],
-    [annotationId, downloadConfig, t],
+    [annotationId, downloadConfig, fileFormat, t],
   )
 
   const { datasetId, datasetTitle, fileSize, objectName, runId, runName } =
