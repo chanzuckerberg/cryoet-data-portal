@@ -72,12 +72,6 @@ export function DownloadOptionsContent() {
       {objectShapeType && (
         <ModalSubtitle label={t('objectShapeType')} value={objectShapeType} />
       )}
-      {fileFormat && (
-        <ModalSubtitle
-          label={t('fileFormat')}
-          value={t(FILE_FORMAT_LABEL_I18N[fileFormat])}
-        />
-      )}
       {tomogramSampling && (
         <ModalSubtitle label={t('tomogramSampling')} value={tomogramSampling} />
       )}
@@ -85,6 +79,12 @@ export function DownloadOptionsContent() {
         <ModalSubtitle
           label={t('tomogramProcessing')}
           value={tomogramProcessing}
+        />
+      )}
+      {fileFormat && (
+        <ModalSubtitle
+          label={t('fileFormat')}
+          value={t(FILE_FORMAT_LABEL_I18N[fileFormat])}
         />
       )}
       {isNumber(fileSize) && (
