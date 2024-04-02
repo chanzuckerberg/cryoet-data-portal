@@ -1,76 +1,17 @@
-import { Callout, CalloutTitle, InputRadio } from '@czi-sds/components'
+import { Callout, CalloutTitle } from '@czi-sds/components'
 import RadioGroup from '@mui/material/RadioGroup'
-import {
-  createElement,
-  MouseEvent,
-  ReactNode,
-  useCallback,
-  useMemo,
-} from 'react'
+import { useCallback, useMemo } from 'react'
 import { match } from 'ts-pattern'
 
+import { CopyBox } from 'app/components/CopyBox'
 import { I18n } from 'app/components/I18n'
+import { Radio } from 'app/components/Radio'
+import { Select, SelectOption } from 'app/components/Select'
 import { useDownloadModalContext } from 'app/context/DownloadModal.context'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import { useLogPlausibleCopyEvent } from 'app/hooks/useLogPlausibleCopyEvent'
 import { DownloadConfig } from 'app/types/download'
-import { cns } from 'app/utils/cns'
-
-import { CopyBox } from '../CopyBox'
-import { Select, SelectOption } from '../Select'
-
-function Radio({
-  children,
-  description,
-  label,
-  onClick,
-  value,
-}: {
-  children?: ReactNode
-  description: string
-  label: string
-  onClick?(): void
-  value: DownloadConfig
-}) {
-  const { downloadConfig } = useDownloadModalQueryParamState()
-  const isActive = downloadConfig === value
-
-  return createElement(
-    isActive ? 'div' : 'button',
-    {
-      className: cns(
-        'flex gap-sds-default p-sds-l transition-colors text-left',
-
-        isActive && 'bg-sds-gray-100',
-      ),
-
-      ...(isActive
-        ? {}
-        : {
-            onClick(event: MouseEvent<HTMLButtonElement>) {
-              event.stopPropagation()
-              onClick?.()
-            },
-            type: 'button',
-          }),
-    },
-    <>
-      <InputRadio value={value} />
-
-      <div className="flex flex-col gap-sds-xxxs !tracking-[0.3px]">
-        <span className="text-sds-header-s leading-sds-header-s font-semibold">
-          {label}
-        </span>
-        <span className="text-sds-gray-600 text-sds-body-xs leading-sds-body-xs">
-          {description}
-        </span>
-
-        {isActive && children}
-      </div>
-    </>,
-  )
-}
 
 export function ConfigureTomogramDownloadContent() {
   const { t } = useI18n()
