@@ -138,7 +138,7 @@ export function ConfigureTomogramDownloadContent() {
       </RadioGroup>
 
       {runId && (
-        <Callout className="!w-full" intent="info" expandable>
+        <Callout className="!w-full !mt-sds-xl" intent="info" expandable>
           <CalloutTitle>
             <p className="text-sds-body-xs leading-sds-body-xs">
               <I18n i18nKey="downloadAllRunData" />
