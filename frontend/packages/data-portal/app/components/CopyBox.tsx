@@ -40,17 +40,19 @@ export function CopyBox({
       >
         <pre className="whitespace-normal break-all flex-grow">{content}</pre>
 
-        <Button
-          className="!min-w-0 uppercase !p-0"
-          onClick={() => {
-            onCopy?.()
+        <div className="flex flex-col">
+          <Button
+            className="!min-w-0 uppercase !p-0"
+            onClick={() => {
+              onCopy?.()
 
-            // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            navigator.clipboard.writeText(String(content))
-          }}
-        >
-          {t('copy')}
-        </Button>
+              // eslint-disable-next-line @typescript-eslint/no-floating-promises
+              navigator.clipboard.writeText(String(content))
+            }}
+          >
+            {t('copy')}
+          </Button>
+        </div>
       </div>
     </div>
   )
