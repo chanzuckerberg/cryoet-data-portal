@@ -48,9 +48,9 @@ export function APIDownloadTab() {
               <br />
               client = Client()
               <br />
-              annotation = next(Annotation.find(client, [id == {annotationId}]))
+              annotation = Annotation.get_by_id(client, {annotationId})
               <br />
-              annotation.{downloadFunction}()
+              annotation.download(format=&quot;{fileFormat}&quot;)
             </>
           ),
           logType: 'annotation-code-snippet',
