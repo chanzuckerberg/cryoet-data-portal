@@ -1,6 +1,8 @@
 import Tab from '@mui/material/Tab'
 import MUITabs, { TabsProps } from '@mui/material/Tabs'
 
+import { cns } from 'app/utils/cns'
+
 export interface TabData<T extends string> {
   label: string
   value: T
@@ -32,7 +34,13 @@ export function Tabs<T extends string>({
       {tabs.map((tab) => (
         <Tab
           classes={{
-            root: '!text-black text-sds-body-s leading-sds-body-s font-semibold !p-0 !min-w-[max-content]',
+            root: cns(
+              'text-sds-gray-500 text-sds-body-s',
+              'leading-sds-body-s font-semibold',
+              '!p-0 !min-w-[max-content]',
+              'transition-colors',
+            ),
+            selected: '!text-black',
           }}
           key={tab.value}
           {...tab}

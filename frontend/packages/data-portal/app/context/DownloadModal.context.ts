@@ -9,9 +9,9 @@ export type TomogramResolution =
   GetRunByIdQuery['runs'][number]['tomogram_stats'][number]['tomogram_resolutions'][number]
 
 export interface DownloadModalContextValue {
+  activeAnnotation?: Annotation | null
   allTomogramProcessing?: string[]
   allTomogramResolutions?: TomogramResolution[]
-  allAnnotations?: Map<number, Annotation>
   datasetId?: number
   datasetTitle?: string
   fileSize?: number
@@ -19,9 +19,7 @@ export interface DownloadModalContextValue {
   objectName?: string
   runId?: number
   runName?: string
-  s3DatasetPrefix?: string
-  s3TomogramPrefix?: string
-  s3TomogramVoxelPrefix?: string
+  s3Path?: string
   tomogramId?: number
   tomogramVoxelId?: number
   type: DownloadModalType

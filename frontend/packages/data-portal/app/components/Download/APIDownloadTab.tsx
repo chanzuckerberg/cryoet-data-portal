@@ -14,46 +14,77 @@ export function APIDownloadTab() {
   const { t } = useI18n()
   const { datasetId, tomogramId, tomogramVoxelId, type } =
     useDownloadModalContext()
-  const { downloadConfig } = useDownloadModalQueryParamState()
+  const { annotationId, downloadConfig, fileFormat } =
+    useDownloadModalQueryParamState()
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
 
-  const { label, resourceId, logType } = useMemo(
+  const { label, content, logType } = useMemo(
     () =>
-      match({ type, downloadConfig })
+      match({ annotationId, type, downloadConfig })
         .with({ type: 'dataset' }, () => ({
           label: t('datasetId'),
-          resourceId: datasetId,
+          content: datasetId,
           logType: 'dataset-id',
         }))
         .with(
           { type: 'runs', downloadConfig: DownloadConfig.AllAnnotations },
           () => ({
             label: t('voxelSpacingId'),
-            resourceId: tomogramVoxelId,
+            content: tomogramVoxelId,
             logType: 'voxel-spacing-id',
           }),
         )
+        .with({ type: 'annotation' }, () => ({
+          label: t('copyApiCodeSnippet'),
+          content: (
+            <>
+              from cryoet_data_portal import Client, Annotation
+              <br />
+              client = Client()
+              <br />
+              annotation = Annotation.get_by_id(client, {annotationId})
+              <br />
+              annotation.download(format=&quot;{fileFormat}&quot;)
+            </>
+          ),
+          logType: 'annotation-code-snippet',
+        }))
         .otherwise(() => ({
           // no idea why this is throwing an error
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           label: t('tomogramId'),
-          resourceId: tomogramId,
+          content: tomogramId,
           logType: 'tomogram-id',
         })),
-    [datasetId, downloadConfig, t, tomogramId, tomogramVoxelId, type],
+    [
+      annotationId,
+      datasetId,
+      downloadConfig,
+      fileFormat,
+      t,
+      tomogramId,
+      tomogramVoxelId,
+      type,
+    ],
   )
 
   return (
     <div className="pt-sds-xl">
-      <Callout className="!w-full" intent="info">
-        <I18n i18nKey="preferToDownloadViaApi" />
+      <Callout className="!w-full !mt-0" intent="info">
+        <I18n
+          i18nKey={
+            annotationId
+              ? 'preferToDownloadViaApiCode'
+              : 'preferToDownloadViaApi'
+          }
+        />
       </Callout>
 
       <CopyBox
         className="mt-sds-l"
-        content={resourceId}
+        content={content}
         title={label}
-        onCopy={() => logPlausibleCopyEvent(logType, String(resourceId))}
+        onCopy={() => logPlausibleCopyEvent(logType, String(content))}
       />
     </div>
   )

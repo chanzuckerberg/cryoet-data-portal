@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, Icon } from '@czi-sds/components'
+import { Button, ButtonIcon, Dialog, DialogActions } from '@czi-sds/components'
 import { useCallback, useMemo } from 'react'
 import { match } from 'ts-pattern'
 
@@ -9,6 +9,7 @@ import {
 } from 'app/context/DownloadModal.context'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
+import { PlausibleDownloadModalPayload } from 'app/hooks/usePlausible'
 import { DownloadStep } from 'app/types/download'
 
 import { ConfigureDownloadContent } from './ConfigureDownloadContent'
@@ -17,16 +18,18 @@ import { DownloadOptionsContent } from './DownloadOptionsContent'
 function DownloadModalContent() {
   const { t } = useI18n()
   const {
+    annotationId,
     closeDownloadModal,
     configureDownload,
     downloadConfig,
     downloadStep,
+    fileFormat,
     goBackToConfigure,
     isModalOpen,
   } = useDownloadModalQueryParamState()
   const { datasetId, runId, type, fileSize } = useDownloadModalContext()
 
-  const plausiblePayload = useMemo(
+  const plausiblePayload = useMemo<PlausibleDownloadModalPayload>(
     () => ({
       datasetId,
       fileSize,
@@ -40,42 +43,46 @@ function DownloadModalContent() {
     [closeDownloadModal, plausiblePayload],
   )
 
-  const modalData = useMemo(
-    () =>
-      match({ downloadStep, type })
-        .with(
-          { type: 'dataset' },
-          { type: 'runs', downloadStep: DownloadStep.Download },
-          () => ({
-            buttonDisabled: false,
-            buttonText: t('close'),
-            content: <DownloadOptionsContent />,
-            onClick: closeModal,
-            showBackButton: type === 'runs',
-            subtitle:
-              type === 'runs' ? t('stepCount', { count: 2, max: 2 }) : null,
-            title: t('downloadOptions'),
-          }),
-        )
-        .otherwise(() => ({
-          buttonDisabled: !downloadConfig,
-          buttonText: t('next'),
-          content: <ConfigureDownloadContent />,
-          onClick: () => configureDownload(plausiblePayload),
-          showBackButton: false,
-          subtitle: t('stepCount', { count: 1, max: 2 }),
-          title: t('configureDownload'),
-        })),
-    [
-      closeModal,
-      configureDownload,
-      downloadConfig,
-      downloadStep,
-      plausiblePayload,
-      t,
-      type,
-    ],
-  )
+  const modalData = useMemo(() => {
+    const hasMultipleSteps = ['runs', 'annotation'].includes(type)
+
+    return match({ downloadStep, type })
+      .with(
+        { type: 'dataset' },
+        { type: 'runs', downloadStep: DownloadStep.Download },
+        { type: 'annotation', downloadStep: DownloadStep.Download },
+        () => ({
+          buttonDisabled: false,
+          buttonText: t('close'),
+          content: <DownloadOptionsContent />,
+          onClick: closeModal,
+          showBackButton: hasMultipleSteps,
+          subtitle: hasMultipleSteps
+            ? t('stepCount', { count: 2, max: 2 })
+            : null,
+          title: t('downloadOptions'),
+        }),
+      )
+      .otherwise(() => ({
+        buttonDisabled: annotationId ? !fileFormat : !downloadConfig,
+        buttonText: t('next'),
+        content: <ConfigureDownloadContent />,
+        onClick: () => configureDownload(plausiblePayload),
+        showBackButton: false,
+        subtitle: t('stepCount', { count: 1, max: 2 }),
+        title: t('configureDownload'),
+      }))
+  }, [
+    annotationId,
+    closeModal,
+    configureDownload,
+    downloadConfig,
+    downloadStep,
+    fileFormat,
+    plausiblePayload,
+    t,
+    type,
+  ])
 
   return (
     <Dialog
@@ -99,14 +106,12 @@ function DownloadModalContent() {
         </div>
 
         <div>
-          <button onClick={closeModal} type="button">
-            <Icon
-              sdsIcon="xMark"
-              sdsSize="s"
-              sdsType="iconButton"
-              className="!fill-sds-gray-500"
-            />
-          </button>
+          <ButtonIcon
+            onClick={closeModal}
+            sdsSize="medium"
+            sdsType="tertiary"
+            sdsIcon="xMark"
+          />
         </div>
       </div>
 
@@ -117,7 +122,7 @@ function DownloadModalContent() {
           <Button
             onClick={goBackToConfigure}
             sdsStyle="rounded"
-            sdsType="primary"
+            sdsType="secondary"
           >
             {t('back')}
           </Button>

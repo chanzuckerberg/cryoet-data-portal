@@ -76,7 +76,7 @@ export function Select({
         {tooltip && (
           <Tooltip tooltip={tooltip} {...tooltipProps}>
             <Icon
-              color="gray"
+              className="!fill-sds-gray-500 hover:!fill-sds-primary-400"
               sdsIcon="infoCircle"
               sdsSize="xs"
               sdsType="static"
@@ -86,7 +86,10 @@ export function Select({
       </div>
 
       <InputDropdown
-        className="w-full"
+        className={cns(
+          'w-full !bg-white hover:!border-sds-primary-400',
+          open && '!border-sds-primary-400',
+        )}
         label={label}
         sdsStage="userInput"
         shouldPutAColonAfterLabel={false}
