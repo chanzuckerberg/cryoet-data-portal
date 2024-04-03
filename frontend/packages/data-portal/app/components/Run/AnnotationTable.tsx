@@ -273,7 +273,6 @@ export function AnnotationTable() {
                 <CellHeader
                   className="whitespace-nowrap"
                   tooltip={<I18n i18nKey="methodTypeInfo" />}
-                  hideSortIcon
                   width={AnnotationTableWidths.methodType}
                 >
                   {t('methodType')}
