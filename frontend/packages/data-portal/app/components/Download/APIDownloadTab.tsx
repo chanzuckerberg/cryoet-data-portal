@@ -18,12 +18,6 @@ export function APIDownloadTab() {
     useDownloadModalQueryParamState()
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
 
-  const downloadFunction = match(fileFormat)
-    .with('mrc', () => 'download_mrcfile')
-    .with('zarr', () => 'download_omezarr')
-    .with('ndjson', () => 'download_ndjson')
-    .otherwise(() => '')
-
   const { label, content, logType } = useMemo(
     () =>
       match({ annotationId, type, downloadConfig })
