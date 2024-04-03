@@ -66,7 +66,7 @@ export function APIDownloadTab() {
       annotationId,
       datasetId,
       downloadConfig,
-      downloadFunction,
+      fileFormat,
       t,
       tomogramId,
       tomogramVoxelId,
