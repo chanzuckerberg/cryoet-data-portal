@@ -104,6 +104,14 @@ export function APIDownloadTab() {
           i18nKey={
             fileFormat ? 'preferToDownloadViaApiCode' : 'preferToDownloadViaApi'
           }
+          values={{
+            url: `https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html#${
+              annotationId ? 'annotation' : 'tomogram'
+            }`,
+          }}
+          tOptions={{
+            interpolation: { escapeValue: false },
+          }}
         />
       </Callout>
 
