@@ -41,7 +41,10 @@ export function Radio({
           }),
     },
     <>
-      <InputRadio value={value} />
+      {/* Wrapper div so that radio is pushed to the top */}
+      <div>
+        <InputRadio value={value} />
+      </div>
 
       <div className="flex flex-col gap-sds-xxxs !tracking-[0.3px]">
         <span className="text-sds-header-s leading-sds-header-s font-semibold">

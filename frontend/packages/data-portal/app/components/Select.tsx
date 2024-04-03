@@ -4,7 +4,7 @@ import {
   Icon,
   InputDropdown,
 } from '@czi-sds/components'
-import { ReactNode, useMemo, useState } from 'react'
+import { ReactNode, useCallback, useMemo, useState } from 'react'
 
 import { cns } from 'app/utils/cns'
 
@@ -64,6 +64,11 @@ export function Select({
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [open, setOpen] = useState(false)
 
+  const closeDropdown = useCallback(() => {
+    setAnchorEl(null)
+    setOpen(false)
+  }, [])
+
   return (
     <div className={cns('flex flex-col gap-sds-xxs', className)}>
       <div className="flex items-center gap-sds-xxs">
@@ -105,13 +110,11 @@ export function Select({
         options={sdsOptions}
         value={activeSdsOption}
         anchorEl={anchorEl}
-        onChange={(_, option) =>
+        onChange={(_, option) => {
           onChange(option ? labelMap[option.name] : null)
-        }
-        onClickAway={() => {
-          setAnchorEl(null)
-          setOpen(false)
+          closeDropdown()
         }}
+        onClickAway={closeDropdown}
       />
     </div>
   )

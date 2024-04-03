@@ -13,6 +13,10 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useLogPlausibleCopyEvent } from 'app/hooks/useLogPlausibleCopyEvent'
 import { DownloadConfig } from 'app/types/download'
 
+import { FileFormatDropdown } from './FileFormatDropdown'
+
+const TOMOGRAM_FILE_FORMATS = ['mrc', 'zarr']
+
 export function ConfigureTomogramDownloadContent() {
   const { t } = useI18n()
 
@@ -83,37 +87,44 @@ export function ConfigureTomogramDownloadContent() {
           description={t('selectASpecificTomogram')}
           onClick={setTomogramConfigWithInitialValues}
         >
-          <div className="flex items-center gap-sds-l pt-sds-m">
-            <Select
-              activeKey={
-                tomogramSampling
-                  ? t('unitAngstrom', { value: tomogramSampling })
-                  : null
-              }
-              className="flex-grow"
-              label={
-                activeTomogram
-                  ? `${t('unitAngstrom', {
-                      value: activeTomogram.voxel_spacing,
-                    })}`
-                  : '--'
-              }
-              onChange={(value) =>
-                setTomogramSampling(value ? value.replace('Å', '') : null)
-              }
-              options={tomogramSamplingOptions}
-              title={t('tomogramSampling')}
-            />
+          <div className="flex flex-col gap-sds-l">
+            <div className="flex items-center gap-sds-l pt-sds-m">
+              <Select
+                activeKey={
+                  tomogramSampling
+                    ? t('unitAngstrom', { value: tomogramSampling })
+                    : null
+                }
+                className="flex-grow"
+                label={
+                  activeTomogram
+                    ? `${t('unitAngstrom', {
+                        value: activeTomogram.voxel_spacing,
+                      })}`
+                    : '--'
+                }
+                onChange={(value) =>
+                  setTomogramSampling(value ? value.replace('Å', '') : null)
+                }
+                options={tomogramSamplingOptions}
+                title={t('tomogramSampling')}
+              />
 
-            <Select
-              activeKey={tomogramProcessing}
-              className="flex-grow"
-              label={tomogramProcessing ?? '--'}
-              onChange={setTomogramProcessing}
-              options={tomogramProcessingOptions}
-              showActiveValue={false}
-              showDetails={false}
-              title={t('tomogramProcessing')}
+              <Select
+                activeKey={tomogramProcessing}
+                className="flex-grow"
+                label={tomogramProcessing ?? '--'}
+                onChange={setTomogramProcessing}
+                options={tomogramProcessingOptions}
+                showActiveValue={false}
+                showDetails={false}
+                title={t('tomogramProcessing')}
+              />
+            </div>
+
+            <FileFormatDropdown
+              className="max-w-[228px]"
+              fileFormats={TOMOGRAM_FILE_FORMATS}
             />
           </div>
         </Radio>
@@ -127,7 +138,7 @@ export function ConfigureTomogramDownloadContent() {
       </RadioGroup>
 
       {runId && (
-        <Callout className="!w-full" intent="info" expandable>
+        <Callout className="!w-full !mt-sds-xl" intent="info" expandable>
           <CalloutTitle>
             <p className="text-sds-body-xs leading-sds-body-xs">
               <I18n i18nKey="downloadAllRunData" />

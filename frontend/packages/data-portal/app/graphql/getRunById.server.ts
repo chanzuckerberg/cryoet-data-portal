@@ -188,6 +188,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
           id
           processing
           s3_mrc_scale0
+          s3_omezarr_dir
           size_x
           size_y
           size_z

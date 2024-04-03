@@ -83,6 +83,7 @@ export function FileFormatDropdown({
         classes: {
           tooltip: 'min-w-[300px]',
         },
+        placement: 'top',
       }}
     />
   )
