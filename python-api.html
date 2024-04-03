@@ -829,14 +829,18 @@
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p></li>
+</ul>
 <dl class="simple">
 <dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
-<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p></li>
+</ul>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -862,6 +866,7 @@
 <p class="rubric">Examples</p>
 <p>Filter runs by attributes, including attributes in related models:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span> <span class="n">Run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">Run</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p>Get all results for this type:</p>
@@ -1050,14 +1055,18 @@
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p></li>
+</ul>
 <dl class="simple">
 <dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
-<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p></li>
+</ul>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -1083,6 +1092,7 @@
 <p class="rubric">Examples</p>
 <p>Filter runs by attributes, including attributes in related models:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span> <span class="n">Run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">Run</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p>Get all results for this type:</p>
@@ -1194,14 +1204,18 @@
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p></li>
+</ul>
 <dl class="simple">
 <dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
-<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p></li>
+</ul>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -1227,6 +1241,7 @@
 <p class="rubric">Examples</p>
 <p>Filter runs by attributes, including attributes in related models:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span> <span class="n">Run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">Run</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p>Get all results for this type:</p>
@@ -1382,14 +1397,18 @@
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p></li>
+</ul>
 <dl class="simple">
 <dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
-<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p></li>
+</ul>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -1415,6 +1434,7 @@
 <p class="rubric">Examples</p>
 <p>Filter runs by attributes, including attributes in related models:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span> <span class="n">Run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">Run</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p>Get all results for this type:</p>
@@ -1570,14 +1590,18 @@
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p></li>
+</ul>
 <dl class="simple">
 <dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
-<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p></li>
+</ul>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -1603,6 +1627,7 @@
 <p class="rubric">Examples</p>
 <p>Filter runs by attributes, including attributes in related models:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span> <span class="n">Run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">Run</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p>Get all results for this type:</p>
@@ -2026,14 +2051,18 @@
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p></li>
+</ul>
 <dl class="simple">
 <dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
-<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p></li>
+</ul>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -2059,6 +2088,7 @@
 <p class="rubric">Examples</p>
 <p>Filter runs by attributes, including attributes in related models:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span> <span class="n">Run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">Run</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p>Get all results for this type:</p>
@@ -2247,14 +2277,18 @@
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p></li>
+</ul>
 <dl class="simple">
 <dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
-<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p></li>
+</ul>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -2280,6 +2314,7 @@
 <p class="rubric">Examples</p>
 <p>Filter runs by attributes, including attributes in related models:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span> <span class="n">Run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">Run</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p>Get all results for this type:</p>
@@ -2582,14 +2617,18 @@
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p></li>
+</ul>
 <dl class="simple">
 <dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
-<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p></li>
+</ul>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -2615,6 +2654,7 @@
 <p class="rubric">Examples</p>
 <p>Filter runs by attributes, including attributes in related models:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span> <span class="n">Run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">Run</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p>Get all results for this type:</p>
@@ -2748,14 +2788,18 @@
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p></li>
+</ul>
 <dl class="simple">
 <dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
-<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p></li>
+</ul>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -2781,6 +2825,7 @@
 <p class="rubric">Examples</p>
 <p>Filter runs by attributes, including attributes in related models:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span> <span class="n">Run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">Run</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p>Get all results for this type:</p>
@@ -2958,14 +3003,18 @@
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p></li>
+</ul>
 <dl class="simple">
 <dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
-<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p></li>
+</ul>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -2991,6 +3040,7 @@
 <p class="rubric">Examples</p>
 <p>Filter runs by attributes, including attributes in related models:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span> <span class="n">Run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">Run</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p>Get all results for this type:</p>
@@ -3509,14 +3559,18 @@
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name</span> <span class="pre">==</span> <span class="pre">&quot;RUN1&quot;</span></code></p></li>
+</ul>
 <dl class="simple">
 <dt>Expressions with method operators (<code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>) must be in the format:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ModelSubclass.field.{operator}({value})</span></code></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code>
-<code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name.like(&quot;%RUN1%&quot;)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing.run.name._in([&quot;RUN1&quot;,</span> <span class="pre">&quot;RUN2&quot;])</span></code></p></li>
+</ul>
 <p>Supported operators are: <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">like</span></code> is a partial match, with the <cite>%</cite> character being a wildcard</p></li>
@@ -3542,6 +3596,7 @@
 <p class="rubric">Examples</p>
 <p>Filter runs by attributes, including attributes in related models:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span> <span class="n">Run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">Run</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p>Get all results for this type:</p>
