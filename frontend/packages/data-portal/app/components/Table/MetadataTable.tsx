@@ -45,8 +45,9 @@ export function MetadataTable({
                   tooltipProps={datum.labelTooltipProps}
                   {...tableCellLabelProps}
                 >
-                  <span className="text-sds-gray-600 text-sds-header-s leading-sds-header-s font-semibold">
+                  <span className="text-sds-gray-600 text-sds-header-s leading-sds-header-s font-semibold flex flex-row gap-sds-xxs">
                     {datum.label}
+                    {datum.labelExtra}
                   </span>
                 </TableCell>
 
