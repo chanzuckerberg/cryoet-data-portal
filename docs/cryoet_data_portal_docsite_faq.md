@@ -5,24 +5,24 @@ We hope these answers will help you get the most out of the CryoET Data Portal! 
 <details>
   <summary>How do I get help with using the Data Portal?</summary>
 
-Did you encounter a bug, error, or other issue while using the portal? [Submit an issue on Github](https://github.com/chanzuckerberg/cryoet-data-portal/issues) to let us know!
-
-To submit an issue, you'll need to create a [free Github account](https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home).
-This allows our team to follow up with you on Github if we have a question about the problem you encountered. Then, [fill out this form](https://github.com/chanzuckerberg/cryoet-data-portal/issues/new).
-We suggest you use a descriptive title, paste an error messages using the `<>` icon on the form, and provide as many details as possible about the problem, including what you expected to happen and what type of machine you were using.
-
-For more information about submiting issues on Github, please refer to [Github's documentation](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue#creating-an-issue-from-a-repository).
-
-## Example Issue
-
-Title: Tomogram TS_026 cannot be downloaded
-
-Body:
-I have the AWS CLI tool installed on a Mac computer. I copied the download command from the prompt on the tomogram page. Instead of downloading, I received this error message:
-
-```
-ERROR MESSAGE COPIED FROM TERMINAL
-```
+  Did you encounter a bug, error, or other issue while using the portal? [Submit an issue on Github](https://github.com/chanzuckerberg/cryoet-data-portal/issues) to let us know!
+  
+  To submit an issue, you'll need to create a [free Github account](https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home).
+  This allows our team to follow up with you on Github if we have a question about the problem you encountered. Then, [fill out this form](https://github.com/chanzuckerberg/cryoet-data-portal/issues/new).
+  We suggest you use a descriptive title, paste an error messages using the `<>` icon on the form, and provide as many details as possible about the problem, including what you expected to happen and what type of machine you were using.
+  
+  For more information about submiting issues on Github, please refer to [Github's documentation](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue#creating-an-issue-from-a-repository).
+  
+  ## Example Issue
+  
+  Title: Tomogram TS_026 cannot be downloaded
+  
+  Body:
+  I have the AWS CLI tool installed on a Mac computer. I copied the download command from the prompt on the tomogram page. Instead of downloading, I received this error message:
+  
+  ```
+  ERROR MESSAGE COPIED FROM TERMINAL
+  ```
 
 </details>
 
@@ -42,113 +42,113 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
 <details>
   <summary>How do I download data using Amazon Web Services (AWS)?</summary>
 
-**The Data Portal's S3 bucket is public**, so it can be used without sign-in credentials by specifying `--no-sign-request` in your commands. We recommend following our [Quickstart Guide](#quickstart) to get started downloading data in only a few minutes.
-
-For more details or to troubleshoot, refer to the [Installation](#installation), [Download Data](#download-data), and [Optimize Download Speed](#optimize-download-speed) in-depth explanations.
-
-## Quickstart
-
-1. Download the installer: [MacOS Installer Download](https://awscli.amazonaws.com/AWSCLIV2.pkg) / [Windows Installer Download](https://awscli.amazonaws.com/AWSCLIV2.msi)
-2. Open installer and complete installation following the prompts. (No further steps, since credentials ARE NOT needed to use the tool.)
-3. Open terminal (MacOS) or command prompt (Windows).
-4. Copy and paste the command from the download prompt for the desired data into terminal / command prompt and hit enter.
-5. Alternatively, create a custom command inserting the S3 URL of the data and the desired download destination in the spaces provided.
-
-```
-aws s3 cp --no-sign-request [S3 bucket URL] [Local destination path]
-```
-
-For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
-
-```
-aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
-```
-
-In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow [these instructions to optimize download speed](#optimize-download-speed)
-
-For more detailed instructions, please refer to the sections below.
-
-1. [Installation](#installation)
-2. [Download Data](#download-data)
-3. [Optimize Download Speed](#optimize-download-speed)
-
-## Installation
-
-The CryoET Data Portal uses public AWS S3 buckets to host the data. The AWS Command Line Interface (CLI) tool will be used for downloading data from this S3 bucket `s3://cryoet-data-portal-public`. The simplest way to use this tool is to install it without setting up any credentials, and those instructions are below for MacOS and Windows. However, you may also complete a full installation and credential setup using the instructions provided by [AWS here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
-
-Once AWS CLI is installed, you will be able to use it in terminal (MacOS) or command prompt (Windows) to download data. AWS CLI will not show up as an app on your desktop however since it is a command-line only tool.
-
-### MacOS Installation
-
-1. Download the installer pkg file using this URL: [https://awscli.amazonaws.com/AWSCLIV2.pkg](https://awscli.amazonaws.com/AWSCLIV2.pkg)
-2. Open the file and follow the instructions provided in the installer window.
-
-To confirm successful installation, open terminal and type `aws --version` to list the version of the AWS CLI installed. If installation was successful, you should see an output like:
-```
-aws-cli/2.7.25 Python/3.10.6 Darwin/23.0.0 source/arm64 prompt/off
-```
-
-### Windows Installation
-
-1. Download the installer pkg file using this URL: [https://awscli.amazonaws.com/AWSCLIV2.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
-2. Open the file and follow the instructions provided in the installer window.
-
-To confirm successful installation, open a command prompt window (open the Start menu and search for cmd) and type `aws --version` to list the version of the AWS CLI installed. If installation was successful, you should see an output like:
-
-```
-aws-cli/2.10.0 Python/3.11.2 Windows/10 exe/AMD64 prompt/off
-```
-
-## Download Data
-
-To download data, we'll run commands in terminal (MacOS) or command prompt (Windows). The basic structure of these commands is below:
-
-```
-aws <command> <subcommand> <flags> [options and parameters (often S3 URL)]
-```
-
-If you followed the above installation instructions, which did not include setting up credentials, use `--no-sign-request` as a `<flag>` in all of your AWS CLI commands to indicate that you are accessing the bucket without signing in.
-
-The URL of the CryoET Data Portal is `s3://cryoet-data-portal-public`, and each dataset in the bucket has its own unique URL such as `s3://cryoet-data-portal-public/10000/TS_026`.
-
-To list all files in a directory, use the `s3` and `ls` as the `<command>` and `<subcommand>`, respectively.
-
-The basic structure of this command is `aws s3 ls --no-sign-request [s3 bucket URL]`. For example, to list all data in the portal use:
-
-```
-aws s3 ls --no-sign-request s3://cryoet-data-portal-public
-```
-
-The output should be a list of dataset IDs, for example:
-
-```
-PRE 10000/
-PRE 10001/
-PRE 10004/
-```
-
-To download a file, We can use the `s3` and `cp` as the `<command>` and `<subcommand>`, respectively. The basic structure of this command is `aws s3 cp --no-sign-request [s3 bucket URL] [Local destination path]`, where the `Local destination path` is wherever you'd like the file to be downloaded. For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
-
-```
-aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
-```
-
-The file should appear in your specified directory and the output in terminal / command prompt should be something like:
-
-```
-download: s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json to ./tomogram_metadata.json
-```
-
-In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files.
-
-## Optimize Download Speed
-
-You can optimize your download speed by configuring your AWS CLI with the below command, which will increase your transfer rate to ~50 MB/s if your connection has sufficient bandwidth.
-```
-aws configure set default.s3.max_concurrent_requests 30
-```
-
-To learn more about configuring your AWS CLI, refer to the [documentation here](https://docs.aws.amazon.com/cli/latest/topic/s3-config.html).
+  **The Data Portal's S3 bucket is public**, so it can be used without sign-in credentials by specifying `--no-sign-request` in your commands. We recommend following our [Quickstart Guide](#quickstart) to get started downloading data in only a few minutes.
+  
+  For more details or to troubleshoot, refer to the [Installation](#installation), [Download Data](#download-data), and [Optimize Download Speed](#optimize-download-speed) in-depth explanations.
+  
+  ## Quickstart
+  
+  1. Download the installer: [MacOS Installer Download](https://awscli.amazonaws.com/AWSCLIV2.pkg) / [Windows Installer Download](https://awscli.amazonaws.com/AWSCLIV2.msi)
+  2. Open installer and complete installation following the prompts. (No further steps, since credentials ARE NOT needed to use the tool.)
+  3. Open terminal (MacOS) or command prompt (Windows).
+  4. Copy and paste the command from the download prompt for the desired data into terminal / command prompt and hit enter.
+  5. Alternatively, create a custom command inserting the S3 URL of the data and the desired download destination in the spaces provided.
+  
+  ```
+  aws s3 cp --no-sign-request [S3 bucket URL] [Local destination path]
+  ```
+  
+  For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
+  
+  ```
+  aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
+  ```
+  
+  In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow [these instructions to optimize download speed](#optimize-download-speed)
+  
+  For more detailed instructions, please refer to the sections below.
+  
+  1. [Installation](#installation)
+  2. [Download Data](#download-data)
+  3. [Optimize Download Speed](#optimize-download-speed)
+  
+  ## Installation
+  
+  The CryoET Data Portal uses public AWS S3 buckets to host the data. The AWS Command Line Interface (CLI) tool will be used for downloading data from this S3 bucket `s3://cryoet-data-portal-public`. The simplest way to use this tool is to install it without setting up any credentials, and those instructions are below for MacOS and Windows. However, you may also complete a full installation and credential setup using the instructions provided by [AWS here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
+  
+  Once AWS CLI is installed, you will be able to use it in terminal (MacOS) or command prompt (Windows) to download data. AWS CLI will not show up as an app on your desktop however since it is a command-line only tool.
+  
+  ### MacOS Installation
+  
+  1. Download the installer pkg file using this URL: [https://awscli.amazonaws.com/AWSCLIV2.pkg](https://awscli.amazonaws.com/AWSCLIV2.pkg)
+  2. Open the file and follow the instructions provided in the installer window.
+  
+  To confirm successful installation, open terminal and type `aws --version` to list the version of the AWS CLI installed. If installation was successful, you should see an output like:
+  ```
+  aws-cli/2.7.25 Python/3.10.6 Darwin/23.0.0 source/arm64 prompt/off
+  ```
+  
+  ### Windows Installation
+  
+  1. Download the installer pkg file using this URL: [https://awscli.amazonaws.com/AWSCLIV2.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
+  2. Open the file and follow the instructions provided in the installer window.
+  
+  To confirm successful installation, open a command prompt window (open the Start menu and search for cmd) and type `aws --version` to list the version of the AWS CLI installed. If installation was successful, you should see an output like:
+  
+  ```
+  aws-cli/2.10.0 Python/3.11.2 Windows/10 exe/AMD64 prompt/off
+  ```
+  
+  ## Download Data
+  
+  To download data, we'll run commands in terminal (MacOS) or command prompt (Windows). The basic structure of these commands is below:
+  
+  ```
+  aws <command> <subcommand> <flags> [options and parameters (often S3 URL)]
+  ```
+  
+  If you followed the above installation instructions, which did not include setting up credentials, use `--no-sign-request` as a `<flag>` in all of your AWS CLI commands to indicate that you are accessing the bucket without signing in.
+  
+  The URL of the CryoET Data Portal is `s3://cryoet-data-portal-public`, and each dataset in the bucket has its own unique URL such as `s3://cryoet-data-portal-public/10000/TS_026`.
+  
+  To list all files in a directory, use the `s3` and `ls` as the `<command>` and `<subcommand>`, respectively.
+  
+  The basic structure of this command is `aws s3 ls --no-sign-request [s3 bucket URL]`. For example, to list all data in the portal use:
+  
+  ```
+  aws s3 ls --no-sign-request s3://cryoet-data-portal-public
+  ```
+  
+  The output should be a list of dataset IDs, for example:
+  
+  ```
+  PRE 10000/
+  PRE 10001/
+  PRE 10004/
+  ```
+  
+  To download a file, We can use the `s3` and `cp` as the `<command>` and `<subcommand>`, respectively. The basic structure of this command is `aws s3 cp --no-sign-request [s3 bucket URL] [Local destination path]`, where the `Local destination path` is wherever you'd like the file to be downloaded. For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
+  
+  ```
+  aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
+  ```
+  
+  The file should appear in your specified directory and the output in terminal / command prompt should be something like:
+  
+  ```
+  download: s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json to ./tomogram_metadata.json
+  ```
+  
+  In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files.
+  
+  ## Optimize Download Speed
+  
+  You can optimize your download speed by configuring your AWS CLI with the below command, which will increase your transfer rate to ~50 MB/s if your connection has sufficient bandwidth.
+  ```
+  aws configure set default.s3.max_concurrent_requests 30
+  ```
+  
+  To learn more about configuring your AWS CLI, refer to the [documentation here](https://docs.aws.amazon.com/cli/latest/topic/s3-config.html).
 
 </details>
 
@@ -240,6 +240,12 @@ The tilt series quality score/rating is a relative subjective scale meant for co
 The dataset identifier in the API refers to the Portal ID provided in the Portal. This number is assigned by the Data Portal as a unique identifier for a dataset and is used as the directory name in the data filetree.
 
 Descriptions of all terminology and metadata used in the Portal is provided [here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
+
+</details>
+
+<details>
+  <summary>Which annotations can I view with a tomogram?</summary>
+There is no definitive rule for which annotations are displayed by default. The annotations are manually chosen to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations included within, such as protein picks. When there is a ground truth and predicted annotation, the ground truth to be the annotation defualt. Authors contributing data can specify the desired default annotation using the `is_visualization_default` metadata field. 
 
 </details>
 
