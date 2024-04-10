@@ -15,7 +15,7 @@ export function SelectSaveDestination() {
         </span>
       </p>
 
-      <p className="text-sds-header-s leading-sds-header-s text-sds-gray-600">
+      <p className="text-sds-header-xs leading-sds-header-xs text-sds-gray-600">
         {t('downloadWillSaveToCurrentDirectory')}
       </p>
     </>

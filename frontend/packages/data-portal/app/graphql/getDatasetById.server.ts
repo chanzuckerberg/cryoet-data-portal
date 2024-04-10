@@ -131,8 +131,12 @@ const GET_DATASET_BY_ID = gql(`
 
       run_stats: runs {
         tomogram_voxel_spacings {
-          annotations(distinct_on: object_name) {
+          annotations {
             object_name
+
+            files(distinct_on: shape_type) {
+              shape_type
+            }
           }
         }
 
@@ -146,6 +150,18 @@ const GET_DATASET_BY_ID = gql(`
 
 function getFilter(filterState: FilterState) {
   const filters: Runs_Bool_Exp[] = []
+
+  if (filterState.includedContents.isGroundTruthEnabled) {
+    filters.push({
+      tomogram_voxel_spacings: {
+        annotations: {
+          ground_truth_status: {
+            _eq: true,
+          },
+        },
+      },
+    })
+  }
 
   const tiltRangeFilter = getTiltRangeFilter(
     filterState.tiltSeries.min,
@@ -168,12 +184,28 @@ function getFilter(filterState: FilterState) {
     })
   }
 
-  if (filterState.annotation.objectNames.length > 0) {
+  const { objectNames, objectShapeTypes } = filterState.annotation
+
+  if (objectNames.length > 0) {
     filters.push({
       tomogram_voxel_spacings: {
         annotations: {
           object_name: {
-            _in: filterState.annotation.objectNames,
+            _in: objectNames,
+          },
+        },
+      },
+    })
+  }
+
+  if (objectShapeTypes.length > 0) {
+    filters.push({
+      tomogram_voxel_spacings: {
+        annotations: {
+          files: {
+            shape_type: {
+              _in: objectShapeTypes,
+            },
           },
         },
       },

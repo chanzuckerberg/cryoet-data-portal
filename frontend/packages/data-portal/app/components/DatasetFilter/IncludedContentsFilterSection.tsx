@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import {
-  BooleanFilter,
   FilterSection,
+  GroundTruthAnnotationFilter,
   SelectFilter,
 } from 'app/components/Filters'
 import { QueryParams } from 'app/constants/query'
@@ -35,7 +35,7 @@ const MEETS_ALL_LABEL_ID = 'meets-all'
 export function IncludedContentsFilterSection() {
   const {
     updateValue,
-    includedContents: { isGroundTruthEnabled, availableFiles, numberOfRuns },
+    includedContents: { availableFiles, numberOfRuns },
   } = useFilter()
 
   const availableFilesOptions = useMemo(
@@ -89,13 +89,7 @@ export function IncludedContentsFilterSection() {
 
   return (
     <FilterSection title={i18n.includedContents}>
-      <BooleanFilter
-        label={i18n.groundTruthAnnotation}
-        onChange={(value) =>
-          updateValue(QueryParams.GroundTruthAnnotation, value ? 'true' : null)
-        }
-        value={isGroundTruthEnabled}
-      />
+      <GroundTruthAnnotationFilter />
 
       <SelectFilter
         multiple

@@ -98,6 +98,7 @@ export function DatasetDescription() {
         <DatasetAuthors
           authors={dataset.authors}
           className="text-sds-body-xxs leading-sds-body-xxs"
+          subtle
         />
       </div>
       <div className="flex flex-row gap-sds-xxl">
