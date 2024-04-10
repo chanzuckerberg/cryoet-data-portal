@@ -9,3 +9,4 @@
    python-api
    cryoet_data_portal_docsite_napari.md
    cryoet_data_portal_docsite_examples.md
+   cryoet_data_portal_docsite_faq.md
