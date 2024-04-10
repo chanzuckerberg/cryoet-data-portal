@@ -162,7 +162,7 @@ All tomograms in the Data Portal are viewable in Neuroglancer along with their a
 <details>
   <summary>How do I use napari to visualize tomograms with their annotations?</summary>
 
-The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html) to learn more about napari and CryoET Data Poral.
+The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html) to learn more about napari and CryoET Data Portal.
 
 </details>
 
@@ -246,6 +246,8 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
 <details>
   <summary>Which annotations can I view with a tomogram?</summary>
 There is no definitive rule for which annotations are displayed by default. The annotations are manually chosen to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations included within, such as protein picks. When there is a ground truth and predicted annotation, the ground truth to be the annotation defualt. Authors contributing data can specify the desired default annotation using the `is_visualization_default` metadata field. 
+
+The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html) to learn more about napari and CryoET Data Portal.
 
 </details>
 
