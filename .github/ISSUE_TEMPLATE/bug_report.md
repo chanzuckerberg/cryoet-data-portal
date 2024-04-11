@@ -1,11 +1,11 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ''
+name: Bug Report
+description: 'Report a bug encountered while using CryoET Data Portal"
+title: 'Bug'
 labels: bug
 assignees: ''
-
 ---
+
 
 **Describe the bug**
 A clear and concise description of what the bug is and what you expected to happen.
