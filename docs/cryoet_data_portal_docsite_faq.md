@@ -6,7 +6,9 @@ We hope these answers will help you get the most out of the CryoET Data Portal! 
   <summary>How do I get help with using the Data Portal?</summary>
 
 Did you encounter a bug, error, or other issue while using the portal? [Submit an issue on Github](https://github.com/chanzuckerberg/cryoet-data-portal/issues) to let us know!
-  
+<details>
+  <summary>How do I submit an issue on Github?</summary>
+
 To submit an issue, you'll need to create a [free Github account](https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home). This allows our team to follow up with you on Github if we have a question about the problem you encountered. Then, [fill out this form](https://github.com/chanzuckerberg/cryoet-data-portal/issues/new). We suggest you use a descriptive title, paste an error messages using the `<>` icon on the form, and provide as many details as possible about the problem, including what you expected to happen and what type of machine you were using.
 
 For more information about submiting issues on Github, please refer to [Github's documentation](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue#creating-an-issue-from-a-repository).
@@ -21,7 +23,7 @@ I have the AWS CLI tool installed on a Mac computer. I copied the download comma
 ```
 ERROR MESSAGE COPIED FROM TERMINAL
 ```
-
+</details> 
 </details>
 
 <details>
