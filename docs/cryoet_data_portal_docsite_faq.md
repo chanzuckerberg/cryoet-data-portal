@@ -2,7 +2,7 @@
 
 We hope these answers will help you get the most out of the CryoET Data Portal! If you need additional information or assistance, you can reach us by submitting a [Github Issue](https://github.com/chanzuckerberg/cryoet-data-portal/issues/new). For help with submitting an issue, follow [these instructions](#how-can-i-get-help-with-using-the-data-portal).
 
-<details>
+<details open>
   <summary>How do I get help with using the Data Portal?</summary>
 
 Did you encounter a bug, error, or other issue while using the portal? [Submit an issue on Github](https://github.com/chanzuckerberg/cryoet-data-portal/issues) to let us know!
