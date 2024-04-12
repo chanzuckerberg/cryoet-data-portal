@@ -1,6 +1,6 @@
 # Frequently Asked Questions
 
-We hope these answers will help you get the most out of the CryoET Data Portal! If you need additional information or assistance, you can reach us by submitting a [Github Issue](https://github.com/chanzuckerberg/cryoet-data-portal/issues/new). For help with submitting an issue, follow [these instructions](#how-can-i-get-help-with-using-the-data-portal).
+We hope these answers will help you get the most out of the CryoET Data Portal! 
 
 <details open>
   <summary>How do I get help with using the Data Portal?</summary>
@@ -157,6 +157,7 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
 
 <details>
   <summary>Which annotations are displayed with a tomogram in Neuroglancer?</summary>
+
 There is no definitive rule for which annotations are displayed with a tomogram in Neuroglancer by default. The annotations are manually chosen to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations included within, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
 
 The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html) to learn more about napari and CryoET Data Portal.
