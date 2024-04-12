@@ -483,13 +483,16 @@ class Annotation(Model):
             shape (Optional[str], optional): Choose a specific shape type to download (e.g.: OrientedPoint, SegmentationMask)
             format (Optional[str], optional): Choose a specific file format to download (e.g.: mrc, ndjson)
         """
-        download_https(self.https_metadata_path, dest_path)
+        download_metadata = False
         for file in self.files:
             if format and file.format != format:
                 continue
             if shape and file.shape_type != shape:
                 continue
             file.download(dest_path)
+            download_metadata = True
+        if download_metadata:
+            download_https(self.https_metadata_path, dest_path)
 
 
 class AnnotationFile(Model):

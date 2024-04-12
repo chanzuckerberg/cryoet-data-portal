@@ -32,6 +32,21 @@ def test_download_annotations(tmp_dir, client) -> None:
     assert files == ["author2-ribosome-1.0.json"]
 
 
+def test_download_tomo_annotations_with_shape_filter(tmp_dir, client) -> None:
+    """Make sure downloading annotations for a specific shape type doesn't download"""
+    """metadata for other annotations without this shape type"""
+    tomo = Tomogram.find(
+        client,
+        [
+            Tomogram.tomogram_voxel_spacing.run.name == "RUN1",
+        ],
+    )[0]
+    assert tomo
+    tomo.download_all_annotations(dest_path=tmp_dir, format="ndjson", shape="Point")
+    files = os.listdir(tmp_dir)
+    assert set(files) == {"ribosome.ndjson", "author1-ribosome-1.0.json"}
+
+
 def test_download_all_annotations_including_zarr(tmp_dir, client) -> None:
     """Download all files for a particular annotation. Using ds 20001 because it has a zarr."""
     anno = Annotation.find(
