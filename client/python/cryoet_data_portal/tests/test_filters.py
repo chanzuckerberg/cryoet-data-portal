@@ -1,5 +1,6 @@
-from cryoet_data_portal import Run, Tomogram
 import pytest
+
+from cryoet_data_portal import Run, Tomogram
 
 
 def test_basic_filters(client) -> None:
@@ -9,7 +10,7 @@ def test_basic_filters(client) -> None:
     assert runs[0].name == "RUN1"
 
     tomograms = Tomogram.find(
-        client, [Tomogram.tomogram_voxel_spacing.run.name == "RUN1"]
+        client, [Tomogram.tomogram_voxel_spacing.run.name == "RUN1"],
     )
     assert len(tomograms) == 1
     assert tomograms[0].tomogram_voxel_spacing.run.name == "RUN1"

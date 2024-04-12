@@ -21,7 +21,7 @@ class GQLExpression:
                 fieldname = [fieldname]
 
             raise Exception(
-                f"\"{'.'.join(fieldname)}\" is an object and can't be filtered directly. Please filter on one of its scalar attributes instead: {', '.join(scalar_fields)}"
+                f"\"{'.'.join(fieldname)}\" is an object and can't be filtered directly. Please filter on one of its scalar attributes instead: {', '.join(scalar_fields)}",
             )
         gql = {}
         if isinstance(fieldname, list):
