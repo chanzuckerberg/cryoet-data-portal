@@ -18,9 +18,9 @@ Title: Tomogram TS_026 cannot be downloaded
 Body:
 I have the AWS CLI tool installed on a Mac computer. I copied the download command from the prompt on the tomogram page. Instead of downloading, I received this error message:
   
-  ```
-  ERROR MESSAGE COPIED FROM TERMINAL
-  ```
+```
+ERROR MESSAGE COPIED FROM TERMINAL
+```
 
 </details>
 
@@ -41,22 +41,22 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
   <summary>How do I download data using Amazon Web Services (AWS)?</summary>
 
 **The Data Portal's S3 bucket is public**, so it can be used without sign-in credentials by specifying `--no-sign-request` in your commands and you get started downloading data in only a few minutes.
+
+1. Download the installer: [MacOS Installer Download](https://awscli.amazonaws.com/AWSCLIV2.pkg) / [Windows Installer Download](https://awscli.amazonaws.com/AWSCLIV2.msi)
+2. Open installer and complete installation following the prompts. (No further steps, since credentials ARE NOT needed to use the tool.)
+3. Open terminal (MacOS) or command prompt (Windows).
+4. Copy and paste the command from the download prompt for the desired data into terminal / command prompt and hit enter.
+5. Alternatively, create a custom command inserting the S3 URL of the data and the desired download destination in the spaces provided.
   
-  1. Download the installer: [MacOS Installer Download](https://awscli.amazonaws.com/AWSCLIV2.pkg) / [Windows Installer Download](https://awscli.amazonaws.com/AWSCLIV2.msi)
-  2. Open installer and complete installation following the prompts. (No further steps, since credentials ARE NOT needed to use the tool.)
-  3. Open terminal (MacOS) or command prompt (Windows).
-  4. Copy and paste the command from the download prompt for the desired data into terminal / command prompt and hit enter.
-  5. Alternatively, create a custom command inserting the S3 URL of the data and the desired download destination in the spaces provided.
+```
+aws s3 cp --no-sign-request [S3 bucket URL] [Local destination path]
+```
   
-  ```
-  aws s3 cp --no-sign-request [S3 bucket URL] [Local destination path]
-  ```
+For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
   
-  For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
-  
-  ```
-  aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
-  ```
+```
+aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
+```
   
 In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow [these instructions to optimize download speed](./cryoet_data_portal_docsite_aws.md).
 
@@ -155,7 +155,7 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
 
 <details>
   <summary>Which annotations are displayed with a tomogram in Neuroglancer?</summary>
-There is no definitive rule for which annotations are displayed with a tomogram in Neuroglancer by default. The annotations are manually chosen to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations included within, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotation using the `is_visualization_default` metadata field.
+There is no definitive rule for which annotations are displayed with a tomogram in Neuroglancer by default. The annotations are manually chosen to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations included within, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
 
 The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html) to learn more about napari and CryoET Data Portal.
 
