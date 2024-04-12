@@ -4,6 +4,7 @@ about: Create a bug report to help us improve
 title: ''
 labels: bug
 assignees: ''
+projects: ["chanzuckerberg/projects/48"]
 
 ---
 
