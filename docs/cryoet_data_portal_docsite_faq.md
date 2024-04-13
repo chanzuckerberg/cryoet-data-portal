@@ -13,7 +13,7 @@ To submit an issue, you'll need to create a [free Github account](https://github
 
 For more information about submiting issues on Github, please refer to [Github's documentation](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue#creating-an-issue-from-a-repository).
   
-## Example Issue
+Example Issue
 
 Title: Tomogram TS_026 cannot be downloaded
   
@@ -21,7 +21,7 @@ Body:
 I have the AWS CLI tool installed on a Mac computer. I copied the download command from the prompt on the tomogram page. Instead of downloading, I received this error message:
   
 ```
-ERROR MESSAGE COPIED FROM TERMINAL
+ERROR MESSAGE
 ```
 </details> 
 </details>
@@ -176,4 +176,3 @@ We will work with you to upload the data to the Portal. Please fill out [this co
 In the future, we plan to implement a self-upload process so that users can add their data to the Portal on their own.
 
 </details>
-</Accordion>
