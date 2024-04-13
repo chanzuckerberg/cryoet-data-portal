@@ -1,11 +1,12 @@
 # Frequently Asked Questions
 
-We hope these answers will help you get the most out of the CryoET Data Portal! 
+We hope these answers will help you get the most out of the CryoET Data Portal!
 
 <details open>
 <summary>How do I get help with using the Data Portal?</summary>
 
 Did you encounter a bug, error, or other issue while using the portal? [Submit an issue on Github](https://github.com/chanzuckerberg/cryoet-data-portal/issues) to let us know!
+
 <details>
 <summary>How do I submit an issue on Github?</summary>
 
@@ -23,7 +24,7 @@ I have the AWS CLI tool installed on a Mac computer. I copied the download comma
 ```
 ERROR MESSAGE
 ```
-</details> 
+</details>
 </details>
 
 <details>
