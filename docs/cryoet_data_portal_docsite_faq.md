@@ -1,14 +1,14 @@
 # Frequently Asked Questions
 
-We hope these answers will help you get the most out of the CryoET Data Portal!
+We hope these answers will help you get the most out of the CryoET Data Portal! Testing [link](#Which-annotations-are-displayed-with-a-tomogram-in-Neuroglancer?)
 
 <details open>
-  <summary>How do I get help with using the Data Portal?</summary>
+<summary>How do I get help with using the Data Portal?</summary>
 
 Did you encounter a bug, error, or other issue while using the portal? [Submit an issue on Github](https://github.com/chanzuckerberg/cryoet-data-portal/issues) to let us know!
 
 <details>
-  <summary>How do I submit an issue on Github?</summary>
+<summary>How do I submit an issue on Github?</summary>
 
 To submit an issue, you'll need to create a [free Github account](https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home). This allows our team to follow up with you on Github if we have a question about the problem you encountered. Then, [fill out this form](https://github.com/chanzuckerberg/cryoet-data-portal/issues/new). We suggest you use a descriptive title, paste an error messages using the `<>` icon on the form, and provide as many details as possible about the problem, including what you expected to happen and what type of machine you were using.
 
@@ -157,7 +157,7 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
 </details>
 
 <details>
-<summary>Which annotations are displayed with a tomogram in Neuroglancer?</summary>
+<summary><a id="Which annotations are displayed with a tomogram in Neuroglancer?"></a>Which annotations are displayed with a tomogram in Neuroglancer?</summary>
 
 There is no definitive rule for which annotations are displayed with a tomogram in Neuroglancer by default. The annotations are manually chosen to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations included within, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
 
