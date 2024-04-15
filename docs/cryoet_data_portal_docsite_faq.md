@@ -1,6 +1,6 @@
 # Frequently Asked Questions
 
-We hope these answers will help you get the most out of the CryoET Data Portal! Testing [link](#Which-annotations-are-displayed-with-a-tomogram-in-Neuroglancer?)
+We hope these answers will help you get the most out of the CryoET Data Portal! <a href="#annotations">Jump to the annotations below</a>
 
 <details open>
 <summary>How do I get help with using the Data Portal?</summary>
@@ -157,7 +157,7 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
 </details>
 
 <details>
-<summary><a id="Which annotations are displayed with a tomogram in Neuroglancer?"></a>Which annotations are displayed with a tomogram in Neuroglancer?</summary>
+<summary><a id="annotations"></a>Which annotations are displayed with a tomogram in Neuroglancer?</summary>
 
 There is no definitive rule for which annotations are displayed with a tomogram in Neuroglancer by default. The annotations are manually chosen to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations included within, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
 
