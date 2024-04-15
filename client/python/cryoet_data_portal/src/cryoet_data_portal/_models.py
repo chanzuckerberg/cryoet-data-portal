@@ -260,6 +260,7 @@ class Tomogram(Model):
         affine_transformation_matrix (str): The flip or rotation transformation of this author submitted tomogram is indicated here
         ctf_corrected (bool): Whether this tomogram is CTF corrected
         fiducial_alignment_status (str): Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
+        deposition_id (int): If the tomogram is part of a deposition, the related deposition's id
         https_mrc_scale0 (str): HTTPS path to this tomogram in MRC format (no scaling)
         https_omezarr_dir (str): HTTPS path to this tomogram in multiscale OME-Zarr format
         is_canonical (bool): Is this tomogram considered the canonical tomogram for the run experiment? True=Yes
@@ -299,6 +300,7 @@ class Tomogram(Model):
     id: int = IntField()
     affine_transformation_matrix: str = StringField()
     ctf_corrected: int = BooleanField()
+    deposition_id: int = IntField()
     fiducial_alignment_status: str = StringField()
     https_mrc_scale0: str = StringField()
     https_omezarr_dir: str = StringField()
@@ -415,10 +417,13 @@ class Annotation(Model):
         confidence_precision (float): Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
         confidence_recall (float): Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
         deposition_date (date): Date when an annotation set is initially received by the Data Portal.
+        deposition_id (int): If the annotation is part of a deposition, the related deposition's id
+        files (list[AnnotationFile]): An array relationship with the files of this annotation
         ground_truth_status (bool): Whether an annotation is considered ground truth, as determined by the annotator.
         ground_truth_used (str): Annotation filename used as ground truth for precision and recall
         https_metadata_path (str): HTTPS path for the metadata json file for this annotation
         last_modified_date (date): Date when an annotation was last modified in the Data Portal
+        method_type (str): The method type for generating the annotation (eg. manual, hybrid, automated)
         object_count (int): Number of objects identified
         object_description (str): A textual description of the annotation object, can be a longer description to include additional information not covered by the Annotation object name and state.
         object_id (str): Gene Ontology Cellular Component identifier for the annotation object
@@ -444,12 +449,14 @@ class Annotation(Model):
     confidence_precision: float = FloatField()
     confidence_recall: float = FloatField()
     deposition_date: date = DateField()
+    deposition_id: int = IntField()
     ground_truth_status: int = BooleanField()
     ground_truth_used: str = StringField()
     https_metadata_path: str = StringField()
     id: int = IntField()
     is_curator_recommended: bool = BooleanField()
     last_modified_date: date = DateField()
+    method_type: str = StringField()
     object_count: int = IntField()
     object_description: str = StringField()
     object_id: str = StringField()
@@ -502,6 +509,7 @@ class AnnotationFile(Model):
         id (int): Numeric identifier (May change!)
         format (str): File format for this file
         https_path (str): HTTPS url for the annotation file
+        is_visualization_default (bool): Is this annotation shape displayed in visualization tools by default
         s3_path (str): S3 path for the annotation file
         shape_type (str): Describe whether this is a Point, OrientedPoint, or SegmentationMask file
         annotation_id (int): Reference to the annotation this file applies to
@@ -517,10 +525,10 @@ class AnnotationFile(Model):
     )
 
     id: int = IntField()
+    annotation_id: int = IntField()
     format: str = StringField()
     https_path: str = StringField()
-    annotation_id: int = IntField()
-    https_path: str = StringField()
+    is_visualization_default: bool = BooleanField()
     s3_path: str = StringField()
     shape_type: str = StringField()
 
