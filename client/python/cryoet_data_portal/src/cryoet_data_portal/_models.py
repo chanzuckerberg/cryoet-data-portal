@@ -506,6 +506,7 @@ class AnnotationFile(Model):
         id (int): Numeric identifier (May change!)
         format (str): File format for this file
         https_path (str): HTTPS url for the annotation file
+        is_visualization_default (bool): Is this annotation shape displayed in visualization tools by default
         s3_path (str): S3 path for the annotation file
         shape_type (str): Describe whether this is a Point, OrientedPoint, or SegmentationMask file
         annotation_id (int): Reference to the annotation this file applies to
@@ -521,10 +522,10 @@ class AnnotationFile(Model):
     )
 
     id: int = IntField()
+    annotation_id: int = IntField()
     format: str = StringField()
     https_path: str = StringField()
-    annotation_id: int = IntField()
-    https_path: str = StringField()
+    is_visualization_default: bool = BooleanField()
     s3_path: str = StringField()
     shape_type: str = StringField()
 

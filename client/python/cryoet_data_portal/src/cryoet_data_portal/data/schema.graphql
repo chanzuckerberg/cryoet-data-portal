@@ -686,6 +686,11 @@ type annotation_files {
   https_path: String!
   id: Int!
 
+  """
+  Data curator’s subjective choice of default annotation to display in visualization for an object
+  """
+  is_visualization_default: Boolean
+
   """s3 path of the annotation file"""
   s3_path: String!
 
@@ -702,7 +707,23 @@ type annotation_files_aggregate {
 }
 
 input annotation_files_aggregate_bool_exp {
+  bool_and: annotation_files_aggregate_bool_exp_bool_and
+  bool_or: annotation_files_aggregate_bool_exp_bool_or
   count: annotation_files_aggregate_bool_exp_count
+}
+
+input annotation_files_aggregate_bool_exp_bool_and {
+  arguments: annotation_files_select_column_annotation_files_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: annotation_files_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input annotation_files_aggregate_bool_exp_bool_or {
+  arguments: annotation_files_select_column_annotation_files_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: annotation_files_bool_exp
+  predicate: Boolean_comparison_exp!
 }
 
 input annotation_files_aggregate_bool_exp_count {
@@ -772,6 +793,7 @@ input annotation_files_bool_exp {
   format: String_comparison_exp
   https_path: String_comparison_exp
   id: Int_comparison_exp
+  is_visualization_default: Boolean_comparison_exp
   s3_path: String_comparison_exp
   shape_type: String_comparison_exp
 }
@@ -859,6 +881,7 @@ input annotation_files_order_by {
   format: order_by
   https_path: order_by
   id: order_by
+  is_visualization_default: order_by
   s3_path: order_by
   shape_type: order_by
 }
@@ -880,10 +903,29 @@ enum annotation_files_select_column {
   id
 
   """column name"""
+  is_visualization_default
+
+  """column name"""
   s3_path
 
   """column name"""
   shape_type
+}
+
+"""
+select "annotation_files_aggregate_bool_exp_bool_and_arguments_columns" columns of table "annotation_files"
+"""
+enum annotation_files_select_column_annotation_files_aggregate_bool_exp_bool_and_arguments_columns {
+  """column name"""
+  is_visualization_default
+}
+
+"""
+select "annotation_files_aggregate_bool_exp_bool_or_arguments_columns" columns of table "annotation_files"
+"""
+enum annotation_files_select_column_annotation_files_aggregate_bool_exp_bool_or_arguments_columns {
+  """column name"""
+  is_visualization_default
 }
 
 """aggregate stddev on columns"""
@@ -949,6 +991,11 @@ input annotation_files_stream_cursor_value_input {
   """https path of the annotation file"""
   https_path: String
   id: Int
+
+  """
+  Data curator’s subjective choice of default annotation to display in visualization for an object
+  """
+  is_visualization_default: Boolean
 
   """s3 path of the annotation file"""
   s3_path: String
@@ -1075,6 +1122,9 @@ type annotations {
   """Date when an annotation set is initially received by the Data Portal."""
   deposition_date: date!
 
+  """id of the associated deposition."""
+  deposition_id: Int
+
   """An array relationship"""
   files(
     """distinct select on columns"""
@@ -1132,6 +1182,9 @@ type annotations {
 
   """Date when an annotation was last modified in the Data Portal"""
   last_modified_date: date
+
+  """Provides information on the method type used for generating annotation"""
+  method_type: String
 
   """Number of objects identified"""
   object_count: Int!
@@ -1244,6 +1297,9 @@ type annotations_avg_fields {
   """
   confidence_recall: Float
 
+  """id of the associated deposition."""
+  deposition_id: Float
+
   """Numeric identifier (May change!)"""
   id: Float
 
@@ -1265,6 +1321,9 @@ input annotations_avg_order_by {
   Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
   """
   confidence_recall: order_by
+
+  """id of the associated deposition."""
+  deposition_id: order_by
 
   """Numeric identifier (May change!)"""
   id: order_by
@@ -1289,6 +1348,7 @@ input annotations_bool_exp {
   confidence_precision: numeric_comparison_exp
   confidence_recall: numeric_comparison_exp
   deposition_date: date_comparison_exp
+  deposition_id: Int_comparison_exp
   files: annotation_files_bool_exp
   files_aggregate: annotation_files_aggregate_bool_exp
   ground_truth_status: Boolean_comparison_exp
@@ -1297,6 +1357,7 @@ input annotations_bool_exp {
   id: Int_comparison_exp
   is_curator_recommended: Boolean_comparison_exp
   last_modified_date: date_comparison_exp
+  method_type: String_comparison_exp
   object_count: Int_comparison_exp
   object_description: String_comparison_exp
   object_id: String_comparison_exp
@@ -1334,6 +1395,9 @@ type annotations_max_fields {
   """Date when an annotation set is initially received by the Data Portal."""
   deposition_date: date
 
+  """id of the associated deposition."""
+  deposition_id: Int
+
   """Annotation filename used as ground truth for precision and recall"""
   ground_truth_used: String
 
@@ -1345,6 +1409,9 @@ type annotations_max_fields {
 
   """Date when an annotation was last modified in the Data Portal"""
   last_modified_date: date
+
+  """Provides information on the method type used for generating annotation"""
+  method_type: String
 
   """Number of objects identified"""
   object_count: Int
@@ -1401,6 +1468,9 @@ input annotations_max_order_by {
   """Date when an annotation set is initially received by the Data Portal."""
   deposition_date: order_by
 
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Annotation filename used as ground truth for precision and recall"""
   ground_truth_used: order_by
 
@@ -1412,6 +1482,9 @@ input annotations_max_order_by {
 
   """Date when an annotation was last modified in the Data Portal"""
   last_modified_date: order_by
+
+  """Provides information on the method type used for generating annotation"""
+  method_type: order_by
 
   """Number of objects identified"""
   object_count: order_by
@@ -1466,6 +1539,9 @@ type annotations_min_fields {
   """Date when an annotation set is initially received by the Data Portal."""
   deposition_date: date
 
+  """id of the associated deposition."""
+  deposition_id: Int
+
   """Annotation filename used as ground truth for precision and recall"""
   ground_truth_used: String
 
@@ -1477,6 +1553,9 @@ type annotations_min_fields {
 
   """Date when an annotation was last modified in the Data Portal"""
   last_modified_date: date
+
+  """Provides information on the method type used for generating annotation"""
+  method_type: String
 
   """Number of objects identified"""
   object_count: Int
@@ -1533,6 +1612,9 @@ input annotations_min_order_by {
   """Date when an annotation set is initially received by the Data Portal."""
   deposition_date: order_by
 
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Annotation filename used as ground truth for precision and recall"""
   ground_truth_used: order_by
 
@@ -1544,6 +1626,9 @@ input annotations_min_order_by {
 
   """Date when an annotation was last modified in the Data Portal"""
   last_modified_date: order_by
+
+  """Provides information on the method type used for generating annotation"""
+  method_type: order_by
 
   """Number of objects identified"""
   object_count: order_by
@@ -1581,6 +1666,7 @@ input annotations_order_by {
   confidence_precision: order_by
   confidence_recall: order_by
   deposition_date: order_by
+  deposition_id: order_by
   files_aggregate: annotation_files_aggregate_order_by
   ground_truth_status: order_by
   ground_truth_used: order_by
@@ -1588,6 +1674,7 @@ input annotations_order_by {
   id: order_by
   is_curator_recommended: order_by
   last_modified_date: order_by
+  method_type: order_by
   object_count: order_by
   object_description: order_by
   object_id: order_by
@@ -1622,6 +1709,9 @@ enum annotations_select_column {
   deposition_date
 
   """column name"""
+  deposition_id
+
+  """column name"""
   ground_truth_status
 
   """column name"""
@@ -1638,6 +1728,9 @@ enum annotations_select_column {
 
   """column name"""
   last_modified_date
+
+  """column name"""
+  method_type
 
   """column name"""
   object_count
@@ -1698,6 +1791,9 @@ type annotations_stddev_fields {
   """
   confidence_recall: Float
 
+  """id of the associated deposition."""
+  deposition_id: Float
+
   """Numeric identifier (May change!)"""
   id: Float
 
@@ -1720,6 +1816,9 @@ input annotations_stddev_order_by {
   """
   confidence_recall: order_by
 
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier (May change!)"""
   id: order_by
 
@@ -1739,6 +1838,9 @@ type annotations_stddev_pop_fields {
   Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
   """
   confidence_recall: Float
+
+  """id of the associated deposition."""
+  deposition_id: Float
 
   """Numeric identifier (May change!)"""
   id: Float
@@ -1762,6 +1864,9 @@ input annotations_stddev_pop_order_by {
   """
   confidence_recall: order_by
 
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier (May change!)"""
   id: order_by
 
@@ -1781,6 +1886,9 @@ type annotations_stddev_samp_fields {
   Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
   """
   confidence_recall: Float
+
+  """id of the associated deposition."""
+  deposition_id: Float
 
   """Numeric identifier (May change!)"""
   id: Float
@@ -1804,6 +1912,9 @@ input annotations_stddev_samp_order_by {
   """
   confidence_recall: order_by
 
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier (May change!)"""
   id: order_by
 
@@ -1823,6 +1934,9 @@ type annotations_sum_fields {
   Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
   """
   confidence_recall: numeric
+
+  """id of the associated deposition."""
+  deposition_id: Int
 
   """Numeric identifier (May change!)"""
   id: Int
@@ -1846,6 +1960,9 @@ input annotations_sum_order_by {
   """
   confidence_recall: order_by
 
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier (May change!)"""
   id: order_by
 
@@ -1865,6 +1982,9 @@ type annotations_var_pop_fields {
   Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
   """
   confidence_recall: Float
+
+  """id of the associated deposition."""
+  deposition_id: Float
 
   """Numeric identifier (May change!)"""
   id: Float
@@ -1888,6 +2008,9 @@ input annotations_var_pop_order_by {
   """
   confidence_recall: order_by
 
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier (May change!)"""
   id: order_by
 
@@ -1907,6 +2030,9 @@ type annotations_var_samp_fields {
   Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
   """
   confidence_recall: Float
+
+  """id of the associated deposition."""
+  deposition_id: Float
 
   """Numeric identifier (May change!)"""
   id: Float
@@ -1930,6 +2056,9 @@ input annotations_var_samp_order_by {
   """
   confidence_recall: order_by
 
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier (May change!)"""
   id: order_by
 
@@ -1949,6 +2078,9 @@ type annotations_variance_fields {
   Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
   """
   confidence_recall: Float
+
+  """id of the associated deposition."""
+  deposition_id: Float
 
   """Numeric identifier (May change!)"""
   id: Float
@@ -1971,6 +2103,9 @@ input annotations_variance_order_by {
   Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
   """
   confidence_recall: order_by
+
+  """id of the associated deposition."""
+  deposition_id: order_by
 
   """Numeric identifier (May change!)"""
   id: order_by
@@ -7251,6 +7386,9 @@ type tomograms {
   ): tomogram_authors_aggregate!
   ctf_corrected: Boolean
 
+  """id of the associated deposition."""
+  deposition_id: Int
+
   """
   Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
   """
@@ -7417,6 +7555,9 @@ input tomograms_aggregate_order_by {
 
 """aggregate avg on columns"""
 type tomograms_avg_fields {
+  """id of the associated deposition."""
+  deposition_id: Float
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: Float
 
@@ -7449,6 +7590,9 @@ type tomograms_avg_fields {
 order by avg() on columns of table "tomograms"
 """
 input tomograms_avg_order_by {
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: order_by
 
@@ -7488,6 +7632,7 @@ input tomograms_bool_exp {
   authors: tomogram_authors_bool_exp
   authors_aggregate: tomogram_authors_aggregate_bool_exp
   ctf_corrected: Boolean_comparison_exp
+  deposition_id: Int_comparison_exp
   fiducial_alignment_status: String_comparison_exp
   https_mrc_scale0: String_comparison_exp
   https_omezarr_dir: String_comparison_exp
@@ -7522,6 +7667,9 @@ input tomograms_bool_exp {
 
 """aggregate max on columns"""
 type tomograms_max_fields {
+  """id of the associated deposition."""
+  deposition_id: Int
+
   """
   Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
   """
@@ -7609,6 +7757,9 @@ type tomograms_max_fields {
 order by max() on columns of table "tomograms"
 """
 input tomograms_max_order_by {
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """
   Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
   """
@@ -7694,6 +7845,9 @@ input tomograms_max_order_by {
 
 """aggregate min on columns"""
 type tomograms_min_fields {
+  """id of the associated deposition."""
+  deposition_id: Int
+
   """
   Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
   """
@@ -7781,6 +7935,9 @@ type tomograms_min_fields {
 order by min() on columns of table "tomograms"
 """
 input tomograms_min_order_by {
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """
   Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
   """
@@ -7869,6 +8026,7 @@ input tomograms_order_by {
   affine_transformation_matrix: order_by
   authors_aggregate: tomogram_authors_aggregate_order_by
   ctf_corrected: order_by
+  deposition_id: order_by
   fiducial_alignment_status: order_by
   https_mrc_scale0: order_by
   https_omezarr_dir: order_by
@@ -7910,6 +8068,9 @@ enum tomograms_select_column {
 
   """column name"""
   ctf_corrected
+
+  """column name"""
+  deposition_id
 
   """column name"""
   fiducial_alignment_status
@@ -8020,6 +8181,9 @@ enum tomograms_select_column_tomograms_aggregate_bool_exp_bool_or_arguments_colu
 
 """aggregate stddev on columns"""
 type tomograms_stddev_fields {
+  """id of the associated deposition."""
+  deposition_id: Float
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: Float
 
@@ -8052,6 +8216,9 @@ type tomograms_stddev_fields {
 order by stddev() on columns of table "tomograms"
 """
 input tomograms_stddev_order_by {
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: order_by
 
@@ -8082,6 +8249,9 @@ input tomograms_stddev_order_by {
 
 """aggregate stddev_pop on columns"""
 type tomograms_stddev_pop_fields {
+  """id of the associated deposition."""
+  deposition_id: Float
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: Float
 
@@ -8114,6 +8284,9 @@ type tomograms_stddev_pop_fields {
 order by stddev_pop() on columns of table "tomograms"
 """
 input tomograms_stddev_pop_order_by {
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: order_by
 
@@ -8144,6 +8317,9 @@ input tomograms_stddev_pop_order_by {
 
 """aggregate stddev_samp on columns"""
 type tomograms_stddev_samp_fields {
+  """id of the associated deposition."""
+  deposition_id: Float
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: Float
 
@@ -8176,6 +8352,9 @@ type tomograms_stddev_samp_fields {
 order by stddev_samp() on columns of table "tomograms"
 """
 input tomograms_stddev_samp_order_by {
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: order_by
 
@@ -8206,6 +8385,9 @@ input tomograms_stddev_samp_order_by {
 
 """aggregate sum on columns"""
 type tomograms_sum_fields {
+  """id of the associated deposition."""
+  deposition_id: Int
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: Int
 
@@ -8238,6 +8420,9 @@ type tomograms_sum_fields {
 order by sum() on columns of table "tomograms"
 """
 input tomograms_sum_order_by {
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: order_by
 
@@ -8268,6 +8453,9 @@ input tomograms_sum_order_by {
 
 """aggregate var_pop on columns"""
 type tomograms_var_pop_fields {
+  """id of the associated deposition."""
+  deposition_id: Float
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: Float
 
@@ -8300,6 +8488,9 @@ type tomograms_var_pop_fields {
 order by var_pop() on columns of table "tomograms"
 """
 input tomograms_var_pop_order_by {
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: order_by
 
@@ -8330,6 +8521,9 @@ input tomograms_var_pop_order_by {
 
 """aggregate var_samp on columns"""
 type tomograms_var_samp_fields {
+  """id of the associated deposition."""
+  deposition_id: Float
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: Float
 
@@ -8362,6 +8556,9 @@ type tomograms_var_samp_fields {
 order by var_samp() on columns of table "tomograms"
 """
 input tomograms_var_samp_order_by {
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: order_by
 
@@ -8392,6 +8589,9 @@ input tomograms_var_samp_order_by {
 
 """aggregate variance on columns"""
 type tomograms_variance_fields {
+  """id of the associated deposition."""
+  deposition_id: Float
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: Float
 
@@ -8424,6 +8624,9 @@ type tomograms_variance_fields {
 order by variance() on columns of table "tomograms"
 """
 input tomograms_variance_order_by {
+  """id of the associated deposition."""
+  deposition_id: order_by
+
   """Numeric identifier for this tomogram (this may change!)"""
   id: order_by
 
