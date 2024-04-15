@@ -259,7 +259,7 @@ export function AnnotationTable() {
 
         cell: ({ getValue }) => (
           <TableCell width={AnnotationTableWidths.files}>
-            {getValue().at(0)?.shape_type ?? '--'}
+            {[...new Set(getValue().map((item) => item.shape_type))].join(', ')}
           </TableCell>
         ),
       }),
