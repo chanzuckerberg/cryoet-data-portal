@@ -30,12 +30,14 @@ select_permissions:
         - confidence_precision
         - confidence_recall
         - deposition_date
+        - deposition_id
         - ground_truth_status
         - ground_truth_used
         - https_metadata_path
         - id
         - is_curator_recommended
         - last_modified_date
+        - method_type
         - object_count
         - object_description
         - object_id

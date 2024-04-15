@@ -22,6 +22,7 @@ select_permissions:
       columns:
         - affine_transformation_matrix
         - ctf_corrected
+        - deposition_id
         - fiducial_alignment_status
         - https_mrc_scale0
         - https_omezarr_dir
