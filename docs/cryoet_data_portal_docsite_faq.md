@@ -1,9 +1,9 @@
 # Frequently Asked Questions
 
-We hope these answers will help you get the most out of the CryoET Data Portal! <a href="#annotations">Jump to the annotations below</a>
+We hope these answers will help you get the most out of the CryoET Data Portal!
 
 <details open>
-<summary>How do I get help with using the Data Portal?</summary>
+<summary><h3>How do I get help with using the Data Portal?</h3></summary>
 
 Did you encounter a bug, error, or other issue while using the portal? [Submit an issue on Github](https://github.com/chanzuckerberg/cryoet-data-portal/issues) to let us know!
 
@@ -28,7 +28,7 @@ ERROR MESSAGE
 </details>
 
 <details>
-<summary>What are datasets, runs, and annotations in the Data Portal?</summary>
+<summary><h3>What are datasets, runs, and annotations in the Data Portal?</h3></summary>
 
 The CryoET Data Portal uses the following data schema:
 
@@ -41,7 +41,7 @@ You can refer to a graphic of the [data schema here](https://chanzuckerberg.gith
 </details>
 
 <details>
-<summary>How do I download data using Amazon Web Services (AWS)?</summary>
+<summary><h4>How do I download data using Amazon Web Services (AWS)?</h4></summary>
 
 **The Data Portal's S3 bucket is public**, so it can be used without sign-in credentials by specifying `--no-sign-request` in your commands and you get started downloading data in only a few minutes.
 
@@ -66,7 +66,7 @@ In the above example, the download happened very quickly because the file was on
 </details>
 
 <details>
-<summary>How do I use Neuroglancer to visualize tomograms with their annotations?</summary>
+<summary><h4>How do I use Neuroglancer to visualize tomograms with their annotations?</h4></summary>
 
 All tomograms in the Data Portal are viewable in Neuroglancer along with their annotations. You can open a tomogram in Neuroglancer by clicking the blue `View Tomogram` button on any run page in the Portal. This will open an instance of Neuroglancer in a separate tab of your browser with the selected data along with their annotations already loaded. For more information about visualizing data with Neuroglancer, check out the documentation from Connectomics, the team that develops Neuroglancer, [here](https://connectomics.readthedocs.io/en/latest/external/neuroglancer.html#basic-usage).
 
