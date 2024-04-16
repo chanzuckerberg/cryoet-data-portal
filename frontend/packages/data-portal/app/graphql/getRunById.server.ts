@@ -149,7 +149,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
             shape_type
           }
 
-          authors(order_by: { primary_annotator_status: asc }) {
+          authors(order_by: { author_list_order: asc }) {
             name
             primary_annotator_status
             corresponding_author_status
