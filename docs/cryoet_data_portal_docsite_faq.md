@@ -73,14 +73,14 @@ All tomograms in the Data Portal are viewable in Neuroglancer along with their a
 </details>
 
 <details>
-<summary>How do I use napari to visualize tomograms with their annotations?</summary>
+<summary><h5>How do I use napari to visualize tomograms with their annotations?</h5></summary>
 
 The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html) to learn more about napari and CryoET Data Portal.
 
 </details>
 
 <details>
-<summary>How do I download data using the Portal's API?</summary>
+<summary><h5>How do I download data using the Portal's API?</h5></summary>
 
 - The <Class>`Dataset`</Class>, <Class>`Run`</Class>, and <Class>`TomogramVoxelSpacing`</Class> classes have <Function>`download_everything`</Function> methods which allow you to download all data associated with one of those objects.
 
@@ -106,7 +106,7 @@ For more examples of downloading data with the API, check out the [tutorial here
 </details>
 
 <details>
-<summary>How do I use the Portal's API to select data?</summary>
+<summary><h5>How do I use the Portal's API to select data?</h5></summary>
 
 Every class in the Data Portal API has a <Function>`find`</Function> method which can be used to select all objects that match criteria provided in a query. The <Function>`find`</Function> method utilizes python comparison operators <Op>`==`</Op>, <Op>`!=`</Op>, <Op>`>`</Op>, <Op>`>=`</Op>, <Op>`<`</Op>, <Op>`<=`</Op>, as well as <Function>`like`</Function>, <Function>`ilike`</Function>, and <Function>`_in`</Function> methods used to search for strings that match a given pattern, to create queries.
 
@@ -134,7 +134,7 @@ For more examples of using the <Function>`find`</Function> operator, check out t
 </details>
 
 <details>
-<summary>What is the meaning of the tilt series quality score?</summary>
+<summary><h5>What is the meaning of the tilt series quality score?</h5></summary>
 
 The tilt series quality score/rating is a relative subjective scale meant for comparing tilt series within a dataset. The contributor of the dataset assigns quality scores to each of the tilt series to communicate their quality estimate to users. Below is an example scale based mainly on alignability and usefulness for the intended analysis.
 
@@ -148,7 +148,7 @@ The tilt series quality score/rating is a relative subjective scale meant for co
 </details>
 
 <details>
-<summary>What is the dataset identifier and Portal ID?</summary>
+<summary><h5>What is the dataset identifier and Portal ID?</h5></summary>
 
 The dataset identifier in the API refers to the Portal ID provided in the Portal. This number is assigned by the Data Portal as a unique identifier for a dataset and is used as the directory name in the data filetree.
 
@@ -157,7 +157,7 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
 </details>
 
 <details>
-<summary><a id="annotations"></a>Which annotations are displayed with a tomogram in Neuroglancer?</summary>
+<summary><h5>Which annotations are displayed with a tomogram in Neuroglancer?</h5></summary>
 
 There is no definitive rule for which annotations are displayed with a tomogram in Neuroglancer by default. The annotations are manually chosen to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations included within, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
 
@@ -166,7 +166,7 @@ The CryoET Data Portal napari plugin can be used to visualize tomograms, annotat
 </details>
 
 <details>
-<summary>How do I contribute data to the Portal?</summary>
+<summary><h5>How do I contribute data to the Portal?</h5></summary>
 
 Thank you for considering submitting data to the Portal!
 
