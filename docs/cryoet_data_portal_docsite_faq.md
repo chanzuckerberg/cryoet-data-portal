@@ -1,6 +1,6 @@
 # Frequently Asked Questions
 
-We hope these answers will help you get the most out of the CryoET Data Portal!
+We hope these answers will help you get the most out of the CryoET Data Portal! [Testing link](#Which-annotations-are-displayed-with-a-tomogram-in-Neuroglancer?)
 
 <details open>
 <summary><h5>How do I get help with using the Data Portal?</h5></summary>
