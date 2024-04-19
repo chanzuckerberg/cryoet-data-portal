@@ -5,7 +5,7 @@ data "aws_ssm_parameter" "graphql_endpoint" {
 }
 
 module "stack" {
-  source           = "git@github.com:chanzuckerberg/happy//terraform/modules/happy-stack-eks?ref=ref=happy-stack-eks-v4.31.0"
+  source           = "git@github.com:chanzuckerberg/happy//terraform/modules/happy-stack-eks?ref=happy-stack-eks-v4.31.0"
   image_tag        = var.image_tag
   stack_name       = var.stack_name
   k8s_namespace    = var.k8s_namespace
