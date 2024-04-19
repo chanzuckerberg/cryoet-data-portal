@@ -82,10 +82,8 @@ const GET_DATASETS_DATA_QUERY = gql(`
       object_name
     }
 
-    object_shape_types: annotations {
-      files(distinct_on: shape_type) {
-        shape_type
-      }
+    object_shape_types: annotation_files(distinct_on: shape_type) {
+      shape_type
     }
   }
 `)

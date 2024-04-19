@@ -35,12 +35,8 @@ export function useDatasets() {
 
       objectNames: data.object_names.map((value) => value.object_name),
 
-      objectShapeTypes: Array.from(
-        new Set(
-          data.object_shape_types.flatMap((value) =>
-            value.files.map((file) => file.shape_type),
-          ),
-        ),
+      objectShapeTypes: data.object_shape_types.map(
+        (value) => value.shape_type,
       ),
     }),
     [
