@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.4.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.3.1...web-v1.4.0) (2024-04-19)
+
+
+### ✨ Features
+
+* download single tomogram modal updates ([#591](https://github.com/chanzuckerberg/cryoet-data-portal/issues/591)) ([1c4f10b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1c4f10bf20c54cf8839db174158d6068e9cb7b0e))
+* implement method type tooltips ([#568](https://github.com/chanzuckerberg/cryoet-data-portal/issues/568)) ([9022fda](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9022fda0448827f14a53057845b35b561b83cbc8))
+* release single annotation download annotation modal ([#668](https://github.com/chanzuckerberg/cryoet-data-portal/issues/668)) ([064510f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/064510fa4a4d4636001c28060d1a801fb98b283d))
+* single annotation dialog step 2 ([#589](https://github.com/chanzuckerberg/cryoet-data-portal/issues/589)) ([3a4ac68](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3a4ac686a1685a7790d1dd9ad2b4feaa2a3f4df5))
+
+
+### 🐞 Bug Fixes
+
+* annotation table primary author sort ([#649](https://github.com/chanzuckerberg/cryoet-data-portal/issues/649)) ([6f10619](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6f106197ad23576db048bd9854eda29839861f1f))
+* tilt range labels ([#620](https://github.com/chanzuckerberg/cryoet-data-portal/issues/620)) ([cd96713](https://github.com/chanzuckerberg/cryoet-data-portal/commit/cd9671394c6d996c38060423e21b57377606c6d0))
+* Updating annotation object shape type query ([#666](https://github.com/chanzuckerberg/cryoet-data-portal/issues/666)) ([28908a1](https://github.com/chanzuckerberg/cryoet-data-portal/commit/28908a10c245320244a66e858bb0a296f2ffb75a))
+
+
+### ⚡️ Performance Improvements
+
+* measure getBrowseDatasets query perf ([#667](https://github.com/chanzuckerberg/cryoet-data-portal/issues/667)) ([722cfff](https://github.com/chanzuckerberg/cryoet-data-portal/commit/722cfff2f0b4575aa7ffbf91b7e5fb1d0c945417))
+
+
+### ⚙ Continuous Integration
+
+* fix download modal e2e tests ([#665](https://github.com/chanzuckerberg/cryoet-data-portal/issues/665)) ([4dde408](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4dde408e60402683c181b52ae62991b18a47ca35))
+
 ## [1.3.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.3.0...web-v1.3.1) (2024-03-29)
 
 
