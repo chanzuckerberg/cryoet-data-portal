@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.4.0...web-v1.4.1) (2024-04-19)
+
+
+### 🐞 Bug Fixes
+
+* Adding liveliness_timeout and readiness_timeout  ([#669](https://github.com/chanzuckerberg/cryoet-data-portal/issues/669)) ([d466888](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d4668884503e06e05e2dd3bf6e6e38e623b58e23))
+
 ## [1.4.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.3.1...web-v1.4.0) (2024-04-19)
 
 
