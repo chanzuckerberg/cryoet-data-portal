@@ -19,16 +19,18 @@ module "stack" {
   }
   services = {
     frontend = {
-      health_check_path     = "/"
-      name                  = "frontend"
-      path                  = "/*"
-      port                  = 8080
-      priority              = 0
-      service_type          = "EXTERNAL"
-      success_codes         = "200-499"
-      memory                = "2000Mi"
-      cpu                   = "2000m"
-      initial_delay_seconds = 100
+      health_check_path         = "/"
+      name                      = "frontend"
+      path                      = "/*"
+      port                      = 8080
+      priority                  = 0
+      service_type              = "EXTERNAL"
+      success_codes             = "200-499"
+      memory                    = "2000Mi"
+      cpu                       = "2000m"
+      initial_delay_seconds     = 100
+      liveness_timeout_seconds  = 30
+      readiness_timeout_seconds = 30
     }
   }
   create_dashboard = false
