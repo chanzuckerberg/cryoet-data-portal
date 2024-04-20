@@ -1,4 +1,5 @@
 import { useLocation } from '@remix-run/react'
+import { match, P } from 'ts-pattern'
 
 import { CopyBox } from 'app/components/CopyBox'
 import { I18n } from 'app/components/I18n'
@@ -26,14 +27,20 @@ export function AWSDownloadTab() {
   const { s3Path } = useDownloadModalContext()
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
   const location = useLocation()
-  const { downloadConfig } = useDownloadModalQueryParamState()
+  const { downloadConfig, fileFormat } = useDownloadModalQueryParamState()
 
-  const s3Command =
-    location.pathname.includes('/datasets') ||
-    (location.pathname.includes('/runs') &&
-      downloadConfig === DownloadConfig.AllAnnotations)
-      ? 'sync'
-      : 'cp'
+  const s3Command = match({
+    pathname: location.pathname,
+    downloadConfig,
+    fileFormat,
+  })
+    .with(
+      { pathname: P.string.includes('/datasets') },
+      { downloadConfig: DownloadConfig.AllAnnotations },
+      { fileFormat: 'zarr' },
+      () => 'sync' as const,
+    )
+    .otherwise(() => 'cp' as const)
 
   const awsCommand = getAwsCommand({ s3Path, s3Command })
 
