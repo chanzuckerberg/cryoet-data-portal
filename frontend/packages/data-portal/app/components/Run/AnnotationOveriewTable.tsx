@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
+import { AuthorLegend } from 'app/components/AuthorLegend'
 import {
   AuthorInfo,
   DatasetAuthors,
@@ -44,6 +45,7 @@ export function AnnotationOverviewTable() {
             annotation.authors.length === 1
               ? t('annotationAuthor')
               : t('annotationAuthors'),
+          labelExtra: <AuthorLegend inline />,
           renderValue: () => {
             return <DatasetAuthors authors={authors} />
           },
