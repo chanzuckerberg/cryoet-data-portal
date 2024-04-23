@@ -327,7 +327,9 @@ export function testSingleRunDownloadDialog() {
         const { data } = await fetchData()
         const s3Prefix = `${data.runs[0].tomogram_voxel_spacings[0].s3_prefix}Annotations`
 
-        expect(clipboardValue).toBe(getAwsCommand(s3Prefix))
+        expect(clipboardValue).toBe(
+          getAwsCommand({ s3Path: s3Prefix, s3Command: 'sync' }),
+        )
       })
 
       test('should copy from api tab', async ({ page, browserName }) => {
@@ -588,7 +590,9 @@ export function testSingleRunDownloadDialog() {
 
         const s3Prefix = activeTomogram?.s3_mrc_scale0
 
-        expect(clipboardValue).toBe(getAwsCommand(s3Prefix))
+        expect(clipboardValue).toBe(
+          getAwsCommand({ s3Path: s3Prefix, s3Command: 'cp' }),
+        )
       })
 
       test('should copy from api tab', async ({ page, browserName }) => {
