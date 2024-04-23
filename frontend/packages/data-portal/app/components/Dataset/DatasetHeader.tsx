@@ -41,7 +41,7 @@ export function DatasetHeader() {
       releaseDate={dataset.release_date}
       title={dataset.title}
       renderHeader={({ moreInfo }) => (
-        <div className="flex flex-row justify-between gap-sds-xxl p-sds-xl border-t-[3px] border-[#d9d9d9]">
+        <div className="flex flex-row justify-between gap-sds-xxl p-sds-xl">
           <div className="max-w-[465px] max-h-[330px]">
             <KeyPhoto
               title={dataset.title}
