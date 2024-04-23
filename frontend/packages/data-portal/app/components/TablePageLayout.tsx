@@ -18,6 +18,7 @@ export function TablePageLayout({
   header,
   noResults,
   table,
+  title,
   totalCount,
   type,
 }: {
@@ -28,6 +29,7 @@ export function TablePageLayout({
   header?: ReactNode
   noResults?: ReactNode
   table: ReactNode
+  title: string
   totalCount: number
   type: string
 }) {
@@ -95,7 +97,11 @@ export function TablePageLayout({
                 filterPanel && 'screen-2040:translate-x-[-100px] max-w-content',
               )}
             >
-              <div className="px-sds-xl">
+              <div className="px-sds-xl flex items-center gap-x-sds-l mb-sds-l">
+                <p className="text-sds-header-l leading-sds-header-l font-semibold">
+                  {title}
+                </p>
+
                 <TableCount
                   filteredCount={filteredCount}
                   totalCount={totalCount}

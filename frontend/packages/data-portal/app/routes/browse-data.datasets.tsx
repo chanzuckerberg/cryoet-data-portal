@@ -10,6 +10,7 @@ import { TablePageLayout } from 'app/components/TablePageLayout'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { useDatasets } from 'app/hooks/useDatasets'
 import { useFilter } from 'app/hooks/useFilter'
+import { useI18n } from 'app/hooks/useI18n'
 import { i18n } from 'app/i18n'
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -40,9 +41,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function BrowseDatasetsPage() {
   const { datasetCount, filteredDatasetCount } = useDatasets()
   const { reset } = useFilter()
+  const { t } = useI18n()
 
   return (
     <TablePageLayout
+      title={t('datasets')}
       type={i18n.datasets}
       filteredCount={filteredDatasetCount}
       filters={<DatasetFilter />}

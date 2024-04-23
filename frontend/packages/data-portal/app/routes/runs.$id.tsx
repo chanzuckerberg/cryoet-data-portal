@@ -17,6 +17,7 @@ import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useFileSize } from 'app/hooks/useFileSize'
+import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { DownloadConfig } from 'app/types/download'
@@ -97,6 +98,7 @@ export default function RunByIdPage() {
     null
 
   const tomogram = run.tomogram_voxel_spacings.at(0)
+  const { t } = useI18n()
 
   const activeAnnotation = annotationId
     ? allAnnotations.get(+annotationId)
@@ -134,6 +136,7 @@ export default function RunByIdPage() {
 
   return (
     <TablePageLayout
+      title={t('annotations')}
       type={i18n.annotations}
       downloadModal={
         <DownloadModal

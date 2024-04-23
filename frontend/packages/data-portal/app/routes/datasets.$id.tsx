@@ -12,6 +12,7 @@ import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { useDatasetById } from 'app/hooks/useDatasetById'
+import { useI18n } from 'app/hooks/useI18n'
 import { i18n } from 'app/i18n'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -46,9 +47,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
 export default function DatasetByIdPage() {
   const { dataset } = useDatasetById()
+  const { t } = useI18n()
 
   return (
     <TablePageLayout
+      title={t('runs')}
       type={i18n.runs}
       downloadModal={
         <DownloadModal
