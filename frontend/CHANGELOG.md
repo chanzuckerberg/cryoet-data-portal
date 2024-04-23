@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.4.1...web-v1.5.0) (2024-04-23)
+
+
+### ✨ Features
+
+* implement author name legend ([#625](https://github.com/chanzuckerberg/cryoet-data-portal/issues/625)) ([919930a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/919930a9a17a6cffdee5d5a351dfea0b2459f9e2))
+
+
+### 🐞 Bug Fixes
+
+* use aws sync for dataset or all annotations download dialogs ([#671](https://github.com/chanzuckerberg/cryoet-data-portal/issues/671)) ([c71867f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c71867f9b179f570260d5a4751a14b2f817c95b9))
+
 ## [1.4.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.4.0...web-v1.4.1) (2024-04-19)
 
 
