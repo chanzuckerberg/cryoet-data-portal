@@ -41,21 +41,18 @@ export function DatasetHeader() {
       releaseDate={dataset.release_date}
       title={dataset.title}
       renderHeader={({ moreInfo }) => (
-        <div className="flex flex-row justify-between gap-sds-xxl px-sds-xl pb-sds-xxl">
+        <div className="flex flex-row justify-between gap-sds-xxl p-sds-xl border-t-[3px] border-[#d9d9d9]">
+          <div className="max-w-[465px] max-h-[330px]">
+            <KeyPhoto
+              title={dataset.title}
+              src={dataset.key_photo_url ?? undefined}
+            />
+          </div>
+
           <div className="flex flex-col gap-sds-xl flex-1 min-w-[300px]">
             <DatasetDescription />
 
             {moreInfo}
-          </div>
-
-          {/* 465 + 38 = 503px */}
-          <div className="flex-1 max-w-[503px] text-right">
-            <div className="max-w-[465px] w-full inline-block">
-              <KeyPhoto
-                title={dataset.title}
-                src={dataset.key_photo_url ?? undefined}
-              />
-            </div>
           </div>
         </div>
       )}
