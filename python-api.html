@@ -214,6 +214,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.affine_transformation_matrix"><code class="docutils literal notranslate"><span class="pre">Tomogram.affine_transformation_matrix</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.ctf_corrected"><code class="docutils literal notranslate"><span class="pre">Tomogram.ctf_corrected</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.fiducial_alignment_status"><code class="docutils literal notranslate"><span class="pre">Tomogram.fiducial_alignment_status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.deposition_id"><code class="docutils literal notranslate"><span class="pre">Tomogram.deposition_id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.https_mrc_scale0"><code class="docutils literal notranslate"><span class="pre">Tomogram.https_mrc_scale0</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.https_omezarr_dir"><code class="docutils literal notranslate"><span class="pre">Tomogram.https_omezarr_dir</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Tomogram.is_canonical"><code class="docutils literal notranslate"><span class="pre">Tomogram.is_canonical</span></code></a></li>
@@ -281,10 +282,13 @@
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.confidence_precision"><code class="docutils literal notranslate"><span class="pre">Annotation.confidence_precision</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.confidence_recall"><code class="docutils literal notranslate"><span class="pre">Annotation.confidence_recall</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.deposition_date"><code class="docutils literal notranslate"><span class="pre">Annotation.deposition_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.deposition_id"><code class="docutils literal notranslate"><span class="pre">Annotation.deposition_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.files"><code class="docutils literal notranslate"><span class="pre">Annotation.files</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.ground_truth_status"><code class="docutils literal notranslate"><span class="pre">Annotation.ground_truth_status</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.ground_truth_used"><code class="docutils literal notranslate"><span class="pre">Annotation.ground_truth_used</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.https_metadata_path"><code class="docutils literal notranslate"><span class="pre">Annotation.https_metadata_path</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.last_modified_date"><code class="docutils literal notranslate"><span class="pre">Annotation.last_modified_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.method_type"><code class="docutils literal notranslate"><span class="pre">Annotation.method_type</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.object_count"><code class="docutils literal notranslate"><span class="pre">Annotation.object_count</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.object_description"><code class="docutils literal notranslate"><span class="pre">Annotation.object_description</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.Annotation.object_id"><code class="docutils literal notranslate"><span class="pre">Annotation.object_id</span></code></a></li>
@@ -307,6 +311,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.AnnotationFile.id"><code class="docutils literal notranslate"><span class="pre">AnnotationFile.id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.AnnotationFile.format"><code class="docutils literal notranslate"><span class="pre">AnnotationFile.format</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.AnnotationFile.https_path"><code class="docutils literal notranslate"><span class="pre">AnnotationFile.https_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.AnnotationFile.is_visualization_default"><code class="docutils literal notranslate"><span class="pre">AnnotationFile.is_visualization_default</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.AnnotationFile.s3_path"><code class="docutils literal notranslate"><span class="pre">AnnotationFile.s3_path</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.AnnotationFile.shape_type"><code class="docutils literal notranslate"><span class="pre">AnnotationFile.shape_type</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cryoet_data_portal.AnnotationFile.annotation_id"><code class="docutils literal notranslate"><span class="pre">AnnotationFile.annotation_id</span></code></a></li>
@@ -1719,6 +1724,17 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.Tomogram.deposition_id">
+<span class="sig-name descname"><span class="pre">deposition_id</span></span><a class="headerlink" href="#cryoet_data_portal.Tomogram.deposition_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the tomogram is part of a deposition, the related deposition’s id</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Tomogram.https_mrc_scale0">
 <span class="sig-name descname"><span class="pre">https_mrc_scale0</span></span><a class="headerlink" href="#cryoet_data_portal.Tomogram.https_mrc_scale0" title="Permalink to this definition">¶</a></dt>
 <dd><p>HTTPS path to this tomogram in MRC format (no scaling)</p>
@@ -2450,6 +2466,28 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.Annotation.deposition_id">
+<span class="sig-name descname"><span class="pre">deposition_id</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.deposition_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the annotation is part of a deposition, the related deposition’s id</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.Annotation.files">
+<span class="sig-name descname"><span class="pre">files</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.files" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array relationship with the files of this annotation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a>[<a class="reference internal" href="#cryoet_data_portal.AnnotationFile" title="cryoet_data_portal.AnnotationFile">AnnotationFile</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="cryoet_data_portal.Annotation.ground_truth_status">
 <span class="sig-name descname"><span class="pre">ground_truth_status</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.ground_truth_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether an annotation is considered ground truth, as determined by the annotator.</p>
@@ -2489,6 +2527,17 @@
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>date</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.Annotation.method_type">
+<span class="sig-name descname"><span class="pre">method_type</span></span><a class="headerlink" href="#cryoet_data_portal.Annotation.method_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method type for generating the annotation (eg. manual, hybrid, automated)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2730,6 +2779,17 @@
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryoet_data_portal.AnnotationFile.is_visualization_default">
+<span class="sig-name descname"><span class="pre">is_visualization_default</span></span><a class="headerlink" href="#cryoet_data_portal.AnnotationFile.is_visualization_default" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is this annotation shape displayed in visualization tools by default</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
