@@ -14,6 +14,15 @@ class GQLExpression:
 
     def to_gql(self) -> Dict[str, Any]:
         fieldname = self.field.to_gql()
+        if self.field.is_relationship():
+            related_cls = self.field.get_related_class()
+            scalar_fields = related_cls._get_scalar_fields()
+            if isinstance(fieldname, str):
+                fieldname = [fieldname]
+
+            raise Exception(
+                f"\"{'.'.join(fieldname)}\" is an object and can't be compared directly. Please filter on one of its scalar attributes instead: {', '.join(scalar_fields)}",
+            )
         gql = {}
         if isinstance(fieldname, list):
             for item in fieldname[::-1]:
@@ -63,6 +72,11 @@ class GQLField:
         self._cls = cls
         self._name = name
 
+    def is_relationship(self):
+        if isinstance(self, Relationship):
+            return True
+        return False
+
     def to_gql(self):
         return self._name
 
@@ -110,6 +124,14 @@ class QueryChain(GQLField):
         self.__name.append(attr)
         return self
 
+    def is_relationship(self):
+        if isinstance(self.__current_query, Relationship):
+            return True
+        return False
+
+    def get_related_class(self):
+        return self.__current_query.get_related_class()
+
     def to_gql(self):
         return self.__name
 
@@ -132,6 +154,9 @@ class Relationship(GQLField):
         # Helpers for resolving GQL field names.
         self._cls = cls
         self._name = name
+
+    def get_related_class(self):
+        return self.related_class
 
     def resolve_class(self):
         if type(self.related_class) is not type:
