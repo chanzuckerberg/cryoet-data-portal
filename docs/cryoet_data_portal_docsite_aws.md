@@ -2,18 +2,27 @@
 
 **The Data Portal's S3 bucket is public**, so it can be used without sign-in credentials by specifying `--no-sign-request` in your commands. We recommend following our [Quickstart Guide](#quickstart) to get started downloading data in only a few minutes.
 
-For more details or to troubleshoot, refer to the [Installation](#installation), [Download Data](#download-data), and [Optimize Download Speed](#optimize-download-speed) in-depth explanations.
+For more details or to troubleshoot, refer to these in-depth explanations:
+
+1. [Installation](#installation)
+2. [Download Data](#download-data)
+3. [Optimize Download Speed](#optimize-download-speed)
 
 ## Quickstart
 
 1. Download the installer: [MacOS Installer Download](https://awscli.amazonaws.com/AWSCLIV2.pkg) / [Windows Installer Download](https://awscli.amazonaws.com/AWSCLIV2.msi)
-2. Open installer and complete installation following the prompts. (No further steps, since credentials ARE NOT needed to use the tool.)
+2. Open the installer and complete installation following the prompts. (No further steps, since sign-in credentials ARE NOT needed to use the tool.)
 3. Open terminal (MacOS) or command prompt (Windows).
 4. Copy and paste the command from the download prompt for the desired data into terminal / command prompt and hit enter.
 5. Alternatively, create a custom command inserting the S3 URL of the data and the desired download destination in the spaces provided.
 
+To download a single file, use `cp`:
 ```
 aws s3 cp --no-sign-request [S3 bucket URL] [Local destination path]
+```
+To download multiple files, use `sync`
+```
+aws s3 sync --no-sign-request [S3 bucket URL] [Local destination path]
 ```
 
 For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
@@ -24,9 +33,6 @@ aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomogram
 
 In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow [these instructions to optimize download speed](#optimize-download-speed)
 
-1. [Installation](#installation)
-2. [Download Data](#download-data)
-3. [Optimize Download Speed](#optimize-download-speed)
 
 ## Installation
 
