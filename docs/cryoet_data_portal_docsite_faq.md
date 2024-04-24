@@ -33,10 +33,10 @@ You can refer to a graphic of the [data schema here](https://chanzuckerberg.gith
 <details>
 <summary><h5>How do I download data using Amazon Web Services (AWS)?</h5></summary>
 
-**The Data Portal's S3 bucket is public**, so it can be used without sign-in credentials by specifying `--no-sign-request` in your commands and you get started downloading data in only a few minutes.
+**The Data Portal's S3 bucket is public**, so it can be accessed without creating an account with AWS, simply add `--no-sign-request` in your commands as shown below. Using the instructions below, you can get started downloading data in only a few minutes. For more detailed instructions, please refer to the documentation [here](./cryoet_data_portal_docsite_aws.md).
 
 1. Download the installer: [MacOS Installer Download](https://awscli.amazonaws.com/AWSCLIV2.pkg) / [Windows Installer Download](https://awscli.amazonaws.com/AWSCLIV2.msi)
-2. Open installer and complete installation following the prompts. (No further steps, since credentials ARE NOT needed to use the tool.)
+2. Open the installer and complete installation following the prompts. (No further steps, since sign-in credentials ARE NOT needed to use the tool.)
 3. Open terminal (MacOS) or command prompt (Windows).
 4. Copy and paste the command from the download prompt for the desired data into terminal / command prompt and hit enter.
 5. Alternatively, create a custom command inserting the S3 URL of the data and the desired download destination in the spaces provided.
@@ -56,7 +56,7 @@ For example, to download a particular JSON file of tomogram metadata into a fold
 aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
 ```
 
-In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow [these instructions to optimize download speed](./cryoet_data_portal_docsite_aws.md).
+In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow [these instructions to optimize download speed](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_aws.html#optimize-download-speed)
 
 </details>
 
