@@ -41,8 +41,13 @@ You can refer to a graphic of the [data schema here](https://chanzuckerberg.gith
 4. Copy and paste the command from the download prompt for the desired data into terminal / command prompt and hit enter.
 5. Alternatively, create a custom command inserting the S3 URL of the data and the desired download destination in the spaces provided.
 
+To download a single file, use `cp`:
 ```
 aws s3 cp --no-sign-request [S3 bucket URL] [Local destination path]
+```
+To download multiple files, use `sync`
+```
+aws s3 sync --no-sign-request [S3 bucket URL] [Local destination path]
 ```
 
 For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
