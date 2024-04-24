@@ -1,6 +1,6 @@
 # Download Data using AWS CLI
 
-**The Data Portal's S3 bucket is public**, so it can be used without sign-in credentials by specifying `--no-sign-request` in your commands. We recommend following our [Quickstart Guide](#quickstart) to get started downloading data in only a few minutes.
+**The Data Portal's S3 bucket is public**, so it can be accessed without creating an account with AWS, simply add `--no-sign-request` in your commands as shown below. We recommend following our [Quickstart Guide](#quickstart) to get started downloading data in only a few minutes.
 
 For more details or to troubleshoot, refer to these in-depth explanations:
 
