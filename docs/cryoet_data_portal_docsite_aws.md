@@ -31,7 +31,7 @@ For example, to download a particular JSON file of tomogram metadata into a fold
 aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
 ```
 
-In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow [these instructions to optimize download speed](#optimize-download-speed)
+In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow [these instructions to optimize download speed](#optimize-download-speed).
 
 
 ## Installation
