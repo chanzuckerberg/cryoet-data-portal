@@ -83,7 +83,7 @@ PRE 10001/
 PRE 10004/
 ```
 
-To download a file, We can use the `s3` and `cp` as the `<command>` and `<subcommand>`, respectively. The basic structure of this command is `aws s3 cp --no-sign-request [s3 bucket URL] [Local destination path]`, where the `Local destination path` is wherever you'd like the file to be downloaded. For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
+To download a file, We can use the `s3` and `cp`(for single files) or `sync`(for multiple files) as the `<command>` and `<subcommand>`, respectively. The basic structure of this command is `aws s3 cp --no-sign-request [s3 bucket URL] [Local destination path]` (for single file download) or `aws s3 sync --no-sign-request [s3 bucket URL] [Local destination path]` (for multiple file download) , where the `Local destination path` is wherever you'd like the file to be downloaded. For example, to download a particular single JSON file of tomogram metadata into a folder called "Downloads" use:
 
 ```
 aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
