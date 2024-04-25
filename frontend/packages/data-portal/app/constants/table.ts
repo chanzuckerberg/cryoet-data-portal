@@ -1,6 +1,8 @@
 export type TableColumnWidth = {
+  // TODO maybe remove this because it seems like only width and min-width are respected
   max?: number
   min?: number
+  // explicit width is sometimes required to ensure the column width does not grow
   width?: number
 }
 }
