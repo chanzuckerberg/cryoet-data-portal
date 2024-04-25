@@ -92,12 +92,25 @@ export function RunsTable() {
               width={RunTableWidths.name}
               renderLoadingSkeleton={false}
             >
-              <div className="min-h-[100px] overflow-ellipsis overflow-hidden text-sds-primary-500 font-semibold">
+              <div className="min-h-[100px] overflow-ellipsis overflow-hidden">
                 {isLoadingDebounced ? (
                   <Skeleton className="max-w-[150px]" variant="text" />
                 ) : (
-                  <Link to={runUrl}>{run.name}</Link>
+                  <Link
+                    className="text-sds-primary-500 font-semibold"
+                    to={runUrl}
+                  >
+                    {run.name}
+                  </Link>
                 )}
+
+                <p className="text-xs text-sds-gray-600">
+                  {isLoadingDebounced ? (
+                    <Skeleton className="max-w-[120px]" variant="text" />
+                  ) : (
+                    `${t('runId')}: ${run.id}`
+                  )}
+                </p>
               </div>
             </TableCell>
           )

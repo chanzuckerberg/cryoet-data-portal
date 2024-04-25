@@ -70,6 +70,8 @@ export function RunHeader() {
       backToResultsLabel={run.dataset.title}
       lastModifiedDate="2023-12-16"
       metadata={[
+        { key: t('runId'), value: `${run.id}` },
+
         // TODO fetch frames from API
         { key: i18n.frames, value: i18n.nFiles(0) },
 
