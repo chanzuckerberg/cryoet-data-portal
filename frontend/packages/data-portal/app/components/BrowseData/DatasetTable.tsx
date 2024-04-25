@@ -106,7 +106,7 @@ export function DatasetTable() {
               }}
               width={DatasetTableWidths.id}
             >
-              {t('dataset')}
+              {t('datasetName')}
             </CellHeader>
           ),
 

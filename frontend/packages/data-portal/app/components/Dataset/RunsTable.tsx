@@ -77,7 +77,7 @@ export function RunsTable() {
             arrowPadding={{ right: 260 }}
             width={RunTableWidths.name}
           >
-            {t('runs')}
+            {t('runName')}
           </CellHeader>
         ),
         cell({ row: { original: run } }) {
