@@ -56,6 +56,33 @@ export function DatasetTable() {
 
     try {
       return [
+        columnHelper.accessor('key_photo_thumbnail_url', {
+          header: () => <p />,
+
+          cell({ row: { original: dataset } }) {
+            const previousUrl = `${location.pathname}${location.search}`
+            const datasetUrl = `/datasets/${
+              dataset.id
+            }?prev=${encodeURIComponent(previousUrl)}`
+
+            return (
+              <TableCell
+                renderLoadingSkeleton={false}
+                width={DatasetTableWidths.photo}
+              >
+                <Link to={datasetUrl} className="max-w-[134px]">
+                  <KeyPhoto
+                    className="max-w-[134px]"
+                    title={dataset.title}
+                    src={dataset.key_photo_thumbnail_url ?? undefined}
+                    loading={isLoadingDebounced}
+                  />
+                </Link>
+              </TableCell>
+            )
+          },
+        }),
+
         columnHelper.accessor('id', {
           header: () => (
             <CellHeader
@@ -95,14 +122,6 @@ export function DatasetTable() {
                 renderLoadingSkeleton={false}
                 width={DatasetTableWidths.id}
               >
-                <Link to={datasetUrl} className="flex-shrink-0 w-[134px]">
-                  <KeyPhoto
-                    title={dataset.title}
-                    src={dataset.key_photo_thumbnail_url ?? undefined}
-                    loading={isLoadingDebounced}
-                  />
-                </Link>
-
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                   <p className="text-sm font-semibold text-sds-primary-400">
                     {isLoadingDebounced ? (
