@@ -97,7 +97,7 @@ export function TablePageLayout({
                 filterPanel && 'screen-2040:translate-x-[-100px] max-w-content',
               )}
             >
-              <div className="px-sds-xl flex items-center gap-x-sds-xl pt-sds-xl">
+              <div className="px-sds-xl flex items-center gap-x-sds-xl">
                 <p className="text-sds-header-l leading-sds-header-l font-semibold">
                   {title}
                 </p>
