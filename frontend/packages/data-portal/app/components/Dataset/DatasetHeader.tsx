@@ -33,9 +33,8 @@ export function DatasetHeader() {
       lastModifiedDate={dataset.last_modified_date ?? dataset.deposition_date}
       metadata={[
         {
-          key: t('portalId'),
+          key: t('datasetId'),
           value: String(dataset.id),
-          uppercase: true,
         },
       ]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Dataset)}

@@ -29,9 +29,9 @@ export function getDatasetTableFilterValidator(
 
   return async (page: Page) => {
     const datasetIds = await Promise.all(
-      (await page.getByText(/Portal ID: [0-9]+/).all()).map(async (node) => {
+      (await page.getByText(/Dataset ID: [0-9]+/).all()).map(async (node) => {
         const text = await node.innerText()
-        return text.replace('Portal ID: ', '')
+        return text.replace('Dataset ID: ', '')
       }),
     )
 

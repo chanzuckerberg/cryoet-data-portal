@@ -194,17 +194,10 @@ const GET_RUN_BY_ID_QUERY = gql(`
           size_z
           voxel_spacing
         }
-
-        tomograms_aggregate {
-          aggregate {
-            count
-          }
-        }
       }
 
       tiltseries_aggregate {
         aggregate {
-          count
           avg {
             tilt_series_quality
           }

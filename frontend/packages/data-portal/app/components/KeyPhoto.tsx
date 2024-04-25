@@ -5,10 +5,12 @@ import { KeyPhotoFallbackIcon } from 'app/components/icons'
 import { cns } from 'app/utils/cns'
 
 export function KeyPhoto({
+  className,
   loading = false,
   src,
   title,
 }: {
+  className?: string
   loading?: boolean
   src?: string
   title: string
@@ -16,12 +18,14 @@ export function KeyPhoto({
   return (
     <div
       className={cns(
-        'flex-shrink-0 basis-[134px] aspect-[4/3]',
+        'flex-shrink-0 basis-[134px] aspect-[4/3] min-w-[134px]',
         'flex items-center justify-center bg-sds-gray-100',
         'rounded-sds-m',
 
         // crop image to container dimensions
         'overflow-hidden object-cover',
+
+        className,
       )}
     >
       {match([src, loading])

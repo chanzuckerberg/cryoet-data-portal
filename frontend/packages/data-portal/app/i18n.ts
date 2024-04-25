@@ -133,8 +133,6 @@ export const i18n = {
   pixelSpacing: 'Pixel Spacing',
   plusMore: (count: number) => `+${count} More`,
   poor: 'Poor',
-  portalId: (id: number | string) => `Portal ID: ${id}`,
-  portalIdBlank: 'Portal ID',
   precision: 'Precision',
   privacy: 'Privacy',
   privacyPolicy: 'Privacy Policy',
