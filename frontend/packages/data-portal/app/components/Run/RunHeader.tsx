@@ -5,8 +5,10 @@ import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { PageHeader } from 'app/components/PageHeader'
+import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
 import { MetadataTable } from 'app/components/Table'
 import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
+import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import {
@@ -16,8 +18,6 @@ import {
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
-
-import { ViewTomogramButton } from '../ViewTomogramButton'
 
 export function RunHeader() {
   const { run } = useRunById()
@@ -114,7 +114,9 @@ export function RunHeader() {
             )}
           </div>
 
-          <div className="flex flex-col gap-sds-xl flex-auto">
+          <div className="flex flex-col gap-sds-xl flex-auto pt-sds-l">
+            <PageHeaderSubtitle>{t('runOverview')}</PageHeaderSubtitle>
+
             <div className="flex gap-sds-xxl flex-col lg:flex-row">
               <MetadataTable
                 title={i18n.tiltSeries}
