@@ -1,6 +1,7 @@
 import { Button, Icon } from '@czi-sds/components'
 import { sum } from 'lodash-es'
 
+import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
@@ -67,7 +68,7 @@ export function RunHeader() {
           </Button>
         </>
       }
-      backToResultsLabel={run.dataset.title}
+      breadcrumbs={<Breadcrumbs variant="run" dataset={run.dataset} />}
       lastModifiedDate="2023-12-16"
       metadata={[
         // TODO fetch frames from API

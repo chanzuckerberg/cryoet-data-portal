@@ -2,10 +2,10 @@
 
 import { CellHeaderDirection } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
-import { useLocation, useSearchParams } from '@remix-run/react'
+import { useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
 import { I18n } from 'app/components/I18n'
@@ -13,11 +13,13 @@ import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { EMPIAR_ID, EMPIAR_URL } from 'app/constants/external-dbs'
+import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { DatasetTableWidths } from 'app/constants/table'
 import { Dataset, useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
+import { BrowseAllHistory, useFilterHistory } from 'app/state/filterHistory'
 import { LogLevel } from 'app/types/logging'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
@@ -43,13 +45,24 @@ export function DatasetTable() {
   const { datasets } = useDatasets()
 
   const [searchParams, setSearchParams] = useSearchParams()
+  const { setBrowseAllHistory } = useFilterHistory()
   const datasetSort = (searchParams.get('sort') ?? undefined) as
     | CellHeaderDirection
     | undefined
 
   const { isLoadingDebounced } = useIsLoading()
 
-  const location = useLocation()
+  useEffect(
+    () =>
+      setBrowseAllHistory(
+        new Map(
+          Array.from(searchParams).filter(([k]) =>
+            DATASET_FILTERS.map((v) => v as string).includes(k),
+          ),
+        ) as BrowseAllHistory,
+      ),
+    [searchParams, setBrowseAllHistory],
+  )
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Dataset>()
@@ -84,10 +97,7 @@ export function DatasetTable() {
           ),
 
           cell({ row: { original: dataset } }) {
-            const previousUrl = `${location.pathname}${location.search}`
-            const datasetUrl = `/datasets/${
-              dataset.id
-            }?prev=${encodeURIComponent(previousUrl)}`
+            const datasetUrl = `/datasets/${dataset.id}`
 
             return (
               <TableCell
@@ -288,15 +298,7 @@ export function DatasetTable() {
 
       throw err
     }
-  }, [
-    datasetSort,
-    isLoadingDebounced,
-    location.pathname,
-    location.search,
-    searchParams,
-    setSearchParams,
-    t,
-  ])
+  }, [datasetSort, isLoadingDebounced, searchParams, setSearchParams, t])
 
   return (
     <PageTable
