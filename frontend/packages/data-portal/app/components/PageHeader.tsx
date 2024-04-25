@@ -91,7 +91,7 @@ export function PageHeader({
                   <ul className="list-none flex gap-sds-l">
                     {metadata.map(({ key, value, uppercase }) => (
                       <li
-                        className="flex flex-row items-center justify-left gap-sds-xxs text-sds-gray-500"
+                        className="flex flex-row items-center justify-left gap-sds-xxs text-sds-gray-500 tracking-[0.3px]"
                         key={key + value}
                       >
                         <span
