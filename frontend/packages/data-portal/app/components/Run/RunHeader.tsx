@@ -1,5 +1,4 @@
 import { Button, Icon } from '@czi-sds/components'
-import { sum } from 'lodash-es'
 
 import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
@@ -69,39 +68,7 @@ export function RunHeader() {
       }
       backToResultsLabel={run.dataset.title}
       lastModifiedDate="2023-12-16"
-      metadata={[
-        { key: t('runId'), value: `${run.id}` },
-
-        // TODO fetch frames from API
-        { key: i18n.frames, value: i18n.nFiles(0) },
-
-        {
-          key: i18n.tiltSeries,
-          value: i18n.nFiles(run.tiltseries_aggregate.aggregate?.count ?? 0),
-        },
-
-        {
-          key: i18n.tomograms,
-          value: i18n.nFiles(
-            sum(
-              run.tomogram_stats.flatMap(
-                (stats) => stats.tomograms_aggregate.aggregate?.count ?? 0,
-              ),
-            ),
-          ),
-        },
-
-        {
-          key: i18n.annotations,
-          value: i18n.nFiles(
-            sum(
-              run.tomogram_stats.flatMap(
-                (stats) => stats.annotations_aggregate.aggregate?.count ?? 0,
-              ),
-            ),
-          ),
-        },
-      ]}
+      metadata={[{ key: t('runId'), value: `${run.id}` }]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Run)}
       title={run.name}
       renderHeader={({ moreInfo }) => (
