@@ -1,47 +1,57 @@
+import { useMemo } from 'react'
+
 import {
   FilterSection,
   InputFilterData,
   MultiInputFilter,
 } from 'app/components/Filters'
 import { QueryParams } from 'app/constants/query'
-import { i18n } from 'app/i18n'
-
-const DATASET_ID_FILTERS: InputFilterData[] = [
-  {
-    id: 'portal-id-input',
-    label: `${i18n.portalIdBlank}:`,
-    queryParam: QueryParams.PortalId,
-  },
-  {
-    id: 'empiar-id-input',
-    label: `${i18n.empiarID}:`,
-    queryParam: QueryParams.EmpiarId,
-  },
-  {
-    id: 'emdb-id-input',
-    label: `${i18n.emdb}:`,
-    queryParam: QueryParams.EmdbId,
-  },
-]
-
-const AUTHOR_FILTERS: InputFilterData[] = [
-  {
-    id: 'author-name-input',
-    label: `${i18n.authorName}:`,
-    queryParam: QueryParams.AuthorName,
-  },
-  {
-    id: 'author-orcid-input',
-    label: `${i18n.authorOrcid}:`,
-    queryParam: QueryParams.AuthorOrcid,
-  },
-]
+import { useI18n } from 'app/hooks/useI18n'
 
 export function NameOrIdFilterSection() {
+  const { t } = useI18n()
+
+  const datasetIdFilters = useMemo<InputFilterData[]>(
+    () => [
+      {
+        id: 'portal-id-input',
+        label: `${t('datasetId')}:`,
+        queryParam: QueryParams.DatasetId,
+      },
+      {
+        id: 'empiar-id-input',
+        label: `${t('empiarID')}:`,
+        queryParam: QueryParams.EmpiarId,
+      },
+      {
+        id: 'emdb-id-input',
+        label: `${t('emdb')}:`,
+        queryParam: QueryParams.EmdbId,
+      },
+    ],
+    [t],
+  )
+
+  const authorFilters = useMemo<InputFilterData[]>(
+    () => [
+      {
+        id: 'author-name-input',
+        label: `${t('authorName')}:`,
+        queryParam: QueryParams.AuthorName,
+      },
+      {
+        id: 'author-orcid-input',
+        label: `${t('authorOrcid')}:`,
+        queryParam: QueryParams.AuthorOrcid,
+      },
+    ],
+    [t],
+  )
+
   return (
-    <FilterSection title={i18n.nameOrId}>
-      <MultiInputFilter label={i18n.datasetIds} filters={DATASET_ID_FILTERS} />
-      <MultiInputFilter label={i18n.author} filters={AUTHOR_FILTERS} />
+    <FilterSection title={t('nameOrId')}>
+      <MultiInputFilter label={t('datasetIds')} filters={datasetIdFilters} />
+      <MultiInputFilter label={t('author')} filters={authorFilters} />
     </FilterSection>
   )
 }

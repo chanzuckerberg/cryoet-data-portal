@@ -62,7 +62,7 @@ export function DatasetMetadataTable({
     },
 
     !!allFields && {
-      label: t('portalId'),
+      label: t('datasetId'),
       values: [`${dataset.id!}`],
     },
 

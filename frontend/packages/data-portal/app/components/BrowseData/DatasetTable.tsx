@@ -135,7 +135,7 @@ export function DatasetTable() {
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
-                      `${t('portalId')}: ${dataset.id}`
+                      `${t('datasetId')}: ${dataset.id}`
                     )}
                   </p>
 

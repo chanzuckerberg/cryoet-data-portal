@@ -187,7 +187,6 @@
   "pixelSpacing": "Pixel Spacing",
   "plusMore": "+{{count}} More",
   "poor": "Poor",
-  "portalId": "Portal ID",
   "precision": "Precision",
   "precisionTooltip": "<semibold>Precision:</semibold> Percentage of true positives among the total number of positive predictions. A value of 100% means everything found is actually the object of interest. <url to='/faq?accordion=tilt-series'>Learn More</url>",
   "preferToDownloadViaApi": "<semibold>Prefer to download via our API?</semibold> Record the IDs below and visit our <url to='$t(apiDocLink)'>API documentation</url> to learn how.",
