@@ -1,6 +1,8 @@
 export type TableColumnWidth = {
   max?: number
   min?: number
+  width?: number
+}
 }
 
 export const DatasetTableWidths = {
