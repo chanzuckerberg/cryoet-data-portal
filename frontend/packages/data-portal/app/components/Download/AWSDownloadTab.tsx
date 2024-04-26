@@ -1,3 +1,4 @@
+import { useLocation } from '@remix-run/react'
 import { match, P } from 'ts-pattern'
 
 import { CopyBox } from 'app/components/CopyBox'
@@ -10,36 +11,46 @@ import { DownloadConfig } from 'app/types/download'
 
 import { SelectSaveDestination } from './SelectSaveDestination'
 
-export function getAwsCommand(s3Path: string | undefined): string {
+export function getAwsCommand({
+  s3Path,
+  s3Command,
+}: {
+  s3Path: string | undefined
+  s3Command: 'cp' | 'sync'
+}): string {
   const destinationPath = s3Path?.replace(/\/$/, '').split('/').pop()
-  return `aws s3 --no-sign-request cp ${s3Path} ${destinationPath}`
+  return `aws s3 --no-sign-request ${s3Command} ${s3Path} ${destinationPath}`
 }
 
 export function AWSDownloadTab() {
   const { t } = useI18n()
-  const { downloadConfig } = useDownloadModalQueryParamState()
-  const { s3DatasetPrefix, s3TomogramPrefix, s3TomogramVoxelPrefix, type } =
-    useDownloadModalContext()
+  const { s3Path } = useDownloadModalContext()
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
+  const location = useLocation()
+  const { downloadConfig, fileFormat } = useDownloadModalQueryParamState()
 
-  const s3AnnotationsPrefix = s3TomogramVoxelPrefix
-    ? `${s3TomogramVoxelPrefix}Annotations`
-    : undefined
+  const s3Command = match({
+    pathname: location.pathname,
+    downloadConfig,
+    fileFormat,
+  })
+    .with(
+      { pathname: P.string.includes('/datasets') },
+      { downloadConfig: DownloadConfig.AllAnnotations },
+      { fileFormat: 'zarr' },
+      () => 'sync' as const,
+    )
+    .otherwise(() => 'cp' as const)
 
-  const s3Path = match([type, downloadConfig])
-    .with(['dataset', P._], () => s3DatasetPrefix)
-    .with(['runs', DownloadConfig.AllAnnotations], () => s3AnnotationsPrefix)
-    .otherwise(() => s3TomogramPrefix)
-
-  const awsCommand = getAwsCommand(s3Path)
+  const awsCommand = getAwsCommand({ s3Path, s3Command })
 
   return (
-    <div className="py-sds-xl">
+    <div className="pt-sds-xl">
       <SelectSaveDestination />
 
       <CopyBox
         content={awsCommand}
-        title={`2. ${t('copyAndRunAwsS3Command')}`}
+        title={`2. ${t('copyAndRunAwsCliCommand')}`}
         titleClassName="text-sds-header-s leading-sds-header-s font-semibold mt-sds-l"
         onCopy={() => logPlausibleCopyEvent('aws-s3-command', awsCommand)}
       />

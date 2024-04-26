@@ -19,4 +19,4 @@ test:
 		export AWS_SECRET_ACCESS_KEY=test; \
 		export BOTO_ENDPOINT_URL=http://localhost:4000; \
 		export BOTO_SIGNATURE_VERSION=s3v4; \
-		pytest -vvv -s .
+		pytest -vvv -s . $(TEST)

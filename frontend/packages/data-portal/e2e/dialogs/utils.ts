@@ -33,11 +33,13 @@ export function constructDialogUrl(
     step,
     config,
     tomogram,
+    fileFormat,
   }: {
     tab?: string
     step?: string
     config?: string
     tomogram?: { sampling: number; processing: string }
+    fileFormat?: string
   },
 ): URL {
   const expectedUrl = new URL(url)
@@ -60,7 +62,22 @@ export function constructDialogUrl(
     params.append(QueryParams.DownloadTab, tab)
   }
 
+  if (fileFormat) {
+    params.append(QueryParams.FileFormat, fileFormat)
+  }
+
   return expectedUrl
+}
+
+export function expectUrlsToMatch(urlStr1: string, urlStr2: string) {
+  const url1 = new URL(urlStr1)
+  const url2 = new URL(urlStr2)
+
+  expect(url1.pathname).toBe(url2.pathname)
+
+  url1.searchParams.forEach((value, key) =>
+    expect(url2.searchParams.get(key)).toBe(value),
+  )
 }
 
 export async function expectTabSelected(

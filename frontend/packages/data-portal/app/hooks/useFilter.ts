@@ -26,7 +26,7 @@ export function getFilterState(searchParams: URLSearchParams) {
     },
 
     ids: {
-      portal: searchParams.get(QueryParams.PortalId),
+      dataset: searchParams.get(QueryParams.DatasetId),
       empiar: searchParams.get(QueryParams.EmpiarId),
       emdb: searchParams.get(QueryParams.EmdbId),
     },

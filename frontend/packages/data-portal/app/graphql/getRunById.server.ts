@@ -153,9 +153,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
             shape_type
           }
 
-          authors(order_by: { primary_annotator_status: desc }) {
+          authors(order_by: { author_list_order: asc }) {
             name
             primary_annotator_status
+            corresponding_author_status
+            email
           }
 
           author_affiliations: authors(distinct_on: affiliation_name) {
@@ -201,22 +203,16 @@ const GET_RUN_BY_ID_QUERY = gql(`
           id
           processing
           s3_mrc_scale0
+          s3_omezarr_dir
           size_x
           size_y
           size_z
           voxel_spacing
         }
-
-        tomograms_aggregate {
-          aggregate {
-            count
-          }
-        }
       }
 
       tiltseries_aggregate {
         aggregate {
-          count
           avg {
             tilt_series_quality
           }

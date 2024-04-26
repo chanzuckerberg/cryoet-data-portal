@@ -23,13 +23,31 @@ def test_download_annotations(tmp_dir, client) -> None:
     """download a single annotation file for a dataset, using format/shape filters"""
     annos = Annotation.find(
         client,
-        [Annotation.tomogram_voxel_spacing.run.dataset.id == 20001],
+        [
+            Annotation.tomogram_voxel_spacing.run.name == "RUN2",
+            Annotation.object_name.ilike("%ribosome%"),
+        ],
     )
     anno = annos[0]
     assert anno
-    anno.download(tmp_dir, "json", "OrientedPoint")
+    anno.download(tmp_dir, "ndjson", "OrientedPoint")
     files = os.listdir(tmp_dir)
-    assert files == ["author2-ribosome-1.0.json"]
+    assert set(files) == {"author2-ribosome-1.0.json", "ribosome.ndjson"}
+
+
+def test_download_tomo_annotations_with_shape_filter(tmp_dir, client) -> None:
+    """Make sure downloading annotations for a specific shape type doesn't download"""
+    """metadata for other annotations without this shape type"""
+    tomo = Tomogram.find(
+        client,
+        [
+            Tomogram.tomogram_voxel_spacing.run.name == "RUN1",
+        ],
+    )[0]
+    assert tomo
+    tomo.download_all_annotations(dest_path=tmp_dir, format="ndjson", shape="Point")
+    files = os.listdir(tmp_dir)
+    assert set(files) == {"ribosome.ndjson", "author1-ribosome-1.0.json"}
 
 
 def test_download_all_annotations_including_zarr(tmp_dir, client) -> None:
@@ -63,12 +81,20 @@ def test_download_relative_path(tmp_dir, client) -> None:
     os.makedirs(dest_dir)
     tomo = Tomogram.find(
         client,
-        [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001],
+        [
+            Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001,
+            Tomogram.tomogram_voxel_spacing.run.name == "RUN2",
+        ],
     )[0]
     assert tomo
-    tomo.download_all_annotations(subdir_name, "json")
+    tomo.download_all_annotations(subdir_name)
     files = os.listdir(dest_dir)
-    assert files == ["author2-ribosome-1.0.json"]
+    assert set(files) == {
+        "author2-ribosome-1.0.json",
+        "ribosome.mrc",
+        "ribosome.ndjson",
+        "ribosome.zarr",
+    }
 
 
 def test_download_without_path(tmp_dir, client) -> None:
@@ -77,12 +103,18 @@ def test_download_without_path(tmp_dir, client) -> None:
     os.chdir(tmp_dir)
     tomo = Tomogram.find(
         client,
-        [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001],
+        [
+            Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001,
+            Tomogram.tomogram_voxel_spacing.run.name == "RUN2",
+        ],
     )[0]
     assert tomo
-    tomo.download_all_annotations(format="json")
+    tomo.download_all_annotations(format="ndjson")
     files = os.listdir(tmp_dir)
-    assert files == ["author2-ribosome-1.0.json"]
+    assert set(files) == {
+        "author2-ribosome-1.0.json",
+        "ribosome.ndjson",
+    }
 
 
 def test_download_default_dir(tmp_dir, client) -> None:
@@ -91,12 +123,12 @@ def test_download_default_dir(tmp_dir, client) -> None:
     os.chdir(tmp_dir)
     tomo = Tomogram.find(
         client,
-        [Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001],
+        [Tomogram.tomogram_voxel_spacing.run.name == "RUN2"],
     )[0]
     assert tomo
-    tomo.download_all_annotations(None, "json")
+    tomo.download_all_annotations(None, "ndjson")
     files = os.listdir(tmp_dir)
-    assert files == ["author2-ribosome-1.0.json"]
+    assert set(files) == {"author2-ribosome-1.0.json", "ribosome.ndjson"}
 
 
 def test_tiltseries_downloaders(tmp_dir, client):

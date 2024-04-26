@@ -9,19 +9,31 @@ import {
   TooltipArrowPadding,
   TooltipOffset,
 } from 'app/components/Tooltip'
+import { TableColumnWidth } from 'app/constants/table'
 
 export function CellHeader({
   arrowPadding,
   offset,
+  showSort = false,
   tooltip,
+  width: columnWidth,
+  children,
   ...props
 }: Omit<
   CellHeaderProps,
-  'shouldShowTooltipOnHover' | 'tooltipText' | 'tooltipSubtitle'
+  | 'children'
+  | 'hideSortIcon'
+  | 'shouldShowTooltipOnHover'
+  | 'tooltipSubtitle'
+  | 'tooltipText'
+  | 'width'
 > & {
   arrowPadding?: TooltipArrowPadding
+  children?: ReactNode
   offset?: TooltipOffset
+  showSort?: boolean
   tooltip?: ReactNode
+  width?: TableColumnWidth
 }) {
   return (
     <SDSCellHeader
@@ -32,6 +44,14 @@ export function CellHeader({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       tooltipText={tooltip}
-    />
+      style={{
+        maxWidth: columnWidth?.max,
+        minWidth: columnWidth?.min,
+        width: columnWidth?.width,
+      }}
+      hideSortIcon={!showSort}
+    >
+      <span className="line-clamp-1">{children}</span>
+    </SDSCellHeader>
   )
 }

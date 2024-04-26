@@ -1,4 +1,5 @@
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import { performance } from 'perf_hooks'
 import { match } from 'ts-pattern'
 
 import { gql } from 'app/__generated__'
@@ -82,10 +83,8 @@ const GET_DATASETS_DATA_QUERY = gql(`
       object_name
     }
 
-    object_shape_types: annotations {
-      files(distinct_on: shape_type) {
-        shape_type
-      }
+    object_shape_types: annotation_files(distinct_on: shape_type) {
+      shape_type
     }
   }
 `)
@@ -189,12 +188,12 @@ function getFilter(filterState: FilterState, query: string) {
   // Id filters
   const idFilters: Datasets_Bool_Exp[] = []
 
-  // Portal ID filter
-  const portalId = +(filterState.ids.portal ?? Number.NaN)
-  if (!Number.isNaN(portalId) && portalId > 0) {
+  // Dataset ID filter
+  const datasetId = +(filterState.ids.dataset ?? Number.NaN)
+  if (!Number.isNaN(datasetId) && datasetId > 0) {
     idFilters.push({
       id: {
-        _eq: portalId,
+        _eq: datasetId,
       },
     })
   }
@@ -382,7 +381,9 @@ export async function getBrowseDatasets({
   params?: URLSearchParams
   query?: string
 }) {
-  return client.query({
+  const start = performance.now()
+
+  const results = await client.query({
     query: GET_DATASETS_DATA_QUERY,
     variables: {
       filter: getFilter(getFilterState(params), query),
@@ -391,4 +392,10 @@ export async function getBrowseDatasets({
       order_by_dataset: orderBy,
     },
   })
+
+  const end = performance.now()
+  // eslint-disable-next-line no-console
+  console.log(`getBrowseDatasets query perf: ${end - start}ms`)
+
+  return results
 }

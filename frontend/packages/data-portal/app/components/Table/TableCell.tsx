@@ -4,6 +4,7 @@ import { ReactNode } from 'react'
 import { match } from 'ts-pattern'
 
 import { getTooltipProps, Tooltip, TooltipProps } from 'app/components/Tooltip'
+import { TableColumnWidth } from 'app/constants/table'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { cns } from 'app/utils/cns'
 
@@ -11,23 +12,21 @@ export function TableCell({
   children,
   className,
   horizontalAlign,
-  maxWidth,
-  minWidth,
   primaryText,
   renderLoadingSkeleton = () => <Skeleton variant="text" />,
   tooltip,
   tooltipProps,
+  width,
 }: {
   children?: ReactNode
   className?: string
   horizontalAlign?: 'left' | 'center' | 'right'
   loadingSkeleton?: boolean
-  maxWidth?: number
-  minWidth?: number
   primaryText?: string
   renderLoadingSkeleton?: (() => ReactNode) | false
   tooltip?: ReactNode
   tooltipProps?: Partial<TooltipProps>
+  width?: TableColumnWidth
 }) {
   const { isLoadingDebounced } = useIsLoading()
   const cellProps = {
@@ -41,8 +40,9 @@ export function TableCell({
       className,
     ),
     style: {
-      maxWidth,
-      minWidth,
+      maxWidth: width?.max,
+      minWidth: width?.min,
+      width: width?.width,
     },
   }
 

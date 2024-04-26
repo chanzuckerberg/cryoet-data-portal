@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import {
   AuthorFilter,
   FilterSection,
@@ -5,31 +7,36 @@ import {
   MultiInputFilter,
 } from 'app/components/Filters'
 import { QueryParams } from 'app/constants/query'
-import { i18n } from 'app/i18n'
-
-const DATASET_ID_FILTERS: InputFilterData[] = [
-  {
-    id: 'portal-id-input',
-    label: `${i18n.portalIdBlank}:`,
-    queryParam: QueryParams.PortalId,
-  },
-  {
-    id: 'empiar-id-input',
-    label: `${i18n.empiarID}:`,
-    queryParam: QueryParams.EmpiarId,
-  },
-  {
-    id: 'emdb-id-input',
-    label: `${i18n.emdb}:`,
-    queryParam: QueryParams.EmdbId,
-  },
-]
+import { useI18n } from 'app/hooks/useI18n'
 
 export function NameOrIdFilterSection() {
+  const { t } = useI18n()
+
+  const datasetIdFilters = useMemo<InputFilterData[]>(
+    () => [
+      {
+        id: 'portal-id-input',
+        label: `${t('datasetId')}:`,
+        queryParam: QueryParams.DatasetId,
+      },
+      {
+        id: 'empiar-id-input',
+        label: `${t('empiarID')}:`,
+        queryParam: QueryParams.EmpiarId,
+      },
+      {
+        id: 'emdb-id-input',
+        label: `${t('emdb')}:`,
+        queryParam: QueryParams.EmdbId,
+      },
+    ],
+    [t],
+  )
+
   return (
-    <FilterSection title={i18n.nameOrId}>
-      <MultiInputFilter label={i18n.datasetIds} filters={DATASET_ID_FILTERS} />
-      <AuthorFilter label={i18n.author} />
+    <FilterSection title={t('nameOrId')}>
+      <MultiInputFilter label={t('datasetIds')} filters={datasetIdFilters} />
+      <AuthorFilter label={t('author')} />
     </FilterSection>
   )
 }

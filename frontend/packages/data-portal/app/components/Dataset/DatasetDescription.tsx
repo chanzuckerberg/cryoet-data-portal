@@ -1,6 +1,7 @@
 import { Button } from '@czi-sds/components'
 import { useState } from 'react'
 
+import { AuthorLegend } from 'app/components/AuthorLegend'
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { DOI_ID } from 'app/constants/external-dbs'
 import { useDatasetById } from 'app/hooks/useDatasetById'
@@ -94,10 +95,19 @@ export function DatasetDescription() {
         {dataset.description}
       </p>
       <div className="flex flex-col gap-sds-xs">
-        <h3 className={sectionHeaderStyles}>{i18n.authors}</h3>
+        <div
+          className={cnsNoMerge(
+            'flex flex-row gap-sds-xxs',
+            sectionHeaderStyles,
+          )}
+        >
+          <h3>{i18n.authors}</h3>
+          <AuthorLegend />
+        </div>
         <DatasetAuthors
           authors={dataset.authors}
           className="text-sds-body-xxs leading-sds-body-xxs"
+          subtle
         />
       </div>
       <div className="flex flex-row gap-sds-xxl">

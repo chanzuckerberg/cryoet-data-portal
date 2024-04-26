@@ -2,8 +2,9 @@
 
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import axios, { AxiosResponse } from 'axios'
 import { isNumber, sum } from 'lodash-es'
+import { useMemo } from 'react'
+import { match } from 'ts-pattern'
 
 import { apolloClient } from 'app/apollo.server'
 import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
@@ -16,6 +17,8 @@ import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
+import { useFileSize } from 'app/hooks/useFileSize'
+import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { DownloadConfig } from 'app/types/download'
@@ -48,35 +51,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     })
   }
 
-  const fileSizeMap: Record<string, number> = {}
-
-  // TODO Remove when file size is provided by DB
-  await Promise.allSettled(
-    Array.from(
-      new Set(
-        data.runs.flatMap((run) =>
-          run.tomogram_stats.flatMap((stats) =>
-            stats.tomogram_resolutions.flatMap(
-              (tomogram) => tomogram.https_mrc_scale0,
-            ),
-          ),
-        ),
-      ),
-    ).map(async (httpsPath) => {
-      // TypeScript throws error without type cast
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      const res = (await axios.head(httpsPath)) as AxiosResponse
-      const contentLength = res.headers['content-length'] as string | null
-      if (contentLength && isNumber(+contentLength)) {
-        fileSizeMap[httpsPath] = +contentLength
-      }
-    }),
-  )
-
-  return json({
-    data,
-    fileSizeMap,
-  })
+  return json(data)
 }
 
 export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
@@ -95,7 +70,7 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 }
 
 export default function RunByIdPage() {
-  const { run, fileSizeMap } = useRunById()
+  const { run } = useRunById()
 
   // TODO: convert to useMemo
   const totalCount = sum(
@@ -124,8 +99,14 @@ export default function RunByIdPage() {
       .map((annotation) => [annotation.id, annotation]),
   )
 
-  const { downloadConfig, tomogramProcessing, tomogramSampling, annotationId } =
-    useDownloadModalQueryParamState()
+  const {
+    downloadConfig,
+    tomogramProcessing,
+    tomogramSampling,
+    annotationId,
+    fileFormat,
+    objectShapeType,
+  } = useDownloadModalQueryParamState()
 
   const activeTomogram =
     (downloadConfig === DownloadConfig.Tomogram &&
@@ -136,33 +117,88 @@ export default function RunByIdPage() {
       )) ||
     null
 
-  const fileSize =
-    activeTomogram && fileSizeMap[activeTomogram.https_mrc_scale0]
-
   const tomogram = run.tomogram_voxel_spacings.at(0)
+  const { t } = useI18n()
+
+  const activeAnnotation = annotationId
+    ? allAnnotations.get(+annotationId)
+    : null
+
+  const httpsPath = useMemo(() => {
+    if (activeAnnotation) {
+      return activeAnnotation.files?.find(
+        (file) =>
+          file.format === fileFormat && file.shape_type === objectShapeType,
+      )?.https_path
+    }
+
+    return activeTomogram?.https_mrc_scale0 ?? undefined
+  }, [
+    activeAnnotation,
+    activeTomogram?.https_mrc_scale0,
+    fileFormat,
+    objectShapeType,
+  ])
+
+  const { data: fileSize } = useFileSize(httpsPath, {
+    enabled: fileFormat !== 'zarr',
+  })
+
+  const activeTomogramResolution = useMemo(
+    () =>
+      allTomogramResolutions.find((resolution) =>
+        tomogramSampling !== null && isNumber(+tomogramSampling)
+          ? resolution.voxel_spacing === +tomogramSampling
+          : false,
+      ),
+    [allTomogramResolutions, tomogramSampling],
+  )
 
   return (
     <TablePageLayout
+      title={t('annotations')}
       type={i18n.annotations}
       downloadModal={
         <DownloadModal
+          activeAnnotation={activeAnnotation}
+          activeTomogramResolution={activeTomogramResolution}
           allTomogramProcessing={allTomogramProcessing}
           allTomogramResolutions={allTomogramResolutions}
-          allAnnotations={allAnnotations}
           datasetId={run.dataset.id}
           datasetTitle={run.dataset.title}
-          fileSize={fileSize ?? undefined}
-          httpsPath={activeTomogram?.https_mrc_scale0 ?? undefined}
-          objectName={
-            annotationId
-              ? allAnnotations?.get(+annotationId)?.object_name
-              : undefined
-          }
+          fileSize={fileSize}
+          httpsPath={httpsPath}
+          objectName={activeAnnotation?.object_name}
           runId={run.id}
           runName={run.name}
-          s3DatasetPrefix={run.dataset.s3_prefix}
-          s3TomogramVoxelPrefix={tomogram?.s3_prefix ?? undefined}
-          s3TomogramPrefix={activeTomogram?.s3_mrc_scale0 ?? undefined}
+          s3Path={match({
+            annotationId,
+            downloadConfig,
+            fileFormat,
+          })
+            .with(
+              { downloadConfig: DownloadConfig.Tomogram, fileFormat: 'mrc' },
+              () => activeTomogram?.s3_mrc_scale0,
+            )
+            .with(
+              { downloadConfig: DownloadConfig.Tomogram, fileFormat: 'zarr' },
+              () => activeTomogram?.s3_omezarr_dir,
+            )
+            .with({ downloadConfig: DownloadConfig.AllAnnotations }, () =>
+              tomogram?.s3_prefix
+                ? `${tomogram.s3_prefix}Annotations`
+                : undefined,
+            )
+            .with(
+              { annotationId },
+              () =>
+                activeAnnotation?.files.find(
+                  (file) =>
+                    file.format === fileFormat &&
+                    file.shape_type === objectShapeType,
+                )?.s3_path,
+            )
+            .otherwise(() => undefined)}
           tomogramId={activeTomogram?.id ?? undefined}
           tomogramVoxelId={tomogram?.id ?? undefined}
           type={annotationId ? 'annotation' : 'runs'}

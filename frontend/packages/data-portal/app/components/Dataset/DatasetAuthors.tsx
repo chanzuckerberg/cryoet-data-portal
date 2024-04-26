@@ -16,9 +16,11 @@ function getAuthorKey(author: AuthorInfo) {
 export function DatasetAuthors({
   authors,
   className,
+  subtle,
 }: {
   authors: AuthorInfo[]
   className?: string
+  subtle?: boolean
 }) {
   // TODO: make the below grouping more efficient and/or use GraphQL ordering
   const authorsPrimary = authors.filter(
@@ -50,7 +52,7 @@ export function DatasetAuthors({
           </Fragment>
         ))}
       </span>
-      <span className="text-sds-gray-600">
+      <span className={subtle ? 'text-sds-gray-600' : ''}>
         {authorsOther.map((author, i, arr) => (
           <Fragment key={getAuthorKey(author)}>
             {author.name}
