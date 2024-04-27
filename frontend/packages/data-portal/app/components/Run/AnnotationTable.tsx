@@ -38,6 +38,10 @@ const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<Annotation>(() => ({
   object_id: '',
   object_name: '',
   release_date: '',
+  format: '',
+  https_path: '',
+  s3_path: '',
+  shape_type: '',
 }))
 
 function ConfidenceValue({ value }: { value: number }) {
@@ -226,9 +230,7 @@ export function AnnotationTable() {
         ),
       }),
 
-      columnHelper.accessor('files', {
-        id: 'shape-type',
-
+      columnHelper.accessor('shape_type', {
         header: () => (
           <CellHeader width={AnnotationTableWidths.files}>
             {t('objectShapeType')}
@@ -237,7 +239,7 @@ export function AnnotationTable() {
 
         cell: ({ getValue }) => (
           <TableCell width={AnnotationTableWidths.files}>
-            {getValue().at(0)?.shape_type ?? '--'}
+            {getValue()}
           </TableCell>
         ),
       }),
@@ -333,8 +335,7 @@ export function AnnotationTable() {
                       datasetId: run.dataset.id,
                       runId: run.id,
                       annotationId: annotation.id,
-                      // FIXME: are we supposed to only access the 1st option? (this is how it is done elsewhere)
-                      objectShapeType: annotation.files[0].shape_type,
+                      objectShapeType: annotation.shape_type,
                     })
                   }
                   startIcon={
@@ -359,8 +360,27 @@ export function AnnotationTable() {
     run.id,
   ])
 
-  const annotations = useMemo<Annotation[]>(
-    () => run.annotation_table.flatMap((data) => data.annotations),
+  const annotations = useMemo(
+    () =>
+      run.annotation_table.flatMap((data) =>
+        data.annotations.flatMap((annotation) => {
+          const shapeTypeSet = new Set<string>()
+
+          const files = annotation.files.filter((file) => {
+            if (shapeTypeSet.has(file.shape_type)) {
+              return false
+            }
+
+            shapeTypeSet.add(file.shape_type)
+            return true
+          })
+
+          return files.flatMap((file) => ({
+            ...annotation,
+            ...file,
+          }))
+        }),
+      ) as Annotation[],
     [run.annotation_table],
   )
 
