@@ -8,6 +8,7 @@ import { range } from 'lodash-es'
 import { useMemo } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
+import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
 import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
@@ -21,11 +22,6 @@ import { useIsLoading } from 'app/hooks/useIsLoading'
 import { LogLevel } from 'app/types/logging'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
-
-/**
- * Max number of authors to show for dataset.
- */
-const AUTHOR_MAX = 7
 
 const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
   (value) =>
@@ -70,7 +66,7 @@ export function DatasetTable() {
                 renderLoadingSkeleton={false}
                 width={DatasetTableWidths.photo}
               >
-                <Link to={datasetUrl} className="max-w-[134px]">
+                <Link to={datasetUrl} className="max-w-[134px] self-start">
                   <KeyPhoto
                     className="max-w-[134px]"
                     title={dataset.title}
@@ -150,30 +146,11 @@ export function DatasetTable() {
                         />
                       </>
                     ) : (
-                      <>
-                        {dataset.authors
-                          .slice(
-                            0,
-                            dataset.authors.length > AUTHOR_MAX
-                              ? AUTHOR_MAX - 1
-                              : Infinity,
-                          )
-                          .map((author, idx) => (
-                            <span key={author.name}>
-                              {author.name}
-                              {idx < dataset.authors.length - 1 && '; '}
-                            </span>
-                          ))}
-
-                        {dataset.authors.length > AUTHOR_MAX && (
-                          <Link
-                            className="text-sds-primary-500 inline"
-                            to={datasetUrl}
-                          >
-                            + {dataset.authors.length + 1 - AUTHOR_MAX} more
-                          </Link>
-                        )}
-                      </>
+                      <DatasetAuthors
+                        authors={dataset.authors}
+                        separator=","
+                        compact
+                      />
                     )}
                   </p>
                 </div>
