@@ -12,6 +12,7 @@ import {
   constructDialogUrl,
   expectClickToSwitchTab,
   expectTabSelected,
+  expectUrlsToMatch,
   getIconButton,
   validateDialogOpen,
 } from './utils'
@@ -149,7 +150,9 @@ export function testSingleRunDownloadDialog() {
         const expectedUrl = constructDialogUrl(SINGLE_RUN_URL, {
           step: DownloadStep.Configure,
           config: DownloadConfig.AllAnnotations,
+          fileFormat: 'mrc',
         })
+
         await page.waitForURL(expectedUrl.href)
       })
 
@@ -254,6 +257,7 @@ export function testSingleRunDownloadDialog() {
           step: DownloadStep.Download,
           config: DownloadConfig.AllAnnotations,
           tab: DownloadTab.AWS,
+          fileFormat: 'mrc',
         })
         await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
@@ -267,8 +271,10 @@ export function testSingleRunDownloadDialog() {
           step: DownloadStep.Download,
           config: DownloadConfig.AllAnnotations,
           tab: DownloadTab.API,
+          fileFormat: 'mrc',
         })
-        await page.waitForURL(expectedUrl.href)
+
+        expectUrlsToMatch(page.url(), expectedUrl.href)
       })
 
       test('should change tabs from api to aws on click', async ({ page }) => {
@@ -276,6 +282,7 @@ export function testSingleRunDownloadDialog() {
           step: DownloadStep.Download,
           config: DownloadConfig.AllAnnotations,
           tab: DownloadTab.API,
+          fileFormat: 'mrc',
         })
         await goTo(page, initialUrl.href)
         const dialog = await validateDialogOpen(
@@ -289,8 +296,10 @@ export function testSingleRunDownloadDialog() {
           step: DownloadStep.Download,
           config: DownloadConfig.AllAnnotations,
           tab: DownloadTab.AWS,
+          fileFormat: 'mrc',
         })
-        await page.waitForURL(expectedUrl.href)
+
+        expectUrlsToMatch(page.url(), expectedUrl.href)
       })
 
       test('should copy from aws tab', async ({ page, browserName }) => {
@@ -318,7 +327,9 @@ export function testSingleRunDownloadDialog() {
         const { data } = await fetchData()
         const s3Prefix = `${data.runs[0].tomogram_voxel_spacings[0].s3_prefix}Annotations`
 
-        expect(clipboardValue).toBe(getAwsCommand(s3Prefix))
+        expect(clipboardValue).toBe(
+          getAwsCommand({ s3Path: s3Prefix, s3Command: 'sync' }),
+        )
       })
 
       test('should copy from api tab', async ({ page, browserName }) => {
@@ -485,6 +496,7 @@ export function testSingleRunDownloadDialog() {
             const initialUrl = constructDialogUrl(SINGLE_RUN_URL, {
               step: DownloadStep.Download,
               config: DownloadConfig.Tomogram,
+              fileFormat: 'mrc',
               tab,
             })
 
@@ -517,6 +529,7 @@ export function testSingleRunDownloadDialog() {
               step: DownloadStep.Download,
               config: DownloadConfig.Tomogram,
               tab: fromTab,
+              fileFormat: 'mrc',
             })
             await goTo(page, initialUrl.href)
             const dialog = await validateDialogOpen(
@@ -530,8 +543,10 @@ export function testSingleRunDownloadDialog() {
               step: DownloadStep.Download,
               config: DownloadConfig.Tomogram,
               tab: toTab,
+              fileFormat: 'mrc',
             })
-            await page.waitForURL(expectedUrl.href)
+
+            expectUrlsToMatch(page.url(), expectedUrl.href)
           })
         })
       })
@@ -557,6 +572,7 @@ export function testSingleRunDownloadDialog() {
             processing: tomogram.processing,
           },
           tab: DownloadTab.AWS,
+          fileFormat: 'mrc',
         })
         await goTo(page, initialUrl.href)
 
@@ -574,7 +590,9 @@ export function testSingleRunDownloadDialog() {
 
         const s3Prefix = activeTomogram?.s3_mrc_scale0
 
-        expect(clipboardValue).toBe(getAwsCommand(s3Prefix))
+        expect(clipboardValue).toBe(
+          getAwsCommand({ s3Path: s3Prefix, s3Command: 'cp' }),
+        )
       })
 
       test('should copy from api tab', async ({ page, browserName }) => {

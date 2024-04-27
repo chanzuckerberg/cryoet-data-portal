@@ -53,6 +53,24 @@ function ConfidenceValue({ value }: { value: number }) {
   )
 }
 
+type MethodTypeLabels = {
+  automated: I18nKeys
+  hybrid: I18nKeys
+  manual: I18nKeys
+}
+
+const methodLabels: MethodTypeLabels = {
+  automated: 'automated',
+  hybrid: 'hybrid',
+  manual: 'manual',
+}
+
+const methodTooltipLabels: MethodTypeLabels = {
+  automated: 'methodTypeAutomated',
+  hybrid: 'methodTypeHybrid',
+  manual: 'methodTypeManual',
+}
+
 export function AnnotationTable() {
   const { isLoadingDebounced } = useIsLoading()
   const { run } = useRunById()
@@ -232,24 +250,37 @@ export function AnnotationTable() {
               header: () => (
                 <CellHeader
                   className="whitespace-nowrap"
+                  tooltip={<I18n i18nKey="methodTypeInfo" />}
                   width={AnnotationTableWidths.methodType}
                 >
                   {t('methodType')}
                 </CellHeader>
               ),
 
-              cell: ({ row: { original: annotation } }) => (
-                <TableCell width={AnnotationTableWidths.methodType}>
-                  {/* convert to link when activate annotation state is moved to URL */}
-                  <button
-                    className="text-sds-primary-400 text-sds-header-s leading-sds-header-s"
-                    onClick={() => openAnnotationDrawer(annotation)}
-                    type="button"
+              cell: ({ row: { original: annotation } }) => {
+                // TODO: hook up backend to this when implemented
+                const methodType = 'automated'
+
+                return (
+                  <TableCell
+                    width={AnnotationTableWidths.methodType}
+                    tooltip={<I18n i18nKey={methodTooltipLabels[methodType]} />}
+                    tooltipProps={{ placement: 'top' }}
                   >
-                    {t('automated')}
-                  </button>
-                </TableCell>
-              ),
+                    {/* convert to link when activate annotation state is moved to URL */}
+                    <button
+                      className={cnsNoMerge(
+                        'text-sds-primary-400 text-sds-header-s leading-sds-header-s',
+                        'hover:underline decoration-dashed decoration-1 underline-offset-4',
+                      )}
+                      onClick={() => openAnnotationDrawer(annotation)}
+                      type="button"
+                    >
+                      {t(methodLabels[methodType])}
+                    </button>
+                  </TableCell>
+                )
+              },
             }),
           ]
         : []),

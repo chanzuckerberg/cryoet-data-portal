@@ -1,4 +1,5 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
+import { AuthorLegend } from 'app/components/AuthorLegend'
 import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
 import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
@@ -27,6 +28,7 @@ export function AnnotationOverviewTable() {
             annotation.authors.length === 1
               ? t('annotationAuthor')
               : t('annotationAuthors'),
+          labelExtra: <AuthorLegend inline />,
           renderValue: () => {
             return <DatasetAuthors authors={annotation.authors} separator="," />
           },

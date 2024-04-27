@@ -110,8 +110,8 @@ export function testDatasetIdsFilter() {
 
     testFilter({
       client,
-      queryParam: QueryParams.PortalId,
-      label: 'Portal ID',
+      queryParam: QueryParams.DatasetId,
+      label: 'Dataset ID',
       valueKey: 'datasetId',
     })
 

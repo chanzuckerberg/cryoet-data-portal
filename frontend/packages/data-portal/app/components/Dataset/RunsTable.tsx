@@ -43,6 +43,33 @@ export function RunsTable() {
     const columnHelper = createColumnHelper<Run>()
 
     return [
+      columnHelper.accessor(
+        (run) =>
+          run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
+            ?.key_photo_thumbnail_url,
+        {
+          id: 'key-photo',
+          header: () => <p />,
+
+          cell: ({ row: { original: run } }) => (
+            <TableCell
+              width={RunTableWidths.photo}
+              renderLoadingSkeleton={false}
+            >
+              <KeyPhoto
+                className="max-w-[134px]"
+                title={run.name}
+                src={
+                  run.tomogram_voxel_spacings?.[0]?.tomograms?.[0]
+                    ?.key_photo_thumbnail_url ?? undefined
+                }
+                loading={isLoadingDebounced}
+              />
+            </TableCell>
+          ),
+        },
+      ),
+
       columnHelper.accessor('name', {
         header: () => (
           <CellHeader
@@ -50,7 +77,7 @@ export function RunsTable() {
             arrowPadding={{ right: 260 }}
             width={RunTableWidths.name}
           >
-            {t('runs')}
+            {t('runName')}
           </CellHeader>
         ),
         cell({ row: { original: run } }) {
@@ -61,25 +88,29 @@ export function RunsTable() {
 
           return (
             <TableCell
-              className="flex w-full gap-4 overflow-ellipsis"
+              className="w-full gap-4 overflow-ellipsis"
               width={RunTableWidths.name}
               renderLoadingSkeleton={false}
             >
-              <KeyPhoto
-                title={run.name}
-                src={
-                  run.tomogram_voxel_spacings?.[0]?.tomograms?.[0]
-                    ?.key_photo_thumbnail_url ?? undefined
-                }
-                loading={isLoadingDebounced}
-              />
-
-              <div className="min-h-[100px] overflow-ellipsis overflow-hidden text-sds-primary-500 font-semibold">
+              <div className="min-h-[100px] overflow-ellipsis overflow-hidden">
                 {isLoadingDebounced ? (
                   <Skeleton className="max-w-[150px]" variant="text" />
                 ) : (
-                  <Link to={runUrl}>{run.name}</Link>
+                  <Link
+                    className="text-sds-primary-500 font-semibold"
+                    to={runUrl}
+                  >
+                    {run.name}
+                  </Link>
                 )}
+
+                <p className="text-xs text-sds-gray-600">
+                  {isLoadingDebounced ? (
+                    <Skeleton className="max-w-[120px]" variant="text" />
+                  ) : (
+                    `${t('runId')}: ${run.id}`
+                  )}
+                </p>
               </div>
             </TableCell>
           )

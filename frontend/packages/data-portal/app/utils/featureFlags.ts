@@ -7,7 +7,7 @@ export type FeatureFlagEnvironment = typeof process.env.ENV
 export type FeatureFlagKey = 'downloadSingleAnnotation' | 'methodType'
 
 export const FEATURE_FLAGS: Record<FeatureFlagKey, FeatureFlagEnvironment[]> = {
-  downloadSingleAnnotation: ['local', 'dev'],
+  downloadSingleAnnotation: ['local', 'dev', 'staging', 'prod'],
   methodType: ['local', 'dev'],
 }
 

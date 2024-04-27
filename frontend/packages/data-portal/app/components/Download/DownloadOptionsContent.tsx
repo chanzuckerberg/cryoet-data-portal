@@ -1,4 +1,4 @@
-import { isNumber } from 'lodash-es'
+import { isNumber, isString } from 'lodash-es'
 import prettyBytes from 'pretty-bytes'
 import { ComponentType, useMemo } from 'react'
 
@@ -13,6 +13,7 @@ import { APIDownloadTab } from './APIDownloadTab'
 import { AWSDownloadTab } from './AWSDownloadTab'
 import { CurlDownloadTab } from './CurlDownloadTab'
 import { DirectDownloadTab } from './DirectDownloadTab'
+import { FILE_FORMAT_LABEL_I18N } from './FileFormatDropdown'
 
 const DOWNLOAD_TAB_MAP: Record<DownloadTab, ComponentType> = {
   api: APIDownloadTab,
@@ -29,10 +30,15 @@ export function DownloadOptionsContent() {
     downloadConfig,
     tomogramProcessing,
     tomogramSampling,
+    annotationId,
+    fileFormat,
+    objectShapeType,
   } = useDownloadModalQueryParamState()
+  const { activeTomogramResolution } = useDownloadModalContext()
+
   const downloadTabs = useMemo<TabData<DownloadTab>[]>(
     () => [
-      ...(downloadConfig === DownloadConfig.Tomogram
+      ...(isString(fileFormat) && fileFormat !== 'zarr'
         ? [
             { value: DownloadTab.Download, label: t('directDownload') },
             { value: DownloadTab.Curl, label: t('viaCurl') },
@@ -42,10 +48,10 @@ export function DownloadOptionsContent() {
       { value: DownloadTab.AWS, label: t('viaAwsS3') },
       { value: DownloadTab.API, label: t('viaApi') },
     ],
-    [downloadConfig, t],
+    [fileFormat, t],
   )
 
-  const { runId, datasetId, datasetTitle, fileSize, runName } =
+  const { datasetId, datasetTitle, fileSize, objectName, runId, runName } =
     useDownloadModalContext()
 
   if (!downloadTab) {
@@ -58,8 +64,24 @@ export function DownloadOptionsContent() {
     <>
       <ModalSubtitle label={t('dataset')} value={datasetTitle} />
       {runName && <ModalSubtitle label={t('run')} value={runName} />}
-      {tomogramSampling && (
-        <ModalSubtitle label={t('tomogramSampling')} value={tomogramSampling} />
+      {annotationId && (
+        <ModalSubtitle label={t('annotationId')} value={annotationId} />
+      )}
+      {objectName && (
+        <ModalSubtitle label={t('objectName')} value={objectName} />
+      )}
+      {objectShapeType && (
+        <ModalSubtitle label={t('objectShapeType')} value={objectShapeType} />
+      )}
+      {tomogramSampling && activeTomogramResolution && (
+        <ModalSubtitle
+          label={t('tomogramSampling')}
+          value={`${t('unitAngstrom', { value: tomogramSampling })}, (${
+            activeTomogramResolution.size_x
+          }, ${activeTomogramResolution.size_y}, ${
+            activeTomogramResolution.size_z
+          })px`}
+        />
       )}
       {tomogramProcessing && (
         <ModalSubtitle
@@ -67,8 +89,17 @@ export function DownloadOptionsContent() {
           value={tomogramProcessing}
         />
       )}
+      {fileFormat && (
+        <ModalSubtitle
+          label={t('fileFormat')}
+          value={t(FILE_FORMAT_LABEL_I18N[fileFormat])}
+        />
+      )}
       {isNumber(fileSize) && (
-        <ModalSubtitle label={t('fileSize')} value={prettyBytes(fileSize)} />
+        <ModalSubtitle
+          label={t('estimatedDownloadSize')}
+          value={prettyBytes(fileSize)}
+        />
       )}
       {downloadConfig === DownloadConfig.AllAnnotations && (
         <ModalSubtitle label={t('annotations')} value={t('all')} />

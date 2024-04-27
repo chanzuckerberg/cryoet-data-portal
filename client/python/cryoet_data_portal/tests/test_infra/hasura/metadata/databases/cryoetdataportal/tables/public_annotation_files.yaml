@@ -11,6 +11,7 @@ select_permissions:
       columns:
         - annotation_id
         - id
+        - is_visualization_default
         - shape_type
         - format
         - https_path

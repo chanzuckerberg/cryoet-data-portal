@@ -2,6 +2,7 @@ import { Icon } from '@czi-sds/components'
 import { isString } from 'lodash-es'
 
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
+import { AuthorLegend } from 'app/components/AuthorLegend'
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
@@ -61,7 +62,7 @@ export function DatasetMetadataTable({
     },
 
     !!allFields && {
-      label: t('portalId'),
+      label: t('datasetId'),
       values: [`${dataset.id!}`],
     },
 
@@ -91,6 +92,7 @@ export function DatasetMetadataTable({
         dataset.authors && dataset.authors.length === 1
           ? t('author')
           : t('authors'),
+      labelExtra: <AuthorLegend inline />,
       renderValue: () => {
         return (
           <DatasetAuthors
