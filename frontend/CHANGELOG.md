@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.6.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.5.0...web-v1.6.0) (2024-04-27)
+
+
+### ✨ Features
+
+* add section titles ([#612](https://github.com/chanzuckerberg/cryoet-data-portal/issues/612)) ([42cc41e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/42cc41ec98bdf90b0af2d18c4c76eecbddf420c5))
+* navigation styling updates ([#614](https://github.com/chanzuckerberg/cryoet-data-portal/issues/614)) ([fb63462](https://github.com/chanzuckerberg/cryoet-data-portal/commit/fb63462915684046a1011d124d74e3423912e95a))
+* shift dataset photo ([#613](https://github.com/chanzuckerberg/cryoet-data-portal/issues/613)) ([43064ba](https://github.com/chanzuckerberg/cryoet-data-portal/commit/43064ba5ec1461a25b0b7a86e86f0d7e18e5342a))
+
+
+### 💅 Styles
+
+* update author name styling in tables ([#580](https://github.com/chanzuckerberg/cryoet-data-portal/issues/580)) ([3d4a434](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3d4a4340912e84bb6ac15e07d297c8057ee2b3bd))
+
 ## [1.5.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.4.1...web-v1.5.0) (2024-04-23)
 
 
