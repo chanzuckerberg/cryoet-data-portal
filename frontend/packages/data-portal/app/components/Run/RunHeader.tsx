@@ -67,8 +67,7 @@ export function RunHeader() {
         </>
       }
       backToResultsLabel={run.dataset.title}
-      lastModifiedDate="2023-12-16"
-      metadata={[{ key: t('runId'), value: `${run.id}` }]}
+      metadata={[{ key: t('runId'), value: `${run.id}`, uppercase: true }]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Run)}
       title={run.name}
       renderHeader={({ moreInfo }) => (
