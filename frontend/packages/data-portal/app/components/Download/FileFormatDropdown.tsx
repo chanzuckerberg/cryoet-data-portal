@@ -3,7 +3,6 @@ import { useMemo } from 'react'
 import { I18n } from 'app/components/I18n'
 import { Select, SelectOption } from 'app/components/Select'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
-import { useEffectOnce } from 'app/hooks/useEffectOnce'
 import { useI18n } from 'app/hooks/useI18n'
 import { I18nKeys } from 'app/types/i18n'
 import { cns } from 'app/utils/cns'
@@ -50,13 +49,6 @@ export function FileFormatDropdown({
       })),
     [matchingFileFormats, t],
   )
-
-  // set initial file format
-  useEffectOnce(() => {
-    if (fileFormat === null) {
-      setFileFormat(defaultFormat, true)
-    }
-  })
 
   const selectedFormat = fileFormat ?? defaultFormat
 

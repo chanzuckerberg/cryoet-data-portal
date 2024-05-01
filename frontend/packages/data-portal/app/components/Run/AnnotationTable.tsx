@@ -336,6 +336,11 @@ export function AnnotationTable() {
                       runId: run.id,
                       annotationId: annotation.id,
                       objectShapeType: annotation.shape_type,
+                      fileFormat: annotation.files
+                        .filter(
+                          (file) => file.shape_type === annotation.shape_type,
+                        )
+                        .at(0)?.format,
                     })
                   }
                   startIcon={
