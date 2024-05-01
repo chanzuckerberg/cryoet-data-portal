@@ -154,7 +154,6 @@ export function testSingleRunDownloadDialog() {
         const expectedUrl = constructDialogUrl(SINGLE_RUN_URL, {
           step: DownloadStep.Configure,
           config: DownloadConfig.AllAnnotations,
-          fileFormat: 'mrc',
         })
 
         await page.waitForURL(expectedUrl.href)
