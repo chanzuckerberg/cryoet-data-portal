@@ -1,15 +1,26 @@
 import { expect, Page, test } from '@playwright/test'
 
-import { GetDatasetsDataQuery } from 'app/__generated__/graphql'
+import {
+  GetDatasetByIdQuery,
+  GetDatasetsDataQuery,
+} from 'app/__generated__/graphql'
 
-async function waitForTableCountChange(
-  page: Page,
-  expectedFilterCount: number,
-  expectedTotalCount: number,
-) {
+async function waitForTableCountChange({
+  countLabel,
+  expectedFilterCount,
+  expectedTotalCount,
+  page,
+}: {
+  countLabel: string
+  expectedFilterCount: number
+  expectedTotalCount: number
+  page: Page
+}) {
   await page
     .getByText(
-      new RegExp(`^${expectedFilterCount} of ${expectedTotalCount} Datasets$`),
+      new RegExp(
+        `^${expectedFilterCount} of ${expectedTotalCount} ${countLabel}$`,
+      ),
     )
     .waitFor()
 }
@@ -46,22 +57,57 @@ export function getDatasetTableFilterValidator(
   }
 }
 
+export function getRunTableFilterValidator(expectedData: GetDatasetByIdQuery) {
+  const runIds = new Set(expectedData.datasets.at(0)?.runs.map((run) => run.id))
+
+  return async (page: Page) => {
+    const datasetIds = await Promise.all(
+      (await page.getByText(/Run ID: [0-9]+/).all()).map(async (node) => {
+        const text = await node.innerText()
+        return text.replace('Run ID: ', '')
+      }),
+    )
+
+    datasetIds.forEach((id) =>
+      expect(
+        runIds.has(+id),
+        `Check if run ${id} is found within available set: ${Array.from(
+          runIds,
+        ).join(', ')}`,
+      ).toBe(true),
+    )
+  }
+}
+
 export async function validateTable({
   browseDatasetsData,
+  countLabel = 'Datasets',
   page,
+  singleDatasetData,
   validateRows,
 }: {
   browseDatasetsData?: GetDatasetsDataQuery
+  countLabel?: string
   page: Page
+  singleDatasetData?: GetDatasetByIdQuery
   validateRows(page: Page): Promise<void>
 }) {
   const expectedFilterCount =
-    browseDatasetsData?.filtered_datasets_aggregate.aggregate?.count ?? 0
+    browseDatasetsData?.filtered_datasets_aggregate.aggregate?.count ??
+    singleDatasetData?.datasets.at(0)?.filtered_runs_count.aggregate?.count ??
+    0
 
   const expectedTotalCount =
-    browseDatasetsData?.datasets_aggregate.aggregate?.count ?? 0
+    browseDatasetsData?.datasets_aggregate.aggregate?.count ??
+    singleDatasetData?.datasets.at(0)?.runs_aggregate.aggregate?.count ??
+    0
 
-  await waitForTableCountChange(page, expectedFilterCount, expectedTotalCount)
+  await waitForTableCountChange({
+    countLabel,
+    expectedFilterCount,
+    expectedTotalCount,
+    page,
+  })
   await validateRows(page)
 }
 
