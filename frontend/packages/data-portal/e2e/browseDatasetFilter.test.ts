@@ -1,6 +1,7 @@
 import { QueryParams } from 'app/constants/query'
+import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 
-import { E2E_CONFIG } from './constants'
+import { BROWSE_DATASETS_URL, E2E_CONFIG } from './constants'
 import {
   testAuthorFilter,
   testAvailableFilesFilter,
@@ -9,8 +10,30 @@ import {
   testOrganismNameFilter,
   testSingleSelectFilter,
 } from './filters'
+import { TableValidatorOptions } from './filters/types'
+import { getDatasetTableFilterValidator, validateTable } from './filters/utils'
 
-testGroundTruthAnnotationFilter()
+async function validateDatasetsTable({
+  client,
+  page,
+  params,
+}: TableValidatorOptions) {
+  const { data } = await getBrowseDatasets({
+    client,
+    params,
+  })
+
+  await validateTable({
+    page,
+    browseDatasetsData: data,
+    validateRows: getDatasetTableFilterValidator(data),
+  })
+}
+
+testGroundTruthAnnotationFilter({
+  url: BROWSE_DATASETS_URL,
+  validateTable: validateDatasetsTable,
+})
 testAvailableFilesFilter()
 testDatasetIdsFilter()
 testAuthorFilter()
