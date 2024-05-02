@@ -1,6 +1,6 @@
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 
-import { E2E_CONFIG, SINGLE_DATASET_URL } from './constants'
+import { E2E_CONFIG, SINGLE_DATASET_URL, translations } from './constants'
 import { testGroundTruthAnnotationFilter } from './filters'
 import { TableValidatorOptions } from './filters/types'
 import { getRunTableFilterValidator, validateTable } from './filters/utils'
@@ -20,7 +20,7 @@ async function validateRunsTable({
     page,
     singleDatasetData: data,
     validateRows: getRunTableFilterValidator(data),
-    countLabel: 'Runs',
+    countLabel: translations.runs,
   })
 }
 

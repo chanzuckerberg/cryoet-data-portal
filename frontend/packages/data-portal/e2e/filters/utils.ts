@@ -1,4 +1,5 @@
 import { expect, Page, test } from '@playwright/test'
+import { translations } from 'e2e/constants'
 
 import {
   GetDatasetByIdQuery,
@@ -81,7 +82,7 @@ export function getRunTableFilterValidator(expectedData: GetDatasetByIdQuery) {
 
 export async function validateTable({
   browseDatasetsData,
-  countLabel = 'Datasets',
+  countLabel = translations.datasets,
   page,
   singleDatasetData,
   validateRows,
