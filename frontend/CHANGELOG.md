@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.6.1...web-v1.6.2) (2024-05-01)
+
+
+### 🧹 Miscellaneous Chores
+
+* update report issues link ([#680](https://github.com/chanzuckerberg/cryoet-data-portal/issues/680)) ([7bfcffd](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7bfcffd39f3edadf20a82071426c70f71d9ba740))
+
 ## [1.6.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.6.0...web-v1.6.1) (2024-05-01)
 
 
