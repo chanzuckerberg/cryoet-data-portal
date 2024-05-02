@@ -1,7 +1,11 @@
+import { QueryParams } from 'app/constants/query'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 
 import { E2E_CONFIG, SINGLE_DATASET_URL, translations } from './constants'
-import { testGroundTruthAnnotationFilter } from './filters'
+import {
+  getSingleSelectFilterTester,
+  testGroundTruthAnnotationFilter,
+} from './filters'
 import { TableValidatorOptions } from './filters/types'
 import { getRunTableFilterValidator, validateTable } from './filters/utils'
 
@@ -29,14 +33,19 @@ testGroundTruthAnnotationFilter({
   validateTable: validateRunsTable,
 })
 
-// testSingleSelectFilter({
-//   label: 'Object Name',
-//   queryParam: QueryParams.ObjectName,
-//   values: [E2E_CONFIG.objectName],
-// })
+const testSingleDatasetSelectFilter = getSingleSelectFilterTester({
+  url: SINGLE_DATASET_URL,
+  validateTable: validateRunsTable,
+})
 
-// testSingleSelectFilter({
-//   label: 'Object Shape Type',
-//   queryParam: QueryParams.ObjectShapeType,
-//   values: [E2E_CONFIG.objectShapeType],
-// })
+testSingleDatasetSelectFilter({
+  label: translations.annotatedObjectName,
+  queryParam: QueryParams.ObjectName,
+  values: [E2E_CONFIG.objectName],
+})
+
+testSingleDatasetSelectFilter({
+  label: translations.objectShapeType,
+  queryParam: QueryParams.ObjectShapeType,
+  values: [E2E_CONFIG.objectShapeType],
+})

@@ -1,14 +1,14 @@
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 
-import { BROWSE_DATASETS_URL, E2E_CONFIG } from './constants'
+import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
 import {
+  getSingleSelectFilterTester,
   testAuthorFilter,
   testAvailableFilesFilter,
   testDatasetIdsFilter,
   testGroundTruthAnnotationFilter,
   testOrganismNameFilter,
-  testSingleSelectFilter,
 } from './filters'
 import { TableValidatorOptions } from './filters/types'
 import { getDatasetTableFilterValidator, validateTable } from './filters/utils'
@@ -39,46 +39,51 @@ testDatasetIdsFilter()
 testAuthorFilter()
 testOrganismNameFilter()
 
-testSingleSelectFilter({
-  label: 'Number of Runs',
+const testBrowseDatasetSelectFilter = getSingleSelectFilterTester({
+  url: BROWSE_DATASETS_URL,
+  validateTable: validateDatasetsTable,
+})
+
+testBrowseDatasetSelectFilter({
+  label: translations.numberOfRuns,
   queryParam: QueryParams.NumberOfRuns,
   values: ['>1', '>5', '>10', '>20', '>100'],
   serialize: JSON.stringify,
 })
 
-testSingleSelectFilter({
-  label: 'Camera Manufacturer',
+testBrowseDatasetSelectFilter({
+  label: translations.cameraManufacturer,
   queryParam: QueryParams.CameraManufacturer,
   values: [E2E_CONFIG.cameraManufacturer],
 })
 
-testSingleSelectFilter({
-  label: 'Fiducial Alignment Status',
+testBrowseDatasetSelectFilter({
+  label: translations.fiducialAlignmentStatus,
   queryParam: QueryParams.FiducialAlignmentStatus,
   values: ['True', 'False'],
   serialize: (value) => value.toLowerCase(),
 })
 
-testSingleSelectFilter({
-  label: 'Reconstruction Method',
+testBrowseDatasetSelectFilter({
+  label: translations.reconstructionMethod,
   queryParam: QueryParams.ReconstructionMethod,
   values: [E2E_CONFIG.reconstructionMethod],
 })
 
-testSingleSelectFilter({
-  label: 'Reconstruction Software',
+testBrowseDatasetSelectFilter({
+  label: translations.reconstructionSoftware,
   queryParam: QueryParams.ReconstructionSoftware,
   values: [E2E_CONFIG.reconstructionSoftware],
 })
 
-testSingleSelectFilter({
-  label: 'Object Name',
+testBrowseDatasetSelectFilter({
+  label: translations.objectName,
   queryParam: QueryParams.ObjectName,
   values: [E2E_CONFIG.objectName],
 })
 
-testSingleSelectFilter({
-  label: 'Object Shape Type',
+testBrowseDatasetSelectFilter({
+  label: translations.objectShapeType,
   queryParam: QueryParams.ObjectShapeType,
   values: [E2E_CONFIG.objectShapeType],
 })
