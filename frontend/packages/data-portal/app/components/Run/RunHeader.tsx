@@ -32,10 +32,7 @@ function FileSummary({ data }: { data: FileSummaryData[] }) {
       label={t('fileSummary')}
       fields={data.map(({ key, value }) => ({
         key,
-        value:
-          value === 1
-            ? t('fileCount_one', { count: value })
-            : t('fileCount_other', { count: value }),
+        value: t('fileCount', { count: value }),
       }))}
     />
   )
