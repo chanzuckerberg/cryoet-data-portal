@@ -21,7 +21,10 @@ import { TiltSeriesScore } from 'app/constants/tiltSeries'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
-import { SingleDatasetHistory, useFilterHistory } from 'app/state/filterHistory'
+import {
+  SingleDatasetHistory,
+  useSingleDatasetFilterHistory,
+} from 'app/state/filterHistory'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
 
 type Run = GetDatasetByIdQuery['datasets'][number]['runs'][number]
@@ -38,7 +41,7 @@ export function RunsTable() {
   const { dataset } = useDatasetById()
   const runs = dataset.runs as unknown as Run[]
   const { t } = useI18n()
-  const { setSingleDatasetHistory } = useFilterHistory()
+  const { setSingleDatasetHistory } = useSingleDatasetFilterHistory()
   const [searchParams] = useSearchParams()
 
   useEffect(

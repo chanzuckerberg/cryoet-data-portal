@@ -4,7 +4,7 @@ export const DATASET_FILTERS = [
   QueryParams.GroundTruthAnnotation,
   QueryParams.AvailableFiles,
   QueryParams.NumberOfRuns,
-  QueryParams.PortalId,
+  QueryParams.DatasetId,
   QueryParams.EmpiarId,
   QueryParams.EmdbId,
   QueryParams.AuthorName,

@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 
 import { DATASET_FILTERS, RUN_FILTERS } from 'app/constants/filterQueryParams'
 
-export type BrowseAllHistory = Map<
+export type BrowseDatasetHistory = Map<
   (typeof DATASET_FILTERS)[number],
   string | null
 >
@@ -12,27 +12,33 @@ export type SingleDatasetHistory = Map<
   string | null
 >
 
-const browseAllHistoryAtom = atom<BrowseAllHistory | null>(null)
+const browseDatasetHistoryAtom = atom<BrowseDatasetHistory | null>(null)
 const singleDatasetHistoryAtom = atom<SingleDatasetHistory | null>(null)
 
-export function useFilterHistory() {
-  const [browseAllHistory, setBrowseAllHistory] = useAtom(browseAllHistoryAtom)
+export function useBrowseDatasetFilterHistory() {
+  const [browseDatasetHistory, setBrowseDatasetHistory] = useAtom(
+    browseDatasetHistoryAtom,
+  )
+
+  return useMemo(
+    () => ({
+      browseDatasetHistory,
+      setBrowseDatasetHistory,
+    }),
+    [browseDatasetHistory, setBrowseDatasetHistory],
+  )
+}
+
+export function useSingleDatasetFilterHistory() {
   const [singleDatasetHistory, setSingleDatasetHistory] = useAtom(
     singleDatasetHistoryAtom,
   )
 
   return useMemo(
     () => ({
-      browseAllHistory,
-      setBrowseAllHistory,
       singleDatasetHistory,
       setSingleDatasetHistory,
     }),
-    [
-      browseAllHistory,
-      setBrowseAllHistory,
-      singleDatasetHistory,
-      setSingleDatasetHistory,
-    ],
+    [singleDatasetHistory, setSingleDatasetHistory],
   )
 }

@@ -1,15 +1,23 @@
+import { isString } from 'lodash-es'
 import { useMemo } from 'react'
 
 import { SmallChevronRightIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
-import { useFilterHistory } from 'app/state/filterHistory'
+import {
+  useBrowseDatasetFilterHistory,
+  useSingleDatasetFilterHistory,
+} from 'app/state/filterHistory'
 import { cns } from 'app/utils/cns'
 
 function encodeParams(params: [string, string | null][]): string {
-  return (params.filter((kv) => kv[1]) as string[][])
-    .map((kv) => kv.map(encodeURIComponent).join('='))
-    .join('&')
+  const searchParams = new URLSearchParams(
+    (params.filter((kv) => isString(kv[1])) as string[][]).map((kv) =>
+      kv.map(encodeURIComponent),
+    ),
+  )
+
+  return searchParams.toString()
 }
 
 function Breadcrumb({
@@ -39,16 +47,17 @@ export function Breadcrumbs({
 }) {
   const { t } = useI18n()
 
-  const { browseAllHistory, singleDatasetHistory } = useFilterHistory()
+  const { browseDatasetHistory } = useBrowseDatasetFilterHistory()
+  const { singleDatasetHistory } = useSingleDatasetFilterHistory()
 
   const browseAllLink = useMemo(() => {
     const url = '/browse-data/datasets'
     const encodedParams = encodeParams(
-      Array.from(browseAllHistory?.entries() ?? []),
+      Array.from(browseDatasetHistory?.entries() ?? []),
     )
 
     return `${url}?${encodedParams}`
-  }, [browseAllHistory])
+  }, [browseDatasetHistory])
 
   const singleDatasetLink = useMemo(() => {
     if (variant === 'dataset') {
@@ -63,6 +72,10 @@ export function Breadcrumbs({
     return `${url}?${encodedParams}`
   }, [singleDatasetHistory, variant, dataset])
 
+  const chevronIcon = (
+    <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0" />
+  )
+
   return (
     <div className="flex flex-row gap-sds-s text-sds-body-s leading-sds-body-s text-sds-gray-black items-center whitespace-nowrap content-start">
       <Breadcrumb
@@ -70,15 +83,19 @@ export function Breadcrumbs({
         link={browseAllLink}
         className="shrink-0"
       />
-      <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0" />
+      {chevronIcon}
       <Breadcrumb
-        text={`${t('dataset')}: ${dataset.title}`}
+        text={
+          variant === 'dataset'
+            ? `${t('dataset')}`
+            : `${t('dataset')}: ${dataset.title}`
+        }
         link={singleDatasetLink}
         className="overflow-ellipsis overflow-hidden flex-initial"
       />
       {variant === 'run' && (
         <>
-          <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0" />
+          {chevronIcon}
           <Breadcrumb text={t('run')} className="shrink-0" />
         </>
       )}

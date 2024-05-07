@@ -20,7 +20,10 @@ import { DatasetTableWidths } from 'app/constants/table'
 import { Dataset, useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
-import { BrowseAllHistory, useFilterHistory } from 'app/state/filterHistory'
+import {
+  BrowseDatasetHistory,
+  useBrowseDatasetFilterHistory,
+} from 'app/state/filterHistory'
 import { LogLevel } from 'app/types/logging'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
@@ -41,7 +44,7 @@ export function DatasetTable() {
   const { datasets } = useDatasets()
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const { setBrowseAllHistory } = useFilterHistory()
+  const { setBrowseDatasetHistory } = useBrowseDatasetFilterHistory()
   const datasetSort = (searchParams.get('sort') ?? undefined) as
     | CellHeaderDirection
     | undefined
@@ -50,14 +53,14 @@ export function DatasetTable() {
 
   useEffect(
     () =>
-      setBrowseAllHistory(
+      setBrowseDatasetHistory(
         new Map(
           Array.from(searchParams).filter(([k]) =>
             DATASET_FILTERS.map((v) => v as string).includes(k),
           ),
-        ) as BrowseAllHistory,
+        ) as BrowseDatasetHistory,
       ),
-    [searchParams, setBrowseAllHistory],
+    [searchParams, setBrowseDatasetHistory],
   )
 
   const columns = useMemo(() => {
@@ -69,10 +72,7 @@ export function DatasetTable() {
           header: () => <p />,
 
           cell({ row: { original: dataset } }) {
-            const previousUrl = `${location.pathname}${location.search}`
-            const datasetUrl = `/datasets/${
-              dataset.id
-            }?prev=${encodeURIComponent(previousUrl)}`
+            const datasetUrl = `/datasets/${dataset.id}}`
 
             return (
               <TableCell
