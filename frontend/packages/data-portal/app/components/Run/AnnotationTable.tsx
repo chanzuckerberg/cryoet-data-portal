@@ -5,6 +5,7 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
 import { ComponentProps, useCallback, useMemo } from 'react'
 
+import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
 import { I18n } from 'app/components/I18n'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
@@ -37,6 +38,10 @@ const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<Annotation>(() => ({
   object_id: '',
   object_name: '',
   release_date: '',
+  format: '',
+  https_path: '',
+  s3_path: '',
+  shape_type: '',
 }))
 
 function ConfidenceValue({ value }: { value: number }) {
@@ -51,8 +56,6 @@ function ConfidenceValue({ value }: { value: number }) {
     </div>
   )
 }
-
-const MAX_AUTHORS = 2
 
 type MethodTypeLabels = {
   automated: I18nKeys
@@ -181,34 +184,13 @@ export function AnnotationTable() {
               )}
             </div>
 
-            <ul className="list-none flex gap-1 text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
-              {annotation.authors?.slice(0, MAX_AUTHORS).map((author, idx) => {
-                const totalAuthorCount = annotation.authors.length
-
-                return (
-                  <li className="flex items-center" key={author.name}>
-                    <span>{author.name}</span>
-                    <span>
-                      {annotation.authors.length > 1 &&
-                        idx < MAX_AUTHORS - 1 &&
-                        ', '}
-                    </span>
-
-                    {idx === MAX_AUTHORS - 1 && idx < totalAuthorCount - 1 && (
-                      <Button
-                        sdsType="primary"
-                        sdsStyle="minimal"
-                        onClick={() => openAnnotationDrawer(annotation)}
-                      >
-                        {t('plusMore', {
-                          count: totalAuthorCount - MAX_AUTHORS,
-                        })}
-                      </Button>
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
+            <div className=" text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
+              <DatasetAuthors
+                authors={annotation.authors}
+                separator=","
+                compact
+              />
+            </div>
           </TableCell>
         ),
       }),
@@ -248,9 +230,7 @@ export function AnnotationTable() {
         ),
       }),
 
-      columnHelper.accessor('files', {
-        id: 'shape-type',
-
+      columnHelper.accessor('shape_type', {
         header: () => (
           <CellHeader width={AnnotationTableWidths.files}>
             {t('objectShapeType')}
@@ -259,7 +239,7 @@ export function AnnotationTable() {
 
         cell: ({ getValue }) => (
           <TableCell width={AnnotationTableWidths.files}>
-            {getValue().at(0)?.shape_type ?? '--'}
+            {getValue()}
           </TableCell>
         ),
       }),
@@ -355,8 +335,12 @@ export function AnnotationTable() {
                       datasetId: run.dataset.id,
                       runId: run.id,
                       annotationId: annotation.id,
-                      // FIXME: are we supposed to only access the 1st option? (this is how it is done elsewhere)
-                      objectShapeType: annotation.files[0].shape_type,
+                      objectShapeType: annotation.shape_type,
+                      fileFormat: annotation.files
+                        .filter(
+                          (file) => file.shape_type === annotation.shape_type,
+                        )
+                        .at(0)?.format,
                     })
                   }
                   startIcon={
@@ -381,8 +365,27 @@ export function AnnotationTable() {
     run.id,
   ])
 
-  const annotations = useMemo<Annotation[]>(
-    () => run.annotation_table.flatMap((data) => data.annotations),
+  const annotations = useMemo(
+    () =>
+      run.annotation_table.flatMap((data) =>
+        data.annotations.flatMap((annotation) => {
+          const shapeTypeSet = new Set<string>()
+
+          const files = annotation.files.filter((file) => {
+            if (shapeTypeSet.has(file.shape_type)) {
+              return false
+            }
+
+            shapeTypeSet.add(file.shape_type)
+            return true
+          })
+
+          return files.flatMap((file) => ({
+            ...annotation,
+            ...file,
+          }))
+        }),
+      ) as Annotation[],
     [run.annotation_table],
   )
 

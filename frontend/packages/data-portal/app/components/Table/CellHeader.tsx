@@ -47,6 +47,7 @@ export function CellHeader({
       style={{
         maxWidth: columnWidth?.max,
         minWidth: columnWidth?.min,
+        width: columnWidth?.width,
       }}
       hideSortIcon={!showSort}
     >

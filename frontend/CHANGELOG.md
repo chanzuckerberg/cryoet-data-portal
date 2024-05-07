@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.6.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.6.1...web-v1.6.2) (2024-05-01)
+
+
+### 🧹 Miscellaneous Chores
+
+* update report issues link ([#680](https://github.com/chanzuckerberg/cryoet-data-portal/issues/680)) ([7bfcffd](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7bfcffd39f3edadf20a82071426c70f71d9ba740))
+
+## [1.6.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.6.0...web-v1.6.1) (2024-05-01)
+
+
+### 🐞 Bug Fixes
+
+* file format race condition ([#687](https://github.com/chanzuckerberg/cryoet-data-portal/issues/687)) ([45dc2d5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/45dc2d5ee051adc65818152c2ce9412970fff96f))
+* prod e2e tests ([#682](https://github.com/chanzuckerberg/cryoet-data-portal/issues/682)) ([231ca02](https://github.com/chanzuckerberg/cryoet-data-portal/commit/231ca0273034ccccbc89aa2b8c793fd89ab29ebf))
+* remove fileFormat param when toggling Download All Annotations ([#688](https://github.com/chanzuckerberg/cryoet-data-portal/issues/688)) ([b177e53](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b177e53c23ca44d0624829d1f685c43b30331148))
+* show all annotation shape types ([#679](https://github.com/chanzuckerberg/cryoet-data-portal/issues/679)) ([70f5f85](https://github.com/chanzuckerberg/cryoet-data-portal/commit/70f5f85147c3f0e766c998f9f08fd306caf06562))
+
+## [1.6.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.5.0...web-v1.6.0) (2024-04-27)
+
+
+### ✨ Features
+
+* add section titles ([#612](https://github.com/chanzuckerberg/cryoet-data-portal/issues/612)) ([42cc41e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/42cc41ec98bdf90b0af2d18c4c76eecbddf420c5))
+* navigation styling updates ([#614](https://github.com/chanzuckerberg/cryoet-data-portal/issues/614)) ([fb63462](https://github.com/chanzuckerberg/cryoet-data-portal/commit/fb63462915684046a1011d124d74e3423912e95a))
+* shift dataset photo ([#613](https://github.com/chanzuckerberg/cryoet-data-portal/issues/613)) ([43064ba](https://github.com/chanzuckerberg/cryoet-data-portal/commit/43064ba5ec1461a25b0b7a86e86f0d7e18e5342a))
+
+
+### 💅 Styles
+
+* update author name styling in tables ([#580](https://github.com/chanzuckerberg/cryoet-data-portal/issues/580)) ([3d4a434](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3d4a4340912e84bb6ac15e07d297c8057ee2b3bd))
+
 ## [1.5.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.4.1...web-v1.5.0) (2024-04-23)
 
 

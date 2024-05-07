@@ -74,7 +74,7 @@ export function PageHeader({
                       >
                         <span
                           className={cns(
-                            'font-semibold text-sds-caps-xxs leading-sds-caps-xxs tracking-sds-caps',
+                            'font-semibold text-sds-caps-xxs leading-sds-caps-xxs tracking-[0.3px]',
                             uppercase && 'uppercase',
                           )}
                         >

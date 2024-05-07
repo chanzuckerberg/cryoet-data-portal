@@ -17,8 +17,10 @@ import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useFileSize } from 'app/hooks/useFileSize'
+import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
+import { Annotation } from 'app/state/annotation'
 import { DownloadConfig } from 'app/types/download'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
@@ -72,12 +74,6 @@ export default function RunByIdPage() {
     stats.tomogram_processing.map((tomogram) => tomogram.processing),
   )
 
-  const allAnnotations = new Map(
-    run.annotation_table
-      .flatMap((table) => table.annotations.map((annotation) => annotation))
-      .map((annotation) => [annotation.id, annotation]),
-  )
-
   const {
     downloadConfig,
     tomogramProcessing,
@@ -97,10 +93,35 @@ export default function RunByIdPage() {
     null
 
   const tomogram = run.tomogram_voxel_spacings.at(0)
+  const { t } = useI18n()
 
-  const activeAnnotation = annotationId
-    ? allAnnotations.get(+annotationId)
-    : null
+  const activeAnnotation = useMemo(() => {
+    const allAnnotations = new Map(
+      run.annotation_table
+        .flatMap((table) => table.annotations.map((annotation) => annotation))
+        .map((annotation) => [annotation.id, annotation]),
+    )
+
+    const activeBaseAnnotation = annotationId
+      ? allAnnotations.get(+annotationId)
+      : null
+
+    const activeAnnotationFile = objectShapeType
+      ? activeBaseAnnotation?.files.find(
+          (file) => file.shape_type === objectShapeType,
+        )
+      : null
+
+    const result =
+      activeBaseAnnotation && activeAnnotationFile
+        ? {
+            ...activeBaseAnnotation,
+            ...activeAnnotationFile,
+          }
+        : null
+
+    return result as Annotation | null
+  }, [annotationId, objectShapeType, run.annotation_table])
 
   const httpsPath = useMemo(() => {
     if (activeAnnotation) {
@@ -134,6 +155,7 @@ export default function RunByIdPage() {
 
   return (
     <TablePageLayout
+      title={t('annotations')}
       type={i18n.annotations}
       downloadModal={
         <DownloadModal

@@ -4,6 +4,7 @@ import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { DatasetDescription } from 'app/components/Dataset/DatasetDescription'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { PageHeader } from 'app/components/PageHeader'
+import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
@@ -34,9 +35,8 @@ export function DatasetHeader() {
       lastModifiedDate={dataset.last_modified_date ?? dataset.deposition_date}
       metadata={[
         {
-          key: t('portalId'),
+          key: t('datasetId'),
           value: String(dataset.id),
-          uppercase: true,
         },
       ]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Dataset)}
@@ -52,6 +52,8 @@ export function DatasetHeader() {
           </div>
 
           <div className="flex flex-col gap-sds-xl flex-1 min-w-[300px]">
+            <PageHeaderSubtitle>{t('datasetOverview')}</PageHeaderSubtitle>
+
             <DatasetDescription />
 
             {moreInfo}
