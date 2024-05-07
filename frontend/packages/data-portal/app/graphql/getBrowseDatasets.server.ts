@@ -34,6 +34,7 @@ const GET_DATASETS_DATA_QUERY = gql(`
       ) {
         name
         primary_author_status
+        corresponding_author_status
       }
 
       runs_aggregate {

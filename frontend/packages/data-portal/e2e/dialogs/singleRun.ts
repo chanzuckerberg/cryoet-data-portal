@@ -33,7 +33,11 @@ export function testSingleRunDownloadDialog() {
   test.describe('Single Run', () => {
     test('should open when clicking download button', async ({ page }) => {
       await goTo(page, SINGLE_RUN_URL)
-      await page.getByRole('button', { name: translations.download }).click()
+      await page
+        .getByRole('button', { name: translations.download })
+        .first()
+        .click()
+
       await validateDialogOpen(page, translations.configureDownload)
       const expectedUrl = constructDialogUrl(SINGLE_RUN_URL, {
         step: DownloadStep.Configure,
@@ -150,7 +154,6 @@ export function testSingleRunDownloadDialog() {
         const expectedUrl = constructDialogUrl(SINGLE_RUN_URL, {
           step: DownloadStep.Configure,
           config: DownloadConfig.AllAnnotations,
-          fileFormat: 'mrc',
         })
 
         await page.waitForURL(expectedUrl.href)
@@ -424,6 +427,7 @@ export function testSingleRunDownloadDialog() {
             sampling: tomogram.voxel_spacing,
             processing: tomogram.processing,
           },
+          fileFormat: 'mrc',
         })
         await page.waitForURL(expectedUrl.href)
       })
@@ -486,6 +490,7 @@ export function testSingleRunDownloadDialog() {
             sampling: tomogram.voxel_spacing,
             processing: tomogram.processing,
           },
+          fileFormat: 'mrc',
         })
         await page.waitForURL(expectedUrl.href)
       })

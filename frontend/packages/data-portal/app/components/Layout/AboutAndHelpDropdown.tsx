@@ -27,7 +27,9 @@ export function AboutAndHelpDropdown({ className }: { className?: string }) {
         {i18n.goToDocs}
       </MenuItemLink>
 
-      <MenuItemLink to={`${REPO}/issues`}>
+      <MenuItemLink
+        to={`${REPO}/issues/new?assignees=&labels=bug&projects=&template=bug.md&title=`}
+      >
         {i18n.reportIssueOnGithub}
       </MenuItemLink>
 

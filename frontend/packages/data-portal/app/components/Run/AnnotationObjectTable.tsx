@@ -35,7 +35,7 @@ export function AnnotationObjectTable() {
         },
         {
           label: t('objectShapeType'),
-          values: [annotation.files[0].shape_type],
+          values: [annotation.shape_type],
         },
         {
           label: t('objectState'),

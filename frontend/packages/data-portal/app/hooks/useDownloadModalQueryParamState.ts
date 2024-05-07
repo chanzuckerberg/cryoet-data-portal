@@ -141,6 +141,7 @@ export function useDownloadModalQueryParamState() {
         [QueryParams.DownloadStep]: DownloadStep.Configure,
         [QueryParams.AnnotationId]: String(payload.annotationId),
         [QueryParams.ObjectShapeType]: payload.objectShapeType,
+        [QueryParams.FileFormat]: payload.fileFormat,
       })
     },
     [getPlausiblePayload, plausible, setDownloadParams],
@@ -196,6 +197,7 @@ export function useDownloadModalQueryParamState() {
         [QueryParams.DownloadConfig]: DownloadConfig.Tomogram,
         [QueryParams.TomogramSampling]: initialTomogramSampling,
         [QueryParams.TomogramProcessing]: initialTomogramProcessing,
+        [QueryParams.FileFormat]: 'mrc',
       }),
     [setDownloadParams],
   )
@@ -206,6 +208,7 @@ export function useDownloadModalQueryParamState() {
         [QueryParams.DownloadConfig]: DownloadConfig.AllAnnotations,
         [QueryParams.TomogramSampling]: null,
         [QueryParams.TomogramProcessing]: null,
+        [QueryParams.FileFormat]: null,
       }),
     [setDownloadParams],
   )
