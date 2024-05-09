@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState } from 'react'
 
 import { QueryParams } from 'app/constants/query'
 import { i18n } from 'app/i18n'
+import { cns } from 'app/utils/cns'
 
 import { DropdownFilterButton } from './DropdownFilterButton'
 import { InputFilter } from './InputFilter'
@@ -103,7 +104,7 @@ export function MultiInputFilter({
       disabled={isDisabled}
     >
       <div className="flex flex-col gap-sds-l mt-sds-xs">
-        {filters.map((filter) => (
+        {filters.map((filter, i) => (
           <InputFilter
             key={filter.id}
             value={values[filter.id]}
@@ -116,6 +117,7 @@ export function MultiInputFilter({
                 [filter.id]: value,
               }))
             }
+            className={cns(i < filters.length - 1 && '!mb-0')}
           />
         ))}
       </div>
