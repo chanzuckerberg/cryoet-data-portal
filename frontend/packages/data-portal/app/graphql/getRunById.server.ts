@@ -194,6 +194,12 @@ const GET_RUN_BY_ID_QUERY = gql(`
           }
         }
 
+        tomograms_aggregate {
+          aggregate {
+            count
+          }
+        }
+
         tomogram_processing: tomograms(distinct_on: processing) {
           processing
         }
@@ -216,6 +222,12 @@ const GET_RUN_BY_ID_QUERY = gql(`
           avg {
             tilt_series_quality
           }
+
+          sum {
+            frames_count
+          }
+
+          count
         }
       }
     }
