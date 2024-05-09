@@ -1,5 +1,6 @@
 export * from './AnnotationObjectNameFilter'
 export * from './AnnotationObjectShapeTypeFilter'
+export * from './AuthorFilter'
 export * from './BooleanFilter'
 export * from './Filters'
 export * from './FilterSection'

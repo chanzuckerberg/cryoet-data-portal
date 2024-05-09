@@ -111,6 +111,7 @@
   "fileSummary": "File Summary",
   "filterBy": "Filter by",
   "filterByAnyOfTheFollowing": "Filter by any of the following",
+  "filterByGeneOntologyId": "Filter by Gene Ontology ID",
   "filterCountOfMaxType": "{{count}} of {{max}} {{type}}",
   "filterNoResultsFound": "No results were found",
   "filterRange": "Filter Range",

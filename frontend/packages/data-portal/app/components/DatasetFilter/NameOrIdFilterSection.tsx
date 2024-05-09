@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
 import {
+  AuthorFilter,
   FilterSection,
   InputFilterData,
   MultiInputFilter,
@@ -32,26 +33,10 @@ export function NameOrIdFilterSection() {
     [t],
   )
 
-  const authorFilters = useMemo<InputFilterData[]>(
-    () => [
-      {
-        id: 'author-name-input',
-        label: `${t('authorName')}:`,
-        queryParam: QueryParams.AuthorName,
-      },
-      {
-        id: 'author-orcid-input',
-        label: `${t('authorOrcid')}:`,
-        queryParam: QueryParams.AuthorOrcid,
-      },
-    ],
-    [t],
-  )
-
   return (
     <FilterSection title={t('nameOrId')}>
       <MultiInputFilter label={t('datasetIds')} filters={datasetIdFilters} />
-      <MultiInputFilter label={t('author')} filters={authorFilters} />
+      <AuthorFilter label={t('author')} />
     </FilterSection>
   )
 }

@@ -7,6 +7,7 @@ import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
 import { apolloClient } from 'app/apollo.server'
+import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
 import { DownloadModal } from 'app/components/Download'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
@@ -41,6 +42,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     id,
     page,
     client: apolloClient,
+    params: url.searchParams,
   })
 
   if (data.runs.length === 0) {
@@ -54,15 +56,33 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 }
 
 export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
-  return shouldRevalidatePage(args)
+  return shouldRevalidatePage({
+    ...args,
+    paramsToRefetch: [
+      QueryParams.AuthorName,
+      QueryParams.AuthorOrcid,
+      QueryParams.ObjectName,
+      QueryParams.GoId,
+      QueryParams.ObjectShapeType,
+      QueryParams.MethodType,
+      QueryParams.AnnotationSoftware,
+    ],
+  })
 }
 
 export default function RunByIdPage() {
   const { run } = useRunById()
 
+  // TODO: convert to useMemo
   const totalCount = sum(
     run.tomogram_stats.flatMap(
       (stats) => stats.annotations_aggregate.aggregate?.count ?? 0,
+    ),
+  )
+
+  const filteredCount = sum(
+    run.tomogram_stats.flatMap(
+      (stats) => stats.filtered_annotations_count.aggregate?.count ?? 0,
     ),
   )
 
@@ -209,7 +229,8 @@ export default function RunByIdPage() {
           <AnnotationDrawer />
         </>
       }
-      filteredCount={totalCount}
+      filters={<AnnotationFilter />}
+      filteredCount={filteredCount}
       header={<RunHeader />}
       table={<AnnotationTable />}
       totalCount={totalCount}
