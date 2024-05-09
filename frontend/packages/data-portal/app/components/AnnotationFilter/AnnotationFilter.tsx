@@ -21,7 +21,7 @@ export function AnnotationFilter() {
     <FilterPanel>
       <AuthorFilter label={t('annotationAuthor')} />
       <AnnotatedObjectNameFilter
-        label={t('annotatedObjectName')}
+        label={t('objectName')}
         allObjectNames={objectNames}
       />
       <GeneOntologyFilter />
