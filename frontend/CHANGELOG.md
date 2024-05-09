@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.6.3](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.6.2...web-v1.6.3) (2024-05-08)
+
+
+### 🧹 Miscellaneous Chores
+
+* change file summary location ([#701](https://github.com/chanzuckerberg/cryoet-data-portal/issues/701)) ([2ab75e8](https://github.com/chanzuckerberg/cryoet-data-portal/commit/2ab75e8942acf644236011fa27babe941123c437))
+
+
+### ⚙ Continuous Integration
+
+* single dataset page filter e2e ([#690](https://github.com/chanzuckerberg/cryoet-data-portal/issues/690)) ([948c8f2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/948c8f270c214781614626bd601cd3e382fe01d9))
+
 ## [1.6.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.6.1...web-v1.6.2) (2024-05-01)
 
 
