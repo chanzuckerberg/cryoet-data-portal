@@ -28,3 +28,13 @@ export const RUN_FILTERS = [
   QueryParams.ObjectName,
   QueryParams.ObjectShapeType,
 ] as const
+
+export const ANNOTATION_FILTERS = [
+  QueryParams.AuthorName,
+  QueryParams.AuthorOrcid,
+  QueryParams.ObjectName,
+  QueryParams.GoId,
+  QueryParams.ObjectShapeType,
+  QueryParams.MethodType,
+  QueryParams.AnnotationSoftware,
+] as const

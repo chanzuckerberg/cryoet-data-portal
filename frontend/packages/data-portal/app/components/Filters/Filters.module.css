@@ -15,6 +15,7 @@
 
     ~ div {
       @apply pl-sds-s;
+      @apply mt-0;
 
       &:empty {
         @apply hidden;
@@ -32,5 +33,11 @@
 .popper {
   :global(.MuiMenuItem-root) > span:nth-child(1) {
     @apply flex items-center justify-center;
+  }
+}
+
+.inputText {
+  :global(.MuiTextField-root) {
+    @apply mb-sds-xs;
   }
 }

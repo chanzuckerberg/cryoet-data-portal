@@ -1,14 +1,9 @@
 import { Button, Icon } from '@czi-sds/components'
 import { ReactNode } from 'react'
 
+import { InlineMetadata, Metadata } from 'app/components/InlineMetadata'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
-
-interface PageHeaderMetadata {
-  key: string
-  value: string
-  uppercase?: boolean
-}
 
 export function PageHeader({
   actions,
@@ -23,7 +18,7 @@ export function PageHeader({
   actions?: ReactNode
   breadcrumbs?: ReactNode
   lastModifiedDate?: string
-  metadata?: PageHeaderMetadata[]
+  metadata?: Metadata[]
   onMoreInfoClick?(): void
   releaseDate?: string
   renderHeader?({ moreInfo }: { moreInfo?: ReactNode }): ReactNode
@@ -64,29 +59,8 @@ export function PageHeader({
                   {title}
                 </h1>
 
-                {/* metadata */}
                 {metadata.length > 0 && (
-                  <ul className="list-none flex gap-sds-l">
-                    {metadata.map(({ key, value, uppercase }) => (
-                      <li
-                        className="flex flex-row items-center justify-left gap-sds-xxs text-sds-gray-500"
-                        key={key + value}
-                      >
-                        <span
-                          className={cns(
-                            'font-semibold text-sds-caps-xxs leading-sds-caps-xxs tracking-[0.3px]',
-                            uppercase && 'uppercase',
-                          )}
-                        >
-                          {key}:
-                        </span>
-
-                        <span className="text-sds-body-s leading-sds-body-s">
-                          {value}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                  <InlineMetadata fields={metadata} subheader />
                 )}
               </div>
 

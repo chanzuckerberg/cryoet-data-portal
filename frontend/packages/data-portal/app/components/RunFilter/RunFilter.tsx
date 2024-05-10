@@ -1,3 +1,4 @@
+import { FilterPanel } from 'app/components/FilterPanel'
 import {
   AnnotatedObjectNameFilter,
   AnnotatedObjectShapeTypeFilter,
@@ -14,11 +15,7 @@ export function RunFilter() {
   const { objectNames, objectShapeTypes } = useDatasetById()
 
   return (
-    <div className="pl-sds-l flex flex-col gap-sds-xxs">
-      <p className="text-sds-header-m leading-sds-header-m px-sds-s pt-sds-xl font-semibold">
-        {t('filterBy')}:
-      </p>
-
+    <FilterPanel>
       <GroundTruthAnnotationFilter />
       <QualityScoreFilter />
       <TiltRangeFilter />
@@ -27,6 +24,6 @@ export function RunFilter() {
         label={t('annotatedObjectName')}
       />
       <AnnotatedObjectShapeTypeFilter allObjectShapeTypes={objectShapeTypes} />
-    </div>
+    </FilterPanel>
   )
 }

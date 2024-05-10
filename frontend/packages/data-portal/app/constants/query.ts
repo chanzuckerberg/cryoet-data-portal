@@ -1,5 +1,6 @@
 export enum QueryParams {
   AnnotationId = 'annotation_id',
+  AnnotationSoftware = 'annotation-software',
   AuthorName = 'author',
   AuthorOrcid = 'author_orcid',
   AvailableFiles = 'files',
@@ -12,8 +13,10 @@ export enum QueryParams {
   EmpiarId = 'empiar_id',
   FiducialAlignmentStatus = 'fiducial_alignment',
   FileFormat = 'file-format',
+  GoId = 'go-id',
   GroundTruthAnnotation = 'ground_truth',
   MetadataDrawer = 'metadata',
+  MethodType = 'method-type',
   NumberOfRuns = 'runs',
   ObjectName = 'object',
   ObjectShapeType = 'object_shape',

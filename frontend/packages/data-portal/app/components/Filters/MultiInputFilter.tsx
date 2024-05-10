@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState } from 'react'
 
 import { QueryParams } from 'app/constants/query'
 import { i18n } from 'app/i18n'
+import { cns } from 'app/utils/cns'
 
 import { DropdownFilterButton } from './DropdownFilterButton'
 import { InputFilter } from './InputFilter'
@@ -12,14 +13,19 @@ export interface InputFilterData {
   id: string
   label: string
   queryParam: QueryParams
+  hideLabel?: boolean
 }
 
 export function MultiInputFilter({
   filters,
   label,
+  title,
+  subtitle,
 }: {
   filters: InputFilterData[]
   label: string
+  title?: string
+  subtitle?: string
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -46,17 +52,17 @@ export function MultiInputFilter({
       activeFilters={filters
         .filter((filter) => searchParams.has(filter.queryParam))
         .map((filter) => ({
-          label: filter.label,
+          label: filters.length > 1 ? filter.label : '',
           value: values[filter.id],
         }))}
       description={
         <>
           <p className="text-sds-header-xs leading-sds-header-xs font-semibold">
-            {i18n.filterByAnyOfTheFollowing}
+            {title ?? i18n.filterByAnyOfTheFollowing}
           </p>
 
           <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
-            ({i18n.limitOneValuePerField})
+            {subtitle ?? `(${i18n.limitOneValuePerField})`}
           </p>
         </>
       }
@@ -98,18 +104,20 @@ export function MultiInputFilter({
       disabled={isDisabled}
     >
       <div className="flex flex-col gap-sds-l mt-sds-xs">
-        {filters.map((filter) => (
+        {filters.map((filter, i) => (
           <InputFilter
             key={filter.id}
             value={values[filter.id]}
             id={filter.id}
             label={filter.label}
+            hideLabel={filter.hideLabel}
             onChange={(value) =>
               setValues((prev) => ({
                 ...prev,
                 [filter.id]: value,
               }))
             }
+            className={cns(i < filters.length - 1 && '!mb-0')}
           />
         ))}
       </div>
