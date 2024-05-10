@@ -155,11 +155,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
           }
 
           authors(order_by: { author_list_order: asc }) {
+            primary_author_status
             corresponding_author_status
-            email
             name
+            email
             orcid
-            primary_author_status: primary_annotator_status
           }
 
           author_affiliations: authors(distinct_on: affiliation_name) {
