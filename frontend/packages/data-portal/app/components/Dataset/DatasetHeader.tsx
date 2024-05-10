@@ -1,5 +1,6 @@
 import { Button, Icon } from '@czi-sds/components'
 
+import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { DatasetDescription } from 'app/components/Dataset/DatasetDescription'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { PageHeader } from 'app/components/PageHeader'
@@ -30,6 +31,7 @@ export function DatasetHeader() {
           {t('downloadDataset')}
         </Button>
       }
+      breadcrumbs={<Breadcrumbs variant="dataset" dataset={dataset} />}
       lastModifiedDate={dataset.last_modified_date ?? dataset.deposition_date}
       metadata={[
         {

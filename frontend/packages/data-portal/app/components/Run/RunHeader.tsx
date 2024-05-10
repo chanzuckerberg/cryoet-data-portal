@@ -1,6 +1,7 @@
 import { Button, Icon } from '@czi-sds/components'
 import { sum } from 'lodash-es'
 
+import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { I18n } from 'app/components/I18n'
 import { InlineMetadata } from 'app/components/InlineMetadata'
 import { KeyPhoto } from 'app/components/KeyPhoto'
@@ -86,7 +87,7 @@ export function RunHeader() {
           </Button>
         </>
       }
-      backToResultsLabel={run.dataset.title}
+      breadcrumbs={<Breadcrumbs variant="run" dataset={run.dataset} />}
       metadata={[{ key: t('runId'), value: `${run.id}` }]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Run)}
       title={run.name}
