@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.6.3...web-v1.7.0) (2024-05-10)
+
+
+### ✨ Features
+
+* add breadcrumbs and change filter carryback behaviour ([#678](https://github.com/chanzuckerberg/cryoet-data-portal/issues/678)) ([b3d8ab6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b3d8ab6bc3f31521d7ce2b3cab4bf14fd3d876cb))
+* implement single run page filters ([#605](https://github.com/chanzuckerberg/cryoet-data-portal/issues/605)) ([ae15d0d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ae15d0d63ff7135b4fb51d353971ab034f280eed))
+
 ## [1.6.3](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.6.2...web-v1.6.3) (2024-05-08)
 
 
