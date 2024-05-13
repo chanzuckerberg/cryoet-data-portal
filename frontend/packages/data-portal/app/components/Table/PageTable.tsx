@@ -4,7 +4,10 @@ import { Table } from './Table'
 
 // FIXME: refactor this to be useMemo-based instead?
 export function PageTable<T>(
-  props: Pick<ComponentProps<typeof Table<T>>, 'data' | 'columns'>,
+  props: Pick<
+    ComponentProps<typeof Table<T>>,
+    'data' | 'columns' | 'renderRowHeader'
+  >,
 ) {
   return (
     <Table

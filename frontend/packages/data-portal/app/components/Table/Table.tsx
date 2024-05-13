@@ -10,8 +10,10 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  Row,
   useReactTable,
 } from '@tanstack/react-table'
+import { Fragment, ReactNode } from 'react'
 
 import { ErrorBoundary } from 'app/components/ErrorBoundary'
 import { useLayout } from 'app/context/Layout.context'
@@ -21,6 +23,7 @@ export function Table<T>({
   classes,
   columns,
   data,
+  renderRowHeader,
   tableProps,
 }: {
   classes?: {
@@ -32,6 +35,7 @@ export function Table<T>({
   }
   columns: ColumnDef<T>[]
   data: T[]
+  renderRowHeader?(row: Row<T>): ReactNode
   tableProps?: TableProps
 }) {
   const { hasFilters } = useLayout()
@@ -81,16 +85,20 @@ export function Table<T>({
 
         <tbody className={classes?.body}>
           {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <ErrorBoundary
-                  key={cell.id}
-                  logId={getLogId(`cell-${cell.id}`)}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </ErrorBoundary>
-              ))}
-            </TableRow>
+            <Fragment key={row.id}>
+              {renderRowHeader?.(row)}
+
+              <TableRow>
+                {row.getVisibleCells().map((cell) => (
+                  <ErrorBoundary
+                    key={cell.id}
+                    logId={getLogId(`cell-${cell.id}`)}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </ErrorBoundary>
+                ))}
+              </TableRow>
+            </Fragment>
           ))}
         </tbody>
       </SDSTable>

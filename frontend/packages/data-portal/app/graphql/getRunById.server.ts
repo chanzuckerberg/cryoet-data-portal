@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { URLSearchParams } from 'url'
 
@@ -7,7 +9,14 @@ import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
 const GET_RUN_BY_ID_QUERY = gql(`
-  query GetRunById($id: Int, $limit: Int, $offset: Int, $filter: annotations_bool_exp) {
+  query GetRunById(
+    $id: Int,
+    $limit: Int,
+    $offset: Int,
+    $filter: annotations_bool_exp,
+    $groundTruthAnnotationsCountFilter: annotations_bool_exp,
+    $otherAnnotationsCountFilter: annotations_bool_exp,
+  ) {
     runs(where: { id: { _eq: $id } }) {
       id
       name
@@ -194,6 +203,18 @@ const GET_RUN_BY_ID_QUERY = gql(`
           }
         }
 
+        ground_truth_annotations_count: annotations_aggregate(where: $groundTruthAnnotationsCountFilter) {
+          aggregate {
+            count
+          }
+        }
+
+        other_annotations_count: annotations_aggregate(where: $otherAnnotationsCountFilter) {
+          aggregate {
+            count
+          }
+        }
+
         tomograms_aggregate {
           aggregate {
             count
@@ -319,13 +340,23 @@ export async function getRunById({
   page?: number
   params?: URLSearchParams
 }) {
+  const filter = getFilter(getFilterState(params))
+  const groundTruthAnnotationsCountFilter: Annotations_Bool_Exp = {
+    _and: filter._and?.concat({ ground_truth_status: { _eq: true } }),
+  }
+  const otherAnnotationsCountFilter: Annotations_Bool_Exp = {
+    _and: filter._and?.concat({ ground_truth_status: { _neq: true } }),
+  }
+
   return client.query({
     query: GET_RUN_BY_ID_QUERY,
     variables: {
       id,
+      filter,
+      groundTruthAnnotationsCountFilter,
+      otherAnnotationsCountFilter,
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
-      filter: getFilter(getFilterState(params)),
     },
   })
 }

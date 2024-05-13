@@ -55,5 +55,21 @@ export function useRunById() {
     objectNames,
     objectShapeTypes,
     annotationSoftwares,
+
+    groundTruthAnnotationsCount: run.annotation_table
+      .flatMap((tomogramVoxelSpacing) => tomogramVoxelSpacing.annotations)
+      .filter((annotation) => annotation.ground_truth_status)
+      .reduce((total, annotation) => total + annotation.files.length, 0),
+
+    // groundTruthAnnotationsCount: run.tomogram_stats.reduce(
+    //   (count, stats) =>
+    //     count + (stats.ground_truth_annotations_count.aggregate?.count ?? 0),
+    //   0,
+    // ),
+
+    otherAnnotationsCount: run.annotation_table
+      .flatMap((tomogramVoxelSpacing) => tomogramVoxelSpacing.annotations)
+      .filter((annotation) => !annotation.ground_truth_status)
+      .reduce((total, annotation) => total + annotation.files.length, 0),
   }
 }
