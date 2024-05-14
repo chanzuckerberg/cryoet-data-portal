@@ -1,7 +1,8 @@
-import { FilterPanel } from 'app/components/FilterPanel'
 import {
   AnnotatedObjectNameFilter,
   AnnotatedObjectShapeTypeFilter,
+  FilterPanel,
+  FilterSection,
   GroundTruthAnnotationFilter,
   TiltRangeFilter,
 } from 'app/components/Filters'
@@ -16,14 +17,24 @@ export function RunFilter() {
 
   return (
     <FilterPanel>
-      <GroundTruthAnnotationFilter />
-      <QualityScoreFilter />
-      <TiltRangeFilter />
-      <AnnotatedObjectNameFilter
-        allObjectNames={objectNames}
-        label={t('annotatedObjectName')}
-      />
-      <AnnotatedObjectShapeTypeFilter allObjectShapeTypes={objectShapeTypes} />
+      <FilterSection title={t('includedContents')}>
+        <GroundTruthAnnotationFilter />
+      </FilterSection>
+
+      <FilterSection title={t('tiltSeriesMetadata')}>
+        <QualityScoreFilter />
+        <TiltRangeFilter />
+      </FilterSection>
+
+      <FilterSection title={t('annotationMetadata')}>
+        <AnnotatedObjectNameFilter
+          allObjectNames={objectNames}
+          label={t('annotatedObjectName')}
+        />
+        <AnnotatedObjectShapeTypeFilter
+          allObjectShapeTypes={objectShapeTypes}
+        />
+      </FilterSection>
     </FilterPanel>
   )
 }
