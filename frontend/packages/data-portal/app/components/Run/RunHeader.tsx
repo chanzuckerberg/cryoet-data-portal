@@ -92,7 +92,7 @@ export function RunHeader() {
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Run)}
       title={run.name}
       renderHeader={({ moreInfo }) => (
-        <div className="flex gap-sds-xxl p-sds-xl">
+        <div className="flex flex-auto gap-sds-xxl p-sds-xl">
           <div className="max-w-[465px] max-h-[330px] grow overflow-clip rounded-sds-m flex-shrink-0 flex items-center">
             {keyPhotoURL ? (
               <Link to={keyPhotoURL}>
