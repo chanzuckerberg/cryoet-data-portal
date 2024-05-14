@@ -111,14 +111,14 @@ export function RunsTable() {
                   <Skeleton className="max-w-[150px]" variant="text" />
                 ) : (
                   <Link
-                    className="text-sds-primary-500 font-semibold"
+                    className="text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400"
                     to={runUrl}
                   >
                     {run.name}
                   </Link>
                 )}
 
-                <p className="text-xs text-sds-gray-600">
+                <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
                   {isLoadingDebounced ? (
                     <Skeleton className="max-w-[120px]" variant="text" />
                   ) : (

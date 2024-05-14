@@ -129,7 +129,7 @@ export function DatasetTable() {
                 width={DatasetTableWidths.id}
               >
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
-                  <p className="text-sm font-semibold text-sds-primary-400">
+                  <p className="text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400">
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[70%]" variant="text" />
                     ) : (
@@ -137,7 +137,7 @@ export function DatasetTable() {
                     )}
                   </p>
 
-                  <p className="text-xs text-sds-gray-600">
+                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
@@ -145,7 +145,7 @@ export function DatasetTable() {
                     )}
                   </p>
 
-                  <p className="text-xs text-sds-gray-500 mt-sds-s">
+                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-500 mt-sds-s">
                     {isLoadingDebounced ? (
                       <>
                         <Skeleton className="max-w-[80%] mt-2" variant="text" />
