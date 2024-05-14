@@ -26,7 +26,7 @@ export function RunFilter() {
         <TiltRangeFilter />
       </FilterSection>
 
-      <FilterSection title={t('annotationMetadata')}>
+      <FilterSection title={t('annotationMetadata')} border={false}>
         <AnnotatedObjectNameFilter
           allObjectNames={objectNames}
           label={t('annotatedObjectName')}
