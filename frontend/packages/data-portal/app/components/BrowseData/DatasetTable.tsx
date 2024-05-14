@@ -180,8 +180,9 @@ export function DatasetTable() {
               <TableCell width={DatasetTableWidths.empiarId}>
                 {empiarID ? (
                   <Link
-                    className="text-sds-primary-500 inline"
+                    className="inline"
                     to={`${EMPIAR_URL}${empiarID}`}
+                    variant="dashed"
                   >
                     EMPIAR-{empiarID}
                   </Link>

@@ -7,6 +7,7 @@ import { ComponentProps, useCallback, useMemo } from 'react'
 
 import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
 import { I18n } from 'app/components/I18n'
+import { DASHED_LINK_CLASSES } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
@@ -268,8 +269,8 @@ export function AnnotationTable() {
                     {/* convert to link when activate annotation state is moved to URL */}
                     <button
                       className={cnsNoMerge(
-                        'text-sds-primary-400 text-sds-header-s leading-sds-header-s',
-                        'hover:underline decoration-dashed decoration-1 underline-offset-4',
+                        'text-sds-header-s leading-sds-header-s',
+                        DASHED_LINK_CLASSES,
                       )}
                       onClick={() => openAnnotationDrawer(annotation)}
                       type="button"
