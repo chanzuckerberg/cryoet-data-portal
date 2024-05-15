@@ -1,4 +1,4 @@
-import { Fragment, useMemo } from 'react'
+import { ComponentProps, ComponentType, Fragment, useMemo } from 'react'
 
 import { AuthorInfo, AuthorLink } from 'app/components/AuthorLink'
 import { cns } from 'app/utils/cns'
@@ -10,17 +10,19 @@ function getAuthorKey(author: AuthorInfo) {
 const SEPARATOR = `, `
 
 export function DatasetAuthors({
+  AuthorLinkComponent = AuthorLink,
   authors,
   className,
   compact = false,
-  subtle = false,
   large,
+  subtle = false,
 }: {
+  AuthorLinkComponent?: ComponentType<ComponentProps<typeof AuthorLink>>
   authors: AuthorInfo[]
   className?: string
   compact?: boolean
-  subtle?: boolean
   large?: boolean
+  subtle?: boolean
 }) {
   // TODO: make the below grouping more efficient and/or use GraphQL ordering
   const authorsPrimary = authors.filter(
@@ -55,7 +57,7 @@ export function DatasetAuthors({
             {compact ? (
               author.name
             ) : (
-              <AuthorLink author={author} large={large} />
+              <AuthorLinkComponent author={author} large={large} />
             )}
             {!(
               authorsOther.length + authorsCorresponding.length === 0 &&
@@ -70,7 +72,7 @@ export function DatasetAuthors({
           ? otherCollapsed
           : authorsOther.map((author, i, arr) => (
               <Fragment key={getAuthorKey(author)}>
-                <AuthorLink author={author} large={large} />
+                <AuthorLinkComponent author={author} large={large} />
                 {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
                   SEPARATOR}
               </Fragment>
@@ -81,7 +83,7 @@ export function DatasetAuthors({
             {compact ? (
               author.name
             ) : (
-              <AuthorLink author={author} large={large} />
+              <AuthorLinkComponent author={author} large={large} />
             )}
             {!(arr.length - 1 === i) && SEPARATOR}
           </Fragment>
