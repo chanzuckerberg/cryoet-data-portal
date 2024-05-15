@@ -42,7 +42,8 @@ export function AuthorLegend({ inline = false }: { inline?: boolean }) {
     <Tooltip
       title={<Legend />}
       classes={{
-        tooltip: '!p-sds-m !min-w-fit border-solid border border-sds-gray-300',
+        tooltip:
+          '!p-sds-m !min-w-fit border-solid border border-sds-gray-300 !bg-white',
       }}
       placement="top-start"
     >
