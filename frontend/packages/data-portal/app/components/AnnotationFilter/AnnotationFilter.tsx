@@ -1,8 +1,8 @@
-import { FilterPanel } from 'app/components/FilterPanel'
 import {
   AnnotatedObjectNameFilter,
   AnnotatedObjectShapeTypeFilter,
   AuthorFilter,
+  FilterPanel,
 } from 'app/components/Filters'
 import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
@@ -19,15 +19,21 @@ export function AnnotationFilter() {
 
   return (
     <FilterPanel>
-      <AuthorFilter label={t('annotationAuthor')} />
-      <AnnotatedObjectNameFilter
-        label={t('objectName')}
-        allObjectNames={objectNames}
-      />
-      <GeneOntologyFilter />
-      <AnnotatedObjectShapeTypeFilter allObjectShapeTypes={objectShapeTypes} />
-      {showMethodType && <MethodTypeFilter />}
-      <AnnotationSoftwareFilter allAnnotationSoftwares={annotationSoftwares} />
+      <div className="pl-sds-l py-sds-default flex-col gap-sds-xxs">
+        <AuthorFilter label={t('annotationAuthor')} />
+        <AnnotatedObjectNameFilter
+          label={t('objectName')}
+          allObjectNames={objectNames}
+        />
+        <GeneOntologyFilter />
+        <AnnotatedObjectShapeTypeFilter
+          allObjectShapeTypes={objectShapeTypes}
+        />
+        {showMethodType && <MethodTypeFilter />}
+        <AnnotationSoftwareFilter
+          allAnnotationSoftwares={annotationSoftwares}
+        />
+      </div>
     </FilterPanel>
   )
 }
