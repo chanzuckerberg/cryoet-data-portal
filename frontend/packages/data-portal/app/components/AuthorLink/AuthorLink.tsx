@@ -47,15 +47,13 @@ export function AuthorLink({
         </span>
       </span>
 
-      {author.email && (
-        <LinkComponent to={`mailto:${author.email}`}>
-          <EnvelopeIcon
-            className={cns(
-              'text-sds-gray-400 mx-sds-xxxs',
-              'align-top inline-block h-sds-icon-xs w-sds-icon-xs',
-            )}
-          />
-        </LinkComponent>
+      {author.corresponding_author_status && (
+        <EnvelopeIcon
+          className={cns(
+            'text-sds-gray-400 mx-sds-xxxs',
+            'mb-2 inline-block h-sds-icon-xs w-sds-icon-xs',
+          )}
+        />
       )}
     </span>
   )

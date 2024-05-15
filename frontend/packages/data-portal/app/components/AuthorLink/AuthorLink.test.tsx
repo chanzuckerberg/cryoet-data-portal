@@ -10,7 +10,7 @@ import { ORC_ID_URL } from './constants'
 import { AuthorInfo } from './types'
 
 const DEFAULT_AUTHOR: AuthorInfo = {
-  corresponding_author_status: false,
+  corresponding_author_status: true,
   email: 'actin.filament@gmail.com',
   name: 'Actin Filament',
   orcid: '0000-0000-0000-0000',
@@ -36,17 +36,15 @@ it('should be a link if orc ID is provided', () => {
   expect(screen.getByTestId(TestIds.OrcIdIcon)).toBeInTheDocument()
 })
 
-it('should have mailto link if email is provided', () => {
+it('should have icon if user is corresponding author', () => {
   render(
     <AuthorLink
-      author={pick(DEFAULT_AUTHOR, 'name', 'email')}
+      author={pick(DEFAULT_AUTHOR, 'name', 'corresponding_author_status')}
       LinkComponent={MockLinkComponent}
     />,
   )
 
-  const link = screen.getByRole('link')
-  expect(link).toBeInTheDocument()
-  expect(link).toHaveProperty('href', `mailto:${DEFAULT_AUTHOR.email}`)
+  expect(screen.getByTestId(TestIds.EnvelopeIcon)).toBeInTheDocument()
 })
 
 it('should use regular icon size', () => {
