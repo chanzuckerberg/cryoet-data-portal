@@ -9,6 +9,10 @@ function getAuthorKey(author: AuthorInfo) {
 
 const SEPARATOR = `, `
 
+function getAuthorIds(authors: AuthorInfo[]) {
+  return authors.map((author) => author.name + author.email + author.orcid)
+}
+
 export function DatasetAuthors({
   AuthorLinkComponent = AuthorLink,
   authors,
@@ -46,7 +50,16 @@ export function DatasetAuthors({
       return `${ellipsis} ${SEPARATOR}`
     }
     return null
-  }, [authorsCorresponding.length, authorsOther.length, compact])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    authorsCorresponding.length,
+    authorsOther.length,
+    compact,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getAuthorIds(authorsCorresponding),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getAuthorIds(authorsOther),
+  ])
 
   // TODO: let's find a better way of doing this
   return (

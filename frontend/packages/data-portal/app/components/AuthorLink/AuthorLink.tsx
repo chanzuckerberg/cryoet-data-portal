@@ -1,16 +1,15 @@
 import { LinkProps } from '@remix-run/react'
 import { ComponentType } from 'react'
 
-import { EnvelopeIcon } from 'app/components/icons'
+import { EnvelopeIcon, ORCIDIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { cns } from 'app/utils/cns'
 
 import { ORC_ID_URL } from './constants'
-import orcIdImage from './orcid.png'
 import { AuthorInfo } from './types'
 
-const BASE_ICON_SIZE = 10
-const LARGE_ICON_SIZE = 14
+const BASE_ICON_SIZE_PX = 10
+const LARGE_ICON_SIZE_PX = 14
 
 export function AuthorLink({
   author,
@@ -21,16 +20,16 @@ export function AuthorLink({
   large?: boolean
   LinkComponent?: ComponentType<LinkProps>
 }) {
-  const iconSize = large ? LARGE_ICON_SIZE : BASE_ICON_SIZE
+  const iconSize = large ? LARGE_ICON_SIZE_PX : BASE_ICON_SIZE_PX
   const content = (
     <span className="inline">
       <span
         className={cns(
-          'inline border-b',
+          'inline border-b pb-sds-xxxs',
 
           author.orcid
             ? [
-                'border-dashed',
+                'border-dashed hover:border-solid',
 
                 author.primary_author_status
                   ? 'border-black'
@@ -40,13 +39,7 @@ export function AuthorLink({
         )}
       >
         {author.orcid && (
-          <img
-            className="inline"
-            src={orcIdImage}
-            alt="orc-id"
-            width={iconSize}
-            height={iconSize}
-          />
+          <ORCIDIcon className="inline mb-0.5" width={iconSize} />
         )}
 
         <span className={cns('ml-sds-xxxs', large ? 'text-sm' : 'text-xs')}>

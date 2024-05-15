@@ -43,6 +43,7 @@ export function AuthorLegend({ inline = false }: { inline?: boolean }) {
       title={<Legend />}
       classes={{
         tooltip:
+          // need to specify background color because it's not visible locally
           '!p-sds-m !min-w-fit border-solid border border-sds-gray-300 !bg-white',
       }}
       placement="top-start"
