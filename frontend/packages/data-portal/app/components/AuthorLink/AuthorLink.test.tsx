@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { pick } from 'lodash-es'
 
 import { MockLinkComponent } from 'app/components/Link'
+import { TestIds } from 'app/constants/testIds'
 
 import { AuthorLink } from './AuthorLink'
 import { ORC_ID_URL } from './constants'
@@ -32,7 +33,7 @@ it('should be a link if orc ID is provided', () => {
   const link = screen.getByRole('link')
   expect(link).toBeInTheDocument()
   expect(link).toHaveProperty('href', `${ORC_ID_URL}/${DEFAULT_AUTHOR.orcid}`)
-  expect(screen.getByRole('img', { name: 'orc-id' })).toBeInTheDocument()
+  expect(screen.getByTestId(TestIds.OrcIdIcon)).toBeInTheDocument()
 })
 
 it('should have mailto link if email is provided', () => {
