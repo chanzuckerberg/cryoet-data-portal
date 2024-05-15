@@ -50,7 +50,6 @@ export function DatasetAuthors({
       return `${ellipsis} ${SEPARATOR}`
     }
     return null
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     authorsCorresponding.length,
     authorsOther.length,
