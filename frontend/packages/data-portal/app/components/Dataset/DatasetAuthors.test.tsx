@@ -72,7 +72,7 @@ it('should render author links', () => {
 
   authors.forEach((author) =>
     expect(
-      screen.getByRole('link', { name: `orc-id ${author.name}` }),
+      screen.getByRole('link', { name: `${author.name}` }),
     ).toBeInTheDocument(),
   )
 })
