@@ -54,7 +54,7 @@ export function TopNavigation() {
       ).map((link) => (
         <Link
           className={cns(
-            'text-sds-header-s font-semibold mr-sds-xxl p-0',
+            'text-sds-header-s leading-sds-header-s font-semibold mr-sds-xxl p-0',
 
             link.isActive(pathname)
               ? 'text-sds-gray-white'
