@@ -1,8 +1,6 @@
 import { Fragment, useMemo } from 'react'
 
-import { AuthorInfo } from 'app/components/AuthorLink'
-import { EnvelopeIcon } from 'app/components/icons'
-import { Link } from 'app/components/Link'
+import { AuthorInfo, AuthorLink } from 'app/components/AuthorLink'
 import { cns } from 'app/utils/cns'
 
 function getAuthorKey(author: AuthorInfo) {
@@ -12,7 +10,7 @@ function getAuthorKey(author: AuthorInfo) {
 export function DatasetAuthors({
   authors,
   className,
-  separator = ';',
+  separator = ',',
   compact = false,
   subtle = false,
 }: {
@@ -34,10 +32,6 @@ export function DatasetAuthors({
       !(author.primary_author_status || author.corresponding_author_status),
   )
 
-  const envelopeIcon = (
-    <EnvelopeIcon className="text-sds-gray-400 mx-sds-xxxs align-top inline-block h-sds-icon-xs w-sds-icon-xs" />
-  )
-
   const otherCollapsed = useMemo<string | null>(() => {
     const ellipsis = '...'
 
@@ -50,40 +44,38 @@ export function DatasetAuthors({
     return null
   }, [authorsOther, authorsCorresponding, compact, separator])
 
+  const separatorNode = `${separator} `
+
   // TODO: let's find a better way of doing this
   return (
     <p className={className}>
       <span className={cns(!compact && 'font-semibold')}>
         {authorsPrimary.map((author, i, arr) => (
           <Fragment key={getAuthorKey(author)}>
-            {author.name}
+            {compact ? author.name : <AuthorLink author={author} />}
             {!(
               authorsOther.length + authorsCorresponding.length === 0 &&
               arr.length - 1 === i
-            ) && `${separator} `}
+            ) && separatorNode}
           </Fragment>
         ))}
       </span>
+
       <span className={cns(subtle && !compact && 'text-sds-gray-600')}>
         {compact
           ? otherCollapsed
           : authorsOther.map((author, i, arr) => (
               <Fragment key={getAuthorKey(author)}>
-                {author.name}
+                <AuthorLink author={author} />
                 {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
-                  `${separator} `}
+                  separatorNode}
               </Fragment>
             ))}
+
         {authorsCorresponding.map((author, i, arr) => (
           <Fragment key={getAuthorKey(author)}>
-            {author.name}
-            {!compact &&
-              (author.email ? (
-                <Link to={`mailto:${author.email}`}>{envelopeIcon}</Link>
-              ) : (
-                envelopeIcon
-              ))}
-            {!(arr.length - 1 === i) && `${separator} `}
+            {compact ? author.name : <AuthorLink author={author} />}
+            {!(arr.length - 1 === i) && separatorNode}
           </Fragment>
         ))}
       </span>
