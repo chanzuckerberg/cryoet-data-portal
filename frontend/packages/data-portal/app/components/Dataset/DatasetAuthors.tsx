@@ -1,14 +1,9 @@
 import { Fragment, useMemo } from 'react'
 
-import { Dataset_Authors } from 'app/__generated__/graphql'
+import { AuthorInfo } from 'app/components/AuthorLink'
 import { EnvelopeIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { cns } from 'app/utils/cns'
-
-export type AuthorInfo = Pick<
-  Dataset_Authors,
-  'name' | 'primary_author_status' | 'corresponding_author_status' | 'email'
->
 
 function getAuthorKey(author: AuthorInfo) {
   return author.name + author.email
