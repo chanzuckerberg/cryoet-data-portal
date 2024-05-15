@@ -7,16 +7,16 @@ function getAuthorKey(author: AuthorInfo) {
   return author.name + author.email
 }
 
+const SEPARATOR = `, `
+
 export function DatasetAuthors({
   authors,
   className,
-  separator = ',',
   compact = false,
   subtle = false,
 }: {
   authors: AuthorInfo[]
   className?: string
-  separator?: string
   compact?: boolean
   subtle?: boolean
 }) {
@@ -39,12 +39,10 @@ export function DatasetAuthors({
       if (authorsCorresponding.length === 0) {
         return ellipsis
       }
-      return `${ellipsis} ${separator} `
+      return `${ellipsis} ${SEPARATOR}`
     }
     return null
-  }, [authorsOther, authorsCorresponding, compact, separator])
-
-  const separatorNode = `${separator} `
+  }, [authorsCorresponding.length, authorsOther.length, compact])
 
   // TODO: let's find a better way of doing this
   return (
@@ -56,7 +54,7 @@ export function DatasetAuthors({
             {!(
               authorsOther.length + authorsCorresponding.length === 0 &&
               arr.length - 1 === i
-            ) && separatorNode}
+            ) && SEPARATOR}
           </Fragment>
         ))}
       </span>
@@ -68,14 +66,14 @@ export function DatasetAuthors({
               <Fragment key={getAuthorKey(author)}>
                 <AuthorLink author={author} />
                 {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
-                  separatorNode}
+                  SEPARATOR}
               </Fragment>
             ))}
 
         {authorsCorresponding.map((author, i, arr) => (
           <Fragment key={getAuthorKey(author)}>
             {compact ? author.name : <AuthorLink author={author} />}
-            {!(arr.length - 1 === i) && separatorNode}
+            {!(arr.length - 1 === i) && SEPARATOR}
           </Fragment>
         ))}
       </span>

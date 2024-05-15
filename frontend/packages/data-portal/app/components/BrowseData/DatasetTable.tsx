@@ -156,11 +156,7 @@ export function DatasetTable() {
                         />
                       </>
                     ) : (
-                      <DatasetAuthors
-                        authors={dataset.authors}
-                        separator=","
-                        compact
-                      />
+                      <DatasetAuthors authors={dataset.authors} compact />
                     )}
                   </p>
                 </div>

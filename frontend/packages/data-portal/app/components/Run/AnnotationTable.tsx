@@ -185,11 +185,7 @@ export function AnnotationTable() {
             </div>
 
             <div className=" text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
-              <DatasetAuthors
-                authors={annotation.authors}
-                separator=","
-                compact
-              />
+              <DatasetAuthors authors={annotation.authors} compact />
             </div>
           </TableCell>
         ),
