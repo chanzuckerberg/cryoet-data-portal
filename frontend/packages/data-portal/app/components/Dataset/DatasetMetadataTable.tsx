@@ -95,10 +95,12 @@ export function DatasetMetadataTable({
           : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
-        return <DatasetAuthors authors={dataset.authors as AuthorInfo[]} />
+        return (
+          <DatasetAuthors authors={dataset.authors as AuthorInfo[]} large />
+        )
       },
       values: [],
-      className: 'leading-sds-body-xs',
+      className: 'leading-sds-body-s',
     },
 
     {

@@ -14,11 +14,13 @@ export function DatasetAuthors({
   className,
   compact = false,
   subtle = false,
+  large,
 }: {
   authors: AuthorInfo[]
   className?: string
   compact?: boolean
   subtle?: boolean
+  large?: boolean
 }) {
   // TODO: make the below grouping more efficient and/or use GraphQL ordering
   const authorsPrimary = authors.filter(
@@ -50,7 +52,11 @@ export function DatasetAuthors({
       <span className={cns(!compact && 'font-semibold')}>
         {authorsPrimary.map((author, i, arr) => (
           <Fragment key={getAuthorKey(author)}>
-            {compact ? author.name : <AuthorLink author={author} />}
+            {compact ? (
+              author.name
+            ) : (
+              <AuthorLink author={author} large={large} />
+            )}
             {!(
               authorsOther.length + authorsCorresponding.length === 0 &&
               arr.length - 1 === i
@@ -64,7 +70,7 @@ export function DatasetAuthors({
           ? otherCollapsed
           : authorsOther.map((author, i, arr) => (
               <Fragment key={getAuthorKey(author)}>
-                <AuthorLink author={author} />
+                <AuthorLink author={author} large={large} />
                 {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
                   SEPARATOR}
               </Fragment>
@@ -72,7 +78,11 @@ export function DatasetAuthors({
 
         {authorsCorresponding.map((author, i, arr) => (
           <Fragment key={getAuthorKey(author)}>
-            {compact ? author.name : <AuthorLink author={author} />}
+            {compact ? (
+              author.name
+            ) : (
+              <AuthorLink author={author} large={large} />
+            )}
             {!(arr.length - 1 === i) && SEPARATOR}
           </Fragment>
         ))}

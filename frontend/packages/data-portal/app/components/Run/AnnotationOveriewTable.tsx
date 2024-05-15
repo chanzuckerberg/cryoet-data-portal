@@ -30,10 +30,10 @@ export function AnnotationOverviewTable() {
               : t('annotationAuthors'),
           labelExtra: <AuthorLegend inline />,
           renderValue: () => {
-            return <DatasetAuthors authors={annotation.authors} />
+            return <DatasetAuthors authors={annotation.authors} large />
           },
           values: [''],
-          className: 'leading-sds-body-xs',
+          className: 'leading-sds-body-s',
         },
         {
           label: t('publication'),

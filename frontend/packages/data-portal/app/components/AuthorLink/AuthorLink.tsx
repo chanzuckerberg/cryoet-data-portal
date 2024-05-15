@@ -15,8 +15,17 @@ export type AuthorInfo = Pick<
 >
 
 const ORC_ID_URL = 'https://orcid.org'
+const BASE_ICON_SIZE = 10
+const LARGE_ICON_SIZE = 14
 
-export function AuthorLink({ author }: { author: AuthorInfo }) {
+export function AuthorLink({
+  author,
+  large,
+}: {
+  author: AuthorInfo
+  large?: boolean
+}) {
+  const iconSize = large ? LARGE_ICON_SIZE : BASE_ICON_SIZE
   const content = (
     <span className="inline">
       <span
@@ -39,12 +48,14 @@ export function AuthorLink({ author }: { author: AuthorInfo }) {
             className="inline"
             src={orcIdImage}
             alt="orc-id"
-            width={10}
-            height={10}
+            width={iconSize}
+            height={iconSize}
           />
         )}
 
-        <span className="ml-sds-xxxs">{author.name}</span>
+        <span className={cns('ml-sds-xxxs', large ? 'text-sm' : 'text-xs')}>
+          {author.name}
+        </span>
       </span>
 
       {author.email && (
