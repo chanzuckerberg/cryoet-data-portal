@@ -1,30 +1,31 @@
-import { Fragment, useMemo } from 'react'
+import { ComponentProps, ComponentType, Fragment, useMemo } from 'react'
 
-import { Dataset_Authors } from 'app/__generated__/graphql'
-import { EnvelopeIcon } from 'app/components/icons'
-import { Link } from 'app/components/Link'
+import { AuthorInfo, AuthorLink } from 'app/components/AuthorLink'
 import { cns } from 'app/utils/cns'
-
-export type AuthorInfo = Pick<
-  Dataset_Authors,
-  'name' | 'primary_author_status' | 'corresponding_author_status' | 'email'
->
 
 function getAuthorKey(author: AuthorInfo) {
   return author.name + author.email
 }
 
+const SEPARATOR = `, `
+
+function getAuthorIds(authors: AuthorInfo[]) {
+  return authors.map((author) => author.name + author.email + author.orcid)
+}
+
 export function DatasetAuthors({
+  AuthorLinkComponent = AuthorLink,
   authors,
   className,
-  separator = ';',
   compact = false,
+  large,
   subtle = false,
 }: {
+  AuthorLinkComponent?: ComponentType<ComponentProps<typeof AuthorLink>>
   authors: AuthorInfo[]
   className?: string
-  separator?: string
   compact?: boolean
+  large?: boolean
   subtle?: boolean
 }) {
   // TODO: make the below grouping more efficient and/or use GraphQL ordering
@@ -39,10 +40,6 @@ export function DatasetAuthors({
       !(author.primary_author_status || author.corresponding_author_status),
   )
 
-  const envelopeIcon = (
-    <EnvelopeIcon className="text-sds-gray-400 mx-sds-xxxs align-top inline-block h-sds-icon-xs w-sds-icon-xs" />
-  )
-
   const otherCollapsed = useMemo<string | null>(() => {
     const ellipsis = '...'
 
@@ -50,10 +47,18 @@ export function DatasetAuthors({
       if (authorsCorresponding.length === 0) {
         return ellipsis
       }
-      return `${ellipsis} ${separator} `
+      return `${ellipsis} ${SEPARATOR}`
     }
     return null
-  }, [authorsOther, authorsCorresponding, compact, separator])
+  }, [
+    authorsCorresponding.length,
+    authorsOther.length,
+    compact,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getAuthorIds(authorsCorresponding),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getAuthorIds(authorsOther),
+  ])
 
   // TODO: let's find a better way of doing this
   return (
@@ -61,34 +66,38 @@ export function DatasetAuthors({
       <span className={cns(!compact && 'font-semibold')}>
         {authorsPrimary.map((author, i, arr) => (
           <Fragment key={getAuthorKey(author)}>
-            {author.name}
+            {compact ? (
+              author.name
+            ) : (
+              <AuthorLinkComponent author={author} large={large} />
+            )}
             {!(
               authorsOther.length + authorsCorresponding.length === 0 &&
               arr.length - 1 === i
-            ) && `${separator} `}
+            ) && SEPARATOR}
           </Fragment>
         ))}
       </span>
+
       <span className={cns(subtle && !compact && 'text-sds-gray-600')}>
         {compact
           ? otherCollapsed
           : authorsOther.map((author, i, arr) => (
               <Fragment key={getAuthorKey(author)}>
-                {author.name}
+                <AuthorLinkComponent author={author} large={large} />
                 {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
-                  `${separator} `}
+                  SEPARATOR}
               </Fragment>
             ))}
+
         {authorsCorresponding.map((author, i, arr) => (
           <Fragment key={getAuthorKey(author)}>
-            {author.name}
-            {!compact &&
-              (author.email ? (
-                <Link to={`mailto:${author.email}`}>{envelopeIcon}</Link>
-              ) : (
-                envelopeIcon
-              ))}
-            {!(arr.length - 1 === i) && `${separator} `}
+            {compact ? (
+              author.name
+            ) : (
+              <AuthorLinkComponent author={author} large={large} />
+            )}
+            {!(arr.length - 1 === i) && SEPARATOR}
           </Fragment>
         ))}
       </span>

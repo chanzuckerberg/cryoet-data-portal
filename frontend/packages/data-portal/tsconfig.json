@@ -16,7 +16,8 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
-    "incremental": true
+    "incremental": true,
+    "types": ["@testing-library/jest-dom"]
   },
   "include": ["*.d.ts", "*.ts", "app/**/*.ts", "app/**/*.tsx", "e2e/**/*.ts"],
   "exclude": ["node_modules"]

@@ -72,10 +72,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
             author_list_order: asc,
           },
         ) {
-          name
-          email
-          primary_author_status
           corresponding_author_status
+          email
+          name
+          orcid
+          primary_author_status
         }
 
         authors_with_affiliation: authors(where: { affiliation_name: { _is_null: false } }) {
@@ -154,10 +155,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
           }
 
           authors(order_by: { author_list_order: asc }) {
-            name
-            email
-            primary_author_status: primary_annotator_status
             corresponding_author_status
+            email
+            name
+            orcid
+            primary_author_status: primary_annotator_status
           }
 
           author_affiliations: authors(distinct_on: affiliation_name) {
