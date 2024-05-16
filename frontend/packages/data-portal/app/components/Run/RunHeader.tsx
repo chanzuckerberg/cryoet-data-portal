@@ -140,6 +140,7 @@ export function RunHeader() {
 
             <div className="flex gap-sds-xxl flex-col lg:flex-row">
               <MetadataTable
+                small
                 title={i18n.tiltSeries}
                 tableCellLabelProps={{
                   width: { min: 100, max: 100 },
@@ -150,7 +151,9 @@ export function RunHeader() {
                     labelTooltipProps: {
                       arrowPadding: { right: 230 },
                     },
-                    label: i18n.tiltQuality,
+                    label: t('tiltQuality'),
+                    // hack to align with score badge
+                    labelExtra: <span className="mt-sds-xxxs h-[18px]" />,
                     values:
                       typeof tiltSeries?.tilt_series_quality === 'number'
                         ? [String(tiltSeries.tilt_series_quality)]
@@ -183,6 +186,7 @@ export function RunHeader() {
               />
 
               <MetadataTable
+                small
                 title={i18n.tomogram}
                 tableCellLabelProps={{ width: { min: 100, max: 180 } }}
                 data={[
