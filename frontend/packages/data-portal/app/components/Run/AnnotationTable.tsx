@@ -311,7 +311,7 @@ export function AnnotationTable() {
 
         cell: ({ row: { original: annotation } }) => (
           <TableCell width={AnnotationTableWidths.actions}>
-            <div className="flex flex-col gap-sds-xs">
+            <div className="flex flex-col gap-sds-xs items-start">
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
@@ -319,8 +319,15 @@ export function AnnotationTable() {
                 startIcon={
                   <Icon sdsIcon="infoCircle" sdsSize="s" sdsType="button" />
                 }
+                // FIXME: check if below still needed in @czi-sds/components >= 20.4.0
+                // default min-w is 64px which throws off alignment
+                className="!min-w-0"
+                // remove negative margin on icon
+                classes={{
+                  startIcon: '!ml-0',
+                }}
               >
-                <span>{t('moreInfo')}</span>
+                <span>{t('info')}</span>
               </Button>
 
               {showAnnotationDownload && (
@@ -343,6 +350,11 @@ export function AnnotationTable() {
                   startIcon={
                     <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
                   }
+                  // FIXME: check if below still needed in @czi-sds/components >= 20.4.0
+                  // remove negative margin on icon
+                  classes={{
+                    startIcon: '!ml-0',
+                  }}
                 >
                   {t('download')}
                 </Button>

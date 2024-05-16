@@ -74,7 +74,7 @@ export function RunHeader() {
 
           <Button
             startIcon={<Icon sdsIcon="download" sdsType="button" sdsSize="l" />}
-            sdsType="primary"
+            sdsType="secondary"
             sdsStyle="rounded"
             onClick={() =>
               openTomogramDownloadModal({
@@ -83,9 +83,13 @@ export function RunHeader() {
               })
             }
           >
-            {t('download')}...
+            {t('downloadRun')}
           </Button>
         </>
+      }
+      releaseDate={run.dataset.release_date}
+      lastModifiedDate={
+        run.dataset.last_modified_date ?? run.dataset.deposition_date
       }
       breadcrumbs={<Breadcrumbs variant="run" dataset={run.dataset} />}
       metadata={[{ key: t('runId'), value: `${run.id}` }]}
