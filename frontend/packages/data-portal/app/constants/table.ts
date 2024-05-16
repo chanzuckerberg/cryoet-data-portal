@@ -7,9 +7,9 @@ export type TableColumnWidth = {
 }
 
 const PHOTO_COLUMN_WIDTH: TableColumnWidth = {
-  min: 134,
-  max: 134,
-  width: 134,
+  min: 150,
+  max: 150,
+  width: 150,
 }
 
 export const DatasetTableWidths = {

@@ -75,6 +75,10 @@ export default {
       backgroundImageSrc: {
         'landing-header': "url('/images/index-header.png')",
       },
+
+      content: {
+        i18n: 'attr(i18n-content)',
+      },
     },
   },
   plugins: [backgroundImageSrcPlugin],

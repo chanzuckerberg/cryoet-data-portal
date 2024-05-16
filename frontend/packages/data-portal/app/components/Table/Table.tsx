@@ -10,6 +10,7 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  Row,
   useReactTable,
 } from '@tanstack/react-table'
 
@@ -22,6 +23,7 @@ export function Table<T>({
   columns,
   data,
   tableProps,
+  onTableRowClick,
 }: {
   classes?: {
     body?: string
@@ -29,10 +31,12 @@ export function Table<T>({
     container?: string
     headerCell?: string
     table?: string
+    row?: string
   }
   columns: ColumnDef<T>[]
   data: T[]
   tableProps?: TableProps
+  onTableRowClick?(row: Row<T>): void
 }) {
   const { hasFilters } = useLayout()
 
@@ -81,7 +85,11 @@ export function Table<T>({
 
         <tbody className={classes?.body}>
           {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
+            <TableRow
+              className={classes?.row}
+              key={row.id}
+              onClick={() => onTableRowClick?.(row)}
+            >
               {row.getVisibleCells().map((cell) => (
                 <ErrorBoundary
                   key={cell.id}

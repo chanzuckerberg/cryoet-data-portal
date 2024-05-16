@@ -390,6 +390,7 @@ export function AnnotationTable() {
     <PageTable
       data={isLoadingDebounced ? LOADING_ANNOTATIONS : annotations}
       columns={columns}
+      hoverType="none"
     />
   )
 }

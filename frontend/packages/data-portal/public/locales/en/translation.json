@@ -182,6 +182,7 @@
   "objectName": "Object Name",
   "objectShapeType": "Object Shape Type",
   "objectState": "Object State",
+  "openDataset": "Open Dataset",
   "optional": "Optional",
   "orExploreViaApi": "or explore via API",
   "orcidAvailable": "ORCID ID Available",

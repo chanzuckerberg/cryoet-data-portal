@@ -2,10 +2,10 @@
 
 import { CellHeaderDirection } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
-import { useSearchParams } from '@remix-run/react'
+import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
 import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
@@ -25,6 +25,7 @@ import {
   useBrowseDatasetFilterHistory,
 } from 'app/state/filterHistory'
 import { LogLevel } from 'app/types/logging'
+import { cns } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
 
@@ -50,6 +51,10 @@ export function DatasetTable() {
     | undefined
 
   const { isLoadingDebounced } = useIsLoading()
+  const [isHoveringOverInteractable, setIsHoveringOverInteractable] =
+    useState(false)
+  const [isClickingOnEmpiarId, setIsClickingOnEmpiarId] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(
     () =>
@@ -72,7 +77,7 @@ export function DatasetTable() {
           header: () => <p />,
 
           cell({ row: { original: dataset } }) {
-            const datasetUrl = `/datasets/${dataset.id}}`
+            const datasetUrl = `/datasets/${dataset.id}`
 
             return (
               <TableCell
@@ -85,6 +90,7 @@ export function DatasetTable() {
                     title={dataset.title}
                     src={dataset.key_photo_thumbnail_url ?? undefined}
                     loading={isLoadingDebounced}
+                    overlayOnGroupHover={!isClickingOnEmpiarId}
                   />
                 </Link>
               </TableCell>
@@ -129,7 +135,13 @@ export function DatasetTable() {
                 width={DatasetTableWidths.id}
               >
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
-                  <p className="text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400">
+                  <p
+                    className={cns(
+                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400',
+                      !isClickingOnEmpiarId &&
+                        'group-hover:text-sds-primary-500',
+                    )}
+                  >
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[70%]" variant="text" />
                     ) : (
@@ -175,13 +187,22 @@ export function DatasetTable() {
           cell({ getValue }) {
             const empiarIDMatch = EMPIAR_ID.exec(getValue() ?? '')
             const empiarID = empiarIDMatch?.[1]
+            const empiarLink = `${EMPIAR_URL}${empiarID}`
 
             return (
               <TableCell width={DatasetTableWidths.empiarId}>
                 {empiarID ? (
                   <Link
                     className="inline"
-                    to={`${EMPIAR_URL}${empiarID}`}
+                    to={empiarLink}
+                    onMouseEnter={() => setIsHoveringOverInteractable(true)}
+                    onMouseLeave={() => setIsHoveringOverInteractable(false)}
+                    onMouseDown={() => setIsClickingOnEmpiarId(true)}
+                    onMouseUp={() => {
+                      setIsClickingOnEmpiarId(false)
+                      // using the MouseUp event disables how the link normally works
+                      window.open(empiarLink, '_blank')
+                    }}
                     variant="dashed"
                   >
                     EMPIAR-{empiarID}
@@ -291,12 +312,23 @@ export function DatasetTable() {
 
       throw err
     }
-  }, [datasetSort, isLoadingDebounced, searchParams, setSearchParams, t])
+  }, [
+    datasetSort,
+    isLoadingDebounced,
+    isClickingOnEmpiarId,
+    searchParams,
+    setSearchParams,
+    t,
+  ])
 
   return (
     <PageTable
       data={isLoadingDebounced ? LOADING_DATASETS : datasets}
       columns={columns}
+      onTableRowClick={(row) =>
+        !isHoveringOverInteractable && navigate(`/datasets/${row.original.id}`)
+      }
+      hoverType="group"
     />
   )
 }
