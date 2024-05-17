@@ -1,5 +1,4 @@
-import { Filters } from 'app/components/Filters'
-import { i18n } from 'app/i18n'
+import { FilterPanel } from 'app/components/Filters'
 
 import { ErrorBoundary } from '../ErrorBoundary'
 import { AnnotationMetadataFilterSection } from './AnnotationMetadataFilterSection'
@@ -43,12 +42,12 @@ export function DatasetFilter() {
   ]
 
   return (
-    <Filters title={i18n.filterBy}>
+    <FilterPanel>
       {filters.map(({ filter, logId }) => (
         <ErrorBoundary key={logId} logId={logId}>
           {filter}
         </ErrorBoundary>
       ))}
-    </Filters>
+    </FilterPanel>
   )
 }

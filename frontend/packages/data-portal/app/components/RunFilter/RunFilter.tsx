@@ -1,6 +1,8 @@
 import {
   AnnotatedObjectNameFilter,
   AnnotatedObjectShapeTypeFilter,
+  FilterPanel,
+  FilterSection,
   GroundTruthAnnotationFilter,
   TiltRangeFilter,
 } from 'app/components/Filters'
@@ -14,19 +16,25 @@ export function RunFilter() {
   const { objectNames, objectShapeTypes } = useDatasetById()
 
   return (
-    <div className="pl-sds-l flex flex-col gap-sds-xxs">
-      <p className="text-sds-header-m leading-sds-header-m px-sds-s pt-sds-xl font-semibold">
-        {t('filterBy')}:
-      </p>
+    <FilterPanel>
+      <FilterSection title={t('includedContents')}>
+        <GroundTruthAnnotationFilter />
+      </FilterSection>
 
-      <GroundTruthAnnotationFilter />
-      <QualityScoreFilter />
-      <TiltRangeFilter />
-      <AnnotatedObjectNameFilter
-        allObjectNames={objectNames}
-        label={t('annotatedObjectName')}
-      />
-      <AnnotatedObjectShapeTypeFilter allObjectShapeTypes={objectShapeTypes} />
-    </div>
+      <FilterSection title={t('tiltSeriesMetadata')}>
+        <QualityScoreFilter />
+        <TiltRangeFilter />
+      </FilterSection>
+
+      <FilterSection title={t('annotationMetadata')} border={false}>
+        <AnnotatedObjectNameFilter
+          allObjectNames={objectNames}
+          label={t('annotatedObjectName')}
+        />
+        <AnnotatedObjectShapeTypeFilter
+          allObjectShapeTypes={objectShapeTypes}
+        />
+      </FilterSection>
+    </FilterPanel>
   )
 }

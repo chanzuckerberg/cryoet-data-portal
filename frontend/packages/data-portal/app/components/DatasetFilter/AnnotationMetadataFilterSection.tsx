@@ -12,7 +12,7 @@ export function AnnotationMetadataFilterSection() {
   const { t } = useI18n()
 
   return (
-    <FilterSection title={t('annotationMetadata')}>
+    <FilterSection title={t('annotationMetadata')} border={false}>
       <AnnotatedObjectNameFilter
         allObjectNames={objectNames}
         label={t('objectName')}

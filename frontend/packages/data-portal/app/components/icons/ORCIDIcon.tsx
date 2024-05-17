@@ -1,8 +1,11 @@
+import { TestIds } from 'app/constants/testIds'
+
 import { IconProps } from './icon.types'
 
 export function ORCIDIcon(props: IconProps) {
   return (
     <svg
+      data-testid={TestIds.OrcIdIcon}
       version="1.1"
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"

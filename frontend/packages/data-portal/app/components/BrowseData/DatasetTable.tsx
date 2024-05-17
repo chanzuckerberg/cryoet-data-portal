@@ -2,30 +2,31 @@
 
 import { CellHeaderDirection } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
-import { useLocation, useSearchParams } from '@remix-run/react'
+import { useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
+import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
 import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { EMPIAR_ID, EMPIAR_URL } from 'app/constants/external-dbs'
+import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { DatasetTableWidths } from 'app/constants/table'
 import { Dataset, useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
+import {
+  BrowseDatasetHistory,
+  useBrowseDatasetFilterHistory,
+} from 'app/state/filterHistory'
 import { LogLevel } from 'app/types/logging'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
-
-/**
- * Max number of authors to show for dataset.
- */
-const AUTHOR_MAX = 7
 
 const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
   (value) =>
@@ -43,19 +44,54 @@ export function DatasetTable() {
   const { datasets } = useDatasets()
 
   const [searchParams, setSearchParams] = useSearchParams()
+  const { setBrowseDatasetHistory } = useBrowseDatasetFilterHistory()
   const datasetSort = (searchParams.get('sort') ?? undefined) as
     | CellHeaderDirection
     | undefined
 
   const { isLoadingDebounced } = useIsLoading()
 
-  const location = useLocation()
+  useEffect(
+    () =>
+      setBrowseDatasetHistory(
+        new Map(
+          Array.from(searchParams).filter(([k]) =>
+            DATASET_FILTERS.map((v) => v as string).includes(k),
+          ),
+        ) as BrowseDatasetHistory,
+      ),
+    [searchParams, setBrowseDatasetHistory],
+  )
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Dataset>()
 
     try {
       return [
+        columnHelper.accessor('key_photo_thumbnail_url', {
+          header: () => <p />,
+
+          cell({ row: { original: dataset } }) {
+            const datasetUrl = `/datasets/${dataset.id}}`
+
+            return (
+              <TableCell
+                renderLoadingSkeleton={false}
+                width={DatasetTableWidths.photo}
+              >
+                <Link to={datasetUrl} className="max-w-[134px] self-start">
+                  <KeyPhoto
+                    className="max-w-[134px]"
+                    title={dataset.title}
+                    src={dataset.key_photo_thumbnail_url ?? undefined}
+                    loading={isLoadingDebounced}
+                  />
+                </Link>
+              </TableCell>
+            )
+          },
+        }),
+
         columnHelper.accessor('id', {
           header: () => (
             <CellHeader
@@ -79,15 +115,12 @@ export function DatasetTable() {
               }}
               width={DatasetTableWidths.id}
             >
-              {t('dataset')}
+              {t('datasetName')}
             </CellHeader>
           ),
 
           cell({ row: { original: dataset } }) {
-            const previousUrl = `${location.pathname}${location.search}`
-            const datasetUrl = `/datasets/${
-              dataset.id
-            }?prev=${encodeURIComponent(previousUrl)}`
+            const datasetUrl = `/datasets/${dataset.id}`
 
             return (
               <TableCell
@@ -95,14 +128,6 @@ export function DatasetTable() {
                 renderLoadingSkeleton={false}
                 width={DatasetTableWidths.id}
               >
-                <Link to={datasetUrl} className="flex-shrink-0 w-[134px]">
-                  <KeyPhoto
-                    title={dataset.title}
-                    src={dataset.key_photo_thumbnail_url ?? undefined}
-                    loading={isLoadingDebounced}
-                  />
-                </Link>
-
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                   <p className="text-sm font-semibold text-sds-primary-400">
                     {isLoadingDebounced ? (
@@ -116,7 +141,7 @@ export function DatasetTable() {
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
-                      `${t('portalId')}: ${dataset.id}`
+                      `${t('datasetId')}: ${dataset.id}`
                     )}
                   </p>
 
@@ -131,30 +156,7 @@ export function DatasetTable() {
                         />
                       </>
                     ) : (
-                      <>
-                        {dataset.authors
-                          .slice(
-                            0,
-                            dataset.authors.length > AUTHOR_MAX
-                              ? AUTHOR_MAX - 1
-                              : Infinity,
-                          )
-                          .map((author, idx) => (
-                            <span key={author.name}>
-                              {author.name}
-                              {idx < dataset.authors.length - 1 && '; '}
-                            </span>
-                          ))}
-
-                        {dataset.authors.length > AUTHOR_MAX && (
-                          <Link
-                            className="text-sds-primary-500 inline"
-                            to={datasetUrl}
-                          >
-                            + {dataset.authors.length + 1 - AUTHOR_MAX} more
-                          </Link>
-                        )}
-                      </>
+                      <DatasetAuthors authors={dataset.authors} compact />
                     )}
                   </p>
                 </div>
@@ -288,15 +290,7 @@ export function DatasetTable() {
 
       throw err
     }
-  }, [
-    datasetSort,
-    isLoadingDebounced,
-    location.pathname,
-    location.search,
-    searchParams,
-    setSearchParams,
-    t,
-  ])
+  }, [datasetSort, isLoadingDebounced, searchParams, setSearchParams, t])
 
   return (
     <PageTable

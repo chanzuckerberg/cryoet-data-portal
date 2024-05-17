@@ -1,11 +1,6 @@
-import { useMemo } from 'react'
-
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { AuthorLegend } from 'app/components/AuthorLegend'
-import {
-  AuthorInfo,
-  DatasetAuthors,
-} from 'app/components/Dataset/DatasetAuthors'
+import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
 import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
 import { useFeatureFlag } from 'app/utils/featureFlags'
@@ -14,18 +9,6 @@ export function AnnotationOverviewTable() {
   const { activeAnnotation: annotation } = useAnnotation()
   const { t } = useI18n()
   const showMethodType = useFeatureFlag('methodType')
-
-  const authors = useMemo<AuthorInfo[]>(
-    () =>
-      annotation
-        ? annotation.authors.map((author) => ({
-            name: author.name,
-            primary_author_status: author.primary_annotator_status,
-            corresponding_author_status: author.corresponding_author_status,
-          }))
-        : [],
-    [annotation],
-  )
 
   if (!annotation) {
     return null
@@ -47,10 +30,10 @@ export function AnnotationOverviewTable() {
               : t('annotationAuthors'),
           labelExtra: <AuthorLegend inline />,
           renderValue: () => {
-            return <DatasetAuthors authors={authors} />
+            return <DatasetAuthors authors={annotation.authors} large />
           },
           values: [''],
-          className: 'leading-sds-body-xs',
+          className: 'leading-sds-body-s',
         },
         {
           label: t('publication'),

@@ -1,12 +1,16 @@
 import { Button, Icon } from '@czi-sds/components'
 import { sum } from 'lodash-es'
 
+import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { I18n } from 'app/components/I18n'
+import { InlineMetadata } from 'app/components/InlineMetadata'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { PageHeader } from 'app/components/PageHeader'
+import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
 import { MetadataTable } from 'app/components/Table'
 import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
+import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import {
@@ -17,7 +21,23 @@ import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 
-import { ViewTomogramButton } from '../ViewTomogramButton'
+interface FileSummaryData {
+  key: string
+  value: number
+}
+
+function FileSummary({ data }: { data: FileSummaryData[] }) {
+  const { t } = useI18n()
+  return (
+    <InlineMetadata
+      label={t('fileSummary')}
+      fields={data.map(({ key, value }) => ({
+        key,
+        value: t('fileCount', { count: value }),
+      }))}
+    />
+  )
+}
 
 export function RunHeader() {
   const { run } = useRunById()
@@ -67,43 +87,12 @@ export function RunHeader() {
           </Button>
         </>
       }
-      backToResultsLabel={run.dataset.title}
-      lastModifiedDate="2023-12-16"
-      metadata={[
-        // TODO fetch frames from API
-        { key: i18n.frames, value: i18n.nFiles(0) },
-
-        {
-          key: i18n.tiltSeries,
-          value: i18n.nFiles(run.tiltseries_aggregate.aggregate?.count ?? 0),
-        },
-
-        {
-          key: i18n.tomograms,
-          value: i18n.nFiles(
-            sum(
-              run.tomogram_stats.flatMap(
-                (stats) => stats.tomograms_aggregate.aggregate?.count ?? 0,
-              ),
-            ),
-          ),
-        },
-
-        {
-          key: i18n.annotations,
-          value: i18n.nFiles(
-            sum(
-              run.tomogram_stats.flatMap(
-                (stats) => stats.annotations_aggregate.aggregate?.count ?? 0,
-              ),
-            ),
-          ),
-        },
-      ]}
+      breadcrumbs={<Breadcrumbs variant="run" dataset={run.dataset} />}
+      metadata={[{ key: t('runId'), value: `${run.id}` }]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Run)}
       title={run.name}
       renderHeader={({ moreInfo }) => (
-        <div className="flex gap-sds-xxl p-sds-xl">
+        <div className="flex flex-auto gap-sds-xxl p-sds-xl">
           <div className="max-w-[465px] max-h-[330px] grow overflow-clip rounded-sds-m flex-shrink-0 flex items-center">
             {keyPhotoURL ? (
               <Link to={keyPhotoURL}>
@@ -114,7 +103,41 @@ export function RunHeader() {
             )}
           </div>
 
-          <div className="flex flex-col gap-sds-xl flex-auto">
+          <div className="flex flex-col gap-sds-xl flex-auto pt-sds-l">
+            <PageHeaderSubtitle>{t('runOverview')}</PageHeaderSubtitle>
+
+            <FileSummary
+              data={[
+                {
+                  key: t('frames'),
+                  value:
+                    run.tiltseries_aggregate.aggregate?.sum?.frames_count ?? 0,
+                },
+                {
+                  key: t('tiltSeries'),
+                  value: run.tiltseries_aggregate.aggregate?.count ?? 0,
+                },
+                {
+                  key: t('tomograms'),
+                  value: sum(
+                    run.tomogram_stats.flatMap(
+                      (stats) =>
+                        stats.tomograms_aggregate.aggregate?.count ?? 0,
+                    ),
+                  ),
+                },
+                {
+                  key: t('annotations'),
+                  value: sum(
+                    run.tomogram_stats.flatMap(
+                      (stats) =>
+                        stats.annotations_aggregate.aggregate?.count ?? 0,
+                    ),
+                  ),
+                },
+              ]}
+            />
+
             <div className="flex gap-sds-xxl flex-col lg:flex-row">
               <MetadataTable
                 title={i18n.tiltSeries}

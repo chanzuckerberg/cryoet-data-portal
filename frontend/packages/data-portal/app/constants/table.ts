@@ -1,9 +1,19 @@
 export type TableColumnWidth = {
+  // TODO maybe remove this because it seems like only width and min-width are respected
   max?: number
   min?: number
+  // explicit width is sometimes required to ensure the column width does not grow
+  width?: number
+}
+
+const PHOTO_COLUMN_WIDTH: TableColumnWidth = {
+  min: 134,
+  max: 134,
+  width: 134,
 }
 
 export const DatasetTableWidths = {
+  photo: PHOTO_COLUMN_WIDTH,
   id: { min: 450, max: 800 },
   empiarId: { min: 120, max: 130 },
   organismName: { min: 100, max: 400 },
@@ -22,6 +32,7 @@ export const AnnotationTableWidths = {
 }
 
 export const RunTableWidths = {
+  photo: PHOTO_COLUMN_WIDTH,
   name: { min: 400 },
   tiltSeriesQuality: { min: 120, max: 210 },
   annotatedObjects: { min: 250, max: 400 },

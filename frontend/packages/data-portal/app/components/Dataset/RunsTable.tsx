@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unstable-nested-components */
 
 import Skeleton from '@mui/material/Skeleton'
-import { useLocation } from '@remix-run/react'
+import { useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
@@ -13,15 +13,19 @@ import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
+import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
+import { RUN_FILTERS } from 'app/constants/filterQueryParams'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { RunTableWidths } from 'app/constants/table'
 import { TiltSeriesScore } from 'app/constants/tiltSeries'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
+import {
+  SingleDatasetHistory,
+  useSingleDatasetFilterHistory,
+} from 'app/state/filterHistory'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
-
-import { ViewTomogramButton } from '../ViewTomogramButton'
 
 type Run = GetDatasetByIdQuery['datasets'][number]['runs'][number]
 
@@ -36,36 +40,41 @@ export function RunsTable() {
   const { isLoadingDebounced } = useIsLoading()
   const { dataset } = useDatasetById()
   const runs = dataset.runs as unknown as Run[]
-  const location = useLocation()
   const { t } = useI18n()
+  const { setSingleDatasetHistory } = useSingleDatasetFilterHistory()
+  const [searchParams] = useSearchParams()
+
+  useEffect(
+    () =>
+      setSingleDatasetHistory(
+        new Map(
+          Array.from(searchParams).filter(([k]) =>
+            RUN_FILTERS.map((v) => v as string).includes(k),
+          ),
+        ) as SingleDatasetHistory,
+      ),
+    [searchParams, setSingleDatasetHistory],
+  )
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Run>()
 
     return [
-      columnHelper.accessor('name', {
-        header: () => (
-          <CellHeader
-            tooltip={<I18n i18nKey="runsTooltip" />}
-            arrowPadding={{ right: 260 }}
-            width={RunTableWidths.name}
-          >
-            {t('runs')}
-          </CellHeader>
-        ),
-        cell({ row: { original: run } }) {
-          const previousUrl = `${location.pathname}${location.search}`
-          const runUrl = `/runs/${run.id}?prev=${encodeURIComponent(
-            previousUrl,
-          )}`
+      columnHelper.accessor(
+        (run) =>
+          run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
+            ?.key_photo_thumbnail_url,
+        {
+          id: 'key-photo',
+          header: () => <p />,
 
-          return (
+          cell: ({ row: { original: run } }) => (
             <TableCell
-              className="flex w-full gap-4 overflow-ellipsis"
-              width={RunTableWidths.name}
+              width={RunTableWidths.photo}
               renderLoadingSkeleton={false}
             >
               <KeyPhoto
+                className="max-w-[134px]"
                 title={run.name}
                 src={
                   run.tomogram_voxel_spacings?.[0]?.tomograms?.[0]
@@ -73,13 +82,49 @@ export function RunsTable() {
                 }
                 loading={isLoadingDebounced}
               />
+            </TableCell>
+          ),
+        },
+      ),
 
-              <div className="min-h-[100px] overflow-ellipsis overflow-hidden text-sds-primary-500 font-semibold">
+      columnHelper.accessor('name', {
+        header: () => (
+          <CellHeader
+            tooltip={<I18n i18nKey="runsTooltip" />}
+            arrowPadding={{ right: 260 }}
+            width={RunTableWidths.name}
+          >
+            {t('runName')}
+          </CellHeader>
+        ),
+        cell({ row: { original: run } }) {
+          const runUrl = `/runs/${run.id}`
+
+          return (
+            <TableCell
+              className="w-full gap-4 overflow-ellipsis"
+              width={RunTableWidths.name}
+              renderLoadingSkeleton={false}
+            >
+              <div className="min-h-[100px] overflow-ellipsis overflow-hidden">
                 {isLoadingDebounced ? (
                   <Skeleton className="max-w-[150px]" variant="text" />
                 ) : (
-                  <Link to={runUrl}>{run.name}</Link>
+                  <Link
+                    className="text-sds-primary-500 font-semibold"
+                    to={runUrl}
+                  >
+                    {run.name}
+                  </Link>
                 )}
+
+                <p className="text-xs text-sds-gray-600">
+                  {isLoadingDebounced ? (
+                    <Skeleton className="max-w-[120px]" variant="text" />
+                  ) : (
+                    `${t('runId')}: ${run.id}`
+                  )}
+                </p>
               </div>
             </TableCell>
           )
@@ -189,14 +234,7 @@ export function RunsTable() {
         },
       ),
     ] as ColumnDef<Run>[]
-  }, [
-    dataset.id,
-    dataset.organism_name,
-    isLoadingDebounced,
-    location.pathname,
-    location.search,
-    t,
-  ])
+  }, [dataset.id, dataset.organism_name, isLoadingDebounced, t])
 
   return (
     <PageTable

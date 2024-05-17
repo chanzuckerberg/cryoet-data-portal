@@ -34,6 +34,7 @@ const GET_DATASETS_DATA_QUERY = gql(`
       ) {
         name
         primary_author_status
+        corresponding_author_status
       }
 
       runs_aggregate {
@@ -188,12 +189,12 @@ function getFilter(filterState: FilterState, query: string) {
   // Id filters
   const idFilters: Datasets_Bool_Exp[] = []
 
-  // Portal ID filter
-  const portalId = +(filterState.ids.portal ?? Number.NaN)
-  if (!Number.isNaN(portalId) && portalId > 0) {
+  // Dataset ID filter
+  const datasetId = +(filterState.ids.dataset ?? Number.NaN)
+  if (!Number.isNaN(datasetId) && datasetId > 0) {
     idFilters.push({
       id: {
-        _eq: portalId,
+        _eq: datasetId,
       },
     })
   }

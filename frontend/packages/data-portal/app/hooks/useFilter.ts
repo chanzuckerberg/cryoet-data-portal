@@ -26,7 +26,7 @@ export function getFilterState(searchParams: URLSearchParams) {
     },
 
     ids: {
-      portal: searchParams.get(QueryParams.PortalId),
+      dataset: searchParams.get(QueryParams.DatasetId),
       empiar: searchParams.get(QueryParams.EmpiarId),
       emdb: searchParams.get(QueryParams.EmdbId),
     },
@@ -63,6 +63,12 @@ export function getFilterState(searchParams: URLSearchParams) {
     },
 
     annotation: {
+      annotationSoftwares: searchParams.getAll(QueryParams.AnnotationSoftware),
+
+      goId: searchParams.get(QueryParams.GoId),
+
+      methodTypes: searchParams.getAll(QueryParams.MethodType),
+
       objectNames: searchParams.getAll(QueryParams.ObjectName),
 
       objectShapeTypes: searchParams.getAll(QueryParams.ObjectShapeType),

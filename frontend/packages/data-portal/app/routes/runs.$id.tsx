@@ -7,6 +7,7 @@ import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
 import { apolloClient } from 'app/apollo.server'
+import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
 import { DownloadModal } from 'app/components/Download'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
@@ -17,8 +18,10 @@ import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useFileSize } from 'app/hooks/useFileSize'
+import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
+import { Annotation } from 'app/state/annotation'
 import { DownloadConfig } from 'app/types/download'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
@@ -39,6 +42,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     id,
     page,
     client: apolloClient,
+    params: url.searchParams,
   })
 
   if (data.runs.length === 0) {
@@ -52,15 +56,33 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 }
 
 export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
-  return shouldRevalidatePage(args)
+  return shouldRevalidatePage({
+    ...args,
+    paramsToRefetch: [
+      QueryParams.AuthorName,
+      QueryParams.AuthorOrcid,
+      QueryParams.ObjectName,
+      QueryParams.GoId,
+      QueryParams.ObjectShapeType,
+      QueryParams.MethodType,
+      QueryParams.AnnotationSoftware,
+    ],
+  })
 }
 
 export default function RunByIdPage() {
   const { run } = useRunById()
 
+  // TODO: convert to useMemo
   const totalCount = sum(
     run.tomogram_stats.flatMap(
       (stats) => stats.annotations_aggregate.aggregate?.count ?? 0,
+    ),
+  )
+
+  const filteredCount = sum(
+    run.tomogram_stats.flatMap(
+      (stats) => stats.filtered_annotations_count.aggregate?.count ?? 0,
     ),
   )
 
@@ -70,12 +92,6 @@ export default function RunByIdPage() {
 
   const allTomogramProcessing = run.tomogram_stats.flatMap((stats) =>
     stats.tomogram_processing.map((tomogram) => tomogram.processing),
-  )
-
-  const allAnnotations = new Map(
-    run.annotation_table
-      .flatMap((table) => table.annotations.map((annotation) => annotation))
-      .map((annotation) => [annotation.id, annotation]),
   )
 
   const {
@@ -97,10 +113,35 @@ export default function RunByIdPage() {
     null
 
   const tomogram = run.tomogram_voxel_spacings.at(0)
+  const { t } = useI18n()
 
-  const activeAnnotation = annotationId
-    ? allAnnotations.get(+annotationId)
-    : null
+  const activeAnnotation = useMemo(() => {
+    const allAnnotations = new Map(
+      run.annotation_table
+        .flatMap((table) => table.annotations.map((annotation) => annotation))
+        .map((annotation) => [annotation.id, annotation]),
+    )
+
+    const activeBaseAnnotation = annotationId
+      ? allAnnotations.get(+annotationId)
+      : null
+
+    const activeAnnotationFile = objectShapeType
+      ? activeBaseAnnotation?.files.find(
+          (file) => file.shape_type === objectShapeType,
+        )
+      : null
+
+    const result =
+      activeBaseAnnotation && activeAnnotationFile
+        ? {
+            ...activeBaseAnnotation,
+            ...activeAnnotationFile,
+          }
+        : null
+
+    return result as Annotation | null
+  }, [annotationId, objectShapeType, run.annotation_table])
 
   const httpsPath = useMemo(() => {
     if (activeAnnotation) {
@@ -134,6 +175,7 @@ export default function RunByIdPage() {
 
   return (
     <TablePageLayout
+      title={t('annotations')}
       type={i18n.annotations}
       downloadModal={
         <DownloadModal
@@ -187,7 +229,8 @@ export default function RunByIdPage() {
           <AnnotationDrawer />
         </>
       }
-      filteredCount={totalCount}
+      filters={<AnnotationFilter />}
+      filteredCount={filteredCount}
       header={<RunHeader />}
       table={<AnnotationTable />}
       totalCount={totalCount}
