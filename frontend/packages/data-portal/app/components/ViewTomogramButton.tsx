@@ -14,7 +14,7 @@ export function ViewTomogramButton({
   buttonProps: Partial<ButtonProps>
   event: EventPayloads[Events.ViewTomogram]
   neuroglancerConfig: string | null | undefined
-  setIsHoveringOver?: (boolean) => void
+  setIsHoveringOver?: (isHoveringOver: boolean) => void
 }) {
   const plausible = usePlausible()
   const { t } = useI18n()
