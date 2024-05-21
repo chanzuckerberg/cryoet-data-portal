@@ -25,7 +25,7 @@ import {
   SingleDatasetHistory,
   useSingleDatasetFilterHistory,
 } from 'app/state/filterHistory'
-import { cns } from 'app/utils/cns'
+import { cnsNoMerge } from 'app/utils/cns'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
 
 type Run = GetDatasetByIdQuery['datasets'][number]['runs'][number]
@@ -117,7 +117,7 @@ export function RunsTable() {
                   <Skeleton className="max-w-[150px]" variant="text" />
                 ) : (
                   <Link
-                    className={cns(
+                    className={cnsNoMerge(
                       'text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400',
                       !isHoveringOverInteractable &&
                         'hover:text-sds-primary-500',

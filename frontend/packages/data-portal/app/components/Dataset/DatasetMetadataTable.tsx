@@ -89,10 +89,10 @@ export function DatasetMetadataTable({
     },
 
     !!allFields && {
-      label: 'Author(s)',
-      // dataset.authors && dataset.authors.length === 1
-      //   ? t('author')
-      //   : t('authors'),
+      label:
+        dataset.authors && dataset.authors.length === 1
+          ? t('author')
+          : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
         return (

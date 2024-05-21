@@ -33,7 +33,7 @@ export function KeyPhoto({
           'relative',
           'before:absolute',
           'before:bg-black',
-          'group-hover:before:bg-opacity-70',
+          'group-hover:before:bg-opacity-30',
           'group-hover:before:w-full',
           'group-hover:before:h-full',
           'group-hover:before:text-sds-body-s',

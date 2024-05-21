@@ -25,7 +25,7 @@ import {
   useBrowseDatasetFilterHistory,
 } from 'app/state/filterHistory'
 import { LogLevel } from 'app/types/logging'
-import { cns } from 'app/utils/cns'
+import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
 
@@ -136,7 +136,7 @@ export function DatasetTable() {
               >
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                   <p
-                    className={cns(
+                    className={cnsNoMerge(
                       'text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400',
                       !isClickingOnEmpiarId &&
                         'group-hover:text-sds-primary-500',
@@ -203,7 +203,7 @@ export function DatasetTable() {
                       // using the MouseUp event disables how the link normally works
                       window.open(empiarLink, '_blank')
                     }}
-                    variant="dashed"
+                    variant="dashed-bordered"
                   >
                     EMPIAR-{empiarID}
                   </Link>
