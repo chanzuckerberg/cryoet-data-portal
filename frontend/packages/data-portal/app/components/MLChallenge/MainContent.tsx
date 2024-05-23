@@ -2,6 +2,7 @@ import { Icon } from '@czi-sds/components'
 import { ReactNode } from 'react'
 
 import { I18n } from 'app/components/I18n'
+import { RocketIcon } from 'app/components/icons'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
@@ -117,12 +118,7 @@ export function MainContent() {
         </div>
         <div>
           <div className="flex flex-row gap-sds-m mb-sds-xs items-center">
-            <Icon
-              sdsIcon="star"
-              color="primary"
-              sdsSize="xl"
-              sdsType="static"
-            />
+            <RocketIcon className="w-sds-icon-xl h-sds-icon-xl inline-block text-sds-primary-400" />
             <h3 className="text-sds-header-m leading-sds-header-m font-semibold">
               {t('gettingStarted')}
             </h3>
