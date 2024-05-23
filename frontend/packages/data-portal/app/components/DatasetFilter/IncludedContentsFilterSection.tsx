@@ -14,19 +14,14 @@ import {
   NumberOfRunsFilterOption,
 } from 'app/types/filter'
 
+import { AVAILABLE_FILES_VALUE_TO_I18N_MAP } from './constants'
+
 const NUMBER_OF_RUN_OPTIONS: NumberOfRunsFilterOption[] = [
   { value: '>1' },
   { value: '>5' },
   { value: '>10' },
   { value: '>20' },
   { value: '>100' },
-]
-
-const AVAILABLE_FILES_OPTIONS: AvailableFilesFilterOption[] = [
-  { value: 'raw-frames', label: i18n.rawFrames },
-  { value: 'tilt-series', label: i18n.tiltSeries },
-  { value: 'tilt-series-alignment', label: i18n.tiltSeriesAlignment },
-  { value: 'tomogram', label: i18n.tomograms },
 ]
 
 const AVAILABLE_FILES_CLASS_NAME = 'select-available-files'
@@ -37,17 +32,30 @@ export function IncludedContentsFilterSection() {
     updateValue,
     includedContents: { availableFiles, numberOfRuns },
   } = useFilter()
+  const { t } = useI18n()
+
+  const allAvailableFilesOptions = useMemo(
+    () =>
+      Object.entries(AVAILABLE_FILES_VALUE_TO_I18N_MAP).map(
+        ([value, i18nKey]) =>
+          ({
+            value,
+            label: t(i18nKey),
+          }) as AvailableFilesFilterOption,
+      ),
+    [t],
+  )
 
   const availableFilesOptions = useMemo(
     () =>
-      availableFiles
-        .map(
-          (option) =>
-            AVAILABLE_FILES_OPTIONS.find(({ value }) => value === option) ??
-            null,
-        )
-        .filter((option): option is AvailableFilesFilterOption => !!option),
-    [availableFiles],
+      availableFiles.map(
+        (option) =>
+          ({
+            value: option,
+            label: t(AVAILABLE_FILES_VALUE_TO_I18N_MAP[option]),
+          }) as AvailableFilesFilterOption,
+      ),
+    [availableFiles, t],
   )
 
   const numberOfRunsOptions = useMemo(
@@ -58,8 +66,6 @@ export function IncludedContentsFilterSection() {
         : null,
     [numberOfRuns],
   )
-
-  const { t } = useI18n()
 
   const [showMeetsAll, setShowMeetsAll] = useState(availableFiles.length > 0)
 
@@ -87,13 +93,15 @@ export function IncludedContentsFilterSection() {
     }
   }, [showMeetsAll, t])
 
+  console.log('breh', { allAvailableFilesOptions, availableFilesOptions })
+
   return (
     <FilterSection title={i18n.includedContents}>
       <GroundTruthAnnotationFilter />
 
       <SelectFilter
         multiple
-        options={AVAILABLE_FILES_OPTIONS}
+        options={allAvailableFilesOptions}
         value={availableFilesOptions}
         label={i18n.availableFiles}
         onChange={(options) => {
