@@ -5,10 +5,10 @@ import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
 import {
   testAvailableFilesFilter,
   testGroundTruthAnnotationFilter,
+  testMultiInputFilter,
   testOrganismNameFilter,
   testSingleSelectFilter,
 } from './filters'
-import { testMultiInputFilter } from './filters/testMultiInputFilter'
 import { TableValidatorOptions } from './filters/types'
 import { getDatasetTableFilterValidator, validateTable } from './filters/utils'
 
