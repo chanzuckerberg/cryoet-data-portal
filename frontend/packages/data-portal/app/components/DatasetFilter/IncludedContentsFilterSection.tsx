@@ -93,8 +93,6 @@ export function IncludedContentsFilterSection() {
     }
   }, [showMeetsAll, t])
 
-  console.log('breh', { allAvailableFilesOptions, availableFilesOptions })
-
   return (
     <FilterSection title={i18n.includedContents}>
       <GroundTruthAnnotationFilter />
