@@ -4,12 +4,11 @@ import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
 import {
   getSingleSelectFilterTester,
-  testAuthorFilter,
   testAvailableFilesFilter,
-  testDatasetIdsFilter,
   testGroundTruthAnnotationFilter,
   testOrganismNameFilter,
 } from './filters'
+import { testMultiInputFilter } from './filters/testMultiInputFilter'
 import { TableValidatorOptions } from './filters/types'
 import { getDatasetTableFilterValidator, validateTable } from './filters/utils'
 
@@ -35,8 +34,46 @@ testGroundTruthAnnotationFilter({
   validateTable: validateDatasetsTable,
 })
 testAvailableFilesFilter()
-testDatasetIdsFilter()
-testAuthorFilter()
+
+testMultiInputFilter({
+  label: translations.datasetIds,
+  filters: [
+    {
+      queryParam: QueryParams.DatasetId,
+      label: 'Dataset ID',
+      valueKey: 'datasetId',
+    },
+    {
+      queryParam: QueryParams.EmpiarId,
+      label: 'Empiar ID',
+      valueKey: 'empiarId',
+    },
+    {
+      queryParam: QueryParams.EmdbId,
+      label: 'EMDB',
+      valueKey: 'emdbId',
+    },
+  ],
+  validateTable: validateDatasetsTable,
+})
+
+testMultiInputFilter({
+  label: translations.author,
+  filters: [
+    {
+      queryParam: QueryParams.AuthorName,
+      label: 'Author Name',
+      valueKey: 'authorName',
+    },
+    {
+      queryParam: QueryParams.AuthorOrcid,
+      label: 'Author ORCID',
+      valueKey: 'authorOrcId',
+    },
+  ],
+  validateTable: validateDatasetsTable,
+})
+
 testOrganismNameFilter()
 
 const testBrowseDatasetSelectFilter = getSingleSelectFilterTester({
