@@ -14,23 +14,28 @@ export interface MultiInputFilter {
   valueKey: keyof typeof E2E_CONFIG
 }
 
+interface SharedOptions {
+  url: string
+  validateTable: TableValidator
+}
+
 function testFilter({
   buttonLabel,
   client,
   filter,
   hasMultipleFilters,
+  url,
   validateTable,
-}: {
+}: SharedOptions & {
   buttonLabel: string
   client: ApolloClient<NormalizedCacheObject>
   filter: MultiInputFilter
   hasMultipleFilters: boolean
-  validateTable: TableValidator
 }) {
   const value = E2E_CONFIG[filter.valueKey]
 
   test(`should filter by ${filter.label}`, async ({ page }) => {
-    const expectedUrl = new URL(BROWSE_DATASETS_URL)
+    const expectedUrl = new URL(url)
     const params = expectedUrl.searchParams
     params.append(filter.queryParam, value)
 
@@ -59,7 +64,7 @@ function testFilter({
   test(`should filter by ${filter.label} when opening URL`, async ({
     page,
   }) => {
-    const expectedUrl = new URL(BROWSE_DATASETS_URL)
+    const expectedUrl = new URL(url)
     const params = expectedUrl.searchParams
     params.append(filter.queryParam, value)
 
@@ -72,7 +77,7 @@ function testFilter({
   })
 
   test(`should clear ${filter.label} filter`, async ({ page }) => {
-    const expectedUrl = new URL(BROWSE_DATASETS_URL)
+    const expectedUrl = new URL(url)
     expectedUrl.searchParams.append(filter.queryParam, value)
 
     await goTo(page, expectedUrl.href)
@@ -84,7 +89,7 @@ function testFilter({
       .getByRole('button')
       .click()
 
-    await page.waitForURL(BROWSE_DATASETS_URL)
+    await page.waitForURL(url)
     await validateTable({
       client,
       page,
@@ -93,13 +98,13 @@ function testFilter({
 }
 
 export function testMultiInputFilter({
-  label,
   filters,
+  label,
+  url,
   validateTable,
-}: {
+}: SharedOptions & {
   filters: MultiInputFilter[]
   label: string
-  validateTable: TableValidator
 }) {
   test.describe(label, () => {
     let client = getApolloClient()
@@ -112,6 +117,7 @@ export function testMultiInputFilter({
       testFilter({
         client,
         filter,
+        url,
         validateTable,
         buttonLabel: label,
         hasMultipleFilters: filters.length > 1,

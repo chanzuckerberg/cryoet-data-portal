@@ -54,6 +54,7 @@ testMultiInputFilter({
       valueKey: 'emdbId',
     },
   ],
+  url: BROWSE_DATASETS_URL,
   validateTable: validateDatasetsTable,
 })
 
@@ -71,6 +72,7 @@ testMultiInputFilter({
       valueKey: 'authorOrcId',
     },
   ],
+  url: BROWSE_DATASETS_URL,
   validateTable: validateDatasetsTable,
 })
 
