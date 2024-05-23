@@ -1,12 +1,15 @@
+import { expect } from '@playwright/test'
+import { isString } from 'lodash-es'
+
+import { AVAILABLE_FILES_VALUE_TO_I18N_MAP } from 'app/components/DatasetFilter/constants'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
 import {
-  testAvailableFilesFilter,
   testGroundTruthAnnotationFilter,
   testMultiInputFilter,
-  testOrganismNameFilter,
+  testMultiSelectFilter,
   testSingleSelectFilter,
 } from './filters'
 import { TableValidatorOptions } from './filters/types'
@@ -33,7 +36,26 @@ testGroundTruthAnnotationFilter({
   url: BROWSE_DATASETS_URL,
   validateTable: validateDatasetsTable,
 })
-testAvailableFilesFilter()
+
+testMultiSelectFilter({
+  label: translations.availableFiles,
+  queryParam: QueryParams.AvailableFiles,
+  testOptions: [
+    'Raw Frames',
+    'Tilt Series',
+    'Tilt Series Alignment',
+    'Tomograms',
+  ],
+  testQuery: E2E_CONFIG.organismNameQuery,
+  url: BROWSE_DATASETS_URL,
+  validateTable: validateDatasetsTable,
+
+  serialize: (value) =>
+    Object.entries(AVAILABLE_FILES_VALUE_TO_I18N_MAP).find(
+      ([, i18nKey]) =>
+        translations[i18nKey as keyof typeof translations] === value,
+    )?.[0] ?? value,
+})
 
 testMultiInputFilter({
   label: translations.datasetIds,
@@ -76,7 +98,31 @@ testMultiInputFilter({
   validateTable: validateDatasetsTable,
 })
 
-testOrganismNameFilter()
+testMultiSelectFilter({
+  label: translations.organismName,
+  queryParam: QueryParams.Organism,
+  testOptions: [E2E_CONFIG.organismName1, E2E_CONFIG.organismName2],
+  testQuery: E2E_CONFIG.organismNameQuery,
+  url: BROWSE_DATASETS_URL,
+  validateTable: validateDatasetsTable,
+
+  async validateSelectOptions(page, client) {
+    const { data } = await getBrowseDatasets({ client })
+    const organismNames = data.organism_names
+      .map((name) => name.organism_name)
+      .filter(isString)
+
+    const filteredOrganismNames = organismNames.filter((name) =>
+      name.toLowerCase().includes(E2E_CONFIG.organismNameQuery),
+    )
+
+    await Promise.all(
+      filteredOrganismNames.map((name) =>
+        expect(page.getByRole('option', { name }).locator('div')).toBeVisible(),
+      ),
+    )
+  },
+})
 
 testSingleSelectFilter({
   label: translations.numberOfRuns,
