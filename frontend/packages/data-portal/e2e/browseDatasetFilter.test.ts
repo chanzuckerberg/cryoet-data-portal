@@ -3,10 +3,10 @@ import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
 import {
-  getSingleSelectFilterTester,
   testAvailableFilesFilter,
   testGroundTruthAnnotationFilter,
   testOrganismNameFilter,
+  testSingleSelectFilter,
 } from './filters'
 import { testMultiInputFilter } from './filters/testMultiInputFilter'
 import { TableValidatorOptions } from './filters/types'
@@ -76,51 +76,60 @@ testMultiInputFilter({
 
 testOrganismNameFilter()
 
-const testBrowseDatasetSelectFilter = getSingleSelectFilterTester({
-  url: BROWSE_DATASETS_URL,
-  validateTable: validateDatasetsTable,
-})
-
-testBrowseDatasetSelectFilter({
+testSingleSelectFilter({
   label: translations.numberOfRuns,
   queryParam: QueryParams.NumberOfRuns,
-  values: ['>1', '>5', '>10', '>20', '>100'],
   serialize: JSON.stringify,
+  url: BROWSE_DATASETS_URL,
+  validateTable: validateDatasetsTable,
+  values: ['>1', '>5', '>10', '>20', '>100'],
 })
 
-testBrowseDatasetSelectFilter({
+testSingleSelectFilter({
   label: translations.cameraManufacturer,
   queryParam: QueryParams.CameraManufacturer,
+  url: BROWSE_DATASETS_URL,
+  validateTable: validateDatasetsTable,
   values: [E2E_CONFIG.cameraManufacturer],
 })
 
-testBrowseDatasetSelectFilter({
+testSingleSelectFilter({
   label: translations.fiducialAlignmentStatus,
   queryParam: QueryParams.FiducialAlignmentStatus,
-  values: ['True', 'False'],
   serialize: (value) => value.toLowerCase(),
+  url: BROWSE_DATASETS_URL,
+  validateTable: validateDatasetsTable,
+  values: ['True', 'False'],
 })
 
-testBrowseDatasetSelectFilter({
+testSingleSelectFilter({
   label: translations.reconstructionMethod,
   queryParam: QueryParams.ReconstructionMethod,
+  url: BROWSE_DATASETS_URL,
+  validateTable: validateDatasetsTable,
   values: [E2E_CONFIG.reconstructionMethod],
 })
 
-testBrowseDatasetSelectFilter({
+testSingleSelectFilter({
   label: translations.reconstructionSoftware,
   queryParam: QueryParams.ReconstructionSoftware,
+  url: BROWSE_DATASETS_URL,
+  validateTable: validateDatasetsTable,
   values: [E2E_CONFIG.reconstructionSoftware],
 })
 
-testBrowseDatasetSelectFilter({
+testSingleSelectFilter({
   label: translations.objectName,
   queryParam: QueryParams.ObjectName,
+  url: BROWSE_DATASETS_URL,
+  validateTable: validateDatasetsTable,
   values: [E2E_CONFIG.objectName],
 })
 
-testBrowseDatasetSelectFilter({
+testSingleSelectFilter({
   label: translations.objectShapeType,
   queryParam: QueryParams.ObjectShapeType,
+  url: BROWSE_DATASETS_URL,
+  validateTable: validateDatasetsTable,
   values: [E2E_CONFIG.objectShapeType],
 })
