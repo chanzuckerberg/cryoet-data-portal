@@ -17,7 +17,7 @@ function CTA({
 }) {
   return (
     <>
-      <div className="flex flex-col gap-sds-xs">
+      <div className="flex flex-col gap-sds-xs min-w-[150px]">
         <h4 className="font-sds-semibold font-semibold text-sds-header-m leading-sds-header-m">
           {title}
         </h4>
@@ -42,7 +42,7 @@ export function IndexCTA() {
       <h3 className="font-sds-semibold font-semibold text-sds-header-xl leading-sds-header-xl">
         <I18n i18nKey="helpUsAchieveThisVision" />
       </h3>
-      <div className="w-full grid grid-cols-[1fr_auto_1fr] grid-rows-[1fr_auto] grid-flow-col gap-y-sds-xl gap-x-sds-xxl">
+      <div className="w-full grid grid-cols-[1fr_auto_1fr_auto_1fr] grid-rows-[1fr_auto] grid-flow-col gap-y-sds-xl gap-x-sds-xxl">
         <CTA
           title={t('viewAndDownloadDatasets')}
           text={t('viewDatasetsCta')}
@@ -55,6 +55,13 @@ export function IndexCTA() {
           text={t('contributeCta')}
           buttonText={t('tellUsMore')}
           url={t('urlDataContributionForm')}
+        />
+        <div className="bg-sds-gray-200 w-sds-xxxs row-span-2" />
+        <CTA
+          title={t('participateInOurCompetition')}
+          text={t('participateInOurCompetitionCTA')}
+          buttonText={t('learnMore')}
+          url="/competition"
         />
       </div>
     </div>
