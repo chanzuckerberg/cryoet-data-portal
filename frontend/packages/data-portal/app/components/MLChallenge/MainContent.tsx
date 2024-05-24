@@ -94,7 +94,7 @@ export function MainContent() {
           </div>
           <div className="ml-[42px] mb-sds-xxl text-sds-body-s leading-sds-body-s flex flex-col">
             <p className="mb-sds-m">{t('rulesDescription')}</p>
-            <ul className="mb-sds-xl gap-sds-xs list-disc ml-[17px]">
+            <ul className="mb-sds-xl gap-sds-xs list-disc ml-[17px] flex flex-col">
               <li>
                 <I18n i18nKey="rulesBullet1" />
               </li>
@@ -127,7 +127,7 @@ export function MainContent() {
             <p className="mb-sds-m">
               <I18n i18nKey="gettingStartedDescription" />
             </p>
-            <ul className="mb-sds-xl gap-sds-xs list-disc ml-[17px]">
+            <ul className="mb-sds-xl gap-sds-xs list-disc ml-[17px] flex flex-col">
               <li>
                 <I18n i18nKey="gettingStartedBullet1" />
               </li>
