@@ -2,7 +2,7 @@ import { Icon } from '@czi-sds/components'
 import { ReactNode } from 'react'
 
 import { I18n } from 'app/components/I18n'
-import { RocketIcon } from 'app/components/icons'
+import { FolderIcon, RocketIcon } from 'app/components/icons'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
@@ -180,7 +180,28 @@ export function MainContent() {
           </div>
         </div>
       </Section>
-      {/* TODO: Competition Data */}
+      <Section color="primary200" className="gap-sds-xl">
+        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
+          {t('competitionData')}
+        </h2>
+        <div className="p-sds-xxl bg-sds-gray-white border border-sds-gray-200 rounded-sds-m shadow-sds-l flex flex-row gap-sds-xxl justify-between">
+          <div>
+            <p className="text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold uppercase text-sds-gray-500 mb-sds-xs">
+              {t('competitionDataset')}:
+            </p>
+            <p className="text-sds-header-m leading-sds-header-m font-semibold mb-sds-l">
+              {t('comingFall2024')}
+            </p>
+            <p className="text-sds-body-s leading-sds-body-s mb-sds-l">
+              {t('competitionDataDetails1')}
+            </p>
+            <p>
+              <I18n i18nKey="competitionDataDetails2" />
+            </p>
+          </div>
+          <FolderIcon className="text-sds-gray-300 min-w-[150px] min-h-[150px]" />
+        </div>
+      </Section>
       <Section className="!p-0">
         <div className="flex flex-col gap-sds-xl min-h-[270px] py-sds-xxl">
           <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
