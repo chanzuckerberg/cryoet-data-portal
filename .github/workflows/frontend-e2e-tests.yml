@@ -78,6 +78,6 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: playwright-report
+          name: html-report-${{ matrix.browser }}-${{ matrix.shardCurrent }}-${{ matrix.shardTotal }}
           path: frontend/packages/data-portal/playwright-report/
           retention-days: 1
