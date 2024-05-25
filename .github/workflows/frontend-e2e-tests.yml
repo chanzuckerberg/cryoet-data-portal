@@ -22,7 +22,10 @@ jobs:
       cancel-in-progress: true
 
     name: ${{ matrix.browser }} ${{ matrix.shardCurrent}}/${{  matrix.shardTotal }}
-    runs-on: ubuntu-latest
+    # Using macos runner temporarily because ubuntu runner has issues with
+    # playwright testing for when the download dialog closes
+    # TODO investigate why ubuntu runner tests fail
+    runs-on: macos-latest
     environment: ${{ inputs.environment }}
     steps:
       - name: Checkout Repo
