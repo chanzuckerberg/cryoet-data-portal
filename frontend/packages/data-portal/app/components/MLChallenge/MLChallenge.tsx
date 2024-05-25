@@ -1,9 +1,10 @@
 import { MainContent } from './MainContent'
+import { MLChallengeHeader } from './MLChallengeHeader'
 
 export function MLChallenge() {
   return (
     <div className="flex flex-col px-sds-xl w-[100vw] overflow-x-clip">
-      {/* TODO: Header */}
+      <MLChallengeHeader />
       <div className="flex flex-row w-full justify-between">
         {/* Filler Component for Spacing */}
         <div className="basis-0 flex-1 max-w-[160px]" />
