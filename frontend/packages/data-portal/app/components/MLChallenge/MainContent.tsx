@@ -2,7 +2,7 @@ import { Icon } from '@czi-sds/components'
 import { ReactNode } from 'react'
 
 import { I18n } from 'app/components/I18n'
-import { FolderIcon, RocketIcon } from 'app/components/icons'
+import { FolderIcon, RocketIcon, SpeechBubbleIcon } from 'app/components/icons'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
@@ -112,6 +112,7 @@ export function MainContent() {
           ))}
         </div>
       </Section>
+
       <Section color="primary100">
         <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold mb-sds-xl">
           {t('howToParticipate')}
@@ -180,6 +181,7 @@ export function MainContent() {
           </div>
         </div>
       </Section>
+
       <Section color="primary200" className="gap-sds-xl">
         <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
           {t('competitionData')}
@@ -202,6 +204,7 @@ export function MainContent() {
           <FolderIcon className="text-sds-gray-300 min-w-[150px] min-h-[150px]" />
         </div>
       </Section>
+
       <Section className="!p-0">
         <div className="flex flex-col gap-sds-xl min-h-[270px] py-sds-xxl">
           <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
@@ -223,6 +226,7 @@ export function MainContent() {
           </p>
         </div>
       </Section>
+
       <Section color="gray100">
         <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold mb-sds-xl">
           {t('aboutTheOrganizers')}
@@ -300,7 +304,22 @@ export function MainContent() {
           </div>
         </div>
       </Section>
-      {/* TODO: Contact Banner */}
+
+      <Section className="font-semibold py-16" color="primary100">
+        <h2 className="text-sds-header-xl leading-sds-header-xl">
+          {t('contact')}
+        </h2>
+
+        <div className="flex justify-center gap-sds-xxl">
+          <div className="max-w-[612px]">
+            <p className="text-sds-body-m leading-sds-body-m mt-sds-xl">
+              <I18n i18nKey="haveMoreQuestions" />
+            </p>
+          </div>
+
+          <SpeechBubbleIcon color="#a9bdfc" width={150} />
+        </div>
+      </Section>
     </div>
   )
 }

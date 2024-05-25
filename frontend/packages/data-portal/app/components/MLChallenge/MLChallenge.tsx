@@ -1,5 +1,4 @@
 import { MainContent } from './MainContent'
-import { MLChallengeFooter } from './MLChallengeFooter'
 import { MLChallengeHeader } from './MLChallengeHeader'
 
 export function MLChallenge() {
@@ -16,8 +15,6 @@ export function MLChallenge() {
           {/* TODO: NavBar */}
         </div>
       </div>
-
-      <MLChallengeFooter />
     </div>
   )
 }
