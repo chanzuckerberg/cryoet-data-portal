@@ -76,8 +76,8 @@ jobs:
           CI: true
 
       - uses: actions/upload-artifact@v3
-        if: always()
+        if: failure()
         with:
           name: playwright-report
-          path: playwright-report/
-          retention-days: 3
+          path: frontend/packages/data-portal/playwright-report/
+          retention-days: 1
