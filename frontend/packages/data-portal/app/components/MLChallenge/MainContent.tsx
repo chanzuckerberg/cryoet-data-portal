@@ -305,7 +305,7 @@ export function MainContent() {
         </div>
       </Section>
 
-      <Section className="font-semibold py-16" color="primary100">
+      <Section className="font-semibold py-[50px]" color="primary100">
         <h2 className="text-sds-header-xl leading-sds-header-xl">
           {t('contact')}
         </h2>
