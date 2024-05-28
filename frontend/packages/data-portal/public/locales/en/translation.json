@@ -223,6 +223,7 @@
   "orcidAvailable": "ORCID ID Available",
   "organism": "Organism",
   "organismName": "Organism Name",
+  "organizers": "Organizers",
   "otherSetup": "Other Setup",
   "participateInOurCompetition": "Participate in our ML competition",
   "participateInOurCompetitionCTA": "Develop a ML model for annotating subcellular structures and proteins in CryoET data.",
