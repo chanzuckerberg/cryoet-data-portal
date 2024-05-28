@@ -307,7 +307,7 @@ export function MainContent() {
 
       <Section className="font-semibold py-[50px]" color="primary100">
         <div className="flex justify-center gap-sds-xxl">
-          <div className="max-w-[612px]">
+          <div>
             <h2 className="text-sds-header-xl leading-sds-header-xl">
               {t('contact')}
             </h2>
@@ -317,7 +317,11 @@ export function MainContent() {
             </p>
           </div>
 
-          <SpeechBubbleIcon color="#a9bdfc" width={150} />
+          <SpeechBubbleIcon
+            className="flex-shrink-0"
+            color="#a9bdfc"
+            width={150}
+          />
         </div>
       </Section>
     </div>
