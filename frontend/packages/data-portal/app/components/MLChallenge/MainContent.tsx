@@ -240,7 +240,8 @@ export function MainContent() {
 
         <JumpToAnchor
           // For some odd reason, the tutorials section needs to be translated higher up lol
-          className="-translate-y-16"
+          // 2 * sds-xxl = 76px
+          className="-translate-y-[76px]"
           id={MLChallengeSectionId.Tutorials}
         />
         <div className="flex flex-col gap-sds-xl min-h-[270px] pb-sds-xxl">
