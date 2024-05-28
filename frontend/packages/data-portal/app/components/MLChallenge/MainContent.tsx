@@ -20,7 +20,7 @@ function JumpToAnchor({
 }) {
   // Translate div up a bit to account for space between header and the nav bar.
   // We use translate so we don't affect the layout.
-  return <div id={id} className={cns('-translate-y-6', className)} />
+  return <div id={id} className={cns('-translate-y-sds-xxl', className)} />
 }
 
 function Section({
