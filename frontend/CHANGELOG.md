@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.8.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.7.0...web-v1.8.0) (2024-05-28)
+
+
+### ✨ Features
+
+* author orc id link ([#719](https://github.com/chanzuckerberg/cryoet-data-portal/issues/719)) ([9488f2a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9488f2a126a7bffe63151fa527a77d6df39d8793))
+* ML challenge page routing ([#728](https://github.com/chanzuckerberg/cryoet-data-portal/issues/728)) ([be5e86c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/be5e86c590a139282366ce2b1a06ac0b28fad323))
+* run filter section titles ([#730](https://github.com/chanzuckerberg/cryoet-data-portal/issues/730)) ([5c29681](https://github.com/chanzuckerberg/cryoet-data-portal/commit/5c296814b1fa53bf45b2f30177410119e4e7c092))
+
+
+### 🐞 Bug Fixes
+
+* run header full width for firefox ([#731](https://github.com/chanzuckerberg/cryoet-data-portal/issues/731)) ([28a0738](https://github.com/chanzuckerberg/cryoet-data-portal/commit/28a0738f232be9265db7edb5a1976139cbe53473))
+
+
+### 🧹 Miscellaneous Chores
+
+* primary_annotator_status -&gt; primary_author_status ([#727](https://github.com/chanzuckerberg/cryoet-data-portal/issues/727)) ([a7d5af9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/a7d5af9d6a264daedd43b728fdf68accc3ad9557))
+
+
+### ⚙ Continuous Integration
+
+* e2e filter utils ([#751](https://github.com/chanzuckerberg/cryoet-data-portal/issues/751)) ([21a8bf7](https://github.com/chanzuckerberg/cryoet-data-portal/commit/21a8bf7d3bbff014cbf1c7bcb178b0d964f0ad28))
+
 ## [1.7.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.6.3...web-v1.7.0) (2024-05-10)
 
 
