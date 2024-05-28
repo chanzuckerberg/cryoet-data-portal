@@ -20,7 +20,7 @@ function JumpToAnchor({
 }) {
   // Translate div up a bit to account for space between header and the nav bar.
   // We use translate so we don't affect the layout.
-  return <div id={id} className={cns('-translate-y-6', className)} />
+  return <div id={id} className={cns('-translate-y-sds-xxl', className)} />
 }
 
 function Section({
@@ -240,7 +240,8 @@ export function MainContent() {
 
         <JumpToAnchor
           // For some odd reason, the tutorials section needs to be translated higher up lol
-          className="-translate-y-16"
+          // 2 * sds-xxl = 76px
+          className="-translate-y-[76px]"
           id={MLChallengeSectionId.Tutorials}
         />
         <div className="flex flex-col gap-sds-xl min-h-[270px] pb-sds-xxl">
