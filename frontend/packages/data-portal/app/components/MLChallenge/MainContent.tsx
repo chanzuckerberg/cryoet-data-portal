@@ -6,14 +6,31 @@ import { FolderIcon, RocketIcon, SpeechBubbleIcon } from 'app/components/icons'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
+import { MLChallengeSectionId } from './constants'
+
+/**
+ * Used for scrolling to a specific section in the page
+ */
+function JumpToAnchor({
+  className,
+  id,
+}: {
+  className?: string
+  id: MLChallengeSectionId
+}) {
+  // Translate div up a bit to account for space between header and the nav bar.
+  // We use translate so we don't affect the layout.
+  return <div id={id} className={cns('-translate-y-6', className)} />
+}
+
 function Section({
   children,
-  color,
   className,
+  color,
 }: {
   children: ReactNode
-  color?: 'primary100' | 'primary200' | 'gray100' | 'gray500'
   className?: string
+  color?: 'primary100' | 'primary200' | 'gray100' | 'gray500'
 }) {
   return (
     <div
@@ -81,6 +98,8 @@ export function MainContent() {
 
   return (
     <div className="flex flex-col max-w-content-small">
+      <JumpToAnchor id={MLChallengeSectionId.About} />
+
       <Section className="gap-sds-xxl">
         {/* About the Competition */}
         <div className="flex flex-col gap-sds-xl">
@@ -96,6 +115,7 @@ export function MainContent() {
         </div>
 
         {/* Competition Details */}
+        <JumpToAnchor id={MLChallengeSectionId.CompetitionDetails} />
         <div className="flex flex-col">
           <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
             {t('competitionDetails')}
@@ -113,6 +133,7 @@ export function MainContent() {
         </div>
       </Section>
 
+      <JumpToAnchor id={MLChallengeSectionId.HowToParticipate} />
       <Section color="primary100">
         <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold mb-sds-xl">
           {t('howToParticipate')}
@@ -182,6 +203,7 @@ export function MainContent() {
         </div>
       </Section>
 
+      <JumpToAnchor id={MLChallengeSectionId.CompetitionData} />
       <Section color="primary200" className="gap-sds-xl">
         <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
           {t('competitionData')}
@@ -206,6 +228,7 @@ export function MainContent() {
       </Section>
 
       <Section className="!p-0">
+        <JumpToAnchor id={MLChallengeSectionId.AboutCryoETData} />
         <div className="flex flex-col gap-sds-xl min-h-[270px] py-sds-xxl">
           <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
             {t('aboutCryoEtData')}
@@ -214,6 +237,12 @@ export function MainContent() {
             <I18n i18nKey="moreInfoComingSoon" />
           </p>
         </div>
+
+        <JumpToAnchor
+          // For some odd reason, the tutorials section needs to be translated higher up lol
+          className="-translate-y-16"
+          id={MLChallengeSectionId.Tutorials}
+        />
         <div className="flex flex-col gap-sds-xl min-h-[270px] pb-sds-xxl">
           <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
             {t('tutorials')}
@@ -227,6 +256,7 @@ export function MainContent() {
         </div>
       </Section>
 
+      <JumpToAnchor id={MLChallengeSectionId.Organizers} />
       <Section color="gray100">
         <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold mb-sds-xl">
           {t('aboutTheOrganizers')}
@@ -305,7 +335,14 @@ export function MainContent() {
         </div>
       </Section>
 
+      {/* TODO FAQ section */}
+
+      <JumpToAnchor id={MLChallengeSectionId.Contact} />
       <Section className="font-semibold py-[50px]" color="primary100">
+        <h2 className="text-sds-header-xl leading-sds-header-xl">
+          {t('contact')}
+        </h2>
+
         <div className="flex justify-center gap-sds-xxl">
           <div>
             <h2 className="text-sds-header-xl leading-sds-header-xl">
