@@ -19,7 +19,7 @@ export function MLChallenge() {
           className={cns(
             // top = header height + xl spacing
             'sticky top-[calc(45px_+_22px)]',
-            'w-[160px] h-[260px]',
+            'w-[160px]',
             'mt-sds-xl ml-sds-xxl flex-shrink-0 hidden screen-760:block',
           )}
         >
