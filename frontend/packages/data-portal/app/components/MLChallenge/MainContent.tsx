@@ -306,12 +306,12 @@ export function MainContent() {
       </Section>
 
       <Section className="font-semibold py-[50px]" color="primary100">
-        <h2 className="text-sds-header-xl leading-sds-header-xl">
-          {t('contact')}
-        </h2>
-
         <div className="flex justify-center gap-sds-xxl">
           <div className="max-w-[612px]">
+            <h2 className="text-sds-header-xl leading-sds-header-xl">
+              {t('contact')}
+            </h2>
+
             <p className="text-sds-body-m leading-sds-body-m mt-sds-xl">
               <I18n i18nKey="haveMoreQuestions" />
             </p>
