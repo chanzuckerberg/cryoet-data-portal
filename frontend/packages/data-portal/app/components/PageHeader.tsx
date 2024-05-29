@@ -1,4 +1,4 @@
-import { Button, Icon } from '@czi-sds/components'
+import { Button } from '@czi-sds/components'
 import { ReactNode } from 'react'
 
 import { InlineMetadata, Metadata } from 'app/components/InlineMetadata'
@@ -93,21 +93,8 @@ export function PageHeader({
               )}
 
               {/* actions */}
-              <div className="flex flex-row row-start-2 col-start-2 gap-sds-m justify-between min-w-[315px]">
+              <div className="flex flex-row row-start-2 col-start-2 gap-sds-m justify-end min-w-[315px]">
                 {actions}
-
-                {onMoreInfoClick && (
-                  <Button
-                    startIcon={
-                      <Icon sdsIcon="infoCircle" sdsType="button" sdsSize="l" />
-                    }
-                    sdsType="secondary"
-                    sdsStyle="rounded"
-                    onClick={onMoreInfoClick}
-                  >
-                    {t('moreInfo')}
-                  </Button>
-                )}
               </div>
             </div>
           </div>
@@ -119,12 +106,11 @@ export function PageHeader({
                   <div className="flex w-full">
                     <Button
                       className="flex items-center gap-sds-xxs"
-                      sdsType="primary"
-                      sdsStyle="minimal"
+                      sdsType="secondary"
+                      sdsStyle="rounded"
                       onClick={onMoreInfoClick}
                     >
-                      <Icon sdsIcon="infoCircle" sdsSize="s" sdsType="button" />
-                      <span>{t('moreInfo')}</span>
+                      <span>{t('viewAllInfo')}</span>
                     </Button>
                   </div>
                 ),

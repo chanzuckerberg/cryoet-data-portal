@@ -74,7 +74,7 @@ export function RunHeader() {
 
           <Button
             startIcon={<Icon sdsIcon="download" sdsType="button" sdsSize="l" />}
-            sdsType="primary"
+            sdsType="secondary"
             sdsStyle="rounded"
             onClick={() =>
               openTomogramDownloadModal({
@@ -83,9 +83,13 @@ export function RunHeader() {
               })
             }
           >
-            {t('download')}...
+            {t('downloadRun')}
           </Button>
         </>
+      }
+      releaseDate={run.dataset.release_date}
+      lastModifiedDate={
+        run.dataset.last_modified_date ?? run.dataset.deposition_date
       }
       breadcrumbs={<Breadcrumbs variant="run" dataset={run.dataset} />}
       metadata={[{ key: t('runId'), value: `${run.id}` }]}
@@ -140,6 +144,7 @@ export function RunHeader() {
 
             <div className="flex gap-sds-xxl flex-col lg:flex-row">
               <MetadataTable
+                small
                 title={i18n.tiltSeries}
                 tableCellLabelProps={{
                   width: { min: 100, max: 100 },
@@ -150,7 +155,9 @@ export function RunHeader() {
                     labelTooltipProps: {
                       arrowPadding: { right: 230 },
                     },
-                    label: i18n.tiltQuality,
+                    label: t('tiltQuality'),
+                    // hack to align with score badge
+                    labelExtra: <span className="mt-sds-xxxs h-[18px]" />,
                     values:
                       typeof tiltSeries?.tilt_series_quality === 'number'
                         ? [String(tiltSeries.tilt_series_quality)]
@@ -183,6 +190,7 @@ export function RunHeader() {
               />
 
               <MetadataTable
+                small
                 title={i18n.tomogram}
                 tableCellLabelProps={{ width: { min: 100, max: 180 } }}
                 data={[

@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unstable-nested-components */
 
 import Skeleton from '@mui/material/Skeleton'
-import { useSearchParams } from '@remix-run/react'
+import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
@@ -25,6 +25,7 @@ import {
   SingleDatasetHistory,
   useSingleDatasetFilterHistory,
 } from 'app/state/filterHistory'
+import { cnsNoMerge } from 'app/utils/cns'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
 
 type Run = GetDatasetByIdQuery['datasets'][number]['runs'][number]
@@ -43,6 +44,10 @@ export function RunsTable() {
   const { t } = useI18n()
   const { setSingleDatasetHistory } = useSingleDatasetFilterHistory()
   const [searchParams] = useSearchParams()
+
+  const [isHoveringOverInteractable, setIsHoveringOverInteractable] =
+    useState(false)
+  const navigate = useNavigate()
 
   useEffect(
     () =>
@@ -81,6 +86,7 @@ export function RunsTable() {
                     ?.key_photo_thumbnail_url ?? undefined
                 }
                 loading={isLoadingDebounced}
+                overlayOnGroupHover={!isHoveringOverInteractable}
               />
             </TableCell>
           ),
@@ -111,14 +117,18 @@ export function RunsTable() {
                   <Skeleton className="max-w-[150px]" variant="text" />
                 ) : (
                   <Link
-                    className="text-sds-primary-500 font-semibold"
+                    className={cnsNoMerge(
+                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400',
+                      !isHoveringOverInteractable &&
+                        'hover:text-sds-primary-500',
+                    )}
                     to={runUrl}
                   >
                     {run.name}
                   </Link>
                 )}
 
-                <p className="text-xs text-sds-gray-600">
+                <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
                   {isLoadingDebounced ? (
                     <Skeleton className="max-w-[120px]" variant="text" />
                   ) : (
@@ -227,6 +237,7 @@ export function RunsTable() {
                     type: 'dataset',
                   }}
                   neuroglancerConfig={neuroglancerConfig}
+                  setIsHoveringOver={setIsHoveringOverInteractable}
                 />
               </TableCell>
             )
@@ -234,12 +245,22 @@ export function RunsTable() {
         },
       ),
     ] as ColumnDef<Run>[]
-  }, [dataset.id, dataset.organism_name, isLoadingDebounced, t])
+  }, [
+    dataset.id,
+    dataset.organism_name,
+    isLoadingDebounced,
+    t,
+    isHoveringOverInteractable,
+  ])
 
   return (
     <PageTable
       data={isLoadingDebounced ? LOADING_RUNS : runs}
       columns={columns}
+      onTableRowClick={(row) =>
+        !isHoveringOverInteractable && navigate(`/runs/${row.original.id}`)
+      }
+      hoverType="group"
     />
   )
 }

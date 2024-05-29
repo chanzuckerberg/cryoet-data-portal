@@ -7,6 +7,7 @@ import { ComponentProps, useCallback, useMemo } from 'react'
 
 import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
 import { I18n } from 'app/components/I18n'
+import { DASHED_BORDERED_CLASSES } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
@@ -268,8 +269,8 @@ export function AnnotationTable() {
                     {/* convert to link when activate annotation state is moved to URL */}
                     <button
                       className={cnsNoMerge(
-                        'text-sds-primary-400 text-sds-header-s leading-sds-header-s',
-                        'hover:underline decoration-dashed decoration-1 underline-offset-4',
+                        'text-sds-header-s leading-sds-header-s',
+                        DASHED_BORDERED_CLASSES,
                       )}
                       onClick={() => openAnnotationDrawer(annotation)}
                       type="button"
@@ -310,7 +311,7 @@ export function AnnotationTable() {
 
         cell: ({ row: { original: annotation } }) => (
           <TableCell width={AnnotationTableWidths.actions}>
-            <div className="flex flex-col gap-sds-xs">
+            <div className="flex flex-col gap-sds-xs items-start">
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
@@ -318,8 +319,15 @@ export function AnnotationTable() {
                 startIcon={
                   <Icon sdsIcon="infoCircle" sdsSize="s" sdsType="button" />
                 }
+                // FIXME: check if below still needed in @czi-sds/components >= 20.4.0
+                // default min-w is 64px which throws off alignment
+                className="!min-w-0"
+                // remove negative margin on icon
+                classes={{
+                  startIcon: '!ml-0',
+                }}
               >
-                <span>{t('moreInfo')}</span>
+                <span>{t('info')}</span>
               </Button>
 
               {showAnnotationDownload && (
@@ -342,6 +350,11 @@ export function AnnotationTable() {
                   startIcon={
                     <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
                   }
+                  // FIXME: check if below still needed in @czi-sds/components >= 20.4.0
+                  // remove negative margin on icon
+                  classes={{
+                    startIcon: '!ml-0',
+                  }}
                 >
                   {t('download')}
                 </Button>
@@ -389,6 +402,7 @@ export function AnnotationTable() {
     <PageTable
       data={isLoadingDebounced ? LOADING_ANNOTATIONS : annotations}
       columns={columns}
+      hoverType="none"
     />
   )
 }

@@ -9,10 +9,12 @@ export function ViewTomogramButton({
   buttonProps,
   event,
   neuroglancerConfig,
+  setIsHoveringOver,
 }: {
   buttonProps: Partial<ButtonProps>
   event: EventPayloads[Events.ViewTomogram]
   neuroglancerConfig: string | null | undefined
+  setIsHoveringOver?: (isHoveringOver: boolean) => void
 }) {
   const plausible = usePlausible()
   const { t } = useI18n()
@@ -39,6 +41,8 @@ export function ViewTomogramButton({
           trackViewTomogram()
         }
       }}
+      onMouseEnter={() => setIsHoveringOver?.(true)}
+      onMouseLeave={() => setIsHoveringOver?.(false)}
     >
       <Button
         to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(
