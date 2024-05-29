@@ -9,7 +9,7 @@ export function MLChallenge() {
     <div className="flex flex-col w-[100vw] overflow-x-clip">
       <MLChallengeHeader />
 
-      <div className="flex flex-row w-full justify-between px-sds-xl">
+      <div className="flex flex-row w-full justify-between px-sds-xl relative">
         {/* Filler Component for Spacing */}
         <div className="basis-0 flex-1 max-w-[160px]" />
 
@@ -19,7 +19,7 @@ export function MLChallenge() {
           className={cns(
             // top = header height + xl spacing
             'sticky top-[calc(45px_+_22px)]',
-            'w-[160px]',
+            'w-[160px] h-fit',
             'mt-sds-xl ml-sds-xxl flex-shrink-0 hidden screen-760:block',
           )}
         >
