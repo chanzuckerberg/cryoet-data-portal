@@ -43,11 +43,10 @@ const NAV_ITEMS: RawNavItem[] = [
     id: MLChallengeSectionId.Organizers,
     label: 'organizers',
   },
-  // TODO uncomment when FAQ section is ready
-  // {
-  //   id: MLChallengeHeaderId.FAQ,
-  //   label: 'faq',
-  // },
+  {
+    id: MLChallengeSectionId.FAQ,
+    label: 'faq',
+  },
   {
     id: MLChallengeSectionId.Contact,
     label: 'contact',
