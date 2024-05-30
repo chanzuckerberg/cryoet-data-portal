@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.9.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.8.0...web-v1.9.0) (2024-05-30)
+
+
+### ✨ Features
+
+* ux navigation styling updates ([#737](https://github.com/chanzuckerberg/cryoet-data-portal/issues/737)) ([508ab9b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/508ab9b2b1e186c65ab3d0bbf61179eda85139cb))
+
+
+### 🧹 Miscellaneous Chores
+
+* update babel traverse ([#767](https://github.com/chanzuckerberg/cryoet-data-portal/issues/767)) ([f53a779](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f53a7791b108f7ab696e687e19e2b6a47fa74c7a))
+
 ## [1.8.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.7.0...web-v1.8.0) (2024-05-28)
 
 
