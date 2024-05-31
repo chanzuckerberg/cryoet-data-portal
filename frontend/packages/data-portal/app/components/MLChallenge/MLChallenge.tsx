@@ -1,5 +1,8 @@
+import { cns } from 'app/utils/cns'
+
 import { MainContent } from './MainContent'
 import { MLChallengeHeader } from './MLChallengeHeader'
+import { MLChallengeNavigation } from './MLChallengeNavigation'
 
 export function MLChallenge() {
   return (
@@ -9,10 +12,18 @@ export function MLChallenge() {
       <div className="flex flex-row w-full justify-between px-sds-xl">
         {/* Filler Component for Spacing */}
         <div className="basis-0 flex-1 max-w-[160px]" />
+
         <MainContent />
 
-        <div className="mt-sds-xl ml-sds-xxl w-[160px] h-[260px] bg-sds-gray-500 flex-shrink-0 hidden screen-760:block">
-          {/* TODO: NavBar */}
+        <div
+          className={cns(
+            // top = header height + xl spacing
+            'sticky top-[calc(45px_+_22px)]',
+            'w-[160px]',
+            'mt-sds-xl ml-sds-xxl flex-shrink-0 hidden screen-760:block',
+          )}
+        >
+          <MLChallengeNavigation />
         </div>
       </div>
     </div>
