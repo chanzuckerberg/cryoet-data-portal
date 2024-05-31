@@ -15,3 +15,6 @@ jobs:
     secrets: inherit
     with:
       environment: local
+      # Only test on chromium to keep PR E2E tests fast. Staging E2E tests will
+      # test on all browsers.
+      browsers: '["chromium"]'

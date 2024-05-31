@@ -1,6 +1,10 @@
 on:
   workflow_call:
     inputs:
+      browsers:
+        type: string
+        default: '["chromium", "firefox", "webkit"]'
+
       environment:
         required: true
         type: string
@@ -75,7 +79,7 @@ jobs:
   frontend-e2e-tests:
     strategy:
       matrix:
-        browser: [chromium, firefox, webkit]
+        browser: ${{ fromJson(inputs.browsers) }}
         shardCurrent: [1, 2, 3, 4, 5]
         shardTotal: [5]
 
