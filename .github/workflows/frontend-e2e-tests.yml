@@ -62,7 +62,9 @@ jobs:
         uses: actions/cache@v3
         if: inputs.environment == 'local'
         with:
-          path: frontend/packages/data-portal/build
+          path: |
+            frontend/packages/data-portal/build
+            frontend/packages/data-portal/public/build
           key: local-build-${{ hashFiles('frontend/packages/data-portal/app') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Build frontend for local testing
@@ -134,7 +136,9 @@ jobs:
         uses: actions/cache@v3
         if: inputs.environment == 'local'
         with:
-          path: frontend/packages/data-portal/build
+          path: |
+            frontend/packages/data-portal/build
+            frontend/packages/data-portal/public/build
           key: local-build-${{ hashFiles('frontend/packages/data-portal/app') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Build GraphQL Types
