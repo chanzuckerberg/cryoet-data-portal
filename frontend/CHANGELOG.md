@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.10.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.9.0...web-v1.10.0) (2024-05-31)
+
+
+### ✨ Features
+
+* add ML Challenge organizers section ([#753](https://github.com/chanzuckerberg/cryoet-data-portal/issues/753)) ([a66f54b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/a66f54b950ed51027b4749eca3392d79938169ff))
+* add ML Challenge Page competition data section and CTA ([#754](https://github.com/chanzuckerberg/cryoet-data-portal/issues/754)) ([e836c22](https://github.com/chanzuckerberg/cryoet-data-portal/commit/e836c226f345d725677338e4f12c6a075c75f98e))
+* add ML Challenge Page FAQ ([#762](https://github.com/chanzuckerberg/cryoet-data-portal/issues/762)) ([30974bf](https://github.com/chanzuckerberg/cryoet-data-portal/commit/30974bf8092585b383a1ab1b63d7757b58cd087f))
+* add ML Challenge page main content ([#739](https://github.com/chanzuckerberg/cryoet-data-portal/issues/739)) ([d5ee77d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d5ee77d708795ee8deed99fff6067bb1915fff39))
+* ML Challenge Banners ([#755](https://github.com/chanzuckerberg/cryoet-data-portal/issues/755)) ([47e9b45](https://github.com/chanzuckerberg/cryoet-data-portal/commit/47e9b457874cf531b93fbe69bb933537760efd66))
+* ML Challenge Navigation ([#758](https://github.com/chanzuckerberg/cryoet-data-portal/issues/758)) ([131bf6b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/131bf6b278a01d4b0afa49f7e3334c6972bbc234))
+
 ## [1.9.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.8.0...web-v1.9.0) (2024-05-30)
 
 
