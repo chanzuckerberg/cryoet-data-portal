@@ -336,7 +336,15 @@ export function MainContent() {
         </div>
       </Section>
 
-      {/* TODO FAQ section */}
+      <JumpToAnchor id={MLChallengeSectionId.FAQ} />
+      <Section className="min-h-[270px]">
+        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold mb-sds-xl">
+          {t('faq')}
+        </h2>
+        <p className="text-sds-caps-xxs leading-sds-caps-xxs font-semibold uppercase text-sds-gray-500">
+          {t('moreInfoComingSoon')}
+        </p>
+      </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.Contact} />
       <Section className="font-semibold py-[50px]" color="primary100">
