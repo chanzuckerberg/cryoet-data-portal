@@ -14,7 +14,7 @@ permissions:
 jobs:
   run-staging-e2e-test:
     name: Run e2e test on staging
-    uses: chanzuckerberg/cryoet-data-portal/.github/workflows/frontend-e2e-tests.yml@main
+    uses: ./.github/workflows/frontend-e2e-tests.yml
     secrets: inherit
     # The variable IS_DEPLOY_ALLOWED is used to manually gate the prod deploys
     if: vars.IS_DEPLOY_ALLOWED == 'true'
@@ -190,7 +190,7 @@ jobs:
   run-prod-e2e-test:
     name: Run e2e test on prod
     needs: deploy-to-prod
-    uses: chanzuckerberg/cryoet-data-portal/.github/workflows/frontend-e2e-tests.yml@main
+    uses: ./.github/workflows/frontend-e2e-tests.yml
     secrets: inherit
     with:
       environment: prod
