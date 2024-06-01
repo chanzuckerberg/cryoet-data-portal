@@ -1,6 +1,10 @@
 on:
   workflow_call:
     inputs:
+      browsers:
+        type: string
+        default: '["chromium", "firefox", "webkit"]'
+
       environment:
         required: true
         type: string
@@ -10,10 +14,72 @@ on:
         required: true
 
 jobs:
+  e2e-setup:
+    name: E2E Setup
+    runs-on: macos-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.8.x
+
+      - name: Install PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.0
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies with PNPM
+        run: pnpm install --frozen-lockfile
+        working-directory: frontend
+
+      - name: Cache playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Installing playwright browsers
+        run: pnpm e2e:install-browsers
+        working-directory: frontend/packages/data-portal
+
+      - name: Setting up local build cache
+        uses: actions/cache@v3
+        if: inputs.environment == 'local'
+        with:
+          path: |
+            frontend/packages/data-portal/build
+            frontend/packages/data-portal/public/build
+          key: local-build-${{ hashFiles('frontend/packages/data-portal/app') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Build frontend for local testing
+        run: pnpm build
+        if: inputs.environment == 'local'
+        working-directory: frontend/packages/data-portal
+
   frontend-e2e-tests:
     strategy:
       matrix:
-        browser: [chromium, firefox, webkit]
+        browser: ${{ fromJson(inputs.browsers) }}
         shardCurrent: [1, 2, 3, 4, 5]
         shardTotal: [5]
 
@@ -27,6 +93,7 @@ jobs:
     # TODO investigate why ubuntu runner tests fail
     runs-on: macos-latest
     environment: ${{ inputs.environment }}
+    needs: e2e-setup
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -58,13 +125,37 @@ jobs:
         run: pnpm install --frozen-lockfile
         working-directory: frontend
 
+      - name: Load cached playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
+
       - name: Installing playwright browsers
         run: pnpm e2e:install-browsers
         working-directory: frontend/packages/data-portal
 
+      - name: Load cached local build
+        uses: actions/cache@v3
+        if: inputs.environment == 'local'
+        with:
+          path: |
+            frontend/packages/data-portal/build
+            frontend/packages/data-portal/public/build
+          key: local-build-${{ hashFiles('frontend/packages/data-portal/app') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
       - name: Build GraphQL Types
         run: pnpm build:codegen
         working-directory: frontend/packages/data-portal
+
+      - name: Start server on port 8080
+        run: pnpm start &
+        if: inputs.environment == 'local'
+        working-directory: frontend/packages/data-portal
+        env:
+          API_URL: ${{ vars.API_URL }}
+          ENV: ${{ inputs.environment }}
 
       - name: Run E2E tests
         run: pnpm e2e --shard ${{ matrix.shardCurrent }}/${{ matrix.shardTotal }}
