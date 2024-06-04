@@ -32,7 +32,7 @@ function testFilter({
   filter: MultiInputFilter
   hasMultipleFilters: boolean
 }) {
-  const value = E2E_CONFIG[filter.valueKey]
+  const value = E2E_CONFIG[filter.valueKey] as string
 
   test(`should filter by ${filter.label}`, async ({ page }) => {
     const expectedUrl = new URL(url)
