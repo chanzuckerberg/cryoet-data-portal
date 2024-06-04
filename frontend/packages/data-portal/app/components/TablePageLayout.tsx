@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useMemo } from 'react'
 
 import { TABLE_PAGE_LAYOUT_LOG_ID } from 'app/constants/error'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { TestIds } from 'app/constants/testIds'
 import { LayoutContext, LayoutContextValue } from 'app/context/Layout.context'
 import { cns } from 'app/utils/cns'
 
@@ -117,7 +118,10 @@ export function TablePageLayout({
                 {filteredCount === 0 && noResults}
 
                 {filteredCount > MAX_PER_PAGE && (
-                  <div className="w-full flex justify-center mt-sds-xxl">
+                  <div
+                    className="w-full flex justify-center mt-sds-xxl"
+                    data-testid={TestIds.Pagination}
+                  >
                     <Pagination
                       currentPage={page}
                       pageSize={MAX_PER_PAGE}
