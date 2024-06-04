@@ -61,6 +61,7 @@ export function TopNavigation() {
               : 'text-sds-gray-400 hover:text-sds-gray-white',
           )}
           to={link.link}
+          key={link.link}
         >
           {t(link.label)}
         </Link>
