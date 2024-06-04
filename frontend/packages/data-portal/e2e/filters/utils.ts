@@ -1,10 +1,14 @@
 import { expect, Page, test } from '@playwright/test'
-import { translations } from 'e2e/constants'
+import { E2E_CONFIG, translations } from 'e2e/constants'
 
 import {
   GetDatasetByIdQuery,
   GetDatasetsDataQuery,
 } from 'app/__generated__/graphql'
+import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
+import { getDatasetById } from 'app/graphql/getDatasetById.server'
+
+import { TableValidatorOptions } from './types'
 
 async function waitForTableCountChange({
   countLabel,
@@ -134,4 +138,45 @@ export function skipClipboardTestsForWebkit(browserName: string) {
     browserName === 'webkit',
     'Skipping for safari because clipboard permissions are not availabe.',
   )
+}
+
+export async function validateDatasetsTable({
+  client,
+  page,
+  pageNumber,
+  params,
+}: TableValidatorOptions) {
+  const { data } = await getBrowseDatasets({
+    client,
+    params,
+    page: pageNumber,
+  })
+
+  await validateTable({
+    page,
+    browseDatasetsData: data,
+    validateRows: getDatasetTableFilterValidator(data),
+  })
+}
+
+export async function validateRunsTable({
+  client,
+  page,
+  params,
+  pageNumber,
+  id = +E2E_CONFIG.datasetId,
+}: TableValidatorOptions & { id?: number }) {
+  const { data } = await getDatasetById({
+    client,
+    params,
+    id,
+    page: pageNumber,
+  })
+
+  await validateTable({
+    page,
+    singleDatasetData: data,
+    validateRows: getRunTableFilterValidator(data),
+    countLabel: translations.runs,
+  })
 }

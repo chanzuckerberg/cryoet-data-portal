@@ -12,25 +12,7 @@ import {
   testMultiSelectFilter,
   testSingleSelectFilter,
 } from './filters'
-import { TableValidatorOptions } from './filters/types'
-import { getDatasetTableFilterValidator, validateTable } from './filters/utils'
-
-async function validateDatasetsTable({
-  client,
-  page,
-  params,
-}: TableValidatorOptions) {
-  const { data } = await getBrowseDatasets({
-    client,
-    params,
-  })
-
-  await validateTable({
-    page,
-    browseDatasetsData: data,
-    validateRows: getDatasetTableFilterValidator(data),
-  })
-}
+import { validateDatasetsTable } from './filters/utils'
 
 testGroundTruthAnnotationFilter({
   url: BROWSE_DATASETS_URL,
