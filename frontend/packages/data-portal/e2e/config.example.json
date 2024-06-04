@@ -14,5 +14,22 @@
   "reconstructionObjectName": "Actin filament",
   "reconstructionSoftware": "IMOD",
   "runId": "12431",
-  "url": "http://localhost:8080"
+  "url": "http://localhost:8080",
+
+  "pagination": {
+    "browseDatasets": {
+      "filter": {
+        "key": "runs",
+        "value": "\">20\""
+      }
+    },
+
+    "singleDataset": {
+      "id": "10007",
+      "filter": {
+        "key": "object",
+        "value": "membrane"
+      }
+    }
+  }
 }
