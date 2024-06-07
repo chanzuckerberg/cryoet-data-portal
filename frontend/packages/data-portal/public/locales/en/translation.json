@@ -305,7 +305,7 @@
   "totalFlux": "Total Flux",
   "true": "True",
   "tutorials": "Tutorials",
-  "tutorialsSectionContent": "Example notebooks for existing models, such as TomoTwin and DeePiCt, are provided to serve as onboarding materials and baseline solutions. These examples include preliminary results to set performance benchmarks for the competition.",
+  "tutorialsSectionContent": "Example notebooks for existing models, such as TomoTwin and DeepFinder, are provided to serve as onboarding materials and baseline solutions. These examples include preliminary results to set performance benchmarks for the competition.",
   "unitAngstrom": "{{value}}Å",
   "unitDegree": "{{value}}°",
   "unitMillimeter": "{{value}} mm",
