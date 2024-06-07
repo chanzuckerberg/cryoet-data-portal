@@ -1,8 +1,7 @@
-import { Icon } from '@czi-sds/components'
 import { ReactNode } from 'react'
 
 import { I18n } from 'app/components/I18n'
-import { FolderIcon, RocketIcon, SpeechBubbleIcon } from 'app/components/icons'
+import { FolderIcon, SpeechBubbleIcon } from 'app/components/icons'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
@@ -89,20 +88,13 @@ function Headshot({
 export function MainContent() {
   const { t } = useI18n()
 
-  const competitionDetails: [string, ReactNode][] = [
-    [t('timeline'), t('timelineSectionContent')],
-    [t('location'), <I18n i18nKey="locationSectionContent" />],
-    [t('awards'), t('awardsSectionContent')],
-    [t('scoring'), t('scoringSectionContent')],
-  ]
-
   return (
     <div className="flex flex-col max-w-content-small">
       <JumpToAnchor id={MLChallengeSectionId.About} />
 
-      <Section className="gap-sds-xxl">
+      <Section className="!py-0">
         {/* About the Competition */}
-        <div className="flex flex-col gap-sds-xl">
+        <div className="flex flex-col gap-sds-xl my-sds-xxl">
           <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
             {t('aboutTheCompetition')}
           </h2>
@@ -110,97 +102,29 @@ export function MainContent() {
             <p>{t('aboutTheCompetitionContent1')}</p>
             <p>{t('aboutTheCompetitionContent2')}</p>
             <p>{t('aboutTheCompetitionContent3')}</p>
-            <p>{t('aboutTheCompetitionContent4')}</p>
           </div>
         </div>
 
         {/* Competition Details */}
         <JumpToAnchor id={MLChallengeSectionId.CompetitionDetails} />
-        <div className="flex flex-col">
-          <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
+        <div className="flex flex-col min-h-[270px] pb-sds-xxl">
+          <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold mb-sds-xl">
             {t('competitionDetails')}
           </h2>
-          {competitionDetails.map(([title, content]) => (
-            <>
-              <h4 className="text-sds-header-m leading-sds-header-m font-semibold mt-sds-xl">
-                {title}
-              </h4>
-              <span className="text-sds-body-xs leading-sds-xs mt-sds-xs p-sds-m bg-sds-gray-100">
-                {content}
-              </span>
-            </>
-          ))}
+          <p className="text-sds-caps-xxs leading-sds-caps-xxs font-semibold uppercase text-sds-gray-500">
+            {t('moreInfoComingSoon')}
+          </p>
         </div>
       </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.HowToParticipate} />
-      <Section color="primary100">
+      <Section color="primary100" className="min-h-[270px]">
         <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold mb-sds-xl">
           {t('howToParticipate')}
         </h2>
-        <div>
-          <div className="flex flex-row gap-sds-m mb-sds-xs items-center">
-            <Icon
-              sdsIcon="book"
-              color="primary"
-              sdsSize="xl"
-              sdsType="static"
-            />
-            <h3 className="text-sds-header-m leading-sds-header-m font-semibold">
-              {t('rules')}
-            </h3>
-          </div>
-          <div className="ml-[42px] mb-sds-xxl text-sds-body-s leading-sds-body-s flex flex-col">
-            <p className="mb-sds-m">{t('rulesDescription')}</p>
-            <ul className="mb-sds-xl gap-sds-xs list-disc ml-[17px] flex flex-col">
-              <li>
-                <I18n i18nKey="rulesBullet1" />
-              </li>
-              <li>
-                <I18n i18nKey="rulesBullet2" />
-              </li>
-              <li>
-                <I18n i18nKey="rulesBullet3" />
-              </li>
-              <li>
-                <I18n i18nKey="rulesBullet4" />
-              </li>
-              <li>
-                <I18n i18nKey="rulesBullet5" />
-              </li>
-            </ul>
-            <p className="uppercase font-semibold text-sds-caps-xxs leading-sds-caps-xxs text-sds-gray-500">
-              {t('moreInfoComingFall2024')}
-            </p>
-          </div>
-        </div>
-        <div>
-          <div className="flex flex-row gap-sds-m mb-sds-xs items-center">
-            <RocketIcon className="w-sds-icon-xl h-sds-icon-xl inline-block text-sds-primary-400" />
-            <h3 className="text-sds-header-m leading-sds-header-m font-semibold">
-              {t('gettingStarted')}
-            </h3>
-          </div>
-          <div className="ml-[42px] mb-sds-xxl text-sds-body-s leading-sds-body-s flex flex-col">
-            <p className="mb-sds-m">
-              <I18n i18nKey="gettingStartedDescription" />
-            </p>
-            <ul className="mb-sds-xl gap-sds-xs list-disc ml-[17px] flex flex-col">
-              <li>
-                <I18n i18nKey="gettingStartedBullet1" />
-              </li>
-              <li>
-                <I18n i18nKey="gettingStartedBullet2" />
-              </li>
-              <li>
-                <I18n i18nKey="gettingStartedBullet3" />
-              </li>
-            </ul>
-            <p className="uppercase font-semibold text-sds-caps-xxs leading-sds-caps-xxs text-sds-gray-500">
-              {t('moreInfoComingFall2024')}
-            </p>
-          </div>
-        </div>
+        <p className="text-sds-caps-xxs leading-sds-caps-xxs font-semibold uppercase text-sds-gray-500">
+          {t('moreInfoComingSoon')}
+        </p>
       </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.CompetitionData} />
