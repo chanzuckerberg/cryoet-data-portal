@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.10.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.10.0...web-v1.10.1) (2024-06-08)
+
+
+### 🧹 Miscellaneous Chores
+
+* remove all mentions of kaggle ([#791](https://github.com/chanzuckerberg/cryoet-data-portal/issues/791)) ([60221d3](https://github.com/chanzuckerberg/cryoet-data-portal/commit/60221d3049a49f799c0b61bd80dc466b6cf3e955))
+
+
+### ⚙ Continuous Integration
+
+* pagination e2e ([#776](https://github.com/chanzuckerberg/cryoet-data-portal/issues/776)) ([3d78ef4](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3d78ef47f6bc5339c69ff2748932740f70ecd1df))
+
 ## [1.10.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.9.0...web-v1.10.0) (2024-05-31)
 
 
