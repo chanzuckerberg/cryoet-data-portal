@@ -17,18 +17,32 @@
   "url": "http://localhost:8080",
 
   "pagination": {
+    "selectPage": 2,
+    "selectPageFromDropdown": 6,
+
     "browseDatasets": {
       "filter": {
         "key": "runs",
         "value": "\">20\""
+      },
+
+      "filterWithNoPages": {
+        "key": "camera_manufacturer",
+        "value": "FEI"
       }
     },
 
     "singleDataset": {
       "id": "10007",
+
       "filter": {
         "key": "object",
         "value": "membrane"
+      },
+
+      "filterWithNoPages": {
+        "key": "tilt_min",
+        "value": "180"
       }
     }
   }
