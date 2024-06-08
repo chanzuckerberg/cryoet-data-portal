@@ -1,0 +1,49 @@
+{
+  "authorName": "<name>",
+  "authorOrcId": "<orc-id>",
+  "cameraManufacturer": "FEI",
+  "datasetId": "10001",
+  "emdbId": "17241",
+  "empiarId": "11221",
+  "objectName": "membrane-enclosed lumen",
+  "objectShapeType": "InstanceSegmentation",
+  "organismName1": "Bacillus subtilis",
+  "organismName2": "Bdellovibrio bacteriovorus",
+  "organismNameQuery": "bac",
+  "reconstructionMethod": "Weighted back projection",
+  "reconstructionObjectName": "Actin filament",
+  "reconstructionSoftware": "IMOD",
+  "runId": "12431",
+  "url": "http://localhost:8080",
+
+  "pagination": {
+    "selectPage": 2,
+    "selectPageFromDropdown": 6,
+
+    "browseDatasets": {
+      "filter": {
+        "key": "runs",
+        "value": "\">20\""
+      },
+
+      "filterWithNoPages": {
+        "key": "camera_manufacturer",
+        "value": "FEI"
+      }
+    },
+
+    "singleDataset": {
+      "id": "10007",
+
+      "filter": {
+        "key": "object",
+        "value": "membrane"
+      },
+
+      "filterWithNoPages": {
+        "key": "tilt_min",
+        "value": "180"
+      }
+    }
+  }
+}
