@@ -6,21 +6,22 @@ import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
 import { TableValidatorOptions } from './filters/types'
 import { validateDatasetsTable, validateRunsTable } from './filters/utils'
 import { testPagination } from './pagination/testPagination'
+import { getParamsFromFilter } from './pagination/utils'
 
-const { browseDatasets, singleDataset } = E2E_CONFIG.pagination
+const { pagination } = E2E_CONFIG
+const { browseDatasets, singleDataset } = pagination
 
 testPagination({
-  filterParams: new URLSearchParams([
-    [browseDatasets.filter.key, browseDatasets.filter.value],
-  ]),
   rowLoadedSelector: `:has-text("${translations.datasetId}:")`,
+  testFilter: browseDatasets.filter,
+  testFilterWithNoPages: browseDatasets.filterWithNoPages,
   url: BROWSE_DATASETS_URL,
   validateTable: validateDatasetsTable,
 
-  async getMaxPages(client, params, pageNumber) {
+  async getMaxPages(client, filter, pageNumber) {
     const { data } = await getBrowseDatasets({
       client,
-      params,
+      params: getParamsFromFilter(filter),
       page: pageNumber,
     })
     const count = data.filtered_datasets_aggregate.aggregate?.count ?? 0
@@ -36,17 +37,16 @@ const validateRunsTableWithId = (options: TableValidatorOptions) =>
   })
 
 testPagination({
-  filterParams: new URLSearchParams([
-    [singleDataset.filter.key, singleDataset.filter.value],
-  ]),
   rowLoadedSelector: `:has-text("${translations.runId}:")`,
+  testFilter: singleDataset.filter,
+  testFilterWithNoPages: singleDataset.filterWithNoPages,
   url: `${E2E_CONFIG.url}/datasets/${singleDataset.id}`,
   validateTable: validateRunsTableWithId,
 
-  async getMaxPages(client, params, pageNumber) {
+  async getMaxPages(client, filter, pageNumber) {
     const { data } = await getDatasetById({
       client,
-      params,
+      params: getParamsFromFilter(filter),
       page: pageNumber,
       id: +singleDataset.id,
     })
