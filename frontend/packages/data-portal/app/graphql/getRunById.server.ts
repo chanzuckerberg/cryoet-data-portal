@@ -140,6 +140,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
           id
           is_curator_recommended
           last_modified_date
+          method_type
           object_count
           object_description
           object_id
@@ -296,7 +297,11 @@ function getFilter(filterState: FilterState) {
   }
 
   if (methodTypes.length > 0) {
-    // TODO: filter for method types when implemented in backend
+    filters.push({
+      method_type: {
+        _in: methodTypes,
+      },
+    })
   }
 
   if (annotationSoftwares.length > 0) {

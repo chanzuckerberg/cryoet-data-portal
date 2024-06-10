@@ -257,8 +257,18 @@ export function AnnotationTable() {
               ),
 
               cell: ({ row: { original: annotation } }) => {
-                // TODO: hook up backend to this when implemented
-                const methodType = 'automated'
+                if (!annotation.method_type) {
+                  return (
+                    <TableCell width={AnnotationTableWidths.methodType}>
+                      --
+                    </TableCell>
+                  )
+                }
+
+                const methodType = annotation.method_type as
+                  | 'automated'
+                  | 'manual'
+                  | 'hybrid'
 
                 return (
                   <TableCell
