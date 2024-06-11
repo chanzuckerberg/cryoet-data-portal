@@ -29,7 +29,7 @@ export function APIDownloadTab() {
     () =>
       match({ fileFormat, type, downloadConfig })
         .with({ type: 'dataset' }, () => ({
-          label: t('datasetId'),
+          label: t('copyApiCodeSnippet'),
           content: dedent`
             from cryoet_data_portal import Client, Dataset
 
@@ -43,7 +43,7 @@ export function APIDownloadTab() {
         .with(
           { type: 'runs', downloadConfig: DownloadConfig.AllAnnotations },
           () => ({
-            label: t('voxelSpacingId'),
+            label: t('copyApiCodeSnippet'),
             content: dedent`
               from cryoet_data_portal import (
                 Client,
