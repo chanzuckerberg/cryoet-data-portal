@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.10.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.10.1...web-v1.10.2) (2024-06-11)
+
+
+### 🧹 Miscellaneous Chores
+
+* hook up method type to front-end ([#797](https://github.com/chanzuckerberg/cryoet-data-portal/issues/797)) ([d6dcda5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d6dcda5fd7799d1927efef34c0a6f5ed0d323365))
+* update vite ([#796](https://github.com/chanzuckerberg/cryoet-data-portal/issues/796)) ([7c3e24f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7c3e24f6d4ea9bc9f991656f10bc8ddacc8d5b1a))
+
 ## [1.10.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.10.0...web-v1.10.1) (2024-06-08)
 
 
