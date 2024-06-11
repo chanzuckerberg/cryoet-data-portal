@@ -1,4 +1,5 @@
 import Skeleton from '@mui/material/Skeleton'
+import { useLocation } from '@remix-run/react'
 import { match, P } from 'ts-pattern'
 
 import { KeyPhotoFallbackIcon } from 'app/components/icons'
@@ -19,6 +20,7 @@ export function KeyPhoto({
   overlayOnGroupHover?: boolean
 }) {
   const { t } = useI18n()
+  const { pathname } = useLocation()
 
   return (
     <div
@@ -46,8 +48,9 @@ export function KeyPhoto({
         ],
         className,
       )}
-      // eslint-disable-next-line react/no-unknown-property
-      i18n-content={t('openDataset')}
+      data-i18n-content={t(
+        pathname.includes('/browse-data') ? 'openDataset' : 'openRun',
+      )}
     >
       {match([src, loading])
         .with([P._, true], () => <Skeleton variant="rounded" />)

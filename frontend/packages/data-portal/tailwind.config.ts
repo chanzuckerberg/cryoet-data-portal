@@ -79,7 +79,7 @@ export default {
       },
 
       content: {
-        i18n: 'attr(i18n-content)',
+        i18n: 'attr(data-i18n-content)',
       },
     },
   },
