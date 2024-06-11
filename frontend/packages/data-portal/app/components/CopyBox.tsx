@@ -6,12 +6,14 @@ import { cns } from 'app/utils/cns'
 
 export function CopyBox({
   className,
+  codeClassName,
   content,
   onCopy,
   title,
   titleClassName,
 }: {
   className?: string
+  codeClassName?: string
   content: ReactNode
   onCopy?(): void
   title?: ReactNode
@@ -38,7 +40,14 @@ export function CopyBox({
           'p-sds-default flex gap-sds-s',
         )}
       >
-        <pre className="whitespace-normal break-all flex-grow">{content}</pre>
+        <pre
+          className={cns(
+            'whitespace-normal break-all flex-grow',
+            codeClassName,
+          )}
+        >
+          {content}
+        </pre>
 
         <div className="flex flex-col">
           <Button
