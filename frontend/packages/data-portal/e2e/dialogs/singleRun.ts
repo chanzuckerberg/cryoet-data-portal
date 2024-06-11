@@ -2,6 +2,10 @@ import { expect, test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
 import { goTo, skipClipboardTestsForWebkit } from 'e2e/filters/utils'
 
+import {
+  getAllTomogramsCodeSnippet,
+  getTomogramCodeSnippet,
+} from 'app/components/Download/APIDownloadTab'
 import { getAwsCommand } from 'app/components/Download/AWSDownloadTab'
 import { getCurlCommand } from 'app/components/Download/CurlDownloadTab'
 import { getRunById } from 'app/graphql/getRunById.server'
@@ -360,7 +364,7 @@ export function testSingleRunDownloadDialog() {
         const { data } = await fetchData()
         const voxelSpacingId = data.runs[0].tomogram_voxel_spacings[0].id
 
-        expect(clipboardValue).toBe(String(voxelSpacingId))
+        expect(clipboardValue).toBe(getAllTomogramsCodeSnippet(voxelSpacingId))
       })
 
       test('should close step 2 when x button clicked', async ({ page }) => {
@@ -613,7 +617,9 @@ export function testSingleRunDownloadDialog() {
             )
           })
 
+        const fileFormat = 'mrc'
         const initialUrl = constructDialogUrl(SINGLE_RUN_URL, {
+          fileFormat,
           step: DownloadStep.Download,
           config: DownloadConfig.Tomogram,
           tomogram: {
@@ -636,7 +642,9 @@ export function testSingleRunDownloadDialog() {
         )
         const clipboardValue = await handle.jsonValue()
 
-        expect(clipboardValue).toBe(String(activeTomogram?.id))
+        expect(clipboardValue).toBe(
+          getTomogramCodeSnippet(activeTomogram?.id, fileFormat),
+        )
       })
 
       test('should copy from curl tab', async ({ page, browserName }) => {

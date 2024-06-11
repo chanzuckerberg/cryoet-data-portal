@@ -59,6 +59,7 @@
     "clsx": "^2.0.0",
     "compression": "^1.7.4",
     "dayjs": "^1.11.10",
+    "dedent": "^1.5.3",
     "express": "^4.19.2",
     "framer-motion": "^10.16.4",
     "graphql": "^16.8.1",

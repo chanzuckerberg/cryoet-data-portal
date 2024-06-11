@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
 import { goTo, skipClipboardTestsForWebkit } from 'e2e/filters/utils'
 
+import { getDatasetCodeSnippet } from 'app/components/Download/APIDownloadTab'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { DownloadTab } from 'app/types/download'
 
@@ -166,7 +167,7 @@ export function testSingleDatasetDownloadDialog() {
         navigator.clipboard.readText(),
       )
       const clipboardValue = await handle.jsonValue()
-      expect(clipboardValue).toBe(E2E_CONFIG.datasetId)
+      expect(clipboardValue).toBe(getDatasetCodeSnippet(+E2E_CONFIG.datasetId))
     })
 
     test('should close when x button clicked', async ({ page }) => {
