@@ -33,6 +33,11 @@ export function AnnotationObjectTable() {
             </Link>
           ),
         },
+
+        {
+          label: t('objectCount'),
+          values: [annotation.object_count],
+        },
         {
           label: t('objectShapeType'),
           values: [annotation.shape_type],
