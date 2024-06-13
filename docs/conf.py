@@ -23,6 +23,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "myst_parser",
+    "sphinx_immaterial"
 ]
 
 napoleon_custom_sections = ["Lifecycle"]
@@ -48,10 +49,12 @@ source_suffix = [".rst", ".md"]
 # Inject custom css files in `/_static/css/*`
 html_static_path = ["_static"]
 
-import sphinx_rtd_theme
+#import sphinx_rtd_theme
 
-html_theme = "sphinx_rtd_theme"
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+#html_theme = "sphinx_rtd_theme"
+#html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+
+html_theme = "sphinx_immaterial"
 
 html_js_files = [
     (
