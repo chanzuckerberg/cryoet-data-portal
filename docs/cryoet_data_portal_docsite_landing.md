@@ -4,8 +4,8 @@ The [Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Insti
 
 This site provides additional documentation for using our [Python API](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html) to query and download data and for navigating the [CryoET Data Portal](https://cryoetdataportal.czscience.com) and its visualization tools. We hope this site will assist segmentation algorithm developers to produce annotations for diverse macromolecules in the tomograms that may be used for high-resolution subtomogram averaging.
 
-We welcome feedback from the community on the data structure, design and functionality. 
-- Share first impressions, or sign up for invites to future feedback activities in [this short form](https://airtable.com/apppmytRJXoXYTO9w/shrjmV9knAC7E7VVM?prefill_Event=P1BannerF&hide_Event=true). 
+We welcome feedback from the community on the data structure, design and functionality.
+- Share first impressions, or sign up for invites to future feedback activities in [this short form](https://airtable.com/apppmytRJXoXYTO9w/shrjmV9knAC7E7VVM?prefill_Event=P1BannerF&hide_Event=true).
 - Submit bugs for the CryoET Data Portal via [GitHub issues](https://github.com/chanzuckerberg/cryoet-data-portal/issues/new?assignees=&labels=bug&projects=&template=bug.md&title=).
 - Start a [Github discussion](https://github.com/chanzuckerberg/cryoet-data-portal/discussions/new/choose) with questions or to request new features.
 
