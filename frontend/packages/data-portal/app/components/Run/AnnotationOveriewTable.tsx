@@ -51,8 +51,7 @@ export function AnnotationOverviewTable() {
         },
         {
           label: t('methodType'),
-          // TODO: hook up field to data when available
-          values: ['--'],
+          values: [annotation.method_type ?? '--'],
         },
         {
           label: t('annotationMethod'),
