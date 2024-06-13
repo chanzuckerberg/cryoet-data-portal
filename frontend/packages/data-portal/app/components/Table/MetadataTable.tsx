@@ -5,7 +5,7 @@ import { ComponentProps } from 'react'
 import { match } from 'ts-pattern'
 
 import { TableData } from 'app/types/table'
-import { cns } from 'app/utils/cns'
+import { cns, cnsNoMerge } from 'app/utils/cns'
 
 import { TableCell } from './TableCell'
 
@@ -14,14 +14,16 @@ export function MetadataTable({
   tableCellLabelProps,
   tableCellValueProps,
   title,
+  small,
 }: {
   data: TableData[]
   tableCellLabelProps?: ComponentProps<typeof TableCell>
   tableCellValueProps?: ComponentProps<typeof TableCell>
   title?: string
+  small?: boolean
 }) {
   return (
-    <div className="flex flex-col gap-sds-m">
+    <div className="flex flex-col gap-sds-xs">
       {title && (
         <p className="text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps uppercase font-semibold">
           {title}
@@ -45,13 +47,26 @@ export function MetadataTable({
                   tooltipProps={datum.labelTooltipProps}
                   {...tableCellLabelProps}
                 >
-                  <span className="text-sds-gray-600 text-sds-header-s leading-sds-header-s font-semibold flex flex-row gap-sds-xxs">
+                  <span
+                    className={cnsNoMerge(
+                      'text-sds-gray-600 items-end font-semibold flex flex-row gap-sds-xxs',
+                      small
+                        ? 'text-sds-header-xxs leading-sds-header-xxs'
+                        : 'text-sds-header-s leading-sds-header-s',
+                    )}
+                  >
                     {datum.label}
                     {datum.labelExtra}
                   </span>
                 </TableCell>
 
-                <TableCell className="!p-sds-s" {...tableCellValueProps}>
+                <TableCell
+                  className={cns(
+                    '!p-sds-s',
+                    small && '!text-sds-body-xxs !leading-sds-body-xxs',
+                  )}
+                  {...tableCellValueProps}
+                >
                   {match(values.length)
                     .with(0, () => null)
                     .with(1, () => (

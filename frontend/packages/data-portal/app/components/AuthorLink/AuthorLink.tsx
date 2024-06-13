@@ -25,7 +25,7 @@ export function AuthorLink({
     <span className="inline">
       <span
         className={cns(
-          'inline border-b pb-sds-xxxs',
+          'inline border-b mb-sds-xxxs',
 
           author.orcid
             ? [

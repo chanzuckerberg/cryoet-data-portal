@@ -140,6 +140,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
           id
           is_curator_recommended
           last_modified_date
+          method_type
           object_count
           object_description
           object_id
@@ -155,11 +156,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
           }
 
           authors(order_by: { author_list_order: asc }) {
+            primary_author_status
             corresponding_author_status
-            email
             name
+            email
             orcid
-            primary_author_status: primary_annotator_status
           }
 
           author_affiliations: authors(distinct_on: affiliation_name) {
@@ -296,7 +297,11 @@ function getFilter(filterState: FilterState) {
   }
 
   if (methodTypes.length > 0) {
-    // TODO: filter for method types when implemented in backend
+    filters.push({
+      method_type: {
+        _in: methodTypes,
+      },
+    })
   }
 
   if (annotationSoftwares.length > 0) {

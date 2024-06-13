@@ -13,7 +13,7 @@ import { DatasetAuthors } from './DatasetAuthors'
 // use clsx here instead of cns since it erroneously merges text-sds-gray-500 and text-sds-caps-xxxs
 const sectionHeaderStyles = cnsNoMerge(
   'font-semibold uppercase',
-  'text-sds-gray-500',
+  'text-sds-gray-black',
   'text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps',
 )
 

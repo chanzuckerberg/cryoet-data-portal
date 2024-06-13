@@ -1,0 +1,20 @@
+name: Frontend PR E2E Tests
+
+on:
+  pull_request:
+    branches:
+      - '**'
+    paths:
+      - .github/workflows/frontend-pr-e2e-tests.yml
+      - frontend/**
+
+jobs:
+  frontend-pr-e2e-tests:
+    name: E2E Tests
+    uses: ./.github/workflows/frontend-e2e-tests.yml
+    secrets: inherit
+    with:
+      environment: local
+      # Only test on chromium to keep PR E2E tests fast. Staging E2E tests will
+      # test on all browsers.
+      browsers: '["chromium"]'

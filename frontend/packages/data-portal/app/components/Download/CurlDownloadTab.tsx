@@ -7,7 +7,8 @@ import { useLogPlausibleCopyEvent } from 'app/hooks/useLogPlausibleCopyEvent'
 import { SelectSaveDestination } from './SelectSaveDestination'
 
 export function getCurlCommand(httpsPath?: string): string {
-  return `curl -o local.mrc "${httpsPath}"`
+  const fileFormat = httpsPath?.split('.').at(-1) ?? 'mrc'
+  return `curl -o local.${fileFormat} "${httpsPath}"`
 }
 
 export function CurlDownloadTab() {

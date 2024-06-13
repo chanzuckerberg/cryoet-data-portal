@@ -1,4 +1,5 @@
 import { Callout } from '@czi-sds/components'
+import dedent from 'dedent'
 import { useMemo } from 'react'
 import { match, P } from 'ts-pattern'
 
@@ -10,6 +11,70 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useLogPlausibleCopyEvent } from 'app/hooks/useLogPlausibleCopyEvent'
 import { DownloadConfig } from 'app/types/download'
 
+export function getDatasetCodeSnippet(datasetId?: number) {
+  return dedent`
+    from cryoet_data_portal import Client, Dataset
+
+    client = Client()
+
+    dataset = Dataset.get_by_id(client, ${datasetId})
+    dataset.download_everything('${datasetId}')
+  `
+}
+
+export function getAllTomogramsCodeSnippet(tomogramVoxelId?: number) {
+  return dedent`
+    from cryoet_data_portal import (
+      Client,
+      TomogramVoxelSpacing,
+    )
+
+    client = Client()
+    tomogram_voxel_spacing = TomogramVoxelSpacing.get_by_id(
+      client,
+      ${tomogramVoxelId},
+    )
+
+    for annotation in tomogram_voxel_spacing.annotations:
+      annotation.download()
+  `
+}
+
+export function getTomogramCodeSnippet(
+  tomogramId?: number,
+  fileFormat?: string | null,
+) {
+  const downloadFunction = match(fileFormat)
+    .with('mrc', () => 'download_mrcfile')
+    .with('zarr', () => 'download_omezarr')
+    .with('ndjson', () => 'download_ndjson')
+    .otherwise(() => '')
+
+  return dedent`
+    from cryoet_data_portal import Client, Tomogram
+
+    client = Client()
+
+    tomogram = Tomogram.get_by_id(client, ${tomogramId})
+    tomogram.${downloadFunction}()
+  `
+}
+
+export function getAnnotationCodeSnippet(
+  annotationId: string | null,
+  fileFormat: string | null,
+) {
+  return dedent`
+    from cryoet_data_portal import Client, Annotation
+
+
+    client = Client()
+
+    annotation = Annotation.get_by_id(client, ${annotationId})
+    annotation.download(format='${fileFormat}')
+  `
+}
+
 export function APIDownloadTab() {
   const { t } = useI18n()
   const { datasetId, tomogramId, tomogramVoxelId, type } =
@@ -18,25 +83,19 @@ export function APIDownloadTab() {
     useDownloadModalQueryParamState()
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
 
-  const downloadFunction = match(fileFormat)
-    .with('mrc', () => 'download_mrcfile')
-    .with('zarr', () => 'download_omezarr')
-    .with('ndjson', () => 'download_ndjson')
-    .otherwise(() => '')
-
   const { label, content, logType } = useMemo(
     () =>
       match({ fileFormat, type, downloadConfig })
         .with({ type: 'dataset' }, () => ({
-          label: t('datasetId'),
-          content: datasetId,
+          label: t('copyApiCodeSnippet'),
+          content: getDatasetCodeSnippet(datasetId),
           logType: 'dataset-id',
         }))
         .with(
           { type: 'runs', downloadConfig: DownloadConfig.AllAnnotations },
           () => ({
-            label: t('voxelSpacingId'),
-            content: tomogramVoxelId,
+            label: t('copyApiCodeSnippet'),
+            content: getAllTomogramsCodeSnippet(tomogramVoxelId),
             logType: 'voxel-spacing-id',
           }),
         )
@@ -48,39 +107,19 @@ export function APIDownloadTab() {
           },
           () => ({
             label: t('copyApiCodeSnippet'),
-            content: (
-              <>
-                from cryoet_data_portal import Client, Tomogram
-                <br />
-                client = Client()
-                <br />
-                tomogram = Tomogram.get_by_id(client, {tomogramId})
-                <br />
-                tomogram.{downloadFunction}()
-              </>
-            ),
+            content: getTomogramCodeSnippet(tomogramId, fileFormat),
             logType: 'tomogram-code-snippet',
           }),
         )
         .with({ type: 'annotation', fileFormat: P.string }, () => ({
           label: t('copyApiCodeSnippet'),
-          content: (
-            <>
-              from cryoet_data_portal import Client, Annotation
-              <br />
-              client = Client()
-              <br />
-              annotation = Annotation.get_by_id(client, {annotationId})
-              <br />
-              annotation.download(format=&quot;{fileFormat}&quot;)
-            </>
-          ),
+          content: getAnnotationCodeSnippet(annotationId, fileFormat),
           logType: 'annotation-code-snippet',
         }))
         .otherwise(() => ({
           // no idea why this is throwing an error
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          label: t('tomogramId'),
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+          label: t('tomogramId') as string,
           content: tomogramId,
           logType: 'tomogram-id',
         })),
@@ -88,7 +127,6 @@ export function APIDownloadTab() {
       annotationId,
       datasetId,
       downloadConfig,
-      downloadFunction,
       fileFormat,
       t,
       tomogramId,
@@ -117,6 +155,7 @@ export function APIDownloadTab() {
 
       <CopyBox
         className="mt-sds-l"
+        codeClassName="whitespace-pre"
         content={content}
         title={label}
         onCopy={() => logPlausibleCopyEvent(logType, String(content))}

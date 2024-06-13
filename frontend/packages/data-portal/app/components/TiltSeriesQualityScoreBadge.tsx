@@ -19,16 +19,16 @@ export function TiltSeriesQualityScoreBadge({
   return (
     <div
       className={cns(
-        'px-sds-xs py-sds-xxxs rounded inline-flex',
+        'px-sds-xs py-sds-xxxs text-sds-body-xxxs leading-sds-body-xxxs rounded inline-flex',
 
         match(score)
           .with(
             TiltSeriesScore.VeryPoor,
-            () => 'bg-sds-error-200 text-sds-error-600',
+            () => 'bg-sds-error-400 text-sds-gray-white',
           )
           .with(
             TiltSeriesScore.Poor,
-            () => 'bg-sds-warning-200 text-sds-warning-600',
+            () => 'bg-sds-warning-400 text-sds-gray-white',
           )
           .with(
             P.union(
@@ -36,7 +36,7 @@ export function TiltSeriesQualityScoreBadge({
               TiltSeriesScore.Good,
               TiltSeriesScore.Excellent,
             ),
-            () => 'bg-sds-success-200 text-sds-success-600',
+            () => 'bg-sds-success-400 text-sds-gray-white',
           )
           .otherwise(() => ''),
       )}

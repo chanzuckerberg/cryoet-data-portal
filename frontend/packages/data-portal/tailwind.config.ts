@@ -23,6 +23,8 @@ export default {
       ...sds,
 
       screens: {
+        'screen-760': '760px',
+        'screen-1024': '1024px',
         'screen-2040': '2040px',
       },
 
@@ -74,6 +76,10 @@ export default {
 
       backgroundImageSrc: {
         'landing-header': "url('/images/index-header.png')",
+      },
+
+      content: {
+        i18n: 'attr(data-i18n-content)',
       },
     },
   },

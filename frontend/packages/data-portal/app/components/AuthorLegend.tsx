@@ -2,6 +2,7 @@ import { Icon, Tooltip } from '@czi-sds/components'
 
 import { I18n } from 'app/components/I18n'
 import { EnvelopeIcon, ORCIDIcon } from 'app/components/icons'
+import { cns } from 'app/utils/cns'
 
 function Legend() {
   return (
@@ -48,12 +49,17 @@ export function AuthorLegend({ inline = false }: { inline?: boolean }) {
       }}
       placement="top-start"
     >
-      <div>
+      <div
+        className={inline ? 'relative w-sds-icon-s h-sds-icon-s' : undefined}
+      >
         <Icon
           sdsIcon="infoCircle"
           sdsSize={inline ? 's' : 'xs'}
           sdsType="button"
-          className="!text-inherit !inline-block !align-baseline"
+          className={cns(
+            '!text-inherit !inline-block !align-baseline !fill-sds-gray-500',
+            inline && 'absolute bottom-sds-xxxs',
+          )}
         />
       </div>
     </Tooltip>
