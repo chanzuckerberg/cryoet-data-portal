@@ -62,17 +62,13 @@ export function IndexCTA() {
           buttonText={t('tellUsMore')}
           url={t('urlDataContributionForm')}
         />
-        {showMlChallengePage && (
-          <>
-            <div className="bg-sds-gray-200 w-sds-xxxs row-span-2" />
-            <CTA
-              title={t('participateInOurCompetition')}
-              text={t('participateInOurCompetitionCTA')}
-              buttonText={t('learnMore')}
-              url="/competition"
-            />
-          </>
-        )}
+        <div className="bg-sds-gray-200 w-sds-xxxs row-span-2" />
+        <CTA
+          title={t('participateInOurCompetition')}
+          text={t('participateInOurCompetitionCTA')}
+          buttonText={t('learnMore')}
+          url="/competition"
+        />
       </div>
     </div>
   )
