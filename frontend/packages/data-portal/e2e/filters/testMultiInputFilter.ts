@@ -1,7 +1,7 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
-import { BROWSE_DATASETS_URL, E2E_CONFIG } from 'e2e/constants'
+import { E2E_CONFIG } from 'e2e/constants'
 
 import { QueryParams } from 'app/constants/query'
 
@@ -39,7 +39,7 @@ function testFilter({
     const params = expectedUrl.searchParams
     params.append(filter.queryParam, value)
 
-    await goTo(page, BROWSE_DATASETS_URL)
+    await goTo(page, url)
 
     // Open multi input filter
     await page.getByRole('button', { name: buttonLabel }).click()
