@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.10.3](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.10.2...web-v1.10.3) (2024-06-12)
+
+
+### 🐞 Bug Fixes
+
+* open run on hover ([#799](https://github.com/chanzuckerberg/cryoet-data-portal/issues/799)) ([77a6815](https://github.com/chanzuckerberg/cryoet-data-portal/commit/77a6815bd754618dbbb6e91aa6448d6f37bad3cb))
+
+
+### 🧹 Miscellaneous Chores
+
+* download dialog code snippet ([#794](https://github.com/chanzuckerberg/cryoet-data-portal/issues/794)) ([b88ed71](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b88ed71af37ddd94b715d60750fc8c8de41a48b0))
+
 ## [1.10.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.10.1...web-v1.10.2) (2024-06-11)
 
 
