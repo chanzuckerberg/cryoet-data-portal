@@ -1,6 +1,6 @@
 # Data Schema
 
-The Data Portal organizes data in a hierarchial structure. 
+The Data Portal organizes data in a hierarchial structure.
 
 The CryoET Data Portal uses the following data schema:
 
@@ -14,4 +14,3 @@ An annotation is a point or segmentation indicating the location of a macromolec
 4. [Depositions](#depositions)
 
 ## Quickstart
-
