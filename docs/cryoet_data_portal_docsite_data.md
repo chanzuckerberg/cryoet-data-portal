@@ -21,9 +21,9 @@ For more detailed explanations refer to the sections below.
 
 ## Datasets
 
-Datasets are contributed sets of image files associated with imaging one sample type with the same sample preparation and imaging settings. Datasets contain runs, where each run corresponds to imaging one physical location in the prepared samples. 
+Datasets are contributed sets of image files associated with imaging one sample type with the same sample preparation and imaging settings. Datasets contain runs, where each run corresponds to imaging one physical location in the prepared samples.
 
-The Browse Datasets page shows a table of all datasets on the Portal. These datasets are not currently ordered. Instead, the right side filter panel provides options for filtering the table according to files included in the datasets, such as ground truth annotation files; the author or ID of the dataset; organism in the sample; hardware; metadata for the tilt series or reconstructed tomograms. In addition, the search bar filters based on keywords or phrases. The dataset entries in the table have descriptive names, such as "S. pombe cryo-FIB lamellae acquired with defocus-only," which aim to summarize the experiment as well as a Dataset ID assigned by the Portal, the organism name, number of runs in the dataset, and list of annotated objects, such as membrane. Datasets on the Portal may be found in other image databases. On the Browse Datasets page, the datasets table shows the EMPIAR ID for datasets that are also found on the Electron Microscopy Public Image Archive. 
+The Browse Datasets page shows a table of all datasets on the Portal. These datasets are not currently ordered. Instead, the right side filter panel provides options for filtering the table according to files included in the datasets, such as ground truth annotation files; the author or ID of the dataset; organism in the sample; hardware; metadata for the tilt series or reconstructed tomograms. In addition, the search bar filters based on keywords or phrases. The dataset entries in the table have descriptive names, such as "S. pombe cryo-FIB lamellae acquired with defocus-only," which aim to summarize the experiment as well as a Dataset ID assigned by the Portal, the organism name, number of runs in the dataset, and list of annotated objects, such as membrane. Datasets on the Portal may be found in other image databases. On the Browse Datasets page, the datasets table shows the EMPIAR ID for datasets that are also found on the Electron Microscopy Public Image Archive.
 
 On a given Dataset Overview page, the View All Info panel contains metadata for the dataset. These metadata are defined in the tables below including their mapping to attributes in the Portal API:
 
@@ -81,9 +81,7 @@ aws s3 --no-sign-request sync s3://cryoet-data-portal-public/10027/ 10027
 Download methods
 from cryoet_data_portal import Client, Dataset
 
-
 client = Client()
-
 
 dataset = Dataset.get_by_id(client, 10027)
 dataset.download_everything('10027')
@@ -118,7 +116,6 @@ This table contains all the information in the Dataset Tilt Series metadata with
 | 2      | Marginal  | Major parts of the tilt series (projection images) need to be or have been discarded prior to reconstruction and analysis. Useful for analysis only after heavy manual intervention. |
 | 1      | Low       | Not useful for analysis with current tools (not alignable), useful as a test case for problematic data only.                                                                         |
 
-
 ### Run Overview Page
 
 The summary on the Run Overview page shows a subset of the run metadata as well as the number and type of files in the run and the [tilt series quality score](#tilt-series-quality).The View Tomogram button opens the associated tomogram along with annotations using an instance of Neuroglancer in the browser. The annotations displayed with the tomogram are manually chosen to display as many annotations as possible without overlap or occlusion.
@@ -136,13 +133,10 @@ Curl, aws, API
 API
 from cryoet_data_portal import Client, Tomogram
 
-
 client = Client()
-
 
 tomogram = Tomogram.get_by_id(client, 1014)
 tomogram.download_mrcfile()
-
 
 All Annotations
 from cryoet_data_portal import (
@@ -150,13 +144,11 @@ from cryoet_data_portal import (
   TomogramVoxelSpacing,
 )
 
-
 client = Client()
 tomogram_voxel_spacing = TomogramVoxelSpacing.get_by_id(
   client,
   894,
 )
-
 
 for annotation in tomogram_voxel_spacing.annotations:
   annotation.download()
@@ -164,13 +156,10 @@ Download individual annotations using the download button
 All data using API
 from cryoet_data_portal import Client, Dataset
 
-
 client = Client()
-
 
 dataset = Dataset.get_by_id(client, 644)
 dataset.download_everything('644')
-
 
 ## Annotations
 
@@ -209,7 +198,6 @@ Each annotation has its own metadata, which can be viewed using the info icon on
 | 3      | Medium    | Minor parts of the tilt series (projection images) need to be or have been discarded prior to reconstruction and analysis.                                                           |
 | 2      | Marginal  | Major parts of the tilt series (projection images) need to be or have been discarded prior to reconstruction and analysis. Useful for analysis only after heavy manual intervention. |
 | 1      | Low       | Not useful for analysis with current tools (not alignable), useful as a test case for problematic data only.                                                                         |
-
 
 ### Visualizing Annotations with Tomograms in Neuroglancer
 
