@@ -208,6 +208,6 @@ The CryoET Data Portal napari plugin can be used to visualize tomograms, annotat
 ### Annotation Download Options
 
 ## Depositions
-Depositions are collections of data submitted together. All data being submitted together will be tagged with the same deposition ID. On the Portal, we will surface depositions that contain annotations submitted together. 
+Depositions are collections of data submitted together. All data being submitted together will be tagged with the same deposition ID. On the Portal, we will surface depositions that contain annotations submitted together.
 
 *More information is coming soon!*
