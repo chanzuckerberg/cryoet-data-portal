@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.10.4](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.10.3...web-v1.10.4) (2024-06-14)
+
+
+### 🐞 Bug Fixes
+
+* adds colon for meets all label ([#806](https://github.com/chanzuckerberg/cryoet-data-portal/issues/806)) ([abdbf55](https://github.com/chanzuckerberg/cryoet-data-portal/commit/abdbf55c99ebd5359118cc4c2afc25c16d7c3f48))
+* download modal api docs link ([#805](https://github.com/chanzuckerberg/cryoet-data-portal/issues/805)) ([de97381](https://github.com/chanzuckerberg/cryoet-data-portal/commit/de97381a9822fca7e1507f01295c4a381663fa19))
+* restore object count ([#804](https://github.com/chanzuckerberg/cryoet-data-portal/issues/804)) ([52a0058](https://github.com/chanzuckerberg/cryoet-data-portal/commit/52a00589a48d847792280c3190fbab00f0472a3e))
+
+
+### 🧹 Miscellaneous Chores
+
+* cleanup feature flags ([#808](https://github.com/chanzuckerberg/cryoet-data-portal/issues/808)) ([bab6036](https://github.com/chanzuckerberg/cryoet-data-portal/commit/bab60363422e32f65df964c50eab3dff341c4709))
+
 ## [1.10.3](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.10.2...web-v1.10.3) (2024-06-12)
 
 
