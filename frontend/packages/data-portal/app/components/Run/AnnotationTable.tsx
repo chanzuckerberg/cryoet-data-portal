@@ -23,7 +23,6 @@ import { useRunById } from 'app/hooks/useRunById'
 import { Annotation, useAnnotation } from 'app/state/annotation'
 import { I18nKeys } from 'app/types/i18n'
 import { cns, cnsNoMerge } from 'app/utils/cns'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 
 const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<Annotation>(() => ({
   annotation_method: '',
@@ -92,9 +91,6 @@ export function AnnotationTable() {
     },
     [toggleDrawer, setActiveAnnotation],
   )
-
-  const showMethodType = useFeatureFlag('methodType')
-  const showAnnotationDownload = useFeatureFlag('downloadSingleAnnotation')
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Annotation>()
@@ -241,58 +237,52 @@ export function AnnotationTable() {
         ),
       }),
 
-      ...(showMethodType
-        ? [
-            columnHelper.accessor('id', {
-              id: 'method-type',
+      columnHelper.accessor('id', {
+        id: 'method-type',
 
-              header: () => (
-                <CellHeader
-                  className="whitespace-nowrap"
-                  tooltip={<I18n i18nKey="methodTypeInfo" />}
-                  width={AnnotationTableWidths.methodType}
-                >
-                  {t('methodType')}
-                </CellHeader>
-              ),
+        header: () => (
+          <CellHeader
+            className="whitespace-nowrap"
+            tooltip={<I18n i18nKey="methodTypeInfo" />}
+            width={AnnotationTableWidths.methodType}
+          >
+            {t('methodType')}
+          </CellHeader>
+        ),
 
-              cell: ({ row: { original: annotation } }) => {
-                if (!annotation.method_type) {
-                  return (
-                    <TableCell width={AnnotationTableWidths.methodType}>
-                      --
-                    </TableCell>
-                  )
-                }
+        cell: ({ row: { original: annotation } }) => {
+          if (!annotation.method_type) {
+            return (
+              <TableCell width={AnnotationTableWidths.methodType}>--</TableCell>
+            )
+          }
 
-                const methodType = annotation.method_type as
-                  | 'automated'
-                  | 'manual'
-                  | 'hybrid'
+          const methodType = annotation.method_type as
+            | 'automated'
+            | 'manual'
+            | 'hybrid'
 
-                return (
-                  <TableCell
-                    width={AnnotationTableWidths.methodType}
-                    tooltip={<I18n i18nKey={methodTooltipLabels[methodType]} />}
-                    tooltipProps={{ placement: 'top' }}
-                  >
-                    {/* convert to link when activate annotation state is moved to URL */}
-                    <button
-                      className={cnsNoMerge(
-                        'text-sds-header-s leading-sds-header-s',
-                        DASHED_BORDERED_CLASSES,
-                      )}
-                      onClick={() => openAnnotationDrawer(annotation)}
-                      type="button"
-                    >
-                      {t(methodLabels[methodType])}
-                    </button>
-                  </TableCell>
-                )
-              },
-            }),
-          ]
-        : []),
+          return (
+            <TableCell
+              width={AnnotationTableWidths.methodType}
+              tooltip={<I18n i18nKey={methodTooltipLabels[methodType]} />}
+              tooltipProps={{ placement: 'top' }}
+            >
+              {/* convert to link when activate annotation state is moved to URL */}
+              <button
+                className={cnsNoMerge(
+                  'text-sds-header-s leading-sds-header-s',
+                  DASHED_BORDERED_CLASSES,
+                )}
+                onClick={() => openAnnotationDrawer(annotation)}
+                type="button"
+              >
+                {t(methodLabels[methodType])}
+              </button>
+            </TableCell>
+          )
+        },
+      }),
 
       getConfidenceCell({
         key: 'confidence_precision',
@@ -340,35 +330,33 @@ export function AnnotationTable() {
                 <span>{t('info')}</span>
               </Button>
 
-              {showAnnotationDownload && (
-                <Button
-                  sdsType="primary"
-                  sdsStyle="minimal"
-                  onClick={() =>
-                    openAnnotationDownloadModal({
-                      datasetId: run.dataset.id,
-                      runId: run.id,
-                      annotationId: annotation.id,
-                      objectShapeType: annotation.shape_type,
-                      fileFormat: annotation.files
-                        .filter(
-                          (file) => file.shape_type === annotation.shape_type,
-                        )
-                        .at(0)?.format,
-                    })
-                  }
-                  startIcon={
-                    <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
-                  }
-                  // FIXME: check if below still needed in @czi-sds/components >= 20.4.0
-                  // remove negative margin on icon
-                  classes={{
-                    startIcon: '!ml-0',
-                  }}
-                >
-                  {t('download')}
-                </Button>
-              )}
+              <Button
+                sdsType="primary"
+                sdsStyle="minimal"
+                onClick={() =>
+                  openAnnotationDownloadModal({
+                    datasetId: run.dataset.id,
+                    runId: run.id,
+                    annotationId: annotation.id,
+                    objectShapeType: annotation.shape_type,
+                    fileFormat: annotation.files
+                      .filter(
+                        (file) => file.shape_type === annotation.shape_type,
+                      )
+                      .at(0)?.format,
+                  })
+                }
+                startIcon={
+                  <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
+                }
+                // FIXME: check if below still needed in @czi-sds/components >= 20.4.0
+                // remove negative margin on icon
+                classes={{
+                  startIcon: '!ml-0',
+                }}
+              >
+                {t('download')}
+              </Button>
             </div>
           </TableCell>
         ),
@@ -376,9 +364,7 @@ export function AnnotationTable() {
     ] as ColumnDef<Annotation>[]
   }, [
     t,
-    showMethodType,
     openAnnotationDrawer,
-    showAnnotationDownload,
     openAnnotationDownloadModal,
     run.dataset.id,
     run.id,

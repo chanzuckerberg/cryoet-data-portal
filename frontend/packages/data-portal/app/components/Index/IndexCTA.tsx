@@ -4,7 +4,6 @@ import { I18n } from 'app/components/I18n'
 import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 
 function CTA({
   title,
@@ -38,7 +37,6 @@ function CTA({
 
 export function IndexCTA() {
   const { t } = useI18n()
-  const showMlChallengePage = useFeatureFlag('mlChallenge')
 
   return (
     <div className="py-sds-xxl flex flex-col gap-sds-xl relative after:h-full after:w-[200vw] after:bg-sds-primary-100 after:absolute after:top-0 after:-translate-x-1/2 after:-z-10">
@@ -48,9 +46,7 @@ export function IndexCTA() {
       <div
         className={cns(
           'w-full grid grid-rows-[1fr_auto] grid-flow-col gap-y-sds-xl gap-x-sds-xxl',
-          showMlChallengePage
-            ? 'grid-cols-[1fr_auto_1fr_auto_1fr]'
-            : 'grid-cols-[1fr_auto_1fr]',
+          'grid-cols-[1fr_auto_1fr_auto_1fr]',
         )}
       >
         <CTA
@@ -66,17 +62,13 @@ export function IndexCTA() {
           buttonText={t('tellUsMore')}
           url={t('urlDataContributionForm')}
         />
-        {showMlChallengePage && (
-          <>
-            <div className="bg-sds-gray-200 w-sds-xxxs row-span-2" />
-            <CTA
-              title={t('participateInOurCompetition')}
-              text={t('participateInOurCompetitionCTA')}
-              buttonText={t('learnMore')}
-              url="/competition"
-            />
-          </>
-        )}
+        <div className="bg-sds-gray-200 w-sds-xxxs row-span-2" />
+        <CTA
+          title={t('participateInOurCompetition')}
+          text={t('participateInOurCompetitionCTA')}
+          buttonText={t('learnMore')}
+          url="/competition"
+        />
       </div>
     </div>
   )

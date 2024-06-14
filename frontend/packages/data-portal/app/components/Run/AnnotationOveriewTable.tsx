@@ -3,12 +3,10 @@ import { AuthorLegend } from 'app/components/AuthorLegend'
 import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
 import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 
 export function AnnotationOverviewTable() {
   const { activeAnnotation: annotation } = useAnnotation()
   const { t } = useI18n()
-  const showMethodType = useFeatureFlag('methodType')
 
   if (!annotation) {
     return null
@@ -51,15 +49,10 @@ export function AnnotationOverviewTable() {
           label: t('lastModifiedDate'),
           values: [annotation.last_modified_date ?? '--'],
         },
-        ...(showMethodType
-          ? [
-              {
-                label: t('methodType'),
-                // TODO: hook up field to data when available
-                values: ['--'],
-              },
-            ]
-          : []),
+        {
+          label: t('methodType'),
+          values: [annotation.method_type ?? '--'],
+        },
         {
           label: t('annotationMethod'),
           values: [annotation.annotation_method],
