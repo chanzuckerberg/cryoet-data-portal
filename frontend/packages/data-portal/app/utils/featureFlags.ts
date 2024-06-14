@@ -4,15 +4,10 @@ import { useEnvironment } from 'app/context/Environment.context'
 
 export type FeatureFlagEnvironment = typeof process.env.ENV
 
-export type FeatureFlagKey =
-  | 'downloadSingleAnnotation'
-  | 'methodType'
-  | 'mlChallenge'
+export type FeatureFlagKey = 'stub'
 
 export const FEATURE_FLAGS: Record<FeatureFlagKey, FeatureFlagEnvironment[]> = {
-  downloadSingleAnnotation: ['local', 'dev', 'staging', 'prod'],
-  methodType: ['local', 'dev'],
-  mlChallenge: ['local', 'dev'],
+  stub: ['local', 'dev'],
 }
 
 const ENABLE_FEATURE_PARAM = 'enable-feature'

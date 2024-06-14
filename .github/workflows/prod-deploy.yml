@@ -194,3 +194,35 @@ jobs:
     secrets: inherit
     with:
       environment: prod
+
+  notify-slack:
+    name: Notify slack channel
+    runs-on: ubuntu-latest
+    needs: [run-prod-e2e-test, find-frontend-release-pr]
+    if: always()
+
+    steps:
+      - name: checkout repo for tagging
+        uses: actions/checkout@v4
+
+      - name: Create slack payload
+        id: slack-payload
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const createSlackPayload = require('./.github/create-slack-payload')
+            const pr = ${{ needs.find-frontend-release-pr.outputs.pr }}
+
+            return createSlackPayload({
+              passed: '${{ needs.run-prod-e2e-test.result }}' === 'success',
+              prNumber: pr.number,
+              runId: '${{ github.run_id }}',
+            })
+
+      - name: Send slack notification
+        uses: slackapi/slack-github-action@v1.26.0
+        env:
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          payload: ${{ fromJson(steps.slack-payload.outputs.result) }}

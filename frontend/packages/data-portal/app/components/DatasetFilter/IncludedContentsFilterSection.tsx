@@ -85,7 +85,7 @@ export function IncludedContentsFilterSection() {
 
       const meetsAll = document.createElement('div')
       meetsAll.id = MEETS_ALL_LABEL_ID
-      meetsAll.textContent = t('meetsAll')
+      meetsAll.textContent = `${t('meetsAll')}:`
 
       filterButtonNode?.insertAdjacentElement('afterend', meetsAll)
     } else if (!showMeetsAll && meetsAllNode) {
