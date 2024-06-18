@@ -208,6 +208,7 @@ jobs:
       - name: Create slack payload
         id: slack-payload
         uses: actions/github-script@v7
+        if: needs.find-frontend-release-pr.outputs.pr != ''
         with:
           script: |
             const createSlackPayload = require('./.github/create-slack-payload')
