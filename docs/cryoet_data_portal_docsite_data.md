@@ -51,7 +51,7 @@ The `Download Dataset` button opens a dialog with instructions for downloading t
 
 A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. However, in the [data schema](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html#data-model) used in the Portal API, runs are connected to tomograms through the `TomogramVoxelSpacing` class which specifies the sampling or voxel size of the tomogram. For a single run, multiple tomograms of different spacings can be available.
 
-An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run. 
+An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run.
 
 ### Run Overview Page
 
@@ -61,9 +61,9 @@ The table on a Run Overview page contains an overview of the annotations for the
 
 ### Run Download Options
 
-The `Download Run` button opens a dialog with instructions for downloading tomograms or all annotations. Tomograms can be downloaded directly in the browser as MRC or OME-Zarr files following selection of which tomogram to download based on the tomogram sampling and processing. The All Annotations option provides instructions on using [Amazon Web Services Command Line Interface](./cryoet_data_portal_docsite_aws.md) or the [Portal API](./python-api.rst) to download. 
+The `Download Run` button opens a dialog with instructions for downloading tomograms or all annotations. Tomograms can be downloaded directly in the browser as MRC or OME-Zarr files following selection of which tomogram to download based on the tomogram sampling and processing. The All Annotations option provides instructions on using [Amazon Web Services Command Line Interface](./cryoet_data_portal_docsite_aws.md) or the [Portal API](./python-api.rst) to download.
 
-You can also use the Portal API to download all run data as a folder. For example, to download all run data for Run ID 645 into your current working directory, use the below code snippet: 
+You can also use the Portal API to download all run data as a folder. For example, to download all run data for Run ID 645 into your current working directory, use the below code snippet:
 
 ```python
 from cryoet_data_portal import Client, Run
