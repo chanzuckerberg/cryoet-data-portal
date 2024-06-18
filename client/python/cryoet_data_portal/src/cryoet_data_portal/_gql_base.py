@@ -3,6 +3,8 @@ from datetime import datetime, timezone
 from importlib import import_module
 from typing import Any, Dict, Iterable, Optional
 
+from deepmerge import always_merger
+
 from ._client import Client
 
 
@@ -289,7 +291,7 @@ class Model:
         filters = {}
         if query_filters:
             for expression in query_filters:
-                filters.update(expression.to_gql())
+                filters = always_merger.merge(filters, expression.to_gql())
         return client.find(cls, filters)
 
     @classmethod

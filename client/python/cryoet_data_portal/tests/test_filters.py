@@ -17,6 +17,24 @@ def test_basic_filters(client) -> None:
     assert tomograms[0].tomogram_voxel_spacing.run.name == "RUN1"
 
 
+def test_filter_merge(client) -> None:
+    # Make sure our GQL filters get merged instead of letting the longest-path
+    # queries overwrite shorter paths.
+    runs = Run.find(client, [Run.name == "RUN1"])
+    assert len(runs) == 1
+    assert runs[0].name == "RUN1"
+
+    tomograms = Tomogram.find(
+        client,
+        [
+            Tomogram.tomogram_voxel_spacing.run.name == "RUN001",
+            Tomogram.tomogram_voxel_spacing.run.dataset.id == 20002,
+        ],
+    )
+    assert len(tomograms) == 1
+    assert tomograms[0].tomogram_voxel_spacing.run.name == "RUN001"
+
+
 def test_filter_on_object_raises_exceptions(client) -> None:
     # Make sure we can't filter on relationship fields directly
     with pytest.raises(Exception) as exc_info:
