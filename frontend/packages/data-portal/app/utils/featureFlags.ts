@@ -4,10 +4,10 @@ import { useEnvironment } from 'app/context/Environment.context'
 
 export type FeatureFlagEnvironment = typeof process.env.ENV
 
-export type FeatureFlagKey = 'stub'
+export type FeatureFlagKey = 'depositions'
 
 export const FEATURE_FLAGS: Record<FeatureFlagKey, FeatureFlagEnvironment[]> = {
-  stub: ['local', 'dev'],
+  depositions: ['local', 'dev'],
 }
 
 const ENABLE_FEATURE_PARAM = 'enable-feature'
