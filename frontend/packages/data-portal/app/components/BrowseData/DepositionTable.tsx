@@ -132,7 +132,7 @@ export function DepositionTable() {
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
-                      `${t('datasetId')}: ${deposition.id}`
+                      `${t('depositionId')}: ${deposition.id}`
                     )}
                   </p>
 
@@ -164,7 +164,7 @@ export function DepositionTable() {
           ),
 
           cell({ row: { original: deposition } }) {
-            return <TableCell primaryText={deposition.deposition_date} />
+            return <TableCell>{deposition.deposition_date}</TableCell>
           },
         }),
 
@@ -291,7 +291,12 @@ export function DepositionTable() {
                     {Object.entries(shapeTypeToI18nKey)
                       .filter(([key]) => shapeTypes.includes(key))
                       .map((entry) => (
-                        <li key={entry[0]}>{t(entry[1] as I18nKeys)}</li>
+                        <li
+                          className="whitespace-nowrap overflow-x-hidden overflow-ellipsis"
+                          key={entry[0]}
+                        >
+                          {t(entry[1] as I18nKeys)}
+                        </li>
                       ))}
                   </ul>
                 )}

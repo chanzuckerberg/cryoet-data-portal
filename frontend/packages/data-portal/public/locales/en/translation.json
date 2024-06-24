@@ -98,6 +98,7 @@
   "datasets": "Datasets",
   "datasetsTab": "Datasets {{count}}",
   "depositionDate": "Deposition Date",
+  "depositionId": "Deposition ID",
   "depositionName": "Deposition Name",
   "depositions": "Depositions",
   "depositionsTab": "Depositions {{count}}",
