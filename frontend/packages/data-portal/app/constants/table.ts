@@ -42,8 +42,8 @@ export const RunTableWidths = {
 export const DepositionTableWidths = {
   photo: PHOTO_COLUMN_WIDTH,
   id: { min: 450, max: 800 },
-  depositionDate: { min: 120, max: 150 },
-  annotations: { min: 150, max: 200 },
-  annotatedObjects: { min: 120, max: 300 },
-  objectShapeTypes: { min: 150, max: 200 },
+  depositionDate: { min: 110, max: 160 },
+  annotations: { min: 100, max: 200 },
+  annotatedObjects: { min: 120, max: 400 },
+  objectShapeTypes: { min: 120, max: 200 },
 }
