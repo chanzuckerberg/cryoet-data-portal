@@ -6,6 +6,7 @@ import {
   Tiltseries,
   Tomograms,
 } from 'app/__generated__/graphql'
+import { isFiducial } from 'app/utils/tomograms'
 
 import { DrawerTestMetadata } from './types'
 
@@ -98,7 +99,7 @@ export function getTomogramTestMetadata(
     smallestAvailableVoxelSpacing: tomogram.voxel_spacing,
     size: `${tomogram.size_x}, ${tomogram.size_y}, ${tomogram.size_z}`,
     fiducialAlignmentStatus: getBoolString(
-      tomogram.fiducial_alignment_status === 'FIDUCIAL',
+      isFiducial(tomogram.fiducial_alignment_status),
     ),
     ctfCorrected: tomogram.ctf_corrected ? 'Yes' : 'No',
   }
