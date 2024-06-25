@@ -1,9 +1,3 @@
-import {
-  Annotations,
-  Datasets,
-  Tiltseries,
-  Tomograms,
-} from 'app/__generated__/graphql'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getRunById } from 'app/graphql/getRunById.server'
 
@@ -37,12 +31,12 @@ testMetadataDrawer({
       title: dataset.title,
       metadata: {
         ...getDatasetTestMetadata({
-          dataset: dataset as unknown as Datasets,
+          dataset,
           type: 'dataset',
         }),
 
         ...getTiltSeriesTestMetadata({
-          tiltSeries: tiltSeries as Tiltseries,
+          tiltSeries,
           type: 'dataset',
         }),
       },
@@ -72,16 +66,16 @@ testMetadataDrawer({
       title: run.name,
       metadata: {
         ...getDatasetTestMetadata({
-          dataset: run.dataset as unknown as Datasets,
+          dataset: run.dataset,
           type: 'run',
         }),
 
         ...getTiltSeriesTestMetadata({
-          tiltSeries: tiltSeries as Tiltseries,
+          tiltSeries,
           type: 'run',
         }),
 
-        ...getTomogramTestMetadata(tomogram as Tomograms),
+        ...getTomogramTestMetadata(tomogram),
       },
     }
   },
@@ -106,7 +100,7 @@ testMetadataDrawer({
 
     return {
       title: `${annotation.id} - ${annotation.object_name}`,
-      metadata: getAnnotationTestMetdata(annotation as unknown as Annotations),
+      metadata: getAnnotationTestMetdata(annotation),
     }
   },
 

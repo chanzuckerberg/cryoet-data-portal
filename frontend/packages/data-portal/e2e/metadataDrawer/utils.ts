@@ -1,3 +1,5 @@
+import { DeepPartial } from 'utility-types'
+
 import {
   Annotations,
   Datasets,
@@ -7,7 +9,7 @@ import {
 
 import { DrawerTestMetadata } from './types'
 
-export function getBoolString(value: boolean): string {
+export function getBoolString(value?: boolean): string {
   return value ? 'True' : 'False'
 }
 
@@ -15,7 +17,7 @@ export function getDatasetTestMetadata({
   dataset,
   type,
 }: {
-  dataset: Datasets
+  dataset: DeepPartial<Datasets>
   type: 'dataset' | 'run'
 }): DrawerTestMetadata {
   return {
@@ -24,10 +26,10 @@ export function getDatasetTestMetadata({
     cellularComponent: dataset.cell_component_name,
     citations: dataset.dataset_citations?.split(', ') ?? [],
     depositionDate: dataset.deposition_date,
-    fundingAgency: dataset.funding_sources.map(
-      (source) => source.funding_agency_name,
+    fundingAgency: dataset?.funding_sources?.map(
+      (source) => source?.funding_agency_name ?? '',
     ),
-    grantID: dataset.funding_sources.map((source) => source.grant_id ?? ''),
+    grantID: dataset.funding_sources?.map((source) => source.grant_id ?? ''),
     gridPreparation: dataset.grid_preparation,
     organismName: dataset.organism_name,
     otherSetup: dataset.other_setup,
@@ -42,7 +44,7 @@ export function getDatasetTestMetadata({
           depositionDate: dataset.deposition_date,
           releaseDate: dataset.release_date,
           lastModifiedDate: dataset.last_modified_date,
-          authors: dataset.authors.map((author) => author.name),
+          authors: dataset.authors?.map((author) => author.name),
         }
       : {}),
   }
@@ -52,7 +54,7 @@ export function getTiltSeriesTestMetadata({
   tiltSeries,
   type,
 }: {
-  tiltSeries: Tiltseries
+  tiltSeries: DeepPartial<Tiltseries>
   type: 'dataset' | 'run'
 }): DrawerTestMetadata {
   return {
@@ -86,7 +88,7 @@ export function getTiltSeriesTestMetadata({
 }
 
 export function getTomogramTestMetadata(
-  tomogram: Tomograms,
+  tomogram: DeepPartial<Tomograms>,
 ): DrawerTestMetadata {
   return {
     reconstructionSoftware: tomogram.reconstruction_software,
@@ -103,13 +105,13 @@ export function getTomogramTestMetadata(
 }
 
 export function getAnnotationTestMetdata(
-  annotation: Annotations,
+  annotation: DeepPartial<Annotations>,
 ): DrawerTestMetadata {
-  const [file] = annotation.files
+  const file = (annotation.files ?? []).at(0)
 
   return {
     annotationId: annotation.id,
-    annotationAuthors: annotation.authors.map((author) => author.name),
+    annotationAuthors: annotation.authors?.map((author) => author.name),
     publication: annotation.annotation_publication,
     depositionDate: annotation.deposition_date,
     lastModifiedDate: annotation.last_modified_date,
@@ -120,7 +122,7 @@ export function getAnnotationTestMetdata(
     objectName: annotation.object_name,
     goId: annotation.object_id,
     objectCount: annotation.object_count,
-    objectShapeType: file.shape_type,
+    objectShapeType: file?.shape_type,
     objectState: annotation.object_state,
     objectDescription: annotation.object_description,
     groundTruthStatus: getBoolString(annotation.ground_truth_status),
