@@ -30,6 +30,7 @@ classifiers = [
 dependencies= [
     "requests",
     "boto3",
+    "deepmerge",
     "gql[requests]",
     "tqdm",
 ]
