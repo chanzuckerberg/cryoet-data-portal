@@ -93,7 +93,7 @@ export function testMetadataDrawer({
           if (isArray(value)) {
             const nodeValue = await cells.last().innerText()
             expect(
-              value.every((v) => nodeValue.includes(v)),
+              value.every((v) => nodeValue.includes(v ?? '')),
               `Test for ${label} with value ${nodeValue} to include ${value.join(
                 ', ',
               )}`,
