@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.10.4...web-v1.11.0) (2024-06-27)
+
+
+### ✨ Features
+
+* add skeleton for browse depositions page ([#822](https://github.com/chanzuckerberg/cryoet-data-portal/issues/822)) ([ac20c18](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ac20c18ac54e57d3707de3e12f66c7b4a23be9cb))
+
 ## [1.10.4](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.10.3...web-v1.10.4) (2024-06-14)
 
 
