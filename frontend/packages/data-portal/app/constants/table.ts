@@ -47,3 +47,12 @@ export const DepositionTableWidths = {
   annotatedObjects: { min: 120, max: 400 },
   objectShapeTypes: { min: 120, max: 200 },
 }
+
+export const DepositionPageDatasetTableWidths = {
+  photo: PHOTO_COLUMN_WIDTH,
+  id: { min: 300, max: 800 },
+  organism: { min: 100, max: 400 },
+  runs: { min: 120, max: 200 },
+  annotations: { min: 120, max: 200 },
+  annotatedObjects: { min: 120, max: 400 },
+}

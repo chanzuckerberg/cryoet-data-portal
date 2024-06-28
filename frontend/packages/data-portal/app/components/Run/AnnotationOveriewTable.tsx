@@ -1,6 +1,6 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { AuthorLegend } from 'app/components/AuthorLegend'
-import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
+import { AuthorList } from 'app/components/AuthorList'
 import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
 
@@ -28,7 +28,7 @@ export function AnnotationOverviewTable() {
               : t('annotationAuthors'),
           labelExtra: <AuthorLegend inline />,
           renderValue: () => {
-            return <DatasetAuthors authors={annotation.authors} large />
+            return <AuthorList authors={annotation.authors} large />
           },
           values: [''],
           className: 'leading-sds-body-s',

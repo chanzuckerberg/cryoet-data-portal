@@ -8,7 +8,7 @@ import { range } from 'lodash-es'
 import { useEffect, useMemo, useState } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
-import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
+import { AuthorList } from 'app/components/AuthorList'
 import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
@@ -170,7 +170,7 @@ export function DatasetTable() {
                         />
                       </>
                     ) : (
-                      <DatasetAuthors authors={dataset.authors} compact />
+                      <AuthorList authors={dataset.authors} compact />
                     )}
                   </p>
                 </div>
