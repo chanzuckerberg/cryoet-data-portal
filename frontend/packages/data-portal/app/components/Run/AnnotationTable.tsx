@@ -5,7 +5,7 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
 import { ComponentProps, useCallback, useMemo } from 'react'
 
-import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
+import { AuthorList } from 'app/components/AuthorList'
 import { I18n } from 'app/components/I18n'
 import { DASHED_BORDERED_CLASSES } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
@@ -184,7 +184,7 @@ export function AnnotationTable() {
             </div>
 
             <div className=" text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
-              <DatasetAuthors authors={annotation.authors} compact />
+              <AuthorList authors={annotation.authors} compact />
             </div>
           </TableCell>
         ),

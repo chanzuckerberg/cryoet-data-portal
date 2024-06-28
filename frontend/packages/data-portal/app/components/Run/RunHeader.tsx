@@ -106,7 +106,7 @@ export function RunHeader() {
       lastModifiedDate={
         run.dataset.last_modified_date ?? run.dataset.deposition_date
       }
-      breadcrumbs={<Breadcrumbs variant="run" dataset={run.dataset} />}
+      breadcrumbs={<Breadcrumbs variant="run" data={run.dataset} />}
       metadata={[{ key: t('runId'), value: `${run.id}` }]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Run)}
       title={run.name}
@@ -123,7 +123,9 @@ export function RunHeader() {
           </div>
 
           <div className="flex flex-col gap-sds-xl flex-auto pt-sds-l">
-            <PageHeaderSubtitle>{t('runOverview')}</PageHeaderSubtitle>
+            <PageHeaderSubtitle className="mt-sds-m">
+              {t('runOverview')}
+            </PageHeaderSubtitle>
 
             {multipleTomogramsEnabled ? (
               <InlineMetadata
