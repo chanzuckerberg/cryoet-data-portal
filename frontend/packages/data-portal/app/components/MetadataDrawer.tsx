@@ -5,6 +5,7 @@ import { ReactNode, useCallback, useEffect } from 'react'
 import { Demo } from 'app/components/Demo'
 import { Drawer } from 'app/components/Drawer'
 import { TabData, Tabs } from 'app/components/Tabs'
+import { TestIds } from 'app/constants/testIds'
 import {
   MetadataDrawerId,
   MetadataTab,
@@ -61,7 +62,10 @@ export function MetadataDrawer({
 
   return (
     <Drawer open={isOpen} onClose={handleClose}>
-      <div className="flex flex-col flex-auto">
+      <div
+        className="flex flex-col flex-auto"
+        data-testid={TestIds.MetadataDrawer}
+      >
         <header className="flex items-start justify-between px-sds-xl pt-sds-xl pb-sds-xxl">
           <div className="flex flex-col gap-sds-s">
             <p className="text-xs text-sds-gray-600 font-semibold uppercase">
@@ -79,6 +83,7 @@ export function MetadataDrawer({
             sdsIconProps={{
               color: 'gray',
             }}
+            data-testid={TestIds.MetadataDrawerCloseButton}
           />
         </header>
 

@@ -2,6 +2,7 @@ import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { getTableData } from 'app/utils/table'
+import { isFiducial } from 'app/utils/tomograms'
 
 import { Matrix4x4 } from './Matrix4x4'
 
@@ -44,7 +45,7 @@ export function TomogramsTable() {
     {
       label: i18n.fiducialAlignmentStatus,
       values: [
-        tomo.fiducial_alignment_status === 'FIDUCIAL' ? i18n.true : i18n.false,
+        isFiducial(tomo.fiducial_alignment_status) ? i18n.true : i18n.false,
       ],
     },
     {
