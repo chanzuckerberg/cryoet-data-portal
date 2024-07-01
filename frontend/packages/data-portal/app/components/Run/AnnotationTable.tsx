@@ -12,6 +12,7 @@ import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { AnnotationTableWidths } from 'app/constants/table'
+import { TestIds } from 'app/constants/testIds'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
@@ -158,6 +159,7 @@ export function AnnotationTable() {
                   'text-sds-body-m leading-sds-body-m font-semibold',
                   'text-ellipsis line-clamp-1 break-all',
                 )}
+                data-testid={TestIds.AnnotationId}
               >
                 {annotation.id}
               </p>

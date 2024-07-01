@@ -4,9 +4,12 @@ import { E2E_CONFIG, translations } from 'e2e/constants'
 import {
   GetDatasetByIdQuery,
   GetDatasetsDataQuery,
+  GetRunByIdQuery,
 } from 'app/__generated__/graphql'
+import { TestIds } from 'app/constants/testIds'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
+import { getRunById } from 'app/graphql/getRunById.server'
 
 import { TableValidatorOptions } from './types'
 
@@ -66,18 +69,42 @@ export function getRunTableFilterValidator(expectedData: GetDatasetByIdQuery) {
   const runIds = new Set(expectedData.datasets.at(0)?.runs.map((run) => run.id))
 
   return async (page: Page) => {
-    const datasetIds = await Promise.all(
+    const ids = await Promise.all(
       (await page.getByText(/Run ID: [0-9]+/).all()).map(async (node) => {
         const text = await node.innerText()
         return text.replace('Run ID: ', '')
       }),
     )
 
-    datasetIds.forEach((id) =>
+    ids.forEach((id) =>
       expect(
         runIds.has(+id),
         `Check if run ${id} is found within available set: ${Array.from(
           runIds,
+        ).join(', ')}`,
+      ).toBe(true),
+    )
+  }
+}
+
+export function getAnnotationTableFilterValidator(
+  expectedData: GetRunByIdQuery,
+) {
+  const annotationIds = new Set(
+    expectedData.runs
+      .at(0)
+      ?.annotation_table.at(0)
+      ?.annotations.map((annotation) => annotation.id),
+  )
+
+  return async (page: Page) => {
+    const ids = await page.getByTestId(TestIds.AnnotationId).allInnerTexts()
+
+    ids.forEach((id) =>
+      expect(
+        annotationIds.has(+id),
+        `Check if annotation ${id} is found within available set: ${Array.from(
+          annotationIds,
         ).join(', ')}`,
       ).toBe(true),
     )
@@ -89,22 +116,28 @@ export async function validateTable({
   countLabel = translations.datasets,
   page,
   singleDatasetData,
+  singleRunData,
   validateRows,
 }: {
   browseDatasetsData?: GetDatasetsDataQuery
   countLabel?: string
   page: Page
   singleDatasetData?: GetDatasetByIdQuery
+  singleRunData?: GetRunByIdQuery
   validateRows(page: Page): Promise<void>
 }) {
   const expectedFilterCount =
     browseDatasetsData?.filtered_datasets_aggregate.aggregate?.count ??
     singleDatasetData?.datasets.at(0)?.filtered_runs_count.aggregate?.count ??
+    singleRunData?.runs.at(0)?.tomogram_stats.at(0)?.filtered_annotations_count
+      .aggregate?.count ??
     0
 
   const expectedTotalCount =
     browseDatasetsData?.datasets_aggregate.aggregate?.count ??
     singleDatasetData?.datasets.at(0)?.runs_aggregate.aggregate?.count ??
+    singleRunData?.runs.at(0)?.tomogram_stats.at(0)?.annotations_aggregate
+      .aggregate?.count ??
     0
 
   await waitForTableCountChange({
@@ -178,5 +211,27 @@ export async function validateRunsTable({
     singleDatasetData: data,
     validateRows: getRunTableFilterValidator(data),
     countLabel: translations.runs,
+  })
+}
+
+export async function validateAnnotationsTable({
+  client,
+  page,
+  params,
+  pageNumber,
+  id = +E2E_CONFIG.runId,
+}: TableValidatorOptions & { id?: number }) {
+  const { data } = await getRunById({
+    client,
+    params,
+    id,
+    page: pageNumber,
+  })
+
+  await validateTable({
+    page,
+    singleRunData: data,
+    validateRows: getAnnotationTableFilterValidator(data),
+    countLabel: translations.annotations,
   })
 }
