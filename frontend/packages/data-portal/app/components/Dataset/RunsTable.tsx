@@ -86,7 +86,9 @@ export function RunsTable() {
                     ?.key_photo_thumbnail_url ?? undefined
                 }
                 loading={isLoadingDebounced}
-                overlayOnGroupHover={!isHoveringOverInteractable}
+                textOnGroupHover={
+                  isHoveringOverInteractable ? undefined : 'openRun'
+                }
               />
             </TableCell>
           ),

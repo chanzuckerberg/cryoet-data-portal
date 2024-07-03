@@ -18,7 +18,9 @@ interface TopNavLink {
 const TOP_NAV_LINKS: TopNavLink[] = [
   {
     isActive: (pathname) =>
-      pathname.includes('/datasets') || pathname.includes('/runs'),
+      pathname.includes('/datasets') ||
+      pathname.includes('/runs') ||
+      pathname.includes('/depositions'),
     label: 'browseData',
     link: '/browse-data/datasets',
   },

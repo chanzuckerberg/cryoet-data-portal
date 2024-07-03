@@ -1,9 +1,9 @@
 import Skeleton from '@mui/material/Skeleton'
-import { useLocation } from '@remix-run/react'
 import { match, P } from 'ts-pattern'
 
 import { KeyPhotoFallbackIcon } from 'app/components/icons'
 import { useI18n } from 'app/hooks/useI18n'
+import { I18nKeys } from 'app/types/i18n'
 import { cns } from 'app/utils/cns'
 
 export function KeyPhoto({
@@ -11,16 +11,15 @@ export function KeyPhoto({
   loading = false,
   src,
   title,
-  overlayOnGroupHover,
+  textOnGroupHover,
 }: {
   className?: string
   loading?: boolean
   src?: string
   title: string
-  overlayOnGroupHover?: boolean
+  textOnGroupHover?: I18nKeys
 }) {
   const { t } = useI18n()
-  const { pathname } = useLocation()
 
   return (
     <div
@@ -31,7 +30,7 @@ export function KeyPhoto({
 
         // crop image to container dimensions
         'overflow-hidden object-cover',
-        overlayOnGroupHover && [
+        textOnGroupHover && [
           'relative',
           'before:absolute',
           'before:bg-black',
@@ -48,9 +47,7 @@ export function KeyPhoto({
         ],
         className,
       )}
-      data-i18n-content={t(
-        pathname.includes('/browse-data') ? 'openDataset' : 'openRun',
-      )}
+      data-i18n-content={textOnGroupHover ? t(textOnGroupHover) : ''}
     >
       {match([src, loading])
         .with([P._, true], () => <Skeleton variant="rounded" />)

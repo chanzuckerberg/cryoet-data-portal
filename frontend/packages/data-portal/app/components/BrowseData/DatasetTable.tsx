@@ -90,7 +90,9 @@ export function DatasetTable() {
                     title={dataset.title}
                     src={dataset.key_photo_thumbnail_url ?? undefined}
                     loading={isLoadingDebounced}
-                    overlayOnGroupHover={!isClickingOnEmpiarId}
+                    textOnGroupHover={
+                      isClickingOnEmpiarId ? undefined : 'openDataset'
+                    }
                   />
                 </Link>
               </TableCell>

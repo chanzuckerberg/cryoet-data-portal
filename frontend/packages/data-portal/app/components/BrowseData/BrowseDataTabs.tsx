@@ -1,49 +1,65 @@
-import { useLocation } from '@remix-run/react'
+import { useLocation, useNavigate } from '@remix-run/react'
 import { useMemo } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetToolbarDataQuery } from 'app/__generated__/graphql'
 import { TabData, Tabs } from 'app/components/Tabs'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 
 export enum BrowseDataTab {
   Datasets = 'datasets',
+  Depositions = 'depositions',
   Runs = 'runs',
 }
 
 // TODO: uncomment features when implemented
 export function BrowseDataTabs() {
-  // const navigate = useNavigate()
+  const { t } = useI18n()
+  const navigate = useNavigate()
   const { pathname } = useLocation()
-  const tab = pathname.includes('/browse-data/datasets')
-    ? BrowseDataTab.Datasets
-    : BrowseDataTab.Runs
+  const showDepositions = useFeatureFlag('depositions')
+
+  let tab = BrowseDataTab.Datasets
+  if (pathname.includes('/browse-data/depositions')) {
+    tab = BrowseDataTab.Depositions
+  } else if (pathname.includes('/browse-data/runs')) {
+    tab = BrowseDataTab.Runs
+  }
 
   const data = useTypedLoaderData<GetToolbarDataQuery>()
   const datasetCount = data.datasets_aggregate.aggregate?.count ?? 0
+  // TODO: hook up to backend when available
+  // const depositionsCount = data.depositions_aggregate?.count ?? 0
   // const runCount = data.runs_aggregate.aggregate?.count ?? 0
 
   const tabOptions = useMemo<TabData<BrowseDataTab>[]>(
     () => [
       {
-        label: i18n.datasetsTab(datasetCount),
+        label: t('datasetsTab', { count: datasetCount }),
         value: BrowseDataTab.Datasets,
       },
       // {
-      //   label: i18n.runsTab(runCount),
+      //   label: t('runsTab', { count: runCount }),
       //   value: BrowseDataTab.Runs,
       // },
+      {
+        label: t('depositionsTab', { count: datasetCount }),
+        value: BrowseDataTab.Depositions,
+      },
     ],
-    [datasetCount],
-    // [datasetCount, runCount],
+    [datasetCount, t],
+    // [datasetCount, depositionsCount, runCount, t],
   )
 
   return (
     <Tabs
-      // onChange={(nextTab) => navigate(`/browse-data/${nextTab}`)}
-      onChange={() => null}
+      onChange={(nextTab) => navigate(`/browse-data/${nextTab}`)}
       value={tab}
-      tabs={tabOptions}
+      tabs={tabOptions.filter(
+        (option) =>
+          showDepositions || option.value !== BrowseDataTab.Depositions,
+      )}
     />
   )
 }
