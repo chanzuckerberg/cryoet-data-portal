@@ -12,9 +12,11 @@ interface ListEntry {
 export function CollapsibleList({
   entries,
   collapseAfter,
+  tableVariant = false,
 }: {
   entries?: ListEntry[]
   collapseAfter?: number
+  tableVariant?: boolean
 }) {
   const collapsible =
     collapseAfter !== undefined &&
@@ -40,29 +42,41 @@ export function CollapsibleList({
           ),
       )}
       {collapsible && (
-        <div className="mt-sds-xxs font-semibold">
+        <div
+          className={cns(
+            'mt-sds-xxs font-semibold',
+            tableVariant && 'text-sds-primary-400',
+          )}
+        >
           <button type="button" onClick={() => setCollapsed(!collapsed)}>
-            {collapsed ? (
-              <span className="flex flex-row gap-sds-xxs items-center">
-                <Icon
-                  sdsIcon="plus"
-                  sdsSize="xs"
-                  sdsType="static"
-                  className="!text-current"
-                />
-                {t('showMore', { count: entries.length - collapseAfter })}
-              </span>
-            ) : (
-              <span className="flex flex-row gap-sds-xxs items-center">
-                <Icon
-                  sdsIcon="minus"
-                  sdsSize="xs"
-                  sdsType="static"
-                  className="!text-current"
-                />
-                {t('showLess')}
-              </span>
-            )}
+            <span
+              className={cns(
+                'flex flex-row gap-sds-xxs items-center',
+                !tableVariant && 'capitalize',
+              )}
+            >
+              {collapsed ? (
+                <>
+                  <Icon
+                    sdsIcon="plus"
+                    sdsSize="xs"
+                    sdsType="static"
+                    className="!text-current"
+                  />
+                  {t('showMore', { count: entries.length - collapseAfter })}
+                </>
+              ) : (
+                <>
+                  <Icon
+                    sdsIcon="minus"
+                    sdsSize="xs"
+                    sdsType="static"
+                    className="!text-current"
+                  />
+                  {t('showLess')}
+                </>
+              )}
+            </span>
           </button>
         </div>
       )}
