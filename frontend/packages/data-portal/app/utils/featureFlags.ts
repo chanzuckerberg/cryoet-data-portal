@@ -30,6 +30,8 @@ export function getFeatureFlag({
     return true
   }
 
+  console.log(key)
+  console.log(env)
   return FEATURE_FLAGS[key].includes(env)
 }
 
