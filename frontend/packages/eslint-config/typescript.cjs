@@ -57,6 +57,9 @@ module.exports = {
       (rule) => rule.selector !== 'ForOfStatement',
     ),
 
+    // Allow use of continue in loops
+    'no-continue': 'off',
+
     // Sometimes it's safe to call async functions and not handle their errors.
     '@typescript-eslint/no-misused-promises': 'off',
 
