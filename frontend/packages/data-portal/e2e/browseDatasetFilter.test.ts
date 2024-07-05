@@ -49,7 +49,7 @@ testMultiInputFilter({
     },
     {
       queryParam: QueryParams.EmpiarId,
-      label: 'Empiar ID',
+      label: 'EMPIAR ID',
       valueKey: 'empiarId',
     },
     {

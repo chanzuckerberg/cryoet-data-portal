@@ -69,7 +69,7 @@ export const i18n = {
   documentation: 'Documentation',
   downloadDataset: 'Download Dataset',
   emdb: 'EMDB',
-  empiarID: 'Empiar ID',
+  empiarID: 'EMPIAR ID',
   energyFilter: 'Energy Filter',
   excellent: 'Excellent',
   false: 'False',
