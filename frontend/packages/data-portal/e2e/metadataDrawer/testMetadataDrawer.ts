@@ -104,10 +104,17 @@ export function testMetadataDrawer({
               `Test for ${label} to have value ${value}`,
             ).toContainText(`${value}`)
           } else {
-            await expect(
-              cells.last(),
-              `Test for ${label} to be empty`,
-            ).toContainText('--')
+            if (data.metadata.groundTruthStatus) {
+              await expect(
+                cells.last(),
+                `Test for ${label} to be empty`,
+              ).toContainText('--')
+            } else {
+              await expect(
+                cells.last(),
+                `Test for ${label} to be "Not Applicable"`,
+              ).toContainText('Not Applicable')
+            }
           }
         }
       })
