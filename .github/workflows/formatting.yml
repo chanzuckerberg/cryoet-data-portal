@@ -35,7 +35,7 @@ jobs:
 
       - name: Install PNPM
         if: steps.changes.outputs.frontend == 'true'
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
           version: 8.9.0
           run_install: false
