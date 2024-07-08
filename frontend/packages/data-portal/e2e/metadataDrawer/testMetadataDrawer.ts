@@ -4,7 +4,7 @@ import { expect, Page, test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
 import { E2E_CONFIG, translations } from 'e2e/constants'
 import { goTo } from 'e2e/filters/utils'
-import { isArray, isNumber } from 'lodash-es'
+import { isArray } from 'lodash-es'
 
 import { TestIds } from 'app/constants/testIds'
 
@@ -90,6 +90,7 @@ export function testMetadataDrawer({
           const label = translations[key as keyof typeof translations]
           const cells = drawer.locator(`tr:has-text("${label}") td`)
 
+          // Array:
           if (isArray(value)) {
             const nodeValue = await cells.last().innerText()
             expect(
@@ -98,17 +99,32 @@ export function testMetadataDrawer({
                 ', ',
               )}`,
             ).toBe(true)
-          } else if (isNumber(value) || value) {
+            continue
+          }
+          // String or number:
+          if (value !== null) {
             await expect(
               cells.last(),
               `Test for ${label} to have value ${value}`,
             ).toContainText(`${value}`)
-          } else {
+            continue
+          }
+          // Empty because N/A:
+          if (
+            data.metadata.groundTruthStatus &&
+            ['groundTruthUsed', 'precision', 'recall'].includes(key)
+          ) {
             await expect(
               cells.last(),
-              `Test for ${label} to be empty`,
-            ).toContainText('--')
+              `Test for ${label} to be "Not Applicable"`,
+            ).toContainText('Not Applicable')
+            continue
           }
+          // Empty:
+          await expect(
+            cells.last(),
+            `Test for ${label} to be empty`,
+          ).toContainText('--')
         }
       })
     },
