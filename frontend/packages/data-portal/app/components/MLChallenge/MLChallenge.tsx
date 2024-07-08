@@ -6,7 +6,7 @@ import { MLChallengeNavigation } from './MLChallengeNavigation'
 
 export function MLChallenge() {
   return (
-    <div className="flex flex-col w-[100vw] overflow-x-clip">
+    <div className="flex flex-col w-full overflow-x-clip">
       <MLChallengeHeader />
 
       <div className="flex flex-row w-full justify-between px-sds-xl relative">
