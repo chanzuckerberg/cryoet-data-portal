@@ -83,7 +83,7 @@ export function RunHeader() {
               })
             }
           >
-            {t('downloadRun')}
+            {t('downloadWithAdditionalOptions')}
           </Button>
         </>
       }
