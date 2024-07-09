@@ -34,7 +34,7 @@ export const AnnotationTableWidths = {
 export const RunTableWidths = {
   photo: PHOTO_COLUMN_WIDTH,
   name: { min: 400 },
-  tiltSeriesQuality: { min: 120, max: 210 },
+  tiltSeriesQuality: { min: 183, max: 210 },
   annotatedObjects: { min: 250, max: 400 },
   actions: { min: 150, max: 200 },
 }
