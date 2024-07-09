@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.12.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.11.1...web-v1.12.0) (2024-07-09)
+
+
+### ✨ Features
+
+* Update annotation method type tooltips text ([#847](https://github.com/chanzuckerberg/cryoet-data-portal/issues/847)) ([c42fd9d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c42fd9d06a34f327d2dcc209d3062c23d7766692))
+
+
+### 🐞 Bug Fixes
+
+* change Empiar to EMPIAR ([#838](https://github.com/chanzuckerberg/cryoet-data-portal/issues/838)) ([e53e91c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/e53e91ce747187d4975a982af292bfb34bf51c80))
+* Increase width for tilt series quality score column. ([#846](https://github.com/chanzuckerberg/cryoet-data-portal/issues/846)) ([0426615](https://github.com/chanzuckerberg/cryoet-data-portal/commit/0426615089d88c73555639900f1db39ac7f26b30))
+* Remove erroneous horizontal overflows from various places ([#837](https://github.com/chanzuckerberg/cryoet-data-portal/issues/837)) ([c9262fa](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c9262fa6006e3e33cfd65439e9fa6999cfd0140a))
+* update download button strings ([#841](https://github.com/chanzuckerberg/cryoet-data-portal/issues/841)) ([76daa57](https://github.com/chanzuckerberg/cryoet-data-portal/commit/76daa5741896623d3c4ca68dc1a6cf57a2f20c99))
+
+
+### 🧹 Miscellaneous Chores
+
+* Fix metadata test ([#839](https://github.com/chanzuckerberg/cryoet-data-portal/issues/839)) ([d9bcaa6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d9bcaa66c9dea82900a4b1452d6119da331c26ee))
+
 ## [1.11.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.11.0...web-v1.11.1) (2024-07-01)
 
 
