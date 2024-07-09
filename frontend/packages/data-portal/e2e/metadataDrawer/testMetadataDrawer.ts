@@ -8,6 +8,7 @@ import { isArray } from 'lodash-es'
 
 import { TestIds } from 'app/constants/testIds'
 
+import { MetadataDrawerPage } from './metadata-drawer-page'
 import { DrawerTestData } from './types'
 
 function getMetadataDrawer(page: Page) {
@@ -41,9 +42,10 @@ export function testMetadataDrawer({
       })
 
       test('should open metadata drawer', async ({ page }) => {
-        await goTo(page, url)
+        const metadataDrawerPage = new MetadataDrawerPage(page)
+        await metadataDrawerPage.goTo(page, url)
 
-        const drawer = getMetadataDrawer(page)
+        const drawer = metadataDrawerPage.getMetadataDrawer()
         await expect(drawer).toBeHidden()
         await openDrawer(page)
         await expect(drawer).toBeVisible()
