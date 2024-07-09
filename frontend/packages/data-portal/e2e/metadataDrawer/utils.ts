@@ -133,8 +133,6 @@ export function getAnnotationTestMetdata(
 
     precision: getGroundTruthField(annotation.confidence_precision ?? '--'),
     recall: getGroundTruthField(annotation.confidence_recall ?? '--'),
-    groundTruthStatus: getGroundTruthField(
-      getBoolString(annotation.ground_truth_status),
-    ),
+    groundTruthStatus: getBoolString(annotation.ground_truth_status),
   }
 }
