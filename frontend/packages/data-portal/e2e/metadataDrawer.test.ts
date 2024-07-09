@@ -1,13 +1,7 @@
 import { test } from '@playwright/test'
-import { isArray } from 'lodash-es'
 
 import { getApolloClient } from './apollo'
-import {
-  E2E_CONFIG,
-  SINGLE_DATASET_URL,
-  SINGLE_RUN_URL,
-  translations,
-} from './constants'
+import { E2E_CONFIG, SINGLE_DATASET_URL, SINGLE_RUN_URL } from './constants'
 import { MetadataDrawerPage } from './metadataDrawer/metadata-drawer-page'
 
 test.describe('Metadata Drawer', () => {
