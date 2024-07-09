@@ -131,6 +131,10 @@ export function getAnnotationTestMetdata(
     objectState: annotation.object_state,
     objectDescription: annotation.object_description,
 
+    // Ground truth annotations show N/A for precision and recall because they
+    // represent the correct or true labels for a dataset. Non ground truth
+    // annotations have these fields because they are compared against a ground
+    // truth annotation.
     precision: getGroundTruthField(annotation.confidence_precision ?? '--'),
     recall: getGroundTruthField(annotation.confidence_recall ?? '--'),
     groundTruthStatus: getBoolString(annotation.ground_truth_status),
