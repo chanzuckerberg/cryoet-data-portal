@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.0...web-v1.12.1) (2024-07-09)
+
+
+### ⚙ Continuous Integration
+
+* fix metadata drawer e2e ([#851](https://github.com/chanzuckerberg/cryoet-data-portal/issues/851)) ([b2deb9f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b2deb9fded6d3072a2b4c76643c29056f3612052))
+
 ## [1.12.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.11.1...web-v1.12.0) (2024-07-09)
 
 
