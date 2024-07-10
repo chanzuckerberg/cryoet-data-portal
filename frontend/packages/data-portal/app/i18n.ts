@@ -45,7 +45,6 @@ export const i18n = {
   cellLineOrStrainName: 'Cell Line or Strain Name',
   cellName: 'Cell Name',
   cellularComponent: 'Cellular Component',
-  citations: 'Citations',
   clearFilters: 'Clear Filters',
   confidence: 'confidence',
   contributeCta:
