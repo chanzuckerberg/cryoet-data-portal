@@ -125,6 +125,9 @@ export class MetadataDrawerPage extends PageObject {
   ): DrawerTestMetadata {
     const file = (annotation.files ?? []).at(0)
 
+    const getGroundTruthField = <T>(value: T) =>
+      annotation.ground_truth_status ? translations.notApplicable : value
+
     return {
       annotationId: annotation.id,
       annotationAuthors: annotation.authors?.map((author) => author.name),
@@ -141,10 +144,14 @@ export class MetadataDrawerPage extends PageObject {
       objectShapeType: file?.shape_type,
       objectState: annotation.object_state,
       objectDescription: annotation.object_description,
+
+      // Ground truth annotations show N/A for precision and recall because they
+      // represent the correct or true labels for a dataset. Non ground truth
+      // annotations have these fields because they are compared against a ground
+      // truth annotation.
+      precision: getGroundTruthField(annotation.confidence_precision ?? '--'),
+      recall: getGroundTruthField(annotation.confidence_recall ?? '--'),
       groundTruthStatus: this.getBoolString(annotation.ground_truth_status),
-      groundTruthUsed: annotation.ground_truth_used,
-      precision: annotation.confidence_precision,
-      recall: annotation.confidence_recall,
     }
   }
 
