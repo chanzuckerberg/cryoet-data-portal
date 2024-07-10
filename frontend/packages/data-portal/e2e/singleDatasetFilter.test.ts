@@ -13,7 +13,7 @@ testGroundTruthAnnotationFilter({
 })
 
 testSingleSelectFilter({
-  label: translations.annotatedObjectName,
+  label: translations.objectName,
   queryParam: QueryParams.ObjectName,
   url: SINGLE_DATASET_URL,
   validateTable: validateRunsTable,

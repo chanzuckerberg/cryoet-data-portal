@@ -43,10 +43,7 @@ export function AnnotatedObjectsList({
           val1.toLowerCase().localeCompare(val2.toLocaleLowerCase()),
         )
         .map((obj) => (
-          <li
-            className="text-ellipsis line-clamp-1 break-all capitalize"
-            key={obj}
-          >
+          <li className="text-ellipsis line-clamp-1 break-all" key={obj}>
             {obj}
           </li>
         ))
