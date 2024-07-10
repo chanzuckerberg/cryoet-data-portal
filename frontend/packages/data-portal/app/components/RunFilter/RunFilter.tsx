@@ -29,7 +29,7 @@ export function RunFilter() {
       <FilterSection title={t('annotationMetadata')} border={false}>
         <AnnotatedObjectNameFilter
           allObjectNames={objectNames}
-          label={t('annotatedObjectName')}
+          label={t('objectName')}
         />
         <AnnotatedObjectShapeTypeFilter
           allObjectShapeTypes={objectShapeTypes}
