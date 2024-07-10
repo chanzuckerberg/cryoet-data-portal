@@ -2917,11 +2917,6 @@ type datasets {
   cell_type_id: String
 
   """
-  DOIs for publications that cite the dataset. Use a comma to separate multiple DOIs.
-  """
-  dataset_citations: String
-
-  """
   DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
   """
   dataset_publications: String
@@ -3123,7 +3118,6 @@ input datasets_bool_exp {
   cell_strain_id: String_comparison_exp
   cell_strain_name: String_comparison_exp
   cell_type_id: String_comparison_exp
-  dataset_citations: String_comparison_exp
   dataset_publications: String_comparison_exp
   deposition_date: date_comparison_exp
   description: String_comparison_exp
@@ -3174,11 +3168,6 @@ type datasets_max_fields {
 
   """Cell Ontology identifier for the cell type"""
   cell_type_id: String
-
-  """
-  DOIs for publications that cite the dataset. Use a comma to separate multiple DOIs.
-  """
-  dataset_citations: String
 
   """
   DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
@@ -3287,11 +3276,6 @@ type datasets_min_fields {
   cell_type_id: String
 
   """
-  DOIs for publications that cite the dataset. Use a comma to separate multiple DOIs.
-  """
-  dataset_citations: String
-
-  """
   DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
   """
   dataset_publications: String
@@ -3382,7 +3366,6 @@ input datasets_order_by {
   cell_strain_id: order_by
   cell_strain_name: order_by
   cell_type_id: order_by
-  dataset_citations: order_by
   dataset_publications: order_by
   deposition_date: order_by
   description: order_by
@@ -3429,9 +3412,6 @@ enum datasets_select_column {
 
   """column name"""
   cell_type_id
-
-  """column name"""
-  dataset_citations
 
   """column name"""
   dataset_publications

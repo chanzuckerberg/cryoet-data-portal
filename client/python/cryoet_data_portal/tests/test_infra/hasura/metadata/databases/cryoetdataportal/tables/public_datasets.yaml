@@ -33,7 +33,6 @@ select_permissions:
         - cell_type_id
         - cell_component_id
         - cell_component_name
-        - dataset_citations
         - dataset_publications
         - deposition_date
         - description

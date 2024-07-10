@@ -47,5 +47,5 @@ def test_filter_on_object_raises_exceptions(client) -> None:
         Run.find(client, [Run.dataset == 20001])
     assert (
         exc_info.value.args[0]
-        == '"dataset" is an object and can\'t be compared directly. Please filter on one of its scalar attributes instead: id, cell_component_id, cell_component_name, cell_name, cell_strain_id, cell_strain_name, cell_type_id, dataset_citations, dataset_publications, deposition_date, description, grid_preparation, https_prefix, key_photo_thumbnail_url, key_photo_url, last_modified_date, organism_name, organism_taxid, other_setup, related_database_entries, related_database_links, release_date, s3_prefix, sample_preparation, sample_type, tissue_id, tissue_name, title'
+        == '"dataset" is an object and can\'t be compared directly. Please filter on one of its scalar attributes instead: id, cell_component_id, cell_component_name, cell_name, cell_strain_id, cell_strain_name, cell_type_id, dataset_publications, deposition_date, description, grid_preparation, https_prefix, key_photo_thumbnail_url, key_photo_url, last_modified_date, organism_name, organism_taxid, other_setup, related_database_entries, related_database_links, release_date, s3_prefix, sample_preparation, sample_type, tissue_id, tissue_name, title'
     )

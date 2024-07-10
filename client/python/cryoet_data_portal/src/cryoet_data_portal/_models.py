@@ -27,7 +27,6 @@ class Dataset(Model):
         cell_strain_id (str): Link to more information about the cell strain
         cell_strain_name (str): Cell line or strain for the sample.
         cell_type_id (str): Cell Ontology identifier for the cell type
-        dataset_citations (str): DOIs for publications that cite the dataset. Use a comma to separate multiple DOIs.
         dataset_publications (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
         deposition_date: Date when a dataset is initially received by the Data Portal.
         description (str): A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
@@ -61,7 +60,6 @@ class Dataset(Model):
     cell_strain_id: str = StringField()
     cell_strain_name: str = StringField()
     cell_type_id: str = StringField()
-    dataset_citations: str = StringField()
     dataset_publications: str = StringField()
     deposition_date: date = DateField()
     description: str = StringField()
