@@ -216,9 +216,7 @@ export function AnnotationTable() {
 
         cell: ({ getValue }) => (
           <TableCell width={AnnotationTableWidths.objectName}>
-            <div className="line-clamp-2 text-ellipsis">
-              {getValue()}
-            </div>
+            <div className="line-clamp-2 text-ellipsis">{getValue()}</div>
           </TableCell>
         ),
       }),
