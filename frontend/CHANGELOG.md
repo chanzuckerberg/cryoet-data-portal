@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.1...web-v1.12.2) (2024-07-10)
+
+
+### 🐞 Bug Fixes
+
+* stop capitalizing annotation object display ([#861](https://github.com/chanzuckerberg/cryoet-data-portal/issues/861)) ([1781c72](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1781c72827d48636dacc262fdc0057f7b1582c45))
+
 ## [1.12.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.0...web-v1.12.1) (2024-07-09)
 
 
