@@ -1,14 +1,16 @@
 import { test } from '@playwright/test'
 
 import { getApolloClient } from './apollo'
-import { E2E_CONFIG, SINGLE_DATASET_URL, SINGLE_RUN_URL } from './constants'
+import {
+  SINGLE_DATASET_PATH,
+  SINGLE_DATASET_URL,
+  SINGLE_RUN_PATH,
+  SINGLE_RUN_URL,
+} from './constants'
 import { MetadataDrawerPage } from './metadataDrawer/metadata-drawer-page'
 
 test.describe('Metadata Drawer', () => {
-  test.describe(`Single Dataset: ${SINGLE_DATASET_URL.replace(
-    E2E_CONFIG.url,
-    '',
-  )}`, () => {
+  test.describe(`Single Dataset: ${SINGLE_DATASET_PATH}`, () => {
     let client = getApolloClient()
     test.beforeEach(() => {
       client = getApolloClient()
@@ -47,10 +49,7 @@ test.describe('Metadata Drawer', () => {
     })
   })
 
-  test.describe(`Single Run: ${SINGLE_RUN_URL.replace(
-    E2E_CONFIG.url,
-    '',
-  )}`, () => {
+  test.describe(`Single Run: ${SINGLE_RUN_PATH}`, () => {
     let client = getApolloClient()
     test.beforeEach(() => {
       client = getApolloClient()
@@ -88,10 +87,7 @@ test.describe('Metadata Drawer', () => {
     })
   })
 
-  test.describe(`Annotation Metadata: ${SINGLE_RUN_URL.replace(
-    E2E_CONFIG.url,
-    '',
-  )}`, () => {
+  test.describe(`Annotation Metadata: ${SINGLE_RUN_PATH}`, () => {
     let client = getApolloClient()
     test.beforeEach(() => {
       client = getApolloClient()
