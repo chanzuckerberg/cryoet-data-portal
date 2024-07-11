@@ -29,7 +29,7 @@ export function InlineMetadata({
             className={cns(
               'font-semibold',
               subheader
-                ? 'text-sds-gray-600 tracking-sds-caps text-sds-caps-xxs leading-sds-caps-xxs'
+                ? 'text-sds-gray-600 tracking-sds-body-xxs text-sds-caps-xxs leading-sds-caps-xxs'
                 : 'text-sds-body-xxs leading-sds-body-xxs',
               uppercase && 'uppercase',
               subheader && uppercase && 'tracking-sds-caps',

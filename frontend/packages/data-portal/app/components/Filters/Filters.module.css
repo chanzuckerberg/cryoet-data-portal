@@ -3,6 +3,8 @@
 .boolean {
   :global(.MuiTypography-root) {
     font-size: theme('fontSize.sds-body-s') !important;
+    font-weight: theme('fontWeight.semibold') !important;
+    color: theme('colors.sds-gray.500') !important;
   }
 }
 
