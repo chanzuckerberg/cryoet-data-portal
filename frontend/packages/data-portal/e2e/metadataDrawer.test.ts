@@ -7,7 +7,7 @@ import {
   SINGLE_RUN_PATH,
   SINGLE_RUN_URL,
 } from './constants'
-import { MetadataDrawerPage } from './metadataDrawer/metadata-drawer-page'
+import { MetadataDrawerPage } from './page-objects/metadataDrawer/metadata-drawer-page'
 
 test.describe('Metadata Drawer', () => {
   test.describe(`Single Dataset: ${SINGLE_DATASET_PATH}`, () => {
