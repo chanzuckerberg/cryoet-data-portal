@@ -47,7 +47,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
         cell_strain_name
         cell_strain_id
         cell_type_id
-        dataset_citations
         dataset_publications
         deposition_date
         description
