@@ -9,9 +9,6 @@ import { TestIds } from 'app/constants/testIds'
 import { DrawerTestData } from './types'
 
 export class MetadataDrawerPage extends PageObject {
-  // #region Navigate
-  // #endregion Navigate
-
   // #region Click
   public async openViewAllInfoDrawer() {
     await this.page
@@ -37,9 +34,6 @@ export class MetadataDrawerPage extends PageObject {
       .click()
   }
   // #endregion Click
-
-  // #region Hover
-  // #endregion Hover
 
   // #region Get
   private getMetadataDrawer() {
@@ -165,7 +159,4 @@ export class MetadataDrawerPage extends PageObject {
     }
   }
   // #endregion Validation
-
-  // #region Bool
-  // #endregion Bool
 }
