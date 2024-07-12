@@ -8,6 +8,11 @@ import {
   SINGLE_RUN_URL,
 } from './constants'
 import { MetadataDrawerPage } from './page-objects/metadataDrawer/metadata-drawer-page'
+import {
+  getAnnotationTestData,
+  getSingleDatasetTestMetadata,
+  getSingleRunTestMetadata,
+} from './page-objects/metadataDrawer/utils'
 
 test.describe('Metadata Drawer', () => {
   test.describe(`Single Dataset: ${SINGLE_DATASET_PATH}`, () => {
@@ -42,7 +47,7 @@ test.describe('Metadata Drawer', () => {
       await metadataDrawerPage.openViewAllInfoDrawer()
       await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
 
-      const data = await metadataDrawerPage.getSingleDatasetTestMetadata(client)
+      const data = await getSingleDatasetTestMetadata(client)
       await metadataDrawerPage.expectMetadataDrawerToShowTitle(data.title)
       await metadataDrawerPage.expandAllAccordions()
       await metadataDrawerPage.expectMetadataTableCellsToDisplayValues(data)
@@ -80,7 +85,7 @@ test.describe('Metadata Drawer', () => {
       await metadataDrawerPage.openViewAllInfoDrawer()
       await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
 
-      const data = await metadataDrawerPage.getSingleRunTestMetadata(client)
+      const data = await getSingleRunTestMetadata(client)
       await metadataDrawerPage.expectMetadataDrawerToShowTitle(data.title)
       await metadataDrawerPage.expandAllAccordions()
       await metadataDrawerPage.expectMetadataTableCellsToDisplayValues(data)
@@ -118,7 +123,7 @@ test.describe('Metadata Drawer', () => {
       await metadataDrawerPage.openInfoDrawer()
       await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
 
-      const data = await metadataDrawerPage.getAnnotationTestMetadata(client)
+      const data = await getAnnotationTestData(client)
       await metadataDrawerPage.expectMetadataDrawerToShowTitle(data.title)
       await metadataDrawerPage.expandAllAccordions()
       await metadataDrawerPage.expectMetadataTableCellsToDisplayValues(data)
