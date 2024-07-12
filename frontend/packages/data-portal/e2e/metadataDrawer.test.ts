@@ -1,113 +1,132 @@
-import { getDatasetById } from 'app/graphql/getDatasetById.server'
-import { getRunById } from 'app/graphql/getRunById.server'
+import { test } from '@playwright/test'
 
+import { getApolloClient } from './apollo'
 import {
-  E2E_CONFIG,
+  SINGLE_DATASET_PATH,
   SINGLE_DATASET_URL,
+  SINGLE_RUN_PATH,
   SINGLE_RUN_URL,
-  translations,
 } from './constants'
-import { testMetadataDrawer } from './metadataDrawer/testMetadataDrawer'
+import { MetadataDrawerPage } from './page-objects/metadataDrawer/metadata-drawer-page'
 import {
-  getAnnotationTestMetdata,
-  getDatasetTestMetadata,
-  getTiltSeriesTestMetadata,
-  getTomogramTestMetadata,
-} from './metadataDrawer/utils'
+  getAnnotationTestData,
+  getSingleDatasetTestMetadata,
+  getSingleRunTestMetadata,
+} from './page-objects/metadataDrawer/utils'
 
-testMetadataDrawer({
-  url: SINGLE_DATASET_URL,
-
-  async getTestData(client) {
-    const { data } = await getDatasetById({
-      client,
-      id: +E2E_CONFIG.datasetId,
+test.describe('Metadata Drawer', () => {
+  test.describe(`Single Dataset: ${SINGLE_DATASET_PATH}`, () => {
+    let client = getApolloClient()
+    test.beforeEach(() => {
+      client = getApolloClient()
     })
 
-    const [dataset] = data.datasets
-    const [tiltSeries] = dataset.run_metadata[0].tiltseries
+    test('should open metadata drawer', async ({ page }) => {
+      const metadataDrawerPage = new MetadataDrawerPage(page)
+      await metadataDrawerPage.goTo(SINGLE_DATASET_URL)
 
-    return {
-      title: dataset.title,
-      metadata: {
-        ...getDatasetTestMetadata({
-          dataset,
-          type: 'dataset',
-        }),
-
-        ...getTiltSeriesTestMetadata({
-          tiltSeries,
-          type: 'dataset',
-        }),
-      },
-    }
-  },
-
-  async openDrawer(page) {
-    await page.getByRole('button', { name: translations.viewAllInfo }).click()
-  },
-})
-
-testMetadataDrawer({
-  title: 'Run Metadata',
-  url: SINGLE_RUN_URL,
-
-  async getTestData(client) {
-    const { data } = await getRunById({
-      client,
-      id: +E2E_CONFIG.runId,
+      await metadataDrawerPage.expectMetadataDrawerToBeHidden()
+      await metadataDrawerPage.openViewAllInfoDrawer()
+      await metadataDrawerPage.expectMetadataDrawerToBeVisible()
     })
 
-    const [run] = data.runs
-    const [tiltSeries] = run.tiltseries
-    const [tomogram] = run.tomogram_voxel_spacings[0].tomograms
+    test('should close metadata drawer on click x', async ({ page }) => {
+      const metadataDrawerPage = new MetadataDrawerPage(page)
+      await metadataDrawerPage.goTo(SINGLE_DATASET_URL)
 
-    return {
-      title: run.name,
-      metadata: {
-        ...getDatasetTestMetadata({
-          dataset: run.dataset,
-          type: 'run',
-        }),
+      await metadataDrawerPage.openViewAllInfoDrawer()
+      await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
 
-        ...getTiltSeriesTestMetadata({
-          tiltSeries,
-          type: 'run',
-        }),
-
-        ...getTomogramTestMetadata(tomogram),
-      },
-    }
-  },
-
-  async openDrawer(page) {
-    await page.getByRole('button', { name: translations.viewAllInfo }).click()
-  },
-})
-
-testMetadataDrawer({
-  title: 'Annotation Metadata',
-  url: SINGLE_RUN_URL,
-
-  async getTestData(client) {
-    const { data } = await getRunById({
-      client,
-      id: +E2E_CONFIG.runId,
+      await metadataDrawerPage.closeMetadataDrawer()
+      await metadataDrawerPage.expectMetadataDrawerToBeHidden()
     })
 
-    const [run] = data.runs
-    const annotation = run.annotation_table[0].annotations[0]
+    test('metadata should have correct data', async ({ page }) => {
+      const metadataDrawerPage = new MetadataDrawerPage(page)
+      await metadataDrawerPage.goTo(SINGLE_DATASET_URL)
+      await metadataDrawerPage.openViewAllInfoDrawer()
+      await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
 
-    return {
-      title: `${annotation.id} - ${annotation.object_name}`,
-      metadata: getAnnotationTestMetdata(annotation),
-    }
-  },
+      const data = await getSingleDatasetTestMetadata(client)
+      await metadataDrawerPage.expectMetadataDrawerToShowTitle(data.title)
+      await metadataDrawerPage.expandAllAccordions()
+      await metadataDrawerPage.expectMetadataTableCellsToDisplayValues(data)
+    })
+  })
 
-  async openDrawer(page) {
-    await page
-      .getByRole('button', { name: translations.info, exact: true })
-      .first()
-      .click()
-  },
+  test.describe(`Single Run: ${SINGLE_RUN_PATH}`, () => {
+    let client = getApolloClient()
+    test.beforeEach(() => {
+      client = getApolloClient()
+    })
+    test('should open metadata drawer', async ({ page }) => {
+      const metadataDrawerPage = new MetadataDrawerPage(page)
+      await metadataDrawerPage.goTo(SINGLE_RUN_URL)
+
+      await metadataDrawerPage.expectMetadataDrawerToBeHidden()
+      await metadataDrawerPage.openViewAllInfoDrawer()
+      await metadataDrawerPage.expectMetadataDrawerToBeVisible()
+    })
+
+    test('should close metadata drawer on click x', async ({ page }) => {
+      const metadataDrawerPage = new MetadataDrawerPage(page)
+      await metadataDrawerPage.goTo(SINGLE_RUN_URL)
+
+      await metadataDrawerPage.openViewAllInfoDrawer()
+      await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
+
+      await metadataDrawerPage.closeMetadataDrawer()
+      await metadataDrawerPage.expectMetadataDrawerToBeHidden()
+    })
+
+    test('metadata should have correct data', async ({ page }) => {
+      const metadataDrawerPage = new MetadataDrawerPage(page)
+      await metadataDrawerPage.goTo(SINGLE_RUN_URL)
+      await metadataDrawerPage.openViewAllInfoDrawer()
+      await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
+
+      const data = await getSingleRunTestMetadata(client)
+      await metadataDrawerPage.expectMetadataDrawerToShowTitle(data.title)
+      await metadataDrawerPage.expandAllAccordions()
+      await metadataDrawerPage.expectMetadataTableCellsToDisplayValues(data)
+    })
+  })
+
+  test.describe(`Annotation Metadata: ${SINGLE_RUN_PATH}`, () => {
+    let client = getApolloClient()
+    test.beforeEach(() => {
+      client = getApolloClient()
+    })
+    test('should open metadata drawer', async ({ page }) => {
+      const metadataDrawerPage = new MetadataDrawerPage(page)
+      await metadataDrawerPage.goTo(SINGLE_RUN_URL)
+
+      await metadataDrawerPage.expectMetadataDrawerToBeHidden()
+      await metadataDrawerPage.openInfoDrawer()
+      await metadataDrawerPage.expectMetadataDrawerToBeVisible()
+    })
+
+    test('should close metadata drawer on click x', async ({ page }) => {
+      const metadataDrawerPage = new MetadataDrawerPage(page)
+      await metadataDrawerPage.goTo(SINGLE_RUN_URL)
+
+      await metadataDrawerPage.openInfoDrawer()
+      await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
+
+      await metadataDrawerPage.closeMetadataDrawer()
+      await metadataDrawerPage.expectMetadataDrawerToBeHidden()
+    })
+
+    test('metadata should have correct data', async ({ page }) => {
+      const metadataDrawerPage = new MetadataDrawerPage(page)
+      await metadataDrawerPage.goTo(SINGLE_RUN_URL)
+      await metadataDrawerPage.openInfoDrawer()
+      await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
+
+      const data = await getAnnotationTestData(client)
+      await metadataDrawerPage.expectMetadataDrawerToShowTitle(data.title)
+      await metadataDrawerPage.expandAllAccordions()
+      await metadataDrawerPage.expectMetadataTableCellsToDisplayValues(data)
+    })
+  })
 })

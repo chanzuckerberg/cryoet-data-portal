@@ -45,7 +45,6 @@ function testFilter({
     await page.getByRole('button', { name: buttonLabel }).click()
 
     // Fill input
-    // eslint-disable-next-line playwright/no-conditional-in-test
     const pageLabel = `${filter.label}${hasMultipleFilters ? ':' : ''}`
     await page.getByLabel(pageLabel).click()
     await page.getByLabel(pageLabel).fill(value)

@@ -1,4 +1,5 @@
-import { translations } from 'e2e/constants'
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import { E2E_CONFIG, translations } from 'e2e/constants'
 import { DeepPartial } from 'utility-types'
 
 import {
@@ -7,15 +8,17 @@ import {
   Tiltseries,
   Tomograms,
 } from 'app/__generated__/graphql'
+import { getDatasetById } from 'app/graphql/getDatasetById.server'
+import { getRunById } from 'app/graphql/getRunById.server'
 import { isFiducial } from 'app/utils/tomograms'
 
-import { DrawerTestMetadata } from './types'
+import { DrawerTestData, DrawerTestMetadata } from './types'
 
-export function getBoolString(value?: boolean): string {
+function getBoolString(value?: boolean): string {
   return value ? 'True' : 'False'
 }
 
-export function getDatasetTestMetadata({
+function getDatasetTestMetadata({
   dataset,
   type,
 }: {
@@ -52,7 +55,7 @@ export function getDatasetTestMetadata({
   }
 }
 
-export function getTiltSeriesTestMetadata({
+function getTiltSeriesTestMetadata({
   tiltSeries,
   type,
 }: {
@@ -89,7 +92,7 @@ export function getTiltSeriesTestMetadata({
   }
 }
 
-export function getTomogramTestMetadata(
+function getTomogramTestMetadata(
   tomogram: DeepPartial<Tomograms>,
 ): DrawerTestMetadata {
   return {
@@ -106,7 +109,7 @@ export function getTomogramTestMetadata(
   }
 }
 
-export function getAnnotationTestMetdata(
+function getAnnotationTestMetdata(
   annotation: DeepPartial<Annotations>,
 ): DrawerTestMetadata {
   const file = (annotation.files ?? []).at(0)
@@ -140,3 +143,79 @@ export function getAnnotationTestMetdata(
     groundTruthStatus: getBoolString(annotation.ground_truth_status),
   }
 }
+
+export async function getSingleDatasetTestMetadata(
+  client: ApolloClient<NormalizedCacheObject>,
+): Promise<DrawerTestData> {
+  const { data } = await getDatasetById({
+    client,
+    id: +E2E_CONFIG.datasetId,
+  })
+
+  const [dataset] = data.datasets
+  const [tiltSeries] = dataset.run_metadata[0].tiltseries
+
+  return {
+    title: dataset.title,
+    metadata: {
+      ...getDatasetTestMetadata({
+        dataset,
+        type: 'dataset',
+      }),
+
+      ...getTiltSeriesTestMetadata({
+        tiltSeries,
+        type: 'dataset',
+      }),
+    },
+  }
+}
+
+// #region Data Getters
+export async function getSingleRunTestMetadata(
+  client: ApolloClient<NormalizedCacheObject>,
+): Promise<DrawerTestData> {
+  const { data } = await getRunById({
+    client,
+    id: +E2E_CONFIG.runId,
+  })
+
+  const [run] = data.runs
+  const [tiltSeries] = run.tiltseries
+  const [tomogram] = run.tomogram_voxel_spacings[0].tomograms
+
+  return {
+    title: run.name,
+    metadata: {
+      ...getDatasetTestMetadata({
+        dataset: run.dataset,
+        type: 'run',
+      }),
+
+      ...getTiltSeriesTestMetadata({
+        tiltSeries,
+        type: 'run',
+      }),
+
+      ...getTomogramTestMetadata(tomogram),
+    },
+  }
+}
+
+export async function getAnnotationTestData(
+  client: ApolloClient<NormalizedCacheObject>,
+) {
+  const { data } = await getRunById({
+    client,
+    id: +E2E_CONFIG.runId,
+  })
+
+  const [run] = data.runs
+  const annotation = run.annotation_table[0].annotations[0]
+
+  return {
+    title: `${annotation.id} - ${annotation.object_name}`,
+    metadata: getAnnotationTestMetdata(annotation),
+  }
+}
+// #endregion Data Getters
