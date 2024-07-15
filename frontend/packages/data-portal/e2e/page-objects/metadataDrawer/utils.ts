@@ -29,7 +29,6 @@ function getDatasetTestMetadata({
     cellLineOrStrainName: dataset.cell_strain_name,
     cellName: dataset.cell_name,
     cellularComponent: dataset.cell_component_name,
-    citations: dataset.dataset_citations?.split(', ') ?? [],
     depositionDate: dataset.deposition_date,
     fundingAgency: dataset?.funding_sources?.map(
       (source) => source?.funding_agency_name ?? '',

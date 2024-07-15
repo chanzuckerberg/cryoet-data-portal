@@ -137,14 +137,6 @@ export function DatasetMetadataTable({
         return <DatabaseEntryList entries={value} />
       },
     },
-
-    {
-      label: t('citations'),
-      values: [dataset.dataset_citations ?? ''],
-      renderValue: (value: string) => {
-        return <DatabaseEntryList entries={value} />
-      },
-    },
   )
 
   return (

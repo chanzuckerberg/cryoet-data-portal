@@ -35,7 +35,6 @@ const GET_DATASET_BY_ID = gql(`
       }
 
       related_database_entries
-      dataset_citations
 
       # Sample and experiments data
       cell_component_name
