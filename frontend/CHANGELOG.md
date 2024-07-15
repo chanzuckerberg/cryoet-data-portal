@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.12.3](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.2...web-v1.12.3) (2024-07-12)
+
+
+### 🐞 Bug Fixes
+
+* CSS tweaks to labels ([#871](https://github.com/chanzuckerberg/cryoet-data-portal/issues/871)) ([b7c0d34](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b7c0d3477adaf6a4c3bf546b98a5dc4ee27d8c44))
+
+
+### ♻️ Code Refactoring
+
+* using page object model for e2e tests ([#856](https://github.com/chanzuckerberg/cryoet-data-portal/issues/856)) ([a72835f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/a72835fe78fa3ee1ecc064305362a0303d55c4eb))
+
+
+### ⚙ Continuous Integration
+
+* add E2E tests for single run page filters ([#807](https://github.com/chanzuckerberg/cryoet-data-portal/issues/807)) ([c7582f0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c7582f0bb59317f97f5050312ccb6a41950ebbbc))
+
 ## [1.12.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.1...web-v1.12.2) (2024-07-10)
 
 
