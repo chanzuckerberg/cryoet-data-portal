@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.12.4](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.3...web-v1.12.4) (2024-07-16)
+
+
+### 🐞 Bug Fixes
+
+* Remove citations field from dataset metadata drawer ([#874](https://github.com/chanzuckerberg/cryoet-data-portal/issues/874)) ([06b6a3d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/06b6a3d50226b6a76a32b8498292b1d1f3529432))
+
+
+### 🧹 Miscellaneous Chores
+
+* add hygen ([#877](https://github.com/chanzuckerberg/cryoet-data-portal/issues/877)) ([26efe1f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/26efe1f44409e4ada7ca248fdff40e7e31664196))
+
 ## [1.12.3](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.2...web-v1.12.3) (2024-07-12)
 
 
