@@ -1,14 +1,14 @@
 import { expect } from '@playwright/test'
 import { translations } from 'e2e/constants'
-import { PageObject } from 'e2e/page-objects/page-object'
 import { isArray } from 'lodash-es'
 import { _DeepPartialArray } from 'utility-types/dist/mapped-types'
 
 import { TestIds } from 'app/constants/testIds'
 
+import { BasePage } from '../basePage'
 import { DrawerTestData } from './types'
 
-export class MetadataDrawerPage extends PageObject {
+export class MetadataDrawerPage extends BasePage {
   // #region Click
   public async openViewAllInfoDrawer() {
     await this.page

@@ -2,7 +2,7 @@ import { Page } from '@playwright/test'
 
 const TIME_UNTIL_INTERACTIVE = 3000
 
-export abstract class PageObject {
+export abstract class BasePage {
   public page: Page
   // TODO: (ehoops) can we move getApolloClient to a method here?
 
