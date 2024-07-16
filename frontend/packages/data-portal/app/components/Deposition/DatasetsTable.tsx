@@ -175,9 +175,20 @@ export function DatasetsTable() {
 
             header: () => (
               <CellHeader
-                tooltip={<I18n i18nKey="runsTooltip" />}
+                tooltip={
+                  <div>
+                    <p>
+                      <I18n i18nKey="runsTooltip" />
+                      {t('symbolPeriod')}
+                    </p>
+                    <p className="mt-sds-s text-sds-gray-600 text-sds-body-xxxs leading-sds-body-xxxs">
+                      <I18n i18nKey="runsTooltipDepositionSubtext" />
+                    </p>
+                  </div>
+                }
                 arrowPadding={{ right: 270 }}
                 width={DepositionPageDatasetTableWidths.runs}
+                subHeader={t('withDepositionData')}
               >
                 {t('runs')}
               </CellHeader>
@@ -196,7 +207,10 @@ export function DatasetsTable() {
           id: 'annotations',
 
           header: () => (
-            <CellHeader width={DepositionPageDatasetTableWidths.annotations}>
+            <CellHeader
+              width={DepositionPageDatasetTableWidths.annotations}
+              subHeader={t('depositionOnly')}
+            >
               {t('annotations')}
             </CellHeader>
           ),
@@ -226,6 +240,7 @@ export function DatasetsTable() {
           header: () => (
             <CellHeader
               width={DepositionPageDatasetTableWidths.annotatedObjects}
+              subHeader={t('depositionOnly')}
             >
               {t('annotatedObjects')}
             </CellHeader>
