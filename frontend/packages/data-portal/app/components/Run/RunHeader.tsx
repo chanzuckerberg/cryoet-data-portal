@@ -148,21 +148,11 @@ export function RunHeader() {
                   },
                   {
                     key: t('tomograms'),
-                    value: sum(
-                      run.tomogram_stats.flatMap(
-                        (stats) =>
-                          stats.tomograms_aggregate.aggregate?.count ?? 0,
-                      ),
-                    ).toString(),
+                    value: tomogramsCount.toString(),
                   },
                   {
                     key: t('annotations'),
-                    value: sum(
-                      run.tomogram_stats.flatMap(
-                        (stats) =>
-                          stats.annotations_aggregate.aggregate?.count ?? 0,
-                      ),
-                    ).toString(),
+                    value: annotationsCount.toString(),
                   },
                 ]}
               />
