@@ -14,6 +14,7 @@ import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { AnnotationTableWidths } from 'app/constants/table'
 import { TestIds } from 'app/constants/testIds'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
+import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import {
@@ -82,6 +83,7 @@ export function AnnotationTable() {
   const { toggleDrawer } = useMetadataDrawer()
   const { setActiveAnnotation } = useAnnotation()
   const { t } = useI18n()
+  const { annotation: annotationFilter } = useFilter()
 
   const { openAnnotationDownloadModal } = useDownloadModalQueryParamState()
 
@@ -376,7 +378,18 @@ export function AnnotationTable() {
         data.annotations.flatMap((annotation) => {
           const shapeTypeSet = new Set<string>()
 
+          // Some annotations have files with different shape types. We display each shape type as a separate row.
+          // This loops through the files and adds an annotation for each shape type.
           const files = annotation.files.filter((file) => {
+            // If the shape type is filtered out, don't add an annotation for it
+            if (
+              annotationFilter.objectShapeTypes.length > 0 &&
+              !annotationFilter.objectShapeTypes.includes(file.shape_type)
+            ) {
+              return false
+            }
+
+            // If the shape type has already been added, don't add another annotation for it
             if (shapeTypeSet.has(file.shape_type)) {
               return false
             }
@@ -391,7 +404,7 @@ export function AnnotationTable() {
           }))
         }),
       ) as Annotation[],
-    [run.annotation_table],
+    [run.annotation_table, annotationFilter.objectShapeTypes],
   )
 
   return (
