@@ -18,13 +18,15 @@ export function getExpectedUrlWithQueryParams({
   serialize,
 }: {
   url: string
-  queryParam: QueryParams
+  queryParam?: QueryParams
   value: string
   serialize?: (value: string) => string
 }): { expectedUrl: URL; params: URLSearchParams } {
   const expectedUrl = new URL(url)
   const params = expectedUrl.searchParams
-  params.set(queryParam, serialize ? serialize(value) : value)
+  if (queryParam) {
+    params.set(queryParam, serialize ? serialize(value) : value)
+  }
   return { expectedUrl, params: expectedUrl.searchParams }
 }
 

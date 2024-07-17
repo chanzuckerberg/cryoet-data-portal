@@ -34,7 +34,7 @@ export class FiltersActor {
     id: number
     pageNumber?: number
     url: string
-    queryParam: QueryParams
+    queryParam?: QueryParams
     value: string
     serialize?: (value: string) => string
   }) {
@@ -78,7 +78,7 @@ export class FiltersActor {
     serialize,
   }: {
     url: string
-    queryParam: QueryParams
+    queryParam?: QueryParams
     value: string
     serialize?: (value: string) => string
   }) {
@@ -116,6 +116,7 @@ export class FiltersActor {
     // Get all annotation ids from the table
     const annotationIdsFromTable =
       await this.filtersPage.getAnnotationIdsFromTable()
+
     // Ensure all annotation ids from the expected data are in the table
     this.filtersPage.expectIdsToMatch(
       annotationIdsFromData,

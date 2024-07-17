@@ -22,6 +22,10 @@ export class FiltersPage extends BasePage {
 
     await this.page.keyboard.press('Escape')
   }
+
+  public async removeFilterOption(label: string) {
+    await this.page.click(`[role=button]:has-text("${label}") svg`)
+  }
   // #endregion Click
 
   // #region Hover
