@@ -1,5 +1,6 @@
 import { expect, Page, test } from '@playwright/test'
 import { E2E_CONFIG, translations } from 'e2e/constants'
+import { TableValidatorOptions } from 'e2e/pageObjects/filters/types'
 
 import {
   GetDatasetByIdQuery,
@@ -10,8 +11,6 @@ import { TestIds } from 'app/constants/testIds'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getRunById } from 'app/graphql/getRunById.server'
-
-import { TableValidatorOptions } from './types'
 
 async function waitForTableCountChange({
   countLabel,

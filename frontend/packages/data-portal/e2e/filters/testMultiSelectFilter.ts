@@ -5,7 +5,7 @@ import { identity } from 'lodash-es'
 
 import { QueryParams } from 'app/constants/query'
 
-import { TableValidator } from './types'
+import { TableValidator } from '../pageObjects/filters/types'
 import { goTo } from './utils'
 
 async function openDropdown(page: Page, label: string) {

@@ -3,7 +3,7 @@ import { getApolloClient } from 'e2e/apollo'
 
 import { QueryParams } from 'app/constants/query'
 
-import { TableValidator } from './types'
+import { TableValidator } from '../pageObjects/filters/types'
 import { goTo } from './utils'
 
 export function testGroundTruthAnnotationFilter({

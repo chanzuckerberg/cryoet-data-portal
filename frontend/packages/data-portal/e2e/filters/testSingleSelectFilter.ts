@@ -4,7 +4,7 @@ import { identity } from 'lodash-es'
 
 import { QueryParams } from 'app/constants/query'
 
-import { TableValidator } from './types'
+import { TableValidator } from '../pageObjects/filters/types'
 import { goTo } from './utils'
 
 async function openFilterDropdown(page: Page, label: string) {
@@ -35,7 +35,7 @@ export function testSingleSelectFilter({
 }: {
   label: string
   queryParam: QueryParams
-  serialize?(value: string): string
+  serialize?: (value: string) => string
   url: string
   validateTable: TableValidator
   values: string[]

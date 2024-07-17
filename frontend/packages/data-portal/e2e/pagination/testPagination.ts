@@ -1,7 +1,7 @@
 import { expect, Page, test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
 import { E2E_CONFIG } from 'e2e/constants'
-import { TableValidator } from 'e2e/filters/types'
+import { TableValidator } from 'e2e/pageObjects/filters/types'
 import { goTo } from 'e2e/filters/utils'
 import { isNumber } from 'lodash-es'
 
