@@ -19,8 +19,8 @@ import {
 } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
-import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 import { useFeatureFlag } from 'app/utils/featureFlags'
+import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 
 interface FileSummaryData {
   key: string
