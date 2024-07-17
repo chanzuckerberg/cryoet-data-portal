@@ -72,13 +72,13 @@ export class FiltersPage extends BasePage {
     await this.page.waitForURL(expectedUrl)
   }
 
-  public expectIdsToMatch(dataIds: Set<number>, tableIds: string[]) {
-    const expectedIdsArray = Array.from(dataIds)
-    expect(tableIds.length).toBe(dataIds.size)
+  public expectIdsToMatch(dataIds: number[], tableIds: string[]) {
+    console.log({ dataIds, tableIds })
+    expect(tableIds.length).toBe(dataIds.length)
     tableIds.forEach((id) =>
       expect(
-        dataIds.has(+id),
-        `Check if table annotation ${id} is found within available data Ids: ${expectedIdsArray.join(
+        dataIds.includes(+id),
+        `Check if table annotation ${id} is found within available data Ids: ${dataIds.join(
           ', ',
         )}`,
       ).toBe(true),

@@ -89,10 +89,9 @@ export function getAnnotationIdsFromData({
 }: {
   singleRunData: GetRunByIdQuery
 }) {
-  return new Set(
-    singleRunData.runs
-      .at(0)
-      ?.annotation_table.at(0)
-      ?.annotations.map((annotation) => annotation.id),
-  )
+  console.log(JSON.stringify(singleRunData))
+  return singleRunData.runs
+    .at(0)
+    ?.annotation_table.at(0)
+    ?.annotations.map((annotation) => annotation.id)
 }
