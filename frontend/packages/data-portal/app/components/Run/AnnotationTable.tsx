@@ -14,7 +14,6 @@ import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { AnnotationTableWidths } from 'app/constants/table'
 import { TestIds } from 'app/constants/testIds'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
-import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import {
@@ -83,7 +82,6 @@ export function AnnotationTable() {
   const { toggleDrawer } = useMetadataDrawer()
   const { setActiveAnnotation } = useAnnotation()
   const { t } = useI18n()
-  const { annotation: annotationFilter } = useFilter()
 
   const { openAnnotationDownloadModal } = useDownloadModalQueryParamState()
 
@@ -397,7 +395,7 @@ export function AnnotationTable() {
           }))
         }),
       ) as Annotation[],
-    [run.annotation_table, annotationFilter.objectShapeTypes],
+    [run.annotation_table],
   )
 
   return (
