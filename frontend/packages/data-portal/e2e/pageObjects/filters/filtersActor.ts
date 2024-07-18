@@ -7,7 +7,7 @@ import { getRunById } from 'app/graphql/getRunById.server'
 
 import { FiltersPage } from './filtersPage'
 import {
-  getAnnotationIdsFromData,
+  getAnnotationRowCountFromData,
   getExpectedFilterCount,
   getExpectedTotalCount,
   getExpectedUrlWithQueryParams,
@@ -110,17 +110,17 @@ export class FiltersActor {
 
     // Validate rows
     // Get all annotation ids from the expected data
-    const annotationIdsFromData = getAnnotationIdsFromData({
+    const annotationRowCountFromData = getAnnotationRowCountFromData({
       singleRunData,
     })
     // Get all annotation ids from the table
-    const annotationIdsFromTable =
-      await this.filtersPage.getAnnotationIdsFromTable()
+    const annotationRowCountFromTable =
+      await this.filtersPage.getAnnotationRowCountFromTable()
 
     // Ensure all annotation ids from the expected data are in the table
-    this.filtersPage.expectIdsToMatch(
-      annotationIdsFromData,
-      annotationIdsFromTable,
+    this.filtersPage.expectRowCountsToMatch(
+      annotationRowCountFromData,
+      annotationRowCountFromTable,
     )
   }
   // #endregion Validate

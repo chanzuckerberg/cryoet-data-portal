@@ -9,7 +9,7 @@ import {
 import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
 
-import { TableValidatorOptions } from './types'
+import { AnnotationRowCounter, TableValidatorOptions } from './types'
 
 export function getExpectedUrlWithQueryParams({
   url,
@@ -84,14 +84,22 @@ export function getExpectedTotalCount({
   )
 }
 
-export function getAnnotationIdsFromData({
+export function getAnnotationRowCountFromData({
   singleRunData,
 }: {
   singleRunData: GetRunByIdQuery
 }) {
-  console.log(JSON.stringify(singleRunData))
-  return singleRunData.runs
+  const rowCounter: AnnotationRowCounter = {}
+  singleRunData.runs
     .at(0)
     ?.annotation_table.at(0)
-    ?.annotations.map((annotation) => annotation.id)
+    ?.annotations.reduce((counter, annotation) => {
+      const objectShapeTypes = new Set()
+      for (const file of annotation.files) {
+        objectShapeTypes.add(file.shape_type)
+      }
+      counter[annotation.id] = objectShapeTypes.size
+      return counter
+    }, rowCounter)
+  return rowCounter
 }

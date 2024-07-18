@@ -3,6 +3,8 @@ import { BasePage } from 'e2e/pageObjects/basePage'
 
 import { TestIds } from 'app/constants/testIds'
 
+import { AnnotationRowCounter } from './types'
+
 export class FiltersPage extends BasePage {
   // #region Navigate
 
@@ -42,8 +44,18 @@ export class FiltersPage extends BasePage {
     )
   }
 
-  public async getAnnotationIdsFromTable() {
-    return this.page.getByTestId(TestIds.AnnotationId).allInnerTexts()
+  public async getAnnotationRowCountFromTable(): Promise<AnnotationRowCounter> {
+    const annotationRowIds = await this.page
+      .getByTestId(TestIds.AnnotationId)
+      .allInnerTexts()
+
+    return annotationRowIds.reduce(
+      (counter: AnnotationRowCounter, id: string) => {
+        counter[id] = (counter[id] || 0) + 1
+        return counter
+      },
+      {},
+    )
   }
   // #endregion Get
 
@@ -72,16 +84,15 @@ export class FiltersPage extends BasePage {
     await this.page.waitForURL(expectedUrl)
   }
 
-  public expectIdsToMatch(dataIds: number[], tableIds: string[]) {
-    console.log({ dataIds, tableIds })
-    expect(tableIds.length).toBe(dataIds.length)
-    tableIds.forEach((id) =>
+  public expectRowCountsToMatch(
+    dataRowCount: AnnotationRowCounter,
+    tableRowCount: AnnotationRowCounter,
+  ) {
+    Object.keys(tableRowCount).forEach((id) =>
       expect(
-        dataIds.includes(+id),
-        `Check if table annotation ${id} is found within available data Ids: ${dataIds.join(
-          ', ',
-        )}`,
-      ).toBe(true),
+        dataRowCount[id],
+        `Check if data annotation ${id} occurs ${dataRowCount[id]} times in the table`,
+      ).toEqual(tableRowCount[id]),
     )
   }
   // #endregion Validation
