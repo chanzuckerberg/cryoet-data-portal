@@ -380,15 +380,8 @@ export function AnnotationTable() {
 
           // Some annotations have files with different shape types. We display each shape type as a separate row.
           // This loops through the files and adds an annotation for each shape type.
+          // If the shape type is filtered out, the files will not be returned in the 'run' object
           const files = annotation.files.filter((file) => {
-            // If the shape type is filtered out, don't add an annotation for it
-            if (
-              annotationFilter.objectShapeTypes.length > 0 &&
-              !annotationFilter.objectShapeTypes.includes(file.shape_type)
-            ) {
-              return false
-            }
-
             // If the shape type has already been added, don't add another annotation for it
             if (shapeTypeSet.has(file.shape_type)) {
               return false
