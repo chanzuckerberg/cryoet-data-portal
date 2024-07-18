@@ -21,9 +21,7 @@ test.describe('Single run page filters', () => {
   })
 
   test.describe('Object Name filter', () => {
-    test('should filter when selecting object name filter', async ({
-      page,
-    }) => {
+    test('should filter when selecting', async ({ page }) => {
       const filtersPage = new FiltersPage(page)
       const filtersActor = new FiltersActor(filtersPage)
 
@@ -112,32 +110,255 @@ test.describe('Single run page filters', () => {
     await filtersPage.goTo('https://playwright.dev/')
   })
 
-  test('Object shape type filter', async ({ page }) => {
-    const filtersPage = new FiltersPage(page)
-    const filtersActor = new FiltersActor(filtersPage)
+  test.describe('Object Shape Type filter', () => {
+    test('should filter when selecting', async ({ page }) => {
+      const filtersPage = new FiltersPage(page)
+      const filtersActor = new FiltersActor(filtersPage)
 
-    await filtersPage.goTo(SINGLE_RUN_URL)
+      await filtersPage.goTo(SINGLE_RUN_URL)
 
-    await filtersActor.addSingleSelectFilter({
-      label: translations.objectShapeType,
-      value: E2E_CONFIG.objectShapeType,
+      await filtersActor.addSingleSelectFilter({
+        label: translations.objectShapeType,
+        value: E2E_CONFIG.objectShapeType,
+      })
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: SINGLE_RUN_URL,
+        queryParam: QueryParams.ObjectShapeType,
+        value: E2E_CONFIG.objectShapeType,
+      })
+
+      const singleRunData = await filtersActor.getSingleRunDataWithParams({
+        client,
+        id: +E2E_CONFIG.runId,
+        pageNumber: 1,
+        url: SINGLE_RUN_URL,
+        queryParam: QueryParams.ObjectShapeType,
+        value: E2E_CONFIG.objectShapeType,
+      })
+
+      await filtersActor.expectAnnotationsTableToBeCorrect({ singleRunData })
     })
 
-    await filtersActor.expectUrlQueryParamsToBeCorrect({
-      url: SINGLE_RUN_URL,
-      queryParam: QueryParams.ObjectShapeType,
-      value: E2E_CONFIG.objectShapeType,
+    test('should filter when opening URL', async ({ page }) => {
+      const filtersPage = new FiltersPage(page)
+      const filtersActor = new FiltersActor(filtersPage)
+
+      const filteredUrl = new URL(SINGLE_RUN_URL)
+      const params = filteredUrl.searchParams
+      params.set(QueryParams.ObjectShapeType, E2E_CONFIG.objectShapeType)
+
+      await filtersPage.goTo(filteredUrl.href)
+
+      const singleRunData = await filtersActor.getSingleRunDataWithParams({
+        client,
+        id: +E2E_CONFIG.runId,
+        pageNumber: 1,
+        url: SINGLE_RUN_URL,
+        queryParam: QueryParams.ObjectShapeType,
+        value: E2E_CONFIG.objectShapeType,
+      })
+
+      await filtersActor.expectAnnotationsTableToBeCorrect({ singleRunData })
     })
 
-    const singleRunData = await filtersActor.getSingleRunDataWithParams({
-      client,
-      id: +E2E_CONFIG.runId,
-      pageNumber: 1,
-      url: SINGLE_RUN_URL,
-      queryParam: QueryParams.ObjectShapeType,
-      value: E2E_CONFIG.objectShapeType,
+    test('should remove filter when deselecting', async ({ page }) => {
+      const filtersPage = new FiltersPage(page)
+      const filtersActor = new FiltersActor(filtersPage)
+
+      const filteredUrl = new URL(SINGLE_RUN_URL)
+      filteredUrl.searchParams.set(
+        QueryParams.ObjectShapeType,
+        E2E_CONFIG.objectShapeType,
+      )
+
+      await filtersPage.goTo(filteredUrl.href)
+      await filtersPage.removeFilterOption(E2E_CONFIG.objectShapeType)
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: SINGLE_RUN_URL,
+        queryParam: undefined,
+        value: '',
+      })
+
+      const singleRunData = await filtersActor.getSingleRunDataWithParams({
+        client,
+        id: +E2E_CONFIG.runId,
+        pageNumber: 1,
+        url: SINGLE_RUN_URL,
+        queryParam: undefined,
+        value: '',
+      })
+
+      await filtersActor.expectAnnotationsTableToBeCorrect({ singleRunData })
+    })
+  })
+
+  test.describe('Method Type filter', () => {
+    test('should filter when selecting', async ({ page }) => {
+      const filtersPage = new FiltersPage(page)
+      const filtersActor = new FiltersActor(filtersPage)
+
+      await filtersPage.goTo(SINGLE_RUN_URL)
+
+      await filtersActor.addSingleSelectFilter({
+        label: translations.methodType,
+        value: E2E_CONFIG.methodType,
+      })
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: SINGLE_RUN_URL,
+        queryParam: QueryParams.MethodType,
+        value: E2E_CONFIG.methodType,
+      })
+
+      const singleRunData = await filtersActor.getSingleRunDataWithParams({
+        client,
+        id: +E2E_CONFIG.runId,
+        pageNumber: 1,
+        url: SINGLE_RUN_URL,
+        queryParam: QueryParams.MethodType,
+        value: E2E_CONFIG.methodType,
+      })
+
+      await filtersActor.expectAnnotationsTableToBeCorrect({ singleRunData })
     })
 
-    await filtersActor.expectAnnotationsTableToBeCorrect({ singleRunData })
+    test('should filter when opening URL', async ({ page }) => {
+      const filtersPage = new FiltersPage(page)
+      const filtersActor = new FiltersActor(filtersPage)
+
+      const filteredUrl = new URL(SINGLE_RUN_URL)
+      const params = filteredUrl.searchParams
+      params.set(QueryParams.MethodType, E2E_CONFIG.methodType)
+
+      await filtersPage.goTo(filteredUrl.href)
+
+      const singleRunData = await filtersActor.getSingleRunDataWithParams({
+        client,
+        id: +E2E_CONFIG.runId,
+        pageNumber: 1,
+        url: SINGLE_RUN_URL,
+        queryParam: QueryParams.MethodType,
+        value: E2E_CONFIG.methodType,
+      })
+
+      await filtersActor.expectAnnotationsTableToBeCorrect({ singleRunData })
+    })
+
+    test('should remove filter when deselecting', async ({ page }) => {
+      const filtersPage = new FiltersPage(page)
+      const filtersActor = new FiltersActor(filtersPage)
+
+      const filteredUrl = new URL(SINGLE_RUN_URL)
+      filteredUrl.searchParams.set(
+        QueryParams.MethodType,
+        E2E_CONFIG.methodType,
+      )
+
+      await filtersPage.goTo(filteredUrl.href)
+      await filtersPage.removeFilterOption(E2E_CONFIG.methodType)
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: SINGLE_RUN_URL,
+        queryParam: undefined,
+        value: '',
+      })
+
+      const singleRunData = await filtersActor.getSingleRunDataWithParams({
+        client,
+        id: +E2E_CONFIG.runId,
+        pageNumber: 1,
+        url: SINGLE_RUN_URL,
+        queryParam: undefined,
+        value: '',
+      })
+
+      await filtersActor.expectAnnotationsTableToBeCorrect({ singleRunData })
+    })
+  })
+
+  test.describe('Annotation software filter', () => {
+    test('should filter when selecting', async ({ page }) => {
+      const filtersPage = new FiltersPage(page)
+      const filtersActor = new FiltersActor(filtersPage)
+
+      await filtersPage.goTo(SINGLE_RUN_URL)
+
+      await filtersActor.addSingleSelectFilter({
+        label: translations.annotationSoftware,
+        value: E2E_CONFIG.annotationSoftware,
+      })
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: SINGLE_RUN_URL,
+        queryParam: QueryParams.AnnotationSoftware,
+        value: E2E_CONFIG.annotationSoftware,
+      })
+
+      const singleRunData = await filtersActor.getSingleRunDataWithParams({
+        client,
+        id: +E2E_CONFIG.runId,
+        pageNumber: 1,
+        url: SINGLE_RUN_URL,
+        queryParam: QueryParams.AnnotationSoftware,
+        value: E2E_CONFIG.annotationSoftware,
+      })
+
+      await filtersActor.expectAnnotationsTableToBeCorrect({ singleRunData })
+    })
+
+    test('should filter when opening URL', async ({ page }) => {
+      const filtersPage = new FiltersPage(page)
+      const filtersActor = new FiltersActor(filtersPage)
+
+      const filteredUrl = new URL(SINGLE_RUN_URL)
+      const params = filteredUrl.searchParams
+      params.set(QueryParams.AnnotationSoftware, E2E_CONFIG.annotationSoftware)
+
+      await filtersPage.goTo(filteredUrl.href)
+
+      const singleRunData = await filtersActor.getSingleRunDataWithParams({
+        client,
+        id: +E2E_CONFIG.runId,
+        pageNumber: 1,
+        url: SINGLE_RUN_URL,
+        queryParam: QueryParams.AnnotationSoftware,
+        value: E2E_CONFIG.annotationSoftware,
+      })
+
+      await filtersActor.expectAnnotationsTableToBeCorrect({ singleRunData })
+    })
+
+    test('should remove filter when deselecting', async ({ page }) => {
+      const filtersPage = new FiltersPage(page)
+      const filtersActor = new FiltersActor(filtersPage)
+
+      const filteredUrl = new URL(SINGLE_RUN_URL)
+      filteredUrl.searchParams.set(
+        QueryParams.AnnotationSoftware,
+        E2E_CONFIG.annotationSoftware,
+      )
+
+      await filtersPage.goTo(filteredUrl.href)
+      await filtersPage.removeFilterOption(E2E_CONFIG.annotationSoftware)
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: SINGLE_RUN_URL,
+        queryParam: undefined,
+        value: '',
+      })
+
+      const singleRunData = await filtersActor.getSingleRunDataWithParams({
+        client,
+        id: +E2E_CONFIG.runId,
+        pageNumber: 1,
+        url: SINGLE_RUN_URL,
+        queryParam: undefined,
+        value: '',
+      })
+
+      await filtersActor.expectAnnotationsTableToBeCorrect({ singleRunData })
+    })
   })
 })
