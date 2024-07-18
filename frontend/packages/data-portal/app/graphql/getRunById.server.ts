@@ -2,12 +2,15 @@ import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { URLSearchParams } from 'url'
 
 import { gql } from 'app/__generated__'
-import { Annotations_Bool_Exp } from 'app/__generated__/graphql'
+import {
+  Annotation_Files_Bool_Exp,
+  Annotations_Bool_Exp,
+} from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
 const GET_RUN_BY_ID_QUERY = gql(`
-  query GetRunById($id: Int, $limit: Int, $offset: Int, $filter: annotations_bool_exp) {
+  query GetRunById($id: Int, $limit: Int, $offset: Int, $filter: annotations_bool_exp, $fileFilter: annotation_files_bool_exp) {
     runs(where: { id: { _eq: $id } }) {
       id
       name
@@ -147,7 +150,9 @@ const GET_RUN_BY_ID_QUERY = gql(`
           object_state
           release_date
 
-          files {
+          files(
+            where: $fileFilter,
+          ) {
             format
             https_path
             s3_path
@@ -314,6 +319,22 @@ function getFilter(filterState: FilterState) {
   return { _and: filters } as Annotations_Bool_Exp
 }
 
+function getFileFilter(filterState: FilterState) {
+  const filters: Annotation_Files_Bool_Exp[] = []
+
+  const { objectShapeTypes } = filterState.annotation
+
+  if (objectShapeTypes.length > 0) {
+    filters.push({
+      shape_type: {
+        _in: objectShapeTypes,
+      },
+    })
+  }
+
+  return { _and: filters } as Annotation_Files_Bool_Exp
+}
+
 export async function getRunById({
   client,
   id,
@@ -332,6 +353,7 @@ export async function getRunById({
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
       filter: getFilter(getFilterState(params)),
+      fileFilter: getFileFilter(getFilterState(params)),
     },
   })
 }
