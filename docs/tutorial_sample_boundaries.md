@@ -1,11 +1,9 @@
 ## Predicting sample boundaries
 
-<figure markdown="span">
-  ![tutorial-goal](./figures/tomo_side_light.png#only-light)
-  ![tutorial-goal](./figures/tomo_side_dark.png#only-dark)
-  <figcaption>Side view onto a cryo-electron tomogram (<a href="https://cryoetdataportal.czscience.com/runs/15094">run 15094</a>)
-without (left) and with (right) sample boundary annotation</figcaption>
-</figure>
+![tutorial-goal](./figures/tomo_side_light.png#only-light)
+![tutorial-goal](./figures/tomo_side_dark.png#only-dark)
+*Side view onto a cryo-electron tomogram (<a href="https://cryoetdataportal.czscience.com/runs/15094">run 15094</a>)
+without (left) and with (right) sample boundary annotation*
 
 Biological samples acquired in a cryoET experiment are usually thin slabs of vitrified ice containing the biological
 specimen of interest. Unfortunately, it is difficult to determine orientation and thickness of the samples ahead of
@@ -24,11 +22,8 @@ and [album](https://album.solutions/) to predict sample boundaries for datasets 
 and [10302](https://cryoetdataportal.czscience.com/datasets/10302) from the
 [CZ cryoET Data Portal](https://cryoetdataportal.czscience.com). Copick is a cross-platform, storage-agnostic and server-less dataset API for cryoET datasets.
 
-<figure markdown="span">
-  ![topview](./figures/tomo_top_both.png){width="400"}
-  <figcaption>Top view onto the same tomogram (<a href="https://cryoetdataportal.czscience.com/runs/15094">run 15094</a>)
-from dataset <a href="https://cryoetdataportal.czscience.com/datasets/10302">10302</a>.</figcaption>
-</figure>
+![topview](./figures/tomo_top_both.png)
+*Top view onto the same tomogram ([run 15094](https://cryoetdataportal.czscience.com/runs/15094)) from dataset [10302](https://cryoetdataportal.czscience.com/datasets/10302).*
 
 ### Step 0: Environment and Pre-requisites
 
