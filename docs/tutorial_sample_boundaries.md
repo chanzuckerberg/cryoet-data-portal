@@ -1,7 +1,6 @@
 ## Predicting sample boundaries
 
 ![tutorial-goal](./figures/tomo_side_light.png#only-light)
-![tutorial-goal](./figures/tomo_side_dark.png#only-dark)
 *Side view onto a cryo-electron tomogram (<a href="https://cryoetdataportal.czscience.com/runs/15094">run 15094</a>)
 without (left) and with (right) sample boundary annotation*
 
@@ -23,6 +22,7 @@ and [10302](https://cryoetdataportal.czscience.com/datasets/10302) from the
 [CZ cryoET Data Portal](https://cryoetdataportal.czscience.com). Copick is a cross-platform, storage-agnostic and server-less dataset API for cryoET datasets.
 
 ![topview](./figures/tomo_top_both.png)
+
 *Top view onto the same tomogram ([run 15094](https://cryoetdataportal.czscience.com/runs/15094)) from dataset [10302](https://cryoetdataportal.czscience.com/datasets/10302).*
 
 ### Step 0: Environment and Pre-requisites
@@ -65,8 +65,6 @@ album install copick:sample_mesh:0.5.0
 album install copick:fit_sample_seg:0.9.0
 ```
 
-
-
 #### 3. J-finder (for segmentation)
 
 Download and install a copick-compatible version of deepfinder:
@@ -92,8 +90,8 @@ describing the objects that can be accessed and created using the copick API.
 
 The first part of the configuration file provides general information about the project, such as the project name,
 description, and copick-API version.
-
-??? example "click to expand"
+<details>
+  <summary>config_train.json</summary>
     ```json
     {
       "config_type": "cryoet_data_portal",
@@ -102,6 +100,7 @@ description, and copick-API version.
       "version": "0.5.4"
     }
     ```
+</details>
 
 Next, we define the objects that can be accessed and created using the copick API. In this case we will create X objects:
 
@@ -111,7 +110,8 @@ Next, we define the objects that can be accessed and created using the copick AP
 - sample -- the sample itself
 - valid-sample -- the sample excluding the invalid reconstruction area
 
-??? example "click to expand"
+<details>
+  <summary>config_train.json</summary>
     ```json
     {
       "pickable_objects": [
@@ -173,11 +173,13 @@ Next, we define the objects that can be accessed and created using the copick AP
         ]
     }
     ```
-
+</details>
+    
 Finally, we define where **copick** should look for the data and store any annotations (in this case the home directory
 of Bob).
 
-??? example "click to expand"
+<details>
+  <summary>config_train.json</summary>
     ```json
     {
       "overlay_root": "local:///home/bob/copick_project_train/",
@@ -187,7 +189,8 @@ of Bob).
       "dataset_ids" : [10301]
     }
     ```
-
+</details>
+    
 We will repeat this process for a second project, `config_evaluate.json`, that includes both dataset 10301 and dataset
 10302 for evaluation. Find both full examples below:
 
