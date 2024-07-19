@@ -1,5 +1,3 @@
-/* eslint-disable playwright/no-conditional-in-test */
-
 import { expect, Page, test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
 import { E2E_CONFIG } from 'e2e/constants'

@@ -1,5 +1,68 @@
 # Changelog
 
+## [1.12.4](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.3...web-v1.12.4) (2024-07-16)
+
+
+### 🐞 Bug Fixes
+
+* Remove citations field from dataset metadata drawer ([#874](https://github.com/chanzuckerberg/cryoet-data-portal/issues/874)) ([06b6a3d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/06b6a3d50226b6a76a32b8498292b1d1f3529432))
+
+
+### 🧹 Miscellaneous Chores
+
+* add hygen ([#877](https://github.com/chanzuckerberg/cryoet-data-portal/issues/877)) ([26efe1f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/26efe1f44409e4ada7ca248fdff40e7e31664196))
+
+## [1.12.3](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.2...web-v1.12.3) (2024-07-12)
+
+
+### 🐞 Bug Fixes
+
+* CSS tweaks to labels ([#871](https://github.com/chanzuckerberg/cryoet-data-portal/issues/871)) ([b7c0d34](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b7c0d3477adaf6a4c3bf546b98a5dc4ee27d8c44))
+
+
+### ♻️ Code Refactoring
+
+* using page object model for e2e tests ([#856](https://github.com/chanzuckerberg/cryoet-data-portal/issues/856)) ([a72835f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/a72835fe78fa3ee1ecc064305362a0303d55c4eb))
+
+
+### ⚙ Continuous Integration
+
+* add E2E tests for single run page filters ([#807](https://github.com/chanzuckerberg/cryoet-data-portal/issues/807)) ([c7582f0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c7582f0bb59317f97f5050312ccb6a41950ebbbc))
+
+## [1.12.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.1...web-v1.12.2) (2024-07-10)
+
+
+### 🐞 Bug Fixes
+
+* stop capitalizing annotation object display ([#861](https://github.com/chanzuckerberg/cryoet-data-portal/issues/861)) ([1781c72](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1781c72827d48636dacc262fdc0057f7b1582c45))
+
+## [1.12.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.0...web-v1.12.1) (2024-07-09)
+
+
+### ⚙ Continuous Integration
+
+* fix metadata drawer e2e ([#851](https://github.com/chanzuckerberg/cryoet-data-portal/issues/851)) ([b2deb9f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b2deb9fded6d3072a2b4c76643c29056f3612052))
+
+## [1.12.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.11.1...web-v1.12.0) (2024-07-09)
+
+
+### ✨ Features
+
+* Update annotation method type tooltips text ([#847](https://github.com/chanzuckerberg/cryoet-data-portal/issues/847)) ([c42fd9d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c42fd9d06a34f327d2dcc209d3062c23d7766692))
+
+
+### 🐞 Bug Fixes
+
+* change Empiar to EMPIAR ([#838](https://github.com/chanzuckerberg/cryoet-data-portal/issues/838)) ([e53e91c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/e53e91ce747187d4975a982af292bfb34bf51c80))
+* Increase width for tilt series quality score column. ([#846](https://github.com/chanzuckerberg/cryoet-data-portal/issues/846)) ([0426615](https://github.com/chanzuckerberg/cryoet-data-portal/commit/0426615089d88c73555639900f1db39ac7f26b30))
+* Remove erroneous horizontal overflows from various places ([#837](https://github.com/chanzuckerberg/cryoet-data-portal/issues/837)) ([c9262fa](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c9262fa6006e3e33cfd65439e9fa6999cfd0140a))
+* update download button strings ([#841](https://github.com/chanzuckerberg/cryoet-data-portal/issues/841)) ([76daa57](https://github.com/chanzuckerberg/cryoet-data-portal/commit/76daa5741896623d3c4ca68dc1a6cf57a2f20c99))
+
+
+### 🧹 Miscellaneous Chores
+
+* Fix metadata test ([#839](https://github.com/chanzuckerberg/cryoet-data-portal/issues/839)) ([d9bcaa6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d9bcaa66c9dea82900a4b1452d6119da331c26ee))
+
 ## [1.11.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.11.0...web-v1.11.1) (2024-07-01)
 
 

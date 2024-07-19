@@ -13,7 +13,7 @@ export function IndexContent() {
   const tomograms = data.tomograms_aggregate.aggregate?.count ?? 0
 
   return (
-    <div className="px-sds-xl w-[100vw] overflow-x-clip flex flex-col items-center">
+    <div className="px-sds-xl overflow-x-clip flex flex-col items-center">
       <div className="flex flex-col max-w-content-small py-sds-xxl gap-sds-xxl">
         <div className="flex flex-col gap-sds-xl">
           <h2 className="font-sds-semibold font-semibold text-sds-header-xl leading-sds-header-xl">

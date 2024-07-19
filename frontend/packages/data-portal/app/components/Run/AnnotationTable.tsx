@@ -12,6 +12,7 @@ import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { AnnotationTableWidths } from 'app/constants/table'
+import { TestIds } from 'app/constants/testIds'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
@@ -158,6 +159,7 @@ export function AnnotationTable() {
                   'text-sds-body-m leading-sds-body-m font-semibold',
                   'text-ellipsis line-clamp-1 break-all',
                 )}
+                data-testid={TestIds.AnnotationId}
               >
                 {annotation.id}
               </p>
@@ -216,9 +218,7 @@ export function AnnotationTable() {
 
         cell: ({ getValue }) => (
           <TableCell width={AnnotationTableWidths.objectName}>
-            <div className="line-clamp-2 text-ellipsis capitalize">
-              {getValue()}
-            </div>
+            <div className="line-clamp-2 text-ellipsis">{getValue()}</div>
           </TableCell>
         ),
       }),
@@ -376,7 +376,11 @@ export function AnnotationTable() {
         data.annotations.flatMap((annotation) => {
           const shapeTypeSet = new Set<string>()
 
+          // Some annotations have files with different shape types. We display each shape type as a separate row.
+          // This loops through the files and adds an annotation for each shape type.
+          // If the shape type is filtered out, the files will not be returned in the 'run' object
           const files = annotation.files.filter((file) => {
+            // If the shape type has already been added, don't add another annotation for it
             if (shapeTypeSet.has(file.shape_type)) {
               return false
             }

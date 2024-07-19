@@ -84,7 +84,7 @@ export function TablePageLayout({
 
           <div
             className={cns(
-              'flex flex-col flex-auto flex-shrink-0 screen-2040:items-center',
+              'flex flex-col flex-auto screen-2040:items-center',
               'pt-sds-xl pb-sds-xxl',
               'border-t border-sds-gray-300',
               'overflow-x-scroll max-w-full',

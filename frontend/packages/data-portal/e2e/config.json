@@ -1,10 +1,13 @@
 {
+  "annotationSoftware": "AMIRA",
   "authorName": "<name>",
   "authorOrcId": "<orc-id>",
   "cameraManufacturer": "FEI",
   "datasetId": "10001",
   "emdbId": "17241",
   "empiarId": "11221",
+  "goId": "0005835",
+  "methodType": "automated",
   "objectName": "membrane-enclosed lumen",
   "objectShapeType": "InstanceSegmentation",
   "organismName1": "Bacillus subtilis",
@@ -13,7 +16,7 @@
   "reconstructionMethod": "Weighted back projection",
   "reconstructionObjectName": "Actin filament",
   "reconstructionSoftware": "IMOD",
-  "runId": "12431",
+  "runId": "258",
   "url": "http://localhost:8080",
 
   "pagination": {
