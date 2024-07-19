@@ -37,7 +37,7 @@ def test_filter_merge(client) -> None:
 
 def test_filter_on_object_raises_exceptions(client) -> None:
     # Make sure we can't filter on relationship fields directly
-    match = 'is an object and can\'t be compared directly.'
+    match = "is an object and can't be compared directly."
     with pytest.raises(Exception, match=match):
         Run.find(client, [Run.tomogram_voxel_spacings.annotations == 20001])
     with pytest.raises(Exception, match=match):
