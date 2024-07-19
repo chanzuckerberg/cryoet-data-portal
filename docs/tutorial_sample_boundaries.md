@@ -1,8 +1,7 @@
 ## Predicting sample boundaries
 
-![tutorial-goal](./figures/tomo_side_light.png#only-light)
-*Side view onto a cryo-electron tomogram (<a href="https://cryoetdataportal.czscience.com/runs/15094">run 15094</a>)
-without (left) and with (right) sample boundary annotation*
+![tutorial-goal](./figures/tomo_side_light.png)
+*Side view onto a cryo-electron tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/15094) without (left) and with (right) sample boundary annotation*
 
 Biological samples acquired in a cryoET experiment are usually thin slabs of vitrified ice containing the biological
 specimen of interest. Unfortunately, it is difficult to determine orientation and thickness of the samples ahead of
@@ -92,14 +91,15 @@ The first part of the configuration file provides general information about the 
 description, and copick-API version.
 <details>
   <summary>config_train.json</summary>
-    ```json
+    
+  ```json
     {
       "config_type": "cryoet_data_portal",
       "name": "Sample Boundary Prediction - Training Set",
       "description": "This project uses dataset 10301 from the CZ cryoET Data Portal as a training set for sample boundary prediction.",
       "version": "0.5.4"
     }
-    ```
+  ```
 </details>
 
 Next, we define the objects that can be accessed and created using the copick API. In this case we will create X objects:
@@ -112,7 +112,8 @@ Next, we define the objects that can be accessed and created using the copick AP
 
 <details>
   <summary>config_train.json</summary>
-    ```json
+    
+  ```json
     {
       "pickable_objects": [
             {
@@ -172,7 +173,7 @@ Next, we define the objects that can be accessed and created using the copick AP
             }
         ]
     }
-    ```
+  ```
 </details>
     
 Finally, we define where **copick** should look for the data and store any annotations (in this case the home directory
@@ -180,7 +181,8 @@ of Bob).
 
 <details>
   <summary>config_train.json</summary>
-    ```json
+    
+  ```json
     {
       "overlay_root": "local:///home/bob/copick_project_train/",
       "overlay_fs_args": {
@@ -188,15 +190,16 @@ of Bob).
       },
       "dataset_ids" : [10301]
     }
-    ```
+  ```
 </details>
     
 We will repeat this process for a second project, `config_evaluate.json`, that includes both dataset 10301 and dataset
 10302 for evaluation. Find both full examples below:
 
-
-??? example "`config_train.json`"
-    ```json
+<details>
+  <summary>config_train.json</summary>
+    
+  ```json
     {
       "config_type": "cryoet_data_portal",
       "name": "Sample Boundary Prediction - Training Set",
@@ -265,11 +268,13 @@ We will repeat this process for a second project, `config_evaluate.json`, that i
       },
       "dataset_ids" : [10301]
     }
-    ```
+  ```
+</details>
 
-
-??? example "`config_evaluate.json`"
-    ```json
+<details>
+  <summary>config_evaluate.json</summary>
+    
+  ```json
     {
       "config_type": "cryoet_data_portal",
       "name": "Sample Boundary Prediction - Evaluation Set",
@@ -338,7 +343,8 @@ We will repeat this process for a second project, `config_evaluate.json`, that i
       },
       "dataset_ids" : [10301, 10302]
     }
-    ```
+  ```
+</details>
 
 ### Step 2: Annotate the training set
 
@@ -366,10 +372,8 @@ Open ChimeraX and start the copick extension by running the following command in
 copick start config_train.json
 ```
 
-<figure markdown="span">
-  ![chimerax-interface](./figures/chimx_boundary.png){width="800"}
-  <figcaption>The ChimeraX-copick interface after loading run 14069.</figcaption>
-</figure>
+![chimerax-interface](./figures/chimx_boundary.png)
+*The ChimeraX-copick interface after loading run 14069.*
 
 
 This will open a new window with the copick interface. On the top left side you will see the available objects, on the
@@ -389,8 +393,10 @@ You can switch the slicing direction in the `Tomogram`-tab on the right. You can
 tomogram using the slider on the right or `Shift + Mouse Wheel`. For more information on how to use the copick interface,
 see the info box below and refer to the [ChimeraX documentation](https://www.cgl.ucsf.edu/chimerax/docs/user/index.html).
 
-??? note "Keyboard Shortcuts"
-    **Particles**
+<details>
+  <summary>Keyboard Shortcuts</summary>
+
+**Particles**
 
     - `--` Remove Particle.
     - `00` Set 0% transparency for active particle list.
@@ -402,13 +408,13 @@ see the info box below and refer to the [ChimeraX documentation](https://www.cgl
     - `ss` Select particles mode
     - `ww` Hide/Show ArtiaX particle lists.
 
-    **Picking**
+  **Picking**
 
     - `ap` Add on plane mode
     - `dp` Delete picked mode
     - `ds` Delete selected particles
 
-    **Visualization**
+  **Visualization**
 
     - `cc` Turn Clipping On/Off
     - `ee` Switch to orthoplanes.
@@ -419,18 +425,17 @@ see the info box below and refer to the [ChimeraX documentation](https://www.cgl
     - `yy` View YZ orientation.
     - `zz` View XZ orientation.
 
-    **Info**
+  **Info**
 
     - `?` Show Shortcuts in Log.
     - `il` Toggle Info Label.
 
+</details>    
+
 At the end of this step, you should have annotated the top- and bottom-layer of the all 18 tomograms in the training set.
 
-<figure markdown="span">
-  ![top-bottom](./figures/top_bottom_light.png#only-light)
-  ![top-bottom](./figures/top_bottom_dark.png#only-dark)
-  <figcaption>Points clicked along the top and bottom boundary of the sample of a tomogram.</figcaption>
-</figure>
+![top-bottom](./figures/top_bottom_light.png)
+*Points clicked along the top and bottom boundary of the sample of a tomogram.*
 
 ### Step 3: Create the training data
 
@@ -458,12 +463,9 @@ album run copick:create_rec_limits:0.5.0 \
 You can now visualize the created bounding boxes in ChimeraX by restarting the copick interface and selecting the
 `valid-area` object in the Mesh-tab on the left side.
 
-<figure markdown="span">
-  ![valid-area](./figures/valid_area_light.png#only-light)
-  ![valid-area](./figures/valid_area_dark.png#only-dark)
-  <figcaption>Top view onto a tomogram (<a href="https://cryoetdataportal.czscience.com/runs/14069">run 15094</a>) without (left)
-and with (right) valid reconstruction area mesh overlayed.</figcaption>
-</figure>
+![valid-area](./figures/valid_area_light.png)
+*Top view onto a tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/14069) without (left)
+and with (right) valid reconstruction area mesh overlayed.*
 
 #### Sample
 
@@ -505,11 +507,8 @@ album run copick:intersect_mesh:0.5.0 \
 You can now visualize the final 3D mesh for training in ChimeraX by restarting the copick interface and selecting the
 `valid-area` object in the Mesh-tab on the left side.
 
-<figure markdown="span">
-  ![mesh](./figures/mesh_fit.png){width="400"}
-  <figcaption>Side view of the tomogram with points and intersected, valid sample area.</figcaption>
-</figure>
-
+![mesh](./figures/mesh_fit.png)
+*Side view of the tomogram with points and intersected, valid sample area.*
 
 #### Training data
 
@@ -622,10 +621,8 @@ This will create a new segmentation volume with name `segmentation`, user `outpu
 `14114`, `14132`, `14137`, and `14163`. You can now visualize the segmentations in ChimeraX by restarting the copick interface
 and selecting the `segmentation` object in the `Segmentation`-tab on the top left part of the interface.
 
-<figure markdown="span">
-  ![prediction-fit](./figures/prediction_fit.png){width="800"}
-  <figcaption>Segmentation generated by the model and box fit to the segmentation.</figcaption>
-</figure>
+![prediction-fit](./figures/prediction_fit.png)
+*Segmentation generated by the model and box fit to the segmentation.*
 
 ### Step 6: Post-processing
 
@@ -653,11 +650,6 @@ You can now visualize the final 3D mesh for evaluation in ChimeraX by restarting
 `valid-sample` object in the `Mesh`-tab on the left side. Below you can see the final result for the three tomograms
 `14114`, `14132`, `14137`, and `14163`.
 
-
-<figure markdown="span">
-  ![final-fit](./figures/final.png){width="800"}
-  <figcaption> Clipped boundaries predicted for <a href="https://cryoetdataportal.czscience.com/runs/14114">run 14114</a>,
-  <a href="https://cryoetdataportal.czscience.com/runs/14132">run 14132</a>,
-  <a href="https://cryoetdataportal.czscience.com/runs/14137">run 14137</a>, and
-  <a href="https://cryoetdataportal.czscience.com/runs/14163">run 14163</a> (left to right, top to bottom).</figcaption>
-</figure>
+![final-fit](./figures/final.png)
+*Clipped boundaries predicted for [run 14114](ttps://cryoetdataportal.czscience.com/runs/14114), [run 14132](https://cryoetdataportal.czscience.com/runs/14132), [run 14137](https://cryoetdataportal.czscience.com/runs/14137), and
+[run 14163](https://cryoetdataportal.czscience.com/runs/14163) (left to right, top to bottom).*
