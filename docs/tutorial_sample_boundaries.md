@@ -19,10 +19,10 @@ There are several reasons for why it can be useful to determine more accurate sa
 - masking out the vacuum region during the training of a neural network
 - capping of membrane segmentations to define topological boundaries
 
-Below, we will show how to use **copick**, an adapted version of [deepfinder](https://github.com/jtschwar/cryoet-deepfinder/tree/master)
+Below, we will show how to use [**copick**](https://github.com/copick/copick), an adapted version of [deepfinder](https://github.com/jtschwar/cryoet-deepfinder/tree/master)
 and [album](https://album.solutions/) to predict sample boundaries for datasets [10301](https://cryoetdataportal.czscience.com/datasets/10301)
 and [10302](https://cryoetdataportal.czscience.com/datasets/10302) from the
-[CZ cryoET Data Portal](https://cryoetdataportal.czscience.com).
+[CZ cryoET Data Portal](https://cryoetdataportal.czscience.com). Copick is a cross-platform, storage-agnostic and server-less dataset API for cryoET datasets.
 
 <figure markdown="span">
   ![topview](./figures/tomo_top_both.png){width="400"}
