@@ -135,9 +135,9 @@ The table on a Run Overview page contains an overview of the annotations for the
 
 ### Run Download Options
 
-The `Download Run` button opens a dialog with instructions for downloading tomograms or all annotations. Tomograms can be downloaded directly in the browser as MRC or OME-Zarr files following selection of which tomogram to download based on the tomogram sampling and processing. The All Annotations option provides instructions on using [Amazon Web Services Command Line Interface](./cryoet_data_portal_docsite_aws.md) or the [Portal API](./python-api.rst) to download.
+The `Download ...` button on the Run Overview page opens a dialog for downloading tomograms or instructions for downloading all annotations or all run data. Individual tomograms can be downloaded directly in the browser as MRC or OME-Zarr files following selection of which tomogram to download based on the tomogram sampling and processing. The All Annotations option provides instructions on using [Amazon Web Services Command Line Interface](./cryoet_data_portal_docsite_aws.md) or the [Portal API](./python-api.rst) to download.
 
-You can also use the Portal API to download all run data as a folder. For example, to download all run data for Run ID 645 into your current working directory, use the below code snippet:
+You can also use the Portal API to download all run data as a folder using the Run ID in the download dialog or in the header on the Run Overview page. For example, to download all run data for Run ID 645 into your current working directory, use the below code snippet:
 
 ```python
 from cryoet_data_portal import Client, Run
