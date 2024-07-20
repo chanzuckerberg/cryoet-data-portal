@@ -8,7 +8,7 @@ specimen of interest. Unfortunately, it is difficult to determine orientation an
 reconstruction. For this reason, volumes reconstructed from cryoET tilt series are often larger than the actual sample
 and contain a significant amount of empty space (i.e. the vacuum inside the TEM column).
 
-There are several reasons for why it can be useful to determine more accurate sample boundaries, e.g.
+There are several reasons for why it can be useful to determine more accurate sample boundaries, for example, 
 
 - statistical analysis of the sample preparation process
 - masking out the vacuum region to reduce the size of the volume
@@ -92,7 +92,7 @@ description, and copick-API version.
 
 <details>
   <summary>config_train.json</summary>
-  
+
   ```json
     {
       "config_type": "cryoet_data_portal",
@@ -113,7 +113,7 @@ Next, we define the objects that can be accessed and created using the copick AP
 
 <details>
   <summary>config_train.json</summary>
-    
+
   ```json
     {
       "pickable_objects": [
@@ -182,7 +182,7 @@ of Bob).
 
 <details>
   <summary>config_train.json</summary>
-    
+   
   ```json
     {
       "overlay_root": "local:///home/bob/copick_project_train/",
@@ -199,7 +199,7 @@ We will repeat this process for a second project, `config_evaluate.json`, that i
 
 <details>
   <summary>config_train.json</summary>
-    
+   
   ```json
     {
       "config_type": "cryoet_data_portal",
@@ -274,7 +274,7 @@ We will repeat this process for a second project, `config_evaluate.json`, that i
 
 <details>
   <summary>config_evaluate.json</summary>
-    
+
   ```json
     {
       "config_type": "cryoet_data_portal",
@@ -550,7 +550,6 @@ The resulting segmentations will have the same name, user and session ID as the 
 segmentations in ChimeraX by restarting the copick interface and selecting the `valid-sample` object in the
 `Segmentation`-tab on the top left part of the interface. You can also visualize the sampled points from the
 `Points`-tab on the left side.
-
 
 ### Step 4: Train the model
 
