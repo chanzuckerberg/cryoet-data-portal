@@ -429,7 +429,7 @@ see the info box below and refer to the [ChimeraX documentation](https://www.cgl
     - `?` Show Shortcuts in Log.
     - `il` Toggle Info Label.
 
-</details>    
+</details>  
 
 At the end of this step, you should have annotated the top- and bottom-layer of the all 18 tomograms in the training set.
 
