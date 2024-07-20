@@ -653,5 +653,6 @@ You can now visualize the final 3D mesh for evaluation in ChimeraX by restarting
 `14114`, `14132`, `14137`, and `14163`.
 
 ![final-fit](./figures/final.png)
+
 *Clipped boundaries predicted for [run 14114](ttps://cryoetdataportal.czscience.com/runs/14114), [run 14132](https://cryoetdataportal.czscience.com/runs/14132), [run 14137](https://cryoetdataportal.czscience.com/runs/14137), and
 [run 14163](https://cryoetdataportal.czscience.com/runs/14163) (left to right, top to bottom).*
