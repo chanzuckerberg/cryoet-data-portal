@@ -182,7 +182,7 @@ of Bob).
 
 <details>
   <summary>config_train.json</summary>
-   
+
   ```json
     {
       "overlay_root": "local:///home/bob/copick_project_train/",
@@ -199,7 +199,7 @@ We will repeat this process for a second project, `config_evaluate.json`, that i
 
 <details>
   <summary>config_train.json</summary>
-   
+
   ```json
     {
       "config_type": "cryoet_data_portal",
