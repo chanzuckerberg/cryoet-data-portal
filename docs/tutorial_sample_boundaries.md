@@ -89,9 +89,10 @@ describing the objects that can be accessed and created using the copick API.
 
 The first part of the configuration file provides general information about the project, such as the project name,
 description, and copick-API version.
+
 <details>
   <summary>config_train.json</summary>
-    
+  
   ```json
     {
       "config_type": "cryoet_data_portal",
@@ -102,7 +103,7 @@ description, and copick-API version.
   ```
 </details>
 
-Next, we define the objects that can be accessed and created using the copick API. In this case we will create X objects:
+Next, we define the objects that can be accessed and created using the copick API. In this case we will create 5 objects:
 
 - top-layer -- the top layer of the sample
 - bottom-layer -- the bottom layer of the sample
@@ -375,11 +376,9 @@ copick start config_train.json
 ![chimerax-interface](./figures/chimx_boundary.png)
 *The ChimeraX-copick interface after loading run 14069.*
 
-
 This will open a new window with the copick interface. On the top left side you will see the available objects, on the
 bottom left you can find a list of runs in the dataset. On the right side you can find the interface of ArtiaX (the
 plugin that allows you to annotate objects in ChimeraX).
-
 
 Double-click a run's directory (e.g. `14069`) in the run list to show the available resolutions, double-click the
 resolution's directory (`VS:7.840`) to display the available tomograms. In order to load a tomogram, double-click the
