@@ -18,37 +18,37 @@ class Dataset(Model):
     """Dataset Metadata
 
     Attributes:
-        authors (List["DatasetAuthor"]): 
-        cell_component_id (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        cell_component_name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        cell_name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        cell_strain_id (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        cell_strain_name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        cell_type_id (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        dataset_citations (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        dataset_publications (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        deposition_date (date): None
-        description (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        funding_sources (List["DatasetFunding"]): 
-        grid_preparation (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        https_prefix (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        key_photo_thumbnail_url (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        key_photo_url (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        last_modified_date (date): None
-        organism_name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        organism_taxid (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        other_setup (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        related_database_entries (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        related_database_links (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        release_date (date): None
-        runs (List["Run"]): 
-        s3_prefix (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        sample_preparation (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        sample_type (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        tissue_id (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        tissue_name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        title (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+        authors (List["DatasetAuthor"]): An array relationship
+        cell_component_id (str): If this dataset only focuses on a specific part of a cell, include the subset here
+        cell_component_name (str): Name of the cellular component
+        cell_name (str): Name of the cell from which a biological sample used in a CryoET study is derived from.
+        cell_strain_id (str): NCBI Identifier for the cell line or strain
+        cell_strain_name (str): Cell line or strain for the sample.
+        cell_type_id (str): Cell Ontology identifier for the cell type
+        dataset_citations (str): DOIs for publications that cite the dataset. Use a comma to separate multiple DOIs.
+        dataset_publications (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
+        deposition_date (date): Date when a dataset is initially received by the Data Portal.
+        description (str): A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
+        funding_sources (List["DatasetFunding"]): An array relationship
+        grid_preparation (str): Describe Cryo-ET grid preparation.
+        https_prefix (str): The https directory path where this dataset is contained
+        id (int): An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+        key_photo_thumbnail_url (str): URL for the thumbnail of preview image.
+        key_photo_url (str): URL for the dataset preview image.
+        last_modified_date (date): Date when a released dataset is last modified.
+        organism_name (str): Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
+        organism_taxid (str): NCBI taxonomy identifier for the organism, e.g. 9606
+        other_setup (str): Describe other setup not covered by sample preparation or grid preparation that may make this dataset unique in  the same publication
+        related_database_entries (str): If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
+        related_database_links (str): If a CryoET dataset is also deposited into another database, e.g. EMPAIR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/).  Use a comma to separate multiple links.
+        release_date (date): Date when a dataset is made available on the Data Portal.
+        runs (List["Run"]): An array relationship
+        s3_prefix (str): The S3 public bucket path where this dataset is contained
+        sample_preparation (str): Describe how the sample was prepared.
+        sample_type (str): Type of samples used in a CryoET study. (cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other)
+        tissue_id (str): UBERON identifier for the tissue
+        tissue_name (str): Name of the tissue from which a biological sample used in a CryoET study is derived from.
+        title (str): Title of a CryoET dataset
     """
 
     _gql_type: str = "datasets"
@@ -90,18 +90,18 @@ class DatasetAuthor(Model):
     """Authors of a dataset
 
     Attributes:
-        affiliation_address (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        affiliation_identifier (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        affiliation_name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        author_list_order (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        corresponding_author_status (bool): The `Boolean` scalar type represents `true` or `false`.
-        dataset (Dataset): Dataset Metadata
-        dataset_id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        email (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        orcid (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        primary_author_status (bool): The `Boolean` scalar type represents `true` or `false`.
+        affiliation_address (str): Address of the institution an author is affiliated with.
+        affiliation_identifier (str): A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+        affiliation_name (str): Name of the institutions an author is affiliated with. Comma separated
+        author_list_order (int): The order in which the author appears in the publication
+        corresponding_author_status (bool): Indicating whether an author is the corresponding author
+        dataset (Dataset): An object relationship
+        dataset_id (int): None
+        email (str): Email address for each author
+        id (int): None
+        name (str): Full name of a dataset author (e.g. Jane Doe).
+        orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
+        primary_author_status (bool): None
     """
 
     _gql_type: str = "dataset_authors"
@@ -124,11 +124,11 @@ class DatasetFunding(Model):
     """Funding sources for a dataset
 
     Attributes:
-        dataset (Dataset): Dataset Metadata
-        dataset_id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        funding_agency_name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        grant_id (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+        dataset (Dataset): An object relationship
+        dataset_id (int): None
+        funding_agency_name (str): Name of the funding agency.
+        grant_id (str): Grant identifier provided by the funding agency.
+        id (int): None
     """
 
     _gql_type: str = "dataset_funding"
@@ -144,14 +144,14 @@ class Run(Model):
     """Data related to an experiment run
 
     Attributes:
-        dataset (Dataset): Dataset Metadata
-        dataset_id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        https_prefix (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        s3_prefix (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        tiltseries (List["TiltSeries"]): 
-        tomogram_voxel_spacings (List["TomogramVoxelSpacing"]): 
+        dataset (Dataset): An object relationship
+        dataset_id (int): Reference to the dataset this run is a part of
+        https_prefix (str): The https directory path where this dataset is contained
+        id (int): Numeric identifier (May change!)
+        name (str): Short name for the tilt series
+        s3_prefix (str): The S3 public bucket path where this dataset is contained
+        tiltseries (List["TiltSeries"]): An array relationship
+        tomogram_voxel_spacings (List["TomogramVoxelSpacing"]): An array relationship
     """
 
     _gql_type: str = "runs"
@@ -170,13 +170,13 @@ class TomogramVoxelSpacing(Model):
     """The tomograms for each run are grouped by their voxel spacing
 
     Attributes:
-        annotations (List["Annotation"]): 
-        https_prefix (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        run (Run): Data related to an experiment run
-        run_id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        s3_prefix (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        tomograms (List["Tomogram"]): 
+        annotations (List["Annotation"]): An array relationship
+        https_prefix (str): None
+        id (int): None
+        run (Run): An object relationship
+        run_id (int): None
+        s3_prefix (str): None
+        tomograms (List["Tomogram"]): An array relationship
         voxel_spacing (float): None
     """
 
@@ -196,38 +196,38 @@ class Tomogram(Model):
     """information about the tomograms in the CryoET Data Portal
 
     Attributes:
-        affine_transformation_matrix (str): None
-        authors (List["TomogramAuthor"]): 
-        ctf_corrected (bool): The `Boolean` scalar type represents `true` or `false`.
-        deposition_id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        fiducial_alignment_status (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        https_mrc_scale0 (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        https_omezarr_dir (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        is_canonical (bool): The `Boolean` scalar type represents `true` or `false`.
-        key_photo_thumbnail_url (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        key_photo_url (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        neuroglancer_config (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        offset_x (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        offset_y (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        offset_z (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        processing (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        processing_software (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        reconstruction_method (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        reconstruction_software (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        s3_mrc_scale0 (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        s3_omezarr_dir (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        scale0_dimensions (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        scale1_dimensions (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        scale2_dimensions (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        size_x (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        size_y (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        size_z (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        tomogram_version (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        tomogram_voxel_spacing (TomogramVoxelSpacing): The tomograms for each run are grouped by their voxel spacing
-        tomogram_voxel_spacing_id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        voxel_spacing (float): None
+        affine_transformation_matrix (str): The flip or rotation transformation of this author submitted tomogram is indicated here
+        authors (List["TomogramAuthor"]): An array relationship
+        ctf_corrected (bool): None
+        deposition_id (int): id of the associated deposition.
+        fiducial_alignment_status (str): Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
+        https_mrc_scale0 (str): https path to this tomogram in MRC format (no scaling)
+        https_omezarr_dir (str): HTTPS path to the this multiscale omezarr tomogram
+        id (int): Numeric identifier for this tomogram (this may change!)
+        is_canonical (bool): Is this tomogram considered the canonical tomogram for the run experiment? True=Yes
+        key_photo_thumbnail_url (str): URL for the thumbnail of key photo
+        key_photo_url (str): URL for the key photo
+        name (str): Short name for this tomogram
+        neuroglancer_config (str): the compact json of neuroglancer config
+        offset_x (int): x offset data relative to the canonical tomogram in pixels
+        offset_y (int): y offset data relative to the canonical tomogram in pixels
+        offset_z (int): z offset data relative to the canonical tomogram in pixels
+        processing (str): Describe additional processing used to derive the tomogram
+        processing_software (str): Processing software used to derive the tomogram
+        reconstruction_method (str): Describe reconstruction method (Weighted backprojection, SART, SIRT)
+        reconstruction_software (str): Name of software used for reconstruction
+        s3_mrc_scale0 (str): S3 path to this tomogram in MRC format (no scaling)
+        s3_omezarr_dir (str): S3 path to the this multiscale omezarr tomogram
+        scale0_dimensions (str): comma separated x,y,z dimensions of the unscaled tomogram
+        scale1_dimensions (str): comma separated x,y,z dimensions of the scale1 tomogram
+        scale2_dimensions (str): comma separated x,y,z dimensions of the scale2 tomogram
+        size_x (int): Number of pixels in the 3D data fast axis
+        size_y (int): Number of pixels in the 3D data medium axis
+        size_z (int): Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+        tomogram_version (str): Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
+        tomogram_voxel_spacing (TomogramVoxelSpacing): An object relationship
+        tomogram_voxel_spacing_id (int): None
+        voxel_spacing (float): Voxel spacing equal in all three axes in angstroms
     """
 
     _gql_type: str = "tomograms"
@@ -270,18 +270,18 @@ class TomogramAuthor(Model):
     """Authors for a tomogram
 
     Attributes:
-        affiliation_address (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        affiliation_identifier (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        affiliation_name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        author_list_order (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        corresponding_author_status (bool): The `Boolean` scalar type represents `true` or `false`.
-        email (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        orcid (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        primary_author_status (bool): The `Boolean` scalar type represents `true` or `false`.
-        tomogram (Tomogram): information about the tomograms in the CryoET Data Portal
-        tomogram_id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+        affiliation_address (str): Address of the institution an annotator is affiliated with.
+        affiliation_identifier (str): A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+        affiliation_name (str): Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
+        author_list_order (int): The order in which the author appears in the publication
+        corresponding_author_status (bool): Indicating whether an author is the corresponding author (YES or NO)
+        email (str): Email address for this author
+        id (int): Numeric identifier for this tomogram author (this may change!)
+        name (str): Full name of an tomogram author (e.g. Jane Doe).
+        orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
+        primary_author_status (bool): Indicating whether an author is the main person creating the tomogram (YES or NO)
+        tomogram (Tomogram): An object relationship
+        tomogram_id (int): Reference to the tomogram this author contributed to
     """
 
     _gql_type: str = "tomogram_authors"
@@ -304,31 +304,31 @@ class Annotation(Model):
     """Inoformation about annotations for a given run
 
     Attributes:
-        annotation_method (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        annotation_publication (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        annotation_software (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        authors (List["AnnotationAuthor"]): 
-        confidence_precision (float): None
-        confidence_recall (float): None
-        deposition_date (date): None
-        deposition_id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        files (List["AnnotationFile"]): 
-        ground_truth_status (bool): The `Boolean` scalar type represents `true` or `false`.
-        ground_truth_used (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        https_metadata_path (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        is_curator_recommended (bool): The `Boolean` scalar type represents `true` or `false`.
-        last_modified_date (date): None
-        method_type (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        object_count (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        object_description (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        object_id (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        object_name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        object_state (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        release_date (date): None
-        s3_metadata_path (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        tomogram_voxel_spacing (TomogramVoxelSpacing): The tomograms for each run are grouped by their voxel spacing
-        tomogram_voxel_spacing_id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+        annotation_method (str): Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
+        annotation_publication (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
+        annotation_software (str): None
+        authors (List["AnnotationAuthor"]): An array relationship
+        confidence_precision (float): Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
+        confidence_recall (float): Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
+        deposition_date (date): Date when an annotation set is initially received by the Data Portal.
+        deposition_id (int): id of the associated deposition.
+        files (List["AnnotationFile"]): An array relationship
+        ground_truth_status (bool): Whether an annotation is considered ground truth, as determined by the annotator.
+        ground_truth_used (str): Annotation filename used as ground truth for precision and recall
+        https_metadata_path (str): https path for the metadata json file for this annotation
+        id (int): Numeric identifier (May change!)
+        is_curator_recommended (bool): Data curator’s subjective choice as the best annotation of the same annotation object ID
+        last_modified_date (date): Date when an annotation was last modified in the Data Portal
+        method_type (str): Provides information on the method type used for generating annotation
+        object_count (int): Number of objects identified
+        object_description (str): A textual description of the annotation object, can be a longer description to include additional information not covered by the Annotation object name and state.
+        object_id (str): Gene Ontology Cellular Component identifier for the annotation object
+        object_name (str): Name of the object being annotated (e.g. ribosome, nuclear pore complex, actin filament, membrane)
+        object_state (str): Molecule state annotated (e.g. open, closed)
+        release_date (date): Date when annotation data is made public by the Data Portal.
+        s3_metadata_path (str): s3 path for the metadata json file for this annotation
+        tomogram_voxel_spacing (TomogramVoxelSpacing): An object relationship
+        tomogram_voxel_spacing_id (int): None
     """
 
     _gql_type: str = "annotations"
@@ -364,14 +364,14 @@ class AnnotationFile(Model):
     """Information about associated files for a given annotation
 
     Attributes:
-        annotation (Annotation): Inoformation about annotations for a given run
-        annotation_id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        format (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        https_path (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        is_visualization_default (bool): The `Boolean` scalar type represents `true` or `false`.
-        s3_path (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        shape_type (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+        annotation (Annotation): An object relationship
+        annotation_id (int): None
+        format (str): Format of the annotation object file
+        https_path (str): https path of the annotation file
+        id (int): None
+        is_visualization_default (bool): Data curator’s subjective choice of default annotation to display in visualization for an object
+        s3_path (str): s3 path of the annotation file
+        shape_type (str): The type of the annotation
     """
 
     _gql_type: str = "annotation_files"
@@ -390,18 +390,18 @@ class AnnotationAuthor(Model):
     """Authors for an annotation
 
     Attributes:
-        affiliation_address (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        affiliation_identifier (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        affiliation_name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        annotation (Annotation): Inoformation about annotations for a given run
-        annotation_id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        author_list_order (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        corresponding_author_status (bool): The `Boolean` scalar type represents `true` or `false`.
-        email (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        name (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        orcid (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        primary_annotator_status (bool): The `Boolean` scalar type represents `true` or `false`.
+        affiliation_address (str): Address of the institution an annotator is affiliated with.
+        affiliation_identifier (str): A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+        affiliation_name (str): Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
+        annotation (Annotation): An object relationship
+        annotation_id (int): Reference to the annotation this author contributed to
+        author_list_order (int): The order in which the author appears in the publication
+        corresponding_author_status (bool): Indicating whether an annotator is the corresponding author (YES or NO)
+        email (str): Email address for this author
+        id (int): Numeric identifier for this annotation author (this may change!)
+        name (str): Full name of an annotation author (e.g. Jane Doe).
+        orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
+        primary_annotator_status (bool): Indicating whether an annotator is the main person executing the annotation, especially on manual annotation (YES or NO)
     """
 
     _gql_type: str = "annotation_authors"
@@ -424,44 +424,44 @@ class TiltSeries(Model):
     """Tilt Series Metadata
 
     Attributes:
-        acceleration_voltage (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        aligned_tiltseries_binning (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        binning_from_frames (float): None
-        camera_manufacturer (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        camera_model (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        data_acquisition_software (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        frames_count (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        https_alignment_file (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        https_angle_list (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        https_collection_metadata (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        https_mrc_bin1 (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        https_omezarr_dir (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        is_aligned (bool): The `Boolean` scalar type represents `true` or `false`.
-        microscope_additional_info (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        microscope_energy_filter (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        microscope_image_corrector (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        microscope_manufacturer (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        microscope_model (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        microscope_phase_plate (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        pixel_spacing (float): None
-        related_empiar_entry (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        run (Run): Data related to an experiment run
-        run_id (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-        s3_alignment_file (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        s3_angle_list (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        s3_collection_metadata (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        s3_mrc_bin1 (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        s3_omezarr_dir (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        spherical_aberration_constant (float): None
-        tilt_axis (float): None
-        tilt_max (float): None
-        tilt_min (float): None
-        tilt_range (float): None
-        tilt_series_quality (int): The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+        acceleration_voltage (int): Electron Microscope Accelerator voltage in volts
+        aligned_tiltseries_binning (int): The binning factor between the unaligned tilt series and the aligned tiltseries.
+        binning_from_frames (float): Describes the binning factor from frames to tilt series file
+        camera_manufacturer (str): Name of the camera manufacturer
+        camera_model (str): Camera model name
+        data_acquisition_software (str): Software used to collect data
+        frames_count (int): Number of frames associated to the tilt series
+        https_alignment_file (str): None
+        https_angle_list (str): None
+        https_collection_metadata (str): None
+        https_mrc_bin1 (str): None
+        https_omezarr_dir (str): None
+        id (int): None
+        is_aligned (bool): Tilt series is aligned
+        microscope_additional_info (str): Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
+        microscope_energy_filter (str): Energy filter setup used
+        microscope_image_corrector (str): Image corrector setup
+        microscope_manufacturer (str): Name of the microscope manufacturer
+        microscope_model (str): Microscope model name
+        microscope_phase_plate (str): Phase plate configuration
+        pixel_spacing (float): Pixel spacing equal in both axes in angstrom
+        related_empiar_entry (str): If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
+        run (Run): An object relationship
+        run_id (int): None
+        s3_alignment_file (str): None
+        s3_angle_list (str): None
+        s3_collection_metadata (str): None
+        s3_mrc_bin1 (str): None
+        s3_omezarr_dir (str): None
+        spherical_aberration_constant (float): Spherical Aberration Constant of the objective lens in millimeters
+        tilt_axis (float): Rotation angle in degrees
+        tilt_max (float): Maximal tilt angle in degrees
+        tilt_min (float): Minimal tilt angle in degrees
+        tilt_range (float): The difference between tilt_min and tilt_max
+        tilt_series_quality (int): Author assessment of tilt series quality within the dataset (1-5, 5 is best)
         tilt_step (float): None
-        tilting_scheme (str): The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-        total_flux (float): None
+        tilting_scheme (str): The order of stage tilting during acquisition of the data
+        total_flux (float): Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
     """
 
     _gql_type: str = "tiltseries"
