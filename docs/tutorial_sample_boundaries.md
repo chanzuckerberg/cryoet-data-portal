@@ -3,22 +3,16 @@
 ![tutorial-goal](./figures/tomo_side_light.png)
 *Side view onto a cryo-electron tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/15094) without (left) and with (right) sample boundary annotation*
 
-Biological samples acquired in a cryoET experiment are usually thin slabs of vitrified ice containing the biological
-specimen of interest. Unfortunately, it is difficult to determine orientation and thickness of the samples ahead of
-reconstruction. For this reason, volumes reconstructed from cryoET tilt series are often larger than the actual sample
-and contain a significant amount of empty space (i.e. the vacuum inside the TEM column).
+Biological samples acquired in a cryoET experiment are usually thin slabs of vitrified ice containing the biological specimen of interest. Unfortunately, it is difficult to determine orientation and thickness of the samples ahead of reconstruction. For this reason, volumes reconstructed from cryoET tilt series are often larger than the actual sample and contain a significant amount of empty space (i.e. the vacuum inside the TEM column).
 
-There are several reasons for why it can be useful to determine more accurate sample boundaries, for example, 
+There are several reasons for why it can be useful to determine more accurate sample boundaries, for example:
 
 - statistical analysis of the sample preparation process
 - masking out the vacuum region to reduce the size of the volume
 - masking out the vacuum region during the training of a neural network
 - capping of membrane segmentations to define topological boundaries
 
-Below, we will show how to use [**copick**](https://github.com/copick/copick), an adapted version of [deepfinder](https://github.com/jtschwar/cryoet-deepfinder/tree/master)
-and [album](https://album.solutions/) to predict sample boundaries for datasets [10301](https://cryoetdataportal.czscience.com/datasets/10301)
-and [10302](https://cryoetdataportal.czscience.com/datasets/10302) from the
-[CZ cryoET Data Portal](https://cryoetdataportal.czscience.com). Copick is a cross-platform, storage-agnostic and server-less dataset API for cryoET datasets.
+Below, we will show how to use [**copick**](https://github.com/copick/copick), an adapted version of [deepfinder](https://github.com/jtschwar/cryoet-deepfinder/tree/master) and [album](https://album.solutions/) to predict sample boundaries for datasets [10301](https://cryoetdataportal.czscience.com/datasets/10301) and [10302](https://cryoetdataportal.czscience.com/datasets/10302) from the [CZ cryoET Data Portal](https://cryoetdataportal.czscience.com). Copick is a cross-platform, storage-agnostic and server-less dataset API for cryoET datasets.
 
 ![topview](./figures/tomo_top_both.png)
 
@@ -26,14 +20,11 @@ and [10302](https://cryoetdataportal.czscience.com/datasets/10302) from the
 
 ### Step 0: Environment and Pre-requisites
 
-For the purpose of this tutorial we will assume that we are working on a machine with access to an NVIDIA GPU and a
-working `CUDA 12.3`/`CUDNN 8.9` installation. Before we can start, we need to install the necessary software. We will
-use the following tools:
+For the purpose of this tutorial we will assume that we are working on a machine with access to an NVIDIA GPU and a working `CUDA 12.3`/`CUDNN 8.9` installation. Before we can start, we need to install the necessary software. We will use the following tools:
 
 #### 1. ChimeraX and ChimeraX-copick (for visualization and annotation)
 
-Download and install ChimeraX from [here](https://www.cgl.ucsf.edu/chimerax/download.html). After installing ChimeraX,
-install the ChimeraX-copick extension by running the following command in ChimeraX:
+Download and install ChimeraX from [here](https://www.cgl.ucsf.edu/chimerax/download.html). After installing ChimeraX, install the ChimeraX-copick extension by running the following command in ChimeraX:
 
 ```
 toolshed install copick
@@ -41,16 +32,14 @@ toolshed install copick
 
 #### 2. Album and copick-catalog (for processing steps)
 
-Comprehensive installation instructions for Album can be found on the [Album docs website](https://docs.album.solutions/en/latest/installation-instructions.html).
+Comprehensive installation instructions for Album can be found on the [Album docs website](https://docs.album.solutions/en/latest/installation-instructions.html), but in brief, to install Album use:
 
-TL;DR:
 ```bash
 conda create -n album album -c conda-forge
 conda activate album
 ```
 
-Now, add copick's Album catalog ([copick-catalog](https://github.com/copick/copick-catalog)) to your album
-installation and install the requried solutions by running the following commands:
+Now, add copick's Album catalog ([copick-catalog](https://github.com/copick/copick-catalog)) to your album installation and install the requried solutions by running the following commands:
 
 ```bash
 album add-catalog git@github.com:copick/copick-catalog.git
@@ -103,7 +92,7 @@ description, and copick-API version.
   ```
 </details>
 
-Next, we define the objects that can be accessed and created using the copick API. In this case we will create 5 objects:
+Next, we define the objects that can be accessed and created using the copick API. In this case, we will create 5 objects:
 
 - top-layer -- the top layer of the sample
 - bottom-layer -- the bottom layer of the sample
@@ -193,7 +182,7 @@ of Bob).
     }
   ```
 </details>
-    
+
 We will repeat this process for a second project, `config_evaluate.json`, that includes both dataset 10301 and dataset
 10302 for evaluation. Find both full examples below:
 
@@ -377,8 +366,7 @@ copick start config_train.json
 *The ChimeraX-copick interface after loading run 14069.*
 
 This will open a new window with the copick interface. On the top left side you will see the available objects, on the
-bottom left you can find a list of runs in the dataset. On the right side you can find the interface of ArtiaX (the
-plugin that allows you to annotate objects in ChimeraX).
+bottom left you can find a list of runs in the dataset. On the right side you can find the interface of ArtiaX (the plugin that allows you to annotate objects in ChimeraX).
 
 Double-click a run's directory (e.g. `14069`) in the run list to show the available resolutions, double-click the
 resolution's directory (`VS:7.840`) to display the available tomograms. In order to load a tomogram, double-click the
@@ -407,13 +395,13 @@ see the info box below and refer to the [ChimeraX documentation](https://www.cgl
     - `ss` Select particles mode
     - `ww` Hide/Show ArtiaX particle lists.
 
-  **Picking**
+**Picking**
 
     - `ap` Add on plane mode
     - `dp` Delete picked mode
     - `ds` Delete selected particles
 
-  **Visualization**
+**Visualization**
 
     - `cc` Turn Clipping On/Off
     - `ee` Switch to orthoplanes.
@@ -424,12 +412,12 @@ see the info box below and refer to the [ChimeraX documentation](https://www.cgl
     - `yy` View YZ orientation.
     - `zz` View XZ orientation.
 
-  **Info**
+**Info**
 
     - `?` Show Shortcuts in Log.
     - `il` Toggle Info Label.
 
-</details>  
+</details>
 
 At the end of this step, you should have annotated the top- and bottom-layer of the all 18 tomograms in the training set.
 
@@ -505,10 +493,11 @@ album run copick:intersect_mesh:0.5.0 \
 --output_user bob \
 --output_session 0 \
 ```
-You can now visualize the final 3D mesh for training in ChimeraX by restarting the copick interface and selecting the
-`valid-area` object in the Mesh-tab on the left side.
+
+You can now visualize the final 3D mesh for training in ChimeraX by restarting the copick interface and selecting the `valid-area` object in the Mesh-tab on the left side.
 
 ![mesh](./figures/mesh_fit.png)
+
 *Side view of the tomogram with points and intersected, valid sample area.*
 
 #### Training data
