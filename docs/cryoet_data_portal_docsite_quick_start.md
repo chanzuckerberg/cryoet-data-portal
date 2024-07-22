@@ -5,7 +5,7 @@ This page provides details to help you get started using the CryoET Data Portal 
 **Contents**
 
 1. [Installation](#installation)
-2. [API Functions Overview](#api-functions-overview) 
+2. [API Functions Overview](#api-functions-overview)
 3. [Example Code Snippets](#examples)
 
 ## Installation
@@ -19,7 +19,7 @@ The CryoET Data Portal Client requires a Linux or MacOS system with:
 - Recommended: >5 Mbps internet connection.
 - Recommended: for increased performance, use the API through an AWS-EC2 instance from the region `us-west-2`. The CryoET Portal data are hosted in a AWS-S3 bucket in that region.
 
-### Install in a Virtual Environment 
+### Install in a Virtual Environment
 
 (Optional) In your working directory, make and activate a virtual environment or conda environment. For example:
 
@@ -66,7 +66,7 @@ The general format of using the `find` method is as follows:
 data_of_interest = find(client, queries)
 ```
 
-The `get_by_id` method allows you to select data using the ID found on the Portal. For example, to select the data for [Dataset 10005](https://cryoetdataportal.czscience.com/datasets/10005) on the Portal use this snippet: 
+The `get_by_id` method allows you to select data using the ID found on the Portal. For example, to select the data for [Dataset 10005](https://cryoetdataportal.czscience.com/datasets/10005) on the Portal use this snippet:
 
 ```
 data_10005 = Dataset.get_by_id(client, 10005)
@@ -78,7 +78,7 @@ Below are 3 examples of common operations you can do with the API. Check out the
 
 ### Browse all data in the portal
 
-To illustrate the relationships among the classes in the Portal, below is a loop that iterates over all datasets in the portal, then all runs per dataset, then all tomograms per run and outputs the name of each object. 
+To illustrate the relationships among the classes in the Portal, below is a loop that iterates over all datasets in the portal, then all runs per dataset, then all tomograms per run and outputs the name of each object.
 
 :::{attention}
 This loop is impractical! It iterates over all data in the Portal. It is simply for demonstrative purposes and should not be included in efficient code.
@@ -112,9 +112,9 @@ Dataset: S. pombe cells with defocus
 ...
 ```
 
-### Find all datasets containing membrane annotations.
+### Find all datasets containing membrane annotations
 
-The below example uses the `find` method with a longer API expression in the query.
+The below example uses the `find` method with a longer API expression in the query to select datasets that have membrane annotations and print the IDs of those datasets.
 
 ```
 import cryoet_data_portal as portal
