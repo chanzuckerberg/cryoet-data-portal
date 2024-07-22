@@ -165,7 +165,7 @@ Next, we define the objects that can be accessed and created using the copick AP
     }
   ```
 </details>
-    
+
 Finally, we define where **copick** should look for the data and store any annotations (in this case the home directory
 of Bob).
 
