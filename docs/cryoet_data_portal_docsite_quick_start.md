@@ -66,10 +66,11 @@ The general format of using the `find` method is as follows:
 data_of_interest = find(client, queries)
 ```
 
-The `get_by_id` method allows you to select data using the ID found on the Portal. For example, to select the data for [Dataset 10005](https://cryoetdataportal.czscience.com/datasets/10005) on the Portal use this snippet:
+The `get_by_id` method allows you to select data using the ID found on the Portal. For example, to select the data for [Dataset 10005](https://cryoetdataportal.czscience.com/datasets/10005) on the Portal and download it into your current directory use this snippet:
 
 ```
 data_10005 = Dataset.get_by_id(client, 10005)
+data_10005.download_everything()
 ```
 
 ## Examples
