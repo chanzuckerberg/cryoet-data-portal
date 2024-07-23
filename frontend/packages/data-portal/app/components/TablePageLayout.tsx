@@ -27,12 +27,12 @@ export interface TableLayoutTab {
   title: string
 
   filterPanel?: ReactNode
-  filteredCount: number
 
   table: ReactNode
   noResults?: ReactNode
   pageQueryParam?: string
 
+  filteredCount: number
   totalCount: number
   countLabel: string // e.g. "objects" in "1 of 3 objects".
 }

@@ -59,7 +59,6 @@ export default function BrowseDepositionsPage() {
       tabs={[
         {
           title: t('depositions'),
-          filteredCount: filteredDepositionCount,
           table: <DepositionTable />,
           noResults: (
             <NoResults
@@ -68,6 +67,7 @@ export default function BrowseDepositionsPage() {
               actions={<Button onClick={reset}>{t('clearFilters')}</Button>}
             />
           ),
+          filteredCount: filteredDepositionCount,
           totalCount: depositionCount,
           countLabel: t('depositions'),
         },

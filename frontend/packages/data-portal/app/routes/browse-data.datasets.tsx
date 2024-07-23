@@ -49,7 +49,6 @@ export default function BrowseDatasetsPage() {
         {
           title: t('datasets'),
           filterPanel: <DatasetFilter />,
-          filteredCount: filteredDatasetCount,
           table: <DatasetTable />,
           noResults: (
             <NoResults
@@ -58,6 +57,7 @@ export default function BrowseDatasetsPage() {
               actions={<Button onClick={reset}>{i18n.clearFilters}</Button>}
             />
           ),
+          filteredCount: filteredDatasetCount,
           totalCount: datasetCount,
           countLabel: i18n.datasets,
         },

@@ -56,8 +56,8 @@ export default function DatasetByIdPage() {
         {
           title: t('runs'),
           filterPanel: <RunFilter />,
-          filteredCount: dataset.filtered_runs_count.aggregate?.count ?? 0,
           table: <RunsTable />,
+          filteredCount: dataset.filtered_runs_count.aggregate?.count ?? 0,
           totalCount: dataset.runs_aggregate.aggregate?.count ?? 0,
           countLabel: i18n.runs,
         },
