@@ -1,6 +1,7 @@
 """CryoET data portal client model classes."""
 
 from __future__ import annotations
+
 import os
 from datetime import date
 from typing import List, Optional
@@ -68,7 +69,11 @@ class Dataset(Model):
     dataset_publications: str = StringField()
     deposition_date: date = DateField()
     description: str = StringField()
-    funding_sources: List[DatasetFunding] = ListRelationship("DatasetFunding", "id", "dataset_id")
+    funding_sources: List[DatasetFunding] = ListRelationship(
+        "DatasetFunding",
+        "id",
+        "dataset_id",
+    )
     grid_preparation: str = StringField()
     https_prefix: str = StringField()
     id: int = IntField()
@@ -176,7 +181,11 @@ class Run(Model):
     name: str = StringField()
     s3_prefix: str = StringField()
     tiltseries: List[TiltSeries] = ListRelationship("TiltSeries", "id", "run_id")
-    tomogram_voxel_spacings: List[TomogramVoxelSpacing] = ListRelationship("TomogramVoxelSpacing", "id", "run_id")
+    tomogram_voxel_spacings: List[TomogramVoxelSpacing] = ListRelationship(
+        "TomogramVoxelSpacing",
+        "id",
+        "run_id",
+    )
 
     def download_everything(self, dest_path: Optional[str] = None):
         """Download all of the data for this run.
@@ -210,13 +219,21 @@ class TomogramVoxelSpacing(Model):
 
     _gql_type: str = "tomogram_voxel_spacings"
 
-    annotations: List[Annotation] = ListRelationship("Annotation", "id", "tomogram_voxel_spacing_id")
+    annotations: List[Annotation] = ListRelationship(
+        "Annotation",
+        "id",
+        "tomogram_voxel_spacing_id",
+    )
     https_prefix: str = StringField()
     id: int = IntField()
     run: Run = ItemRelationship(Run, "run_id", "id")
     run_id: int = IntField()
     s3_prefix: str = StringField()
-    tomograms: List[Tomogram] = ListRelationship("Tomogram", "id", "tomogram_voxel_spacing_id")
+    tomograms: List[Tomogram] = ListRelationship(
+        "Tomogram",
+        "id",
+        "tomogram_voxel_spacing_id",
+    )
     voxel_spacing: float = FloatField()
 
     def download_everything(self, dest_path: Optional[str] = None):
@@ -269,7 +286,11 @@ class Tomogram(Model):
     _gql_type: str = "tomograms"
 
     affine_transformation_matrix: str = StringField()
-    authors: List[TomogramAuthor] = ListRelationship("TomogramAuthor", "id", "tomogram_id")
+    authors: List[TomogramAuthor] = ListRelationship(
+        "TomogramAuthor",
+        "id",
+        "tomogram_id",
+    )
     ctf_corrected: bool = BooleanField()
     deposition_id: int = IntField()
     fiducial_alignment_status: str = StringField()
@@ -297,7 +318,11 @@ class Tomogram(Model):
     size_y: int = IntField()
     size_z: int = IntField()
     tomogram_version: str = StringField()
-    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(TomogramVoxelSpacing, "tomogram_voxel_spacing_id", "id")
+    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(
+        TomogramVoxelSpacing,
+        "tomogram_voxel_spacing_id",
+        "id",
+    )
     tomogram_voxel_spacing_id: int = IntField()
     voxel_spacing: float = FloatField()
 
@@ -407,12 +432,20 @@ class Annotation(Model):
     annotation_method: str = StringField()
     annotation_publication: str = StringField()
     annotation_software: str = StringField()
-    authors: List[AnnotationAuthor] = ListRelationship("AnnotationAuthor", "id", "annotation_id")
+    authors: List[AnnotationAuthor] = ListRelationship(
+        "AnnotationAuthor",
+        "id",
+        "annotation_id",
+    )
     confidence_precision: float = FloatField()
     confidence_recall: float = FloatField()
     deposition_date: date = DateField()
     deposition_id: int = IntField()
-    files: List[AnnotationFile] = ListRelationship("AnnotationFile", "id", "annotation_id")
+    files: List[AnnotationFile] = ListRelationship(
+        "AnnotationFile",
+        "id",
+        "annotation_id",
+    )
     ground_truth_status: bool = BooleanField()
     ground_truth_used: str = StringField()
     https_metadata_path: str = StringField()
@@ -427,7 +460,11 @@ class Annotation(Model):
     object_state: str = StringField()
     release_date: date = DateField()
     s3_metadata_path: str = StringField()
-    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(TomogramVoxelSpacing, "tomogram_voxel_spacing_id", "id")
+    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(
+        TomogramVoxelSpacing,
+        "tomogram_voxel_spacing_id",
+        "id",
+    )
     tomogram_voxel_spacing_id: int = IntField()
 
     def download(

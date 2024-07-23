@@ -143,7 +143,9 @@ def parse_fields(gql_type: GraphQLObjectType) -> list[FieldInfo]:
 
 
 def _parse_field(
-    gql_type: GraphQLObjectType, name: str, field: GraphQLField,
+    gql_type: GraphQLObjectType,
+    name: str,
+    field: GraphQLField,
 ) -> FieldInfo | None:
     logging.debug("_parse_field: %s, %s", name, field)
     field_type = _maybe_unwrap_non_null(field.type)
@@ -156,7 +158,9 @@ def _parse_field(
 
 
 def _parse_scalar_field(
-    name: str, description: str, field_type: GraphQLScalarType,
+    name: str,
+    description: str,
+    field_type: GraphQLScalarType,
 ) -> FieldInfo | None:
     logging.debug("_parse_scalar_field: %s", field_type)
     if field_type.name in GQL_TO_MODEL_FIELD:
@@ -170,7 +174,9 @@ def _parse_scalar_field(
 
 
 def _parse_object_field(
-    name: str, description: str, field_type: GraphQLObjectType,
+    name: str,
+    description: str,
+    field_type: GraphQLObjectType,
 ) -> FieldInfo | None:
     logging.debug("_parse_object_field: %s", field_type)
     if model := GQL_TO_MODEL_TYPE.get(field_type.name):
@@ -184,7 +190,10 @@ def _parse_object_field(
 
 
 def _parse_list_field(
-    gql_type: GraphQLObjectType, name: str, description: str, field_type: GraphQLList,
+    gql_type: GraphQLObjectType,
+    name: str,
+    description: str,
+    field_type: GraphQLList,
 ) -> FieldInfo | None:
     logging.debug("_parse_list_field: %s", field_type)
     of_type = _maybe_unwrap_non_null(field_type.of_type)
