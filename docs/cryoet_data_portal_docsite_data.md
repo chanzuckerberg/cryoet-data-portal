@@ -82,6 +82,8 @@ The tilt series quality score is assigned by the dataset authors to communicate 
 
 The `Download Dataset` button opens a dialog with instructions for downloading the dataset using [Amazon Web Services Command Line Interface](./cryoet_data_portal_docsite_aws.md) or the [Portal API](./python-api.rst). Datasets are downloaded as folders named the Dataset ID. The folder contains subfolders for each run named the author-chosen run name, a folder named Images which contains the key photos of the dataset displayed on the Portal, and a JSON file named `dataset_metadata.json` containing the dataset metadata. The run folders contain subfolders named Tomogram and TiltSeries, containing the tomogram and tilt series image files, and a JSON file named `run_metadata.json` containing the run metadata. More details on the run folder file structure is found in the documentation [below](#run-download-options).
 
+The metadata schema of any JSON file stored with the data on the data portal's S3 bucket is described in LinkML and can be found [here](https://github.com/chanzuckerberg/cryoet-data-portal-backend/tree/main/schema/v1.1.0).
+
 ## Runs
 
 A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. However, in the [data schema](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html#data-model) used in the Portal API, runs are connected to tomograms through the `TomogramVoxelSpacing` class which specifies the sampling or voxel size of the tomogram. For a single run, multiple tomograms of different spacings can be available.
