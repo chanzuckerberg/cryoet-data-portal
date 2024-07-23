@@ -5,45 +5,39 @@ import logging
 import pathlib
 import re
 from dataclasses import dataclass
-from textwrap import dedent, indent
+from textwrap import dedent
 
 from graphql import GraphQLField, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLScalarType, GraphQLSchema, GraphQLType, build_schema
 
-from cryoet_data_portal._codegen_dataset import download_everything as dataset_download_everything
+from cryoet_data_portal import _model_stubs
 
 
 """Maps GraphQL field type names to model field defaults and Python types."""
 GQL_TO_MODEL_FIELD = {
-    'Boolean': ("BooleanField()", "bool"),
-    'Float': ("IntField()", "int"),
-    'Int': ("IntField()", "int"),
-    'String': ("StringField()", "str"),
-    'date': ("DateField()", "date"),
-    'numeric': ("FloatField()", "float"),
-    '_numeric': ("StringField()", "str"),
-    'tomogram_type_enum': ("StringField()", "str"),
+    "Boolean": ("BooleanField()", "bool"),
+    "Float": ("IntField()", "int"),
+    "Int": ("IntField()", "int"),
+    "String": ("StringField()", "str"),
+    "date": ("DateField()", "date"),
+    "numeric": ("FloatField()", "float"),
+    "_numeric": ("StringField()", "str"),
+    "tomogram_type_enum": ("StringField()", "str"),
 }
 
 
 """Maps GraphQL type names to model class names."""
 GQL_TO_MODEL_TYPE = {
-    'datasets': 'Dataset',
-    'dataset_authors': 'DatasetAuthor',
-    'dataset_funding': 'DatasetFunding',
-    'runs': 'Run',
-    'tomogram_voxel_spacings': 'TomogramVoxelSpacing',
-    'tomograms': 'Tomogram',
-    'tomogram_authors': 'TomogramAuthor',
-    'annotations': 'Annotation',
-    'annotation_files': 'AnnotationFile',
-    'annotation_authors': 'AnnotationAuthor',
-    'tiltseries': 'TiltSeries',
-}
-
-
-"""Maps GraphQL type names to utility functions."""
-GQL_TO_MODEL_UTILS = {
-    'datasets': (dataset_download_everything,),
+    "datasets": "Dataset",
+    "dataset_authors": "DatasetAuthor",
+    "dataset_funding": "DatasetFunding",
+    "runs": "Run",
+    "tomogram_voxel_spacings": "TomogramVoxelSpacing",
+    "tomograms": "Tomogram",
+    "tomogram_authors": "TomogramAuthor",
+    "annotations": "Annotation",
+    "annotation_files": "AnnotationFile",
+    "annotation_authors": "AnnotationAuthor",
+    "tiltseries": "TiltSeries",
 }
 
 
@@ -57,18 +51,19 @@ class FieldInfo:
 
 
 def load_schema() -> GraphQLSchema:
-    with open(pathlib.Path(__file__).parent / "data/schema.graphql", 'r') as f:
+    with open(pathlib.Path(__file__).parent / "data/schema.graphql", "r") as f:
         schema_str = f.read()
     return build_schema(schema_str)
 
 
 def write_models() -> None:
     schema = load_schema()
-    with open(pathlib.Path(__file__).parent / "_codegen_models.py", 'w') as f:
+    with open(pathlib.Path(__file__).parent / "_codegen_models.py", "w") as f:
         f.write(dedent("""
             from __future__ import annotations
+            import os
             from datetime import date
-            from typing import List
+            from typing import List, Optional
 
             from cryoet_data_portal._file_tools import download_directory, download_https
             from cryoet_data_portal._gql_base import (
@@ -85,7 +80,7 @@ def write_models() -> None:
         ))
  
         for gql, model in GQL_TO_MODEL_TYPE.items():
-            logging.debug('Parsing gql type %s to model %s', gql, model)
+            logging.debug("Parsing gql type %s to model %s", gql, model)
             gql_type = schema.get_type(gql)
             assert isinstance(gql_type, GraphQLObjectType)
 
@@ -109,10 +104,12 @@ def write_models() -> None:
                 f.write(f"    {field.name}: {field.annotation_type} = {field.default_value}\n")
 
             # Write utility methods
-            utils = GQL_TO_MODEL_UTILS.get(gql_type.name, ())
-            for util in utils:
-                source = inspect.getsource(util)
-                f.write(f"    \n{indent(source, '    ')}")
+            model_type = GQL_TO_MODEL_TYPE[gql]
+            if model_class := getattr(_model_stubs, model_type, None):
+                utils = inspect.getmembers(model_class, inspect.isfunction)
+                for _, util in utils:
+                    source = inspect.getsource(util)
+                    f.write(f"\n{source}")
 
         # Write model setup calls
         f.write("\n")
@@ -124,7 +121,7 @@ def parse_fields(gql_type: GraphQLObjectType) -> list[FieldInfo]:
     fields = []
     for name, field in gql_type.fields.items():
         if parsed := parse_field(gql_type, name, field):
-            logging.debug('Parsed %s', parsed)
+            logging.debug("Parsed %s", parsed)
             fields.append(parsed)
     return fields
 
@@ -184,7 +181,7 @@ def _maybe_unwrap_non_null(field_type: GraphQLType) -> GraphQLType:
 
 
 def _camel_to_snake_case(name: str) -> str:
-    return re.sub('(?!^)([A-Z]+)', r'_\1', name).lower()
+    return re.sub("(?!^)([A-Z]+)", r"_\1", name).lower()
 
 
 if __name__ == "__main__":
