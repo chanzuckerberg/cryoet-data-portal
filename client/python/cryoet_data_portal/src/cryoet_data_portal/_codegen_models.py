@@ -1,4 +1,5 @@
 
+from __future__ import annotations
 from datetime import date
 from typing import List
 
@@ -18,7 +19,7 @@ class Dataset(Model):
     """Dataset Metadata
 
     Attributes:
-        authors (List["DatasetAuthor"]): An array relationship
+        authors (List[DatasetAuthor]): An array relationship
         cell_component_id (str): If this dataset only focuses on a specific part of a cell, include the subset here
         cell_component_name (str): Name of the cellular component
         cell_name (str): Name of the cell from which a biological sample used in a CryoET study is derived from.
@@ -29,7 +30,7 @@ class Dataset(Model):
         dataset_publications (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
         deposition_date (date): Date when a dataset is initially received by the Data Portal.
         description (str): A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
-        funding_sources (List["DatasetFunding"]): An array relationship
+        funding_sources (List[DatasetFunding]): An array relationship
         grid_preparation (str): Describe Cryo-ET grid preparation.
         https_prefix (str): The https directory path where this dataset is contained
         id (int): An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
@@ -42,7 +43,7 @@ class Dataset(Model):
         related_database_entries (str): If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
         related_database_links (str): If a CryoET dataset is also deposited into another database, e.g. EMPAIR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/).  Use a comma to separate multiple links.
         release_date (date): Date when a dataset is made available on the Data Portal.
-        runs (List["Run"]): An array relationship
+        runs (List[Run]): An array relationship
         s3_prefix (str): The S3 public bucket path where this dataset is contained
         sample_preparation (str): Describe how the sample was prepared.
         sample_type (str): Type of samples used in a CryoET study. (cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other)
@@ -53,7 +54,7 @@ class Dataset(Model):
 
     _gql_type: str = "datasets"
 
-    authors: List["DatasetAuthor"] = ListRelationship("DatasetAuthor", "id", "datasetauthor_id")
+    authors: List[DatasetAuthor] = ListRelationship("DatasetAuthor", "id", "datasetauthor_id")
     cell_component_id: str = StringField()
     cell_component_name: str = StringField()
     cell_name: str = StringField()
@@ -64,7 +65,7 @@ class Dataset(Model):
     dataset_publications: str = StringField()
     deposition_date: date = DateField()
     description: str = StringField()
-    funding_sources: List["DatasetFunding"] = ListRelationship("DatasetFunding", "id", "datasetfunding_id")
+    funding_sources: List[DatasetFunding] = ListRelationship("DatasetFunding", "id", "datasetfunding_id")
     grid_preparation: str = StringField()
     https_prefix: str = StringField()
     id: int = IntField()
@@ -77,7 +78,7 @@ class Dataset(Model):
     related_database_entries: str = StringField()
     related_database_links: str = StringField()
     release_date: date = DateField()
-    runs: List["Run"] = ListRelationship("Run", "id", "run_id")
+    runs: List[Run] = ListRelationship("Run", "id", "run_id")
     s3_prefix: str = StringField()
     sample_preparation: str = StringField()
     sample_type: str = StringField()
@@ -150,8 +151,8 @@ class Run(Model):
         id (int): Numeric identifier (May change!)
         name (str): Short name for the tilt series
         s3_prefix (str): The S3 public bucket path where this dataset is contained
-        tiltseries (List["TiltSeries"]): An array relationship
-        tomogram_voxel_spacings (List["TomogramVoxelSpacing"]): An array relationship
+        tiltseries (List[TiltSeries]): An array relationship
+        tomogram_voxel_spacings (List[TomogramVoxelSpacing]): An array relationship
     """
 
     _gql_type: str = "runs"
@@ -162,33 +163,33 @@ class Run(Model):
     id: int = IntField()
     name: str = StringField()
     s3_prefix: str = StringField()
-    tiltseries: List["TiltSeries"] = ListRelationship("TiltSeries", "id", "tiltseries_id")
-    tomogram_voxel_spacings: List["TomogramVoxelSpacing"] = ListRelationship("TomogramVoxelSpacing", "id", "tomogramvoxelspacing_id")
+    tiltseries: List[TiltSeries] = ListRelationship("TiltSeries", "id", "tiltseries_id")
+    tomogram_voxel_spacings: List[TomogramVoxelSpacing] = ListRelationship("TomogramVoxelSpacing", "id", "tomogramvoxelspacing_id")
 
 
 class TomogramVoxelSpacing(Model):
     """The tomograms for each run are grouped by their voxel spacing
 
     Attributes:
-        annotations (List["Annotation"]): An array relationship
+        annotations (List[Annotation]): An array relationship
         https_prefix (str): None
         id (int): None
         run (Run): An object relationship
         run_id (int): None
         s3_prefix (str): None
-        tomograms (List["Tomogram"]): An array relationship
+        tomograms (List[Tomogram]): An array relationship
         voxel_spacing (float): None
     """
 
     _gql_type: str = "tomogram_voxel_spacings"
 
-    annotations: List["Annotation"] = ListRelationship("Annotation", "id", "annotation_id")
+    annotations: List[Annotation] = ListRelationship("Annotation", "id", "annotation_id")
     https_prefix: str = StringField()
     id: int = IntField()
     run: Run = ItemRelationship(Run, "run_id", "id")
     run_id: int = IntField()
     s3_prefix: str = StringField()
-    tomograms: List["Tomogram"] = ListRelationship("Tomogram", "id", "tomogram_id")
+    tomograms: List[Tomogram] = ListRelationship("Tomogram", "id", "tomogram_id")
     voxel_spacing: float = FloatField()
 
 
@@ -197,7 +198,7 @@ class Tomogram(Model):
 
     Attributes:
         affine_transformation_matrix (str): The flip or rotation transformation of this author submitted tomogram is indicated here
-        authors (List["TomogramAuthor"]): An array relationship
+        authors (List[TomogramAuthor]): An array relationship
         ctf_corrected (bool): None
         deposition_id (int): id of the associated deposition.
         fiducial_alignment_status (str): Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
@@ -233,7 +234,7 @@ class Tomogram(Model):
     _gql_type: str = "tomograms"
 
     affine_transformation_matrix: str = StringField()
-    authors: List["TomogramAuthor"] = ListRelationship("TomogramAuthor", "id", "tomogramauthor_id")
+    authors: List[TomogramAuthor] = ListRelationship("TomogramAuthor", "id", "tomogramauthor_id")
     ctf_corrected: bool = BooleanField()
     deposition_id: int = IntField()
     fiducial_alignment_status: str = StringField()
@@ -307,12 +308,12 @@ class Annotation(Model):
         annotation_method (str): Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
         annotation_publication (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
         annotation_software (str): None
-        authors (List["AnnotationAuthor"]): An array relationship
+        authors (List[AnnotationAuthor]): An array relationship
         confidence_precision (float): Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
         confidence_recall (float): Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
         deposition_date (date): Date when an annotation set is initially received by the Data Portal.
         deposition_id (int): id of the associated deposition.
-        files (List["AnnotationFile"]): An array relationship
+        files (List[AnnotationFile]): An array relationship
         ground_truth_status (bool): Whether an annotation is considered ground truth, as determined by the annotator.
         ground_truth_used (str): Annotation filename used as ground truth for precision and recall
         https_metadata_path (str): https path for the metadata json file for this annotation
@@ -336,12 +337,12 @@ class Annotation(Model):
     annotation_method: str = StringField()
     annotation_publication: str = StringField()
     annotation_software: str = StringField()
-    authors: List["AnnotationAuthor"] = ListRelationship("AnnotationAuthor", "id", "annotationauthor_id")
+    authors: List[AnnotationAuthor] = ListRelationship("AnnotationAuthor", "id", "annotationauthor_id")
     confidence_precision: float = FloatField()
     confidence_recall: float = FloatField()
     deposition_date: date = DateField()
     deposition_id: int = IntField()
-    files: List["AnnotationFile"] = ListRelationship("AnnotationFile", "id", "annotationfile_id")
+    files: List[AnnotationFile] = ListRelationship("AnnotationFile", "id", "annotationfile_id")
     ground_truth_status: bool = BooleanField()
     ground_truth_used: str = StringField()
     https_metadata_path: str = StringField()

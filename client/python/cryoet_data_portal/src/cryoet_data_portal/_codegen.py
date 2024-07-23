@@ -54,8 +54,8 @@ def load_schema() -> GraphQLSchema:
 def write_models() -> None:
     schema = load_schema()
     with open(pathlib.Path(__file__).parent / "_codegen_models.py", 'w') as f:
-        f.write(dedent(
-            """
+        f.write(dedent("""
+            from __future__ import annotations
             from datetime import date
             from typing import List
 
@@ -152,7 +152,7 @@ def parse_list_field(name: str, description: str, field_type: GraphQLList) -> Fi
         return FieldInfo(
             name=name,
             description=description,
-            annotation_type=f"List[\"{of_model}\"]",
+            annotation_type=f"List[{of_model}]",
             default_value=f"ListRelationship(\"{of_model}\", \"id\", \"{of_model.lower()}_id\")",
         )
 
