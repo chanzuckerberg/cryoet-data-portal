@@ -83,7 +83,7 @@ export function TablePageLayout({
             />
           </>
         )}
-        <TablePageLayoutTab {...tabs[activeTabIndex]} />
+        <TablePageTabContent {...tabs[activeTabIndex]} />
 
         {drawers}
       </div>
@@ -91,8 +91,8 @@ export function TablePageLayout({
   )
 }
 
-/** Table + filter panel for 1 tab. */
-function TablePageLayoutTab({
+/** Table + filters for 1 tab. */
+function TablePageTabContent({
   title,
   filterPanel,
   filteredCount,
