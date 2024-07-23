@@ -13,19 +13,22 @@ import { AnnotationRowCounter, TableValidatorOptions } from './types'
 
 export function getExpectedUrlWithQueryParams({
   url,
-  queryParam,
-  value,
+  queryParamKey,
+  queryParamValue,
   serialize,
 }: {
   url: string
-  queryParam?: QueryParams
-  value: string
+  queryParamKey?: QueryParams
+  queryParamValue: string
   serialize?: (value: string) => string
 }): { expectedUrl: URL; params: URLSearchParams } {
   const expectedUrl = new URL(url)
   const params = expectedUrl.searchParams
-  if (queryParam) {
-    params.set(queryParam, serialize ? serialize(value) : value)
+  if (queryParamKey) {
+    params.set(
+      queryParamKey,
+      serialize ? serialize(queryParamValue) : queryParamValue,
+    )
   }
   return { expectedUrl, params: expectedUrl.searchParams }
 }

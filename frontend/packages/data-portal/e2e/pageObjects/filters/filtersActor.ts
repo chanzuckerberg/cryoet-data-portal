@@ -6,7 +6,7 @@ import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
 
 import { FiltersPage } from './filtersPage'
-import { MultiInputFilter } from './types'
+import { MultiInputFilterType } from './types'
 import {
   getAnnotationRowCountFromData,
   getExpectedFilterCount,
@@ -40,22 +40,22 @@ export class FiltersActor {
     id,
     pageNumber,
     url,
-    queryParam,
-    value,
+    queryParamKey,
+    queryParamValue,
     serialize,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     id: number
     pageNumber?: number
     url: string
-    queryParam?: QueryParams
-    value: string
+    queryParamKey?: QueryParams
+    queryParamValue: string
     serialize?: (value: string) => string
   }) {
     const { params } = getExpectedUrlWithQueryParams({
       url,
-      queryParam,
-      value,
+      queryParamKey,
+      queryParamValue,
       serialize,
     })
 
@@ -88,13 +88,13 @@ export class FiltersActor {
     hasMultipleFilters,
   }: {
     buttonLabel: string
-    filter: MultiInputFilter
+    filter: MultiInputFilterType
     hasMultipleFilters: boolean
   }) {
     await this.filtersPage.openFilterDropdown(buttonLabel)
     await this.filtersPage.fillInputFilter({
       label: `${filter.label}${hasMultipleFilters ? ':' : ''}`,
-      value: E2E_CONFIG[filter.valueKey] as string,
+      value: E2E_CONFIG[filter.value] as string,
     })
     await this.filtersPage.applyMultiInputFilter()
   }
@@ -104,19 +104,19 @@ export class FiltersActor {
   // #region Validate
   public async expectUrlQueryParamsToBeCorrect({
     url,
-    queryParam,
-    value,
+    queryParamKey,
+    queryParamValue,
     serialize,
   }: {
     url: string
-    queryParam?: QueryParams
-    value: string
+    queryParamKey?: QueryParams
+    queryParamValue: string
     serialize?: (value: string) => string
   }) {
     const { expectedUrl } = getExpectedUrlWithQueryParams({
       url,
-      queryParam,
-      value,
+      queryParamKey,
+      queryParamValue,
       serialize,
     })
 
@@ -160,16 +160,16 @@ export class FiltersActor {
     id,
     pageNumber,
     url,
-    queryParam,
-    value,
+    queryParamKey,
+    queryParamValue,
     serialize,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     id: number
     pageNumber?: number
     url: string
-    queryParam?: QueryParams
-    value: string
+    queryParamKey?: QueryParams
+    queryParamValue: string
     serialize?: (value: string) => string
   }) {
     const singleRunData = await this.getSingleRunDataWithParams({
@@ -177,8 +177,8 @@ export class FiltersActor {
       id,
       pageNumber,
       url,
-      queryParam,
-      value,
+      queryParamKey,
+      queryParamValue,
       serialize,
     })
 

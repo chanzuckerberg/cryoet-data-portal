@@ -27,16 +27,15 @@ test.describe('Single run page filters', () => {
           buttonLabel: translations.annotationAuthor,
           filter: {
             label: translations.authorName,
-            queryParam: QueryParams.AuthorName,
-            valueKey: 'authorName',
+            value: 'authorName',
           },
           hasMultipleFilters: true,
         })
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: SINGLE_RUN_URL,
-          queryParam: QueryParams.AuthorName,
-          value: E2E_CONFIG.authorName,
+          queryParamKey: QueryParams.AuthorName,
+          queryParamValue: E2E_CONFIG.authorName,
         })
 
         await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -44,8 +43,8 @@ test.describe('Single run page filters', () => {
           id: +E2E_CONFIG.runId,
           pageNumber: 1,
           url: SINGLE_RUN_URL,
-          queryParam: QueryParams.AuthorName,
-          value: E2E_CONFIG.authorName,
+          queryParamKey: QueryParams.AuthorName,
+          queryParamValue: E2E_CONFIG.authorName,
         })
       })
 
@@ -65,8 +64,8 @@ test.describe('Single run page filters', () => {
           id: +E2E_CONFIG.runId,
           pageNumber: 1,
           url: SINGLE_RUN_URL,
-          queryParam: QueryParams.AuthorName,
-          value: E2E_CONFIG.authorName,
+          queryParamKey: QueryParams.AuthorName,
+          queryParamValue: E2E_CONFIG.authorName,
         })
       })
 
@@ -85,8 +84,8 @@ test.describe('Single run page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: SINGLE_RUN_URL,
-          queryParam: undefined,
-          value: '',
+          queryParamKey: undefined,
+          queryParamValue: '',
         })
 
         await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -94,8 +93,8 @@ test.describe('Single run page filters', () => {
           id: +E2E_CONFIG.runId,
           pageNumber: 1,
           url: SINGLE_RUN_URL,
-          queryParam: undefined,
-          value: '',
+          queryParamKey: undefined,
+          queryParamValue: '',
         })
       })
     })
@@ -110,16 +109,15 @@ test.describe('Single run page filters', () => {
           buttonLabel: translations.annotationAuthor,
           filter: {
             label: translations.authorOrcid,
-            queryParam: QueryParams.AuthorOrcid,
-            valueKey: 'authorOrcId',
+            value: 'authorOrcId',
           },
           hasMultipleFilters: true,
         })
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: SINGLE_RUN_URL,
-          queryParam: QueryParams.AuthorOrcid,
-          value: E2E_CONFIG.authorOrcId,
+          queryParamKey: QueryParams.AuthorOrcid,
+          queryParamValue: E2E_CONFIG.authorOrcId,
         })
 
         await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -127,8 +125,8 @@ test.describe('Single run page filters', () => {
           id: +E2E_CONFIG.runId,
           pageNumber: 1,
           url: SINGLE_RUN_URL,
-          queryParam: QueryParams.AuthorOrcid,
-          value: E2E_CONFIG.authorOrcId,
+          queryParamKey: QueryParams.AuthorOrcid,
+          queryParamValue: E2E_CONFIG.authorOrcId,
         })
       })
       test('should filter when opening URL', async ({ page }) => {
@@ -147,8 +145,8 @@ test.describe('Single run page filters', () => {
           id: +E2E_CONFIG.runId,
           pageNumber: 1,
           url: SINGLE_RUN_URL,
-          queryParam: QueryParams.AuthorOrcid,
-          value: E2E_CONFIG.authorOrcId,
+          queryParamKey: QueryParams.AuthorOrcid,
+          queryParamValue: E2E_CONFIG.authorOrcId,
         })
       })
       test('should remove filter when deselecting', async ({ page }) => {
@@ -166,8 +164,8 @@ test.describe('Single run page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: SINGLE_RUN_URL,
-          queryParam: undefined,
-          value: '',
+          queryParamKey: undefined,
+          queryParamValue: '',
         })
 
         await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -175,8 +173,8 @@ test.describe('Single run page filters', () => {
           id: +E2E_CONFIG.runId,
           pageNumber: 1,
           url: SINGLE_RUN_URL,
-          queryParam: undefined,
-          value: '',
+          queryParamKey: undefined,
+          queryParamValue: '',
         })
       })
     })
@@ -196,8 +194,8 @@ test.describe('Single run page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.ObjectName,
-        value: E2E_CONFIG.objectName,
+        queryParamKey: QueryParams.ObjectName,
+        queryParamValue: E2E_CONFIG.objectName,
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -205,8 +203,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.ObjectName,
-        value: E2E_CONFIG.objectName,
+        queryParamKey: QueryParams.ObjectName,
+        queryParamValue: E2E_CONFIG.objectName,
       })
     })
 
@@ -226,8 +224,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.ObjectName,
-        value: E2E_CONFIG.objectName,
+        queryParamKey: QueryParams.ObjectName,
+        queryParamValue: E2E_CONFIG.objectName,
       })
     })
 
@@ -246,8 +244,8 @@ test.describe('Single run page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_RUN_URL,
-        queryParam: undefined,
-        value: '',
+        queryParamKey: undefined,
+        queryParamValue: '',
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -255,8 +253,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: undefined,
-        value: '',
+        queryParamKey: undefined,
+        queryParamValue: '',
       })
     })
   })
@@ -273,16 +271,15 @@ test.describe('Single run page filters', () => {
         buttonLabel: translations.goId,
         filter: {
           label: translations.filterByGeneOntologyId,
-          queryParam: QueryParams.GoId,
-          valueKey: 'goId',
+          value: 'goId',
         },
         hasMultipleFilters: false,
       })
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.GoId,
-        value: E2E_CONFIG.goId,
+        queryParamKey: QueryParams.GoId,
+        queryParamValue: E2E_CONFIG.goId,
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -290,8 +287,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.GoId,
-        value: E2E_CONFIG.goId,
+        queryParamKey: QueryParams.GoId,
+        queryParamValue: E2E_CONFIG.goId,
       })
     })
     test('should filter when opening URL', async ({ page }) => {
@@ -310,8 +307,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.GoId,
-        value: E2E_CONFIG.goId,
+        queryParamKey: QueryParams.GoId,
+        queryParamValue: E2E_CONFIG.goId,
       })
     })
 
@@ -330,8 +327,8 @@ test.describe('Single run page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_RUN_URL,
-        queryParam: undefined,
-        value: '',
+        queryParamKey: undefined,
+        queryParamValue: '',
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -339,8 +336,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: undefined,
-        value: '',
+        queryParamKey: undefined,
+        queryParamValue: '',
       })
     })
   })
@@ -359,8 +356,8 @@ test.describe('Single run page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.ObjectShapeType,
-        value: E2E_CONFIG.objectShapeType,
+        queryParamKey: QueryParams.ObjectShapeType,
+        queryParamValue: E2E_CONFIG.objectShapeType,
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -368,8 +365,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.ObjectShapeType,
-        value: E2E_CONFIG.objectShapeType,
+        queryParamKey: QueryParams.ObjectShapeType,
+        queryParamValue: E2E_CONFIG.objectShapeType,
       })
     })
 
@@ -389,8 +386,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.ObjectShapeType,
-        value: E2E_CONFIG.objectShapeType,
+        queryParamKey: QueryParams.ObjectShapeType,
+        queryParamValue: E2E_CONFIG.objectShapeType,
       })
     })
 
@@ -409,8 +406,8 @@ test.describe('Single run page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_RUN_URL,
-        queryParam: undefined,
-        value: '',
+        queryParamKey: undefined,
+        queryParamValue: '',
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -418,8 +415,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: undefined,
-        value: '',
+        queryParamKey: undefined,
+        queryParamValue: '',
       })
     })
   })
@@ -438,8 +435,8 @@ test.describe('Single run page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.MethodType,
-        value: E2E_CONFIG.methodType,
+        queryParamKey: QueryParams.MethodType,
+        queryParamValue: E2E_CONFIG.methodType,
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -447,8 +444,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.MethodType,
-        value: E2E_CONFIG.methodType,
+        queryParamKey: QueryParams.MethodType,
+        queryParamValue: E2E_CONFIG.methodType,
       })
     })
 
@@ -468,8 +465,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.MethodType,
-        value: E2E_CONFIG.methodType,
+        queryParamKey: QueryParams.MethodType,
+        queryParamValue: E2E_CONFIG.methodType,
       })
     })
 
@@ -488,8 +485,8 @@ test.describe('Single run page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_RUN_URL,
-        queryParam: undefined,
-        value: '',
+        queryParamKey: undefined,
+        queryParamValue: '',
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -497,8 +494,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: undefined,
-        value: '',
+        queryParamKey: undefined,
+        queryParamValue: '',
       })
     })
   })
@@ -517,8 +514,8 @@ test.describe('Single run page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.AnnotationSoftware,
-        value: E2E_CONFIG.annotationSoftware,
+        queryParamKey: QueryParams.AnnotationSoftware,
+        queryParamValue: E2E_CONFIG.annotationSoftware,
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -526,8 +523,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.AnnotationSoftware,
-        value: E2E_CONFIG.annotationSoftware,
+        queryParamKey: QueryParams.AnnotationSoftware,
+        queryParamValue: E2E_CONFIG.annotationSoftware,
       })
     })
 
@@ -547,8 +544,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: QueryParams.AnnotationSoftware,
-        value: E2E_CONFIG.annotationSoftware,
+        queryParamKey: QueryParams.AnnotationSoftware,
+        queryParamValue: E2E_CONFIG.annotationSoftware,
       })
     })
 
@@ -567,8 +564,8 @@ test.describe('Single run page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_RUN_URL,
-        queryParam: undefined,
-        value: '',
+        queryParamKey: undefined,
+        queryParamValue: '',
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -576,8 +573,8 @@ test.describe('Single run page filters', () => {
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
         url: SINGLE_RUN_URL,
-        queryParam: undefined,
-        value: '',
+        queryParamKey: undefined,
+        queryParamValue: '',
       })
     })
   })
