@@ -55,7 +55,7 @@ class Dataset:
 
     def download_everything(self, dest_path: Optional[str] = None):
         """Download all of the data for this dataset.
-    
+
         Args:
             dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
         """

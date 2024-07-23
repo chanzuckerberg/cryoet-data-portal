@@ -7,10 +7,18 @@ import re
 from dataclasses import dataclass
 from textwrap import dedent
 
-from graphql import GraphQLField, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLScalarType, GraphQLSchema, GraphQLType, build_schema
+from graphql import (
+    GraphQLField,
+    GraphQLList,
+    GraphQLNonNull,
+    GraphQLObjectType,
+    GraphQLScalarType,
+    GraphQLSchema,
+    GraphQLType,
+    build_schema,
+)
 
 from cryoet_data_portal import _model_stubs
-
 
 """Maps GraphQL field type names to model field defaults and Python types."""
 GQL_TO_MODEL_FIELD = {
@@ -44,6 +52,7 @@ GQL_TO_MODEL_TYPE = {
 @dataclass(frozen=True)
 class FieldInfo:
     """Describes the information about a parsed model field."""
+
     name: str
     description: str
     annotation_type: str
@@ -53,9 +62,11 @@ class FieldInfo:
 def write_models(path: str) -> None:
     schema = load_schema()
     with open(path, "w") as f:
-        f.write(dedent("""\
+        f.write(
+            dedent(
+                """\
             \"\"\"CryoET data portal client model classes.\"\"\"
-            
+
             from __future__ import annotations
             import os
             from datetime import date
@@ -72,9 +83,10 @@ def write_models(path: str) -> None:
                 Model,
                 StringField,
             )
-            """
-        ))
- 
+            """,
+            ),
+        )
+
         for gql, model in GQL_TO_MODEL_TYPE.items():
             logging.info("Parsing gql type %s to model %s", gql, model)
             gql_type = schema.get_type(gql)
@@ -86,16 +98,20 @@ def write_models(path: str) -> None:
             f.write(f"\n\nclass {model}(Model):\n")
 
             # Docstring
-            f.write(f"    \"\"\"{gql_type.description}\n\n")
-            f.write(f"    Attributes:\n")
+            f.write(f'    """{gql_type.description}\n\n')
+            f.write("    Attributes:\n")
             for field in fields:
-                f.write(f"        {field.name} ({field.annotation_type}): {field.description}\n")
-            f.write(f"    \"\"\"\n\n")
+                f.write(
+                    f"        {field.name} ({field.annotation_type}): {field.description}\n",
+                )
+            f.write('    """\n\n')
 
             # Attributes
-            f.write(f"    _gql_type: str = \"{gql}\"\n\n")
+            f.write(f'    _gql_type: str = "{gql}"\n\n')
             for field in fields:
-                f.write(f"    {field.name}: {field.annotation_type} = {field.default_value}\n")
+                f.write(
+                    f"    {field.name}: {field.annotation_type} = {field.default_value}\n",
+                )
 
             # Utility methods
             model_type = GQL_TO_MODEL_TYPE[gql]
@@ -117,7 +133,7 @@ def load_schema() -> GraphQLSchema:
     return build_schema(schema_str)
 
 
-def parse_fields(gql_type: GraphQLObjectType) -> list[FieldInfo]: 
+def parse_fields(gql_type: GraphQLObjectType) -> list[FieldInfo]:
     fields = []
     for name, field in gql_type.fields.items():
         if parsed := _parse_field(gql_type, name, field):
@@ -126,7 +142,9 @@ def parse_fields(gql_type: GraphQLObjectType) -> list[FieldInfo]:
     return fields
 
 
-def _parse_field(gql_type: GraphQLObjectType, name: str, field: GraphQLField) -> FieldInfo | None:
+def _parse_field(
+    gql_type: GraphQLObjectType, name: str, field: GraphQLField,
+) -> FieldInfo | None:
     logging.debug("_parse_field: %s, %s", name, field)
     field_type = _maybe_unwrap_non_null(field.type)
     if isinstance(field_type, GraphQLList):
@@ -135,9 +153,11 @@ def _parse_field(gql_type: GraphQLObjectType, name: str, field: GraphQLField) ->
         return _parse_object_field(name, field.description, field_type)
     if isinstance(field_type, GraphQLScalarType):
         return _parse_scalar_field(name, field.description, field_type)
- 
 
-def _parse_scalar_field(name: str, description: str, field_type: GraphQLScalarType) -> FieldInfo | None:
+
+def _parse_scalar_field(
+    name: str, description: str, field_type: GraphQLScalarType,
+) -> FieldInfo | None:
     logging.debug("_parse_scalar_field: %s", field_type)
     if field_type.name in GQL_TO_MODEL_FIELD:
         default_value, annotation_type = GQL_TO_MODEL_FIELD[field_type.name]
@@ -147,9 +167,11 @@ def _parse_scalar_field(name: str, description: str, field_type: GraphQLScalarTy
             annotation_type=annotation_type,
             default_value=default_value,
         )
- 
 
-def _parse_object_field(name: str, description: str, field_type: GraphQLObjectType) -> FieldInfo | None:
+
+def _parse_object_field(
+    name: str, description: str, field_type: GraphQLObjectType,
+) -> FieldInfo | None:
     logging.debug("_parse_object_field: %s", field_type)
     if model := GQL_TO_MODEL_TYPE.get(field_type.name):
         model_field = _camel_to_snake_case(model)
@@ -157,11 +179,13 @@ def _parse_object_field(name: str, description: str, field_type: GraphQLObjectTy
             name=name,
             description=description,
             annotation_type=model,
-            default_value=f"ItemRelationship({model}, \"{model_field}_id\", \"id\")",
+            default_value=f'ItemRelationship({model}, "{model_field}_id", "id")',
         )
 
 
-def _parse_list_field(gql_type: GraphQLObjectType, name: str, description: str, field_type: GraphQLList) -> FieldInfo | None:
+def _parse_list_field(
+    gql_type: GraphQLObjectType, name: str, description: str, field_type: GraphQLList,
+) -> FieldInfo | None:
     logging.debug("_parse_list_field: %s", field_type)
     of_type = _maybe_unwrap_non_null(field_type.of_type)
     foreign_field = _camel_to_snake_case(GQL_TO_MODEL_TYPE[gql_type.name])
@@ -170,7 +194,7 @@ def _parse_list_field(gql_type: GraphQLObjectType, name: str, description: str, 
             name=name,
             description=description,
             annotation_type=f"List[{of_model}]",
-            default_value=f"ListRelationship(\"{of_model}\", \"id\", \"{foreign_field}_id\")",
+            default_value=f'ListRelationship("{of_model}", "id", "{foreign_field}_id")',
         )
 
 
