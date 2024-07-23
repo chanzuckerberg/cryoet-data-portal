@@ -34,7 +34,6 @@ On a given Dataset Overview page, the View All Info panel contains metadata for 
 | Grant ID            | DatasetFunding.grant_id               | Grant identifier provided by the funding agency.                    |
 | Funding Agency      | DatasetFunding.funding_agency_name    | Name of the funding agency.                                         |
 | Related Databases   | Dataset.related_database_entries      | The dataset identifier for other databases, e.g. EMPIAR, that contain this dataset. |
-| Citations           | Dataset.dataset_citations             | DOIs for publications that cite the dataset.                        |
 
 **Sample and Experiment Conditions**
 | **Portal Metadata** | **API Expression**                   | **Definition**                                                                                                                                 |
