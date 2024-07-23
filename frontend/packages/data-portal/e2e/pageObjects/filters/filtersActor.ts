@@ -1,11 +1,12 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { translations } from 'e2e/constants'
+import { E2E_CONFIG, translations } from 'e2e/constants'
 
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
 import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
 
 import { FiltersPage } from './filtersPage'
+import { MultiInputFilter } from './types'
 import {
   getAnnotationRowCountFromData,
   getExpectedFilterCount,
@@ -81,6 +82,23 @@ export class FiltersActor {
     await this.filtersPage.selectFilterOption(value)
   }
 
+  public async addMultiInputFilter({
+    buttonLabel,
+    filter,
+    hasMultipleFilters,
+  }: {
+    buttonLabel: string
+    filter: MultiInputFilter
+    hasMultipleFilters: boolean
+  }) {
+    await this.filtersPage.openFilterDropdown(buttonLabel)
+    await this.filtersPage.fillInputFilter({
+      label: `${filter.label}${hasMultipleFilters ? ':' : ''}`,
+      value: E2E_CONFIG[filter.valueKey] as string,
+    })
+    await this.filtersPage.applyMultiInputFilter()
+  }
+
   // #endregion Macro
 
   // #region Validate
@@ -137,7 +155,7 @@ export class FiltersActor {
     )
   }
 
-  public async expectDataAndTableToMatch({
+  public async expectDataAndAnnotationsTableToMatch({
     client,
     id,
     pageNumber,

@@ -14,10 +14,172 @@ test.describe('Single run page filters', () => {
   test.beforeEach(() => {
     client = getApolloClient()
   })
-  // TODO: (ehoops) Add this actual test!
-  test('Annotation Author filter', async ({ page }) => {
-    const filtersPage = new FiltersPage(page)
-    await filtersPage.goTo('https://playwright.dev/')
+
+  test.describe('Annotation Author filter', () => {
+    test.describe('Author Name filter', () => {
+      test('should filter when selecting', async ({ page }) => {
+        const filtersPage = new FiltersPage(page)
+        const filtersActor = new FiltersActor(filtersPage)
+
+        await filtersPage.goTo(SINGLE_RUN_URL)
+
+        await filtersActor.addMultiInputFilter({
+          buttonLabel: translations.annotationAuthor,
+          filter: {
+            label: translations.authorName,
+            queryParam: QueryParams.AuthorName,
+            valueKey: 'authorName',
+          },
+          hasMultipleFilters: true,
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: SINGLE_RUN_URL,
+          queryParam: QueryParams.AuthorName,
+          value: E2E_CONFIG.authorName,
+        })
+
+        await filtersActor.expectDataAndAnnotationsTableToMatch({
+          client,
+          id: +E2E_CONFIG.runId,
+          pageNumber: 1,
+          url: SINGLE_RUN_URL,
+          queryParam: QueryParams.AuthorName,
+          value: E2E_CONFIG.authorName,
+        })
+      })
+
+      test('should filter when opening URL', async ({ page }) => {
+        const filtersPage = new FiltersPage(page)
+        const filtersActor = new FiltersActor(filtersPage)
+
+        await filtersActor.goToFilteredUrl({
+          baseUrl: SINGLE_RUN_URL,
+          paramObject: {
+            [QueryParams.AuthorName]: E2E_CONFIG.authorName,
+          },
+        })
+
+        await filtersActor.expectDataAndAnnotationsTableToMatch({
+          client,
+          id: +E2E_CONFIG.runId,
+          pageNumber: 1,
+          url: SINGLE_RUN_URL,
+          queryParam: QueryParams.AuthorName,
+          value: E2E_CONFIG.authorName,
+        })
+      })
+
+      test('should remove filter when deselecting', async ({ page }) => {
+        const filtersPage = new FiltersPage(page)
+        const filtersActor = new FiltersActor(filtersPage)
+
+        await filtersActor.goToFilteredUrl({
+          baseUrl: SINGLE_RUN_URL,
+          paramObject: {
+            [QueryParams.AuthorName]: E2E_CONFIG.authorName,
+          },
+        })
+
+        await filtersPage.removeMultiInputFilter(E2E_CONFIG.authorName)
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: SINGLE_RUN_URL,
+          queryParam: undefined,
+          value: '',
+        })
+
+        await filtersActor.expectDataAndAnnotationsTableToMatch({
+          client,
+          id: +E2E_CONFIG.runId,
+          pageNumber: 1,
+          url: SINGLE_RUN_URL,
+          queryParam: undefined,
+          value: '',
+        })
+      })
+    })
+    test.describe('Author ORCID filter', () => {
+      test('should filter when selecting', async ({ page }) => {
+        const filtersPage = new FiltersPage(page)
+        const filtersActor = new FiltersActor(filtersPage)
+
+        await filtersPage.goTo(SINGLE_RUN_URL)
+
+        await filtersActor.addMultiInputFilter({
+          buttonLabel: translations.annotationAuthor,
+          filter: {
+            label: translations.authorOrcid,
+            queryParam: QueryParams.AuthorOrcid,
+            valueKey: 'authorOrcId',
+          },
+          hasMultipleFilters: true,
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: SINGLE_RUN_URL,
+          queryParam: QueryParams.AuthorOrcid,
+          value: E2E_CONFIG.authorOrcId,
+        })
+
+        await filtersActor.expectDataAndAnnotationsTableToMatch({
+          client,
+          id: +E2E_CONFIG.runId,
+          pageNumber: 1,
+          url: SINGLE_RUN_URL,
+          queryParam: QueryParams.AuthorOrcid,
+          value: E2E_CONFIG.authorOrcId,
+        })
+      })
+      test('should filter when opening URL', async ({ page }) => {
+        const filtersPage = new FiltersPage(page)
+        const filtersActor = new FiltersActor(filtersPage)
+
+        await filtersActor.goToFilteredUrl({
+          baseUrl: SINGLE_RUN_URL,
+          paramObject: {
+            [QueryParams.AuthorOrcid]: E2E_CONFIG.authorOrcId,
+          },
+        })
+
+        await filtersActor.expectDataAndAnnotationsTableToMatch({
+          client,
+          id: +E2E_CONFIG.runId,
+          pageNumber: 1,
+          url: SINGLE_RUN_URL,
+          queryParam: QueryParams.AuthorOrcid,
+          value: E2E_CONFIG.authorOrcId,
+        })
+      })
+      test('should remove filter when deselecting', async ({ page }) => {
+        const filtersPage = new FiltersPage(page)
+        const filtersActor = new FiltersActor(filtersPage)
+
+        await filtersActor.goToFilteredUrl({
+          baseUrl: SINGLE_RUN_URL,
+          paramObject: {
+            [QueryParams.AuthorOrcid]: E2E_CONFIG.authorOrcId,
+          },
+        })
+
+        await filtersPage.removeMultiInputFilter(E2E_CONFIG.authorOrcId)
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: SINGLE_RUN_URL,
+          queryParam: undefined,
+          value: '',
+        })
+
+        await filtersActor.expectDataAndAnnotationsTableToMatch({
+          client,
+          id: +E2E_CONFIG.runId,
+          pageNumber: 1,
+          url: SINGLE_RUN_URL,
+          queryParam: undefined,
+          value: '',
+        })
+      })
+    })
   })
 
   test.describe('Object Name filter', () => {
@@ -38,7 +200,7 @@ test.describe('Single run page filters', () => {
         value: E2E_CONFIG.objectName,
       })
 
-      await filtersActor.expectDataAndTableToMatch({
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
         client,
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
@@ -59,7 +221,7 @@ test.describe('Single run page filters', () => {
         },
       })
 
-      await filtersActor.expectDataAndTableToMatch({
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
         client,
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
@@ -88,7 +250,7 @@ test.describe('Single run page filters', () => {
         value: '',
       })
 
-      await filtersActor.expectDataAndTableToMatch({
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
         client,
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
@@ -100,9 +262,87 @@ test.describe('Single run page filters', () => {
   })
 
   // TODO: (ehoops) Add this actual test!
-  test('Go ID filter', async ({ page }) => {
-    const filtersPage = new FiltersPage(page)
-    await filtersPage.goTo('https://playwright.dev/')
+  test.describe('Go ID filter', () => {
+    test('should filter when selecting', async ({ page }) => {
+      const filtersPage = new FiltersPage(page)
+      const filtersActor = new FiltersActor(filtersPage)
+
+      await filtersPage.goTo(SINGLE_RUN_URL)
+
+      await filtersActor.addMultiInputFilter({
+        buttonLabel: translations.goId,
+        filter: {
+          label: translations.filterByGeneOntologyId,
+          queryParam: QueryParams.GoId,
+          valueKey: 'goId',
+        },
+        hasMultipleFilters: false,
+      })
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: SINGLE_RUN_URL,
+        queryParam: QueryParams.GoId,
+        value: E2E_CONFIG.goId,
+      })
+
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
+        client,
+        id: +E2E_CONFIG.runId,
+        pageNumber: 1,
+        url: SINGLE_RUN_URL,
+        queryParam: QueryParams.GoId,
+        value: E2E_CONFIG.goId,
+      })
+    })
+    test('should filter when opening URL', async ({ page }) => {
+      const filtersPage = new FiltersPage(page)
+      const filtersActor = new FiltersActor(filtersPage)
+
+      await filtersActor.goToFilteredUrl({
+        baseUrl: SINGLE_RUN_URL,
+        paramObject: {
+          [QueryParams.GoId]: E2E_CONFIG.goId,
+        },
+      })
+
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
+        client,
+        id: +E2E_CONFIG.runId,
+        pageNumber: 1,
+        url: SINGLE_RUN_URL,
+        queryParam: QueryParams.GoId,
+        value: E2E_CONFIG.goId,
+      })
+    })
+
+    test('should remove filter when deselecting', async ({ page }) => {
+      const filtersPage = new FiltersPage(page)
+      const filtersActor = new FiltersActor(filtersPage)
+
+      await filtersActor.goToFilteredUrl({
+        baseUrl: SINGLE_RUN_URL,
+        paramObject: {
+          [QueryParams.GoId]: E2E_CONFIG.goId,
+        },
+      })
+
+      await filtersPage.removeMultiInputFilter(E2E_CONFIG.goId)
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: SINGLE_RUN_URL,
+        queryParam: undefined,
+        value: '',
+      })
+
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
+        client,
+        id: +E2E_CONFIG.runId,
+        pageNumber: 1,
+        url: SINGLE_RUN_URL,
+        queryParam: undefined,
+        value: '',
+      })
+    })
   })
 
   test.describe('Object Shape Type filter', () => {
@@ -123,7 +363,7 @@ test.describe('Single run page filters', () => {
         value: E2E_CONFIG.objectShapeType,
       })
 
-      await filtersActor.expectDataAndTableToMatch({
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
         client,
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
@@ -144,7 +384,7 @@ test.describe('Single run page filters', () => {
         },
       })
 
-      await filtersActor.expectDataAndTableToMatch({
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
         client,
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
@@ -173,7 +413,7 @@ test.describe('Single run page filters', () => {
         value: '',
       })
 
-      await filtersActor.expectDataAndTableToMatch({
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
         client,
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
@@ -202,7 +442,7 @@ test.describe('Single run page filters', () => {
         value: E2E_CONFIG.methodType,
       })
 
-      await filtersActor.expectDataAndTableToMatch({
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
         client,
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
@@ -223,7 +463,7 @@ test.describe('Single run page filters', () => {
         },
       })
 
-      await filtersActor.expectDataAndTableToMatch({
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
         client,
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
@@ -252,7 +492,7 @@ test.describe('Single run page filters', () => {
         value: '',
       })
 
-      await filtersActor.expectDataAndTableToMatch({
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
         client,
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
@@ -281,7 +521,7 @@ test.describe('Single run page filters', () => {
         value: E2E_CONFIG.annotationSoftware,
       })
 
-      await filtersActor.expectDataAndTableToMatch({
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
         client,
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
@@ -302,7 +542,7 @@ test.describe('Single run page filters', () => {
         },
       })
 
-      await filtersActor.expectDataAndTableToMatch({
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
         client,
         id: +E2E_CONFIG.runId,
         pageNumber: 1,
@@ -331,7 +571,7 @@ test.describe('Single run page filters', () => {
         value: '',
       })
 
-      await filtersActor.expectDataAndTableToMatch({
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
         client,
         id: +E2E_CONFIG.runId,
         pageNumber: 1,

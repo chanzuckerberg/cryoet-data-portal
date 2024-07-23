@@ -28,6 +28,29 @@ export class FiltersPage extends BasePage {
   public async removeFilterOption(label: string) {
     await this.page.click(`[role=button]:has-text("${label}") svg`)
   }
+
+  public async removeMultiInputFilter(label: string) {
+    await this.page
+      .locator('span', { hasText: label })
+      .locator('..')
+      .getByRole('button')
+      .click()
+  }
+
+  public async fillInputFilter({
+    label,
+    value,
+  }: {
+    label: string
+    value: string
+  }) {
+    await this.page.getByLabel(label).click()
+    await this.page.getByLabel(label).fill(value)
+  }
+
+  public async applyMultiInputFilter() {
+    await this.page.getByRole('button', { name: 'Apply' }).click()
+  }
   // #endregion Click
 
   // #region Hover
