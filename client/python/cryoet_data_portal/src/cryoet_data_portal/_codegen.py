@@ -116,7 +116,8 @@ def write_models(path: str) -> None:
 
             # Utility methods
             model_type = GQL_TO_MODEL_TYPE[gql]
-            if model_class := getattr(_model_stubs, model_type, None):
+            model_class = getattr(_model_stubs, model_type, None)
+            if model_class is not None:
                 utils = inspect.getmembers(model_class, inspect.isfunction)
                 for _, util in utils:
                     source = inspect.getsource(util)
@@ -126,6 +127,9 @@ def write_models(path: str) -> None:
         f.write("\n")
         for model in GQL_TO_MODEL_TYPE.values():
             f.write(f"\n{model}.setup()")
+
+        # Newline for linter
+        f.write("\n")
 
 
 def load_schema() -> GraphQLSchema:
@@ -137,7 +141,8 @@ def load_schema() -> GraphQLSchema:
 def parse_fields(gql_type: GraphQLObjectType) -> List[FieldInfo]:
     fields = []
     for name, field in gql_type.fields.items():
-        if parsed := _parse_field(gql_type, name, field):
+        parsed = _parse_field(gql_type, name, field)
+        if parsed is not None:
             logging.info("Parsed field %s", parsed)
             fields.append(parsed)
     return fields
@@ -180,7 +185,8 @@ def _parse_object_field(
     field_type: GraphQLObjectType,
 ) -> Optional[FieldInfo]:
     logging.debug("_parse_object_field: %s", field_type)
-    if model := GQL_TO_MODEL_TYPE.get(field_type.name):
+    model = GQL_TO_MODEL_TYPE.get(field_type.name)
+    if model is not None:
         model_field = _camel_to_snake_case(model)
         return FieldInfo(
             name=name,
@@ -199,7 +205,8 @@ def _parse_list_field(
     logging.debug("_parse_list_field: %s", field_type)
     of_type = _maybe_unwrap_non_null(field_type.of_type)
     foreign_field = _camel_to_snake_case(GQL_TO_MODEL_TYPE[gql_type.name])
-    if of_model := GQL_TO_MODEL_TYPE.get(of_type.name):
+    of_model = GQL_TO_MODEL_TYPE.get(of_type.name)
+    if of_model is not None:
         return FieldInfo(
             name=name,
             description=description,
