@@ -36,20 +36,20 @@ pip install -U cryoet-data-portal
 
 ## API Functions Overview
 
-The Portal API has functions for searching and downloading data. **Every class** has a `find` and `get_by_id` method for selecting data, and most classes have `download...` methods for downloading the data. Below is a table of the API classes download functions.
+The Portal API has methods for searching and downloading data. **Every class** has a `find` and `get_by_id` method for selecting data, and most classes have `download...` methods for downloading the data. Below is a table of the API classes download methods.
 
-| **Class**               | **Download Functions**                                                                                 |
+| **Class**               | **Download Methods**                                                                                 |
 |-------------------------|--------------------------------------------------------------------------------------------------------|
-| Dataset                 | `download_everything`                                                                                  |
-| DatasetAuthor           | None                                                                                                   |
-| DatasetFunding          | None                                                                                                   |
+| [Dataset](./python-api.rst#dataset)| `download_everything`                                                                                  |
+| DatasetAuthor           | Not applicable as this class doesn't contain data files                                                |
+| DatasetFunding          | Not applicable as this class doesn't contain data files                                                |
 | Run                     | `download_everything`                                                                                  |
 | TomogramVoxelSpacing    | `download_everything`                                                                                  |
 | Tomogram                | `download_all_annotations`, `download_mrcfile`, `download_omezarr`                                     |
-| TomogramAuthor          | None                                                                                                   |
+| TomogramAuthor          | Not applicable as this class doesn't contain data files                                                |
 | Annotation              | `download`                                                                                            |
-| AnnotationFile          | None                                                                                                   |
-| AnnoatationAuthor       | None                                                                                                   |
+| AnnotationFile          | None, use the Annotation or Tomogram class to download annotations                                     |
+| AnnoatationAuthor       | Not applicable as this class doesn't contain data files                                                |
 | TiltSeries              | `download_alignment_file`, `download_angle_list`, `download_collection_metadata`, `download_mrcfile`, `download_omezarr` |
 
 The `find` method selects data based on user-chosen queries. These queries can have python operators `==`, `!=`, `>`, `>=`, `<`, `<=`; method operators `like`, `ilike`, `_in`; and strings or numbers. The method operators are defined in the table below:
