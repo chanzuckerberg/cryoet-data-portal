@@ -50,11 +50,12 @@ class FieldInfo:
     default_value: str
 
 
-
 def write_models() -> None:
     schema = load_schema()
     with open(pathlib.Path(__file__).parent / "_codegen_models.py", "w") as f:
-        f.write(dedent("""
+        f.write(dedent("""\
+            \"\"\"CryoET data portal client model classes.\"\"\"
+            
             from __future__ import annotations
             import os
             from datetime import date
@@ -81,24 +82,22 @@ def write_models() -> None:
 
             fields = parse_fields(gql_type)
 
-            # Write class name
+            # Class
             f.write(f"\n\nclass {model}(Model):\n")
 
-            # Write docstring
+            # Docstring
             f.write(f"    \"\"\"{gql_type.description}\n\n")
             f.write(f"    Attributes:\n")
             for field in fields:
                 f.write(f"        {field.name} ({field.annotation_type}): {field.description}\n")
             f.write(f"    \"\"\"\n\n")
 
-            # Write _gql_type
+            # Attributes
             f.write(f"    _gql_type: str = \"{gql}\"\n\n")
-
-            # Write model types
             for field in fields:
                 f.write(f"    {field.name}: {field.annotation_type} = {field.default_value}\n")
 
-            # Write utility methods
+            # Utility methods
             model_type = GQL_TO_MODEL_TYPE[gql]
             if model_class := getattr(_model_stubs, model_type, None):
                 utils = inspect.getmembers(model_class, inspect.isfunction)
@@ -106,7 +105,7 @@ def write_models() -> None:
                     source = inspect.getsource(util)
                     f.write(f"\n{source}")
 
-        # Write model setup calls
+        # Model setup calls
         f.write("\n")
         for model in GQL_TO_MODEL_TYPE.values():
             f.write(f"\n{model}.setup()")

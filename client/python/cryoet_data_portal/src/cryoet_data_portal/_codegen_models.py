@@ -1,3 +1,4 @@
+"""CryoET data portal client model classes."""
 
 from __future__ import annotations
 import os
