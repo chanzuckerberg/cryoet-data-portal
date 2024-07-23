@@ -45,7 +45,7 @@ The Portal API has methods for searching and downloading data. **Every class** h
 | DatasetFunding(./python-api.rst#datasetfunding)| Not applicable as this class doesn't contain data files|
 | Run(./python-api.rst#run)| `download_everything`                  |
 | TomogramVoxelSpacing(./python-api.rst#tomogramvoxelspacing)| `download_everything`          |
-| Tomogram(./python-api.rst#tomogram)| `download_all_annotations`, `download_mrcfile`, `download_omezarr`  
+| Tomogram(./python-api.rst#tomogram)| `download_all_annotations`, `download_mrcfile`, `download_omezarr`  |
 | TomogramAuthor(./python-api.rst#tomogramauthor)| Not applicable as this class doesn't contain data files  |
 | Annotation(./python-api.rst#annotation)| `download`  |
 | AnnotationFile(./python-api.rst#annotationfile)| None, use the Annotation or Tomogram class to download annotations |
