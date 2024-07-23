@@ -50,11 +50,6 @@ class FieldInfo:
     default_value: str
 
 
-def load_schema() -> GraphQLSchema:
-    with open(pathlib.Path(__file__).parent / "data/schema.graphql", "r") as f:
-        schema_str = f.read()
-    return build_schema(schema_str)
-
 
 def write_models() -> None:
     schema = load_schema()
@@ -117,27 +112,33 @@ def write_models() -> None:
             f.write(f"\n{model}.setup()")
 
 
+def load_schema() -> GraphQLSchema:
+    with open(pathlib.Path(__file__).parent / "data/schema.graphql", "r") as f:
+        schema_str = f.read()
+    return build_schema(schema_str)
+
+
 def parse_fields(gql_type: GraphQLObjectType) -> list[FieldInfo]: 
     fields = []
     for name, field in gql_type.fields.items():
-        if parsed := parse_field(gql_type, name, field):
+        if parsed := _parse_field(gql_type, name, field):
             logging.debug("Parsed %s", parsed)
             fields.append(parsed)
     return fields
 
 
-def parse_field(gql_type: GraphQLObjectType, name: str, field: GraphQLField) -> FieldInfo | None:
+def _parse_field(gql_type: GraphQLObjectType, name: str, field: GraphQLField) -> FieldInfo | None:
     logging.debug("parse_field: %s, %s", name, field)
     field_type = _maybe_unwrap_non_null(field.type)
     if isinstance(field_type, GraphQLList):
-        return parse_list_field(gql_type, name, field.description, field_type)
+        return _parse_list_field(gql_type, name, field.description, field_type)
     if isinstance(field_type, GraphQLObjectType):
-        return parse_object_field(name, field.description, field_type)
+        return _parse_object_field(name, field.description, field_type)
     if isinstance(field_type, GraphQLScalarType):
-        return parse_scalar_field(name, field.description, field_type)
+        return _parse_scalar_field(name, field.description, field_type)
  
 
-def parse_scalar_field(name: str, description: str, field_type: GraphQLScalarType) -> FieldInfo | None:
+def _parse_scalar_field(name: str, description: str, field_type: GraphQLScalarType) -> FieldInfo | None:
     logging.debug("parse_scalar_field: %s", field_type)
     if field_type.name in GQL_TO_MODEL_FIELD:
         default_value, annotation_type = GQL_TO_MODEL_FIELD[field_type.name]
@@ -149,7 +150,7 @@ def parse_scalar_field(name: str, description: str, field_type: GraphQLScalarTyp
         )
  
 
-def parse_object_field(name: str, description: str, field_type: GraphQLObjectType) -> FieldInfo | None:
+def _parse_object_field(name: str, description: str, field_type: GraphQLObjectType) -> FieldInfo | None:
     logging.debug("parse_object_field: %s", field_type)
     if model := GQL_TO_MODEL_TYPE.get(field_type.name):
         model_field = _camel_to_snake_case(model)
@@ -161,7 +162,7 @@ def parse_object_field(name: str, description: str, field_type: GraphQLObjectTyp
         )
 
 
-def parse_list_field(gql_type: GraphQLObjectType, name: str, description: str, field_type: GraphQLList) -> FieldInfo | None:
+def _parse_list_field(gql_type: GraphQLObjectType, name: str, description: str, field_type: GraphQLList) -> FieldInfo | None:
     logging.debug("parse_list_field: %s", field_type)
     of_type = _maybe_unwrap_non_null(field_type.of_type)
     foreign_field = _camel_to_snake_case(GQL_TO_MODEL_TYPE[gql_type.name])
