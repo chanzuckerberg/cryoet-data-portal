@@ -14,3 +14,11 @@ def test_parse_fields_dataset():
     assert isinstance(dataset_type, GraphQLObjectType)
     fields = parse_fields(dataset_type)
     assert len(fields) > 0
+
+
+def test_parse_fields_tomogram():
+    schema = load_schema()
+    tomogram_type = schema.get_type("tomograms")
+    assert isinstance(tomogram_type, GraphQLObjectType)
+    fields = parse_fields(tomogram_type)
+    assert len(fields) > 0
