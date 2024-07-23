@@ -18,7 +18,7 @@ testMultiInputFilter({
       valueKey: 'authorOrcId',
     },
   ],
-  url: SINGLE_RUN_URL,
+  url: 'http://google.com',
   validateTable: validateAnnotationsTable,
 })
 
