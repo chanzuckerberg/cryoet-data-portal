@@ -34,6 +34,21 @@ export class FiltersPage extends BasePage {
   // #endregion Hover
 
   // #region Get
+  public getFilteredUrl({
+    baseUrl,
+    paramObject,
+  }: {
+    baseUrl: string
+    paramObject: Record<string, string>
+  }) {
+    const url = new URL(baseUrl)
+    const params = url.searchParams
+    Object.entries(paramObject).forEach(([key, value]) => {
+      params.set(key, value)
+    })
+    return url
+  }
+
   public async getAllDatasetIds() {
     const allDatasetRows = await this.page.getByText(/Dataset ID: [0-9]+/).all()
     return Promise.all(

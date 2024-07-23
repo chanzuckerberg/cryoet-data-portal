@@ -20,6 +20,19 @@ export class FiltersActor {
     this.filtersPage = filtersPage
   }
 
+  // #region Navigation
+  public async goToFilteredUrl({
+    baseUrl,
+    paramObject,
+  }: {
+    baseUrl: string
+    paramObject: Record<string, string>
+  }) {
+    const url = this.filtersPage.getFilteredUrl({ baseUrl, paramObject })
+    await this.filtersPage.goTo(url.href)
+  }
+  // #endregion Navigation
+
   // #region Data
   public async getSingleRunDataWithParams({
     client,
@@ -122,6 +135,36 @@ export class FiltersActor {
       annotationRowCountFromData,
       annotationRowCountFromTable,
     )
+  }
+
+  public async expectDataAndTableToMatch({
+    client,
+    id,
+    pageNumber,
+    url,
+    queryParam,
+    value,
+    serialize,
+  }: {
+    client: ApolloClient<NormalizedCacheObject>
+    id: number
+    pageNumber?: number
+    url: string
+    queryParam?: QueryParams
+    value: string
+    serialize?: (value: string) => string
+  }) {
+    const singleRunData = await this.getSingleRunDataWithParams({
+      client,
+      id,
+      pageNumber,
+      url,
+      queryParam,
+      value,
+      serialize,
+    })
+
+    await this.expectAnnotationsTableToBeCorrect({ singleRunData })
   }
   // #endregion Validate
 }
