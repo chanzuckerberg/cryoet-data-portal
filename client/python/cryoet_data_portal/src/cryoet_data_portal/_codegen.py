@@ -186,5 +186,5 @@ def _camel_to_snake_case(name: str) -> str:
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    path = pathlib.Path(__file__).parent / "_codegen_models.py"
+    path = pathlib.Path(__file__).parent / "_models.py"
     write_models(str(path))
