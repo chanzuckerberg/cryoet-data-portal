@@ -224,7 +224,7 @@ export async function validateAnnotationsTable({
     client,
     params,
     id,
-    page: pageNumber,
+    annotationsPage: pageNumber,
   })
 
   await validateTable({
