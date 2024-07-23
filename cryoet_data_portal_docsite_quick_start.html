@@ -95,11 +95,13 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quick start</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#python">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-in-a-virtual-environment">Install in a Virtual Environment</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#python-quick-start">Python quick start</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#browse-data-in-the-portal">Browse data in the portal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api-methods-overview">API Methods Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#browse-all-data-in-the-portal">Browse all data in the portal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#find-all-datasets-containing-membrane-annotations">Find all datasets containing membrane annotations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#find-all-tomograms-for-a-certain-organism-and-download-preview-sized-mrc-files">Find all tomograms for a certain organism and download preview-sized MRC files:</a></li>
 </ul>
 </li>
@@ -108,7 +110,7 @@
 <li class="toctree-l1"><a class="reference internal" href="python-api.html">Python API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_data.html">Data Organization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_napari.html">napari</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_aws.html">Download Data using AWS CLI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -150,11 +152,12 @@
                 
   <section id="quick-start">
 <h1>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this heading">¶</a></h1>
-<p>This page provides details to start using the CryoET Data Portal.</p>
+<p>This page provides details to help you get started using the CryoET Data Portal Client API.</p>
 <p><strong>Contents</strong></p>
 <ol class="arabic simple">
-<li><p><a class="reference internal" href="#installation"><span class="std std-ref">Installation</span></a>.</p></li>
-<li><p><a class="reference internal" href="#python-quick-start"><span class="std std-ref">Python quick start</span></a>.</p></li>
+<li><p><a class="reference internal" href="#installation"><span class="std std-ref">Installation</span></a></p></li>
+<li><p><a class="reference internal" href="#api-methods-overview"><span class="std std-ref">API Methods Overview</span></a></p></li>
+<li><p><a class="reference internal" href="#examples"><span class="std std-ref">Example Code Snippets</span></a></p></li>
 </ol>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
@@ -168,8 +171,8 @@
 <li><p>Recommended: for increased performance, use the API through an AWS-EC2 instance from the region <code class="docutils literal notranslate"><span class="pre">us-west-2</span></code>. The CryoET Portal data are hosted in a AWS-S3 bucket in that region.</p></li>
 </ul>
 </section>
-<section id="python">
-<h3>Python<a class="headerlink" href="#python" title="Permalink to this heading">¶</a></h3>
+<section id="install-in-a-virtual-environment">
+<h3>Install in a Virtual Environment<a class="headerlink" href="#install-in-a-virtual-environment" title="Permalink to this heading">¶</a></h3>
 <p>(Optional) In your working directory, make and activate a virtual environment or conda environment. For example:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>./venv
 <span class="nb">source</span><span class="w"> </span>./venv/bin/activate
@@ -181,12 +184,90 @@
 </div>
 </section>
 </section>
-<section id="python-quick-start">
-<h2>Python quick start<a class="headerlink" href="#python-quick-start" title="Permalink to this heading">¶</a></h2>
-<p>Below are 3 examples of common operations you can do with the client. Check out the <a class="reference external" href="https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_examples.html">examples page</a> for more code snippets.</p>
-<section id="browse-data-in-the-portal">
-<h3>Browse data in the portal<a class="headerlink" href="#browse-data-in-the-portal" title="Permalink to this heading">¶</a></h3>
-<p>The following iterates over all datasets in the portal, then all runs per dataset, then all tomograms per run</p>
+<section id="api-methods-overview">
+<h2>API Methods Overview<a class="headerlink" href="#api-methods-overview" title="Permalink to this heading">¶</a></h2>
+<p>The Portal API has methods for searching and downloading data. <strong>Every class</strong> has a <code class="docutils literal notranslate"><span class="pre">find</span></code> and <code class="docutils literal notranslate"><span class="pre">get_by_id</span></code> method for selecting data, and most classes have <code class="docutils literal notranslate"><span class="pre">download...</span></code> methods for downloading the data. Below is a table of the API classes download methods.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Class</strong></p></th>
+<th class="head"><p><strong>Download Methods</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="python-api.html#dataset"><span class="std std-ref">Dataset</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">download_everything</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="python-api.html#datasetauthor"><span class="std std-ref">DatasetAuthor</span></a></p></td>
+<td><p>Not applicable as this class doesn’t contain data files</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="python-api.html#datasetfunding"><span class="std std-ref">DatasetFunding</span></a></p></td>
+<td><p>Not applicable as this class doesn’t contain data files</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="python-api.html#run"><span class="std std-ref">Run</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">download_everything</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="python-api.html#tomogramvoxelspacing"><span class="std std-ref">TomogramVoxelSpacing</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">download_everything</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="python-api.html#tomogram"><span class="std std-ref">Tomogram</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">download_all_annotations</span></code>, <code class="docutils literal notranslate"><span class="pre">download_mrcfile</span></code>, <code class="docutils literal notranslate"><span class="pre">download_omezarr</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="python-api.html#tomogramauthor"><span class="std std-ref">TomogramAuthor</span></a></p></td>
+<td><p>Not applicable as this class doesn’t contain data files</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="python-api.html#annotation"><span class="std std-ref">Annotation</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">download</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="python-api.html#annotationfile"><span class="std std-ref">AnnotationFile</span></a></p></td>
+<td><p>None, use the Annotation or Tomogram class to download annotations</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="python-api.html#annotationauthor"><span class="std std-ref">AnnotationAuthor</span></a></p></td>
+<td><p>Not applicable as this class doesn’t contain data files</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="python-api.html#tiltseries"><span class="std std-ref">TiltSeries</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">download_alignment_file</span></code>, <code class="docutils literal notranslate"><span class="pre">download_angle_list</span></code>, <code class="docutils literal notranslate"><span class="pre">download_collection_metadata</span></code>, <code class="docutils literal notranslate"><span class="pre">download_mrcfile</span></code>, <code class="docutils literal notranslate"><span class="pre">download_omezarr</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>The <code class="docutils literal notranslate"><span class="pre">find</span></code> method selects data based on user-chosen queries. These queries can have python operators <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>; method operators <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">ilike</span></code>, <code class="docutils literal notranslate"><span class="pre">_in</span></code>; and strings or numbers. The method operators are defined in the table below:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Method Operator</strong></p></th>
+<th class="head"><p><strong>Definition</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>like</p></td>
+<td><p>partial match, with the <code class="docutils literal notranslate"><span class="pre">%</span></code> character being a wildcard</p></td>
+</tr>
+<tr class="row-odd"><td><p>ilike</p></td>
+<td><p>case-insensitive partial match, with the <code class="docutils literal notranslate"><span class="pre">%</span></code> character being a wildcard</p></td>
+</tr>
+<tr class="row-even"><td><p>_in</p></td>
+<td><p>accepts a list of values that are acceptable matches</p></td>
+</tr>
+</tbody>
+</table>
+<p>The general format of using the <code class="docutils literal notranslate"><span class="pre">find</span></code> method is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data_of_interest</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">queries</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">get_by_id</span></code> method allows you to select data using the ID found on the Portal. For example, to select the data for <a class="reference external" href="https://cryoetdataportal.czscience.com/datasets/10005">Dataset 10005</a> on the Portal and download it into your current directory use this snippet:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data_10005</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">10005</span><span class="p">)</span>
+<span class="n">data_10005</span><span class="o">.</span><span class="n">download_everything</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<p>Below are 3 examples of common operations you can do with the API. Check out the <a class="reference internal" href="cryoet_data_portal_docsite_examples.html"><span class="std std-doc">examples page</span></a> for more code snippets or the <a class="reference internal" href="tutorials.html"><span class="std std-doc">tutorials page</span></a> for longer examples.</p>
+<section id="browse-all-data-in-the-portal">
+<h3>Browse all data in the portal<a class="headerlink" href="#browse-all-data-in-the-portal" title="Permalink to this heading">¶</a></h3>
+<p>To illustrate the relationships among the classes in the Portal, below is a loop that iterates over all datasets in the portal, then all runs per dataset, then all tomograms per run and outputs the name of each object.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>This loop is impractical! It iterates over all data in the Portal. It is simply for demonstrative purposes and should not be included in efficient code.</p>
+</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Dataset</span>
 
 <span class="c1"># Instantiate a client, using the data portal GraphQL API by default</span>
@@ -204,12 +285,27 @@
 
 </pre></div>
 </div>
-<p>And outputs the name of each object:</p>
+<p>The output with the object names would display something like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Dataset</span><span class="p">:</span> <span class="n">S</span><span class="o">.</span> <span class="n">pombe</span> <span class="n">cells</span> <span class="k">with</span> <span class="n">defocus</span>
   <span class="o">-</span> <span class="n">run</span><span class="p">:</span> <span class="n">TS_026</span>
     <span class="o">-</span> <span class="n">voxel</span> <span class="n">spacing</span><span class="p">:</span> <span class="mf">13.48</span>
         <span class="o">-</span> <span class="n">tomo</span><span class="p">:</span> <span class="n">TS_026</span>
 <span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="find-all-datasets-containing-membrane-annotations">
+<h3>Find all datasets containing membrane annotations<a class="headerlink" href="#find-all-datasets-containing-membrane-annotations" title="Permalink to this heading">¶</a></h3>
+<p>The below example uses the <code class="docutils literal notranslate"><span class="pre">find</span></code> method with a longer API expression in the query to select datasets that have membrane annotations and print the IDs of those datasets.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cryoet_data_portal</span> <span class="k">as</span> <span class="nn">portal</span>
+
+<span class="c1"># Instantiate a client, using the data portal GraphQL API by default</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">portal</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
+
+<span class="c1"># Use the find method to select datasets that contain membrane annotations</span>
+<span class="n">datasets</span> <span class="o">=</span> <span class="n">portal</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">portal</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s2">&quot;%membrane%&quot;</span><span class="p">)])</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">datasets</span><span class="p">:</span>
+   <span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

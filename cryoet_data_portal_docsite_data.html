@@ -118,7 +118,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_napari.html">napari</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_aws.html">Download Data using AWS CLI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -181,7 +181,132 @@
 <h2>Datasets<a class="headerlink" href="#datasets" title="Permalink to this heading">¶</a></h2>
 <p>Datasets are contributed sets of image files associated with imaging one sample type with the same sample preparation methods. Datasets contain runs, where each run corresponds to imaging one physical location in the prepared samples.</p>
 <p>The Browse Datasets page shows a table of all datasets on the Portal. These datasets are not currently ordered. Instead, the left side filter panel provides options for filtering the table according to files included in the datasets, such as ground truth annotation files; the author or ID of the dataset; organism in the sample; hardware; metadata for the tilt series or reconstructed tomograms. In addition, the search bar filters based on keywords or phrases contained in the dataset titles. The dataset entries in the table have descriptive names, such as “S. pombe cryo-FIB lamellae acquired with defocus-only,” which aim to summarize the experiment as well as a Dataset ID assigned by the Portal, the organism name, number of runs in the dataset, and list of annotated objects, such as membrane. Datasets on the Portal may be found in other image databases. On the Browse Datasets page, the datasets table shows the EMPIAR ID for datasets that are also found on the Electron Microscopy Public Image Archive.</p>
-<p>On a given Dataset Overview page, the View All Info panel contains metadata for the dataset.</p>
+<p>On a given Dataset Overview page, the View All Info panel contains metadata for the dataset. These metadata are defined in the tables below including their mapping to attributes in the Portal API:</p>
+<p><strong>Dataset Metadata</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Portal Metadata</strong></p></th>
+<th class="head"><p><strong>API Expression</strong></p></th>
+<th class="head"><p><strong>Definition</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Deposition Date</p></td>
+<td><p>Dataset.deposition_date</p></td>
+<td><p>Date when a dataset is initially received by the Data Portal.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Grant ID</p></td>
+<td><p>DatasetFunding.grant_id</p></td>
+<td><p>Grant identifier provided by the funding agency.</p></td>
+</tr>
+<tr class="row-even"><td><p>Funding Agency</p></td>
+<td><p>DatasetFunding.funding_agency_name</p></td>
+<td><p>Name of the funding agency.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Related Databases</p></td>
+<td><p>Dataset.related_database_entries</p></td>
+<td><p>The dataset identifier for other databases, e.g. EMPIAR, that contain this dataset.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sample and Experiment Conditions</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Portal Metadata</strong></p></th>
+<th class="head"><p><strong>API Expression</strong></p></th>
+<th class="head"><p><strong>Definition</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Sample Type</p></td>
+<td><p>Dataset.sample_type</p></td>
+<td><p>Type of sample: cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Organism Name</p></td>
+<td><p>Dataset.organism_name</p></td>
+<td><p>Name of the organism from which the biological sample is derived from, e.g. homo sapiens.</p></td>
+</tr>
+<tr class="row-even"><td><p>Tissue Name</p></td>
+<td><p>Dataset.tissue_name</p></td>
+<td><p>Name of the tissue from which a biological sample used in a CryoET study is derived from.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cell Name</p></td>
+<td><p>Dataset.cell_name</p></td>
+<td><p>Name of the cell from which a biological sample used in a CryoET study is derived from, e.g. sperm.</p></td>
+</tr>
+<tr class="row-even"><td><p>Cell Line or Strain Name</p></td>
+<td><p>Dataset.cell_strain_name</p></td>
+<td><p>Cell line or strain for the sample e.g. C57BI</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cellular Component</p></td>
+<td><p>Dataset.cell_component_name</p></td>
+<td><p>Name of the cellular component, e.g. sperm flagellum</p></td>
+</tr>
+<tr class="row-even"><td><p>Sample Preparation</p></td>
+<td><p>Dataset.sample_preparation</p></td>
+<td><p>Description of how the sample was prepared.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Grid Preparation</p></td>
+<td><p>Dataset.grid_preparation</p></td>
+<td><p>Description of how the CryoET grid was prepared.</p></td>
+</tr>
+<tr class="row-even"><td><p>Other Setup</p></td>
+<td><p>Dataset.other_setup</p></td>
+<td><p>Description of other setup not covered by sample preparation or grid preparation that may make this dataset unique in the same publication.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tilt Series</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Portal Metadata</strong></p></th>
+<th class="head"><p><strong>API Expression</strong></p></th>
+<th class="head"><p><strong>Definition</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Acceleration Voltage</p></td>
+<td><p>TiltSeries.acceleration_voltage</p></td>
+<td><p>Electron Microscope Accelerator voltage in volts.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Spherical Aberration Constant</p></td>
+<td><p>TiltSeries.spherical_aberration_constant</p></td>
+<td><p>Spherical Aberration Constant of the objective lens in millimeters.</p></td>
+</tr>
+<tr class="row-even"><td><p>Microscope Manufacturer</p></td>
+<td><p>TiltSeries.microscope_manufacturer</p></td>
+<td><p>Name of the microscope manufacturer.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Microscope Model</p></td>
+<td><p>TiltSeries.microscope_model</p></td>
+<td><p>Microscope model name.</p></td>
+</tr>
+<tr class="row-even"><td><p>Energy Filter</p></td>
+<td><p>TiltSeries.microscope_energy_filter</p></td>
+<td><p>Energy filter setup used.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phase Plate</p></td>
+<td><p>TiltSeries.microscope_phase_plate</p></td>
+<td><p>Phase plate configuration.</p></td>
+</tr>
+<tr class="row-even"><td><p>Image Corrector</p></td>
+<td><p>TiltSeries.microscope_image_corrector</p></td>
+<td><p>Image corrector setup.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Additional microscope optical setup</p></td>
+<td><p>TiltSeries.microscope_additional_info</p></td>
+<td><p>Other microscope optical setup information, in addition to energy filter, phase plate and image corrector.</p></td>
+</tr>
+<tr class="row-even"><td><p>Camera Manufacturer</p></td>
+<td><p>TiltSeries.camera_manufacturer</p></td>
+<td><p>Name of the camera manufacturer.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Camera Model</p></td>
+<td><p>TiltSeries.camera_model</p></td>
+<td><p>Camera model name.</p></td>
+</tr>
+</tbody>
+</table>
 <section id="dataset-overview-page">
 <h3>Dataset Overview Page<a class="headerlink" href="#dataset-overview-page" title="Permalink to this heading">¶</a></h3>
 <p>The table on a Dataset Overview page contains an overview of the runs in the dataset. Each run has a name defined by the dataset authors as well as a Run ID, which is assigned by the Portal and is subject to change in the rare case where the run data needs to be re-ingested to the Portal. In addition to the run name, the <a class="reference internal" href="#tilt-series-quality"><span class="std std-ref">tilt series quality</span></a> and list of annotated objects is detailed for each run. Each entry has a <code class="docutils literal notranslate"><span class="pre">View</span> <span class="pre">Tomogram</span></code> button which will display the tomogram using an instance of Neuroglancer in the browser. The tomogram is visualized along with annotations that are manually chosen to display as many annotations as possible without overlap or occlusion.</p>
@@ -223,12 +348,151 @@
 <section id="dataset-download-options">
 <h3>Dataset Download Options<a class="headerlink" href="#dataset-download-options" title="Permalink to this heading">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Dataset</span></code> button opens a dialog with instructions for downloading the dataset using <a class="reference internal" href="cryoet_data_portal_docsite_aws.html"><span class="std std-doc">Amazon Web Services Command Line Interface</span></a> or the <a class="reference internal" href="python-api.html"><span class="std std-doc">Portal API</span></a>. Datasets are downloaded as folders named the Dataset ID. The folder contains subfolders for each run named the author-chosen run name, a folder named Images which contains the key photos of the dataset displayed on the Portal, and a JSON file named <code class="docutils literal notranslate"><span class="pre">dataset_metadata.json</span></code> containing the dataset metadata. The run folders contain subfolders named Tomogram and TiltSeries, containing the tomogram and tilt series image files, and a JSON file named <code class="docutils literal notranslate"><span class="pre">run_metadata.json</span></code> containing the run metadata. More details on the run folder file structure is found in the documentation <a class="reference internal" href="#run-download-options"><span class="std std-ref">below</span></a>.</p>
+<p>The metadata schema of any JSON file stored with the data on the data portal’s S3 bucket is described in LinkML and can be found <a class="reference external" href="https://github.com/chanzuckerberg/cryoet-data-portal-backend/tree/main/schema/v1.1.0">here</a>.</p>
 </section>
 </section>
 <section id="runs">
 <h2>Runs<a class="headerlink" href="#runs" title="Permalink to this heading">¶</a></h2>
 <p>A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. However, in the <a class="reference external" href="https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html#data-model">data schema</a> used in the Portal API, runs are connected to tomograms through the <code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing</span></code> class which specifies the sampling or voxel size of the tomogram. For a single run, multiple tomograms of different spacings can be available.</p>
-<p>An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run.</p>
+<p>An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run. These metadata are defined in the tables below including their mapping to attributes in the Portal API:</p>
+<p><strong>Tilt Series</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Portal Metadata</strong></p></th>
+<th class="head"><p><strong>API Expression</strong></p></th>
+<th class="head"><p><strong>Definition</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Microscope Manufacturer</p></td>
+<td><p>TiltSeries.microscope_manufacturer</p></td>
+<td><p>Name of the microscope manufacturer.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Microscope Model</p></td>
+<td><p>TiltSeries.microscope_model</p></td>
+<td><p>Microscope model name.</p></td>
+</tr>
+<tr class="row-even"><td><p>Phase Plate</p></td>
+<td><p>TiltSeries.microscope_phase_plate</p></td>
+<td><p>Phase plate configuration.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Image Corrector</p></td>
+<td><p>TiltSeries.microscope_image_corrector</p></td>
+<td><p>Image corrector setup.</p></td>
+</tr>
+<tr class="row-even"><td><p>Additional microscope optical setup</p></td>
+<td><p>TiltSeries.microscope_additional_info</p></td>
+<td><p>Other microscope optical setup information, in addition to energy filter, phase plate and image corrector.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Acceleration Voltage</p></td>
+<td><p>TiltSeries.acceleration_voltage</p></td>
+<td><p>Electron Microscope Accelerator voltage in volts.</p></td>
+</tr>
+<tr class="row-even"><td><p>Spherical Aberration Constant</p></td>
+<td><p>TiltSeries.spherical_aberration_constant</p></td>
+<td><p>Spherical Aberration Constant of the objective lens in millimeters.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Camera Manufacturer</p></td>
+<td><p>TiltSeries.camera_manufacturer</p></td>
+<td><p>Name of the camera manufacturer.</p></td>
+</tr>
+<tr class="row-even"><td><p>Camera Model</p></td>
+<td><p>TiltSeries.camera_model</p></td>
+<td><p>Camera model name.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Energy Filter</p></td>
+<td><p>TiltSeries.microscope_energy_filter</p></td>
+<td><p>Energy filter setup used.</p></td>
+</tr>
+<tr class="row-even"><td><p>Data Acquisition Software</p></td>
+<td><p>TiltSeries.data_acquisition_software</p></td>
+<td><p>Software used to collect data.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pixel Spacing</p></td>
+<td><p>TiltSeries.pixel_spacing</p></td>
+<td><p>Pixel spacing for the tilt series.</p></td>
+</tr>
+<tr class="row-even"><td><p>Tilt Axis</p></td>
+<td><p>TiltSeries.tilt_axis</p></td>
+<td><p>Rotation angle in degrees.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tilt Range</p></td>
+<td><p>TiltSeries.tilt_range</p></td>
+<td><p>Total tilt range in degrees.</p></td>
+</tr>
+<tr class="row-even"><td><p>Tile Step</p></td>
+<td><p>TiltSeries.tiltstep</p></td>
+<td><p>Tilt step in degrees.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tilting Scheme</p></td>
+<td><p>TiltSeries.tilting_scheme</p></td>
+<td><p>The order of stage tilting during acquisition of the data.</p></td>
+</tr>
+<tr class="row-even"><td><p>Total Flux</p></td>
+<td><p>TiltSeries.total_flux</p></td>
+<td><p>Number of electrons reaching the specimen in a square Angstrom area for the entire tilt series.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Binning from Frames</p></td>
+<td><p>TiltSeries.binning_from_frames</p></td>
+<td><p>Describes the binning factor from frames to tilt series file.</p></td>
+</tr>
+<tr class="row-even"><td><p>Series is Aligned</p></td>
+<td><p>No API field</p></td>
+<td><p>True or false, indicating whether the tilt series images have been transformed to account for the tomographic alignment.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Related EMPIAR Entry</p></td>
+<td><p>TiltSeries.related_empiar_entry</p></td>
+<td><p>EMPIAR dataset identifier If a tilt series is deposited into EMPIAR.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tomogram</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Portal Metadata</strong></p></th>
+<th class="head"><p><strong>API Expression</strong></p></th>
+<th class="head"><p><strong>Definition</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Reconstruction Software</p></td>
+<td><p>Tomogram.reconstruction_software</p></td>
+<td><p>Name of software used for reconstruction.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Reconstruction Method</p></td>
+<td><p>Tomogram.reconstruction_method</p></td>
+<td><p>Reconstruction method, e.g. Weighted back-projection, SART, SIRT.</p></td>
+</tr>
+<tr class="row-even"><td><p>Processing Software</p></td>
+<td><p>Tomogram.processing_software</p></td>
+<td><p>Processing software used to derive the tomogram.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Available Processing</p></td>
+<td><p>Tomogram.processing</p></td>
+<td><p>Description of additional processing used to derive the tomogram, e.g. denoised.</p></td>
+</tr>
+<tr class="row-even"><td><p>Smallest Available Voxel Spacing</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">min_vs</span> <span class="pre">=</span> <span class="pre">min([vs.voxel_spacing</span> <span class="pre">for</span> <span class="pre">vs</span> <span class="pre">in</span> <span class="pre">Run.tomogram_voxel_spacings])</span></code></p></td>
+<td><p>Smallest voxel spacing of the available tomograms.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Size (x, y, z)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(Tomogram.size_x,</span> <span class="pre">Tomogram.size_y,</span> <span class="pre">Tomogram.size_z)</span></code> or <code class="docutils literal notranslate"><span class="pre">Tomogram.scale0_dimensions</span></code></p></td>
+<td><p>Comma separated x,y,z dimensions of the unscaled tomogram.</p></td>
+</tr>
+<tr class="row-even"><td><p>Fiducial Alignment Status</p></td>
+<td><p>Tomogram.fiducial_alignment_status</p></td>
+<td><p>Fiducial Alignment status: True = aligned with fiducial, False = aligned without fiducial.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ctf Corrected</p></td>
+<td><p>Tomogram.ctf_corrected</p></td>
+<td><p>Whether this tomogram is contrast transfer function corrected.</p></td>
+</tr>
+<tr class="row-even"><td><p>Affine Transformation Matrix</p></td>
+<td><p>Tomogram.affine_transformation_matrix</p></td>
+<td><p>The flip or rotation transformation.</p></td>
+</tr>
+</tbody>
+</table>
 <section id="run-overview-page">
 <h3>Run Overview Page<a class="headerlink" href="#run-overview-page" title="Permalink to this heading">¶</a></h3>
 <p>The summary on the Run Overview page shows a subset of the run metadata as well as the number and type of files in the run and the <a class="reference internal" href="#tilt-series-quality"><span class="std std-ref">tilt series quality score</span></a>. The <code class="docutils literal notranslate"><span class="pre">View</span> <span class="pre">Tomogram</span></code> button opens the associated tomogram along with annotations using an instance of Neuroglancer in the browser. The annotations displayed with the tomogram are manually chosen to display as many annotations as possible without overlap or occlusion.</p>
@@ -254,7 +518,116 @@
 <p>Annotations are summarized in a table on Run Overview pages. Each annotation has an Annotation ID, which is assigned by the Portal and is subject to change in the rare case where the annotation data needs to be re-ingested in the Portal. Each annotation labels exactly one type of object, such as ribosome or membrane, indicated by the Object Type column of the table. For every object, there is one type of annotation per entry in the table indicated in the Object Shape Type column. The options are Segmentation for semantic segmentation masks, Instance Segmentation for segmentation masks where each individual object is labeled with its own color, Point for point annotations, and Oriented Point for point annotations that have an associated rotation matrix. The method used for generating the annotation is displayed for each annotation with manual meaning the annotations were created by hand, automated meaning automated tools or algorithms without supervision were used, and hybrid meaning the annotations were generated using a combination of automated and manual methods.</p>
 <p>Annotations also have an optional precision field, which is the percentage of true positives among the total number of positive predictions where a value of 100% means everything found is actually the object of interest, and a recall field, which is the percentage of true positives among the actual number of objects where a value of 100% meaning all objects of interest were found. The Precision and Recall fields can only be calculated by comparing with a ground truth annotation, so for many annotations on the Portal, this field is marked NA for not available.</p>
 <p>Authors may also utilize the Ground Truth flag on entries in the annotation table. The Ground Truth flag indicates that this annotation is endorsed by the author for use as training or validation data for machine learning models.</p>
-<p>Each annotation has its own metadata, which can be viewed using the info icon on the entry in the annotations table.</p>
+<p>Each annotation has its own metadata, which can be viewed using the info icon on the entry in the annotations table. These metadata are defined in the tables below including their mapping to attributes in the Portal API:</p>
+<p><strong>Annotation Overview</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Portal Metadata</strong></p></th>
+<th class="head"><p><strong>API Expression</strong></p></th>
+<th class="head"><p><strong>Definition</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Annotation ID</p></td>
+<td><p>Annotation.id</p></td>
+<td><p>Numeric identifier assigned by the Portal.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Annotation Authors</p></td>
+<td><p>Annotation.authors</p></td>
+<td><p>Authors of this annotation.</p></td>
+</tr>
+<tr class="row-even"><td><p>Publication</p></td>
+<td><p>Annotation.annotation_publication</p></td>
+<td><p>DOIs for publications that describe the dataset.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Deposition Date</p></td>
+<td><p>Annotation.deposition_date</p></td>
+<td><p>Date when an annotation set is initially received by the Data Portal.</p></td>
+</tr>
+<tr class="row-even"><td><p>Release Date</p></td>
+<td><p>Annotation.release_date</p></td>
+<td><p>Date when annotation data is made public by the Data Portal.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Last Modified Date</p></td>
+<td><p>Annotation.last_modified_date</p></td>
+<td><p>Date when an annotation was last modified in the Data Portal.</p></td>
+</tr>
+<tr class="row-even"><td><p>Method Type</p></td>
+<td><p>Annotation.method_type</p></td>
+<td><p>The method type for generating the annotation (e.g., manual, hybrid, automated).</p></td>
+</tr>
+<tr class="row-odd"><td><p>Annotation Method</p></td>
+<td><p>Annotation.annotation_method</p></td>
+<td><p>Describes how the annotation is made, e.g., Manual, crYoLO, Positive Unlabeled Learning, template matching.</p></td>
+</tr>
+<tr class="row-even"><td><p>Annotation Software</p></td>
+<td><p>Annotation.annotation_software</p></td>
+<td><p>Software used for generating this annotation.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Annotation Object</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Portal Metadata</strong></p></th>
+<th class="head"><p><strong>API Expression</strong></p></th>
+<th class="head"><p><strong>Definition</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Object Name</p></td>
+<td><p>Annotation.object_name</p></td>
+<td><p>Name of the object being annotated, e.g., ribosome, nuclear pore complex, actin filament, membrane.</p></td>
+</tr>
+<tr class="row-odd"><td><p>GO ID</p></td>
+<td><p>Annotation.object_id</p></td>
+<td><p>Gene Ontology Cellular Component identifier for the annotation object.</p></td>
+</tr>
+<tr class="row-even"><td><p>Object Count</p></td>
+<td><p>Annotation.object_count</p></td>
+<td><p>Number of objects identified.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Object Shape Type</p></td>
+<td><p>AnnotationFile.shape_type</p></td>
+<td><p>Description of whether this is a Point, OrientedPoint, or SegmentationMask file.</p></td>
+</tr>
+<tr class="row-even"><td><p>Object State</p></td>
+<td><p>Annotation.object_state</p></td>
+<td><p>Additional information about the annotated object not captured by the gene ontology (e.g., open or closed state for molecules).</p></td>
+</tr>
+<tr class="row-odd"><td><p>Object Description</p></td>
+<td><p>Annotation.object_description</p></td>
+<td><p>Description of the annotated object, including additional information not covered by the Annotation object name and state.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Annotation Confidence</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Portal Metadata</strong></p></th>
+<th class="head"><p><strong>API Expression</strong></p></th>
+<th class="head"><p><strong>Definition</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Ground Truth Status</p></td>
+<td><p>Annotation.ground_truth_status</p></td>
+<td><p>Whether an annotation is considered ground truth, as determined by the annotation author.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ground Truth Used</p></td>
+<td><p>Annotation.ground_truth_used</p></td>
+<td><p>Annotation filename used as ground truth for precision and recall.</p></td>
+</tr>
+<tr class="row-even"><td><p>Precision</p></td>
+<td><p>Annotation.confidence_precision</p></td>
+<td><p>Percentage of annotation objects being true positive.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Recall</p></td>
+<td><p>Annotation.confidence_recall</p></td>
+<td><p>Percentage of true positives being annotated correctly.</p></td>
+</tr>
+</tbody>
+</table>
 <section id="visualizing-annotations-with-tomograms-in-neuroglancer">
 <h3>Visualizing Annotations with Tomograms in Neuroglancer<a class="headerlink" href="#visualizing-annotations-with-tomograms-in-neuroglancer" title="Permalink to this heading">¶</a></h3>
 <p>There is no definitive rule for which annotations are displayed with a tomogram in Neuroglancer by default. The annotations are manually chosen by the data curation team to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.</p>

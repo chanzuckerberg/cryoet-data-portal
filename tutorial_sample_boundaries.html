@@ -1,0 +1,764 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Predicting sample boundaries &mdash; cryoet-data-portal  documentation</title>
+  
+
+  
+  <link rel="icon" type="image/png" sizes="64x64" href="_static/img/czii-favicon_64x64.png"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/czii-favicon_32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/czii-favicon_16x16.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script data-domain="chanzuckerberg.github.io/cryoet-data-portal" defer="defer" src="https://plausible.io/js/script.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div style="height: 100vh; overflow: hidden;">
+     
+    <!-- top 48px for navbar height -->
+    <div class="navbar-cet">
+        <div style="padding: 0 16px; display: flex; height: inherit; align-items: center; justify-content: space-between;">
+            <span style="display:flex; gap: 8px; align-items: center;">
+              <a href="index.html" style="color: #fff">CryoET Data Portal</a>
+              <img alt="beta" src="_static/img/beta.svg">
+              <div style="width: 1px; height: 16px; background: #999; margin: 0 4px"></div>
+              <span style="color: #fff">Documentation</span>
+            </span>
+
+            <span class="navbar-cet-link">
+              <a
+                class="navbar-cet-anchor"
+                href="https://cryoetdataportal.czscience.com/"
+                target="_blank"
+                rel="noopener"
+              >
+                Go to CryoET Data Portal
+              </a>
+            </span>
+        </div>
+    </div>
+    <div style="width: 100%; height: 100%; overflow: auto; padding-top: 48px;">
+        
+        <!-- top 48px for navbar height -->
+        <nav data-toggle="wy-nav-shift" class="wy-nav-side" style="top: 48px;" >
+        <div class="wy-side-scroll">
+
+            
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+            
+                
+                
+                
+                
+                
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_quick_start.html">Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-api.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_data.html">Data Organization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_napari.html">napari</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_aws.html">Download Data using AWS CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryoet_data_portal_docsite_faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+                
+            
+            </div>
+            
+        </div>
+        </nav>
+
+        <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+            
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="index.html">cryoet-data-portal</a>
+            
+        </nav>
+
+
+        <div class="wy-nav-content">
+            
+            <div class="rst-content">
+            
+            <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Predicting sample boundaries</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorial_sample_boundaries.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+            <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <section id="predicting-sample-boundaries">
+<h1>Predicting sample boundaries<a class="headerlink" href="#predicting-sample-boundaries" title="Permalink to this heading">¶</a></h1>
+<p><img alt="tutorial-goal" src="_images/tomo_side_light.png" />
+<em>Side view onto a cryo-electron tomogram <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/15094">run 15094</a> without (left) and with (right) sample boundary annotation</em></p>
+<p>Biological samples acquired in a cryoET experiment are usually thin slabs of vitrified ice containing the biological specimen of interest. Unfortunately, it is difficult to determine orientation and thickness of the samples ahead of reconstruction. For this reason, volumes reconstructed from cryoET tilt series are often larger than the actual sample and contain a significant amount of empty space (i.e. the vacuum inside the TEM column).</p>
+<p>There are several reasons for why it can be useful to determine more accurate sample boundaries, for example:</p>
+<ul class="simple">
+<li><p>statistical analysis of the sample preparation process</p></li>
+<li><p>masking out the vacuum region to reduce the size of the volume</p></li>
+<li><p>masking out the vacuum region during the training of a neural network</p></li>
+<li><p>capping of membrane segmentations to define topological boundaries</p></li>
+</ul>
+<p>Below, we will show how to use <a class="reference external" href="https://github.com/copick/copick"><strong>copick</strong></a>, an adapted version of <a class="reference external" href="https://github.com/jtschwar/cryoet-deepfinder/tree/master">deepfinder</a> and <a class="reference external" href="https://album.solutions/">album</a> to predict sample boundaries for datasets <a class="reference external" href="https://cryoetdataportal.czscience.com/datasets/10301">10301</a> and <a class="reference external" href="https://cryoetdataportal.czscience.com/datasets/10302">10302</a> from the <a class="reference external" href="https://cryoetdataportal.czscience.com">CZ cryoET Data Portal</a>. Copick is a cross-platform, storage-agnostic and server-less dataset API for cryoET datasets.</p>
+<p><img alt="topview" src="_images/tomo_top_both.png" /></p>
+<p><em>Top view onto the same tomogram (<a class="reference external" href="https://cryoetdataportal.czscience.com/runs/15094">run 15094</a>) from dataset <a class="reference external" href="https://cryoetdataportal.czscience.com/datasets/10302">10302</a>.</em></p>
+<section id="step-0-environment-and-pre-requisites">
+<h2>Step 0: Environment and Pre-requisites<a class="headerlink" href="#step-0-environment-and-pre-requisites" title="Permalink to this heading">¶</a></h2>
+<p>For the purpose of this tutorial we will assume that we are working on a machine with access to an NVIDIA GPU and a working <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">12.3</span></code>/<code class="docutils literal notranslate"><span class="pre">CUDNN</span> <span class="pre">8.9</span></code> installation. Before we can start, we need to install the necessary software. We will use the following tools:</p>
+<section id="chimerax-and-chimerax-copick-for-visualization-and-annotation">
+<h3>1. ChimeraX and ChimeraX-copick (for visualization and annotation)<a class="headerlink" href="#chimerax-and-chimerax-copick-for-visualization-and-annotation" title="Permalink to this heading">¶</a></h3>
+<p>Download and install ChimeraX from <a class="reference external" href="https://www.cgl.ucsf.edu/chimerax/download.html">here</a>. After installing ChimeraX, install the ChimeraX-copick extension by running the following command in ChimeraX:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">toolshed</span> <span class="n">install</span> <span class="n">copick</span>
+</pre></div>
+</div>
+</section>
+<section id="album-and-copick-catalog-for-processing-steps">
+<h3>2. Album and copick-catalog (for processing steps)<a class="headerlink" href="#album-and-copick-catalog-for-processing-steps" title="Permalink to this heading">¶</a></h3>
+<p>Comprehensive installation instructions for Album can be found on the <a class="reference external" href="https://docs.album.solutions/en/latest/installation-instructions.html">Album docs website</a>, but in brief, to install Album use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>album<span class="w"> </span>album<span class="w"> </span>-c<span class="w"> </span>conda-forge
+conda<span class="w"> </span>activate<span class="w"> </span>album
+</pre></div>
+</div>
+<p>Now, add copick’s Album catalog (<a class="reference external" href="https://github.com/copick/copick-catalog">copick-catalog</a>) to your album installation and install the requried solutions by running the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>album<span class="w"> </span>add-catalog<span class="w"> </span>git@github.com:copick/copick-catalog.git
+album<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>album<span class="w"> </span>upgrade
+album<span class="w"> </span>install<span class="w"> </span>copick:create_empty_picks:0.2.0
+album<span class="w"> </span>install<span class="w"> </span>copick:fit_sample:0.7.0
+album<span class="w"> </span>install<span class="w"> </span>copick:create_rec_limits:0.5.0
+album<span class="w"> </span>install<span class="w"> </span>copick:intersect_mesh:0.5.0
+album<span class="w"> </span>install<span class="w"> </span>copick:mesh_to_seg:0.7.0
+album<span class="w"> </span>install<span class="w"> </span>copick:sample_mesh:0.5.0
+album<span class="w"> </span>install<span class="w"> </span>copick:fit_sample_seg:0.9.0
+</pre></div>
+</div>
+</section>
+<section id="j-finder-for-segmentation">
+<h3>3. J-finder (for segmentation)<a class="headerlink" href="#j-finder-for-segmentation" title="Permalink to this heading">¶</a></h3>
+<p>Download and install a copick-compatible version of deepfinder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>deepfinder<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+conda<span class="w"> </span>activate<span class="w"> </span>deepfinder
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/jtschwar/cryoet-deepfinder.git
+<span class="nb">cd</span><span class="w"> </span>cryoet-deepfinder
+pip<span class="w"> </span>install<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-1-setup-your-copick-projects">
+<h2>Step 1: Setup your copick projects<a class="headerlink" href="#step-1-setup-your-copick-projects" title="Permalink to this heading">¶</a></h2>
+<p>We will create two copick projects that use datasets 10301 and 10302 from the CZ cryoET Data Portal. Both datasets stem
+from the same experiments and have the same characteristics, but the tomograms in dataset 10301 have protein annotations.
+We will use dataset 10301 as a training set and evaluate on dataset 10302.</p>
+<p>We will store new annotations in a local directory, called the “overlay”, while the tomogram image data is obtained
+from the CZ cryoet data portal. In the following, we will create a configuration file <code class="docutils literal notranslate"><span class="pre">config_train.json</span></code> that describes
+the project. The configuration file is a JSON file that contains all information necessary to access the data and
+describing the objects that can be accessed and created using the copick API.</p>
+<p>The first part of the configuration file provides general information about the project, such as the project name,
+description, and copick-API version.</p>
+<details>
+  <summary>config_train.json</summary>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;config_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cryoet_data_portal&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sample Boundary Prediction - Training Set&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;This project uses dataset 10301 from the CZ cryoET Data Portal as a training set for sample boundary prediction.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.5.4&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+</details>
+<p>Next, we define the objects that can be accessed and created using the copick API. In this case, we will create 5 objects:</p>
+<ul class="simple">
+<li><p>top-layer – the top layer of the sample</p></li>
+<li><p>bottom-layer – the bottom layer of the sample</p></li>
+<li><p>valid-area – the valid area of the reconstructed tomogram</p></li>
+<li><p>sample – the sample itself</p></li>
+<li><p>valid-sample – the sample excluding the invalid reconstruction area</p></li>
+</ul>
+<details>
+  <summary>config_train.json</summary>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;pickable_objects&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;top-layer&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">  </span><span class="mi">255</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bottom-layer&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sample&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">102</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span><span class="w"> </span><span class="mi">128</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;valid-area&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">103</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">128</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;valid-sample&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">128</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+</details>
+<p>Finally, we define where <strong>copick</strong> should look for the data and store any annotations (in this case the home directory
+of Bob).</p>
+<details>
+  <summary>config_train.json</summary>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;overlay_root&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;local:///home/bob/copick_project_train/&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;overlay_fs_args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;auto_mkdir&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;dataset_ids&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">10301</span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+</details>
+<p>We will repeat this process for a second project, <code class="docutils literal notranslate"><span class="pre">config_evaluate.json</span></code>, that includes both dataset 10301 and dataset
+10302 for evaluation. Find both full examples below:</p>
+<details>
+  <summary>config_train.json</summary>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;config_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cryoet_data_portal&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sample Boundary Prediction - Training Set&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;This project uses dataset 10301 from the CZ cryoET Data Portal as a training set for sample boundary prediction.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.5.4&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;pickable_objects&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;top-layer&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">  </span><span class="mi">255</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bottom-layer&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sample&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">102</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span><span class="w"> </span><span class="mi">128</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;valid-area&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">103</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">128</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;valid-sample&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">128</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;overlay_root&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;local:///home/bob/copick_project_train/&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;overlay_fs_args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;auto_mkdir&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;dataset_ids&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">10301</span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+</details>
+<details>
+  <summary>config_evaluate.json</summary>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;config_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cryoet_data_portal&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sample Boundary Prediction - Evaluation Set&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;This project uses datasets 10301 and 10302 from the CZ cryoET Data Portal for sample boundary prediction.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.5.4&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;pickable_objects&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;top-layer&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">  </span><span class="mi">255</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bottom-layer&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sample&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">102</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span><span class="w"> </span><span class="mi">128</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;valid-area&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">103</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">128</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;valid-sample&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;is_particle&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">255</span><span class="p">,</span>
+<span class="w">                  </span><span class="mi">128</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;map_threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.037</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;overlay_root&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;local:///home/bob/copick_project_evaluate/&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;overlay_fs_args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;auto_mkdir&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;dataset_ids&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">10301</span><span class="p">,</span><span class="w"> </span><span class="mi">10302</span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+</details>
+</section>
+<section id="step-2-annotate-the-training-set">
+<h2>Step 2: Annotate the training set<a class="headerlink" href="#step-2-annotate-the-training-set" title="Permalink to this heading">¶</a></h2>
+<p>We will now use ChimeraX to annotate the top- and bottom- boundaries of the training set. In a first step we will create
+empty <code class="docutils literal notranslate"><span class="pre">CopickPicks</span></code> objects for the top- and bottom-layer in the training set. To do this we use the
+<code class="docutils literal notranslate"><span class="pre">create_empty_picks</span></code>-solution:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>album<span class="w"> </span>run<span class="w"> </span>copick:create_empty_picks:0.2.0<span class="w"> </span><span class="se">\</span>
+--copick_config_path<span class="w"> </span>config_train.json<span class="w"> </span><span class="se">\</span>
+--out_object<span class="w"> </span>top-layer<span class="w"> </span><span class="se">\</span>
+--out_user<span class="w"> </span>bob<span class="w"> </span><span class="se">\</span>
+--out_session<span class="w"> </span><span class="m">1</span>
+
+album<span class="w"> </span>run<span class="w"> </span>copick:create_empty_picks:0.2.0<span class="w"> </span><span class="se">\</span>
+--copick_config_path<span class="w"> </span>config_train.json<span class="w"> </span><span class="se">\</span>
+--out_object<span class="w"> </span>bottom-layer<span class="w"> </span><span class="se">\</span>
+--out_user<span class="w"> </span>bob<span class="w"> </span><span class="se">\</span>
+--out_session<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+<p>Open ChimeraX and start the copick extension by running the following command in the ChimeraX command line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">copick</span> <span class="n">start</span> <span class="n">config_train</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<p><img alt="chimerax-interface" src="_images/chimx_boundary.png" />
+<em>The ChimeraX-copick interface after loading run 14069.</em></p>
+<p>This will open a new window with the copick interface. On the top left side you will see the available objects, on the
+bottom left you can find a list of runs in the dataset. On the right side you can find the interface of ArtiaX (the plugin that allows you to annotate objects in ChimeraX).</p>
+<p>Double-click a run’s directory (e.g. <code class="docutils literal notranslate"><span class="pre">14069</span></code>) in the run list to show the available resolutions, double-click the
+resolution’s directory (<code class="docutils literal notranslate"><span class="pre">VS:7.840</span></code>) to display the available tomograms. In order to load a tomogram, double-click the
+tomogram.</p>
+<p>The tomogram will be displayed in the main viewport in the center. Available pickable objects are displayed in the
+list on the left side. Select a pickable object (e.g. top-layer) by double-clicking it and start annotating the top-border
+of the sample by placing points on the top-border of the sample.</p>
+<p>You can switch the slicing direction in the <code class="docutils literal notranslate"><span class="pre">Tomogram</span></code>-tab on the right. You can move through the 2D slices of the
+tomogram using the slider on the right or <code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Mouse</span> <span class="pre">Wheel</span></code>. For more information on how to use the copick interface,
+see the info box below and refer to the <a class="reference external" href="https://www.cgl.ucsf.edu/chimerax/docs/user/index.html">ChimeraX documentation</a>.</p>
+<details>
+  <summary>Keyboard Shortcuts</summary>
+<p><strong>Particles</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- `--` Remove Particle.
+- `00` Set 0% transparency for active particle list.
+- `55` Set 50% transparency for active particle list.
+- `88` Set 80% transparency for active particle list.
+- `aa` Previous Particle.
+- `dd` Next Particle.
+- `sa` Select all particles for active particle list.
+- `ss` Select particles mode
+- `ww` Hide/Show ArtiaX particle lists.
+</pre></div>
+</div>
+<p><strong>Picking</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- `ap` Add on plane mode
+- `dp` Delete picked mode
+- `ds` Delete selected particles
+</pre></div>
+</div>
+<p><strong>Visualization</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- `cc` Turn Clipping On/Off
+- `ee` Switch to orthoplanes.
+- `ff` Move planes mouse mode.
+- `qq` Switch to single plane.
+- `rr` Rotate slab mouse mode.
+- `xx` View XY orientation.
+- `yy` View YZ orientation.
+- `zz` View XZ orientation.
+</pre></div>
+</div>
+<p><strong>Info</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- `?` Show Shortcuts in Log.
+- `il` Toggle Info Label.
+</pre></div>
+</div>
+</details>
+<p>At the end of this step, you should have annotated the top- and bottom-layer of the all 18 tomograms in the training set.</p>
+<p><img alt="top-bottom" src="_images/top_bottom_light.png" /></p>
+<p><em>Points clicked along the top and bottom boundary of the sample of a tomogram.</em></p>
+</section>
+<section id="step-3-create-the-training-data">
+<h2>Step 3: Create the training data<a class="headerlink" href="#step-3-create-the-training-data" title="Permalink to this heading">¶</a></h2>
+<section id="valid-reconstruction-area">
+<h3>Valid reconstruction area<a class="headerlink" href="#valid-reconstruction-area" title="Permalink to this heading">¶</a></h3>
+<p>Next, we will create the training data for the sample boundary prediction. First, we will create bounding boxes that
+describe the valid reconstruction area in each tomogram. In most TEMs, the tilt axis is not exactly parallel to
+either of the detector axes, causing tomograms to have small regions of invalid reconstruction at the corners. Using
+the <code class="docutils literal notranslate"><span class="pre">create_rec_limits</span></code>-solution, we can compute 3D meshes that describe the valid reconstruction area in each
+tomogram.</p>
+<p>In this case, we will assume an in-plane rotation of -6 degrees.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>album<span class="w"> </span>run<span class="w"> </span>copick:create_rec_limits:0.5.0<span class="w"> </span><span class="se">\</span>
+--copick_config_path<span class="w"> </span>config_train.json<span class="w"> </span><span class="se">\</span>
+--voxel_spacing<span class="w"> </span><span class="m">7</span>.84<span class="w"> </span><span class="se">\</span>
+--tomo_type<span class="w"> </span>wbp<span class="w"> </span><span class="se">\</span>
+--angle<span class="w"> </span>-6<span class="w"> </span><span class="se">\</span>
+--output_object<span class="w"> </span>valid-area<span class="w"> </span><span class="se">\</span>
+--output_user<span class="w"> </span>bob<span class="w"> </span><span class="se">\</span>
+--output_session<span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
+<p>You can now visualize the created bounding boxes in ChimeraX by restarting the copick interface and selecting the
+<code class="docutils literal notranslate"><span class="pre">valid-area</span></code> object in the Mesh-tab on the left side.</p>
+<p><img alt="valid-area" src="_images/valid_area_light.png" /></p>
+<p><em>Top view onto a tomogram <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/14069">run 15094</a> without (left)
+and with (right) valid reconstruction area mesh overlayed.</em></p>
+</section>
+<section id="sample">
+<h3>Sample<a class="headerlink" href="#sample" title="Permalink to this heading">¶</a></h3>
+<p>Now, we will use the points created in <a class="reference internal" href="#step-2-annotate-the-training-set"><span class="std std-ref">Step 2</span></a> to create a second 3D mesh that
+describes the sample boundaries. We do this, by fitting a plane defined by a cubic spline grid to the points using the
+<a class="reference external" href="https://github.com/teamtomo/torch-cubic-spline-grids">torch-cubic-spline-grid</a> package in the <code class="docutils literal notranslate"><span class="pre">fit_sample</span></code>-solution.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>album<span class="w"> </span>run<span class="w"> </span>copick:fit_sample:0.7.0<span class="w"> </span><span class="se">\</span>
+--copick_config_path<span class="w"> </span>config_train.json<span class="w"> </span><span class="se">\</span>
+--top_object<span class="w"> </span>top-layer<span class="w"> </span><span class="se">\</span>
+--bottom_object<span class="w"> </span>bottom-layer<span class="w"> </span><span class="se">\</span>
+--input_user<span class="w"> </span>bob<span class="w"> </span>--input_session<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+--voxel_spacing<span class="w"> </span><span class="m">7</span>.84<span class="w"> </span><span class="se">\</span>
+--tomo_type<span class="w"> </span>wbp<span class="w"> </span><span class="se">\</span>
+--output_object<span class="w"> </span>sample<span class="w"> </span><span class="se">\</span>
+--output_user<span class="w"> </span>bob<span class="w"> </span><span class="se">\</span>
+--output_session<span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
+</section>
+<section id="intersection">
+<h3>Intersection<a class="headerlink" href="#intersection" title="Permalink to this heading">¶</a></h3>
+<p>Next, we will intersect the valid reconstruction area with the sample to create a new object that describes the valid
+sample area. We do this using the <code class="docutils literal notranslate"><span class="pre">intersect_mesh</span></code>-solution:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>album<span class="w"> </span>run<span class="w"> </span>copick:intersect_mesh:0.5.0<span class="w"> </span><span class="se">\</span>
+--copick_config_path<span class="w"> </span>config_train.json<span class="w"> </span><span class="se">\</span>
+--object_a<span class="w"> </span>valid-area<span class="w"> </span><span class="se">\</span>
+--user_a<span class="w"> </span>bob<span class="w"> </span><span class="se">\</span>
+--session_a<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+--object_b<span class="w"> </span>sample<span class="w"> </span><span class="se">\</span>
+--user_b<span class="w"> </span>bob<span class="w"> </span><span class="se">\</span>
+--session_b<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+--output_object<span class="w"> </span>valid-sample<span class="w"> </span><span class="se">\</span>
+--output_user<span class="w"> </span>bob<span class="w"> </span><span class="se">\</span>
+--output_session<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+</pre></div>
+</div>
+<p>You can now visualize the final 3D mesh for training in ChimeraX by restarting the copick interface and selecting the <code class="docutils literal notranslate"><span class="pre">valid-area</span></code> object in the Mesh-tab on the left side.</p>
+<p><img alt="mesh" src="_images/mesh_fit.png" /></p>
+<p><em>Side view of the tomogram with points and intersected, valid sample area.</em></p>
+</section>
+<section id="training-data">
+<h3>Training data<a class="headerlink" href="#training-data" title="Permalink to this heading">¶</a></h3>
+<p>Finally, we will create the training data for the sample boundary prediction. We will use the <code class="docutils literal notranslate"><span class="pre">mesh_to_seg</span></code>-solution to
+create a dense segmentation of the same size as the tomogram from the 3D meshes.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>album<span class="w"> </span>run<span class="w"> </span>copick:mesh_to_seg:0.7.0<span class="w"> </span><span class="se">\</span>
+--copick_config_path<span class="w"> </span>config_train.json<span class="w"> </span><span class="se">\</span>
+--input_object<span class="w"> </span>valid-sample<span class="w"> </span><span class="se">\</span>
+--input_user<span class="w"> </span>bob<span class="w"> </span><span class="se">\</span>
+--input_session<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+--voxel_spacing<span class="w"> </span><span class="m">7</span>.84<span class="w"> </span><span class="se">\</span>
+--tomo_type<span class="w"> </span>wbp
+</pre></div>
+</div>
+<p>We also need to determine where sub-volumes for training should be cropped. This allows us to ensure the correct ratio
+of positive and negative samples in the training data. We will use the <code class="docutils literal notranslate"><span class="pre">sample_mesh</span></code>-solution to create a set of
+points sampled using poisson disk and rejection sampling. The solution allows to specify the number of points inside,
+on the surface and outside the mesh.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>album<span class="w"> </span>run<span class="w"> </span>copick:sample_mesh:0.5.0<span class="w"> </span><span class="se">\</span>
+--copick_config_path<span class="w"> </span>config_train.json<span class="w"> </span><span class="se">\</span>
+--input_object<span class="w"> </span>valid-sample<span class="w"> </span><span class="se">\</span>
+--input_user<span class="w"> </span>bob<span class="w"> </span><span class="se">\</span>
+--input_session<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+--voxel_spacing<span class="w"> </span><span class="m">7</span>.84<span class="w"> </span><span class="se">\</span>
+--tomo_type<span class="w"> </span>wbp<span class="w"> </span><span class="se">\</span>
+--num_surf<span class="w"> </span><span class="m">300</span><span class="w"> </span><span class="se">\ </span><span class="w">       </span><span class="c1"># Number of points on the surface of the mesh</span>
+--num_internal<span class="w"> </span><span class="m">300</span><span class="w"> </span><span class="se">\ </span><span class="w">   </span><span class="c1"># Number of points inside of the mesh</span>
+--num_random<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\ </span><span class="w">     </span><span class="c1"># Number of points outside of the mesh</span>
+--min_dist<span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="se">\ </span><span class="w">       </span><span class="c1"># Minimum distance between points in angstrom</span>
+--output_user<span class="w"> </span>bob
+</pre></div>
+</div>
+<p>The resulting segmentations will have the same name, user and session ID as the input object. You can now visualize the
+segmentations in ChimeraX by restarting the copick interface and selecting the <code class="docutils literal notranslate"><span class="pre">valid-sample</span></code> object in the
+<code class="docutils literal notranslate"><span class="pre">Segmentation</span></code>-tab on the top left part of the interface. You can also visualize the sampled points from the
+<code class="docutils literal notranslate"><span class="pre">Points</span></code>-tab on the left side.</p>
+</section>
+</section>
+<section id="step-4-train-the-model">
+<h2>Step 4: Train the model<a class="headerlink" href="#step-4-train-the-model" title="Permalink to this heading">¶</a></h2>
+<section id="create-the-multilabel-segmentation">
+<h3>Create the multilabel segmentation<a class="headerlink" href="#create-the-multilabel-segmentation" title="Permalink to this heading">¶</a></h3>
+<p>In the next step, we will create a second dense segmentation volume that contains the sample segmentation from the
+<a class="reference internal" href="#step-3-create-the-training-data"><span class="std std-ref">previous step</span></a>. This is redundant in this case, but necessary for the training of the
+J-finder model if there were multiple segmentation targets. While the segmentation created previously is a binary mask,
+the segmentation volume created here contains integer labels for each voxel, corresponding to the “label” field in the
+<code class="docutils literal notranslate"><span class="pre">pickable_objects</span></code>-list in the configuration file.</p>
+<p>In order to do this, we will run step 1 of the J-finder pipeline:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>step1<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+--config<span class="w"> </span>config_train.json<span class="w"> </span><span class="se">\</span>
+--target<span class="w"> </span>valid-sample<span class="w"> </span>bob<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\ </span><span class="w">         </span><span class="c1"># Format: input-picks-name user session radius</span>
+--seg-target<span class="w"> </span>valid-sample<span class="w"> </span>bob<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\ </span><span class="w">       </span><span class="c1"># Format: input-segmentation-name from-mesh user session</span>
+--voxel-size<span class="w"> </span><span class="m">7</span>.84<span class="w"> </span><span class="se">\</span>
+--tomogram-algorithm<span class="w"> </span>wbp<span class="w"> </span><span class="se">\</span>
+--out-name<span class="w"> </span>sampletargets
+</pre></div>
+</div>
+<p>This should create a new segmentation volume with name <code class="docutils literal notranslate"><span class="pre">sampletargets</span></code>, user <code class="docutils literal notranslate"><span class="pre">train-deepfinder</span></code> and session <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</section>
+<section id="train-the-model">
+<h3>Train the model<a class="headerlink" href="#train-the-model" title="Permalink to this heading">¶</a></h3>
+<p>Next, we will train the J-finder model using the training data created in the previous steps. We will use the
+<code class="docutils literal notranslate"><span class="pre">train</span></code>-command of the J-finder pipeline:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>outputs
+
+step2<span class="w"> </span>train<span class="w"> </span><span class="se">\</span>
+--path-train<span class="w"> </span>config_train.json<span class="w"> </span><span class="se">\</span>
+--train-voxel-size<span class="w"> </span><span class="m">7</span>.84<span class="w"> </span><span class="se">\</span>
+--train-tomo-type<span class="w"> </span>wbp<span class="w"> </span><span class="se">\</span>
+--output-path<span class="w"> </span>outputs/<span class="w"> </span><span class="se">\</span>
+--n-class<span class="w"> </span><span class="m">3</span><span class="w"> </span>--dim-in<span class="w"> </span><span class="m">64</span><span class="w"> </span><span class="se">\</span>
+--valid-tomo-ids<span class="w"> </span><span class="m">14069</span>,14070,14071<span class="w"> </span><span class="se">\</span>
+--train-tomo-ids<span class="w"> </span><span class="m">14072</span>,14073,14074,14075,14076,14077,14078,14079,14080,14081,14082,14083,14084,14085,14086<span class="w"> </span><span class="se">\</span>
+--sample-size<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+--label-name<span class="w"> </span>sampletargets<span class="w"> </span><span class="se">\</span>
+--target<span class="w"> </span>valid-sample<span class="w"> </span>bob<span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
+<p>In this case, runs <code class="docutils literal notranslate"><span class="pre">14069</span></code>, <code class="docutils literal notranslate"><span class="pre">14070</span></code>, and <code class="docutils literal notranslate"><span class="pre">14071</span></code> will be used for validation, while the remaining runs will be used for
+training. The model will be trained for 10 epochs with a sample size of 10. The model will be saved in the
+<code class="docutils literal notranslate"><span class="pre">outputs</span></code>-directory.</p>
+</section>
+</section>
+<section id="step-5-evaluate-the-model">
+<h2>Step 5: Evaluate the model<a class="headerlink" href="#step-5-evaluate-the-model" title="Permalink to this heading">¶</a></h2>
+<p>Now, we will evaluate the model on the evaluation set. For demonstration purposes we will only evaluate on three
+tomograms. We will use the <code class="docutils literal notranslate"><span class="pre">segment</span></code>-command of the J-finder pipeline:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>step3<span class="w"> </span>segment<span class="w"> </span><span class="se">\</span>
+--predict-config<span class="w"> </span>config_evaluate.json<span class="w"> </span><span class="se">\</span>
+--path-weights<span class="w"> </span>outputs/net_weights_FINAL.h5<span class="w"> </span><span class="se">\</span>
+--n-class<span class="w"> </span><span class="m">3</span><span class="w"> </span>--patch-size<span class="w"> </span><span class="m">196</span><span class="w"> </span><span class="se">\</span>
+--voxel-size<span class="w"> </span><span class="m">7</span>.84<span class="w"> </span><span class="se">\</span>
+--tomogram-algorithm<span class="w"> </span>wbp<span class="w"> </span><span class="se">\</span>
+--segmentation-name<span class="w"> </span>segmentation<span class="w"> </span><span class="se">\</span>
+--user-id<span class="w"> </span>output<span class="w"> </span><span class="se">\</span>
+--session-id<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+--tomo-ids<span class="w"> </span><span class="m">14114</span>,14132,14137,14163
+</pre></div>
+</div>
+<p>This will create a new segmentation volume with name <code class="docutils literal notranslate"><span class="pre">segmentation</span></code>, user <code class="docutils literal notranslate"><span class="pre">output</span></code> and session <code class="docutils literal notranslate"><span class="pre">0</span></code> for the tomograms
+<code class="docutils literal notranslate"><span class="pre">14114</span></code>, <code class="docutils literal notranslate"><span class="pre">14132</span></code>, <code class="docutils literal notranslate"><span class="pre">14137</span></code>, and <code class="docutils literal notranslate"><span class="pre">14163</span></code>. You can now visualize the segmentations in ChimeraX by restarting the copick interface
+and selecting the <code class="docutils literal notranslate"><span class="pre">segmentation</span></code> object in the <code class="docutils literal notranslate"><span class="pre">Segmentation</span></code>-tab on the top left part of the interface.</p>
+<p><img alt="prediction-fit" src="_images/prediction_fit.png" /></p>
+<p><em>Segmentation generated by the model and box fit to the segmentation.</em></p>
+</section>
+<section id="step-6-post-processing">
+<h2>Step 6: Post-processing<a class="headerlink" href="#step-6-post-processing" title="Permalink to this heading">¶</a></h2>
+<p>Finally, we will post-process the segmentations to create the final sample boundaries. The segmentations can contain
+small isolated regions that are not part of the sample. We will use the <code class="docutils literal notranslate"><span class="pre">fit_sample_seg</span></code>-solution to fit a box with
+parallel sides to the segmentation.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>album<span class="w"> </span>run<span class="w"> </span>copick:fit_sample_seg:0.9.0<span class="w"> </span><span class="se">\</span>
+--copick_config_path<span class="w"> </span>config_evaluate.json<span class="w"> </span><span class="se">\</span>
+--top_object<span class="w"> </span>top-layer<span class="w"> </span><span class="se">\</span>
+--bottom_object<span class="w"> </span>bottom-layer<span class="w"> </span><span class="se">\</span>
+--input_user<span class="w"> </span>output<span class="w"> </span><span class="se">\</span>
+--input_session<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+--seg_name<span class="w"> </span>segmentation<span class="w"> </span><span class="se">\</span>
+--voxel_spacing<span class="w"> </span><span class="m">7</span>.84<span class="w"> </span><span class="se">\</span>
+--tomo_type<span class="w"> </span>wbp<span class="w"> </span><span class="se">\</span>
+--run_names<span class="w"> </span><span class="m">14114</span>,14132,14137,14163<span class="w"> </span><span class="se">\</span>
+--output_object<span class="w"> </span>valid-sample<span class="w"> </span><span class="se">\</span>
+--output_user<span class="w"> </span>output<span class="w"> </span><span class="se">\</span>
+--output_session<span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
+<p>You can now visualize the final 3D mesh for evaluation in ChimeraX by restarting the copick interface and selecting the
+<code class="docutils literal notranslate"><span class="pre">valid-sample</span></code> object in the <code class="docutils literal notranslate"><span class="pre">Mesh</span></code>-tab on the left side. Below you can see the final result for the three tomograms
+<code class="docutils literal notranslate"><span class="pre">14114</span></code>, <code class="docutils literal notranslate"><span class="pre">14132</span></code>, <code class="docutils literal notranslate"><span class="pre">14137</span></code>, and <code class="docutils literal notranslate"><span class="pre">14163</span></code>.</p>
+<p><img alt="final-fit" src="_images/final.png" /></p>
+<p><em>Clipped boundaries predicted for <a class="reference internal" href="#ttps://cryoetdataportal.czscience.com/runs/14114"><span class="xref myst">run 14114</span></a>, <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/14132">run 14132</a>, <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/14137">run 14137</a>, and
+<a class="reference external" href="https://cryoetdataportal.czscience.com/runs/14163">run 14163</a> (left to right, top to bottom).</em></p>
+</section>
+</section>
+
+
+            </div>
+            
+            </div>
+            <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2023 Chan Zuckerberg Initiative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+            </div>
+        </div>
+
+        </section>
+
+    </div>
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
