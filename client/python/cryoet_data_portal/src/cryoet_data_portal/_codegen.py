@@ -50,9 +50,9 @@ class FieldInfo:
     default_value: str
 
 
-def write_models() -> None:
+def write_models(path: str) -> None:
     schema = load_schema()
-    with open(pathlib.Path(__file__).parent / "_codegen_models.py", "w") as f:
+    with open(path, "w") as f:
         f.write(dedent("""\
             \"\"\"CryoET data portal client model classes.\"\"\"
             
@@ -186,4 +186,5 @@ def _camel_to_snake_case(name: str) -> str:
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    write_models()
+    path = pathlib.Path(__file__).parent / "_codegen_models.py"
+    write_models(str(path))
