@@ -13,7 +13,7 @@ We welcome feedback from the community on the data structure, design and functio
 
 - [Installation](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_quick_start.html)
 - [Python Client API Reference](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html)
-- [Example Code Snippets for Common Tasks](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_examples.html)
+- [Tutorials](./tutorials.md)
 - [napari Plugin Documentation](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html)
 
 ## Amazon Web Services S3 Bucket Info
