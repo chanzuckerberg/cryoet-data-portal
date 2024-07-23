@@ -5,7 +5,7 @@ This page provides details to help you get started using the CryoET Data Portal 
 **Contents**
 
 1. [Installation](#installation)
-2. [API Functions Overview](#api-functions-overview)
+2. [API Methods Overview](#api-methods-overview)
 3. [Example Code Snippets](#examples)
 
 ## Installation
@@ -34,23 +34,23 @@ Install the latest `cryoet_data_portal` package via pip:
 pip install -U cryoet-data-portal
 ```
 
-## API Functions Overview
+## API Methods Overview
 
 The Portal API has methods for searching and downloading data. **Every class** has a `find` and `get_by_id` method for selecting data, and most classes have `download...` methods for downloading the data. Below is a table of the API classes download methods.
 
 | **Class**               | **Download Methods**                                                                                 |
 |-------------------------|--------------------------------------------------------------------------------------------------------|
-| [Dataset](./python-api.rst#dataset)| `download_everything`                                                                                  |
-| DatasetAuthor           | Not applicable as this class doesn't contain data files                                                |
-| DatasetFunding          | Not applicable as this class doesn't contain data files                                                |
-| Run                     | `download_everything`                                                                                  |
-| TomogramVoxelSpacing    | `download_everything`                                                                                  |
-| Tomogram                | `download_all_annotations`, `download_mrcfile`, `download_omezarr`                                     |
-| TomogramAuthor          | Not applicable as this class doesn't contain data files                                                |
-| Annotation              | `download`                                                                                            |
-| AnnotationFile          | None, use the Annotation or Tomogram class to download annotations                                     |
-| AnnoatationAuthor       | Not applicable as this class doesn't contain data files                                                |
-| TiltSeries              | `download_alignment_file`, `download_angle_list`, `download_collection_metadata`, `download_mrcfile`, `download_omezarr` |
+| [Dataset](./python-api.rst#dataset)| `download_everything`     |
+| [DatasetAuthor](./python-api.rst#datasetauthor)| Not applicable as this class doesn't contain data files|
+| DatasetFunding(./python-api.rst#datasetfunding)| Not applicable as this class doesn't contain data files|
+| Run(./python-api.rst#run)| `download_everything`                  |
+| TomogramVoxelSpacing(./python-api.rst#tomogramvoxelspacing)| `download_everything`          |
+| Tomogram(./python-api.rst#tomogram)| `download_all_annotations`, `download_mrcfile`, `download_omezarr`  
+| TomogramAuthor(./python-api.rst#tomogramauthor)| Not applicable as this class doesn't contain data files  |
+| Annotation(./python-api.rst#annotation)| `download`  |
+| AnnotationFile(./python-api.rst#annotationfile)| None, use the Annotation or Tomogram class to download annotations |
+| AnnoatationAuthor(./python-api.rst#annotationauthor)| Not applicable as this class doesn't contain data files |
+| TiltSeries(./python-api.rst#tiltseries)| `download_alignment_file`, `download_angle_list`, `download_collection_metadata`, `download_mrcfile`, `download_omezarr` |
 
 The `find` method selects data based on user-chosen queries. These queries can have python operators `==`, `!=`, `>`, `>=`, `<`, `<=`; method operators `like`, `ilike`, `_in`; and strings or numbers. The method operators are defined in the table below:
 
