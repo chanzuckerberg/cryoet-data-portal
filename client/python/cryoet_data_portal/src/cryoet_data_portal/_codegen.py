@@ -1,10 +1,15 @@
 """This module generates model code from the GraphQL schema."""
 
+import inspect
 import logging
 import pathlib
+import re
 from dataclasses import dataclass
-from textwrap import dedent
-from graphql import GraphQLField, GraphQLList, GraphQLNamedType, GraphQLNonNull, GraphQLObjectType, GraphQLScalarType, GraphQLSchema, GraphQLType, build_schema
+from textwrap import dedent, indent
+
+from graphql import GraphQLField, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLScalarType, GraphQLSchema, GraphQLType, build_schema
+
+from cryoet_data_portal._codegen_dataset import download_everything as dataset_download_everything
 
 
 """Maps GraphQL field type names to model field defaults and Python types."""
@@ -36,6 +41,12 @@ GQL_TO_MODEL_TYPE = {
 }
 
 
+"""Maps GraphQL type names to utility functions."""
+GQL_TO_MODEL_UTILS = {
+    'datasets': (dataset_download_everything,),
+}
+
+
 @dataclass(frozen=True)
 class FieldInfo:
     """Describes the information about a parsed model field."""
@@ -59,7 +70,8 @@ def write_models() -> None:
             from datetime import date
             from typing import List
 
-            from ._gql_base import (
+            from cryoet_data_portal._file_tools import download_directory, download_https
+            from cryoet_data_portal._gql_base import (
                 BooleanField,
                 DateField,
                 FloatField,
@@ -95,6 +107,12 @@ def write_models() -> None:
             # Write model types
             for field in fields:
                 f.write(f"    {field.name}: {field.annotation_type} = {field.default_value}\n")
+
+            # Write utility methods
+            utils = GQL_TO_MODEL_UTILS.get(gql_type.name, ())
+            for util in utils:
+                source = inspect.getsource(util)
+                f.write(f"    \n{indent(source, '    ')}")
 
         # Write model setup calls
         f.write("\n")
@@ -137,25 +155,25 @@ def parse_scalar_field(name: str, description: str, field_type: GraphQLScalarTyp
 def parse_object_field(name: str, description: str, field_type: GraphQLObjectType) -> FieldInfo | None:
     logging.debug("parse_object_field: %s", field_type)
     if model := GQL_TO_MODEL_TYPE.get(field_type.name):
+        model_field = _camel_to_snake_case(model)
         return FieldInfo(
             name=name,
             description=description,
             annotation_type=model,
-            default_value=f"ItemRelationship({model}, \"{model.lower()}_id\", \"id\")",
+            default_value=f"ItemRelationship({model}, \"{model_field}_id\", \"id\")",
         )
 
 
 def parse_list_field(gql_type: GraphQLObjectType, name: str, description: str, field_type: GraphQLList) -> FieldInfo | None:
     logging.debug("parse_list_field: %s", field_type)
     of_type = _maybe_unwrap_non_null(field_type.of_type)
-    # TODO: something more generic would be better.
-    gql_type = gql_type.name[:-1]
+    foreign_field = _camel_to_snake_case(GQL_TO_MODEL_TYPE[gql_type.name])
     if of_model := GQL_TO_MODEL_TYPE.get(of_type.name):
         return FieldInfo(
             name=name,
             description=description,
             annotation_type=f"List[{of_model}]",
-            default_value=f"ListRelationship(\"{of_model}\", \"id\", \"{gql_type}_id\")",
+            default_value=f"ListRelationship(\"{of_model}\", \"id\", \"{foreign_field}_id\")",
         )
 
 
@@ -163,6 +181,10 @@ def _maybe_unwrap_non_null(field_type: GraphQLType) -> GraphQLType:
     if isinstance(field_type, GraphQLNonNull):
         return field_type.of_type
     return field_type
+
+
+def _camel_to_snake_case(name: str) -> str:
+    return re.sub('(?!^)([A-Z]+)', r'_\1', name).lower()
 
 
 if __name__ == "__main__":

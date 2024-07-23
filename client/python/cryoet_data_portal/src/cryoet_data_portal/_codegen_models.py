@@ -1,9 +1,11 @@
 
 from __future__ import annotations
+import re
 from datetime import date
 from typing import List
 
-from ._gql_base import (
+from cryoet_data_portal._file_tools import download_directory, download_https
+from cryoet_data_portal._gql_base import (
     BooleanField,
     DateField,
     FloatField,
@@ -85,6 +87,15 @@ class Dataset(Model):
     tissue_id: str = StringField()
     tissue_name: str = StringField()
     title: str = StringField()
+    
+    def download_everything(self, dest_path: str | None = None):
+        """Download all of the data for this dataset.
+
+        Args:
+            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+        """
+        recursive_prefix = "/".join(self.s3_prefix.strip("/").split("/")[:-1]) + "/"
+        download_directory(self.s3_prefix, recursive_prefix, dest_path)
 
 
 class DatasetAuthor(Model):
@@ -262,7 +273,7 @@ class Tomogram(Model):
     size_y: int = IntField()
     size_z: int = IntField()
     tomogram_version: str = StringField()
-    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(TomogramVoxelSpacing, "tomogramvoxelspacing_id", "id")
+    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(TomogramVoxelSpacing, "tomogram_voxel_spacing_id", "id")
     tomogram_voxel_spacing_id: int = IntField()
     voxel_spacing: float = FloatField()
 
@@ -357,7 +368,7 @@ class Annotation(Model):
     object_state: str = StringField()
     release_date: date = DateField()
     s3_metadata_path: str = StringField()
-    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(TomogramVoxelSpacing, "tomogramvoxelspacing_id", "id")
+    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(TomogramVoxelSpacing, "tomogram_voxel_spacing_id", "id")
     tomogram_voxel_spacing_id: int = IntField()
 
 
