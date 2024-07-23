@@ -6,6 +6,7 @@ import pathlib
 import re
 from dataclasses import dataclass
 from textwrap import dedent
+from typing import List, Optional
 
 from graphql import (
     GraphQLField,
@@ -133,7 +134,7 @@ def load_schema() -> GraphQLSchema:
     return build_schema(schema_str)
 
 
-def parse_fields(gql_type: GraphQLObjectType) -> list[FieldInfo]:
+def parse_fields(gql_type: GraphQLObjectType) -> List[FieldInfo]:
     fields = []
     for name, field in gql_type.fields.items():
         if parsed := _parse_field(gql_type, name, field):
@@ -146,7 +147,7 @@ def _parse_field(
     gql_type: GraphQLObjectType,
     name: str,
     field: GraphQLField,
-) -> FieldInfo | None:
+) -> Optional[FieldInfo]:
     logging.debug("_parse_field: %s, %s", name, field)
     field_type = _maybe_unwrap_non_null(field.type)
     if isinstance(field_type, GraphQLList):
@@ -161,7 +162,7 @@ def _parse_scalar_field(
     name: str,
     description: str,
     field_type: GraphQLScalarType,
-) -> FieldInfo | None:
+) -> Optional[FieldInfo]:
     logging.debug("_parse_scalar_field: %s", field_type)
     if field_type.name in GQL_TO_MODEL_FIELD:
         default_value, annotation_type = GQL_TO_MODEL_FIELD[field_type.name]
@@ -177,7 +178,7 @@ def _parse_object_field(
     name: str,
     description: str,
     field_type: GraphQLObjectType,
-) -> FieldInfo | None:
+) -> Optional[FieldInfo]:
     logging.debug("_parse_object_field: %s", field_type)
     if model := GQL_TO_MODEL_TYPE.get(field_type.name):
         model_field = _camel_to_snake_case(model)
@@ -194,7 +195,7 @@ def _parse_list_field(
     name: str,
     description: str,
     field_type: GraphQLList,
-) -> FieldInfo | None:
+) -> Optional[FieldInfo]:
     logging.debug("_parse_list_field: %s", field_type)
     of_type = _maybe_unwrap_non_null(field_type.of_type)
     foreign_field = _camel_to_snake_case(GQL_TO_MODEL_TYPE[gql_type.name])
