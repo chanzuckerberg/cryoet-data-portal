@@ -119,7 +119,7 @@ function TablePageTabContent({
 
   const contextValue = useMemo<LayoutContextValue>(
     () => ({
-      hasFilters: filterPanel !== undefined,
+      hasFilters: !!filterPanel,
     }),
     [filterPanel],
   )
