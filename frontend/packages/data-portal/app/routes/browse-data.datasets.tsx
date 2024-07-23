@@ -45,19 +45,23 @@ export default function BrowseDatasetsPage() {
 
   return (
     <TablePageLayout
-      title={t('datasets')}
-      type={i18n.datasets}
-      filteredCount={filteredDatasetCount}
-      filters={<DatasetFilter />}
-      table={<DatasetTable />}
-      totalCount={datasetCount}
-      noResults={
-        <NoResults
-          title={i18n.filterNoResultsFound}
-          description={i18n.filterTooRestrictive}
-          actions={<Button onClick={reset}>{i18n.clearFilters}</Button>}
-        />
-      }
+      tabs={[
+        {
+          title: t('datasets'),
+          filterPanel: <DatasetFilter />,
+          filteredCount: filteredDatasetCount,
+          table: <DatasetTable />,
+          noResults: (
+            <NoResults
+              title={i18n.filterNoResultsFound}
+              description={i18n.filterTooRestrictive}
+              actions={<Button onClick={reset}>{i18n.clearFilters}</Button>}
+            />
+          ),
+          totalCount: datasetCount,
+          countLabel: i18n.datasets,
+        },
+      ]}
     />
   )
 }

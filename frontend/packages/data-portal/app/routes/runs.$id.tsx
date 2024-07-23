@@ -7,13 +7,13 @@ import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
 import { apolloClient } from 'app/apollo.server'
+import { TablePageLayout } from 'app/components//TablePageLayout'
 import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
 import { DownloadModal } from 'app/components/Download'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
 import { AnnotationTable } from 'app/components/Run/AnnotationTable'
 import { RunMetadataDrawer } from 'app/components/Run/RunMetadataDrawer'
-import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
@@ -175,8 +175,18 @@ export default function RunByIdPage() {
 
   return (
     <TablePageLayout
-      title={t('annotations')}
-      type={i18n.annotations}
+      header={<RunHeader />}
+      tabs={[
+        {
+          title: t('annotations'),
+          filterPanel: <AnnotationFilter />,
+          filteredCount,
+          table: <AnnotationTable />,
+          pageQueryParam: QueryParams.AnnotationsPage,
+          totalCount,
+          countLabel: i18n.annotations,
+        },
+      ]}
       downloadModal={
         <DownloadModal
           activeAnnotation={activeAnnotation}
@@ -229,11 +239,6 @@ export default function RunByIdPage() {
           <AnnotationDrawer />
         </>
       }
-      filters={<AnnotationFilter />}
-      filteredCount={filteredCount}
-      header={<RunHeader />}
-      table={<AnnotationTable />}
-      totalCount={totalCount}
     />
   )
 }

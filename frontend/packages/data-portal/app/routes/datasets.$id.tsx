@@ -3,12 +3,12 @@
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 
 import { apolloClient } from 'app/apollo.server'
+import { TablePageLayout } from 'app/components//TablePageLayout'
 import { DatasetMetadataDrawer } from 'app/components/Dataset'
 import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
 import { RunsTable } from 'app/components/Dataset/RunsTable'
 import { DownloadModal } from 'app/components/Download'
 import { RunFilter } from 'app/components/RunFilter'
-import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { useDatasetById } from 'app/hooks/useDatasetById'
@@ -51,8 +51,17 @@ export default function DatasetByIdPage() {
 
   return (
     <TablePageLayout
-      title={t('runs')}
-      type={i18n.runs}
+      header={<DatasetHeader />}
+      tabs={[
+        {
+          title: t('runs'),
+          filterPanel: <RunFilter />,
+          filteredCount: dataset.filtered_runs_count.aggregate?.count ?? 0,
+          table: <RunsTable />,
+          totalCount: dataset.runs_aggregate.aggregate?.count ?? 0,
+          countLabel: i18n.runs,
+        },
+      ]}
       downloadModal={
         <DownloadModal
           datasetId={dataset.id}
@@ -62,11 +71,6 @@ export default function DatasetByIdPage() {
         />
       }
       drawers={<DatasetMetadataDrawer />}
-      filteredCount={dataset.filtered_runs_count.aggregate?.count ?? 0}
-      header={<DatasetHeader />}
-      table={<RunsTable />}
-      totalCount={dataset.runs_aggregate.aggregate?.count ?? 0}
-      filters={<RunFilter />}
     />
   )
 }
