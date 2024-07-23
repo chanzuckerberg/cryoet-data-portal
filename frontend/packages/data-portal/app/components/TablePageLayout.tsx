@@ -47,15 +47,8 @@ export function TablePageLayout({
 }: TablePageLayoutProps) {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
 
-  const contextValue = useMemo<LayoutContextValue>(
-    () => ({
-      hasFilters: tabs[activeTabIndex].filterPanel !== undefined,
-    }),
-    [activeTabIndex, tabs],
-  )
-
   return (
-    <LayoutContext.Provider value={contextValue}>
+    <>
       {downloadModal}
 
       <div className="flex flex-col flex-auto">
@@ -87,7 +80,7 @@ export function TablePageLayout({
 
         {drawers}
       </div>
-    </LayoutContext.Provider>
+    </>
   )
 }
 
@@ -124,74 +117,83 @@ function TablePageTabContent({
     })
   }
 
+  const contextValue = useMemo<LayoutContextValue>(
+    () => ({
+      hasFilters: filterPanel !== undefined,
+    }),
+    [filterPanel],
+  )
+
   return (
-    <div className="flex flex-auto">
-      {filterPanel && (
-        <div
-          className={cns(
-            'flex flex-col flex-shrink-0 w-[235px]',
-            'border-t border-r border-sds-gray-300',
-          )}
-        >
-          {filterPanel}
-        </div>
-      )}
-
-      <div
-        className={cns(
-          'flex flex-col flex-auto screen-2040:items-center',
-          'pt-sds-xl pb-sds-xxl',
-          'border-t border-sds-gray-300',
-          'overflow-x-scroll max-w-full',
-        )}
-      >
-        <div
-          className={cns(
-            'flex flex-col flex-auto w-full',
-
-            // Translate to the left by half the filter panel width to align with the header
-            filterPanel && 'screen-2040:translate-x-[-100px] max-w-content',
-          )}
-        >
-          <div className="px-sds-xl flex items-center gap-x-sds-xl">
-            <p className="text-sds-header-l leading-sds-header-l font-semibold">
-              {title}
-            </p>
-
-            <TableCount
-              filteredCount={filteredCount}
-              totalCount={totalCount}
-              type={countLabel}
-            />
-          </div>
-
-          <ErrorBoundary logId={TABLE_PAGE_LAYOUT_LOG_ID}>
-            <div className="overflow-x-scroll">{table}</div>
-          </ErrorBoundary>
-
-          <div className="px-sds-xl">
-            {filteredCount === 0 && noResults}
-
-            {filteredCount > MAX_PER_PAGE && (
-              <div
-                className="w-full flex justify-center mt-sds-xxl"
-                data-testid={TestIds.Pagination}
-              >
-                <Pagination
-                  currentPage={page}
-                  pageSize={MAX_PER_PAGE}
-                  totalCount={
-                    totalCount === filteredCount ? totalCount : filteredCount
-                  }
-                  onNextPage={() => setPage(page + 1)}
-                  onPreviousPage={() => setPage(page - 1)}
-                  onPageChange={(nextPage) => setPage(nextPage)}
-                />
-              </div>
+    <LayoutContext.Provider value={contextValue}>
+      <div className="flex flex-auto">
+        {filterPanel && (
+          <div
+            className={cns(
+              'flex flex-col flex-shrink-0 w-[235px]',
+              'border-t border-r border-sds-gray-300',
             )}
+          >
+            {filterPanel}
+          </div>
+        )}
+
+        <div
+          className={cns(
+            'flex flex-col flex-auto screen-2040:items-center',
+            'pt-sds-xl pb-sds-xxl',
+            'border-t border-sds-gray-300',
+            'overflow-x-scroll max-w-full',
+          )}
+        >
+          <div
+            className={cns(
+              'flex flex-col flex-auto w-full',
+
+              // Translate to the left by half the filter panel width to align with the header
+              filterPanel && 'screen-2040:translate-x-[-100px] max-w-content',
+            )}
+          >
+            <div className="px-sds-xl flex items-center gap-x-sds-xl">
+              <p className="text-sds-header-l leading-sds-header-l font-semibold">
+                {title}
+              </p>
+
+              <TableCount
+                filteredCount={filteredCount}
+                totalCount={totalCount}
+                type={countLabel}
+              />
+            </div>
+
+            <ErrorBoundary logId={TABLE_PAGE_LAYOUT_LOG_ID}>
+              <div className="overflow-x-scroll">{table}</div>
+            </ErrorBoundary>
+
+            <div className="px-sds-xl">
+              {filteredCount === 0 && noResults}
+
+              {filteredCount > MAX_PER_PAGE && (
+                <div
+                  className="w-full flex justify-center mt-sds-xxl"
+                  data-testid={TestIds.Pagination}
+                >
+                  <Pagination
+                    currentPage={page}
+                    pageSize={MAX_PER_PAGE}
+                    totalCount={
+                      totalCount === filteredCount ? totalCount : filteredCount
+                    }
+                    onNextPage={() => setPage(page + 1)}
+                    onPreviousPage={() => setPage(page - 1)}
+                    onPageChange={(nextPage) => setPage(nextPage)}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </LayoutContext.Provider>
   )
 }
