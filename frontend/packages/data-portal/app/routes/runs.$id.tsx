@@ -36,11 +36,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   }
 
   const url = new URL(request.url)
-  const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
+  const annotationsPage = +(
+    url.searchParams.get(QueryParams.AnnotationsPage) ?? '1'
+  )
 
   const { data } = await getRunById({
     id,
-    page,
+    annotationsPage,
     client: apolloClient,
     params: url.searchParams,
   })
