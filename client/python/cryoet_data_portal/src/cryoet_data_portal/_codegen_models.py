@@ -54,7 +54,7 @@ class Dataset(Model):
 
     _gql_type: str = "datasets"
 
-    authors: List[DatasetAuthor] = ListRelationship("DatasetAuthor", "id", "datasetauthor_id")
+    authors: List[DatasetAuthor] = ListRelationship("DatasetAuthor", "id", "dataset_id")
     cell_component_id: str = StringField()
     cell_component_name: str = StringField()
     cell_name: str = StringField()
@@ -65,7 +65,7 @@ class Dataset(Model):
     dataset_publications: str = StringField()
     deposition_date: date = DateField()
     description: str = StringField()
-    funding_sources: List[DatasetFunding] = ListRelationship("DatasetFunding", "id", "datasetfunding_id")
+    funding_sources: List[DatasetFunding] = ListRelationship("DatasetFunding", "id", "dataset_id")
     grid_preparation: str = StringField()
     https_prefix: str = StringField()
     id: int = IntField()
@@ -78,7 +78,7 @@ class Dataset(Model):
     related_database_entries: str = StringField()
     related_database_links: str = StringField()
     release_date: date = DateField()
-    runs: List[Run] = ListRelationship("Run", "id", "run_id")
+    runs: List[Run] = ListRelationship("Run", "id", "dataset_id")
     s3_prefix: str = StringField()
     sample_preparation: str = StringField()
     sample_type: str = StringField()
@@ -163,8 +163,8 @@ class Run(Model):
     id: int = IntField()
     name: str = StringField()
     s3_prefix: str = StringField()
-    tiltseries: List[TiltSeries] = ListRelationship("TiltSeries", "id", "tiltseries_id")
-    tomogram_voxel_spacings: List[TomogramVoxelSpacing] = ListRelationship("TomogramVoxelSpacing", "id", "tomogramvoxelspacing_id")
+    tiltseries: List[TiltSeries] = ListRelationship("TiltSeries", "id", "run_id")
+    tomogram_voxel_spacings: List[TomogramVoxelSpacing] = ListRelationship("TomogramVoxelSpacing", "id", "run_id")
 
 
 class TomogramVoxelSpacing(Model):
@@ -183,13 +183,13 @@ class TomogramVoxelSpacing(Model):
 
     _gql_type: str = "tomogram_voxel_spacings"
 
-    annotations: List[Annotation] = ListRelationship("Annotation", "id", "annotation_id")
+    annotations: List[Annotation] = ListRelationship("Annotation", "id", "tomogram_voxel_spacing_id")
     https_prefix: str = StringField()
     id: int = IntField()
     run: Run = ItemRelationship(Run, "run_id", "id")
     run_id: int = IntField()
     s3_prefix: str = StringField()
-    tomograms: List[Tomogram] = ListRelationship("Tomogram", "id", "tomogram_id")
+    tomograms: List[Tomogram] = ListRelationship("Tomogram", "id", "tomogram_voxel_spacing_id")
     voxel_spacing: float = FloatField()
 
 
@@ -234,7 +234,7 @@ class Tomogram(Model):
     _gql_type: str = "tomograms"
 
     affine_transformation_matrix: str = StringField()
-    authors: List[TomogramAuthor] = ListRelationship("TomogramAuthor", "id", "tomogramauthor_id")
+    authors: List[TomogramAuthor] = ListRelationship("TomogramAuthor", "id", "tomogram_id")
     ctf_corrected: bool = BooleanField()
     deposition_id: int = IntField()
     fiducial_alignment_status: str = StringField()
@@ -337,12 +337,12 @@ class Annotation(Model):
     annotation_method: str = StringField()
     annotation_publication: str = StringField()
     annotation_software: str = StringField()
-    authors: List[AnnotationAuthor] = ListRelationship("AnnotationAuthor", "id", "annotationauthor_id")
+    authors: List[AnnotationAuthor] = ListRelationship("AnnotationAuthor", "id", "annotation_id")
     confidence_precision: float = FloatField()
     confidence_recall: float = FloatField()
     deposition_date: date = DateField()
     deposition_id: int = IntField()
-    files: List[AnnotationFile] = ListRelationship("AnnotationFile", "id", "annotationfile_id")
+    files: List[AnnotationFile] = ListRelationship("AnnotationFile", "id", "annotation_id")
     ground_truth_status: bool = BooleanField()
     ground_truth_used: str = StringField()
     https_metadata_path: str = StringField()

@@ -105,17 +105,17 @@ def write_models() -> None:
 def parse_fields(gql_type: GraphQLObjectType) -> list[FieldInfo]: 
     fields = []
     for name, field in gql_type.fields.items():
-        if parsed := parse_field(name, field):
+        if parsed := parse_field(gql_type, name, field):
             logging.debug('Parsed %s', parsed)
             fields.append(parsed)
     return fields
 
 
-def parse_field(name: str, field: GraphQLField) -> FieldInfo | None:
+def parse_field(gql_type: GraphQLObjectType, name: str, field: GraphQLField) -> FieldInfo | None:
     logging.debug("parse_field: %s, %s", name, field)
     field_type = _maybe_unwrap_non_null(field.type)
     if isinstance(field_type, GraphQLList):
-        return parse_list_field(name, field.description, field_type)
+        return parse_list_field(gql_type, name, field.description, field_type)
     if isinstance(field_type, GraphQLObjectType):
         return parse_object_field(name, field.description, field_type)
     if isinstance(field_type, GraphQLScalarType):
@@ -145,15 +145,17 @@ def parse_object_field(name: str, description: str, field_type: GraphQLObjectTyp
         )
 
 
-def parse_list_field(name: str, description: str, field_type: GraphQLList) -> FieldInfo | None:
+def parse_list_field(gql_type: GraphQLObjectType, name: str, description: str, field_type: GraphQLList) -> FieldInfo | None:
     logging.debug("parse_list_field: %s", field_type)
     of_type = _maybe_unwrap_non_null(field_type.of_type)
+    # TODO: something more generic would be better.
+    gql_type = gql_type.name[:-1]
     if of_model := GQL_TO_MODEL_TYPE.get(of_type.name):
         return FieldInfo(
             name=name,
             description=description,
             annotation_type=f"List[{of_model}]",
-            default_value=f"ListRelationship(\"{of_model}\", \"id\", \"{of_model.lower()}_id\")",
+            default_value=f"ListRelationship(\"{of_model}\", \"id\", \"{gql_type}_id\")",
         )
 
 
