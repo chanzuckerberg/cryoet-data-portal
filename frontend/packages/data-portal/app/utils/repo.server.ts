@@ -1,45 +1,27 @@
 import rehypePrism from '@mapbox/rehype-prism'
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import { readFileSync } from 'fs'
 import { serialize } from 'next-mdx-remote/serialize'
-import { Octokit } from 'octokit'
 import { dirname, resolve } from 'path'
 import remarkGfm from 'remark-gfm'
 import sectionize from 'remark-sectionize'
 import { typedjson } from 'remix-typedjson'
 import { fileURLToPath } from 'url'
 
-const octokit = new Octokit()
-
 export interface RepoFile {
   content: string
-  lastModified: Date | null
 }
 
-export async function getRepoFileContent(path: string): Promise<RepoFile> {
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-  const response = (await axios.get(
+export async function getRepoFileContent(path: string): Promise<string> {
+  const response = await axios.get(
     `https://raw.githubusercontent.com/chanzuckerberg/cryoet-data-portal/main/${path}`,
-  )) as AxiosResponse
+  )
 
-  const data = await octokit.rest.repos.listCommits({
-    path,
-    owner: 'chanzuckerberg',
-    repo: 'cryoet-data-portal',
-    per_page: 1,
-  })
-
-  const date = data.data[0].commit.committer?.date
-
-  return {
-    content: response.data as string,
-    lastModified: date ? new Date(date) : null,
-  }
+  return response.data as string
 }
 
-async function serializeMdx(content: string, lastModified: Date | null) {
+async function serializeMdx(content: string) {
   return typedjson({
-    lastModified,
     content: await serialize(content, {
       mdxOptions: {
         remarkPlugins: [sectionize, remarkGfm],
@@ -50,9 +32,9 @@ async function serializeMdx(content: string, lastModified: Date | null) {
 }
 
 export async function getRepoFileContentResponse(path: string) {
-  const { content, lastModified } = await getRepoFileContent(path)
+  const content = await getRepoFileContent(path)
 
-  return serializeMdx(content, lastModified)
+  return serializeMdx(content)
 }
 
 export async function getLocalFileContent(path: string) {
@@ -62,5 +44,5 @@ export async function getLocalFileContent(path: string) {
     'utf-8',
   )
 
-  return serializeMdx(mdxContent, null)
+  return serializeMdx(mdxContent)
 }

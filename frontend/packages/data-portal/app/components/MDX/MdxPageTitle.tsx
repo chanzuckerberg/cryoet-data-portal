@@ -1,12 +1,15 @@
-import dayjs from 'dayjs'
 import { ReactNode } from 'react'
 
 import { useI18n } from 'app/hooks/useI18n'
-import { useMdxFile } from 'app/hooks/useMdxFile'
 
-export function MdxPageTitle({ children }: { children: ReactNode }) {
+export function MdxPageTitle({
+  children,
+  lastModified,
+}: {
+  children: ReactNode
+  lastModified: string
+}) {
   const { t } = useI18n()
-  const { lastModified } = useMdxFile()
 
   return (
     <div className="flex flex-col gap-sds-xs mb-sds-xxl">
@@ -16,7 +19,7 @@ export function MdxPageTitle({ children }: { children: ReactNode }) {
 
       {lastModified && (
         <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
-          {t('lastUpdated')}: {dayjs(lastModified).format('MMMM DD, YYYY')}
+          {t('lastUpdated')}: {lastModified}
         </p>
       )}
     </div>
