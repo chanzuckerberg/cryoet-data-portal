@@ -1,8 +1,9 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { E2E_CONFIG, translations } from 'e2e/constants'
 
-import { GetRunByIdQuery } from 'app/__generated__/graphql'
+import { GetDatasetByIdQuery, GetRunByIdQuery } from 'app/__generated__/graphql'
 import { QueryParams } from 'app/constants/query'
+import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getRunById } from 'app/graphql/getRunById.server'
 
 import { FiltersPage } from './filtersPage'
@@ -12,6 +13,7 @@ import {
   getExpectedFilterCount,
   getExpectedTotalCount,
   getExpectedUrlWithQueryParams,
+  getRunIdCountsFromData,
 } from './utils'
 
 export class FiltersActor {
@@ -35,7 +37,7 @@ export class FiltersActor {
   // #endregion Navigation
 
   // #region Data
-  public async getSingleRunDataWithParams({
+  public async getSingleRunDataUsingParams({
     client,
     id,
     pageNumber,
@@ -63,6 +65,40 @@ export class FiltersActor {
       client,
       params,
       id,
+      page: pageNumber,
+    })
+
+    return data
+  }
+
+  public async getSingleDatasetUsingParams({
+    client,
+    id,
+    pageNumber,
+    url,
+    queryParamKey,
+    queryParamValue,
+    serialize,
+  }: {
+    client: ApolloClient<NormalizedCacheObject>
+    id: number
+    pageNumber?: number
+    url: string
+    queryParamKey?: QueryParams
+    queryParamValue: string
+    serialize?: (value: string) => string
+  }) {
+    const { params } = getExpectedUrlWithQueryParams({
+      url,
+      queryParamKey,
+      queryParamValue,
+      serialize,
+    })
+
+    const { data } = await getDatasetById({
+      client,
+      id,
+      params,
       page: pageNumber,
     })
 
@@ -157,7 +193,7 @@ export class FiltersActor {
 
   public async expectDataAndAnnotationsTableToMatch({
     client,
-    id,
+    id = 1,
     pageNumber,
     url,
     queryParamKey,
@@ -172,7 +208,7 @@ export class FiltersActor {
     queryParamValue: string
     serialize?: (value: string) => string
   }) {
-    const singleRunData = await this.getSingleRunDataWithParams({
+    const singleRunData = await this.getSingleRunDataUsingParams({
       client,
       id,
       pageNumber,
@@ -183,6 +219,66 @@ export class FiltersActor {
     })
 
     await this.expectAnnotationsTableToBeCorrect({ singleRunData })
+  }
+
+  public async expectRunsTableToBeCorrect({
+    singleDatasetData,
+  }: {
+    singleDatasetData: GetDatasetByIdQuery
+  }) {
+    // Extract expectedFilterCount and expectedTotalCount from data
+    const expectedFilterCount = getExpectedFilterCount({ singleDatasetData })
+    const expectedTotalCount = getExpectedTotalCount({ singleDatasetData })
+
+    // Wait for table subtitle to be correct: `^${expectedFilterCount} of ${expectedTotalCount} ${countLabel}$`
+    await this.filtersPage.waitForTableCountChange({
+      countLabel: translations.runs,
+      expectedFilterCount,
+      expectedTotalCount,
+    })
+
+    // Validate rows
+    // Get all run ids from the expected data
+    const runIdCountFromData = getRunIdCountsFromData({ singleDatasetData })
+    // Get all run rows from the table
+    const runRowCountFromTable =
+      await this.filtersPage.getRunRowCountFromTable()
+
+    // Ensure all run ids from the expected data are in the table
+    this.filtersPage.expectRowCountsToMatch(
+      runIdCountFromData,
+      runRowCountFromTable,
+    )
+  }
+
+  public async expectDataAndRunsTableToMatch({
+    client,
+    id = 1,
+    pageNumber,
+    url,
+    queryParamKey,
+    queryParamValue,
+    serialize,
+  }: {
+    client: ApolloClient<NormalizedCacheObject>
+    id: number
+    pageNumber?: number
+    url: string
+    queryParamKey?: QueryParams
+    queryParamValue: string
+    serialize?: (value: string) => string
+  }) {
+    const singleDatasetData = await this.getSingleDatasetUsingParams({
+      client,
+      id,
+      pageNumber,
+      url,
+      queryParamKey,
+      queryParamValue,
+      serialize,
+    })
+
+    await this.expectRunsTableToBeCorrect({ singleDatasetData })
   }
   // #endregion Validate
 }

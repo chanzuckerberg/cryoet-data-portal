@@ -1,15 +1,11 @@
-import { ApolloQueryResult } from '@apollo/client'
-import { E2E_CONFIG } from 'e2e/constants'
-
 import {
   GetDatasetByIdQuery,
   GetDatasetsDataQuery,
   GetRunByIdQuery,
 } from 'app/__generated__/graphql'
 import { QueryParams } from 'app/constants/query'
-import { getRunById } from 'app/graphql/getRunById.server'
 
-import { AnnotationRowCounter, TableValidatorOptions } from './types'
+import { RowCounterType } from './types'
 
 export function getExpectedUrlWithQueryParams({
   url,
@@ -70,30 +66,12 @@ export function getExpectedTotalCount({
 }
 
 // #Region singleRunPage
-export async function getAnnotationsTableTestData({
-  client,
-  params,
-  pageNumber,
-  id = +E2E_CONFIG.runId,
-}: TableValidatorOptions & { id?: number }): Promise<
-  ApolloQueryResult<GetRunByIdQuery>['data']
-> {
-  const { data } = await getRunById({
-    client,
-    params,
-    id,
-    page: pageNumber,
-  })
-
-  return data
-}
-
 export function getAnnotationRowCountFromData({
   singleRunData,
 }: {
   singleRunData: GetRunByIdQuery
-}): AnnotationRowCounter {
-  const rowCounter: AnnotationRowCounter = {}
+}): RowCounterType {
+  const rowCounter: RowCounterType = {}
   singleRunData.runs
     .at(0)
     ?.annotation_table.at(0)
@@ -110,5 +88,20 @@ export function getAnnotationRowCountFromData({
 // #endregion singleRunPage
 
 // #region singleDatasetPage
+export function getRunIdCountsFromData({
+  singleDatasetData,
+}: {
+  singleDatasetData: GetDatasetByIdQuery
+}) {
+  const rowCounter: RowCounterType = {}
+  singleDatasetData.datasets
+    .at(0)
+    ?.runs.map((run) => run.id)
+    .reduce((counter, id) => {
+      counter[id] = (counter[id] || 0) + 1
+      return counter
+    }, rowCounter)
+  return rowCounter
+}
 
 // #endregion singleDatasetPage
