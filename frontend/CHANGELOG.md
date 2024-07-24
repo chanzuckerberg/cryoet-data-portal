@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.13.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.4...web-v1.13.0) (2024-07-18)
+
+
+### ✨ Features
+
+* Add multiple tomograms feature flag and gate run header changes by it ([#886](https://github.com/chanzuckerberg/cryoet-data-portal/issues/886)) ([f65fa0c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f65fa0c5caaa9f417f454c42fb7713078398ea61))
+
+
+### 🐞 Bug Fixes
+
+* Don't add annotation rows for shape types that are filtered out ([#892](https://github.com/chanzuckerberg/cryoet-data-portal/issues/892)) ([6a38f11](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6a38f11afe46213e247d204a272d6b49165e097b))
+
 ## [1.12.4](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.3...web-v1.12.4) (2024-07-16)
 
 

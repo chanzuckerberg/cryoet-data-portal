@@ -1,10 +1,10 @@
 import { Page, test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
+import { TableValidator } from 'e2e/pageObjects/filters/types'
 import { identity } from 'lodash-es'
 
 import { QueryParams } from 'app/constants/query'
 
-import { TableValidator } from '../pageObjects/filters/types'
 import { goTo } from './utils'
 
 async function openFilterDropdown(page: Page, label: string) {

@@ -10,17 +10,18 @@ import { FiltersActor } from './pageObjects/filters/filtersActor'
 
 test.describe('Single run page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>
+  let filtersPage: FiltersPage
+  let filtersActor: FiltersActor
 
-  test.beforeEach(() => {
+  test.beforeEach(({ page }) => {
     client = getApolloClient()
+    filtersPage = new FiltersPage(page)
+    filtersActor = new FiltersActor(filtersPage)
   })
 
   test.describe('Annotation Author filter', () => {
     test.describe('Author Name filter', () => {
-      test('should filter when selecting', async ({ page }) => {
-        const filtersPage = new FiltersPage(page)
-        const filtersActor = new FiltersActor(filtersPage)
-
+      test('should filter when selecting', async () => {
         await filtersPage.goTo(SINGLE_RUN_URL)
 
         await filtersActor.addMultiInputFilter({
@@ -48,10 +49,7 @@ test.describe('Single run page filters', () => {
         })
       })
 
-      test('should filter when opening URL', async ({ page }) => {
-        const filtersPage = new FiltersPage(page)
-        const filtersActor = new FiltersActor(filtersPage)
-
+      test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: SINGLE_RUN_URL,
           paramObject: {
@@ -69,10 +67,7 @@ test.describe('Single run page filters', () => {
         })
       })
 
-      test('should remove filter when deselecting', async ({ page }) => {
-        const filtersPage = new FiltersPage(page)
-        const filtersActor = new FiltersActor(filtersPage)
-
+      test('should remove filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: SINGLE_RUN_URL,
           paramObject: {
@@ -99,10 +94,7 @@ test.describe('Single run page filters', () => {
       })
     })
     test.describe('Author ORCID filter', () => {
-      test('should filter when selecting', async ({ page }) => {
-        const filtersPage = new FiltersPage(page)
-        const filtersActor = new FiltersActor(filtersPage)
-
+      test('should filter when selecting', async () => {
         await filtersPage.goTo(SINGLE_RUN_URL)
 
         await filtersActor.addMultiInputFilter({
@@ -129,10 +121,7 @@ test.describe('Single run page filters', () => {
           queryParamValue: E2E_CONFIG.authorOrcId,
         })
       })
-      test('should filter when opening URL', async ({ page }) => {
-        const filtersPage = new FiltersPage(page)
-        const filtersActor = new FiltersActor(filtersPage)
-
+      test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: SINGLE_RUN_URL,
           paramObject: {
@@ -149,10 +138,7 @@ test.describe('Single run page filters', () => {
           queryParamValue: E2E_CONFIG.authorOrcId,
         })
       })
-      test('should remove filter when deselecting', async ({ page }) => {
-        const filtersPage = new FiltersPage(page)
-        const filtersActor = new FiltersActor(filtersPage)
-
+      test('should remove filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: SINGLE_RUN_URL,
           paramObject: {
@@ -181,10 +167,7 @@ test.describe('Single run page filters', () => {
   })
 
   test.describe('Object Name filter', () => {
-    test('should filter when selecting', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_RUN_URL)
 
       await filtersActor.addSingleSelectFilter({
@@ -208,10 +191,7 @@ test.describe('Single run page filters', () => {
       })
     })
 
-    test('should filter when opening URL', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
         paramObject: {
@@ -229,10 +209,7 @@ test.describe('Single run page filters', () => {
       })
     })
 
-    test('should remove filter when deselecting', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should remove filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
         paramObject: {
@@ -261,10 +238,7 @@ test.describe('Single run page filters', () => {
 
   // TODO: (ehoops) Add this actual test!
   test.describe('Go ID filter', () => {
-    test('should filter when selecting', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_RUN_URL)
 
       await filtersActor.addMultiInputFilter({
@@ -291,10 +265,7 @@ test.describe('Single run page filters', () => {
         queryParamValue: E2E_CONFIG.goId,
       })
     })
-    test('should filter when opening URL', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
         paramObject: {
@@ -312,10 +283,7 @@ test.describe('Single run page filters', () => {
       })
     })
 
-    test('should remove filter when deselecting', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should remove filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
         paramObject: {
@@ -343,10 +311,7 @@ test.describe('Single run page filters', () => {
   })
 
   test.describe('Object Shape Type filter', () => {
-    test('should filter when selecting', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_RUN_URL)
 
       await filtersActor.addSingleSelectFilter({
@@ -370,10 +335,7 @@ test.describe('Single run page filters', () => {
       })
     })
 
-    test('should filter when opening URL', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
         paramObject: {
@@ -391,10 +353,7 @@ test.describe('Single run page filters', () => {
       })
     })
 
-    test('should remove filter when deselecting', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should remove filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
         paramObject: {
@@ -422,10 +381,7 @@ test.describe('Single run page filters', () => {
   })
 
   test.describe('Method Type filter', () => {
-    test('should filter when selecting', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_RUN_URL)
 
       await filtersActor.addSingleSelectFilter({
@@ -449,10 +405,7 @@ test.describe('Single run page filters', () => {
       })
     })
 
-    test('should filter when opening URL', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
         paramObject: {
@@ -470,10 +423,7 @@ test.describe('Single run page filters', () => {
       })
     })
 
-    test('should remove filter when deselecting', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should remove filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
         paramObject: {
@@ -501,10 +451,7 @@ test.describe('Single run page filters', () => {
   })
 
   test.describe('Annotation software filter', () => {
-    test('should filter when selecting', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_RUN_URL)
 
       await filtersActor.addSingleSelectFilter({
@@ -528,10 +475,7 @@ test.describe('Single run page filters', () => {
       })
     })
 
-    test('should filter when opening URL', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
         paramObject: {
@@ -549,10 +493,7 @@ test.describe('Single run page filters', () => {
       })
     })
 
-    test('should remove filter when deselecting', async ({ page }) => {
-      const filtersPage = new FiltersPage(page)
-      const filtersActor = new FiltersActor(filtersPage)
-
+    test('should remove filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
         paramObject: {

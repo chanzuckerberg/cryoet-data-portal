@@ -25,7 +25,42 @@ Datasets are contributed sets of image files associated with imaging one sample 
 
 The Browse Datasets page shows a table of all datasets on the Portal. These datasets are not currently ordered. Instead, the left side filter panel provides options for filtering the table according to files included in the datasets, such as ground truth annotation files; the author or ID of the dataset; organism in the sample; hardware; metadata for the tilt series or reconstructed tomograms. In addition, the search bar filters based on keywords or phrases contained in the dataset titles. The dataset entries in the table have descriptive names, such as "S. pombe cryo-FIB lamellae acquired with defocus-only," which aim to summarize the experiment as well as a Dataset ID assigned by the Portal, the organism name, number of runs in the dataset, and list of annotated objects, such as membrane. Datasets on the Portal may be found in other image databases. On the Browse Datasets page, the datasets table shows the EMPIAR ID for datasets that are also found on the Electron Microscopy Public Image Archive.
 
-On a given Dataset Overview page, the View All Info panel contains metadata for the dataset.
+On a given Dataset Overview page, the View All Info panel contains metadata for the dataset. These metadata are defined in the tables below including their mapping to attributes in the Portal API:
+
+**Dataset Metadata**
+| **Portal Metadata** | **API Expression**                    | **Definition**                                                      |
+|---------------------|---------------------------------------|---------------------------------------------------------------------|
+| Deposition Date     | Dataset.deposition_date               | Date when a dataset is initially received by the Data Portal.       |
+| Grant ID            | DatasetFunding.grant_id               | Grant identifier provided by the funding agency.                    |
+| Funding Agency      | DatasetFunding.funding_agency_name    | Name of the funding agency.                                         |
+| Related Databases   | Dataset.related_database_entries      | The dataset identifier for other databases, e.g. EMPIAR, that contain this dataset. |
+
+**Sample and Experiment Conditions**
+| **Portal Metadata** | **API Expression**                   | **Definition**                                                                                                                                 |
+|---------------------|--------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| Sample Type         | Dataset.sample_type                  | Type of sample: cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other.                                    |
+| Organism Name       | Dataset.organism_name                | Name of the organism from which the biological sample is derived from, e.g. homo sapiens.                                                       |
+| Tissue Name         | Dataset.tissue_name                  | Name of the tissue from which a biological sample used in a CryoET study is derived from.                                                       |
+| Cell Name           | Dataset.cell_name                    | Name of the cell from which a biological sample used in a CryoET study is derived from, e.g. sperm.                                             |
+| Cell Line or Strain Name | Dataset.cell_strain_name       | Cell line or strain for the sample e.g. C57BI                                                                                                   |
+| Cellular Component  | Dataset.cell_component_name          | Name of the cellular component, e.g. sperm flagellum                                                                                            |
+| Sample Preparation  | Dataset.sample_preparation           | Description of how the sample was prepared.                                                                                                     |
+| Grid Preparation    | Dataset.grid_preparation             | Description of how the CryoET grid was prepared.                                                                                                |
+| Other Setup         | Dataset.other_setup                  | Description of other setup not covered by sample preparation or grid preparation that may make this dataset unique in the same publication.      |
+
+**Tilt Series**
+| **Portal Metadata**                       | **API Expression**                        | **Definition**                                                                                                 |
+|-------------------------------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| Acceleration Voltage                      | TiltSeries.acceleration_voltage           | Electron Microscope Accelerator voltage in volts.                                                             |
+| Spherical Aberration Constant             | TiltSeries.spherical_aberration_constant  | Spherical Aberration Constant of the objective lens in millimeters.                                           |
+| Microscope Manufacturer                   | TiltSeries.microscope_manufacturer        | Name of the microscope manufacturer.                                                                          |
+| Microscope Model                          | TiltSeries.microscope_model               | Microscope model name.                                                                                        |
+| Energy Filter                             | TiltSeries.microscope_energy_filter       | Energy filter setup used.                                                                                     |
+| Phase Plate                               | TiltSeries.microscope_phase_plate         | Phase plate configuration.                                                                                    |
+| Image Corrector                           | TiltSeries.microscope_image_corrector     | Image corrector setup.                                                                                        |
+| Additional microscope optical setup       | TiltSeries.microscope_additional_info     | Other microscope optical setup information, in addition to energy filter, phase plate and image corrector.    |
+| Camera Manufacturer                       | TiltSeries.camera_manufacturer            | Name of the camera manufacturer.                                                                              |
+| Camera Model                              | TiltSeries.camera_model                   | Camera model name.                                         |
 
 ### Dataset Overview Page
 
@@ -47,11 +82,51 @@ The tilt series quality score is assigned by the dataset authors to communicate 
 
 The `Download Dataset` button opens a dialog with instructions for downloading the dataset using [Amazon Web Services Command Line Interface](./cryoet_data_portal_docsite_aws.md) or the [Portal API](./python-api.rst). Datasets are downloaded as folders named the Dataset ID. The folder contains subfolders for each run named the author-chosen run name, a folder named Images which contains the key photos of the dataset displayed on the Portal, and a JSON file named `dataset_metadata.json` containing the dataset metadata. The run folders contain subfolders named Tomogram and TiltSeries, containing the tomogram and tilt series image files, and a JSON file named `run_metadata.json` containing the run metadata. More details on the run folder file structure is found in the documentation [below](#run-download-options).
 
+The metadata schema of any JSON file stored with the data on the data portal's S3 bucket is described in LinkML and can be found [here](https://github.com/chanzuckerberg/cryoet-data-portal-backend/tree/main/schema/v1.1.0).
+
 ## Runs
 
 A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. However, in the [data schema](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html#data-model) used in the Portal API, runs are connected to tomograms through the `TomogramVoxelSpacing` class which specifies the sampling or voxel size of the tomogram. For a single run, multiple tomograms of different spacings can be available.
 
-An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run.
+An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run. These metadata are defined in the tables below including their mapping to attributes in the Portal API:
+
+**Tilt Series**
+| **Portal Metadata**                       | **API Expression**                        | **Definition**                                                                                                 |
+|-------------------------------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| Microscope Manufacturer                   | TiltSeries.microscope_manufacturer        | Name of the microscope manufacturer.                                                                          |
+| Microscope Model                          | TiltSeries.microscope_model               | Microscope model name.                                                                                        |
+| Phase Plate                               | TiltSeries.microscope_phase_plate         | Phase plate configuration.                                                                                    |
+| Image Corrector                           | TiltSeries.microscope_image_corrector     | Image corrector setup.                                                                                        |
+| Additional microscope optical setup       | TiltSeries.microscope_additional_info     | Other microscope optical setup information, in addition to energy filter, phase plate and image corrector.    |
+| Acceleration Voltage                      | TiltSeries.acceleration_voltage           | Electron Microscope Accelerator voltage in volts.                                                             |
+| Spherical Aberration Constant             | TiltSeries.spherical_aberration_constant  | Spherical Aberration Constant of the objective lens in millimeters.                                           |
+| Camera Manufacturer                       | TiltSeries.camera_manufacturer            | Name of the camera manufacturer.                                                                              |
+| Camera Model                              | TiltSeries.camera_model                   | Camera model name.                                                                                            |
+| Energy Filter                             | TiltSeries.microscope_energy_filter       | Energy filter setup used.                                                                                     |
+| Data Acquisition Software                 | TiltSeries.data_acquisition_software      | Software used to collect data.                                                                                |
+| Pixel Spacing                             | TiltSeries.pixel_spacing                  | Pixel spacing for the tilt series.                                                                            |
+| Tilt Axis                                 | TiltSeries.tilt_axis                      | Rotation angle in degrees.                                                                                    |
+| Tilt Range                                | TiltSeries.tilt_range                     | Total tilt range in degrees.                                                                                  |
+| Tile Step                                 | TiltSeries.tiltstep                       | Tilt step in degrees.                                                                                         |
+| Tilting Scheme                            | TiltSeries.tilting_scheme                 | The order of stage tilting during acquisition of the data.                                                    |
+| Total Flux                                | TiltSeries.total_flux                     | Number of electrons reaching the specimen in a square Angstrom area for the entire tilt series.                |
+| Binning from Frames                       | TiltSeries.binning_from_frames            | Describes the binning factor from frames to tilt series file.                                                 |
+| Series is Aligned                         | No API field                              | True or false, indicating whether the tilt series images have been transformed to account for the tomographic alignment. |
+| Related EMPIAR Entry                      | TiltSeries.related_empiar_entry           | EMPIAR dataset identifier If a tilt series is deposited into EMPIAR.                                           |
+
+**Tomogram**
+| **Portal Metadata**                     | **API Expression**                                                                      | **Definition**                                                                                     |
+|-----------------------------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| Reconstruction Software                 | Tomogram.reconstruction_software                                                        | Name of software used for reconstruction.                                                          |
+| Reconstruction Method                   | Tomogram.reconstruction_method                                                          | Reconstruction method, e.g. Weighted back-projection, SART, SIRT.                                   |
+| Processing Software                     | Tomogram.processing_software                                                            | Processing software used to derive the tomogram.                                                   |
+| Available Processing                    | Tomogram.processing                                                                     | Description of additional processing used to derive the tomogram, e.g. denoised.                   |
+| Smallest Available Voxel Spacing        | `min_vs = min([vs.voxel_spacing for vs in Run.tomogram_voxel_spacings])`                           | Smallest voxel spacing of the available tomograms.                                                 |
+| Size (x, y, z)                          | `(Tomogram.size_x, Tomogram.size_y, Tomogram.size_z)` or `Tomogram.scale0_dimensions`   | Comma separated x,y,z dimensions of the unscaled tomogram.                                         |
+| Fiducial Alignment Status               | Tomogram.fiducial_alignment_status                                                      | Fiducial Alignment status: True = aligned with fiducial, False = aligned without fiducial.         |
+| Ctf Corrected                           | Tomogram.ctf_corrected                                                                  | Whether this tomogram is contrast transfer function corrected.                                     |
+| Affine Transformation Matrix            | Tomogram.affine_transformation_matrix                                                   | The flip or rotation transformation.                                                               |
+
 
 ### Run Overview Page
 
@@ -61,9 +136,9 @@ The table on a Run Overview page contains an overview of the annotations for the
 
 ### Run Download Options
 
-The `Download Run` button opens a dialog with instructions for downloading tomograms or all annotations. Tomograms can be downloaded directly in the browser as MRC or OME-Zarr files following selection of which tomogram to download based on the tomogram sampling and processing. The All Annotations option provides instructions on using [Amazon Web Services Command Line Interface](./cryoet_data_portal_docsite_aws.md) or the [Portal API](./python-api.rst) to download.
+The `Download ...` button on the Run Overview page opens a dialog for downloading tomograms or instructions for downloading all annotations or all run data. Individual tomograms can be downloaded directly in the browser as MRC or OME-Zarr files following selection of which tomogram to download based on the tomogram sampling and processing. The All Annotations option provides instructions on using [Amazon Web Services Command Line Interface](./cryoet_data_portal_docsite_aws.md) or the [Portal API](./python-api.rst) to download.
 
-You can also use the Portal API to download all run data as a folder. For example, to download all run data for Run ID 645 into your current working directory, use the below code snippet:
+You can also use the Portal API to download all run data as a folder using the Run ID in the download dialog or in the header on the Run Overview page. For example, to download all run data for Run ID 645 into your current working directory, use the below code snippet:
 
 ```python
 from cryoet_data_portal import Client, Run
@@ -84,7 +159,38 @@ Annotations also have an optional precision field, which is the percentage of tr
 
 Authors may also utilize the Ground Truth flag on entries in the annotation table. The Ground Truth flag indicates that this annotation is endorsed by the author for use as training or validation data for machine learning models.
 
-Each annotation has its own metadata, which can be viewed using the info icon on the entry in the annotations table.
+Each annotation has its own metadata, which can be viewed using the info icon on the entry in the annotations table. These metadata are defined in the tables below including their mapping to attributes in the Portal API:
+
+**Annotation Overview**
+| **Portal Metadata**       | **API Expression**                  | **Definition**                                                                                 |
+|---------------------------|-------------------------------------|------------------------------------------------------------------------------------------------|
+| Annotation ID             | Annotation.id                       | Numeric identifier assigned by the Portal.                                                     |
+| Annotation Authors        | Annotation.authors                  | Authors of this annotation.                                                                    |
+| Publication               | Annotation.annotation_publication   | DOIs for publications that describe the dataset.                                               |
+| Deposition Date           | Annotation.deposition_date          | Date when an annotation set is initially received by the Data Portal.                           |
+| Release Date              | Annotation.release_date             | Date when annotation data is made public by the Data Portal.                                    |
+| Last Modified Date        | Annotation.last_modified_date       | Date when an annotation was last modified in the Data Portal.                                   |
+| Method Type               | Annotation.method_type              | The method type for generating the annotation (e.g., manual, hybrid, automated).                |
+| Annotation Method         | Annotation.annotation_method        | Describes how the annotation is made, e.g., Manual, crYoLO, Positive Unlabeled Learning, template matching. |
+| Annotation Software       | Annotation.annotation_software      | Software used for generating this annotation.                                                  |
+
+**Annotation Object**
+| **Portal Metadata**       | **API Expression**                 | **Definition**                                                                                               |
+|---------------------------|------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| Object Name               | Annotation.object_name             | Name of the object being annotated, e.g., ribosome, nuclear pore complex, actin filament, membrane.          |
+| GO ID                     | Annotation.object_id               | Gene Ontology Cellular Component identifier for the annotation object.                                        |
+| Object Count              | Annotation.object_count            | Number of objects identified.                                                                                 |
+| Object Shape Type         | AnnotationFile.shape_type          | Description of whether this is a Point, OrientedPoint, or SegmentationMask file.                              |
+| Object State              | Annotation.object_state            | Additional information about the annotated object not captured by the gene ontology (e.g., open or closed state for molecules). |
+| Object Description        | Annotation.object_description      | Description of the annotated object, including additional information not covered by the Annotation object name and state. |
+
+**Annotation Confidence**
+| **Portal Metadata**       | **API Expression**                   | **Definition**                                                                                     |
+|---------------------------|--------------------------------------|----------------------------------------------------------------------------------------------------|
+| Ground Truth Status       | Annotation.ground_truth_status       | Whether an annotation is considered ground truth, as determined by the annotation author.          |
+| Ground Truth Used         | Annotation.ground_truth_used         | Annotation filename used as ground truth for precision and recall.                                 |
+| Precision                 | Annotation.confidence_precision      | Percentage of annotation objects being true positive.                                              |
+| Recall                    | Annotation.confidence_recall         | Percentage of true positives being annotated correctly.                                            |
 
 ### Visualizing Annotations with Tomograms in Neuroglancer
 

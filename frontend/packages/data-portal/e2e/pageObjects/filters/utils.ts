@@ -92,7 +92,7 @@ export function getAnnotationRowCountFromData({
   singleRunData,
 }: {
   singleRunData: GetRunByIdQuery
-}) {
+}): AnnotationRowCounter {
   const rowCounter: AnnotationRowCounter = {}
   singleRunData.runs
     .at(0)
