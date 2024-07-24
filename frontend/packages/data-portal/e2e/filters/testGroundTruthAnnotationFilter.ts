@@ -1,9 +1,9 @@
 import { test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
+import { TableValidator } from 'e2e/pageObjects/filters/types'
 
 import { QueryParams } from 'app/constants/query'
 
-import { TableValidator } from 'e2e/pageObjects/filters/types'
 import { goTo } from './utils'
 
 export function testGroundTruthAnnotationFilter({
