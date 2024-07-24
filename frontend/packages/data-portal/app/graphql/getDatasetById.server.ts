@@ -1,7 +1,11 @@
-import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import type {
+  ApolloClient,
+  ApolloQueryResult,
+  NormalizedCacheObject,
+} from '@apollo/client'
 
 import { gql } from 'app/__generated__'
-import { Runs_Bool_Exp } from 'app/__generated__/graphql'
+import { GetDatasetByIdQuery, Runs_Bool_Exp } from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 import { getTiltRangeFilter } from 'app/utils/filter'
@@ -225,7 +229,7 @@ export async function getDatasetById({
   id: number
   page?: number
   params?: URLSearchParams
-}) {
+}): Promise<ApolloQueryResult<GetDatasetByIdQuery>> {
   return client.query({
     query: GET_DATASET_BY_ID,
     variables: {

@@ -1,10 +1,15 @@
-import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import type {
+  ApolloClient,
+  ApolloQueryResult,
+  NormalizedCacheObject,
+} from '@apollo/client'
 import { URLSearchParams } from 'url'
 
 import { gql } from 'app/__generated__'
 import {
   Annotation_Files_Bool_Exp,
   Annotations_Bool_Exp,
+  GetRunByIdQuery,
 } from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
@@ -345,7 +350,7 @@ export async function getRunById({
   id: number
   page?: number
   params?: URLSearchParams
-}) {
+}): Promise<ApolloQueryResult<GetRunByIdQuery>> {
   return client.query({
     query: GET_RUN_BY_ID_QUERY,
     variables: {
