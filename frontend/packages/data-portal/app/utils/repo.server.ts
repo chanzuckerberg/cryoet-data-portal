@@ -23,6 +23,7 @@ export async function getRepoFileContent(path: string): Promise<RepoFile> {
   )) as AxiosResponse
 
   const data = await octokit.rest.repos.listCommits({
+    path,
     owner: 'chanzuckerberg',
     repo: 'cryoet-data-portal',
     per_page: 1,
