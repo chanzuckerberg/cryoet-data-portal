@@ -68,6 +68,7 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
       QueryParams.ObjectShapeType,
       QueryParams.MethodType,
       QueryParams.AnnotationSoftware,
+      QueryParams.AnnotationsPage,
     ],
   })
 }

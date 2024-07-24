@@ -1,6 +1,7 @@
 import { Pagination } from '@czi-sds/components'
 import { useSearchParams } from '@remix-run/react'
-import { ReactNode, useEffect, useMemo, useState } from 'react'
+import { toNumber } from 'lodash-es'
+import { ReactNode, useEffect, useMemo } from 'react'
 
 import { TABLE_PAGE_LAYOUT_LOG_ID } from 'app/constants/error'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
@@ -45,7 +46,8 @@ export function TablePageLayout({
   downloadModal,
   drawers,
 }: TablePageLayoutProps) {
-  const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const activeTab = tabs[toNumber(searchParams.get(QueryParams.TableTab) ?? 0)]
 
   return (
     <>
@@ -58,11 +60,14 @@ export function TablePageLayout({
           <>
             {tabsTitle && <div className="text-sds-header-l">{tabsTitle}</div>}
             <Tabs
-              value={activeTabIndex}
-              onChange={(tabIndex: number) => {
-                setActiveTabIndex(tabIndex)
+              value={activeTab.title}
+              onChange={(tabTitle: string) => {
+                setSearchParams((prev) => {
+                  prev.set(QueryParams.TableTab, tabTitle)
+                  return prev
+                })
               }}
-              tabs={tabs.map((tab, i) => ({
+              tabs={tabs.map((tab) => ({
                 label: (
                   <>
                     <span>{tab.title}</span>
@@ -71,12 +76,12 @@ export function TablePageLayout({
                     </span>
                   </>
                 ),
-                value: i,
+                value: tab.title,
               }))}
             />
           </>
         )}
-        <TablePageTabContent {...tabs[activeTabIndex]} />
+        <TablePageTabContent {...activeTab} />
 
         {drawers}
       </div>
