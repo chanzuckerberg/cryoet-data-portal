@@ -29,14 +29,6 @@ export class FiltersPage extends BasePage {
     await this.page.click(`[role=button]:has-text("${label}") svg`)
   }
 
-  public async removeMultiInputFilter(label: string) {
-    await this.page
-      .locator('span', { hasText: label })
-      .locator('..')
-      .getByRole('button')
-      .click()
-  }
-
   public async fillInputFilter({
     label,
     value,
@@ -50,6 +42,18 @@ export class FiltersPage extends BasePage {
 
   public async applyMultiInputFilter() {
     await this.page.getByRole('button', { name: 'Apply' }).click()
+  }
+
+  public async removeMultiInputFilter(label: string) {
+    await this.page
+      .locator('span', { hasText: label })
+      .locator('..')
+      .getByRole('button')
+      .click()
+  }
+
+  public async toggleGroundTruthFilter() {
+    await this.page.getByText('Ground Truth Annotation').click()
   }
   // #endregion Click
 

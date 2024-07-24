@@ -1,29 +1,33 @@
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import { test } from '@playwright/test'
+import { FiltersPage } from 'e2e/pageObjects/filters/filtersPage'
+
 import { QueryParams } from 'app/constants/query'
 
+import { getApolloClient } from './apollo'
 import { E2E_CONFIG, SINGLE_DATASET_URL, translations } from './constants'
-import {
-  testGroundTruthAnnotationFilter,
-  testSingleSelectFilter,
-} from './filters'
-import { validateRunsTable } from './filters/utils'
+import { FiltersActor } from './pageObjects/filters/filtersActor'
 
-testGroundTruthAnnotationFilter({
-  url: SINGLE_DATASET_URL,
-  validateTable: validateRunsTable,
-})
+test.describe('Single dataset page filters', () => {
+  let client: ApolloClient<NormalizedCacheObject>
 
-testSingleSelectFilter({
-  label: translations.objectName,
-  queryParam: QueryParams.ObjectName,
-  url: SINGLE_DATASET_URL,
-  validateTable: validateRunsTable,
-  values: [E2E_CONFIG.objectName],
-})
+  test.beforeEach(() => {
+    client = getApolloClient()
+  })
+  test.describe('Ground Truth Annotation Filter', () => {
+    test('should filter on click', async ({ page }) => {
+      const filtersPage = new FiltersPage(page)
+      const filtersActor = new FiltersActor(filtersPage)
 
-testSingleSelectFilter({
-  label: translations.objectShapeType,
-  queryParam: QueryParams.ObjectShapeType,
-  url: SINGLE_DATASET_URL,
-  validateTable: validateRunsTable,
-  values: [E2E_CONFIG.objectShapeType],
+      await filtersPage.goTo(SINGLE_DATASET_URL)
+
+      await filtersPage.toggleGroundTruthFilter()
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: SINGLE_DATASET_URL,
+        queryParamKey: QueryParams.GroundTruthAnnotation,
+        queryParamValue: 'true',
+      })
+    })
+  })
 })

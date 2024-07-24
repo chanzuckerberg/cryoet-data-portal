@@ -33,24 +33,6 @@ export function getExpectedUrlWithQueryParams({
   return { expectedUrl, params: expectedUrl.searchParams }
 }
 
-export async function getAnnotationsTableTestData({
-  client,
-  params,
-  pageNumber,
-  id = +E2E_CONFIG.runId,
-}: TableValidatorOptions & { id?: number }): Promise<
-  ApolloQueryResult<GetRunByIdQuery>['data']
-> {
-  const { data } = await getRunById({
-    client,
-    params,
-    id,
-    page: pageNumber,
-  })
-
-  return data
-}
-
 export function getExpectedFilterCount({
   browseDatasetsData,
   singleDatasetData,
@@ -87,6 +69,25 @@ export function getExpectedTotalCount({
   )
 }
 
+// #Region singleRunPage
+export async function getAnnotationsTableTestData({
+  client,
+  params,
+  pageNumber,
+  id = +E2E_CONFIG.runId,
+}: TableValidatorOptions & { id?: number }): Promise<
+  ApolloQueryResult<GetRunByIdQuery>['data']
+> {
+  const { data } = await getRunById({
+    client,
+    params,
+    id,
+    page: pageNumber,
+  })
+
+  return data
+}
+
 export function getAnnotationRowCountFromData({
   singleRunData,
 }: {
@@ -106,3 +107,8 @@ export function getAnnotationRowCountFromData({
     }, rowCounter)
   return rowCounter
 }
+// #endregion singleRunPage
+
+// #region singleDatasetPage
+
+// #endregion singleDatasetPage
