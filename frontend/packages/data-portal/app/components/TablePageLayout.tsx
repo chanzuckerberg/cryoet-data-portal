@@ -97,28 +97,28 @@ function TablePageTabContent({
   filteredCount,
   table,
   noResults,
-  pageQueryParamKey: pageQueryParam = QueryParams.Page,
+  pageQueryParamKey = QueryParams.Page,
   totalCount,
   countLabel,
 }: TableLayoutTab) {
   const [searchParams, setSearchParams] = useSearchParams()
-  const pageQueryParamValue = +(searchParams.get(pageQueryParam) ?? '1')
+  const pageQueryParamValue = +(searchParams.get(pageQueryParamKey) ?? '1')
 
   useEffect(() => {
     if (Math.ceil(filteredCount / MAX_PER_PAGE) < pageQueryParamValue) {
       setSearchParams(
         (prev) => {
-          prev.delete(pageQueryParam)
+          prev.delete(pageQueryParamKey)
           return prev
         },
         { replace: true },
       )
     }
-  }, [filteredCount, pageQueryParamValue, pageQueryParam, setSearchParams])
+  }, [filteredCount, pageQueryParamKey, pageQueryParamValue, setSearchParams])
 
   function setPage(nextPage: number) {
     setSearchParams((prev) => {
-      prev.set(pageQueryParam, `${nextPage}`)
+      prev.set(pageQueryParamKey, `${nextPage}`)
       return prev
     })
   }
