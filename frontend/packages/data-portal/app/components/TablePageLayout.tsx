@@ -50,7 +50,7 @@ export function TablePageLayout({
   const activeTabTitle = searchParams.get(QueryParams.TableTab)
   const activeTab =
     activeTabTitle !== null
-      ? tabs.findIndex((tab) => tab.title === activeTabTitle)
+      ? tabs.find((tab) => tab.title === activeTabTitle) ?? tabs[0]
       : tabs[0]
 
   return (
