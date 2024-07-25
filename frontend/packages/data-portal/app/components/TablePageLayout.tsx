@@ -1,6 +1,5 @@
 import { Pagination } from '@czi-sds/components'
 import { useSearchParams } from '@remix-run/react'
-import { toNumber } from 'lodash-es'
 import { ReactNode, useEffect, useMemo } from 'react'
 
 import { TABLE_PAGE_LAYOUT_LOG_ID } from 'app/constants/error'
@@ -47,7 +46,12 @@ export function TablePageLayout({
   drawers,
 }: TablePageLayoutProps) {
   const [searchParams, setSearchParams] = useSearchParams()
-  const activeTab = tabs[toNumber(searchParams.get(QueryParams.TableTab) ?? 0)]
+
+  const activeTabTitle = searchParams.get(QueryParams.TableTab)
+  const activeTab =
+    activeTabTitle !== null
+      ? tabs.findIndex((tab) => tab.title === activeTabTitle)
+      : tabs[0]
 
   return (
     <>
