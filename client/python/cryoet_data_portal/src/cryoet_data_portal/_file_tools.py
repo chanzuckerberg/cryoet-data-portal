@@ -57,12 +57,29 @@ def get_destination_path(
     dest_path: Optional[str],
     recursive_from_prefix: Optional[str] = None,
 ) -> str:
+    """
+    Get the destination path for a file download.
+
+    Args:
+        url (str): The URL to download
+        dest_path (str): The destination path the files will download to
+        recursive_from_prefix (str): The prefix to use for recursive downloads
+
+    Returns:
+        str: The destination path for the file download
+
+    Raises:
+        ValueError: If the destination path does not exist and recursive downloads are enabled
+
+    """
     if not dest_path:
         dest_path = os.getcwd()
     dest_path = os.path.abspath(dest_path)
 
     if not os.path.isdir(dest_path) and recursive_from_prefix:
-        raise ValueError("Recursive downloads require a base directory")
+        raise ValueError(
+            f"The destination path '{dest_path}' does not exist. Recursive downloads require an existing base directory.",
+        )
 
     # If we're downloading recursively, we need to add the dest URL
     # (minus the prefix) to the dest path.
