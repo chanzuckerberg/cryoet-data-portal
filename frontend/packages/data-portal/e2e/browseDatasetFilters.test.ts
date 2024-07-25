@@ -7,6 +7,7 @@ import { QueryParams } from 'app/constants/query'
 import { getApolloClient } from './apollo'
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
 import { FiltersActor } from './pageObjects/filters/filtersActor'
+import { serializeAvailableFiles } from './filters/utils'
 
 test.describe('Browse datasets page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>
@@ -76,8 +77,323 @@ test.describe('Browse datasets page filters', () => {
 
   // TODO: (ehoops) add multi-select filter tests
   test.describe('Available files filter', () => {
-    test('should filter on click', async () => {
-      await filtersPage.goTo(BROWSE_DATASETS_URL)
+    test.describe(translations.rawFrames, () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.availableFiles,
+          value: translations.rawFrames,
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.AvailableFiles,
+          queryParamValue: translations.rawFrames,
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.AvailableFiles,
+          queryParamValue: translations.rawFrames,
+          serialize: serializeAvailableFiles,
+        })
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: { [QueryParams.AvailableFiles]: translations.rawFrames },
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.AvailableFiles,
+          queryParamValue: translations.rawFrames,
+          serialize: serializeAvailableFiles,
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: { [QueryParams.AvailableFiles]: translations.rawFrames },
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersPage.removeFilterOption(translations.rawFrames)
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+      })
+    })
+
+    test.describe(translations.tiltSeries, () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.availableFiles,
+          value: translations.tiltSeries,
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.AvailableFiles,
+          queryParamValue: translations.tiltSeries,
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.AvailableFiles,
+          queryParamValue: translations.tiltSeries,
+          serialize: serializeAvailableFiles,
+        })
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: {
+            [QueryParams.AvailableFiles]: translations.tiltSeries,
+          },
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.AvailableFiles,
+          queryParamValue: translations.tiltSeries,
+          serialize: serializeAvailableFiles,
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: {
+            [QueryParams.AvailableFiles]: translations.tiltSeries,
+          },
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersPage.removeFilterOption(translations.tiltSeries)
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+      })
+    })
+
+    test.describe(translations.tiltSeriesAlignment, () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.availableFiles,
+          value: translations.tiltSeriesAlignment,
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.AvailableFiles,
+          queryParamValue: translations.tiltSeriesAlignment,
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.AvailableFiles,
+          queryParamValue: translations.tiltSeriesAlignment,
+          serialize: serializeAvailableFiles,
+        })
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: {
+            [QueryParams.AvailableFiles]: translations.tiltSeriesAlignment,
+          },
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.AvailableFiles,
+          queryParamValue: translations.tiltSeriesAlignment,
+          serialize: serializeAvailableFiles,
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: {
+            [QueryParams.AvailableFiles]: translations.tiltSeriesAlignment,
+          },
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersPage.removeFilterOption(translations.tiltSeriesAlignment)
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+      })
+    })
+
+    test.describe(translations.tomograms, () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.availableFiles,
+          value: translations.tomograms,
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.AvailableFiles,
+          queryParamValue: translations.tomograms,
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.AvailableFiles,
+          queryParamValue: translations.tomograms,
+          serialize: serializeAvailableFiles,
+        })
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: { [QueryParams.AvailableFiles]: translations.tomograms },
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.AvailableFiles,
+          queryParamValue: translations.tomograms,
+          serialize: serializeAvailableFiles,
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: { [QueryParams.AvailableFiles]: translations.tomograms },
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersPage.removeFilterOption(translations.tomograms)
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+      })
+    })
+
+    test.describe('multiple values', () => {
+      test('should filter multiple values', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.availableFiles,
+          value: translations.rawFrames,
+        })
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.availableFiles,
+          value: translations.tiltSeries,
+        })
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.availableFiles,
+          value: translations.tiltSeriesAlignment,
+        })
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.availableFiles,
+          value: translations.tomograms,
+        })
+
+        // await filtersActor.expectUrlQueryParamsToBeCorrect({
+        //   url: BROWSE_DATASETS_URL,
+        //   queryParamKey: QueryParams.AvailableFiles,
+        //   queryParamValue: [
+        //     translations.rawFrames,
+        //     translations.tiltSeries,
+        //     translations.tiltSeriesAlignment,
+        //     translations.tomograms,
+        //   ],
+        //   serialize: serializeAvailableFiles,
+        // })
+
+        // await filtersActor.expectDataAndDatasetsTableToMatch({
+        //   client,
+        //   url: BROWSE_DATASETS_URL,
+        //   queryParamKey: QueryParams.AvailableFiles,
+        //   queryParamValue: [
+        //     translations.rawFrames,
+        //     translations.tiltSeries,
+        //     translations.tiltSeriesAlignment,
+        //     translations.tomograms,
+        //   ],
+        //   serialize: serializeAvailableFiles,
+        // })
+      })
     })
   })
 
