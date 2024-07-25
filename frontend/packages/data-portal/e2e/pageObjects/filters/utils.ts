@@ -36,7 +36,7 @@ export function getExpectedUrlWithQueryParams({
 export async function getAnnotationsTableTestData({
   client,
   params,
-  pageNumber,
+  pageNumber = 1,
   id = +E2E_CONFIG.runId,
 }: TableValidatorOptions & { id?: number }): Promise<
   ApolloQueryResult<GetRunByIdQuery>['data']
@@ -45,7 +45,7 @@ export async function getAnnotationsTableTestData({
     client,
     params,
     id,
-    page: pageNumber,
+    annotationsPage: pageNumber,
   })
 
   return data
