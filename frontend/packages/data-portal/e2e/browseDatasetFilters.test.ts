@@ -468,5 +468,719 @@ test.describe('Browse datasets page filters', () => {
         })
       })
     })
+
+    test.describe('>5 runs', () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.numberOfRuns,
+          value: '>5',
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.NumberOfRuns,
+          queryParamValue: '>5',
+          serialize: JSON.stringify,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.NumberOfRuns,
+          queryParamValue: '>5',
+          serialize: JSON.stringify,
+        })
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: { [QueryParams.NumberOfRuns]: '>5' },
+          serialize: JSON.stringify,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.NumberOfRuns,
+          queryParamValue: '>5',
+          serialize: JSON.stringify,
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: { [QueryParams.NumberOfRuns]: '>5' },
+          serialize: JSON.stringify,
+        })
+
+        await filtersPage.removeFilterOption('>5')
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+      })
+    })
+
+    test.describe('>10 runs', () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.numberOfRuns,
+          value: '>10',
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.NumberOfRuns,
+          queryParamValue: '>10',
+          serialize: JSON.stringify,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.NumberOfRuns,
+          queryParamValue: '>10',
+          serialize: JSON.stringify,
+        })
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: { [QueryParams.NumberOfRuns]: '>10' },
+          serialize: JSON.stringify,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.NumberOfRuns,
+          queryParamValue: '>10',
+          serialize: JSON.stringify,
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: { [QueryParams.NumberOfRuns]: '>10' },
+          serialize: JSON.stringify,
+        })
+
+        await filtersPage.removeFilterOption('>10')
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+      })
+    })
+
+    test.describe('>20 runs', () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.numberOfRuns,
+          value: '>20',
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.NumberOfRuns,
+          queryParamValue: '>20',
+          serialize: JSON.stringify,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.NumberOfRuns,
+          queryParamValue: '>20',
+          serialize: JSON.stringify,
+        })
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: { [QueryParams.NumberOfRuns]: '>20' },
+          serialize: JSON.stringify,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.NumberOfRuns,
+          queryParamValue: '>20',
+          serialize: JSON.stringify,
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: { [QueryParams.NumberOfRuns]: '>20' },
+          serialize: JSON.stringify,
+        })
+
+        await filtersPage.removeFilterOption('>20')
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+      })
+    })
+
+    test.describe('>100 runs', () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.numberOfRuns,
+          value: '>100',
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.NumberOfRuns,
+          queryParamValue: '>100',
+          serialize: JSON.stringify,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.NumberOfRuns,
+          queryParamValue: '>100',
+          serialize: JSON.stringify,
+        })
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: { [QueryParams.NumberOfRuns]: '>100' },
+          serialize: JSON.stringify,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.NumberOfRuns,
+          queryParamValue: '>100',
+          serialize: JSON.stringify,
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: { [QueryParams.NumberOfRuns]: '>100' },
+          serialize: JSON.stringify,
+        })
+
+        await filtersPage.removeFilterOption('>100')
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+      })
+    })
+  })
+
+  test.describe('Camera Manufacturer filter', () => {
+    test('should filter when selecting', async () => {
+      await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+      await filtersActor.addSingleSelectFilter({
+        label: translations.cameraManufacturer,
+        value: E2E_CONFIG.cameraManufacturer,
+      })
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.CameraManufacturer,
+        queryParamValue: E2E_CONFIG.cameraManufacturer,
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.CameraManufacturer,
+        queryParamValue: E2E_CONFIG.cameraManufacturer,
+      })
+    })
+
+    test('should filter when opening URL', async () => {
+      await filtersActor.goToFilteredUrl({
+        baseUrl: BROWSE_DATASETS_URL,
+        paramObject: {
+          [QueryParams.CameraManufacturer]: E2E_CONFIG.cameraManufacturer,
+        },
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.CameraManufacturer,
+        queryParamValue: E2E_CONFIG.cameraManufacturer,
+      })
+    })
+
+    test('should disable filter when deselecting', async () => {
+      await filtersActor.goToFilteredUrl({
+        baseUrl: BROWSE_DATASETS_URL,
+        paramObject: {
+          [QueryParams.CameraManufacturer]: E2E_CONFIG.cameraManufacturer,
+        },
+      })
+
+      await filtersPage.removeFilterOption(E2E_CONFIG.cameraManufacturer)
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: undefined,
+        queryParamValue: '',
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: undefined,
+        queryParamValue: '',
+      })
+    })
+  })
+
+  test.describe('Fiducial Alignment Status filter', () => {
+    test.describe('True', () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.fiducialAlignmentStatus,
+          value: 'True',
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.FiducialAlignmentStatus,
+          queryParamValue: 'true',
+          serialize: (value) => value.toLowerCase(),
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.FiducialAlignmentStatus,
+          queryParamValue: 'true',
+          serialize: (value) => value.toLowerCase(),
+        })
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: {
+            [QueryParams.FiducialAlignmentStatus]: 'True',
+          },
+          serialize: (value) => value.toLowerCase(),
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.FiducialAlignmentStatus,
+          queryParamValue: 'true',
+          serialize: (value) => value.toLowerCase(),
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: {
+            [QueryParams.FiducialAlignmentStatus]: 'True',
+          },
+          serialize: (value) => value.toLowerCase(),
+        })
+
+        await filtersPage.removeFilterOption('True')
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+      })
+    })
+
+    test.describe('False', () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.fiducialAlignmentStatus,
+          value: 'False',
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.FiducialAlignmentStatus,
+          queryParamValue: 'false',
+          serialize: (value) => value.toLowerCase(),
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.FiducialAlignmentStatus,
+          queryParamValue: 'false',
+          serialize: (value) => value.toLowerCase(),
+        })
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: {
+            [QueryParams.FiducialAlignmentStatus]: 'False',
+          },
+          serialize: (value) => value.toLowerCase(),
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.FiducialAlignmentStatus,
+          queryParamValue: 'false',
+          serialize: (value) => value.toLowerCase(),
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          paramObject: {
+            [QueryParams.FiducialAlignmentStatus]: 'False',
+          },
+          serialize: (value) => value.toLowerCase(),
+        })
+
+        await filtersPage.removeFilterOption('False')
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: undefined,
+          queryParamValue: '',
+        })
+      })
+    })
+  })
+
+  test.describe('Reconstruction Method filter', () => {
+    test('should filter when selecting', async () => {
+      await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+      await filtersActor.addSingleSelectFilter({
+        label: translations.reconstructionMethod,
+        value: E2E_CONFIG.reconstructionMethod,
+      })
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.ReconstructionMethod,
+        queryParamValue: E2E_CONFIG.reconstructionMethod,
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.ReconstructionMethod,
+        queryParamValue: E2E_CONFIG.reconstructionMethod,
+      })
+    })
+
+    test('should filter when opening URL', async () => {
+      await filtersActor.goToFilteredUrl({
+        baseUrl: BROWSE_DATASETS_URL,
+        paramObject: {
+          [QueryParams.ReconstructionMethod]: E2E_CONFIG.reconstructionMethod,
+        },
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.ReconstructionMethod,
+        queryParamValue: E2E_CONFIG.reconstructionMethod,
+      })
+    })
+
+    test('should disable filter when deselecting', async () => {
+      await filtersActor.goToFilteredUrl({
+        baseUrl: BROWSE_DATASETS_URL,
+        paramObject: {
+          [QueryParams.ReconstructionMethod]: E2E_CONFIG.reconstructionMethod,
+        },
+      })
+
+      await filtersPage.removeFilterOption(E2E_CONFIG.reconstructionMethod)
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: undefined,
+        queryParamValue: '',
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: undefined,
+        queryParamValue: '',
+      })
+    })
+  })
+
+  test.describe('Reconstruction Software filter', () => {
+    test('should filter when selecting', async () => {
+      await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+      await filtersActor.addSingleSelectFilter({
+        label: translations.reconstructionSoftware,
+        value: E2E_CONFIG.reconstructionSoftware,
+      })
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.ReconstructionSoftware,
+        queryParamValue: E2E_CONFIG.reconstructionSoftware,
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.ReconstructionSoftware,
+        queryParamValue: E2E_CONFIG.reconstructionSoftware,
+      })
+    })
+
+    test('should filter when opening URL', async () => {
+      await filtersActor.goToFilteredUrl({
+        baseUrl: BROWSE_DATASETS_URL,
+        paramObject: {
+          [QueryParams.ReconstructionSoftware]:
+            E2E_CONFIG.reconstructionSoftware,
+        },
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.ReconstructionSoftware,
+        queryParamValue: E2E_CONFIG.reconstructionSoftware,
+      })
+    })
+
+    test('should disable filter when deselecting', async () => {
+      await filtersActor.goToFilteredUrl({
+        baseUrl: BROWSE_DATASETS_URL,
+        paramObject: {
+          [QueryParams.ReconstructionSoftware]:
+            E2E_CONFIG.reconstructionSoftware,
+        },
+      })
+
+      await filtersPage.removeFilterOption(E2E_CONFIG.reconstructionSoftware)
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: undefined,
+        queryParamValue: '',
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: undefined,
+        queryParamValue: '',
+      })
+    })
+  })
+
+  test.describe('Object Name filter', () => {
+    test('should filter when selecting', async () => {
+      await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+      await filtersActor.addSingleSelectFilter({
+        label: translations.objectName,
+        value: E2E_CONFIG.objectName,
+      })
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.ObjectName,
+        queryParamValue: E2E_CONFIG.objectName,
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.ObjectName,
+        queryParamValue: E2E_CONFIG.objectName,
+      })
+    })
+    test('should filter when opening URL', async () => {
+      await filtersActor.goToFilteredUrl({
+        baseUrl: BROWSE_DATASETS_URL,
+        paramObject: { [QueryParams.ObjectName]: E2E_CONFIG.objectName },
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.ObjectName,
+        queryParamValue: E2E_CONFIG.objectName,
+      })
+    })
+    test('should disable filter when deselecting', async () => {
+      await filtersActor.goToFilteredUrl({
+        baseUrl: BROWSE_DATASETS_URL,
+        paramObject: { [QueryParams.ObjectName]: E2E_CONFIG.objectName },
+      })
+
+      await filtersPage.removeFilterOption(E2E_CONFIG.objectName)
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: undefined,
+        queryParamValue: '',
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: undefined,
+        queryParamValue: '',
+      })
+    })
+  })
+
+  test.describe('Object Shape Type filter', () => {
+    test('should filter when selecting', async () => {
+      await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+      await filtersActor.addSingleSelectFilter({
+        label: translations.objectShapeType,
+        value: E2E_CONFIG.objectShapeType,
+      })
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.ObjectShapeType,
+        queryParamValue: E2E_CONFIG.objectShapeType,
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.ObjectShapeType,
+        queryParamValue: E2E_CONFIG.objectShapeType,
+      })
+    })
+    test('should filter when opening URL', async () => {
+      await filtersActor.goToFilteredUrl({
+        baseUrl: BROWSE_DATASETS_URL,
+        paramObject: {
+          [QueryParams.ObjectShapeType]: E2E_CONFIG.objectShapeType,
+        },
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: QueryParams.ObjectShapeType,
+        queryParamValue: E2E_CONFIG.objectShapeType,
+      })
+    })
+    test('should disable filter when deselecting', async () => {
+      await filtersActor.goToFilteredUrl({
+        baseUrl: BROWSE_DATASETS_URL,
+        paramObject: {
+          [QueryParams.ObjectShapeType]: E2E_CONFIG.objectShapeType,
+        },
+      })
+
+      await filtersPage.removeFilterOption(E2E_CONFIG.objectShapeType)
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: undefined,
+        queryParamValue: '',
+      })
+
+      await filtersActor.expectDataAndDatasetsTableToMatch({
+        client,
+        url: BROWSE_DATASETS_URL,
+        queryParamKey: undefined,
+        queryParamValue: '',
+      })
+    })
   })
 })
