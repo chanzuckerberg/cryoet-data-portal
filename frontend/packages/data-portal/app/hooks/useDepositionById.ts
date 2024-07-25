@@ -2,8 +2,7 @@ import { useMemo } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetDepositionByIdQuery } from 'app/__generated__/graphql'
-
-type NonUndefined<T> = T extends undefined ? never : T
+import { NonUndefined } from 'app/types/utils'
 
 export type Dataset = GetDepositionByIdQuery['datasets'][number]
 

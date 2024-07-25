@@ -27,6 +27,13 @@ export function I18n({ i18nKey, components, linkProps, ...props }: Props) {
         semibold: <span className="font-semibold" />,
         code: <span className="font-mono" />,
 
+        urlNoColor: (
+          <Link {...(linkProps as Required<Partial<VariantLinkProps>, 'to'>)}>
+            {/* This will get replaced by I18next */}
+            tmp
+          </Link>
+        ),
+
         url: (
           <Link
             className="text-sds-primary-500"

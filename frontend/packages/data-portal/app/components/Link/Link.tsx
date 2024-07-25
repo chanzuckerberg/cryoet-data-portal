@@ -12,11 +12,10 @@ export const DASHED_UNDERLINED_CLASSES =
 
 export type VariantLinkProps = LinkProps & {
   variant?: 'dashed-bordered' | 'dashed-underlined'
-  inherit?: boolean
 }
 
 function BaseLink(
-  { to, variant, inherit, className, ...props }: VariantLinkProps,
+  { to, variant, className, ...props }: VariantLinkProps,
   ref: ForwardedRef<HTMLAnchorElement>,
 ) {
   let newTabProps: Partial<LinkProps> = {}
@@ -37,7 +36,6 @@ function BaseLink(
       className={cnsNoMerge(
         variant === 'dashed-bordered' && DASHED_BORDERED_CLASSES,
         variant === 'dashed-underlined' && DASHED_UNDERLINED_CLASSES,
-        inherit && 'text-inherit',
         className,
       )}
       {...props}
