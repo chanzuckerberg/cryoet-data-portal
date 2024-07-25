@@ -1,14 +1,15 @@
 import Tab from '@mui/material/Tab'
 import MUITabs, { TabsProps } from '@mui/material/Tabs'
+import { ReactNode } from 'react'
 
 import { cns } from 'app/utils/cns'
 
-export interface TabData<T extends string> {
-  label: string
+export interface TabData<T> {
+  label: ReactNode
   value: T
 }
 
-export function Tabs<T extends string>({
+export function Tabs<T>({
   tabs,
   value,
   onChange,
@@ -43,7 +44,7 @@ export function Tabs<T extends string>({
               ),
               selected: '!text-black',
             }}
-            key={tab.value}
+            key={String(tab.value)}
             {...tab}
           />
         ))}
