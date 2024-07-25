@@ -185,7 +185,7 @@ export default function RunByIdPage() {
           filterPanel: <AnnotationFilter />,
           filteredCount,
           table: <AnnotationTable />,
-          pageQueryParam: QueryParams.AnnotationsPage,
+          pageQueryParamKey: QueryParams.AnnotationsPage,
           totalCount,
           countLabel: i18n.annotations,
         },

@@ -30,7 +30,7 @@ export interface TableLayoutTab {
 
   table: ReactNode
   noResults?: ReactNode
-  pageQueryParam?: string
+  pageQueryParamKey?: string
 
   filteredCount: number
   totalCount: number
@@ -97,15 +97,15 @@ function TablePageTabContent({
   filteredCount,
   table,
   noResults,
-  pageQueryParam = QueryParams.Page,
+  pageQueryParamKey: pageQueryParam = QueryParams.Page,
   totalCount,
   countLabel,
 }: TableLayoutTab) {
   const [searchParams, setSearchParams] = useSearchParams()
-  const page = +(searchParams.get(pageQueryParam) ?? '1')
+  const pageQueryParamValue = +(searchParams.get(pageQueryParam) ?? '1')
 
   useEffect(() => {
-    if (Math.ceil(filteredCount / MAX_PER_PAGE) < page) {
+    if (Math.ceil(filteredCount / MAX_PER_PAGE) < pageQueryParamValue) {
       setSearchParams(
         (prev) => {
           prev.delete(pageQueryParam)
@@ -114,7 +114,7 @@ function TablePageTabContent({
         { replace: true },
       )
     }
-  }, [filteredCount, page, pageQueryParam, setSearchParams])
+  }, [filteredCount, pageQueryParamValue, pageQueryParam, setSearchParams])
 
   function setPage(nextPage: number) {
     setSearchParams((prev) => {
@@ -185,13 +185,13 @@ function TablePageTabContent({
                   data-testid={TestIds.Pagination}
                 >
                   <Pagination
-                    currentPage={page}
+                    currentPage={pageQueryParamValue}
                     pageSize={MAX_PER_PAGE}
                     totalCount={
                       totalCount === filteredCount ? totalCount : filteredCount
                     }
-                    onNextPage={() => setPage(page + 1)}
-                    onPreviousPage={() => setPage(page - 1)}
+                    onNextPage={() => setPage(pageQueryParamValue + 1)}
+                    onPreviousPage={() => setPage(pageQueryParamValue - 1)}
                     onPageChange={(nextPage) => setPage(nextPage)}
                   />
                 </div>
