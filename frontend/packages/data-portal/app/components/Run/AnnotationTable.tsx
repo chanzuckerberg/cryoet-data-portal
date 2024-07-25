@@ -78,7 +78,8 @@ const methodTooltipLabels: MethodTypeLabels = {
 
 export function AnnotationTable() {
   const { isLoadingDebounced } = useIsLoading()
-  const { run } = useRunById()
+  const { run, groundTruthAnnotationsCount, otherAnnotationsCount } =
+    useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { setActiveAnnotation } = useAnnotation()
   const { t } = useI18n()
@@ -398,11 +399,47 @@ export function AnnotationTable() {
     [run.annotation_table],
   )
 
+  const firstOtherAnnotationIndex = annotations.findIndex(
+    (annotation) => !annotation.ground_truth_status,
+  )
+
   return (
     <PageTable
       data={isLoadingDebounced ? LOADING_ANNOTATIONS : annotations}
       columns={columns}
       hoverType="none"
+      renderRowHeader={(row) => {
+        const showGroundTruthRow =
+          row.index === 0 && groundTruthAnnotationsCount > 0
+
+        const showOtherRow = row.index === firstOtherAnnotationIndex
+
+        if (!showGroundTruthRow && !showOtherRow) {
+          return null
+        }
+
+        return (
+          <tr className="bg-sds-gray-100">
+            <td colSpan={100}>
+              <p className="p-3 text-sds-body-xxs leading-sds-body-xxs">
+                <span>
+                  {showGroundTruthRow
+                    ? groundTruthAnnotationsCount
+                    : otherAnnotationsCount}{' '}
+                </span>
+
+                <span>
+                  {t(
+                    showGroundTruthRow
+                      ? 'groundTruthAnnotations'
+                      : 'otherAnnotations',
+                  )}
+                </span>
+              </p>
+            </td>
+          </tr>
+        )
+      }}
     />
   )
 }

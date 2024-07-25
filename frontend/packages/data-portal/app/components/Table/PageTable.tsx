@@ -10,7 +10,7 @@ export function PageTable<T>({
   ...props
 }: Pick<
   ComponentProps<typeof Table<T>>,
-  'data' | 'columns' | 'onTableRowClick'
+  'data' | 'columns' | 'onTableRowClick' | 'renderRowHeader'
 > & {
   hoverType?: 'group' | 'none'
 }) {
