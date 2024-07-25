@@ -65,7 +65,7 @@ export function getExpectedTotalCount({
   )
 }
 
-// #Region singleRunPage
+// #Region runPage
 export function getAnnotationRowCountFromData({
   singleRunData,
 }: {
@@ -85,9 +85,9 @@ export function getAnnotationRowCountFromData({
     }, rowCounter)
   return rowCounter
 }
-// #endregion singleRunPage
+// #endregion runPage
 
-// #region singleDatasetPage
+// #region datasetPage
 export function getRunIdCountsFromData({
   singleDatasetData,
 }: {
@@ -103,5 +103,22 @@ export function getRunIdCountsFromData({
     }, rowCounter)
   return rowCounter
 }
-
 // #endregion singleDatasetPage
+
+// #region browseDatasetsPage
+export function getDatasetIdCountsFromData({
+  browseDatasetsData,
+}: {
+  browseDatasetsData: GetDatasetsDataQuery
+}) {
+  const rowCounter: RowCounterType = {}
+  browseDatasetsData.datasets
+    .map((dataset) => dataset.id)
+    .reduce((counter, id) => {
+      counter[id] = (counter[id] || 0) + 1
+      return counter
+    }, rowCounter)
+  return rowCounter
+}
+
+// #endregion browseDatasetsPage

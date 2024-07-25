@@ -64,14 +64,16 @@ export class FiltersPage extends BasePage {
   public getFilteredUrl({
     baseUrl,
     paramObject,
+    serialize,
   }: {
     baseUrl: string
     paramObject: Record<string, string>
+    serialize?: (value: string) => string
   }) {
     const url = new URL(baseUrl)
     const params = url.searchParams
     Object.entries(paramObject).forEach(([key, value]) => {
-      params.set(key, value)
+      params.set(key, serialize ? serialize(value) : value)
     })
     return url
   }
@@ -100,6 +102,21 @@ export class FiltersPage extends BasePage {
       return counter
     }, {})
   }
+
+  public async getDatasetRowCountFromTable() {
+    const allDatasetRows = await this.page.getByText(/Dataset ID: [0-9]+/).all()
+    const datasetIds = Promise.all(
+      allDatasetRows.map(async (node) => {
+        const text = await node.innerText()
+        return text.replace('Dataset ID: ', '')
+      }),
+    )
+    return (await datasetIds).reduce((counter: RowCounterType, id: string) => {
+      counter[id] = (counter[id] || 0) + 1
+      return counter
+    }, {})
+  }
+
   // #endregion Get
 
   // #region Macro

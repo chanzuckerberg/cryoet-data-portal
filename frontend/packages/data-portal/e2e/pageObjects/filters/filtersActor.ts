@@ -1,8 +1,13 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { E2E_CONFIG, translations } from 'e2e/constants'
+import { translations } from 'e2e/constants'
 
-import { GetDatasetByIdQuery, GetRunByIdQuery } from 'app/__generated__/graphql'
+import {
+  GetDatasetByIdQuery,
+  GetDatasetsDataQuery,
+  GetRunByIdQuery,
+} from 'app/__generated__/graphql'
 import { QueryParams } from 'app/constants/query'
+import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getRunById } from 'app/graphql/getRunById.server'
 
@@ -10,6 +15,7 @@ import { FiltersPage } from './filtersPage'
 import { MultiInputFilterType } from './types'
 import {
   getAnnotationRowCountFromData,
+  getDatasetIdCountsFromData,
   getExpectedFilterCount,
   getExpectedTotalCount,
   getExpectedUrlWithQueryParams,
@@ -27,11 +33,17 @@ export class FiltersActor {
   public async goToFilteredUrl({
     baseUrl,
     paramObject,
+    serialize,
   }: {
     baseUrl: string
     paramObject: Record<string, string>
+    serialize?: (value: string) => string
   }) {
-    const url = this.filtersPage.getFilteredUrl({ baseUrl, paramObject })
+    const url = this.filtersPage.getFilteredUrl({
+      baseUrl,
+      paramObject,
+      serialize,
+    })
     await this.filtersPage.goTo(url.href)
   }
   // #endregion Navigation
@@ -40,7 +52,7 @@ export class FiltersActor {
   public async getSingleRunDataUsingParams({
     client,
     id,
-    pageNumber,
+    pageNumber = 1,
     url,
     queryParamKey,
     queryParamValue,
@@ -74,7 +86,7 @@ export class FiltersActor {
   public async getSingleDatasetUsingParams({
     client,
     id,
-    pageNumber,
+    pageNumber = 1,
     url,
     queryParamKey,
     queryParamValue,
@@ -98,6 +110,37 @@ export class FiltersActor {
     const { data } = await getDatasetById({
       client,
       id,
+      params,
+      page: pageNumber,
+    })
+
+    return data
+  }
+
+  public async getDatasetsDataUsingParams({
+    client,
+    pageNumber = 1,
+    url,
+    queryParamKey,
+    queryParamValue,
+    serialize,
+  }: {
+    client: ApolloClient<NormalizedCacheObject>
+    pageNumber?: number
+    url: string
+    queryParamKey?: QueryParams
+    queryParamValue: string
+    serialize?: (value: string) => string
+  }) {
+    const { params } = getExpectedUrlWithQueryParams({
+      url,
+      queryParamKey,
+      queryParamValue,
+      serialize,
+    })
+
+    const { data } = await getBrowseDatasets({
+      client,
       params,
       page: pageNumber,
     })
@@ -130,7 +173,7 @@ export class FiltersActor {
     await this.filtersPage.openFilterDropdown(buttonLabel)
     await this.filtersPage.fillInputFilter({
       label: `${filter.label}${hasMultipleFilters ? ':' : ''}`,
-      value: E2E_CONFIG[filter.value] as string,
+      value: filter.value,
     })
     await this.filtersPage.applyMultiInputFilter()
   }
@@ -279,6 +322,65 @@ export class FiltersActor {
     })
 
     await this.expectRunsTableToBeCorrect({ singleDatasetData })
+  }
+
+  public async expectDatasetsTableToBeCorrect({
+    browseDatasetsData,
+  }: {
+    browseDatasetsData: GetDatasetsDataQuery
+  }) {
+    // Extract expectedFilterCount and expectedTotalCount from data
+    const expectedFilterCount = getExpectedFilterCount({ browseDatasetsData })
+    const expectedTotalCount = getExpectedTotalCount({ browseDatasetsData })
+
+    // Wait for table subtitle to be correct: `^${expectedFilterCount} of ${expectedTotalCount} ${countLabel}$`
+    await this.filtersPage.waitForTableCountChange({
+      countLabel: translations.datasets,
+      expectedFilterCount,
+      expectedTotalCount,
+    })
+
+    // Validate rows
+    // Get all dataset ids from the expected data
+    const datasetIdCountFromData = getDatasetIdCountsFromData({
+      browseDatasetsData,
+    })
+    // Get all dataset rows from the table
+    const datasetRowCountFromTable =
+      await this.filtersPage.getDatasetRowCountFromTable()
+
+    // Ensure all dataset ids from the expected data are in the table
+    this.filtersPage.expectRowCountsToMatch(
+      datasetIdCountFromData,
+      datasetRowCountFromTable,
+    )
+  }
+
+  public async expectDataAndDatasetsTableToMatch({
+    client,
+    pageNumber = 1,
+    url,
+    queryParamKey,
+    queryParamValue,
+    serialize,
+  }: {
+    client: ApolloClient<NormalizedCacheObject>
+    pageNumber?: number
+    url: string
+    queryParamKey?: QueryParams
+    queryParamValue: string
+    serialize?: (value: string) => string
+  }) {
+    const browseDatasetsData = await this.getDatasetsDataUsingParams({
+      client,
+      pageNumber,
+      url,
+      queryParamKey,
+      queryParamValue,
+      serialize,
+    })
+
+    await this.expectDatasetsTableToBeCorrect({ browseDatasetsData })
   }
   // #endregion Validate
 }
