@@ -2,76 +2,72 @@
 
 import { CellHeaderDirection } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
-import { useNavigate, useSearchParams } from '@remix-run/react'
+import { useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range, sum } from 'lodash-es'
 import { useMemo } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
 import { AuthorList } from 'app/components/AuthorList'
+import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
-import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
-import { DepositionTableWidths } from 'app/constants/table'
-import { Deposition, useDepositions } from 'app/hooks/useDepositions'
+import { DepositionPageDatasetTableWidths } from 'app/constants/table'
+import { Dataset, useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
-import { I18nKeys } from 'app/types/i18n'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
 
-const LOADING_DEPOSITIONS = range(0, MAX_PER_PAGE).map(
+const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
   (value) =>
     ({
       authors: [],
       id: value,
-      title: `loading-deposition-${value}`,
-      deposition_date: '',
-      annotations_count: [],
-      datasets_count: {},
+      title: `loading-dataset-${value}`,
       runs: [],
-    }) as Deposition,
+      runs_aggregate: {},
+    }) as Dataset,
 )
 
-export function DepositionTable() {
+export function DatasetsTable() {
   const { t } = useI18n()
-  const { depositions } = useDepositions()
+  const { deposition } = useDepositionById()
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const depositionSort = (searchParams.get('sort') ?? undefined) as
+  const datasetSort = (searchParams.get('sort') ?? undefined) as
     | CellHeaderDirection
     | undefined
 
   const { isLoadingDebounced } = useIsLoading()
-  const navigate = useNavigate()
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<Deposition>()
+    const columnHelper = createColumnHelper<Dataset>()
 
     try {
       return [
         columnHelper.accessor('key_photo_thumbnail_url', {
           header: () => <p />,
 
-          cell({ row: { original: deposition } }) {
-            const depositionUrl = `/depositions/${deposition.id}`
+          cell({ row: { original: dataset } }) {
+            const datasetUrl = `/datasets/${dataset.id}`
 
             return (
               <TableCell
                 renderLoadingSkeleton={false}
-                width={DepositionTableWidths.photo}
+                width={DepositionPageDatasetTableWidths.photo}
               >
-                <Link to={depositionUrl} className="max-w-[134px] self-start">
+                <Link to={datasetUrl} className="max-w-[134px] self-start">
                   <KeyPhoto
                     className="max-w-[134px]"
-                    title={deposition.title}
-                    src={deposition.key_photo_thumbnail_url ?? undefined}
+                    title={dataset.title}
+                    src={dataset.key_photo_thumbnail_url ?? undefined}
                     loading={isLoadingDebounced}
-                    textOnGroupHover="openDeposition"
+                    textOnGroupHover="openDataset"
                   />
                 </Link>
               </TableCell>
@@ -83,16 +79,16 @@ export function DepositionTable() {
           header: () => (
             <CellHeader
               showSort
-              active={depositionSort !== undefined}
-              direction={depositionSort}
+              active={datasetSort !== undefined}
+              direction={datasetSort}
               onClick={(event) => {
                 event.stopPropagation()
                 event.preventDefault()
                 const nextParams = new URLSearchParams(searchParams)
 
-                if (depositionSort === undefined) {
+                if (datasetSort === undefined) {
                   nextParams.set('sort', 'asc')
-                } else if (depositionSort === 'asc') {
+                } else if (datasetSort === 'asc') {
                   nextParams.set('sort', 'desc')
                 } else {
                   nextParams.delete('sort')
@@ -100,31 +96,32 @@ export function DepositionTable() {
 
                 setSearchParams(nextParams)
               }}
-              width={DepositionTableWidths.id}
+              width={DepositionPageDatasetTableWidths.id}
             >
-              {t('depositionName')}
+              {t('datasetName')}
             </CellHeader>
           ),
 
-          cell({ row: { original: deposition } }) {
-            const depositionUrl = `/depositions/${deposition.id}`
+          cell({ row: { original: dataset } }) {
+            const datasetUrl = `/datasets/${dataset.id}`
 
             return (
               <TableCell
                 className="flex px-sds-s py-sds-l gap-sds-m"
                 renderLoadingSkeleton={false}
-                width={DepositionTableWidths.id}
+                width={DepositionPageDatasetTableWidths.id}
               >
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                   <p
                     className={cnsNoMerge(
                       'text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400',
+                      'group-hover:text-sds-primary-500',
                     )}
                   >
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[70%]" variant="text" />
                     ) : (
-                      <Link to={depositionUrl}>{deposition.title}</Link>
+                      <Link to={datasetUrl}>{dataset.title}</Link>
                     )}
                   </p>
 
@@ -132,7 +129,7 @@ export function DepositionTable() {
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
-                      `${t('depositionId')}: ${deposition.id}`
+                      `${t('datasetId')}: ${dataset.id}`
                     )}
                   </p>
 
@@ -147,7 +144,7 @@ export function DepositionTable() {
                         />
                       </>
                     ) : (
-                      <AuthorList authors={deposition.authors} compact />
+                      <AuthorList authors={dataset.authors} compact />
                     )}
                   </p>
                 </div>
@@ -156,63 +153,95 @@ export function DepositionTable() {
           },
         }),
 
-        columnHelper.accessor('deposition_date', {
+        columnHelper.accessor('organism_name', {
           header: () => (
-            <CellHeader width={DepositionTableWidths.depositionDate}>
-              {t('depositionDate')}
+            <CellHeader width={DepositionPageDatasetTableWidths.organism}>
+              {t('organism')}
             </CellHeader>
           ),
 
-          cell({ row: { original: deposition } }) {
-            return <TableCell>{deposition.deposition_date}</TableCell>
-          },
+          cell: ({ getValue }) => (
+            <TableCell
+              primaryText={getValue() ?? '--'}
+              width={DepositionPageDatasetTableWidths.organism}
+            />
+          ),
         }),
 
-        columnHelper.accessor('annotations_count', {
+        columnHelper.accessor(
+          (dataset) => dataset.runs_aggregate.aggregate?.count,
+          {
+            id: 'runs',
+
+            header: () => (
+              <CellHeader
+                tooltip={
+                  <div>
+                    <p>
+                      <I18n i18nKey="runsTooltip" />
+                      {t('symbolPeriod')}
+                    </p>
+                    <p className="mt-sds-s text-sds-gray-600 text-sds-body-xxxs leading-sds-body-xxxs">
+                      <I18n i18nKey="runsTooltipDepositionSubtext" />
+                    </p>
+                  </div>
+                }
+                arrowPadding={{ right: 270 }}
+                width={DepositionPageDatasetTableWidths.runs}
+                subHeader={t('withDepositionData')}
+              >
+                {t('runs')}
+              </CellHeader>
+            ),
+
+            cell: ({ getValue }) => (
+              <TableCell
+                primaryText={(getValue() ?? 0).toLocaleString()}
+                width={DepositionPageDatasetTableWidths.runs}
+              />
+            ),
+          },
+        ),
+
+        columnHelper.accessor((dataset) => dataset.runs, {
+          id: 'annotations',
+
           header: () => (
-            <CellHeader width={DepositionTableWidths.annotations}>
+            <CellHeader
+              width={DepositionPageDatasetTableWidths.annotations}
+              subHeader={t('depositionOnly')}
+            >
               {t('annotations')}
             </CellHeader>
           ),
 
-          cell({ row: { original: deposition } }) {
-            // TODO: hook up to real data when backend ready
-            const annotationsCount = sum(
-              deposition.annotations_count.flatMap((run) =>
+          cell({ getValue }) {
+            const runs = getValue()
+            const annotationCount = sum(
+              runs.flatMap((run) =>
                 run.tomogram_voxel_spacings.flatMap(
-                  (tomo) => tomo.annotations_aggregate.aggregate?.count ?? 0,
+                  (voxelSpacing) =>
+                    voxelSpacing.annotations_aggregate.aggregate?.count ?? 0,
                 ),
               ),
             )
-            const runsCount = deposition.datasets_count.aggregate?.count ?? 0
 
             return (
-              <TableCell loadingSkeleton={false}>
-                <p className="text-sds-body-s leading-sds-body-s mb-sds-xxxs">
-                  {isLoadingDebounced ? (
-                    <Skeleton variant="text" className="max-w-[40%] mt-2" />
-                  ) : (
-                    annotationsCount.toLocaleString()
-                  )}
-                </p>
-
-                <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
-                  {isLoadingDebounced ? (
-                    <Skeleton variant="text" className="max-w-[75%] mt-2" />
-                  ) : (
-                    t('acrossDatasets', { count: runsCount })
-                  )}
-                </p>
+              <TableCell width={DepositionPageDatasetTableWidths.annotations}>
+                {annotationCount.toLocaleString()}
               </TableCell>
             )
           },
         }),
 
-        columnHelper.accessor((deposition) => deposition.runs, {
+        columnHelper.accessor((dataset) => dataset.runs, {
           id: 'annotatedObjects',
 
           header: () => (
-            <CellHeader width={DepositionTableWidths.annotatedObjects}>
+            <CellHeader
+              width={DepositionPageDatasetTableWidths.annotatedObjects}
+              subHeader={t('depositionOnly')}
+            >
               {t('annotatedObjects')}
             </CellHeader>
           ),
@@ -233,7 +262,7 @@ export function DepositionTable() {
 
             return (
               <TableCell
-                width={DepositionTableWidths.annotatedObjects}
+                width={DepositionPageDatasetTableWidths.annotatedObjects}
                 renderLoadingSkeleton={() => (
                   <div className="flex flex-col gap-2">
                     {range(0, ANNOTATED_OBJECTS_MAX).map((val) => (
@@ -251,67 +280,14 @@ export function DepositionTable() {
             )
           },
         }),
-
-        columnHelper.accessor((deposition) => deposition.runs, {
-          id: 'shapeTypes',
-          header: () => (
-            <CellHeader width={DepositionTableWidths.objectShapeTypes}>
-              {t('objectShapeType')}
-            </CellHeader>
-          ),
-
-          cell({ getValue }) {
-            const runs = getValue()
-            const shapeTypes = Array.from(
-              new Set(
-                runs.flatMap((run) =>
-                  run.tomogram_voxel_spacings.flatMap((voxelSpacing) =>
-                    voxelSpacing.shape_types.flatMap((annotation) =>
-                      annotation.files.flatMap((file) => file.shape_type),
-                    ),
-                  ),
-                ),
-              ),
-            )
-
-            return (
-              <TableCell
-                renderLoadingSkeleton={() => (
-                  <div className="flex flex-col gap-2">
-                    {range(0, 2).map((val) => (
-                      <Skeleton key={`skeleton-${val}`} variant="rounded" />
-                    ))}
-                  </div>
-                )}
-              >
-                {shapeTypes.length === 0 ? (
-                  '--'
-                ) : (
-                  <ul className="list-none flex flex-col gap-sds-xs">
-                    {Object.entries(shapeTypeToI18nKey)
-                      .filter(([key]) => shapeTypes.includes(key))
-                      .map((entry) => (
-                        <li
-                          className="whitespace-nowrap overflow-x-hidden overflow-ellipsis"
-                          key={entry[0]}
-                        >
-                          {t(entry[1] as I18nKeys)}
-                        </li>
-                      ))}
-                  </ul>
-                )}
-              </TableCell>
-            )
-          },
-        }),
-      ] as ColumnDef<Deposition>[]
+      ] as ColumnDef<Dataset>[]
     } catch (err) {
       sendLogs({
         level: LogLevel.Error,
         messages: [
           {
             type: 'browser',
-            message: 'Error creating columns for deposition table',
+            message: 'Error creating columns for dataset table',
             error: getErrorMessage(err),
           },
         ],
@@ -319,13 +295,12 @@ export function DepositionTable() {
 
       throw err
     }
-  }, [depositionSort, isLoadingDebounced, searchParams, setSearchParams, t])
+  }, [datasetSort, isLoadingDebounced, searchParams, setSearchParams, t])
 
   return (
     <PageTable
-      data={isLoadingDebounced ? LOADING_DEPOSITIONS : depositions}
+      data={isLoadingDebounced ? LOADING_DATASETS : deposition.datasets}
       columns={columns}
-      onTableRowClick={(row) => navigate(`/depositions/${row.original.id}`)}
       hoverType="group"
     />
   )
