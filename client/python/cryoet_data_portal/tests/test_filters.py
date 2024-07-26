@@ -41,7 +41,7 @@ def test_filter_on_object_raises_exceptions(client) -> None:
         Run.find(client, [Run.tomogram_voxel_spacings.annotations == 20001])
     assert (
         exc_info.value.args[0]
-        == '"tomogram_voxel_spacings.annotations" is an object and can\'t be compared directly. Please filter on one of its scalar attributes instead: annotation_method, annotation_publication, annotation_software, confidence_precision, confidence_recall, deposition_date, ground_truth_status, ground_truth_used, https_metadata_path, id, is_curator_recommended, last_modified_date, object_count, object_description, object_id, object_name, object_state, release_date, s3_metadata_path, tomogram_voxel_spacing_id'
+        == '"tomogram_voxel_spacings.annotations" is an object and can\'t be compared directly. Please filter on one of its scalar attributes instead: annotation_method, annotation_publication, annotation_software, confidence_precision, confidence_recall, deposition_date, deposition_id, ground_truth_status, ground_truth_used, https_metadata_path, id, is_curator_recommended, last_modified_date, method_type, object_count, object_description, object_id, object_name, object_state, release_date, s3_metadata_path, tomogram_voxel_spacing_id'
     )
     with pytest.raises(Exception) as exc_info:
         Run.find(client, [Run.dataset == 20001])
