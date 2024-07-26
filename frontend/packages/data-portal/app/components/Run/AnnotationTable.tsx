@@ -397,10 +397,10 @@ export function AnnotationTable() {
 
   /**
    * Attaches divider(s) before a row.
-   *  - The ground truth divider can only be shown on the first row.
+   *  - The ground truth divider can only be attached to the first row.
    *    - The first page always shows the divider, even if there are 0 ground truth rows.
    *    - Subsequent pages only show the divider if the first row is ground truth.
-   *  - The non ground truth divider is shown before the first non ground truth row.
+   *  - The non ground truth divider is attached to the first non ground truth row.
    */
   const getGroundTruthDividersForRow = (
     table: Table<Annotation>,
@@ -429,7 +429,7 @@ export function AnnotationTable() {
   }
 
   /**
-   * Adds dividers to the end of the table when there are no rows to attach them to.
+   * Adds divider(s) to the end of the table when there are no rows to attach to.
    *  - The ground truth divider won't have a row to attach to only if there are 0 rows in the
    *    table.
    *  - The non ground truth divider won't have a row to attach to only if there are 0 non ground
