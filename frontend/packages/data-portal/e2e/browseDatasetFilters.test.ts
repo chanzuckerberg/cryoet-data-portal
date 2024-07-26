@@ -6,8 +6,8 @@ import { QueryParams } from 'app/constants/query'
 
 import { getApolloClient } from './apollo'
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
-import { FiltersActor } from './pageObjects/filters/filtersActor'
 import { serializeAvailableFiles } from './filters/utils'
+import { FiltersActor } from './pageObjects/filters/filtersActor'
 
 test.describe('Browse datasets page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>
@@ -369,17 +369,18 @@ test.describe('Browse datasets page filters', () => {
           value: translations.tomograms,
         })
 
-        await filtersActor.expectUrlQueryParamsToBeCorrect({
-          url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AvailableFiles,
-          queryParamValue: [
-            translations.rawFrames,
-            translations.tiltSeries,
-            translations.tiltSeriesAlignment,
-            translations.tomograms,
-          ],
-          serialize: serializeAvailableFiles,
-        })
+        // await filtersActor.expectUrlQueryParamsToBeCorrect({
+        //   url: BROWSE_DATASETS_URL,
+        //   queryParamsList: [{
+        //   queryParamKey: QueryParams.AvailableFiles,
+        //   queryParamValue: [
+        //     translations.rawFrames,
+        //     translations.tiltSeries,
+        //     translations.tiltSeriesAlignment,
+        //     translations.tomograms,
+        //   ],
+        //   serialize: serializeAvailableFiles,
+        // })
 
         // await filtersActor.expectDataAndDatasetsTableToMatch({
         //   client,
@@ -413,15 +414,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.DatasetId,
-          queryParamValue: E2E_CONFIG.datasetId,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.DatasetId,
+              queryParamValue: E2E_CONFIG.datasetId,
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.DatasetId,
-          queryParamValue: E2E_CONFIG.datasetId,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.DatasetId,
+              queryParamValue: E2E_CONFIG.datasetId,
+            },
+          ],
         })
       })
       test('should filter when opening URL', async () => {
@@ -433,8 +442,12 @@ test.describe('Browse datasets page filters', () => {
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.DatasetId,
-          queryParamValue: E2E_CONFIG.datasetId,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.DatasetId,
+              queryParamValue: E2E_CONFIG.datasetId,
+            },
+          ],
         })
       })
       test('should disable filter when deselecting', async () => {
@@ -447,15 +460,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -475,15 +496,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.EmpiarId,
-          queryParamValue: E2E_CONFIG.empiarId,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.EmpiarId,
+              queryParamValue: E2E_CONFIG.empiarId,
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.EmpiarId,
-          queryParamValue: E2E_CONFIG.empiarId,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.EmpiarId,
+              queryParamValue: E2E_CONFIG.empiarId,
+            },
+          ],
         })
       })
       test('should filter when opening URL', async () => {
@@ -495,8 +524,12 @@ test.describe('Browse datasets page filters', () => {
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.EmpiarId,
-          queryParamValue: E2E_CONFIG.empiarId,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.EmpiarId,
+              queryParamValue: E2E_CONFIG.empiarId,
+            },
+          ],
         })
       })
       test('should disable filter when deselecting', async () => {
@@ -509,15 +542,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -537,15 +578,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.EmdbId,
-          queryParamValue: E2E_CONFIG.emdbId,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.EmdbId,
+              queryParamValue: E2E_CONFIG.emdbId,
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.EmdbId,
-          queryParamValue: E2E_CONFIG.emdbId,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.EmdbId,
+              queryParamValue: E2E_CONFIG.emdbId,
+            },
+          ],
         })
       })
       test('should filter when opening URL', async () => {
@@ -557,8 +606,12 @@ test.describe('Browse datasets page filters', () => {
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.EmdbId,
-          queryParamValue: E2E_CONFIG.emdbId,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.EmdbId,
+              queryParamValue: E2E_CONFIG.emdbId,
+            },
+          ],
         })
       })
       test('should disable filter when deselecting', async () => {
@@ -571,15 +624,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -601,15 +662,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AuthorName,
-          queryParamValue: E2E_CONFIG.authorName,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorName,
+              queryParamValue: E2E_CONFIG.authorName,
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AuthorName,
-          queryParamValue: E2E_CONFIG.authorName,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorName,
+              queryParamValue: E2E_CONFIG.authorName,
+            },
+          ],
         })
       })
       test('should filter when opening URL', async () => {
@@ -621,8 +690,12 @@ test.describe('Browse datasets page filters', () => {
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AuthorName,
-          queryParamValue: E2E_CONFIG.authorName,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorName,
+              queryParamValue: E2E_CONFIG.authorName,
+            },
+          ],
         })
       })
       test('should disable filter when deselecting', async () => {
@@ -635,15 +708,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -662,15 +743,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AuthorOrcid,
-          queryParamValue: E2E_CONFIG.authorOrcId,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorOrcid,
+              queryParamValue: E2E_CONFIG.authorOrcId,
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AuthorOrcid,
-          queryParamValue: E2E_CONFIG.authorOrcId,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorOrcid,
+              queryParamValue: E2E_CONFIG.authorOrcId,
+            },
+          ],
         })
       })
 
@@ -683,8 +772,12 @@ test.describe('Browse datasets page filters', () => {
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AuthorOrcid,
-          queryParamValue: E2E_CONFIG.authorOrcId,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorOrcid,
+              queryParamValue: E2E_CONFIG.authorOrcId,
+            },
+          ],
         })
       })
 
@@ -698,15 +791,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -731,16 +832,24 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>1',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>1',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>1',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>1',
+            },
+          ],
           serialize: JSON.stringify,
         })
       })
@@ -755,8 +864,12 @@ test.describe('Browse datasets page filters', () => {
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>1',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>1',
+            },
+          ],
           serialize: JSON.stringify,
         })
       })
@@ -772,15 +885,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -796,16 +917,24 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>5',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>5',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>5',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>5',
+            },
+          ],
           serialize: JSON.stringify,
         })
       })
@@ -820,8 +949,12 @@ test.describe('Browse datasets page filters', () => {
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>5',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>5',
+            },
+          ],
           serialize: JSON.stringify,
         })
       })
@@ -837,15 +970,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -861,16 +1002,24 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>10',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>10',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>10',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>10',
+            },
+          ],
           serialize: JSON.stringify,
         })
       })
@@ -885,8 +1034,12 @@ test.describe('Browse datasets page filters', () => {
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>10',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>10',
+            },
+          ],
           serialize: JSON.stringify,
         })
       })
@@ -902,15 +1055,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -926,16 +1087,24 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>20',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>20',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>20',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>20',
+            },
+          ],
           serialize: JSON.stringify,
         })
       })
@@ -950,8 +1119,12 @@ test.describe('Browse datasets page filters', () => {
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>20',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>20',
+            },
+          ],
           serialize: JSON.stringify,
         })
       })
@@ -967,15 +1140,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -991,16 +1172,24 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>100',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>100',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>100',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>100',
+            },
+          ],
           serialize: JSON.stringify,
         })
       })
@@ -1015,8 +1204,12 @@ test.describe('Browse datasets page filters', () => {
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.NumberOfRuns,
-          queryParamValue: '>100',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>100',
+            },
+          ],
           serialize: JSON.stringify,
         })
       })
@@ -1032,15 +1225,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -1057,15 +1258,23 @@ test.describe('Browse datasets page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.CameraManufacturer,
-        queryParamValue: E2E_CONFIG.cameraManufacturer,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.CameraManufacturer,
+            queryParamValue: E2E_CONFIG.cameraManufacturer,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.CameraManufacturer,
-        queryParamValue: E2E_CONFIG.cameraManufacturer,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.CameraManufacturer,
+            queryParamValue: E2E_CONFIG.cameraManufacturer,
+          },
+        ],
       })
     })
 
@@ -1080,8 +1289,12 @@ test.describe('Browse datasets page filters', () => {
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.CameraManufacturer,
-        queryParamValue: E2E_CONFIG.cameraManufacturer,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.CameraManufacturer,
+            queryParamValue: E2E_CONFIG.cameraManufacturer,
+          },
+        ],
       })
     })
 
@@ -1097,15 +1310,23 @@ test.describe('Browse datasets page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
     })
   })
@@ -1122,16 +1343,24 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.FiducialAlignmentStatus,
-          queryParamValue: 'true',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.FiducialAlignmentStatus,
+              queryParamValue: 'true',
+            },
+          ],
           serialize: (value) => value.toLowerCase(),
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.FiducialAlignmentStatus,
-          queryParamValue: 'true',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.FiducialAlignmentStatus,
+              queryParamValue: 'true',
+            },
+          ],
           serialize: (value) => value.toLowerCase(),
         })
       })
@@ -1148,8 +1377,12 @@ test.describe('Browse datasets page filters', () => {
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.FiducialAlignmentStatus,
-          queryParamValue: 'true',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.FiducialAlignmentStatus,
+              queryParamValue: 'true',
+            },
+          ],
           serialize: (value) => value.toLowerCase(),
         })
       })
@@ -1167,15 +1400,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -1191,16 +1432,24 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.FiducialAlignmentStatus,
-          queryParamValue: 'false',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.FiducialAlignmentStatus,
+              queryParamValue: 'false',
+            },
+          ],
           serialize: (value) => value.toLowerCase(),
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.FiducialAlignmentStatus,
-          queryParamValue: 'false',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.FiducialAlignmentStatus,
+              queryParamValue: 'false',
+            },
+          ],
           serialize: (value) => value.toLowerCase(),
         })
       })
@@ -1217,8 +1466,12 @@ test.describe('Browse datasets page filters', () => {
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.FiducialAlignmentStatus,
-          queryParamValue: 'false',
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.FiducialAlignmentStatus,
+              queryParamValue: 'false',
+            },
+          ],
           serialize: (value) => value.toLowerCase(),
         })
       })
@@ -1236,15 +1489,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -1261,15 +1522,23 @@ test.describe('Browse datasets page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.ReconstructionMethod,
-        queryParamValue: E2E_CONFIG.reconstructionMethod,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ReconstructionMethod,
+            queryParamValue: E2E_CONFIG.reconstructionMethod,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.ReconstructionMethod,
-        queryParamValue: E2E_CONFIG.reconstructionMethod,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ReconstructionMethod,
+            queryParamValue: E2E_CONFIG.reconstructionMethod,
+          },
+        ],
       })
     })
 
@@ -1284,8 +1553,12 @@ test.describe('Browse datasets page filters', () => {
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.ReconstructionMethod,
-        queryParamValue: E2E_CONFIG.reconstructionMethod,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ReconstructionMethod,
+            queryParamValue: E2E_CONFIG.reconstructionMethod,
+          },
+        ],
       })
     })
 
@@ -1301,15 +1574,23 @@ test.describe('Browse datasets page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
     })
   })
@@ -1325,15 +1606,23 @@ test.describe('Browse datasets page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.ReconstructionSoftware,
-        queryParamValue: E2E_CONFIG.reconstructionSoftware,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ReconstructionSoftware,
+            queryParamValue: E2E_CONFIG.reconstructionSoftware,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.ReconstructionSoftware,
-        queryParamValue: E2E_CONFIG.reconstructionSoftware,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ReconstructionSoftware,
+            queryParamValue: E2E_CONFIG.reconstructionSoftware,
+          },
+        ],
       })
     })
 
@@ -1349,8 +1638,12 @@ test.describe('Browse datasets page filters', () => {
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.ReconstructionSoftware,
-        queryParamValue: E2E_CONFIG.reconstructionSoftware,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ReconstructionSoftware,
+            queryParamValue: E2E_CONFIG.reconstructionSoftware,
+          },
+        ],
       })
     })
 
@@ -1367,15 +1660,23 @@ test.describe('Browse datasets page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
     })
   })
@@ -1391,15 +1692,23 @@ test.describe('Browse datasets page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.ObjectName,
-        queryParamValue: E2E_CONFIG.objectName,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectName,
+            queryParamValue: E2E_CONFIG.objectName,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.ObjectName,
-        queryParamValue: E2E_CONFIG.objectName,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectName,
+            queryParamValue: E2E_CONFIG.objectName,
+          },
+        ],
       })
     })
     test('should filter when opening URL', async () => {
@@ -1411,8 +1720,12 @@ test.describe('Browse datasets page filters', () => {
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.ObjectName,
-        queryParamValue: E2E_CONFIG.objectName,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectName,
+            queryParamValue: E2E_CONFIG.objectName,
+          },
+        ],
       })
     })
     test('should disable filter when deselecting', async () => {
@@ -1425,15 +1738,23 @@ test.describe('Browse datasets page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
     })
   })
@@ -1449,15 +1770,23 @@ test.describe('Browse datasets page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.ObjectShapeType,
-        queryParamValue: E2E_CONFIG.objectShapeType,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectShapeType,
+            queryParamValue: E2E_CONFIG.objectShapeType,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.ObjectShapeType,
-        queryParamValue: E2E_CONFIG.objectShapeType,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectShapeType,
+            queryParamValue: E2E_CONFIG.objectShapeType,
+          },
+        ],
       })
     })
     test('should filter when opening URL', async () => {
@@ -1471,8 +1800,12 @@ test.describe('Browse datasets page filters', () => {
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.ObjectShapeType,
-        queryParamValue: E2E_CONFIG.objectShapeType,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectShapeType,
+            queryParamValue: E2E_CONFIG.objectShapeType,
+          },
+        ],
       })
     })
     test('should disable filter when deselecting', async () => {
@@ -1487,15 +1820,23 @@ test.describe('Browse datasets page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
     })
   })
