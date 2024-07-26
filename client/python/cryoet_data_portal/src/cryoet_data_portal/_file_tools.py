@@ -85,7 +85,7 @@ def get_destination_path(
         try:
             os.makedirs(dest_path, exist_ok=True)
         except Exception as e:
-            raise ValueError(f"Error creating directory {dest_path}: {e}") from e
+            raise ValueError(f"Unable to create the path {dest_path}") from e
 
     dest_path = os.path.join(dest_path, os.path.basename(path_suffix))
     return dest_path
