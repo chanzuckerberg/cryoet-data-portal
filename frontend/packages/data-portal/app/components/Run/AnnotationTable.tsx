@@ -38,8 +38,6 @@ import { Annotation, useAnnotation } from 'app/state/annotation'
 import { I18nKeys } from 'app/types/i18n'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
-import { DatasetAuthors } from '../Dataset/DatasetAuthors'
-
 const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<Annotation>(() => ({
   annotation_method: '',
   author_affiliations: [],
