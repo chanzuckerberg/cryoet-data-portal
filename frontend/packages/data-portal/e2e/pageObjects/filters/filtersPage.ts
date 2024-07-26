@@ -52,6 +52,12 @@ export class FiltersPage extends BasePage {
     await this.page.getByRole('button', { name: 'Apply' }).click()
   }
 
+  public async fillSearchInput(testQuery: string) {
+    const searchInput = this.page.getByRole('combobox', { name: 'Search' })
+    await searchInput.click()
+    await searchInput.fill(testQuery)
+  }
+
   public async toggleGroundTruthFilter() {
     await this.page.getByText('Ground Truth Annotation').click()
   }
@@ -74,7 +80,7 @@ export class FiltersPage extends BasePage {
     const params = url.searchParams
     queryParamsList.forEach(({ queryParamKey, queryParamValue }) => {
       if (queryParamKey) {
-        params.set(
+        params.append(
           queryParamKey,
           serialize ? serialize(queryParamValue) : queryParamValue,
         )
@@ -160,6 +166,12 @@ export class FiltersPage extends BasePage {
         `Check if data id ${id} occurs ${dataRowCount[id]} times in the table`,
       ).toEqual(tableRowCount[id]),
     )
+  }
+
+  public async expectOrganismNameToBeVisibleInFilterList(organismName: string) {
+    await expect(
+      this.page.getByRole('option', { name: organismName }).locator('div'),
+    ).toBeVisible()
   }
   // #endregion Validation
 

@@ -18,6 +18,7 @@ import {
   getExpectedFilterCount,
   getExpectedTotalCount,
   getExpectedUrlWithQueryParams,
+  getFilteredOrganismNamesFromData,
   getRunIdCountsFromData,
 } from './utils'
 
@@ -120,7 +121,7 @@ export class FiltersActor {
     client: ApolloClient<NormalizedCacheObject>
     pageNumber?: number
     url: string
-    queryParamsList: QueryParamObjectType[]
+    queryParamsList?: QueryParamObjectType[]
     serialize?: (value: string) => string
   }) {
     const { params } = getExpectedUrlWithQueryParams({
@@ -359,6 +360,43 @@ export class FiltersActor {
     })
 
     await this.expectDatasetsTableToBeCorrect({ browseDatasetsData })
+  }
+
+  // TODO: this matches the existing test by checking for values from the filtered data in the UI list
+  // However, we may want to add the reverse check to ensure there are no extra values in the UI list
+  public async expectOrganismNamesFromDataToMatchFilterList({
+    client,
+    pageNumber = 1,
+    testQuery,
+    url,
+    queryParamsList,
+    serialize,
+  }: {
+    client: ApolloClient<NormalizedCacheObject>
+    pageNumber?: number
+    testQuery: string
+    url: string
+    queryParamsList?: QueryParamObjectType[]
+    serialize?: (value: string) => string
+  }) {
+    const browseDatasetsData = await this.getDatasetsDataUsingParams({
+      client,
+      pageNumber,
+      url,
+      queryParamsList,
+      serialize,
+    })
+
+    const organismNames = getFilteredOrganismNamesFromData({
+      browseDatasetsData,
+      testQuery,
+    })
+
+    await Promise.all(
+      organismNames.map((name) =>
+        this.filtersPage.expectOrganismNameToBeVisibleInFilterList(name),
+      ),
+    )
   }
   // #endregion Validate
 }

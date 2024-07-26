@@ -1,12 +1,12 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { test } from '@playwright/test'
+import { FiltersActor } from 'e2e/pageObjects/filters/filtersActor'
 import { FiltersPage } from 'e2e/pageObjects/filters/filtersPage'
 
 import { QueryParams } from 'app/constants/query'
 
 import { getApolloClient } from './apollo'
 import { E2E_CONFIG, SINGLE_DATASET_URL, translations } from './constants'
-import { FiltersActor } from './pageObjects/filters/filtersActor'
 
 test.describe('Single dataset page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>

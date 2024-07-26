@@ -7,12 +7,12 @@ import {
   SINGLE_RUN_PATH,
   SINGLE_RUN_URL,
 } from './constants'
-import { MetadataDrawerPage } from './pageObjects/metadataDrawer/metadataDrawerPage'
+import { MetadataDrawerPage } from 'e2e/pageObjects/metadataDrawer/metadataDrawerPage'
 import {
   getAnnotationTestData,
   getSingleDatasetTestMetadata,
   getSingleRunTestMetadata,
-} from './pageObjects/metadataDrawer/utils'
+} from 'e2e/pageObjects/metadataDrawer/utils'
 
 test.describe('Metadata Drawer', () => {
   test.describe(`Single Dataset: ${SINGLE_DATASET_PATH}`, () => {

@@ -1,13 +1,13 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { test } from '@playwright/test'
+import { FiltersActor } from 'e2e/pageObjects/filters/filtersActor'
 import { FiltersPage } from 'e2e/pageObjects/filters/filtersPage'
+import { serializeAvailableFiles } from 'e2e/pageObjects/filters/utils'
 
 import { QueryParams } from 'app/constants/query'
 
 import { getApolloClient } from './apollo'
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
-import { serializeAvailableFiles } from './filters/utils'
-import { FiltersActor } from './pageObjects/filters/filtersActor'
 
 test.describe('Browse datasets page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>
@@ -511,31 +511,150 @@ test.describe('Browse datasets page filters', () => {
           value: translations.tomograms,
         })
 
-        // await filtersActor.expectUrlQueryParamsToBeCorrect({
-        //   url: BROWSE_DATASETS_URL,
-        //   queryParamsList: [{
-        //   queryParamKey: QueryParams.AvailableFiles,
-        //   queryParamValue: [
-        //     translations.rawFrames,
-        //     translations.tiltSeries,
-        //     translations.tiltSeriesAlignment,
-        //     translations.tomograms,
-        //   ],
-        //   serialize: serializeAvailableFiles,
-        // })
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.rawFrames,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeries,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeriesAlignment,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tomograms,
+            },
+          ],
+          serialize: serializeAvailableFiles,
+        })
 
-        // await filtersActor.expectDataAndDatasetsTableToMatch({
-        //   client,
-        //   url: BROWSE_DATASETS_URL,
-        //   queryParamKey: QueryParams.AvailableFiles,
-        //   queryParamValue: [
-        //     translations.rawFrames,
-        //     translations.tiltSeries,
-        //     translations.tiltSeriesAlignment,
-        //     translations.tomograms,
-        //   ],
-        //   serialize: serializeAvailableFiles,
-        // })
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.rawFrames,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeries,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeriesAlignment,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tomograms,
+            },
+          ],
+          serialize: serializeAvailableFiles,
+        })
+      })
+      test('should filter multiple values when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.rawFrames,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeries,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeriesAlignment,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tomograms,
+            },
+          ],
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.rawFrames,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeries,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeriesAlignment,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tomograms,
+            },
+          ],
+          serialize: serializeAvailableFiles,
+        })
+      })
+      test('should clear filters', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.rawFrames,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeries,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeriesAlignment,
+            },
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tomograms,
+            },
+          ],
+          serialize: serializeAvailableFiles,
+        })
+
+        await filtersPage.removeFilterOption(translations.rawFrames)
+        await filtersPage.removeFilterOption(translations.tiltSeries)
+        await filtersPage.removeFilterOption(translations.tiltSeriesAlignment)
+        await filtersPage.removeFilterOption(translations.tomograms)
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
+        })
       })
     })
   })
@@ -1007,8 +1126,219 @@ test.describe('Browse datasets page filters', () => {
 
   // TODO: (ehoops) add multi-select filter tests
   test.describe('Organism Name filter', () => {
-    test('should filter on click', async () => {
-      await filtersPage.goTo(BROWSE_DATASETS_URL)
+    test.describe('Selecting one organism', () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.organismName,
+          value: E2E_CONFIG.organismName1,
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName1,
+            },
+          ],
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName1,
+            },
+          ],
+        })
+      })
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName1,
+            },
+          ],
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName1,
+            },
+          ],
+        })
+      })
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName1,
+            },
+          ],
+        })
+
+        await filtersPage.removeFilterOption(E2E_CONFIG.organismName1)
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
+        })
+      })
+    })
+    test.describe('Selecting multiple organisms', () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.organismName,
+          value: E2E_CONFIG.organismName1,
+        })
+
+        await filtersActor.addSingleSelectFilter({
+          label: translations.organismName,
+          value: E2E_CONFIG.organismName2,
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName1,
+            },
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName2,
+            },
+          ],
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName1,
+            },
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName2,
+            },
+          ],
+        })
+      })
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName1,
+            },
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName2,
+            },
+          ],
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName1,
+            },
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName2,
+            },
+          ],
+        })
+      })
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName1,
+            },
+            {
+              queryParamKey: QueryParams.Organism,
+              queryParamValue: E2E_CONFIG.organismName2,
+            },
+          ],
+        })
+
+        await filtersPage.removeFilterOption(E2E_CONFIG.organismName1)
+        await filtersPage.removeFilterOption(E2E_CONFIG.organismName2)
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
+        })
+      })
+    })
+    test.describe('Searching for an organism name in the filter', () => {
+      test('should filter the list of organisms', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersPage.openFilterDropdown(translations.organismName)
+        await filtersPage.fillSearchInput(E2E_CONFIG.organismNameQuery)
+
+        await filtersActor.expectOrganismNamesFromDataToMatchFilterList({
+          client,
+          testQuery: E2E_CONFIG.organismNameQuery,
+          url: BROWSE_DATASETS_URL,
+        })
+      })
     })
   })
 

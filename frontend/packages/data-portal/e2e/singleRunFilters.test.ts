@@ -6,7 +6,7 @@ import { QueryParams } from 'app/constants/query'
 
 import { getApolloClient } from './apollo'
 import { E2E_CONFIG, SINGLE_RUN_URL, translations } from './constants'
-import { FiltersActor } from './pageObjects/filters/filtersActor'
+import { FiltersActor } from 'e2e/pageObjects/filters/filtersActor'
 
 test.describe('Single run page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>
