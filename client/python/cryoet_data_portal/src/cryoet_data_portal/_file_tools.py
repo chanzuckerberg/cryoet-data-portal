@@ -54,7 +54,7 @@ def download_https(
 
 def get_destination_path(
     url: str,
-    dest_path: Optional[str],
+    dest_path: Optional[str] = None,
     recursive_from_prefix: Optional[str] = None,
 ) -> str:
     """
@@ -76,10 +76,8 @@ def get_destination_path(
         dest_path = os.getcwd()
     dest_path = os.path.abspath(dest_path)
 
-    if not os.path.isdir(dest_path) and recursive_from_prefix:
-        raise ValueError(
-            f"The destination path '{dest_path}' does not exist. Recursive downloads require an existing base directory.",
-        )
+    if not os.path.isdir(dest_path):
+        os.makedirs(dest_path)
 
     # If we're downloading recursively, we need to add the dest URL
     # (minus the prefix) to the dest path.
