@@ -28,49 +28,79 @@ test.describe('Browse datasets page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.GroundTruthAnnotation,
-        queryParamValue: 'true',
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.GroundTruthAnnotation,
+            queryParamValue: 'true',
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.GroundTruthAnnotation,
-        queryParamValue: 'true',
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.GroundTruthAnnotation,
+            queryParamValue: 'true',
+          },
+        ],
       })
     })
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: BROWSE_DATASETS_URL,
-        paramObject: { [QueryParams.GroundTruthAnnotation]: 'true' },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.GroundTruthAnnotation,
+            queryParamValue: 'true',
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.GroundTruthAnnotation,
-        queryParamValue: 'true',
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.GroundTruthAnnotation,
+            queryParamValue: 'true',
+          },
+        ],
       })
     })
     test('should disable filter on click', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: BROWSE_DATASETS_URL,
-        paramObject: { [QueryParams.GroundTruthAnnotation]: 'true' },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.GroundTruthAnnotation,
+            queryParamValue: 'true',
+          },
+        ],
       })
 
       await filtersPage.toggleGroundTruthFilter()
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
         client,
         url: BROWSE_DATASETS_URL,
-        queryParamKey: QueryParams.GroundTruthAnnotation,
-        queryParamValue: 'false',
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.GroundTruthAnnotation,
+            queryParamValue: 'false',
+          },
+        ],
       })
     })
   })
@@ -88,16 +118,24 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AvailableFiles,
-          queryParamValue: translations.rawFrames,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.rawFrames,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AvailableFiles,
-          queryParamValue: translations.rawFrames,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.rawFrames,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
       })
@@ -105,15 +143,24 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.AvailableFiles]: translations.rawFrames },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.rawFrames,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AvailableFiles,
-          queryParamValue: translations.rawFrames,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.rawFrames,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
       })
@@ -121,7 +168,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.AvailableFiles]: translations.rawFrames },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.rawFrames,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
 
@@ -129,15 +181,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -153,16 +213,24 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AvailableFiles,
-          queryParamValue: translations.tiltSeries,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeries,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AvailableFiles,
-          queryParamValue: translations.tiltSeries,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeries,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
       })
@@ -170,17 +238,24 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: {
-            [QueryParams.AvailableFiles]: translations.tiltSeries,
-          },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeries,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AvailableFiles,
-          queryParamValue: translations.tiltSeries,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeries,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
       })
@@ -188,9 +263,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: {
-            [QueryParams.AvailableFiles]: translations.tiltSeries,
-          },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeries,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
 
@@ -198,15 +276,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -222,16 +308,24 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AvailableFiles,
-          queryParamValue: translations.tiltSeriesAlignment,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeriesAlignment,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AvailableFiles,
-          queryParamValue: translations.tiltSeriesAlignment,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeriesAlignment,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
       })
@@ -239,17 +333,24 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: {
-            [QueryParams.AvailableFiles]: translations.tiltSeriesAlignment,
-          },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeriesAlignment,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AvailableFiles,
-          queryParamValue: translations.tiltSeriesAlignment,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeriesAlignment,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
       })
@@ -257,9 +358,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: {
-            [QueryParams.AvailableFiles]: translations.tiltSeriesAlignment,
-          },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tiltSeriesAlignment,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
 
@@ -267,15 +371,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -291,16 +403,24 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AvailableFiles,
-          queryParamValue: translations.tomograms,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tomograms,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AvailableFiles,
-          queryParamValue: translations.tomograms,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tomograms,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
       })
@@ -308,15 +428,24 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.AvailableFiles]: translations.tomograms },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tomograms,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: QueryParams.AvailableFiles,
-          queryParamValue: translations.tomograms,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tomograms,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
       })
@@ -324,7 +453,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.AvailableFiles]: translations.tomograms },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AvailableFiles,
+              queryParamValue: translations.tomograms,
+            },
+          ],
           serialize: serializeAvailableFiles,
         })
 
@@ -332,15 +466,23 @@ test.describe('Browse datasets page filters', () => {
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
           client,
           url: BROWSE_DATASETS_URL,
-          queryParamKey: undefined,
-          queryParamValue: '',
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
         })
       })
     })
@@ -436,7 +578,12 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.DatasetId]: E2E_CONFIG.datasetId },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.DatasetId,
+              queryParamValue: E2E_CONFIG.datasetId,
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
@@ -453,7 +600,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.DatasetId]: E2E_CONFIG.datasetId },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.DatasetId,
+              queryParamValue: E2E_CONFIG.datasetId,
+            },
+          ],
         })
 
         await filtersPage.removeMultiInputFilter(E2E_CONFIG.datasetId)
@@ -518,7 +670,12 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.EmpiarId]: E2E_CONFIG.empiarId },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.EmpiarId,
+              queryParamValue: E2E_CONFIG.empiarId,
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
@@ -535,7 +692,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.EmpiarId]: E2E_CONFIG.empiarId },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.EmpiarId,
+              queryParamValue: E2E_CONFIG.empiarId,
+            },
+          ],
         })
 
         await filtersPage.removeMultiInputFilter(E2E_CONFIG.empiarId)
@@ -600,7 +762,12 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.EmdbId]: E2E_CONFIG.emdbId },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.EmdbId,
+              queryParamValue: E2E_CONFIG.emdbId,
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
@@ -617,7 +784,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.EmdbId]: E2E_CONFIG.emdbId },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.EmdbId,
+              queryParamValue: E2E_CONFIG.emdbId,
+            },
+          ],
         })
 
         await filtersPage.removeMultiInputFilter(E2E_CONFIG.emdbId)
@@ -684,7 +856,12 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.AuthorName]: E2E_CONFIG.authorName },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorName,
+              queryParamValue: E2E_CONFIG.authorName,
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
@@ -701,7 +878,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.AuthorName]: E2E_CONFIG.authorName },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorName,
+              queryParamValue: E2E_CONFIG.authorName,
+            },
+          ],
         })
 
         await filtersPage.removeMultiInputFilter(E2E_CONFIG.authorName)
@@ -766,7 +948,12 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.AuthorOrcid]: E2E_CONFIG.authorOrcId },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorOrcid,
+              queryParamValue: E2E_CONFIG.authorOrcId,
+            },
+          ],
         })
 
         await filtersActor.expectDataAndDatasetsTableToMatch({
@@ -784,7 +971,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.AuthorOrcid]: E2E_CONFIG.authorOrcId },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorOrcid,
+              queryParamValue: E2E_CONFIG.authorOrcId,
+            },
+          ],
         })
 
         await filtersPage.removeMultiInputFilter(E2E_CONFIG.authorOrcId)
@@ -857,7 +1049,12 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.NumberOfRuns]: '>1' },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>1',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
@@ -877,7 +1074,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.NumberOfRuns]: '>1' },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>1',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
@@ -942,7 +1144,12 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.NumberOfRuns]: '>5' },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>5',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
@@ -962,7 +1169,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.NumberOfRuns]: '>5' },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>5',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
@@ -1027,7 +1239,12 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.NumberOfRuns]: '>10' },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>10',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
@@ -1047,7 +1264,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.NumberOfRuns]: '>10' },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>10',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
@@ -1112,7 +1334,12 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.NumberOfRuns]: '>20' },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>20',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
@@ -1132,7 +1359,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.NumberOfRuns]: '>20' },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>20',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
@@ -1197,7 +1429,12 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.NumberOfRuns]: '>100' },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>100',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
@@ -1217,7 +1454,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: { [QueryParams.NumberOfRuns]: '>100' },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.NumberOfRuns,
+              queryParamValue: '>100',
+            },
+          ],
           serialize: JSON.stringify,
         })
 
@@ -1281,9 +1523,12 @@ test.describe('Browse datasets page filters', () => {
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: BROWSE_DATASETS_URL,
-        paramObject: {
-          [QueryParams.CameraManufacturer]: E2E_CONFIG.cameraManufacturer,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.CameraManufacturer,
+            queryParamValue: E2E_CONFIG.cameraManufacturer,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
@@ -1301,9 +1546,12 @@ test.describe('Browse datasets page filters', () => {
     test('should disable filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: BROWSE_DATASETS_URL,
-        paramObject: {
-          [QueryParams.CameraManufacturer]: E2E_CONFIG.cameraManufacturer,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.CameraManufacturer,
+            queryParamValue: E2E_CONFIG.cameraManufacturer,
+          },
+        ],
       })
 
       await filtersPage.removeFilterOption(E2E_CONFIG.cameraManufacturer)
@@ -1368,9 +1616,12 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: {
-            [QueryParams.FiducialAlignmentStatus]: 'True',
-          },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.FiducialAlignmentStatus,
+              queryParamValue: 'True',
+            },
+          ],
           serialize: (value) => value.toLowerCase(),
         })
 
@@ -1390,9 +1641,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: {
-            [QueryParams.FiducialAlignmentStatus]: 'True',
-          },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.FiducialAlignmentStatus,
+              queryParamValue: 'True',
+            },
+          ],
           serialize: (value) => value.toLowerCase(),
         })
 
@@ -1457,9 +1711,12 @@ test.describe('Browse datasets page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: {
-            [QueryParams.FiducialAlignmentStatus]: 'False',
-          },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.FiducialAlignmentStatus,
+              queryParamValue: 'False',
+            },
+          ],
           serialize: (value) => value.toLowerCase(),
         })
 
@@ -1479,9 +1736,12 @@ test.describe('Browse datasets page filters', () => {
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: BROWSE_DATASETS_URL,
-          paramObject: {
-            [QueryParams.FiducialAlignmentStatus]: 'False',
-          },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.FiducialAlignmentStatus,
+              queryParamValue: 'False',
+            },
+          ],
           serialize: (value) => value.toLowerCase(),
         })
 
@@ -1545,9 +1805,12 @@ test.describe('Browse datasets page filters', () => {
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: BROWSE_DATASETS_URL,
-        paramObject: {
-          [QueryParams.ReconstructionMethod]: E2E_CONFIG.reconstructionMethod,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ReconstructionMethod,
+            queryParamValue: E2E_CONFIG.reconstructionMethod,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
@@ -1565,9 +1828,12 @@ test.describe('Browse datasets page filters', () => {
     test('should disable filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: BROWSE_DATASETS_URL,
-        paramObject: {
-          [QueryParams.ReconstructionMethod]: E2E_CONFIG.reconstructionMethod,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ReconstructionMethod,
+            queryParamValue: E2E_CONFIG.reconstructionMethod,
+          },
+        ],
       })
 
       await filtersPage.removeFilterOption(E2E_CONFIG.reconstructionMethod)
@@ -1629,10 +1895,12 @@ test.describe('Browse datasets page filters', () => {
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: BROWSE_DATASETS_URL,
-        paramObject: {
-          [QueryParams.ReconstructionSoftware]:
-            E2E_CONFIG.reconstructionSoftware,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ReconstructionSoftware,
+            queryParamValue: E2E_CONFIG.reconstructionSoftware,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
@@ -1650,10 +1918,12 @@ test.describe('Browse datasets page filters', () => {
     test('should disable filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: BROWSE_DATASETS_URL,
-        paramObject: {
-          [QueryParams.ReconstructionSoftware]:
-            E2E_CONFIG.reconstructionSoftware,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ReconstructionSoftware,
+            queryParamValue: E2E_CONFIG.reconstructionSoftware,
+          },
+        ],
       })
 
       await filtersPage.removeFilterOption(E2E_CONFIG.reconstructionSoftware)
@@ -1714,7 +1984,12 @@ test.describe('Browse datasets page filters', () => {
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: BROWSE_DATASETS_URL,
-        paramObject: { [QueryParams.ObjectName]: E2E_CONFIG.objectName },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectName,
+            queryParamValue: E2E_CONFIG.objectName,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
@@ -1731,7 +2006,12 @@ test.describe('Browse datasets page filters', () => {
     test('should disable filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: BROWSE_DATASETS_URL,
-        paramObject: { [QueryParams.ObjectName]: E2E_CONFIG.objectName },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectName,
+            queryParamValue: E2E_CONFIG.objectName,
+          },
+        ],
       })
 
       await filtersPage.removeFilterOption(E2E_CONFIG.objectName)
@@ -1792,9 +2072,12 @@ test.describe('Browse datasets page filters', () => {
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: BROWSE_DATASETS_URL,
-        paramObject: {
-          [QueryParams.ObjectShapeType]: E2E_CONFIG.objectShapeType,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectShapeType,
+            queryParamValue: E2E_CONFIG.objectShapeType,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndDatasetsTableToMatch({
@@ -1811,9 +2094,12 @@ test.describe('Browse datasets page filters', () => {
     test('should disable filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: BROWSE_DATASETS_URL,
-        paramObject: {
-          [QueryParams.ObjectShapeType]: E2E_CONFIG.objectShapeType,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectShapeType,
+            queryParamValue: E2E_CONFIG.objectShapeType,
+          },
+        ],
       })
 
       await filtersPage.removeFilterOption(E2E_CONFIG.objectShapeType)
