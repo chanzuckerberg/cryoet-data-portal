@@ -17,6 +17,10 @@
   "packages": {
     "frontend": {
       "release-type": "node"
+    },
+    "client/python/cryoet-data-portal": {
+      "package-name": "cryoet-data-portal-python-client",
+      "release-type": "python"
     }
   }
 }

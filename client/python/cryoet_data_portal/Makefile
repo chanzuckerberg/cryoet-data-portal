@@ -20,3 +20,9 @@ test:
 		export BOTO_ENDPOINT_URL=http://localhost:4000; \
 		export BOTO_SIGNATURE_VERSION=s3v4; \
 		pytest -vvv -s . $(TEST)
+
+.PHONY: build
+build:
+	python -m pip install --upgrade pip
+	pip install build twine
+	python -m build
