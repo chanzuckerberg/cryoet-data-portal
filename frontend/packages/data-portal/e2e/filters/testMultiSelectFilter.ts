@@ -1,11 +1,11 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { Page, test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
+import { TableValidator } from 'e2e/pageObjects/filters/types'
 import { identity } from 'lodash-es'
 
 import { QueryParams } from 'app/constants/query'
 
-import { TableValidator } from './types'
 import { goTo } from './utils'
 
 async function openDropdown(page: Page, label: string) {

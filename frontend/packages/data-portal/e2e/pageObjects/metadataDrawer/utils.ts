@@ -177,6 +177,7 @@ export async function getSingleRunTestMetadata(
   const { data } = await getRunById({
     client,
     id: +E2E_CONFIG.runId,
+    annotationsPage: 1,
   })
 
   const [run] = data.runs
@@ -207,6 +208,7 @@ export async function getAnnotationTestData(
   const { data } = await getRunById({
     client,
     id: +E2E_CONFIG.runId,
+    annotationsPage: 1,
   })
 
   const [run] = data.runs

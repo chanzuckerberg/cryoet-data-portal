@@ -19,6 +19,7 @@ import {
 } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 
 interface FileSummaryData {
@@ -40,6 +41,7 @@ function FileSummary({ data }: { data: FileSummaryData[] }) {
 }
 
 export function RunHeader() {
+  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
   const { run } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
@@ -51,6 +53,19 @@ export function RunHeader() {
   const neuroglancerConfig = tomogram?.neuroglancer_config
 
   const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
+
+  const framesCount = run.tiltseries_aggregate.aggregate?.sum?.frames_count ?? 0
+  const tiltSeriesCount = run.tiltseries_aggregate.aggregate?.count ?? 0
+  const tomogramsCount = sum(
+    run.tomogram_stats.flatMap(
+      (stats) => stats.tomograms_aggregate.aggregate?.count ?? 0,
+    ),
+  )
+  const annotationsCount = sum(
+    run.tomogram_stats.flatMap(
+      (stats) => stats.annotations_aggregate.aggregate?.count ?? 0,
+    ),
+  )
 
   return (
     <PageHeader
@@ -110,37 +125,59 @@ export function RunHeader() {
           <div className="flex flex-col gap-sds-xl flex-auto pt-sds-l">
             <PageHeaderSubtitle>{t('runOverview')}</PageHeaderSubtitle>
 
-            <FileSummary
-              data={[
-                {
-                  key: t('frames'),
-                  value:
-                    run.tiltseries_aggregate.aggregate?.sum?.frames_count ?? 0,
-                },
-                {
-                  key: t('tiltSeries'),
-                  value: run.tiltseries_aggregate.aggregate?.count ?? 0,
-                },
-                {
-                  key: t('tomograms'),
-                  value: sum(
-                    run.tomogram_stats.flatMap(
-                      (stats) =>
-                        stats.tomograms_aggregate.aggregate?.count ?? 0,
-                    ),
-                  ),
-                },
-                {
-                  key: t('annotations'),
-                  value: sum(
-                    run.tomogram_stats.flatMap(
-                      (stats) =>
-                        stats.annotations_aggregate.aggregate?.count ?? 0,
-                    ),
-                  ),
-                },
-              ]}
-            />
+            {multipleTomogramsEnabled ? (
+              <InlineMetadata
+                label={t('dataSummary')}
+                fields={[
+                  {
+                    key: t('frames'),
+                    value: framesCount > 0 ? t('available') : t('notSubmitted'),
+                    valueClass:
+                      framesCount > 0 ? undefined : 'text-sds-gray-500',
+                  },
+                  {
+                    key: t('tiltSeries'),
+                    value:
+                      tiltSeriesCount > 0 ? t('available') : t('notSubmitted'),
+                    valueClass:
+                      tiltSeriesCount > 0 ? undefined : 'text-sds-gray-500',
+                  },
+                  {
+                    key: t('alignmentFile'),
+                    value: '', // TODO(bchu): Confirm how this should be counted.
+                  },
+                  {
+                    key: t('tomograms'),
+                    value: tomogramsCount.toString(),
+                  },
+                  {
+                    key: t('annotations'),
+                    value: annotationsCount.toString(),
+                  },
+                ]}
+              />
+            ) : (
+              <FileSummary
+                data={[
+                  {
+                    key: t('frames'),
+                    value: framesCount,
+                  },
+                  {
+                    key: t('tiltSeries'),
+                    value: tiltSeriesCount,
+                  },
+                  {
+                    key: t('tomograms'),
+                    value: tomogramsCount,
+                  },
+                  {
+                    key: t('annotations'),
+                    value: annotationsCount,
+                  },
+                ]}
+              />
+            )}
 
             <div className="flex gap-sds-xxl flex-col lg:flex-row">
               <MetadataTable
