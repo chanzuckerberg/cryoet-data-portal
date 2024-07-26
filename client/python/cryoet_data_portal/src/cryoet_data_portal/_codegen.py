@@ -1,11 +1,9 @@
 """This module generates model code from the GraphQL schema."""
 
-import inspect
 import logging
 import pathlib
 import re
 from dataclasses import dataclass
-from textwrap import dedent
 from typing import List, Optional
 
 from graphql import (
@@ -18,8 +16,7 @@ from graphql import (
     GraphQLType,
     build_schema,
 )
-
-from cryoet_data_portal import _model_stubs
+from jinja2 import Environment, FileSystemLoader
 
 """Maps GraphQL field type names to model field defaults and Python types."""
 GQL_TO_MODEL_FIELD = {
@@ -52,7 +49,7 @@ GQL_TO_MODEL_TYPE = {
 
 @dataclass(frozen=True)
 class FieldInfo:
-    """Describes the information about a parsed model field."""
+    """The information about a parsed model field."""
 
     name: str
     description: str
@@ -62,80 +59,45 @@ class FieldInfo:
 
 def write_models(path: str) -> None:
     schema = load_schema()
+    environment = load_environment()
     with open(path, "w") as f:
-        f.write(
-            dedent(
-                """\
-            \"\"\"CryoET data portal client model classes.\"\"\"
-
-            from __future__ import annotations
-            import os
-            from datetime import date
-            from typing import List, Optional
-
-            from cryoet_data_portal._file_tools import download_directory, download_https
-            from cryoet_data_portal._gql_base import (
-                BooleanField,
-                DateField,
-                FloatField,
-                IntField,
-                ItemRelationship,
-                ListRelationship,
-                Model,
-                StringField,
-            )
-            """,
-            ),
-        )
+        template = environment.get_template("Header.jinja2")
+        content = template.render()
+        f.write(content)
 
         for gql, model in GQL_TO_MODEL_TYPE.items():
             logging.info("Parsing gql type %s to model %s", gql, model)
             gql_type = schema.get_type(gql)
             assert isinstance(gql_type, GraphQLObjectType)
-
             fields = parse_fields(gql_type)
+            template = environment.select_template((f"{model}.jinja2", "Model.jinja2"))
+            content = template.render(
+                cls=model,
+                gql_type=gql_type,
+                fields=fields,
+            )
+            f.write(content)
 
-            # Class
-            f.write(f"\n\nclass {model}(Model):\n")
-
-            # Docstring
-            f.write(f'    """{gql_type.description}\n\n')
-            f.write("    Attributes:\n")
-            for field in fields:
-                f.write(
-                    f"        {field.name} ({field.annotation_type}): {field.description}\n",
-                )
-            f.write('    """\n\n')
-
-            # Attributes
-            f.write(f'    _gql_type: str = "{gql}"\n\n')
-            for field in fields:
-                f.write(
-                    f"    {field.name}: {field.annotation_type} = {field.default_value}\n",
-                )
-
-            # Utility methods
-            model_type = GQL_TO_MODEL_TYPE[gql]
-            model_class = getattr(_model_stubs, model_type, None)
-            if model_class is not None:
-                utils = inspect.getmembers(model_class, inspect.isfunction)
-                for _, util in utils:
-                    source = inspect.getsource(util)
-                    f.write(f"\n{source}")
-
-        # Model setup calls
-        f.write("\n")
-        for model in GQL_TO_MODEL_TYPE.values():
-            f.write(f"\n{model}.setup()")
-
-        # Newline for linter
-        f.write("\n")
+        template = environment.get_template("Footer.jinja2")
+        content = template.render(models=GQL_TO_MODEL_TYPE.values())
+        f.write(content)
 
 
 def load_schema() -> GraphQLSchema:
     with open(pathlib.Path(__file__).parent / "data/schema.graphql", "r") as f:
         schema_str = f.read()
     return build_schema(schema_str)
+
+
+def load_environment() -> Environment:
+    template_dir = pathlib.Path(__file__).parent / "templates"
+    loader = FileSystemLoader(template_dir)
+    return Environment(
+        loader=loader,
+        trim_blocks=True,
+        lstrip_blocks=True,
+        keep_trailing_newline=True,
+    )
 
 
 def parse_fields(gql_type: GraphQLObjectType) -> List[FieldInfo]:

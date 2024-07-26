@@ -328,6 +328,24 @@ class Tomogram(Model):
     type: str = StringField()
     voxel_spacing: float = FloatField()
 
+    def download_omezarr(self, dest_path: Optional[str] = None):
+        """Download the OME-Zarr version of this tomogram
+
+        Args:
+            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+        """
+        recursive_prefix = "/".join(self.s3_omezarr_dir.split("/")[:-1]) + "/"
+        download_directory(self.s3_omezarr_dir, recursive_prefix, dest_path)
+
+    def download_mrcfile(self, dest_path: Optional[str] = None):
+        """Download an MRC file of this tomogram
+
+        Args:
+            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+        """
+        url = self.https_mrc_scale0
+        download_https(url, dest_path)
+
     def download_all_annotations(
         self,
         dest_path: Optional[str] = None,
@@ -344,24 +362,6 @@ class Tomogram(Model):
         vs = self.tomogram_voxel_spacing
         for anno in vs.annotations:
             anno.download(dest_path, format, shape)
-
-    def download_mrcfile(self, dest_path: Optional[str] = None):
-        """Download an MRC file of this tomogram
-
-        Args:
-            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
-        """
-        url = self.https_mrc_scale0
-        download_https(url, dest_path)
-
-    def download_omezarr(self, dest_path: Optional[str] = None):
-        """Download the OME-Zarr version of this tomogram
-
-        Args:
-            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
-        """
-        recursive_prefix = "/".join(self.s3_omezarr_dir.split("/")[:-1]) + "/"
-        download_directory(self.s3_omezarr_dir, recursive_prefix, dest_path)
 
 
 class TomogramAuthor(Model):
@@ -646,13 +646,13 @@ class TiltSeries(Model):
     tilting_scheme: str = StringField()
     total_flux: float = FloatField()
 
-    def download_alignment_file(self, dest_path: Optional[str] = None):
-        """Download the alignment file for this tiltseries
+    def download_collection_metadata(self, dest_path: Optional[str] = None):
+        """Download the collection metadata for this tiltseries
 
         Args:
             dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
         """
-        download_https(self.https_alignment_file, dest_path)
+        download_https(self.https_collection_metadata, dest_path)
 
     def download_angle_list(self, dest_path: Optional[str] = None):
         """Download the angle list for this tiltseries
@@ -662,13 +662,22 @@ class TiltSeries(Model):
         """
         download_https(self.https_angle_list, dest_path)
 
-    def download_collection_metadata(self, dest_path: Optional[str] = None):
-        """Download the collection metadata for this tiltseries
+    def download_alignment_file(self, dest_path: Optional[str] = None):
+        """Download the alignment file for this tiltseries
 
         Args:
             dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
         """
-        download_https(self.https_collection_metadata, dest_path)
+        download_https(self.https_alignment_file, dest_path)
+
+    def download_omezarr(self, dest_path: Optional[str] = None):
+        """Download the omezarr version of this tiltseries
+
+        Args:
+            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+        """
+        recursive_prefix = "/".join(self.s3_omezarr_dir.split("/")[:-1]) + "/"
+        download_directory(self.s3_omezarr_dir, recursive_prefix, dest_path)
 
     def download_mrcfile(
         self,
@@ -681,15 +690,6 @@ class TiltSeries(Model):
         """
         url = self.https_mrc_bin1
         download_https(url, dest_path)
-
-    def download_omezarr(self, dest_path: Optional[str] = None):
-        """Download the omezarr version of this tiltseries
-
-        Args:
-            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
-        """
-        recursive_prefix = "/".join(self.s3_omezarr_dir.split("/")[:-1]) + "/"
-        download_directory(self.s3_omezarr_dir, recursive_prefix, dest_path)
 
 
 Dataset.setup()

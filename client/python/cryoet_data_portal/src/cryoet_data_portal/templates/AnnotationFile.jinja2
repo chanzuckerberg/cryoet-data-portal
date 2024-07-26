@@ -1,0 +1,8 @@
+{% include 'Model.jinja2' %}
+
+    def download(self, dest_path: Optional[str] = None):
+        if self.format == "zarr":
+            recursive_prefix = "/".join(self.s3_path.split("/")[:-1]) + "/"
+            download_directory(self.s3_path, recursive_prefix, dest_path)
+        else:
+            download_https(self.https_path, dest_path)
