@@ -7,13 +7,13 @@ import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
 import { apolloClient } from 'app/apollo.server'
+import { TablePageLayout } from 'app/components//TablePageLayout'
 import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
 import { DownloadModal } from 'app/components/Download'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
 import { AnnotationTable } from 'app/components/Run/AnnotationTable'
 import { RunMetadataDrawer } from 'app/components/Run/RunMetadataDrawer'
-import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
@@ -36,11 +36,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   }
 
   const url = new URL(request.url)
-  const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
+  const annotationsPage = +(
+    url.searchParams.get(QueryParams.AnnotationsPage) ?? '1'
+  )
 
   const { data } = await getRunById({
     id,
-    page,
+    annotationsPage,
     client: apolloClient,
     params: url.searchParams,
   })
@@ -66,6 +68,7 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
       QueryParams.ObjectShapeType,
       QueryParams.MethodType,
       QueryParams.AnnotationSoftware,
+      QueryParams.AnnotationsPage,
     ],
   })
 }
@@ -175,8 +178,18 @@ export default function RunByIdPage() {
 
   return (
     <TablePageLayout
-      title={t('annotations')}
-      type={i18n.annotations}
+      header={<RunHeader />}
+      tabs={[
+        {
+          title: t('annotations'),
+          filterPanel: <AnnotationFilter />,
+          filteredCount,
+          table: <AnnotationTable />,
+          pageQueryParamKey: QueryParams.AnnotationsPage,
+          totalCount,
+          countLabel: i18n.annotations,
+        },
+      ]}
       downloadModal={
         <DownloadModal
           activeAnnotation={activeAnnotation}
@@ -229,11 +242,6 @@ export default function RunByIdPage() {
           <AnnotationDrawer />
         </>
       }
-      filters={<AnnotationFilter />}
-      filteredCount={filteredCount}
-      header={<RunHeader />}
-      table={<AnnotationTable />}
-      totalCount={totalCount}
     />
   )
 }

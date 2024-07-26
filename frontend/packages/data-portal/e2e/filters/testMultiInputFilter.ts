@@ -2,10 +2,10 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
 import { E2E_CONFIG } from 'e2e/constants'
+import { TableValidator } from 'e2e/pageObjects/filters/types'
 
 import { QueryParams } from 'app/constants/query'
 
-import { TableValidator } from './types'
 import { goTo } from './utils'
 
 export interface MultiInputFilter {
