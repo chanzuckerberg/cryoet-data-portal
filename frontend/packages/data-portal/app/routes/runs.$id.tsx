@@ -78,14 +78,18 @@ export default function RunByIdPage() {
 
   // TODO: convert to useMemo
   const totalCount = sum(
-    run.tomogram_stats.flatMap(
-      (stats) => stats.annotations_aggregate.aggregate?.count ?? 0,
+    run.tomogram_stats.flatMap((tomogramVoxelSpacing) =>
+      tomogramVoxelSpacing.annotations.map(
+        (annotation) => annotation.files_aggregate.aggregate?.count ?? 0,
+      ),
     ),
   )
 
   const filteredCount = sum(
-    run.tomogram_stats.flatMap(
-      (stats) => stats.filtered_annotations_count.aggregate?.count ?? 0,
+    run.tomogram_stats.flatMap((tomogramVoxelSpacing) =>
+      tomogramVoxelSpacing.filtered_annotations_count.map(
+        (annotation) => annotation.files_aggregate.aggregate?.count ?? 0,
+      ),
     ),
   )
 

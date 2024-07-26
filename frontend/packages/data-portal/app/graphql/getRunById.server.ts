@@ -15,7 +15,15 @@ import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
 const GET_RUN_BY_ID_QUERY = gql(`
-  query GetRunById($id: Int, $limit: Int, $annotationsOffset: Int, $filter: annotations_bool_exp, $fileFilter: annotation_files_bool_exp) {
+  query GetRunById(
+    $id: Int, 
+    $limit: Int, 
+    $annotationsOffset: Int, 
+    $filter: annotations_bool_exp, 
+    $filterWithGroundTruth: annotations_bool_exp,
+    $filterWithoutGroundTruth: annotations_bool_exp,
+    $fileFilter: annotation_files_bool_exp
+  ) {
     runs(where: { id: { _eq: $id } }) {
       id
       name
@@ -194,15 +202,35 @@ const GET_RUN_BY_ID_QUERY = gql(`
           }
         }
 
-        annotations_aggregate {
-          aggregate {
-            count
+        annotations {
+          files_aggregate(distinct_on: shape_type) {
+            aggregate {
+              count
+            }
           }
         }
 
-        filtered_annotations_count: annotations_aggregate(where: $filter) {
-          aggregate {
-            count
+        filtered_annotations_count: annotations(where: $filter) {
+          files_aggregate(where: $fileFilter, distinct_on: shape_type) {
+            aggregate {
+              count
+            }
+          }
+        }
+
+        filtered_ground_truth_annotations_count: annotations(where: $filterWithGroundTruth) {
+          files_aggregate(where: $fileFilter, distinct_on: shape_type) {
+            aggregate {
+              count
+            }
+          }
+        }
+
+        filtered_other_annotations_count: annotations(where: $filterWithoutGroundTruth) {
+          files_aggregate(where: $fileFilter, distinct_on: shape_type) {
+            aggregate {
+              count
+            }
           }
         }
 
@@ -351,13 +379,26 @@ export async function getRunById({
   annotationsPage: number
   params?: URLSearchParams
 }): Promise<ApolloQueryResult<GetRunByIdQuery>> {
+  const annotationsFilter = getFilter(getFilterState(params))
   return client.query({
     query: GET_RUN_BY_ID_QUERY,
     variables: {
       id,
       limit: MAX_PER_PAGE,
       annotationsOffset: (annotationsPage - 1) * MAX_PER_PAGE,
-      filter: getFilter(getFilterState(params)),
+      filter: annotationsFilter,
+      filterWithGroundTruth: {
+        ...annotationsFilter,
+        ground_truth_status: {
+          _eq: true,
+        },
+      },
+      filterWithoutGroundTruth: {
+        ...annotationsFilter,
+        ground_truth_status: {
+          _eq: false,
+        },
+      },
       fileFilter: getFileFilter(getFilterState(params)),
     },
   })

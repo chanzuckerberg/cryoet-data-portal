@@ -62,8 +62,10 @@ export function RunHeader() {
     ),
   )
   const annotationsCount = sum(
-    run.tomogram_stats.flatMap(
-      (stats) => stats.annotations_aggregate.aggregate?.count ?? 0,
+    run.tomogram_stats.flatMap((tomogramVoxelSpacing) =>
+      tomogramVoxelSpacing.annotations.map(
+        (annotation) => annotation.files_aggregate.aggregate?.count ?? 0,
+      ),
     ),
   )
 
