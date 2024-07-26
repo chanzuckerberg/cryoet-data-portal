@@ -30,7 +30,7 @@ const TOMOTABS = [
 
 async function fetchData() {
   const client = getApolloClient()
-  return getRunById({ client, id: +E2E_CONFIG.runId })
+  return getRunById({ client, id: +E2E_CONFIG.runId, annotationsPage: 1 })
 }
 
 export function testSingleRunDownloadDialog() {

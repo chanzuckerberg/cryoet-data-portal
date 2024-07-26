@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.14.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.13.1...web-v1.14.0) (2024-07-25)
+
+
+### ✨ Features
+
+* Refactor &lt;TablePageLayout&gt; to support multiple tabs ([#911](https://github.com/chanzuckerberg/cryoet-data-portal/issues/911)) ([659bea3](https://github.com/chanzuckerberg/cryoet-data-portal/commit/659bea3fb316b88927b4f215a9e5b9286f5e0bb9))
+
+## [1.13.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.13.0...web-v1.13.1) (2024-07-25)
+
+
+### 🐞 Bug Fixes
+
+* mdx page dates ([#914](https://github.com/chanzuckerberg/cryoet-data-portal/issues/914)) ([85b02a2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/85b02a2b1f5afc66fef2ae6c8d016d0c4537ccde))
+
+
+### ♻️ Code Refactoring
+
+* filter tests page object model ([#885](https://github.com/chanzuckerberg/cryoet-data-portal/issues/885)) ([df26183](https://github.com/chanzuckerberg/cryoet-data-portal/commit/df26183b643c59b74d1273050e9efcbe36b57d16))
+
 ## [1.13.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.12.4...web-v1.13.0) (2024-07-18)
 
 

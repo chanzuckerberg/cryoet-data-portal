@@ -74,7 +74,6 @@
     "lodash-es": "^4.17.21",
     "morgan": "^1.10.0",
     "next-mdx-remote": "^4.4.1",
-    "octokit": "^3.1.2",
     "pretty-bytes": "^6.1.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",

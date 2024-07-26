@@ -56,18 +56,22 @@ export default function BrowseDepositionsPage() {
 
   return (
     <TablePageLayout
-      title={t('depositions')}
-      type={t('depositions')}
-      filteredCount={filteredDepositionCount}
-      table={<DepositionTable />}
-      totalCount={depositionCount}
-      noResults={
-        <NoResults
-          title={t('filterNoResultsFound')}
-          description={t('filterTooRestrictive')}
-          actions={<Button onClick={reset}>{t('clearFilters')}</Button>}
-        />
-      }
+      tabs={[
+        {
+          title: t('depositions'),
+          table: <DepositionTable />,
+          noResults: (
+            <NoResults
+              title={t('filterNoResultsFound')}
+              description={t('filterTooRestrictive')}
+              actions={<Button onClick={reset}>{t('clearFilters')}</Button>}
+            />
+          ),
+          filteredCount: filteredDepositionCount,
+          totalCount: depositionCount,
+          countLabel: t('depositions'),
+        },
+      ]}
     />
   )
 }

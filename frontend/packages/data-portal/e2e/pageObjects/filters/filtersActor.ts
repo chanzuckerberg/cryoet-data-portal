@@ -59,7 +59,7 @@ export class FiltersActor {
   }: {
     client: ApolloClient<NormalizedCacheObject>
     id: number
-    pageNumber?: number
+    pageNumber: number
     url: string
     queryParamsList: QueryParamObjectType[]
     serialize?: (value: string) => string
@@ -74,7 +74,7 @@ export class FiltersActor {
       client,
       params,
       id,
-      page: pageNumber,
+      annotationsPage: pageNumber,
     })
 
     return data
@@ -232,7 +232,7 @@ export class FiltersActor {
   }: {
     client: ApolloClient<NormalizedCacheObject>
     id: number
-    pageNumber?: number
+    pageNumber: number
     url: string
     queryParamsList: QueryParamObjectType[]
     serialize?: (value: string) => string

@@ -218,14 +218,14 @@ export async function validateAnnotationsTable({
   client,
   page,
   params,
-  pageNumber,
+  pageNumber = 1,
   id = +E2E_CONFIG.runId,
 }: TableValidatorOptions & { id?: number }) {
   const { data } = await getRunById({
     client,
     params,
     id,
-    page: pageNumber,
+    annotationsPage: pageNumber,
   })
 
   await validateTable({
