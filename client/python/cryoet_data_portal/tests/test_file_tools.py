@@ -1,6 +1,8 @@
 import os
 from unittest.mock import patch
 
+import pytest
+
 from cryoet_data_portal._file_tools import get_destination_path
 
 
@@ -47,3 +49,16 @@ class TestGetDestinationPath:
         expected = os.path.join(dest_path, "a", "b", "file.txt")
         assert get_destination_path(url, dest_path, recursive_from_prefix) == expected
         assert os.path.isdir(expected_path)
+
+    def test_invalid_dest_path(
+        self,
+        tmp_path,
+    ) -> None:
+        url = "https://example.com/file.txt"
+        dest_path = os.path.join(tmp_path, "\000")
+        recursive_from_prefix = "https://example.com/"
+        expected = os.path.join(dest_path, "file.txt")
+        with pytest.raises(ValueError):
+            assert (
+                get_destination_path(url, dest_path, recursive_from_prefix) == expected
+            )
