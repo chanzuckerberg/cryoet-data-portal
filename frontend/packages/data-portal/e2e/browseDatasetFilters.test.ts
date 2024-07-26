@@ -369,17 +369,17 @@ test.describe('Browse datasets page filters', () => {
           value: translations.tomograms,
         })
 
-        // await filtersActor.expectUrlQueryParamsToBeCorrect({
-        //   url: BROWSE_DATASETS_URL,
-        //   queryParamKey: QueryParams.AvailableFiles,
-        //   queryParamValue: [
-        //     translations.rawFrames,
-        //     translations.tiltSeries,
-        //     translations.tiltSeriesAlignment,
-        //     translations.tomograms,
-        //   ],
-        //   serialize: serializeAvailableFiles,
-        // })
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamKey: QueryParams.AvailableFiles,
+          queryParamValue: [
+            translations.rawFrames,
+            translations.tiltSeries,
+            translations.tiltSeriesAlignment,
+            translations.tomograms,
+          ],
+          serialize: serializeAvailableFiles,
+        })
 
         // await filtersActor.expectDataAndDatasetsTableToMatch({
         //   client,

@@ -6,13 +6,12 @@ import {
   GetDatasetsDataQuery,
   GetRunByIdQuery,
 } from 'app/__generated__/graphql'
-import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getRunById } from 'app/graphql/getRunById.server'
 
 import { FiltersPage } from './filtersPage'
-import { MultiInputFilterType } from './types'
+import { MultiInputFilterType, QueryParamObjectType } from './types'
 import {
   getAnnotationRowCountFromData,
   getDatasetIdCountsFromData,
@@ -54,22 +53,19 @@ export class FiltersActor {
     id,
     pageNumber = 1,
     url,
-    queryParamKey,
-    queryParamValue,
+    queryParamsList,
     serialize,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     id: number
     pageNumber?: number
     url: string
-    queryParamKey?: QueryParams
-    queryParamValue: string
+    queryParamsList: QueryParamObjectType[]
     serialize?: (value: string) => string
   }) {
     const { params } = getExpectedUrlWithQueryParams({
       url,
-      queryParamKey,
-      queryParamValue,
+      queryParamsList,
       serialize,
     })
 
@@ -88,22 +84,19 @@ export class FiltersActor {
     id,
     pageNumber = 1,
     url,
-    queryParamKey,
-    queryParamValue,
+    queryParamsList,
     serialize,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     id: number
     pageNumber?: number
     url: string
-    queryParamKey?: QueryParams
-    queryParamValue: string
+    queryParamsList: QueryParamObjectType[]
     serialize?: (value: string) => string
   }) {
     const { params } = getExpectedUrlWithQueryParams({
       url,
-      queryParamKey,
-      queryParamValue,
+      queryParamsList,
       serialize,
     })
 
@@ -121,21 +114,18 @@ export class FiltersActor {
     client,
     pageNumber = 1,
     url,
-    queryParamKey,
-    queryParamValue,
+    queryParamsList,
     serialize,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     pageNumber?: number
     url: string
-    queryParamKey?: QueryParams
-    queryParamValue: string
+    queryParamsList: QueryParamObjectType[]
     serialize?: (value: string) => string
   }) {
     const { params } = getExpectedUrlWithQueryParams({
       url,
-      queryParamKey,
-      queryParamValue,
+      queryParamsList,
       serialize,
     })
 
@@ -183,19 +173,16 @@ export class FiltersActor {
   // #region Validate
   public async expectUrlQueryParamsToBeCorrect({
     url,
-    queryParamKey,
-    queryParamValue,
+    queryParamsList,
     serialize,
   }: {
     url: string
-    queryParamKey?: QueryParams
-    queryParamValue: string
+    queryParamsList: QueryParamObjectType[]
     serialize?: (value: string) => string
   }) {
     const { expectedUrl } = getExpectedUrlWithQueryParams({
       url,
-      queryParamKey,
-      queryParamValue,
+      queryParamsList,
       serialize,
     })
 
@@ -239,16 +226,14 @@ export class FiltersActor {
     id = 1,
     pageNumber,
     url,
-    queryParamKey,
-    queryParamValue,
+    queryParamsList,
     serialize,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     id: number
     pageNumber?: number
     url: string
-    queryParamKey?: QueryParams
-    queryParamValue: string
+    queryParamsList: QueryParamObjectType[]
     serialize?: (value: string) => string
   }) {
     const singleRunData = await this.getSingleRunDataUsingParams({
@@ -256,8 +241,7 @@ export class FiltersActor {
       id,
       pageNumber,
       url,
-      queryParamKey,
-      queryParamValue,
+      queryParamsList,
       serialize,
     })
 
@@ -299,16 +283,14 @@ export class FiltersActor {
     id = 1,
     pageNumber,
     url,
-    queryParamKey,
-    queryParamValue,
+    queryParamsList,
     serialize,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     id: number
     pageNumber?: number
     url: string
-    queryParamKey?: QueryParams
-    queryParamValue: string
+    queryParamsList: QueryParamObjectType[]
     serialize?: (value: string) => string
   }) {
     const singleDatasetData = await this.getSingleDatasetUsingParams({
@@ -316,8 +298,7 @@ export class FiltersActor {
       id,
       pageNumber,
       url,
-      queryParamKey,
-      queryParamValue,
+      queryParamsList,
       serialize,
     })
 
@@ -360,23 +341,20 @@ export class FiltersActor {
     client,
     pageNumber = 1,
     url,
-    queryParamKey,
-    queryParamValue,
+    queryParamsList,
     serialize,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     pageNumber?: number
     url: string
-    queryParamKey?: QueryParams
-    queryParamValue: string
+    queryParamsList: QueryParamObjectType[]
     serialize?: (value: string) => string
   }) {
     const browseDatasetsData = await this.getDatasetsDataUsingParams({
       client,
       pageNumber,
       url,
-      queryParamKey,
-      queryParamValue,
+      queryParamsList,
       serialize,
     })
 

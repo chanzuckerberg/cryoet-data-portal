@@ -3,29 +3,28 @@ import {
   GetDatasetsDataQuery,
   GetRunByIdQuery,
 } from 'app/__generated__/graphql'
-import { QueryParams } from 'app/constants/query'
 
-import { RowCounterType } from './types'
+import { QueryParamObjectType, RowCounterType } from './types'
 
 export function getExpectedUrlWithQueryParams({
   url,
-  queryParamKey,
-  queryParamValue,
+  queryParamsList,
   serialize,
 }: {
   url: string
-  queryParamKey?: QueryParams
-  queryParamValue: string
+  queryParamsList: QueryParamObjectType[]
   serialize?: (value: string) => string
 }): { expectedUrl: URL; params: URLSearchParams } {
   const expectedUrl = new URL(url)
   const params = expectedUrl.searchParams
-  if (queryParamKey) {
-    params.set(
-      queryParamKey,
-      serialize ? serialize(queryParamValue) : queryParamValue,
-    )
-  }
+  queryParamsList.forEach(({ queryParamKey, queryParamValue }) => {
+    if (queryParamKey) {
+      params.set(
+        queryParamKey,
+        serialize ? serialize(queryParamValue) : queryParamValue,
+      )
+    }
+  })
   return { expectedUrl, params: expectedUrl.searchParams }
 }
 

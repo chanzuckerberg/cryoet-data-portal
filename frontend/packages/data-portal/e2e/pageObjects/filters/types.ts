@@ -1,6 +1,8 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { Page } from '@playwright/test'
 
+import { QueryParams } from 'app/constants/query'
+
 export interface TableValidatorOptions {
   client: ApolloClient<NormalizedCacheObject>
   page: Page
@@ -16,4 +18,9 @@ export type RowCounterType = Record<string, number>
 export type MultiInputFilterType = {
   label: string
   value: string
+}
+
+export type QueryParamObjectType = {
+  queryParamKey?: QueryParams
+  queryParamValue: string
 }
