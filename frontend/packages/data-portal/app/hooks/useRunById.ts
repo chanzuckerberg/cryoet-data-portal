@@ -4,9 +4,9 @@ import { useTypedLoaderData } from 'remix-typedjson'
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
 
 export function useRunById() {
-  const {
-    runs: [run],
-  } = useTypedLoaderData<GetRunByIdQuery>()
+  const data = useTypedLoaderData<GetRunByIdQuery>()
+
+  const run = data.runs[0]
 
   const objectNames = useMemo(
     () =>
@@ -50,10 +50,20 @@ export function useRunById() {
     [run],
   )
 
+  const annotationFilesAggregates = {
+    totalCount: data.annotation_files_aggregate_for_total.aggregate?.count ?? 0,
+    filteredCount:
+      data.annotation_files_aggregate_for_filtered.aggregate?.count ?? 0,
+    groundTruthCount:
+      data.annotation_files_aggregate_for_ground_truth.aggregate?.count ?? 0,
+    otherCount: data.annotation_files_aggregate_for_other.aggregate?.count ?? 0,
+  }
+
   return {
     run,
     objectNames,
     objectShapeTypes,
     annotationSoftwares,
+    annotationFilesAggregates,
   }
 }
