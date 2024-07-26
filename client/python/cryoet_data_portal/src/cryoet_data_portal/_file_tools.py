@@ -75,10 +75,6 @@ def get_destination_path(
         dest_path = os.getcwd()
     dest_path = os.path.abspath(dest_path)
 
-    # test for an invalid path name
-    if not os.path.isdir(dest_path):
-        os.makedirs(dest_path, exist_ok=True)
-
     # If we're downloading recursively, we need to add the dest URL
     # (minus the prefix) to the dest path.
     if not recursive_from_prefix:
