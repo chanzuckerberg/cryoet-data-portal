@@ -6,7 +6,7 @@ from cryoet_data_portal._file_tools import get_destination_path
 
 class TestGetDestinationPath:
     def test_url(self, tmp_path) -> None:
-        with patch("os.getcwd", return_value=tmp_path):
+        with patch("cryoet_data_portal._file_tools.os.getcwd", return_value=tmp_path):
             url = "https://example.com/file.txt"
             expected = os.path.join(tmp_path, "file.txt")
             assert get_destination_path(url) == expected
