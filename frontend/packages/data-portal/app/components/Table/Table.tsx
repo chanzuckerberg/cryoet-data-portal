@@ -33,6 +33,7 @@ export interface TableProps<T> {
   data: T[]
   tableProps?: SDSTableProps
   getBeforeRowElement?: (table: ReactTable<T>, row: Row<T>) => ReactNode
+  getAfterTableElement?: (table: ReactTable<T>) => ReactNode
   onTableRowClick?(row: Row<T>): void
 }
 
@@ -42,6 +43,7 @@ export function Table<T>({
   data,
   tableProps,
   getBeforeRowElement,
+  getAfterTableElement,
   onTableRowClick,
 }: TableProps<T>) {
   const { hasFilters } = useLayout()
@@ -109,6 +111,8 @@ export function Table<T>({
               </TableRow>
             </Fragment>
           ))}
+
+          {getAfterTableElement?.(table)}
         </tbody>
       </SDSTable>
     </TableContainer>

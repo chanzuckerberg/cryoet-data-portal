@@ -1,13 +1,15 @@
 /* eslint-disable react/no-unstable-nested-components */
 
 import { Button, Icon } from '@czi-sds/components'
+import { useSearchParams } from '@remix-run/react'
 import {
   ColumnDef,
   createColumnHelper,
   Row,
   Table,
 } from '@tanstack/react-table'
-import { range } from 'lodash-es'
+import { t } from 'i18next'
+import { range, toNumber } from 'lodash-es'
 import { ComponentProps, ReactNode, useCallback, useMemo } from 'react'
 
 import { AuthorList } from 'app/components/AuthorList'
@@ -21,6 +23,7 @@ import {
   MethodType,
 } from 'app/constants/methodTypes'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { QueryParams } from 'app/constants/query'
 import { AnnotationTableWidths } from 'app/constants/table'
 import { TestIds } from 'app/constants/testIds'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
@@ -34,6 +37,8 @@ import { useRunById } from 'app/hooks/useRunById'
 import { Annotation, useAnnotation } from 'app/state/annotation'
 import { I18nKeys } from 'app/types/i18n'
 import { cns, cnsNoMerge } from 'app/utils/cns'
+
+import { DatasetAuthors } from '../Dataset/DatasetAuthors'
 
 const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<Annotation>(() => ({
   annotation_method: '',
@@ -70,6 +75,7 @@ function ConfidenceValue({ value }: { value: number }) {
 
 export function AnnotationTable() {
   const { isLoadingDebounced } = useIsLoading()
+  const [searchParams] = useSearchParams()
   const { run, annotationFilesAggregates } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { setActiveAnnotation } = useAnnotation()
@@ -387,39 +393,63 @@ export function AnnotationTable() {
     [run.annotation_table],
   )
 
-  const getGroundTruthDivider = (
+  const currentPage = toNumber(
+    searchParams.get(QueryParams.AnnotationsPage) ?? 1,
+  )
+
+  /**
+   * Attaches divider(s) before a row.
+   *  - The ground truth divider can only be shown on the first row.
+   *    - The first page always shows the divider, even if there are 0 ground truth rows.
+   *    - Subsequent pages only show the divider if the first row is ground truth.
+   *  - The non ground truth divider is shown before the first non ground truth row.
+   */
+  const getGroundTruthDividersForRow = (
     table: Table<Annotation>,
     row: Row<Annotation>,
   ): ReactNode => {
-    const { rows } = table.getRowModel()
-    let dividerText
-
-    // Show before first ground truth row:
-    if (row.id === rows.find((r) => r.original.ground_truth_status)?.id) {
-      dividerText = t('groundTruthAnnotations', {
-        count: annotationFilesAggregates.groundTruthCount,
-      })
-    }
-    // Show before first non ground truth row:
-    if (row.id === rows.find((r) => !r.original.ground_truth_status)?.id) {
-      dividerText = t('otherAnnotations', {
-        count: annotationFilesAggregates.otherCount,
-      })
-    }
-
-    if (dividerText === undefined) {
-      return null
-    }
-
     return (
-      <tr className="bg-sds-gray-100">
-        <td
-          className="text-sds-header-xxs text-sds-gray-500 p-sds-s leading-sds-header-xs"
-          colSpan={1000}
-        >
-          {dividerText}
-        </td>
-      </tr>
+      <>
+        {row.index === 0 &&
+          (currentPage === 1 || row.original.ground_truth_status) && (
+            <RowDivider
+              groundTruth
+              count={annotationFilesAggregates.groundTruthCount}
+            />
+          )}
+
+        {row.id ===
+          table.getRowModel().rows.find((r) => !r.original.ground_truth_status)
+            ?.id && (
+          <RowDivider
+            groundTruth={false}
+            count={annotationFilesAggregates.otherCount}
+          />
+        )}
+      </>
+    )
+  }
+
+  /**
+   * Adds dividers to the end of the table when there are no rows to attach them to.
+   *  - The ground truth divider won't have a row to attach to only if there are 0 rows in the
+   *    table.
+   *  - The non ground truth divider won't have a row to attach to only if there are 0 non ground
+   *    truth rows in the table and this is the last page.
+   */
+  const getGroundTruthDividersWhenNoRows = (): ReactNode => {
+    return (
+      <>
+        {annotationFilesAggregates.filteredCount === 0 && (
+          <RowDivider groundTruth count={0} />
+        )}
+
+        {annotationFilesAggregates.otherCount === 0 &&
+          annotationFilesAggregates.filteredCount <=
+            currentPage * MAX_PER_PAGE && (
+            <RowDivider groundTruth={false} count={0} />
+          )}
+      </>
     )
   }
 
@@ -427,8 +457,30 @@ export function AnnotationTable() {
     <PageTable
       data={isLoadingDebounced ? LOADING_ANNOTATIONS : annotations}
       columns={columns}
-      getBeforeRowElement={getGroundTruthDivider}
+      getBeforeRowElement={getGroundTruthDividersForRow}
+      getAfterTableElement={getGroundTruthDividersWhenNoRows}
       hoverType="none"
     />
+  )
+}
+
+function RowDivider({
+  groundTruth,
+  count,
+}: {
+  groundTruth: boolean
+  count: number
+}) {
+  return (
+    <tr className="bg-sds-gray-100 border-t border-sds-gray-300">
+      <td
+        className="text-sds-header-xxs text-sds-gray-500 p-sds-s leading-sds-header-xs"
+        colSpan={1000}
+      >
+        {t(groundTruth ? 'groundTruthAnnotations' : 'otherAnnotations', {
+          count,
+        })}
+      </td>
+    </tr>
   )
 }
