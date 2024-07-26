@@ -3,7 +3,7 @@ import { BasePage } from 'e2e/pageObjects/basePage'
 
 import { TestIds } from 'app/constants/testIds'
 
-import { RowCounterType } from './types'
+import { QueryParamObjectType, RowCounterType } from './types'
 
 export class FiltersPage extends BasePage {
   // #region Navigate
@@ -63,17 +63,22 @@ export class FiltersPage extends BasePage {
   // #region Get
   public getFilteredUrl({
     baseUrl,
-    paramObject,
+    queryParamsList,
     serialize,
   }: {
     baseUrl: string
-    paramObject: Record<string, string>
+    queryParamsList: QueryParamObjectType[]
     serialize?: (value: string) => string
   }) {
     const url = new URL(baseUrl)
     const params = url.searchParams
-    Object.entries(paramObject).forEach(([key, value]) => {
-      params.set(key, serialize ? serialize(value) : value)
+    queryParamsList.forEach(({ queryParamKey, queryParamValue }) => {
+      if (queryParamKey) {
+        params.set(
+          queryParamKey,
+          serialize ? serialize(queryParamValue) : queryParamValue,
+        )
+      }
     })
     return url
   }

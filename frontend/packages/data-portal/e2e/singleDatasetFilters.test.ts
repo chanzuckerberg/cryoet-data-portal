@@ -27,52 +27,82 @@ test.describe('Single dataset page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_DATASET_URL,
-        queryParamKey: QueryParams.GroundTruthAnnotation,
-        queryParamValue: 'true',
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.GroundTruthAnnotation,
+            queryParamValue: 'true',
+          },
+        ],
       })
 
       await filtersActor.expectDataAndRunsTableToMatch({
         client,
         id: +E2E_CONFIG.datasetId,
         url: SINGLE_DATASET_URL,
-        queryParamKey: QueryParams.GroundTruthAnnotation,
-        queryParamValue: 'true',
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.GroundTruthAnnotation,
+            queryParamValue: 'true',
+          },
+        ],
       })
     })
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_DATASET_URL,
-        paramObject: { [QueryParams.GroundTruthAnnotation]: 'true' },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.GroundTruthAnnotation,
+            queryParamValue: 'true',
+          },
+        ],
       })
 
       await filtersActor.expectDataAndRunsTableToMatch({
         client,
         id: +E2E_CONFIG.datasetId,
         url: SINGLE_DATASET_URL,
-        queryParamKey: QueryParams.GroundTruthAnnotation,
-        queryParamValue: 'true',
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.GroundTruthAnnotation,
+            queryParamValue: 'true',
+          },
+        ],
       })
     })
     test('should disable filter on click', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_DATASET_URL,
-        paramObject: { [QueryParams.GroundTruthAnnotation]: 'true' },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.GroundTruthAnnotation,
+            queryParamValue: 'true',
+          },
+        ],
       })
 
       await filtersPage.toggleGroundTruthFilter()
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_DATASET_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
 
       await filtersActor.expectDataAndRunsTableToMatch({
         client,
         id: +E2E_CONFIG.datasetId,
         url: SINGLE_DATASET_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
     })
   })
@@ -87,52 +117,82 @@ test.describe('Single dataset page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_DATASET_URL,
-        queryParamKey: QueryParams.ObjectName,
-        queryParamValue: E2E_CONFIG.objectName,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectName,
+            queryParamValue: E2E_CONFIG.objectName,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndRunsTableToMatch({
         client,
         id: +E2E_CONFIG.datasetId,
         url: SINGLE_DATASET_URL,
-        queryParamKey: QueryParams.ObjectName,
-        queryParamValue: E2E_CONFIG.objectName,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectName,
+            queryParamValue: E2E_CONFIG.objectName,
+          },
+        ],
       })
     })
     test('should filter by object name when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_DATASET_URL,
-        paramObject: { [QueryParams.ObjectName]: E2E_CONFIG.objectName },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectName,
+            queryParamValue: E2E_CONFIG.objectName,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndRunsTableToMatch({
         client,
         id: +E2E_CONFIG.datasetId,
         url: SINGLE_DATASET_URL,
-        queryParamKey: QueryParams.ObjectName,
-        queryParamValue: E2E_CONFIG.objectName,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectName,
+            queryParamValue: E2E_CONFIG.objectName,
+          },
+        ],
       })
     })
     test('should remove filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_DATASET_URL,
-        paramObject: { [QueryParams.ObjectName]: E2E_CONFIG.objectName },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectName,
+            queryParamValue: E2E_CONFIG.objectName,
+          },
+        ],
       })
 
       await filtersPage.removeFilterOption(E2E_CONFIG.objectName)
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_DATASET_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
 
       await filtersActor.expectDataAndRunsTableToMatch({
         client,
         id: +E2E_CONFIG.datasetId,
         url: SINGLE_DATASET_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
     })
   })
@@ -147,56 +207,82 @@ test.describe('Single dataset page filters', () => {
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_DATASET_URL,
-        queryParamKey: QueryParams.ObjectShapeType,
-        queryParamValue: E2E_CONFIG.objectShapeType,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectShapeType,
+            queryParamValue: E2E_CONFIG.objectShapeType,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndRunsTableToMatch({
         client,
         id: +E2E_CONFIG.datasetId,
         url: SINGLE_DATASET_URL,
-        queryParamKey: QueryParams.ObjectShapeType,
-        queryParamValue: E2E_CONFIG.objectShapeType,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectShapeType,
+            queryParamValue: E2E_CONFIG.objectShapeType,
+          },
+        ],
       })
     })
     test('should filter by object shape type when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_DATASET_URL,
-        paramObject: {
-          [QueryParams.ObjectShapeType]: E2E_CONFIG.objectShapeType,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectShapeType,
+            queryParamValue: E2E_CONFIG.objectShapeType,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndRunsTableToMatch({
         client,
         id: +E2E_CONFIG.datasetId,
         url: SINGLE_DATASET_URL,
-        queryParamKey: QueryParams.ObjectShapeType,
-        queryParamValue: E2E_CONFIG.objectShapeType,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectShapeType,
+            queryParamValue: E2E_CONFIG.objectShapeType,
+          },
+        ],
       })
     })
     test('should remove filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_DATASET_URL,
-        paramObject: {
-          [QueryParams.ObjectShapeType]: E2E_CONFIG.objectShapeType,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectShapeType,
+            queryParamValue: E2E_CONFIG.objectShapeType,
+          },
+        ],
       })
 
       await filtersPage.removeFilterOption(E2E_CONFIG.objectShapeType)
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_DATASET_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
 
       await filtersActor.expectDataAndRunsTableToMatch({
         client,
         id: +E2E_CONFIG.datasetId,
         url: SINGLE_DATASET_URL,
-        queryParamKey: undefined,
-        queryParamValue: '',
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
       })
     })
   })

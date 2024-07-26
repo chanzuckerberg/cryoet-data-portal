@@ -31,16 +31,16 @@ export class FiltersActor {
   // #region Navigation
   public async goToFilteredUrl({
     baseUrl,
-    paramObject,
+    queryParamsList,
     serialize,
   }: {
     baseUrl: string
-    paramObject: Record<string, string>
+    queryParamsList: QueryParamObjectType[]
     serialize?: (value: string) => string
   }) {
     const url = this.filtersPage.getFilteredUrl({
       baseUrl,
-      paramObject,
+      queryParamsList,
       serialize,
     })
     await this.filtersPage.goTo(url.href)
