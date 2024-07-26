@@ -11,7 +11,6 @@ import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { useDatasets } from 'app/hooks/useDatasets'
 import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
-import { i18n } from 'app/i18n'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
@@ -45,19 +44,23 @@ export default function BrowseDatasetsPage() {
 
   return (
     <TablePageLayout
-      title={t('datasets')}
-      type={i18n.datasets}
-      filteredCount={filteredDatasetCount}
-      filters={<DatasetFilter />}
-      table={<DatasetTable />}
-      totalCount={datasetCount}
-      noResults={
-        <NoResults
-          title={i18n.filterNoResultsFound}
-          description={i18n.filterTooRestrictive}
-          actions={<Button onClick={reset}>{i18n.clearFilters}</Button>}
-        />
-      }
+      tabs={[
+        {
+          title: t('datasets'),
+          filterPanel: <DatasetFilter />,
+          table: <DatasetTable />,
+          noResults: (
+            <NoResults
+              title={t('filterNoResultsFound')}
+              description={t('filterTooRestrictive')}
+              actions={<Button onClick={reset}>{t('clearFilters')}</Button>}
+            />
+          ),
+          filteredCount: filteredDatasetCount,
+          totalCount: datasetCount,
+          countLabel: t('datasets'),
+        },
+      ]}
     />
   )
 }

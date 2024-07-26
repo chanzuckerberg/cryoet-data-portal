@@ -15,7 +15,7 @@ import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
 const GET_RUN_BY_ID_QUERY = gql(`
-  query GetRunById($id: Int, $limit: Int, $offset: Int, $filter: annotations_bool_exp, $fileFilter: annotation_files_bool_exp) {
+  query GetRunById($id: Int, $limit: Int, $annotationsOffset: Int, $filter: annotations_bool_exp, $fileFilter: annotation_files_bool_exp) {
     runs(where: { id: { _eq: $id } }) {
       id
       name
@@ -128,7 +128,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       annotation_table: tomogram_voxel_spacings {
         annotations(
           limit: $limit,
-          offset: $offset,
+          offset: $annotationsOffset,
           where: $filter,
           order_by: [
             { ground_truth_status: desc }
@@ -343,12 +343,12 @@ function getFileFilter(filterState: FilterState) {
 export async function getRunById({
   client,
   id,
-  page = 1,
+  annotationsPage,
   params = new URLSearchParams(),
 }: {
   client: ApolloClient<NormalizedCacheObject>
   id: number
-  page?: number
+  annotationsPage: number
   params?: URLSearchParams
 }): Promise<ApolloQueryResult<GetRunByIdQuery>> {
   return client.query({
@@ -356,7 +356,7 @@ export async function getRunById({
     variables: {
       id,
       limit: MAX_PER_PAGE,
-      offset: (page - 1) * MAX_PER_PAGE,
+      annotationsOffset: (annotationsPage - 1) * MAX_PER_PAGE,
       filter: getFilter(getFilterState(params)),
       fileFilter: getFileFilter(getFilterState(params)),
     },
