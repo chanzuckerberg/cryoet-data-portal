@@ -68,9 +68,6 @@ def get_destination_path(
     Returns:
         str: The destination path for the file download
 
-    Raises:
-        ValueError: If the destination path does not exist and recursive downloads are enabled
-
     """
     if not dest_path:
         dest_path = os.getcwd()
