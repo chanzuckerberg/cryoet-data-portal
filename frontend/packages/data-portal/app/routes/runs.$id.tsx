@@ -2,7 +2,7 @@
 
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { isNumber, sum } from 'lodash-es'
+import { isNumber } from 'lodash-es'
 import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
@@ -74,24 +74,7 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 }
 
 export default function RunByIdPage() {
-  const { run } = useRunById()
-
-  // TODO: convert to useMemo
-  const totalCount = sum(
-    run.tomogram_stats.flatMap((tomogramVoxelSpacing) =>
-      tomogramVoxelSpacing.annotations.map(
-        (annotation) => annotation.files_aggregate.aggregate?.count ?? 0,
-      ),
-    ),
-  )
-
-  const filteredCount = sum(
-    run.tomogram_stats.flatMap((tomogramVoxelSpacing) =>
-      tomogramVoxelSpacing.filtered_annotations_count.map(
-        (annotation) => annotation.files_aggregate.aggregate?.count ?? 0,
-      ),
-    ),
-  )
+  const { run, annotationFilesAggregates } = useRunById()
 
   const allTomogramResolutions = run.tomogram_stats.flatMap((stats) =>
     stats.tomogram_resolutions.map((tomogram) => tomogram),
@@ -187,10 +170,10 @@ export default function RunByIdPage() {
         {
           title: t('annotations'),
           filterPanel: <AnnotationFilter />,
-          filteredCount,
           table: <AnnotationTable />,
           pageQueryParamKey: QueryParams.AnnotationsPage,
-          totalCount,
+          filteredCount: annotationFilesAggregates.filteredCount,
+          totalCount: annotationFilesAggregates.totalCount,
           countLabel: i18n.annotations,
         },
       ]}

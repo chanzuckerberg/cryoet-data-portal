@@ -7,7 +7,7 @@ import {
   Row,
   Table,
 } from '@tanstack/react-table'
-import { range, sum } from 'lodash-es'
+import { range } from 'lodash-es'
 import { ComponentProps, ReactNode, useCallback, useMemo } from 'react'
 
 import { AuthorList } from 'app/components/AuthorList'
@@ -70,7 +70,7 @@ function ConfidenceValue({ value }: { value: number }) {
 
 export function AnnotationTable() {
   const { isLoadingDebounced } = useIsLoading()
-  const { run } = useRunById()
+  const { run, annotationFilesAggregates } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { setActiveAnnotation } = useAnnotation()
   const { t } = useI18n()
@@ -397,25 +397,13 @@ export function AnnotationTable() {
     // Show before first ground truth row:
     if (row.id === rows.find((r) => r.original.ground_truth_status)?.id) {
       dividerText = t('groundTruthAnnotations', {
-        count: sum(
-          run.tomogram_stats.flatMap((tomogramVoxelSpacing) =>
-            tomogramVoxelSpacing.filtered_ground_truth_annotations_count.map(
-              (annotation) => annotation.files_aggregate.aggregate?.count ?? 0,
-            ),
-          ),
-        ),
+        count: annotationFilesAggregates.groundTruthCount,
       })
     }
     // Show before first non ground truth row:
     if (row.id === rows.find((r) => !r.original.ground_truth_status)?.id) {
       dividerText = t('otherAnnotations', {
-        count: sum(
-          run.tomogram_stats.flatMap((tomogramVoxelSpacing) =>
-            tomogramVoxelSpacing.filtered_other_annotations_count.map(
-              (annotation) => annotation.files_aggregate.aggregate?.count ?? 0,
-            ),
-          ),
-        ),
+        count: annotationFilesAggregates.otherCount,
       })
     }
 
