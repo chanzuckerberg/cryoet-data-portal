@@ -54,7 +54,7 @@ def download_https(
 
 def get_destination_path(
     url: str,
-    dest_path: Optional[str] = None,
+    dest_path: Optional[str],
     recursive_from_prefix: Optional[str] = None,
 ) -> str:
     """
@@ -63,7 +63,9 @@ def get_destination_path(
     Args:
         url (str): The URL to download
         dest_path (str): The destination path the files will download to
-        recursive_from_prefix (str): The prefix to use for recursive downloads
+        recursive_from_prefix (str): All files under this prefix in the url will be downloaded to a path dest_path.
+        E.g. if the URL is https://example.com/a/b/file.txt, and the recursive_from_prefix would be
+        https://example.com/, then the dest_path would be dest_path/a/b/file.txt.
 
     Returns:
         str: The destination path for the file download
@@ -72,9 +74,6 @@ def get_destination_path(
     if not dest_path:
         dest_path = os.getcwd()
     dest_path = os.path.abspath(dest_path)
-
-    if not os.path.isdir(dest_path):
-        os.makedirs(dest_path)
 
     # If we're downloading recursively, we need to add the dest URL
     # (minus the prefix) to the dest path.
