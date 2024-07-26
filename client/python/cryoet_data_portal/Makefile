@@ -20,3 +20,7 @@ test:
 		export BOTO_ENDPOINT_URL=http://localhost:4000; \
 		export BOTO_SIGNATURE_VERSION=s3v4; \
 		pytest -vvv -s . $(TEST)
+
+.PHONY: codegen
+codegen:
+	python -m cryoet_data_portal._codegen

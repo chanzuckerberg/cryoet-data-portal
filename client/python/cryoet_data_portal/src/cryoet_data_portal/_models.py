@@ -6,8 +6,8 @@ import os
 from datetime import date
 from typing import List, Optional
 
-from cryoet_data_portal._file_tools import download_directory, download_https
-from cryoet_data_portal._gql_base import (
+from ._file_tools import download_directory, download_https
+from ._gql_base import (
     BooleanField,
     DateField,
     FloatField,
