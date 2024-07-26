@@ -1,19 +1,13 @@
-import { ComponentProps } from 'react'
-
 import { cns } from 'app/utils/cns'
 
-import { Table } from './Table'
+import { Table, TableProps } from './Table'
+
+export interface PageTableProps<T> extends TableProps<T> {
+  hoverType?: 'group' | 'none'
+}
 
 // FIXME: refactor this to be useMemo-based instead?
-export function PageTable<T>({
-  hoverType,
-  ...props
-}: Pick<
-  ComponentProps<typeof Table<T>>,
-  'data' | 'columns' | 'onTableRowClick'
-> & {
-  hoverType?: 'group' | 'none'
-}) {
+export function PageTable<T>({ hoverType, ...props }: PageTableProps<T>) {
   return (
     <Table
       classes={{

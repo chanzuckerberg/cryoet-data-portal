@@ -2,7 +2,7 @@ import {
   CellHeader,
   Table as SDSTable,
   TableHeader,
-  TableProps,
+  TableProps as SDSTableProps,
   TableRow,
 } from '@czi-sds/components'
 import TableContainer from '@mui/material/TableContainer'
@@ -11,20 +11,16 @@ import {
   flexRender,
   getCoreRowModel,
   Row,
+  Table as ReactTable,
   useReactTable,
 } from '@tanstack/react-table'
+import { Fragment, ReactNode } from 'react'
 
 import { ErrorBoundary } from 'app/components/ErrorBoundary'
 import { useLayout } from 'app/context/Layout.context'
 import { cns } from 'app/utils/cns'
 
-export function Table<T>({
-  classes,
-  columns,
-  data,
-  tableProps,
-  onTableRowClick,
-}: {
+export interface TableProps<T> {
   classes?: {
     body?: string
     cell?: string
@@ -35,9 +31,19 @@ export function Table<T>({
   }
   columns: ColumnDef<T>[]
   data: T[]
-  tableProps?: TableProps
+  tableProps?: SDSTableProps
+  getBeforeRowElement?: (table: ReactTable<T>, row: Row<T>) => ReactNode
   onTableRowClick?(row: Row<T>): void
-}) {
+}
+
+export function Table<T>({
+  classes,
+  columns,
+  data,
+  tableProps,
+  getBeforeRowElement,
+  onTableRowClick,
+}: TableProps<T>) {
   const { hasFilters } = useLayout()
 
   const table = useReactTable<T>({
@@ -85,20 +91,23 @@ export function Table<T>({
 
         <tbody className={classes?.body}>
           {table.getRowModel().rows.map((row) => (
-            <TableRow
-              className={classes?.row}
-              key={row.id}
-              onClick={() => onTableRowClick?.(row)}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <ErrorBoundary
-                  key={cell.id}
-                  logId={getLogId(`cell-${cell.id}`)}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </ErrorBoundary>
-              ))}
-            </TableRow>
+            <Fragment key={row.id}>
+              {getBeforeRowElement?.(table, row)}
+
+              <TableRow
+                className={classes?.row}
+                onClick={() => onTableRowClick?.(row)}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <ErrorBoundary
+                    key={cell.id}
+                    logId={getLogId(`cell-${cell.id}`)}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </ErrorBoundary>
+                ))}
+              </TableRow>
+            </Fragment>
           ))}
         </tbody>
       </SDSTable>

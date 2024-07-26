@@ -1,9 +1,14 @@
 /* eslint-disable react/no-unstable-nested-components */
 
 import { Button, Icon } from '@czi-sds/components'
-import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
-import { range } from 'lodash-es'
-import { ComponentProps, useCallback, useMemo } from 'react'
+import {
+  ColumnDef,
+  createColumnHelper,
+  Row,
+  Table,
+} from '@tanstack/react-table'
+import { range, sum } from 'lodash-es'
+import { ComponentProps, ReactNode, useCallback, useMemo } from 'react'
 
 import { AuthorList } from 'app/components/AuthorList'
 import { I18n } from 'app/components/I18n'
@@ -382,10 +387,59 @@ export function AnnotationTable() {
     [run.annotation_table],
   )
 
+  const getGroundTruthDivider = (
+    table: Table<Annotation>,
+    row: Row<Annotation>,
+  ): ReactNode => {
+    const { rows } = table.getRowModel()
+    let dividerText
+
+    // Show before first ground truth row:
+    if (row.id === rows.find((r) => r.original.ground_truth_status)?.id) {
+      dividerText = t('groundTruthAnnotations', {
+        count: sum(
+          run.tomogram_stats.flatMap((tomogramVoxelSpacing) =>
+            tomogramVoxelSpacing.filtered_ground_truth_annotations_count.map(
+              (annotation) => annotation.files_aggregate.aggregate?.count ?? 0,
+            ),
+          ),
+        ),
+      })
+    }
+    // Show before first non ground truth row:
+    if (row.id === rows.find((r) => !r.original.ground_truth_status)?.id) {
+      dividerText = t('otherAnnotations', {
+        count: sum(
+          run.tomogram_stats.flatMap((tomogramVoxelSpacing) =>
+            tomogramVoxelSpacing.filtered_other_annotations_count.map(
+              (annotation) => annotation.files_aggregate.aggregate?.count ?? 0,
+            ),
+          ),
+        ),
+      })
+    }
+
+    if (dividerText === undefined) {
+      return null
+    }
+
+    return (
+      <tr className="bg-sds-gray-100">
+        <td
+          className="text-sds-header-xxs text-sds-gray-500 p-sds-s leading-sds-header-xs"
+          colSpan={1000}
+        >
+          {dividerText}
+        </td>
+      </tr>
+    )
+  }
+
   return (
     <PageTable
       data={isLoadingDebounced ? LOADING_ANNOTATIONS : annotations}
       columns={columns}
+      getBeforeRowElement={getGroundTruthDivider}
       hoverType="none"
     />
   )
