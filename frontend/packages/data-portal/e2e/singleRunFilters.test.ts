@@ -59,9 +59,12 @@ test.describe('Single run page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: SINGLE_RUN_URL,
-          paramObject: {
-            [QueryParams.AuthorName]: E2E_CONFIG.authorName,
-          },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorName,
+              queryParamValue: E2E_CONFIG.authorName,
+            },
+          ],
         })
 
         await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -80,9 +83,12 @@ test.describe('Single run page filters', () => {
       test('should remove filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: SINGLE_RUN_URL,
-          paramObject: {
-            [QueryParams.AuthorName]: E2E_CONFIG.authorName,
-          },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorName,
+              queryParamValue: E2E_CONFIG.authorName,
+            },
+          ],
         })
 
         await filtersPage.removeMultiInputFilter(E2E_CONFIG.authorName)
@@ -148,9 +154,12 @@ test.describe('Single run page filters', () => {
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: SINGLE_RUN_URL,
-          paramObject: {
-            [QueryParams.AuthorOrcid]: E2E_CONFIG.authorOrcId,
-          },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorOrcid,
+              queryParamValue: E2E_CONFIG.authorOrcId,
+            },
+          ],
         })
 
         await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -168,9 +177,12 @@ test.describe('Single run page filters', () => {
       test('should remove filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
           baseUrl: SINGLE_RUN_URL,
-          paramObject: {
-            [QueryParams.AuthorOrcid]: E2E_CONFIG.authorOrcId,
-          },
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.AuthorOrcid,
+              queryParamValue: E2E_CONFIG.authorOrcId,
+            },
+          ],
         })
 
         await filtersPage.removeMultiInputFilter(E2E_CONFIG.authorOrcId)
@@ -235,9 +247,12 @@ test.describe('Single run page filters', () => {
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
-        paramObject: {
-          [QueryParams.ObjectName]: E2E_CONFIG.objectName,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectName,
+            queryParamValue: E2E_CONFIG.objectName,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -256,9 +271,12 @@ test.describe('Single run page filters', () => {
     test('should remove filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
-        paramObject: {
-          [QueryParams.ObjectName]: E2E_CONFIG.objectName,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectName,
+            queryParamValue: E2E_CONFIG.objectName,
+          },
+        ],
       })
 
       await filtersPage.removeFilterOption(E2E_CONFIG.objectName)
@@ -325,9 +343,12 @@ test.describe('Single run page filters', () => {
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
-        paramObject: {
-          [QueryParams.GoId]: E2E_CONFIG.goId,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.GoId,
+            queryParamValue: E2E_CONFIG.goId,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -346,9 +367,12 @@ test.describe('Single run page filters', () => {
     test('should remove filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
-        paramObject: {
-          [QueryParams.GoId]: E2E_CONFIG.goId,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.GoId,
+            queryParamValue: E2E_CONFIG.goId,
+          },
+        ],
       })
 
       await filtersPage.removeMultiInputFilter(E2E_CONFIG.goId)
@@ -412,9 +436,12 @@ test.describe('Single run page filters', () => {
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
-        paramObject: {
-          [QueryParams.ObjectShapeType]: E2E_CONFIG.objectShapeType,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectShapeType,
+            queryParamValue: E2E_CONFIG.objectShapeType,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -433,9 +460,12 @@ test.describe('Single run page filters', () => {
     test('should remove filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
-        paramObject: {
-          [QueryParams.ObjectShapeType]: E2E_CONFIG.objectShapeType,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.ObjectShapeType,
+            queryParamValue: E2E_CONFIG.objectShapeType,
+          },
+        ],
       })
 
       await filtersPage.removeFilterOption(E2E_CONFIG.objectShapeType)
@@ -499,9 +529,12 @@ test.describe('Single run page filters', () => {
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
-        paramObject: {
-          [QueryParams.MethodType]: E2E_CONFIG.methodType,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.MethodType,
+            queryParamValue: E2E_CONFIG.methodType,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -520,9 +553,12 @@ test.describe('Single run page filters', () => {
     test('should remove filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
-        paramObject: {
-          [QueryParams.MethodType]: E2E_CONFIG.methodType,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.MethodType,
+            queryParamValue: E2E_CONFIG.methodType,
+          },
+        ],
       })
 
       await filtersPage.removeFilterOption(E2E_CONFIG.methodType)
@@ -586,9 +622,12 @@ test.describe('Single run page filters', () => {
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
-        paramObject: {
-          [QueryParams.AnnotationSoftware]: E2E_CONFIG.annotationSoftware,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.AnnotationSoftware,
+            queryParamValue: E2E_CONFIG.annotationSoftware,
+          },
+        ],
       })
 
       await filtersActor.expectDataAndAnnotationsTableToMatch({
@@ -607,9 +646,12 @@ test.describe('Single run page filters', () => {
     test('should remove filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
         baseUrl: SINGLE_RUN_URL,
-        paramObject: {
-          [QueryParams.AnnotationSoftware]: E2E_CONFIG.annotationSoftware,
-        },
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.AnnotationSoftware,
+            queryParamValue: E2E_CONFIG.annotationSoftware,
+          },
+        ],
       })
 
       await filtersPage.removeFilterOption(E2E_CONFIG.annotationSoftware)
