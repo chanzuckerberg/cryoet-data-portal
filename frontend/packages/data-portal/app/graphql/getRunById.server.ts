@@ -429,14 +429,13 @@ export async function getRunById({
   annotationsPage: number
   params?: URLSearchParams
 }): Promise<ApolloQueryResult<GetRunByIdQuery>> {
-  const annotationsFilter = getFilter(getFilterState(params))
   return client.query({
     query: GET_RUN_BY_ID_QUERY,
     variables: {
       id,
       limit: MAX_PER_PAGE,
       annotationsOffset: (annotationsPage - 1) * MAX_PER_PAGE,
-      filter: annotationsFilter,
+      filter: getFilter(getFilterState(params)),
       fileFilter: getFileFilter(getFilterState(params)),
     },
   })
