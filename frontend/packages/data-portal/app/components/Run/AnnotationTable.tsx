@@ -8,7 +8,6 @@ import {
   Row,
   Table,
 } from '@tanstack/react-table'
-import { t } from 'i18next'
 import { range, toNumber } from 'lodash-es'
 import { ComponentProps, ReactNode, useCallback, useMemo } from 'react'
 
