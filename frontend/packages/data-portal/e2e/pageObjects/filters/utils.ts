@@ -63,8 +63,7 @@ export function getExpectedFilterCount({
   return (
     browseDatasetsData?.filtered_datasets_aggregate.aggregate?.count ??
     singleDatasetData?.datasets.at(0)?.filtered_runs_count.aggregate?.count ??
-    singleRunData?.runs.at(0)?.tomogram_stats.at(0)?.filtered_annotations_count
-      .aggregate?.count ??
+    singleRunData?.annotation_files_aggregate_for_filtered.aggregate?.count ??
     0
   )
 }
@@ -81,8 +80,7 @@ export function getExpectedTotalCount({
   return (
     browseDatasetsData?.datasets_aggregate.aggregate?.count ??
     singleDatasetData?.datasets.at(0)?.runs_aggregate.aggregate?.count ??
-    singleRunData?.runs.at(0)?.tomogram_stats.at(0)?.annotations_aggregate
-      .aggregate?.count ??
+    singleRunData?.annotation_files_aggregate_for_total.aggregate?.count ??
     0
   )
 }
