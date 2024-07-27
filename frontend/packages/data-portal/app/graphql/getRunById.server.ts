@@ -16,10 +16,10 @@ import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
 const GET_RUN_BY_ID_QUERY = gql(`
   query GetRunById(
-    $id: Int, 
-    $limit: Int, 
-    $annotationsOffset: Int, 
-    $filter: [annotations_bool_exp!], 
+    $id: Int,
+    $limit: Int,
+    $annotationsOffset: Int,
+    $filter: [annotations_bool_exp!],
     $fileFilter: [annotation_files_bool_exp!]
   ) {
     runs(where: { id: { _eq: $id } }) {
