@@ -195,7 +195,12 @@ export class FiltersActor {
   }: {
     singleRunData: GetRunByIdQuery
   }) {
-    // Extract expectedFilterCount and expectedTotalCount from data
+    // Extract counts from response
+    const expectedGroundTruthCount =
+      singleRunData.annotation_files_aggregate_for_ground_truth.aggregate
+        ?.count ?? 0
+    const expectedOtherCount =
+      singleRunData.annotation_files_aggregate_for_other.aggregate?.count ?? 0
     const expectedFilterCount = getExpectedFilterCount({ singleRunData })
     const expectedTotalCount = getExpectedTotalCount({ singleRunData })
 
@@ -206,19 +211,18 @@ export class FiltersActor {
       expectedTotalCount,
     })
 
-    // Validate rows
-    // Get all annotation ids from the expected data
-    const annotationRowCountFromData = getAnnotationRowCountFromData({
-      singleRunData,
-    })
-    // Get all annotation ids from the table
-    const annotationRowCountFromTable =
-      await this.filtersPage.getAnnotationRowCountFromTable()
-
     // Ensure all annotation ids from the expected data are in the table
     this.filtersPage.expectRowCountsToMatch(
-      annotationRowCountFromData,
-      annotationRowCountFromTable,
+      getAnnotationRowCountFromData({
+        singleRunData,
+      }),
+      await this.filtersPage.getAnnotationRowCountFromTable(),
+    )
+
+    // Expect annotation dividers to have correct counts
+    await this.filtersPage.expectAnnotationDividerCountsToMatch(
+      expectedGroundTruthCount,
+      expectedOtherCount,
     )
   }
 

@@ -471,7 +471,10 @@ function RowDivider({
   const { t } = useI18n()
 
   return (
-    <tr className="bg-sds-gray-100 border-t border-sds-gray-300">
+    <tr
+      className="bg-sds-gray-100 border-t border-sds-gray-300"
+      data-testid={TestIds.AnnotationTableDivider}
+    >
       <td
         className="text-sds-header-xxs text-sds-gray-500 p-sds-s leading-sds-header-xs"
         colSpan={1000}
