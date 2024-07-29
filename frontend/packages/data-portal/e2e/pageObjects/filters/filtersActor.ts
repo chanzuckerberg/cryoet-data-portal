@@ -225,14 +225,14 @@ export class FiltersActor {
   public async expectDataAndAnnotationsTableToMatch({
     client,
     id = 1,
-    pageNumber,
+    pageNumber = 1,
     url,
     queryParamsList,
     serialize,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     id: number
-    pageNumber: number
+    pageNumber?: number
     url: string
     queryParamsList: QueryParamObjectType[]
     serialize?: (value: string) => string
