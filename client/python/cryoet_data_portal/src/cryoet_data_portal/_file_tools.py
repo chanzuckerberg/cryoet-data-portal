@@ -22,10 +22,13 @@ def get_anon_s3_client():
         return boto3.client(
             "s3",
             endpoint_url=boto_url,
-            config=Config(signature_version=signature_version),
+            config=Config(signature_version=signature_version, user_agent=USER_AGENT),
         )
 
-    return boto3.client("s3", config=Config(signature_version=UNSIGNED))
+    return boto3.client(
+        "s3",
+        config=Config(signature_version=UNSIGNED, user_agent=USER_AGENT),
+    )
 
 
 def parse_s3_url(url: str) -> (str, str):
