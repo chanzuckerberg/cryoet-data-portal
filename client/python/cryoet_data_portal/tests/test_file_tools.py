@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -57,8 +58,13 @@ class TestGetDestinationPath:
         url = "https://example.com/file.txt"
         dest_path = os.path.join(tmp_path, "\000")
         recursive_from_prefix = "https://example.com/"
-        expected = os.path.join(dest_path, "file.txt")
         with pytest.raises(ValueError):
-            assert (
-                get_destination_path(url, dest_path, recursive_from_prefix) == expected
-            )
+            get_destination_path(url, dest_path, recursive_from_prefix)
+
+    def test_dest_path_is_existing_file(self, tmp_path) -> None:
+        """Test that the destination path is created if it does not exist"""
+        url = "https://example.com/file.txt"
+        dest_path = os.path.join(tmp_path, "test.txt")
+        Path(dest_path).touch()
+        with pytest.raises(ValueError):
+            get_destination_path(url, dest_path)
