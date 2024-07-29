@@ -42,7 +42,7 @@ function FileSummary({ data }: { data: FileSummaryData[] }) {
 
 export function RunHeader() {
   const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
-  const { run } = useRunById()
+  const { run, annotationFilesAggregates } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
 
@@ -61,11 +61,7 @@ export function RunHeader() {
       (stats) => stats.tomograms_aggregate.aggregate?.count ?? 0,
     ),
   )
-  const annotationsCount = sum(
-    run.tomogram_stats.flatMap(
-      (stats) => stats.annotations_aggregate.aggregate?.count ?? 0,
-    ),
-  )
+  const annotationsCount = annotationFilesAggregates.totalCount
 
   return (
     <PageHeader

@@ -172,6 +172,19 @@ export class FiltersPage extends BasePage {
       this.page.getByRole('option', { name: organismName }).locator('div'),
     ).toBeVisible()
   }
+
+  public async expectAnnotationDividerCountsToMatch(
+    groundTruthCount: number,
+    otherCount: number,
+  ) {
+    const dividers = await this.page
+      .getByTestId(TestIds.AnnotationTableDivider)
+      .all()
+    await expect(dividers[0]).toHaveText(
+      new RegExp(`${groundTruthCount} Ground Truth`),
+    )
+    await expect(dividers[1]).toHaveText(new RegExp(`${otherCount} Other`))
+  }
   // #endregion Validation
 
   // #region Bool
