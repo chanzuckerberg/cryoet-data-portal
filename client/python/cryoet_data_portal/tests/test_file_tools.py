@@ -62,7 +62,7 @@ class TestGetDestinationPath:
             get_destination_path(url, dest_path, recursive_from_prefix)
 
     def test_dest_path_is_existing_file(self, tmp_path) -> None:
-        """Test that the destination path is created if it does not exist"""
+        """Test that an error is raised if the dest_path is an existing file"""
         url = "https://example.com/file.txt"
         dest_path = os.path.join(tmp_path, "test.txt")
         Path(dest_path).touch()
