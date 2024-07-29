@@ -251,9 +251,13 @@ export function RunHeader() {
                   {
                     label: i18n.annotatedObjects,
                     inline: true,
-                    values: run.tomogram_stats
-                      .flatMap((stats) => stats.annotations)
-                      .map((annotation) => annotation.object_name),
+                    values: Array.from(
+                      new Set(
+                        run.tomogram_stats
+                          .flatMap((stats) => stats.annotations)
+                          .map((annotation) => annotation.object_name),
+                      ),
+                    ),
                   },
                 ]}
               />
