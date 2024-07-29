@@ -468,6 +468,8 @@ function RowDivider({
   groundTruth: boolean
   count: number
 }) {
+  const { t } = useI18n()
+
   return (
     <tr className="bg-sds-gray-100 border-t border-sds-gray-300">
       <td
