@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.14.0...web-v1.15.0) (2024-07-26)
+
+
+### ✨ Features
+
+* single deposition page overview + table ([#840](https://github.com/chanzuckerberg/cryoet-data-portal/issues/840)) ([e48096b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/e48096bc91c3c7e44911b7fe7f3d77e6e4a5c158))
+
 ## [1.14.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.13.1...web-v1.14.0) (2024-07-25)
 
 

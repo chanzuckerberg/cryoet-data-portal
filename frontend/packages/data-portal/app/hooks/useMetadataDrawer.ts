@@ -7,6 +7,7 @@ import { stringParam, useQueryParams } from './useQueryParam'
 export enum MetadataDrawerId {
   Annotation = 'annotation',
   Dataset = 'dataset',
+  Deposition = 'deposition',
   Run = 'run',
 }
 

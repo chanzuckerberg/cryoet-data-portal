@@ -5,11 +5,16 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
 import { ComponentProps, useCallback, useMemo } from 'react'
 
-import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
+import { AuthorList } from 'app/components/AuthorList'
 import { I18n } from 'app/components/I18n'
 import { DASHED_BORDERED_CLASSES } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
+import {
+  methodLabels,
+  methodTooltipLabels,
+  MethodType,
+} from 'app/constants/methodTypes'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { AnnotationTableWidths } from 'app/constants/table'
 import { TestIds } from 'app/constants/testIds'
@@ -56,24 +61,6 @@ function ConfidenceValue({ value }: { value: number }) {
       </p>
     </div>
   )
-}
-
-type MethodTypeLabels = {
-  automated: I18nKeys
-  hybrid: I18nKeys
-  manual: I18nKeys
-}
-
-const methodLabels: MethodTypeLabels = {
-  automated: 'automated',
-  hybrid: 'hybrid',
-  manual: 'manual',
-}
-
-const methodTooltipLabels: MethodTypeLabels = {
-  automated: 'methodTypeAutomated',
-  hybrid: 'methodTypeHybrid',
-  manual: 'methodTypeManual',
 }
 
 export function AnnotationTable() {
@@ -184,7 +171,7 @@ export function AnnotationTable() {
             </div>
 
             <div className=" text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
-              <DatasetAuthors authors={annotation.authors} compact />
+              <AuthorList authors={annotation.authors} compact />
             </div>
           </TableCell>
         ),
@@ -257,10 +244,7 @@ export function AnnotationTable() {
             )
           }
 
-          const methodType = annotation.method_type as
-            | 'automated'
-            | 'manual'
-            | 'hybrid'
+          const methodType = annotation.method_type as MethodType
 
           return (
             <TableCell

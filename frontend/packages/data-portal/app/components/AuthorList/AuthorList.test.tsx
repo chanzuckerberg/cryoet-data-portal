@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 
 import { AuthorInfo, MockAuthorLink } from 'app/components/AuthorLink'
 
-import { DatasetAuthors } from './DatasetAuthors'
+import { AuthorList } from './AuthorList'
 
 const DEFAULT_AUTHORS: AuthorInfo[] = [
   { name: 'Foo', corresponding_author_status: true },
@@ -19,7 +19,7 @@ const AUTHOR_MAP = Object.fromEntries(
 )
 
 it('should render authors', () => {
-  render(<DatasetAuthors authors={DEFAULT_AUTHORS} />)
+  render(<AuthorList authors={DEFAULT_AUTHORS} />)
 
   DEFAULT_AUTHORS.forEach((author) =>
     expect(screen.getByText(author.name)).toBeInTheDocument(),
@@ -27,7 +27,7 @@ it('should render authors', () => {
 })
 
 it('should sort primary authors', () => {
-  render(<DatasetAuthors authors={DEFAULT_AUTHORS} />)
+  render(<AuthorList authors={DEFAULT_AUTHORS} />)
   const authorNode = screen.getByRole('paragraph')
   const authors = (authorNode.textContent ?? '').split(', ')
 
@@ -36,7 +36,7 @@ it('should sort primary authors', () => {
 })
 
 it('should sort other authors', () => {
-  render(<DatasetAuthors authors={DEFAULT_AUTHORS} />)
+  render(<AuthorList authors={DEFAULT_AUTHORS} />)
   const authorNode = screen.getByRole('paragraph')
   const authors = (authorNode.textContent ?? '').split(', ')
   const otherAuthors = authors.slice(2, -2)
@@ -48,7 +48,7 @@ it('should sort other authors', () => {
 })
 
 it('should sort corresponding authors', () => {
-  render(<DatasetAuthors authors={DEFAULT_AUTHORS} />)
+  render(<AuthorList authors={DEFAULT_AUTHORS} />)
   const authorNode = screen.getByRole('paragraph')
   const authors = (authorNode.textContent ?? '').split(', ')
 
@@ -66,9 +66,7 @@ it('should render author links', () => {
     orcid: `0000-0000-0000-000${idx}`,
   }))
 
-  render(
-    <DatasetAuthors authors={authors} AuthorLinkComponent={MockAuthorLink} />,
-  )
+  render(<AuthorList authors={authors} AuthorLinkComponent={MockAuthorLink} />)
 
   authors.forEach((author) =>
     expect(
@@ -84,7 +82,7 @@ it('should not render author links when compact', () => {
   }))
 
   render(
-    <DatasetAuthors
+    <AuthorList
       authors={authors}
       AuthorLinkComponent={MockAuthorLink}
       compact
@@ -95,7 +93,7 @@ it('should not render author links when compact', () => {
 })
 
 it('should not render other authors when compact', () => {
-  render(<DatasetAuthors authors={DEFAULT_AUTHORS} compact />)
+  render(<AuthorList authors={DEFAULT_AUTHORS} compact />)
   const authorNode = screen.getByRole('paragraph')
   const authors = (authorNode.textContent ?? '').split(', ')
   const otherAuthors = authors.slice(2, -2)
@@ -106,13 +104,13 @@ it('should not render other authors when compact', () => {
 })
 
 it('should render comma if compact and has corresponding authors', () => {
-  render(<DatasetAuthors authors={DEFAULT_AUTHORS} compact />)
+  render(<AuthorList authors={DEFAULT_AUTHORS} compact />)
   expect(screen.getByText((text) => text.includes('... ,'))).toBeInTheDocument()
 })
 
 it('should not render comma for others if compact and no corresponding authors', () => {
   render(
-    <DatasetAuthors
+    <AuthorList
       authors={DEFAULT_AUTHORS.filter(
         (author) => !author.corresponding_author_status,
       )}
