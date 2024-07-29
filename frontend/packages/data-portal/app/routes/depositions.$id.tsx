@@ -70,14 +70,17 @@ export default function DatasetByIdPage() {
 
   return (
     <TablePageLayout
-      title={t('depositionData')}
-      type={t('datasets')}
-      filteredCount={
-        deposition.filtered_datasets_aggregate.aggregate?.count ?? 0
-      }
       header={<DepositionHeader />}
-      table={<DatasetsTable />}
-      totalCount={deposition.datasets_aggregate.aggregate?.count ?? 0}
+      tabs={[
+        {
+          title: t('depositionData'),
+          table: <DatasetsTable />,
+          totalCount: deposition.datasets_aggregate.aggregate?.count ?? 0,
+          filteredCount:
+            deposition.filtered_datasets_aggregate.aggregate?.count ?? 0,
+          countLabel: t('datasets'),
+        },
+      ]}
     />
   )
 }
