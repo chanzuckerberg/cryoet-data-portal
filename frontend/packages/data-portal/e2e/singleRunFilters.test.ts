@@ -28,7 +28,7 @@ test.describe('Single run page filters', () => {
           buttonLabel: translations.annotationAuthor,
           filter: {
             label: translations.authorName,
-            value: 'authorName',
+            value: E2E_CONFIG.authorName,
           },
           hasMultipleFilters: true,
         })
@@ -124,7 +124,7 @@ test.describe('Single run page filters', () => {
           buttonLabel: translations.annotationAuthor,
           filter: {
             label: translations.authorOrcid,
-            value: 'authorOrcId',
+            value: E2E_CONFIG.authorOrcId,
           },
           hasMultipleFilters: true,
         })
@@ -313,7 +313,7 @@ test.describe('Single run page filters', () => {
         buttonLabel: translations.goId,
         filter: {
           label: translations.filterByGeneOntologyId,
-          value: 'goId',
+          value: E2E_CONFIG.goId,
         },
         hasMultipleFilters: false,
       })
