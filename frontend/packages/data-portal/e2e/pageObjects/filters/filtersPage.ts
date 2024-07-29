@@ -152,7 +152,6 @@ export class FiltersPage extends BasePage {
 
   // #region Validation
   public async expectNavigationToMatch(expectedUrl: string) {
-    console.log('expectedUrl', expectedUrl)
     await this.page.waitForURL(expectedUrl)
   }
 
