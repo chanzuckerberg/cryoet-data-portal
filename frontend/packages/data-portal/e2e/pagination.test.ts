@@ -1,10 +1,11 @@
+import { TableValidatorOptions } from 'e2e/pageObjects/filters/types'
+
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
 import { validateDatasetsTable, validateRunsTable } from './filters/utils'
-import { TableValidatorOptions } from './pageObjects/filters/types'
 import { testPagination } from './pagination/testPagination'
 import { getParamsFromFilter } from './pagination/utils'
 
