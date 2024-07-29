@@ -6,6 +6,8 @@ from gql import Client as GQLClient
 from gql.dsl import DSLQuery, DSLSchema, dsl_gql
 from gql.transport.requests import RequestsHTTPTransport
 
+from cryoet_data_portal._constants import USER_AGENT
+
 
 class Client:
     """A GraphQL Client library that can traverse all the metadata in the CryoET Data Portal
@@ -26,10 +28,7 @@ class Client:
         # Use our default API URL
         if not url:
             url = "https://graphql.cryoetdataportal.cziscience.com/v1/graphql"
-        transport = RequestsHTTPTransport(
-            url=url,
-            retries=3,
-        )
+        transport = RequestsHTTPTransport(url=url, retries=3, headers=USER_AGENT)
 
         with open(
             os.path.join(
