@@ -7,6 +7,7 @@ import {
   GetDatasetsDataQuery,
   GetRunByIdQuery,
 } from 'app/__generated__/graphql'
+import { AVAILABLE_FILES_VALUE_TO_I18N_MAP } from 'app/components/DatasetFilter/constants'
 import { TestIds } from 'app/constants/testIds'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
@@ -128,15 +129,13 @@ export async function validateTable({
   const expectedFilterCount =
     browseDatasetsData?.filtered_datasets_aggregate.aggregate?.count ??
     singleDatasetData?.datasets.at(0)?.filtered_runs_count.aggregate?.count ??
-    singleRunData?.runs.at(0)?.tomogram_stats.at(0)?.filtered_annotations_count
-      .aggregate?.count ??
+    singleRunData?.annotation_files_aggregate_for_filtered.aggregate?.count ??
     0
 
   const expectedTotalCount =
     browseDatasetsData?.datasets_aggregate.aggregate?.count ??
     singleDatasetData?.datasets.at(0)?.runs_aggregate.aggregate?.count ??
-    singleRunData?.runs.at(0)?.tomogram_stats.at(0)?.annotations_aggregate
-      .aggregate?.count ??
+    singleRunData?.annotation_files_aggregate_for_total.aggregate?.count ??
     0
 
   await waitForTableCountChange({
@@ -233,4 +232,13 @@ export async function validateAnnotationsTable({
     validateRows: getAnnotationTableFilterValidator(data),
     countLabel: translations.annotations,
   })
+}
+
+export const serializeAvailableFiles = (value: string): string => {
+  return (
+    Object.entries(AVAILABLE_FILES_VALUE_TO_I18N_MAP).find(
+      ([, i18nKey]) =>
+        translations[i18nKey as keyof typeof translations] === value,
+    )?.[0] ?? value
+  )
 }

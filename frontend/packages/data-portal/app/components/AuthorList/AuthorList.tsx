@@ -13,7 +13,7 @@ function getAuthorIds(authors: AuthorInfo[]) {
   return authors.map((author) => author.name + author.email + author.orcid)
 }
 
-export function DatasetAuthors({
+export function AuthorList({
   AuthorLinkComponent = AuthorLink,
   authors,
   className,

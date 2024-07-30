@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.16.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.15.0...web-v1.16.0) (2024-07-29)
+
+
+### ✨ Features
+
+* Add ground truth dividers to Annotations table and correct all annotation counts ([#949](https://github.com/chanzuckerberg/cryoet-data-portal/issues/949)) ([6c238dc](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6c238dc74f82a2f3ed00734ea3cc0c92ddeeae04))
+
+
+### 🐞 Bug Fixes
+
+* Fix merge conflict on depositions page ([#959](https://github.com/chanzuckerberg/cryoet-data-portal/issues/959)) ([655dd44](https://github.com/chanzuckerberg/cryoet-data-portal/commit/655dd44b025b1343a03146744e44728e55ce87bf))
+* repeated annotated object names ([#958](https://github.com/chanzuckerberg/cryoet-data-portal/issues/958)) ([7d039d8](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7d039d8b10b1b574bf1f4f4466c2cd0de4d7547a))
+
+
+### ♻️ Code Refactoring
+
+* filter tests ([#952](https://github.com/chanzuckerberg/cryoet-data-portal/issues/952)) ([53f348a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/53f348a5d93f7a85a815eb4885526cc62ce882a5))
+
+## [1.15.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.14.0...web-v1.15.0) (2024-07-26)
+
+
+### ✨ Features
+
+* single deposition page overview + table ([#840](https://github.com/chanzuckerberg/cryoet-data-portal/issues/840)) ([e48096b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/e48096bc91c3c7e44911b7fe7f3d77e6e4a5c158))
+
 ## [1.14.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.13.1...web-v1.14.0) (2024-07-25)
 
 

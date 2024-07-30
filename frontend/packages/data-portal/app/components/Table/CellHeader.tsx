@@ -18,6 +18,7 @@ export function CellHeader({
   tooltip,
   width: columnWidth,
   children,
+  subHeader,
   ...props
 }: Omit<
   CellHeaderProps,
@@ -32,6 +33,7 @@ export function CellHeader({
   children?: ReactNode
   offset?: TooltipOffset
   showSort?: boolean
+  subHeader?: string
   tooltip?: ReactNode
   width?: TableColumnWidth
 }) {
@@ -48,10 +50,16 @@ export function CellHeader({
         maxWidth: columnWidth?.max,
         minWidth: columnWidth?.min,
         width: columnWidth?.width,
+        verticalAlign: 'top',
       }}
       hideSortIcon={!showSort}
     >
-      <span className="line-clamp-1">{children}</span>
+      <p className="line-clamp-1">{children}</p>
+      {subHeader && (
+        <p className="text-sds-body-xxxs leading-sds-body-xxxs font-normal">
+          {subHeader}
+        </p>
+      )}
     </SDSCellHeader>
   )
 }
