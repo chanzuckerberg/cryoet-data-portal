@@ -12,9 +12,7 @@ import { cns } from 'app/utils/cns'
 
 function encodeParams(params: [string, string | null][]): string {
   const searchParams = new URLSearchParams(
-    (params.filter((kv) => isString(kv[1])) as string[][]).map((kv) =>
-      kv.map(encodeURIComponent),
-    ),
+    params.filter((kv) => isString(kv[1])) as string[][],
   )
 
   return searchParams.toString()
