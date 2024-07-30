@@ -25,7 +25,7 @@ jobs:
         id: release
         with:
           manifest-file: ".release-please.manifest.json"
-          config-file: "release-please-config.json"
+          config-file: "release-please.config.json"
           target-branch: "main"
           path: "client/python/cryoet_data_portal"
       - uses: actions/checkout@v3
