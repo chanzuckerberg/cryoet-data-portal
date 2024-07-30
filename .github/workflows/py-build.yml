@@ -6,19 +6,32 @@ on:
       - "client/python/**"
       - ".github/workflows/**" # Re-run if a workflow is modified - useful to test workflow changes in PRs
   push:
-    branches: [main]
+    branches:
+      - main
+      - tsmith/automate-release
   workflow_dispatch:
 
 jobs:
   publish-pypi-package:
     name: Build Python wheel and sdist, and publish to PyPI
     runs-on: ubuntu-latest
+    concurrency:
+      group: create-python-client-release
+      cancel-in-progress: false
     environment:
-      name: pypi
+      name: testpypi # TODO change to pypi
       url: https://pypi.org/p/cellxgene-ontology-guide
     permissions:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
     steps:
+      - name: release please
+        uses: google-github-actions/release-please-action@v4.1.1
+        id: release
+        with:
+          manifest-file: ".release-please-manifest.json"
+          config-file: "release-please-config.json"
+          target-branch: "main"
+          path: "client/python/cryoet_data_portal"
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -36,3 +49,4 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: client/python/cryoet_data_portal/dist
+          repository: https://test.pypi.org/legacy/ # TODO change to pypi
