@@ -1,7 +1,7 @@
 import { Link } from 'app/components/Link'
 import {
-  NIH,
-  NIH_ONTOLOGY_PATTERN,
+  NCBI,
+  NCBI_ONTOLOGY_PATTERN,
   OBO,
   OBO_PATTERN,
   WORMBASE,
@@ -22,9 +22,9 @@ export function InfoLink({
   if (id) {
     let link
     if (typeof id === 'number') {
-      link = `${NIH}${id as number}`
-    } else if (id.match(NIH_ONTOLOGY_PATTERN)) {
-      link = `${NIH}${id.replace('NCBITaxon:', '')}`
+      link = `${NCBI}${id as number}`
+    } else if (id.match(NCBI_ONTOLOGY_PATTERN)) {
+      link = `${NCBI}${id.replace('NCBITaxon:', '')}`
     } else if (id.match(WORMBASE_PATTERN)) {
       link = `${WORMBASE}${id.replaceAll(':', '_')}`
     } else if (id.match(OBO_PATTERN)) {
