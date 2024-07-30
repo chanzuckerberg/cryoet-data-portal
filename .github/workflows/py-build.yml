@@ -25,7 +25,7 @@ jobs:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
     steps:
       - name: release please
-        uses: google-github-actions/release-please-action@v4.1.1
+        uses: googleapis/release-please-action@4
         id: release
         with:
           manifest-file: ".release-please-manifest.json"
