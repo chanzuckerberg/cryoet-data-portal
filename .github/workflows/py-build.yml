@@ -20,6 +20,10 @@ jobs:
     permissions:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name: release please
         uses: googleapis/release-please-action@v4
         id: release
@@ -28,19 +32,15 @@ jobs:
           config-file: "release-please.config.json"
           target-branch: "main"
           path: "client/python/cryoet_data_portal"
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - uses: actions/setup-python@v4
         with:
           pyton-version: "3.10"
+
       - name: build
         run: |
           make build -C client/python/cryoet_data_portal
-      - name: install
-        run: |
-          pip install ./client/python/cryoet_data_portal/dist/cryoet_data_portal-0.1.0-py3-none-any.whl
+
       - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
