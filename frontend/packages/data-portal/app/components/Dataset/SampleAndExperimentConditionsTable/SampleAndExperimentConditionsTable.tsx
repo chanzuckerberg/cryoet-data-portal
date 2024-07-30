@@ -1,35 +1,10 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
-import { Link } from 'app/components/Link'
-import { NIH, OBO } from 'app/constants/datasetInfoLinks'
+import { DatasetType } from 'app/components/Dataset/type'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
-import { DatasetType } from './type'
-
-function InfoLink({
-  value,
-  id,
-  isOBO,
-}: {
-  value?: string | null
-  id?: string | null
-  isOBO?: boolean
-}) {
-  if (!value) {
-    return <span>--</span>
-  }
-
-  if (id) {
-    const link = `${isOBO ? OBO : NIH}${isOBO ? id.replaceAll(':', '_') : id}`
-    return (
-      <Link to={link} className="text-sds-info-400">
-        {value}
-      </Link>
-    )
-  }
-
-  return <span>{value}</span>
-}
+import { CellStrainInfoLink } from './components/CellStrainInfoLink'
+import { InfoLink } from './components/InfoLink'
 
 export function SampleAndExperimentConditionsTable({
   dataset,
@@ -76,7 +51,7 @@ export function SampleAndExperimentConditionsTable({
       label: t('cellLineOrStrainName'),
       renderValue: () => {
         return (
-          <InfoLink
+          <CellStrainInfoLink
             value={dataset.cell_strain_name}
             id={dataset.cell_strain_id}
           />
