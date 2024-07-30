@@ -28,7 +28,11 @@ class Client:
         # Use our default API URL
         if not url:
             url = "https://graphql.cryoetdataportal.cziscience.com/v1/graphql"
-        transport = RequestsHTTPTransport(url=url, retries=3, headers=USER_AGENT)
+        transport = RequestsHTTPTransport(
+            url=url,
+            retries=3,
+            headers={"User-agent": USER_AGENT},
+        )
 
         with open(
             os.path.join(

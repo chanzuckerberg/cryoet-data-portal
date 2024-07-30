@@ -42,7 +42,7 @@ def download_https(
     with_progress: bool = True,
 ):
     dest_path = get_destination_path(url, dest_path)
-    fetch_request = requests.get(url, stream=True, headers=USER_AGENT)
+    fetch_request = requests.get(url, stream=True, headers={"User-agent": USER_AGENT})
     total_size = int(fetch_request.headers["content-length"])
     block_size = 1024 * 512
     logger.info("Downloading %s to %s", url, dest_path)
