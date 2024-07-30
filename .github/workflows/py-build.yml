@@ -1,10 +1,6 @@
 name: Python cryoet_data_portal build
 
 on:
-  pull_request:
-    paths:
-      - "client/python/**"
-      - ".github/workflows/**" # Re-run if a workflow is modified - useful to test workflow changes in PRs
   push:
     branches:
       - main
@@ -25,7 +21,7 @@ jobs:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
     steps:
       - name: release please
-        uses: googleapis/release-please-action@4.1.3
+        uses: googleapis/release-please-action@v4
         id: release
         with:
           manifest-file: ".release-please.manifest.json"
