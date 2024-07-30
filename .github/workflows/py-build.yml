@@ -1,4 +1,4 @@
-name: Python cryoet_data_portal build
+name: Python cryoet_data_portal build/release
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   publish-pypi-package:
-    name: Build Python wheel and sdist, and publish to PyPI
+    name: Build and publish Python package to PyPI
     runs-on: ubuntu-latest
     concurrency:
       group: create-python-client-release
@@ -45,4 +45,4 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: client/python/cryoet_data_portal/dist
-          repository: https://test.pypi.org/legacy/ # TODO change to pypi
+          repository-url: https://test.pypi.org/legacy/ # TODO change to pypi
