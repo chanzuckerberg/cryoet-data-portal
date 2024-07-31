@@ -30,3 +30,37 @@ jobs:
           manifest-file: "release-please.manifest.json"
           config-file: "release-please.config.json"
           target-branch: "tsmith/automate-release" # TODO change to main
+          $packages[path].component: "client/python/cryoet_data_portal"
+
+    outputs:
+      paths_released: ${{ steps.release.outputs.paths_released }}
+
+  publish-pypi-package:
+    name: Build and publish Python package to PyPI
+    runs-on: ubuntu-latest
+    if: contains(needs.release-please.outputs.paths_released, 'client/python/cryoet_data_portal')
+    environment:
+      name: testpypi # TODO change to pypi
+      url: https://pypi.org/p/cellxgene-ontology-guide
+    permissions:
+      id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
+    steps:
+      - name: Checkout ref branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v4
+        with:
+          pyton-version: "3.10"
+
+      - name: build
+        run: |
+          make build -C client/python/cryoet_data_portal
+
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: client/python/cryoet_data_portal/dist
+          repository-url: https://test.pypi.org/legacy/ # TODO change to pypi
