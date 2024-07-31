@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.16.0...web-v1.17.0) (2024-07-31)
+
+
+### ✨ Features
+
+* Update cell strain links. ([#968](https://github.com/chanzuckerberg/cryoet-data-portal/issues/968)) ([df43bd6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/df43bd68953557c64fa311c9ce417c027acda486))
+
 ## [1.16.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.15.0...web-v1.16.0) (2024-07-29)
 
 
