@@ -81,7 +81,7 @@ export function getAnnotationRowCountFromData({
     if (rowCounter[file.annotation.id] === undefined) {
       rowCounter[file.annotation.id] = 1
     } else {
-      rowCounter[file.annotation.id]++
+      rowCounter[file.annotation.id] += 1
     }
   }
   return rowCounter
