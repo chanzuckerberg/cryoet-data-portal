@@ -29,7 +29,7 @@ try:
     __version__ = metadata.version("cryoet_data_portal")
 except metadata.PackageNotFoundError:
     # package is not installed
-    __version__ = "0.0.0-unknown"
+    __version__ = "3.0.4"
 
 __all__ = [
     "Client",
