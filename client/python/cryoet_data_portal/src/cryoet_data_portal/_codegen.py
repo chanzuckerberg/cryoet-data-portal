@@ -84,7 +84,7 @@ def write_models(path: str) -> None:
 
 
 def load_schema() -> GraphQLSchema:
-    with open(pathlib.Path(__file__).parent / "data/schema.graphql", "r") as f:
+    with open(pathlib.Path(__file__).parent / "data" / "schema.graphql", "r") as f:
         schema_str = f.read()
     return build_schema(schema_str)
 
