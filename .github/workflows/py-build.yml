@@ -29,13 +29,13 @@ jobs:
           manifest-file: "release-please.manifest.json"
           config-file: "release-please.config.json"
           target-branch: "tsmith/automate-release" # TODO change to main
-
     outputs:
       paths_released: ${{ steps.release.outputs.paths_released }}
 
   publish-pypi-package:
     name: Build and publish Python package to PyPI
     runs-on: ubuntu-latest
+    needs: release-please
     if: contains(needs.release-please.outputs.paths_released, 'client/python/cryoet_data_portal')
     environment:
       name: testpypi # TODO change to pypi
