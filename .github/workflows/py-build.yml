@@ -1,4 +1,4 @@
-name: Python cryoet_data_portal build/release
+name: Py cryoet_data_portal build/release
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: release please
-        uses: google-github-actions/release-please-action@v4
+        uses: googleapis/release-please-action@v4
         id: release
         with:
           manifest-file: "release-please.manifest.json"
