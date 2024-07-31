@@ -1,37 +1,32 @@
-name: Python cryoet_data_portal build
+name: Python cryoet_data_portal release
 
 on:
-  pull_request:
-    paths:
-      - "client/python/**"
-      - ".github/workflows/**" # Re-run if a workflow is modified - useful to test workflow changes in PRs
   push:
-    branches: [main]
+    branches:
+      - main
+      - tsmith/automate-release
+
+    paths:
+      - 'client/python/cryoet_data_portal/**'
+      - '.github/workflows/py-build.yml'
   workflow_dispatch:
 
+concurrency:
+  group: create-python-client-release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  build_python_wheels:
-    name: Build Python wheel and sdist
+  release-please:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - name: release please
+        uses: googleapis/release-please-action@v4
+        id: release
         with:
-          fetch-depth: 0
-
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-
-      - name: Install deps
-        run: |
-          python -m pip install -U pip setuptools build
-
-      - name: Build
-        run: python -m build
-        working-directory: client/python/cryoet_data_portal/
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v3
-        with:
-          path: client/python/cryoet_data_portal/dist/*
+          manifest-file: "release-please.manifest.json"
+          config-file: "release-please.config.json"
+          target-branch: "tsmith/automate-release" # TODO change to main
