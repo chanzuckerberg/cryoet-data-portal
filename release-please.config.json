@@ -1,5 +1,4 @@
 {
-  "last-release-sha": "c156f8e1b6b9b469d3d71405a2f0eeef5c439995",
   "skip-github-release": true,
   "changelog-sections": [
     { "type": "feat", "section": "✨ Features" },
@@ -19,7 +18,7 @@
     "frontend": {
       "release-type": "node"
     },
-    "client/python/cryoet-data-portal": {
+    "client/python/cryoet_data_portal": {
       "package-name": "cryoet-data-portal-python-client",
       "release-type": "python"
     }
