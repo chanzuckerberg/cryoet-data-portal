@@ -1,14 +1,13 @@
-import { LinkProps } from '@remix-run/react'
 import { Trans, TransProps } from 'react-i18next'
 import { Required } from 'utility-types'
 
 import type { I18nKeys } from 'app/types/i18n'
 
-import { Link } from './Link'
+import { Link, VariantLinkProps } from './Link'
 
 interface Props extends Omit<TransProps<I18nKeys>, 'ns' | 'i18nKey'> {
   i18nKey: I18nKeys
-  linkProps?: Partial<LinkProps>
+  linkProps?: Partial<VariantLinkProps>
 }
 
 /**
@@ -28,10 +27,17 @@ export function I18n({ i18nKey, components, linkProps, ...props }: Props) {
         semibold: <span className="font-semibold" />,
         code: <span className="font-mono" />,
 
+        urlNoColor: (
+          <Link {...(linkProps as Required<Partial<VariantLinkProps>, 'to'>)}>
+            {/* This will get replaced by I18next */}
+            tmp
+          </Link>
+        ),
+
         url: (
           <Link
             className="text-sds-primary-500"
-            {...(linkProps as Required<Partial<LinkProps>, 'to'>)}
+            {...(linkProps as Required<Partial<VariantLinkProps>, 'to'>)}
           >
             {/* This will get replaced by I18next */}
             tmp

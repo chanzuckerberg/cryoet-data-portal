@@ -1,17 +1,17 @@
 import { expect, Page, test } from '@playwright/test'
 import { E2E_CONFIG, translations } from 'e2e/constants'
+import { TableValidatorOptions } from 'e2e/pageObjects/filters/types'
 
 import {
   GetDatasetByIdQuery,
   GetDatasetsDataQuery,
   GetRunByIdQuery,
 } from 'app/__generated__/graphql'
+import { AVAILABLE_FILES_VALUE_TO_I18N_MAP } from 'app/components/DatasetFilter/constants'
 import { TestIds } from 'app/constants/testIds'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getRunById } from 'app/graphql/getRunById.server'
-
-import { TableValidatorOptions } from './types'
 
 async function waitForTableCountChange({
   countLabel,
@@ -129,15 +129,13 @@ export async function validateTable({
   const expectedFilterCount =
     browseDatasetsData?.filtered_datasets_aggregate.aggregate?.count ??
     singleDatasetData?.datasets.at(0)?.filtered_runs_count.aggregate?.count ??
-    singleRunData?.runs.at(0)?.tomogram_stats.at(0)?.filtered_annotations_count
-      .aggregate?.count ??
+    singleRunData?.annotation_files_aggregate_for_filtered.aggregate?.count ??
     0
 
   const expectedTotalCount =
     browseDatasetsData?.datasets_aggregate.aggregate?.count ??
     singleDatasetData?.datasets.at(0)?.runs_aggregate.aggregate?.count ??
-    singleRunData?.runs.at(0)?.tomogram_stats.at(0)?.annotations_aggregate
-      .aggregate?.count ??
+    singleRunData?.annotation_files_aggregate_for_total.aggregate?.count ??
     0
 
   await waitForTableCountChange({
@@ -218,14 +216,14 @@ export async function validateAnnotationsTable({
   client,
   page,
   params,
-  pageNumber,
+  pageNumber = 1,
   id = +E2E_CONFIG.runId,
 }: TableValidatorOptions & { id?: number }) {
   const { data } = await getRunById({
     client,
     params,
     id,
-    page: pageNumber,
+    annotationsPage: pageNumber,
   })
 
   await validateTable({
@@ -234,4 +232,13 @@ export async function validateAnnotationsTable({
     validateRows: getAnnotationTableFilterValidator(data),
     countLabel: translations.annotations,
   })
+}
+
+export const serializeAvailableFiles = (value: string): string => {
+  return (
+    Object.entries(AVAILABLE_FILES_VALUE_TO_I18N_MAP).find(
+      ([, i18nKey]) =>
+        translations[i18nKey as keyof typeof translations] === value,
+    )?.[0] ?? value
+  )
 }

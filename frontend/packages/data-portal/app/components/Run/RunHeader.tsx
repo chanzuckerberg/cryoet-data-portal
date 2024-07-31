@@ -42,7 +42,7 @@ function FileSummary({ data }: { data: FileSummaryData[] }) {
 
 export function RunHeader() {
   const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
-  const { run } = useRunById()
+  const { run, annotationFilesAggregates } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
 
@@ -61,11 +61,7 @@ export function RunHeader() {
       (stats) => stats.tomograms_aggregate.aggregate?.count ?? 0,
     ),
   )
-  const annotationsCount = sum(
-    run.tomogram_stats.flatMap(
-      (stats) => stats.annotations_aggregate.aggregate?.count ?? 0,
-    ),
-  )
+  const annotationsCount = annotationFilesAggregates.totalCount
 
   return (
     <PageHeader
@@ -106,7 +102,7 @@ export function RunHeader() {
       lastModifiedDate={
         run.dataset.last_modified_date ?? run.dataset.deposition_date
       }
-      breadcrumbs={<Breadcrumbs variant="run" dataset={run.dataset} />}
+      breadcrumbs={<Breadcrumbs variant="run" data={run.dataset} />}
       metadata={[{ key: t('runId'), value: `${run.id}` }]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Run)}
       title={run.name}
@@ -123,7 +119,9 @@ export function RunHeader() {
           </div>
 
           <div className="flex flex-col gap-sds-xl flex-auto pt-sds-l">
-            <PageHeaderSubtitle>{t('runOverview')}</PageHeaderSubtitle>
+            <PageHeaderSubtitle className="mt-sds-m">
+              {t('runOverview')}
+            </PageHeaderSubtitle>
 
             {multipleTomogramsEnabled ? (
               <InlineMetadata
@@ -249,9 +247,13 @@ export function RunHeader() {
                   {
                     label: i18n.annotatedObjects,
                     inline: true,
-                    values: run.tomogram_stats
-                      .flatMap((stats) => stats.annotations)
-                      .map((annotation) => annotation.object_name),
+                    values: Array.from(
+                      new Set(
+                        run.tomogram_stats
+                          .flatMap((stats) => stats.annotations)
+                          .map((annotation) => annotation.object_name),
+                      ),
+                    ),
                   },
                 ]}
               />

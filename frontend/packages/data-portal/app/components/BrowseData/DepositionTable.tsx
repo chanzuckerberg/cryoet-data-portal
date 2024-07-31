@@ -8,7 +8,7 @@ import { range, sum } from 'lodash-es'
 import { useMemo } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
-import { DatasetAuthors } from 'app/components/Dataset/DatasetAuthors'
+import { AuthorList } from 'app/components/AuthorList'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
@@ -147,7 +147,7 @@ export function DepositionTable() {
                         />
                       </>
                     ) : (
-                      <DatasetAuthors authors={deposition.authors} compact />
+                      <AuthorList authors={deposition.authors} compact />
                     )}
                   </p>
                 </div>

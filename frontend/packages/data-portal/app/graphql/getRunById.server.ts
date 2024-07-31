@@ -1,16 +1,27 @@
-import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import type {
+  ApolloClient,
+  ApolloQueryResult,
+  NormalizedCacheObject,
+} from '@apollo/client'
 import { URLSearchParams } from 'url'
 
 import { gql } from 'app/__generated__'
 import {
   Annotation_Files_Bool_Exp,
   Annotations_Bool_Exp,
+  GetRunByIdQuery,
 } from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
 const GET_RUN_BY_ID_QUERY = gql(`
-  query GetRunById($id: Int, $limit: Int, $offset: Int, $filter: annotations_bool_exp, $fileFilter: annotation_files_bool_exp) {
+  query GetRunById(
+    $id: Int,
+    $limit: Int,
+    $annotationsOffset: Int,
+    $filter: [annotations_bool_exp!],
+    $fileFilter: [annotation_files_bool_exp!]
+  ) {
     runs(where: { id: { _eq: $id } }) {
       id
       name
@@ -123,8 +134,10 @@ const GET_RUN_BY_ID_QUERY = gql(`
       annotation_table: tomogram_voxel_spacings {
         annotations(
           limit: $limit,
-          offset: $offset,
-          where: $filter,
+          offset: $annotationsOffset,
+          where: {
+            _and: $filter
+          },
           order_by: [
             { ground_truth_status: desc }
             { deposition_date: desc }
@@ -151,7 +164,9 @@ const GET_RUN_BY_ID_QUERY = gql(`
           release_date
 
           files(
-            where: $fileFilter,
+            where: {
+              _and: $fileFilter
+            }
           ) {
             format
             https_path
@@ -186,18 +201,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
 
           files(distinct_on: shape_type) {
             shape_type
-          }
-        }
-
-        annotations_aggregate {
-          aggregate {
-            count
-          }
-        }
-
-        filtered_annotations_count: annotations_aggregate(where: $filter) {
-          aggregate {
-            count
           }
         }
 
@@ -238,10 +241,90 @@ const GET_RUN_BY_ID_QUERY = gql(`
         }
       }
     }
+
+    annotation_files_aggregate_for_total: annotation_files_aggregate(
+      where: {
+        annotation: {
+          tomogram_voxel_spacing: {
+            run_id: {
+              _eq: $id
+            }
+          }
+        }
+      }
+      distinct_on: [annotation_id, shape_type]
+    ) {
+      aggregate {
+        count
+      }
+    }
+
+    annotation_files_aggregate_for_filtered: annotation_files_aggregate(
+      where: {
+        annotation: {
+          tomogram_voxel_spacing: {
+            run_id: {
+              _eq: $id
+            }
+          }
+          _and: $filter
+        }
+        _and: $fileFilter
+      }
+      distinct_on: [annotation_id, shape_type]
+    ) {
+      aggregate {
+        count
+      }
+    }
+
+    annotation_files_aggregate_for_ground_truth: annotation_files_aggregate(
+      where: {
+        annotation: {
+          ground_truth_status: {
+            _eq: true
+          }
+          tomogram_voxel_spacing: {
+            run_id: {
+              _eq: $id
+            }
+          }
+          _and: $filter
+        }
+        _and: $fileFilter
+      }
+      distinct_on: [annotation_id, shape_type]
+    ) {
+      aggregate {
+        count
+      }
+    }
+
+    annotation_files_aggregate_for_other: annotation_files_aggregate(
+      where: {
+        annotation: {
+          ground_truth_status: {
+            _eq: false
+          }
+          tomogram_voxel_spacing: {
+            run_id: {
+              _eq: $id
+            }
+          }
+          _and: $filter
+        }
+        _and: $fileFilter
+      }
+      distinct_on: [annotation_id, shape_type]
+    ) {
+      aggregate {
+        count
+      }
+    }
   }
 `)
 
-function getFilter(filterState: FilterState) {
+function getFilter(filterState: FilterState): Annotations_Bool_Exp[] {
   const filters: Annotations_Bool_Exp[] = []
 
   const { name, orcid } = filterState.author
@@ -316,10 +399,10 @@ function getFilter(filterState: FilterState) {
     })
   }
 
-  return { _and: filters } as Annotations_Bool_Exp
+  return filters
 }
 
-function getFileFilter(filterState: FilterState) {
+function getFileFilter(filterState: FilterState): Annotation_Files_Bool_Exp[] {
   const filters: Annotation_Files_Bool_Exp[] = []
 
   const { objectShapeTypes } = filterState.annotation
@@ -332,26 +415,26 @@ function getFileFilter(filterState: FilterState) {
     })
   }
 
-  return { _and: filters } as Annotation_Files_Bool_Exp
+  return filters
 }
 
 export async function getRunById({
   client,
   id,
-  page = 1,
+  annotationsPage,
   params = new URLSearchParams(),
 }: {
   client: ApolloClient<NormalizedCacheObject>
   id: number
-  page?: number
+  annotationsPage: number
   params?: URLSearchParams
-}) {
+}): Promise<ApolloQueryResult<GetRunByIdQuery>> {
   return client.query({
     query: GET_RUN_BY_ID_QUERY,
     variables: {
       id,
       limit: MAX_PER_PAGE,
-      offset: (page - 1) * MAX_PER_PAGE,
+      annotationsOffset: (annotationsPage - 1) * MAX_PER_PAGE,
       filter: getFilter(getFilterState(params)),
       fileFilter: getFileFilter(getFilterState(params)),
     },

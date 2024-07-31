@@ -4,12 +4,12 @@ import { isString } from 'lodash-es'
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorInfo } from 'app/components/AuthorLink'
+import { AuthorList } from 'app/components/AuthorList'
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
-import { DatasetAuthors } from './DatasetAuthors'
 import { DatasetType } from './type'
 
 function DatabaseEntryList({ entries }: { entries: string }) {
@@ -95,9 +95,7 @@ export function DatasetMetadataTable({
           : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
-        return (
-          <DatasetAuthors authors={dataset.authors as AuthorInfo[]} large />
-        )
+        return <AuthorList authors={dataset.authors as AuthorInfo[]} large />
       },
       values: [],
       className: 'leading-sds-body-s',
