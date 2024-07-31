@@ -5,6 +5,7 @@ import { json, LoaderFunctionArgs, redirect } from '@remix-run/server-runtime'
 
 import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
+import { DepositionMetadataDrawer } from 'app/components/Deposition'
 import { DatasetsTable } from 'app/components/Deposition/DatasetsTable'
 import { DepositionHeader } from 'app/components/Deposition/DepositionHeader'
 import { TablePageLayout } from 'app/components/TablePageLayout'
@@ -81,6 +82,7 @@ export default function DatasetByIdPage() {
           countLabel: t('datasets'),
         },
       ]}
+      drawers={<DepositionMetadataDrawer />}
     />
   )
 }
