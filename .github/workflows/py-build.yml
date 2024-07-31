@@ -29,7 +29,7 @@ jobs:
           manifest-file: "release-please.manifest.json"
           config-file: "release-please.config.json"
           target-branch: "main"
-          path: "client/python/cryoet_data_portal"
+#          path: "client/python/cryoet_data_portal"
     outputs:
       paths_released: ${{ steps.release.outputs.paths_released }}
 
