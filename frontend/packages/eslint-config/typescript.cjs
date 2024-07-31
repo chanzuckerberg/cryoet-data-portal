@@ -75,5 +75,15 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
+
+    // Allow us to use the above naming pattern for destructuring unused variables.
+    '@typescript-eslint/naming-convention': [
+      'error', 
+      {
+        selector: 'variable',
+        format: ['camelCase', 'UPPER_CASE'],
+        leadingUnderscore: 'allow'
+      }
+    ]
   },
 }

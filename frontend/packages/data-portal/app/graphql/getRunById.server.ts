@@ -202,16 +202,16 @@ const GET_RUN_BY_ID_QUERY = gql(`
             deposition_date: desc
           }
         },
-        annotation_id: desc
+        {
+          annotation_id: desc
+        }
       ]
       distinct_on: [annotation_id, shape_type]
       limit: $limit
       offset: $annotationsOffset
     ) {
-      format
-      https_path
-      s3_path
       shape_type
+      format
 
       annotation {
         annotation_method
@@ -232,6 +232,13 @@ const GET_RUN_BY_ID_QUERY = gql(`
         object_name
         object_state
         release_date
+
+        files(where: { _and: $fileFilter }) {
+          shape_type
+          format
+          https_path
+          s3_path
+        }
 
         authors(order_by: { author_list_order: asc }) {
           primary_author_status
@@ -360,13 +367,8 @@ function getFilter(filterState: FilterState): Annotations_Bool_Exp[] {
     })
   }
 
-  const {
-    objectNames,
-    objectShapeTypes,
-    annotationSoftwares,
-    methodTypes,
-    goId,
-  } = filterState.annotation
+  const { objectNames, annotationSoftwares, methodTypes, goId } =
+    filterState.annotation
 
   if (objectNames.length > 0) {
     filters.push({
@@ -380,16 +382,6 @@ function getFilter(filterState: FilterState): Annotations_Bool_Exp[] {
     filters.push({
       object_id: {
         _ilike: `%${goId.replace(':', '_')}`,
-      },
-    })
-  }
-
-  if (objectShapeTypes.length > 0) {
-    filters.push({
-      files: {
-        shape_type: {
-          _in: objectShapeTypes,
-        },
       },
     })
   }
