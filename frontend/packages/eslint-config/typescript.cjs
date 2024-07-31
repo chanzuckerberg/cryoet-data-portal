@@ -78,7 +78,7 @@ module.exports = {
 
     // Allow us to use the above naming pattern for destructuring unused variables.
     '@typescript-eslint/naming-convention': [
-      'error', 
+      'error',
       {
         selector: 'variable',
         format: ['camelCase', 'UPPER_CASE'],
