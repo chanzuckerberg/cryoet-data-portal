@@ -30,7 +30,6 @@ jobs:
           config-file: "release-please.config.json"
           target-branch: "main"
           path: "client/python/cryoet_data_portal"
-          include-component-in-tag: true
     outputs:
       paths_released: ${{ steps.release.outputs.paths_released }}
 
