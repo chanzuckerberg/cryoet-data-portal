@@ -1,5 +1,5 @@
 {
-  "bootstrap-sha": "79825da91dd20c3be2f47912285e2c977848af32",
+  "last-release-sha": "c156f8e1b6b9b469d3d71405a2f0eeef5c439995",
   "skip-github-release": true,
   "changelog-sections": [
     { "type": "feat", "section": "✨ Features" },
