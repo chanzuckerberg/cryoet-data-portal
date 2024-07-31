@@ -1,5 +1,4 @@
 {
-  "skip-github-release": true,
   "changelog-sections": [
     { "type": "feat", "section": "✨ Features" },
     { "type": "fix", "section": "🐞 Bug Fixes" },
@@ -13,14 +12,16 @@
     { "type": "build", "section": "🛠️ Build System" },
     { "type": "ci", "section": "⚙ Continuous Integration" }
   ],
-  "separate-pull-requests": true,
   "packages": {
     "frontend": {
-      "release-type": "node"
+      "release-type": "node",
+      "skip-github-release": true,
+      "separate-pull-requests": true
     },
     "client/python/cryoet_data_portal": {
       "package-name": "cryoet-data-portal-python-client",
-      "release-type": "python"
+      "release-type": "python",
+      "separate-pull-requests": true
     }
   }
 }
