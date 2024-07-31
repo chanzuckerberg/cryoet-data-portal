@@ -5,9 +5,10 @@ on:
     branches:
       - main
       - tsmith/automate-release
-    paths:
-      - 'client/python/cryoet_data_portal/**'
-      - '.github/workflows/py-build.yml'
+# TODO uncomment when ready to automate release
+#    paths:
+#      - 'client/python/cryoet_data_portal/**'
+#      - '.github/workflows/py-build.yml'
   workflow_dispatch:
 
 concurrency:
