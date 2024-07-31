@@ -21,7 +21,7 @@ from jinja2 import Environment, FileSystemLoader
 """Maps GraphQL field type names to model field defaults and Python types."""
 GQL_TO_MODEL_FIELD = {
     "Boolean": ("BooleanField()", "bool"),
-    "Float": ("IntField()", "int"),
+    "Float": ("FloatField()", "float"),
     "Int": ("IntField()", "int"),
     "String": ("StringField()", "str"),
     "date": ("DateField()", "date"),
