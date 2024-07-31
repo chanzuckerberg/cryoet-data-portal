@@ -22,7 +22,7 @@
       "package-name": "cryoet-data-portal-python-client",
       "release-type": "python",
       "separate-pull-requests": true,
-      "labels": ["client"]
+      "extra-label": ["client"]
     }
   }
 }
