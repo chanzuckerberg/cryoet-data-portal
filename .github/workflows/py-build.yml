@@ -6,9 +6,8 @@ on:
       - main
       - tsmith/automate-release
 
-    paths:
-      - 'client/python/cryoet_data_portal/**'
-      - '.github/workflows/py-build.yml'
+#    paths:
+#      - 'client/python/cryoet_data_portal/**'
   workflow_dispatch:
 
 concurrency:
@@ -30,7 +29,6 @@ jobs:
           manifest-file: "release-please.manifest.json"
           config-file: "release-please.config.json"
           target-branch: "tsmith/automate-release" # TODO change to main
-          $packages[path].component: "client/python/cryoet_data_portal"
 
     outputs:
       paths_released: ${{ steps.release.outputs.paths_released }}
