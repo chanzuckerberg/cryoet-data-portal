@@ -2,7 +2,7 @@
 
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { isNumber } from 'lodash-es'
+import { isNumber, toNumber } from 'lodash-es'
 import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
@@ -21,7 +21,7 @@ import { useFileSize } from 'app/hooks/useFileSize'
 import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
-import { Annotation } from 'app/state/annotation'
+import { BaseAnnotation } from 'app/state/annotation'
 import { DownloadConfig } from 'app/types/download'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
@@ -74,7 +74,7 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 }
 
 export default function RunByIdPage() {
-  const { run, annotationFilesAggregates } = useRunById()
+  const { run, annotationFiles, annotationFilesAggregates } = useRunById()
 
   const allTomogramResolutions = run.tomogram_stats.flatMap((stats) =>
     stats.tomogram_resolutions.map((tomogram) => tomogram),
@@ -105,33 +105,13 @@ export default function RunByIdPage() {
   const tomogram = run.tomogram_voxel_spacings.at(0)
   const { t } = useI18n()
 
-  const activeAnnotation = useMemo(() => {
-    const allAnnotations = new Map(
-      run.annotation_table
-        .flatMap((table) => table.annotations.map((annotation) => annotation))
-        .map((annotation) => [annotation.id, annotation]),
-    )
-
-    const activeBaseAnnotation = annotationId
-      ? allAnnotations.get(+annotationId)
-      : null
-
-    const activeAnnotationFile = objectShapeType
-      ? activeBaseAnnotation?.files.find(
-          (file) => file.shape_type === objectShapeType,
-        )
-      : null
-
-    const result =
-      activeBaseAnnotation && activeAnnotationFile
-        ? {
-            ...activeBaseAnnotation,
-            ...activeAnnotationFile,
-          }
-        : null
-
-    return result as Annotation | null
-  }, [annotationId, objectShapeType, run.annotation_table])
+  const activeAnnotation: BaseAnnotation | undefined = useMemo(
+    () =>
+      annotationFiles.find(
+        (file) => file.annotation.id === toNumber(annotationId),
+      )?.annotation,
+    [annotationId, annotationFiles],
+  )
 
   const httpsPath = useMemo(() => {
     if (activeAnnotation) {
