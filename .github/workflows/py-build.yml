@@ -24,7 +24,7 @@ jobs:
         with:
           manifest-file: "release-please.manifest.json"
           config-file: "release-please.config.json"
-          target-branch: "main" # TODO change to main
+          target-branch: "main"
     outputs:
       paths_released: ${{ steps.release.outputs.paths_released }}
 
@@ -34,7 +34,7 @@ jobs:
     needs: release-please
     if: contains(needs.release-please.outputs.paths_released, 'client/python/cryoet_data_portal')
     environment:
-      name: pypi # TODO change to pypi
+      name: pypi
       url: https://pypi.org/p/cellxgene-ontology-guide
     permissions:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
