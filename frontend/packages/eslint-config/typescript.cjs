@@ -82,8 +82,8 @@ module.exports = {
       {
         selector: 'variable',
         format: ['camelCase', 'UPPER_CASE'],
-        leadingUnderscore: 'allow'
-      }
-    ]
+        leadingUnderscore: 'allow',
+      },
+    ],
   },
 }
