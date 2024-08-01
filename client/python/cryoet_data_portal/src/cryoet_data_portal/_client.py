@@ -6,6 +6,8 @@ from gql import Client as GQLClient
 from gql.dsl import DSLQuery, DSLSchema, dsl_gql
 from gql.transport.requests import RequestsHTTPTransport
 
+from cryoet_data_portal._constants import USER_AGENT
+
 DEFAULT_URL = "https://graphql.cryoetdataportal.cziscience.com/v1/graphql"
 
 
@@ -30,6 +32,7 @@ class Client:
         transport = RequestsHTTPTransport(
             url=url,
             retries=3,
+            headers={"User-agent": USER_AGENT},
         )
 
         with open(
