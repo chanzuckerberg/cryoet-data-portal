@@ -63,9 +63,6 @@ jobs:
       environment: staging
 
   tag-frontend-release:
-    concurrency:
-      group: tag-frontend-release-${{ github.ref }}
-      cancel-in-progress: true
 
     outputs:
       tag: ${{ fromJson(steps.get-tag-name.outputs.result).tag }}
