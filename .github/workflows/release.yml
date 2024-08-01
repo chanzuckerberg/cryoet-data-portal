@@ -1,14 +1,10 @@
-name: Python cryoet_data_portal release
+name: Create Release PRs
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
-  workflow_dispatch:
-
-concurrency:
-  group: create-python-client-release
-  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -16,15 +12,21 @@ permissions:
 
 jobs:
   release-please:
+    concurrency:
+      group: release-prs-${{ github.ref }}
+      cancel-in-progress: true
+
     runs-on: ubuntu-latest
     steps:
       - name: release please
         uses: googleapis/release-please-action@v4
         id: release
         with:
+          # TODO Configuring using manifest file as workaround until we move the frontend to its own repo
           manifest-file: "release-please.manifest.json"
           config-file: "release-please.config.json"
           target-branch: "main"
+
     outputs:
       paths_released: ${{ steps.release.outputs.paths_released }}
 
