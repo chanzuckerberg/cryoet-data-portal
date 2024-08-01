@@ -16,6 +16,9 @@ export class DownloadDialogPage extends BasePage {
   // #endregion Hover
 
   // #region Get
+  public getDialog(): Locator {
+    return this.page.getByRole('dialog')
+  }
   // #endregion Get
 
   // #region Macro
@@ -26,11 +29,11 @@ export class DownloadDialogPage extends BasePage {
     await expect(dialog).toBeVisible()
   }
 
-  public async expectDialogToHaveTitle(title: string, dialog: Locator) {
+  public async expectDialogToHaveTitle(dialog: Locator, title: string) {
     await expect(dialog.getByRole('heading').first()).toHaveText(title)
   }
 
-  public async expectSubstringToBeVisible(str: string, dialog: Locator) {
+  public async expectSubstringToBeVisible(dialog: Locator, str: string) {
     await expect(dialog.getByText(str)).toBeVisible()
   }
   // #endregion Validation
