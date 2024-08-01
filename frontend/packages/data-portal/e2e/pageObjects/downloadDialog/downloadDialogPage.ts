@@ -1,10 +1,15 @@
+import { Locator } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { BasePage } from 'e2e/pageObjects/basePage'
 
 export class DownloadDialogPage extends BasePage {
   // #region Navigate
   // #endregion Navigate
 
- // #region Click
+  // #region Click
+  public async openDialog(name: string): Promise<void> {
+    await this.page.getByRole('button', { name }).click()
+  }
   // #endregion Click
 
   // #region Hover
@@ -17,8 +22,18 @@ export class DownloadDialogPage extends BasePage {
   // #endregion Macro
 
   // #region Validation
-  // #endregion Validation
+  public async expectDialogToBeVisible(dialog: Locator) {
+    await expect(dialog).toBeVisible()
+  }
 
+  public async expectDialogToHaveTitle(title: string, dialog: Locator) {
+    await expect(dialog.getByRole('heading').first()).toHaveText(title)
+  }
+
+  public async expectSubstringToBeVisible(str: string, dialog: Locator) {
+    await expect(dialog.getByText(str)).toBeVisible()
+  }
+  // #endregion Validation
   // #region Bool
   // #endregion Bool
 }
