@@ -178,18 +178,17 @@ export default function RunByIdPage() {
           pageQueryParamKey: QueryParams.AnnotationsPage,
           filteredCount: annotationFilesAggregates.filteredCount,
           totalCount: annotationFilesAggregates.totalCount,
-          countLabel: i18n.annotations,
+          countLabel: t('annotations').toLowerCase(),
         },
         ...(multipleTomogramsEnabled
           ? [
               {
-                title: t('annotations'),
-                filterPanel: <AnnotationFilter />,
+                title: t('tomograms'),
                 table: <AnnotationTable />,
-                pageQueryParamKey: QueryParams.AnnotationsPage,
+                pageQueryParamKey: QueryParams.TomogramsPage,
                 filteredCount: annotationFilesAggregates.filteredCount,
                 totalCount: annotationFilesAggregates.totalCount,
-                countLabel: i18n.annotations,
+                countLabel: t('tomograms').toLowerCase(),
               },
             ]
           : []),
