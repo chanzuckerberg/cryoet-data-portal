@@ -6,12 +6,14 @@ from gql import Client as GQLClient
 from gql.dsl import DSLQuery, DSLSchema, dsl_gql
 from gql.transport.requests import RequestsHTTPTransport
 
+DEFAULT_URL = "https://graphql.cryoetdataportal.cziscience.com/v1/graphql"
+
 
 class Client:
     """A GraphQL Client library that can traverse all the metadata in the CryoET Data Portal
 
     Args:
-        url (Optional[str]): The API URL to connect to, defaults to "https://graphql.cryoetdataportal.cziscience.com/v1/graphql"
+        url (Optional[str]): The API URL to connect to, defaults to the latest portal endpoint.
 
     Returns:
         A GraphQL API Client library
@@ -23,9 +25,8 @@ class Client:
     """
 
     def __init__(self, url: Optional[str] = None):
-        # Use our default API URL
         if not url:
-            url = "https://graphql.cryoetdataportal.cziscience.com/v1/graphql"
+            url = DEFAULT_URL
         transport = RequestsHTTPTransport(
             url=url,
             retries=3,

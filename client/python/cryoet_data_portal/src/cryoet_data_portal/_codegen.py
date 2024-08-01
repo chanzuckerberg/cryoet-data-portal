@@ -1,11 +1,13 @@
 """This module generates model code from the GraphQL schema."""
 
 import logging
-import pathlib
 import re
 from dataclasses import dataclass
+from pathlib import Path
 from typing import List, Optional
 
+from gql import Client
+from gql.transport.requests import RequestsHTTPTransport
 from graphql import (
     GraphQLField,
     GraphQLList,
@@ -15,8 +17,11 @@ from graphql import (
     GraphQLSchema,
     GraphQLType,
     build_schema,
+    print_schema,
 )
 from jinja2 import Environment, FileSystemLoader
+
+from cryoet_data_portal._client import DEFAULT_URL
 
 """Maps GraphQL field type names to model field defaults and Python types."""
 GQL_TO_MODEL_FIELD = {
@@ -47,6 +52,11 @@ GQL_TO_MODEL_TYPE = {
 }
 
 
+PARENT_PATH = Path(__file__).parent
+SCHEMA_PATH = PARENT_PATH / "data" / "schema.graphql"
+MODELS_PATH = PARENT_PATH / "_models.py"
+
+
 @dataclass(frozen=True)
 class FieldInfo:
     """The information about a parsed model field."""
@@ -57,10 +67,10 @@ class FieldInfo:
     default_value: str
 
 
-def write_models(path: str) -> None:
+def write_models() -> None:
     schema = load_schema()
     environment = load_environment()
-    with open(path, "w") as f:
+    with open(MODELS_PATH, "w") as f:
         template = environment.get_template("Header.jinja2")
         content = template.render()
         f.write(content)
@@ -83,14 +93,22 @@ def write_models(path: str) -> None:
         f.write(content)
 
 
+def write_schema() -> None:
+    transport = RequestsHTTPTransport(url=DEFAULT_URL, retries=3)
+    with Client(transport=transport, fetch_schema_from_transport=True) as session:
+        schema_str = print_schema(session.client.schema)
+        with open(SCHEMA_PATH, "w") as f:
+            f.write(schema_str)
+
+
 def load_schema() -> GraphQLSchema:
-    with open(pathlib.Path(__file__).parent / "data" / "schema.graphql", "r") as f:
+    with open(SCHEMA_PATH, "r") as f:
         schema_str = f.read()
     return build_schema(schema_str)
 
 
 def load_environment() -> Environment:
-    template_dir = pathlib.Path(__file__).parent / "templates"
+    template_dir = PARENT_PATH / "templates"
     loader = FileSystemLoader(template_dir)
     return Environment(
         loader=loader,
@@ -191,6 +209,6 @@ def _camel_to_snake_case(name: str) -> str:
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    path = pathlib.Path(__file__).parent / "_models.py"
-    write_models(str(path))
+    logging.basicConfig(level=logging.WARN)
+    write_schema()
+    write_models()

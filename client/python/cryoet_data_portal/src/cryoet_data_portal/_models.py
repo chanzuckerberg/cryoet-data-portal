@@ -547,6 +547,7 @@ class AnnotationAuthor(Model):
         name (str): Full name of an annotation author (e.g. Jane Doe).
         orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
         primary_annotator_status (bool): Indicating whether an annotator is the main person executing the annotation, especially on manual annotation (YES or NO)
+        primary_author_status (bool): None
     """
 
     _gql_type: str = "annotation_authors"
@@ -563,6 +564,7 @@ class AnnotationAuthor(Model):
     name: str = StringField()
     orcid: str = StringField()
     primary_annotator_status: bool = BooleanField()
+    primary_author_status: bool = BooleanField()
 
 
 class TiltSeries(Model):

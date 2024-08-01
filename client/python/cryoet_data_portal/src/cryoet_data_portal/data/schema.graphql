@@ -157,6 +157,7 @@ type annotation_authors {
   Indicating whether an annotator is the main person executing the annotation, especially on manual annotation (YES or NO)
   """
   primary_annotator_status: Boolean
+  primary_author_status: Boolean
 }
 
 """
@@ -273,6 +274,7 @@ input annotation_authors_bool_exp {
   name: String_comparison_exp
   orcid: String_comparison_exp
   primary_annotator_status: Boolean_comparison_exp
+  primary_author_status: Boolean_comparison_exp
 }
 
 """aggregate max on columns"""
@@ -429,6 +431,7 @@ input annotation_authors_order_by {
   name: order_by
   orcid: order_by
   primary_annotator_status: order_by
+  primary_author_status: order_by
 }
 
 """
@@ -467,6 +470,9 @@ enum annotation_authors_select_column {
 
   """column name"""
   primary_annotator_status
+
+  """column name"""
+  primary_author_status
 }
 
 """
@@ -478,6 +484,9 @@ enum annotation_authors_select_column_annotation_authors_aggregate_bool_exp_bool
 
   """column name"""
   primary_annotator_status
+
+  """column name"""
+  primary_author_status
 }
 
 """
@@ -489,6 +498,9 @@ enum annotation_authors_select_column_annotation_authors_aggregate_bool_exp_bool
 
   """column name"""
   primary_annotator_status
+
+  """column name"""
+  primary_author_status
 }
 
 """aggregate stddev on columns"""
