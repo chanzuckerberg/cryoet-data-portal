@@ -107,6 +107,8 @@ def parse_fields(gql_type: GraphQLObjectType) -> List[FieldInfo]:
         if parsed is not None:
             logging.info("Parsed field %s", parsed)
             fields.append(parsed)
+        else:
+            logging.warning("Failed to parse field: %s, %s", name, field)
     return fields
 
 
