@@ -20,7 +20,6 @@ import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQuery
 import { useFileSize } from 'app/hooks/useFileSize'
 import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
-import { i18n } from 'app/i18n'
 import { Annotation } from 'app/state/annotation'
 import { DownloadConfig } from 'app/types/download'
 import { useFeatureFlag } from 'app/utils/featureFlags'
