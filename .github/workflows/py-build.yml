@@ -35,7 +35,7 @@ jobs:
     if: contains(needs.release-please.outputs.paths_released, 'client/python/cryoet_data_portal')
     environment:
       name: pypi
-      url: https://pypi.org/p/cellxgene-ontology-guide
+      url: https://pypi.org/p/cryoet-data-portal
     permissions:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
     steps:
