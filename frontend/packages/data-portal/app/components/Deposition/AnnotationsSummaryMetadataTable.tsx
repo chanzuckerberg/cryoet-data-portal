@@ -103,7 +103,7 @@ export function AnnotationsSummaryMetadataTable({
   return (
     <AccordionMetadataTable
       id="annotations-summary-metadata"
-      header={t('depositionOverview')}
+      header={t('annotationsSummary')}
       data={annotationsSummaryMetadata}
       initialOpen={initialOpen}
     />
