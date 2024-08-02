@@ -2,11 +2,14 @@
  * This file contains combinations of page interactions or data fetching. Remove if not needed.
  */
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { SINGLE_DATASET_URL, translations } from 'e2e/constants'
+import { expect } from '@playwright/test'
+import { E2E_CONFIG, SINGLE_DATASET_URL, translations } from 'e2e/constants'
 import { DownloadDialogPage } from 'e2e/pageObjects/downloadDialog/downloadDialogPage'
 
+import { getDatasetCodeSnippet } from 'app/components/Download/APIDownloadTab'
 import { DownloadTab } from 'app/types/download'
 
+import { singleDatasetDownloadTab } from './types'
 import { constructDialogUrl, fetchTestSingleDataset } from './utils'
 
 export class DownloadDialogActor {
@@ -16,6 +19,34 @@ export class DownloadDialogActor {
     this.downloadDialogPage = downloadDialogPage
   }
 
+  // #region Navigate
+  public async goToDownloadTabUrl({
+    url,
+    tab,
+  }: {
+    url: string
+    tab: DownloadTab
+  }) {
+    const expectedUrl = constructDialogUrl(url, {
+      tab,
+    })
+    await this.downloadDialogPage.goTo(expectedUrl.href)
+  }
+  // #endregion Navigate
+
+  // #region Click
+  // #endregion Click
+
+  // #region Hover
+  // #endregion Hover
+
+  // #region Get
+  // #endregion Get
+
+  // #region Macro
+  // #endregion Macro
+
+  // #region Validation
   public async expectDialogToBeOpen({
     title,
     substrings,
@@ -35,7 +66,7 @@ export class DownloadDialogActor {
     }
   }
 
-  public async expectDialogToShowCorrectTitle({
+  public async expectDialogToShowCorrectContent({
     client,
   }: {
     client: ApolloClient<NormalizedCacheObject>
@@ -53,4 +84,39 @@ export class DownloadDialogActor {
     })
     await this.downloadDialogPage.page.waitForURL(expectedUrl.href)
   }
+
+  public async expectDialogToBeOnCorrectTab({ tab }: { tab: DownloadTab }) {
+    const dialog = this.downloadDialogPage.getDialog()
+    await this.downloadDialogPage.expectTabSelected({
+      dialog,
+      tab,
+      isSelected: true,
+    })
+
+    await Promise.all(
+      Object.values(singleDatasetDownloadTab).map(async (t) => {
+        if (t !== tab) {
+          await this.downloadDialogPage.expectTabSelected({
+            dialog,
+            tab: t,
+            isSelected: false,
+          })
+        }
+      }),
+    )
+  }
+
+  public async expectClipboardToHaveCorrectAwsValue() {
+    const clipboard = await this.downloadDialogPage.getClipboardHandle()
+    const clipboardValue = await clipboard.jsonValue()
+    expect(clipboardValue).toContain('aws s3')
+    expect(clipboardValue).toContain(E2E_CONFIG.datasetId)
+  }
+
+  public async expectClipboardToHaveCorrectApiValue() {
+    const clipboard = await this.downloadDialogPage.getClipboardHandle()
+    const clipboardValue = await clipboard.jsonValue()
+    expect(clipboardValue).toBe(getDatasetCodeSnippet(+E2E_CONFIG.datasetId))
+  }
+  // #endregion Validation
 }

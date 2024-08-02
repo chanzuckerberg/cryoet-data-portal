@@ -1,8 +1,17 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import { test } from '@playwright/test'
 import { E2E_CONFIG } from 'e2e/constants'
 
 import { QueryParams } from 'app/constants/query'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
+
+export function skipClipboardTestsForWebkit(browserName: string) {
+  // eslint-disable-next-line playwright/no-skipped-test
+  test.skip(
+    browserName === 'webkit',
+    'Skipping for safari because clipboard permissions are not availabe.',
+  )
+}
 
 export function constructDialogUrl(
   url: URL | string,

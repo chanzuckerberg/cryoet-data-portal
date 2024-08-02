@@ -12,4 +12,24 @@ export class <%= h.changeCase.pascal(name) %>Actor {
   constructor(<%= name %>Page: <%= h.changeCase.pascal(name) %>Page) {
     this.<%= name %>Page = <%= name %>Page
   }
+  // #region Navigate
+  // #endregion Navigate
+
+   // #region Click
+  // #endregion Click
+
+  // #region Hover
+  // #endregion Hover
+
+  // #region Get
+  // #endregion Get
+
+  // #region Macro
+  // #endregion Macro
+
+  // #region Validation
+  // #endregion Validation
+
+  // #region Bool
+  // #endregion Bool
 }

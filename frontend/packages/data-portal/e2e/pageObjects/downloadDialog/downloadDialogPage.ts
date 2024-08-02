@@ -1,6 +1,8 @@
-import { Locator } from '@playwright/test'
-import { expect } from '@playwright/test'
+import { expect, Locator } from '@playwright/test'
+import { translations } from 'e2e/constants'
 import { BasePage } from 'e2e/pageObjects/basePage'
+
+import { DownloadTab } from 'app/types/download'
 
 export class DownloadDialogPage extends BasePage {
   // #region Navigate
@@ -10,6 +12,21 @@ export class DownloadDialogPage extends BasePage {
   public async openDialog(name: string): Promise<void> {
     await this.page.getByRole('button', { name }).click()
   }
+
+  public async clickTab(tab: DownloadTab): Promise<void> {
+    const dialog = this.getDialog()
+    await dialog.getByRole('tab', { name: tab }).click()
+  }
+
+  public async clickCopyButton(): Promise<void> {
+    const dialog = this.getDialog()
+    await dialog.getByRole('button', { name: translations.copy }).click()
+  }
+
+  public async clickCloseButton(): Promise<void> {
+    const dialog = this.getDialog()
+    await dialog.getByRole('button', { name: translations.close }).click()
+  }
   // #endregion Click
 
   // #region Hover
@@ -18,6 +35,10 @@ export class DownloadDialogPage extends BasePage {
   // #region Get
   public getDialog(): Locator {
     return this.page.getByRole('dialog')
+  }
+
+  public async getClipboardHandle() {
+    return this.page.evaluateHandle(() => navigator.clipboard.readText())
   }
   // #endregion Get
 
@@ -29,12 +50,32 @@ export class DownloadDialogPage extends BasePage {
     await expect(dialog).toBeVisible()
   }
 
+  public async expectDialogToBeHidden() {
+    const dialog = this.getDialog()
+    await expect(dialog).toBeHidden()
+  }
+
   public async expectDialogToHaveTitle(dialog: Locator, title: string) {
     await expect(dialog.getByRole('heading').first()).toHaveText(title)
   }
 
   public async expectSubstringToBeVisible(dialog: Locator, str: string) {
     await expect(dialog.getByText(str)).toBeVisible()
+  }
+
+  public async expectTabSelected({
+    dialog,
+    tab,
+    isSelected,
+  }: {
+    dialog: Locator
+    tab: DownloadTab
+    isSelected: boolean
+  }) {
+    await expect(dialog.getByRole('tab', { name: tab })).toHaveAttribute(
+      'aria-selected',
+      isSelected ? 'true' : 'false',
+    )
   }
   // #endregion Validation
   // #region Bool
