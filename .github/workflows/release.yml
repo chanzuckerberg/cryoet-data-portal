@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - tsmith/add-release
 
 permissions:
   contents: write
