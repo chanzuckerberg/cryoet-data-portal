@@ -4,9 +4,11 @@ on:
   pull_request:
     branches:
       - release-please--branches--tsmith/automate-release--components--cryoet-data-portal-python-client
+      - tsmith/automate-release
   push:
     branches:
       - release-please--branches--tsmith/automate-release--components--cryoet-data-portal-python-client
+      - tsmith/automate-release
 
 jobs:
   release-check:
