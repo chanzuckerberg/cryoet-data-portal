@@ -19,7 +19,7 @@ jobs:
         with:
           retries: 10
           script: |
-            const { data } = await github.actions.listForRef({
+            const { data } = await github.rest.checks.listForRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: 'main',
