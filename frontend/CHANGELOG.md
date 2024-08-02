@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.17.0...web-v1.18.0) (2024-08-02)
+
+
+### ✨ Features
+
+* Add Tomograms tab to Run page ([#983](https://github.com/chanzuckerberg/cryoet-data-portal/issues/983)) ([c357e6e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c357e6e804ac31a854a5012295a459c3be19e6e6))
+
 ## [1.17.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.16.0...web-v1.17.0) (2024-07-31)
 
 
