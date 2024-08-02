@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "cryoet_data_portal"
-dynamic = ["version"]
+version = "3.0.3"
 description = "API Client to facilitate the use of the CryoET Portal. For more information about the API and the project visit https://github.com/chanzuckerberg/cryoet-data-portal/"
 authors = [
     { name = "Chan Zuckerberg Initiative", email = "cryoetdataportal@chanzuckerberg.com" }
@@ -38,6 +38,7 @@ dependencies= [
 [project.urls]
 homepage = "https://github.com/chanzuckerberg/cryoet-data-portal"
 repository = "https://github.com/chanzuckerberg/cryoet-data-portal"
+documentation = "https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html"
 
 [tool.setuptools.packages.find]
 where = ["src"]
