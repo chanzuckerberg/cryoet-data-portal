@@ -1,9 +1,7 @@
 import { Icon } from '@czi-sds/components'
-import { ReactNode } from 'react'
 
 import { CollapsibleList } from 'app/components/CollapsibleList'
 import { I18n } from 'app/components/I18n'
-import { SourceCodeIcon, WeightsIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
 import { Tooltip } from 'app/components/Tooltip'
@@ -13,83 +11,12 @@ import {
   MethodType,
 } from 'app/constants/methodTypes'
 import { useI18n } from 'app/hooks/useI18n'
-import { I18nKeys } from 'app/types/i18n'
 
-interface MethodLink {
-  i18nLabel: I18nKeys
-  url: string
-  icon: ReactNode
-  title?: string
-}
-
-const iconMap = {
-  sourceCode: (
-    <SourceCodeIcon className="w-sds-icon-s h-sds-icon-s inline-block" />
-  ),
-  modelWeights: (
-    <WeightsIcon className="w-sds-icon-s h-sds-icon-s inline-block" />
-  ),
-  website: (
-    <Icon
-      sdsIcon="globe"
-      sdsType="static"
-      sdsSize="s"
-      className="!text-current"
-    />
-  ),
-  documentation: (
-    <Icon
-      sdsIcon="document"
-      sdsType="static"
-      sdsSize="s"
-      className="!text-current"
-    />
-  ),
-  other: (
-    <Icon
-      sdsIcon="link"
-      sdsType="static"
-      sdsSize="s"
-      className="!text-current"
-    />
-  ),
-} as const
-
-interface MethodLinkVariantProps {
-  variant: keyof typeof iconMap
-  url: string
-  title?: string
-}
-
-const variantOrder: (keyof typeof iconMap)[] = [
-  'sourceCode',
-  'modelWeights',
-  'website',
-  'documentation',
-  'other',
-]
-
-function methodLinkFromVariant({
-  variant,
-  url,
-  title,
-}: MethodLinkVariantProps): MethodLink {
-  return {
-    i18nLabel: variant,
-    url,
-    title,
-    icon: iconMap[variant],
-  }
-}
-
-function generateMethodLinks(links: MethodLinkVariantProps[]): MethodLink[] {
-  return links
-    .toSorted(
-      (a, b) =>
-        variantOrder.indexOf(a.variant) - variantOrder.indexOf(b.variant),
-    )
-    .map((props) => methodLinkFromVariant(props))
-}
+import {
+  generateMethodLinks,
+  MethodLink,
+  MethodLinkVariantProps,
+} from './common'
 
 function MethodTypeSection({
   methodType,
@@ -150,11 +77,12 @@ function MethodTypeSection({
   )
 }
 
-export function AnnotationMethodsSummary() {
+export function MethodLinksOverview() {
   const { t } = useI18n()
 
   const separator = <div className="h-[1px] bg-sds-gray-300" />
 
+  // TODO: populate this with backend data when available
   const hybridMethodLinks: MethodLinkVariantProps[] = [
     {
       variant: 'sourceCode',

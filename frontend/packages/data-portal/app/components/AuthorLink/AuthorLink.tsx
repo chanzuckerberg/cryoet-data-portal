@@ -39,12 +39,10 @@ export function AuthorLink({
         )}
       >
         {author.orcid && (
-          <ORCIDIcon className="inline mb-0.5" width={iconSize} />
+          <ORCIDIcon className="inline mb-0.5 mr-sds-xxxs" width={iconSize} />
         )}
 
-        <span className={cns('ml-sds-xxxs', large ? 'text-sm' : 'text-xs')}>
-          {author.name}
-        </span>
+        <span className={large ? 'text-sm' : 'text-xs'}>{author.name}</span>
       </span>
 
       {author.corresponding_author_status && (

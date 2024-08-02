@@ -5,44 +5,28 @@ import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorInfo } from 'app/components/AuthorLink'
 import { AuthorList } from 'app/components/AuthorList'
-import { DatabaseEntry } from 'app/components/DatabaseEntry'
+import { DatabaseEntryList } from 'app/components/DatabaseEntry'
 import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
 import { DatasetType } from './type'
 
-function DatabaseEntryList({ entries }: { entries: string }) {
-  return (
-    <ul className="flex flex-col gap-sds-xs text-sds-body-s leading-sds-body-xs">
-      {entries.split(',').map((entry) => {
-        return (
-          <li key={entry}>
-            <DatabaseEntry entry={entry.trim()} inline />
-          </li>
-        )
-      })}
-    </ul>
-  )
-}
-
-interface DatasetMetadataTableProps {
-  dataset: DatasetType
-  allFields?: boolean
-  initialOpen?: boolean
-}
-
 export function DatasetMetadataTable({
   dataset,
   allFields,
   initialOpen,
-}: DatasetMetadataTableProps) {
+}: {
+  dataset: DatasetType
+  allFields?: boolean
+  initialOpen?: boolean
+}) {
   const { t } = useI18n()
 
   const datasetMetadata = getTableData(
     !!allFields && {
       label: t('datasetTitle'),
-      values: [dataset.title!],
+      values: [dataset.title ?? ''],
       renderValue: (value) => {
         return (
           <Link
@@ -64,7 +48,7 @@ export function DatasetMetadataTable({
 
     !!allFields && {
       label: t('datasetId'),
-      values: [`${dataset.id!}`],
+      values: [`${dataset.id ?? ''}`],
     },
 
     !!allFields && {
@@ -75,7 +59,7 @@ export function DatasetMetadataTable({
 
     {
       label: t('depositionDate'),
-      values: [dataset.deposition_date!],
+      values: [dataset.deposition_date ?? ''],
     },
 
     !!allFields && {
