@@ -5,6 +5,7 @@ import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
 
 import { AnnotationsSummaryMetadataTable } from './AnnotationsSummaryMetadataTable'
 import { DepositionMetadataTable } from './DepositionMetadataTable'
+import { MethodLinksMetadataTable } from './MethodLinks'
 
 export function DepositionMetadataDrawer() {
   const { t } = useI18n()
@@ -18,6 +19,7 @@ export function DepositionMetadataDrawer() {
     >
       <DepositionMetadataTable deposition={deposition} />
       <AnnotationsSummaryMetadataTable />
+      <MethodLinksMetadataTable />
     </MetadataDrawer>
   )
 }
