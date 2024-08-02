@@ -20,9 +20,9 @@ import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQuery
 import { useFileSize } from 'app/hooks/useFileSize'
 import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
-import { i18n } from 'app/i18n'
 import { Annotation } from 'app/state/annotation'
 import { DownloadConfig } from 'app/types/download'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
@@ -74,6 +74,8 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 }
 
 export default function RunByIdPage() {
+  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
+
   const { run, annotationFilesAggregates } = useRunById()
 
   const allTomogramResolutions = run.tomogram_stats.flatMap((stats) =>
@@ -166,6 +168,7 @@ export default function RunByIdPage() {
   return (
     <TablePageLayout
       header={<RunHeader />}
+      tabsTitle={multipleTomogramsEnabled ? t('browseRunData') : undefined}
       tabs={[
         {
           title: t('annotations'),
@@ -174,8 +177,20 @@ export default function RunByIdPage() {
           pageQueryParamKey: QueryParams.AnnotationsPage,
           filteredCount: annotationFilesAggregates.filteredCount,
           totalCount: annotationFilesAggregates.totalCount,
-          countLabel: i18n.annotations,
+          countLabel: t('annotations'),
         },
+        ...(multipleTomogramsEnabled
+          ? [
+              {
+                title: t('tomograms'),
+                table: <AnnotationTable />,
+                pageQueryParamKey: QueryParams.TomogramsPage,
+                filteredCount: annotationFilesAggregates.filteredCount,
+                totalCount: annotationFilesAggregates.totalCount,
+                countLabel: t('tomograms'),
+              },
+            ]
+          : []),
       ]}
       downloadModal={
         <DownloadModal
