@@ -26,6 +26,9 @@ jobs:
               check_name: 'Python Client Tests',
               filter: 'latest',
             });
-            if (data.workflow_runs[0].conclusion !== 'success') {
-              core.setFailed('Tests failed on main');
+            if (data.total_count === 0) {
+              core.setFailed('No checks found on main');
+            }
+            if (data.check_runs[0].conclusion !== 'success') {
+              core.setFailed('Python Client Tests on main did not pass');
             }
