@@ -1,6 +1,9 @@
 # write a Github actions to verify the workflow "Python Client Tests" on the main branch ran successfully.
 name: Client Release Check
 on:
+  pull_request:
+    branches:
+      - release-please--branches--tsmith/automate-release--components--cryoet-data-portal-python-client
   push:
     branches:
       - release-please--branches--tsmith/automate-release--components--cryoet-data-portal-python-client
