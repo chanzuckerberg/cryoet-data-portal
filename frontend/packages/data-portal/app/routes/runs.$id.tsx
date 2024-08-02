@@ -177,7 +177,7 @@ export default function RunByIdPage() {
           pageQueryParamKey: QueryParams.AnnotationsPage,
           filteredCount: annotationFilesAggregates.filteredCount,
           totalCount: annotationFilesAggregates.totalCount,
-          countLabel: t('annotations').toLowerCase(),
+          countLabel: t('annotations'),
         },
         ...(multipleTomogramsEnabled
           ? [
@@ -187,7 +187,7 @@ export default function RunByIdPage() {
                 pageQueryParamKey: QueryParams.TomogramsPage,
                 filteredCount: annotationFilesAggregates.filteredCount,
                 totalCount: annotationFilesAggregates.totalCount,
-                countLabel: t('tomograms').toLowerCase(),
+                countLabel: t('tomograms'),
               },
             ]
           : []),
