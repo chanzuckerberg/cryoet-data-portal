@@ -16,11 +16,13 @@ import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
 const GET_RUN_BY_ID_QUERY = gql(`
   query GetRunById(
-    $id: Int,
-    $limit: Int,
-    $annotationsOffset: Int,
-    $filter: [annotations_bool_exp!],
+    $id: Int
+    $limit: Int
+    $annotationsOffset: Int
+    $filter: [annotations_bool_exp!]
     $fileFilter: [annotation_files_bool_exp!]
+    $canonicalTomogramFilter: Boolean
+    $tomogramLimit: Int
   ) {
     runs(where: { id: { _eq: $id } }) {
       id
@@ -103,15 +105,13 @@ const GET_RUN_BY_ID_QUERY = gql(`
         }
       }
 
-      tomogram_voxel_spacings(limit: 1) {
+      tomogram_voxel_spacings(where: $canonicalTomogramVoxelSpacingsFilter) {
         id
         s3_prefix
 
         tomograms(
-          limit: 1,
-          where: {
-            is_canonical: { _eq: true }
-          },
+          limit: $singleTomogramLimit
+          where: $canonicalTomogramsFilter
         ) {
           affine_transformation_matrix
           ctf_corrected
@@ -423,11 +423,13 @@ export async function getRunById({
   id,
   annotationsPage,
   params = new URLSearchParams(),
+  multipleTomogramsEnabled,
 }: {
   client: ApolloClient<NormalizedCacheObject>
   id: number
   annotationsPage: number
   params?: URLSearchParams
+  multipleTomogramsEnabled: boolean
 }): Promise<ApolloQueryResult<GetRunByIdQuery>> {
   return client.query({
     query: GET_RUN_BY_ID_QUERY,
@@ -437,6 +439,8 @@ export async function getRunById({
       annotationsOffset: (annotationsPage - 1) * MAX_PER_PAGE,
       filter: getFilter(getFilterState(params)),
       fileFilter: getFileFilter(getFilterState(params)),
+      canonicalTomogramFilter: multipleTomogramsEnabled ? true : undefined,
+      tomogramLimit: multipleTomogramsEnabled ? 1 : undefined,
     },
   })
 }

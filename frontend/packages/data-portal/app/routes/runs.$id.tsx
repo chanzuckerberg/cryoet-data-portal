@@ -22,10 +22,16 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
 import { Annotation } from 'app/state/annotation'
 import { DownloadConfig } from 'app/types/download'
-import { useFeatureFlag } from 'app/utils/featureFlags'
+import { getFeatureFlag, useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
+  const multipleTomogramsEnabled = getFeatureFlag({
+    env: process.env.ENV,
+    key: 'multipleTomograms',
+    params: new URL(request.url).searchParams,
+  })
+
   const id = params.id ? +params.id : NaN
 
   if (Number.isNaN(+id)) {
@@ -45,6 +51,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     annotationsPage,
     client: apolloClient,
     params: url.searchParams,
+    multipleTomogramsEnabled,
   })
 
   if (data.runs.length === 0) {
