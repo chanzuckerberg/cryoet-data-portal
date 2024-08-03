@@ -16,12 +16,12 @@ import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
 const GET_RUN_BY_ID_QUERY = gql(`
   query GetRunById(
-    $id: Int
-    $limit: Int
-    $annotationsOffset: Int
-    $filter: [annotations_bool_exp!]
-    $fileFilter: [annotation_files_bool_exp!]
-    $canonicalTomogramFilter: Boolean
+    $id: Int,
+    $limit: Int,
+    $annotationsOffset: Int,
+    $filter: [annotations_bool_exp!],
+    $fileFilter: [annotation_files_bool_exp!],
+    $canonicalTomogramFilter: Boolean,
     $tomogramLimit: Int
   ) {
     runs(where: { id: { _eq: $id } }) {
