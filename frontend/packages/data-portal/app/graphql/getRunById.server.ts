@@ -103,7 +103,12 @@ const GET_RUN_BY_ID_QUERY = gql(`
         }
       }
 
-      tomogram_voxel_spacings(limit: 1) {
+      tomogram_voxel_spacings(
+        limit: 1
+        where: {
+          is_canonical: { _eq: true}
+        }
+      ) {
         id
         s3_prefix
 
@@ -260,6 +265,29 @@ const GET_RUN_BY_ID_QUERY = gql(`
             count
           }
         }
+      }
+    }
+
+    # Tomograms table:
+    tomograms(where: { tomogram_voxel_spacing: { run_id: { _eq: $id }}}) {
+      affine_transformation_matrix
+      ctf_corrected
+      fiducial_alignment_status
+      id
+      key_photo_url
+      name
+      neuroglancer_config
+      processing
+      processing_software
+      reconstruction_method
+      reconstruction_software
+      size_x
+      size_y
+      size_z
+      voxel_spacing
+      tomogram_voxel_spacing {
+        id
+        s3_prefix
       }
     }
 
