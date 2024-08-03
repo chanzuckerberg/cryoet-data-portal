@@ -105,13 +105,13 @@ const GET_RUN_BY_ID_QUERY = gql(`
         }
       }
 
-      tomogram_voxel_spacings(where: $canonicalTomogramVoxelSpacingsFilter) {
+      tomogram_voxel_spacings(where: { tomogram: { is_canonical: $canonicalTomogramFilter }}) {
         id
         s3_prefix
 
         tomograms(
-          limit: $singleTomogramLimit
-          where: $canonicalTomogramsFilter
+          limit: $tomogramLimit
+          where: { is_canonical: $canonicalTomogramFilter }
         ) {
           affine_transformation_matrix
           ctf_corrected
