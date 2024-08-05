@@ -3,6 +3,7 @@
 import { Button, Icon } from '@czi-sds/components'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { useAtom } from 'jotai'
+import { startCase } from 'lodash-es'
 import { useCallback, useMemo } from 'react'
 
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
@@ -20,7 +21,6 @@ import {
 } from 'app/state/metadataDrawerTomogram'
 
 import { AuthorList } from '../AuthorList'
-import { startCase } from 'lodash-es'
 
 export function TomogramsTable() {
   const { t } = useI18n()
@@ -34,7 +34,7 @@ export function TomogramsTable() {
   const openMetadataDrawer = useCallback(
     (tomogram: Tomogram) => {
       setMetadataDrawerTomogram(tomogram)
-      toggleDrawer(MetadataDrawerId.Annotation)
+      toggleDrawer(MetadataDrawerId.Tomogram)
     },
     [setMetadataDrawerTomogram, toggleDrawer],
   )
@@ -123,12 +123,12 @@ export function TomogramsTable() {
       columnHelper.accessor('processing', {
         header: () => (
           <CellHeader width={TomogramTableWidths.postProcessing}>
-            {startCase(t('postProcessing'))}
+            {t('postProcessing')}
           </CellHeader>
         ),
         cell: ({ getValue }) => (
           <TableCell width={TomogramTableWidths.postProcessing}>
-            <div>{getValue()}</div>
+            <div>{startCase(getValue())}</div>
           </TableCell>
         ),
       }),
@@ -149,11 +149,6 @@ export function TomogramsTable() {
                     startIcon={
                       <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
                     }
-                    // FIXME: check if below still needed in @czi-sds/components >= 20.4.0
-                    // remove negative margin on icon
-                    classes={{
-                      startIcon: '!ml-0',
-                    }}
                   >
                     {t('viewTomogram')}
                   </Button>
@@ -161,32 +156,22 @@ export function TomogramsTable() {
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
+                className="!justify-start !ml-sds-l"
                 onClick={() => openMetadataDrawer(original)}
                 startIcon={
                   <Icon sdsIcon="infoCircle" sdsSize="s" sdsType="button" />
                 }
-                // FIXME: check if below still needed in @czi-sds/components >= 20.4.0
-                // default min-w is 64px which throws off alignment
-                className="!min-w-0"
-                // remove negative margin on icon
-                classes={{
-                  startIcon: '!ml-0',
-                }}
               >
                 <span>{t('info')}</span>
               </Button>
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
+                className="!justify-start !ml-sds-l"
                 onClick={openTomogramDownloadModal}
                 startIcon={
                   <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
                 }
-                // FIXME: check if below still needed in @czi-sds/components >= 20.4.0
-                // remove negative margin on icon
-                classes={{
-                  startIcon: '!ml-0',
-                }}
               >
                 {t('download')}
               </Button>

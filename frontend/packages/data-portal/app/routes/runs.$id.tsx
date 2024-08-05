@@ -14,6 +14,7 @@ import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
 import { AnnotationTable } from 'app/components/Run/AnnotationTable'
 import { RunMetadataDrawer } from 'app/components/Run/RunMetadataDrawer'
+import { TomogramMetadataDrawer } from 'app/components/Run/TomogramMetadataDrawer'
 import { TomogramsTable } from 'app/components/Run/TomogramTable'
 import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
@@ -223,6 +224,7 @@ export default function RunByIdPage() {
         <>
           <RunMetadataDrawer />
           <AnnotationDrawer />
+          <TomogramMetadataDrawer />
         </>
       }
     />
