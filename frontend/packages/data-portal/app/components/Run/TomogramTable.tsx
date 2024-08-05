@@ -1,6 +1,31 @@
+import { CellHeader } from '@czi-sds/components'
+import { Button } from '@mui/base'
+import { TableCell, Tooltip, Icon } from '@mui/material'
+import { createColumnHelper, ColumnDef } from '@tanstack/react-table'
+import {
+  MethodType,
+  methodTooltipLabels,
+  methodLabels,
+} from 'app/constants/methodTypes'
+import { AnnotationTableWidths } from 'app/constants/table'
+import { TestIds } from 'app/constants/testIds'
+import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
+import { useI18n } from 'app/hooks/useI18n'
+import {
+  useMetadataDrawer,
+  MetadataDrawerId,
+} from 'app/hooks/useMetadataDrawer'
+import { useRunById } from 'app/hooks/useRunById'
+import { useAnnotation, Annotation } from 'app/state/annotation'
+import { I18nKeys } from 'app/types/i18n'
+import { cns, cnsNoMerge } from 'app/utils/cns'
+import { useCallback, useMemo, ComponentProps } from 'react'
+import { AuthorList } from '../AuthorList'
+import { I18n } from '../I18n'
+import { DASHED_BORDERED_CLASSES } from '../Link'
+import { PageTable } from '../Table'
+
 export function TomogramsTable() {
-  const { isLoadingDebounced } = useIsLoading()
-  const [searchParams] = useSearchParams()
   const { run, annotationFilesAggregates } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { setActiveAnnotation } = useAnnotation()
@@ -317,66 +342,6 @@ export function TomogramsTable() {
       ) as Annotation[],
     [run.annotation_table],
   )
-
-  const currentPage = toNumber(
-    searchParams.get(QueryParams.AnnotationsPage) ?? 1,
-  )
-
-  /**
-   * Attaches divider(s) before a row.
-   *  - The ground truth divider can only be attached to the first row.
-   *    - The first page always shows the divider, even if there are 0 ground truth rows.
-   *    - Subsequent pages only show the divider if the first row is ground truth.
-   *  - The non ground truth divider is attached to the first non ground truth row.
-   */
-  const getGroundTruthDividersForRow = (
-    table: Table<Annotation>,
-    row: Row<Annotation>,
-  ): ReactNode => {
-    return (
-      <>
-        {row.index === 0 &&
-          (currentPage === 1 || row.original.ground_truth_status) && (
-            <RowDivider
-              groundTruth
-              count={annotationFilesAggregates.groundTruthCount}
-            />
-          )}
-
-        {row.id ===
-          table.getRowModel().rows.find((r) => !r.original.ground_truth_status)
-            ?.id && (
-          <RowDivider
-            groundTruth={false}
-            count={annotationFilesAggregates.otherCount}
-          />
-        )}
-      </>
-    )
-  }
-
-  /**
-   * Adds divider(s) to the end of the table when there are no rows to attach to.
-   *  - The ground truth divider won't have a row to attach to only if there are 0 rows in the
-   *    table.
-   *  - The non ground truth divider won't have a row to attach to only if there are 0 non ground
-   *    truth rows in the table and this is the last page.
-   */
-  const getGroundTruthDividersWhenNoRows = (): ReactNode => {
-    return (
-      <>
-        {annotationFilesAggregates.filteredCount === 0 && (
-          <RowDivider groundTruth count={0} />
-        )}
-
-        {annotationFilesAggregates.otherCount === 0 &&
-          annotationFilesAggregates.filteredCount <=
-            currentPage * MAX_PER_PAGE && (
-            <RowDivider groundTruth={false} count={0} />
-          )}
-      </>
-    )
-  }
 
   return (
     <PageTable
