@@ -6,7 +6,7 @@
    :hidden:
 
    cryoet_data_portal_docsite_quick_start.md
-   python-api
+   python-api.md
    cryoet_data_portal_docsite_data.md
    cryoet_data_portal_docsite_napari.md
    tutorials.md

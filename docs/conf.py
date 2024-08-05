@@ -19,10 +19,9 @@ version = cryoet_data_portal.__version__
 
 extensions = [
     "sphinx.ext.autodoc",
-    "nbsphinx",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
-    "myst_parser",
+    "myst_nb",
     "sphinx_immaterial",
 ]
 
@@ -45,32 +44,53 @@ source_suffix = [".rst", ".md"]
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-# html_theme = 'alabaster'
 # Inject custom css files in `/_static/css/*`
-html_static_path = ["_static"]
+#html_static_path = ["_static"]
 
-# import sphinx_rtd_theme
-
-# html_theme = "sphinx_rtd_theme"
-# html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_theme = "sphinx_immaterial"
 object_description_options = [
     ("py:.*", dict(include_fields_in_toc=False)),
 ]
 html_theme_options = {
-    "features": ["toc.follow", "toc.sticky", "navigation.tracking"],
-    #"analytics": {"provider": "google", "property": "G-XXXXXXXXXX"},
+    "globaltoc_collapse": False,
+    "features": [
+        "navigation.expand",
+        "toc.follow",
+        "toc.sticky",
+    ],
+    "palette": [
+        {
+            "media": "(prefers-color-scheme: light)",
+            "scheme": "default",
+            "primary": "light-green",
+            "accent": "light-blue",
+            "toggle": {
+                "icon": "material/lightbulb-outline",
+                "name": "Switch to dark mode",
+            },
+        },
+        {
+            "media": "(prefers-color-scheme: dark)",
+            "scheme": "slate",
+            "primary": "deep-orange",
+            "accent": "lime",
+            "toggle": {
+                "icon": "material/lightbulb",
+                "name": "Switch to light mode",
+            },
+        },
+    ],
+    # "analytics": {"provider": "google", "property": "G-XXXXXXXXXX"},
 }
 
 
-html_js_files = [
-    (
-        "https://plausible.io/js/script.js",
-        {"data-domain": "chanzuckerberg.github.io/cryoet-data-portal", "defer": "defer"},
-    ),
-]
+# html_js_files = [
+#     (
+#         "https://plausible.io/js/script.js",
+#         {"data-domain": "chanzuckerberg.github.io/cryoet-data-portal", "defer": "defer"},
+#     ),
+# ]
 
 # -- Options for myst -------------------------------------------------
 myst_enable_extensions = ['colon_fence']
-myst_heading_anchors = 2
-
+myst_heading_anchors = 4

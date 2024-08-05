@@ -1,4 +1,2 @@
-sphinx<7
-nbsphinx
-myst-parser
 sphinx-immaterial
+myst_nb
