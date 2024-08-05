@@ -19,6 +19,7 @@ import {
   metadataDrawerTomogramAtom,
   Tomogram,
 } from 'app/state/metadataDrawerTomogram'
+import { getNeuroglancerUrl } from 'app/utils/url'
 
 import { AuthorList } from '../AuthorList'
 
@@ -143,9 +144,7 @@ export function TomogramsTable() {
                   <Button
                     sdsType="primary"
                     sdsStyle="rounded"
-                    to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(
-                      original.neuroglancer_config,
-                    )}`}
+                    to={getNeuroglancerUrl(original.neuroglancer_config)}
                     startIcon={
                       <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
                     }
