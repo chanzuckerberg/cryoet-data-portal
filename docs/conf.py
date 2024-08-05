@@ -23,6 +23,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "myst_parser",
+    "sphinx_design",
 ]
 
 napoleon_custom_sections = ["Lifecycle"]
@@ -31,12 +32,12 @@ tiledb_version = "latest"
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
-    "numpy": ("http://docs.scipy.org/doc/numpy", None),
-    "scipy": ("http://docs.scipy.org/doc/scipy/reference", None),
+    "numpy": ("https://numpy.org/doc/stable", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy", None),
 }
 
 templates_path = ["_templates"]
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "README.md"]
 
 source_suffix = [".rst", ".md"]
 
@@ -62,7 +63,7 @@ html_js_files = [
 
 # -- Options for myst -------------------------------------------------
 myst_enable_extensions = ['colon_fence']
-
+myst_heading_anchors = 2
 
 def setup(app):
     app.add_css_file("css/custom.css")

@@ -244,15 +244,21 @@ class Model:
         Search filters are combined with *and* so all results will match all filters.
 
         Expressions with python-native operators (``==``, ``!=``, ``>``, ``>=``, ``<``, ``<=``) must be in the format:
+
             ``ModelSubclass.field`` ``{operator}`` ``{value}``
+
         Example:
-            - ``Tomogram.voxel_spacing.run.name == "RUN1"``
+
+        - ``Tomogram.voxel_spacing.run.name == "RUN1"``
 
         Expressions with method operators (``like``, ``ilike``, ``_in``) must be in the format:
+
             ``ModelSubclass.field.{operator}({value})``
+
         Examples:
-            - ``Tomogram.voxel_spacing.run.name.like("%RUN1%")``
-            - ``Tomogram.voxel_spacing.run.name._in(["RUN1", "RUN2"])``
+
+        - ``Tomogram.voxel_spacing.run.name.like("%RUN1%")``
+        - ``Tomogram.voxel_spacing.run.name._in(["RUN1", "RUN2"])``
 
         Supported operators are: ``==``, ``!=``, ``>``, ``>=``, ``<``, ``<=``, ``like``, ``ilike``, ``_in``
 
