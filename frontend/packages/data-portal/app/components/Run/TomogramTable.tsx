@@ -146,7 +146,7 @@ export function TomogramsTable() {
                     sdsStyle="rounded"
                     to={getNeuroglancerUrl(original.neuroglancer_config)}
                     startIcon={
-                      <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
+                      <Icon sdsIcon="table" sdsSize="s" sdsType="button" />
                     }
                   >
                     {t('viewTomogram')}
