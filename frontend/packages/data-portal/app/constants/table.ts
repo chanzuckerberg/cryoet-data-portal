@@ -31,6 +31,17 @@ export const AnnotationTableWidths = {
   actions: { min: 120, max: 120 },
 }
 
+// TODO(bchu): Finalize these numbers.
+export const TomogramTableWidths = {
+  id: { min: 250 },
+  depositionDate: { min: 91, max: 120 },
+  alignment: { min: 120, max: 130 },
+  voxelSpacing: { min: 120, max: 400 },
+  reconstructionMethod: { min: 120, max: 400 },
+  postProcessing: { min: 81, max: 120 },
+  actions: { min: 120, max: 120 },
+}
+
 export const RunTableWidths = {
   photo: PHOTO_COLUMN_WIDTH,
   name: { min: 400 },

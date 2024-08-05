@@ -14,6 +14,7 @@ import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
 import { AnnotationTable } from 'app/components/Run/AnnotationTable'
 import { RunMetadataDrawer } from 'app/components/Run/RunMetadataDrawer'
+import { TomogramsTable } from 'app/components/Run/TomogramTable'
 import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
@@ -75,7 +76,8 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 
 export default function RunByIdPage() {
   const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
-  const { run, annotationFiles, annotationFilesAggregates } = useRunById()
+  const { run, annotationFiles, annotationFilesAggregates, tomogramsCount } =
+    useRunById()
 
   const allTomogramResolutions = run.tomogram_stats.flatMap((stats) =>
     stats.tomogram_resolutions.map((tomogram) => tomogram),
@@ -162,10 +164,10 @@ export default function RunByIdPage() {
           ? [
               {
                 title: t('tomograms'),
-                table: <AnnotationTable />,
+                table: <TomogramsTable />,
                 pageQueryParamKey: QueryParams.TomogramsPage,
-                filteredCount: annotationFilesAggregates.filteredCount,
-                totalCount: annotationFilesAggregates.totalCount,
+                filteredCount: tomogramsCount,
+                totalCount: tomogramsCount,
                 countLabel: t('tomograms'),
               },
             ]

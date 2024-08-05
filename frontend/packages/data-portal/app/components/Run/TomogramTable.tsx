@@ -1,266 +1,167 @@
-import { CellHeader } from '@czi-sds/components'
-import { Button } from '@mui/base'
-import { TableCell, Tooltip, Icon } from '@mui/material'
-import { createColumnHelper, ColumnDef } from '@tanstack/react-table'
-import {
-  MethodType,
-  methodTooltipLabels,
-  methodLabels,
-} from 'app/constants/methodTypes'
-import { AnnotationTableWidths } from 'app/constants/table'
-import { TestIds } from 'app/constants/testIds'
+/* eslint-disable react/no-unstable-nested-components */
+
+import { Button, Icon } from '@czi-sds/components'
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
+import { useAtom } from 'jotai'
+import { useCallback, useMemo } from 'react'
+
+import { CellHeader, PageTable, TableCell } from 'app/components/Table'
+import { TomogramTableWidths } from 'app/constants/table'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import {
-  useMetadataDrawer,
   MetadataDrawerId,
+  useMetadataDrawer,
 } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
-import { useAnnotation, Annotation } from 'app/state/annotation'
-import { I18nKeys } from 'app/types/i18n'
-import { cns, cnsNoMerge } from 'app/utils/cns'
-import { useCallback, useMemo, ComponentProps } from 'react'
+import {
+  metadataDrawerTomogramAtom,
+  Tomogram,
+} from 'app/state/metadataDrawerTomogram'
+
 import { AuthorList } from '../AuthorList'
-import { I18n } from '../I18n'
-import { DASHED_BORDERED_CLASSES } from '../Link'
-import { PageTable } from '../Table'
+import { startCase } from 'lodash-es'
 
 export function TomogramsTable() {
-  const { run, annotationFilesAggregates } = useRunById()
-  const { toggleDrawer } = useMetadataDrawer()
-  const { setActiveAnnotation } = useAnnotation()
   const { t } = useI18n()
+  const { tomograms } = useRunById()
 
-  const { openAnnotationDownloadModal } = useDownloadModalQueryParamState()
+  const { toggleDrawer } = useMetadataDrawer()
+  const [, setMetadataDrawerTomogram] = useAtom(metadataDrawerTomogramAtom)
 
-  const openAnnotationDrawer = useCallback(
-    (annotation: Annotation) => {
-      setActiveAnnotation(annotation)
+  const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
+
+  const openMetadataDrawer = useCallback(
+    (tomogram: Tomogram) => {
+      setMetadataDrawerTomogram(tomogram)
       toggleDrawer(MetadataDrawerId.Annotation)
     },
-    [toggleDrawer, setActiveAnnotation],
+    [setMetadataDrawerTomogram, toggleDrawer],
   )
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<Annotation>()
-
-    function getConfidenceCell({
-      cellHeaderProps,
-      header,
-      key,
-      tooltipI18nKey,
-    }: {
-      cellHeaderProps?: Partial<ComponentProps<typeof CellHeader>>
-      header: string
-      key: keyof Annotation
-      tooltipI18nKey?: I18nKeys
-    }) {
-      return columnHelper.accessor(key, {
-        header: () => (
-          <CellHeader
-            horizontalAlign="right"
-            tooltip={tooltipI18nKey ? <I18n i18nKey={tooltipI18nKey} /> : null}
-            width={AnnotationTableWidths.confidenceCell}
-            {...cellHeaderProps}
-          >
-            {header}
-          </CellHeader>
-        ),
-        cell: ({ getValue }) => {
-          const value = getValue() as number | null
-
-          return (
-            <TableCell
-              horizontalAlign="right"
-              width={AnnotationTableWidths.confidenceCell}
-            >
-              {typeof value === 'number' ? (
-                <ConfidenceValue value={value} />
-              ) : (
-                <p className="text-sds-body-xs leading-sds-body-xs text-sds-gray-500">
-                  {t('na')}
-                </p>
-              )}
-            </TableCell>
-          )
-        },
-      })
-    }
-
+    const columnHelper = createColumnHelper<Tomogram>()
     return [
       columnHelper.accessor('id', {
         header: () => (
-          <CellHeader width={AnnotationTableWidths.id}>
-            {t('annotationId')}
+          <CellHeader width={TomogramTableWidths.id}>
+            {t('tomogramId')}
           </CellHeader>
         ),
-
-        cell: ({ row: { original: annotation } }) => (
+        cell: ({ row: { original } }) => (
           <TableCell
             className="flex flex-col gap-sds-xxxs !items-start"
-            renderLoadingSkeleton={false}
-            width={AnnotationTableWidths.id}
+            width={TomogramTableWidths.id}
           >
             <div className="flex gap-sds-xs items-center">
-              <p
-                className={cns(
-                  'text-sds-body-m leading-sds-body-m font-semibold',
-                  'text-ellipsis line-clamp-1 break-all',
-                )}
-                data-testid={TestIds.AnnotationId}
-              >
-                {annotation.id}
+              <p className="text-sds-body-m leading-sds-body-m font-semibold text-ellipsis line-clamp-1 break-all">
+                {original.id}
               </p>
-
-              {annotation.ground_truth_status && (
-                <Tooltip
-                  tooltip={<I18n i18nKey="groundTruthTooltip" />}
-                  placement="top"
-                >
-                  <div
-                    className={cnsNoMerge(
-                      'px-sds-xs py-sds-xxxs',
-                      'flex items-center justify-center',
-                      'rounded-sds-m bg-sds-info-200',
-                      'text-sds-body-xxxs leading-sds-body-xxxs text-sds-info-600 whitespace-nowrap',
-                    )}
-                  >
-                    {t('groundTruth')}
-                  </div>
-                </Tooltip>
-              )}
             </div>
-
             <div className=" text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
-              <AuthorList authors={annotation.authors} compact />
+              <AuthorList authors={original.authors} compact />
             </div>
           </TableCell>
         ),
       }),
-
-      columnHelper.accessor('deposition_date', {
+      // TODO(bchu): Switch to deposition_date when available.
+      columnHelper.accessor('name', {
         header: () => (
           <CellHeader
             className="whitespace-nowrap text-ellipsis"
-            width={AnnotationTableWidths.depositionDate}
+            width={TomogramTableWidths.depositionDate}
           >
             {t('depositionDate')}
           </CellHeader>
         ),
-
         cell: ({ getValue }) => (
-          <TableCell width={AnnotationTableWidths.depositionDate}>
-            <div className="line-clamp-2 text-ellipsis capitalize">
-              {getValue()}
+          <TableCell width={TomogramTableWidths.depositionDate}>
+            <div>{getValue()}</div>
+          </TableCell>
+        ),
+      }),
+      // TODO(bchu): Switch to alignment_id when available.
+      columnHelper.accessor('name', {
+        header: () => (
+          <CellHeader width={TomogramTableWidths.alignment}>
+            {t('alignmentId')}
+          </CellHeader>
+        ),
+        cell: ({ getValue }) => (
+          <TableCell width={TomogramTableWidths.alignment}>
+            <div>{getValue()}</div>
+          </TableCell>
+        ),
+      }),
+      columnHelper.accessor('voxel_spacing', {
+        header: () => (
+          <CellHeader width={TomogramTableWidths.voxelSpacing}>
+            {t('voxelSpacing')}
+          </CellHeader>
+        ),
+        cell: ({ getValue, row: { original } }) => (
+          <TableCell width={TomogramTableWidths.voxelSpacing}>
+            {t('unitAngstrom', { value: getValue() })}
+            <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
+              ({original.size_x}, {original.size_y}, {original.size_z})px
             </div>
           </TableCell>
         ),
       }),
-
-      columnHelper.accessor('object_name', {
+      columnHelper.accessor('reconstruction_method', {
         header: () => (
-          <CellHeader width={AnnotationTableWidths.objectName}>
-            {t('objectName')}
+          <CellHeader width={TomogramTableWidths.reconstructionMethod}>
+            {t('reconstructionMethod')}
           </CellHeader>
         ),
-
         cell: ({ getValue }) => (
-          <TableCell width={AnnotationTableWidths.objectName}>
-            <div className="line-clamp-2 text-ellipsis">{getValue()}</div>
+          <TableCell width={TomogramTableWidths.reconstructionMethod}>
+            <div>{getValue()}</div>
           </TableCell>
         ),
       }),
-
-      columnHelper.accessor('shape_type', {
+      columnHelper.accessor('processing', {
         header: () => (
-          <CellHeader width={AnnotationTableWidths.files}>
-            {t('objectShapeType')}
+          <CellHeader width={TomogramTableWidths.postProcessing}>
+            {startCase(t('postProcessing'))}
           </CellHeader>
         ),
-
         cell: ({ getValue }) => (
-          <TableCell width={AnnotationTableWidths.files}>
-            {getValue()}
+          <TableCell width={TomogramTableWidths.postProcessing}>
+            <div>{getValue()}</div>
           </TableCell>
         ),
       }),
-
-      columnHelper.accessor('id', {
-        id: 'method-type',
-
-        header: () => (
-          <CellHeader
-            className="whitespace-nowrap"
-            tooltip={<I18n i18nKey="methodTypeInfo" />}
-            width={AnnotationTableWidths.methodType}
-          >
-            {t('methodType')}
-          </CellHeader>
-        ),
-
-        cell: ({ row: { original: annotation } }) => {
-          if (!annotation.method_type) {
-            return (
-              <TableCell width={AnnotationTableWidths.methodType}>--</TableCell>
-            )
-          }
-
-          const methodType = annotation.method_type as MethodType
-
-          return (
-            <TableCell
-              width={AnnotationTableWidths.methodType}
-              tooltip={<I18n i18nKey={methodTooltipLabels[methodType]} />}
-              tooltipProps={{ placement: 'top' }}
-            >
-              {/* convert to link when activate annotation state is moved to URL */}
-              <button
-                className={cnsNoMerge(
-                  'text-sds-header-s leading-sds-header-s',
-                  DASHED_BORDERED_CLASSES,
-                )}
-                onClick={() => openAnnotationDrawer(annotation)}
-                type="button"
-              >
-                {t(methodLabels[methodType])}
-              </button>
-            </TableCell>
-          )
-        },
-      }),
-
-      getConfidenceCell({
-        key: 'confidence_precision',
-        header: t('precision'),
-        tooltipI18nKey: 'precisionTooltip',
-
-        cellHeaderProps: {
-          arrowPadding: { left: 100 },
-        },
-      }),
-
-      getConfidenceCell({
-        key: 'confidence_recall',
-        header: t('recall'),
-        tooltipI18nKey: 'recallTooltip',
-
-        cellHeaderProps: {
-          arrowPadding: { left: 120 },
-        },
-      }),
-
       columnHelper.display({
-        id: 'annotation-actions',
-        // Render empty cell header so that it doesn't break the table layout
-        header: () => <CellHeader width={AnnotationTableWidths.actions} />,
-
-        cell: ({ row: { original: annotation } }) => (
-          <TableCell width={AnnotationTableWidths.actions}>
+        id: 'tomogram-actions',
+        header: () => <CellHeader width={TomogramTableWidths.actions} />,
+        cell: ({ row: { original } }) => (
+          <TableCell width={TomogramTableWidths.actions}>
             <div className="flex flex-col gap-sds-xs items-start">
+              {original.is_canonical &&
+                original.neuroglancer_config != null && (
+                  <Button
+                    sdsType="primary"
+                    sdsStyle="rounded"
+                    to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(
+                      original.neuroglancer_config,
+                    )}`}
+                    startIcon={
+                      <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
+                    }
+                    // FIXME: check if below still needed in @czi-sds/components >= 20.4.0
+                    // remove negative margin on icon
+                    classes={{
+                      startIcon: '!ml-0',
+                    }}
+                  >
+                    {t('viewTomogram')}
+                  </Button>
+                )}
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
-                onClick={() => openAnnotationDrawer(annotation)}
+                onClick={() => openMetadataDrawer(original)}
                 startIcon={
                   <Icon sdsIcon="infoCircle" sdsSize="s" sdsType="button" />
                 }
@@ -274,23 +175,10 @@ export function TomogramsTable() {
               >
                 <span>{t('info')}</span>
               </Button>
-
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
-                onClick={() =>
-                  openAnnotationDownloadModal({
-                    datasetId: run.dataset.id,
-                    runId: run.id,
-                    annotationId: annotation.id,
-                    objectShapeType: annotation.shape_type,
-                    fileFormat: annotation.files
-                      .filter(
-                        (file) => file.shape_type === annotation.shape_type,
-                      )
-                      .at(0)?.format,
-                  })
-                }
+                onClick={openTomogramDownloadModal}
                 startIcon={
                   <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
                 }
@@ -306,50 +194,8 @@ export function TomogramsTable() {
           </TableCell>
         ),
       }),
-    ] as ColumnDef<Annotation>[]
-  }, [
-    t,
-    openAnnotationDrawer,
-    openAnnotationDownloadModal,
-    run.dataset.id,
-    run.id,
-  ])
+    ] as ColumnDef<Tomogram>[] // https://github.com/TanStack/table/issues/4382
+  }, [openMetadataDrawer, openTomogramDownloadModal, t])
 
-  const annotations = useMemo(
-    () =>
-      run.annotation_table.flatMap((data) =>
-        data.annotations.flatMap((annotation) => {
-          const shapeTypeSet = new Set<string>()
-
-          // Some annotations have files with different shape types. We display each shape type as a separate row.
-          // This loops through the files and adds an annotation for each shape type.
-          // If the shape type is filtered out, the files will not be returned in the 'run' object
-          const files = annotation.files.filter((file) => {
-            // If the shape type has already been added, don't add another annotation for it
-            if (shapeTypeSet.has(file.shape_type)) {
-              return false
-            }
-
-            shapeTypeSet.add(file.shape_type)
-            return true
-          })
-
-          return files.flatMap((file) => ({
-            ...annotation,
-            ...file,
-          }))
-        }),
-      ) as Annotation[],
-    [run.annotation_table],
-  )
-
-  return (
-    <PageTable
-      data={isLoadingDebounced ? LOADING_ANNOTATIONS : annotations}
-      columns={columns}
-      getBeforeRowElement={getGroundTruthDividersForRow}
-      getAfterTableElement={getGroundTruthDividersWhenNoRows}
-      hoverType="none"
-    />
-  )
+  return <PageTable data={tomograms} columns={columns} hoverType="none" />
 }
