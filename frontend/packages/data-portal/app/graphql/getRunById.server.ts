@@ -106,7 +106,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       tomogram_voxel_spacings(
         limit: 1
         where: {
-          tomograms {
+          tomograms: {
             is_canonical: { _eq: true}
           }
         }
