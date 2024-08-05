@@ -106,7 +106,9 @@ const GET_RUN_BY_ID_QUERY = gql(`
       tomogram_voxel_spacings(
         limit: 1
         where: {
-          is_canonical: { _eq: true}
+          tomograms {
+            is_canonical: { _eq: true}
+          }
         }
       ) {
         id
@@ -364,6 +366,12 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
       distinct_on: [annotation_id, shape_type]
     ) {
+      aggregate {
+        count
+      }
+    }
+
+    tomograms_aggregate(where: { tomogram_voxel_spacing: { run_id: { _eq: $id }}}) {
       aggregate {
         count
       }
