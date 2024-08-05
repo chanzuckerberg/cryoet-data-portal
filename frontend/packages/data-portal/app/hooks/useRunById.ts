@@ -8,6 +8,8 @@ export function useRunById() {
 
   const run = data.runs[0]
 
+  const { tomograms } = data
+
   const objectNames = useMemo(
     () =>
       Array.from(
@@ -59,11 +61,15 @@ export function useRunById() {
     otherCount: data.annotation_files_aggregate_for_other.aggregate?.count ?? 0,
   }
 
+  const tomogramsCount = data.tomograms_aggregate.aggregate?.count ?? 0
+
   return {
     run,
+    tomograms,
     objectNames,
     objectShapeTypes,
     annotationSoftwares,
     annotationFilesAggregates,
+    tomogramsCount,
   }
 }

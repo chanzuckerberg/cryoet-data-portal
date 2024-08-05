@@ -254,6 +254,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       ctf_corrected
       fiducial_alignment_status
       id
+      is_canonical
       key_photo_url
       name
       neuroglancer_config
@@ -268,6 +269,13 @@ const GET_RUN_BY_ID_QUERY = gql(`
       tomogram_voxel_spacing {
         id
         s3_prefix
+      }
+      authors {
+        primary_author_status
+        corresponding_author_status
+        name
+        email
+        orcid
       }
     }
 

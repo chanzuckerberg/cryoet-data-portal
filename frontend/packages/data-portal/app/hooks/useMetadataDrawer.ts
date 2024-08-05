@@ -9,6 +9,7 @@ export enum MetadataDrawerId {
   Dataset = 'dataset',
   Deposition = 'deposition',
   Run = 'run',
+  Tomogram = 'tomogram',
 }
 
 export enum MetadataTab {
