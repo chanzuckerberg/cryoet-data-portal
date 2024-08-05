@@ -23,7 +23,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "myst_parser",
-    "sphinx_design",
+    "sphinx_immaterial",
 ]
 
 napoleon_custom_sections = ["Lifecycle"]
@@ -49,10 +49,19 @@ source_suffix = [".rst", ".md"]
 # Inject custom css files in `/_static/css/*`
 html_static_path = ["_static"]
 
-import sphinx_rtd_theme
+# import sphinx_rtd_theme
 
-html_theme = "sphinx_rtd_theme"
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+# html_theme = "sphinx_rtd_theme"
+# html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_theme = "sphinx_immaterial"
+object_description_options = [
+    ("py:.*", dict(include_fields_in_toc=False)),
+]
+html_theme_options = {
+    "features": ["toc.follow", "toc.sticky", "navigation.tracking"],
+    #"analytics": {"provider": "google", "property": "G-XXXXXXXXXX"},
+}
+
 
 html_js_files = [
     (
@@ -65,5 +74,3 @@ html_js_files = [
 myst_enable_extensions = ['colon_fence']
 myst_heading_anchors = 2
 
-def setup(app):
-    app.add_css_file("css/custom.css")
