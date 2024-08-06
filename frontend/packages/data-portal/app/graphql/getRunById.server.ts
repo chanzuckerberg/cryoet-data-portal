@@ -181,6 +181,9 @@ const GET_RUN_BY_ID_QUERY = gql(`
 
     annotation_files(
       where: {
+        format: {
+          _neq: "zarr"
+        }
         annotation: {
           tomogram_voxel_spacing: {
             run_id: {
@@ -206,7 +209,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
           annotation_id: desc
         }
       ]
-      distinct_on: [annotation_id, shape_type]
       limit: $limit
       offset: $annotationsOffset
     ) {
