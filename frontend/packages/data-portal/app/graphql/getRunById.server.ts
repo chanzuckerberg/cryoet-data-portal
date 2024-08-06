@@ -179,10 +179,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
     }
 
+    # Annotations table:
     annotation_files(
       where: {
         format: {
-          _neq: "zarr"
+          _neq: "zarr" # TODO: Remove hack, migrate to new annotation + shape object.
         }
         annotation: {
           tomogram_voxel_spacing: {
@@ -262,6 +263,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
     }
 
+    # Annotation counts:
     annotation_files_aggregate_for_total: annotation_files_aggregate(
       where: {
         annotation: {
@@ -278,7 +280,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
         count
       }
     }
-
     annotation_files_aggregate_for_filtered: annotation_files_aggregate(
       where: {
         annotation: {
@@ -297,7 +298,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
         count
       }
     }
-
     annotation_files_aggregate_for_ground_truth: annotation_files_aggregate(
       where: {
         annotation: {
@@ -319,7 +319,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
         count
       }
     }
-
     annotation_files_aggregate_for_other: annotation_files_aggregate(
       where: {
         annotation: {
