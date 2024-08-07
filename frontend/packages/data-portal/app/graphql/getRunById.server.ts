@@ -271,6 +271,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       fiducial_alignment_status
       id
       is_canonical
+      key_photo_thumbnail_url
       key_photo_url
       name
       neuroglancer_config
