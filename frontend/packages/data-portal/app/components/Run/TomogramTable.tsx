@@ -79,21 +79,25 @@ export function TomogramsTable() {
         ),
       }),
       // TODO(bchu): Switch to deposition_date when available.
-      columnHelper.accessor('name', {
-        header: () => (
-          <CellHeader
-            className="whitespace-nowrap text-ellipsis"
-            width={TomogramTableWidths.depositionDate}
-          >
-            {t('depositionDate')}
-          </CellHeader>
-        ),
-        cell: ({ getValue }) => (
-          <TableCell width={TomogramTableWidths.depositionDate}>
-            <div>{getValue()}</div>
-          </TableCell>
-        ),
-      }),
+      columnHelper.accessor(
+        (row: Tomogram) => row.deposition?.deposition_date,
+        {
+          id: 'deposition_date',
+          header: () => (
+            <CellHeader
+              className="whitespace-nowrap text-ellipsis"
+              width={TomogramTableWidths.depositionDate}
+            >
+              {t('depositionDate')}
+            </CellHeader>
+          ),
+          cell: ({ getValue }) => (
+            <TableCell width={TomogramTableWidths.depositionDate}>
+              <div>{getValue()}</div>
+            </TableCell>
+          ),
+        },
+      ),
       // TODO(bchu): Switch to alignment_id when available.
       columnHelper.accessor('name', {
         header: () => (
