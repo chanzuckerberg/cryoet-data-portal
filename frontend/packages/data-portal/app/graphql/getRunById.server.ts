@@ -283,6 +283,9 @@ const GET_RUN_BY_ID_QUERY = gql(`
       size_y
       size_z
       voxel_spacing
+      deposition {
+        deposition_date
+      }
       tomogram_voxel_spacing {
         id
         s3_prefix
