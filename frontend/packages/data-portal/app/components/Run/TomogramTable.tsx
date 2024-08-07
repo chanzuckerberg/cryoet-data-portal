@@ -78,7 +78,6 @@ export function TomogramsTable() {
           </TableCell>
         ),
       }),
-      // TODO(bchu): Switch to deposition_date when available.
       columnHelper.accessor(
         (row: Tomogram) => row.deposition?.deposition_date,
         {
