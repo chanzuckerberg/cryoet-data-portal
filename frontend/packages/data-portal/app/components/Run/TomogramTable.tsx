@@ -22,6 +22,7 @@ import {
 import { getNeuroglancerUrl } from 'app/utils/url'
 
 import { AuthorList } from '../AuthorList'
+import { KeyPhoto } from '../KeyPhoto'
 
 export function TomogramsTable() {
   const { t } = useI18n()
@@ -43,6 +44,18 @@ export function TomogramsTable() {
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Tomogram>()
     return [
+      columnHelper.accessor('key_photo_url', {
+        header: () => <CellHeader width={TomogramTableWidths.photo} />,
+        cell: ({ row: { original } }) => (
+          <TableCell width={TomogramTableWidths.photo}>
+            <KeyPhoto
+              className="max-w-[134px]"
+              title={original.name}
+              src={original.key_photo_thumbnail_url ?? undefined}
+            />
+          </TableCell>
+        ),
+      }),
       columnHelper.accessor('id', {
         header: () => (
           <CellHeader width={TomogramTableWidths.id}>
