@@ -131,69 +131,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
         }
       }
 
-      annotation_table: tomogram_voxel_spacings {
-        annotations(
-          limit: $limit,
-          offset: $annotationsOffset,
-          where: {
-            _and: $filter
-          },
-          order_by: [
-            { ground_truth_status: desc }
-            { deposition_date: desc }
-            { id: desc }
-          ],
-        ) {
-          annotation_method
-          annotation_publication
-          annotation_software
-          confidence_precision
-          confidence_recall
-          deposition_date
-          ground_truth_status
-          ground_truth_used
-          id
-          is_curator_recommended
-          last_modified_date
-          method_type
-          object_count
-          object_description
-          object_id
-          object_name
-          object_state
-          release_date
-
-          files(
-            where: {
-              _and: $fileFilter
-            }
-          ) {
-            format
-            https_path
-            s3_path
-            shape_type
-          }
-
-          authors(order_by: { author_list_order: asc }) {
-            primary_author_status
-            corresponding_author_status
-            name
-            email
-            orcid
-          }
-
-          author_affiliations: authors(distinct_on: affiliation_name) {
-            affiliation_name
-          }
-
-          authors_aggregate {
-            aggregate {
-              count
-            }
-          }
-        }
-      }
-
       tomogram_stats: tomogram_voxel_spacings {
         annotations {
           object_name
@@ -242,6 +179,91 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
     }
 
+    # Annotations table:
+    annotation_files(
+      where: {
+        format: {
+          _neq: "zarr" # TODO: Remove hack, migrate to new annotation + shape object.
+        }
+        annotation: {
+          tomogram_voxel_spacing: {
+            run_id: {
+              _eq: $id
+            }
+          }
+          _and: $filter
+        }
+        _and: $fileFilter
+      }
+      order_by: [
+        {
+          annotation: {
+            ground_truth_status: desc
+          }
+        },
+        {
+          annotation: {
+            deposition_date: desc
+          }
+        },
+        {
+          annotation_id: desc
+        }
+      ]
+      limit: $limit
+      offset: $annotationsOffset
+    ) {
+      shape_type
+      format
+
+      annotation {
+        annotation_method
+        annotation_publication
+        annotation_software
+        confidence_precision
+        confidence_recall
+        deposition_date
+        ground_truth_status
+        ground_truth_used
+        id
+        is_curator_recommended
+        last_modified_date
+        method_type
+        object_count
+        object_description
+        object_id
+        object_name
+        object_state
+        release_date
+
+        files(where: { _and: $fileFilter }) {
+          shape_type
+          format
+          https_path
+          s3_path
+        }
+
+        authors(order_by: { author_list_order: asc }) {
+          primary_author_status
+          corresponding_author_status
+          name
+          email
+          orcid
+        }
+
+        author_affiliations: authors(distinct_on: affiliation_name) {
+          affiliation_name
+        }
+
+        authors_aggregate {
+          aggregate {
+            count
+          }
+        }
+      }
+    }
+
+    # Annotation counts:
     annotation_files_aggregate_for_total: annotation_files_aggregate(
       where: {
         annotation: {
@@ -258,7 +280,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
         count
       }
     }
-
     annotation_files_aggregate_for_filtered: annotation_files_aggregate(
       where: {
         annotation: {
@@ -277,7 +298,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
         count
       }
     }
-
     annotation_files_aggregate_for_ground_truth: annotation_files_aggregate(
       where: {
         annotation: {
@@ -299,7 +319,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
         count
       }
     }
-
     annotation_files_aggregate_for_other: annotation_files_aggregate(
       where: {
         annotation: {
@@ -349,13 +368,8 @@ function getFilter(filterState: FilterState): Annotations_Bool_Exp[] {
     })
   }
 
-  const {
-    objectNames,
-    objectShapeTypes,
-    annotationSoftwares,
-    methodTypes,
-    goId,
-  } = filterState.annotation
+  const { objectNames, annotationSoftwares, methodTypes, goId } =
+    filterState.annotation
 
   if (objectNames.length > 0) {
     filters.push({
@@ -369,16 +383,6 @@ function getFilter(filterState: FilterState): Annotations_Bool_Exp[] {
     filters.push({
       object_id: {
         _ilike: `%${goId.replace(':', '_')}`,
-      },
-    })
-  }
-
-  if (objectShapeTypes.length > 0) {
-    filters.push({
-      files: {
-        shape_type: {
-          _in: objectShapeTypes,
-        },
       },
     })
   }

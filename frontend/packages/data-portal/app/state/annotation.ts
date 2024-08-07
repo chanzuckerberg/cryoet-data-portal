@@ -4,14 +4,13 @@ import { useMemo } from 'react'
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
 
 export type BaseAnnotation =
-  GetRunByIdQuery['runs'][number]['annotation_table'][number]['annotations'][number]
+  GetRunByIdQuery['annotation_files'][number]['annotation']
 
-export type AnnotationFile =
-  GetRunByIdQuery['runs'][number]['annotation_table'][number]['annotations'][number]['files'][number]
+export type AnnotationFile = GetRunByIdQuery['annotation_files'][number]
 
-export type Annotation = BaseAnnotation & AnnotationFile
+export type AnnotationRow = BaseAnnotation & Omit<AnnotationFile, 'annotation'>
 
-const activeAnnotationAtom = atom<Annotation | null>(null)
+const activeAnnotationAtom = atom<AnnotationRow | null>(null)
 
 export function useAnnotation() {
   const [activeAnnotation, setActiveAnnotation] = useAtom(activeAnnotationAtom)

@@ -211,8 +211,7 @@ export async function getAnnotationTestData(
     annotationsPage: 1,
   })
 
-  const [run] = data.runs
-  const annotation = run.annotation_table[0].annotations[0]
+  const { annotation } = data.annotation_files[0]
 
   return {
     title: `${annotation.id} - ${annotation.object_name}`,

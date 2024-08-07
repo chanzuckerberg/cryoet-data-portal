@@ -33,11 +33,11 @@ import {
   useMetadataDrawer,
 } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
-import { Annotation, useAnnotation } from 'app/state/annotation'
+import { AnnotationRow, useAnnotation } from 'app/state/annotation'
 import { I18nKeys } from 'app/types/i18n'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
-const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<Annotation>(() => ({
+const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<AnnotationRow>(() => ({
   annotation_method: '',
   author_affiliations: [],
   authors_aggregate: {},
@@ -73,7 +73,7 @@ function ConfidenceValue({ value }: { value: number }) {
 export function AnnotationTable() {
   const { isLoadingDebounced } = useIsLoading()
   const [searchParams] = useSearchParams()
-  const { run, annotationFilesAggregates } = useRunById()
+  const { run, annotationFiles, annotationFilesAggregates } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { setActiveAnnotation } = useAnnotation()
   const { t } = useI18n()
@@ -81,7 +81,7 @@ export function AnnotationTable() {
   const { openAnnotationDownloadModal } = useDownloadModalQueryParamState()
 
   const openAnnotationDrawer = useCallback(
-    (annotation: Annotation) => {
+    (annotation: AnnotationRow) => {
       setActiveAnnotation(annotation)
       toggleDrawer(MetadataDrawerId.Annotation)
     },
@@ -89,7 +89,7 @@ export function AnnotationTable() {
   )
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<Annotation>()
+    const columnHelper = createColumnHelper<AnnotationRow>()
 
     function getConfidenceCell({
       cellHeaderProps,
@@ -99,7 +99,7 @@ export function AnnotationTable() {
     }: {
       cellHeaderProps?: Partial<ComponentProps<typeof CellHeader>>
       header: string
-      key: keyof Annotation
+      key: keyof AnnotationRow
       tooltipI18nKey?: I18nKeys
     }) {
       return columnHelper.accessor(key, {
@@ -331,11 +331,7 @@ export function AnnotationTable() {
                     runId: run.id,
                     annotationId: annotation.id,
                     objectShapeType: annotation.shape_type,
-                    fileFormat: annotation.files
-                      .filter(
-                        (file) => file.shape_type === annotation.shape_type,
-                      )
-                      .at(0)?.format,
+                    fileFormat: annotation.format,
                   })
                 }
                 startIcon={
@@ -353,7 +349,7 @@ export function AnnotationTable() {
           </TableCell>
         ),
       }),
-    ] as ColumnDef<Annotation>[]
+    ] as ColumnDef<AnnotationRow>[]
   }, [
     t,
     openAnnotationDrawer,
@@ -364,30 +360,14 @@ export function AnnotationTable() {
 
   const annotations = useMemo(
     () =>
-      run.annotation_table.flatMap((data) =>
-        data.annotations.flatMap((annotation) => {
-          const shapeTypeSet = new Set<string>()
-
-          // Some annotations have files with different shape types. We display each shape type as a separate row.
-          // This loops through the files and adds an annotation for each shape type.
-          // If the shape type is filtered out, the files will not be returned in the 'run' object
-          const files = annotation.files.filter((file) => {
-            // If the shape type has already been added, don't add another annotation for it
-            if (shapeTypeSet.has(file.shape_type)) {
-              return false
-            }
-
-            shapeTypeSet.add(file.shape_type)
-            return true
-          })
-
-          return files.flatMap((file) => ({
-            ...annotation,
-            ...file,
-          }))
-        }),
-      ) as Annotation[],
-    [run.annotation_table],
+      annotationFiles.map((annotationFile) => {
+        const { annotation: _, ...restAnnotationFileFields } = annotationFile
+        return {
+          ...restAnnotationFileFields,
+          ...annotationFile.annotation,
+        } as AnnotationRow
+      }),
+    [annotationFiles],
   )
 
   const currentPage = toNumber(
@@ -402,8 +382,8 @@ export function AnnotationTable() {
    *  - The non ground truth divider is attached to the first non ground truth row.
    */
   const getGroundTruthDividersForRow = (
-    table: Table<Annotation>,
-    row: Row<Annotation>,
+    table: Table<AnnotationRow>,
+    row: Row<AnnotationRow>,
   ): ReactNode => {
     return (
       <>

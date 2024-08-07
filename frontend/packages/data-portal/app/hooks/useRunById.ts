@@ -8,6 +8,8 @@ export function useRunById() {
 
   const run = data.runs[0]
 
+  const annotationFiles = data.annotation_files
+
   const objectNames = useMemo(
     () =>
       Array.from(
@@ -61,6 +63,7 @@ export function useRunById() {
 
   return {
     run,
+    annotationFiles,
     objectNames,
     objectShapeTypes,
     annotationSoftwares,
