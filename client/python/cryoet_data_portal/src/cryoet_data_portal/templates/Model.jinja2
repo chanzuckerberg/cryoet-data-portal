@@ -1,16 +1,16 @@
 
 
-class {{ cls }}(Model):
-    """{{ gql_type.description }}
+class {{ model.name }}(Model):
+    """{{ model.description }}
 
     Attributes:
-    {% for field in fields %}
+    {% for field in model.fields %}
         {{ field.name }} ({{ field.annotation_type }}): {{ field.description}}
     {% endfor %}
     """
 
-    _gql_type: str = "{{ gql_type.name }}"
+    _gql_type: str = "{{ model.gql_name }}"
 
-    {% for field in fields %}
+    {% for field in model.fields %}
     {{ field.name }}: {{ field.annotation_type }} = {{ field.default_value }}
     {% endfor %}

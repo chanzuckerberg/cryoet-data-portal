@@ -4,7 +4,7 @@ import logging
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional, Tuple
 
 from gql import Client
 from gql.transport.requests import RequestsHTTPTransport
@@ -52,9 +52,14 @@ GQL_TO_MODEL_TYPE = {
 }
 
 
-PARENT_PATH = Path(__file__).parent
-SCHEMA_PATH = PARENT_PATH / "data" / "schema.graphql"
-MODELS_PATH = PARENT_PATH / "_models.py"
+"""The path of directory containing this module."""
+_THIS_DIR = Path(__file__).parent
+
+"""The local schema path."""
+SCHEMA_PATH = _THIS_DIR / "data" / "schema.graphql"
+
+"""The local models module path."""
+MODELS_PATH = _THIS_DIR / "_models.py"
 
 
 @dataclass(frozen=True)
@@ -67,58 +72,73 @@ class FieldInfo:
     default_value: str
 
 
-def write_models() -> None:
-    schema = load_schema()
-    environment = load_environment()
-    with open(MODELS_PATH, "w") as f:
+@dataclass(frozen=True)
+class ModelInfo:
+    """The information about a parsed model."""
+
+    name: str
+    gql_name: str
+    description: str
+    fields: Tuple[FieldInfo, ...]
+
+
+def write_models(models: Tuple[ModelInfo, ...], path: str) -> None:
+    """Writes model classes to a Python module in a local file."""
+    environment = _load_jinja_environment()
+    with open(path, "w") as f:
         template = environment.get_template("Header.jinja2")
-        content = template.render()
-        f.write(content)
-
-        for gql, model in GQL_TO_MODEL_TYPE.items():
-            logging.info("Parsing gql type %s to model %s", gql, model)
-            gql_type = schema.get_type(gql)
-            assert isinstance(gql_type, GraphQLObjectType)
-            fields = parse_fields(gql_type)
-            template = environment.select_template((f"{model}.jinja2", "Model.jinja2"))
-            content = template.render(
-                cls=model,
-                gql_type=gql_type,
-                fields=fields,
+        f.write(template.render())
+        for model in models:
+            template = environment.select_template(
+                (f"{model.name}.jinja2", "Model.jinja2"),
             )
-            f.write(content)
-
+            f.write(template.render(model=model))
         template = environment.get_template("Footer.jinja2")
-        content = template.render(models=GQL_TO_MODEL_TYPE.values())
-        f.write(content)
+        f.write(template.render(models=GQL_TO_MODEL_TYPE.values()))
 
 
-def write_schema() -> None:
-    transport = RequestsHTTPTransport(url=DEFAULT_URL, retries=3)
+def get_models(schema: GraphQLSchema) -> Tuple[ModelInfo, ...]:
+    """Gets the model and field information from a GraphQL schema."""
+    models = []
+    for gql, model in GQL_TO_MODEL_TYPE.items():
+        logging.info("Parsing gql type %s to model %s", gql, model)
+        gql_type = schema.get_type(gql)
+        assert isinstance(gql_type, GraphQLObjectType)
+        fields = parse_fields(gql_type)
+        models.append(
+            ModelInfo(
+                name=model,
+                gql_name=gql_type.name,
+                description=gql_type.description,
+                fields=fields,
+            ),
+        )
+    return tuple(models)
+
+
+def get_schema(url: str) -> GraphQLSchema:
+    """Gets the GraphQL schema from an endpoint."""
+    transport = RequestsHTTPTransport(url=url, retries=3)
     with Client(transport=transport, fetch_schema_from_transport=True) as session:
-        schema_str = print_schema(session.client.schema)
-        with open(SCHEMA_PATH, "w") as f:
-            f.write(schema_str)
+        return session.client.schema
 
 
-def load_schema() -> GraphQLSchema:
-    with open(SCHEMA_PATH, "r") as f:
+def write_schema(schema: GraphQLSchema, path: Path) -> None:
+    """Writes a GraphQL schema it to a local file."""
+    schema_str = print_schema(schema)
+    with open(path, "w") as f:
+        f.write(schema_str)
+
+
+def load_schema(path: Path) -> GraphQLSchema:
+    """Returns the GraphQL schema defined in a local file."""
+    with open(path, "r") as f:
         schema_str = f.read()
     return build_schema(schema_str)
 
 
-def load_environment() -> Environment:
-    template_dir = PARENT_PATH / "templates"
-    loader = FileSystemLoader(template_dir)
-    return Environment(
-        loader=loader,
-        trim_blocks=True,
-        lstrip_blocks=True,
-        keep_trailing_newline=True,
-    )
-
-
-def parse_fields(gql_type: GraphQLObjectType) -> List[FieldInfo]:
+def parse_fields(gql_type: GraphQLObjectType) -> Tuple[FieldInfo, ...]:
+    """Returns the field information parsed from a GraphQL object type."""
     fields = []
     for name, field in gql_type.fields.items():
         parsed = _parse_field(gql_type, name, field)
@@ -126,8 +146,8 @@ def parse_fields(gql_type: GraphQLObjectType) -> List[FieldInfo]:
             logging.info("Parsed field %s", parsed)
             fields.append(parsed)
         else:
-            logging.warning("Failed to parse field: %s, %s", name, field)
-    return fields
+            logging.warning("Failed to parse field: %s, %s", gql_type.name, name)
+    return tuple(fields)
 
 
 def _parse_field(
@@ -138,11 +158,11 @@ def _parse_field(
     logging.debug("_parse_field: %s, %s", name, field)
     field_type = _maybe_unwrap_non_null(field.type)
     if isinstance(field_type, GraphQLList):
-        return _parse_model_list_field(gql_type, name, field.description, field_type)
+        return _parse_model_list_field(gql_type, name, field_type)
     if isinstance(field_type, GraphQLObjectType) and (
         field_type.name in GQL_TO_MODEL_TYPE
     ):
-        return _parse_model_field(name, field.description, field_type)
+        return _parse_model_field(gql_type, name, field_type)
     return _parse_scalar_field(name, field.description, field_type)
 
 
@@ -163,17 +183,20 @@ def _parse_scalar_field(
 
 
 def _parse_model_field(
+    gql_type: GraphQLObjectType,
     name: str,
-    description: str,
     field_type: GraphQLObjectType,
 ) -> Optional[FieldInfo]:
     logging.debug("_parse_model_field: %s", field_type)
     model = GQL_TO_MODEL_TYPE.get(field_type.name)
     if model is not None:
         model_field = _camel_to_snake_case(model)
+        model_name = _camel_to_space_case(model)
+        source_model = GQL_TO_MODEL_TYPE[gql_type.name]
+        source_model_name = _camel_to_space_case(source_model)
         return FieldInfo(
             name=name,
-            description=description,
+            description=f"The {model_name} this {source_model_name} is a part of",
             annotation_type=model,
             default_value=f'ItemRelationship({model}, "{model_field}_id", "id")',
         )
@@ -182,19 +205,21 @@ def _parse_model_field(
 def _parse_model_list_field(
     gql_type: GraphQLObjectType,
     name: str,
-    description: str,
     field_type: GraphQLList,
 ) -> Optional[FieldInfo]:
     logging.debug("_parse_model_list_field: %s", field_type)
     of_type = _maybe_unwrap_non_null(field_type.of_type)
-    foreign_field = _camel_to_snake_case(GQL_TO_MODEL_TYPE[gql_type.name])
     of_model = GQL_TO_MODEL_TYPE.get(of_type.name)
     if of_model is not None:
+        source_model = GQL_TO_MODEL_TYPE[gql_type.name]
+        source_field = _camel_to_snake_case(source_model)
+        source_model_name = _camel_to_space_case(source_model)
+        of_model_name = _space_case_to_plural(_camel_to_space_case(of_model))
         return FieldInfo(
             name=name,
-            description=description,
+            description=f"The {of_model_name} of this {source_model_name}",
             annotation_type=f"List[{of_model}]",
-            default_value=f'ListRelationship("{of_model}", "id", "{foreign_field}_id")',
+            default_value=f'ListRelationship("{of_model}", "id", "{source_field}_id")',
         )
 
 
@@ -204,11 +229,32 @@ def _maybe_unwrap_non_null(field_type: GraphQLType) -> GraphQLType:
     return field_type
 
 
+def _load_jinja_environment() -> Environment:
+    template_dir = _THIS_DIR / "templates"
+    loader = FileSystemLoader(template_dir)
+    return Environment(
+        loader=loader,
+        trim_blocks=True,
+        lstrip_blocks=True,
+        keep_trailing_newline=True,
+    )
+
+
 def _camel_to_snake_case(name: str) -> str:
     return re.sub("(?!^)([A-Z]+)", r"_\1", name).lower()
 
 
+def _camel_to_space_case(name: str) -> str:
+    return _camel_to_snake_case(name).replace("_", " ")
+
+
+def _space_case_to_plural(name: str) -> str:
+    return name if name[-1] == "s" else f"{name}s"
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.WARN)
-    write_schema()
-    write_models()
+    schema = get_schema(DEFAULT_URL)
+    write_schema(schema, SCHEMA_PATH)
+    models = get_models(schema)
+    write_models(models, MODELS_PATH)

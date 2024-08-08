@@ -27,7 +27,7 @@ class Dataset(Model):
     """Dataset Metadata
 
     Attributes:
-        authors (List[DatasetAuthor]): An array relationship
+        authors (List[DatasetAuthor]): The dataset authors of this dataset
         cell_component_id (str): If this dataset only focuses on a specific part of a cell, include the subset here
         cell_component_name (str): Name of the cellular component
         cell_name (str): Name of the cell from which a biological sample used in a CryoET study is derived from.
@@ -38,7 +38,7 @@ class Dataset(Model):
         dataset_publications (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
         deposition_date (date): Date when a dataset is initially received by the Data Portal.
         description (str): A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
-        funding_sources (List[DatasetFunding]): An array relationship
+        funding_sources (List[DatasetFunding]): The dataset fundings of this dataset
         grid_preparation (str): Describe Cryo-ET grid preparation.
         https_prefix (str): The https directory path where this dataset is contained
         id (int): An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
@@ -51,7 +51,7 @@ class Dataset(Model):
         related_database_entries (str): If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
         related_database_links (str): If a CryoET dataset is also deposited into another database, e.g. EMPAIR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/).  Use a comma to separate multiple links.
         release_date (date): Date when a dataset is made available on the Data Portal.
-        runs (List[Run]): An array relationship
+        runs (List[Run]): The runs of this dataset
         s3_prefix (str): The S3 public bucket path where this dataset is contained
         sample_preparation (str): Describe how the sample was prepared.
         sample_type (str): Type of samples used in a CryoET study. (cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other)
@@ -117,7 +117,7 @@ class DatasetAuthor(Model):
         affiliation_name (str): Name of the institutions an author is affiliated with. Comma separated
         author_list_order (int): The order in which the author appears in the publication
         corresponding_author_status (bool): Indicating whether an author is the corresponding author
-        dataset (Dataset): An object relationship
+        dataset (Dataset): The dataset this dataset author is a part of
         dataset_id (int): None
         email (str): Email address for each author
         id (int): None
@@ -146,7 +146,7 @@ class DatasetFunding(Model):
     """Funding sources for a dataset
 
     Attributes:
-        dataset (Dataset): An object relationship
+        dataset (Dataset): The dataset this dataset funding is a part of
         dataset_id (int): None
         funding_agency_name (str): Name of the funding agency.
         grant_id (str): Grant identifier provided by the funding agency.
@@ -166,14 +166,14 @@ class Run(Model):
     """Data related to an experiment run
 
     Attributes:
-        dataset (Dataset): An object relationship
+        dataset (Dataset): The dataset this run is a part of
         dataset_id (int): Reference to the dataset this run is a part of
         https_prefix (str): The https directory path where this dataset is contained
         id (int): Numeric identifier (May change!)
         name (str): Short name for the tilt series
         s3_prefix (str): The S3 public bucket path where this dataset is contained
-        tiltseries (List[TiltSeries]): An array relationship
-        tomogram_voxel_spacings (List[TomogramVoxelSpacing]): An array relationship
+        tiltseries (List[TiltSeries]): The tilt series of this run
+        tomogram_voxel_spacings (List[TomogramVoxelSpacing]): The tomogram voxel spacings of this run
     """
 
     _gql_type: str = "runs"
@@ -211,13 +211,13 @@ class TomogramVoxelSpacing(Model):
     """The tomograms for each run are grouped by their voxel spacing
 
     Attributes:
-        annotations (List[Annotation]): An array relationship
+        annotations (List[Annotation]): The annotations of this tomogram voxel spacing
         https_prefix (str): None
         id (int): None
-        run (Run): An object relationship
+        run (Run): The run this tomogram voxel spacing is a part of
         run_id (int): None
         s3_prefix (str): None
-        tomograms (List[Tomogram]): An array relationship
+        tomograms (List[Tomogram]): The tomograms of this tomogram voxel spacing
         voxel_spacing (float): None
     """
 
@@ -254,7 +254,7 @@ class Tomogram(Model):
 
     Attributes:
         affine_transformation_matrix (str): The flip or rotation transformation of this author submitted tomogram is indicated here
-        authors (List[TomogramAuthor]): An array relationship
+        authors (List[TomogramAuthor]): The tomogram authors of this tomogram
         ctf_corrected (bool): None
         deposition_id (int): id of the associated deposition.
         fiducial_alignment_status (str): Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
@@ -282,7 +282,7 @@ class Tomogram(Model):
         size_y (int): Number of pixels in the 3D data medium axis
         size_z (int): Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
         tomogram_version (str): Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
-        tomogram_voxel_spacing (TomogramVoxelSpacing): An object relationship
+        tomogram_voxel_spacing (TomogramVoxelSpacing): The tomogram voxel spacing this tomogram is a part of
         tomogram_voxel_spacing_id (int): None
         type (str): None
         voxel_spacing (float): Voxel spacing equal in all three axes in angstroms
@@ -382,7 +382,7 @@ class TomogramAuthor(Model):
         name (str): Full name of an tomogram author (e.g. Jane Doe).
         orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
         primary_author_status (bool): Indicating whether an author is the main person creating the tomogram (YES or NO)
-        tomogram (Tomogram): An object relationship
+        tomogram (Tomogram): The tomogram this tomogram author is a part of
         tomogram_id (int): Reference to the tomogram this author contributed to
     """
 
@@ -409,12 +409,12 @@ class Annotation(Model):
         annotation_method (str): Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
         annotation_publication (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
         annotation_software (str): None
-        authors (List[AnnotationAuthor]): An array relationship
+        authors (List[AnnotationAuthor]): The annotation authors of this annotation
         confidence_precision (float): Describe the confidence level of the annotation. Precision is defined as the % of annotation objects being true positive
         confidence_recall (float): Describe the confidence level of the annotation. Recall is defined as the % of true positives being annotated correctly
         deposition_date (date): Date when an annotation set is initially received by the Data Portal.
         deposition_id (int): id of the associated deposition.
-        files (List[AnnotationFile]): An array relationship
+        files (List[AnnotationFile]): The annotation files of this annotation
         ground_truth_status (bool): Whether an annotation is considered ground truth, as determined by the annotator.
         ground_truth_used (str): Annotation filename used as ground truth for precision and recall
         https_metadata_path (str): https path for the metadata json file for this annotation
@@ -429,7 +429,7 @@ class Annotation(Model):
         object_state (str): Molecule state annotated (e.g. open, closed)
         release_date (date): Date when annotation data is made public by the Data Portal.
         s3_metadata_path (str): s3 path for the metadata json file for this annotation
-        tomogram_voxel_spacing (TomogramVoxelSpacing): An object relationship
+        tomogram_voxel_spacing (TomogramVoxelSpacing): The tomogram voxel spacing this annotation is a part of
         tomogram_voxel_spacing_id (int): None
     """
 
@@ -502,7 +502,7 @@ class AnnotationFile(Model):
     """Information about associated files for a given annotation
 
     Attributes:
-        annotation (Annotation): An object relationship
+        annotation (Annotation): The annotation this annotation file is a part of
         annotation_id (int): None
         format (str): Format of the annotation object file
         https_path (str): https path of the annotation file
@@ -538,7 +538,7 @@ class AnnotationAuthor(Model):
         affiliation_address (str): Address of the institution an annotator is affiliated with.
         affiliation_identifier (str): A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
         affiliation_name (str): Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
-        annotation (Annotation): An object relationship
+        annotation (Annotation): The annotation this annotation author is a part of
         annotation_id (int): Reference to the annotation this author contributed to
         author_list_order (int): The order in which the author appears in the publication
         corresponding_author_status (bool): Indicating whether an annotator is the corresponding author (YES or NO)
@@ -593,7 +593,7 @@ class TiltSeries(Model):
         microscope_phase_plate (str): Phase plate configuration
         pixel_spacing (float): Pixel spacing equal in both axes in angstrom
         related_empiar_entry (str): If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
-        run (Run): An object relationship
+        run (Run): The run this tilt series is a part of
         run_id (int): None
         s3_alignment_file (str): None
         s3_angle_list (str): None
