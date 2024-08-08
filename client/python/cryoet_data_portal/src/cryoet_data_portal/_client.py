@@ -8,8 +8,7 @@ from gql.transport.requests import RequestsHTTPTransport
 
 from cryoet_data_portal._constants import USER_AGENT
 
-# TODO: change to production when live.
-DEFAULT_URL = "https://graphql-cryoet-api.cryoet.staging.si.czi.technology/v1/graphql"
+DEFAULT_URL = "https://graphql.cryoetdataportal.cziscience.com/v1/graphql"
 
 
 class Client:

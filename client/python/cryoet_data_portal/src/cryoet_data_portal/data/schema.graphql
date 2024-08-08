@@ -112,7 +112,7 @@ input _numeric_comparison_exp {
   _nin: [_numeric!]
 }
 
-"""Metadata for an annotation's authors"""
+"""Authors for an annotation"""
 type annotation_authors {
   """Address of the institution an annotator is affiliated with."""
   affiliation_address: String
@@ -157,10 +157,6 @@ type annotation_authors {
   Indicating whether an annotator is the main person executing the annotation, especially on manual annotation (YES or NO)
   """
   primary_annotator_status: Boolean
-
-  """
-  Indicating whether an author is the main person executing the annotation, especially on manual annotation (YES or NO)
-  """
   primary_author_status: Boolean
 }
 
@@ -689,21 +685,17 @@ input annotation_authors_variance_order_by {
   id: order_by
 }
 
-"""Metadata for an annotation file"""
+"""Information about associated files for a given annotation"""
 type annotation_files {
   """An object relationship"""
   annotation: annotations!
-
-  """The ID of the annotation this file applies to"""
   annotation_id: Int!
 
-  """File format for this file"""
+  """Format of the annotation object file"""
   format: String!
 
-  """HTTPS path for this annotation file"""
+  """https path of the annotation file"""
   https_path: String!
-
-  """Numeric identifier (May change!)"""
   id: Int!
 
   """
@@ -789,10 +781,7 @@ input annotation_files_aggregate_order_by {
 
 """aggregate avg on columns"""
 type annotation_files_avg_fields {
-  """The ID of the annotation this file applies to"""
   annotation_id: Float
-
-  """Numeric identifier (May change!)"""
   id: Float
 }
 
@@ -800,10 +789,7 @@ type annotation_files_avg_fields {
 order by avg() on columns of table "annotation_files"
 """
 input annotation_files_avg_order_by {
-  """The ID of the annotation this file applies to"""
   annotation_id: order_by
-
-  """Numeric identifier (May change!)"""
   id: order_by
 }
 
@@ -826,16 +812,13 @@ input annotation_files_bool_exp {
 
 """aggregate max on columns"""
 type annotation_files_max_fields {
-  """The ID of the annotation this file applies to"""
   annotation_id: Int
 
-  """File format for this file"""
+  """Format of the annotation object file"""
   format: String
 
-  """HTTPS path for this annotation file"""
+  """https path of the annotation file"""
   https_path: String
-
-  """Numeric identifier (May change!)"""
   id: Int
 
   """s3 path of the annotation file"""
@@ -849,16 +832,13 @@ type annotation_files_max_fields {
 order by max() on columns of table "annotation_files"
 """
 input annotation_files_max_order_by {
-  """The ID of the annotation this file applies to"""
   annotation_id: order_by
 
-  """File format for this file"""
+  """Format of the annotation object file"""
   format: order_by
 
-  """HTTPS path for this annotation file"""
+  """https path of the annotation file"""
   https_path: order_by
-
-  """Numeric identifier (May change!)"""
   id: order_by
 
   """s3 path of the annotation file"""
@@ -870,16 +850,13 @@ input annotation_files_max_order_by {
 
 """aggregate min on columns"""
 type annotation_files_min_fields {
-  """The ID of the annotation this file applies to"""
   annotation_id: Int
 
-  """File format for this file"""
+  """Format of the annotation object file"""
   format: String
 
-  """HTTPS path for this annotation file"""
+  """https path of the annotation file"""
   https_path: String
-
-  """Numeric identifier (May change!)"""
   id: Int
 
   """s3 path of the annotation file"""
@@ -893,16 +870,13 @@ type annotation_files_min_fields {
 order by min() on columns of table "annotation_files"
 """
 input annotation_files_min_order_by {
-  """The ID of the annotation this file applies to"""
   annotation_id: order_by
 
-  """File format for this file"""
+  """Format of the annotation object file"""
   format: order_by
 
-  """HTTPS path for this annotation file"""
+  """https path of the annotation file"""
   https_path: order_by
-
-  """Numeric identifier (May change!)"""
   id: order_by
 
   """s3 path of the annotation file"""
@@ -968,10 +942,7 @@ enum annotation_files_select_column_annotation_files_aggregate_bool_exp_bool_or_
 
 """aggregate stddev on columns"""
 type annotation_files_stddev_fields {
-  """The ID of the annotation this file applies to"""
   annotation_id: Float
-
-  """Numeric identifier (May change!)"""
   id: Float
 }
 
@@ -979,19 +950,13 @@ type annotation_files_stddev_fields {
 order by stddev() on columns of table "annotation_files"
 """
 input annotation_files_stddev_order_by {
-  """The ID of the annotation this file applies to"""
   annotation_id: order_by
-
-  """Numeric identifier (May change!)"""
   id: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type annotation_files_stddev_pop_fields {
-  """The ID of the annotation this file applies to"""
   annotation_id: Float
-
-  """Numeric identifier (May change!)"""
   id: Float
 }
 
@@ -999,19 +964,13 @@ type annotation_files_stddev_pop_fields {
 order by stddev_pop() on columns of table "annotation_files"
 """
 input annotation_files_stddev_pop_order_by {
-  """The ID of the annotation this file applies to"""
   annotation_id: order_by
-
-  """Numeric identifier (May change!)"""
   id: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type annotation_files_stddev_samp_fields {
-  """The ID of the annotation this file applies to"""
   annotation_id: Float
-
-  """Numeric identifier (May change!)"""
   id: Float
 }
 
@@ -1019,10 +978,7 @@ type annotation_files_stddev_samp_fields {
 order by stddev_samp() on columns of table "annotation_files"
 """
 input annotation_files_stddev_samp_order_by {
-  """The ID of the annotation this file applies to"""
   annotation_id: order_by
-
-  """Numeric identifier (May change!)"""
   id: order_by
 }
 
@@ -1039,16 +995,13 @@ input annotation_files_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input annotation_files_stream_cursor_value_input {
-  """The ID of the annotation this file applies to"""
   annotation_id: Int
 
-  """File format for this file"""
+  """Format of the annotation object file"""
   format: String
 
-  """HTTPS path for this annotation file"""
+  """https path of the annotation file"""
   https_path: String
-
-  """Numeric identifier (May change!)"""
   id: Int
 
   """
@@ -1065,10 +1018,7 @@ input annotation_files_stream_cursor_value_input {
 
 """aggregate sum on columns"""
 type annotation_files_sum_fields {
-  """The ID of the annotation this file applies to"""
   annotation_id: Int
-
-  """Numeric identifier (May change!)"""
   id: Int
 }
 
@@ -1076,19 +1026,13 @@ type annotation_files_sum_fields {
 order by sum() on columns of table "annotation_files"
 """
 input annotation_files_sum_order_by {
-  """The ID of the annotation this file applies to"""
   annotation_id: order_by
-
-  """Numeric identifier (May change!)"""
   id: order_by
 }
 
 """aggregate var_pop on columns"""
 type annotation_files_var_pop_fields {
-  """The ID of the annotation this file applies to"""
   annotation_id: Float
-
-  """Numeric identifier (May change!)"""
   id: Float
 }
 
@@ -1096,19 +1040,13 @@ type annotation_files_var_pop_fields {
 order by var_pop() on columns of table "annotation_files"
 """
 input annotation_files_var_pop_order_by {
-  """The ID of the annotation this file applies to"""
   annotation_id: order_by
-
-  """Numeric identifier (May change!)"""
   id: order_by
 }
 
 """aggregate var_samp on columns"""
 type annotation_files_var_samp_fields {
-  """The ID of the annotation this file applies to"""
   annotation_id: Float
-
-  """Numeric identifier (May change!)"""
   id: Float
 }
 
@@ -1116,19 +1054,13 @@ type annotation_files_var_samp_fields {
 order by var_samp() on columns of table "annotation_files"
 """
 input annotation_files_var_samp_order_by {
-  """The ID of the annotation this file applies to"""
   annotation_id: order_by
-
-  """Numeric identifier (May change!)"""
   id: order_by
 }
 
 """aggregate variance on columns"""
 type annotation_files_variance_fields {
-  """The ID of the annotation this file applies to"""
   annotation_id: Float
-
-  """Numeric identifier (May change!)"""
   id: Float
 }
 
@@ -1136,14 +1068,11 @@ type annotation_files_variance_fields {
 order by variance() on columns of table "annotation_files"
 """
 input annotation_files_variance_order_by {
-  """The ID of the annotation this file applies to"""
   annotation_id: order_by
-
-  """Numeric identifier (May change!)"""
   id: order_by
 }
 
-"""Metadata for an annotation"""
+"""Inoformation about annotations for a given run"""
 type annotations {
   """
   Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
@@ -1154,8 +1083,6 @@ type annotations {
   DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
   """
   annotation_publication: String
-
-  """Software used for generating this annotation"""
   annotation_software: String
 
   """An array relationship"""
@@ -1204,13 +1131,10 @@ type annotations {
   """
   confidence_recall: numeric
 
-  """An object relationship"""
-  deposition: depositions
-
   """Date when an annotation set is initially received by the Data Portal."""
   deposition_date: date!
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Int
 
   """An array relationship"""
@@ -1257,7 +1181,7 @@ type annotations {
   """Annotation filename used as ground truth for precision and recall"""
   ground_truth_used: String
 
-  """HTTPS path for the metadata json file for this annotation"""
+  """https path for the metadata json file for this annotation"""
   https_metadata_path: String!
 
   """Numeric identifier (May change!)"""
@@ -1271,17 +1195,7 @@ type annotations {
   """Date when an annotation was last modified in the Data Portal"""
   last_modified_date: date
 
-  """
-  Provides links that generates information on the method used for generating annotation
-  """
-  method_links(
-    """JSON select path"""
-    path: String
-  ): json
-
-  """
-  The method type for generating the annotation (e.g. manual, hybrid, automated)
-  """
+  """Provides information on the method type used for generating annotation"""
   method_type: String
 
   """Number of objects identified"""
@@ -1306,13 +1220,11 @@ type annotations {
   """Date when annotation data is made public by the Data Portal."""
   release_date: date!
 
-  """S3 path for the metadata json file for this annotation"""
+  """s3 path for the metadata json file for this annotation"""
   s3_metadata_path: String!
 
   """An object relationship"""
   tomogram_voxel_spacing: tomogram_voxel_spacings
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: Int
 }
 
@@ -1397,7 +1309,7 @@ type annotations_avg_fields {
   """
   confidence_recall: Float
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier (May change!)"""
@@ -1405,8 +1317,6 @@ type annotations_avg_fields {
 
   """Number of objects identified"""
   object_count: Float
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: Float
 }
 
@@ -1424,7 +1334,7 @@ input annotations_avg_order_by {
   """
   confidence_recall: order_by
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier (May change!)"""
@@ -1432,8 +1342,6 @@ input annotations_avg_order_by {
 
   """Number of objects identified"""
   object_count: order_by
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: order_by
 }
 
@@ -1451,7 +1359,6 @@ input annotations_bool_exp {
   authors_aggregate: annotation_authors_aggregate_bool_exp
   confidence_precision: numeric_comparison_exp
   confidence_recall: numeric_comparison_exp
-  deposition: depositions_bool_exp
   deposition_date: date_comparison_exp
   deposition_id: Int_comparison_exp
   files: annotation_files_bool_exp
@@ -1462,7 +1369,6 @@ input annotations_bool_exp {
   id: Int_comparison_exp
   is_curator_recommended: Boolean_comparison_exp
   last_modified_date: date_comparison_exp
-  method_links: json_comparison_exp
   method_type: String_comparison_exp
   object_count: Int_comparison_exp
   object_description: String_comparison_exp
@@ -1486,8 +1392,6 @@ type annotations_max_fields {
   DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
   """
   annotation_publication: String
-
-  """Software used for generating this annotation"""
   annotation_software: String
 
   """
@@ -1503,13 +1407,13 @@ type annotations_max_fields {
   """Date when an annotation set is initially received by the Data Portal."""
   deposition_date: date
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Int
 
   """Annotation filename used as ground truth for precision and recall"""
   ground_truth_used: String
 
-  """HTTPS path for the metadata json file for this annotation"""
+  """https path for the metadata json file for this annotation"""
   https_metadata_path: String
 
   """Numeric identifier (May change!)"""
@@ -1518,9 +1422,7 @@ type annotations_max_fields {
   """Date when an annotation was last modified in the Data Portal"""
   last_modified_date: date
 
-  """
-  The method type for generating the annotation (e.g. manual, hybrid, automated)
-  """
+  """Provides information on the method type used for generating annotation"""
   method_type: String
 
   """Number of objects identified"""
@@ -1545,10 +1447,8 @@ type annotations_max_fields {
   """Date when annotation data is made public by the Data Portal."""
   release_date: date
 
-  """S3 path for the metadata json file for this annotation"""
+  """s3 path for the metadata json file for this annotation"""
   s3_metadata_path: String
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: Int
 }
 
@@ -1565,8 +1465,6 @@ input annotations_max_order_by {
   DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
   """
   annotation_publication: order_by
-
-  """Software used for generating this annotation"""
   annotation_software: order_by
 
   """
@@ -1582,13 +1480,13 @@ input annotations_max_order_by {
   """Date when an annotation set is initially received by the Data Portal."""
   deposition_date: order_by
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Annotation filename used as ground truth for precision and recall"""
   ground_truth_used: order_by
 
-  """HTTPS path for the metadata json file for this annotation"""
+  """https path for the metadata json file for this annotation"""
   https_metadata_path: order_by
 
   """Numeric identifier (May change!)"""
@@ -1597,9 +1495,7 @@ input annotations_max_order_by {
   """Date when an annotation was last modified in the Data Portal"""
   last_modified_date: order_by
 
-  """
-  The method type for generating the annotation (e.g. manual, hybrid, automated)
-  """
+  """Provides information on the method type used for generating annotation"""
   method_type: order_by
 
   """Number of objects identified"""
@@ -1624,10 +1520,8 @@ input annotations_max_order_by {
   """Date when annotation data is made public by the Data Portal."""
   release_date: order_by
 
-  """S3 path for the metadata json file for this annotation"""
+  """s3 path for the metadata json file for this annotation"""
   s3_metadata_path: order_by
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: order_by
 }
 
@@ -1642,8 +1536,6 @@ type annotations_min_fields {
   DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
   """
   annotation_publication: String
-
-  """Software used for generating this annotation"""
   annotation_software: String
 
   """
@@ -1659,13 +1551,13 @@ type annotations_min_fields {
   """Date when an annotation set is initially received by the Data Portal."""
   deposition_date: date
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Int
 
   """Annotation filename used as ground truth for precision and recall"""
   ground_truth_used: String
 
-  """HTTPS path for the metadata json file for this annotation"""
+  """https path for the metadata json file for this annotation"""
   https_metadata_path: String
 
   """Numeric identifier (May change!)"""
@@ -1674,9 +1566,7 @@ type annotations_min_fields {
   """Date when an annotation was last modified in the Data Portal"""
   last_modified_date: date
 
-  """
-  The method type for generating the annotation (e.g. manual, hybrid, automated)
-  """
+  """Provides information on the method type used for generating annotation"""
   method_type: String
 
   """Number of objects identified"""
@@ -1701,10 +1591,8 @@ type annotations_min_fields {
   """Date when annotation data is made public by the Data Portal."""
   release_date: date
 
-  """S3 path for the metadata json file for this annotation"""
+  """s3 path for the metadata json file for this annotation"""
   s3_metadata_path: String
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: Int
 }
 
@@ -1721,8 +1609,6 @@ input annotations_min_order_by {
   DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
   """
   annotation_publication: order_by
-
-  """Software used for generating this annotation"""
   annotation_software: order_by
 
   """
@@ -1738,13 +1624,13 @@ input annotations_min_order_by {
   """Date when an annotation set is initially received by the Data Portal."""
   deposition_date: order_by
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Annotation filename used as ground truth for precision and recall"""
   ground_truth_used: order_by
 
-  """HTTPS path for the metadata json file for this annotation"""
+  """https path for the metadata json file for this annotation"""
   https_metadata_path: order_by
 
   """Numeric identifier (May change!)"""
@@ -1753,9 +1639,7 @@ input annotations_min_order_by {
   """Date when an annotation was last modified in the Data Portal"""
   last_modified_date: order_by
 
-  """
-  The method type for generating the annotation (e.g. manual, hybrid, automated)
-  """
+  """Provides information on the method type used for generating annotation"""
   method_type: order_by
 
   """Number of objects identified"""
@@ -1780,10 +1664,8 @@ input annotations_min_order_by {
   """Date when annotation data is made public by the Data Portal."""
   release_date: order_by
 
-  """S3 path for the metadata json file for this annotation"""
+  """s3 path for the metadata json file for this annotation"""
   s3_metadata_path: order_by
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: order_by
 }
 
@@ -1795,7 +1677,6 @@ input annotations_order_by {
   authors_aggregate: annotation_authors_aggregate_order_by
   confidence_precision: order_by
   confidence_recall: order_by
-  deposition: depositions_order_by
   deposition_date: order_by
   deposition_id: order_by
   files_aggregate: annotation_files_aggregate_order_by
@@ -1805,7 +1686,6 @@ input annotations_order_by {
   id: order_by
   is_curator_recommended: order_by
   last_modified_date: order_by
-  method_links: order_by
   method_type: order_by
   object_count: order_by
   object_description: order_by
@@ -1860,9 +1740,6 @@ enum annotations_select_column {
 
   """column name"""
   last_modified_date
-
-  """column name"""
-  method_links
 
   """column name"""
   method_type
@@ -1926,7 +1803,7 @@ type annotations_stddev_fields {
   """
   confidence_recall: Float
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier (May change!)"""
@@ -1934,8 +1811,6 @@ type annotations_stddev_fields {
 
   """Number of objects identified"""
   object_count: Float
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: Float
 }
 
@@ -1953,7 +1828,7 @@ input annotations_stddev_order_by {
   """
   confidence_recall: order_by
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier (May change!)"""
@@ -1961,8 +1836,6 @@ input annotations_stddev_order_by {
 
   """Number of objects identified"""
   object_count: order_by
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: order_by
 }
 
@@ -1978,7 +1851,7 @@ type annotations_stddev_pop_fields {
   """
   confidence_recall: Float
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier (May change!)"""
@@ -1986,8 +1859,6 @@ type annotations_stddev_pop_fields {
 
   """Number of objects identified"""
   object_count: Float
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: Float
 }
 
@@ -2005,7 +1876,7 @@ input annotations_stddev_pop_order_by {
   """
   confidence_recall: order_by
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier (May change!)"""
@@ -2013,8 +1884,6 @@ input annotations_stddev_pop_order_by {
 
   """Number of objects identified"""
   object_count: order_by
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: order_by
 }
 
@@ -2030,7 +1899,7 @@ type annotations_stddev_samp_fields {
   """
   confidence_recall: Float
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier (May change!)"""
@@ -2038,8 +1907,6 @@ type annotations_stddev_samp_fields {
 
   """Number of objects identified"""
   object_count: Float
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: Float
 }
 
@@ -2057,7 +1924,7 @@ input annotations_stddev_samp_order_by {
   """
   confidence_recall: order_by
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier (May change!)"""
@@ -2065,8 +1932,6 @@ input annotations_stddev_samp_order_by {
 
   """Number of objects identified"""
   object_count: order_by
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: order_by
 }
 
@@ -2082,7 +1947,7 @@ type annotations_sum_fields {
   """
   confidence_recall: numeric
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Int
 
   """Numeric identifier (May change!)"""
@@ -2090,8 +1955,6 @@ type annotations_sum_fields {
 
   """Number of objects identified"""
   object_count: Int
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: Int
 }
 
@@ -2109,7 +1972,7 @@ input annotations_sum_order_by {
   """
   confidence_recall: order_by
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier (May change!)"""
@@ -2117,8 +1980,6 @@ input annotations_sum_order_by {
 
   """Number of objects identified"""
   object_count: order_by
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: order_by
 }
 
@@ -2134,7 +1995,7 @@ type annotations_var_pop_fields {
   """
   confidence_recall: Float
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier (May change!)"""
@@ -2142,8 +2003,6 @@ type annotations_var_pop_fields {
 
   """Number of objects identified"""
   object_count: Float
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: Float
 }
 
@@ -2161,7 +2020,7 @@ input annotations_var_pop_order_by {
   """
   confidence_recall: order_by
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier (May change!)"""
@@ -2169,8 +2028,6 @@ input annotations_var_pop_order_by {
 
   """Number of objects identified"""
   object_count: order_by
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: order_by
 }
 
@@ -2186,7 +2043,7 @@ type annotations_var_samp_fields {
   """
   confidence_recall: Float
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier (May change!)"""
@@ -2194,8 +2051,6 @@ type annotations_var_samp_fields {
 
   """Number of objects identified"""
   object_count: Float
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: Float
 }
 
@@ -2213,7 +2068,7 @@ input annotations_var_samp_order_by {
   """
   confidence_recall: order_by
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier (May change!)"""
@@ -2221,8 +2076,6 @@ input annotations_var_samp_order_by {
 
   """Number of objects identified"""
   object_count: order_by
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: order_by
 }
 
@@ -2238,7 +2091,7 @@ type annotations_variance_fields {
   """
   confidence_recall: Float
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier (May change!)"""
@@ -2246,8 +2099,6 @@ type annotations_variance_fields {
 
   """Number of objects identified"""
   object_count: Float
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: Float
 }
 
@@ -2265,7 +2116,7 @@ input annotations_variance_order_by {
   """
   confidence_recall: order_by
 
-  """If the annotation is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier (May change!)"""
@@ -2273,8 +2124,6 @@ input annotations_variance_order_by {
 
   """Number of objects identified"""
   object_count: order_by
-
-  """The ID of the tomogram voxel spacing this annotation is part of"""
   tomogram_voxel_spacing_id: order_by
 }
 
@@ -2287,7 +2136,7 @@ enum cursor_ordering {
   DESC
 }
 
-"""Metadata for authors of a dataset"""
+"""Authors of a dataset"""
 type dataset_authors {
   """Address of the institution an author is affiliated with."""
   affiliation_address: String
@@ -2308,14 +2157,10 @@ type dataset_authors {
 
   """An object relationship"""
   dataset: datasets!
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: Int!
 
   """Email address for each author"""
   email: String
-
-  """A numeric identifier for this author (May change!)"""
   id: Int!
 
   """Full name of a dataset author (e.g. Jane Doe)."""
@@ -2323,10 +2168,6 @@ type dataset_authors {
 
   """A unique, persistent identifier for researchers, provided by ORCID."""
   orcid: String
-
-  """
-  Indicating whether an author is the main person associated with the corresponding dataset
-  """
   primary_author_status: Boolean
 }
 
@@ -2403,11 +2244,7 @@ input dataset_authors_aggregate_order_by {
 type dataset_authors_avg_fields {
   """The order in which the author appears in the publication"""
   author_list_order: Float
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this author (May change!)"""
   id: Float
 }
 
@@ -2417,11 +2254,7 @@ order by avg() on columns of table "dataset_authors"
 input dataset_authors_avg_order_by {
   """The order in which the author appears in the publication"""
   author_list_order: order_by
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this author (May change!)"""
   id: order_by
 }
 
@@ -2461,14 +2294,10 @@ type dataset_authors_max_fields {
 
   """The order in which the author appears in the publication"""
   author_list_order: Int
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: Int
 
   """Email address for each author"""
   email: String
-
-  """A numeric identifier for this author (May change!)"""
   id: Int
 
   """Full name of a dataset author (e.g. Jane Doe)."""
@@ -2495,14 +2324,10 @@ input dataset_authors_max_order_by {
 
   """The order in which the author appears in the publication"""
   author_list_order: order_by
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: order_by
 
   """Email address for each author"""
   email: order_by
-
-  """A numeric identifier for this author (May change!)"""
   id: order_by
 
   """Full name of a dataset author (e.g. Jane Doe)."""
@@ -2527,14 +2352,10 @@ type dataset_authors_min_fields {
 
   """The order in which the author appears in the publication"""
   author_list_order: Int
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: Int
 
   """Email address for each author"""
   email: String
-
-  """A numeric identifier for this author (May change!)"""
   id: Int
 
   """Full name of a dataset author (e.g. Jane Doe)."""
@@ -2561,14 +2382,10 @@ input dataset_authors_min_order_by {
 
   """The order in which the author appears in the publication"""
   author_list_order: order_by
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: order_by
 
   """Email address for each author"""
   email: order_by
-
-  """A numeric identifier for this author (May change!)"""
   id: order_by
 
   """Full name of a dataset author (e.g. Jane Doe)."""
@@ -2658,11 +2475,7 @@ enum dataset_authors_select_column_dataset_authors_aggregate_bool_exp_bool_or_ar
 type dataset_authors_stddev_fields {
   """The order in which the author appears in the publication"""
   author_list_order: Float
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this author (May change!)"""
   id: Float
 }
 
@@ -2672,11 +2485,7 @@ order by stddev() on columns of table "dataset_authors"
 input dataset_authors_stddev_order_by {
   """The order in which the author appears in the publication"""
   author_list_order: order_by
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this author (May change!)"""
   id: order_by
 }
 
@@ -2684,11 +2493,7 @@ input dataset_authors_stddev_order_by {
 type dataset_authors_stddev_pop_fields {
   """The order in which the author appears in the publication"""
   author_list_order: Float
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this author (May change!)"""
   id: Float
 }
 
@@ -2698,11 +2503,7 @@ order by stddev_pop() on columns of table "dataset_authors"
 input dataset_authors_stddev_pop_order_by {
   """The order in which the author appears in the publication"""
   author_list_order: order_by
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this author (May change!)"""
   id: order_by
 }
 
@@ -2710,11 +2511,7 @@ input dataset_authors_stddev_pop_order_by {
 type dataset_authors_stddev_samp_fields {
   """The order in which the author appears in the publication"""
   author_list_order: Float
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this author (May change!)"""
   id: Float
 }
 
@@ -2724,11 +2521,7 @@ order by stddev_samp() on columns of table "dataset_authors"
 input dataset_authors_stddev_samp_order_by {
   """The order in which the author appears in the publication"""
   author_list_order: order_by
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this author (May change!)"""
   id: order_by
 }
 
@@ -2736,11 +2529,7 @@ input dataset_authors_stddev_samp_order_by {
 type dataset_authors_sum_fields {
   """The order in which the author appears in the publication"""
   author_list_order: Int
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: Int
-
-  """A numeric identifier for this author (May change!)"""
   id: Int
 }
 
@@ -2750,11 +2539,7 @@ order by sum() on columns of table "dataset_authors"
 input dataset_authors_sum_order_by {
   """The order in which the author appears in the publication"""
   author_list_order: order_by
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this author (May change!)"""
   id: order_by
 }
 
@@ -2762,11 +2547,7 @@ input dataset_authors_sum_order_by {
 type dataset_authors_var_pop_fields {
   """The order in which the author appears in the publication"""
   author_list_order: Float
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this author (May change!)"""
   id: Float
 }
 
@@ -2776,11 +2557,7 @@ order by var_pop() on columns of table "dataset_authors"
 input dataset_authors_var_pop_order_by {
   """The order in which the author appears in the publication"""
   author_list_order: order_by
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this author (May change!)"""
   id: order_by
 }
 
@@ -2788,11 +2565,7 @@ input dataset_authors_var_pop_order_by {
 type dataset_authors_var_samp_fields {
   """The order in which the author appears in the publication"""
   author_list_order: Float
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this author (May change!)"""
   id: Float
 }
 
@@ -2802,11 +2575,7 @@ order by var_samp() on columns of table "dataset_authors"
 input dataset_authors_var_samp_order_by {
   """The order in which the author appears in the publication"""
   author_list_order: order_by
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this author (May change!)"""
   id: order_by
 }
 
@@ -2814,11 +2583,7 @@ input dataset_authors_var_samp_order_by {
 type dataset_authors_variance_fields {
   """The order in which the author appears in the publication"""
   author_list_order: Float
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this author (May change!)"""
   id: Float
 }
 
@@ -2828,20 +2593,14 @@ order by variance() on columns of table "dataset_authors"
 input dataset_authors_variance_order_by {
   """The order in which the author appears in the publication"""
   author_list_order: order_by
-
-  """Numeric identifier for the dataset this author corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this author (May change!)"""
   id: order_by
 }
 
-"""Metadata for a dataset's funding sources"""
+"""Funding sources for a dataset"""
 type dataset_funding {
   """An object relationship"""
   dataset: datasets!
-
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: Int!
 
   """Name of the funding agency."""
@@ -2849,8 +2608,6 @@ type dataset_funding {
 
   """Grant identifier provided by the funding agency."""
   grant_id: String
-
-  """A numeric identifier for this funding record (May change!)"""
   id: Int!
 }
 
@@ -2909,10 +2666,7 @@ input dataset_funding_aggregate_order_by {
 
 """aggregate avg on columns"""
 type dataset_funding_avg_fields {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this funding record (May change!)"""
   id: Float
 }
 
@@ -2920,10 +2674,7 @@ type dataset_funding_avg_fields {
 order by avg() on columns of table "dataset_funding"
 """
 input dataset_funding_avg_order_by {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this funding record (May change!)"""
   id: order_by
 }
 
@@ -2943,7 +2694,6 @@ input dataset_funding_bool_exp {
 
 """aggregate max on columns"""
 type dataset_funding_max_fields {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: Int
 
   """Name of the funding agency."""
@@ -2951,8 +2701,6 @@ type dataset_funding_max_fields {
 
   """Grant identifier provided by the funding agency."""
   grant_id: String
-
-  """A numeric identifier for this funding record (May change!)"""
   id: Int
 }
 
@@ -2960,7 +2708,6 @@ type dataset_funding_max_fields {
 order by max() on columns of table "dataset_funding"
 """
 input dataset_funding_max_order_by {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: order_by
 
   """Name of the funding agency."""
@@ -2968,14 +2715,11 @@ input dataset_funding_max_order_by {
 
   """Grant identifier provided by the funding agency."""
   grant_id: order_by
-
-  """A numeric identifier for this funding record (May change!)"""
   id: order_by
 }
 
 """aggregate min on columns"""
 type dataset_funding_min_fields {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: Int
 
   """Name of the funding agency."""
@@ -2983,8 +2727,6 @@ type dataset_funding_min_fields {
 
   """Grant identifier provided by the funding agency."""
   grant_id: String
-
-  """A numeric identifier for this funding record (May change!)"""
   id: Int
 }
 
@@ -2992,7 +2734,6 @@ type dataset_funding_min_fields {
 order by min() on columns of table "dataset_funding"
 """
 input dataset_funding_min_order_by {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: order_by
 
   """Name of the funding agency."""
@@ -3000,8 +2741,6 @@ input dataset_funding_min_order_by {
 
   """Grant identifier provided by the funding agency."""
   grant_id: order_by
-
-  """A numeric identifier for this funding record (May change!)"""
   id: order_by
 }
 
@@ -3033,10 +2772,7 @@ enum dataset_funding_select_column {
 
 """aggregate stddev on columns"""
 type dataset_funding_stddev_fields {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this funding record (May change!)"""
   id: Float
 }
 
@@ -3044,19 +2780,13 @@ type dataset_funding_stddev_fields {
 order by stddev() on columns of table "dataset_funding"
 """
 input dataset_funding_stddev_order_by {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this funding record (May change!)"""
   id: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type dataset_funding_stddev_pop_fields {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this funding record (May change!)"""
   id: Float
 }
 
@@ -3064,19 +2794,13 @@ type dataset_funding_stddev_pop_fields {
 order by stddev_pop() on columns of table "dataset_funding"
 """
 input dataset_funding_stddev_pop_order_by {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this funding record (May change!)"""
   id: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type dataset_funding_stddev_samp_fields {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this funding record (May change!)"""
   id: Float
 }
 
@@ -3084,19 +2808,13 @@ type dataset_funding_stddev_samp_fields {
 order by stddev_samp() on columns of table "dataset_funding"
 """
 input dataset_funding_stddev_samp_order_by {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this funding record (May change!)"""
   id: order_by
 }
 
 """aggregate sum on columns"""
 type dataset_funding_sum_fields {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: Int
-
-  """A numeric identifier for this funding record (May change!)"""
   id: Int
 }
 
@@ -3104,19 +2822,13 @@ type dataset_funding_sum_fields {
 order by sum() on columns of table "dataset_funding"
 """
 input dataset_funding_sum_order_by {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this funding record (May change!)"""
   id: order_by
 }
 
 """aggregate var_pop on columns"""
 type dataset_funding_var_pop_fields {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this funding record (May change!)"""
   id: Float
 }
 
@@ -3124,19 +2836,13 @@ type dataset_funding_var_pop_fields {
 order by var_pop() on columns of table "dataset_funding"
 """
 input dataset_funding_var_pop_order_by {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this funding record (May change!)"""
   id: order_by
 }
 
 """aggregate var_samp on columns"""
 type dataset_funding_var_samp_fields {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this funding record (May change!)"""
   id: Float
 }
 
@@ -3144,19 +2850,13 @@ type dataset_funding_var_samp_fields {
 order by var_samp() on columns of table "dataset_funding"
 """
 input dataset_funding_var_samp_order_by {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this funding record (May change!)"""
   id: order_by
 }
 
 """aggregate variance on columns"""
 type dataset_funding_variance_fields {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: Float
-
-  """A numeric identifier for this funding record (May change!)"""
   id: Float
 }
 
@@ -3164,14 +2864,11 @@ type dataset_funding_variance_fields {
 order by variance() on columns of table "dataset_funding"
 """
 input dataset_funding_variance_order_by {
-  """Numeric identifier for the dataset this funding source corresponds to"""
   dataset_id: order_by
-
-  """A numeric identifier for this funding record (May change!)"""
   id: order_by
 }
 
-"""Metadata for a dataset"""
+"""Dataset Metadata"""
 type datasets {
   """An array relationship"""
   authors(
@@ -3210,7 +2907,7 @@ type datasets {
   ): dataset_authors_aggregate!
 
   """
-  If the dataset focuses on a specific part of a cell, the subset is included here
+  If this dataset only focuses on a specific part of a cell, include the subset here
   """
   cell_component_id: String
 
@@ -3222,7 +2919,7 @@ type datasets {
   """
   cell_name: String
 
-  """Link to more information about the cell strain"""
+  """NCBI Identifier for the cell line or strain"""
   cell_strain_id: String
 
   """Cell line or strain for the sample."""
@@ -3241,14 +2938,8 @@ type datasets {
   """
   dataset_publications: String
 
-  """An object relationship"""
-  deposition: depositions
-
   """Date when a dataset is initially received by the Data Portal."""
   deposition_date: date!
-
-  """Reference to the deposition this dataset is associated with"""
-  deposition_id: Int
 
   """
   A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
@@ -3330,7 +3021,7 @@ type datasets {
   related_database_entries: String
 
   """
-  If a CryoET dataset is also deposited into another database, e.g. EMPIAR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/). Use a comma to separate multiple links.
+  If a CryoET dataset is also deposited into another database, e.g. EMPAIR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/).  Use a comma to separate multiple links.
   """
   related_database_links: String
 
@@ -3423,9 +3114,6 @@ type datasets_aggregate_fields {
 
 """aggregate avg on columns"""
 type datasets_avg_fields {
-  """Reference to the deposition this dataset is associated with"""
-  deposition_id: Float
-
   """
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
@@ -3449,9 +3137,7 @@ input datasets_bool_exp {
   cell_type_id: String_comparison_exp
   dataset_citations: String_comparison_exp
   dataset_publications: String_comparison_exp
-  deposition: depositions_bool_exp
   deposition_date: date_comparison_exp
-  deposition_id: Int_comparison_exp
   description: String_comparison_exp
   funding_sources: dataset_funding_bool_exp
   funding_sources_aggregate: dataset_funding_aggregate_bool_exp
@@ -3480,7 +3166,7 @@ input datasets_bool_exp {
 """aggregate max on columns"""
 type datasets_max_fields {
   """
-  If the dataset focuses on a specific part of a cell, the subset is included here
+  If this dataset only focuses on a specific part of a cell, include the subset here
   """
   cell_component_id: String
 
@@ -3492,7 +3178,7 @@ type datasets_max_fields {
   """
   cell_name: String
 
-  """Link to more information about the cell strain"""
+  """NCBI Identifier for the cell line or strain"""
   cell_strain_id: String
 
   """Cell line or strain for the sample."""
@@ -3513,9 +3199,6 @@ type datasets_max_fields {
 
   """Date when a dataset is initially received by the Data Portal."""
   deposition_date: date
-
-  """Reference to the deposition this dataset is associated with"""
-  deposition_id: Int
 
   """
   A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
@@ -3561,7 +3244,7 @@ type datasets_max_fields {
   related_database_entries: String
 
   """
-  If a CryoET dataset is also deposited into another database, e.g. EMPIAR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/). Use a comma to separate multiple links.
+  If a CryoET dataset is also deposited into another database, e.g. EMPAIR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/).  Use a comma to separate multiple links.
   """
   related_database_links: String
 
@@ -3594,7 +3277,7 @@ type datasets_max_fields {
 """aggregate min on columns"""
 type datasets_min_fields {
   """
-  If the dataset focuses on a specific part of a cell, the subset is included here
+  If this dataset only focuses on a specific part of a cell, include the subset here
   """
   cell_component_id: String
 
@@ -3606,7 +3289,7 @@ type datasets_min_fields {
   """
   cell_name: String
 
-  """Link to more information about the cell strain"""
+  """NCBI Identifier for the cell line or strain"""
   cell_strain_id: String
 
   """Cell line or strain for the sample."""
@@ -3627,9 +3310,6 @@ type datasets_min_fields {
 
   """Date when a dataset is initially received by the Data Portal."""
   deposition_date: date
-
-  """Reference to the deposition this dataset is associated with"""
-  deposition_id: Int
 
   """
   A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
@@ -3675,7 +3355,7 @@ type datasets_min_fields {
   related_database_entries: String
 
   """
-  If a CryoET dataset is also deposited into another database, e.g. EMPIAR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/). Use a comma to separate multiple links.
+  If a CryoET dataset is also deposited into another database, e.g. EMPAIR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/).  Use a comma to separate multiple links.
   """
   related_database_links: String
 
@@ -3716,9 +3396,7 @@ input datasets_order_by {
   cell_type_id: order_by
   dataset_citations: order_by
   dataset_publications: order_by
-  deposition: depositions_order_by
   deposition_date: order_by
-  deposition_id: order_by
   description: order_by
   funding_sources_aggregate: dataset_funding_aggregate_order_by
   grid_preparation: order_by
@@ -3772,9 +3450,6 @@ enum datasets_select_column {
 
   """column name"""
   deposition_date
-
-  """column name"""
-  deposition_id
 
   """column name"""
   description
@@ -3836,9 +3511,6 @@ enum datasets_select_column {
 
 """aggregate stddev on columns"""
 type datasets_stddev_fields {
-  """Reference to the deposition this dataset is associated with"""
-  deposition_id: Float
-
   """
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
@@ -3847,9 +3519,6 @@ type datasets_stddev_fields {
 
 """aggregate stddev_pop on columns"""
 type datasets_stddev_pop_fields {
-  """Reference to the deposition this dataset is associated with"""
-  deposition_id: Float
-
   """
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
@@ -3858,9 +3527,6 @@ type datasets_stddev_pop_fields {
 
 """aggregate stddev_samp on columns"""
 type datasets_stddev_samp_fields {
-  """Reference to the deposition this dataset is associated with"""
-  deposition_id: Float
-
   """
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
@@ -3869,9 +3535,6 @@ type datasets_stddev_samp_fields {
 
 """aggregate sum on columns"""
 type datasets_sum_fields {
-  """Reference to the deposition this dataset is associated with"""
-  deposition_id: Int
-
   """
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
@@ -3880,9 +3543,6 @@ type datasets_sum_fields {
 
 """aggregate var_pop on columns"""
 type datasets_var_pop_fields {
-  """Reference to the deposition this dataset is associated with"""
-  deposition_id: Float
-
   """
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
@@ -3891,9 +3551,6 @@ type datasets_var_pop_fields {
 
 """aggregate var_samp on columns"""
 type datasets_var_samp_fields {
-  """Reference to the deposition this dataset is associated with"""
-  deposition_id: Float
-
   """
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
@@ -3902,9 +3559,6 @@ type datasets_var_samp_fields {
 
 """aggregate variance on columns"""
 type datasets_variance_fields {
-  """Reference to the deposition this dataset is associated with"""
-  deposition_id: Float
-
   """
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
@@ -3926,967 +3580,6 @@ input date_comparison_exp {
   _lte: date
   _neq: date
   _nin: [date!]
-}
-
-"""Authors for a deposition"""
-type deposition_authors {
-  """Address of the institution an author is affiliated with."""
-  affiliation_address: String
-
-  """
-  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
-  """
-  affiliation_identifier: String
-
-  """Name of the institution an author is affiliated with."""
-  affiliation_name: String
-
-  """The order in which the author appears in the publication"""
-  author_list_order: Int!
-
-  """Indicates whether an author is the corresponding author"""
-  corresponding_author_status: Boolean
-
-  """An object relationship"""
-  deposition: depositions!
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: Int!
-
-  """Email address for this author"""
-  email: String
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: Int!
-
-  """Full name of a deposition author (e.g. Jane Doe)."""
-  name: String!
-
-  """A unique, persistent identifier for researchers, provided by ORCID."""
-  orcid: String
-
-  """Indicates whether an author is the main person creating the deposition"""
-  primary_author_status: Boolean
-}
-
-"""
-aggregated selection of "deposition_authors"
-"""
-type deposition_authors_aggregate {
-  aggregate: deposition_authors_aggregate_fields
-  nodes: [deposition_authors!]!
-}
-
-input deposition_authors_aggregate_bool_exp {
-  bool_and: deposition_authors_aggregate_bool_exp_bool_and
-  bool_or: deposition_authors_aggregate_bool_exp_bool_or
-  count: deposition_authors_aggregate_bool_exp_count
-}
-
-input deposition_authors_aggregate_bool_exp_bool_and {
-  arguments: deposition_authors_select_column_deposition_authors_aggregate_bool_exp_bool_and_arguments_columns!
-  distinct: Boolean
-  filter: deposition_authors_bool_exp
-  predicate: Boolean_comparison_exp!
-}
-
-input deposition_authors_aggregate_bool_exp_bool_or {
-  arguments: deposition_authors_select_column_deposition_authors_aggregate_bool_exp_bool_or_arguments_columns!
-  distinct: Boolean
-  filter: deposition_authors_bool_exp
-  predicate: Boolean_comparison_exp!
-}
-
-input deposition_authors_aggregate_bool_exp_count {
-  arguments: [deposition_authors_select_column!]
-  distinct: Boolean
-  filter: deposition_authors_bool_exp
-  predicate: Int_comparison_exp!
-}
-
-"""
-aggregate fields of "deposition_authors"
-"""
-type deposition_authors_aggregate_fields {
-  avg: deposition_authors_avg_fields
-  count(columns: [deposition_authors_select_column!], distinct: Boolean): Int!
-  max: deposition_authors_max_fields
-  min: deposition_authors_min_fields
-  stddev: deposition_authors_stddev_fields
-  stddev_pop: deposition_authors_stddev_pop_fields
-  stddev_samp: deposition_authors_stddev_samp_fields
-  sum: deposition_authors_sum_fields
-  var_pop: deposition_authors_var_pop_fields
-  var_samp: deposition_authors_var_samp_fields
-  variance: deposition_authors_variance_fields
-}
-
-"""
-order by aggregate values of table "deposition_authors"
-"""
-input deposition_authors_aggregate_order_by {
-  avg: deposition_authors_avg_order_by
-  count: order_by
-  max: deposition_authors_max_order_by
-  min: deposition_authors_min_order_by
-  stddev: deposition_authors_stddev_order_by
-  stddev_pop: deposition_authors_stddev_pop_order_by
-  stddev_samp: deposition_authors_stddev_samp_order_by
-  sum: deposition_authors_sum_order_by
-  var_pop: deposition_authors_var_pop_order_by
-  var_samp: deposition_authors_var_samp_order_by
-  variance: deposition_authors_variance_order_by
-}
-
-"""aggregate avg on columns"""
-type deposition_authors_avg_fields {
-  """The order in which the author appears in the publication"""
-  author_list_order: Float
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: Float
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: Float
-}
-
-"""
-order by avg() on columns of table "deposition_authors"
-"""
-input deposition_authors_avg_order_by {
-  """The order in which the author appears in the publication"""
-  author_list_order: order_by
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: order_by
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: order_by
-}
-
-"""
-Boolean expression to filter rows from the table "deposition_authors". All fields are combined with a logical 'AND'.
-"""
-input deposition_authors_bool_exp {
-  _and: [deposition_authors_bool_exp!]
-  _not: deposition_authors_bool_exp
-  _or: [deposition_authors_bool_exp!]
-  affiliation_address: String_comparison_exp
-  affiliation_identifier: String_comparison_exp
-  affiliation_name: String_comparison_exp
-  author_list_order: Int_comparison_exp
-  corresponding_author_status: Boolean_comparison_exp
-  deposition: depositions_bool_exp
-  deposition_id: Int_comparison_exp
-  email: String_comparison_exp
-  id: Int_comparison_exp
-  name: String_comparison_exp
-  orcid: String_comparison_exp
-  primary_author_status: Boolean_comparison_exp
-}
-
-"""aggregate max on columns"""
-type deposition_authors_max_fields {
-  """Address of the institution an author is affiliated with."""
-  affiliation_address: String
-
-  """
-  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
-  """
-  affiliation_identifier: String
-
-  """Name of the institution an author is affiliated with."""
-  affiliation_name: String
-
-  """The order in which the author appears in the publication"""
-  author_list_order: Int
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: Int
-
-  """Email address for this author"""
-  email: String
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: Int
-
-  """Full name of a deposition author (e.g. Jane Doe)."""
-  name: String
-
-  """A unique, persistent identifier for researchers, provided by ORCID."""
-  orcid: String
-}
-
-"""
-order by max() on columns of table "deposition_authors"
-"""
-input deposition_authors_max_order_by {
-  """Address of the institution an author is affiliated with."""
-  affiliation_address: order_by
-
-  """
-  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
-  """
-  affiliation_identifier: order_by
-
-  """Name of the institution an author is affiliated with."""
-  affiliation_name: order_by
-
-  """The order in which the author appears in the publication"""
-  author_list_order: order_by
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: order_by
-
-  """Email address for this author"""
-  email: order_by
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: order_by
-
-  """Full name of a deposition author (e.g. Jane Doe)."""
-  name: order_by
-
-  """A unique, persistent identifier for researchers, provided by ORCID."""
-  orcid: order_by
-}
-
-"""aggregate min on columns"""
-type deposition_authors_min_fields {
-  """Address of the institution an author is affiliated with."""
-  affiliation_address: String
-
-  """
-  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
-  """
-  affiliation_identifier: String
-
-  """Name of the institution an author is affiliated with."""
-  affiliation_name: String
-
-  """The order in which the author appears in the publication"""
-  author_list_order: Int
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: Int
-
-  """Email address for this author"""
-  email: String
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: Int
-
-  """Full name of a deposition author (e.g. Jane Doe)."""
-  name: String
-
-  """A unique, persistent identifier for researchers, provided by ORCID."""
-  orcid: String
-}
-
-"""
-order by min() on columns of table "deposition_authors"
-"""
-input deposition_authors_min_order_by {
-  """Address of the institution an author is affiliated with."""
-  affiliation_address: order_by
-
-  """
-  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
-  """
-  affiliation_identifier: order_by
-
-  """Name of the institution an author is affiliated with."""
-  affiliation_name: order_by
-
-  """The order in which the author appears in the publication"""
-  author_list_order: order_by
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: order_by
-
-  """Email address for this author"""
-  email: order_by
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: order_by
-
-  """Full name of a deposition author (e.g. Jane Doe)."""
-  name: order_by
-
-  """A unique, persistent identifier for researchers, provided by ORCID."""
-  orcid: order_by
-}
-
-"""Ordering options when selecting data from "deposition_authors"."""
-input deposition_authors_order_by {
-  affiliation_address: order_by
-  affiliation_identifier: order_by
-  affiliation_name: order_by
-  author_list_order: order_by
-  corresponding_author_status: order_by
-  deposition: depositions_order_by
-  deposition_id: order_by
-  email: order_by
-  id: order_by
-  name: order_by
-  orcid: order_by
-  primary_author_status: order_by
-}
-
-"""
-select columns of table "deposition_authors"
-"""
-enum deposition_authors_select_column {
-  """column name"""
-  affiliation_address
-
-  """column name"""
-  affiliation_identifier
-
-  """column name"""
-  affiliation_name
-
-  """column name"""
-  author_list_order
-
-  """column name"""
-  corresponding_author_status
-
-  """column name"""
-  deposition_id
-
-  """column name"""
-  email
-
-  """column name"""
-  id
-
-  """column name"""
-  name
-
-  """column name"""
-  orcid
-
-  """column name"""
-  primary_author_status
-}
-
-"""
-select "deposition_authors_aggregate_bool_exp_bool_and_arguments_columns" columns of table "deposition_authors"
-"""
-enum deposition_authors_select_column_deposition_authors_aggregate_bool_exp_bool_and_arguments_columns {
-  """column name"""
-  corresponding_author_status
-
-  """column name"""
-  primary_author_status
-}
-
-"""
-select "deposition_authors_aggregate_bool_exp_bool_or_arguments_columns" columns of table "deposition_authors"
-"""
-enum deposition_authors_select_column_deposition_authors_aggregate_bool_exp_bool_or_arguments_columns {
-  """column name"""
-  corresponding_author_status
-
-  """column name"""
-  primary_author_status
-}
-
-"""aggregate stddev on columns"""
-type deposition_authors_stddev_fields {
-  """The order in which the author appears in the publication"""
-  author_list_order: Float
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: Float
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: Float
-}
-
-"""
-order by stddev() on columns of table "deposition_authors"
-"""
-input deposition_authors_stddev_order_by {
-  """The order in which the author appears in the publication"""
-  author_list_order: order_by
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: order_by
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: order_by
-}
-
-"""aggregate stddev_pop on columns"""
-type deposition_authors_stddev_pop_fields {
-  """The order in which the author appears in the publication"""
-  author_list_order: Float
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: Float
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: Float
-}
-
-"""
-order by stddev_pop() on columns of table "deposition_authors"
-"""
-input deposition_authors_stddev_pop_order_by {
-  """The order in which the author appears in the publication"""
-  author_list_order: order_by
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: order_by
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: order_by
-}
-
-"""aggregate stddev_samp on columns"""
-type deposition_authors_stddev_samp_fields {
-  """The order in which the author appears in the publication"""
-  author_list_order: Float
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: Float
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: Float
-}
-
-"""
-order by stddev_samp() on columns of table "deposition_authors"
-"""
-input deposition_authors_stddev_samp_order_by {
-  """The order in which the author appears in the publication"""
-  author_list_order: order_by
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: order_by
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: order_by
-}
-
-"""
-Streaming cursor of the table "deposition_authors"
-"""
-input deposition_authors_stream_cursor_input {
-  """Stream column input with initial value"""
-  initial_value: deposition_authors_stream_cursor_value_input!
-
-  """cursor ordering"""
-  ordering: cursor_ordering
-}
-
-"""Initial value of the column from where the streaming should start"""
-input deposition_authors_stream_cursor_value_input {
-  """Address of the institution an author is affiliated with."""
-  affiliation_address: String
-
-  """
-  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
-  """
-  affiliation_identifier: String
-
-  """Name of the institution an author is affiliated with."""
-  affiliation_name: String
-
-  """The order in which the author appears in the publication"""
-  author_list_order: Int
-
-  """Indicates whether an author is the corresponding author"""
-  corresponding_author_status: Boolean
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: Int
-
-  """Email address for this author"""
-  email: String
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: Int
-
-  """Full name of a deposition author (e.g. Jane Doe)."""
-  name: String
-
-  """A unique, persistent identifier for researchers, provided by ORCID."""
-  orcid: String
-
-  """Indicates whether an author is the main person creating the deposition"""
-  primary_author_status: Boolean
-}
-
-"""aggregate sum on columns"""
-type deposition_authors_sum_fields {
-  """The order in which the author appears in the publication"""
-  author_list_order: Int
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: Int
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: Int
-}
-
-"""
-order by sum() on columns of table "deposition_authors"
-"""
-input deposition_authors_sum_order_by {
-  """The order in which the author appears in the publication"""
-  author_list_order: order_by
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: order_by
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: order_by
-}
-
-"""aggregate var_pop on columns"""
-type deposition_authors_var_pop_fields {
-  """The order in which the author appears in the publication"""
-  author_list_order: Float
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: Float
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: Float
-}
-
-"""
-order by var_pop() on columns of table "deposition_authors"
-"""
-input deposition_authors_var_pop_order_by {
-  """The order in which the author appears in the publication"""
-  author_list_order: order_by
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: order_by
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: order_by
-}
-
-"""aggregate var_samp on columns"""
-type deposition_authors_var_samp_fields {
-  """The order in which the author appears in the publication"""
-  author_list_order: Float
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: Float
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: Float
-}
-
-"""
-order by var_samp() on columns of table "deposition_authors"
-"""
-input deposition_authors_var_samp_order_by {
-  """The order in which the author appears in the publication"""
-  author_list_order: order_by
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: order_by
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: order_by
-}
-
-"""aggregate variance on columns"""
-type deposition_authors_variance_fields {
-  """The order in which the author appears in the publication"""
-  author_list_order: Float
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: Float
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: Float
-}
-
-"""
-order by variance() on columns of table "deposition_authors"
-"""
-input deposition_authors_variance_order_by {
-  """The order in which the author appears in the publication"""
-  author_list_order: order_by
-
-  """Reference to the deposition this author contributed to"""
-  deposition_id: order_by
-
-  """Numeric identifier for this deposition author (this may change!)"""
-  id: order_by
-}
-
-"""Deposition metadata"""
-type depositions {
-  """An array relationship"""
-  authors(
-    """distinct select on columns"""
-    distinct_on: [deposition_authors_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [deposition_authors_order_by!]
-
-    """filter the rows returned"""
-    where: deposition_authors_bool_exp
-  ): [deposition_authors!]!
-
-  """An aggregate relationship"""
-  authors_aggregate(
-    """distinct select on columns"""
-    distinct_on: [deposition_authors_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [deposition_authors_order_by!]
-
-    """filter the rows returned"""
-    where: deposition_authors_bool_exp
-  ): deposition_authors_aggregate!
-
-  """The date the deposition was deposited"""
-  deposition_date: date!
-
-  """The publications related to this deposition"""
-  deposition_publications: String
-
-  """The types of data submitted as a part of this deposition"""
-  deposition_types: String!
-
-  """Description for the deposition"""
-  description: String!
-
-  """The https directory path where data about this deposition is contained"""
-  https_prefix: String
-
-  """Numeric identifier for this depositions"""
-  id: Int!
-
-  """The date the deposition was last modified"""
-  last_modified_date: date!
-
-  """The related database entries to this deposition"""
-  related_database_entries: String
-
-  """The date the deposition was released"""
-  release_date: date!
-
-  """
-  The S3 public bucket path where data about this deposition is contained
-  """
-  s3_prefix: String
-
-  """Title for the deposition"""
-  title: String!
-}
-
-"""
-aggregated selection of "depositions"
-"""
-type depositions_aggregate {
-  aggregate: depositions_aggregate_fields
-  nodes: [depositions!]!
-}
-
-"""
-aggregate fields of "depositions"
-"""
-type depositions_aggregate_fields {
-  avg: depositions_avg_fields
-  count(columns: [depositions_select_column!], distinct: Boolean): Int!
-  max: depositions_max_fields
-  min: depositions_min_fields
-  stddev: depositions_stddev_fields
-  stddev_pop: depositions_stddev_pop_fields
-  stddev_samp: depositions_stddev_samp_fields
-  sum: depositions_sum_fields
-  var_pop: depositions_var_pop_fields
-  var_samp: depositions_var_samp_fields
-  variance: depositions_variance_fields
-}
-
-"""aggregate avg on columns"""
-type depositions_avg_fields {
-  """Numeric identifier for this depositions"""
-  id: Float
-}
-
-"""
-Boolean expression to filter rows from the table "depositions". All fields are combined with a logical 'AND'.
-"""
-input depositions_bool_exp {
-  _and: [depositions_bool_exp!]
-  _not: depositions_bool_exp
-  _or: [depositions_bool_exp!]
-  authors: deposition_authors_bool_exp
-  authors_aggregate: deposition_authors_aggregate_bool_exp
-  deposition_date: date_comparison_exp
-  deposition_publications: String_comparison_exp
-  deposition_types: String_comparison_exp
-  description: String_comparison_exp
-  https_prefix: String_comparison_exp
-  id: Int_comparison_exp
-  last_modified_date: date_comparison_exp
-  related_database_entries: String_comparison_exp
-  release_date: date_comparison_exp
-  s3_prefix: String_comparison_exp
-  title: String_comparison_exp
-}
-
-"""aggregate max on columns"""
-type depositions_max_fields {
-  """The date the deposition was deposited"""
-  deposition_date: date
-
-  """The publications related to this deposition"""
-  deposition_publications: String
-
-  """The types of data submitted as a part of this deposition"""
-  deposition_types: String
-
-  """Description for the deposition"""
-  description: String
-
-  """The https directory path where data about this deposition is contained"""
-  https_prefix: String
-
-  """Numeric identifier for this depositions"""
-  id: Int
-
-  """The date the deposition was last modified"""
-  last_modified_date: date
-
-  """The related database entries to this deposition"""
-  related_database_entries: String
-
-  """The date the deposition was released"""
-  release_date: date
-
-  """
-  The S3 public bucket path where data about this deposition is contained
-  """
-  s3_prefix: String
-
-  """Title for the deposition"""
-  title: String
-}
-
-"""aggregate min on columns"""
-type depositions_min_fields {
-  """The date the deposition was deposited"""
-  deposition_date: date
-
-  """The publications related to this deposition"""
-  deposition_publications: String
-
-  """The types of data submitted as a part of this deposition"""
-  deposition_types: String
-
-  """Description for the deposition"""
-  description: String
-
-  """The https directory path where data about this deposition is contained"""
-  https_prefix: String
-
-  """Numeric identifier for this depositions"""
-  id: Int
-
-  """The date the deposition was last modified"""
-  last_modified_date: date
-
-  """The related database entries to this deposition"""
-  related_database_entries: String
-
-  """The date the deposition was released"""
-  release_date: date
-
-  """
-  The S3 public bucket path where data about this deposition is contained
-  """
-  s3_prefix: String
-
-  """Title for the deposition"""
-  title: String
-}
-
-"""Ordering options when selecting data from "depositions"."""
-input depositions_order_by {
-  authors_aggregate: deposition_authors_aggregate_order_by
-  deposition_date: order_by
-  deposition_publications: order_by
-  deposition_types: order_by
-  description: order_by
-  https_prefix: order_by
-  id: order_by
-  last_modified_date: order_by
-  related_database_entries: order_by
-  release_date: order_by
-  s3_prefix: order_by
-  title: order_by
-}
-
-"""
-select columns of table "depositions"
-"""
-enum depositions_select_column {
-  """column name"""
-  deposition_date
-
-  """column name"""
-  deposition_publications
-
-  """column name"""
-  deposition_types
-
-  """column name"""
-  description
-
-  """column name"""
-  https_prefix
-
-  """column name"""
-  id
-
-  """column name"""
-  last_modified_date
-
-  """column name"""
-  related_database_entries
-
-  """column name"""
-  release_date
-
-  """column name"""
-  s3_prefix
-
-  """column name"""
-  title
-}
-
-"""aggregate stddev on columns"""
-type depositions_stddev_fields {
-  """Numeric identifier for this depositions"""
-  id: Float
-}
-
-"""aggregate stddev_pop on columns"""
-type depositions_stddev_pop_fields {
-  """Numeric identifier for this depositions"""
-  id: Float
-}
-
-"""aggregate stddev_samp on columns"""
-type depositions_stddev_samp_fields {
-  """Numeric identifier for this depositions"""
-  id: Float
-}
-
-"""
-Streaming cursor of the table "depositions"
-"""
-input depositions_stream_cursor_input {
-  """Stream column input with initial value"""
-  initial_value: depositions_stream_cursor_value_input!
-
-  """cursor ordering"""
-  ordering: cursor_ordering
-}
-
-"""Initial value of the column from where the streaming should start"""
-input depositions_stream_cursor_value_input {
-  """The date the deposition was deposited"""
-  deposition_date: date
-
-  """The publications related to this deposition"""
-  deposition_publications: String
-
-  """The types of data submitted as a part of this deposition"""
-  deposition_types: String
-
-  """Description for the deposition"""
-  description: String
-
-  """The https directory path where data about this deposition is contained"""
-  https_prefix: String
-
-  """Numeric identifier for this depositions"""
-  id: Int
-
-  """The date the deposition was last modified"""
-  last_modified_date: date
-
-  """The related database entries to this deposition"""
-  related_database_entries: String
-
-  """The date the deposition was released"""
-  release_date: date
-
-  """
-  The S3 public bucket path where data about this deposition is contained
-  """
-  s3_prefix: String
-
-  """Title for the deposition"""
-  title: String
-}
-
-"""aggregate sum on columns"""
-type depositions_sum_fields {
-  """Numeric identifier for this depositions"""
-  id: Int
-}
-
-"""aggregate var_pop on columns"""
-type depositions_var_pop_fields {
-  """Numeric identifier for this depositions"""
-  id: Float
-}
-
-"""aggregate var_samp on columns"""
-type depositions_var_samp_fields {
-  """Numeric identifier for this depositions"""
-  id: Float
-}
-
-"""aggregate variance on columns"""
-type depositions_variance_fields {
-  """Numeric identifier for this depositions"""
-  id: Float
-}
-
-scalar json
-
-"""
-Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'.
-"""
-input json_comparison_exp {
-  _eq: json
-  _gt: json
-  _gte: json
-  _in: [json!]
-  _is_null: Boolean
-  _lt: json
-  _lte: json
-  _neq: json
-  _nin: [json!]
 }
 
 scalar numeric
@@ -5019,10 +3712,7 @@ type query_root {
   """
   fetch data from the table: "annotation_files" using primary key columns
   """
-  annotation_files_by_pk(
-    """Numeric identifier (May change!)"""
-    id: Int!
-  ): annotation_files
+  annotation_files_by_pk(id: Int!): annotation_files
 
   """An array relationship"""
   annotations(
@@ -5107,10 +3797,7 @@ type query_root {
   ): dataset_authors_aggregate!
 
   """fetch data from the table: "dataset_authors" using primary key columns"""
-  dataset_authors_by_pk(
-    """A numeric identifier for this author (May change!)"""
-    id: Int!
-  ): dataset_authors
+  dataset_authors_by_pk(id: Int!): dataset_authors
 
   """
   fetch data from the table: "dataset_funding"
@@ -5153,10 +3840,7 @@ type query_root {
   ): dataset_funding_aggregate!
 
   """fetch data from the table: "dataset_funding" using primary key columns"""
-  dataset_funding_by_pk(
-    """A numeric identifier for this funding record (May change!)"""
-    id: Int!
-  ): dataset_funding
+  dataset_funding_by_pk(id: Int!): dataset_funding
 
   """
   fetch data from the table: "datasets"
@@ -5205,100 +3889,6 @@ type query_root {
     """
     id: Int!
   ): datasets
-
-  """
-  fetch data from the table: "deposition_authors"
-  """
-  deposition_authors(
-    """distinct select on columns"""
-    distinct_on: [deposition_authors_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [deposition_authors_order_by!]
-
-    """filter the rows returned"""
-    where: deposition_authors_bool_exp
-  ): [deposition_authors!]!
-
-  """
-  fetch aggregated fields from the table: "deposition_authors"
-  """
-  deposition_authors_aggregate(
-    """distinct select on columns"""
-    distinct_on: [deposition_authors_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [deposition_authors_order_by!]
-
-    """filter the rows returned"""
-    where: deposition_authors_bool_exp
-  ): deposition_authors_aggregate!
-
-  """
-  fetch data from the table: "deposition_authors" using primary key columns
-  """
-  deposition_authors_by_pk(
-    """Numeric identifier for this deposition author (this may change!)"""
-    id: Int!
-  ): deposition_authors
-
-  """
-  fetch data from the table: "depositions"
-  """
-  depositions(
-    """distinct select on columns"""
-    distinct_on: [depositions_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [depositions_order_by!]
-
-    """filter the rows returned"""
-    where: depositions_bool_exp
-  ): [depositions!]!
-
-  """
-  fetch aggregated fields from the table: "depositions"
-  """
-  depositions_aggregate(
-    """distinct select on columns"""
-    distinct_on: [depositions_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [depositions_order_by!]
-
-    """filter the rows returned"""
-    where: depositions_bool_exp
-  ): depositions_aggregate!
-
-  """fetch data from the table: "depositions" using primary key columns"""
-  depositions_by_pk(
-    """Numeric identifier for this depositions"""
-    id: Int!
-  ): depositions
 
   """An array relationship"""
   runs(
@@ -5379,10 +3969,7 @@ type query_root {
   ): tiltseries_aggregate!
 
   """fetch data from the table: "tiltseries" using primary key columns"""
-  tiltseries_by_pk(
-    """Numeric identifier for this tilt series (this may change!)"""
-    id: Int!
-  ): tiltseries
+  tiltseries_by_pk(id: Int!): tiltseries
 
   """
   fetch data from the table: "tomogram_authors"
@@ -5494,10 +4081,7 @@ type query_root {
   """
   fetch data from the table: "tomogram_voxel_spacings" using primary key columns
   """
-  tomogram_voxel_spacings_by_pk(
-    """Numeric identifier (May change!)"""
-    id: Int!
-  ): tomogram_voxel_spacings
+  tomogram_voxel_spacings_by_pk(id: Int!): tomogram_voxel_spacings
 
   """An array relationship"""
   tomograms(
@@ -5542,7 +4126,7 @@ type query_root {
   ): tomograms
 }
 
-"""Metadata for an experiment run"""
+"""Data related to an experiment run"""
 type runs {
   """An object relationship"""
   dataset: datasets!
@@ -5550,13 +4134,13 @@ type runs {
   """Reference to the dataset this run is a part of"""
   dataset_id: Int!
 
-  """The HTTPS directory path where this dataset is contained"""
+  """The https directory path where this dataset is contained"""
   https_prefix: String!
 
   """Numeric identifier (May change!)"""
   id: Int!
 
-  """Short name for this experiment run"""
+  """Short name for the tilt series"""
   name: String!
 
   """The S3 public bucket path where this dataset is contained"""
@@ -5732,13 +4316,13 @@ type runs_max_fields {
   """Reference to the dataset this run is a part of"""
   dataset_id: Int
 
-  """The HTTPS directory path where this dataset is contained"""
+  """The https directory path where this dataset is contained"""
   https_prefix: String
 
   """Numeric identifier (May change!)"""
   id: Int
 
-  """Short name for this experiment run"""
+  """Short name for the tilt series"""
   name: String
 
   """The S3 public bucket path where this dataset is contained"""
@@ -5752,13 +4336,13 @@ input runs_max_order_by {
   """Reference to the dataset this run is a part of"""
   dataset_id: order_by
 
-  """The HTTPS directory path where this dataset is contained"""
+  """The https directory path where this dataset is contained"""
   https_prefix: order_by
 
   """Numeric identifier (May change!)"""
   id: order_by
 
-  """Short name for this experiment run"""
+  """Short name for the tilt series"""
   name: order_by
 
   """The S3 public bucket path where this dataset is contained"""
@@ -5770,13 +4354,13 @@ type runs_min_fields {
   """Reference to the dataset this run is a part of"""
   dataset_id: Int
 
-  """The HTTPS directory path where this dataset is contained"""
+  """The https directory path where this dataset is contained"""
   https_prefix: String
 
   """Numeric identifier (May change!)"""
   id: Int
 
-  """Short name for this experiment run"""
+  """Short name for the tilt series"""
   name: String
 
   """The S3 public bucket path where this dataset is contained"""
@@ -5790,13 +4374,13 @@ input runs_min_order_by {
   """Reference to the dataset this run is a part of"""
   dataset_id: order_by
 
-  """The HTTPS directory path where this dataset is contained"""
+  """The https directory path where this dataset is contained"""
   https_prefix: order_by
 
   """Numeric identifier (May change!)"""
   id: order_by
 
-  """Short name for this experiment run"""
+  """Short name for the tilt series"""
   name: order_by
 
   """The S3 public bucket path where this dataset is contained"""
@@ -6019,10 +4603,7 @@ type subscription_root {
   """
   fetch data from the table: "annotation_files" using primary key columns
   """
-  annotation_files_by_pk(
-    """Numeric identifier (May change!)"""
-    id: Int!
-  ): annotation_files
+  annotation_files_by_pk(id: Int!): annotation_files
 
   """
   fetch data from the table in a streaming manner: "annotation_files"
@@ -6037,128 +4618,6 @@ type subscription_root {
     """filter the rows returned"""
     where: annotation_files_bool_exp
   ): [annotation_files!]!
-
-  """
-  fetch data from the table: "deposition_authors"
-  """
-  deposition_authors(
-    """distinct select on columns"""
-    distinct_on: [deposition_authors_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [deposition_authors_order_by!]
-
-    """filter the rows returned"""
-    where: deposition_authors_bool_exp
-  ): [deposition_authors!]!
-
-  """
-  fetch aggregated fields from the table: "deposition_authors"
-  """
-  deposition_authors_aggregate(
-    """distinct select on columns"""
-    distinct_on: [deposition_authors_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [deposition_authors_order_by!]
-
-    """filter the rows returned"""
-    where: deposition_authors_bool_exp
-  ): deposition_authors_aggregate!
-
-  """
-  fetch data from the table: "deposition_authors" using primary key columns
-  """
-  deposition_authors_by_pk(
-    """Numeric identifier for this deposition author (this may change!)"""
-    id: Int!
-  ): deposition_authors
-
-  """
-  fetch data from the table in a streaming manner: "deposition_authors"
-  """
-  deposition_authors_stream(
-    """maximum number of rows returned in a single batch"""
-    batch_size: Int!
-
-    """cursor to stream the results returned by the query"""
-    cursor: [deposition_authors_stream_cursor_input]!
-
-    """filter the rows returned"""
-    where: deposition_authors_bool_exp
-  ): [deposition_authors!]!
-
-  """
-  fetch data from the table: "depositions"
-  """
-  depositions(
-    """distinct select on columns"""
-    distinct_on: [depositions_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [depositions_order_by!]
-
-    """filter the rows returned"""
-    where: depositions_bool_exp
-  ): [depositions!]!
-
-  """
-  fetch aggregated fields from the table: "depositions"
-  """
-  depositions_aggregate(
-    """distinct select on columns"""
-    distinct_on: [depositions_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [depositions_order_by!]
-
-    """filter the rows returned"""
-    where: depositions_bool_exp
-  ): depositions_aggregate!
-
-  """fetch data from the table: "depositions" using primary key columns"""
-  depositions_by_pk(
-    """Numeric identifier for this depositions"""
-    id: Int!
-  ): depositions
-
-  """
-  fetch data from the table in a streaming manner: "depositions"
-  """
-  depositions_stream(
-    """maximum number of rows returned in a single batch"""
-    batch_size: Int!
-
-    """cursor to stream the results returned by the query"""
-    cursor: [depositions_stream_cursor_input]!
-
-    """filter the rows returned"""
-    where: depositions_bool_exp
-  ): [depositions!]!
 
   """
   fetch data from the table: "tomogram_authors"
@@ -6260,14 +4719,14 @@ type subscription_root {
   ): [tomogram_type!]!
 }
 
-"""
-Metadata about how a tilt series was generated, and locations of output files
-"""
+"""Tilt Series Metadata"""
 type tiltseries {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: Int!
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: Int
 
   """Describes the binning factor from frames to tilt series file"""
@@ -6282,31 +4741,13 @@ type tiltseries {
   """Software used to collect data"""
   data_acquisition_software: String!
 
-  """An object relationship"""
-  deposition: depositions
-
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: Int
-
   """Number of frames associated to the tilt series"""
   frames_count: Int
-
-  """HTTPS path to the alignment file for this tiltseries"""
   https_alignment_file: String
-
-  """HTTPS path to the angle list file for this tiltseries"""
   https_angle_list: String
-
-  """HTTPS path to the collection metadata file for this tiltseries"""
   https_collection_metadata: String
-
-  """HTTPS path to this tiltseries in MRC format (no scaling)"""
   https_mrc_bin1: String!
-
-  """HTTPS path to this tomogram in multiscale OME-Zarr format"""
   https_omezarr_dir: String!
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: Int!
 
   """Tilt series is aligned"""
@@ -6332,33 +4773,21 @@ type tiltseries {
   """Phase plate configuration"""
   microscope_phase_plate: String
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: numeric
 
   """
-  If a tilt series is deposited into EMPIAR, the EMPIAR dataset identifier
+  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
   """
   related_empiar_entry: String
 
   """An object relationship"""
   run: runs!
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: Int!
-
-  """S3 path to the alignment file for this tilt series"""
   s3_alignment_file: String
-
-  """S3 path to the angle list file for this tilt series"""
   s3_angle_list: String
-
-  """S3 path to the collection metadata file for this tiltseries"""
   s3_collection_metadata: String
-
-  """S3 path to this tiltseries in MRC format (no scaling)"""
   s3_mrc_bin1: String!
-
-  """S3 path to this tomogram in multiscale OME-Zarr format"""
   s3_omezarr_dir: String!
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -6373,15 +4802,13 @@ type tiltseries {
   """Minimal tilt angle in degrees"""
   tilt_min: numeric!
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: numeric!
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: Int!
-
-  """Tilt step in degrees"""
   tilt_step: numeric!
 
   """The order of stage tilting during acquisition of the data"""
@@ -6467,25 +4894,20 @@ type tiltseries_avg_fields {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: Float
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: Float
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: Float
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: Float
-
   """Number of frames associated to the tilt series"""
   frames_count: Float
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: Float
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: Float
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: Float
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -6500,15 +4922,13 @@ type tiltseries_avg_fields {
   """Minimal tilt angle in degrees"""
   tilt_min: Float
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: Float
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: Float
-
-  """Tilt step in degrees"""
   tilt_step: Float
 
   """
@@ -6524,25 +4944,20 @@ input tiltseries_avg_order_by {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: order_by
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: order_by
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: order_by
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: order_by
-
   """Number of frames associated to the tilt series"""
   frames_count: order_by
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: order_by
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: order_by
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: order_by
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -6557,15 +4972,13 @@ input tiltseries_avg_order_by {
   """Minimal tilt angle in degrees"""
   tilt_min: order_by
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: order_by
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: order_by
-
-  """Tilt step in degrees"""
   tilt_step: order_by
 
   """
@@ -6587,8 +5000,6 @@ input tiltseries_bool_exp {
   camera_manufacturer: String_comparison_exp
   camera_model: String_comparison_exp
   data_acquisition_software: String_comparison_exp
-  deposition: depositions_bool_exp
-  deposition_id: Int_comparison_exp
   frames_count: Int_comparison_exp
   https_alignment_file: String_comparison_exp
   https_angle_list: String_comparison_exp
@@ -6628,7 +5039,9 @@ type tiltseries_max_fields {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: Int
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: Int
 
   """Describes the binning factor from frames to tilt series file"""
@@ -6643,28 +5056,13 @@ type tiltseries_max_fields {
   """Software used to collect data"""
   data_acquisition_software: String
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: Int
-
   """Number of frames associated to the tilt series"""
   frames_count: Int
-
-  """HTTPS path to the alignment file for this tiltseries"""
   https_alignment_file: String
-
-  """HTTPS path to the angle list file for this tiltseries"""
   https_angle_list: String
-
-  """HTTPS path to the collection metadata file for this tiltseries"""
   https_collection_metadata: String
-
-  """HTTPS path to this tiltseries in MRC format (no scaling)"""
   https_mrc_bin1: String
-
-  """HTTPS path to this tomogram in multiscale OME-Zarr format"""
   https_omezarr_dir: String
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: Int
 
   """
@@ -6687,30 +5085,18 @@ type tiltseries_max_fields {
   """Phase plate configuration"""
   microscope_phase_plate: String
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: numeric
 
   """
-  If a tilt series is deposited into EMPIAR, the EMPIAR dataset identifier
+  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
   """
   related_empiar_entry: String
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: Int
-
-  """S3 path to the alignment file for this tilt series"""
   s3_alignment_file: String
-
-  """S3 path to the angle list file for this tilt series"""
   s3_angle_list: String
-
-  """S3 path to the collection metadata file for this tiltseries"""
   s3_collection_metadata: String
-
-  """S3 path to this tiltseries in MRC format (no scaling)"""
   s3_mrc_bin1: String
-
-  """S3 path to this tomogram in multiscale OME-Zarr format"""
   s3_omezarr_dir: String
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -6725,15 +5111,13 @@ type tiltseries_max_fields {
   """Minimal tilt angle in degrees"""
   tilt_min: numeric
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: numeric
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: Int
-
-  """Tilt step in degrees"""
   tilt_step: numeric
 
   """The order of stage tilting during acquisition of the data"""
@@ -6752,7 +5136,9 @@ input tiltseries_max_order_by {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: order_by
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: order_by
 
   """Describes the binning factor from frames to tilt series file"""
@@ -6767,28 +5153,13 @@ input tiltseries_max_order_by {
   """Software used to collect data"""
   data_acquisition_software: order_by
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: order_by
-
   """Number of frames associated to the tilt series"""
   frames_count: order_by
-
-  """HTTPS path to the alignment file for this tiltseries"""
   https_alignment_file: order_by
-
-  """HTTPS path to the angle list file for this tiltseries"""
   https_angle_list: order_by
-
-  """HTTPS path to the collection metadata file for this tiltseries"""
   https_collection_metadata: order_by
-
-  """HTTPS path to this tiltseries in MRC format (no scaling)"""
   https_mrc_bin1: order_by
-
-  """HTTPS path to this tomogram in multiscale OME-Zarr format"""
   https_omezarr_dir: order_by
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: order_by
 
   """
@@ -6811,30 +5182,18 @@ input tiltseries_max_order_by {
   """Phase plate configuration"""
   microscope_phase_plate: order_by
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: order_by
 
   """
-  If a tilt series is deposited into EMPIAR, the EMPIAR dataset identifier
+  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
   """
   related_empiar_entry: order_by
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: order_by
-
-  """S3 path to the alignment file for this tilt series"""
   s3_alignment_file: order_by
-
-  """S3 path to the angle list file for this tilt series"""
   s3_angle_list: order_by
-
-  """S3 path to the collection metadata file for this tiltseries"""
   s3_collection_metadata: order_by
-
-  """S3 path to this tiltseries in MRC format (no scaling)"""
   s3_mrc_bin1: order_by
-
-  """S3 path to this tomogram in multiscale OME-Zarr format"""
   s3_omezarr_dir: order_by
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -6849,15 +5208,13 @@ input tiltseries_max_order_by {
   """Minimal tilt angle in degrees"""
   tilt_min: order_by
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: order_by
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: order_by
-
-  """Tilt step in degrees"""
   tilt_step: order_by
 
   """The order of stage tilting during acquisition of the data"""
@@ -6874,7 +5231,9 @@ type tiltseries_min_fields {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: Int
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: Int
 
   """Describes the binning factor from frames to tilt series file"""
@@ -6889,28 +5248,13 @@ type tiltseries_min_fields {
   """Software used to collect data"""
   data_acquisition_software: String
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: Int
-
   """Number of frames associated to the tilt series"""
   frames_count: Int
-
-  """HTTPS path to the alignment file for this tiltseries"""
   https_alignment_file: String
-
-  """HTTPS path to the angle list file for this tiltseries"""
   https_angle_list: String
-
-  """HTTPS path to the collection metadata file for this tiltseries"""
   https_collection_metadata: String
-
-  """HTTPS path to this tiltseries in MRC format (no scaling)"""
   https_mrc_bin1: String
-
-  """HTTPS path to this tomogram in multiscale OME-Zarr format"""
   https_omezarr_dir: String
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: Int
 
   """
@@ -6933,30 +5277,18 @@ type tiltseries_min_fields {
   """Phase plate configuration"""
   microscope_phase_plate: String
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: numeric
 
   """
-  If a tilt series is deposited into EMPIAR, the EMPIAR dataset identifier
+  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
   """
   related_empiar_entry: String
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: Int
-
-  """S3 path to the alignment file for this tilt series"""
   s3_alignment_file: String
-
-  """S3 path to the angle list file for this tilt series"""
   s3_angle_list: String
-
-  """S3 path to the collection metadata file for this tiltseries"""
   s3_collection_metadata: String
-
-  """S3 path to this tiltseries in MRC format (no scaling)"""
   s3_mrc_bin1: String
-
-  """S3 path to this tomogram in multiscale OME-Zarr format"""
   s3_omezarr_dir: String
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -6971,15 +5303,13 @@ type tiltseries_min_fields {
   """Minimal tilt angle in degrees"""
   tilt_min: numeric
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: numeric
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: Int
-
-  """Tilt step in degrees"""
   tilt_step: numeric
 
   """The order of stage tilting during acquisition of the data"""
@@ -6998,7 +5328,9 @@ input tiltseries_min_order_by {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: order_by
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: order_by
 
   """Describes the binning factor from frames to tilt series file"""
@@ -7013,28 +5345,13 @@ input tiltseries_min_order_by {
   """Software used to collect data"""
   data_acquisition_software: order_by
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: order_by
-
   """Number of frames associated to the tilt series"""
   frames_count: order_by
-
-  """HTTPS path to the alignment file for this tiltseries"""
   https_alignment_file: order_by
-
-  """HTTPS path to the angle list file for this tiltseries"""
   https_angle_list: order_by
-
-  """HTTPS path to the collection metadata file for this tiltseries"""
   https_collection_metadata: order_by
-
-  """HTTPS path to this tiltseries in MRC format (no scaling)"""
   https_mrc_bin1: order_by
-
-  """HTTPS path to this tomogram in multiscale OME-Zarr format"""
   https_omezarr_dir: order_by
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: order_by
 
   """
@@ -7057,30 +5374,18 @@ input tiltseries_min_order_by {
   """Phase plate configuration"""
   microscope_phase_plate: order_by
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: order_by
 
   """
-  If a tilt series is deposited into EMPIAR, the EMPIAR dataset identifier
+  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
   """
   related_empiar_entry: order_by
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: order_by
-
-  """S3 path to the alignment file for this tilt series"""
   s3_alignment_file: order_by
-
-  """S3 path to the angle list file for this tilt series"""
   s3_angle_list: order_by
-
-  """S3 path to the collection metadata file for this tiltseries"""
   s3_collection_metadata: order_by
-
-  """S3 path to this tiltseries in MRC format (no scaling)"""
   s3_mrc_bin1: order_by
-
-  """S3 path to this tomogram in multiscale OME-Zarr format"""
   s3_omezarr_dir: order_by
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -7095,15 +5400,13 @@ input tiltseries_min_order_by {
   """Minimal tilt angle in degrees"""
   tilt_min: order_by
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: order_by
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: order_by
-
-  """Tilt step in degrees"""
   tilt_step: order_by
 
   """The order of stage tilting during acquisition of the data"""
@@ -7123,8 +5426,6 @@ input tiltseries_order_by {
   camera_manufacturer: order_by
   camera_model: order_by
   data_acquisition_software: order_by
-  deposition: depositions_order_by
-  deposition_id: order_by
   frames_count: order_by
   https_alignment_file: order_by
   https_angle_list: order_by
@@ -7180,9 +5481,6 @@ enum tiltseries_select_column {
 
   """column name"""
   data_acquisition_software
-
-  """column name"""
-  deposition_id
 
   """column name"""
   frames_count
@@ -7299,25 +5597,20 @@ type tiltseries_stddev_fields {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: Float
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: Float
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: Float
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: Float
-
   """Number of frames associated to the tilt series"""
   frames_count: Float
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: Float
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: Float
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: Float
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -7332,15 +5625,13 @@ type tiltseries_stddev_fields {
   """Minimal tilt angle in degrees"""
   tilt_min: Float
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: Float
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: Float
-
-  """Tilt step in degrees"""
   tilt_step: Float
 
   """
@@ -7356,25 +5647,20 @@ input tiltseries_stddev_order_by {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: order_by
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: order_by
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: order_by
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: order_by
-
   """Number of frames associated to the tilt series"""
   frames_count: order_by
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: order_by
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: order_by
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: order_by
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -7389,15 +5675,13 @@ input tiltseries_stddev_order_by {
   """Minimal tilt angle in degrees"""
   tilt_min: order_by
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: order_by
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: order_by
-
-  """Tilt step in degrees"""
   tilt_step: order_by
 
   """
@@ -7411,25 +5695,20 @@ type tiltseries_stddev_pop_fields {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: Float
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: Float
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: Float
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: Float
-
   """Number of frames associated to the tilt series"""
   frames_count: Float
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: Float
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: Float
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: Float
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -7444,15 +5723,13 @@ type tiltseries_stddev_pop_fields {
   """Minimal tilt angle in degrees"""
   tilt_min: Float
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: Float
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: Float
-
-  """Tilt step in degrees"""
   tilt_step: Float
 
   """
@@ -7468,25 +5745,20 @@ input tiltseries_stddev_pop_order_by {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: order_by
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: order_by
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: order_by
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: order_by
-
   """Number of frames associated to the tilt series"""
   frames_count: order_by
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: order_by
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: order_by
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: order_by
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -7501,15 +5773,13 @@ input tiltseries_stddev_pop_order_by {
   """Minimal tilt angle in degrees"""
   tilt_min: order_by
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: order_by
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: order_by
-
-  """Tilt step in degrees"""
   tilt_step: order_by
 
   """
@@ -7523,25 +5793,20 @@ type tiltseries_stddev_samp_fields {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: Float
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: Float
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: Float
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: Float
-
   """Number of frames associated to the tilt series"""
   frames_count: Float
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: Float
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: Float
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: Float
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -7556,15 +5821,13 @@ type tiltseries_stddev_samp_fields {
   """Minimal tilt angle in degrees"""
   tilt_min: Float
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: Float
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: Float
-
-  """Tilt step in degrees"""
   tilt_step: Float
 
   """
@@ -7580,25 +5843,20 @@ input tiltseries_stddev_samp_order_by {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: order_by
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: order_by
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: order_by
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: order_by
-
   """Number of frames associated to the tilt series"""
   frames_count: order_by
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: order_by
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: order_by
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: order_by
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -7613,15 +5871,13 @@ input tiltseries_stddev_samp_order_by {
   """Minimal tilt angle in degrees"""
   tilt_min: order_by
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: order_by
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: order_by
-
-  """Tilt step in degrees"""
   tilt_step: order_by
 
   """
@@ -7635,25 +5891,20 @@ type tiltseries_sum_fields {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: Int
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: Int
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: numeric
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: Int
-
   """Number of frames associated to the tilt series"""
   frames_count: Int
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: Int
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: numeric
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: Int
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -7668,15 +5919,13 @@ type tiltseries_sum_fields {
   """Minimal tilt angle in degrees"""
   tilt_min: numeric
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: numeric
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: Int
-
-  """Tilt step in degrees"""
   tilt_step: numeric
 
   """
@@ -7692,25 +5941,20 @@ input tiltseries_sum_order_by {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: order_by
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: order_by
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: order_by
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: order_by
-
   """Number of frames associated to the tilt series"""
   frames_count: order_by
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: order_by
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: order_by
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: order_by
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -7725,15 +5969,13 @@ input tiltseries_sum_order_by {
   """Minimal tilt angle in degrees"""
   tilt_min: order_by
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: order_by
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: order_by
-
-  """Tilt step in degrees"""
   tilt_step: order_by
 
   """
@@ -7747,25 +5989,20 @@ type tiltseries_var_pop_fields {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: Float
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: Float
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: Float
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: Float
-
   """Number of frames associated to the tilt series"""
   frames_count: Float
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: Float
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: Float
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: Float
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -7780,15 +6017,13 @@ type tiltseries_var_pop_fields {
   """Minimal tilt angle in degrees"""
   tilt_min: Float
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: Float
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: Float
-
-  """Tilt step in degrees"""
   tilt_step: Float
 
   """
@@ -7804,25 +6039,20 @@ input tiltseries_var_pop_order_by {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: order_by
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: order_by
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: order_by
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: order_by
-
   """Number of frames associated to the tilt series"""
   frames_count: order_by
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: order_by
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: order_by
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: order_by
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -7837,15 +6067,13 @@ input tiltseries_var_pop_order_by {
   """Minimal tilt angle in degrees"""
   tilt_min: order_by
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: order_by
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: order_by
-
-  """Tilt step in degrees"""
   tilt_step: order_by
 
   """
@@ -7859,25 +6087,20 @@ type tiltseries_var_samp_fields {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: Float
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: Float
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: Float
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: Float
-
   """Number of frames associated to the tilt series"""
   frames_count: Float
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: Float
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: Float
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: Float
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -7892,15 +6115,13 @@ type tiltseries_var_samp_fields {
   """Minimal tilt angle in degrees"""
   tilt_min: Float
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: Float
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: Float
-
-  """Tilt step in degrees"""
   tilt_step: Float
 
   """
@@ -7916,25 +6137,20 @@ input tiltseries_var_samp_order_by {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: order_by
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: order_by
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: order_by
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: order_by
-
   """Number of frames associated to the tilt series"""
   frames_count: order_by
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: order_by
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: order_by
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: order_by
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -7949,15 +6165,13 @@ input tiltseries_var_samp_order_by {
   """Minimal tilt angle in degrees"""
   tilt_min: order_by
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: order_by
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: order_by
-
-  """Tilt step in degrees"""
   tilt_step: order_by
 
   """
@@ -7971,25 +6185,20 @@ type tiltseries_variance_fields {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: Float
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: Float
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: Float
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: Float
-
   """Number of frames associated to the tilt series"""
   frames_count: Float
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: Float
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: Float
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: Float
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -8004,15 +6213,13 @@ type tiltseries_variance_fields {
   """Minimal tilt angle in degrees"""
   tilt_min: Float
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: Float
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: Float
-
-  """Tilt step in degrees"""
   tilt_step: Float
 
   """
@@ -8028,25 +6235,20 @@ input tiltseries_variance_order_by {
   """Electron Microscope Accelerator voltage in volts"""
   acceleration_voltage: order_by
 
-  """Binning factor of the aligned tilt series"""
+  """
+  The binning factor between the unaligned tilt series and the aligned tiltseries.
+  """
   aligned_tiltseries_binning: order_by
 
   """Describes the binning factor from frames to tilt series file"""
   binning_from_frames: order_by
 
-  """Reference to the deposition this tiltseries is associated with"""
-  deposition_id: order_by
-
   """Number of frames associated to the tilt series"""
   frames_count: order_by
-
-  """Numeric identifier for this tilt series (this may change!)"""
   id: order_by
 
-  """Pixel spacing equal in both axes in angstroms"""
+  """Pixel spacing equal in both axes in angstrom"""
   pixel_spacing: order_by
-
-  """The ID of the experimental run this tilt series is part of"""
   run_id: order_by
 
   """Spherical Aberration Constant of the objective lens in millimeters"""
@@ -8061,15 +6263,13 @@ input tiltseries_variance_order_by {
   """Minimal tilt angle in degrees"""
   tilt_min: order_by
 
-  """Total tilt range in degrees"""
+  """The difference between tilt_min and tilt_max"""
   tilt_range: order_by
 
   """
   Author assessment of tilt series quality within the dataset (1-5, 5 is best)
   """
   tilt_series_quality: order_by
-
-  """Tilt step in degrees"""
   tilt_step: order_by
 
   """
@@ -8078,9 +6278,9 @@ input tiltseries_variance_order_by {
   total_flux: order_by
 }
 
-"""Metadata for a tomogram's authors"""
+"""Authors for a tomogram"""
 type tomogram_authors {
-  """Address of the institution an author is affiliated with."""
+  """Address of the institution an annotator is affiliated with."""
   affiliation_address: String
 
   """
@@ -8105,7 +6305,7 @@ type tomogram_authors {
   """Numeric identifier for this tomogram author (this may change!)"""
   id: Int!
 
-  """Full name of an author (e.g. Jane Doe)."""
+  """Full name of an tomogram author (e.g. Jane Doe)."""
   name: String!
 
   """A unique, persistent identifier for researchers, provided by ORCID."""
@@ -8241,7 +6441,7 @@ input tomogram_authors_bool_exp {
 
 """aggregate max on columns"""
 type tomogram_authors_max_fields {
-  """Address of the institution an author is affiliated with."""
+  """Address of the institution an annotator is affiliated with."""
   affiliation_address: String
 
   """
@@ -8263,7 +6463,7 @@ type tomogram_authors_max_fields {
   """Numeric identifier for this tomogram author (this may change!)"""
   id: Int
 
-  """Full name of an author (e.g. Jane Doe)."""
+  """Full name of an tomogram author (e.g. Jane Doe)."""
   name: String
 
   """A unique, persistent identifier for researchers, provided by ORCID."""
@@ -8277,7 +6477,7 @@ type tomogram_authors_max_fields {
 order by max() on columns of table "tomogram_authors"
 """
 input tomogram_authors_max_order_by {
-  """Address of the institution an author is affiliated with."""
+  """Address of the institution an annotator is affiliated with."""
   affiliation_address: order_by
 
   """
@@ -8299,7 +6499,7 @@ input tomogram_authors_max_order_by {
   """Numeric identifier for this tomogram author (this may change!)"""
   id: order_by
 
-  """Full name of an author (e.g. Jane Doe)."""
+  """Full name of an tomogram author (e.g. Jane Doe)."""
   name: order_by
 
   """A unique, persistent identifier for researchers, provided by ORCID."""
@@ -8311,7 +6511,7 @@ input tomogram_authors_max_order_by {
 
 """aggregate min on columns"""
 type tomogram_authors_min_fields {
-  """Address of the institution an author is affiliated with."""
+  """Address of the institution an annotator is affiliated with."""
   affiliation_address: String
 
   """
@@ -8333,7 +6533,7 @@ type tomogram_authors_min_fields {
   """Numeric identifier for this tomogram author (this may change!)"""
   id: Int
 
-  """Full name of an author (e.g. Jane Doe)."""
+  """Full name of an tomogram author (e.g. Jane Doe)."""
   name: String
 
   """A unique, persistent identifier for researchers, provided by ORCID."""
@@ -8347,7 +6547,7 @@ type tomogram_authors_min_fields {
 order by min() on columns of table "tomogram_authors"
 """
 input tomogram_authors_min_order_by {
-  """Address of the institution an author is affiliated with."""
+  """Address of the institution an annotator is affiliated with."""
   affiliation_address: order_by
 
   """
@@ -8369,7 +6569,7 @@ input tomogram_authors_min_order_by {
   """Numeric identifier for this tomogram author (this may change!)"""
   id: order_by
 
-  """Full name of an author (e.g. Jane Doe)."""
+  """Full name of an tomogram author (e.g. Jane Doe)."""
   name: order_by
 
   """A unique, persistent identifier for researchers, provided by ORCID."""
@@ -8546,7 +6746,7 @@ input tomogram_authors_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input tomogram_authors_stream_cursor_value_input {
-  """Address of the institution an author is affiliated with."""
+  """Address of the institution an annotator is affiliated with."""
   affiliation_address: String
 
   """
@@ -8571,7 +6771,7 @@ input tomogram_authors_stream_cursor_value_input {
   """Numeric identifier for this tomogram author (this may change!)"""
   id: Int
 
-  """Full name of an author (e.g. Jane Doe)."""
+  """Full name of an tomogram author (e.g. Jane Doe)."""
   name: String
 
   """A unique, persistent identifier for researchers, provided by ORCID."""
@@ -8799,9 +6999,7 @@ input tomogram_type_stream_cursor_value_input {
   value: String
 }
 
-"""
-Metadata for a given voxel spacing related to tomograms and annotations
-"""
+"""The tomograms for each run are grouped by their voxel spacing"""
 type tomogram_voxel_spacings {
   """An array relationship"""
   annotations(
@@ -8838,24 +7036,12 @@ type tomogram_voxel_spacings {
     """filter the rows returned"""
     where: annotations_bool_exp
   ): annotations_aggregate!
-
-  """
-  The HTTPS directory path where this tomogram voxel spacing is contained
-  """
   https_prefix: String
-
-  """Numeric identifier (May change!)"""
   id: Int!
 
   """An object relationship"""
   run: runs!
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: Int!
-
-  """
-  The S3 public bucket path where this tomogram voxel spacing is contained
-  """
   s3_prefix: String
 
   """An array relationship"""
@@ -8893,8 +7079,6 @@ type tomogram_voxel_spacings {
     """filter the rows returned"""
     where: tomograms_bool_exp
   ): tomograms_aggregate!
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: numeric!
 }
 
@@ -8953,13 +7137,8 @@ input tomogram_voxel_spacings_aggregate_order_by {
 
 """aggregate avg on columns"""
 type tomogram_voxel_spacings_avg_fields {
-  """Numeric identifier (May change!)"""
   id: Float
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: Float
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: Float
 }
 
@@ -8967,13 +7146,8 @@ type tomogram_voxel_spacings_avg_fields {
 order by avg() on columns of table "tomogram_voxel_spacings"
 """
 input tomogram_voxel_spacings_avg_order_by {
-  """Numeric identifier (May change!)"""
   id: order_by
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: order_by
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: order_by
 }
 
@@ -8998,23 +7172,10 @@ input tomogram_voxel_spacings_bool_exp {
 
 """aggregate max on columns"""
 type tomogram_voxel_spacings_max_fields {
-  """
-  The HTTPS directory path where this tomogram voxel spacing is contained
-  """
   https_prefix: String
-
-  """Numeric identifier (May change!)"""
   id: Int
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: Int
-
-  """
-  The S3 public bucket path where this tomogram voxel spacing is contained
-  """
   s3_prefix: String
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: numeric
 }
 
@@ -9022,45 +7183,19 @@ type tomogram_voxel_spacings_max_fields {
 order by max() on columns of table "tomogram_voxel_spacings"
 """
 input tomogram_voxel_spacings_max_order_by {
-  """
-  The HTTPS directory path where this tomogram voxel spacing is contained
-  """
   https_prefix: order_by
-
-  """Numeric identifier (May change!)"""
   id: order_by
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: order_by
-
-  """
-  The S3 public bucket path where this tomogram voxel spacing is contained
-  """
   s3_prefix: order_by
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: order_by
 }
 
 """aggregate min on columns"""
 type tomogram_voxel_spacings_min_fields {
-  """
-  The HTTPS directory path where this tomogram voxel spacing is contained
-  """
   https_prefix: String
-
-  """Numeric identifier (May change!)"""
   id: Int
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: Int
-
-  """
-  The S3 public bucket path where this tomogram voxel spacing is contained
-  """
   s3_prefix: String
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: numeric
 }
 
@@ -9068,23 +7203,10 @@ type tomogram_voxel_spacings_min_fields {
 order by min() on columns of table "tomogram_voxel_spacings"
 """
 input tomogram_voxel_spacings_min_order_by {
-  """
-  The HTTPS directory path where this tomogram voxel spacing is contained
-  """
   https_prefix: order_by
-
-  """Numeric identifier (May change!)"""
   id: order_by
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: order_by
-
-  """
-  The S3 public bucket path where this tomogram voxel spacing is contained
-  """
   s3_prefix: order_by
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: order_by
 }
 
@@ -9122,13 +7244,8 @@ enum tomogram_voxel_spacings_select_column {
 
 """aggregate stddev on columns"""
 type tomogram_voxel_spacings_stddev_fields {
-  """Numeric identifier (May change!)"""
   id: Float
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: Float
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: Float
 }
 
@@ -9136,25 +7253,15 @@ type tomogram_voxel_spacings_stddev_fields {
 order by stddev() on columns of table "tomogram_voxel_spacings"
 """
 input tomogram_voxel_spacings_stddev_order_by {
-  """Numeric identifier (May change!)"""
   id: order_by
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: order_by
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type tomogram_voxel_spacings_stddev_pop_fields {
-  """Numeric identifier (May change!)"""
   id: Float
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: Float
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: Float
 }
 
@@ -9162,25 +7269,15 @@ type tomogram_voxel_spacings_stddev_pop_fields {
 order by stddev_pop() on columns of table "tomogram_voxel_spacings"
 """
 input tomogram_voxel_spacings_stddev_pop_order_by {
-  """Numeric identifier (May change!)"""
   id: order_by
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: order_by
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type tomogram_voxel_spacings_stddev_samp_fields {
-  """Numeric identifier (May change!)"""
   id: Float
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: Float
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: Float
 }
 
@@ -9188,25 +7285,15 @@ type tomogram_voxel_spacings_stddev_samp_fields {
 order by stddev_samp() on columns of table "tomogram_voxel_spacings"
 """
 input tomogram_voxel_spacings_stddev_samp_order_by {
-  """Numeric identifier (May change!)"""
   id: order_by
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: order_by
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: order_by
 }
 
 """aggregate sum on columns"""
 type tomogram_voxel_spacings_sum_fields {
-  """Numeric identifier (May change!)"""
   id: Int
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: Int
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: numeric
 }
 
@@ -9214,25 +7301,15 @@ type tomogram_voxel_spacings_sum_fields {
 order by sum() on columns of table "tomogram_voxel_spacings"
 """
 input tomogram_voxel_spacings_sum_order_by {
-  """Numeric identifier (May change!)"""
   id: order_by
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: order_by
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: order_by
 }
 
 """aggregate var_pop on columns"""
 type tomogram_voxel_spacings_var_pop_fields {
-  """Numeric identifier (May change!)"""
   id: Float
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: Float
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: Float
 }
 
@@ -9240,25 +7317,15 @@ type tomogram_voxel_spacings_var_pop_fields {
 order by var_pop() on columns of table "tomogram_voxel_spacings"
 """
 input tomogram_voxel_spacings_var_pop_order_by {
-  """Numeric identifier (May change!)"""
   id: order_by
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: order_by
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: order_by
 }
 
 """aggregate var_samp on columns"""
 type tomogram_voxel_spacings_var_samp_fields {
-  """Numeric identifier (May change!)"""
   id: Float
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: Float
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: Float
 }
 
@@ -9266,25 +7333,15 @@ type tomogram_voxel_spacings_var_samp_fields {
 order by var_samp() on columns of table "tomogram_voxel_spacings"
 """
 input tomogram_voxel_spacings_var_samp_order_by {
-  """Numeric identifier (May change!)"""
   id: order_by
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: order_by
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: order_by
 }
 
 """aggregate variance on columns"""
 type tomogram_voxel_spacings_variance_fields {
-  """Numeric identifier (May change!)"""
   id: Float
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: Float
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: Float
 }
 
@@ -9292,17 +7349,12 @@ type tomogram_voxel_spacings_variance_fields {
 order by variance() on columns of table "tomogram_voxel_spacings"
 """
 input tomogram_voxel_spacings_variance_order_by {
-  """Numeric identifier (May change!)"""
   id: order_by
-
-  """The ID of the run this tomogram voxel spacing is a part of"""
   run_id: order_by
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
   voxel_spacing: order_by
 }
 
-"""Metadata for a tomogram"""
+"""information about the tomograms in the CryoET Data Portal"""
 type tomograms {
   """
   The flip or rotation transformation of this author submitted tomogram is indicated here
@@ -9344,14 +7396,9 @@ type tomograms {
     """filter the rows returned"""
     where: tomogram_authors_bool_exp
   ): tomogram_authors_aggregate!
-
-  """Whether this tomogram is CTF corrected"""
   ctf_corrected: Boolean
 
-  """An object relationship"""
-  deposition: depositions
-
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Int
 
   """
@@ -9359,10 +7406,10 @@ type tomograms {
   """
   fiducial_alignment_status: String!
 
-  """HTTPS path to this tomogram in MRC format (no scaling)"""
+  """https path to this tomogram in MRC format (no scaling)"""
   https_mrc_scale0: String!
 
-  """HTTPS path to this tomogram in multiscale OME-Zarr format"""
+  """HTTPS path to the this multiscale omezarr tomogram"""
   https_omezarr_dir: String!
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -9400,7 +7447,7 @@ type tomograms {
   """Processing software used to derive the tomogram"""
   processing_software: String
 
-  """Describe reconstruction method (Weighted back-projection, SART, SIRT)"""
+  """Describe reconstruction method (Weighted backprojection, SART, SIRT)"""
   reconstruction_method: String!
 
   """Name of software used for reconstruction"""
@@ -9409,7 +7456,7 @@ type tomograms {
   """S3 path to this tomogram in MRC format (no scaling)"""
   s3_mrc_scale0: String!
 
-  """S3 path to this tomogram in multiscale OME-Zarr format"""
+  """S3 path to the this multiscale omezarr tomogram"""
   s3_omezarr_dir: String!
 
   """comma separated x,y,z dimensions of the unscaled tomogram"""
@@ -9442,11 +7489,7 @@ type tomograms {
 
   """An object relationship"""
   tomogram_voxel_spacing: tomogram_voxel_spacings
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: Int
-
-  """Tomogram purpose (ex: CANONICAL)"""
   type: tomogram_type_enum
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -9524,7 +7567,7 @@ input tomograms_aggregate_order_by {
 
 """aggregate avg on columns"""
 type tomograms_avg_fields {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -9549,8 +7592,6 @@ type tomograms_avg_fields {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: Float
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: Float
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -9561,7 +7602,7 @@ type tomograms_avg_fields {
 order by avg() on columns of table "tomograms"
 """
 input tomograms_avg_order_by {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -9586,8 +7627,6 @@ input tomograms_avg_order_by {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: order_by
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: order_by
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -9605,7 +7644,6 @@ input tomograms_bool_exp {
   authors: tomogram_authors_bool_exp
   authors_aggregate: tomogram_authors_aggregate_bool_exp
   ctf_corrected: Boolean_comparison_exp
-  deposition: depositions_bool_exp
   deposition_id: Int_comparison_exp
   fiducial_alignment_status: String_comparison_exp
   https_mrc_scale0: String_comparison_exp
@@ -9641,7 +7679,7 @@ input tomograms_bool_exp {
 
 """aggregate max on columns"""
 type tomograms_max_fields {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Int
 
   """
@@ -9649,10 +7687,10 @@ type tomograms_max_fields {
   """
   fiducial_alignment_status: String
 
-  """HTTPS path to this tomogram in MRC format (no scaling)"""
+  """https path to this tomogram in MRC format (no scaling)"""
   https_mrc_scale0: String
 
-  """HTTPS path to this tomogram in multiscale OME-Zarr format"""
+  """HTTPS path to the this multiscale omezarr tomogram"""
   https_omezarr_dir: String
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -9685,7 +7723,7 @@ type tomograms_max_fields {
   """Processing software used to derive the tomogram"""
   processing_software: String
 
-  """Describe reconstruction method (Weighted back-projection, SART, SIRT)"""
+  """Describe reconstruction method (Weighted backprojection, SART, SIRT)"""
   reconstruction_method: String
 
   """Name of software used for reconstruction"""
@@ -9694,7 +7732,7 @@ type tomograms_max_fields {
   """S3 path to this tomogram in MRC format (no scaling)"""
   s3_mrc_scale0: String
 
-  """S3 path to this tomogram in multiscale OME-Zarr format"""
+  """S3 path to the this multiscale omezarr tomogram"""
   s3_omezarr_dir: String
 
   """comma separated x,y,z dimensions of the unscaled tomogram"""
@@ -9721,8 +7759,6 @@ type tomograms_max_fields {
   Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
   """
   tomogram_version: String
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: Int
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -9733,7 +7769,7 @@ type tomograms_max_fields {
 order by max() on columns of table "tomograms"
 """
 input tomograms_max_order_by {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """
@@ -9741,10 +7777,10 @@ input tomograms_max_order_by {
   """
   fiducial_alignment_status: order_by
 
-  """HTTPS path to this tomogram in MRC format (no scaling)"""
+  """https path to this tomogram in MRC format (no scaling)"""
   https_mrc_scale0: order_by
 
-  """HTTPS path to this tomogram in multiscale OME-Zarr format"""
+  """HTTPS path to the this multiscale omezarr tomogram"""
   https_omezarr_dir: order_by
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -9777,7 +7813,7 @@ input tomograms_max_order_by {
   """Processing software used to derive the tomogram"""
   processing_software: order_by
 
-  """Describe reconstruction method (Weighted back-projection, SART, SIRT)"""
+  """Describe reconstruction method (Weighted backprojection, SART, SIRT)"""
   reconstruction_method: order_by
 
   """Name of software used for reconstruction"""
@@ -9786,7 +7822,7 @@ input tomograms_max_order_by {
   """S3 path to this tomogram in MRC format (no scaling)"""
   s3_mrc_scale0: order_by
 
-  """S3 path to this tomogram in multiscale OME-Zarr format"""
+  """S3 path to the this multiscale omezarr tomogram"""
   s3_omezarr_dir: order_by
 
   """comma separated x,y,z dimensions of the unscaled tomogram"""
@@ -9813,8 +7849,6 @@ input tomograms_max_order_by {
   Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
   """
   tomogram_version: order_by
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: order_by
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -9823,7 +7857,7 @@ input tomograms_max_order_by {
 
 """aggregate min on columns"""
 type tomograms_min_fields {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Int
 
   """
@@ -9831,10 +7865,10 @@ type tomograms_min_fields {
   """
   fiducial_alignment_status: String
 
-  """HTTPS path to this tomogram in MRC format (no scaling)"""
+  """https path to this tomogram in MRC format (no scaling)"""
   https_mrc_scale0: String
 
-  """HTTPS path to this tomogram in multiscale OME-Zarr format"""
+  """HTTPS path to the this multiscale omezarr tomogram"""
   https_omezarr_dir: String
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -9867,7 +7901,7 @@ type tomograms_min_fields {
   """Processing software used to derive the tomogram"""
   processing_software: String
 
-  """Describe reconstruction method (Weighted back-projection, SART, SIRT)"""
+  """Describe reconstruction method (Weighted backprojection, SART, SIRT)"""
   reconstruction_method: String
 
   """Name of software used for reconstruction"""
@@ -9876,7 +7910,7 @@ type tomograms_min_fields {
   """S3 path to this tomogram in MRC format (no scaling)"""
   s3_mrc_scale0: String
 
-  """S3 path to this tomogram in multiscale OME-Zarr format"""
+  """S3 path to the this multiscale omezarr tomogram"""
   s3_omezarr_dir: String
 
   """comma separated x,y,z dimensions of the unscaled tomogram"""
@@ -9903,8 +7937,6 @@ type tomograms_min_fields {
   Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
   """
   tomogram_version: String
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: Int
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -9915,7 +7947,7 @@ type tomograms_min_fields {
 order by min() on columns of table "tomograms"
 """
 input tomograms_min_order_by {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """
@@ -9923,10 +7955,10 @@ input tomograms_min_order_by {
   """
   fiducial_alignment_status: order_by
 
-  """HTTPS path to this tomogram in MRC format (no scaling)"""
+  """https path to this tomogram in MRC format (no scaling)"""
   https_mrc_scale0: order_by
 
-  """HTTPS path to this tomogram in multiscale OME-Zarr format"""
+  """HTTPS path to the this multiscale omezarr tomogram"""
   https_omezarr_dir: order_by
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -9959,7 +7991,7 @@ input tomograms_min_order_by {
   """Processing software used to derive the tomogram"""
   processing_software: order_by
 
-  """Describe reconstruction method (Weighted back-projection, SART, SIRT)"""
+  """Describe reconstruction method (Weighted backprojection, SART, SIRT)"""
   reconstruction_method: order_by
 
   """Name of software used for reconstruction"""
@@ -9968,7 +8000,7 @@ input tomograms_min_order_by {
   """S3 path to this tomogram in MRC format (no scaling)"""
   s3_mrc_scale0: order_by
 
-  """S3 path to this tomogram in multiscale OME-Zarr format"""
+  """S3 path to the this multiscale omezarr tomogram"""
   s3_omezarr_dir: order_by
 
   """comma separated x,y,z dimensions of the unscaled tomogram"""
@@ -9995,8 +8027,6 @@ input tomograms_min_order_by {
   Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
   """
   tomogram_version: order_by
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: order_by
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10008,7 +8038,6 @@ input tomograms_order_by {
   affine_transformation_matrix: order_by
   authors_aggregate: tomogram_authors_aggregate_order_by
   ctf_corrected: order_by
-  deposition: depositions_order_by
   deposition_id: order_by
   fiducial_alignment_status: order_by
   https_mrc_scale0: order_by
@@ -10164,7 +8193,7 @@ enum tomograms_select_column_tomograms_aggregate_bool_exp_bool_or_arguments_colu
 
 """aggregate stddev on columns"""
 type tomograms_stddev_fields {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10189,8 +8218,6 @@ type tomograms_stddev_fields {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: Float
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: Float
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10201,7 +8228,7 @@ type tomograms_stddev_fields {
 order by stddev() on columns of table "tomograms"
 """
 input tomograms_stddev_order_by {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10226,8 +8253,6 @@ input tomograms_stddev_order_by {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: order_by
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: order_by
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10236,7 +8261,7 @@ input tomograms_stddev_order_by {
 
 """aggregate stddev_pop on columns"""
 type tomograms_stddev_pop_fields {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10261,8 +8286,6 @@ type tomograms_stddev_pop_fields {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: Float
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: Float
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10273,7 +8296,7 @@ type tomograms_stddev_pop_fields {
 order by stddev_pop() on columns of table "tomograms"
 """
 input tomograms_stddev_pop_order_by {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10298,8 +8321,6 @@ input tomograms_stddev_pop_order_by {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: order_by
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: order_by
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10308,7 +8329,7 @@ input tomograms_stddev_pop_order_by {
 
 """aggregate stddev_samp on columns"""
 type tomograms_stddev_samp_fields {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10333,8 +8354,6 @@ type tomograms_stddev_samp_fields {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: Float
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: Float
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10345,7 +8364,7 @@ type tomograms_stddev_samp_fields {
 order by stddev_samp() on columns of table "tomograms"
 """
 input tomograms_stddev_samp_order_by {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10370,8 +8389,6 @@ input tomograms_stddev_samp_order_by {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: order_by
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: order_by
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10380,7 +8397,7 @@ input tomograms_stddev_samp_order_by {
 
 """aggregate sum on columns"""
 type tomograms_sum_fields {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Int
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10405,8 +8422,6 @@ type tomograms_sum_fields {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: Int
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: Int
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10417,7 +8432,7 @@ type tomograms_sum_fields {
 order by sum() on columns of table "tomograms"
 """
 input tomograms_sum_order_by {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10442,8 +8457,6 @@ input tomograms_sum_order_by {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: order_by
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: order_by
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10452,7 +8465,7 @@ input tomograms_sum_order_by {
 
 """aggregate var_pop on columns"""
 type tomograms_var_pop_fields {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10477,8 +8490,6 @@ type tomograms_var_pop_fields {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: Float
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: Float
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10489,7 +8500,7 @@ type tomograms_var_pop_fields {
 order by var_pop() on columns of table "tomograms"
 """
 input tomograms_var_pop_order_by {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10514,8 +8525,6 @@ input tomograms_var_pop_order_by {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: order_by
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: order_by
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10524,7 +8533,7 @@ input tomograms_var_pop_order_by {
 
 """aggregate var_samp on columns"""
 type tomograms_var_samp_fields {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10549,8 +8558,6 @@ type tomograms_var_samp_fields {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: Float
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: Float
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10561,7 +8568,7 @@ type tomograms_var_samp_fields {
 order by var_samp() on columns of table "tomograms"
 """
 input tomograms_var_samp_order_by {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10586,8 +8593,6 @@ input tomograms_var_samp_order_by {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: order_by
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: order_by
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10596,7 +8601,7 @@ input tomograms_var_samp_order_by {
 
 """aggregate variance on columns"""
 type tomograms_variance_fields {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: Float
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10621,8 +8626,6 @@ type tomograms_variance_fields {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: Float
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: Float
 
   """Voxel spacing equal in all three axes in angstroms"""
@@ -10633,7 +8636,7 @@ type tomograms_variance_fields {
 order by variance() on columns of table "tomograms"
 """
 input tomograms_variance_order_by {
-  """If the tomogram is part of a deposition, the related deposition's id"""
+  """id of the associated deposition."""
   deposition_id: order_by
 
   """Numeric identifier for this tomogram (this may change!)"""
@@ -10658,8 +8661,6 @@ input tomograms_variance_order_by {
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
   size_z: order_by
-
-  """The ID of the tomogram voxel spacing this tomogram is part of"""
   tomogram_voxel_spacing_id: order_by
 
   """Voxel spacing equal in all three axes in angstroms"""
