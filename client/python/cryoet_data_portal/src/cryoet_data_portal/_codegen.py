@@ -11,6 +11,7 @@ from gql.transport.requests import RequestsHTTPTransport
 from graphql import (
     GraphQLField,
     GraphQLList,
+    GraphQLNamedType,
     GraphQLNonNull,
     GraphQLObjectType,
     GraphQLScalarType,
@@ -67,7 +68,7 @@ class FieldInfo:
     """The information about a parsed model field."""
 
     name: str
-    description: str
+    description: Optional[str]
     annotation_type: str
     default_value: str
 
@@ -78,11 +79,11 @@ class ModelInfo:
 
     name: str
     gql_name: str
-    description: str
+    description: Optional[str]
     fields: Tuple[FieldInfo, ...]
 
 
-def write_models(models: Tuple[ModelInfo, ...], path: str) -> None:
+def write_models(models: Tuple[ModelInfo, ...], path: Path) -> None:
     """Writes model classes to a Python module in a local file."""
     environment = _load_jinja_environment()
     with open(path, "w") as f:
@@ -116,7 +117,7 @@ def get_models(schema: GraphQLSchema) -> Tuple[ModelInfo, ...]:
     return tuple(models)
 
 
-def get_schema(url: str) -> GraphQLSchema:
+def get_schema(url: str) -> Optional[GraphQLSchema]:
     """Gets the GraphQL schema from an endpoint."""
     transport = RequestsHTTPTransport(url=url, retries=3)
     with Client(transport=transport, fetch_schema_from_transport=True) as session:
@@ -163,12 +164,14 @@ def _parse_field(
         field_type.name in GQL_TO_MODEL_TYPE
     ):
         return _parse_model_field(gql_type, name, field_type)
-    return _parse_scalar_field(name, field.description, field_type)
+    if isinstance(field_type, GraphQLScalarType):
+        return _parse_scalar_field(name, field.description, field_type)
+    return None
 
 
 def _parse_scalar_field(
     name: str,
-    description: str,
+    description: Optional[str],
     field_type: GraphQLScalarType,
 ) -> Optional[FieldInfo]:
     logging.debug("_parse_scalar_field: %s", field_type)
@@ -180,6 +183,7 @@ def _parse_scalar_field(
             annotation_type=annotation_type,
             default_value=default_value,
         )
+    return None
 
 
 def _parse_model_field(
@@ -200,15 +204,18 @@ def _parse_model_field(
             annotation_type=model,
             default_value=f'ItemRelationship({model}, "{model_field}_id", "id")',
         )
+    return None
 
 
 def _parse_model_list_field(
     gql_type: GraphQLObjectType,
     name: str,
-    field_type: GraphQLList,
+    field_type: GraphQLList[GraphQLType],
 ) -> Optional[FieldInfo]:
     logging.debug("_parse_model_list_field: %s", field_type)
     of_type = _maybe_unwrap_non_null(field_type.of_type)
+    if not isinstance(of_type, GraphQLNamedType):
+        return None
     of_model = GQL_TO_MODEL_TYPE.get(of_type.name)
     if of_model is not None:
         source_model = GQL_TO_MODEL_TYPE[gql_type.name]
@@ -221,6 +228,7 @@ def _parse_model_list_field(
             annotation_type=f"List[{of_model}]",
             default_value=f'ListRelationship("{of_model}", "id", "{source_field}_id")',
         )
+    return None
 
 
 def _maybe_unwrap_non_null(field_type: GraphQLType) -> GraphQLType:
@@ -255,6 +263,8 @@ def _space_case_to_plural(name: str) -> str:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.WARN)
     schema = get_schema(DEFAULT_URL)
+    if schema is None:
+        raise RuntimeError(f"Could not get schema at {DEFAULT_URL}")
     write_schema(schema, SCHEMA_PATH)
     models = get_models(schema)
     write_models(models, MODELS_PATH)

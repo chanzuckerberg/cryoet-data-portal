@@ -284,7 +284,6 @@ class Tomogram(Model):
         tomogram_version (str): Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
         tomogram_voxel_spacing (TomogramVoxelSpacing): The tomogram voxel spacing this tomogram is a part of
         tomogram_voxel_spacing_id (int): None
-        type (str): None
         voxel_spacing (float): Voxel spacing equal in all three axes in angstroms
     """
 
@@ -329,7 +328,6 @@ class Tomogram(Model):
         "id",
     )
     tomogram_voxel_spacing_id: int = IntField()
-    type: str = StringField()
     voxel_spacing: float = FloatField()
 
     def download_omezarr(self, dest_path: Optional[str] = None):
