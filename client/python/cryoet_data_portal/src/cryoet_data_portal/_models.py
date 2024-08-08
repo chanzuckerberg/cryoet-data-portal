@@ -133,7 +133,7 @@ class DatasetAuthor(Model):
     affiliation_name: str = StringField()
     author_list_order: int = IntField()
     corresponding_author_status: bool = BooleanField()
-    dataset: Dataset = ItemRelationship(Dataset, "dataset_id", "id")
+    dataset: Dataset = ItemRelationship("Dataset", "dataset_id", "id")
     dataset_id: int = IntField()
     email: str = StringField()
     id: int = IntField()
@@ -155,7 +155,7 @@ class DatasetFunding(Model):
 
     _gql_type: str = "dataset_funding"
 
-    dataset: Dataset = ItemRelationship(Dataset, "dataset_id", "id")
+    dataset: Dataset = ItemRelationship("Dataset", "dataset_id", "id")
     dataset_id: int = IntField()
     funding_agency_name: str = StringField()
     grant_id: str = StringField()
@@ -178,7 +178,7 @@ class Run(Model):
 
     _gql_type: str = "runs"
 
-    dataset: Dataset = ItemRelationship(Dataset, "dataset_id", "id")
+    dataset: Dataset = ItemRelationship("Dataset", "dataset_id", "id")
     dataset_id: int = IntField()
     https_prefix: str = StringField()
     id: int = IntField()
@@ -230,7 +230,7 @@ class TomogramVoxelSpacing(Model):
     )
     https_prefix: str = StringField()
     id: int = IntField()
-    run: Run = ItemRelationship(Run, "run_id", "id")
+    run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
     s3_prefix: str = StringField()
     tomograms: List[Tomogram] = ListRelationship(
@@ -284,6 +284,7 @@ class Tomogram(Model):
         tomogram_version (str): Version of tomogram using the same software and post-processing. Version of tomogram using the same software and post-processing. This will be presented as the latest version
         tomogram_voxel_spacing (TomogramVoxelSpacing): The tomogram voxel spacing this tomogram is a part of
         tomogram_voxel_spacing_id (int): None
+        type (str): None
         voxel_spacing (float): Voxel spacing equal in all three axes in angstroms
     """
 
@@ -323,11 +324,12 @@ class Tomogram(Model):
     size_z: int = IntField()
     tomogram_version: str = StringField()
     tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(
-        TomogramVoxelSpacing,
+        "TomogramVoxelSpacing",
         "tomogram_voxel_spacing_id",
         "id",
     )
     tomogram_voxel_spacing_id: int = IntField()
+    type: str = StringField()
     voxel_spacing: float = FloatField()
 
     def download_omezarr(self, dest_path: Optional[str] = None):
@@ -396,7 +398,7 @@ class TomogramAuthor(Model):
     name: str = StringField()
     orcid: str = StringField()
     primary_author_status: bool = BooleanField()
-    tomogram: Tomogram = ItemRelationship(Tomogram, "tomogram_id", "id")
+    tomogram: Tomogram = ItemRelationship("Tomogram", "tomogram_id", "id")
     tomogram_id: int = IntField()
 
 
@@ -465,7 +467,7 @@ class Annotation(Model):
     release_date: date = DateField()
     s3_metadata_path: str = StringField()
     tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(
-        TomogramVoxelSpacing,
+        "TomogramVoxelSpacing",
         "tomogram_voxel_spacing_id",
         "id",
     )
@@ -512,7 +514,7 @@ class AnnotationFile(Model):
 
     _gql_type: str = "annotation_files"
 
-    annotation: Annotation = ItemRelationship(Annotation, "annotation_id", "id")
+    annotation: Annotation = ItemRelationship("Annotation", "annotation_id", "id")
     annotation_id: int = IntField()
     format: str = StringField()
     https_path: str = StringField()
@@ -553,7 +555,7 @@ class AnnotationAuthor(Model):
     affiliation_address: str = StringField()
     affiliation_identifier: str = StringField()
     affiliation_name: str = StringField()
-    annotation: Annotation = ItemRelationship(Annotation, "annotation_id", "id")
+    annotation: Annotation = ItemRelationship("Annotation", "annotation_id", "id")
     annotation_id: int = IntField()
     author_list_order: int = IntField()
     corresponding_author_status: bool = BooleanField()
@@ -633,7 +635,7 @@ class TiltSeries(Model):
     microscope_phase_plate: str = StringField()
     pixel_spacing: float = FloatField()
     related_empiar_entry: str = StringField()
-    run: Run = ItemRelationship(Run, "run_id", "id")
+    run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
     s3_alignment_file: str = StringField()
     s3_angle_list: str = StringField()

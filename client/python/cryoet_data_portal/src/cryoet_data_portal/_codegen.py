@@ -4,11 +4,12 @@ import logging
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union
 
 from gql import Client
 from gql.transport.requests import RequestsHTTPTransport
 from graphql import (
+    GraphQLEnumType,
     GraphQLField,
     GraphQLList,
     GraphQLNamedType,
@@ -147,7 +148,12 @@ def parse_fields(gql_type: GraphQLObjectType) -> Tuple[FieldInfo, ...]:
             logging.info("Parsed field %s", parsed)
             fields.append(parsed)
         else:
-            logging.warning("Failed to parse field: %s, %s", gql_type.name, name)
+            logging.warning(
+                "Failed to parse field: %s, %s, %r",
+                gql_type.name,
+                name,
+                field,
+            )
     return tuple(fields)
 
 
@@ -164,7 +170,7 @@ def _parse_field(
         field_type.name in GQL_TO_MODEL_TYPE
     ):
         return _parse_model_field(gql_type, name, field_type)
-    if isinstance(field_type, GraphQLScalarType):
+    if isinstance(field_type, (GraphQLScalarType, GraphQLEnumType)):
         return _parse_scalar_field(name, field.description, field_type)
     return None
 
@@ -172,7 +178,7 @@ def _parse_field(
 def _parse_scalar_field(
     name: str,
     description: Optional[str],
-    field_type: GraphQLScalarType,
+    field_type: Union[GraphQLScalarType, GraphQLEnumType],
 ) -> Optional[FieldInfo]:
     logging.debug("_parse_scalar_field: %s", field_type)
     if field_type.name in GQL_TO_MODEL_FIELD:
@@ -202,7 +208,7 @@ def _parse_model_field(
             name=name,
             description=f"The {model_name} this {source_model_name} is a part of",
             annotation_type=model,
-            default_value=f'ItemRelationship({model}, "{model_field}_id", "id")',
+            default_value=f'ItemRelationship("{model}", "{model_field}_id", "id")',
         )
     return None
 
