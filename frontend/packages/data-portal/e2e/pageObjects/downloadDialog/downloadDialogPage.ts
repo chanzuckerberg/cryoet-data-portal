@@ -2,7 +2,7 @@ import { expect, Locator } from '@playwright/test'
 import { translations } from 'e2e/constants'
 import { BasePage } from 'e2e/pageObjects/basePage'
 
-import { DownloadTab } from 'app/types/download'
+import { DownloadConfig, DownloadTab } from 'app/types/download'
 
 export class DownloadDialogPage extends BasePage {
   // #region Navigate
@@ -10,7 +10,7 @@ export class DownloadDialogPage extends BasePage {
 
   // #region Click
   public async openDialog(name: string): Promise<void> {
-    await this.page.getByRole('button', { name }).click()
+    await this.page.getByRole('button', { name }).first().click()
   }
 
   public async clickTab(tab: DownloadTab): Promise<void> {
@@ -26,6 +26,26 @@ export class DownloadDialogPage extends BasePage {
   public async clickCloseButton(): Promise<void> {
     const dialog = this.getDialog()
     await dialog.getByRole('button', { name: translations.close }).click()
+  }
+
+  public async clickXButton(): Promise<void> {
+    const dialog = this.getDialog()
+    await dialog.locator('button:has(svg)').first().click()
+  }
+
+  public async clickDialogRadio(name: string): Promise<void> {
+    const dialog = this.getDialog()
+    await dialog.getByRole('button', { name }).click()
+  }
+
+  public async clickNextButton(): Promise<void> {
+    const dialog = this.getDialog()
+    await dialog.getByRole('button', { name: translations.next }).click()
+  }
+
+  public async clickBackButton(): Promise<void> {
+    const dialog = this.getDialog()
+    await dialog.getByRole('button', { name: translations.back }).click()
   }
   // #endregion Click
 
@@ -75,6 +95,13 @@ export class DownloadDialogPage extends BasePage {
     await expect(dialog.getByRole('tab', { name: tab })).toHaveAttribute(
       'aria-selected',
       isSelected ? 'true' : 'false',
+    )
+  }
+
+  public async expectRadioToBeSelected(value: DownloadConfig) {
+    const dialog = this.getDialog()
+    await expect(dialog.getByRole('radio', { checked: true })).toHaveValue(
+      value,
     )
   }
   // #endregion Validation

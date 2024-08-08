@@ -4,7 +4,11 @@
 
 import { DownloadTab } from 'app/types/download'
 
-export const singleDatasetDownloadTab = {
-  [DownloadTab.AWS]: DownloadTab.AWS,
-  [DownloadTab.API]: DownloadTab.API,
-}
+export const SINGLE_DATASET_DOWNLOAD_TABS = [DownloadTab.AWS, DownloadTab.API]
+
+export const TOMOGRAM_DOWNLOAD_TABS = [
+  DownloadTab.API,
+  DownloadTab.AWS,
+  DownloadTab.Curl,
+  DownloadTab.Download,
+]
