@@ -5,3 +5,4 @@ requests-mock
 twine
 coverage
 nbqa
+Jinja2

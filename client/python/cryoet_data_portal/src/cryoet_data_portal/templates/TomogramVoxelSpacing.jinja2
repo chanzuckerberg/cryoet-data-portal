@@ -1,0 +1,9 @@
+{% include 'Model.jinja2' %}
+
+    def download_everything(self, dest_path: Optional[str] = None):
+        """Download all of the data for this tomogram voxel spacing.
+
+        Args:
+            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+        """
+        download_directory(self.s3_prefix, self.run.s3_prefix, dest_path)

@@ -20,3 +20,11 @@ test:
 		export BOTO_ENDPOINT_URL=http://localhost:4000; \
 		export BOTO_SIGNATURE_VERSION=s3v4; \
 		pytest -vvv -s . $(TEST)
+
+.PHONY: codegen
+codegen:
+	python -m cryoet_data_portal._codegen
+	# Need to run pre-commit twice because black and ruff fight with each other.
+	# Ignore the return code because that is non-zero when pre-commit applies a fix.
+	-pre-commit run --files src/cryoet_data_portal/_models.py src/cryoet_data_portal/data/schema.graphql
+	-pre-commit run --files src/cryoet_data_portal/_models.py src/cryoet_data_portal/data/schema.graphql

@@ -1,0 +1,36 @@
+{% include 'Model.jinja2' %}
+
+    def download_omezarr(self, dest_path: Optional[str] = None):
+        """Download the OME-Zarr version of this tomogram
+
+        Args:
+            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+        """
+        recursive_prefix = "/".join(self.s3_omezarr_dir.split("/")[:-1]) + "/"
+        download_directory(self.s3_omezarr_dir, recursive_prefix, dest_path)
+
+    def download_mrcfile(self, dest_path: Optional[str] = None):
+        """Download an MRC file of this tomogram
+
+        Args:
+            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+        """
+        url = self.https_mrc_scale0
+        download_https(url, dest_path)
+
+    def download_all_annotations(
+        self,
+        dest_path: Optional[str] = None,
+        format: Optional[str] = None,
+        shape: Optional[str] = None,
+    ):
+        """Download all annotation files for this tomogram
+
+        Args:
+            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+            shape (Optional[str], optional): Choose a specific shape type to download (e.g.: OrientedPoint, SegmentationMask)
+            format (Optional[str], optional): Choose a specific file format to download (e.g.: mrc, ndjson)
+        """
+        vs = self.tomogram_voxel_spacing
+        for anno in vs.annotations:
+            anno.download(dest_path, format, shape)

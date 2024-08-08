@@ -1,0 +1,16 @@
+{% include 'Model.jinja2' %}
+
+    def download_everything(self, dest_path: Optional[str] = None):
+        """Download all of the data for this run.
+
+        Args:
+            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+        """
+        download_directory(self.s3_prefix, self.dataset.s3_prefix, dest_path)
+
+    def download_frames(self, dest_path: Optional[str] = None):
+        download_directory(
+            os.path.join(self.s3_prefix, "Frames"),
+            self.s3_prefix,
+            dest_path,
+        )
