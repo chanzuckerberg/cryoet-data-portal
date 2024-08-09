@@ -374,6 +374,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
     }
 
+    # Tomogram counts:
     tomograms_aggregate(where: { tomogram_voxel_spacing: { run_id: { _eq: $id }}}) {
       aggregate {
         count
