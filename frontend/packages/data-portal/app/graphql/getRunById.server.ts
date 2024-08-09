@@ -103,7 +103,14 @@ const GET_RUN_BY_ID_QUERY = gql(`
         }
       }
 
-      tomogram_voxel_spacings(limit: 1) {
+      tomogram_voxel_spacings(
+        limit: 1
+        where: {
+          tomograms: {
+            is_canonical: { _eq: true}
+          }
+        }
+      ) {
         id
         s3_prefix
 
@@ -138,12 +145,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
 
           files(distinct_on: shape_type) {
             shape_type
-          }
-        }
-
-        tomograms_aggregate {
-          aggregate {
-            count
           }
         }
 
@@ -263,6 +264,38 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
     }
 
+    # Tomograms table:
+    tomograms(where: { tomogram_voxel_spacing: { run_id: { _eq: $id }}}) {
+      affine_transformation_matrix
+      ctf_corrected
+      fiducial_alignment_status
+      id
+      is_canonical
+      key_photo_thumbnail_url
+      key_photo_url
+      name
+      neuroglancer_config
+      processing
+      processing_software
+      reconstruction_method
+      reconstruction_software
+      size_x
+      size_y
+      size_z
+      voxel_spacing
+      tomogram_voxel_spacing {
+        id
+        s3_prefix
+      }
+      authors {
+        primary_author_status
+        corresponding_author_status
+        name
+        email
+        orcid
+      }
+    }
+
     # Annotation counts:
     annotation_files_aggregate_for_total: annotation_files_aggregate(
       where: {
@@ -336,6 +369,13 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
       distinct_on: [annotation_id, shape_type]
     ) {
+      aggregate {
+        count
+      }
+    }
+
+    # Tomogram counts:
+    tomograms_aggregate(where: { tomogram_voxel_spacing: { run_id: { _eq: $id }}}) {
       aggregate {
         count
       }

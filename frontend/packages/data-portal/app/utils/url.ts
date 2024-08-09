@@ -33,3 +33,9 @@ export function createUrl(urlOrPath: string, baseUrl?: string): URL {
 
   return new URL(urlOrPath, base)
 }
+
+export function getNeuroglancerUrl(config: string): string {
+  return `https://neuroglancer-demo.appspot.com/#!'${encodeURIComponent(
+    config,
+  )}`
+}
