@@ -148,7 +148,7 @@ test.describe('downloadDialog', () => {
         })
         await downloadDialogActor.expectDialogUrlToMatch({
           baseUrl: SINGLE_DATASET_URL,
-          tab: DownloadTab.AWS,
+          tab: DownloadTab.API,
         })
       })
 
