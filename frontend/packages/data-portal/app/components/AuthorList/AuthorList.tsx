@@ -7,7 +7,7 @@ function getAuthorKey(author: AuthorInfo) {
   return author.name + author.email + author.orcid
 }
 
-const COMMA = `, `
+const COMMA_SPACE = `, `
 const ELLIPSIS = '...'
 
 export function AuthorList({
@@ -25,52 +25,55 @@ export function AuthorList({
   large?: boolean
   subtle?: boolean
 }) {
-  const authorsPrimary = []
-  const authorsCorresponding = []
-  const authorsOther = []
+  const primary = []
+  const other = []
+  const corresponding = []
   for (const author of authors) {
     if (author.primary_author_status) {
-      authorsPrimary.push(author)
+      primary.push(author)
     } else if (author.corresponding_author_status) {
-      authorsCorresponding.push(author)
+      corresponding.push(author)
     } else {
-      authorsOther.push(author)
+      other.push(author)
     }
   }
+  const hasOther = other.length > 0
+  const hasCorresponding = corresponding.length > 0
 
   return (
     <p className={className}>
+      {/* Primary authors: */}
       <span className={cns(!compact && 'font-semibold')}>
-        {authorsPrimary.map((author, i) => (
+        {primary.map((author, i) => (
           <Fragment key={getAuthorKey(author)}>
             {compact ? (
               author.name
             ) : (
               <AuthorLinkComponent author={author} large={large} />
             )}
-            {i < authorsPrimary.length - 1 && COMMA}
+            {i < primary.length - 1 && COMMA_SPACE}
           </Fragment>
         ))}
-        {(authorsOther.length > 0 || authorsCorresponding.length > 0) && COMMA}{' '}
-        {compact &&
-          (authorsOther.length > 0 || authorsCorresponding.length > 0) &&
-          ELLIPSIS}
+        {(hasOther || hasCorresponding) && COMMA_SPACE}
+        {(hasOther || hasCorresponding) && compact && ELLIPSIS}
       </span>
 
       {!compact && (
         <span className={cns(subtle && 'text-sds-gray-600')}>
-          {authorsOther.map((author, i, arr) => (
+          {/* Other authors: */}
+          {other.map((author, i) => (
             <Fragment key={getAuthorKey(author)}>
               <AuthorLinkComponent author={author} large={large} />
-              {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
-                COMMA}
+              {i < other.length - 1 && COMMA_SPACE}
             </Fragment>
           ))}
+          {hasCorresponding && COMMA_SPACE}
 
-          {authorsCorresponding.map((author, i, arr) => (
+          {/* Corresponding authors: */}
+          {corresponding.map((author, i) => (
             <Fragment key={getAuthorKey(author)}>
               <AuthorLinkComponent author={author} large={large} />
-              {!(arr.length - 1 === i) && COMMA}
+              {i < corresponding.length - 1 && COMMA_SPACE}
             </Fragment>
           ))}
         </span>
