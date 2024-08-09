@@ -1,17 +1,14 @@
-import { ComponentProps, ComponentType, Fragment, useMemo } from 'react'
+import { ComponentProps, ComponentType, Fragment } from 'react'
 
 import { AuthorInfo, AuthorLink } from 'app/components/AuthorLink'
 import { cns } from 'app/utils/cns'
 
 function getAuthorKey(author: AuthorInfo) {
-  return author.name + author.email
+  return author.name + author.email + author.orcid
 }
 
-const SEPARATOR = `, `
-
-function getAuthorIds(authors: AuthorInfo[]) {
-  return authors.map((author) => author.name + author.email + author.orcid)
-}
+const COMMA = `, `
+const ELLIPSIS = '...'
 
 export function AuthorList({
   AuthorLinkComponent = AuthorLink,
@@ -28,79 +25,56 @@ export function AuthorList({
   large?: boolean
   subtle?: boolean
 }) {
-  // TODO: make the below grouping more efficient and/or use GraphQL ordering
-  const authorsPrimary = authors.filter(
-    (author) => author.primary_author_status,
-  )
-  const authorsCorresponding = authors.filter(
-    (author) => author.corresponding_author_status,
-  )
-  const authorsOther = authors.filter(
-    (author) =>
-      !(author.primary_author_status || author.corresponding_author_status),
-  )
-
-  const otherCollapsed = useMemo<string | null>(() => {
-    const ellipsis = '...'
-
-    if (compact && authorsOther.length > 0) {
-      if (authorsCorresponding.length === 0) {
-        return ellipsis
-      }
-      return `${ellipsis} ${SEPARATOR}`
+  const authorsPrimary = []
+  const authorsCorresponding = []
+  const authorsOther = []
+  for (const author of authors) {
+    if (author.primary_author_status) {
+      authorsPrimary.push(author)
+    } else if (author.corresponding_author_status) {
+      authorsCorresponding.push(author)
+    } else {
+      authorsOther.push(author)
     }
-    return null
-  }, [
-    authorsCorresponding.length,
-    authorsOther.length,
-    compact,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    getAuthorIds(authorsCorresponding),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    getAuthorIds(authorsOther),
-  ])
+  }
 
-  // TODO: let's find a better way of doing this
   return (
     <p className={className}>
       <span className={cns(!compact && 'font-semibold')}>
-        {authorsPrimary.map((author, i, arr) => (
+        {authorsPrimary.map((author, i) => (
           <Fragment key={getAuthorKey(author)}>
             {compact ? (
               author.name
             ) : (
               <AuthorLinkComponent author={author} large={large} />
             )}
-            {!(
-              authorsOther.length + authorsCorresponding.length === 0 &&
-              arr.length - 1 === i
-            ) && SEPARATOR}
+            {i < authorsPrimary.length - 1 && COMMA}
           </Fragment>
         ))}
+        {(authorsOther.length > 0 || authorsCorresponding.length > 0) && COMMA}{' '}
+        {compact &&
+          (authorsOther.length > 0 || authorsCorresponding.length > 0) &&
+          ELLIPSIS}
       </span>
 
-      <span className={cns(subtle && !compact && 'text-sds-gray-600')}>
-        {compact
-          ? otherCollapsed
-          : authorsOther.map((author, i, arr) => (
-              <Fragment key={getAuthorKey(author)}>
-                <AuthorLinkComponent author={author} large={large} />
-                {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
-                  SEPARATOR}
-              </Fragment>
-            ))}
-
-        {authorsCorresponding.map((author, i, arr) => (
-          <Fragment key={getAuthorKey(author)}>
-            {compact ? (
-              author.name
-            ) : (
+      {!compact && (
+        <span className={cns(subtle && 'text-sds-gray-600')}>
+          {authorsOther.map((author, i, arr) => (
+            <Fragment key={getAuthorKey(author)}>
               <AuthorLinkComponent author={author} large={large} />
-            )}
-            {!(arr.length - 1 === i) && SEPARATOR}
-          </Fragment>
-        ))}
-      </span>
+              {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
+                COMMA}
+            </Fragment>
+          ))}
+
+          {authorsCorresponding.map((author, i, arr) => (
+            <Fragment key={getAuthorKey(author)}>
+              <AuthorLinkComponent author={author} large={large} />
+              {!(arr.length - 1 === i) && COMMA}
+            </Fragment>
+          ))}
+        </span>
+      )}
     </p>
   )
 }
