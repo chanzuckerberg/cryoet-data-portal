@@ -33,8 +33,7 @@ export function CollapsibleList({
         'flex flex-col gap-sds-xs',
         tableVariant
           ? 'text-sds-body-s leading-sds-body-s'
-          : 'text-sds-body-xxs leading-sds-body-xxs',
-        !tableVariant && 'text-sds-gray-600',
+          : 'text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600',
         collapsible && 'transition-[max-height_0.2s_ease-out]',
       )}
     >

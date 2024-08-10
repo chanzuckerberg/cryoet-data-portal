@@ -2,7 +2,6 @@ import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { CollapsibleList } from 'app/components/CollapsibleList'
 import { shapeTypeToI18nKeyPlural } from 'app/constants/objectShapeTypes'
 import { useI18n } from 'app/hooks/useI18n'
-import { I18nKeys } from 'app/types/i18n'
 import { getTableData } from 'app/utils/table'
 
 export function AnnotationsSummaryMetadataTable({
@@ -92,7 +91,7 @@ export function AnnotationsSummaryMetadataTable({
             {Object.entries(shapeTypeToI18nKeyPlural)
               .filter(([k]) => shapeTypes.includes(k))
               .map(([k, v]) => (
-                <li key={k}>{t(v as I18nKeys)}</li>
+                <li key={k}>{t(v)}</li>
               ))}
           </ul>
         )

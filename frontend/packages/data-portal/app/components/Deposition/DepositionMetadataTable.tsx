@@ -12,37 +12,23 @@ import { getTableData } from 'app/utils/table'
 
 function CollapsibleDescription({ text }: { text: string }) {
   const { t } = useI18n()
-  const [collapsed, setCollapsed] = useState(true)
+  const [isCollapsed, setCollapsed] = useState(true)
 
   return (
     <div>
-      <p className={collapsed ? 'text-ellipsis line-clamp-3' : undefined}>
+      <p className={isCollapsed ? 'text-ellipsis line-clamp-3' : undefined}>
         {text}
       </p>
       <div className="mt-sds-s font-semibold text-sds-primary-400">
-        <button type="button" onClick={() => setCollapsed(!collapsed)}>
+        <button type="button" onClick={() => setCollapsed((prev) => !prev)}>
           <span className="flex flex-row gap-sds-xxs items-center">
-            {collapsed ? (
-              <>
-                <Icon
-                  sdsIcon="plus"
-                  sdsSize="xs"
-                  sdsType="static"
-                  className="!text-current"
-                />
-                {t('showMore')}
-              </>
-            ) : (
-              <>
-                <Icon
-                  sdsIcon="minus"
-                  sdsSize="xs"
-                  sdsType="static"
-                  className="!text-current"
-                />
-                {t('showLess')}
-              </>
-            )}
+            <Icon
+              sdsIcon={isCollapsed ? 'plus' : 'minus'}
+              sdsSize="xs"
+              sdsType="static"
+              className="!text-current"
+            />
+            {t(isCollapsed ? 'showMore' : 'showLess')}
           </span>
         </button>
       </div>

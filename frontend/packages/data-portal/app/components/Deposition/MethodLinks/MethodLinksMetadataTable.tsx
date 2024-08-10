@@ -11,7 +11,7 @@ import { generateMethodLinks, MethodLinkVariantProps } from './common'
 
 const COLUMN_WIDTH = 170
 
-type MethodData = {
+type MethodDataType = {
   method_type: MethodType
   annotations_count: number
   method_description: string
@@ -65,7 +65,7 @@ function MethodSummarySection({
   data,
 }: {
   label?: string
-  data: MethodData
+  data: MethodDataType
 }) {
   const { t } = useI18n()
 
@@ -125,7 +125,7 @@ export function MethodLinksMetadataTable({
 }) {
   const { t } = useI18n()
 
-  const methodOne: MethodData = {
+  const methodOne: MethodDataType = {
     method_type: 'hybrid',
     annotations_count: 3000,
     method_description:
@@ -163,7 +163,7 @@ export function MethodLinksMetadataTable({
     ],
   }
 
-  const methodTwo: MethodData = {
+  const methodTwo: MethodDataType = {
     method_type: 'manual',
     annotations_count: 1000,
     method_description:
@@ -172,7 +172,7 @@ export function MethodLinksMetadataTable({
     links: [],
   }
 
-  const methodThree: MethodData = {
+  const methodThree: MethodDataType = {
     method_type: 'automated',
     annotations_count: 6000,
     method_description:

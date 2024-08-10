@@ -18,7 +18,6 @@ import { DepositionTableWidths } from 'app/constants/table'
 import { Deposition, useDepositions } from 'app/hooks/useDepositions'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
-import { I18nKeys } from 'app/types/i18n'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
@@ -295,7 +294,7 @@ export function DepositionTable() {
                           className="whitespace-nowrap overflow-x-hidden overflow-ellipsis"
                           key={entry[0]}
                         >
-                          {t(entry[1] as I18nKeys)}
+                          {t(entry[1])}
                         </li>
                       ))}
                   </ul>

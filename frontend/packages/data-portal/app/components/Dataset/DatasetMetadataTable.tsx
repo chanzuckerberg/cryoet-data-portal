@@ -14,17 +14,17 @@ import { DatasetType } from './type'
 
 export function DatasetMetadataTable({
   dataset,
-  allFields,
+  showAllFields,
   initialOpen,
 }: {
   dataset: DatasetType
-  allFields?: boolean
+  showAllFields?: boolean
   initialOpen?: boolean
 }) {
   const { t } = useI18n()
 
   const datasetMetadata = getTableData(
-    !!allFields && {
+    !!showAllFields && {
       label: t('datasetTitle'),
       values: [dataset.title ?? ''],
       renderValue: (value) => {
@@ -46,12 +46,12 @@ export function DatasetMetadataTable({
       },
     },
 
-    !!allFields && {
+    !!showAllFields && {
       label: t('datasetId'),
       values: [`${dataset.id ?? ''}`],
     },
 
-    !!allFields && {
+    !!showAllFields && {
       label: t('description'),
       values: [dataset.description ?? ''],
       className: 'text-ellipsis line-clamp-3',
@@ -62,17 +62,17 @@ export function DatasetMetadataTable({
       values: [dataset.deposition_date ?? ''],
     },
 
-    !!allFields && {
+    !!showAllFields && {
       label: t('releaseDate'),
       values: [dataset.release_date ?? ''],
     },
 
-    !!allFields && {
+    !!showAllFields && {
       label: t('lastModifiedDate'),
       values: [dataset.last_modified_date ?? ''],
     },
 
-    !!allFields && {
+    !!showAllFields && {
       label:
         dataset.authors && dataset.authors.length === 1
           ? t('author')
@@ -112,7 +112,7 @@ export function DatasetMetadataTable({
       },
     },
 
-    !!allFields && {
+    !!showAllFields && {
       label: t('publications'),
       values: [dataset.dataset_publications ?? ''],
       renderValue: (value: string) => {
@@ -124,7 +124,7 @@ export function DatasetMetadataTable({
   return (
     <AccordionMetadataTable
       id="dataset-metadata"
-      header={allFields ? t('dataset') : t('datasetMetadata')}
+      header={showAllFields ? t('dataset') : t('datasetMetadata')}
       data={datasetMetadata}
       initialOpen={initialOpen}
     />
