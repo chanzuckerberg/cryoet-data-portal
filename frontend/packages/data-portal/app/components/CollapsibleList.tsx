@@ -12,6 +12,7 @@ interface ListEntry {
 export interface CollapsibleListProps {
   entries?: ListEntry[]
   collapseAfter?: number
+
   inlineVariant?: boolean
   tableVariant?: boolean
 }
