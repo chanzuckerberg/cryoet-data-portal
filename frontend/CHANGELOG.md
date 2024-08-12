@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.19.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.18.0...web-v1.19.0) (2024-08-12)
+
+
+### ✨ Features
+
+* Add Tomograms table ([#988](https://github.com/chanzuckerberg/cryoet-data-portal/issues/988)) ([420acdd](https://github.com/chanzuckerberg/cryoet-data-portal/commit/420acdd2999e4261214a9475c9a6d37b1c85ef28))
+* Enable pagination of Annotations table with temporary hacky query ([#992](https://github.com/chanzuckerberg/cryoet-data-portal/issues/992)) ([79f7247](https://github.com/chanzuckerberg/cryoet-data-portal/commit/79f724798caacab162eb89a0a4ce57a7b19f5e2d))
+
+
+### ♻️ Code Refactoring
+
+* download dialog tests ([#1011](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1011)) ([f0ece55](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f0ece552004cad1d3847691aab0bfd8b0ab6b8e3)), closes [#962](https://github.com/chanzuckerberg/cryoet-data-portal/issues/962)
+
 ## [1.18.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.17.0...web-v1.18.0) (2024-08-02)
 
 
