@@ -26,7 +26,7 @@ export function CollapsibleList({
     collapseAfter !== undefined &&
     collapseAfter >= 0 &&
     entries !== undefined &&
-    entries.length > collapseAfter
+    entries.length > collapseAfter + 1 // Prevent "Show 1 more"
 
   const { t } = useI18n()
   const [collapsed, setCollapsed] = useState(true)
@@ -44,20 +44,17 @@ export function CollapsibleList({
           collapsible && 'transition-[max-height_0.2s_ease-out]',
         )}
       >
-        {entries.map(
-          ({ key, entry }, i) =>
-            !(collapsible && collapsed && i + 1 > collapseAfter) && (
-              <li key={key}>
-                {entry}
-                {inlineVariant && i !== lastIndex && ', '}
-                {inlineVariant &&
-                  collapsible &&
-                  collapsed &&
-                  i === lastIndex &&
-                  '...'}
-              </li>
-            ),
-        )}
+        {entries.slice(0, lastIndex + 1).map(({ key, entry }, i) => (
+          <li key={key}>
+            {entry}
+            {inlineVariant && i !== lastIndex && ', '}
+            {inlineVariant &&
+              collapsible &&
+              collapsed &&
+              i === lastIndex &&
+              '...'}
+          </li>
+        ))}
       </ul>
       {collapsible && (
         <div
