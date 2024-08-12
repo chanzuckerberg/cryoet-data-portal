@@ -40,7 +40,7 @@ export function CollapsibleList({
       <ul
         className={cns(
           'flex',
-          inlineVariant ? 'flex-wrap gap-1' : 'flex-col gap-sds-xs',
+          inlineVariant ? 'flex-wrap gap-sds-xxs' : 'flex-col gap-sds-xs',
           'text-sds-body-xxs leading-sds-body-xxs',
           collapsible && 'transition-[max-height_0.2s_ease-out]',
         )}
