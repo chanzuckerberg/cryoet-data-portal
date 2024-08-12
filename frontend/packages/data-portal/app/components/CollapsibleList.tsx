@@ -9,38 +9,56 @@ interface ListEntry {
   entry: ReactNode
 }
 
+export interface CollapsibleListProps {
+  entries?: ListEntry[]
+  collapseAfter?: number
+  inlineVariant?: boolean
+  tableVariant?: boolean
+}
+
 export function CollapsibleList({
   entries,
   collapseAfter,
+  inlineVariant = false,
   tableVariant = false,
-}: {
-  entries?: ListEntry[]
-  collapseAfter?: number
-  tableVariant?: boolean
-}) {
+}: CollapsibleListProps) {
   const collapsible =
     collapseAfter !== undefined &&
     collapseAfter >= 0 &&
     entries !== undefined &&
-    entries.length > collapseAfter + 1
+    entries.length > collapseAfter
 
   const { t } = useI18n()
   const [collapsed, setCollapsed] = useState(true)
 
+  const lastIndex =
+    collapsible && collapsed ? collapseAfter - 1 : (entries ?? []).length - 1
+
   return entries ? (
-    <ul
-      className={cns(
-        'flex flex-col gap-sds-xs',
-        'text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600',
-        collapsible && 'transition-[max-height_0.2s_ease-out]',
-      )}
-    >
-      {entries.map(
-        ({ key, entry }, i) =>
-          !(collapsible && collapsed && i + 1 > collapseAfter) && (
-            <li key={key}>{entry}</li>
-          ),
-      )}
+    <>
+      <ul
+        className={cns(
+          'flex',
+          inlineVariant ? 'flex-wrap gap-1' : 'flex-col gap-sds-xs',
+          'text-sds-body-xxs leading-sds-body-xxs',
+          collapsible && 'transition-[max-height_0.2s_ease-out]',
+        )}
+      >
+        {entries.map(
+          ({ key, entry }, i) =>
+            !(collapsible && collapsed && i + 1 > collapseAfter) && (
+              <li key={key}>
+                {entry}
+                {inlineVariant && i !== lastIndex && ', '}
+                {inlineVariant &&
+                  collapsible &&
+                  collapsed &&
+                  i === lastIndex &&
+                  '...'}
+              </li>
+            ),
+        )}
+      </ul>
       {collapsible && (
         <div
           className={cns(
@@ -80,7 +98,7 @@ export function CollapsibleList({
           </button>
         </div>
       )}
-    </ul>
+    </>
   ) : (
     <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
       {t('notSubmitted')}
