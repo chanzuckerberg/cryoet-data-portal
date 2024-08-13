@@ -16,100 +16,100 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-ALTER TABLE IF EXISTS ONLY public.tomograms DROP CONSTRAINT IF EXISTS tomograms_type_fkey;
-ALTER TABLE IF EXISTS ONLY public.tomograms DROP CONSTRAINT IF EXISTS tomograms_tomogram_voxel_spacing_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.tomogram_voxel_spacings DROP CONSTRAINT IF EXISTS tomogram_voxel_spacing_run_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.tomogram_authors DROP CONSTRAINT IF EXISTS tomogram_authors_tomogram_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.tiltseries DROP CONSTRAINT IF EXISTS tiltseries_run_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.runs DROP CONSTRAINT IF EXISTS runs_dataset_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.deposition_authors DROP CONSTRAINT IF EXISTS deposition_authors_deposition_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.dataset_funding DROP CONSTRAINT IF EXISTS dataset_funding_dataset_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.dataset_authors DROP CONSTRAINT IF EXISTS dataset_authors_dataset_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.annotations DROP CONSTRAINT IF EXISTS annotations_tomogram_voxel_spacing_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.annotation_files DROP CONSTRAINT IF EXISTS annotation_files_annotation_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.annotation_authors DROP CONSTRAINT IF EXISTS annotation_authors_annotation_id_fkey;
-DROP INDEX IF EXISTS public.tomograms_tomogram_voxel_spacing_id;
-DROP INDEX IF EXISTS public.tomograms_deposition_id;
-DROP INDEX IF EXISTS public.tomogram_voxel_spacing_run;
-DROP INDEX IF EXISTS public.tiltseries_run;
-DROP INDEX IF EXISTS public.tiltseries_deposition_id;
-DROP INDEX IF EXISTS public.depositions_type;
-DROP INDEX IF EXISTS public.dataset_funding_dataset;
-DROP INDEX IF EXISTS public.dataset_deposition_id;
-DROP INDEX IF EXISTS public.dataset_authors_dataset;
-DROP INDEX IF EXISTS public.annotations_tomogram_voxel_spacing;
-DROP INDEX IF EXISTS public.annotations_deposition_id;
-DROP INDEX IF EXISTS public.annotation_method;
-DROP INDEX IF EXISTS public.annotation_files_annotation_id;
-ALTER TABLE IF EXISTS ONLY public.tomograms DROP CONSTRAINT IF EXISTS tomograms_pkey;
-ALTER TABLE IF EXISTS ONLY public.tomogram_voxel_spacings DROP CONSTRAINT IF EXISTS tomogram_voxel_spacing_pkey;
-ALTER TABLE IF EXISTS ONLY public.tomogram_type DROP CONSTRAINT IF EXISTS tomogram_type_pkey;
-ALTER TABLE IF EXISTS ONLY public.tomogram_authors DROP CONSTRAINT IF EXISTS tomogram_authors_tomogram_id_name_key;
-ALTER TABLE IF EXISTS ONLY public.tomogram_authors DROP CONSTRAINT IF EXISTS tomogram_authors_pkey;
-ALTER TABLE IF EXISTS ONLY public.tiltseries DROP CONSTRAINT IF EXISTS tiltseries_pkey;
-ALTER TABLE IF EXISTS ONLY public.runs DROP CONSTRAINT IF EXISTS runs_pkey;
-ALTER TABLE IF EXISTS ONLY public.runs DROP CONSTRAINT IF EXISTS runs_dataset_id_name_key;
-ALTER TABLE IF EXISTS ONLY public.depositions DROP CONSTRAINT IF EXISTS depositions_pkey;
-ALTER TABLE IF EXISTS ONLY public.deposition_authors DROP CONSTRAINT IF EXISTS deposition_authors_pkey;
-ALTER TABLE IF EXISTS ONLY public.datasets DROP CONSTRAINT IF EXISTS datasets_pkey;
-ALTER TABLE IF EXISTS ONLY public.dataset_funding DROP CONSTRAINT IF EXISTS dataset_funding_pkey;
-ALTER TABLE IF EXISTS ONLY public.dataset_authors DROP CONSTRAINT IF EXISTS dataset_authors_pkey;
-ALTER TABLE IF EXISTS ONLY public.annotations DROP CONSTRAINT IF EXISTS annotations_pkey;
-ALTER TABLE IF EXISTS ONLY public.annotation_files DROP CONSTRAINT IF EXISTS annotation_files_shape_type_annotation_id_format_key;
-ALTER TABLE IF EXISTS ONLY public.annotation_files DROP CONSTRAINT IF EXISTS annotation_files_pkey;
-ALTER TABLE IF EXISTS ONLY public.annotation_authors DROP CONSTRAINT IF EXISTS annotation_authors_pkey;
-ALTER TABLE IF EXISTS ONLY public.annotation_authors DROP CONSTRAINT IF EXISTS annotation_authors_annotation_id_name_key;
-ALTER TABLE IF EXISTS public.tomograms ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.tomogram_voxel_spacings ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.tomogram_authors ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.tiltseries ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.runs ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.depositions ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.deposition_authors ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.dataset_funding ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.dataset_authors ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.annotations ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.annotation_files ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.annotation_authors ALTER COLUMN id DROP DEFAULT;
-DROP SEQUENCE IF EXISTS public.tomograms_id_seq;
-DROP TABLE IF EXISTS public.tomograms;
-DROP SEQUENCE IF EXISTS public.tomogram_voxel_spacing_id_seq;
-DROP TABLE IF EXISTS public.tomogram_voxel_spacings;
-DROP TABLE IF EXISTS public.tomogram_type;
-DROP SEQUENCE IF EXISTS public.tomogram_authors_id_seq;
-DROP TABLE IF EXISTS public.tomogram_authors;
-DROP SEQUENCE IF EXISTS public.tiltseries_id_seq;
-DROP TABLE IF EXISTS public.tiltseries;
-DROP SEQUENCE IF EXISTS public.runs_id_seq;
-DROP TABLE IF EXISTS public.runs;
-DROP SEQUENCE IF EXISTS public.depositions_id_seq;
-DROP TABLE IF EXISTS public.depositions;
-DROP SEQUENCE IF EXISTS public.deposition_authors_id_seq;
-DROP TABLE IF EXISTS public.deposition_authors;
-DROP TABLE IF EXISTS public.datasets;
-DROP SEQUENCE IF EXISTS public.dataset_funding_id_seq;
-DROP TABLE IF EXISTS public.dataset_funding;
-DROP SEQUENCE IF EXISTS public.dataset_authors_id_seq;
-DROP TABLE IF EXISTS public.dataset_authors;
-DROP SEQUENCE IF EXISTS public.annotations_id_seq;
-DROP TABLE IF EXISTS public.annotations;
-DROP SEQUENCE IF EXISTS public.annotation_files_id_seq;
-DROP TABLE IF EXISTS public.annotation_files;
-DROP SEQUENCE IF EXISTS public.annotation_authors_id_seq;
-DROP TABLE IF EXISTS public.annotation_authors;
-DROP SCHEMA IF EXISTS public;
---
--- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
---
+-- ALTER TABLE IF EXISTS ONLY public.tomograms DROP CONSTRAINT IF EXISTS tomograms_type_fkey;
+-- ALTER TABLE IF EXISTS ONLY public.tomograms DROP CONSTRAINT IF EXISTS tomograms_tomogram_voxel_spacing_id_fkey;
+-- ALTER TABLE IF EXISTS ONLY public.tomogram_voxel_spacings DROP CONSTRAINT IF EXISTS tomogram_voxel_spacing_run_id_fkey;
+-- ALTER TABLE IF EXISTS ONLY public.tomogram_authors DROP CONSTRAINT IF EXISTS tomogram_authors_tomogram_id_fkey;
+-- ALTER TABLE IF EXISTS ONLY public.tiltseries DROP CONSTRAINT IF EXISTS tiltseries_run_id_fkey;
+-- ALTER TABLE IF EXISTS ONLY public.runs DROP CONSTRAINT IF EXISTS runs_dataset_id_fkey;
+-- ALTER TABLE IF EXISTS ONLY public.deposition_authors DROP CONSTRAINT IF EXISTS deposition_authors_deposition_id_fkey;
+-- ALTER TABLE IF EXISTS ONLY public.dataset_funding DROP CONSTRAINT IF EXISTS dataset_funding_dataset_id_fkey;
+-- ALTER TABLE IF EXISTS ONLY public.dataset_authors DROP CONSTRAINT IF EXISTS dataset_authors_dataset_id_fkey;
+-- ALTER TABLE IF EXISTS ONLY public.annotations DROP CONSTRAINT IF EXISTS annotations_tomogram_voxel_spacing_id_fkey;
+-- ALTER TABLE IF EXISTS ONLY public.annotation_files DROP CONSTRAINT IF EXISTS annotation_files_annotation_id_fkey;
+-- ALTER TABLE IF EXISTS ONLY public.annotation_authors DROP CONSTRAINT IF EXISTS annotation_authors_annotation_id_fkey;
+-- DROP INDEX IF EXISTS public.tomograms_tomogram_voxel_spacing_id;
+-- DROP INDEX IF EXISTS public.tomograms_deposition_id;
+-- DROP INDEX IF EXISTS public.tomogram_voxel_spacing_run;
+-- DROP INDEX IF EXISTS public.tiltseries_run;
+-- DROP INDEX IF EXISTS public.tiltseries_deposition_id;
+-- DROP INDEX IF EXISTS public.depositions_type;
+-- DROP INDEX IF EXISTS public.dataset_funding_dataset;
+-- DROP INDEX IF EXISTS public.dataset_deposition_id;
+-- DROP INDEX IF EXISTS public.dataset_authors_dataset;
+-- DROP INDEX IF EXISTS public.annotations_tomogram_voxel_spacing;
+-- DROP INDEX IF EXISTS public.annotations_deposition_id;
+-- DROP INDEX IF EXISTS public.annotation_method;
+-- DROP INDEX IF EXISTS public.annotation_files_annotation_id;
+-- ALTER TABLE IF EXISTS ONLY public.tomograms DROP CONSTRAINT IF EXISTS tomograms_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.tomogram_voxel_spacings DROP CONSTRAINT IF EXISTS tomogram_voxel_spacing_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.tomogram_type DROP CONSTRAINT IF EXISTS tomogram_type_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.tomogram_authors DROP CONSTRAINT IF EXISTS tomogram_authors_tomogram_id_name_key;
+-- ALTER TABLE IF EXISTS ONLY public.tomogram_authors DROP CONSTRAINT IF EXISTS tomogram_authors_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.tiltseries DROP CONSTRAINT IF EXISTS tiltseries_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.runs DROP CONSTRAINT IF EXISTS runs_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.runs DROP CONSTRAINT IF EXISTS runs_dataset_id_name_key;
+-- ALTER TABLE IF EXISTS ONLY public.depositions DROP CONSTRAINT IF EXISTS depositions_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.deposition_authors DROP CONSTRAINT IF EXISTS deposition_authors_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.datasets DROP CONSTRAINT IF EXISTS datasets_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.dataset_funding DROP CONSTRAINT IF EXISTS dataset_funding_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.dataset_authors DROP CONSTRAINT IF EXISTS dataset_authors_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.annotations DROP CONSTRAINT IF EXISTS annotations_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.annotation_files DROP CONSTRAINT IF EXISTS annotation_files_shape_type_annotation_id_format_key;
+-- ALTER TABLE IF EXISTS ONLY public.annotation_files DROP CONSTRAINT IF EXISTS annotation_files_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.annotation_authors DROP CONSTRAINT IF EXISTS annotation_authors_pkey;
+-- ALTER TABLE IF EXISTS ONLY public.annotation_authors DROP CONSTRAINT IF EXISTS annotation_authors_annotation_id_name_key;
+-- ALTER TABLE IF EXISTS public.tomograms ALTER COLUMN id DROP DEFAULT;
+-- ALTER TABLE IF EXISTS public.tomogram_voxel_spacings ALTER COLUMN id DROP DEFAULT;
+-- ALTER TABLE IF EXISTS public.tomogram_authors ALTER COLUMN id DROP DEFAULT;
+-- ALTER TABLE IF EXISTS public.tiltseries ALTER COLUMN id DROP DEFAULT;
+-- ALTER TABLE IF EXISTS public.runs ALTER COLUMN id DROP DEFAULT;
+-- ALTER TABLE IF EXISTS public.depositions ALTER COLUMN id DROP DEFAULT;
+-- ALTER TABLE IF EXISTS public.deposition_authors ALTER COLUMN id DROP DEFAULT;
+-- ALTER TABLE IF EXISTS public.dataset_funding ALTER COLUMN id DROP DEFAULT;
+-- ALTER TABLE IF EXISTS public.dataset_authors ALTER COLUMN id DROP DEFAULT;
+-- ALTER TABLE IF EXISTS public.annotations ALTER COLUMN id DROP DEFAULT;
+-- ALTER TABLE IF EXISTS public.annotation_files ALTER COLUMN id DROP DEFAULT;
+-- ALTER TABLE IF EXISTS public.annotation_authors ALTER COLUMN id DROP DEFAULT;
+-- DROP SEQUENCE IF EXISTS public.tomograms_id_seq;
+-- DROP TABLE IF EXISTS public.tomograms;
+-- DROP SEQUENCE IF EXISTS public.tomogram_voxel_spacing_id_seq;
+-- DROP TABLE IF EXISTS public.tomogram_voxel_spacings;
+-- DROP TABLE IF EXISTS public.tomogram_type;
+-- DROP SEQUENCE IF EXISTS public.tomogram_authors_id_seq;
+-- DROP TABLE IF EXISTS public.tomogram_authors;
+-- DROP SEQUENCE IF EXISTS public.tiltseries_id_seq;
+-- DROP TABLE IF EXISTS public.tiltseries;
+-- DROP SEQUENCE IF EXISTS public.runs_id_seq;
+-- DROP TABLE IF EXISTS public.runs;
+-- DROP SEQUENCE IF EXISTS public.depositions_id_seq;
+-- DROP TABLE IF EXISTS public.depositions;
+-- DROP SEQUENCE IF EXISTS public.deposition_authors_id_seq;
+-- DROP TABLE IF EXISTS public.deposition_authors;
+-- DROP TABLE IF EXISTS public.datasets;
+-- DROP SEQUENCE IF EXISTS public.dataset_funding_id_seq;
+-- DROP TABLE IF EXISTS public.dataset_funding;
+-- DROP SEQUENCE IF EXISTS public.dataset_authors_id_seq;
+-- DROP TABLE IF EXISTS public.dataset_authors;
+-- DROP SEQUENCE IF EXISTS public.annotations_id_seq;
+-- DROP TABLE IF EXISTS public.annotations;
+-- DROP SEQUENCE IF EXISTS public.annotation_files_id_seq;
+-- DROP TABLE IF EXISTS public.annotation_files;
+-- DROP SEQUENCE IF EXISTS public.annotation_authors_id_seq;
+-- DROP TABLE IF EXISTS public.annotation_authors;
+-- DROP SCHEMA IF EXISTS public;
+-- --
+-- -- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+-- --
 
-CREATE SCHEMA public;
+-- CREATE SCHEMA public;
 
 
-ALTER SCHEMA public OWNER TO postgres;
+-- ALTER SCHEMA public OWNER TO postgres;
 
-SET default_tablespace = '';
+-- SET default_tablespace = '';
 
-SET default_table_access_method = heap;
+-- SET default_table_access_method = heap;
 
 --
 -- Name: annotation_authors; Type: TABLE; Schema: public; Owner: postgres
@@ -131,7 +131,7 @@ CREATE TABLE public.annotation_authors (
 );
 
 
-ALTER TABLE public.annotation_authors OWNER TO postgres;
+-- ALTER TABLE public.annotation_authors OWNER TO postgres;
 
 --
 -- Name: annotation_authors_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -146,7 +146,7 @@ CREATE SEQUENCE public.annotation_authors_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.annotation_authors_id_seq OWNER TO postgres;
+-- ALTER TABLE public.annotation_authors_id_seq OWNER TO postgres;
 
 --
 -- Name: annotation_authors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -170,7 +170,7 @@ CREATE TABLE public.annotation_files (
 );
 
 
-ALTER TABLE public.annotation_files OWNER TO postgres;
+-- ALTER TABLE public.annotation_files OWNER TO postgres;
 
 --
 -- Name: annotation_files_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -185,7 +185,7 @@ CREATE SEQUENCE public.annotation_files_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.annotation_files_id_seq OWNER TO postgres;
+-- ALTER TABLE public.annotation_files_id_seq OWNER TO postgres;
 
 --
 -- Name: annotation_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -225,7 +225,7 @@ CREATE TABLE public.annotations (
 );
 
 
-ALTER TABLE public.annotations OWNER TO postgres;
+-- ALTER TABLE public.annotations OWNER TO postgres;
 
 --
 -- Name: annotations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -240,7 +240,7 @@ CREATE SEQUENCE public.annotations_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.annotations_id_seq OWNER TO postgres;
+-- ALTER TABLE public.annotations_id_seq OWNER TO postgres;
 
 --
 -- Name: annotations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -268,7 +268,7 @@ CREATE TABLE public.dataset_authors (
 );
 
 
-ALTER TABLE public.dataset_authors OWNER TO postgres;
+-- ALTER TABLE public.dataset_authors OWNER TO postgres;
 
 --
 -- Name: dataset_authors_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -283,7 +283,7 @@ CREATE SEQUENCE public.dataset_authors_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.dataset_authors_id_seq OWNER TO postgres;
+-- ALTER TABLE public.dataset_authors_id_seq OWNER TO postgres;
 
 --
 -- Name: dataset_authors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -304,7 +304,7 @@ CREATE TABLE public.dataset_funding (
 );
 
 
-ALTER TABLE public.dataset_funding OWNER TO postgres;
+-- ALTER TABLE public.dataset_funding OWNER TO postgres;
 
 --
 -- Name: dataset_funding_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -319,7 +319,7 @@ CREATE SEQUENCE public.dataset_funding_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.dataset_funding_id_seq OWNER TO postgres;
+-- ALTER TABLE public.dataset_funding_id_seq OWNER TO postgres;
 
 --
 -- Name: dataset_funding_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -365,7 +365,7 @@ CREATE TABLE public.datasets (
 );
 
 
-ALTER TABLE public.datasets OWNER TO postgres;
+-- ALTER TABLE public.datasets OWNER TO postgres;
 
 --
 -- Name: deposition_authors; Type: TABLE; Schema: public; Owner: postgres
@@ -386,7 +386,7 @@ CREATE TABLE public.deposition_authors (
 );
 
 
-ALTER TABLE public.deposition_authors OWNER TO postgres;
+-- ALTER TABLE public.deposition_authors OWNER TO postgres;
 
 --
 -- Name: deposition_authors_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -401,7 +401,7 @@ CREATE SEQUENCE public.deposition_authors_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.deposition_authors_id_seq OWNER TO postgres;
+-- ALTER TABLE public.deposition_authors_id_seq OWNER TO postgres;
 
 --
 -- Name: deposition_authors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -431,7 +431,7 @@ CREATE TABLE public.depositions (
 );
 
 
-ALTER TABLE public.depositions OWNER TO postgres;
+-- ALTER TABLE public.depositions OWNER TO postgres;
 
 --
 -- Name: depositions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -446,7 +446,7 @@ CREATE SEQUENCE public.depositions_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.depositions_id_seq OWNER TO postgres;
+-- ALTER TABLE public.depositions_id_seq OWNER TO postgres;
 
 --
 -- Name: depositions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -468,7 +468,7 @@ CREATE TABLE public.runs (
 );
 
 
-ALTER TABLE public.runs OWNER TO postgres;
+-- ALTER TABLE public.runs OWNER TO postgres;
 
 --
 -- Name: runs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -483,7 +483,7 @@ CREATE SEQUENCE public.runs_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.runs_id_seq OWNER TO postgres;
+-- ALTER TABLE public.runs_id_seq OWNER TO postgres;
 
 --
 -- Name: runs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -538,7 +538,7 @@ CREATE TABLE public.tiltseries (
 );
 
 
-ALTER TABLE public.tiltseries OWNER TO postgres;
+-- ALTER TABLE public.tiltseries OWNER TO postgres;
 
 --
 -- Name: tiltseries_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -553,7 +553,7 @@ CREATE SEQUENCE public.tiltseries_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.tiltseries_id_seq OWNER TO postgres;
+-- ALTER TABLE public.tiltseries_id_seq OWNER TO postgres;
 
 --
 -- Name: tiltseries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -581,7 +581,7 @@ CREATE TABLE public.tomogram_authors (
 );
 
 
-ALTER TABLE public.tomogram_authors OWNER TO postgres;
+-- ALTER TABLE public.tomogram_authors OWNER TO postgres;
 
 --
 -- Name: tomogram_authors_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -596,7 +596,7 @@ CREATE SEQUENCE public.tomogram_authors_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.tomogram_authors_id_seq OWNER TO postgres;
+-- ALTER TABLE public.tomogram_authors_id_seq OWNER TO postgres;
 
 --
 -- Name: tomogram_authors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -615,7 +615,7 @@ CREATE TABLE public.tomogram_type (
 );
 
 
-ALTER TABLE public.tomogram_type OWNER TO postgres;
+-- ALTER TABLE public.tomogram_type OWNER TO postgres;
 
 --
 -- Name: tomogram_voxel_spacings; Type: TABLE; Schema: public; Owner: postgres
@@ -630,7 +630,7 @@ CREATE TABLE public.tomogram_voxel_spacings (
 );
 
 
-ALTER TABLE public.tomogram_voxel_spacings OWNER TO postgres;
+-- ALTER TABLE public.tomogram_voxel_spacings OWNER TO postgres;
 
 --
 -- Name: tomogram_voxel_spacing_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -645,7 +645,7 @@ CREATE SEQUENCE public.tomogram_voxel_spacing_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.tomogram_voxel_spacing_id_seq OWNER TO postgres;
+-- ALTER TABLE public.tomogram_voxel_spacing_id_seq OWNER TO postgres;
 
 --
 -- Name: tomogram_voxel_spacing_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -693,7 +693,7 @@ CREATE TABLE public.tomograms (
 );
 
 
-ALTER TABLE public.tomograms OWNER TO postgres;
+-- ALTER TABLE public.tomograms OWNER TO postgres;
 
 --
 -- Name: tomograms_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -708,7 +708,7 @@ CREATE SEQUENCE public.tomograms_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.tomograms_id_seq OWNER TO postgres;
+-- ALTER TABLE public.tomograms_id_seq OWNER TO postgres;
 
 --
 -- Name: tomograms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
