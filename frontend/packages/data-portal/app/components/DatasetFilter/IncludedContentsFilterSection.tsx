@@ -27,7 +27,11 @@ const NUMBER_OF_RUN_OPTIONS: NumberOfRunsFilterOption[] = [
 const AVAILABLE_FILES_CLASS_NAME = 'select-available-files'
 const MEETS_ALL_LABEL_ID = 'meets-all'
 
-export function IncludedContentsFilterSection() {
+export function IncludedContentsFilterSection({
+  depositionPageVariant,
+}: {
+  depositionPageVariant?: boolean
+}) {
   const {
     updateValue,
     includedContents: { availableFiles, numberOfRuns },
@@ -95,7 +99,9 @@ export function IncludedContentsFilterSection() {
 
   return (
     <FilterSection title={i18n.includedContents}>
-      <GroundTruthAnnotationFilter />
+      <GroundTruthAnnotationFilter
+        depositionPageVariant={depositionPageVariant}
+      />
 
       <SelectFilter
         multiple
@@ -120,6 +126,13 @@ export function IncludedContentsFilterSection() {
             QueryParams.NumberOfRuns,
             option ? JSON.stringify(option.value) : null,
           )
+        }
+        details={
+          depositionPageVariant ? (
+            <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-500">
+              {t('withDepositionData')}
+            </p>
+          ) : undefined
         }
       />
     </FilterSection>

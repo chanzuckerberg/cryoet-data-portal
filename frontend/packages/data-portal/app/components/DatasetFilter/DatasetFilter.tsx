@@ -1,6 +1,6 @@
+import { ErrorBoundary } from 'app/components/ErrorBoundary'
 import { FilterPanel } from 'app/components/Filters'
 
-import { ErrorBoundary } from '../ErrorBoundary'
 import { AnnotationMetadataFilterSection } from './AnnotationMetadataFilterSection'
 import { HardwareFilterSection } from './HardwareFilterSection'
 import { IncludedContentsFilterSection } from './IncludedContentsFilterSection'
@@ -9,11 +9,19 @@ import { SampleAndExperimentFilterSection } from './SampleAndExperimentFilterSec
 import { TiltSeriesMetadataFilterSection } from './TiltSeriesMetadataFilterSection'
 import { TomogramMetadataFilterSection } from './TomogramMetadataFilterSection'
 
-export function DatasetFilter() {
+export function DatasetFilter({
+  depositionPageVariant,
+}: {
+  depositionPageVariant?: boolean
+}) {
   const filters = [
     {
       logId: 'included-contents-filter',
-      filter: <IncludedContentsFilterSection />,
+      filter: (
+        <IncludedContentsFilterSection
+          depositionPageVariant={depositionPageVariant}
+        />
+      ),
     },
     {
       logId: 'name-or-id-filter',
@@ -37,7 +45,11 @@ export function DatasetFilter() {
     },
     {
       logId: 'annotation-metadata-filter',
-      filter: <AnnotationMetadataFilterSection />,
+      filter: (
+        <AnnotationMetadataFilterSection
+          depositionPageVariant={depositionPageVariant}
+        />
+      ),
     },
   ]
 
