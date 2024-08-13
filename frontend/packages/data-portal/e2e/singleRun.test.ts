@@ -12,7 +12,7 @@ test.describe('Single run page: ', () => {
     await page.goToPage()
   })
 
-  /** This test ensures that the following test is not a false negative. */
+  /** This test ensures that the test after it is not a false negative. */
   test('Invalid Neuroglancer URL results in error on Neuroglancer page', async () => {
     await page.goTo(
       (await page.getPrimaryViewTomogramButton().getAttribute('href'))!.replace(
@@ -22,7 +22,7 @@ test.describe('Single run page: ', () => {
     )
 
     await expect(neuroglancerPage.findViewer()).toBeVisible()
-    await expect(neuroglancerPage.findErrorText()).toBeVisible()
+    await expect(neuroglancerPage.findErrorText()).toHaveCount(1)
   })
 
   test('Neuroglancer URL does not result in error on Neuroglancer page', async () => {
