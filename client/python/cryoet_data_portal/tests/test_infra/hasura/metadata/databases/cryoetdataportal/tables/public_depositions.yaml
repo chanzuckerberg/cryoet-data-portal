@@ -1,0 +1,28 @@
+table:
+  name: depositions
+  schema: public
+array_relationships:
+  - name: authors
+    using:
+      foreign_key_constraint_on:
+        column: deposition_id
+        table:
+          name: deposition_authors
+          schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - deposition_date
+        - deposition_publications
+        - deposition_types
+        - description
+        - https_prefix
+        - id
+        - last_modified_date
+        - related_database_entries
+        - release_date
+        - s3_prefix
+        - title
+      filter: {}
+      allow_aggregations: true
