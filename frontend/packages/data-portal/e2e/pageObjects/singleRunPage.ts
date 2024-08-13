@@ -3,6 +3,7 @@ import { SINGLE_RUN_URL } from 'e2e/constants'
 
 import { BasePage } from './basePage'
 
+/** /runs/$id */
 export class SingleRunPage extends BasePage {
   async goToPage() {
     await this.goTo(SINGLE_RUN_URL)
