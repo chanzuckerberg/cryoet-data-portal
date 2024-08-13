@@ -14,13 +14,6 @@ test.describe('Single run page: ', () => {
 
   /** This test ensures that the test after it is not a false negative. */
   test('Invalid Neuroglancer URL results in error on Neuroglancer page', async () => {
-    // const url = (await page
-    //   .getPrimaryViewTomogramButton()
-    //   .getAttribute('href'))!.replace('#!', "#!'")
-    // await page.page.evaluate(() => {
-    //   document.location.href = url
-    // })
-    await page.page.goto('http://youtube.com')
     await page.goTo(
       (await page.getPrimaryViewTomogramButton().getAttribute('href'))!.replace(
         '#!',
