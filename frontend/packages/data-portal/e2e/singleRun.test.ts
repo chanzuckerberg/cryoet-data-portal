@@ -20,7 +20,7 @@ test.describe('Single run page: ', () => {
     // await page.page.evaluate(() => {
     //   document.location.href = url
     // })
-    await page.page.goto('http://google.com')
+    await page.page.goto('http://youtube.com')
     await page.goTo(
       (await page.getPrimaryViewTomogramButton().getAttribute('href'))!.replace(
         '#!',
