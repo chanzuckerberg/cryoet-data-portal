@@ -38,6 +38,9 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
+        launchOptions: {
+          args: ['--use-gl=egl', '--ignore-gpu-blocklist', '--use-gl=angle'],
+        },
 
         contextOptions: {
           permissions: ['clipboard-read', 'clipboard-write'],
