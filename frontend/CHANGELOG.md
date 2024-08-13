@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.19.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.19.0...web-v1.19.1) (2024-08-13)
+
+
+### 🐞 Bug Fixes
+
+* Dedupe authors ([#1018](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1018)) ([bdbc034](https://github.com/chanzuckerberg/cryoet-data-portal/commit/bdbc034dd20d9db42536e8a84e312545148e6a55)), closes [#752](https://github.com/chanzuckerberg/cryoet-data-portal/issues/752)
+* Fix Neuroglancer URL bug ([#1026](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1026)) ([377d6dc](https://github.com/chanzuckerberg/cryoet-data-portal/commit/377d6dcd38870190601ac28d8ddd695f2e8adfb5)), closes [#1025](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1025)
+
 ## [1.19.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.18.0...web-v1.19.0) (2024-08-12)
 
 
