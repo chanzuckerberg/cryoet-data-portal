@@ -716,38 +716,54 @@ class Deposition(Model):
     """Deposition metadata
 
     Attributes:
+        annotations (List[Annotation]): The annotations of this deposition
         authors (List[DepositionAuthor]): The deposition authors of this deposition
+        dataset (List[Dataset]): The datasets of this deposition
         deposition_date (date): The date the deposition was deposited
         deposition_publications (str): The publications related to this deposition
         deposition_types (str): The types of data submitted as a part of this deposition
         description (str): Description for the deposition
         https_prefix (str): The https directory path where data about this deposition is contained
         id (int): Numeric identifier for this depositions
+        key_photo_thumbnail_url (str): URL for the deposition thumbnail image.
+        key_photo_url (str): URL for the deposition preview image.
         last_modified_date (date): The date the deposition was last modified
         related_database_entries (str): The related database entries to this deposition
         release_date (date): The date the deposition was released
         s3_prefix (str): The S3 public bucket path where data about this deposition is contained
+        tiltseries (List[TiltSeries]): The tilt series of this deposition
         title (str): Title for the deposition
+        tomograms (List[Tomogram]): The tomograms of this deposition
     """
 
     _gql_type: str = "depositions"
 
+    annotations: List[Annotation] = ListRelationship(
+        "Annotation",
+        "id",
+        "deposition_id",
+    )
     authors: List[DepositionAuthor] = ListRelationship(
         "DepositionAuthor",
         "id",
         "deposition_id",
     )
+    dataset: List[Dataset] = ListRelationship("Dataset", "id", "deposition_id")
     deposition_date: date = DateField()
     deposition_publications: str = StringField()
     deposition_types: str = StringField()
     description: str = StringField()
     https_prefix: str = StringField()
     id: int = IntField()
+    key_photo_thumbnail_url: str = StringField()
+    key_photo_url: str = StringField()
     last_modified_date: date = DateField()
     related_database_entries: str = StringField()
     release_date: date = DateField()
     s3_prefix: str = StringField()
+    tiltseries: List[TiltSeries] = ListRelationship("TiltSeries", "id", "deposition_id")
     title: str = StringField()
+    tomograms: List[Tomogram] = ListRelationship("Tomogram", "id", "deposition_id")
 
 
 class DepositionAuthor(Model):

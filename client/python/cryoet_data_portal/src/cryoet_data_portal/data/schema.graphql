@@ -3404,6 +3404,17 @@ type datasets_aggregate {
   nodes: [datasets!]!
 }
 
+input datasets_aggregate_bool_exp {
+  count: datasets_aggregate_bool_exp_count
+}
+
+input datasets_aggregate_bool_exp_count {
+  arguments: [datasets_select_column!]
+  distinct: Boolean
+  filter: datasets_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "datasets"
 """
@@ -3421,6 +3432,23 @@ type datasets_aggregate_fields {
   variance: datasets_variance_fields
 }
 
+"""
+order by aggregate values of table "datasets"
+"""
+input datasets_aggregate_order_by {
+  avg: datasets_avg_order_by
+  count: order_by
+  max: datasets_max_order_by
+  min: datasets_min_order_by
+  stddev: datasets_stddev_order_by
+  stddev_pop: datasets_stddev_pop_order_by
+  stddev_samp: datasets_stddev_samp_order_by
+  sum: datasets_sum_order_by
+  var_pop: datasets_var_pop_order_by
+  var_samp: datasets_var_samp_order_by
+  variance: datasets_variance_order_by
+}
+
 """aggregate avg on columns"""
 type datasets_avg_fields {
   """Reference to the deposition this dataset is associated with"""
@@ -3430,6 +3458,19 @@ type datasets_avg_fields {
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
   id: Float
+}
+
+"""
+order by avg() on columns of table "datasets"
+"""
+input datasets_avg_order_by {
+  """Reference to the deposition this dataset is associated with"""
+  deposition_id: order_by
+
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: order_by
 }
 
 """
@@ -3591,6 +3632,122 @@ type datasets_max_fields {
   title: String
 }
 
+"""
+order by max() on columns of table "datasets"
+"""
+input datasets_max_order_by {
+  """
+  If the dataset focuses on a specific part of a cell, the subset is included here
+  """
+  cell_component_id: order_by
+
+  """Name of the cellular component"""
+  cell_component_name: order_by
+
+  """
+  Name of the cell from which a biological sample used in a CryoET study is derived from.
+  """
+  cell_name: order_by
+
+  """Link to more information about the cell strain"""
+  cell_strain_id: order_by
+
+  """Cell line or strain for the sample."""
+  cell_strain_name: order_by
+
+  """Cell Ontology identifier for the cell type"""
+  cell_type_id: order_by
+
+  """
+  DOIs for publications that cite the dataset. Use a comma to separate multiple DOIs.
+  """
+  dataset_citations: order_by
+
+  """
+  DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
+  """
+  dataset_publications: order_by
+
+  """Date when a dataset is initially received by the Data Portal."""
+  deposition_date: order_by
+
+  """Reference to the deposition this dataset is associated with"""
+  deposition_id: order_by
+
+  """
+  A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
+  """
+  description: order_by
+
+  """Describe Cryo-ET grid preparation."""
+  grid_preparation: order_by
+
+  """The https directory path where this dataset is contained"""
+  https_prefix: order_by
+
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: order_by
+
+  """URL for the thumbnail of preview image."""
+  key_photo_thumbnail_url: order_by
+
+  """URL for the dataset preview image."""
+  key_photo_url: order_by
+
+  """Date when a released dataset is last modified."""
+  last_modified_date: order_by
+
+  """
+  Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
+  """
+  organism_name: order_by
+
+  """NCBI taxonomy identifier for the organism, e.g. 9606"""
+  organism_taxid: order_by
+
+  """
+  Describe other setup not covered by sample preparation or grid preparation that may make this dataset unique in  the same publication
+  """
+  other_setup: order_by
+
+  """
+  If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
+  """
+  related_database_entries: order_by
+
+  """
+  If a CryoET dataset is also deposited into another database, e.g. EMPIAR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/). Use a comma to separate multiple links.
+  """
+  related_database_links: order_by
+
+  """Date when a dataset is made available on the Data Portal."""
+  release_date: order_by
+
+  """The S3 public bucket path where this dataset is contained"""
+  s3_prefix: order_by
+
+  """Describe how the sample was prepared."""
+  sample_preparation: order_by
+
+  """
+  Type of samples used in a CryoET study. (cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other)
+  """
+  sample_type: order_by
+
+  """UBERON identifier for the tissue"""
+  tissue_id: order_by
+
+  """
+  Name of the tissue from which a biological sample used in a CryoET study is derived from.
+  """
+  tissue_name: order_by
+
+  """Title of a CryoET dataset"""
+  title: order_by
+}
+
 """aggregate min on columns"""
 type datasets_min_fields {
   """
@@ -3703,6 +3860,122 @@ type datasets_min_fields {
 
   """Title of a CryoET dataset"""
   title: String
+}
+
+"""
+order by min() on columns of table "datasets"
+"""
+input datasets_min_order_by {
+  """
+  If the dataset focuses on a specific part of a cell, the subset is included here
+  """
+  cell_component_id: order_by
+
+  """Name of the cellular component"""
+  cell_component_name: order_by
+
+  """
+  Name of the cell from which a biological sample used in a CryoET study is derived from.
+  """
+  cell_name: order_by
+
+  """Link to more information about the cell strain"""
+  cell_strain_id: order_by
+
+  """Cell line or strain for the sample."""
+  cell_strain_name: order_by
+
+  """Cell Ontology identifier for the cell type"""
+  cell_type_id: order_by
+
+  """
+  DOIs for publications that cite the dataset. Use a comma to separate multiple DOIs.
+  """
+  dataset_citations: order_by
+
+  """
+  DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
+  """
+  dataset_publications: order_by
+
+  """Date when a dataset is initially received by the Data Portal."""
+  deposition_date: order_by
+
+  """Reference to the deposition this dataset is associated with"""
+  deposition_id: order_by
+
+  """
+  A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
+  """
+  description: order_by
+
+  """Describe Cryo-ET grid preparation."""
+  grid_preparation: order_by
+
+  """The https directory path where this dataset is contained"""
+  https_prefix: order_by
+
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: order_by
+
+  """URL for the thumbnail of preview image."""
+  key_photo_thumbnail_url: order_by
+
+  """URL for the dataset preview image."""
+  key_photo_url: order_by
+
+  """Date when a released dataset is last modified."""
+  last_modified_date: order_by
+
+  """
+  Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
+  """
+  organism_name: order_by
+
+  """NCBI taxonomy identifier for the organism, e.g. 9606"""
+  organism_taxid: order_by
+
+  """
+  Describe other setup not covered by sample preparation or grid preparation that may make this dataset unique in  the same publication
+  """
+  other_setup: order_by
+
+  """
+  If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
+  """
+  related_database_entries: order_by
+
+  """
+  If a CryoET dataset is also deposited into another database, e.g. EMPIAR, enter the database identifier here (e.g.https://www.ebi.ac.uk/empiar/EMPIAR-12345/). Use a comma to separate multiple links.
+  """
+  related_database_links: order_by
+
+  """Date when a dataset is made available on the Data Portal."""
+  release_date: order_by
+
+  """The S3 public bucket path where this dataset is contained"""
+  s3_prefix: order_by
+
+  """Describe how the sample was prepared."""
+  sample_preparation: order_by
+
+  """
+  Type of samples used in a CryoET study. (cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other)
+  """
+  sample_type: order_by
+
+  """UBERON identifier for the tissue"""
+  tissue_id: order_by
+
+  """
+  Name of the tissue from which a biological sample used in a CryoET study is derived from.
+  """
+  tissue_name: order_by
+
+  """Title of a CryoET dataset"""
+  title: order_by
 }
 
 """Ordering options when selecting data from "datasets"."""
@@ -3845,6 +4118,19 @@ type datasets_stddev_fields {
   id: Float
 }
 
+"""
+order by stddev() on columns of table "datasets"
+"""
+input datasets_stddev_order_by {
+  """Reference to the deposition this dataset is associated with"""
+  deposition_id: order_by
+
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: order_by
+}
+
 """aggregate stddev_pop on columns"""
 type datasets_stddev_pop_fields {
   """Reference to the deposition this dataset is associated with"""
@@ -3854,6 +4140,19 @@ type datasets_stddev_pop_fields {
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
   id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "datasets"
+"""
+input datasets_stddev_pop_order_by {
+  """Reference to the deposition this dataset is associated with"""
+  deposition_id: order_by
+
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: order_by
 }
 
 """aggregate stddev_samp on columns"""
@@ -3867,6 +4166,19 @@ type datasets_stddev_samp_fields {
   id: Float
 }
 
+"""
+order by stddev_samp() on columns of table "datasets"
+"""
+input datasets_stddev_samp_order_by {
+  """Reference to the deposition this dataset is associated with"""
+  deposition_id: order_by
+
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: order_by
+}
+
 """aggregate sum on columns"""
 type datasets_sum_fields {
   """Reference to the deposition this dataset is associated with"""
@@ -3876,6 +4188,19 @@ type datasets_sum_fields {
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
   id: Int
+}
+
+"""
+order by sum() on columns of table "datasets"
+"""
+input datasets_sum_order_by {
+  """Reference to the deposition this dataset is associated with"""
+  deposition_id: order_by
+
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: order_by
 }
 
 """aggregate var_pop on columns"""
@@ -3889,6 +4214,19 @@ type datasets_var_pop_fields {
   id: Float
 }
 
+"""
+order by var_pop() on columns of table "datasets"
+"""
+input datasets_var_pop_order_by {
+  """Reference to the deposition this dataset is associated with"""
+  deposition_id: order_by
+
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: order_by
+}
+
 """aggregate var_samp on columns"""
 type datasets_var_samp_fields {
   """Reference to the deposition this dataset is associated with"""
@@ -3900,6 +4238,19 @@ type datasets_var_samp_fields {
   id: Float
 }
 
+"""
+order by var_samp() on columns of table "datasets"
+"""
+input datasets_var_samp_order_by {
+  """Reference to the deposition this dataset is associated with"""
+  deposition_id: order_by
+
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: order_by
+}
+
 """aggregate variance on columns"""
 type datasets_variance_fields {
   """Reference to the deposition this dataset is associated with"""
@@ -3909,6 +4260,19 @@ type datasets_variance_fields {
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
   id: Float
+}
+
+"""
+order by variance() on columns of table "datasets"
+"""
+input datasets_variance_order_by {
+  """Reference to the deposition this dataset is associated with"""
+  deposition_id: order_by
+
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
+  id: order_by
 }
 
 scalar date
@@ -4527,6 +4891,42 @@ input deposition_authors_variance_order_by {
 """Deposition metadata"""
 type depositions {
   """An array relationship"""
+  annotations(
+    """distinct select on columns"""
+    distinct_on: [annotations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotations_order_by!]
+
+    """filter the rows returned"""
+    where: annotations_bool_exp
+  ): [annotations!]!
+
+  """An aggregate relationship"""
+  annotations_aggregate(
+    """distinct select on columns"""
+    distinct_on: [annotations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [annotations_order_by!]
+
+    """filter the rows returned"""
+    where: annotations_bool_exp
+  ): annotations_aggregate!
+
+  """An array relationship"""
   authors(
     """distinct select on columns"""
     distinct_on: [deposition_authors_select_column!]
@@ -4562,6 +4962,42 @@ type depositions {
     where: deposition_authors_bool_exp
   ): deposition_authors_aggregate!
 
+  """An array relationship"""
+  dataset(
+    """distinct select on columns"""
+    distinct_on: [datasets_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [datasets_order_by!]
+
+    """filter the rows returned"""
+    where: datasets_bool_exp
+  ): [datasets!]!
+
+  """An aggregate relationship"""
+  dataset_aggregate(
+    """distinct select on columns"""
+    distinct_on: [datasets_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [datasets_order_by!]
+
+    """filter the rows returned"""
+    where: datasets_bool_exp
+  ): datasets_aggregate!
+
   """The date the deposition was deposited"""
   deposition_date: date!
 
@@ -4580,6 +5016,12 @@ type depositions {
   """Numeric identifier for this depositions"""
   id: Int!
 
+  """URL for the deposition thumbnail image."""
+  key_photo_thumbnail_url: String
+
+  """URL for the deposition preview image."""
+  key_photo_url: String
+
   """The date the deposition was last modified"""
   last_modified_date: date!
 
@@ -4594,8 +5036,80 @@ type depositions {
   """
   s3_prefix: String
 
+  """An array relationship"""
+  tiltseries(
+    """distinct select on columns"""
+    distinct_on: [tiltseries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tiltseries_order_by!]
+
+    """filter the rows returned"""
+    where: tiltseries_bool_exp
+  ): [tiltseries!]!
+
+  """An aggregate relationship"""
+  tiltseries_aggregate(
+    """distinct select on columns"""
+    distinct_on: [tiltseries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tiltseries_order_by!]
+
+    """filter the rows returned"""
+    where: tiltseries_bool_exp
+  ): tiltseries_aggregate!
+
   """Title for the deposition"""
   title: String!
+
+  """An array relationship"""
+  tomograms(
+    """distinct select on columns"""
+    distinct_on: [tomograms_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomograms_order_by!]
+
+    """filter the rows returned"""
+    where: tomograms_bool_exp
+  ): [tomograms!]!
+
+  """An aggregate relationship"""
+  tomograms_aggregate(
+    """distinct select on columns"""
+    distinct_on: [tomograms_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [tomograms_order_by!]
+
+    """filter the rows returned"""
+    where: tomograms_bool_exp
+  ): tomograms_aggregate!
 }
 
 """
@@ -4636,19 +5150,29 @@ input depositions_bool_exp {
   _and: [depositions_bool_exp!]
   _not: depositions_bool_exp
   _or: [depositions_bool_exp!]
+  annotations: annotations_bool_exp
+  annotations_aggregate: annotations_aggregate_bool_exp
   authors: deposition_authors_bool_exp
   authors_aggregate: deposition_authors_aggregate_bool_exp
+  dataset: datasets_bool_exp
+  dataset_aggregate: datasets_aggregate_bool_exp
   deposition_date: date_comparison_exp
   deposition_publications: String_comparison_exp
   deposition_types: String_comparison_exp
   description: String_comparison_exp
   https_prefix: String_comparison_exp
   id: Int_comparison_exp
+  key_photo_thumbnail_url: String_comparison_exp
+  key_photo_url: String_comparison_exp
   last_modified_date: date_comparison_exp
   related_database_entries: String_comparison_exp
   release_date: date_comparison_exp
   s3_prefix: String_comparison_exp
+  tiltseries: tiltseries_bool_exp
+  tiltseries_aggregate: tiltseries_aggregate_bool_exp
   title: String_comparison_exp
+  tomograms: tomograms_bool_exp
+  tomograms_aggregate: tomograms_aggregate_bool_exp
 }
 
 """aggregate max on columns"""
@@ -4670,6 +5194,12 @@ type depositions_max_fields {
 
   """Numeric identifier for this depositions"""
   id: Int
+
+  """URL for the deposition thumbnail image."""
+  key_photo_thumbnail_url: String
+
+  """URL for the deposition preview image."""
+  key_photo_url: String
 
   """The date the deposition was last modified"""
   last_modified_date: date
@@ -4709,6 +5239,12 @@ type depositions_min_fields {
   """Numeric identifier for this depositions"""
   id: Int
 
+  """URL for the deposition thumbnail image."""
+  key_photo_thumbnail_url: String
+
+  """URL for the deposition preview image."""
+  key_photo_url: String
+
   """The date the deposition was last modified"""
   last_modified_date: date
 
@@ -4729,18 +5265,24 @@ type depositions_min_fields {
 
 """Ordering options when selecting data from "depositions"."""
 input depositions_order_by {
+  annotations_aggregate: annotations_aggregate_order_by
   authors_aggregate: deposition_authors_aggregate_order_by
+  dataset_aggregate: datasets_aggregate_order_by
   deposition_date: order_by
   deposition_publications: order_by
   deposition_types: order_by
   description: order_by
   https_prefix: order_by
   id: order_by
+  key_photo_thumbnail_url: order_by
+  key_photo_url: order_by
   last_modified_date: order_by
   related_database_entries: order_by
   release_date: order_by
   s3_prefix: order_by
+  tiltseries_aggregate: tiltseries_aggregate_order_by
   title: order_by
+  tomograms_aggregate: tomograms_aggregate_order_by
 }
 
 """
@@ -4764,6 +5306,12 @@ enum depositions_select_column {
 
   """column name"""
   id
+
+  """column name"""
+  key_photo_thumbnail_url
+
+  """column name"""
+  key_photo_url
 
   """column name"""
   last_modified_date
@@ -4829,6 +5377,12 @@ input depositions_stream_cursor_value_input {
 
   """Numeric identifier for this depositions"""
   id: Int
+
+  """URL for the deposition thumbnail image."""
+  key_photo_thumbnail_url: String
+
+  """URL for the deposition preview image."""
+  key_photo_url: String
 
   """The date the deposition was last modified"""
   last_modified_date: date

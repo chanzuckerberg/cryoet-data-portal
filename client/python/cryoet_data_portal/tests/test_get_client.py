@@ -9,6 +9,9 @@ def test_relationships(client) -> None:
     depo = ds.deposition
     assert depo
     assert depo.authors.pop()
+    assert depo.dataset.pop()
+    assert depo.tomograms.pop()
+    assert depo.annotations.pop()
     run = Run.find(client, [Run.dataset.id == ds.id]).pop()
     assert run
     assert run.dataset_id == ds.id
