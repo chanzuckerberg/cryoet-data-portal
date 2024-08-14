@@ -62,8 +62,8 @@ test.describe('Single run page: ', () => {
       await expect(
         page
           .findAnnotatedObjectsCell()
-          .locator(
-            `:has-text("Show ${
+          .getByText(
+            `Show ${
               response.length - (await page.findAnnotatedObjectsTexts()).length
             } More")`,
           ),
@@ -76,7 +76,7 @@ test.describe('Single run page: ', () => {
         response.length,
       )
       await expect(
-        page.findAnnotatedObjectsCell().locator('Show less'),
+        page.findAnnotatedObjectsCell().getByText('Show less'),
       ).toBeVisible()
 
       await page.findAnnotatedObjectsCollapseToggle().click()
