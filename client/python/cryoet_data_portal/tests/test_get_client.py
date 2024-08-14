@@ -6,6 +6,9 @@ def test_relationships(client) -> None:
     ds = datasets.pop()
     assert ds
     assert ds.authors.pop()
+    depo = ds.deposition
+    assert depo
+    assert depo.authors.pop()
     run = Run.find(client, [Run.dataset.id == ds.id]).pop()
     assert run
     assert run.dataset_id == ds.id
