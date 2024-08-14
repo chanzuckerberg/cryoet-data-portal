@@ -77,17 +77,13 @@ export function getAnnotationRowCountFromData({
   singleRunData: GetRunByIdQuery
 }): RowCounterType {
   const rowCounter: RowCounterType = {}
-  singleRunData.runs
-    .at(0)
-    ?.annotation_table.at(0)
-    ?.annotations.reduce((counter, annotation) => {
-      const objectShapeTypes = new Set()
-      for (const file of annotation.files) {
-        objectShapeTypes.add(file.shape_type)
-      }
-      counter[annotation.id] = objectShapeTypes.size
-      return counter
-    }, rowCounter)
+  for (const file of singleRunData.annotation_files) {
+    if (rowCounter[file.annotation.id] === undefined) {
+      rowCounter[file.annotation.id] = 1
+    } else {
+      rowCounter[file.annotation.id] += 1
+    }
+  }
   return rowCounter
 }
 // #endregion runPage

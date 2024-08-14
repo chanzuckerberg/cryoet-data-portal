@@ -6,7 +6,7 @@ import { isFiducial } from 'app/utils/tomograms'
 
 import { Matrix4x4 } from './Matrix4x4'
 
-export function TomogramsTable() {
+export function TomogramsMetadataSection() {
   const { run } = useRunById()
 
   const tomo = run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
