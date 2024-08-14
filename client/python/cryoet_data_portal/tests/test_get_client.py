@@ -37,10 +37,13 @@ def test_relationships_reverse(client) -> None:
 
     assert tomo_author.tomogram
     assert tomo.tomogram_voxel_spacing
+    assert tomo.deposition
     assert anno_author.annotation
     assert anno_file.annotation
     assert anno.tomogram_voxel_spacing
+    assert anno.deposition
     assert vs.run
     assert ts.run
+    assert ts.deposition
     assert ds_author.dataset
     assert run.dataset

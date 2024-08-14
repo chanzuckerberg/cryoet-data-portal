@@ -2,6 +2,15 @@ table:
   name: tomograms
   schema: public
 object_relationships:
+  - name: deposition
+    using:
+      manual_configuration:
+        column_mapping:
+          deposition_id: id
+        insertion_order: null
+        remote_table:
+          name: depositions
+          schema: public
   - name: tomogram_type
     using:
       foreign_key_constraint_on: type
