@@ -13,8 +13,8 @@ export interface CollapsibleListProps {
   entries?: ListEntry[]
 
   // Number of items displayed when collapsed.
-  // Collapse triggers when entries has 2 more items than collapseAfter, so minimum "Show _ more"
-  // value is 2.
+  // Collapse triggers when entries has >= collapseAfter + 2 items, so minimum "Show _ more" value
+  // is 2.
   collapseAfter?: number
 
   inlineVariant?: boolean

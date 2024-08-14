@@ -65,7 +65,7 @@ test.describe('Single run page: ', () => {
           .locator(
             `:has-text("Show ${
               response.length - (await page.findAnnotatedObjectsTexts()).length
-            } more")`,
+            } More")`,
           ),
       ).toBeVisible()
 
