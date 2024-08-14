@@ -65,7 +65,7 @@ test.describe('Single run page: ', () => {
           .getByText(
             `Show ${
               response.length - (await page.findAnnotatedObjectsTexts()).length
-            } More")`,
+            } More`,
           ),
       ).toBeVisible()
 
