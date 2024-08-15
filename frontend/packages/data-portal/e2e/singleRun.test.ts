@@ -1,10 +1,7 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { expect, test } from '@playwright/test'
 
-import { getRunById } from 'app/graphql/getRunById.server'
-
 import { getApolloClient } from './apollo'
-import { E2E_CONFIG } from './constants'
 import { NeuroglancerPage } from './pageObjects/neuroglancerPage'
 import { SingleRunPage } from './pageObjects/singleRunPage'
 
@@ -12,10 +9,12 @@ test.describe('Single run page: ', () => {
   let client: ApolloClient<NormalizedCacheObject>
   let page: SingleRunPage
   let neuroglancerPage: NeuroglancerPage
+
   test.beforeEach(async ({ page: playwrightPage }) => {
     client = getApolloClient()
-    page = new SingleRunPage(playwrightPage)
+    page = new SingleRunPage(playwrightPage, client)
     neuroglancerPage = new NeuroglancerPage(playwrightPage)
+
     await page.goToPage()
   })
 
@@ -41,16 +40,24 @@ test.describe('Single run page: ', () => {
     await expect(neuroglancerPage.findErrorText()).toHaveCount(0)
   })
 
+  test('Processing methods displayed', async () => {
+    const response = (
+      await page.loadData()
+    ).data.tomograms_for_distinct_processing_methods.map(
+      (tomogram) => tomogram.processing,
+    )
+
+    expect(
+      (await page.findProcessingMethodsCell().textContent())!
+        .toLowerCase()
+        .split(','),
+    ).toEqual(response)
+  })
+
   test('Annotated Objects collapse after 7 items', async () => {
     const response = Array.from(
       new Set(
-        (
-          await getRunById({
-            client,
-            id: Number(E2E_CONFIG.runId),
-            annotationsPage: 1,
-          })
-        ).data.runs[0].tomogram_stats
+        (await page.loadData()).data.runs[0].tomogram_stats
           .flatMap((tomogramVoxelSpacing) => tomogramVoxelSpacing.annotations)
           .map((annotation) => annotation.object_name),
       ),
