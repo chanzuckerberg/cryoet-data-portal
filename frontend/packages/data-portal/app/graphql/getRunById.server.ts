@@ -138,20 +138,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
         }
       }
 
-      tomogram_stats: tomogram_voxel_spacings {
-        tomogram_resolutions: tomograms(distinct_on: voxel_spacing) {
-          https_mrc_scale0
-          id
-          processing
-          s3_mrc_scale0
-          s3_omezarr_dir
-          size_x
-          size_y
-          size_z
-          voxel_spacing
-        }
-      }
-
       tiltseries_aggregate {
         aggregate {
           avg {
@@ -293,6 +279,22 @@ const GET_RUN_BY_ID_QUERY = gql(`
       distinct_on: shape_type
     ) {
       shape_type
+    }
+
+    # Tomogram metadata:
+    tomograms_for_resolutions: tomograms(
+      where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }
+      distinct_on: voxel_spacing
+    ) {
+      https_mrc_scale0
+      id
+      processing
+      s3_mrc_scale0
+      s3_omezarr_dir
+      size_x
+      size_y
+      size_z
+      voxel_spacing
     }
 
     # Distinct tomogram processing methods:
