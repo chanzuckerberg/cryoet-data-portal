@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.20.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.19.1...web-v1.20.0) (2024-08-15)
+
+
+### ✨ Features
+
+* Implement collapsing Annotated Objects list ([#1024](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1024)) ([9343d12](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9343d1215a60632696efba551c9272aa7ce98b85))
+
+
+### 🧹 Miscellaneous Chores
+
+* Add e2e test for errors on Neuroglancer site ([#1027](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1027)) ([572972d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/572972d915a20338d9a4a59742233f855e3720c8))
+
 ## [1.19.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.19.0...web-v1.19.1) (2024-08-13)
 
 
