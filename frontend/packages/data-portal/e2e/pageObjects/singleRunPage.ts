@@ -5,11 +5,23 @@ import { BasePage } from './basePage'
 
 /** /runs/$id */
 export class SingleRunPage extends BasePage {
-  async goToPage() {
-    await this.goTo(SINGLE_RUN_URL)
+  goToPage(): Promise<void> {
+    return this.goTo(SINGLE_RUN_URL)
   }
 
   getPrimaryViewTomogramButton(): Locator {
     return this.page.locator('a:has-text("View Tomogram")')
+  }
+
+  findAnnotatedObjectsCell(): Locator {
+    return this.page.locator(`td:has-text("Annotated Objects")`).locator('+ td')
+  }
+
+  async findAnnotatedObjectsTexts(): Promise<Array<string>> {
+    return (await this.findAnnotatedObjectsCell().textContent())!.split(',')
+  }
+
+  findAnnotatedObjectsCollapseToggle(): Locator {
+    return this.findAnnotatedObjectsCell().locator('svg')
   }
 }
