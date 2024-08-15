@@ -284,10 +284,9 @@ const GET_RUN_BY_ID_QUERY = gql(`
     }
 
     # Annotation metadata:
-    annotations {
-      object_name
+    annotations(where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }) {
       annotation_software
-
+      object_name
       files(distinct_on: shape_type) {
         shape_type
       }
