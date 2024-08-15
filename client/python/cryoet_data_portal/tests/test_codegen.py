@@ -1,8 +1,18 @@
 from pathlib import Path
+
+import pytest
 from graphql import GraphQLObjectType, GraphQLSchema
 
-from cryoet_data_portal._codegen import GQL_TO_MODEL_TYPE, SCHEMA_PATH, ModelInfo, get_models, get_schema, load_schema, parse_fields, write_schema
-import pytest
+from cryoet_data_portal._codegen import (
+    GQL_TO_MODEL_TYPE,
+    SCHEMA_PATH,
+    ModelInfo,
+    get_models,
+    get_schema,
+    load_schema,
+    parse_fields,
+    write_schema,
+)
 
 
 def test_load_schema():
@@ -19,9 +29,9 @@ def test_write_schema(tmp_path: Path):
     schema = load_schema(SCHEMA_PATH)
     output_schema_path = tmp_path / "schema.graphql"
     write_schema(schema, output_schema_path)
-    with open(SCHEMA_PATH, 'r') as schema_file:
+    with open(SCHEMA_PATH, "r") as schema_file:
         schema_contents = schema_file.read().rstrip()
-    with open(output_schema_path, 'r') as output_schema_file:
+    with open(output_schema_path, "r") as output_schema_file:
         output_schema_contents = output_schema_file.read().rstrip()
     assert schema_contents == output_schema_contents
 
