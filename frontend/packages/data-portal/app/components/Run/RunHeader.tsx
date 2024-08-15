@@ -18,8 +18,11 @@ import {
 } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
+import { TableDataValue } from 'app/types/table'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
+
+import { CollapsibleList } from '../CollapsibleList'
 
 interface FileSummaryData {
   key: string
@@ -247,6 +250,16 @@ export function RunHeader() {
                           .flatMap((stats) => stats.annotations)
                           .map((annotation) => annotation.object_name),
                       ),
+                    ),
+                    renderValues: (values: TableDataValue[]) => (
+                      <CollapsibleList
+                        entries={values.map((value) => ({
+                          key: value.toString(),
+                          entry: value.toString(),
+                        }))}
+                        inlineVariant
+                        collapseAfter={6}
+                      />
                     ),
                   },
                 ]}
