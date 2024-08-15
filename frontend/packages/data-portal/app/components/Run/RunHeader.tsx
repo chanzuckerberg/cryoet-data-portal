@@ -44,7 +44,8 @@ function FileSummary({ data }: { data: FileSummaryData[] }) {
 
 export function RunHeader() {
   const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
-  const { run, annotationFilesAggregates, tomogramsCount } = useRunById()
+  const { run, processingMethods, annotationFilesAggregates, tomogramsCount } =
+    useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
 
@@ -237,9 +238,8 @@ export function RunHeader() {
                   },
                   {
                     label: i18n.tomogramProcessing,
-                    values: run.tomogram_stats
-                      .flatMap((stats) => stats.tomogram_processing)
-                      .map((tomo) => tomo.processing),
+                    values: processingMethods,
+                    className: 'capitalize',
                   },
                   {
                     label: i18n.annotatedObjects,

@@ -3,7 +3,6 @@
 import { Button, Icon } from '@czi-sds/components'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { useAtom } from 'jotai'
-import { startCase } from 'lodash-es'
 import { useCallback, useMemo } from 'react'
 
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
@@ -143,7 +142,7 @@ export function TomogramsTable() {
         ),
         cell: ({ getValue }) => (
           <TableCell width={TomogramTableWidths.postProcessing}>
-            <div>{startCase(getValue())}</div>
+            <div className="capitalize">{getValue()}</div>
           </TableCell>
         ),
       }),
