@@ -139,15 +139,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
 
       tomogram_stats: tomogram_voxel_spacings {
-        annotations {
-          object_name
-          annotation_software
-
-          files(distinct_on: shape_type) {
-            shape_type
-          }
-        }
-
         tomogram_resolutions: tomograms(distinct_on: voxel_spacing) {
           https_mrc_scale0
           id
@@ -289,6 +280,16 @@ const GET_RUN_BY_ID_QUERY = gql(`
         name
         email
         orcid
+      }
+    }
+
+    # Annotation metadata:
+    annotations {
+      object_name
+      annotation_software
+
+      files(distinct_on: shape_type) {
+        shape_type
       }
     }
 
