@@ -44,8 +44,13 @@ function FileSummary({ data }: { data: FileSummaryData[] }) {
 
 export function RunHeader() {
   const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
-  const { run, processingMethods, annotationFilesAggregates, tomogramsCount } =
-    useRunById()
+  const {
+    run,
+    processingMethods,
+    objectNames,
+    annotationFilesAggregates,
+    tomogramsCount,
+  } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
 
@@ -244,13 +249,7 @@ export function RunHeader() {
                   {
                     label: i18n.annotatedObjects,
                     inline: true,
-                    values: Array.from(
-                      new Set(
-                        run.tomogram_stats
-                          .flatMap((stats) => stats.annotations)
-                          .map((annotation) => annotation.object_name),
-                      ),
-                    ),
+                    values: objectNames,
                     renderValues: (values: TableDataValue[]) => (
                       <CollapsibleList
                         entries={values.map((value) => ({

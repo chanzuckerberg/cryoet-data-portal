@@ -287,9 +287,12 @@ const GET_RUN_BY_ID_QUERY = gql(`
     annotations(where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }) {
       annotation_software
       object_name
-      files(distinct_on: shape_type) {
-        shape_type
-      }
+    }
+    annotation_files_for_shape_types: annotation_files(
+      where: { annotation: { tomogram_voxel_spacing: { run_id: { _eq: $id } } } }
+      distinct_on: shape_type
+    ) {
+      shape_type
     }
 
     # Distinct tomogram processing methods:
