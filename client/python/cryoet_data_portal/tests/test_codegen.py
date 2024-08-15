@@ -6,11 +6,14 @@ from graphql import GraphQLObjectType, GraphQLSchema
 from cryoet_data_portal._codegen import (
     GQL_TO_MODEL_TYPE,
     SCHEMA_PATH,
+    FieldInfo,
     ModelInfo,
+    fetch_schema,
     get_models,
-    get_schema,
     load_schema,
     parse_fields,
+    update_schema_and_models,
+    write_models,
     write_schema,
 )
 
@@ -20,8 +23,8 @@ def test_load_schema():
     assert isinstance(schema, GraphQLSchema)
 
 
-def test_get_schema(server_url: str):
-    schema = get_schema(server_url)
+def test_fetch_schema(gql_url: str):
+    schema = fetch_schema(gql_url)
     assert isinstance(schema, GraphQLSchema)
 
 
@@ -29,11 +32,9 @@ def test_write_schema(tmp_path: Path):
     schema = load_schema(SCHEMA_PATH)
     output_schema_path = tmp_path / "schema.graphql"
     write_schema(schema, output_schema_path)
-    with open(SCHEMA_PATH, "r") as schema_file:
-        schema_contents = schema_file.read().rstrip()
-    with open(output_schema_path, "r") as output_schema_file:
-        output_schema_contents = output_schema_file.read().rstrip()
-    assert schema_contents == output_schema_contents
+    schema_content = _file_content(SCHEMA_PATH)
+    output_schema_content = _file_content(output_schema_path)
+    assert output_schema_content == schema_content
 
 
 def test_get_models():
@@ -52,3 +53,28 @@ def test_parse_fields_dataset(gql_type: str):
     assert isinstance(dataset_type, GraphQLObjectType)
     fields = parse_fields(dataset_type)
     assert len(fields) > 0
+    assert all(isinstance(f, FieldInfo) for f in fields)
+
+
+def test_write_models(tmp_path: Path):
+    schema = load_schema(SCHEMA_PATH)
+    models = get_models(schema)
+    models_path = tmp_path / "models.py"
+    write_models(models, models_path)
+
+
+def test_update_schema_and_models(gql_url: str, tmp_path: Path):
+    schema_path = tmp_path / "schema.graphql"
+    models_path = tmp_path / "models.graphql"
+    update_schema_and_models(
+        gql_url=gql_url,
+        schema_path=schema_path,
+        models_path=models_path,
+    )
+    assert _file_content(schema_path)
+    assert _file_content(models_path)
+
+
+def _file_content(path: Path) -> str:
+    with open(path, "r") as f:
+        return f.read().rstrip()

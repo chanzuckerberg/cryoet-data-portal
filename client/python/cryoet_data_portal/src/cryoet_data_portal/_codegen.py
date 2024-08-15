@@ -88,6 +88,18 @@ class ModelInfo:
     fields: Tuple[FieldInfo, ...]
 
 
+def update_schema_and_models(
+    *, gql_url: str, schema_path: Path, models_path: Path,
+) -> None:
+    """Writes new schema and models files based on a GraphQL endpoint URL."""
+    schema = fetch_schema(gql_url)
+    if schema is None:
+        raise RuntimeError(f"Could not get schema at {gql_url}")
+    write_schema(schema, schema_path)
+    models = get_models(schema)
+    write_models(models, models_path)
+
+
 def write_models(models: Tuple[ModelInfo, ...], path: Path) -> None:
     """Writes model classes to a Python module in a local file."""
     environment = _load_jinja_environment()
@@ -122,8 +134,8 @@ def get_models(schema: GraphQLSchema) -> Tuple[ModelInfo, ...]:
     return tuple(models)
 
 
-def get_schema(url: str) -> Optional[GraphQLSchema]:
-    """Gets the GraphQL schema from an endpoint."""
+def fetch_schema(url: str) -> Optional[GraphQLSchema]:
+    """Gets the GraphQL schema from a URL endpoint."""
     transport = RequestsHTTPTransport(url=url, retries=3)
     with Client(transport=transport, fetch_schema_from_transport=True) as session:
         return session.client.schema
@@ -272,9 +284,8 @@ def _space_case_to_plural(name: str) -> str:
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.WARN)
-    schema = get_schema(DEFAULT_URL)
-    if schema is None:
-        raise RuntimeError(f"Could not get schema at {DEFAULT_URL}")
-    write_schema(schema, SCHEMA_PATH)
-    models = get_models(schema)
-    write_models(models, MODELS_PATH)
+    update_schema_and_models(
+        gql_url=DEFAULT_URL,
+        schema_path=SCHEMA_PATH,
+        models_path=MODELS_PATH,
+    )

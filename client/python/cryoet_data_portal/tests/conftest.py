@@ -4,13 +4,13 @@ from cryoet_data_portal import Client
 
 
 @pytest.fixture
-def server_url() -> str:
+def gql_url() -> str:
     return "http://localhost:8080/v1/graphql"
 
 
 @pytest.fixture
-def client(server_url: str):
-    client = Client(server_url)
+def client(gql_url: str):
+    client = Client(gql_url)
     yield client
 
 
