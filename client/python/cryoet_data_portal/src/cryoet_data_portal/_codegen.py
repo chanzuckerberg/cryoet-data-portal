@@ -89,7 +89,10 @@ class ModelInfo:
 
 
 def update_schema_and_models(
-    *, gql_url: str, schema_path: Path, models_path: Path,
+    *,
+    gql_url: str,
+    schema_path: Path,
+    models_path: Path,
 ) -> None:
     """Writes new schema and models files based on a GraphQL endpoint URL."""
     schema = fetch_schema(gql_url)
