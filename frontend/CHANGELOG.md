@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.22.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.21.0...web-v1.22.0) (2024-08-16)
+
+
+### ✨ Features
+
+* add filter panel to single deposition page ([#1030](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1030)) ([d378e7c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d378e7c2be0c51595bef36ab2adde0647145ce95))
+
 ## [1.21.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.20.0...web-v1.21.0) (2024-08-15)
 
 
