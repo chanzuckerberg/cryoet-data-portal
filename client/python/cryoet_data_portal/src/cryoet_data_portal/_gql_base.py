@@ -175,12 +175,13 @@ class ItemRelationship(Relationship):
     def __get__(self, obj, obj_class=None):
         if obj is None:
             return self
+        source_field = getattr(obj, self.source_field)
+        if source_field is None:
+            return None
+        dest_field = getattr(self.related_class, self.dest_field)
         for item in self.related_class.find(
             obj._client,
-            [
-                getattr(self.related_class, self.dest_field)
-                == getattr(obj, self.source_field),
-            ],
+            [dest_field == source_field]
         ):
             return item
 
@@ -189,12 +190,11 @@ class ListRelationship(Relationship):
     def __get__(self, obj, obj_class=None):
         if obj is None:
             return self
+        source_field = getattr(obj, self.source_field)
+        dest_field = getattr(self.related_class, self.dest_field)
         res = self.related_class.find(
             obj._client,
-            [
-                getattr(self.related_class, self.dest_field)
-                == getattr(obj, self.source_field),
-            ],
+            [dest_field == source_field],
         )
         return res
 

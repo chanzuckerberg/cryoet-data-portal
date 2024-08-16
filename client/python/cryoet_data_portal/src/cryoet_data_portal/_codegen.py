@@ -35,8 +35,6 @@ GQL_TO_MODEL_FIELD = {
     "numeric": ("FloatField()", "float"),
     "_numeric": ("StringField()", "str"),
     "tomogram_type_enum": ("StringField()", "str"),
-    # TODO: check if I should make a JsonField to handle this.
-    "json": ("StringField()", "str"),
 }
 
 

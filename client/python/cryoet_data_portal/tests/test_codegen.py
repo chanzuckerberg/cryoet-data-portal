@@ -31,7 +31,9 @@ def test_fetch_schema(gql_url: str):
 def test_write_schema(tmp_path: Path):
     schema = load_schema(SCHEMA_PATH)
     output_schema_path = tmp_path / "schema.graphql"
+
     write_schema(schema, output_schema_path)
+
     schema_content = _file_content(SCHEMA_PATH)
     output_schema_content = _file_content(output_schema_path)
     assert output_schema_content == schema_content
@@ -39,7 +41,9 @@ def test_write_schema(tmp_path: Path):
 
 def test_get_models():
     schema = load_schema(SCHEMA_PATH)
+
     models = get_models(schema)
+
     assert len(models) > 0
     assert all(isinstance(m, ModelInfo) for m in models)
     model_names = tuple(m.name for m in models)
@@ -51,7 +55,9 @@ def test_parse_fields_dataset(gql_type: str):
     schema = load_schema(SCHEMA_PATH)
     dataset_type = schema.get_type(gql_type)
     assert isinstance(dataset_type, GraphQLObjectType)
+
     fields = parse_fields(dataset_type)
+
     assert len(fields) > 0
     assert all(isinstance(f, FieldInfo) for f in fields)
 
@@ -60,17 +66,20 @@ def test_write_models(tmp_path: Path):
     schema = load_schema(SCHEMA_PATH)
     models = get_models(schema)
     models_path = tmp_path / "models.py"
+
     write_models(models, models_path)
 
 
 def test_update_schema_and_models(gql_url: str, tmp_path: Path):
     schema_path = tmp_path / "schema.graphql"
     models_path = tmp_path / "models.graphql"
+
     update_schema_and_models(
         gql_url=gql_url,
         schema_path=schema_path,
         models_path=models_path,
     )
+
     assert _file_content(schema_path)
     assert _file_content(models_path)
 
