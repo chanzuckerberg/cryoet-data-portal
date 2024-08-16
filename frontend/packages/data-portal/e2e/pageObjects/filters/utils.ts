@@ -4,6 +4,7 @@ import { isString } from 'lodash-es'
 import {
   GetDatasetByIdQuery,
   GetDatasetsDataQuery,
+  GetDatasetsFilterDataQuery,
   GetRunByIdQuery,
 } from 'app/__generated__/graphql'
 import { AVAILABLE_FILES_VALUE_TO_I18N_MAP } from 'app/components/DatasetFilter/constants'
@@ -132,13 +133,13 @@ export const serializeAvailableFiles = (value: string): string => {
 }
 
 export function getFilteredOrganismNamesFromData({
-  browseDatasetsData,
+  datasetsFilterData,
   testQuery,
 }: {
-  browseDatasetsData: GetDatasetsDataQuery
+  datasetsFilterData: GetDatasetsFilterDataQuery
   testQuery: string
 }) {
-  const organismNames = browseDatasetsData.organism_names
+  const organismNames = datasetsFilterData.organism_names
     .map((name) => name.organism_name)
     .filter(isString)
 

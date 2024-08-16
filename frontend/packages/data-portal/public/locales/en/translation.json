@@ -103,6 +103,7 @@
   "datasetsTab": "Datasets {{count}}",
   "dataSummary": "Data Summary",
   "deposition": "Deposition",
+  "depositionAnnotationsOnly": "Deposition annotations only",
   "depositionData": "Deposition Data",
   "depositionDate": "Deposition Date",
   "depositionId": "Deposition ID",
