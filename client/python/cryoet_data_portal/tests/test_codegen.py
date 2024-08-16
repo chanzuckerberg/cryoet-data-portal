@@ -1,7 +1,10 @@
 import sys
+from contextlib import contextmanager
 from importlib import import_module
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
+from types import ModuleType
+from typing import Generator
 
 import pytest
 from graphql import GraphQLObjectType, GraphQLSchema
@@ -77,9 +80,8 @@ def test_write_models(tmp_path: Path):
     write_models(models, models_path)
 
     expected_module = import_module("cryoet_data_portal._models")
-    actual_module = _import_module_from_file(models_path)
-
-    assert dir(expected_module) == dir(actual_module)
+    with _import_module_from_file(models_path) as actual_module:
+        assert dir(expected_module) == dir(actual_module)
 
 
 def test_update_schema_and_models(gql_url: str, tmp_path: Path):
@@ -96,13 +98,17 @@ def test_update_schema_and_models(gql_url: str, tmp_path: Path):
     assert _file_content(models_path)
 
 
-def _import_module_from_file(path: Path):
+@contextmanager
+def _import_module_from_file(path: Path) -> Generator[ModuleType, None, None]:
     name = path.stem
     spec = spec_from_file_location(name, path)
     module = module_from_spec(spec)
-    sys.modules["_temp_models"] = module
-    spec.loader.exec_module(module)
-    return import_module(name)
+    try:
+        sys.modules[name] = module
+        spec.loader.exec_module(module)
+        yield import_module(name)
+    finally:
+        sys.modules.pop(name)
 
 
 def _file_content(path: Path) -> str:
