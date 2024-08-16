@@ -5,11 +5,13 @@ import { json, LoaderFunctionArgs, redirect } from '@remix-run/server-runtime'
 
 import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
+import { DatasetFilter } from 'app/components/DatasetFilter'
 import { DepositionMetadataDrawer } from 'app/components/Deposition'
 import { DatasetsTable } from 'app/components/Deposition/DatasetsTable'
 import { DepositionHeader } from 'app/components/Deposition/DepositionHeader'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
+import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { getDepositionById } from 'app/graphql/getDepositionById.server'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
@@ -47,22 +49,33 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     orderBy = sort === 'asc' ? Order_By.Asc : Order_By.Desc
   }
 
-  const { data } = await getDepositionById({
-    id,
-    orderBy,
-    page,
-    client: apolloClient,
-    params: url.searchParams,
-  })
+  const [depositionResponse, datasetsFilterReponse] = await Promise.all([
+    getDepositionById({
+      id,
+      orderBy,
+      page,
+      client: apolloClient,
+      params: url.searchParams,
+    }),
+    getDatasetsFilterData({
+      client: apolloClient,
+      filter: {},
+      // TODO: uncomment below when deposition fields added to backend
+      // filter: { deposition_id: { _eq: id } },
+    }),
+  ])
 
-  if (data.deposition === null) {
+  if (depositionResponse.data.deposition === null) {
     throw new Response(null, {
       status: 404,
       statusText: `Deposition with ID ${id} not found`,
     })
   }
 
-  return json(data)
+  return json({
+    depositionData: depositionResponse.data,
+    datasetsFilterData: datasetsFilterReponse.data,
+  })
 }
 
 export default function DatasetByIdPage() {
@@ -79,6 +92,7 @@ export default function DatasetByIdPage() {
           totalCount: deposition.datasets_aggregate.aggregate?.count ?? 0,
           filteredCount:
             deposition.filtered_datasets_aggregate.aggregate?.count ?? 0,
+          filterPanel: <DatasetFilter depositionPageVariant />,
           countLabel: t('datasets'),
         },
       ]}

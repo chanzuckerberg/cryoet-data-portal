@@ -4,7 +4,7 @@ import {
   Value,
 } from '@czi-sds/components'
 import { isArray, isEqual } from 'lodash-es'
-import { useCallback, useMemo } from 'react'
+import { ReactNode, useCallback, useMemo } from 'react'
 
 import { BaseFilterOption } from 'app/types/filter'
 import { cns } from 'app/utils/cns'
@@ -20,6 +20,7 @@ export function SelectFilter<
   Multiple extends boolean = false,
 >({
   className,
+  details,
   groupBy: groupByProp,
   label,
   multiple,
@@ -31,6 +32,7 @@ export function SelectFilter<
   value,
 }: {
   className?: string
+  details?: ReactNode
   groupBy?: (option: Value<Option, Multiple>) => string
   label: string
   multiple?: Multiple
@@ -109,6 +111,15 @@ export function SelectFilter<
           className: cns(popperClassName, multiple && styles.popper),
         },
       }}
+      InputDropdownProps={
+        details
+          ? {
+              value: details,
+              sdsStyle: 'minimal',
+              sdsType: 'label',
+            }
+          : undefined
+      }
       onChange={(nextOptions) => {
         if (isEqual(nextOptions, sdsValue)) {
           return

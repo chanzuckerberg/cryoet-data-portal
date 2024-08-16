@@ -32,4 +32,5 @@ export enum QueryParams {
   TiltRangeMin = 'tilt_min',
   TomogramProcessing = 'tomogram-processing',
   TomogramSampling = 'tomogram-sampling',
+  TomogramsPage = 'tomograms-page',
 }

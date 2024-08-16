@@ -28,17 +28,18 @@ export function AuthorList({
   large?: boolean
   subtle?: boolean
 }) {
-  // TODO: make the below grouping more efficient and/or use GraphQL ordering
-  const authorsPrimary = authors.filter(
-    (author) => author.primary_author_status,
-  )
-  const authorsCorresponding = authors.filter(
-    (author) => author.corresponding_author_status,
-  )
-  const authorsOther = authors.filter(
-    (author) =>
-      !(author.primary_author_status || author.corresponding_author_status),
-  )
+  const authorsPrimary = []
+  const authorsOther = []
+  const authorsCorresponding = []
+  for (const author of authors) {
+    if (author.primary_author_status) {
+      authorsPrimary.push(author)
+    } else if (author.corresponding_author_status) {
+      authorsCorresponding.push(author)
+    } else {
+      authorsOther.push(author)
+    }
+  }
 
   const otherCollapsed = useMemo<string | null>(() => {
     const ellipsis = '...'

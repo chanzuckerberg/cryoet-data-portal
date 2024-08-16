@@ -1,6 +1,7 @@
 ---
 to: e2e/pageObjects/<%= name %>/<%= name %>Page.ts
 ---
+import { expect } from '@playwright/test'
 import { BasePage } from 'e2e/pageObjects/basePage'
 
 export class <%= h.changeCase.pascal(name) %>Page extends BasePage {
