@@ -32,7 +32,7 @@ export function ConfigureTomogramDownloadContent() {
 
   const {
     allTomogramProcessing = [],
-    allTomogramResolutions = [],
+    allTomograms: allTomogramResolutions = [],
     runId,
   } = useDownloadModalContext()
 

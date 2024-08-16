@@ -11,11 +11,13 @@ export function useRunById() {
 
   const { tomograms } = data
 
+  const tomogramsForDownload = data.tomograms_for_download
+
   const processingMethods = data.tomograms_for_distinct_processing_methods.map(
     (tomogram) => tomogram.processing,
   )
 
-  const objectNames = data.annotations.map(
+  const objectNames = data.annotations_for_object_names.map(
     (annotation) => annotation.object_name,
   )
 
@@ -23,7 +25,7 @@ export function useRunById() {
     (file) => file.shape_type,
   )
 
-  const annotationSoftwares = data.annotations
+  const annotationSoftwares = data.annotations_for_softwares
     .map((annotation) => annotation.annotation_software)
     .filter((software) => software != null)
 
@@ -46,6 +48,7 @@ export function useRunById() {
     run,
     annotationFiles,
     tomograms,
+    tomogramsForDownload,
     processingMethods,
     objectNames,
     objectShapeTypes,

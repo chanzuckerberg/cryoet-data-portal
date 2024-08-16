@@ -269,9 +269,33 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
     }
 
+    # Tomograms download:
+    tomograms_for_download: tomograms(
+      where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }
+    ) {
+      https_mrc_scale0
+      id
+      processing
+      reconstruction_method
+      s3_mrc_scale0
+      s3_omezarr_dir
+      size_x
+      size_y
+      size_z
+      voxel_spacing
+    }
+
     # Annotation metadata:
-    annotations(where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }) {
+    annotations_for_softwares: annotations(
+      where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }
+      distinct_on: annotation_software
+    ) {
       annotation_software
+    }
+    annotations_for_object_names: annotations(
+      where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }
+      distinct_on: object_name
+    ) {
       object_name
     }
     annotation_files_for_shape_types: annotation_files(
@@ -287,14 +311,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
       distinct_on: voxel_spacing
       order_by: { voxel_spacing: asc  }
     ) {
-      https_mrc_scale0
-      id
-      processing
-      s3_mrc_scale0
-      s3_omezarr_dir
-      size_x
-      size_y
-      size_z
       voxel_spacing
     }
     tomograms_for_distinct_processing_methods: tomograms(

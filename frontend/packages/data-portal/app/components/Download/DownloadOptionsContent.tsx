@@ -34,7 +34,7 @@ export function DownloadOptionsContent() {
     fileFormat,
     objectShapeType,
   } = useDownloadModalQueryParamState()
-  const { activeTomogramResolution } = useDownloadModalContext()
+  const { activeTomogram: activeTomogramResolution } = useDownloadModalContext()
 
   const downloadTabs = useMemo<TabData<DownloadTab>[]>(
     () => [

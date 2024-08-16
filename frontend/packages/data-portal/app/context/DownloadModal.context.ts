@@ -5,14 +5,13 @@ import { BaseAnnotation } from 'app/state/annotation'
 
 export type DownloadModalType = 'dataset' | 'runs' | 'annotation'
 
-export type TomogramResolution =
-  GetRunByIdQuery['tomograms_for_resolutions'][number]
+export type Tomogram = GetRunByIdQuery['tomograms_for_download'][number]
 
 export interface DownloadModalContextValue {
-  activeAnnotation?: BaseAnnotation | null
-  activeTomogramResolution?: TomogramResolution | null
+  activeAnnotation?: BaseAnnotation
+  activeTomogram?: Tomogram
   allTomogramProcessing?: string[]
-  allTomogramResolutions?: TomogramResolution[]
+  allTomograms?: Tomogram[]
   datasetId?: number
   datasetTitle?: string
   fileSize?: number
