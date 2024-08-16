@@ -27,6 +27,10 @@ export function useRunById() {
     .map((annotation) => annotation.annotation_software)
     .filter((software) => software != null)
 
+  const resolutions = data.tomograms_for_resolutions.map(
+    (tomogram) => tomogram.voxel_spacing,
+  )
+
   const annotationFilesAggregates = {
     totalCount: data.annotation_files_aggregate_for_total.aggregate?.count ?? 0,
     filteredCount:
@@ -46,6 +50,7 @@ export function useRunById() {
     objectNames,
     objectShapeTypes,
     annotationSoftwares,
+    resolutions,
     annotationFilesAggregates,
     tomogramsCount,
   }

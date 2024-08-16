@@ -285,6 +285,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
     tomograms_for_resolutions: tomograms(
       where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }
       distinct_on: voxel_spacing
+      order_by: { voxel_spacing: asc  }
     ) {
       https_mrc_scale0
       id
@@ -296,8 +297,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
       size_z
       voxel_spacing
     }
-
-    # Distinct tomogram processing methods:
     tomograms_for_distinct_processing_methods: tomograms(
       where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }
       distinct_on: processing

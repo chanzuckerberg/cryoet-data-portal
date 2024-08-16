@@ -81,6 +81,7 @@ export default function RunByIdPage() {
     run,
     processingMethods,
     annotationFiles,
+    resolutions,
     annotationFilesAggregates,
     tomogramsCount,
   } = useRunById()

@@ -48,6 +48,7 @@ export function RunHeader() {
     run,
     processingMethods,
     objectNames,
+    resolutions,
     annotationFilesAggregates,
     tomogramsCount,
   } = useRunById()
@@ -235,11 +236,9 @@ export function RunHeader() {
                   {
                     label: i18n.resolutionsAvailable,
                     inline: true,
-                    values: run.tomogram_stats
-                      .flatMap((stats) => stats.tomogram_resolutions)
-                      .map((resolutions) =>
-                        t('unitAngstrom', { value: resolutions.voxel_spacing }),
-                      ),
+                    values: resolutions.map((resolution) =>
+                      t('unitAngstrom', { value: resolution }),
+                    ),
                   },
                   {
                     label: i18n.tomogramProcessing,

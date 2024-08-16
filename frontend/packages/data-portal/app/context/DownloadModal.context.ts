@@ -6,7 +6,7 @@ import { BaseAnnotation } from 'app/state/annotation'
 export type DownloadModalType = 'dataset' | 'runs' | 'annotation'
 
 export type TomogramResolution =
-  GetRunByIdQuery['runs'][number]['tomogram_stats'][number]['tomogram_resolutions'][number]
+  GetRunByIdQuery['tomograms_for_resolutions'][number]
 
 export interface DownloadModalContextValue {
   activeAnnotation?: BaseAnnotation | null
