@@ -1,6 +1,6 @@
 .PHONY: test-infra
 test-infra:
-	cd tests && docker compose up -d
+	cd tests && docker compose up -d --force-recreate
 	cd ./tests/test_infra/; ./seed_moto.sh
 
 .PHONY: coverage
