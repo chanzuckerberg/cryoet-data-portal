@@ -10,8 +10,8 @@ import os
 from datetime import date
 from typing import List, Optional
 
-from ._file_tools import download_directory, download_https
-from ._gql_base import (
+from cryoet_data_portal._file_tools import download_directory, download_https
+from cryoet_data_portal._gql_base import (
     BooleanField,
     DateField,
     FloatField,
@@ -428,7 +428,6 @@ class Annotation(Model):
         id (int): Numeric identifier (May change!)
         is_curator_recommended (bool): Data curator’s subjective choice as the best annotation of the same annotation object ID
         last_modified_date (date): Date when an annotation was last modified in the Data Portal
-        method_links (str): Provides links that generates information on the method used for generating annotation
         method_type (str): The method type for generating the annotation (e.g. manual, hybrid, automated)
         object_count (int): Number of objects identified
         object_description (str): A textual description of the annotation object, can be a longer description to include additional information not covered by the Annotation object name and state.
@@ -467,7 +466,6 @@ class Annotation(Model):
     id: int = IntField()
     is_curator_recommended: bool = BooleanField()
     last_modified_date: date = DateField()
-    method_links: str = StringField()
     method_type: str = StringField()
     object_count: int = IntField()
     object_description: str = StringField()

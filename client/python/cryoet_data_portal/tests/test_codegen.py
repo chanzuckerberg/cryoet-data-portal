@@ -1,3 +1,6 @@
+import sys
+from importlib import import_module
+from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
 
 import pytest
@@ -20,12 +23,16 @@ from cryoet_data_portal._codegen import (
 
 def test_load_schema():
     schema = load_schema(SCHEMA_PATH)
+
     assert isinstance(schema, GraphQLSchema)
+    assert all(schema.get_type(t) for t in GQL_TO_MODEL_TYPE)
 
 
 def test_fetch_schema(gql_url: str):
     schema = fetch_schema(gql_url)
+
     assert isinstance(schema, GraphQLSchema)
+    assert all(schema.get_type(t) for t in GQL_TO_MODEL_TYPE)
 
 
 def test_write_schema(tmp_path: Path):
@@ -65,9 +72,14 @@ def test_parse_fields_dataset(gql_type: str):
 def test_write_models(tmp_path: Path):
     schema = load_schema(SCHEMA_PATH)
     models = get_models(schema)
-    models_path = tmp_path / "models.py"
+    models_path = tmp_path / "_temp_models.py"
 
     write_models(models, models_path)
+
+    expected_module = import_module("cryoet_data_portal._models")
+    actual_module = _import_module_from_file(models_path)
+
+    assert dir(expected_module) == dir(actual_module)
 
 
 def test_update_schema_and_models(gql_url: str, tmp_path: Path):
@@ -82,6 +94,15 @@ def test_update_schema_and_models(gql_url: str, tmp_path: Path):
 
     assert _file_content(schema_path)
     assert _file_content(models_path)
+
+
+def _import_module_from_file(path: Path):
+    name = path.stem
+    spec = spec_from_file_location(name, path)
+    module = module_from_spec(spec)
+    sys.modules["_temp_models"] = module
+    spec.loader.exec_module(module)
+    return import_module(name)
 
 
 def _file_content(path: Path) -> str:
