@@ -12,6 +12,10 @@ export function useRunById() {
 
   const { tomograms } = data
 
+  const processingMethods = data.tomograms_for_distinct_processing_methods.map(
+    (tomogram) => tomogram.processing,
+  )
+
   const objectNames = useMemo(
     () =>
       Array.from(
@@ -69,6 +73,7 @@ export function useRunById() {
     run,
     annotationFiles,
     tomograms,
+    processingMethods,
     objectNames,
     objectShapeTypes,
     annotationSoftwares,

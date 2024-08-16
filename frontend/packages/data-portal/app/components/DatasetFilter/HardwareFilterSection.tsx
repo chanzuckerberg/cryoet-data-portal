@@ -2,13 +2,13 @@ import { useMemo } from 'react'
 
 import { FilterSection, SelectFilter } from 'app/components/Filters'
 import { QueryParams } from 'app/constants/query'
-import { useDatasets } from 'app/hooks/useDatasets'
+import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useFilter } from 'app/hooks/useFilter'
 import { i18n } from 'app/i18n'
 import { BaseFilterOption } from 'app/types/filter'
 
 export function HardwareFilterSection() {
-  const { cameraManufacturers } = useDatasets()
+  const { cameraManufacturers } = useDatasetsFilterData()
 
   const cameraManufacturerOptions = useMemo(
     () => cameraManufacturers.map<BaseFilterOption>((value) => ({ value })),

@@ -77,15 +77,16 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 
 export default function RunByIdPage() {
   const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
-  const { run, annotationFiles, annotationFilesAggregates, tomogramsCount } =
-    useRunById()
+  const {
+    run,
+    processingMethods,
+    annotationFiles,
+    annotationFilesAggregates,
+    tomogramsCount,
+  } = useRunById()
 
   const allTomogramResolutions = run.tomogram_stats.flatMap((stats) =>
     stats.tomogram_resolutions.map((tomogram) => tomogram),
-  )
-
-  const allTomogramProcessing = run.tomogram_stats.flatMap((stats) =>
-    stats.tomogram_processing.map((tomogram) => tomogram.processing),
   )
 
   const {
@@ -178,7 +179,7 @@ export default function RunByIdPage() {
         <DownloadModal
           activeAnnotation={activeAnnotation}
           activeTomogramResolution={activeTomogramResolution}
-          allTomogramProcessing={allTomogramProcessing}
+          allTomogramProcessing={processingMethods}
           allTomogramResolutions={allTomogramResolutions}
           datasetId={run.dataset.id}
           datasetTitle={run.dataset.title}
