@@ -179,10 +179,7 @@ class ItemRelationship(Relationship):
         if source_field is None:
             return None
         dest_field = getattr(self.related_class, self.dest_field)
-        for item in self.related_class.find(
-            obj._client,
-            [dest_field == source_field]
-        ):
+        for item in self.related_class.find(obj._client, [dest_field == source_field]):
             return item
 
 
