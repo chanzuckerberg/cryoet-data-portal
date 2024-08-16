@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.20.0...web-v1.21.0) (2024-08-15)
+
+
+### ✨ Features
+
+* Update Tomogram Processing field format and query ([#1031](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1031)) ([80e1b51](https://github.com/chanzuckerberg/cryoet-data-portal/commit/80e1b51995094f2ee42768c36e6499d11be5b936))
+
 ## [1.20.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.19.1...web-v1.20.0) (2024-08-15)
 
 
