@@ -6,6 +6,7 @@ import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
 import {
   useBrowseDatasetFilterHistory,
+  useDepositionHistory,
   useSingleDatasetFilterHistory,
 } from 'app/state/filterHistory'
 import { cns } from 'app/utils/cns'
@@ -47,6 +48,7 @@ export function Breadcrumbs({
 
   const { browseDatasetHistory } = useBrowseDatasetFilterHistory()
   const { singleDatasetHistory } = useSingleDatasetFilterHistory()
+  const { previousDepositionId } = useDepositionHistory()
 
   const browseAllLink = useMemo(() => {
     const url =
@@ -77,32 +79,46 @@ export function Breadcrumbs({
   )
 
   return (
-    <div className="flex flex-row gap-sds-s text-sds-body-s leading-sds-body-s text-sds-gray-black items-center whitespace-nowrap content-start">
-      <Breadcrumb
-        text={t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')}
-        link={browseAllLink}
-        className="shrink-0"
-      />
-      {chevronIcon}
-      {variant === 'deposition' ? (
-        <Breadcrumb text={t('deposition')} />
-      ) : (
+    <div className="flex flex-col flex-auto gap-1">
+      {previousDepositionId != null && variant !== 'deposition' && (
+        <Link
+          className="uppercase font-semibold text-sds-caps-xxxs leading-sds-caps-xxxs text-sds-primary-400"
+          to={`/depositions/${previousDepositionId}`}
+        >
+          {t('returnToDeposition')}
+        </Link>
+      )}
+
+      <div className="flex flex-row gap-sds-s text-sds-body-s leading-sds-body-s text-sds-gray-black items-center whitespace-nowrap content-start">
         <Breadcrumb
-          text={
-            variant === 'dataset'
-              ? `${t('dataset')}`
-              : `${t('dataset')}: ${data.title}`
-          }
-          link={singleDatasetLink}
-          className="overflow-ellipsis overflow-hidden flex-initial"
+          text={t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')}
+          link={browseAllLink}
+          className="shrink-0"
         />
-      )}
-      {variant === 'run' && (
-        <>
-          {chevronIcon}
-          <Breadcrumb text={t('run')} className="shrink-0" />
-        </>
-      )}
+
+        {chevronIcon}
+
+        {variant === 'deposition' ? (
+          <Breadcrumb text={t('deposition')} />
+        ) : (
+          <Breadcrumb
+            text={
+              variant === 'dataset'
+                ? `${t('dataset')}`
+                : `${t('dataset')}: ${data.title}`
+            }
+            link={singleDatasetLink}
+            className="overflow-ellipsis overflow-hidden flex-initial"
+          />
+        )}
+
+        {variant === 'run' && (
+          <>
+            {chevronIcon}
+            <Breadcrumb text={t('run')} className="shrink-0" />
+          </>
+        )}
+      </div>
     </div>
   )
 }
