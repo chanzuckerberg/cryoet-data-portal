@@ -1,9 +1,11 @@
 import { Outlet } from '@remix-run/react'
 import { json } from '@remix-run/server-runtime'
+import { useEffect } from 'react'
 
 import { gql } from 'app/__generated__'
 import { apolloClient } from 'app/apollo.server'
 import { BrowseDataHeader } from 'app/components/BrowseData'
+import { useDepositionHistory } from 'app/state/filterHistory'
 
 const GET_TOOLBAR_DATA_QUERY = gql(`
   query GetToolbarData {
@@ -35,6 +37,9 @@ export function shouldRevalidate() {
 }
 
 export default function BrowseDataPage() {
+  const { setPreviousDepositionId } = useDepositionHistory()
+  useEffect(() => setPreviousDepositionId(null), [setPreviousDepositionId])
+
   return (
     <div className="flex flex-col flex-auto">
       <BrowseDataHeader />
