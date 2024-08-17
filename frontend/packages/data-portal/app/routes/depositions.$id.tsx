@@ -2,6 +2,7 @@
 
 import { CellHeaderDirection } from '@czi-sds/components'
 import { json, LoaderFunctionArgs, redirect } from '@remix-run/server-runtime'
+import { useEffect } from 'react'
 
 import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
@@ -14,6 +15,7 @@ import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { getDepositionById } from 'app/graphql/getDepositionById.server'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
+import { useDepositionHistory } from 'app/state/filterHistory'
 import { getFeatureFlag } from 'app/utils/featureFlags'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -77,9 +79,15 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   })
 }
 
-export default function DatasetByIdPage() {
+export default function DepositionByIdPage() {
   const { deposition } = useDepositionById()
   const { t } = useI18n()
+
+  const { setPreviousDepositionId } = useDepositionHistory()
+  useEffect(
+    () => setPreviousDepositionId(deposition.id),
+    [deposition.id, setPreviousDepositionId],
+  )
 
   return (
     <TablePageLayout
