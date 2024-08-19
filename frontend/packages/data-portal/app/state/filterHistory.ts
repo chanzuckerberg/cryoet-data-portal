@@ -1,5 +1,4 @@
 import { atom, useAtom } from 'jotai'
-import { useMemo } from 'react'
 
 import { DATASET_FILTERS, RUN_FILTERS } from 'app/constants/filterQueryParams'
 
@@ -14,19 +13,17 @@ export type SingleDatasetHistory = Map<
 
 const browseDatasetHistoryAtom = atom<BrowseDatasetHistory | null>(null)
 const singleDatasetHistoryAtom = atom<SingleDatasetHistory | null>(null)
+const previousDepositionIdAtom = atom<number | null>(null)
 
 export function useBrowseDatasetFilterHistory() {
   const [browseDatasetHistory, setBrowseDatasetHistory] = useAtom(
     browseDatasetHistoryAtom,
   )
 
-  return useMemo(
-    () => ({
-      browseDatasetHistory,
-      setBrowseDatasetHistory,
-    }),
-    [browseDatasetHistory, setBrowseDatasetHistory],
-  )
+  return {
+    browseDatasetHistory,
+    setBrowseDatasetHistory,
+  }
 }
 
 export function useSingleDatasetFilterHistory() {
@@ -34,11 +31,19 @@ export function useSingleDatasetFilterHistory() {
     singleDatasetHistoryAtom,
   )
 
-  return useMemo(
-    () => ({
-      singleDatasetHistory,
-      setSingleDatasetHistory,
-    }),
-    [singleDatasetHistory, setSingleDatasetHistory],
+  return {
+    singleDatasetHistory,
+    setSingleDatasetHistory,
+  }
+}
+
+export function useDepositionHistory() {
+  const [previousDepositionId, setPreviousDepositionId] = useAtom(
+    previousDepositionIdAtom,
   )
+
+  return {
+    previousDepositionId,
+    setPreviousDepositionId,
+  }
 }
