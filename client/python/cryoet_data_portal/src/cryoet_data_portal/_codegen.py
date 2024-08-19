@@ -71,9 +71,9 @@ class FieldInfo:
     """The information about a parsed model field."""
 
     name: str
-    description: Optional[str]
     annotation_type: str
     default_value: str
+    description: Optional[str] = None
 
 
 @dataclass(frozen=True)
@@ -82,8 +82,8 @@ class ModelInfo:
 
     name: str
     gql_name: str
-    description: Optional[str]
     fields: Tuple[FieldInfo, ...]
+    description: Optional[str] = None
 
 
 def update_schema_and_models(
@@ -113,7 +113,7 @@ def write_models(models: Tuple[ModelInfo, ...], path: Path) -> None:
             )
             f.write(template.render(model=model))
         template = environment.get_template("Footer.jinja2")
-        f.write(template.render(models=GQL_TO_MODEL_TYPE.values()))
+        f.write(template.render(models=(m.name for m in models)))
 
 
 def get_models(schema: GraphQLSchema) -> Tuple[ModelInfo, ...]:

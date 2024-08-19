@@ -73,15 +73,32 @@ def test_parse_fields_dataset(gql_type: str):
 
 
 def test_write_models(tmp_path: Path):
-    schema = load_schema(SCHEMA_PATH)
-    models = get_models(schema)
-    models_path = tmp_path / "_temp_models.py"
+    models = (
+        ModelInfo(
+            name="TestDataset",
+            gql_name="test_datasets",
+            fields=(
+                FieldInfo("id", "int", "IntField()"),
+                FieldInfo("title", "str", "StringField()"),
+            ),
+        ),
+        ModelInfo(
+            name="TestRun",
+            gql_name="test_runs",
+            fields=(
+                FieldInfo("id", "int", "IntField()"),
+                FieldInfo("name", "str", "StringField()"),
+            ),
+        ),
+    )
+    models_path = tmp_path / "_tmp_models.py"
 
     write_models(models, models_path)
 
-    expected_module = import_module("cryoet_data_portal._models")
-    with _import_module_from_file(models_path) as actual_module:
-        assert dir(expected_module) == dir(actual_module)
+    with _import_module_from_file(models_path) as module:
+        module_dir = dir(module)
+        assert "TestDataset" in module_dir
+        assert "TestRun" in module_dir
 
 
 def test_update_schema_and_models(gql_url: str, tmp_path: Path):
