@@ -1,7 +1,38 @@
-/* Header */
+/* Main textual elements */
 
+html {
+    --md-text-font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+/* Header */
 .md-header {
   background-color: black;
+}
+
+.md-header__button.md-logo {
+  display: none;
+}
+
+.md-header__topic {
+    align-items: center;
+}
+
+.md-ellipsis {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.md-ellipsis>img {
+    vertical-align: sub;
+}
+
+/* Vertical line in header */
+.hv {
+    border-left: 1px solid white;
+    height: 18px;
+    padding-right: 12px;
+    margin-left: 16px;
+    opacity: 0.8;
 }
 
 /* Content area */

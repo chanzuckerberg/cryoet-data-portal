@@ -48,7 +48,7 @@ source_suffix = [".rst", ".md"]
 # Inject custom css files in `/_static/css/*`
 html_static_path = ["_static"]
 html_css_files = ["css/custom.css"]
-html_logo = "_static/img/beta.svg"
+html_logo = ""
 html_title = "CryoET Data Portal Documentation"
 html_favicon = "_static/img/czii-favicon_32x32.png"
 
