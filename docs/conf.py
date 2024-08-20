@@ -26,7 +26,9 @@ extensions = [
 ]
 
 napoleon_custom_sections = ["Lifecycle"]
-
+autodoc_default_options = {
+    "member-order": "alphabetical",
+}
 tiledb_version = "latest"
 
 intersphinx_mapping = {
