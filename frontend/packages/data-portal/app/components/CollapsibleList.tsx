@@ -40,7 +40,7 @@ export function CollapsibleList({
     collapsible && collapsed ? collapseAfter - 1 : (entries ?? []).length - 1
 
   return entries ? (
-    <>
+    <div>
       <ul
         className={cns(
           'flex',
@@ -104,7 +104,7 @@ export function CollapsibleList({
           </button>
         </div>
       )}
-    </>
+    </div>
   ) : (
     <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
       {t('notSubmitted')}

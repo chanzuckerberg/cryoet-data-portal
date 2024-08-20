@@ -44,8 +44,14 @@ function FileSummary({ data }: { data: FileSummaryData[] }) {
 
 export function RunHeader() {
   const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
-  const { run, processingMethods, annotationFilesAggregates, tomogramsCount } =
-    useRunById()
+  const {
+    run,
+    processingMethods,
+    objectNames,
+    resolutions,
+    annotationFilesAggregates,
+    tomogramsCount,
+  } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
 
@@ -230,11 +236,9 @@ export function RunHeader() {
                   {
                     label: i18n.resolutionsAvailable,
                     inline: true,
-                    values: run.tomogram_stats
-                      .flatMap((stats) => stats.tomogram_resolutions)
-                      .map((resolutions) =>
-                        t('unitAngstrom', { value: resolutions.voxel_spacing }),
-                      ),
+                    values: resolutions.map((resolution) =>
+                      t('unitAngstrom', { value: resolution }),
+                    ),
                   },
                   {
                     label: i18n.tomogramProcessing,
@@ -244,13 +248,7 @@ export function RunHeader() {
                   {
                     label: i18n.annotatedObjects,
                     inline: true,
-                    values: Array.from(
-                      new Set(
-                        run.tomogram_stats
-                          .flatMap((stats) => stats.annotations)
-                          .map((annotation) => annotation.object_name),
-                      ),
-                    ),
+                    values: objectNames,
                     renderValues: (values: TableDataValue[]) => (
                       <CollapsibleList
                         entries={values.map((value) => ({

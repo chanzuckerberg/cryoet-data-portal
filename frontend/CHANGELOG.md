@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.23.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.22.0...web-v1.23.0) (2024-08-20)
+
+
+### ✨ Features
+
+* deposition breadcrumb behavior ([#1036](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1036)) ([3d8c0d5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3d8c0d56e041453b92933d6e761c31be7119d440))
+* Fix/clean up tomogram_stats query ([#1033](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1033)) ([2d54a0c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/2d54a0cfffbc06f2b0795eb5fb8f6c2a361b868c))
+
+## [1.22.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.21.0...web-v1.22.0) (2024-08-16)
+
+
+### ✨ Features
+
+* add filter panel to single deposition page ([#1030](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1030)) ([d378e7c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d378e7c2be0c51595bef36ab2adde0647145ce95))
+
 ## [1.21.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.20.0...web-v1.21.0) (2024-08-15)
 
 
