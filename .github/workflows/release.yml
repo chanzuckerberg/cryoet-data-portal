@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-      - tsmith/automate-release
 
 permissions:
   contents: write
