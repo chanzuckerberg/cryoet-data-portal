@@ -32,7 +32,11 @@ aws s3 ls --no-sign-request s3://cryoet-data-portal-public
 
 ## CryoET Workflow Overview
 
-![CZII Graphic Github](https://github.com/chanzuckerberg/cryoet-data-portal/assets/100323416/dc425098-d949-479f-b2f2-325f1c944784)
+
+```{image} https://github.com/chanzuckerberg/cryoet-data-portal/assets/100323416/dc425098-d949-479f-b2f2-325f1c944784
+:alt: CZII Graphic Github
+:align: center
+```
 
 Electron Tomography workflow and the data we provide.
 

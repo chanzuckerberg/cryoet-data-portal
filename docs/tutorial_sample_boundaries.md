@@ -1,7 +1,11 @@
 # Predicting sample boundaries
 
-![tutorial-goal](./figures/tomo_side_light.png)
-*Side view onto a cryo-electron tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/15094) without (left) and with (right) sample boundary annotation*
+```{figure} ./figures/tomo_side_light.png
+:alt: tutorial-goal
+:align: center
+
+Side view onto a cryo-electron tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/15094) without (left) and with (right) sample boundary annotation
+```
 
 Biological samples acquired in a cryoET experiment are usually thin slabs of vitrified ice containing the biological specimen of interest. Unfortunately, it is difficult to determine orientation and thickness of the samples ahead of reconstruction. For this reason, volumes reconstructed from cryoET tilt series are often larger than the actual sample and contain a significant amount of empty space (i.e. the vacuum inside the TEM column).
 
@@ -14,9 +18,12 @@ There are several reasons for why it can be useful to determine more accurate sa
 
 Below, we will show how to use [**copick**](https://github.com/copick/copick), an adapted version of [deepfinder](https://github.com/jtschwar/cryoet-deepfinder/tree/master) and [album](https://album.solutions/) to predict sample boundaries for datasets [10301](https://cryoetdataportal.czscience.com/datasets/10301) and [10302](https://cryoetdataportal.czscience.com/datasets/10302) from the [CZ cryoET Data Portal](https://cryoetdataportal.czscience.com). Copick is a cross-platform, storage-agnostic and server-less dataset API for cryoET datasets.
 
-![topview](./figures/tomo_top_both.png)
+```{figure} ./figures/tomo_top_both.png
+:alt: topview
+:align: center
 
-*Top view onto the same tomogram ([run 15094](https://cryoetdataportal.czscience.com/runs/15094)) from dataset [10302](https://cryoetdataportal.czscience.com/datasets/10302).*
+Top view onto the same tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/15094) from dataset [10302](https://cryoetdataportal.czscience.com/datasets/10302)
+```
 
 ## Step 0: Environment and Pre-requisites
 
@@ -362,8 +369,12 @@ Open ChimeraX and start the copick extension by running the following command in
 copick start config_train.json
 ```
 
-![chimerax-interface](./figures/chimx_boundary.png)
-*The ChimeraX-copick interface after loading run 14069.*
+```{figure} ./figures/chimx_boundary.png
+:alt: chimerax-interface
+:align: center
+
+The ChimeraX-copick interface after loading run 14069.
+```
 
 This will open a new window with the copick interface. On the top left side you will see the available objects, on the
 bottom left you can find a list of runs in the dataset. On the right side you can find the interface of ArtiaX (the plugin that allows you to annotate objects in ChimeraX).
@@ -421,9 +432,12 @@ see the info box below and refer to the [ChimeraX documentation](https://www.cgl
 
 At the end of this step, you should have annotated the top- and bottom-layer of the all 18 tomograms in the training set.
 
-![top-bottom](./figures/top_bottom_light.png)
+```{figure} ./figures/top_bottom_light.png
+:alt: top-bottom
+:align: center
 
-*Points clicked along the top and bottom boundary of the sample of a tomogram.*
+Points clicked along the top and bottom boundary of the sample of a tomogram.
+```
 
 ## Step 3: Create the training data
 
@@ -451,10 +465,12 @@ album run copick:create_rec_limits:0.5.0 \
 You can now visualize the created bounding boxes in ChimeraX by restarting the copick interface and selecting the
 `valid-area` object in the Mesh-tab on the left side.
 
-![valid-area](./figures/valid_area_light.png)
+```{figure} ./figures/valid_area_light.png
+:alt: valid-area
+:align: center
 
-*Top view onto a tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/14069) without (left)
-and with (right) valid reconstruction area mesh overlayed.*
+Top view onto a tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/14069) without (left) and with (right) valid reconstruction area mesh overlayed.
+```
 
 ### Sample
 
@@ -496,9 +512,12 @@ album run copick:intersect_mesh:0.5.0 \
 
 You can now visualize the final 3D mesh for training in ChimeraX by restarting the copick interface and selecting the `valid-area` object in the Mesh-tab on the left side.
 
-![mesh](./figures/mesh_fit.png)
+```{figure} ./figures/mesh_fit.png
+:alt: mesh-fit
+:align: center
 
-*Side view of the tomogram with points and intersected, valid sample area.*
+Side view of the tomogram with points and intersected, valid sample area.
+```
 
 ### Training data
 
@@ -610,9 +629,12 @@ This will create a new segmentation volume with name `segmentation`, user `outpu
 `14114`, `14132`, `14137`, and `14163`. You can now visualize the segmentations in ChimeraX by restarting the copick interface
 and selecting the `segmentation` object in the `Segmentation`-tab on the top left part of the interface.
 
-![prediction-fit](./figures/prediction_fit.png)
+```{figure} ./figures/prediction_fit.png
+:alt: prediction-fit
+:align: center
 
-*Segmentation generated by the model and box fit to the segmentation.*
+Segmentation generated by the model and box fit to the segmentation.
+```
 
 ## Step 6: Post-processing
 
@@ -640,7 +662,10 @@ You can now visualize the final 3D mesh for evaluation in ChimeraX by restarting
 `valid-sample` object in the `Mesh`-tab on the left side. Below you can see the final result for the three tomograms
 `14114`, `14132`, `14137`, and `14163`.
 
-![final-fit](./figures/final.png)
+```{figure} ./figures/final.png
+:alt: final-fit
+:align: center
 
-*Clipped boundaries predicted for [run 14114](https://cryoetdataportal.czscience.com/runs/14114), [run 14132](https://cryoetdataportal.czscience.com/runs/14132), [run 14137](https://cryoetdataportal.czscience.com/runs/14137), and
-[run 14163](https://cryoetdataportal.czscience.com/runs/14163) (left to right, top to bottom).*
+Clipped boundaries predicted for [run 14114](https://cryoetdataportal.czscience.com/runs/14114), [run 14132](https://cryoetdataportal.czscience.com/runs/14132), [run 14137](https://cryoetdataportal.czscience.com/runs/14137), and
+[run 14163](https://cryoetdataportal.czscience.com/runs/14163) (left to right, top to bottom).
+```

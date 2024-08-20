@@ -12,6 +12,7 @@ A simplified diagram of the graph data model is below:
 ```{image} _static/img/data_model.png
 :width: 1000
 :alt: Simplified data model
+:align: center
 ```
 
 ## Client
