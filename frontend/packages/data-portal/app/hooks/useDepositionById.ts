@@ -13,7 +13,9 @@ export type Deposition = NonUndefined<GetDepositionByIdQuery['deposition']> & {
 }
 
 export function useDepositionById() {
-  const data = useTypedLoaderData<GetDepositionByIdQuery>()
+  const { depositionData: data } = useTypedLoaderData<{
+    depositionData: GetDepositionByIdQuery
+  }>()
 
   const objectNames = useMemo(
     () =>

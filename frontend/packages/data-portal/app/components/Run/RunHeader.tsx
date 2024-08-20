@@ -1,5 +1,4 @@
 import { Button, Icon } from '@czi-sds/components'
-import { sum } from 'lodash-es'
 
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { I18n } from 'app/components/I18n'
@@ -19,8 +18,11 @@ import {
 } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
+import { TableDataValue } from 'app/types/table'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
+
+import { CollapsibleList } from '../CollapsibleList'
 
 interface FileSummaryData {
   key: string
@@ -42,7 +44,8 @@ function FileSummary({ data }: { data: FileSummaryData[] }) {
 
 export function RunHeader() {
   const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
-  const { run, annotationFilesAggregates } = useRunById()
+  const { run, processingMethods, annotationFilesAggregates, tomogramsCount } =
+    useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
 
@@ -56,11 +59,6 @@ export function RunHeader() {
 
   const framesCount = run.tiltseries_aggregate.aggregate?.sum?.frames_count ?? 0
   const tiltSeriesCount = run.tiltseries_aggregate.aggregate?.count ?? 0
-  const tomogramsCount = sum(
-    run.tomogram_stats.flatMap(
-      (stats) => stats.tomograms_aggregate.aggregate?.count ?? 0,
-    ),
-  )
   const annotationsCount = annotationFilesAggregates.totalCount
 
   return (
@@ -240,9 +238,8 @@ export function RunHeader() {
                   },
                   {
                     label: i18n.tomogramProcessing,
-                    values: run.tomogram_stats
-                      .flatMap((stats) => stats.tomogram_processing)
-                      .map((tomo) => tomo.processing),
+                    values: processingMethods,
+                    className: 'capitalize',
                   },
                   {
                     label: i18n.annotatedObjects,
@@ -253,6 +250,16 @@ export function RunHeader() {
                           .flatMap((stats) => stats.annotations)
                           .map((annotation) => annotation.object_name),
                       ),
+                    ),
+                    renderValues: (values: TableDataValue[]) => (
+                      <CollapsibleList
+                        entries={values.map((value) => ({
+                          key: value.toString(),
+                          entry: value.toString(),
+                        }))}
+                        inlineVariant
+                        collapseAfter={6}
+                      />
                     ),
                   },
                 ]}

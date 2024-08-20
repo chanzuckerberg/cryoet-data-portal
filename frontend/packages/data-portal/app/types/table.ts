@@ -12,5 +12,6 @@ export interface TableData {
   labelTooltip?: ReactNode
   labelTooltipProps?: Partial<TooltipProps>
   renderValue?(value: TableDataValue): ReactNode
+  renderValues?(values: TableDataValue[]): ReactNode
   values: TableDataValue[] | (() => TableDataValue[])
 }

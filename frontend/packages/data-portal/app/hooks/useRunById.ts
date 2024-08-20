@@ -8,6 +8,14 @@ export function useRunById() {
 
   const run = data.runs[0]
 
+  const annotationFiles = data.annotation_files
+
+  const { tomograms } = data
+
+  const processingMethods = data.tomograms_for_distinct_processing_methods.map(
+    (tomogram) => tomogram.processing,
+  )
+
   const objectNames = useMemo(
     () =>
       Array.from(
@@ -59,11 +67,17 @@ export function useRunById() {
     otherCount: data.annotation_files_aggregate_for_other.aggregate?.count ?? 0,
   }
 
+  const tomogramsCount = data.tomograms_aggregate.aggregate?.count ?? 0
+
   return {
     run,
+    annotationFiles,
+    tomograms,
+    processingMethods,
     objectNames,
     objectShapeTypes,
     annotationSoftwares,
     annotationFilesAggregates,
+    tomogramsCount,
   }
 }

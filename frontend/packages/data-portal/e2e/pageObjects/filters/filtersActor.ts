@@ -8,6 +8,7 @@ import {
 } from 'app/__generated__/graphql'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
+import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { getRunById } from 'app/graphql/getRunById.server'
 
 import { FiltersPage } from './filtersPage'
@@ -370,29 +371,19 @@ export class FiltersActor {
   // However, we may want to add the reverse check to ensure there are no extra values in the UI list
   public async expectOrganismNamesFromDataToMatchFilterList({
     client,
-    pageNumber = 1,
     testQuery,
-    url,
-    queryParamsList,
-    serialize,
   }: {
     client: ApolloClient<NormalizedCacheObject>
-    pageNumber?: number
     testQuery: string
     url: string
-    queryParamsList?: QueryParamObjectType[]
-    serialize?: (value: string) => string
   }) {
-    const browseDatasetsData = await this.getDatasetsDataUsingParams({
+    const { data: datasetsFilterData } = await getDatasetsFilterData({
       client,
-      pageNumber,
-      url,
-      queryParamsList,
-      serialize,
+      filter: {},
     })
 
     const organismNames = getFilteredOrganismNamesFromData({
-      browseDatasetsData,
+      datasetsFilterData,
       testQuery,
     })
 

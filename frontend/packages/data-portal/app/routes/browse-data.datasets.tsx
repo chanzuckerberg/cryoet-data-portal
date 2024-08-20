@@ -8,6 +8,7 @@ import { DatasetFilter } from 'app/components/DatasetFilter'
 import { NoResults } from 'app/components/NoResults'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
+import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { useDatasets } from 'app/hooks/useDatasets'
 import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
@@ -26,15 +27,21 @@ export async function loader({ request }: LoaderFunctionArgs) {
     orderBy = sort === 'asc' ? Order_By.Asc : Order_By.Desc
   }
 
-  const { data } = await getBrowseDatasets({
-    orderBy,
-    page,
-    query,
-    client: apolloClient,
-    params: url.searchParams,
-  })
+  const [datasetsResponse, datasetsFilterResponse] = await Promise.all([
+    getBrowseDatasets({
+      orderBy,
+      page,
+      query,
+      client: apolloClient,
+      params: url.searchParams,
+    }),
+    getDatasetsFilterData({ client: apolloClient, filter: {} }),
+  ])
 
-  return json(data)
+  return json({
+    datasetsData: datasetsResponse.data,
+    datasetsFilterData: datasetsFilterResponse.data,
+  })
 }
 
 export default function BrowseDatasetsPage() {

@@ -58,8 +58,12 @@ export function TablePageLayout({
         {header}
 
         {tabs.length > 1 && (
-          <>
-            {tabsTitle && <div className="text-sds-header-l">{tabsTitle}</div>}
+          <div className="max-w-content w-full self-center px-sds-xl">
+            {tabsTitle && (
+              <div className="text-sds-header-l leading-sds-header-l font-semibold mb-sds-s">
+                {tabsTitle}
+              </div>
+            )}
             <Tabs
               value={activeTab.title}
               onChange={(tabTitle: string) => {
@@ -70,18 +74,19 @@ export function TablePageLayout({
               }}
               tabs={tabs.map((tab) => ({
                 label: (
-                  <>
+                  <div>
                     <span>{tab.title}</span>
-                    <span className="text-sds-gray-500 ml-[24px]">
+                    <span className="text-sds-gray-500 ml-[16px]">
                       {tab.filteredCount}
                     </span>
-                  </>
+                  </div>
                 ),
                 value: tab.title,
               }))}
             />
-          </>
+          </div>
         )}
+
         <TablePageTabContent {...activeTab} />
 
         {drawers}
