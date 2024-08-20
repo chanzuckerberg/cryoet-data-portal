@@ -55,6 +55,11 @@ html {
     padding-left: 0.5rem;
 }
 
+/* Prevents duplicate entry for the tutorials page - sphinx immaterial bug?  */
+li.md-nav__item.md-nav__item--active.md-nav__current-toc {
+    display: none;
+}
+
 /*@media screen and (max-width: 768px) {}*/
 /*
 .navbar-cet {

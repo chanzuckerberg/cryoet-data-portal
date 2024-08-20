@@ -67,9 +67,11 @@ html_theme_options = {
     "edit_uri": "blob/main/docs",
     "globaltoc_collapse": False,
     "features": [
-        "navigation.expand",
+        #"navigation.expand",
         "toc.follow",
         "toc.sticky",
+        "navigation.tabs",
+        "navigation.tabs.sticky",
     ],
     "palette": [
         {
@@ -85,8 +87,8 @@ html_theme_options = {
         {
             "media": "(prefers-color-scheme: dark)",
             "scheme": "slate",
-            "primary": "deep-orange",
-            "accent": "lime",
+            "primary": "indigo",
+            "accent": "blue",
             "toggle": {
                 "icon": "material/lightbulb",
                 "name": "Switch to light mode",
