@@ -138,29 +138,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
         }
       }
 
-      tomogram_stats: tomogram_voxel_spacings {
-        annotations {
-          object_name
-          annotation_software
-
-          files(distinct_on: shape_type) {
-            shape_type
-          }
-        }
-
-        tomogram_resolutions: tomograms(distinct_on: voxel_spacing) {
-          https_mrc_scale0
-          id
-          processing
-          s3_mrc_scale0
-          s3_omezarr_dir
-          size_x
-          size_y
-          size_z
-          voxel_spacing
-        }
-      }
-
       tiltseries_aggregate {
         aggregate {
           avg {
@@ -292,7 +269,50 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
     }
 
-    # Distinct tomogram processing methods:
+    # Tomograms download:
+    tomograms_for_download: tomograms(
+      where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }
+    ) {
+      https_mrc_scale0
+      id
+      processing
+      reconstruction_method
+      s3_mrc_scale0
+      s3_omezarr_dir
+      size_x
+      size_y
+      size_z
+      voxel_spacing
+    }
+
+    # Annotation metadata:
+    annotations_for_softwares: annotations(
+      where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }
+      distinct_on: annotation_software
+    ) {
+      annotation_software
+    }
+    annotations_for_object_names: annotations(
+      where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }
+      distinct_on: object_name
+    ) {
+      object_name
+    }
+    annotation_files_for_shape_types: annotation_files(
+      where: { annotation: { tomogram_voxel_spacing: { run_id: { _eq: $id } } } }
+      distinct_on: shape_type
+    ) {
+      shape_type
+    }
+
+    # Tomogram metadata:
+    tomograms_for_resolutions: tomograms(
+      where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }
+      distinct_on: voxel_spacing
+      order_by: { voxel_spacing: asc  }
+    ) {
+      voxel_spacing
+    }
     tomograms_for_distinct_processing_methods: tomograms(
       where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }
       distinct_on: processing

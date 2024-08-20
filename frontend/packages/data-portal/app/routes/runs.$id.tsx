@@ -2,7 +2,7 @@
 
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { isNumber, toNumber } from 'lodash-es'
+import { toNumber } from 'lodash-es'
 import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
@@ -81,13 +81,10 @@ export default function RunByIdPage() {
     run,
     processingMethods,
     annotationFiles,
+    tomogramsForDownload,
     annotationFilesAggregates,
     tomogramsCount,
   } = useRunById()
-
-  const allTomogramResolutions = run.tomogram_stats.flatMap((stats) =>
-    stats.tomogram_resolutions.map((tomogram) => tomogram),
-  )
 
   const {
     downloadConfig,
@@ -99,13 +96,13 @@ export default function RunByIdPage() {
   } = useDownloadModalQueryParamState()
 
   const activeTomogram =
-    (downloadConfig === DownloadConfig.Tomogram &&
-      allTomogramResolutions.find(
-        (tomogram) =>
-          `${tomogram.voxel_spacing}` === tomogramSampling &&
-          tomogram.processing === tomogramProcessing,
-      )) ||
-    null
+    downloadConfig === DownloadConfig.Tomogram
+      ? tomogramsForDownload.find(
+          (tomogram) =>
+            `${tomogram.voxel_spacing}` === tomogramSampling &&
+            tomogram.processing === tomogramProcessing,
+        )
+      : undefined
 
   const tomogram = run.tomogram_voxel_spacings.at(0)
   const { t } = useI18n()
@@ -138,16 +135,6 @@ export default function RunByIdPage() {
     enabled: fileFormat !== 'zarr',
   })
 
-  const activeTomogramResolution = useMemo(
-    () =>
-      allTomogramResolutions.find((resolution) =>
-        tomogramSampling !== null && isNumber(+tomogramSampling)
-          ? resolution.voxel_spacing === +tomogramSampling
-          : false,
-      ),
-    [allTomogramResolutions, tomogramSampling],
-  )
-
   return (
     <TablePageLayout
       header={<RunHeader />}
@@ -178,9 +165,9 @@ export default function RunByIdPage() {
       downloadModal={
         <DownloadModal
           activeAnnotation={activeAnnotation}
-          activeTomogramResolution={activeTomogramResolution}
+          activeTomogram={activeTomogram}
           allTomogramProcessing={processingMethods}
-          allTomogramResolutions={allTomogramResolutions}
+          allTomograms={tomogramsForDownload}
           datasetId={run.dataset.id}
           datasetTitle={run.dataset.title}
           fileSize={fileSize}
