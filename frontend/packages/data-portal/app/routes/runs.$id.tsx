@@ -2,7 +2,7 @@
 
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { isNumber } from 'lodash-es'
+import { isNumber, toNumber } from 'lodash-es'
 import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
@@ -14,15 +14,17 @@ import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
 import { AnnotationTable } from 'app/components/Run/AnnotationTable'
 import { RunMetadataDrawer } from 'app/components/Run/RunMetadataDrawer'
+import { TomogramMetadataDrawer } from 'app/components/Run/TomogramMetadataDrawer'
+import { TomogramsTable } from 'app/components/Run/TomogramTable'
 import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useFileSize } from 'app/hooks/useFileSize'
 import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
-import { i18n } from 'app/i18n'
-import { Annotation } from 'app/state/annotation'
+import { BaseAnnotation } from 'app/state/annotation'
 import { DownloadConfig } from 'app/types/download'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
@@ -74,14 +76,17 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 }
 
 export default function RunByIdPage() {
-  const { run, annotationFilesAggregates } = useRunById()
+  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
+  const {
+    run,
+    processingMethods,
+    annotationFiles,
+    annotationFilesAggregates,
+    tomogramsCount,
+  } = useRunById()
 
   const allTomogramResolutions = run.tomogram_stats.flatMap((stats) =>
     stats.tomogram_resolutions.map((tomogram) => tomogram),
-  )
-
-  const allTomogramProcessing = run.tomogram_stats.flatMap((stats) =>
-    stats.tomogram_processing.map((tomogram) => tomogram.processing),
   )
 
   const {
@@ -105,33 +110,13 @@ export default function RunByIdPage() {
   const tomogram = run.tomogram_voxel_spacings.at(0)
   const { t } = useI18n()
 
-  const activeAnnotation = useMemo(() => {
-    const allAnnotations = new Map(
-      run.annotation_table
-        .flatMap((table) => table.annotations.map((annotation) => annotation))
-        .map((annotation) => [annotation.id, annotation]),
-    )
-
-    const activeBaseAnnotation = annotationId
-      ? allAnnotations.get(+annotationId)
-      : null
-
-    const activeAnnotationFile = objectShapeType
-      ? activeBaseAnnotation?.files.find(
-          (file) => file.shape_type === objectShapeType,
-        )
-      : null
-
-    const result =
-      activeBaseAnnotation && activeAnnotationFile
-        ? {
-            ...activeBaseAnnotation,
-            ...activeAnnotationFile,
-          }
-        : null
-
-    return result as Annotation | null
-  }, [annotationId, objectShapeType, run.annotation_table])
+  const activeAnnotation: BaseAnnotation | undefined = useMemo(
+    () =>
+      annotationFiles.find(
+        (file) => file.annotation.id === toNumber(annotationId),
+      )?.annotation,
+    [annotationId, annotationFiles],
+  )
 
   const httpsPath = useMemo(() => {
     if (activeAnnotation) {
@@ -166,6 +151,7 @@ export default function RunByIdPage() {
   return (
     <TablePageLayout
       header={<RunHeader />}
+      tabsTitle={multipleTomogramsEnabled ? t('browseRunData') : undefined}
       tabs={[
         {
           title: t('annotations'),
@@ -174,14 +160,26 @@ export default function RunByIdPage() {
           pageQueryParamKey: QueryParams.AnnotationsPage,
           filteredCount: annotationFilesAggregates.filteredCount,
           totalCount: annotationFilesAggregates.totalCount,
-          countLabel: i18n.annotations,
+          countLabel: t('annotations'),
         },
+        ...(multipleTomogramsEnabled
+          ? [
+              {
+                title: t('tomograms'),
+                table: <TomogramsTable />,
+                pageQueryParamKey: QueryParams.TomogramsPage,
+                filteredCount: tomogramsCount,
+                totalCount: tomogramsCount,
+                countLabel: t('tomograms'),
+              },
+            ]
+          : []),
       ]}
       downloadModal={
         <DownloadModal
           activeAnnotation={activeAnnotation}
           activeTomogramResolution={activeTomogramResolution}
-          allTomogramProcessing={allTomogramProcessing}
+          allTomogramProcessing={processingMethods}
           allTomogramResolutions={allTomogramResolutions}
           datasetId={run.dataset.id}
           datasetTitle={run.dataset.title}
@@ -227,6 +225,7 @@ export default function RunByIdPage() {
         <>
           <RunMetadataDrawer />
           <AnnotationDrawer />
+          <TomogramMetadataDrawer />
         </>
       }
     />

@@ -2,6 +2,7 @@ import { Button, ButtonProps } from '@czi-sds/components'
 
 import { useI18n } from 'app/hooks/useI18n'
 import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
+import { getNeuroglancerUrl } from 'app/utils/url'
 
 import { Link } from './Link'
 
@@ -45,9 +46,7 @@ export function ViewTomogramButton({
       onMouseLeave={() => setIsHoveringOver?.(false)}
     >
       <Button
-        to={`https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(
-          neuroglancerConfig,
-        )}`}
+        to={getNeuroglancerUrl(neuroglancerConfig)}
         component={Link}
         {...buttonProps}
       >

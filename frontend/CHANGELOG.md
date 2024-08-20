@@ -1,5 +1,59 @@
 # Changelog
 
+## [1.22.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.21.0...web-v1.22.0) (2024-08-16)
+
+
+### ✨ Features
+
+* add filter panel to single deposition page ([#1030](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1030)) ([d378e7c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d378e7c2be0c51595bef36ab2adde0647145ce95))
+
+## [1.21.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.20.0...web-v1.21.0) (2024-08-15)
+
+
+### ✨ Features
+
+* Update Tomogram Processing field format and query ([#1031](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1031)) ([80e1b51](https://github.com/chanzuckerberg/cryoet-data-portal/commit/80e1b51995094f2ee42768c36e6499d11be5b936))
+
+## [1.20.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.19.1...web-v1.20.0) (2024-08-15)
+
+
+### ✨ Features
+
+* Implement collapsing Annotated Objects list ([#1024](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1024)) ([9343d12](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9343d1215a60632696efba551c9272aa7ce98b85))
+
+
+### 🧹 Miscellaneous Chores
+
+* Add e2e test for errors on Neuroglancer site ([#1027](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1027)) ([572972d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/572972d915a20338d9a4a59742233f855e3720c8))
+
+## [1.19.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.19.0...web-v1.19.1) (2024-08-13)
+
+
+### 🐞 Bug Fixes
+
+* Dedupe authors ([#1018](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1018)) ([bdbc034](https://github.com/chanzuckerberg/cryoet-data-portal/commit/bdbc034dd20d9db42536e8a84e312545148e6a55)), closes [#752](https://github.com/chanzuckerberg/cryoet-data-portal/issues/752)
+* Fix Neuroglancer URL bug ([#1026](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1026)) ([377d6dc](https://github.com/chanzuckerberg/cryoet-data-portal/commit/377d6dcd38870190601ac28d8ddd695f2e8adfb5)), closes [#1025](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1025)
+
+## [1.19.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.18.0...web-v1.19.0) (2024-08-12)
+
+
+### ✨ Features
+
+* Add Tomograms table ([#988](https://github.com/chanzuckerberg/cryoet-data-portal/issues/988)) ([420acdd](https://github.com/chanzuckerberg/cryoet-data-portal/commit/420acdd2999e4261214a9475c9a6d37b1c85ef28))
+* Enable pagination of Annotations table with temporary hacky query ([#992](https://github.com/chanzuckerberg/cryoet-data-portal/issues/992)) ([79f7247](https://github.com/chanzuckerberg/cryoet-data-portal/commit/79f724798caacab162eb89a0a4ce57a7b19f5e2d))
+
+
+### ♻️ Code Refactoring
+
+* download dialog tests ([#1011](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1011)) ([f0ece55](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f0ece552004cad1d3847691aab0bfd8b0ab6b8e3)), closes [#962](https://github.com/chanzuckerberg/cryoet-data-portal/issues/962)
+
+## [1.18.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.17.0...web-v1.18.0) (2024-08-02)
+
+
+### ✨ Features
+
+* Add Tomograms tab to Run page ([#983](https://github.com/chanzuckerberg/cryoet-data-portal/issues/983)) ([c357e6e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c357e6e804ac31a854a5012295a459c3be19e6e6))
+
 ## [1.17.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.16.0...web-v1.17.0) (2024-07-31)
 
 

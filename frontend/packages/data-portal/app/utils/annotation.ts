@@ -1,6 +1,8 @@
-import { Annotation } from 'app/state/annotation'
+import { AnnotationRow } from 'app/state/annotation'
 
-export function getAnnotationTitle(annotation: Annotation | undefined | null) {
+export function getAnnotationTitle(
+  annotation: AnnotationRow | undefined | null,
+) {
   if (!annotation) {
     return '--'
   }

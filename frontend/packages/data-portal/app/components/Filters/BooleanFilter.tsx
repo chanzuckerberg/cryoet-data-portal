@@ -5,10 +5,12 @@ import { cns } from 'app/utils/cns'
 import styles from './Filters.module.css'
 
 export function BooleanFilter({
+  caption,
   label,
   onChange,
   value,
 }: {
+  caption?: string
   label: string
   onChange(value: boolean): void
   value: boolean
@@ -19,6 +21,7 @@ export function BooleanFilter({
         checked={value}
         onChange={(event) => onChange(event.target.checked)}
         label={label}
+        caption={caption}
       />
     </div>
   )

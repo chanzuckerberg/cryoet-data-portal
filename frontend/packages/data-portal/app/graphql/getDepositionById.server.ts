@@ -135,8 +135,10 @@ const GET_DEPOSITION_BY_ID = gql(`
 function getFilter(filterState: FilterState) {
   const filters: Depositions_Bool_Exp[] = []
   // TODO: implement filters
-  // eslint-disable-next-line no-console
-  console.log(filterState)
+
+  // Adding this to avoid unused error
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+  filterState
 
   return { _and: filters } as Depositions_Bool_Exp
 }
