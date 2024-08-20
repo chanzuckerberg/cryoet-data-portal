@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.23.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.22.0...web-v1.23.0) (2024-08-20)
+
+
+### ✨ Features
+
+* deposition breadcrumb behavior ([#1036](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1036)) ([3d8c0d5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3d8c0d56e041453b92933d6e761c31be7119d440))
+
 ## [1.22.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.21.0...web-v1.22.0) (2024-08-16)
 
 
