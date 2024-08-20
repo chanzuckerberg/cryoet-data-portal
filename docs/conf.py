@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "CryoET Data Portal Documentation"
-copyright = "2022-2023 Chan Zuckerberg Initiative"
+copyright = "2022-2024 Chan Zuckerberg Initiative"
 author = "Chan Zuckerberg Initiative"
 
 import cryoet_data_portal
