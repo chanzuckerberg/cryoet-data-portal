@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.23.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.23.0...web-v1.23.1) (2024-08-20)
+
+
+### 🐞 Bug Fixes
+
+* wrap collapsible lists in a div ([#1038](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1038)) ([4df83f0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4df83f060227d6d0cc81ff0806aea333f19866b9))
+
 ## [1.23.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.22.0...web-v1.23.0) (2024-08-20)
 
 
