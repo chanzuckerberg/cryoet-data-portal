@@ -25,7 +25,7 @@ jobs:
           # TODO Configuring using manifest file as workaround until we move the frontend to its own repo
           manifest-file: "release-please.manifest.json"
           config-file: "release-please.config.json"
-          target-branch: "tsmith/automate-release"
+          target-branch: "main"
 
     outputs:
       paths_released: ${{ steps.release.outputs.paths_released }}
