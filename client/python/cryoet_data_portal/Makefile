@@ -1,6 +1,9 @@
 .PHONY: test-infra
 test-infra:
-	cd tests && docker compose up -d --force-recreate
+	# Use force-recreate to handle re-initializing the database schema and data
+	# rather than maintaining incremental migrations.
+	# See the test_infra/hasura/README.md for more details.
+	cd tests && docker compose up -d --wait --wait-timeout 300 --force-recreate
 	cd ./tests/test_infra/; ./seed_moto.sh
 
 .PHONY: coverage

@@ -13,7 +13,7 @@
   "organismName1": "Bacillus subtilis",
   "organismName2": "Bdellovibrio bacteriovorus",
   "organismNameQuery": "bac",
-  "reconstructionMethod": "Weighted back projection",
+  "reconstructionMethod": "SIRT",
   "reconstructionObjectName": "Actin filament",
   "reconstructionSoftware": "IMOD",
   "runId": "258",

@@ -55,13 +55,7 @@ test.describe('Single run page: ', () => {
   })
 
   test('Annotated Objects collapse after 7 items', async () => {
-    const response = Array.from(
-      new Set(
-        (await page.loadData()).data.runs[0].tomogram_stats
-          .flatMap((tomogramVoxelSpacing) => tomogramVoxelSpacing.annotations)
-          .map((annotation) => annotation.object_name),
-      ),
-    )
+    const response = (await page.loadData()).data.annotations_for_object_names
 
     if (response.length > 7) {
       // Collapsed:
