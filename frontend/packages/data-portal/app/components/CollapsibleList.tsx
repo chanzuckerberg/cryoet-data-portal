@@ -45,7 +45,9 @@ export function CollapsibleList({
         className={cns(
           'flex',
           inlineVariant ? 'flex-wrap gap-sds-xxs' : 'flex-col gap-sds-xs',
-          'text-sds-body-xxs leading-sds-body-xxs',
+          tableVariant
+            ? 'text-sds-body-s leading-sds-body-s'
+            : 'text-sds-body-xxs leading-sds-body-xxs',
           collapsible && 'transition-[max-height_0.2s_ease-out]',
         )}
       >
@@ -83,7 +85,9 @@ export function CollapsibleList({
                     sdsType="static"
                     className="!text-current"
                   />
-                  {t('showMore', { count: entries.length - collapseAfter })}
+                  {t('showNumberMore', {
+                    count: entries.length - collapseAfter,
+                  })}
                 </>
               ) : (
                 <>
