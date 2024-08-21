@@ -178,8 +178,7 @@ class ItemRelationship(Relationship):
         for item in self.related_class.find(
             obj._client,
             [
-                getattr(self.related_class, self.dest_field)
-                == getattr(obj, self.source_field),
+                getattr(self.related_class, self.dest_field) == getattr(obj, self.source_field),
             ],
         ):
             return item
@@ -192,8 +191,7 @@ class ListRelationship(Relationship):
         res = self.related_class.find(
             obj._client,
             [
-                getattr(self.related_class, self.dest_field)
-                == getattr(obj, self.source_field),
+                getattr(self.related_class, self.dest_field) == getattr(obj, self.source_field),
             ],
         )
         return res

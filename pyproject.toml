@@ -24,7 +24,7 @@ ignore = [
     "E501",  # line too long
     "C408",  # rewrite empty built-ins as literals
 ]
-line-length = 79
+line-length = 120
 target-version = "py39"
 
 [tool.ruff.isort]

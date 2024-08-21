@@ -49,9 +49,7 @@ class Client:
         ds = self.ds
         query_filters = {} if not query_filters else {"where": query_filters}
         gql_type = getattr(ds, gql_class_name)
-        scalar_fields = [
-            getattr(gql_type, fieldname) for fieldname in cls._get_scalar_fields()
-        ]
+        scalar_fields = [getattr(gql_type, fieldname) for fieldname in cls._get_scalar_fields()]
         query = dsl_gql(
             DSLQuery(
                 getattr(ds.query_root, gql_class_name)(**query_filters).select(

@@ -1,16 +1,15 @@
 repos:
-- repo: https://github.com/psf/black-pre-commit-mirror
-  rev: 23.9.1
-  hooks:
-  - id: black
-    files: backend|client/python
 - repo: https://github.com/astral-sh/ruff-pre-commit
   rev: v0.0.292
   hooks:
+  # Run the linter and fix issues
   - id: ruff
     files: backend|client/python
     args:
     - --fix
+  # Run the formatter
+  - id: ruff-format
+    files: backend|client/python
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.5.0
   hooks:
