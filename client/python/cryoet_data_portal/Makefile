@@ -1,6 +1,6 @@
 .PHONY: test-infra
 test-infra:
-	cd tests && docker compose up -d
+	cd tests && docker compose up -d --wait --wait-timeout 300
 	cd ./tests/test_infra/; ./seed_moto.sh
 
 .PHONY: coverage
