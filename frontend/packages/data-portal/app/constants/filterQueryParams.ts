@@ -33,7 +33,7 @@ export const ANNOTATION_FILTERS = [
   QueryParams.AuthorName,
   QueryParams.AuthorOrcid,
   QueryParams.ObjectName,
-  QueryParams.GoId,
+  QueryParams.ObjectId,
   QueryParams.ObjectShapeType,
   QueryParams.MethodType,
   QueryParams.AnnotationSoftware,

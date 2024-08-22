@@ -6,7 +6,7 @@
   "datasetId": "10001",
   "emdbId": "17241",
   "empiarId": "11221",
-  "goId": "0005835",
+  "objectId": "GO:0005835",
   "methodType": "automated",
   "objectName": "membrane-enclosed lumen",
   "objectShapeType": "InstanceSegmentation",

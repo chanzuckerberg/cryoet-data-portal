@@ -4,14 +4,14 @@ import { InputFilterData, MultiInputFilter } from 'app/components/Filters'
 import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'
 
-export function GeneOntologyFilter() {
+export function ObjectIdFilter() {
   const { t } = useI18n()
 
-  const GO_FILTER = useMemo<InputFilterData>(
+  const ID_FILTER = useMemo<InputFilterData>(
     () => ({
-      id: 'go-id-input',
-      label: t('filterByGeneOntologyId'),
-      queryParam: QueryParams.GoId,
+      id: 'object-id-input',
+      label: t('filterByObjectId'),
+      queryParam: QueryParams.ObjectId,
       hideLabel: true,
     }),
     [t],
@@ -19,9 +19,9 @@ export function GeneOntologyFilter() {
 
   return (
     <MultiInputFilter
-      label={t('goId')}
-      title={t('filterByGeneOntologyId')}
-      filters={[GO_FILTER]}
+      label={t('objectId')}
+      title={t('filterByObjectId')}
+      filters={[ID_FILTER]}
     />
   )
 }
