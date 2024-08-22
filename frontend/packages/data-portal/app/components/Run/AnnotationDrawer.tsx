@@ -5,7 +5,7 @@ import { useAnnotation } from 'app/state/annotation'
 import { getAnnotationTitle } from 'app/utils/annotation'
 
 import { AnnotationConfidenceTable } from './AnnotationConfidenceTable'
-import { AnnotationObjectTable } from './AnnotationObjectTable'
+import { AnnotationObjectTable } from './AnnotationObjectTable/AnnotationObjectTable'
 import { AnnotationOverviewTable } from './AnnotationOveriewTable'
 
 export function AnnotationDrawer() {

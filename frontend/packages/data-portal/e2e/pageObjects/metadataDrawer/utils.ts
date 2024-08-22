@@ -127,7 +127,7 @@ function getAnnotationTestMetdata(
     annotationMethod: annotation.annotation_method,
     annotationSoftware: annotation.annotation_software,
     objectName: annotation.object_name,
-    goId: annotation.object_id,
+    objectId: annotation.object_id,
     objectCount: annotation.object_count,
     objectShapeType: file?.shape_type,
     objectState: annotation.object_state,

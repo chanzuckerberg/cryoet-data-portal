@@ -433,7 +433,7 @@ function getFilter(filterState: FilterState): Annotations_Bool_Exp[] {
     })
   }
 
-  const { objectNames, annotationSoftwares, methodTypes, goId } =
+  const { objectNames, annotationSoftwares, methodTypes, objectId } =
     filterState.annotation
 
   if (objectNames.length > 0) {
@@ -444,10 +444,10 @@ function getFilter(filterState: FilterState): Annotations_Bool_Exp[] {
     })
   }
 
-  if (goId) {
+  if (objectId) {
     filters.push({
       object_id: {
-        _ilike: `%${goId.replace(':', '_')}`,
+        _ilike: `%${objectId.replace(':', '_')}`,
       },
     })
   }

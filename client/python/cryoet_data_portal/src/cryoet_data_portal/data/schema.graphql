@@ -1194,7 +1194,7 @@ type annotations {
   """
   object_description: String
 
-  """Gene Ontology Cellular Component identifier for the annotation object"""
+  """Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object."""
   object_id: String!
 
   """
@@ -1421,7 +1421,7 @@ type annotations_max_fields {
   """
   object_description: String
 
-  """Gene Ontology Cellular Component identifier for the annotation object"""
+  """Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object."""
   object_id: String
 
   """
@@ -1494,7 +1494,7 @@ input annotations_max_order_by {
   """
   object_description: order_by
 
-  """Gene Ontology Cellular Component identifier for the annotation object"""
+  """Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object."""
   object_id: order_by
 
   """
@@ -1565,7 +1565,7 @@ type annotations_min_fields {
   """
   object_description: String
 
-  """Gene Ontology Cellular Component identifier for the annotation object"""
+  """Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object."""
   object_id: String
 
   """
@@ -1638,7 +1638,7 @@ input annotations_min_order_by {
   """
   object_description: order_by
 
-  """Gene Ontology Cellular Component identifier for the annotation object"""
+  """Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object."""
   object_id: order_by
 
   """

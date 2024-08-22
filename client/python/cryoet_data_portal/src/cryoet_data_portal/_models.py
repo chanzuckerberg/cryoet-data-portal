@@ -426,7 +426,7 @@ class Annotation(Model):
         method_type (str): The method type for generating the annotation (eg. manual, hybrid, automated)
         object_count (int): Number of objects identified
         object_description (str): A textual description of the annotation object, can be a longer description to include additional information not covered by the Annotation object name and state.
-        object_id (str): Gene Ontology Cellular Component identifier for the annotation object
+        object_id (str): Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object.
         object_name (str): Name of the object being annotated (e.g. ribosome, nuclear pore complex, actin filament, membrane)
         object_state (str): Molecule state annotated (e.g. open, closed)
         release_date (date): Date when annotation data is made public by the Data Portal.

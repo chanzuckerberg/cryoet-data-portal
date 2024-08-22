@@ -178,7 +178,7 @@ Each annotation has its own metadata, which can be viewed using the info icon on
 | **Portal Metadata**       | **API Expression**                 | **Definition**                                                                                               |
 |---------------------------|------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | Object Name               | Annotation.object_name             | Name of the object being annotated, e.g., ribosome, nuclear pore complex, actin filament, membrane.          |
-| GO ID                     | Annotation.object_id               | Gene Ontology Cellular Component identifier for the annotation object.                                        |
+| Object ID                 | Annotation.object_id               | Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object.                |
 | Object Count              | Annotation.object_count            | Number of objects identified.                                                                                 |
 | Object Shape Type         | AnnotationFile.shape_type          | Description of whether this is a Point, OrientedPoint, or SegmentationMask file.                              |
 | Object State              | Annotation.object_state            | Additional information about the annotated object not captured by the gene ontology (e.g., open or closed state for molecules). |
