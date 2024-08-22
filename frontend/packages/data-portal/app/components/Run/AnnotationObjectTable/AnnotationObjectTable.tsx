@@ -27,7 +27,7 @@ export function AnnotationObjectTable() {
     },
     {
       label: t('objectCount'),
-      values: [annotation.object_count],
+      values: [String(annotation.object_count)],
     },
     {
       label: t('objectShapeType'),
