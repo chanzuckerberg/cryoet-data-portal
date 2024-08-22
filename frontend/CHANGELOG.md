@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.24.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.23.1...web-v1.24.0) (2024-08-22)
+
+
+### ✨ Features
+
+* add single deposition info panel ([#986](https://github.com/chanzuckerberg/cryoet-data-portal/issues/986)) ([62fb35f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/62fb35fe2a59215387c29e36cfb62d1b6ed7a9a9))
+
+
+### ⚙ Continuous Integration
+
+* fixes prod e2e tests ([#1066](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1066)) ([de5e273](https://github.com/chanzuckerberg/cryoet-data-portal/commit/de5e2738541c163a80442b394c10a8dac967a794))
+
 ## [1.23.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.23.0...web-v1.23.1) (2024-08-20)
 
 
