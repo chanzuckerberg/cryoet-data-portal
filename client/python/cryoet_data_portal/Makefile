@@ -37,3 +37,10 @@ build:
 	python -m pip install --upgrade pip
 	pip install build twine
 	python -m build
+
+release/testpypi: build
+	python -m twine upload --repository testpypi dist/*
+
+release/pypi: build
+	# Manually release in case CI/CD pipeline is not working in ./.github/workflows/release.yml
+	python -m twine upload dist/*
