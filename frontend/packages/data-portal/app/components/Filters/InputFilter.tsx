@@ -9,6 +9,7 @@ export function InputFilter({
   value,
   hideLabel,
   className,
+  error,
 }: {
   id: string
   label: string
@@ -16,6 +17,7 @@ export function InputFilter({
   value: string
   hideLabel?: boolean
   className?: string
+  error?: boolean
 }) {
   return (
     // apply style override here since it has higher specificity and MUI is weird
@@ -28,6 +30,7 @@ export function InputFilter({
         fullWidth
         hideLabel={hideLabel}
         className={className}
+        intent={error ? 'error' : undefined}
       />
     </div>
   )
