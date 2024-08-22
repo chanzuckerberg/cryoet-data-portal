@@ -13,7 +13,7 @@ make build
 After merging in the release-please PR, if the python package did not release it can be manually release by doing the following:
 1. Setup your environment to upload to pypi by following the instructions [here](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#create-an-account)
 2. Pull the latest changes from main
-3Run the following command to release the python client:
+3. Run the following command to release the python client:
 ```bash
 make release/pypi
 ```
