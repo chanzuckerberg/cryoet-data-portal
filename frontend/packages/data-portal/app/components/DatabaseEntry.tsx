@@ -51,3 +51,17 @@ export function DatabaseEntry(props: DatabaseEntryProps) {
     </p>
   )
 }
+
+export function DatabaseEntryList({ entries }: { entries: string }) {
+  return (
+    <ul className="flex flex-col gap-sds-xs text-sds-body-s leading-sds-body-xs">
+      {entries.split(',').map((entry) => {
+        return (
+          <li key={entry}>
+            <DatabaseEntry entry={entry.trim()} inline />
+          </li>
+        )
+      })}
+    </ul>
+  )
+}

@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
 import { DatasetFilter } from 'app/components/DatasetFilter'
+import { DepositionMetadataDrawer } from 'app/components/Deposition'
 import { DatasetsTable } from 'app/components/Deposition/DatasetsTable'
 import { DepositionHeader } from 'app/components/Deposition/DepositionHeader'
 import { TablePageLayout } from 'app/components/TablePageLayout'
@@ -103,6 +104,7 @@ export default function DepositionByIdPage() {
           countLabel: t('datasets'),
         },
       ]}
+      drawers={<DepositionMetadataDrawer />}
     />
   )
 }

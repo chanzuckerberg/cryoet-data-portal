@@ -31,3 +31,9 @@ codegen:
 	# Ignore the return code because that is non-zero when pre-commit applies a fix.
 	-pre-commit run --files src/cryoet_data_portal/_models.py src/cryoet_data_portal/data/schema.graphql
 	-pre-commit run --files src/cryoet_data_portal/_models.py src/cryoet_data_portal/data/schema.graphql
+
+.PHONY: build
+build:
+	python -m pip install --upgrade pip
+	pip install build twine
+	python -m build

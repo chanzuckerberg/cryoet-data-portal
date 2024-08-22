@@ -20,9 +20,8 @@ from ._models import (
     TomogramAuthor,
     TomogramVoxelSpacing,
 )
-from ._version import version
 
-__version__ = version
+__version__ = "3.0.3"
 
 __all__ = [
     "Client",
