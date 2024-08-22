@@ -32,17 +32,17 @@ export function ConfigureTomogramDownloadContent() {
 
   const {
     allTomogramProcessing = [],
-    allTomogramResolutions = [],
+    allTomograms = [],
     runId,
   } = useDownloadModalContext()
 
   const tomogramSamplingOptions = useMemo<SelectOption[]>(
     () =>
-      allTomogramResolutions.map((tomogram) => ({
+      allTomograms.map((tomogram) => ({
         key: t('unitAngstrom', { value: tomogram.voxel_spacing }),
         value: `(${tomogram.size_x}, ${tomogram.size_y}, ${tomogram.size_z})px`,
       })),
-    [allTomogramResolutions, t],
+    [allTomograms, t],
   )
 
   const tomogramProcessingOptions = useMemo<SelectOption[]>(
@@ -54,18 +54,18 @@ export function ConfigureTomogramDownloadContent() {
     [allTomogramProcessing],
   )
 
-  const activeTomogram = allTomogramResolutions.find(
+  const activeTomogram = allTomograms.find(
     (tomogram) => `${tomogram.voxel_spacing}` === tomogramSampling,
   )
 
   const setTomogramConfigWithInitialValues = useCallback(() => {
-    const tomogram = allTomogramResolutions.at(0)
+    const tomogram = allTomograms.at(0)
     const processing = allTomogramProcessing.at(0)
 
     if (tomogram && processing) {
       setTomogramConfig(`${tomogram.voxel_spacing}`, processing)
     }
-  }, [allTomogramProcessing, allTomogramResolutions, setTomogramConfig])
+  }, [allTomogramProcessing, allTomograms, setTomogramConfig])
 
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
 
