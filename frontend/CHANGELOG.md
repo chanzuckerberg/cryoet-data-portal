@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.25.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.24.0...web-v1.25.0) (2024-08-22)
+
+
+### ✨ Features
+
+* annotation GO ID -&gt; annotation Object ID: add UniProtKB support to annotation Object IDs ([#1068](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1068)) ([58b5bf9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/58b5bf968733985001242bb5a1330fc7b369f090))
+
+
+### 🐞 Bug Fixes
+
+* ID detection for annotation object id link  ([#1075](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1075)) ([dc4fd8f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/dc4fd8fb2a92187ab2bfa507e538a066227eb2c9))
+
 ## [1.24.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.23.1...web-v1.24.0) (2024-08-22)
 
 
