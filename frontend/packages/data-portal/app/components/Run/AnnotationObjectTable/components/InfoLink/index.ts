@@ -1,1 +1,0 @@
-export { InfoLink } from './InfoLink'

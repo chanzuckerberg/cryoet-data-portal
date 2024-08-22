@@ -4,9 +4,9 @@ import {
   GO_PATTERN,
   UNIPROTKB,
   UNIPROTKB_PATTERN,
-} from 'app/constants/annotationInfoLinks'
+} from 'app/constants/annotationObjectIdLinks'
 
-export function InfoLink({ id }: { id: string }) {
+export function ObjectIdLink({ id }: { id: string }) {
   let link
   if (id.match(GO_PATTERN)) {
     link = `${GO}${id}`

@@ -3,7 +3,7 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
 import { getTableData } from 'app/utils/table'
 
-import { InfoLink } from './components/InfoLink'
+import { ObjectIdLink } from './components/ObjectIdLink'
 
 export function AnnotationObjectTable() {
   const { t } = useI18n()
@@ -21,7 +21,7 @@ export function AnnotationObjectTable() {
     {
       label: t('objectId'),
       renderValue: () => {
-        return <InfoLink id={annotation.object_id} />
+        return <ObjectIdLink id={annotation.object_id} />
       },
       values: [],
     },
