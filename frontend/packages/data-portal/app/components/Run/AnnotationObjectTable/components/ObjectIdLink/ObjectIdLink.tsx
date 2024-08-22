@@ -1,16 +1,16 @@
 import { Link } from 'app/components/Link'
 import {
   GO,
-  GO_PATTERN,
+  GO_PREFIX,
   UNIPROTKB,
-  UNIPROTKB_PATTERN,
+  UNIPROTKB_PREFIX,
 } from 'app/constants/annotationObjectIdLinks'
 
 export function ObjectIdLink({ id }: { id: string }) {
   let link
-  if (id.match(GO_PATTERN)) {
+  if (id.startsWith(GO_PREFIX)) {
     link = `${GO}${id}`
-  } else if (id.match(UNIPROTKB_PATTERN)) {
+  } else if (id.startsWith(UNIPROTKB_PREFIX)) {
     link = `${UNIPROTKB}${id.replaceAll('UniProtKB:', '')}`
   }
   // don't link if no patterns match
