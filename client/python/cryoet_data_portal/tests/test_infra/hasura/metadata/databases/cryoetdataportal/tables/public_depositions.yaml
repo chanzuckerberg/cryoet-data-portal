@@ -1,0 +1,66 @@
+table:
+  name: depositions
+  schema: public
+array_relationships:
+  - name: annotations
+    using:
+      manual_configuration:
+        column_mapping:
+          id: deposition_id
+        insertion_order: null
+        remote_table:
+          name: annotations
+          schema: public
+  - name: authors
+    using:
+      foreign_key_constraint_on:
+        column: deposition_id
+        table:
+          name: deposition_authors
+          schema: public
+  - name: dataset
+    using:
+      manual_configuration:
+        column_mapping:
+          id: deposition_id
+        insertion_order: null
+        remote_table:
+          name: datasets
+          schema: public
+  - name: tiltseries
+    using:
+      manual_configuration:
+        column_mapping:
+          id: deposition_id
+        insertion_order: null
+        remote_table:
+          name: tiltseries
+          schema: public
+  - name: tomograms
+    using:
+      manual_configuration:
+        column_mapping:
+          id: deposition_id
+        insertion_order: null
+        remote_table:
+          name: tomograms
+          schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - deposition_date
+        - deposition_publications
+        - deposition_types
+        - description
+        - https_prefix
+        - id
+        - key_photo_thumbnail_url
+        - key_photo_url
+        - last_modified_date
+        - related_database_entries
+        - release_date
+        - s3_prefix
+        - title
+      filter: {}
+      allow_aggregations: true

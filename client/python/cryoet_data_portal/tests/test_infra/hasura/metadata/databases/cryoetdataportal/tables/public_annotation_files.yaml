@@ -10,11 +10,11 @@ select_permissions:
     permission:
       columns:
         - annotation_id
-        - id
-        - is_visualization_default
-        - shape_type
         - format
         - https_path
+        - id
+        - is_visualization_default
         - s3_path
+        - shape_type
       filter: {}
       allow_aggregations: true

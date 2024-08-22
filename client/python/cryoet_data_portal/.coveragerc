@@ -1,0 +1,4 @@
+[run]
+omit =
+    # omit temporary modules created by tests
+    */test_write_models*/_tmp_models.py

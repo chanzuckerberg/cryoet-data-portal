@@ -2,6 +2,15 @@ table:
   name: tiltseries
   schema: public
 object_relationships:
+  - name: deposition
+    using:
+      manual_configuration:
+        column_mapping:
+          deposition_id: id
+        insertion_order: null
+        remote_table:
+          name: depositions
+          schema: public
   - name: run
     using:
       foreign_key_constraint_on: run_id
@@ -15,6 +24,7 @@ select_permissions:
         - camera_manufacturer
         - camera_model
         - data_acquisition_software
+        - deposition_id
         - frames_count
         - https_alignment_file
         - https_angle_list

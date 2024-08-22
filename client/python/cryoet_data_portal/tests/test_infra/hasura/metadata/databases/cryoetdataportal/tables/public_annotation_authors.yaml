@@ -20,6 +20,7 @@ select_permissions:
         - name
         - orcid
         - primary_annotator_status
+        - primary_author_status
       filter: {}
       allow_aggregations: true
       query_root_fields:
