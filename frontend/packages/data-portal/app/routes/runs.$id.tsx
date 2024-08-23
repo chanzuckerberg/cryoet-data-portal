@@ -22,6 +22,7 @@ import { getRunById } from 'app/graphql/getRunById.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useFileSize } from 'app/hooks/useFileSize'
 import { useI18n } from 'app/hooks/useI18n'
+import { useQueryParam } from 'app/hooks/useQueryParam'
 import { useRunById } from 'app/hooks/useRunById'
 import { BaseAnnotation } from 'app/state/annotation'
 import { DownloadConfig } from 'app/types/download'
@@ -139,11 +140,14 @@ export default function RunByIdPage() {
     enabled: fileFormat !== 'zarr',
   })
 
+  const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
+
   return (
     <TablePageLayout
       header={<RunHeader />}
       tabsTitle={multipleTomogramsEnabled ? t('browseRunData') : undefined}
       banner={
+        depositionId &&
         deposition && (
           <DepositionFilterBanner
             deposition={deposition}

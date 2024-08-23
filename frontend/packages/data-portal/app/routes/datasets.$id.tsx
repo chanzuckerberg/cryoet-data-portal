@@ -14,6 +14,7 @@ import { QueryParams } from 'app/constants/query'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
+import { useQueryParam } from 'app/hooks/useQueryParam'
 import { i18n } from 'app/i18n'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -51,10 +52,12 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 export default function DatasetByIdPage() {
   const { dataset, deposition } = useDatasetById()
   const { t } = useI18n()
+  const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
 
   return (
     <TablePageLayout
       banner={
+        depositionId &&
         deposition && (
           <DepositionFilterBanner
             deposition={deposition}
