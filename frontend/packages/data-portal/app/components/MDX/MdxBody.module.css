@@ -5,7 +5,7 @@
 
     li:has(h2) {
       &::marker {
-        @apply font-sds-semibold font-semibold;
+        @apply font-semibold;
         @apply text-sds-header-xl leading-sds-header-xl;
       }
     }
@@ -23,7 +23,7 @@
   h2,
   h3,
   h4 {
-    @apply font-sds-semibold font-semibold;
+    @apply font-semibold;
   }
 
   h2 {
@@ -75,7 +75,7 @@
   }
 
   a {
-    @apply text-sds-info-400;
+    @apply text-sds-color-semantic-text-action-default;
   }
 
   b {
@@ -110,6 +110,6 @@
   }
 
   code {
-    @apply font-sds-regular;
+    @apply font-mono;
   }
 }

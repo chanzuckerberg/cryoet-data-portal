@@ -26,7 +26,7 @@
   }
 
   :global(#meets-all) {
-    @apply text-sds-body-xs leading-sds-body-xs text-sds-gray-500;
+    @apply text-sds-body-xs leading-sds-body-xs text-sds-color-semantic-text-base-secondary;
 
     letter-spacing: 0.3px;
   }

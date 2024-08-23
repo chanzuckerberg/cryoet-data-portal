@@ -43,7 +43,7 @@
   }
 
   a {
-    @apply text-sds-info-400;
+    @apply text-sds-color-semantic-text-action-default;
   }
 
   table {
@@ -57,11 +57,11 @@
 
     > thead > tr {
       @apply border-b-2;
-      @apply border-sds-gray-300;
+      @apply border-sds-color-primitive-gray-300;
 
-      @apply font-sds-semibold font-semibold;
+      @apply font-semibold;
       @apply uppercase;
-      @apply text-sds-gray-600;
+      @apply text-sds-color-semantic-text-neutral;
     }
 
     th,
@@ -74,7 +74,7 @@
     font-family: 'Andale Mono', monospace;
     @apply text-sds-body-s leading-sds-body-s;
     @apply p-sds-xxxs;
-    @apply bg-sds-gray-100;
+    @apply bg-sds-color-semantic-component-base-surface-secondary;
     @apply rounded-sds-m;
     border: 0.5px solid theme('colors.gray.300');
     @apply whitespace-nowrap;
@@ -84,7 +84,7 @@
 
   pre {
     @apply p-sds-m;
-    @apply bg-sds-gray-100;
+    @apply bg-sds-color-semantic-component-base-surface-secondary;
     @apply rounded-sds-m;
     border: 0.5px solid theme('colors.gray.300');
     @apply overflow-x-scroll;
