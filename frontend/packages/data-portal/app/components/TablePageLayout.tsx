@@ -14,6 +14,7 @@ import { TableCount } from './Table/TableCount'
 import { Tabs } from './Tabs'
 
 export interface TablePageLayoutProps {
+  banner?: ReactNode
   header?: ReactNode
 
   tabs: TableLayoutTab[] // If there is only 1 tab, the tab selector will not show.
@@ -26,6 +27,7 @@ export interface TablePageLayoutProps {
 export interface TableLayoutTab {
   title: string
 
+  banner?: ReactNode
   filterPanel?: ReactNode
 
   table: ReactNode
@@ -44,6 +46,7 @@ export function TablePageLayout({
   tabsTitle,
   downloadModal,
   drawers,
+  banner,
 }: TablePageLayoutProps) {
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -87,7 +90,7 @@ export function TablePageLayout({
           </div>
         )}
 
-        <TablePageTabContent {...activeTab} />
+        <TablePageTabContent banner={banner} {...activeTab} />
 
         {drawers}
       </div>
@@ -105,6 +108,7 @@ function TablePageTabContent({
   pageQueryParamKey = QueryParams.Page,
   totalCount,
   countLabel,
+  banner,
 }: TableLayoutTab) {
   const [searchParams, setSearchParams] = useSearchParams()
   const pageQueryParamValue = +(searchParams.get(pageQueryParamKey) ?? '1')
@@ -165,6 +169,8 @@ function TablePageTabContent({
               filterPanel && 'screen-2040:translate-x-[-100px] max-w-content',
             )}
           >
+            <div className="flex flex-grow mb-sds-xl">{banner}</div>
+
             <div className="px-sds-xl flex items-center gap-x-sds-xl">
               <p className="text-sds-header-l leading-sds-header-l font-semibold">
                 {title}
