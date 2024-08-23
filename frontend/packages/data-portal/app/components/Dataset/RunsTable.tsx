@@ -16,6 +16,7 @@ import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualitySco
 import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
 import { RUN_FILTERS } from 'app/constants/filterQueryParams'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { QueryParams } from 'app/constants/query'
 import { RunTableWidths } from 'app/constants/table'
 import { TiltSeriesScore } from 'app/constants/tiltSeries'
 import { useDatasetById } from 'app/hooks/useDatasetById'
@@ -27,7 +28,7 @@ import {
 } from 'app/state/filterHistory'
 import { cnsNoMerge } from 'app/utils/cns'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
-import { createUrl, maybeAddDepositionIdFilter } from 'app/utils/url'
+import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
 type Run = GetDatasetByIdQuery['datasets'][number]['runs'][number]
 
@@ -66,13 +67,14 @@ export function RunsTable() {
     (id: number) => {
       const url = createUrl(`/runs/${id}`)
 
+      carryOverFilterParams({
+        filters: RUN_FILTERS,
+        params: url.searchParams,
+        prevParams: searchParams,
+      })
+
       if (deposition) {
-        maybeAddDepositionIdFilter({
-          id: deposition.id,
-          filters: RUN_FILTERS,
-          params: url.searchParams,
-          prevParams: searchParams,
-        })
+        url.searchParams.set(QueryParams.DepositionId, `${deposition.id}`)
       }
 
       return url.pathname + url.search

@@ -40,30 +40,21 @@ export function getNeuroglancerUrl(config: string): string {
   return `https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(config)}`
 }
 
-export function maybeAddDepositionIdFilter({
+export function carryOverFilterParams({
   filters,
-  id,
   params,
   prevParams,
 }: {
   filters: readonly QueryParams[]
-  id: number
   params: URLSearchParams
   prevParams: URLSearchParams
 }) {
-  let shouldFilterByDepositionId = false
-
   for (const key of filters) {
     const value = prevParams.get(key)
 
     if (value) {
-      shouldFilterByDepositionId = true
       params.set(key, value)
     }
-  }
-
-  if (shouldFilterByDepositionId) {
-    params.set(QueryParams.DepositionId, `${id}`)
   }
 
   return params

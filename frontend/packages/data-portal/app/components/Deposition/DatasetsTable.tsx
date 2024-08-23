@@ -15,6 +15,7 @@ import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
+import { QueryParams } from 'app/constants/query'
 import { DepositionPageDatasetTableWidths } from 'app/constants/table'
 import { Dataset, useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
@@ -23,7 +24,7 @@ import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
-import { createUrl, maybeAddDepositionIdFilter } from 'app/utils/url'
+import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
 const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
   (value) =>
@@ -51,12 +52,19 @@ export function DatasetsTable() {
     (id: number) => {
       const url = createUrl(`/datasets/${id}`)
 
-      maybeAddDepositionIdFilter({
-        id,
+      carryOverFilterParams({
         filters: DATASET_FILTERS,
         params: url.searchParams,
         prevParams: searchParams,
       })
+
+      const shouldFilterByDepositionId = DATASET_FILTERS.some((key) =>
+        searchParams.has(key),
+      )
+
+      if (shouldFilterByDepositionId) {
+        url.searchParams.set(QueryParams.DepositionId, `${id}`)
+      }
 
       return url.pathname + url.search
     },
