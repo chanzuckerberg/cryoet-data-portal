@@ -1,8 +1,6 @@
-import {
-  ComplexFilter,
-  DefaultAutocompleteOption,
-  Value,
-} from '@czi-sds/components'
+import { ComplexFilter, DefaultAutocompleteOption } from '@czi-sds/components'
+// eslint-disable-next-line cryoet-data-portal/no-root-mui-import
+import { AutocompleteValue } from '@mui/base'
 import { isArray, isEqual } from 'lodash-es'
 import { ReactNode, useCallback, useMemo } from 'react'
 
@@ -10,6 +8,9 @@ import { BaseFilterOption } from 'app/types/filter'
 import { cns } from 'app/utils/cns'
 
 import styles from './Filters.module.css'
+
+type DisableClearable = false
+type FreeSolo = false
 
 /**
  * Wrapper over ComplexFilter to add a type parameter for the autocomplete
@@ -33,15 +34,19 @@ export function SelectFilter<
 }: {
   className?: string
   details?: ReactNode
-  groupBy?: (option: Value<Option, Multiple>) => string
+  groupBy?: (
+    option: AutocompleteValue<Option, Multiple, DisableClearable, FreeSolo>,
+  ) => string
   label: string
   multiple?: Multiple
-  onChange(value: Value<Option, Multiple>): void
+  onChange(
+    value: AutocompleteValue<Option, Multiple, DisableClearable, FreeSolo>,
+  ): void
   options: Option[]
   popperClassName?: string
   search?: boolean
   title?: string
-  value?: Value<Option, Multiple>
+  value?: AutocompleteValue<Option, Multiple, DisableClearable, FreeSolo>
 }) {
   const labelValueMap = useMemo(
     () =>
@@ -57,7 +62,7 @@ export function SelectFilter<
         ...sdsOption,
         label: name,
         value: labelValueMap[name],
-      }) as Value<Option, Multiple>,
+      }) as AutocompleteValue<Option, Multiple, DisableClearable, FreeSolo>,
     [labelValueMap],
   )
 
@@ -70,7 +75,12 @@ export function SelectFilter<
     [],
   )
 
-  type SdsOption = Value<DefaultAutocompleteOption, Multiple>
+  type SdsOption = AutocompleteValue<
+    DefaultAutocompleteOption,
+    Multiple,
+    DisableClearable,
+    FreeSolo
+  >
 
   const sdsOptions = useMemo(
     () => options.map(convertBaseOptionToSdsOption),
@@ -79,13 +89,11 @@ export function SelectFilter<
 
   const sdsValue = useMemo(() => {
     if (isArray(value)) {
-      return value.map(convertBaseOptionToSdsOption) as unknown as SdsOption
+      return value.map(convertBaseOptionToSdsOption) as SdsOption
     }
 
     if (value) {
-      return convertBaseOptionToSdsOption(
-        value as Option,
-      ) as unknown as SdsOption
+      return convertBaseOptionToSdsOption(value as Option) as SdsOption
     }
 
     return null
@@ -99,7 +107,14 @@ export function SelectFilter<
   return (
     <ComplexFilter
       className={cns('flex flex-col justify-center', styles.select, className)}
-      value={sdsValue}
+      value={
+        sdsValue as unknown as AutocompleteValue<
+          DefaultAutocompleteOption,
+          Multiple,
+          DisableClearable,
+          FreeSolo
+        >
+      }
       label={label}
       search={search}
       multiple={multiple}
@@ -127,16 +142,25 @@ export function SelectFilter<
 
         if (isArray(nextOptions)) {
           onChange(
-            nextOptions.map(convertSdsOptionToBaseOption) as unknown as Value<
+            nextOptions.map(
+              convertSdsOptionToBaseOption,
+            ) as unknown as AutocompleteValue<
               Option,
-              Multiple
+              Multiple,
+              DisableClearable,
+              FreeSolo
             >,
           )
         } else {
           onChange(
             (nextOptions
               ? convertSdsOptionToBaseOption(nextOptions)
-              : null) as Value<Option, Multiple>,
+              : null) as AutocompleteValue<
+              Option,
+              Multiple,
+              DisableClearable,
+              FreeSolo
+            >,
           )
         }
       }}
