@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 
+import { DepositionIdFilter } from 'app/components/DepositionFilter'
 import {
   AuthorFilter,
   FilterSection,
@@ -10,7 +11,11 @@ import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 
-export function NameOrIdFilterSection() {
+export function NameOrIdFilterSection({
+  depositionPageVariant,
+}: {
+  depositionPageVariant?: boolean
+}) {
   const { t } = useI18n()
   const showDepositions = useFeatureFlag('depositions')
 
@@ -39,6 +44,7 @@ export function NameOrIdFilterSection() {
     <FilterSection title={t('nameOrId')}>
       <MultiInputFilter label={t('datasetIds')} filters={datasetIdFilters} />
       <AuthorFilter label={t(showDepositions ? 'datasetAuthor' : 'author')} />
+      {showDepositions && !depositionPageVariant && <DepositionIdFilter />}
     </FilterSection>
   )
 }

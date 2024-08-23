@@ -7,6 +7,7 @@ export enum QueryParams {
   AvailableFiles = 'files',
   CameraManufacturer = 'camera_manufacturer',
   DatasetId = 'dataset_id',
+  DepositionId = 'deposition-id',
   DownloadConfig = 'download-config',
   DownloadStep = 'download-step',
   DownloadTab = 'download-tab',

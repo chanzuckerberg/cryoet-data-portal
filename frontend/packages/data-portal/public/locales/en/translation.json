@@ -148,6 +148,7 @@
   "fileSummary": "File Summary",
   "filterBy": "Filter by",
   "filterByAnyOfTheFollowing": "Filter by any of the following",
+  "filterByDepositionId": "Filter by Deposition ID",
   "filterByGeneOntologyId": "Filter by Gene Ontology ID",
   "filterCountOfMaxType": "{{count}} of {{max}} {{type}}",
   "filterNoResultsFound": "No results were found",
