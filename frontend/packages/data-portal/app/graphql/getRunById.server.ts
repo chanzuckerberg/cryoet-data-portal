@@ -3,7 +3,6 @@ import type {
   ApolloQueryResult,
   NormalizedCacheObject,
 } from '@apollo/client'
-import { URLSearchParams } from 'url'
 
 import { gql } from 'app/__generated__'
 import {
@@ -21,6 +20,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
     $annotationsOffset: Int,
     $filter: [annotations_bool_exp!],
     $fileFilter: [annotation_files_bool_exp!]
+    $deposition_id: Int,
   ) {
     runs(where: { id: { _eq: $id } }) {
       id
@@ -405,6 +405,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
         count
       }
     }
+
+    deposition: datasets(where: { id: { _eq: $deposition_id } }) {
+      id
+      title
+    }
   }
 `)
 
@@ -492,11 +497,13 @@ export async function getRunById({
   id,
   annotationsPage,
   params = new URLSearchParams(),
+  depositionId = -1,
 }: {
   client: ApolloClient<NormalizedCacheObject>
   id: number
   annotationsPage: number
   params?: URLSearchParams
+  depositionId?: number
 }): Promise<ApolloQueryResult<GetRunByIdQuery>> {
   return client.query({
     query: GET_RUN_BY_ID_QUERY,
@@ -506,6 +513,7 @@ export async function getRunById({
       annotationsOffset: (annotationsPage - 1) * MAX_PER_PAGE,
       filter: getFilter(getFilterState(params)),
       fileFilter: getFileFilter(getFilterState(params)),
+      deposition_id: depositionId,
     },
   })
 }
