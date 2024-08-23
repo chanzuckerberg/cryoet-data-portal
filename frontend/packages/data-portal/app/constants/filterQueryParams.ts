@@ -1,12 +1,10 @@
 import { QueryParams } from './query'
 
-export const DATASET_FILTERS = [
+const COMMON_DATASET_FILTERS = [
   QueryParams.GroundTruthAnnotation,
   QueryParams.AvailableFiles,
   QueryParams.NumberOfRuns,
   QueryParams.DatasetId,
-  QueryParams.EmpiarId,
-  QueryParams.EmdbId,
   QueryParams.AuthorName,
   QueryParams.AuthorOrcid,
   QueryParams.Organism,
@@ -18,6 +16,12 @@ export const DATASET_FILTERS = [
   QueryParams.ReconstructionSoftware,
   QueryParams.ObjectName,
   QueryParams.ObjectShapeType,
+] as const
+
+export const DATASET_FILTERS = [
+  ...COMMON_DATASET_FILTERS,
+  QueryParams.EmpiarId,
+  QueryParams.EmdbId,
 ] as const
 
 export const RUN_FILTERS = [
@@ -37,4 +41,9 @@ export const ANNOTATION_FILTERS = [
   QueryParams.ObjectShapeType,
   QueryParams.MethodType,
   QueryParams.AnnotationSoftware,
+] as const
+
+export const DEPOSITION_FILTERS = [
+  ...COMMON_DATASET_FILTERS,
+  QueryParams.ObjectId,
 ] as const
