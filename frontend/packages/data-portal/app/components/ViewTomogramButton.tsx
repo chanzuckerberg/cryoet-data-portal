@@ -65,7 +65,7 @@ export function ViewTomogramButton({
         onMouseLeave={() => setIsHoveringOver?.(false)}
       >
         <Button
-          to={enabled ? getNeuroglancerUrl(neuroglancerConfig) : ''}
+          href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
           component={Link}
           disabled={!enabled}
           {...buttonProps}
