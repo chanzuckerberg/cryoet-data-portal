@@ -5,7 +5,7 @@ import Skeleton from '@mui/material/Skeleton'
 import { useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range, sum } from 'lodash-es'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
 import { AuthorList } from 'app/components/AuthorList'
@@ -13,6 +13,7 @@ import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
+import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { DepositionPageDatasetTableWidths } from 'app/constants/table'
 import { Dataset, useDepositionById } from 'app/hooks/useDepositionById'
@@ -22,6 +23,7 @@ import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
+import { createUrl, maybeAddDepositionIdFilter } from 'app/utils/url'
 
 const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
   (value) =>
@@ -45,6 +47,22 @@ export function DatasetsTable() {
 
   const { isLoadingDebounced } = useIsLoading()
 
+  const getDatasetUrl = useCallback(
+    (id: number) => {
+      const url = createUrl(`/datasets/${id}`)
+
+      maybeAddDepositionIdFilter({
+        id,
+        filters: DATASET_FILTERS,
+        params: url.searchParams,
+        prevParams: searchParams,
+      })
+
+      return url.pathname + url.search
+    },
+    [searchParams],
+  )
+
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Dataset>()
 
@@ -54,7 +72,7 @@ export function DatasetsTable() {
           header: () => <p />,
 
           cell({ row: { original: dataset } }) {
-            const datasetUrl = `/datasets/${dataset.id}`
+            const datasetUrl = getDatasetUrl(dataset.id)
 
             return (
               <TableCell
@@ -103,7 +121,7 @@ export function DatasetsTable() {
           ),
 
           cell({ row: { original: dataset } }) {
-            const datasetUrl = `/datasets/${dataset.id}`
+            const datasetUrl = getDatasetUrl(dataset.id)
 
             return (
               <TableCell
@@ -295,7 +313,14 @@ export function DatasetsTable() {
 
       throw err
     }
-  }, [datasetSort, isLoadingDebounced, searchParams, setSearchParams, t])
+  }, [
+    datasetSort,
+    getDatasetUrl,
+    isLoadingDebounced,
+    searchParams,
+    setSearchParams,
+    t,
+  ])
 
   return (
     <PageTable
