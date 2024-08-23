@@ -58,13 +58,7 @@ export function DatasetsTable() {
         prevParams: searchParams,
       })
 
-      const shouldFilterByDepositionId = DATASET_FILTERS.some((key) =>
-        searchParams.has(key),
-      )
-
-      if (shouldFilterByDepositionId) {
-        url.searchParams.set(QueryParams.DepositionId, `${id}`)
-      }
+      url.searchParams.set(QueryParams.DepositionId, `${id}`)
 
       return url.pathname + url.search
     },

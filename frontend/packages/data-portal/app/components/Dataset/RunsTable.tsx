@@ -73,7 +73,7 @@ export function RunsTable() {
         prevParams: searchParams,
       })
 
-      if (deposition) {
+      if (deposition && searchParams.has(QueryParams.DepositionId)) {
         url.searchParams.set(QueryParams.DepositionId, `${deposition.id}`)
       }
 
