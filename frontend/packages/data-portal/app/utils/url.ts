@@ -1,3 +1,5 @@
+import { QueryParams } from 'app/constants/query'
+
 /**
  * Checks if the string is an external URL. This works by using the value to
  * create a URL object. URL objects will throw errors for relative URLs if a
@@ -36,4 +38,33 @@ export function createUrl(urlOrPath: string, baseUrl?: string): URL {
 
 export function getNeuroglancerUrl(config: string): string {
   return `https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(config)}`
+}
+
+export function maybeAddDepositionIdFilter({
+  filters,
+  id,
+  params,
+  prevParams,
+}: {
+  filters: readonly QueryParams[]
+  id: number
+  params: URLSearchParams
+  prevParams: URLSearchParams
+}) {
+  let shouldFilterByDepositionId = false
+
+  for (const key of filters) {
+    const value = prevParams.get(key)
+
+    if (value) {
+      shouldFilterByDepositionId = true
+      params.set(key, value)
+    }
+  }
+
+  if (shouldFilterByDepositionId) {
+    params.set(QueryParams.DepositionId, `${id}`)
+  }
+
+  return params
 }
