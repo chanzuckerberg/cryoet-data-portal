@@ -3,12 +3,13 @@
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 
 import { apolloClient } from 'app/apollo.server'
-import { TablePageLayout } from 'app/components//TablePageLayout'
 import { DatasetMetadataDrawer } from 'app/components/Dataset'
 import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
 import { RunsTable } from 'app/components/Dataset/RunsTable'
+import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
 import { RunFilter } from 'app/components/RunFilter'
+import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { useDatasetById } from 'app/hooks/useDatasetById'
@@ -20,6 +21,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
   const url = new URL(request.url)
   const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
+  const depositionId = +(url.searchParams.get(QueryParams.DepositionId) ?? '-1')
 
   if (Number.isNaN(+id)) {
     throw new Response(null, {
@@ -29,6 +31,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   }
 
   const { data } = await getDatasetById({
+    depositionId,
     id,
     page,
     client: apolloClient,
@@ -46,11 +49,19 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 }
 
 export default function DatasetByIdPage() {
-  const { dataset } = useDatasetById()
+  const { dataset, deposition } = useDatasetById()
   const { t } = useI18n()
 
   return (
     <TablePageLayout
+      banner={
+        deposition && (
+          <DepositionFilterBanner
+            deposition={deposition}
+            labelI18n="onlyDisplayingRunsWithAnnotations"
+          />
+        )
+      }
       header={<DatasetHeader />}
       tabs={[
         {

@@ -7,8 +7,8 @@ import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
 import { apolloClient } from 'app/apollo.server'
-import { TablePageLayout } from 'app/components//TablePageLayout'
 import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
+import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
@@ -16,6 +16,7 @@ import { AnnotationTable } from 'app/components/Run/AnnotationTable'
 import { RunMetadataDrawer } from 'app/components/Run/RunMetadataDrawer'
 import { TomogramMetadataDrawer } from 'app/components/Run/TomogramMetadataDrawer'
 import { TomogramsTable } from 'app/components/Run/TomogramTable'
+import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
@@ -41,10 +42,12 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const annotationsPage = +(
     url.searchParams.get(QueryParams.AnnotationsPage) ?? '1'
   )
+  const depositionId = +(url.searchParams.get(QueryParams.DepositionId) ?? '-1')
 
   const { data } = await getRunById({
     id,
     annotationsPage,
+    depositionId,
     client: apolloClient,
     params: url.searchParams,
   })
@@ -84,6 +87,7 @@ export default function RunByIdPage() {
     tomogramsForDownload,
     annotationFilesAggregates,
     tomogramsCount,
+    deposition,
   } = useRunById()
 
   const {
@@ -139,6 +143,14 @@ export default function RunByIdPage() {
     <TablePageLayout
       header={<RunHeader />}
       tabsTitle={multipleTomogramsEnabled ? t('browseRunData') : undefined}
+      banner={
+        deposition && (
+          <DepositionFilterBanner
+            deposition={deposition}
+            labelI18n="onlyDisplayingAnnotations"
+          />
+        )
+      }
       tabs={[
         {
           title: t('annotations'),
