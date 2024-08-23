@@ -21,7 +21,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
   const url = new URL(request.url)
   const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
-  const depositionId = +(url.searchParams.get(QueryParams.DepositionId) ?? '-1')
+  const depositionId = Number(url.searchParams.get(QueryParams.DepositionId))
 
   if (Number.isNaN(+id)) {
     throw new Response(null, {
@@ -31,11 +31,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   }
 
   const { data } = await getDatasetById({
-    depositionId,
     id,
     page,
     client: apolloClient,
     params: url.searchParams,
+    depositionId: Number.isNaN(depositionId) ? undefined : depositionId,
   })
 
   if (data.datasets.length === 0) {
