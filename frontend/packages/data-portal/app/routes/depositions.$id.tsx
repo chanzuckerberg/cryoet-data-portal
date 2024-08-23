@@ -11,12 +11,16 @@ import { DepositionMetadataDrawer } from 'app/components/Deposition'
 import { DatasetsTable } from 'app/components/Deposition/DatasetsTable'
 import { DepositionHeader } from 'app/components/Deposition/DepositionHeader'
 import { TablePageLayout } from 'app/components/TablePageLayout'
+import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { getDepositionById } from 'app/graphql/getDepositionById.server'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
-import { useDepositionHistory } from 'app/state/filterHistory'
+import {
+  useDepositionHistory,
+  useSyncParamsWithState,
+} from 'app/state/filterHistory'
 import { getFeatureFlag } from 'app/utils/featureFlags'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -84,11 +88,18 @@ export default function DepositionByIdPage() {
   const { deposition } = useDepositionById()
   const { t } = useI18n()
 
-  const { setPreviousDepositionId } = useDepositionHistory()
+  const { setPreviousDepositionId, setPreviousSingleDepositionParams } =
+    useDepositionHistory()
+
   useEffect(
     () => setPreviousDepositionId(deposition.id),
     [deposition.id, setPreviousDepositionId],
   )
+
+  useSyncParamsWithState({
+    filters: DEPOSITION_FILTERS,
+    setHistory: setPreviousSingleDepositionParams,
+  })
 
   return (
     <TablePageLayout
