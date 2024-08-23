@@ -27,7 +27,14 @@ export function DepositionFilterBanner({
     >
       <div className="flex w-full items-center justify-between">
         <p className="text-sds-body-xs leading-sds-body-xs">
-          <I18n i18nKey={labelI18n} values={deposition} />
+          <I18n
+            i18nKey={labelI18n}
+            values={{
+              ...deposition,
+              url: `/depositions/${deposition.id}`,
+            }}
+            tOptions={{ interpolation: { escapeValue: false } }}
+          />
         </p>
 
         <Button

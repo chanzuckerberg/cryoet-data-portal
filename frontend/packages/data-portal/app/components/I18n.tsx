@@ -2,8 +2,6 @@ import { Trans, TransProps } from 'react-i18next'
 import { Required } from 'utility-types'
 
 import type { I18nKeys } from 'app/types/i18n'
-import { DASHED_BORDERED_CLASSES } from 'app/utils/classNames'
-import { cns } from 'app/utils/cns'
 
 import { Link, VariantLinkProps } from './Link'
 
@@ -28,14 +26,6 @@ export function I18n({ i18nKey, components, linkProps, ...props }: Props) {
         bold: <span className="font-bold" />,
         semibold: <span className="font-semibold" />,
         code: <span className="font-mono" />,
-        dash: (
-          <span
-            className={cns(
-              DASHED_BORDERED_CLASSES,
-              'border-sds-gray-600 hover:border-dashed',
-            )}
-          />
-        ),
 
         urlNoColor: (
           <Link {...(linkProps as Required<Partial<VariantLinkProps>, 'to'>)}>
