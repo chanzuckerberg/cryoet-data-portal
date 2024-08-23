@@ -53,7 +53,7 @@ export function AuthorLegend({ inline = false }: { inline?: boolean }) {
         className={inline ? 'relative w-sds-icon-s h-sds-icon-s' : undefined}
       >
         <Icon
-          sdsIcon="infoCircle"
+          sdsIcon="InfoCircle"
           sdsSize={inline ? 's' : 'xs'}
           sdsType="button"
           className={cns(

@@ -80,7 +80,7 @@ export function CollapsibleList({
               {collapsed ? (
                 <>
                   <Icon
-                    sdsIcon="plus"
+                    sdsIcon="Plus"
                     sdsSize="xs"
                     sdsType="static"
                     className="!text-current"
@@ -92,7 +92,7 @@ export function CollapsibleList({
               ) : (
                 <>
                   <Icon
-                    sdsIcon="minus"
+                    sdsIcon="Minus"
                     sdsSize="xs"
                     sdsType="static"
                     className="!text-current"

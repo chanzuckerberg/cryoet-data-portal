@@ -1,4 +1,4 @@
-import { ButtonIcon } from '@czi-sds/components'
+import { Button, Icon } from '@czi-sds/components'
 import { usePrevious } from '@react-hookz/web'
 import { ReactNode, useCallback, useEffect } from 'react'
 
@@ -77,14 +77,12 @@ export function MetadataDrawer({
             </p>
           </div>
 
-          <ButtonIcon
+          <Button
             onClick={handleClose}
-            sdsIcon="xMark"
-            sdsIconProps={{
-              color: 'gray',
-            }}
             data-testid={TestIds.MetadataDrawerCloseButton}
-          />
+          >
+            <Icon color="gray" sdsIcon="XMark" sdsSize="xs" sdsType="button" />
+          </Button>
         </header>
 
         <div className="px-sds-xl border-b-2 border-sds-gray-200">

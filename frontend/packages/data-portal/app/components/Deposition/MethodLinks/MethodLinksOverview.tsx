@@ -44,7 +44,7 @@ function MethodTypeSection({
           tooltip={<I18n i18nKey={methodTooltipLabels[methodType]} />}
         >
           <Icon
-            sdsIcon="infoCircle"
+            sdsIcon="InfoCircle"
             sdsSize="xs"
             sdsType="static"
             className="!text-sds-gray-500"

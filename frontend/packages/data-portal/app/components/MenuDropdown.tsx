@@ -32,7 +32,7 @@ export function MenuDropdown({
         </span>
 
         <Icon
-          sdsIcon={anchorEl ? 'chevronUp' : 'chevronDown'}
+          sdsIcon={anchorEl ? 'ChevronUp' : 'ChevronDown'}
           sdsSize="xs"
           sdsType="iconButton"
           className={cns(

@@ -96,7 +96,7 @@ export function Select({
           <Tooltip tooltip={tooltip} {...tooltipProps}>
             <Icon
               className="!fill-sds-gray-500 hover:!fill-sds-primary-400"
-              sdsIcon="infoCircle"
+              sdsIcon="InfoCircle"
               sdsSize="xs"
               sdsType="static"
             />
