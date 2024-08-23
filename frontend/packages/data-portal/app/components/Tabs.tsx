@@ -38,11 +38,11 @@ export function Tabs<T>({
             classes={{
               root: cns(
                 'text-sds-gray-500 !text-sds-body-s',
-                '!leading-sds-body-s font-semibold',
+                '!leading-sds-body-s !font-semibold',
                 '!p-0 !min-w-[max-content] !min-h-0',
                 'transition-colors',
               ),
-              selected: '!text-black',
+              selected: '!text-black ',
             }}
             key={String(tab.value)}
             {...tab}
