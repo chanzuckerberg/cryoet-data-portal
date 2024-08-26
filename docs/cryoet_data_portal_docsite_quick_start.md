@@ -40,17 +40,17 @@ The Portal API has methods for searching and downloading data. **Every class** h
 
 | **Class**               | **Download Methods**                                                                                 |
 |-------------------------|--------------------------------------------------------------------------------------------------------|
-| [Dataset](./python-api.md#dataset)| `download_everything`     |
-| [DatasetAuthor](./python-api.md#datasetauthor)| Not applicable as this class doesn't contain data files|
-| [DatasetFunding](./python-api.md#datasetfunding)| Not applicable as this class doesn't contain data files|
-| [Run](./python-api.md#run)| `download_everything`                  |
-| [TomogramVoxelSpacing](./python-api.md#tomogramvoxelspacing)| `download_everything`          |
-| [Tomogram](./python-api.md#tomogram)| `download_all_annotations`, `download_mrcfile`, `download_omezarr`  |
-| [TomogramAuthor](./python-api.md#tomogramauthor)| Not applicable as this class doesn't contain data files  |
-| [Annotation](./python-api.md#annotation)| `download`  |
-| [AnnotationFile](./python-api.md#annotationfile)| None, use the Annotation or Tomogram class to download annotations |
-| [AnnotationAuthor](./python-api.md#annotationauthor)| Not applicable as this class doesn't contain data files |
-| [TiltSeries](./python-api.md#tiltseries)| `download_alignment_file`, `download_angle_list`, `download_collection_metadata`, `download_mrcfile`, `download_omezarr` |
+| {class}`Dataset <cryoet_data_portal.Dataset>`| `download_everything`     |
+| {class}`DatasetAuthor <cryoet_data_portal.DatasetAuthor>`| Not applicable as this class doesn't contain data files|
+| {class}`DatasetFunding <cryoet_data_portal.DatasetFunding>`| Not applicable as this class doesn't contain data files|
+| {class}`Run <cryoet_data_portal.Run>`| `download_everything`                  |
+| {class}`TomogramVoxelSpacing <cryoet_data_portal.TomogramVoxelSpacing>`| `download_everything`          |
+| {class}`Tomogram <cryoet_data_portal.Tomogram>`| `download_all_annotations`, `download_mrcfile`, `download_omezarr`  |
+| {class}`TomogramAuthor <cryoet_data_portal.TomogramAuthor>`| Not applicable as this class doesn't contain data files  |
+| {class}`Annotation <cryoet_data_portal.Annotation>`| `download`  |
+| {class}`AnnotationFile <cryoet_data_portal.AnnotationFile>`| None, use the Annotation or Tomogram class to download annotations |
+| {class}`AnnotationAuthor <cryoet_data_portal.AnnotationAuthor>`| Not applicable as this class doesn't contain data files |
+| {class}`TiltSeries <cryoet_data_portal.TiltSeries>`| `download_alignment_file`, `download_angle_list`, `download_collection_metadata`, `download_mrcfile`, `download_omezarr` |
 
 The `find` method selects data based on user-chosen queries. These queries can have python operators `==`, `!=`, `>`, `>=`, `<`, `<=`; method operators `like`, `ilike`, `_in`; and strings or numbers. The method operators are defined in the table below:
 

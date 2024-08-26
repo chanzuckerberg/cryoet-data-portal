@@ -15,98 +15,53 @@ A simplified diagram of the graph data model is below:
 :align: center
 ```
 
-## Client
+## API documentation
 
 ```{eval-rst}
 .. autoclass:: cryoet_data_portal.Client
    :members:
    :inherited-members:
-```
 
-## Dataset
-
-```{eval-rst}
 .. autoclass:: cryoet_data_portal.Dataset
    :members:
    :inherited-members:
-```
 
-## DatasetAuthor
-
-```{eval-rst}
 .. autoclass:: cryoet_data_portal.DatasetAuthor
    :members:
    :inherited-members:
-```
 
-## DatasetFunding
-
-```{eval-rst}
 .. autoclass:: cryoet_data_portal.DatasetFunding
    :members:
    :inherited-members:
-```
 
-## Run
-
-```{eval-rst}
 .. autoclass:: cryoet_data_portal.Run
    :members:
    :inherited-members:
-```
 
-## TomogramVoxelSpacing
-
-```{eval-rst}
 .. autoclass:: cryoet_data_portal.TomogramVoxelSpacing
    :members:
    :inherited-members:
-```
 
-## Tomogram
-
-```{eval-rst}
 .. autoclass:: cryoet_data_portal.Tomogram
    :members:
    :inherited-members:
-```
 
-## TomogramAuthor
-
-```{eval-rst}
 .. autoclass:: cryoet_data_portal.TomogramAuthor
    :members:
    :inherited-members:
-```
 
-## Annotation
-
-```{eval-rst}
 .. autoclass:: cryoet_data_portal.Annotation
    :members:
    :inherited-members:
-```
 
-## AnnotationFile
-
-```{eval-rst}
 .. autoclass:: cryoet_data_portal.AnnotationFile
    :members:
    :inherited-members:
-```
 
-## AnnotationAuthor
-
-```{eval-rst}
 .. autoclass:: cryoet_data_portal.AnnotationAuthor
    :members:
    :inherited-members:
-```
 
-## TiltSeries
-
-```{eval-rst}
 .. autoclass:: cryoet_data_portal.TiltSeries
    :members:
    :inherited-members:
-```

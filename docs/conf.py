@@ -102,6 +102,15 @@ html_theme_options = {
     # "analytics": {"provider": "google", "property": "G-XXXXXXXXXX"},
 }
 
+# Remove icons from toc elements in API page
+object_description_options = [
+    ("py:class", dict(toc_icon_class=None)),
+    ("py:parameter", dict(toc_icon_class=None, include_in_toc=False)),
+    ("py:method", dict(toc_icon_class=None)),
+    ("py:attribute", dict(include_in_toc=False)),
+    ("py:.*", dict(include_fields_in_toc=False)),
+]
+
 extlinks = {
     "CryoET Data Portal": ("https://chanzuckerberg.github.io/cryoet-data-portal/%s", None),
 }
