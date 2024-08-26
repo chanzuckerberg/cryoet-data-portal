@@ -11,6 +11,8 @@ copyright = "2022-2024 Chan Zuckerberg Initiative"
 author = "Chan Zuckerberg Initiative"
 
 import cryoet_data_portal
+import logging
+from sphinx.util import logging as sphinx_logging
 
 version = cryoet_data_portal.__version__
 
@@ -119,9 +121,6 @@ object_description_options = [
     ("py:.*", dict(include_fields_in_toc=False)),
 ]
 
-extlinks = {
-}
-
 # html_js_files = [
 #     (
 #         "https://plausible.io/js/script.js",
@@ -132,3 +131,35 @@ extlinks = {
 # -- Options for myst -------------------------------------------------
 myst_enable_extensions = ['colon_fence']
 myst_heading_anchors = 4
+
+
+class FilterSphinxWarnings(logging.Filter):
+    """Filter autodoc warning
+
+    autodoc emits the following message on cryoet_data_portal._client.Client:
+
+      Parameter name 'url' does not match any of the parameters defined in the
+      signature: []
+
+    The warnings are not useful - they don't result in any missing documentation
+    or rendering issues, so we can safely ignore them.
+
+    """
+
+    def __init__(self, app):
+        self.app = app
+        super().__init__()
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        msg = record.getMessage()
+        filter_out = "does not match any of the parameters"
+        return not (filter_out in msg)
+
+
+def setup(app):
+    logger = logging.getLogger("sphinx")
+    warning_handler, *_ = [
+        h for h in logger.handlers
+        if isinstance(h, sphinx_logging.WarningStreamHandler)
+    ]
+    warning_handler.filters.insert(0, FilterSphinxWarnings(app))

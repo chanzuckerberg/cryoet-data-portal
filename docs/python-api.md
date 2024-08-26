@@ -18,50 +18,7 @@ A simplified diagram of the graph data model is below:
 ## API documentation
 
 ```{eval-rst}
-.. autoclass:: cryoet_data_portal.Client
+.. automodule:: cryoet_data_portal
    :members:
    :inherited-members:
-
-.. autoclass:: cryoet_data_portal.Dataset
-   :members:
-   :inherited-members:
-
-.. autoclass:: cryoet_data_portal.DatasetAuthor
-   :members:
-   :inherited-members:
-
-.. autoclass:: cryoet_data_portal.DatasetFunding
-   :members:
-   :inherited-members:
-
-.. autoclass:: cryoet_data_portal.Run
-   :members:
-   :inherited-members:
-
-.. autoclass:: cryoet_data_portal.TomogramVoxelSpacing
-   :members:
-   :inherited-members:
-
-.. autoclass:: cryoet_data_portal.Tomogram
-   :members:
-   :inherited-members:
-
-.. autoclass:: cryoet_data_portal.TomogramAuthor
-   :members:
-   :inherited-members:
-
-.. autoclass:: cryoet_data_portal.Annotation
-   :members:
-   :inherited-members:
-
-.. autoclass:: cryoet_data_portal.AnnotationFile
-   :members:
-   :inherited-members:
-
-.. autoclass:: cryoet_data_portal.AnnotationAuthor
-   :members:
-   :inherited-members:
-
-.. autoclass:: cryoet_data_portal.TiltSeries
-   :members:
-   :inherited-members:
+```

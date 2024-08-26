@@ -129,7 +129,7 @@ for d in datasets:
    print(d.id)
 ```
 
-### Find all tomograms for a certain organism and download preview-sized MRC files:
+### Find all tomograms for a certain organism and download preview-sized MRC files
 
 The following iterates over all tomograms related to a specific organism and downloads each tomogram in MRC format.
 
