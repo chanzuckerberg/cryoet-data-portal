@@ -22,6 +22,7 @@ export const DATASET_FILTERS = [
   ...COMMON_DATASET_FILTERS,
   QueryParams.EmpiarId,
   QueryParams.EmdbId,
+  QueryParams.DepositionId,
 ] as const
 
 export const RUN_FILTERS = [
@@ -31,6 +32,7 @@ export const RUN_FILTERS = [
   QueryParams.TiltRangeMax,
   QueryParams.ObjectName,
   QueryParams.ObjectShapeType,
+  QueryParams.DepositionId,
 ] as const
 
 export const ANNOTATION_FILTERS = [
