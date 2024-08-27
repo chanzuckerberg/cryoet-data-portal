@@ -151,6 +151,10 @@ export class FiltersPage extends BasePage {
   // #endregion Macro
 
   // #region Validation
+  public async expectFilterTagToExist(label: string) {
+    await expect(this.page.locator(`span:has-text("${label}")`)).toBeVisible()
+  }
+
   public async expectNavigationToMatch(expectedUrl: string) {
     await this.page.waitForURL(expectedUrl)
   }

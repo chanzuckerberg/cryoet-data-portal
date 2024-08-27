@@ -2,6 +2,7 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { test } from '@playwright/test'
 import { FiltersActor } from 'e2e/pageObjects/filters/filtersActor'
 import { FiltersPage } from 'e2e/pageObjects/filters/filtersPage'
+import { getPrefixedId } from 'e2e/pageObjects/filters/utils'
 
 import { QueryParams } from 'app/constants/query'
 
@@ -211,7 +212,119 @@ test.describe('Single run page filters', () => {
       })
     })
   })
+  test.describe('Deposition ID filter', () => {
+    test('should filter when selecting', async () => {
+      await filtersPage.goTo(SINGLE_RUN_URL)
 
+      await filtersActor.addMultiInputFilter({
+        buttonLabel: translations.depositionId,
+        filter: {
+          label: translations.depositionId,
+          value: E2E_CONFIG.depositionId,
+        },
+        hasMultipleFilters: false,
+      })
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: SINGLE_RUN_URL,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.DepositionId,
+            queryParamValue: E2E_CONFIG.depositionId,
+          },
+        ],
+      })
+
+      await filtersPage.expectFilterTagToExist(
+        getPrefixedId({
+          id: E2E_CONFIG.depositionId,
+          prefixKey: 'Deposition',
+        }),
+      )
+
+      // TODO: (kne42) uncomment when hooked up to backend
+      // await filtersActor.expectDataAndAnnotationsTableToMatch({
+      //   client,
+      //   id: +E2E_CONFIG.runId,
+      //   url: SINGLE_RUN_URL,
+      //   queryParamsList: [
+      //     {
+      //       queryParamKey: QueryParams.DepositionId,
+      //       queryParamValue: E2E_CONFIG.depositionId,
+      //     },
+      //   ],
+      // })
+    })
+    test('should filter when opening URL', async () => {
+      await filtersActor.goToFilteredUrl({
+        baseUrl: SINGLE_RUN_URL,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.DepositionId,
+            queryParamValue: E2E_CONFIG.depositionId,
+          },
+        ],
+      })
+
+      await filtersPage.expectFilterTagToExist(
+        getPrefixedId({
+          id: E2E_CONFIG.depositionId,
+          prefixKey: 'Deposition',
+        }),
+      )
+
+      // TODO: (kne42) uncomment when hooked up to backend
+      // await filtersActor.expectDataAndAnnotationsTableToMatch({
+      //   client,
+      //   id: +E2E_CONFIG.runId,
+      //   url: SINGLE_RUN_URL,
+      //   queryParamsList: [
+      //     {
+      //       queryParamKey: QueryParams.DepositionId,
+      //       queryParamValue: E2E_CONFIG.depositionId,
+      //     },
+      //   ],
+      // })
+    })
+    test('should remove filter when deselecting', async () => {
+      await filtersActor.goToFilteredUrl({
+        baseUrl: SINGLE_RUN_URL,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.DepositionId,
+            queryParamValue: E2E_CONFIG.depositionId,
+          },
+        ],
+      })
+
+      await filtersPage.removeMultiInputFilter(
+        getPrefixedId({ id: E2E_CONFIG.depositionId, prefixKey: 'Deposition' }),
+      )
+
+      await filtersActor.expectUrlQueryParamsToBeCorrect({
+        url: SINGLE_RUN_URL,
+        queryParamsList: [
+          {
+            queryParamKey: undefined,
+            queryParamValue: '',
+          },
+        ],
+      })
+
+      // TODO: (kne42) uncomment when hooked up to backend
+      // await filtersActor.expectDataAndAnnotationsTableToMatch({
+      //   client,
+      //   id: +E2E_CONFIG.runId,
+      //   url: SINGLE_RUN_URL,
+      //   queryParamsList: [
+      //     {
+      //       queryParamKey: QueryParams.DepositionId,
+      //       queryParamValue: E2E_CONFIG.depositionId,
+      //     },
+      //   ],
+      // })
+    })
+  })
   test.describe('Object Name filter', () => {
     test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_RUN_URL)

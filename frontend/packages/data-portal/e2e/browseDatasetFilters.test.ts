@@ -2,7 +2,10 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { test } from '@playwright/test'
 import { FiltersActor } from 'e2e/pageObjects/filters/filtersActor'
 import { FiltersPage } from 'e2e/pageObjects/filters/filtersPage'
-import { serializeAvailableFiles } from 'e2e/pageObjects/filters/utils'
+import {
+  getPrefixedId,
+  serializeAvailableFiles,
+} from 'e2e/pageObjects/filters/utils'
 
 import { QueryParams } from 'app/constants/query'
 
@@ -1099,6 +1102,121 @@ test.describe('Browse datasets page filters', () => {
         })
 
         await filtersPage.removeMultiInputFilter(E2E_CONFIG.authorOrcId)
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
+        })
+
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
+        })
+      })
+    })
+  })
+
+  test.describe('Deposition IDs filter group', () => {
+    test.describe('Deposition ID filter', () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addMultiInputFilter({
+          buttonLabel: translations.depositionId,
+          filter: {
+            label: translations.depositionId,
+            value: E2E_CONFIG.depositionId,
+          },
+          hasMultipleFilters: false,
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.DepositionId,
+              queryParamValue: E2E_CONFIG.depositionId,
+            },
+          ],
+        })
+
+        await filtersPage.expectFilterTagToExist(
+          getPrefixedId({
+            id: E2E_CONFIG.depositionId,
+            prefixKey: 'Deposition',
+          }),
+        )
+
+        // TODO: (kne42) uncomment when hooked up to backend
+        // await filtersActor.expectDataAndDatasetsTableToMatch({
+        //   client,
+        //   url: BROWSE_DATASETS_URL,
+        //   queryParamsList: [
+        //     {
+        //       queryParamKey: QueryParams.DepositionId,
+        //       queryParamValue: E2E_CONFIG.depositionId,
+        //     },
+        //   ],
+        // })
+      })
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.DepositionId,
+              queryParamValue: E2E_CONFIG.depositionId,
+            },
+          ],
+        })
+
+        await filtersPage.expectFilterTagToExist(
+          getPrefixedId({
+            id: E2E_CONFIG.depositionId,
+            prefixKey: 'Deposition',
+          }),
+        )
+
+        // TODO: (kne42) uncomment when hooked up to backend
+        // await filtersActor.expectDataAndDatasetsTableToMatch({
+        //   client,
+        //   url: BROWSE_DATASETS_URL,
+        //   queryParamsList: [
+        //     {
+        //       queryParamKey: QueryParams.DepositionId,
+        //       queryParamValue: E2E_CONFIG.depositionId,
+        //     },
+        //   ],
+        // })
+      })
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.DepositionId,
+              queryParamValue: E2E_CONFIG.depositionId,
+            },
+          ],
+        })
+
+        await filtersPage.removeMultiInputFilter(
+          getPrefixedId({
+            id: E2E_CONFIG.depositionId,
+            prefixKey: 'Deposition',
+          }),
+        )
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
