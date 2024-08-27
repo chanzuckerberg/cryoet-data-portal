@@ -3,7 +3,10 @@ import { Button, Callout } from '@czi-sds/components'
 import { I18n } from 'app/components/I18n'
 import { QueryParams } from 'app/constants/query'
 import { useQueryParam } from 'app/hooks/useQueryParam'
-import { useDepositionHistory } from 'app/state/filterHistory'
+import {
+  useDepositionHistory,
+  useSingleDatasetFilterHistory,
+} from 'app/state/filterHistory'
 import { I18nKeys } from 'app/types/i18n'
 
 interface Deposition {
@@ -18,6 +21,8 @@ export function DepositionFilterBanner({
   deposition: Deposition
   labelI18n: I18nKeys
 }) {
+  const { singleDatasetHistory, setSingleDatasetHistory } =
+    useSingleDatasetFilterHistory()
   const { previousSingleDepositionParams } = useDepositionHistory()
   const [, setDepositionId] = useQueryParam<string>(QueryParams.DepositionId)
 
@@ -40,7 +45,13 @@ export function DepositionFilterBanner({
         </p>
 
         <Button
-          onClick={() => setDepositionId(null)}
+          onClick={() => {
+            setDepositionId(null)
+
+            const nextHistory = new Map(singleDatasetHistory)
+            nextHistory.delete(QueryParams.DepositionId)
+            setSingleDatasetHistory(nextHistory)
+          }}
           sdsStyle="minimal"
           sdsType="secondary"
         >
