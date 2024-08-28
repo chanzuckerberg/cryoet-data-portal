@@ -1,4 +1,5 @@
 import { IDFilter } from 'app/components/Filters'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'
 
@@ -11,7 +12,7 @@ export function GeneOntologyFilter() {
       title={t('filterByGeneOntologyId')}
       label={t('goId')}
       queryParam={QueryParams.GoId}
-      prefix="GO:"
+      prefix={IdPrefix.GeneOntology}
     />
   )
 }
