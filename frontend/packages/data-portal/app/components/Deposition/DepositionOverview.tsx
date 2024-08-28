@@ -10,7 +10,7 @@ import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { cnsNoMerge } from 'app/utils/cns'
 
-import { AnnotationMethodsSummary } from './AnnotationMethodsSummary'
+import { MethodLinksOverview } from './MethodLinks'
 
 // use clsx here instead of cns since it erroneously merges text-sds-gray-500 and text-sds-caps-xxxs
 const sectionHeaderStyles = cnsNoMerge(
@@ -96,7 +96,7 @@ export function DepositionOverview() {
           <DatabaseList entries={relatedDatabaseEntries} collapseAfter={1} />
         </div>
       </div>
-      <AnnotationMethodsSummary />
+      <MethodLinksOverview />
     </div>
   )
 }

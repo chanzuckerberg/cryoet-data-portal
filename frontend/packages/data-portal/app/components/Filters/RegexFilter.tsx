@@ -7,18 +7,22 @@ import { useI18n } from 'app/hooks/useI18n'
 import { DropdownFilterButton } from './DropdownFilterButton'
 import { InputFilter } from './InputFilter'
 
-export function IDFilter({
+export function RegexFilter({
   id,
   label,
   title,
   queryParam,
-  prefix,
+  regex,
+  displayNormalizer,
+  paramNormalizer,
 }: {
   id: string
   label: string
   title: string
   queryParam: QueryParams
-  prefix?: string
+  regex: RegExp
+  displayNormalizer?: (value: string) => string
+  paramNormalizer?: (value: string) => string
 }) {
   const { t } = useI18n()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -26,19 +30,16 @@ export function IDFilter({
   const paramValue = searchParams.get(queryParam) ?? ''
   const [value, setValue] = useState(paramValue)
 
-  const validatingRegex = useMemo(
-    () => (prefix ? RegExp(`^(?:${prefix})?(\\d+)$`, 'i') : /^\d+$/),
-    [prefix],
+  const displayValue = useMemo(
+    () => (displayNormalizer ? displayNormalizer(paramValue) : paramValue),
+    [paramValue, displayNormalizer],
   )
 
-  const isDisabled = useMemo(
-    () => !validatingRegex.test(value),
-    [value, validatingRegex],
-  )
+  const isDisabled = useMemo(() => !regex.test(value), [value, regex])
 
   return (
     <DropdownFilterButton
-      activeFilters={paramValue ? [{ value: `${prefix}${paramValue}` }] : []}
+      activeFilters={paramValue ? [{ value: displayValue }] : []}
       description={
         <>
           <p className="text-sds-header-xs leading-sds-header-xs font-semibold">
@@ -52,17 +53,17 @@ export function IDFilter({
       }
       label={label}
       onApply={() => {
-        const matches = validatingRegex.exec(value) ?? []
+        const matches = regex.exec(value) ?? []
 
         if (matches.length > 0) {
-          const match = matches[1]
-          setValue(`${prefix}${match}`)
+          const newParamValue = paramNormalizer ? paramNormalizer(value) : value
+          setValue(displayNormalizer ? displayNormalizer(value) : value)
 
           setSearchParams((prev) => {
             prev.delete(queryParam)
 
-            if (match) {
-              prev.set(queryParam, match)
+            if (newParamValue) {
+              prev.set(queryParam, newParamValue)
             }
 
             return prev

@@ -418,15 +418,15 @@ test.describe('Single run page filters', () => {
     })
   })
 
-  test.describe('Go ID filter', () => {
+  test.describe('Object ID filter (GO ID)', () => {
     test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_RUN_URL)
 
       await filtersActor.addMultiInputFilter({
-        buttonLabel: translations.goId,
+        buttonLabel: translations.objectId,
         filter: {
-          label: translations.filterByGeneOntologyId,
-          value: E2E_CONFIG.goId,
+          label: translations.objectId,
+          value: E2E_CONFIG.objectId,
         },
         hasMultipleFilters: false,
       })
@@ -435,8 +435,8 @@ test.describe('Single run page filters', () => {
         url: SINGLE_RUN_URL,
         queryParamsList: [
           {
-            queryParamKey: QueryParams.GoId,
-            queryParamValue: E2E_CONFIG.goId,
+            queryParamKey: QueryParams.ObjectId,
+            queryParamValue: E2E_CONFIG.objectId,
           },
         ],
       })
@@ -447,8 +447,8 @@ test.describe('Single run page filters', () => {
         url: SINGLE_RUN_URL,
         queryParamsList: [
           {
-            queryParamKey: QueryParams.GoId,
-            queryParamValue: E2E_CONFIG.goId,
+            queryParamKey: QueryParams.ObjectId,
+            queryParamValue: E2E_CONFIG.objectId,
           },
         ],
       })
@@ -458,8 +458,8 @@ test.describe('Single run page filters', () => {
         baseUrl: SINGLE_RUN_URL,
         queryParamsList: [
           {
-            queryParamKey: QueryParams.GoId,
-            queryParamValue: E2E_CONFIG.goId,
+            queryParamKey: QueryParams.ObjectId,
+            queryParamValue: E2E_CONFIG.objectId,
           },
         ],
       })
@@ -470,8 +470,8 @@ test.describe('Single run page filters', () => {
         url: SINGLE_RUN_URL,
         queryParamsList: [
           {
-            queryParamKey: QueryParams.GoId,
-            queryParamValue: E2E_CONFIG.goId,
+            queryParamKey: QueryParams.ObjectId,
+            queryParamValue: E2E_CONFIG.objectId,
           },
         ],
       })
@@ -482,13 +482,13 @@ test.describe('Single run page filters', () => {
         baseUrl: SINGLE_RUN_URL,
         queryParamsList: [
           {
-            queryParamKey: QueryParams.GoId,
-            queryParamValue: E2E_CONFIG.goId,
+            queryParamKey: QueryParams.ObjectId,
+            queryParamValue: E2E_CONFIG.objectId,
           },
         ],
       })
 
-      await filtersPage.removeMultiInputFilter(E2E_CONFIG.goId)
+      await filtersPage.removeMultiInputFilter(E2E_CONFIG.objectId)
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_RUN_URL,

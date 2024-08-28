@@ -28,7 +28,7 @@ export function AccordionMetadataTable({
         data={data}
         tableCellLabelProps={{
           renderLoadingSkeleton: false,
-          width: { min: COLUMN_WIDTH, max: COLUMN_WIDTH },
+          width: { min: COLUMN_WIDTH, width: COLUMN_WIDTH, max: COLUMN_WIDTH },
           ...tableCellLabelProps,
         }}
         tableCellValueProps={{

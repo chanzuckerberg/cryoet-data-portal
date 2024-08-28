@@ -1,6 +1,16 @@
 table:
   name: datasets
   schema: public
+object_relationships:
+  - name: deposition
+    using:
+      manual_configuration:
+        column_mapping:
+          deposition_id: id
+        insertion_order: null
+        remote_table:
+          name: depositions
+          schema: public
 array_relationships:
   - name: authors
     using:
@@ -27,15 +37,16 @@ select_permissions:
   - role: anonymous
     permission:
       columns:
+        - cell_component_id
+        - cell_component_name
         - cell_name
         - cell_strain_id
         - cell_strain_name
         - cell_type_id
-        - cell_component_id
-        - cell_component_name
         - dataset_citations
         - dataset_publications
         - deposition_date
+        - deposition_id
         - description
         - grid_preparation
         - https_prefix

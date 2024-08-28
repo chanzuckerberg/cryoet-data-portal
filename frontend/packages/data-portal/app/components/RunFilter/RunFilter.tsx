@@ -11,7 +11,7 @@ import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 
-import { GeneOntologyFilter } from '../AnnotationFilter/GeneOntologyFilter'
+import { ObjectIdFilter } from '../AnnotationFilter/ObjectIdFilter'
 import { QualityScoreFilter } from './QualityScoreFilter'
 
 export function RunFilter() {
@@ -37,7 +37,7 @@ export function RunFilter() {
           allObjectNames={objectNames}
           label={t('objectName')}
         />
-        {showDepositions && <GeneOntologyFilter />}
+        {showDepositions && <ObjectIdFilter />}
         <AnnotatedObjectShapeTypeFilter
           allObjectShapeTypes={objectShapeTypes}
         />

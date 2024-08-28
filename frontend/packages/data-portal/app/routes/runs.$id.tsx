@@ -66,7 +66,7 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
       QueryParams.AuthorName,
       QueryParams.AuthorOrcid,
       QueryParams.ObjectName,
-      QueryParams.GoId,
+      QueryParams.ObjectId,
       QueryParams.ObjectShapeType,
       QueryParams.MethodType,
       QueryParams.AnnotationSoftware,

@@ -12,15 +12,16 @@ from ._models import (
     Dataset,
     DatasetAuthor,
     DatasetFunding,
+    Deposition,
+    DepositionAuthor,
     Run,
     TiltSeries,
     Tomogram,
     TomogramAuthor,
     TomogramVoxelSpacing,
 )
-from ._version import version
 
-__version__ = version
+__version__ = "3.1.0"
 
 __all__ = [
     "Client",
@@ -30,6 +31,8 @@ __all__ = [
     "Dataset",
     "DatasetAuthor",
     "DatasetFunding",
+    "Deposition",
+    "DepositionAuthor",
     "Run",
     "TiltSeries",
     "Tomogram",

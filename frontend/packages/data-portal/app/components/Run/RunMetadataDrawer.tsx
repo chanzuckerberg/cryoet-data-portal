@@ -18,7 +18,7 @@ export function RunMetadataDrawer() {
       label={i18n.runDetails}
     >
       <DatasetMetadataTable
-        allFields
+        showAllFields
         dataset={run.dataset}
         initialOpen={false}
       />

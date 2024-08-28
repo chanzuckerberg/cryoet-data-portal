@@ -1,4 +1,4 @@
-import { GeneOntologyFilter } from 'app/components/AnnotationFilter/GeneOntologyFilter'
+import { ObjectIdFilter } from 'app/components/AnnotationFilter/ObjectIdFilter'
 import {
   AnnotatedObjectNameFilter,
   AnnotatedObjectShapeTypeFilter,
@@ -29,7 +29,7 @@ export function AnnotationMetadataFilterSection({
         label={t('objectName')}
       />
 
-      {depositionPageVariant && <GeneOntologyFilter />}
+      {depositionPageVariant && <ObjectIdFilter />}
 
       <AnnotatedObjectShapeTypeFilter allObjectShapeTypes={objectShapeTypes} />
     </FilterSection>

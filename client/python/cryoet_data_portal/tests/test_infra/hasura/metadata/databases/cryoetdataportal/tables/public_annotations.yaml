@@ -2,6 +2,15 @@ table:
   name: annotations
   schema: public
 object_relationships:
+  - name: deposition
+    using:
+      manual_configuration:
+        column_mapping:
+          deposition_id: id
+        insertion_order: null
+        remote_table:
+          name: depositions
+          schema: public
   - name: tomogram_voxel_spacing
     using:
       foreign_key_constraint_on: tomogram_voxel_spacing_id
@@ -37,6 +46,7 @@ select_permissions:
         - id
         - is_curator_recommended
         - last_modified_date
+        - method_links
         - method_type
         - object_count
         - object_description

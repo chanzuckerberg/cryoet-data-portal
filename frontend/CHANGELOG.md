@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.25.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.24.0...web-v1.25.0) (2024-08-22)
+
+
+### ✨ Features
+
+* annotation GO ID -&gt; annotation Object ID: add UniProtKB support to annotation Object IDs ([#1068](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1068)) ([58b5bf9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/58b5bf968733985001242bb5a1330fc7b369f090))
+
+
+### 🐞 Bug Fixes
+
+* ID detection for annotation object id link  ([#1075](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1075)) ([dc4fd8f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/dc4fd8fb2a92187ab2bfa507e538a066227eb2c9))
+
+## [1.24.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.23.1...web-v1.24.0) (2024-08-22)
+
+
+### ✨ Features
+
+* add single deposition info panel ([#986](https://github.com/chanzuckerberg/cryoet-data-portal/issues/986)) ([62fb35f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/62fb35fe2a59215387c29e36cfb62d1b6ed7a9a9))
+
+
+### ⚙ Continuous Integration
+
+* fixes prod e2e tests ([#1066](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1066)) ([de5e273](https://github.com/chanzuckerberg/cryoet-data-portal/commit/de5e2738541c163a80442b394c10a8dac967a794))
+
+## [1.23.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.23.0...web-v1.23.1) (2024-08-20)
+
+
+### 🐞 Bug Fixes
+
+* wrap collapsible lists in a div ([#1038](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1038)) ([4df83f0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4df83f060227d6d0cc81ff0806aea333f19866b9))
+
 ## [1.23.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.22.0...web-v1.23.0) (2024-08-20)
 
 

@@ -79,7 +79,7 @@ export function getPrefixedId({
   id: string
   prefixKey: keyof typeof IdPrefix
 }): string {
-  return `${IdPrefix[prefixKey]}${id}`
+  return `${IdPrefix[prefixKey]}-${id}`
 }
 
 // #Region runPage
