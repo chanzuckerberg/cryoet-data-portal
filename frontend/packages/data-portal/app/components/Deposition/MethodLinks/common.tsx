@@ -2,7 +2,15 @@ import { Icon } from '@czi-sds/components'
 import { ReactNode } from 'react'
 
 import { SourceCodeIcon, WeightsIcon } from 'app/components/icons'
+import { methodTypes } from 'app/constants/methodTypes'
 import { I18nKeys } from 'app/types/i18n'
+
+import {
+  MethodDataType,
+  MethodLinkDataType,
+  MethodLinkType,
+  methodLinkTypes,
+} from './type'
 
 export interface MethodLink {
   i18nLabel: I18nKeys
@@ -11,11 +19,19 @@ export interface MethodLink {
   title?: string
 }
 
-export const iconMap = {
-  sourceCode: (
+const methodTypeToI18nKey: { [key in MethodLinkType]: I18nKeys } = {
+  source_code: 'sourceCode',
+  model_weights: 'modelWeights',
+  website: 'website',
+  documentation: 'documentation',
+  other: 'other',
+} as const
+
+export const iconMap: { [key in MethodLinkType]: ReactNode } = {
+  source_code: (
     <SourceCodeIcon className="w-sds-icon-s h-sds-icon-s inline-block" />
   ),
-  modelWeights: (
+  model_weights: (
     <WeightsIcon className="w-sds-icon-s h-sds-icon-s inline-block" />
   ),
   website: (
@@ -44,40 +60,62 @@ export const iconMap = {
   ),
 } as const
 
-export interface MethodLinkVariantProps {
-  variant: keyof typeof iconMap
-  url: string
-  title?: string
-}
-
-const variantOrder: (keyof typeof iconMap)[] = [
-  'sourceCode',
-  'modelWeights',
-  'website',
-  'documentation',
-  'other',
-]
-
 function methodLinkFromVariant({
-  variant,
-  url,
-  title,
-}: MethodLinkVariantProps): MethodLink {
+  link_type: variant,
+  link: url,
+  custom_name: title,
+}: MethodLinkDataType): MethodLink {
   return {
-    i18nLabel: variant,
+    i18nLabel: methodTypeToI18nKey[variant],
     url,
     title,
     icon: iconMap[variant],
   }
 }
 
-export function generateMethodLinks(
-  links: MethodLinkVariantProps[],
-): MethodLink[] {
+export function generateMethodLinks(links: MethodLinkDataType[]): MethodLink[] {
   return links
-    .toSorted(
+    .sort(
       (a, b) =>
-        variantOrder.indexOf(a.variant) - variantOrder.indexOf(b.variant),
+        methodLinkTypes.indexOf(a.link_type) -
+        methodLinkTypes.indexOf(b.link_type),
     )
     .map((props) => methodLinkFromVariant(props))
+}
+
+export type CombinedMethodDataType = {
+  annotationsCount: number
+  methodData: MethodDataType
+}
+
+export function combineSameMethodData(
+  data: MethodDataType[],
+): CombinedMethodDataType[] {
+  data.sort(
+    (a, b) =>
+      methodTypes.indexOf(a.method_type) - methodTypes.indexOf(b.method_type),
+  )
+
+  return data.reduce((all: CombinedMethodDataType[], curr: MethodDataType) => {
+    const last = all[all.length - 1]
+    if (
+      last &&
+      last.methodData.method_type === curr.method_type &&
+      last.methodData.annotation_method === curr.annotation_method
+    ) {
+      if (!last.methodData.method_links) {
+        last.methodData.method_links = []
+      }
+
+      curr.method_links
+        ?.filter((link) => !last.methodData.method_links?.includes(link))
+        .map((link) => last.methodData.method_links?.push(link))
+
+      last.annotationsCount += 1
+    } else {
+      all.push({ annotationsCount: 1, methodData: curr })
+    }
+
+    return all
+  }, [] as CombinedMethodDataType[])
 }

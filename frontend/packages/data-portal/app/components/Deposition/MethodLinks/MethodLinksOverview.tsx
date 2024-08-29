@@ -1,4 +1,5 @@
 import { Icon } from '@czi-sds/components'
+import { useMemo } from 'react'
 
 import { CollapsibleList } from 'app/components/CollapsibleList'
 import { I18n } from 'app/components/I18n'
@@ -10,22 +11,25 @@ import {
   methodTooltipLabels,
   MethodType,
 } from 'app/constants/methodTypes'
+import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 
 import {
+  CombinedMethodDataType,
+  combineSameMethodData,
   generateMethodLinks,
-  MethodLink,
-  MethodLinkVariantProps,
 } from './common'
+import { MethodDataType, MethodLinkDataType } from './type'
 
 function MethodTypeSection({
   methodType,
-  links,
+  methodLinks,
 }: {
   methodType: MethodType
-  links?: MethodLink[]
+  methodLinks?: MethodLinkDataType[]
 }) {
   const { t } = useI18n()
+  const links = useMemo(() => generateMethodLinks(methodLinks), [methodLinks])
 
   return (
     <div className="grid grid-cols-[1fr_2fr] gap-x-sds-xl gap-y-sds-xs">
@@ -80,68 +84,17 @@ function MethodTypeSection({
 export function MethodLinksOverview() {
   const { t } = useI18n()
 
+  const { deposition } = useDepositionById()
+
+  const combinedMethodData: CombinedMethodDataType[] = useMemo(
+    () =>
+      combineSameMethodData(
+        (deposition?.annotations as MethodDataType[]) ?? [],
+      ),
+    [deposition],
+  )
+
   const separator = <div className="h-[1px] bg-sds-gray-300" />
-
-  // TODO: populate this with backend data when available
-  const hybridMethodLinks: MethodLinkVariantProps[] = [
-    {
-      variant: 'sourceCode',
-      url: 'https://www.example.com',
-    },
-    {
-      variant: 'website',
-      url: 'https://www.example.com',
-      title: 'Optional Custom Link Name',
-    },
-  ]
-
-  const automatedMethodLinks: MethodLinkVariantProps[] = [
-    {
-      variant: 'sourceCode',
-      url: 'https://www.example.com',
-    },
-    {
-      variant: 'website',
-      url: 'https://www.example.com',
-      title: 'Optional Custom Link Name',
-    },
-    {
-      variant: 'website',
-      url: 'https://www.example.com',
-    },
-    {
-      variant: 'sourceCode',
-      url: 'https://www.example.com',
-      title: 'Optional Custom Link Name',
-    },
-    {
-      variant: 'other',
-      url: 'https://www.example.com',
-    },
-    {
-      variant: 'documentation',
-      url: 'https://www.example.com',
-      title: 'Optional Custom Link Name',
-    },
-    {
-      variant: 'modelWeights',
-      url: 'https://www.example.com',
-    },
-    {
-      variant: 'other',
-      url: 'https://www.example.com',
-      title: 'Optional Custom Link Name',
-    },
-    {
-      variant: 'documentation',
-      url: 'https://www.example.com',
-    },
-    {
-      variant: 'modelWeights',
-      url: 'https://www.example.com',
-      title: 'Optional Custom Link Name',
-    },
-  ]
 
   return (
     <div>
@@ -149,17 +102,15 @@ export function MethodLinksOverview() {
         {t('annotationMethodsSummary')}
       </PageHeaderSubtitle>
       <div className="p-sds-l flex flex-col gap-sds-l bg-sds-gray-100 rounded-sds-m">
-        <MethodTypeSection
-          methodType="hybrid"
-          links={generateMethodLinks(hybridMethodLinks)}
-        />
-        {separator}
-        <MethodTypeSection
-          methodType="automated"
-          links={generateMethodLinks(automatedMethodLinks)}
-        />
-        {separator}
-        <MethodTypeSection methodType="manual" />
+        {combinedMethodData.map(({ methodData }, i) => (
+          <>
+            <MethodTypeSection
+              methodType={methodData.method_type}
+              methodLinks={methodData.method_links}
+            />
+            {i < combinedMethodData.length - 1 && separator}
+          </>
+        ))}
       </div>
     </div>
   )

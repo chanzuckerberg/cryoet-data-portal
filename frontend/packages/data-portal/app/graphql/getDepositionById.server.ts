@@ -14,9 +14,9 @@ const GET_DEPOSITION_BY_ID = gql(`
     $dataset_limit: Int,
     $dataset_offset: Int,
     $dataset_order_by: order_by,
-    $filter: datasets_bool_exp,
+    $filter: datasets_bool_exp!,
   ) {
-    deposition: datasets_by_pk(id: $id) {
+    deposition: depositions_by_pk(id: $id) {
       s3_prefix
 
       # key photo
@@ -32,14 +32,6 @@ const GET_DEPOSITION_BY_ID = gql(`
       title
       description
 
-      funding_sources {
-        funding_agency_name
-        grant_id
-      }
-
-      related_database_entries
-      deposition_citations: dataset_citations
-
       authors(
         order_by: {
           author_list_order: asc,
@@ -54,25 +46,32 @@ const GET_DEPOSITION_BY_ID = gql(`
 
       # publication info
       related_database_entries
-      deposition_publications: dataset_publications
+      deposition_publications
 
-      # runs
-      run_stats: runs {
-        tomogram_voxel_spacings {
-          annotations {
-            object_name
+      # annotations
+      annotations {
+        annotation_method
+        annotation_software
+        method_links
+        method_type
 
-            files(distinct_on: shape_type) {
-              shape_type
-            }
-          }
-
-          annotations_aggregate {
-            aggregate {
-              count
-            }
-          }
+        files(distinct_on: shape_type) {
+          shape_type
         }
+      }
+
+      annotations_aggregate {
+        aggregate {
+          count
+        }
+      }
+
+      organism_names: dataset(distinct_on: organism_name) {
+        organism_name
+      }
+
+      object_names: annotations(distinct_on: object_name) {
+        object_name
       }
     }
 
@@ -80,7 +79,7 @@ const GET_DEPOSITION_BY_ID = gql(`
       limit: $dataset_limit,
       offset: $dataset_offset,
       order_by: { title: $dataset_order_by },
-      where: $filter
+      where: { _and: [$filter, {runs: {tomogram_voxel_spacings: {annotations: {deposition_id: {_eq: $id}}}}}] },
     ) {
       id
       title
@@ -97,7 +96,7 @@ const GET_DEPOSITION_BY_ID = gql(`
         corresponding_author_status
       }
 
-      runs_aggregate {
+      runs_aggregate(where: {tomogram_voxel_spacings: {annotations: {deposition_id: {_eq: $id}}}}) {
         aggregate {
           count
         }
@@ -109,7 +108,7 @@ const GET_DEPOSITION_BY_ID = gql(`
             object_name
           }
 
-          annotations_aggregate {
+          annotations_aggregate(where: {deposition_id: {_eq: $id}}) {
             aggregate {
               count
             }
@@ -118,13 +117,13 @@ const GET_DEPOSITION_BY_ID = gql(`
       }
     }
 
-    datasets_aggregate {
+    datasets_aggregate(where: {runs: {tomogram_voxel_spacings: {annotations: {deposition_id: {_eq: $id}}}}}) {
       aggregate {
         count
       }
     }
 
-    filtered_datasets_aggregate: datasets_aggregate(where: $filter) {
+    filtered_datasets_aggregate: datasets_aggregate(where: {_and: [$filter, {runs: {tomogram_voxel_spacings: {annotations: {deposition_id: {_eq: $id}}}}}]}) {
       aggregate {
         count
       }

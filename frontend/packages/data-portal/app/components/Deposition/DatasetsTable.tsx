@@ -26,7 +26,7 @@ import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
-const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
+const LOADING_DATASETS: Dataset[] = range(0, MAX_PER_PAGE).map(
   (value) =>
     ({
       authors: [],
@@ -39,7 +39,7 @@ const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
 
 export function DatasetsTable() {
   const { t } = useI18n()
-  const { deposition } = useDepositionById()
+  const { datasets } = useDepositionById()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const datasetSort = (searchParams.get('sort') ?? undefined) as
@@ -189,7 +189,7 @@ export function DatasetsTable() {
         }),
 
         columnHelper.accessor(
-          (dataset) => dataset.runs_aggregate.aggregate?.count,
+          (dataset) => dataset.runs_aggregate?.aggregate?.count,
           {
             id: 'runs',
 
@@ -326,7 +326,7 @@ export function DatasetsTable() {
 
   return (
     <PageTable
-      data={isLoadingDebounced ? LOADING_DATASETS : deposition.datasets}
+      data={isLoadingDebounced ? LOADING_DATASETS : datasets}
       columns={columns}
       hoverType="group"
     />

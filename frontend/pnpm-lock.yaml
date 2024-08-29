@@ -153,6 +153,9 @@ importers:
       next-mdx-remote:
         specifier: ^4.4.1
         version: 4.4.1(react-dom@18.2.0)(react@18.2.0)
+      number-to-words:
+        specifier: ^1.2.4
+        version: 1.2.4
       pretty-bytes:
         specifier: ^6.1.1
         version: 6.1.1
@@ -256,6 +259,9 @@ importers:
       '@types/node':
         specifier: ^20.8.4
         version: 20.8.4
+      '@types/number-to-words':
+        specifier: ^1.2.3
+        version: 1.2.3
       '@types/react':
         specifier: ^18.2.28
         version: 18.2.28
@@ -3999,6 +4005,10 @@ packages:
 
   /@types/normalize-package-data@2.4.2:
     resolution: {integrity: sha512-lqa4UEhhv/2sjjIQgjX8B+RBjj47eo0mzGasklVJ78UKGQY1r0VpB9XHDaZZO9qzEFDdy4MrXLuEaSmPrPSe/A==}
+    dev: true
+
+  /@types/number-to-words@1.2.3:
+    resolution: {integrity: sha512-ruSA/QZ6JQofoEEN2zKmN9oihZmrCBgcw0zEzN0UA9Mw0pU5remTddZmrbHjsa99qz12Uxl82x+XkVpHu87oXw==}
     dev: true
 
   /@types/parse-json@4.0.0:
@@ -9767,6 +9777,10 @@ packages:
 
   /nullthrows@1.1.1:
     resolution: {integrity: sha512-2vPPEi+Z7WqML2jZYddDIfy5Dqb0r2fze2zTxNNknZaFpVHU3mFB3R+DWeJWGVx0ecvttSGlJTI+WG+8Z4cDWw==}
+    dev: false
+
+  /number-to-words@1.2.4:
+    resolution: {integrity: sha512-/fYevVkXRcyBiZDg6yzZbm0RuaD6i0qRfn8yr+6D0KgBMOndFPxuW10qCHpzs50nN8qKuv78k8MuotZhcVX6Pw==}
     dev: false
 
   /nwsapi@2.2.7:

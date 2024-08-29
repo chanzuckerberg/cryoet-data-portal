@@ -6,11 +6,14 @@ import { Depositions_Bool_Exp, Order_By } from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
+import { depositionTypeFilter } from './common'
+
 const GET_DEPOSITIONS_DATA_QUERY = gql(`
   query GetDepositionsData(
     $limit: Int,
     $offset: Int,
     $order_by_deposition: order_by,
+    $deposition_type_filter: depositions_bool_exp,
     $filter: depositions_bool_exp,
   ) {
     depositions(
@@ -40,12 +43,6 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
         }
       }
 
-      dataset_aggregate {
-        aggregate {
-          count
-        }
-      }
-
       annotations(distinct_on: object_name) {
         object_name
       }
@@ -55,9 +52,15 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
           shape_type
         }
       }
+
+      dataset_aggregate {
+        aggregate {
+          count
+        }
+      }
     }
 
-    depositions_aggregate {
+    depositions_aggregate(where: $deposition_type_filter) {
       aggregate {
         count
       }
@@ -80,7 +83,7 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
 `)
 
 function getFilter(filterState: FilterState, query: string) {
-  const filters: Depositions_Bool_Exp[] = []
+  const filters: Depositions_Bool_Exp[] = [depositionTypeFilter]
 
   // Text search by deposition title
   if (query) {
@@ -162,6 +165,7 @@ export async function getBrowseDepositions({
   const results = await client.query({
     query: GET_DEPOSITIONS_DATA_QUERY,
     variables: {
+      deposition_type_filter: depositionTypeFilter,
       filter: getFilter(getFilterState(params), query),
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,

@@ -1,12 +1,12 @@
 import { I18nKeys } from 'app/types/i18n'
 
-type MethodTypeLabels = {
-  automated: I18nKeys
-  hybrid: I18nKeys
-  manual: I18nKeys
-}
+export const methodTypes = ['hybrid', 'automated', 'manual'] as const
 
-export type MethodType = keyof MethodTypeLabels
+export type MethodType = (typeof methodTypes)[number]
+
+type MethodTypeLabels = {
+  [key in MethodType]: I18nKeys
+}
 
 export const methodLabels: MethodTypeLabels = {
   automated: 'automated',

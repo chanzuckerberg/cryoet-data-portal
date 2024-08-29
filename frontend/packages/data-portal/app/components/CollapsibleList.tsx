@@ -39,7 +39,7 @@ export function CollapsibleList({
   const lastIndex =
     collapsible && collapsed ? collapseAfter - 1 : (entries ?? []).length - 1
 
-  return entries ? (
+  return entries && entries.length > 0 ? (
     <div>
       <ul
         className={cns(

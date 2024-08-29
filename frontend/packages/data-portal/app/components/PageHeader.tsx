@@ -69,7 +69,7 @@ export function PageHeader({
                 <div
                   className={cns(
                     'row-start-1 col-start-2',
-                    'flex items-start justify-end gap-sds-xs',
+                    'flex self-start items-center justify-end gap-sds-xs',
                     'text-xs text-sds-gray-600',
                   )}
                 >

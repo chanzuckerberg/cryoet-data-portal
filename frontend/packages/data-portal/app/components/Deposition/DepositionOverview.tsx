@@ -1,6 +1,3 @@
-import { sum } from 'lodash-es'
-import { useMemo } from 'react'
-
 import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorList } from 'app/components/AuthorList'
 import { DatabaseList } from 'app/components/DatabaseList'
@@ -25,19 +22,8 @@ export function DepositionOverview() {
 
   const { t } = useI18n()
 
-  const annotationsCount = useMemo<number>(
-    () =>
-      sum(
-        deposition.datasets.flatMap((dataset) =>
-          dataset.runs.flatMap(
-            (run) =>
-              run.tomogram_voxel_spacings.at(0)?.annotations_aggregate.aggregate
-                ?.count,
-          ),
-        ),
-      ),
-    [deposition],
-  )
+  const annotationsCount =
+    deposition.annotations_aggregate.aggregate?.count ?? 0
 
   // clean up entries into lists
   const publicationEntries = deposition.deposition_publications

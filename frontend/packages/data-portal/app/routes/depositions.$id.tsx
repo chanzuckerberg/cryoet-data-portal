@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
 import { CellHeaderDirection } from '@czi-sds/components'
+import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs, redirect } from '@remix-run/server-runtime'
 import { useEffect } from 'react'
 
@@ -22,6 +23,7 @@ import {
   useSyncParamsWithState,
 } from 'app/state/filterHistory'
 import { getFeatureFlag } from 'app/utils/featureFlags'
+import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
@@ -84,8 +86,35 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   })
 }
 
+export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
+  return shouldRevalidatePage({
+    ...args,
+    paramsToRefetch: [
+      QueryParams.GroundTruthAnnotation,
+      QueryParams.AvailableFiles,
+      QueryParams.NumberOfRuns,
+      QueryParams.DatasetId,
+      QueryParams.EmpiarId,
+      QueryParams.EmdbId,
+      QueryParams.AuthorName,
+      QueryParams.AuthorOrcid,
+      QueryParams.Organism,
+      QueryParams.CameraManufacturer,
+      QueryParams.TiltRangeMin,
+      QueryParams.TiltRangeMax,
+      QueryParams.FiducialAlignmentStatus,
+      QueryParams.ReconstructionMethod,
+      QueryParams.ReconstructionMethod,
+      QueryParams.ObjectName,
+      QueryParams.ObjectId,
+      QueryParams.ObjectShapeType,
+    ],
+  })
+}
+
 export default function DepositionByIdPage() {
-  const { deposition } = useDepositionById()
+  const { deposition, datasetsCount, filteredDatasetsCount } =
+    useDepositionById()
   const { t } = useI18n()
 
   const { setPreviousDepositionId, setPreviousSingleDepositionParams } =
@@ -108,9 +137,8 @@ export default function DepositionByIdPage() {
         {
           title: t('depositionData'),
           table: <DatasetsTable />,
-          totalCount: deposition.datasets_aggregate.aggregate?.count ?? 0,
-          filteredCount:
-            deposition.filtered_datasets_aggregate.aggregate?.count ?? 0,
+          totalCount: datasetsCount,
+          filteredCount: filteredDatasetsCount,
           filterPanel: <DatasetFilter depositionPageVariant />,
           countLabel: t('datasets'),
         },
