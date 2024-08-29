@@ -44,6 +44,21 @@ html {
     background-color: #282A34;
 }
 
+@media screen and (min-width: 60em) {
+  .md-search__inner {
+    width: 14rem;
+  }
+}
+
+/* GitHub link */
+[dir="ltr"] .md-header__source {
+  margin-left: 0rem;
+}
+
+.md-source__facts {
+    display: none;
+}
+
 /* Navigation tabs (top) */
 .md-tabs {
     background-color: black;
