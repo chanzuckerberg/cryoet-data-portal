@@ -4,6 +4,7 @@ import { BasePage } from 'e2e/pageObjects/basePage'
 import { TestIds } from 'app/constants/testIds'
 
 import { QueryParamObjectType, RowCounterType } from './types'
+import { escapeRegExp } from 'lodash-es'
 
 export class FiltersPage extends BasePage {
   // #region Navigate
@@ -25,7 +26,7 @@ export class FiltersPage extends BasePage {
 
   public async removeFilterOption(label: string) {
     await this.page
-      .locator('span', { hasText: new RegExp(`^${label}$`) })
+      .locator('span', { hasText: new RegExp(`^${escapeRegExp(label)}$`, 'i') })
       .locator('..')
       .getByLabel('Delete tag')
       .click()
