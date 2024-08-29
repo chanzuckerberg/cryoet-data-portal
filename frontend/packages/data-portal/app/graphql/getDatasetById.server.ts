@@ -16,6 +16,7 @@ const GET_DATASET_BY_ID = gql(`
     $run_limit: Int,
     $run_offset: Int,
     $filter: runs_bool_exp,
+    $deposition_id: Int,
   ) {
     datasets(where: { id: { _eq: $id } }) {
       s3_prefix
@@ -149,6 +150,11 @@ const GET_DATASET_BY_ID = gql(`
         }
       }
     }
+
+    deposition: datasets(where: { id: { _eq: $deposition_id } }) {
+      id
+      title
+    }
   }
 `)
 
@@ -221,11 +227,13 @@ function getFilter(filterState: FilterState) {
 
 export async function getDatasetById({
   client,
+  depositionId = -1,
   id,
   page = 1,
   params = new URLSearchParams(),
 }: {
   client: ApolloClient<NormalizedCacheObject>
+  depositionId?: number
   id: number
   page?: number
   params?: URLSearchParams
@@ -234,6 +242,7 @@ export async function getDatasetById({
     query: GET_DATASET_BY_ID,
     variables: {
       id,
+      deposition_id: depositionId,
       run_limit: MAX_PER_PAGE,
       run_offset: (page - 1) * MAX_PER_PAGE,
       filter: getFilter(getFilterState(params)),

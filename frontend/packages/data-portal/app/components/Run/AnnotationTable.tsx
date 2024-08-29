@@ -13,7 +13,6 @@ import { ComponentProps, ReactNode, useCallback, useMemo } from 'react'
 
 import { AuthorList } from 'app/components/AuthorList'
 import { I18n } from 'app/components/I18n'
-import { DASHED_BORDERED_CLASSES } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
 import {
@@ -35,6 +34,7 @@ import {
 import { useRunById } from 'app/hooks/useRunById'
 import { AnnotationRow, useAnnotation } from 'app/state/annotation'
 import { I18nKeys } from 'app/types/i18n'
+import { DASHED_BORDERED_CLASSES } from 'app/utils/classNames'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
 const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<AnnotationRow>(() => ({

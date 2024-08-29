@@ -1,4 +1,6 @@
-import { createUrl, isExternalUrl } from './url'
+import { QueryParams } from 'app/constants/query'
+
+import { carryOverFilterParams, createUrl, isExternalUrl } from './url'
 
 describe('utils/url', () => {
   describe('isExternalUrl()', () => {
@@ -29,6 +31,42 @@ describe('utils/url', () => {
 
         expect(url.pathname).toBe('/path')
         expect(url.host).toBe('example.com')
+      }
+    })
+  })
+
+  describe('carryOverFilterParams()', () => {
+    it('should carry over filter params', () => {
+      const testCases = [
+        {
+          input: {
+            filters: [QueryParams.ObjectName, QueryParams.Organism],
+            params: new URLSearchParams(),
+            prevParams: new URLSearchParams([
+              [QueryParams.ObjectName, 'foobar'],
+              [QueryParams.ReconstructionMethod, 'foobar'],
+            ]),
+          },
+          output: new URLSearchParams([[QueryParams.ObjectName, 'foobar']]),
+        },
+
+        {
+          input: {
+            filters: [QueryParams.ObjectName, QueryParams.Organism],
+            params: new URLSearchParams(),
+            prevParams: new URLSearchParams([
+              [QueryParams.ReconstructionMethod, 'foobar'],
+            ]),
+          },
+          output: new URLSearchParams(),
+        },
+      ] as const
+
+      for (const testCase of testCases) {
+        const { input, output } = testCase
+        const result = carryOverFilterParams(input)
+
+        expect(output.toString()).toBe(result.toString())
       }
     })
   })

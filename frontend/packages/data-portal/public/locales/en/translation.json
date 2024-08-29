@@ -238,6 +238,8 @@
   "objectShapeType": "Object Shape Type",
   "objectShapeTypes": "Object Shape Types",
   "objectState": "Object State",
+  "onlyDisplayingAnnotations": "Only displaying annotations from <urlNoColor to='{{url}}' variant='dashed-bordered'>Deposition CZCDP-{{id}}: \"{{title}}\"</urlNoColor>",
+  "onlyDisplayingRunsWithAnnotations": "Only displaying runs with annotations from <urlNoColor to='{{url}}' variant='dashed-bordered'>Deposition CZCDP-{{id}}: \"{{title}}\"</urlNoColor>",
   "openDataset": "Open Dataset",
   "openDeposition": "Open Deposition",
   "openRun": "Open Run",

@@ -4,7 +4,7 @@ import Skeleton from '@mui/material/Skeleton'
 import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
@@ -16,6 +16,7 @@ import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualitySco
 import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
 import { RUN_FILTERS } from 'app/constants/filterQueryParams'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { QueryParams } from 'app/constants/query'
 import { RunTableWidths } from 'app/constants/table'
 import { TiltSeriesScore } from 'app/constants/tiltSeries'
 import { useDatasetById } from 'app/hooks/useDatasetById'
@@ -27,6 +28,7 @@ import {
 } from 'app/state/filterHistory'
 import { cnsNoMerge } from 'app/utils/cns'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
+import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
 type Run = GetDatasetByIdQuery['datasets'][number]['runs'][number]
 
@@ -39,7 +41,7 @@ const LOADING_RUNS = range(0, MAX_PER_PAGE).map<Run>(() => ({
 
 export function RunsTable() {
   const { isLoadingDebounced } = useIsLoading()
-  const { dataset } = useDatasetById()
+  const { dataset, deposition } = useDatasetById()
   const runs = dataset.runs as unknown as Run[]
   const { t } = useI18n()
   const { setSingleDatasetHistory } = useSingleDatasetFilterHistory()
@@ -59,6 +61,25 @@ export function RunsTable() {
         ) as SingleDatasetHistory,
       ),
     [searchParams, setSingleDatasetHistory],
+  )
+
+  const getRunUrl = useCallback(
+    (id: number) => {
+      const url = createUrl(`/runs/${id}`)
+
+      carryOverFilterParams({
+        filters: RUN_FILTERS,
+        params: url.searchParams,
+        prevParams: searchParams,
+      })
+
+      if (deposition && searchParams.has(QueryParams.DepositionId)) {
+        url.searchParams.set(QueryParams.DepositionId, `${deposition.id}`)
+      }
+
+      return url.pathname + url.search
+    },
+    [deposition, searchParams],
   )
 
   const columns = useMemo(() => {
@@ -106,7 +127,7 @@ export function RunsTable() {
           </CellHeader>
         ),
         cell({ row: { original: run } }) {
-          const runUrl = `/runs/${run.id}`
+          const runUrl = getRunUrl(run.id)
 
           return (
             <TableCell
@@ -248,11 +269,12 @@ export function RunsTable() {
       ),
     ] as ColumnDef<Run>[]
   }, [
+    isLoadingDebounced,
+    isHoveringOverInteractable,
+    t,
+    getRunUrl,
     dataset.id,
     dataset.organism_name,
-    isLoadingDebounced,
-    t,
-    isHoveringOverInteractable,
   ])
 
   return (
@@ -260,7 +282,7 @@ export function RunsTable() {
       data={isLoadingDebounced ? LOADING_RUNS : runs}
       columns={columns}
       onTableRowClick={(row) =>
-        !isHoveringOverInteractable && navigate(`/runs/${row.original.id}`)
+        !isHoveringOverInteractable && navigate(getRunUrl(row.original.id))
       }
       hoverType="group"
     />

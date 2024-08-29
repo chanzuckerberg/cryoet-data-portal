@@ -1,14 +1,12 @@
 import { Link as RemixLink, LinkProps } from '@remix-run/react'
 import { ForwardedRef, forwardRef } from 'react'
 
+import {
+  DASHED_BORDERED_CLASSES,
+  DASHED_UNDERLINED_CLASSES,
+} from 'app/utils/classNames'
 import { cnsNoMerge } from 'app/utils/cns'
 import { isExternalUrl } from 'app/utils/url'
-
-export const DASHED_BORDERED_CLASSES =
-  'border-b border-dashed hover:border-solid border-current'
-
-export const DASHED_UNDERLINED_CLASSES =
-  'underline underline-offset-[3px] decoration-dashed hover:decoration-solid'
 
 export type VariantLinkProps = LinkProps & {
   variant?: 'dashed-bordered' | 'dashed-underlined'

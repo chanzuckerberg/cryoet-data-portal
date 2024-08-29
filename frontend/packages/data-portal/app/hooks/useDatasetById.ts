@@ -6,6 +6,7 @@ import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
 export function useDatasetById() {
   const {
     datasets: [dataset],
+    deposition,
   } = useTypedLoaderData<GetDatasetByIdQuery>()
 
   const objectNames = useMemo(
@@ -40,5 +41,10 @@ export function useDatasetById() {
     [dataset.run_stats],
   )
 
-  return { dataset, objectNames, objectShapeTypes }
+  return {
+    dataset,
+    objectNames,
+    objectShapeTypes,
+    deposition: deposition.at(0),
+  }
 }
