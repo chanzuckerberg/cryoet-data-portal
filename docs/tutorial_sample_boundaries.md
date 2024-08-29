@@ -1,3 +1,7 @@
+---
+tocdepth: 2
+---
+
 # Predicting sample boundaries
 
 ```{figure} ./figures/tomo_side_light.png

@@ -63,9 +63,6 @@ html_title = "CryoET Data Portal Documentation"
 html_favicon = "_static/img/favicon-cryoet-data-portal.png"
 
 html_theme = "sphinx_immaterial"
-object_description_options = [
-    ("py:.*", dict(include_fields_in_toc=False)),
-]
 html_theme_options = {
     "icon": {
         "repo": "fontawesome/brands/github",
@@ -77,7 +74,6 @@ html_theme_options = {
     "edit_uri": "blob/main/docs",
     "globaltoc_collapse": False,
     "features": [
-        #"navigation.expand",
         "toc.follow",
         "toc.sticky",
         "navigation.tabs",

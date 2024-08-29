@@ -1,3 +1,7 @@
+---
+tocdepth: 2
+---
+
 # Data Organization
 
 The Data Portal is organized in a hierarchical structure. We welcome contributions to the Portal. [Use this form](https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=Portal\&hide_Event=true) to express interest in adding your data to the Portal.
