@@ -7,7 +7,7 @@ from cryoet_data_portal import (
     Annotation,
     Dataset,
     Run,
-    TiltSeries,
+    Tiltseries,
     Tomogram,
     TomogramVoxelSpacing,
 )
@@ -132,7 +132,7 @@ def test_download_default_dir(tmp_dir, client) -> None:
 
 
 def test_tiltseries_downloaders(tmp_dir, client):
-    ts = TiltSeries.find(client, [TiltSeries.run.name == "RUN1"])[0]
+    ts = Tiltseries.find(client, [Tiltseries.run.name == "RUN1"])[0]
     assert ts
     ts.download_collection_metadata(tmp_dir)
     ts.download_angle_list(tmp_dir)
