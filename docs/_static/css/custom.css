@@ -1,7 +1,14 @@
 /* Main textual elements */
 
-html {
+html, body {
   --md-text-font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+.md-typeset {
+  font-size: 14px;
+  letter-spacing: 0.08px;
+  font-family: "Inter";
+  color: black;
 }
 
 /* Header */
@@ -19,11 +26,15 @@ html {
 
 .md-ellipsis {
   font-size: 16px;
-  font-weight: 400;
 }
 
 .md-ellipsis>img {
   vertical-align: sub;
+}
+
+.md-ellipsis--cet {
+  font-size: 16px;
+  font-weight: 600;
 }
 
 [dir="ltr"] .md-header__title {
@@ -92,13 +103,14 @@ html {
 
 /* Content area */
 .md-grid {
-  margin-left: unset;
+  margin-left: 8rem;
   margin-right: auto;
   max-width: unset;
 }
 
 .md-content {
   max-width: 1200px;
+  margin-left: 9px;
 }
 
 /* Left sidebar */
@@ -113,6 +125,15 @@ html {
 /* Prevents duplicate entry for the tutorials page - sphinx immaterial bug? */
 li.md-nav__item.md-nav__item--active.md-nav__current-toc {
   display: none;
+}
+
+/* Right sidebar */
+ul.md-nav__list > li.md-nav__item > a.md-nav__link > span.md-ellipsis {
+  font-size: 0.75rem;
+}
+
+.md-nav__link--active > span.md-ellipsis {
+  font-weight: 600;
 }
 
 /*@media screen and (max-width: 768px) {}*/

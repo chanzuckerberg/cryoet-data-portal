@@ -1,3 +1,7 @@
+---
+hide-navigation: true
+---
+
 # Quick start
 
 This page provides details to help you get started using the CryoET Data Portal Client API.

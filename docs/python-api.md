@@ -1,5 +1,8 @@
-# Python API
+---
+hide-navigation: true
+---
 
+# Python API
 
 ## Data Model
 

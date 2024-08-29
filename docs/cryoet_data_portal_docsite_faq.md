@@ -1,3 +1,7 @@
+---
+hide-navigation: true
+---
+
 # Frequently Asked Questions
 
 We hope these answers will help you get the most out of the CryoET Data Portal!

@@ -1,3 +1,7 @@
+---
+hide-navigation: true
+---
+
 # Using napari
 
 [napari](https://napari.org) is a general purpose interactive image viewer for Python

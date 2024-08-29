@@ -1,5 +1,6 @@
 ---
 tocdepth: 2
+hide-navigation: true
 ---
 
 # Data Organization

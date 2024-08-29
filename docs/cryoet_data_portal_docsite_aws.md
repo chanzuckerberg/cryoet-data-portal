@@ -1,3 +1,7 @@
+---
+hide-navigation: true
+---
+
 # Download Data
 
 ## Download data using AWS CLI
