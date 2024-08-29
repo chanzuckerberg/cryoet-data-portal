@@ -11,8 +11,8 @@ export class FiltersPage extends BasePage {
   // #endregion Navigate
 
   // #region Click
-  public async openFilterDropdown(label: string) {
-    await this.page.getByRole('button', { name: label }).click()
+  public async clickFilterDropdown(label: string) {
+    await this.page.locator('button', { hasText: label }).click()
   }
 
   public async selectFilterOption(label: string) {
@@ -26,7 +26,11 @@ export class FiltersPage extends BasePage {
   }
 
   public async removeFilterOption(label: string) {
-    await this.page.click(`[role=button]:has-text("${label}") svg`)
+    await this.page
+      .locator('span', { hasText: label })
+      .locator('..')
+      .getByLabel('Delete tag')
+      .click()
   }
 
   public async removeMultiInputFilter(label: string) {
