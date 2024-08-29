@@ -21,13 +21,11 @@ export class FiltersPage extends BasePage {
       .locator('span')
       .first()
       .click()
-
-    await this.page.keyboard.press('Escape')
   }
 
   public async removeFilterOption(label: string) {
     await this.page
-      .locator('span', { hasText: label })
+      .locator('span', { hasText: new RegExp(`^${label}$`) })
       .locator('..')
       .getByLabel('Delete tag')
       .click()
