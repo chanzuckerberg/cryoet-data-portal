@@ -1,7 +1,7 @@
 /* Main textual elements */
 
 html {
-    --md-text-font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+  --md-text-font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
 /* Header */
@@ -14,7 +14,7 @@ html {
 }
 
 .md-header__topic {
-    align-items: center;
+  align-items: center;
 }
 
 .md-ellipsis {
@@ -23,7 +23,7 @@ html {
 }
 
 .md-ellipsis>img {
-    vertical-align: sub;
+  vertical-align: sub;
 }
 
 [dir="ltr"] .md-header__title {
@@ -32,16 +32,16 @@ html {
 
 /* Vertical line in header */
 .hv {
-    border-left: 1px solid white;
-    height: 18px;
-    padding-right: 12px;
-    margin-left: 16px;
-    opacity: 0.8;
+  border-left: 1px solid white;
+  height: 18px;
+  padding-right: 12px;
+  margin-left: 16px;
+  opacity: 0.8;
 }
 
 /* Search bar */
 .md-search__form, .md-search__form:hover {
-    background-color: #282A34;
+  background-color: #282A34;
 }
 
 @media screen and (min-width: 60em) {
@@ -56,12 +56,34 @@ html {
 }
 
 .md-source__facts {
+  display: none;
+}
+
+/* Fixes for mobile navbar */
+@media screen and (max-width: 76.1875em) {
+  .md-nav--primary .md-nav__title[for="__drawer"] {
+    background-color: black;
+    margin-top: -2rem;
+    text-wrap: wrap;
+    line-height: 1.5;
+  }
+}
+
+@media screen and (max-width: 59.9375em) {
+  .md-nav__source {
+    background-color: black;
+  }
+}
+
+@media screen and (max-width: 76.1875em) {
+  .md-nav--primary .md-nav__title .md-logo {
     display: none;
+  }
 }
 
 /* Navigation tabs (top) */
 .md-tabs {
-    background-color: black;
+  background-color: black;
 }
 
 [dir="ltr"] .md-tabs__list {
@@ -85,15 +107,13 @@ html {
 }
 
 .md-sidebar {
-    padding-left: 0.5rem;
+  padding-left: 0.5rem;
 }
 
-/* Prevents duplicate entry for the tutorials page - sphinx immaterial bug?  */
+/* Prevents duplicate entry for the tutorials page - sphinx immaterial bug? */
 li.md-nav__item.md-nav__item--active.md-nav__current-toc {
-    display: none;
+  display: none;
 }
-
-
 
 /*@media screen and (max-width: 768px) {}*/
 /*
