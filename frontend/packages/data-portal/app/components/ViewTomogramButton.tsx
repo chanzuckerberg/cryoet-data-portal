@@ -10,6 +10,7 @@ import { Tooltip } from './Tooltip'
 
 export interface ViewTomogramButtonProps {
   tomogramId?: string
+
   buttonProps: Partial<ButtonProps>
   event: EventPayloads[Events.ViewTomogram]
   neuroglancerConfig: string | null | undefined
