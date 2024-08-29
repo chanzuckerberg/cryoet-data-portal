@@ -26,6 +26,10 @@ html {
     vertical-align: sub;
 }
 
+[dir="ltr"] .md-header__title {
+  margin-left: 1.1rem;
+}
+
 /* Vertical line in header */
 .hv {
     border-left: 1px solid white;
@@ -33,6 +37,20 @@ html {
     padding-right: 12px;
     margin-left: 16px;
     opacity: 0.8;
+}
+
+/* Search bar */
+.md-search__form, .md-search__form:hover {
+    background-color: #282A34;
+}
+
+/* Navigation tabs (top) */
+.md-tabs {
+    background-color: black;
+}
+
+[dir="ltr"] .md-tabs__list {
+  margin-left: .7rem;
 }
 
 /* Content area */
@@ -59,6 +77,8 @@ html {
 li.md-nav__item.md-nav__item--active.md-nav__current-toc {
     display: none;
 }
+
+
 
 /*@media screen and (max-width: 768px) {}*/
 /*
