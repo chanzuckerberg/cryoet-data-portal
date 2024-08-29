@@ -92,28 +92,22 @@ class BaseField(GQLField):
         return value
 
 
-class StringField(BaseField):
-    ...
+class StringField(BaseField): ...
 
 
-class IntField(BaseField):
-    ...
+class IntField(BaseField): ...
 
 
 class DateField(BaseField):
     def convert(self, value):
         if value:
-            return datetime.date(
-                datetime.strptime(value, "%Y-%m-%d").astimezone(timezone.utc),
-            )
+            return datetime.fromisoformat(value)
 
 
-class BooleanField(BaseField):
-    ...
+class BooleanField(BaseField): ...
 
 
-class FloatField(BaseField):
-    ...
+class FloatField(BaseField): ...
 
 
 class QueryChain(GQLField):
@@ -200,6 +194,7 @@ class Model:
     """The base class that all CryoET Portal Domain Object classes descend from. Documented methods apply to all domain objects."""
 
     _gql_type: str
+    _gql_root_field: str
 
     def __init__(self, client: Client, **kwargs):
         self._client = client
@@ -232,6 +227,10 @@ class Model:
     @classmethod
     def _get_gql_type(cls):
         return cls._gql_type
+
+    @classmethod
+    def _get_gql_root_field(cls):
+        return cls._gql_root_field
 
     @classmethod
     def find(

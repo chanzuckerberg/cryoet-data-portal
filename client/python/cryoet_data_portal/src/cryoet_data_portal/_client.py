@@ -8,7 +8,7 @@ from gql.transport.requests import RequestsHTTPTransport
 
 from cryoet_data_portal._constants import USER_AGENT
 
-DEFAULT_URL = "https://graphql.cryoetdataportal.cziscience.com/v1/graphql"
+DEFAULT_URL = "http://localhost:9009/graphql"
 
 
 class Client:
@@ -46,7 +46,9 @@ class Client:
         self.client = GQLClient(transport=transport, schema=schema_str)
         self.ds = DSLSchema(self.client.schema)
 
-    def build_query(self, cls, gql_class_name: str, query_filters=None):
+    def build_query(
+        self, cls, root_field: str, gql_class_name: str, query_filters=None
+    ):
         ds = self.ds
         query_filters = {} if not query_filters else {"where": query_filters}
         gql_type = getattr(ds, gql_class_name)
@@ -55,7 +57,7 @@ class Client:
         ]
         query = dsl_gql(
             DSLQuery(
-                getattr(ds.query_root, gql_class_name)(**query_filters).select(
+                getattr(ds.Query, root_field)(**query_filters).select(
                     *scalar_fields,
                 ),
             ),
@@ -64,8 +66,11 @@ class Client:
 
     def find(self, cls, query_filters=None):
         gql_type = cls._get_gql_type()
-        response = self.client.execute(self.build_query(cls, gql_type, query_filters))
-        return [cls(self, **item) for item in response[gql_type]]
+        gql_root = cls._get_gql_root_field()
+        response = self.client.execute(
+            self.build_query(cls, gql_root, gql_type, query_filters)
+        )
+        return [cls(self, **item) for item in response[gql_root]]
 
     def find_one(self, *args, **kwargs):
         for result in self.find(*args, **kwargs):

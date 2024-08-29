@@ -20,6 +20,7 @@ from graphql import (
     GraphQLType,
     build_schema,
     print_schema,
+    get_named_type,
 )
 from jinja2 import Environment, FileSystemLoader
 
@@ -31,7 +32,7 @@ GQL_TO_MODEL_FIELD = {
     "Float": ("FloatField()", "float"),
     "Int": ("IntField()", "int"),
     "String": ("StringField()", "str"),
-    "date": ("DateField()", "date"),
+    "DateTime": ("DateField()", "date"),
     "numeric": ("FloatField()", "float"),
     "_numeric": ("StringField()", "str"),
     "tomogram_type_enum": ("StringField()", "str"),
@@ -40,19 +41,24 @@ GQL_TO_MODEL_FIELD = {
 
 """Maps GraphQL type names to model class names."""
 GQL_TO_MODEL_TYPE = {
-    "datasets": "Dataset",
-    "dataset_authors": "DatasetAuthor",
-    "dataset_funding": "DatasetFunding",
-    "runs": "Run",
-    "tomogram_voxel_spacings": "TomogramVoxelSpacing",
-    "tomograms": "Tomogram",
-    "tomogram_authors": "TomogramAuthor",
-    "annotations": "Annotation",
-    "annotation_files": "AnnotationFile",
-    "annotation_authors": "AnnotationAuthor",
-    "tiltseries": "TiltSeries",
-    "depositions": "Deposition",
-    "deposition_authors": "DepositionAuthor",
+    "Alignment": "Alignment",
+    "AnnotationAuthor": "AnnotationAuthor",
+    "AnnotationFile": "AnnotationFile",
+    "AnnotationShape": "AnnotationShape",
+    "Annotation": "Annotation",
+    "DatasetAuthor": "DatasetAuthor",
+    "DatasetFunding": "DatasetFunding",
+    "Dataset": "Dataset",
+    "DepositionAuthor": "DepositionAuthor",
+    "Deposition": "Deposition",
+    "Frame": "Frame",
+    "PerSectionAlignmentParameters": "PerSectionAlignmentParameters",
+    "PerSectionParameters": "PerSectionParameters",
+    "Run": "Run",
+    "Tiltseries": "Tiltseries",
+    "TomogramAuthor": "TomogramAuthor",
+    "TomogramVoxelSpacing": "TomogramVoxelSpacing",
+    "Tomogram": "Tomogram",
 }
 
 
@@ -81,7 +87,8 @@ class ModelInfo:
     """The information about a parsed model."""
 
     name: str
-    gql_name: str
+    gql_type: str
+    root_field: str
     fields: Tuple[FieldInfo, ...]
     description: Optional[str] = None
 
@@ -127,7 +134,8 @@ def get_models(schema: GraphQLSchema) -> Tuple[ModelInfo, ...]:
         models.append(
             ModelInfo(
                 name=model,
-                gql_name=gql_type.name,
+                gql_type=gql_type.name,
+                root_field=get_root_field_name(schema, gql_type),
                 description=gql_type.description,
                 fields=fields,
             ),
@@ -156,6 +164,17 @@ def load_schema(path: Path) -> GraphQLSchema:
     return build_schema(schema_str)
 
 
+def get_root_field_name(schema, gql_type: GraphQLObjectType) -> str:
+    """Look up the root field name that represents the given GQL Type"""
+    """NOTE that this assumes all queried types are present at the query root!"""
+    root = schema.get_type("Query")
+    for name, field in root.fields.items():
+        field_type = get_named_type(field.type)
+        if field_type.name == gql_type.name:
+            return name
+    raise RuntimeError(f"Could not root field for {gql_type.name}")
+
+
 def parse_fields(gql_type: GraphQLObjectType) -> Tuple[FieldInfo, ...]:
     """Returns the field information parsed from a GraphQL object type."""
     fields = []
@@ -181,7 +200,7 @@ def _parse_field(
 ) -> Optional[FieldInfo]:
     logging.debug("_parse_field: %s, %s", name, field)
     field_type = _maybe_unwrap_non_null(field.type)
-    if isinstance(field_type, GraphQLList):
+    if field_type.name.endswith("Connection"):  # TODO can we clean this up?
         return _parse_model_list_field(gql_type, name, field_type)
     if isinstance(field_type, GraphQLObjectType) and (
         field_type.name in GQL_TO_MODEL_TYPE
@@ -225,7 +244,7 @@ def _parse_model_field(
             name=name,
             description=f"The {model_name} this {source_model_name} is a part of",
             annotation_type=model,
-            default_value=f'ItemRelationship("{model}", "{model_field}_id", "id")',
+            default_value=f'ItemRelationship("{model}", "{model_field}Id", "id")',
         )
     return None
 
@@ -236,7 +255,9 @@ def _parse_model_list_field(
     field_type: GraphQLList[GraphQLType],
 ) -> Optional[FieldInfo]:
     logging.debug("_parse_model_list_field: %s", field_type)
-    of_type = _maybe_unwrap_non_null(field_type.of_type)
+    of_type = get_named_type(
+        get_named_type(field_type.fields["edges"].type).fields["node"].type
+    )
     if not isinstance(of_type, GraphQLNamedType):
         return None
     of_model = GQL_TO_MODEL_TYPE.get(of_type.name)
@@ -249,7 +270,7 @@ def _parse_model_list_field(
             name=name,
             description=f"The {of_model_name} of this {source_model_name}",
             annotation_type=f"List[{of_model}]",
-            default_value=f'ListRelationship("{of_model}", "id", "{source_field}_id")',
+            default_value=f'ListRelationship("{of_model}", "id", "{source_field}Id")',
         )
     return None
 
