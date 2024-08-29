@@ -1,0 +1,19 @@
+root: index
+subtrees:
+- entries:
+  - file: cryoet_data_portal_docsite_landing.md
+    title: "Home"
+  - file: cryoet_data_portal_docsite_quick_start.md
+  - file: python-api.md
+  - file: cryoet_data_portal_docsite_data.md
+  - file: tutorials.md
+    subtrees:
+    - entries:
+      - file: cryoet_data_portal_docsite_examples.md
+      - file: tutorial_sample_boundaries.md
+  - file: cryoet_data_portal_docsite_faq.md
+    title: "FAQ"
+  - file: cryoet_data_portal_docsite_aws.md
+  - file: cryoet_data_portal_docsite_napari.md
+  - url: "https://cryoetdataportal.czscience.com/"
+    title: "CryoET Data Portal"

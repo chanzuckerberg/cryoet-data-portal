@@ -1,4 +1,4 @@
-# napari
+# Using napari
 
 [napari](https://napari.org) is a general purpose interactive image viewer for Python
 with some support for cryoET data formats and for streaming data from remote storage services like AWS-S3.

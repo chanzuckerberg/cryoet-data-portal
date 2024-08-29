@@ -23,6 +23,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "myst_nb",
     "sphinx_immaterial",
+    "sphinx_external_toc",
 ]
 
 napoleon_custom_sections = ["Lifecycle"]
@@ -45,6 +46,9 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "README.md"]
 autodoc_class_signature = "separated"
 
 source_suffix = [".rst", ".md"]
+
+external_toc_path = "_toc.yml"
+external_toc_exclude_missing = True
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -116,7 +120,6 @@ object_description_options = [
 ]
 
 extlinks = {
-    "CryoET Data Portal": ("https://chanzuckerberg.github.io/cryoet-data-portal/%s", None),
 }
 
 # html_js_files = [
