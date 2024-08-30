@@ -6,9 +6,12 @@ html, body {
 
 .md-typeset {
   font-size: 14px;
-  letter-spacing: 0.08px;
+  letter-spacing: 0.09px;
   font-family: "Inter";
-  color: black;
+}
+
+.md-typeset a {
+  color: rgb(1 66 164);
 }
 
 /* Header */
