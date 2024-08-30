@@ -1,10 +1,10 @@
 import { expect } from '@playwright/test'
 import { BasePage } from 'e2e/pageObjects/basePage'
+import { escapeRegExp } from 'lodash-es'
 
 import { TestIds } from 'app/constants/testIds'
 
 import { QueryParamObjectType, RowCounterType } from './types'
-import { escapeRegExp } from 'lodash-es'
 
 export class FiltersPage extends BasePage {
   // #region Navigate
