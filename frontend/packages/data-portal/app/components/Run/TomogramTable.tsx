@@ -161,8 +161,9 @@ export function TomogramsTable() {
                     buttonProps={{
                       sdsStyle: 'square',
                       sdsType: 'primary',
+                      className: '!text-sds-body-xxs !h-sds-icon-xl',
                       startIcon: (
-                        <Icon sdsIcon="table" sdsType="button" sdsSize="s" />
+                        <Icon sdsIcon="table" sdsType="button" sdsSize="xs" />
                       ),
                     }}
                     event={{
@@ -177,10 +178,10 @@ export function TomogramsTable() {
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
-                className="!justify-start !ml-sds-l"
+                className="!justify-start !ml-sds-l !text-sds-body-xxs"
                 onClick={() => openMetadataDrawer(original)}
                 startIcon={
-                  <Icon sdsIcon="infoCircle" sdsSize="s" sdsType="button" />
+                  <Icon sdsIcon="infoCircle" sdsSize="xs" sdsType="button" />
                 }
               >
                 <span>{t('info')}</span>
@@ -188,10 +189,10 @@ export function TomogramsTable() {
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
-                className="!justify-start !ml-sds-l"
+                className="!justify-start !ml-sds-l !text-sds-body-xxs"
                 onClick={openTomogramDownloadModal}
                 startIcon={
-                  <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
+                  <Icon sdsIcon="download" sdsSize="xs" sdsType="button" />
                 }
               >
                 {t('download')}
