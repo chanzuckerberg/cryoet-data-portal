@@ -31,18 +31,17 @@ export function ViewTomogramButton({
     plausible(Events.ViewTomogram, event)
   }
 
-  const disabled = tomogramId === undefined || neuroglancerConfig == null
+  const enabled = tomogramId !== undefined && neuroglancerConfig != null
+  const enabledTooltipText = multipleTomogramsEnabled
+    ? t('viewTomogramInNeuroglancer', { id: tomogramId })
+    : undefined
   const disabledTooltipText = multipleTomogramsEnabled
     ? t('noTomogramsAvailable')
     : t('noTomogramAvailable')
 
   return (
     <Tooltip
-      tooltip={
-        !disabled
-          ? t('viewTomogramInNeuroglancer', { id: tomogramId })
-          : disabledTooltipText
-      }
+      tooltip={enabled ? enabledTooltipText : disabledTooltipText}
       sdsStyle="dark"
       center
       widthPx={200}
@@ -63,9 +62,9 @@ export function ViewTomogramButton({
         onMouseLeave={() => setIsHoveringOver?.(false)}
       >
         <Button
-          to={!disabled ? getNeuroglancerUrl(neuroglancerConfig) : ''}
+          to={enabled ? getNeuroglancerUrl(neuroglancerConfig) : ''}
           component={Link}
-          disabled={disabled}
+          disabled={!enabled}
           {...buttonProps}
         >
           <span>{t('viewTomogram')}</span>

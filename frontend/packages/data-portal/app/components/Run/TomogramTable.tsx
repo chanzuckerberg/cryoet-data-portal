@@ -22,10 +22,11 @@ import { getNeuroglancerUrl } from 'app/utils/url'
 
 import { AuthorList } from '../AuthorList'
 import { KeyPhoto } from '../KeyPhoto'
+import { ViewTomogramButton } from '../ViewTomogramButton'
 
 export function TomogramsTable() {
   const { t } = useI18n()
-  const { tomograms } = useRunById()
+  const { tomograms, run } = useRunById()
 
   const { toggleDrawer } = useMetadataDrawer()
   const [, setMetadataDrawerTomogram] = useAtom(metadataDrawerTomogramAtom)
@@ -154,16 +155,24 @@ export function TomogramsTable() {
             <div className="flex flex-col gap-sds-xs items-start">
               {original.is_canonical &&
                 original.neuroglancer_config != null && (
-                  <Button
-                    sdsType="primary"
-                    sdsStyle="rounded"
-                    to={getNeuroglancerUrl(original.neuroglancer_config)}
-                    startIcon={
-                      <Icon sdsIcon="table" sdsSize="s" sdsType="button" />
-                    }
-                  >
-                    {t('viewTomogram')}
-                  </Button>
+                  <ViewTomogramButton
+                    tomogramId={original.id.toString()}
+                    neuroglancerConfig={original.neuroglancer_config}
+                    buttonProps={{
+                      sdsStyle: 'square',
+                      sdsType: 'primary',
+                      startIcon: (
+                        <Icon sdsIcon="table" sdsType="button" sdsSize="s" />
+                      ),
+                    }}
+                    event={{
+                      datasetId: run.dataset.id,
+                      organism: run.dataset.organism_name ?? 'None',
+                      runId: run.id,
+                      tomogramId: original.id,
+                      type: 'tomogram',
+                    }}
+                  />
                 )}
               <Button
                 sdsType="primary"
