@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 import { SourceCodeIcon, WeightsIcon } from 'app/components/icons'
 import { I18nKeys } from 'app/types/i18n'
 
-export interface MethodLink {
+export interface MethodLinkProps {
   i18nLabel: I18nKeys
   url: string
   icon: ReactNode
@@ -62,7 +62,7 @@ function methodLinkFromVariant({
   variant,
   url,
   title,
-}: MethodLinkVariantProps): MethodLink {
+}: MethodLinkVariantProps): MethodLinkProps {
   return {
     i18nLabel: variant,
     url,
@@ -73,7 +73,7 @@ function methodLinkFromVariant({
 
 export function generateMethodLinks(
   links: MethodLinkVariantProps[],
-): MethodLink[] {
+): MethodLinkProps[] {
   return links
     .toSorted(
       (a, b) =>
