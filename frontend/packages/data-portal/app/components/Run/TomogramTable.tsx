@@ -18,7 +18,6 @@ import {
   metadataDrawerTomogramAtom,
   Tomogram,
 } from 'app/state/metadataDrawerTomogram'
-import { getNeuroglancerUrl } from 'app/utils/url'
 
 import { AuthorList } from '../AuthorList'
 import { KeyPhoto } from '../KeyPhoto'
@@ -202,7 +201,14 @@ export function TomogramsTable() {
         ),
       }),
     ] as ColumnDef<Tomogram>[] // https://github.com/TanStack/table/issues/4382
-  }, [openMetadataDrawer, openTomogramDownloadModal, t])
+  }, [
+    run.id,
+    run.dataset.id,
+    run.dataset.organism_name,
+    openMetadataDrawer,
+    openTomogramDownloadModal,
+    t,
+  ])
 
   return <PageTable data={tomograms} columns={columns} hoverType="none" />
 }
