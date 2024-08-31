@@ -72,6 +72,7 @@ export function RunHeader() {
       actions={
         <>
           <ViewTomogramButton
+            tomogramId={tomogram?.id?.toString()}
             neuroglancerConfig={neuroglancerConfig}
             buttonProps={{
               sdsStyle: 'rounded',

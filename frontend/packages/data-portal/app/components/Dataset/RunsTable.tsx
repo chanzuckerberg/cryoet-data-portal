@@ -248,6 +248,7 @@ export function RunsTable() {
             return (
               <TableCell horizontalAlign="right" width={RunTableWidths.actions}>
                 <ViewTomogramButton
+                  tomogramId={tomogram?.id?.toString()}
                   buttonProps={{
                     sdsType: 'secondary',
                     sdsStyle: 'square',
