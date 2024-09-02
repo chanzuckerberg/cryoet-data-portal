@@ -7,12 +7,13 @@ import { useI18n } from 'app/hooks/useI18n'
 import { DropdownFilterButton } from './DropdownFilterButton'
 import { InputFilter } from './InputFilter'
 
+// TODO: make this more generic as a single input popup filter
 export function RegexFilter({
   id,
   label,
   title,
   queryParam,
-  regex,
+  regex: validationRegex,
   displayNormalizer,
   paramNormalizer,
 }: {
@@ -35,7 +36,10 @@ export function RegexFilter({
     [paramValue, displayNormalizer],
   )
 
-  const isDisabled = useMemo(() => !regex.test(value), [value, regex])
+  const isDisabled = useMemo(
+    () => !validationRegex.test(value),
+    [value, validationRegex],
+  )
 
   return (
     <DropdownFilterButton
@@ -53,7 +57,7 @@ export function RegexFilter({
       }
       label={label}
       onApply={() => {
-        const matches = regex.exec(value) ?? []
+        const matches = validationRegex.exec(value) ?? []
 
         if (matches.length > 0) {
           const newParamValue = paramNormalizer ? paramNormalizer(value) : value

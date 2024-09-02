@@ -1,10 +1,11 @@
 import { useMemo } from 'react'
 
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { QueryParams } from 'app/constants/query'
 
 import { RegexFilter } from './RegexFilter'
 
-export function IdFilter({
+export function EntityIdFilter({
   id,
   label,
   title,
@@ -15,10 +16,10 @@ export function IdFilter({
   label: string
   title: string
   queryParam: QueryParams
-  prefix?: string
+  prefix?: IdPrefix
 }) {
-  const validatingRegex = useMemo(
-    () => (prefix ? RegExp(`^(?:${prefix}-)?(\\d+)$`, 'i') : /^\d+$/),
+  const validationRegex = useMemo(
+    () => (prefix ? RegExp(`^(${prefix}-)?\\d+$`, 'i') : /^\d+$/),
     [prefix],
   )
 
@@ -28,7 +29,7 @@ export function IdFilter({
       label={label}
       title={title}
       queryParam={queryParam}
-      regex={validatingRegex}
+      regex={validationRegex}
       displayNormalizer={(value) =>
         prefix && value.startsWith(prefix) ? value : `${prefix}-${value}`
       }
