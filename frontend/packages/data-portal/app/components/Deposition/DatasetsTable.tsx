@@ -13,7 +13,7 @@ import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
-import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
+import { RUN_FILTERS } from 'app/constants/filterQueryParams'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { DepositionPageDatasetTableWidths } from 'app/constants/table'
@@ -53,11 +53,12 @@ export function DatasetsTable() {
       const url = createUrl(`/datasets/${id}`)
 
       carryOverFilterParams({
-        filters: DATASET_FILTERS,
+        filters: RUN_FILTERS,
         params: url.searchParams,
         prevParams: searchParams,
       })
 
+      // TODO: (kne42) use a different field like `from-deposition-id` that is transformed to `deposition-id` and applies the filter + banner
       url.searchParams.set(QueryParams.DepositionId, `${id}`)
 
       return url.pathname + url.search

@@ -20,7 +20,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
     $annotationsOffset: Int,
     $filter: [annotations_bool_exp!],
     $fileFilter: [annotation_files_bool_exp!]
-    $deposition_id: Int,
+    $deposition_id: Int!,
   ) {
     runs(where: { id: { _eq: $id } }) {
       id
@@ -406,7 +406,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
     }
 
-    deposition: datasets(where: { id: { _eq: $deposition_id } }) {
+    deposition: depositions_by_pk(id: $deposition_id) {
       id
       title
     }

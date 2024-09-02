@@ -57,6 +57,6 @@ export function useRunById() {
     resolutions,
     annotationFilesAggregates,
     tomogramsCount,
-    deposition: data.deposition.at(0),
+    deposition: data.deposition,
   }
 }

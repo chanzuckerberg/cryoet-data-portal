@@ -175,6 +175,22 @@ function getFilter(filterState: FilterState, query: string) {
     })
   }
 
+  // Deposition ID filter
+  const depositionId = +(filterState.ids.deposition ?? Number.NaN)
+  if (!Number.isNaN(datasetId) && datasetId > 0) {
+    idFilters.push({
+      runs: {
+        tomogram_voxel_spacings: {
+          annotations: {
+            deposition_id: {
+              _eq: depositionId,
+            },
+          },
+        },
+      },
+    })
+  }
+
   // Empiar filter
   const empiarId = filterState.ids.empiar
   if (empiarId) {

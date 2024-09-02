@@ -61,7 +61,7 @@ export function DatasetTable() {
       setBrowseDatasetHistory(
         new Map(
           Array.from(searchParams).filter(([k]) =>
-            DATASET_FILTERS.map((v) => v as string).includes(k),
+            (DATASET_FILTERS as unknown as string[]).includes(k),
           ),
         ) as BrowseDatasetHistory,
       ),

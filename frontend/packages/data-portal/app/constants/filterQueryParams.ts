@@ -30,6 +30,7 @@ export const RUN_FILTERS = [
   QueryParams.QualityScore,
   QueryParams.TiltRangeMin,
   QueryParams.TiltRangeMax,
+  QueryParams.ObjectId,
   QueryParams.ObjectName,
   QueryParams.ObjectShapeType,
   QueryParams.DepositionId,
