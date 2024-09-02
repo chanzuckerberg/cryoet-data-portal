@@ -152,7 +152,7 @@ export class FiltersPage extends BasePage {
 
   // #region Validation
   public async expectFilterTagToExist(label: string) {
-    await expect(this.page.locator(`span:has-text("${label}")`)).toBeVisible()
+    await expect(this.page.getByText(label, { exact: true })).toBeVisible()
   }
 
   public async expectNavigationToMatch(expectedUrl: string) {
