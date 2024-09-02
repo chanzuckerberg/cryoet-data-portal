@@ -25,7 +25,9 @@ export function DatasetFilter({
     },
     {
       logId: 'name-or-id-filter',
-      filter: <NameOrIdFilterSection />,
+      filter: (
+        <NameOrIdFilterSection depositionPageVariant={depositionPageVariant} />
+      ),
     },
     {
       logId: 'sample-and-experiments-filter',

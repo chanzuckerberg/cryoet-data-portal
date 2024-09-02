@@ -4,6 +4,7 @@
   "authorOrcId": "<orc-id>",
   "cameraManufacturer": "FEI",
   "datasetId": "10001",
+  "depositionId": "10000",
   "emdbId": "17241",
   "empiarId": "11221",
   "objectId": "GO:0005835",
