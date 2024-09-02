@@ -29,7 +29,7 @@ export function AnnotationMetadataFilterSection({
         label={t('objectName')}
       />
 
-      {depositionPageVariant && <ObjectIdFilter />}
+      <ObjectIdFilter />
 
       <AnnotatedObjectShapeTypeFilter allObjectShapeTypes={objectShapeTypes} />
     </FilterSection>
