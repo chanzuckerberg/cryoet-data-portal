@@ -28,7 +28,7 @@ export function PageHeader({
 
   return (
     <div className="flex flex-auto justify-center grow-0">
-      <header className="flex flex-col items-center w-full min-h-[48x]">
+      <header className="flex flex-col items-center w-full min-h-[48px]">
         <div className="flex flex-col justify-start w-full pb-sds-xl">
           <div
             className={cns(
