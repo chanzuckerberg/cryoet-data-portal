@@ -85,7 +85,29 @@ test.describe('Metadata Drawer', () => {
       await metadataDrawerPage.openViewAllInfoDrawer()
       await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
 
-      const data = await getSingleRunTestMetadata(client)
+      const data = await getSingleRunTestMetadata(
+        client,
+        /* multipleTomogramsEnabled */ false,
+      )
+      await metadataDrawerPage.expectMetadataDrawerToShowTitle(data.title)
+      await metadataDrawerPage.expandAllAccordions()
+      await metadataDrawerPage.expectMetadataTableCellsToDisplayValues(data)
+    })
+
+    test('metadata should have correct data - multipleTomograms on', async ({
+      page,
+    }) => {
+      const metadataDrawerPage = new MetadataDrawerPage(page)
+      await metadataDrawerPage.goTo(
+        `${SINGLE_RUN_URL}?enable-feature=multipleTomograms`,
+      )
+      await metadataDrawerPage.openViewAllInfoDrawer()
+      await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
+
+      const data = await getSingleRunTestMetadata(
+        client,
+        /* multipleTomogramsEnabled */ true,
+      )
       await metadataDrawerPage.expectMetadataDrawerToShowTitle(data.title)
       await metadataDrawerPage.expandAllAccordions()
       await metadataDrawerPage.expectMetadataTableCellsToDisplayValues(data)
