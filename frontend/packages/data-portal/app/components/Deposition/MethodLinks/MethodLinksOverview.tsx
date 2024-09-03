@@ -2,7 +2,6 @@ import { Icon } from '@czi-sds/components'
 
 import { CollapsibleList } from 'app/components/CollapsibleList'
 import { I18n } from 'app/components/I18n'
-import { Link } from 'app/components/Link'
 import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
 import { Tooltip } from 'app/components/Tooltip'
 import {
@@ -14,16 +13,17 @@ import { useI18n } from 'app/hooks/useI18n'
 
 import {
   generateMethodLinks,
-  MethodLink,
+  MethodLinkProps,
   MethodLinkVariantProps,
 } from './common'
+import { MethodLink } from './MethodLink'
 
 function MethodTypeSection({
   methodType,
   links,
 }: {
   methodType: MethodType
-  links?: MethodLink[]
+  links?: MethodLinkProps[]
 }) {
   const { t } = useI18n()
 
@@ -54,21 +54,14 @@ function MethodTypeSection({
         entries={links?.map((link) => ({
           key: `${link.url}_${link.i18nLabel}_${link.title}`,
           entry: (
-            <span className="text-sds-body-xxs leading-sds-body-xxs flex flex-row">
-              <span className="text-sds-gray-black items-center flex flex-row">
-                {link.icon}
-                <span className="font-semibold ml-sds-xxs mr-sds-xs">
-                  {t(link.i18nLabel)}:
-                </span>
-              </span>
-              <Link
-                to={link.url}
-                variant="dashed-underlined"
-                className="text-sds-gray-600"
-              >
-                {link.title ?? link.url}
-              </Link>
-            </span>
+            <MethodLink
+              {...link}
+              className="text-sds-body-xxs leading-sds-body-xxs"
+              linkProps={{
+                className: 'text-sds-gray-600',
+                variant: 'dashed-underlined',
+              }}
+            />
           ),
         }))}
         collapseAfter={1}

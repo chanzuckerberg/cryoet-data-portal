@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
 
 import { Accordion } from 'app/components/Accordion'
-import { Link } from 'app/components/Link'
 import { MetadataTable } from 'app/components/Table'
 import { methodLabels, MethodType } from 'app/constants/methodTypes'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
 import { generateMethodLinks, MethodLinkVariantProps } from './common'
+import { MethodLink } from './MethodLink'
 
 const COLUMN_WIDTH = 170
 
@@ -40,20 +40,13 @@ function MethodLinkList({
     <ul>
       {links.map((link) => (
         <li key={`${link.url}_${link.i18nLabel}_${link.title}`}>
-          <span className="text-sds-body-s leading-sds-body-s flex flex-row whitespace-nowrap overflow-hidden text-ellipsis">
-            <span className="text-sds-gray-black items-center flex flex-row">
-              {link.icon}
-              <span className="font-semibold ml-sds-xxs mr-sds-xs">
-                {t(link.i18nLabel)}:
-              </span>
-            </span>
-            <Link
-              to={link.url}
-              className="text-sds-info-400 overflow-hidden text-ellipsis"
-            >
-              {link.title ?? link.url}
-            </Link>
-          </span>
+          <MethodLink
+            {...link}
+            className="text-sds-body-s leading-sds-body-s whitespace-nowrap overflow-hidden text-ellipsis"
+            linkProps={{
+              className: 'text-sds-info-400 overflow-hidden text-ellipsis',
+            }}
+          />
         </li>
       ))}
     </ul>

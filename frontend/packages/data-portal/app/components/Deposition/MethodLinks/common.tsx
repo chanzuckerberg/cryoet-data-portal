@@ -2,13 +2,16 @@ import { Icon } from '@czi-sds/components'
 import { ReactNode } from 'react'
 
 import { SourceCodeIcon, WeightsIcon } from 'app/components/icons'
+import { VariantLinkProps } from 'app/components/Link'
 import { I18nKeys } from 'app/types/i18n'
 
-export interface MethodLink {
+export interface MethodLinkProps {
   i18nLabel: I18nKeys
   url: string
   icon: ReactNode
   title?: string
+  className?: string
+  linkProps?: Partial<VariantLinkProps>
 }
 
 export const iconMap = {
@@ -62,7 +65,7 @@ function methodLinkFromVariant({
   variant,
   url,
   title,
-}: MethodLinkVariantProps): MethodLink {
+}: MethodLinkVariantProps): MethodLinkProps {
   return {
     i18nLabel: variant,
     url,
@@ -73,7 +76,7 @@ function methodLinkFromVariant({
 
 export function generateMethodLinks(
   links: MethodLinkVariantProps[],
-): MethodLink[] {
+): MethodLinkProps[] {
   return links
     .toSorted(
       (a, b) =>
