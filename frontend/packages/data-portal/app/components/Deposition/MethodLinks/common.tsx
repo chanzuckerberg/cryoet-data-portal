@@ -2,6 +2,7 @@ import { Icon } from '@czi-sds/components'
 import { ReactNode } from 'react'
 
 import { SourceCodeIcon, WeightsIcon } from 'app/components/icons'
+import { VariantLinkProps } from 'app/components/Link'
 import { I18nKeys } from 'app/types/i18n'
 
 export interface MethodLinkProps {
@@ -9,6 +10,8 @@ export interface MethodLinkProps {
   url: string
   icon: ReactNode
   title?: string
+  className?: string
+  linkProps?: Partial<VariantLinkProps>
 }
 
 export const iconMap = {

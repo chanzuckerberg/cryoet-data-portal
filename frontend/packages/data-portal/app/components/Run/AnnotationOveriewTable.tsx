@@ -135,7 +135,14 @@ export function AnnotationOverviewTable() {
                   <ul>
                     {METHOD_LINKS.map((link) => (
                       <li key={`${link.url}_${link.i18nLabel}_${link.title}`}>
-                        <MethodLink {...link} />
+                        <MethodLink
+                          {...link}
+                          className="text-sds-header-s leading-sds-header-s whitespace-nowrap overflow-hidden text-ellipsis"
+                          linkProps={{
+                            className:
+                              'text-sds-info-400 overflow-hidden text-ellipsis',
+                          }}
+                        />
                       </li>
                     ))}
                   </ul>

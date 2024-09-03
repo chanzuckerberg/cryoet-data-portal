@@ -53,7 +53,16 @@ function MethodTypeSection({
       <CollapsibleList
         entries={links?.map((link) => ({
           key: `${link.url}_${link.i18nLabel}_${link.title}`,
-          entry: <MethodLink {...link} />,
+          entry: (
+            <MethodLink
+              {...link}
+              className="text-sds-body-xxs leading-sds-body-xxs"
+              linkProps={{
+                className: 'text-sds-gray-600',
+                variant: 'dashed-underlined',
+              }}
+            />
+          ),
         }))}
         collapseAfter={1}
       />
