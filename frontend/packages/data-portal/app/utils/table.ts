@@ -8,7 +8,7 @@ export function getTableData(...metadata: Array<TableData | boolean>) {
     .map((data) => {
       const values = (
         data.values instanceof Function ? data.values() : data.values
-      ).filter(isNotNullish)
+      ).filter((value) => isNotNullish(value) && value !== '')
 
       return {
         ...data,
