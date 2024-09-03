@@ -6,7 +6,7 @@ import { Depositions_Bool_Exp, Order_By } from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
-import { depositionTypeFilter } from './common'
+import { depositionWithAnnotationFilter } from './common'
 
 const GET_DEPOSITIONS_DATA_QUERY = gql(`
   query GetDepositionsData(
@@ -83,7 +83,7 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
 `)
 
 function getFilter(filterState: FilterState, query: string) {
-  const filters: Depositions_Bool_Exp[] = [depositionTypeFilter]
+  const filters: Depositions_Bool_Exp[] = [depositionWithAnnotationFilter]
 
   // Text search by deposition title
   if (query) {
@@ -165,7 +165,7 @@ export async function getBrowseDepositions({
   const results = await client.query({
     query: GET_DEPOSITIONS_DATA_QUERY,
     variables: {
-      deposition_type_filter: depositionTypeFilter,
+      deposition_type_filter: depositionWithAnnotationFilter,
       filter: getFilter(getFilterState(params), query),
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
