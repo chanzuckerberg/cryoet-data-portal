@@ -109,9 +109,9 @@ function getTomogramTestMetadata(
           response.tomograms_for_distinct_processing_methods.map((tomo) =>
             startCase(tomo.processing),
           ),
-        annotatedObjects: response.annotations_for_object_names.map(
-          (annotation) => annotation.object_name,
-        ),
+        annotatedObjects: response.annotations_for_object_names
+          .map((annotation) => annotation.object_name)
+          .slice(0, 4),
       }
     : {
         reconstructionSoftware: tomogram.reconstruction_software,
