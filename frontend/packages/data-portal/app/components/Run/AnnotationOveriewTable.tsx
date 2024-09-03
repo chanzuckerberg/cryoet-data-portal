@@ -3,6 +3,7 @@ import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorList } from 'app/components/AuthorList'
 import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { MethodLink } from '../Deposition/MethodLinks'
 import {
@@ -49,6 +50,7 @@ const METHOD_LINKS = generateMethodLinks(METHOD_LINK_VARIANTS)
 export function AnnotationOverviewTable() {
   const { activeAnnotation: annotation } = useAnnotation()
   const { t } = useI18n()
+  const isDepositionsEnabled = useFeatureFlag('depositions')
 
   if (!annotation) {
     return null
@@ -79,19 +81,25 @@ export function AnnotationOverviewTable() {
           label: t('publication'),
           values: [annotation.annotation_publication ?? '--'],
         },
-        {
-          label: t('depositionName'),
-          values: ['Deposition Name'],
-          renderValue: () => (
-            <Link className="text-sds-primary-400" to="/deposition/123">
-              Deposition Name
-            </Link>
-          ),
-        },
-        {
-          label: t('depositionId'),
-          values: ['CZCDP-12345'],
-        },
+
+        ...(isDepositionsEnabled
+          ? [
+              {
+                label: t('depositionName'),
+                values: ['Deposition Name'],
+                renderValue: () => (
+                  <Link className="text-sds-primary-400" to="/deposition/123">
+                    Deposition Name
+                  </Link>
+                ),
+              },
+              {
+                label: t('depositionId'),
+                values: ['CZCDP-12345'],
+              },
+            ]
+          : []),
+
         {
           label: t('depositionDate'),
           values: [annotation.deposition_date],
@@ -116,20 +124,25 @@ export function AnnotationOverviewTable() {
           label: t('annotationSoftware'),
           values: [annotation.annotation_software ?? '--'],
         },
-        {
-          label: t('methodLinks'),
-          // No value required for this field, render only links component
-          values: [''],
-          renderValue: () => (
-            <ul>
-              {METHOD_LINKS.map((link) => (
-                <li key={`${link.url}_${link.i18nLabel}_${link.title}`}>
-                  <MethodLink {...link} />
-                </li>
-              ))}
-            </ul>
-          ),
-        },
+
+        ...(isDepositionsEnabled
+          ? [
+              {
+                label: t('methodLinks'),
+                // No value required for this field, render only links component
+                values: [''],
+                renderValue: () => (
+                  <ul>
+                    {METHOD_LINKS.map((link) => (
+                      <li key={`${link.url}_${link.i18nLabel}_${link.title}`}>
+                        <MethodLink {...link} />
+                      </li>
+                    ))}
+                  </ul>
+                ),
+              },
+            ]
+          : []),
       ]}
     />
   )
