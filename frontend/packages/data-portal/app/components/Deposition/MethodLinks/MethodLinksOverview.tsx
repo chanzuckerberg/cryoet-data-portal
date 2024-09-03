@@ -10,6 +10,7 @@ import {
   methodLabels,
   methodTooltipLabels,
   MethodType,
+  methodTypes,
 } from 'app/constants/methodTypes'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
@@ -93,8 +94,13 @@ export function MethodLinksOverview() {
         {t('annotationMethodsSummary')}
       </PageHeaderSubtitle>
       <div className="p-sds-l flex flex-col gap-sds-l bg-sds-gray-100 rounded-sds-m">
-        {deposition.annotation_methods.map(
-          ({ method_type, method_links }, i) => (
+        {deposition.annotation_methods
+          .sort(
+            (a, b) =>
+              methodTypes.indexOf((a.method_type ?? 'manual') as MethodType) -
+              methodTypes.indexOf((b.method_type ?? 'manual') as MethodType),
+          )
+          .map(({ method_type, method_links }, i) => (
             <>
               <MethodTypeSection
                 methodType={(method_type ?? 'automated') as MethodType}
@@ -102,8 +108,7 @@ export function MethodLinksOverview() {
               />
               {i < deposition.annotation_methods.length - 1 && separator}
             </>
-          ),
-        )}
+          ))}
       </div>
     </div>
   )

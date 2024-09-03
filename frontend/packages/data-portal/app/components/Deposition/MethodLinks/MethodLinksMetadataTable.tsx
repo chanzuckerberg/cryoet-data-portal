@@ -5,7 +5,11 @@ import { useMemo } from 'react'
 import { Accordion } from 'app/components/Accordion'
 import { Link } from 'app/components/Link'
 import { MetadataTable } from 'app/components/Table'
-import { methodLabels } from 'app/constants/methodTypes'
+import {
+  methodLabels,
+  MethodType,
+  methodTypes,
+} from 'app/constants/methodTypes'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
@@ -130,19 +134,25 @@ export function MethodLinksMetadataTable({
       header={t('annotationMethodsSummary')}
       initialOpen={initialOpen}
     >
-      {deposition.annotation_methods.map((methodData, i) => (
-        <div className="flex flex-col gap-sds-xl">
-          <MethodSummarySection
-            label={t('methodCount', {
-              value: startCase(converter.toWords(i + 1)),
-            })}
-            data={methodData as MethodDataType}
-            annotationsCount={
-              annotationMethodCounts.get(methodData.annotation_method) ?? 0
-            }
-          />
-        </div>
-      ))}
+      {deposition.annotation_methods
+        .sort(
+          (a, b) =>
+            methodTypes.indexOf((a.method_type ?? 'manual') as MethodType) -
+            methodTypes.indexOf((b.method_type ?? 'manual') as MethodType),
+        )
+        .map((methodData, i) => (
+          <div className="flex flex-col gap-sds-xl">
+            <MethodSummarySection
+              label={t('methodCount', {
+                value: startCase(converter.toWords(i + 1)),
+              })}
+              data={methodData as MethodDataType}
+              annotationsCount={
+                annotationMethodCounts.get(methodData.annotation_method) ?? 0
+              }
+            />
+          </div>
+        ))}
     </Accordion>
   )
 }
