@@ -13,6 +13,7 @@ import { getRunById } from 'app/graphql/getRunById.server'
 import { isFiducial } from 'app/utils/tomograms'
 
 import { DrawerTestData, DrawerTestMetadata } from './types'
+import { startCase } from 'lodash'
 
 function getBoolString(value?: boolean): string {
   return value ? 'True' : 'False'
@@ -105,8 +106,8 @@ function getTomogramTestMetadata(
           tomo.voxel_spacing.toString(),
         ),
         tomogramProcessing:
-          response.tomograms_for_distinct_processing_methods.map(
-            (tomo) => tomo.processing,
+          response.tomograms_for_distinct_processing_methods.map((tomo) =>
+            startCase(tomo.processing),
           ),
         annotatedObjects: response.annotations_for_object_names.map(
           (annotation) => annotation.object_name,
