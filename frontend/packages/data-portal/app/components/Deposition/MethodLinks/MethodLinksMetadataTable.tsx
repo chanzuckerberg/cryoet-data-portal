@@ -91,7 +91,7 @@ function MethodSummarySection({
     {
       label: t('methodLinks'),
       values: [],
-      renderValue: () => <MethodLinkList links={data.method_links} />,
+      renderValue: () => <MethodLinkList links={data.method_links ?? []} />,
     },
   )
 

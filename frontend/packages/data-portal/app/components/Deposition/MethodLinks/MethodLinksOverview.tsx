@@ -29,7 +29,10 @@ function MethodTypeSection({
   methodLinks?: MethodLinkDataType[]
 }) {
   const { t } = useI18n()
-  const links = useMemo(() => generateMethodLinks(methodLinks), [methodLinks])
+  const links = useMemo(
+    () => (methodLinks ? generateMethodLinks(methodLinks) : []),
+    [methodLinks],
+  )
 
   return (
     <div className="grid grid-cols-[1fr_2fr] gap-x-sds-xl gap-y-sds-xs">
