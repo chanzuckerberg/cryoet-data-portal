@@ -1,5 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { E2E_CONFIG, translations } from 'e2e/constants'
+import { startCase } from 'lodash-es'
 import { DeepPartial } from 'utility-types'
 
 import {
@@ -13,7 +14,6 @@ import { getRunById } from 'app/graphql/getRunById.server'
 import { isFiducial } from 'app/utils/tomograms'
 
 import { DrawerTestData, DrawerTestMetadata } from './types'
-import { startCase } from 'lodash'
 
 function getBoolString(value?: boolean): string {
   return value ? 'True' : 'False'
