@@ -67,9 +67,17 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     }),
     getDatasetsFilterData({
       client: apolloClient,
-      filter: {},
-      // TODO: uncomment below when deposition fields added to backend
-      // filter: { deposition_id: { _eq: id } },
+      filter: {
+        runs: {
+          tomogram_voxel_spacings: {
+            annotations: {
+              deposition_id: {
+                _eq: id,
+              },
+            },
+          },
+        },
+      },
     }),
   ])
 
