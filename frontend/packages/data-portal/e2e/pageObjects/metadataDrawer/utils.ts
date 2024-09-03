@@ -7,7 +7,6 @@ import {
   Datasets,
   GetRunByIdQuery,
   Tiltseries,
-  Tomograms,
 } from 'app/__generated__/graphql'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getRunById } from 'app/graphql/getRunById.server'
