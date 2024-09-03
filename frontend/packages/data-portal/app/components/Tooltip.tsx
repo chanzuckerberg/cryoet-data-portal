@@ -26,7 +26,7 @@ export interface TooltipProps
   offset?: TooltipOffset
   tooltip: ReactNode
   center?: boolean
-  widthPx?: number
+  size?: 's' | 'm'
 }
 
 export function getTooltipProps({
@@ -34,10 +34,10 @@ export function getTooltipProps({
   offset,
   sdsStyle,
   center,
-  widthPx,
+  size = 'm',
 }: Pick<
   TooltipProps,
-  'arrowPadding' | 'offset' | 'sdsStyle' | 'center' | 'widthPx'
+  'arrowPadding' | 'offset' | 'sdsStyle' | 'center' | 'size'
 >) {
   return {
     arrow: true,
@@ -52,7 +52,7 @@ export function getTooltipProps({
         center ? '!text-center' : '!text-left',
         '!font-normal !text-sds-body-xs !leading-sds-body-xs',
         'shadow-lg',
-        widthPx !== undefined && `w-[${widthPx}px]`,
+        size === 's' && 'w-[200px]',
       ),
     },
 
@@ -92,13 +92,13 @@ export function Tooltip({
   tooltip,
   sdsStyle,
   center,
-  widthPx,
+  size,
   ...props
 }: TooltipProps) {
   return (
     <SDSTooltip
       title={tooltip}
-      {...getTooltipProps({ arrowPadding, offset, sdsStyle, center, widthPx })}
+      {...getTooltipProps({ arrowPadding, offset, sdsStyle, center, size })}
       {...props}
     >
       <div className={className}>{children}</div>

@@ -79,6 +79,7 @@ export function RunHeader() {
               sdsType: 'primary',
               startIcon: <Icon sdsIcon="table" sdsType="button" sdsSize="s" />,
             }}
+            tooltipPlacement="bottom"
             event={{
               datasetId: run.dataset.id,
               organism: run.dataset.organism_name ?? 'None',

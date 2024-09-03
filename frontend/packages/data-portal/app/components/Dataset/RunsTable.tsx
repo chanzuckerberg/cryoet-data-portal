@@ -260,6 +260,7 @@ export function RunsTable() {
                     tomogramId: tomogram?.id ?? 'None',
                     type: 'dataset',
                   }}
+                  tooltipPlacement="top"
                   neuroglancerConfig={neuroglancerConfig}
                   setIsHoveringOver={setIsHoveringOverInteractable}
                 />

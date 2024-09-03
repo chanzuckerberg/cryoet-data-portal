@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@czi-sds/components'
+import { Button, ButtonProps, TooltipProps } from '@czi-sds/components'
 
 import { useI18n } from 'app/hooks/useI18n'
 import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
@@ -13,6 +13,7 @@ export interface ViewTomogramButtonProps {
   buttonProps: Partial<ButtonProps>
   event: EventPayloads[Events.ViewTomogram]
   neuroglancerConfig: string | null | undefined
+  tooltipPlacement: TooltipProps['placement']
   setIsHoveringOver?: (isHoveringOver: boolean) => void
 }
 
@@ -21,6 +22,7 @@ export function ViewTomogramButton({
   buttonProps,
   event,
   neuroglancerConfig,
+  tooltipPlacement,
   setIsHoveringOver,
 }: ViewTomogramButtonProps) {
   const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
@@ -44,7 +46,8 @@ export function ViewTomogramButton({
       tooltip={enabled ? enabledTooltipText : disabledTooltipText}
       sdsStyle="dark"
       center
-      widthPx={200}
+      placement={tooltipPlacement}
+      size="s"
     >
       {/* We need to disable this rule because we need the div to capture bubbled click events from
        the link button below. This is because Plausible automatically adds event listeners to every

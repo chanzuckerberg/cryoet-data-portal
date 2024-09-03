@@ -165,6 +165,7 @@ export function TomogramsTable() {
                         <Icon sdsIcon="table" sdsType="button" sdsSize="xs" />
                       ),
                     }}
+                    tooltipPlacement="top"
                     event={{
                       datasetId: run.dataset.id,
                       organism: run.dataset.organism_name ?? 'None',
