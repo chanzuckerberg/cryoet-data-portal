@@ -38,7 +38,7 @@ export function getTooltipProps({
 }: Pick<
   TooltipProps,
   'arrowPadding' | 'offset' | 'sdsStyle' | 'center' | 'size'
->) {
+> = {}) {
   return {
     arrow: true,
     leaveDelay: 0,
