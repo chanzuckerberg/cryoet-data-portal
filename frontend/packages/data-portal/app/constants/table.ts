@@ -34,13 +34,13 @@ export const AnnotationTableWidths = {
 // TODO(bchu): Finalize these numbers.
 export const TomogramTableWidths = {
   photo: PHOTO_COLUMN_WIDTH,
-  id: { min: 250 },
-  depositionDate: { min: 91, max: 120 },
-  alignment: { min: 120, max: 130 },
-  voxelSpacing: { min: 120, max: 400 },
-  reconstructionMethod: { min: 120, max: 400 },
-  postProcessing: { min: 81, max: 120 },
-  actions: { min: 175, max: 120 },
+  name: { min: 250 },
+  depositionDate: { max: 155 },
+  alignment: { max: 120 },
+  voxelSpacing: { max: 200 },
+  reconstructionMethod: { max: 200 },
+  postProcessing: { max: 200 },
+  actions: { width: 164 },
 }
 
 export const RunTableWidths = {

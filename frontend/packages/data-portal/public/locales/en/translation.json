@@ -354,6 +354,7 @@
   "tomogramDetails": "Tomogram Details",
   "tomogramId": "Tomogram ID",
   "tomogramMetadata": "Tomogram Metadata",
+  "tomogramName": "Tomogram Name",
   "tomogramProcessing": "Tomogram Processing",
   "tomogramSampling": "Tomogram Sampling",
   "tomograms": "Tomograms",
