@@ -1,14 +1,18 @@
+import { Button } from '@czi-sds/components'
+import { useSearchParams } from '@remix-run/react'
+
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
+import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
 import { TableDataValue } from 'app/types/table'
-import { cns } from 'app/utils/cns'
 import { getTableData } from 'app/utils/table'
 
 import { CollapsibleList } from '../CollapsibleList'
 
 export function TomogramsSummarySection() {
   const { t } = useI18n()
+  const [, setSearchParams] = useSearchParams()
   const { processingMethods, objectNames, resolutions, tomogramsCount } =
     useRunById()
 
@@ -17,9 +21,24 @@ export function TomogramsSummarySection() {
       label: t('totalTomograms'),
       values: [tomogramsCount],
       renderValues: (values: TableDataValue[]) => (
-        <ul className="list-none flex flex-wrap gap-1">
-          <li className={cns('overflow-x-auto', 'inline-block')}>
+        <ul className="list-none">
+          <li className="flex justify-between overflow-x-auto">
             {values[0]}
+            <Button
+              onClick={() => {
+                setSearchParams((prev) => {
+                  // Cannot use closeDrawer()
+                  // https://github.com/remix-run/react-router/issues/9757
+                  prev.delete(QueryParams.MetadataDrawer)
+                  prev.delete(QueryParams.Tab)
+                  prev.set(QueryParams.TableTab, t('tomograms'))
+                  return prev
+                })
+              }}
+              className="!uppercase !text-sds-caps-xxxs !p-0"
+            >
+              {t('goToTomograms')}
+            </Button>
           </li>
         </ul>
       ),
@@ -44,7 +63,8 @@ export function TomogramsSummarySection() {
             key: value.toString(),
             entry: value.toString(),
           }))}
-          collapseAfter={6}
+          tableVariant
+          collapseAfter={4}
         />
       ),
     },

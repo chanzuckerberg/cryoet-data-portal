@@ -4,10 +4,10 @@ import { MetadataDrawer } from 'app/components/MetadataDrawer'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { RunTiltSeriesTable } from './RunTiltSeriesTable'
 import { TomogramsMetadataSection } from './TomogramsMetadataSection'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 import { TomogramsSummarySection } from './TomogramsSummarySection'
 
 export function RunMetadataDrawer() {
