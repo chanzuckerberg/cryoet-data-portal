@@ -25,24 +25,34 @@ export interface TooltipProps
   className?: string
   offset?: TooltipOffset
   tooltip: ReactNode
+  center?: boolean
+  size?: 's' | 'm'
 }
 
 export function getTooltipProps({
   arrowPadding,
   offset,
-}: Pick<TooltipProps, 'arrowPadding' | 'offset'> = {}) {
+  sdsStyle,
+  center,
+  size = 'm',
+}: Pick<
+  TooltipProps,
+  'arrowPadding' | 'offset' | 'sdsStyle' | 'center' | 'size'
+> = {}) {
   return {
     arrow: true,
     leaveDelay: 0,
 
     classes: {
-      arrow: '!text-white',
+      arrow: sdsStyle === 'dark' ? '!text-black' : '!text-white',
 
       tooltip: cnsNoMerge(
         '!px-sds-l !py-2',
-        '!bg-white !text-black !font-normal',
-        '!text-left !text-sds-body-xs !leading-sds-body-xs',
+        sdsStyle === 'dark' ? '!bg-black !text-white' : '!bg-white !text-black',
+        center ? '!text-center' : '!text-left',
+        '!font-normal !text-sds-body-xs !leading-sds-body-xs',
         'shadow-lg',
+        size === 's' && 'w-[200px]',
       ),
     },
 
@@ -80,12 +90,15 @@ export function Tooltip({
   className,
   offset,
   tooltip,
+  sdsStyle,
+  center,
+  size,
   ...props
 }: TooltipProps) {
   return (
     <SDSTooltip
       title={tooltip}
-      {...getTooltipProps({ arrowPadding, offset })}
+      {...getTooltipProps({ arrowPadding, offset, sdsStyle, center, size })}
       {...props}
     >
       <div className={className}>{children}</div>

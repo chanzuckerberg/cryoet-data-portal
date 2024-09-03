@@ -72,12 +72,14 @@ export function RunHeader() {
       actions={
         <>
           <ViewTomogramButton
+            tomogramId={tomogram?.id?.toString()}
             neuroglancerConfig={neuroglancerConfig}
             buttonProps={{
               sdsStyle: 'rounded',
               sdsType: 'primary',
               startIcon: <Icon sdsIcon="table" sdsType="button" sdsSize="s" />,
             }}
+            tooltipPlacement="bottom"
             event={{
               datasetId: run.dataset.id,
               organism: run.dataset.organism_name ?? 'None',

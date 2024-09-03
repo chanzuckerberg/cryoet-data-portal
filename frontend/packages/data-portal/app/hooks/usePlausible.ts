@@ -73,7 +73,7 @@ export type EventPayloads = {
     organism: string
     runId: number
     tomogramId: number | string
-    type: 'dataset' | 'run'
+    type: 'dataset' | 'run' | 'tomogram'
   }
 }
 
