@@ -75,13 +75,10 @@ export function Breadcrumbs({
     return `${url}?${encodedParams}`
   }, [singleDatasetHistory, variant, data])
 
-  const returnToDepositionLink = useMemo(() => {
-    if (previousDepositionId === null || variant === 'deposition') {
-      return undefined
-    }
-
-    return `/depositions/${previousDepositionId}?${previousSingleDepositionParams}`
-  }, [previousDepositionId, previousSingleDepositionParams, variant])
+  const returnToDepositionLink =
+    previousDepositionId === null || variant === 'deposition'
+      ? undefined
+      : `/depositions/${previousDepositionId}?${previousSingleDepositionParams}`
 
   const chevronIcon = (
     <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0" />

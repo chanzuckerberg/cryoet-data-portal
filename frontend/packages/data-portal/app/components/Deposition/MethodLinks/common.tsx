@@ -103,13 +103,11 @@ export function combineSameMethodData(
       last.methodData.method_type === curr.method_type &&
       last.methodData.annotation_method === curr.annotation_method
     ) {
-      if (!last.methodData.method_links) {
-        last.methodData.method_links = []
-      }
+      const lastMethodLinks = last.methodData.method_links ?? []
 
       curr.method_links
-        ?.filter((link) => !last.methodData.method_links?.includes(link))
-        .map((link) => last.methodData.method_links?.push(link))
+        ?.filter((link) => !lastMethodLinks.includes(link))
+        .map((link) => lastMethodLinks.push(link))
 
       last.annotationsCount += 1
     } else {

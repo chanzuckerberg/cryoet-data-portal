@@ -13,7 +13,7 @@ export type MethodLinkType = (typeof methodLinkTypes)[number]
 
 export type MethodLinkDataType = {
   link: string
-  link_type: (typeof methodLinkTypes)[number]
+  link_type: MethodLinkType
   custom_name?: string
 }
 
