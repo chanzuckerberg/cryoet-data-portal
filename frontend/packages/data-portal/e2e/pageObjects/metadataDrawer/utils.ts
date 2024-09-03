@@ -14,7 +14,6 @@ import { getRunById } from 'app/graphql/getRunById.server'
 import { isFiducial } from 'app/utils/tomograms'
 
 import { DrawerTestData, DrawerTestMetadata } from './types'
-import { startCase } from 'lodash'
 
 function getBoolString(value?: boolean): string {
   return value ? 'True' : 'False'
