@@ -2,7 +2,6 @@ import { Button, Icon } from '@czi-sds/components'
 
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { DatasetOverview } from 'app/components/Dataset/DatasetOverview'
-import { KeyPhoto } from 'app/components/KeyPhoto'
 import { PageHeader } from 'app/components/PageHeader'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
@@ -11,6 +10,8 @@ import {
   MetadataDrawerId,
   useMetadataDrawer,
 } from 'app/hooks/useMetadataDrawer'
+
+import { HeaderKeyPhoto } from '../HeaderKeyPhoto'
 
 export function DatasetHeader() {
   const { dataset } = useDatasetById()
@@ -42,13 +43,11 @@ export function DatasetHeader() {
       releaseDate={dataset.release_date}
       title={dataset.title}
       renderHeader={({ moreInfo }) => (
-        <div className="flex flex-row justify-between gap-sds-xxl p-sds-xl">
-          <div className="max-w-[465px] max-h-[330px]">
-            <KeyPhoto
-              title={dataset.title}
-              src={dataset.key_photo_url ?? undefined}
-            />
-          </div>
+        <div className="flex flex-auto gap-sds-xxl p-sds-xl">
+          <HeaderKeyPhoto
+            title={dataset.title}
+            url={dataset.key_photo_url ?? undefined}
+          />
 
           <div className="flex flex-col gap-sds-xl flex-1 min-w-[300px]">
             <DatasetOverview />

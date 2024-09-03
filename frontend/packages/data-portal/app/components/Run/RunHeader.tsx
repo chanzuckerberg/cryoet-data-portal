@@ -3,8 +3,6 @@ import { Button, Icon } from '@czi-sds/components'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { I18n } from 'app/components/I18n'
 import { InlineMetadata } from 'app/components/InlineMetadata'
-import { KeyPhoto } from 'app/components/KeyPhoto'
-import { Link } from 'app/components/Link'
 import { PageHeader } from 'app/components/PageHeader'
 import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
 import { MetadataTable } from 'app/components/Table'
@@ -23,7 +21,7 @@ import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 
 import { CollapsibleList } from '../CollapsibleList'
-import { cns } from 'app/utils/cns'
+import { HeaderKeyPhoto } from '../HeaderKeyPhoto'
 
 interface FileSummaryData {
   key: string
@@ -59,7 +57,7 @@ export function RunHeader() {
   const tiltSeries = run.tiltseries[0]
 
   const tomogram = run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
-  const keyPhotoURL = tomogram?.key_photo_url
+  const keyPhotoURL = tomogram?.key_photo_url ?? undefined
   const neuroglancerConfig = tomogram?.neuroglancer_config
 
   const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
@@ -114,21 +112,8 @@ export function RunHeader() {
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Run)}
       title={run.name}
       renderHeader={({ moreInfo }) => (
-        <div
-          className={cns(
-            'flex flex-auto gap-sds-xxl p-sds-xl',
-            multipleTomogramsEnabled && 'pb-0',
-          )}
-        >
-          <div className="max-w-[465px] max-h-[330px] grow overflow-clip rounded-sds-m flex-shrink-0 flex items-center">
-            {keyPhotoURL ? (
-              <Link to={keyPhotoURL}>
-                <KeyPhoto title={run.name} src={keyPhotoURL} />
-              </Link>
-            ) : (
-              <KeyPhoto title={run.name} />
-            )}
-          </div>
+        <div className="flex flex-auto gap-sds-xxl p-sds-xl">
+          <HeaderKeyPhoto title={run.name} url={keyPhotoURL} />
 
           <div className="flex flex-col gap-sds-xl flex-auto pt-sds-l">
             <PageHeaderSubtitle className="mt-sds-m">
