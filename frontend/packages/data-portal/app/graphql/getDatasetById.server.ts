@@ -177,8 +177,8 @@ function getFilter(filterState: FilterState) {
   const depositionId = +(filterState.ids.deposition ?? Number.NaN)
   if (!Number.isNaN(depositionId) && depositionId > 0) {
     filters.push({
-      id: {
-        _eq: depositionId,
+      tomogram_voxel_spacings: {
+        annotations: { deposition_id: { _eq: depositionId } },
       },
     })
   }

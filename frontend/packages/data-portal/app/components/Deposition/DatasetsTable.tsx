@@ -39,7 +39,7 @@ const LOADING_DATASETS: Dataset[] = range(0, MAX_PER_PAGE).map(
 
 export function DatasetsTable() {
   const { t } = useI18n()
-  const { datasets } = useDepositionById()
+  const { deposition, datasets } = useDepositionById()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const datasetSort = (searchParams.get('sort') ?? undefined) as
@@ -59,11 +59,11 @@ export function DatasetsTable() {
       })
 
       // TODO: (kne42) use a different field like `from-deposition-id` that is transformed to `deposition-id` and applies the filter + banner
-      url.searchParams.set(QueryParams.DepositionId, `${id}`)
+      url.searchParams.set(QueryParams.DepositionId, `${deposition.id}`)
 
       return url.pathname + url.search
     },
-    [searchParams],
+    [searchParams, deposition],
   )
 
   const columns = useMemo(() => {

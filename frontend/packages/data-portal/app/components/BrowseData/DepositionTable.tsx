@@ -194,13 +194,15 @@ export function DepositionTable() {
                   )}
                 </p>
 
-                <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
-                  {isLoadingDebounced ? (
-                    <Skeleton variant="text" className="max-w-[75%] mt-2" />
-                  ) : (
-                    t('acrossDatasets', { count: datasetsCount })
-                  )}
-                </p>
+                {isLoadingDebounced ? (
+                  <Skeleton variant="text" className="max-w-[75%] mt-2" />
+                ) : (
+                  datasetsCount > 0 && (
+                    <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
+                      {t('acrossDatasets', { count: datasetsCount })}
+                    </p>
+                  )
+                )}
               </TableCell>
             )
           },
