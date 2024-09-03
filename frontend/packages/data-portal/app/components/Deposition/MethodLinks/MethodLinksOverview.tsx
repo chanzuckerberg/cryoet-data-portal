@@ -14,12 +14,8 @@ import {
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 
-import {
-  CombinedMethodDataType,
-  combineSameMethodData,
-  generateMethodLinks,
-} from './common'
-import { MethodDataType, MethodLinkDataType } from './type'
+import { generateMethodLinks } from './common'
+import { MethodLinkDataType } from './type'
 
 function MethodTypeSection({
   methodType,
@@ -89,14 +85,6 @@ export function MethodLinksOverview() {
 
   const { deposition } = useDepositionById()
 
-  const combinedMethodData: CombinedMethodDataType[] = useMemo(
-    () =>
-      combineSameMethodData(
-        (deposition?.annotations as MethodDataType[]) ?? [],
-      ),
-    [deposition],
-  )
-
   const separator = <div className="h-[1px] bg-sds-gray-300" />
 
   return (
@@ -105,15 +93,17 @@ export function MethodLinksOverview() {
         {t('annotationMethodsSummary')}
       </PageHeaderSubtitle>
       <div className="p-sds-l flex flex-col gap-sds-l bg-sds-gray-100 rounded-sds-m">
-        {combinedMethodData.map(({ methodData }, i) => (
-          <>
-            <MethodTypeSection
-              methodType={methodData.method_type}
-              methodLinks={methodData.method_links}
-            />
-            {i < combinedMethodData.length - 1 && separator}
-          </>
-        ))}
+        {deposition.annotation_methods.map(
+          ({ method_type, method_links }, i) => (
+            <>
+              <MethodTypeSection
+                methodType={(method_type ?? 'automated') as MethodType}
+                methodLinks={(method_links ?? []) as MethodLinkDataType[]}
+              />
+              {i < deposition.annotation_methods.length - 1 && separator}
+            </>
+          ),
+        )}
       </div>
     </div>
   )

@@ -10,11 +10,7 @@ import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
-import {
-  CombinedMethodDataType,
-  combineSameMethodData,
-  generateMethodLinks,
-} from './common'
+import { generateMethodLinks } from './common'
 import { MethodDataType, MethodLinkDataType } from './type'
 
 const COLUMN_WIDTH = 170
@@ -126,13 +122,7 @@ export function MethodLinksMetadataTable({
   initialOpen?: boolean
 }) {
   const { t } = useI18n()
-  const { deposition } = useDepositionById()
-
-  const annotations: CombinedMethodDataType[] = useMemo(
-    () =>
-      combineSameMethodData((deposition.annotations as MethodDataType[]) ?? []),
-    [deposition],
-  )
+  const { deposition, annotationMethodCounts } = useDepositionById()
 
   return (
     <Accordion
@@ -140,14 +130,16 @@ export function MethodLinksMetadataTable({
       header={t('annotationMethodsSummary')}
       initialOpen={initialOpen}
     >
-      {annotations.map(({ annotationsCount, methodData }, i) => (
+      {deposition.annotation_methods.map((methodData, i) => (
         <div className="flex flex-col gap-sds-xl">
           <MethodSummarySection
             label={t('methodCount', {
               value: startCase(converter.toWords(i + 1)),
             })}
-            data={methodData}
-            annotationsCount={annotationsCount}
+            data={methodData as MethodDataType}
+            annotationsCount={
+              annotationMethodCounts.get(methodData.annotation_method) ?? 0
+            }
           />
         </div>
       ))}

@@ -49,14 +49,18 @@ const GET_DEPOSITION_BY_ID = gql(`
 
       # annotations
       annotations {
+        files(distinct_on: shape_type) {
+          shape_type
+        }
+      }
+
+      # annotation_methods
+      annotation_methods: annotations(distinct_on: annotation_method) {
         annotation_method
         annotation_software
         method_links
         method_type
 
-        files(distinct_on: shape_type) {
-          shape_type
-        }
       }
 
       annotations_aggregate {

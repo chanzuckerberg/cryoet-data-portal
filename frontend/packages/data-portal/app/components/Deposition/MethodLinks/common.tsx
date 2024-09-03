@@ -2,15 +2,9 @@ import { Icon } from '@czi-sds/components'
 import { ReactNode } from 'react'
 
 import { SourceCodeIcon, WeightsIcon } from 'app/components/icons'
-import { methodTypes } from 'app/constants/methodTypes'
 import { I18nKeys } from 'app/types/i18n'
 
-import {
-  MethodDataType,
-  MethodLinkDataType,
-  MethodLinkType,
-  methodLinkTypes,
-} from './type'
+import { MethodLinkDataType, MethodLinkType, methodLinkTypes } from './type'
 
 export interface MethodLink {
   i18nLabel: I18nKeys
@@ -81,39 +75,4 @@ export function generateMethodLinks(links: MethodLinkDataType[]): MethodLink[] {
         methodLinkTypes.indexOf(b.link_type),
     )
     .map((props) => methodLinkFromVariant(props))
-}
-
-export type CombinedMethodDataType = {
-  annotationsCount: number
-  methodData: MethodDataType
-}
-
-export function combineSameMethodData(
-  data: MethodDataType[],
-): CombinedMethodDataType[] {
-  data.sort(
-    (a, b) =>
-      methodTypes.indexOf(a.method_type) - methodTypes.indexOf(b.method_type),
-  )
-
-  return data.reduce((all: CombinedMethodDataType[], curr: MethodDataType) => {
-    const last = all[all.length - 1]
-    if (
-      last &&
-      last.methodData.method_type === curr.method_type &&
-      last.methodData.annotation_method === curr.annotation_method
-    ) {
-      const lastMethodLinks = last.methodData.method_links ?? []
-
-      curr.method_links
-        ?.filter((link) => !lastMethodLinks.includes(link))
-        .map((link) => lastMethodLinks.push(link))
-
-      last.annotationsCount += 1
-    } else {
-      all.push({ annotationsCount: 1, methodData: curr })
-    }
-
-    return all
-  }, [] as CombinedMethodDataType[])
 }

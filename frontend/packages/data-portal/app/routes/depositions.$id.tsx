@@ -2,8 +2,9 @@
 
 import { CellHeaderDirection } from '@czi-sds/components'
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
-import { json, LoaderFunctionArgs, redirect } from '@remix-run/server-runtime'
+import { LoaderFunctionArgs, redirect } from '@remix-run/server-runtime'
 import { useEffect } from 'react'
+import { typedjson } from 'remix-typedjson'
 
 import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
@@ -14,6 +15,7 @@ import { DepositionHeader } from 'app/components/Deposition/DepositionHeader'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
+import { getAnnotationCountForAnnotationMethod } from 'app/graphql/getAnnotationCountForAnnotationMethod'
 import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { getDepositionById } from 'app/graphql/getDepositionById.server'
 import { useDepositionById } from 'app/hooks/useDepositionById'
@@ -88,9 +90,32 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     })
   }
 
-  return json({
+  const deposition = depositionResponse.data.deposition as NonNullable<
+    typeof depositionResponse.data.deposition
+  >
+
+  const annotationMethodCounts = new Map(
+    await Promise.all(
+      deposition.annotation_methods.map((annotationMethod) =>
+        getAnnotationCountForAnnotationMethod({
+          client: apolloClient,
+          depositionId: deposition.id,
+          annotationMethod: annotationMethod.annotation_method,
+        }).then(
+          (result) =>
+            [
+              annotationMethod.annotation_method,
+              result.data.annotation_count.aggregate?.count ?? 0,
+            ] as const,
+        ),
+      ),
+    ),
+  )
+
+  return typedjson({
     depositionData: depositionResponse.data,
     datasetsFilterData: datasetsFilterReponse.data,
+    annotationMethodCounts,
   })
 }
 
