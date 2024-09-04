@@ -156,7 +156,7 @@ function TablePageTabContent({
         <div
           className={cns(
             'flex flex-col flex-auto screen-2040:items-center',
-            'pt-sds-xl pb-sds-xxl',
+            'pb-sds-xxl',
             'border-t border-sds-gray-300',
             'overflow-x-scroll max-w-full',
           )}

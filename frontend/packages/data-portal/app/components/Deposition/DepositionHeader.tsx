@@ -1,5 +1,5 @@
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
-import { KeyPhoto } from 'app/components/KeyPhoto'
+import { HeaderKeyPhoto } from 'app/components/HeaderKeyPhoto'
 import { PageHeader } from 'app/components/PageHeader'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDepositionById } from 'app/hooks/useDepositionById'
@@ -33,12 +33,10 @@ export function DepositionHeader() {
       title={deposition.title}
       renderHeader={({ moreInfo }) => (
         <div className="flex flex-row w-full justify-between gap-sds-xxl p-sds-xl">
-          <div className="max-w-[465px] max-h-[330px] grow">
-            <KeyPhoto
-              title={deposition.title}
-              src={deposition.key_photo_url ?? undefined}
-            />
-          </div>
+          <HeaderKeyPhoto
+            title={deposition.title}
+            url={deposition.key_photo_url ?? undefined}
+          />
 
           <div className="flex flex-col gap-sds-xl flex-1 min-w-[300px]">
             <DepositionOverview />
