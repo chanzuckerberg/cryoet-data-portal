@@ -181,8 +181,10 @@ export function DepositionTable() {
           cell({ row: { original: deposition } }) {
             const annotationsCount =
               deposition?.annotations_aggregate?.aggregate?.count ?? 0
-            const datasetsCount =
-              deposition?.dataset_aggregate?.aggregate?.count ?? 0
+
+            // TODO: (kne42) uncomment this when we can fetch dataset counts properly
+            // const datasetsCount =
+            //   deposition?.dataset_aggregate?.aggregate?.count ?? 0
 
             return (
               <TableCell loadingSkeleton={false}>
@@ -193,16 +195,14 @@ export function DepositionTable() {
                     annotationsCount.toLocaleString()
                   )}
                 </p>
-
-                {isLoadingDebounced ? (
-                  <Skeleton variant="text" className="max-w-[75%] mt-2" />
-                ) : (
-                  datasetsCount > 0 && (
-                    <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
-                      {t('acrossDatasets', { count: datasetsCount })}
-                    </p>
-                  )
-                )}
+                {/*              TODO: (kne42) uncomment this when we can fetch dataset counts properly
+                <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
+                  {isLoadingDebounced ? (
+                    <Skeleton variant="text" className="max-w-[75%] mt-2" />
+                  ) : (
+                    t('acrossDatasets', { count: datasetsCount })
+                  )}
+                </p> */}
               </TableCell>
             )
           },
