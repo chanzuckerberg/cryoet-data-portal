@@ -84,12 +84,16 @@ export function useQueryParams<T>(
   const [searchParams, setSearchParams] = useSearchParams()
   const queryParamKeys = Object.keys(queryParams)
 
-  const value = Object.fromEntries(
-    queryParamKeys.map((param) => [
-      param,
-      deserialize(searchParams.get(param)),
-    ]),
-  ) as T
+  const value = useMemo(
+    () =>
+      Object.fromEntries(
+        queryParamKeys.map((param) => [
+          param,
+          deserialize(searchParams.get(param)),
+        ]),
+      ) as T,
+    [deserialize, queryParamKeys, searchParams],
+  )
 
   const setValue = useCallback<QueryParamStateSetter<Nullish<T>>>(
     (nextValue) =>
