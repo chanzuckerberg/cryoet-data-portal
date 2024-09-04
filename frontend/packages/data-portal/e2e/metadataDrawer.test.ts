@@ -5,6 +5,7 @@ import {
   getAnnotationTestData,
   getSingleDatasetTestMetadata,
   getSingleRunTestMetadata,
+  getTomogramTestData,
 } from 'e2e/pageObjects/metadataDrawer/utils'
 
 import { getApolloClient } from './apollo'
