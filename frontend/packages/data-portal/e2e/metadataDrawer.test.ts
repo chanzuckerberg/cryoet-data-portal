@@ -81,7 +81,9 @@ test.describe('Metadata Drawer', () => {
 
     test('metadata should have correct data', async ({ page }) => {
       const metadataDrawerPage = new MetadataDrawerPage(page)
-      await metadataDrawerPage.goTo(SINGLE_RUN_URL)
+      await metadataDrawerPage.goTo(
+        `${SINGLE_RUN_URL}?disable-feature=multipleTomograms`,
+      )
       await metadataDrawerPage.openViewAllInfoDrawer()
       await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
 
