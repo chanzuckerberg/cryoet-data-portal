@@ -290,7 +290,7 @@
   "rawFrames": "Raw Frames",
   "recall": "Recall",
   "recallTooltip": "<semibold>Recall:</semibold> Percentage of true positives among the actual number of objects. A value of 100% means all objects of interest were found.",
-  "reconstructionAndProcessing": "Reconstruction and Processing",  
+  "reconstructionAndProcessing": "Reconstruction and Processing",
   "reconstructionMethod": "Reconstruction Method",
   "reconstructionSoftware": "Reconstruction Software",
   "refresh": "Refresh",
