@@ -1,5 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { E2E_CONFIG, translations } from 'e2e/constants'
+import { startCase } from 'lodash-es'
 import { DeepPartial } from 'utility-types'
 
 import {
@@ -143,6 +144,42 @@ function getAnnotationTestMetdata(
   }
 }
 
+function getTomogramTestMetdata(
+  tomogram: DeepPartial<Tomograms>,
+): DrawerTestMetadata {
+  return {
+    authors: tomogram.authors!.map((author) => author.name),
+    publications: '--',
+    relatedDatabases: '--',
+    depositionName: tomogram.deposition?.title ?? '--',
+    depositionId: tomogram.deposition?.id ?? '--',
+    depositionDate: tomogram.deposition?.deposition_date ?? '--',
+    releaseDate: '--',
+    lastModifiedDate: '--',
+    portalStandardStatus: '--',
+    submittedByDatasetAuthor: '--',
+    reconstructionSoftware: tomogram.reconstruction_software,
+    reconstructionMethod: tomogram.reconstruction_method,
+    processingSoftware: tomogram.processing_software ?? '',
+    processing: tomogram.processing,
+    voxelSpacing: [
+      tomogram.voxel_spacing!.toString(),
+      `(${tomogram.size_x}, ${tomogram.size_y}, ${tomogram.size_z})px`,
+    ],
+    fiducialAlignmentStatus:
+      tomogram.fiducial_alignment_status === 'FIDUCIAL' ? 'True' : 'False',
+    ctfCorrected: tomogram.ctf_corrected ? 'Yes' : 'No',
+    alignmentId: '--',
+    canonicalStatus: '--',
+    alignmentType: '--',
+    dimensionXYZ: '--',
+    offsetXYZ: '--',
+    rotationX: '--',
+    tileOffset: '--',
+    affineTransformationMatrix: '--',
+  }
+}
+
 export async function getSingleDatasetTestMetadata(
   client: ApolloClient<NormalizedCacheObject>,
 ): Promise<DrawerTestData> {
@@ -216,6 +253,25 @@ export async function getAnnotationTestData(
   return {
     title: `${annotation.id} - ${annotation.object_name}`,
     metadata: getAnnotationTestMetdata(annotation),
+  }
+}
+
+export async function getTomogramTestData(
+  client: ApolloClient<NormalizedCacheObject>,
+) {
+  const { data } = await getRunById({
+    client,
+    id: +E2E_CONFIG.runId,
+    annotationsPage: 1,
+  })
+
+  const tomogram = data.tomograms[0]
+
+  return {
+    title: startCase(
+      `${tomogram.id} ${tomogram.reconstruction_method} ${tomogram.processing}`,
+    ),
+    metadata: getTomogramTestMetdata(tomogram),
   }
 }
 // #endregion Data Getters
