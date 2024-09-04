@@ -248,6 +248,7 @@ export function RunsTable() {
             return (
               <TableCell horizontalAlign="right" width={RunTableWidths.actions}>
                 <ViewTomogramButton
+                  tomogramId={tomogram?.id?.toString()}
                   buttonProps={{
                     sdsType: 'secondary',
                     sdsStyle: 'square',
@@ -259,6 +260,7 @@ export function RunsTable() {
                     tomogramId: tomogram?.id ?? 'None',
                     type: 'dataset',
                   }}
+                  tooltipPlacement="top"
                   neuroglancerConfig={neuroglancerConfig}
                   setIsHoveringOver={setIsHoveringOverInteractable}
                 />

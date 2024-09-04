@@ -92,7 +92,7 @@ export function PageHeader({
               )}
 
               {/* actions */}
-              <div className="flex flex-row row-start-2 col-start-2 gap-sds-m justify-end min-w-[315px]">
+              <div className="flex flex-row row-start-2 col-start-2 gap-sds-m justify-end items-start min-w-[315px]">
                 {actions}
               </div>
             </div>

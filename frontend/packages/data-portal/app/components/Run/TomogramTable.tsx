@@ -18,14 +18,14 @@ import {
   metadataDrawerTomogramAtom,
   Tomogram,
 } from 'app/state/metadataDrawerTomogram'
-import { getNeuroglancerUrl } from 'app/utils/url'
 
 import { AuthorList } from '../AuthorList'
 import { KeyPhoto } from '../KeyPhoto'
+import { ViewTomogramButton } from '../ViewTomogramButton'
 
 export function TomogramsTable() {
   const { t } = useI18n()
-  const { tomograms } = useRunById()
+  const { tomograms, run } = useRunById()
 
   const { toggleDrawer } = useMetadataDrawer()
   const [, setMetadataDrawerTomogram] = useAtom(metadataDrawerTomogramAtom)
@@ -154,24 +154,34 @@ export function TomogramsTable() {
             <div className="flex flex-col gap-sds-xs items-start">
               {original.is_canonical &&
                 original.neuroglancer_config != null && (
-                  <Button
-                    sdsType="primary"
-                    sdsStyle="rounded"
-                    to={getNeuroglancerUrl(original.neuroglancer_config)}
-                    startIcon={
-                      <Icon sdsIcon="table" sdsSize="s" sdsType="button" />
-                    }
-                  >
-                    {t('viewTomogram')}
-                  </Button>
+                  <ViewTomogramButton
+                    tomogramId={original.id.toString()}
+                    neuroglancerConfig={original.neuroglancer_config}
+                    buttonProps={{
+                      sdsStyle: 'square',
+                      sdsType: 'primary',
+                      className: '!text-sds-body-xxs !h-sds-icon-xl',
+                      startIcon: (
+                        <Icon sdsIcon="table" sdsType="button" sdsSize="xs" />
+                      ),
+                    }}
+                    tooltipPlacement="top"
+                    event={{
+                      datasetId: run.dataset.id,
+                      organism: run.dataset.organism_name ?? 'None',
+                      runId: run.id,
+                      tomogramId: original.id,
+                      type: 'tomogram',
+                    }}
+                  />
                 )}
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
-                className="!justify-start !ml-sds-l"
+                className="!justify-start !ml-sds-l !text-sds-body-xxs"
                 onClick={() => openMetadataDrawer(original)}
                 startIcon={
-                  <Icon sdsIcon="infoCircle" sdsSize="s" sdsType="button" />
+                  <Icon sdsIcon="infoCircle" sdsSize="xs" sdsType="button" />
                 }
               >
                 <span>{t('info')}</span>
@@ -179,10 +189,10 @@ export function TomogramsTable() {
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
-                className="!justify-start !ml-sds-l"
+                className="!justify-start !ml-sds-l !text-sds-body-xxs"
                 onClick={openTomogramDownloadModal}
                 startIcon={
-                  <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
+                  <Icon sdsIcon="download" sdsSize="xs" sdsType="button" />
                 }
               >
                 {t('download')}
@@ -192,7 +202,14 @@ export function TomogramsTable() {
         ),
       }),
     ] as ColumnDef<Tomogram>[] // https://github.com/TanStack/table/issues/4382
-  }, [openMetadataDrawer, openTomogramDownloadModal, t])
+  }, [
+    run.id,
+    run.dataset.id,
+    run.dataset.organism_name,
+    openMetadataDrawer,
+    openTomogramDownloadModal,
+    t,
+  ])
 
   return <PageTable data={tomograms} columns={columns} hoverType="none" />
 }

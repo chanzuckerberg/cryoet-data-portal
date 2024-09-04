@@ -202,6 +202,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
         id
         is_curator_recommended
         last_modified_date
+        method_links
         method_type
         object_count
         object_description
