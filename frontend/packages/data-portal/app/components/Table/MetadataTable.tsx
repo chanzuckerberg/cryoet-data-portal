@@ -58,6 +58,7 @@ export function MetadataTable({
                     {datum.label}
                     {datum.labelExtra}
                   </span>
+                  {datum.subLabel}
                 </TableCell>
 
                 <TableCell
