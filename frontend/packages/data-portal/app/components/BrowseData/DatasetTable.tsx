@@ -5,7 +5,7 @@ import Skeleton from '@mui/material/Skeleton'
 import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
 import { AuthorList } from 'app/components/AuthorList'
@@ -28,6 +28,7 @@ import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
+import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
 const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
   (value) =>
@@ -68,6 +69,21 @@ export function DatasetTable() {
     [searchParams, setBrowseDatasetHistory],
   )
 
+  const getDatasetUrl = useCallback(
+    (id: number) => {
+      const url = createUrl(`/datasets/${id}`)
+
+      carryOverFilterParams({
+        filters: DATASET_FILTERS,
+        params: url.searchParams,
+        prevParams: searchParams,
+      })
+
+      return url.pathname + url.search
+    },
+    [searchParams],
+  )
+
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Dataset>()
 
@@ -77,7 +93,7 @@ export function DatasetTable() {
           header: () => <p />,
 
           cell({ row: { original: dataset } }) {
-            const datasetUrl = `/datasets/${dataset.id}`
+            const datasetUrl = getDatasetUrl(dataset.id)
 
             return (
               <TableCell
@@ -128,7 +144,7 @@ export function DatasetTable() {
           ),
 
           cell({ row: { original: dataset } }) {
-            const datasetUrl = `/datasets/${dataset.id}`
+            const datasetUrl = getDatasetUrl(dataset.id)
 
             return (
               <TableCell
@@ -315,12 +331,13 @@ export function DatasetTable() {
       throw err
     }
   }, [
-    datasetSort,
+    getDatasetUrl,
     isLoadingDebounced,
     isClickingOnEmpiarId,
+    datasetSort,
+    t,
     searchParams,
     setSearchParams,
-    t,
   ])
 
   return (
@@ -328,7 +345,7 @@ export function DatasetTable() {
       data={isLoadingDebounced ? LOADING_DATASETS : datasets}
       columns={columns}
       onTableRowClick={(row) =>
-        !isHoveringOverInteractable && navigate(`/datasets/${row.original.id}`)
+        !isHoveringOverInteractable && navigate(getDatasetUrl(row.original.id))
       }
       hoverType="group"
     />
