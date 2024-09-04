@@ -18,6 +18,7 @@ import {
   metadataDrawerTomogramAtom,
   Tomogram,
 } from 'app/state/metadataDrawerTomogram'
+import { getTomogramName } from 'app/utils/tomograms'
 
 import { AuthorList } from '../AuthorList'
 import { KeyPhoto } from '../KeyPhoto'
@@ -57,19 +58,24 @@ export function TomogramsTable() {
       }),
       columnHelper.accessor('id', {
         header: () => (
-          <CellHeader width={TomogramTableWidths.id}>
-            {t('tomogramId')}
+          <CellHeader width={TomogramTableWidths.name}>
+            {t('tomogramName')}
           </CellHeader>
         ),
         cell: ({ row: { original } }) => (
           <TableCell
             className="flex flex-col gap-sds-xxxs !items-start"
-            width={TomogramTableWidths.id}
+            width={TomogramTableWidths.name}
           >
-            <div className="flex gap-sds-xs items-center">
-              <p className="text-sds-body-m leading-sds-body-m font-semibold text-ellipsis line-clamp-1 break-all">
-                {original.id}
-              </p>
+            <div className="text-sds-body-m leading-sds-body-m font-semibold text-ellipsis line-clamp-1 break-all">
+              {getTomogramName(
+                original.id,
+                original.reconstruction_method,
+                original.processing,
+              )}
+            </div>
+            <div className="text-sds-body-xxs">
+              {t('tomogramId')}: {original.id}
             </div>
             <div className=" text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
               <AuthorList authors={original.authors} compact />
@@ -77,9 +83,7 @@ export function TomogramsTable() {
           </TableCell>
         ),
       }),
-      // TODO(bchu): Switch to deposition_date when available.
-      columnHelper.accessor('name', {
-        id: 'deposition_date',
+      columnHelper.accessor('deposition.deposition_date', {
         header: () => (
           <CellHeader
             className="whitespace-nowrap text-ellipsis"
