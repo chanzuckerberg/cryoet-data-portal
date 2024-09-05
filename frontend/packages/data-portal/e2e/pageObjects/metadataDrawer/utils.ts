@@ -92,7 +92,7 @@ function getTiltSeriesTestMetadata({
   }
 }
 
-function getTomogramTestMetadata(
+function getTomogramAccordionTestMetadata(
   tomogram: DeepPartial<Tomograms>,
 ): DrawerTestMetadata {
   return {
@@ -144,7 +144,7 @@ function getAnnotationTestMetdata(
   }
 }
 
-function getTomogramTestMetdata(
+function getTomogramDrawerTestMetadata(
   tomogram: DeepPartial<Tomograms>,
 ): DrawerTestMetadata {
   return {
@@ -166,8 +166,9 @@ function getTomogramTestMetdata(
       tomogram.voxel_spacing!.toString(),
       `(${tomogram.size_x}, ${tomogram.size_y}, ${tomogram.size_z})px`,
     ],
-    fiducialAlignmentStatus:
-      tomogram.fiducial_alignment_status === 'FIDUCIAL' ? 'True' : 'False',
+    fiducialAlignmentStatus: getBoolString(
+      tomogram.fiducial_alignment_status === 'FIDUCIAL',
+    ),
     ctfCorrected: tomogram.ctf_corrected ? 'Yes' : 'No',
     alignmentId: '--',
     canonicalStatus: '--',
@@ -234,7 +235,7 @@ export async function getSingleRunTestMetadata(
         type: 'run',
       }),
 
-      ...getTomogramTestMetadata(tomogram),
+      ...getTomogramAccordionTestMetadata(tomogram),
     },
   }
 }
@@ -271,7 +272,7 @@ export async function getTomogramTestData(
     title: startCase(
       `${tomogram.id} ${tomogram.reconstruction_method} ${tomogram.processing}`,
     ),
-    metadata: getTomogramTestMetdata(tomogram),
+    metadata: getTomogramDrawerTestMetadata(tomogram),
   }
 }
 // #endregion Data Getters
