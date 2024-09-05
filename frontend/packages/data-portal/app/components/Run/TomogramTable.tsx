@@ -28,7 +28,7 @@ export function TomogramsTable() {
   const { t } = useI18n()
   const { tomograms, run } = useRunById()
 
-  const { toggleDrawer } = useMetadataDrawer()
+  const { openDrawer } = useMetadataDrawer()
   const [, setMetadataDrawerTomogram] = useAtom(metadataDrawerTomogramAtom)
 
   const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
@@ -36,9 +36,9 @@ export function TomogramsTable() {
   const openMetadataDrawer = useCallback(
     (tomogram: Tomogram) => {
       setMetadataDrawerTomogram(tomogram)
-      toggleDrawer(MetadataDrawerId.Tomogram)
+      openDrawer(MetadataDrawerId.Tomogram)
     },
-    [setMetadataDrawerTomogram, toggleDrawer],
+    [setMetadataDrawerTomogram, openDrawer],
   )
 
   const columns = useMemo(() => {

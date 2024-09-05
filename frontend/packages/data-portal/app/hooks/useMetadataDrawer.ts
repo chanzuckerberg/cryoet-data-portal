@@ -26,6 +26,15 @@ export function useMetadataDrawer() {
   const activeDrawer = queryParams[QueryParams.MetadataDrawer]
   const activeTab = queryParams[QueryParams.Tab]
 
+  const openDrawer = useCallback(
+    (drawer: MetadataDrawerId, tab: MetadataTab = MetadataTab.Metadata) =>
+      setQueryParams({
+        [QueryParams.MetadataDrawer]: drawer,
+        [QueryParams.Tab]: tab,
+      }),
+    [setQueryParams],
+  )
+
   const closeDrawer = useCallback(
     () =>
       setQueryParams({
@@ -51,6 +60,7 @@ export function useMetadataDrawer() {
   return {
     activeDrawer,
     activeTab,
+    openDrawer,
     closeDrawer,
     toggleDrawer,
   }
