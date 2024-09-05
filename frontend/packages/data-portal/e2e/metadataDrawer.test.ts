@@ -152,7 +152,7 @@ test.describe('Metadata Drawer', () => {
     test('metadata should have correct data', async ({ page }) => {
       const metadataDrawerPage = new MetadataDrawerPage(page)
       await metadataDrawerPage.goTo(
-        `${SINGLE_RUN_URL}?enable-feature=multipleTomograms`,
+        `${SINGLE_RUN_URL}?table-tab=Tomograms&enable-feature=multipleTomograms`,
       )
       await metadataDrawerPage.openInfoDrawer()
       await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
