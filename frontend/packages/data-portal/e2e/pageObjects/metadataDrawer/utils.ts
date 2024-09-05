@@ -8,6 +8,7 @@ import {
   Datasets,
   GetRunByIdQuery,
   Tiltseries,
+  Tomograms,
 } from 'app/__generated__/graphql'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getRunById } from 'app/graphql/getRunById.server'
@@ -93,7 +94,8 @@ function getTiltSeriesTestMetadata({
 }
 
 function getTomogramAccordionTestMetadata(
-  tomogram: DeepPartial<Tomograms>,
+  response: GetRunByIdQuery,
+  multipleTomogramsEnabled: boolean,
 ): DrawerTestMetadata {
   const tomogram = response.runs[0].tomogram_voxel_spacings[0].tomograms[0]
 
@@ -252,7 +254,7 @@ export async function getSingleRunTestMetadata(
         type: 'run',
       }),
 
-      ...getTomogramAccordionTestMetadata(tomogram),
+      ...getTomogramAccordionTestMetadata(data, multipleTomogramsEnabled),
     },
   }
 }
