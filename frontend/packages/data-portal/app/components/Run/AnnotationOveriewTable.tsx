@@ -7,6 +7,7 @@ import { MethodLink } from 'app/components/Deposition/MethodLinks'
 import { generateMethodLinks } from 'app/components/Deposition/MethodLinks/common'
 import { MethodLinkDataType } from 'app/components/Deposition/MethodLinks/type'
 import { Link } from 'app/components/Link'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
 import { useFeatureFlag } from 'app/utils/featureFlags'
@@ -54,20 +55,23 @@ export function AnnotationOverviewTable() {
           values: [annotation.annotation_publication ?? '--'],
         },
 
-        ...(isDepositionsEnabled
+        ...(isDepositionsEnabled && annotation.deposition
           ? [
               {
                 label: t('depositionName'),
                 values: ['Deposition Name'],
                 renderValue: () => (
-                  <Link className="text-sds-primary-400" to="/deposition/123">
-                    Deposition Name
+                  <Link
+                    className="text-sds-primary-400"
+                    to={`/deposition/${annotation.deposition?.id}`}
+                  >
+                    {annotation.deposition?.title}
                   </Link>
                 ),
               },
               {
                 label: t('depositionId'),
-                values: ['CZCDP-12345'],
+                values: [`${IdPrefix.Deposition}-${annotation.deposition?.id}`],
               },
             ]
           : []),

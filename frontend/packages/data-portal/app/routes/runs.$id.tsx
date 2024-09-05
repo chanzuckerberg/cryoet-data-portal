@@ -75,6 +75,7 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
       QueryParams.MethodType,
       QueryParams.AnnotationSoftware,
       QueryParams.AnnotationsPage,
+      QueryParams.DepositionId,
     ],
   })
 }

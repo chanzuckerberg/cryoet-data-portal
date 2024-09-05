@@ -235,6 +235,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
             count
           }
         }
+
+        deposition {
+          id
+          title
+        }
       }
     }
 
@@ -419,6 +424,16 @@ const GET_RUN_BY_ID_QUERY = gql(`
 
 function getFilter(filterState: FilterState): Annotations_Bool_Exp[] {
   const filters: Annotations_Bool_Exp[] = []
+
+  // Deposition ID filter
+  const depositionId = +(filterState.ids.deposition ?? Number.NaN)
+  if (!Number.isNaN(depositionId) && depositionId > 0) {
+    filters.push({
+      deposition_id: {
+        _eq: depositionId,
+      },
+    })
+  }
 
   const { name, orcid } = filterState.author
 
