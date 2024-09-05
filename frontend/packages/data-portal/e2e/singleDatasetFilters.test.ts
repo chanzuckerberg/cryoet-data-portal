@@ -8,6 +8,7 @@ import { QueryParams } from 'app/constants/query'
 
 import { getApolloClient } from './apollo'
 import { E2E_CONFIG, SINGLE_DATASET_URL, translations } from './constants'
+import { onlyRunIfEnabled } from './utils'
 
 test.describe('Single dataset page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>
@@ -108,6 +109,8 @@ test.describe('Single dataset page filters', () => {
     })
   })
   test.describe('Deposition ID filter', () => {
+    onlyRunIfEnabled('depositions')
+
     test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_DATASET_URL)
 
