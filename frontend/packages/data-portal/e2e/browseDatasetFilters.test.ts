@@ -11,7 +11,7 @@ import { QueryParams } from 'app/constants/query'
 
 import { getApolloClient } from './apollo'
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
-import { skipIfFeatureIsDisabled } from './utils'
+import { onlyRunIfEnabled } from './utils'
 
 test.describe('Browse datasets page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>
@@ -1129,7 +1129,7 @@ test.describe('Browse datasets page filters', () => {
   })
 
   test.describe('Deposition IDs filter group', () => {
-    skipIfFeatureIsDisabled('depositions')
+    onlyRunIfEnabled('depositions')
 
     test.describe('Deposition ID filter', () => {
       test('should filter when selecting', async () => {

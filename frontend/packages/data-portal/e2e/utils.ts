@@ -2,7 +2,7 @@ import { test } from '@playwright/test'
 
 import { FeatureFlagKey, getFeatureFlag } from 'app/utils/featureFlags'
 
-export function skipIfFeatureIsDisabled(key: FeatureFlagKey) {
+export function onlyRunIfEnabled(key: FeatureFlagKey) {
   const isEnabled = getFeatureFlag({
     key,
     env: process.env.ENV,
