@@ -68,33 +68,31 @@ export function MetadataTable({
                   )}
                   {...tableCellValueProps}
                 >
-                  {match(values.length)
-                    .with(0, () => null)
-                    .with(1, () => (
-                      <span className={datum.className}>
-                        {datum.renderValue?.(values[0]) ?? values[0]}
-                      </span>
-                    ))
-                    .otherwise(
-                      () =>
-                        datum.renderValues?.(values) ?? (
-                          <ul className="list-none flex flex-wrap gap-1">
-                            {values.map((value, valueIdx) => (
-                              <li
-                                className={cns(
-                                  'overflow-x-auto',
-                                  datum.inline && 'inline-block',
-                                  datum.className,
-                                )}
-                                key={value}
-                              >
-                                {datum.renderValue?.(value) ?? value}
-                                {valueIdx < values.length - 1 && ', '}
-                              </li>
-                            ))}
-                          </ul>
-                        ),
-                    )}
+                  {datum.renderValues?.(values) ??
+                    match(values.length)
+                      .with(0, () => null)
+                      .with(1, () => (
+                        <span className={datum.className}>
+                          {datum.renderValue?.(values[0]) ?? values[0]}
+                        </span>
+                      ))
+                      .otherwise(() => (
+                        <ul className="list-none flex flex-wrap gap-1">
+                          {values.map((value, valueIdx) => (
+                            <li
+                              className={cns(
+                                'overflow-x-auto',
+                                datum.inline && 'inline-block',
+                                datum.className,
+                              )}
+                              key={value}
+                            >
+                              {datum.renderValue?.(value) ?? value}
+                              {valueIdx < values.length - 1 && ', '}
+                            </li>
+                          ))}
+                        </ul>
+                      ))}
                 </TableCell>
               </TableRow>
             )

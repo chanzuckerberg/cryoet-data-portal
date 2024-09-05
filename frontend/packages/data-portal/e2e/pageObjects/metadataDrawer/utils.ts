@@ -6,8 +6,8 @@ import { DeepPartial } from 'utility-types'
 import {
   Annotations,
   Datasets,
+  GetRunByIdQuery,
   Tiltseries,
-  Tomograms,
 } from 'app/__generated__/graphql'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getRunById } from 'app/graphql/getRunById.server'
@@ -95,18 +95,35 @@ function getTiltSeriesTestMetadata({
 function getTomogramAccordionTestMetadata(
   tomogram: DeepPartial<Tomograms>,
 ): DrawerTestMetadata {
-  return {
-    reconstructionSoftware: tomogram.reconstruction_software,
-    reconstructionMethod: tomogram.reconstruction_method,
-    processingSoftware: tomogram.processing_software,
-    availableProcessing: tomogram.processing,
-    smallestAvailableVoxelSpacing: tomogram.voxel_spacing,
-    size: `${tomogram.size_x}, ${tomogram.size_y}, ${tomogram.size_z}`,
-    fiducialAlignmentStatus: getBoolString(
-      isFiducial(tomogram.fiducial_alignment_status),
-    ),
-    ctfCorrected: tomogram.ctf_corrected ? 'Yes' : 'No',
-  }
+  const tomogram = response.runs[0].tomogram_voxel_spacings[0].tomograms[0]
+
+  return multipleTomogramsEnabled
+    ? {
+        totalTomograms:
+          response.tomograms_aggregate.aggregate!.count.toString(),
+        resolutionsAvailable: response.tomograms_for_resolutions.map((tomo) =>
+          tomo.voxel_spacing.toString(),
+        ),
+        tomogramProcessing:
+          response.tomograms_for_distinct_processing_methods.map((tomo) =>
+            startCase(tomo.processing),
+          ),
+        annotatedObjects: response.annotations_for_object_names
+          .map((annotation) => annotation.object_name)
+          .slice(0, 4),
+      }
+    : {
+        reconstructionSoftware: tomogram.reconstruction_software,
+        reconstructionMethod: tomogram.reconstruction_method,
+        processingSoftware: tomogram.processing_software,
+        availableProcessing: tomogram.processing,
+        smallestAvailableVoxelSpacing: tomogram.voxel_spacing,
+        size: `${tomogram.size_x}, ${tomogram.size_y}, ${tomogram.size_z}`,
+        fiducialAlignmentStatus: getBoolString(
+          isFiducial(tomogram.fiducial_alignment_status),
+        ),
+        ctfCorrected: tomogram.ctf_corrected ? 'Yes' : 'No',
+      }
 }
 
 function getAnnotationTestMetdata(
@@ -211,6 +228,7 @@ export async function getSingleDatasetTestMetadata(
 // #region Data Getters
 export async function getSingleRunTestMetadata(
   client: ApolloClient<NormalizedCacheObject>,
+  multipleTomogramsEnabled: boolean,
 ): Promise<DrawerTestData> {
   const { data } = await getRunById({
     client,
@@ -220,7 +238,6 @@ export async function getSingleRunTestMetadata(
 
   const [run] = data.runs
   const [tiltSeries] = run.tiltseries
-  const [tomogram] = run.tomogram_voxel_spacings[0].tomograms
 
   return {
     title: run.name,
