@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.26.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.25.0...web-v1.26.0) (2024-09-05)
+
+
+### ✨ Features
+
+* add deposition related filters ([#1079](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1079)) ([ffec095](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ffec095058ddd38920e4d848f0e3c47dee1ed324))
+* Add metadata sidebar for tomogram ([#1112](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1112)) ([39351f0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/39351f07f916b6c487487e137a84faa9da7b3ad6))
+* Add Tomograms Summary to run sidebar ([#1094](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1094)) ([5a3132a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/5a3132a962b70a4f23291d908b60ad3865f1eea2))
+* deposition filter banner ([#1040](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1040)) ([bb83312](https://github.com/chanzuckerberg/cryoet-data-portal/commit/bb8331236a1c67b9a812712f08f97a35fbc4d8c7))
+* info panel deposition metadata ([#1092](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1092)) ([01a8b67](https://github.com/chanzuckerberg/cryoet-data-portal/commit/01a8b6732fac7e890e6f9efc3a202cec3a20f562))
+* Make main photo HTML and CSS consistent between run and dataset pages ([#1096](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1096)) ([6a88242](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6a88242320b5014b2bed5f4435e9fe14158007bd))
+* More updates to tomograms table ([#1106](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1106)) ([a6ef66e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/a6ef66eaa35844dc4dee6d23aeeadb8c6da9a460))
+* View Tomogram tooltips + button changes ([#1089](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1089)) ([54b4fe5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/54b4fe5715fd0fa6dd6efe1d01fefccba33232be))
+
+
+### 🐞 Bug Fixes
+
+* Carry over filters from datasets table ([#1113](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1113)) ([b3c8628](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b3c862818fd7d642c973d3efc9ba4ff38ef10115))
+* Disable Apollo Client cache on the server ([#1088](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1088)) ([373b987](https://github.com/chanzuckerberg/cryoet-data-portal/commit/373b987f816622140a226f9a12549004e9b03146)), closes [#1041](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1041)
+
+
+### ⚙ Continuous Integration
+
+* add missing skip e2e ([#1116](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1116)) ([ee6064a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ee6064a7f66eec3f2e753bac606652010b448899))
+* skip e2e if feature disabled ([#1114](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1114)) ([b5cb014](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b5cb014ea6c8d3a6f0b4f7e102a5353c365e8cb2))
+
 ## [1.25.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.24.0...web-v1.25.0) (2024-08-22)
 
 
