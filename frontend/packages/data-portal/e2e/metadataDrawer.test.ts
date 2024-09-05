@@ -125,11 +125,11 @@ test.describe('Metadata Drawer', () => {
   })
 
   test.describe(`Tomogram Metadata: ${SINGLE_RUN_PATH}`, () => {
+    const url = `${SINGLE_RUN_URL}?table-tab=Tomograms&enable-feature=multipleTomograms`
+
     test('should open metadata drawer', async ({ page }) => {
       const metadataDrawerPage = new MetadataDrawerPage(page)
-      await metadataDrawerPage.goTo(
-        `${SINGLE_RUN_URL}?enable-feature=multipleTomograms`,
-      )
+      await metadataDrawerPage.goTo(url)
 
       await metadataDrawerPage.expectMetadataDrawerToBeHidden()
       await metadataDrawerPage.openInfoDrawer()
@@ -138,9 +138,7 @@ test.describe('Metadata Drawer', () => {
 
     test('should close metadata drawer on click x', async ({ page }) => {
       const metadataDrawerPage = new MetadataDrawerPage(page)
-      await metadataDrawerPage.goTo(
-        `${SINGLE_RUN_URL}?enable-feature=multipleTomograms`,
-      )
+      await metadataDrawerPage.goTo(url)
 
       await metadataDrawerPage.openInfoDrawer()
       await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
@@ -151,9 +149,7 @@ test.describe('Metadata Drawer', () => {
 
     test('metadata should have correct data', async ({ page }) => {
       const metadataDrawerPage = new MetadataDrawerPage(page)
-      await metadataDrawerPage.goTo(
-        `${SINGLE_RUN_URL}?table-tab=Tomograms&enable-feature=multipleTomograms`,
-      )
+      await metadataDrawerPage.goTo(url)
       await metadataDrawerPage.openInfoDrawer()
       await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
 
