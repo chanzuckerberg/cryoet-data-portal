@@ -1,3 +1,7 @@
+---
+hide-navigation: true
+---
+
 # CryoET Data Portal | Documentation
 
 The [Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute)](https://www.czimaginginstitute.org/) has made a beta release of the [CryoET Data Portal](https://cryoetdataportal.czscience.com) providing queryable and organized data from CryoET experiments. Each of the over 15,000 tomograms on the Portal have at least one structure annotated.
@@ -32,7 +36,11 @@ aws s3 ls --no-sign-request s3://cryoet-data-portal-public
 
 ## CryoET Workflow Overview
 
-![CZII Graphic Github](https://github.com/chanzuckerberg/cryoet-data-portal/assets/100323416/dc425098-d949-479f-b2f2-325f1c944784)
+
+```{image} https://github.com/chanzuckerberg/cryoet-data-portal/assets/100323416/dc425098-d949-479f-b2f2-325f1c944784
+:alt: CZII Graphic Github
+:align: center
+```
 
 Electron Tomography workflow and the data we provide.
 
@@ -55,6 +63,6 @@ Some of the data used in this work was provided by the group(s) of Julia Mahamid
 | Dataset name | 10000 | 10001 | 10004 |
 | Acknowledgement | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1101/2023.04.28.538734](https://www.biorxiv.org/content/10.1101/2023.04.28.538734v1) |
 
-:::{Note}
+:::{note}
 Segmentation experts and developers are also encouraged to get in touch with the data providers if they feel they have developed a useful tool that might help to process the entirety of the datasets (which are much larger than the subsets provided for the portal) more efficiently or effectively.
 :::
