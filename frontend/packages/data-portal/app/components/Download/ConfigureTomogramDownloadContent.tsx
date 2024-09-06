@@ -12,22 +12,29 @@ import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQuery
 import { useI18n } from 'app/hooks/useI18n'
 import { useLogPlausibleCopyEvent } from 'app/hooks/useLogPlausibleCopyEvent'
 import { DownloadConfig } from 'app/types/download'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { FileFormatDropdown } from './FileFormatDropdown'
+import { TomogramSelectorInputLabel } from './TomogramSelectorLabel'
+import { TomogramSelectorOption } from './TomogramSelectorOption'
 
 const TOMOGRAM_FILE_FORMATS = ['mrc', 'zarr']
 
 export function ConfigureTomogramDownloadContent() {
+  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
+
   const { t } = useI18n()
 
   const {
     downloadConfig,
+    tomogramProcessing,
+    tomogramSampling,
+    tomogramId,
     setAllAnnotationsConfig,
     setTomogramConfig,
     setTomogramProcessing,
     setTomogramSampling,
-    tomogramProcessing,
-    tomogramSampling,
+    setTomogramId,
   } = useDownloadModalQueryParamState()
 
   const {
@@ -52,6 +59,16 @@ export function ConfigureTomogramDownloadContent() {
         value: processing,
       })),
     [allTomogramProcessing],
+  )
+
+  const tomogramOptions = useMemo<SelectOption[]>(
+    () =>
+      allTomograms.map((tomogram) => ({
+        key: tomogram.id.toString(),
+        value: tomogram.id.toString(),
+        component: <TomogramSelectorOption tomogram={tomogram} />,
+      })),
+    [allTomograms],
   )
 
   const activeTomogram = allTomograms.find(
@@ -89,41 +106,61 @@ export function ConfigureTomogramDownloadContent() {
         >
           <div className="flex flex-col gap-sds-l">
             <div className="flex items-center gap-sds-l pt-sds-m">
-              <Select
-                activeKey={
-                  tomogramSampling
-                    ? t('unitAngstrom', { value: tomogramSampling })
-                    : null
-                }
-                className="flex-grow"
-                label={
-                  activeTomogram
-                    ? `${t('unitAngstrom', {
-                        value: activeTomogram.voxel_spacing,
-                      })}`
-                    : '--'
-                }
-                onChange={(value) =>
-                  setTomogramSampling(value ? value.replace('Å', '') : null)
-                }
-                options={tomogramSamplingOptions}
-                title={t('tomogramSampling')}
-              />
+              {multipleTomogramsEnabled ? (
+                <Select
+                  title={t('selectTomogram')}
+                  className="flex-grow"
+                  dropdownClasses={{
+                    root: 'w-[436px]',
+                  }}
+                  activeKey={tomogramId}
+                  label={
+                    <TomogramSelectorInputLabel tomogram={activeTomogram} />
+                  }
+                  options={tomogramOptions}
+                  onChange={setTomogramId}
+                  showActiveValue={false}
+                  showDetails={false}
+                />
+              ) : (
+                <>
+                  <Select
+                    activeKey={
+                      tomogramSampling
+                        ? t('unitAngstrom', { value: tomogramSampling })
+                        : null
+                    }
+                    className="flex-grow"
+                    label={
+                      activeTomogram
+                        ? `${t('unitAngstrom', {
+                            value: activeTomogram.voxel_spacing,
+                          })}`
+                        : '--'
+                    }
+                    onChange={(value) =>
+                      setTomogramSampling(value ? value.replace('Å', '') : null)
+                    }
+                    options={tomogramSamplingOptions}
+                    title={t('tomogramSampling')}
+                  />
 
-              <Select
-                activeKey={tomogramProcessing}
-                className="flex-grow"
-                label={tomogramProcessing ?? '--'}
-                onChange={setTomogramProcessing}
-                options={tomogramProcessingOptions}
-                showActiveValue={false}
-                showDetails={false}
-                title={t('tomogramProcessing')}
-              />
+                  <Select
+                    activeKey={tomogramProcessing}
+                    className="flex-grow"
+                    label={tomogramProcessing ?? '--'}
+                    onChange={setTomogramProcessing}
+                    options={tomogramProcessingOptions}
+                    showActiveValue={false}
+                    showDetails={false}
+                    title={t('tomogramProcessing')}
+                  />
+                </>
+              )}
             </div>
 
             <FileFormatDropdown
-              className="max-w-[228px]"
+              className={!multipleTomogramsEnabled ? 'max-w-[228px]' : ''}
               fileFormats={TOMOGRAM_FILE_FORMATS}
             />
           </div>

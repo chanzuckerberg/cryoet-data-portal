@@ -4,6 +4,7 @@ import {
   Icon,
   InputDropdown,
 } from '@czi-sds/components'
+import AutocompleteClasses from '@mui/material/AutocompleteClasses'
 import { ReactNode, useCallback, useMemo, useState } from 'react'
 
 import { cns } from 'app/utils/cns'
@@ -14,11 +15,13 @@ export interface SelectOption {
   key: string
   value: string
   label?: string
+  component?: JSX.Element
 }
 
 export function Select({
   activeKey,
   className,
+  dropdownClasses,
   label,
   onChange,
   options,
@@ -30,7 +33,8 @@ export function Select({
 }: {
   activeKey: string | null
   className?: string
-  label: string
+  dropdownClasses?: Partial<AutocompleteClasses>
+  label: ReactNode
   onChange(key: string | null): void
   options: SelectOption[]
   showActiveValue?: boolean
@@ -52,10 +56,17 @@ export function Select({
     [options],
   )
 
-  const sdsOptions = options.map<DefaultDropdownMenuOption>((option) => ({
-    name: option.label ?? option.key,
-    details: showDetails ? option.value : undefined,
-  }))
+  const sdsOptions = options.map<DefaultDropdownMenuOption>((option) =>
+    option.component !== undefined
+      ? {
+          name: option.label ?? option.key,
+          component: option.component,
+        }
+      : {
+          name: option.label ?? option.key,
+          details: showDetails ? option.value : undefined,
+        },
+  )
 
   const activeSdsOption =
     sdsOptions.find((option) => labelMap[option.name] === activeOption?.key) ??
@@ -115,6 +126,7 @@ export function Select({
           closeDropdown()
         }}
         onClickAway={closeDropdown}
+        classes={dropdownClasses}
       />
     </div>
   )

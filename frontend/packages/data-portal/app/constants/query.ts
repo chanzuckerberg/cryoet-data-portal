@@ -11,6 +11,7 @@ export enum QueryParams {
   DownloadConfig = 'download-config',
   DownloadStep = 'download-step',
   DownloadTab = 'download-tab',
+  DownloadTomogramId = 'download-tomogram',
   EmdbId = 'emdb_id',
   EmpiarId = 'empiar_id',
   FiducialAlignmentStatus = 'fiducial_alignment',
