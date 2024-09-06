@@ -56,12 +56,12 @@ export function Select({
     [options],
   )
 
-  const sdsOptions = options.map<DefaultDropdownMenuOption>((option) =>
+  const sdsOptions = options.map<DefaultDropdownMenuOption>((option, i) =>
     option.component !== undefined
       ? {
           name: option.label ?? option.key,
           component: (
-            // This hack is b/c SDS DropdownMenu does not register clicks on component options.
+            // This hack is b/c SDS DropdownMenu does not register clicks on options with components.
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- TODO
             <div
               onClick={() => {
@@ -69,7 +69,7 @@ export function Select({
                 closeDropdown()
               }}
               role="menuitem"
-              tabIndex={0}
+              tabIndex={i}
             >
               {option.component}
             </div>
