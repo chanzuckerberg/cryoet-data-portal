@@ -196,6 +196,7 @@ export function TomogramsTable() {
                 className="!justify-start !ml-sds-l !text-sds-body-xxs"
                 onClick={() => {
                   openTomogramDownloadModal({
+                    tomogramId: original.id,
                     datasetId: run.dataset.id,
                     runId: run.id,
                   })

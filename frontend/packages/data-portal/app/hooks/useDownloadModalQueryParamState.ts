@@ -164,7 +164,8 @@ export function useDownloadModalQueryParamState() {
 
       setDownloadParams({
         [QueryParams.DownloadStep]: DownloadStep.Configure,
-        [QueryParams.DownloadTomogramId]: String(payload.annotationId),
+        [QueryParams.DownloadConfig]: DownloadConfig.Tomogram,
+        [QueryParams.DownloadTomogramId]: String(payload.tomogramId),
       })
     },
     [getPlausiblePayload, plausible, setDownloadParams],
