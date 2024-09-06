@@ -5,6 +5,7 @@ import {
   InputDropdown,
 } from '@czi-sds/components'
 import { AutocompleteClasses } from '@mui/material/Autocomplete'
+import { PopperProps } from '@mui/material/Popper'
 import { ReactNode, useCallback, useMemo, useState } from 'react'
 
 import { cns } from 'app/utils/cns'
@@ -22,6 +23,7 @@ export function Select({
   activeKey,
   className,
   dropdownClasses,
+  dropdownPopperBaseProps,
   label,
   onChange,
   options,
@@ -34,6 +36,7 @@ export function Select({
   activeKey: string | null
   className?: string
   dropdownClasses?: Partial<AutocompleteClasses>
+  dropdownPopperBaseProps?: Partial<PopperProps>
   label: ReactNode
   onChange(key: string | null): void
   options: SelectOption[]
@@ -60,20 +63,7 @@ export function Select({
     option.component !== undefined
       ? {
           name: option.label ?? option.key,
-          component: (
-            // This hack is b/c SDS DropdownMenu does not register clicks on options with components.
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- TODO
-            <div
-              onClick={() => {
-                onChange(labelMap[option.label ?? option.key])
-                closeDropdown()
-              }}
-              role="menuitem"
-              tabIndex={i}
-            >
-              {option.component}
-            </div>
-          ),
+          component: option.component,
         }
       : {
           name: option.label ?? option.key,
@@ -136,10 +126,13 @@ export function Select({
         anchorEl={anchorEl}
         onChange={(_, option) => {
           onChange(option ? labelMap[option.name] : null)
+        }}
+        onClose={() => {
           closeDropdown()
         }}
         onClickAway={closeDropdown}
         classes={dropdownClasses}
+        PopperBaseProps={dropdownPopperBaseProps}
       />
     </div>
   )

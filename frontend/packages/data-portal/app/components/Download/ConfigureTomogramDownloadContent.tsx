@@ -71,8 +71,10 @@ export function ConfigureTomogramDownloadContent() {
     [allTomograms],
   )
 
-  const activeTomogram = allTomograms.find(
-    (tomogram) => `${tomogram.voxel_spacing}` === tomogramSampling,
+  const activeTomogram = allTomograms.find((tomogram) =>
+    multipleTomogramsEnabled
+      ? tomogram.id === Number(tomogramId)
+      : `${tomogram.voxel_spacing}` === tomogramSampling,
   )
 
   const setTomogramConfigWithInitialValues = useCallback(() => {
@@ -111,7 +113,12 @@ export function ConfigureTomogramDownloadContent() {
                   title={t('selectTomogram')}
                   className="flex-grow"
                   dropdownClasses={{
-                    root: 'w-[436px]',
+                    root: 'w-[448px]',
+                    popper: 'h-[325px] !p-sds-xs overflow-y-auto',
+                    listbox: '!pr-0',
+                  }}
+                  dropdownPopperBaseProps={{
+                    className: '!p-0',
                   }}
                   activeKey={tomogramId}
                   label={
@@ -160,8 +167,16 @@ export function ConfigureTomogramDownloadContent() {
             </div>
 
             <FileFormatDropdown
-              className={!multipleTomogramsEnabled ? 'max-w-[228px]' : ''}
+              className={!multipleTomogramsEnabled ? 'max-w-[228px]' : 'asdf'}
               fileFormats={TOMOGRAM_FILE_FORMATS}
+              selectDropdownClasses={
+                multipleTomogramsEnabled
+                  ? {
+                      root: 'w-[436px]',
+                      listbox: '!pr-0',
+                    }
+                  : undefined
+              }
             />
           </div>
         </Radio>
