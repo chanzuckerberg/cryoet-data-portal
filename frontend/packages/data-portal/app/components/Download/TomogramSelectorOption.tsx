@@ -31,7 +31,7 @@ export function TomogramSelectorOption({
       <div className="text-sds-body-xxs text-sds-gray-500">
         {t('reconstructionMethod')}: {tomogram.reconstruction_method}
       </div>
-      <div className="text-sds-body-xxs text-sds-gray-500">
+      <div className="text-sds-body-xxs text-sds-gray-500 capitalize">
         {t('postProcessing')}: {tomogram.processing}
       </div>
     </div>

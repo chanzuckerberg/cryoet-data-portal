@@ -4,7 +4,7 @@ import {
   Icon,
   InputDropdown,
 } from '@czi-sds/components'
-import AutocompleteClasses from '@mui/material/AutocompleteClasses'
+import { AutocompleteClasses } from '@mui/material/Autocomplete'
 import { ReactNode, useCallback, useMemo, useState } from 'react'
 
 import { cns } from 'app/utils/cns'
@@ -60,7 +60,20 @@ export function Select({
     option.component !== undefined
       ? {
           name: option.label ?? option.key,
-          component: option.component,
+          component: (
+            // This hack is b/c SDS DropdownMenu does not register clicks on component options.
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- TODO
+            <div
+              onClick={() => {
+                onChange(labelMap[option.label ?? option.key])
+                closeDropdown()
+              }}
+              role="menuitem"
+              tabIndex={0}
+            >
+              {option.component}
+            </div>
+          ),
         }
       : {
           name: option.label ?? option.key,
