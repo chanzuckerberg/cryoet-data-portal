@@ -1,4 +1,8 @@
-# napari
+---
+hide-navigation: true
+---
+
+# Using napari
 
 [napari](https://napari.org) is a general purpose interactive image viewer for Python
 with some support for cryoET data formats and for streaming data from remote storage services like AWS-S3.
@@ -117,7 +121,11 @@ though this may take a while depending on your network connection.
 
 We also built [a plugin that lets you browse the CryoET Data Portal in napari](https://github.com/chanzuckerberg/napari-cryoet-data-portal) to quickly display tomograms, annotations, and metadata
 
-![napari with the CryoET Data Portal widget showing](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843)
+
+```{image} https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/2e8f0792-7fc7-4831-b3da-3202d5995843
+:alt: napari with the CryoET Data Portal widget showing
+:align: center
+```
 
 This plugin can be installed from PyPI by running
 
@@ -127,6 +135,9 @@ pip install -U napari-cryoet-data-portal
 
 After installation, navigate to napari's *Plugins* menu and click on the *CryoET Data Portal* item to open the browser.
 
-![The napari plugin menu showing the CryoET Data Portal item](https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/f129cdab-f97d-4514-a631-f9401d7c7bac)
+```{image} https://github.com/chanzuckerberg/cryoet-data-portal/assets/2608297/f129cdab-f97d-4514-a631-f9401d7c7bac
+:alt: The napari plugin menu showing the CryoET Data Portal item
+:align: center
+```
 
 See the [plugin's README](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) for details on how to use it.
