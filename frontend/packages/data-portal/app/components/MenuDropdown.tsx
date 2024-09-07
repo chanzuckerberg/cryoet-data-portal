@@ -23,6 +23,8 @@ export function MenuDropdown({
       >
         <span
           className={cns(
+            'font-semibold',
+
             anchorEl
               ? 'text-sds-gray-white'
               : 'text-sds-gray-400 group-hover:text-sds-gray-white',
