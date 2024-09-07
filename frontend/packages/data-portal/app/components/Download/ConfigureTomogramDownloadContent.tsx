@@ -32,12 +32,14 @@ export function ConfigureTomogramDownloadContent() {
     tomogramId,
     setAllAnnotationsConfig,
     setTomogramConfig,
+    setTomogramConfigNew,
     setTomogramProcessing,
     setTomogramSampling,
     setTomogramId,
   } = useDownloadModalQueryParamState()
 
   const {
+    activeTomogram,
     allTomogramProcessing = [],
     allTomograms = [],
     runId,
@@ -71,20 +73,25 @@ export function ConfigureTomogramDownloadContent() {
     [allTomograms],
   )
 
-  const activeTomogram = allTomograms.find((tomogram) =>
-    multipleTomogramsEnabled
-      ? tomogram.id === Number(tomogramId)
-      : `${tomogram.voxel_spacing}` === tomogramSampling,
-  )
-
   const setTomogramConfigWithInitialValues = useCallback(() => {
+    if (multipleTomogramsEnabled) {
+      setTomogramConfigNew(allTomograms[0]?.id.toString())
+      return
+    }
+
     const tomogram = allTomograms.at(0)
     const processing = allTomogramProcessing.at(0)
 
     if (tomogram && processing) {
       setTomogramConfig(`${tomogram.voxel_spacing}`, processing)
     }
-  }, [allTomogramProcessing, allTomograms, setTomogramConfig])
+  }, [
+    allTomogramProcessing,
+    allTomograms,
+    setTomogramConfig,
+    setTomogramConfigNew,
+    multipleTomogramsEnabled,
+  ])
 
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
 
@@ -209,6 +216,12 @@ export function ConfigureTomogramDownloadContent() {
             content={runId}
             onCopy={() => logPlausibleCopyEvent('run-id', String(runId))}
           />
+        </Callout>
+      )}
+
+      {multipleTomogramsEnabled && (
+        <Callout intent="warning" className="!w-full !mt-0">
+          {t('annotationsDownloadedFromThePortal')}
         </Callout>
       )}
     </>

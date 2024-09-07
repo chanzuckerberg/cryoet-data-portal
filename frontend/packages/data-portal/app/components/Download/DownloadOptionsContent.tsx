@@ -1,4 +1,5 @@
-import { isNumber, isString } from 'lodash-es'
+import { Callout } from '@czi-sds/components'
+import { isNumber, isString, startCase } from 'lodash-es'
 import prettyBytes from 'pretty-bytes'
 import { ComponentType, useMemo } from 'react'
 
@@ -8,6 +9,8 @@ import { useDownloadModalContext } from 'app/context/DownloadModal.context'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import { DownloadConfig, DownloadTab } from 'app/types/download'
+import { useFeatureFlag } from 'app/utils/featureFlags'
+import { getTomogramName } from 'app/utils/tomograms'
 
 import { APIDownloadTab } from './APIDownloadTab'
 import { AWSDownloadTab } from './AWSDownloadTab'
@@ -23,6 +26,7 @@ const DOWNLOAD_TAB_MAP: Record<DownloadTab, ComponentType> = {
 }
 
 export function DownloadOptionsContent() {
+  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
   const { t } = useI18n()
   const {
     downloadTab,
@@ -62,8 +66,35 @@ export function DownloadOptionsContent() {
 
   return (
     <>
-      <ModalSubtitle label={t('dataset')} value={datasetTitle} />
-      {runName && <ModalSubtitle label={t('run')} value={runName} />}
+      <ModalSubtitle label={t('datasetName')} value={datasetTitle} />
+      {runName && <ModalSubtitle label={t('runName')} value={runName} />}
+      {multipleTomogramsEnabled && activeTomogram !== undefined && (
+        <>
+          <ModalSubtitle
+            label={t('tomogramName')}
+            value={getTomogramName(
+              activeTomogram.id,
+              activeTomogram.reconstruction_method,
+              activeTomogram.processing,
+            )}
+          />
+          <ModalSubtitle label={t('tomogramId')} value={activeTomogram.id} />
+          <ModalSubtitle
+            label={t('tomogramSampling')}
+            value={`${t('unitAngstrom', { value: tomogramSampling })}, (${
+              activeTomogram.size_x
+            }, ${activeTomogram.size_y}, ${activeTomogram.size_z})px`}
+          />
+          <ModalSubtitle
+            label={t('reconstructionMethod')}
+            value={startCase(activeTomogram.reconstruction_method)}
+          />
+          <ModalSubtitle
+            label={t('tomogramProcessing')}
+            value={activeTomogram.processing}
+          />
+        </>
+      )}
       {annotationId && (
         <ModalSubtitle label={t('annotationId')} value={annotationId} />
       )}
@@ -73,7 +104,7 @@ export function DownloadOptionsContent() {
       {objectShapeType && (
         <ModalSubtitle label={t('objectShapeType')} value={objectShapeType} />
       )}
-      {tomogramSampling && activeTomogram && (
+      {!multipleTomogramsEnabled && tomogramSampling && activeTomogram && (
         <ModalSubtitle
           label={t('tomogramSampling')}
           value={`${t('unitAngstrom', { value: tomogramSampling })}, (${
@@ -81,7 +112,7 @@ export function DownloadOptionsContent() {
           }, ${activeTomogram.size_y}, ${activeTomogram.size_z})px`}
         />
       )}
-      {tomogramProcessing && (
+      {!multipleTomogramsEnabled && tomogramProcessing && (
         <ModalSubtitle
           label={t('tomogramProcessing')}
           value={tomogramProcessing}
@@ -124,6 +155,12 @@ export function DownloadOptionsContent() {
       )}
 
       <DownloadTabContent />
+
+      {multipleTomogramsEnabled && (
+        <Callout intent="warning" className="!w-full">
+          {t('annotationsDownloadedFromThePortal')}
+        </Callout>
+      )}
     </>
   )
 }

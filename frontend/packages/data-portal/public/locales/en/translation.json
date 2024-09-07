@@ -36,6 +36,7 @@
   "annotationOverview": "Annotation Overview",
   "annotationSoftware": "Annotation Software",
   "annotations": "Annotations",
+  "annotationsDownloadedFromThePortal": "Annotations downloaded from the portal may require transformation to work with the selected tomogram.",
   "annotationsSummary": "Annotations Summary",
   "annotationsTotal": "Annotations (Total)",
   "api": "API",

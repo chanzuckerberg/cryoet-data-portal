@@ -166,6 +166,7 @@ export function useDownloadModalQueryParamState() {
         [QueryParams.DownloadStep]: DownloadStep.Configure,
         [QueryParams.DownloadConfig]: DownloadConfig.Tomogram,
         [QueryParams.DownloadTomogramId]: String(payload.tomogramId),
+        [QueryParams.FileFormat]: 'mrc',
       })
     },
     [getPlausiblePayload, plausible, setDownloadParams],
@@ -215,12 +216,23 @@ export function useDownloadModalQueryParamState() {
     [getPlausiblePayload, plausible, setDownloadParams],
   )
 
+  /** @deprecated */
   const setTomogramConfig = useCallback(
     (initialTomogramSampling: string, initialTomogramProcessing: string) =>
       setDownloadParams({
         [QueryParams.DownloadConfig]: DownloadConfig.Tomogram,
         [QueryParams.TomogramSampling]: initialTomogramSampling,
         [QueryParams.TomogramProcessing]: initialTomogramProcessing,
+        [QueryParams.FileFormat]: 'mrc',
+      }),
+    [setDownloadParams],
+  )
+
+  const setTomogramConfigNew = useCallback(
+    (id?: string) =>
+      setDownloadParams({
+        [QueryParams.DownloadConfig]: DownloadConfig.Tomogram,
+        [QueryParams.DownloadTomogramId]: id,
         [QueryParams.FileFormat]: 'mrc',
       }),
     [setDownloadParams],
@@ -269,6 +281,7 @@ export function useDownloadModalQueryParamState() {
     setFileFormat,
     setObjectShapeType,
     setTomogramConfig,
+    setTomogramConfigNew,
     setTomogramProcessing,
     setTomogramSampling,
     tomogramProcessing,

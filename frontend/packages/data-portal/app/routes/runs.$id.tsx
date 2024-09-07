@@ -96,16 +96,18 @@ export default function RunByIdPage() {
     tomogramProcessing,
     tomogramSampling,
     annotationId,
+    tomogramId,
     fileFormat,
     objectShapeType,
   } = useDownloadModalQueryParamState()
 
   const activeTomogram =
     downloadConfig === DownloadConfig.Tomogram
-      ? tomogramsForDownload.find(
-          (tomogram) =>
-            `${tomogram.voxel_spacing}` === tomogramSampling &&
-            tomogram.processing === tomogramProcessing,
+      ? tomogramsForDownload.find((tomogram) =>
+          multipleTomogramsEnabled
+            ? tomogram.id === Number(tomogramId)
+            : `${tomogram.voxel_spacing}` === tomogramSampling &&
+              tomogram.processing === tomogramProcessing,
         )
       : undefined
 
