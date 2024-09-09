@@ -63,7 +63,7 @@ export function constructDialogUrl(
 
   params.append(
     multipleTomograms ? 'enable-feature' : 'disable-feature',
-    multipleTomograms.toString(),
+    'multipleTomograms',
   )
 
   return expectedUrl
