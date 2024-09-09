@@ -35,6 +35,7 @@ export class DownloadDialogActor {
     step,
     tab,
     tomogram,
+    multipleTomograms,
   }: {
     config?: DownloadConfig
     fileFormat?: string
@@ -42,6 +43,7 @@ export class DownloadDialogActor {
     step?: DownloadStep
     tab?: DownloadTab
     tomogram?: { sampling: number; processing: string }
+    multipleTomograms?: boolean
   }) {
     const expectedUrl = constructDialogUrl(baseUrl, {
       config,
@@ -49,6 +51,7 @@ export class DownloadDialogActor {
       step,
       tab,
       tomogram,
+      multipleTomograms,
     })
     await this.downloadDialogPage.goTo(expectedUrl.href)
   }

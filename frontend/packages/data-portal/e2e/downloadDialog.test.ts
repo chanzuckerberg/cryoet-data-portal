@@ -13,7 +13,7 @@ import {
 } from './pageObjects/downloadDialog/types'
 import { skipClipboardTestsForWebkit } from './pageObjects/downloadDialog/utils'
 
-test.describe.only('downloadDialog', () => {
+test.describe('downloadDialog', () => {
   let client: ApolloClient<NormalizedCacheObject>
   let downloadDialogPage: DownloadDialogPage
   let downloadDialogActor: DownloadDialogActor
