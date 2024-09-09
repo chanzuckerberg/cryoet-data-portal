@@ -2,12 +2,16 @@ import { Button, Icon } from '@czi-sds/components'
 import Popover from '@mui/material/Popover'
 import { ReactNode, useRef, useState } from 'react'
 
+import { QueryParams } from 'app/constants/query'
 import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
 
+import { getPrefixedId } from './utils'
+
 export interface ActiveDropdownFilterData {
-  value: string
   label?: string
+  queryParam: QueryParams
+  value: string
 }
 
 export function DropdownFilterButton({
@@ -71,35 +75,38 @@ export function DropdownFilterButton({
       {/* active filter chips  */}
       {activeFilters.length > 0 && (
         <div className="flex flex-col gap-sds-xs">
-          {activeFilters.map((filter) => (
-            <div className="pl-sds-s flex flex-col">
-              {filter.label && (
-                <p className="text-sds-body-xs leading-sds-body-xs text-sds-gray-500 uppercase">
-                  {filter.label}
-                </p>
-              )}
+          {activeFilters.map((filter) => {
+            return (
+              <div className="pl-sds-s flex flex-col">
+                {filter.label && (
+                  <p className="text-sds-body-xs leading-sds-body-xs text-sds-gray-500 uppercase">
+                    {filter.label}
+                  </p>
+                )}
 
-              <div>
-                <div className="bg-sds-primary-400 rounded-sds-m py-sds-xxs px-sds-s inline-flex items-center gap-sds-s">
-                  <span className="text-sds-body-xs leading-sds-body-xs font-semibold text-white">
-                    {filter.value}
-                  </span>
+                <div>
+                  <div className="bg-sds-primary-400 rounded-sds-m py-sds-xxs px-sds-s inline-flex items-center gap-sds-s">
+                    <span className="text-sds-body-xs leading-sds-body-xs font-semibold text-white">
+                      {/* {filter.value} */}
+                      {getPrefixedId(filter.queryParam, filter.value)}
+                    </span>
 
-                  <Button
-                    className="!min-w-0 !w-0"
-                    onClick={() => onRemoveFilter(filter)}
-                  >
-                    <Icon
-                      className="!fill-white !w-[10px] !h-[10px]"
-                      sdsIcon="xMark"
-                      sdsSize="xs"
-                      sdsType="static"
-                    />
-                  </Button>
+                    <Button
+                      className="!min-w-0 !w-0"
+                      onClick={() => onRemoveFilter(filter)}
+                    >
+                      <Icon
+                        className="!fill-white !w-[10px] !h-[10px]"
+                        sdsIcon="xMark"
+                        sdsSize="xs"
+                        sdsType="static"
+                      />
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
 

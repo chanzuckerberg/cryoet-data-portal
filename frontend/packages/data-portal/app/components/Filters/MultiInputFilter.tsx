@@ -8,6 +8,7 @@ import { cns } from 'app/utils/cns'
 
 import { DropdownFilterButton } from './DropdownFilterButton'
 import { InputFilter } from './InputFilter'
+import { extractNumericId } from './utils'
 
 export interface InputFilterData {
   id: string
@@ -54,6 +55,7 @@ export function MultiInputFilter({
         .map((filter) => ({
           label: filters.length > 1 ? filter.label : '',
           value: values[filter.id],
+          queryParam: filter.queryParam,
         }))}
       description={
         <>
@@ -74,7 +76,9 @@ export function MultiInputFilter({
             const value = values[filter.id]
 
             if (value) {
-              prev.set(filter.queryParam, value)
+              // Our filters currently support numeric IDs and use the queryParam as the key
+              // The filter will show the prefix, but we do not need to store it in the query params
+              prev.set(filter.queryParam, extractNumericId(value) ?? '')
             }
           })
 
