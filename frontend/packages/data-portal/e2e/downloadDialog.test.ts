@@ -34,7 +34,7 @@ test.describe('downloadDialog', () => {
       await downloadDialogActor.expectDialogToBeOpen({
         title: translations.downloadOptions,
       })
-      await downloadDialogActor.expectDialogUrlToMatch({
+      downloadDialogActor.expectDialogUrlToMatch({
         baseUrl: SINGLE_DATASET_URL,
         tab: DownloadTab.AWS,
       })
@@ -49,7 +49,7 @@ test.describe('downloadDialog', () => {
       await downloadDialogActor.expectDownloadDatasetDialogToShowCorrectContent(
         { client },
       )
-      await downloadDialogActor.expectDialogUrlToMatch({
+      downloadDialogActor.expectDialogUrlToMatch({
         baseUrl: SINGLE_DATASET_URL,
         tab: DownloadTab.AWS,
       })
@@ -85,7 +85,7 @@ test.describe('downloadDialog', () => {
           tab: DownloadTab.AWS,
           tabGroup: SINGLE_DATASET_DOWNLOAD_TABS,
         })
-        await downloadDialogActor.expectDialogUrlToMatch({
+        downloadDialogActor.expectDialogUrlToMatch({
           baseUrl: SINGLE_DATASET_URL,
           tab: DownloadTab.AWS,
         })
@@ -150,7 +150,7 @@ test.describe('downloadDialog', () => {
           tab: DownloadTab.API,
           tabGroup: SINGLE_DATASET_DOWNLOAD_TABS,
         })
-        await downloadDialogActor.expectDialogUrlToMatch({
+        downloadDialogActor.expectDialogUrlToMatch({
           baseUrl: SINGLE_DATASET_URL,
           tab: DownloadTab.API,
         })
@@ -195,7 +195,7 @@ test.describe('downloadDialog', () => {
       await downloadDialogActor.expectDialogToBeOpen({
         title: translations.configureDownload,
       })
-      await downloadDialogActor.expectDialogUrlToMatch({
+      downloadDialogActor.expectDialogUrlToMatch({
         baseUrl: SINGLE_RUN_URL,
         step: DownloadStep.Configure,
       })
@@ -258,7 +258,7 @@ test.describe('downloadDialog', () => {
           DownloadConfig.AllAnnotations,
         )
 
-        await downloadDialogActor.expectDialogUrlToMatch({
+        downloadDialogActor.expectDialogUrlToMatch({
           baseUrl: SINGLE_RUN_URL,
           step: DownloadStep.Configure,
           config: DownloadConfig.AllAnnotations,
@@ -314,7 +314,7 @@ test.describe('downloadDialog', () => {
 
         await downloadDialogPage.clickNextButton()
 
-        await downloadDialogActor.expectDialogUrlToMatch({
+        downloadDialogActor.expectDialogUrlToMatch({
           baseUrl: SINGLE_RUN_URL,
           step: DownloadStep.Download,
           config: DownloadConfig.AllAnnotations,
@@ -340,7 +340,7 @@ test.describe('downloadDialog', () => {
           title: translations.configureDownload,
         })
 
-        await downloadDialogActor.expectDialogUrlToMatch({
+        downloadDialogActor.expectDialogUrlToMatch({
           baseUrl: SINGLE_RUN_URL,
           step: DownloadStep.Configure,
           config: DownloadConfig.AllAnnotations,
@@ -413,7 +413,7 @@ test.describe('downloadDialog', () => {
           tab: DownloadTab.API,
           tabGroup: SINGLE_DATASET_DOWNLOAD_TABS,
         })
-        await downloadDialogActor.expectDialogUrlToMatch({
+        downloadDialogActor.expectDialogUrlToMatch({
           baseUrl: SINGLE_RUN_URL,
           step: DownloadStep.Download,
           config: DownloadConfig.AllAnnotations,
@@ -707,6 +707,7 @@ test.describe('downloadDialog', () => {
         await downloadDialogActor.goToDownloadDialogUrl({
           baseUrl: SINGLE_RUN_URL,
           step: DownloadStep.Configure,
+          multipleTomograms: true,
         })
 
         await downloadDialogActor.expectDialogToBeOpen({
@@ -725,6 +726,7 @@ test.describe('downloadDialog', () => {
           step: DownloadStep.Configure,
           config: DownloadConfig.Tomogram,
           fileFormat: 'mrc',
+          multipleTomograms: true,
         })
       })
 
@@ -734,6 +736,7 @@ test.describe('downloadDialog', () => {
           client,
           config: DownloadConfig.Tomogram,
           step: DownloadStep.Configure,
+          multipleTomograms: true,
         })
 
         await downloadDialogActor.expectDialogToBeOpen({
@@ -750,6 +753,7 @@ test.describe('downloadDialog', () => {
           baseUrl: SINGLE_RUN_URL,
           config: DownloadConfig.AllAnnotations,
           step: DownloadStep.Configure,
+          multipleTomograms: true,
         })
 
         await downloadDialogActor.expectDialogToBeOpen({
@@ -768,6 +772,7 @@ test.describe('downloadDialog', () => {
           step: DownloadStep.Configure,
           config: DownloadConfig.Tomogram,
           fileFormat: 'mrc',
+          multipleTomograms: true,
         })
       })
 
@@ -781,6 +786,7 @@ test.describe('downloadDialog', () => {
               step: DownloadStep.Download,
               fileFormat: 'mrc',
               tab,
+              multipleTomograms: true,
             })
 
             await downloadDialogActor.expectDialogToBeOpen({
@@ -811,6 +817,7 @@ test.describe('downloadDialog', () => {
               fileFormat: 'mrc',
               step: DownloadStep.Download,
               tab: fromTab,
+              multipleTomograms: true,
             })
 
             await downloadDialogActor.expectDialogToBeOpen({
@@ -830,6 +837,7 @@ test.describe('downloadDialog', () => {
               fileFormat: 'mrc',
               step: DownloadStep.Download,
               tab: toTab,
+              multipleTomograms: true,
             })
           })
         })
@@ -851,6 +859,7 @@ test.describe('downloadDialog', () => {
               fileFormat: 'mrc',
               step: DownloadStep.Download,
               tab,
+              multipleTomograms: true,
             })
 
             await downloadDialogActor.expectDialogToBeOpen({
@@ -874,6 +883,7 @@ test.describe('downloadDialog', () => {
           fileFormat: 'mrc',
           step: DownloadStep.Download,
           tab: DownloadTab.AWS,
+          multipleTomograms: true,
         })
 
         await downloadDialogActor.expectDialogToBeOpen({
@@ -893,6 +903,7 @@ test.describe('downloadDialog', () => {
           fileFormat: 'mrc',
           step: DownloadStep.Download,
           tab: DownloadTab.AWS,
+          multipleTomograms: true,
         })
 
         await downloadDialogActor.expectDialogToBeOpen({

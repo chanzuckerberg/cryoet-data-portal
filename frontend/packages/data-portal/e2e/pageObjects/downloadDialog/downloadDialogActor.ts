@@ -63,6 +63,7 @@ export class DownloadDialogActor {
     baseUrl,
     step,
     tab,
+    multipleTomograms,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     config?: DownloadConfig
@@ -70,6 +71,7 @@ export class DownloadDialogActor {
     baseUrl: string
     step?: DownloadStep
     tab?: DownloadTab
+    multipleTomograms?: boolean
   }) {
     const { data } = await fetchTestSingleRun(client)
     const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
@@ -84,6 +86,7 @@ export class DownloadDialogActor {
         sampling: tomogram.voxel_spacing,
         processing: tomogram.processing,
       },
+      multipleTomograms,
     })
   }
   // #endregion Navigate
@@ -192,9 +195,9 @@ export class DownloadDialogActor {
       step,
       multipleTomograms,
     })
-    expect(new URL(this.downloadDialogPage.url()).searchParams.sort()).toBe(
-      expectedUrl.searchParams.sort(),
-    )
+    const actualUrl = new URL(this.downloadDialogPage.url())
+    expect(actualUrl.pathname).toBe(expectedUrl.pathname)
+    expect(actualUrl.searchParams.sort()).toBe(expectedUrl.searchParams.sort())
   }
 
   public async expectTomogramDialogUrlToMatch({
