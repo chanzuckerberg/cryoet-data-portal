@@ -42,7 +42,7 @@ export class DownloadDialogActor {
     baseUrl: string
     step?: DownloadStep
     tab?: DownloadTab
-    tomogram?: { sampling: number; processing: string }
+    tomogram?: { id: number; sampling: number; processing: string }
     multipleTomograms?: boolean
   }) {
     const expectedUrl = constructDialogUrl(baseUrl, {
@@ -74,7 +74,7 @@ export class DownloadDialogActor {
     multipleTomograms?: boolean
   }) {
     const { data } = await fetchTestSingleRun(client)
-    const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
+    const tomogram = data.tomograms_for_download[0]
 
     await this.goToDownloadDialogUrl({
       baseUrl,
@@ -83,6 +83,7 @@ export class DownloadDialogActor {
       step,
       tab,
       tomogram: {
+        id: tomogram.id,
         sampling: tomogram.voxel_spacing,
         processing: tomogram.processing,
       },
@@ -183,7 +184,7 @@ export class DownloadDialogActor {
     config?: string
     fileFormat?: string
     tab?: DownloadTab
-    tomogram?: { sampling: number; processing: string }
+    tomogram?: { id: number; sampling: number; processing: string }
     step?: DownloadStep
     multipleTomograms?: boolean
   }) {
@@ -218,7 +219,7 @@ export class DownloadDialogActor {
     multipleTomograms?: boolean
   }) {
     const { data } = await fetchTestSingleRun(client)
-    const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
+    const tomogram = data.tomograms_for_download[0]
 
     this.expectDialogUrlToMatch({
       baseUrl,
@@ -226,6 +227,7 @@ export class DownloadDialogActor {
       fileFormat,
       tab,
       tomogram: {
+        id: tomogram.id,
         sampling: tomogram.voxel_spacing,
         processing: tomogram.processing,
       },

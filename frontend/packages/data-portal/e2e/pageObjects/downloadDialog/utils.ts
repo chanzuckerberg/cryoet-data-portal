@@ -32,7 +32,7 @@ export function constructDialogUrl(
     tab?: string
     step?: string
     config?: string
-    tomogram?: { sampling: number; processing: string }
+    tomogram?: { id: number; sampling: number; processing: string }
     fileFormat?: string
     multipleTomograms?: boolean
   },
@@ -49,8 +49,12 @@ export function constructDialogUrl(
   }
 
   if (tomogram) {
-    params.append(QueryParams.TomogramSampling, String(tomogram.sampling))
-    params.append(QueryParams.TomogramProcessing, tomogram.processing)
+    if (multipleTomograms) {
+      params.append(QueryParams.DownloadTomogramId, String(tomogram.id))
+    } else {
+      params.append(QueryParams.TomogramSampling, String(tomogram.sampling))
+      params.append(QueryParams.TomogramProcessing, tomogram.processing)
+    }
   }
 
   if (fileFormat) {
