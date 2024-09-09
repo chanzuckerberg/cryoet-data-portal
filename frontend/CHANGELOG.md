@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.26.0...web-v1.26.1) (2024-09-09)
+
+
+### 🧹 Miscellaneous Chores
+
+* Leave comments about not refactoring pagination tests ([#1121](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1121)) ([fafac8a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/fafac8a35484222201c45aed0f5c23e9db2de232))
+
 ## [1.26.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.25.0...web-v1.26.0) (2024-09-05)
 
 
