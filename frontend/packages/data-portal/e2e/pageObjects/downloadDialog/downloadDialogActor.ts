@@ -2,7 +2,7 @@
  * This file contains combinations of page interactions or data fetching. Remove if not needed.
  */
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { expect } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 import { E2E_CONFIG, translations } from 'e2e/constants'
 import { DownloadDialogPage } from 'e2e/pageObjects/downloadDialog/downloadDialogPage'
 
@@ -192,7 +192,16 @@ export class DownloadDialogActor {
       step,
       multipleTomograms,
     })
-    await this.downloadDialogPage.page.waitForURL(expectedUrl.href)
+    try {
+      await this.downloadDialogPage.page.waitForURL(expectedUrl.href)
+    } catch (error) {
+      test.fail(
+        /* condition */ true,
+        `Expected URL: ${
+          expectedUrl.href
+        } Got: ${this.downloadDialogPage.url()}`,
+      )
+    }
   }
 
   public async expectTomogramDialogUrlToMatch({
