@@ -59,7 +59,7 @@ export function Select({
     [options],
   )
 
-  const sdsOptions = options.map<DefaultDropdownMenuOption>((option, i) =>
+  const sdsOptions = options.map<DefaultDropdownMenuOption>((option) =>
     option.component !== undefined
       ? {
           name: option.label ?? option.key,
