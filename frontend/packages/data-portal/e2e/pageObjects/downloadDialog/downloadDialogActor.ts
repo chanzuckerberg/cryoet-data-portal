@@ -2,7 +2,7 @@
  * This file contains combinations of page interactions or data fetching. Remove if not needed.
  */
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { E2E_CONFIG, translations } from 'e2e/constants'
 import { DownloadDialogPage } from 'e2e/pageObjects/downloadDialog/downloadDialogPage'
 
