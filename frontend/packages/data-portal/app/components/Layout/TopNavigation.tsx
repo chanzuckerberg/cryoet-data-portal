@@ -47,26 +47,28 @@ export function TopNavigation() {
       <CryoETHomeLink />
 
       {/* Add empty space to push content to right */}
-      <div className="flex-grow" />
+      <div className="hidden screen-716:inline-block basis-sds-xxl flex-grow screen-790:mr-sds-xxl" />
 
-      {TOP_NAV_LINKS.map((link) => (
-        <Link
-          className={cns(
-            'text-sds-header-s leading-sds-header-s font-semibold mr-sds-xxl p-0',
+      <div className="hidden screen-716:flex basis-auto flex-shrink-0">
+        {TOP_NAV_LINKS.map((link) => (
+          <Link
+            className={cns(
+              'text-sds-header-s leading-sds-header-s font-semibold mr-sds-xxl p-0',
 
-            link.isActive(pathname)
-              ? 'text-sds-gray-white'
-              : 'text-sds-gray-400 hover:text-sds-gray-white',
-          )}
-          to={link.link}
-          key={link.link}
-        >
-          {t(link.label)}
-        </Link>
-      ))}
+              link.isActive(pathname)
+                ? 'text-sds-gray-white'
+                : 'text-sds-gray-400 hover:text-sds-gray-white',
+            )}
+            to={link.link}
+            key={link.link}
+          >
+            {t(link.label)}
+          </Link>
+        ))}
 
-      <ToolsDropdown className="mr-sds-xxl text-sds-header-s" />
-      <AboutAndHelpDropdown className="ml-sds-xxl text-sds-header-s" />
+        <ToolsDropdown className="mr-sds-xxl text-sds-header-s" />
+        <AboutAndHelpDropdown className="screen-790:ml-sds-xxl text-sds-header-s" />
+      </div>
     </nav>
   )
 }
