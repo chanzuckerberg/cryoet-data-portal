@@ -26,7 +26,9 @@ test.describe('downloadDialog', () => {
 
   test.describe('Single Dataset', () => {
     test('should open when clicking download button', async () => {
-      await downloadDialogPage.goTo(SINGLE_DATASET_URL)
+      await downloadDialogPage.goTo(
+        `${SINGLE_DATASET_URL}?disable-feature=multipleTomograms`,
+      )
       await downloadDialogPage.openDialog(translations.downloadDataset)
 
       await downloadDialogActor.expectDialogToBeOpen({
@@ -39,7 +41,9 @@ test.describe('downloadDialog', () => {
     })
 
     test('should display correct content', async () => {
-      await downloadDialogPage.goTo(SINGLE_DATASET_URL)
+      await downloadDialogPage.goTo(
+        `${SINGLE_DATASET_URL}?disable-feature=multipleTomograms`,
+      )
       await downloadDialogPage.openDialog(translations.downloadDataset)
 
       await downloadDialogActor.expectDownloadDatasetDialogToShowCorrectContent(
@@ -183,7 +187,9 @@ test.describe('downloadDialog', () => {
 
   test.describe('Single Run', () => {
     test('should open when clicking download button', async () => {
-      await downloadDialogPage.goTo(SINGLE_RUN_URL)
+      await downloadDialogPage.goTo(
+        `${SINGLE_RUN_URL}?disable-feature=multipleTomograms`,
+      )
       await downloadDialogPage.openDialog(translations.download)
 
       await downloadDialogActor.expectDialogToBeOpen({

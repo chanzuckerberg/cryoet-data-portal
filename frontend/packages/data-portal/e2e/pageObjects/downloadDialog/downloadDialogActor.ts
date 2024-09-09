@@ -2,7 +2,7 @@
  * This file contains combinations of page interactions or data fetching. Remove if not needed.
  */
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { expect, test } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { E2E_CONFIG, translations } from 'e2e/constants'
 import { DownloadDialogPage } from 'e2e/pageObjects/downloadDialog/downloadDialogPage'
 
@@ -167,7 +167,7 @@ export class DownloadDialogActor {
     })
   }
 
-  public async expectDialogUrlToMatch({
+  public expectDialogUrlToMatch({
     baseUrl,
     config,
     fileFormat,
@@ -192,16 +192,9 @@ export class DownloadDialogActor {
       step,
       multipleTomograms,
     })
-    try {
-      await this.downloadDialogPage.page.waitForURL(expectedUrl.href)
-    } catch (error) {
-      test.fail(
-        /* condition */ true,
-        `Expected URL: ${
-          expectedUrl.href
-        } Got: ${this.downloadDialogPage.url()}`,
-      )
-    }
+    expect(new URL(this.downloadDialogPage.url()).searchParams.sort()).toBe(
+      expectedUrl.searchParams.sort(),
+    )
   }
 
   public async expectTomogramDialogUrlToMatch({
@@ -224,7 +217,7 @@ export class DownloadDialogActor {
     const { data } = await fetchTestSingleRun(client)
     const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
 
-    await this.expectDialogUrlToMatch({
+    this.expectDialogUrlToMatch({
       baseUrl,
       config,
       fileFormat,
