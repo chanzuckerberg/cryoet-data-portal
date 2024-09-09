@@ -121,7 +121,7 @@ export function ConfigureTomogramDownloadContent() {
                   className="flex-grow"
                   dropdownClasses={{
                     root: 'w-[448px]',
-                    popper: 'h-[325px] !p-sds-xs overflow-y-auto',
+                    popper: 'max-h-[325px] !p-sds-xs overflow-y-auto',
                     listbox: '!pr-0',
                   }}
                   dropdownPopperBaseProps={{
