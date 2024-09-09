@@ -76,17 +76,16 @@ export function Footer() {
   )
 
   return (
-    <footer className="bg-sds-gray-black min-h-[213px] p-sds-xxl flex flex-col flex-shrink-0">
-      <div className="flex items-center flex-wrap flex-col sm:flex-row sm:gap-y-sds-xxl">
+    <footer className="bg-sds-gray-black min-h-[213px] pt-[41px] pb-sds-xxl px-sds-xl screen-716:px-sds-xxl flex flex-col flex-shrink-0">
+      <div className="flex items-center flex-wrap flex-col screen-716:flex-row gap-y-sds-xl screen-716:gap-y-sds-xxl">
         <CryoETHomeLink />
 
-        <div className="flex-grow" />
+        <div className="flex-grow hidden screen-716:block" />
 
         <div
           className={cns(
-            'mt-sds-xxl sm:mt-0',
-            'flex flex-col sm:flex-row',
-            'items-center gap-sds-xxl',
+            'flex flex-col screen-716:flex-row',
+            'items-center gap-sds-m screen-716:gap-sds-xxl',
             'text-sds-body-s font-semibold',
           )}
         >
@@ -102,14 +101,14 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="flex items-center mt-[70px] text-sds-body-s flex-col sm:flex-row gap-y-sds-xxl">
-        <div className="hidden sm:block">{legalLinks}</div>
-        <div className="sm:hidden">{cziLinks}</div>
+      <div className="flex items-center mt-[36px] screen-716:mt-[70px] text-sds-body-s flex-col screen-716:flex-row gap-y-sds-l screen-716:gap-y-sds-xxl">
+        <div className="hidden screen-716:block">{legalLinks}</div>
+        <div className="screen-716:hidden">{cziLinks}</div>
 
-        <div className="flex-grow" />
+        <div className="flex-grow hidden screen-716:block" />
 
-        <div className="sm:hidden">{legalLinks}</div>
-        <div className="hidden sm:block">{cziLinks}</div>
+        <div className="screen-716:hidden">{legalLinks}</div>
+        <div className="hidden screen-716:block">{cziLinks}</div>
       </div>
     </footer>
   )
