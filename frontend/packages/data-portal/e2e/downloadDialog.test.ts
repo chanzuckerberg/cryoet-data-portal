@@ -1,5 +1,5 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { DownloadDialogPage } from 'e2e/pageObjects/downloadDialog/downloadDialogPage'
 
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
@@ -11,7 +11,10 @@ import {
   SINGLE_DATASET_DOWNLOAD_TABS,
   TOMOGRAM_DOWNLOAD_TABS,
 } from './pageObjects/downloadDialog/types'
-import { skipClipboardTestsForWebkit } from './pageObjects/downloadDialog/utils'
+import {
+  fetchTestSingleRun,
+  skipClipboardTestsForWebkit,
+} from './pageObjects/downloadDialog/utils'
 
 test.describe('downloadDialog', () => {
   let client: ApolloClient<NormalizedCacheObject>
@@ -774,6 +777,55 @@ test.describe('downloadDialog', () => {
           fileFormat: 'mrc',
           multipleTomograms: true,
         })
+      })
+
+      test('should auto-select tomogram from row', async () => {
+        const lastTomogramId = (
+          await fetchTestSingleRun(client)
+        ).data.tomograms.at(-1)!.id
+        await downloadDialogPage.goTo(
+          `${SINGLE_RUN_URL}?enable-feature=multipleTomograms`,
+        )
+        await downloadDialogPage.page
+          .locator(`button:has-text("${translations.tomograms}")`)
+          .click()
+        await downloadDialogPage.page
+          .locator('button:has-text("DOWNLOAD")')
+          .last()
+          .click()
+
+        await expect(downloadDialogPage.getDialog()).toContainText(
+          `Select Tomogram:${lastTomogramId} `,
+        )
+
+        await downloadDialogPage.clickNextButton()
+
+        await expect(downloadDialogPage.getDialog()).toContainText(
+          `Tomogram ID: ${lastTomogramId}`,
+        )
+      })
+
+      // TODO(bchu): Add tomogram selector test.
+
+      test('should change file type', async () => {
+        await downloadDialogPage.goTo(
+          `${SINGLE_RUN_URL}?enable-feature=multipleTomograms`,
+        )
+        await downloadDialogPage.openDialog(
+          translations.downloadWithAdditionalOptions,
+        )
+
+        await expect(
+          downloadDialogPage.getDialog().getByRole('radio', { checked: true }),
+        ).toHaveCount(0)
+
+        await downloadDialogPage.clickDialogRadio(translations.downloadTomogram)
+        await downloadDialogPage.selectFileType('OME-ZARR')
+        await downloadDialogPage.clickNextButton()
+
+        await expect(downloadDialogPage.getDialog()).toContainText(
+          /.*s3\s.*\.zarr\s.*/,
+        )
       })
 
       test.describe('should open tabs from url', () => {
