@@ -125,7 +125,7 @@ export class DownloadDialogActor {
     const { data } = await fetchTestSingleDataset(client)
     await this.expectDialogToBeOpen({
       title: translations.downloadOptions,
-      substrings: [`${translations.dataset}: ${data.datasets[0].title}`],
+      substrings: [`${translations.datasetName}: ${data.datasets[0].title}`],
     })
   }
 
@@ -140,8 +140,8 @@ export class DownloadDialogActor {
     await this.expectDialogToBeOpen({
       title: translations.configureDownload,
       substrings: [
-        `${translations.dataset}: ${datasetName}`,
-        `${translations.run}: ${runName}`,
+        `${translations.datasetName}: ${datasetName}`,
+        `${translations.runName}: ${runName}`,
       ],
     })
   }
@@ -157,8 +157,8 @@ export class DownloadDialogActor {
     await this.expectDialogToBeOpen({
       title: translations.downloadOptions,
       substrings: [
-        `${translations.dataset}: ${datasetName}`,
-        `${translations.run}: ${runName}`,
+        `${translations.datasetName}: ${datasetName}`,
+        `${translations.runName}: ${runName}`,
         `${translations.annotations}: ${translations.all}`,
       ],
     })

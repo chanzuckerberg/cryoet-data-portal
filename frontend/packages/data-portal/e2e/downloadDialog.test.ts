@@ -493,8 +493,210 @@ test.describe('downloadDialog', () => {
       })
     })
 
-    // TODO: when we support multiple tomograms per run add tests for the different dropdowns
     test.describe('Download Tomogram', () => {
+      test('should select on click', async () => {
+        await downloadDialogActor.goToDownloadDialogUrl({
+          baseUrl: SINGLE_RUN_URL,
+          step: DownloadStep.Configure,
+        })
+
+        await downloadDialogActor.expectDialogToBeOpen({
+          title: translations.configureDownload,
+        })
+
+        await downloadDialogPage.clickDialogRadio(translations.downloadTomogram)
+
+        await downloadDialogPage.expectRadioToBeSelected(
+          DownloadConfig.Tomogram,
+        )
+
+        await downloadDialogActor.expectTomogramDialogUrlToMatch({
+          baseUrl: SINGLE_RUN_URL,
+          client,
+          step: DownloadStep.Configure,
+          config: DownloadConfig.Tomogram,
+          fileFormat: 'mrc',
+        })
+      })
+
+      test('should select from url', async () => {
+        await downloadDialogActor.goToTomogramDownloadDialogUrl({
+          baseUrl: SINGLE_RUN_URL,
+          client,
+          config: DownloadConfig.Tomogram,
+          step: DownloadStep.Configure,
+        })
+
+        await downloadDialogActor.expectDialogToBeOpen({
+          title: translations.configureDownload,
+        })
+
+        await downloadDialogPage.expectRadioToBeSelected(
+          DownloadConfig.Tomogram,
+        )
+      })
+
+      test('should change selection on click', async () => {
+        await downloadDialogActor.goToDownloadDialogUrl({
+          baseUrl: SINGLE_RUN_URL,
+          config: DownloadConfig.AllAnnotations,
+          step: DownloadStep.Configure,
+        })
+
+        await downloadDialogActor.expectDialogToBeOpen({
+          title: translations.configureDownload,
+        })
+
+        await downloadDialogPage.clickDialogRadio(translations.downloadTomogram)
+
+        await downloadDialogPage.expectRadioToBeSelected(
+          DownloadConfig.Tomogram,
+        )
+
+        await downloadDialogActor.expectTomogramDialogUrlToMatch({
+          baseUrl: SINGLE_RUN_URL,
+          client,
+          step: DownloadStep.Configure,
+          config: DownloadConfig.Tomogram,
+          fileFormat: 'mrc',
+        })
+      })
+
+      test.describe('should open tabs from url', () => {
+        TOMOGRAM_DOWNLOAD_TABS.forEach((tab) => {
+          test(`should open ${tab} tab from url`, async () => {
+            await downloadDialogActor.goToTomogramDownloadDialogUrl({
+              baseUrl: SINGLE_RUN_URL,
+              client,
+              config: DownloadConfig.Tomogram,
+              step: DownloadStep.Download,
+              fileFormat: 'mrc',
+              tab,
+            })
+
+            await downloadDialogActor.expectDialogToBeOpen({
+              title: translations.downloadOptions,
+            })
+
+            await downloadDialogActor.expectDialogToBeOnCorrectTab({
+              tab,
+              tabGroup: TOMOGRAM_DOWNLOAD_TABS,
+            })
+          })
+        })
+      })
+
+      test.describe('should change tabs on click', () => {
+        const testCases = TOMOGRAM_DOWNLOAD_TABS.flatMap((v1, i) =>
+          TOMOGRAM_DOWNLOAD_TABS.toSpliced(i, 1).map((v2) => ({
+            fromTab: v1,
+            toTab: v2,
+          })),
+        )
+        testCases.forEach(({ fromTab, toTab }) => {
+          test(`should change from ${fromTab} to ${toTab} on click`, async () => {
+            await downloadDialogActor.goToTomogramDownloadDialogUrl({
+              baseUrl: SINGLE_RUN_URL,
+              client,
+              config: DownloadConfig.Tomogram,
+              fileFormat: 'mrc',
+              step: DownloadStep.Download,
+              tab: fromTab,
+            })
+
+            await downloadDialogActor.expectDialogToBeOpen({
+              title: translations.downloadOptions,
+            })
+
+            await downloadDialogPage.clickTab(toTab)
+
+            await downloadDialogActor.expectDialogToBeOnCorrectTab({
+              tab: toTab,
+              tabGroup: TOMOGRAM_DOWNLOAD_TABS,
+            })
+            await downloadDialogActor.expectTomogramDialogUrlToMatch({
+              baseUrl: SINGLE_RUN_URL,
+              client,
+              config: DownloadConfig.Tomogram,
+              fileFormat: 'mrc',
+              step: DownloadStep.Download,
+              tab: toTab,
+            })
+          })
+        })
+      })
+
+      test.describe('should copy from tabs', () => {
+        const testCases = TOMOGRAM_DOWNLOAD_TABS.filter(
+          (tab) => tab !== DownloadTab.Download,
+        )
+
+        testCases.forEach((tab) => {
+          test(`should copy from ${tab} tab`, async ({ browserName }) => {
+            skipClipboardTestsForWebkit(browserName)
+
+            await downloadDialogActor.goToTomogramDownloadDialogUrl({
+              baseUrl: SINGLE_RUN_URL,
+              client,
+              config: DownloadConfig.Tomogram,
+              fileFormat: 'mrc',
+              step: DownloadStep.Download,
+              tab,
+            })
+
+            await downloadDialogActor.expectDialogToBeOpen({
+              title: translations.downloadOptions,
+            })
+
+            await downloadDialogPage.clickCopyButton()
+
+            await downloadDialogActor.expectClipboardToHaveCorrectDownloadTomogramCommand(
+              { client, fileFormat: 'mrc', tab },
+            )
+          })
+        })
+      })
+
+      test('should close when x button clicked', async () => {
+        await downloadDialogActor.goToTomogramDownloadDialogUrl({
+          baseUrl: SINGLE_RUN_URL,
+          client,
+          config: DownloadConfig.Tomogram,
+          fileFormat: 'mrc',
+          step: DownloadStep.Download,
+          tab: DownloadTab.AWS,
+        })
+
+        await downloadDialogActor.expectDialogToBeOpen({
+          title: translations.downloadOptions,
+        })
+
+        await downloadDialogPage.clickXButton()
+
+        await downloadDialogPage.expectDialogToBeHidden()
+      })
+
+      test('should close when close button clicked', async () => {
+        await downloadDialogActor.goToTomogramDownloadDialogUrl({
+          baseUrl: SINGLE_RUN_URL,
+          client,
+          config: DownloadConfig.Tomogram,
+          fileFormat: 'mrc',
+          step: DownloadStep.Download,
+          tab: DownloadTab.AWS,
+        })
+
+        await downloadDialogActor.expectDialogToBeOpen({
+          title: translations.downloadOptions,
+        })
+
+        await downloadDialogPage.clickCloseButton()
+
+        await downloadDialogPage.expectDialogToBeHidden()
+      })
+    })
+
+    test.describe('Download Tomogram - multiple tomograms on', () => {
       test('should select on click', async () => {
         await downloadDialogActor.goToDownloadDialogUrl({
           baseUrl: SINGLE_RUN_URL,
