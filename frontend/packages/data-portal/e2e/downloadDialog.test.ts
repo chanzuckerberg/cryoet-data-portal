@@ -493,7 +493,7 @@ test.describe('downloadDialog', () => {
       })
     })
 
-    test.describe('Download Tomogram', () => {
+    test.describe('Download Tomogram - multiple tomograms off', () => {
       test('should select on click', async () => {
         await downloadDialogActor.goToDownloadDialogUrl({
           baseUrl: SINGLE_RUN_URL,

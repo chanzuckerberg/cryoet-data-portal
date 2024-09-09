@@ -27,12 +27,14 @@ export function constructDialogUrl(
     config,
     tomogram,
     fileFormat,
+    multipleTomograms = false,
   }: {
     tab?: string
     step?: string
     config?: string
     tomogram?: { sampling: number; processing: string }
     fileFormat?: string
+    multipleTomograms?: boolean
   },
 ): URL {
   const expectedUrl = new URL(url)
@@ -58,6 +60,11 @@ export function constructDialogUrl(
   if (tab) {
     params.append(QueryParams.DownloadTab, tab)
   }
+
+  params.append(
+    multipleTomograms ? 'enable-feature' : 'disable-feature',
+    multipleTomograms.toString(),
+  )
 
   return expectedUrl
 }
