@@ -174,7 +174,7 @@ export function ConfigureTomogramDownloadContent() {
             </div>
 
             <FileFormatDropdown
-              className={!multipleTomogramsEnabled ? 'max-w-[228px]' : 'asdf'}
+              className="max-w-[228px]"
               fileFormats={TOMOGRAM_FILE_FORMATS}
               selectDropdownClasses={
                 multipleTomogramsEnabled
