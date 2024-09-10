@@ -3,10 +3,10 @@ import { useMemo } from 'react'
 import { QueryParams } from 'app/constants/query'
 import {
   allDigitsRegex,
-  extractNumericId,
   getEntityIdPrefixRegex,
   getPrefixedId,
   QueryParamToIdPrefixMap,
+  removeIdPrefix,
 } from 'app/utils/idPrefixes'
 
 import { RegexFilter } from './RegexFilter'
@@ -36,7 +36,7 @@ export function EntityIdFilter({
       queryParam={queryParam}
       regex={validationRegex}
       displayNormalizer={(value) => getPrefixedId(queryParam, value)}
-      paramNormalizer={(value) => extractNumericId(value) ?? ''}
+      paramNormalizer={(value) => removeIdPrefix(queryParam, value) ?? ''}
     />
   )
 }

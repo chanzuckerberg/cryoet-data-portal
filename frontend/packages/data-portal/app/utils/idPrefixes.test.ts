@@ -1,23 +1,60 @@
 import { QueryParams } from 'app/constants/query'
 
 import {
-  extractNumericId,
   getPrefixedId,
   isFilterPrefixValid,
+  removeIdPrefix,
 } from './idPrefixes'
 
-describe('extractNumericId()', () => {
+describe('removeIdPrefix()', () => {
   it('should extract numeric id from string', () => {
     const testCases = [
-      { input: 'id1', output: '1' },
-      { input: 'id-123', output: '123' },
-      { input: 'id-1234', output: '1234' },
-      { input: 'xyz-123', output: '123' },
-      { input: 'id-0008', output: '0008' },
+      {
+        queryParam: QueryParams.DepositionId,
+        input: 'id1',
+        output: '1',
+      },
+      {
+        queryParam: QueryParams.DatasetId,
+        input: 'id-123',
+        output: '123',
+      },
+      {
+        queryParam: QueryParams.AnnotationId,
+        input: 'id-1234',
+        output: '1234',
+      },
+      {
+        queryParam: QueryParams.DepositionId,
+        input: 'xyz-123',
+        output: '123',
+      },
+      {
+        queryParam: QueryParams.DepositionId,
+        input: 'id-0008',
+        output: '0008',
+      },
     ]
 
     testCases.forEach((testCase) =>
-      expect(extractNumericId(testCase.input)).toEqual(testCase.output),
+      expect(removeIdPrefix(testCase.queryParam, testCase.input)).toEqual(
+        testCase.output,
+      ),
+    )
+  })
+  it('should return the same string if the queryParam does not have a prefix', () => {
+    const testCases = [
+      {
+        queryParam: QueryParams.AuthorName,
+        input: 'Jane Doe',
+        output: 'Jane Doe',
+      },
+    ]
+
+    testCases.forEach((testCase) =>
+      expect(removeIdPrefix(testCase.queryParam, testCase.input)).toEqual(
+        testCase.output,
+      ),
     )
   })
 })
