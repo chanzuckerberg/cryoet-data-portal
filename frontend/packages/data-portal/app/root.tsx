@@ -11,7 +11,7 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 import { defaults } from 'lodash-es'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useChangeLanguage } from 'remix-i18next'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
@@ -58,6 +58,9 @@ export function shouldRevalidate() {
 
 const Document = withEmotionCache(
   ({ children, title }: DocumentProps, emotionCache) => {
+    useEffect(() => {
+      console.log(process.env.API_URL_V2)
+    })
     const clientStyleData = useContext(ClientStyleContext)
     const { ENV, locale } = useTypedLoaderData<typeof loader>()
 
