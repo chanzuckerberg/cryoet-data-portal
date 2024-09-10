@@ -115,7 +115,7 @@ export function RunHeader() {
         <div className="flex flex-auto gap-sds-xxl p-sds-xl">
           <HeaderKeyPhoto title={run.name} url={keyPhotoURL} />
 
-          <div className="flex flex-col gap-sds-xl flex-auto pt-sds-l">
+          <div className="flex flex-col gap-sds-xl flex-1 pt-sds-l">
             <PageHeaderSubtitle className="mt-sds-m">
               {t('runOverview')}
             </PageHeaderSubtitle>
