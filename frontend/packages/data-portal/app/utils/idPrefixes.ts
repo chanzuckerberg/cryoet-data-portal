@@ -13,8 +13,10 @@ export const QueryParamToIdPrefixMap: Partial<Record<QueryParams, IdPrefix>> = {
   // Currently we cannot filter by Run or Tiltseries ID, so they are not here
 }
 
-// This function takes an id string and returns the all numeric portions of the id.
+// This function takes a value string and returns the all non-prefix portions.
 // Inputs can be in the form of "id-123", "123", "id123", or "id-123-456"
+// Inputs can also be strings like "Author Name"
+// NOTE: If we need prefixes for string values, like "PREFIX-Author Name", we will need to update this function
 export function removeIdPrefix(value: string, queryParam?: QueryParams) {
   if (!queryParam) return value
   const prefix = QueryParamToIdPrefixMap[queryParam]
