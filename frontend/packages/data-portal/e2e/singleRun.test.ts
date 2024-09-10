@@ -20,11 +20,6 @@ test.describe('Single run page: ', () => {
 
   /** This test ensures that the test after it is not a false negative. */
   test('Invalid Neuroglancer URL results in error on Neuroglancer page', async () => {
-    console.log(
-      'breh',
-      await page.getPrimaryViewTomogramButton().getAttribute('href'),
-    )
-
     await page.goTo(
       (await page.getPrimaryViewTomogramButton().getAttribute('href'))!.replace(
         '#!',
