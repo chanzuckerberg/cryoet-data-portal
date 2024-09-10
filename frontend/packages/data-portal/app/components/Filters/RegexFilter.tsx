@@ -43,7 +43,7 @@ export function RegexFilter({
 
   return (
     <DropdownFilterButton
-      activeFilters={paramValue ? [{ value: displayValue }] : []}
+      activeFilters={paramValue ? [{ value: displayValue, queryParam }] : []}
       description={
         <>
           <p className="text-sds-header-xs leading-sds-header-xs font-semibold">

@@ -1,10 +1,7 @@
 import { RegexFilter } from 'app/components/Filters'
-import {
-  GO_PREFIX,
-  UNIPROTKB_PREFIX,
-} from 'app/constants/annotationObjectIdLinks'
 import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'
+import { OBJECT_ID_REGEX } from 'app/utils/idPrefixes'
 
 export function ObjectIdFilter() {
   const { t } = useI18n()
@@ -15,7 +12,7 @@ export function ObjectIdFilter() {
       title={t('filterByObjectId')}
       label={t('objectId')}
       queryParam={QueryParams.ObjectId}
-      regex={RegExp(`^(?:${GO_PREFIX}|${UNIPROTKB_PREFIX}).+$`)}
+      regex={OBJECT_ID_REGEX}
     />
   )
 }
