@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import { QueryParams } from 'app/constants/query'
 import {
-  allDigitsRegex,
+  ALL_DIGITS_REGEX,
   getEntityIdPrefixRegex,
   getPrefixedId,
   QueryParamToIdPrefixMap,
@@ -24,7 +24,7 @@ export function EntityIdFilter({
 }) {
   const prefix = QueryParamToIdPrefixMap[queryParam]
   const validationRegex = useMemo(
-    () => (prefix ? getEntityIdPrefixRegex(prefix) : allDigitsRegex),
+    () => (prefix ? getEntityIdPrefixRegex(prefix) : ALL_DIGITS_REGEX),
     [prefix],
   )
 

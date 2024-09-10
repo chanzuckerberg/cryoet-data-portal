@@ -40,8 +40,10 @@ export function getPrefixedId(id: string, queryParam?: QueryParams) {
 export const getEntityIdPrefixRegex = (prefix: string) =>
   RegExp(`^(${prefix})?(-)?\\d+$`, 'i')
 
-export const allDigitsRegex = /^\d+$/
-export const objectIdRegex = RegExp(`^(?:${GO_PREFIX}|${UNIPROTKB_PREFIX}).+$`)
+export const ALL_DIGITS_REGEX = /^\d+$/
+export const OBJECT_ID_REGEX = RegExp(
+  `^(?:${GO_PREFIX}|${UNIPROTKB_PREFIX}).+$`,
+)
 
 export function isFilterPrefixValid(value: string, queryParam?: QueryParams) {
   if (!queryParam || value === '') return true
