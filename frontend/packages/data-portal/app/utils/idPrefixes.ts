@@ -13,7 +13,10 @@ export function extractNumericId(id: string) {
 
 // TODO: as we add more prefixes, we need to update this map
 export const QueryParamToIdPrefixMap: Partial<Record<QueryParams, IdPrefix>> = {
+  [QueryParams.AnnotationId]: IdPrefix.Annotation,
+  [QueryParams.DatasetId]: IdPrefix.Dataset,
   [QueryParams.DepositionId]: IdPrefix.Deposition,
+  // Currently we cannot filter by Run or Tiltseries ID, so they are not here
 }
 
 export function getPrefixedId(queryParam: QueryParams, id: string) {
