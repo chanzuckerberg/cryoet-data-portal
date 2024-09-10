@@ -1,6 +1,10 @@
 import { QueryParams } from 'app/constants/query'
 
-import { extractNumericId, getPrefixedId } from './idPrefixes'
+import {
+  extractNumericId,
+  getPrefixedId,
+  isFilterPrefixValid,
+} from './idPrefixes'
 
 describe('extractNumericId()', () => {
   it('should extract numeric id from string', () => {
@@ -41,6 +45,28 @@ describe('getPrefixedId()', () => {
 
     testCases.forEach((testCase) =>
       expect(getPrefixedId(testCase.queryParam, testCase.id)).toEqual(
+        testCase.output,
+      ),
+    )
+  })
+})
+
+describe('isFilterPrefixValid()', () => {
+  it('should validate filter prefix', () => {
+    const testCases = [
+      {
+        queryParam: QueryParams.DepositionId,
+        value: 'CZCDP-123',
+        output: true,
+      },
+      { queryParam: QueryParams.DepositionId, value: '123', output: true },
+      { queryParam: QueryParams.AnnotationId, value: 'AN123', output: true },
+      { queryParam: QueryParams.AnnotationId, value: 'NAN-123', output: false },
+      { queryParam: QueryParams.DatasetId, value: '1-23', output: false },
+    ]
+
+    testCases.forEach((testCase) =>
+      expect(isFilterPrefixValid(testCase.queryParam, testCase.value)).toEqual(
         testCase.output,
       ),
     )

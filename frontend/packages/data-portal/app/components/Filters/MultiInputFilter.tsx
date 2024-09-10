@@ -5,7 +5,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { QueryParams } from 'app/constants/query'
 import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
-import { extractNumericId } from 'app/utils/idPrefixes'
+import { extractNumericId, isFilterPrefixValid } from 'app/utils/idPrefixes'
 
 import { DropdownFilterButton } from './DropdownFilterButton'
 import { InputFilter } from './InputFilter'
@@ -43,10 +43,13 @@ export function MultiInputFilter({
 
   const [values, setValues] = useState(getQueryParamValues)
 
-  const isDisabled = useMemo(
-    () => isEqual(values, getQueryParamValues()),
-    [getQueryParamValues, values],
-  )
+  const isDisabled = useMemo(() => {
+    const hasInvalidPrefix = !!filters.find(
+      (filter) => !isFilterPrefixValid(filter.queryParam, values[filter.id]),
+    )
+
+    return hasInvalidPrefix || isEqual(values, getQueryParamValues())
+  }, [filters, getQueryParamValues, values])
 
   return (
     <DropdownFilterButton

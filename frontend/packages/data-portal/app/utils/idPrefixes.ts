@@ -1,3 +1,7 @@
+import {
+  GO_PREFIX,
+  UNIPROTKB_PREFIX,
+} from 'app/constants/annotationObjectIdLinks'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { QueryParams } from 'app/constants/query'
 
@@ -24,4 +28,18 @@ export function getPrefixedId(queryParam: QueryParams, id: string) {
   const cleanId = extractNumericId(id)
   const prefix = QueryParamToIdPrefixMap[queryParam] ?? ''
   return prefix ? `${prefix}-${cleanId}` : id
+}
+
+export const getEntityIdPrefixRegex = (prefix: string) =>
+  RegExp(`^(${prefix})?(-)?\\d+$`, 'i')
+
+export const allDigitsRegex = /^\d+$/
+export const objectIdRegex = RegExp(`^(?:${GO_PREFIX}|${UNIPROTKB_PREFIX}).+$`)
+
+export function isFilterPrefixValid(queryParam: QueryParams, value: string) {
+  const prefix = QueryParamToIdPrefixMap[queryParam]
+  if (!prefix) return true
+
+  const validationRegex = prefix ? getEntityIdPrefixRegex(prefix) : /^\d+$/
+  return validationRegex.test(value)
 }
