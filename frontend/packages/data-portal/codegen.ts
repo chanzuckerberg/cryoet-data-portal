@@ -9,10 +9,28 @@ const SCHEMA_URL_V2 =
   'https://graphql.cryoet.staging.si.czi.technology/graphql' // TODO(bchu): Set to prod.
 
 const config: CodegenConfig = {
-  schema: [SCHEMA_URL, SCHEMA_URL_V2],
-  documents: ['app/**/*.{ts,tsx}'],
   generates: {
     './app/__generated__/': {
+      schema: SCHEMA_URL,
+      documents: ['app/**/*!(V2)*.{ts,tsx}'],
+      preset: 'client',
+      plugins: [],
+
+      presetConfig: {
+        gqlTagName: 'gql',
+      },
+
+      config: {
+        scalars: {
+          date: 'string',
+          numeric: 'number',
+          _numeric: 'number[][]',
+        },
+      },
+    },
+    './app/__generated_v2__/': {
+      schema: SCHEMA_URL_V2,
+      documents: ['app/**/*V2*.{ts,tsx}'],
       preset: 'client',
       plugins: [],
 
