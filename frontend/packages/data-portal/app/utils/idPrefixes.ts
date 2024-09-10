@@ -15,7 +15,8 @@ export const QueryParamToIdPrefixMap: Partial<Record<QueryParams, IdPrefix>> = {
 
 // This function takes an id string and returns the all numeric portions of the id.
 // Inputs can be in the form of "id-123", "123", "id123", or "id-123-456"
-export function removeIdPrefix(queryParam: QueryParams, value: string) {
+export function removeIdPrefix(value: string, queryParam?: QueryParams) {
+  if (!queryParam) return value
   const prefix = QueryParamToIdPrefixMap[queryParam]
   if (!prefix) return value
 
@@ -26,9 +27,10 @@ export function removeIdPrefix(queryParam: QueryParams, value: string) {
   return matches ? matches.join('') : null
 }
 
-export function getPrefixedId(queryParam: QueryParams, id: string) {
+export function getPrefixedId(id: string, queryParam?: QueryParams) {
+  if (!queryParam) return id
   // ID may or may not already be prefixed, so take it off just in case
-  const cleanId = removeIdPrefix(queryParam, id)
+  const cleanId = removeIdPrefix(id, queryParam)
   const prefix = QueryParamToIdPrefixMap[queryParam] ?? ''
   return prefix ? `${prefix}-${cleanId}` : id
 }

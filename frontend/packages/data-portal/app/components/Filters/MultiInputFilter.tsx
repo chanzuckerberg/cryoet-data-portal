@@ -83,7 +83,7 @@ export function MultiInputFilter({
               // The filter will show the prefix, but we do not need to store it in the query params
               prev.set(
                 filter.queryParam,
-                removeIdPrefix(filter.queryParam, value) ?? '',
+                removeIdPrefix(value, filter.queryParam) ?? '',
               )
             }
           })

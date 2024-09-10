@@ -239,7 +239,7 @@ test.describe('Single run page filters', () => {
       })
 
       await filtersPage.expectFilterTagToExist(
-        getPrefixedId(QueryParams.DepositionId, E2E_CONFIG.depositionId),
+        getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
       )
 
       // TODO: (kne42) uncomment when hooked up to backend
@@ -267,7 +267,7 @@ test.describe('Single run page filters', () => {
       })
 
       await filtersPage.expectFilterTagToExist(
-        getPrefixedId(QueryParams.DepositionId, E2E_CONFIG.depositionId),
+        getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
       )
 
       // TODO: (kne42) uncomment when hooked up to backend
@@ -295,7 +295,7 @@ test.describe('Single run page filters', () => {
       })
 
       await filtersPage.removeMultiInputFilter(
-        getPrefixedId(QueryParams.DepositionId, E2E_CONFIG.depositionId),
+        getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
       )
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({

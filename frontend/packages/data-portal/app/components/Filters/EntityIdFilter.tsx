@@ -35,8 +35,8 @@ export function EntityIdFilter({
       title={title}
       queryParam={queryParam}
       regex={validationRegex}
-      displayNormalizer={(value) => getPrefixedId(queryParam, value)}
-      paramNormalizer={(value) => removeIdPrefix(queryParam, value) ?? ''}
+      displayNormalizer={(value) => getPrefixedId(value, queryParam)}
+      paramNormalizer={(value) => removeIdPrefix(value, queryParam) ?? ''}
     />
   )
 }

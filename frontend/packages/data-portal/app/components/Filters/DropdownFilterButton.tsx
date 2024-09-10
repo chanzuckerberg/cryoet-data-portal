@@ -9,7 +9,7 @@ import { getPrefixedId } from 'app/utils/idPrefixes'
 
 export interface ActiveDropdownFilterData {
   label?: string
-  queryParam: QueryParams
+  queryParam?: QueryParams
   value: string
 }
 
@@ -86,7 +86,7 @@ export function DropdownFilterButton({
                 <div>
                   <div className="bg-sds-primary-400 rounded-sds-m py-sds-xxs px-sds-s inline-flex items-center gap-sds-s">
                     <span className="text-sds-body-xs leading-sds-body-xs font-semibold text-white">
-                      {getPrefixedId(filter.queryParam, filter.value)}
+                      {getPrefixedId(filter.value, filter.queryParam)}
                     </span>
 
                     <Button

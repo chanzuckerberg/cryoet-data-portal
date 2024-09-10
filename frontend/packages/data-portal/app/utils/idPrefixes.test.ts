@@ -37,7 +37,7 @@ describe('removeIdPrefix()', () => {
     ]
 
     testCases.forEach((testCase) =>
-      expect(removeIdPrefix(testCase.queryParam, testCase.input)).toEqual(
+      expect(removeIdPrefix(testCase.input, testCase.queryParam)).toEqual(
         testCase.output,
       ),
     )
@@ -52,7 +52,7 @@ describe('removeIdPrefix()', () => {
     ]
 
     testCases.forEach((testCase) =>
-      expect(removeIdPrefix(testCase.queryParam, testCase.input)).toEqual(
+      expect(removeIdPrefix(testCase.input, testCase.queryParam)).toEqual(
         testCase.output,
       ),
     )
@@ -81,7 +81,7 @@ describe('getPrefixedId()', () => {
     ]
 
     testCases.forEach((testCase) =>
-      expect(getPrefixedId(testCase.queryParam, testCase.id)).toEqual(
+      expect(getPrefixedId(testCase.id, testCase.queryParam)).toEqual(
         testCase.output,
       ),
     )
