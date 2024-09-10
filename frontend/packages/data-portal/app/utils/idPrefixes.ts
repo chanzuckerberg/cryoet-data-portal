@@ -43,7 +43,8 @@ export const getEntityIdPrefixRegex = (prefix: string) =>
 export const allDigitsRegex = /^\d+$/
 export const objectIdRegex = RegExp(`^(?:${GO_PREFIX}|${UNIPROTKB_PREFIX}).+$`)
 
-export function isFilterPrefixValid(queryParam: QueryParams, value: string) {
+export function isFilterPrefixValid(value: string, queryParam?: QueryParams) {
+  if (!queryParam || value === '') return true
   const prefix = QueryParamToIdPrefixMap[queryParam]
   if (!prefix) return true
 

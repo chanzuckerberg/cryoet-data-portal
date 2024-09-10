@@ -45,7 +45,7 @@ export function MultiInputFilter({
 
   const isDisabled = useMemo(() => {
     const hasInvalidPrefix = !!filters.find(
-      (filter) => !isFilterPrefixValid(filter.queryParam, values[filter.id]),
+      (filter) => !isFilterPrefixValid(values[filter.id], filter.queryParam),
     )
 
     return hasInvalidPrefix || isEqual(values, getQueryParamValues())

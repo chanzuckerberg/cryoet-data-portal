@@ -103,7 +103,7 @@ describe('isFilterPrefixValid()', () => {
     ]
 
     testCases.forEach((testCase) =>
-      expect(isFilterPrefixValid(testCase.queryParam, testCase.value)).toEqual(
+      expect(isFilterPrefixValid(testCase.value, testCase.queryParam)).toEqual(
         testCase.output,
       ),
     )
