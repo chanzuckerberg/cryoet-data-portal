@@ -2,13 +2,13 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { test } from '@playwright/test'
 import { FiltersActor } from 'e2e/pageObjects/filters/filtersActor'
 import { FiltersPage } from 'e2e/pageObjects/filters/filtersPage'
-import { getPrefixedId } from 'e2e/pageObjects/filters/utils'
 
 import { QueryParams } from 'app/constants/query'
 
 import { getApolloClient } from './apollo'
 import { E2E_CONFIG, SINGLE_DATASET_URL, translations } from './constants'
 import { onlyRunIfEnabled } from './utils'
+import { getPrefixedId } from 'app/utils/idPrefixes'
 
 test.describe('Single dataset page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>
@@ -134,10 +134,7 @@ test.describe('Single dataset page filters', () => {
       })
 
       await filtersPage.expectFilterTagToExist(
-        getPrefixedId({
-          id: E2E_CONFIG.depositionId,
-          prefixKey: 'Deposition',
-        }),
+        getPrefixedId(QueryParams.DepositionId, E2E_CONFIG.depositionId),
       )
 
       // TODO: (kne42) uncomment this when hooked up to backend
@@ -165,10 +162,7 @@ test.describe('Single dataset page filters', () => {
       })
 
       await filtersPage.expectFilterTagToExist(
-        getPrefixedId({
-          id: E2E_CONFIG.depositionId,
-          prefixKey: 'Deposition',
-        }),
+        getPrefixedId(QueryParams.DepositionId, E2E_CONFIG.depositionId),
       )
 
       // TODO: (kne42) uncomment this when hooked up to backend
@@ -196,10 +190,7 @@ test.describe('Single dataset page filters', () => {
       })
 
       await filtersPage.removeMultiInputFilter(
-        getPrefixedId({
-          id: E2E_CONFIG.depositionId,
-          prefixKey: 'Deposition',
-        }),
+        getPrefixedId(QueryParams.DepositionId, E2E_CONFIG.depositionId),
       )
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({

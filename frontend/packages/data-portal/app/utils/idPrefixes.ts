@@ -1,18 +1,19 @@
-// This function takes an id string and returns the numeric portion of the id.
-
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { QueryParams } from 'app/constants/query'
 
+// This function takes an id string and returns the all numeric portions of the id.
 // Inputs can be in the form of "id-123", "123", "id123", or "id-123-456"
 export function extractNumericId(id: string) {
   // Use a regular expression to match the numeric portion of the ID
-  const match = id.match(/\d+/)
+  const matches = id.match(/\d+/g)
 
   // If a match is found, return it, otherwise return null
-  return match ? match[0] : null
+  return matches ? matches.join('') : null
 }
 
-export const QueryParamToIdPrefixMap: Partial<Record<QueryParams, string>> = {
-  [QueryParams.DatasetId]: 'DS',
+// TODO: as we add more prefixes, we need to update this map
+export const QueryParamToIdPrefixMap: Partial<Record<QueryParams, IdPrefix>> = {
+  [QueryParams.DepositionId]: IdPrefix.Deposition,
 }
 
 export function getPrefixedId(queryParam: QueryParams, id: string) {

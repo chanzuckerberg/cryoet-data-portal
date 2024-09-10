@@ -72,16 +72,6 @@ export function getExpectedTotalCount({
   )
 }
 
-export function getPrefixedId({
-  id,
-  prefixKey,
-}: {
-  id: string
-  prefixKey: keyof typeof IdPrefix
-}): string {
-  return `${IdPrefix[prefixKey]}-${id}`
-}
-
 // #Region runPage
 export function getAnnotationRowCountFromData({
   singleRunData,

@@ -5,10 +5,10 @@ import { useCallback, useMemo, useState } from 'react'
 import { QueryParams } from 'app/constants/query'
 import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
+import { extractNumericId } from 'app/utils/idPrefixes'
 
 import { DropdownFilterButton } from './DropdownFilterButton'
 import { InputFilter } from './InputFilter'
-import { extractNumericId } from './utils'
 
 export interface InputFilterData {
   id: string
