@@ -4,11 +4,11 @@ import { FiltersActor } from 'e2e/pageObjects/filters/filtersActor'
 import { FiltersPage } from 'e2e/pageObjects/filters/filtersPage'
 
 import { QueryParams } from 'app/constants/query'
+import { getPrefixedId } from 'app/utils/idPrefixes'
 
 import { getApolloClient } from './apollo'
 import { E2E_CONFIG, SINGLE_DATASET_URL, translations } from './constants'
 import { onlyRunIfEnabled } from './utils'
-import { getPrefixedId } from 'app/utils/idPrefixes'
 
 test.describe('Single dataset page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>

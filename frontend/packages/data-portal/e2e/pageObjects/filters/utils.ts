@@ -8,7 +8,6 @@ import {
   GetRunByIdQuery,
 } from 'app/__generated__/graphql'
 import { AVAILABLE_FILES_VALUE_TO_I18N_MAP } from 'app/components/DatasetFilter/constants'
-import { IdPrefix } from 'app/constants/idPrefixes'
 
 import { QueryParamObjectType, RowCounterType } from './types'
 

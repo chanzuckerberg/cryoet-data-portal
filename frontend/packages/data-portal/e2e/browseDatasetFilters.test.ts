@@ -5,11 +5,11 @@ import { FiltersPage } from 'e2e/pageObjects/filters/filtersPage'
 import { serializeAvailableFiles } from 'e2e/pageObjects/filters/utils'
 
 import { QueryParams } from 'app/constants/query'
+import { getPrefixedId } from 'app/utils/idPrefixes'
 
 import { getApolloClient } from './apollo'
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
 import { onlyRunIfEnabled } from './utils'
-import { getPrefixedId } from 'app/utils/idPrefixes'
 
 test.describe('Browse datasets page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>
