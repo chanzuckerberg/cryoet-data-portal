@@ -263,6 +263,8 @@ const GET_RUN_BY_ID_QUERY = gql(`
       size_z
       voxel_spacing
       deposition {
+        id
+        title
         deposition_date
       }
       tomogram_voxel_spacing {

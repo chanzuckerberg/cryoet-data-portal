@@ -1,3 +1,4 @@
+import { AutocompleteClasses } from '@mui/material/Autocomplete'
 import { useMemo } from 'react'
 
 import { I18n } from 'app/components/I18n'
@@ -28,9 +29,11 @@ export const FILE_FORMAT_ORDER = ['mrc', 'zarr', 'ndjson']
 export function FileFormatDropdown({
   fileFormats,
   className,
+  selectDropdownClasses,
 }: {
   fileFormats: string[]
   className?: string
+  selectDropdownClasses?: Partial<AutocompleteClasses>
 }) {
   const { t } = useI18n()
   const { fileFormat, setFileFormat } = useDownloadModalQueryParamState()
@@ -56,6 +59,7 @@ export function FileFormatDropdown({
     <Select
       activeKey={selectedFormat}
       className={cns('flex-grow', className)}
+      dropdownClasses={selectDropdownClasses}
       label={selectedFormat ? t(FILE_FORMAT_LABEL_I18N[selectedFormat]) : '--'}
       onChange={setFileFormat}
       options={fileFormatOptions}

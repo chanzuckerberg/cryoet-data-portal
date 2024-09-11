@@ -2,12 +2,13 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { test } from '@playwright/test'
 import { FiltersActor } from 'e2e/pageObjects/filters/filtersActor'
 import { FiltersPage } from 'e2e/pageObjects/filters/filtersPage'
-import { getPrefixedId } from 'e2e/pageObjects/filters/utils'
 
 import { QueryParams } from 'app/constants/query'
+import { getPrefixedId } from 'app/utils/idPrefixes'
 
 import { getApolloClient } from './apollo'
 import { E2E_CONFIG, SINGLE_RUN_URL, translations } from './constants'
+import { onlyRunIfEnabled } from './utils'
 
 test.describe('Single run page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>
@@ -213,6 +214,8 @@ test.describe('Single run page filters', () => {
     })
   })
   test.describe('Deposition ID filter', () => {
+    onlyRunIfEnabled('depositions')
+
     test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_RUN_URL)
 
@@ -236,10 +239,7 @@ test.describe('Single run page filters', () => {
       })
 
       await filtersPage.expectFilterTagToExist(
-        getPrefixedId({
-          id: E2E_CONFIG.depositionId,
-          prefixKey: 'Deposition',
-        }),
+        getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
       )
 
       // TODO: (kne42) uncomment when hooked up to backend
@@ -267,10 +267,7 @@ test.describe('Single run page filters', () => {
       })
 
       await filtersPage.expectFilterTagToExist(
-        getPrefixedId({
-          id: E2E_CONFIG.depositionId,
-          prefixKey: 'Deposition',
-        }),
+        getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
       )
 
       // TODO: (kne42) uncomment when hooked up to backend
@@ -298,7 +295,7 @@ test.describe('Single run page filters', () => {
       })
 
       await filtersPage.removeMultiInputFilter(
-        getPrefixedId({ id: E2E_CONFIG.depositionId, prefixKey: 'Deposition' }),
+        getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
       )
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({

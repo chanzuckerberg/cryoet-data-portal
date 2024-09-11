@@ -1,7 +1,15 @@
-## Predicting sample boundaries
+---
+tocdepth: 2
+---
 
-![tutorial-goal](./figures/tomo_side_light.png)
-*Side view onto a cryo-electron tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/15094) without (left) and with (right) sample boundary annotation*
+# Predicting sample boundaries
+
+```{figure} ./figures/tomo_side_light.png
+:alt: tutorial-goal
+:align: center
+
+Side view onto a cryo-electron tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/15094) without (left) and with (right) sample boundary annotation
+```
 
 Biological samples acquired in a cryoET experiment are usually thin slabs of vitrified ice containing the biological specimen of interest. Unfortunately, it is difficult to determine orientation and thickness of the samples ahead of reconstruction. For this reason, volumes reconstructed from cryoET tilt series are often larger than the actual sample and contain a significant amount of empty space (i.e. the vacuum inside the TEM column).
 
@@ -14,15 +22,18 @@ There are several reasons for why it can be useful to determine more accurate sa
 
 Below, we will show how to use [**copick**](https://github.com/copick/copick), an adapted version of [deepfinder](https://github.com/jtschwar/cryoet-deepfinder/tree/master) and [album](https://album.solutions/) to predict sample boundaries for datasets [10301](https://cryoetdataportal.czscience.com/datasets/10301) and [10302](https://cryoetdataportal.czscience.com/datasets/10302) from the [CZ cryoET Data Portal](https://cryoetdataportal.czscience.com). Copick is a cross-platform, storage-agnostic and server-less dataset API for cryoET datasets.
 
-![topview](./figures/tomo_top_both.png)
+```{figure} ./figures/tomo_top_both.png
+:alt: topview
+:align: center
 
-*Top view onto the same tomogram ([run 15094](https://cryoetdataportal.czscience.com/runs/15094)) from dataset [10302](https://cryoetdataportal.czscience.com/datasets/10302).*
+Top view onto the same tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/15094) from dataset [10302](https://cryoetdataportal.czscience.com/datasets/10302)
+```
 
-### Step 0: Environment and Pre-requisites
+## Step 0: Environment and Pre-requisites
 
 For the purpose of this tutorial we will assume that we are working on a machine with access to an NVIDIA GPU and a working `CUDA 12.3`/`CUDNN 8.9` installation. Before we can start, we need to install the necessary software. We will use the following tools:
 
-#### 1. ChimeraX and ChimeraX-copick (for visualization and annotation)
+### 1. ChimeraX and ChimeraX-copick (for visualization and annotation)
 
 Download and install ChimeraX from [here](https://www.cgl.ucsf.edu/chimerax/download.html). After installing ChimeraX, install the ChimeraX-copick extension by running the following command in ChimeraX:
 
@@ -30,7 +41,7 @@ Download and install ChimeraX from [here](https://www.cgl.ucsf.edu/chimerax/down
 toolshed install copick
 ```
 
-#### 2. Album and copick-catalog (for processing steps)
+### 2. Album and copick-catalog (for processing steps)
 
 Comprehensive installation instructions for Album can be found on the [Album docs website](https://docs.album.solutions/en/latest/installation-instructions.html), but in brief, to install Album use:
 
@@ -53,7 +64,7 @@ album install copick:sample_mesh:0.5.0
 album install copick:fit_sample_seg:0.9.0
 ```
 
-#### 3. J-finder (for segmentation)
+### 3. J-finder (for segmentation)
 
 Download and install a copick-compatible version of deepfinder:
 
@@ -65,7 +76,7 @@ cd cryoet-deepfinder
 pip install .
 ```
 
-### Step 1: Setup your copick projects
+## Step 1: Setup your copick projects
 
 We will create two copick projects that use datasets 10301 and 10302 from the CZ cryoET Data Portal. Both datasets stem
 from the same experiments and have the same characteristics, but the tomograms in dataset 10301 have protein annotations.
@@ -336,7 +347,7 @@ We will repeat this process for a second project, `config_evaluate.json`, that i
   ```
 </details>
 
-### Step 2: Annotate the training set
+## Step 2: Annotate the training set
 
 We will now use ChimeraX to annotate the top- and bottom- boundaries of the training set. In a first step we will create
 empty `CopickPicks` objects for the top- and bottom-layer in the training set. To do this we use the
@@ -362,8 +373,12 @@ Open ChimeraX and start the copick extension by running the following command in
 copick start config_train.json
 ```
 
-![chimerax-interface](./figures/chimx_boundary.png)
-*The ChimeraX-copick interface after loading run 14069.*
+```{figure} ./figures/chimx_boundary.png
+:alt: chimerax-interface
+:align: center
+
+The ChimeraX-copick interface after loading run 14069.
+```
 
 This will open a new window with the copick interface. On the top left side you will see the available objects, on the
 bottom left you can find a list of runs in the dataset. On the right side you can find the interface of ArtiaX (the plugin that allows you to annotate objects in ChimeraX).
@@ -421,13 +436,16 @@ see the info box below and refer to the [ChimeraX documentation](https://www.cgl
 
 At the end of this step, you should have annotated the top- and bottom-layer of the all 18 tomograms in the training set.
 
-![top-bottom](./figures/top_bottom_light.png)
+```{figure} ./figures/top_bottom_light.png
+:alt: top-bottom
+:align: center
 
-*Points clicked along the top and bottom boundary of the sample of a tomogram.*
+Points clicked along the top and bottom boundary of the sample of a tomogram.
+```
 
-### Step 3: Create the training data
+## Step 3: Create the training data
 
-#### Valid reconstruction area
+### Valid reconstruction area
 
 Next, we will create the training data for the sample boundary prediction. First, we will create bounding boxes that
 describe the valid reconstruction area in each tomogram. In most TEMs, the tilt axis is not exactly parallel to
@@ -451,12 +469,14 @@ album run copick:create_rec_limits:0.5.0 \
 You can now visualize the created bounding boxes in ChimeraX by restarting the copick interface and selecting the
 `valid-area` object in the Mesh-tab on the left side.
 
-![valid-area](./figures/valid_area_light.png)
+```{figure} ./figures/valid_area_light.png
+:alt: valid-area
+:align: center
 
-*Top view onto a tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/14069) without (left)
-and with (right) valid reconstruction area mesh overlayed.*
+Top view onto a tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/14069) without (left) and with (right) valid reconstruction area mesh overlayed.
+```
 
-#### Sample
+### Sample
 
 Now, we will use the points created in [Step 2](#step-2-annotate-the-training-set) to create a second 3D mesh that
 describes the sample boundaries. We do this, by fitting a plane defined by a cubic spline grid to the points using the
@@ -475,7 +495,7 @@ album run copick:fit_sample:0.7.0 \
 --output_session 0
 ```
 
-#### Intersection
+### Intersection
 
 Next, we will intersect the valid reconstruction area with the sample to create a new object that describes the valid
 sample area. We do this using the `intersect_mesh`-solution:
@@ -496,11 +516,14 @@ album run copick:intersect_mesh:0.5.0 \
 
 You can now visualize the final 3D mesh for training in ChimeraX by restarting the copick interface and selecting the `valid-area` object in the Mesh-tab on the left side.
 
-![mesh](./figures/mesh_fit.png)
+```{figure} ./figures/mesh_fit.png
+:alt: mesh-fit
+:align: center
 
-*Side view of the tomogram with points and intersected, valid sample area.*
+Side view of the tomogram with points and intersected, valid sample area.
+```
 
-#### Training data
+### Training data
 
 Finally, we will create the training data for the sample boundary prediction. We will use the `mesh_to_seg`-solution to
 create a dense segmentation of the same size as the tomogram from the 3D meshes.
@@ -540,9 +563,9 @@ segmentations in ChimeraX by restarting the copick interface and selecting the `
 `Segmentation`-tab on the top left part of the interface. You can also visualize the sampled points from the
 `Points`-tab on the left side.
 
-### Step 4: Train the model
+## Step 4: Train the model
 
-#### Create the multilabel segmentation
+### Create the multilabel segmentation
 In the next step, we will create a second dense segmentation volume that contains the sample segmentation from the
 [previous step](#step-3-create-the-training-data). This is redundant in this case, but necessary for the training of the
 J-finder model if there were multiple segmentation targets. While the segmentation created previously is a binary mask,
@@ -563,7 +586,7 @@ step1 create \
 
 This should create a new segmentation volume with name `sampletargets`, user `train-deepfinder` and session `0`.
 
-#### Train the model
+### Train the model
 
 Next, we will train the J-finder model using the training data created in the previous steps. We will use the
 `train`-command of the J-finder pipeline:
@@ -588,7 +611,7 @@ In this case, runs `14069`, `14070`, and `14071` will be used for validation, wh
 training. The model will be trained for 10 epochs with a sample size of 10. The model will be saved in the
 `outputs`-directory.
 
-### Step 5: Evaluate the model
+## Step 5: Evaluate the model
 
 Now, we will evaluate the model on the evaluation set. For demonstration purposes we will only evaluate on three
 tomograms. We will use the `segment`-command of the J-finder pipeline:
@@ -610,11 +633,14 @@ This will create a new segmentation volume with name `segmentation`, user `outpu
 `14114`, `14132`, `14137`, and `14163`. You can now visualize the segmentations in ChimeraX by restarting the copick interface
 and selecting the `segmentation` object in the `Segmentation`-tab on the top left part of the interface.
 
-![prediction-fit](./figures/prediction_fit.png)
+```{figure} ./figures/prediction_fit.png
+:alt: prediction-fit
+:align: center
 
-*Segmentation generated by the model and box fit to the segmentation.*
+Segmentation generated by the model and box fit to the segmentation.
+```
 
-### Step 6: Post-processing
+## Step 6: Post-processing
 
 Finally, we will post-process the segmentations to create the final sample boundaries. The segmentations can contain
 small isolated regions that are not part of the sample. We will use the `fit_sample_seg`-solution to fit a box with
@@ -640,7 +666,10 @@ You can now visualize the final 3D mesh for evaluation in ChimeraX by restarting
 `valid-sample` object in the `Mesh`-tab on the left side. Below you can see the final result for the three tomograms
 `14114`, `14132`, `14137`, and `14163`.
 
-![final-fit](./figures/final.png)
+```{figure} ./figures/final.png
+:alt: final-fit
+:align: center
 
-*Clipped boundaries predicted for [run 14114](ttps://cryoetdataportal.czscience.com/runs/14114), [run 14132](https://cryoetdataportal.czscience.com/runs/14132), [run 14137](https://cryoetdataportal.czscience.com/runs/14137), and
-[run 14163](https://cryoetdataportal.czscience.com/runs/14163) (left to right, top to bottom).*
+Clipped boundaries predicted for [run 14114](https://cryoetdataportal.czscience.com/runs/14114), [run 14132](https://cryoetdataportal.czscience.com/runs/14132), [run 14137](https://cryoetdataportal.czscience.com/runs/14137), and
+[run 14163](https://cryoetdataportal.czscience.com/runs/14163) (left to right, top to bottom).
+```

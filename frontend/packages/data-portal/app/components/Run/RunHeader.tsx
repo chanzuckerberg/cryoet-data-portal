@@ -60,7 +60,7 @@ export function RunHeader() {
   const keyPhotoURL = tomogram?.key_photo_url ?? undefined
   const neuroglancerConfig = tomogram?.neuroglancer_config
 
-  const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
+  const { openRunDownloadModal } = useDownloadModalQueryParamState()
 
   const framesCount = run.tiltseries_aggregate.aggregate?.sum?.frames_count ?? 0
   const tiltSeriesCount = run.tiltseries_aggregate.aggregate?.count ?? 0
@@ -93,7 +93,7 @@ export function RunHeader() {
             sdsType="secondary"
             sdsStyle="rounded"
             onClick={() =>
-              openTomogramDownloadModal({
+              openRunDownloadModal({
                 datasetId: run.dataset.id,
                 runId: run.id,
               })
@@ -115,7 +115,7 @@ export function RunHeader() {
         <div className="flex flex-auto gap-sds-xxl p-sds-xl">
           <HeaderKeyPhoto title={run.name} url={keyPhotoURL} />
 
-          <div className="flex flex-col gap-sds-xl flex-auto pt-sds-l">
+          <div className="flex flex-col gap-sds-xl flex-1 pt-sds-l">
             <PageHeaderSubtitle className="mt-sds-m">
               {t('runOverview')}
             </PageHeaderSubtitle>

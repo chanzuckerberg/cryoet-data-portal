@@ -38,6 +38,11 @@ export class DownloadDialogPage extends BasePage {
     await dialog.getByRole('button', { name }).click()
   }
 
+  public async selectFileType(fileType: string): Promise<void> {
+    await this.getDialog().locator('button:has-text("MRC")').click()
+    await this.page.locator(`li:has-text("${fileType}")`).click()
+  }
+
   public async clickNextButton(): Promise<void> {
     const dialog = this.getDialog()
     await dialog.getByRole('button', { name: translations.next }).click()
@@ -55,6 +60,12 @@ export class DownloadDialogPage extends BasePage {
   // #region Get
   public getDialog(): Locator {
     return this.page.getByRole('dialog')
+  }
+
+  public async getDirectDownloadHref(): Promise<string | null> {
+    return this.getDialog()
+      .locator(`a:has-text("${translations.downloadNow}")`)
+      .getAttribute('href')
   }
 
   public async getClipboardHandle() {

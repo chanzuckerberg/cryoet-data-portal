@@ -4,6 +4,7 @@ import { createElement, MouseEvent, ReactNode } from 'react'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { DownloadConfig } from 'app/types/download'
 import { cns } from 'app/utils/cns'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 
 export function Radio({
   children,
@@ -18,6 +19,7 @@ export function Radio({
   onClick?(): void
   value: DownloadConfig
 }) {
+  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
   const { downloadConfig } = useDownloadModalQueryParamState()
   const isActive = downloadConfig === value
 
@@ -46,7 +48,12 @@ export function Radio({
         <InputRadio value={value} />
       </div>
 
-      <div className="flex flex-col gap-sds-xxxs !tracking-[0.3px]">
+      <div
+        className={cns(
+          'flex flex-col gap-sds-xxxs !tracking-[0.3px]',
+          multipleTomogramsEnabled && 'grow',
+        )}
+      >
         <span className="text-sds-header-s leading-sds-header-s font-semibold">
           {label}
         </span>

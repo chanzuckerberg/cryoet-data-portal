@@ -5,6 +5,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { QueryParams } from 'app/constants/query'
 import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
+import { isFilterPrefixValid, removeIdPrefix } from 'app/utils/idPrefixes'
 
 import { DropdownFilterButton } from './DropdownFilterButton'
 import { InputFilter } from './InputFilter'
@@ -42,10 +43,13 @@ export function MultiInputFilter({
 
   const [values, setValues] = useState(getQueryParamValues)
 
-  const isDisabled = useMemo(
-    () => isEqual(values, getQueryParamValues()),
-    [getQueryParamValues, values],
-  )
+  const isDisabled = useMemo(() => {
+    const hasInvalidPrefix = !!filters.find(
+      (filter) => !isFilterPrefixValid(values[filter.id], filter.queryParam),
+    )
+
+    return hasInvalidPrefix || isEqual(values, getQueryParamValues())
+  }, [filters, getQueryParamValues, values])
 
   return (
     <DropdownFilterButton
@@ -54,6 +58,7 @@ export function MultiInputFilter({
         .map((filter) => ({
           label: filters.length > 1 ? filter.label : '',
           value: values[filter.id],
+          queryParam: filter.queryParam,
         }))}
       description={
         <>
@@ -74,7 +79,12 @@ export function MultiInputFilter({
             const value = values[filter.id]
 
             if (value) {
-              prev.set(filter.queryParam, value)
+              // Our filters currently support numeric IDs and use the queryParam as the key
+              // The filter will show the prefix, but we do not need to store it in the query params
+              prev.set(
+                filter.queryParam,
+                removeIdPrefix(value, filter.queryParam) ?? '',
+              )
             }
           })
 

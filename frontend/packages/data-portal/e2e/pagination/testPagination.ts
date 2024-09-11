@@ -1,3 +1,8 @@
+/*
+ * NOTE: This file does not use the preferred page object pattern.
+ * This is because we did not have time to refactor.
+ * Please do not use this file as an example of how to write tests.
+ */
 import { expect, Page, test } from '@playwright/test'
 import { getApolloClient } from 'e2e/apollo'
 import { E2E_CONFIG } from 'e2e/constants'

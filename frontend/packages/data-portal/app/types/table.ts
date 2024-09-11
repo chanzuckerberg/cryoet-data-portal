@@ -9,6 +9,7 @@ export interface TableData {
   inline?: boolean
   label: string
   labelExtra?: ReactNode
+  subLabel?: ReactNode
   labelTooltip?: ReactNode
   labelTooltipProps?: Partial<TooltipProps>
   renderValue?(value: TableDataValue): ReactNode

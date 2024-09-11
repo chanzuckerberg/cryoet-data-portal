@@ -1,4 +1,4 @@
 {
-  "frontend": "1.25.0",
+  "frontend": "1.26.1",
   "client/python/cryoet_data_portal": "3.1.0"
 }
