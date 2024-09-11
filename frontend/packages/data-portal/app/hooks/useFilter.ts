@@ -27,6 +27,7 @@ export function getFilterState(searchParams: URLSearchParams) {
 
     ids: {
       dataset: searchParams.get(QueryParams.DatasetId),
+      deposition: searchParams.get(QueryParams.DepositionId),
       empiar: searchParams.get(QueryParams.EmpiarId),
       emdb: searchParams.get(QueryParams.EmdbId),
     },

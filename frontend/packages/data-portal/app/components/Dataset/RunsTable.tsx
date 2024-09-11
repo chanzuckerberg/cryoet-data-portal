@@ -56,7 +56,7 @@ export function RunsTable() {
       setSingleDatasetHistory(
         new Map(
           Array.from(searchParams).filter(([k]) =>
-            RUN_FILTERS.map((v) => v as string).includes(k),
+            (RUN_FILTERS as unknown as string[]).includes(k),
           ),
         ) as SingleDatasetHistory,
       ),

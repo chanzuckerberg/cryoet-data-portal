@@ -75,16 +75,21 @@ export function Breadcrumbs({
     return `${url}?${encodedParams}`
   }, [singleDatasetHistory, variant, data])
 
+  const returnToDepositionLink =
+    previousDepositionId === null || variant === 'deposition'
+      ? undefined
+      : `/depositions/${previousDepositionId}?${previousSingleDepositionParams}`
+
   const chevronIcon = (
     <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0" />
   )
 
   return (
     <div className="flex flex-col flex-auto gap-1">
-      {previousDepositionId != null && variant !== 'deposition' && (
+      {returnToDepositionLink && (
         <Link
           className="uppercase font-semibold text-sds-caps-xxxs leading-sds-caps-xxxs text-sds-primary-400"
-          to={`/depositions/${previousDepositionId}?${previousSingleDepositionParams}`}
+          to={returnToDepositionLink}
         >
           {t('returnToDeposition')}
         </Link>

@@ -37,7 +37,7 @@ export function RunFilter() {
           allObjectNames={objectNames}
           label={t('objectName')}
         />
-        {showDepositions && <ObjectIdFilter />}
+        <ObjectIdFilter />
         <AnnotatedObjectShapeTypeFilter
           allObjectShapeTypes={objectShapeTypes}
         />

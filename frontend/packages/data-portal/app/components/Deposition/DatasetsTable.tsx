@@ -13,7 +13,7 @@ import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
-import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
+import { RUN_FILTERS } from 'app/constants/filterQueryParams'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { DepositionPageDatasetTableWidths } from 'app/constants/table'
@@ -26,7 +26,7 @@ import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
-const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
+const LOADING_DATASETS: Dataset[] = range(0, MAX_PER_PAGE).map(
   (value) =>
     ({
       authors: [],
@@ -39,7 +39,7 @@ const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
 
 export function DatasetsTable() {
   const { t } = useI18n()
-  const { deposition } = useDepositionById()
+  const { deposition, datasets } = useDepositionById()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const datasetSort = (searchParams.get('sort') ?? undefined) as
@@ -53,16 +53,17 @@ export function DatasetsTable() {
       const url = createUrl(`/datasets/${id}`)
 
       carryOverFilterParams({
-        filters: DATASET_FILTERS,
+        filters: RUN_FILTERS,
         params: url.searchParams,
         prevParams: searchParams,
       })
 
-      url.searchParams.set(QueryParams.DepositionId, `${id}`)
+      // TODO: (kne42) use a different field like `from-deposition-id` that is transformed to `deposition-id` and applies the filter + banner
+      url.searchParams.set(QueryParams.DepositionId, `${deposition.id}`)
 
       return url.pathname + url.search
     },
-    [searchParams],
+    [searchParams, deposition],
   )
 
   const columns = useMemo(() => {
@@ -189,7 +190,7 @@ export function DatasetsTable() {
         }),
 
         columnHelper.accessor(
-          (dataset) => dataset.runs_aggregate.aggregate?.count,
+          (dataset) => dataset.runs_aggregate?.aggregate?.count,
           {
             id: 'runs',
 
@@ -326,7 +327,7 @@ export function DatasetsTable() {
 
   return (
     <PageTable
-      data={isLoadingDebounced ? LOADING_DATASETS : deposition.datasets}
+      data={isLoadingDebounced ? LOADING_DATASETS : datasets}
       columns={columns}
       hoverType="group"
     />

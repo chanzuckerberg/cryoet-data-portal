@@ -5,6 +5,8 @@ import { SourceCodeIcon, WeightsIcon } from 'app/components/icons'
 import { VariantLinkProps } from 'app/components/Link'
 import { I18nKeys } from 'app/types/i18n'
 
+import { METHOD_LINK_TYPES, MethodLinkDataType, MethodLinkType } from './type'
+
 export interface MethodLinkProps {
   i18nLabel: I18nKeys
   url: string
@@ -14,11 +16,19 @@ export interface MethodLinkProps {
   linkProps?: Partial<VariantLinkProps>
 }
 
-export const iconMap = {
-  sourceCode: (
+const METHOD_TYPE_TO_I18N_KEY: { [key in MethodLinkType]: I18nKeys } = {
+  source_code: 'sourceCode',
+  model_weights: 'modelWeights',
+  website: 'website',
+  documentation: 'documentation',
+  other: 'other',
+} as const
+
+export const ICON_MAP: { [key in MethodLinkType]: ReactNode } = {
+  source_code: (
     <SourceCodeIcon className="w-sds-icon-s h-sds-icon-s inline-block" />
   ),
-  modelWeights: (
+  model_weights: (
     <WeightsIcon className="w-sds-icon-s h-sds-icon-s inline-block" />
   ),
   website: (
@@ -47,40 +57,27 @@ export const iconMap = {
   ),
 } as const
 
-export interface MethodLinkVariantProps {
-  variant: keyof typeof iconMap
-  url: string
-  title?: string
-}
-
-const variantOrder: (keyof typeof iconMap)[] = [
-  'sourceCode',
-  'modelWeights',
-  'website',
-  'documentation',
-  'other',
-]
-
 function methodLinkFromVariant({
-  variant,
-  url,
-  title,
-}: MethodLinkVariantProps): MethodLinkProps {
+  link_type: variant,
+  link: url,
+  custom_name: title,
+}: MethodLinkDataType): MethodLinkProps {
   return {
-    i18nLabel: variant,
+    i18nLabel: METHOD_TYPE_TO_I18N_KEY[variant],
     url,
     title,
-    icon: iconMap[variant],
+    icon: ICON_MAP[variant],
   }
 }
 
 export function generateMethodLinks(
-  links: MethodLinkVariantProps[],
+  links: MethodLinkDataType[],
 ): MethodLinkProps[] {
   return links
-    .toSorted(
+    .sort(
       (a, b) =>
-        variantOrder.indexOf(a.variant) - variantOrder.indexOf(b.variant),
+        METHOD_LINK_TYPES.indexOf(a.link_type) -
+        METHOD_LINK_TYPES.indexOf(b.link_type),
     )
     .map((props) => methodLinkFromVariant(props))
 }

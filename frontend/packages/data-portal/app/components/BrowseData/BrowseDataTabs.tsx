@@ -29,8 +29,7 @@ export function BrowseDataTabs() {
 
   const data = useTypedLoaderData<GetToolbarDataQuery>()
   const datasetCount = data.datasets_aggregate.aggregate?.count ?? 0
-  // TODO: hook up to backend when available
-  // const depositionsCount = data.depositions_aggregate?.count ?? 0
+  const depositionsCount = data.depositions_aggregate.aggregate?.count ?? 0
   // const runCount = data.runs_aggregate.aggregate?.count ?? 0
 
   const tabOptions = useMemo<TabData<BrowseDataTab>[]>(
@@ -44,11 +43,11 @@ export function BrowseDataTabs() {
       //   value: BrowseDataTab.Runs,
       // },
       {
-        label: t('depositionsTab', { count: datasetCount }),
+        label: t('depositionsTab', { count: depositionsCount }),
         value: BrowseDataTab.Depositions,
       },
     ],
-    [datasetCount, t],
+    [datasetCount, depositionsCount, t],
     // [datasetCount, depositionsCount, runCount, t],
   )
 

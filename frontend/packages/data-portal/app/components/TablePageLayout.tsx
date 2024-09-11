@@ -169,7 +169,7 @@ function TablePageTabContent({
               filterPanel && 'screen-2040:translate-x-[-100px] max-w-content',
             )}
           >
-            <div className="flex mb-sds-xl">{banner}</div>
+            <div className="flex mb-sds-xl px-sds-xl">{banner}</div>
 
             <div className="px-sds-xl flex items-center gap-x-sds-xl">
               <p className="text-sds-header-l leading-sds-header-l font-semibold">

@@ -20,7 +20,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
     $annotationsOffset: Int,
     $filter: [annotations_bool_exp!],
     $fileFilter: [annotation_files_bool_exp!]
-    $deposition_id: Int,
+    $deposition_id: Int!,
   ) {
     runs(where: { id: { _eq: $id } }) {
       id
@@ -202,6 +202,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
         id
         is_curator_recommended
         last_modified_date
+        method_links
         method_type
         object_count
         object_description
@@ -233,6 +234,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
           aggregate {
             count
           }
+        }
+
+        deposition {
+          id
+          title
         }
       }
     }
@@ -411,7 +417,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
     }
 
-    deposition: datasets(where: { id: { _eq: $deposition_id } }) {
+    deposition: depositions_by_pk(id: $deposition_id) {
       id
       title
     }
@@ -420,6 +426,16 @@ const GET_RUN_BY_ID_QUERY = gql(`
 
 function getFilter(filterState: FilterState): Annotations_Bool_Exp[] {
   const filters: Annotations_Bool_Exp[] = []
+
+  // Deposition ID filter
+  const depositionId = +(filterState.ids.deposition ?? Number.NaN)
+  if (!Number.isNaN(depositionId) && depositionId > 0) {
+    filters.push({
+      deposition_id: {
+        _eq: depositionId,
+      },
+    })
+  }
 
   const { name, orcid } = filterState.author
 

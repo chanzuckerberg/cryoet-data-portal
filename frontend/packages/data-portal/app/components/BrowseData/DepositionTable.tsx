@@ -4,7 +4,7 @@ import { CellHeaderDirection } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
 import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
-import { range, sum } from 'lodash-es'
+import { range } from 'lodash-es'
 import { useMemo } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
@@ -12,6 +12,7 @@ import { AuthorList } from 'app/components/AuthorList'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { DepositionTableWidths } from 'app/constants/table'
@@ -30,9 +31,10 @@ const LOADING_DEPOSITIONS = range(0, MAX_PER_PAGE).map(
       id: value,
       title: `loading-deposition-${value}`,
       deposition_date: '',
-      annotations_count: [],
-      datasets_count: {},
-      runs: [],
+      annotations_aggregate: {},
+      dataset_aggregate: {},
+      annotations: [],
+      shape_types: [],
     }) as Deposition,
 )
 
@@ -80,27 +82,7 @@ export function DepositionTable() {
 
         columnHelper.accessor('id', {
           header: () => (
-            <CellHeader
-              showSort
-              active={depositionSort !== undefined}
-              direction={depositionSort}
-              onClick={(event) => {
-                event.stopPropagation()
-                event.preventDefault()
-                const nextParams = new URLSearchParams(searchParams)
-
-                if (depositionSort === undefined) {
-                  nextParams.set('sort', 'asc')
-                } else if (depositionSort === 'asc') {
-                  nextParams.set('sort', 'desc')
-                } else {
-                  nextParams.delete('sort')
-                }
-
-                setSearchParams(nextParams)
-              }}
-              width={DepositionTableWidths.id}
-            >
+            <CellHeader width={DepositionTableWidths.id}>
               {t('depositionName')}
             </CellHeader>
           ),
@@ -131,7 +113,9 @@ export function DepositionTable() {
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
-                      `${t('depositionId')}: ${deposition.id}`
+                      `${t('depositionId')}: ${IdPrefix.Deposition}-${
+                        deposition.id
+                      }`
                     )}
                   </p>
 
@@ -157,7 +141,27 @@ export function DepositionTable() {
 
         columnHelper.accessor('deposition_date', {
           header: () => (
-            <CellHeader width={DepositionTableWidths.depositionDate}>
+            <CellHeader
+              showSort
+              active={depositionSort !== undefined}
+              direction={depositionSort}
+              onClick={(event) => {
+                event.stopPropagation()
+                event.preventDefault()
+                const nextParams = new URLSearchParams(searchParams)
+
+                if (depositionSort === undefined) {
+                  nextParams.set('sort', 'asc')
+                } else if (depositionSort === 'asc') {
+                  nextParams.set('sort', 'desc')
+                } else {
+                  nextParams.delete('sort')
+                }
+
+                setSearchParams(nextParams)
+              }}
+              width={DepositionTableWidths.depositionDate}
+            >
               {t('depositionDate')}
             </CellHeader>
           ),
@@ -167,7 +171,7 @@ export function DepositionTable() {
           },
         }),
 
-        columnHelper.accessor('annotations_count', {
+        columnHelper.accessor('annotations_aggregate', {
           header: () => (
             <CellHeader width={DepositionTableWidths.annotations}>
               {t('annotations')}
@@ -175,15 +179,12 @@ export function DepositionTable() {
           ),
 
           cell({ row: { original: deposition } }) {
-            // TODO: hook up to real data when backend ready
-            const annotationsCount = sum(
-              deposition.annotations_count.flatMap((run) =>
-                run.tomogram_voxel_spacings.flatMap(
-                  (tomo) => tomo.annotations_aggregate.aggregate?.count ?? 0,
-                ),
-              ),
-            )
-            const runsCount = deposition.datasets_count.aggregate?.count ?? 0
+            const annotationsCount =
+              deposition?.annotations_aggregate?.aggregate?.count ?? 0
+
+            // TODO: (kne42) uncomment this when we can fetch dataset counts properly
+            // const datasetsCount =
+            //   deposition?.dataset_aggregate?.aggregate?.count ?? 0
 
             return (
               <TableCell loadingSkeleton={false}>
@@ -194,38 +195,31 @@ export function DepositionTable() {
                     annotationsCount.toLocaleString()
                   )}
                 </p>
-
+                {/*              TODO: (kne42) uncomment this when we can fetch dataset counts properly
                 <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
                   {isLoadingDebounced ? (
                     <Skeleton variant="text" className="max-w-[75%] mt-2" />
                   ) : (
-                    t('acrossDatasets', { count: runsCount })
+                    t('acrossDatasets', { count: datasetsCount })
                   )}
-                </p>
+                </p> */}
               </TableCell>
             )
           },
         }),
 
-        columnHelper.accessor((deposition) => deposition.runs, {
-          id: 'annotatedObjects',
-
+        columnHelper.accessor('annotations', {
           header: () => (
             <CellHeader width={DepositionTableWidths.annotatedObjects}>
               {t('annotatedObjects')}
             </CellHeader>
           ),
 
-          cell({ getValue }) {
-            const runs = getValue()
+          cell({ row: { original: deposition } }) {
             const annotatedObjects = Array.from(
               new Set(
-                runs.flatMap((run) =>
-                  run.tomogram_voxel_spacings.flatMap((voxelSpacing) =>
-                    voxelSpacing.annotations.flatMap(
-                      (annotation) => annotation.object_name,
-                    ),
-                  ),
+                deposition?.annotations?.flatMap(
+                  (annotation) => annotation.object_name,
                 ),
               ),
             )
@@ -251,24 +245,18 @@ export function DepositionTable() {
           },
         }),
 
-        columnHelper.accessor((deposition) => deposition.runs, {
-          id: 'shapeTypes',
+        columnHelper.accessor('shape_types', {
           header: () => (
             <CellHeader width={DepositionTableWidths.objectShapeTypes}>
               {t('objectShapeType')}
             </CellHeader>
           ),
 
-          cell({ getValue }) {
-            const runs = getValue()
+          cell({ row: { original: deposition } }) {
             const shapeTypes = Array.from(
               new Set(
-                runs.flatMap((run) =>
-                  run.tomogram_voxel_spacings.flatMap((voxelSpacing) =>
-                    voxelSpacing.shape_types.flatMap((annotation) =>
-                      annotation.files.flatMap((file) => file.shape_type),
-                    ),
-                  ),
+                deposition.shape_types?.flatMap((annotation) =>
+                  annotation.files.flatMap((file) => file.shape_type),
                 ),
               ),
             )
