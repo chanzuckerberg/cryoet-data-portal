@@ -194,7 +194,13 @@ export function TomogramsTable() {
                 sdsType="primary"
                 sdsStyle="minimal"
                 className="!justify-start !ml-sds-l !text-sds-body-xxs"
-                onClick={openTomogramDownloadModal}
+                onClick={() => {
+                  openTomogramDownloadModal({
+                    tomogramId: original.id,
+                    datasetId: run.dataset.id,
+                    runId: run.id,
+                  })
+                }}
                 startIcon={
                   <Icon sdsIcon="download" sdsSize="xs" sdsType="button" />
                 }

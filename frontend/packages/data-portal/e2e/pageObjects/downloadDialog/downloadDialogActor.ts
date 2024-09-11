@@ -35,13 +35,15 @@ export class DownloadDialogActor {
     step,
     tab,
     tomogram,
+    multipleTomograms,
   }: {
     config?: DownloadConfig
     fileFormat?: string
     baseUrl: string
     step?: DownloadStep
     tab?: DownloadTab
-    tomogram?: { sampling: number; processing: string }
+    tomogram?: { id: number; sampling: number; processing: string }
+    multipleTomograms?: boolean
   }) {
     const expectedUrl = constructDialogUrl(baseUrl, {
       config,
@@ -49,6 +51,7 @@ export class DownloadDialogActor {
       step,
       tab,
       tomogram,
+      multipleTomograms,
     })
     await this.downloadDialogPage.goTo(expectedUrl.href)
   }
@@ -60,6 +63,7 @@ export class DownloadDialogActor {
     baseUrl,
     step,
     tab,
+    multipleTomograms,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     config?: DownloadConfig
@@ -67,9 +71,10 @@ export class DownloadDialogActor {
     baseUrl: string
     step?: DownloadStep
     tab?: DownloadTab
+    multipleTomograms?: boolean
   }) {
     const { data } = await fetchTestSingleRun(client)
-    const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
+    const tomogram = data.tomograms_for_download[0]
 
     await this.goToDownloadDialogUrl({
       baseUrl,
@@ -78,9 +83,11 @@ export class DownloadDialogActor {
       step,
       tab,
       tomogram: {
+        id: tomogram.id,
         sampling: tomogram.voxel_spacing,
         processing: tomogram.processing,
       },
+      multipleTomograms,
     })
   }
   // #endregion Navigate
@@ -125,7 +132,7 @@ export class DownloadDialogActor {
     const { data } = await fetchTestSingleDataset(client)
     await this.expectDialogToBeOpen({
       title: translations.downloadOptions,
-      substrings: [`${translations.dataset}: ${data.datasets[0].title}`],
+      substrings: [`${translations.datasetName}: ${data.datasets[0].title}`],
     })
   }
 
@@ -140,8 +147,8 @@ export class DownloadDialogActor {
     await this.expectDialogToBeOpen({
       title: translations.configureDownload,
       substrings: [
-        `${translations.dataset}: ${datasetName}`,
-        `${translations.run}: ${runName}`,
+        `${translations.datasetName}: ${datasetName}`,
+        `${translations.runName}: ${runName}`,
       ],
     })
   }
@@ -157,27 +164,29 @@ export class DownloadDialogActor {
     await this.expectDialogToBeOpen({
       title: translations.downloadOptions,
       substrings: [
-        `${translations.dataset}: ${datasetName}`,
-        `${translations.run}: ${runName}`,
+        `${translations.datasetName}: ${datasetName}`,
+        `${translations.runName}: ${runName}`,
         `${translations.annotations}: ${translations.all}`,
       ],
     })
   }
 
-  public async expectDialogUrlToMatch({
+  public expectDialogUrlToMatch({
     baseUrl,
     config,
     fileFormat,
     tab,
     tomogram,
     step,
+    multipleTomograms = false,
   }: {
     baseUrl: string
     config?: string
     fileFormat?: string
     tab?: DownloadTab
-    tomogram?: { sampling: number; processing: string }
+    tomogram?: { id: number; sampling: number; processing: string }
     step?: DownloadStep
+    multipleTomograms?: boolean
   }) {
     const expectedUrl = constructDialogUrl(baseUrl, {
       config,
@@ -185,8 +194,11 @@ export class DownloadDialogActor {
       tab,
       tomogram,
       step,
+      multipleTomograms,
     })
-    await this.downloadDialogPage.page.waitForURL(expectedUrl.href)
+    const actualUrl = new URL(this.downloadDialogPage.url())
+    expect(actualUrl.pathname).toBe(expectedUrl.pathname)
+    expect(actualUrl.searchParams.sort()).toBe(expectedUrl.searchParams.sort())
   }
 
   public async expectTomogramDialogUrlToMatch({
@@ -196,6 +208,7 @@ export class DownloadDialogActor {
     fileFormat,
     tab,
     step,
+    multipleTomograms = false,
   }: {
     baseUrl: string
     client: ApolloClient<NormalizedCacheObject>
@@ -203,20 +216,23 @@ export class DownloadDialogActor {
     fileFormat?: string
     tab?: DownloadTab
     step?: DownloadStep
+    multipleTomograms?: boolean
   }) {
     const { data } = await fetchTestSingleRun(client)
-    const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
+    const tomogram = data.tomograms_for_download[0]
 
-    await this.expectDialogUrlToMatch({
+    this.expectDialogUrlToMatch({
       baseUrl,
       config,
       fileFormat,
       tab,
       tomogram: {
+        id: tomogram.id,
         sampling: tomogram.voxel_spacing,
         processing: tomogram.processing,
       },
       step,
+      multipleTomograms,
     })
   }
 
