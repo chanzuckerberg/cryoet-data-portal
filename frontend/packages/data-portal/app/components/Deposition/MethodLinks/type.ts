@@ -1,7 +1,7 @@
 import { MethodType } from 'app/constants/methodTypes'
 
 // note: below is also used for ordering in lists
-export const methodLinkTypes = [
+export const METHOD_LINK_TYPES = [
   'source_code',
   'model_weights',
   'website',
@@ -9,7 +9,7 @@ export const methodLinkTypes = [
   'other',
 ] as const
 
-export type MethodLinkType = (typeof methodLinkTypes)[number]
+export type MethodLinkType = (typeof METHOD_LINK_TYPES)[number]
 
 export type MethodLinkDataType = {
   link: string

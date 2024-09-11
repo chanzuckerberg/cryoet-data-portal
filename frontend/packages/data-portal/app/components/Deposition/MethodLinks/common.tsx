@@ -5,7 +5,7 @@ import { SourceCodeIcon, WeightsIcon } from 'app/components/icons'
 import { VariantLinkProps } from 'app/components/Link'
 import { I18nKeys } from 'app/types/i18n'
 
-import { MethodLinkDataType, MethodLinkType, methodLinkTypes } from './type'
+import { METHOD_LINK_TYPES, MethodLinkDataType, MethodLinkType } from './type'
 
 export interface MethodLinkProps {
   i18nLabel: I18nKeys
@@ -16,7 +16,7 @@ export interface MethodLinkProps {
   linkProps?: Partial<VariantLinkProps>
 }
 
-const methodTypeToI18nKey: { [key in MethodLinkType]: I18nKeys } = {
+const METHOD_TYPE_TO_I18N_KEY: { [key in MethodLinkType]: I18nKeys } = {
   source_code: 'sourceCode',
   model_weights: 'modelWeights',
   website: 'website',
@@ -24,7 +24,7 @@ const methodTypeToI18nKey: { [key in MethodLinkType]: I18nKeys } = {
   other: 'other',
 } as const
 
-export const iconMap: { [key in MethodLinkType]: ReactNode } = {
+export const ICON_MAP: { [key in MethodLinkType]: ReactNode } = {
   source_code: (
     <SourceCodeIcon className="w-sds-icon-s h-sds-icon-s inline-block" />
   ),
@@ -63,10 +63,10 @@ function methodLinkFromVariant({
   custom_name: title,
 }: MethodLinkDataType): MethodLinkProps {
   return {
-    i18nLabel: methodTypeToI18nKey[variant],
+    i18nLabel: METHOD_TYPE_TO_I18N_KEY[variant],
     url,
     title,
-    icon: iconMap[variant],
+    icon: ICON_MAP[variant],
   }
 }
 
@@ -76,8 +76,8 @@ export function generateMethodLinks(
   return links
     .sort(
       (a, b) =>
-        methodLinkTypes.indexOf(a.link_type) -
-        methodLinkTypes.indexOf(b.link_type),
+        METHOD_LINK_TYPES.indexOf(a.link_type) -
+        METHOD_LINK_TYPES.indexOf(b.link_type),
     )
     .map((props) => methodLinkFromVariant(props))
 }
