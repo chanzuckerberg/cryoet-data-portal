@@ -31,8 +31,8 @@ export function ConfigureTomogramDownloadContent() {
     tomogramSampling,
     tomogramId,
     setAllAnnotationsConfig,
+    setTomogramConfigDeprecated,
     setTomogramConfig,
-    setTomogramConfigNew,
     setTomogramProcessing,
     setTomogramSampling,
     setTomogramId,
@@ -75,7 +75,7 @@ export function ConfigureTomogramDownloadContent() {
 
   const setTomogramConfigWithInitialValues = useCallback(() => {
     if (multipleTomogramsEnabled) {
-      setTomogramConfigNew(allTomograms[0]?.id.toString())
+      setTomogramConfig(allTomograms[0]?.id.toString())
       return
     }
 
@@ -83,13 +83,13 @@ export function ConfigureTomogramDownloadContent() {
     const processing = allTomogramProcessing.at(0)
 
     if (tomogram && processing) {
-      setTomogramConfig(`${tomogram.voxel_spacing}`, processing)
+      setTomogramConfigDeprecated(`${tomogram.voxel_spacing}`, processing)
     }
   }, [
     allTomogramProcessing,
     allTomograms,
+    setTomogramConfigDeprecated,
     setTomogramConfig,
-    setTomogramConfigNew,
     multipleTomogramsEnabled,
   ])
 

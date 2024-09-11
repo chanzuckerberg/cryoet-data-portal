@@ -217,7 +217,7 @@ export function useDownloadModalQueryParamState() {
   )
 
   /** @deprecated */
-  const setTomogramConfig = useCallback(
+  const setTomogramConfigDeprecated = useCallback(
     (initialTomogramSampling: string, initialTomogramProcessing: string) =>
       setDownloadParams({
         [QueryParams.DownloadConfig]: DownloadConfig.Tomogram,
@@ -228,7 +228,7 @@ export function useDownloadModalQueryParamState() {
     [setDownloadParams],
   )
 
-  const setTomogramConfigNew = useCallback(
+  const setTomogramConfig = useCallback(
     (id?: string) =>
       setDownloadParams({
         [QueryParams.DownloadConfig]: DownloadConfig.Tomogram,
@@ -280,8 +280,8 @@ export function useDownloadModalQueryParamState() {
     setDownloadTab,
     setFileFormat,
     setObjectShapeType,
+    setTomogramConfigDeprecated,
     setTomogramConfig,
-    setTomogramConfigNew,
     setTomogramProcessing,
     setTomogramSampling,
     tomogramProcessing,
