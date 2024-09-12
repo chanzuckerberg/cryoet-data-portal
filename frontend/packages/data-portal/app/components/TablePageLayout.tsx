@@ -2,16 +2,18 @@ import { Pagination } from '@czi-sds/components'
 import { useSearchParams } from '@remix-run/react'
 import { ReactNode, useEffect, useMemo } from 'react'
 
+import { Link } from 'app/components/Link'
+import { Tabs } from 'app/components/Tabs'
 import { TABLE_PAGE_LAYOUT_LOG_ID } from 'app/constants/error'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { TestIds } from 'app/constants/testIds'
 import { LayoutContext, LayoutContextValue } from 'app/context/Layout.context'
+import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
 import { ErrorBoundary } from './ErrorBoundary'
 import { TableCount } from './Table/TableCount'
-import { Tabs } from './Tabs'
 
 export interface TablePageLayoutProps {
   banner?: ReactNode
@@ -26,6 +28,8 @@ export interface TablePageLayoutProps {
 
 export interface TableLayoutTab {
   title: string
+  description?: string
+  learnMoreLink?: string
 
   banner?: ReactNode
   filterPanel?: ReactNode
@@ -101,6 +105,8 @@ export function TablePageLayout({
 /** Table + filters for 1 tab. */
 function TablePageTabContent({
   title,
+  description,
+  learnMoreLink,
   filterPanel,
   filteredCount,
   table,
@@ -112,6 +118,7 @@ function TablePageTabContent({
 }: TableLayoutTab) {
   const [searchParams, setSearchParams] = useSearchParams()
   const pageQueryParamValue = +(searchParams.get(pageQueryParamKey) ?? '1')
+  const { t } = useI18n()
 
   useEffect(() => {
     if (Math.ceil(filteredCount / MAX_PER_PAGE) < pageQueryParamValue) {
@@ -171,7 +178,14 @@ function TablePageTabContent({
           >
             <div className="flex mb-sds-xl px-sds-xl">{banner}</div>
 
-            <div className="px-sds-xl flex items-center gap-x-sds-xl">
+            <div
+              className={cns(
+                'ml-sds-xl p-sds-m flex items-center gap-x-sds-xl  screen-1024:mr-sds-xl',
+                // NOTE: The title background color is gray on the browse datasets and browse depositions pages
+                // If we want to add a description to the single deposition or single run pages, we may need to update this
+                !!description && 'bg-sds-gray-100',
+              )}
+            >
               <p className="text-sds-header-l leading-sds-header-l font-semibold">
                 {title}
               </p>
@@ -181,6 +195,17 @@ function TablePageTabContent({
                 totalCount={totalCount}
                 type={countLabel}
               />
+              <p className="inline">
+                {description}
+                {learnMoreLink && (
+                  <Link
+                    to={learnMoreLink}
+                    className="text-sds-primary-400 ml-sds-xxs"
+                  >
+                    {t('learnMore')}
+                  </Link>
+                )}
+              </p>
             </div>
 
             <ErrorBoundary logId={TABLE_PAGE_LAYOUT_LOG_ID}>
