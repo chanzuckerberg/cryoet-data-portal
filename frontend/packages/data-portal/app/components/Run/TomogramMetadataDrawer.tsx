@@ -66,7 +66,7 @@ export function TomogramMetadataDrawer() {
             renderValue: (value: string) => (
               <Link
                 className="text-sds-primary-400"
-                to={`/deposition/${tomogram.deposition?.id}`}
+                to={`/depositions/${tomogram.deposition?.id}`}
               >
                 {value}
               </Link>
