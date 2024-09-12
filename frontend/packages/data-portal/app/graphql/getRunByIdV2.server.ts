@@ -10,7 +10,7 @@ import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 const GET_RUN_BY_ID_QUERY_V2 = gql(`
     query GetRunByIdV2 {
         __typename
-    }    
+    }
 `)
 
 export async function getRunById({
