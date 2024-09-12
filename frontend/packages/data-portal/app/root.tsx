@@ -58,11 +58,11 @@ export function shouldRevalidate() {
 
 const Document = withEmotionCache(
   ({ children, title }: DocumentProps, emotionCache) => {
-    useEffect(() => {
-      console.log(process.env.API_URL_V2)
-    })
     const clientStyleData = useContext(ClientStyleContext)
     const { ENV, locale } = useTypedLoaderData<typeof loader>()
+    useEffect(() => {
+      console.log(JSON.stringify(ENV))
+    })
 
     // This hook will change the i18n instance language to the current locale
     // detected by the loader, this way, when we do something to change the
