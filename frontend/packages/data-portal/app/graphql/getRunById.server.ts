@@ -510,6 +510,7 @@ export async function getRunById({
   params?: URLSearchParams
   depositionId?: number
 }): Promise<ApolloQueryResult<GetRunByIdQuery>> {
+  console.log('HELLO')
   return client.query({
     query: GET_RUN_BY_ID_QUERY,
     variables: {
