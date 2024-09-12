@@ -1,4 +1,5 @@
 __generated__
+__generated_v2__
 .env.example
 .eslintignore
 .gitignore
