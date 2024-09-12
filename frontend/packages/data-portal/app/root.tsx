@@ -11,7 +11,7 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 import { defaults } from 'lodash-es'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useChangeLanguage } from 'remix-i18next'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
@@ -60,9 +60,6 @@ const Document = withEmotionCache(
   ({ children, title }: DocumentProps, emotionCache) => {
     const clientStyleData = useContext(ClientStyleContext)
     const { ENV, locale } = useTypedLoaderData<typeof loader>()
-    useEffect(() => {
-      console.log(JSON.stringify(ENV))
-    })
 
     // This hook will change the i18n instance language to the current locale
     // detected by the loader, this way, when we do something to change the
