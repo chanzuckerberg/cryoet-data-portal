@@ -238,6 +238,6 @@ Semantic segmentation masks can downloaded using [Amazon Web Services Command Li
 :alt: Depositions defined
 :align: center
 
-Types of depositions 
+Types of depositions
 ```
 Depositions are collections of data submitted together. All data being submitted together will be tagged with the same deposition ID. On the Portal, we will surface depositions that contain annotations submitted together. In the future, depositions surfaced on the Portal may include tomograms added to existing datasets or sets of datasets contributed together.
