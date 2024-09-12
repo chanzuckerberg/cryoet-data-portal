@@ -1,5 +1,6 @@
 .cache/
 app/__generated__
+app/__generated_v2__
 app/**/*.module.css.d.ts
 build/
 node_modules/
