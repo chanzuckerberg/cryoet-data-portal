@@ -1,5 +1,4 @@
 import { useCallback, useMemo } from 'react'
-import { match, P } from 'ts-pattern'
 
 import { QueryParams } from 'app/constants/query'
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
