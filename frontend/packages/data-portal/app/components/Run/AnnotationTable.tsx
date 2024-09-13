@@ -327,7 +327,7 @@ export function AnnotationTable() {
                     datasetId: run.dataset.id,
                     runId: run.id,
                     annotationId: annotation.id,
-                    tomogramId: tomogramsForDownload[0].id, // TODO(bchu): is_portal_standard
+                    referenceTomogramId: tomogramsForDownload[0].id, // TODO(bchu): is_portal_standard
                     objectShapeType: annotation.shape_type,
                     fileFormat: annotation.format,
                   })

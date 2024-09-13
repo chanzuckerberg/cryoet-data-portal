@@ -1,6 +1,6 @@
-import { ReactNode, useMemo } from 'react'
+import { ReactNode } from 'react'
 
-import { Select, SelectOption } from 'app/components/Select'
+import { Select } from 'app/components/Select'
 import { Tomogram } from 'app/context/DownloadModal.context'
 import { cns } from 'app/utils/cns'
 
@@ -30,6 +30,9 @@ export function TomogramSelector({
     <Select
       title={title}
       tooltip={tooltip}
+      tooltipProps={{
+        placement: 'top',
+      }}
       className={cns('flex-grow', className)}
       dropdownClasses={{
         popper: 'max-h-[325px] !p-sds-xs overflow-y-auto',

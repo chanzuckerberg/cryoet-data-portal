@@ -198,8 +198,8 @@ export default function RunByIdPage() {
       ]}
       downloadModal={
         <DownloadModal
-          activeAnnotation={activeAnnotation}
-          activeTomogram={activeTomogram}
+          annotationToDownload={activeAnnotation}
+          tomogramToDownload={activeTomogram}
           allTomogramProcessing={processingMethods}
           allTomograms={tomogramsForDownload}
           datasetId={run.dataset.id}
@@ -239,7 +239,7 @@ export default function RunByIdPage() {
             .otherwise(() => undefined)}
           tomogramId={activeTomogram?.id ?? undefined}
           tomogramVoxelId={tomogram?.id ?? undefined}
-          type={annotationId ? 'annotation' : 'runs'}
+          type={annotationId ? 'annotation' : 'tomogram'}
         />
       }
       drawers={

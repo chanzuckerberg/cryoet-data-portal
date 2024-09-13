@@ -12,16 +12,16 @@ import { TomogramSelector } from './Tomogram/TomogramSelector'
 export function ConfigureAnnotationDownloadContent() {
   const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
   const { t } = useI18n()
-  const { objectShapeType, tomogramId, setTomogramId } =
+  const { objectShapeType, referenceTomogramId, setReferenceTomogramId } =
     useDownloadModalQueryParamState()
-  const { activeAnnotation, allTomograms = [] } = useDownloadModalContext()
+  const { annotationToDownload, allTomograms = [] } = useDownloadModalContext()
 
   const fileFormats = useMemo<string[]>(
     () =>
-      activeAnnotation?.files
+      annotationToDownload?.files
         .filter((annotation) => annotation.shape_type === objectShapeType)
         .map((annotation) => annotation.format) ?? [],
-    [activeAnnotation?.files, objectShapeType],
+    [annotationToDownload?.files, objectShapeType],
   )
 
   return (
@@ -32,10 +32,10 @@ export function ConfigureAnnotationDownloadContent() {
           tooltip={<I18n i18nKey="selectTheTomogramToReferenceWith" />}
           className="pt-sds-m"
           selectedTomogram={allTomograms.find(
-            (tomogram) => tomogram.id.toString() === tomogramId,
+            (tomogram) => tomogram.id.toString() === referenceTomogramId,
           )}
           allTomograms={allTomograms}
-          onSelectTomogramId={setTomogramId}
+          onSelectTomogramId={setReferenceTomogramId}
         />
       )}
       <FileFormatDropdown className="pt-sds-l" fileFormats={fileFormats} />

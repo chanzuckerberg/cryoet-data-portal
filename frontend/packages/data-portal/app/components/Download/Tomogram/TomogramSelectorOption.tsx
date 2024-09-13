@@ -13,13 +13,7 @@ export function TomogramSelectorOption({
 
   return (
     <div>
-      <div className="font-semibold">
-        {getTomogramName(
-          tomogram.id,
-          tomogram.reconstruction_method,
-          tomogram.processing,
-        )}
-      </div>
+      <div className="font-semibold">{getTomogramName(tomogram)}</div>
       <div className="text-sds-body-xxs text-sds-color-primitive-gray-500">
         {t('tomogramId')}: {tomogram.id}
       </div>

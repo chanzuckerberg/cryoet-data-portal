@@ -37,7 +37,7 @@ export function ConfigureTomogramDownloadContent() {
   } = useDownloadModalQueryParamState()
 
   const {
-    activeTomogram,
+    tomogramToDownload,
     allTomogramProcessing = [],
     allTomograms = [],
     runId,
@@ -106,7 +106,7 @@ export function ConfigureTomogramDownloadContent() {
               {multipleTomogramsEnabled ? (
                 <TomogramSelector
                   title={t('selectTomogram')}
-                  selectedTomogram={activeTomogram}
+                  selectedTomogram={tomogramToDownload}
                   allTomograms={allTomograms}
                   onSelectTomogramId={setTomogramId}
                 />
@@ -120,9 +120,9 @@ export function ConfigureTomogramDownloadContent() {
                     }
                     className="flex-grow"
                     label={
-                      activeTomogram
+                      tomogramToDownload
                         ? `${t('unitAngstrom', {
-                            value: activeTomogram.voxel_spacing,
+                            value: tomogramToDownload.voxel_spacing,
                           })}`
                         : '--'
                     }

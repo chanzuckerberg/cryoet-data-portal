@@ -68,11 +68,7 @@ export function TomogramsTable() {
             width={TomogramTableWidths.name}
           >
             <div className="text-sds-body-m leading-sds-body-m font-semibold text-ellipsis line-clamp-1 break-all">
-              {getTomogramName(
-                original.id,
-                original.reconstruction_method,
-                original.processing,
-              )}
+              {getTomogramName(original)}
             </div>
             <div className="text-sds-body-xxs">
               {t('tomogramId')}: {original.id}

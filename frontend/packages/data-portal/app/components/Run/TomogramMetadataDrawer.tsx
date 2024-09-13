@@ -24,11 +24,7 @@ export function TomogramMetadataDrawer() {
 
   return (
     <MetadataDrawer
-      title={getTomogramName(
-        tomogram.id,
-        tomogram.reconstruction_method,
-        tomogram.processing,
-      )}
+      title={getTomogramName(tomogram)}
       label={t('tomogramDetails')}
       disabled={tomogram === undefined}
       drawerId={MetadataDrawerId.Tomogram}
