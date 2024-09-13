@@ -49,7 +49,7 @@ function DownloadModalContent() {
     return match({ downloadStep, type })
       .with(
         { type: 'dataset' },
-        { type: 'tomogram', downloadStep: DownloadStep.Download },
+        { type: 'runs', downloadStep: DownloadStep.Download },
         { type: 'annotation', downloadStep: DownloadStep.Download },
         () => ({
           buttonDisabled: false,

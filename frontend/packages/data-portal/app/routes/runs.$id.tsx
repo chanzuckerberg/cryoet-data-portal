@@ -239,7 +239,7 @@ export default function RunByIdPage() {
             .otherwise(() => undefined)}
           tomogramId={activeTomogram?.id ?? undefined}
           tomogramVoxelId={tomogram?.id ?? undefined}
-          type={annotationId ? 'annotation' : 'tomogram'}
+          type={annotationId ? 'annotation' : 'runs'}
         />
       }
       drawers={

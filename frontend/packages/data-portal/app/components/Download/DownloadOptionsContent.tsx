@@ -189,7 +189,7 @@ function getDownloadTabs(
         { value: DownloadTab.AWS, label: t('viaAwsS3') },
         { value: DownloadTab.API, label: t('viaApi') },
       ]
-    case 'tomogram':
+    case 'runs':
       return [
         ...(isString(fileFormat) && fileFormat !== 'zarr'
           ? [
