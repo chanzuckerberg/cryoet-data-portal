@@ -190,19 +190,9 @@ export function useDownloadModalQueryParamState() {
     (payload: PlausibleDownloadModalPayload) => {
       plausible(Events.ClickNextToDownloadOptions, getPlausiblePayload(payload))
 
-      setDownloadParams((prev) => ({
-        [QueryParams.DownloadTab]: match({
-          annotationId: prev?.[QueryParams.AnnotationId],
-          fileFormat: prev?.[QueryParams.FileFormat],
-        })
-          .with(
-            { fileFormat: P.string.and(P.not('zarr')) },
-            () => DownloadTab.Download,
-          )
-          .otherwise(() => DownloadTab.AWS),
-
+      setDownloadParams({
         [QueryParams.DownloadStep]: DownloadStep.Download,
-      }))
+      })
     },
     [getPlausiblePayload, plausible, setDownloadParams],
   )

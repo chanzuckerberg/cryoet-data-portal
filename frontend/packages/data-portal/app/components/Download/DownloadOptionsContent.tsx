@@ -1,11 +1,15 @@
 import { Callout } from '@czi-sds/components'
+import { TFunction } from 'i18next'
 import { isNumber, isString, startCase } from 'lodash-es'
 import prettyBytes from 'pretty-bytes'
 import { ComponentType } from 'react'
 
 import { ModalSubtitle } from 'app/components/ModalSubtitle'
 import { TabData, Tabs } from 'app/components/Tabs'
-import { useDownloadModalContext } from 'app/context/DownloadModal.context'
+import {
+  DownloadModalType,
+  useDownloadModalContext,
+} from 'app/context/DownloadModal.context'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import { DownloadConfig, DownloadTab } from 'app/types/download'
@@ -17,8 +21,8 @@ import { APIDownloadTab } from './APIDownloadTab'
 import { AWSDownloadTab } from './AWSDownloadTab'
 import { CurlDownloadTab } from './CurlDownloadTab'
 import { DirectDownloadTab } from './DirectDownloadTab'
-import { FILE_FORMAT_LABEL_I18N } from './FileFormatDropdown'
 import { DisabledTabTooltip } from './DisabledTabTooltip'
+import { FILE_FORMAT_LABEL_I18N } from './FileFormatDropdown'
 
 const DOWNLOAD_TAB_MAP: Record<DownloadTab, ComponentType> = {
   api: APIDownloadTab,
@@ -42,77 +46,30 @@ export function DownloadOptionsContent() {
     fileFormat,
     objectShapeType,
   } = useDownloadModalQueryParamState()
-  const { tomogramToDownload, allTomograms, type } = useDownloadModalContext()
+  const {
+    allTomograms,
+    datasetId,
+    datasetTitle,
+    fileSize,
+    objectName,
+    runId,
+    runName,
+    tomogramToDownload,
+    type,
+  } = useDownloadModalContext()
 
-  const { datasetId, datasetTitle, fileSize, objectName, runId, runName } =
-    useDownloadModalContext()
-
-  const getDownloadTabs = (): Array<TabData<DownloadTab>> => {
-    switch (type) {
-      case 'dataset':
-        return [
-          { value: DownloadTab.AWS, label: t('viaAwsS3') },
-          { value: DownloadTab.API, label: t('viaApi') },
-        ]
-      case 'tomogram':
-        return [
-          ...(isString(fileFormat) && fileFormat !== 'zarr'
-            ? [
-                { value: DownloadTab.Download, label: t('directDownload') },
-                { value: DownloadTab.Curl, label: t('viaCurl') },
-              ]
-            : []),
-          { value: DownloadTab.AWS, label: t('viaAwsS3') },
-          { value: DownloadTab.API, label: t('viaApi') },
-        ]
-      case 'annotation':
-        return multipleTomogramsEnabled
-          ? [
-              ...(isString(fileFormat) && fileFormat !== 'zarr'
-                ? [
-                    {
-                      value: DownloadTab.Download,
-                      label: t('directDownload'),
-                      disabled: true, // TODO(bchu): is_portal_standard
-                      tooltip: <DisabledTabTooltip />, // TODO(bchu): is_portal_standard
-                    },
-                    {
-                      value: DownloadTab.Curl,
-                      label: t('viaCurl'),
-                      disabled: true, // TODO(bchu): is_portal_standard
-                      tooltip: <DisabledTabTooltip />, // TODO(bchu): is_portal_standard
-                    },
-                  ]
-                : []),
-              // eslint-disable-next-line no-constant-condition
-              true // TODO(bchu): is_portal_standard
-                ? { value: DownloadTab.AWS, label: t('viaAwsS3') }
-                : { value: DownloadTab.PortalCLI, label: t('viaPortalCli') },
-              { value: DownloadTab.API, label: t('viaApi') },
-            ]
-          : [
-              ...(isString(fileFormat) && fileFormat !== 'zarr'
-                ? [
-                    { value: DownloadTab.Download, label: t('directDownload') },
-                    { value: DownloadTab.Curl, label: t('viaCurl') },
-                  ]
-                : []),
-              { value: DownloadTab.AWS, label: t('viaAwsS3') },
-              { value: DownloadTab.API, label: t('viaApi') },
-            ]
-      default:
-        return checkExhaustive(type)
-    }
-  }
-
-  if (!downloadTab) {
-    return null
-  }
-
+  const downloadTabs = getDownloadTabs(
+    type,
+    fileFormat,
+    t,
+    multipleTomogramsEnabled,
+  )
+  const selectedTab =
+    downloadTab ?? downloadTabs.find((tab) => !tab.disabled)!.value
   const referenceTomogram = allTomograms?.find(
     (tomogram) => tomogram.id.toString() === referenceTomogramId,
   )
-  const DownloadTabContent = DOWNLOAD_TAB_MAP[downloadTab]
+  const DownloadTabContent = DOWNLOAD_TAB_MAP[selectedTab]
 
   return (
     <>
@@ -193,7 +150,7 @@ export function DownloadOptionsContent() {
         {t('selectDownloadMethod')}:
       </p>
 
-      {downloadTab && (
+      {selectedTab && (
         <div className="border-b-2 border-sds-color-primitive-gray-200">
           <Tabs
             onChange={(tab) =>
@@ -203,8 +160,8 @@ export function DownloadOptionsContent() {
                 runId,
               })
             }
-            tabs={getDownloadTabs()}
-            value={downloadTab}
+            tabs={downloadTabs}
+            value={selectedTab}
           />
         </div>
       )}
@@ -218,4 +175,67 @@ export function DownloadOptionsContent() {
       )}
     </>
   )
+}
+
+function getDownloadTabs(
+  type: DownloadModalType,
+  fileFormat: string | null,
+  t: TFunction<'translation', undefined>,
+  multipleTomogramsEnabled: boolean,
+): Array<TabData<DownloadTab>> {
+  switch (type) {
+    case 'dataset':
+      return [
+        { value: DownloadTab.AWS, label: t('viaAwsS3') },
+        { value: DownloadTab.API, label: t('viaApi') },
+      ]
+    case 'tomogram':
+      return [
+        ...(isString(fileFormat) && fileFormat !== 'zarr'
+          ? [
+              { value: DownloadTab.Download, label: t('directDownload') },
+              { value: DownloadTab.Curl, label: t('viaCurl') },
+            ]
+          : []),
+        { value: DownloadTab.AWS, label: t('viaAwsS3') },
+        { value: DownloadTab.API, label: t('viaApi') },
+      ]
+    case 'annotation':
+      return multipleTomogramsEnabled
+        ? [
+            ...(isString(fileFormat) && fileFormat !== 'zarr'
+              ? [
+                  {
+                    value: DownloadTab.Download,
+                    label: t('directDownload'),
+                    disabled: true, // TODO(bchu): is_portal_standard
+                    tooltip: <DisabledTabTooltip />, // TODO(bchu): is_portal_standard
+                  },
+                  {
+                    value: DownloadTab.Curl,
+                    label: t('viaCurl'),
+                    disabled: true, // TODO(bchu): is_portal_standard
+                    tooltip: <DisabledTabTooltip />, // TODO(bchu): is_portal_standard
+                  },
+                ]
+              : []),
+            // eslint-disable-next-line no-constant-condition
+            true // TODO(bchu): is_portal_standard
+              ? { value: DownloadTab.AWS, label: t('viaAwsS3') }
+              : { value: DownloadTab.PortalCLI, label: t('viaPortalCli') },
+            { value: DownloadTab.API, label: t('viaApi') },
+          ]
+        : [
+            ...(isString(fileFormat) && fileFormat !== 'zarr'
+              ? [
+                  { value: DownloadTab.Download, label: t('directDownload') },
+                  { value: DownloadTab.Curl, label: t('viaCurl') },
+                ]
+              : []),
+            { value: DownloadTab.AWS, label: t('viaAwsS3') },
+            { value: DownloadTab.API, label: t('viaApi') },
+          ]
+    default:
+      return checkExhaustive(type)
+  }
 }
