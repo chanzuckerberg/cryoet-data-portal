@@ -26,16 +26,6 @@ export function TomogramSelector({
   allTomograms = [],
   onSelectTomogramId,
 }: TomogramSelectorProps) {
-  const tomogramOptions = useMemo<SelectOption[]>(
-    () =>
-      allTomograms.map((tomogram) => ({
-        key: tomogram.id.toString(),
-        value: tomogram.id.toString(),
-        component: <TomogramSelectorOption tomogram={tomogram} />,
-      })),
-    [allTomograms],
-  )
-
   return (
     <Select
       title={title}
@@ -50,7 +40,11 @@ export function TomogramSelector({
       }}
       activeKey={selectedTomogram?.id.toString() ?? null}
       label={<TomogramSelectorInputLabel tomogram={selectedTomogram} />}
-      options={tomogramOptions}
+      options={allTomograms.map((tomogram) => ({
+        key: tomogram.id.toString(),
+        value: tomogram.id.toString(),
+        component: <TomogramSelectorOption tomogram={tomogram} />,
+      }))}
       onChange={onSelectTomogramId}
       showActiveValue={false}
       showDetails={false}
