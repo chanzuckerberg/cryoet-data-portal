@@ -59,6 +59,9 @@ export default function BrowseDepositionsPage() {
       tabs={[
         {
           title: t('depositions'),
+          description: t('depositionsDescription'),
+          learnMoreLink:
+            'https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_data.html#depositions',
           table: <DepositionTable />,
           noResults: (
             <NoResults
