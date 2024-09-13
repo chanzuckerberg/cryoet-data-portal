@@ -15,8 +15,7 @@ import { DownloadConfig } from 'app/types/download'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { FileFormatDropdown } from './FileFormatDropdown'
-import { TomogramSelectorInputLabel } from './TomogramSelectorLabel'
-import { TomogramSelectorOption } from './TomogramSelectorOption'
+import { TomogramSelector } from './Tomogram/TomogramSelector'
 
 const TOMOGRAM_FILE_FORMATS = ['mrc', 'zarr']
 
@@ -29,7 +28,6 @@ export function ConfigureTomogramDownloadContent() {
     downloadConfig,
     tomogramProcessing,
     tomogramSampling,
-    tomogramId,
     setAllAnnotationsConfig,
     setTomogramConfigDeprecated,
     setTomogramConfig,
@@ -61,16 +59,6 @@ export function ConfigureTomogramDownloadContent() {
         value: processing,
       })),
     [allTomogramProcessing],
-  )
-
-  const tomogramOptions = useMemo<SelectOption[]>(
-    () =>
-      allTomograms.map((tomogram) => ({
-        key: tomogram.id.toString(),
-        value: tomogram.id.toString(),
-        component: <TomogramSelectorOption tomogram={tomogram} />,
-      })),
-    [allTomograms],
   )
 
   const setTomogramConfigWithInitialValues = useCallback(() => {
@@ -116,25 +104,11 @@ export function ConfigureTomogramDownloadContent() {
           <div className="flex flex-col gap-sds-l">
             <div className="flex items-center gap-sds-l pt-sds-m">
               {multipleTomogramsEnabled ? (
-                <Select
+                <TomogramSelector
                   title={t('selectTomogram')}
-                  className="flex-grow"
-                  dropdownClasses={{
-                    root: 'w-[448px]',
-                    popper: 'max-h-[325px] !p-sds-xs overflow-y-auto',
-                    listbox: '!pr-0',
-                  }}
-                  dropdownPopperBaseProps={{
-                    className: '!p-0',
-                  }}
-                  activeKey={tomogramId}
-                  label={
-                    <TomogramSelectorInputLabel tomogram={activeTomogram} />
-                  }
-                  options={tomogramOptions}
-                  onChange={setTomogramId}
-                  showActiveValue={false}
-                  showDetails={false}
+                  selectedTomogram={activeTomogram}
+                  allTomograms={allTomograms}
+                  onSelectTomogramId={setTomogramId}
                 />
               ) : (
                 <>

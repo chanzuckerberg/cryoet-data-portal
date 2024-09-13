@@ -151,7 +151,10 @@ export function Select({
         onChange={handleOnChange}
         onClickAway={closeDropdown}
         classes={dropdownClasses}
-        PopperBaseProps={dropdownPopperBaseProps}
+        PopperBaseProps={{
+          ...dropdownPopperBaseProps,
+          style: { width: anchorEl?.clientWidth },
+        }}
       />
     </div>
   )

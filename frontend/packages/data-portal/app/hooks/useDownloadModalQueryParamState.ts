@@ -145,6 +145,7 @@ export function useDownloadModalQueryParamState() {
       setDownloadParams({
         [QueryParams.DownloadStep]: DownloadStep.Configure,
         [QueryParams.AnnotationId]: String(payload.annotationId),
+        [QueryParams.DownloadTomogramId]: String(payload.tomogramId),
         [QueryParams.ObjectShapeType]: payload.objectShapeType,
         [QueryParams.FileFormat]: payload.fileFormat,
       })
