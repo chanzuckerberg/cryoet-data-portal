@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.27.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.26.1...web-v1.27.0) (2024-09-11)
+
+
+### ✨ Features
+
+* Id prefixes in filters ([#1124](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1124)) ([d62f382](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d62f382a4f983e85247db14f9b7ec1e8e5a551cc))
+* Implement new single tomogram download flow ([#1120](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1120)) ([721b7db](https://github.com/chanzuckerberg/cryoet-data-portal/commit/721b7db5026ee8cfee5b89be124f119b1a802cb0))
+* integrate depositions backend ([#1093](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1093)) ([63c1b5d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/63c1b5ddf26886bfa8220545c66e2bb37f97d039))
+
+
+### 🐞 Bug Fixes
+
+* header key photo sizing ([#1117](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1117)) ([38ad6f2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/38ad6f2f73452cde499f42611ec9c6250b372277))
+
 ## [1.26.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.26.0...web-v1.26.1) (2024-09-09)
 
 
