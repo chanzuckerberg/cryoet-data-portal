@@ -1,8 +1,8 @@
-import { isString } from 'lodash-es'
 import { useMemo } from 'react'
 
 import { SmallChevronRightIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
+import { TestIds } from 'app/constants/testIds'
 import { useI18n } from 'app/hooks/useI18n'
 import {
   useBrowseDatasetFilterHistory,
@@ -10,14 +10,6 @@ import {
   useSingleDatasetFilterHistory,
 } from 'app/state/filterHistory'
 import { cns } from 'app/utils/cns'
-
-function encodeParams(params: [string, string | null][]): string {
-  const searchParams = new URLSearchParams(
-    params.filter((kv) => isString(kv[1])) as string[][],
-  )
-
-  return searchParams.toString()
-}
 
 function Breadcrumb({
   text,
@@ -82,7 +74,10 @@ export function Breadcrumbs({
   )
 
   return (
-    <div className="flex flex-col flex-auto gap-1">
+    <div
+      className="flex flex-col flex-auto gap-1"
+      data-testid={TestIds.Breadcrumbs}
+    >
       {returnToDepositionLink && (
         <Link
           className="uppercase font-semibold text-sds-caps-xxxs leading-sds-caps-xxxs text-sds-primary-400"
