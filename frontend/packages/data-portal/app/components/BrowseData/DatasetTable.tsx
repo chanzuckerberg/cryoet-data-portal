@@ -5,7 +5,7 @@ import Skeleton from '@mui/material/Skeleton'
 import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
 import { AuthorList } from 'app/components/AuthorList'
@@ -20,10 +20,6 @@ import { DatasetTableWidths } from 'app/constants/table'
 import { Dataset, useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
-import {
-  BrowseDatasetHistory,
-  useBrowseDatasetFilterHistory,
-} from 'app/state/filterHistory'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
@@ -46,7 +42,6 @@ export function DatasetTable() {
   const { datasets } = useDatasets()
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const { setBrowseDatasetHistory } = useBrowseDatasetFilterHistory()
   const datasetSort = (searchParams.get('sort') ?? undefined) as
     | CellHeaderDirection
     | undefined
@@ -56,18 +51,6 @@ export function DatasetTable() {
     useState(false)
   const [isClickingOnEmpiarId, setIsClickingOnEmpiarId] = useState(false)
   const navigate = useNavigate()
-
-  useEffect(
-    () =>
-      setBrowseDatasetHistory(
-        new Map(
-          Array.from(searchParams).filter(([k]) =>
-            (DATASET_FILTERS as unknown as string[]).includes(k),
-          ),
-        ) as BrowseDatasetHistory,
-      ),
-    [searchParams, setBrowseDatasetHistory],
-  )
 
   const getDatasetUrl = useCallback(
     (id: number) => {

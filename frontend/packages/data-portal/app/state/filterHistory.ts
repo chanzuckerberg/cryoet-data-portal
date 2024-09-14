@@ -2,42 +2,32 @@ import { useSearchParams } from '@remix-run/react'
 import { atom, useAtom } from 'jotai'
 import { useEffect } from 'react'
 
-import { DATASET_FILTERS, RUN_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 
-export type BrowseDatasetHistory = Map<
-  (typeof DATASET_FILTERS)[number],
-  string | null
->
-export type SingleDatasetHistory = Map<
-  (typeof RUN_FILTERS)[number],
-  string | null
->
-
-const browseDatasetHistoryAtom = atom<BrowseDatasetHistory | null>(null)
-const singleDatasetHistoryAtom = atom<SingleDatasetHistory | null>(null)
+const previousBrowseDatasetParamsAtom = atom('')
+const previousSingleDatasetParamsAtom = atom('')
 const previousDepositionIdAtom = atom<number | null>(null)
 const previousSingleDepositionParamsAtom = atom('')
 
 export function useBrowseDatasetFilterHistory() {
-  const [browseDatasetHistory, setBrowseDatasetHistory] = useAtom(
-    browseDatasetHistoryAtom,
+  const [previousBrowseDatasetParams, setPreviousBrowseDatasetParams] = useAtom(
+    previousBrowseDatasetParamsAtom,
   )
 
   return {
-    browseDatasetHistory,
-    setBrowseDatasetHistory,
+    previousBrowseDatasetParams,
+    setPreviousBrowseDatasetParams,
   }
 }
 
 export function useSingleDatasetFilterHistory() {
-  const [singleDatasetHistory, setSingleDatasetHistory] = useAtom(
-    singleDatasetHistoryAtom,
+  const [previousSingleDatasetParams, setPreviousSingleDatasetParams] = useAtom(
+    previousSingleDatasetParamsAtom,
   )
 
   return {
-    singleDatasetHistory,
-    setSingleDatasetHistory,
+    previousSingleDatasetParams,
+    setPreviousSingleDatasetParams,
   }
 }
 
@@ -59,10 +49,10 @@ export function useDepositionHistory() {
 
 export function useSyncParamsWithState({
   filters,
-  setHistory,
+  setParams: setHistory,
 }: {
   filters: readonly QueryParams[]
-  setHistory(params: string): void
+  setParams(params: string): void
 }) {
   const [searchParams] = useSearchParams()
 

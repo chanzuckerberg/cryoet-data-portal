@@ -46,8 +46,8 @@ export function Breadcrumbs({
 }) {
   const { t } = useI18n()
 
-  const { browseDatasetHistory } = useBrowseDatasetFilterHistory()
-  const { singleDatasetHistory } = useSingleDatasetFilterHistory()
+  const { previousBrowseDatasetParams } = useBrowseDatasetFilterHistory()
+  const { previousSingleDatasetParams } = useSingleDatasetFilterHistory()
   const { previousDepositionId, previousSingleDepositionParams } =
     useDepositionHistory()
 
@@ -56,11 +56,11 @@ export function Breadcrumbs({
       variant === 'deposition'
         ? '/browse-data/depositions'
         : '/browse-data/datasets'
-    const history = variant === 'deposition' ? undefined : browseDatasetHistory
-    const encodedParams = encodeParams(Array.from(history?.entries() ?? []))
+    const params =
+      variant === 'deposition' ? undefined : previousBrowseDatasetParams
 
-    return `${url}?${encodedParams}`
-  }, [browseDatasetHistory, variant])
+    return `${url}?${params}`
+  }, [previousBrowseDatasetParams, variant])
 
   const singleDatasetLink = useMemo(() => {
     if (variant === 'dataset') {
@@ -68,12 +68,9 @@ export function Breadcrumbs({
     }
 
     const url = `/datasets/${data.id}`
-    const encodedParams = encodeParams(
-      Array.from(singleDatasetHistory?.entries() ?? []),
-    )
 
-    return `${url}?${encodedParams}`
-  }, [singleDatasetHistory, variant, data])
+    return `${url}?${previousSingleDatasetParams}`
+  }, [variant, data.id, previousSingleDatasetParams])
 
   const returnToDepositionLink =
     previousDepositionId === null || variant === 'deposition'

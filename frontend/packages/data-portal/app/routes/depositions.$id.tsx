@@ -160,7 +160,7 @@ export default function DepositionByIdPage() {
 
   useSyncParamsWithState({
     filters: DEPOSITION_FILTERS,
-    setHistory: setPreviousSingleDepositionParams,
+    setParams: setPreviousSingleDepositionParams,
   })
 
   return (

@@ -7,11 +7,16 @@ import { DatasetTable } from 'app/components/BrowseData'
 import { DatasetFilter } from 'app/components/DatasetFilter'
 import { NoResults } from 'app/components/NoResults'
 import { TablePageLayout } from 'app/components/TablePageLayout'
+import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { useDatasets } from 'app/hooks/useDatasets'
 import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
+import {
+  useBrowseDatasetFilterHistory,
+  useSyncParamsWithState,
+} from 'app/state/filterHistory'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
@@ -48,6 +53,13 @@ export default function BrowseDatasetsPage() {
   const { datasetCount, filteredDatasetCount } = useDatasets()
   const { reset } = useFilter()
   const { t } = useI18n()
+
+  const { setPreviousBrowseDatasetParams } = useBrowseDatasetFilterHistory()
+
+  useSyncParamsWithState({
+    filters: DATASET_FILTERS,
+    setParams: setPreviousBrowseDatasetParams,
+  })
 
   return (
     <TablePageLayout
