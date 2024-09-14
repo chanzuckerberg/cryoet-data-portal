@@ -47,9 +47,14 @@ export function useDepositionHistory() {
   }
 }
 
+/**
+ * Syncs URL search parameters with global state via `setParams()` function.
+ * This ensures that we can navigate back to the previous page with the same
+ * filters applied.
+ */
 export function useSyncParamsWithState({
   filters,
-  setParams: setHistory,
+  setParams,
 }: {
   filters: readonly QueryParams[]
   setParams(params: string): void
@@ -67,6 +72,6 @@ export function useSyncParamsWithState({
 
     newParams.sort()
 
-    setHistory(newParams.toString())
-  }, [filters, searchParams, setHistory])
+    setParams(newParams.toString())
+  }, [filters, searchParams, setParams])
 }
