@@ -129,7 +129,7 @@ export function useFilter() {
         setSearchParams(
           (prev) => {
             Object.values(QueryParams).forEach((param) => prev.delete(param))
-            prev.delete('page')
+            prev.delete(QueryParams.Page)
 
             return prev
           },
@@ -143,7 +143,7 @@ export function useFilter() {
         setSearchParams(
           (prev) => {
             prev.delete(param)
-            prev.delete('page')
+            prev.delete(QueryParams.Page)
 
             if (value) {
               normalizeFilterValue(value).forEach((v) => prev.append(param, v))
@@ -161,7 +161,7 @@ export function useFilter() {
 
         setSearchParams(
           (prev) => {
-            prev.delete('page')
+            prev.delete(QueryParams.Page)
 
             entries.forEach(([param, value]) => {
               prev.delete(param)
