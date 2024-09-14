@@ -42,7 +42,7 @@ export function DatasetsTable() {
   const { deposition, datasets } = useDepositionById()
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const datasetSort = (searchParams.get('sort') ?? undefined) as
+  const datasetSort = (searchParams.get(QueryParams.Sort) ?? undefined) as
     | CellHeaderDirection
     | undefined
 

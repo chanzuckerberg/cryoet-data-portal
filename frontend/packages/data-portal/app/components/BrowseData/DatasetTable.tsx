@@ -16,6 +16,7 @@ import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { EMPIAR_ID, EMPIAR_URL } from 'app/constants/external-dbs'
 import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
+import { QueryParams } from 'app/constants/query'
 import { DatasetTableWidths } from 'app/constants/table'
 import { Dataset, useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
@@ -42,7 +43,7 @@ export function DatasetTable() {
   const { datasets } = useDatasets()
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const datasetSort = (searchParams.get('sort') ?? undefined) as
+  const datasetSort = (searchParams.get(QueryParams.Sort) ?? undefined) as
     | CellHeaderDirection
     | undefined
 

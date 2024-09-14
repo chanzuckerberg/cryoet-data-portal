@@ -8,6 +8,7 @@ import { DatasetFilter } from 'app/components/DatasetFilter'
 import { NoResults } from 'app/components/NoResults'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
+import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { useDatasets } from 'app/hooks/useDatasets'
@@ -20,11 +21,11 @@ import {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
-  const page = +(url.searchParams.get('page') ?? '1')
-  const sort = (url.searchParams.get('sort') ?? undefined) as
+  const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
+  const sort = (url.searchParams.get(QueryParams.Sort) ?? undefined) as
     | CellHeaderDirection
     | undefined
-  const query = url.searchParams.get('search') ?? ''
+  const query = url.searchParams.get(QueryParams.Search) ?? ''
 
   let orderBy: Order_By | null = null
 

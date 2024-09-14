@@ -10,6 +10,7 @@ import { goTo } from 'e2e/filters/utils'
 import { TableValidator } from 'e2e/pageObjects/filters/types'
 import { isNumber } from 'lodash-es'
 
+import { QueryParams } from 'app/constants/query'
 import { TestIds } from 'app/constants/testIds'
 
 import {
@@ -45,7 +46,7 @@ async function selectPaginationDropdownOption(page: Page, pageNumber: number) {
 
 async function waitForPageNumber(page: Page, pageNumber: number) {
   await page.waitForURL(
-    (url) => url.searchParams.get('page') === `${pageNumber}`,
+    (url) => url.searchParams.get(QueryParams.Page) === `${pageNumber}`,
   )
 }
 

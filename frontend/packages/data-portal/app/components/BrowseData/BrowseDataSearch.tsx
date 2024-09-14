@@ -3,6 +3,7 @@ import { useDebouncedEffect } from '@react-hookz/web'
 import { useSearchParams } from '@remix-run/react'
 import { useRef, useState } from 'react'
 
+import { QueryParams } from 'app/constants/query'
 import { i18n } from 'app/i18n'
 
 /**
@@ -14,7 +15,7 @@ const SEARCH_QUERY_DEBOUNCE_TIME_MS = 500
 
 export function BrowseDataSearch() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [query, setQuery] = useState(searchParams.get('search') ?? '')
+  const [query, setQuery] = useState(searchParams.get(QueryParams.Search) ?? '')
 
   // If the user hasn't typed in a key for 500ms, then update the search params.
   const initialLoadRef = useRef(true)
