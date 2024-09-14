@@ -1,39 +1,30 @@
 import { MenuDropdown } from 'app/components/MenuDropdown'
 import { MenuItemHeader } from 'app/components/MenuItemHeader'
 import { MenuItemLink } from 'app/components/MenuItemLink'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 
-const REPO = 'https://github.com/chanzuckerberg/cryoet-data-portal'
+import { ABOUT_LINKS, HELP_AND_REPORT_LINKS } from './constants'
 
 export function AboutAndHelpDropdown({ className }: { className?: string }) {
+  const { t } = useI18n()
+
   return (
-    <MenuDropdown className={className} title={i18n.aboutAndHelp}>
-      <MenuItemHeader>{i18n.about}</MenuItemHeader>
+    <MenuDropdown className={className} title={t('aboutAndHelp')}>
+      <MenuItemHeader>{t('about')}</MenuItemHeader>
 
-      <MenuItemLink to="/faq">{i18n.faq}</MenuItemLink>
-      {/* <MenuItemLink to="/license">{i18n.license}</MenuItemLink> */}
-      <MenuItemLink to="/privacy">{i18n.privacyPolicy}</MenuItemLink>
-      {/* <MenuItemLink to="/terms" divider> */}
-      <MenuItemLink to="/data-submission-policy">
-        {i18n.dataSubmissionPolicy}
-      </MenuItemLink>
-      {/* <MenuItemLink to="/terms" divider>
-        {i18n.termsOfUse}
-      </MenuItemLink> */}
+      {ABOUT_LINKS.map(({ label, link }) => (
+        <MenuItemLink key={label} to={link}>
+          {t(label)}
+        </MenuItemLink>
+      ))}
 
-      <MenuItemHeader>{i18n.helpAndReport}</MenuItemHeader>
+      <MenuItemHeader>{t('helpAndReport')}</MenuItemHeader>
 
-      <MenuItemLink to="https://chanzuckerberg.github.io/cryoet-data-portal">
-        {i18n.goToDocs}
-      </MenuItemLink>
-
-      <MenuItemLink
-        to={`${REPO}/issues/new?assignees=&labels=bug&projects=&template=bug.md&title=`}
-      >
-        {i18n.reportIssueOnGithub}
-      </MenuItemLink>
-
-      <MenuItemLink to={`${REPO}/discussions`}>{i18n.askOnGitHub}</MenuItemLink>
+      {HELP_AND_REPORT_LINKS.map(({ label, link }) => (
+        <MenuItemLink key={label} to={link}>
+          {t(label)}
+        </MenuItemLink>
+      ))}
     </MenuDropdown>
   )
 }
