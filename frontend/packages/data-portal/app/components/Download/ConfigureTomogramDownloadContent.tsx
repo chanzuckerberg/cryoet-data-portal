@@ -222,7 +222,7 @@ export function ConfigureTomogramDownloadContent() {
       )}
 
       {multipleTomogramsEnabled && (
-        <Callout intent="warning" className="!w-full !mt-0">
+        <Callout intent="notice" className="!w-full !mt-0">
           {t('annotationsDownloadedFromThePortal')}
         </Callout>
       )}
