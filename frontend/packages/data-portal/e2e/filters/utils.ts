@@ -91,7 +91,7 @@ export function getAnnotationTableFilterValidator(
   expectedData: GetRunByIdQuery,
 ) {
   const annotationIds = new Set(
-    expectedData.annotation_files.map((file) => file.annotationFile.id),
+    expectedData.annotation_files.map((file) => file.annotation.id),
   )
 
   return async (page: Page) => {
