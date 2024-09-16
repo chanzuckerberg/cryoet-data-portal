@@ -19,6 +19,8 @@ import { TomogramsTable } from 'app/components/Run/TomogramTable'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
+import { logIfHasDiff } from 'app/graphql/getRunByIdDiffer'
+import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useFileSize } from 'app/hooks/useFileSize'
 import { useI18n } from 'app/hooks/useI18n'
@@ -28,8 +30,6 @@ import { BaseAnnotation } from 'app/state/annotation'
 import { DownloadConfig } from 'app/types/download'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
-import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
-import { logIfHasDiff } from 'app/graphql/getRunByIdDiffer'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
@@ -68,6 +68,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   try {
     logIfHasDiff(request.url, responseV1, responseV2)
   } catch (error) {
+    // eslint-disable-next-line no-console, @typescript-eslint/restrict-template-expressions
     console.log(`DIFF ERROR: ${error}`)
   }
 

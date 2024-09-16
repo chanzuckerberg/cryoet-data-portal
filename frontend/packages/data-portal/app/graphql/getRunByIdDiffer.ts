@@ -1,10 +1,12 @@
+import { diff } from 'deep-object-diff'
+
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
 import {
   GetRunByIdV2Query,
   Tiltseries_Microscope_Manufacturer_Enum,
 } from 'app/__generated_v2__/graphql'
-import { diff } from 'deep-object-diff'
 
+/* eslint-disable no-console */
 export function logIfHasDiff(
   url: string,
   v1: GetRunByIdQuery,

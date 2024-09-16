@@ -1,8 +1,8 @@
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
-import { isNotNullish } from 'app/utils/nullish'
 import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
+import { isNotNullish } from 'app/utils/nullish'
 
 export function useRunById() {
   const { v1 } = useTypedLoaderData<{
@@ -49,7 +49,7 @@ export function useRunById() {
 
   const tomogramsCount = v1.tomograms_aggregate.aggregate?.count ?? 0
 
-  const deposition = v1.deposition
+  const { deposition } = v1
 
   return {
     run,
