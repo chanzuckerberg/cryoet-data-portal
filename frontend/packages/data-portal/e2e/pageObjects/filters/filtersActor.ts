@@ -162,7 +162,7 @@ export class FiltersActor {
     label: string
     value: string
   }) {
-    await this.filtersPage.openFilterDropdown(label)
+    await this.filtersPage.clickFilterDropdown(label)
     await this.filtersPage.removeFilterOption(value)
   }
 
