@@ -19,3 +19,9 @@ export const ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS = [
   DownloadTab.Curl,
   DownloadTab.Download,
 ]
+
+// TODO(bchu): Support disabled tabs.
+export const ANNOTATION_NON_STANDARD_TOMOGRAM_DOWNLOAD_TABS = [
+  DownloadTab.API,
+  DownloadTab.PortalCLI,
+]

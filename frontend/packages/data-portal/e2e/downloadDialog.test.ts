@@ -8,6 +8,7 @@ import { getApolloClient } from './apollo'
 import { SINGLE_DATASET_URL, SINGLE_RUN_URL, translations } from './constants'
 import { DownloadDialogActor } from './pageObjects/downloadDialog/downloadDialogActor'
 import {
+  ANNOTATION_NON_STANDARD_TOMOGRAM_DOWNLOAD_TABS,
   ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS,
   SINGLE_DATASET_DOWNLOAD_TABS,
   TOMOGRAM_DOWNLOAD_TABS,
@@ -1097,7 +1098,7 @@ test.describe('downloadDialog', () => {
       })
 
       test.describe('should open tabs from url', () => {
-        ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS.forEach((tab) => {
+        ANNOTATION_NON_STANDARD_TOMOGRAM_DOWNLOAD_TABS.forEach((tab) => {
           test(`should open ${tab} tab from url`, async () => {
             await downloadDialogActor.goToAnnotationDownloadDialogUrl({
               baseUrl: SINGLE_RUN_URL,
@@ -1113,20 +1114,20 @@ test.describe('downloadDialog', () => {
 
             await downloadDialogActor.expectDialogToBeOnCorrectTab({
               tab,
-              tabGroup: ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS,
+              tabGroup: ANNOTATION_NON_STANDARD_TOMOGRAM_DOWNLOAD_TABS,
             })
           })
         })
       })
 
       test.describe('should change tabs on click', () => {
-        const testCases = ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS.flatMap(
-          (v1, i) =>
+        const testCases =
+          ANNOTATION_NON_STANDARD_TOMOGRAM_DOWNLOAD_TABS.flatMap((v1, i) =>
             TOMOGRAM_DOWNLOAD_TABS.toSpliced(i, 1).map((v2) => ({
               fromTab: v1,
               toTab: v2,
             })),
-        )
+          )
         testCases.forEach(({ fromTab, toTab }) => {
           test(`should change from ${fromTab} to ${toTab} on click`, async () => {
             await downloadDialogActor.goToAnnotationDownloadDialogUrl({
@@ -1145,7 +1146,7 @@ test.describe('downloadDialog', () => {
 
             await downloadDialogActor.expectDialogToBeOnCorrectTab({
               tab: toTab,
-              tabGroup: ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS,
+              tabGroup: ANNOTATION_NON_STANDARD_TOMOGRAM_DOWNLOAD_TABS,
             })
             await downloadDialogActor.expectAnnotationDialogUrlToMatch({
               baseUrl: SINGLE_RUN_URL,
@@ -1159,7 +1160,7 @@ test.describe('downloadDialog', () => {
       })
 
       test.describe('should copy from tabs', () => {
-        const testCases = ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS.filter(
+        const testCases = ANNOTATION_NON_STANDARD_TOMOGRAM_DOWNLOAD_TABS.filter(
           (tab) => tab !== DownloadTab.Download,
         )
 

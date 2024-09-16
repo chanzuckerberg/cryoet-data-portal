@@ -221,8 +221,8 @@ function getDownloadTabs(
               : []),
             // eslint-disable-next-line no-constant-condition
             true // TODO(bchu): is_portal_standard
-              ? { value: DownloadTab.AWS, label: t('viaAwsS3') }
-              : { value: DownloadTab.PortalCLI, label: t('viaPortalCli') },
+              ? { value: DownloadTab.PortalCLI, label: t('viaPortalCli') }
+              : { value: DownloadTab.AWS, label: t('viaAwsS3') },
             { value: DownloadTab.API, label: t('viaApi') },
           ]
         : [
