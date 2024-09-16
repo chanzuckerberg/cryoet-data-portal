@@ -65,7 +65,7 @@ export function DownloadOptionsContent() {
     multipleTomogramsEnabled,
   )
   const selectedTab =
-    downloadTab ?? downloadTabs.find((tab) => !tab.disabled)!.value
+    downloadTab ?? downloadTabs.find((tab) => !tab.disabled)!.value // Default to first enabled tab
   const referenceTomogram = allTomograms?.find(
     (tomogram) => tomogram.id.toString() === referenceTomogramId,
   )
