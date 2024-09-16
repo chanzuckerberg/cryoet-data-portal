@@ -85,5 +85,18 @@ module.exports = {
         leadingUnderscore: 'allow',
       },
     ],
+
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: [
+          {
+            group: ['@mui/*'],
+            importNames: ['styled'],
+            message: 'Prefer tailwind over MUI styled components',
+          },
+        ],
+      },
+    ],
   },
 }
