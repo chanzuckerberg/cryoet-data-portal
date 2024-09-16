@@ -7,7 +7,7 @@ export function DisabledTabTooltip() {
     <>
       <div className="font-semibold text-center">{t('methodNotAvailable')}</div>
       <div className="text-sds-header-xxs text-center">
-        {t('selectThePortalStandardTomogramIn')}
+        {t('theseAnnotationsMustBeTransformed')}
       </div>
     </>
   )

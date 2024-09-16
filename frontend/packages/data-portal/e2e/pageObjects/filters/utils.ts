@@ -79,10 +79,10 @@ export function getAnnotationRowCountFromData({
 }): RowCounterType {
   const rowCounter: RowCounterType = {}
   for (const file of singleRunData.annotation_files) {
-    if (rowCounter[file.annotation.id] === undefined) {
-      rowCounter[file.annotation.id] = 1
+    if (rowCounter[file.annotationFile.id] === undefined) {
+      rowCounter[file.annotationFile.id] = 1
     } else {
-      rowCounter[file.annotation.id] += 1
+      rowCounter[file.annotationFile.id] += 1
     }
   }
   return rowCounter

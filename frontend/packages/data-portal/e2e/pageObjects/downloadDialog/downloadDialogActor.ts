@@ -17,6 +17,7 @@ import {
   constructDialogUrl,
   fetchTestSingleDataset,
   fetchTestSingleRun,
+  getAnnotationDownloadCommand,
   getTomogramDownloadCommand,
 } from './utils'
 
@@ -34,6 +35,7 @@ export class DownloadDialogActor {
     baseUrl,
     step,
     tab,
+    annotationFile,
     tomogram,
     multipleTomograms,
   }: {
@@ -42,6 +44,7 @@ export class DownloadDialogActor {
     baseUrl: string
     step?: DownloadStep
     tab?: DownloadTab
+    annotationFile?: { annotation: { id: string }; shape_type: string }
     tomogram?: { id: number; sampling: number; processing: string }
     multipleTomograms?: boolean
   }) {
@@ -50,6 +53,7 @@ export class DownloadDialogActor {
       fileFormat,
       step,
       tab,
+      annotationFile,
       tomogram,
       multipleTomograms,
     })
@@ -82,6 +86,45 @@ export class DownloadDialogActor {
       fileFormat,
       step,
       tab,
+      tomogram: {
+        id: tomogram.id,
+        sampling: tomogram.voxel_spacing,
+        processing: tomogram.processing,
+      },
+      multipleTomograms,
+    })
+  }
+
+  public async goToAnnotationDownloadDialogUrl({
+    client,
+    fileFormat,
+    baseUrl,
+    step,
+    tab,
+    multipleTomograms,
+  }: {
+    client: ApolloClient<NormalizedCacheObject>
+    fileFormat?: string
+    baseUrl: string
+    step?: DownloadStep
+    tab?: DownloadTab
+    multipleTomograms?: boolean
+  }) {
+    const { data } = await fetchTestSingleRun(client)
+    const annotationFile = data.annotation_files[0]
+    const tomogram = data.tomograms_for_download[0]
+
+    await this.goToDownloadDialogUrl({
+      baseUrl,
+      fileFormat,
+      step,
+      tab,
+      annotationFile: {
+        annotation: {
+          id: annotationFile.annotation.id.toString(),
+        },
+        shape_type: annotationFile.shape_type,
+      },
       tomogram: {
         id: tomogram.id,
         sampling: tomogram.voxel_spacing,
@@ -184,6 +227,7 @@ export class DownloadDialogActor {
     config?: string
     fileFormat?: string
     tab?: DownloadTab
+    annotationFile?: { annotation: { id: string }; shape_type: string }
     tomogram?: { id: number; sampling: number; processing: string }
     step?: DownloadStep
     multipleTomograms?: boolean
@@ -226,6 +270,48 @@ export class DownloadDialogActor {
       config,
       fileFormat,
       tab,
+      tomogram: {
+        id: tomogram.id,
+        sampling: tomogram.voxel_spacing,
+        processing: tomogram.processing,
+      },
+      step,
+      multipleTomograms,
+    })
+  }
+
+  public async expectAnnotationDialogUrlToMatch({
+    baseUrl,
+    client,
+    config,
+    fileFormat,
+    tab,
+    step,
+    multipleTomograms = false,
+  }: {
+    baseUrl: string
+    client: ApolloClient<NormalizedCacheObject>
+    config?: string
+    fileFormat?: string
+    tab?: DownloadTab
+    step?: DownloadStep
+    multipleTomograms?: boolean
+  }) {
+    const { data } = await fetchTestSingleRun(client)
+    const annotationFile = data.annotation_files[0]
+    const tomogram = data.tomograms_for_download[0]
+
+    this.expectDialogUrlToMatch({
+      baseUrl,
+      config,
+      fileFormat,
+      tab,
+      annotationFile: {
+        annotation: {
+          id: annotationFile.annotation.id.toString(),
+        },
+        shape_type: annotationFile.shape_type,
+      },
       tomogram: {
         id: tomogram.id,
         sampling: tomogram.voxel_spacing,
@@ -302,6 +388,25 @@ export class DownloadDialogActor {
     const expectedCommand = getTomogramDownloadCommand({
       data,
       fileFormat,
+      tab,
+    })
+
+    expect(clipboardValue).toBe(expectedCommand)
+  }
+
+  public async expectClipboardToHaveCorrectDownloadAnnotationCommand({
+    client,
+    tab,
+  }: {
+    client: ApolloClient<NormalizedCacheObject>
+    tab: DownloadTab
+  }) {
+    const clipboard = await this.downloadDialogPage.getClipboardHandle()
+    const clipboardValue = await clipboard.jsonValue()
+    const { data } = await fetchTestSingleRun(client)
+
+    const expectedCommand = getAnnotationDownloadCommand({
+      data,
       tab,
     })
 

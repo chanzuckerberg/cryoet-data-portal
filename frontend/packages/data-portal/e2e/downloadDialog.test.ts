@@ -8,6 +8,7 @@ import { getApolloClient } from './apollo'
 import { SINGLE_DATASET_URL, SINGLE_RUN_URL, translations } from './constants'
 import { DownloadDialogActor } from './pageObjects/downloadDialog/downloadDialogActor'
 import {
+  ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS,
   SINGLE_DATASET_DOWNLOAD_TABS,
   TOMOGRAM_DOWNLOAD_TABS,
 } from './pageObjects/downloadDialog/types'
@@ -779,20 +780,17 @@ test.describe('downloadDialog', () => {
         })
       })
 
-      test('should auto-select tomogram from row', async () => {
+      test('should auto-select tomogram from row', async ({ page }) => {
         const lastTomogramId = (
           await fetchTestSingleRun(client)
         ).data.tomograms.at(-1)!.id
         await downloadDialogPage.goTo(
           `${SINGLE_RUN_URL}?enable-feature=multipleTomograms`,
         )
-        await downloadDialogPage.page
+        await page
           .locator(`button:has-text("${translations.tomograms}")`)
           .click()
-        await downloadDialogPage.page
-          .locator('button:has-text("DOWNLOAD")')
-          .last()
-          .click()
+        await page.locator('button:has-text("DOWNLOAD")').last().click()
 
         await expect(downloadDialogPage.getDialog()).toContainText(
           `Select Tomogram:${lastTomogramId} `,
@@ -965,6 +963,229 @@ test.describe('downloadDialog', () => {
         await downloadDialogPage.clickCloseButton()
 
         await downloadDialogPage.expectDialogToBeHidden()
+      })
+    })
+
+    test.describe('Download Annotation - multiple tomograms off', () => {
+      test('should select from url', async () => {
+        const { data } = await fetchTestSingleRun(client)
+        const annotationFile = data.annotation_files[0]
+        await downloadDialogActor.goToAnnotationDownloadDialogUrl({
+          baseUrl: SINGLE_RUN_URL,
+          client,
+          step: DownloadStep.Configure,
+          multipleTomograms: false,
+        })
+
+        await downloadDialogActor.expectDialogToBeOpen({
+          title: translations.configureDownload,
+        })
+        await expect(downloadDialogPage.getDialog()).toContainText(
+          annotationFile.format,
+        )
+      })
+
+      test.describe('should open tabs from url', () => {
+        ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS.forEach((tab) => {
+          test(`should open ${tab} tab from url`, async () => {
+            await downloadDialogActor.goToAnnotationDownloadDialogUrl({
+              baseUrl: SINGLE_RUN_URL,
+              client,
+              step: DownloadStep.Download,
+              tab,
+              multipleTomograms: false,
+            })
+
+            await downloadDialogActor.expectDialogToBeOpen({
+              title: translations.downloadOptions,
+            })
+
+            await downloadDialogActor.expectDialogToBeOnCorrectTab({
+              tab,
+              tabGroup: ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS,
+            })
+          })
+        })
+      })
+
+      test.describe('should change tabs on click', () => {
+        const testCases = ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS.flatMap(
+          (v1, i) =>
+            TOMOGRAM_DOWNLOAD_TABS.toSpliced(i, 1).map((v2) => ({
+              fromTab: v1,
+              toTab: v2,
+            })),
+        )
+        testCases.forEach(({ fromTab, toTab }) => {
+          test(`should change from ${fromTab} to ${toTab} on click`, async () => {
+            await downloadDialogActor.goToAnnotationDownloadDialogUrl({
+              baseUrl: SINGLE_RUN_URL,
+              client,
+              step: DownloadStep.Download,
+              tab: fromTab,
+              multipleTomograms: false,
+            })
+
+            await downloadDialogActor.expectDialogToBeOpen({
+              title: translations.downloadOptions,
+            })
+
+            await downloadDialogPage.clickTab(toTab)
+
+            await downloadDialogActor.expectDialogToBeOnCorrectTab({
+              tab: toTab,
+              tabGroup: ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS,
+            })
+            await downloadDialogActor.expectAnnotationDialogUrlToMatch({
+              baseUrl: SINGLE_RUN_URL,
+              client,
+              step: DownloadStep.Download,
+              tab: toTab,
+            })
+          })
+        })
+      })
+
+      test.describe('should copy from tabs', () => {
+        const testCases = ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS.filter(
+          (tab) => tab !== DownloadTab.Download,
+        )
+
+        testCases.forEach((tab) => {
+          test(`should copy from ${tab} tab`, async ({ browserName }) => {
+            skipClipboardTestsForWebkit(browserName)
+
+            await downloadDialogActor.goToAnnotationDownloadDialogUrl({
+              baseUrl: SINGLE_RUN_URL,
+              client,
+              step: DownloadStep.Download,
+              tab,
+              multipleTomograms: false,
+            })
+
+            await downloadDialogActor.expectDialogToBeOpen({
+              title: translations.downloadOptions,
+            })
+
+            await downloadDialogPage.clickCopyButton()
+
+            await downloadDialogActor.expectClipboardToHaveCorrectDownloadAnnotationCommand(
+              { client, tab },
+            )
+          })
+        })
+      })
+    })
+
+    test.describe('Download Annotation - multiple tomograms on', () => {
+      test('should select from url', async () => {
+        const { data } = await fetchTestSingleRun(client)
+        const annotationFile = data.annotation_files[0]
+        await downloadDialogActor.goToAnnotationDownloadDialogUrl({
+          baseUrl: SINGLE_RUN_URL,
+          client,
+          step: DownloadStep.Configure,
+          multipleTomograms: true,
+        })
+
+        await downloadDialogActor.expectDialogToBeOpen({
+          title: translations.configureDownload,
+        })
+        await expect(downloadDialogPage.getDialog()).toContainText(
+          annotationFile.format,
+        )
+      })
+
+      test.describe('should open tabs from url', () => {
+        ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS.forEach((tab) => {
+          test(`should open ${tab} tab from url`, async () => {
+            await downloadDialogActor.goToAnnotationDownloadDialogUrl({
+              baseUrl: SINGLE_RUN_URL,
+              client,
+              step: DownloadStep.Download,
+              tab,
+              multipleTomograms: true,
+            })
+
+            await downloadDialogActor.expectDialogToBeOpen({
+              title: translations.downloadOptions,
+            })
+
+            await downloadDialogActor.expectDialogToBeOnCorrectTab({
+              tab,
+              tabGroup: ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS,
+            })
+          })
+        })
+      })
+
+      test.describe('should change tabs on click', () => {
+        const testCases = ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS.flatMap(
+          (v1, i) =>
+            TOMOGRAM_DOWNLOAD_TABS.toSpliced(i, 1).map((v2) => ({
+              fromTab: v1,
+              toTab: v2,
+            })),
+        )
+        testCases.forEach(({ fromTab, toTab }) => {
+          test(`should change from ${fromTab} to ${toTab} on click`, async () => {
+            await downloadDialogActor.goToAnnotationDownloadDialogUrl({
+              baseUrl: SINGLE_RUN_URL,
+              client,
+              step: DownloadStep.Download,
+              tab: fromTab,
+              multipleTomograms: true,
+            })
+
+            await downloadDialogActor.expectDialogToBeOpen({
+              title: translations.downloadOptions,
+            })
+
+            await downloadDialogPage.clickTab(toTab)
+
+            await downloadDialogActor.expectDialogToBeOnCorrectTab({
+              tab: toTab,
+              tabGroup: ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS,
+            })
+            await downloadDialogActor.expectAnnotationDialogUrlToMatch({
+              baseUrl: SINGLE_RUN_URL,
+              client,
+              step: DownloadStep.Download,
+              tab: toTab,
+              multipleTomograms: true,
+            })
+          })
+        })
+      })
+
+      test.describe('should copy from tabs', () => {
+        const testCases = ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS.filter(
+          (tab) => tab !== DownloadTab.Download,
+        )
+
+        testCases.forEach((tab) => {
+          test(`should copy from ${tab} tab`, async ({ browserName }) => {
+            skipClipboardTestsForWebkit(browserName)
+
+            await downloadDialogActor.goToAnnotationDownloadDialogUrl({
+              baseUrl: SINGLE_RUN_URL,
+              client,
+              step: DownloadStep.Download,
+              tab,
+              multipleTomograms: true,
+            })
+
+            await downloadDialogActor.expectDialogToBeOpen({
+              title: translations.downloadOptions,
+            })
+
+            await downloadDialogPage.clickCopyButton()
+
+            await downloadDialogActor.expectClipboardToHaveCorrectDownloadAnnotationCommand(
+              { client, tab },
+            )
+          })
+        })
       })
     })
   })
