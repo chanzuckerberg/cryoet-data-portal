@@ -10,6 +10,8 @@ export function logIfHasDiff(
   v1: GetRunByIdQuery,
   v2: GetRunByIdV2Query,
 ): void {
+  console.log('Checking for run query diffs')
+
   const v1Transformed: GetRunByIdV2Query = {
     runs: v1.runs.map((run) => ({
       __typename: 'Run',
