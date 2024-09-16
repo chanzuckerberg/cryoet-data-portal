@@ -268,11 +268,11 @@ export async function getAnnotationTestData(
     annotationsPage: 1,
   })
 
-  const { annotationFile } = data.annotation_files[0]
+  const { annotation } = data.annotation_files[0]
 
   return {
-    title: `${annotationFile.id} - ${annotationFile.object_name}`,
-    metadata: getAnnotationTestMetdata(annotationFile),
+    title: `${annotation.id} - ${annotation.object_name}`,
+    metadata: getAnnotationTestMetdata(annotation),
   }
 }
 
