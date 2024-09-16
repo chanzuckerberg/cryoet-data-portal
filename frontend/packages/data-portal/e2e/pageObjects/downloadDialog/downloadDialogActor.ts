@@ -97,14 +97,12 @@ export class DownloadDialogActor {
 
   public async goToAnnotationDownloadDialogUrl({
     client,
-    fileFormat,
     baseUrl,
     step,
     tab,
     multipleTomograms,
   }: {
     client: ApolloClient<NormalizedCacheObject>
-    fileFormat?: string
     baseUrl: string
     step?: DownloadStep
     tab?: DownloadTab
@@ -116,7 +114,7 @@ export class DownloadDialogActor {
 
     await this.goToDownloadDialogUrl({
       baseUrl,
-      fileFormat,
+      fileFormat: annotationFile.format,
       step,
       tab,
       annotationFile: {
