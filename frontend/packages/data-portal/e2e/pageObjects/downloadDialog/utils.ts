@@ -62,9 +62,7 @@ export function constructDialogUrl(
       String(annotationFile.annotation.id),
     )
     params.append(QueryParams.ObjectShapeType, annotationFile.shape_type)
-  }
-
-  if (tomogram) {
+  } else if (tomogram) {
     if (multipleTomograms) {
       params.append(QueryParams.DownloadTomogramId, String(tomogram.id))
     } else {
