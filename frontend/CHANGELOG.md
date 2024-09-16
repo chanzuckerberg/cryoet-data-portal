@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.28.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.27.0...web-v1.28.0) (2024-09-16)
+
+
+### ✨ Features
+
+* Descriptions of datasets and depositions. ([#1134](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1134)) ([6f2d66f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6f2d66f531bf51037f99aedcd1e00d2ad9af3567))
+* filter carry over behavior ([#1128](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1128)) ([afd3497](https://github.com/chanzuckerberg/cryoet-data-portal/commit/afd3497ef83a3a7e6c43b6def943e76dc7b11022))
+* Prep FE codebase for 2 API URLs ([#1126](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1126)) ([e76f270](https://github.com/chanzuckerberg/cryoet-data-portal/commit/e76f27086c0271a1189e242cd0f464c62f1e61f3))
+
+
+### 🐞 Bug Fixes
+
+* Fix not enough padding below key photos ([#1140](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1140)) ([6e84e51](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6e84e51ec69a0a0b1dd994f09e4cf0355bb45464))
+
 ## [1.27.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.26.1...web-v1.27.0) (2024-09-11)
 
 
