@@ -143,7 +143,7 @@ export function getAnnotationDownloadCommand({
   tab: DownloadTab
 }): string {
   const annotationFile = data.annotation_files[0]
-  const fileFormat = annotationFile!.format
+  const fileFormat = annotationFile.format
 
   switch (tab) {
     case DownloadTab.API:
@@ -153,14 +153,14 @@ export function getAnnotationDownloadCommand({
       )
     case DownloadTab.AWS:
       return getAwsCommand({
-        s3Path: annotationFile!.annotation.files.find(
+        s3Path: annotationFile.annotation.files.find(
           (file) => file.format === fileFormat,
         )!.s3_path,
         s3Command: 'cp',
       })
     case DownloadTab.Curl:
       return getCurlCommand(
-        annotationFile!.annotation.files.find(
+        annotationFile.annotation.files.find(
           (file) => file.format === fileFormat,
         )!.https_path,
       )
