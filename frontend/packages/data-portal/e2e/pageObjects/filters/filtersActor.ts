@@ -153,6 +153,17 @@ export class FiltersActor {
     await this.filtersPage.selectFilterOption(value)
   }
 
+  public async removeSingleSelectFilter({
+    label,
+    value,
+  }: {
+    label: string
+    value: string
+  }) {
+    await this.filtersPage.openFilterDropdown(label)
+    await this.filtersPage.removeFilterOption(value)
+  }
+
   public async addMultiInputFilter({
     buttonLabel,
     filter,

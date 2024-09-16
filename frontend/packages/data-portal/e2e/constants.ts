@@ -18,7 +18,9 @@ export const E2E_CONFIG = merge(
 export const BROWSE_DATASETS_PATH = '/browse-data/datasets'
 export const SINGLE_DATASET_PATH = `/datasets/${E2E_CONFIG.datasetId}`
 export const SINGLE_RUN_PATH = `/runs/${E2E_CONFIG.runId}`
+export const SINGLE_DEPOSITION_PATH = `/depositions/${E2E_CONFIG.depositionId}`
 
 export const BROWSE_DATASETS_URL = `${E2E_CONFIG.url}${BROWSE_DATASETS_PATH}`
 export const SINGLE_DATASET_URL = `${E2E_CONFIG.url}${SINGLE_DATASET_PATH}`
 export const SINGLE_RUN_URL = `${E2E_CONFIG.url}${SINGLE_RUN_PATH}`
+export const SINGLE_DEPOSITION_URL = `${E2E_CONFIG.url}${SINGLE_DEPOSITION_PATH}`

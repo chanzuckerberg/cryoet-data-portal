@@ -21,7 +21,7 @@ export function DepositionFilterBanner({
   deposition: Deposition
   labelI18n: I18nKeys
 }) {
-  const { singleDatasetHistory, setSingleDatasetHistory } =
+  const { previousSingleDatasetParams, setPreviousSingleDatasetParams } =
     useSingleDatasetFilterHistory()
   const { previousSingleDepositionParams } = useDepositionHistory()
   const [, setDepositionId] = useQueryParam<string>(QueryParams.DepositionId)
@@ -45,9 +45,10 @@ export function DepositionFilterBanner({
           onClick={() => {
             setDepositionId(null)
 
-            const nextHistory = new Map(singleDatasetHistory)
-            nextHistory.delete(QueryParams.DepositionId)
-            setSingleDatasetHistory(nextHistory)
+            const nextParams = new URLSearchParams(previousSingleDatasetParams)
+            nextParams.delete(QueryParams.DepositionId)
+            nextParams.sort()
+            setPreviousSingleDatasetParams(nextParams.toString())
           }}
           sdsStyle="minimal"
           sdsType="secondary"

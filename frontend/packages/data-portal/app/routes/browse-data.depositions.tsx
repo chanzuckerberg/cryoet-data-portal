@@ -6,6 +6,7 @@ import { apolloClient } from 'app/apollo.server'
 import { DepositionTable } from 'app/components/BrowseData/DepositionTable'
 import { NoResults } from 'app/components/NoResults'
 import { TablePageLayout } from 'app/components/TablePageLayout'
+import { QueryParams } from 'app/constants/query'
 import { getBrowseDepositions } from 'app/graphql/getBrowseDepositions.server'
 import { useDepositions } from 'app/hooks/useDepositions'
 import { useFilter } from 'app/hooks/useFilter'
@@ -25,11 +26,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return redirect('/404')
   }
 
-  const page = +(url.searchParams.get('page') ?? '1')
-  const sort = (url.searchParams.get('sort') ?? undefined) as
+  const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
+  const sort = (url.searchParams.get(QueryParams.Sort) ?? undefined) as
     | CellHeaderDirection
     | undefined
-  const query = url.searchParams.get('search') ?? ''
+  const query = url.searchParams.get(QueryParams.Search) ?? ''
 
   let orderBy: Order_By | null = null
 

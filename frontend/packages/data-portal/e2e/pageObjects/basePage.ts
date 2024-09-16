@@ -1,6 +1,7 @@
 import { Page } from '@playwright/test'
+import { goTo, waitForInteractive } from 'e2e/filters/utils'
 
-const TIME_UNTIL_INTERACTIVE = 3000
+import { QueryParams } from 'app/constants/query'
 
 export abstract class BasePage {
   public page: Page
@@ -23,11 +24,17 @@ export abstract class BasePage {
    */
 
   public async goTo(url: string) {
-    await this.page.goto(url)
-
-    // eslint-disable-next-line playwright/no-wait-for-timeout
-    await this.page.waitForTimeout(TIME_UNTIL_INTERACTIVE)
+    await goTo(this.page, url)
   }
+
+  /**
+   * Wait for page to become interactive. Useful for waiting for the page to
+   * become interactive after a navigation within the UI.
+   */
+  public async waitForInteractive() {
+    await waitForInteractive(this.page)
+  }
+
   // #endregion Navigate
 
   // #region Keyboard
@@ -69,5 +76,16 @@ export abstract class BasePage {
   public async pause(seconds: number) {
     // eslint-disable-next-line playwright/no-wait-for-timeout
     await this.page.waitForTimeout(seconds * 1000)
+  }
+
+  public getUrlWithParamSelector(
+    param: QueryParams | null | undefined,
+    value: string | null | undefined,
+  ) {
+    if (!param || !value) {
+      return 'a'
+    }
+
+    return `a[href*="${new URLSearchParams([[param, value]]).toString()}"]`
   }
 }

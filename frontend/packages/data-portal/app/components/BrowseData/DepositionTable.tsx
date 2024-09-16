@@ -15,6 +15,7 @@ import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
+import { QueryParams } from 'app/constants/query'
 import { DepositionTableWidths } from 'app/constants/table'
 import { Deposition, useDepositions } from 'app/hooks/useDepositions'
 import { useI18n } from 'app/hooks/useI18n'
@@ -43,7 +44,7 @@ export function DepositionTable() {
   const { depositions } = useDepositions()
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const depositionSort = (searchParams.get('sort') ?? undefined) as
+  const depositionSort = (searchParams.get(QueryParams.Sort) ?? undefined) as
     | CellHeaderDirection
     | undefined
 

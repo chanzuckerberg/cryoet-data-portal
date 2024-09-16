@@ -42,7 +42,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
   const id = params.id ? +params.id : NaN
   const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
-  const sort = (url.searchParams.get('sort') ?? undefined) as
+  const sort = (url.searchParams.get(QueryParams.Sort) ?? undefined) as
     | CellHeaderDirection
     | undefined
 
@@ -160,7 +160,7 @@ export default function DepositionByIdPage() {
 
   useSyncParamsWithState({
     filters: DEPOSITION_FILTERS,
-    setHistory: setPreviousSingleDepositionParams,
+    setParams: setPreviousSingleDepositionParams,
   })
 
   return (
