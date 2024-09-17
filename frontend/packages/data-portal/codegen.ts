@@ -12,7 +12,7 @@ const config: CodegenConfig = {
   generates: {
     './app/__generated__/': {
       schema: SCHEMA_URL,
-      documents: ['app/**/*!(V2)*.{ts,tsx}'],
+      documents: ['app/**/*.{ts,tsx}', '!app/**/*V2*.{ts,tsx}'],
       preset: 'client',
       plugins: [],
 

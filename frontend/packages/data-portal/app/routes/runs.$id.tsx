@@ -6,7 +6,7 @@ import { toNumber } from 'lodash-es'
 import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
-import { apolloClient } from 'app/apollo.server'
+import { apolloClient, apolloClientV2 } from 'app/apollo.server'
 import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
 import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
@@ -19,6 +19,8 @@ import { TomogramsTable } from 'app/components/Run/TomogramTable'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
+import { logIfHasDiff } from 'app/graphql/getRunByIdDiffer'
+import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useFileSize } from 'app/hooks/useFileSize'
 import { useI18n } from 'app/hooks/useI18n'
@@ -45,22 +47,35 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   )
   const depositionId = +(url.searchParams.get(QueryParams.DepositionId) ?? '-1')
 
-  const { data } = await getRunById({
-    id,
-    annotationsPage,
-    depositionId,
-    client: apolloClient,
-    params: url.searchParams,
-  })
+  const [{ data: responseV1 }, { data: responseV2 }] = await Promise.all([
+    getRunById({
+      id,
+      annotationsPage,
+      depositionId,
+      client: apolloClient,
+      params: url.searchParams,
+    }),
+    getRunByIdV2(apolloClientV2, id),
+  ])
 
-  if (data.runs.length === 0) {
+  if (responseV1.runs.length === 0) {
     throw new Response(null, {
       status: 404,
       statusText: `Run with ID ${id} not found`,
     })
   }
 
-  return json(data)
+  try {
+    logIfHasDiff(request.url, responseV1, responseV2)
+  } catch (error) {
+    // eslint-disable-next-line no-console, @typescript-eslint/restrict-template-expressions
+    console.log(`DIFF ERROR: ${error}`)
+  }
+
+  return json({
+    v1: responseV1,
+    v2: responseV2,
+  })
 }
 
 export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {

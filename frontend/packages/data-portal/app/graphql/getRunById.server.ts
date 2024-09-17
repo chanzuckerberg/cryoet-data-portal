@@ -92,12 +92,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
           primary_author_status
         }
 
-        authors_with_affiliation: authors(where: { affiliation_name: { _is_null: false } }) {
-          name
-          affiliation_name
-        }
-
-        funding_sources {
+        funding_sources(
+          order_by: {
+            funding_agency_name: asc
+          }
+        ) {
           funding_agency_name
           grant_id
         }
