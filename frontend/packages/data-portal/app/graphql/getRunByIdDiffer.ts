@@ -3,6 +3,7 @@ import { diff } from 'deep-object-diff'
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
 import {
   GetRunByIdV2Query,
+  Sample_Type_Enum,
   Tiltseries_Microscope_Manufacturer_Enum,
 } from 'app/__generated_v2__/graphql'
 
@@ -17,6 +18,8 @@ export function logIfHasDiff(
   const v1Transformed: GetRunByIdV2Query = {
     runs: v1.runs.map((run) => ({
       __typename: 'Run',
+      id: run.id,
+      name: run.name,
       tiltseries: {
         __typename: 'TiltseriesConnection',
         edges: run.tiltseries.map((runTiltseries) => ({
@@ -52,6 +55,57 @@ export function logIfHasDiff(
             totalFlux: runTiltseries.total_flux,
           },
         })),
+      },
+      dataset: {
+        __typename: 'Dataset',
+        cellComponentName: run.dataset.cell_component_name,
+        cellComponentId: run.dataset.cell_component_id,
+        cellName: run.dataset.cell_name,
+        cellStrainName: run.dataset.cell_strain_name,
+        cellStrainId: run.dataset.cell_strain_id,
+        cellTypeId: run.dataset.cell_type_id,
+        depositionDate: `${run.dataset.deposition_date}T00:00:00+00:00`,
+        description: run.dataset.description,
+        gridPreparation: run.dataset.grid_preparation,
+        id: run.dataset.id,
+        lastModifiedDate: `${run.dataset.last_modified_date}T00:00:00+00:00`,
+        organismName: run.dataset.organism_name!,
+        organismTaxid: Number(run.dataset.organism_taxid),
+        otherSetup: run.dataset.other_setup,
+        publications: run.dataset.dataset_publications,
+        relatedDatabaseEntries: run.dataset.related_database_entries,
+        releaseDate: `${run.dataset.release_date}T00:00:00+00:00`,
+        s3Prefix: run.dataset.s3_prefix,
+        samplePreparation: run.dataset.sample_preparation,
+        sampleType: run.dataset.sample_type as Sample_Type_Enum,
+        tissueName: run.dataset.tissue_name,
+        tissueId: run.dataset.tissue_id,
+        title: run.dataset.title,
+        fundingSources: {
+          __typename: 'DatasetFundingConnection',
+          edges: run.dataset.funding_sources.map((source) => ({
+            __typename: 'DatasetFundingEdge',
+            node: {
+              __typename: 'DatasetFunding',
+              fundingAgencyName: source.funding_agency_name,
+              grantId: source.grant_id,
+            },
+          })),
+        },
+        authors: {
+          __typename: 'DatasetAuthorConnection',
+          edges: run.dataset.authors.map((author) => ({
+            __typename: 'DatasetAuthorEdge',
+            node: {
+              __typename: 'DatasetAuthor',
+              correspondingAuthorStatus: author.corresponding_author_status,
+              email: author.email,
+              name: author.name,
+              orcid: author.orcid,
+              primaryAuthorStatus: author.primary_author_status,
+            },
+          })),
+        },
       },
     })),
   }

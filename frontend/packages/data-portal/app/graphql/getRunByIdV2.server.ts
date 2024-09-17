@@ -12,6 +12,9 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
       $id: Int
     ) {
       runs(where: { id: { _eq: $id } }) {
+        id
+        name
+
         tiltseries(first: 1) {
           edges {
             node {
@@ -40,6 +43,62 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
               tiltStep
               tiltingScheme
               totalFlux
+            }
+          }
+        }
+
+        dataset {
+          cellComponentName
+          cellComponentId
+          cellName
+          cellStrainName
+          cellStrainId
+          cellTypeId
+          depositionDate
+          description
+          gridPreparation
+          id
+          lastModifiedDate
+          organismName
+          organismTaxid
+          otherSetup
+          publications
+          relatedDatabaseEntries
+          relatedDatabaseEntries
+          releaseDate
+          s3Prefix
+          samplePreparation
+          sampleType
+          tissueName
+          tissueId
+          title
+
+          fundingSources(
+            orderBy: {
+              fundingAgencyName: asc
+            }
+          ) {
+            edges {
+              node {
+                fundingAgencyName
+                grantId
+              }
+            }
+          }
+
+          authors(
+            orderBy: {
+              authorListOrder: asc,
+            },
+          ) {
+            edges {
+              node {
+                correspondingAuthorStatus
+                email
+                name
+                orcid
+                primaryAuthorStatus
+              }
             }
           }
         }
