@@ -55,7 +55,7 @@ GQL_TO_MODEL_TYPE = {
     "PerSectionAlignmentParameters": "PerSectionAlignmentParameters",
     "PerSectionParameters": "PerSectionParameters",
     "Run": "Run",
-    "Tiltseries": "Tiltseries",
+    "Tiltseries": "TiltSeries",
     "TomogramAuthor": "TomogramAuthor",
     "TomogramVoxelSpacing": "TomogramVoxelSpacing",
     "Tomogram": "Tomogram",
@@ -281,17 +281,6 @@ def _maybe_unwrap_non_null(field_type: GraphQLType) -> GraphQLType:
     return field_type
 
 
-def _load_jinja_environment() -> Environment:
-    template_dir = _THIS_DIR / "templates"
-    loader = FileSystemLoader(template_dir)
-    return Environment(
-        loader=loader,
-        trim_blocks=True,
-        lstrip_blocks=True,
-        keep_trailing_newline=True,
-    )
-
-
 def _camel_to_snake_case(name: str) -> str:
     return re.sub("(?!^)([A-Z]+)", r"_\1", name).lower()
 
@@ -302,6 +291,19 @@ def _camel_to_space_case(name: str) -> str:
 
 def _space_case_to_plural(name: str) -> str:
     return name if name[-1] == "s" else f"{name}s"
+
+
+def _load_jinja_environment() -> Environment:
+    template_dir = _THIS_DIR / "templates"
+    loader = FileSystemLoader(template_dir)
+    env = Environment(
+        loader=loader,
+        trim_blocks=True,
+        lstrip_blocks=True,
+        keep_trailing_newline=True,
+    )
+    env.filters["to_snake"] = _camel_to_snake_case
+    return env
 
 
 if __name__ == "__main__":

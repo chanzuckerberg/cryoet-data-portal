@@ -1,11 +1,22 @@
 import functools
-from datetime import datetime, timezone
+import re
+from datetime import datetime
 from importlib import import_module
 from typing import Any, Dict, Iterable, Optional
 
 from deepmerge import always_merger
 
 from ._client import Client
+
+
+def to_camel(txt: str | list[str]):
+    if isinstance(txt, list):
+        return [to_camel(item) for item in txt]
+    return txt[0] + txt.title().replace("_", "")[1:]
+
+
+def to_snake(name: str) -> str:
+    return re.sub("(?!^)([A-Z]+)", r"_\1", name).lower()
 
 
 class GQLExpression:
@@ -80,7 +91,7 @@ class GQLField:
         return False
 
     def to_gql(self):
-        return self._name
+        return to_camel(self._name)
 
 
 class BaseField(GQLField):
@@ -129,7 +140,7 @@ class QueryChain(GQLField):
         return self.__current_query.get_related_class()
 
     def to_gql(self):
-        return self.__name
+        return to_camel(self.__name)
 
 
 class Relationship(GQLField):
@@ -182,7 +193,7 @@ class ListRelationship(Relationship):
         if obj is None:
             return self
         source_field = getattr(obj, self.source_field)
-        dest_field = getattr(self.related_class, self.dest_field)
+        dest_field = getattr(self.related_class, to_snake(self.dest_field))
         res = self.related_class.find(
             obj._client,
             [dest_field == source_field],
@@ -214,6 +225,11 @@ class Model:
             if issubclass(type(v), BaseField):
                 fields.append(k)
         return fields
+
+    @classmethod
+    @functools.lru_cache(maxsize=32)
+    def _get_gql_fields(cls):
+        return [to_camel(item) for item in cls._get_scalar_fields()]
 
     @classmethod
     @functools.lru_cache(maxsize=32)

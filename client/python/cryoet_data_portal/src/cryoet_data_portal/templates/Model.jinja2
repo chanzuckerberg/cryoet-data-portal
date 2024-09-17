@@ -3,7 +3,7 @@ class {{ model.name }}(Model):
 
     Attributes:
     {% for field in model.fields %}
-        {{ field.name }} ({{ field.annotation_type }}): {{ field.description}}
+        {{ field.name | to_snake }} ({{ field.annotation_type }}): {{ field.description}}
     {% endfor %}
     """
 
@@ -11,5 +11,5 @@ class {{ model.name }}(Model):
     _gql_root_field: str = "{{ model.root_field }}"
 
     {% for field in model.fields %}
-    {{ field.name }}: {{ field.annotation_type }} = {{ field.default_value }}
+    {{ field.name | to_snake }}: {{ field.annotation_type }} = {{ field.default_value }}
     {% endfor %}
