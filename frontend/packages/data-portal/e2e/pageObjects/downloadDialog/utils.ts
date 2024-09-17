@@ -144,6 +144,7 @@ export function getAnnotationDownloadCommand({
   const fileFormat = annotationFile.format
 
   switch (tab) {
+    case DownloadTab.PortalCLI: // TODO(bchu): Update.
     case DownloadTab.API:
       return getAnnotationCodeSnippet(
         annotationFile.annotation.id.toString(),

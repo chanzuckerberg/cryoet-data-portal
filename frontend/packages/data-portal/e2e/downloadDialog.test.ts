@@ -1125,7 +1125,7 @@ test.describe('downloadDialog', () => {
       test.describe('should change tabs on click', () => {
         const testCases =
           ANNOTATION_NON_STANDARD_TOMOGRAM_DOWNLOAD_TABS.flatMap((v1, i) =>
-            ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS.toSpliced(i, 1).map(
+            ANNOTATION_NON_STANDARD_TOMOGRAM_DOWNLOAD_TABS.toSpliced(i, 1).map(
               (v2) => ({
                 fromTab: v1,
                 toTab: v2,
