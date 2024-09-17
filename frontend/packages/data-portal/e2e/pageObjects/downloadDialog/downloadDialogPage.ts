@@ -4,6 +4,14 @@ import { BasePage } from 'e2e/pageObjects/basePage'
 
 import { DownloadConfig, DownloadTab } from 'app/types/download'
 
+const DOWNLOAD_TAB_TO_LABEL: Record<DownloadTab, string> = {
+  [DownloadTab.API]: translations.viaApi,
+  [DownloadTab.AWS]: translations.viaAwsS3,
+  [DownloadTab.Curl]: translations.viaCurl,
+  [DownloadTab.Download]: translations.directDownload,
+  [DownloadTab.PortalCLI]: translations.viaPortalCli,
+}
+
 export class DownloadDialogPage extends BasePage {
   // #region Navigate
   // #endregion Navigate
@@ -103,10 +111,9 @@ export class DownloadDialogPage extends BasePage {
     tab: DownloadTab
     isSelected: boolean
   }) {
-    await expect(dialog.getByRole('tab', { name: tab })).toHaveAttribute(
-      'aria-selected',
-      isSelected ? 'true' : 'false',
-    )
+    await expect(
+      dialog.getByRole('tab', { name: DOWNLOAD_TAB_TO_LABEL[tab] }),
+    ).toHaveAttribute('aria-selected', isSelected ? 'true' : 'false')
   }
 
   public async expectRadioToBeSelected(value: DownloadConfig) {
