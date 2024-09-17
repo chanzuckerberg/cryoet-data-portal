@@ -140,6 +140,7 @@ def get_models(schema: GraphQLSchema) -> Tuple[ModelInfo, ...]:
                 fields=fields,
             ),
         )
+    models = sorted(models, key=lambda x: x.name)
     return tuple(models)
 
 
