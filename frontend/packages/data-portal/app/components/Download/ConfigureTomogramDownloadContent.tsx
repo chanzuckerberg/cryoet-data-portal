@@ -193,7 +193,7 @@ export function ConfigureTomogramDownloadContent() {
         <Radio
           value={DownloadConfig.AllAnnotations}
           label={t('downloadAllAnnotations')}
-          description={t('downloadAllAnnotationsInThisRun')}
+          description={t('downloadAvailableAnnotationsInSupported')}
           onClick={setAllAnnotationsConfig}
         />
       </RadioGroup>
