@@ -159,7 +159,7 @@ jobs:
           ENV: ${{ inputs.environment }}
 
       - name: Run E2E tests
-        run: echo "$API_URL_V2"
+        run: pnpm e2e --shard ${{ matrix.shardCurrent }}/${{ matrix.shardTotal }}
         working-directory: frontend/packages/data-portal
         env:
           API_URL: ${{ vars.API_URL }}
