@@ -23,7 +23,7 @@ export class DownloadDialogPage extends BasePage {
 
   public async clickTab(tab: DownloadTab): Promise<void> {
     const dialog = this.getDialog()
-    await dialog.getByRole('tab', { name: tab }).click()
+    await dialog.getByRole('tab', { name: DOWNLOAD_TAB_TO_LABEL[tab] }).click()
   }
 
   public async clickCopyButton(): Promise<void> {
