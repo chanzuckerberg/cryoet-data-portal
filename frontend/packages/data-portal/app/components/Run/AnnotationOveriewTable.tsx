@@ -11,6 +11,9 @@ import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
 import { useFeatureFlag } from 'app/utils/featureFlags'
+import { Tooltip } from '../Tooltip'
+import { Icon } from '@czi-sds/components'
+import { I18n } from '../I18n'
 
 export function AnnotationOverviewTable() {
   const { activeAnnotation: annotation } = useAnnotation()
@@ -93,6 +96,16 @@ export function AnnotationOverviewTable() {
           ? [
               {
                 label: t('alignmentId'),
+                labelExtra: (
+                  <Tooltip tooltip={<I18n i18nKey="alignmentIdTooltip" />}>
+                    <Icon
+                      sdsIcon="infoCircle"
+                      sdsSize="s"
+                      className="!fill-sds-color-primitive-gray-500"
+                      sdsType="button"
+                    />
+                  </Tooltip>
+                ),
                 values: [],
               },
             ]

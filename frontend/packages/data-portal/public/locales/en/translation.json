@@ -18,6 +18,7 @@
   "alignment": "Alignment",
   "alignmentFile": "Alignment File",
   "alignmentId": "Alignment ID",
+  "alignmentIdTooltip": "<semibold>Alignment ID:</semibold> ID of the alignment used to generate the tilt series for a given tomogram.",
   "alignmentType": "AlignmentType",
   "all": "All",
   "allDatasets": "All Datasets",
