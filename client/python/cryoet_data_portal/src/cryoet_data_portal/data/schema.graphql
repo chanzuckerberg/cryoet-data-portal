@@ -478,7 +478,7 @@ input TiltseriesWhereClause {
   isAligned: BoolComparators
   pixelSpacing: FloatComparators
   alignedTiltseriesBinning: IntComparators
-  tiltseriesFramesCount: IntComparators
+  framesCount: IntComparators
   id: IntComparators
 }
 
@@ -885,7 +885,7 @@ input TiltseriesOrderByClause {
   isAligned: orderBy
   pixelSpacing: orderBy
   alignedTiltseriesBinning: orderBy
-  tiltseriesFramesCount: orderBy
+  framesCount: orderBy
   id: orderBy
 }
 
@@ -1332,7 +1332,7 @@ type TiltseriesGroupByOptions {
   isAligned: Boolean
   pixelSpacing: Float
   alignedTiltseriesBinning: Int
-  tiltseriesFramesCount: Int
+  framesCount: Int
   id: Int
 }
 
@@ -2375,7 +2375,7 @@ type Tiltseries implements EntityInterface & Node {
   alignedTiltseriesBinning: Int
 
   """Number of frames associated with this tiltseries"""
-  tiltseriesFramesCount: Int
+  framesCount: Int
 }
 
 input PerSectionParametersOrderByClause {
@@ -2547,7 +2547,7 @@ type TiltseriesNumericalColumns {
   tiltSeriesQuality: Int
   pixelSpacing: Float
   alignedTiltseriesBinning: Int
-  tiltseriesFramesCount: Int
+  framesCount: Int
   id: Int
 }
 
@@ -2584,7 +2584,7 @@ type TiltseriesMinMaxColumns {
   tiltSeriesQuality: Int
   pixelSpacing: Float
   alignedTiltseriesBinning: Int
-  tiltseriesFramesCount: Int
+  framesCount: Int
   id: Int
 }
 
@@ -2627,7 +2627,7 @@ enum TiltseriesCountColumns {
   isAligned
   pixelSpacing
   alignedTiltseriesBinning
-  tiltseriesFramesCount
+  framesCount
   id
 }
 
@@ -5289,7 +5289,7 @@ input TiltseriesCreateInput {
   alignedTiltseriesBinning: Int = null
 
   """Number of frames associated with this tiltseries"""
-  tiltseriesFramesCount: Int = null
+  framesCount: Int = null
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -5410,7 +5410,7 @@ input TiltseriesUpdateInput {
   alignedTiltseriesBinning: Int = null
 
   """Number of frames associated with this tiltseries"""
-  tiltseriesFramesCount: Int = null
+  framesCount: Int = null
 
   """Numeric identifier (May change!)"""
   id: Int

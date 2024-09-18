@@ -638,6 +638,7 @@ class TiltSeries(Model):
         https_gain_file (str): HTTPS path to the gain file for this tiltseries
         acceleration_voltage (int): Electron Microscope Accelerator voltage in volts
         spherical_aberration_constant (float): Spherical Aberration Constant of the objective lens in millimeters
+        microscope_manufacturer (str): Name of the microscope manufacturer (FEI, TFS, JEOL)
         microscope_model (str): Microscope model name
         microscope_energy_filter (str): Energy filter setup used
         microscope_phase_plate (str): Phase plate configuration
@@ -659,7 +660,7 @@ class TiltSeries(Model):
         is_aligned (bool): Whether this tilt series is aligned
         pixel_spacing (float): Pixel spacing equal in both axes in angstroms
         aligned_tiltseries_binning (int): Binning factor of the aligned tilt series
-        tiltseries_frames_count (int): Number of frames associated with this tiltseries
+        frames_count (int): Number of frames associated with this tiltseries
     """
 
     _gql_type: str = "Tiltseries"
@@ -684,6 +685,7 @@ class TiltSeries(Model):
     https_gain_file: str = StringField()
     acceleration_voltage: int = IntField()
     spherical_aberration_constant: float = FloatField()
+    microscope_manufacturer: str = StringField()
     microscope_model: str = StringField()
     microscope_energy_filter: str = StringField()
     microscope_phase_plate: str = StringField()
@@ -705,7 +707,7 @@ class TiltSeries(Model):
     is_aligned: bool = BooleanField()
     pixel_spacing: float = FloatField()
     aligned_tiltseries_binning: int = IntField()
-    tiltseries_frames_count: int = IntField()
+    frames_count: int = IntField()
 
     def download_collection_metadata(self, dest_path: Optional[str] = None):
         """Download the collection metadata for this tiltseries

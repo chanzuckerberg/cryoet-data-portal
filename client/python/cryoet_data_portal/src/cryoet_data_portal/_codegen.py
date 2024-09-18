@@ -44,7 +44,7 @@ GQL_TO_MODEL_FIELD = {
     "deposition_types_enum": ("StringField()", "str"),
     "sample_type_enum": ("StringField()", "str"),
     "tiltseries_camer_acquire_mode_enum": ("StringField()", "str"),
-    "tiltseries_microscope_manufacturer": ("StringField()", "str"),
+    "tiltseries_microscope_manufacturer_enum": ("StringField()", "str"),
     "fiducial_alignment_status_enum": ("StringField()", "str"),
     "alignment_type_enum": ("StringField()", "str"),
 }
