@@ -80,8 +80,14 @@ export function MetadataDrawer({
           <Button
             onClick={handleClose}
             data-testid={TestIds.MetadataDrawerCloseButton}
+            className="!min-w-[36px] !min-h-[36px] !max-w-[36px] !max-h-[36px]"
           >
-            <Icon color="gray" sdsIcon="XMark" sdsSize="xs" sdsType="button" />
+            <Icon
+              className="!fill-sds-color-primitive-gray-500"
+              sdsIcon="XMark"
+              sdsSize="l"
+              sdsType="button"
+            />
           </Button>
         </header>
 
