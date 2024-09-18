@@ -20,18 +20,18 @@ export function TomogramSelectorOption({
           tomogram.processing,
         )}
       </div>
-      <div className="text-sds-body-xxs text-sds-gray-500">
+      <div className="text-sds-body-xxs text-sds-color-primitive-gray-500">
         {t('tomogramId')}: {tomogram.id}
       </div>
-      <div className="text-sds-body-xxs text-sds-gray-500">
+      <div className="text-sds-body-xxs text-sds-color-primitive-gray-500">
         {t('tomogramSampling')}:{' '}
         {t('unitAngstrom', { value: tomogram.voxel_spacing })} (
         {tomogram.size_x}, {tomogram.size_y}, {tomogram.size_z})px
       </div>
-      <div className="text-sds-body-xxs text-sds-gray-500">
+      <div className="text-sds-body-xxs text-sds-color-primitive-gray-500">
         {t('reconstructionMethod')}: {tomogram.reconstruction_method}
       </div>
-      <div className="text-sds-body-xxs text-sds-gray-500 capitalize">
+      <div className="text-sds-body-xxs text-sds-color-primitive-gray-500 capitalize">
         {t('postProcessing')}: {tomogram.processing}
       </div>
     </div>

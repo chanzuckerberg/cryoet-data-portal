@@ -22,7 +22,7 @@ export function TomogramSelectorInputLabel({
         tomogram.reconstruction_method,
         tomogram.processing,
       )}
-      <span className="text-sds-gray-500 ml-sds-xxs">
+      <span className="text-sds-color-primitive-gray-500 ml-sds-xxs">
         {t('unitAngstrom', { value: tomogram.voxel_spacing })}
       </span>
     </div>
