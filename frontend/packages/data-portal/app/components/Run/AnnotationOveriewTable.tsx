@@ -16,6 +16,7 @@ export function AnnotationOverviewTable() {
   const { activeAnnotation: annotation } = useAnnotation()
   const { t } = useI18n()
   const isDepositionsEnabled = useFeatureFlag('depositions')
+  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
 
   const methodLinks = useMemo(
     () =>
@@ -88,6 +89,14 @@ export function AnnotationOverviewTable() {
           label: t('lastModifiedDate'),
           values: [annotation.last_modified_date ?? '--'],
         },
+        ...(multipleTomogramsEnabled
+          ? [
+              {
+                label: t('alignmentId'),
+                values: [],
+              },
+            ]
+          : []),
         {
           label: t('methodType'),
           values: [annotation.method_type ?? '--'],
