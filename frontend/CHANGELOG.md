@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.29.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.28.0...web-v1.29.0) (2024-09-18)
+
+
+### ✨ Features
+
+* Change download all annotations copy ([#1151](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1151)) ([3d35246](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3d35246dbd7055dc4b040ff580fc12a826c5c204)), closes [#1045](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1045)
+* Start writing run query for new API ([#1149](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1149)) ([6a5eff1](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6a5eff12836093d0f10810aa114e5b94542a4236))
+
 ## [1.28.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.27.0...web-v1.28.0) (2024-09-16)
 
 
