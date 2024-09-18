@@ -39,7 +39,7 @@ export function TiltSeriesQualityScoreBadge({
               TiltSeriesScore.Excellent,
             ),
             () =>
-              'bg-sds-color-primitive-green--400 text-sds-color-primitive-common-white',
+              'bg-sds-color-primitive-green-400 text-sds-color-primitive-common-white',
           )
           .otherwise(() => ''),
       )}
