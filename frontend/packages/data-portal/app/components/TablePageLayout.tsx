@@ -177,7 +177,7 @@ function TablePageTabContent({
               filterPanel && 'screen-2040:translate-x-[-100px] max-w-content',
             )}
           >
-            {banner && <div className="flex">{banner}</div>}
+            {banner && <div className="flex px-sds-xl">{banner}</div>}
 
             <div
               className={cns(
