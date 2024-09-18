@@ -24,7 +24,8 @@ export function TiltSeriesQualityScoreBadge({
         match(score)
           .with(
             TiltSeriesScore.VeryPoor,
-            () => 'bg-sds-error-400 text-sds-color-primitive-common-white',
+            () =>
+              'bg-sds-color-primitive-red-400 text-sds-color-primitive-common-white',
           )
           .with(
             TiltSeriesScore.Poor,
