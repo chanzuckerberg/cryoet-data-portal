@@ -4,7 +4,7 @@ import { json, LoaderFunctionArgs, redirect } from '@remix-run/node'
 import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
 import { DepositionTable } from 'app/components/BrowseData/DepositionTable'
-import { NoResults } from 'app/components/NoResults'
+import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDepositions } from 'app/graphql/getBrowseDepositions.server'
@@ -64,8 +64,8 @@ export default function BrowseDepositionsPage() {
           learnMoreLink:
             'https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_data.html#depositions',
           table: <DepositionTable />,
-          noResults: (
-            <NoResults
+          noFilteredResults: (
+            <NoFilteredResults
               title={t('filterNoResultsFound')}
               description={t('filterTooRestrictive')}
               actions={<Button onClick={reset}>{t('clearFilters')}</Button>}

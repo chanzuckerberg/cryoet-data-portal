@@ -30,6 +30,7 @@ import { BaseAnnotation } from 'app/state/annotation'
 import { DownloadConfig } from 'app/types/download'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
+import { NoTotalResults } from 'app/components/NoTotalResults'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
@@ -109,6 +110,7 @@ export default function RunByIdPage() {
 
   const {
     downloadConfig,
+    openRunDownloadModal,
     tomogramProcessing,
     tomogramSampling,
     annotationId,
@@ -182,6 +184,33 @@ export default function RunByIdPage() {
           filteredCount: annotationFilesAggregates.filteredCount,
           totalCount: annotationFilesAggregates.totalCount,
           countLabel: t('annotations'),
+          noTotalResults: (
+            <NoTotalResults
+              title={t('noAnnotationsAvailable')}
+              description={t('youCanStillDownloadTheRun')}
+              buttons={[
+                {
+                  text: t('downloadRunData'),
+                  onClick: () => {
+                    openRunDownloadModal({
+                      runId: run.id,
+                      datasetId: run.dataset.id,
+                    })
+                  },
+                },
+                {
+                  text: t('contributeYourAnnotations'),
+                  onClick: () => {
+                    window
+                      .open(
+                        'https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=RunEmptyState&hide_Event=true',
+                      )
+                      ?.focus()
+                  },
+                },
+              ]}
+            />
+          ),
         },
         ...(multipleTomogramsEnabled
           ? [
