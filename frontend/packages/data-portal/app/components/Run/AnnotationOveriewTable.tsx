@@ -1,3 +1,4 @@
+import { Icon } from '@czi-sds/components'
 import { useMemo } from 'react'
 
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
@@ -12,10 +13,14 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 
+import { I18n } from '../I18n'
+import { Tooltip } from '../Tooltip'
+
 export function AnnotationOverviewTable() {
   const { activeAnnotation: annotation } = useAnnotation()
   const { t } = useI18n()
   const isDepositionsEnabled = useFeatureFlag('depositions')
+  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
 
   const methodLinks = useMemo(
     () =>
@@ -88,6 +93,27 @@ export function AnnotationOverviewTable() {
           label: t('lastModifiedDate'),
           values: [annotation.last_modified_date ?? '--'],
         },
+        ...(multipleTomogramsEnabled
+          ? [
+              {
+                label: t('alignmentId'),
+                labelExtra: (
+                  <Tooltip
+                    tooltip={<I18n i18nKey="alignmentIdTooltip" />}
+                    placement="top"
+                  >
+                    <Icon
+                      sdsIcon="infoCircle"
+                      sdsSize="s"
+                      className="!fill-sds-color-primitive-gray-500"
+                      sdsType="button"
+                    />
+                  </Tooltip>
+                ),
+                values: [],
+              },
+            ]
+          : []),
         {
           label: t('methodType'),
           values: [annotation.method_type ?? '--'],
