@@ -3,7 +3,7 @@ import { i18n } from 'app/i18n'
 
 export function CryoETHomeLink() {
   return (
-    <div className="flex items-center gap-sds-s text-sds-gray-white">
+    <div className="flex items-center gap-sds-s text-sds-color-primitive-common-white">
       <Link className="text-sds-header-m font-semibold ml-2 " to="/">
         {i18n.title}
       </Link>

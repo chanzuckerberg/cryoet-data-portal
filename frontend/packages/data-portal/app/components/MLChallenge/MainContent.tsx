@@ -132,7 +132,7 @@ export function MainContent() {
         <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
           {t('competitionData')}
         </h2>
-        <div className="p-sds-xxl bg-sds-gray-white border border-sds-gray-200 rounded-sds-m shadow-sds-l flex flex-row gap-sds-xxl justify-between">
+        <div className="p-sds-xxl bg-sds-color-primitive-common-white border border-sds-gray-200 rounded-sds-m shadow-sds-l flex flex-row gap-sds-xxl justify-between">
           <div>
             <p className="text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold uppercase text-sds-gray-500 mb-sds-xs">
               {t('competitionDataset')}:

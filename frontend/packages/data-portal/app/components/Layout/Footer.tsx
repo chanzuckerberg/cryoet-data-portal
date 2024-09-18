@@ -47,7 +47,7 @@ export function Footer() {
       {LEGAL_LINKS.map(({ label, href }, idx) => (
         <Fragment key={label + href}>
           <Link
-            className="text-sds-gray-white hover:text-sds-gray-300"
+            className="text-sds-color-primitive-common-white hover:text-sds-gray-300"
             to={href}
           >
             {label}
@@ -67,7 +67,7 @@ export function Footer() {
         <CZIIcon />
       </Link>
 
-      <div className="h-[34px] w-px bg-sds-gray-white/30" />
+      <div className="h-[34px] w-px bg-sds-color-primitive-common-white/30" />
 
       <Link to="https://www.czimaginginstitute.org/">
         <ImageInstituteIcon />
@@ -93,7 +93,7 @@ export function Footer() {
           {DEV_LINKS.map(({ label, href }) => (
             <Link
               key={label + href}
-              className="text-sds-gray-white hover:text-sds-gray-300"
+              className="text-sds-color-primitive-common-white hover:text-sds-gray-300"
               to={href}
             >
               {label}

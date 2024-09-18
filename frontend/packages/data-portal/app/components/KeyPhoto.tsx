@@ -41,7 +41,7 @@ export function KeyPhoto({
           'group-hover:before:flex-wrap',
           'group-hover:before:content-center',
           'group-hover:before:content-i18n',
-          'group-hover:before:text-sds-gray-white',
+          'group-hover:before:text-sds-color-primitive-common-white',
           'group-hover:before:font-semibold',
           'group-hover:before:text-center',
         ],
