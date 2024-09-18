@@ -44,7 +44,8 @@ function MethodLinkList({
             {...link}
             className="text-sds-body-s leading-sds-body-s whitespace-nowrap overflow-hidden text-ellipsis"
             linkProps={{
-              className: 'text-sds-info-400 overflow-hidden text-ellipsis',
+              className:
+                'text-sds-color-primitive-blue-400  overflow-hidden text-ellipsis',
             }}
           />
         </li>

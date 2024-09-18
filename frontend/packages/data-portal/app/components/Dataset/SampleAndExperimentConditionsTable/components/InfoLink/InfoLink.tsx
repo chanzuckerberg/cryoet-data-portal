@@ -33,7 +33,7 @@ export function InfoLink({
     // don't link if no patterns match
     if (link) {
       return (
-        <Link to={link} className="text-sds-info-400">
+        <Link to={link} className="text-sds-color-primitive-blue-400">
           {value}
         </Link>
       )

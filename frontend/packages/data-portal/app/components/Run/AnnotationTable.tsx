@@ -168,8 +168,8 @@ export function AnnotationTable() {
                     className={cnsNoMerge(
                       'px-sds-xs py-sds-xxxs',
                       'flex items-center justify-center',
-                      'rounded-sds-m bg-sds-info-200',
-                      'text-sds-body-xxxs leading-sds-body-xxxs text-sds-info-600 whitespace-nowrap',
+                      'rounded-sds-m bg-sds-color-primitive-blue-200',
+                      'text-sds-body-xxxs leading-sds-body-xxxs text-sds-color-primitive-blue-600 whitespace-nowrap',
                     )}
                   >
                     {t('groundTruth')}

@@ -30,7 +30,7 @@ export function DatasetMetadataTable({
       renderValue: (value) => {
         return (
           <Link
-            className="flex flex-row gap-sds-xs w-full items-center justify-center text-sds-info-400"
+            className="flex flex-row gap-sds-xs w-full items-center justify-center text-sds-color-primitive-blue-400"
             to={`/datasets/${dataset.id}`}
             target="_blank"
           >

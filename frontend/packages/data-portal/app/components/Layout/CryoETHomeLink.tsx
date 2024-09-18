@@ -7,7 +7,7 @@ export function CryoETHomeLink() {
       <Link className="text-sds-header-m font-semibold ml-2 " to="/">
         {i18n.title}
       </Link>
-      <div className="px-sds-xs py-sds-xxxs bg-sds-info-400 rounded-sds-m text-sds-body-xxxs">
+      <div className="px-sds-xs py-sds-xxxs bg-sds-color-primitive-blue-400 rounded-sds-m text-sds-body-xxxs">
         {i18n.beta}
       </div>
     </div>

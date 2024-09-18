@@ -21,7 +21,10 @@ function Breadcrumb({
   className?: string
 }) {
   return link ? (
-    <Link to={link} className={cns(className, 'hover:text-sds-info-400')}>
+    <Link
+      to={link}
+      className={cns(className, 'hover:text-sds-color-primitive-blue-400')}
+    >
       {text}
     </Link>
   ) : (

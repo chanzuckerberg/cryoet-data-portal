@@ -45,7 +45,11 @@ export function DatabaseEntry(props: DatabaseEntryProps) {
         </span>
       )}
       <Link
-        className={inline ? 'text-sds-info-400 truncate' : 'text-sds-gray-600'}
+        className={
+          inline
+            ? 'text-sds-color-primitive-blue-400 truncate'
+            : 'text-sds-gray-600'
+        }
         to={URL_MAP.get(dbtype) + id}
         variant={inline ? undefined : 'dashed-underlined'}
       >
