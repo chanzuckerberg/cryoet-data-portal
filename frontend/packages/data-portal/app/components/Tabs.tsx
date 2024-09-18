@@ -37,7 +37,7 @@ export function Tabs<T>({
           <Tab
             classes={{
               root: cns(
-                'text-sds-gray-500 !text-sds-body-s',
+                'text-sds-color-primitive-gray-500 !text-sds-body-s',
                 '!leading-sds-body-s !font-semibold',
                 '!p-0 !min-w-[max-content] !min-h-0',
                 'transition-colors',

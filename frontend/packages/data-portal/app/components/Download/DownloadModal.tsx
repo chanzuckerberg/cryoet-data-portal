@@ -87,7 +87,7 @@ function DownloadModalContent() {
   return (
     <Dialog
       classes={{
-        paper: '!max-w-[600px] border border-sds-gray-100',
+        paper: '!max-w-[600px] border border-sds-color-primitive-gray-100',
       }}
       onClose={closeModal}
       open={!!isModalOpen}
@@ -96,7 +96,7 @@ function DownloadModalContent() {
       <div className="flex justify-between">
         <div className="flex-col gap-sds-xxs py-sds-xxs">
           {modalData.subtitle && (
-            <p className="text-sds-gray-500 text-sds-body-xs leading-sds-body-xs">
+            <p className="text-sds-color-primitive-gray-500 text-sds-body-xs leading-sds-body-xs">
               {modalData.subtitle}
             </p>
           )}

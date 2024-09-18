@@ -27,7 +27,7 @@ export function MenuDropdown({
 
             anchorEl
               ? 'text-sds-color-primitive-common-white'
-              : 'text-sds-gray-400 group-hover:text-sds-color-primitive-common-white',
+              : 'text-sds-color-primitive-gray-400 group-hover:text-sds-color-primitive-common-white',
           )}
         >
           {title}
@@ -40,7 +40,7 @@ export function MenuDropdown({
           className={cns(
             anchorEl
               ? '!w-[10px] !h-[10px] !fill-sds-color-primitive-common-white'
-              : '!w-[10px] !h-[10px] !fill-sds-gray-400 group-hover:!fill-sds-color-primitive-common-white',
+              : '!w-[10px] !h-[10px] !fill-sds-color-primitive-gray-400 group-hover:!fill-sds-color-primitive-common-white',
           )}
         />
       </button>

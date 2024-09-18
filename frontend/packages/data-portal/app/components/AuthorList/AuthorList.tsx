@@ -80,7 +80,11 @@ export function AuthorList({
         ))}
       </span>
 
-      <span className={cns(subtle && !compact && 'text-sds-gray-600')}>
+      <span
+        className={cns(
+          subtle && !compact && 'text-sds-color-primitive-gray-600',
+        )}
+      >
         {compact
           ? otherCollapsed
           : authorsOther.map((author, i, arr) => (

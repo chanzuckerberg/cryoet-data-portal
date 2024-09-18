@@ -129,7 +129,7 @@ export function IncludedContentsFilterSection({
         }
         details={
           depositionPageVariant ? (
-            <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-500">
+            <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500">
               {t('withDepositionData')}
             </p>
           ) : undefined

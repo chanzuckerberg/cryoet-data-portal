@@ -56,7 +56,7 @@ export function TopNavigation() {
 
             link.isActive(pathname)
               ? 'text-sds-color-primitive-common-white'
-              : 'text-sds-gray-400 hover:text-sds-color-primitive-common-white',
+              : 'text-sds-color-primitive-gray-400 hover:text-sds-color-primitive-common-white',
           )}
           to={link.link}
           key={link.link}

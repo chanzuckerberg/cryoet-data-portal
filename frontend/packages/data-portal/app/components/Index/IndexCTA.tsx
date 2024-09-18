@@ -55,14 +55,14 @@ export function IndexCTA() {
           buttonText={t('browseData')}
           url="/browse-data/datasets"
         />
-        <div className="bg-sds-gray-200 w-sds-xxxs row-span-2" />
+        <div className="bg-sds-color-primitive-gray-200 w-sds-xxxs row-span-2" />
         <CTA
           title={t('contributeYourData')}
           text={t('contributeCta')}
           buttonText={t('tellUsMore')}
           url={t('urlDataContributionForm')}
         />
-        <div className="bg-sds-gray-200 w-sds-xxxs row-span-2" />
+        <div className="bg-sds-color-primitive-gray-200 w-sds-xxxs row-span-2" />
         <CTA
           title={t('participateInOurCompetition')}
           text={t('participateInOurCompetitionCTA')}

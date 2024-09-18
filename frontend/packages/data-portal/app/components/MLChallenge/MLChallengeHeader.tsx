@@ -3,7 +3,7 @@ import { useI18n } from 'app/hooks/useI18n'
 function ChallengeInfo({ title, content }: { title: string; content: string }) {
   return (
     <div className="font-semibold">
-      <p className="text-sds-header-xxxs leading-sds-header-xxxs text-sds-gray-600">
+      <p className="text-sds-header-xxxs leading-sds-header-xxxs text-sds-color-primitive-gray-600">
         {title}
       </p>
       <p className="text-sds-body-l leading-sds-body-l">{content}</p>
@@ -26,7 +26,7 @@ export function MLChallengeHeader() {
 
       <div className="flex items-center mt-sds-xl justify-center">
         <ChallengeInfo title={t('starts')} content={t('fall2024')} />
-        <div className="h-full w-px bg-sds-gray-400 mx-sds-xl" />
+        <div className="h-full w-px bg-sds-color-primitive-gray-400 mx-sds-xl" />
         <ChallengeInfo title={t('prizes')} content={t('prizeTotal')} />
       </div>
     </div>

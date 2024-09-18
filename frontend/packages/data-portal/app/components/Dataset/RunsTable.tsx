@@ -134,7 +134,7 @@ export function RunsTable() {
                   </Link>
                 )}
 
-                <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
+                <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
                   {isLoadingDebounced ? (
                     <Skeleton className="max-w-[120px]" variant="text" />
                   ) : (

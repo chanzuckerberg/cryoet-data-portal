@@ -68,7 +68,7 @@ export function MetadataDrawer({
       >
         <header className="flex items-start justify-between px-sds-xl pt-sds-xl pb-sds-xxl">
           <div className="flex flex-col gap-sds-s">
-            <p className="text-xs text-sds-gray-600 font-semibold uppercase">
+            <p className="text-xs text-sds-color-primitive-gray-600 font-semibold uppercase">
               {label}
             </p>
 
@@ -85,7 +85,7 @@ export function MetadataDrawer({
           </Button>
         </header>
 
-        <div className="px-sds-xl border-b-2 border-sds-gray-200">
+        <div className="px-sds-xl border-b-2 border-sds-color-primitive-gray-200">
           <Tabs
             className="!m-0"
             tabs={TAB_OPTIONS}
@@ -100,7 +100,7 @@ export function MetadataDrawer({
             'px-sds-xl pt-sds-xl pb-sds-xxl',
 
             drawer.activeTab === MetadataTab.Metadata &&
-              'divide-y divide-sds-gray-300',
+              'divide-y divide-sds-color-primitive-gray-300',
           )}
         >
           {drawer.activeTab === MetadataTab.Metadata && children}

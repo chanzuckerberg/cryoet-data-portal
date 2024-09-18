@@ -47,14 +47,14 @@ export function Footer() {
       {LEGAL_LINKS.map(({ label, href }, idx) => (
         <Fragment key={label + href}>
           <Link
-            className="text-sds-color-primitive-common-white hover:text-sds-gray-300"
+            className="text-sds-color-primitive-common-white hover:text-sds-color-primitive-gray-300"
             to={href}
           >
             {label}
           </Link>
 
           {idx !== LEGAL_LINKS.length - 1 && (
-            <div className="h-sds-l w-px bg-sds-gray-300" />
+            <div className="h-sds-l w-px bg-sds-color-primitive-gray-300" />
           )}
         </Fragment>
       ))}
@@ -93,7 +93,7 @@ export function Footer() {
           {DEV_LINKS.map(({ label, href }) => (
             <Link
               key={label + href}
-              className="text-sds-color-primitive-common-white hover:text-sds-gray-300"
+              className="text-sds-color-primitive-common-white hover:text-sds-color-primitive-gray-300"
               to={href}
             >
               {label}

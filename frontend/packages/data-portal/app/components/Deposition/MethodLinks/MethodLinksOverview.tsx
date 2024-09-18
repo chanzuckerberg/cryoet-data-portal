@@ -47,7 +47,7 @@ function MethodTypeSection({
             sdsIcon="InfoCircle"
             sdsSize="xs"
             sdsType="static"
-            className="!text-sds-gray-500"
+            className="!text-sds-color-primitive-gray-500"
           />
         </Tooltip>
       </p>
@@ -62,7 +62,7 @@ function MethodTypeSection({
               {...link}
               className="text-sds-body-xxs leading-sds-body-xxs"
               linkProps={{
-                className: 'text-sds-gray-600',
+                className: 'text-sds-color-primitive-gray-600',
                 variant: 'dashed-underlined',
               }}
             />
@@ -79,14 +79,14 @@ export function MethodLinksOverview() {
 
   const { deposition } = useDepositionById()
 
-  const separator = <div className="h-[1px] bg-sds-gray-300" />
+  const separator = <div className="h-[1px] bg-sds-color-primitive-gray-300" />
 
   return (
     <div>
       <PageHeaderSubtitle className="mb-sds-m">
         {t('annotationMethodsSummary')}
       </PageHeaderSubtitle>
-      <div className="p-sds-l flex flex-col gap-sds-l bg-sds-gray-100 rounded-sds-m">
+      <div className="p-sds-l flex flex-col gap-sds-l bg-sds-color-primitive-gray-100  rounded-sds-m">
         {deposition.annotation_methods
           .sort(
             (a, b) =>

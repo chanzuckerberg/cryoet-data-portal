@@ -43,7 +43,7 @@ export function DropdownFilterButton({
       <Button
         className={cns(
           'flex items-center gap-sds-xs group',
-          open && '!bg-sds-gray-100',
+          open && '!bg-sds-color-primitive-gray-100',
         )}
         ref={buttonRef}
         onClick={() => {
@@ -54,7 +54,7 @@ export function DropdownFilterButton({
         <span
           className={cns(
             'font-semibold group-hover:text-black transition-colors text-sm',
-            open ? 'text-black' : 'text-sds-gray-500',
+            open ? 'text-black' : 'text-sds-color-primitive-gray-500',
           )}
         >
           {label}
@@ -63,7 +63,7 @@ export function DropdownFilterButton({
         <Icon
           className={cns(
             'group-hover:!fill-black transition-colors',
-            open ? '!fill-black' : '!fill-sds-gray-500',
+            open ? '!fill-black' : '!fill-sds-color-primitive-gray-500',
           )}
           sdsIcon="ChevronDown"
           sdsSize="xs"
@@ -78,7 +78,7 @@ export function DropdownFilterButton({
             return (
               <div className="pl-sds-s flex flex-col">
                 {filter.label && (
-                  <p className="text-sds-body-xs leading-sds-body-xs text-sds-gray-500 uppercase">
+                  <p className="text-sds-body-xs leading-sds-body-xs text-sds-color-primitive-gray-500 uppercase">
                     {filter.label}
                   </p>
                 )}

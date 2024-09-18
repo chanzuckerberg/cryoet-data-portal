@@ -128,14 +128,18 @@ export function RunHeader() {
                     key: t('frames'),
                     value: framesCount > 0 ? t('available') : t('notSubmitted'),
                     valueClass:
-                      framesCount > 0 ? undefined : 'text-sds-gray-500',
+                      framesCount > 0
+                        ? undefined
+                        : 'text-sds-color-primitive-gray-500',
                   },
                   {
                     key: t('tiltSeries'),
                     value:
                       tiltSeriesCount > 0 ? t('available') : t('notSubmitted'),
                     valueClass:
-                      tiltSeriesCount > 0 ? undefined : 'text-sds-gray-500',
+                      tiltSeriesCount > 0
+                        ? undefined
+                        : 'text-sds-color-primitive-gray-500',
                   },
                   {
                     key: t('alignmentFile'),

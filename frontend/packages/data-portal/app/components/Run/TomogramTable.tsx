@@ -77,7 +77,7 @@ export function TomogramsTable() {
             <div className="text-sds-body-xxs">
               {t('tomogramId')}: {original.id}
             </div>
-            <div className=" text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
+            <div className=" text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs">
               <AuthorList authors={original.authors} compact />
             </div>
           </TableCell>
@@ -120,7 +120,7 @@ export function TomogramsTable() {
         cell: ({ getValue, row: { original } }) => (
           <TableCell width={TomogramTableWidths.voxelSpacing}>
             {t('unitAngstrom', { value: getValue() })}
-            <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
+            <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
               ({original.size_x}, {original.size_y}, {original.size_z})px
             </div>
           </TableCell>
