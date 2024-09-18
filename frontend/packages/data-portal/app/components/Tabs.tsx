@@ -46,6 +46,7 @@ export function Tabs<T>({
                   '!leading-sds-body-s font-semibold',
                   '!p-0 !min-w-[max-content] !min-h-0',
                   'transition-colors',
+                  tab.disabled && 'opacity-100 !text-[#ccc]',
                 ),
                 selected: '!text-black',
               }}

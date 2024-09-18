@@ -150,21 +150,19 @@ export function DownloadOptionsContent() {
         {t('selectDownloadMethod')}:
       </p>
 
-      {selectedTab && (
-        <div className="border-b-2 border-sds-color-primitive-gray-200">
-          <Tabs
-            onChange={(tab) =>
-              setDownloadTab({
-                tab,
-                datasetId,
-                runId,
-              })
-            }
-            tabs={downloadTabs}
-            value={selectedTab}
-          />
-        </div>
-      )}
+      <div className="border-b-2 border-sds-color-primitive-gray-200">
+        <Tabs
+          onChange={(tab) =>
+            setDownloadTab({
+              tab,
+              datasetId,
+              runId,
+            })
+          }
+          tabs={downloadTabs}
+          value={selectedTab}
+        />
+      </div>
 
       <DownloadTabContent />
 
