@@ -67,7 +67,7 @@ export function CollapsibleList({
         <div
           className={cns(
             'mt-sds-xxs font-semibold',
-            tableVariant && 'text-sds-primary-400',
+            tableVariant && 'text-sds-color-primitive-blue-400',
           )}
         >
           <button type="button" onClick={() => setCollapsed(!collapsed)}>

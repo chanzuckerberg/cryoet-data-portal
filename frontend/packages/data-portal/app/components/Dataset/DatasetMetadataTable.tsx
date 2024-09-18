@@ -39,7 +39,7 @@ export function DatasetMetadataTable({
               sdsIcon="ChevronRight"
               sdsSize="xs"
               sdsType="iconButton"
-              className="!w-[10px] !h-[10px] !fill-sds-primary-400"
+              className="!w-[10px] !h-[10px] !fill-sds-color-primitive-blue-400"
             />
           </Link>
         )

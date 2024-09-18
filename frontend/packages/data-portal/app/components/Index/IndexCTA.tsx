@@ -39,7 +39,7 @@ export function IndexCTA() {
   const { t } = useI18n()
 
   return (
-    <div className="py-sds-xxl flex flex-col gap-sds-xl relative after:h-full after:w-[200vw] after:bg-sds-primary-100 after:absolute after:top-0 after:-translate-x-1/2 after:-z-10">
+    <div className="py-sds-xxl flex flex-col gap-sds-xl relative after:h-full after:w-[200vw] after:bg-sds-color-primitive-blue-100 after:absolute after:top-0 after:-translate-x-1/2 after:-z-10">
       <h3 className="font-sds-semibold font-semibold text-sds-header-xl leading-sds-header-xl">
         <I18n i18nKey="helpUsAchieveThisVision" />
       </h3>

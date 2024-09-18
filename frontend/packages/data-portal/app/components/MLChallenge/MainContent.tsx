@@ -37,8 +37,8 @@ function Section({
         'py-sds-xxl flex flex-col',
         color &&
           'relative after:h-full after:w-[200vw] after:absolute after:top-0 after:-translate-x-1/2 after:-z-10',
-        color === 'primary100' && 'after:bg-sds-primary-100 ',
-        color === 'primary200' && 'after:bg-sds-primary-200 ',
+        color === 'primary100' && 'after:bg-sds-color-primitive-blue-100 ',
+        color === 'primary200' && 'after:bg-sds-color-primitive-blue-200 ',
         color === 'gray100' && 'after:bg-sds-color-primitive-gray-100 ',
         color === 'gray500' && 'after:bg-sds-color-primitive-gray-500 ',
         className,

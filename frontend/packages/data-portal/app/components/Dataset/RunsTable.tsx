@@ -124,9 +124,9 @@ export function RunsTable() {
                 ) : (
                   <Link
                     className={cnsNoMerge(
-                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400',
+                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
                       !isHoveringOverInteractable &&
-                        'hover:text-sds-primary-500',
+                        'hover:text-sds-color-primitive-blue-500',
                     )}
                     to={runUrl}
                   >

@@ -20,7 +20,7 @@ function CollapsibleDescription({ text }: { text: string }) {
       <p className={isCollapsed ? 'text-ellipsis line-clamp-3' : undefined}>
         {text}
       </p>
-      <div className="mt-sds-s font-semibold text-sds-primary-400">
+      <div className="mt-sds-s font-semibold text-sds-color-primitive-blue-400">
         <button type="button" onClick={() => setCollapsed((prev) => !prev)}>
           <span className="flex flex-row gap-sds-xxs items-center">
             <Icon

@@ -83,7 +83,7 @@ export function Breadcrumbs({
     >
       {returnToDepositionLink && (
         <Link
-          className="uppercase font-semibold text-sds-caps-xxxs leading-sds-caps-xxxs text-sds-primary-400"
+          className="uppercase font-semibold text-sds-caps-xxxs leading-sds-caps-xxxs text-sds-color-primitive-blue-400"
           to={returnToDepositionLink}
         >
           {t('returnToDeposition')}
