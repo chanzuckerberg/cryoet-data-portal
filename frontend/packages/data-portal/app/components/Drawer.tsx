@@ -28,7 +28,7 @@ export function Drawer({
           <motion.div
             ref={drawerRef}
             className={cns(
-              'flex flex-auto bg-sds-gray-white',
+              'flex flex-auto bg-sds-color-primitive-common-white',
               'max-w-[490px] min-w-[490px]',
               'z-20 fixed right-0',
 

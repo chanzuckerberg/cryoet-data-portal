@@ -139,7 +139,7 @@ export function DownloadOptionsContent() {
       </p>
 
       {downloadTab && (
-        <div className="border-b-2 border-sds-gray-200">
+        <div className="border-b-2 border-sds-color-primitive-gray-200">
           <Tabs
             onChange={(tab) =>
               setDownloadTab({

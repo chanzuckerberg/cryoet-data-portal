@@ -15,7 +15,7 @@ export function TableCount({
   const { isLoadingDebounced } = useIsLoading()
 
   return (
-    <p className="text-sds-body-xs text-sds-gray-500 whitespace-nowrap mr-sds-xxl">
+    <p className="text-sds-body-xs text-sds-color-primitive-gray-500 whitespace-nowrap mr-sds-xxl">
       {isLoadingDebounced ? (
         <Skeleton className="max-w-" variant="text" />
       ) : (

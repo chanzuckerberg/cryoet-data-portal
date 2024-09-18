@@ -47,14 +47,14 @@ export function Footer() {
       {LEGAL_LINKS.map(({ label, href }, idx) => (
         <Fragment key={label + href}>
           <Link
-            className="text-sds-gray-white hover:text-sds-gray-300"
+            className="text-sds-color-primitive-common-white hover:text-sds-color-primitive-gray-300"
             to={href}
           >
             {label}
           </Link>
 
           {idx !== LEGAL_LINKS.length - 1 && (
-            <div className="h-sds-l w-px bg-sds-gray-300" />
+            <div className="h-sds-l w-px bg-sds-color-primitive-gray-300" />
           )}
         </Fragment>
       ))}
@@ -67,7 +67,7 @@ export function Footer() {
         <CZIIcon />
       </Link>
 
-      <div className="h-[34px] w-px bg-sds-gray-white/30" />
+      <div className="h-[34px] w-px bg-sds-color-primitive-common-white/30" />
 
       <Link to="https://www.czimaginginstitute.org/">
         <ImageInstituteIcon />
@@ -76,7 +76,7 @@ export function Footer() {
   )
 
   return (
-    <footer className="bg-sds-gray-black min-h-[213px] p-sds-xxl flex flex-col flex-shrink-0">
+    <footer className="bg-sds-color-primitive-common-black min-h-[213px] p-sds-xxl flex flex-col flex-shrink-0">
       <div className="flex items-center flex-wrap flex-col sm:flex-row sm:gap-y-sds-xxl">
         <CryoETHomeLink />
 
@@ -93,7 +93,7 @@ export function Footer() {
           {DEV_LINKS.map(({ label, href }) => (
             <Link
               key={label + href}
-              className="text-sds-gray-white hover:text-sds-gray-300"
+              className="text-sds-color-primitive-common-white hover:text-sds-color-primitive-gray-300"
               to={href}
             >
               {label}

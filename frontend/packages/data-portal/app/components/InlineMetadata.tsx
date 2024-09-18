@@ -24,7 +24,7 @@ export function InlineMetadata({
         <li
           className={cns(
             'flex flex-row items-baseline justify-left gap-sds-xxs',
-            subheader && 'text-sds-gray-500',
+            subheader && 'text-sds-color-primitive-gray-500',
           )}
           key={key + value}
         >
@@ -32,7 +32,7 @@ export function InlineMetadata({
             className={cnsNoMerge(
               'font-semibold',
               subheader
-                ? 'text-sds-gray-600 tracking-sds-body-xxs text-sds-caps-xxs leading-sds-caps-xxs'
+                ? 'text-sds-color-primitive-gray-600 tracking-sds-body-xxs text-sds-caps-xxs leading-sds-caps-xxs'
                 : 'text-sds-body-xxs leading-sds-body-xxs',
               uppercase && 'uppercase',
               subheader && uppercase && 'tracking-sds-caps',
@@ -59,7 +59,7 @@ export function InlineMetadata({
 
   if (label) {
     return (
-      <div className="flex flex-row gap-sds-xl text-sds-gray-black items-baseline">
+      <div className="flex flex-row gap-sds-xl text-sds-color-primitive-common-black items-baseline">
         <span className="text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold uppercase tracking-sds-caps">
           {label}
         </span>

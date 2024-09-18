@@ -83,7 +83,7 @@ export function TablePageLayout({
                 label: (
                   <div>
                     <span>{tab.title}</span>
-                    <span className="text-sds-gray-500 ml-[16px]">
+                    <span className="text-sds-color-primitive-gray-500 ml-[16px]">
                       {tab.filteredCount}
                     </span>
                   </div>
@@ -153,7 +153,7 @@ function TablePageTabContent({
           <div
             className={cns(
               'flex flex-col flex-shrink-0 w-[235px]',
-              'border-t border-r border-sds-gray-300',
+              'border-t border-r border-sds-color-primitive-gray-300',
             )}
           >
             {filterPanel}
@@ -164,8 +164,9 @@ function TablePageTabContent({
           className={cns(
             'flex flex-col flex-auto screen-2040:items-center',
             'pb-sds-xxl',
-            'border-t border-sds-gray-300',
+            'border-t border-sds-color-primitive-gray-300',
             'overflow-x-scroll max-w-full',
+            !banner && 'pt-sds-xl',
           )}
         >
           <div
@@ -176,14 +177,14 @@ function TablePageTabContent({
               filterPanel && 'screen-2040:translate-x-[-100px] max-w-content',
             )}
           >
-            <div className="flex mb-sds-xl px-sds-xl">{banner}</div>
+            {banner && <div className="flex px-sds-xl">{banner}</div>}
 
             <div
               className={cns(
                 'ml-sds-xl p-sds-m flex items-center gap-x-sds-xl  screen-1024:mr-sds-xl',
                 // NOTE: The title background color is gray on the browse datasets and browse depositions pages
                 // If we want to add a description to the single deposition or single run pages, we may need to update this
-                !!description && 'bg-sds-gray-100',
+                !!description && 'bg-sds-color-primitive-gray-100',
               )}
             >
               <p className="text-sds-header-l leading-sds-header-l font-semibold">
@@ -200,7 +201,7 @@ function TablePageTabContent({
                 {learnMoreLink && (
                   <Link
                     to={learnMoreLink}
-                    className="text-sds-primary-400 ml-sds-xxs"
+                    className="text-sds-color-primitive-blue-400 ml-sds-xxs"
                   >
                     {t('learnMore')}
                   </Link>

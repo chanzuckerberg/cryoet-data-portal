@@ -103,7 +103,6 @@ export function RunsTable() {
         header: () => (
           <CellHeader
             tooltip={<I18n i18nKey="runsTooltip" />}
-            arrowPadding={{ right: 260 }}
             width={RunTableWidths.name}
           >
             {t('runName')}
@@ -124,9 +123,9 @@ export function RunsTable() {
                 ) : (
                   <Link
                     className={cnsNoMerge(
-                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400',
+                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
                       !isHoveringOverInteractable &&
-                        'hover:text-sds-primary-500',
+                        'hover:text-sds-color-primitive-blue-500',
                     )}
                     to={runUrl}
                   >
@@ -134,7 +133,7 @@ export function RunsTable() {
                   </Link>
                 )}
 
-                <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
+                <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
                   {isLoadingDebounced ? (
                     <Skeleton className="max-w-[120px]" variant="text" />
                   ) : (

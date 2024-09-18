@@ -29,7 +29,7 @@ export function Radio({
       className: cns(
         'flex gap-sds-default p-sds-l transition-colors text-left',
 
-        isActive && 'bg-sds-gray-100',
+        isActive && 'bg-sds-color-primitive-gray-100',
       ),
 
       ...(isActive
@@ -57,7 +57,7 @@ export function Radio({
         <span className="text-sds-header-s leading-sds-header-s font-semibold">
           {label}
         </span>
-        <span className="text-sds-gray-600 text-sds-body-xs leading-sds-body-xs">
+        <span className="text-sds-color-primitive-gray-600 text-sds-body-xs leading-sds-body-xs">
           {description}
         </span>
 

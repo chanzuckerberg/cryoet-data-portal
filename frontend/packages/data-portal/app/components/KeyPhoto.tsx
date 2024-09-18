@@ -25,7 +25,7 @@ export function KeyPhoto({
     <div
       className={cns(
         'flex-shrink-0 basis-[134px] aspect-[4/3] min-w-[134px]',
-        'flex items-center justify-center bg-sds-gray-100',
+        'flex items-center justify-center bg-sds-color-primitive-gray-100',
         'rounded-sds-m',
 
         // crop image to container dimensions
@@ -41,7 +41,7 @@ export function KeyPhoto({
           'group-hover:before:flex-wrap',
           'group-hover:before:content-center',
           'group-hover:before:content-i18n',
-          'group-hover:before:text-sds-gray-white',
+          'group-hover:before:text-sds-color-primitive-common-white',
           'group-hover:before:font-semibold',
           'group-hover:before:text-center',
         ],
@@ -59,7 +59,7 @@ export function KeyPhoto({
           />
         ))
         .otherwise(() => (
-          <KeyPhotoFallbackIcon className="text-sds-gray-200 font-normal aspect-square w-1/5" />
+          <KeyPhotoFallbackIcon className="text-sds-color-primitive-gray-200 font-normal aspect-square w-1/5" />
         ))}
     </div>
   )

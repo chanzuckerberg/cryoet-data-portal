@@ -139,9 +139,9 @@ export function DatasetTable() {
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                   <p
                     className={cnsNoMerge(
-                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400',
+                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
                       !isClickingOnEmpiarId &&
-                        'group-hover:text-sds-primary-500',
+                        'group-hover:text-sds-color-primitive-blue-500',
                     )}
                   >
                     {isLoadingDebounced ? (
@@ -151,7 +151,7 @@ export function DatasetTable() {
                     )}
                   </p>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
+                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
@@ -159,7 +159,7 @@ export function DatasetTable() {
                     )}
                   </p>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-500 mt-sds-s">
+                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500 mt-sds-s">
                     {isLoadingDebounced ? (
                       <>
                         <Skeleton className="max-w-[80%] mt-2" variant="text" />
@@ -240,7 +240,6 @@ export function DatasetTable() {
             header: () => (
               <CellHeader
                 tooltip={<I18n i18nKey="runsTooltip" />}
-                arrowPadding={{ right: 270 }}
                 width={DatasetTableWidths.runs}
               >
                 {t('runs')}

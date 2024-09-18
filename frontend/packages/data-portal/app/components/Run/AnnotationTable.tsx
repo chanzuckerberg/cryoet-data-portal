@@ -63,7 +63,7 @@ function ConfidenceValue({ value }: { value: number }) {
   return (
     <div className="flex flex-col gap-sds-xxxs">
       <p className="text-sds-header-s leading-sds-header-s">{value}%</p>
-      <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
+      <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
         {t('confidence')}
       </p>
     </div>
@@ -124,7 +124,7 @@ export function AnnotationTable() {
               {typeof value === 'number' ? (
                 <ConfidenceValue value={value} />
               ) : (
-                <p className="text-sds-body-xs leading-sds-body-xs text-sds-gray-500">
+                <p className="text-sds-body-xs leading-sds-body-xs text-sds-color-primitive-gray-500">
                   {t('na')}
                 </p>
               )}
@@ -168,8 +168,8 @@ export function AnnotationTable() {
                     className={cnsNoMerge(
                       'px-sds-xs py-sds-xxxs',
                       'flex items-center justify-center',
-                      'rounded-sds-m bg-sds-info-200',
-                      'text-sds-body-xxxs leading-sds-body-xxxs text-sds-info-600 whitespace-nowrap',
+                      'rounded-sds-m bg-sds-color-primitive-blue-200',
+                      'text-sds-body-xxxs leading-sds-body-xxxs text-sds-color-primitive-blue-600 whitespace-nowrap',
                     )}
                   >
                     {t('groundTruth')}
@@ -178,7 +178,7 @@ export function AnnotationTable() {
               )}
             </div>
 
-            <div className=" text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
+            <div className=" text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs">
               <AuthorList authors={annotation.authors} compact />
             </div>
           </TableCell>
@@ -280,20 +280,12 @@ export function AnnotationTable() {
         key: 'confidence_precision',
         header: t('precision'),
         tooltipI18nKey: 'precisionTooltip',
-
-        cellHeaderProps: {
-          arrowPadding: { left: 100 },
-        },
       }),
 
       getConfidenceCell({
         key: 'confidence_recall',
         header: t('recall'),
         tooltipI18nKey: 'recallTooltip',
-
-        cellHeaderProps: {
-          arrowPadding: { left: 120 },
-        },
       }),
 
       columnHelper.display({
@@ -452,11 +444,11 @@ function RowDivider({
 
   return (
     <tr
-      className="bg-sds-gray-100 border-t border-sds-gray-300"
+      className="bg-sds-color-primitive-gray-100 border-t border-sds-color-primitive-gray-300"
       data-testid={TestIds.AnnotationTableDivider}
     >
       <td
-        className="text-sds-header-xxs text-sds-gray-500 p-sds-s leading-sds-header-xs"
+        className="text-sds-header-xxs text-sds-color-primitive-gray-500 p-sds-s leading-sds-header-xs"
         colSpan={1000}
       >
         {t(groundTruth ? 'groundTruthAnnotations' : 'otherAnnotations', {

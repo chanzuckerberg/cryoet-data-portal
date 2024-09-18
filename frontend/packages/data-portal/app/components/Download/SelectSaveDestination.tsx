@@ -10,12 +10,12 @@ export function SelectSaveDestination() {
           1. {t('selectSaveDestination')}:{' '}
         </span>
 
-        <span className="text-sds-body-xs leading-sds-body-xs text-sds-gray-500 lowercase">
+        <span className="text-sds-body-xs leading-sds-body-xs text-sds-color-primitive-gray-500 lowercase">
           — {t('optional')}
         </span>
       </p>
 
-      <p className="text-sds-header-xs leading-sds-header-xs text-sds-gray-600">
+      <p className="text-sds-header-xs leading-sds-header-xs text-sds-color-primitive-gray-600">
         {t('downloadWillSaveToCurrentDirectory')}
       </p>
     </>
