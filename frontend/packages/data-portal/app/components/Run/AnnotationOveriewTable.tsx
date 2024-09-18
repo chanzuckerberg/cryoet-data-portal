@@ -1,3 +1,4 @@
+import { Icon } from '@czi-sds/components'
 import { useMemo } from 'react'
 
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
@@ -11,9 +12,9 @@ import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
 import { useFeatureFlag } from 'app/utils/featureFlags'
-import { Tooltip } from '../Tooltip'
-import { Icon } from '@czi-sds/components'
+
 import { I18n } from '../I18n'
+import { Tooltip } from '../Tooltip'
 
 export function AnnotationOverviewTable() {
   const { activeAnnotation: annotation } = useAnnotation()
