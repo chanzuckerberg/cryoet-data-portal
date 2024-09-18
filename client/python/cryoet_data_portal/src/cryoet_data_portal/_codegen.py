@@ -36,6 +36,17 @@ GQL_TO_MODEL_FIELD = {
     "numeric": ("FloatField()", "float"),
     "_numeric": ("StringField()", "str"),
     "tomogram_type_enum": ("StringField()", "str"),
+    "tomogram_processing_enum": ("StringField()", "str"),
+    "tomogram_reconstruction_method_enum": ("StringField()", "str"),
+    "annotation_file_source_enum": ("StringField()", "str"),
+    "annotation_method_type_enum": ("StringField()", "str"),
+    "annotation_file_shape_type_enum": ("StringField()", "str"),
+    "deposition_types_enum": ("StringField()", "str"),
+    "sample_type_enum": ("StringField()", "str"),
+    "tiltseries_camer_acquire_mode_enum": ("StringField()", "str"),
+    "tiltseries_microscope_manufacturer": ("StringField()", "str"),
+    "fiducial_alignment_status_enum": ("StringField()", "str"),
+    "alignment_type_enum": ("StringField()", "str"),
 }
 
 
@@ -50,6 +61,7 @@ GQL_TO_MODEL_TYPE = {
     "DatasetFunding": "DatasetFunding",
     "Dataset": "Dataset",
     "DepositionAuthor": "DepositionAuthor",
+    "DepositionType": "DepositionType",
     "Deposition": "Deposition",
     "Frame": "Frame",
     "PerSectionAlignmentParameters": "PerSectionAlignmentParameters",
@@ -114,7 +126,7 @@ def write_models(models: Tuple[ModelInfo, ...], path: Path) -> None:
     with open(path, "w") as f:
         template = environment.get_template("Header.jinja2")
         f.write(template.render())
-        for model in models:
+        for model in sorted(models, key=lambda x: x.name):
             template = environment.select_template(
                 (f"{model.name}.jinja2", "Model.jinja2"),
             )
