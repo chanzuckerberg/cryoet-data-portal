@@ -1440,7 +1440,7 @@ test.describe('Browse datasets page filters', () => {
       test('should filter the list of organisms', async () => {
         await filtersPage.goTo(BROWSE_DATASETS_URL)
 
-        await filtersPage.openFilterDropdown(translations.organismName)
+        await filtersPage.clickFilterDropdown(translations.organismName)
         await filtersPage.fillSearchInput(E2E_CONFIG.organismNameQuery)
 
         await filtersActor.expectOrganismNamesFromDataToMatchFilterList({

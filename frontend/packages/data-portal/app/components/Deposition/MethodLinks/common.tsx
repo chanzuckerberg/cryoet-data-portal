@@ -33,7 +33,7 @@ export const ICON_MAP: { [key in MethodLinkType]: ReactNode } = {
   ),
   website: (
     <Icon
-      sdsIcon="globe"
+      sdsIcon="Globe"
       sdsType="static"
       sdsSize="s"
       className="!text-current"
@@ -41,7 +41,7 @@ export const ICON_MAP: { [key in MethodLinkType]: ReactNode } = {
   ),
   documentation: (
     <Icon
-      sdsIcon="document"
+      sdsIcon="Document"
       sdsType="static"
       sdsSize="s"
       className="!text-current"
@@ -49,7 +49,7 @@ export const ICON_MAP: { [key in MethodLinkType]: ReactNode } = {
   ),
   other: (
     <Icon
-      sdsIcon="link"
+      sdsIcon="Link"
       sdsType="static"
       sdsSize="s"
       className="!text-current"

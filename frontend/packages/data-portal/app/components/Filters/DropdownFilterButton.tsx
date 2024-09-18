@@ -65,8 +65,8 @@ export function DropdownFilterButton({
             'group-hover:!fill-black transition-colors',
             open ? '!fill-black' : '!fill-sds-gray-500',
           )}
-          sdsIcon="chevronDown"
-          sdsSize="s"
+          sdsIcon="ChevronDown"
+          sdsSize="xs"
           sdsType="button"
         />
       </Button>
@@ -95,7 +95,7 @@ export function DropdownFilterButton({
                     >
                       <Icon
                         className="!fill-white !w-[10px] !h-[10px]"
-                        sdsIcon="xMark"
+                        sdsIcon="XMark"
                         sdsSize="xs"
                         sdsType="static"
                       />

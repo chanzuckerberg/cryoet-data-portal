@@ -42,7 +42,7 @@ export function PageHeader({
                 'grid grid-cols-[minmax(0,_1fr)_auto] grid-rows-[1fr_auto]',
                 'w-full max-w-content',
                 'justify-between',
-                'gap-x-sds-xxl',
+                'gap-x-sds-xxl gap-y-2.5',
                 'px-sds-xl pt-sds-l pb-sds-xxs',
               )}
             >

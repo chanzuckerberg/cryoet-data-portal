@@ -157,7 +157,7 @@ export function DownloadOptionsContent() {
       <DownloadTabContent />
 
       {multipleTomogramsEnabled && (
-        <Callout intent="warning" className="!w-full">
+        <Callout intent="notice" className="!w-full">
           {t('annotationsDownloadedFromThePortal')}
         </Callout>
       )}

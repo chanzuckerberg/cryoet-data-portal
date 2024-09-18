@@ -36,7 +36,7 @@ export function DatasetMetadataTable({
           >
             <span className="truncate">{value}</span>
             <Icon
-              sdsIcon="chevronRight"
+              sdsIcon="ChevronRight"
               sdsSize="xs"
               sdsType="iconButton"
               className="!w-[10px] !h-[10px] !fill-sds-primary-400"

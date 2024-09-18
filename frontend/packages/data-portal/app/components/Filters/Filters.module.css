@@ -4,7 +4,7 @@
   :global(.MuiTypography-root) {
     font-size: theme('fontSize.sds-body-s') !important;
     font-weight: theme('fontWeight.semibold') !important;
-    color: theme('colors.sds-gray.500') !important;
+    color: theme('colors.sds-color-primitive-gray-500') !important;
   }
 }
 
@@ -26,7 +26,7 @@
   }
 
   :global(#meets-all) {
-    @apply text-sds-body-xs leading-sds-body-xs text-sds-gray-500;
+    @apply text-sds-body-xs leading-sds-body-xs text-sds-color-semantic-text-base-secondary;
 
     letter-spacing: 0.3px;
   }

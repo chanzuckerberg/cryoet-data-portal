@@ -1,4 +1,4 @@
-import { Button, ButtonIcon, Dialog, DialogActions } from '@czi-sds/components'
+import { Button, Dialog, DialogActions, Icon } from '@czi-sds/components'
 import { useCallback, useMemo } from 'react'
 import { match } from 'ts-pattern'
 
@@ -106,12 +106,14 @@ function DownloadModalContent() {
         </div>
 
         <div>
-          <ButtonIcon
-            onClick={closeModal}
-            sdsSize="medium"
-            sdsType="tertiary"
-            sdsIcon="xMark"
-          />
+          <button onClick={closeModal} type="button">
+            <Icon
+              className="!fill-sds-color-semantic-component-base-icon"
+              sdsIcon="XMark"
+              sdsSize="l"
+              sdsType="button"
+            />
+          </button>
         </div>
       </div>
 

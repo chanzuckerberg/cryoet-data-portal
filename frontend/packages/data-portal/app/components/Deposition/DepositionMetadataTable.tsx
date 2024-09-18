@@ -24,7 +24,7 @@ function CollapsibleDescription({ text }: { text: string }) {
         <button type="button" onClick={() => setCollapsed((prev) => !prev)}>
           <span className="flex flex-row gap-sds-xxs items-center">
             <Icon
-              sdsIcon={isCollapsed ? 'plus' : 'minus'}
+              sdsIcon={isCollapsed ? 'Plus' : 'Minus'}
               sdsSize="xs"
               sdsType="static"
               className="!text-current"

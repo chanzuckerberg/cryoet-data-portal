@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test'
 import { BasePage } from 'e2e/pageObjects/basePage'
+import { escapeRegExp } from 'lodash-es'
 
 import { TestIds } from 'app/constants/testIds'
 
@@ -11,8 +12,8 @@ export class FiltersPage extends BasePage {
   // #endregion Navigate
 
   // #region Click
-  public async openFilterDropdown(label: string) {
-    await this.page.getByRole('button', { name: label }).click()
+  public async clickFilterDropdown(label: string) {
+    await this.page.locator('button', { hasText: label }).click()
   }
 
   public async selectFilterOption(label: string) {
@@ -21,12 +22,14 @@ export class FiltersPage extends BasePage {
       .locator('span')
       .first()
       .click()
-
-    await this.page.keyboard.press('Escape')
   }
 
   public async removeFilterOption(label: string) {
-    await this.page.click(`[role=button]:has-text("${label}") svg`)
+    await this.page
+      .locator('span', { hasText: new RegExp(`^${escapeRegExp(label)}$`, 'i') })
+      .locator('..')
+      .getByLabel('Delete tag')
+      .click()
   }
 
   public async removeMultiInputFilter(label: string) {

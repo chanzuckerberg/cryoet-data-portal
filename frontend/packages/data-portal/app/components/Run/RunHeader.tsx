@@ -69,14 +69,14 @@ export function RunHeader() {
   return (
     <PageHeader
       actions={
-        <>
+        <div className="flex items-center gap-2.5">
           <ViewTomogramButton
             tomogramId={tomogram?.id?.toString()}
             neuroglancerConfig={neuroglancerConfig}
             buttonProps={{
               sdsStyle: 'rounded',
               sdsType: 'primary',
-              startIcon: <Icon sdsIcon="table" sdsType="button" sdsSize="s" />,
+              startIcon: <Icon sdsIcon="Table" sdsType="button" sdsSize="s" />,
             }}
             tooltipPlacement="bottom"
             event={{
@@ -89,7 +89,7 @@ export function RunHeader() {
           />
 
           <Button
-            startIcon={<Icon sdsIcon="download" sdsType="button" sdsSize="l" />}
+            startIcon={<Icon sdsIcon="Download" sdsType="button" sdsSize="l" />}
             sdsType="secondary"
             sdsStyle="rounded"
             onClick={() =>
@@ -101,7 +101,7 @@ export function RunHeader() {
           >
             {t('downloadWithAdditionalOptions')}
           </Button>
-        </>
+        </div>
       }
       releaseDate={run.dataset.release_date}
       lastModifiedDate={

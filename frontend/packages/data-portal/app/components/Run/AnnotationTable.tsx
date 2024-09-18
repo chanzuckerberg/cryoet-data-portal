@@ -309,7 +309,7 @@ export function AnnotationTable() {
                 sdsStyle="minimal"
                 onClick={() => openAnnotationDrawer(annotation)}
                 startIcon={
-                  <Icon sdsIcon="infoCircle" sdsSize="s" sdsType="button" />
+                  <Icon sdsIcon="InfoCircle" sdsSize="s" sdsType="button" />
                 }
                 // FIXME: check if below still needed in @czi-sds/components >= 20.4.0
                 // default min-w is 64px which throws off alignment
@@ -335,7 +335,7 @@ export function AnnotationTable() {
                   })
                 }
                 startIcon={
-                  <Icon sdsIcon="download" sdsSize="s" sdsType="button" />
+                  <Icon sdsIcon="Download" sdsSize="s" sdsType="button" />
                 }
                 // FIXME: check if below still needed in @czi-sds/components >= 20.4.0
                 // remove negative margin on icon
