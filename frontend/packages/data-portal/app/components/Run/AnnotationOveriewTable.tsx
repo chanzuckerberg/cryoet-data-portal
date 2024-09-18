@@ -98,7 +98,10 @@ export function AnnotationOverviewTable() {
               {
                 label: t('alignmentId'),
                 labelExtra: (
-                  <Tooltip tooltip={<I18n i18nKey="alignmentIdTooltip" />}>
+                  <Tooltip
+                    tooltip={<I18n i18nKey="alignmentIdTooltip" />}
+                    placement="top"
+                  >
                     <Icon
                       sdsIcon="infoCircle"
                       sdsSize="s"
