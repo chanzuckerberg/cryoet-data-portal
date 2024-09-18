@@ -87,7 +87,7 @@ export function Breadcrumbs({
         </Link>
       )}
 
-      <div className="flex flex-row gap-sds-s text-sds-body-s leading-sds-body-s text-sds-gray-black items-center whitespace-nowrap content-start">
+      <div className="flex flex-row gap-sds-s text-sds-body-s leading-sds-body-s text-sds-color-primitive-common-black items-center whitespace-nowrap content-start">
         <Breadcrumb
           text={t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')}
           link={browseAllLink}

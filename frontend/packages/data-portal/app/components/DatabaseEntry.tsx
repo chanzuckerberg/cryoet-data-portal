@@ -36,7 +36,10 @@ export function DatabaseEntry(props: DatabaseEntryProps) {
     <p className="flex flex-row gap-sds-xs">
       {(!inline || dbtype === DatabaseType.DOI) && (
         <span
-          className={cns('text-sds-gray-black', !inline && 'font-semibold')}
+          className={cns(
+            'text-sds-color-primitive-common-black',
+            !inline && 'font-semibold',
+          )}
         >
           {LABEL_MAP.get(dbtype)}:
         </span>

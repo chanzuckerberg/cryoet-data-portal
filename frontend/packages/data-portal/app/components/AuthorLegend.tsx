@@ -10,7 +10,7 @@ function Legend() {
       <h4 className="text-sds-header-xxs leading-sds-header-xxs font-semibold text-sds-gray-500">
         <I18n i18nKey="authorNameLegend" />
       </h4>
-      <div className="grid grid-cols-[max-content_max-content] gap-x-sds-xl gap-y-sds-xxs text-sds-body-xs leading-sds-body-xs text-sds-gray-black">
+      <div className="grid grid-cols-[max-content_max-content] gap-x-sds-xl gap-y-sds-xxs text-sds-body-xs leading-sds-body-xs text-sds-color-primitive-common-black">
         <I18n i18nKey="boldedText" />
         <span className="font-semibold">
           <I18n i18nKey="primaryAuthor" />

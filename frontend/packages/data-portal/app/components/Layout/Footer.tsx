@@ -76,7 +76,7 @@ export function Footer() {
   )
 
   return (
-    <footer className="bg-sds-gray-black min-h-[213px] p-sds-xxl flex flex-col flex-shrink-0">
+    <footer className="bg-sds-color-primitive-common-black min-h-[213px] p-sds-xxl flex flex-col flex-shrink-0">
       <div className="flex items-center flex-wrap flex-col sm:flex-row sm:gap-y-sds-xxl">
         <CryoETHomeLink />
 

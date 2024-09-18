@@ -59,7 +59,7 @@ export function InlineMetadata({
 
   if (label) {
     return (
-      <div className="flex flex-row gap-sds-xl text-sds-gray-black items-baseline">
+      <div className="flex flex-row gap-sds-xl text-sds-color-primitive-common-black items-baseline">
         <span className="text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold uppercase tracking-sds-caps">
           {label}
         </span>
