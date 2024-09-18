@@ -103,7 +103,6 @@ export function RunsTable() {
         header: () => (
           <CellHeader
             tooltip={<I18n i18nKey="runsTooltip" />}
-            arrowPadding={{ right: 260 }}
             width={RunTableWidths.name}
           >
             {t('runName')}

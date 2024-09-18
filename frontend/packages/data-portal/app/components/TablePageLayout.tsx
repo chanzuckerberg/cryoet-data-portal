@@ -163,9 +163,10 @@ function TablePageTabContent({
         <div
           className={cns(
             'flex flex-col flex-auto screen-2040:items-center',
-            'pt-sds-xl pb-sds-xxl',
+            'pb-sds-xxl',
             'border-t border-sds-color-primitive-gray-300',
             'overflow-x-scroll max-w-full',
+            !banner && 'pt-sds-xl',
           )}
         >
           <div
@@ -176,7 +177,7 @@ function TablePageTabContent({
               filterPanel && 'screen-2040:translate-x-[-100px] max-w-content',
             )}
           >
-            <div className="flex mb-sds-xl px-sds-xl">{banner}</div>
+            {banner && <div className="flex">{banner}</div>}
 
             <div
               className={cns(

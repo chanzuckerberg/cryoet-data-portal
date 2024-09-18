@@ -1,9 +1,9 @@
-import { CellBasic, CellComponent } from '@czi-sds/components'
+import { CellComponent } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
 import { ReactNode } from 'react'
 import { match } from 'ts-pattern'
 
-import { getTooltipProps, Tooltip, TooltipProps } from 'app/components/Tooltip'
+import { Tooltip, TooltipProps } from 'app/components/Tooltip'
 import { TableColumnWidth } from 'app/constants/table'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { cns } from 'app/utils/cns'
@@ -54,11 +54,21 @@ export function TableCell({
 
   if (primaryText) {
     return (
-      <CellBasic
-        primaryText={primaryText}
-        tooltipProps={getTooltipProps(tooltipProps)}
-        {...cellProps}
-      />
+      <td
+        className={cns('align-top px-3 py-4', cellProps.className)}
+        style={cellProps.style}
+      >
+        <p className="text-sds-body-s leading-sds-body-s font-normal">
+          <Tooltip
+            className="inline"
+            tooltip={primaryText}
+            placement="top"
+            {...tooltipProps}
+          >
+            {primaryText}
+          </Tooltip>
+        </p>
+      </td>
     )
   }
 
@@ -72,8 +82,8 @@ export function TableCell({
 
   if (tooltip) {
     content = (
-      <Tooltip tooltip={tooltip} {...tooltipProps}>
-        <div>{content}</div>
+      <Tooltip className="inline" tooltip={tooltip} {...tooltipProps}>
+        {content}
       </Tooltip>
     )
   }

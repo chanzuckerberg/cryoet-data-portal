@@ -280,20 +280,12 @@ export function AnnotationTable() {
         key: 'confidence_precision',
         header: t('precision'),
         tooltipI18nKey: 'precisionTooltip',
-
-        cellHeaderProps: {
-          arrowPadding: { left: 100 },
-        },
       }),
 
       getConfidenceCell({
         key: 'confidence_recall',
         header: t('recall'),
         tooltipI18nKey: 'recallTooltip',
-
-        cellHeaderProps: {
-          arrowPadding: { left: 120 },
-        },
       }),
 
       columnHelper.display({

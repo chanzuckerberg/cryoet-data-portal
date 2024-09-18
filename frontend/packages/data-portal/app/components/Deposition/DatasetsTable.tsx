@@ -207,7 +207,6 @@ export function DatasetsTable() {
                     </p>
                   </div>
                 }
-                arrowPadding={{ right: 270 }}
                 width={DepositionPageDatasetTableWidths.runs}
                 subHeader={t('withDepositionData')}
               >

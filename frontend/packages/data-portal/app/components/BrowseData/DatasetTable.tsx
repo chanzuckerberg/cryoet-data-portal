@@ -240,7 +240,6 @@ export function DatasetTable() {
             header: () => (
               <CellHeader
                 tooltip={<I18n i18nKey="runsTooltip" />}
-                arrowPadding={{ right: 270 }}
                 width={DatasetTableWidths.runs}
               >
                 {t('runs')}

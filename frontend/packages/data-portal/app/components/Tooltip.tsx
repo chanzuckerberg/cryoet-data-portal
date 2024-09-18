@@ -4,7 +4,7 @@ import {
 } from '@czi-sds/components'
 import { ReactNode } from 'react'
 
-import { cnsNoMerge } from 'app/utils/cns'
+import { cns, cnsNoMerge } from 'app/utils/cns'
 
 export type TooltipOffset = [number, number]
 
@@ -35,16 +35,22 @@ export function getTooltipProps({
   sdsStyle,
   center,
   size = 'm',
+  classes,
 }: Pick<
   TooltipProps,
-  'arrowPadding' | 'offset' | 'sdsStyle' | 'center' | 'size'
+  'arrowPadding' | 'offset' | 'sdsStyle' | 'center' | 'size' | 'classes'
 > = {}) {
   return {
     arrow: true,
     leaveDelay: 0,
 
     classes: {
-      arrow: sdsStyle === 'dark' ? '!text-black' : '!text-white',
+      ...classes,
+
+      arrow: cns(
+        sdsStyle === 'dark' ? '!text-black' : '!text-white',
+        classes?.arrow,
+      ),
 
       tooltip: cnsNoMerge(
         '!px-sds-l !py-2',
@@ -53,6 +59,8 @@ export function getTooltipProps({
         '!font-normal !text-sds-body-xs !leading-sds-body-xs',
         'shadow-lg',
         size === 's' && 'w-[200px]',
+        'border-solid border border-sds-color-primitive-gray-300',
+        classes?.tooltip,
       ),
     },
 
@@ -93,12 +101,20 @@ export function Tooltip({
   sdsStyle,
   center,
   size,
+  classes,
   ...props
 }: TooltipProps) {
   return (
     <SDSTooltip
       title={tooltip}
-      {...getTooltipProps({ arrowPadding, offset, sdsStyle, center, size })}
+      {...getTooltipProps({
+        arrowPadding,
+        offset,
+        sdsStyle,
+        center,
+        size,
+        classes,
+      })}
       {...props}
     >
       <div className={className}>{children}</div>

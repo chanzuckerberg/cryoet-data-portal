@@ -1,8 +1,10 @@
-import { Icon, Tooltip } from '@czi-sds/components'
+import { Icon } from '@czi-sds/components'
 
 import { I18n } from 'app/components/I18n'
 import { EnvelopeIcon, ORCIDIcon } from 'app/components/icons'
 import { cns } from 'app/utils/cns'
+
+import { Tooltip } from './Tooltip'
 
 function Legend() {
   return (
@@ -40,15 +42,7 @@ function Legend() {
 
 export function AuthorLegend({ inline = false }: { inline?: boolean }) {
   return (
-    <Tooltip
-      title={<Legend />}
-      classes={{
-        tooltip:
-          // need to specify background color because it's not visible locally
-          '!p-sds-m !min-w-fit border-solid border border-sds-color-primitive-gray-300 !bg-white',
-      }}
-      placement="top-start"
-    >
+    <Tooltip tooltip={<Legend />} placement="top">
       <div
         className={inline ? 'relative w-sds-icon-s h-sds-icon-s' : undefined}
       >

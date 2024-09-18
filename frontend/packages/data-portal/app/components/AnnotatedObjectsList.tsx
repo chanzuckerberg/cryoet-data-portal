@@ -1,4 +1,3 @@
-import { Tooltip } from '@czi-sds/components'
 import Paper from '@mui/material/Paper'
 import Skeleton from '@mui/material/Skeleton'
 import { range } from 'lodash-es'
@@ -7,6 +6,8 @@ import { ReactNode } from 'react'
 import { ANNOTATED_OBJECTS_MAX } from 'app/constants/pagination'
 import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
+
+import { Tooltip } from './Tooltip'
 
 function List({
   className,
@@ -62,7 +63,7 @@ export function AnnotatedObjectsList({
           <Tooltip
             classes={{ tooltip: '!p-0 !bg-transparent' }}
             placement="left"
-            title={
+            tooltip={
               <Paper className="p-sds-m text-black w-[250px]" elevation={4}>
                 <List className="font-semibold">{nodes}</List>
               </Paper>

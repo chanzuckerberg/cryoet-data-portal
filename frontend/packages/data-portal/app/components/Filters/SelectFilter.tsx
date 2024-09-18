@@ -123,7 +123,11 @@ export function SelectFilter<
         groupBy,
         title,
         PopperBaseProps: {
-          className: cns(popperClassName, multiple && styles.popper),
+          className: cns(
+            '!w-full max-w-[240px]',
+            popperClassName,
+            styles.popper,
+          ),
         },
       }}
       InputDropdownProps={

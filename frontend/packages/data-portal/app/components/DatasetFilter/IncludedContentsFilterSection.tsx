@@ -113,7 +113,6 @@ export function IncludedContentsFilterSection({
           updateValue(QueryParams.AvailableFiles, options)
         }}
         title={`${t('resultsMustIncludeAllFileTypes')}:`}
-        popperClassName="max-w-[244px]"
         className={AVAILABLE_FILES_CLASS_NAME}
       />
 
