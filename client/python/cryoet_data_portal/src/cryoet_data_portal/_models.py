@@ -284,7 +284,6 @@ class Dataset(Model):
         related_database_entries (str): If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
         s3_prefix (str): The S3 public bucket path where this dataset is contained
         https_prefix (str): The https directory path where this dataset is contained
-        publications (str): Comma-separated list of DOIs for publications associated with the dataset.
     """
 
     _gql_type: str = "Dataset"
@@ -321,7 +320,6 @@ class Dataset(Model):
     related_database_entries: str = StringField()
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
-    publications: str = StringField()
 
     def download_everything(self, dest_path: Optional[str] = None):
         """Download all of the data for this dataset.

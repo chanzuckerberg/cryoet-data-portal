@@ -333,7 +333,6 @@ input DatasetWhereClause {
   s3Prefix: StrComparators
   httpsPrefix: StrComparators
   id: IntComparators
-  publications: StrComparators
 }
 
 input DepositionWhereClause {
@@ -926,7 +925,6 @@ input DatasetOrderByClause {
   s3Prefix: orderBy
   httpsPrefix: orderBy
   id: orderBy
-  publications: orderBy
 }
 
 """Shapes associated with an annotation"""
@@ -1374,7 +1372,6 @@ type DatasetGroupByOptions {
   s3Prefix: String
   httpsPrefix: String
   id: Int
-  publications: String
 }
 
 enum AlignmentCountColumns {
@@ -1690,11 +1687,6 @@ type Dataset implements EntityInterface & Node {
 
   """The https directory path where this dataset is contained"""
   httpsPrefix: String!
-
-  """
-  Comma-separated list of DOIs for publications associated with the dataset.
-  """
-  publications: String
 }
 
 """Deposition metadata"""
@@ -2064,7 +2056,6 @@ type DatasetMinMaxColumns {
   s3Prefix: String
   httpsPrefix: String
   id: Int
-  publications: String
 }
 
 enum DatasetCountColumns {
@@ -2098,7 +2089,6 @@ enum DatasetCountColumns {
   s3Prefix
   httpsPrefix
   id
-  publications
 }
 
 """A connection to a list of items."""
@@ -4697,11 +4687,6 @@ input DatasetCreateInput {
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
   id: Int!
-
-  """
-  Comma-separated list of DOIs for publications associated with the dataset.
-  """
-  publications: String = null
 }
 
 input DatasetUpdateInput {
@@ -4805,11 +4790,6 @@ input DatasetUpdateInput {
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
   id: Int
-
-  """
-  Comma-separated list of DOIs for publications associated with the dataset.
-  """
-  publications: String = null
 }
 
 input DatasetWhereClauseMutations {
