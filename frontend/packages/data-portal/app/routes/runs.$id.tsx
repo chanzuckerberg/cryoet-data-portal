@@ -2,7 +2,7 @@
 
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { toNumber } from 'lodash-es'
+import { startCase, toNumber } from 'lodash-es'
 import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
@@ -187,7 +187,7 @@ export default function RunByIdPage() {
           noTotalResults: (
             <NoTotalResults
               title={t('noAnnotationsAvailable')}
-              description={t('youCanStillDownloadTheRun')}
+              description={t('downloadTheRunDataToCreateYourOwnAnnotations')}
               buttons={[
                 {
                   text: t('downloadRunData'),
@@ -221,6 +221,25 @@ export default function RunByIdPage() {
                 filteredCount: tomogramsCount,
                 totalCount: tomogramsCount,
                 countLabel: t('tomograms'),
+                noTotalResults: (
+                  <NoTotalResults
+                    title={startCase(t('noTomogramsAvailable'))}
+                    description={t(
+                      'downloadAllRunDataViaApiToCreateYourOwnReconstructions',
+                    )}
+                    buttons={[
+                      {
+                        text: t('downloadThisRun'),
+                        onClick: () => {
+                          openRunDownloadModal({
+                            runId: run.id,
+                            datasetId: run.dataset.id,
+                          })
+                        },
+                      },
+                    ]}
+                  />
+                ),
               },
             ]
           : []),

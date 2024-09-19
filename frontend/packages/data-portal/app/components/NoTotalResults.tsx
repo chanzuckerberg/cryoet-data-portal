@@ -13,28 +13,23 @@ export function NoTotalResults({
   buttons,
 }: NoTotalResultsProps) {
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center border-t border-sds-color-primitive-gray-300">
       <div className="flex flex-col justify-center items-baseline h-[425px] gap-[20px]">
-        <h1 className="text-sds-header-xl font-semibold">{title}</h1>
-        {description}
+        <h1 className="text-sds-header-l font-semibold">{title}</h1>
+        <div className="text-sds-body-s">{description}</div>
         {buttons.map((button) => (
           <Button
             sdsType="primary"
             sdsStyle="minimal"
-            isAllCaps={false}
+            className="!normal-case !text-sds-body-s"
             onClick={button.onClick}
           >
             {button.text}
-            <SmallChevronRightIcon />
+            <SmallChevronRightIcon className="w-[12px] h-[12px] fill-[#0b68f8] ml-sds-xxs" />
           </Button>
         ))}
       </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="240"
-        height="240"
-        fill="none"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" width="240" height="240">
         <path
           id="Combined-Shape"
           fill-rule="evenodd"
