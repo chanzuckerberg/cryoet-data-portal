@@ -4,9 +4,13 @@ import { ReactNode } from 'react'
 
 import { cns } from 'app/utils/cns'
 
+import { Tooltip } from './Tooltip'
+
 export interface TabData<T> {
-  label: ReactNode
   value: T
+  label: ReactNode
+  disabled?: boolean
+  tooltip?: ReactNode
 }
 
 export function Tabs<T>({
@@ -33,21 +37,36 @@ export function Tabs<T>({
           flexContainer: 'gap-sds-xl !pb-sds-xxs',
         }}
       >
-        {tabs.map((tab) => (
-          <Tab
-            classes={{
-              root: cns(
-                'text-sds-color-primitive-gray-500 !text-sds-body-s',
-                '!leading-sds-body-s !font-semibold',
-                '!p-0 !min-w-[max-content] !min-h-0',
-                'transition-colors',
-              ),
-              selected: '!text-black ',
-            }}
-            key={String(tab.value)}
-            {...tab}
-          />
-        ))}
+        {tabs.map((tab) => {
+          const tabComponent = (
+            <Tab
+              classes={{
+                root: cns(
+                  'text-sds-color-primitive-gray-500 !text-sds-body-s',
+                  '!leading-sds-body-s !font-semibold',
+                  '!p-0 !min-w-[max-content] !min-h-0',
+                  'transition-colors',
+                  tab.disabled && 'opacity-100 !text-[#ccc]',
+                ),
+                selected: '!text-black',
+              }}
+              key={String(tab.value)}
+              {...tab}
+            />
+          )
+          return tab.tooltip !== undefined ? (
+            <Tooltip
+              key={String(tab.value)}
+              tooltip={tab.tooltip}
+              placement="top"
+              sdsStyle="dark"
+            >
+              {tabComponent}
+            </Tooltip>
+          ) : (
+            tabComponent
+          )
+        })}
       </MUITabs>
     </div>
   )

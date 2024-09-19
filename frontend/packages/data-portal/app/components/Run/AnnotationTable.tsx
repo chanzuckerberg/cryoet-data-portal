@@ -73,7 +73,12 @@ function ConfidenceValue({ value }: { value: number }) {
 export function AnnotationTable() {
   const { isLoadingDebounced } = useIsLoading()
   const [searchParams] = useSearchParams()
-  const { run, annotationFiles, annotationFilesAggregates } = useRunById()
+  const {
+    run,
+    annotationFiles,
+    annotationFilesAggregates,
+    tomogramsForDownload,
+  } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { setActiveAnnotation } = useAnnotation()
   const { t } = useI18n()
@@ -322,6 +327,7 @@ export function AnnotationTable() {
                     datasetId: run.dataset.id,
                     runId: run.id,
                     annotationId: annotation.id,
+                    referenceTomogramId: tomogramsForDownload[0]?.id, // TODO(bchu): is_portal_standard
                     objectShapeType: annotation.shape_type,
                     fileFormat: annotation.format,
                   })
@@ -348,6 +354,7 @@ export function AnnotationTable() {
     openAnnotationDownloadModal,
     run.dataset.id,
     run.id,
+    tomogramsForDownload,
   ])
 
   const annotations = useMemo(

@@ -28,6 +28,7 @@ export enum QueryParams {
   QualityScore = 'quality_score',
   ReconstructionMethod = 'reconstruction_method',
   ReconstructionSoftware = 'reconstruction_software',
+  ReferenceTomogramId = 'ref-tomogram',
   Search = 'search',
   Sort = 'sort',
   Tab = 'tab',

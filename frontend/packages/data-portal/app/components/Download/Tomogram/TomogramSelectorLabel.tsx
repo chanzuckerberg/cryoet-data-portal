@@ -17,11 +17,7 @@ export function TomogramSelectorInputLabel({
 
   return (
     <div>
-      {getTomogramName(
-        tomogram.id,
-        tomogram.reconstruction_method,
-        tomogram.processing,
-      )}
+      {getTomogramName(tomogram)}
       <span className="text-sds-color-primitive-gray-500 ml-sds-xxs">
         {t('unitAngstrom', { value: tomogram.voxel_spacing })}
       </span>

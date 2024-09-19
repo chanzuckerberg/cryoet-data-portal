@@ -103,7 +103,7 @@ export function AnnotationOverviewTable() {
                     placement="top"
                   >
                     <Icon
-                      sdsIcon="infoCircle"
+                      sdsIcon="InfoCircle"
                       sdsSize="s"
                       className="!fill-sds-color-primitive-gray-500"
                       sdsType="button"
