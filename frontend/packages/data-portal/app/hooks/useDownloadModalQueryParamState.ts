@@ -64,6 +64,7 @@ export function useDownloadModalQueryParamState() {
     [QueryParams.AnnotationId]: stringParam(),
     [QueryParams.ObjectShapeType]: stringParam(),
     [QueryParams.FileFormat]: stringParam(),
+    [QueryParams.AnnotationName]: stringParam(),
   })
 
   const getPlausiblePayload = useCallback(
