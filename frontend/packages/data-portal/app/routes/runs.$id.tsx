@@ -10,6 +10,7 @@ import { apolloClient, apolloClientV2 } from 'app/apollo.server'
 import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
 import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
+import { NoTotalResults } from 'app/components/NoTotalResults'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
 import { AnnotationTable } from 'app/components/Run/AnnotationTable'
@@ -30,7 +31,6 @@ import { BaseAnnotation } from 'app/state/annotation'
 import { DownloadConfig } from 'app/types/download'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
-import { NoTotalResults } from 'app/components/NoTotalResults'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
