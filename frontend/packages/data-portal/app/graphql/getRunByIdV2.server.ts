@@ -62,7 +62,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
           organismName
           organismTaxid
           otherSetup
-          publications
+          # publications
           relatedDatabaseEntries
           relatedDatabaseEntries
           releaseDate
