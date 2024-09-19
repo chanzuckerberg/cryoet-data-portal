@@ -37,6 +37,7 @@ export function DownloadOptionsContent() {
     annotationId,
     fileFormat,
     objectShapeType,
+    annotationName,
   } = useDownloadModalQueryParamState()
   const { activeTomogram } = useDownloadModalContext()
 
@@ -94,6 +95,9 @@ export function DownloadOptionsContent() {
             value={activeTomogram.processing}
           />
         </>
+      )}
+      {annotationName && (
+        <ModalSubtitle label={t('annotationName')} value={annotationName} />
       )}
       {annotationId && (
         <ModalSubtitle label={t('annotationId')} value={annotationId} />

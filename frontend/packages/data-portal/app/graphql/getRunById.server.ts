@@ -186,6 +186,7 @@ const GET_RUN_BY_ID_QUERY = gql(`
       limit: $limit
       offset: $annotationsOffset
     ) {
+      id
       shape_type
       format
 
