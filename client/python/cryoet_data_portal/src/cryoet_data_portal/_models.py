@@ -768,9 +768,9 @@ class Tomogram(Model):
         tomogram_voxel_spacing (TomogramVoxelSpacing): The tomogram voxel spacing this tomogram is a part of
         tomogram_voxel_spacing_id (int): None
         name (str): Short name for this tomogram
-        size_x (float): Number of pixels in the 3D data fast axis
-        size_y (float): Number of pixels in the 3D data medium axis
-        size_z (float): Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+        size_x (int): Number of pixels in the 3D data fast axis
+        size_y (int): Number of pixels in the 3D data medium axis
+        size_z (int): Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
         voxel_spacing (float): Voxel spacing equal in all three axes in angstroms
         fiducial_alignment_status (str): Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
         reconstruction_method (str): Describe reconstruction method (WBP, SART, SIRT)
@@ -810,9 +810,9 @@ class Tomogram(Model):
     tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship("TomogramVoxelSpacing", "tomogram_voxel_spacingId", "id")
     tomogram_voxel_spacing_id: int = IntField()
     name: str = StringField()
-    size_x: float = FloatField()
-    size_y: float = FloatField()
-    size_z: float = FloatField()
+    size_x: int = IntField()
+    size_y: int = IntField()
+    size_z: int = IntField()
     voxel_spacing: float = FloatField()
     fiducial_alignment_status: str = StringField()
     reconstruction_method: str = StringField()

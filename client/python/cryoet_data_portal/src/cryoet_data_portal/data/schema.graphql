@@ -519,9 +519,9 @@ input TomogramWhereClause {
   run: RunWhereClause
   tomogramVoxelSpacing: TomogramVoxelSpacingWhereClause
   name: StrComparators
-  sizeX: FloatComparators
-  sizeY: FloatComparators
-  sizeZ: FloatComparators
+  sizeX: IntComparators
+  sizeY: IntComparators
+  sizeZ: IntComparators
   voxelSpacing: FloatComparators
   fiducialAlignmentStatus: Fiducial_alignment_status_enumEnumComparators
   reconstructionMethod: Tomogram_reconstruction_method_enumEnumComparators
@@ -2686,15 +2686,15 @@ type Tomogram implements EntityInterface & Node {
   name: String
 
   """Number of pixels in the 3D data fast axis"""
-  sizeX: Float!
+  sizeX: Int!
 
   """Number of pixels in the 3D data medium axis"""
-  sizeY: Float!
+  sizeY: Int!
 
   """
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
-  sizeZ: Float!
+  sizeZ: Int!
 
   """Voxel spacing equal in all three axes in angstroms"""
   voxelSpacing: Float!
@@ -2936,9 +2936,9 @@ type TomogramGroupByOptions {
   run: RunGroupByOptions
   tomogramVoxelSpacing: TomogramVoxelSpacingGroupByOptions
   name: String
-  sizeX: Float
-  sizeY: Float
-  sizeZ: Float
+  sizeX: Int
+  sizeY: Int
+  sizeZ: Int
   voxelSpacing: Float
   fiducialAlignmentStatus: fiducial_alignment_status_enum
   reconstructionMethod: tomogram_reconstruction_method_enum
@@ -3135,9 +3135,9 @@ type TomogramAggregateFunctions {
 }
 
 type TomogramNumericalColumns {
-  sizeX: Float
-  sizeY: Float
-  sizeZ: Float
+  sizeX: Int
+  sizeY: Int
+  sizeZ: Int
   voxelSpacing: Float
   tomogramVersion: Float
   offsetX: Int
@@ -3148,9 +3148,9 @@ type TomogramNumericalColumns {
 
 type TomogramMinMaxColumns {
   name: String
-  sizeX: Float
-  sizeY: Float
-  sizeZ: Float
+  sizeX: Int
+  sizeY: Int
+  sizeZ: Int
   voxelSpacing: Float
   tomogramVersion: Float
   processingSoftware: String
@@ -5559,15 +5559,15 @@ input TomogramCreateInput {
   name: String = null
 
   """Number of pixels in the 3D data fast axis"""
-  sizeX: Float!
+  sizeX: Int!
 
   """Number of pixels in the 3D data medium axis"""
-  sizeY: Float!
+  sizeY: Int!
 
   """
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
-  sizeZ: Float!
+  sizeZ: Int!
 
   """Voxel spacing equal in all three axes in angstroms"""
   voxelSpacing: Float!
@@ -5661,15 +5661,15 @@ input TomogramUpdateInput {
   name: String = null
 
   """Number of pixels in the 3D data fast axis"""
-  sizeX: Float
+  sizeX: Int
 
   """Number of pixels in the 3D data medium axis"""
-  sizeY: Float
+  sizeY: Int
 
   """
   Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
   """
-  sizeZ: Float
+  sizeZ: Int
 
   """Voxel spacing equal in all three axes in angstroms"""
   voxelSpacing: Float
