@@ -70,7 +70,10 @@ export function logIfHasDiff(
         id: run.dataset.id,
         lastModifiedDate: `${run.dataset.last_modified_date}T00:00:00+00:00`,
         organismName: run.dataset.organism_name!,
-        organismTaxid: Number(run.dataset.organism_taxid),
+        organismTaxid:
+          run.dataset.organism_taxid != null
+            ? Number(run.dataset.organism_taxid)
+            : run.dataset.organism_taxid,
         otherSetup: run.dataset.other_setup,
         // publications: run.dataset.dataset_publications,
         relatedDatabaseEntries: run.dataset.related_database_entries,
