@@ -163,6 +163,52 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         #   }
         # }
       }
+
+      # Annotations table
+      # TODO(bchu)
+
+      # Tomograms table + download selector
+      tomograms(where: { run: { id: { _eq: $id } } }) {
+        ctfCorrected
+        fiducialAlignmentStatus
+        httpsMrcFile
+        id
+        isCanonical
+        keyPhotoThumbnailUrl
+        keyPhotoUrl
+        name
+        neuroglancerConfig
+        processing
+        processingSoftware
+        reconstructionMethod
+        reconstructionSoftware
+        s3MrcFile
+        s3OmezarrDir
+        sizeX
+        sizeY
+        sizeZ
+        voxelSpacing
+        deposition {
+          id
+          depositionDate
+          depositionTitle
+        }
+        tomogramVoxelSpacing {
+          id
+          s3Prefix
+        }
+        authors {
+          edges {
+            node {
+              primaryAuthorStatus
+              correspondingAuthorStatus
+              name
+              email
+              orcid
+            }
+          }
+        }
+      }
     }
 `)
 
