@@ -15,6 +15,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         id
         name
 
+        # Metadata sidebar
         tiltseries(first: 1) {
           edges {
             node {
@@ -62,7 +63,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
           organismName
           organismTaxid
           otherSetup
-          # publications
+          # publications # TODO(bchu): Change to new name.
           relatedDatabaseEntries
           relatedDatabaseEntries
           releaseDate
@@ -102,6 +103,65 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
             }
           }
         }
+
+        # Legacy single tomogram
+        tomogramVoxelSpacings(
+          first: 1
+          # where: {
+          #   tomograms: {
+          #     isCanonical: { _eq: true} # TODO(bchu): Uncomment when bool bug fixed.
+          #   }
+          # }
+        ) {
+          edges {
+            node {
+              id
+              s3Prefix
+
+              tomograms(
+                first: 1
+                # where: {
+                #   isCanonical: { _eq: true } # TODO(bchu): Uncomment when bool bug fixed.
+                # }
+              ) {
+                edges {
+                  node {
+                    ctfCorrected
+                    fiducialAlignmentStatus
+                    id
+                    keyPhotoUrl
+                    name
+                    neuroglancerConfig
+                    processing
+                    processingSoftware
+                    reconstructionMethod
+                    reconstructionSoftware
+                    sizeX
+                    sizeY
+                    sizeZ
+                    voxelSpacing
+                    alignment {
+                      affineTransformationMatrix
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        # Header
+        # tiltseriesAggregate { # TODO(bchu): Uncomment when __typename bug is fixed.
+        #   aggregate {
+        #     count
+        #     avg {
+        #       tiltSeriesQuality
+        #     }
+        #     # sum {
+        #     #   tiltseriesFramesCount # TODO(bchu): Uncomment when populated.
+        #     # }
+        #   }
+        # }
       }
     }
 `)
