@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 
+import { Icon } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
 import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
@@ -25,7 +26,6 @@ import { useIsLoading } from 'app/hooks/useIsLoading'
 import { cnsNoMerge } from 'app/utils/cns'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
-import { Icon } from '@czi-sds/components'
 
 type Run = GetDatasetByIdQuery['datasets'][number]['runs'][number]
 
