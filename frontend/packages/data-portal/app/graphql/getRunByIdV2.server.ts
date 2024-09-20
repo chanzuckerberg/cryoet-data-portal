@@ -107,11 +107,11 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         # Legacy single tomogram
         tomogramVoxelSpacings(
           first: 1
-          where: {
-            tomograms: {
-              isCanonical: { _eq: true}
-            }
-          }
+          # where: {
+          #   tomograms: {
+          #     isCanonical: { _eq: true} # TODO(bchu): Uncomment when bool bug fixed.
+          #   }
+          # }
         ) {
           edges {
             node {
@@ -119,10 +119,10 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
               s3Prefix
 
               tomograms(
-                first: 1,
-                where: {
-                  isCanonical: { _eq: true }
-                },
+                first: 1
+                # where: {
+                #   isCanonical: { _eq: true } # TODO(bchu): Uncomment when bool bug fixed.
+                # }
               ) {
                 edges {
                   node {
