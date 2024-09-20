@@ -15,6 +15,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         id
         name
 
+        # Metadata sidebar
         tiltseries(first: 1) {
           edges {
             node {
@@ -98,6 +99,52 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
                 name
                 orcid
                 primaryAuthorStatus
+              }
+            }
+          }
+        }
+
+        # Legacy single tomogram
+        tomogramVoxelSpacings(
+          first: 1
+          where: {
+            tomograms: {
+              isCanonical: { _eq: true}
+            }
+          }
+        ) {
+          edges {
+            node {
+              id
+              s3Prefix
+
+              tomograms(
+                first: 1,
+                where: {
+                  isCanonical: { _eq: true }
+                },
+              ) {
+                edges {
+                  node {
+                    ctfCorrected
+                    fiducialAlignmentStatus
+                    id
+                    keyPhotoUrl
+                    name
+                    neuroglancerConfig
+                    processing
+                    processingSoftware
+                    reconstructionMethod
+                    reconstructionSoftware
+                    sizeX
+                    sizeY
+                    sizeZ
+                    voxelSpacing
+                    alignment {
+                      affineTransformationMatrix
+                    }
+                  }
+                }
               }
             }
           }

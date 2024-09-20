@@ -2,9 +2,12 @@ import { diff } from 'deep-object-diff'
 
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
 import {
+  Fiducial_Alignment_Status_Enum,
   GetRunByIdV2Query,
   Sample_Type_Enum,
   Tiltseries_Microscope_Manufacturer_Enum,
+  Tomogram_Processing_Enum,
+  Tomogram_Reconstruction_Method_Enum,
 } from 'app/__generated_v2__/graphql'
 
 /* eslint-disable no-console */
@@ -110,6 +113,48 @@ export function logIfHasDiff(
           })),
         },
       },
+      tomogramVoxelSpacings: {
+        __typename: 'TomogramVoxelSpacingConnection',
+        edges: run.tomogram_voxel_spacings.map((tomogramVoxelSpacing) => ({
+          __typename: 'TomogramVoxelSpacingEdge',
+          node: {
+            __typename: 'TomogramVoxelSpacing',
+            id: tomogramVoxelSpacing.id,
+            s3Prefix: tomogramVoxelSpacing.s3_prefix!,
+            tomograms: {
+              __typename: 'TomogramConnection',
+              edges: tomogramVoxelSpacing.tomograms.map((tomogram) => ({
+                __typename: 'TomogramEdge',
+                node: {
+                  __typename: 'Tomogram',
+                  ctfCorrected: tomogram.ctf_corrected,
+                  fiducialAlignmentStatus:
+                    tomogram.fiducial_alignment_status as Fiducial_Alignment_Status_Enum,
+                  id: tomogram.id,
+                  keyPhotoUrl: tomogram.key_photo_url,
+                  name: tomogram.name,
+                  neuroglancerConfig: tomogram.neuroglancer_config,
+                  processing: tomogram.processing as Tomogram_Processing_Enum,
+                  processingSoftware: tomogram.processing_software,
+                  reconstructionMethod:
+                    tomogram.reconstruction_method as Tomogram_Reconstruction_Method_Enum,
+                  reconstructionSoftware: tomogram.reconstruction_software,
+                  sizeX: tomogram.size_x,
+                  sizeY: tomogram.size_y,
+                  sizeZ: tomogram.size_z,
+                  voxelSpacing: tomogram.voxel_spacing,
+                  alignment: {
+                    __typename: 'Alignment',
+                    affineTransformationMatrix: JSON.stringify(
+                      tomogram.affine_transformation_matrix,
+                    ).replaceAll(' ', ''),
+                  },
+                },
+              })),
+            },
+          },
+        })),
+      },
     })),
   }
 
@@ -117,7 +162,7 @@ export function logIfHasDiff(
 
   if (Object.keys(diffObject).length > 0) {
     console.log(
-      `DIFF AT ${url}: ${JSON.stringify(diffObject)} | ${JSON.stringify(
+      `DIFF AT ${url}: ${JSON.stringify(diffObject)} --- ${JSON.stringify(
         diff(v2, v1Transformed),
       )}`,
     )
