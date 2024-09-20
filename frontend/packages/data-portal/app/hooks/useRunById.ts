@@ -16,8 +16,6 @@ export function useRunById() {
 
   const { tomograms } = v1
 
-  const tomogramsForDownload = v1.tomograms_for_download
-
   const processingMethods = v1.tomograms_for_distinct_processing_methods.map(
     (tomogram) => tomogram.processing,
   )
@@ -55,7 +53,6 @@ export function useRunById() {
     run,
     annotationFiles,
     tomograms,
-    tomogramsForDownload,
     processingMethods,
     objectNames,
     objectShapeTypes,

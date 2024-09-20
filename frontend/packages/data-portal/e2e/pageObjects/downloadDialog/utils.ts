@@ -109,7 +109,7 @@ export function getTomogramDownloadCommand({
   tab: DownloadTab
 }): string {
   const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
-  const activeTomogram = data.tomograms_for_download.find((tomo) => {
+  const activeTomogram = data.tomograms.find((tomo) => {
     return (
       tomo.voxel_spacing === tomogram.voxel_spacing &&
       tomo.processing === tomogram.processing

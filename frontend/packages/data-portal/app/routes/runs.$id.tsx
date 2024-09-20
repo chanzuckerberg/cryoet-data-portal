@@ -102,7 +102,7 @@ export default function RunByIdPage() {
     run,
     processingMethods,
     annotationFiles,
-    tomogramsForDownload,
+    tomograms,
     annotationFilesAggregates,
     tomogramsCount,
     deposition,
@@ -121,7 +121,7 @@ export default function RunByIdPage() {
 
   const activeTomogram =
     downloadConfig === DownloadConfig.Tomogram
-      ? tomogramsForDownload.find((tomogram) =>
+      ? tomograms.find((tomogram) =>
           multipleTomogramsEnabled
             ? tomogram.id === Number(tomogramId)
             : `${tomogram.voxel_spacing}` === tomogramSampling &&
@@ -249,7 +249,7 @@ export default function RunByIdPage() {
           annotationToDownload={activeAnnotation}
           tomogramToDownload={activeTomogram}
           allTomogramProcessing={processingMethods}
-          allTomograms={tomogramsForDownload}
+          allTomograms={tomograms}
           datasetId={run.dataset.id}
           datasetTitle={run.dataset.title}
           fileSize={fileSize}
