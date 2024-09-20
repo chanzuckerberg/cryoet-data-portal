@@ -198,7 +198,7 @@ export function logIfHasDiff(
           : undefined,
       authors: {
         __typename: 'TomogramAuthorConnection',
-        edges: tomogram.authors.map((author: any) => ({
+        edges: tomogram.authors.map((author) => ({
           __typename: 'TomogramAuthorEdge',
           node: {
             __typename: 'TomogramAuthor',
