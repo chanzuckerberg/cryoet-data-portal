@@ -63,7 +63,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
           organismName
           organismTaxid
           otherSetup
-          # publications
+          # publications # TODO(bchu): Change to new name.
           relatedDatabaseEntries
           relatedDatabaseEntries
           releaseDate
@@ -149,6 +149,19 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
             }
           }
         }
+
+        # Header
+        # tiltseriesAggregate { # TODO(bchu): Uncomment when __typename bug is fixed.
+        #   aggregate {
+        #     count
+        #     avg {
+        #       tiltSeriesQuality
+        #     }
+        #     # sum {
+        #     #   tiltseriesFramesCount # TODO(bchu): Uncomment when populated.
+        #     # }
+        #   }
+        # }
       }
     }
 `)
