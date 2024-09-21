@@ -34,7 +34,12 @@ export function SurveyBanner() {
   )
 
   return (
-    <div className={cns('sticky bottom-0 w-full', styles.banner)}>
+    <div
+      className={cns(
+        'hidden screen-716:block sticky bottom-0 w-full',
+        styles.banner,
+      )}
+    >
       <Banner
         dismissed={!open}
         dismissible

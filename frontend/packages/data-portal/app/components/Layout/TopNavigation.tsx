@@ -1,72 +1,77 @@
+import { Button } from '@czi-sds/components'
 import { useLocation } from '@remix-run/react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Link } from 'app/components/Link'
-import { I18nKeys } from 'app/types/i18n'
 import { cns } from 'app/utils/cns'
 
 import { AboutAndHelpDropdown } from './AboutAndHelpDropdown'
+import styles from './buttons.module.css'
+import { TOP_LEVEL_LINKS } from './constants'
 import { CryoETHomeLink } from './CryoETHomeLink'
+import { MobileNavigationMenu } from './MobileNavigationMenu'
 import { ToolsDropdown } from './ToolsDropdown'
-
-interface TopNavLink {
-  isActive(pathname: string): boolean
-  label: I18nKeys
-  link: string
-}
-
-const TOP_NAV_LINKS: TopNavLink[] = [
-  {
-    isActive: (pathname) =>
-      pathname.includes('/datasets') ||
-      pathname.includes('/runs') ||
-      pathname.includes('/depositions'),
-    label: 'browseData',
-    link: '/browse-data/datasets',
-  },
-
-  {
-    isActive: (pathname) => pathname === '/competition',
-    label: 'competition',
-    link: '/competition',
-  },
-]
 
 export function TopNavigation() {
   const { pathname } = useLocation()
   const { t } = useTranslation()
 
+  const [mobileMenuIsOpen, setMobileMenuOpen] = useState(false)
+
+  // force close mobile menu when navigating
+  useEffect(() => {
+    setMobileMenuOpen(false)
+  }, [pathname])
+
   return (
     <nav
       className={cns(
         'bg-sds-color-primitive-common-black text-sds-color-primitive-common-white',
-        'flex h-[45px] flex-shrink-0 items-center px-sds-xl',
+        'flex py-sds-m flex-shrink-0 items-center px-sds-xl',
         'sticky top-0 z-30',
       )}
     >
       <CryoETHomeLink />
 
       {/* Add empty space to push content to right */}
-      <div className="flex-grow" />
+      <div className="basis-sds-xxl flex-grow screen-790:mr-sds-xxl" />
 
-      {TOP_NAV_LINKS.map((link) => (
-        <Link
-          className={cns(
-            'text-sds-header-s leading-sds-header-s font-semibold mr-sds-xxl p-0',
+      <div className="hidden screen-716:flex basis-auto flex-shrink-0">
+        {TOP_LEVEL_LINKS.map((link) => (
+          <Link
+            className={cns(
+              'text-sds-header-s leading-sds-header-s font-semibold mr-sds-xxl p-0',
+              link.isActive(pathname)
+                ? 'text-sds-color-primitive-common-white'
+                : 'text-sds-color-primitive-gray-400 hover:text-sds-color-primitive-common-white',
+            )}
+            to={link.link}
+            key={link.link}
+          >
+            {t(link.label)}
+          </Link>
+        ))}
 
-            link.isActive(pathname)
-              ? 'text-sds-color-primitive-common-white'
-              : 'text-sds-color-primitive-gray-400 hover:text-sds-color-primitive-common-white',
-          )}
-          to={link.link}
-          key={link.link}
-        >
-          {t(link.label)}
-        </Link>
-      ))}
+        <ToolsDropdown className="mr-sds-xxl text-sds-header-s" />
+        <AboutAndHelpDropdown className="screen-790:ml-sds-xxl text-sds-header-s" />
+      </div>
 
-      <ToolsDropdown className="mr-sds-xxl text-sds-header-s" />
-      <AboutAndHelpDropdown className="ml-sds-xxl text-sds-header-s" />
+      <Button
+        className="screen-716:!hidden"
+        icon="LinesHorizontal3"
+        sdsStyle="icon"
+        sdsType="tertiary"
+        sdsSize="large"
+        classes={{
+          root: styles.buttonHamburger,
+        }}
+        onClick={() => setMobileMenuOpen(true)}
+      />
+
+      {mobileMenuIsOpen && (
+        <MobileNavigationMenu onClose={() => setMobileMenuOpen(false)} />
+      )}
     </nav>
   )
 }

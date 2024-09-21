@@ -1,17 +1,18 @@
 import { MenuDropdown } from 'app/components/MenuDropdown'
 import { MenuItemLink } from 'app/components/MenuItemLink'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
+
+import { TOOLS_LINKS } from './constants'
 
 export function ToolsDropdown({ className }: { className?: string }) {
+  const { t } = useI18n()
   return (
-    <MenuDropdown className={className} title={i18n.tools}>
-      <MenuItemLink to="https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html">
-        {i18n.api}
-      </MenuItemLink>
-
-      <MenuItemLink to="https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html">
-        {i18n.napariPlugin}
-      </MenuItemLink>
+    <MenuDropdown className={className} title={t('tools')}>
+      {TOOLS_LINKS.map(({ label, link }) => (
+        <MenuItemLink key={label} to={link}>
+          {t(label)}
+        </MenuItemLink>
+      ))}
     </MenuDropdown>
   )
 }

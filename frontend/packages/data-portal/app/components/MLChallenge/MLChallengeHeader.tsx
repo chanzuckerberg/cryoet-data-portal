@@ -15,7 +15,7 @@ export function MLChallengeHeader() {
   const { t } = useI18n()
 
   return (
-    <div className="bg-sds-color-primitive-blue-200 flex flex-col justify-center py-sds-xxl text-center">
+    <div className="bg-sds-color-primitive-blue-200 flex flex-col justify-center p-sds-xl screen-716:py-sds-xxl text-center">
       <h1 className="text-sds-header-xxl leading-sds-header-xxl font-semibold">
         {t('cryoetDataAnnotationMLComp')}
       </h1>

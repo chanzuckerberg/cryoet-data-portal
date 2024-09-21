@@ -23,7 +23,9 @@ export default {
       ...sds,
 
       screens: {
+        'screen-716': '716px',
         'screen-760': '760px',
+        'screen-790': '790px',
         'screen-1024': '1024px',
         'screen-2040': '2040px',
       },
