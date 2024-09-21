@@ -40,7 +40,7 @@ export function DirectDownloadTab() {
         </Button>
       )}
 
-      <p className="text-sds-body-xs leading-sds-body-xs text-sds-gray-500">
+      <p className="text-sds-body-xs leading-sds-body-xs text-sds-color-primitive-gray-500">
         {t('ifYouEncounterIssuesWithDownloadTime')}
       </p>
     </div>

@@ -24,11 +24,13 @@ export function TiltSeriesQualityScoreBadge({
         match(score)
           .with(
             TiltSeriesScore.VeryPoor,
-            () => 'bg-sds-error-400 text-sds-gray-white',
+            () =>
+              'bg-sds-color-primitive-red-400 text-sds-color-primitive-common-white',
           )
           .with(
             TiltSeriesScore.Poor,
-            () => 'bg-sds-warning-400 text-sds-gray-white',
+            () =>
+              'bg-sds-color-primitive-yellow-400 text-sds-color-primitive-common-white',
           )
           .with(
             P.union(
@@ -36,7 +38,8 @@ export function TiltSeriesQualityScoreBadge({
               TiltSeriesScore.Good,
               TiltSeriesScore.Excellent,
             ),
-            () => 'bg-sds-success-400 text-sds-gray-white',
+            () =>
+              'bg-sds-color-primitive-green-400 text-sds-color-primitive-common-white',
           )
           .otherwise(() => ''),
       )}

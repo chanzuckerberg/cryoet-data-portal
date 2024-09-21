@@ -41,6 +41,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     ENV: defaults(
       {
         API_URL: process.env.API_URL,
+        API_URL_V2: process.env.API_URL_V2,
         ENV: process.env.ENV,
         LOCALHOST_PLAUSIBLE_TRACKING: process.env.LOCALHOST_PLAUSIBLE_TRACKING,
       },

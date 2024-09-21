@@ -1,7 +1,13 @@
 import { useMemo } from 'react'
 
-import { IdPrefix } from 'app/constants/idPrefixes'
 import { QueryParams } from 'app/constants/query'
+import {
+  ALL_DIGITS_REGEX,
+  getEntityIdPrefixRegex,
+  getPrefixedId,
+  QueryParamToIdPrefixMap,
+  removeIdPrefix,
+} from 'app/utils/idPrefixes'
 
 import { RegexFilter } from './RegexFilter'
 
@@ -10,16 +16,15 @@ export function EntityIdFilter({
   label,
   title,
   queryParam,
-  prefix,
 }: {
   id: string
   label: string
   title: string
   queryParam: QueryParams
-  prefix?: IdPrefix
 }) {
+  const prefix = QueryParamToIdPrefixMap[queryParam]
   const validationRegex = useMemo(
-    () => (prefix ? RegExp(`^(${prefix}-)?\\d+$`, 'i') : /^\d+$/),
+    () => (prefix ? getEntityIdPrefixRegex(prefix) : ALL_DIGITS_REGEX),
     [prefix],
   )
 
@@ -30,12 +35,8 @@ export function EntityIdFilter({
       title={title}
       queryParam={queryParam}
       regex={validationRegex}
-      displayNormalizer={(value) =>
-        prefix && value.startsWith(prefix) ? value : `${prefix}-${value}`
-      }
-      paramNormalizer={(value) =>
-        value.replace(new RegExp(`^${prefix}-`, 'i'), '')
-      }
+      displayNormalizer={(value) => getPrefixedId(value, queryParam)}
+      paramNormalizer={(value) => removeIdPrefix(value, queryParam) ?? ''}
     />
   )
 }

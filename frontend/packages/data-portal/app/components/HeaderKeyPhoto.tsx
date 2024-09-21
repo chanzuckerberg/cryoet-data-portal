@@ -8,7 +8,7 @@ export interface HeaderKeyPhotoProps {
 
 export function HeaderKeyPhoto({ url, title }: HeaderKeyPhotoProps) {
   return (
-    <div className="max-w-[465px] max-h-[330px] grow overflow-clip rounded-sds-m flex-shrink-0 flex items-center">
+    <div className="max-w-[465px] grow">
       {url !== undefined ? (
         <Link to={url}>
           <KeyPhoto title={title} src={url} />

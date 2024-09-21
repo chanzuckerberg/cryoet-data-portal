@@ -14,7 +14,7 @@ export function DepositionMetadataDrawer() {
   return (
     <MetadataDrawer
       drawerId={MetadataDrawerId.Deposition}
-      title={deposition.title}
+      title={deposition?.title ?? ''}
       label={t('depositionDetails')}
     >
       <DepositionMetadataTable deposition={deposition} />

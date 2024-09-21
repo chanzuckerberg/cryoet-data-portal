@@ -8,10 +8,10 @@ import { cnsNoMerge } from 'app/utils/cns'
 
 import { PageHeaderSubtitle } from '../PageHeaderSubtitle'
 
-// use clsx here instead of cns since it erroneously merges text-sds-gray-500 and text-sds-caps-xxxs
+// use clsx here instead of cns since it erroneously merges text-sds-color-primitive-gray-500 and text-sds-caps-xxxs
 const sectionHeaderStyles = cnsNoMerge(
   'font-semibold uppercase',
-  'text-sds-gray-black',
+  'text-sds-color-primitive-common-black',
   'text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps',
   'mb-sds-xs',
 )

@@ -1,5 +1,4 @@
 import { useCallback, useMemo } from 'react'
-import { match, P } from 'ts-pattern'
 
 import { QueryParams } from 'app/constants/query'
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
@@ -38,6 +37,14 @@ export function useDownloadModalQueryParamState() {
     QueryParams.AnnotationId,
   )
 
+  const [tomogramId, setTomogramId] = useQueryParam<string>(
+    QueryParams.DownloadTomogramId,
+  )
+
+  const [referenceTomogramId, setReferenceTomogramId] = useQueryParam<string>(
+    QueryParams.ReferenceTomogramId,
+  )
+
   const [objectShapeType, setObjectShapeType] = useQueryParam<string>(
     QueryParams.ObjectShapeType,
   )
@@ -50,9 +57,11 @@ export function useDownloadModalQueryParamState() {
     [QueryParams.DownloadConfig]: stringParam<DownloadConfig>(),
     [QueryParams.DownloadStep]: stringParam<DownloadStep>(),
     [QueryParams.DownloadTab]: stringParam<DownloadTab>(),
+    [QueryParams.DownloadTomogramId]: stringParam(),
     [QueryParams.TomogramProcessing]: stringParam(),
     [QueryParams.TomogramSampling]: stringParam(),
     [QueryParams.AnnotationId]: stringParam(),
+    [QueryParams.ReferenceTomogramId]: stringParam(),
     [QueryParams.ObjectShapeType]: stringParam(),
     [QueryParams.FileFormat]: stringParam(),
   })
@@ -112,7 +121,7 @@ export function useDownloadModalQueryParamState() {
     [getPlausiblePayload, plausible, setDownloadTabState],
   )
 
-  const openTomogramDownloadModal = useCallback(
+  const openRunDownloadModal = useCallback(
     (payload: PlausibleDownloadModalPayload) => {
       plausible(
         Events.OpenDownloadModal,
@@ -140,8 +149,29 @@ export function useDownloadModalQueryParamState() {
       setDownloadParams({
         [QueryParams.DownloadStep]: DownloadStep.Configure,
         [QueryParams.AnnotationId]: String(payload.annotationId),
+        [QueryParams.ReferenceTomogramId]: String(payload.referenceTomogramId),
         [QueryParams.ObjectShapeType]: payload.objectShapeType,
         [QueryParams.FileFormat]: payload.fileFormat,
+      })
+    },
+    [getPlausiblePayload, plausible, setDownloadParams],
+  )
+
+  const openTomogramDownloadModal = useCallback(
+    (payload: PlausibleDownloadModalPayload) => {
+      plausible(
+        Events.OpenDownloadModal,
+        getPlausiblePayload({
+          ...payload,
+          step: DownloadStep.Configure,
+        }),
+      )
+
+      setDownloadParams({
+        [QueryParams.DownloadStep]: DownloadStep.Configure,
+        [QueryParams.DownloadConfig]: DownloadConfig.Tomogram,
+        [QueryParams.DownloadTomogramId]: String(payload.tomogramId),
+        [QueryParams.FileFormat]: 'mrc',
       })
     },
     [getPlausiblePayload, plausible, setDownloadParams],
@@ -159,19 +189,9 @@ export function useDownloadModalQueryParamState() {
     (payload: PlausibleDownloadModalPayload) => {
       plausible(Events.ClickNextToDownloadOptions, getPlausiblePayload(payload))
 
-      setDownloadParams((prev) => ({
-        [QueryParams.DownloadTab]: match({
-          annotationId: prev?.[QueryParams.AnnotationId],
-          fileFormat: prev?.[QueryParams.FileFormat],
-        })
-          .with(
-            { fileFormat: P.string.and(P.not('zarr')) },
-            () => DownloadTab.Download,
-          )
-          .otherwise(() => DownloadTab.AWS),
-
+      setDownloadParams({
         [QueryParams.DownloadStep]: DownloadStep.Download,
-      }))
+      })
     },
     [getPlausiblePayload, plausible, setDownloadParams],
   )
@@ -191,12 +211,23 @@ export function useDownloadModalQueryParamState() {
     [getPlausiblePayload, plausible, setDownloadParams],
   )
 
-  const setTomogramConfig = useCallback(
+  /** @deprecated */
+  const setTomogramConfigDeprecated = useCallback(
     (initialTomogramSampling: string, initialTomogramProcessing: string) =>
       setDownloadParams({
         [QueryParams.DownloadConfig]: DownloadConfig.Tomogram,
         [QueryParams.TomogramSampling]: initialTomogramSampling,
         [QueryParams.TomogramProcessing]: initialTomogramProcessing,
+        [QueryParams.FileFormat]: 'mrc',
+      }),
+    [setDownloadParams],
+  )
+
+  const setTomogramConfig = useCallback(
+    (id?: string) =>
+      setDownloadParams({
+        [QueryParams.DownloadConfig]: DownloadConfig.Tomogram,
+        [QueryParams.DownloadTomogramId]: id,
         [QueryParams.FileFormat]: 'mrc',
       }),
     [setDownloadParams],
@@ -220,6 +251,8 @@ export function useDownloadModalQueryParamState() {
 
   return {
     annotationId,
+    tomogramId,
+    referenceTomogramId,
     closeDownloadModal,
     configureDownload,
     downloadConfig,
@@ -231,16 +264,20 @@ export function useDownloadModalQueryParamState() {
     isModalOpen,
     objectShapeType,
     openAnnotationDownloadModal,
-    openDatasetDownloadModal,
     openTomogramDownloadModal,
+    openDatasetDownloadModal,
+    openRunDownloadModal,
     setAllAnnotationsConfig,
     setAnnotationId,
+    setTomogramId,
+    setReferenceTomogramId,
     setDownloadConfig,
     setDownloadParams,
     setDownloadStep,
     setDownloadTab,
     setFileFormat,
     setObjectShapeType,
+    setTomogramConfigDeprecated,
     setTomogramConfig,
     setTomogramProcessing,
     setTomogramSampling,

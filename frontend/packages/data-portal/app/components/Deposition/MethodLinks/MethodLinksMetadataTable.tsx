@@ -1,28 +1,28 @@
+import { startCase } from 'lodash-es'
+import converter from 'number-to-words'
 import { useMemo } from 'react'
 
 import { Accordion } from 'app/components/Accordion'
 import { MetadataTable } from 'app/components/Table'
-import { methodLabels, MethodType } from 'app/constants/methodTypes'
+import {
+  methodLabels,
+  MethodType,
+  methodTypes,
+} from 'app/constants/methodTypes'
+import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
-import { generateMethodLinks, MethodLinkVariantProps } from './common'
+import { generateMethodLinks } from './common'
 import { MethodLink } from './MethodLink'
+import { MethodDataType, MethodLinkDataType } from './type'
 
 const COLUMN_WIDTH = 170
-
-type MethodDataType = {
-  method_type: MethodType
-  annotations_count: number
-  method_description: string
-  annotation_software: string
-  links: MethodLinkVariantProps[]
-}
 
 function MethodLinkList({
   links: variantLinks,
 }: {
-  links: MethodLinkVariantProps[]
+  links: MethodLinkDataType[]
 }) {
   const links = useMemo(() => generateMethodLinks(variantLinks), [variantLinks])
 
@@ -30,7 +30,7 @@ function MethodLinkList({
 
   if (links.length === 0) {
     return (
-      <p className="text-sds-body-s leading-sds-body-s text-sds-gray-500">
+      <p className="text-sds-body-s leading-sds-body-s text-sds-color-primitive-gray-500">
         {t('notSubmitted')}
       </p>
     )
@@ -44,7 +44,8 @@ function MethodLinkList({
             {...link}
             className="text-sds-body-s leading-sds-body-s whitespace-nowrap overflow-hidden text-ellipsis"
             linkProps={{
-              className: 'text-sds-info-400 overflow-hidden text-ellipsis',
+              className:
+                'text-sds-color-primitive-blue-400  overflow-hidden text-ellipsis',
             }}
           />
         </li>
@@ -56,9 +57,11 @@ function MethodLinkList({
 function MethodSummarySection({
   label,
   data,
+  annotationsCount,
 }: {
   label?: string
   data: MethodDataType
+  annotationsCount: number
 }) {
   const { t } = useI18n()
 
@@ -69,11 +72,11 @@ function MethodSummarySection({
     },
     {
       label: t('numberOfAnnotations'),
-      values: [data.annotations_count.toLocaleString()],
+      values: [annotationsCount.toLocaleString()],
     },
     {
       label: t('annotationMethod'),
-      values: [data.method_description],
+      values: [data.annotation_method],
     },
     {
       label: t('annotationSoftware'),
@@ -82,7 +85,7 @@ function MethodSummarySection({
     {
       label: t('methodLinks'),
       values: [],
-      renderValue: () => <MethodLinkList links={data.links} />,
+      renderValue: () => <MethodLinkList links={data.method_links ?? []} />,
     },
   )
 
@@ -90,10 +93,10 @@ function MethodSummarySection({
     <div>
       {label && (
         <div className="flex flex-row gap-[10px] mt-sds-xs mb-[10px] items-center whitespace-nowrap">
-          <p className="uppercase text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold text-sds-gray-600 basis-0 flex-initial">
+          <p className="uppercase text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold text-sds-color-primitive-gray-600 basis-0 flex-initial">
             {label}
           </p>
-          <div className="flex-grow h-[1px] bg-sds-gray-300" />
+          <div className="flex-grow h-[1px] bg-sds-color-primitive-gray-300" />
         </div>
       )}
       <MetadataTable
@@ -117,91 +120,7 @@ export function MethodLinksMetadataTable({
   initialOpen?: boolean
 }) {
   const { t } = useI18n()
-
-  const methodOne: MethodDataType = {
-    method_type: 'hybrid',
-    annotations_count: 3000,
-    method_description:
-      'Cumulative template-matching trained 2D CNN predictions + visual filtering + distance constraints + manual addition',
-    annotation_software: 'pyTOM + Keras',
-    links: [
-      {
-        variant: 'sourceCode',
-        title: 'My model’s source code',
-        url: 'https://example.com',
-      },
-      {
-        variant: 'sourceCode',
-        title: 'Lorem-Ispum3-Dolor-V-2_5',
-        url: 'https://example.com',
-      },
-      {
-        variant: 'modelWeights',
-        title: 'Model Weights for model Lorem-Ispum3-Dolor-V-2_5',
-        url: 'https://example.com',
-      },
-      {
-        variant: 'website',
-        url: 'www.url.com',
-      },
-      {
-        variant: 'documentation',
-        title: 'How to Use',
-        url: 'https://example.com',
-      },
-      {
-        variant: 'other',
-        url: 'https://github.com/lorem-sum-dolor-amet-ipsiti-dolorum-ullrelle ',
-      },
-    ],
-  }
-
-  const methodTwo: MethodDataType = {
-    method_type: 'manual',
-    annotations_count: 1000,
-    method_description:
-      'Vestibulum id ligula porta felis euismod semper. Maecenas sed diam eget risus varius blandit sit amet non magna.',
-    annotation_software: 'pyTOM + Keras',
-    links: [],
-  }
-
-  const methodThree: MethodDataType = {
-    method_type: 'automated',
-    annotations_count: 6000,
-    method_description:
-      'Cumulative template-matching trained 2D CNN predictions + visual filtering + distance constraints + manual addition',
-    annotation_software: 'pyTOM + Keras',
-    links: [
-      {
-        variant: 'sourceCode',
-        title: 'My model’s source code',
-        url: 'https://example.com',
-      },
-      {
-        variant: 'sourceCode',
-        title: 'Lorem-Ispum3-Dolor-V-2_5',
-        url: 'https://example.com',
-      },
-      {
-        variant: 'modelWeights',
-        title: 'Model Weights for model Lorem-Ispum3-Dolor-V-2_5',
-        url: 'https://example.com',
-      },
-      {
-        variant: 'website',
-        url: 'www.url.com',
-      },
-      {
-        variant: 'documentation',
-        title: 'How to Use',
-        url: 'https://example.com',
-      },
-      {
-        variant: 'other',
-        url: 'https://github.com/lorem-sum-dolor-amet-ipsiti-dolorum-ullrelle ',
-      },
-    ],
-  }
+  const { deposition, annotationMethodCounts } = useDepositionById()
 
   return (
     <Accordion
@@ -209,11 +128,25 @@ export function MethodLinksMetadataTable({
       header={t('annotationMethodsSummary')}
       initialOpen={initialOpen}
     >
-      <div className="flex flex-col gap-sds-xl">
-        <MethodSummarySection label={t('methodOne')} data={methodOne} />
-        <MethodSummarySection label={t('methodTwo')} data={methodTwo} />
-        <MethodSummarySection label={t('methodThree')} data={methodThree} />
-      </div>
+      {deposition.annotation_methods
+        .sort(
+          (a, b) =>
+            methodTypes.indexOf((a.method_type ?? 'manual') as MethodType) -
+            methodTypes.indexOf((b.method_type ?? 'manual') as MethodType),
+        )
+        .map((methodData, i) => (
+          <div className="flex flex-col gap-sds-xl">
+            <MethodSummarySection
+              label={t('methodCount', {
+                value: startCase(converter.toWords(i + 1)),
+              })}
+              data={methodData as MethodDataType}
+              annotationsCount={
+                annotationMethodCounts.get(methodData.annotation_method) ?? 0
+              }
+            />
+          </div>
+        ))}
     </Accordion>
   )
 }

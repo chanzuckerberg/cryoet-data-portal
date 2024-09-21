@@ -153,11 +153,14 @@ export async function validateTable({
  */
 const TIME_UNTIL_INTERACTIVE = 3000
 
-export async function goTo(page: Page, url: string) {
-  await page.goto(url)
-
+export async function waitForInteractive(page: Page) {
   // eslint-disable-next-line playwright/no-wait-for-timeout
   await page.waitForTimeout(TIME_UNTIL_INTERACTIVE)
+}
+
+export async function goTo(page: Page, url: string) {
+  await page.goto(url)
+  await waitForInteractive(page)
 }
 
 export function skipClipboardTestsForWebkit(browserName: string) {

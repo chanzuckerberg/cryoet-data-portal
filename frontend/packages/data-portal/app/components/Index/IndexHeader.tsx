@@ -1,12 +1,10 @@
 import { Button } from '@czi-sds/components'
-import { styled } from '@mui/material/styles'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { LandingPageDataQuery } from 'app/__generated__/graphql'
 import { I18n } from 'app/components/I18n'
 import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
-import { theme } from 'app/theme'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
 function MetricField({ title, count }: { title: string; count: number }) {
@@ -27,16 +25,6 @@ function MetricField({ title, count }: { title: string; count: number }) {
     </div>
   )
 }
-
-const CTAButton = styled(Button)({
-  'background-color': theme.palette.grey[200],
-  color: theme.palette.common.black,
-  filter: 'drop-shadow(0 0 7px rgba(0, 0, 0, 0.5))',
-  '&:hover': {
-    color: theme.palette.common.black,
-    'background-color': theme.palette.common.white,
-  },
-})
 
 const DIVIDER = (
   <div className="w-[1px] flex-initial h-full bg-gray-400 drop-shadow-landing-header" />
@@ -79,9 +67,17 @@ export function IndexHeader() {
             <MetricField title={t('tomograms')} count={tomograms ?? 0} />
           </div>
           <Link to="/browse-data/datasets">
-            <CTAButton sdsType="primary" sdsStyle="rounded">
-              <I18n i18nKey="browseData" />
-            </CTAButton>
+            <Button
+              className={cns(
+                '!bg-sds-color-primitive-gray-200 !text-black !shadow-none',
+                'hover:text-black hover:!bg-white',
+                'drop-shadow-[0_0_7px_rgba(0,0,0,0.5)]',
+              )}
+              sdsType="primary"
+              sdsStyle="rounded"
+            >
+              {t('browseData')}
+            </Button>
           </Link>
         </div>
         <Link to={t('urlAPIQuickstart')}>

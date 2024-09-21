@@ -6,6 +6,7 @@ import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorInfo } from 'app/components/AuthorLink'
 import { AuthorList } from 'app/components/AuthorList'
 import { DatabaseEntryList } from 'app/components/DatabaseEntry'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { Deposition } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
@@ -19,11 +20,11 @@ function CollapsibleDescription({ text }: { text: string }) {
       <p className={isCollapsed ? 'text-ellipsis line-clamp-3' : undefined}>
         {text}
       </p>
-      <div className="mt-sds-s font-semibold text-sds-primary-400">
+      <div className="mt-sds-s font-semibold text-sds-color-primitive-blue-400">
         <button type="button" onClick={() => setCollapsed((prev) => !prev)}>
           <span className="flex flex-row gap-sds-xxs items-center">
             <Icon
-              sdsIcon={isCollapsed ? 'plus' : 'minus'}
+              sdsIcon={isCollapsed ? 'Plus' : 'Minus'}
               sdsSize="xs"
               sdsType="static"
               className="!text-current"
@@ -48,7 +49,7 @@ export function DepositionMetadataTable({
   const depositionMetadata = getTableData(
     {
       label: t('depositionId'),
-      values: [`CZCPD-${deposition.id}`],
+      values: [`${IdPrefix.Deposition}-${deposition.id}`],
     },
 
     {

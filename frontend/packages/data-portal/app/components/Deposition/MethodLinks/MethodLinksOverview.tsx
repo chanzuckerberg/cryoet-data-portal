@@ -1,4 +1,5 @@
 import { Icon } from '@czi-sds/components'
+import { useMemo } from 'react'
 
 import { CollapsibleList } from 'app/components/CollapsibleList'
 import { I18n } from 'app/components/I18n'
@@ -8,24 +9,27 @@ import {
   methodLabels,
   methodTooltipLabels,
   MethodType,
+  methodTypes,
 } from 'app/constants/methodTypes'
+import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 
-import {
-  generateMethodLinks,
-  MethodLinkProps,
-  MethodLinkVariantProps,
-} from './common'
+import { generateMethodLinks } from './common'
 import { MethodLink } from './MethodLink'
+import { MethodLinkDataType } from './type'
 
 function MethodTypeSection({
   methodType,
-  links,
+  methodLinks,
 }: {
   methodType: MethodType
-  links?: MethodLinkProps[]
+  methodLinks?: MethodLinkDataType[]
 }) {
   const { t } = useI18n()
+  const links = useMemo(
+    () => (methodLinks ? generateMethodLinks(methodLinks) : []),
+    [methodLinks],
+  )
 
   return (
     <div className="grid grid-cols-[1fr_2fr] gap-x-sds-xl gap-y-sds-xs">
@@ -40,10 +44,10 @@ function MethodTypeSection({
           tooltip={<I18n i18nKey={methodTooltipLabels[methodType]} />}
         >
           <Icon
-            sdsIcon="infoCircle"
+            sdsIcon="InfoCircle"
             sdsSize="xs"
             sdsType="static"
-            className="!text-sds-gray-500"
+            className="!text-sds-color-primitive-gray-500"
           />
         </Tooltip>
       </p>
@@ -58,7 +62,7 @@ function MethodTypeSection({
               {...link}
               className="text-sds-body-xxs leading-sds-body-xxs"
               linkProps={{
-                className: 'text-sds-gray-600',
+                className: 'text-sds-color-primitive-gray-600',
                 variant: 'dashed-underlined',
               }}
             />
@@ -73,86 +77,31 @@ function MethodTypeSection({
 export function MethodLinksOverview() {
   const { t } = useI18n()
 
-  const separator = <div className="h-[1px] bg-sds-gray-300" />
+  const { deposition } = useDepositionById()
 
-  // TODO: populate this with backend data when available
-  const hybridMethodLinks: MethodLinkVariantProps[] = [
-    {
-      variant: 'sourceCode',
-      url: 'https://www.example.com',
-    },
-    {
-      variant: 'website',
-      url: 'https://www.example.com',
-      title: 'Optional Custom Link Name',
-    },
-  ]
-
-  const automatedMethodLinks: MethodLinkVariantProps[] = [
-    {
-      variant: 'sourceCode',
-      url: 'https://www.example.com',
-    },
-    {
-      variant: 'website',
-      url: 'https://www.example.com',
-      title: 'Optional Custom Link Name',
-    },
-    {
-      variant: 'website',
-      url: 'https://www.example.com',
-    },
-    {
-      variant: 'sourceCode',
-      url: 'https://www.example.com',
-      title: 'Optional Custom Link Name',
-    },
-    {
-      variant: 'other',
-      url: 'https://www.example.com',
-    },
-    {
-      variant: 'documentation',
-      url: 'https://www.example.com',
-      title: 'Optional Custom Link Name',
-    },
-    {
-      variant: 'modelWeights',
-      url: 'https://www.example.com',
-    },
-    {
-      variant: 'other',
-      url: 'https://www.example.com',
-      title: 'Optional Custom Link Name',
-    },
-    {
-      variant: 'documentation',
-      url: 'https://www.example.com',
-    },
-    {
-      variant: 'modelWeights',
-      url: 'https://www.example.com',
-      title: 'Optional Custom Link Name',
-    },
-  ]
+  const separator = <div className="h-[1px] bg-sds-color-primitive-gray-300" />
 
   return (
     <div>
       <PageHeaderSubtitle className="mb-sds-m">
         {t('annotationMethodsSummary')}
       </PageHeaderSubtitle>
-      <div className="p-sds-l flex flex-col gap-sds-l bg-sds-gray-100 rounded-sds-m">
-        <MethodTypeSection
-          methodType="hybrid"
-          links={generateMethodLinks(hybridMethodLinks)}
-        />
-        {separator}
-        <MethodTypeSection
-          methodType="automated"
-          links={generateMethodLinks(automatedMethodLinks)}
-        />
-        {separator}
-        <MethodTypeSection methodType="manual" />
+      <div className="p-sds-l flex flex-col gap-sds-l bg-sds-color-primitive-gray-100  rounded-sds-m">
+        {deposition.annotation_methods
+          .sort(
+            (a, b) =>
+              methodTypes.indexOf((a.method_type ?? 'manual') as MethodType) -
+              methodTypes.indexOf((b.method_type ?? 'manual') as MethodType),
+          )
+          .map(({ method_type, method_links }, i) => (
+            <>
+              <MethodTypeSection
+                methodType={(method_type ?? 'automated') as MethodType}
+                methodLinks={(method_links ?? []) as MethodLinkDataType[]}
+              />
+              {i < deposition.annotation_methods.length - 1 && separator}
+            </>
+          ))}
       </div>
     </div>
   )

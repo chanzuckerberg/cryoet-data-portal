@@ -3,6 +3,7 @@ export enum DownloadTab {
   AWS = 'aws',
   Curl = 'curl',
   Download = 'download',
+  PortalCLI = 'portal-cli',
 }
 
 export enum DownloadStep {

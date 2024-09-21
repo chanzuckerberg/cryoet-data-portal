@@ -26,6 +26,7 @@ export function I18n({ i18nKey, components, linkProps, ...props }: Props) {
         bold: <span className="font-bold" />,
         semibold: <span className="font-semibold" />,
         code: <span className="font-mono" />,
+        ellipsis: <span className="overflow-hidden text-ellipsis" />,
 
         urlNoColor: (
           <Link {...(linkProps as Required<Partial<VariantLinkProps>, 'to'>)}>
@@ -36,7 +37,7 @@ export function I18n({ i18nKey, components, linkProps, ...props }: Props) {
 
         url: (
           <Link
-            className="text-sds-primary-500"
+            className="text-sds-color-primitive-blue-400"
             {...(linkProps as Required<Partial<VariantLinkProps>, 'to'>)}
           >
             {/* This will get replaced by I18next */}

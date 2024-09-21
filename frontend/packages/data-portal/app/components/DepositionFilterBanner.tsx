@@ -21,19 +21,16 @@ export function DepositionFilterBanner({
   deposition: Deposition
   labelI18n: I18nKeys
 }) {
-  const { singleDatasetHistory, setSingleDatasetHistory } =
+  const { previousSingleDatasetParams, setPreviousSingleDatasetParams } =
     useSingleDatasetFilterHistory()
   const { previousSingleDepositionParams } = useDepositionHistory()
   const [, setDepositionId] = useQueryParam<string>(QueryParams.DepositionId)
 
   return (
-    <Callout
-      className="!w-full !mx-sds-xl"
-      classes={{ message: 'w-full' }}
-      intent="info"
-    >
-      <div className="flex w-full items-center justify-between">
-        <p className="text-sds-body-xs leading-sds-body-xs">
+    <Callout className="!w-full" classes={{ message: 'w-full' }} intent="info">
+      <div className="flex w-full items-center gap-sds-l justify-between">
+        {/* TODO: (kne42) sync with design on what we want to do on overflow */}
+        <p className="text-sds-body-xs leading-sds-body-xs flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
           <I18n
             i18nKey={labelI18n}
             values={{
@@ -48,12 +45,14 @@ export function DepositionFilterBanner({
           onClick={() => {
             setDepositionId(null)
 
-            const nextHistory = new Map(singleDatasetHistory)
-            nextHistory.delete(QueryParams.DepositionId)
-            setSingleDatasetHistory(nextHistory)
+            const nextParams = new URLSearchParams(previousSingleDatasetParams)
+            nextParams.delete(QueryParams.DepositionId)
+            nextParams.sort()
+            setPreviousSingleDatasetParams(nextParams.toString())
           }}
           sdsStyle="minimal"
           sdsType="secondary"
+          className="shrink-0"
         >
           Remove Filter
         </Button>

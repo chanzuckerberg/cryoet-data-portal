@@ -45,6 +45,6 @@ export function useDatasetById() {
     dataset,
     objectNames,
     objectShapeTypes,
-    deposition: deposition.at(0),
+    deposition,
   }
 }

@@ -33,7 +33,7 @@ export function AuthorLink({
 
                 author.primary_author_status
                   ? 'border-black'
-                  : 'border-sds-gray-500',
+                  : 'border-sds-color-primitive-gray-500',
               ]
             : 'border-transparent',
         )}
@@ -48,7 +48,7 @@ export function AuthorLink({
       {author.corresponding_author_status && (
         <EnvelopeIcon
           className={cns(
-            'text-sds-gray-400 mx-sds-xxxs',
+            'text-sds-color-primitive-gray-400 mx-sds-xxxs',
             'mb-2 inline-block h-sds-icon-xs w-sds-icon-xs',
           )}
         />

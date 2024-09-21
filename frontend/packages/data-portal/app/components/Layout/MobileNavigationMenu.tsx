@@ -1,9 +1,10 @@
-import { ButtonIcon } from '@czi-sds/components'
+import { Button } from '@czi-sds/components'
 
 import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
 import { I18nKeys } from 'app/types/i18n'
 
+import styles from './buttons.module.css'
 import {
   ABOUT_LINKS,
   HELP_AND_REPORT_LINKS,
@@ -18,7 +19,7 @@ function SubMenu({ title, links }: { title: I18nKeys; links: NavLink[] }) {
 
   return (
     <div className="border-t border-sds-gray-500 pt-sds-l flex flex-col gap-sds-l">
-      <p className="text-sds-caps-xxs leading-sds-caps-xxs font-semibold uppercase text-sds-gray-400">
+      <p className="text-sds-caps-xxs leading-sds-caps-xxs font-semibold uppercase text-sds-color-primitive-gray-400">
         {t(title)}
       </p>
       <div className="flex flex-col gap-sds-m">
@@ -40,15 +41,15 @@ export function MobileNavigationMenu({ onClose }: { onClose: () => void }) {
   const { t } = useI18n()
 
   return (
-    <nav className="fixed z-30 top-0 bottom-0 right-0 left-0 bg-black screen-716:hidden px-sds-xl overflow-y-scroll">
+    <nav className="fixed max-w-[100vw] z-30 top-0 bottom-0 right-0 left-0 bg-sds-color-primitive-common-black screen-716:hidden px-sds-xl overflow-y-scroll">
       <div className="flex justify-between py-sds-m items-center">
         <CryoETHomeLink />
-        <ButtonIcon
-          sdsIcon="xMark"
+        <Button
+          icon="XMark"
           sdsSize="large"
-          sdsType="secondary"
+          sdsStyle="icon"
           classes={{
-            root: '!text-sds-gray-white',
+            root: styles.buttonX,
           }}
           onClick={onClose}
         />
@@ -58,7 +59,7 @@ export function MobileNavigationMenu({ onClose }: { onClose: () => void }) {
           <Link
             key={label}
             to={link}
-            className="text-sds-header-m leading-sds-header-m font-semibold text-sds-gray-300"
+            className="text-sds-header-m leading-sds-header-m font-semibold text-sds-color-primitive-gray-300"
           >
             {t(label)}
           </Link>

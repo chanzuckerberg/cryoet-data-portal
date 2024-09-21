@@ -1,6 +1,3 @@
-import { sum } from 'lodash-es'
-import { useMemo } from 'react'
-
 import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorList } from 'app/components/AuthorList'
 import { DatabaseList } from 'app/components/DatabaseList'
@@ -12,10 +9,10 @@ import { cnsNoMerge } from 'app/utils/cns'
 
 import { MethodLinksOverview } from './MethodLinks'
 
-// use clsx here instead of cns since it erroneously merges text-sds-gray-500 and text-sds-caps-xxxs
+// use clsx here instead of cns since it erroneously merges text-sds-color-primitive-gray-500 and text-sds-caps-xxxs
 const sectionHeaderStyles = cnsNoMerge(
   'font-semibold uppercase',
-  'text-sds-gray-black',
+  'text-sds-color-primitive-common-black',
   'text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps',
   'mb-sds-xs',
 )
@@ -25,19 +22,8 @@ export function DepositionOverview() {
 
   const { t } = useI18n()
 
-  const annotationsCount = useMemo<number>(
-    () =>
-      sum(
-        deposition.datasets.flatMap((dataset) =>
-          dataset.runs.flatMap(
-            (run) =>
-              run.tomogram_voxel_spacings.at(0)?.annotations_aggregate.aggregate
-                ?.count,
-          ),
-        ),
-      ),
-    [deposition],
-  )
+  const annotationsCount =
+    deposition.annotations_aggregate.aggregate?.count ?? 0
 
   // clean up entries into lists
   const publicationEntries = deposition.deposition_publications
@@ -79,7 +65,7 @@ export function DepositionOverview() {
         <div className="flex-1 max-w-[260px]">
           <h3 className={sectionHeaderStyles}>{t('depositionData')}</h3>
           <p className="flex flex-row gap-sds-xs">
-            <span className="font-semibold text-sds-gray-black">
+            <span className="font-semibold text-sds-color-primitive-common-black">
               {t('annotations')}:
             </span>
             {annotationsCount.toLocaleString()}

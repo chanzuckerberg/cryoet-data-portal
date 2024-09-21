@@ -1,5 +1,4 @@
 import { EntityIdFilter } from 'app/components/Filters'
-import { IdPrefix } from 'app/constants/idPrefixes'
 import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'
 
@@ -12,7 +11,6 @@ export function DepositionIdFilter() {
       title={t('filterByDepositionId')}
       label={t('depositionId')}
       queryParam={QueryParams.DepositionId}
-      prefix={IdPrefix.Deposition}
     />
   )
 }

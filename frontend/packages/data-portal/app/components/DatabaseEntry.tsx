@@ -36,13 +36,20 @@ export function DatabaseEntry(props: DatabaseEntryProps) {
     <p className="flex flex-row gap-sds-xs">
       {(!inline || dbtype === DatabaseType.DOI) && (
         <span
-          className={cns('text-sds-gray-black', !inline && 'font-semibold')}
+          className={cns(
+            'text-sds-color-primitive-common-black',
+            !inline && 'font-semibold',
+          )}
         >
           {LABEL_MAP.get(dbtype)}:
         </span>
       )}
       <Link
-        className={inline ? 'text-sds-info-400 truncate' : 'text-sds-gray-600'}
+        className={
+          inline
+            ? 'text-sds-color-primitive-blue-400 truncate'
+            : 'text-sds-color-primitive-gray-600'
+        }
         to={URL_MAP.get(dbtype) + id}
         variant={inline ? undefined : 'dashed-underlined'}
       >

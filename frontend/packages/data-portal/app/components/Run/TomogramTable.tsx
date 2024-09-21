@@ -68,16 +68,12 @@ export function TomogramsTable() {
             width={TomogramTableWidths.name}
           >
             <div className="text-sds-body-m leading-sds-body-m font-semibold text-ellipsis line-clamp-1 break-all">
-              {getTomogramName(
-                original.id,
-                original.reconstruction_method,
-                original.processing,
-              )}
+              {getTomogramName(original)}
             </div>
             <div className="text-sds-body-xxs">
               {t('tomogramId')}: {original.id}
             </div>
-            <div className=" text-sds-gray-600 text-sds-body-xxs leading-sds-header-xxs">
+            <div className=" text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs">
               <AuthorList authors={original.authors} compact />
             </div>
           </TableCell>
@@ -120,7 +116,7 @@ export function TomogramsTable() {
         cell: ({ getValue, row: { original } }) => (
           <TableCell width={TomogramTableWidths.voxelSpacing}>
             {t('unitAngstrom', { value: getValue() })}
-            <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
+            <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
               ({original.size_x}, {original.size_y}, {original.size_z})px
             </div>
           </TableCell>
@@ -166,7 +162,7 @@ export function TomogramsTable() {
                       sdsType: 'primary',
                       className: '!text-sds-body-xxs !h-sds-icon-xl',
                       startIcon: (
-                        <Icon sdsIcon="table" sdsType="button" sdsSize="xs" />
+                        <Icon sdsIcon="Table" sdsType="button" sdsSize="xs" />
                       ),
                     }}
                     tooltipPlacement="top"
@@ -185,7 +181,7 @@ export function TomogramsTable() {
                 className="!justify-start !ml-sds-l !text-sds-body-xxs"
                 onClick={() => openMetadataDrawer(original)}
                 startIcon={
-                  <Icon sdsIcon="infoCircle" sdsSize="xs" sdsType="button" />
+                  <Icon sdsIcon="InfoCircle" sdsSize="xs" sdsType="button" />
                 }
               >
                 <span>{t('info')}</span>
@@ -194,9 +190,15 @@ export function TomogramsTable() {
                 sdsType="primary"
                 sdsStyle="minimal"
                 className="!justify-start !ml-sds-l !text-sds-body-xxs"
-                onClick={openTomogramDownloadModal}
+                onClick={() => {
+                  openTomogramDownloadModal({
+                    tomogramId: original.id,
+                    datasetId: run.dataset.id,
+                    runId: run.id,
+                  })
+                }}
                 startIcon={
-                  <Icon sdsIcon="download" sdsSize="xs" sdsType="button" />
+                  <Icon sdsIcon="Download" sdsSize="xs" sdsType="button" />
                 }
               >
                 {t('download')}

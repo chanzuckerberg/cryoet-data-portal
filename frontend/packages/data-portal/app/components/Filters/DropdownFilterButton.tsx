@@ -2,12 +2,15 @@ import { Button, Icon } from '@czi-sds/components'
 import Popover from '@mui/material/Popover'
 import { ReactNode, useRef, useState } from 'react'
 
+import { QueryParams } from 'app/constants/query'
 import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
+import { getPrefixedId } from 'app/utils/idPrefixes'
 
 export interface ActiveDropdownFilterData {
-  value: string
   label?: string
+  queryParam?: QueryParams
+  value: string
 }
 
 export function DropdownFilterButton({
@@ -40,7 +43,7 @@ export function DropdownFilterButton({
       <Button
         className={cns(
           'flex items-center gap-sds-xs group',
-          open && '!bg-sds-gray-100',
+          open && '!bg-sds-color-primitive-gray-100',
         )}
         ref={buttonRef}
         onClick={() => {
@@ -51,7 +54,7 @@ export function DropdownFilterButton({
         <span
           className={cns(
             'font-semibold group-hover:text-black transition-colors text-sm',
-            open ? 'text-black' : 'text-sds-gray-500',
+            open ? 'text-black' : 'text-sds-color-primitive-gray-500',
           )}
         >
           {label}
@@ -60,10 +63,10 @@ export function DropdownFilterButton({
         <Icon
           className={cns(
             'group-hover:!fill-black transition-colors',
-            open ? '!fill-black' : '!fill-sds-gray-500',
+            open ? '!fill-black' : '!fill-sds-color-primitive-gray-500',
           )}
-          sdsIcon="chevronDown"
-          sdsSize="s"
+          sdsIcon="ChevronDown"
+          sdsSize="xs"
           sdsType="button"
         />
       </Button>
@@ -71,35 +74,37 @@ export function DropdownFilterButton({
       {/* active filter chips  */}
       {activeFilters.length > 0 && (
         <div className="flex flex-col gap-sds-xs">
-          {activeFilters.map((filter) => (
-            <div className="pl-sds-s flex flex-col">
-              {filter.label && (
-                <p className="text-sds-body-xs leading-sds-body-xs text-sds-gray-500 uppercase">
-                  {filter.label}
-                </p>
-              )}
+          {activeFilters.map((filter) => {
+            return (
+              <div className="pl-sds-s flex flex-col">
+                {filter.label && (
+                  <p className="text-sds-body-xs leading-sds-body-xs text-sds-color-primitive-gray-500 uppercase">
+                    {filter.label}
+                  </p>
+                )}
 
-              <div>
-                <div className="bg-sds-primary-400 rounded-sds-m py-sds-xxs px-sds-s inline-flex items-center gap-sds-s">
-                  <span className="text-sds-body-xs leading-sds-body-xs font-semibold text-white">
-                    {filter.value}
-                  </span>
+                <div>
+                  <div className="bg-sds-color-primitive-blue-400 rounded-sds-m py-sds-xxs px-sds-s inline-flex items-center gap-sds-s">
+                    <span className="text-sds-body-xs leading-sds-body-xs font-semibold text-white">
+                      {getPrefixedId(filter.value, filter.queryParam)}
+                    </span>
 
-                  <Button
-                    className="!min-w-0 !w-0"
-                    onClick={() => onRemoveFilter(filter)}
-                  >
-                    <Icon
-                      className="!fill-white !w-[10px] !h-[10px]"
-                      sdsIcon="xMark"
-                      sdsSize="xs"
-                      sdsType="static"
-                    />
-                  </Button>
+                    <Button
+                      className="!min-w-0 !w-0"
+                      onClick={() => onRemoveFilter(filter)}
+                    >
+                      <Icon
+                        className="!fill-white !w-[10px] !h-[10px]"
+                        sdsIcon="XMark"
+                        sdsSize="xs"
+                        sdsType="static"
+                      />
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
 

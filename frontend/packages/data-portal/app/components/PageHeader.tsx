@@ -42,7 +42,7 @@ export function PageHeader({
                 'grid grid-cols-[minmax(0,_1fr)_auto] grid-rows-[1fr_auto]',
                 'w-full max-w-content',
                 'justify-between',
-                'gap-x-sds-xxl',
+                'gap-x-sds-xxl gap-y-2.5',
                 'px-sds-xl pt-sds-l pb-sds-xxs',
               )}
             >
@@ -69,8 +69,8 @@ export function PageHeader({
                 <div
                   className={cns(
                     'row-start-1 col-start-2',
-                    'flex items-start justify-end gap-sds-xs',
-                    'text-xs text-sds-gray-600',
+                    'flex self-start items-center justify-end gap-sds-xs',
+                    'text-xs text-sds-color-primitive-gray-600',
                   )}
                 >
                   {releaseDate && (
@@ -80,7 +80,7 @@ export function PageHeader({
                   )}
 
                   {releaseDate && lastModifiedDate && (
-                    <div className="h-3 w-px bg-sds-gray-400" />
+                    <div className="h-3 w-px bg-sds-color-primitive-gray-400" />
                   )}
 
                   {lastModifiedDate && (

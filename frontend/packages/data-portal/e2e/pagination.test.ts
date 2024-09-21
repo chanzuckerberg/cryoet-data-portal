@@ -1,3 +1,8 @@
+/*
+ * NOTE: This file does not use the preferred page object pattern.
+ * This is because we did not have time to refactor.
+ * Please do not use this file as an example of how to write tests.
+ */
 import { TableValidatorOptions } from 'e2e/pageObjects/filters/types'
 
 import { MAX_PER_PAGE } from 'app/constants/pagination'

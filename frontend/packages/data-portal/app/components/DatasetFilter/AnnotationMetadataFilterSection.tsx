@@ -19,7 +19,7 @@ export function AnnotationMetadataFilterSection({
   return (
     <FilterSection title={t('annotationMetadata')} border={false}>
       {depositionPageVariant && (
-        <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-500 pl-sds-s">
+        <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500 pl-sds-s">
           {t('depositionAnnotationsOnly')}
         </p>
       )}
@@ -29,7 +29,7 @@ export function AnnotationMetadataFilterSection({
         label={t('objectName')}
       />
 
-      {depositionPageVariant && <ObjectIdFilter />}
+      <ObjectIdFilter />
 
       <AnnotatedObjectShapeTypeFilter allObjectShapeTypes={objectShapeTypes} />
     </FilterSection>

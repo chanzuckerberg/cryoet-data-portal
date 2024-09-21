@@ -1,56 +1,34 @@
+import { Icon } from '@czi-sds/components'
+import { useMemo } from 'react'
+
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorList } from 'app/components/AuthorList'
+import { MethodLink } from 'app/components/Deposition/MethodLinks'
+import { generateMethodLinks } from 'app/components/Deposition/MethodLinks/common'
+import { MethodLinkDataType } from 'app/components/Deposition/MethodLinks/type'
+import { Link } from 'app/components/Link'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 
-import { MethodLink } from '../Deposition/MethodLinks'
-import {
-  generateMethodLinks,
-  MethodLinkVariantProps,
-} from '../Deposition/MethodLinks/common'
-import { Link } from '../Link'
-
-const METHOD_LINK_VARIANTS: MethodLinkVariantProps[] = [
-  {
-    variant: 'sourceCode',
-    url: 'https://www.example.com',
-    title: "My model's source code",
-  },
-  {
-    variant: 'sourceCode',
-    url: 'https://www.example.com',
-    title: 'Lorem-Ipsum3-D source code',
-  },
-  {
-    variant: 'modelWeights',
-    url: 'https://www.example.com',
-    title: 'Model Weights',
-  },
-  {
-    variant: 'website',
-    url: 'https://www.example.com',
-    title: 'Optional Custom Link Name',
-  },
-  {
-    variant: 'documentation',
-    url: 'https://www.example.com',
-    title: 'Optional Custom Link Name',
-  },
-  {
-    variant: 'other',
-    url: 'https://www.example.com',
-    title: 'Optional Custom Link Name',
-  },
-]
-
-const METHOD_LINKS = generateMethodLinks(METHOD_LINK_VARIANTS)
+import { I18n } from '../I18n'
+import { Tooltip } from '../Tooltip'
 
 export function AnnotationOverviewTable() {
   const { activeAnnotation: annotation } = useAnnotation()
   const { t } = useI18n()
   const isDepositionsEnabled = useFeatureFlag('depositions')
+  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
+
+  const methodLinks = useMemo(
+    () =>
+      generateMethodLinks(
+        (annotation?.method_links ?? []) as MethodLinkDataType[],
+      ),
+    [annotation],
+  )
 
   if (!annotation) {
     return null
@@ -82,20 +60,23 @@ export function AnnotationOverviewTable() {
           values: [annotation.annotation_publication ?? '--'],
         },
 
-        ...(isDepositionsEnabled
+        ...(isDepositionsEnabled && annotation.deposition
           ? [
               {
                 label: t('depositionName'),
                 values: ['Deposition Name'],
                 renderValue: () => (
-                  <Link className="text-sds-primary-400" to="/deposition/123">
-                    Deposition Name
+                  <Link
+                    className="text-sds-color-primitive-blue-400"
+                    to={`/deposition/${annotation.deposition?.id}`}
+                  >
+                    {annotation.deposition?.title}
                   </Link>
                 ),
               },
               {
                 label: t('depositionId'),
-                values: ['CZCDP-12345'],
+                values: [`${IdPrefix.Deposition}-${annotation.deposition?.id}`],
               },
             ]
           : []),
@@ -112,6 +93,27 @@ export function AnnotationOverviewTable() {
           label: t('lastModifiedDate'),
           values: [annotation.last_modified_date ?? '--'],
         },
+        ...(multipleTomogramsEnabled
+          ? [
+              {
+                label: t('alignmentId'),
+                labelExtra: (
+                  <Tooltip
+                    tooltip={<I18n i18nKey="alignmentIdTooltip" />}
+                    placement="top"
+                  >
+                    <Icon
+                      sdsIcon="InfoCircle"
+                      sdsSize="s"
+                      className="!fill-sds-color-primitive-gray-500"
+                      sdsType="button"
+                    />
+                  </Tooltip>
+                ),
+                values: [],
+              },
+            ]
+          : []),
         {
           label: t('methodType'),
           values: [annotation.method_type ?? '--'],
@@ -131,22 +133,27 @@ export function AnnotationOverviewTable() {
                 label: t('methodLinks'),
                 // No value required for this field, render only links component
                 values: [''],
-                renderValue: () => (
-                  <ul>
-                    {METHOD_LINKS.map((link) => (
-                      <li key={`${link.url}_${link.i18nLabel}_${link.title}`}>
-                        <MethodLink
-                          {...link}
-                          className="text-sds-header-s leading-sds-header-s whitespace-nowrap overflow-hidden text-ellipsis"
-                          linkProps={{
-                            className:
-                              'text-sds-info-400 overflow-hidden text-ellipsis',
-                          }}
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                ),
+                renderValue: () =>
+                  methodLinks.length > 0 ? (
+                    <ul>
+                      {methodLinks.map((link) => (
+                        <li key={`${link.url}_${link.i18nLabel}_${link.title}`}>
+                          <MethodLink
+                            {...link}
+                            className="text-sds-header-s leading-sds-header-s whitespace-nowrap overflow-hidden text-ellipsis"
+                            linkProps={{
+                              className:
+                                'text-sds-color-primitive-blue-400 overflow-hidden text-ellipsis',
+                            }}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-sds-body-s leading-sds-body-s text-sds-color-primitive-gray-500">
+                      {t('notSubmitted')}
+                    </p>
+                  ),
               },
             ]
           : []),

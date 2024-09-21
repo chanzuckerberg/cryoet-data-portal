@@ -8,8 +8,9 @@ export type DownloadModalType = 'dataset' | 'runs' | 'annotation'
 export type Tomogram = GetRunByIdQuery['tomograms_for_download'][number]
 
 export interface DownloadModalContextValue {
-  activeAnnotation?: BaseAnnotation
-  activeTomogram?: Tomogram
+  annotationToDownload?: BaseAnnotation
+  tomogramToDownload?: Tomogram
+
   allTomogramProcessing?: string[]
   allTomograms?: Tomogram[]
   datasetId?: number

@@ -39,7 +39,7 @@ export function CollapsibleList({
   const lastIndex =
     collapsible && collapsed ? collapseAfter - 1 : (entries ?? []).length - 1
 
-  return entries ? (
+  return entries && entries.length > 0 ? (
     <div>
       <ul
         className={cns(
@@ -67,7 +67,7 @@ export function CollapsibleList({
         <div
           className={cns(
             'mt-sds-xxs font-semibold',
-            tableVariant && 'text-sds-primary-400',
+            tableVariant && 'text-sds-color-primitive-blue-400',
           )}
         >
           <button type="button" onClick={() => setCollapsed(!collapsed)}>
@@ -80,7 +80,7 @@ export function CollapsibleList({
               {collapsed ? (
                 <>
                   <Icon
-                    sdsIcon="plus"
+                    sdsIcon="Plus"
                     sdsSize="xs"
                     sdsType="static"
                     className="!text-current"
@@ -92,7 +92,7 @@ export function CollapsibleList({
               ) : (
                 <>
                   <Icon
-                    sdsIcon="minus"
+                    sdsIcon="Minus"
                     sdsSize="xs"
                     sdsType="static"
                     className="!text-current"
@@ -106,7 +106,7 @@ export function CollapsibleList({
       )}
     </div>
   ) : (
-    <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
+    <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
       {t('notSubmitted')}
     </p>
   )

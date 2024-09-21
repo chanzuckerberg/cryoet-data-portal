@@ -16,7 +16,7 @@ const GET_DATASET_BY_ID = gql(`
     $run_limit: Int,
     $run_offset: Int,
     $filter: runs_bool_exp,
-    $deposition_id: Int,
+    $deposition_id: Int!,
   ) {
     datasets(where: { id: { _eq: $id } }) {
       s3_prefix
@@ -151,7 +151,7 @@ const GET_DATASET_BY_ID = gql(`
       }
     }
 
-    deposition: datasets(where: { id: { _eq: $deposition_id } }) {
+    deposition: depositions_by_pk(id: $deposition_id) {
       id
       title
     }
@@ -169,6 +169,16 @@ function getFilter(filterState: FilterState) {
             _eq: true,
           },
         },
+      },
+    })
+  }
+
+  // Deposition ID filter
+  const depositionId = +(filterState.ids.deposition ?? Number.NaN)
+  if (!Number.isNaN(depositionId) && depositionId > 0) {
+    filters.push({
+      tomogram_voxel_spacings: {
+        annotations: { deposition_id: { _eq: depositionId } },
       },
     })
   }
@@ -194,7 +204,7 @@ function getFilter(filterState: FilterState) {
     })
   }
 
-  const { objectNames, objectShapeTypes } = filterState.annotation
+  const { objectNames, objectShapeTypes, objectId } = filterState.annotation
 
   if (objectNames.length > 0) {
     filters.push({
@@ -216,6 +226,18 @@ function getFilter(filterState: FilterState) {
             shape_type: {
               _in: objectShapeTypes,
             },
+          },
+        },
+      },
+    })
+  }
+
+  if (objectId) {
+    filters.push({
+      tomogram_voxel_spacings: {
+        annotations: {
+          object_id: {
+            _ilike: `%${objectId.replace(':', '_')}`,
           },
         },
       },

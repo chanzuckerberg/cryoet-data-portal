@@ -2,61 +2,58 @@ import { useMemo } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetDepositionByIdQuery } from 'app/__generated__/graphql'
-import { NonUndefined } from 'app/types/utils'
+
+export type Deposition = NonNullable<GetDepositionByIdQuery['deposition']>
 
 export type Dataset = GetDepositionByIdQuery['datasets'][number]
 
-export type Deposition = NonUndefined<GetDepositionByIdQuery['deposition']> & {
-  datasets: GetDepositionByIdQuery['datasets']
-  datasets_aggregate: GetDepositionByIdQuery['datasets_aggregate']
-  filtered_datasets_aggregate: GetDepositionByIdQuery['filtered_datasets_aggregate']
-}
-
 export function useDepositionById() {
-  const { depositionData: data } = useTypedLoaderData<{
+  const { depositionData: data, annotationMethodCounts } = useTypedLoaderData<{
     depositionData: GetDepositionByIdQuery
+    annotationMethodCounts: Map<string, number>
   }>()
 
   const objectNames = useMemo(
     () =>
       Array.from(
         new Set(
-          data.deposition?.run_stats.flatMap((run) =>
-            run.tomogram_voxel_spacings.flatMap((voxelSpacing) =>
-              voxelSpacing.annotations.flatMap(
-                (annotation) => annotation.object_name,
-              ),
-            ),
+          data.deposition?.object_names.flatMap(
+            (annotation) => annotation.object_name,
           ),
         ),
       ),
-    [data.deposition?.run_stats],
+    [data.deposition?.object_names],
   )
 
   const objectShapeTypes = useMemo(
     () =>
       Array.from(
         new Set(
-          data.deposition?.run_stats.flatMap((run) =>
-            run.tomogram_voxel_spacings.flatMap((voxelSpacing) =>
-              voxelSpacing.annotations.flatMap((annotation) =>
-                annotation.files.flatMap((file) => file.shape_type),
-              ),
-            ),
+          data.deposition?.annotations.flatMap((annotation) =>
+            annotation.files.flatMap((file) => file.shape_type),
           ),
         ),
       ),
-    [data.deposition?.run_stats],
+    [data.deposition?.annotations],
+  )
+
+  const organismNames = useMemo(
+    () =>
+      Array.from(
+        new Set(data.datasets.flatMap((dataset) => dataset.organism_name)),
+      ).filter(Boolean) as string[],
+    [data.datasets],
   )
 
   return {
-    deposition: {
-      ...data.deposition,
-      datasets: data.datasets,
-      datasets_aggregate: data.datasets_aggregate,
-      filtered_datasets_aggregate: data.filtered_datasets_aggregate,
-    } as Deposition,
+    deposition: data.deposition as Deposition,
+    datasets: data.datasets,
+    datasetsCount: data.datasets_aggregate.aggregate?.count ?? 0,
+    filteredDatasetsCount:
+      data.filtered_datasets_aggregate.aggregate?.count ?? 0,
     objectNames,
     objectShapeTypes,
+    organismNames,
+    annotationMethodCounts,
   }
 }

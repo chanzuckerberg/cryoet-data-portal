@@ -2,12 +2,10 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { test } from '@playwright/test'
 import { FiltersActor } from 'e2e/pageObjects/filters/filtersActor'
 import { FiltersPage } from 'e2e/pageObjects/filters/filtersPage'
-import {
-  getPrefixedId,
-  serializeAvailableFiles,
-} from 'e2e/pageObjects/filters/utils'
+import { serializeAvailableFiles } from 'e2e/pageObjects/filters/utils'
 
 import { QueryParams } from 'app/constants/query'
+import { getPrefixedId } from 'app/utils/idPrefixes'
 
 import { getApolloClient } from './apollo'
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
@@ -1155,10 +1153,7 @@ test.describe('Browse datasets page filters', () => {
         })
 
         await filtersPage.expectFilterTagToExist(
-          getPrefixedId({
-            id: E2E_CONFIG.depositionId,
-            prefixKey: 'Deposition',
-          }),
+          getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
         )
 
         // TODO: (kne42) uncomment when hooked up to backend
@@ -1185,10 +1180,7 @@ test.describe('Browse datasets page filters', () => {
         })
 
         await filtersPage.expectFilterTagToExist(
-          getPrefixedId({
-            id: E2E_CONFIG.depositionId,
-            prefixKey: 'Deposition',
-          }),
+          getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
         )
 
         // TODO: (kne42) uncomment when hooked up to backend
@@ -1215,10 +1207,7 @@ test.describe('Browse datasets page filters', () => {
         })
 
         await filtersPage.removeMultiInputFilter(
-          getPrefixedId({
-            id: E2E_CONFIG.depositionId,
-            prefixKey: 'Deposition',
-          }),
+          getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
         )
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
@@ -1451,7 +1440,7 @@ test.describe('Browse datasets page filters', () => {
       test('should filter the list of organisms', async () => {
         await filtersPage.goTo(BROWSE_DATASETS_URL)
 
-        await filtersPage.openFilterDropdown(translations.organismName)
+        await filtersPage.clickFilterDropdown(translations.organismName)
         await filtersPage.fillSearchInput(E2E_CONFIG.organismNameQuery)
 
         await filtersActor.expectOrganismNamesFromDataToMatchFilterList({

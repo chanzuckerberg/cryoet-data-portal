@@ -27,6 +27,7 @@ export function getFilterState(searchParams: URLSearchParams) {
 
     ids: {
       dataset: searchParams.get(QueryParams.DatasetId),
+      deposition: searchParams.get(QueryParams.DepositionId),
       empiar: searchParams.get(QueryParams.EmpiarId),
       emdb: searchParams.get(QueryParams.EmdbId),
     },
@@ -125,46 +126,57 @@ export function useFilter() {
       ...getFilterState(searchParams),
 
       reset() {
-        setSearchParams((prev) => {
-          Object.values(QueryParams).forEach((param) => prev.delete(param))
-          prev.delete('page')
+        setSearchParams(
+          (prev) => {
+            Object.values(QueryParams).forEach((param) => prev.delete(param))
+            prev.delete(QueryParams.Page)
 
-          return prev
-        })
+            return prev
+          },
+          { replace: true },
+        )
       },
 
       updateValue(param: QueryParams, value?: FilterValue) {
         logPlausibleEvent(param, value)
 
-        setSearchParams((prev) => {
-          prev.delete(param)
-          prev.delete('page')
+        setSearchParams(
+          (prev) => {
+            prev.delete(param)
+            prev.delete(QueryParams.Page)
 
-          if (value) {
-            normalizeFilterValue(value).forEach((v) => prev.append(param, v))
-          }
+            if (value) {
+              normalizeFilterValue(value).forEach((v) => prev.append(param, v))
+            }
 
-          return prev
-        })
+            return prev
+          },
+          { replace: true },
+        )
       },
 
       updateValues(params: Partial<Record<QueryParams, FilterValue>>) {
         const entries = Object.entries(params) as [QueryParams, FilterValue][]
         entries.forEach(([param, value]) => logPlausibleEvent(param, value))
 
-        setSearchParams((prev) => {
-          prev.delete('page')
+        setSearchParams(
+          (prev) => {
+            prev.delete(QueryParams.Page)
 
-          entries.forEach(([param, value]) => {
-            prev.delete(param)
+            entries.forEach(([param, value]) => {
+              prev.delete(param)
 
-            if (value) {
-              normalizeFilterValue(value).forEach((v) => prev.append(param, v))
-            }
-          })
+              if (value) {
+                normalizeFilterValue(value).forEach((v) =>
+                  prev.append(param, v),
+                )
+              }
+            })
 
-          return prev
-        })
+            return prev
+          },
+          { replace: true },
+        )
       },
     }),
 

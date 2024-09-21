@@ -43,14 +43,14 @@ export function RegexFilter({
 
   return (
     <DropdownFilterButton
-      activeFilters={paramValue ? [{ value: displayValue }] : []}
+      activeFilters={paramValue ? [{ value: displayValue, queryParam }] : []}
       description={
         <>
           <p className="text-sds-header-xs leading-sds-header-xs font-semibold">
             {title}
           </p>
 
-          <p className="text-sds-gray-600 text-sds-body-xxs leading-sds-body-xxs">
+          <p className="text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-body-xxs">
             {`(${t('limitOneValuePerField')})`}
           </p>
         </>

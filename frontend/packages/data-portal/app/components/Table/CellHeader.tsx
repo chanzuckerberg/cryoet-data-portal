@@ -5,7 +5,7 @@ import {
 import { ReactNode } from 'react'
 
 import {
-  getTooltipProps,
+  Tooltip,
   TooltipArrowPadding,
   TooltipOffset,
 } from 'app/components/Tooltip'
@@ -28,6 +28,7 @@ export function CellHeader({
   | 'tooltipSubtitle'
   | 'tooltipText'
   | 'width'
+  | 'ref'
 > & {
   arrowPadding?: TooltipArrowPadding
   children?: ReactNode
@@ -41,11 +42,6 @@ export function CellHeader({
     <SDSCellHeader
       {...props}
       shouldShowTooltipOnHover={!!tooltip}
-      tooltipProps={getTooltipProps({ arrowPadding, offset })}
-      // TODO Remove ts-ignore when types is updated to use ReactNode
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      tooltipText={tooltip}
       style={{
         maxWidth: columnWidth?.max,
         minWidth: columnWidth?.min,
@@ -54,7 +50,18 @@ export function CellHeader({
       }}
       hideSortIcon={!showSort}
     >
-      <p className="line-clamp-1">{children}</p>
+      <p className="line-clamp-1">
+        <Tooltip
+          className="inline"
+          tooltip={tooltip}
+          arrowPadding={arrowPadding}
+          offset={offset}
+          placement="top"
+        >
+          {children}
+        </Tooltip>
+      </p>
+
       {subHeader && (
         <p className="text-sds-body-xxxs leading-sds-body-xxxs font-normal">
           {subHeader}

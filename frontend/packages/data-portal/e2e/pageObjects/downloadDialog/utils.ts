@@ -3,7 +3,10 @@ import { test } from '@playwright/test'
 import { E2E_CONFIG } from 'e2e/constants'
 
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
-import { getTomogramCodeSnippet } from 'app/components/Download/APIDownloadTab'
+import {
+  getAnnotationCodeSnippet,
+  getTomogramCodeSnippet,
+} from 'app/components/Download/APIDownloadTab'
 import { getAwsCommand } from 'app/components/Download/AWSDownloadTab'
 import { getCurlCommand } from 'app/components/Download/CurlDownloadTab'
 import { QueryParams } from 'app/constants/query'
@@ -25,14 +28,18 @@ export function constructDialogUrl(
     tab,
     step,
     config,
+    annotationFile,
     tomogram,
     fileFormat,
+    multipleTomograms = false,
   }: {
     tab?: string
     step?: string
     config?: string
-    tomogram?: { sampling: number; processing: string }
+    annotationFile?: { annotation: { id: string }; shape_type: string }
+    tomogram?: { id: number; sampling: number; processing: string }
     fileFormat?: string
+    multipleTomograms?: boolean
   },
 ): URL {
   const expectedUrl = new URL(url)
@@ -46,9 +53,22 @@ export function constructDialogUrl(
     params.append(QueryParams.DownloadConfig, config)
   }
 
-  if (tomogram) {
-    params.append(QueryParams.TomogramSampling, String(tomogram.sampling))
-    params.append(QueryParams.TomogramProcessing, tomogram.processing)
+  if (annotationFile) {
+    if (multipleTomograms) {
+      params.append(QueryParams.ReferenceTomogramId, String(tomogram!.id))
+    }
+    params.append(
+      QueryParams.AnnotationId,
+      String(annotationFile.annotation.id),
+    )
+    params.append(QueryParams.ObjectShapeType, annotationFile.shape_type)
+  } else if (tomogram) {
+    if (multipleTomograms) {
+      params.append(QueryParams.DownloadTomogramId, String(tomogram.id))
+    } else {
+      params.append(QueryParams.TomogramSampling, String(tomogram.sampling))
+      params.append(QueryParams.TomogramProcessing, tomogram.processing)
+    }
   }
 
   if (fileFormat) {
@@ -58,6 +78,11 @@ export function constructDialogUrl(
   if (tab) {
     params.append(QueryParams.DownloadTab, tab)
   }
+
+  params.append(
+    multipleTomograms ? 'enable-feature' : 'disable-feature',
+    'multipleTomograms',
+  )
 
   return expectedUrl
 }
@@ -101,6 +126,43 @@ export function getTomogramDownloadCommand({
       })
     case DownloadTab.Curl:
       return getCurlCommand(activeTomogram?.https_mrc_scale0)
+    case DownloadTab.Download:
+      return ''
+    default:
+      throw new Error('Invalid tab')
+  }
+}
+
+export function getAnnotationDownloadCommand({
+  data,
+  tab,
+}: {
+  data: GetRunByIdQuery
+  tab: DownloadTab
+}): string {
+  const annotationFile = data.annotation_files[0]
+  const fileFormat = annotationFile.format
+
+  switch (tab) {
+    case DownloadTab.PortalCLI: // TODO(bchu): Update.
+    case DownloadTab.API:
+      return getAnnotationCodeSnippet(
+        annotationFile.annotation.id.toString(),
+        fileFormat,
+      )
+    case DownloadTab.AWS:
+      return getAwsCommand({
+        s3Path: annotationFile.annotation.files.find(
+          (file) => file.format === fileFormat,
+        )!.s3_path,
+        s3Command: 'cp',
+      })
+    case DownloadTab.Curl:
+      return getCurlCommand(
+        annotationFile.annotation.files.find(
+          (file) => file.format === fileFormat,
+        )!.https_path,
+      )
     case DownloadTab.Download:
       return ''
     default:

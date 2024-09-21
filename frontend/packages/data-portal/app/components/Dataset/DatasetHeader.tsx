@@ -22,14 +22,16 @@ export function DatasetHeader() {
   return (
     <PageHeader
       actions={
-        <Button
-          startIcon={<Icon sdsIcon="download" sdsType="button" sdsSize="l" />}
-          sdsType="primary"
-          sdsStyle="rounded"
-          onClick={() => openDatasetDownloadModal({ datasetId: dataset.id })}
-        >
-          {t('downloadDataset')}
-        </Button>
+        <div>
+          <Button
+            startIcon={<Icon sdsIcon="Download" sdsType="button" sdsSize="l" />}
+            sdsType="primary"
+            sdsStyle="rounded"
+            onClick={() => openDatasetDownloadModal({ datasetId: dataset.id })}
+          >
+            {t('downloadDataset')}
+          </Button>
+        </div>
       }
       breadcrumbs={<Breadcrumbs variant="dataset" data={dataset} />}
       lastModifiedDate={dataset.last_modified_date ?? dataset.deposition_date}
@@ -43,7 +45,7 @@ export function DatasetHeader() {
       releaseDate={dataset.release_date}
       title={dataset.title}
       renderHeader={({ moreInfo }) => (
-        <div className="flex flex-row justify-between gap-sds-xxl p-sds-xl">
+        <div className="flex flex-row w-full justify-between gap-sds-xxl p-sds-xl">
           <HeaderKeyPhoto
             title={dataset.title}
             url={dataset.key_photo_url ?? undefined}

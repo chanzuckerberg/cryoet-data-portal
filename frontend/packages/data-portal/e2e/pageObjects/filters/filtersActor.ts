@@ -149,8 +149,21 @@ export class FiltersActor {
     label: string
     value: string
   }) {
-    await this.filtersPage.openFilterDropdown(label)
+    await this.filtersPage.clickFilterDropdown(label)
     await this.filtersPage.selectFilterOption(value)
+    // Click again to close
+    await this.filtersPage.clickFilterDropdown(label)
+  }
+
+  public async removeSingleSelectFilter({
+    label,
+    value,
+  }: {
+    label: string
+    value: string
+  }) {
+    await this.filtersPage.clickFilterDropdown(label)
+    await this.filtersPage.removeFilterOption(value)
   }
 
   public async addMultiInputFilter({
@@ -162,7 +175,7 @@ export class FiltersActor {
     filter: MultiInputFilterType
     hasMultipleFilters: boolean
   }) {
-    await this.filtersPage.openFilterDropdown(buttonLabel)
+    await this.filtersPage.clickFilterDropdown(buttonLabel)
     await this.filtersPage.fillInputFilter({
       label: `${filter.label}${hasMultipleFilters ? ':' : ''}`,
       value: filter.value,

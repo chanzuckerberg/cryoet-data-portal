@@ -4,6 +4,14 @@ import { BasePage } from 'e2e/pageObjects/basePage'
 
 import { DownloadConfig, DownloadTab } from 'app/types/download'
 
+const DOWNLOAD_TAB_TO_LABEL: Record<DownloadTab, string> = {
+  [DownloadTab.API]: translations.viaApi,
+  [DownloadTab.AWS]: translations.viaAwsS3,
+  [DownloadTab.Curl]: translations.viaCurl,
+  [DownloadTab.Download]: translations.directDownload,
+  [DownloadTab.PortalCLI]: translations.viaPortalCli,
+}
+
 export class DownloadDialogPage extends BasePage {
   // #region Navigate
   // #endregion Navigate
@@ -15,7 +23,7 @@ export class DownloadDialogPage extends BasePage {
 
   public async clickTab(tab: DownloadTab): Promise<void> {
     const dialog = this.getDialog()
-    await dialog.getByRole('tab', { name: tab }).click()
+    await dialog.getByRole('tab', { name: DOWNLOAD_TAB_TO_LABEL[tab] }).click()
   }
 
   public async clickCopyButton(): Promise<void> {
@@ -38,6 +46,11 @@ export class DownloadDialogPage extends BasePage {
     await dialog.getByRole('button', { name }).click()
   }
 
+  public async selectFileType(fileType: string): Promise<void> {
+    await this.getDialog().locator('button:has-text("MRC")').click()
+    await this.page.locator(`li:has-text("${fileType}")`).click()
+  }
+
   public async clickNextButton(): Promise<void> {
     const dialog = this.getDialog()
     await dialog.getByRole('button', { name: translations.next }).click()
@@ -55,6 +68,12 @@ export class DownloadDialogPage extends BasePage {
   // #region Get
   public getDialog(): Locator {
     return this.page.getByRole('dialog')
+  }
+
+  public async getDirectDownloadHref(): Promise<string | null> {
+    return this.getDialog()
+      .locator(`a:has-text("${translations.downloadNow}")`)
+      .getAttribute('href')
   }
 
   public async getClipboardHandle() {
@@ -92,10 +111,9 @@ export class DownloadDialogPage extends BasePage {
     tab: DownloadTab
     isSelected: boolean
   }) {
-    await expect(dialog.getByRole('tab', { name: tab })).toHaveAttribute(
-      'aria-selected',
-      isSelected ? 'true' : 'false',
-    )
+    await expect(
+      dialog.getByRole('tab', { name: DOWNLOAD_TAB_TO_LABEL[tab] }),
+    ).toHaveAttribute('aria-selected', isSelected ? 'true' : 'false')
   }
 
   public async expectRadioToBeSelected(value: DownloadConfig) {

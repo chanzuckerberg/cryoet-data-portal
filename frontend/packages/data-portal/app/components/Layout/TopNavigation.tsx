@@ -1,4 +1,4 @@
-import { ButtonIcon } from '@czi-sds/components'
+import { Button } from '@czi-sds/components'
 import { useLocation } from '@remix-run/react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -7,6 +7,7 @@ import { Link } from 'app/components/Link'
 import { cns } from 'app/utils/cns'
 
 import { AboutAndHelpDropdown } from './AboutAndHelpDropdown'
+import styles from './buttons.module.css'
 import { TOP_LEVEL_LINKS } from './constants'
 import { CryoETHomeLink } from './CryoETHomeLink'
 import { MobileNavigationMenu } from './MobileNavigationMenu'
@@ -26,7 +27,7 @@ export function TopNavigation() {
   return (
     <nav
       className={cns(
-        'bg-sds-gray-black text-sds-gray-white',
+        'bg-sds-color-primitive-common-black text-sds-color-primitive-common-white',
         'flex py-sds-m flex-shrink-0 items-center px-sds-xl',
         'sticky top-0 z-30',
       )}
@@ -41,10 +42,9 @@ export function TopNavigation() {
           <Link
             className={cns(
               'text-sds-header-s leading-sds-header-s font-semibold mr-sds-xxl p-0',
-
               link.isActive(pathname)
-                ? 'text-sds-gray-white'
-                : 'text-sds-gray-400 hover:text-sds-gray-white',
+                ? 'text-sds-color-primitive-common-white'
+                : 'text-sds-color-primitive-gray-400 hover:text-sds-color-primitive-common-white',
             )}
             to={link.link}
             key={link.link}
@@ -57,13 +57,14 @@ export function TopNavigation() {
         <AboutAndHelpDropdown className="screen-790:ml-sds-xxl text-sds-header-s" />
       </div>
 
-      <ButtonIcon
+      <Button
         className="screen-716:!hidden"
-        sdsIcon="linesHorizontal"
+        icon="LinesHorizontal3"
+        sdsStyle="icon"
         sdsType="tertiary"
         sdsSize="large"
         classes={{
-          root: '!text-sds-gray-400',
+          root: styles.buttonHamburger,
         }}
         onClick={() => setMobileMenuOpen(true)}
       />

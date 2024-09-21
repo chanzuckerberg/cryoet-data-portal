@@ -13,8 +13,8 @@ export function ConfigureDownloadContent() {
 
   return (
     <>
-      <ModalSubtitle label={t('dataset')} value={datasetTitle} />
-      {runName && <ModalSubtitle label={t('run')} value={runName} />}
+      <ModalSubtitle label={t('datasetName')} value={datasetTitle} />
+      {runName && <ModalSubtitle label={t('runName')} value={runName} />}
       {annotationId && (
         <ModalSubtitle label={t('annotationId')} value={annotationId} />
       )}
