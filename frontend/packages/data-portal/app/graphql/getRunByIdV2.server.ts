@@ -151,17 +151,17 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         }
 
         # Header
-        # tiltseriesAggregate { # TODO(bchu): Uncomment when __typename bug is fixed.
-        #   aggregate {
-        #     count
-        #     avg {
-        #       tiltSeriesQuality
-        #     }
-        #     # sum {
-        #     #   tiltseriesFramesCount # TODO(bchu): Uncomment when populated.
-        #     # }
-        #   }
-        # }
+        tiltseriesAggregate { # TODO(bchu): Uncomment when __typename bug is fixed.
+          aggregate {
+            count
+            avg {
+              tiltSeriesQuality
+            }
+            # sum {
+            #   tiltseriesFramesCount # TODO(bchu): Uncomment when populated.
+            # }
+          }
+        }
       }
 
       # Annotations table
