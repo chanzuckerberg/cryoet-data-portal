@@ -236,3 +236,70 @@ html .md-footer-meta.md-typeset a {
       align-items: baseline;
     }
 }
+
+/* Better display of attributes in class descriptions */
+dl.py.attribute.objdesc {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+}
+
+dl.py.attribute.objdesc > dt.sig.sig-object.highlight.py {
+  grid-column-start: 1;
+  background-color: var(--md-default-bg-color);
+  align-content: baseline;
+  font-size: 1em;
+}
+
+dl.py.attribute.objdesc > dd {
+  grid-column-start: 2;
+  margin-top: 0;
+  margin-bottom: 0;
+  align-content: baseline;
+}
+
+dl.py.attribute.objdesc > dd > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.md-typeset blockquote, .md-typeset dl, .md-typeset figure, .md-typeset ol, .md-typeset pre, .md-typeset ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+dl.py.attribute.objdesc > dd > dl.field-list.simple {
+  display: grid;
+  line-height: 1;
+  margin-top: 0;
+  margin-bottom: 0;
+  grid-template: 
+            "a b" auto / 1fr 10fr;
+}
+
+dl.py.attribute.objdesc > dd > dl.field-list.simple > dd.field-odd > p {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+dl.py.attribute.objdesc > dd > dl.field-list.simple > dt.field-odd {
+  margin-bottom: 10px;
+}
+
+
+dl.py.attribute.objdesc > dd > dl.field-list.simple >dt {
+  grid-column-start: 1;
+  grid-row-start: auto;
+  align-content: end;
+}
+
+dl.py.attribute.objdesc > dd > dl.field-list.simple >dd {
+  grid-column-start: 2;
+  grid-row-start: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+}
+
+dl.class > dd > dl:nth-child(27) {
+  margin-bottom: 20px;
+}
