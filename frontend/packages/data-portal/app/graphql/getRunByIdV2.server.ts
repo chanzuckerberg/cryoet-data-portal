@@ -173,7 +173,6 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         fiducialAlignmentStatus
         httpsMrcFile
         id
-        # isCanonical what is this doing here
         keyPhotoThumbnailUrl
         keyPhotoUrl
         name
