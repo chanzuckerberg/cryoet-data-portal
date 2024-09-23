@@ -23,15 +23,15 @@ For more information about submiting issues on Github, please refer to [Github's
 The CryoET Data Portal uses the following data schema:
 
 1. A dataset is a community contributed set of image files for tilt series, reconstructed tomograms, and if available, cellular and/or subcellular annotation files. Every dataset contains only one sample type prepared and imaged with the same conditions. The dataset title, such as `S. pombe cryo-FIB lamellae acquired with defocus-only`, summarizes these conditions. Samples can be a cell, tissue or organism; intact organelle; in-vitro mixture of macromolecules or their complex; or in-silico synthetic data, where the experimental conditions are kept constant. Downloading a dataset downloads all files, including all available tilt series, tomograms, and annotations.
-2. A run is one experiment, or replicate, associated with a dataset, where all runs in a dataset have the same sample and imaging conditions. Every run contains a collection of all tomography data and annotations related to imaging one physical location in a sample. It typically contains one tilt series and all associated data (e.g. movie frames, tilt series image stack, tomograms, annotations, and metadata), but in some cases, it may be a set of tilt series that form a mosaic. When downloading a run from a Portal page, you may choose to download the tomogram or all available annotations. To download all data associated with a run (i.e. all available movie frames, tilt series image stack, tomograms, annotations, and associated metadata), please refer to the [API download guide](how-to-download-data-using-the-portal-api).
+2. A run is one experiment, or replicate, associated with a dataset, where all runs in a dataset have the same sample and imaging conditions. Every run contains a collection of all tomography data and annotations related to imaging one physical location in a sample. It typically contains one tilt series and all associated data (e.g. movie frames, tilt series image stack, tomograms, annotations, and metadata), but in some cases, it may be a set of tilt series that form a mosaic. When downloading a run from a Portal page, you may choose to download the tomogram or all available annotations. To download all data associated with a run (i.e. all available movie frames, tilt series image stack, tomograms, annotations, and associated metadata), please refer to the [API download guide](#how-to-download-data-using-the-portal-api).
 3. An annotation is a point or segmentation indicating the location of a macromolecular complex in the tomogram. On the run page, you may choose to download tomograms with their annotations.
 
-You can refer to a graphic of the [data schema here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html#data-model).
+You can refer to a graphic of the [data schema here](cryoet_data_portal_docsite_data).
 :::
 
 :::{admonition} How do I download data using Amazon Web Services (AWS)?
 :collapsible:
-**The Data Portal's S3 bucket is public**, so it can be accessed without creating an account with AWS, simply add `--no-sign-request` in your commands as shown below. Using the instructions below, you can get started downloading data in only a few minutes. For more detailed instructions, please refer to the documentation [here](./cryoet_data_portal_docsite_aws.md).
+**The Data Portal's S3 bucket is public**, so it can be accessed without creating an account with AWS, simply add `--no-sign-request` in your commands as shown below. Using the instructions below, you can get started downloading data in only a few minutes. For more detailed instructions, please refer to the documentation [here](cryoet_data_portal_docsite_aws).
 
 1. Download the installer: [MacOS Installer Download](https://awscli.amazonaws.com/AWSCLIV2.pkg) / [Windows Installer Download](https://awscli.amazonaws.com/AWSCLIV2.msi)
 2. Open the installer and complete installation following the prompts. (No further steps, since sign-in credentials ARE NOT needed to use the tool.)
@@ -54,7 +54,7 @@ For example, to download a particular JSON file of tomogram metadata into a fold
 aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
 ```
 
-In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow [these instructions to optimize download speed](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_aws.html#optimize-download-speed)
+In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow [these instructions to optimize download speed](cryoet_data_portal_docsite_aws.md#optimize-download-speed).
 :::
 
 :::{admonition} How do I use Neuroglancer to visualize tomograms with their annotations?
@@ -64,7 +64,7 @@ All tomograms in the Data Portal are viewable in Neuroglancer along with their a
 
 :::{admonition} How do I use napari to visualize tomograms with their annotations?
 :collapsible:
-The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html) to learn more about napari and CryoET Data Portal.
+The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](cryoet_data_portal_docsite_napari) to learn more about napari and CryoET Data Portal.
 :::
 
 (how-to-download-data-using-the-portal-api)=
@@ -89,7 +89,7 @@ tomo = Tomogram.find(client, query_filters=[Tomogram.name == "TS_026"])
 tomo.download_omezarr()
 ```
 
-For more examples of downloading data with the API, check out the [tutorial here](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_quick_start.html#python-quick-start). The Data Portal API reference can be found [here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
+For more examples of downloading data with the API, check out the [tutorial here](cryoet_data_portal_docsite_quick_start.md#api-methods-overview). The Data Portal API reference can be found [here](python-api).
 :::
 
 :::{admonition} How do I use the Portal's API to select data?
@@ -115,7 +115,7 @@ for run in runs_list:
   print(run.name)
 ```
 
-For more examples of using the <Function>`find`</Function> operator, check out the [tutorial here](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_quick_start.html#python-quick-start). The Data Portal API reference can be found [here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
+For more examples of using the <Function>`find`</Function> operator, check out the [tutorial here](cryoet_data_portal_docsite_quick_start.md#examples). The Data Portal API reference can be found [here](python-api).
 :::
 
 :::{admonition} What is the meaning of the tilt series quality score?
@@ -135,14 +135,14 @@ The tilt series quality score/rating is a relative subjective scale meant for co
 :collapsible:
 The dataset identifier in the API refers to the Portal ID provided in the Portal. This number is assigned by the Data Portal as a unique identifier for a dataset and is used as the directory name in the data filetree.
 
-Descriptions of all terminology and metadata used in the Portal is provided [here](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html).
+Descriptions of all terminology and metadata used in the Portal is provided [here](python-api).
 :::
 
 :::{admonition} Which annotations are displayed with a tomogram in Neuroglancer?
 :collapsible:
 There is no definitive rule for which annotations are displayed with a tomogram in Neuroglancer by default. The annotations are manually chosen to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations included within, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
 
-The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html) to learn more about napari and CryoET Data Portal.
+The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](cryoet_data_portal_docsite_napari) to learn more about napari and CryoET Data Portal.
 :::
 
 :::{admonition} How do I contribute data to the Portal?

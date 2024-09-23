@@ -79,7 +79,7 @@ data_10005.download_everything()
 
 ## Examples
 
-Below are 3 examples of common operations you can do with the API. Check out the [examples page](./cryoet_data_portal_docsite_examples.md) for more code snippets or the [tutorials page](./tutorials.md) for longer examples.
+Below are 3 examples of common operations you can do with the API. Check out the [examples page](cryoet_data_portal_docsite_examples) for more code snippets or the [tutorials page](tutorials) for longer examples.
 
 ### Browse all data in the portal
 
