@@ -80,8 +80,8 @@ jobs:
     strategy:
       matrix:
         browser: ${{ fromJson(inputs.browsers) }}
-        shardCurrent: [1, 2, 3, 4, 5]
-        shardTotal: [5]
+        shardCurrent: [1, 2, 3]
+        shardTotal: [3]
 
     concurrency:
       group: frontend-e2e-${{ github.ref }}-${{ matrix.browser }}-${{ matrix.shardCurrent }}-${{ matrix.shardTotal}}
