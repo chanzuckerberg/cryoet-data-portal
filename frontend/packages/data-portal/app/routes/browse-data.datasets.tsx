@@ -5,7 +5,7 @@ import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
 import { DatasetTable } from 'app/components/BrowseData'
 import { DatasetFilter } from 'app/components/DatasetFilter'
-import { NoResults } from 'app/components/NoResults'
+import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
@@ -72,8 +72,8 @@ export default function BrowseDatasetsPage() {
             'https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_data.html#datasets',
           filterPanel: <DatasetFilter />,
           table: <DatasetTable />,
-          noResults: (
-            <NoResults
+          noFilteredResults: (
+            <NoFilteredResults
               title={t('filterNoResultsFound')}
               description={t('filterTooRestrictive')}
               actions={<Button onClick={reset}>{t('clearFilters')}</Button>}

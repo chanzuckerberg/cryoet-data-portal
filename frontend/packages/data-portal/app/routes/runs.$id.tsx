@@ -2,7 +2,7 @@
 
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { toNumber } from 'lodash-es'
+import { startCase, toNumber } from 'lodash-es'
 import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
@@ -10,6 +10,7 @@ import { apolloClient, apolloClientV2 } from 'app/apollo.server'
 import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
 import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
+import { NoTotalResults } from 'app/components/NoTotalResults'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
 import { AnnotationTable } from 'app/components/Run/AnnotationTable'
@@ -109,6 +110,7 @@ export default function RunByIdPage() {
 
   const {
     downloadConfig,
+    openRunDownloadModal,
     tomogramProcessing,
     tomogramSampling,
     annotationId,
@@ -182,6 +184,33 @@ export default function RunByIdPage() {
           filteredCount: annotationFilesAggregates.filteredCount,
           totalCount: annotationFilesAggregates.totalCount,
           countLabel: t('annotations'),
+          noTotalResults: (
+            <NoTotalResults
+              title={t('noAnnotationsAvailable')}
+              description={t('downloadTheRunDataToCreateYourOwnAnnotations')}
+              buttons={[
+                {
+                  text: t('downloadRunData'),
+                  onClick: () => {
+                    openRunDownloadModal({
+                      runId: run.id,
+                      datasetId: run.dataset.id,
+                    })
+                  },
+                },
+                {
+                  text: t('contributeYourAnnotations'),
+                  onClick: () => {
+                    window
+                      .open(
+                        'https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=RunEmptyState&hide_Event=true',
+                      )
+                      ?.focus()
+                  },
+                },
+              ]}
+            />
+          ),
         },
         ...(multipleTomogramsEnabled
           ? [
@@ -192,6 +221,25 @@ export default function RunByIdPage() {
                 filteredCount: tomogramsCount,
                 totalCount: tomogramsCount,
                 countLabel: t('tomograms'),
+                noTotalResults: (
+                  <NoTotalResults
+                    title={startCase(t('noTomogramsAvailable'))}
+                    description={t(
+                      'downloadAllRunDataViaApiToCreateYourOwnReconstructions',
+                    )}
+                    buttons={[
+                      {
+                        text: t('downloadThisRun'),
+                        onClick: () => {
+                          openRunDownloadModal({
+                            runId: run.id,
+                            datasetId: run.dataset.id,
+                          })
+                        },
+                      },
+                    ]}
+                  />
+                ),
               },
             ]
           : []),

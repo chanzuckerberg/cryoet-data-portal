@@ -19,7 +19,7 @@ function NoResultsImage() {
   )
 }
 
-export function NoResults({
+export function NoFilteredResults({
   actions,
   description,
   title,

@@ -35,8 +35,10 @@ export interface TableLayoutTab {
   filterPanel?: ReactNode
 
   table: ReactNode
-  noResults?: ReactNode
   pageQueryParamKey?: string
+
+  noFilteredResults?: ReactNode
+  noTotalResults?: ReactNode
 
   filteredCount: number
   totalCount: number
@@ -110,7 +112,8 @@ function TablePageTabContent({
   filterPanel,
   filteredCount,
   table,
-  noResults,
+  noFilteredResults,
+  noTotalResults,
   pageQueryParamKey = QueryParams.Page,
   totalCount,
   countLabel,
@@ -145,6 +148,10 @@ function TablePageTabContent({
     }),
     [filterPanel],
   )
+
+  if (noTotalResults !== undefined && totalCount === 0) {
+    return noTotalResults
+  }
 
   return (
     <LayoutContext.Provider value={contextValue}>
@@ -214,7 +221,7 @@ function TablePageTabContent({
             </ErrorBoundary>
 
             <div className="px-sds-xl">
-              {filteredCount === 0 && noResults}
+              {filteredCount === 0 && noFilteredResults}
 
               {filteredCount > MAX_PER_PAGE && (
                 <div
