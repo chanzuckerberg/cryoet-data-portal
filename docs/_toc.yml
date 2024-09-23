@@ -15,5 +15,3 @@ subtrees:
     title: "FAQ"
   - file: cryoet_data_portal_docsite_aws.md
   - file: cryoet_data_portal_docsite_napari.md
-  - url: "https://cryoetdataportal.czscience.com/"
-    title: "CryoET Data Portal"
