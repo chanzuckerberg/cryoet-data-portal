@@ -162,7 +162,7 @@ export function TomogramsTable() {
                       sdsType: 'primary',
                       className: '!text-sds-body-xxs !h-sds-icon-xl',
                       startIcon: (
-                        <Icon sdsIcon="Table" sdsType="button" sdsSize="xs" />
+                        <Icon sdsIcon="Cube" sdsType="button" sdsSize="xs" />
                       ),
                     }}
                     tooltipPlacement="top"
@@ -178,7 +178,7 @@ export function TomogramsTable() {
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
-                className="!justify-start !ml-sds-l !text-sds-body-xxs"
+                className="!justify-start !ml-sds-m !text-sds-body-xxs"
                 onClick={() => openMetadataDrawer(original)}
                 startIcon={
                   <Icon sdsIcon="InfoCircle" sdsSize="xs" sdsType="button" />
@@ -189,7 +189,7 @@ export function TomogramsTable() {
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
-                className="!justify-start !ml-sds-l !text-sds-body-xxs"
+                className="!justify-start !ml-sds-m !text-sds-body-xxs"
                 onClick={() => {
                   openTomogramDownloadModal({
                     tomogramId: original.id,

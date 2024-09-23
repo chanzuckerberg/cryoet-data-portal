@@ -48,7 +48,7 @@ export const RunTableWidths = {
   name: { min: 400 },
   tiltSeriesQuality: { min: 183, max: 210 },
   annotatedObjects: { min: 250, max: 400 },
-  actions: { min: 150, max: 200 },
+  actions: { min: 175, max: 200 },
 }
 
 export const DepositionTableWidths = {

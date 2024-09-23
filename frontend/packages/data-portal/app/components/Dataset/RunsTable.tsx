@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 
+import { Icon } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
 import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
@@ -234,6 +235,9 @@ export function RunsTable() {
                   buttonProps={{
                     sdsType: 'secondary',
                     sdsStyle: 'square',
+                    startIcon: (
+                      <Icon sdsIcon="Cube" sdsType="button" sdsSize="s" />
+                    ),
                   }}
                   event={{
                     datasetId: dataset.id,

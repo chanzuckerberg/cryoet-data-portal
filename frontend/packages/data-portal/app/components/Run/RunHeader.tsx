@@ -76,7 +76,7 @@ export function RunHeader() {
             buttonProps={{
               sdsStyle: 'rounded',
               sdsType: 'primary',
-              startIcon: <Icon sdsIcon="Table" sdsType="button" sdsSize="s" />,
+              startIcon: <Icon sdsIcon="Cube" sdsType="button" sdsSize="s" />,
             }}
             tooltipPlacement="bottom"
             event={{
