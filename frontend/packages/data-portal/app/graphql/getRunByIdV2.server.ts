@@ -109,7 +109,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
           first: 1
           # where: {
           #   tomograms: {
-          #     isCanonical: { _eq: true} # TODO(bchu): Uncomment when bool bug fixed.
+          #     isAuthorSubmitted: { _eq: true} # TODO(bchu): Uncomment when bool bug fixed AND isAuthorSubmitted is populated.
           #   }
           # }
         ) {
@@ -121,7 +121,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
               tomograms(
                 first: 1
                 # where: {
-                #   isCanonical: { _eq: true } # TODO(bchu): Uncomment when bool bug fixed.
+                #   isAuthorSubmitted: { _eq: true } # TODO(bchu): Uncomment when bool bug fixed.
                 # }
               ) {
                 edges {
@@ -173,7 +173,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         fiducialAlignmentStatus
         httpsMrcFile
         id
-        isCanonical
+        # isCanonical what is this doing here
         keyPhotoThumbnailUrl
         keyPhotoUrl
         name
