@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.30.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.29.0...web-v1.30.0) (2024-09-23)
+
+
+### ✨ Features
+
+* Add alignment ID row + tooltip ([#1153](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1153)) ([1227fbb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1227fbb09037ab243f9b2723bbf6378ff6faabe9))
+* Add annotations and tomograms tables empty states ([#1155](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1155)) ([bad73bb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/bad73bb778a2fd27fd359e7e9045c60f9663291e))
+* Add more V2 API fields ([#1166](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1166)) ([0770a16](https://github.com/chanzuckerberg/cryoet-data-portal/commit/0770a16bbe7b4f6a05c0b7cad71557ab2840483f))
+* Add reference tomogram selector for single annotation download ([#1136](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1136)) ([d1f694a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d1f694ad25338c0cd0dd4ce08e7aedb8b1850ca0))
+* make ML Challenge Page mobile friendly ([#1141](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1141)) ([c25ceeb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c25ceeb2e79b4770e4999d1eb385b457c892b790))
+* Stop querying publications in V2 temporarily ([#1160](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1160)) ([469b9b8](https://github.com/chanzuckerberg/cryoet-data-portal/commit/469b9b8eff0d7fe3d2de3e436d5f4f83262949e1))
+* Update view tomogram button icons ([#1170](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1170)) ([087d1aa](https://github.com/chanzuckerberg/cryoet-data-portal/commit/087d1aa7129bcc604c064136ad38d891b8c80f20))
+* upgrade sds ([#1077](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1077)) ([d56d716](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d56d716700ec6c8225a9807642137944b454e8cf))
+* upgrade sds colors ([#1078](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1078)) ([75ebe8b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/75ebe8bcfab46055ca6d2182bac50493dae2a5d6))
+
 ## [1.29.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.28.0...web-v1.29.0) (2024-09-18)
 
 
