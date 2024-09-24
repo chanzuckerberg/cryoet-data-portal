@@ -18,6 +18,12 @@ export function logIfHasDiff(
 ): void {
   console.log('Checking for run query diffs')
 
+  v2 = structuredClone(v2)
+  // Tomogram deposition relations in V1 are incomplete.
+  for (const tomogram of v2.tomograms) {
+    delete tomogram.deposition
+  }
+
   const v1Transformed: GetRunByIdV2Query = {
     runs: v1.runs.map((run) => ({
       __typename: 'Run',
@@ -136,8 +142,10 @@ export function logIfHasDiff(
                   neuroglancerConfig: tomogram.neuroglancer_config,
                   processing: tomogram.processing as Tomogram_Processing_Enum,
                   processingSoftware: tomogram.processing_software,
-                  reconstructionMethod:
-                    tomogram.reconstruction_method as Tomogram_Reconstruction_Method_Enum,
+                  reconstructionMethod: (tomogram.reconstruction_method ===
+                  'Weighted back projection'
+                    ? 'WBP'
+                    : tomogram.reconstruction_method) as Tomogram_Reconstruction_Method_Enum,
                   reconstructionSoftware: tomogram.reconstruction_software,
                   sizeX: tomogram.size_x,
                   sizeY: tomogram.size_y,
@@ -147,7 +155,7 @@ export function logIfHasDiff(
                     __typename: 'Alignment',
                     affineTransformationMatrix: JSON.stringify(
                       tomogram.affine_transformation_matrix,
-                    ).replaceAll(' ', ''),
+                    ).replaceAll(',', ', '),
                   },
                 },
               })),
@@ -163,15 +171,17 @@ export function logIfHasDiff(
         tomogram.fiducial_alignment_status as Fiducial_Alignment_Status_Enum,
       httpsMrcFile: tomogram.https_mrc_scale0,
       id: tomogram.id,
-      isCanonical: tomogram.is_canonical,
+      // isAuthorSubmitted: tomogram.is_canonical, TODO(bchu): Uncomment when populated in V2.
       keyPhotoThumbnailUrl: tomogram.key_photo_thumbnail_url,
       keyPhotoUrl: tomogram.key_photo_url,
       name: tomogram.name,
       neuroglancerConfig: tomogram.neuroglancer_config,
       processing: tomogram.processing as Tomogram_Processing_Enum,
       processingSoftware: tomogram.processing_software,
-      reconstructionMethod:
-        tomogram.reconstruction_method as Tomogram_Reconstruction_Method_Enum,
+      reconstructionMethod: (tomogram.reconstruction_method ===
+      'Weighted back projection'
+        ? 'WBP'
+        : tomogram.reconstruction_method) as Tomogram_Reconstruction_Method_Enum,
       reconstructionSoftware: tomogram.reconstruction_software,
       s3MrcFile: tomogram.s3_mrc_scale0,
       s3OmezarrDir: tomogram.s3_omezarr_dir,
@@ -179,15 +189,6 @@ export function logIfHasDiff(
       sizeY: tomogram.size_y,
       sizeZ: tomogram.size_z,
       voxelSpacing: tomogram.voxel_spacing,
-      deposition:
-        tomogram.deposition != null
-          ? {
-              __typename: 'Deposition',
-              id: tomogram.deposition.id,
-              depositionDate: tomogram.deposition.deposition_date,
-              depositionTitle: tomogram.deposition.title,
-            }
-          : undefined,
       tomogramVoxelSpacing:
         tomogram.tomogram_voxel_spacing != null
           ? {
