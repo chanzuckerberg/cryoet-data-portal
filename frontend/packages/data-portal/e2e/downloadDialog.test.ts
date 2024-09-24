@@ -23,10 +23,14 @@ test.describe('downloadDialog', () => {
   let downloadDialogPage: DownloadDialogPage
   let downloadDialogActor: DownloadDialogActor
 
-  test.beforeEach(({ page }) => {
+  test.beforeEach(async ({ page }) => {
     client = getApolloClient()
     downloadDialogPage = new DownloadDialogPage(page)
     downloadDialogActor = new DownloadDialogActor(downloadDialogPage)
+
+    await new Promise((resolve) => {
+      setTimeout(resolve, 2000)
+    })
   })
 
   test.describe('Single Dataset', () => {
