@@ -1,15 +1,13 @@
 import { startCase } from 'lodash-es'
 
-import { Tomogram as DownloadTomogramType } from 'app/context/DownloadModal.context'
+import { TomogramV2 } from 'app/types/gqlResponseTypes'
 
 export function isFiducial(status: string | null | undefined) {
   return status === 'FIDUCIAL'
 }
 
-export function getTomogramName(
-  tomogram: DownloadTomogramType, // TODO(bchu): Replace with single Platformics type.
-): string {
+export function getTomogramName(tomogram: TomogramV2): string {
   return startCase(
-    `${tomogram.id} ${tomogram.reconstruction_method} ${tomogram.processing}`,
+    `${tomogram.id} ${tomogram.reconstructionMethod} ${tomogram.processing}`,
   )
 }

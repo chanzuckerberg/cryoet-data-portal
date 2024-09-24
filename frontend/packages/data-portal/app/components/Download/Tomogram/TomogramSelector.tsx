@@ -1,19 +1,19 @@
 import { ReactNode } from 'react'
 
 import { Select } from 'app/components/Select'
-import { Tomogram } from 'app/context/DownloadModal.context'
 import { cns } from 'app/utils/cns'
 
 import { TomogramSelectorInputLabel } from './TomogramSelectorLabel'
 import { TomogramSelectorOption } from './TomogramSelectorOption'
+import { TomogramV2 } from 'app/types/gqlResponseTypes'
 
 export interface TomogramSelectorProps {
   title: string
   tooltip?: ReactNode
   className?: string
 
-  selectedTomogram?: Tomogram
-  allTomograms?: Tomogram[]
+  selectedTomogram?: TomogramV2
+  allTomograms?: TomogramV2[]
 
   onSelectTomogramId: (id: string) => void
 }

@@ -46,8 +46,8 @@ export function ConfigureTomogramDownloadContent() {
   const tomogramSamplingOptions = useMemo<SelectOption[]>(
     () =>
       allTomograms.map((tomogram) => ({
-        key: t('unitAngstrom', { value: tomogram.voxel_spacing }),
-        value: `(${tomogram.size_x}, ${tomogram.size_y}, ${tomogram.size_z})px`,
+        key: t('unitAngstrom', { value: tomogram.voxelSpacing }),
+        value: `(${tomogram.sizeX}, ${tomogram.sizeY}, ${tomogram.sizeZ})px`,
       })),
     [allTomograms, t],
   )
@@ -71,7 +71,7 @@ export function ConfigureTomogramDownloadContent() {
     const processing = allTomogramProcessing.at(0)
 
     if (tomogram && processing) {
-      setTomogramConfigDeprecated(`${tomogram.voxel_spacing}`, processing)
+      setTomogramConfigDeprecated(`${tomogram.voxelSpacing}`, processing)
     }
   }, [
     allTomogramProcessing,
@@ -122,7 +122,7 @@ export function ConfigureTomogramDownloadContent() {
                     label={
                       tomogramToDownload
                         ? `${t('unitAngstrom', {
-                            value: tomogramToDownload.voxel_spacing,
+                            value: tomogramToDownload.voxelSpacing,
                           })}`
                         : '--'
                     }

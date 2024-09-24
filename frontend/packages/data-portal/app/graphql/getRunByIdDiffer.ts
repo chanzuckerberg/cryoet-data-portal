@@ -18,6 +18,7 @@ export function logIfHasDiff(
 ): void {
   console.log('Checking for run query diffs')
 
+  // eslint-disable-next-line no-param-reassign
   v2 = structuredClone(v2)
   // Tomogram deposition relations in V1 are incomplete.
   for (const tomogram of v2.tomograms) {

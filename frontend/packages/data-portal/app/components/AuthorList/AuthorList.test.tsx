@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react'
 
-import { AuthorInfo, MockAuthorLink } from 'app/components/AuthorLink'
+import { AuthorInfoV2, MockAuthorLink } from 'app/components/AuthorLink'
 
 import { AuthorList } from './AuthorList'
 
-const DEFAULT_AUTHORS: AuthorInfo[] = [
+const DEFAULT_AUTHORS: AuthorInfoV2[] = [
   { name: 'Foo', correspondingAuthorStatus: true },
   { name: 'Bar' },
   { name: 'Foo Bar', primaryAuthorStatus: true },
@@ -31,8 +31,8 @@ describe('non-compact', () => {
     render(<AuthorList authors={DEFAULT_AUTHORS} />)
     const authors = findAuthorStrings()
 
-    expect(AUTHOR_MAP[authors[0]].primaryAuthorStatus).toBe(true)
-    expect(AUTHOR_MAP[authors[1]].primaryAuthorStatus).toBe(true)
+    expect(AUTHOR_MAP[authors[0]].primaryAuthorStatus!).toBe(true)
+    expect(AUTHOR_MAP[authors[1]].primaryAuthorStatus!).toBe(true)
   })
 
   it('should sort other authors', () => {

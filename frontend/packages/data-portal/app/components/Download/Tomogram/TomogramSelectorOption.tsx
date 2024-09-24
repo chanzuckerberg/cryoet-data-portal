@@ -1,9 +1,9 @@
-import { Tomogram } from 'app/context/DownloadModal.context'
 import { useI18n } from 'app/hooks/useI18n'
+import { TomogramV2 } from 'app/types/gqlResponseTypes'
 import { getTomogramName } from 'app/utils/tomograms'
 
 export interface TomogramSelectorOptionProps {
-  tomogram: Tomogram
+  tomogram: TomogramV2
 }
 
 export function TomogramSelectorOption({
@@ -19,11 +19,11 @@ export function TomogramSelectorOption({
       </div>
       <div className="text-sds-body-xxs text-sds-color-primitive-gray-500">
         {t('tomogramSampling')}:{' '}
-        {t('unitAngstrom', { value: tomogram.voxel_spacing })} (
-        {tomogram.size_x}, {tomogram.size_y}, {tomogram.size_z})px
+        {t('unitAngstrom', { value: tomogram.voxelSpacing })} ({tomogram.sizeX},{' '}
+        {tomogram.sizeY}, {tomogram.sizeZ})px
       </div>
       <div className="text-sds-body-xxs text-sds-color-primitive-gray-500">
-        {t('reconstructionMethod')}: {tomogram.reconstruction_method}
+        {t('reconstructionMethod')}: {tomogram.reconstructionMethod}
       </div>
       <div className="text-sds-body-xxs text-sds-color-primitive-gray-500 capitalize">
         {t('postProcessing')}: {tomogram.processing}
