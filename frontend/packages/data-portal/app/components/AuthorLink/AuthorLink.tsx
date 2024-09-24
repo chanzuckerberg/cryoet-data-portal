@@ -31,7 +31,7 @@ export function AuthorLink({
             ? [
                 'border-dashed hover:border-solid',
 
-                author.primary_author_status
+                author.primaryAuthorStatus
                   ? 'border-black'
                   : 'border-sds-color-primitive-gray-500',
               ]
@@ -45,7 +45,7 @@ export function AuthorLink({
         <span className={large ? 'text-sm' : 'text-xs'}>{author.name}</span>
       </span>
 
-      {author.corresponding_author_status && (
+      {author.correspondingAuthorStatus && (
         <EnvelopeIcon
           className={cns(
             'text-sds-color-primitive-gray-400 mx-sds-xxxs',
