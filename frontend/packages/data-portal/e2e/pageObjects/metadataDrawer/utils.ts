@@ -9,7 +9,10 @@ import {
   GetRunByIdQuery,
   Tiltseries,
 } from 'app/__generated__/graphql'
-import { Tomogram } from 'app/__generated_v2__/graphql'
+import {
+  Fiducial_Alignment_Status_Enum,
+  Tomogram,
+} from 'app/__generated_v2__/graphql'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getRunById } from 'app/graphql/getRunById.server'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
@@ -187,7 +190,8 @@ function getTomogramDrawerTestMetadata(
       `(${tomogram.sizeX}, ${tomogram.sizeY}, ${tomogram.sizeZ})px`,
     ],
     fiducialAlignmentStatus: getBoolString(
-      tomogram.fiducialAlignmentStatus === 'FIDUCIAL',
+      tomogram.fiducialAlignmentStatus ===
+        Fiducial_Alignment_Status_Enum.Fiducial,
     ),
     ctfCorrected: tomogram.ctfCorrected ? 'Yes' : 'No',
     alignmentId: '--',
