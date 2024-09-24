@@ -32,9 +32,9 @@ export function AuthorList({
   const authorsOther = []
   const authorsCorresponding = []
   for (const author of authors) {
-    if (author.primary_author_status) {
+    if (author.primaryAuthorStatus) {
       authorsPrimary.push(author)
-    } else if (author.corresponding_author_status) {
+    } else if (author.correspondingAuthorStatus) {
       authorsCorresponding.push(author)
     } else {
       authorsOther.push(author)

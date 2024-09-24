@@ -124,7 +124,7 @@ export default function RunByIdPage() {
       ? tomograms.find((tomogram) =>
           multipleTomogramsEnabled
             ? tomogram.id === Number(tomogramId)
-            : `${tomogram.voxel_spacing}` === tomogramSampling &&
+            : `${tomogram.voxelSpacing}` === tomogramSampling &&
               tomogram.processing === tomogramProcessing,
         )
       : undefined
@@ -148,10 +148,10 @@ export default function RunByIdPage() {
       )?.https_path
     }
 
-    return activeTomogram?.https_mrc_scale0 ?? undefined
+    return activeTomogram?.httpsMrcFile ?? undefined
   }, [
     activeAnnotation,
-    activeTomogram?.https_mrc_scale0,
+    activeTomogram?.httpsMrcFile,
     fileFormat,
     objectShapeType,
   ])
@@ -264,11 +264,11 @@ export default function RunByIdPage() {
           })
             .with(
               { downloadConfig: DownloadConfig.Tomogram, fileFormat: 'mrc' },
-              () => activeTomogram?.s3_mrc_scale0,
+              () => activeTomogram?.s3MrcFile ?? undefined,
             )
             .with(
               { downloadConfig: DownloadConfig.Tomogram, fileFormat: 'zarr' },
-              () => activeTomogram?.s3_omezarr_dir,
+              () => activeTomogram?.s3OmezarrDir ?? undefined,
             )
             .with({ downloadConfig: DownloadConfig.AllAnnotations }, () =>
               tomogram?.s3_prefix

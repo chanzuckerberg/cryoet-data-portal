@@ -40,7 +40,7 @@ const config: CodegenConfig = {
 
       config: {
         scalars: {
-          date: 'string',
+          DateTime: 'string',
           numeric: 'number',
           _numeric: 'number[][]',
         },
