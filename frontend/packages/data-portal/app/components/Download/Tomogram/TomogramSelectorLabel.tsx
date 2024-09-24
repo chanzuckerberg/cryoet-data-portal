@@ -1,9 +1,9 @@
-import { Tomogram } from 'app/context/DownloadModal.context'
 import { useI18n } from 'app/hooks/useI18n'
+import { TomogramV2 } from 'app/types/gqlResponseTypes'
 import { getTomogramName } from 'app/utils/tomograms'
 
 export interface TomogramSelectorLabelProps {
-  tomogram?: Tomogram
+  tomogram?: TomogramV2
 }
 
 export function TomogramSelectorInputLabel({
@@ -19,7 +19,7 @@ export function TomogramSelectorInputLabel({
     <div>
       {getTomogramName(tomogram)}
       <span className="text-sds-color-primitive-gray-500 ml-sds-xxs">
-        {t('unitAngstrom', { value: tomogram.voxel_spacing })}
+        {t('unitAngstrom', { value: tomogram.voxelSpacing })}
       </span>
     </div>
   )

@@ -14,10 +14,8 @@ import {
   useMetadataDrawer,
 } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
-import {
-  metadataDrawerTomogramAtom,
-  Tomogram,
-} from 'app/state/metadataDrawerTomogram'
+import { metadataDrawerTomogramAtom } from 'app/state/metadataDrawerTomogram'
+import { TomogramV2 } from 'app/types/gqlResponseTypes'
 import { getTomogramName } from 'app/utils/tomograms'
 
 import { AuthorList } from '../AuthorList'
@@ -34,7 +32,7 @@ export function TomogramsTable() {
   const { openTomogramDownloadModal } = useDownloadModalQueryParamState()
 
   const openMetadataDrawer = useCallback(
-    (tomogram: Tomogram) => {
+    (tomogram: TomogramV2) => {
       setMetadataDrawerTomogram(tomogram)
       openDrawer(MetadataDrawerId.Tomogram)
     },
@@ -42,16 +40,16 @@ export function TomogramsTable() {
   )
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<Tomogram>()
+    const columnHelper = createColumnHelper<TomogramV2>()
     return [
-      columnHelper.accessor('key_photo_url', {
+      columnHelper.accessor('keyPhotoUrl', {
         header: () => <CellHeader width={TomogramTableWidths.photo} />,
         cell: ({ row: { original } }) => (
           <TableCell width={TomogramTableWidths.photo}>
             <KeyPhoto
               className="max-w-[134px]"
-              title={original.name}
-              src={original.key_photo_thumbnail_url ?? undefined}
+              title={original.name ?? ''}
+              src={original.keyPhotoUrl ?? undefined}
             />
           </TableCell>
         ),
@@ -74,12 +72,15 @@ export function TomogramsTable() {
               {t('tomogramId')}: {original.id}
             </div>
             <div className=" text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs">
-              <AuthorList authors={original.authors} compact />
+              <AuthorList
+                authors={original.authors.edges.map((edge) => edge.node)}
+                compact
+              />
             </div>
           </TableCell>
         ),
       }),
-      columnHelper.accessor('deposition.deposition_date', {
+      columnHelper.accessor('deposition.depositionDate', {
         header: () => (
           <CellHeader
             className="whitespace-nowrap text-ellipsis"
@@ -107,7 +108,7 @@ export function TomogramsTable() {
           </TableCell>
         ),
       }),
-      columnHelper.accessor('voxel_spacing', {
+      columnHelper.accessor('voxelSpacing', {
         header: () => (
           <CellHeader width={TomogramTableWidths.voxelSpacing}>
             {t('voxelSpacing')}
@@ -117,12 +118,12 @@ export function TomogramsTable() {
           <TableCell width={TomogramTableWidths.voxelSpacing}>
             {t('unitAngstrom', { value: getValue() })}
             <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
-              ({original.size_x}, {original.size_y}, {original.size_z})px
+              ({original.sizeX}, {original.sizeY}, {original.sizeZ})px
             </div>
           </TableCell>
         ),
       }),
-      columnHelper.accessor('reconstruction_method', {
+      columnHelper.accessor('reconstructionMethod', {
         header: () => (
           <CellHeader width={TomogramTableWidths.reconstructionMethod}>
             {t('reconstructionMethod')}
@@ -152,29 +153,28 @@ export function TomogramsTable() {
         cell: ({ row: { original } }) => (
           <TableCell width={TomogramTableWidths.actions}>
             <div className="flex flex-col gap-sds-xs items-start">
-              {original.is_canonical &&
-                original.neuroglancer_config != null && (
-                  <ViewTomogramButton
-                    tomogramId={original.id.toString()}
-                    neuroglancerConfig={original.neuroglancer_config}
-                    buttonProps={{
-                      sdsStyle: 'square',
-                      sdsType: 'primary',
-                      className: '!text-sds-body-xxs !h-sds-icon-xl',
-                      startIcon: (
-                        <Icon sdsIcon="Cube" sdsType="button" sdsSize="xs" />
-                      ),
-                    }}
-                    tooltipPlacement="top"
-                    event={{
-                      datasetId: run.dataset.id,
-                      organism: run.dataset.organism_name ?? 'None',
-                      runId: run.id,
-                      tomogramId: original.id,
-                      type: 'tomogram',
-                    }}
-                  />
-                )}
+              {original.neuroglancerConfig != null && ( // TODO(bchu): Check it's either isStandardized or isAuthorSubmitted
+                <ViewTomogramButton
+                  tomogramId={original.id.toString()}
+                  neuroglancerConfig={original.neuroglancerConfig}
+                  buttonProps={{
+                    sdsStyle: 'square',
+                    sdsType: 'primary',
+                    className: '!text-sds-body-xxs !h-sds-icon-xl',
+                    startIcon: (
+                      <Icon sdsIcon="Cube" sdsType="button" sdsSize="xs" />
+                    ),
+                  }}
+                  tooltipPlacement="top"
+                  event={{
+                    datasetId: run.dataset.id,
+                    organism: run.dataset.organism_name ?? 'None',
+                    runId: run.id,
+                    tomogramId: original.id,
+                    type: 'tomogram',
+                  }}
+                />
+              )}
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
@@ -207,7 +207,7 @@ export function TomogramsTable() {
           </TableCell>
         ),
       }),
-    ] as ColumnDef<Tomogram>[] // https://github.com/TanStack/table/issues/4382
+    ] as ColumnDef<TomogramV2>[] // https://github.com/TanStack/table/issues/4382
   }, [
     run.id,
     run.dataset.id,

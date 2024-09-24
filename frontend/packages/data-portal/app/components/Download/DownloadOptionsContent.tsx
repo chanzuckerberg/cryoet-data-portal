@@ -88,12 +88,12 @@ export function DownloadOptionsContent() {
           <ModalSubtitle
             label={t('tomogramSampling')}
             value={`${t('unitAngstrom', { value: tomogramSampling })}, (${
-              tomogramToDownload.size_x
-            }, ${tomogramToDownload.size_y}, ${tomogramToDownload.size_z})px`}
+              tomogramToDownload.sizeX
+            }, ${tomogramToDownload.sizeY}, ${tomogramToDownload.sizeZ})px`}
           />
           <ModalSubtitle
             label={t('reconstructionMethod')}
-            value={startCase(tomogramToDownload.reconstruction_method)}
+            value={startCase(tomogramToDownload.reconstructionMethod)}
           />
           <ModalSubtitle
             label={t('tomogramProcessing')}
@@ -120,8 +120,8 @@ export function DownloadOptionsContent() {
         <ModalSubtitle
           label={t('tomogramSampling')}
           value={`${t('unitAngstrom', { value: tomogramSampling })}, (${
-            tomogramToDownload.size_x
-          }, ${tomogramToDownload.size_y}, ${tomogramToDownload.size_z})px`}
+            tomogramToDownload.sizeX
+          }, ${tomogramToDownload.sizeY}, ${tomogramToDownload.sizeZ})px`}
         />
       )}
       {!multipleTomogramsEnabled && tomogramProcessing && (

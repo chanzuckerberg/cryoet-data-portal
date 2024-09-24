@@ -37,7 +37,12 @@ export function TomogramMetadataDrawer() {
             label: t('authors'),
             labelExtra: <AuthorLegend inline />,
             renderValue: () => {
-              return <AuthorList authors={tomogram.authors} large />
+              return (
+                <AuthorList
+                  authors={tomogram.authors.edges.map((edge) => edge.node)}
+                  large
+                />
+              )
             },
             values: [],
             className: 'leading-sds-body-s',
@@ -58,7 +63,7 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('depositionName'),
-            values: [tomogram.deposition?.title ?? ''],
+            values: [tomogram.deposition?.depositionTitle ?? ''],
             renderValue: (value: string) => (
               <Link
                 className="text-sds-color-primitive-blue-400"
@@ -74,7 +79,7 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('depositionDate'),
-            values: [tomogram.deposition?.deposition_date ?? ''],
+            values: [tomogram.deposition?.depositionDate ?? ''],
           },
           {
             label: t('releaseDate'),
@@ -100,15 +105,15 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('reconstructionSoftware'),
-            values: [tomogram.reconstruction_software],
+            values: [tomogram.reconstructionSoftware],
           },
           {
             label: t('reconstructionMethod'),
-            values: [tomogram.reconstruction_method],
+            values: [tomogram.reconstructionMethod],
           },
           {
             label: t('processingSoftware'),
-            values: [tomogram.processing_software ?? ''],
+            values: [tomogram.processingSoftware ?? ''],
           },
           {
             label: t('processing'),
@@ -122,8 +127,8 @@ export function TomogramMetadataDrawer() {
               </div>
             ),
             values: [
-              t('unitAngstrom', { value: tomogram.voxel_spacing }),
-              `(${tomogram.size_x}, ${tomogram.size_y}, ${tomogram.size_z})px`,
+              t('unitAngstrom', { value: tomogram.voxelSpacing }),
+              `(${tomogram.sizeX}, ${tomogram.sizeY}, ${tomogram.sizeZ})px`,
             ],
             renderValues: (values: string[]) => (
               <ul className="list-none">
@@ -135,14 +140,14 @@ export function TomogramMetadataDrawer() {
           {
             label: t('fiducialAlignmentStatus'),
             values: [
-              isFiducial(tomogram.fiducial_alignment_status)
+              isFiducial(tomogram.fiducialAlignmentStatus)
                 ? t('true')
                 : t('false'),
             ],
           },
           {
             label: t('ctfCorrected'),
-            values: [tomogram.ctf_corrected ? t('yes') : t('no')],
+            values: [tomogram.ctfCorrected ? t('yes') : t('no')],
           },
         )}
       />

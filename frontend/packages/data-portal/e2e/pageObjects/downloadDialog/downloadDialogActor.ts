@@ -78,7 +78,7 @@ export class DownloadDialogActor {
     multipleTomograms?: boolean
   }) {
     const { data } = await fetchTestSingleRun(client)
-    const tomogram = data.tomograms_for_download[0]
+    const tomogram = data.tomograms[0]
 
     await this.goToDownloadDialogUrl({
       baseUrl,
@@ -110,7 +110,7 @@ export class DownloadDialogActor {
   }) {
     const { data } = await fetchTestSingleRun(client)
     const annotationFile = data.annotation_files[0]
-    const tomogram = data.tomograms_for_download[0]
+    const tomogram = data.tomograms[0]
 
     await this.goToDownloadDialogUrl({
       baseUrl,
@@ -261,7 +261,7 @@ export class DownloadDialogActor {
     multipleTomograms?: boolean
   }) {
     const { data } = await fetchTestSingleRun(client)
-    const tomogram = data.tomograms_for_download[0]
+    const tomogram = data.tomograms[0]
 
     this.expectDialogUrlToMatch({
       baseUrl,
@@ -297,7 +297,7 @@ export class DownloadDialogActor {
   }) {
     const { data } = await fetchTestSingleRun(client)
     const annotationFile = data.annotation_files[0]
-    const tomogram = data.tomograms_for_download[0]
+    const tomogram = data.tomograms[0]
 
     this.expectDialogUrlToMatch({
       baseUrl,

@@ -10,11 +10,11 @@ import { ORC_ID_URL } from './constants'
 import { AuthorInfo } from './types'
 
 const DEFAULT_AUTHOR: AuthorInfo = {
-  corresponding_author_status: true,
+  correspondingAuthorStatus: true,
   email: 'actin.filament@gmail.com',
   name: 'Actin Filament',
   orcid: '0000-0000-0000-0000',
-  primary_author_status: false,
+  primaryAuthorStatus: false,
 }
 
 it('should not be link if orc ID is not provided', () => {
@@ -39,7 +39,7 @@ it('should be a link if orc ID is provided', () => {
 it('should have icon if user is corresponding author', () => {
   render(
     <AuthorLink
-      author={pick(DEFAULT_AUTHOR, 'name', 'corresponding_author_status')}
+      author={pick(DEFAULT_AUTHOR, 'name', 'correspondingAuthorStatus')}
       LinkComponent={MockLinkComponent}
     />,
   )

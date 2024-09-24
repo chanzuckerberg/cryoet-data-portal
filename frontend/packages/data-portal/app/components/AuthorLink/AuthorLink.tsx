@@ -6,7 +6,7 @@ import { Link } from 'app/components/Link'
 import { cns } from 'app/utils/cns'
 
 import { ORC_ID_URL } from './constants'
-import { AuthorInfo } from './types'
+import { AuthorInfo, convertToAuthorInfoV2 } from './types'
 
 const BASE_ICON_SIZE_PX = 10
 const LARGE_ICON_SIZE_PX = 14
@@ -31,7 +31,7 @@ export function AuthorLink({
             ? [
                 'border-dashed hover:border-solid',
 
-                author.primary_author_status
+                convertToAuthorInfoV2(author).primaryAuthorStatus
                   ? 'border-black'
                   : 'border-sds-color-primitive-gray-500',
               ]
@@ -45,7 +45,7 @@ export function AuthorLink({
         <span className={large ? 'text-sm' : 'text-xs'}>{author.name}</span>
       </span>
 
-      {author.corresponding_author_status && (
+      {convertToAuthorInfoV2(author).correspondingAuthorStatus && (
         <EnvelopeIcon
           className={cns(
             'text-sds-color-primitive-gray-400 mx-sds-xxxs',

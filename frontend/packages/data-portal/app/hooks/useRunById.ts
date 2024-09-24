@@ -5,7 +5,7 @@ import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { isNotNullish } from 'app/utils/nullish'
 
 export function useRunById() {
-  const { v1 } = useTypedLoaderData<{
+  const { v1, v2 } = useTypedLoaderData<{
     v1: GetRunByIdQuery
     v2: GetRunByIdV2Query
   }>()
@@ -14,9 +14,7 @@ export function useRunById() {
 
   const annotationFiles = v1.annotation_files
 
-  const { tomograms } = v1
-
-  const tomogramsForDownload = v1.tomograms_for_download
+  const { tomograms } = v2
 
   const processingMethods = v1.tomograms_for_distinct_processing_methods.map(
     (tomogram) => tomogram.processing,
@@ -55,7 +53,6 @@ export function useRunById() {
     run,
     annotationFiles,
     tomograms,
-    tomogramsForDownload,
     processingMethods,
     objectNames,
     objectShapeTypes,
