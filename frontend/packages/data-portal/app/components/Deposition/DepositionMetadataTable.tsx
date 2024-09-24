@@ -59,7 +59,7 @@ export function DepositionMetadataTable({
           : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
-        return <AuthorList authors={deposition.authors} large />
+        return <AuthorList authors={deposition.authors as AuthorInfo[]} large />
       },
       values: [],
       className: 'leading-sds-body-s',
