@@ -17,11 +17,7 @@ export const apolloClient = new ApolloClient({
 
 export const apolloClientV2 = new ApolloClient({
   ssrMode: true,
-  // defaultOptions: {
-  //   query: {
-  //     fetchPolicy: 'no-cache',
-  //   },
-  // },
+  // TODO(bchu): Disable cache when V2 DB is able to handle e2e test load.
   cache: new InMemoryCache(),
   link: createHttpLink({
     uri: process.env.API_URL_V2 ?? ENVIRONMENT_CONTEXT_DEFAULT_VALUE.API_URL_V2,

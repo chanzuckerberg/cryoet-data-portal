@@ -23,7 +23,7 @@ test.describe('downloadDialog', () => {
   let downloadDialogPage: DownloadDialogPage
   let downloadDialogActor: DownloadDialogActor
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(({ page }) => {
     client = getApolloClient()
     downloadDialogPage = new DownloadDialogPage(page)
     downloadDialogActor = new DownloadDialogActor(downloadDialogPage)
