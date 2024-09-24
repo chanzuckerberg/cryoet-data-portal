@@ -17,7 +17,6 @@ export const apolloClient = new ApolloClient({
 
 export const apolloClientV2 = new ApolloClient({
   ssrMode: true,
-  // TODO(bchu): Disable cache when V2 DB is able to handle e2e test load.
   defaultOptions: {
     query: {
       fetchPolicy: 'no-cache',

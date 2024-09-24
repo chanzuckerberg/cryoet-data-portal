@@ -9,13 +9,13 @@ import {
   GetRunByIdQuery,
   Tiltseries,
 } from 'app/__generated__/graphql'
+import { Tomogram } from 'app/__generated_v2__/graphql'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getRunById } from 'app/graphql/getRunById.server'
+import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { isFiducial } from 'app/utils/tomograms'
 
 import { DrawerTestData, DrawerTestMetadata } from './types'
-import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
-import { Tomogram } from 'app/__generated_v2__/graphql'
 
 function getBoolString(value?: boolean): string {
   return value ? 'True' : 'False'
