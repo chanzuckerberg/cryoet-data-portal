@@ -1,11 +1,11 @@
 import { ReactNode } from 'react'
 
 import { Select } from 'app/components/Select'
+import { TomogramV2 } from 'app/types/gqlResponseTypes'
 import { cns } from 'app/utils/cns'
 
 import { TomogramSelectorInputLabel } from './TomogramSelectorLabel'
 import { TomogramSelectorOption } from './TomogramSelectorOption'
-import { TomogramV2 } from 'app/types/gqlResponseTypes'
 
 export interface TomogramSelectorProps {
   title: string
