@@ -59,7 +59,20 @@ export function DepositionMetadataTable({
           : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
-        return <AuthorList authors={deposition.authors as AuthorInfo[]} large />
+        return (
+          <AuthorList
+            authors={
+              deposition.authors?.map((author) => ({
+                correspondingAuthorStatus: author.corresponding_author_status,
+                email: author.email,
+                name: author.name ?? '',
+                orcid: author.orcid,
+                primaryAuthorStatus: author.primary_author_status,
+              })) ?? []
+            }
+            large
+          />
+        )
       },
       values: [],
       className: 'leading-sds-body-s',
