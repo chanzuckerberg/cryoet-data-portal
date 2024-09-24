@@ -8,7 +8,7 @@ import {
   getTomogramTestData,
 } from 'e2e/pageObjects/metadataDrawer/utils'
 
-import { getApolloClient } from './apollo'
+import { getApolloClient, getApolloClientV2 } from './apollo'
 import {
   SINGLE_DATASET_PATH,
   SINGLE_DATASET_URL,
@@ -17,8 +17,10 @@ import {
 } from './constants'
 
 let client: ApolloClient<NormalizedCacheObject>
+let clientV2: ApolloClient<NormalizedCacheObject>
 test.beforeEach(() => {
   client = getApolloClient()
+  clientV2 = getApolloClientV2()
 })
 
 test.describe('Metadata Drawer', () => {
@@ -177,7 +179,7 @@ test.describe('Metadata Drawer', () => {
       await metadataDrawerPage.openInfoDrawer()
       await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
 
-      const data = await getTomogramTestData(client)
+      const data = await getTomogramTestData(clientV2)
       await metadataDrawerPage.expectMetadataDrawerToShowTitle(data.title)
       await metadataDrawerPage.expandAllAccordions()
       await metadataDrawerPage.expectMetadataTableCellsToDisplayValues(data)
