@@ -1,6 +1,10 @@
 import { ComponentProps, ComponentType, Fragment, useMemo } from 'react'
 
-import { AuthorInfo, AuthorLink } from 'app/components/AuthorLink'
+import {
+  AuthorInfo,
+  AuthorLink,
+  convertToAuthorInfoV2,
+} from 'app/components/AuthorLink'
 import { cns } from 'app/utils/cns'
 
 function getAuthorKey(author: AuthorInfo) {
@@ -31,7 +35,7 @@ export function AuthorList({
   const authorsPrimary = []
   const authorsOther = []
   const authorsCorresponding = []
-  for (const author of authors) {
+  for (const author of authors.map(convertToAuthorInfoV2)) {
     if (author.primaryAuthorStatus) {
       authorsPrimary.push(author)
     } else if (author.correspondingAuthorStatus) {

@@ -79,20 +79,7 @@ export function DatasetMetadataTable({
           : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
-        return (
-          <AuthorList
-            authors={
-              dataset.authors?.map((author) => ({
-                correspondingAuthorStatus: author.corresponding_author_status,
-                email: author.email,
-                name: author.name ?? '',
-                orcid: author.orcid,
-                primaryAuthorStatus: author.primary_author_status,
-              })) ?? []
-            }
-            large
-          />
-        )
+        return <AuthorList authors={dataset.authors as AuthorInfo[]} large />
       },
       values: [],
       className: 'leading-sds-body-s',
