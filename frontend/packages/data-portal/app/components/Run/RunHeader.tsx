@@ -143,7 +143,7 @@ export function RunHeader() {
                         : 'text-sds-color-primitive-gray-500',
                   },
                   {
-                    key: t('alignmentFile'),
+                    key: t('alignment'),
                     value:
                       alignmentsCount > 0 ? t('available') : t('notSubmitted'),
                   },
