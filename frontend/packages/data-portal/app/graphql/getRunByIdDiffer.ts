@@ -10,7 +10,7 @@ import {
   Tomogram_Reconstruction_Method_Enum,
 } from 'app/__generated_v2__/graphql'
 
-/* eslint-disable no-console */
+/* eslint-disable no-console, no-param-reassign */
 export function logIfHasDiff(
   url: string,
   v1: GetRunByIdQuery,
@@ -18,8 +18,9 @@ export function logIfHasDiff(
 ): void {
   console.log('Checking for run query diffs')
 
-  // eslint-disable-next-line no-param-reassign
   v2 = structuredClone(v2)
+  // There are no alignments in V1.
+  delete v2.alignmentsAggregate.aggregate
   // Tomogram deposition relations in V1 are incomplete.
   for (const tomogram of v2.tomograms) {
     delete tomogram.deposition
@@ -162,6 +163,7 @@ export function logIfHasDiff(
         ],
       },
     })),
+    alignmentsAggregate: {},
     tomograms: v1.tomograms.map((tomogram) => ({
       ctfCorrected: tomogram.ctf_corrected,
       fiducialAlignmentStatus:

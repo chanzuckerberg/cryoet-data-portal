@@ -166,6 +166,13 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         }
       }
 
+      # Header
+      alignmentsAggregate(where: {run: {id: {_eq: $id}}}) {
+        aggregate {
+          count
+        }
+      }
+
       # Annotations table
       # TODO(bchu)
 

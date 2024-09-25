@@ -50,6 +50,7 @@ export function RunHeader() {
     resolutions,
     annotationFilesAggregates,
     tomogramsCount,
+    alignmentsCount,
   } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
@@ -143,7 +144,8 @@ export function RunHeader() {
                   },
                   {
                     key: t('alignmentFile'),
-                    value: '', // TODO(bchu): Confirm how this should be counted.
+                    value:
+                      alignmentsCount > 0 ? t('available') : t('notSubmitted'),
                   },
                   {
                     key: t('tomograms'),
