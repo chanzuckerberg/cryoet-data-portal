@@ -219,7 +219,7 @@ export function TomogramMetadataDrawer() {
             values: [
               parseAffineTransformationMatrix(
                 alignment?.affineTransformationMatrix,
-              ) ?? '',
+              ) ?? '1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1',
             ],
             renderValue: (value: string) => {
               return <Matrix4x4 matrix={value} />

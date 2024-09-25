@@ -1,10 +1,10 @@
 import { cns } from 'app/utils/cns'
 
 export function Matrix4x4({
-  matrix = '1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1',
+  matrix,
   className,
 }: {
-  matrix?: string
+  matrix: string
   className?: string
 }) {
   const commonBracketProps = 'w-sds-xs border border-solid border-black'
