@@ -23,6 +23,8 @@ export function logIfHasDiff(
   delete v2.alignmentsAggregate.aggregate
   // Tomogram deposition relations in V1 are incomplete.
   for (const tomogram of v2.tomograms) {
+    // There are no alignments in V1.
+    delete tomogram.alignmentId
     // Tomogram deposition relations in V1 are incomplete.
     delete tomogram.deposition
     // Standard tomograms are V2 only.

@@ -6,6 +6,7 @@ import { useAtom } from 'jotai'
 import { useCallback, useMemo } from 'react'
 
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { TomogramTableWidths } from 'app/constants/table'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
@@ -71,7 +72,9 @@ export function TomogramsTable() {
             </div>
             <div className="flex items-center flex-wrap gap-sds-xs text-sds-body-xxs">
               {t('tomogramId')}: {original.id}
-              {original.isStandardized && <TomogramTypeBadge type="standard" />}
+              {original.isStandardized && (
+                <TomogramTypeBadge type="standard" showTooltip />
+              )}
             </div>
             <div className=" text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs">
               <AuthorList
@@ -97,8 +100,7 @@ export function TomogramsTable() {
           </TableCell>
         ),
       }),
-      // TODO(bchu): Switch to alignment_id when available.
-      columnHelper.accessor('name', {
+      columnHelper.accessor('alignmentId', {
         header: () => (
           <CellHeader width={TomogramTableWidths.alignment}>
             {t('alignmentId')}
@@ -106,7 +108,9 @@ export function TomogramsTable() {
         ),
         cell: ({ getValue }) => (
           <TableCell width={TomogramTableWidths.alignment}>
-            <div>{getValue()}</div>
+            <div>
+              {IdPrefix.Alignment}-{getValue()}
+            </div>
           </TableCell>
         ),
       }),
