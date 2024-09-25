@@ -2,6 +2,7 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { expect, test } from '@playwright/test'
 import { DownloadDialogPage } from 'e2e/pageObjects/downloadDialog/downloadDialogPage'
 
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
 
 import { getApolloClient } from './apollo'
@@ -800,7 +801,7 @@ test.describe('downloadDialog', () => {
         await downloadDialogPage.clickNextButton()
 
         await expect(downloadDialogPage.getDialog()).toContainText(
-          `Tomogram ID: ${lastTomogramId}`,
+          `Tomogram ID: ${IdPrefix.Tomogram}-${lastTomogramId}`,
         )
       })
 
