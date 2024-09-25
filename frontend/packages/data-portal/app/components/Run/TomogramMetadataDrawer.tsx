@@ -1,17 +1,18 @@
 import { useAtom } from 'jotai'
 
+import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
+import { AuthorLegend } from 'app/components/AuthorLegend'
+import { AuthorList } from 'app/components/AuthorList'
+import { DatabaseEntryList } from 'app/components/DatabaseEntry'
+import { Link } from 'app/components/Link'
+import { MetadataDrawer } from 'app/components/MetadataDrawer'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
 import { metadataDrawerTomogramAtom } from 'app/state/metadataDrawerTomogram'
 import { getTableData } from 'app/utils/table'
 import { getTomogramName, isFiducial } from 'app/utils/tomograms'
 
-import { AccordionMetadataTable } from '../AccordionMetadataTable'
-import { AuthorLegend } from '../AuthorLegend'
-import { AuthorList } from '../AuthorList'
-import { DatabaseEntryList } from '../DatabaseEntry'
-import { Link } from '../Link'
-import { MetadataDrawer } from '../MetadataDrawer'
 import { Matrix4x4 } from './Matrix4x4'
 
 export function TomogramMetadataDrawer() {
@@ -26,6 +27,10 @@ export function TomogramMetadataDrawer() {
     <MetadataDrawer
       title={getTomogramName(tomogram)}
       label={t('tomogramDetails')}
+      idInfo={{
+        label: 'tomogramId',
+        text: `${IdPrefix.Tomogram}-${tomogram.id}`,
+      }}
       disabled={tomogram === undefined}
       drawerId={MetadataDrawerId.Tomogram}
     >

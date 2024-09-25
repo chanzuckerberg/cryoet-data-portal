@@ -14,6 +14,7 @@ import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { RUN_FILTERS } from 'app/constants/filterQueryParams'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { DepositionPageDatasetTableWidths } from 'app/constants/table'
@@ -146,11 +147,11 @@ export function DatasetsTable() {
                     )}
                   </p>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
+                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
-                      `${t('datasetId')}: ${dataset.id}`
+                      `${t('datasetId')}: ${IdPrefix.Dataset}-${dataset.id}`
                     )}
                   </p>
 

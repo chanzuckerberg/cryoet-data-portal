@@ -6,6 +6,7 @@ import { useAtom } from 'jotai'
 import { useCallback, useMemo } from 'react'
 
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { TomogramTableWidths } from 'app/constants/table'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
@@ -69,7 +70,7 @@ export function TomogramsTable() {
               {getTomogramName(original)}
             </div>
             <div className="text-sds-body-xxs">
-              {t('tomogramId')}: {original.id}
+              {`${t('tomogramId')}: ${IdPrefix.Tomogram}-${original.id}`}
             </div>
             <div className=" text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs">
               <AuthorList

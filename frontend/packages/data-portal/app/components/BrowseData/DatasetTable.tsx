@@ -15,6 +15,7 @@ import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { EMPIAR_ID, EMPIAR_URL } from 'app/constants/external-dbs'
 import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { DatasetTableWidths } from 'app/constants/table'
@@ -151,11 +152,11 @@ export function DatasetTable() {
                     )}
                   </p>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
+                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
-                      `${t('datasetId')}: ${dataset.id}`
+                      `${t('datasetId')}: ${IdPrefix.Dataset}-${dataset.id}`
                     )}
                   </p>
 

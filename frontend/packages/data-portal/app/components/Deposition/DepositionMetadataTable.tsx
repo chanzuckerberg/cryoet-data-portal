@@ -6,7 +6,6 @@ import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorInfo } from 'app/components/AuthorLink'
 import { AuthorList } from 'app/components/AuthorList'
 import { DatabaseEntryList } from 'app/components/DatabaseEntry'
-import { IdPrefix } from 'app/constants/idPrefixes'
 import { Deposition } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
@@ -47,11 +46,6 @@ export function DepositionMetadataTable({
   const { t } = useI18n()
 
   const depositionMetadata = getTableData(
-    {
-      label: t('depositionId'),
-      values: [`${IdPrefix.Deposition}-${deposition.id}`],
-    },
-
     {
       label:
         deposition.authors && deposition.authors.length === 1

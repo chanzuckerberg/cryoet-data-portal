@@ -3,11 +3,12 @@ import { useMemo } from 'react'
 
 import { Tiltseries } from 'app/__generated__/graphql'
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
+import { Katex } from 'app/components/Katex'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { TableData } from 'app/types/table'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 
-import { Katex } from '../Katex'
 import { TiltSeriesKeys } from './constants'
 
 export function useTiltSeriesValueMappings(tiltSeries?: Partial<Tiltseries>) {
@@ -63,6 +64,13 @@ export function useTiltSeriesValueMappings(tiltSeries?: Partial<Tiltseries>) {
       [TiltSeriesKeys.EnergyFilter]: {
         label: t('energyFilter'),
         values: [tiltSeries?.microscope_energy_filter ?? '--'],
+      },
+
+      [TiltSeriesKeys.Id]: {
+        label: t('tiltSeriesId'),
+        values: [
+          tiltSeries?.id ? `${IdPrefix.TiltSeries}-${tiltSeries.id}` : '--',
+        ],
       },
 
       [TiltSeriesKeys.ImageCorrector]: {

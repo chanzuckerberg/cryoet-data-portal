@@ -1,4 +1,5 @@
 import { MetadataDrawer } from 'app/components/MetadataDrawer'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
 import { i18n } from 'app/i18n'
 import { useAnnotation } from 'app/state/annotation'
@@ -17,6 +18,10 @@ export function AnnotationDrawer() {
       drawerId={MetadataDrawerId.Annotation}
       label={i18n.annotationDetails}
       title={getAnnotationTitle(activeAnnotation)}
+      idInfo={{
+        label: 'annotationId',
+        text: `${IdPrefix.Annotation}-${activeAnnotation?.id}`,
+      }}
       onClose={() => setActiveAnnotation(null)}
     >
       <AnnotationOverviewTable />

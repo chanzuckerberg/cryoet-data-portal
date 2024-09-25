@@ -7,6 +7,7 @@ import { AuthorInfo } from 'app/components/AuthorLink'
 import { AuthorList } from 'app/components/AuthorList'
 import { DatabaseEntryList } from 'app/components/DatabaseEntry'
 import { Link } from 'app/components/Link'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
@@ -48,7 +49,7 @@ export function DatasetMetadataTable({
 
     !!showAllFields && {
       label: t('datasetId'),
-      values: [`${dataset.id ?? ''}`],
+      values: [dataset.id ? `${IdPrefix.Dataset}-${dataset.id}` : '--'],
     },
 
     !!showAllFields && {

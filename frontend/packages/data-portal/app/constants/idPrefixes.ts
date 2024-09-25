@@ -4,4 +4,5 @@ export enum IdPrefix {
   Deposition = 'CZCDP',
   Run = 'RN',
   TiltSeries = 'TS',
+  Tomogram = 'TM',
 }
