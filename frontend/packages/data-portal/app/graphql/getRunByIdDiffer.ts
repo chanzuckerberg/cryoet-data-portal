@@ -23,7 +23,10 @@ export function logIfHasDiff(
   delete v2.alignmentsAggregate.aggregate
   // Tomogram deposition relations in V1 are incomplete.
   for (const tomogram of v2.tomograms) {
+    // Tomogram deposition relations in V1 are incomplete.
     delete tomogram.deposition
+    // Standard tomograms are V2 only.
+    tomogram.isStandardized = false
   }
   // Frames are not populated in V2 yet.
   for (const run of v2.runs) {
@@ -170,6 +173,7 @@ export function logIfHasDiff(
         tomogram.fiducial_alignment_status as Fiducial_Alignment_Status_Enum,
       httpsMrcFile: tomogram.https_mrc_scale0,
       id: tomogram.id,
+      isStandardized: false,
       // isAuthorSubmitted: tomogram.is_canonical, TODO(bchu): Uncomment when populated in V2.
       keyPhotoThumbnailUrl: tomogram.key_photo_thumbnail_url,
       keyPhotoUrl: tomogram.key_photo_url,

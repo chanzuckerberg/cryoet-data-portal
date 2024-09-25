@@ -20,6 +20,7 @@ import { getTomogramName } from 'app/utils/tomograms'
 
 import { AuthorList } from '../AuthorList'
 import { KeyPhoto } from '../KeyPhoto'
+import { TomogramTypeBadge } from '../TomogramTypeBadge'
 import { ViewTomogramButton } from '../ViewTomogramButton'
 
 export function TomogramsTable() {
@@ -68,8 +69,9 @@ export function TomogramsTable() {
             <div className="text-sds-body-m leading-sds-body-m font-semibold text-ellipsis line-clamp-1 break-all">
               {getTomogramName(original)}
             </div>
-            <div className="text-sds-body-xxs">
+            <div className="flex items-center flex-wrap gap-sds-xs text-sds-body-xxs">
               {t('tomogramId')}: {original.id}
+              {original.isStandardized && <TomogramTypeBadge type="standard" />}
             </div>
             <div className=" text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs">
               <AuthorList
