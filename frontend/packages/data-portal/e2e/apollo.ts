@@ -17,7 +17,6 @@ export function getApolloClient() {
 }
 
 export function getApolloClientV2() {
-  console.log(process.env.API_URL_V2)
   return new apollo.ApolloClient({
     ssrMode: true,
     cache: new apollo.InMemoryCache({ addTypename: false }), // TODO(bchu): Re-enable __typename when fixed in BE.
