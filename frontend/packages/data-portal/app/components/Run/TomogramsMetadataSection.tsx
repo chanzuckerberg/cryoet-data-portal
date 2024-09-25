@@ -54,12 +54,9 @@ export function TomogramsMetadataSection() {
     },
     {
       label: i18n.affineTransformationMatrix,
-      values: [
-        tomo.affine_transformation_matrix?.flat().join(' ') ??
-          '1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1',
-      ],
-      renderValue: (value) => {
-        return <Matrix4x4 matrix={String(value)} />
+      values: [tomo.affine_transformation_matrix?.flat().join(' ') ?? ''],
+      renderValue: (value: string) => {
+        return <Matrix4x4 matrix={value} />
       },
     },
   )

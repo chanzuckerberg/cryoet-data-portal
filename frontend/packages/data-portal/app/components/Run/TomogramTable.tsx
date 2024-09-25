@@ -100,7 +100,7 @@ export function TomogramsTable() {
           </TableCell>
         ),
       }),
-      columnHelper.accessor('alignmentId', {
+      columnHelper.accessor('alignment.id', {
         header: () => (
           <CellHeader width={TomogramTableWidths.alignment}>
             {t('alignmentId')}

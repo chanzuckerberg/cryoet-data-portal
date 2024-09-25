@@ -178,7 +178,19 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
 
       # Tomograms table + download selector
       tomograms(where: { run: { id: { _eq: $id } } }) {
-        alignmentId
+        alignment {
+          id
+          affineTransformationMatrix
+          alignmentType
+          tiltOffset
+          volumeXDimension
+          volumeYDimension
+          volumeZDimension
+          volumeXOffset
+          volumeYOffset
+          volumeZOffset
+          xRotationOffset
+        }
         ctfCorrected
         fiducialAlignmentStatus
         httpsMrcFile
