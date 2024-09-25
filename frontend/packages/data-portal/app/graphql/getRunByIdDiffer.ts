@@ -24,6 +24,10 @@ export function logIfHasDiff(
   for (const tomogram of v2.tomograms) {
     delete tomogram.deposition
   }
+  // Frames are not populated in V2 yet.
+  for (const run of v2.runs) {
+    delete run.framesAggregate
+  }
 
   const v1Transformed: GetRunByIdV2Query = {
     runs: v1.runs.map((run) => ({
