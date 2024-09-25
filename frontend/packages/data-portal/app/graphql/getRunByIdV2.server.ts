@@ -151,7 +151,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         }
 
         # Header
-        tiltseriesAggregate { # TODO(bchu): Uncomment when __typename bug is fixed.
+        tiltseriesAggregate {
           aggregate {
             count
             avg {
