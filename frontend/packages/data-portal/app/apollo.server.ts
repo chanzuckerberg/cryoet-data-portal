@@ -22,7 +22,7 @@ export const apolloClientV2 = new ApolloClient({
       fetchPolicy: 'no-cache',
     },
   },
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({ addTypename: false }), // TODO(bchu): Re-enable __typename when fixed in BE.
   link: createHttpLink({
     uri: process.env.API_URL_V2 ?? ENVIRONMENT_CONTEXT_DEFAULT_VALUE.API_URL_V2,
   }),
