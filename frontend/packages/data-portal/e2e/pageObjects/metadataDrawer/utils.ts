@@ -194,14 +194,20 @@ function getTomogramDrawerTestMetadata(
         Fiducial_Alignment_Status_Enum.Fiducial,
     ),
     ctfCorrected: tomogram.ctfCorrected ? 'Yes' : 'No',
-    alignmentId: '--',
+    alignmentId: tomogram.alignment!.id,
     canonicalStatus: '--',
-    alignmentType: '--',
-    dimensionXYZ: '--',
+    alignmentType: tomogram.alignment!.alignmentType,
+    dimensionXYZ: `${tomogram.alignment!.volumeXDimension}, ${
+      tomogram.alignment!.volumeYDimension
+    }, ${tomogram.alignment!.volumeZDimension}`,
     offsetXYZ: '--',
-    rotationX: '--',
-    tileOffset: '--',
-    affineTransformationMatrix: '--',
+    rotationX: tomogram.alignment!.xRotationOffset,
+    tiltOffset: tomogram.alignment!.tiltOffset,
+    affineTransformationMatrix:
+      tomogram.alignment!.affineTransformationMatrix!.replaceAll(
+        /\[|\]|,|\s/g,
+        '',
+      ),
   }
 }
 

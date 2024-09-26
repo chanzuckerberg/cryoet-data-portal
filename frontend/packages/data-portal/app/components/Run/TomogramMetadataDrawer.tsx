@@ -207,7 +207,7 @@ export function TomogramMetadataDrawer() {
             ],
           },
           {
-            label: t('tileOffset'),
+            label: t('tiltOffset'),
             values: [
               alignment?.tiltOffset != null
                 ? t('unitDegree', { value: alignment.tiltOffset })
