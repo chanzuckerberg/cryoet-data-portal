@@ -6,7 +6,7 @@ hide-navigation: true
 
 The [Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute)](https://www.czimaginginstitute.org/) has made a beta release of the [CryoET Data Portal](https://cryoetdataportal.czscience.com) providing queryable and organized data from CryoET experiments. Each of the over 15,000 tomograms on the Portal have at least one structure annotated.
 
-This site provides additional documentation for using our [Python API](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html) to query and download data and for navigating the [CryoET Data Portal](https://cryoetdataportal.czscience.com) and its visualization tools. We hope this site will assist segmentation algorithm developers to produce annotations for diverse macromolecules in the tomograms that may be used for high-resolution subtomogram averaging.
+This site provides additional documentation for using our [Python API](python-api) to query and download data and for navigating the [CryoET Data Portal](https://cryoetdataportal.czscience.com) and its visualization tools. We hope this site will assist segmentation algorithm developers to produce annotations for diverse macromolecules in the tomograms that may be used for high-resolution subtomogram averaging.
 
 We welcome feedback from the community on the data structure, design and functionality.
 - Share first impressions, or sign up for invites to future feedback activities in [this short form](https://airtable.com/apppmytRJXoXYTO9w/shrjmV9knAC7E7VVM?prefill_Event=P1BannerF&hide_Event=true).
@@ -15,10 +15,10 @@ We welcome feedback from the community on the data structure, design and functio
 
 ## Getting Started
 
-- [Installation](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_quick_start.html)
-- [Python Client API Reference](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html)
-- [Tutorials](./tutorials.md)
-- [napari Plugin Documentation](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html)
+- [Installation](cryoet_data_portal_docsite_quick_start)
+- [Python Client API Reference](python-api)
+- [Tutorials](tutorials)
+- [napari Plugin Documentation](cryoet_data_portal_docsite_napari)
 
 ## Amazon Web Services S3 Bucket Info
 
