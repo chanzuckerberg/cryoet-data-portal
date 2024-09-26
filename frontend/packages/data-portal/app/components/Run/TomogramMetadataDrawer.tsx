@@ -1,5 +1,6 @@
 import { useAtom } from 'jotai'
 
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
 import { metadataDrawerTomogramAtom } from 'app/state/metadataDrawerTomogram'
@@ -12,7 +13,7 @@ import { AuthorList } from '../AuthorList'
 import { DatabaseEntryList } from '../DatabaseEntry'
 import { Link } from '../Link'
 import { MetadataDrawer } from '../MetadataDrawer'
-import { Matrix4x4 } from './Matrix4x4'
+import { IDENTITY_MATRIX_4X4, Matrix4x4 } from './Matrix4x4'
 
 export function TomogramMetadataDrawer() {
   const { t } = useI18n()
@@ -21,6 +22,8 @@ export function TomogramMetadataDrawer() {
   if (tomogram === undefined) {
     return null
   }
+
+  const { alignment } = tomogram
 
   return (
     <MetadataDrawer
@@ -157,7 +160,11 @@ export function TomogramMetadataDrawer() {
         data={getTableData(
           {
             label: t('alignmentId'),
-            values: [], // TODO
+            values: [
+              alignment?.id != null
+                ? `${IdPrefix.Alignment}-${alignment.id}`
+                : '',
+            ],
           },
           {
             label: t('canonicalStatus'),
@@ -165,33 +172,81 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('alignmentType'),
-            values: [], // TODO
+            values: [alignment?.alignmentType ?? ''],
           },
           {
             label: t('dimensionXYZ'),
-            values: [], // TODO
+            values: [
+              alignment?.volumeXDimension != null &&
+              alignment.volumeYDimension != null &&
+              alignment.volumeZDimension != null
+                ? t('unitAngstrom', {
+                    value: `(${alignment.volumeXDimension}, ${alignment.volumeYDimension}, ${alignment.volumeZDimension}) `,
+                  })
+                : '',
+            ],
           },
           {
             label: t('offsetXYZ'),
-            values: [], // TODO
+            values: [
+              alignment?.volumeXOffset != null &&
+              alignment.volumeYOffset != null &&
+              alignment.volumeZOffset != null
+                ? t('unitAngstrom', {
+                    value: `(${alignment.volumeXOffset}, ${alignment.volumeYOffset}, ${alignment.volumeZOffset}) `,
+                  })
+                : '',
+            ],
           },
           {
             label: t('rotationX'),
-            values: [], // TODO
+            values: [
+              alignment?.xRotationOffset != null
+                ? t('unitDegree', { value: alignment?.xRotationOffset })
+                : '',
+            ],
           },
           {
-            label: t('tileOffset'),
-            values: [], // TODO
+            label: t('tiltOffset'),
+            values: [
+              alignment?.tiltOffset != null
+                ? t('unitDegree', { value: alignment.tiltOffset })
+                : '',
+            ],
           },
           {
             label: t('affineTransformationMatrix'),
-            values: [], // TODO
-            renderValue: (value) => {
-              return <Matrix4x4 matrix={String(value)} />
+            values: [
+              parseAffineTransformationMatrix(
+                alignment?.affineTransformationMatrix,
+              ) ?? IDENTITY_MATRIX_4X4,
+            ],
+            renderValue: (value: string) => {
+              return <Matrix4x4 matrix={value} />
             },
           },
         )}
       />
     </MetadataDrawer>
   )
+}
+
+function parseAffineTransformationMatrix(
+  json?: string | null,
+): string | undefined {
+  if (json == null) {
+    return undefined
+  }
+
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const parsed = JSON.parse(json)
+    if (Array.isArray(parsed)) {
+      return parsed.flat().join(' ')
+    }
+  } catch {
+    return undefined
+  }
+
+  return undefined
 }
