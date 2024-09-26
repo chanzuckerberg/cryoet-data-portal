@@ -21,7 +21,7 @@ export function TomogramSelectorInputLabel({
       <span className="shrink overflow-hidden text-ellipsis">
         {getTomogramName(tomogram)}
       </span>
-      <span className="text-sds-color-primitive-gray-500">
+      <span className="text-sds-color-primitive-gray-500 font-normal">
         {t('unitAngstrom', { value: tomogram.voxelSpacing })}
       </span>
       {tomogram.isStandardized && <TomogramTypeBadge type="standard" />}
