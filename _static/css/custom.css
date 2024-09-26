@@ -273,8 +273,7 @@ dl.py.attribute.objdesc > dd > dl.field-list.simple {
   line-height: 1;
   margin-top: 0;
   margin-bottom: 0;
-  grid-template: 
-            "a b" auto / 1fr 10fr;
+  grid-template: "a b" auto / 1fr 10fr;
 }
 
 dl.py.attribute.objdesc > dd > dl.field-list.simple > dd.field-odd > p {
