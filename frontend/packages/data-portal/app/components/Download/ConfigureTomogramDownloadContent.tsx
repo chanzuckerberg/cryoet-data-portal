@@ -109,6 +109,7 @@ export function ConfigureTomogramDownloadContent() {
                   selectedTomogram={tomogramToDownload}
                   allTomograms={allTomograms}
                   onSelectTomogramId={setTomogramId}
+                  className="max-w-[450px]"
                 />
               ) : (
                 <>
