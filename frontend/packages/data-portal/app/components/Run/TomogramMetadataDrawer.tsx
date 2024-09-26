@@ -13,7 +13,7 @@ import { AuthorList } from '../AuthorList'
 import { DatabaseEntryList } from '../DatabaseEntry'
 import { Link } from '../Link'
 import { MetadataDrawer } from '../MetadataDrawer'
-import { IDENTITY_MATRIX_4_X_4, Matrix4x4 } from './Matrix4x4'
+import { IDENTITY_MATRIX_4X4, Matrix4x4 } from './Matrix4x4'
 
 export function TomogramMetadataDrawer() {
   const { t } = useI18n()
@@ -219,7 +219,7 @@ export function TomogramMetadataDrawer() {
             values: [
               parseAffineTransformationMatrix(
                 alignment?.affineTransformationMatrix,
-              ) ?? IDENTITY_MATRIX_4_X_4,
+              ) ?? IDENTITY_MATRIX_4X4,
             ],
             renderValue: (value: string) => {
               return <Matrix4x4 matrix={value} />

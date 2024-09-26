@@ -4,7 +4,7 @@ import { i18n } from 'app/i18n'
 import { getTableData } from 'app/utils/table'
 import { isFiducial } from 'app/utils/tomograms'
 
-import { IDENTITY_MATRIX_4_X_4, Matrix4x4 } from './Matrix4x4'
+import { IDENTITY_MATRIX_4X4, Matrix4x4 } from './Matrix4x4'
 
 export function TomogramsMetadataSection() {
   const { run } = useRunById()
@@ -56,7 +56,7 @@ export function TomogramsMetadataSection() {
       label: i18n.affineTransformationMatrix,
       values: [
         tomo.affine_transformation_matrix?.flat().join(' ') ??
-          IDENTITY_MATRIX_4_X_4,
+          IDENTITY_MATRIX_4X4,
       ],
       renderValue: (value: string) => {
         return <Matrix4x4 matrix={value} />
