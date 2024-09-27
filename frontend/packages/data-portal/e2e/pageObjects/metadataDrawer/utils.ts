@@ -174,7 +174,9 @@ function getTomogramDrawerTestMetadata(
     authors: tomogram.authors!.edges!.map((edge) => edge.node!.name),
     publications: '--',
     relatedDatabases: '--',
-    depositionName: tomogram.deposition?.depositionTitle ?? '--',
+    // TODO(bchu): Uncomment when API name change is in prod.
+    // depositionName: tomogram.deposition?.title ?? '--',
+    depositionName: '--',
     depositionId: tomogram.deposition?.id ?? '--',
     depositionDate: tomogram.deposition?.depositionDate ?? '--',
     releaseDate: '--',
