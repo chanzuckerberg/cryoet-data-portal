@@ -7,11 +7,16 @@ hide-navigation: true
 We hope these answers will help you get the most out of the CryoET Data Portal!
 
 :::{admonition} How do I get help with using the Data Portal?
-:collapsible: open
+:class: czi-faq
+:name: get-help
+:collapsible:
+
 Did you encounter a bug, error, or other issue while using the portal? [Submit an issue on Github](https://github.com/chanzuckerberg/cryoet-data-portal/issues/new?assignees=&labels=bug&projects=&template=bug.md&title=) to let us know!
 :::
 
 :::{admonition} How do I submit an issue on Github?
+:class: czi-faq
+:name: submit-issue
 :collapsible:
 To submit an issue, you'll need to create a [free Github account](https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home). This allows our team to follow up with you on Github if we have a question about the problem you encountered. Then, [fill out this form](https://github.com/chanzuckerberg/cryoet-data-portal/issues/new?assignees=&labels=bug&projects=&template=bug.md&title=). We suggest you use a descriptive title, paste an error messages using the `<>` icon on the form, and provide as many details as possible about the problem, including what you expected to happen and what type of machine you were using.
 
@@ -19,17 +24,22 @@ For more information about submiting issues on Github, please refer to [Github's
 :::
 
 :::{admonition} What are datasets, runs, and annotations in the Data Portal?
+:class: czi-faq
+:name: data-schema
 :collapsible:
+
 The CryoET Data Portal uses the following data schema:
 
 1. A dataset is a community contributed set of image files for tilt series, reconstructed tomograms, and if available, cellular and/or subcellular annotation files. Every dataset contains only one sample type prepared and imaged with the same conditions. The dataset title, such as `S. pombe cryo-FIB lamellae acquired with defocus-only`, summarizes these conditions. Samples can be a cell, tissue or organism; intact organelle; in-vitro mixture of macromolecules or their complex; or in-silico synthetic data, where the experimental conditions are kept constant. Downloading a dataset downloads all files, including all available tilt series, tomograms, and annotations.
-2. A run is one experiment, or replicate, associated with a dataset, where all runs in a dataset have the same sample and imaging conditions. Every run contains a collection of all tomography data and annotations related to imaging one physical location in a sample. It typically contains one tilt series and all associated data (e.g. movie frames, tilt series image stack, tomograms, annotations, and metadata), but in some cases, it may be a set of tilt series that form a mosaic. When downloading a run from a Portal page, you may choose to download the tomogram or all available annotations. To download all data associated with a run (i.e. all available movie frames, tilt series image stack, tomograms, annotations, and associated metadata), please refer to the [API download guide](#how-to-download-data-using-the-portal-api).
+2. A run is one experiment, or replicate, associated with a dataset, where all runs in a dataset have the same sample and imaging conditions. Every run contains a collection of all tomography data and annotations related to imaging one physical location in a sample. It typically contains one tilt series and all associated data (e.g. movie frames, tilt series image stack, tomograms, annotations, and metadata), but in some cases, it may be a set of tilt series that form a mosaic. When downloading a run from a Portal page, you may choose to download the tomogram or all available annotations. To download all data associated with a run (i.e. all available movie frames, tilt series image stack, tomograms, annotations, and associated metadata), please refer to the [API download guide](download-api).
 3. An annotation is a point or segmentation indicating the location of a macromolecular complex in the tomogram. On the run page, you may choose to download tomograms with their annotations.
 
 You can refer to a graphic of the [data schema here](cryoet_data_portal_docsite_data).
 :::
 
 :::{admonition} How do I download data using Amazon Web Services (AWS)?
+:class: czi-faq
+:name: download-aws
 :collapsible:
 **The Data Portal's S3 bucket is public**, so it can be accessed without creating an account with AWS, simply add `--no-sign-request` in your commands as shown below. Using the instructions below, you can get started downloading data in only a few minutes. For more detailed instructions, please refer to the documentation [here](cryoet_data_portal_docsite_aws).
 
@@ -58,17 +68,22 @@ In the above example, the download happened very quickly because the file was on
 :::
 
 :::{admonition} How do I use Neuroglancer to visualize tomograms with their annotations?
+:class: czi-faq
+:name: visualize-neuroglancer
 :collapsible:
 All tomograms in the Data Portal are viewable in Neuroglancer along with their annotations. You can open a tomogram in Neuroglancer by clicking the blue `View Tomogram` button on any run page in the Portal. This will open an instance of Neuroglancer in a separate tab of your browser with the selected data along with their annotations already loaded. For more information about visualizing data with Neuroglancer, check out the documentation from Connectomics, the team that develops Neuroglancer, [here](https://connectomics.readthedocs.io/en/latest/external/neuroglancer.html#basic-usage).
 :::
 
 :::{admonition} How do I use napari to visualize tomograms with their annotations?
+:class: czi-faq
+:name: visualize-napari
 :collapsible:
 The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](cryoet_data_portal_docsite_napari) to learn more about napari and CryoET Data Portal.
 :::
 
-(how-to-download-data-using-the-portal-api)=
 :::{admonition} How do I download data using the Portal's API?
+:class: czi-faq
+:name: download-api
 :collapsible:
 - The <Class>`Dataset`</Class>, <Class>`Run`</Class>, and <Class>`TomogramVoxelSpacing`</Class> classes have <Function>`download_everything`</Function> methods which allow you to download all data associated with one of those objects.
 
@@ -93,6 +108,8 @@ For more examples of downloading data with the API, check out the [tutorial here
 :::
 
 :::{admonition} How do I use the Portal's API to select data?
+:class: czi-faq
+:name: select-api
 :collapsible:
 Every class in the Data Portal API has a <Function>`find`</Function> method which can be used to select all objects that match criteria provided in a query. The <Function>`find`</Function> method utilizes python comparison operators <Op>`==`</Op>, <Op>`!=`</Op>, <Op>`>`</Op>, <Op>`>=`</Op>, <Op>`<`</Op>, <Op>`<=`</Op>, as well as <Function>`like`</Function>, <Function>`ilike`</Function>, and <Function>`_in`</Function> methods used to search for strings that match a given pattern, to create queries.
 
@@ -119,6 +136,8 @@ For more examples of using the <Function>`find`</Function> operator, check out t
 :::
 
 :::{admonition} What is the meaning of the tilt series quality score?
+:class: czi-faq
+:name: tilt-series-quality
 :collapsible:
 The tilt series quality score/rating is a relative subjective scale meant for comparing tilt series within a dataset. The contributor of the dataset assigns quality scores to each of the tilt series to communicate their quality estimate to users. Below is an example scale based mainly on alignability and usefulness for the intended analysis.
 
@@ -132,6 +151,8 @@ The tilt series quality score/rating is a relative subjective scale meant for co
 :::
 
 :::{admonition} What is the dataset identifier and Portal ID?
+:class: czi-faq
+:name: dataset-identifier
 :collapsible:
 The dataset identifier in the API refers to the Portal ID provided in the Portal. This number is assigned by the Data Portal as a unique identifier for a dataset and is used as the directory name in the data filetree.
 
@@ -139,6 +160,8 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
 :::
 
 :::{admonition} Which annotations are displayed with a tomogram in Neuroglancer?
+:class: czi-faq
+:name: default-annotations
 :collapsible:
 There is no definitive rule for which annotations are displayed with a tomogram in Neuroglancer by default. The annotations are manually chosen to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations included within, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
 
@@ -146,6 +169,8 @@ The CryoET Data Portal napari plugin can be used to visualize tomograms, annotat
 :::
 
 :::{admonition} How do I contribute data to the Portal?
+:class: czi-faq
+:name: contribute-data
 :collapsible:
 Thank you for considering submitting data to the Portal!
 
