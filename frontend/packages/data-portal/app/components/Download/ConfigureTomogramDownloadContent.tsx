@@ -200,7 +200,7 @@ export function ConfigureTomogramDownloadContent() {
       )}
 
       {multipleTomogramsEnabled && (
-        <Callout intent="notice" className="!w-full !mt-sds-xl">
+        <Callout intent="notice" className="!w-full !mt-0">
           {t('annotationsMayRequireTransformation')}
         </Callout>
       )}
