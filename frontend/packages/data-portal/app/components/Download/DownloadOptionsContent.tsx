@@ -200,40 +200,16 @@ function getDownloadTabs(
         { value: DownloadTab.API, label: t('viaApi') },
       ]
     case 'annotation':
-      return multipleTomogramsEnabled
-        ? [
-            ...(isString(fileFormat) && fileFormat !== 'zarr'
-              ? [
-                  {
-                    value: DownloadTab.Download,
-                    label: t('directDownload'),
-                    disabled: true, // TODO(bchu): is_portal_standard
-                    tooltip: <DisabledTabTooltip />, // TODO(bchu): is_portal_standard
-                  },
-                  {
-                    value: DownloadTab.Curl,
-                    label: t('viaCurl'),
-                    disabled: true, // TODO(bchu): is_portal_standard
-                    tooltip: <DisabledTabTooltip />, // TODO(bchu): is_portal_standard
-                  },
-                ]
-              : []),
-            // eslint-disable-next-line no-constant-condition
-            true // TODO(bchu): is_portal_standard
-              ? { value: DownloadTab.PortalCLI, label: t('viaPortalCli') }
-              : { value: DownloadTab.AWS, label: t('viaAwsS3') },
-            { value: DownloadTab.API, label: t('viaApi') },
-          ]
-        : [
-            ...(isString(fileFormat) && fileFormat !== 'zarr'
-              ? [
-                  { value: DownloadTab.Download, label: t('directDownload') },
-                  { value: DownloadTab.Curl, label: t('viaCurl') },
-                ]
-              : []),
-            { value: DownloadTab.AWS, label: t('viaAwsS3') },
-            { value: DownloadTab.API, label: t('viaApi') },
-          ]
+      return [
+        ...(isString(fileFormat) && fileFormat !== 'zarr'
+          ? [
+              { value: DownloadTab.Download, label: t('directDownload') },
+              { value: DownloadTab.Curl, label: t('viaCurl') },
+            ]
+          : []),
+        { value: DownloadTab.AWS, label: t('viaAwsS3') },
+        { value: DownloadTab.API, label: t('viaApi') },
+      ]
     default:
       return checkExhaustive(type)
   }
