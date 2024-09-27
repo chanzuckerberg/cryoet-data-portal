@@ -22,7 +22,6 @@ import { APIDownloadTab } from './APIDownloadTab'
 import { AWSDownloadTab } from './AWSDownloadTab'
 import { CurlDownloadTab } from './CurlDownloadTab'
 import { DirectDownloadTab } from './DirectDownloadTab'
-import { DisabledTabTooltip } from './DisabledTabTooltip'
 import { FILE_FORMAT_LABEL_I18N } from './FileFormatDropdown'
 
 const DOWNLOAD_TAB_MAP: Record<DownloadTab, ComponentType> = {
@@ -59,12 +58,7 @@ export function DownloadOptionsContent() {
     type,
   } = useDownloadModalContext()
 
-  const downloadTabs = getDownloadTabs(
-    type,
-    fileFormat,
-    t,
-    multipleTomogramsEnabled,
-  )
+  const downloadTabs = getDownloadTabs(type, fileFormat, t)
   const selectedTab =
     downloadTab ?? downloadTabs.find((tab) => !tab.disabled)!.value // Default to first enabled tab
   const referenceTomogram = allTomograms?.find(
@@ -180,7 +174,6 @@ function getDownloadTabs(
   type: DownloadModalType,
   fileFormat: string | null,
   t: TFunction<'translation', undefined>,
-  multipleTomogramsEnabled: boolean,
 ): Array<TabData<DownloadTab>> {
   switch (type) {
     case 'dataset':
