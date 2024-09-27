@@ -67,7 +67,7 @@ export function TomogramMetadataDrawer() {
           {
             label: t('depositionName'),
             // TODO(bchu): Uncomment after API field name change is in prod.
-            // values: [tomogram.deposition?.depositionTitle ?? ''],
+            // values: [tomogram.deposition?.title ?? ''],
             values: [],
             renderValue: (value: string) => (
               <Link
