@@ -160,7 +160,7 @@ jobs:
 
       - name: Run E2E tests
         run: |
-          sleep 10
+          sleep 15
           pnpm e2e --shard ${{ matrix.shardCurrent }}/${{ matrix.shardTotal }}
         working-directory: frontend/packages/data-portal
         env:
