@@ -5,11 +5,12 @@ import { FiltersPage } from 'e2e/pageObjects/filters/filtersPage'
 import { serializeAvailableFiles } from 'e2e/pageObjects/filters/utils'
 
 import { QueryParams } from 'app/constants/query'
+import { ObjectShapeType } from 'app/types/shapeTypes'
 import { getPrefixedId } from 'app/utils/idPrefixes'
 
 import { getApolloClient } from './apollo'
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
-import { onlyRunIfEnabled } from './utils'
+import { getObjectShapeTypeLabel, onlyRunIfEnabled } from './utils'
 
 test.describe('Browse datasets page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>
@@ -1156,17 +1157,16 @@ test.describe('Browse datasets page filters', () => {
           getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
         )
 
-        // TODO: (kne42) uncomment when hooked up to backend
-        // await filtersActor.expectDataAndDatasetsTableToMatch({
-        //   client,
-        //   url: BROWSE_DATASETS_URL,
-        //   queryParamsList: [
-        //     {
-        //       queryParamKey: QueryParams.DepositionId,
-        //       queryParamValue: E2E_CONFIG.depositionId,
-        //     },
-        //   ],
-        // })
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.DepositionId,
+              queryParamValue: E2E_CONFIG.depositionId,
+            },
+          ],
+        })
       })
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
@@ -1183,17 +1183,16 @@ test.describe('Browse datasets page filters', () => {
           getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
         )
 
-        // TODO: (kne42) uncomment when hooked up to backend
-        // await filtersActor.expectDataAndDatasetsTableToMatch({
-        //   client,
-        //   url: BROWSE_DATASETS_URL,
-        //   queryParamsList: [
-        //     {
-        //       queryParamKey: QueryParams.DepositionId,
-        //       queryParamValue: E2E_CONFIG.depositionId,
-        //     },
-        //   ],
-        // })
+        await filtersActor.expectDataAndDatasetsTableToMatch({
+          client,
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.DepositionId,
+              queryParamValue: E2E_CONFIG.depositionId,
+            },
+          ],
+        })
       })
       test('should disable filter when deselecting', async () => {
         await filtersActor.goToFilteredUrl({
@@ -2485,7 +2484,9 @@ test.describe('Browse datasets page filters', () => {
 
       await filtersActor.addSingleSelectFilter({
         label: translations.objectShapeType,
-        value: E2E_CONFIG.objectShapeType,
+        value: getObjectShapeTypeLabel(
+          E2E_CONFIG.objectShapeType as ObjectShapeType,
+        ),
       })
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
@@ -2542,7 +2543,9 @@ test.describe('Browse datasets page filters', () => {
         ],
       })
 
-      await filtersPage.removeFilterOption(E2E_CONFIG.objectShapeType)
+      await filtersPage.removeFilterOption(
+        getObjectShapeTypeLabel(E2E_CONFIG.objectShapeType as ObjectShapeType),
+      )
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
