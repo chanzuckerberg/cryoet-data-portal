@@ -63,6 +63,15 @@ def test_relationships_reverse(client) -> None:
     assert run.dataset
 
 
+def test_correct_number_of_related_objects(client: Client):
+    annos = Annotation.find(
+        client, [Annotation.object_name == "Test Annotation Object Name"]
+    )
+
+    assert len(annos) == 1
+    assert len(annos[0].annotation_shapes) == 2
+
+
 def test_item_relationship_with_missing_id(client: Client):
     annos = Annotation.find(
         client, [Annotation.object_name == "Test Annotation Object Name"]

@@ -136,6 +136,17 @@ class Annotation(Model):
     release_date: date = DateField()
     last_modified_date: date = DateField()
 
+    def download_metadata(
+        self,
+        dest_path: Optional[str] = None,
+    ):
+        """Download annotation metadata
+
+        Args:
+            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
+        """
+        download_https(self.https_metadata_path, dest_path)
+
     def download(
         self,
         dest_path: Optional[str] = None,
@@ -150,15 +161,16 @@ class Annotation(Model):
             format (Optional[str], optional): Choose a specific file format to download (e.g.: mrc, ndjson)
         """
         download_metadata = False
-        for file in self.files:
-            if format and file.format != format:
+        for anno_shape in self.annotation_shapes:
+            if shape and anno_shape.shape_type != shape:
                 continue
-            if shape and file.shape_type != shape:
-                continue
-            file.download(dest_path)
-            download_metadata = True
+            for file in anno_shape.annotation_files:
+                if format and file.format != format:
+                    continue
+                file.download(dest_path)
+                download_metadata = True
         if download_metadata:
-            download_https(self.https_metadata_path, dest_path)
+            self.download_metadata(dest_path)
 class AnnotationAuthor(Model):
     """Metadata for an annotation's authors
 
@@ -753,7 +765,7 @@ class TiltSeries(Model):
         Args:
             dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
         """
-        url = self.https_mrc_bin1
+        url = self.https_mrc_file
         download_https(url, dest_path)
 class Tomogram(Model):
     """Metadata describing a tomogram.
@@ -854,7 +866,7 @@ class Tomogram(Model):
         Args:
             dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
         """
-        url = self.https_mrc_scale0
+        url = self.https_mrc_file
         download_https(url, dest_path)
 
     def download_all_annotations(
@@ -870,9 +882,19 @@ class Tomogram(Model):
             shape (Optional[str], optional): Choose a specific shape type to download (e.g.: OrientedPoint, SegmentationMask)
             format (Optional[str], optional): Choose a specific file format to download (e.g.: mrc, ndjson)
         """
-        vs = self.tomogram_voxel_spacing
-        for anno in vs.annotations:
-            anno.download(dest_path, format, shape)
+        filters = [AnnotationFile.tomogram_voxel_spacing_id == self.tomogram_voxel_spacing_id, AnnotationFile.alignment_id == self.alignment_id]
+        if shape:
+            filters.append(AnnotationFile.annotation_shape.shape_type == shape)
+        if format:
+            filters.append(AnnotationFile.format == format)
+        anno_files = AnnotationFile.find(self._client, filters)
+        downloaded_metadata = set([])
+        for file in anno_files:
+            file.download(dest_path)
+            annotation_id = file.annotation_shape.annotation_id
+            if annotation_id not in downloaded_metadata:
+                downloaded_metadata.add(annotation_id)
+                file.annotation_shape.annotation.download_metadata(dest_path)
 class TomogramAuthor(Model):
     """Author of a tomogram
 

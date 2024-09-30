@@ -225,9 +225,12 @@ input AlignmentWhereClause {
   annotationFiles: AnnotationFileWhereClause
   perSectionAlignments: PerSectionAlignmentParametersWhereClause
   deposition: DepositionWhereClause
+  depositionId: IntComparators
   tiltseries: TiltseriesWhereClause
+  tiltseriesId: IntComparators
   tomograms: TomogramWhereClause
   run: RunWhereClause
+  runId: IntComparators
   alignmentType: Alignment_type_enumEnumComparators
   volumeXDimension: FloatComparators
   volumeYDimension: FloatComparators
@@ -244,8 +247,11 @@ input AlignmentWhereClause {
 
 input AnnotationFileWhereClause {
   alignment: AlignmentWhereClause
+  alignmentId: IntComparators
   annotationShape: AnnotationShapeWhereClause
+  annotationShapeId: IntComparators
   tomogramVoxelSpacing: TomogramVoxelSpacingWhereClause
+  tomogramVoxelSpacingId: IntComparators
   format: StrComparators
   s3Path: StrComparators
   httpsPath: StrComparators
@@ -254,8 +260,21 @@ input AnnotationFileWhereClause {
   id: IntComparators
 }
 
+input IntComparators {
+  _eq: Int
+  _neq: Int
+  _in: [Int!]
+  _nin: [Int!]
+  _gt: Int
+  _gte: Int
+  _lt: Int
+  _lte: Int
+  _is_null: Boolean
+}
+
 input AnnotationShapeWhereClause {
   annotation: AnnotationWhereClause
+  annotationId: IntComparators
   annotationFiles: AnnotationFileWhereClause
   shapeType: Annotation_file_shape_type_enumEnumComparators
   id: IntComparators
@@ -263,9 +282,11 @@ input AnnotationShapeWhereClause {
 
 input AnnotationWhereClause {
   run: RunWhereClause
+  runId: IntComparators
   annotationShapes: AnnotationShapeWhereClause
   authors: AnnotationAuthorWhereClause
   deposition: DepositionWhereClause
+  depositionId: IntComparators
   s3MetadataPath: StrComparators
   httpsMetadataPath: StrComparators
   annotationPublication: StrComparators
@@ -293,6 +314,7 @@ input RunWhereClause {
   alignments: AlignmentWhereClause
   annotations: AnnotationWhereClause
   dataset: DatasetWhereClause
+  datasetId: IntComparators
   frames: FrameWhereClause
   tiltseries: TiltseriesWhereClause
   tomogramVoxelSpacings: TomogramVoxelSpacingWhereClause
@@ -305,6 +327,7 @@ input RunWhereClause {
 
 input DatasetWhereClause {
   deposition: DepositionWhereClause
+  depositionId: IntComparators
   fundingSources: DatasetFundingWhereClause
   authors: DatasetAuthorWhereClause
   runs: RunWhereClause
@@ -359,6 +382,7 @@ input DepositionWhereClause {
 
 input DepositionAuthorWhereClause {
   deposition: DepositionWhereClause
+  depositionId: IntComparators
   id: IntComparators
   authorListOrder: IntComparators
   orcid: StrComparators
@@ -369,18 +393,6 @@ input DepositionAuthorWhereClause {
   affiliationIdentifier: StrComparators
   correspondingAuthorStatus: BoolComparators
   primaryAuthorStatus: BoolComparators
-}
-
-input IntComparators {
-  _eq: Int
-  _neq: Int
-  _in: [Int!]
-  _nin: [Int!]
-  _gt: Int
-  _gte: Int
-  _lt: Int
-  _lte: Int
-  _is_null: Boolean
 }
 
 input StrComparators {
@@ -413,8 +425,10 @@ input BoolComparators {
 
 input FrameWhereClause {
   deposition: DepositionWhereClause
+  depositionId: IntComparators
   perSectionParameters: PerSectionParametersWhereClause
   run: RunWhereClause
+  runId: IntComparators
   rawAngle: FloatComparators
   acquisitionOrder: IntComparators
   dose: FloatComparators
@@ -428,7 +442,9 @@ input FrameWhereClause {
 
 input PerSectionParametersWhereClause {
   frame: FrameWhereClause
+  frameId: IntComparators
   tiltseries: TiltseriesWhereClause
+  tiltseriesId: IntComparators
   zIndex: IntComparators
   defocus: FloatComparators
   astigmatism: FloatComparators
@@ -440,7 +456,9 @@ input TiltseriesWhereClause {
   alignments: AlignmentWhereClause
   perSectionParameters: PerSectionParametersWhereClause
   run: RunWhereClause
+  runId: IntComparators
   deposition: DepositionWhereClause
+  depositionId: IntComparators
   s3OmezarrDir: StrComparators
   s3MrcFile: StrComparators
   httpsOmezarrDir: StrComparators
@@ -512,10 +530,14 @@ enum tiltseries_microscope_manufacturer_enum {
 
 input TomogramWhereClause {
   alignment: AlignmentWhereClause
+  alignmentId: IntComparators
   authors: TomogramAuthorWhereClause
   deposition: DepositionWhereClause
+  depositionId: IntComparators
   run: RunWhereClause
+  runId: IntComparators
   tomogramVoxelSpacing: TomogramVoxelSpacingWhereClause
+  tomogramVoxelSpacingId: IntComparators
   name: StrComparators
   sizeX: IntComparators
   sizeY: IntComparators
@@ -548,6 +570,7 @@ input TomogramWhereClause {
 
 input TomogramAuthorWhereClause {
   tomogram: TomogramWhereClause
+  tomogramId: IntComparators
   id: IntComparators
   authorListOrder: IntComparators
   orcid: StrComparators
@@ -563,6 +586,7 @@ input TomogramAuthorWhereClause {
 input TomogramVoxelSpacingWhereClause {
   annotationFiles: AnnotationFileWhereClause
   run: RunWhereClause
+  runId: IntComparators
   tomograms: TomogramWhereClause
   voxelSpacing: FloatComparators
   s3Prefix: StrComparators
@@ -627,6 +651,7 @@ enum tomogram_processing_enum {
 
 input DepositionTypeWhereClause {
   deposition: DepositionWhereClause
+  depositionId: IntComparators
   type: Deposition_types_enumEnumComparators
   id: IntComparators
 }
@@ -666,6 +691,7 @@ scalar DateTime
 
 input DatasetFundingWhereClause {
   dataset: DatasetWhereClause
+  datasetId: IntComparators
   fundingAgencyName: StrComparators
   grantId: StrComparators
   id: IntComparators
@@ -673,6 +699,7 @@ input DatasetFundingWhereClause {
 
 input DatasetAuthorWhereClause {
   dataset: DatasetWhereClause
+  datasetId: IntComparators
   id: IntComparators
   authorListOrder: IntComparators
   orcid: StrComparators
@@ -710,6 +737,7 @@ enum sample_type_enum {
 
 input AnnotationAuthorWhereClause {
   annotation: AnnotationWhereClause
+  annotationId: IntComparators
   id: IntComparators
   authorListOrder: IntComparators
   orcid: StrComparators
@@ -781,6 +809,7 @@ enum annotation_file_source_enum {
 
 input PerSectionAlignmentParametersWhereClause {
   alignment: AlignmentWhereClause
+  alignmentId: IntComparators
   zIndex: IntComparators
   xOffset: FloatComparators
   yOffset: FloatComparators
