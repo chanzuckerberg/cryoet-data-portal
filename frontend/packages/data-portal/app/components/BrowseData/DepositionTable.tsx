@@ -276,14 +276,14 @@ export function DepositionTable() {
                   '--'
                 ) : (
                   <ul className="list-none flex flex-col gap-sds-xs">
-                    {Object.entries(shapeTypeToI18nKey)
+                    {Array.from(shapeTypeToI18nKey.entries())
                       .filter(([key]) => shapeTypes.includes(key))
-                      .map((entry) => (
+                      .map(([k, v]) => (
                         <li
                           className="whitespace-nowrap overflow-x-hidden overflow-ellipsis"
-                          key={entry[0]}
+                          key={k}
                         >
-                          {t(entry[1])}
+                          {t(v)}
                         </li>
                       ))}
                   </ul>

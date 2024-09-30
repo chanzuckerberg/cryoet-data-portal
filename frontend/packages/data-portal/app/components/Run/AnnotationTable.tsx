@@ -20,6 +20,7 @@ import {
   methodTooltipLabels,
   MethodType,
 } from 'app/constants/methodTypes'
+import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { AnnotationTableWidths } from 'app/constants/table'
@@ -34,6 +35,7 @@ import {
 import { useRunById } from 'app/hooks/useRunById'
 import { AnnotationRow, useAnnotation } from 'app/state/annotation'
 import { I18nKeys } from 'app/types/i18n'
+import { ObjectShapeType } from 'app/types/shapeTypes'
 import { DASHED_BORDERED_CLASSES } from 'app/utils/classNames'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
@@ -228,7 +230,10 @@ export function AnnotationTable() {
 
         cell: ({ getValue }) => (
           <TableCell width={AnnotationTableWidths.files}>
-            {getValue()}
+            {t(
+              (shapeTypeToI18nKey.get(getValue() as ObjectShapeType) ??
+                '') as I18nKeys,
+            )}
           </TableCell>
         ),
       }),

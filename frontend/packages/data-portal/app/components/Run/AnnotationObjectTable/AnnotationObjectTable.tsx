@@ -1,6 +1,9 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
+import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
 import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
+import { I18nKeys } from 'app/types/i18n'
+import { ObjectShapeType } from 'app/types/shapeTypes'
 import { getTableData } from 'app/utils/table'
 
 import { ObjectIdLink } from './components/ObjectIdLink'
@@ -31,7 +34,12 @@ export function AnnotationObjectTable() {
     },
     {
       label: t('objectShapeType'),
-      values: [annotation.shape_type],
+      values: [
+        t(
+          shapeTypeToI18nKey.get(annotation.shape_type as ObjectShapeType) ??
+            ('' as I18nKeys),
+        ),
+      ],
     },
     {
       label: t('objectState'),
