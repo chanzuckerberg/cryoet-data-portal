@@ -37,6 +37,10 @@ export function useDownloadModalQueryParamState() {
     QueryParams.AnnotationId,
   )
 
+  const [annotationName, setAnnotationName] = useQueryParam<string>(
+    QueryParams.AnnotationName,
+  )
+
   const [tomogramId, setTomogramId] = useQueryParam<string>(
     QueryParams.DownloadTomogramId,
   )
@@ -152,6 +156,7 @@ export function useDownloadModalQueryParamState() {
         [QueryParams.ReferenceTomogramId]: String(payload.referenceTomogramId),
         [QueryParams.ObjectShapeType]: payload.objectShapeType,
         [QueryParams.FileFormat]: payload.fileFormat,
+        [QueryParams.AnnotationName]: payload.annotationName,
       })
     },
     [getPlausiblePayload, plausible, setDownloadParams],
@@ -283,5 +288,7 @@ export function useDownloadModalQueryParamState() {
     setTomogramSampling,
     tomogramProcessing,
     tomogramSampling,
+    annotationName,
+    setAnnotationName,
   }
 }
