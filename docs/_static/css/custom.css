@@ -325,3 +325,13 @@ dl.class > dd > dl:nth-child(27) {
   box-shadow: none;
   border-bottom: 0.01px solid var(--md-default-fg-color--lightest);
 }
+
+/* Figure/video captions */
+.md-typeset figcaption {
+  max-width: max-content;
+}
+
+/* Better spacing around figure elements */
+.md-typeset figure {
+  margin-top: 30px;
+}
