@@ -7,7 +7,7 @@ export type FeatureFlagEnvironment = typeof process.env.ENV
 export type FeatureFlagKey = 'depositions' | 'multipleTomograms'
 
 export const FEATURE_FLAGS: Record<FeatureFlagKey, FeatureFlagEnvironment[]> = {
-  depositions: ['local', 'dev'],
+  depositions: ['local', 'dev', 'staging', 'prod'],
   multipleTomograms: ['local', 'dev'],
 }
 
