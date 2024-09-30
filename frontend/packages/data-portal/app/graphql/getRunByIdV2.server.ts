@@ -151,17 +151,26 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         }
 
         # Header
-        # tiltseriesAggregate { # TODO(bchu): Uncomment when __typename bug is fixed.
-        #   aggregate {
-        #     count
-        #     avg {
-        #       tiltSeriesQuality
-        #     }
-        #     # sum {
-        #     #   tiltseriesFramesCount # TODO(bchu): Uncomment when populated.
-        #     # }
-        #   }
-        # }
+        framesAggregate {
+          aggregate {
+            count
+          }
+        }
+        tiltseriesAggregate {
+          aggregate {
+            count
+            avg {
+              tiltSeriesQuality
+            }
+          }
+        }
+      }
+
+      # Header
+      alignmentsAggregate(where: {run: {id: {_eq: $id}}}) {
+        aggregate {
+          count
+        }
       }
 
       # Annotations table
@@ -169,10 +178,24 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
 
       # Tomograms table + download selector
       tomograms(where: { run: { id: { _eq: $id } } }) {
+        alignment {
+          id
+          affineTransformationMatrix
+          alignmentType
+          tiltOffset
+          volumeXDimension
+          volumeYDimension
+          volumeZDimension
+          volumeXOffset
+          volumeYOffset
+          volumeZOffset
+          xRotationOffset
+        }
         ctfCorrected
         fiducialAlignmentStatus
         httpsMrcFile
         id
+        isStandardized
         keyPhotoThumbnailUrl
         keyPhotoUrl
         name
@@ -190,7 +213,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         deposition {
           id
           depositionDate
-          depositionTitle
+          # title # TODO(bchu): Uncomment when API field name change is in prod.
         }
         tomogramVoxelSpacing {
           id

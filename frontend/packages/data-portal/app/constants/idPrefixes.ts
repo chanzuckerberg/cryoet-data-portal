@@ -1,4 +1,5 @@
 export enum IdPrefix {
+  Alignment = 'AL',
   Annotation = 'AN',
   Dataset = 'DS',
   Deposition = 'CZCDP',

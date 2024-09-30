@@ -47,6 +47,8 @@ export function useRunById() {
 
   const tomogramsCount = v1.tomograms_aggregate.aggregate?.count ?? 0
 
+  const alignmentsCount = v2.alignmentsAggregate.aggregate?.[0]?.count ?? 0
+
   const { deposition } = v1
 
   return {
@@ -60,6 +62,7 @@ export function useRunById() {
     resolutions,
     annotationFilesAggregates,
     tomogramsCount,
+    alignmentsCount,
     deposition,
   }
 }

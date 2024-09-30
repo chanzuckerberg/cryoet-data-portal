@@ -50,6 +50,7 @@ export function RunHeader() {
     resolutions,
     annotationFilesAggregates,
     tomogramsCount,
+    alignmentsCount,
   } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
@@ -142,8 +143,9 @@ export function RunHeader() {
                         : 'text-sds-color-primitive-gray-500',
                   },
                   {
-                    key: t('alignmentFile'),
-                    value: '', // TODO(bchu): Confirm how this should be counted.
+                    key: t('alignment'),
+                    value:
+                      alignmentsCount > 0 ? t('available') : t('notSubmitted'),
                   },
                   {
                     key: t('tomograms'),

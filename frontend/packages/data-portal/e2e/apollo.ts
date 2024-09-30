@@ -19,7 +19,7 @@ export function getApolloClient() {
 export function getApolloClientV2() {
   return new apollo.ApolloClient({
     ssrMode: true,
-    cache: new apollo.InMemoryCache(),
+    cache: new apollo.InMemoryCache({ addTypename: false }), // TODO(bchu): Re-enable __typename when fixed in BE.
     link: apollo.createHttpLink({
       uri:
         process.env.API_URL_V2 ?? ENVIRONMENT_CONTEXT_DEFAULT_VALUE.API_URL_V2,

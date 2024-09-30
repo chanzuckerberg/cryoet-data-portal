@@ -58,6 +58,8 @@ external_toc_exclude_missing = True
 # Inject custom css files in `/_static/css/*`
 html_static_path = ["_static"]
 html_css_files = ["css/custom.css"]
+html_js_files = ["js/faq.js"]
+
 html_logo = ""
 html_title = "CryoET Data Portal Documentation"
 html_favicon = "_static/img/favicon-cryoet-data-portal.png"
@@ -116,13 +118,6 @@ object_description_options = [
     ("py:attribute", dict(include_in_toc=False)),
     ("py:.*", dict(include_fields_in_toc=False)),
 ]
-
-# html_js_files = [
-#     (
-#         "https://plausible.io/js/script.js",
-#         {"data-domain": "chanzuckerberg.github.io/cryoet-data-portal", "defer": "defer"},
-#     ),
-# ]
 
 # -- Options for myst -------------------------------------------------
 myst_enable_extensions = ['colon_fence']

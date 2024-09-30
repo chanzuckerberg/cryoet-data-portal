@@ -10,7 +10,7 @@ import {
   Tomogram_Reconstruction_Method_Enum,
 } from 'app/__generated_v2__/graphql'
 
-/* eslint-disable no-console */
+/* eslint-disable no-console, no-param-reassign */
 export function logIfHasDiff(
   url: string,
   v1: GetRunByIdQuery,
@@ -18,24 +18,30 @@ export function logIfHasDiff(
 ): void {
   console.log('Checking for run query diffs')
 
-  // eslint-disable-next-line no-param-reassign
   v2 = structuredClone(v2)
+  // There are no alignments in V1.
+  delete v2.alignmentsAggregate.aggregate
   // Tomogram deposition relations in V1 are incomplete.
   for (const tomogram of v2.tomograms) {
+    // There are no alignments in V1.
+    delete tomogram.alignment
+    // Tomogram deposition relations in V1 are incomplete.
     delete tomogram.deposition
+    // Standard tomograms are V2 only.
+    tomogram.isStandardized = false
+  }
+  // Frames are not populated in V2 yet.
+  for (const run of v2.runs) {
+    delete run.framesAggregate
   }
 
   const v1Transformed: GetRunByIdV2Query = {
     runs: v1.runs.map((run) => ({
-      __typename: 'Run',
       id: run.id,
       name: run.name,
       tiltseries: {
-        __typename: 'TiltseriesConnection',
         edges: run.tiltseries.map((runTiltseries) => ({
-          __typename: 'TiltseriesEdge',
           node: {
-            __typename: 'Tiltseries',
             accelerationVoltage: runTiltseries.acceleration_voltage,
             alignedTiltseriesBinning: runTiltseries.aligned_tiltseries_binning,
             binningFromFrames: runTiltseries.binning_from_frames,
@@ -67,7 +73,6 @@ export function logIfHasDiff(
         })),
       },
       dataset: {
-        __typename: 'Dataset',
         cellComponentName: run.dataset.cell_component_name,
         cellComponentId: run.dataset.cell_component_id,
         cellName: run.dataset.cell_name,
@@ -95,22 +100,16 @@ export function logIfHasDiff(
         tissueId: run.dataset.tissue_id,
         title: run.dataset.title,
         fundingSources: {
-          __typename: 'DatasetFundingConnection',
           edges: run.dataset.funding_sources.map((source) => ({
-            __typename: 'DatasetFundingEdge',
             node: {
-              __typename: 'DatasetFunding',
               fundingAgencyName: source.funding_agency_name,
               grantId: source.grant_id,
             },
           })),
         },
         authors: {
-          __typename: 'DatasetAuthorConnection',
           edges: run.dataset.authors.map((author) => ({
-            __typename: 'DatasetAuthorEdge',
             node: {
-              __typename: 'DatasetAuthor',
               correspondingAuthorStatus: author.corresponding_author_status,
               email: author.email,
               name: author.name,
@@ -121,19 +120,13 @@ export function logIfHasDiff(
         },
       },
       tomogramVoxelSpacings: {
-        __typename: 'TomogramVoxelSpacingConnection',
         edges: run.tomogram_voxel_spacings.map((tomogramVoxelSpacing) => ({
-          __typename: 'TomogramVoxelSpacingEdge',
           node: {
-            __typename: 'TomogramVoxelSpacing',
             id: tomogramVoxelSpacing.id,
             s3Prefix: tomogramVoxelSpacing.s3_prefix!,
             tomograms: {
-              __typename: 'TomogramConnection',
               edges: tomogramVoxelSpacing.tomograms.map((tomogram) => ({
-                __typename: 'TomogramEdge',
                 node: {
-                  __typename: 'Tomogram',
                   ctfCorrected: tomogram.ctf_corrected,
                   fiducialAlignmentStatus:
                     tomogram.fiducial_alignment_status as Fiducial_Alignment_Status_Enum,
@@ -153,7 +146,6 @@ export function logIfHasDiff(
                   sizeZ: tomogram.size_z,
                   voxelSpacing: tomogram.voxel_spacing,
                   alignment: {
-                    __typename: 'Alignment',
                     affineTransformationMatrix: JSON.stringify(
                       tomogram.affine_transformation_matrix,
                     ).replaceAll(',', ', '),
@@ -164,14 +156,26 @@ export function logIfHasDiff(
           },
         })),
       },
+      tiltseriesAggregate: {
+        aggregate: [
+          {
+            count: run.tiltseries_aggregate.aggregate?.count,
+            avg: {
+              tiltSeriesQuality:
+                run.tiltseries_aggregate.aggregate?.avg?.tilt_series_quality,
+            },
+          },
+        ],
+      },
     })),
+    alignmentsAggregate: {},
     tomograms: v1.tomograms.map((tomogram) => ({
-      __typename: 'Tomogram',
       ctfCorrected: tomogram.ctf_corrected,
       fiducialAlignmentStatus:
         tomogram.fiducial_alignment_status as Fiducial_Alignment_Status_Enum,
       httpsMrcFile: tomogram.https_mrc_scale0,
       id: tomogram.id,
+      isStandardized: false,
       // isAuthorSubmitted: tomogram.is_canonical, TODO(bchu): Uncomment when populated in V2.
       keyPhotoThumbnailUrl: tomogram.key_photo_thumbnail_url,
       keyPhotoUrl: tomogram.key_photo_url,
@@ -193,17 +197,13 @@ export function logIfHasDiff(
       tomogramVoxelSpacing:
         tomogram.tomogram_voxel_spacing != null
           ? {
-              __typename: 'TomogramVoxelSpacing',
               id: tomogram.tomogram_voxel_spacing.id,
               s3Prefix: tomogram.tomogram_voxel_spacing.s3_prefix!,
             }
           : undefined,
       authors: {
-        __typename: 'TomogramAuthorConnection',
         edges: tomogram.authors.map((author) => ({
-          __typename: 'TomogramAuthorEdge',
           node: {
-            __typename: 'TomogramAuthor',
             primaryAuthorStatus: author.primary_author_status,
             correspondingAuthorStatus: author.corresponding_author_status,
             name: author.name,

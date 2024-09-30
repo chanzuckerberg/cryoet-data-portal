@@ -303,3 +303,25 @@ dl.py.attribute.objdesc > dd > dl.field-list.simple >dd {
 dl.class > dd > dl:nth-child(27) {
   margin-bottom: 20px;
 }
+
+/* FAQ Admonitions */
+.czi-faq.admonition {
+  border: none;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.czi-faq.admonition > summary.admonition-title {
+  background-color: var(--md-default-bg-color);
+  padding-left: 14px;
+}
+
+.czi-faq.admonition > summary.admonition-title::before {
+  content: none;
+}
+
+.md-typeset .admonition, .md-typeset details {
+  border-radius: 0;
+  box-shadow: none;
+  border-bottom: 0.01px solid var(--md-default-fg-color--lightest);
+}
