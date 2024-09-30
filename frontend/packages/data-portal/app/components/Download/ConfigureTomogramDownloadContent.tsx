@@ -173,7 +173,11 @@ export function ConfigureTomogramDownloadContent() {
       </RadioGroup>
 
       {runId && (
-        <Callout className="!w-full !mt-sds-xl" intent="info" expandable>
+        <Callout
+          className="!w-full !mt-sds-xl !mb-sds-xxs"
+          intent="info"
+          expandable
+        >
           <CalloutTitle>
             <p className="text-sds-body-xs leading-sds-body-xs">
               <I18n i18nKey="downloadAllRunData" />
@@ -197,7 +201,7 @@ export function ConfigureTomogramDownloadContent() {
 
       {multipleTomogramsEnabled && (
         <Callout intent="notice" className="!w-full !mt-0">
-          {t('annotationsDownloadedFromThePortal')}
+          {t('annotationsMayRequireTransformation')}
         </Callout>
       )}
     </>

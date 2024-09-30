@@ -168,8 +168,8 @@ export function DownloadOptionsContent() {
       <DownloadTabContent />
 
       {multipleTomogramsEnabled && (
-        <Callout intent="notice" className="!w-full">
-          {t('annotationsDownloadedFromThePortal')}
+        <Callout intent="notice" className="!w-full !mt-sds-xl">
+          {t('annotationsMayRequireTransformation')}
         </Callout>
       )}
     </>
