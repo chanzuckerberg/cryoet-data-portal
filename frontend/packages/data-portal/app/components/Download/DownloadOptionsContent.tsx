@@ -18,6 +18,7 @@ import { checkExhaustive } from 'app/types/utils'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getTomogramName } from 'app/utils/tomograms'
 
+import { AnnotationAlignmentCallout } from './AnnotationAlignmentCallout'
 import { APIDownloadTab } from './APIDownloadTab'
 import { AWSDownloadTab } from './AWSDownloadTab'
 import { CurlDownloadTab } from './CurlDownloadTab'
@@ -54,6 +55,7 @@ export function DownloadOptionsContent() {
     objectName,
     runId,
     runName,
+    annotationToDownload,
     tomogramToDownload,
     type,
   } = useDownloadModalContext()
@@ -161,7 +163,15 @@ export function DownloadOptionsContent() {
 
       <DownloadTabContent />
 
-      {multipleTomogramsEnabled && (
+      {multipleTomogramsEnabled && annotationToDownload !== undefined ? (
+        <AnnotationAlignmentCallout
+          // TODO(bchu): Use alignment ID when annotation query is migrated.
+          alignmentId={0}
+          initialState="closed"
+          // TODO(bchu): Filter by tomograms that do not have the same annotation ID.
+          misalignedTomograms={allTomograms ?? []}
+        />
+      ) : (
         <Callout intent="notice" className="!w-full !mt-sds-xl">
           {t('annotationsMayRequireTransformation')}
         </Callout>

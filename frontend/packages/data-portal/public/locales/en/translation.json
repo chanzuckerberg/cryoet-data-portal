@@ -363,6 +363,7 @@
   "termsOfUse": "Terms of Use",
   "thankYouToOurDataContributors": "Thank You to our Data Contributors…",
   "theseAnnotationsMustBeTransformed": "These annotations must be transformed to be compatible with the selected reference tomogram.",
+  "thisAnnotationRequiresTransformation": "This annotation <semibold>requires</semibold> transformation if used with any of these tomograms:",
   "tiltAxis": "Tilt Axis",
   "tiltOffset": "Tilt Offset",
   "tiltQuality": "Tilt Quality",
