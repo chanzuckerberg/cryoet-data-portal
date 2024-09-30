@@ -20,6 +20,7 @@ html, body {
   --md-primary-fg-color: #A2C9FF;
   --md-code-bg-color: #494949;
   --md-code-fg-color: #FFFFFF;
+  --sd-color-card-border: var(--md-default-fg-color--light);
 }
 
 /* Header */
