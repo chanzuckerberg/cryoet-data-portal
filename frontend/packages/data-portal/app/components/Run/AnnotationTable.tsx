@@ -171,7 +171,9 @@ export function AnnotationTable() {
 
               <div className="flex items-center gap-sds-xxs">
                 <p className="text-sds-body-xxs leading-sds-body-xxs">
-                  <span>Annotation ID: {IdPrefix.Annotation}-</span>
+                  <span>
+                    {t('annotationId')}: {IdPrefix.Annotation}-
+                  </span>
                   <span data-testid={TestIds.AnnotationId}>
                     {annotation.id}
                   </span>
