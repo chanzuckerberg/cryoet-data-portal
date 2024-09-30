@@ -41,7 +41,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       client: apolloClient,
       params: url.searchParams,
     }),
-    getDatasetsFilterData({ client: apolloClient, filter: {} }),
+    getDatasetsFilterData({ client: apolloClient }),
   ])
 
   return json({

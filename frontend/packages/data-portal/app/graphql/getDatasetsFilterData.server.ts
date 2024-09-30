@@ -41,7 +41,7 @@ export async function getDatasetsFilterData({
   depositionId,
 }: {
   client: ApolloClient<NormalizedCacheObject>
-  depositionId: number | null
+  depositionId?: number
 }) {
   const start = performance.now()
 
