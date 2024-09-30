@@ -16,6 +16,7 @@ import { AuthorList } from 'app/components/AuthorList'
 import { I18n } from 'app/components/I18n'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import {
   methodLabels,
   methodTooltipLabels,
@@ -170,7 +171,7 @@ export function AnnotationTable() {
 
               <div className="flex items-center gap-sds-xxs">
                 <p className="text-sds-body-xxs leading-sds-body-xxs">
-                  <span>Annotation ID: AN-</span>
+                  <span>Annotation ID: {IdPrefix.Annotation}-</span>
                   <span data-testid={TestIds.AnnotationId}>
                     {annotation.id}
                   </span>
@@ -196,7 +197,7 @@ export function AnnotationTable() {
               </div>
             </div>
 
-            <div className=" text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs">
+            <div className="text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs mt-sds-s">
               <AuthorList authors={annotation.authors} compact />
             </div>
           </TableCell>
