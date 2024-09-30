@@ -68,6 +68,7 @@ export function useDownloadModalQueryParamState() {
     [QueryParams.ReferenceTomogramId]: stringParam(),
     [QueryParams.ObjectShapeType]: stringParam(),
     [QueryParams.FileFormat]: stringParam(),
+    [QueryParams.AnnotationName]: stringParam(),
   })
 
   const getPlausiblePayload = useCallback(
