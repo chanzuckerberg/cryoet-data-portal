@@ -29,6 +29,10 @@ export function TomogramMetadataDrawer() {
     <MetadataDrawer
       title={getTomogramName(tomogram)}
       label={t('tomogramDetails')}
+      idInfo={{
+        label: 'tomogramId',
+        text: `${IdPrefix.Tomogram}-${tomogram.id}`,
+      }}
       disabled={tomogram === undefined}
       drawerId={MetadataDrawerId.Tomogram}
     >

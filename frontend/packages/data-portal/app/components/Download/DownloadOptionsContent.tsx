@@ -6,6 +6,7 @@ import { ComponentType } from 'react'
 
 import { ModalSubtitle } from 'app/components/ModalSubtitle'
 import { TabData, Tabs } from 'app/components/Tabs'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import {
   DownloadModalType,
   useDownloadModalContext,
@@ -83,7 +84,7 @@ export function DownloadOptionsContent() {
           />
           <ModalSubtitle
             label={t('tomogramId')}
-            value={tomogramToDownload.id}
+            value={`${IdPrefix.Tomogram}-${tomogramToDownload.id}`}
           />
           <ModalSubtitle
             label={t('tomogramSampling')}

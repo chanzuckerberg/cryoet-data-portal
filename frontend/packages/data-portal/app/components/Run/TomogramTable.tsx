@@ -71,7 +71,7 @@ export function TomogramsTable() {
               {getTomogramName(original)}
             </div>
             <div className="flex items-center flex-wrap gap-sds-xs text-sds-body-xxs">
-              {t('tomogramId')}: {original.id}
+              {`${t('tomogramId')}: ${IdPrefix.Tomogram}-${original.id}`}
               {original.isStandardized && (
                 <TomogramTypeBadge type="standard" showTooltip />
               )}

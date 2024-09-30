@@ -141,7 +141,6 @@ function getAnnotationTestMetdata(
     annotation.ground_truth_status ? translations.notApplicable : value
 
   return {
-    annotationId: annotation.id,
     annotationAuthors: annotation.authors?.map((author) => author.name),
     publication: annotation.annotation_publication,
     depositionDate: annotation.deposition_date,

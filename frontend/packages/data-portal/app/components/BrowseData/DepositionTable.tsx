@@ -110,7 +110,7 @@ export function DepositionTable() {
                     )}
                   </p>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
+                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (

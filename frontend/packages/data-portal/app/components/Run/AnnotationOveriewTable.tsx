@@ -40,10 +40,6 @@ export function AnnotationOverviewTable() {
       header={t('annotationOverview')}
       data={[
         {
-          label: t('annotationId'),
-          values: [annotation.id],
-        },
-        {
           label:
             annotation.authors.length === 1
               ? t('annotationAuthor')

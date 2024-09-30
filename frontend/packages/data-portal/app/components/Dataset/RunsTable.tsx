@@ -16,6 +16,7 @@ import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
 import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
 import { RUN_FILTERS } from 'app/constants/filterQueryParams'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { RunTableWidths } from 'app/constants/table'
@@ -134,11 +135,11 @@ export function RunsTable() {
                   </Link>
                 )}
 
-                <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
+                <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
                   {isLoadingDebounced ? (
                     <Skeleton className="max-w-[120px]" variant="text" />
                   ) : (
-                    `${t('runId')}: ${run.id}`
+                    `${t('runId')}: ${IdPrefix.Run}-${run.id}`
                   )}
                 </p>
               </div>

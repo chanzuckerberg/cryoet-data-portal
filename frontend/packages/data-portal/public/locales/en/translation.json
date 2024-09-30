@@ -373,6 +373,7 @@
   "tiltScheme": "Tilt Scheme",
   "tiltSeries": "Tilt Series",
   "tiltSeriesAlignment": "Tilt Series Alignment",
+  "tiltSeriesId": "Tilt Series ID",
   "tiltSeriesMetadata": "Tilt Series Metadata",
   "tiltSeriesQualityScore": "Tilt Series Quality Score",
   "tiltSeriesTooltip": "<semibold>Tilt Series Quality:</semibold> Dataset author's assessment of tilt series quality. Score ranges 1-5, with 5 being best. <url to='/faq?accordion=tilt-series'>Learn More</url>",

@@ -1,3 +1,4 @@
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { TomogramV2 } from 'app/types/gqlResponseTypes'
 import { getTomogramName } from 'app/utils/tomograms'
@@ -15,7 +16,7 @@ export function TomogramSelectorOption({
     <div>
       <div className="font-semibold">{getTomogramName(tomogram)}</div>
       <div className="text-sds-body-xxs text-sds-color-primitive-gray-500">
-        {t('tomogramId')}: {tomogram.id}
+        {`${t('tomogramId')}: ${IdPrefix.Tomogram}-${tomogram.id}`}
       </div>
       <div className="text-sds-body-xxs text-sds-color-primitive-gray-500">
         {t('tomogramSampling')}:{' '}
