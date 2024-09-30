@@ -53,24 +53,24 @@ GQL_TO_MODEL_FIELD = {
 """Maps GraphQL type names to model class names."""
 GQL_TO_MODEL_TYPE = {
     "Alignment": "Alignment",
+    "Annotation": "Annotation",
     "AnnotationAuthor": "AnnotationAuthor",
     "AnnotationFile": "AnnotationFile",
     "AnnotationShape": "AnnotationShape",
-    "Annotation": "Annotation",
+    "Dataset": "Dataset",
     "DatasetAuthor": "DatasetAuthor",
     "DatasetFunding": "DatasetFunding",
-    "Dataset": "Dataset",
+    "Deposition": "Deposition",
     "DepositionAuthor": "DepositionAuthor",
     "DepositionType": "DepositionType",
-    "Deposition": "Deposition",
     "Frame": "Frame",
     "PerSectionAlignmentParameters": "PerSectionAlignmentParameters",
     "PerSectionParameters": "PerSectionParameters",
     "Run": "Run",
     "Tiltseries": "TiltSeries",
+    "Tomogram": "Tomogram",
     "TomogramAuthor": "TomogramAuthor",
     "TomogramVoxelSpacing": "TomogramVoxelSpacing",
-    "Tomogram": "Tomogram",
 }
 
 
@@ -257,7 +257,7 @@ def _parse_model_field(
             name=name,
             description=f"The {model_name} this {source_model_name} is a part of",
             annotation_type=model,
-            default_value=f'ItemRelationship("{model}", "{model_field}Id", "id")',
+            default_value=f'ItemRelationship("{model}", "{model_field}_id", "id")',
         )
     return None
 
@@ -283,7 +283,7 @@ def _parse_model_list_field(
             name=name,
             description=f"The {of_model_name} of this {source_model_name}",
             annotation_type=f"List[{of_model}]",
-            default_value=f'ListRelationship("{of_model}", "id", "{source_field}Id")',
+            default_value=f'ListRelationship("{of_model}", "id", "{source_field}_id")',
         )
     return None
 

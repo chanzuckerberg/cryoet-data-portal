@@ -210,7 +210,7 @@ class Model:
     def __init__(self, client: Client, **kwargs):
         self._client = client
         for k in self._get_scalar_fields():
-            value = getattr(self, k).convert(kwargs.get(k))
+            value = getattr(self, k).convert(kwargs.get(to_camel(k)))
             setattr(self, k, value)
 
     def to_dict(self) -> Dict[str, Any]:

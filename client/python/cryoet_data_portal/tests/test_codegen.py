@@ -76,7 +76,8 @@ def test_write_models(tmp_path: Path):
     models = (
         ModelInfo(
             name="TestDataset",
-            gql_name="test_datasets",
+            gql_type="test_datasets",
+            root_field="query",
             fields=(
                 FieldInfo("id", "int", "IntField()"),
                 FieldInfo("title", "str", "StringField()"),
@@ -84,7 +85,8 @@ def test_write_models(tmp_path: Path):
         ),
         ModelInfo(
             name="TestRun",
-            gql_name="test_runs",
+            gql_type="test_runs",
+            root_field="query",
             fields=(
                 FieldInfo("id", "int", "IntField()"),
                 FieldInfo("name", "str", "StringField()"),

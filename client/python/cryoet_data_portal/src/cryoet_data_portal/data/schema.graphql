@@ -5,7 +5,7 @@ type Query {
   annotationShapes(where: AnnotationShapeWhereClause = null, orderBy: [AnnotationShapeOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [AnnotationShape!]!
   annotations(where: AnnotationWhereClause = null, orderBy: [AnnotationOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Annotation!]!
   datasetAuthors(where: DatasetAuthorWhereClause = null, orderBy: [DatasetAuthorOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [DatasetAuthor!]!
-  datasetFundedByThisSource(where: DatasetFundingWhereClause = null, orderBy: [DatasetFundingOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [DatasetFunding!]!
+  datasetFunding(where: DatasetFundingWhereClause = null, orderBy: [DatasetFundingOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [DatasetFunding!]!
   datasets(where: DatasetWhereClause = null, orderBy: [DatasetOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Dataset!]!
   depositionAuthors(where: DepositionAuthorWhereClause = null, orderBy: [DepositionAuthorOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [DepositionAuthor!]!
   depositions(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Deposition!]!
@@ -24,7 +24,7 @@ type Query {
   annotationShapesAggregate(where: AnnotationShapeWhereClause = null): AnnotationShapeAggregate!
   annotationsAggregate(where: AnnotationWhereClause = null): AnnotationAggregate!
   datasetAuthorsAggregate(where: DatasetAuthorWhereClause = null): DatasetAuthorAggregate!
-  datasetFundedByThisSourceAggregate(where: DatasetFundingWhereClause = null): DatasetFundingAggregate!
+  datasetFundingAggregate(where: DatasetFundingWhereClause = null): DatasetFundingAggregate!
   datasetsAggregate(where: DatasetWhereClause = null): DatasetAggregate!
   depositionAuthorsAggregate(where: DepositionAuthorWhereClause = null): DepositionAuthorAggregate!
   depositionsAggregate(where: DepositionWhereClause = null): DepositionAggregate!
@@ -270,6 +270,7 @@ input AnnotationWhereClause {
   httpsMetadataPath: StrComparators
   annotationPublication: StrComparators
   annotationMethod: StrComparators
+  methodLinks: StrComparators
   groundTruthStatus: BoolComparators
   objectId: StrComparators
   objectName: StrComparators
@@ -403,14 +404,10 @@ input StrComparators {
 }
 
 input BoolComparators {
-  _eq: Int
-  _neq: Int
-  _in: [Int!]
-  _nin: [Int!]
-  _gt: Int
-  _gte: Int
-  _lt: Int
-  _lte: Int
+  _eq: Boolean
+  _neq: Boolean
+  _in: [Boolean!]
+  _nin: [Boolean!]
   _is_null: Boolean
 }
 
@@ -510,6 +507,7 @@ enum tiltseries_microscope_manufacturer_enum {
   FEI
   TFS
   JEOL
+  SIMULATED
 }
 
 input TomogramWhereClause {
@@ -740,6 +738,7 @@ enum annotation_method_type_enum {
   manual
   automated
   hybrid
+  simulated
 }
 
 input Annotation_file_shape_type_enumEnumComparators {
@@ -1021,6 +1020,11 @@ type Annotation implements EntityInterface & Node {
   Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
   """
   annotationMethod: String!
+
+  """
+  Provides links to information on the method used for generating annotation, comma separated
+  """
+  methodLinks: String
 
   """
   Whether an annotation is considered ground truth, as determined by the annotator.
@@ -1420,6 +1424,7 @@ input AnnotationOrderByClause {
   httpsMetadataPath: orderBy
   annotationPublication: orderBy
   annotationMethod: orderBy
+  methodLinks: orderBy
   groundTruthStatus: orderBy
   objectId: orderBy
   objectName: orderBy
@@ -1465,6 +1470,7 @@ type AnnotationMinMaxColumns {
   httpsMetadataPath: String
   annotationPublication: String
   annotationMethod: String
+  methodLinks: String
   objectId: String
   objectName: String
   objectDescription: String
@@ -1487,6 +1493,7 @@ type AnnotationGroupByOptions {
   httpsMetadataPath: String
   annotationPublication: String
   annotationMethod: String
+  methodLinks: String
   groundTruthStatus: Boolean
   objectId: String
   objectName: String
@@ -1514,6 +1521,7 @@ enum AnnotationCountColumns {
   httpsMetadataPath
   annotationPublication
   annotationMethod
+  methodLinks
   groundTruthStatus
   objectId
   objectName
@@ -1542,7 +1550,7 @@ type Dataset implements EntityInterface & Node {
   """
   id: Int!
   deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
-  depositionId: Int
+  depositionId: Int!
   fundingSources(
     where: DatasetFundingWhereClause = null
     orderBy: [DatasetFundingOrderByClause!] = []
@@ -1606,7 +1614,7 @@ type Dataset implements EntityInterface & Node {
   """
   Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
   """
-  organismName: String!
+  organismName: String
 
   """NCBI taxonomy identifier for the organism, e.g. 9606"""
   organismTaxid: Int
@@ -1887,7 +1895,7 @@ type DepositionAuthor implements EntityInterface & Node {
   """Numeric identifier (May change!)"""
   id: Int!
   deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
-  depositionId: Int
+  depositionId: Int!
 
   """The order in which the author appears in the publication"""
   authorListOrder: Int!
@@ -2676,7 +2684,7 @@ type Tomogram implements EntityInterface & Node {
   ): TomogramAuthorConnection!
   authorsAggregate(where: TomogramAuthorWhereClause = null): TomogramAuthorAggregate
   deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
-  depositionId: Int
+  depositionId: Int!
   run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
   runId: Int
   tomogramVoxelSpacing(where: TomogramVoxelSpacingWhereClause = null, orderBy: [TomogramVoxelSpacingOrderByClause!] = []): TomogramVoxelSpacing
@@ -3232,7 +3240,7 @@ type DepositionType implements EntityInterface & Node {
   """Numeric identifier (May change!)"""
   id: Int!
   deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
-  depositionId: Int
+  depositionId: Int!
 
   """
   The type of data submitted as a part of this deposition (annotation, dataset, tomogram)
@@ -4319,6 +4327,11 @@ input AnnotationCreateInput {
   annotationMethod: String!
 
   """
+  Provides links to information on the method used for generating annotation, comma separated
+  """
+  methodLinks: String = null
+
+  """
   Whether an annotation is considered ground truth, as determined by the annotator.
   """
   groundTruthStatus: Boolean = null
@@ -4402,6 +4415,11 @@ input AnnotationUpdateInput {
   Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
   """
   annotationMethod: String
+
+  """
+  Provides links to information on the method used for generating annotation, comma separated
+  """
+  methodLinks: String = null
 
   """
   Whether an annotation is considered ground truth, as determined by the annotator.
@@ -4588,7 +4606,7 @@ input DatasetFundingWhereClauseMutations {
 
 input DatasetCreateInput {
   """Reference to the deposition this dataset is associated with"""
-  depositionId: ID = null
+  depositionId: ID!
 
   """Title of a CryoET dataset"""
   title: String!
@@ -4601,7 +4619,7 @@ input DatasetCreateInput {
   """
   Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
   """
-  organismName: String!
+  organismName: String = null
 
   """NCBI taxonomy identifier for the organism, e.g. 9606"""
   organismTaxid: Int = null
@@ -4691,7 +4709,7 @@ input DatasetCreateInput {
 
 input DatasetUpdateInput {
   """Reference to the deposition this dataset is associated with"""
-  depositionId: ID = null
+  depositionId: ID
 
   """Title of a CryoET dataset"""
   title: String
@@ -4704,7 +4722,7 @@ input DatasetUpdateInput {
   """
   Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
   """
-  organismName: String
+  organismName: String = null
 
   """NCBI taxonomy identifier for the organism, e.g. 9606"""
   organismTaxid: Int = null
@@ -4797,7 +4815,7 @@ input DatasetWhereClauseMutations {
 }
 
 input DepositionAuthorCreateInput {
-  depositionId: ID = null
+  depositionId: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -4833,7 +4851,7 @@ input DepositionAuthorCreateInput {
 }
 
 input DepositionAuthorUpdateInput {
-  depositionId: ID = null
+  depositionId: ID
 
   """Numeric identifier (May change!)"""
   id: Int
@@ -4941,7 +4959,7 @@ input DepositionWhereClauseMutations {
 }
 
 input DepositionTypeCreateInput {
-  depositionId: ID = null
+  depositionId: ID!
 
   """
   The type of data submitted as a part of this deposition (annotation, dataset, tomogram)
@@ -4953,7 +4971,7 @@ input DepositionTypeCreateInput {
 }
 
 input DepositionTypeUpdateInput {
-  depositionId: ID = null
+  depositionId: ID
 
   """
   The type of data submitted as a part of this deposition (annotation, dataset, tomogram)
@@ -5549,7 +5567,7 @@ input TomogramCreateInput {
   alignmentId: ID = null
 
   """If the tomogram is part of a deposition, the related deposition"""
-  depositionId: ID = null
+  depositionId: ID!
   runId: ID = null
 
   """Voxel spacings for a run"""
@@ -5651,7 +5669,7 @@ input TomogramUpdateInput {
   alignmentId: ID = null
 
   """If the tomogram is part of a deposition, the related deposition"""
-  depositionId: ID = null
+  depositionId: ID
   runId: ID = null
 
   """Voxel spacings for a run"""
