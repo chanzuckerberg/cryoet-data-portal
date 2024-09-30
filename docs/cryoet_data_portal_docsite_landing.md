@@ -34,6 +34,8 @@ To list the bucket contents with the S3 CLI without credentials, please use the 
 aws s3 ls --no-sign-request s3://cryoet-data-portal-public
 ```
 
+Refer to [this how-to guide](download-data) for information on downloading data from our AWS S3 bucket.
+
 ## Citing the CryoET Data Portal
 
 Data from the portal must acknowledge the data providers and the original publications. The following is provided as an example:
