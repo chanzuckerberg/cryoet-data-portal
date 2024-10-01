@@ -18,11 +18,11 @@ import { checkExhaustive } from 'app/types/utils'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getTomogramName } from 'app/utils/tomograms'
 
+import { AnnotationAlignmentCallout } from './AnnotationAlignmentCallout'
 import { APIDownloadTab } from './APIDownloadTab'
 import { AWSDownloadTab } from './AWSDownloadTab'
 import { CurlDownloadTab } from './CurlDownloadTab'
 import { DirectDownloadTab } from './DirectDownloadTab'
-import { DisabledTabTooltip } from './DisabledTabTooltip'
 import { FILE_FORMAT_LABEL_I18N } from './FileFormatDropdown'
 
 const DOWNLOAD_TAB_MAP: Record<DownloadTab, ComponentType> = {
@@ -55,16 +55,12 @@ export function DownloadOptionsContent() {
     objectName,
     runId,
     runName,
+    annotationToDownload,
     tomogramToDownload,
     type,
   } = useDownloadModalContext()
 
-  const downloadTabs = getDownloadTabs(
-    type,
-    fileFormat,
-    t,
-    multipleTomogramsEnabled,
-  )
+  const downloadTabs = getDownloadTabs(type, fileFormat, t)
   const selectedTab =
     downloadTab ?? downloadTabs.find((tab) => !tab.disabled)!.value // Default to first enabled tab
   const referenceTomogram = allTomograms?.find(
@@ -167,7 +163,15 @@ export function DownloadOptionsContent() {
 
       <DownloadTabContent />
 
-      {multipleTomogramsEnabled && (
+      {multipleTomogramsEnabled && annotationToDownload !== undefined ? (
+        <AnnotationAlignmentCallout
+          // TODO(bchu): Use alignment ID when annotation query is migrated.
+          alignmentId={0}
+          initialState="closed"
+          // TODO(bchu): Filter by tomograms that do not have the same annotation ID.
+          misalignedTomograms={allTomograms ?? []}
+        />
+      ) : (
         <Callout intent="notice" className="!w-full !mt-sds-xl">
           {t('annotationsMayRequireTransformation')}
         </Callout>
@@ -180,7 +184,6 @@ function getDownloadTabs(
   type: DownloadModalType,
   fileFormat: string | null,
   t: TFunction<'translation', undefined>,
-  multipleTomogramsEnabled: boolean,
 ): Array<TabData<DownloadTab>> {
   switch (type) {
     case 'dataset':
@@ -200,40 +203,16 @@ function getDownloadTabs(
         { value: DownloadTab.API, label: t('viaApi') },
       ]
     case 'annotation':
-      return multipleTomogramsEnabled
-        ? [
-            ...(isString(fileFormat) && fileFormat !== 'zarr'
-              ? [
-                  {
-                    value: DownloadTab.Download,
-                    label: t('directDownload'),
-                    disabled: true, // TODO(bchu): is_portal_standard
-                    tooltip: <DisabledTabTooltip />, // TODO(bchu): is_portal_standard
-                  },
-                  {
-                    value: DownloadTab.Curl,
-                    label: t('viaCurl'),
-                    disabled: true, // TODO(bchu): is_portal_standard
-                    tooltip: <DisabledTabTooltip />, // TODO(bchu): is_portal_standard
-                  },
-                ]
-              : []),
-            // eslint-disable-next-line no-constant-condition
-            true // TODO(bchu): is_portal_standard
-              ? { value: DownloadTab.PortalCLI, label: t('viaPortalCli') }
-              : { value: DownloadTab.AWS, label: t('viaAwsS3') },
-            { value: DownloadTab.API, label: t('viaApi') },
-          ]
-        : [
-            ...(isString(fileFormat) && fileFormat !== 'zarr'
-              ? [
-                  { value: DownloadTab.Download, label: t('directDownload') },
-                  { value: DownloadTab.Curl, label: t('viaCurl') },
-                ]
-              : []),
-            { value: DownloadTab.AWS, label: t('viaAwsS3') },
-            { value: DownloadTab.API, label: t('viaApi') },
-          ]
+      return [
+        ...(isString(fileFormat) && fileFormat !== 'zarr'
+          ? [
+              { value: DownloadTab.Download, label: t('directDownload') },
+              { value: DownloadTab.Curl, label: t('viaCurl') },
+            ]
+          : []),
+        { value: DownloadTab.AWS, label: t('viaAwsS3') },
+        { value: DownloadTab.API, label: t('viaApi') },
+      ]
     default:
       return checkExhaustive(type)
   }
