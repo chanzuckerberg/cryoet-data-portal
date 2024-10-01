@@ -106,6 +106,7 @@ export function AnnotationOverviewTable() {
                     />
                   </Tooltip>
                 ),
+                // TODO(bchu): Integrate with alignment.id after annotations field migrated.
                 values: [],
               },
             ]
