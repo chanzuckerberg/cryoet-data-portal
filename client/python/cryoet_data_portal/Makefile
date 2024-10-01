@@ -1,10 +1,31 @@
+SHELL := /bin/bash
+
+export BACKEND_DIR=/tmp/cryoet-data-portal-backend-test-infra
+.PHONY: set-api-version
+set-api-version:
+	if [ ! -e $(BACKEND_DIR) ]; then git clone git@github.com:chanzuckerberg/cryoet-data-portal-backend.git $(BACKEND_DIR); fi
+	export STAGING_SHA=$$(python3 tests/test_infra/get_deployment.sh staging); \
+	if [ -z $STAGING_SHA ]; then \
+	    echo "Setting backend to SHA: $${STAGING_SHA}"; \
+	    cd $(BACKEND_DIR); \
+	    git fetch; \
+	    git reset --hard $$STAGING_SHA; \
+	else \
+	    echo "Could not get staging SHA!"; \
+	    exit 1; \
+	fi
+	cd $(BACKEND_DIR) && make apiv2-init
+
 .PHONY: test-infra
-test-infra:
-	# Use force-recreate to handle re-initializing the database schema and data
-	# rather than maintaining incremental migrations.
-	# See the test_infra/hasura/README.md for more details.
-	cd tests && docker compose up -d --wait --wait-timeout 300 --force-recreate
+test-infra: set-api-version
+	cp tests/test_infra/seed_db.py $(BACKEND_DIR)/apiv2/scripts
+	cd $(BACKEND_DIR) && docker compose run graphql-api python3 scripts/seed_db.py
 	cd ./tests/test_infra/; ./seed_moto.sh
+
+.PHONY: clean
+clean:
+	if [ -e $(BACKEND_DIR) ]; then cd $(BACKEND_DIR); make clean; fi
+	rm -rf $(BACKEND_DIR)
 
 .PHONY: coverage
 coverage:
