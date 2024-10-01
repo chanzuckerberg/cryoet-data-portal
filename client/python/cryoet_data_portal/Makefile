@@ -4,8 +4,8 @@ export BACKEND_DIR=/tmp/cryoet-data-portal-backend-test-infra
 .PHONY: set-api-version
 set-api-version:
 	if [ ! -e $(BACKEND_DIR) ]; then git clone git@github.com:chanzuckerberg/cryoet-data-portal-backend.git $(BACKEND_DIR); fi
-	export STAGING_SHA=$$(python3 tests/test_infra/get_deployment.sh staging); \
-	if [ -z $STAGING_SHA ]; then \
+	export STAGING_SHA=$$(./tests/test_infra/get_deployment.sh staging); \
+	if [ -n "$${STAGING_SHA}" ]; then \
 	    echo "Setting backend to SHA: $${STAGING_SHA}"; \
 	    cd $(BACKEND_DIR); \
 	    git fetch; \
@@ -32,7 +32,7 @@ coverage:
 	export AWS_REGION=us-west-2; \
 		export AWS_ACCESS_KEY_ID=test; \
 		export AWS_SECRET_ACCESS_KEY=test; \
-		export BOTO_ENDPOINT_URL=http://localhost:4000; \
+		export BOTO_ENDPOINT_URL=http://localhost:5566; \
 		export BOTO_SIGNATURE_VERSION=s3v4; \
 		coverage run --parallel-mode -m pytest -v -rP --durations=20 ./tests/
 
@@ -41,7 +41,7 @@ test:
 	export AWS_REGION=us-west-2; \
 		export AWS_ACCESS_KEY_ID=test; \
 		export AWS_SECRET_ACCESS_KEY=test; \
-		export BOTO_ENDPOINT_URL=http://localhost:4000; \
+		export BOTO_ENDPOINT_URL=http://localhost:5566; \
 		export BOTO_SIGNATURE_VERSION=s3v4; \
 		pytest -vvv -s . $(TEST)
 

@@ -1,4 +1,5 @@
-if [ $1 == 'staging' ]; then
+#!/bin/bash
+if [ "$1" = 'staging' ]; then
 	# If there's a release-please branch, this is the file that controls staging versions!
 	RELEASE_SHA=$(curl -s "https://raw.githubusercontent.com/chanzuckerberg/cryoet-data-portal-backend/refs/heads/release-please--branches--main--components--apiv2/.infra/staging/values.yaml" | grep ' tag:' | head -n 1 | awk '{ print $2; }' | cut -d '-' -f 2)
 fi

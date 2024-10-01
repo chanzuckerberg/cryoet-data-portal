@@ -8,7 +8,7 @@ export AWS_SECRET_ACCESS_KEY=test
 export AWS_REGION=us-west-2
 
 # Wipe out the bucket so we can start fresh.
-$aws s3api delete-bucket --bucket $bucket_1 2>/dev/null || /bin/true
+$aws s3api delete-bucket --bucket $bucket_1 2>/dev/null || true
 
 # Create dev bucket but don't error if it already exists (and it shouldn't exist)
 bucket_1=test-public-bucket
