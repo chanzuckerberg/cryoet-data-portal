@@ -1,3 +1,4 @@
+import { Icon } from '@czi-sds/components'
 import { useAtom } from 'jotai'
 
 import { IdPrefix } from 'app/constants/idPrefixes'
@@ -11,12 +12,11 @@ import { AccordionMetadataTable } from '../AccordionMetadataTable'
 import { AuthorLegend } from '../AuthorLegend'
 import { AuthorList } from '../AuthorList'
 import { DatabaseEntryList } from '../DatabaseEntry'
+import { I18n } from '../I18n'
 import { Link } from '../Link'
 import { MetadataDrawer } from '../MetadataDrawer'
-import { IDENTITY_MATRIX_4X4, Matrix4x4 } from './Matrix4x4'
-import { Icon } from '@czi-sds/components'
-import { I18n } from '../I18n'
 import { Tooltip } from '../Tooltip'
+import { IDENTITY_MATRIX_4X4, Matrix4x4 } from './Matrix4x4'
 
 export function TomogramMetadataDrawer() {
   const { t } = useI18n()
