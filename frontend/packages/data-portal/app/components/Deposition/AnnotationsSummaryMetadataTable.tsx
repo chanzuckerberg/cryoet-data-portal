@@ -54,7 +54,7 @@ export function AnnotationsSummaryMetadataTable({
       values: [],
       renderValue: () => (
         <ul className="flex flex-col list-none gap-sds-xs text-sds-body-s leading-sds-body-s">
-          {Array.from(shapeTypeToI18nKeyPlural.entries())
+          {Object.entries(shapeTypeToI18nKeyPlural)
             .filter(([k]) => objectShapeTypes.includes(k))
             .map(([k, v]) => (
               <li key={k}>{t(v)}</li>

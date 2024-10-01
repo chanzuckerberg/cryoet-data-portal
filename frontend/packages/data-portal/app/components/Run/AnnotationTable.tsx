@@ -230,10 +230,7 @@ export function AnnotationTable() {
 
         cell: ({ getValue }) => (
           <TableCell width={AnnotationTableWidths.files}>
-            {t(
-              (shapeTypeToI18nKey.get(getValue() as ObjectShapeType) ??
-                '') as I18nKeys,
-            )}
+            {t(shapeTypeToI18nKey[getValue() as ObjectShapeType])}
           </TableCell>
         ),
       }),

@@ -5,7 +5,6 @@ import { QueryParams } from 'app/constants/query'
 import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
 import { BaseFilterOption } from 'app/types/filter'
-import { I18nKeys } from 'app/types/i18n'
 import { ObjectShapeType } from 'app/types/shapeTypes'
 
 import { SelectFilter } from './SelectFilter'
@@ -15,9 +14,7 @@ function getObjectShapeTypeOptions(
   t: ReturnType<typeof useI18n>['t'],
 ): BaseFilterOption[] {
   return objectShapeTypes.map((value) => ({
-    label: t(
-      shapeTypeToI18nKey.get(value as ObjectShapeType) ?? ('' as I18nKeys),
-    ),
+    label: t(shapeTypeToI18nKey[value as ObjectShapeType]),
     value,
   }))
 }

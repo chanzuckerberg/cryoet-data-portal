@@ -16,12 +16,7 @@ export function onlyRunIfEnabled(key: FeatureFlagKey) {
   test.skip(!isEnabled, `Skipping because feature ${key} is disabled`)
 }
 
-type ObjectShapeTranslationType = Pick<
-  typeof translations,
-  'instanceSegmentation' | 'orientedPoint' | 'point' | 'segmentationMask'
->
-
 export function getObjectShapeTypeLabel(shapeType: ObjectShapeType): string {
-  const key = shapeTypeToI18nKey.get(shapeType)
-  return key ? translations[key as keyof ObjectShapeTranslationType] : ''
+  const key = shapeTypeToI18nKey[shapeType]
+  return key ? translations[key] : ''
 }
