@@ -155,13 +155,17 @@ jobs:
         working-directory: frontend/packages/data-portal
         env:
           API_URL: ${{ vars.API_URL }}
+          API_URL_V2: ${{ vars.API_URL_V2 }}
           ENV: ${{ inputs.environment }}
 
       - name: Run E2E tests
-        run: pnpm e2e --shard ${{ matrix.shardCurrent }}/${{ matrix.shardTotal }}
+        run: |
+          sleep 15
+          pnpm e2e --shard ${{ matrix.shardCurrent }}/${{ matrix.shardTotal }}
         working-directory: frontend/packages/data-portal
         env:
           API_URL: ${{ vars.API_URL }}
+          API_URL_V2: ${{ vars.API_URL_V2 }}
           E2E_BROWSER: ${{ matrix.browser }}
           E2E_CONFIG: ${{ secrets.E2E_CONFIG }}
           CI: true

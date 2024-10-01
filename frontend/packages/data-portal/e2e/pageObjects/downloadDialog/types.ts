@@ -12,3 +12,18 @@ export const TOMOGRAM_DOWNLOAD_TABS = [
   DownloadTab.Curl,
   DownloadTab.Download,
 ]
+
+export const ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS = [
+  DownloadTab.API,
+  DownloadTab.AWS,
+  DownloadTab.Curl,
+  DownloadTab.Download,
+]
+
+// TODO(bchu): Support new tab configuration.
+export const ANNOTATION_NON_STANDARD_TOMOGRAM_DOWNLOAD_TABS = [
+  DownloadTab.API,
+  DownloadTab.AWS,
+  DownloadTab.Curl,
+  DownloadTab.Download,
+]

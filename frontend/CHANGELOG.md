@@ -1,5 +1,56 @@
 # Changelog
 
+## [1.30.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.29.0...web-v1.30.0) (2024-09-23)
+
+
+### ✨ Features
+
+* Add alignment ID row + tooltip ([#1153](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1153)) ([1227fbb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1227fbb09037ab243f9b2723bbf6378ff6faabe9))
+* Add annotations and tomograms tables empty states ([#1155](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1155)) ([bad73bb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/bad73bb778a2fd27fd359e7e9045c60f9663291e))
+* Add more V2 API fields ([#1166](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1166)) ([0770a16](https://github.com/chanzuckerberg/cryoet-data-portal/commit/0770a16bbe7b4f6a05c0b7cad71557ab2840483f))
+* Add reference tomogram selector for single annotation download ([#1136](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1136)) ([d1f694a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d1f694ad25338c0cd0dd4ce08e7aedb8b1850ca0))
+* make ML Challenge Page mobile friendly ([#1141](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1141)) ([c25ceeb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c25ceeb2e79b4770e4999d1eb385b457c892b790))
+* Stop querying publications in V2 temporarily ([#1160](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1160)) ([469b9b8](https://github.com/chanzuckerberg/cryoet-data-portal/commit/469b9b8eff0d7fe3d2de3e436d5f4f83262949e1))
+* Update view tomogram button icons ([#1170](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1170)) ([087d1aa](https://github.com/chanzuckerberg/cryoet-data-portal/commit/087d1aa7129bcc604c064136ad38d891b8c80f20))
+* upgrade sds ([#1077](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1077)) ([d56d716](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d56d716700ec6c8225a9807642137944b454e8cf))
+* upgrade sds colors ([#1078](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1078)) ([75ebe8b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/75ebe8bcfab46055ca6d2182bac50493dae2a5d6))
+
+## [1.29.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.28.0...web-v1.29.0) (2024-09-18)
+
+
+### ✨ Features
+
+* Change download all annotations copy ([#1151](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1151)) ([3d35246](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3d35246dbd7055dc4b040ff580fc12a826c5c204)), closes [#1045](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1045)
+* Start writing run query for new API ([#1149](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1149)) ([6a5eff1](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6a5eff12836093d0f10810aa114e5b94542a4236))
+
+## [1.28.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.27.0...web-v1.28.0) (2024-09-16)
+
+
+### ✨ Features
+
+* Descriptions of datasets and depositions. ([#1134](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1134)) ([6f2d66f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6f2d66f531bf51037f99aedcd1e00d2ad9af3567))
+* filter carry over behavior ([#1128](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1128)) ([afd3497](https://github.com/chanzuckerberg/cryoet-data-portal/commit/afd3497ef83a3a7e6c43b6def943e76dc7b11022))
+* Prep FE codebase for 2 API URLs ([#1126](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1126)) ([e76f270](https://github.com/chanzuckerberg/cryoet-data-portal/commit/e76f27086c0271a1189e242cd0f464c62f1e61f3))
+
+
+### 🐞 Bug Fixes
+
+* Fix not enough padding below key photos ([#1140](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1140)) ([6e84e51](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6e84e51ec69a0a0b1dd994f09e4cf0355bb45464))
+
+## [1.27.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.26.1...web-v1.27.0) (2024-09-11)
+
+
+### ✨ Features
+
+* Id prefixes in filters ([#1124](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1124)) ([d62f382](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d62f382a4f983e85247db14f9b7ec1e8e5a551cc))
+* Implement new single tomogram download flow ([#1120](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1120)) ([721b7db](https://github.com/chanzuckerberg/cryoet-data-portal/commit/721b7db5026ee8cfee5b89be124f119b1a802cb0))
+* integrate depositions backend ([#1093](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1093)) ([63c1b5d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/63c1b5ddf26886bfa8220545c66e2bb37f97d039))
+
+
+### 🐞 Bug Fixes
+
+* header key photo sizing ([#1117](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1117)) ([38ad6f2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/38ad6f2f73452cde499f42611ec9c6250b372277))
+
 ## [1.26.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.26.0...web-v1.26.1) (2024-09-09)
 
 

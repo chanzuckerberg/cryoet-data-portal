@@ -18,7 +18,7 @@ export function MdxPageTitle({
       </h1>
 
       {lastModified && (
-        <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
+        <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
           {t('lastUpdated')}: {lastModified}
         </p>
       )}

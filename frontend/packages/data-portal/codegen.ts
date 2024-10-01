@@ -4,11 +4,15 @@ const SCHEMA_URL =
   process.env.API_URL ||
   'https://graphql-cryoet-api.cryoet.prod.si.czi.technology/v1/graphql'
 
+const SCHEMA_URL_V2 =
+  process.env.API_URL_V2 ||
+  'https://graphql.cryoetdataportal.czscience.com/graphql'
+
 const config: CodegenConfig = {
-  schema: SCHEMA_URL,
-  documents: ['app/**/*.{ts,tsx}'],
   generates: {
     './app/__generated__/': {
+      schema: SCHEMA_URL,
+      documents: ['app/**/*.{ts,tsx}', '!app/**/*V2*.{ts,tsx}'],
       preset: 'client',
       plugins: [],
 
@@ -19,6 +23,24 @@ const config: CodegenConfig = {
       config: {
         scalars: {
           date: 'string',
+          numeric: 'number',
+          _numeric: 'number[][]',
+        },
+      },
+    },
+    './app/__generated_v2__/': {
+      schema: SCHEMA_URL_V2,
+      documents: ['app/**/*V2*.{ts,tsx}'],
+      preset: 'client',
+      plugins: [],
+
+      presetConfig: {
+        gqlTagName: 'gql',
+      },
+
+      config: {
+        scalars: {
+          DateTime: 'string',
           numeric: 'number',
           _numeric: 'number[][]',
         },

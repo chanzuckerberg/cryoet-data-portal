@@ -9,7 +9,14 @@ The Data Portal is organized in a hierarchical structure. We welcome contributio
 
 ## Overview
 
-The CryoET Data Portal has 3 levels in the data hierarchy:
+```{figure} ./figures/data_schema.png
+:alt: CryoET Data Portal Data Schema
+:align: center
+
+CryoET Data Portal Data Hierarchy
+```
+
+As shown in the diagram above, the CryoET Data Portal has 3 levels in the data hierarchy:
 
 - **Dataset** is a set of image files for tilt series, reconstructed tomograms, and cellular and/or subcellular annotation files. Every dataset contains only one sample type prepared with the same conditions. The dataset title, such as "S. pombe cryo-FIB lamellae acquired with defocus-only," summarizes these conditions. Samples can be a cell, tissue or organism; intact organelle; in-vitro mixture of macromolecules or their complex; or in-silico synthetic data, where the experimental conditions are kept constant. Datasets typically contain multiple runs (see below). Downloading a dataset downloads all files, including all available tilt series, tomograms, and annotations.
 
@@ -22,7 +29,7 @@ For more detailed explanations refer to the sections below.
 1. [Datasets](#datasets)
 2. [Runs](#runs)
 3. [Annotations](#annotations)
-4. [Depositions](#depositions) - *Coming Soon!*
+4. [Depositions](#depositions)
 
 ## Datasets
 
@@ -85,13 +92,20 @@ The tilt series quality score is assigned by the dataset authors to communicate 
 
 ### Dataset Download Options
 
-The `Download Dataset` button opens a dialog with instructions for downloading the dataset using [Amazon Web Services Command Line Interface](./cryoet_data_portal_docsite_aws.md) or the [Portal API](python-api). Datasets are downloaded as folders named the Dataset ID. The folder contains subfolders for each run named the author-chosen run name, a folder named Images which contains the key photos of the dataset displayed on the Portal, and a JSON file named `dataset_metadata.json` containing the dataset metadata. The run folders contain subfolders named Tomogram and TiltSeries, containing the tomogram and tilt series image files, and a JSON file named `run_metadata.json` containing the run metadata. More details on the run folder file structure is found in the documentation [below](#run-download-options).
+```{figure} ./figures/dataset_download.png
+:alt: File Structure of a downloaded dataset
+:align: center
 
-The metadata schema of any JSON file stored with the data on the data portal's S3 bucket is described in LinkML and can be found [here](https://github.com/chanzuckerberg/cryoet-data-portal-backend/tree/main/schema/v1.1.0).
+File Structure of a downloaded dataset
+```
+
+The `Download Dataset` button opens a dialog with instructions for downloading the dataset using [Amazon Web Services Command Line Interface](./cryoet_data_portal_docsite_aws) or the [Portal API](python-api). Datasets are downloaded as folders named the Dataset ID. As shown in the diagram above, the folder contains subfolders for each run named the author-chosen run name, a folder named Images which contains the key photos of the dataset displayed on the Portal, and a JSON file named `dataset_metadata.json` containing the dataset metadata. The run folders contain subfolders named Tomogram and TiltSeries, containing the tomogram and tilt series image files, and a JSON file named `run_metadata.json` containing the run metadata. More details on the run folder file structure is found in the documentation [below](#run-download-options).
+
+The metadata schema of any JSON file stored with the data on the data portal's S3 bucket is described in LinkML and can be found [here](https://github.com/chanzuckerberg/cryoet-data-portal-backend/tree/main/schema).
 
 ## Runs
 
-A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. However, in the [data schema](https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html#data-model) used in the Portal API, runs are connected to tomograms through the `TomogramVoxelSpacing` class which specifies the sampling or voxel size of the tomogram. For a single run, multiple tomograms of different spacings can be available.
+A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. However, in the [data schema](python-api.md#data-model) used in the Portal API, runs are connected to tomograms through the `TomogramVoxelSpacing` class which specifies the sampling or voxel size of the tomogram. For a single run, multiple tomograms of different spacings can be available.
 
 An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run. These metadata are defined in the tables below including their mapping to attributes in the Portal API:
 
@@ -141,7 +155,7 @@ The table on a Run Overview page contains an overview of the annotations for the
 
 ### Run Download Options
 
-The `Download ...` button on the Run Overview page opens a dialog for downloading tomograms or instructions for downloading all annotations or all run data. Individual tomograms can be downloaded directly in the browser as MRC or OME-Zarr files following selection of which tomogram to download based on the tomogram sampling and processing. The All Annotations option provides instructions on using [Amazon Web Services Command Line Interface](./cryoet_data_portal_docsite_aws.md) or the [Portal API](python-api) to download.
+The `Download ...` button on the Run Overview page opens a dialog for downloading tomograms or instructions for downloading all annotations or all run data. Individual tomograms can be downloaded directly in the browser as MRC or OME-Zarr files following selection of which tomogram to download based on the tomogram sampling and processing. The All Annotations option provides instructions on using [Amazon Web Services Command Line Interface](cryoet_data_portal_docsite_aws) or the [Portal API](python-api) to download.
 
 You can also use the Portal API to download all run data as a folder using the Run ID in the download dialog or in the header on the Run Overview page. For example, to download all run data for Run ID 645 into your current working directory, use the below code snippet:
 
@@ -154,7 +168,14 @@ run = Run.get_by_id(client, 645)
 run.download_everything()
 ```
 
-Runs are downloaded as folders named the author-chosen run name. The folder contains subfolders named Tomograms and TiltSeries and a JSON file named `run_metadata.json` containing the run metadata. The Tomogram folder has a subfolder for every voxel spacing available, and each of those folders contains subfolders NeuorglancerPrecompute, which has files for visualizing the data in Neuroglancer; KeyPhotos, which contains the key photos of the run displayed on the Portal; CanonicalTomogram, which has the tomogram as an MRC file and OME-Zarr directory along with tomogram metadata and metadata for visualizing the tomogram with Neuroglancer; and Annotations. More details on the Annotation folder file structure is found in the documentation [below](#annotation-download-options). The TiltSeries folder contains the tilt series images as an MRC file and OME-Zarr directory as well as a JSON file with the tilt series metadata.
+```{figure} ./figures/run_download.png
+:alt: File Structure of a downloaded run
+:align: center
+
+File Structure of a downloaded run
+```
+
+Runs are downloaded as folders named the author-chosen run name. As shown in the diagram above, the folder contains subfolders named Tomograms and TiltSeries and a JSON file named `run_metadata.json` containing the run metadata. The Tomogram folder has a subfolder for every voxel spacing available, and each of those folders contains subfolders NeuorglancerPrecompute, which has files for visualizing the data in Neuroglancer; KeyPhotos, which contains the key photos of the run displayed on the Portal; CanonicalTomogram, which has the tomogram as an MRC file and OME-Zarr directory along with tomogram metadata and metadata for visualizing the tomogram with Neuroglancer; and Annotations. More details on the Annotation folder file structure is found in the documentation [below](#annotation-download-options). The TiltSeries folder contains the tilt series images as an MRC file and OME-Zarr directory as well as a JSON file with the tilt series metadata.
 
 ## Annotations
 
@@ -201,17 +222,22 @@ Each annotation has its own metadata, which can be viewed using the info icon on
 
 There is no definitive rule for which annotations are displayed with a tomogram in Neuroglancer by default. The annotations are manually chosen by the data curation team to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
 
-The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html) to learn more about napari and CryoET Data Portal.
+The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](cryoet_data_portal_docsite_napari) to learn more about napari and CryoET Data Portal.
 
 ### Annotation Download Options
 
 Individual entries in the annotations table can be downloaded using the `Download` button on the right side of the table.
 
-Instance Segmentations, Oriented Points, and Points all can be downloaded directly in the browser as Newline Delimited JSON (ndJSON) files, where each line in the file is its own JSON. The download dialog also has instructions for downloading using curl, [Amazon Web Services Command Line Interface](./cryoet_data_portal_docsite_aws.md) or the [Portal API](python-api). In all cases, the JSON entries have a `type` field with instancePoint, orientedPoint, and point for Instance Segmentations, Oriented Points, and Points, respectively, and a `location` field with the x, y, z coordinates. For Instance Segmentations, there is also an `instance_id` to group points into geometric segmentation masks. For Oriented Points, there is also an `xyz_rotation_matrix` field with a 3x3 rotation matrix corresponding to each point.
+Instance Segmentations, Oriented Points, and Points all can be downloaded directly in the browser as Newline Delimited JSON (ndJSON) files, where each line in the file is its own JSON. The download dialog also has instructions for downloading using curl, [Amazon Web Services Command Line Interface](cryoet_data_portal_docsite_aws) or the [Portal API](python-api). In all cases, the JSON entries have a `type` field with instancePoint, orientedPoint, and point for Instance Segmentations, Oriented Points, and Points, respectively, and a `location` field with the x, y, z coordinates. For Instance Segmentations, there is also an `instance_id` to group points into geometric segmentation masks. For Oriented Points, there is also an `xyz_rotation_matrix` field with a 3x3 rotation matrix corresponding to each point.
 
-Semantic segmentation masks can downloaded using [Amazon Web Services Command Line Interface](./cryoet_data_portal_docsite_aws.md) or the [Portal API](python-api) as MRC files or OME-Zarr directories. When downloading all annotations on a Run Overview page, both the MRC file and the OME-Zarr directory will be downloaded for each segmentation mask.
+Semantic segmentation masks can downloaded using [Amazon Web Services Command Line Interface](cryoet_data_portal_docsite_aws) or the [Portal API](python-api) as MRC files or OME-Zarr directories. When downloading all annotations on a Run Overview page, both the MRC file and the OME-Zarr directory will be downloaded for each segmentation mask.
 
 ## Depositions
-Depositions are collections of data submitted together. All data being submitted together will be tagged with the same deposition ID. On the Portal, we will surface depositions that contain annotations submitted together.
 
-*More information is coming soon!*
+```{figure} ./figures/depositions.png
+:alt: Depositions defined
+:align: center
+
+Types of depositions
+```
+Depositions are collections of data submitted together. All data being submitted together will be tagged with the same deposition ID. On the Portal, we will surface depositions that contain annotations submitted together. In the future, depositions surfaced on the Portal may include tomograms added to existing datasets or sets of datasets contributed together.

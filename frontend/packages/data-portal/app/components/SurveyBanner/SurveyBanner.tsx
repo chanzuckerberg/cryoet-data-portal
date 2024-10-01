@@ -34,7 +34,12 @@ export function SurveyBanner() {
   )
 
   return (
-    <div className={cns('sticky bottom-0 w-full', styles.banner)}>
+    <div
+      className={cns(
+        'hidden screen-716:block sticky bottom-0 w-full',
+        styles.banner,
+      )}
+    >
       <Banner
         dismissed={!open}
         dismissible
@@ -45,7 +50,7 @@ export function SurveyBanner() {
         }}
       >
         <div className="flex items-center gap-sds-default">
-          <Icon sdsIcon="speechBubbles" sdsSize="l" sdsType="static" />
+          <Icon sdsIcon="SpeechBubbles" sdsSize="l" sdsType="static" />
 
           <p className="text-sds-body-s leading-sds-body-s">
             <I18n i18nKey="surveyBanner" />

@@ -1,12 +1,19 @@
 import {
-  DefaultDropdownMenuOption,
+  DefaultAutocompleteOption,
   DropdownMenu,
   Icon,
   InputDropdown,
+  SDSAutocompleteOnChange,
 } from '@czi-sds/components'
 import { AutocompleteClasses } from '@mui/material/Autocomplete'
 import { PopperProps } from '@mui/material/Popper'
-import { ReactNode, useCallback, useMemo, useState } from 'react'
+import {
+  ReactNode,
+  SyntheticEvent,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react'
 
 import { cns } from 'app/utils/cns'
 
@@ -47,7 +54,7 @@ export function Select({
   tooltipProps?: Partial<TooltipProps>
 }) {
   const activeOption = useMemo(
-    () => options.find((option) => option.key === activeKey ?? null),
+    () => options.find((option) => option.key === activeKey),
     [activeKey, options],
   )
 
@@ -59,7 +66,7 @@ export function Select({
     [options],
   )
 
-  const sdsOptions = options.map<DefaultDropdownMenuOption>((option) =>
+  const sdsOptions = options.map<DefaultAutocompleteOption>((option) =>
     option.component !== undefined
       ? {
           name: option.label ?? option.key,
@@ -83,6 +90,19 @@ export function Select({
     setOpen(false)
   }, [])
 
+  const handleOnChange = useCallback<
+    SDSAutocompleteOnChange<DefaultAutocompleteOption, false, false, false>
+  >(
+    (
+      _event: SyntheticEvent<Element, Event>,
+      option: DefaultAutocompleteOption | null,
+    ) => {
+      onChange(option ? labelMap[option.name] : null)
+      closeDropdown()
+    },
+    [closeDropdown, labelMap, onChange],
+  )
+
   return (
     <div className={cns('flex flex-col gap-sds-xxs', className)}>
       <div className="flex items-center gap-sds-xxs">
@@ -95,8 +115,8 @@ export function Select({
         {tooltip && (
           <Tooltip tooltip={tooltip} {...tooltipProps}>
             <Icon
-              className="!fill-sds-gray-500 hover:!fill-sds-primary-400"
-              sdsIcon="infoCircle"
+              className="!fill-sds-color-primitive-gray-500 hover:!fill-sds-color-primitive-blue-400"
+              sdsIcon="InfoCircle"
               sdsSize="xs"
               sdsType="static"
             />
@@ -105,9 +125,12 @@ export function Select({
       </div>
 
       <InputDropdown
+        // For some reason input dropdown says `className` is not defined even though it is.
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         className={cns(
-          'w-full !bg-white hover:!border-sds-primary-400',
-          open && '!border-sds-primary-400',
+          'w-full !bg-white hover:!border-sds-color-primitive-blue-400',
+          open && '!border-sds-color-primitive-blue-400',
         )}
         label={label}
         sdsStage="userInput"
@@ -124,15 +147,14 @@ export function Select({
         options={sdsOptions}
         value={activeSdsOption}
         anchorEl={anchorEl}
-        onChange={(_, option) => {
-          onChange(option ? labelMap[option.name] : null)
-        }}
-        onClose={() => {
-          closeDropdown()
-        }}
+        onClose={closeDropdown}
+        onChange={handleOnChange}
         onClickAway={closeDropdown}
         classes={dropdownClasses}
-        PopperBaseProps={dropdownPopperBaseProps}
+        PopperBaseProps={{
+          ...dropdownPopperBaseProps,
+          style: { width: anchorEl?.clientWidth },
+        }}
       />
     </div>
   )

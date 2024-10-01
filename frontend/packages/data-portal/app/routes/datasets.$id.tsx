@@ -10,12 +10,17 @@ import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
 import { RunFilter } from 'app/components/RunFilter'
 import { TablePageLayout } from 'app/components/TablePageLayout'
+import { RUN_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import { i18n } from 'app/i18n'
+import {
+  useSingleDatasetFilterHistory,
+  useSyncParamsWithState,
+} from 'app/state/filterHistory'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
@@ -53,6 +58,13 @@ export default function DatasetByIdPage() {
   const { dataset, deposition } = useDatasetById()
   const { t } = useI18n()
   const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
+
+  const { setPreviousSingleDatasetParams } = useSingleDatasetFilterHistory()
+
+  useSyncParamsWithState({
+    filters: RUN_FILTERS,
+    setParams: setPreviousSingleDatasetParams,
+  })
 
   return (
     <TablePageLayout

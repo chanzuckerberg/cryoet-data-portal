@@ -1,5 +1,7 @@
 import { cns } from 'app/utils/cns'
 
+export const IDENTITY_MATRIX_4X4 = '1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1'
+
 export function Matrix4x4({
   matrix,
   className,

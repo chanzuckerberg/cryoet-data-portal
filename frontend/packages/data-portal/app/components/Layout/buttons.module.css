@@ -1,0 +1,14 @@
+.buttonX {
+  width: 32px !important;
+  height: 32px !important;
+
+  svg {
+    @apply !text-sds-color-primitive-common-white;
+  }
+}
+
+.buttonHamburger {
+  svg {
+    @apply !text-sds-color-primitive-gray-400;
+  }
+}

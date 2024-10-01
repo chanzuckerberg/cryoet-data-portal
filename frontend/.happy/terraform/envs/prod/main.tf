@@ -3,6 +3,9 @@
 data "aws_ssm_parameter" "graphql_endpoint" {
   name = "/cryoet-prod/graphql_endpoint"
 }
+data "aws_ssm_parameter" "graphql_endpoint_v2" {
+  name = "/cryoet-prod/graphql_endpoint_v2"
+}
 
 module "stack" {
   source           = "git@github.com:chanzuckerberg/happy//terraform/modules/happy-stack-eks?ref=happy-stack-eks-v4.31.0"
@@ -16,6 +19,7 @@ module "stack" {
   additional_env_vars = {
     ENV = "prod"
     API_URL = data.aws_ssm_parameter.graphql_endpoint.value
+    API_URL_V2 = data.aws_ssm_parameter.graphql_endpoint_v2.value
   }
   services = {
     frontend = {

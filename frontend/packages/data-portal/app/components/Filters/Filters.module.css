@@ -1,10 +1,13 @@
 /* stylelint-disable selector-class-pattern */
 
 .boolean {
-  :global(.MuiTypography-root) {
-    font-size: theme('fontSize.sds-body-s') !important;
-    font-weight: theme('fontWeight.semibold') !important;
-    color: theme('colors.sds-gray.500') !important;
+  :global(.MuiFormControlLabel-root) {
+    @apply !m-0 !items-center;
+  }
+
+  :global(.MuiTypography-root) span span {
+    @apply !text-sds-body-s !leading-sds-body-s font-semibold;
+    @apply !text-sds-color-primitive-gray-500;
   }
 }
 
@@ -26,15 +29,29 @@
   }
 
   :global(#meets-all) {
-    @apply text-sds-body-xs leading-sds-body-xs text-sds-gray-500;
+    @apply text-sds-body-xs leading-sds-body-xs text-sds-color-semantic-text-base-secondary;
 
     letter-spacing: 0.3px;
   }
 }
 
 .popper {
+  /* stylelint-disable-next-line no-descending-specificity */
+  :global(.MuiPaper-root) {
+    @apply p-4;
+
+    /* stylelint-disable-next-line scss/selector-no-redundant-nesting-selector, no-descending-specificity */
+    & > div > div {
+      @apply m-0 p-0;
+    }
+  }
+
+  :global(.MuiAutocomplete-listbox) {
+    @apply !p-0;
+  }
+
   :global(.MuiMenuItem-root) > span:nth-child(1) {
-    @apply flex items-center justify-center;
+    @apply flex items-center p-0;
   }
 }
 

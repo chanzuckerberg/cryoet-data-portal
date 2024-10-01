@@ -2,14 +2,15 @@
 
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { toNumber } from 'lodash-es'
+import { startCase, toNumber } from 'lodash-es'
 import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
-import { apolloClient } from 'app/apollo.server'
+import { apolloClient, apolloClientV2 } from 'app/apollo.server'
 import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
 import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
+import { NoTotalResults } from 'app/components/NoTotalResults'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
 import { AnnotationTable } from 'app/components/Run/AnnotationTable'
@@ -19,6 +20,8 @@ import { TomogramsTable } from 'app/components/Run/TomogramTable'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getRunById } from 'app/graphql/getRunById.server'
+import { logIfHasDiff } from 'app/graphql/getRunByIdDiffer'
+import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useFileSize } from 'app/hooks/useFileSize'
 import { useI18n } from 'app/hooks/useI18n'
@@ -45,22 +48,35 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   )
   const depositionId = +(url.searchParams.get(QueryParams.DepositionId) ?? '-1')
 
-  const { data } = await getRunById({
-    id,
-    annotationsPage,
-    depositionId,
-    client: apolloClient,
-    params: url.searchParams,
-  })
+  const [{ data: responseV1 }, { data: responseV2 }] = await Promise.all([
+    getRunById({
+      id,
+      annotationsPage,
+      depositionId,
+      client: apolloClient,
+      params: url.searchParams,
+    }),
+    getRunByIdV2(apolloClientV2, id),
+  ])
 
-  if (data.runs.length === 0) {
+  if (responseV1.runs.length === 0) {
     throw new Response(null, {
       status: 404,
       statusText: `Run with ID ${id} not found`,
     })
   }
 
-  return json(data)
+  try {
+    logIfHasDiff(request.url, responseV1, responseV2)
+  } catch (error) {
+    // eslint-disable-next-line no-console, @typescript-eslint/restrict-template-expressions
+    console.log(`DIFF ERROR: ${error}`)
+  }
+
+  return json({
+    v1: responseV1,
+    v2: responseV2,
+  })
 }
 
 export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
@@ -86,7 +102,7 @@ export default function RunByIdPage() {
     run,
     processingMethods,
     annotationFiles,
-    tomogramsForDownload,
+    tomograms,
     annotationFilesAggregates,
     tomogramsCount,
     deposition,
@@ -94,6 +110,7 @@ export default function RunByIdPage() {
 
   const {
     downloadConfig,
+    openRunDownloadModal,
     tomogramProcessing,
     tomogramSampling,
     annotationId,
@@ -104,10 +121,10 @@ export default function RunByIdPage() {
 
   const activeTomogram =
     downloadConfig === DownloadConfig.Tomogram
-      ? tomogramsForDownload.find((tomogram) =>
+      ? tomograms.find((tomogram) =>
           multipleTomogramsEnabled
             ? tomogram.id === Number(tomogramId)
-            : `${tomogram.voxel_spacing}` === tomogramSampling &&
+            : `${tomogram.voxelSpacing}` === tomogramSampling &&
               tomogram.processing === tomogramProcessing,
         )
       : undefined
@@ -131,10 +148,10 @@ export default function RunByIdPage() {
       )?.https_path
     }
 
-    return activeTomogram?.https_mrc_scale0 ?? undefined
+    return activeTomogram?.httpsMrcFile ?? undefined
   }, [
     activeAnnotation,
-    activeTomogram?.https_mrc_scale0,
+    activeTomogram?.httpsMrcFile,
     fileFormat,
     objectShapeType,
   ])
@@ -167,6 +184,33 @@ export default function RunByIdPage() {
           filteredCount: annotationFilesAggregates.filteredCount,
           totalCount: annotationFilesAggregates.totalCount,
           countLabel: t('annotations'),
+          noTotalResults: (
+            <NoTotalResults
+              title={t('noAnnotationsAvailable')}
+              description={t('downloadTheRunDataToCreateYourOwnAnnotations')}
+              buttons={[
+                {
+                  text: t('downloadRunData'),
+                  onClick: () => {
+                    openRunDownloadModal({
+                      runId: run.id,
+                      datasetId: run.dataset.id,
+                    })
+                  },
+                },
+                {
+                  text: t('contributeYourAnnotations'),
+                  onClick: () => {
+                    window
+                      .open(
+                        'https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=RunEmptyState&hide_Event=true',
+                      )
+                      ?.focus()
+                  },
+                },
+              ]}
+            />
+          ),
         },
         ...(multipleTomogramsEnabled
           ? [
@@ -177,16 +221,35 @@ export default function RunByIdPage() {
                 filteredCount: tomogramsCount,
                 totalCount: tomogramsCount,
                 countLabel: t('tomograms'),
+                noTotalResults: (
+                  <NoTotalResults
+                    title={startCase(t('noTomogramsAvailable'))}
+                    description={t(
+                      'downloadAllRunDataViaApiToCreateYourOwnReconstructions',
+                    )}
+                    buttons={[
+                      {
+                        text: t('downloadThisRun'),
+                        onClick: () => {
+                          openRunDownloadModal({
+                            runId: run.id,
+                            datasetId: run.dataset.id,
+                          })
+                        },
+                      },
+                    ]}
+                  />
+                ),
               },
             ]
           : []),
       ]}
       downloadModal={
         <DownloadModal
-          activeAnnotation={activeAnnotation}
-          activeTomogram={activeTomogram}
+          annotationToDownload={activeAnnotation}
+          tomogramToDownload={activeTomogram}
           allTomogramProcessing={processingMethods}
-          allTomograms={tomogramsForDownload}
+          allTomograms={tomograms}
           datasetId={run.dataset.id}
           datasetTitle={run.dataset.title}
           fileSize={fileSize}
@@ -201,11 +264,11 @@ export default function RunByIdPage() {
           })
             .with(
               { downloadConfig: DownloadConfig.Tomogram, fileFormat: 'mrc' },
-              () => activeTomogram?.s3_mrc_scale0,
+              () => activeTomogram?.s3MrcFile ?? undefined,
             )
             .with(
               { downloadConfig: DownloadConfig.Tomogram, fileFormat: 'zarr' },
-              () => activeTomogram?.s3_omezarr_dir,
+              () => activeTomogram?.s3OmezarrDir ?? undefined,
             )
             .with({ downloadConfig: DownloadConfig.AllAnnotations }, () =>
               tomogram?.s3_prefix

@@ -10,6 +10,7 @@ import { goTo } from 'e2e/filters/utils'
 import { TableValidator } from 'e2e/pageObjects/filters/types'
 import { isNumber } from 'lodash-es'
 
+import { QueryParams } from 'app/constants/query'
 import { TestIds } from 'app/constants/testIds'
 
 import {
@@ -24,11 +25,11 @@ function getPagination(page: Page) {
 }
 
 function getPreviousButton(page: Page) {
-  return page.getByLabel('Previous page')
+  return page.locator(`[data-order="first"]`)
 }
 
 function getNextButton(page: Page) {
-  return page.getByLabel('Next page')
+  return page.locator(`[data-order="last"]`)
 }
 
 async function clickVisiblePageButton(page: Page, pageNumber: number) {
@@ -45,7 +46,7 @@ async function selectPaginationDropdownOption(page: Page, pageNumber: number) {
 
 async function waitForPageNumber(page: Page, pageNumber: number) {
   await page.waitForURL(
-    (url) => url.searchParams.get('page') === `${pageNumber}`,
+    (url) => url.searchParams.get(QueryParams.Page) === `${pageNumber}`,
   )
 }
 
@@ -193,13 +194,13 @@ export function testPagination({
       page,
     }) => {
       await openPage({ page })
-      await expect(getPreviousButton(page)).toBeDisabled()
+      await expect(getPreviousButton(page)).toHaveAttribute('disabled')
     })
 
     test('should disable next button when on last page', async ({ page }) => {
       const maxPages = await getMaxPages(client)
       await openPage({ page, pageNumber: maxPages })
-      await expect(getNextButton(page)).toBeDisabled()
+      await expect(getNextButton(page)).toHaveAttribute('disabled')
     })
 
     test('should hide pagination when maxPages is 1', async ({ page }) => {

@@ -1,55 +1,60 @@
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
+import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { isNotNullish } from 'app/utils/nullish'
 
 export function useRunById() {
-  const data = useTypedLoaderData<GetRunByIdQuery>()
+  const { v1, v2 } = useTypedLoaderData<{
+    v1: GetRunByIdQuery
+    v2: GetRunByIdV2Query
+  }>()
 
-  const run = data.runs[0]
+  const run = v1.runs[0]
 
-  const annotationFiles = data.annotation_files
+  const annotationFiles = v1.annotation_files
 
-  const { tomograms } = data
+  const { tomograms } = v2
 
-  const tomogramsForDownload = data.tomograms_for_download
-
-  const processingMethods = data.tomograms_for_distinct_processing_methods.map(
+  const processingMethods = v1.tomograms_for_distinct_processing_methods.map(
     (tomogram) => tomogram.processing,
   )
 
-  const objectNames = data.annotations_for_object_names.map(
+  const objectNames = v1.annotations_for_object_names.map(
     (annotation) => annotation.object_name,
   )
 
-  const objectShapeTypes = data.annotation_files_for_shape_types.map(
+  const objectShapeTypes = v1.annotation_files_for_shape_types.map(
     (file) => file.shape_type,
   )
 
-  const annotationSoftwares = data.annotations_for_softwares
+  const annotationSoftwares = v1.annotations_for_softwares
     .map((annotation) => annotation.annotation_software)
     .filter(isNotNullish)
 
-  const resolutions = data.tomograms_for_resolutions.map(
+  const resolutions = v1.tomograms_for_resolutions.map(
     (tomogram) => tomogram.voxel_spacing,
   )
 
   const annotationFilesAggregates = {
-    totalCount: data.annotation_files_aggregate_for_total.aggregate?.count ?? 0,
+    totalCount: v1.annotation_files_aggregate_for_total.aggregate?.count ?? 0,
     filteredCount:
-      data.annotation_files_aggregate_for_filtered.aggregate?.count ?? 0,
+      v1.annotation_files_aggregate_for_filtered.aggregate?.count ?? 0,
     groundTruthCount:
-      data.annotation_files_aggregate_for_ground_truth.aggregate?.count ?? 0,
-    otherCount: data.annotation_files_aggregate_for_other.aggregate?.count ?? 0,
+      v1.annotation_files_aggregate_for_ground_truth.aggregate?.count ?? 0,
+    otherCount: v1.annotation_files_aggregate_for_other.aggregate?.count ?? 0,
   }
 
-  const tomogramsCount = data.tomograms_aggregate.aggregate?.count ?? 0
+  const tomogramsCount = v1.tomograms_aggregate.aggregate?.count ?? 0
+
+  const alignmentsCount = v2.alignmentsAggregate.aggregate?.[0]?.count ?? 0
+
+  const { deposition } = v1
 
   return {
     run,
     annotationFiles,
     tomograms,
-    tomogramsForDownload,
     processingMethods,
     objectNames,
     objectShapeTypes,
@@ -57,6 +62,7 @@ export function useRunById() {
     resolutions,
     annotationFilesAggregates,
     tomogramsCount,
-    deposition: data.deposition,
+    alignmentsCount,
+    deposition,
   }
 }

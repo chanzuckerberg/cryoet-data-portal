@@ -1,16 +1,16 @@
 import { render, screen } from '@testing-library/react'
 
-import { AuthorInfo, MockAuthorLink } from 'app/components/AuthorLink'
+import { AuthorInfoV2, MockAuthorLink } from 'app/components/AuthorLink'
 
 import { AuthorList } from './AuthorList'
 
-const DEFAULT_AUTHORS: AuthorInfo[] = [
-  { name: 'Foo', corresponding_author_status: true },
+const DEFAULT_AUTHORS: AuthorInfoV2[] = [
+  { name: 'Foo', correspondingAuthorStatus: true },
   { name: 'Bar' },
-  { name: 'Foo Bar', primary_author_status: true },
+  { name: 'Foo Bar', primaryAuthorStatus: true },
   { name: 'Foobar Foo' },
-  { name: 'Foo Bar 2', primary_author_status: true },
-  { name: 'Foo 2', corresponding_author_status: true },
+  { name: 'Foo Bar 2', primaryAuthorStatus: true },
+  { name: 'Foo 2', correspondingAuthorStatus: true },
   { name: 'Bar 2' },
 ]
 
@@ -31,8 +31,8 @@ describe('non-compact', () => {
     render(<AuthorList authors={DEFAULT_AUTHORS} />)
     const authors = findAuthorStrings()
 
-    expect(AUTHOR_MAP[authors[0]].primary_author_status).toBe(true)
-    expect(AUTHOR_MAP[authors[1]].primary_author_status).toBe(true)
+    expect(AUTHOR_MAP[authors[0]].primaryAuthorStatus!).toBe(true)
+    expect(AUTHOR_MAP[authors[1]].primaryAuthorStatus!).toBe(true)
   })
 
   it('should sort other authors', () => {
@@ -41,8 +41,8 @@ describe('non-compact', () => {
     const otherAuthors = authors.slice(2, -2)
 
     otherAuthors.forEach((author) => {
-      expect(AUTHOR_MAP[author].primary_author_status).toBeUndefined()
-      expect(AUTHOR_MAP[author].corresponding_author_status).toBeUndefined()
+      expect(AUTHOR_MAP[author].primaryAuthorStatus).toBeUndefined()
+      expect(AUTHOR_MAP[author].correspondingAuthorStatus).toBeUndefined()
     })
   })
 
@@ -50,10 +50,10 @@ describe('non-compact', () => {
     render(<AuthorList authors={DEFAULT_AUTHORS} />)
     const authors = findAuthorStrings()
 
-    expect(AUTHOR_MAP[authors.at(-1) ?? ''].corresponding_author_status).toBe(
+    expect(AUTHOR_MAP[authors.at(-1) ?? ''].correspondingAuthorStatus).toBe(
       true,
     )
-    expect(AUTHOR_MAP[authors.at(-2) ?? ''].corresponding_author_status).toBe(
+    expect(AUTHOR_MAP[authors.at(-2) ?? ''].correspondingAuthorStatus).toBe(
       true,
     )
   })
@@ -81,8 +81,8 @@ describe('non-compact', () => {
         authors={[
           {
             name: 'One',
-            primary_author_status: true,
-            corresponding_author_status: true,
+            primaryAuthorStatus: true,
+            correspondingAuthorStatus: true,
           },
           {
             name: 'Two',
@@ -139,7 +139,7 @@ describe('compact', () => {
     render(
       <AuthorList
         authors={DEFAULT_AUTHORS.filter(
-          (author) => !author.corresponding_author_status,
+          (author) => !author.correspondingAuthorStatus,
         )}
         compact
       />,

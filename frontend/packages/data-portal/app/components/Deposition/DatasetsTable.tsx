@@ -14,6 +14,7 @@ import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { RUN_FILTERS } from 'app/constants/filterQueryParams'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { DepositionPageDatasetTableWidths } from 'app/constants/table'
@@ -42,7 +43,7 @@ export function DatasetsTable() {
   const { deposition, datasets } = useDepositionById()
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const datasetSort = (searchParams.get('sort') ?? undefined) as
+  const datasetSort = (searchParams.get(QueryParams.Sort) ?? undefined) as
     | CellHeaderDirection
     | undefined
 
@@ -135,8 +136,8 @@ export function DatasetsTable() {
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                   <p
                     className={cnsNoMerge(
-                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400',
-                      'group-hover:text-sds-primary-500',
+                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
+                      'group-hover:text-sds-color-primitive-blue-500',
                     )}
                   >
                     {isLoadingDebounced ? (
@@ -146,15 +147,15 @@ export function DatasetsTable() {
                     )}
                   </p>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
+                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
-                      `${t('datasetId')}: ${dataset.id}`
+                      `${t('datasetId')}: ${IdPrefix.Dataset}-${dataset.id}`
                     )}
                   </p>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-500 mt-sds-s">
+                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500 mt-sds-s">
                     {isLoadingDebounced ? (
                       <>
                         <Skeleton className="max-w-[80%] mt-2" variant="text" />
@@ -202,12 +203,11 @@ export function DatasetsTable() {
                       <I18n i18nKey="runsTooltip" />
                       {t('symbolPeriod')}
                     </p>
-                    <p className="mt-sds-s text-sds-gray-600 text-sds-body-xxxs leading-sds-body-xxxs">
+                    <p className="mt-sds-s text-sds-color-primitive-gray-600 text-sds-body-xxxs leading-sds-body-xxxs">
                       <I18n i18nKey="runsTooltipDepositionSubtext" />
                     </p>
                   </div>
                 }
-                arrowPadding={{ right: 270 }}
                 width={DepositionPageDatasetTableWidths.runs}
                 subHeader={t('withDepositionData')}
               >

@@ -92,12 +92,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
           primary_author_status
         }
 
-        authors_with_affiliation: authors(where: { affiliation_name: { _is_null: false } }) {
-          name
-          affiliation_name
-        }
-
-        funding_sources {
+        funding_sources(
+          order_by: {
+            funding_agency_name: asc
+          }
+        ) {
           funding_agency_name
           grant_id
         }
@@ -243,11 +242,11 @@ const GET_RUN_BY_ID_QUERY = gql(`
       }
     }
 
-    # Tomograms table:
+    # Tomograms table + download selector:
     tomograms(where: { tomogram_voxel_spacing: { run_id: { _eq: $id }}}) {
-      affine_transformation_matrix
       ctf_corrected
       fiducial_alignment_status
+      https_mrc_scale0
       id
       is_canonical
       key_photo_thumbnail_url
@@ -258,6 +257,8 @@ const GET_RUN_BY_ID_QUERY = gql(`
       processing_software
       reconstruction_method
       reconstruction_software
+      s3_mrc_scale0
+      s3_omezarr_dir
       size_x
       size_y
       size_z
@@ -278,22 +279,6 @@ const GET_RUN_BY_ID_QUERY = gql(`
         email
         orcid
       }
-    }
-
-    # Tomograms download:
-    tomograms_for_download: tomograms(
-      where: { tomogram_voxel_spacing: { run_id: { _eq: $id } } }
-    ) {
-      https_mrc_scale0
-      id
-      processing
-      reconstruction_method
-      s3_mrc_scale0
-      s3_omezarr_dir
-      size_x
-      size_y
-      size_z
-      voxel_spacing
     }
 
     # Annotation metadata:

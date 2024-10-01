@@ -1,4 +1,5 @@
 import { ModalSubtitle } from 'app/components/ModalSubtitle'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDownloadModalContext } from 'app/context/DownloadModal.context'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
@@ -16,7 +17,10 @@ export function ConfigureDownloadContent() {
       <ModalSubtitle label={t('datasetName')} value={datasetTitle} />
       {runName && <ModalSubtitle label={t('runName')} value={runName} />}
       {annotationId && (
-        <ModalSubtitle label={t('annotationId')} value={annotationId} />
+        <ModalSubtitle
+          label={t('annotationId')}
+          value={`${IdPrefix.Annotation}-${annotationId}`}
+        />
       )}
       {objectName && (
         <ModalSubtitle label={t('objectName')} value={objectName} />

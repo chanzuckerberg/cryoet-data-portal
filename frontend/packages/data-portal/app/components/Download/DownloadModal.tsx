@@ -1,4 +1,4 @@
-import { Button, ButtonIcon, Dialog, DialogActions } from '@czi-sds/components'
+import { Button, Dialog, DialogActions, Icon } from '@czi-sds/components'
 import { useCallback, useMemo } from 'react'
 import { match } from 'ts-pattern'
 
@@ -87,7 +87,7 @@ function DownloadModalContent() {
   return (
     <Dialog
       classes={{
-        paper: '!max-w-[600px] border border-sds-gray-100',
+        paper: '!max-w-[600px] border border-sds-color-primitive-gray-100',
       }}
       onClose={closeModal}
       open={!!isModalOpen}
@@ -96,7 +96,7 @@ function DownloadModalContent() {
       <div className="flex justify-between">
         <div className="flex-col gap-sds-xxs py-sds-xxs">
           {modalData.subtitle && (
-            <p className="text-sds-gray-500 text-sds-body-xs leading-sds-body-xs">
+            <p className="text-sds-color-primitive-gray-500 text-sds-body-xs leading-sds-body-xs">
               {modalData.subtitle}
             </p>
           )}
@@ -106,12 +106,14 @@ function DownloadModalContent() {
         </div>
 
         <div>
-          <ButtonIcon
-            onClick={closeModal}
-            sdsSize="medium"
-            sdsType="tertiary"
-            sdsIcon="xMark"
-          />
+          <button onClick={closeModal} type="button">
+            <Icon
+              className="!fill-sds-color-semantic-component-base-icon"
+              sdsIcon="XMark"
+              sdsSize="l"
+              sdsType="button"
+            />
+          </button>
         </div>
       </div>
 

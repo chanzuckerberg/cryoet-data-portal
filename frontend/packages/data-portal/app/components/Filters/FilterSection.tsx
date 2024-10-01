@@ -15,7 +15,7 @@ export function FilterSection({
     <div
       className={cns(
         'pl-sds-l py-sds-default',
-        border && 'border-b border-sds-gray-300',
+        border && 'border-b border-sds-color-primitive-gray-300',
       )}
     >
       <p className="font-semibold text-sds-header-s leading-sds-header-s pl-sds-s">

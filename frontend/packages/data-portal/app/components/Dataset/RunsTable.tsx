@@ -1,10 +1,11 @@
 /* eslint-disable react/no-unstable-nested-components */
 
+import { Icon } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
 import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
@@ -15,6 +16,7 @@ import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
 import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
 import { RUN_FILTERS } from 'app/constants/filterQueryParams'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { RunTableWidths } from 'app/constants/table'
@@ -22,10 +24,6 @@ import { TiltSeriesScore } from 'app/constants/tiltSeries'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
-import {
-  SingleDatasetHistory,
-  useSingleDatasetFilterHistory,
-} from 'app/state/filterHistory'
 import { cnsNoMerge } from 'app/utils/cns'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
@@ -44,24 +42,11 @@ export function RunsTable() {
   const { dataset, deposition } = useDatasetById()
   const runs = dataset.runs as unknown as Run[]
   const { t } = useI18n()
-  const { setSingleDatasetHistory } = useSingleDatasetFilterHistory()
   const [searchParams] = useSearchParams()
 
   const [isHoveringOverInteractable, setIsHoveringOverInteractable] =
     useState(false)
   const navigate = useNavigate()
-
-  useEffect(
-    () =>
-      setSingleDatasetHistory(
-        new Map(
-          Array.from(searchParams).filter(([k]) =>
-            (RUN_FILTERS as unknown as string[]).includes(k),
-          ),
-        ) as SingleDatasetHistory,
-      ),
-    [searchParams, setSingleDatasetHistory],
-  )
 
   const getRunUrl = useCallback(
     (id: number) => {
@@ -120,7 +105,6 @@ export function RunsTable() {
         header: () => (
           <CellHeader
             tooltip={<I18n i18nKey="runsTooltip" />}
-            arrowPadding={{ right: 260 }}
             width={RunTableWidths.name}
           >
             {t('runName')}
@@ -141,9 +125,9 @@ export function RunsTable() {
                 ) : (
                   <Link
                     className={cnsNoMerge(
-                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400',
+                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
                       !isHoveringOverInteractable &&
-                        'hover:text-sds-primary-500',
+                        'hover:text-sds-color-primitive-blue-500',
                     )}
                     to={runUrl}
                   >
@@ -151,11 +135,11 @@ export function RunsTable() {
                   </Link>
                 )}
 
-                <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
+                <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
                   {isLoadingDebounced ? (
                     <Skeleton className="max-w-[120px]" variant="text" />
                   ) : (
-                    `${t('runId')}: ${run.id}`
+                    `${t('runId')}: ${IdPrefix.Run}-${run.id}`
                   )}
                 </p>
               </div>
@@ -252,6 +236,9 @@ export function RunsTable() {
                   buttonProps={{
                     sdsType: 'secondary',
                     sdsStyle: 'square',
+                    startIcon: (
+                      <Icon sdsIcon="Cube" sdsType="button" sdsSize="s" />
+                    ),
                   }}
                   event={{
                     datasetId: dataset.id,

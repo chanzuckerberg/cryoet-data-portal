@@ -7,6 +7,7 @@ import { AuthorInfo } from 'app/components/AuthorLink'
 import { AuthorList } from 'app/components/AuthorList'
 import { DatabaseEntryList } from 'app/components/DatabaseEntry'
 import { Link } from 'app/components/Link'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
@@ -30,16 +31,16 @@ export function DatasetMetadataTable({
       renderValue: (value) => {
         return (
           <Link
-            className="flex flex-row gap-sds-xs w-full items-center justify-center text-sds-info-400"
+            className="flex flex-row gap-sds-xs w-full items-center justify-center text-sds-color-primitive-blue-400"
             to={`/datasets/${dataset.id}`}
             target="_blank"
           >
             <span className="truncate">{value}</span>
             <Icon
-              sdsIcon="chevronRight"
+              sdsIcon="ChevronRight"
               sdsSize="xs"
               sdsType="iconButton"
-              className="!w-[10px] !h-[10px] !fill-sds-primary-400"
+              className="!w-[10px] !h-[10px] !fill-sds-color-primitive-blue-400"
             />
           </Link>
         )
@@ -48,7 +49,7 @@ export function DatasetMetadataTable({
 
     !!showAllFields && {
       label: t('datasetId'),
-      values: [`${dataset.id ?? ''}`],
+      values: [dataset.id ? `${IdPrefix.Dataset}-${dataset.id}` : '--'],
     },
 
     !!showAllFields && {

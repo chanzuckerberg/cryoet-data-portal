@@ -7,6 +7,7 @@ export const enum TiltSeriesKeys {
   CameraModel,
   DataAcquisitionSoftware,
   EnergyFilter,
+  Id,
   ImageCorrector,
   MicroscopeManufacturer,
   MicroscopeModel,

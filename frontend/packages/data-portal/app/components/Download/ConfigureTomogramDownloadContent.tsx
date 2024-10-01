@@ -15,8 +15,7 @@ import { DownloadConfig } from 'app/types/download'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { FileFormatDropdown } from './FileFormatDropdown'
-import { TomogramSelectorInputLabel } from './TomogramSelectorLabel'
-import { TomogramSelectorOption } from './TomogramSelectorOption'
+import { TomogramSelector } from './Tomogram/TomogramSelector'
 
 const TOMOGRAM_FILE_FORMATS = ['mrc', 'zarr']
 
@@ -29,7 +28,6 @@ export function ConfigureTomogramDownloadContent() {
     downloadConfig,
     tomogramProcessing,
     tomogramSampling,
-    tomogramId,
     setAllAnnotationsConfig,
     setTomogramConfigDeprecated,
     setTomogramConfig,
@@ -39,7 +37,7 @@ export function ConfigureTomogramDownloadContent() {
   } = useDownloadModalQueryParamState()
 
   const {
-    activeTomogram,
+    tomogramToDownload,
     allTomogramProcessing = [],
     allTomograms = [],
     runId,
@@ -48,8 +46,8 @@ export function ConfigureTomogramDownloadContent() {
   const tomogramSamplingOptions = useMemo<SelectOption[]>(
     () =>
       allTomograms.map((tomogram) => ({
-        key: t('unitAngstrom', { value: tomogram.voxel_spacing }),
-        value: `(${tomogram.size_x}, ${tomogram.size_y}, ${tomogram.size_z})px`,
+        key: t('unitAngstrom', { value: tomogram.voxelSpacing }),
+        value: `(${tomogram.sizeX}, ${tomogram.sizeY}, ${tomogram.sizeZ})px`,
       })),
     [allTomograms, t],
   )
@@ -63,16 +61,6 @@ export function ConfigureTomogramDownloadContent() {
     [allTomogramProcessing],
   )
 
-  const tomogramOptions = useMemo<SelectOption[]>(
-    () =>
-      allTomograms.map((tomogram) => ({
-        key: tomogram.id.toString(),
-        value: tomogram.id.toString(),
-        component: <TomogramSelectorOption tomogram={tomogram} />,
-      })),
-    [allTomograms],
-  )
-
   const setTomogramConfigWithInitialValues = useCallback(() => {
     if (multipleTomogramsEnabled) {
       setTomogramConfig(allTomograms[0]?.id.toString())
@@ -83,7 +71,7 @@ export function ConfigureTomogramDownloadContent() {
     const processing = allTomogramProcessing.at(0)
 
     if (tomogram && processing) {
-      setTomogramConfigDeprecated(`${tomogram.voxel_spacing}`, processing)
+      setTomogramConfigDeprecated(`${tomogram.voxelSpacing}`, processing)
     }
   }, [
     allTomogramProcessing,
@@ -116,25 +104,12 @@ export function ConfigureTomogramDownloadContent() {
           <div className="flex flex-col gap-sds-l">
             <div className="flex items-center gap-sds-l pt-sds-m">
               {multipleTomogramsEnabled ? (
-                <Select
+                <TomogramSelector
                   title={t('selectTomogram')}
-                  className="flex-grow"
-                  dropdownClasses={{
-                    root: 'w-[448px]',
-                    popper: 'max-h-[325px] !p-sds-xs overflow-y-auto',
-                    listbox: '!pr-0',
-                  }}
-                  dropdownPopperBaseProps={{
-                    className: '!p-0',
-                  }}
-                  activeKey={tomogramId}
-                  label={
-                    <TomogramSelectorInputLabel tomogram={activeTomogram} />
-                  }
-                  options={tomogramOptions}
-                  onChange={setTomogramId}
-                  showActiveValue={false}
-                  showDetails={false}
+                  selectedTomogram={tomogramToDownload}
+                  allTomograms={allTomograms}
+                  onSelectTomogramId={setTomogramId}
+                  className="max-w-[450px]"
                 />
               ) : (
                 <>
@@ -146,9 +121,9 @@ export function ConfigureTomogramDownloadContent() {
                     }
                     className="flex-grow"
                     label={
-                      activeTomogram
+                      tomogramToDownload
                         ? `${t('unitAngstrom', {
-                            value: activeTomogram.voxel_spacing,
+                            value: tomogramToDownload.voxelSpacing,
                           })}`
                         : '--'
                     }
@@ -193,13 +168,17 @@ export function ConfigureTomogramDownloadContent() {
         <Radio
           value={DownloadConfig.AllAnnotations}
           label={t('downloadAllAnnotations')}
-          description={t('downloadAllAnnotationsInThisRun')}
+          description={t('downloadAvailableAnnotationsInSupported')}
           onClick={setAllAnnotationsConfig}
         />
       </RadioGroup>
 
       {runId && (
-        <Callout className="!w-full !mt-sds-xl" intent="info" expandable>
+        <Callout
+          className="!w-full !mt-sds-xl !mb-sds-xxs"
+          intent="info"
+          expandable
+        >
           <CalloutTitle>
             <p className="text-sds-body-xs leading-sds-body-xs">
               <I18n i18nKey="downloadAllRunData" />
@@ -222,8 +201,8 @@ export function ConfigureTomogramDownloadContent() {
       )}
 
       {multipleTomogramsEnabled && (
-        <Callout intent="warning" className="!w-full !mt-0">
-          {t('annotationsDownloadedFromThePortal')}
+        <Callout intent="notice" className="!w-full !mt-0">
+          {t('annotationsMayRequireTransformation')}
         </Callout>
       )}
     </>

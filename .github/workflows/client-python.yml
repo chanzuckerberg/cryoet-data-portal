@@ -6,13 +6,13 @@ on:
       - main
     paths:
       - 'client/python/**'
-      - '.github/workflows/**'
+      - '.github/workflows/client-python.yml'
   pull_request:
     branches:
       - '**'
     paths:
       - 'client/python/**'
-      - '.github/workflows/**'
+      - '.github/workflows/client-python.yml'
 
 jobs:
   test-client-python:

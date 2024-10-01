@@ -1,6 +1,8 @@
 import { Button, Icon } from '@czi-sds/components'
 
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
+import { CollapsibleList } from 'app/components/CollapsibleList'
+import { HeaderKeyPhoto } from 'app/components/HeaderKeyPhoto'
 import { I18n } from 'app/components/I18n'
 import { InlineMetadata } from 'app/components/InlineMetadata'
 import { PageHeader } from 'app/components/PageHeader'
@@ -8,6 +10,7 @@ import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
 import { MetadataTable } from 'app/components/Table'
 import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
 import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import {
@@ -19,9 +22,6 @@ import { i18n } from 'app/i18n'
 import { TableDataValue } from 'app/types/table'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
-
-import { CollapsibleList } from '../CollapsibleList'
-import { HeaderKeyPhoto } from '../HeaderKeyPhoto'
 
 interface FileSummaryData {
   key: string
@@ -50,6 +50,7 @@ export function RunHeader() {
     resolutions,
     annotationFilesAggregates,
     tomogramsCount,
+    alignmentsCount,
   } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
@@ -69,14 +70,14 @@ export function RunHeader() {
   return (
     <PageHeader
       actions={
-        <>
+        <div className="flex items-center gap-2.5">
           <ViewTomogramButton
             tomogramId={tomogram?.id?.toString()}
             neuroglancerConfig={neuroglancerConfig}
             buttonProps={{
               sdsStyle: 'rounded',
               sdsType: 'primary',
-              startIcon: <Icon sdsIcon="table" sdsType="button" sdsSize="s" />,
+              startIcon: <Icon sdsIcon="Cube" sdsType="button" sdsSize="s" />,
             }}
             tooltipPlacement="bottom"
             event={{
@@ -89,7 +90,7 @@ export function RunHeader() {
           />
 
           <Button
-            startIcon={<Icon sdsIcon="download" sdsType="button" sdsSize="l" />}
+            startIcon={<Icon sdsIcon="Download" sdsType="button" sdsSize="l" />}
             sdsType="secondary"
             sdsStyle="rounded"
             onClick={() =>
@@ -101,14 +102,14 @@ export function RunHeader() {
           >
             {t('downloadWithAdditionalOptions')}
           </Button>
-        </>
+        </div>
       }
       releaseDate={run.dataset.release_date}
       lastModifiedDate={
         run.dataset.last_modified_date ?? run.dataset.deposition_date
       }
       breadcrumbs={<Breadcrumbs variant="run" data={run.dataset} />}
-      metadata={[{ key: t('runId'), value: `${run.id}` }]}
+      metadata={[{ key: t('runId'), value: `${IdPrefix.Run}-${run.id}` }]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Run)}
       title={run.name}
       renderHeader={({ moreInfo }) => (
@@ -128,18 +129,23 @@ export function RunHeader() {
                     key: t('frames'),
                     value: framesCount > 0 ? t('available') : t('notSubmitted'),
                     valueClass:
-                      framesCount > 0 ? undefined : 'text-sds-gray-500',
+                      framesCount > 0
+                        ? undefined
+                        : 'text-sds-color-primitive-gray-500',
                   },
                   {
                     key: t('tiltSeries'),
                     value:
                       tiltSeriesCount > 0 ? t('available') : t('notSubmitted'),
                     valueClass:
-                      tiltSeriesCount > 0 ? undefined : 'text-sds-gray-500',
+                      tiltSeriesCount > 0
+                        ? undefined
+                        : 'text-sds-color-primitive-gray-500',
                   },
                   {
-                    key: t('alignmentFile'),
-                    value: '', // TODO(bchu): Confirm how this should be counted.
+                    key: t('alignment'),
+                    value:
+                      alignmentsCount > 0 ? t('available') : t('notSubmitted'),
                   },
                   {
                     key: t('tomograms'),

@@ -8,10 +8,14 @@ import {
   Datasets,
   GetRunByIdQuery,
   Tiltseries,
-  Tomograms,
 } from 'app/__generated__/graphql'
+import {
+  Fiducial_Alignment_Status_Enum,
+  Tomogram,
+} from 'app/__generated_v2__/graphql'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getRunById } from 'app/graphql/getRunById.server'
+import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { isFiducial } from 'app/utils/tomograms'
 
 import { DrawerTestData, DrawerTestMetadata } from './types'
@@ -137,7 +141,6 @@ function getAnnotationTestMetdata(
     annotation.ground_truth_status ? translations.notApplicable : value
 
   return {
-    annotationId: annotation.id,
     annotationAuthors: annotation.authors?.map((author) => author.name),
     publication: annotation.annotation_publication,
     depositionDate: annotation.deposition_date,
@@ -164,39 +167,48 @@ function getAnnotationTestMetdata(
 }
 
 function getTomogramDrawerTestMetadata(
-  tomogram: DeepPartial<Tomograms>,
+  tomogram: DeepPartial<Tomogram>,
 ): DrawerTestMetadata {
   return {
-    authors: tomogram.authors!.map((author) => author.name),
+    authors: tomogram.authors!.edges!.map((edge) => edge.node!.name),
     publications: '--',
     relatedDatabases: '--',
-    depositionName: tomogram.deposition?.title ?? '--',
+    // TODO(bchu): Uncomment when API name change is in prod.
+    // depositionName: tomogram.deposition?.title ?? '--',
+    depositionName: '--',
     depositionId: tomogram.deposition?.id ?? '--',
-    depositionDate: tomogram.deposition?.deposition_date ?? '--',
+    depositionDate: tomogram.deposition?.depositionDate ?? '--',
     releaseDate: '--',
     lastModifiedDate: '--',
     portalStandardStatus: '--',
     submittedByDatasetAuthor: '--',
-    reconstructionSoftware: tomogram.reconstruction_software,
-    reconstructionMethod: tomogram.reconstruction_method,
-    processingSoftware: tomogram.processing_software ?? '',
+    reconstructionSoftware: tomogram.reconstructionSoftware,
+    reconstructionMethod: tomogram.reconstructionMethod,
+    processingSoftware: tomogram.processingSoftware ?? '',
     processing: tomogram.processing,
     voxelSpacing: [
-      tomogram.voxel_spacing!.toString(),
-      `(${tomogram.size_x}, ${tomogram.size_y}, ${tomogram.size_z})px`,
+      tomogram.voxelSpacing!.toString(),
+      `(${tomogram.sizeX}, ${tomogram.sizeY}, ${tomogram.sizeZ})px`,
     ],
     fiducialAlignmentStatus: getBoolString(
-      tomogram.fiducial_alignment_status === 'FIDUCIAL',
+      tomogram.fiducialAlignmentStatus ===
+        Fiducial_Alignment_Status_Enum.Fiducial,
     ),
-    ctfCorrected: tomogram.ctf_corrected ? 'Yes' : 'No',
-    alignmentId: '--',
+    ctfCorrected: tomogram.ctfCorrected ? 'Yes' : 'No',
+    alignmentId: tomogram.alignment!.id,
     canonicalStatus: '--',
-    alignmentType: '--',
-    dimensionXYZ: '--',
+    alignmentType: tomogram.alignment!.alignmentType,
+    dimensionXYZ: `${tomogram.alignment!.volumeXDimension}, ${
+      tomogram.alignment!.volumeYDimension
+    }, ${tomogram.alignment!.volumeZDimension}`,
     offsetXYZ: '--',
-    rotationX: '--',
-    tileOffset: '--',
-    affineTransformationMatrix: '--',
+    rotationX: tomogram.alignment!.xRotationOffset,
+    tiltOffset: tomogram.alignment!.tiltOffset,
+    affineTransformationMatrix:
+      tomogram.alignment!.affineTransformationMatrix!.replaceAll(
+        /\[|\]|,|\s/g,
+        '',
+      ),
   }
 }
 
@@ -279,17 +291,13 @@ export async function getAnnotationTestData(
 export async function getTomogramTestData(
   client: ApolloClient<NormalizedCacheObject>,
 ) {
-  const { data } = await getRunById({
-    client,
-    id: +E2E_CONFIG.runId,
-    annotationsPage: 1,
-  })
+  const { data } = await getRunByIdV2(client, +E2E_CONFIG.runId)
 
   const tomogram = data.tomograms[0]
 
   return {
     title: startCase(
-      `${tomogram.id} ${tomogram.reconstruction_method} ${tomogram.processing}`,
+      `${tomogram.id} ${tomogram.reconstructionMethod} ${tomogram.processing}`,
     ),
     metadata: getTomogramDrawerTestMetadata(tomogram),
   }

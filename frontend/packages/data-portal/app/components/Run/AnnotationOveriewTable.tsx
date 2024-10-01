@@ -1,3 +1,4 @@
+import { Icon } from '@czi-sds/components'
 import { useMemo } from 'react'
 
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
@@ -12,10 +13,14 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useAnnotation } from 'app/state/annotation'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 
+import { I18n } from '../I18n'
+import { Tooltip } from '../Tooltip'
+
 export function AnnotationOverviewTable() {
   const { activeAnnotation: annotation } = useAnnotation()
   const { t } = useI18n()
   const isDepositionsEnabled = useFeatureFlag('depositions')
+  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
 
   const methodLinks = useMemo(
     () =>
@@ -34,10 +39,6 @@ export function AnnotationOverviewTable() {
       id="annotation-overview"
       header={t('annotationOverview')}
       data={[
-        {
-          label: t('annotationId'),
-          values: [annotation.id],
-        },
         {
           label:
             annotation.authors.length === 1
@@ -62,7 +63,7 @@ export function AnnotationOverviewTable() {
                 values: ['Deposition Name'],
                 renderValue: () => (
                   <Link
-                    className="text-sds-primary-400"
+                    className="text-sds-color-primitive-blue-400"
                     to={`/depositions/${annotation.deposition?.id}`}
                   >
                     {annotation.deposition?.title}
@@ -88,6 +89,28 @@ export function AnnotationOverviewTable() {
           label: t('lastModifiedDate'),
           values: [annotation.last_modified_date ?? '--'],
         },
+        ...(multipleTomogramsEnabled
+          ? [
+              {
+                label: t('alignmentId'),
+                labelExtra: (
+                  <Tooltip
+                    tooltip={<I18n i18nKey="alignmentIdTooltip" />}
+                    placement="top"
+                  >
+                    <Icon
+                      sdsIcon="InfoCircle"
+                      sdsSize="s"
+                      className="!fill-sds-color-primitive-gray-500"
+                      sdsType="button"
+                    />
+                  </Tooltip>
+                ),
+                // TODO(bchu): Integrate with alignment.id after annotations field migrated.
+                values: [],
+              },
+            ]
+          : []),
         {
           label: t('methodType'),
           values: [annotation.method_type ?? '--'],
@@ -117,14 +140,14 @@ export function AnnotationOverviewTable() {
                             className="text-sds-header-s leading-sds-header-s whitespace-nowrap overflow-hidden text-ellipsis"
                             linkProps={{
                               className:
-                                'text-sds-info-400 overflow-hidden text-ellipsis',
+                                'text-sds-color-primitive-blue-400 overflow-hidden text-ellipsis',
                             }}
                           />
                         </li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-sds-body-s leading-sds-body-s text-sds-gray-500">
+                    <p className="text-sds-body-s leading-sds-body-s text-sds-color-primitive-gray-500">
                       {t('notSubmitted')}
                     </p>
                   ),

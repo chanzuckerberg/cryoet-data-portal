@@ -1,4 +1,4 @@
-import { ButtonIcon } from '@czi-sds/components'
+import { Button, Icon } from '@czi-sds/components'
 import { usePrevious } from '@react-hookz/web'
 import { ReactNode, useCallback, useEffect } from 'react'
 
@@ -6,6 +6,7 @@ import { Demo } from 'app/components/Demo'
 import { Drawer } from 'app/components/Drawer'
 import { TabData, Tabs } from 'app/components/Tabs'
 import { TestIds } from 'app/constants/testIds'
+import { useI18n } from 'app/hooks/useI18n'
 import {
   MetadataDrawerId,
   MetadataTab,
@@ -13,6 +14,7 @@ import {
 } from 'app/hooks/useMetadataDrawer'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { i18n } from 'app/i18n'
+import { I18nKeys } from 'app/types/i18n'
 import { cns } from 'app/utils/cns'
 
 const TAB_OPTIONS: TabData<MetadataTab>[] = [
@@ -30,6 +32,7 @@ interface MetaDataDrawerProps {
   children: ReactNode
   disabled?: boolean
   drawerId: MetadataDrawerId
+  idInfo?: { label: I18nKeys; text: string }
   label: string
   onClose?(): void
   title: string
@@ -39,11 +42,14 @@ export function MetadataDrawer({
   children,
   disabled,
   drawerId,
+  idInfo,
   label,
   onClose,
   title,
 }: MetaDataDrawerProps) {
   const drawer = useMetadataDrawer()
+
+  const { t } = useI18n()
 
   const handleClose = useCallback(() => {
     drawer.closeDrawer()
@@ -67,27 +73,42 @@ export function MetadataDrawer({
         data-testid={TestIds.MetadataDrawer}
       >
         <header className="flex items-start justify-between px-sds-xl pt-sds-xl pb-sds-xxl">
-          <div className="flex flex-col gap-sds-s">
-            <p className="text-xs text-sds-gray-600 font-semibold uppercase">
+          <div className="flex flex-col">
+            <p className="text-xs text-sds-color-semantic-text-base-secondary font-semibold uppercase mb-sds-s">
               {label}
             </p>
 
             <p className="text-sds-header-xl font-semibold text-black leading-sds-header-xl line-clamp-3">
               {title}
             </p>
+
+            {idInfo && (
+              <p className="flex flex-row gap-sds-xs items-baseline text-sds-color-primitive-gray-500 mt-sds-xxs">
+                <span className="text-sds-header-xxs leading-sds-header-xxs font-semibold">
+                  {t(idInfo.label)}:
+                </span>
+                <span className="text-sds-body-s leading-sds-body-s">
+                  {idInfo.text}
+                </span>
+              </p>
+            )}
           </div>
 
-          <ButtonIcon
+          <Button
             onClick={handleClose}
-            sdsIcon="xMark"
-            sdsIconProps={{
-              color: 'gray',
-            }}
             data-testid={TestIds.MetadataDrawerCloseButton}
-          />
+            className="!min-w-[36px] !min-h-[36px] !max-w-[36px] !max-h-[36px]"
+          >
+            <Icon
+              className="!fill-sds-color-primitive-gray-500"
+              sdsIcon="XMark"
+              sdsSize="l"
+              sdsType="button"
+            />
+          </Button>
         </header>
 
-        <div className="px-sds-xl border-b-2 border-sds-gray-200">
+        <div className="px-sds-xl border-b-2 border-sds-color-primitive-gray-200">
           <Tabs
             className="!m-0"
             tabs={TAB_OPTIONS}
@@ -102,7 +123,7 @@ export function MetadataDrawer({
             'px-sds-xl pt-sds-xl pb-sds-xxl',
 
             drawer.activeTab === MetadataTab.Metadata &&
-              'divide-y divide-sds-gray-300',
+              'divide-y divide-sds-color-primitive-gray-300',
           )}
         >
           {drawer.activeTab === MetadataTab.Metadata && children}

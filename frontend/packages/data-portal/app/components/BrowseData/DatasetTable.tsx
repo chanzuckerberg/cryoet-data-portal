@@ -5,7 +5,7 @@ import Skeleton from '@mui/material/Skeleton'
 import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
 import { AuthorList } from 'app/components/AuthorList'
@@ -15,15 +15,13 @@ import { Link } from 'app/components/Link'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { EMPIAR_ID, EMPIAR_URL } from 'app/constants/external-dbs'
 import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
+import { QueryParams } from 'app/constants/query'
 import { DatasetTableWidths } from 'app/constants/table'
 import { Dataset, useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
-import {
-  BrowseDatasetHistory,
-  useBrowseDatasetFilterHistory,
-} from 'app/state/filterHistory'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
@@ -46,8 +44,7 @@ export function DatasetTable() {
   const { datasets } = useDatasets()
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const { setBrowseDatasetHistory } = useBrowseDatasetFilterHistory()
-  const datasetSort = (searchParams.get('sort') ?? undefined) as
+  const datasetSort = (searchParams.get(QueryParams.Sort) ?? undefined) as
     | CellHeaderDirection
     | undefined
 
@@ -56,18 +53,6 @@ export function DatasetTable() {
     useState(false)
   const [isClickingOnEmpiarId, setIsClickingOnEmpiarId] = useState(false)
   const navigate = useNavigate()
-
-  useEffect(
-    () =>
-      setBrowseDatasetHistory(
-        new Map(
-          Array.from(searchParams).filter(([k]) =>
-            (DATASET_FILTERS as unknown as string[]).includes(k),
-          ),
-        ) as BrowseDatasetHistory,
-      ),
-    [searchParams, setBrowseDatasetHistory],
-  )
 
   const getDatasetUrl = useCallback(
     (id: number) => {
@@ -155,9 +140,9 @@ export function DatasetTable() {
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                   <p
                     className={cnsNoMerge(
-                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-primary-400',
+                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
                       !isClickingOnEmpiarId &&
-                        'group-hover:text-sds-primary-500',
+                        'group-hover:text-sds-color-primitive-blue-500',
                     )}
                   >
                     {isLoadingDebounced ? (
@@ -167,15 +152,15 @@ export function DatasetTable() {
                     )}
                   </p>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-600">
+                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
-                      `${t('datasetId')}: ${dataset.id}`
+                      `${t('datasetId')}: ${IdPrefix.Dataset}-${dataset.id}`
                     )}
                   </p>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-gray-500 mt-sds-s">
+                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500 mt-sds-s">
                     {isLoadingDebounced ? (
                       <>
                         <Skeleton className="max-w-[80%] mt-2" variant="text" />
@@ -256,7 +241,6 @@ export function DatasetTable() {
             header: () => (
               <CellHeader
                 tooltip={<I18n i18nKey="runsTooltip" />}
-                arrowPadding={{ right: 270 }}
                 width={DatasetTableWidths.runs}
               >
                 {t('runs')}

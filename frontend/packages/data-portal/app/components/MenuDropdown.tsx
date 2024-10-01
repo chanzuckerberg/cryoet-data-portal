@@ -23,22 +23,24 @@ export function MenuDropdown({
       >
         <span
           className={cns(
+            'font-semibold',
+
             anchorEl
-              ? 'text-sds-gray-white'
-              : 'text-sds-gray-400 group-hover:text-sds-gray-white',
+              ? 'text-sds-color-primitive-common-white'
+              : 'text-sds-color-primitive-gray-400 group-hover:text-sds-color-primitive-common-white',
           )}
         >
           {title}
         </span>
 
         <Icon
-          sdsIcon={anchorEl ? 'chevronUp' : 'chevronDown'}
+          sdsIcon={anchorEl ? 'ChevronUp' : 'ChevronDown'}
           sdsSize="xs"
           sdsType="iconButton"
           className={cns(
             anchorEl
-              ? '!w-[10px] !h-[10px] !fill-sds-gray-white'
-              : '!w-[10px] !h-[10px] !fill-sds-gray-400 group-hover:!fill-sds-gray-white',
+              ? '!w-[10px] !h-[10px] !fill-sds-color-primitive-common-white'
+              : '!w-[10px] !h-[10px] !fill-sds-color-primitive-gray-400 group-hover:!fill-sds-color-primitive-common-white',
           )}
         />
       </button>
