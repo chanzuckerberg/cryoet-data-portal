@@ -15,10 +15,37 @@ We welcome feedback from the community on the data structure, design and functio
 
 ## Getting Started
 
-- [Installation](cryoet_data_portal_docsite_quick_start)
-- [Python Client API Reference](python-api)
-- [Tutorials](tutorials)
-- [napari Plugin Documentation](cryoet_data_portal_docsite_napari)
+::::{grid} 1 1 2 2
+:gutter: 2
+
+:::{grid-item-card} Get Started
+:link: quick-start
+:link-type: ref
+
+Install and start using the Python Client API
+:::
+
+:::{grid-item-card} API Reference
+:link: api-documentation
+:link-type: ref
+
+Information on the Python Client API Classes
+:::
+
+:::{grid-item-card} Tutorials
+:link: tutorials
+:link-type: doc
+
+Examples of selecting, downloading, and visualizing data from the Portal
+:::
+
+:::{grid-item-card} About CryoET
+:link: about
+:link-type: doc
+
+Learn about CryoET data and how to navigate the CryoET Data Portal
+:::
+::::
 
 ## Amazon Web Services S3 Bucket Info
 

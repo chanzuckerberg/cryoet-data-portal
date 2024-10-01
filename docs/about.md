@@ -4,7 +4,7 @@ hide-navigation: true
 
 # About CryoET
 
-Learn about CryoET data and how to use navigate the CryoET Data Portal
+Learn about CryoET data and how to navigate the CryoET Data Portal.
 
 ::::{grid} 1 1 2 2
 :gutter: 2
@@ -20,6 +20,6 @@ Learn about the capabilities and acquisition of CryoET data
 :link: data-organization
 :link-type: ref
 
-Guide on how the CryoET Data Portal is organized (link to the existing data organization page)
+Guide on how the CryoET Data Portal is organized
 :::
 ::::
