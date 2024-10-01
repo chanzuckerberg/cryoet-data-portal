@@ -64,7 +64,7 @@ export function AnnotationOverviewTable() {
                 renderValue: () => (
                   <Link
                     className="text-sds-color-primitive-blue-400"
-                    to={`/deposition/${annotation.deposition?.id}`}
+                    to={`/depositions/${annotation.deposition?.id}`}
                   >
                     {annotation.deposition?.title}
                   </Link>
