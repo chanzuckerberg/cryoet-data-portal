@@ -9,8 +9,9 @@ export interface DownloadModalContextValue {
   annotationToDownload?: BaseAnnotation
   tomogramToDownload?: TomogramV2
 
-  allTomogramProcessing?: string[]
+  allAnnotations?: BaseAnnotation[]
   allTomograms?: TomogramV2[]
+  allTomogramProcessing?: string[]
   datasetId?: number
   datasetTitle?: string
   fileSize?: number
