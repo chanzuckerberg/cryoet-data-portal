@@ -199,7 +199,7 @@ export function AnnotationTable() {
               </div>
             </div>
 
-            <div className="text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs mt-sds-s">
+            <div className="text-sds-color-semantic-text-base-secondary text-sds-body-xxs leading-sds-header-xxs mt-sds-s">
               <AuthorList authors={annotation.authors} compact />
             </div>
           </TableCell>
