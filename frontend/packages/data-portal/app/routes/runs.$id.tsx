@@ -248,7 +248,7 @@ export default function RunByIdPage() {
         <DownloadModal
           annotationToDownload={activeAnnotation}
           tomogramToDownload={activeTomogram}
-          allAnnotations={annotationFiles.map()}
+          allAnnotationFiles={annotationFiles}
           allTomograms={tomograms}
           allTomogramProcessing={processingMethods}
           datasetId={run.dataset.id}
