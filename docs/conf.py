@@ -26,6 +26,7 @@ extensions = [
     "myst_nb",
     "sphinx_immaterial",
     "sphinx_external_toc",
+    "sphinx_design",
 ]
 
 napoleon_custom_sections = ["Lifecycle"]

@@ -5,13 +5,17 @@ subtrees:
     title: "Home"
   - file: cryoet_data_portal_docsite_quick_start.md
   - file: python-api.md
-  - file: cryoet_data_portal_docsite_data.md
   - file: tutorials.md
     subtrees:
     - entries:
+      - file: cryoet_data_portal_docsite_aws.md
       - file: cryoet_data_portal_docsite_examples.md
+      - file: cryoet_data_portal_docsite_napari.md
       - file: tutorial_sample_boundaries.md
+  - file: about.md
+    subtrees:
+    - entries:
+      - file: intro_cryoet.md
+      - file: cryoet_data_portal_docsite_data.md
   - file: cryoet_data_portal_docsite_faq.md
     title: "FAQ"
-  - file: cryoet_data_portal_docsite_aws.md
-  - file: cryoet_data_portal_docsite_napari.md
