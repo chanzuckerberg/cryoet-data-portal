@@ -336,3 +336,8 @@ dl.class > dd > dl:nth-child(27) {
 .md-typeset figure {
   margin-top: 30px;
 }
+
+/* Landing page button */
+.sd-btn {
+  font-size: 0.75rem;
+}

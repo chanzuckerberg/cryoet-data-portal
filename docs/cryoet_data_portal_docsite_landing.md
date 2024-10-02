@@ -6,6 +6,13 @@ hide-navigation: true
 
 The [Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute)](https://www.czimaginginstitute.org/) has made a beta release of the [CryoET Data Portal](https://cryoetdataportal.czscience.com) providing queryable and organized data from CryoET experiments. Each of the over 15,000 tomograms on the Portal have at least one structure annotated.
 
+```{button-ref} data-organization
+:color: primary
+:align: center
+
+Learn about the Data Schema
+```
+
 This site provides additional documentation for using our [Python API](python-api) to query and download data and for navigating the [CryoET Data Portal](https://cryoetdataportal.czscience.com) and its visualization tools. We hope this site will assist segmentation algorithm developers to produce annotations for diverse macromolecules in the tomograms that may be used for high-resolution subtomogram averaging.
 
 We welcome feedback from the community on the data structure, design and functionality.
