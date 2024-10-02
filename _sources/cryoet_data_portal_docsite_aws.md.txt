@@ -1,7 +1,4 @@
----
-hide-navigation: true
----
-
+(download-data)=
 # Download Data
 
 ## Download data using AWS CLI

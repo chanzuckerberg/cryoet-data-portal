@@ -20,6 +20,7 @@ html, body {
   --md-primary-fg-color: #A2C9FF;
   --md-code-bg-color: #494949;
   --md-code-fg-color: #FFFFFF;
+  --sd-color-card-border: var(--md-default-fg-color--light);
 }
 
 /* Header */
@@ -263,7 +264,7 @@ dl.py.attribute.objdesc > dd > p {
   margin-bottom: 0;
 }
 
-.md-typeset blockquote, .md-typeset dl, .md-typeset figure, .md-typeset ol, .md-typeset pre, .md-typeset ul {
+.md-typeset blockquote, .md-typeset dl, .md-typeset ol, .md-typeset pre, .md-typeset ul {
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -302,4 +303,57 @@ dl.py.attribute.objdesc > dd > dl.field-list.simple >dd {
 
 dl.class > dd > dl:nth-child(27) {
   margin-bottom: 20px;
+}
+
+/* FAQ Admonitions */
+.czi-faq.admonition {
+  border: none;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.czi-faq.admonition > summary.admonition-title {
+  background-color: var(--md-default-bg-color);
+  padding-left: 14px;
+}
+
+.czi-faq.admonition > summary.admonition-title::before {
+  content: none;
+}
+
+.md-typeset .admonition, .md-typeset details {
+  border-radius: 0;
+  box-shadow: none;
+  border-bottom: 0.01px solid var(--md-default-fg-color--lightest);
+}
+
+/* Figure/video captions */
+.md-typeset figcaption {
+  min-width: 75%;
+  max-width: fit-content;
+  text-align: justify;
+  font-size: small;
+  margin-top: 0px;
+}
+
+/* Better spacing around figure elements */
+.md-typeset figure {
+  margin-top: 30px;
+}
+
+.md-typeset figure img {
+  margin: auto;
+}
+
+/* Landing page button */
+.sd-btn {
+  font-size: 0.75rem;
+}
+
+/* Centered quote */
+div .centered-quote {
+  text-align: center;
+  font-style: italic;
+  max-width: 24rem;
+  margin: auto;
 }

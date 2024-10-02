@@ -18,6 +18,7 @@ A simplified diagram of the graph data model is below:
 :align: center
 ```
 
+(api-documentation)=
 ## API documentation
 
 ```{eval-rst}
