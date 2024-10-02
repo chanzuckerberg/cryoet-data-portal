@@ -83,7 +83,7 @@ export function Radio({
   )
 
   return disabled && disabledTooltip !== undefined ? (
-    <Tooltip tooltip={disabledTooltip} placement="top" sdsStyle="dark">
+    <Tooltip tooltip={disabledTooltip} placement="top" center sdsStyle="dark">
       {radioElement}
     </Tooltip>
   ) : (
