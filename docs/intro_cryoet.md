@@ -3,10 +3,12 @@ hide-navigation: true
 ---
 
 (cryoet-intro)=
-# Intro to CryoET
+# Introduction to CryoET
 
-*“You can observe a lot by watching...” When it comes to biological machinery
-you can't see, CryoET promises to let researchers view the whole picture.*
+<div class="centered-quote">
+"You can observe a lot by watching..." When it comes to biological machinery<wbr>
+you can't see, CryoET promises to let researchers view the whole picture.
+</div>
 
 ## What is CryoET?
 
@@ -63,6 +65,7 @@ structure of particles with resolutions near 3 angstrom (Å; 1 Å = 0.1 nm).
 <figure>
   <img src="_static/img/resolution_ranges.png"
     alt="Schematic of resolution ranges achieved by different microscopy and structural determination methods."
+    width="75%"
   >
   <figcaption>Schematic of resolution ranges achieved by different microscopy
   and structural determination methods. Icons highlight cells and biological
@@ -76,19 +79,22 @@ structure of particles with resolutions near 3 angstrom (Å; 1 Å = 0.1 nm).
 The main technologies that make CryoET possible are highlighted in its name,
 including:
 
-- **Cryo**: "Cryo" refers to cryogenic freezing techniques that are used to fix
-  samples without the use of chemical fixatives or stains. Cryo-fixation happens
-  so quickly that biological material and processes are frozen in their hydrated,
-  near native state before ice crystals start to form. This flash-freezing
-  process that preserves the natural structure of the sample in a glass-like
-  state is known as vitrification because it embeds the sample in amorphous
-  (vitreous) ice. One of the first steps during CryoET sample preparation is to
-  "vitrify" samples. Cryo-fixation also protects the sample when exposed to the
-  high-vacuum environment of the electron microscope.
+### Cryo
+
+Cryo refers to cryogenic freezing techniques that are used to fix samples
+without the use of chemical fixatives or stains. Cryo-fixation happens so
+quickly that biological material and processes are frozen in their hydrated,
+near native state before ice crystals start to form. This flash-freezing
+process that preserves the natural structure of the sample in a glass-like
+state is known as vitrification because it embeds the sample in amorphous
+(vitreous) ice. One of the first steps during CryoET sample preparation is to
+"vitrify" samples. Cryo-fixation also protects the sample when exposed to the
+high-vacuum environment of the electron microscope.
 
 <figure>
   <img src="_static/img/schematics_vitrification.png"
     alt="Schematic and electron microscopy images showing how vitrification preserves specimens in their native state and fine structural details."
+    width="50%"
   >
   <figcaption>Schematic showcasing how vitrification keeps cells in their
   hydrated, near-native state (top panel) and electron microscope (EM) images of
@@ -107,17 +113,18 @@ including:
   </figcaption>
 </figure>
 
-- **Electron**: "Electron" specifies that CryoET is an electron microscopy
-  technique where an electron beam interacts with the sample to project an
-  image. Electron microscopy is used to view and gain structural information
-  about subcellular and viral components. Electron wavelengths are small enough
-  to interact with these components and produce images based on those
-  interactions. CryoET falls under the transmission electron microscopy
-  category, where electrons pass through the sample and illuminate film or a
-  digital camera. High electron density components cast stronger shadows than
-  lighter density ones, thus producing a 2D projection of the material in the
-  sample. Click [here](https://youtu.be/pQc-GrilCiU) for a video explaining how
-  electron microscopes work.
+### Electron
+
+Electron specifies that CryoET is an electron microscopy technique where an
+electron beam interacts with the sample to project an image. Electron microscopy
+is used to view and gain structural information about subcellular and viral
+components. Electron wavelengths are small enough to interact with these
+components and produce images based on those interactions. CryoET falls under
+the transmission electron microscopy category, where electrons pass through the
+sample and illuminate film or a digital camera. High electron density components
+cast stronger shadows than lighter density ones, thus producing a 2D projection
+of the material in the sample. Click [here](https://youtu.be/pQc-GrilCiU) for a
+video explaining how electron microscopes work.
 
 <figure>
   <img src="_static/img/schematics_transmission.png"
@@ -128,16 +135,18 @@ including:
   </figcaption>
 </figure>
 
-- **Tomography**: "Tomography" refers to an imaging technique that provides 3D
-  information of an object by capturing projection images from multiple angles.
-  CryoET collects 2D images representing rotational views or tilted projections
-  from a sample. The collected 2D images, known as a _tilt series_, are then
-  transformed into volume providing spatial information. Reconstructed 3D images
-  are known as _tomograms_.
+### Tomography
+
+Tomography refers to an imaging technique that provides 3D information of an
+object by capturing projection images from multiple angles. CryoET collects 2D
+images representing rotational views or tilted projections from a sample. The
+collected 2D images, known as a _tilt series_, are then transformed into volume
+providing spatial information. Reconstructed 3D images are known as _tomograms_.
 
 <figure>
   <img src="_static/img/schematics_workflow.png"
     alt="Schematic of the cryoET imaging workflow."
+    width="75%"
   >
   <figcaption>Schematic of the cryoET imaging workflow. (A) First, a vitrified
   specimen, depicted here as a cell (gray oval) embedded in an ice slab is

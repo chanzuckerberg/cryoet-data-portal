@@ -9,7 +9,7 @@ Learn about CryoET data and how to navigate the CryoET Data Portal.
 ::::{grid} 1 1 2 2
 :gutter: 2
 
-:::{grid-item-card} Intro to CryoET
+:::{grid-item-card} Introduction to CryoET
 :link: cryoet-intro
 :link-type: ref
 

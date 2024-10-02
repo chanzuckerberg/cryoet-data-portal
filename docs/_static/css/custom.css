@@ -264,7 +264,7 @@ dl.py.attribute.objdesc > dd > p {
   margin-bottom: 0;
 }
 
-.md-typeset blockquote, .md-typeset dl, .md-typeset figure, .md-typeset ol, .md-typeset pre, .md-typeset ul {
+.md-typeset blockquote, .md-typeset dl, .md-typeset ol, .md-typeset pre, .md-typeset ul {
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -330,6 +330,9 @@ dl.class > dd > dl:nth-child(27) {
 /* Figure/video captions */
 .md-typeset figcaption {
   max-width: max-content;
+  text-align: justify;
+  font-size: small;
+  margin-top: 0px;
 }
 
 /* Better spacing around figure elements */
@@ -337,7 +340,19 @@ dl.class > dd > dl:nth-child(27) {
   margin-top: 30px;
 }
 
+.md-typeset figure img {
+  margin: auto;
+}
+
 /* Landing page button */
 .sd-btn {
   font-size: 0.75rem;
+}
+
+/* Centered quote */
+div .centered-quote {
+  text-align: center;
+  font-style: italic;
+  max-width: 24rem;
+  margin: auto;
 }

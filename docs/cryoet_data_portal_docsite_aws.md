@@ -1,7 +1,3 @@
----
-hide-navigation: true
----
-
 (download-data)=
 # Download Data
 

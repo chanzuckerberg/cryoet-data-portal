@@ -1,7 +1,3 @@
----
-hide-navigation: true
----
-
 (using-napari)=
 # Using napari
 
