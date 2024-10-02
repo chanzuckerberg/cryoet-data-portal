@@ -8,7 +8,10 @@ export type BaseAnnotation =
 
 export type AnnotationFile = GetRunByIdQuery['annotation_files'][number]
 
-export type AnnotationRow = BaseAnnotation & Omit<AnnotationFile, 'annotation'>
+export type AnnotationRow = BaseAnnotation &
+  Omit<AnnotationFile, 'annotation'> & {
+    fileId: number
+  }
 
 const activeAnnotationAtom = atom<AnnotationRow | null>(null)
 

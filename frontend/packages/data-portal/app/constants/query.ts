@@ -1,5 +1,6 @@
 export enum QueryParams {
   AnnotationId = 'annotation_id',
+  AnnotationName = 'annotation_name',
   AnnotationSoftware = 'annotation-software',
   AnnotationsPage = 'annotations-page',
   AuthorName = 'author',

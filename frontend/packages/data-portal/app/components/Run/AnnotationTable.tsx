@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 
 import { Button, Icon } from '@czi-sds/components'
+import Skeleton from '@mui/material/Skeleton'
 import { useSearchParams } from '@remix-run/react'
 import {
   ColumnDef,
@@ -15,6 +16,7 @@ import { AuthorList } from 'app/components/AuthorList'
 import { I18n } from 'app/components/I18n'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import {
   methodLabels,
   methodTooltipLabels,
@@ -55,6 +57,7 @@ const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<AnnotationRow>(() => ({
   https_path: '',
   s3_path: '',
   shape_type: '',
+  fileId: 0,
 }))
 
 function ConfidenceValue({ value }: { value: number }) {
@@ -139,47 +142,64 @@ export function AnnotationTable() {
       columnHelper.accessor('id', {
         header: () => (
           <CellHeader width={AnnotationTableWidths.id}>
-            {t('annotationId')}
+            {t('annotationName')}
           </CellHeader>
         ),
 
         cell: ({ row: { original: annotation } }) => (
           <TableCell
             className="flex flex-col gap-sds-xxxs !items-start"
-            renderLoadingSkeleton={false}
+            renderLoadingSkeleton={() => (
+              <div>
+                <Skeleton className="w-[200px]" variant="text" />
+                <Skeleton className="w-[200px]" variant="text" />
+                <Skeleton className="w-[100px]" variant="text" />
+              </div>
+            )}
             width={AnnotationTableWidths.id}
           >
-            <div className="flex gap-sds-xs items-center">
+            <div>
               <p
                 className={cns(
                   'text-sds-body-m leading-sds-body-m font-semibold',
-                  'text-ellipsis line-clamp-1 break-all',
+                  'text-ellipsis line-clamp-2 break-all',
                 )}
-                data-testid={TestIds.AnnotationId}
               >
-                {annotation.id}
+                <span>{annotation.fileId} </span>
+                <span>{annotation.object_name}</span>
               </p>
 
-              {annotation.ground_truth_status && (
-                <Tooltip
-                  tooltip={<I18n i18nKey="groundTruthTooltip" />}
-                  placement="top"
-                >
-                  <div
-                    className={cnsNoMerge(
-                      'px-sds-xs py-sds-xxxs',
-                      'flex items-center justify-center',
-                      'rounded-sds-m bg-sds-color-primitive-blue-200',
-                      'text-sds-body-xxxs leading-sds-body-xxxs text-sds-color-primitive-blue-600 whitespace-nowrap',
-                    )}
+              <div className="flex items-center gap-sds-xxs">
+                <p className="text-sds-body-xxs leading-sds-body-xxs">
+                  <span>
+                    {t('annotationId')}: {IdPrefix.Annotation}-
+                  </span>
+                  <span data-testid={TestIds.AnnotationId}>
+                    {annotation.id}
+                  </span>
+                </p>
+
+                {annotation.ground_truth_status && (
+                  <Tooltip
+                    tooltip={<I18n i18nKey="groundTruthTooltip" />}
+                    placement="top"
                   >
-                    {t('groundTruth')}
-                  </div>
-                </Tooltip>
-              )}
+                    <div
+                      className={cnsNoMerge(
+                        'px-sds-xs py-sds-xxxs',
+                        'flex items-center justify-center',
+                        'rounded-sds-m bg-sds-color-primitive-blue-200',
+                        'text-sds-body-xxxs leading-sds-body-xxxs text-sds-color-primitive-blue-600 whitespace-nowrap',
+                      )}
+                    >
+                      {t('groundTruth')}
+                    </div>
+                  </Tooltip>
+                )}
+              </div>
             </div>
 
-            <div className=" text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs">
+            <div className="text-sds-color-semantic-text-base-secondary text-sds-body-xxs leading-sds-header-xxs mt-sds-s">
               <AuthorList authors={annotation.authors} compact />
             </div>
           </TableCell>
@@ -326,6 +346,7 @@ export function AnnotationTable() {
                     referenceTomogramId: tomograms[0]?.id, // TODO(bchu): is_portal_standard
                     objectShapeType: annotation.shape_type,
                     fileFormat: annotation.format,
+                    annotationName: `${annotation.fileId} ${annotation.object_name}`,
                   })
                 }
                 startIcon={
@@ -356,8 +377,13 @@ export function AnnotationTable() {
   const annotations = useMemo(
     () =>
       annotationFiles.map((annotationFile) => {
-        const { annotation: _, ...restAnnotationFileFields } = annotationFile
+        const {
+          annotation: _,
+          id,
+          ...restAnnotationFileFields
+        } = annotationFile
         return {
+          fileId: id,
           ...restAnnotationFileFields,
           ...annotationFile.annotation,
         } as AnnotationRow
