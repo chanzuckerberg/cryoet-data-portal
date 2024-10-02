@@ -329,7 +329,8 @@ dl.class > dd > dl:nth-child(27) {
 
 /* Figure/video captions */
 .md-typeset figcaption {
-  max-width: max-content;
+  min-width: 75%;
+  max-width: fit-content;
   text-align: justify;
   font-size: small;
   margin-top: 0px;

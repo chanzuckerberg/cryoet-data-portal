@@ -6,7 +6,7 @@ hide-navigation: true
 # Introduction to CryoET
 
 <div class="centered-quote">
-"You can observe a lot by watching..." When it comes to biological machinery<wbr>
+"You can observe a lot by watching..." When it comes to biological machinery <wbr>
 you can't see, CryoET promises to let researchers view the whole picture.
 </div>
 
@@ -24,11 +24,12 @@ function and response, such as:
 - How do infectious agents interact with host cells?
 
 <figure>
-  <video width="90%" controls autoplay loop muted playsinline>
+  <video controls autoplay loop muted playsinline>
     <source src="_static/img/intro_movie.mp4" type="video/mp4" />
     <img src="_static/img/intro_movie.png"
       title="Your browser does not support the video tag."
       alt="Cryo-electron tomogram video showing the infection machinery of an intracellular parasite."
+      width="90%"
     >
   </video>
   <figcaption>Cryo-electron tomogram of a sectioned spore from the intracellular
@@ -67,7 +68,7 @@ structure of particles with resolutions near 3 angstrom (Å; 1 Å = 0.1 nm).
     alt="Schematic of resolution ranges achieved by different microscopy and structural determination methods."
     width="75%"
   >
-  <figcaption>Schematic of resolution ranges achieved by different microscopy
+  <figcaption style="width:75%;">Schematic of resolution ranges achieved by different microscopy
   and structural determination methods. Icons highlight cells and biological
   components that can be captured at various resolution ranges. The scale bar
   depicts millimeter (mm) to angstrom (Å) level resolutions.
@@ -77,7 +78,7 @@ structure of particles with resolutions near 3 angstrom (Å; 1 Å = 0.1 nm).
 ## What is the technology behind CryoET?
 
 The main technologies that make CryoET possible are highlighted in its name,
-including:
+including: **cryo**genic techniques, **electron** microscopy and **tomography**.
 
 ### Cryo
 
@@ -94,9 +95,9 @@ high-vacuum environment of the electron microscope.
 <figure>
   <img src="_static/img/schematics_vitrification.png"
     alt="Schematic and electron microscopy images showing how vitrification preserves specimens in their native state and fine structural details."
-    width="50%"
+    width="75%"
   >
-  <figcaption>Schematic showcasing how vitrification keeps cells in their
+  <figcaption style="width:75%;">Schematic showcasing how vitrification keeps cells in their
   hydrated, near-native state (top panel) and electron microscope (EM) images of
   the Golgi apparatus (bottom panel) from a chemically fixed cell (A) versus a
   CryoET reconstruction (B). Note that crystalline ice formation damages cell
@@ -145,10 +146,10 @@ providing spatial information. Reconstructed 3D images are known as _tomograms_.
 
 <figure>
   <img src="_static/img/schematics_workflow.png"
-    alt="Schematic of the cryoET imaging workflow."
-    width="75%"
+    alt="Schematic of the CryoET imaging workflow."
+    width="85%"
   >
-  <figcaption>Schematic of the cryoET imaging workflow. (A) First, a vitrified
+  <figcaption style="width:85%;">Schematic of the CryoET imaging workflow. (A) First, a vitrified
   specimen, depicted here as a cell (gray oval) embedded in an ice slab is
   tilted at a range of angles while an electron beam passes through the sample
   producing projection images. The cell includes three distinct molecular
@@ -171,8 +172,9 @@ CryoET data can lead to molecular structures with resolutions near 3 Å.
 <figure>
   <img src="_static/img/schematics_subtomogram.png"
     alt="Schematic of the subtomogram averaging workflow."
+    width="85%"
   >
-  <figcaption>Subtomogram averaging workflow schematic. During subtomogram
+  <figcaption style="width:85%;">Subtomogram averaging workflow schematic. During subtomogram
   selection, the volumes of repetitive particles representing the same cellular
   component are selected from reconstructed tomograms. In this example,
   repetitive particles are represented by the blue structures and red arrows
