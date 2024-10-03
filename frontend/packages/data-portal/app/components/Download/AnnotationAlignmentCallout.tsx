@@ -30,7 +30,7 @@ export function AnnotationAlignmentCallout({
     >
       <CalloutTitle>
         <p className="text-sds-body-xs leading-sds-body-xs">
-          {t('annotationsMayRequireTransformation')}
+          <I18n i18nKey="annotationsMayRequireTransformation" />
         </p>
       </CalloutTitle>
       <p className="text-sds-header-xs leading-sds-header-xs mt-sds-default font-semibold">
