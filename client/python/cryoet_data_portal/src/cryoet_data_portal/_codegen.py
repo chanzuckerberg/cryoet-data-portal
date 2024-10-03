@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Tuple, Union
 
+import contextlib
 from gql import Client
 from gql.transport.requests import RequestsHTTPTransport
 from graphql import (
@@ -35,17 +36,18 @@ GQL_TO_MODEL_FIELD = {
     "DateTime": ("DateField()", "date"),
     "numeric": ("FloatField()", "float"),
     "_numeric": ("StringField()", "str"),
-    "tomogram_type_enum": ("StringField()", "str"),
-    "tomogram_processing_enum": ("StringField()", "str"),
-    "tomogram_reconstruction_method_enum": ("StringField()", "str"),
     "annotation_file_source_enum": ("StringField()", "str"),
+    "alignment_method_type_enum": ("StringField()", "str"),
     "annotation_method_type_enum": ("StringField()", "str"),
     "annotation_file_shape_type_enum": ("StringField()", "str"),
+    "annotation_method_link_type_enum": ("StringField()", "str"),
     "deposition_types_enum": ("StringField()", "str"),
     "sample_type_enum": ("StringField()", "str"),
-    "tiltseries_camer_acquire_mode_enum": ("StringField()", "str"),
+    "tiltseries_camera_acquire_mode_enum": ("StringField()", "str"),
     "tiltseries_microscope_manufacturer_enum": ("StringField()", "str"),
     "fiducial_alignment_status_enum": ("StringField()", "str"),
+    "tomogram_processing_enum": ("StringField()", "str"),
+    "tomogram_reconstruction_method_enum": ("StringField()", "str"),
     "alignment_type_enum": ("StringField()", "str"),
 }
 
@@ -56,6 +58,7 @@ GQL_TO_MODEL_TYPE = {
     "Annotation": "Annotation",
     "AnnotationAuthor": "AnnotationAuthor",
     "AnnotationFile": "AnnotationFile",
+    "AnnotationMethodLink": "AnnotationMethodLink",
     "AnnotationShape": "AnnotationShape",
     "Dataset": "Dataset",
     "DatasetAuthor": "DatasetAuthor",
@@ -64,8 +67,9 @@ GQL_TO_MODEL_TYPE = {
     "DepositionAuthor": "DepositionAuthor",
     "DepositionType": "DepositionType",
     "Frame": "Frame",
+    "GainFile": "GainFile",
+    "FrameAcquisitionFile": "FrameAcquisitionFile",
     "PerSectionAlignmentParameters": "PerSectionAlignmentParameters",
-    "PerSectionParameters": "PerSectionParameters",
     "Run": "Run",
     "Tiltseries": "TiltSeries",
     "Tomogram": "Tomogram",
@@ -212,16 +216,48 @@ def _parse_field(
     field: GraphQLField,
 ) -> Optional[FieldInfo]:
     logging.debug("_parse_field: %s, %s", name, field)
-    field_type = _maybe_unwrap_non_null(field.type)
-    if field_type.name.endswith("Connection"):  # TODO can we clean this up?
+    return _parse_field_type(gql_type, name, field.type, field.description)
+
+
+def _parse_field_type(
+    gql_type: GraphQLObjectType,
+    name: str,
+    field_type: GraphQLType,
+    description: str | None,
+) -> Optional[FieldInfo]:
+    field_type = _maybe_unwrap_non_null(field_type)
+    is_connection = False
+    with contextlib.suppress(AttributeError):
+        is_connection = field_type.name.endswith("Connection")
+    if is_connection:
         return _parse_model_list_field(gql_type, name, field_type)
+    if isinstance(field_type, GraphQLList):
+        return _parse_list_field(gql_type, field_type, name, description)
     if isinstance(field_type, GraphQLObjectType) and (
         field_type.name in GQL_TO_MODEL_TYPE
     ):
         return _parse_model_field(gql_type, name, field_type)
     if isinstance(field_type, (GraphQLScalarType, GraphQLEnumType)):
-        return _parse_scalar_field(name, field.description, field_type)
+        return _parse_scalar_field(name, description, field_type)
     return None
+
+
+def _parse_list_field(
+    gql_type: GraphQLObjectType,
+    field_type: GraphQLList,
+    name: str,
+    description: Optional[str],
+) -> Optional[FieldInfo]:
+    logging.debug("_parse_list_field: %s", field_type)
+    sub_field = _parse_field_type(gql_type, name, field_type.of_type, description)
+    annotation_type = sub_field.annotation_type
+
+    return FieldInfo(
+        name=name,
+        description=description,
+        annotation_type=f"list[{annotation_type}]",
+        default_value="ListField()",
+    )
 
 
 def _parse_scalar_field(

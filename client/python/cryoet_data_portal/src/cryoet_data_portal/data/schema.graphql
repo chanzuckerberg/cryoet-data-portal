@@ -1,4 +1,6 @@
 type Query {
+  gainFiles(where: GainFileWhereClause = null, orderBy: [GainFileOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [GainFile!]!
+  frameAcquisitionFiles(where: FrameAcquisitionFileWhereClause = null, orderBy: [FrameAcquisitionFileOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [FrameAcquisitionFile!]!
   alignments(where: AlignmentWhereClause = null, orderBy: [AlignmentOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Alignment!]!
   annotationAuthors(where: AnnotationAuthorWhereClause = null, orderBy: [AnnotationAuthorOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [AnnotationAuthor!]!
   annotationFiles(where: AnnotationFileWhereClause = null, orderBy: [AnnotationFileOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [AnnotationFile!]!
@@ -11,13 +13,15 @@ type Query {
   depositions(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Deposition!]!
   depositionTypes(where: DepositionTypeWhereClause = null, orderBy: [DepositionTypeOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [DepositionType!]!
   frames(where: FrameWhereClause = null, orderBy: [FrameOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Frame!]!
-  perSectionParameters(where: PerSectionParametersWhereClause = null, orderBy: [PerSectionParametersOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [PerSectionParameters!]!
   perSectionAlignmentParameters(where: PerSectionAlignmentParametersWhereClause = null, orderBy: [PerSectionAlignmentParametersOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [PerSectionAlignmentParameters!]!
   runs(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Run!]!
   tiltseries(where: TiltseriesWhereClause = null, orderBy: [TiltseriesOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Tiltseries!]!
   tomogramAuthors(where: TomogramAuthorWhereClause = null, orderBy: [TomogramAuthorOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [TomogramAuthor!]!
   tomogramVoxelSpacings(where: TomogramVoxelSpacingWhereClause = null, orderBy: [TomogramVoxelSpacingOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [TomogramVoxelSpacing!]!
   tomograms(where: TomogramWhereClause = null, orderBy: [TomogramOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Tomogram!]!
+  annotationMethodLinks(where: AnnotationMethodLinkWhereClause = null, orderBy: [AnnotationMethodLinkOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [AnnotationMethodLink!]!
+  gainFilesAggregate(where: GainFileWhereClause = null): GainFileAggregate!
+  frameAcquisitionFilesAggregate(where: FrameAcquisitionFileWhereClause = null): FrameAcquisitionFileAggregate!
   alignmentsAggregate(where: AlignmentWhereClause = null): AlignmentAggregate!
   annotationAuthorsAggregate(where: AnnotationAuthorWhereClause = null): AnnotationAuthorAggregate!
   annotationFilesAggregate(where: AnnotationFileWhereClause = null): AnnotationFileAggregate!
@@ -30,13 +34,234 @@ type Query {
   depositionsAggregate(where: DepositionWhereClause = null): DepositionAggregate!
   depositionTypesAggregate(where: DepositionTypeWhereClause = null): DepositionTypeAggregate!
   framesAggregate(where: FrameWhereClause = null): FrameAggregate!
-  perSectionParametersAggregate(where: PerSectionParametersWhereClause = null): PerSectionParametersAggregate!
   perSectionAlignmentParametersAggregate(where: PerSectionAlignmentParametersWhereClause = null): PerSectionAlignmentParametersAggregate!
   runsAggregate(where: RunWhereClause = null): RunAggregate!
   tiltseriesAggregate(where: TiltseriesWhereClause = null): TiltseriesAggregate!
   tomogramAuthorsAggregate(where: TomogramAuthorWhereClause = null): TomogramAuthorAggregate!
   tomogramVoxelSpacingsAggregate(where: TomogramVoxelSpacingWhereClause = null): TomogramVoxelSpacingAggregate!
   tomogramsAggregate(where: TomogramWhereClause = null): TomogramAggregate!
+  annotationMethodLinksAggregate(where: AnnotationMethodLinkWhereClause = null): AnnotationMethodLinkAggregate!
+}
+
+"""Gain values for frames in this run"""
+type GainFile implements EntityInterface & Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+  run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
+  runId: Int
+
+  """Path to the file in s3"""
+  s3FilePath: String!
+
+  """Path to the file as an https url"""
+  httpsFilePath: String!
+}
+
+interface EntityInterface implements Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+}
+
+"""An object with a Globally Unique ID"""
+interface Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+}
+
+"""
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+"""
+scalar GlobalID
+
+type Run implements EntityInterface & Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+  alignments(
+    where: AlignmentWhereClause = null
+    orderBy: [AlignmentOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): AlignmentConnection!
+  alignmentsAggregate(where: AlignmentWhereClause = null): AlignmentAggregate
+  annotations(
+    where: AnnotationWhereClause = null
+    orderBy: [AnnotationOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): AnnotationConnection!
+  annotationsAggregate(where: AnnotationWhereClause = null): AnnotationAggregate
+  dataset(where: DatasetWhereClause = null, orderBy: [DatasetOrderByClause!] = []): Dataset
+  datasetId: Int!
+  frames(
+    where: FrameWhereClause = null
+    orderBy: [FrameOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): FrameConnection!
+  framesAggregate(where: FrameWhereClause = null): FrameAggregate
+  gainFiles(
+    where: GainFileWhereClause = null
+    orderBy: [GainFileOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): GainFileConnection!
+  gainFilesAggregate(where: GainFileWhereClause = null): GainFileAggregate
+  frameAcquisitionFiles(
+    where: FrameAcquisitionFileWhereClause = null
+    orderBy: [FrameAcquisitionFileOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): FrameAcquisitionFileConnection!
+  frameAcquisitionFilesAggregate(where: FrameAcquisitionFileWhereClause = null): FrameAcquisitionFileAggregate
+  tiltseries(
+    where: TiltseriesWhereClause = null
+    orderBy: [TiltseriesOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): TiltseriesConnection!
+  tiltseriesAggregate(where: TiltseriesWhereClause = null): TiltseriesAggregate
+  tomogramVoxelSpacings(
+    where: TomogramVoxelSpacingWhereClause = null
+    orderBy: [TomogramVoxelSpacingOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): TomogramVoxelSpacingConnection!
+  tomogramVoxelSpacingsAggregate(where: TomogramVoxelSpacingWhereClause = null): TomogramVoxelSpacingAggregate
+  tomograms(
+    where: TomogramWhereClause = null
+    orderBy: [TomogramOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): TomogramConnection!
+  tomogramsAggregate(where: TomogramWhereClause = null): TomogramAggregate
+
+  """Short name for this experiment run"""
+  name: String!
+
+  """The S3 public bucket path where this run is contained"""
+  s3Prefix: String!
+
+  """The HTTPS directory path where this run is contained url"""
+  httpsPrefix: String!
+}
+
+"""A connection to a list of items."""
+type AlignmentConnection {
+  """Pagination data for this connection"""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [AlignmentEdge!]!
+}
+
+"""Information to aid in pagination."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""An edge in a connection."""
+type AlignmentEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: Alignment!
 }
 
 """Tiltseries Alignment"""
@@ -107,6 +332,9 @@ type Alignment implements EntityInterface & Node {
   """Whether this a LOCAL or GLOBAL alignment"""
   alignmentType: alignment_type_enum
 
+  """The method used to create this alignment"""
+  alignmentMethod: alignment_method_type_enum
+
   """X dimension of the reconstruction volume in angstrom"""
   volumeXDimension: Float
 
@@ -131,28 +359,18 @@ type Alignment implements EntityInterface & Node {
   """Additional tilt offset in degrees"""
   tiltOffset: Float
 
-  """Path to the local alignment file"""
-  localAlignmentFile: String
-
   """A placeholder for the affine transformation matrix."""
   affineTransformationMatrix: String
-}
 
-interface EntityInterface implements Node {
-  """The Globally Unique ID of this object"""
-  _id: GlobalID!
-}
+  """S3 path to the metadata file for this alignment"""
+  s3AlignmentMetadata: String
 
-"""An object with a Globally Unique ID"""
-interface Node {
-  """The Globally Unique ID of this object"""
-  _id: GlobalID!
-}
+  """HTTPS url to the metadata file for this alignment"""
+  httpsAlignmentMetadata: String
 
-"""
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-"""
-scalar GlobalID
+  """Whether this is the portal standard alignment"""
+  isPortalStandard: Boolean
+}
 
 """A connection to a list of items."""
 type AnnotationFileConnection {
@@ -161,21 +379,6 @@ type AnnotationFileConnection {
 
   """Contains the nodes in this connection"""
   edges: [AnnotationFileEdge!]!
-}
-
-"""Information to aid in pagination."""
-type PageInfo {
-  """When paginating forwards, are there more items?"""
-  hasNextPage: Boolean!
-
-  """When paginating backwards, are there more items?"""
-  hasPreviousPage: Boolean!
-
-  """When paginating backwards, the cursor to continue."""
-  startCursor: String
-
-  """When paginating forwards, the cursor to continue."""
-  endCursor: String
 }
 
 """An edge in a connection."""
@@ -232,6 +435,7 @@ input AlignmentWhereClause {
   run: RunWhereClause
   runId: IntComparators
   alignmentType: Alignment_type_enumEnumComparators
+  alignmentMethod: Alignment_method_type_enumEnumComparators
   volumeXDimension: FloatComparators
   volumeYDimension: FloatComparators
   volumeZDimension: FloatComparators
@@ -240,8 +444,10 @@ input AlignmentWhereClause {
   volumeZOffset: FloatComparators
   xRotationOffset: FloatComparators
   tiltOffset: FloatComparators
-  localAlignmentFile: StrComparators
   affineTransformationMatrix: StrComparators
+  s3AlignmentMetadata: StrComparators
+  httpsAlignmentMetadata: StrComparators
+  isPortalStandard: BoolComparators
   id: IntComparators
 }
 
@@ -284,6 +490,7 @@ input AnnotationWhereClause {
   run: RunWhereClause
   runId: IntComparators
   annotationShapes: AnnotationShapeWhereClause
+  methodLinks: AnnotationMethodLinkWhereClause
   authors: AnnotationAuthorWhereClause
   deposition: DepositionWhereClause
   depositionId: IntComparators
@@ -291,7 +498,6 @@ input AnnotationWhereClause {
   httpsMetadataPath: StrComparators
   annotationPublication: StrComparators
   annotationMethod: StrComparators
-  methodLinks: StrComparators
   groundTruthStatus: BoolComparators
   objectId: StrComparators
   objectName: StrComparators
@@ -316,6 +522,8 @@ input RunWhereClause {
   dataset: DatasetWhereClause
   datasetId: IntComparators
   frames: FrameWhereClause
+  gainFiles: GainFileWhereClause
+  frameAcquisitionFiles: FrameAcquisitionFileWhereClause
   tiltseries: TiltseriesWhereClause
   tomogramVoxelSpacings: TomogramVoxelSpacingWhereClause
   tomograms: TomogramWhereClause
@@ -426,7 +634,6 @@ input BoolComparators {
 input FrameWhereClause {
   deposition: DepositionWhereClause
   depositionId: IntComparators
-  perSectionParameters: PerSectionParametersWhereClause
   run: RunWhereClause
   runId: IntComparators
   rawAngle: FloatComparators
@@ -440,21 +647,20 @@ input FrameWhereClause {
   id: IntComparators
 }
 
-input PerSectionParametersWhereClause {
-  frame: FrameWhereClause
-  frameId: IntComparators
-  tiltseries: TiltseriesWhereClause
-  tiltseriesId: IntComparators
-  zIndex: IntComparators
-  defocus: FloatComparators
-  astigmatism: FloatComparators
-  astigmaticAngle: FloatComparators
-  id: IntComparators
+input FloatComparators {
+  _eq: Float
+  _neq: Float
+  _in: [Float!]
+  _nin: [Float!]
+  _gt: Float
+  _gte: Float
+  _lt: Float
+  _lte: Float
+  _is_null: Boolean
 }
 
 input TiltseriesWhereClause {
   alignments: AlignmentWhereClause
-  perSectionParameters: PerSectionParametersWhereClause
   run: RunWhereClause
   runId: IntComparators
   deposition: DepositionWhereClause
@@ -463,12 +669,8 @@ input TiltseriesWhereClause {
   s3MrcFile: StrComparators
   httpsOmezarrDir: StrComparators
   httpsMrcFile: StrComparators
-  s3CollectionMetadata: StrComparators
-  httpsCollectionMetadata: StrComparators
   s3AngleList: StrComparators
   httpsAngleList: StrComparators
-  s3GainFile: StrComparators
-  httpsGainFile: StrComparators
   accelerationVoltage: IntComparators
   sphericalAberrationConstant: FloatComparators
   microscopeManufacturer: Tiltseries_microscope_manufacturer_enumEnumComparators
@@ -493,20 +695,7 @@ input TiltseriesWhereClause {
   isAligned: BoolComparators
   pixelSpacing: FloatComparators
   alignedTiltseriesBinning: IntComparators
-  framesCount: IntComparators
   id: IntComparators
-}
-
-input FloatComparators {
-  _eq: Float
-  _neq: Float
-  _in: [Float!]
-  _nin: [Float!]
-  _gt: Float
-  _gte: Float
-  _lt: Float
-  _lte: Float
-  _is_null: Boolean
 }
 
 input Tiltseries_microscope_manufacturer_enumEnumComparators {
@@ -549,7 +738,9 @@ input TomogramWhereClause {
   tomogramVersion: FloatComparators
   processingSoftware: StrComparators
   reconstructionSoftware: StrComparators
-  isCanonical: BoolComparators
+  isPortalStandard: BoolComparators
+  isAuthorSubmitted: BoolComparators
+  isVisualizationDefault: BoolComparators
   s3OmezarrDir: StrComparators
   httpsOmezarrDir: StrComparators
   s3MrcFile: StrComparators
@@ -565,7 +756,12 @@ input TomogramWhereClause {
   keyPhotoThumbnailUrl: StrComparators
   neuroglancerConfig: StrComparators
   isStandardized: BoolComparators
+  publications: StrComparators
+  relatedDatabaseEntries: StrComparators
   id: IntComparators
+  depositionDate: DatetimeComparators
+  releaseDate: DatetimeComparators
+  lastModifiedDate: DatetimeComparators
 }
 
 input TomogramAuthorWhereClause {
@@ -649,6 +845,21 @@ enum tomogram_processing_enum {
   raw
 }
 
+input DatetimeComparators {
+  _eq: DateTime
+  _neq: DateTime
+  _in: [DateTime!]
+  _nin: [DateTime!]
+  _gt: DateTime
+  _gte: DateTime
+  _lt: DateTime
+  _lte: DateTime
+  _is_null: Boolean
+}
+
+"""Date with time (isoformat)"""
+scalar DateTime
+
 input DepositionTypeWhereClause {
   deposition: DepositionWhereClause
   depositionId: IntComparators
@@ -673,21 +884,6 @@ enum deposition_types_enum {
   dataset
   tomogram
 }
-
-input DatetimeComparators {
-  _eq: DateTime
-  _neq: DateTime
-  _in: [DateTime!]
-  _nin: [DateTime!]
-  _gt: DateTime
-  _gte: DateTime
-  _lt: DateTime
-  _lte: DateTime
-  _is_null: Boolean
-}
-
-"""Date with time (isoformat)"""
-scalar DateTime
 
 input DatasetFundingWhereClause {
   dataset: DatasetWhereClause
@@ -733,6 +929,51 @@ enum sample_type_enum {
   in_vitro
   in_silico
   other
+}
+
+input GainFileWhereClause {
+  run: RunWhereClause
+  runId: IntComparators
+  s3FilePath: StrComparators
+  httpsFilePath: StrComparators
+  id: IntComparators
+}
+
+input FrameAcquisitionFileWhereClause {
+  run: RunWhereClause
+  runId: IntComparators
+  s3MdocPath: StrComparators
+  httpsMdocPath: StrComparators
+  id: IntComparators
+}
+
+input AnnotationMethodLinkWhereClause {
+  annotation: AnnotationWhereClause
+  annotationId: IntComparators
+  linkType: Annotation_method_link_type_enumEnumComparators
+  name: StrComparators
+  link: StrComparators
+  id: IntComparators
+}
+
+input Annotation_method_link_type_enumEnumComparators {
+  _eq: annotation_method_link_type_enum
+  _neq: annotation_method_link_type_enum
+  _in: [annotation_method_link_type_enum!]
+  _nin: [annotation_method_link_type_enum!]
+  _gt: annotation_method_link_type_enum
+  _gte: annotation_method_link_type_enum
+  _lt: annotation_method_link_type_enum
+  _lte: annotation_method_link_type_enum
+  _is_null: Boolean
+}
+
+enum annotation_method_link_type_enum {
+  documentation
+  models_weights
+  other
+  source_code
+  website
 }
 
 input AnnotationAuthorWhereClause {
@@ -813,8 +1054,7 @@ input PerSectionAlignmentParametersWhereClause {
   zIndex: IntComparators
   xOffset: FloatComparators
   yOffset: FloatComparators
-  inPlaneRotation: FloatComparators
-  beamTilt: FloatComparators
+  volumeXRotation: FloatComparators
   tiltAngle: FloatComparators
   id: IntComparators
 }
@@ -836,11 +1076,30 @@ enum alignment_type_enum {
   GLOBAL
 }
 
+input Alignment_method_type_enumEnumComparators {
+  _eq: alignment_method_type_enum
+  _neq: alignment_method_type_enum
+  _in: [alignment_method_type_enum!]
+  _nin: [alignment_method_type_enum!]
+  _gt: alignment_method_type_enum
+  _gte: alignment_method_type_enum
+  _lt: alignment_method_type_enum
+  _lte: alignment_method_type_enum
+  _is_null: Boolean
+}
+
+enum alignment_method_type_enum {
+  projection_matching
+  patch_tracking
+  fiducial_based
+}
+
 input AlignmentOrderByClause {
   deposition: DepositionOrderByClause
   tiltseries: TiltseriesOrderByClause
   run: RunOrderByClause
   alignmentType: orderBy
+  alignmentMethod: orderBy
   volumeXDimension: orderBy
   volumeYDimension: orderBy
   volumeZDimension: orderBy
@@ -849,8 +1108,10 @@ input AlignmentOrderByClause {
   volumeZOffset: orderBy
   xRotationOffset: orderBy
   tiltOffset: orderBy
-  localAlignmentFile: orderBy
   affineTransformationMatrix: orderBy
+  s3AlignmentMetadata: orderBy
+  httpsAlignmentMetadata: orderBy
+  isPortalStandard: orderBy
   id: orderBy
 }
 
@@ -883,12 +1144,8 @@ input TiltseriesOrderByClause {
   s3MrcFile: orderBy
   httpsOmezarrDir: orderBy
   httpsMrcFile: orderBy
-  s3CollectionMetadata: orderBy
-  httpsCollectionMetadata: orderBy
   s3AngleList: orderBy
   httpsAngleList: orderBy
-  s3GainFile: orderBy
-  httpsGainFile: orderBy
   accelerationVoltage: orderBy
   sphericalAberrationConstant: orderBy
   microscopeManufacturer: orderBy
@@ -913,7 +1170,6 @@ input TiltseriesOrderByClause {
   isAligned: orderBy
   pixelSpacing: orderBy
   alignedTiltseriesBinning: orderBy
-  framesCount: orderBy
   id: orderBy
 }
 
@@ -1014,6 +1270,23 @@ type Annotation implements EntityInterface & Node {
     last: Int = null
   ): AnnotationShapeConnection!
   annotationShapesAggregate(where: AnnotationShapeWhereClause = null): AnnotationShapeAggregate
+  methodLinks(
+    where: AnnotationMethodLinkWhereClause = null
+    orderBy: [AnnotationMethodLinkOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): AnnotationMethodLinkConnection!
+  methodLinksAggregate(where: AnnotationMethodLinkWhereClause = null): AnnotationMethodLinkAggregate
   authors(
     where: AnnotationAuthorWhereClause = null
     orderBy: [AnnotationAuthorOrderByClause!] = []
@@ -1049,11 +1322,6 @@ type Annotation implements EntityInterface & Node {
   Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
   """
   annotationMethod: String!
-
-  """
-  Provides links to information on the method used for generating annotation, comma separated
-  """
-  methodLinks: String
 
   """
   Whether an annotation is considered ground truth, as determined by the annotator.
@@ -1117,255 +1385,106 @@ type Annotation implements EntityInterface & Node {
   lastModifiedDate: DateTime!
 }
 
-type Run implements EntityInterface & Node {
-  """The Globally Unique ID of this object"""
-  _id: GlobalID!
-
-  """Numeric identifier (May change!)"""
-  id: Int!
-  alignments(
-    where: AlignmentWhereClause = null
-    orderBy: [AlignmentOrderByClause!] = []
-
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
-
-    """Returns the first n items from the list."""
-    first: Int = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): AlignmentConnection!
-  alignmentsAggregate(where: AlignmentWhereClause = null): AlignmentAggregate
-  annotations(
-    where: AnnotationWhereClause = null
-    orderBy: [AnnotationOrderByClause!] = []
-
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
-
-    """Returns the first n items from the list."""
-    first: Int = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): AnnotationConnection!
-  annotationsAggregate(where: AnnotationWhereClause = null): AnnotationAggregate
-  dataset(where: DatasetWhereClause = null, orderBy: [DatasetOrderByClause!] = []): Dataset
-  datasetId: Int!
-  frames(
-    where: FrameWhereClause = null
-    orderBy: [FrameOrderByClause!] = []
-
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
-
-    """Returns the first n items from the list."""
-    first: Int = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): FrameConnection!
-  framesAggregate(where: FrameWhereClause = null): FrameAggregate
-  tiltseries(
-    where: TiltseriesWhereClause = null
-    orderBy: [TiltseriesOrderByClause!] = []
-
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
-
-    """Returns the first n items from the list."""
-    first: Int = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): TiltseriesConnection!
-  tiltseriesAggregate(where: TiltseriesWhereClause = null): TiltseriesAggregate
-  tomogramVoxelSpacings(
-    where: TomogramVoxelSpacingWhereClause = null
-    orderBy: [TomogramVoxelSpacingOrderByClause!] = []
-
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
-
-    """Returns the first n items from the list."""
-    first: Int = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): TomogramVoxelSpacingConnection!
-  tomogramVoxelSpacingsAggregate(where: TomogramVoxelSpacingWhereClause = null): TomogramVoxelSpacingAggregate
-  tomograms(
-    where: TomogramWhereClause = null
-    orderBy: [TomogramOrderByClause!] = []
-
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
-
-    """Returns the first n items from the list."""
-    first: Int = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): TomogramConnection!
-  tomogramsAggregate(where: TomogramWhereClause = null): TomogramAggregate
-
-  """Short name for this experiment run"""
-  name: String!
-
-  """The S3 public bucket path where this run is contained"""
-  s3Prefix: String!
-
-  """The HTTPS directory path where this run is contained url"""
-  httpsPrefix: String!
-}
-
 """A connection to a list of items."""
-type AlignmentConnection {
+type AnnotationShapeConnection {
   """Pagination data for this connection"""
   pageInfo: PageInfo!
 
   """Contains the nodes in this connection"""
-  edges: [AlignmentEdge!]!
+  edges: [AnnotationShapeEdge!]!
 }
 
 """An edge in a connection."""
-type AlignmentEdge {
+type AnnotationShapeEdge {
   """A cursor for use in pagination"""
   cursor: String!
 
   """The item at the end of the edge"""
-  node: Alignment!
+  node: AnnotationShape!
 }
 
-type AlignmentAggregate {
-  aggregate: [AlignmentAggregateFunctions!]
+input AnnotationShapeOrderByClause {
+  annotation: AnnotationOrderByClause
+  shapeType: orderBy
+  id: orderBy
 }
 
-type AlignmentAggregateFunctions {
-  sum: AlignmentNumericalColumns
-  avg: AlignmentNumericalColumns
-  stddev: AlignmentNumericalColumns
-  variance: AlignmentNumericalColumns
-  min: AlignmentMinMaxColumns
-  max: AlignmentMinMaxColumns
-  groupBy: AlignmentGroupByOptions
-  count(distinct: Boolean = false, columns: AlignmentCountColumns = null): Int
+input AnnotationOrderByClause {
+  run: RunOrderByClause
+  deposition: DepositionOrderByClause
+  s3MetadataPath: orderBy
+  httpsMetadataPath: orderBy
+  annotationPublication: orderBy
+  annotationMethod: orderBy
+  groundTruthStatus: orderBy
+  objectId: orderBy
+  objectName: orderBy
+  objectDescription: orderBy
+  objectState: orderBy
+  objectCount: orderBy
+  confidencePrecision: orderBy
+  confidenceRecall: orderBy
+  groundTruthUsed: orderBy
+  annotationSoftware: orderBy
+  isCuratorRecommended: orderBy
+  methodType: orderBy
+  depositionDate: orderBy
+  releaseDate: orderBy
+  lastModifiedDate: orderBy
+  id: orderBy
 }
 
-type AlignmentNumericalColumns {
-  volumeXDimension: Float
-  volumeYDimension: Float
-  volumeZDimension: Float
-  volumeXOffset: Float
-  volumeYOffset: Float
-  volumeZOffset: Float
-  xRotationOffset: Float
-  tiltOffset: Float
+type AnnotationShapeAggregate {
+  aggregate: [AnnotationShapeAggregateFunctions!]
+}
+
+type AnnotationShapeAggregateFunctions {
+  sum: AnnotationShapeNumericalColumns
+  avg: AnnotationShapeNumericalColumns
+  stddev: AnnotationShapeNumericalColumns
+  variance: AnnotationShapeNumericalColumns
+  min: AnnotationShapeMinMaxColumns
+  max: AnnotationShapeMinMaxColumns
+  groupBy: AnnotationShapeGroupByOptions
+  count(distinct: Boolean = false, columns: AnnotationShapeCountColumns = null): Int
+}
+
+type AnnotationShapeNumericalColumns {
   id: Int
 }
 
-type AlignmentMinMaxColumns {
-  volumeXDimension: Float
-  volumeYDimension: Float
-  volumeZDimension: Float
-  volumeXOffset: Float
-  volumeYOffset: Float
-  volumeZOffset: Float
-  xRotationOffset: Float
-  tiltOffset: Float
-  localAlignmentFile: String
-  affineTransformationMatrix: String
+type AnnotationShapeMinMaxColumns {
   id: Int
 }
 
-type AlignmentGroupByOptions {
-  deposition: DepositionGroupByOptions
-  tiltseries: TiltseriesGroupByOptions
+type AnnotationShapeGroupByOptions {
+  annotation: AnnotationGroupByOptions
+  shapeType: annotation_file_shape_type_enum
+  id: Int
+}
+
+type AnnotationGroupByOptions {
   run: RunGroupByOptions
-  alignmentType: alignment_type_enum
-  volumeXDimension: Float
-  volumeYDimension: Float
-  volumeZDimension: Float
-  volumeXOffset: Float
-  volumeYOffset: Float
-  volumeZOffset: Float
-  xRotationOffset: Float
-  tiltOffset: Float
-  localAlignmentFile: String
-  affineTransformationMatrix: String
-  id: Int
-}
-
-type DepositionGroupByOptions {
-  title: String
-  description: String
-  depositionPublications: String
-  relatedDatabaseEntries: String
+  deposition: DepositionGroupByOptions
+  s3MetadataPath: String
+  httpsMetadataPath: String
+  annotationPublication: String
+  annotationMethod: String
+  groundTruthStatus: Boolean
+  objectId: String
+  objectName: String
+  objectDescription: String
+  objectState: String
+  objectCount: Int
+  confidencePrecision: Float
+  confidenceRecall: Float
+  groundTruthUsed: String
+  annotationSoftware: String
+  isCuratorRecommended: Boolean
+  methodType: annotation_method_type_enum
   depositionDate: DateTime
   releaseDate: DateTime
   lastModifiedDate: DateTime
-  keyPhotoUrl: String
-  keyPhotoThumbnailUrl: String
-  id: Int
-}
-
-type TiltseriesGroupByOptions {
-  run: RunGroupByOptions
-  deposition: DepositionGroupByOptions
-  s3OmezarrDir: String
-  s3MrcFile: String
-  httpsOmezarrDir: String
-  httpsMrcFile: String
-  s3CollectionMetadata: String
-  httpsCollectionMetadata: String
-  s3AngleList: String
-  httpsAngleList: String
-  s3GainFile: String
-  httpsGainFile: String
-  accelerationVoltage: Int
-  sphericalAberrationConstant: Float
-  microscopeManufacturer: tiltseries_microscope_manufacturer_enum
-  microscopeModel: String
-  microscopeEnergyFilter: String
-  microscopePhasePlate: String
-  microscopeImageCorrector: String
-  microscopeAdditionalInfo: String
-  cameraManufacturer: String
-  cameraModel: String
-  tiltMin: Float
-  tiltMax: Float
-  tiltRange: Float
-  tiltStep: Float
-  tiltingScheme: String
-  tiltAxis: Float
-  totalFlux: Float
-  dataAcquisitionSoftware: String
-  relatedEmpiarEntry: String
-  binningFromFrames: Float
-  tiltSeriesQuality: Int
-  isAligned: Boolean
-  pixelSpacing: Float
-  alignedTiltseriesBinning: Int
-  framesCount: Int
   id: Int
 }
 
@@ -1407,323 +1526,248 @@ type DatasetGroupByOptions {
   id: Int
 }
 
-enum AlignmentCountColumns {
+type DepositionGroupByOptions {
+  title: String
+  description: String
+  depositionPublications: String
+  relatedDatabaseEntries: String
+  depositionDate: DateTime
+  releaseDate: DateTime
+  lastModifiedDate: DateTime
+  keyPhotoUrl: String
+  keyPhotoThumbnailUrl: String
+  id: Int
+}
+
+enum AnnotationShapeCountColumns {
+  annotation
   annotationFiles
-  perSectionAlignments
-  deposition
-  tiltseries
-  tomograms
-  run
-  alignmentType
-  volumeXDimension
-  volumeYDimension
-  volumeZDimension
-  volumeXOffset
-  volumeYOffset
-  volumeZOffset
-  xRotationOffset
-  tiltOffset
-  localAlignmentFile
-  affineTransformationMatrix
+  shapeType
   id
 }
 
 """A connection to a list of items."""
-type AnnotationConnection {
+type AnnotationMethodLinkConnection {
   """Pagination data for this connection"""
   pageInfo: PageInfo!
 
   """Contains the nodes in this connection"""
-  edges: [AnnotationEdge!]!
+  edges: [AnnotationMethodLinkEdge!]!
 }
 
 """An edge in a connection."""
-type AnnotationEdge {
+type AnnotationMethodLinkEdge {
   """A cursor for use in pagination"""
   cursor: String!
 
   """The item at the end of the edge"""
-  node: Annotation!
+  node: AnnotationMethodLink!
 }
 
-input AnnotationOrderByClause {
-  run: RunOrderByClause
-  deposition: DepositionOrderByClause
-  s3MetadataPath: orderBy
-  httpsMetadataPath: orderBy
-  annotationPublication: orderBy
-  annotationMethod: orderBy
-  methodLinks: orderBy
-  groundTruthStatus: orderBy
-  objectId: orderBy
-  objectName: orderBy
-  objectDescription: orderBy
-  objectState: orderBy
-  objectCount: orderBy
-  confidencePrecision: orderBy
-  confidenceRecall: orderBy
-  groundTruthUsed: orderBy
-  annotationSoftware: orderBy
-  isCuratorRecommended: orderBy
-  methodType: orderBy
-  depositionDate: orderBy
-  releaseDate: orderBy
-  lastModifiedDate: orderBy
-  id: orderBy
-}
-
-type AnnotationAggregate {
-  aggregate: [AnnotationAggregateFunctions!]
-}
-
-type AnnotationAggregateFunctions {
-  sum: AnnotationNumericalColumns
-  avg: AnnotationNumericalColumns
-  stddev: AnnotationNumericalColumns
-  variance: AnnotationNumericalColumns
-  min: AnnotationMinMaxColumns
-  max: AnnotationMinMaxColumns
-  groupBy: AnnotationGroupByOptions
-  count(distinct: Boolean = false, columns: AnnotationCountColumns = null): Int
-}
-
-type AnnotationNumericalColumns {
-  objectCount: Int
-  confidencePrecision: Float
-  confidenceRecall: Float
-  id: Int
-}
-
-type AnnotationMinMaxColumns {
-  s3MetadataPath: String
-  httpsMetadataPath: String
-  annotationPublication: String
-  annotationMethod: String
-  methodLinks: String
-  objectId: String
-  objectName: String
-  objectDescription: String
-  objectState: String
-  objectCount: Int
-  confidencePrecision: Float
-  confidenceRecall: Float
-  groundTruthUsed: String
-  annotationSoftware: String
-  depositionDate: DateTime
-  releaseDate: DateTime
-  lastModifiedDate: DateTime
-  id: Int
-}
-
-type AnnotationGroupByOptions {
-  run: RunGroupByOptions
-  deposition: DepositionGroupByOptions
-  s3MetadataPath: String
-  httpsMetadataPath: String
-  annotationPublication: String
-  annotationMethod: String
-  methodLinks: String
-  groundTruthStatus: Boolean
-  objectId: String
-  objectName: String
-  objectDescription: String
-  objectState: String
-  objectCount: Int
-  confidencePrecision: Float
-  confidenceRecall: Float
-  groundTruthUsed: String
-  annotationSoftware: String
-  isCuratorRecommended: Boolean
-  methodType: annotation_method_type_enum
-  depositionDate: DateTime
-  releaseDate: DateTime
-  lastModifiedDate: DateTime
-  id: Int
-}
-
-enum AnnotationCountColumns {
-  run
-  annotationShapes
-  authors
-  deposition
-  s3MetadataPath
-  httpsMetadataPath
-  annotationPublication
-  annotationMethod
-  methodLinks
-  groundTruthStatus
-  objectId
-  objectName
-  objectDescription
-  objectState
-  objectCount
-  confidencePrecision
-  confidenceRecall
-  groundTruthUsed
-  annotationSoftware
-  isCuratorRecommended
-  methodType
-  depositionDate
-  releaseDate
-  lastModifiedDate
-  id
-}
-
-"""A collection of imaging experiments on the same organism"""
-type Dataset implements EntityInterface & Node {
+"""
+A set of links to models, source code, documentation, etc referenced by annotation method
+"""
+type AnnotationMethodLink implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
   _id: GlobalID!
 
-  """
-  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
-  """
+  """Numeric identifier (May change!)"""
   id: Int!
-  deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
-  depositionId: Int!
-  fundingSources(
-    where: DatasetFundingWhereClause = null
-    orderBy: [DatasetFundingOrderByClause!] = []
+  annotation(where: AnnotationWhereClause = null, orderBy: [AnnotationOrderByClause!] = []): Annotation
+  annotationId: Int
 
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
+  """Type of link (e.g. model, source code, documentation)"""
+  linkType: annotation_method_link_type_enum!
 
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
+  """user readable name of the resource"""
+  name: String
 
-    """Returns the first n items from the list."""
-    first: Int = null
+  """URL to the resource"""
+  link: String!
+}
 
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): DatasetFundingConnection!
-  fundingSourcesAggregate(where: DatasetFundingWhereClause = null): DatasetFundingAggregate
-  authors(
-    where: DatasetAuthorWhereClause = null
-    orderBy: [DatasetAuthorOrderByClause!] = []
+input AnnotationMethodLinkOrderByClause {
+  annotation: AnnotationOrderByClause
+  linkType: orderBy
+  name: orderBy
+  link: orderBy
+  id: orderBy
+}
 
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
+type AnnotationMethodLinkAggregate {
+  aggregate: [AnnotationMethodLinkAggregateFunctions!]
+}
 
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
+type AnnotationMethodLinkAggregateFunctions {
+  sum: AnnotationMethodLinkNumericalColumns
+  avg: AnnotationMethodLinkNumericalColumns
+  stddev: AnnotationMethodLinkNumericalColumns
+  variance: AnnotationMethodLinkNumericalColumns
+  min: AnnotationMethodLinkMinMaxColumns
+  max: AnnotationMethodLinkMinMaxColumns
+  groupBy: AnnotationMethodLinkGroupByOptions
+  count(distinct: Boolean = false, columns: AnnotationMethodLinkCountColumns = null): Int
+}
 
-    """Returns the first n items from the list."""
-    first: Int = null
+type AnnotationMethodLinkNumericalColumns {
+  id: Int
+}
 
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): DatasetAuthorConnection!
-  authorsAggregate(where: DatasetAuthorWhereClause = null): DatasetAuthorAggregate
-  runs(
-    where: RunWhereClause = null
-    orderBy: [RunOrderByClause!] = []
+type AnnotationMethodLinkMinMaxColumns {
+  name: String
+  link: String
+  id: Int
+}
 
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
+type AnnotationMethodLinkGroupByOptions {
+  annotation: AnnotationGroupByOptions
+  linkType: annotation_method_link_type_enum
+  name: String
+  link: String
+  id: Int
+}
 
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
+enum AnnotationMethodLinkCountColumns {
+  annotation
+  linkType
+  name
+  link
+  id
+}
 
-    """Returns the first n items from the list."""
-    first: Int = null
+"""A connection to a list of items."""
+type AnnotationAuthorConnection {
+  """Pagination data for this connection"""
+  pageInfo: PageInfo!
 
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): RunConnection!
-  runsAggregate(where: RunWhereClause = null): RunAggregate
+  """Contains the nodes in this connection"""
+  edges: [AnnotationAuthorEdge!]!
+}
 
-  """Title of a CryoET dataset"""
-  title: String!
+"""An edge in a connection."""
+type AnnotationAuthorEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
 
-  """
-  A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
-  """
-  description: String!
+  """The item at the end of the edge"""
+  node: AnnotationAuthor!
+}
 
-  """
-  Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
-  """
-  organismName: String
+"""Metadata for an annotation's authors"""
+type AnnotationAuthor implements EntityInterface & Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
 
-  """NCBI taxonomy identifier for the organism, e.g. 9606"""
-  organismTaxid: Int
+  """Numeric identifier (May change!)"""
+  id: Int!
+  annotation(where: AnnotationWhereClause = null, orderBy: [AnnotationOrderByClause!] = []): Annotation
+  annotationId: Int
 
-  """
-  Name of the tissue from which a biological sample used in a CryoET study is derived from.
-  """
-  tissueName: String
+  """The order in which the author appears in the publication"""
+  authorListOrder: Int!
 
-  """UBERON identifier for the tissue"""
-  tissueId: String
+  """A unique, persistent identifier for researchers, provided by ORCID."""
+  orcid: String
 
-  """
-  Name of the cell from which a biological sample used in a CryoET study is derived from.
-  """
-  cellName: String
+  """Full name of an annotation author (e.g. Jane Doe)."""
+  name: String!
 
-  """Cell Ontology identifier for the cell type"""
-  cellTypeId: String
-
-  """Cell line or strain for the sample."""
-  cellStrainName: String
-
-  """Link to more information about the cell strain"""
-  cellStrainId: String
-
-  """
-  Type of samples used in a CryoET study. (cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other)
-  """
-  sampleType: sample_type_enum
-
-  """Describe how the sample was prepared."""
-  samplePreparation: String
-
-  """Describe Cryo-ET grid preparation."""
-  gridPreparation: String
-
-  """
-  Describe other setup not covered by sample preparation or grid preparation that may make this dataset unique in the same publication
-  """
-  otherSetup: String
-
-  """URL for the dataset preview image."""
-  keyPhotoUrl: String
-
-  """URL for the thumbnail of preview image."""
-  keyPhotoThumbnailUrl: String
-
-  """Name of the cellular component"""
-  cellComponentName: String
+  """Email address for this author"""
+  email: String
 
   """
-  If the dataset focuses on a specific part of a cell, the subset is included here
+  Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
   """
-  cellComponentId: String
+  affiliationName: String
 
-  """Date when a dataset is initially received by the Data Portal."""
-  depositionDate: DateTime!
-
-  """Date when a dataset is made available on the Data Portal."""
-  releaseDate: DateTime!
-
-  """Date when a released dataset is last modified."""
-  lastModifiedDate: DateTime!
+  """Address of the institution an annotator is affiliated with."""
+  affiliationAddress: String
 
   """
-  Comma-separated list of DOIs for publications associated with the dataset.
+  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
   """
-  datasetPublications: String
+  affiliationIdentifier: String
+
+  """Indicates whether an annotator is the corresponding author"""
+  correspondingAuthorStatus: Boolean
 
   """
-  If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
+  Indicates whether an author is the main person executing the annotation, especially on manual annotation
   """
-  relatedDatabaseEntries: String
+  primaryAuthorStatus: Boolean
+}
 
-  """The S3 public bucket path where this dataset is contained"""
-  s3Prefix: String!
+input AnnotationAuthorOrderByClause {
+  annotation: AnnotationOrderByClause
+  id: orderBy
+  authorListOrder: orderBy
+  orcid: orderBy
+  name: orderBy
+  email: orderBy
+  affiliationName: orderBy
+  affiliationAddress: orderBy
+  affiliationIdentifier: orderBy
+  correspondingAuthorStatus: orderBy
+  primaryAuthorStatus: orderBy
+}
 
-  """The https directory path where this dataset is contained"""
-  httpsPrefix: String!
+type AnnotationAuthorAggregate {
+  aggregate: [AnnotationAuthorAggregateFunctions!]
+}
+
+type AnnotationAuthorAggregateFunctions {
+  sum: AnnotationAuthorNumericalColumns
+  avg: AnnotationAuthorNumericalColumns
+  stddev: AnnotationAuthorNumericalColumns
+  variance: AnnotationAuthorNumericalColumns
+  min: AnnotationAuthorMinMaxColumns
+  max: AnnotationAuthorMinMaxColumns
+  groupBy: AnnotationAuthorGroupByOptions
+  count(distinct: Boolean = false, columns: AnnotationAuthorCountColumns = null): Int
+}
+
+type AnnotationAuthorNumericalColumns {
+  id: Int
+  authorListOrder: Int
+}
+
+type AnnotationAuthorMinMaxColumns {
+  id: Int
+  authorListOrder: Int
+  orcid: String
+  name: String
+  email: String
+  affiliationName: String
+  affiliationAddress: String
+  affiliationIdentifier: String
+}
+
+type AnnotationAuthorGroupByOptions {
+  annotation: AnnotationGroupByOptions
+  id: Int
+  authorListOrder: Int
+  orcid: String
+  name: String
+  email: String
+  affiliationName: String
+  affiliationAddress: String
+  affiliationIdentifier: String
+  correspondingAuthorStatus: Boolean
+  primaryAuthorStatus: Boolean
+}
+
+enum AnnotationAuthorCountColumns {
+  annotation
+  id
+  authorListOrder
+  orcid
+  name
+  email
+  affiliationName
+  affiliationAddress
+  affiliationIdentifier
+  correspondingAuthorStatus
+  primaryAuthorStatus
 }
 
 """Deposition metadata"""
@@ -2029,578 +2073,81 @@ enum DepositionAuthorCountColumns {
   primaryAuthorStatus
 }
 
-"""A connection to a list of items."""
-type DatasetConnection {
-  """Pagination data for this connection"""
-  pageInfo: PageInfo!
-
-  """Contains the nodes in this connection"""
-  edges: [DatasetEdge!]!
+type AlignmentAggregate {
+  aggregate: [AlignmentAggregateFunctions!]
 }
 
-"""An edge in a connection."""
-type DatasetEdge {
-  """A cursor for use in pagination"""
-  cursor: String!
-
-  """The item at the end of the edge"""
-  node: Dataset!
+type AlignmentAggregateFunctions {
+  sum: AlignmentNumericalColumns
+  avg: AlignmentNumericalColumns
+  stddev: AlignmentNumericalColumns
+  variance: AlignmentNumericalColumns
+  min: AlignmentMinMaxColumns
+  max: AlignmentMinMaxColumns
+  groupBy: AlignmentGroupByOptions
+  count(distinct: Boolean = false, columns: AlignmentCountColumns = null): Int
 }
 
-type DatasetAggregate {
-  aggregate: [DatasetAggregateFunctions!]
-}
-
-type DatasetAggregateFunctions {
-  sum: DatasetNumericalColumns
-  avg: DatasetNumericalColumns
-  stddev: DatasetNumericalColumns
-  variance: DatasetNumericalColumns
-  min: DatasetMinMaxColumns
-  max: DatasetMinMaxColumns
-  groupBy: DatasetGroupByOptions
-  count(distinct: Boolean = false, columns: DatasetCountColumns = null): Int
-}
-
-type DatasetNumericalColumns {
-  organismTaxid: Int
+type AlignmentNumericalColumns {
+  volumeXDimension: Float
+  volumeYDimension: Float
+  volumeZDimension: Float
+  volumeXOffset: Float
+  volumeYOffset: Float
+  volumeZOffset: Float
+  xRotationOffset: Float
+  tiltOffset: Float
   id: Int
 }
 
-type DatasetMinMaxColumns {
-  title: String
-  description: String
-  organismName: String
-  organismTaxid: Int
-  tissueName: String
-  tissueId: String
-  cellName: String
-  cellTypeId: String
-  cellStrainName: String
-  cellStrainId: String
-  samplePreparation: String
-  gridPreparation: String
-  otherSetup: String
-  keyPhotoUrl: String
-  keyPhotoThumbnailUrl: String
-  cellComponentName: String
-  cellComponentId: String
-  depositionDate: DateTime
-  releaseDate: DateTime
-  lastModifiedDate: DateTime
-  datasetPublications: String
-  relatedDatabaseEntries: String
-  s3Prefix: String
-  httpsPrefix: String
+type AlignmentMinMaxColumns {
+  volumeXDimension: Float
+  volumeYDimension: Float
+  volumeZDimension: Float
+  volumeXOffset: Float
+  volumeYOffset: Float
+  volumeZOffset: Float
+  xRotationOffset: Float
+  tiltOffset: Float
+  affineTransformationMatrix: String
+  s3AlignmentMetadata: String
+  httpsAlignmentMetadata: String
   id: Int
 }
 
-enum DatasetCountColumns {
-  deposition
-  fundingSources
-  authors
-  runs
-  title
-  description
-  organismName
-  organismTaxid
-  tissueName
-  tissueId
-  cellName
-  cellTypeId
-  cellStrainName
-  cellStrainId
-  sampleType
-  samplePreparation
-  gridPreparation
-  otherSetup
-  keyPhotoUrl
-  keyPhotoThumbnailUrl
-  cellComponentName
-  cellComponentId
-  depositionDate
-  releaseDate
-  lastModifiedDate
-  datasetPublications
-  relatedDatabaseEntries
-  s3Prefix
-  httpsPrefix
-  id
-}
-
-"""A connection to a list of items."""
-type FrameConnection {
-  """Pagination data for this connection"""
-  pageInfo: PageInfo!
-
-  """Contains the nodes in this connection"""
-  edges: [FrameEdge!]!
-}
-
-"""An edge in a connection."""
-type FrameEdge {
-  """A cursor for use in pagination"""
-  cursor: String!
-
-  """The item at the end of the edge"""
-  node: Frame!
-}
-
-type Frame implements EntityInterface & Node {
-  """The Globally Unique ID of this object"""
-  _id: GlobalID!
-
-  """Numeric identifier (May change!)"""
-  id: Int!
-  deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
-  depositionId: Int
-  perSectionParameters(
-    where: PerSectionParametersWhereClause = null
-    orderBy: [PerSectionParametersOrderByClause!] = []
-
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
-
-    """Returns the first n items from the list."""
-    first: Int = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): PerSectionParametersConnection!
-  perSectionParametersAggregate(where: PerSectionParametersWhereClause = null): PerSectionParametersAggregate
-  run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
-  runId: Int
-
-  """Camera angle for a frame"""
-  rawAngle: Float!
-
-  """Frame's acquistion order within a tilt experiment"""
-  acquisitionOrder: Int
-
-  """The raw camera angle for a frame"""
-  dose: Float!
-
-  """Whether this frame has been gain corrected"""
-  isGainCorrected: Boolean
-
-  """S3 path to the gain file for this frame"""
-  s3GainFile: String
-
-  """HTTPS path to the gain file for this frame"""
-  httpsGainFile: String
-
-  """Path to a directory containing data for this entity as an S3 url"""
-  s3Prefix: String!
-
-  """Path to a directory containing data for this entity as an HTTPS url"""
-  httpsPrefix: String!
-}
-
-"""A connection to a list of items."""
-type PerSectionParametersConnection {
-  """Pagination data for this connection"""
-  pageInfo: PageInfo!
-
-  """Contains the nodes in this connection"""
-  edges: [PerSectionParametersEdge!]!
-}
-
-"""An edge in a connection."""
-type PerSectionParametersEdge {
-  """A cursor for use in pagination"""
-  cursor: String!
-
-  """The item at the end of the edge"""
-  node: PerSectionParameters!
-}
-
-"""Record how frames get mapped to Tiltseries"""
-type PerSectionParameters implements EntityInterface & Node {
-  """The Globally Unique ID of this object"""
-  _id: GlobalID!
-
-  """Numeric identifier (May change!)"""
-  id: Int!
-  frame(where: FrameWhereClause = null, orderBy: [FrameOrderByClause!] = []): Frame
-  frameId: Int!
-  tiltseries(where: TiltseriesWhereClause = null, orderBy: [TiltseriesOrderByClause!] = []): Tiltseries
-  tiltseriesId: Int!
-
-  """z-index of the frame in the tiltseries"""
-  zIndex: Int!
-
-  """defocus amount"""
-  defocus: Float
-
-  """Astigmatism amount for this frame"""
-  astigmatism: Float
-
-  """Angle of ast"""
-  astigmaticAngle: Float
-}
-
-input FrameOrderByClause {
-  deposition: DepositionOrderByClause
-  run: RunOrderByClause
-  rawAngle: orderBy
-  acquisitionOrder: orderBy
-  dose: orderBy
-  isGainCorrected: orderBy
-  s3GainFile: orderBy
-  httpsGainFile: orderBy
-  s3Prefix: orderBy
-  httpsPrefix: orderBy
-  id: orderBy
-}
-
-type Tiltseries implements EntityInterface & Node {
-  """The Globally Unique ID of this object"""
-  _id: GlobalID!
-
-  """Numeric identifier (May change!)"""
-  id: Int!
-  alignments(
-    where: AlignmentWhereClause = null
-    orderBy: [AlignmentOrderByClause!] = []
-
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
-
-    """Returns the first n items from the list."""
-    first: Int = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): AlignmentConnection!
-  alignmentsAggregate(where: AlignmentWhereClause = null): AlignmentAggregate
-  perSectionParameters(
-    where: PerSectionParametersWhereClause = null
-    orderBy: [PerSectionParametersOrderByClause!] = []
-
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
-
-    """Returns the first n items from the list."""
-    first: Int = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): PerSectionParametersConnection!
-  perSectionParametersAggregate(where: PerSectionParametersWhereClause = null): PerSectionParametersAggregate
-  run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
-  runId: Int!
-  deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
-  depositionId: Int
-
-  """S3 path to this tiltseries in multiscale OME-Zarr format"""
-  s3OmezarrDir: String
-
-  """S3 path to this tiltseries in MRC format (no scaling)"""
-  s3MrcFile: String
-
-  """HTTPS path to this tiltseries in multiscale OME-Zarr format"""
-  httpsOmezarrDir: String
-
-  """HTTPS path to this tiltseries in MRC format (no scaling)"""
-  httpsMrcFile: String
-
-  """S3 path to the collection metadata file for this tiltseries"""
-  s3CollectionMetadata: String
-
-  """HTTPS path to the collection metadata file for this tiltseries"""
-  httpsCollectionMetadata: String
-
-  """S3 path to the angle list file for this tiltseries"""
-  s3AngleList: String
-
-  """HTTPS path to the angle list file for this tiltseries"""
-  httpsAngleList: String
-
-  """S3 path to the gain file for this tiltseries"""
-  s3GainFile: String
-
-  """HTTPS path to the gain file for this tiltseries"""
-  httpsGainFile: String
-
-  """Electron Microscope Accelerator voltage in volts"""
-  accelerationVoltage: Int!
-
-  """Spherical Aberration Constant of the objective lens in millimeters"""
-  sphericalAberrationConstant: Float!
-
-  """Name of the microscope manufacturer (FEI, TFS, JEOL)"""
-  microscopeManufacturer: tiltseries_microscope_manufacturer_enum!
-
-  """Microscope model name"""
-  microscopeModel: String!
-
-  """Energy filter setup used"""
-  microscopeEnergyFilter: String!
-
-  """Phase plate configuration"""
-  microscopePhasePlate: String
-
-  """Image corrector setup"""
-  microscopeImageCorrector: String
-
-  """
-  Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
-  """
-  microscopeAdditionalInfo: String
-
-  """Name of the camera manufacturer"""
-  cameraManufacturer: String!
-
-  """Camera model name"""
-  cameraModel: String!
-
-  """Minimal tilt angle in degrees"""
-  tiltMin: Float!
-
-  """Maximal tilt angle in degrees"""
-  tiltMax: Float!
-
-  """Total tilt range in degrees"""
-  tiltRange: Float!
-
-  """Tilt step in degrees"""
-  tiltStep: Float!
-
-  """The order of stage tilting during acquisition of the data"""
-  tiltingScheme: String!
-
-  """Rotation angle in degrees"""
-  tiltAxis: Float!
-
-  """
-  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
-  """
-  totalFlux: Float!
-
-  """Software used to collect data"""
-  dataAcquisitionSoftware: String!
-
-  """
-  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
-  """
-  relatedEmpiarEntry: String
-
-  """Describes the binning factor from frames to tilt series file"""
-  binningFromFrames: Float
-
-  """
-  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
-  """
-  tiltSeriesQuality: Int!
-
-  """Whether this tilt series is aligned"""
-  isAligned: Boolean!
-
-  """Pixel spacing equal in both axes in angstroms"""
-  pixelSpacing: Float!
-
-  """Binning factor of the aligned tilt series"""
-  alignedTiltseriesBinning: Int
-
-  """Number of frames associated with this tiltseries"""
-  framesCount: Int
-}
-
-input PerSectionParametersOrderByClause {
-  frame: FrameOrderByClause
-  tiltseries: TiltseriesOrderByClause
-  zIndex: orderBy
-  defocus: orderBy
-  astigmatism: orderBy
-  astigmaticAngle: orderBy
-  id: orderBy
-}
-
-type PerSectionParametersAggregate {
-  aggregate: [PerSectionParametersAggregateFunctions!]
-}
-
-type PerSectionParametersAggregateFunctions {
-  sum: PerSectionParametersNumericalColumns
-  avg: PerSectionParametersNumericalColumns
-  stddev: PerSectionParametersNumericalColumns
-  variance: PerSectionParametersNumericalColumns
-  min: PerSectionParametersMinMaxColumns
-  max: PerSectionParametersMinMaxColumns
-  groupBy: PerSectionParametersGroupByOptions
-  count(distinct: Boolean = false, columns: PerSectionParametersCountColumns = null): Int
-}
-
-type PerSectionParametersNumericalColumns {
-  zIndex: Int
-  defocus: Float
-  astigmatism: Float
-  astigmaticAngle: Float
-  id: Int
-}
-
-type PerSectionParametersMinMaxColumns {
-  zIndex: Int
-  defocus: Float
-  astigmatism: Float
-  astigmaticAngle: Float
-  id: Int
-}
-
-type PerSectionParametersGroupByOptions {
-  frame: FrameGroupByOptions
-  tiltseries: TiltseriesGroupByOptions
-  zIndex: Int
-  defocus: Float
-  astigmatism: Float
-  astigmaticAngle: Float
-  id: Int
-}
-
-type FrameGroupByOptions {
+type AlignmentGroupByOptions {
   deposition: DepositionGroupByOptions
+  tiltseries: TiltseriesGroupByOptions
   run: RunGroupByOptions
-  rawAngle: Float
-  acquisitionOrder: Int
-  dose: Float
-  isGainCorrected: Boolean
-  s3GainFile: String
-  httpsGainFile: String
-  s3Prefix: String
-  httpsPrefix: String
+  alignmentType: alignment_type_enum
+  alignmentMethod: alignment_method_type_enum
+  volumeXDimension: Float
+  volumeYDimension: Float
+  volumeZDimension: Float
+  volumeXOffset: Float
+  volumeYOffset: Float
+  volumeZOffset: Float
+  xRotationOffset: Float
+  tiltOffset: Float
+  affineTransformationMatrix: String
+  s3AlignmentMetadata: String
+  httpsAlignmentMetadata: String
+  isPortalStandard: Boolean
   id: Int
 }
 
-enum PerSectionParametersCountColumns {
-  frame
-  tiltseries
-  zIndex
-  defocus
-  astigmatism
-  astigmaticAngle
-  id
-}
-
-type FrameAggregate {
-  aggregate: [FrameAggregateFunctions!]
-}
-
-type FrameAggregateFunctions {
-  sum: FrameNumericalColumns
-  avg: FrameNumericalColumns
-  stddev: FrameNumericalColumns
-  variance: FrameNumericalColumns
-  min: FrameMinMaxColumns
-  max: FrameMinMaxColumns
-  groupBy: FrameGroupByOptions
-  count(distinct: Boolean = false, columns: FrameCountColumns = null): Int
-}
-
-type FrameNumericalColumns {
-  rawAngle: Float
-  acquisitionOrder: Int
-  dose: Float
-  id: Int
-}
-
-type FrameMinMaxColumns {
-  rawAngle: Float
-  acquisitionOrder: Int
-  dose: Float
-  s3GainFile: String
-  httpsGainFile: String
-  s3Prefix: String
-  httpsPrefix: String
-  id: Int
-}
-
-enum FrameCountColumns {
-  deposition
-  perSectionParameters
-  run
-  rawAngle
-  acquisitionOrder
-  dose
-  isGainCorrected
-  s3GainFile
-  httpsGainFile
-  s3Prefix
-  httpsPrefix
-  id
-}
-
-"""A connection to a list of items."""
-type TiltseriesConnection {
-  """Pagination data for this connection"""
-  pageInfo: PageInfo!
-
-  """Contains the nodes in this connection"""
-  edges: [TiltseriesEdge!]!
-}
-
-"""An edge in a connection."""
-type TiltseriesEdge {
-  """A cursor for use in pagination"""
-  cursor: String!
-
-  """The item at the end of the edge"""
-  node: Tiltseries!
-}
-
-type TiltseriesAggregate {
-  aggregate: [TiltseriesAggregateFunctions!]
-}
-
-type TiltseriesAggregateFunctions {
-  sum: TiltseriesNumericalColumns
-  avg: TiltseriesNumericalColumns
-  stddev: TiltseriesNumericalColumns
-  variance: TiltseriesNumericalColumns
-  min: TiltseriesMinMaxColumns
-  max: TiltseriesMinMaxColumns
-  groupBy: TiltseriesGroupByOptions
-  count(distinct: Boolean = false, columns: TiltseriesCountColumns = null): Int
-}
-
-type TiltseriesNumericalColumns {
-  accelerationVoltage: Int
-  sphericalAberrationConstant: Float
-  tiltMin: Float
-  tiltMax: Float
-  tiltRange: Float
-  tiltStep: Float
-  tiltAxis: Float
-  totalFlux: Float
-  binningFromFrames: Float
-  tiltSeriesQuality: Int
-  pixelSpacing: Float
-  alignedTiltseriesBinning: Int
-  framesCount: Int
-  id: Int
-}
-
-type TiltseriesMinMaxColumns {
+type TiltseriesGroupByOptions {
+  run: RunGroupByOptions
+  deposition: DepositionGroupByOptions
   s3OmezarrDir: String
   s3MrcFile: String
   httpsOmezarrDir: String
   httpsMrcFile: String
-  s3CollectionMetadata: String
-  httpsCollectionMetadata: String
   s3AngleList: String
   httpsAngleList: String
-  s3GainFile: String
-  httpsGainFile: String
   accelerationVoltage: Int
   sphericalAberrationConstant: Float
+  microscopeManufacturer: tiltseries_microscope_manufacturer_enum
   microscopeModel: String
   microscopeEnergyFilter: String
   microscopePhasePlate: String
@@ -2619,703 +2166,297 @@ type TiltseriesMinMaxColumns {
   relatedEmpiarEntry: String
   binningFromFrames: Float
   tiltSeriesQuality: Int
+  isAligned: Boolean
   pixelSpacing: Float
   alignedTiltseriesBinning: Int
-  framesCount: Int
   id: Int
 }
 
-enum TiltseriesCountColumns {
-  alignments
-  perSectionParameters
-  run
+enum AlignmentCountColumns {
+  annotationFiles
+  perSectionAlignments
   deposition
-  s3OmezarrDir
-  s3MrcFile
-  httpsOmezarrDir
-  httpsMrcFile
-  s3CollectionMetadata
-  httpsCollectionMetadata
-  s3AngleList
-  httpsAngleList
-  s3GainFile
-  httpsGainFile
-  accelerationVoltage
-  sphericalAberrationConstant
-  microscopeManufacturer
-  microscopeModel
-  microscopeEnergyFilter
-  microscopePhasePlate
-  microscopeImageCorrector
-  microscopeAdditionalInfo
-  cameraManufacturer
-  cameraModel
-  tiltMin
-  tiltMax
-  tiltRange
-  tiltStep
-  tiltingScheme
-  tiltAxis
-  totalFlux
-  dataAcquisitionSoftware
-  relatedEmpiarEntry
-  binningFromFrames
-  tiltSeriesQuality
-  isAligned
-  pixelSpacing
-  alignedTiltseriesBinning
-  framesCount
+  tiltseries
+  tomograms
+  run
+  alignmentType
+  alignmentMethod
+  volumeXDimension
+  volumeYDimension
+  volumeZDimension
+  volumeXOffset
+  volumeYOffset
+  volumeZOffset
+  xRotationOffset
+  tiltOffset
+  affineTransformationMatrix
+  s3AlignmentMetadata
+  httpsAlignmentMetadata
+  isPortalStandard
   id
 }
 
 """A connection to a list of items."""
-type TomogramConnection {
+type AnnotationConnection {
   """Pagination data for this connection"""
   pageInfo: PageInfo!
 
   """Contains the nodes in this connection"""
-  edges: [TomogramEdge!]!
+  edges: [AnnotationEdge!]!
 }
 
 """An edge in a connection."""
-type TomogramEdge {
+type AnnotationEdge {
   """A cursor for use in pagination"""
   cursor: String!
 
   """The item at the end of the edge"""
-  node: Tomogram!
+  node: Annotation!
 }
 
-"""Metadata describing a tomogram."""
-type Tomogram implements EntityInterface & Node {
-  """The Globally Unique ID of this object"""
-  _id: GlobalID!
-
-  """Numeric identifier (May change!)"""
-  id: Int!
-  alignment(where: AlignmentWhereClause = null, orderBy: [AlignmentOrderByClause!] = []): Alignment
-  alignmentId: Int
-  authors(
-    where: TomogramAuthorWhereClause = null
-    orderBy: [TomogramAuthorOrderByClause!] = []
-
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
-
-    """Returns the first n items from the list."""
-    first: Int = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): TomogramAuthorConnection!
-  authorsAggregate(where: TomogramAuthorWhereClause = null): TomogramAuthorAggregate
-  deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
-  depositionId: Int!
-  run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
-  runId: Int
-  tomogramVoxelSpacing(where: TomogramVoxelSpacingWhereClause = null, orderBy: [TomogramVoxelSpacingOrderByClause!] = []): TomogramVoxelSpacing
-  tomogramVoxelSpacingId: Int
-
-  """Short name for this tomogram"""
-  name: String
-
-  """Number of pixels in the 3D data fast axis"""
-  sizeX: Int!
-
-  """Number of pixels in the 3D data medium axis"""
-  sizeY: Int!
-
-  """
-  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
-  """
-  sizeZ: Int!
-
-  """Voxel spacing equal in all three axes in angstroms"""
-  voxelSpacing: Float!
-
-  """
-  Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
-  """
-  fiducialAlignmentStatus: fiducial_alignment_status_enum!
-
-  """Describe reconstruction method (WBP, SART, SIRT)"""
-  reconstructionMethod: tomogram_reconstruction_method_enum!
-
-  """Describe additional processing used to derive the tomogram"""
-  processing: tomogram_processing_enum!
-
-  """Version of tomogram"""
-  tomogramVersion: Float
-
-  """Processing software used to derive the tomogram"""
-  processingSoftware: String
-
-  """Name of software used for reconstruction"""
-  reconstructionSoftware: String!
-
-  """
-  Is this tomogram considered the canonical tomogram for the run experiment? True=Yes
-  """
-  isCanonical: Boolean
-
-  """S3 path to this tomogram in multiscale OME-Zarr format"""
-  s3OmezarrDir: String
-
-  """HTTPS path to this tomogram in multiscale OME-Zarr format"""
-  httpsOmezarrDir: String
-
-  """S3 path to this tomogram in MRC format (no scaling)"""
-  s3MrcFile: String
-
-  """HTTPS path to this tomogram in MRC format (no scaling)"""
-  httpsMrcFile: String
-
-  """comma separated x,y,z dimensions of the unscaled tomogram"""
-  scale0Dimensions: String
-
-  """comma separated x,y,z dimensions of the scale1 tomogram"""
-  scale1Dimensions: String
-
-  """comma separated x,y,z dimensions of the scale2 tomogram"""
-  scale2Dimensions: String
-
-  """Whether this tomogram is CTF corrected"""
-  ctfCorrected: Boolean
-
-  """x offset data relative to the canonical tomogram in pixels"""
-  offsetX: Int!
-
-  """y offset data relative to the canonical tomogram in pixels"""
-  offsetY: Int!
-
-  """z offset data relative to the canonical tomogram in pixels"""
-  offsetZ: Int!
-
-  """URL for the key photo"""
-  keyPhotoUrl: String
-
-  """URL for the thumbnail of key photo"""
-  keyPhotoThumbnailUrl: String
-
-  """the compact json of neuroglancer config"""
-  neuroglancerConfig: String
-
-  """Whether this tomogram was generated per the portal's standards"""
-  isStandardized: Boolean!
+type AnnotationAggregate {
+  aggregate: [AnnotationAggregateFunctions!]
 }
 
-"""A connection to a list of items."""
-type TomogramAuthorConnection {
-  """Pagination data for this connection"""
-  pageInfo: PageInfo!
-
-  """Contains the nodes in this connection"""
-  edges: [TomogramAuthorEdge!]!
+type AnnotationAggregateFunctions {
+  sum: AnnotationNumericalColumns
+  avg: AnnotationNumericalColumns
+  stddev: AnnotationNumericalColumns
+  variance: AnnotationNumericalColumns
+  min: AnnotationMinMaxColumns
+  max: AnnotationMinMaxColumns
+  groupBy: AnnotationGroupByOptions
+  count(distinct: Boolean = false, columns: AnnotationCountColumns = null): Int
 }
 
-"""An edge in a connection."""
-type TomogramAuthorEdge {
-  """A cursor for use in pagination"""
-  cursor: String!
-
-  """The item at the end of the edge"""
-  node: TomogramAuthor!
-}
-
-"""Author of a tomogram"""
-type TomogramAuthor implements EntityInterface & Node {
-  """The Globally Unique ID of this object"""
-  _id: GlobalID!
-
-  """Numeric identifier (May change!)"""
-  id: Int!
-  tomogram(where: TomogramWhereClause = null, orderBy: [TomogramOrderByClause!] = []): Tomogram
-  tomogramId: Int
-
-  """The order in which the author appears in the publication"""
-  authorListOrder: Int!
-
-  """A unique, persistent identifier for researchers, provided by ORCID."""
-  orcid: String
-
-  """Full name of an author (e.g. Jane Doe)."""
-  name: String!
-
-  """Email address for this author"""
-  email: String
-
-  """Name of the institutions an author is affiliated with. Comma separated"""
-  affiliationName: String
-
-  """Address of the institution an author is affiliated with."""
-  affiliationAddress: String
-
-  """
-  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
-  """
-  affiliationIdentifier: String
-
-  """Indicates whether an author is the corresponding author"""
-  correspondingAuthorStatus: Boolean
-
-  """Indicates whether an author is the main person creating the tomogram"""
-  primaryAuthorStatus: Boolean
-}
-
-input TomogramOrderByClause {
-  alignment: AlignmentOrderByClause
-  deposition: DepositionOrderByClause
-  run: RunOrderByClause
-  tomogramVoxelSpacing: TomogramVoxelSpacingOrderByClause
-  name: orderBy
-  sizeX: orderBy
-  sizeY: orderBy
-  sizeZ: orderBy
-  voxelSpacing: orderBy
-  fiducialAlignmentStatus: orderBy
-  reconstructionMethod: orderBy
-  processing: orderBy
-  tomogramVersion: orderBy
-  processingSoftware: orderBy
-  reconstructionSoftware: orderBy
-  isCanonical: orderBy
-  s3OmezarrDir: orderBy
-  httpsOmezarrDir: orderBy
-  s3MrcFile: orderBy
-  httpsMrcFile: orderBy
-  scale0Dimensions: orderBy
-  scale1Dimensions: orderBy
-  scale2Dimensions: orderBy
-  ctfCorrected: orderBy
-  offsetX: orderBy
-  offsetY: orderBy
-  offsetZ: orderBy
-  keyPhotoUrl: orderBy
-  keyPhotoThumbnailUrl: orderBy
-  neuroglancerConfig: orderBy
-  isStandardized: orderBy
-  id: orderBy
-}
-
-input TomogramVoxelSpacingOrderByClause {
-  run: RunOrderByClause
-  voxelSpacing: orderBy
-  s3Prefix: orderBy
-  httpsPrefix: orderBy
-  id: orderBy
-}
-
-input TomogramAuthorOrderByClause {
-  tomogram: TomogramOrderByClause
-  id: orderBy
-  authorListOrder: orderBy
-  orcid: orderBy
-  name: orderBy
-  email: orderBy
-  affiliationName: orderBy
-  affiliationAddress: orderBy
-  affiliationIdentifier: orderBy
-  correspondingAuthorStatus: orderBy
-  primaryAuthorStatus: orderBy
-}
-
-type TomogramAuthorAggregate {
-  aggregate: [TomogramAuthorAggregateFunctions!]
-}
-
-type TomogramAuthorAggregateFunctions {
-  sum: TomogramAuthorNumericalColumns
-  avg: TomogramAuthorNumericalColumns
-  stddev: TomogramAuthorNumericalColumns
-  variance: TomogramAuthorNumericalColumns
-  min: TomogramAuthorMinMaxColumns
-  max: TomogramAuthorMinMaxColumns
-  groupBy: TomogramAuthorGroupByOptions
-  count(distinct: Boolean = false, columns: TomogramAuthorCountColumns = null): Int
-}
-
-type TomogramAuthorNumericalColumns {
-  id: Int
-  authorListOrder: Int
-}
-
-type TomogramAuthorMinMaxColumns {
-  id: Int
-  authorListOrder: Int
-  orcid: String
-  name: String
-  email: String
-  affiliationName: String
-  affiliationAddress: String
-  affiliationIdentifier: String
-}
-
-type TomogramAuthorGroupByOptions {
-  tomogram: TomogramGroupByOptions
-  id: Int
-  authorListOrder: Int
-  orcid: String
-  name: String
-  email: String
-  affiliationName: String
-  affiliationAddress: String
-  affiliationIdentifier: String
-  correspondingAuthorStatus: Boolean
-  primaryAuthorStatus: Boolean
-}
-
-type TomogramGroupByOptions {
-  alignment: AlignmentGroupByOptions
-  deposition: DepositionGroupByOptions
-  run: RunGroupByOptions
-  tomogramVoxelSpacing: TomogramVoxelSpacingGroupByOptions
-  name: String
-  sizeX: Int
-  sizeY: Int
-  sizeZ: Int
-  voxelSpacing: Float
-  fiducialAlignmentStatus: fiducial_alignment_status_enum
-  reconstructionMethod: tomogram_reconstruction_method_enum
-  processing: tomogram_processing_enum
-  tomogramVersion: Float
-  processingSoftware: String
-  reconstructionSoftware: String
-  isCanonical: Boolean
-  s3OmezarrDir: String
-  httpsOmezarrDir: String
-  s3MrcFile: String
-  httpsMrcFile: String
-  scale0Dimensions: String
-  scale1Dimensions: String
-  scale2Dimensions: String
-  ctfCorrected: Boolean
-  offsetX: Int
-  offsetY: Int
-  offsetZ: Int
-  keyPhotoUrl: String
-  keyPhotoThumbnailUrl: String
-  neuroglancerConfig: String
-  isStandardized: Boolean
+type AnnotationNumericalColumns {
+  objectCount: Int
+  confidencePrecision: Float
+  confidenceRecall: Float
   id: Int
 }
 
-type TomogramVoxelSpacingGroupByOptions {
-  run: RunGroupByOptions
-  voxelSpacing: Float
-  s3Prefix: String
-  httpsPrefix: String
+type AnnotationMinMaxColumns {
+  s3MetadataPath: String
+  httpsMetadataPath: String
+  annotationPublication: String
+  annotationMethod: String
+  objectId: String
+  objectName: String
+  objectDescription: String
+  objectState: String
+  objectCount: Int
+  confidencePrecision: Float
+  confidenceRecall: Float
+  groundTruthUsed: String
+  annotationSoftware: String
+  depositionDate: DateTime
+  releaseDate: DateTime
+  lastModifiedDate: DateTime
   id: Int
 }
 
-enum TomogramAuthorCountColumns {
-  tomogram
-  id
-  authorListOrder
-  orcid
-  name
-  email
-  affiliationName
-  affiliationAddress
-  affiliationIdentifier
-  correspondingAuthorStatus
-  primaryAuthorStatus
-}
-
-"""Voxel spacings for a run"""
-type TomogramVoxelSpacing implements EntityInterface & Node {
-  """The Globally Unique ID of this object"""
-  _id: GlobalID!
-
-  """Numeric identifier (May change!)"""
-  id: Int!
-  annotationFiles(
-    where: AnnotationFileWhereClause = null
-    orderBy: [AnnotationFileOrderByClause!] = []
-
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
-
-    """Returns the first n items from the list."""
-    first: Int = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): AnnotationFileConnection!
-  annotationFilesAggregate(where: AnnotationFileWhereClause = null): AnnotationFileAggregate
-  run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
-  runId: Int
-  tomograms(
-    where: TomogramWhereClause = null
-    orderBy: [TomogramOrderByClause!] = []
-
-    """Returns the items in the list that come before the specified cursor."""
-    before: String = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    after: String = null
-
-    """Returns the first n items from the list."""
-    first: Int = null
-
-    """Returns the items in the list that come after the specified cursor."""
-    last: Int = null
-  ): TomogramConnection!
-  tomogramsAggregate(where: TomogramWhereClause = null): TomogramAggregate
-
-  """The voxel spacing for the tomograms in this set in angstroms"""
-  voxelSpacing: Float!
-
-  """
-  The S3 public bucket path where this tomogram voxel spacing is contained
-  """
-  s3Prefix: String!
-
-  """
-  The HTTPS directory path where this tomogram voxel spacing is contained
-  """
-  httpsPrefix: String!
-}
-
-input AnnotationFileOrderByClause {
-  alignment: AlignmentOrderByClause
-  annotationShape: AnnotationShapeOrderByClause
-  tomogramVoxelSpacing: TomogramVoxelSpacingOrderByClause
-  format: orderBy
-  s3Path: orderBy
-  httpsPath: orderBy
-  isVisualizationDefault: orderBy
-  source: orderBy
-  id: orderBy
-}
-
-input AnnotationShapeOrderByClause {
-  annotation: AnnotationOrderByClause
-  shapeType: orderBy
-  id: orderBy
-}
-
-type AnnotationFileAggregate {
-  aggregate: [AnnotationFileAggregateFunctions!]
-}
-
-type AnnotationFileAggregateFunctions {
-  sum: AnnotationFileNumericalColumns
-  avg: AnnotationFileNumericalColumns
-  stddev: AnnotationFileNumericalColumns
-  variance: AnnotationFileNumericalColumns
-  min: AnnotationFileMinMaxColumns
-  max: AnnotationFileMinMaxColumns
-  groupBy: AnnotationFileGroupByOptions
-  count(distinct: Boolean = false, columns: AnnotationFileCountColumns = null): Int
-}
-
-type AnnotationFileNumericalColumns {
-  id: Int
-}
-
-type AnnotationFileMinMaxColumns {
-  format: String
-  s3Path: String
-  httpsPath: String
-  id: Int
-}
-
-type AnnotationFileGroupByOptions {
-  alignment: AlignmentGroupByOptions
-  annotationShape: AnnotationShapeGroupByOptions
-  tomogramVoxelSpacing: TomogramVoxelSpacingGroupByOptions
-  format: String
-  s3Path: String
-  httpsPath: String
-  isVisualizationDefault: Boolean
-  source: annotation_file_source_enum
-  id: Int
-}
-
-type AnnotationShapeGroupByOptions {
-  annotation: AnnotationGroupByOptions
-  shapeType: annotation_file_shape_type_enum
-  id: Int
-}
-
-enum AnnotationFileCountColumns {
-  alignment
-  annotationShape
-  tomogramVoxelSpacing
-  format
-  s3Path
-  httpsPath
-  isVisualizationDefault
-  source
-  id
-}
-
-type TomogramAggregate {
-  aggregate: [TomogramAggregateFunctions!]
-}
-
-type TomogramAggregateFunctions {
-  sum: TomogramNumericalColumns
-  avg: TomogramNumericalColumns
-  stddev: TomogramNumericalColumns
-  variance: TomogramNumericalColumns
-  min: TomogramMinMaxColumns
-  max: TomogramMinMaxColumns
-  groupBy: TomogramGroupByOptions
-  count(distinct: Boolean = false, columns: TomogramCountColumns = null): Int
-}
-
-type TomogramNumericalColumns {
-  sizeX: Int
-  sizeY: Int
-  sizeZ: Int
-  voxelSpacing: Float
-  tomogramVersion: Float
-  offsetX: Int
-  offsetY: Int
-  offsetZ: Int
-  id: Int
-}
-
-type TomogramMinMaxColumns {
-  name: String
-  sizeX: Int
-  sizeY: Int
-  sizeZ: Int
-  voxelSpacing: Float
-  tomogramVersion: Float
-  processingSoftware: String
-  reconstructionSoftware: String
-  s3OmezarrDir: String
-  httpsOmezarrDir: String
-  s3MrcFile: String
-  httpsMrcFile: String
-  scale0Dimensions: String
-  scale1Dimensions: String
-  scale2Dimensions: String
-  offsetX: Int
-  offsetY: Int
-  offsetZ: Int
-  keyPhotoUrl: String
-  keyPhotoThumbnailUrl: String
-  neuroglancerConfig: String
-  id: Int
-}
-
-enum TomogramCountColumns {
-  alignment
+enum AnnotationCountColumns {
+  run
+  annotationShapes
+  methodLinks
   authors
   deposition
-  run
-  tomogramVoxelSpacing
-  name
-  sizeX
-  sizeY
-  sizeZ
-  voxelSpacing
-  fiducialAlignmentStatus
-  reconstructionMethod
-  processing
-  tomogramVersion
-  processingSoftware
-  reconstructionSoftware
-  isCanonical
-  s3OmezarrDir
-  httpsOmezarrDir
-  s3MrcFile
-  httpsMrcFile
-  scale0Dimensions
-  scale1Dimensions
-  scale2Dimensions
-  ctfCorrected
-  offsetX
-  offsetY
-  offsetZ
-  keyPhotoUrl
-  keyPhotoThumbnailUrl
-  neuroglancerConfig
-  isStandardized
+  s3MetadataPath
+  httpsMetadataPath
+  annotationPublication
+  annotationMethod
+  groundTruthStatus
+  objectId
+  objectName
+  objectDescription
+  objectState
+  objectCount
+  confidencePrecision
+  confidenceRecall
+  groundTruthUsed
+  annotationSoftware
+  isCuratorRecommended
+  methodType
+  depositionDate
+  releaseDate
+  lastModifiedDate
   id
 }
 
 """A connection to a list of items."""
-type DepositionTypeConnection {
+type DatasetConnection {
   """Pagination data for this connection"""
   pageInfo: PageInfo!
 
   """Contains the nodes in this connection"""
-  edges: [DepositionTypeEdge!]!
+  edges: [DatasetEdge!]!
 }
 
 """An edge in a connection."""
-type DepositionTypeEdge {
+type DatasetEdge {
   """A cursor for use in pagination"""
   cursor: String!
 
   """The item at the end of the edge"""
-  node: DepositionType!
+  node: Dataset!
 }
 
-type DepositionType implements EntityInterface & Node {
+"""A collection of imaging experiments on the same organism"""
+type Dataset implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
   _id: GlobalID!
 
-  """Numeric identifier (May change!)"""
+  """
+  An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
+  """
   id: Int!
   deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
   depositionId: Int!
+  fundingSources(
+    where: DatasetFundingWhereClause = null
+    orderBy: [DatasetFundingOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): DatasetFundingConnection!
+  fundingSourcesAggregate(where: DatasetFundingWhereClause = null): DatasetFundingAggregate
+  authors(
+    where: DatasetAuthorWhereClause = null
+    orderBy: [DatasetAuthorOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): DatasetAuthorConnection!
+  authorsAggregate(where: DatasetAuthorWhereClause = null): DatasetAuthorAggregate
+  runs(
+    where: RunWhereClause = null
+    orderBy: [RunOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): RunConnection!
+  runsAggregate(where: RunWhereClause = null): RunAggregate
+
+  """Title of a CryoET dataset"""
+  title: String!
 
   """
-  The type of data submitted as a part of this deposition (annotation, dataset, tomogram)
+  A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
   """
-  type: deposition_types_enum
-}
+  description: String!
 
-input DepositionTypeOrderByClause {
-  deposition: DepositionOrderByClause
-  type: orderBy
-  id: orderBy
-}
+  """
+  Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
+  """
+  organismName: String
 
-type DepositionTypeAggregate {
-  aggregate: [DepositionTypeAggregateFunctions!]
-}
+  """NCBI taxonomy identifier for the organism, e.g. 9606"""
+  organismTaxid: Int
 
-type DepositionTypeAggregateFunctions {
-  sum: DepositionTypeNumericalColumns
-  avg: DepositionTypeNumericalColumns
-  stddev: DepositionTypeNumericalColumns
-  variance: DepositionTypeNumericalColumns
-  min: DepositionTypeMinMaxColumns
-  max: DepositionTypeMinMaxColumns
-  groupBy: DepositionTypeGroupByOptions
-  count(distinct: Boolean = false, columns: DepositionTypeCountColumns = null): Int
-}
+  """
+  Name of the tissue from which a biological sample used in a CryoET study is derived from.
+  """
+  tissueName: String
 
-type DepositionTypeNumericalColumns {
-  id: Int
-}
+  """UBERON identifier for the tissue"""
+  tissueId: String
 
-type DepositionTypeMinMaxColumns {
-  id: Int
-}
+  """
+  Name of the cell from which a biological sample used in a CryoET study is derived from.
+  """
+  cellName: String
 
-type DepositionTypeGroupByOptions {
-  deposition: DepositionGroupByOptions
-  type: deposition_types_enum
-  id: Int
-}
+  """Cell Ontology identifier for the cell type"""
+  cellTypeId: String
 
-enum DepositionTypeCountColumns {
-  deposition
-  type
-  id
+  """Cell line or strain for the sample."""
+  cellStrainName: String
+
+  """Link to more information about the cell strain"""
+  cellStrainId: String
+
+  """
+  Type of samples used in a CryoET study. (cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other)
+  """
+  sampleType: sample_type_enum
+
+  """Describe how the sample was prepared."""
+  samplePreparation: String
+
+  """Describe Cryo-ET grid preparation."""
+  gridPreparation: String
+
+  """
+  Describe other setup not covered by sample preparation or grid preparation that may make this dataset unique in the same publication
+  """
+  otherSetup: String
+
+  """URL for the dataset preview image."""
+  keyPhotoUrl: String
+
+  """URL for the thumbnail of preview image."""
+  keyPhotoThumbnailUrl: String
+
+  """Name of the cellular component"""
+  cellComponentName: String
+
+  """
+  If the dataset focuses on a specific part of a cell, the subset is included here
+  """
+  cellComponentId: String
+
+  """Date when a dataset is initially received by the Data Portal."""
+  depositionDate: DateTime!
+
+  """Date when a dataset is made available on the Data Portal."""
+  releaseDate: DateTime!
+
+  """Date when a released dataset is last modified."""
+  lastModifiedDate: DateTime!
+
+  """
+  Comma-separated list of DOIs for publications associated with the dataset.
+  """
+  datasetPublications: String
+
+  """
+  If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
+  """
+  relatedDatabaseEntries: String
+
+  """The S3 public bucket path where this dataset is contained"""
+  s3Prefix: String!
+
+  """The https directory path where this dataset is contained"""
+  httpsPrefix: String!
 }
 
 """A connection to a list of items."""
@@ -3581,12 +2722,1420 @@ enum RunCountColumns {
   annotations
   dataset
   frames
+  gainFiles
+  frameAcquisitionFiles
   tiltseries
   tomogramVoxelSpacings
   tomograms
   name
   s3Prefix
   httpsPrefix
+  id
+}
+
+type DatasetAggregate {
+  aggregate: [DatasetAggregateFunctions!]
+}
+
+type DatasetAggregateFunctions {
+  sum: DatasetNumericalColumns
+  avg: DatasetNumericalColumns
+  stddev: DatasetNumericalColumns
+  variance: DatasetNumericalColumns
+  min: DatasetMinMaxColumns
+  max: DatasetMinMaxColumns
+  groupBy: DatasetGroupByOptions
+  count(distinct: Boolean = false, columns: DatasetCountColumns = null): Int
+}
+
+type DatasetNumericalColumns {
+  organismTaxid: Int
+  id: Int
+}
+
+type DatasetMinMaxColumns {
+  title: String
+  description: String
+  organismName: String
+  organismTaxid: Int
+  tissueName: String
+  tissueId: String
+  cellName: String
+  cellTypeId: String
+  cellStrainName: String
+  cellStrainId: String
+  samplePreparation: String
+  gridPreparation: String
+  otherSetup: String
+  keyPhotoUrl: String
+  keyPhotoThumbnailUrl: String
+  cellComponentName: String
+  cellComponentId: String
+  depositionDate: DateTime
+  releaseDate: DateTime
+  lastModifiedDate: DateTime
+  datasetPublications: String
+  relatedDatabaseEntries: String
+  s3Prefix: String
+  httpsPrefix: String
+  id: Int
+}
+
+enum DatasetCountColumns {
+  deposition
+  fundingSources
+  authors
+  runs
+  title
+  description
+  organismName
+  organismTaxid
+  tissueName
+  tissueId
+  cellName
+  cellTypeId
+  cellStrainName
+  cellStrainId
+  sampleType
+  samplePreparation
+  gridPreparation
+  otherSetup
+  keyPhotoUrl
+  keyPhotoThumbnailUrl
+  cellComponentName
+  cellComponentId
+  depositionDate
+  releaseDate
+  lastModifiedDate
+  datasetPublications
+  relatedDatabaseEntries
+  s3Prefix
+  httpsPrefix
+  id
+}
+
+"""A connection to a list of items."""
+type FrameConnection {
+  """Pagination data for this connection"""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [FrameEdge!]!
+}
+
+"""An edge in a connection."""
+type FrameEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: Frame!
+}
+
+type Frame implements EntityInterface & Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+  deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
+  depositionId: Int
+  run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
+  runId: Int
+
+  """Camera angle for a frame"""
+  rawAngle: Float!
+
+  """Frame's acquistion order within a tilt experiment"""
+  acquisitionOrder: Int
+
+  """The raw camera angle for a frame"""
+  dose: Float!
+
+  """Whether this frame has been gain corrected"""
+  isGainCorrected: Boolean
+
+  """S3 path to the gain file for this frame"""
+  s3GainFile: String
+
+  """HTTPS path to the gain file for this frame"""
+  httpsGainFile: String
+
+  """Path to a directory containing data for this entity as an S3 url"""
+  s3Prefix: String!
+
+  """Path to a directory containing data for this entity as an HTTPS url"""
+  httpsPrefix: String!
+}
+
+input FrameOrderByClause {
+  deposition: DepositionOrderByClause
+  run: RunOrderByClause
+  rawAngle: orderBy
+  acquisitionOrder: orderBy
+  dose: orderBy
+  isGainCorrected: orderBy
+  s3GainFile: orderBy
+  httpsGainFile: orderBy
+  s3Prefix: orderBy
+  httpsPrefix: orderBy
+  id: orderBy
+}
+
+type FrameAggregate {
+  aggregate: [FrameAggregateFunctions!]
+}
+
+type FrameAggregateFunctions {
+  sum: FrameNumericalColumns
+  avg: FrameNumericalColumns
+  stddev: FrameNumericalColumns
+  variance: FrameNumericalColumns
+  min: FrameMinMaxColumns
+  max: FrameMinMaxColumns
+  groupBy: FrameGroupByOptions
+  count(distinct: Boolean = false, columns: FrameCountColumns = null): Int
+}
+
+type FrameNumericalColumns {
+  rawAngle: Float
+  acquisitionOrder: Int
+  dose: Float
+  id: Int
+}
+
+type FrameMinMaxColumns {
+  rawAngle: Float
+  acquisitionOrder: Int
+  dose: Float
+  s3GainFile: String
+  httpsGainFile: String
+  s3Prefix: String
+  httpsPrefix: String
+  id: Int
+}
+
+type FrameGroupByOptions {
+  deposition: DepositionGroupByOptions
+  run: RunGroupByOptions
+  rawAngle: Float
+  acquisitionOrder: Int
+  dose: Float
+  isGainCorrected: Boolean
+  s3GainFile: String
+  httpsGainFile: String
+  s3Prefix: String
+  httpsPrefix: String
+  id: Int
+}
+
+enum FrameCountColumns {
+  deposition
+  run
+  rawAngle
+  acquisitionOrder
+  dose
+  isGainCorrected
+  s3GainFile
+  httpsGainFile
+  s3Prefix
+  httpsPrefix
+  id
+}
+
+"""A connection to a list of items."""
+type TiltseriesConnection {
+  """Pagination data for this connection"""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [TiltseriesEdge!]!
+}
+
+"""An edge in a connection."""
+type TiltseriesEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: Tiltseries!
+}
+
+type Tiltseries implements EntityInterface & Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+  alignments(
+    where: AlignmentWhereClause = null
+    orderBy: [AlignmentOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): AlignmentConnection!
+  alignmentsAggregate(where: AlignmentWhereClause = null): AlignmentAggregate
+  run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
+  runId: Int!
+  deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
+  depositionId: Int
+
+  """S3 path to this tiltseries in multiscale OME-Zarr format"""
+  s3OmezarrDir: String
+
+  """S3 path to this tiltseries in MRC format (no scaling)"""
+  s3MrcFile: String
+
+  """HTTPS path to this tiltseries in multiscale OME-Zarr format"""
+  httpsOmezarrDir: String
+
+  """HTTPS path to this tiltseries in MRC format (no scaling)"""
+  httpsMrcFile: String
+
+  """S3 path to the angle list file for this tiltseries"""
+  s3AngleList: String
+
+  """HTTPS path to the angle list file for this tiltseries"""
+  httpsAngleList: String
+
+  """Electron Microscope Accelerator voltage in volts"""
+  accelerationVoltage: Int!
+
+  """Spherical Aberration Constant of the objective lens in millimeters"""
+  sphericalAberrationConstant: Float!
+
+  """Name of the microscope manufacturer (FEI, TFS, JEOL)"""
+  microscopeManufacturer: tiltseries_microscope_manufacturer_enum!
+
+  """Microscope model name"""
+  microscopeModel: String!
+
+  """Energy filter setup used"""
+  microscopeEnergyFilter: String!
+
+  """Phase plate configuration"""
+  microscopePhasePlate: String
+
+  """Image corrector setup"""
+  microscopeImageCorrector: String
+
+  """
+  Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
+  """
+  microscopeAdditionalInfo: String
+
+  """Name of the camera manufacturer"""
+  cameraManufacturer: String!
+
+  """Camera model name"""
+  cameraModel: String!
+
+  """Minimal tilt angle in degrees"""
+  tiltMin: Float!
+
+  """Maximal tilt angle in degrees"""
+  tiltMax: Float!
+
+  """Total tilt range in degrees"""
+  tiltRange: Float!
+
+  """Tilt step in degrees"""
+  tiltStep: Float!
+
+  """The order of stage tilting during acquisition of the data"""
+  tiltingScheme: String!
+
+  """Rotation angle in degrees"""
+  tiltAxis: Float!
+
+  """
+  Number of Electrons reaching the specimen in a square Angstrom area for the entire tilt series
+  """
+  totalFlux: Float!
+
+  """Software used to collect data"""
+  dataAcquisitionSoftware: String!
+
+  """
+  If a tilt series is deposited into EMPIAR, enter the EMPIAR dataset identifier
+  """
+  relatedEmpiarEntry: String
+
+  """Describes the binning factor from frames to tilt series file"""
+  binningFromFrames: Float
+
+  """
+  Author assessment of tilt series quality within the dataset (1-5, 5 is best)
+  """
+  tiltSeriesQuality: Int!
+
+  """Whether this tilt series is aligned"""
+  isAligned: Boolean!
+
+  """Pixel spacing equal in both axes in angstroms"""
+  pixelSpacing: Float!
+
+  """Binning factor of the aligned tilt series"""
+  alignedTiltseriesBinning: Int
+}
+
+type TiltseriesAggregate {
+  aggregate: [TiltseriesAggregateFunctions!]
+}
+
+type TiltseriesAggregateFunctions {
+  sum: TiltseriesNumericalColumns
+  avg: TiltseriesNumericalColumns
+  stddev: TiltseriesNumericalColumns
+  variance: TiltseriesNumericalColumns
+  min: TiltseriesMinMaxColumns
+  max: TiltseriesMinMaxColumns
+  groupBy: TiltseriesGroupByOptions
+  count(distinct: Boolean = false, columns: TiltseriesCountColumns = null): Int
+}
+
+type TiltseriesNumericalColumns {
+  accelerationVoltage: Int
+  sphericalAberrationConstant: Float
+  tiltMin: Float
+  tiltMax: Float
+  tiltRange: Float
+  tiltStep: Float
+  tiltAxis: Float
+  totalFlux: Float
+  binningFromFrames: Float
+  tiltSeriesQuality: Int
+  pixelSpacing: Float
+  alignedTiltseriesBinning: Int
+  id: Int
+}
+
+type TiltseriesMinMaxColumns {
+  s3OmezarrDir: String
+  s3MrcFile: String
+  httpsOmezarrDir: String
+  httpsMrcFile: String
+  s3AngleList: String
+  httpsAngleList: String
+  accelerationVoltage: Int
+  sphericalAberrationConstant: Float
+  microscopeModel: String
+  microscopeEnergyFilter: String
+  microscopePhasePlate: String
+  microscopeImageCorrector: String
+  microscopeAdditionalInfo: String
+  cameraManufacturer: String
+  cameraModel: String
+  tiltMin: Float
+  tiltMax: Float
+  tiltRange: Float
+  tiltStep: Float
+  tiltingScheme: String
+  tiltAxis: Float
+  totalFlux: Float
+  dataAcquisitionSoftware: String
+  relatedEmpiarEntry: String
+  binningFromFrames: Float
+  tiltSeriesQuality: Int
+  pixelSpacing: Float
+  alignedTiltseriesBinning: Int
+  id: Int
+}
+
+enum TiltseriesCountColumns {
+  alignments
+  run
+  deposition
+  s3OmezarrDir
+  s3MrcFile
+  httpsOmezarrDir
+  httpsMrcFile
+  s3AngleList
+  httpsAngleList
+  accelerationVoltage
+  sphericalAberrationConstant
+  microscopeManufacturer
+  microscopeModel
+  microscopeEnergyFilter
+  microscopePhasePlate
+  microscopeImageCorrector
+  microscopeAdditionalInfo
+  cameraManufacturer
+  cameraModel
+  tiltMin
+  tiltMax
+  tiltRange
+  tiltStep
+  tiltingScheme
+  tiltAxis
+  totalFlux
+  dataAcquisitionSoftware
+  relatedEmpiarEntry
+  binningFromFrames
+  tiltSeriesQuality
+  isAligned
+  pixelSpacing
+  alignedTiltseriesBinning
+  id
+}
+
+"""A connection to a list of items."""
+type TomogramConnection {
+  """Pagination data for this connection"""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [TomogramEdge!]!
+}
+
+"""An edge in a connection."""
+type TomogramEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: Tomogram!
+}
+
+"""Metadata describing a tomogram."""
+type Tomogram implements EntityInterface & Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+  alignment(where: AlignmentWhereClause = null, orderBy: [AlignmentOrderByClause!] = []): Alignment
+  alignmentId: Int
+  authors(
+    where: TomogramAuthorWhereClause = null
+    orderBy: [TomogramAuthorOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): TomogramAuthorConnection!
+  authorsAggregate(where: TomogramAuthorWhereClause = null): TomogramAuthorAggregate
+  deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
+  depositionId: Int!
+  run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
+  runId: Int
+  tomogramVoxelSpacing(where: TomogramVoxelSpacingWhereClause = null, orderBy: [TomogramVoxelSpacingOrderByClause!] = []): TomogramVoxelSpacing
+  tomogramVoxelSpacingId: Int
+
+  """Short name for this tomogram"""
+  name: String
+
+  """Number of pixels in the 3D data fast axis"""
+  sizeX: Int!
+
+  """Number of pixels in the 3D data medium axis"""
+  sizeY: Int!
+
+  """
+  Number of pixels in the 3D data slow axis.  This is the image projection direction at zero stage tilt
+  """
+  sizeZ: Int!
+
+  """Voxel spacing equal in all three axes in angstroms"""
+  voxelSpacing: Float!
+
+  """
+  Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial
+  """
+  fiducialAlignmentStatus: fiducial_alignment_status_enum!
+
+  """Describe reconstruction method (WBP, SART, SIRT)"""
+  reconstructionMethod: tomogram_reconstruction_method_enum!
+
+  """Describe additional processing used to derive the tomogram"""
+  processing: tomogram_processing_enum!
+
+  """Version of tomogram"""
+  tomogramVersion: Float
+
+  """Processing software used to derive the tomogram"""
+  processingSoftware: String
+
+  """Name of software used for reconstruction"""
+  reconstructionSoftware: String!
+
+  """whether this tomogram adheres to portal standards"""
+  isPortalStandard: Boolean
+
+  """
+  Whether this tomogram was submitted by the author of the dataset it belongs to.
+  """
+  isAuthorSubmitted: Boolean
+
+  """
+  Data curator’s subjective choice of default tomogram to display in visualization for a run
+  """
+  isVisualizationDefault: Boolean
+
+  """S3 path to this tomogram in multiscale OME-Zarr format"""
+  s3OmezarrDir: String
+
+  """HTTPS path to this tomogram in multiscale OME-Zarr format"""
+  httpsOmezarrDir: String
+
+  """S3 path to this tomogram in MRC format (no scaling)"""
+  s3MrcFile: String
+
+  """HTTPS path to this tomogram in MRC format (no scaling)"""
+  httpsMrcFile: String
+
+  """comma separated x,y,z dimensions of the unscaled tomogram"""
+  scale0Dimensions: String
+
+  """comma separated x,y,z dimensions of the scale1 tomogram"""
+  scale1Dimensions: String
+
+  """comma separated x,y,z dimensions of the scale2 tomogram"""
+  scale2Dimensions: String
+
+  """Whether this tomogram is CTF corrected"""
+  ctfCorrected: Boolean
+
+  """x offset data relative to the canonical tomogram in pixels"""
+  offsetX: Int!
+
+  """y offset data relative to the canonical tomogram in pixels"""
+  offsetY: Int!
+
+  """z offset data relative to the canonical tomogram in pixels"""
+  offsetZ: Int!
+
+  """URL for the key photo"""
+  keyPhotoUrl: String
+
+  """URL for the thumbnail of key photo"""
+  keyPhotoThumbnailUrl: String
+
+  """the compact json of neuroglancer config"""
+  neuroglancerConfig: String
+
+  """Whether this tomogram was generated per the portal's standards"""
+  isStandardized: Boolean!
+
+  """
+  Comma-separated list of DOIs for publications associated with the tomogram.
+  """
+  publications: String
+
+  """
+  If a CryoET tomogram is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
+  """
+  relatedDatabaseEntries: String
+
+  """The date a data item was received by the cryoET data portal."""
+  depositionDate: DateTime!
+
+  """The date a data item was received by the cryoET data portal."""
+  releaseDate: DateTime!
+
+  """The date a piece of data was last modified on the cryoET data portal."""
+  lastModifiedDate: DateTime!
+}
+
+"""A connection to a list of items."""
+type TomogramAuthorConnection {
+  """Pagination data for this connection"""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [TomogramAuthorEdge!]!
+}
+
+"""An edge in a connection."""
+type TomogramAuthorEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: TomogramAuthor!
+}
+
+"""Author of a tomogram"""
+type TomogramAuthor implements EntityInterface & Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+  tomogram(where: TomogramWhereClause = null, orderBy: [TomogramOrderByClause!] = []): Tomogram
+  tomogramId: Int
+
+  """The order in which the author appears in the publication"""
+  authorListOrder: Int!
+
+  """A unique, persistent identifier for researchers, provided by ORCID."""
+  orcid: String
+
+  """Full name of an author (e.g. Jane Doe)."""
+  name: String!
+
+  """Email address for this author"""
+  email: String
+
+  """Name of the institutions an author is affiliated with. Comma separated"""
+  affiliationName: String
+
+  """Address of the institution an author is affiliated with."""
+  affiliationAddress: String
+
+  """
+  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
+  """
+  affiliationIdentifier: String
+
+  """Indicates whether an author is the corresponding author"""
+  correspondingAuthorStatus: Boolean
+
+  """Indicates whether an author is the main person creating the tomogram"""
+  primaryAuthorStatus: Boolean
+}
+
+input TomogramOrderByClause {
+  alignment: AlignmentOrderByClause
+  deposition: DepositionOrderByClause
+  run: RunOrderByClause
+  tomogramVoxelSpacing: TomogramVoxelSpacingOrderByClause
+  name: orderBy
+  sizeX: orderBy
+  sizeY: orderBy
+  sizeZ: orderBy
+  voxelSpacing: orderBy
+  fiducialAlignmentStatus: orderBy
+  reconstructionMethod: orderBy
+  processing: orderBy
+  tomogramVersion: orderBy
+  processingSoftware: orderBy
+  reconstructionSoftware: orderBy
+  isPortalStandard: orderBy
+  isAuthorSubmitted: orderBy
+  isVisualizationDefault: orderBy
+  s3OmezarrDir: orderBy
+  httpsOmezarrDir: orderBy
+  s3MrcFile: orderBy
+  httpsMrcFile: orderBy
+  scale0Dimensions: orderBy
+  scale1Dimensions: orderBy
+  scale2Dimensions: orderBy
+  ctfCorrected: orderBy
+  offsetX: orderBy
+  offsetY: orderBy
+  offsetZ: orderBy
+  keyPhotoUrl: orderBy
+  keyPhotoThumbnailUrl: orderBy
+  neuroglancerConfig: orderBy
+  isStandardized: orderBy
+  publications: orderBy
+  relatedDatabaseEntries: orderBy
+  id: orderBy
+  depositionDate: orderBy
+  releaseDate: orderBy
+  lastModifiedDate: orderBy
+}
+
+input TomogramVoxelSpacingOrderByClause {
+  run: RunOrderByClause
+  voxelSpacing: orderBy
+  s3Prefix: orderBy
+  httpsPrefix: orderBy
+  id: orderBy
+}
+
+input TomogramAuthorOrderByClause {
+  tomogram: TomogramOrderByClause
+  id: orderBy
+  authorListOrder: orderBy
+  orcid: orderBy
+  name: orderBy
+  email: orderBy
+  affiliationName: orderBy
+  affiliationAddress: orderBy
+  affiliationIdentifier: orderBy
+  correspondingAuthorStatus: orderBy
+  primaryAuthorStatus: orderBy
+}
+
+type TomogramAuthorAggregate {
+  aggregate: [TomogramAuthorAggregateFunctions!]
+}
+
+type TomogramAuthorAggregateFunctions {
+  sum: TomogramAuthorNumericalColumns
+  avg: TomogramAuthorNumericalColumns
+  stddev: TomogramAuthorNumericalColumns
+  variance: TomogramAuthorNumericalColumns
+  min: TomogramAuthorMinMaxColumns
+  max: TomogramAuthorMinMaxColumns
+  groupBy: TomogramAuthorGroupByOptions
+  count(distinct: Boolean = false, columns: TomogramAuthorCountColumns = null): Int
+}
+
+type TomogramAuthorNumericalColumns {
+  id: Int
+  authorListOrder: Int
+}
+
+type TomogramAuthorMinMaxColumns {
+  id: Int
+  authorListOrder: Int
+  orcid: String
+  name: String
+  email: String
+  affiliationName: String
+  affiliationAddress: String
+  affiliationIdentifier: String
+}
+
+type TomogramAuthorGroupByOptions {
+  tomogram: TomogramGroupByOptions
+  id: Int
+  authorListOrder: Int
+  orcid: String
+  name: String
+  email: String
+  affiliationName: String
+  affiliationAddress: String
+  affiliationIdentifier: String
+  correspondingAuthorStatus: Boolean
+  primaryAuthorStatus: Boolean
+}
+
+type TomogramGroupByOptions {
+  alignment: AlignmentGroupByOptions
+  deposition: DepositionGroupByOptions
+  run: RunGroupByOptions
+  tomogramVoxelSpacing: TomogramVoxelSpacingGroupByOptions
+  name: String
+  sizeX: Int
+  sizeY: Int
+  sizeZ: Int
+  voxelSpacing: Float
+  fiducialAlignmentStatus: fiducial_alignment_status_enum
+  reconstructionMethod: tomogram_reconstruction_method_enum
+  processing: tomogram_processing_enum
+  tomogramVersion: Float
+  processingSoftware: String
+  reconstructionSoftware: String
+  isPortalStandard: Boolean
+  isAuthorSubmitted: Boolean
+  isVisualizationDefault: Boolean
+  s3OmezarrDir: String
+  httpsOmezarrDir: String
+  s3MrcFile: String
+  httpsMrcFile: String
+  scale0Dimensions: String
+  scale1Dimensions: String
+  scale2Dimensions: String
+  ctfCorrected: Boolean
+  offsetX: Int
+  offsetY: Int
+  offsetZ: Int
+  keyPhotoUrl: String
+  keyPhotoThumbnailUrl: String
+  neuroglancerConfig: String
+  isStandardized: Boolean
+  publications: String
+  relatedDatabaseEntries: String
+  id: Int
+  depositionDate: DateTime
+  releaseDate: DateTime
+  lastModifiedDate: DateTime
+}
+
+type TomogramVoxelSpacingGroupByOptions {
+  run: RunGroupByOptions
+  voxelSpacing: Float
+  s3Prefix: String
+  httpsPrefix: String
+  id: Int
+}
+
+enum TomogramAuthorCountColumns {
+  tomogram
+  id
+  authorListOrder
+  orcid
+  name
+  email
+  affiliationName
+  affiliationAddress
+  affiliationIdentifier
+  correspondingAuthorStatus
+  primaryAuthorStatus
+}
+
+"""Voxel spacings for a run"""
+type TomogramVoxelSpacing implements EntityInterface & Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+  annotationFiles(
+    where: AnnotationFileWhereClause = null
+    orderBy: [AnnotationFileOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): AnnotationFileConnection!
+  annotationFilesAggregate(where: AnnotationFileWhereClause = null): AnnotationFileAggregate
+  run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
+  runId: Int
+  tomograms(
+    where: TomogramWhereClause = null
+    orderBy: [TomogramOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): TomogramConnection!
+  tomogramsAggregate(where: TomogramWhereClause = null): TomogramAggregate
+
+  """The voxel spacing for the tomograms in this set in angstroms"""
+  voxelSpacing: Float!
+
+  """
+  The S3 public bucket path where this tomogram voxel spacing is contained
+  """
+  s3Prefix: String!
+
+  """
+  The HTTPS directory path where this tomogram voxel spacing is contained
+  """
+  httpsPrefix: String!
+}
+
+input AnnotationFileOrderByClause {
+  alignment: AlignmentOrderByClause
+  annotationShape: AnnotationShapeOrderByClause
+  tomogramVoxelSpacing: TomogramVoxelSpacingOrderByClause
+  format: orderBy
+  s3Path: orderBy
+  httpsPath: orderBy
+  isVisualizationDefault: orderBy
+  source: orderBy
+  id: orderBy
+}
+
+type AnnotationFileAggregate {
+  aggregate: [AnnotationFileAggregateFunctions!]
+}
+
+type AnnotationFileAggregateFunctions {
+  sum: AnnotationFileNumericalColumns
+  avg: AnnotationFileNumericalColumns
+  stddev: AnnotationFileNumericalColumns
+  variance: AnnotationFileNumericalColumns
+  min: AnnotationFileMinMaxColumns
+  max: AnnotationFileMinMaxColumns
+  groupBy: AnnotationFileGroupByOptions
+  count(distinct: Boolean = false, columns: AnnotationFileCountColumns = null): Int
+}
+
+type AnnotationFileNumericalColumns {
+  id: Int
+}
+
+type AnnotationFileMinMaxColumns {
+  format: String
+  s3Path: String
+  httpsPath: String
+  id: Int
+}
+
+type AnnotationFileGroupByOptions {
+  alignment: AlignmentGroupByOptions
+  annotationShape: AnnotationShapeGroupByOptions
+  tomogramVoxelSpacing: TomogramVoxelSpacingGroupByOptions
+  format: String
+  s3Path: String
+  httpsPath: String
+  isVisualizationDefault: Boolean
+  source: annotation_file_source_enum
+  id: Int
+}
+
+enum AnnotationFileCountColumns {
+  alignment
+  annotationShape
+  tomogramVoxelSpacing
+  format
+  s3Path
+  httpsPath
+  isVisualizationDefault
+  source
+  id
+}
+
+type TomogramAggregate {
+  aggregate: [TomogramAggregateFunctions!]
+}
+
+type TomogramAggregateFunctions {
+  sum: TomogramNumericalColumns
+  avg: TomogramNumericalColumns
+  stddev: TomogramNumericalColumns
+  variance: TomogramNumericalColumns
+  min: TomogramMinMaxColumns
+  max: TomogramMinMaxColumns
+  groupBy: TomogramGroupByOptions
+  count(distinct: Boolean = false, columns: TomogramCountColumns = null): Int
+}
+
+type TomogramNumericalColumns {
+  sizeX: Int
+  sizeY: Int
+  sizeZ: Int
+  voxelSpacing: Float
+  tomogramVersion: Float
+  offsetX: Int
+  offsetY: Int
+  offsetZ: Int
+  id: Int
+}
+
+type TomogramMinMaxColumns {
+  name: String
+  sizeX: Int
+  sizeY: Int
+  sizeZ: Int
+  voxelSpacing: Float
+  tomogramVersion: Float
+  processingSoftware: String
+  reconstructionSoftware: String
+  s3OmezarrDir: String
+  httpsOmezarrDir: String
+  s3MrcFile: String
+  httpsMrcFile: String
+  scale0Dimensions: String
+  scale1Dimensions: String
+  scale2Dimensions: String
+  offsetX: Int
+  offsetY: Int
+  offsetZ: Int
+  keyPhotoUrl: String
+  keyPhotoThumbnailUrl: String
+  neuroglancerConfig: String
+  publications: String
+  relatedDatabaseEntries: String
+  id: Int
+  depositionDate: DateTime
+  releaseDate: DateTime
+  lastModifiedDate: DateTime
+}
+
+enum TomogramCountColumns {
+  alignment
+  authors
+  deposition
+  run
+  tomogramVoxelSpacing
+  name
+  sizeX
+  sizeY
+  sizeZ
+  voxelSpacing
+  fiducialAlignmentStatus
+  reconstructionMethod
+  processing
+  tomogramVersion
+  processingSoftware
+  reconstructionSoftware
+  isPortalStandard
+  isAuthorSubmitted
+  isVisualizationDefault
+  s3OmezarrDir
+  httpsOmezarrDir
+  s3MrcFile
+  httpsMrcFile
+  scale0Dimensions
+  scale1Dimensions
+  scale2Dimensions
+  ctfCorrected
+  offsetX
+  offsetY
+  offsetZ
+  keyPhotoUrl
+  keyPhotoThumbnailUrl
+  neuroglancerConfig
+  isStandardized
+  publications
+  relatedDatabaseEntries
+  id
+  depositionDate
+  releaseDate
+  lastModifiedDate
+}
+
+"""A connection to a list of items."""
+type DepositionTypeConnection {
+  """Pagination data for this connection"""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [DepositionTypeEdge!]!
+}
+
+"""An edge in a connection."""
+type DepositionTypeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: DepositionType!
+}
+
+type DepositionType implements EntityInterface & Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+  deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
+  depositionId: Int!
+
+  """
+  The type of data submitted as a part of this deposition (annotation, dataset, tomogram)
+  """
+  type: deposition_types_enum
+}
+
+input DepositionTypeOrderByClause {
+  deposition: DepositionOrderByClause
+  type: orderBy
+  id: orderBy
+}
+
+type DepositionTypeAggregate {
+  aggregate: [DepositionTypeAggregateFunctions!]
+}
+
+type DepositionTypeAggregateFunctions {
+  sum: DepositionTypeNumericalColumns
+  avg: DepositionTypeNumericalColumns
+  stddev: DepositionTypeNumericalColumns
+  variance: DepositionTypeNumericalColumns
+  min: DepositionTypeMinMaxColumns
+  max: DepositionTypeMinMaxColumns
+  groupBy: DepositionTypeGroupByOptions
+  count(distinct: Boolean = false, columns: DepositionTypeCountColumns = null): Int
+}
+
+type DepositionTypeNumericalColumns {
+  id: Int
+}
+
+type DepositionTypeMinMaxColumns {
+  id: Int
+}
+
+type DepositionTypeGroupByOptions {
+  deposition: DepositionGroupByOptions
+  type: deposition_types_enum
+  id: Int
+}
+
+enum DepositionTypeCountColumns {
+  deposition
+  type
+  id
+}
+
+"""A connection to a list of items."""
+type PerSectionAlignmentParametersConnection {
+  """Pagination data for this connection"""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [PerSectionAlignmentParametersEdge!]!
+}
+
+"""An edge in a connection."""
+type PerSectionAlignmentParametersEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: PerSectionAlignmentParameters!
+}
+
+"""Map alignment parameters to tilt series frames"""
+type PerSectionAlignmentParameters implements EntityInterface & Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+  alignment(where: AlignmentWhereClause = null, orderBy: [AlignmentOrderByClause!] = []): Alignment
+  alignmentId: Int!
+
+  """z-index of the frame in the tiltseries"""
+  zIndex: Int!
+
+  """In-plane X-shift of the projection in angstrom"""
+  xOffset: Float
+
+  """In-plane Y-shift of the projection in angstrom"""
+  yOffset: Float
+
+  """X-axis rotation in degrees"""
+  volumeXRotation: Float
+
+  """In-plane rotation of the projection in degrees"""
+  inPlaneRotation: [[Float!]!]
+
+  """Tilt angle of the projection in degrees"""
+  tiltAngle: Float
+}
+
+input PerSectionAlignmentParametersOrderByClause {
+  alignment: AlignmentOrderByClause
+  zIndex: orderBy
+  xOffset: orderBy
+  yOffset: orderBy
+  volumeXRotation: orderBy
+  inPlaneRotation: orderBy
+  tiltAngle: orderBy
+  id: orderBy
+}
+
+type PerSectionAlignmentParametersAggregate {
+  aggregate: [PerSectionAlignmentParametersAggregateFunctions!]
+}
+
+type PerSectionAlignmentParametersAggregateFunctions {
+  sum: PerSectionAlignmentParametersNumericalColumns
+  avg: PerSectionAlignmentParametersNumericalColumns
+  stddev: PerSectionAlignmentParametersNumericalColumns
+  variance: PerSectionAlignmentParametersNumericalColumns
+  min: PerSectionAlignmentParametersMinMaxColumns
+  max: PerSectionAlignmentParametersMinMaxColumns
+  groupBy: PerSectionAlignmentParametersGroupByOptions
+  count(distinct: Boolean = false, columns: PerSectionAlignmentParametersCountColumns = null): Int
+}
+
+type PerSectionAlignmentParametersNumericalColumns {
+  zIndex: Int
+  xOffset: Float
+  yOffset: Float
+  volumeXRotation: Float
+  tiltAngle: Float
+  id: Int
+}
+
+type PerSectionAlignmentParametersMinMaxColumns {
+  zIndex: Int
+  xOffset: Float
+  yOffset: Float
+  volumeXRotation: Float
+  tiltAngle: Float
+  id: Int
+}
+
+type PerSectionAlignmentParametersGroupByOptions {
+  alignment: AlignmentGroupByOptions
+  zIndex: Int
+  xOffset: Float
+  yOffset: Float
+  volumeXRotation: Float
+  inPlaneRotation: [[Float!]!]
+  tiltAngle: Float
+  id: Int
+}
+
+enum PerSectionAlignmentParametersCountColumns {
+  alignment
+  zIndex
+  xOffset
+  yOffset
+  volumeXRotation
+  inPlaneRotation
+  tiltAngle
+  id
+}
+
+"""A connection to a list of items."""
+type GainFileConnection {
+  """Pagination data for this connection"""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [GainFileEdge!]!
+}
+
+"""An edge in a connection."""
+type GainFileEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: GainFile!
+}
+
+input GainFileOrderByClause {
+  run: RunOrderByClause
+  s3FilePath: orderBy
+  httpsFilePath: orderBy
+  id: orderBy
+}
+
+type GainFileAggregate {
+  aggregate: [GainFileAggregateFunctions!]
+}
+
+type GainFileAggregateFunctions {
+  sum: GainFileNumericalColumns
+  avg: GainFileNumericalColumns
+  stddev: GainFileNumericalColumns
+  variance: GainFileNumericalColumns
+  min: GainFileMinMaxColumns
+  max: GainFileMinMaxColumns
+  groupBy: GainFileGroupByOptions
+  count(distinct: Boolean = false, columns: GainFileCountColumns = null): Int
+}
+
+type GainFileNumericalColumns {
+  id: Int
+}
+
+type GainFileMinMaxColumns {
+  s3FilePath: String
+  httpsFilePath: String
+  id: Int
+}
+
+type GainFileGroupByOptions {
+  run: RunGroupByOptions
+  s3FilePath: String
+  httpsFilePath: String
+  id: Int
+}
+
+enum GainFileCountColumns {
+  run
+  s3FilePath
+  httpsFilePath
+  id
+}
+
+"""A connection to a list of items."""
+type FrameAcquisitionFileConnection {
+  """Pagination data for this connection"""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [FrameAcquisitionFileEdge!]!
+}
+
+"""An edge in a connection."""
+type FrameAcquisitionFileEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: FrameAcquisitionFile!
+}
+
+"""
+References to files containing more information about frame acquisition
+"""
+type FrameAcquisitionFile implements EntityInterface & Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+  run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
+  runId: Int
+
+  """Path to the frame acquisition mdoc file in s3"""
+  s3MdocPath: String!
+
+  """Path to the frame acquisition mdoc file as an https url"""
+  httpsMdocPath: String!
+}
+
+input FrameAcquisitionFileOrderByClause {
+  run: RunOrderByClause
+  s3MdocPath: orderBy
+  httpsMdocPath: orderBy
+  id: orderBy
+}
+
+type FrameAcquisitionFileAggregate {
+  aggregate: [FrameAcquisitionFileAggregateFunctions!]
+}
+
+type FrameAcquisitionFileAggregateFunctions {
+  sum: FrameAcquisitionFileNumericalColumns
+  avg: FrameAcquisitionFileNumericalColumns
+  stddev: FrameAcquisitionFileNumericalColumns
+  variance: FrameAcquisitionFileNumericalColumns
+  min: FrameAcquisitionFileMinMaxColumns
+  max: FrameAcquisitionFileMinMaxColumns
+  groupBy: FrameAcquisitionFileGroupByOptions
+  count(distinct: Boolean = false, columns: FrameAcquisitionFileCountColumns = null): Int
+}
+
+type FrameAcquisitionFileNumericalColumns {
+  id: Int
+}
+
+type FrameAcquisitionFileMinMaxColumns {
+  s3MdocPath: String
+  httpsMdocPath: String
+  id: Int
+}
+
+type FrameAcquisitionFileGroupByOptions {
+  run: RunGroupByOptions
+  s3MdocPath: String
+  httpsMdocPath: String
+  id: Int
+}
+
+enum FrameAcquisitionFileCountColumns {
+  run
+  s3MdocPath
+  httpsMdocPath
   id
 }
 
@@ -3642,304 +4191,6 @@ enum TomogramVoxelSpacingCountColumns {
   voxelSpacing
   s3Prefix
   httpsPrefix
-  id
-}
-
-"""A connection to a list of items."""
-type AnnotationShapeConnection {
-  """Pagination data for this connection"""
-  pageInfo: PageInfo!
-
-  """Contains the nodes in this connection"""
-  edges: [AnnotationShapeEdge!]!
-}
-
-"""An edge in a connection."""
-type AnnotationShapeEdge {
-  """A cursor for use in pagination"""
-  cursor: String!
-
-  """The item at the end of the edge"""
-  node: AnnotationShape!
-}
-
-type AnnotationShapeAggregate {
-  aggregate: [AnnotationShapeAggregateFunctions!]
-}
-
-type AnnotationShapeAggregateFunctions {
-  sum: AnnotationShapeNumericalColumns
-  avg: AnnotationShapeNumericalColumns
-  stddev: AnnotationShapeNumericalColumns
-  variance: AnnotationShapeNumericalColumns
-  min: AnnotationShapeMinMaxColumns
-  max: AnnotationShapeMinMaxColumns
-  groupBy: AnnotationShapeGroupByOptions
-  count(distinct: Boolean = false, columns: AnnotationShapeCountColumns = null): Int
-}
-
-type AnnotationShapeNumericalColumns {
-  id: Int
-}
-
-type AnnotationShapeMinMaxColumns {
-  id: Int
-}
-
-enum AnnotationShapeCountColumns {
-  annotation
-  annotationFiles
-  shapeType
-  id
-}
-
-"""A connection to a list of items."""
-type AnnotationAuthorConnection {
-  """Pagination data for this connection"""
-  pageInfo: PageInfo!
-
-  """Contains the nodes in this connection"""
-  edges: [AnnotationAuthorEdge!]!
-}
-
-"""An edge in a connection."""
-type AnnotationAuthorEdge {
-  """A cursor for use in pagination"""
-  cursor: String!
-
-  """The item at the end of the edge"""
-  node: AnnotationAuthor!
-}
-
-"""Metadata for an annotation's authors"""
-type AnnotationAuthor implements EntityInterface & Node {
-  """The Globally Unique ID of this object"""
-  _id: GlobalID!
-
-  """Numeric identifier (May change!)"""
-  id: Int!
-  annotation(where: AnnotationWhereClause = null, orderBy: [AnnotationOrderByClause!] = []): Annotation
-  annotationId: Int
-
-  """The order in which the author appears in the publication"""
-  authorListOrder: Int!
-
-  """A unique, persistent identifier for researchers, provided by ORCID."""
-  orcid: String
-
-  """Full name of an annotation author (e.g. Jane Doe)."""
-  name: String!
-
-  """Email address for this author"""
-  email: String
-
-  """
-  Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
-  """
-  affiliationName: String
-
-  """Address of the institution an annotator is affiliated with."""
-  affiliationAddress: String
-
-  """
-  A unique identifier assigned to the affiliated institution by The Research Organization Registry (ROR).
-  """
-  affiliationIdentifier: String
-
-  """Indicates whether an annotator is the corresponding author"""
-  correspondingAuthorStatus: Boolean
-
-  """
-  Indicates whether an author is the main person executing the annotation, especially on manual annotation
-  """
-  primaryAuthorStatus: Boolean
-}
-
-input AnnotationAuthorOrderByClause {
-  annotation: AnnotationOrderByClause
-  id: orderBy
-  authorListOrder: orderBy
-  orcid: orderBy
-  name: orderBy
-  email: orderBy
-  affiliationName: orderBy
-  affiliationAddress: orderBy
-  affiliationIdentifier: orderBy
-  correspondingAuthorStatus: orderBy
-  primaryAuthorStatus: orderBy
-}
-
-type AnnotationAuthorAggregate {
-  aggregate: [AnnotationAuthorAggregateFunctions!]
-}
-
-type AnnotationAuthorAggregateFunctions {
-  sum: AnnotationAuthorNumericalColumns
-  avg: AnnotationAuthorNumericalColumns
-  stddev: AnnotationAuthorNumericalColumns
-  variance: AnnotationAuthorNumericalColumns
-  min: AnnotationAuthorMinMaxColumns
-  max: AnnotationAuthorMinMaxColumns
-  groupBy: AnnotationAuthorGroupByOptions
-  count(distinct: Boolean = false, columns: AnnotationAuthorCountColumns = null): Int
-}
-
-type AnnotationAuthorNumericalColumns {
-  id: Int
-  authorListOrder: Int
-}
-
-type AnnotationAuthorMinMaxColumns {
-  id: Int
-  authorListOrder: Int
-  orcid: String
-  name: String
-  email: String
-  affiliationName: String
-  affiliationAddress: String
-  affiliationIdentifier: String
-}
-
-type AnnotationAuthorGroupByOptions {
-  annotation: AnnotationGroupByOptions
-  id: Int
-  authorListOrder: Int
-  orcid: String
-  name: String
-  email: String
-  affiliationName: String
-  affiliationAddress: String
-  affiliationIdentifier: String
-  correspondingAuthorStatus: Boolean
-  primaryAuthorStatus: Boolean
-}
-
-enum AnnotationAuthorCountColumns {
-  annotation
-  id
-  authorListOrder
-  orcid
-  name
-  email
-  affiliationName
-  affiliationAddress
-  affiliationIdentifier
-  correspondingAuthorStatus
-  primaryAuthorStatus
-}
-
-"""A connection to a list of items."""
-type PerSectionAlignmentParametersConnection {
-  """Pagination data for this connection"""
-  pageInfo: PageInfo!
-
-  """Contains the nodes in this connection"""
-  edges: [PerSectionAlignmentParametersEdge!]!
-}
-
-"""An edge in a connection."""
-type PerSectionAlignmentParametersEdge {
-  """A cursor for use in pagination"""
-  cursor: String!
-
-  """The item at the end of the edge"""
-  node: PerSectionAlignmentParameters!
-}
-
-"""Map alignment parameters to tilt series frames"""
-type PerSectionAlignmentParameters implements EntityInterface & Node {
-  """The Globally Unique ID of this object"""
-  _id: GlobalID!
-
-  """Numeric identifier (May change!)"""
-  id: Int!
-  alignment(where: AlignmentWhereClause = null, orderBy: [AlignmentOrderByClause!] = []): Alignment
-  alignmentId: Int!
-
-  """z-index of the frame in the tiltseries"""
-  zIndex: Int!
-
-  """In-plane X-shift of the projection in angstrom"""
-  xOffset: Float
-
-  """In-plane Y-shift of the projection in angstrom"""
-  yOffset: Float
-
-  """In-plane rotation of the projection in degrees"""
-  inPlaneRotation: Float
-
-  """Beam tilt during projection in degrees"""
-  beamTilt: Float
-
-  """Tilt angle of the projection in degrees"""
-  tiltAngle: Float
-}
-
-input PerSectionAlignmentParametersOrderByClause {
-  alignment: AlignmentOrderByClause
-  zIndex: orderBy
-  xOffset: orderBy
-  yOffset: orderBy
-  inPlaneRotation: orderBy
-  beamTilt: orderBy
-  tiltAngle: orderBy
-  id: orderBy
-}
-
-type PerSectionAlignmentParametersAggregate {
-  aggregate: [PerSectionAlignmentParametersAggregateFunctions!]
-}
-
-type PerSectionAlignmentParametersAggregateFunctions {
-  sum: PerSectionAlignmentParametersNumericalColumns
-  avg: PerSectionAlignmentParametersNumericalColumns
-  stddev: PerSectionAlignmentParametersNumericalColumns
-  variance: PerSectionAlignmentParametersNumericalColumns
-  min: PerSectionAlignmentParametersMinMaxColumns
-  max: PerSectionAlignmentParametersMinMaxColumns
-  groupBy: PerSectionAlignmentParametersGroupByOptions
-  count(distinct: Boolean = false, columns: PerSectionAlignmentParametersCountColumns = null): Int
-}
-
-type PerSectionAlignmentParametersNumericalColumns {
-  zIndex: Int
-  xOffset: Float
-  yOffset: Float
-  inPlaneRotation: Float
-  beamTilt: Float
-  tiltAngle: Float
-  id: Int
-}
-
-type PerSectionAlignmentParametersMinMaxColumns {
-  zIndex: Int
-  xOffset: Float
-  yOffset: Float
-  inPlaneRotation: Float
-  beamTilt: Float
-  tiltAngle: Float
-  id: Int
-}
-
-type PerSectionAlignmentParametersGroupByOptions {
-  alignment: AlignmentGroupByOptions
-  zIndex: Int
-  xOffset: Float
-  yOffset: Float
-  inPlaneRotation: Float
-  beamTilt: Float
-  tiltAngle: Float
-  id: Int
-}
-
-enum PerSectionAlignmentParametersCountColumns {
-  alignment
-  zIndex
-  xOffset
-  yOffset
-  inPlaneRotation
-  beamTilt
-  tiltAngle
   id
 }
 
@@ -4002,6 +4253,12 @@ enum DepositionCountColumns {
 }
 
 type Mutation {
+  createGainFile(input: GainFileCreateInput!): GainFile!
+  updateGainFile(input: GainFileUpdateInput!, where: GainFileWhereClauseMutations!): [GainFile!]!
+  deleteGainFile(where: GainFileWhereClauseMutations!): [GainFile!]!
+  createFrameAcquisitionFile(input: FrameAcquisitionFileCreateInput!): FrameAcquisitionFile!
+  updateFrameAcquisitionFile(input: FrameAcquisitionFileUpdateInput!, where: FrameAcquisitionFileWhereClauseMutations!): [FrameAcquisitionFile!]!
+  deleteFrameAcquisitionFile(where: FrameAcquisitionFileWhereClauseMutations!): [FrameAcquisitionFile!]!
   createAlignment(input: AlignmentCreateInput!): Alignment!
   updateAlignment(input: AlignmentUpdateInput!, where: AlignmentWhereClauseMutations!): [Alignment!]!
   deleteAlignment(where: AlignmentWhereClauseMutations!): [Alignment!]!
@@ -4038,9 +4295,6 @@ type Mutation {
   createFrame(input: FrameCreateInput!): Frame!
   updateFrame(input: FrameUpdateInput!, where: FrameWhereClauseMutations!): [Frame!]!
   deleteFrame(where: FrameWhereClauseMutations!): [Frame!]!
-  createPerSectionParameters(input: PerSectionParametersCreateInput!): PerSectionParameters!
-  updatePerSectionParameters(input: PerSectionParametersUpdateInput!, where: PerSectionParametersWhereClauseMutations!): [PerSectionParameters!]!
-  deletePerSectionParameters(where: PerSectionParametersWhereClauseMutations!): [PerSectionParameters!]!
   createPerSectionAlignmentParameters(input: PerSectionAlignmentParametersCreateInput!): PerSectionAlignmentParameters!
   updatePerSectionAlignmentParameters(input: PerSectionAlignmentParametersUpdateInput!, where: PerSectionAlignmentParametersWhereClauseMutations!): [PerSectionAlignmentParameters!]!
   deletePerSectionAlignmentParameters(where: PerSectionAlignmentParametersWhereClauseMutations!): [PerSectionAlignmentParameters!]!
@@ -4059,6 +4313,69 @@ type Mutation {
   createTomogram(input: TomogramCreateInput!): Tomogram!
   updateTomogram(input: TomogramUpdateInput!, where: TomogramWhereClauseMutations!): [Tomogram!]!
   deleteTomogram(where: TomogramWhereClauseMutations!): [Tomogram!]!
+  createAnnotationMethodLink(input: AnnotationMethodLinkCreateInput!): AnnotationMethodLink!
+  updateAnnotationMethodLink(input: AnnotationMethodLinkUpdateInput!, where: AnnotationMethodLinkWhereClauseMutations!): [AnnotationMethodLink!]!
+  deleteAnnotationMethodLink(where: AnnotationMethodLinkWhereClauseMutations!): [AnnotationMethodLink!]!
+}
+
+input GainFileCreateInput {
+  runId: ID = null
+
+  """Path to the file in s3"""
+  s3FilePath: String!
+
+  """Path to the file as an https url"""
+  httpsFilePath: String!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+}
+
+input GainFileUpdateInput {
+  runId: ID = null
+
+  """Path to the file in s3"""
+  s3FilePath: String
+
+  """Path to the file as an https url"""
+  httpsFilePath: String
+
+  """Numeric identifier (May change!)"""
+  id: Int
+}
+
+input GainFileWhereClauseMutations {
+  id: IntComparators
+}
+
+input FrameAcquisitionFileCreateInput {
+  runId: ID = null
+
+  """Path to the frame acquisition mdoc file in s3"""
+  s3MdocPath: String!
+
+  """Path to the frame acquisition mdoc file as an https url"""
+  httpsMdocPath: String!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+}
+
+input FrameAcquisitionFileUpdateInput {
+  runId: ID = null
+
+  """Path to the frame acquisition mdoc file in s3"""
+  s3MdocPath: String
+
+  """Path to the frame acquisition mdoc file as an https url"""
+  httpsMdocPath: String
+
+  """Numeric identifier (May change!)"""
+  id: Int
+}
+
+input FrameAcquisitionFileWhereClauseMutations {
+  id: IntComparators
 }
 
 input AlignmentCreateInput {
@@ -4068,6 +4385,9 @@ input AlignmentCreateInput {
 
   """Whether this a LOCAL or GLOBAL alignment"""
   alignmentType: alignment_type_enum = null
+
+  """The method used to create this alignment"""
+  alignmentMethod: alignment_method_type_enum = null
 
   """X dimension of the reconstruction volume in angstrom"""
   volumeXDimension: Float = null
@@ -4093,11 +4413,17 @@ input AlignmentCreateInput {
   """Additional tilt offset in degrees"""
   tiltOffset: Float = null
 
-  """Path to the local alignment file"""
-  localAlignmentFile: String = null
-
   """A placeholder for the affine transformation matrix."""
   affineTransformationMatrix: String = null
+
+  """S3 path to the metadata file for this alignment"""
+  s3AlignmentMetadata: String = null
+
+  """HTTPS url to the metadata file for this alignment"""
+  httpsAlignmentMetadata: String = null
+
+  """Whether this is the portal standard alignment"""
+  isPortalStandard: Boolean = null
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -4111,6 +4437,9 @@ input AlignmentUpdateInput {
   """Whether this a LOCAL or GLOBAL alignment"""
   alignmentType: alignment_type_enum = null
 
+  """The method used to create this alignment"""
+  alignmentMethod: alignment_method_type_enum = null
+
   """X dimension of the reconstruction volume in angstrom"""
   volumeXDimension: Float = null
 
@@ -4135,11 +4464,17 @@ input AlignmentUpdateInput {
   """Additional tilt offset in degrees"""
   tiltOffset: Float = null
 
-  """Path to the local alignment file"""
-  localAlignmentFile: String = null
-
   """A placeholder for the affine transformation matrix."""
   affineTransformationMatrix: String = null
+
+  """S3 path to the metadata file for this alignment"""
+  s3AlignmentMetadata: String = null
+
+  """HTTPS url to the metadata file for this alignment"""
+  httpsAlignmentMetadata: String = null
+
+  """Whether this is the portal standard alignment"""
+  isPortalStandard: Boolean = null
 
   """Numeric identifier (May change!)"""
   id: Int
@@ -4356,11 +4691,6 @@ input AnnotationCreateInput {
   annotationMethod: String!
 
   """
-  Provides links to information on the method used for generating annotation, comma separated
-  """
-  methodLinks: String = null
-
-  """
   Whether an annotation is considered ground truth, as determined by the annotator.
   """
   groundTruthStatus: Boolean = null
@@ -4444,11 +4774,6 @@ input AnnotationUpdateInput {
   Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
   """
   annotationMethod: String
-
-  """
-  Provides links to information on the method used for generating annotation, comma separated
-  """
-  methodLinks: String = null
 
   """
   Whether an annotation is considered ground truth, as determined by the annotator.
@@ -5083,50 +5408,6 @@ input FrameWhereClauseMutations {
   id: IntComparators
 }
 
-input PerSectionParametersCreateInput {
-  frameId: ID!
-  tiltseriesId: ID!
-
-  """z-index of the frame in the tiltseries"""
-  zIndex: Int!
-
-  """defocus amount"""
-  defocus: Float = null
-
-  """Astigmatism amount for this frame"""
-  astigmatism: Float = null
-
-  """Angle of ast"""
-  astigmaticAngle: Float = null
-
-  """Numeric identifier (May change!)"""
-  id: Int!
-}
-
-input PerSectionParametersUpdateInput {
-  frameId: ID
-  tiltseriesId: ID
-
-  """z-index of the frame in the tiltseries"""
-  zIndex: Int
-
-  """defocus amount"""
-  defocus: Float = null
-
-  """Astigmatism amount for this frame"""
-  astigmatism: Float = null
-
-  """Angle of ast"""
-  astigmaticAngle: Float = null
-
-  """Numeric identifier (May change!)"""
-  id: Int
-}
-
-input PerSectionParametersWhereClauseMutations {
-  id: IntComparators
-}
-
 input PerSectionAlignmentParametersCreateInput {
   """Tiltseries Alignment"""
   alignmentId: ID!
@@ -5140,11 +5421,11 @@ input PerSectionAlignmentParametersCreateInput {
   """In-plane Y-shift of the projection in angstrom"""
   yOffset: Float = null
 
-  """In-plane rotation of the projection in degrees"""
-  inPlaneRotation: Float = null
+  """X-axis rotation in degrees"""
+  volumeXRotation: Float = null
 
-  """Beam tilt during projection in degrees"""
-  beamTilt: Float = null
+  """In-plane rotation of the projection in degrees"""
+  inPlaneRotation: [[Float!]!] = null
 
   """Tilt angle of the projection in degrees"""
   tiltAngle: Float = null
@@ -5166,11 +5447,11 @@ input PerSectionAlignmentParametersUpdateInput {
   """In-plane Y-shift of the projection in angstrom"""
   yOffset: Float = null
 
-  """In-plane rotation of the projection in degrees"""
-  inPlaneRotation: Float = null
+  """X-axis rotation in degrees"""
+  volumeXRotation: Float = null
 
-  """Beam tilt during projection in degrees"""
-  beamTilt: Float = null
+  """In-plane rotation of the projection in degrees"""
+  inPlaneRotation: [[Float!]!] = null
 
   """Tilt angle of the projection in degrees"""
   tiltAngle: Float = null
@@ -5237,23 +5518,11 @@ input TiltseriesCreateInput {
   """HTTPS path to this tiltseries in MRC format (no scaling)"""
   httpsMrcFile: String = null
 
-  """S3 path to the collection metadata file for this tiltseries"""
-  s3CollectionMetadata: String = null
-
-  """HTTPS path to the collection metadata file for this tiltseries"""
-  httpsCollectionMetadata: String = null
-
   """S3 path to the angle list file for this tiltseries"""
   s3AngleList: String = null
 
   """HTTPS path to the angle list file for this tiltseries"""
   httpsAngleList: String = null
-
-  """S3 path to the gain file for this tiltseries"""
-  s3GainFile: String = null
-
-  """HTTPS path to the gain file for this tiltseries"""
-  httpsGainFile: String = null
 
   """Electron Microscope Accelerator voltage in volts"""
   accelerationVoltage: Int!
@@ -5335,9 +5604,6 @@ input TiltseriesCreateInput {
   """Binning factor of the aligned tilt series"""
   alignedTiltseriesBinning: Int = null
 
-  """Number of frames associated with this tiltseries"""
-  framesCount: Int = null
-
   """Numeric identifier (May change!)"""
   id: Int!
 }
@@ -5358,23 +5624,11 @@ input TiltseriesUpdateInput {
   """HTTPS path to this tiltseries in MRC format (no scaling)"""
   httpsMrcFile: String = null
 
-  """S3 path to the collection metadata file for this tiltseries"""
-  s3CollectionMetadata: String = null
-
-  """HTTPS path to the collection metadata file for this tiltseries"""
-  httpsCollectionMetadata: String = null
-
   """S3 path to the angle list file for this tiltseries"""
   s3AngleList: String = null
 
   """HTTPS path to the angle list file for this tiltseries"""
   httpsAngleList: String = null
-
-  """S3 path to the gain file for this tiltseries"""
-  s3GainFile: String = null
-
-  """HTTPS path to the gain file for this tiltseries"""
-  httpsGainFile: String = null
 
   """Electron Microscope Accelerator voltage in volts"""
   accelerationVoltage: Int
@@ -5455,9 +5709,6 @@ input TiltseriesUpdateInput {
 
   """Binning factor of the aligned tilt series"""
   alignedTiltseriesBinning: Int = null
-
-  """Number of frames associated with this tiltseries"""
-  framesCount: Int = null
 
   """Numeric identifier (May change!)"""
   id: Int
@@ -5639,10 +5890,18 @@ input TomogramCreateInput {
   """Name of software used for reconstruction"""
   reconstructionSoftware: String!
 
+  """whether this tomogram adheres to portal standards"""
+  isPortalStandard: Boolean = null
+
   """
-  Is this tomogram considered the canonical tomogram for the run experiment? True=Yes
+  Whether this tomogram was submitted by the author of the dataset it belongs to.
   """
-  isCanonical: Boolean = null
+  isAuthorSubmitted: Boolean = null
+
+  """
+  Data curator’s subjective choice of default tomogram to display in visualization for a run
+  """
+  isVisualizationDefault: Boolean = null
 
   """S3 path to this tomogram in multiscale OME-Zarr format"""
   s3OmezarrDir: String = null
@@ -5689,8 +5948,27 @@ input TomogramCreateInput {
   """Whether this tomogram was generated per the portal's standards"""
   isStandardized: Boolean!
 
+  """
+  Comma-separated list of DOIs for publications associated with the tomogram.
+  """
+  publications: String = null
+
+  """
+  If a CryoET tomogram is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
+  """
+  relatedDatabaseEntries: String = null
+
   """Numeric identifier (May change!)"""
   id: Int!
+
+  """The date a data item was received by the cryoET data portal."""
+  depositionDate: DateTime!
+
+  """The date a data item was received by the cryoET data portal."""
+  releaseDate: DateTime!
+
+  """The date a piece of data was last modified on the cryoET data portal."""
+  lastModifiedDate: DateTime!
 }
 
 input TomogramUpdateInput {
@@ -5741,10 +6019,18 @@ input TomogramUpdateInput {
   """Name of software used for reconstruction"""
   reconstructionSoftware: String
 
+  """whether this tomogram adheres to portal standards"""
+  isPortalStandard: Boolean = null
+
   """
-  Is this tomogram considered the canonical tomogram for the run experiment? True=Yes
+  Whether this tomogram was submitted by the author of the dataset it belongs to.
   """
-  isCanonical: Boolean = null
+  isAuthorSubmitted: Boolean = null
+
+  """
+  Data curator’s subjective choice of default tomogram to display in visualization for a run
+  """
+  isVisualizationDefault: Boolean = null
 
   """S3 path to this tomogram in multiscale OME-Zarr format"""
   s3OmezarrDir: String = null
@@ -5791,10 +6077,67 @@ input TomogramUpdateInput {
   """Whether this tomogram was generated per the portal's standards"""
   isStandardized: Boolean
 
+  """
+  Comma-separated list of DOIs for publications associated with the tomogram.
+  """
+  publications: String = null
+
+  """
+  If a CryoET tomogram is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
+  """
+  relatedDatabaseEntries: String = null
+
+  """Numeric identifier (May change!)"""
+  id: Int
+
+  """The date a data item was received by the cryoET data portal."""
+  depositionDate: DateTime
+
+  """The date a data item was received by the cryoET data portal."""
+  releaseDate: DateTime
+
+  """The date a piece of data was last modified on the cryoET data portal."""
+  lastModifiedDate: DateTime
+}
+
+input TomogramWhereClauseMutations {
+  id: IntComparators
+}
+
+input AnnotationMethodLinkCreateInput {
+  """Reference to annotation this link applies to"""
+  annotationId: ID = null
+
+  """Type of link (e.g. model, source code, documentation)"""
+  linkType: annotation_method_link_type_enum!
+
+  """user readable name of the resource"""
+  name: String = null
+
+  """URL to the resource"""
+  link: String!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+}
+
+input AnnotationMethodLinkUpdateInput {
+  """Reference to annotation this link applies to"""
+  annotationId: ID = null
+
+  """Type of link (e.g. model, source code, documentation)"""
+  linkType: annotation_method_link_type_enum
+
+  """user readable name of the resource"""
+  name: String = null
+
+  """URL to the resource"""
+  link: String
+
   """Numeric identifier (May change!)"""
   id: Int
 }
 
-input TomogramWhereClauseMutations {
+input AnnotationMethodLinkWhereClauseMutations {
   id: IntComparators
 }

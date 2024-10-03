@@ -16,6 +16,7 @@ from cryoet_data_portal._gql_base import (
     DateField,
     FloatField,
     IntField,
+    ListField,
     ItemRelationship,
     ListRelationship,
     Model,
@@ -36,6 +37,7 @@ class Alignment(Model):
         run (Run): The run this alignment is a part of
         run_id (int): None
         alignment_type (str): Whether this a LOCAL or GLOBAL alignment
+        alignment_method (str): The method used to create this alignment
         volume_xdimension (float): X dimension of the reconstruction volume in angstrom
         volume_ydimension (float): Y dimension of the reconstruction volume in angstrom
         volume_zdimension (float): Z dimension of the reconstruction volume in angstrom
@@ -44,8 +46,10 @@ class Alignment(Model):
         volume_zoffset (float): Z shift of the reconstruction volume in angstrom
         x_rotation_offset (float): Additional X rotation of the reconstruction volume in degrees
         tilt_offset (float): Additional tilt offset in degrees
-        local_alignment_file (str): Path to the local alignment file
         affine_transformation_matrix (str): A placeholder for the affine transformation matrix.
+        s3_alignment_metadata (str): S3 path to the metadata file for this alignment
+        https_alignment_metadata (str): HTTPS url to the metadata file for this alignment
+        is_portal_standard (bool): Whether this is the portal standard alignment
     """
 
     _gql_type: str = "Alignment"
@@ -62,6 +66,7 @@ class Alignment(Model):
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
     alignment_type: str = StringField()
+    alignment_method: str = StringField()
     volume_xdimension: float = FloatField()
     volume_ydimension: float = FloatField()
     volume_zdimension: float = FloatField()
@@ -70,8 +75,10 @@ class Alignment(Model):
     volume_zoffset: float = FloatField()
     x_rotation_offset: float = FloatField()
     tilt_offset: float = FloatField()
-    local_alignment_file: str = StringField()
     affine_transformation_matrix: str = StringField()
+    s3_alignment_metadata: str = StringField()
+    https_alignment_metadata: str = StringField()
+    is_portal_standard: bool = BooleanField()
 class Annotation(Model):
     """Metadata for an annotation
 
@@ -80,6 +87,7 @@ class Annotation(Model):
         run (Run): The run this annotation is a part of
         run_id (int): None
         annotation_shapes (List[AnnotationShape]): The annotation shapes of this annotation
+        method_links (List[AnnotationMethodLink]): The annotation method links of this annotation
         authors (List[AnnotationAuthor]): The annotation authors of this annotation
         deposition (Deposition): The deposition this annotation is a part of
         deposition_id (int): None
@@ -87,7 +95,6 @@ class Annotation(Model):
         https_metadata_path (str): HTTPS path for the metadata json file for this annotation
         annotation_publication (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
         annotation_method (str): Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
-        method_links (str): Provides links to information on the method used for generating annotation, comma separated
         ground_truth_status (bool): Whether an annotation is considered ground truth, as determined by the annotator.
         object_id (str): Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object.
         object_name (str): Name of the object being annotated (e.g. ribosome, nuclear pore complex, actin filament, membrane)
@@ -112,6 +119,7 @@ class Annotation(Model):
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
     annotation_shapes: List[AnnotationShape] = ListRelationship("AnnotationShape", "id", "annotation_id")
+    method_links: List[AnnotationMethodLink] = ListRelationship("AnnotationMethodLink", "id", "annotation_id")
     authors: List[AnnotationAuthor] = ListRelationship("AnnotationAuthor", "id", "annotation_id")
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
     deposition_id: int = IntField()
@@ -119,7 +127,6 @@ class Annotation(Model):
     https_metadata_path: str = StringField()
     annotation_publication: str = StringField()
     annotation_method: str = StringField()
-    method_links: str = StringField()
     ground_truth_status: bool = BooleanField()
     object_id: str = StringField()
     object_name: str = StringField()
@@ -244,6 +251,27 @@ class AnnotationFile(Model):
             download_directory(self.s3_path, recursive_prefix, dest_path)
         else:
             download_https(self.https_path, dest_path)
+class AnnotationMethodLink(Model):
+    """A set of links to models, source code, documentation, etc referenced by annotation method
+
+    Attributes:
+        id (int): Numeric identifier (May change!)
+        annotation (Annotation): The annotation this annotation method link is a part of
+        annotation_id (int): None
+        link_type (str): Type of link (e.g. model, source code, documentation)
+        name (str): user readable name of the resource
+        link (str): URL to the resource
+    """
+
+    _gql_type: str = "AnnotationMethodLink"
+    _gql_root_field: str = "annotationMethodLinks"
+
+    id: int = IntField()
+    annotation: Annotation = ItemRelationship("Annotation", "annotation_id", "id")
+    annotation_id: int = IntField()
+    link_type: str = StringField()
+    name: str = StringField()
+    link: str = StringField()
 class AnnotationShape(Model):
     """Shapes associated with an annotation
 
@@ -497,7 +525,6 @@ class Frame(Model):
         id (int): Numeric identifier (May change!)
         deposition (Deposition): The deposition this frame is a part of
         deposition_id (int): None
-        per_section_parameters (List[PerSectionParameters]): The per section parameters of this frame
         run (Run): The run this frame is a part of
         run_id (int): None
         raw_angle (float): Camera angle for a frame
@@ -516,7 +543,6 @@ class Frame(Model):
     id: int = IntField()
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
     deposition_id: int = IntField()
-    per_section_parameters: List[PerSectionParameters] = ListRelationship("PerSectionParameters", "id", "frame_id")
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
     raw_angle: float = FloatField()
@@ -527,6 +553,44 @@ class Frame(Model):
     https_gain_file: str = StringField()
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
+class FrameAcquisitionFile(Model):
+    """References to files containing more information about frame acquisition
+
+    Attributes:
+        id (int): Numeric identifier (May change!)
+        run (Run): The run this frame acquisition file is a part of
+        run_id (int): None
+        s3_mdoc_path (str): Path to the frame acquisition mdoc file in s3
+        https_mdoc_path (str): Path to the frame acquisition mdoc file as an https url
+    """
+
+    _gql_type: str = "FrameAcquisitionFile"
+    _gql_root_field: str = "frameAcquisitionFiles"
+
+    id: int = IntField()
+    run: Run = ItemRelationship("Run", "run_id", "id")
+    run_id: int = IntField()
+    s3_mdoc_path: str = StringField()
+    https_mdoc_path: str = StringField()
+class GainFile(Model):
+    """Gain values for frames in this run
+
+    Attributes:
+        id (int): Numeric identifier (May change!)
+        run (Run): The run this gain file is a part of
+        run_id (int): None
+        s3_file_path (str): Path to the file in s3
+        https_file_path (str): Path to the file as an https url
+    """
+
+    _gql_type: str = "GainFile"
+    _gql_root_field: str = "gainFiles"
+
+    id: int = IntField()
+    run: Run = ItemRelationship("Run", "run_id", "id")
+    run_id: int = IntField()
+    s3_file_path: str = StringField()
+    https_file_path: str = StringField()
 class PerSectionAlignmentParameters(Model):
     """Map alignment parameters to tilt series frames
 
@@ -537,8 +601,8 @@ class PerSectionAlignmentParameters(Model):
         z_index (int): z-index of the frame in the tiltseries
         x_offset (float): In-plane X-shift of the projection in angstrom
         y_offset (float): In-plane Y-shift of the projection in angstrom
-        in_plane_rotation (float): In-plane rotation of the projection in degrees
-        beam_tilt (float): Beam tilt during projection in degrees
+        volume_xrotation (float): X-axis rotation in degrees
+        in_plane_rotation (list[list[float]]): In-plane rotation of the projection in degrees
         tilt_angle (float): Tilt angle of the projection in degrees
     """
 
@@ -551,36 +615,9 @@ class PerSectionAlignmentParameters(Model):
     z_index: int = IntField()
     x_offset: float = FloatField()
     y_offset: float = FloatField()
-    in_plane_rotation: float = FloatField()
-    beam_tilt: float = FloatField()
+    volume_xrotation: float = FloatField()
+    in_plane_rotation: list[list[float]] = ListField()
     tilt_angle: float = FloatField()
-class PerSectionParameters(Model):
-    """Record how frames get mapped to Tiltseries
-
-    Attributes:
-        id (int): Numeric identifier (May change!)
-        frame (Frame): The frame this per section parameters is a part of
-        frame_id (int): None
-        tiltseries (TiltSeries): The tilt series this per section parameters is a part of
-        tiltseries_id (int): None
-        z_index (int): z-index of the frame in the tiltseries
-        defocus (float): defocus amount
-        astigmatism (float): Astigmatism amount for this frame
-        astigmatic_angle (float): Angle of ast
-    """
-
-    _gql_type: str = "PerSectionParameters"
-    _gql_root_field: str = "perSectionParameters"
-
-    id: int = IntField()
-    frame: Frame = ItemRelationship("Frame", "frame_id", "id")
-    frame_id: int = IntField()
-    tiltseries: TiltSeries = ItemRelationship("TiltSeries", "tilt_series_id", "id")
-    tiltseries_id: int = IntField()
-    z_index: int = IntField()
-    defocus: float = FloatField()
-    astigmatism: float = FloatField()
-    astigmatic_angle: float = FloatField()
 class Run(Model):
     """None
 
@@ -591,6 +628,8 @@ class Run(Model):
         dataset (Dataset): The dataset this run is a part of
         dataset_id (int): None
         frames (List[Frame]): The frames of this run
+        gain_files (List[GainFile]): The gain files of this run
+        frame_acquisition_files (List[FrameAcquisitionFile]): The frame acquisition files of this run
         tiltseries (List[TiltSeries]): The tilt series of this run
         tomogram_voxel_spacings (List[TomogramVoxelSpacing]): The tomogram voxel spacings of this run
         tomograms (List[Tomogram]): The tomograms of this run
@@ -608,6 +647,8 @@ class Run(Model):
     dataset: Dataset = ItemRelationship("Dataset", "dataset_id", "id")
     dataset_id: int = IntField()
     frames: List[Frame] = ListRelationship("Frame", "id", "run_id")
+    gain_files: List[GainFile] = ListRelationship("GainFile", "id", "run_id")
+    frame_acquisition_files: List[FrameAcquisitionFile] = ListRelationship("FrameAcquisitionFile", "id", "run_id")
     tiltseries: List[TiltSeries] = ListRelationship("TiltSeries", "id", "run_id")
     tomogram_voxel_spacings: List[TomogramVoxelSpacing] = ListRelationship("TomogramVoxelSpacing", "id", "run_id")
     tomograms: List[Tomogram] = ListRelationship("Tomogram", "id", "run_id")
@@ -635,7 +676,6 @@ class TiltSeries(Model):
     Attributes:
         id (int): Numeric identifier (May change!)
         alignments (List[Alignment]): The alignments of this tilt series
-        per_section_parameters (List[PerSectionParameters]): The per section parameters of this tilt series
         run (Run): The run this tilt series is a part of
         run_id (int): None
         deposition (Deposition): The deposition this tilt series is a part of
@@ -644,12 +684,8 @@ class TiltSeries(Model):
         s3_mrc_file (str): S3 path to this tiltseries in MRC format (no scaling)
         https_omezarr_dir (str): HTTPS path to this tiltseries in multiscale OME-Zarr format
         https_mrc_file (str): HTTPS path to this tiltseries in MRC format (no scaling)
-        s3_collection_metadata (str): S3 path to the collection metadata file for this tiltseries
-        https_collection_metadata (str): HTTPS path to the collection metadata file for this tiltseries
         s3_angle_list (str): S3 path to the angle list file for this tiltseries
         https_angle_list (str): HTTPS path to the angle list file for this tiltseries
-        s3_gain_file (str): S3 path to the gain file for this tiltseries
-        https_gain_file (str): HTTPS path to the gain file for this tiltseries
         acceleration_voltage (int): Electron Microscope Accelerator voltage in volts
         spherical_aberration_constant (float): Spherical Aberration Constant of the objective lens in millimeters
         microscope_manufacturer (str): Name of the microscope manufacturer (FEI, TFS, JEOL)
@@ -674,7 +710,6 @@ class TiltSeries(Model):
         is_aligned (bool): Whether this tilt series is aligned
         pixel_spacing (float): Pixel spacing equal in both axes in angstroms
         aligned_tiltseries_binning (int): Binning factor of the aligned tilt series
-        frames_count (int): Number of frames associated with this tiltseries
     """
 
     _gql_type: str = "Tiltseries"
@@ -682,7 +717,6 @@ class TiltSeries(Model):
 
     id: int = IntField()
     alignments: List[Alignment] = ListRelationship("Alignment", "id", "tilt_series_id")
-    per_section_parameters: List[PerSectionParameters] = ListRelationship("PerSectionParameters", "id", "tilt_series_id")
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
@@ -691,12 +725,8 @@ class TiltSeries(Model):
     s3_mrc_file: str = StringField()
     https_omezarr_dir: str = StringField()
     https_mrc_file: str = StringField()
-    s3_collection_metadata: str = StringField()
-    https_collection_metadata: str = StringField()
     s3_angle_list: str = StringField()
     https_angle_list: str = StringField()
-    s3_gain_file: str = StringField()
-    https_gain_file: str = StringField()
     acceleration_voltage: int = IntField()
     spherical_aberration_constant: float = FloatField()
     microscope_manufacturer: str = StringField()
@@ -721,7 +751,6 @@ class TiltSeries(Model):
     is_aligned: bool = BooleanField()
     pixel_spacing: float = FloatField()
     aligned_tiltseries_binning: int = IntField()
-    frames_count: int = IntField()
 
     def download_collection_metadata(self, dest_path: Optional[str] = None):
         """Download the collection metadata for this tiltseries
@@ -792,7 +821,9 @@ class Tomogram(Model):
         tomogram_version (float): Version of tomogram
         processing_software (str): Processing software used to derive the tomogram
         reconstruction_software (str): Name of software used for reconstruction
-        is_canonical (bool): Is this tomogram considered the canonical tomogram for the run experiment? True=Yes
+        is_portal_standard (bool): whether this tomogram adheres to portal standards
+        is_author_submitted (bool): Whether this tomogram was submitted by the author of the dataset it belongs to.
+        is_visualization_default (bool): Data curator’s subjective choice of default tomogram to display in visualization for a run
         s3_omezarr_dir (str): S3 path to this tomogram in multiscale OME-Zarr format
         https_omezarr_dir (str): HTTPS path to this tomogram in multiscale OME-Zarr format
         s3_mrc_file (str): S3 path to this tomogram in MRC format (no scaling)
@@ -808,6 +839,11 @@ class Tomogram(Model):
         key_photo_thumbnail_url (str): URL for the thumbnail of key photo
         neuroglancer_config (str): the compact json of neuroglancer config
         is_standardized (bool): Whether this tomogram was generated per the portal's standards
+        publications (str): Comma-separated list of DOIs for publications associated with the tomogram.
+        related_database_entries (str): If a CryoET tomogram is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
+        deposition_date (date): The date a data item was received by the cryoET data portal.
+        release_date (date): The date a data item was received by the cryoET data portal.
+        last_modified_date (date): The date a piece of data was last modified on the cryoET data portal.
     """
 
     _gql_type: str = "Tomogram"
@@ -834,7 +870,9 @@ class Tomogram(Model):
     tomogram_version: float = FloatField()
     processing_software: str = StringField()
     reconstruction_software: str = StringField()
-    is_canonical: bool = BooleanField()
+    is_portal_standard: bool = BooleanField()
+    is_author_submitted: bool = BooleanField()
+    is_visualization_default: bool = BooleanField()
     s3_omezarr_dir: str = StringField()
     https_omezarr_dir: str = StringField()
     s3_mrc_file: str = StringField()
@@ -850,6 +888,11 @@ class Tomogram(Model):
     key_photo_thumbnail_url: str = StringField()
     neuroglancer_config: str = StringField()
     is_standardized: bool = BooleanField()
+    publications: str = StringField()
+    related_database_entries: str = StringField()
+    deposition_date: date = DateField()
+    release_date: date = DateField()
+    last_modified_date: date = DateField()
 
     def download_omezarr(self, dest_path: Optional[str] = None):
         """Download the OME-Zarr version of this tomogram
@@ -965,6 +1008,7 @@ Alignment.setup()
 Annotation.setup()
 AnnotationAuthor.setup()
 AnnotationFile.setup()
+AnnotationMethodLink.setup()
 AnnotationShape.setup()
 Dataset.setup()
 DatasetAuthor.setup()
@@ -973,8 +1017,9 @@ Deposition.setup()
 DepositionAuthor.setup()
 DepositionType.setup()
 Frame.setup()
+FrameAcquisitionFile.setup()
+GainFile.setup()
 PerSectionAlignmentParameters.setup()
-PerSectionParameters.setup()
 Run.setup()
 TiltSeries.setup()
 Tomogram.setup()

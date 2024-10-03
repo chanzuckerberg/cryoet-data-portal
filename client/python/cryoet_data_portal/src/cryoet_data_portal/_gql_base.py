@@ -103,6 +103,9 @@ class BaseField(GQLField):
         return value
 
 
+class ListField(BaseField): ...
+
+
 class StringField(BaseField): ...
 
 
