@@ -311,7 +311,9 @@ test.describe('Single dataset page filters', () => {
 
       await filtersActor.addSingleSelectFilter({
         label: translations.objectShapeType,
-        value: E2E_CONFIG.objectShapeType,
+        value: getObjectShapeTypeLabel(
+          E2E_CONFIG.objectShapeType as ObjectShapeType,
+        ),
       })
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
