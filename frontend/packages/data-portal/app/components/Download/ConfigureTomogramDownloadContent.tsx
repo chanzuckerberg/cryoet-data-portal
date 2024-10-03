@@ -207,7 +207,7 @@ export function ConfigureTomogramDownloadContent() {
 
       {multipleTomogramsEnabled && (
         <Callout intent="notice" className="!w-full !mt-0">
-          {t('annotationsMayRequireTransformation')}
+          <I18n i18nKey="annotationsMayRequireTransformation" />
         </Callout>
       )}
     </>

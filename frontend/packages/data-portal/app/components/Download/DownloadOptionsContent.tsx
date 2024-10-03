@@ -18,6 +18,7 @@ import { checkExhaustive } from 'app/types/utils'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getTomogramName } from 'app/utils/tomograms'
 
+import { I18n } from '../I18n'
 import { AnnotationAlignmentCallout } from './AnnotationAlignmentCallout'
 import { APIDownloadTab } from './APIDownloadTab'
 import { AWSDownloadTab } from './AWSDownloadTab'
@@ -177,7 +178,7 @@ export function DownloadOptionsContent() {
         />
       ) : (
         <Callout intent="notice" className="!w-full !mt-sds-xl">
-          {t('annotationsMayRequireTransformation')}
+          <I18n i18nKey="annotationsMayRequireTransformation" />
         </Callout>
       )}
     </>

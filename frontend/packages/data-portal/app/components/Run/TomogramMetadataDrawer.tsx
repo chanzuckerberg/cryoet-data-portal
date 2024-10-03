@@ -87,7 +87,11 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('depositionId'),
-            values: [tomogram.deposition?.id ?? ''],
+            values: [
+              tomogram.deposition?.id !== undefined
+                ? `${IdPrefix.Dataset}-${tomogram.deposition.id}`
+                : '',
+            ],
           },
           {
             label: t('depositionDate'),
