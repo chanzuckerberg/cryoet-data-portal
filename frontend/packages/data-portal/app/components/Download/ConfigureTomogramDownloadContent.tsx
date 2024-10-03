@@ -38,8 +38,9 @@ export function ConfigureTomogramDownloadContent() {
 
   const {
     tomogramToDownload,
-    allTomogramProcessing = [],
+    allAnnotationFiles = [],
     allTomograms = [],
+    allTomogramProcessing = [],
     runId,
   } = useDownloadModalContext()
 
@@ -98,6 +99,8 @@ export function ConfigureTomogramDownloadContent() {
         <Radio
           value={DownloadConfig.Tomogram}
           label={t('downloadTomogram')}
+          disabled={allTomograms.length === 0}
+          disabledTooltip={t('noTomogramsAvailableToDownload')}
           description={t('selectASpecificTomogram')}
           onClick={setTomogramConfigWithInitialValues}
         >
@@ -168,6 +171,8 @@ export function ConfigureTomogramDownloadContent() {
         <Radio
           value={DownloadConfig.AllAnnotations}
           label={t('downloadAllAnnotations')}
+          disabled={allAnnotationFiles.length === 0}
+          disabledTooltip={t('noAnnotationsAvailableToDownload')}
           description={t('downloadAvailableAnnotationsInSupported')}
           onClick={setAllAnnotationsConfig}
         />
