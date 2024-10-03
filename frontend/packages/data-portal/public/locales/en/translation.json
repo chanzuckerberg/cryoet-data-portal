@@ -419,7 +419,7 @@
   "viewAndDownloadDatasets": "View and Download Datasets",
   "viewDatasetsCta": "Find and visualize cryoET datasets in the portal and download to use for your work.",
   "viewTomogram": "View Tomogram",
-  "viewTomogramInNeuroglancer": "View Tomogram TM-{{id}} in Neuroglancer",
+  "viewTomogramInNeuroglancer": "View Tomogram {{id}} in Neuroglancer",
   "voxelSpacing": "Voxel Spacing",
   "voxelSpacingId": "Voxel Spacing ID",
   "website": "Website",
