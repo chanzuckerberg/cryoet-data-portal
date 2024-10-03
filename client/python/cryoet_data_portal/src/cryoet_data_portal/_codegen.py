@@ -331,7 +331,7 @@ def _maybe_unwrap_non_null(field_type: GraphQLType) -> GraphQLType:
 
 
 def _camel_to_snake_case(name: str) -> str:
-    return re.sub("(?!^)([A-Z]+)", r"_\1", name).lower()
+    return re.sub("(?!^)([A-Z])", r"_\1", name).lower()
 
 
 def _camel_to_space_case(name: str) -> str:

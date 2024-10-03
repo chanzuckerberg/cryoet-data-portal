@@ -38,12 +38,12 @@ class Alignment(Model):
         run_id (int): None
         alignment_type (str): Whether this a LOCAL or GLOBAL alignment
         alignment_method (str): The method used to create this alignment
-        volume_xdimension (float): X dimension of the reconstruction volume in angstrom
-        volume_ydimension (float): Y dimension of the reconstruction volume in angstrom
-        volume_zdimension (float): Z dimension of the reconstruction volume in angstrom
-        volume_xoffset (float): X shift of the reconstruction volume in angstrom
-        volume_yoffset (float): Y shift of the reconstruction volume in angstrom
-        volume_zoffset (float): Z shift of the reconstruction volume in angstrom
+        volume_x_dimension (float): X dimension of the reconstruction volume in angstrom
+        volume_y_dimension (float): Y dimension of the reconstruction volume in angstrom
+        volume_z_dimension (float): Z dimension of the reconstruction volume in angstrom
+        volume_x_offset (float): X shift of the reconstruction volume in angstrom
+        volume_y_offset (float): Y shift of the reconstruction volume in angstrom
+        volume_z_offset (float): Z shift of the reconstruction volume in angstrom
         x_rotation_offset (float): Additional X rotation of the reconstruction volume in degrees
         tilt_offset (float): Additional tilt offset in degrees
         affine_transformation_matrix (str): A placeholder for the affine transformation matrix.
@@ -67,12 +67,12 @@ class Alignment(Model):
     run_id: int = IntField()
     alignment_type: str = StringField()
     alignment_method: str = StringField()
-    volume_xdimension: float = FloatField()
-    volume_ydimension: float = FloatField()
-    volume_zdimension: float = FloatField()
-    volume_xoffset: float = FloatField()
-    volume_yoffset: float = FloatField()
-    volume_zoffset: float = FloatField()
+    volume_x_dimension: float = FloatField()
+    volume_y_dimension: float = FloatField()
+    volume_z_dimension: float = FloatField()
+    volume_x_offset: float = FloatField()
+    volume_y_offset: float = FloatField()
+    volume_z_offset: float = FloatField()
     x_rotation_offset: float = FloatField()
     tilt_offset: float = FloatField()
     affine_transformation_matrix: str = StringField()
@@ -601,7 +601,7 @@ class PerSectionAlignmentParameters(Model):
         z_index (int): z-index of the frame in the tiltseries
         x_offset (float): In-plane X-shift of the projection in angstrom
         y_offset (float): In-plane Y-shift of the projection in angstrom
-        volume_xrotation (float): X-axis rotation in degrees
+        volume_x_rotation (float): X-axis rotation in degrees
         in_plane_rotation (list[list[float]]): In-plane rotation of the projection in degrees
         tilt_angle (float): Tilt angle of the projection in degrees
     """
@@ -615,7 +615,7 @@ class PerSectionAlignmentParameters(Model):
     z_index: int = IntField()
     x_offset: float = FloatField()
     y_offset: float = FloatField()
-    volume_xrotation: float = FloatField()
+    volume_x_rotation: float = FloatField()
     in_plane_rotation: list[list[float]] = ListField()
     tilt_angle: float = FloatField()
 class Run(Model):
