@@ -392,7 +392,6 @@ export class FiltersActor {
   }) {
     const { data: datasetsFilterData } = await getDatasetsFilterData({
       client,
-      filter: {},
     })
 
     const organismNames = getFilteredOrganismNamesFromData({

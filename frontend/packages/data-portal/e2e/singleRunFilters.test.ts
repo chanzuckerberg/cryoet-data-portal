@@ -4,11 +4,12 @@ import { FiltersActor } from 'e2e/pageObjects/filters/filtersActor'
 import { FiltersPage } from 'e2e/pageObjects/filters/filtersPage'
 
 import { QueryParams } from 'app/constants/query'
+import { ObjectShapeType } from 'app/types/shapeTypes'
 import { getPrefixedId } from 'app/utils/idPrefixes'
 
 import { getApolloClient } from './apollo'
 import { E2E_CONFIG, SINGLE_RUN_URL, translations } from './constants'
-import { onlyRunIfEnabled } from './utils'
+import { getObjectShapeTypeLabel, onlyRunIfEnabled } from './utils'
 
 test.describe('Single run page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>
@@ -242,18 +243,17 @@ test.describe('Single run page filters', () => {
         getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
       )
 
-      // TODO: (kne42) uncomment when hooked up to backend
-      // await filtersActor.expectDataAndAnnotationsTableToMatch({
-      //   client,
-      //   id: +E2E_CONFIG.runId,
-      //   url: SINGLE_RUN_URL,
-      //   queryParamsList: [
-      //     {
-      //       queryParamKey: QueryParams.DepositionId,
-      //       queryParamValue: E2E_CONFIG.depositionId,
-      //     },
-      //   ],
-      // })
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
+        client,
+        id: +E2E_CONFIG.runId,
+        url: SINGLE_RUN_URL,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.DepositionId,
+            queryParamValue: E2E_CONFIG.depositionId,
+          },
+        ],
+      })
     })
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -270,18 +270,17 @@ test.describe('Single run page filters', () => {
         getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
       )
 
-      // TODO: (kne42) uncomment when hooked up to backend
-      // await filtersActor.expectDataAndAnnotationsTableToMatch({
-      //   client,
-      //   id: +E2E_CONFIG.runId,
-      //   url: SINGLE_RUN_URL,
-      //   queryParamsList: [
-      //     {
-      //       queryParamKey: QueryParams.DepositionId,
-      //       queryParamValue: E2E_CONFIG.depositionId,
-      //     },
-      //   ],
-      // })
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
+        client,
+        id: +E2E_CONFIG.runId,
+        url: SINGLE_RUN_URL,
+        queryParamsList: [
+          {
+            queryParamKey: QueryParams.DepositionId,
+            queryParamValue: E2E_CONFIG.depositionId,
+          },
+        ],
+      })
     })
     test('should remove filter when deselecting', async () => {
       await filtersActor.goToFilteredUrl({
@@ -308,18 +307,12 @@ test.describe('Single run page filters', () => {
         ],
       })
 
-      // TODO: (kne42) uncomment when hooked up to backend
-      // await filtersActor.expectDataAndAnnotationsTableToMatch({
-      //   client,
-      //   id: +E2E_CONFIG.runId,
-      //   url: SINGLE_RUN_URL,
-      //   queryParamsList: [
-      //     {
-      //       queryParamKey: QueryParams.DepositionId,
-      //       queryParamValue: E2E_CONFIG.depositionId,
-      //     },
-      //   ],
-      // })
+      await filtersActor.expectDataAndAnnotationsTableToMatch({
+        client,
+        id: +E2E_CONFIG.runId,
+        url: SINGLE_RUN_URL,
+        queryParamsList: [],
+      })
     })
   })
   test.describe('Object Name filter', () => {
@@ -517,7 +510,9 @@ test.describe('Single run page filters', () => {
 
       await filtersActor.addSingleSelectFilter({
         label: translations.objectShapeType,
-        value: E2E_CONFIG.objectShapeType,
+        value: getObjectShapeTypeLabel(
+          E2E_CONFIG.objectShapeType as ObjectShapeType,
+        ),
       })
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
@@ -578,7 +573,9 @@ test.describe('Single run page filters', () => {
         ],
       })
 
-      await filtersPage.removeFilterOption(E2E_CONFIG.objectShapeType)
+      await filtersPage.removeFilterOption(
+        getObjectShapeTypeLabel(E2E_CONFIG.objectShapeType as ObjectShapeType),
+      )
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_RUN_URL,
