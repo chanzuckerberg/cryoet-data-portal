@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.32.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.31.0...web-v1.32.0) (2024-10-03)
+
+
+### ✨ Features
+
+* Add disabled download option states ([#1197](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1197)) ([f904258](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f9042585247abf97ca6d48bc0086db4b0dba7273))
+* Misc copy fixes ([#1210](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1210)) ([2da6755](https://github.com/chanzuckerberg/cryoet-data-portal/commit/2da6755f22794b319a064eb210962f2a8e0b6fec))
+
 ## [1.31.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.30.0...web-v1.31.0) (2024-10-03)
 
 
