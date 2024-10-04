@@ -72,7 +72,7 @@ export function TomogramsTable() {
             </div>
             <div className="flex items-center flex-wrap gap-sds-xs text-sds-body-xxs">
               {`${t('tomogramId')}: ${IdPrefix.Tomogram}-${original.id}`}
-              {original.isStandardized && (
+              {original.isPortalStandard && (
                 <TomogramTypeBadge type="standard" showTooltip />
               )}
             </div>
@@ -159,7 +159,7 @@ export function TomogramsTable() {
         cell: ({ row: { original } }) => (
           <TableCell width={TomogramTableWidths.actions}>
             <div className="flex flex-col gap-sds-xs items-start">
-              {original.neuroglancerConfig != null && ( // TODO(bchu): Check it's either isStandardized or isAuthorSubmitted
+              {original.neuroglancerConfig != null && ( // TODO(bchu): Check it's either isPortalStandard or isAuthorSubmitted
                 <ViewTomogramButton
                   tomogramId={original.id.toString()}
                   neuroglancerConfig={original.neuroglancerConfig}
