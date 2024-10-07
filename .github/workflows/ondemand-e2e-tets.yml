@@ -1,0 +1,18 @@
+name: Run e2e tests on demand
+
+on:
+  # This means we can trigger this action via the GitHub Actions UI!
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Run e2e tests on staging or prod?"
+        required: true
+        default: "staging"
+
+jobs:
+  e2e-test:
+    name: E2E Tests
+    uses: ./.github/workflows/frontend-e2e-tests.yml
+    secrets: inherit
+    with:
+      environment: ${{ github.event.inputs.environment }}
