@@ -173,6 +173,6 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: html-report-${{ matrix.browser }}-${{ matrix.shardCurrent }}-${{ matrix.shardTotal }}
-          path: frontend/packages/data-portal/playwright-report/
+          name: trace-${{ matrix.browser }}-${{ matrix.shardCurrent }}-${{ matrix.shardTotal }}
+          path: frontend/packages/data-portal/test-results/
           retention-days: 1
