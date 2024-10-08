@@ -20,6 +20,7 @@ from graphql import (
     GraphQLType,
     build_schema,
     print_schema,
+    get_named_type,
 )
 from jinja2 import Environment, FileSystemLoader
 
@@ -31,28 +32,45 @@ GQL_TO_MODEL_FIELD = {
     "Float": ("FloatField()", "float"),
     "Int": ("IntField()", "int"),
     "String": ("StringField()", "str"),
-    "date": ("DateField()", "date"),
+    "DateTime": ("DateField()", "date"),
     "numeric": ("FloatField()", "float"),
     "_numeric": ("StringField()", "str"),
     "tomogram_type_enum": ("StringField()", "str"),
+    "tomogram_processing_enum": ("StringField()", "str"),
+    "tomogram_reconstruction_method_enum": ("StringField()", "str"),
+    "annotation_file_source_enum": ("StringField()", "str"),
+    "annotation_method_type_enum": ("StringField()", "str"),
+    "annotation_file_shape_type_enum": ("StringField()", "str"),
+    "deposition_types_enum": ("StringField()", "str"),
+    "sample_type_enum": ("StringField()", "str"),
+    "tiltseries_camer_acquire_mode_enum": ("StringField()", "str"),
+    "tiltseries_microscope_manufacturer_enum": ("StringField()", "str"),
+    "fiducial_alignment_status_enum": ("StringField()", "str"),
+    "alignment_type_enum": ("StringField()", "str"),
 }
 
 
 """Maps GraphQL type names to model class names."""
 GQL_TO_MODEL_TYPE = {
-    "datasets": "Dataset",
-    "dataset_authors": "DatasetAuthor",
-    "dataset_funding": "DatasetFunding",
-    "runs": "Run",
-    "tomogram_voxel_spacings": "TomogramVoxelSpacing",
-    "tomograms": "Tomogram",
-    "tomogram_authors": "TomogramAuthor",
-    "annotations": "Annotation",
-    "annotation_files": "AnnotationFile",
-    "annotation_authors": "AnnotationAuthor",
-    "tiltseries": "TiltSeries",
-    "depositions": "Deposition",
-    "deposition_authors": "DepositionAuthor",
+    "Alignment": "Alignment",
+    "Annotation": "Annotation",
+    "AnnotationAuthor": "AnnotationAuthor",
+    "AnnotationFile": "AnnotationFile",
+    "AnnotationShape": "AnnotationShape",
+    "Dataset": "Dataset",
+    "DatasetAuthor": "DatasetAuthor",
+    "DatasetFunding": "DatasetFunding",
+    "Deposition": "Deposition",
+    "DepositionAuthor": "DepositionAuthor",
+    "DepositionType": "DepositionType",
+    "Frame": "Frame",
+    "PerSectionAlignmentParameters": "PerSectionAlignmentParameters",
+    "PerSectionParameters": "PerSectionParameters",
+    "Run": "Run",
+    "Tiltseries": "TiltSeries",
+    "Tomogram": "Tomogram",
+    "TomogramAuthor": "TomogramAuthor",
+    "TomogramVoxelSpacing": "TomogramVoxelSpacing",
 }
 
 
@@ -81,7 +99,8 @@ class ModelInfo:
     """The information about a parsed model."""
 
     name: str
-    gql_name: str
+    gql_type: str
+    root_field: str
     fields: Tuple[FieldInfo, ...]
     description: Optional[str] = None
 
@@ -107,7 +126,7 @@ def write_models(models: Tuple[ModelInfo, ...], path: Path) -> None:
     with open(path, "w") as f:
         template = environment.get_template("Header.jinja2")
         f.write(template.render())
-        for model in models:
+        for model in sorted(models, key=lambda x: x.name):
             template = environment.select_template(
                 (f"{model.name}.jinja2", "Model.jinja2"),
             )
@@ -127,11 +146,13 @@ def get_models(schema: GraphQLSchema) -> Tuple[ModelInfo, ...]:
         models.append(
             ModelInfo(
                 name=model,
-                gql_name=gql_type.name,
+                gql_type=gql_type.name,
+                root_field=get_root_field_name(schema, gql_type),
                 description=gql_type.description,
                 fields=fields,
             ),
         )
+    models = sorted(models, key=lambda x: x.name)
     return tuple(models)
 
 
@@ -154,6 +175,17 @@ def load_schema(path: Path) -> GraphQLSchema:
     with open(path, "r") as f:
         schema_str = f.read()
     return build_schema(schema_str)
+
+
+def get_root_field_name(schema, gql_type: GraphQLObjectType) -> str:
+    """Look up the root field name that represents the given GQL Type"""
+    """NOTE that this assumes all queried types are present at the query root!"""
+    root = schema.get_type("Query")
+    for name, field in root.fields.items():
+        field_type = get_named_type(field.type)
+        if field_type.name == gql_type.name:
+            return name
+    raise RuntimeError(f"Could not root field for {gql_type.name}")
 
 
 def parse_fields(gql_type: GraphQLObjectType) -> Tuple[FieldInfo, ...]:
@@ -181,7 +213,7 @@ def _parse_field(
 ) -> Optional[FieldInfo]:
     logging.debug("_parse_field: %s, %s", name, field)
     field_type = _maybe_unwrap_non_null(field.type)
-    if isinstance(field_type, GraphQLList):
+    if field_type.name.endswith("Connection"):  # TODO can we clean this up?
         return _parse_model_list_field(gql_type, name, field_type)
     if isinstance(field_type, GraphQLObjectType) and (
         field_type.name in GQL_TO_MODEL_TYPE
@@ -236,7 +268,9 @@ def _parse_model_list_field(
     field_type: GraphQLList[GraphQLType],
 ) -> Optional[FieldInfo]:
     logging.debug("_parse_model_list_field: %s", field_type)
-    of_type = _maybe_unwrap_non_null(field_type.of_type)
+    of_type = get_named_type(
+        get_named_type(field_type.fields["edges"].type).fields["node"].type
+    )
     if not isinstance(of_type, GraphQLNamedType):
         return None
     of_model = GQL_TO_MODEL_TYPE.get(of_type.name)
@@ -260,17 +294,6 @@ def _maybe_unwrap_non_null(field_type: GraphQLType) -> GraphQLType:
     return field_type
 
 
-def _load_jinja_environment() -> Environment:
-    template_dir = _THIS_DIR / "templates"
-    loader = FileSystemLoader(template_dir)
-    return Environment(
-        loader=loader,
-        trim_blocks=True,
-        lstrip_blocks=True,
-        keep_trailing_newline=True,
-    )
-
-
 def _camel_to_snake_case(name: str) -> str:
     return re.sub("(?!^)([A-Z]+)", r"_\1", name).lower()
 
@@ -281,6 +304,19 @@ def _camel_to_space_case(name: str) -> str:
 
 def _space_case_to_plural(name: str) -> str:
     return name if name[-1] == "s" else f"{name}s"
+
+
+def _load_jinja_environment() -> Environment:
+    template_dir = _THIS_DIR / "templates"
+    loader = FileSystemLoader(template_dir)
+    env = Environment(
+        loader=loader,
+        trim_blocks=True,
+        lstrip_blocks=True,
+        keep_trailing_newline=True,
+    )
+    env.filters["to_snake"] = _camel_to_snake_case
+    return env
 
 
 if __name__ == "__main__":

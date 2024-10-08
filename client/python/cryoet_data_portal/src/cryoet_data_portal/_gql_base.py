@@ -1,11 +1,22 @@
 import functools
-from datetime import datetime, timezone
+import re
+from datetime import datetime
 from importlib import import_module
 from typing import Any, Dict, Iterable, Optional
 
 from deepmerge import always_merger
 
 from ._client import Client
+
+
+def to_camel(txt: str | list[str]):
+    if isinstance(txt, list):
+        return [to_camel(item) for item in txt]
+    return txt[0] + txt.title().replace("_", "")[1:]
+
+
+def to_snake(name: str) -> str:
+    return re.sub("(?!^)([A-Z]+)", r"_\1", name).lower()
 
 
 class GQLExpression:
@@ -80,7 +91,7 @@ class GQLField:
         return False
 
     def to_gql(self):
-        return self._name
+        return to_camel(self._name)
 
 
 class BaseField(GQLField):
@@ -92,28 +103,22 @@ class BaseField(GQLField):
         return value
 
 
-class StringField(BaseField):
-    ...
+class StringField(BaseField): ...
 
 
-class IntField(BaseField):
-    ...
+class IntField(BaseField): ...
 
 
 class DateField(BaseField):
     def convert(self, value):
         if value:
-            return datetime.date(
-                datetime.strptime(value, "%Y-%m-%d").astimezone(timezone.utc),
-            )
+            return datetime.fromisoformat(value)
 
 
-class BooleanField(BaseField):
-    ...
+class BooleanField(BaseField): ...
 
 
-class FloatField(BaseField):
-    ...
+class FloatField(BaseField): ...
 
 
 class QueryChain(GQLField):
@@ -135,7 +140,7 @@ class QueryChain(GQLField):
         return self.__current_query.get_related_class()
 
     def to_gql(self):
-        return self.__name
+        return to_camel(self.__name)
 
 
 class Relationship(GQLField):
@@ -188,7 +193,7 @@ class ListRelationship(Relationship):
         if obj is None:
             return self
         source_field = getattr(obj, self.source_field)
-        dest_field = getattr(self.related_class, self.dest_field)
+        dest_field = getattr(self.related_class, to_snake(self.dest_field))
         res = self.related_class.find(
             obj._client,
             [dest_field == source_field],
@@ -200,11 +205,12 @@ class Model:
     """The base class that all CryoET Portal Domain Object classes descend from. Documented methods apply to all domain objects."""
 
     _gql_type: str
+    _gql_root_field: str
 
     def __init__(self, client: Client, **kwargs):
         self._client = client
         for k in self._get_scalar_fields():
-            value = getattr(self, k).convert(kwargs.get(k))
+            value = getattr(self, k).convert(kwargs.get(to_camel(k)))
             setattr(self, k, value)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -222,6 +228,11 @@ class Model:
 
     @classmethod
     @functools.lru_cache(maxsize=32)
+    def _get_gql_fields(cls):
+        return [to_camel(item) for item in cls._get_scalar_fields()]
+
+    @classmethod
+    @functools.lru_cache(maxsize=32)
     def _get_relationship_fields(cls):
         fields = []
         for k, v in cls.__dict__.items():
@@ -232,6 +243,10 @@ class Model:
     @classmethod
     def _get_gql_type(cls):
         return cls._gql_type
+
+    @classmethod
+    def _get_gql_root_field(cls):
+        return cls._gql_root_field
 
     @classmethod
     def find(
