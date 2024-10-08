@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.32.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.32.0...web-v1.32.1) (2024-10-08)
+
+
+### 🐞 Bug Fixes
+
+* support changed field name ([#1218](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1218)) ([c0684b8](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c0684b86e5e54a313f6533065d7e71b1718e940b))
+
 ## [1.32.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.31.0...web-v1.32.0) (2024-10-03)
 
 
