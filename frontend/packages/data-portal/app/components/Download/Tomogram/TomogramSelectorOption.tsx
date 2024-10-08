@@ -22,7 +22,7 @@ export function TomogramSelectorOption({
       </div>
       <div className="text-sds-body-xxs text-sds-color-primitive-gray-500 font-normal">
         {t('tomogramId')}: {IdPrefix.Tomogram}-{tomogram.id}{' '}
-        {tomogram.isStandardized && (
+        {tomogram.isPortalStandard && (
           <TomogramTypeBadge type="standard" size="small" />
         )}
       </div>
