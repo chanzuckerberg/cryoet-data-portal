@@ -1,3 +1,4 @@
 sphinx-immaterial
 myst_nb
 sphinx-external-toc
+sphinx-design

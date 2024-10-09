@@ -1,8 +1,40 @@
+---
+hide-navigation: true
+---
+
 # Tutorials
 
 These tutorials will help you learn about using the Portal API.
 
-- [Example code snippets](cryoet_data_portal_docsite_examples) are short examples of using the API.
-- [Predicting sample boundaries](tutorial_sample_boundaries) in tomograms is an end to end example of using AWS and the Portal API.
+::::{grid} 1 1 2 2
+:gutter: 2
+
+:::{grid-item-card} Download data
+:link: download-data
+:link-type: ref
+
+Guide on downloading data from the AWS S3 bucket
+:::
+
+:::{grid-item-card} Examples
+:link: examples
+:link-type: ref
+
+Short code snippets using the API
+:::
+
+:::{grid-item-card} napari Plugin
+:link: using-napari
+:link-type: ref
+
+Quick start guide on using napari for visualizing data
+:::
+
+:::{grid-item-card} Predicting sample boundaries
+:link: tutorial-sample-boundaries
+:link-type: ref
+
+End to end tutorial from downloading data to analyzing tomograms
+::::
 
 Please start a [discussion on Github](https://github.com/chanzuckerberg/cryoet-data-portal/discussions/new/choose) if you'd like to request a tutorial.

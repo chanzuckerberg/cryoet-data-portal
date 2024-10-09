@@ -1,5 +1,6 @@
 import { Button, ButtonProps, TooltipProps } from '@czi-sds/components'
 
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
 import { useFeatureFlag } from 'app/utils/featureFlags'
@@ -35,7 +36,9 @@ export function ViewTomogramButton({
 
   const enabled = tomogramId !== undefined && neuroglancerConfig != null
   const enabledTooltipText = multipleTomogramsEnabled
-    ? t('viewTomogramInNeuroglancer', { id: tomogramId })
+    ? t('viewTomogramInNeuroglancer', {
+        id: `${IdPrefix.Tomogram}-${tomogramId}`,
+      })
     : undefined
   const disabledTooltipText = multipleTomogramsEnabled
     ? t('noTomogramsAvailable')

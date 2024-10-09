@@ -9,16 +9,25 @@ import { ConfigureTomogramDownloadContent } from './ConfigureTomogramDownloadCon
 
 export function ConfigureDownloadContent() {
   const { t } = useI18n()
+
   const { annotationToDownload, datasetTitle, runName, objectName } =
     useDownloadModalContext()
-  const { annotationId, objectShapeType } = useDownloadModalQueryParamState()
+
+  const { annotationName, annotationId, objectShapeType } =
+    useDownloadModalQueryParamState()
 
   return (
     <>
       <ModalSubtitle label={t('datasetName')} value={datasetTitle} />
       {runName && <ModalSubtitle label={t('runName')} value={runName} />}
+      {annotationName && (
+        <ModalSubtitle label={t('annotationName')} value={annotationName} />
+      )}
       {annotationId && (
-        <ModalSubtitle label={t('annotationId')} value={annotationId} />
+        <ModalSubtitle
+          label={t('annotationId')}
+          value={`${IdPrefix.Annotation}-${annotationId}`}
+        />
       )}
       {objectName && (
         <ModalSubtitle label={t('objectName')} value={objectName} />

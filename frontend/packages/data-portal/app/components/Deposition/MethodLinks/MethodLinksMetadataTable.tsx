@@ -137,9 +137,13 @@ export function MethodLinksMetadataTable({
         .map((methodData, i) => (
           <div className="flex flex-col gap-sds-xl">
             <MethodSummarySection
-              label={t('methodCount', {
-                value: startCase(converter.toWords(i + 1)),
-              })}
+              label={
+                deposition.annotation_methods.length === 1
+                  ? undefined
+                  : t('methodCount', {
+                      value: startCase(converter.toWords(i + 1)),
+                    })
+              }
               data={methodData as MethodDataType}
               annotationsCount={
                 annotationMethodCounts.get(methodData.annotation_method) ?? 0

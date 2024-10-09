@@ -1,5 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { E2E_CONFIG, translations } from 'e2e/constants'
+import { getObjectShapeTypeLabel } from 'e2e/utils'
 import { startCase } from 'lodash-es'
 import { DeepPartial } from 'utility-types'
 
@@ -16,6 +17,7 @@ import {
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getRunById } from 'app/graphql/getRunById.server'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
+import { ObjectShapeType } from 'app/types/shapeTypes'
 import { isFiducial } from 'app/utils/tomograms'
 
 import { DrawerTestData, DrawerTestMetadata } from './types'
@@ -141,7 +143,6 @@ function getAnnotationTestMetdata(
     annotation.ground_truth_status ? translations.notApplicable : value
 
   return {
-    annotationId: annotation.id,
     annotationAuthors: annotation.authors?.map((author) => author.name),
     publication: annotation.annotation_publication,
     depositionDate: annotation.deposition_date,
@@ -153,7 +154,9 @@ function getAnnotationTestMetdata(
     objectName: annotation.object_name,
     objectId: annotation.object_id,
     objectCount: annotation.object_count,
-    objectShapeType: file?.shape_type,
+    objectShapeType: file?.shape_type
+      ? getObjectShapeTypeLabel(file.shape_type as ObjectShapeType)
+      : '',
     objectState: annotation.object_state,
     objectDescription: annotation.object_description,
 

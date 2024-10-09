@@ -280,7 +280,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         fiducialAlignmentStatus
         httpsMrcFile
         id
-        isStandardized
+        isPortalStandard
         keyPhotoThumbnailUrl
         keyPhotoUrl
         name

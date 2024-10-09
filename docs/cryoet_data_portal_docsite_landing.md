@@ -6,6 +6,13 @@ hide-navigation: true
 
 The [Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute)](https://www.czimaginginstitute.org/) has made a beta release of the [CryoET Data Portal](https://cryoetdataportal.czscience.com) providing queryable and organized data from CryoET experiments. Each of the over 15,000 tomograms on the Portal have at least one structure annotated.
 
+```{button-ref} data-organization
+:color: primary
+:align: center
+
+Learn about the Data Schema
+```
+
 This site provides additional documentation for using our [Python API](python-api) to query and download data and for navigating the [CryoET Data Portal](https://cryoetdataportal.czscience.com) and its visualization tools. We hope this site will assist segmentation algorithm developers to produce annotations for diverse macromolecules in the tomograms that may be used for high-resolution subtomogram averaging.
 
 We welcome feedback from the community on the data structure, design and functionality.
@@ -15,10 +22,37 @@ We welcome feedback from the community on the data structure, design and functio
 
 ## Getting Started
 
-- [Installation](cryoet_data_portal_docsite_quick_start)
-- [Python Client API Reference](python-api)
-- [Tutorials](tutorials)
-- [napari Plugin Documentation](cryoet_data_portal_docsite_napari)
+::::{grid} 1 1 2 2
+:gutter: 2
+
+:::{grid-item-card} Get Started
+:link: quick-start
+:link-type: ref
+
+Install and start using the Python Client API
+:::
+
+:::{grid-item-card} API Reference
+:link: api-documentation
+:link-type: ref
+
+Information on the Python Client API Classes
+:::
+
+:::{grid-item-card} Tutorials
+:link: tutorials
+:link-type: doc
+
+Examples of selecting, downloading, and visualizing data from the Portal
+:::
+
+:::{grid-item-card} About CryoET
+:link: about
+:link-type: doc
+
+Learn about CryoET data and how to navigate the CryoET Data Portal
+:::
+::::
 
 ## Amazon Web Services S3 Bucket Info
 
@@ -34,23 +68,7 @@ To list the bucket contents with the S3 CLI without credentials, please use the 
 aws s3 ls --no-sign-request s3://cryoet-data-portal-public
 ```
 
-## CryoET Workflow Overview
-
-
-```{image} https://github.com/chanzuckerberg/cryoet-data-portal/assets/100323416/dc425098-d949-479f-b2f2-325f1c944784
-:alt: CZII Graphic Github
-:align: center
-```
-
-Electron Tomography workflow and the data we provide.
-
-**A.** Sample is rotated to different tilt angles and electrons pass through to produce projection images of the 3D volume
-
-**B.** We provide raw movie frames collected by a direct detector and may also provide these stacked into a tilt series of images
-
-**C.** A 3D tomographic reconstructed volume is produced by back projecting projections which are first corrected in a variety of ways (motion correction, CTF estimation, etc.)
-
-**D.** We provide the 3D volume together with any available point annotations or semantic segmentations of macromolecular complexes for each volume
+Refer to [this how-to guide](download-data) for information on downloading data from our AWS S3 bucket.
 
 ## Citing the CryoET Data Portal
 

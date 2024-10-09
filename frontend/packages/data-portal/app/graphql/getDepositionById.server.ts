@@ -60,7 +60,6 @@ const GET_DEPOSITION_BY_ID = gql(`
         annotation_software
         method_links
         method_type
-
       }
 
       annotations_aggregate {

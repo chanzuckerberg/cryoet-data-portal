@@ -40,10 +40,6 @@ export function AnnotationOverviewTable() {
       header={t('annotationOverview')}
       data={[
         {
-          label: t('annotationId'),
-          values: [annotation.id],
-        },
-        {
           label:
             annotation.authors.length === 1
               ? t('annotationAuthor')
@@ -68,7 +64,7 @@ export function AnnotationOverviewTable() {
                 renderValue: () => (
                   <Link
                     className="text-sds-color-primitive-blue-400"
-                    to={`/deposition/${annotation.deposition?.id}`}
+                    to={`/depositions/${annotation.deposition?.id}`}
                   >
                     {annotation.deposition?.title}
                   </Link>
@@ -110,6 +106,7 @@ export function AnnotationOverviewTable() {
                     />
                   </Tooltip>
                 ),
+                // TODO(bchu): Integrate with alignment.id after annotations field migrated.
                 values: [],
               },
             ]

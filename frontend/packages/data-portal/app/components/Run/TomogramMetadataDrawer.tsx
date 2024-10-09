@@ -1,3 +1,4 @@
+import { Icon } from '@czi-sds/components'
 import { useAtom } from 'jotai'
 
 import { IdPrefix } from 'app/constants/idPrefixes'
@@ -11,8 +12,10 @@ import { AccordionMetadataTable } from '../AccordionMetadataTable'
 import { AuthorLegend } from '../AuthorLegend'
 import { AuthorList } from '../AuthorList'
 import { DatabaseEntryList } from '../DatabaseEntry'
+import { I18n } from '../I18n'
 import { Link } from '../Link'
 import { MetadataDrawer } from '../MetadataDrawer'
+import { Tooltip } from '../Tooltip'
 import { IDENTITY_MATRIX_4X4, Matrix4x4 } from './Matrix4x4'
 
 export function TomogramMetadataDrawer() {
@@ -29,6 +32,10 @@ export function TomogramMetadataDrawer() {
     <MetadataDrawer
       title={getTomogramName(tomogram)}
       label={t('tomogramDetails')}
+      idInfo={{
+        label: 'tomogramId',
+        text: `${IdPrefix.Tomogram}-${tomogram.id}`,
+      }}
       disabled={tomogram === undefined}
       drawerId={MetadataDrawerId.Tomogram}
     >
@@ -72,7 +79,7 @@ export function TomogramMetadataDrawer() {
             renderValue: (value: string) => (
               <Link
                 className="text-sds-color-primitive-blue-400"
-                to={`/deposition/${tomogram.deposition?.id}`}
+                to={`/depositions/${tomogram.deposition?.id}`}
               >
                 {value}
               </Link>
@@ -80,7 +87,11 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('depositionId'),
-            values: [tomogram.deposition?.id ?? ''],
+            values: [
+              tomogram.deposition?.id !== undefined
+                ? `${IdPrefix.Dataset}-${tomogram.deposition.id}`
+                : '',
+            ],
           },
           {
             label: t('depositionDate'),
@@ -162,6 +173,19 @@ export function TomogramMetadataDrawer() {
         data={getTableData(
           {
             label: t('alignmentId'),
+            labelExtra: (
+              <Tooltip
+                tooltip={<I18n i18nKey="alignmentIdTooltip" />}
+                placement="top"
+              >
+                <Icon
+                  sdsIcon="InfoCircle"
+                  sdsSize="s"
+                  className="!fill-sds-color-primitive-gray-500"
+                  sdsType="button"
+                />
+              </Tooltip>
+            ),
             values: [
               alignment?.id != null
                 ? `${IdPrefix.Alignment}-${alignment.id}`

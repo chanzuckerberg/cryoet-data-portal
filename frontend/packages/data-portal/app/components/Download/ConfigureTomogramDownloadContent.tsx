@@ -38,8 +38,9 @@ export function ConfigureTomogramDownloadContent() {
 
   const {
     tomogramToDownload,
-    allTomogramProcessing = [],
+    allAnnotationFiles = [],
     allTomograms = [],
+    allTomogramProcessing = [],
     runId,
   } = useDownloadModalContext()
 
@@ -98,6 +99,8 @@ export function ConfigureTomogramDownloadContent() {
         <Radio
           value={DownloadConfig.Tomogram}
           label={t('downloadTomogram')}
+          disabled={allTomograms.length === 0}
+          disabledTooltip={t('noTomogramsAvailableToDownload')}
           description={t('selectASpecificTomogram')}
           onClick={setTomogramConfigWithInitialValues}
         >
@@ -109,6 +112,7 @@ export function ConfigureTomogramDownloadContent() {
                   selectedTomogram={tomogramToDownload}
                   allTomograms={allTomograms}
                   onSelectTomogramId={setTomogramId}
+                  className="max-w-[450px]"
                 />
               ) : (
                 <>
@@ -167,13 +171,19 @@ export function ConfigureTomogramDownloadContent() {
         <Radio
           value={DownloadConfig.AllAnnotations}
           label={t('downloadAllAnnotations')}
+          disabled={allAnnotationFiles.length === 0}
+          disabledTooltip={t('noAnnotationsAvailableToDownload')}
           description={t('downloadAvailableAnnotationsInSupported')}
           onClick={setAllAnnotationsConfig}
         />
       </RadioGroup>
 
       {runId && (
-        <Callout className="!w-full !mt-sds-xl" intent="info" expandable>
+        <Callout
+          className="!w-full !mt-sds-xl !mb-sds-xxs"
+          intent="info"
+          expandable
+        >
           <CalloutTitle>
             <p className="text-sds-body-xs leading-sds-body-xs">
               <I18n i18nKey="downloadAllRunData" />
@@ -197,7 +207,7 @@ export function ConfigureTomogramDownloadContent() {
 
       {multipleTomogramsEnabled && (
         <Callout intent="notice" className="!w-full !mt-0">
-          {t('annotationsDownloadedFromThePortal')}
+          <I18n i18nKey="annotationsMayRequireTransformation" />
         </Callout>
       )}
     </>

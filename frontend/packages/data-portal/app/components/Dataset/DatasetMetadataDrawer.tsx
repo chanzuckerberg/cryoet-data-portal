@@ -1,4 +1,5 @@
 import { MetadataDrawer } from 'app/components/MetadataDrawer'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
@@ -16,6 +17,7 @@ export function DatasetMetadataDrawer() {
       drawerId={MetadataDrawerId.Dataset}
       title={dataset.title}
       label={t('datasetDetails')}
+      idInfo={{ label: 'datasetId', text: `${IdPrefix.Dataset}-${dataset.id}` }}
     >
       <DatasetMetadataTable dataset={dataset} />
       <SampleAndExperimentConditionsTable dataset={dataset} />

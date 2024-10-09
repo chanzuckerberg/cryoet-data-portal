@@ -1,3 +1,4 @@
+(examples)=
 # Examples
 
 Below are code snippets for completing various tasks using the Python Client API. Have an example you'd like to share with the community? Submit a [GitHub issue](https://github.com/chanzuckerberg/cryoet-data-portal/issues) and include "Example:" in your title.

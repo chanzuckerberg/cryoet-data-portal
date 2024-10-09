@@ -110,7 +110,7 @@ export function DepositionTable() {
                     )}
                   </p>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
+                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
@@ -278,12 +278,12 @@ export function DepositionTable() {
                   <ul className="list-none flex flex-col gap-sds-xs">
                     {Object.entries(shapeTypeToI18nKey)
                       .filter(([key]) => shapeTypes.includes(key))
-                      .map((entry) => (
+                      .map(([k, v]) => (
                         <li
                           className="whitespace-nowrap overflow-x-hidden overflow-ellipsis"
-                          key={entry[0]}
+                          key={k}
                         >
-                          {t(entry[1])}
+                          {t(v)}
                         </li>
                       ))}
                   </ul>

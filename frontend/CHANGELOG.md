@@ -1,5 +1,46 @@
 # Changelog
 
+## [1.32.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.32.0...web-v1.32.1) (2024-10-08)
+
+
+### 🐞 Bug Fixes
+
+* support changed field name ([#1218](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1218)) ([c0684b8](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c0684b86e5e54a313f6533065d7e71b1718e940b))
+
+## [1.32.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.31.0...web-v1.32.0) (2024-10-03)
+
+
+### ✨ Features
+
+* Add disabled download option states ([#1197](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1197)) ([f904258](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f9042585247abf97ca6d48bc0086db4b0dba7273))
+* Misc copy fixes ([#1210](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1210)) ([2da6755](https://github.com/chanzuckerberg/cryoet-data-portal/commit/2da6755f22794b319a064eb210962f2a8e0b6fec))
+
+## [1.31.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.30.0...web-v1.31.0) (2024-10-03)
+
+
+### ✨ Features
+
+* Add portal standard badge to tomograms table and integrate alignment metadata accordion with new API ([#1179](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1179)) ([1de70a1](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1de70a1befac558934958d92d4b433e9d2f7e909))
+* Add standard tomogram badge to tomogram selector ([#1181](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1181)) ([ac4ad27](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ac4ad276d8d1f874ec640ff0f79c7c0374c443c3))
+* Add tooltip to Alignment ID field in tomogram sidebar ([#1196](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1196)) ([fad5207](https://github.com/chanzuckerberg/cryoet-data-portal/commit/fad5207e6c9f4244f6116fa5b083244f8835c56e))
+* Integrate more V2 API queries ([#1174](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1174)) ([92f80a7](https://github.com/chanzuckerberg/cryoet-data-portal/commit/92f80a73c6dcaa2ab875eef8ac67bff9814a788c))
+* Migrate and start using tomograms query in UI ([#1169](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1169)) ([d21ffd9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d21ffd930424c6244605d36b7a1cfab86559cff3))
+* Undo changes for transforming annotations and add new callout for mismatched alignments ([#1191](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1191)) ([ea1598d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ea1598d3cafc4a72e0e2eddb319b1a5fdfe786ec))
+* update annotation row name ([#1163](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1163)) ([6164201](https://github.com/chanzuckerberg/cryoet-data-portal/commit/61642016fd90f8b64f6a0d94d7885be07f5bb871))
+* Update to generic annotation transformation callout during download ([#1186](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1186)) ([5597524](https://github.com/chanzuckerberg/cryoet-data-portal/commit/55975247a151c82114392fcab8c57b3abcb674ff))
+
+
+### 🐞 Bug Fixes
+
+* address misc UI/UX bugs ([#1192](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1192)) ([178737d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/178737d4e8fa773b8dc02c3fc6c1a0d186e08e88))
+* change incorrect deposition links ([#1133](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1133)) ([dc642e5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/dc642e5010e0723afe475ec61234f218c92c4803))
+* Stop querying depositionTitle ([#1187](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1187)) ([07a08d4](https://github.com/chanzuckerberg/cryoet-data-portal/commit/07a08d43e409c0de905286b172bd5f0580e9d5f6))
+
+
+### 🧹 Miscellaneous Chores
+
+* prefix IDs across the portal ([#1178](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1178)) ([1732fb2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1732fb22929b6106a14e4c18d061bc40f5eca33b))
+
 ## [1.30.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.29.0...web-v1.30.0) (2024-09-23)
 
 

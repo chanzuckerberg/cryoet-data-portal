@@ -2,6 +2,7 @@ import { TiltSeriesKeys, TiltSeriesTable } from 'app/components/TiltSeriesTable'
 import { useRunById } from 'app/hooks/useRunById'
 
 const SELECT_FIELDS = [
+  TiltSeriesKeys.Id,
   TiltSeriesKeys.MicroscopeManufacturer,
   TiltSeriesKeys.MicroscopeModel,
   TiltSeriesKeys.PhasePlate,

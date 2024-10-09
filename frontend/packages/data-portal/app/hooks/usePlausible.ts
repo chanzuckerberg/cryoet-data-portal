@@ -28,6 +28,7 @@ export enum Events {
 
 export type PlausibleDownloadModalPayload<T = object> = T & {
   annotationId?: number
+  annotationName?: string
   tomogramId?: number
   referenceTomogramId?: number
   config?: DownloadConfig

@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'react'
 
+import { GetRunByIdQuery } from 'app/__generated__/graphql'
 import { BaseAnnotation } from 'app/state/annotation'
 import { TomogramV2 } from 'app/types/gqlResponseTypes'
 
@@ -9,8 +10,9 @@ export interface DownloadModalContextValue {
   annotationToDownload?: BaseAnnotation
   tomogramToDownload?: TomogramV2
 
-  allTomogramProcessing?: string[]
+  allAnnotationFiles?: GetRunByIdQuery['annotation_files']
   allTomograms?: TomogramV2[]
+  allTomogramProcessing?: string[]
   datasetId?: number
   datasetTitle?: string
   fileSize?: number

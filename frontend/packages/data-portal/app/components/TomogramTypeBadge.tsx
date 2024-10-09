@@ -6,11 +6,13 @@ import { Tooltip } from './Tooltip'
 
 export interface TomogramTypeBadgeProps {
   type: 'standard' | 'author'
+  size?: 'default' | 'small'
   showTooltip?: boolean
 }
 
 export function TomogramTypeBadge({
   type,
+  size = 'default',
   showTooltip,
 }: TomogramTypeBadgeProps) {
   const { t } = useI18n()
@@ -18,7 +20,9 @@ export function TomogramTypeBadge({
   const badge = (
     <div
       className={cns(
-        'h-[20px] px-sds-xs py-sds-xxxs !text-sds-body-xxxs text-[#002660] leading-sds-body-xxxs rounded inline-flex bg-[#e9f1ff]',
+        'inline-flex items-center px-sds-xs py-sds-xxxs',
+        '!text-sds-body-xxxs text-[#002660] font-normal leading-sds-body-xxxs rounded bg-[#e9f1ff]',
+        size === 'small' ? 'h-[16px]' : 'h-[20px]',
         showTooltip && 'cursor-pointer',
       )}
     >

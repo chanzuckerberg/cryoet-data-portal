@@ -3,6 +3,7 @@ import { Button, Icon } from '@czi-sds/components'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { DatasetOverview } from 'app/components/Dataset/DatasetOverview'
 import { PageHeader } from 'app/components/PageHeader'
+import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
@@ -38,7 +39,7 @@ export function DatasetHeader() {
       metadata={[
         {
           key: t('datasetId'),
-          value: String(dataset.id),
+          value: `${IdPrefix.Dataset}-${dataset.id}`,
         },
       ]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Dataset)}

@@ -50,7 +50,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function BrowseDepositionsPage() {
-  // TODO: hook up to backend when available
   const { depositionCount, filteredDepositionCount } = useDepositions()
   const { reset } = useFilter()
   const { t } = useI18n()

@@ -46,7 +46,12 @@ export function TomogramSelector({
       options={allTomograms.map((tomogram) => ({
         key: tomogram.id.toString(),
         value: tomogram.id.toString(),
-        component: <TomogramSelectorOption tomogram={tomogram} />,
+        component: (
+          <TomogramSelectorOption
+            tomogram={tomogram}
+            isSelected={tomogram.id === selectedTomogram?.id}
+          />
+        ),
       }))}
       onChange={onSelectTomogramId}
       showActiveValue={false}
