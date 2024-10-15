@@ -23,6 +23,9 @@ import { AuthorList } from '../AuthorList'
 import { KeyPhoto } from '../KeyPhoto'
 import { TomogramTypeBadge } from '../TomogramTypeBadge'
 import { ViewTomogramButton } from '../ViewTomogramButton'
+import { cnsNoMerge } from 'app/utils/cns'
+import { Tooltip } from '../Tooltip'
+import { I18n } from '../I18n'
 
 export function TomogramsTable() {
   const { t } = useI18n()
@@ -111,11 +114,24 @@ export function TomogramsTable() {
             {t('alignmentId')}
           </CellHeader>
         ),
-        cell: ({ getValue }) => (
+        cell: ({ getValue, row: { original: tomogram } }) => (
           <TableCell width={TomogramTableWidths.alignment}>
-            <div>
+            <p>
               {IdPrefix.Alignment}-{getValue()}
-            </div>
+            </p>
+
+            {tomogram.isPortalStandard && (
+              <Tooltip tooltip={<I18n i18nKey="alignmentIdCanonicalTooltip" />}>
+                <p
+                  className={cnsNoMerge(
+                    'text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-secondary',
+                    'underline underline-offset-4 decoration-dashed',
+                  )}
+                >
+                  {t('canonical')}
+                </p>
+              </Tooltip>
+            )}
           </TableCell>
         ),
       }),
