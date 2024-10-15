@@ -17,10 +17,12 @@ import { Link } from '../Link'
 import { MetadataDrawer } from '../MetadataDrawer'
 import { Tooltip } from '../Tooltip'
 import { IDENTITY_MATRIX_4X4, Matrix4x4 } from './Matrix4x4'
+import { useRunById } from 'app/hooks/useRunById'
 
 export function TomogramMetadataDrawer() {
   const { t } = useI18n()
   const [tomogram] = useAtom(metadataDrawerTomogramAtom)
+  const { run } = useRunById()
 
   if (tomogram === undefined) {
     return null
@@ -59,7 +61,7 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('publications'),
-            values: [], // TODO
+            values: [run.dataset.dataset_publications ?? ''],
             renderValue: (value: string) => (
               <DatabaseEntryList entries={value} />
             ),
