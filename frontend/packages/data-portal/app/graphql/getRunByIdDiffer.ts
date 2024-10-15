@@ -3,6 +3,7 @@ import { diff } from 'deep-object-diff'
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
 import {
   Annotation_File_Shape_Type_Enum,
+  Annotation_Method_Link_Type_Enum,
   Annotation_Method_Type_Enum,
   Fiducial_Alignment_Status_Enum,
   GetRunByIdV2Query,
@@ -202,7 +203,9 @@ export function logIfHasDiff(
         id: file.annotation.id,
         isCuratorRecommended: file.annotation.is_curator_recommended,
         lastModifiedDate: file.annotation.last_modified_date!,
-        methodLinks: file.annotation.method_links as string,
+        methodLinks: {
+          edges: [],
+        },
         methodType: file.annotation.method_type as Annotation_Method_Type_Enum,
         objectCount: file.annotation.object_count,
         objectDescription: file.annotation.object_description,
@@ -241,7 +244,7 @@ export function logIfHasDiff(
       httpsMrcFile: tomogram.https_mrc_scale0,
       id: tomogram.id,
       isPortalStandard: false,
-      // isAuthorSubmitted: tomogram.is_canonical, TODO(bchu): Uncomment when populated in V2.
+      isAuthorSubmitted: tomogram.is_canonical,
       keyPhotoThumbnailUrl: tomogram.key_photo_thumbnail_url,
       keyPhotoUrl: tomogram.key_photo_url,
       name: tomogram.name,

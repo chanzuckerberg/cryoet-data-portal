@@ -295,7 +295,7 @@ export async function getAnnotationTestData(
 export async function getTomogramTestData(
   client: ApolloClient<NormalizedCacheObject>,
 ) {
-  const { data } = await getRunByIdV2(client, +E2E_CONFIG.runId)
+  const { data } = await getRunByIdV2(client, +E2E_CONFIG.runId, 1)
 
   const tomogram = data.tomograms[0]
 
