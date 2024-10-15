@@ -1,11 +1,7 @@
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
-import {
-  GetRunByIdV2Query,
-  Tomogram_Processing_Enum,
-  Tomogram_Reconstruction_Method_Enum,
-} from 'app/__generated_v2__/graphql'
+import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { isNotNullish } from 'app/utils/nullish'
 
 export function useRunById() {
@@ -18,7 +14,7 @@ export function useRunById() {
 
   const annotationFiles = v1.annotation_files
 
-  const { tomograms } = v2
+  const { tomograms, annotationShapes } = v2
 
   // Sort by isPortalStandard, then isAuthorSubmitted, then by id if all else is equal
   // TODO we should move sort to the backend
@@ -92,5 +88,6 @@ export function useRunById() {
     tomogramsCount,
     alignmentsCount,
     deposition,
+    annotationShapes,
   }
 }

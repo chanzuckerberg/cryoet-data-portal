@@ -212,6 +212,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         annotationFiles {
           edges {
             node {
+              alignmentId
               format
               httpsPath
               s3Path

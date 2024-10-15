@@ -132,6 +132,14 @@ export function DownloadOptionsContent() {
           value={tomogramProcessing}
         />
       )}
+      {multipleTomogramsEnabled &&
+        annotationToDownload &&
+        tomogramToDownload?.alignment && (
+          <ModalSubtitle
+            label={t('alignmentId')}
+            value={tomogramToDownload.alignment.id}
+          />
+        )}
       {fileFormat && (
         <ModalSubtitle
           label={t('fileFormat')}
