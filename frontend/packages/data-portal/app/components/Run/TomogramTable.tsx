@@ -159,7 +159,9 @@ export function TomogramsTable() {
         cell: ({ row: { original } }) => (
           <TableCell width={TomogramTableWidths.actions}>
             <div className="flex flex-col gap-sds-xs items-start">
-              {original.neuroglancerConfig != null && ( // TODO(bchu): Check it's either isPortalStandard or isAuthorSubmitted
+              {/* TODO Use only `isVisualizationDefault` when data is available */}
+              {(original.isVisualizationDefault ??
+                original.isAuthorSubmitted) && (
                 <ViewTomogramButton
                   tomogramId={original.id.toString()}
                   neuroglancerConfig={original.neuroglancerConfig}
