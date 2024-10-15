@@ -309,7 +309,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         deposition {
           id
           depositionDate
-          # title # TODO(bchu): Uncomment when API field name change is in prod.
+          title
         }
         tomogramVoxelSpacing {
           id

@@ -73,9 +73,7 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('depositionName'),
-            // TODO(bchu): Uncomment after API field name change is in prod.
-            // values: [tomogram.deposition?.title ?? ''],
-            values: [],
+            values: [tomogram.deposition?.title ?? ''],
             renderValue: (value: string) => (
               <Link
                 className="text-sds-color-primitive-blue-400"
