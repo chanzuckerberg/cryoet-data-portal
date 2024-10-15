@@ -22,6 +22,7 @@ import { i18n } from 'app/i18n'
 import { TableDataValue } from 'app/types/table'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
+import { match, P } from 'ts-pattern'
 
 interface FileSummaryData {
   key: string
@@ -51,6 +52,7 @@ export function RunHeader() {
     annotationFilesAggregates,
     tomogramsCount,
     alignmentsCount,
+    tomograms,
   } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
@@ -58,7 +60,19 @@ export function RunHeader() {
   const tiltSeries = run.tiltseries[0]
 
   const tomogram = run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
-  const keyPhotoURL = tomogram?.key_photo_url ?? undefined
+
+  // Use author submitted tomogram if available, otherwise default to the first one
+  const tomogramV2 =
+    tomograms.find(
+      (tomogram) =>
+        tomogram.isVisualizationDefault ?? tomogram.isAuthorSubmitted,
+    ) ?? tomograms.at(0)
+
+  const keyPhotoURL =
+    (multipleTomogramsEnabled
+      ? tomogramV2?.keyPhotoUrl
+      : tomogram?.key_photo_url) ?? undefined
+
   const neuroglancerConfig = tomogram?.neuroglancer_config
 
   const { openRunDownloadModal } = useDownloadModalQueryParamState()
@@ -72,7 +86,20 @@ export function RunHeader() {
       actions={
         <div className="flex items-center gap-2.5">
           <ViewTomogramButton
-            tomogramId={tomogram?.id?.toString()}
+            tomogramId={match({
+              multipleTomogramsEnabled,
+              tomogramV2Id: tomogramV2?.id,
+              tomogramV1Id: tomogram?.id,
+            })
+              .with(
+                { multipleTomogramsEnabled: true, tomogramV2Id: P.number },
+                ({ tomogramV2Id }) => tomogramV2Id.toString(),
+              )
+              .with(
+                { multipleTomogramsEnabled: false, tomogramV1Id: P.number },
+                ({ tomogramV1Id }) => tomogramV1Id.toString(),
+              )
+              .otherwise(() => undefined)}
             neuroglancerConfig={neuroglancerConfig}
             buttonProps={{
               sdsStyle: 'rounded',
