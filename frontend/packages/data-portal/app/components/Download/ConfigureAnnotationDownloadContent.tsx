@@ -5,9 +5,12 @@ import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQuery
 
 import { AnnotationAlignmentCallout } from './AnnotationAlignmentCallout'
 import { FileFormatDropdown } from './FileFormatDropdown'
+import { useRunById } from 'app/hooks/useRunById'
+import { AnnotationFileEdge } from 'app/__generated_v2__/graphql'
+import { DeepPartial } from 'utility-types'
 
 export function ConfigureAnnotationDownloadContent() {
-  const { objectShapeType } = useDownloadModalQueryParamState()
+  const { objectShapeType, fileFormat } = useDownloadModalQueryParamState()
   const { annotationToDownload, allTomograms } = useDownloadModalContext()
 
   const fileFormats = useMemo<string[]>(
@@ -18,15 +21,30 @@ export function ConfigureAnnotationDownloadContent() {
     [annotationToDownload?.files, objectShapeType],
   )
 
+  const { annotationShapes } = useRunById()
+
+  const isMatchingFormat = (file: DeepPartial<AnnotationFileEdge>) =>
+    file?.node?.format === fileFormat
+
+  const alignmentId =
+    annotationShapes
+      .find(
+        (shape) =>
+          shape.annotation?.id === annotationToDownload?.id &&
+          shape.shapeType === objectShapeType &&
+          shape.annotationFiles.edges.some(isMatchingFormat),
+      )
+      ?.annotationFiles.edges.find(isMatchingFormat)?.node.alignmentId ?? 0
+
   return (
     <>
       <FileFormatDropdown className="pt-sds-l" fileFormats={fileFormats} />
       <AnnotationAlignmentCallout
-        // TODO(bchu): Use alignment ID when annotation query is migrated.
-        alignmentId={0}
+        alignmentId={alignmentId}
         initialState="open"
-        // TODO(bchu): Filter by tomograms that do not have the same annotation ID.
-        misalignedTomograms={allTomograms ?? []}
+        misalignedTomograms={(allTomograms ?? []).filter(
+          (tomogram) => tomogram.alignment?.id !== alignmentId,
+        )}
       />
     </>
   )

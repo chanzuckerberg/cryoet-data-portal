@@ -176,13 +176,13 @@ export function DownloadOptionsContent() {
 
       <DownloadTabContent />
 
-      {multipleTomogramsEnabled && annotationToDownload !== undefined ? (
+      {multipleTomogramsEnabled &&
+      annotationToDownload !== undefined &&
+      tomogramToDownload?.alignment ? (
         <AnnotationAlignmentCallout
-          // TODO(bchu): Use alignment ID when annotation query is migrated.
-          alignmentId={0}
+          alignmentId={tomogramToDownload.alignment.id}
           initialState="closed"
-          // TODO(bchu): Filter by tomograms that do not have the same annotation ID.
-          misalignedTomograms={allTomograms ?? []}
+          misalignedTomograms={[]}
         />
       ) : (
         <Callout intent="notice" className="!w-full !mt-sds-xl">
