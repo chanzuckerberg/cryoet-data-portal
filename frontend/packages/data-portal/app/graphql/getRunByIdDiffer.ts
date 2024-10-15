@@ -3,7 +3,6 @@ import { diff } from 'deep-object-diff'
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
 import {
   Annotation_File_Shape_Type_Enum,
-  Annotation_Method_Link_Type_Enum,
   Annotation_Method_Type_Enum,
   Fiducial_Alignment_Status_Enum,
   GetRunByIdV2Query,
