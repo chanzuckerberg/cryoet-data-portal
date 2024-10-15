@@ -72,8 +72,13 @@ export function TomogramsTable() {
             </div>
             <div className="flex items-center flex-wrap gap-sds-xs text-sds-body-xxs">
               {`${t('tomogramId')}: ${IdPrefix.Tomogram}-${original.id}`}
+
               {original.isPortalStandard && (
                 <TomogramTypeBadge type="standard" showTooltip />
+              )}
+
+              {original.isAuthorSubmitted && (
+                <TomogramTypeBadge type="author" showTooltip />
               )}
             </div>
             <div className=" text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs">
