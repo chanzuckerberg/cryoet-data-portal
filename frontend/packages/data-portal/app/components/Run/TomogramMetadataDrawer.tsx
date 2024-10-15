@@ -4,6 +4,7 @@ import { useAtom } from 'jotai'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
+import { useRunById } from 'app/hooks/useRunById'
 import { metadataDrawerTomogramAtom } from 'app/state/metadataDrawerTomogram'
 import { getTableData } from 'app/utils/table'
 import { getTomogramName, isFiducial } from 'app/utils/tomograms'
@@ -17,7 +18,6 @@ import { Link } from '../Link'
 import { MetadataDrawer } from '../MetadataDrawer'
 import { Tooltip } from '../Tooltip'
 import { IDENTITY_MATRIX_4X4, Matrix4x4 } from './Matrix4x4'
-import { useRunById } from 'app/hooks/useRunById'
 
 export function TomogramMetadataDrawer() {
   const { t } = useI18n()

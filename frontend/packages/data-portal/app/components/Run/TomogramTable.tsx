@@ -17,15 +17,15 @@ import {
 import { useRunById } from 'app/hooks/useRunById'
 import { metadataDrawerTomogramAtom } from 'app/state/metadataDrawerTomogram'
 import { TomogramV2 } from 'app/types/gqlResponseTypes'
+import { cnsNoMerge } from 'app/utils/cns'
 import { getTomogramName } from 'app/utils/tomograms'
 
 import { AuthorList } from '../AuthorList'
+import { I18n } from '../I18n'
 import { KeyPhoto } from '../KeyPhoto'
 import { TomogramTypeBadge } from '../TomogramTypeBadge'
-import { ViewTomogramButton } from '../ViewTomogramButton'
-import { cnsNoMerge } from 'app/utils/cns'
 import { Tooltip } from '../Tooltip'
-import { I18n } from '../I18n'
+import { ViewTomogramButton } from '../ViewTomogramButton'
 
 export function TomogramsTable() {
   const { t } = useI18n()

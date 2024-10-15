@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
+import { DeepPartial } from 'utility-types'
 
+import { AnnotationFileEdge } from 'app/__generated_v2__/graphql'
 import { useDownloadModalContext } from 'app/context/DownloadModal.context'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
+import { useRunById } from 'app/hooks/useRunById'
 
 import { AnnotationAlignmentCallout } from './AnnotationAlignmentCallout'
 import { FileFormatDropdown } from './FileFormatDropdown'
-import { useRunById } from 'app/hooks/useRunById'
-import { AnnotationFileEdge } from 'app/__generated_v2__/graphql'
-import { DeepPartial } from 'utility-types'
 
 export function ConfigureAnnotationDownloadContent() {
   const { objectShapeType, fileFormat } = useDownloadModalQueryParamState()

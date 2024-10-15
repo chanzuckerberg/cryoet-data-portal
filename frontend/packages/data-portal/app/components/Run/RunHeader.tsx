@@ -1,4 +1,5 @@
 import { Button, Icon } from '@czi-sds/components'
+import { match, P } from 'ts-pattern'
 
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { CollapsibleList } from 'app/components/CollapsibleList'
@@ -22,7 +23,6 @@ import { i18n } from 'app/i18n'
 import { TableDataValue } from 'app/types/table'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
-import { match, P } from 'ts-pattern'
 
 interface FileSummaryData {
   key: string
@@ -64,8 +64,9 @@ export function RunHeader() {
   // Use author submitted tomogram if available, otherwise default to the first one
   const tomogramV2 =
     tomograms.find(
-      (tomogram) =>
-        tomogram.isVisualizationDefault ?? tomogram.isAuthorSubmitted,
+      (currentTomogram) =>
+        currentTomogram.isVisualizationDefault ??
+        currentTomogram.isAuthorSubmitted,
     ) ?? tomograms.at(0)
 
   const keyPhotoURL =
