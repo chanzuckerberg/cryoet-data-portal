@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.33.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.32.1...web-v1.33.0) (2024-10-16)
+
+
+### ✨ Features
+
+* multiple tomogram use api v2 ([#1234](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1234)) ([858d815](https://github.com/chanzuckerberg/cryoet-data-portal/commit/858d815beebe83adea8d53549c5960190c2d637f))
+
 ## [1.32.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.32.0...web-v1.32.1) (2024-10-08)
 
 
