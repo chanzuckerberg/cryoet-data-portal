@@ -6,8 +6,8 @@ import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getNeuroglancerUrl } from 'app/utils/url'
 
-import { Tooltip } from './Tooltip'
 import { Link } from './Link'
+import { Tooltip } from './Tooltip'
 
 export interface ViewTomogramButtonProps {
   tomogramId?: string
