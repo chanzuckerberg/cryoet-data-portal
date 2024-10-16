@@ -13,12 +13,19 @@ export type VariantLinkProps = LinkProps & {
 }
 
 function BaseLink(
-  { to, variant, className, ...props }: VariantLinkProps,
+  {
+    href,
+    to,
+    variant,
+    className,
+    ...props
+  }: VariantLinkProps & { href?: string },
   ref: ForwardedRef<HTMLAnchorElement>,
 ) {
   let newTabProps: Partial<LinkProps> = {}
+  const url = href ?? to
 
-  if (typeof to === 'string' && isExternalUrl(to)) {
+  if (typeof url === 'string' && isExternalUrl(url)) {
     // For new tabs, add rel=noreferrer for security:
     // https://web.dev/external-anchors-use-rel-noopener/#how-to-improve-your-site's-performance-and-prevent-security-vulnerabilities
     newTabProps = {
@@ -30,7 +37,7 @@ function BaseLink(
   return (
     <RemixLink
       ref={ref}
-      to={to}
+      to={url}
       className={cnsNoMerge(
         variant === 'dashed-bordered' && DASHED_BORDERED_CLASSES,
         variant === 'dashed-underlined' && DASHED_UNDERLINED_CLASSES,

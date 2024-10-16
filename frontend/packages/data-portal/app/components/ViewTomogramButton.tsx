@@ -7,6 +7,7 @@ import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getNeuroglancerUrl } from 'app/utils/url'
 
 import { Tooltip } from './Tooltip'
+import { Link } from './Link'
 
 export interface ViewTomogramButtonProps {
   tomogramId?: string
@@ -70,6 +71,7 @@ export function ViewTomogramButton({
         <Button
           href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
           disabled={!enabled}
+          LinkComponent={Link}
           {...buttonProps}
         >
           <span>{t('viewTomogram')}</span>
