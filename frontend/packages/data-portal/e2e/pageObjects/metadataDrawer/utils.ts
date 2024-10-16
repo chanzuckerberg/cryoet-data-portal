@@ -298,7 +298,7 @@ export async function getTomogramTestData(
   const { data } = await getRunByIdV2(client, +E2E_CONFIG.runId, 1)
 
   const tomogram = data.tomograms[0]
-  const dataset = data.runs[0].dataset
+  const { dataset } = data.runs[0]
 
   return {
     title: startCase(
