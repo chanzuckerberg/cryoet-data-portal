@@ -37,24 +37,30 @@ export function AnnotationAlignmentCallout({
         {t('alignmentId')}
       </p>
       <CopyBox content={alignmentId} />
-      <p className="text-sds-body-xs leading-sds-body-xs mt-[10px]">
-        <I18n i18nKey="thisAnnotationRequiresTransformation" />
-      </p>
-      <div className="bg-[#ffdb97] flex flex-col gap-[12px] mt-sds-xxs p-sds-s rounded-[2px]">
-        {misalignedTomograms?.map((tomogram) => (
-          <div className="text-sds-body-xxs !leading-[18px]">
-            <div className="font-semibold">{getTomogramName(tomogram)}</div>
-            <div>
-              Tomogram ID: {IdPrefix.Tomogram}-{tomogram.id}
-            </div>
-            {tomogram.alignment != null && (
-              <div>
-                Alignment ID: {IdPrefix.Alignment}-{tomogram.alignment.id}
+
+      {misalignedTomograms.length > 0 && (
+        <>
+          <p className="text-sds-body-xs leading-sds-body-xs mt-[10px]">
+            <I18n i18nKey="thisAnnotationRequiresTransformation" />
+          </p>
+
+          <div className="bg-[#ffdb97] flex flex-col gap-[12px] mt-sds-xxs p-sds-s rounded-[2px]">
+            {misalignedTomograms.map((tomogram) => (
+              <div className="text-sds-body-xxs !leading-[18px]">
+                <div className="font-semibold">{getTomogramName(tomogram)}</div>
+                <div>
+                  Tomogram ID: {IdPrefix.Tomogram}-{tomogram.id}
+                </div>
+                {tomogram.alignment != null && (
+                  <div>
+                    Alignment ID: {IdPrefix.Alignment}-{tomogram.alignment.id}
+                  </div>
+                )}
               </div>
-            )}
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </Callout>
   )
 }

@@ -14,7 +14,31 @@ export function useRunById() {
 
   const annotationFiles = v1.annotation_files
 
-  const { tomograms } = v2
+  const { tomograms, annotationShapes } = v2
+
+  // Sort by isPortalStandard, then isAuthorSubmitted, then by id if all else is equal
+  // TODO we should move sort to the backend
+  tomograms.sort((t1, t2) => {
+    if (t1.isPortalStandard || t2.isPortalStandard) {
+      if (!t2.isPortalStandard) {
+        return -1
+      }
+
+      if (!t1.isPortalStandard) {
+        return 1
+      }
+    } else if (t1.isAuthorSubmitted || t2.isAuthorSubmitted) {
+      if (!t2.isAuthorSubmitted) {
+        return -1
+      }
+
+      if (!t1.isAuthorSubmitted) {
+        return 1
+      }
+    }
+
+    return t2.id - t1.id
+  })
 
   const processingMethods = v1.tomograms_for_distinct_processing_methods.map(
     (tomogram) => tomogram.processing,
@@ -64,5 +88,6 @@ export function useRunById() {
     tomogramsCount,
     alignmentsCount,
     deposition,
+    annotationShapes,
   }
 }

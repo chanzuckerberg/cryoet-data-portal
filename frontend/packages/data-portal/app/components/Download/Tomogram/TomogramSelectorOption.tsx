@@ -25,6 +25,9 @@ export function TomogramSelectorOption({
         {tomogram.isPortalStandard && (
           <TomogramTypeBadge type="standard" size="small" />
         )}
+        {tomogram.isAuthorSubmitted && (
+          <TomogramTypeBadge type="author" size="small" />
+        )}
       </div>
       <div className="text-sds-body-xxs text-sds-color-primitive-gray-500 font-normal">
         {t('tomogramSampling')}:{' '}

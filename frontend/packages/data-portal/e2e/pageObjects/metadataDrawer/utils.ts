@@ -11,6 +11,7 @@ import {
   Tiltseries,
 } from 'app/__generated__/graphql'
 import {
+  Dataset,
   Fiducial_Alignment_Status_Enum,
   Tomogram,
 } from 'app/__generated_v2__/graphql'
@@ -172,14 +173,15 @@ function getAnnotationTestMetdata(
 
 function getTomogramDrawerTestMetadata(
   tomogram: DeepPartial<Tomogram>,
+  dataset: DeepPartial<Dataset> | null | undefined,
 ): DrawerTestMetadata {
   return {
     authors: tomogram.authors!.edges!.map((edge) => edge.node!.name),
-    publications: '--',
+    publications:
+      dataset?.datasetPublications?.replaceAll('doi:', 'DOI:').split(', ') ??
+      '--',
     relatedDatabases: '--',
-    // TODO(bchu): Uncomment when API name change is in prod.
-    // depositionName: tomogram.deposition?.title ?? '--',
-    depositionName: '--',
+    depositionName: tomogram.deposition?.title ?? '--',
     depositionId: tomogram.deposition?.id ?? '--',
     depositionDate: tomogram.deposition?.depositionDate ?? '--',
     releaseDate: '--',
@@ -295,15 +297,16 @@ export async function getAnnotationTestData(
 export async function getTomogramTestData(
   client: ApolloClient<NormalizedCacheObject>,
 ) {
-  const { data } = await getRunByIdV2(client, +E2E_CONFIG.runId)
+  const { data } = await getRunByIdV2(client, +E2E_CONFIG.runId, 1)
 
   const tomogram = data.tomograms[0]
+  const { dataset } = data.runs[0]
 
   return {
     title: startCase(
       `${tomogram.id} ${tomogram.reconstructionMethod} ${tomogram.processing}`,
     ),
-    metadata: getTomogramDrawerTestMetadata(tomogram),
+    metadata: getTomogramDrawerTestMetadata(tomogram, dataset),
   }
 }
 // #endregion Data Getters

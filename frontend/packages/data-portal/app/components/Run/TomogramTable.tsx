@@ -17,11 +17,14 @@ import {
 import { useRunById } from 'app/hooks/useRunById'
 import { metadataDrawerTomogramAtom } from 'app/state/metadataDrawerTomogram'
 import { TomogramV2 } from 'app/types/gqlResponseTypes'
+import { cnsNoMerge } from 'app/utils/cns'
 import { getTomogramName } from 'app/utils/tomograms'
 
 import { AuthorList } from '../AuthorList'
+import { I18n } from '../I18n'
 import { KeyPhoto } from '../KeyPhoto'
 import { TomogramTypeBadge } from '../TomogramTypeBadge'
+import { Tooltip } from '../Tooltip'
 import { ViewTomogramButton } from '../ViewTomogramButton'
 
 export function TomogramsTable() {
@@ -72,8 +75,13 @@ export function TomogramsTable() {
             </div>
             <div className="flex items-center flex-wrap gap-sds-xs text-sds-body-xxs">
               {`${t('tomogramId')}: ${IdPrefix.Tomogram}-${original.id}`}
+
               {original.isPortalStandard && (
                 <TomogramTypeBadge type="standard" showTooltip />
+              )}
+
+              {original.isAuthorSubmitted && (
+                <TomogramTypeBadge type="author" showTooltip />
               )}
             </div>
             <div className=" text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs">
@@ -106,11 +114,24 @@ export function TomogramsTable() {
             {t('alignmentId')}
           </CellHeader>
         ),
-        cell: ({ getValue }) => (
+        cell: ({ getValue, row: { original: tomogram } }) => (
           <TableCell width={TomogramTableWidths.alignment}>
-            <div>
+            <p>
               {IdPrefix.Alignment}-{getValue()}
-            </div>
+            </p>
+
+            {tomogram.isPortalStandard && (
+              <Tooltip tooltip={<I18n i18nKey="alignmentIdCanonicalTooltip" />}>
+                <p
+                  className={cnsNoMerge(
+                    'text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-secondary',
+                    'underline underline-offset-4 decoration-dashed',
+                  )}
+                >
+                  {t('canonical')}
+                </p>
+              </Tooltip>
+            )}
           </TableCell>
         ),
       }),
@@ -159,7 +180,9 @@ export function TomogramsTable() {
         cell: ({ row: { original } }) => (
           <TableCell width={TomogramTableWidths.actions}>
             <div className="flex flex-col gap-sds-xs items-start">
-              {original.neuroglancerConfig != null && ( // TODO(bchu): Check it's either isPortalStandard or isAuthorSubmitted
+              {/* TODO Use only `isVisualizationDefault` when data is available */}
+              {(original.isVisualizationDefault ??
+                original.isAuthorSubmitted) && (
                 <ViewTomogramButton
                   tomogramId={original.id.toString()}
                   neuroglancerConfig={original.neuroglancerConfig}
