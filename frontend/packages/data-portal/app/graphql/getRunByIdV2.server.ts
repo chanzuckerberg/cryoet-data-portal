@@ -73,7 +73,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
           organismName
           organismTaxid
           otherSetup
-          # publications # TODO(bchu): Change to new name.
+          datasetPublications
           relatedDatabaseEntries
           relatedDatabaseEntries
           releaseDate
