@@ -2,6 +2,8 @@ import { diff } from 'deep-object-diff'
 
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
 import {
+  Annotation_File_Shape_Type_Enum,
+  Annotation_Method_Type_Enum,
   Fiducial_Alignment_Status_Enum,
   GetRunByIdV2Query,
   Sample_Type_Enum,
@@ -21,6 +23,12 @@ export function logIfHasDiff(
   v2 = structuredClone(v2)
   // There are no alignments in V1.
   delete v2.alignmentsAggregate.aggregate
+  // Sort annotation files for consistency.
+  for (const annotationShape of v2.annotationShapes) {
+    annotationShape.annotationFiles.edges.sort((edge) =>
+      edge.node.format.localeCompare(edge.node.format),
+    )
+  }
   // Tomogram deposition relations in V1 are incomplete.
   for (const tomogram of v2.tomograms) {
     // There are no alignments in V1.
@@ -169,6 +177,65 @@ export function logIfHasDiff(
       },
     })),
     alignmentsAggregate: {},
+    annotationShapes: v1.annotation_files.map((file) => ({
+      shapeType: file.shape_type as Annotation_File_Shape_Type_Enum,
+      annotationFiles: {
+        edges: file.annotation.files
+          .map((nestedFile) => ({
+            node: {
+              format: nestedFile.format,
+              httpsPath: nestedFile.https_path,
+              s3Path: nestedFile.s3_path,
+            },
+          }))
+          .sort((a, b) => a.node.format.localeCompare(b.node.format)),
+      },
+      annotation: {
+        annotationMethod: file.annotation.annotation_method,
+        annotationPublication: file.annotation.annotation_publication,
+        annotationSoftware: file.annotation.annotation_software,
+        confidencePrecision: file.annotation.confidence_precision,
+        confidenceRecall: file.annotation.confidence_recall,
+        depositionDate: file.annotation.deposition_date,
+        groundTruthStatus: file.annotation.ground_truth_status,
+        groundTruthUsed: file.annotation.ground_truth_used,
+        id: file.annotation.id,
+        isCuratorRecommended: file.annotation.is_curator_recommended,
+        lastModifiedDate: file.annotation.last_modified_date!,
+        methodLinks: {
+          edges: [],
+        },
+        methodType: file.annotation.method_type as Annotation_Method_Type_Enum,
+        objectCount: file.annotation.object_count,
+        objectDescription: file.annotation.object_description,
+        objectId: file.annotation.object_id,
+        objectName: file.annotation.object_name,
+        objectState: file.annotation.object_state,
+        releaseDate: file.annotation.release_date,
+        authors: {
+          edges: file.annotation.authors.map((author) => ({
+            node: {
+              primaryAuthorStatus: author.primary_author_status,
+              correspondingAuthorStatus: author.corresponding_author_status,
+              name: author.name,
+              email: author.email,
+              orcid: author.orcid,
+            },
+          })),
+        },
+        authorsAggregate: {
+          aggregate: [
+            {
+              count: file.annotation.authors_aggregate.aggregate?.count,
+            },
+          ],
+        },
+        deposition: {
+          id: file.annotation.deposition!.id ?? 0,
+          title: file.annotation.deposition!.title,
+        },
+      },
+    })),
     tomograms: v1.tomograms.map((tomogram) => ({
       ctfCorrected: tomogram.ctf_corrected,
       fiducialAlignmentStatus:
@@ -176,7 +243,7 @@ export function logIfHasDiff(
       httpsMrcFile: tomogram.https_mrc_scale0,
       id: tomogram.id,
       isPortalStandard: false,
-      // isAuthorSubmitted: tomogram.is_canonical, TODO(bchu): Uncomment when populated in V2.
+      isAuthorSubmitted: tomogram.is_canonical,
       keyPhotoThumbnailUrl: tomogram.key_photo_thumbnail_url,
       keyPhotoUrl: tomogram.key_photo_url,
       name: tomogram.name,

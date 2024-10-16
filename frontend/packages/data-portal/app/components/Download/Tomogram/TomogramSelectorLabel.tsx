@@ -25,6 +25,7 @@ export function TomogramSelectorInputLabel({
         {t('unitAngstrom', { value: tomogram.voxelSpacing })}
       </span>
       {tomogram.isPortalStandard && <TomogramTypeBadge type="standard" />}
+      {tomogram.isAuthorSubmitted && <TomogramTypeBadge type="author" />}
     </div>
   )
 }

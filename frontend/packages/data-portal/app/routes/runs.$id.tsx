@@ -56,7 +56,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       client: apolloClient,
       params: url.searchParams,
     }),
-    getRunByIdV2(apolloClientV2, id),
+    getRunByIdV2(apolloClientV2, id, annotationsPage, url.searchParams),
   ])
 
   if (responseV1.runs.length === 0) {

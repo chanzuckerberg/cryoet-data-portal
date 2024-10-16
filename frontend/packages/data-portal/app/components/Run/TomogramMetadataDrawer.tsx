@@ -4,6 +4,7 @@ import { useAtom } from 'jotai'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
+import { useRunById } from 'app/hooks/useRunById'
 import { metadataDrawerTomogramAtom } from 'app/state/metadataDrawerTomogram'
 import { getTableData } from 'app/utils/table'
 import { getTomogramName, isFiducial } from 'app/utils/tomograms'
@@ -21,6 +22,7 @@ import { IDENTITY_MATRIX_4X4, Matrix4x4 } from './Matrix4x4'
 export function TomogramMetadataDrawer() {
   const { t } = useI18n()
   const [tomogram] = useAtom(metadataDrawerTomogramAtom)
+  const { run } = useRunById()
 
   if (tomogram === undefined) {
     return null
@@ -59,7 +61,7 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('publications'),
-            values: [], // TODO
+            values: [run.dataset.dataset_publications ?? ''],
             renderValue: (value: string) => (
               <DatabaseEntryList entries={value} />
             ),
@@ -73,9 +75,7 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('depositionName'),
-            // TODO(bchu): Uncomment after API field name change is in prod.
-            // values: [tomogram.deposition?.title ?? ''],
-            values: [],
+            values: [tomogram.deposition?.title ?? ''],
             renderValue: (value: string) => (
               <Link
                 className="text-sds-color-primitive-blue-400"

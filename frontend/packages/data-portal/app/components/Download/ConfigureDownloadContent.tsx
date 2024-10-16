@@ -9,9 +9,12 @@ import { ConfigureTomogramDownloadContent } from './ConfigureTomogramDownloadCon
 
 export function ConfigureDownloadContent() {
   const { t } = useI18n()
-  const { datasetTitle, runName, objectName } = useDownloadModalContext()
+
   const { annotationName, annotationId, objectShapeType } =
     useDownloadModalQueryParamState()
+
+  const { annotationToDownload, datasetTitle, runName, objectName } =
+    useDownloadModalContext()
 
   return (
     <>
@@ -31,6 +34,12 @@ export function ConfigureDownloadContent() {
       )}
       {objectShapeType && (
         <ModalSubtitle label={t('objectShapeType')} value={objectShapeType} />
+      )}
+      {annotationToDownload !== undefined && (
+        <ModalSubtitle
+          label={t('alignmentId')}
+          value={`${IdPrefix.Alignment}-${annotationToDownload.id}`}
+        />
       )}
 
       <p className="mt-sds-xl text-sds-body-m leading-sds-body-m font-semibold">
