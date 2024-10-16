@@ -50,11 +50,7 @@ export function carryOverFilterParams({
   prevParams: URLSearchParams
 }) {
   for (const key of filters) {
-    const value = prevParams.get(key)
-
-    if (value) {
-      params.set(key, value)
-    }
+    prevParams.getAll(key).forEach((value) => params.append(key, value))
   }
 
   return params
