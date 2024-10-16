@@ -177,7 +177,9 @@ function getTomogramDrawerTestMetadata(
 ): DrawerTestMetadata {
   return {
     authors: tomogram.authors!.edges!.map((edge) => edge.node!.name),
-    publications: dataset?.datasetPublications ?? '--',
+    publications:
+      dataset?.datasetPublications?.replaceAll('doi:', 'DOI:').split(', ') ??
+      '--',
     relatedDatabases: '--',
     depositionName: tomogram.deposition?.title ?? '--',
     depositionId: tomogram.deposition?.id ?? '--',

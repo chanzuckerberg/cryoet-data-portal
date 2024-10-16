@@ -95,7 +95,7 @@ export class MetadataDrawerPage extends BasePage {
     value: _DeepPartialArray<string>,
   ) {
     const cells = this.getMetadataCells(label)
-    const nodeValue = await cells.last().innerText()
+    const nodeValue = (await cells.last().innerText()).replaceAll('\n', '')
     expect(
       value.every((v) => nodeValue.includes(v ?? '')),
       `Test for ${label} with value ${nodeValue} to include ${value.join(
