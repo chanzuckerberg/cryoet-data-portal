@@ -3,7 +3,7 @@ SHELL := /bin/bash
 export BACKEND_DIR=/tmp/cryoet-data-portal-backend-test-infra
 .PHONY: set-api-version
 set-api-version:
-	if [ ! -e $(BACKEND_DIR) ]; then git clone git@github.com:chanzuckerberg/cryoet-data-portal-backend.git $(BACKEND_DIR); fi
+	if [ ! -e $(BACKEND_DIR) ]; then git clone https://github.com/chanzuckerberg/cryoet-data-portal-backend.git $(BACKEND_DIR); fi
 	export STAGING_SHA=$$(./tests/test_infra/get_deployment.sh staging); \
 	if [ -n "$${STAGING_SHA}" ]; then \
 	    echo "Setting backend to SHA: $${STAGING_SHA}"; \

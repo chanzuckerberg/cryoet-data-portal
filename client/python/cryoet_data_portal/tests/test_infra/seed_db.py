@@ -261,51 +261,75 @@ def use_factoryboy() -> None:
     )
 
     AnnotationAuthorFactory.create(
-        annotation=a40, name="Author 1", orcid="0000-0000-0000-0007",
+        annotation=a40,
+        name="Author 1",
+        orcid="0000-0000-0000-0007",
     )
     AnnotationAuthorFactory.create(
-        annotation=a40, name="Author 2", orcid="0000-0000-0000-0008",
+        annotation=a40,
+        name="Author 2",
+        orcid="0000-0000-0000-0008",
     )
     AnnotationAuthorFactory.create(
-        annotation=a41, name="Author 1", orcid="0000-0000-0000-0007",
+        annotation=a41,
+        name="Author 1",
+        orcid="0000-0000-0000-0007",
     )
     AnnotationAuthorFactory.create(
-        annotation=a41, name="Author 2", orcid="0000-0000-0000-0008",
+        annotation=a41,
+        name="Author 2",
+        orcid="0000-0000-0000-0008",
     )
     AnnotationAuthorFactory.create(
-        annotation=a42, name="Author 3", orcid="0000-0000-0000-0039",
+        annotation=a42,
+        name="Author 3",
+        orcid="0000-0000-0000-0039",
     )
     AnnotationAuthorFactory.create(
-        annotation=a42, name="Author 4", orcid="0000-0000-0000-0049",
+        annotation=a42,
+        name="Author 4",
+        orcid="0000-0000-0000-0049",
     )
     AnnotationAuthorFactory.create(
-        annotation=a43, name="Author 5", orcid="0000-0000-0000-0059",
+        annotation=a43,
+        name="Author 5",
+        orcid="0000-0000-0000-0059",
     )
     AnnotationAuthorFactory.create(
-        annotation=a44, name="Author 6", orcid="0000-0000-0000-0069",
+        annotation=a44,
+        name="Author 6",
+        orcid="0000-0000-0000-0069",
     )
     AnnotationAuthorFactory.create(
-        annotation=a45, name="Author 7", orcid="0000-0000-0000-0079",
+        annotation=a45,
+        name="Author 7",
+        orcid="0000-0000-0000-0079",
     )
     AnnotationAuthorFactory.create(
-        annotation=a45, name="Author 8", orcid="0000-0000-0000-0089",
+        annotation=a45,
+        name="Author 8",
+        orcid="0000-0000-0000-0089",
     )
 
     as40op = AnnotationShapeFactory.create(annotation=a40, shape_type="OrientedPoint")
     as40sm = AnnotationShapeFactory.create(
-        annotation=a40, shape_type="SegmentationMask",
+        annotation=a40,
+        shape_type="SegmentationMask",
     )
     as41pt = AnnotationShapeFactory.create(annotation=a41, shape_type="Point")
     as41sm = AnnotationShapeFactory.create(
-        annotation=a41, shape_type="SegmentationMask",
+        annotation=a41,
+        shape_type="SegmentationMask",
     )
     as42op = AnnotationShapeFactory.create(annotation=a42, shape_type="OrientedPoint")
     as42sm = AnnotationShapeFactory.create(
-        annotation=a42, shape_type="SegmentationMask",
+        annotation=a42,
+        shape_type="SegmentationMask",
     )
     as43op = AnnotationShapeFactory.create(annotation=a43, shape_type="OrientedPoint")
     as44sm = AnnotationShapeFactory.create(
-        annotation=a44, shape_type="SegmentationMask",
+        annotation=a44,
+        shape_type="SegmentationMask",
     )
     as45pt = AnnotationShapeFactory.create(annotation=a45, shape_type="Point")
 
@@ -479,6 +503,6 @@ def use_factoryboy() -> None:
 
 
 if __name__ == "__main__":
-    print("Seeding database")
+    print("Seeding database")  # noqa
     use_factoryboy()
-    print("Seeding complete")
+    print("Seeding complete")  # noqa

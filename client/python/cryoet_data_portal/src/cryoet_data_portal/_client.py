@@ -47,7 +47,11 @@ class Client:
         self.ds = DSLSchema(self.client.schema)
 
     def build_query(
-        self, cls, root_field: str, gql_class_name: str, query_filters=None,
+        self,
+        cls,
+        root_field: str,
+        gql_class_name: str,
+        query_filters=None,
     ):
         ds = self.ds
         query_filters = {} if not query_filters else {"where": query_filters}
