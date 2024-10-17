@@ -3,7 +3,6 @@ Populate the database with mock data for local development
 """
 
 import factory.random
-
 from platformics.database.connect import init_sync_db
 from platformics.settings import CLISettings
 from platformics.test_infra.factories.base import FileFactory, SessionStorage
@@ -21,7 +20,9 @@ from test_infra.factories.run import RunFactory
 from test_infra.factories.tiltseries import TiltseriesFactory
 from test_infra.factories.tomogram import TomogramFactory
 from test_infra.factories.tomogram_author import TomogramAuthorFactory
-from test_infra.factories.tomogram_voxel_spacing import TomogramVoxelSpacingFactory
+from test_infra.factories.tomogram_voxel_spacing import (
+    TomogramVoxelSpacingFactory,
+)
 
 
 def use_factoryboy() -> None:
@@ -61,9 +62,19 @@ def use_factoryboy() -> None:
     DatasetFundingFactory(dataset=ds2, funding_agency_name="Grant For dataset2")
 
     DatasetAuthorFactory(dataset=ds1, name="Author 1", primary_author_status=True)
-    DatasetAuthorFactory(dataset=ds1, name="Author 2", corresponding_author_status=True, orcid="0000-2222-9999-8888")
+    DatasetAuthorFactory(
+        dataset=ds1,
+        name="Author 2",
+        corresponding_author_status=True,
+        orcid="0000-2222-9999-8888",
+    )
     DatasetAuthorFactory(dataset=ds2, name="Author 3", primary_author_status=True)
-    DatasetAuthorFactory(dataset=ds2, name="Author 4", corresponding_author_status=True, orcid="4444-2222-9999-8888")
+    DatasetAuthorFactory(
+        dataset=ds2,
+        name="Author 4",
+        corresponding_author_status=True,
+        orcid="4444-2222-9999-8888",
+    )
 
     r1 = RunFactory.create(
         dataset=ds1,
@@ -249,25 +260,53 @@ def use_factoryboy() -> None:
         object_id="GO:000000A",
     )
 
-    AnnotationAuthorFactory.create(annotation=a40, name="Author 1", orcid="0000-0000-0000-0007")
-    AnnotationAuthorFactory.create(annotation=a40, name="Author 2", orcid="0000-0000-0000-0008")
-    AnnotationAuthorFactory.create(annotation=a41, name="Author 1", orcid="0000-0000-0000-0007")
-    AnnotationAuthorFactory.create(annotation=a41, name="Author 2", orcid="0000-0000-0000-0008")
-    AnnotationAuthorFactory.create(annotation=a42, name="Author 3", orcid="0000-0000-0000-0039")
-    AnnotationAuthorFactory.create(annotation=a42, name="Author 4", orcid="0000-0000-0000-0049")
-    AnnotationAuthorFactory.create(annotation=a43, name="Author 5", orcid="0000-0000-0000-0059")
-    AnnotationAuthorFactory.create(annotation=a44, name="Author 6", orcid="0000-0000-0000-0069")
-    AnnotationAuthorFactory.create(annotation=a45, name="Author 7", orcid="0000-0000-0000-0079")
-    AnnotationAuthorFactory.create(annotation=a45, name="Author 8", orcid="0000-0000-0000-0089")
+    AnnotationAuthorFactory.create(
+        annotation=a40, name="Author 1", orcid="0000-0000-0000-0007",
+    )
+    AnnotationAuthorFactory.create(
+        annotation=a40, name="Author 2", orcid="0000-0000-0000-0008",
+    )
+    AnnotationAuthorFactory.create(
+        annotation=a41, name="Author 1", orcid="0000-0000-0000-0007",
+    )
+    AnnotationAuthorFactory.create(
+        annotation=a41, name="Author 2", orcid="0000-0000-0000-0008",
+    )
+    AnnotationAuthorFactory.create(
+        annotation=a42, name="Author 3", orcid="0000-0000-0000-0039",
+    )
+    AnnotationAuthorFactory.create(
+        annotation=a42, name="Author 4", orcid="0000-0000-0000-0049",
+    )
+    AnnotationAuthorFactory.create(
+        annotation=a43, name="Author 5", orcid="0000-0000-0000-0059",
+    )
+    AnnotationAuthorFactory.create(
+        annotation=a44, name="Author 6", orcid="0000-0000-0000-0069",
+    )
+    AnnotationAuthorFactory.create(
+        annotation=a45, name="Author 7", orcid="0000-0000-0000-0079",
+    )
+    AnnotationAuthorFactory.create(
+        annotation=a45, name="Author 8", orcid="0000-0000-0000-0089",
+    )
 
     as40op = AnnotationShapeFactory.create(annotation=a40, shape_type="OrientedPoint")
-    as40sm = AnnotationShapeFactory.create(annotation=a40, shape_type="SegmentationMask")
+    as40sm = AnnotationShapeFactory.create(
+        annotation=a40, shape_type="SegmentationMask",
+    )
     as41pt = AnnotationShapeFactory.create(annotation=a41, shape_type="Point")
-    as41sm = AnnotationShapeFactory.create(annotation=a41, shape_type="SegmentationMask")
+    as41sm = AnnotationShapeFactory.create(
+        annotation=a41, shape_type="SegmentationMask",
+    )
     as42op = AnnotationShapeFactory.create(annotation=a42, shape_type="OrientedPoint")
-    as42sm = AnnotationShapeFactory.create(annotation=a42, shape_type="SegmentationMask")
+    as42sm = AnnotationShapeFactory.create(
+        annotation=a42, shape_type="SegmentationMask",
+    )
     as43op = AnnotationShapeFactory.create(annotation=a43, shape_type="OrientedPoint")
-    as44sm = AnnotationShapeFactory.create(annotation=a44, shape_type="SegmentationMask")
+    as44sm = AnnotationShapeFactory.create(
+        annotation=a44, shape_type="SegmentationMask",
+    )
     as45pt = AnnotationShapeFactory.create(annotation=a45, shape_type="Point")
 
     AnnotationFileFactory.create(

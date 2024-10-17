@@ -1,11 +1,11 @@
 """This module generates model code from the GraphQL schema."""
 
 import logging
-import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Tuple, Union
 
+import strcase
 from gql import Client
 from gql.transport.requests import RequestsHTTPTransport
 from graphql import (
@@ -19,8 +19,8 @@ from graphql import (
     GraphQLSchema,
     GraphQLType,
     build_schema,
-    print_schema,
     get_named_type,
+    print_schema,
 )
 from jinja2 import Environment, FileSystemLoader
 
@@ -35,17 +35,18 @@ GQL_TO_MODEL_FIELD = {
     "DateTime": ("DateField()", "date"),
     "numeric": ("FloatField()", "float"),
     "_numeric": ("StringField()", "str"),
-    "tomogram_type_enum": ("StringField()", "str"),
-    "tomogram_processing_enum": ("StringField()", "str"),
-    "tomogram_reconstruction_method_enum": ("StringField()", "str"),
     "annotation_file_source_enum": ("StringField()", "str"),
+    "alignment_method_type_enum": ("StringField()", "str"),
     "annotation_method_type_enum": ("StringField()", "str"),
     "annotation_file_shape_type_enum": ("StringField()", "str"),
+    "annotation_method_link_type_enum": ("StringField()", "str"),
     "deposition_types_enum": ("StringField()", "str"),
     "sample_type_enum": ("StringField()", "str"),
-    "tiltseries_camer_acquire_mode_enum": ("StringField()", "str"),
+    "tiltseries_camera_acquire_mode_enum": ("StringField()", "str"),
     "tiltseries_microscope_manufacturer_enum": ("StringField()", "str"),
     "fiducial_alignment_status_enum": ("StringField()", "str"),
+    "tomogram_processing_enum": ("StringField()", "str"),
+    "tomogram_reconstruction_method_enum": ("StringField()", "str"),
     "alignment_type_enum": ("StringField()", "str"),
 }
 
@@ -56,6 +57,7 @@ GQL_TO_MODEL_TYPE = {
     "Annotation": "Annotation",
     "AnnotationAuthor": "AnnotationAuthor",
     "AnnotationFile": "AnnotationFile",
+    "AnnotationMethodLink": "AnnotationMethodLink",
     "AnnotationShape": "AnnotationShape",
     "Dataset": "Dataset",
     "DatasetAuthor": "DatasetAuthor",
@@ -64,8 +66,9 @@ GQL_TO_MODEL_TYPE = {
     "DepositionAuthor": "DepositionAuthor",
     "DepositionType": "DepositionType",
     "Frame": "Frame",
+    "FrameAcquisitionFile": "FrameAcquisitionFile",
+    "GainFile": "GainFile",
     "PerSectionAlignmentParameters": "PerSectionAlignmentParameters",
-    "PerSectionParameters": "PerSectionParameters",
     "Run": "Run",
     "Tiltseries": "TiltSeries",
     "Tomogram": "Tomogram",
@@ -213,6 +216,8 @@ def _parse_field(
 ) -> Optional[FieldInfo]:
     logging.debug("_parse_field: %s, %s", name, field)
     field_type = _maybe_unwrap_non_null(field.type)
+    if isinstance(field_type, GraphQLList):
+        return _parse_gql_list_field(name, field.description, field_type)
     if field_type.name.endswith("Connection"):  # TODO can we clean this up?
         return _parse_model_list_field(gql_type, name, field_type)
     if isinstance(field_type, GraphQLObjectType) and (
@@ -222,6 +227,22 @@ def _parse_field(
     if isinstance(field_type, (GraphQLScalarType, GraphQLEnumType)):
         return _parse_scalar_field(name, field.description, field_type)
     return None
+
+
+# TODO - we only support list[list[float]] fields right now,
+# so this method is overly simplistic.
+def _parse_gql_list_field(
+    name: str,
+    description: Optional[str],
+    field_type: GraphQLList,
+) -> Optional[FieldInfo]:
+    logging.debug("_parse_gql_list_field: %s", field_type)
+    return FieldInfo(
+        name=name,
+        description=description,
+        annotation_type="List[List[float]]",
+        default_value="ListField()",
+    )
 
 
 def _parse_scalar_field(
@@ -249,7 +270,7 @@ def _parse_model_field(
     logging.debug("_parse_model_field: %s", field_type)
     model = GQL_TO_MODEL_TYPE.get(field_type.name)
     if model is not None:
-        model_field = _camel_to_snake_case(model)
+        model_field = strcase.to_snake(model)
         model_name = _camel_to_space_case(model)
         source_model = GQL_TO_MODEL_TYPE[gql_type.name]
         source_model_name = _camel_to_space_case(source_model)
@@ -269,14 +290,14 @@ def _parse_model_list_field(
 ) -> Optional[FieldInfo]:
     logging.debug("_parse_model_list_field: %s", field_type)
     of_type = get_named_type(
-        get_named_type(field_type.fields["edges"].type).fields["node"].type
+        get_named_type(field_type.fields["edges"].type).fields["node"].type,
     )
     if not isinstance(of_type, GraphQLNamedType):
         return None
     of_model = GQL_TO_MODEL_TYPE.get(of_type.name)
     if of_model is not None:
         source_model = GQL_TO_MODEL_TYPE[gql_type.name]
-        source_field = _camel_to_snake_case(source_model)
+        source_field = strcase.to_snake(source_model)
         source_model_name = _camel_to_space_case(source_model)
         of_model_name = _space_case_to_plural(_camel_to_space_case(of_model))
         return FieldInfo(
@@ -294,12 +315,8 @@ def _maybe_unwrap_non_null(field_type: GraphQLType) -> GraphQLType:
     return field_type
 
 
-def _camel_to_snake_case(name: str) -> str:
-    return re.sub("(?!^)([A-Z]+)", r"_\1", name).lower()
-
-
 def _camel_to_space_case(name: str) -> str:
-    return _camel_to_snake_case(name).replace("_", " ")
+    return strcase.to_snake(name).replace("_", " ")
 
 
 def _space_case_to_plural(name: str) -> str:
@@ -315,7 +332,7 @@ def _load_jinja_environment() -> Environment:
         lstrip_blocks=True,
         keep_trailing_newline=True,
     )
-    env.filters["to_snake"] = _camel_to_snake_case
+    env.filters["to_snake"] = strcase.to_snake
     return env
 
 

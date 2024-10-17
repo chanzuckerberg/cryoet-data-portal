@@ -1,22 +1,12 @@
 import functools
-import re
 from datetime import datetime
 from importlib import import_module
 from typing import Any, Dict, Iterable, Optional
 
+import strcase
 from deepmerge import always_merger
 
 from ._client import Client
-
-
-def to_camel(txt: str | list[str]):
-    if isinstance(txt, list):
-        return [to_camel(item) for item in txt]
-    return txt[0] + txt.title().replace("_", "")[1:]
-
-
-def to_snake(name: str) -> str:
-    return re.sub("(?!^)([A-Z]+)", r"_\1", name).lower()
 
 
 class GQLExpression:
@@ -91,7 +81,7 @@ class GQLField:
         return False
 
     def to_gql(self):
-        return to_camel(self._name)
+        return strcase.to_lower_camel(self._name)
 
 
 class BaseField(GQLField):
@@ -103,10 +93,16 @@ class BaseField(GQLField):
         return value
 
 
-class StringField(BaseField): ...
+class ListField(BaseField):
+    ...
 
 
-class IntField(BaseField): ...
+class StringField(BaseField):
+    ...
+
+
+class IntField(BaseField):
+    ...
 
 
 class DateField(BaseField):
@@ -115,10 +111,12 @@ class DateField(BaseField):
             return datetime.fromisoformat(value)
 
 
-class BooleanField(BaseField): ...
+class BooleanField(BaseField):
+    ...
 
 
-class FloatField(BaseField): ...
+class FloatField(BaseField):
+    ...
 
 
 class QueryChain(GQLField):
@@ -140,7 +138,7 @@ class QueryChain(GQLField):
         return self.__current_query.get_related_class()
 
     def to_gql(self):
-        return to_camel(self.__name)
+        return strcase.to_lower_camel(self.__name)
 
 
 class Relationship(GQLField):
@@ -193,7 +191,7 @@ class ListRelationship(Relationship):
         if obj is None:
             return self
         source_field = getattr(obj, self.source_field)
-        dest_field = getattr(self.related_class, to_snake(self.dest_field))
+        dest_field = getattr(self.related_class, strcase.to_snake(self.dest_field))
         res = self.related_class.find(
             obj._client,
             [dest_field == source_field],
@@ -210,7 +208,7 @@ class Model:
     def __init__(self, client: Client, **kwargs):
         self._client = client
         for k in self._get_scalar_fields():
-            value = getattr(self, k).convert(kwargs.get(to_camel(k)))
+            value = getattr(self, k).convert(kwargs.get(strcase.to_lower_camel(k)))
             setattr(self, k, value)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -229,7 +227,7 @@ class Model:
     @classmethod
     @functools.lru_cache(maxsize=32)
     def _get_gql_fields(cls):
-        return [to_camel(item) for item in cls._get_scalar_fields()]
+        return [strcase.to_lower_camel(item) for item in cls._get_scalar_fields()]
 
     @classmethod
     @functools.lru_cache(maxsize=32)

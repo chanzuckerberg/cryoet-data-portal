@@ -8,7 +8,7 @@ from gql.transport.requests import RequestsHTTPTransport
 
 from cryoet_data_portal._constants import USER_AGENT
 
-DEFAULT_URL = "http://localhost:9009/graphql"
+DEFAULT_URL = "https://graphql.cryoetdataportal.czscience.com/graphql"
 
 
 class Client:
@@ -47,7 +47,7 @@ class Client:
         self.ds = DSLSchema(self.client.schema)
 
     def build_query(
-        self, cls, root_field: str, gql_class_name: str, query_filters=None
+        self, cls, root_field: str, gql_class_name: str, query_filters=None,
     ):
         ds = self.ds
         query_filters = {} if not query_filters else {"where": query_filters}
@@ -68,7 +68,7 @@ class Client:
         gql_type = cls._get_gql_type()
         gql_root = cls._get_gql_root_field()
         response = self.client.execute(
-            self.build_query(cls, gql_root, gql_type, query_filters)
+            self.build_query(cls, gql_root, gql_type, query_filters),
         )
         return [cls(self, **item) for item in response[gql_root]]
 
