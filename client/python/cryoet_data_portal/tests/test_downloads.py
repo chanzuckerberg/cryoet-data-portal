@@ -24,7 +24,7 @@ def test_download_annotations(tmp_dir, client) -> None:
     annos = Annotation.find(
         client,
         [
-            Annotation.tomogram_voxel_spacing.run.name == "RUN2",
+            Annotation.run.name == "RUN2",
             Annotation.object_name.ilike("%ribosome%"),
         ],
     )
@@ -41,7 +41,7 @@ def test_download_tomo_annotations_with_shape_filter(tmp_dir, client) -> None:
     tomo = Tomogram.find(
         client,
         [
-            Tomogram.tomogram_voxel_spacing.run.name == "RUN1",
+            Tomogram.run.name == "RUN1",
         ],
     )[0]
     assert tomo
@@ -55,9 +55,9 @@ def test_download_all_annotations_including_zarr(tmp_dir, client) -> None:
     anno = Annotation.find(
         client,
         [
-            Annotation.tomogram_voxel_spacing.run.dataset_id == 20001,
-            Annotation.tomogram_voxel_spacing.run.name == "RUN1",
-            Annotation.object_name == "Mitochondria",
+            Annotation.run.dataset_id == 20001,
+            Annotation.run.name == "RUN1",
+            Annotation.object_name == "Test Annotation Object Name",
         ],
     )[0]
     assert anno
@@ -82,8 +82,8 @@ def test_download_relative_path(tmp_dir, client) -> None:
     tomo = Tomogram.find(
         client,
         [
-            Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001,
-            Tomogram.tomogram_voxel_spacing.run.name == "RUN2",
+            Tomogram.run.dataset_id == 20001,
+            Tomogram.run.name == "RUN2",
         ],
     )[0]
     assert tomo
@@ -104,8 +104,8 @@ def test_download_without_path(tmp_dir, client) -> None:
     tomo = Tomogram.find(
         client,
         [
-            Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001,
-            Tomogram.tomogram_voxel_spacing.run.name == "RUN2",
+            Tomogram.run.dataset_id == 20001,
+            Tomogram.run.name == "RUN2",
         ],
     )[0]
     assert tomo
@@ -123,7 +123,7 @@ def test_download_default_dir(tmp_dir, client) -> None:
     os.chdir(tmp_dir)
     tomo = Tomogram.find(
         client,
-        [Tomogram.tomogram_voxel_spacing.run.name == "RUN2"],
+        [Tomogram.run.name == "RUN2"],
     )[0]
     assert tomo
     tomo.download_all_annotations(None, "ndjson")
@@ -136,12 +136,10 @@ def test_tiltseries_downloaders(tmp_dir, client):
     assert ts
     ts.download_collection_metadata(tmp_dir)
     ts.download_angle_list(tmp_dir)
-    ts.download_alignment_file(tmp_dir)
     ts.download_omezarr(tmp_dir)
     ts.download_mrcfile(tmp_dir)
     files = os.listdir(tmp_dir)
     assert set(files) == {
-        "RUN1.xf",
         "RUN1.rawtlt",
         "RUN1.mdoc",
         "RUN1_bin1.mrc",
@@ -193,8 +191,8 @@ def test_tomogram_download(tmp_dir, client):
     tomo = Tomogram.find(
         client,
         [
-            Tomogram.tomogram_voxel_spacing.run.name == "RUN2",
-            Tomogram.tomogram_voxel_spacing.run.dataset_id == 20001,
+            Tomogram.run.name == "RUN2",
+            Tomogram.run.dataset_id == 20001,
         ],
     )[0]
     assert tomo

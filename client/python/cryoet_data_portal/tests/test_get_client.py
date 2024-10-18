@@ -11,7 +11,7 @@ def test_relationships(client) -> None:
     depo = ds.deposition
     assert depo
     assert depo.authors.pop()
-    assert depo.dataset.pop()
+    assert depo.datasets.pop()
     assert depo.tomograms.pop()
     assert depo.annotations.pop()
     run = Run.find(client, [Run.dataset.id == ds.id]).pop()
@@ -20,9 +20,13 @@ def test_relationships(client) -> None:
     vs = run.tomogram_voxel_spacings.pop()
     assert vs
     assert run.tiltseries.pop()
-    anno = vs.annotations.pop()
+    anno = run.annotations.pop()
     assert anno
-    assert anno.files.pop()
+    shape = anno.annotation_shapes.pop()
+    assert shape
+    afile = shape.annotation_files.pop()
+    assert afile
+    assert afile.tomogram_voxel_spacing
     assert anno.authors.pop()
     tomo = vs.tomograms.pop()
     assert tomo
@@ -37,8 +41,9 @@ def test_relationships_reverse(client) -> None:
     run = Run.find(client, [Run.dataset.id == ds.id]).pop()
     ts = run.tiltseries.pop()
     vs = run.tomogram_voxel_spacings.pop()
-    anno = vs.annotations.pop()
-    anno_file = anno.files.pop()
+    anno = run.annotations.pop()
+    anno_shape = anno.annotation_shapes.pop()
+    anno_file = anno_shape.annotation_files.pop()
     anno_author = anno.authors.pop()
     tomo = vs.tomograms.pop()
     tomo_author = tomo.authors.pop()
@@ -47,8 +52,9 @@ def test_relationships_reverse(client) -> None:
     assert tomo.tomogram_voxel_spacing
     assert tomo.deposition
     assert anno_author.annotation
-    assert anno_file.annotation
-    assert anno.tomogram_voxel_spacing
+    assert anno_file.annotation_shape
+    assert anno_file.tomogram_voxel_spacing
+    assert anno_shape.annotation
     assert anno.deposition
     assert vs.run
     assert ts.run
@@ -57,8 +63,21 @@ def test_relationships_reverse(client) -> None:
     assert run.dataset
 
 
+def test_correct_number_of_related_objects(client: Client):
+    annos = Annotation.find(
+        client,
+        [Annotation.object_name == "Test Annotation Object Name"],
+    )
+
+    assert len(annos) == 1
+    assert len(annos[0].annotation_shapes) == 2
+
+
 def test_item_relationship_with_missing_id(client: Client):
-    annos = Annotation.find(client, [Annotation.id == 45])
+    annos = Annotation.find(
+        client,
+        [Annotation.object_name == "Test Annotation Object Name"],
+    )
 
     assert len(annos) == 1
     anno = annos[0]

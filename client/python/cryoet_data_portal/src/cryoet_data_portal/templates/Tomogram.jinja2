@@ -15,7 +15,7 @@
         Args:
             dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
         """
-        url = self.https_mrc_scale0
+        url = self.https_mrc_file
         download_https(url, dest_path)
 
     def download_all_annotations(
@@ -31,6 +31,16 @@
             shape (Optional[str], optional): Choose a specific shape type to download (e.g.: OrientedPoint, SegmentationMask)
             format (Optional[str], optional): Choose a specific file format to download (e.g.: mrc, ndjson)
         """
-        vs = self.tomogram_voxel_spacing
-        for anno in vs.annotations:
-            anno.download(dest_path, format, shape)
+        filters = [AnnotationFile.tomogram_voxel_spacing_id == self.tomogram_voxel_spacing_id, AnnotationFile.alignment_id == self.alignment_id]
+        if shape:
+            filters.append(AnnotationFile.annotation_shape.shape_type == shape)
+        if format:
+            filters.append(AnnotationFile.format == format)
+        anno_files = AnnotationFile.find(self._client, filters)
+        downloaded_metadata = set([])
+        for file in anno_files:
+            file.download(dest_path)
+            annotation_id = file.annotation_shape.annotation_id
+            if annotation_id not in downloaded_metadata:
+                downloaded_metadata.add(annotation_id)
+                file.annotation_shape.annotation.download_metadata(dest_path)
