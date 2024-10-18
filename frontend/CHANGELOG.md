@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.33.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.33.0...web-v1.33.1) (2024-10-18)
+
+
+### 🐞 Bug Fixes
+
+* carry over multiple params ([#1252](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1252)) ([3c86411](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3c86411057ad554e5f22e11f106a6e25c435f6b5))
+* view tomogram open in  new tab ([#1251](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1251)) ([3312884](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3312884a555a3d56283f6c3c03ccc4c9fa8b85a2))
+
+
+### 📝 Documentation
+
+* Fix portal links ([#1256](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1256)) ([3a76bcf](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3a76bcf0829e246aebc2efa770e5dcbf28447958))
+
 ## [1.33.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.32.1...web-v1.33.0) (2024-10-16)
 
 
