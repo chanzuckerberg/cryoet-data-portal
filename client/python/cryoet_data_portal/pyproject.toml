@@ -50,6 +50,9 @@ exclude = [
   "tests*",
 ] # exclude packages matching these glob patterns (empty by default)
 
+[tool.setuptools]
+include-package-data = true
+
 [tool.setuptools_scm]
 root = "../../.."
 
