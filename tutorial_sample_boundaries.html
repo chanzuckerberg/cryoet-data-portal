@@ -32,10 +32,10 @@
         <style>:root{--md-text-font:"Inter";--md-code-font:"Roboto Mono"}</style>
       
     
-        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.2a34f4ce0268c4983.min.css?v=df3fe83d" />
+        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.59362b978ce63bd4f.min.css?v=96b30452" />
         <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
         <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=4b7c366f" />
+        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=b05aeb11" />
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -1205,11 +1205,17 @@
   </a>
 
 <h1 id="predicting-sample-boundaries"><span id="tutorial-sample-boundaries"></span>Predicting sample boundaries<a class="headerlink" href="#predicting-sample-boundaries" title="Link to this heading">¶</a></h1>
-<figure class="align-center" id="id1">
+<figure class="only-light align-default" id="id1">
 <img alt="tutorial-goal" src="_images/tomo_side_light.png" />
 <figcaption>
 <p><span class="caption-text"><span class="caption-text">
 Side view onto a cryo-electron tomogram <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/15094">run 15094</a> without (left) and with (right) sample boundary annotation</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></figcaption>
+</figure>
+<figure class="only-dark align-default" id="id2">
+<img alt="tutorial-goal" src="_images/tomo_side_dark.png" />
+<figcaption>
+<p><span class="caption-text"><span class="caption-text">
+Side view onto a cryo-electron tomogram <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/15094">run 15094</a> without (left) and with (right) sample boundary annotation</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></figcaption>
 </figure>
 <p>Biological samples acquired in a cryoET experiment are usually thin slabs of vitrified ice containing the biological specimen of interest. Unfortunately, it is difficult to determine orientation and thickness of the samples ahead of reconstruction. For this reason, volumes reconstructed from cryoET tilt series are often larger than the actual sample and contain a significant amount of empty space (i.e. the vacuum inside the TEM column).</p>
 <p>There are several reasons for why it can be useful to determine more accurate sample boundaries, for example:</p>
@@ -1220,11 +1226,11 @@ Side view onto a cryo-electron tomogram <a class="reference external" href="http
 <li><p>capping of membrane segmentations to define topological boundaries</p></li>
 </ul>
 <p>Below, we will show how to use <a class="reference external" href="https://github.com/copick/copick"><strong>copick</strong></a>, an adapted version of <a class="reference external" href="https://github.com/jtschwar/cryoet-deepfinder/tree/master">deepfinder</a> and <a class="reference external" href="https://album.solutions/">album</a> to predict sample boundaries for datasets <a class="reference external" href="https://cryoetdataportal.czscience.com/datasets/10301">10301</a> and <a class="reference external" href="https://cryoetdataportal.czscience.com/datasets/10302">10302</a> from the <a class="reference external" href="https://cryoetdataportal.czscience.com">CZ cryoET Data Portal</a>. Copick is a cross-platform, storage-agnostic and server-less dataset API for cryoET datasets.</p>
-<figure class="align-center" id="id2">
+<figure class="align-center" id="id3">
 <img alt="topview" src="_images/tomo_top_both.png" />
 <figcaption>
 <p><span class="caption-text"><span class="caption-text">
-Top view onto the same tomogram <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/15094">run 15094</a> from dataset <a class="reference external" href="https://cryoetdataportal.czscience.com/datasets/10302">10302</a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></figcaption>
+Top view onto the same tomogram <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/15094">run 15094</a> from dataset <a class="reference external" href="https://cryoetdataportal.czscience.com/datasets/10302">10302</a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></figcaption>
 </figure>
 <h2 id="step-0-environment-and-pre-requisites">Step 0: Environment and Pre-requisites<a class="headerlink" href="#step-0-environment-and-pre-requisites" title="Link to this heading">¶</a></h2>
 <p>For the purpose of this tutorial we will assume that we are working on a machine with access to an NVIDIA GPU and a working <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">12.3</span></code>/<code class="docutils literal notranslate"><span class="pre">CUDNN</span> <span class="pre">8.9</span></code> installation. Before we can start, we need to install the necessary software. We will use the following tools:</p>
@@ -1536,11 +1542,11 @@ album<span class="w"> </span>run<span class="w"> </span>copick:create_empty_pick
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="n">copick</span> <span class="n">start</span> <span class="n">config_train</span><span class="o">.</span><span class="n">json</span>
 </code></pre></div>
 </div>
-<figure class="align-center" id="id3">
+<figure class="align-center" id="id4">
 <img alt="chimerax-interface" src="_images/chimx_boundary.png" />
 <figcaption>
 <p><span class="caption-text"><span class="caption-text">
-The ChimeraX-copick interface after loading run 14069.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></figcaption>
+The ChimeraX-copick interface after loading run 14069.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></figcaption>
 </figure>
 <p>This will open a new window with the copick interface. On the top left side you will see the available objects, on the
 bottom left you can find a list of runs in the dataset. On the right side you can find the interface of ArtiaX (the plugin that allows you to annotate objects in ChimeraX).</p>
@@ -1591,11 +1597,17 @@ see the info box below and refer to the <a class="reference external" href="http
 </div>
 </details>
 <p>At the end of this step, you should have annotated the top- and bottom-layer of the all 18 tomograms in the training set.</p>
-<figure class="align-center" id="id4">
+<figure class="only-light align-default" id="id5">
 <img alt="top-bottom" src="_images/top_bottom_light.png" />
 <figcaption>
 <p><span class="caption-text"><span class="caption-text">
-Points clicked along the top and bottom boundary of the sample of a tomogram.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></figcaption>
+Points clicked along the top and bottom boundary of the sample of a tomogram.</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></figcaption>
+</figure>
+<figure class="only-dark align-default" id="id6">
+<img alt="top-bottom" src="_images/top_bottom_dark.png" />
+<figcaption>
+<p><span class="caption-text"><span class="caption-text">
+Points clicked along the top and bottom boundary of the sample of a tomogram.</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></figcaption>
 </figure>
 <h2 id="step-3-create-the-training-data">Step 3: Create the training data<a class="headerlink" href="#step-3-create-the-training-data" title="Link to this heading">¶</a></h2>
 <h3 id="valid-reconstruction-area">Valid reconstruction area<a class="headerlink" href="#valid-reconstruction-area" title="Link to this heading">¶</a></h3>
@@ -1617,11 +1629,17 @@ tomogram.</p>
 </div>
 <p>You can now visualize the created bounding boxes in ChimeraX by restarting the copick interface and selecting the
 <code class="docutils literal notranslate"><span class="pre">valid-area</span></code> object in the Mesh-tab on the left side.</p>
-<figure class="align-center" id="id5">
+<figure class="only-light align-default" id="id7">
 <img alt="valid-area" src="_images/valid_area_light.png" />
 <figcaption>
 <p><span class="caption-text"><span class="caption-text">
-Top view onto a tomogram <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/14069">run 15094</a> without (left) and with (right) valid reconstruction area mesh overlayed.</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></figcaption>
+Top view onto a tomogram <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/14069">run 15094</a> without (left) and with (right) valid reconstruction area mesh overlayed.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></figcaption>
+</figure>
+<figure class="only-dark align-default" id="id8">
+<img alt="valid-area" src="_images/valid_area_dark.png" />
+<figcaption>
+<p><span class="caption-text"><span class="caption-text">
+Top view onto a tomogram <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/14069">run 15094</a> without (left) and with (right) valid reconstruction area mesh overlayed.</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></figcaption>
 </figure>
 <h3 id="sample">Sample<a class="headerlink" href="#sample" title="Link to this heading">¶</a></h3>
 <p>Now, we will use the points created in <a class="reference internal" href="#step-2-annotate-the-training-set">Step 2</a> to create a second 3D mesh that
@@ -1656,11 +1674,11 @@ sample area. We do this using the <code class="docutils literal notranslate"><sp
 </code></pre></div>
 </div>
 <p>You can now visualize the final 3D mesh for training in ChimeraX by restarting the copick interface and selecting the <code class="docutils literal notranslate"><span class="pre">valid-area</span></code> object in the Mesh-tab on the left side.</p>
-<figure class="align-center" id="id6">
+<figure class="align-center" id="id9">
 <img alt="mesh-fit" src="_images/mesh_fit.png" />
 <figcaption>
 <p><span class="caption-text"><span class="caption-text">
-Side view of the tomogram with points and intersected, valid sample area.</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></figcaption>
+Side view of the tomogram with points and intersected, valid sample area.</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></figcaption>
 </figure>
 <h3 id="training-data">Training data<a class="headerlink" href="#training-data" title="Link to this heading">¶</a></h3>
 <p>Finally, we will create the training data for the sample boundary prediction. We will use the <code class="docutils literal notranslate"><span class="pre">mesh_to_seg</span></code>-solution to
@@ -1753,11 +1771,11 @@ tomograms. We will use the <code class="docutils literal notranslate"><span clas
 <p>This will create a new segmentation volume with name <code class="docutils literal notranslate"><span class="pre">segmentation</span></code>, user <code class="docutils literal notranslate"><span class="pre">output</span></code> and session <code class="docutils literal notranslate"><span class="pre">0</span></code> for the tomograms
 <code class="docutils literal notranslate"><span class="pre">14114</span></code>, <code class="docutils literal notranslate"><span class="pre">14132</span></code>, <code class="docutils literal notranslate"><span class="pre">14137</span></code>, and <code class="docutils literal notranslate"><span class="pre">14163</span></code>. You can now visualize the segmentations in ChimeraX by restarting the copick interface
 and selecting the <code class="docutils literal notranslate"><span class="pre">segmentation</span></code> object in the <code class="docutils literal notranslate"><span class="pre">Segmentation</span></code>-tab on the top left part of the interface.</p>
-<figure class="align-center" id="id7">
+<figure class="align-center" id="id10">
 <img alt="prediction-fit" src="_images/prediction_fit.png" />
 <figcaption>
 <p><span class="caption-text"><span class="caption-text">
-Segmentation generated by the model and box fit to the segmentation.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></figcaption>
+Segmentation generated by the model and box fit to the segmentation.</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></figcaption>
 </figure>
 <h2 id="step-6-post-processing">Step 6: Post-processing<a class="headerlink" href="#step-6-post-processing" title="Link to this heading">¶</a></h2>
 <p>Finally, we will post-process the segmentations to create the final sample boundaries. The segmentations can contain
@@ -1781,12 +1799,12 @@ parallel sides to the segmentation.</p>
 <p>You can now visualize the final 3D mesh for evaluation in ChimeraX by restarting the copick interface and selecting the
 <code class="docutils literal notranslate"><span class="pre">valid-sample</span></code> object in the <code class="docutils literal notranslate"><span class="pre">Mesh</span></code>-tab on the left side. Below you can see the final result for the three tomograms
 <code class="docutils literal notranslate"><span class="pre">14114</span></code>, <code class="docutils literal notranslate"><span class="pre">14132</span></code>, <code class="docutils literal notranslate"><span class="pre">14137</span></code>, and <code class="docutils literal notranslate"><span class="pre">14163</span></code>.</p>
-<figure class="align-center" id="id8">
+<figure class="align-center" id="id11">
 <img alt="final-fit" src="_images/final.png" />
 <figcaption>
 <p><span class="caption-text"><span class="caption-text">
 Clipped boundaries predicted for <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/14114">run 14114</a>, <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/14132">run 14132</a>, <a class="reference external" href="https://cryoetdataportal.czscience.com/runs/14137">run 14137</a>, and
-<a class="reference external" href="https://cryoetdataportal.czscience.com/runs/14163">run 14163</a> (left to right, top to bottom).</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></figcaption>
+<a class="reference external" href="https://cryoetdataportal.czscience.com/runs/14163">run 14163</a> (left to right, top to bottom).</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></figcaption>
 </figure>
 
 
@@ -1946,7 +1964,7 @@ Clipped boundaries predicted for <a class="reference external" href="https://cry
 <div class="md-copyright">
     Created using
     <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
-    8.0.2.
+    8.1.3.
      and
     <a href="https://github.com/jbms/sphinx-immaterial/"
        target="_blank" rel="noopener">Sphinx-Immaterial</a>

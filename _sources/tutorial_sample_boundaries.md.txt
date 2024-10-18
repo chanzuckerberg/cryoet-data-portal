@@ -4,12 +4,22 @@ tocdepth: 2
 (tutorial-sample-boundaries)=
 # Predicting sample boundaries
 
-```{figure} ./figures/tomo_side_light.png
-:alt: tutorial-goal
-:align: center
+```{figure-md}
+:class: only-light
+
+![tutorial-goal](./figures/tomo_side_light.png)
 
 Side view onto a cryo-electron tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/15094) without (left) and with (right) sample boundary annotation
 ```
+
+```{figure-md}
+:class: only-dark
+
+![tutorial-goal](./figures/tomo_side_dark.png)
+
+Side view onto a cryo-electron tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/15094) without (left) and with (right) sample boundary annotation
+```
+
 
 Biological samples acquired in a cryoET experiment are usually thin slabs of vitrified ice containing the biological specimen of interest. Unfortunately, it is difficult to determine orientation and thickness of the samples ahead of reconstruction. For this reason, volumes reconstructed from cryoET tilt series are often larger than the actual sample and contain a significant amount of empty space (i.e. the vacuum inside the TEM column).
 
@@ -436,9 +446,18 @@ see the info box below and refer to the [ChimeraX documentation](https://www.cgl
 
 At the end of this step, you should have annotated the top- and bottom-layer of the all 18 tomograms in the training set.
 
-```{figure} ./figures/top_bottom_light.png
-:alt: top-bottom
-:align: center
+```{figure-md}
+:class: only-light
+
+![top-bottom](./figures/top_bottom_light.png)
+
+Points clicked along the top and bottom boundary of the sample of a tomogram.
+```
+
+```{figure-md}
+:class: only-dark
+
+![top-bottom](./figures/top_bottom_dark.png)
 
 Points clicked along the top and bottom boundary of the sample of a tomogram.
 ```
@@ -469,9 +488,18 @@ album run copick:create_rec_limits:0.5.0 \
 You can now visualize the created bounding boxes in ChimeraX by restarting the copick interface and selecting the
 `valid-area` object in the Mesh-tab on the left side.
 
-```{figure} ./figures/valid_area_light.png
-:alt: valid-area
-:align: center
+```{figure-md}
+:class: only-light
+
+![valid-area](./figures/valid_area_light.png)
+
+Top view onto a tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/14069) without (left) and with (right) valid reconstruction area mesh overlayed.
+```
+
+```{figure-md}
+:class: only-dark
+
+![valid-area](./figures/valid_area_dark.png)
 
 Top view onto a tomogram [run 15094](https://cryoetdataportal.czscience.com/runs/14069) without (left) and with (right) valid reconstruction area mesh overlayed.
 ```
