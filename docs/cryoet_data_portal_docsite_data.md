@@ -9,12 +9,9 @@ The Data Portal is organized in a hierarchical structure. We welcome contributio
 
 ## Overview
 
-```{figure} ./figures/data_schema.png
-:alt: CryoET Data Portal Data Schema
-:align: center
-
-CryoET Data Portal Data Hierarchy
+```{include} ./_scripts/ER_DIAGRAM-parsed.md
 ```
+_Simplified version of the CryoET Data Portal Data Hierarchy. [See the full diagram](https://github.com/chanzuckerberg/cryoet-data-portal-backend/blob/main/schema/api/v2.0.0/codegen/ER_DIAGRAM.md)_
 
 As shown in the diagram above, the CryoET Data Portal has 3 levels in the data hierarchy:
 

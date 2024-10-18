@@ -27,6 +27,7 @@ extensions = [
     "sphinx_immaterial",
     "sphinx_external_toc",
     "sphinx_design",
+    "sphinxcontrib.mermaid",
 ]
 
 napoleon_custom_sections = ["Lifecycle"]

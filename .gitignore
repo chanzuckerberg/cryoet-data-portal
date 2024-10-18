@@ -126,6 +126,7 @@ venv.bak/
 
 # mkdocs documentation
 /site
+_scripts/ER_DIAGRAM.md
 
 # mypy
 .mypy_cache/
