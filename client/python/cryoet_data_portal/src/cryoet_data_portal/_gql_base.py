@@ -138,7 +138,7 @@ class QueryChain(GQLField):
         return self.__current_query.get_related_class()
 
     def to_gql(self):
-        return strcase.to_lower_camel(self.__name)
+        return [strcase.to_lower_camel(n) for n in self.__name]
 
 
 class Relationship(GQLField):
