@@ -149,7 +149,7 @@ export function TomogramsTable() {
         cell: ({ getValue, row: { original } }) => (
           <TableCell width={TomogramTableWidths.voxelSpacing}>
             {t('unitAngstrom', { value: getValue() })}
-            <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
+            <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-secondary">
               ({original.sizeX}, {original.sizeY}, {original.sizeZ})px
             </div>
           </TableCell>
