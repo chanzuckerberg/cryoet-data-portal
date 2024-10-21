@@ -144,7 +144,7 @@
   "downloadNow": "Download Now",
   "downloadOptions": "Download Options",
   "downloadRunData": "Download Run Data",
-  "downloadTheRunDataToCreateYourOwnAnnotations": "Download the Run data to create your own annotations.",
+  "downloadTheRunDataToCreateYourOwnAnnotations": "Download all Run data via API  to create your own annotations.",
   "downloadThisRun": "Download This Run",
   "downloadTomogram": "Download Tomogram",
   "downloadWillSaveToCurrentDirectory": "Download will save to your current directory. To change save destination, change the current directory in your terminal before continuing.",
