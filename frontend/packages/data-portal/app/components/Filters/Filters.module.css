@@ -53,6 +53,10 @@
   :global(.MuiMenuItem-root) > span:nth-child(1) {
     @apply flex items-center p-0;
   }
+
+  :global(.MuiButtonBase-root) {
+    @apply !px-sds-s !py-sds-xs;
+  }
 }
 
 .inputText {
