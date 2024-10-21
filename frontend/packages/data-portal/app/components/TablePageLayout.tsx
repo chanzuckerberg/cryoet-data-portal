@@ -181,7 +181,7 @@ function TablePageTabContent({
               'flex flex-col flex-auto w-full',
 
               // Translate to the left by half the filter panel width to align with the header
-              filterPanel && 'screen-2040:translate-x-[-100px] max-w-content',
+              filterPanel && 'screen-2040:translate-x-[-117.5px] max-w-content',
             )}
           >
             {banner && <div className="flex px-sds-xl">{banner}</div>}
