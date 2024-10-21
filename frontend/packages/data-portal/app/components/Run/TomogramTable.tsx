@@ -112,7 +112,10 @@ export function TomogramsTable() {
       }),
       columnHelper.accessor('alignment.id', {
         header: () => (
-          <CellHeader width={TomogramTableWidths.alignment}>
+          <CellHeader
+            width={TomogramTableWidths.alignment}
+            tooltip={<I18n i18nKey="alignmentIdTooltip" />}
+          >
             {t('alignmentId')}
           </CellHeader>
         ),
