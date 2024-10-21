@@ -194,7 +194,20 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('canonicalStatus'),
-            values: [], // TODO
+            values: [tomogram.isPortalStandard ? 'True' : 'False'],
+            labelExtra: (
+              <Tooltip
+                tooltip={<I18n i18nKey="alignmentIdCanonicalTooltip" />}
+                placement="top"
+              >
+                <Icon
+                  sdsIcon="InfoCircle"
+                  sdsSize="s"
+                  className="!fill-sds-color-primitive-gray-500"
+                  sdsType="button"
+                />
+              </Tooltip>
+            ),
           },
           {
             label: t('alignmentType'),
