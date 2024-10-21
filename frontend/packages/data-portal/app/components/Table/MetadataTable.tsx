@@ -8,6 +8,7 @@ import { TableData } from 'app/types/table'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
 import { TableCell } from './TableCell'
+import { useI18n } from 'app/hooks/useI18n'
 
 export function MetadataTable({
   data,
@@ -22,6 +23,8 @@ export function MetadataTable({
   title?: string
   small?: boolean
 }) {
+  const { t } = useI18n()
+
   return (
     <div className="flex flex-col gap-sds-xs">
       {title && (
@@ -72,7 +75,11 @@ export function MetadataTable({
                 >
                   {datum.renderValues?.(values) ??
                     match(values.length)
-                      .with(0, () => null)
+                      .with(0, () => (
+                        <span className="text-sds-color-semantic-text-base-secondary">
+                          {t('notSubmitted')}
+                        </span>
+                      ))
                       .with(1, () => (
                         <span className={datum.className}>
                           {datum.renderValue?.(values[0]) ?? values[0]}
