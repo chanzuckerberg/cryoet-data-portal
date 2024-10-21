@@ -345,6 +345,24 @@ dl.class > dd > dl:nth-child(27) {
   margin: auto;
 }
 
+/* Dark mode figures */
+[data-md-color-scheme="default"] {
+  .md-typeset figure.only-light {
+    display: block !important;
+  }
+  .md-typeset figure.only-dark {
+    display: none !important;
+  }
+}
+[data-md-color-scheme="slate"] {
+  .md-typeset figure.only-light {
+    display: none !important;
+  }
+  .md-typeset figure.only-dark {
+    display: block !important;
+  }
+}
+
 /* Landing page button */
 .sd-btn {
   font-size: 0.75rem;

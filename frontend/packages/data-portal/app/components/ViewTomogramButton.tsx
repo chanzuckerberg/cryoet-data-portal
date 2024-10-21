@@ -6,6 +6,7 @@ import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getNeuroglancerUrl } from 'app/utils/url'
 
+import { Link } from './Link'
 import { Tooltip } from './Tooltip'
 
 export interface ViewTomogramButtonProps {
@@ -70,6 +71,7 @@ export function ViewTomogramButton({
         <Button
           href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
           disabled={!enabled}
+          LinkComponent={Link}
           {...buttonProps}
         >
           <span>{t('viewTomogram')}</span>
