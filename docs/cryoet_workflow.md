@@ -30,13 +30,13 @@ CryoET can be applied to different types of specimens (from particles to cells a
 
 1. **Sampling:** Cells are grown directly on electron microscopy (EM) gold or copper grids or samples are placed onto grids.
 
-2. **Cryofixation:** Cryofixation through plunge freezing is used to vitrify cryoET samples that are < 500 nm thick. Vitrification is achieved through a rapid and massive temperature drop (cooling rate ~ 1,000–3,000 °C/s). To vitrify samples, excess liquid is removed from the EM grid and the grid is rapidly submerged (plunged) into a cryogen (e.g., liquid ethane). 
+2. **Cryofixation:** Cryofixation through plunge freezing is used to vitrify cryoET samples that are < 500 nm thick. Vitrification is achieved through a rapid and massive temperature drop (cooling rate ~ 1,000–3,000 °C/s). To vitrify samples, excess liquid is removed from the EM grid and the grid is rapidly submerged (plunged) into a cryogen (e.g., liquid ethane).
 
-3. **Sample Thinning:** To image samples through transmission electron microscopy (TEM), samples should be ≤ 200 nm thick. Focus Ion Beam (FIB) milling is used to thin a vitrified sample and produce _lamella_ , a thin section that can be penetrated by electron beams. During FIB, a focused beam of ions (e.g., gallium) is used to remove material above and below the section of interest while keeping the samples vitrified at cryogenic temperatures. This thinning method is known as cryo-FIB and it enables researchers to open windows into a cellular environment that otherwise would be too thick to image through TEM. Some cryo-FIB protocols include fluorescent labels that can be used during milling to find and retrieve cellular regions of interest. 
+3. **Sample Thinning:** To image samples through transmission electron microscopy (TEM), samples should be ≤ 200 nm thick. Focus Ion Beam (FIB) milling is used to thin a vitrified sample and produce _lamella_ , a thin section that can be penetrated by electron beams. During FIB, a focused beam of ions (e.g., gallium) is used to remove material above and below the section of interest while keeping the samples vitrified at cryogenic temperatures. This thinning method is known as cryo-FIB and it enables researchers to open windows into a cellular environment that otherwise would be too thick to image through TEM. Some cryo-FIB protocols include fluorescent labels that can be used during milling to find and retrieve cellular regions of interest.
 
 ## Data Collection
 
-After sample preparation, grids with lamellae are inserted in the TEM on a rotational stage. The stage progressively tilts the sample over a fixed point or tilt axis, providing different tilt angles relative to the illuminating electron beam. Low electron beam doses are used to minimize specimen damage while collecting images as the specimen is tilted. Typically, the tilting occurs in 1° to 3° increments throughout a tilt range of approximately −60° to +60°. At each tilt angle, the electron detector camera records a movie stack consisting of 3 to 7 frames. 
+After sample preparation, grids with lamellae are inserted in the TEM on a rotational stage. The stage progressively tilts the sample over a fixed point or tilt axis, providing different tilt angles relative to the illuminating electron beam. Low electron beam doses are used to minimize specimen damage while collecting images as the specimen is tilted. Typically, the tilting occurs in 1° to 3° increments throughout a tilt range of approximately −60° to +60°. At each tilt angle, the electron detector camera records a movie stack consisting of 3 to 7 frames.
 
 <figure>
   <img src="_static/img/projected_images.png"
@@ -90,7 +90,7 @@ Through image processing, researchers can use collected 2D images at various til
   </figcaption>
 </figure>
 
-**Tilt series correction:** The tilt series has to be corrected for artifacts generated due microscope optical properties and settings (e.g., defocus) used to generate contrast (see Contrast Transfer Function, CTF). 
+**Tilt series correction:** The tilt series has to be corrected for artifacts generated due microscope optical properties and settings (e.g., defocus) used to generate contrast (see Contrast Transfer Function, CTF).
 
 **Tilt series alignment and tomogram reconstruction:** Corrected images in the tilt series have to be aligned for tomogram reconstruction. Near-perfect tilt series alignment is critical to obtain high quality tomograms that are centered and, thus, represent a true rotation around a single axis. A 3D volume of the sample is reconstructed from the aligned tilt series through a computational method known as back-projection. Through back-projection, a 3D density distribution of the specimen is calculated from the sum of all densities within the tilt series.
 
@@ -152,7 +152,7 @@ Once the tomogram SNR has been improved through denoising, structures of interes
 
 ### Subtomogram averaging
 
-Tomogram resolution is limited to ~2 - 5 nm, which is above the resolution needed to investigate the molecular structure of biological components. High resolution structures are achieved through subtomogram averaging (STA), where repeating particles of interest within tomograms are averaged to obtain structures with sub-nanometer resolution (3Å - 10Å). 
+Tomogram resolution is limited to ~2 - 5 nm, which is above the resolution needed to investigate the molecular structure of biological components. High resolution structures are achieved through subtomogram averaging (STA), where repeating particles of interest within tomograms are averaged to obtain structures with sub-nanometer resolution (3Å - 10Å).
 
 <figure>
   <img src="_static/img/subtomogram_averaging.png"
@@ -163,7 +163,7 @@ Tomogram resolution is limited to ~2 - 5 nm, which is above the resolution neede
   </figcaption>
 </figure>
 
-Large numbers of particles (hundreds to thousands) are needed to reconstruct molecular structures with resolutions below 10 Å. For STA to work, it is imperative that researchers are able to correctly locate and identify particles that represent the same biological component within tomograms. Therefore, particle picking and curation is an important step to identify as many repeating particles as possible. However, picking and identifying 3D particle coordinates in noisy tomograms can be challenging and STA efforts depend on high quality tomograms. Once repeating 3D particles have been identified, they are individually extracted, aligned, refined, and averaged. 
+Large numbers of particles (hundreds to thousands) are needed to reconstruct molecular structures with resolutions below 10 Å. For STA to work, it is imperative that researchers are able to correctly locate and identify particles that represent the same biological component within tomograms. Therefore, particle picking and curation is an important step to identify as many repeating particles as possible. However, picking and identifying 3D particle coordinates in noisy tomograms can be challenging and STA efforts depend on high quality tomograms. Once repeating 3D particles have been identified, they are individually extracted, aligned, refined, and averaged.
 
 ## Automation in CryoET Image Processing
 
@@ -178,7 +178,7 @@ CryoET data analysis can be difficult and time consuming. Therefore, the develop
   </figcaption>
 </figure>
 
-Thanks to advances in cryoET image processing, researchers can now collect large datasets and preprocess them in real time using software packages (e.g., [Aretomo3](https://github.com/czimaginginstitute/AreTomo3)) that reconstruct tomograms in parallel to data acquisition. Self-supervised neural networks (e.g., [Noise2Void](https://github.com/juglab/n2v)) have been leveraged to improve denoising of generated tomograms contributing to automated processing. The ability to process larger datasets enables researchers to reconstruct molecular structures with higher resolutions through STA. 
+Thanks to advances in cryoET image processing, researchers can now collect large datasets and preprocess them in real time using software packages (e.g., [Aretomo3](https://github.com/czimaginginstitute/AreTomo3)) that reconstruct tomograms in parallel to data acquisition. Self-supervised neural networks (e.g., [Noise2Void](https://github.com/juglab/n2v)) have been leveraged to improve denoising of generated tomograms contributing to automated processing. The ability to process larger datasets enables researchers to reconstruct molecular structures with higher resolutions through STA.
 
 Identifying tomogram features through segmentation and particle picking is the main rate-limiting step during image analysis. Semi-automated detection through unsupervised ML algorithms that match tomogram densities with those of a known particle, or template, have been used to annotate denoised tomograms. This is known as template matching. Through an iterative process, annotations based on template matching are manually curated and used for subsequent rounds of segmentation and particle picking. This approach has been successful to study relatively large and abundant complexes (e.g., ribosomes) but it requires extensive manual curation. Efforts to develop deep learning algorithms (e.g., Convolutional Neural Networks) that can be trained on small annotated datasets promise to fully automate and speed up particle annotation in the future.
 
