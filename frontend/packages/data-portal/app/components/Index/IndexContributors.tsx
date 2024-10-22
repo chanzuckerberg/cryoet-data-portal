@@ -1,44 +1,169 @@
 import { I18n } from 'app/components/I18n'
 
-const CONTRIBUTORS = `
-David Agard
-Ben Barad
-Florian Bec
-John Briggs
-Zhen Chen
-Jane Ding
-Ben Engel
-Ryan Feathers
-Sara Goetz
-Danielle Grotjahn
-Gus Hart
-Grant Jensen
-Mohammed Kaplan
-Zunlong Ke
-Sagar Khavnekar
-Abhay Kotecha
-Jun Liu
-Julia Mahamid
-Michaela Medina
-Jürgen Plitzko
-Ricardo Righetto
-Kem Sochacki
-Matt Swulius
-Liang Xue
-Huaxin Yu
-Ellen Zhong
-`
+const CONTRIBUTORS = [
+  'Abhay Kotecha',
+  'Adam Lerer',
+  'Adrian Fujiet Koh',
+  'Alba Diz-Munoz',
+  'Alex J. Noble',
+  'Alexander Mattausch',
+  'Alicia K Michael',
+  'Alvarez Viar G',
+  'Anna Kreshuk',
+  'Anuj Kumar',
+  'Ariane Briegel',
+  'Benjamin A. Barad',
+  'Benjamin D. Engel',
+  'Benjamin J. Polacco',
+  'Berati Cerikan',
+  'Bridget Carragher',
+  'C McCafferty',
+  'Caiying Guo',
+  'Christian Eugen Zimmerli',
+  'Christoph J.O. Kaiser',
+  'Christopher Neufeldt',
+  'Christopher Thompson',
+  'Clinton S. Potter',
+  'Constantin Pape',
+  'Cora Woodward',
+  'Cramer Patrick',
+  'Daija Bobe',
+  'Damian C. Ekiert',
+  'Daniel Fuentes',
+  'Danielle A. Grotjahn',
+  'David A. Agard',
+  'Debnath Ghosal',
+  'Dienemann Christian',
+  'Dorothy W. C. Cheng',
+  'Dustin R. Morado',
+  'Elitza Tocheva',
+  'Ellen D. Zhong',
+  'Fabian M. Schwarz',
+  'Fergus Tollervey',
+  'Florent Waltz',
+  'Florian Beck',
+  'Frosina Stojanovska',
+  'Gaia Pigino',
+  'Gira Bhabha',
+  'Grant Jensen',
+  'Grigory Tagiltsev',
+  'Gunar Fabig',
+  'Hans-Georg Kräusslich',
+  'Harshita Ramchandani',
+  'Helge Markus Dietrich',
+  'Hugo G. van den Hoek',
+  'Irene de Teresa Trueba',
+  'Jake Johnston',
+  'Jan Michael Schuller',
+  'Jasenko Zivanov',
+  'Jessica Heebner',
+  'Jian Shi',
+  'Joaquin Oton',
+  'John Briggs',
+  'John Lu',
+  'Jonathan Schneider',
+  'Jonathan Schwartz',
+  'Jonathan Wagner',
+  'Judith B. Zaugg',
+  'Juergen Plitzko',
+  'Julia Mahamid',
+  'Julia Peukes',
+  'Kelsey M. Haas',
+  'Kotaro Kelley',
+  'Kun Qu',
+  'Kyle I. S. Harrington',
+  'LaurenAnn Metskas',
+  'Lesley McKeane',
+  'Liang Xue',
+  'Luiza Mendonca',
+  'M. Jürgen Plitzko',
+  'Mahrukh Usmani',
+  'Mareike Jordan',
+  'Martin Beck',
+  'Martin Obr',
+  'Martin Pilhofer',
+  'Matt Swulius',
+  'Matthias Poege',
+  'Mauricio Toro-Nahuelpan',
+  'Michaela Medina',
+  'Min Xu',
+  'Mirko Cortese',
+  'Miroslava Schaffer',
+  'Mohammed Kaplan',
+  'Momoko Shiozaki',
+  'Morgan Beeby',
+  'Mykhailo Kopylov',
+  'Nevan J. Krogan',
+  'Nicolas Coudray',
+  'Nikolai Klena',
+  'Oda Helene Schiøtz',
+  'Oliver Clarke',
+  'P Van Der Stappen',
+  'Paul Guichard',
+  'Philipp Erdmann',
+  'Poorna Subramanian',
+  'Przemek Dutka',
+  'Qing Yao',
+  'R. Luke Wiseman',
+  'Ralf Bartenschlager',
+  'Ramya Rangan',
+  'Raphael Trischler',
+  'Rasika Ramdasi',
+  'Ricardo D. Righetto',
+  'Rishwanth Raghu',
+  'Robert Kiewisz',
+  'Robyn M. Kaake',
+  'Ron Kelley',
+  'Ron Vale',
+  'Ronald D. Vale',
+  'S van Dorst',
+  'Sagar Khavnekar',
+  'Saikat Chakraborty',
+  'Sandra Katharina Schuller',
+  'Sara Goetz',
+  'Shee-Mei Lok',
+  'Shumei Zhao',
+  'Sjors H. W. Scheres',
+  'Songye Chen',
+  'Stefan Geimer',
+  'Stefanie Redemann',
+  'Stephen Carter',
+  'Sven Klumpe',
+  'Takanori Nakane',
+  'Tegunov Dimitry',
+  'Thomas Müller-Reichert',
+  'Tristan Bepler',
+  'Utz Heinrich Ermel',
+  'Victor Kostyuchenko',
+  'Virginie Hamel',
+  'Vojtech Zila',
+  'Volker Müller',
+  'Will Conway',
+  'William Nicolas',
+  'William Wan',
+  'Wojciech Wietrzynski',
+  'Wolfgang Baumeister',
+  'Xianjun Zhang',
+  'Xiaoli Xiong',
+  'Xue Liang',
+  'Xueying Zhan',
+  'Yi-Wei Chang',
+  'Yujia Gao',
+  'Zhen Chen',
+  'Zhiheng Yu',
+  'Zunlong Ke',
+].sort((a, b) =>
+  (a.split(' ').at(-1) ?? '').localeCompare(b.split(' ').at(-1) ?? ''),
+)
 
 export function IndexContributors() {
-  const contributors = CONTRIBUTORS.split('\n').filter(Boolean)
-
   return (
     <div className="flex flex-col gap-sds-xl h-full">
       <h3 className="font-sds-semibold font-semibold text-sds-header-xl leading-sds-header-xl">
         <I18n i18nKey="thankYouToOurDataContributors" />
       </h3>
-      <ul className="grid grid-flow-col grid-rows-[repeat(7,_minmax(0,_1fr))] grid-cols-4 gap-y-sds-xxs gap-x-sds-xl">
-        {contributors.map((name) => (
+      <ul className="columns-4 gap-y-sds-xxs gap-x-sds-xl">
+        {CONTRIBUTORS.map((name) => (
           <li key={name} className="text-sds-body-xs leading-sds-body-xs">
             {name}
           </li>
