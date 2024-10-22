@@ -1,6 +1,7 @@
 """This module generates model code from the GraphQL schema."""
 
 import logging
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Tuple, Union
@@ -270,7 +271,7 @@ def _parse_model_field(
     logging.debug("_parse_model_field: %s", field_type)
     model = GQL_TO_MODEL_TYPE.get(field_type.name)
     if model is not None:
-        model_field = strcase.to_snake(model)
+        model_field = to_snake(model)
         model_name = _camel_to_space_case(model)
         source_model = GQL_TO_MODEL_TYPE[gql_type.name]
         source_model_name = _camel_to_space_case(source_model)
@@ -297,7 +298,7 @@ def _parse_model_list_field(
     of_model = GQL_TO_MODEL_TYPE.get(of_type.name)
     if of_model is not None:
         source_model = GQL_TO_MODEL_TYPE[gql_type.name]
-        source_field = strcase.to_snake(source_model)
+        source_field = to_snake(source_model)
         source_model_name = _camel_to_space_case(source_model)
         of_model_name = _space_case_to_plural(_camel_to_space_case(of_model))
         return FieldInfo(
@@ -319,6 +320,12 @@ def _camel_to_space_case(name: str) -> str:
     return strcase.to_snake(name).replace("_", " ")
 
 
+def to_snake(input_str):
+    res = strcase.to_snake(input_str)
+    res = re.sub("^s_3_", "s3_", res)
+    return res
+
+
 def _space_case_to_plural(name: str) -> str:
     return name if name[-1] == "s" else f"{name}s"
 
@@ -332,7 +339,7 @@ def _load_jinja_environment() -> Environment:
         lstrip_blocks=True,
         keep_trailing_newline=True,
     )
-    env.filters["to_snake"] = strcase.to_snake
+    env.filters["to_snake"] = to_snake
     return env
 
 

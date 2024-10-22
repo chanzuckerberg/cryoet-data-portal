@@ -108,8 +108,6 @@ def use_factoryboy() -> None:
         s3_omezarr_dir="s3://test-public-bucket/20001/RUN1/TiltSeries/RUN1.zarr",
         https_mrc_file="http://localhost:4444/20001/RUN1/TiltSeries/RUN1_bin1.mrc",
         https_omezarr_dir="http://localhost:4444/20001/RUN1/TiltSeries/RUN1.zarr",
-        s3_collection_metadata="s3://test-public-bucket/20001/RUN1/TiltSeries/RUN1.mdoc",
-        https_collection_metadata="http://localhost:4444/20001/RUN1/TiltSeries/RUN1.mdoc",
         s3_angle_list="s3://test-public-bucket/20001/RUN1/TiltSeries/RUN1.rawtlt",
         https_angle_list="http://localhost:4444/20001/RUN1/TiltSeries/RUN1.rawtlt",
     )
@@ -120,8 +118,6 @@ def use_factoryboy() -> None:
         s3_omezarr_dir="s3://test-public-bucket/20001/RUN2/TiltSeries/RUN2.zarr",
         https_mrc_file="http://localhost:4444/20001/RUN2/TiltSeries/RUN2.mrc",
         https_omezarr_dir="http://localhost:4444/20001/RUN2/TiltSeries/RUN2.zarr",
-        s3_collection_metadata="s3://test-public-bucket/20001/RUN2/TiltSeries/RUN2.mdoc",
-        https_collection_metadata="http://localhost:4444/20001/RUN2/TiltSeries/RUN2.mdoc",
         s3_angle_list="s3://test-public-bucket/20001/RUN2/TiltSeries/RUN2.rawtlt",
         https_angle_list="http://localhost:4444/20001/RUN2/TiltSeries/RUN2.rawtlt",
     )
@@ -132,8 +128,6 @@ def use_factoryboy() -> None:
         s3_omezarr_dir="s3://test-public-bucket/20002/RUN001/TiltSeries/RUN001.zarr",
         https_mrc_file="http://localhost:4444/20002/RUN001/TiltSeries/RUN001.mrc",
         https_omezarr_dir="http://localhost:4444/20002/RUN001/TiltSeries/RUN001.zarr",
-        s3_collection_metadata="s3://test-public-bucket/20002/RUN001/TiltSeries/RUN001.mdoc",
-        https_collection_metadata="http://localhost:4444/20002/RUN001/TiltSeries/RUN001.mdoc",
         s3_angle_list="s3://test-public-bucket/20002/RUN001/TiltSeries/RUN001.rawtlt",
         https_angle_list="http://localhost:4444/20002/RUN001/TiltSeries/RUN001.rawtlt",
     )
@@ -144,8 +138,6 @@ def use_factoryboy() -> None:
         s3_omezarr_dir="s3://test-public-bucket/20002/RUN002/TiltSeries/RUN002.zarr",
         https_mrc_file="http://localhost:4444/20002/RUN002/TiltSeries/RUN002.mrc",
         https_omezarr_dir="http://localhost:4444/20002/RUN002/TiltSeries/RUN002.zarr",
-        s3_collection_metadata="s3://test-public-bucket/20002/RUN002/TiltSeries/RUN002.mdoc",
-        https_collection_metadata="http://localhost:4444/20002/RUN002/TiltSeries/RUN002.mdoc",
         s3_angle_list="s3://test-public-bucket/20002/RUN002/TiltSeries/RUN002.rawtlt",
         https_angle_list="http://localhost:4444/20002/RUN002/TiltSeries/RUN002.rawtlt",
     )

@@ -49,7 +49,7 @@ class Alignment(Model):
         x_rotation_offset (float): Additional X rotation of the reconstruction volume in degrees
         tilt_offset (float): Additional tilt offset in degrees
         affine_transformation_matrix (str): A placeholder for the affine transformation matrix.
-        s_3_alignment_metadata (str): S3 path to the metadata file for this alignment
+        s3_alignment_metadata (str): S3 path to the metadata file for this alignment
         https_alignment_metadata (str): HTTPS url to the metadata file for this alignment
         is_portal_standard (bool): Whether this is the portal standard alignment
     """
@@ -86,7 +86,7 @@ class Alignment(Model):
     x_rotation_offset: float = FloatField()
     tilt_offset: float = FloatField()
     affine_transformation_matrix: str = StringField()
-    s_3_alignment_metadata: str = StringField()
+    s3_alignment_metadata: str = StringField()
     https_alignment_metadata: str = StringField()
     is_portal_standard: bool = BooleanField()
 
@@ -103,7 +103,7 @@ class Annotation(Model):
         authors (List[AnnotationAuthor]): The annotation authors of this annotation
         deposition (Deposition): The deposition this annotation is a part of
         deposition_id (int): None
-        s_3_metadata_path (str): S3 path for the metadata json file for this annotation
+        s3_metadata_path (str): S3 path for the metadata json file for this annotation
         https_metadata_path (str): HTTPS path for the metadata json file for this annotation
         annotation_publication (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
         annotation_method (str): Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
@@ -147,7 +147,7 @@ class Annotation(Model):
     )
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
     deposition_id: int = IntField()
-    s_3_metadata_path: str = StringField()
+    s3_metadata_path: str = StringField()
     https_metadata_path: str = StringField()
     annotation_publication: str = StringField()
     annotation_method: str = StringField()
@@ -251,7 +251,7 @@ class AnnotationFile(Model):
         tomogram_voxel_spacing (TomogramVoxelSpacing): The tomogram voxel spacing this annotation file is a part of
         tomogram_voxel_spacing_id (int): None
         format (str): File format for this file
-        s_3_path (str): s3 path of the annotation file
+        s3_path (str): s3 path of the annotation file
         https_path (str): HTTPS path for this annotation file
         is_visualization_default (bool): Data curator’s subjective choice of default annotation to display in visualization for an object
         source (str): The source type for the annotation file (dataset_author, community, or portal_standard)
@@ -276,7 +276,7 @@ class AnnotationFile(Model):
     )
     tomogram_voxel_spacing_id: int = IntField()
     format: str = StringField()
-    s_3_path: str = StringField()
+    s3_path: str = StringField()
     https_path: str = StringField()
     is_visualization_default: bool = BooleanField()
     source: str = StringField()
@@ -370,7 +370,7 @@ class Dataset(Model):
         last_modified_date (date): Date when a released dataset is last modified.
         dataset_publications (str): Comma-separated list of DOIs for publications associated with the dataset.
         related_database_entries (str): If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
-        s_3_prefix (str): The S3 public bucket path where this dataset is contained
+        s3_prefix (str): The S3 public bucket path where this dataset is contained
         https_prefix (str): The https directory path where this dataset is contained
     """
 
@@ -410,7 +410,7 @@ class Dataset(Model):
     last_modified_date: date = DateField()
     dataset_publications: str = StringField()
     related_database_entries: str = StringField()
-    s_3_prefix: str = StringField()
+    s3_prefix: str = StringField()
     https_prefix: str = StringField()
 
     def download_everything(self, dest_path: Optional[str] = None):
@@ -605,7 +605,7 @@ class Frame(Model):
         acquisition_order (int): Frame's acquistion order within a tilt experiment
         dose (float): The raw camera angle for a frame
         is_gain_corrected (bool): Whether this frame has been gain corrected
-        s_3_frame_path (str): S3 path to the frame file
+        s3_frame_path (str): S3 path to the frame file
         https_frame_path (str): HTTPS path to the frame file
     """
 
@@ -621,7 +621,7 @@ class Frame(Model):
     acquisition_order: int = IntField()
     dose: float = FloatField()
     is_gain_corrected: bool = BooleanField()
-    s_3_frame_path: str = StringField()
+    s3_frame_path: str = StringField()
     https_frame_path: str = StringField()
 
 
@@ -632,7 +632,7 @@ class FrameAcquisitionFile(Model):
         id (int): Numeric identifier (May change!)
         run (Run): The run this frame acquisition file is a part of
         run_id (int): None
-        s_3_mdoc_path (str): Path to the frame acquisition mdoc file in s3
+        s3_mdoc_path (str): Path to the frame acquisition mdoc file in s3
         https_mdoc_path (str): Path to the frame acquisition mdoc file as an https url
     """
 
@@ -642,7 +642,7 @@ class FrameAcquisitionFile(Model):
     id: int = IntField()
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
-    s_3_mdoc_path: str = StringField()
+    s3_mdoc_path: str = StringField()
     https_mdoc_path: str = StringField()
 
 
@@ -653,7 +653,7 @@ class GainFile(Model):
         id (int): Numeric identifier (May change!)
         run (Run): The run this gain file is a part of
         run_id (int): None
-        s_3_file_path (str): Path to the file in s3
+        s3_file_path (str): Path to the file in s3
         https_file_path (str): Path to the file as an https url
     """
 
@@ -663,7 +663,7 @@ class GainFile(Model):
     id: int = IntField()
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
-    s_3_file_path: str = StringField()
+    s3_file_path: str = StringField()
     https_file_path: str = StringField()
 
 
@@ -712,7 +712,7 @@ class Run(Model):
         tomogram_voxel_spacings (List[TomogramVoxelSpacing]): The tomogram voxel spacings of this run
         tomograms (List[Tomogram]): The tomograms of this run
         name (str): Short name for this experiment run
-        s_3_prefix (str): The S3 public bucket path where this run is contained
+        s3_prefix (str): The S3 public bucket path where this run is contained
         https_prefix (str): The HTTPS directory path where this run is contained url
     """
 
@@ -739,7 +739,7 @@ class Run(Model):
     )
     tomograms: List[Tomogram] = ListRelationship("Tomogram", "id", "run_id")
     name: str = StringField()
-    s_3_prefix: str = StringField()
+    s3_prefix: str = StringField()
     https_prefix: str = StringField()
 
     def download_everything(self, dest_path: Optional[str] = None):
@@ -768,11 +768,11 @@ class TiltSeries(Model):
         run_id (int): None
         deposition (Deposition): The deposition this tilt series is a part of
         deposition_id (int): None
-        s_3_omezarr_dir (str): S3 path to this tiltseries in multiscale OME-Zarr format
-        s_3_mrc_file (str): S3 path to this tiltseries in MRC format (no scaling)
+        s3_omezarr_dir (str): S3 path to this tiltseries in multiscale OME-Zarr format
+        s3_mrc_file (str): S3 path to this tiltseries in MRC format (no scaling)
         https_omezarr_dir (str): HTTPS path to this tiltseries in multiscale OME-Zarr format
         https_mrc_file (str): HTTPS path to this tiltseries in MRC format (no scaling)
-        s_3_angle_list (str): S3 path to the angle list file for this tiltseries
+        s3_angle_list (str): S3 path to the angle list file for this tiltseries
         https_angle_list (str): HTTPS path to the angle list file for this tiltseries
         acceleration_voltage (int): Electron Microscope Accelerator voltage in volts
         spherical_aberration_constant (float): Spherical Aberration Constant of the objective lens in millimeters
@@ -809,11 +809,11 @@ class TiltSeries(Model):
     run_id: int = IntField()
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
     deposition_id: int = IntField()
-    s_3_omezarr_dir: str = StringField()
-    s_3_mrc_file: str = StringField()
+    s3_omezarr_dir: str = StringField()
+    s3_mrc_file: str = StringField()
     https_omezarr_dir: str = StringField()
     https_mrc_file: str = StringField()
-    s_3_angle_list: str = StringField()
+    s3_angle_list: str = StringField()
     https_angle_list: str = StringField()
     acceleration_voltage: int = IntField()
     spherical_aberration_constant: float = FloatField()
@@ -839,14 +839,6 @@ class TiltSeries(Model):
     is_aligned: bool = BooleanField()
     pixel_spacing: float = FloatField()
     aligned_tiltseries_binning: int = IntField()
-
-    def download_collection_metadata(self, dest_path: Optional[str] = None):
-        """Download the collection metadata for this tiltseries
-
-        Args:
-            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
-        """
-        download_https(self.https_collection_metadata, dest_path)
 
     def download_angle_list(self, dest_path: Optional[str] = None):
         """Download the angle list for this tiltseries
@@ -914,9 +906,9 @@ class Tomogram(Model):
         is_portal_standard (bool): whether this tomogram adheres to portal standards
         is_author_submitted (bool): Whether this tomogram was submitted by the author of the dataset it belongs to.
         is_visualization_default (bool): Data curator’s subjective choice of default tomogram to display in visualization for a run
-        s_3_omezarr_dir (str): S3 path to this tomogram in multiscale OME-Zarr format
+        s3_omezarr_dir (str): S3 path to this tomogram in multiscale OME-Zarr format
         https_omezarr_dir (str): HTTPS path to this tomogram in multiscale OME-Zarr format
-        s_3_mrc_file (str): S3 path to this tomogram in MRC format (no scaling)
+        s3_mrc_file (str): S3 path to this tomogram in MRC format (no scaling)
         https_mrc_file (str): HTTPS path to this tomogram in MRC format (no scaling)
         scale_0_dimensions (str): comma separated x,y,z dimensions of the unscaled tomogram
         scale_1_dimensions (str): comma separated x,y,z dimensions of the scale1 tomogram
@@ -970,9 +962,9 @@ class Tomogram(Model):
     is_portal_standard: bool = BooleanField()
     is_author_submitted: bool = BooleanField()
     is_visualization_default: bool = BooleanField()
-    s_3_omezarr_dir: str = StringField()
+    s3_omezarr_dir: str = StringField()
     https_omezarr_dir: str = StringField()
-    s_3_mrc_file: str = StringField()
+    s3_mrc_file: str = StringField()
     https_mrc_file: str = StringField()
     scale_0_dimensions: str = StringField()
     scale_1_dimensions: str = StringField()
@@ -1084,7 +1076,7 @@ class TomogramVoxelSpacing(Model):
         run_id (int): None
         tomograms (List[Tomogram]): The tomograms of this tomogram voxel spacing
         voxel_spacing (float): The voxel spacing for the tomograms in this set in angstroms
-        s_3_prefix (str): The S3 public bucket path where this tomogram voxel spacing is contained
+        s3_prefix (str): The S3 public bucket path where this tomogram voxel spacing is contained
         https_prefix (str): The HTTPS directory path where this tomogram voxel spacing is contained
     """
 
@@ -1105,7 +1097,7 @@ class TomogramVoxelSpacing(Model):
         "tomogram_voxel_spacing_id",
     )
     voxel_spacing: float = FloatField()
-    s_3_prefix: str = StringField()
+    s3_prefix: str = StringField()
     https_prefix: str = StringField()
 
     def download_everything(self, dest_path: Optional[str] = None):

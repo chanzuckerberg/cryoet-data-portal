@@ -1,13 +1,5 @@
 {% include 'Model.jinja2' %}
 
-    def download_collection_metadata(self, dest_path: Optional[str] = None):
-        """Download the collection metadata for this tiltseries
-
-        Args:
-            dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
-        """
-        download_https(self.https_collection_metadata, dest_path)
-
     def download_angle_list(self, dest_path: Optional[str] = None):
         """Download the angle list for this tiltseries
 

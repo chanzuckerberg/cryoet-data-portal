@@ -134,14 +134,12 @@ def test_download_default_dir(tmp_dir, client) -> None:
 def test_tiltseries_downloaders(tmp_dir, client):
     ts = TiltSeries.find(client, [TiltSeries.run.name == "RUN1"])[0]
     assert ts
-    ts.download_collection_metadata(tmp_dir)
     ts.download_angle_list(tmp_dir)
     ts.download_omezarr(tmp_dir)
     ts.download_mrcfile(tmp_dir)
     files = os.listdir(tmp_dir)
     assert set(files) == {
         "RUN1.rawtlt",
-        "RUN1.mdoc",
         "RUN1_bin1.mrc",
         "RUN1.zarr",
     }
