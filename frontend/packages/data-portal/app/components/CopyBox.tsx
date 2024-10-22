@@ -26,7 +26,7 @@ export function CopyBox({
       {title && (
         <p
           className={cns(
-            'text-sds-header-xs leading-sds-header-xs font-semibold mb-sds-xxs',
+            'text-sds-header-s leading-sds-header-s font-semibold mb-sds-xxs',
             titleClassName,
           )}
         >
