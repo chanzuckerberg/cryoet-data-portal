@@ -375,3 +375,11 @@ div .centered-quote {
   max-width: 24rem;
   margin: auto;
 }
+
+/* Side by side videos */
+.sidevideos {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  width: 33%;
+}
