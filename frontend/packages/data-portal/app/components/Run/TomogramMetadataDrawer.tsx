@@ -68,7 +68,7 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('relatedDatabases'),
-            values: [], // TODO
+            values: [tomogram.relatedDatabaseEntries ?? ''],
             renderValue: (value: string) => (
               <DatabaseEntryList entries={value} />
             ),
@@ -99,11 +99,11 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('releaseDate'),
-            values: [], // TODO
+            values: [tomogram.releaseDate ?? ''],
           },
           {
             label: t('lastModifiedDate'),
-            values: [], // TODO
+            values: [tomogram.lastModifiedDate ?? ''],
           },
         )}
       />
@@ -113,11 +113,11 @@ export function TomogramMetadataDrawer() {
         data={getTableData(
           {
             label: t('portalStandardStatus'),
-            values: [], // TODO
+            values: [tomogram.isPortalStandard ? 'True' : 'False'],
           },
           {
             label: t('submittedByDatasetAuthor'),
-            values: [], // TODO
+            values: [tomogram.isAuthorSubmitted ? 'True' : 'False'],
           },
           {
             label: t('reconstructionSoftware'),

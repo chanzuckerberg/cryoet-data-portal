@@ -15,6 +15,7 @@ import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { I18n } from '../I18n'
 import { Tooltip } from '../Tooltip'
+import { useRunById } from 'app/hooks/useRunById'
 
 export function AnnotationOverviewTable() {
   const { activeAnnotation: annotation } = useAnnotation()
@@ -28,6 +29,13 @@ export function AnnotationOverviewTable() {
         (annotation?.method_links ?? []) as MethodLinkDataType[],
       ),
     [annotation],
+  )
+
+  const { annotationShapes } = useRunById()
+  const v2AnnotationShape = annotationShapes.find(
+    (currentAnnotation) =>
+      currentAnnotation.annotation?.id === annotation?.id &&
+      currentAnnotation.shapeType === annotation?.shape_type,
   )
 
   if (!annotation) {
@@ -106,8 +114,10 @@ export function AnnotationOverviewTable() {
                     />
                   </Tooltip>
                 ),
-                // TODO(bchu): Integrate with alignment.id after annotations field migrated.
-                values: [],
+                values: [
+                  v2AnnotationShape?.annotationFiles.edges.at(0)?.node
+                    .alignmentId ?? '--',
+                ],
               },
             ]
           : []),
