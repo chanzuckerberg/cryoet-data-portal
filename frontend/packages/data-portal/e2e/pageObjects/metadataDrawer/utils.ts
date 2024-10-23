@@ -209,8 +209,7 @@ function getTomogramDrawerTestMetadata(
     dimensionXYZ: `${tomogram.alignment!.volumeXDimension}, ${
       tomogram.alignment!.volumeYDimension
     }, ${tomogram.alignment!.volumeZDimension}`,
-    offsetXYZ: `${tomogram!.alignment?.volumeXOffset}, ${tomogram!.alignment
-      ?.volumeYOffset}, ${tomogram!.alignment?.volumeZOffset}`,
+    offsetXYZ: `${tomogram.alignment?.volumeXOffset}, ${tomogram.alignment?.volumeYOffset}, ${tomogram.alignment?.volumeZOffset}`,
     rotationX: tomogram.alignment!.xRotationOffset,
     tiltOffset: tomogram.alignment!.tiltOffset,
     affineTransformationMatrix:
