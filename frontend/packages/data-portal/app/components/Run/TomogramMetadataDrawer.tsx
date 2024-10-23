@@ -68,7 +68,7 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('relatedDatabases'),
-            values: [], // TODO
+            values: [tomogram.relatedDatabaseEntries ?? ''],
             renderValue: (value: string) => (
               <DatabaseEntryList entries={value} />
             ),
@@ -99,11 +99,11 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('releaseDate'),
-            values: [], // TODO
+            values: [tomogram.releaseDate ?? ''],
           },
           {
             label: t('lastModifiedDate'),
-            values: [], // TODO
+            values: [tomogram.lastModifiedDate ?? ''],
           },
         )}
       />
@@ -113,11 +113,11 @@ export function TomogramMetadataDrawer() {
         data={getTableData(
           {
             label: t('portalStandardStatus'),
-            values: [], // TODO
+            values: [tomogram.isPortalStandard ? 'True' : 'False'],
           },
           {
             label: t('submittedByDatasetAuthor'),
-            values: [], // TODO
+            values: [tomogram.isAuthorSubmitted ? 'True' : 'False'],
           },
           {
             label: t('reconstructionSoftware'),
@@ -138,7 +138,7 @@ export function TomogramMetadataDrawer() {
           {
             label: t('voxelSpacing'),
             subLabel: (
-              <div className="text-sds-header-xxs font-normal">
+              <div className="text-sds-header-xxs font-normal text-sds-color-semantic-text-neutral">
                 {t('sizeXYZ')}
               </div>
             ),
@@ -149,7 +149,9 @@ export function TomogramMetadataDrawer() {
             renderValues: (values: string[]) => (
               <ul className="list-none">
                 <li className="leading-[20px]">{values[0]}</li>
-                <li className="text-sds-header-xxs font-normal">{values[1]}</li>
+                <li className="text-sds-header-xxs font-normal text-sds-color-semantic-text-neutral">
+                  {values[1]}
+                </li>
               </ul>
             ),
           },
@@ -194,7 +196,20 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('canonicalStatus'),
-            values: [], // TODO
+            values: [tomogram.isPortalStandard ? 'True' : 'False'],
+            labelExtra: (
+              <Tooltip
+                tooltip={<I18n i18nKey="alignmentIdCanonicalTooltip" />}
+                placement="top"
+              >
+                <Icon
+                  sdsIcon="InfoCircle"
+                  sdsSize="s"
+                  className="!fill-sds-color-primitive-gray-500"
+                  sdsType="button"
+                />
+              </Tooltip>
+            ),
           },
           {
             label: t('alignmentType'),

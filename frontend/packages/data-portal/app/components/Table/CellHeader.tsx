@@ -49,6 +49,9 @@ export function CellHeader({
         verticalAlign: 'top',
       }}
       hideSortIcon={!showSort}
+      className={
+        !tooltip ? 'hover:!text-sds-color-semantic-text-base-secondary' : ''
+      }
     >
       <p className="line-clamp-1">
         <Tooltip

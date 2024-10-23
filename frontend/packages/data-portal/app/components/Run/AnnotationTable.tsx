@@ -345,7 +345,9 @@ export function AnnotationTable() {
                     datasetId: run.dataset.id,
                     runId: run.id,
                     annotationId: annotation.id,
-                    referenceTomogramId: tomograms[0]?.id, // TODO(bchu): is_portal_standard
+                    referenceTomogramId: tomograms.find(
+                      (tomogram) => tomogram.isPortalStandard,
+                    )?.id,
                     objectShapeType: annotation.shape_type,
                     fileFormat: annotation.format,
                     annotationName: `${annotation.fileId} ${annotation.object_name}`,

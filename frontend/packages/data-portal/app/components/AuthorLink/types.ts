@@ -16,7 +16,7 @@ export type AuthorInfoV2 = {
   primaryAuthorStatus?: boolean | null
 }
 
-// TODO(bchu): Delete this when everything migrated.
+// TODO(kira-api-migration): Delete this when everything migrated.
 export function convertToAuthorInfoV2(author: AuthorInfo): AuthorInfoV2 {
   return 'corresponding_author_status' in author ||
     'primary_author_status' in author

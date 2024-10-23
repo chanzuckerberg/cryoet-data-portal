@@ -67,13 +67,14 @@ export function TomogramsTable() {
         ),
         cell: ({ row: { original } }) => (
           <TableCell
-            className="flex flex-col gap-sds-xxxs !items-start"
+            className="flex flex-col !items-start"
             width={TomogramTableWidths.name}
           >
             <div className="text-sds-body-m leading-sds-body-m font-semibold text-ellipsis line-clamp-1 break-all">
               {getTomogramName(original)}
             </div>
-            <div className="flex items-center flex-wrap gap-sds-xs text-sds-body-xxs">
+
+            <div className="flex items-center flex-wrap gap-sds-xs text-sds-body-xxs mt-sds-xxxs">
               {`${t('tomogramId')}: ${IdPrefix.Tomogram}-${original.id}`}
 
               {original.isPortalStandard && (
@@ -84,7 +85,8 @@ export function TomogramsTable() {
                 <TomogramTypeBadge type="author" showTooltip />
               )}
             </div>
-            <div className=" text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-header-xxs">
+
+            <div className=" text-sds-color-semantic-text-base-secondary text-sds-body-xxs leading-sds-header-xxs mt-2">
               <AuthorList
                 authors={original.authors.edges.map((edge) => edge.node)}
                 compact
@@ -110,7 +112,10 @@ export function TomogramsTable() {
       }),
       columnHelper.accessor('alignment.id', {
         header: () => (
-          <CellHeader width={TomogramTableWidths.alignment}>
+          <CellHeader
+            width={TomogramTableWidths.alignment}
+            tooltip={<I18n i18nKey="alignmentIdTooltip" />}
+          >
             {t('alignmentId')}
           </CellHeader>
         ),
@@ -144,7 +149,7 @@ export function TomogramsTable() {
         cell: ({ getValue, row: { original } }) => (
           <TableCell width={TomogramTableWidths.voxelSpacing}>
             {t('unitAngstrom', { value: getValue() })}
-            <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
+            <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-secondary">
               ({original.sizeX}, {original.sizeY}, {original.sizeZ})px
             </div>
           </TableCell>
@@ -180,9 +185,8 @@ export function TomogramsTable() {
         cell: ({ row: { original } }) => (
           <TableCell width={TomogramTableWidths.actions}>
             <div className="flex flex-col gap-sds-xs items-start">
-              {/* TODO Use only `isVisualizationDefault` when data is available */}
-              {(original.isVisualizationDefault ??
-                original.isAuthorSubmitted) && (
+              {/* TODO use `isVisualizationDefault` when data is ready */}
+              {original.isAuthorSubmitted && (
                 <ViewTomogramButton
                   tomogramId={original.id.toString()}
                   neuroglancerConfig={original.neuroglancerConfig}
