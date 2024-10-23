@@ -10,12 +10,12 @@ import { MethodLinkDataType } from 'app/components/Deposition/MethodLinks/type'
 import { Link } from 'app/components/Link'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
+import { useRunById } from 'app/hooks/useRunById'
 import { useAnnotation } from 'app/state/annotation'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { I18n } from '../I18n'
 import { Tooltip } from '../Tooltip'
-import { useRunById } from 'app/hooks/useRunById'
 
 export function AnnotationOverviewTable() {
   const { activeAnnotation: annotation } = useAnnotation()
