@@ -4,11 +4,11 @@ import TableRow from '@mui/material/TableRow'
 import { ComponentProps } from 'react'
 import { match } from 'ts-pattern'
 
+import { useI18n } from 'app/hooks/useI18n'
 import { TableData } from 'app/types/table'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
 import { TableCell } from './TableCell'
-import { useI18n } from 'app/hooks/useI18n'
 
 export function MetadataTable({
   data,

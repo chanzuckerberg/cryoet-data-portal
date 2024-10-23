@@ -17,7 +17,6 @@ export interface ViewTomogramButtonProps {
   neuroglancerConfig: string | null | undefined
   tooltipPlacement: TooltipProps['placement']
   setIsHoveringOver?: (isHoveringOver: boolean) => void
-  className?: string
 }
 
 export function ViewTomogramButton({
@@ -27,7 +26,6 @@ export function ViewTomogramButton({
   neuroglancerConfig,
   tooltipPlacement,
   setIsHoveringOver,
-  className,
 }: ViewTomogramButtonProps) {
   const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
   const plausible = usePlausible()
