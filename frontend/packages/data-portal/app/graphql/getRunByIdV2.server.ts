@@ -307,6 +307,9 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         sizeY
         sizeZ
         voxelSpacing
+        releaseDate
+        lastModifiedDate
+        relatedDatabaseEntries
         deposition {
           id
           depositionDate
