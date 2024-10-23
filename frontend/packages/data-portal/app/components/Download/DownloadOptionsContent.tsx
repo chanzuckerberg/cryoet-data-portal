@@ -140,6 +140,12 @@ export function DownloadOptionsContent() {
             value={tomogramToDownload.alignment.id}
           />
         )}
+      {annotationToDownload && (
+        <ModalSubtitle
+          label={t('alignmentId')}
+          value={`${IdPrefix.Alignment}-${annotationToDownload.id}`}
+        />
+      )}
       {fileFormat && (
         <ModalSubtitle
           label={t('fileFormat')}
