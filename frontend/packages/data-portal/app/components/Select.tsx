@@ -150,7 +150,15 @@ export function Select({
         onClose={closeDropdown}
         onChange={handleOnChange}
         onClickAway={closeDropdown}
-        classes={dropdownClasses}
+        // This hides the search bar in the dropdown menu since it's not used anywhere yet.
+        className="hidden"
+        classes={{
+          ...dropdownClasses,
+          popper: cns(
+            '[&_.MuiButtonBase-root]:!px-sds-s [&_.MuiButtonBase-root]:!py-sds-xs',
+            dropdownClasses?.popper,
+          ),
+        }}
         PopperBaseProps={{
           ...dropdownPopperBaseProps,
           style: { width: anchorEl?.clientWidth },
