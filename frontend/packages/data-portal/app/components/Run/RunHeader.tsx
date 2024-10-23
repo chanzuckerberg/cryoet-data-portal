@@ -65,7 +65,7 @@ export function RunHeader() {
   const tomogramV2 =
     tomograms.find(
       (currentTomogram) =>
-        currentTomogram.isVisualizationDefault ??
+        // TODO use `isVisualizationDefault` when data is ready
         currentTomogram.isAuthorSubmitted,
     ) ?? tomograms.at(0)
 
