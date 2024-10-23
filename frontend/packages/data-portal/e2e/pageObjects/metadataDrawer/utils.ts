@@ -175,6 +175,8 @@ function getTomogramDrawerTestMetadata(
   tomogram: DeepPartial<Tomogram>,
   dataset: DeepPartial<Dataset> | null | undefined,
 ): DrawerTestMetadata {
+  console.log('breh', tomogram.isAuthorSubmitted)
+
   return {
     authors: tomogram.authors!.edges!.map((edge) => edge.node!.name),
     publications:
@@ -202,17 +204,18 @@ function getTomogramDrawerTestMetadata(
     ),
     ctfCorrected: tomogram.ctfCorrected ? 'Yes' : 'No',
     alignmentId: tomogram.alignment!.id,
-    canonicalStatus: '--',
+    canonicalStatus: tomogram.isPortalStandard ? 'True' : 'False',
     alignmentType: tomogram.alignment!.alignmentType,
     dimensionXYZ: `${tomogram.alignment!.volumeXDimension}, ${
       tomogram.alignment!.volumeYDimension
     }, ${tomogram.alignment!.volumeZDimension}`,
-    offsetXYZ: '--',
+    offsetXYZ: `${tomogram!.alignment?.volumeXOffset}, ${tomogram!.alignment
+      ?.volumeYOffset}, ${tomogram!.alignment?.volumeZOffset}`,
     rotationX: tomogram.alignment!.xRotationOffset,
     tiltOffset: tomogram.alignment!.tiltOffset,
     affineTransformationMatrix:
       tomogram.alignment!.affineTransformationMatrix!.replaceAll(
-        /\[|\]|,|\s/g,
+        /\{|\}|\[|\]|,|\s/g,
         '',
       ),
   }
