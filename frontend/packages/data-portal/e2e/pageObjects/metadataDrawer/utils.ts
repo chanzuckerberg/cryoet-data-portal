@@ -175,19 +175,21 @@ function getTomogramDrawerTestMetadata(
   tomogram: DeepPartial<Tomogram>,
   dataset: DeepPartial<Dataset> | null | undefined,
 ): DrawerTestMetadata {
+  console.log('breh', tomogram.isAuthorSubmitted)
+
   return {
     authors: tomogram.authors!.edges!.map((edge) => edge.node!.name),
     publications:
       dataset?.datasetPublications?.replaceAll('doi:', 'DOI:').split(', ') ??
       '--',
-    relatedDatabases: '--',
+    relatedDatabases: tomogram.relatedDatabaseEntries ?? '--',
     depositionName: tomogram.deposition?.title ?? '--',
     depositionId: tomogram.deposition?.id ?? '--',
     depositionDate: tomogram.deposition?.depositionDate ?? '--',
-    releaseDate: '--',
-    lastModifiedDate: '--',
-    portalStandardStatus: '--',
-    submittedByDatasetAuthor: '--',
+    releaseDate: tomogram.releaseDate ?? '--',
+    lastModifiedDate: tomogram.lastModifiedDate ?? '--',
+    portalStandardStatus: tomogram.isPortalStandard ? 'True' : 'False',
+    submittedByDatasetAuthor: tomogram.isAuthorSubmitted ? 'True' : 'False',
     reconstructionSoftware: tomogram.reconstructionSoftware,
     reconstructionMethod: tomogram.reconstructionMethod,
     processingSoftware: tomogram.processingSoftware ?? '',
@@ -202,17 +204,17 @@ function getTomogramDrawerTestMetadata(
     ),
     ctfCorrected: tomogram.ctfCorrected ? 'Yes' : 'No',
     alignmentId: tomogram.alignment!.id,
-    canonicalStatus: '--',
+    canonicalStatus: tomogram.isPortalStandard ? 'True' : 'False',
     alignmentType: tomogram.alignment!.alignmentType,
     dimensionXYZ: `${tomogram.alignment!.volumeXDimension}, ${
       tomogram.alignment!.volumeYDimension
     }, ${tomogram.alignment!.volumeZDimension}`,
-    offsetXYZ: '--',
+    offsetXYZ: `${tomogram.alignment?.volumeXOffset}, ${tomogram.alignment?.volumeYOffset}, ${tomogram.alignment?.volumeZOffset}`,
     rotationX: tomogram.alignment!.xRotationOffset,
     tiltOffset: tomogram.alignment!.tiltOffset,
     affineTransformationMatrix:
       tomogram.alignment!.affineTransformationMatrix!.replaceAll(
-        /\[|\]|,|\s/g,
+        /\{|\}|\[|\]|,|\s/g,
         '',
       ),
   }

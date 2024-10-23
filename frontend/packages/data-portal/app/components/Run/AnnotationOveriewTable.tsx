@@ -10,6 +10,7 @@ import { MethodLinkDataType } from 'app/components/Deposition/MethodLinks/type'
 import { Link } from 'app/components/Link'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
+import { useRunById } from 'app/hooks/useRunById'
 import { useAnnotation } from 'app/state/annotation'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 
@@ -28,6 +29,13 @@ export function AnnotationOverviewTable() {
         (annotation?.method_links ?? []) as MethodLinkDataType[],
       ),
     [annotation],
+  )
+
+  const { annotationShapes } = useRunById()
+  const v2AnnotationShape = annotationShapes.find(
+    (currentAnnotation) =>
+      currentAnnotation.annotation?.id === annotation?.id &&
+      currentAnnotation.shapeType === annotation?.shape_type,
   )
 
   if (!annotation) {
@@ -106,8 +114,10 @@ export function AnnotationOverviewTable() {
                     />
                   </Tooltip>
                 ),
-                // TODO(bchu): Integrate with alignment.id after annotations field migrated.
-                values: [],
+                values: [
+                  v2AnnotationShape?.annotationFiles.edges.at(0)?.node
+                    .alignmentId ?? '--',
+                ],
               },
             ]
           : []),
