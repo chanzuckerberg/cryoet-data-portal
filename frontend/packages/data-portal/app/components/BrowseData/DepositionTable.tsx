@@ -24,6 +24,7 @@ import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
+import { Events, usePlausible } from 'app/hooks/usePlausible'
 
 const LOADING_DEPOSITIONS = range(0, MAX_PER_PAGE).map(
   (value) =>
@@ -309,11 +310,16 @@ export function DepositionTable() {
     }
   }, [depositionSort, isLoadingDebounced, searchParams, setSearchParams, t])
 
+  const plausible = usePlausible()
+
   return (
     <PageTable
       data={isLoadingDebounced ? LOADING_DEPOSITIONS : depositions}
       columns={columns}
-      onTableRowClick={(row) => navigate(`/depositions/${row.original.id}`)}
+      onTableRowClick={(row) => {
+        plausible(Events.ClickDeposition, { id: row.original.id })
+        navigate(`/depositions/${row.original.id}`)
+      }}
       hoverType="group"
     />
   )

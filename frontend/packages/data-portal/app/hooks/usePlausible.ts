@@ -5,6 +5,7 @@ import { useEnvironment } from 'app/context/Environment.context'
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
 
 import { MetadataDrawerId } from './useMetadataDrawer'
+import { BrowseDataTab } from 'app/types/browseData'
 
 export const PLAUSIBLE_ENV_URL_MAP: Record<NodeJS.ProcessEnv['ENV'], string> = {
   local: 'frontend.cryoet.dev.si.czi.technology',
@@ -15,6 +16,9 @@ export const PLAUSIBLE_ENV_URL_MAP: Record<NodeJS.ProcessEnv['ENV'], string> = {
 
 export enum Events {
   ClickBackToConfigureDownload = 'Click back to configure download',
+  ClickBrowseDataTab = 'Click browse data tab',
+  ClickDatasetFromDeposition = 'Click dataset from deposition',
+  ClickDeposition = 'Click deposition',
   ClickDownloadTab = 'Click download tab',
   ClickDownloadTomogram = 'Click download tomogram',
   ClickNextToDownloadOptions = 'Click next to configure download',
@@ -77,6 +81,19 @@ export type EventPayloads = {
     runId: number
     tomogramId: number | string
     type: 'dataset' | 'run' | 'tomogram'
+  }
+
+  [Events.ClickBrowseDataTab]: {
+    tab: BrowseDataTab
+  }
+
+  [Events.ClickDeposition]: {
+    id: number
+  }
+
+  [Events.ClickDatasetFromDeposition]: {
+    datasetId: number
+    depositionId: number
   }
 }
 
