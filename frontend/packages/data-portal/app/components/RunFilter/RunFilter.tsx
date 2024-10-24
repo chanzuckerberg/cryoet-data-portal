@@ -27,12 +27,7 @@ export function RunFilter() {
 
       {showDepositions && <NameOrIdFilterSection />}
 
-      <FilterSection title={t('tiltSeriesMetadata')}>
-        <QualityScoreFilter />
-        <TiltRangeFilter />
-      </FilterSection>
-
-      <FilterSection title={t('annotationMetadata')} border={false}>
+      <FilterSection title={t('annotationMetadata')}>
         <AnnotatedObjectNameFilter
           allObjectNames={objectNames}
           label={t('objectName')}
@@ -41,6 +36,11 @@ export function RunFilter() {
         <AnnotatedObjectShapeTypeFilter
           allObjectShapeTypes={objectShapeTypes}
         />
+      </FilterSection>
+
+      <FilterSection title={t('tiltSeriesMetadata')}>
+        <QualityScoreFilter />
+        <TiltRangeFilter />
       </FilterSection>
     </FilterPanel>
   )
