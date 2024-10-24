@@ -20,9 +20,9 @@ CryoET can be applied to different types of specimens (from particles to cells a
 <figure>
   <img src="_static/img/sample_preparation.png"
     alt="Schematic of protocol workflow for preparing cryoET samples."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Schematic of protocol workflow for preparing cryoET samples. EM - electron microscopy; FIB - focus ion beam.
+  <figcaption style="width:75%;">Schematic of protocol workflow for preparing cryoET samples. EM - electron microscopy; FIB - focus ion beam.
   </figcaption>
 </figure>
 
@@ -41,9 +41,9 @@ After sample preparation, grids with lamellae are inserted in the TEM on a rotat
 <figure>
   <img src="_static/img/projected_images.png"
     alt="Schematic of projected image movie stacks generated after imaging a specimen at various tilt angles."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Schematic highlighting projected images after an electron beam illuminates a specimen at various tilt angles. For the purposes of this example, the tilting shows 30° increments throughout a 120° tilt range (-60° to +60°). A movie stack consisting of 5 frames is collected at each tilt angle.
+  <figcaption style="width:75%;">Schematic highlighting projected images after an electron beam illuminates a specimen at various tilt angles. For the purposes of this example, the tilting shows 30° increments throughout a 120° tilt range (-60° to +60°). A movie stack consisting of 5 frames is collected at each tilt angle.
   </figcaption>
 </figure>
 
@@ -52,9 +52,9 @@ The order in which images are collected throughout the tilt range depends on the
 <figure>
   <img src="_static/img/tilt_schemes.png"
     alt="Common tilt schemes used for cryoET imaging, including unidirectional, bidirectional, and dose-symmetric schemes."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Common tilt schemes used for cryoET imaging. The color legend indicates the tilt order for each scheme while arrows indicate the tilting direction. Note that as the image collection proceeds, the specimen decays and image quality decreases (highlighted by the lighter colors towards the end of each tilt scheme). Unidirectional tilt schemes collect images throughout the tilt range in a single, continuous sweep. Bidirectional schemes split the tilt range and collect images in two separate stages. Dose-symmetric tilt schemes image low tilt angles first in positive and negative directions, then move to higher angles in a sequential manner (e.g., tilt angle order in 3° increments: 0°, +3°, −3°, −6°, +6°, +9°, −9° ... +60°, -60°). Image adapted from <a href="https://www.nature.com/articles/s41467-020-14535-2">Turoňová et al., 2020</a>.
+  <figcaption style="width:75%;">Common tilt schemes used for cryoET imaging. The color legend indicates the tilt order for each scheme while arrows indicate the tilting direction. Note that as the image collection proceeds, the specimen decays and image quality decreases (highlighted by the lighter colors towards the end of each tilt scheme). Unidirectional tilt schemes collect images throughout the tilt range in a single, continuous sweep. Bidirectional schemes split the tilt range and collect images in two separate stages. Dose-symmetric tilt schemes image low tilt angles first in positive and negative directions, then move to higher angles in a sequential manner (e.g., tilt angle order in 3° increments: 0°, +3°, −3°, −6°, +6°, +9°, −9° ... +60°, -60°). Image adapted from <a href="https://www.nature.com/articles/s41467-020-14535-2">Turoňová et al., 2020</a>.
   </figcaption>
 </figure>
 
@@ -71,9 +71,9 @@ Through image processing, researchers can use collected 2D images at various til
 <figure>
   <img src="_static/img/image_processing_workflow.png"
     alt="Schematic of cryoET image processing workflow."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">CryoET image processing workflow.
+  <figcaption style="width:75%; text-align:center;">CryoET image processing workflow.
   </figcaption>
 </figure>
 
@@ -84,9 +84,9 @@ Through image processing, researchers can use collected 2D images at various til
 <figure>
   <img src="_static/img/tilt_series_workflow.png"
     alt="Schematic of tilt series assembly workflow."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Tilt series assembly workflow. Movie stacks are summed into single, sharper images for each tilt angle. Summed frames are then used to assemble a tilt series.
+  <figcaption style="width:75%;">Tilt series assembly workflow. Movie stacks are summed into single, sharper images for each tilt angle. Summed frames are then used to assemble a tilt series.
   </figcaption>
 </figure>
 
@@ -110,9 +110,9 @@ Through image processing, researchers can use collected 2D images at various til
       alt="Movie clips of raw tilt series, tilt series after alignment, and tomogram of a purified lysosome."
     >
   </video>
-    <video controls autoplay loop muted playsinline>
-    <source src="_static/img/tomogram.mp4" type="video/mp4" />
-    <img src="_static/img/tomogram.png"
+    <video controls autoplay loop muted playsinline style="width: 96%;">
+    <source src="_static/img/Tomogram_filledFOV.mp4" type="video/mp4" />
+    <img src="_static/img/Tomogram_filledFOV.png"
       title="Your browser does not support the video tag."
       alt="Movie clips of raw tilt series, tilt series after alignment, and tomogram of a purified lysosome."
     >
@@ -127,9 +127,9 @@ Through image processing, researchers can use collected 2D images at various til
 <figure>
   <img src="_static/img/denoising_workflow.png"
     alt="Before and after images showing SNR and resolution improvement after denoising."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Before and after images showing SNR and resolution improvement after denoising.
+  <figcaption style="width:75%;">Before and after images showing SNR and resolution improvement after denoising.
   </figcaption>
 </figure>
 
@@ -138,7 +138,7 @@ Through image processing, researchers can use collected 2D images at various til
 Once the tomogram SNR has been improved through denoising, structures of interest have to be identified and delineated. The process of identifying and marking distinct features (e.g., membranes) by connecting tomogram segments is known as _segmentation_. Identified features are labeled (or annotated) with the appropriate name using their 3D coordinates.
 
 <figure>
-  <video controls autoplay loop muted playsinline>
+  <video controls autoplay loop muted playsinline style="width: 50%;">
     <source src="_static/img/annotation_movie.mp4" type="video/mp4" />
     <img src="_static/img/assembled.png"
       title="Your browser does not support the video tag."
@@ -146,7 +146,7 @@ Once the tomogram SNR has been improved through denoising, structures of interes
       width="100%"
     >
   </video>
-  <figcaption>Cryo electron tomogram of a FIB-milled lamella of <i>Chlamydomonas reinhardtii</i>. Annotations include membranes, F1F0-ATPase and ribosomes. Displayed data is from a <a href="https://cryoetdataportal.czscience.com/runs/14069">run</a> within <a href="https://cryoetdataportal.czscience.com/datasets/10301">dataset 10301</a> on the cryoET data portal.
+  <figcaption style="width: 50%;">Cryo electron tomogram of a FIB-milled lamella of <i>Chlamydomonas reinhardtii</i>. Annotations include membranes, F1F0-ATPase and ribosomes. Displayed data is from a <a href="https://cryoetdataportal.czscience.com/runs/14069">run</a> within <a href="https://cryoetdataportal.czscience.com/datasets/10301">dataset 10301</a> on the cryoET data portal.
   </figcaption>
 </figure>
 
@@ -157,9 +157,9 @@ Tomogram resolution is limited to ~2 - 5 nm, which is above the resolution neede
 <figure>
   <img src="_static/img/subtomogram_averaging.png"
     alt="Overview of subtomogram averaging workflow."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Subtomogram averaging workflow.
+  <figcaption style="width:75%; text-align: center;">Subtomogram averaging workflow.
   </figcaption>
 </figure>
 
@@ -172,9 +172,9 @@ CryoET data analysis can be difficult and time consuming. Therefore, the develop
 <figure>
   <img src="_static/img/workflow_timeline.png"
     alt="CryoET image processing workflow showing the time it takes to get through each step."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">CryoET image processing workflow showing the time it takes to get through each step.
+  <figcaption style="width:75%; text-align:center;">CryoET image processing workflow showing the time it takes to get through each step.
   </figcaption>
 </figure>
 
@@ -187,8 +187,8 @@ Below is a summary of a workflow established by the Chan Zuckerberg Imaging Inst
 <figure>
   <img src="_static/img/full_workflow.png"
     alt="Schematic of cryoET image processing workflow developed by CZII."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Workflow highlighting software, real time steps, and current machine learning development efforts at CZII. Implemented software includes <a href="https://github.com/czimaginginstitute/AreTomo3">Aretomo3</a>, DenoiseET, <a href="https://github.com/apeck12/slabpick">Minislab</a>, <a href="https://github.com/copick/DeepFindET">DeepFindET</a>, and <a href="https://github.com/3dem/relion?tab=readme-ov-file">RELION</a>.
+  <figcaption style="width:75%;">Workflow highlighting software, real time steps, and current machine learning development efforts at CZII. Implemented software includes <a href="https://github.com/czimaginginstitute/AreTomo3">Aretomo3</a>, DenoiseET, <a href="https://github.com/apeck12/slabpick">Minislab</a>, <a href="https://github.com/copick/DeepFindET">DeepFindET</a>, and <a href="https://github.com/3dem/relion?tab=readme-ov-file">RELION</a>.
   </figcaption>
 </figure>
