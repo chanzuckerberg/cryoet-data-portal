@@ -2,7 +2,7 @@
 
 import { CellHeaderDirection } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
-import { useSearchParams } from '@remix-run/react'
+import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range, sum } from 'lodash-es'
 import { useCallback, useMemo } from 'react'
@@ -21,6 +21,7 @@ import { DepositionPageDatasetTableWidths } from 'app/constants/table'
 import { Dataset, useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
+import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
@@ -325,11 +326,21 @@ export function DatasetsTable() {
     t,
   ])
 
+  const plausible = usePlausible()
+  const navigate = useNavigate()
+
   return (
     <PageTable
       data={isLoadingDebounced ? LOADING_DATASETS : datasets}
       columns={columns}
       hoverType="group"
+      onTableRowClick={(row) => {
+        plausible(Events.ClickDatasetFromDeposition, {
+          datasetId: row.original.id,
+          depositionId: deposition.id,
+        })
+        navigate(getDatasetUrl(row.original.id))
+      }}
     />
   )
 }

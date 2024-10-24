@@ -5,13 +5,9 @@ import { useTypedLoaderData } from 'remix-typedjson'
 import { GetToolbarDataQuery } from 'app/__generated__/graphql'
 import { TabData, Tabs } from 'app/components/Tabs'
 import { useI18n } from 'app/hooks/useI18n'
+import { Events, usePlausible } from 'app/hooks/usePlausible'
+import { BrowseDataTab } from 'app/types/browseData'
 import { useFeatureFlag } from 'app/utils/featureFlags'
-
-export enum BrowseDataTab {
-  Datasets = 'datasets',
-  Depositions = 'depositions',
-  Runs = 'runs',
-}
 
 // TODO: uncomment features when implemented
 export function BrowseDataTabs() {
@@ -51,9 +47,14 @@ export function BrowseDataTabs() {
     // [datasetCount, depositionsCount, runCount, t],
   )
 
+  const plausible = usePlausible()
+
   return (
     <Tabs
-      onChange={(nextTab) => navigate(`/browse-data/${nextTab}`)}
+      onChange={(nextTab) => {
+        plausible(Events.ClickBrowseDataTab, { tab: nextTab })
+        navigate(`/browse-data/${nextTab}`)
+      }}
       value={tab}
       tabs={tabOptions.filter(
         (option) =>

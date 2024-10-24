@@ -20,6 +20,7 @@ import { DepositionTableWidths } from 'app/constants/table'
 import { Deposition, useDepositions } from 'app/hooks/useDepositions'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
+import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
@@ -309,11 +310,16 @@ export function DepositionTable() {
     }
   }, [depositionSort, isLoadingDebounced, searchParams, setSearchParams, t])
 
+  const plausible = usePlausible()
+
   return (
     <PageTable
       data={isLoadingDebounced ? LOADING_DEPOSITIONS : depositions}
       columns={columns}
-      onTableRowClick={(row) => navigate(`/depositions/${row.original.id}`)}
+      onTableRowClick={(row) => {
+        plausible(Events.ClickDeposition, { id: row.original.id })
+        navigate(`/depositions/${row.original.id}`)
+      }}
       hoverType="group"
     />
   )
