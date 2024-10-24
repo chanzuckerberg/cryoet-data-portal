@@ -95,7 +95,7 @@
   "copy": " Copy",
   "copyAndRunAwsCliCommand": "Copy and run AWS CLI command in your terminal",
   "copyAndRunCurlCommand": "Copy and run cURL command in your terminal",
-  "copyApiCodeSnippet": "Copy Python Code Snippet",
+  "copyApiCodeSnippet": "Copy Python code snippet",
   "correspondingAuthor": "Corresponding Author",
   "cryoetDataAnnotationMLComp": "CryoET Data Annotation Machine Learning Competition",
   "ctfCorrected": "Ctf Corrected",
