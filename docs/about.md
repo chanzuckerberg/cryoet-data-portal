@@ -22,4 +22,11 @@ Learn about the capabilities and acquisition of CryoET data
 
 Guide on how the CryoET Data Portal is organized
 :::
+
+:::{grid-item-card} CryoET Data Workflow
+:link: cryoet-workflow
+:link-type: ref
+
+Overview of the data pipeline from acquisition to analysis
+:::
 ::::

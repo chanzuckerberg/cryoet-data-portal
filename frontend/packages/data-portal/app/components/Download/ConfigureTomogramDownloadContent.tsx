@@ -183,6 +183,7 @@ export function ConfigureTomogramDownloadContent() {
           className="!w-full !mt-sds-xl !mb-sds-xxs"
           intent="info"
           expandable
+          sdsStage="open"
         >
           <CalloutTitle>
             <p className="text-sds-body-xs leading-sds-body-xs">
