@@ -21,12 +21,12 @@ import { DepositionPageDatasetTableWidths } from 'app/constants/table'
 import { Dataset, useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
+import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
-import { Events, usePlausible } from 'app/hooks/usePlausible'
 
 const LOADING_DATASETS: Dataset[] = range(0, MAX_PER_PAGE).map(
   (value) =>

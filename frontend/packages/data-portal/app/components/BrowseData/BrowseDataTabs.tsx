@@ -5,9 +5,9 @@ import { useTypedLoaderData } from 'remix-typedjson'
 import { GetToolbarDataQuery } from 'app/__generated__/graphql'
 import { TabData, Tabs } from 'app/components/Tabs'
 import { useI18n } from 'app/hooks/useI18n'
-import { useFeatureFlag } from 'app/utils/featureFlags'
-import { BrowseDataTab } from 'app/types/browseData'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
+import { BrowseDataTab } from 'app/types/browseData'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 
 // TODO: uncomment features when implemented
 export function BrowseDataTabs() {

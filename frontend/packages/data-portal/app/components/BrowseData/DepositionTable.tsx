@@ -20,11 +20,11 @@ import { DepositionTableWidths } from 'app/constants/table'
 import { Deposition, useDepositions } from 'app/hooks/useDepositions'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
+import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
-import { Events, usePlausible } from 'app/hooks/usePlausible'
 
 const LOADING_DEPOSITIONS = range(0, MAX_PER_PAGE).map(
   (value) =>

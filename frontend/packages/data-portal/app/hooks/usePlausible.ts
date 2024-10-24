@@ -2,10 +2,10 @@ import axios from 'axios'
 import { useCallback } from 'react'
 
 import { useEnvironment } from 'app/context/Environment.context'
+import { BrowseDataTab } from 'app/types/browseData'
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
 
 import { MetadataDrawerId } from './useMetadataDrawer'
-import { BrowseDataTab } from 'app/types/browseData'
 
 export const PLAUSIBLE_ENV_URL_MAP: Record<NodeJS.ProcessEnv['ENV'], string> = {
   local: 'frontend.cryoet.dev.si.czi.technology',
