@@ -2,11 +2,11 @@ import axios from 'axios'
 import { useCallback } from 'react'
 
 import { useEnvironment } from 'app/context/Environment.context'
+import { BreadcrumbType } from 'app/types/breadcrumbs'
 import { BrowseDataTab } from 'app/types/browseData'
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
 
 import { MetadataDrawerId } from './useMetadataDrawer'
-import { BreadcrumbType } from 'app/types/breadcrumbs'
 
 export const PLAUSIBLE_ENV_URL_MAP: Record<NodeJS.ProcessEnv['ENV'], string> = {
   local: 'frontend.cryoet.dev.si.czi.technology',

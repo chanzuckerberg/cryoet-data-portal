@@ -4,15 +4,14 @@ import { SmallChevronRightIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { TestIds } from 'app/constants/testIds'
 import { useI18n } from 'app/hooks/useI18n'
+import { Events, usePlausible } from 'app/hooks/usePlausible'
 import {
   useBrowseDatasetFilterHistory,
   useDepositionHistory,
   useSingleDatasetFilterHistory,
 } from 'app/state/filterHistory'
-import { cns } from 'app/utils/cns'
-import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
-import { match, P } from 'ts-pattern'
 import { BreadcrumbType } from 'app/types/breadcrumbs'
+import { cns } from 'app/utils/cns'
 
 function Breadcrumb({
   text,
