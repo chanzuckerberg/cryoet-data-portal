@@ -6,6 +6,7 @@ import { BrowseDataTab } from 'app/types/browseData'
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
 
 import { MetadataDrawerId } from './useMetadataDrawer'
+import { BreadcrumbType } from 'app/types/breadcrumbs'
 
 export const PLAUSIBLE_ENV_URL_MAP: Record<NodeJS.ProcessEnv['ENV'], string> = {
   local: 'frontend.cryoet.dev.si.czi.technology',
@@ -16,6 +17,7 @@ export const PLAUSIBLE_ENV_URL_MAP: Record<NodeJS.ProcessEnv['ENV'], string> = {
 
 export enum Events {
   ClickBackToConfigureDownload = 'Click back to configure download',
+  ClickBreadcrumb = 'Click breadcrumb',
   ClickBrowseDataTab = 'Click browse data tab',
   ClickDatasetFromDeposition = 'Click dataset from deposition',
   ClickDeposition = 'Click deposition',
@@ -94,6 +96,12 @@ export type EventPayloads = {
   [Events.ClickDatasetFromDeposition]: {
     datasetId: number
     depositionId: number
+  }
+
+  [Events.ClickBreadcrumb]: {
+    type: BreadcrumbType
+    datasetId?: number
+    depositionId?: number
   }
 }
 
