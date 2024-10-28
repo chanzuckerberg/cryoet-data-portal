@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.34.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.34.0...web-v1.34.1) (2024-10-28)
+
+
+### 🐞 Bug Fixes
+
+* tomogram table alignment ([#1281](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1281)) ([f57e3fb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f57e3fb095f23e50abca1ee9d348e57b64fcb86e))
+
 ## [1.34.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.33.2...web-v1.34.0) (2024-10-28)
 
 
