@@ -17,7 +17,7 @@ export function AnnotationMetadataFilterSection({
   const { t } = useI18n()
 
   return (
-    <FilterSection title={t('annotationMetadata')} border={false}>
+    <FilterSection title={t('annotationMetadata')}>
       {depositionPageVariant && (
         <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500 pl-sds-s">
           {t('depositionAnnotationsOnly')}

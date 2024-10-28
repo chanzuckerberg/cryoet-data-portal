@@ -34,6 +34,14 @@ export function DatasetFilter({
       filter: <SampleAndExperimentFilterSection />,
     },
     {
+      logId: 'annotation-metadata-filter',
+      filter: (
+        <AnnotationMetadataFilterSection
+          depositionPageVariant={depositionPageVariant}
+        />
+      ),
+    },
+    {
       logId: 'hardware-filter',
       filter: <HardwareFilterSection />,
     },
@@ -44,14 +52,6 @@ export function DatasetFilter({
     {
       logId: 'tomogram-metadata-filter',
       filter: <TomogramMetadataFilterSection />,
-    },
-    {
-      logId: 'annotation-metadata-filter',
-      filter: (
-        <AnnotationMetadataFilterSection
-          depositionPageVariant={depositionPageVariant}
-        />
-      ),
     },
   ]
 

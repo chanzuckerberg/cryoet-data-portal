@@ -10,6 +10,7 @@ import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQuery
 import { useI18n } from 'app/hooks/useI18n'
 import { useLogPlausibleCopyEvent } from 'app/hooks/useLogPlausibleCopyEvent'
 import { DownloadConfig } from 'app/types/download'
+import { I18nKeys } from 'app/types/i18n'
 
 export function getDatasetCodeSnippet(datasetId?: number) {
   return dedent`
@@ -83,12 +84,13 @@ export function APIDownloadTab() {
     useDownloadModalQueryParamState()
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
 
-  const { label, content, logType } = useMemo(
+  const { label, content, calloutKey, logType } = useMemo(
     () =>
       match({ fileFormat, type, downloadConfig })
         .with({ type: 'dataset' }, () => ({
           label: t('copyApiCodeSnippet'),
           content: getDatasetCodeSnippet(datasetId),
+          calloutKey: 'preferToDownloadViaApiCode',
           logType: 'dataset-id',
         }))
         .with(
@@ -96,6 +98,7 @@ export function APIDownloadTab() {
           () => ({
             label: t('copyApiCodeSnippet'),
             content: getAllTomogramsCodeSnippet(tomogramVoxelId),
+            calloutKey: 'preferToDownloadViaApiCode',
             logType: 'voxel-spacing-id',
           }),
         )
@@ -108,12 +111,14 @@ export function APIDownloadTab() {
           () => ({
             label: t('copyApiCodeSnippet'),
             content: getTomogramCodeSnippet(tomogramId, fileFormat),
+            calloutKey: 'preferToDownloadViaApiCode',
             logType: 'tomogram-code-snippet',
           }),
         )
         .with({ type: 'annotation', fileFormat: P.string }, () => ({
           label: t('copyApiCodeSnippet'),
           content: getAnnotationCodeSnippet(annotationId, fileFormat),
+          calloutKey: 'preferToDownloadViaApiCode',
           logType: 'annotation-code-snippet',
         }))
         .otherwise(() => ({
@@ -121,6 +126,7 @@ export function APIDownloadTab() {
           // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
           label: t('tomogramId') as string,
           content: tomogramId,
+          calloutKey: 'preferToDownloadViaApi',
           logType: 'tomogram-id',
         })),
     [
@@ -139,9 +145,7 @@ export function APIDownloadTab() {
     <div className="pt-sds-xl">
       <Callout className="!w-full !mt-0" intent="info">
         <I18n
-          i18nKey={
-            fileFormat ? 'preferToDownloadViaApiCode' : 'preferToDownloadViaApi'
-          }
+          i18nKey={calloutKey as I18nKeys}
           tOptions={{
             interpolation: { escapeValue: false },
           }}
