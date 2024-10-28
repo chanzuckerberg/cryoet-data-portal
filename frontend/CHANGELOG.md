@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.33.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.33.1...web-v1.33.2) (2024-10-28)
+
+
+### 🐞 Bug Fixes
+
+* address misc UXR recommdations ([#1264](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1264)) ([ad55a4c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ad55a4c4b011d40b28d7a4da91a9e27b016baf45))
+
 ## [1.33.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.33.0...web-v1.33.1) (2024-10-23)
 
 
