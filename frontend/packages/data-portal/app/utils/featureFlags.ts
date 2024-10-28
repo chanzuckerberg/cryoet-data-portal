@@ -8,7 +8,7 @@ export type FeatureFlagKey = 'depositions' | 'multipleTomograms'
 
 export const FEATURE_FLAGS: Record<FeatureFlagKey, FeatureFlagEnvironment[]> = {
   depositions: ['local', 'dev', 'staging', 'prod'],
-  multipleTomograms: ['local', 'dev'],
+  multipleTomograms: ['local', 'dev', 'staging', 'prod'],
 }
 
 const ENABLE_FEATURE_PARAM = 'enable-feature'
