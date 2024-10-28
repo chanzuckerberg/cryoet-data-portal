@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.34.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.33.2...web-v1.34.0) (2024-10-28)
+
+
+### ✨ Features
+
+* enable multiple tomograms ([#1279](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1279)) ([34d993d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/34d993dbe55dde0feca17be820a850e8a73c383a))
+
 ## [1.33.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.33.1...web-v1.33.2) (2024-10-28)
 
 
