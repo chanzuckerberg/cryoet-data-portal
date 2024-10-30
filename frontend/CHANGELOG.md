@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.34.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.34.0...web-v1.34.1) (2024-10-28)
+
+
+### 🐞 Bug Fixes
+
+* tomogram table alignment ([#1281](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1281)) ([f57e3fb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f57e3fb095f23e50abca1ee9d348e57b64fcb86e))
+
+## [1.34.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.33.2...web-v1.34.0) (2024-10-28)
+
+
+### ✨ Features
+
+* enable multiple tomograms ([#1279](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1279)) ([34d993d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/34d993dbe55dde0feca17be820a850e8a73c383a))
+
+## [1.33.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.33.1...web-v1.33.2) (2024-10-28)
+
+
+### 🐞 Bug Fixes
+
+* address misc UXR recommdations ([#1264](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1264)) ([ad55a4c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ad55a4c4b011d40b28d7a4da91a9e27b016baf45))
+
 ## [1.33.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.33.0...web-v1.33.1) (2024-10-23)
 
 

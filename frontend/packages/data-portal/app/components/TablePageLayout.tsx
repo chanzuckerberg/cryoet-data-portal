@@ -169,11 +169,15 @@ function TablePageTabContent({
 
         <div
           className={cns(
-            'flex flex-col flex-auto screen-2040:items-center',
+            'flex flex-col flex-auto',
             'pb-sds-xxl',
             'border-t border-sds-color-primitive-gray-300',
             'overflow-x-scroll max-w-full',
             !banner && 'pt-sds-xl',
+
+            filterPanel
+              ? 'screen-2040:items-center'
+              : 'screen-1024:items-center',
           )}
         >
           <div
