@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=64"]
+requires = ["setuptools>=64","setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,32 +7,33 @@ name = "cryoet_data_portal"
 version = "3.1.1"
 description = "API Client to facilitate the use of the CryoET Portal. For more information about the API and the project visit https://github.com/chanzuckerberg/cryoet-data-portal/"
 authors = [
-    { name = "Chan Zuckerberg Initiative", email = "cryoetdataportal@chanzuckerberg.com" }
+  { name = "Chan Zuckerberg Initiative", email = "cryoetdataportal@chanzuckerberg.com" },
 ]
 license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">= 3.7"
 classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "Intended Audience :: Information Technology",
-    "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python",
-    "Topic :: Scientific/Engineering :: Bio-Informatics",
-    "Operating System :: POSIX :: Linux",
-    "Operating System :: MacOS :: MacOS X",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: MacOS :: MacOS X",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
 ]
-dependencies= [
-    "requests",
-    "boto3",
-    "deepmerge",
-    "gql[requests]",
-    "tqdm",
+dependencies = [
+  "requests",
+  "boto3",
+  "deepmerge",
+  "gql[requests]",
+  "tqdm",
+  "strcase",
 ]
 
 [project.urls]
@@ -42,8 +43,15 @@ documentation = "https://chanzuckerberg.github.io/cryoet-data-portal/python-api.
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["cryoet_data_portal*"]  # package names should match these glob patterns (["*"] by default)
-exclude = ["tests*"]  # exclude packages matching these glob patterns (empty by default)
+include = [
+  "cryoet_data_portal*",
+] # package names should match these glob patterns (["*"] by default)
+exclude = [
+  "tests*",
+] # exclude packages matching these glob patterns (empty by default)
+
+[tool.setuptools]
+include-package-data = true
 
 [tool.setuptools_scm]
 root = "../../.."
@@ -55,6 +63,4 @@ warn_unreachable = true
 strict = true
 
 [tool.pytest.ini_options]
-markers = [
-    "expensive: too expensive to run regularly or in CI",
-]
+markers = ["expensive: too expensive to run regularly or in CI"]

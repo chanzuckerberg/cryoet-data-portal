@@ -1,8 +1,9 @@
 import functools
-from datetime import datetime, timezone
+from datetime import datetime
 from importlib import import_module
 from typing import Any, Dict, Iterable, Optional
 
+import strcase
 from deepmerge import always_merger
 
 from ._client import Client
@@ -80,7 +81,7 @@ class GQLField:
         return False
 
     def to_gql(self):
-        return self._name
+        return strcase.to_lower_camel(self._name)
 
 
 class BaseField(GQLField):
@@ -90,6 +91,10 @@ class BaseField(GQLField):
 
     def convert(self, value):
         return value
+
+
+class ListField(BaseField):
+    ...
 
 
 class StringField(BaseField):
@@ -103,9 +108,7 @@ class IntField(BaseField):
 class DateField(BaseField):
     def convert(self, value):
         if value:
-            return datetime.date(
-                datetime.strptime(value, "%Y-%m-%d").astimezone(timezone.utc),
-            )
+            return datetime.fromisoformat(value)
 
 
 class BooleanField(BaseField):
@@ -135,7 +138,7 @@ class QueryChain(GQLField):
         return self.__current_query.get_related_class()
 
     def to_gql(self):
-        return self.__name
+        return [strcase.to_lower_camel(n) for n in self.__name]
 
 
 class Relationship(GQLField):
@@ -188,7 +191,7 @@ class ListRelationship(Relationship):
         if obj is None:
             return self
         source_field = getattr(obj, self.source_field)
-        dest_field = getattr(self.related_class, self.dest_field)
+        dest_field = getattr(self.related_class, strcase.to_snake(self.dest_field))
         res = self.related_class.find(
             obj._client,
             [dest_field == source_field],
@@ -200,11 +203,12 @@ class Model:
     """The base class that all CryoET Portal Domain Object classes descend from. Documented methods apply to all domain objects."""
 
     _gql_type: str
+    _gql_root_field: str
 
     def __init__(self, client: Client, **kwargs):
         self._client = client
         for k in self._get_scalar_fields():
-            value = getattr(self, k).convert(kwargs.get(k))
+            value = getattr(self, k).convert(kwargs.get(strcase.to_lower_camel(k)))
             setattr(self, k, value)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -222,6 +226,11 @@ class Model:
 
     @classmethod
     @functools.lru_cache(maxsize=32)
+    def _get_gql_fields(cls):
+        return [strcase.to_lower_camel(item) for item in cls._get_scalar_fields()]
+
+    @classmethod
+    @functools.lru_cache(maxsize=32)
     def _get_relationship_fields(cls):
         fields = []
         for k, v in cls.__dict__.items():
@@ -232,6 +241,10 @@ class Model:
     @classmethod
     def _get_gql_type(cls):
         return cls._gql_type
+
+    @classmethod
+    def _get_gql_root_field(cls):
+        return cls._gql_root_field
 
     @classmethod
     def find(
