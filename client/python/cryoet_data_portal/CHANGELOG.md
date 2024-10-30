@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v3.1.0...cryoet-data-portal-python-client-v3.1.1) (2024-10-28)
+
+
+### 📝 Documentation
+
+* Move documentation site to Sphinx Immaterial ([#1087](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1087)) ([5d549dc](https://github.com/chanzuckerberg/cryoet-data-portal/commit/5d549dce37e69c1e9ddbf76c8cfaf28581419cda))
+
 ## [3.1.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v3.0.3...cryoet-data-portal-python-client-v3.1.0) (2024-08-22)
 
 
