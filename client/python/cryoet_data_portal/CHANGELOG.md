@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v3.1.1...cryoet-data-portal-python-client-v3.2.0) (2024-10-30)
+
+
+### ✨ Features
+
+* Initial support for apiv2 ([#1085](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1085)) ([fec4000](https://github.com/chanzuckerberg/cryoet-data-portal/commit/fec400066d03361f68a9a12865842b83930f410c))
+
 ## [3.1.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v3.1.0...cryoet-data-portal-python-client-v3.1.1) (2024-10-28)
 
 
