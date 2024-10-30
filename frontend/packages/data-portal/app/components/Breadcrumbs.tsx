@@ -4,26 +4,42 @@ import { SmallChevronRightIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { TestIds } from 'app/constants/testIds'
 import { useI18n } from 'app/hooks/useI18n'
+import { Events, usePlausible } from 'app/hooks/usePlausible'
 import {
   useBrowseDatasetFilterHistory,
   useDepositionHistory,
   useSingleDatasetFilterHistory,
 } from 'app/state/filterHistory'
+import { BreadcrumbType } from 'app/types/breadcrumbs'
 import { cns } from 'app/utils/cns'
 
 function Breadcrumb({
   text,
   link,
   className,
+  type,
+  datasetId,
 }: {
   text: string
   link?: string
   className?: string
+  type?: BreadcrumbType
+  datasetId?: number
 }) {
+  const plausible = usePlausible()
+
   return link ? (
     <Link
       to={link}
       className={cns(className, 'hover:text-sds-color-primitive-blue-400')}
+      onClick={() => {
+        if (type) {
+          plausible(Events.ClickBreadcrumb, {
+            type,
+            ...(datasetId && { datasetId }),
+          })
+        }
+      }}
     >
       {text}
     </Link>
@@ -76,6 +92,8 @@ export function Breadcrumbs({
     <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0" />
   )
 
+  const plausible = usePlausible()
+
   return (
     <div
       className="flex flex-col flex-auto gap-1"
@@ -85,6 +103,15 @@ export function Breadcrumbs({
         <Link
           className="uppercase font-semibold text-sds-caps-xxxs leading-sds-caps-xxxs text-sds-color-primitive-blue-400"
           to={returnToDepositionLink}
+          onClick={() =>
+            plausible(Events.ClickBreadcrumb, {
+              type: BreadcrumbType.ReturnToDeposition,
+              datasetId: data.id,
+              ...(previousDepositionId && {
+                depositionId: previousDepositionId,
+              }),
+            })
+          }
         >
           {t('returnToDeposition')}
         </Link>
@@ -95,6 +122,11 @@ export function Breadcrumbs({
           text={t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')}
           link={browseAllLink}
           className="shrink-0"
+          type={
+            variant === 'deposition'
+              ? BreadcrumbType.AllDepositions
+              : BreadcrumbType.AllDatasets
+          }
         />
 
         {chevronIcon}
@@ -110,6 +142,8 @@ export function Breadcrumbs({
             }
             link={singleDatasetLink}
             className="overflow-ellipsis overflow-hidden flex-initial"
+            type={BreadcrumbType.SingleDataset}
+            datasetId={data.id}
           />
         )}
 
