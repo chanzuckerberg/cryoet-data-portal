@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.35.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.34.1...web-v1.35.0) (2024-10-30)
+
+
+### ✨ Features
+
+* plausible analytics for depositions ([#1273](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1273)) ([319d8f6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/319d8f6f9cbf5570e0796d720377b2131af6a607))
+
 ## [1.34.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.34.0...web-v1.34.1) (2024-10-28)
 
 
