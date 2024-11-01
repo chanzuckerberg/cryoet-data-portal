@@ -10,6 +10,7 @@ import { apolloClient, apolloClientV2 } from 'app/apollo.server'
 import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
 import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
+import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import { NoTotalResults } from 'app/components/NoTotalResults'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
@@ -211,6 +212,7 @@ export default function RunByIdPage() {
               ]}
             />
           ),
+          noFilteredResults: <NoFilteredResults />,
         },
         ...(multipleTomogramsEnabled
           ? [

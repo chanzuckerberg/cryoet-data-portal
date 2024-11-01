@@ -46,7 +46,6 @@ export const i18n = {
   cellName: 'Cell Name',
   cellularComponent: 'Cellular Component',
   citations: 'Citations',
-  clearFilters: 'Clear Filters',
   confidence: 'confidence',
   contributeCta:
     'We encourage you to share datasets and/or annotations to existing data. Click below to fill out the inquiry form.',
@@ -79,7 +78,6 @@ export const i18n = {
   filterByAnyOfTheFollowing: 'Filter by any of the following',
   filterCount: (count: number, max: number, type: string) =>
     `${count} of ${max} ${type}`,
-  filterNoResultsFound: 'No results were found',
   filterRange: 'Filter Range',
   filterTooRestrictive: 'The applied filters may be too restrictive.',
   frames: 'Frames',

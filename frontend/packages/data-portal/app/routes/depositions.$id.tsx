@@ -12,6 +12,7 @@ import { DatasetFilter } from 'app/components/DatasetFilter'
 import { DepositionMetadataDrawer } from 'app/components/Deposition'
 import { DatasetsTable } from 'app/components/Deposition/DatasetsTable'
 import { DepositionHeader } from 'app/components/Deposition/DepositionHeader'
+import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
@@ -164,6 +165,7 @@ export default function DepositionByIdPage() {
           filteredCount: filteredDatasetsCount,
           filterPanel: <DatasetFilter depositionPageVariant />,
           countLabel: t('datasets'),
+          noFilteredResults: <NoFilteredResults />,
         },
       ]}
       drawers={<DepositionMetadataDrawer />}

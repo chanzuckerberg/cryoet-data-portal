@@ -1,10 +1,13 @@
 import { InputSearch } from '@czi-sds/components'
 import { useDebouncedEffect } from '@react-hookz/web'
 import { useSearchParams } from '@remix-run/react'
-import { useRef, useState } from 'react'
+import { useAtom } from 'jotai'
+import { useHydrateAtoms } from 'jotai/utils'
+import { useEffect, useRef } from 'react'
 
 import { QueryParams } from 'app/constants/query'
 import { i18n } from 'app/i18n'
+import { searchQueryAtom } from 'app/state/search'
 
 /**
  * The amount of time to wait after the user has typed in a query before
@@ -15,7 +18,14 @@ const SEARCH_QUERY_DEBOUNCE_TIME_MS = 500
 
 export function BrowseDataSearch() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [query, setQuery] = useState(searchParams.get(QueryParams.Search) ?? '')
+  const [query, setQuery] = useAtom(searchQueryAtom)
+
+  useHydrateAtoms([
+    [searchQueryAtom, searchParams.get(QueryParams.Search) ?? ''],
+  ])
+
+  // Reset when navigating away
+  useEffect(() => () => setQuery(''), [setQuery])
 
   // If the user hasn't typed in a key for 500ms, then update the search params.
   const initialLoadRef = useRef(true)
