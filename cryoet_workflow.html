@@ -1394,9 +1394,9 @@ CryoET combines preservation of cellular structures in their native conformation
 <figure>
   <img src="_static/img/sample_preparation.png"
     alt="Schematic of protocol workflow for preparing cryoET samples."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Schematic of protocol workflow for preparing cryoET samples. EM - electron microscopy; FIB - focus ion beam.
+  <figcaption style="width:75%;">Schematic of protocol workflow for preparing cryoET samples. EM - electron microscopy; FIB - focus ion beam.
   </figcaption>
 </figure>
 <h3 id="general-steps-for-cryoet-sample-preparation">General Steps for CryoET Sample Preparation<a class="headerlink" href="#general-steps-for-cryoet-sample-preparation" title="Link to this heading">¶</a></h3>
@@ -1410,18 +1410,18 @@ CryoET combines preservation of cellular structures in their native conformation
 <figure>
   <img src="_static/img/projected_images.png"
     alt="Schematic of projected image movie stacks generated after imaging a specimen at various tilt angles."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Schematic highlighting projected images after an electron beam illuminates a specimen at various tilt angles. For the purposes of this example, the tilting shows 30° increments throughout a 120° tilt range (-60° to +60°). A movie stack consisting of 5 frames is collected at each tilt angle.
+  <figcaption style="width:75%;">Schematic highlighting projected images after an electron beam illuminates a specimen at various tilt angles. For the purposes of this example, the tilting shows 30° increments throughout a 120° tilt range (-60° to +60°). A movie stack consisting of 5 frames is collected at each tilt angle.
   </figcaption>
 </figure>
 <p>The order in which images are collected throughout the tilt range depends on the <em>tilt scheme</em>. The tilt scheme may affect the preservation of high-resolution features given that the specimen decays while being exposed to the electron beam. As the image collection proceeds, the total accumulated electron dose increases, the specimen decays, and smaller features are disturbed. Therefore, high-resolution features may be lost in images collected towards the end of the tilt scheme. The image below summarizes the tilting strategy for three common types of tilt schemes, including unidirectional, bidirectional and dose-symmetric.</p>
 <figure>
   <img src="_static/img/tilt_schemes.png"
     alt="Common tilt schemes used for cryoET imaging, including unidirectional, bidirectional, and dose-symmetric schemes."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Common tilt schemes used for cryoET imaging. The color legend indicates the tilt order for each scheme while arrows indicate the tilting direction. Note that as the image collection proceeds, the specimen decays and image quality decreases (highlighted by the lighter colors towards the end of each tilt scheme). Unidirectional tilt schemes collect images throughout the tilt range in a single, continuous sweep. Bidirectional schemes split the tilt range and collect images in two separate stages. Dose-symmetric tilt schemes image low tilt angles first in positive and negative directions, then move to higher angles in a sequential manner (e.g., tilt angle order in 3° increments: 0°, +3°, −3°, −6°, +6°, +9°, −9° ... +60°, -60°). Image adapted from <a href="https://www.nature.com/articles/s41467-020-14535-2">Turoňová et al., 2020</a>.
+  <figcaption style="width:75%;">Common tilt schemes used for cryoET imaging. The color legend indicates the tilt order for each scheme while arrows indicate the tilting direction. Note that as the image collection proceeds, the specimen decays and image quality decreases (highlighted by the lighter colors towards the end of each tilt scheme). Unidirectional tilt schemes collect images throughout the tilt range in a single, continuous sweep. Bidirectional schemes split the tilt range and collect images in two separate stages. Dose-symmetric tilt schemes image low tilt angles first in positive and negative directions, then move to higher angles in a sequential manner (e.g., tilt angle order in 3° increments: 0°, +3°, −3°, −6°, +6°, +9°, −9° ... +60°, -60°). Image adapted from <a href="https://www.nature.com/articles/s41467-020-14535-2">Turoňová et al., 2020</a>.
   </figcaption>
 </figure>
 <p><strong>Unidirectional tilt scheme:</strong> In the unidirectional scheme, the tilt angle is rotated in one direction.</p>
@@ -1432,9 +1432,9 @@ CryoET combines preservation of cellular structures in their native conformation
 <figure>
   <img src="_static/img/image_processing_workflow.png"
     alt="Schematic of cryoET image processing workflow."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">CryoET image processing workflow.
+  <figcaption style="width:75%; text-align:center;">CryoET image processing workflow.
   </figcaption>
 </figure>
 <h3 id="image-preprocessing">Image Preprocessing<a class="headerlink" href="#image-preprocessing" title="Link to this heading">¶</a></h3>
@@ -1442,9 +1442,9 @@ CryoET combines preservation of cellular structures in their native conformation
 <figure>
   <img src="_static/img/tilt_series_workflow.png"
     alt="Schematic of tilt series assembly workflow."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Tilt series assembly workflow. Movie stacks are summed into single, sharper images for each tilt angle. Summed frames are then used to assemble a tilt series.
+  <figcaption style="width:75%;">Tilt series assembly workflow. Movie stacks are summed into single, sharper images for each tilt angle. Summed frames are then used to assemble a tilt series.
   </figcaption>
 </figure>
 <p><strong>Tilt series correction:</strong> The tilt series has to be corrected for artifacts generated due microscope optical properties and settings (e.g., defocus) used to generate contrast (see Contrast Transfer Function, CTF).</p>
@@ -1465,9 +1465,9 @@ CryoET combines preservation of cellular structures in their native conformation
       alt="Movie clips of raw tilt series, tilt series after alignment, and tomogram of a purified lysosome."
     >
   </video>
-    <video controls autoplay loop muted playsinline>
-    <source src="_static/img/tomogram.mp4" type="video/mp4" />
-    <img src="_static/img/tomogram.png"
+    <video controls autoplay loop muted playsinline style="width: 96%;">
+    <source src="_static/img/Tomogram_filledFOV.mp4" type="video/mp4" />
+    <img src="_static/img/Tomogram_filledFOV.png"
       title="Your browser does not support the video tag."
       alt="Movie clips of raw tilt series, tilt series after alignment, and tomogram of a purified lysosome."
     >
@@ -1480,15 +1480,15 @@ CryoET combines preservation of cellular structures in their native conformation
 <figure>
   <img src="_static/img/denoising_workflow.png"
     alt="Before and after images showing SNR and resolution improvement after denoising."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Before and after images showing SNR and resolution improvement after denoising.
+  <figcaption style="width:75%;">Before and after images showing SNR and resolution improvement after denoising.
   </figcaption>
 </figure>
 <h3 id="tomogram-annotation">Tomogram annotation<a class="headerlink" href="#tomogram-annotation" title="Link to this heading">¶</a></h3>
 <p>Once the tomogram SNR has been improved through denoising, structures of interest have to be identified and delineated. The process of identifying and marking distinct features (e.g., membranes) by connecting tomogram segments is known as <em>segmentation</em>. Identified features are labeled (or annotated) with the appropriate name using their 3D coordinates.</p>
 <figure>
-  <video controls autoplay loop muted playsinline>
+  <video controls autoplay loop muted playsinline style="width: 50%;">
     <source src="_static/img/annotation_movie.mp4" type="video/mp4" />
     <img src="_static/img/assembled.png"
       title="Your browser does not support the video tag."
@@ -1496,7 +1496,7 @@ CryoET combines preservation of cellular structures in their native conformation
       width="100%"
     >
   </video>
-  <figcaption>Cryo electron tomogram of a FIB-milled lamella of <i>Chlamydomonas reinhardtii</i>. Annotations include membranes, F1F0-ATPase and ribosomes. Displayed data is from a <a href="https://cryoetdataportal.czscience.com/runs/14069">run</a> within <a href="https://cryoetdataportal.czscience.com/datasets/10301">dataset 10301</a> on the cryoET data portal.
+  <figcaption style="width: 50%;">Cryo electron tomogram of a FIB-milled lamella of <i>Chlamydomonas reinhardtii</i>. Annotations include membranes, F1F0-ATPase and ribosomes. Displayed data is from a <a href="https://cryoetdataportal.czscience.com/runs/14069">run</a> within <a href="https://cryoetdataportal.czscience.com/datasets/10301">dataset 10301</a> on the cryoET data portal.
   </figcaption>
 </figure>
 <h3 id="subtomogram-averaging">Subtomogram averaging<a class="headerlink" href="#subtomogram-averaging" title="Link to this heading">¶</a></h3>
@@ -1504,9 +1504,9 @@ CryoET combines preservation of cellular structures in their native conformation
 <figure>
   <img src="_static/img/subtomogram_averaging.png"
     alt="Overview of subtomogram averaging workflow."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Subtomogram averaging workflow.
+  <figcaption style="width:75%; text-align: center;">Subtomogram averaging workflow.
   </figcaption>
 </figure>
 <p>Large numbers of particles (hundreds to thousands) are needed to reconstruct molecular structures with resolutions below 10 Å. For STA to work, it is imperative that researchers are able to correctly locate and identify particles that represent the same biological component within tomograms. Therefore, particle picking and curation is an important step to identify as many repeating particles as possible. However, picking and identifying 3D particle coordinates in noisy tomograms can be challenging and STA efforts depend on high quality tomograms. Once repeating 3D particles have been identified, they are individually extracted, aligned, refined, and averaged.</p>
@@ -1515,9 +1515,9 @@ CryoET combines preservation of cellular structures in their native conformation
 <figure>
   <img src="_static/img/workflow_timeline.png"
     alt="CryoET image processing workflow showing the time it takes to get through each step."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">CryoET image processing workflow showing the time it takes to get through each step.
+  <figcaption style="width:75%; text-align:center;">CryoET image processing workflow showing the time it takes to get through each step.
   </figcaption>
 </figure>
 <p>Thanks to advances in cryoET image processing, researchers can now collect large datasets and preprocess them in real time using software packages (e.g., <a class="reference external" href="https://github.com/czimaginginstitute/AreTomo3">Aretomo3</a>) that reconstruct tomograms in parallel to data acquisition. Self-supervised neural networks (e.g., <a class="reference external" href="https://github.com/juglab/n2v">Noise2Void</a>) have been leveraged to improve denoising of generated tomograms contributing to automated processing. The ability to process larger datasets enables researchers to reconstruct molecular structures with higher resolutions through STA.</p>
@@ -1526,9 +1526,9 @@ CryoET combines preservation of cellular structures in their native conformation
 <figure>
   <img src="_static/img/full_workflow.png"
     alt="Schematic of cryoET image processing workflow developed by CZII."
-    width="100%"
+    width="75%"
   >
-  <figcaption style="width:100%;">Workflow highlighting software, real time steps, and current machine learning development efforts at CZII. Implemented software includes <a href="https://github.com/czimaginginstitute/AreTomo3">Aretomo3</a>, DenoiseET, <a href="https://github.com/apeck12/slabpick">Minislab</a>, <a href="https://github.com/copick/DeepFindET">DeepFindET</a>, and <a href="https://github.com/3dem/relion?tab=readme-ov-file">RELION</a>.
+  <figcaption style="width:75%;">Workflow highlighting software, real time steps, and current machine learning development efforts at CZII. Implemented software includes <a href="https://github.com/czimaginginstitute/AreTomo3">Aretomo3</a>, DenoiseET, <a href="https://github.com/apeck12/slabpick">Minislab</a>, <a href="https://github.com/copick/DeepFindET">DeepFindET</a>, and <a href="https://github.com/3dem/relion?tab=readme-ov-file">RELION</a>.
   </figcaption>
 </figure>
 
