@@ -1,0 +1,61 @@
+## What is CryoET?
+
+### Overview
+
+Cryo-electron tomography (CryoET) is an imaging technique that enables 3D visualization of the cell at sub-nanometer resolution but, unlike other high-resolution imaging techniques, the cryogenic (frozen) condition preserves cellular architecture so this detailed view includes protein structures in their natural biological context. Three-dimensional tomograms can be generated from many images of a thin slice through a cell, taken while tilting the specimen in multiple directions.
+
+A given tomogram is typically only about 200 nanometers thick—approximately five hundred times thinner than a sheet of paper—yet packed with information about the structures of the cellular machinery driving health and disease.
+
+For more information about CryoET basics, check out [the educational articles from the CryoET Data Portal documentation site](https://chanzuckerberg.github.io/cryoet-data-portal/about.html).
+
+### Current Barriers
+
+Technological advancements have improved the efficiency of sample preparation, imaging, image processing, and open access sharing of standardized data. But annotation is necessary to turn these data into useful insights and, in most cases, is the rate limiting step. Annotation involves tracing sparse particles of subcellular structures through many layers of low contrast, two-dimensional images. Annotation is required across many tomograms, for thousands of copies of a particle in order to average to a high resolution understanding of a protein complex. While annotation is still, for the most, done manually, for a set of tomograms this can take months, and on the total volume of data that already exists is not possible.
+
+Annotation of 3D tomograms is particularly challenging because of the:
+
+- low signal-to-noise ratio of the projections and volumes
+- structural complexity of cellular samples
+- diversity and heterogeneity of the molecules of interest
+- large numbers of molecules that are required for high resolution maps
+- variable number of particles per tomogram
+
+Machine learning has been leveraged to provide membrane segmentations for over 15,000 of the 3D images currently available in the open access CryoET Data Portal. This cut down annotation time from several months to just over 3 days. Annotating particles such as protein complexes, however, is a far more difficult task due to their diversity, lower contrast, and crowding.
+
+Further, current machine learning methods for CryoET are effective for the specific cases they were developed on, but typically do not generalize sufficiently to meet the diverse needs of the CryoET community. Annotation strategies that can be readily adapted to datasets acquired under different settings, and that better capture the heterogeneity of biomolecules would be transformative compared to currently available approaches.
+
+### Sample & Reference Annotations
+
+As synthetic datasets for CryoET have not historically led to robust algorithms that can be applied to real data, we generated a “phantom” dataset for the purposes of this challenge—a nomenclature used in the biomedical research community to denote objects used as stand-ins for tissues to ensure that systems and methods for MRI and CT imaging are operating correctly.
+
+This phantom dataset mimics the cellular environment to some extent while providing a more controlled system that allowed us to provide, in a reasonable time frame, a relatively large annotated set of data containing widely varying structures. It has several key components designed to simulate some of the diversity and complexity of a cellular tomogram, including:
+
+- Cell lysate, which provides common elements such as ribosomes and membranes to offer a realistic backdrop of cellular material
+- Commercially available proteins:
+  - Apo-ferritin
+  - Thyroglobulin (THG)
+  - Beta-galactosidase
+  - Beta-amylase
+  - Human Serum Albumin (HSA)
+- Virus-like particles (VLPs)
+
+These components collectively provide a range of molecular weights and shapes for testing and developing machine learning algorithms for protein complex annotation. Our phantom sample captures many of the essential elements of CryoET data, including inherent background noise, a range of shapes and sizes of protein complexes, and the challenges associated with distinguishing similar-looking species.
+
+The phantom sample, however, does not capture the crowdedness of real cellular environments. It nevertheless serves as an initial well annotated dataset for developing, training, and advancing machine learning CryoET data annotation, with the anticipation that this will lead to algorithms that will be later capable of labeling protein complexes in realistic cellular environments.
+
+Generating “ground truth” reference annotations required multiple months of work by a large team of people and spurred the development of several new methods for particle picking, visualization, and curation. This effort included manual annotation, the use of template matching and machine learning algorithms, and the careful curation of the selected particles using a variety of approaches.
+
+Below are the in-house tools that were developed as part of these efforts:
+
+- _DenoisET_
+- _Copick_
+- _Slab-picking_
+- _Copick-ChimeraX_
+- _Copicklive_
+- _DeepFindET_
+- _CellCanvas_
+- _Minislab curation_
+
+We have already repurposed several of these tools for other projects at our institute so anticipate these new methods will prove valuable beyond this challenge.
+
+Learn more about the phantom sample and reference annotations in our publication.

@@ -17,11 +17,7 @@ interface RawNavItem {
 const NAV_ITEMS: RawNavItem[] = [
   {
     id: MLChallengeSectionId.About,
-    label: 'about',
-  },
-  {
-    id: MLChallengeSectionId.CompetitionDetails,
-    label: 'competitionDetails',
+    label: 'aboutTheCompetition',
   },
   {
     id: MLChallengeSectionId.HowToParticipate,
@@ -32,20 +28,16 @@ const NAV_ITEMS: RawNavItem[] = [
     label: 'competitionData',
   },
   {
-    id: MLChallengeSectionId.AboutCryoETData,
-    label: 'aboutCryoEtData',
+    id: MLChallengeSectionId.WhatIsCryoET,
+    label: 'whatIsCryoET',
   },
   {
-    id: MLChallengeSectionId.Tutorials,
-    label: 'tutorials',
+    id: MLChallengeSectionId.CompetitionContributors,
+    label: 'competitionContributors',
   },
   {
-    id: MLChallengeSectionId.Organizers,
-    label: 'organizers',
-  },
-  {
-    id: MLChallengeSectionId.FAQ,
-    label: 'faq',
+    id: MLChallengeSectionId.Glossary,
+    label: 'glossaryOfTerms',
   },
   {
     id: MLChallengeSectionId.Contact,

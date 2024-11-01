@@ -1,7 +1,10 @@
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { ReactNode } from 'react'
+import { useTypedLoaderData } from 'remix-typedjson'
 
 import { I18n } from 'app/components/I18n'
 import { FolderIcon, SpeechBubbleIcon } from 'app/components/icons'
+import styles from 'app/components/MDX/MdxBody.module.css'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
@@ -26,10 +29,12 @@ function Section({
   children,
   className,
   color,
+  useMdxStyles,
 }: {
   children: ReactNode
   className?: string
   color?: 'primary100' | 'primary200' | 'gray100' | 'gray500'
+  useMdxStyles?: boolean
 }) {
   return (
     <div
@@ -41,6 +46,7 @@ function Section({
         color === 'primary200' && 'after:bg-sds-color-primitive-blue-200 ',
         color === 'gray100' && 'after:bg-sds-color-primitive-gray-100 ',
         color === 'gray500' && 'after:bg-sds-color-primitive-gray-500 ',
+        useMdxStyles && styles.body,
         className,
       )}
     >
@@ -86,45 +92,27 @@ function Headshot({
 }
 
 export function MainContent() {
+  const { aboutTheCompetition, glossary, howToParticipate, whatIsCryoET } =
+    useTypedLoaderData<{
+      aboutTheCompetition: MDXRemoteSerializeResult
+      glossary: MDXRemoteSerializeResult
+      howToParticipate: MDXRemoteSerializeResult
+      whatIsCryoET: MDXRemoteSerializeResult
+    }>()
+
   const { t } = useI18n()
 
   return (
     <div className="flex flex-col max-w-content-small">
       <JumpToAnchor id={MLChallengeSectionId.About} />
 
-      <Section className="!py-0">
-        {/* About the Competition */}
-        <div className="flex flex-col gap-sds-xl my-sds-xxl">
-          <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
-            {t('aboutTheCompetition')}
-          </h2>
-          <div className="flex flex-col gap-sds-l text-sds-body-s leading-sds-body-s">
-            <p>{t('aboutTheCompetitionContent1')}</p>
-            <p>{t('aboutTheCompetitionContent2')}</p>
-            <p>{t('aboutTheCompetitionContent3')}</p>
-          </div>
-        </div>
-
-        {/* Competition Details */}
-        <JumpToAnchor id={MLChallengeSectionId.CompetitionDetails} />
-        <div className="flex flex-col min-h-[270px] pb-sds-xxl">
-          <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold mb-sds-xl">
-            {t('competitionDetails')}
-          </h2>
-          <p className="text-sds-caps-xxs leading-sds-caps-xxs font-semibold uppercase text-sds-color-primitive-gray-500">
-            {t('moreInfoComingSoon')}
-          </p>
-        </div>
+      <Section useMdxStyles>
+        <MDXRemote {...aboutTheCompetition} />
       </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.HowToParticipate} />
-      <Section color="primary100" className="min-h-[270px]">
-        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold mb-sds-xl">
-          {t('howToParticipate')}
-        </h2>
-        <p className="text-sds-caps-xxs leading-sds-caps-xxs font-semibold uppercase text-sds-color-primitive-gray-500">
-          {t('moreInfoComingSoon')}
-        </p>
+      <Section color="primary100" className="min-h-[270px]" useMdxStyles>
+        <MDXRemote {...howToParticipate} />
       </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.CompetitionData} />
@@ -157,37 +145,12 @@ export function MainContent() {
         </div>
       </Section>
 
-      <Section className="!p-0">
-        <JumpToAnchor id={MLChallengeSectionId.AboutCryoETData} />
-        <div className="flex flex-col gap-sds-xl min-h-[270px] py-sds-xxl">
-          <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
-            {t('aboutCryoEtData')}
-          </h2>
-          <p className="text-sds-caps-xxs leading-sds-caps-xxs text-sds-color-primitive-gray-500 uppercase font-semibold">
-            <I18n i18nKey="moreInfoComingSoon" />
-          </p>
-        </div>
-
-        <JumpToAnchor
-          // For some odd reason, the tutorials section needs to be translated higher up lol
-          // 2 * sds-xxl = 76px
-          className="-translate-y-[76px]"
-          id={MLChallengeSectionId.Tutorials}
-        />
-        <div className="flex flex-col gap-sds-xl min-h-[270px] pb-sds-xxl">
-          <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
-            {t('tutorials')}
-          </h2>
-          <p className="text-sds-body-s leading-sds-body-s">
-            {t('tutorialsSectionContent')}
-          </p>
-          <p className="text-sds-caps-xxs leading-sds-caps-xxs text-sds-color-primitive-gray-500 uppercase font-semibold">
-            <I18n i18nKey="comingFall2024" />
-          </p>
-        </div>
+      <JumpToAnchor id={MLChallengeSectionId.WhatIsCryoET} />
+      <Section useMdxStyles>
+        <MDXRemote {...whatIsCryoET} />
       </Section>
 
-      <JumpToAnchor id={MLChallengeSectionId.Organizers} />
+      <JumpToAnchor id={MLChallengeSectionId.CompetitionContributors} />
       <Section color="gray100">
         <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold mb-sds-xl">
           {t('aboutTheOrganizers')}
@@ -266,14 +229,9 @@ export function MainContent() {
         </div>
       </Section>
 
-      <JumpToAnchor id={MLChallengeSectionId.FAQ} />
+      <JumpToAnchor id={MLChallengeSectionId.Glossary} />
       <Section className="min-h-[270px]">
-        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold mb-sds-xl">
-          {t('faq')}
-        </h2>
-        <p className="text-sds-caps-xxs leading-sds-caps-xxs font-semibold uppercase text-sds-color-primitive-gray-500">
-          {t('moreInfoComingSoon')}
-        </p>
+        <MDXRemote {...glossary} />
       </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.Contact} />
