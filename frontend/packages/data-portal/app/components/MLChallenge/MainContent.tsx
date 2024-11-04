@@ -1,9 +1,11 @@
+import { Button } from '@czi-sds/components'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { ReactNode } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { I18n } from 'app/components/I18n'
-import { FolderIcon, SpeechBubbleIcon } from 'app/components/icons'
+import { SpeechBubbleIcon } from 'app/components/icons'
+import { Link } from 'app/components/Link'
 import styles from 'app/components/MDX/MdxBody.module.css'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
@@ -96,7 +98,7 @@ function Headshot({
       <img
         className="w-[150px] h-[150px]"
         alt={t('headshotOfName', { name })}
-        src={`images/headshots/${filePath}.png`}
+        src={`/images/headshots/${filePath}.png`}
       />
       <p className="text-sds-header-m leading-sds-header-m font-semibold mt-sds-l">
         {name}
@@ -161,21 +163,38 @@ export function MainContent() {
           )}
         >
           <div>
-            <p className="text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold uppercase text-sds-color-primitive-gray-500 mb-sds-xs">
-              {t('competitionDataset')}:
+            <p className="text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps-xxxs font-semibold uppercase text-sds-color-primitive-gray-500 mb-sds-xs">
+              {t('competitionDepositionName')}:
             </p>
             <p className="text-sds-header-m leading-sds-header-m font-semibold mb-sds-l">
-              {t('comingFall2024')}
+              {t('competitionDataHeader')}
             </p>
-            <p className="text-sds-body-s leading-sds-body-s mb-sds-l">
-              {t('competitionDataDetails1')}
+            <p className="text-sds-body-s leading-sds-body-s mb-sds-l text-justify">
+              {t('competitionDataDetails')}
             </p>
-            <p>
-              <I18n i18nKey="competitionDataDetails2" />
-            </p>
+            <div className="flex gap-sds-default">
+              <Link href="/depositions/10310">
+                <Button sdsStyle="rounded" sdsType="primary">
+                  {t('exploreInPortal')}
+                </Button>
+              </Link>
+
+              <Link href="https://www.kaggle.com/competitions/czii-cryo-et-object-identification/">
+                <Button sdsStyle="rounded" sdsType="secondary">
+                  {t('viewOnKaggle')}
+                </Button>
+              </Link>
+            </div>
           </div>
-          <FolderIcon className="text-sds-color-primitive-gray-300 min-w-[150px] min-h-[150px]" />
+          <img
+            src="/images/ml-challenge-competition-data-preview.png"
+            alt="Deposition Preview"
+            className="rounded-sds-m"
+          />
         </div>
+        <p className="font-semibold">
+          <I18n i18nKey="competitionDataSubnote" />
+        </p>
       </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.WhatIsCryoET} />
