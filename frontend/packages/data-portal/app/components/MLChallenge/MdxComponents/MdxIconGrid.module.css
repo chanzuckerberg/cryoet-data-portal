@@ -1,0 +1,11 @@
+.iconGrid {
+  @apply grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 10px;
+  @apply gap-y-sds-l;
+
+  h3 {
+    margin-top: 0 !important;
+    line-height: 32px;
+  }
+}

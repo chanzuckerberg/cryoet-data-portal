@@ -9,6 +9,23 @@ import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
 import { MLChallengeSectionId } from './constants'
+import {
+  BookIcon,
+  GlobeIcon,
+  MdxIconGrid,
+  MdxLink,
+  MdxPrizeTable,
+  MdxSeeLeaderboard,
+  MdxTable,
+  RocketIcon,
+  UpdateIcon,
+} from './MdxComponents'
+
+const COMMON_MDX_COMPONENTS = {
+  a: MdxLink,
+  Table: MdxTable,
+  IconGrid: MdxIconGrid,
+}
 
 /**
  * Used for scrolling to a specific section in the page
@@ -107,12 +124,28 @@ export function MainContent() {
       <JumpToAnchor id={MLChallengeSectionId.About} />
 
       <Section useMdxStyles>
-        <MDXRemote {...aboutTheCompetition} />
+        <MDXRemote
+          {...aboutTheCompetition}
+          components={{
+            ...COMMON_MDX_COMPONENTS,
+            PrizeTable: MdxPrizeTable,
+            SeeLeaderboard: MdxSeeLeaderboard,
+          }}
+        />
       </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.HowToParticipate} />
       <Section color="primary100" className="min-h-[270px]" useMdxStyles>
-        <MDXRemote {...howToParticipate} />
+        <MDXRemote
+          {...howToParticipate}
+          components={{
+            ...COMMON_MDX_COMPONENTS,
+            BookIcon,
+            GlobeIcon,
+            RocketIcon,
+            UpdateIcon,
+          }}
+        />
       </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.CompetitionData} />
@@ -147,7 +180,12 @@ export function MainContent() {
 
       <JumpToAnchor id={MLChallengeSectionId.WhatIsCryoET} />
       <Section useMdxStyles>
-        <MDXRemote {...whatIsCryoET} />
+        <MDXRemote
+          {...whatIsCryoET}
+          components={{
+            ...COMMON_MDX_COMPONENTS,
+          }}
+        />
       </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.CompetitionContributors} />
@@ -231,7 +269,12 @@ export function MainContent() {
 
       <JumpToAnchor id={MLChallengeSectionId.Glossary} />
       <Section className="min-h-[270px]">
-        <MDXRemote {...glossary} />
+        <MDXRemote
+          {...glossary}
+          components={{
+            ...COMMON_MDX_COMPONENTS,
+          }}
+        />
       </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.Contact} />

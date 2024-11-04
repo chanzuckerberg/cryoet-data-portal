@@ -1,0 +1,16 @@
+.table {
+  table {
+    thead {
+      @apply hidden;
+    }
+
+    td {
+      border-left: 14px solid transparent;
+
+      &:first-child {
+        border-left: 0;
+        width: 160px;
+      }
+    }
+  }
+}
