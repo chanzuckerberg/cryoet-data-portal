@@ -102,6 +102,7 @@ export function DepositionTable() {
                   <p
                     className={cnsNoMerge(
                       'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
+                      'group-hover:text-sds-color-primitive-blue-500',
                     )}
                   >
                     {isLoadingDebounced ? (

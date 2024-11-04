@@ -127,7 +127,7 @@ export function RunsTable() {
                     className={cnsNoMerge(
                       'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
                       !isHoveringOverInteractable &&
-                        'hover:text-sds-color-primitive-blue-500',
+                        'group-hover:text-sds-color-primitive-blue-500',
                     )}
                     to={runUrl}
                   >
