@@ -1,0 +1,12 @@
+.contributorList {
+  @apply text-sds-body-xs leading-sds-body-xs;
+
+  ul {
+    @apply columns-2 screen-716:columns-3 screen-1024:columns-4;
+    @apply gap-sds-xxl;
+
+    li {
+      @apply mb-sds-m;
+    }
+  }
+}

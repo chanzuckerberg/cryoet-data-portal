@@ -7,19 +7,26 @@ export async function loader() {
   const prefix =
     'frontend/packages/data-portal/app/components/MLChallenge/MdxContent'
 
-  const [aboutTheCompetition, glossary, howToParticipate, whatIsCryoET] =
-    await Promise.all([
-      getLocalFileContent(`${prefix}/AboutTheCompetition.mdx`, { raw: true }),
-      getLocalFileContent(`${prefix}/Glossary.mdx`, { raw: true }),
-      getLocalFileContent(`${prefix}/HowToParticipate.mdx`, { raw: true }),
-      getLocalFileContent(`${prefix}/WhatIsCryoET.mdx`, { raw: true }),
-    ])
+  const [
+    aboutTheCompetition,
+    glossary,
+    howToParticipate,
+    whatIsCryoET,
+    competitionContributors,
+  ] = await Promise.all([
+    getLocalFileContent(`${prefix}/AboutTheCompetition.mdx`, { raw: true }),
+    getLocalFileContent(`${prefix}/Glossary.mdx`, { raw: true }),
+    getLocalFileContent(`${prefix}/HowToParticipate.mdx`, { raw: true }),
+    getLocalFileContent(`${prefix}/WhatIsCryoET.mdx`, { raw: true }),
+    getLocalFileContent(`${prefix}/CompetitionContributors.mdx`, { raw: true }),
+  ])
 
   return typedjson({
     aboutTheCompetition,
     glossary,
     howToParticipate,
     whatIsCryoET,
+    competitionContributors,
   })
 }
 

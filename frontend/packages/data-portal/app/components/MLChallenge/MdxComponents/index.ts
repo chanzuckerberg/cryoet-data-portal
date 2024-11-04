@@ -1,3 +1,4 @@
+export * from './MdxContributorList'
 export * from './MdxIconGrid'
 export * from './MdxIcons'
 export * from './MdxLink'

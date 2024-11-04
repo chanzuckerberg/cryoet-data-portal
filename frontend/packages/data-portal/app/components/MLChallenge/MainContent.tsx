@@ -14,6 +14,7 @@ import { MLChallengeSectionId } from './constants'
 import {
   BookIcon,
   GlobeIcon,
+  MdxContributorList,
   MdxIconGrid,
   MdxLink,
   MdxPrizeTable,
@@ -74,50 +75,19 @@ function Section({
   )
 }
 
-function Headshot({
-  name,
-  organization,
-  filePath,
-}: {
-  name: string
-  organization: string
-  filePath: string
-}) {
-  const { t } = useI18n()
-
-  return (
-    <div
-      className={cns(
-        'flex flex-col items-center text-center min-w-[150px] min-h-[150px] col-span-1',
-        // https://css-irl.info/controlling-leftover-grid-items/
-        'screen-716:last:[&:nth-child(3n-2)]:col-span-3 screen-1024:last:[&:nth-child(3n-2)]:col-span-1',
-        'screen-1024:last:[&:nth-child(4n-2)]:col-start-3',
-        'screen-1024:[&:nth-last-child(2)]:[&:nth-child(4n-3)]:col-start-2',
-      )}
-    >
-      <img
-        className="w-[150px] h-[150px]"
-        alt={t('headshotOfName', { name })}
-        src={`/images/headshots/${filePath}.png`}
-      />
-      <p className="text-sds-header-m leading-sds-header-m font-semibold mt-sds-l">
-        {name}
-      </p>
-      <p className="text-sds-body-xxs leading-sds-body-xxs mt-sds-xs">
-        {organization}
-      </p>
-    </div>
-  )
-}
-
 export function MainContent() {
-  const { aboutTheCompetition, glossary, howToParticipate, whatIsCryoET } =
-    useTypedLoaderData<{
-      aboutTheCompetition: MDXRemoteSerializeResult
-      glossary: MDXRemoteSerializeResult
-      howToParticipate: MDXRemoteSerializeResult
-      whatIsCryoET: MDXRemoteSerializeResult
-    }>()
+  const {
+    aboutTheCompetition,
+    glossary,
+    howToParticipate,
+    whatIsCryoET,
+    competitionContributors,
+  } = useTypedLoaderData<{
+    aboutTheCompetition: MDXRemoteSerializeResult
+    glossary: MDXRemoteSerializeResult
+    howToParticipate: MDXRemoteSerializeResult
+    whatIsCryoET: MDXRemoteSerializeResult
+  }>()
 
   const { t } = useI18n()
 
@@ -208,63 +178,18 @@ export function MainContent() {
       </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.CompetitionContributors} />
-      <Section color="gray100">
-        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold mb-sds-xl">
-          {t('aboutTheOrganizers')}
+      <Section color="gray100" className="gap-sds-xl">
+        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
+          {t('competitionContributors')}
         </h2>
-        <div className="grid grid-cols-2 screen-716:grid-cols-3 screen-1024:grid-cols-4 gap-sds-xxl justify-center mb-sds-xxl">
-          <Headshot
-            name="Bridget Carragher"
-            organization={t('cziiOrganization')}
-            filePath="Bridget-Carragher"
-          />
-          <Headshot
-            name="Anchi Cheng"
-            organization={t('cziiOrganization')}
-            filePath="Anchi-Cheng"
-          />
-          <Headshot
-            name="Utz Ermel"
-            organization={t('cziiOrganization')}
-            filePath="Utz-Ermel"
-          />
-          <Headshot
-            name="Kyle Harrington"
-            organization={t('cziiOrganization')}
-            filePath="Kyle-Harrington"
-          />
-          <Headshot
-            name="Reza Paraan"
-            organization={t('cziiOrganization')}
-            filePath="Reza-Paraan"
-          />
-          <Headshot
-            name="Jonathan Schwartz"
-            organization={t('cziiOrganization')}
-            filePath="Jonathan-Schwartz"
-          />
-          <Headshot
-            name="Daniel Serwas"
-            organization={t('cziiOrganization')}
-            filePath="Daniel-Serwas"
-          />
-          <Headshot
-            name="Hannah Siems"
-            organization={t('cziiOrganization')}
-            filePath="Hannah-Siems"
-          />
-          <Headshot
-            name="Yue Yu"
-            organization={t('cziiOrganization')}
-            filePath="Yue-Yu"
-          />
-          <Headshot
-            name="Kevin Zhao"
-            organization={t('cziiOrganization')}
-            filePath="Kevin-Zhao"
-          />
-        </div>
-        <div className="flex flex-col items-center">
+        <p className="text-sds-body-s leading-sds-body-s">
+          {t('competitionContributorsBlurb')}
+        </p>
+        <MDXRemote
+          {...competitionContributors}
+          components={{ ContributorList: MdxContributorList }}
+        />
+        <div className="flex flex-col items-center mt-sds-l">
           <div className="w-full h-[2px] bg-sds-color-primitive-gray-200 mb-sds-xxl" />
           <p className="text-sds-caps-xxs leading-sds-caps-xxs uppercase font-semibold text-sds-color-primitive-gray-500 mb-sds-l">
             {t('sponsoredBy')}:
