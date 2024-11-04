@@ -1,5 +1,5 @@
 import { Icon, Menu } from '@czi-sds/components'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useRef, useState } from 'react'
 
 import { cns } from 'app/utils/cns'
 
@@ -13,15 +13,17 @@ export function MenuDropdown({
   title: ReactNode
 }) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
 
   return (
     <div className={className}>
       <button
         className="!p-0 flex items-center gap-2 group"
-        onClick={(event) => setAnchorEl(event.target as HTMLElement | null)}
+        onClick={() => setAnchorEl(menuRef.current)}
         type="button"
       >
         <span
+          ref={menuRef}
           className={cns(
             'font-semibold',
 
