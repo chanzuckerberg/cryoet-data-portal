@@ -11,7 +11,12 @@ import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
 import { AuthorList } from 'app/components/AuthorList'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
-import { CellHeader, PageTable, TableCell } from 'app/components/Table'
+import {
+  CellHeader,
+  PageTable,
+  TableCell,
+  TableLink,
+} from 'app/components/Table'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
@@ -108,7 +113,9 @@ export function DepositionTable() {
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[70%]" variant="text" />
                     ) : (
-                      <Link to={depositionUrl}>{deposition.title}</Link>
+                      <TableLink to={depositionUrl}>
+                        {deposition.title}
+                      </TableLink>
                     )}
                   </p>
 
