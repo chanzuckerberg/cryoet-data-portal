@@ -1,4 +1,5 @@
 export * from './MdxContributorList'
+export * from './MdxGlossary'
 export * from './MdxIconGrid'
 export * from './MdxIcons'
 export * from './MdxLink'

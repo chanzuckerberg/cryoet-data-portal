@@ -352,6 +352,7 @@
   "selectTheTomogramToReferenceWith": "Select the tomogram to reference with these annotations. For tomograms other than the Portal Standard, annotations may require transformation to be compatible. <url to='https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_data.html#annotations'>Learn More</url>.",
   "selectTomogram": "Select Tomogram",
   "seriesIsAligned": "Series is Aligned",
+  "showAll": "Show all",
   "showLess": "Show less",
   "showMore": "Show more",
   "showNumberMore": "Show {{count}} more",

@@ -15,6 +15,7 @@ import {
   BookIcon,
   GlobeIcon,
   MdxContributorList,
+  MdxGlossary,
   MdxIconGrid,
   MdxLink,
   MdxPrizeTable,
@@ -212,11 +213,12 @@ export function MainContent() {
       </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.Glossary} />
-      <Section className="min-h-[270px]">
+      <Section className="min-h-[270px]" useMdxStyles>
         <MDXRemote
           {...glossary}
           components={{
             ...COMMON_MDX_COMPONENTS,
+            Glossary: MdxGlossary,
           }}
         />
       </Section>
