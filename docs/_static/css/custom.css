@@ -383,3 +383,11 @@ div .centered-quote {
   margin-top: 20px;
   width: 33%;
 }
+
+/* Side by side figures */
+.sidefigures {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  width: 100%;
+}
