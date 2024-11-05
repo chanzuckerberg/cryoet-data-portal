@@ -1,19 +1,17 @@
 import { Pagination } from '@czi-sds/components'
 import { useSearchParams } from '@remix-run/react'
-import { ReactNode, useEffect, useMemo } from 'react'
+import { ComponentType, ReactNode, useEffect, useMemo } from 'react'
 
-import { Link } from 'app/components/Link'
 import { Tabs } from 'app/components/Tabs'
 import { TABLE_PAGE_LAYOUT_LOG_ID } from 'app/constants/error'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { TestIds } from 'app/constants/testIds'
 import { LayoutContext, LayoutContextValue } from 'app/context/Layout.context'
-import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
-import { ErrorBoundary } from './ErrorBoundary'
-import { TableCount } from './Table/TableCount'
+import { ErrorBoundary } from '../ErrorBoundary'
+import { TableHeader, TableHeaderProps } from './TableHeader'
 
 export interface TablePageLayoutProps {
   banner?: ReactNode
@@ -27,6 +25,7 @@ export interface TablePageLayoutProps {
 }
 
 export interface TableLayoutTab {
+  Header?: ComponentType<TableHeaderProps>
   title: string
   description?: string
   learnMoreLink?: string
@@ -118,10 +117,10 @@ function TablePageTabContent({
   totalCount,
   countLabel,
   banner,
+  Header = TableHeader,
 }: TableLayoutTab) {
   const [searchParams, setSearchParams] = useSearchParams()
   const pageQueryParamValue = +(searchParams.get(pageQueryParamKey) ?? '1')
-  const { t } = useI18n()
 
   useEffect(() => {
     if (Math.ceil(filteredCount / MAX_PER_PAGE) < pageQueryParamValue) {
@@ -190,35 +189,14 @@ function TablePageTabContent({
           >
             {banner && <div className="flex px-sds-xl">{banner}</div>}
 
-            <div
-              className={cns(
-                'ml-sds-xl p-sds-m flex items-center gap-x-sds-xl  screen-1024:mr-sds-xl',
-                // NOTE: The title background color is gray on the browse datasets and browse depositions pages
-                // If we want to add a description to the single deposition or single run pages, we may need to update this
-                !!description && 'bg-sds-color-primitive-gray-100',
-              )}
-            >
-              <p className="text-sds-header-l leading-sds-header-l font-semibold">
-                {title}
-              </p>
-
-              <TableCount
-                filteredCount={filteredCount}
-                totalCount={totalCount}
-                type={countLabel}
-              />
-              <p className="inline">
-                {description}
-                {learnMoreLink && (
-                  <Link
-                    to={learnMoreLink}
-                    className="text-sds-color-primitive-blue-400 ml-sds-xxs"
-                  >
-                    {t('learnMore')}
-                  </Link>
-                )}
-              </p>
-            </div>
+            <Header
+              countLabel={countLabel}
+              description={description}
+              filteredCount={filteredCount}
+              learnMoreLink={learnMoreLink}
+              title={title}
+              totalCount={totalCount}
+            />
 
             <ErrorBoundary logId={TABLE_PAGE_LAYOUT_LOG_ID}>
               <div className="overflow-x-scroll">{table}</div>
