@@ -262,7 +262,7 @@ class Model:
 
         Example:
 
-        - ``Tomogram.voxel_spacing.run.name == "RUN1"``
+        - ``Tomogram.run.name == "RUN1"``
 
         Expressions with method operators (``like``, ``ilike``, ``_in``) must be in the format:
 
@@ -270,8 +270,8 @@ class Model:
 
         Examples:
 
-        - ``Tomogram.voxel_spacing.run.name.like("%RUN1%")``
-        - ``Tomogram.voxel_spacing.run.name._in(["RUN1", "RUN2"])``
+        - ``Tomogram.run.name.like("%RUN1%")``
+        - ``Tomogram.run.name._in(["RUN1", "RUN2"])``
 
         Supported operators are: ``==``, ``!=``, ``>``, ``>=``, ``<``, ``<=``, ``like``, ``ilike``, ``_in``
 
@@ -298,11 +298,11 @@ class Model:
             Filter runs by attributes, including attributes in related models:
 
             >>> runs = Run.find(client, query_filters=[Run.name == "TS_026", Run.dataset.id == 10000])
-            >>> runs = Run.find(client, query_filters=[Run.name._in(['TS_026', 'TS_027']), Run.tomogram_voxel_spacings.annotations.object_name.ilike('%membrane%')])
+            >>> runs = Run.find(client, query_filters=[Run.name._in(['TS_026', 'TS_027']), Run.annotations.object_name.ilike('%membrane%')])
 
             Get all results for this type:
 
-            >>> runs = Run.find(client)
+            >>> datasets = Dataset.find(client)
         """
         filters = {}
         if query_filters:
