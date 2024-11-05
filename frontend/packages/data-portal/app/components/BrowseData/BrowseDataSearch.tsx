@@ -6,7 +6,7 @@ import { useHydrateAtoms } from 'jotai/utils'
 import { useEffect, useRef } from 'react'
 
 import { QueryParams } from 'app/constants/query'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 import { searchQueryAtom } from 'app/state/search'
 
 /**
@@ -51,14 +51,17 @@ export function BrowseDataSearch() {
     SEARCH_QUERY_DEBOUNCE_TIME_MS,
   )
 
+  const { t } = useI18n()
+
   return (
     <InputSearch
       id="data-search"
-      label={i18n.search}
-      sdsStyle="rounded"
-      placeholder={i18n.search}
+      label={t('search')}
+      sdsStyle="square"
+      placeholder={t('searchByDatasetName')}
       value={query}
       onChange={(event) => setQuery(event.target.value)}
+      className="!m-0 [&>.MuiInputBase-root]:!min-w-[240px]"
     />
   )
 }

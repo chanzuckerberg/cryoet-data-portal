@@ -4,9 +4,14 @@ import { json, LoaderFunctionArgs } from '@remix-run/node'
 import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
 import { DatasetTable } from 'app/components/BrowseData'
+import { BrowseDataSearch } from 'app/components/BrowseData/BrowseDataSearch'
 import { DatasetFilter } from 'app/components/DatasetFilter'
 import { NoFilteredResults } from 'app/components/NoFilteredResults'
-import { TablePageLayout } from 'app/components/TablePageLayout'
+import {
+  TableHeaderDefinition,
+  TableHeaderProps,
+  TablePageLayout,
+} from 'app/components/TablePageLayout'
 import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
@@ -49,6 +54,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
   })
 }
 
+function BrowseDatasetTableHeader(props: TableHeaderProps) {
+  return <TableHeaderDefinition {...props} search={<BrowseDataSearch />} />
+}
+
 export default function BrowseDatasetsPage() {
   const { datasetCount, filteredDatasetCount } = useDatasets()
   const { t } = useI18n()
@@ -74,6 +83,7 @@ export default function BrowseDatasetsPage() {
           filteredCount: filteredDatasetCount,
           totalCount: datasetCount,
           countLabel: t('datasets'),
+          Header: BrowseDatasetTableHeader,
         },
       ]}
     />
