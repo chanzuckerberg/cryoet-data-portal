@@ -2,7 +2,7 @@
 hide-navigation: true
 ---
 
-# About CryoET
+# About CryoET Data Portal
 
 Learn about CryoET data and how to navigate the CryoET Data Portal.
 
