@@ -90,6 +90,35 @@ class Alignment(Model):
     https_alignment_metadata: str = StringField()
     is_portal_standard: bool = BooleanField()
 
+    @classmethod
+    def find(cls, **kwargs):
+        """
+        Examples:
+            Filter alignments by attributes, including attributes in related models:
+
+            >>> alignments = Alignment.find(client, query_filters=[Alignment.name == "TS_026", Alignment.dataset.id == 10000])
+            >>> alignments = Alignment.find(client, query_filters=[Alignment.name._in(['TS_026', 'TS_027']), Alignment.tomogram_voxel_spacings.annotations.object_name.ilike('%membrane%')])
+
+            Get all results for this type:
+
+            >>> alignments = Alignment.find(client)
+        """
+        super(Alignment, cls).find(**kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an Alignment by ID:
+
+            >>> alignment = Alignment.get_by_id(client, 1)
+                print(alignment).name)
+        """
+        super(Alignment, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
 
 class Annotation(Model):
     """Metadata for an annotation
@@ -203,6 +232,36 @@ class Annotation(Model):
         if download_metadata:
             self.download_metadata(dest_path)
 
+    @classmethod
+    def find(cls, **kwargs):
+        """
+        Examples:
+            Filter annotations by attributes, including attributes in related models:
+
+            >>> annotations = Annotation.find(client, query_filters=[Annotation.name == "TS_026", Annotation.dataset.id == 10000])
+            >>> annotations = Annotation.find(client, query_filters=[Annotation.name._in(['TS_026', 'TS_027']), Annotation.tomogram_voxel_spacings.annotations.object_name.ilike('%membrane%')])
+
+            Get all results for this type:
+
+            >>> annotations = Annotation.find(client)
+        """
+        super(Annotation, cls).find(**kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an Annotation by ID:
+
+            >>> annotation = Annotation.get_by_id(client, 1)
+                print(annotation).name)
+        """
+        super(Annotation, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+
 
 class AnnotationAuthor(Model):
     """Metadata for an annotation's authors
@@ -237,6 +296,36 @@ class AnnotationAuthor(Model):
     affiliation_identifier: str = StringField()
     corresponding_author_status: bool = BooleanField()
     primary_author_status: bool = BooleanField()
+
+    @classmethod
+    def find(cls, **kwargs):
+        """
+        Examples:
+            Filter annotation authors by attributes, including attributes in related models:
+
+            >>> annotation_authors = AnnotationAuthor.find(client, query_filters=[AnnotationAuthor.name == "TS_026", AnnotationAuthor.dataset.id == 10000])
+            >>> annotation_authors = AnnotationAuthor.find(client, query_filters=[Annotation.name._in(['TS_026', 'TS_027']), AnnotationAuthor.tomogram_voxel_spacings.annotations.object_name.ilike('%membrane%')])
+
+            Get all results for this type:
+
+            >>> annotation_author = AnnotationAuthor.find(client)
+        """
+        super(AnnotationAuthor, cls).find(**kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an AnnotationAuthor by ID:
+
+            >>> annotation_author = AnnotationAuthor.get_by_id(client, 1)
+                print(annotation_author).name)
+        """
+        super(AnnotationAuthor, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
 
 
 class AnnotationFile(Model):

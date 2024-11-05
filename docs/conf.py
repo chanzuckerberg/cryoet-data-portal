@@ -35,7 +35,10 @@ autodoc_default_options = {
     "exclude-members": "__init__",
 }
 autodoc_typehints = "none"
+autodoc_class_signature = "separated"
 autoclass_content = "both"
+#autodoc_inherit_docstrings = True
+
 tiledb_version = "latest"
 
 intersphinx_mapping = {
@@ -46,7 +49,6 @@ intersphinx_mapping = {
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "README.md"]
-autodoc_class_signature = "separated"
 
 source_suffix = [".rst", ".md"]
 
