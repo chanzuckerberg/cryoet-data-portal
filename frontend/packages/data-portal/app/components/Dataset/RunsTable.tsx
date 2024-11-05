@@ -11,8 +11,12 @@ import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
 import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
-import { Link } from 'app/components/Link'
-import { CellHeader, PageTable, TableCell } from 'app/components/Table'
+import {
+  CellHeader,
+  PageTable,
+  TableCell,
+  TableLink,
+} from 'app/components/Table'
 import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
 import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
 import { RUN_FILTERS } from 'app/constants/filterQueryParams'
@@ -123,16 +127,16 @@ export function RunsTable() {
                 {isLoadingDebounced ? (
                   <Skeleton className="max-w-[150px]" variant="text" />
                 ) : (
-                  <Link
+                  <TableLink
                     className={cnsNoMerge(
                       'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
                       !isHoveringOverInteractable &&
-                        'hover:text-sds-color-primitive-blue-500',
+                        'group-hover:text-sds-color-primitive-blue-500',
                     )}
                     to={runUrl}
                   >
                     {run.name}
-                  </Link>
+                  </TableLink>
                 )}
 
                 <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
