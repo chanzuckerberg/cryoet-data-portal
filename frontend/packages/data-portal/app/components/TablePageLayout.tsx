@@ -225,7 +225,9 @@ function TablePageTabContent({
             </ErrorBoundary>
 
             <div className="px-sds-xl">
-              {filteredCount === 0 && noFilteredResults}
+              {filteredCount === 0 && (
+                <div className="mt-[100px]">{noFilteredResults}</div>
+              )}
 
               {filteredCount > MAX_PER_PAGE && (
                 <div

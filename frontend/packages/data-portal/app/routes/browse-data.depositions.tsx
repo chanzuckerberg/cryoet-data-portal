@@ -1,15 +1,13 @@
-import { Button, CellHeaderDirection } from '@czi-sds/components'
+import { CellHeaderDirection } from '@czi-sds/components'
 import { json, LoaderFunctionArgs, redirect } from '@remix-run/node'
 
 import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
 import { DepositionTable } from 'app/components/BrowseData/DepositionTable'
-import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDepositions } from 'app/graphql/getBrowseDepositions.server'
 import { useDepositions } from 'app/hooks/useDepositions'
-import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
 import { getFeatureFlag } from 'app/utils/featureFlags'
 
@@ -51,7 +49,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function BrowseDepositionsPage() {
   const { depositionCount, filteredDepositionCount } = useDepositions()
-  const { reset } = useFilter()
   const { t } = useI18n()
 
   return (
@@ -63,13 +60,6 @@ export default function BrowseDepositionsPage() {
           learnMoreLink:
             'https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_data.html#depositions',
           table: <DepositionTable />,
-          noFilteredResults: (
-            <NoFilteredResults
-              title={t('filterNoResultsFound')}
-              description={t('filterTooRestrictive')}
-              actions={<Button onClick={reset}>{t('clearFilters')}</Button>}
-            />
-          ),
           filteredCount: filteredDepositionCount,
           totalCount: depositionCount,
           countLabel: t('depositions'),
