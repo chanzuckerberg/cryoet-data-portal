@@ -118,7 +118,9 @@ class Alignment(Model):
         """
         super(Alignment, cls).get_by_id(**kwargs)
 
-    get_by_id.__func__.__doc__ = Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
 
 class Annotation(Model):
     """Metadata for an annotation
@@ -260,7 +262,9 @@ class Annotation(Model):
         """
         super(Annotation, cls).get_by_id(**kwargs)
 
-    get_by_id.__func__.__doc__ = Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
 
 
 class AnnotationAuthor(Model):
@@ -325,7 +329,9 @@ class AnnotationAuthor(Model):
         """
         super(AnnotationAuthor, cls).get_by_id(**kwargs)
 
-    get_by_id.__func__.__doc__ = Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
 
 
 class AnnotationFile(Model):
