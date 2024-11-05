@@ -122,6 +122,7 @@ class Alignment(Model):
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
 
+
 class Annotation(Model):
     """Metadata for an annotation
 
