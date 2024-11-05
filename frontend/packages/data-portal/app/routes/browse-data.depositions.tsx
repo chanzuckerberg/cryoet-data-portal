@@ -4,7 +4,10 @@ import { json, LoaderFunctionArgs, redirect } from '@remix-run/node'
 import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
 import { DepositionTable } from 'app/components/BrowseData/DepositionTable'
-import { TablePageLayout } from 'app/components/TablePageLayout'
+import {
+  TableHeaderDefinition,
+  TablePageLayout,
+} from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDepositions } from 'app/graphql/getBrowseDepositions.server'
 import { useDepositions } from 'app/hooks/useDepositions'
@@ -63,6 +66,7 @@ export default function BrowseDepositionsPage() {
           filteredCount: filteredDepositionCount,
           totalCount: depositionCount,
           countLabel: t('depositions'),
+          Header: TableHeaderDefinition,
         },
       ]}
     />
