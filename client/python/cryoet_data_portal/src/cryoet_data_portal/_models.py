@@ -94,6 +94,7 @@ class Alignment(Model):
     def find(cls, **kwargs):
         """
         Examples:
+            >>> alignments = Alignment.find(client, query_filters=[Alignment.run.name == "TS_026"])
             Get all results for this type:
             >>> alignments = Alignment.find(client)
         """
@@ -196,6 +197,7 @@ class Annotation(Model):
     def find(cls, **kwargs):
         """
         Examples:
+            >>> annotations = Annotation.find(client, query_filters=[Annotation.run.name == "TS_026"])
             Get all results for this type:
             >>> annotations = Annotation.find(client)
         """
@@ -292,6 +294,7 @@ class AnnotationAuthor(Model):
     def find(cls, **kwargs):
         """
         Examples:
+            >>> annotation_authors = AnnotationAuthor.find(client, query_filters=[AnnotationAuthor.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationAuthor.annotation.object_name.ilike('%membrane%')])
             Get all results for this type:
             >>> annotation_authors = AnnotationAuthor.find(client)
         """
@@ -415,6 +418,7 @@ class AnnotationMethodLink(Model):
     def find(cls, **kwargs):
         """
         Examples:
+            >>> annotation_method_links = AnnotationMethodLink.find(client, query_filters=[AnnotationMethodLink.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationMethodLink.annotation.object_name.ilike('%membrane%')])
             Get all results for this type:
             >>> annotation_method_links = AnnotationMethodLink.find(client)
         """
@@ -465,6 +469,7 @@ class AnnotationShape(Model):
     def find(cls, **kwargs):
         """
         Examples:
+            >>> annotation_shapes = AnnotationShape.find(client, query_filters=[AnnotationShape.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationShape.annotation.object_name.ilike('%membrane%')])
             Get all results for this type:
             >>> annotation_shapes = AnnotationShape.find(client)
         """
@@ -685,7 +690,7 @@ class DatasetFunding(Model):
         """
         Examples:
             Filter dataset fundings by attributes, including attributes in related models:
-            >>> dataset_fundings = DatasetFunding.find(client, query_filters=[DatasetFunding.id == 12345, DatasetFunding.dataset.id == 10000])
+            >>> dataset_fundings = DatasetFunding.find(client, query_filters=[DatasetFunding.dataset.id == 10000])
             Get all results for this type:
             >>> dataset_fundings = DatasetFunding.find(client)
         """
@@ -932,6 +937,7 @@ class Frame(Model):
     def find(cls, **kwargs):
         """
         Examples:
+            >>> frames = Frame.find(client, query_filters=[Frame.run.name == "TS_026"])
             Get all results for this type:
             >>> frames = Frame.find(client)
         """
@@ -978,6 +984,7 @@ class FrameAcquisitionFile(Model):
     def find(cls, **kwargs):
         """
         Examples:
+            >>> frame_acquisition_files = FrameAcquisitionFile.find(client, query_filters=[FrameAcquisitionFile.run.name == "TS_026"])
             Get all results for this type:
             >>> frame_acquisition_files = FrameAcquisitionFile.find(client)
         """
@@ -1024,6 +1031,7 @@ class GainFile(Model):
     def find(cls, **kwargs):
         """
         Examples:
+            >>> gain_files = GainFile.find(client, query_filters=[GainFile.run.name == "TS_026"])
             Get all results for this type:
             >>> gain_files = GainFile.find(client)
         """
@@ -1276,6 +1284,7 @@ class TiltSeries(Model):
     def find(cls, **kwargs):
         """
         Examples:
+            >>> tilt_series = TiltSeries.find(client, query_filters=[TiltSeries.run.name == "TS_026"])
             Get all results for this type:
             >>> tilt_series = TiltSeries.find(client)
         """
@@ -1443,6 +1452,7 @@ class Tomogram(Model):
     def find(cls, **kwargs):
         """
         Examples:
+            >>> tomograms = Tomogram.find(client, query_filters=[Tomogram.run.name == "TS_026"])
             Get all results for this type:
             >>> tomograms = Tomogram.find(client)
         """
@@ -1611,6 +1621,7 @@ class TomogramVoxelSpacing(Model):
     def find(cls, **kwargs):
         """
         Examples:
+            >>> tomogram_voxel_spacings = TomogramVoxelSpacing.find(client, query_filters=[TomogramVoxelSpacing.run.name == "TS_026"])
             Get all results for this type:
             >>> tomogram_voxel_spacings = TomogramVoxelSpacing.find(client)
         """

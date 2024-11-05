@@ -23,11 +23,17 @@ class {{ model.name }}(Model):
               {% if model.fields | selectattr("name", "==", "name") | list | length %}
             >>> {{model.plural_underscores}} = {{ model.name }}.find(client, query_filters=[{{model.name}}.name == "TS_026", {{model.name}}.dataset.id == 10000])
               {% else %}
-            >>> {{model.plural_underscores}} = {{ model.name }}.find(client, query_filters=[{{model.name}}.id == 12345, {{model.name}}.dataset.id == 10000])
+            >>> {{model.plural_underscores}} = {{ model.name }}.find(client, query_filters=[{{model.name}}.dataset.id == 10000])
               {% endif %}
             {% endif %}
             {% if model.name == "Run" %}
             >>> {{model.plural_underscores}} = {{ model.name }}.find(client, query_filters=[{{model.name}}.name._in(['TS_026', 'TS_027']), {{model.name}}.annotations.object_name.ilike('%membrane%')])
+            {% endif %}
+            {% if model.fields | selectattr("name", "==", "run") | list | length %}
+            >>> {{model.plural_underscores}} = {{ model.name }}.find(client, query_filters=[{{model.name}}.run.name == "TS_026"])
+            {% endif %}
+            {% if model.fields | selectattr("name", "==", "annotation") | list | length %}
+            >>> {{model.plural_underscores}} = {{ model.name }}.find(client, query_filters=[{{model.name}}.annotation.run.name._in(['TS_026', 'TS_027']), {{model.name}}.annotation.object_name.ilike('%membrane%')])
             {% endif %}
             Get all results for this type:
             >>> {{model.plural_underscores}} = {{ model.name }}.find(client)
