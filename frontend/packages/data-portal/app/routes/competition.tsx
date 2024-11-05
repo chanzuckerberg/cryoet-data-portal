@@ -4,8 +4,9 @@ import { MLChallenge } from 'app/components/MLChallenge'
 import { getLocalFileContent } from 'app/utils/repo.server'
 
 export async function loader() {
-  const prefix =
-    'frontend/packages/data-portal/app/components/MLChallenge/MdxContent'
+  const prefix = `${
+    process.env.NODE_ENV === 'production' ? 'app' : 'frontend'
+  }/packages/data-portal/app/components/MLChallenge/MdxContent`
 
   const [
     aboutTheCompetition,
