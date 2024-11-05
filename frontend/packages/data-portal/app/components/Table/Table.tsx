@@ -17,7 +17,6 @@ import {
 import { Fragment, ReactNode } from 'react'
 
 import { ErrorBoundary } from 'app/components/ErrorBoundary'
-import { useLayout } from 'app/context/Layout.context'
 import { cns } from 'app/utils/cns'
 
 export interface TableProps<T> {
@@ -46,8 +45,6 @@ export function Table<T>({
   getAfterTableElement,
   onTableRowClick,
 }: TableProps<T>) {
-  const { hasFilters } = useLayout()
-
   const table = useReactTable<T>({
     columns,
     data,
@@ -59,15 +56,7 @@ export function Table<T>({
   }
 
   return (
-    <TableContainer
-      className={cns(
-        classes?.container,
-
-        // Need to subtract 244px from 100vw to account for the sidebar and padding:
-        // sidebar width = 200px, padding = 22px * 2 = 44px
-        hasFilters && 'max-w-[calc(100vw-244px)]',
-      )}
-    >
+    <TableContainer className={classes?.container}>
       <SDSTable {...tableProps} className={cns('!table-auto', classes?.table)}>
         <TableHeader>
           {table.getFlatHeaders().map((header) => {
