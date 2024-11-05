@@ -2,6 +2,7 @@ import { Pagination } from '@czi-sds/components'
 import { useSearchParams } from '@remix-run/react'
 import { ComponentType, ReactNode, useEffect } from 'react'
 
+import { ErrorBoundary } from 'app/components/ErrorBoundary'
 import { Tabs } from 'app/components/Tabs'
 import { TABLE_PAGE_LAYOUT_LOG_ID } from 'app/constants/error'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
@@ -9,7 +10,6 @@ import { QueryParams } from 'app/constants/query'
 import { TestIds } from 'app/constants/testIds'
 import { cns } from 'app/utils/cns'
 
-import { ErrorBoundary } from '../ErrorBoundary'
 import { TableHeader, TableHeaderProps } from './TableHeader'
 
 export interface TablePageLayoutProps {
