@@ -71,7 +71,7 @@ In the above example, the download happened very quickly because the file was on
 :class: czi-faq
 :name: visualize-neuroglancer
 :collapsible:
-All tomograms in the Data Portal are viewable in Neuroglancer along with their annotations. You can open a tomogram in Neuroglancer by clicking the blue `View Tomogram` button on any run page in the Portal. This will open an instance of Neuroglancer in a separate tab of your browser with the selected data along with their annotations already loaded. For more information about visualizing data with Neuroglancer, check out the documentation from Connectomics, the team that develops Neuroglancer, [here](https://connectomics.readthedocs.io/en/latest/external/neuroglancer.html#basic-usage).
+All tomograms in the Data Portal are viewable in Neuroglancer along with their annotations. You can open a tomogram in Neuroglancer by clicking the blue `View Tomogram` button on any run page in the Portal. This will open an instance of Neuroglancer in a separate tab of your browser with the selected data along with their annotations already loaded. For more information about visualizing data with Neuroglancer, check out our [Quick Start guide](neuroglancer_quickstart) or the [documentation from Connectomics](https://connectomics.readthedocs.io/en/latest/external/neuroglancer.html#basic-usage), the team that develops Neuroglancer.
 :::
 
 :::{admonition} How do I use napari to visualize tomograms with their annotations?
@@ -163,7 +163,9 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
 :class: czi-faq
 :name: default-annotations
 :collapsible:
-There is no definitive rule for which annotations are displayed with a tomogram in Neuroglancer by default. The annotations are manually chosen to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations included within, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
+Tomograms along with all annotations from the Portal come preloaded in Neuroglancer. Some annotations may not be displayed in the canvas by default, but those annotations can be viewed by clicking any layer name with strikethrough text. Check out this [Quick Start guide](neuroglancer_quickstart) for more information on using Neuroglancer. 
+
+There is no definitive rule for which annotations are displayed in the Neuroglancer canvas by default. The annotations are manually chosen to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations included within, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
 
 The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](cryoet_data_portal_docsite_napari) to learn more about napari and CryoET Data Portal.
 :::
