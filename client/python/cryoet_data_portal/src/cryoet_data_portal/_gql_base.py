@@ -213,19 +213,20 @@ class Model:
             value = getattr(self, k).convert(kwargs.get(strcase.to_lower_camel(k)))
             setattr(self, k, value)
 
-    def _serialize(self, value):
-        if isinstance(value, (datetime, date)):
-            return value.isoformat()
-        return value
-
     def to_dict(self) -> Dict[str, Any]:
         """Return a dictionary representation of this object's attributes"""
         return {k: getattr(self, k) for k in self._get_scalar_fields()}
 
+    def _serialize_datetime(self, value):
+        if isinstance(value, (datetime, date)):
+            return value.isoformat()
+        raise TypeError("Unknown type")
+
     def print_json(self) -> None:
         """Prints a JSON representation of this object's scalar attributes"""
-        obj = {key: self._serialize(val) for key, val in self.to_dict().items()}
-        logging.info(json.dumps(obj, indent=2))
+        logging.info(
+            json.dumps(self.to_dict(), indent=2, default=self._serialize_datetime),
+        )
 
     @classmethod
     @functools.lru_cache(maxsize=32)
