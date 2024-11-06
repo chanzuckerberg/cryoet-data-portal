@@ -35,7 +35,7 @@
         <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.59362b978ce63bd4f.min.css?v=96b30452" />
         <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
         <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=8f6aa739" />
+        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=4987f8f5" />
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -462,12 +462,80 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="python-api.html"><span class="md-ellipsis">Python API</span></a>
+          
+            <label for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Python API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Python API</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
   
     <li class="md-nav__item">
-      <a href="python-api.html" class="md-nav__link">
-        <span class="md-ellipsis">Python API</span>
+      <a href="api_reference.html" class="md-nav__link">
+        <span class="md-ellipsis">API reference</span>
       </a>
     </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="data_model.html" class="md-nav__link">
+        <span class="md-ellipsis">Data Model</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Changelog</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
   
 
     
@@ -1297,7 +1365,7 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id3" t
 <p>The <code class="docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Dataset</span></code> button opens a dialog with instructions for downloading the dataset using <a class="reference internal" href="cryoet_data_portal_docsite_aws.html"><span class="doc std std-doc">Amazon Web Services Command Line Interface</span></a> or the <a class="reference internal" href="python-api.html"><span class="doc std std-doc">Portal API</span></a>. Datasets are downloaded as folders named the Dataset ID. As shown in the diagram above, the folder contains subfolders for each run named the author-chosen run name, a folder named Images which contains the key photos of the dataset displayed on the Portal, and a JSON file named <code class="docutils literal notranslate"><span class="pre">dataset_metadata.json</span></code> containing the dataset metadata. The run folders contain subfolders named Tomogram and TiltSeries, containing the tomogram and tilt series image files, and a JSON file named <code class="docutils literal notranslate"><span class="pre">run_metadata.json</span></code> containing the run metadata. More details on the run folder file structure is found in the documentation <a class="reference internal" href="#run-download-options">below</a>.</p>
 <p>The metadata schema of any JSON file stored with the data on the data portal’s S3 bucket is described in LinkML and can be found <a class="reference external" href="https://github.com/chanzuckerberg/cryoet-data-portal-backend/tree/main/schema">here</a>.</p>
 <h2 id="runs">Runs<a class="headerlink" href="#runs" title="Link to this heading">¶</a></h2>
-<p>A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. However, in the <a class="reference internal" href="python-api.html#data-model"><span class="std std-ref">data schema</span></a> used in the Portal API, runs are connected to tomograms through the <code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing</span></code> class which specifies the sampling or voxel size of the tomogram. For a single run, multiple tomograms of different spacings can be available.</p>
+<p>A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. However, in the <a class="reference internal" href="data_model.html#data-model"><span class="std std-ref">data schema</span></a> used in the Portal API, runs are connected to tomograms through the <code class="docutils literal notranslate"><span class="pre">TomogramVoxelSpacing</span></code> class which specifies the sampling or voxel size of the tomogram. For a single run, multiple tomograms of different spacings can be available.</p>
 <p>An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run. These metadata are defined in the tables below including their mapping to attributes in the Portal API:</p>
 <p><strong>Tilt Series</strong></p>
 <table class="docutils data align-default">
@@ -1457,7 +1525,7 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id3" t
 <p><span class="caption-text"><span class="caption-text">
 File Structure of a downloaded run</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></figcaption>
 </figure>
-<p>Runs are downloaded as folders named the author-chosen run name. As shown in the diagram above, the folder contains subfolders named Tomograms and TiltSeries and a JSON file named <code class="docutils literal notranslate"><span class="pre">run_metadata.json</span></code> containing the run metadata. The Tomogram folder has a subfolder for every voxel spacing available, and each of those folders contains subfolders NeuorglancerPrecompute, which has files for visualizing the data in Neuroglancer; KeyPhotos, which contains the key photos of the run displayed on the Portal; CanonicalTomogram, which has the tomogram as an MRC file and OME-Zarr directory along with tomogram metadata and metadata for visualizing the tomogram with Neuroglancer; and Annotations. More details on the Annotation folder file structure is found in the documentation <a class="reference internal" href="#annotation-download-options">below</a>. The TiltSeries folder contains the tilt series images as an MRC file and OME-Zarr directory as well as a JSON file with the tilt series metadata.</p>
+<p>Runs are downloaded as folders named the author-chosen run name. As shown in the diagram above, the folder contains subfolders named Alignments, Frames, Gains, Reconstructions, and TiltSeries; and a JSON file named <code class="docutils literal notranslate"><span class="pre">run_metadata.json</span></code> containing the run metadata. The Alignments folder contains a JSON file for every alignment that specifies the alignment parameters including the affine transformation matrix. The Frames and Gains folders contain the raw movie frames and the gain files for correcting for the detector’s sensitivity, respectively. The TiltSeries folder contains the tilt series images as an MRC file and OME-Zarr directory as well as a JSON file with the tilt series metadata. The Reconstructions folder has a subfolder for every voxel spacing available, and each of those folders contains subfolders NeuorglancerPrecompute, which has files for visualizing the data in Neuroglancer; Images, which contains the key photos of the run displayed on the Portal; Tomograms, which has the tomograms associated with the run as an MRC file and OME-Zarr directory along with tomogram metadata and metadata for visualizing the tomogram with Neuroglancer; and Annotations. More details on the Annotation folder file structure is found in the documentation <a class="reference internal" href="#annotation-download-options">below</a>.</p>
 <h2 id="annotations">Annotations<a class="headerlink" href="#annotations" title="Link to this heading">¶</a></h2>
 <p>Annotations are summarized in a table on Run Overview pages. Each annotation has an Annotation ID, which is assigned by the Portal and is subject to change in the rare case where the annotation data needs to be re-ingested in the Portal. Each annotation labels exactly one type of object, such as ribosome or membrane, indicated by the Object Type column of the table. For every object, there is one type of annotation per entry in the table indicated in the Object Shape Type column. The options are Segmentation for semantic segmentation masks, Instance Segmentation for segmentation masks where each individual object is labeled with its own color, Point for point annotations, and Oriented Point for point annotations that have an associated rotation matrix. The method used for generating the annotation is displayed for each annotation with manual meaning the annotations were created by hand, automated meaning automated tools or algorithms without supervision were used, and hybrid meaning the annotations were generated using a combination of automated and manual methods.</p>
 <p>Annotations also have an optional precision field, which is the percentage of true positives among the total number of positive predictions where a value of 100% means everything found is actually the object of interest, and a recall field, which is the percentage of true positives among the actual number of objects where a value of 100% meaning all objects of interest were found. The Precision and Recall fields can only be calculated by comparing with a ground truth annotation, so for many annotations on the Portal, this field is marked NA for not available.</p>

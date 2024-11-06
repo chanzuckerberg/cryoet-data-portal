@@ -35,7 +35,7 @@
         <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.59362b978ce63bd4f.min.css?v=96b30452" />
         <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
         <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=8f6aa739" />
+        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=4987f8f5" />
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -455,12 +455,80 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="python-api.html"><span class="md-ellipsis">Python API</span></a>
+          
+            <label for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Python API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Python API</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
   
     <li class="md-nav__item">
-      <a href="python-api.html" class="md-nav__link">
-        <span class="md-ellipsis">Python API</span>
+      <a href="api_reference.html" class="md-nav__link">
+        <span class="md-ellipsis">API reference</span>
       </a>
     </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="data_model.html" class="md-nav__link">
+        <span class="md-ellipsis">Data Model</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Changelog</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
   
 
     
@@ -741,17 +809,17 @@
 <span class="n">terms</span> <span class="o">=</span> <span class="n">onto</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">subclass_of</span> <span class="o">=</span> <span class="n">onto</span><span class="o">.</span><span class="n">search_one</span><span class="p">(</span><span class="n">iri</span> <span class="o">=</span> <span class="s2">&quot;*GO_0016020&quot;</span><span class="p">))</span>
 
 <span class="c1"># Get IRIs</span>
-<span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">]</span>
+<span class="n">term_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">]</span>
 
 <span class="c1"># Query the portal for all annotation matching those terms</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
-<span class="n">portal_objects</span> <span class="o">=</span> <span class="n">Annotation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Annotation</span><span class="o">.</span><span class="n">object_id</span><span class="o">.</span><span class="n">_in</span><span class="p">(</span><span class="n">terms</span><span class="p">)])</span>
+<span class="n">portal_objects</span> <span class="o">=</span> <span class="n">Annotation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Annotation</span><span class="o">.</span><span class="n">object_id</span><span class="o">.</span><span class="n">_in</span><span class="p">(</span><span class="n">term_names</span><span class="p">)])</span>
 
 <span class="c1"># Runs that contain annotations with that term</span>
-<span class="n">object_runs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">po</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">po</span> <span class="ow">in</span> <span class="n">portal_objects</span><span class="p">])</span>
+<span class="n">object_runs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">po</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">po</span> <span class="ow">in</span> <span class="n">portal_objects</span><span class="p">])</span>
 
 <span class="c1"># Datasets that contain annotations with that term</span>
-<span class="n">object_datasets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">po</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="k">for</span> <span class="n">po</span> <span class="ow">in</span> <span class="n">portal_objects</span><span class="p">])</span>
+<span class="n">object_datasets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">po</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="k">for</span> <span class="n">po</span> <span class="ow">in</span> <span class="n">portal_objects</span><span class="p">])</span>
 </code></pre></div>
 </div>
 </details>
@@ -763,7 +831,7 @@
 
 <span class="c1"># An example Tomogram</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
-<span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="c1"># Obtain the HTTPS URL to the tomogram</span>
 <span class="n">url</span> <span class="o">=</span> <span class="n">tomo</span><span class="o">.</span><span class="n">https_omezarr_dir</span>
@@ -788,7 +856,7 @@
 
 <span class="c1"># An example Tomogram</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
-<span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="c1"># Obtain the Zarr store</span>
 <span class="n">url</span> <span class="o">=</span> <span class="n">tomo</span><span class="o">.</span><span class="n">https_omezarr_dir</span>
@@ -809,7 +877,7 @@
 
 <span class="c1"># An example Tomogram</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
-<span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="c1"># Open and list contents</span>
 <span class="n">g</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open_group</span><span class="p">(</span><span class="n">tomo</span><span class="o">.</span><span class="n">s3_omezarr_dir</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
@@ -825,7 +893,7 @@
 
 <span class="c1"># An example Tomogram</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
-<span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">tomo</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="n">g</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open_array</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tomo</span><span class="o">.</span><span class="n">https_omezarr_dir</span><span class="si">}</span><span class="s2">/0&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
 </code></pre></div>
@@ -840,8 +908,10 @@
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 
 <span class="c1"># Select all zarr annotation files in dataset 10000</span>
-<span class="n">ret</span> <span class="o">=</span> <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">AnnotationFile</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">,</span>
-                                      <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s1">&#39;zarr&#39;</span><span class="p">])</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span>
+    <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">annotation_shape</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">,</span>
+    <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s1">&#39;zarr&#39;</span>
+<span class="p">])</span>
 </code></pre></div>
 </div>
 </details>
@@ -856,13 +926,13 @@
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 
 <span class="c1"># Get all ndjson annotation files for dataset 10000</span>
-<span class="n">ret</span> <span class="o">=</span> <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">AnnotationFile</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">,</span>  <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s1">&#39;ndjson&#39;</span><span class="p">])</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">AnnotationFile</span><span class="o">.</span><span class="n">annotation_shape</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset_id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">,</span>  <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s1">&#39;ndjson&#39;</span><span class="p">])</span>
 
 <span class="c1"># Create an S3 filesystem instance</span>
 <span class="n">fs</span> <span class="o">=</span> <span class="n">s3fs</span><span class="o">.</span><span class="n">S3FileSystem</span><span class="p">(</span><span class="n">anon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Open the first file and print the first annotation</span>
-<span class="n">name</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">object_name</span>
+<span class="n">name</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">annotation_shape</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">object_name</span>
 <span class="k">with</span> <span class="n">fs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">s3_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">pointfile</span><span class="p">:</span>
   <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">ndjson</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">pointfile</span><span class="p">):</span>
       <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">point</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">point</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">point</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">][</span><span class="s1">&#39;z&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -877,8 +947,8 @@
 <span class="c1"># Get client instance</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 
-<span class="c1"># FInd all datasets, that have tiltseries with 1 or more frame files</span>
-<span class="n">datasets_with_frames</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Dataset</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">tiltseries</span><span class="o">.</span><span class="n">frames_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+<span class="c1"># Find all datasets, that have 1 or more frame files</span>
+<span class="n">datasets_with_frames</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Dataset</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">frames</span><span class="o">.</span><span class="n">id</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">])</span>
 </code></pre></div>
 </div>
 </details>
@@ -910,7 +980,7 @@
 <span class="c1"># Get client instance</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 
-<span class="c1"># Get all available runs</span>
+<span class="c1"># Get all available datasets</span>
 <span class="n">datasets</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 
 <span class="c1"># Get unique organism names</span>
@@ -947,20 +1017,18 @@
 <span class="c1"># One run instance</span>
 <span class="n">run</span> <span class="o">=</span> <span class="n">runs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="n">fs</span> <span class="o">=</span> <span class="n">s3fs</span><span class="o">.</span><span class="n">S3FileSystem</span><span class="p">(</span><span class="n">anon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># This is where the frames live</span>
-<span class="n">frames_dir</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">s3_prefix</span> <span class="o">+</span> <span class="s1">&#39;Frames/&#39;</span>
-
-<span class="c1"># S3 allows listing</span>
-<span class="n">frames_list</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">frames_dir</span><span class="p">)</span>
+<span class="c1"># Get list of frames files associated to this run</span>
+<span class="n">frames_list</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">frames</span>
 
 <span class="c1"># Retrieval</span>
 <span class="n">outdir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;/tmp/</span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">/Frames/&#39;</span>
 <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">frames_list</span><span class="p">:</span>
-  <span class="n">fs</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="n">s3fs</span><span class="o">.</span><span class="n">S3FileSystem</span><span class="p">(</span><span class="n">anon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames_list</span><span class="p">:</span>
+  <span class="n">frame_path</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">s3_path</span>
+  <span class="n">fs</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">frame_path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">frame_path</span><span class="p">)))</span>
 </code></pre></div>
 </div>
 </details>

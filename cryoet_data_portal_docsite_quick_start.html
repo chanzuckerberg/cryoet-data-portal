@@ -35,7 +35,7 @@
         <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.59362b978ce63bd4f.min.css?v=96b30452" />
         <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
         <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=8f6aa739" />
+        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=4987f8f5" />
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -777,12 +777,80 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="python-api.html"><span class="md-ellipsis">Python API</span></a>
+          
+            <label for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Python API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Python API</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
   
     <li class="md-nav__item">
-      <a href="python-api.html" class="md-nav__link">
-        <span class="md-ellipsis">Python API</span>
+      <a href="api_reference.html" class="md-nav__link">
+        <span class="md-ellipsis">API reference</span>
       </a>
     </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="data_model.html" class="md-nav__link">
+        <span class="md-ellipsis">Data Model</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Changelog</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
   
 
     
@@ -1356,7 +1424,7 @@
 </code></pre></div>
 </div>
 <h2 id="api-methods-overview">API Methods Overview<a class="headerlink" href="#api-methods-overview" title="Link to this heading">¶</a></h2>
-<p>The Portal API has methods for searching and downloading data. <strong>Every class</strong> has a <code class="docutils literal notranslate"><span class="pre">find</span></code> and <code class="docutils literal notranslate"><span class="pre">get_by_id</span></code> method for selecting data, and most classes have <code class="docutils literal notranslate"><span class="pre">download...</span></code> methods for downloading the data. Below is a table of the API classes download methods.</p>
+<p>The Portal API has methods for searching and downloading data. <strong>Every class</strong> has a <code class="docutils literal notranslate"><span class="pre">find</span></code> and <code class="docutils literal notranslate"><span class="pre">get_by_id</span></code> method for selecting data, and some classes have <code class="docutils literal notranslate"><span class="pre">download...</span></code> methods for downloading the data. Below is a table of the API classes that have download methods.</p>
 <table class="docutils data align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p><strong>Class</strong></p></th>
@@ -1364,38 +1432,23 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="python-api.html#cryoet_data_portal.Dataset" title="cryoet_data_portal.Dataset (Python class) — A collection of imaging experiments on the same organism"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api_reference.html#cryoet_data_portal.Annotation" title="cryoet_data_portal.Annotation (Python class) — Metadata for an annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">download</span></code>, <code class="docutils literal notranslate"><span class="pre">download_metadata</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api_reference.html#cryoet_data_portal.Dataset" title="cryoet_data_portal.Dataset (Python class) — A collection of imaging experiments on the same organism"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></a></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">download_everything</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="python-api.html#cryoet_data_portal.DatasetAuthor" title="cryoet_data_portal.DatasetAuthor (Python class) — An author of a dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetAuthor</span></code></a></p></td>
-<td><p>Not applicable as this class doesn’t contain data files</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="python-api.html#cryoet_data_portal.DatasetFunding" title="cryoet_data_portal.DatasetFunding (Python class) — Metadata for a dataset's funding sources"><code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetFunding</span></code></a></p></td>
-<td><p>Not applicable as this class doesn’t contain data files</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="python-api.html#cryoet_data_portal.Run" title="cryoet_data_portal.Run (Python class) — None"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api_reference.html#cryoet_data_portal.Run" title="cryoet_data_portal.Run (Python class) — None"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">download_everything</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="python-api.html#cryoet_data_portal.TomogramVoxelSpacing" title="cryoet_data_portal.TomogramVoxelSpacing (Python class) — Voxel spacings for a run"><code class="xref py py-class docutils literal notranslate"><span class="pre">TomogramVoxelSpacing</span></code></a></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">download_everything</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api_reference.html#cryoet_data_portal.TiltSeries" title="cryoet_data_portal.TiltSeries (Python class) — None"><code class="xref py py-class docutils literal notranslate"><span class="pre">TiltSeries</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">download_alignment_file</span></code>, <code class="docutils literal notranslate"><span class="pre">download_angle_list</span></code>, <code class="docutils literal notranslate"><span class="pre">download_mrcfile</span></code>, <code class="docutils literal notranslate"><span class="pre">download_omezarr</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="python-api.html#cryoet_data_portal.Tomogram" title="cryoet_data_portal.Tomogram (Python class) — Metadata describing a tomogram."><code class="xref py py-class docutils literal notranslate"><span class="pre">Tomogram</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api_reference.html#cryoet_data_portal.Tomogram" title="cryoet_data_portal.Tomogram (Python class) — Metadata describing a tomogram."><code class="xref py py-class docutils literal notranslate"><span class="pre">Tomogram</span></code></a></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">download_all_annotations</span></code>, <code class="docutils literal notranslate"><span class="pre">download_mrcfile</span></code>, <code class="docutils literal notranslate"><span class="pre">download_omezarr</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="python-api.html#cryoet_data_portal.TomogramAuthor" title="cryoet_data_portal.TomogramAuthor (Python class) — Author of a tomogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">TomogramAuthor</span></code></a></p></td>
-<td><p>Not applicable as this class doesn’t contain data files</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="python-api.html#cryoet_data_portal.Annotation" title="cryoet_data_portal.Annotation (Python class) — Metadata for an annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">download</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="python-api.html#cryoet_data_portal.AnnotationFile" title="cryoet_data_portal.AnnotationFile (Python class) — Metadata for files associated with an annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotationFile</span></code></a></p></td>
-<td><p>None, use the Annotation or Tomogram class to download annotations</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="python-api.html#cryoet_data_portal.AnnotationAuthor" title="cryoet_data_portal.AnnotationAuthor (Python class) — Metadata for an annotation's authors"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotationAuthor</span></code></a></p></td>
-<td><p>Not applicable as this class doesn’t contain data files</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="python-api.html#cryoet_data_portal.TiltSeries" title="cryoet_data_portal.TiltSeries (Python class) — None"><code class="xref py py-class docutils literal notranslate"><span class="pre">TiltSeries</span></code></a></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">download_alignment_file</span></code>, <code class="docutils literal notranslate"><span class="pre">download_angle_list</span></code>, <code class="docutils literal notranslate"><span class="pre">download_collection_metadata</span></code>, <code class="docutils literal notranslate"><span class="pre">download_mrcfile</span></code>, <code class="docutils literal notranslate"><span class="pre">download_omezarr</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api_reference.html#cryoet_data_portal.TomogramVoxelSpacing" title="cryoet_data_portal.TomogramVoxelSpacing (Python class) — Voxel spacings for a run"><code class="xref py py-class docutils literal notranslate"><span class="pre">TomogramVoxelSpacing</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">download_everything</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -1445,18 +1498,15 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset: </span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">dataset</span><span class="o">.</span><span class="n">runs</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - run: </span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">tvs</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - voxel spacing: </span><span class="si">{</span><span class="n">tvs</span><span class="o">.</span><span class="n">voxel_spacing</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">tomo</span> <span class="ow">in</span> <span class="n">tvs</span><span class="o">.</span><span class="n">tomograms</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;        - tomo: </span><span class="si">{</span><span class="n">tomo</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">tomo</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">tomograms</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - tomo: </span><span class="si">{</span><span class="n">tomo</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 </code></pre></div>
 </div>
 <p>The output with the object names would display something like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="n">Dataset</span><span class="p">:</span> <span class="n">S</span><span class="o">.</span> <span class="n">pombe</span> <span class="n">cells</span> <span class="k">with</span> <span class="n">defocus</span>
   <span class="o">-</span> <span class="n">run</span><span class="p">:</span> <span class="n">TS_026</span>
-    <span class="o">-</span> <span class="n">voxel</span> <span class="n">spacing</span><span class="p">:</span> <span class="mf">13.48</span>
-        <span class="o">-</span> <span class="n">tomo</span><span class="p">:</span> <span class="n">TS_026</span>
+    <span class="o">-</span> <span class="n">tomo</span><span class="p">:</span> <span class="n">TS_026</span>
 <span class="o">...</span>
 </code></pre></div>
 </div>
@@ -1468,7 +1518,7 @@
 <span class="n">client</span> <span class="o">=</span> <span class="n">portal</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
 
 <span class="c1"># Use the find method to select datasets that contain membrane annotations</span>
-<span class="n">datasets</span> <span class="o">=</span> <span class="n">portal</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">portal</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">tomogram_voxel_spacings</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s2">&quot;%membrane%&quot;</span><span class="p">)])</span>
+<span class="n">datasets</span> <span class="o">=</span> <span class="n">portal</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">portal</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s2">&quot;%membrane%&quot;</span><span class="p">)])</span>
 <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">datasets</span><span class="p">:</span>
    <span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 </code></pre></div>
@@ -1486,10 +1536,10 @@
 <span class="n">tomos</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
     <span class="n">client</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="n">Tomogram</span><span class="o">.</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">organism_name</span>
-        <span class="o">==</span> <span class="s2">&quot;Schizosaccharomyces pombe&quot;</span>
+        <span class="n">Tomogram</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">organism_name</span> <span class="o">==</span> <span class="s2">&quot;Schizosaccharomyces pombe&quot;</span>
     <span class="p">],</span>
 <span class="p">)</span>
+
 <span class="k">for</span> <span class="n">tomo</span> <span class="ow">in</span> <span class="n">tomos</span><span class="p">:</span>
     <span class="c1"># Access any useful metadata for each tomogram</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">tomo</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
