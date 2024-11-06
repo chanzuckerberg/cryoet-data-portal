@@ -240,6 +240,7 @@
   "microscopeModel": "Microscope model",
   "mlChallengeStartDate": "November 6, 2024",
   "mlChallengeEndDate": "February 5, 2025",
+  "mlCompetitionHasBegun": "ML Competition has begun. Enter for cash prices. <url to='/competition'>Learn More</url>",
   "modelWeights": "Model Weights",
   "moderate": "Moderate",
   "moreInfo": "More Info",
