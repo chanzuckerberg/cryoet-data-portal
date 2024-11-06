@@ -5,7 +5,7 @@ hide-navigation: true
 (data-model)=
 # Data Model
 
-To facilitate programmatic use of the CryoET Data Portal, we have a Python API client and a GraphQL API, which share a data model. If you prefer to query our API endpoint directly, it is available at [https://graphql.cryoetdataportal.cziscience.com/v1/graphql](https://graphql.cryoetdataportal.cziscience.com/v1/graphql). Note that names are in snake case in the Python API client (other than class names, which are in upper camel case), and in lower camel case in the GraphQL API.
+To facilitate programmatic use of the CryoET Data Portal, we have a Python API client and a GraphQL API, which share a data model. Note that names are in snake case in the Python API client (other than class names, which are in upper camel case), and in lower camel case in the GraphQL API.
 
 If you prefer to query our API endpoint directly, it's available at [https://graphql.cryoetdataportal.czscience.com/graphql](https://graphql.cryoetdataportal.czscience.com/graphql).
 
