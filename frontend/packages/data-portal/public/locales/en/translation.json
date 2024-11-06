@@ -197,7 +197,7 @@
   "groundTruthTooltip": "<semibold>Ground Truth:</semibold> Author-curated annotations for use as training or validation data for machine learning models.",
   "groundTruthUsed": "Ground Truth Used",
   "hardware": "Hardware",
-  "haveMoreQuestions": "Have a question? Reach out to our team at <url to='mailto:cryoetdataportal@chanzuckerberg.com'>cryoetdataportal@chanzuckerberg.com</url>",
+  "haveMoreQuestions": "Have a question? Reach out to our team at <url to='mailto:cryoetdataportal@chanzuckerberg.com'>cryoetdataportal@chanzuckerberg.com</url>.",
   "headshotOfName": "Headshot of {{name}}",
   "helpAndReport": "Help & Report",
   "helpUsAchieveThisVision": "Help us achieve this vision",
