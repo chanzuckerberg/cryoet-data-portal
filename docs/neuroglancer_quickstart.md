@@ -53,7 +53,7 @@ All of the data loaded is displayed in the upper bar with layers that are not cu
 <figure>
   <img src="_static/img/neuroglancer_4.png"
     alt="Layer panel"
-    width="25%"
+    width="40%"
   >
 </figure>
 
@@ -64,7 +64,7 @@ For 3D volumes, volume rendering can be turned on using the Volume rendering (ex
 <figure>
   <img src="_static/img/neuroglancer_5.png"
     alt="Tomogram rendering control panel"
-    width="25%"
+    width="40%"
   >
 </figure>
 
@@ -73,7 +73,7 @@ For point annotations, the size of the point markers, opacity, and color of the 
 <figure>
   <img src="_static/img/neuroglancer_6.png"
     alt="Point annotation rendering controls"
-    width="25%"
+    width="40%"
   >
 </figure>
 
@@ -82,7 +82,7 @@ For segmentation masks, the opacity of the labels and other display settings can
 <figure>
   <img src="_static/img/neuroglancer_7.png"
     alt="Segmentation mask rendering controls"
-    width="25%"
+    width="40%"
   >
 </figure>
 
@@ -93,3 +93,4 @@ For segmentation masks, the opacity of the labels and other display settings can
 * Tomograms and annotations are pre-loaded into Neuroglancer but some annotations may not be visible by default. Click on a layer with strikethrough text to make the layer visible in the canvas.
 * The Annotations tab in Neuroglancer is for adding additional annotations and not related to the annotations provided on the CryoET Data Portal. Use the Rendering tab to adjust annotations pre-loaded in Neuroglancer.
 * Layers highlighted in magenta can be hidden in the 3D mesh by double clicking the segmentation in the 2D view. Double clicking the 2D segmentation will make it re-appear in the 3D viewer.
+* For more information on Neuroglancer, [check out the documentation from Connectomics here](https://connectomics.readthedocs.io/en/latest/external/neuroglancer.html#neuroglancer).
