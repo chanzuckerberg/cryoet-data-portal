@@ -1,4 +1,3 @@
-export * from '../TablePageLayout/TableCount'
 export * from './CellHeader'
 export * from './MetadataTable'
 export * from './PageTable'
