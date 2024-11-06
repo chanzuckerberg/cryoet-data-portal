@@ -4,7 +4,7 @@ hide-navigation: true
 
 # Changelog
 
-## v4.0.0 
+## v4.0.0
 
 The v4.0.0 release of the Python API was paired with the v3 release of the Client. A summary of the changes between Client v2 and Client v3 is below along with some migration notes, including a list of new API classes.
 
