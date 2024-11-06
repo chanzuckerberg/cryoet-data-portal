@@ -75,8 +75,7 @@ export function getAnnotationCodeSnippet(
 
 export function APIDownloadTab() {
   const { t } = useI18n()
-  const { runId, datasetId, tomogramId, tomogramVoxelId, type } =
-    useDownloadModalContext()
+  const { runId, datasetId, tomogramId, type } = useDownloadModalContext()
   const { annotationId, downloadConfig, fileFormat } =
     useDownloadModalQueryParamState()
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
@@ -131,9 +130,9 @@ export function APIDownloadTab() {
       datasetId,
       downloadConfig,
       fileFormat,
+      runId,
       t,
       tomogramId,
-      tomogramVoxelId,
       type,
     ],
   )
