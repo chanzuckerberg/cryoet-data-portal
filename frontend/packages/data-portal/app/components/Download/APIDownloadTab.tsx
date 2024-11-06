@@ -19,7 +19,7 @@ export function getDatasetCodeSnippet(datasetId?: number) {
     client = Client()
 
     dataset = Dataset.get_by_id(client, ${datasetId})
-    dataset.download_everything('${datasetId}')
+    dataset.download_everything()
   `
 }
 
