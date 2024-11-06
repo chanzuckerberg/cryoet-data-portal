@@ -114,7 +114,7 @@ const GET_DATASET_BY_ID = gql(`
             object_name
           }
 
-          tomograms(limit: 1) {
+          tomograms(limit: 1, where: { neuroglancer_config: { _is_null: false } }) {
             id
             key_photo_thumbnail_url
             neuroglancer_config

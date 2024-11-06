@@ -222,7 +222,9 @@ export function RunsTable() {
 
       columnHelper.accessor(
         (run) =>
-          run.tomogram_voxel_spacings?.[0]?.tomograms?.[0]?.neuroglancer_config,
+          run.tomogram_voxel_spacings?.find(
+            (voxelSpacing) => voxelSpacing.tomograms[0].neuroglancer_config,
+          )?.tomograms?.[0]?.neuroglancer_config,
         {
           id: 'viewTomogram',
           header: () => <CellHeader width={RunTableWidths.actions} />,
@@ -231,7 +233,11 @@ export function RunsTable() {
             const neuroglancerConfig = getValue()
 
             const run = row.original
-            const tomogram = run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
+            const tomogram = run.tomogram_voxel_spacings
+              .find(
+                (voxelSpacing) => voxelSpacing.tomograms[0].neuroglancer_config,
+              )
+              ?.tomograms.at(0)
 
             return (
               <TableCell horizontalAlign="right" width={RunTableWidths.actions}>
