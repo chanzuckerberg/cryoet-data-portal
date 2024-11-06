@@ -9,6 +9,7 @@ import { cnsNoMerge } from 'app/utils/cns'
 import { isExternalUrl } from 'app/utils/url'
 
 export type VariantLinkProps = LinkProps & {
+  newTab?: boolean
   variant?: 'dashed-bordered' | 'dashed-underlined'
 }
 
@@ -18,6 +19,7 @@ function BaseLink(
     to,
     variant,
     className,
+    newTab,
     ...props
   }: VariantLinkProps & { href?: string },
   ref: ForwardedRef<HTMLAnchorElement>,
@@ -25,7 +27,7 @@ function BaseLink(
   let newTabProps: Partial<LinkProps> = {}
   const url = href ?? to
 
-  if (typeof url === 'string' && isExternalUrl(url)) {
+  if (newTab || (typeof url === 'string' && isExternalUrl(url))) {
     // For new tabs, add rel=noreferrer for security:
     // https://web.dev/external-anchors-use-rel-noopener/#how-to-improve-your-site's-performance-and-prevent-security-vulnerabilities
     newTabProps = {
