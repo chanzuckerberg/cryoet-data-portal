@@ -85,7 +85,7 @@
   "competitionData": "Competition Data",
   "competitionDataDetails": "Experimental and simulated training data for the CryoET Object Identification Challenge. Each dataset contains tilt series, alignments, tomograms and ground truth annotations for six protein complexes (Apo-ferritin, Beta-amylase, Beta-galactosidase, cytosolic ribosome (80S), thyroglobulin and VLP). Curation procedures are described in detail in the accompanying paper. Details on how the dataset is used in the competition are available on Kaggle.",
   "competitionDataHeader": "CZII - 2024 CryoET Object Identification Challenge",
-  "competitionDataSubnote": "Want more data for training your model? Find it here on the <url to='/'>CryoET Data Portal</url>.",
+  "competitionDataSubnote": "Want more data for training your model? Find it here on the <url to='/' newTab='true'>CryoET Data Portal</url>.",
   "competitionDataset": "Competition Dataset",
   "competitionDepositionName": "Competition Deposition Name",
   "competitionDetails": "Competition Details",

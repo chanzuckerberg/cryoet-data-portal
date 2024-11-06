@@ -88,6 +88,7 @@ export function MainContent() {
     glossary: MDXRemoteSerializeResult
     howToParticipate: MDXRemoteSerializeResult
     whatIsCryoET: MDXRemoteSerializeResult
+    competitionContributors: MDXRemoteSerializeResult
   }>()
 
   const { t } = useI18n()
@@ -144,13 +145,13 @@ export function MainContent() {
               {t('competitionDataDetails')}
             </p>
             <div className="flex gap-sds-default">
-              <Link href="/depositions/10310">
+              <Link to="/depositions/10310" newTab>
                 <Button sdsStyle="rounded" sdsType="primary">
                   {t('exploreInPortal')}
                 </Button>
               </Link>
 
-              <Link href="https://www.kaggle.com/competitions/czii-cryo-et-object-identification/">
+              <Link to="https://www.kaggle.com/competitions/czii-cryo-et-object-identification/">
                 <Button sdsStyle="rounded" sdsType="secondary">
                   {t('viewOnKaggle')}
                 </Button>
