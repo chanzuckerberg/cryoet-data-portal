@@ -4,25 +4,27 @@ hide-navigation: true
 
 # Python API
 
-## Data Model
+::::{grid} 1 1 2 2
+:gutter: 2
 
-The Python API client is primarily a GraphQL client that interacts with our GraphQL API endpoint. The data model for the python API client and the GraphQL API are identical.
+:::{grid-item-card} API Reference
+:link: api-reference
+:link-type: ref
 
 If you prefer to query our API endpoint directly, it's available at https://graphql.cryoetdataportal.czscience.com/graphql.
 
-A simplified diagram of the graph data model is below:
+:::{grid-item-card} Data Model
+:link: data-model
+:link-type: ref
 
-```{image} _static/img/data_model.png
-:width: 1000
-:alt: Simplified data model
-:align: center
-```
+Visualize the relationships between classes in the Python API
+:::
 
-(api-documentation)=
-## API documentation
+:::{grid-item-card} Changelog
+:link: changelog
+:link-type: doc
 
-```{eval-rst}
-.. automodule:: cryoet_data_portal
-   :members:
-   :inherited-members:
-```
+Log and migration guide for major API releases
+:::
+::::
+

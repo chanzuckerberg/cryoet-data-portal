@@ -105,7 +105,7 @@ The metadata schema of any JSON file stored with the data on the data portal's S
 
 ## Runs
 
-A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. However, in the [data schema](python-api.md#data-model) used in the Portal API, runs are connected to tomograms through the `TomogramVoxelSpacing` class which specifies the sampling or voxel size of the tomogram. For a single run, multiple tomograms of different spacings can be available.
+A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. However, in the [data schema](data-model) used in the Portal API, runs are connected to tomograms through the `TomogramVoxelSpacing` class which specifies the sampling or voxel size of the tomogram. For a single run, multiple tomograms of different spacings can be available.
 
 An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run. These metadata are defined in the tables below including their mapping to attributes in the Portal API:
 

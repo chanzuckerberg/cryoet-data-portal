@@ -9,7 +9,7 @@ hide-navigation: true
 
 ## Tour of Neuroglancer
 
-Tomograms along with their annotations can be viewed in Neuroglancer using the view tomogram buttons found in the run table on dataset detail pages and on the header of run detail pages.
+Tomograms along with their annotations can be viewed in Neuroglancer using the view tomogram buttons found in the runs table on dataset detail pages and on the header of run detail pages.
 
 <figure>
   <div class=sidefigures>
@@ -38,13 +38,13 @@ Useful gestures and hotkeys for navigating Neuroglancer are in the table below.
 
 | Action | Gesture / Hotkey |
 | :---: | :---: |
-| Zoom in / out of the 2D images | CTRL \+ scroll or Pinch |
+| Zoom in / out of the 2D images | CTRL + scroll or Pinch |
 | Slice through 3D data | Scroll |
-| Rotate 3D Volume | Click \+ drag |
+| Rotate 3D Volume | Left-Click + drag (in 3D panel) |
 | Turn on / off layer | Click on the layer |
-| Oblique slicing | Shift \+ click and rotate |
-| Open Rendering Controls for a layer | CTRL \+ click on the layer |
-| Pan | Left-click \+ drag within the viewer |
+| Oblique slicing | Shift + click and rotate |
+| Open Rendering Controls for a layer | CTRL + click on the layer |
+| Pan | Left-click + drag (in 2D panel) |
 | Reset View | “Z” |
 | Open Help Menu | “H” |
 
@@ -52,17 +52,19 @@ All of the data loaded is displayed in the upper bar with layers that are not cu
 
 <figure>
   <img src="_static/img/neuroglancer_4.png"
-    alt=""
+    alt="Layer panel"
+    width="25%"
   >
 </figure>
 
-The control panel on the right hand side has multiple tabs. Note that the Annotations tab is for adding additional annotations to the canvas and does not contain controls for viewing annotations from the CryoET Data Portal. The Rendering tab displays controls for adjusting the visualization settings for the selected layer. CRTL \+ click on a layer to open its Rendering controls tab.
+The control panel on the right hand side has multiple tabs. Note that the Annotations tab is for adding additional annotations to the canvas and does not contain controls for viewing annotations from the CryoET Data Portal. The Rendering tab displays controls for adjusting the visualization settings for the selected layer. CTRL + click on a layer to open its Rendering controls tab.
 
 For 3D volumes, volume rendering can be turned on using the Volume rendering (experimental) dropdown in the Rendering controls. This will display the full 3D volume in the lower left panel of the canvas. Contrast can be adjusted by directly inputting desired values or dragging the lines on the contrast plot, and other visualization settings, like blending and opacity, can be set as well.
 
 <figure>
   <img src="_static/img/neuroglancer_5.png"
     alt="Tomogram rendering control panel"
+    width="25%"
   >
 </figure>
 
@@ -71,6 +73,7 @@ For point annotations, the size of the point markers, opacity, and color of the 
 <figure>
   <img src="_static/img/neuroglancer_6.png"
     alt="Point annotation rendering controls"
+    width="25%"
   >
 </figure>
 
@@ -79,6 +82,7 @@ For segmentation masks, the opacity of the labels and other display settings can
 <figure>
   <img src="_static/img/neuroglancer_7.png"
     alt="Segmentation mask rendering controls"
+    width="25%"
   >
 </figure>
 
@@ -86,7 +90,6 @@ For segmentation masks, the opacity of the labels and other display settings can
 
 * Scrolling changes the plane, but not the Zoom level.
 * Shift + click to rotate the image for oblique slicing. This can be used when the lamella from the CryoET 3D data needs adjustment to be perpendicular to the desired plane for slicing.
-* The Annotations tab in Neuroglancer is for adding additional annotations and not related to the annotations provided on the CryoET Data Portal.
 * Tomograms and annotations are pre-loaded into Neuroglancer but some annotations may not be visible by default. Click on a layer with strikethrough text to make the layer visible in the canvas.
+* The Annotations tab in Neuroglancer is for adding additional annotations and not related to the annotations provided on the CryoET Data Portal. Use the Rendering tab to adjust annotations pre-loaded in Neuroglancer.
 * Layers highlighted in magenta can be hidden in the 3D mesh by double clicking the segmentation in the 2D view. Double clicking the 2D segmentation will make it re-appear in the 3D viewer.
-* 2D rendering vs the 3D rendering
