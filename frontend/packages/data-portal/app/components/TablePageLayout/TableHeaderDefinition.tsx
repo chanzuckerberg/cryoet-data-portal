@@ -20,7 +20,7 @@ export function TableHeaderDefinition({
   const { t } = useI18n()
 
   return (
-    <div className="pt-sds-l px-sds-xl max-w-content">
+    <div className="pt-sds-s px-sds-xl max-w-content">
       <h1 className="text-sds-header-xxl leading-sds-header-xxl tracking-sds-header-xxl font-semibold">
         {title}
       </h1>
