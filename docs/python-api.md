@@ -6,7 +6,7 @@ hide-navigation: true
 
 ## Data Model
 
-The data model for the Python API client and the GraphQL API are identical. The Python API client is primarily a GraphQL client that interacts with our GraphQL API endpoint. If you prefer to query our API endpoint directly, it is available at [https://graphql.cryoetdataportal.cziscience.com/v1/graphql](https://graphql.cryoetdataportal.cziscience.com/v1/graphql).
+To facilitate programmatic use of the CryoET Data Portal, we have a Python API client and a GraphQL API, which share a data model. If you prefer to query our API endpoint directly, it is available at [https://graphql.cryoetdataportal.cziscience.com/v1/graphql](https://graphql.cryoetdataportal.cziscience.com/v1/graphql). Note that names are in snake case in the Python API client, and in camel case in the GraphQL API.
 
 A simplified diagram of the data model is below:
 
