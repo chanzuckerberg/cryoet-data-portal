@@ -1,7 +1,5 @@
 """
-An API client library to facilitate use of the Cryo-Electron Tomography portal API. The Portal is a collection of high quality tomograms and metadata.
-
-For more information on the API, visit the cryoet-data-portal repo: https://github.com/chanzuckerberg/cryoet-data-portal/
+The Python API client is primarily a GraphQL client that interacts with our GraphQL API endpoint. Install the `cryoet-data-portal` package to use the following classes with methods for searching and downloading datasets, tomograms, annotations and related files and metadata from the portal.
 """
 
 from ._client import Client
