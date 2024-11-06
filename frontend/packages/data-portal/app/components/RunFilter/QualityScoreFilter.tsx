@@ -34,13 +34,15 @@ export function QualityScoreFilter() {
   const tiltScoreI18n = useTiltScoreI18n()
   const getScoreOptions = useCallback(
     (scores: Array<TiltSeriesScore | string>) =>
-      scores.map(
-        (score) =>
-          ({
-            label: `${score} - ${tiltScoreI18n[score as TiltSeriesScore]}`,
-            value: `${score}`,
-          }) as BaseFilterOption,
-      ),
+      scores
+        .map(
+          (score) =>
+            ({
+              label: `${score} - ${tiltScoreI18n[score as TiltSeriesScore]}`,
+              value: `${score}`,
+            }) as BaseFilterOption,
+        )
+        .sort((a, b) => (b.label ?? '').localeCompare(a.label ?? '')),
     [tiltScoreI18n],
   )
 

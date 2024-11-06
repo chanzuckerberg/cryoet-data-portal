@@ -23,7 +23,7 @@
 <!-- Table of contents item -->
 <li class="md-nav__item">
   <a href="{{ toc_item.url }}" class="md-nav__link">
-    {% if pagename == "python-api" %}
+    {% if pagename == "api_reference" %}
       {{ toc_item.title | safe | replace('cryoet_<wbr>data_<wbr>portal.<wbr>', '') }}
     {% else %}
       {{ toc_item.title }}

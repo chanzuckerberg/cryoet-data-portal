@@ -2,7 +2,7 @@
 hide-navigation: true
 ---
 
-# About CryoET
+# About CryoET Data Portal
 
 Learn about CryoET data and how to navigate the CryoET Data Portal.
 
@@ -29,4 +29,10 @@ Guide on how the CryoET Data Portal is organized
 
 Overview of the data pipeline from acquisition to analysis
 :::
+
+:::{grid-item-card} Neuroglancer Quick Start
+:link: neuroglancer-quickstart
+:link-type: ref
+
+Learn how to visualize tomograms and annotations in Neuroglancer
 ::::

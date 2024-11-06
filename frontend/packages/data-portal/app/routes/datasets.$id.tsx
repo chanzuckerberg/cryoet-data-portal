@@ -8,6 +8,7 @@ import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
 import { RunsTable } from 'app/components/Dataset/RunsTable'
 import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
+import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import { RunFilter } from 'app/components/RunFilter'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { RUN_FILTERS } from 'app/constants/filterQueryParams'
@@ -86,6 +87,7 @@ export default function DatasetByIdPage() {
           filteredCount: dataset.filtered_runs_count.aggregate?.count ?? 0,
           totalCount: dataset.runs_aggregate.aggregate?.count ?? 0,
           countLabel: i18n.runs,
+          noFilteredResults: <NoFilteredResults />,
         },
       ]}
       downloadModal={
