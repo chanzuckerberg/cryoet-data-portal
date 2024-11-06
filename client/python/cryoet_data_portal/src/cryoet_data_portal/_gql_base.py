@@ -1,4 +1,6 @@
 import functools
+import json
+import logging
 from datetime import date, datetime
 from importlib import import_module
 from typing import Any, Dict, Iterable, Optional
@@ -220,9 +222,10 @@ class Model:
         """Return a dictionary representation of this object's attributes"""
         return {k: getattr(self, k) for k in self._get_scalar_fields()}
 
-    def to_json_dict(self) -> Dict[str, Any]:
-        """Return a JSON encoder friendly representation of this object's attributes"""
-        return {key: self._serialize(val) for key, val in self.to_dict().items()}
+    def print_json(self) -> None:
+        """Prints a JSON representation of this object's scalar attributes"""
+        obj = {key: self._serialize(val) for key, val in self.to_dict().items()}
+        logging.info(json.dumps(obj, indent=2))
 
     @classmethod
     @functools.lru_cache(maxsize=32)
