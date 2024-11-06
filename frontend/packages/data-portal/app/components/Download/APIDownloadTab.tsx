@@ -19,24 +19,21 @@ export function getDatasetCodeSnippet(datasetId?: number) {
     client = Client()
 
     dataset = Dataset.get_by_id(client, ${datasetId})
-    dataset.download_everything('${datasetId}')
+    dataset.download_everything()
   `
 }
 
-export function getAllTomogramsCodeSnippet(tomogramVoxelId?: number) {
+export function getAllTomogramsCodeSnippet(runId?: number) {
   return dedent`
     from cryoet_data_portal import (
       Client,
-      TomogramVoxelSpacing,
+      Run,
     )
 
     client = Client()
-    tomogram_voxel_spacing = TomogramVoxelSpacing.get_by_id(
-      client,
-      ${tomogramVoxelId},
-    )
+    run = Run.get_by_id(client, ${runId})
 
-    for annotation in tomogram_voxel_spacing.annotations:
+    for annotation in run.annotations:
       annotation.download()
   `
 }
@@ -78,8 +75,7 @@ export function getAnnotationCodeSnippet(
 
 export function APIDownloadTab() {
   const { t } = useI18n()
-  const { datasetId, tomogramId, tomogramVoxelId, type } =
-    useDownloadModalContext()
+  const { runId, datasetId, tomogramId, type } = useDownloadModalContext()
   const { annotationId, downloadConfig, fileFormat } =
     useDownloadModalQueryParamState()
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
@@ -97,7 +93,7 @@ export function APIDownloadTab() {
           { type: 'runs', downloadConfig: DownloadConfig.AllAnnotations },
           () => ({
             label: t('copyApiCodeSnippet'),
-            content: getAllTomogramsCodeSnippet(tomogramVoxelId),
+            content: getAllTomogramsCodeSnippet(runId),
             calloutKey: 'preferToDownloadViaApiCode',
             logType: 'voxel-spacing-id',
           }),
@@ -134,9 +130,9 @@ export function APIDownloadTab() {
       datasetId,
       downloadConfig,
       fileFormat,
+      runId,
       t,
       tomogramId,
-      tomogramVoxelId,
       type,
     ],
   )
