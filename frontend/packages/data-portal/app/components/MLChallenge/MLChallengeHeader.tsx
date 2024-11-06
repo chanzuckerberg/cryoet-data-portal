@@ -29,13 +29,13 @@ export function MLChallengeHeader() {
         {t('cryoetDataAnnotationMLComp')}
       </h1>
 
-      <h2 className="text-sds-header-m leading-sds-header-m mt-sds-xs">
+      <h2 className="text-sds-header-m leading-sds-header-m mt-sds-xl screen-716:mt-sds-xs">
         {t('developAMLModel')}
       </h2>
 
       <div className="flex flex-col screen-716:flex-row items-center my-sds-xl gap-sds-xl justify-center">
         <ChallengeInfo
-          title={t('starts')}
+          title={t('started')}
           content={t('mlChallengeStartDate')}
         />
         {divider}

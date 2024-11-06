@@ -4,7 +4,7 @@ import { Link } from 'app/components/Link'
 
 export function MdxSeeLeaderboard() {
   return (
-    <p>
+    <p className="max-w-fit">
       <Link
         to="https://www.kaggle.com/competitions/czii-cryo-et-object-identification/leaderboard"
         className="flex items-baseline"

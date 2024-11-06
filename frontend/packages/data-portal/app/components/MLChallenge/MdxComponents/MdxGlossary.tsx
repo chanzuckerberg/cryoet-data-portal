@@ -18,7 +18,7 @@ export function MdxGlossary({ children }: { children: ReactNode }) {
         ? Children.toArray(children).slice(0, COLLAPSE_AFTER)
         : children}
       <button type="button" onClick={() => setCollapsed(!collapsed)}>
-        <span className="flex flex-row gap-sds-xxs items-center capitalize font-semibold text-sds-color-semantic-text-action-default mt-sds-m">
+        <span className="flex flex-row gap-sds-xxs items-center capitalize font-semibold text-sds-color-semantic-text-action-default hover:text-sds-color-semantic-text-action-hover mt-sds-m">
           <Icon
             sdsIcon={collapsed ? 'Plus' : 'Minus'}
             sdsSize="xs"

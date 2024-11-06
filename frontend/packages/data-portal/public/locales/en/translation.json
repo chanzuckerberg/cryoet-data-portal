@@ -369,6 +369,7 @@
   "sphericalAberrationConstant": "Spherical Aberration Constant",
   "sponsoredBy": "Sponsored By",
   "starts": "Starts",
+  "started": "Started",
   "stepCount": "Step {{count}} of {{max}}",
   "submitFeedback": "Submit Feedback",
   "submittedByDatasetAuthor": "Submitted by Dataset Author",

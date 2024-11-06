@@ -225,7 +225,10 @@ export function MainContent() {
       </Section>
 
       <JumpToAnchor id={MLChallengeSectionId.Contact} />
-      <Section className="font-semibold py-[50px]" color="primary100">
+      <Section
+        className="font-semibold py-[80px] screen-716:py-[50px]"
+        color="primary100"
+      >
         <div className="flex justify-center gap-sds-xxl">
           <div>
             <h2 className="text-sds-header-xl leading-sds-header-xl">

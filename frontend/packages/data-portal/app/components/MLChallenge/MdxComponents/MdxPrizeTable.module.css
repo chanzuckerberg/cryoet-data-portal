@@ -4,6 +4,7 @@
   @apply bg-sds-color-semantic-component-base-surface-secondary;
 
   padding: 10px;
+  margin-top: 10px;
 
   table {
     thead {
