@@ -64,9 +64,7 @@ export function RunHeader() {
   // Use author submitted tomogram if available, otherwise default to the first one
   const tomogramV2 =
     tomograms.find(
-      (currentTomogram) =>
-        // TODO use `isVisualizationDefault` when data is ready
-        currentTomogram.isAuthorSubmitted,
+      (currentTomogram) => currentTomogram.isVisualizationDefault,
     ) ?? tomograms.at(0)
 
   const keyPhotoURL =
@@ -74,7 +72,7 @@ export function RunHeader() {
       ? tomogramV2?.keyPhotoUrl
       : tomogram?.key_photo_url) ?? undefined
 
-  const neuroglancerConfig = tomogram?.neuroglancer_config
+  const neuroglancerConfig = tomogramV2?.neuroglancerConfig
 
   const { openRunDownloadModal } = useDownloadModalQueryParamState()
 
