@@ -1,5 +1,6 @@
 import { Banner, Icon } from '@czi-sds/components'
 import { useLocalStorageValue } from '@react-hookz/web'
+import { useLocation } from '@remix-run/react'
 import dayjs, { OpUnitType } from 'dayjs'
 import { useState } from 'react'
 
@@ -12,6 +13,12 @@ import styles from './SurveyBanner.module.css'
 
 const DURATION_BEFORE_SHOW_SURVEY = 2
 const DURATION_UNIT_BEFORE_SHOW_SURVEY: OpUnitType = 'weeks'
+
+const BANNER_ALLOWLIST = [
+  /^\/datasets\/.*$/,
+  /^\/runs\/.*$/,
+  /^\/depositions\/.*$/,
+]
 
 export function SurveyBanner() {
   const { value: lastDismissed, set: setLastDismissed } = useLocalStorageValue<
@@ -33,11 +40,16 @@ export function SurveyBanner() {
     ),
   )
 
+  const location = useLocation()
+
   return (
     <div
       className={cns(
         'hidden screen-716:block sticky bottom-0 w-full',
         styles.banner,
+
+        BANNER_ALLOWLIST.every((regex) => !regex.test(location.pathname)) &&
+          'screen-716:hidden',
       )}
     >
       <Banner

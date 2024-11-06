@@ -4,13 +4,18 @@ import { useState } from 'react'
 
 import { I18n } from 'app/components/I18n'
 
+const BANNER_ALLOWLIST = [/^\/$/, /^\/browse-data\/.*$/]
+
 export function MLChallengeBanner() {
   const [open, setOpen] = useState(true)
   const location = useLocation()
 
   return (
     <Banner
-      dismissed={!open || location.pathname === '/competition'}
+      dismissed={
+        !open ||
+        BANNER_ALLOWLIST.every((regex) => !regex.test(location.pathname))
+      }
       dismissible
       sdsType="primary"
       onClose={() => {
