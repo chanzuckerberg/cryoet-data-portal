@@ -8,7 +8,7 @@ hide-navigation: true
 
 The Python API client is primarily a GraphQL client that interacts with our GraphQL API endpoint. The data model for the python API client and the GraphQL API are identical.
 
-If you prefer to query our API endpoint directly, it's available at https://graphql.cryoetdataportal.cziscience.com/v1/graphql.
+If you prefer to query our API endpoint directly, it's available at https://graphql.cryoetdataportal.czscience.com/graphql.
 
 A simplified diagram of the graph data model is below:
 

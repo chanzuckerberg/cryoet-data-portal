@@ -126,7 +126,7 @@ from cryoet_data_portal import Client, Run
 client = Client()
 
 # Query the Run class for runs with "TS" (case-insensitive) in their name and x pixels > 900
-runs_list = Run.find(client, query_filters=[Run.name.ilike("%TS%"), Run.tomogram_voxel_spacings.tomograms.size_x > 900])
+runs_list = Run.find(client, query_filters=[Run.name.ilike("%TS%"), Run.tomograms.size_x > 900])
 
 for run in runs_list:
   print(run.name)

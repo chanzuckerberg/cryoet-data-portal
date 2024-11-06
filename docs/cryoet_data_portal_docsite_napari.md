@@ -87,7 +87,7 @@ client = Client()
 tomograms = Tomogram.find(
     client,
     [
-        Tomogram.tomogram_voxel_spacing.annotations.authors.name._in(["Sara Goetz"]),
+        Tomogram.run.annotations.authors.name._in(["Sara Goetz"]),
         Tomogram.size_z > 300,
     ],
 )

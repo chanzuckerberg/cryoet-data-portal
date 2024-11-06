@@ -23,17 +23,17 @@ onto.load()
 terms = onto.search(subclass_of = onto.search_one(iri = "*GO_0016020"))
 
 # Get IRIs
-terms = [t.name for t in terms]
+term_names = [t.name.replace("_", ":") for t in terms]
 
 # Query the portal for all annotation matching those terms
 client = Client()
-portal_objects = Annotation.find(client, [Annotation.object_id._in(terms)])
+portal_objects = Annotation.find(client, [Annotation.object_id._in(term_names)])
 
 # Runs that contain annotations with that term
-object_runs = set([po.tomogram_voxel_spacing.run.id for po in portal_objects])
+object_runs = set([po.run.id for po in portal_objects])
 
 # Datasets that contain annotations with that term
-object_datasets = set([po.tomogram_voxel_spacing.run.dataset_id for po in portal_objects])
+object_datasets = set([po.run.dataset_id for po in portal_objects])
 ```
 
 </details>
@@ -49,7 +49,7 @@ import zarr
 
 # An example Tomogram
 client = Client()
-tomo = Tomogram.find(client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 10000])[0]
+tomo = Tomogram.find(client, [Tomogram.run.dataset_id == 10000])[0]
 
 # Obtain the HTTPS URL to the tomogram
 url = tomo.https_omezarr_dir
@@ -78,7 +78,7 @@ from ome_zarr.reader import Reader
 
 # An example Tomogram
 client = Client()
-tomo = Tomogram.find(client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 10000])[0]
+tomo = Tomogram.find(client, [Tomogram.run.dataset_id == 10000])[0]
 
 # Obtain the Zarr store
 url = tomo.https_omezarr_dir
@@ -103,7 +103,7 @@ import zarr
 
 # An example Tomogram
 client = Client()
-tomo = Tomogram.find(client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 10000])[0]
+tomo = Tomogram.find(client, [Tomogram.run.dataset_id == 10000])[0]
 
 # Open and list contents
 g = zarr.open_group(tomo.s3_omezarr_dir, mode='r')
@@ -123,7 +123,7 @@ import zarr
 
 # An example Tomogram
 client = Client()
-tomo = Tomogram.find(client, [Tomogram.tomogram_voxel_spacing.run.dataset_id == 10000])[0]
+tomo = Tomogram.find(client, [Tomogram.run.dataset_id == 10000])[0]
 
 g = zarr.open_array(f"{tomo.https_omezarr_dir}/0", mode='r')
 ```
@@ -142,8 +142,10 @@ from cryoet_data_portal import Client, AnnotationFile
 client = Client()
 
 # Select all zarr annotation files in dataset 10000
-ret = AnnotationFile.find(client, [AnnotationFile.annotation.tomogram_voxel_spacing.run.dataset_id == 10000,
-                                      AnnotationFile.format == 'zarr'])
+ret = AnnotationFile.find(client, [
+    AnnotationFile.annotation_shape.annotation.run.dataset_id == 10000,
+    AnnotationFile.format == 'zarr'
+])
 ```
 
 </details>
@@ -162,13 +164,13 @@ import ndjson
 client = Client()
 
 # Get all ndjson annotation files for dataset 10000
-ret = AnnotationFile.find(client, [AnnotationFile.annotation.tomogram_voxel_spacing.run.dataset_id == 10000,  AnnotationFile.format == 'ndjson'])
+ret = AnnotationFile.find(client, [AnnotationFile.annotation_shape.annotation.run.dataset_id == 10000,  AnnotationFile.format == 'ndjson'])
 
 # Create an S3 filesystem instance
 fs = s3fs.S3FileSystem(anon=True)
 
 # Open the first file and print the first annotation
-name = ret[0].annotation.object_name
+name = ret[0].annotation_shape.annotation.object_name
 with fs.open(ret[0].s3_path) as pointfile:
   for point in ndjson.reader(pointfile):
       print(f"A {name} at {point['location']['x']}, {point['location']['y']}, {point['location']['z']}")
@@ -187,8 +189,8 @@ from cryoet_data_portal import Client, Dataset
 # Get client instance
 client = Client()
 
-# FInd all datasets, that have tiltseries with 1 or more frame files
-datasets_with_frames = Dataset.find(client, [Dataset.runs.tiltseries.frames_count > 0])
+# Find all datasets, that have 1 or more frame files
+datasets_with_frames = Dataset.find(client, [Dataset.runs.frames.id != None])
 ```
 
 </details>
@@ -228,7 +230,7 @@ import matplotlib.pyplot as plt
 # Get client instance
 client = Client()
 
-# Get all available runs
+# Get all available datasets
 datasets = Dataset.find(client)
 
 # Get unique organism names
@@ -269,20 +271,18 @@ runs = Run.find(client, [Run.dataset_id == 10004])
 # One run instance
 run = runs[0]
 
-fs = s3fs.S3FileSystem(anon=True)
-
-# This is where the frames live
-frames_dir = run.s3_prefix + 'Frames/'
-
-# S3 allows listing
-frames_list = fs.ls(frames_dir)
+# Get list of frames files associated to this run
+frames_list = run.frames
 
 # Retrieval
 outdir = f'/tmp/{run.name}/Frames/'
 os.makedirs(outdir, exist_ok=True)
 
-for file in frames_list:
-  fs.get_file(file, f'{outdir}{os.path.basename(file)}')
+fs = s3fs.S3FileSystem(anon=True)
+
+for frame in frames_list:
+  frame_path = frame.s3_path
+  fs.get_file(frame_path, os.path.join(outdir, os.path.basename(frame_path)))
 ```
 
 </details>
