@@ -93,4 +93,4 @@ For segmentation masks, the opacity of the labels and other display settings can
 * Tomograms and annotations are pre-loaded into Neuroglancer but some annotations may not be visible by default. Click on a layer with strikethrough text to make the layer visible in the canvas.
 * The Annotations tab in Neuroglancer is for adding additional annotations and not related to the annotations provided on the CryoET Data Portal. Use the Rendering tab to adjust annotations pre-loaded in Neuroglancer.
 * Layers highlighted in magenta can be hidden in the 3D mesh by double clicking the segmentation in the 2D view. Double clicking the 2D segmentation will make it re-appear in the 3D viewer.
-* For more information on Neuroglancer, [check out the documentation from connectomics here](https://connectomics.readthedocs.io/en/latest/external/neuroglancer.html#neuroglancer).
+* For more information on Neuroglancer, [check out the documentation from Connectomics here](https://connectomics.readthedocs.io/en/latest/external/neuroglancer.html#neuroglancer).
