@@ -1519,11 +1519,12 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id3" t
 <span class="n">run</span><span class="o">.</span><span class="n">download_everything</span><span class="p">()</span>
 </code></pre></div>
 </div>
-<figure class="align-center" id="id4">
-<img alt="File Structure of a downloaded run" src="_images/run_download.png" />
-<figcaption>
-<p><span class="caption-text"><span class="caption-text">
-File Structure of a downloaded run</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></figcaption>
+<figure>
+  <img src="_static/img/run_download.png"
+    alt="File Structure of a downloaded run"
+  >
+  <figcaption>File Structure of a downloaded run
+  </figcaption>
 </figure>
 <p>Runs are downloaded as folders named the author-chosen run name. As shown in the diagram above, the folder contains subfolders named Alignments, Frames, Gains, Reconstructions, and TiltSeries; and a JSON file named <code class="docutils literal notranslate"><span class="pre">run_metadata.json</span></code> containing the run metadata. The Alignments folder contains a JSON file for every alignment that specifies the alignment parameters including the affine transformation matrix. The Frames and Gains folders contain the raw movie frames and the gain files for correcting for the detector’s sensitivity, respectively. The TiltSeries folder contains the tilt series images as an MRC file and OME-Zarr directory as well as a JSON file with the tilt series metadata. The Reconstructions folder has a subfolder for every voxel spacing available, and each of those folders contains subfolders NeuorglancerPrecompute, which has files for visualizing the data in Neuroglancer; Images, which contains the key photos of the run displayed on the Portal; Tomograms, which has the tomograms associated with the run as an MRC file and OME-Zarr directory along with tomogram metadata and metadata for visualizing the tomogram with Neuroglancer; and Annotations. More details on the Annotation folder file structure is found in the documentation <a class="reference internal" href="#annotation-download-options">below</a>.</p>
 <h2 id="annotations">Annotations<a class="headerlink" href="#annotations" title="Link to this heading">¶</a></h2>
@@ -1648,11 +1649,11 @@ File Structure of a downloaded run</span><a class="headerlink" href="#id4" title
 <p>Instance Segmentations, Oriented Points, and Points all can be downloaded directly in the browser as Newline Delimited JSON (ndJSON) files, where each line in the file is its own JSON. The download dialog also has instructions for downloading using curl, <a class="reference internal" href="cryoet_data_portal_docsite_aws.html"><span class="doc std std-doc">Amazon Web Services Command Line Interface</span></a> or the <a class="reference internal" href="python-api.html"><span class="doc std std-doc">Portal API</span></a>. In all cases, the JSON entries have a <code class="docutils literal notranslate"><span class="pre">type</span></code> field with instancePoint, orientedPoint, and point for Instance Segmentations, Oriented Points, and Points, respectively, and a <code class="docutils literal notranslate"><span class="pre">location</span></code> field with the x, y, z coordinates. For Instance Segmentations, there is also an <code class="docutils literal notranslate"><span class="pre">instance_id</span></code> to group points into geometric segmentation masks. For Oriented Points, there is also an <code class="docutils literal notranslate"><span class="pre">xyz_rotation_matrix</span></code> field with a 3x3 rotation matrix corresponding to each point.</p>
 <p>Semantic segmentation masks can downloaded using <a class="reference internal" href="cryoet_data_portal_docsite_aws.html"><span class="doc std std-doc">Amazon Web Services Command Line Interface</span></a> or the <a class="reference internal" href="python-api.html"><span class="doc std std-doc">Portal API</span></a> as MRC files or OME-Zarr directories. When downloading all annotations on a Run Overview page, both the MRC file and the OME-Zarr directory will be downloaded for each segmentation mask.</p>
 <h2 id="depositions">Depositions<a class="headerlink" href="#depositions" title="Link to this heading">¶</a></h2>
-<figure class="align-center" id="id5">
+<figure class="align-center" id="id4">
 <img alt="Depositions defined" src="_images/depositions.png" />
 <figcaption>
 <p><span class="caption-text"><span class="caption-text">
-Types of depositions</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></figcaption>
+Types of depositions</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></figcaption>
 </figure>
 <p>Depositions are collections of data submitted together. All data being submitted together will be tagged with the same deposition ID. On the Portal, we will surface depositions that contain annotations submitted together. In the future, depositions surfaced on the Portal may include tomograms added to existing datasets or sets of datasets contributed together.</p>
 
