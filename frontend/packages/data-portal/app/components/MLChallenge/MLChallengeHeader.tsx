@@ -43,11 +43,13 @@ export function MLChallengeHeader() {
         {divider}
         <ChallengeInfo title={t('prizes')} content={t('prizeTotal')} />
       </div>
-      <Link to="https://www.kaggle.com/competitions/czii-cryo-et-object-identification/">
-        <Button sdsStyle="rounded" sdsType="primary">
-          {t('seeOnKaggle')}
-        </Button>
-      </Link>
+      <div>
+        <Link to="https://www.kaggle.com/competitions/czii-cryo-et-object-identification/">
+          <Button sdsStyle="rounded" sdsType="primary">
+            {t('seeOnKaggle')}
+          </Button>
+        </Link>
+      </div>
     </div>
   )
 }
