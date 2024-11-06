@@ -1,5 +1,5 @@
 import functools
-from datetime import datetime
+from datetime import date, datetime
 from importlib import import_module
 from typing import Any, Dict, Iterable, Optional
 
@@ -211,9 +211,14 @@ class Model:
             value = getattr(self, k).convert(kwargs.get(strcase.to_lower_camel(k)))
             setattr(self, k, value)
 
+    def _serialize(self, value):
+        if isinstance(value, (datetime, date)):
+            return value.isoformat()
+        return value
+
     def to_dict(self) -> Dict[str, Any]:
         """Return a dictionary representation of this object's attributes"""
-        return {k: getattr(self, k) for k in self._get_scalar_fields()}
+        return {k: self._serialize(getattr(self, k)) for k in self._get_scalar_fields()}
 
     @classmethod
     @functools.lru_cache(maxsize=32)
