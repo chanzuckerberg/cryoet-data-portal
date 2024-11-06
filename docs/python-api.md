@@ -11,7 +11,8 @@ hide-navigation: true
 :link: api-reference
 :link-type: ref
 
-If you prefer to query our API endpoint directly, it's available at https://graphql.cryoetdataportal.czscience.com/graphql.
+Information on classes and methods
+:::
 
 :::{grid-item-card} Data Model
 :link: data-model
