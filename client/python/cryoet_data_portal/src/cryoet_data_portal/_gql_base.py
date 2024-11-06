@@ -218,7 +218,11 @@ class Model:
 
     def to_dict(self) -> Dict[str, Any]:
         """Return a dictionary representation of this object's attributes"""
-        return {k: self._serialize(getattr(self, k)) for k in self._get_scalar_fields()}
+        return {k: getattr(self, k) for k in self._get_scalar_fields()}
+
+    def to_json_dict(self) -> Dict[str, Any]:
+        """Return a JSON encoder friendly representation of this object's attributes"""
+        return {key: self._serialize(val) for key, val in self.to_dict().items()}
 
     @classmethod
     @functools.lru_cache(maxsize=32)

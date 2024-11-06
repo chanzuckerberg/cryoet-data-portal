@@ -156,7 +156,7 @@ for tomo in tomos:
     print(tomo.name)
 
     # Print the tomogram metadata as a json string
-    print(json.dumps(tomo.to_dict(), indent=4))
+    print(json.dumps(tomo.to_json_dict(), indent=4))
 
     # Download a tomogram in the MRC format (uncomment to actually download files)
     # tomo.download_mrcfile()
