@@ -7,6 +7,8 @@ on:
   delete:
     branches:
       - 'dev-*'
+  pull_request:
+    types: [labeled, unlabeled, synchronize, closed]
 
 # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
 permissions:
@@ -18,60 +20,105 @@ jobs:
     name: deploy dev branch
     runs-on: ubuntu-latest
     environment: dev
-    if: github.repository == 'chanzuckerberg/cryoet-data-portal'
+    if: |
+      github.repository == 'chanzuckerberg/cryoet-data-portal' && (
+        github.event_name != 'pull_request' ||
+        (
+          startsWith(github.head_ref, 'dev-') != true &&
+          (
+            contains(github.event.pull_request.labels.*.name, 'preview') ||
+            (
+              github.event.action == 'unlabeled' &&
+              github.event.label.name == 'preview'
+            )
+          )
+        )
+      )
     steps:
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - id: get-stack-name
+        name: get stack name
+        uses: actions/github-script@v7
         with:
-          mask-aws-account-id: true
-          aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          role-duration-seconds: 1200
-      - name: Setting up stack name
-        run: |
-          if [[ ${#GITHUB_REF_NAME} -gt 25 ]]; then
-            echo "branch name: ${GITHUB_REF_NAME}, length ${#GITHUB_REF_NAME}, is $((${#GITHUB_REF_NAME} - 25)) characters too long, please use a branch name that's 25 characters or shorter"
-            exit 1
-          else
-            echo $GITHUB_REF_NAME | tr '[:upper:]' '[:lower:]' | xargs -I {} -n 1 echo STACK_NAME={} >> $GITHUB_ENV
-          fi
-      - name: Create or update dev stack
-        if: ${{ github.event_name == 'push' }}
-        uses: chanzuckerberg/github-actions/.github/actions/deploy-happy-stack@v1.24.0
-        env:
-          # Force using BuildKit instead of normal Docker, required so that metadata
-          # is written/read to allow us to use layers of previous builds as cache.
-          DOCKER_BUILDKIT: 1
-          COMPOSE_DOCKER_CLI_BUILD: 1
-          DOCKER_REPO: ${{ secrets.ECR_REPO }}/
-          ENV: dev
-        with:
-          stack-name: ${{ env.STACK_NAME }}
-          create-tag: true
-          tfe-token: ${{ secrets.TFE_TOKEN }}
-          working-directory: ./frontend
-          env: dev
-          operation: create-or-update
+          result-encoding: string
+          script: |
+            const event = ${{ toJson(github.event) }}
+            const eventName = '${{ github.event_name }}'
+            let ref = ''
 
-      - name: Annotate workflow run with frontend URL
-        if: ${{ github.event_name == 'push' }} && success()
-        run: |
-          echo "# Frontend URL:" >> $GITHUB_STEP_SUMMARY
-          echo >> $GITHUB_STEP_SUMMARY
-          echo "https://${{ env.STACK_NAME }}.cryoet.dev.si.czi.technology" >> $GITHUB_STEP_SUMMARY
+            switch (eventName) {
+              case 'pull_request': {
+                ref = event.pull_request.head.ref
+                break
+              }
 
-      - name: Delete dev set up stack name
-        if: ${{ github.event_name == 'delete' && startsWith(github.event.ref, 'dev-') }}
-        run: |
-          echo ${{ github.event.ref }} | tr '[:upper:]' '[:lower:]' | xargs -I {} -n 1 echo DELETE_STACK_NAME={} >> $GITHUB_ENV
-      - name: Delete dev
-        if: ${{ github.event_name == 'delete' && startsWith(github.event.ref, 'dev-') }}
-        uses: chanzuckerberg/github-actions/.github/actions/deploy-happy-stack@v1.24.0
-        env:
-          ENV: dev
+              case 'push': {
+                ref = event.ref.replace('refs/heads/', '')
+                break
+              }
+            }
+
+            return ref
+
+      - name: deploy
+        uses: actions/github-script@v7
         with:
-          stack-name: ${{ env.DELETE_STACK_NAME }}
-          operation: delete
-          tfe-token: ${{ secrets.TFE_TOKEN }}
-          env: dev
-          working-directory: ./frontend
+          script: |
+            console.log('running deployment with ref ${{ steps.get-stack-name.outputs.result }}')
+
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     mask-aws-account-id: true
+      #     aws-region: ${{ secrets.AWS_REGION }}
+      #     role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      #     role-duration-seconds: 1200
+
+      # - name: Setting up stack name
+      #   run: |
+      #     if [[ ${#GITHUB_REF_NAME} -gt 25 ]]; then
+      #       echo "branch name: ${GITHUB_REF_NAME}, length ${#GITHUB_REF_NAME}, is $((${#GITHUB_REF_NAME} - 25)) characters too long, please use a branch name that's 25 characters or shorter"
+      #       exit 1
+      #     else
+      #       echo $GITHUB_REF_NAME | tr '[:upper:]' '[:lower:]' | xargs -I {} -n 1 echo STACK_NAME={} >> $GITHUB_ENV
+      #     fi
+
+      # - name: Create or update dev stack
+      #   if: ${{ github.event_name == 'push' }}
+      #   uses: chanzuckerberg/github-actions/.github/actions/deploy-happy-stack@v1.24.0
+      #   env:
+      #     # Force using BuildKit instead of normal Docker, required so that metadata
+      #     # is written/read to allow us to use layers of previous builds as cache.
+      #     DOCKER_BUILDKIT: 1
+      #     COMPOSE_DOCKER_CLI_BUILD: 1
+      #     DOCKER_REPO: ${{ secrets.ECR_REPO }}/
+      #     ENV: dev
+      #   with:
+      #     stack-name: ${{ env.STACK_NAME }}
+      #     create-tag: true
+      #     tfe-token: ${{ secrets.TFE_TOKEN }}
+      #     working-directory: ./frontend
+      #     env: dev
+      #     operation: create-or-update
+
+      # - name: Annotate workflow run with frontend URL
+      #   if: ${{ github.event_name == 'push' }} && success()
+      #   run: |
+      #     echo "# Frontend URL:" >> $GITHUB_STEP_SUMMARY
+      #     echo >> $GITHUB_STEP_SUMMARY
+      #     echo "https://${{ env.STACK_NAME }}.cryoet.dev.si.czi.technology" >> $GITHUB_STEP_SUMMARY
+
+      # - name: Delete dev set up stack name
+      #   if: ${{ github.event_name == 'delete' && startsWith(github.event.ref, 'dev-') }}
+      #   run: |
+      #     echo ${{ github.event.ref }} | tr '[:upper:]' '[:lower:]' | xargs -I {} -n 1 echo DELETE_STACK_NAME={} >> $GITHUB_ENV
+      # - name: Delete dev
+      #   if: ${{ github.event_name == 'delete' && startsWith(github.event.ref, 'dev-') }}
+      #   uses: chanzuckerberg/github-actions/.github/actions/deploy-happy-stack@v1.24.0
+      #   env:
+      #     ENV: dev
+      #   with:
+      #     stack-name: ${{ env.DELETE_STACK_NAME }}
+      #     operation: delete
+      #     tfe-token: ${{ secrets.TFE_TOKEN }}
+      #     env: dev
+      #     working-directory: ./frontend
