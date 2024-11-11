@@ -36,10 +36,25 @@ function BaseLink(
     }
   }
 
+  // Handle modifier clicks and prevent default behavior
+  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    // cmd, ctrl, shift, or middle click
+    const isModifierClick =
+      event.metaKey || event.ctrlKey || event.shiftKey || event.button === 1
+
+    if (isModifierClick) {
+      event.preventDefault()
+      event.stopPropagation()
+      event.nativeEvent.stopImmediatePropagation()
+      window.open(event.currentTarget.href, '_blank', 'noopener,noreferrer')
+    }
+  }
+
   return (
     <RemixLink
       ref={ref}
       to={url}
+      onClick={handleClick}
       className={cnsNoMerge(
         variant === 'dashed-bordered' && DASHED_BORDERED_CLASSES,
         variant === 'dashed-underlined' && DASHED_UNDERLINED_CLASSES,
