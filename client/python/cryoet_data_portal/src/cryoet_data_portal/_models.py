@@ -91,14 +91,14 @@ class Alignment(Model):
     is_portal_standard: bool = BooleanField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             >>> alignments = Alignment.find(client, query_filters=[Alignment.run.name == "TS_026"])
             Get all results for this type:
             >>> alignments = Alignment.find(client)
         """
-        super(Alignment, cls).find(**kwargs)
+        return super(Alignment, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -194,14 +194,14 @@ class Annotation(Model):
     last_modified_date: date = DateField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             >>> annotations = Annotation.find(client, query_filters=[Annotation.run.name == "TS_026"])
             Get all results for this type:
             >>> annotations = Annotation.find(client)
         """
-        super(Annotation, cls).find(**kwargs)
+        return super(Annotation, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -291,14 +291,14 @@ class AnnotationAuthor(Model):
     primary_author_status: bool = BooleanField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             >>> annotation_authors = AnnotationAuthor.find(client, query_filters=[AnnotationAuthor.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationAuthor.annotation.object_name.ilike('%membrane%')])
             Get all results for this type:
             >>> annotation_authors = AnnotationAuthor.find(client)
         """
-        super(AnnotationAuthor, cls).find(**kwargs)
+        return super(AnnotationAuthor, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -360,13 +360,13 @@ class AnnotationFile(Model):
     source: str = StringField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             Get all results for this type:
             >>> annotation_files = AnnotationFile.find(client)
         """
-        super(AnnotationFile, cls).find(**kwargs)
+        return super(AnnotationFile, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -415,14 +415,14 @@ class AnnotationMethodLink(Model):
     link: str = StringField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             >>> annotation_method_links = AnnotationMethodLink.find(client, query_filters=[AnnotationMethodLink.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationMethodLink.annotation.object_name.ilike('%membrane%')])
             Get all results for this type:
             >>> annotation_method_links = AnnotationMethodLink.find(client)
         """
-        super(AnnotationMethodLink, cls).find(**kwargs)
+        return super(AnnotationMethodLink, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -466,14 +466,14 @@ class AnnotationShape(Model):
     shape_type: str = StringField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             >>> annotation_shapes = AnnotationShape.find(client, query_filters=[AnnotationShape.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationShape.annotation.object_name.ilike('%membrane%')])
             Get all results for this type:
             >>> annotation_shapes = AnnotationShape.find(client)
         """
-        super(AnnotationShape, cls).find(**kwargs)
+        return super(AnnotationShape, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -569,13 +569,13 @@ class Dataset(Model):
     https_prefix: str = StringField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             Get all results for this type:
             >>> datasets = Dataset.find(client)
         """
-        super(Dataset, cls).find(**kwargs)
+        return super(Dataset, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -638,7 +638,7 @@ class DatasetAuthor(Model):
     primary_author_status: bool = BooleanField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             Filter dataset authors by attributes, including attributes in related models:
@@ -646,7 +646,7 @@ class DatasetAuthor(Model):
             Get all results for this type:
             >>> dataset_authors = DatasetAuthor.find(client)
         """
-        super(DatasetAuthor, cls).find(**kwargs)
+        return super(DatasetAuthor, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -686,7 +686,7 @@ class DatasetFunding(Model):
     grant_id: str = StringField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             Filter dataset fundings by attributes, including attributes in related models:
@@ -694,7 +694,7 @@ class DatasetFunding(Model):
             Get all results for this type:
             >>> dataset_fundings = DatasetFunding.find(client)
         """
-        super(DatasetFunding, cls).find(**kwargs)
+        return super(DatasetFunding, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -772,13 +772,13 @@ class Deposition(Model):
     key_photo_thumbnail_url: str = StringField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             Get all results for this type:
             >>> depositions = Deposition.find(client)
         """
-        super(Deposition, cls).find(**kwargs)
+        return super(Deposition, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -832,13 +832,13 @@ class DepositionAuthor(Model):
     primary_author_status: bool = BooleanField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             Get all results for this type:
             >>> deposition_authors = DepositionAuthor.find(client)
         """
-        super(DepositionAuthor, cls).find(**kwargs)
+        return super(DepositionAuthor, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -876,13 +876,13 @@ class DepositionType(Model):
     type: str = StringField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             Get all results for this type:
             >>> deposition_types = DepositionType.find(client)
         """
-        super(DepositionType, cls).find(**kwargs)
+        return super(DepositionType, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -934,14 +934,14 @@ class Frame(Model):
     https_frame_path: str = StringField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             >>> frames = Frame.find(client, query_filters=[Frame.run.name == "TS_026"])
             Get all results for this type:
             >>> frames = Frame.find(client)
         """
-        super(Frame, cls).find(**kwargs)
+        return super(Frame, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -981,14 +981,14 @@ class FrameAcquisitionFile(Model):
     https_mdoc_path: str = StringField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             >>> frame_acquisition_files = FrameAcquisitionFile.find(client, query_filters=[FrameAcquisitionFile.run.name == "TS_026"])
             Get all results for this type:
             >>> frame_acquisition_files = FrameAcquisitionFile.find(client)
         """
-        super(FrameAcquisitionFile, cls).find(**kwargs)
+        return super(FrameAcquisitionFile, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -1028,14 +1028,14 @@ class GainFile(Model):
     https_file_path: str = StringField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             >>> gain_files = GainFile.find(client, query_filters=[GainFile.run.name == "TS_026"])
             Get all results for this type:
             >>> gain_files = GainFile.find(client)
         """
-        super(GainFile, cls).find(**kwargs)
+        return super(GainFile, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -1083,13 +1083,13 @@ class PerSectionAlignmentParameters(Model):
     tilt_angle: float = FloatField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             Get all results for this type:
             >>> per_section_alignment_parameters = PerSectionAlignmentParameters.find(client)
         """
-        super(PerSectionAlignmentParameters, cls).find(**kwargs)
+        return super(PerSectionAlignmentParameters, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -1155,7 +1155,7 @@ class Run(Model):
     https_prefix: str = StringField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             Filter runs by attributes, including attributes in related models:
@@ -1164,7 +1164,7 @@ class Run(Model):
             Get all results for this type:
             >>> runs = Run.find(client)
         """
-        super(Run, cls).find(**kwargs)
+        return super(Run, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -1281,14 +1281,14 @@ class TiltSeries(Model):
     aligned_tiltseries_binning: int = IntField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             >>> tilt_series = TiltSeries.find(client, query_filters=[TiltSeries.run.name == "TS_026"])
             Get all results for this type:
             >>> tilt_series = TiltSeries.find(client)
         """
-        super(TiltSeries, cls).find(**kwargs)
+        return super(TiltSeries, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -1449,14 +1449,14 @@ class Tomogram(Model):
     last_modified_date: date = DateField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             >>> tomograms = Tomogram.find(client, query_filters=[Tomogram.run.name == "TS_026"])
             Get all results for this type:
             >>> tomograms = Tomogram.find(client)
         """
-        super(Tomogram, cls).find(**kwargs)
+        return super(Tomogram, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -1558,13 +1558,13 @@ class TomogramAuthor(Model):
     primary_author_status: bool = BooleanField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             Get all results for this type:
             >>> tomogram_authors = TomogramAuthor.find(client)
         """
-        super(TomogramAuthor, cls).find(**kwargs)
+        return super(TomogramAuthor, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -1618,14 +1618,14 @@ class TomogramVoxelSpacing(Model):
     https_prefix: str = StringField()
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             >>> tomogram_voxel_spacings = TomogramVoxelSpacing.find(client, query_filters=[TomogramVoxelSpacing.run.name == "TS_026"])
             Get all results for this type:
             >>> tomogram_voxel_spacings = TomogramVoxelSpacing.find(client)
         """
-        super(TomogramVoxelSpacing, cls).find(**kwargs)
+        return super(TomogramVoxelSpacing, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 

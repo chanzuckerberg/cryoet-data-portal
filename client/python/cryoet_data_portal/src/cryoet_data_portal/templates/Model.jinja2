@@ -15,7 +15,7 @@ class {{ model.name }}(Model):
     {% endfor %}
 
     @classmethod
-    def find(cls, **kwargs):
+    def find(cls, *args, **kwargs):
         """
         Examples:
             {% if model.fields | selectattr("name", "==", "dataset") | list | length %}
@@ -38,7 +38,7 @@ class {{ model.name }}(Model):
             Get all results for this type:
             >>> {{model.plural_underscores}} = {{ model.name }}.find(client)
         """
-        super({{ model.name }}, cls).find(**kwargs)
+        return super({{ model.name }}, cls).find(*args, **kwargs)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
