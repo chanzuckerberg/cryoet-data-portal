@@ -258,7 +258,7 @@ class Model:
 
         Expressions with python-native operators (``==``, ``!=``, ``>``, ``>=``, ``<``, ``<=``) must be in the format:
 
-            ``ModelSubclass.field`` ``{operator}`` ``{value}``
+        ``ModelSubclass.field`` ``{operator}`` ``{value}``
 
         Example:
 
@@ -266,7 +266,7 @@ class Model:
 
         Expressions with method operators (``like``, ``ilike``, ``_in``) must be in the format:
 
-            ``ModelSubclass.field.{operator}({value})``
+        ``ModelSubclass.field.{operator}({value})``
 
         Examples:
 
@@ -282,7 +282,7 @@ class Model:
         Values may be strings or numbers depending on the type of the field being matched, and `_in` supports a list of values of the field's corresponding type.
 
         ``ModelSubclass.field`` may be an arbitrarily nested path to any field on any related model, such as:
-            ``ModelSubclass.related_class_field.related_field.second_related_class_field.second_field``
+        ``ModelSubclass.related_class_field.related_field.second_related_class_field.second_field``
 
         Args:
             client:
@@ -292,17 +292,6 @@ class Model:
 
         Yields:
             Matching Model objects.
-
-        Examples:
-
-            Filter runs by attributes, including attributes in related models:
-
-            >>> runs = Run.find(client, query_filters=[Run.name == "TS_026", Run.dataset.id == 10000])
-            >>> runs = Run.find(client, query_filters=[Run.name._in(['TS_026', 'TS_027']), Run.tomogram_voxel_spacings.annotations.object_name.ilike('%membrane%')])
-
-            Get all results for this type:
-
-            >>> runs = Run.find(client)
         """
         filters = {}
         if query_filters:
@@ -322,12 +311,6 @@ class Model:
 
         Returns:
             A matching Model object if found, None otherwise.
-
-        Examples:
-            Get a Run by ID:
-
-            >>> run = Run.get_by_id(client, 1)
-                print(run.name)
         """
         results = cls.find(client, [cls.id == id])
         for result in results:

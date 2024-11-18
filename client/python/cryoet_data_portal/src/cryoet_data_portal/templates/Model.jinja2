@@ -13,3 +13,45 @@ class {{ model.name }}(Model):
     {% for field in model.fields %}
     {{ field.name | to_snake }}: {{ field.annotation_type }} = {{ field.default_value }}
     {% endfor %}
+
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            {% if model.fields | selectattr("name", "==", "dataset") | list | length %}
+            Filter {{ model.plural }} by attributes, including attributes in related models:
+              {% if model.fields | selectattr("name", "==", "name") | list | length %}
+            >>> {{model.plural_underscores}} = {{ model.name }}.find(client, query_filters=[{{model.name}}.name == "TS_026", {{model.name}}.dataset.id == 10000])
+              {% else %}
+            >>> {{model.plural_underscores}} = {{ model.name }}.find(client, query_filters=[{{model.name}}.dataset.id == 10000])
+              {% endif %}
+            {% endif %}
+            {% if model.name == "Run" %}
+            >>> {{model.plural_underscores}} = {{ model.name }}.find(client, query_filters=[{{model.name}}.name._in(['TS_026', 'TS_027']), {{model.name}}.annotations.object_name.ilike('%membrane%')])
+            {% endif %}
+            {% if model.fields | selectattr("name", "==", "run") | list | length %}
+            >>> {{model.plural_underscores}} = {{ model.name }}.find(client, query_filters=[{{model.name}}.run.name == "TS_026"])
+            {% endif %}
+            {% if model.fields | selectattr("name", "==", "annotation") | list | length %}
+            >>> {{model.plural_underscores}} = {{ model.name }}.find(client, query_filters=[{{model.name}}.annotation.run.name._in(['TS_026', 'TS_027']), {{model.name}}.annotation.object_name.ilike('%membrane%')])
+            {% endif %}
+            Get all results for this type:
+            >>> {{model.plural_underscores}} = {{ model.name }}.find(client)
+        """
+        return super({{ model.name }}, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an {{ model.name }} by ID:
+            >>> {{ model.model_name_underscores }} = {{ model.name }}.get_by_id(client, 1)
+                print({{ model.model_name_underscores }}.name)
+        """
+        super({{ model.name}}, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )

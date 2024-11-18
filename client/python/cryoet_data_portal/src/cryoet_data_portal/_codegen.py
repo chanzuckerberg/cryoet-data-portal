@@ -105,6 +105,9 @@ class ModelInfo:
     name: str
     gql_type: str
     root_field: str
+    plural: str
+    plural_underscores: str
+    model_name_underscores: str
     fields: Tuple[FieldInfo, ...]
     description: Optional[str] = None
 
@@ -147,10 +150,15 @@ def get_models(schema: GraphQLSchema) -> Tuple[ModelInfo, ...]:
         gql_type = schema.get_type(gql)
         assert isinstance(gql_type, GraphQLObjectType)
         fields = parse_fields(gql_type)
+        model_name_spaces = _camel_to_space_case(model)
+        plural_model_name = _space_case_to_plural(model_name_spaces)
         models.append(
             ModelInfo(
                 name=model,
                 gql_type=gql_type.name,
+                plural=plural_model_name,
+                plural_underscores=plural_model_name.replace(" ", "_"),
+                model_name_underscores=model_name_spaces.replace(" ", "_"),
                 root_field=get_root_field_name(schema, gql_type),
                 description=gql_type.description,
                 fields=fields,

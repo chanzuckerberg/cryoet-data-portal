@@ -163,7 +163,7 @@ Descriptions of all terminology and metadata used in the Portal is provided [her
 :class: czi-faq
 :name: default-annotations
 :collapsible:
-Tomograms along with all annotations from the Portal come preloaded in Neuroglancer. Some annotations may not be displayed in the canvas by default, but those annotations can be viewed by clicking any layer name with strikethrough text. Check out this [Quick Start guide](neuroglancer_quickstart) for more information on using Neuroglancer. 
+Tomograms along with all annotations from the Portal come preloaded in Neuroglancer. Some annotations may not be displayed in the canvas by default, but those annotations can be viewed by clicking any layer name with strikethrough text. Check out this [Quick Start guide](neuroglancer_quickstart) for more information on using Neuroglancer.
 
 There is no definitive rule for which annotations are displayed in the Neuroglancer canvas by default. The annotations are manually chosen to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations included within, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
 

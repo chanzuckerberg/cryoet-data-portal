@@ -90,6 +90,32 @@ class Alignment(Model):
     https_alignment_metadata: str = StringField()
     is_portal_standard: bool = BooleanField()
 
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            >>> alignments = Alignment.find(client, query_filters=[Alignment.run.name == "TS_026"])
+            Get all results for this type:
+            >>> alignments = Alignment.find(client)
+        """
+        return super(Alignment, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an Alignment by ID:
+            >>> alignment = Alignment.get_by_id(client, 1)
+                print(alignment.name)
+        """
+        super(Alignment, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
 
 class Annotation(Model):
     """Metadata for an annotation
@@ -167,6 +193,32 @@ class Annotation(Model):
     release_date: date = DateField()
     last_modified_date: date = DateField()
 
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            >>> annotations = Annotation.find(client, query_filters=[Annotation.run.name == "TS_026"])
+            Get all results for this type:
+            >>> annotations = Annotation.find(client)
+        """
+        return super(Annotation, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an Annotation by ID:
+            >>> annotation = Annotation.get_by_id(client, 1)
+                print(annotation.name)
+        """
+        super(Annotation, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
     def download_metadata(
         self,
         dest_path: Optional[str] = None,
@@ -238,6 +290,32 @@ class AnnotationAuthor(Model):
     corresponding_author_status: bool = BooleanField()
     primary_author_status: bool = BooleanField()
 
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            >>> annotation_authors = AnnotationAuthor.find(client, query_filters=[AnnotationAuthor.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationAuthor.annotation.object_name.ilike('%membrane%')])
+            Get all results for this type:
+            >>> annotation_authors = AnnotationAuthor.find(client)
+        """
+        return super(AnnotationAuthor, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an AnnotationAuthor by ID:
+            >>> annotation_author = AnnotationAuthor.get_by_id(client, 1)
+                print(annotation_author.name)
+        """
+        super(AnnotationAuthor, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
 
 class AnnotationFile(Model):
     """Metadata for files associated with an annotation
@@ -281,6 +359,31 @@ class AnnotationFile(Model):
     is_visualization_default: bool = BooleanField()
     source: str = StringField()
 
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            Get all results for this type:
+            >>> annotation_files = AnnotationFile.find(client)
+        """
+        return super(AnnotationFile, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an AnnotationFile by ID:
+            >>> annotation_file = AnnotationFile.get_by_id(client, 1)
+                print(annotation_file.name)
+        """
+        super(AnnotationFile, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
     def download(self, dest_path: Optional[str] = None):
         if self.format == "zarr":
             recursive_prefix = "/".join(self.s3_path.split("/")[:-1]) + "/"
@@ -311,6 +414,32 @@ class AnnotationMethodLink(Model):
     name: str = StringField()
     link: str = StringField()
 
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            >>> annotation_method_links = AnnotationMethodLink.find(client, query_filters=[AnnotationMethodLink.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationMethodLink.annotation.object_name.ilike('%membrane%')])
+            Get all results for this type:
+            >>> annotation_method_links = AnnotationMethodLink.find(client)
+        """
+        return super(AnnotationMethodLink, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an AnnotationMethodLink by ID:
+            >>> annotation_method_link = AnnotationMethodLink.get_by_id(client, 1)
+                print(annotation_method_link.name)
+        """
+        super(AnnotationMethodLink, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
 
 class AnnotationShape(Model):
     """Shapes associated with an annotation
@@ -335,6 +464,32 @@ class AnnotationShape(Model):
         "annotation_shape_id",
     )
     shape_type: str = StringField()
+
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            >>> annotation_shapes = AnnotationShape.find(client, query_filters=[AnnotationShape.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationShape.annotation.object_name.ilike('%membrane%')])
+            Get all results for this type:
+            >>> annotation_shapes = AnnotationShape.find(client)
+        """
+        return super(AnnotationShape, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an AnnotationShape by ID:
+            >>> annotation_shape = AnnotationShape.get_by_id(client, 1)
+                print(annotation_shape.name)
+        """
+        super(AnnotationShape, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
 
 
 class Dataset(Model):
@@ -413,6 +568,31 @@ class Dataset(Model):
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
 
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            Get all results for this type:
+            >>> datasets = Dataset.find(client)
+        """
+        return super(Dataset, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an Dataset by ID:
+            >>> dataset = Dataset.get_by_id(client, 1)
+                print(dataset.name)
+        """
+        super(Dataset, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
     def download_everything(self, dest_path: Optional[str] = None):
         """Download all of the data for this dataset.
 
@@ -457,6 +637,33 @@ class DatasetAuthor(Model):
     corresponding_author_status: bool = BooleanField()
     primary_author_status: bool = BooleanField()
 
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            Filter dataset authors by attributes, including attributes in related models:
+            >>> dataset_authors = DatasetAuthor.find(client, query_filters=[DatasetAuthor.name == "TS_026", DatasetAuthor.dataset.id == 10000])
+            Get all results for this type:
+            >>> dataset_authors = DatasetAuthor.find(client)
+        """
+        return super(DatasetAuthor, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an DatasetAuthor by ID:
+            >>> dataset_author = DatasetAuthor.get_by_id(client, 1)
+                print(dataset_author.name)
+        """
+        super(DatasetAuthor, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
 
 class DatasetFunding(Model):
     """Metadata for a dataset's funding sources
@@ -477,6 +684,33 @@ class DatasetFunding(Model):
     dataset_id: int = IntField()
     funding_agency_name: str = StringField()
     grant_id: str = StringField()
+
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            Filter dataset fundings by attributes, including attributes in related models:
+            >>> dataset_fundings = DatasetFunding.find(client, query_filters=[DatasetFunding.dataset.id == 10000])
+            Get all results for this type:
+            >>> dataset_fundings = DatasetFunding.find(client)
+        """
+        return super(DatasetFunding, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an DatasetFunding by ID:
+            >>> dataset_funding = DatasetFunding.get_by_id(client, 1)
+                print(dataset_funding.name)
+        """
+        super(DatasetFunding, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
 
 
 class Deposition(Model):
@@ -537,6 +771,31 @@ class Deposition(Model):
     key_photo_url: str = StringField()
     key_photo_thumbnail_url: str = StringField()
 
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            Get all results for this type:
+            >>> depositions = Deposition.find(client)
+        """
+        return super(Deposition, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an Deposition by ID:
+            >>> deposition = Deposition.get_by_id(client, 1)
+                print(deposition.name)
+        """
+        super(Deposition, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
 
 class DepositionAuthor(Model):
     """Authors for a deposition
@@ -572,6 +831,31 @@ class DepositionAuthor(Model):
     corresponding_author_status: bool = BooleanField()
     primary_author_status: bool = BooleanField()
 
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            Get all results for this type:
+            >>> deposition_authors = DepositionAuthor.find(client)
+        """
+        return super(DepositionAuthor, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an DepositionAuthor by ID:
+            >>> deposition_author = DepositionAuthor.get_by_id(client, 1)
+                print(deposition_author.name)
+        """
+        super(DepositionAuthor, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
 
 class DepositionType(Model):
     """None
@@ -590,6 +874,31 @@ class DepositionType(Model):
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
     deposition_id: int = IntField()
     type: str = StringField()
+
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            Get all results for this type:
+            >>> deposition_types = DepositionType.find(client)
+        """
+        return super(DepositionType, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an DepositionType by ID:
+            >>> deposition_type = DepositionType.get_by_id(client, 1)
+                print(deposition_type.name)
+        """
+        super(DepositionType, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
 
 
 class Frame(Model):
@@ -624,6 +933,32 @@ class Frame(Model):
     s3_frame_path: str = StringField()
     https_frame_path: str = StringField()
 
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            >>> frames = Frame.find(client, query_filters=[Frame.run.name == "TS_026"])
+            Get all results for this type:
+            >>> frames = Frame.find(client)
+        """
+        return super(Frame, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an Frame by ID:
+            >>> frame = Frame.get_by_id(client, 1)
+                print(frame.name)
+        """
+        super(Frame, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
 
 class FrameAcquisitionFile(Model):
     """References to files containing more information about frame acquisition
@@ -645,6 +980,32 @@ class FrameAcquisitionFile(Model):
     s3_mdoc_path: str = StringField()
     https_mdoc_path: str = StringField()
 
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            >>> frame_acquisition_files = FrameAcquisitionFile.find(client, query_filters=[FrameAcquisitionFile.run.name == "TS_026"])
+            Get all results for this type:
+            >>> frame_acquisition_files = FrameAcquisitionFile.find(client)
+        """
+        return super(FrameAcquisitionFile, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an FrameAcquisitionFile by ID:
+            >>> frame_acquisition_file = FrameAcquisitionFile.get_by_id(client, 1)
+                print(frame_acquisition_file.name)
+        """
+        super(FrameAcquisitionFile, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
 
 class GainFile(Model):
     """Gain values for frames in this run
@@ -665,6 +1026,32 @@ class GainFile(Model):
     run_id: int = IntField()
     s3_file_path: str = StringField()
     https_file_path: str = StringField()
+
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            >>> gain_files = GainFile.find(client, query_filters=[GainFile.run.name == "TS_026"])
+            Get all results for this type:
+            >>> gain_files = GainFile.find(client)
+        """
+        return super(GainFile, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an GainFile by ID:
+            >>> gain_file = GainFile.get_by_id(client, 1)
+                print(gain_file.name)
+        """
+        super(GainFile, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
 
 
 class PerSectionAlignmentParameters(Model):
@@ -694,6 +1081,31 @@ class PerSectionAlignmentParameters(Model):
     volume_x_rotation: float = FloatField()
     in_plane_rotation: List[List[float]] = ListField()
     tilt_angle: float = FloatField()
+
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            Get all results for this type:
+            >>> per_section_alignment_parameters = PerSectionAlignmentParameters.find(client)
+        """
+        return super(PerSectionAlignmentParameters, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an PerSectionAlignmentParameters by ID:
+            >>> per_section_alignment_parameters = PerSectionAlignmentParameters.get_by_id(client, 1)
+                print(per_section_alignment_parameters.name)
+        """
+        super(PerSectionAlignmentParameters, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
 
 
 class Run(Model):
@@ -741,6 +1153,34 @@ class Run(Model):
     name: str = StringField()
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
+
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            Filter runs by attributes, including attributes in related models:
+            >>> runs = Run.find(client, query_filters=[Run.name == "TS_026", Run.dataset.id == 10000])
+            >>> runs = Run.find(client, query_filters=[Run.name._in(['TS_026', 'TS_027']), Run.annotations.object_name.ilike('%membrane%')])
+            Get all results for this type:
+            >>> runs = Run.find(client)
+        """
+        return super(Run, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an Run by ID:
+            >>> run = Run.get_by_id(client, 1)
+                print(run.name)
+        """
+        super(Run, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
 
     def download_everything(self, dest_path: Optional[str] = None):
         """Download all of the data for this run.
@@ -839,6 +1279,32 @@ class TiltSeries(Model):
     is_aligned: bool = BooleanField()
     pixel_spacing: float = FloatField()
     aligned_tiltseries_binning: int = IntField()
+
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            >>> tilt_series = TiltSeries.find(client, query_filters=[TiltSeries.run.name == "TS_026"])
+            Get all results for this type:
+            >>> tilt_series = TiltSeries.find(client)
+        """
+        return super(TiltSeries, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an TiltSeries by ID:
+            >>> tilt_series = TiltSeries.get_by_id(client, 1)
+                print(tilt_series.name)
+        """
+        super(TiltSeries, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
 
     def download_angle_list(self, dest_path: Optional[str] = None):
         """Download the angle list for this tiltseries
@@ -982,6 +1448,32 @@ class Tomogram(Model):
     release_date: date = DateField()
     last_modified_date: date = DateField()
 
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            >>> tomograms = Tomogram.find(client, query_filters=[Tomogram.run.name == "TS_026"])
+            Get all results for this type:
+            >>> tomograms = Tomogram.find(client)
+        """
+        return super(Tomogram, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an Tomogram by ID:
+            >>> tomogram = Tomogram.get_by_id(client, 1)
+                print(tomogram.name)
+        """
+        super(Tomogram, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
     def download_omezarr(self, dest_path: Optional[str] = None):
         """Download the OME-Zarr version of this tomogram
 
@@ -1065,6 +1557,31 @@ class TomogramAuthor(Model):
     corresponding_author_status: bool = BooleanField()
     primary_author_status: bool = BooleanField()
 
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            Get all results for this type:
+            >>> tomogram_authors = TomogramAuthor.find(client)
+        """
+        return super(TomogramAuthor, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an TomogramAuthor by ID:
+            >>> tomogram_author = TomogramAuthor.get_by_id(client, 1)
+                print(tomogram_author.name)
+        """
+        super(TomogramAuthor, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
 
 class TomogramVoxelSpacing(Model):
     """Voxel spacings for a run
@@ -1099,6 +1616,32 @@ class TomogramVoxelSpacing(Model):
     voxel_spacing: float = FloatField()
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
+
+    @classmethod
+    def find(cls, *args, **kwargs):
+        """
+        Examples:
+            >>> tomogram_voxel_spacings = TomogramVoxelSpacing.find(client, query_filters=[TomogramVoxelSpacing.run.name == "TS_026"])
+            Get all results for this type:
+            >>> tomogram_voxel_spacings = TomogramVoxelSpacing.find(client)
+        """
+        return super(TomogramVoxelSpacing, cls).find(*args, **kwargs)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, **kwargs):
+        """
+        Examples:
+            Get an TomogramVoxelSpacing by ID:
+            >>> tomogram_voxel_spacing = TomogramVoxelSpacing.get_by_id(client, 1)
+                print(tomogram_voxel_spacing.name)
+        """
+        super(TomogramVoxelSpacing, cls).get_by_id(**kwargs)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
 
     def download_everything(self, dest_path: Optional[str] = None):
         """Download all of the data for this tomogram voxel spacing.
