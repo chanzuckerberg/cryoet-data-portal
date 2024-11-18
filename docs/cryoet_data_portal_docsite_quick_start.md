@@ -41,21 +41,16 @@ pip install -U cryoet-data-portal
 
 ## API Methods Overview
 
-The Portal API has methods for searching and downloading data. **Every class** has a `find` and `get_by_id` method for selecting data, and most classes have `download...` methods for downloading the data. Below is a table of the API classes download methods.
+The Portal API has methods for searching and downloading data. **Every class** has a `find` and `get_by_id` method for selecting data, and some classes have `download...` methods for downloading the data. Below is a table of the API classes that have download methods.
 
 | **Class**               | **Download Methods**                                                                                 |
 |-------------------------|--------------------------------------------------------------------------------------------------------|
+| {class}`Annotation <cryoet_data_portal.Annotation>`| `download`, `download_metadata`  |
 | {class}`Dataset <cryoet_data_portal.Dataset>`| `download_everything`     |
-| {class}`DatasetAuthor <cryoet_data_portal.DatasetAuthor>`| Not applicable as this class doesn't contain data files|
-| {class}`DatasetFunding <cryoet_data_portal.DatasetFunding>`| Not applicable as this class doesn't contain data files|
 | {class}`Run <cryoet_data_portal.Run>`| `download_everything`                  |
-| {class}`TomogramVoxelSpacing <cryoet_data_portal.TomogramVoxelSpacing>`| `download_everything`          |
+| {class}`TiltSeries <cryoet_data_portal.TiltSeries>`| `download_alignment_file`, `download_angle_list`, `download_mrcfile`, `download_omezarr` |
 | {class}`Tomogram <cryoet_data_portal.Tomogram>`| `download_all_annotations`, `download_mrcfile`, `download_omezarr`  |
-| {class}`TomogramAuthor <cryoet_data_portal.TomogramAuthor>`| Not applicable as this class doesn't contain data files  |
-| {class}`Annotation <cryoet_data_portal.Annotation>`| `download`  |
-| {class}`AnnotationFile <cryoet_data_portal.AnnotationFile>`| None, use the Annotation or Tomogram class to download annotations |
-| {class}`AnnotationAuthor <cryoet_data_portal.AnnotationAuthor>`| Not applicable as this class doesn't contain data files |
-| {class}`TiltSeries <cryoet_data_portal.TiltSeries>`| `download_alignment_file`, `download_angle_list`, `download_collection_metadata`, `download_mrcfile`, `download_omezarr` |
+| {class}`TomogramVoxelSpacing <cryoet_data_portal.TomogramVoxelSpacing>`| `download_everything`          |
 
 The `find` method selects data based on user-chosen queries. These queries can have python operators `==`, `!=`, `>`, `>=`, `<`, `<=`; method operators `like`, `ilike`, `_in`; and strings or numbers. The method operators are defined in the table below:
 
@@ -101,10 +96,8 @@ for dataset in Dataset.find(client):
     print(f"Dataset: {dataset.title}")
     for run in dataset.runs:
         print(f"  - run: {run.name}")
-        for tvs in run.tomogram_voxel_spacings:
-            print(f"    - voxel spacing: {tvs.voxel_spacing}")
-            for tomo in tvs.tomograms:
-                print(f"        - tomo: {tomo.name}")
+        for tomo in run.tomograms:
+            print(f"    - tomo: {tomo.name}")
 
 ```
 
@@ -113,8 +106,7 @@ The output with the object names would display something like:
 ```
 Dataset: S. pombe cells with defocus
   - run: TS_026
-    - voxel spacing: 13.48
-        - tomo: TS_026
+    - tomo: TS_026
 ...
 ```
 
@@ -129,7 +121,7 @@ import cryoet_data_portal as portal
 client = portal.Client()
 
 # Use the find method to select datasets that contain membrane annotations
-datasets = portal.Dataset.find(client, [portal.Dataset.runs.tomogram_voxel_spacings.annotations.object_name.ilike("%membrane%")])
+datasets = portal.Dataset.find(client, [portal.Dataset.runs.annotations.object_name.ilike("%membrane%")])
 for d in datasets:
    print(d.id)
 ```
@@ -150,10 +142,10 @@ client = Client()
 tomos = Tomogram.find(
     client,
     [
-        Tomogram.tomogram_voxel_spacing.run.dataset.organism_name
-        == "Schizosaccharomyces pombe"
+        Tomogram.run.dataset.organism_name == "Schizosaccharomyces pombe"
     ],
 )
+
 for tomo in tomos:
     # Access any useful metadata for each tomogram
     print(tomo.name)

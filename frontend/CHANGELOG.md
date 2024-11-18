@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.36.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.35.1...web-v1.36.0) (2024-11-06)
+
+
+### ✨ Features
+
+* challenge status banner ([#1319](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1319)) ([1bd0bff](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1bd0bffae24504b45f2336ac6c9566ae7cde9605))
+* definition and search updates ([#1298](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1298)) ([58e36ea](https://github.com/chanzuckerberg/cryoet-data-portal/commit/58e36eaffb53422e4796254ec907fe2c15aa73b7))
+* ML challenge launch copy updates ([#1318](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1318)) ([7ceff67](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7ceff673ce225132057dd9b726ba22aad6032677))
+* order datasets by release date ([#1320](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1320)) ([788c178](https://github.com/chanzuckerberg/cryoet-data-portal/commit/788c178157c7115b389f0d50ddec221b6e92df37))
+* universal empty states ([#1295](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1295)) ([ef64faa](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ef64faa5d46ba824abb27063b3978352446e3f4d))
+
+
+### 🐞 Bug Fixes
+
+* download code snippets ([#1315](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1315)) ([b137eb4](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b137eb47850542399a50f0a0f3e8f04d77f8876a))
+* fix single run page view tomogram button ([#1325](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1325)) ([da6902c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/da6902c909b196d6da69437510c8a3eec37fe2b8))
+* fix view tomogram button greyed out error ([#1323](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1323)) ([5a6ca7a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/5a6ca7a53b138a9914098c74f31e555b89caba3f))
+* table hover state ([#1300](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1300)) ([800ad33](https://github.com/chanzuckerberg/cryoet-data-portal/commit/800ad330e4673235eb7b8b1e3275612c8c163617))
+
+
+### 🧹 Miscellaneous Chores
+
+* fix ml challenge page nits ([#1324](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1324)) ([9ba9fa7](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9ba9fa7a489eb36a2674d6cfce15cb88cfb7f3f2))
+
+## [1.35.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.35.0...web-v1.35.1) (2024-11-05)
+
+
+### 🐞 Bug Fixes
+
+* header dropdown misplacement on icon click ([#1297](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1297)) ([8ecb914](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8ecb914059c7e99dd726419c781985d3131a4fa7))
+* sort tiltseries quality filter scores ([#1296](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1296)) ([aa2b28f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/aa2b28f64a874f8e920d91cfefce1cc4165f0dac))
+
 ## [1.35.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.34.1...web-v1.35.0) (2024-10-30)
 
 

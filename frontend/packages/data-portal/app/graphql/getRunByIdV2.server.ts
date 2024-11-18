@@ -130,6 +130,9 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
 
               tomograms(
                 first: 1
+                where: {
+                  isVisualizationDefault: { _eq: true }
+                }
                 # where: {
                 #   isAuthorSubmitted: { _eq: true } # TODO(bchu): Uncomment when bool bug fixed.
                 # }

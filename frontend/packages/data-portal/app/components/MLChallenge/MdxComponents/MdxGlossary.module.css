@@ -1,0 +1,11 @@
+.glossary {
+  @apply !text-sds-body-s !leading-sds-body-s;
+
+  ul {
+    @apply !mt-0;
+
+    li {
+      @apply !mt-0;
+    }
+  }
+}

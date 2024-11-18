@@ -1,18 +1,22 @@
-import { Button, CellHeaderDirection } from '@czi-sds/components'
+import { CellHeaderDirection } from '@czi-sds/components'
 import { json, LoaderFunctionArgs } from '@remix-run/node'
 
 import { Order_By } from 'app/__generated__/graphql'
 import { apolloClient } from 'app/apollo.server'
 import { DatasetTable } from 'app/components/BrowseData'
+import { BrowseDataSearch } from 'app/components/BrowseData/BrowseDataSearch'
 import { DatasetFilter } from 'app/components/DatasetFilter'
 import { NoFilteredResults } from 'app/components/NoFilteredResults'
-import { TablePageLayout } from 'app/components/TablePageLayout'
+import {
+  TableHeaderDefinition,
+  TableHeaderProps,
+  TablePageLayout,
+} from 'app/components/TablePageLayout'
 import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { useDatasets } from 'app/hooks/useDatasets'
-import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
 import {
   useBrowseDatasetFilterHistory,
@@ -50,9 +54,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
   })
 }
 
+function BrowseDatasetTableHeader(props: TableHeaderProps) {
+  return <TableHeaderDefinition {...props} search={<BrowseDataSearch />} />
+}
+
 export default function BrowseDatasetsPage() {
   const { datasetCount, filteredDatasetCount } = useDatasets()
-  const { reset } = useFilter()
   const { t } = useI18n()
 
   const { setPreviousBrowseDatasetParams } = useBrowseDatasetFilterHistory()
@@ -72,16 +79,11 @@ export default function BrowseDatasetsPage() {
             'https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_data.html#datasets',
           filterPanel: <DatasetFilter />,
           table: <DatasetTable />,
-          noFilteredResults: (
-            <NoFilteredResults
-              title={t('filterNoResultsFound')}
-              description={t('filterTooRestrictive')}
-              actions={<Button onClick={reset}>{t('clearFilters')}</Button>}
-            />
-          ),
+          noFilteredResults: <NoFilteredResults showSearchTip />,
           filteredCount: filteredDatasetCount,
           totalCount: datasetCount,
           countLabel: t('datasets'),
+          Header: BrowseDatasetTableHeader,
         },
       ]}
     />

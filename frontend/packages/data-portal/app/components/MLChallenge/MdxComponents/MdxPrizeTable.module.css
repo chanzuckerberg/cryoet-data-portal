@@ -1,0 +1,23 @@
+.prizeTable {
+  @apply w-full;
+  @apply rounded-sds-m;
+  @apply bg-sds-color-semantic-component-base-surface-secondary;
+
+  padding: 10px;
+  margin-top: 10px;
+
+  table {
+    thead {
+      @apply hidden;
+    }
+
+    td {
+      border-left: 14px solid transparent;
+
+      &:first-child {
+        border-left: 0;
+        width: 131px;
+      }
+    }
+  }
+}

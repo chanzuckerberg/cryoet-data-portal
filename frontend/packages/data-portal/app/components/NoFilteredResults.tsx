@@ -1,4 +1,9 @@
-import { ReactNode } from 'react'
+import { Button } from '@czi-sds/components'
+import { useSetAtom } from 'jotai'
+
+import { useFilter } from 'app/hooks/useFilter'
+import { useI18n } from 'app/hooks/useI18n'
+import { searchQueryAtom } from 'app/state/search'
 
 function NoResultsImage() {
   return (
@@ -20,25 +25,44 @@ function NoResultsImage() {
 }
 
 export function NoFilteredResults({
-  actions,
-  description,
-  title,
+  showSearchTip,
 }: {
-  actions?: ReactNode
-  description: string
-  title: string
+  showSearchTip?: boolean
 }) {
+  const setSearchQuery = useSetAtom(searchQueryAtom)
+  const { reset } = useFilter()
+  const { t } = useI18n()
+
   return (
     <div className="flex items-center justify-center h-full">
       <div className="flex gap-sds-xxl">
-        <div className="flex flex-col gap-sds-l">
+        <div className="flex flex-col max-w-[324px]">
           <p className="font-semibold text-sds-header-l leading-sds-header-l">
-            {title}
+            {t('noResultsFound')}
           </p>
 
-          <p className="text-sds-body-s leading-sds-body-s">{description}</p>
+          <div className="mt-3.5 text-sds-body-s leading-sds-body-s">
+            <p>{t('noResultsBeforeYouTryAgain')}</p>
 
-          <div className="flex items-center gap-sds-xxs">{actions}</div>
+            <ul className="list-disc pl-sds-xxl">
+              {showSearchTip && <li>{t('noResultsSearch')}</li>}
+              <li>{t('noResultsCorrectSpelling')}</li>
+              <li>{t('noResultsRemoveFilters')}</li>
+            </ul>
+          </div>
+
+          <div className="mt-3.5">
+            <Button
+              onClick={() => {
+                reset()
+                setSearchQuery('')
+              }}
+              sdsType="primary"
+              sdsStyle="minimal"
+            >
+              {t('resetAll')}
+            </Button>
+          </div>
         </div>
 
         <NoResultsImage />

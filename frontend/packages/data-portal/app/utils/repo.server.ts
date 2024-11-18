@@ -20,14 +20,18 @@ export async function getRepoFileContent(path: string): Promise<string> {
   return response.data as string
 }
 
+async function serializeMdxRaw(content: string) {
+  return serialize(content, {
+    mdxOptions: {
+      remarkPlugins: [sectionize, remarkGfm],
+      rehypePlugins: [rehypePrism],
+    },
+  })
+}
+
 async function serializeMdx(content: string) {
   return typedjson({
-    content: await serialize(content, {
-      mdxOptions: {
-        remarkPlugins: [sectionize, remarkGfm],
-        rehypePlugins: [rehypePrism],
-      },
-    }),
+    content: await serializeMdxRaw(content),
   })
 }
 
@@ -37,12 +41,15 @@ export async function getRepoFileContentResponse(path: string) {
   return serializeMdx(content)
 }
 
-export async function getLocalFileContent(path: string) {
+export async function getLocalFileContent(
+  path: string,
+  options: { raw: boolean } = { raw: false },
+) {
   const scriptDir = dirname(fileURLToPath(import.meta.url))
   const mdxContent = readFileSync(
     resolve(scriptDir, `../../../../${path}`),
     'utf-8',
   )
 
-  return serializeMdx(mdxContent)
+  return options.raw ? serializeMdxRaw(mdxContent) : serializeMdx(mdxContent)
 }

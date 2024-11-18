@@ -33,7 +33,7 @@ Install and start using the Python Client API
 :::
 
 :::{grid-item-card} API Reference
-:link: api-documentation
+:link: api-reference
 :link-type: ref
 
 Information on the Python Client API Classes
@@ -46,11 +46,11 @@ Information on the Python Client API Classes
 Examples of selecting, downloading, and visualizing data from the Portal
 :::
 
-:::{grid-item-card} About CryoET
+:::{grid-item-card} About CryoET Data Portal
 :link: about
 :link-type: doc
 
-Learn about CryoET data and how to navigate the CryoET Data Portal
+Learn about CryoET data and how to find and preview it on the Portal
 :::
 ::::
 

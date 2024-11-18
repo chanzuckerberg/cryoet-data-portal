@@ -426,8 +426,8 @@ export class DownloadDialogActor {
     const clipboardValue = await clipboard.jsonValue()
 
     const { data } = await fetchTestSingleRun(client)
-    const voxelSpacingId = data.runs[0].tomogram_voxel_spacings[0].id
-    const expectedCommand = getAllTomogramsCodeSnippet(voxelSpacingId)
+    const runId = data.runs[0].id
+    const expectedCommand = getAllTomogramsCodeSnippet(runId)
 
     expect(clipboardValue).toBe(expectedCommand)
   }

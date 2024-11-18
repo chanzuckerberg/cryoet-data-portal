@@ -105,7 +105,7 @@ The metadata schema of any JSON file stored with the data on the data portal's S
 
 ## Runs
 
-A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. However, in the [data schema](python-api.md#data-model) used in the Portal API, runs are connected to tomograms through the `TomogramVoxelSpacing` class which specifies the sampling or voxel size of the tomogram. For a single run, multiple tomograms of different spacings can be available.
+A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. However, in the [data schema](data-model) used in the Portal API, runs are connected to tomograms through the `TomogramVoxelSpacing` class which specifies the sampling or voxel size of the tomogram. For a single run, multiple tomograms of different spacings can be available.
 
 An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run. These metadata are defined in the tables below including their mapping to attributes in the Portal API:
 
@@ -168,14 +168,15 @@ run = Run.get_by_id(client, 645)
 run.download_everything()
 ```
 
-```{figure} ./figures/run_download.png
-:alt: File Structure of a downloaded run
-:align: center
+<figure>
+  <img src="_static/img/run_download.png"
+    alt="File Structure of a downloaded run"
+  >
+  <figcaption>File Structure of a downloaded run
+  </figcaption>
+</figure>
 
-File Structure of a downloaded run
-```
-
-Runs are downloaded as folders named the author-chosen run name. As shown in the diagram above, the folder contains subfolders named Tomograms and TiltSeries and a JSON file named `run_metadata.json` containing the run metadata. The Tomogram folder has a subfolder for every voxel spacing available, and each of those folders contains subfolders NeuorglancerPrecompute, which has files for visualizing the data in Neuroglancer; KeyPhotos, which contains the key photos of the run displayed on the Portal; CanonicalTomogram, which has the tomogram as an MRC file and OME-Zarr directory along with tomogram metadata and metadata for visualizing the tomogram with Neuroglancer; and Annotations. More details on the Annotation folder file structure is found in the documentation [below](#annotation-download-options). The TiltSeries folder contains the tilt series images as an MRC file and OME-Zarr directory as well as a JSON file with the tilt series metadata.
+Runs are downloaded as folders named the author-chosen run name. As shown in the diagram above, the folder contains subfolders named Alignments, Frames, Gains, Reconstructions, and TiltSeries; and a JSON file named `run_metadata.json` containing the run metadata. The Alignments folder contains a JSON file for every alignment that specifies the alignment parameters including the affine transformation matrix. The Frames and Gains folders contain the raw movie frames and the gain files for correcting for the detector's sensitivity, respectively. The TiltSeries folder contains the tilt series images as an MRC file and OME-Zarr directory as well as a JSON file with the tilt series metadata. The Reconstructions folder has a subfolder for every voxel spacing available, and each of those folders contains subfolders NeuorglancerPrecompute, which has files for visualizing the data in Neuroglancer; Images, which contains the key photos of the run displayed on the Portal; Tomograms, which has the tomograms associated with the run as an MRC file and OME-Zarr directory along with tomogram metadata and metadata for visualizing the tomogram with Neuroglancer; and Annotations. More details on the Annotation folder file structure is found in the documentation [below](#annotation-download-options).
 
 ## Annotations
 

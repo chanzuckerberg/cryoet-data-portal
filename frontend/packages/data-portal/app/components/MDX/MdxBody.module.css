@@ -1,4 +1,6 @@
 .body {
+  @apply text-sds-body-s leading-sds-body-s;
+
   ol {
     @apply list-decimal;
     margin-left: 35px;
@@ -59,8 +61,6 @@
   }
 
   p {
-    @apply text-sds-body-s leading-sds-body-s;
-
     + pre {
       @apply mt-sds-m;
 
@@ -78,7 +78,8 @@
     @apply text-sds-color-semantic-text-action-default;
   }
 
-  b {
+  b,
+  strong {
     @apply font-semibold;
   }
 

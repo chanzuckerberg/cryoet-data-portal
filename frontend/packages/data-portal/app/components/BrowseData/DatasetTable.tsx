@@ -12,7 +12,12 @@ import { AuthorList } from 'app/components/AuthorList'
 import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
-import { CellHeader, PageTable, TableCell } from 'app/components/Table'
+import {
+  CellHeader,
+  PageTable,
+  TableCell,
+  TableLink,
+} from 'app/components/Table'
 import { EMPIAR_ID, EMPIAR_URL } from 'app/constants/external-dbs'
 import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { IdPrefix } from 'app/constants/idPrefixes'
@@ -148,7 +153,7 @@ export function DatasetTable() {
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[70%]" variant="text" />
                     ) : (
-                      <Link to={datasetUrl}>{dataset.title}</Link>
+                      <TableLink to={datasetUrl}>{dataset.title}</TableLink>
                     )}
                   </p>
 
