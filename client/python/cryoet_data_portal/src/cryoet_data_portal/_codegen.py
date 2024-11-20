@@ -279,7 +279,7 @@ def _parse_model_field(
     logging.debug("_parse_model_field: %s", field_type)
     model = GQL_TO_MODEL_TYPE.get(field_type.name)
     if model is not None:
-        model_field = to_snake(model)
+        model_field = to_snake(name)
         model_name = _camel_to_space_case(model)
         source_model = GQL_TO_MODEL_TYPE[gql_type.name]
         source_model_name = _camel_to_space_case(source_model)
@@ -290,6 +290,14 @@ def _parse_model_field(
             default_value=f'ItemRelationship("{model}", "{model_field}_id", "id")',
         )
     return None
+
+
+def _get_remote_field_name_by_type(
+    model_cls: GraphQLObjectType, lookup_type: GraphQLObjectType,
+) -> str | None:
+    for name, field in model_cls.fields.items():
+        if field.type == lookup_type:
+            return name
 
 
 def _parse_model_list_field(
@@ -306,7 +314,7 @@ def _parse_model_list_field(
     of_model = GQL_TO_MODEL_TYPE.get(of_type.name)
     if of_model is not None:
         source_model = GQL_TO_MODEL_TYPE[gql_type.name]
-        source_field = to_snake(source_model)
+        source_field = to_snake(_get_remote_field_name_by_type(of_type, gql_type))
         source_model_name = _camel_to_space_case(source_model)
         of_model_name = _space_case_to_plural(_camel_to_space_case(of_model))
         return FieldInfo(
