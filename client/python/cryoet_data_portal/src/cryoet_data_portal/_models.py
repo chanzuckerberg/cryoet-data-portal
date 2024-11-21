@@ -70,7 +70,7 @@ class Alignment(Model):
     )
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
     deposition_id: int = IntField()
-    tiltseries: TiltSeries = ItemRelationship("TiltSeries", "tilt_series_id", "id")
+    tiltseries: TiltSeries = ItemRelationship("TiltSeries", "tiltseries_id", "id")
     tiltseries_id: int = IntField()
     tomograms: List[Tomogram] = ListRelationship("Tomogram", "id", "alignment_id")
     run: Run = ItemRelationship("Run", "run_id", "id")
@@ -1244,7 +1244,7 @@ class TiltSeries(Model):
     _gql_root_field: str = "tiltseries"
 
     id: int = IntField()
-    alignments: List[Alignment] = ListRelationship("Alignment", "id", "tilt_series_id")
+    alignments: List[Alignment] = ListRelationship("Alignment", "id", "tiltseries_id")
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
