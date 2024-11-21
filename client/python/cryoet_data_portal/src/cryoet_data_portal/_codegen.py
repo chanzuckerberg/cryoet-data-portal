@@ -295,10 +295,13 @@ def _parse_model_field(
 def _get_remote_field_name_by_type(
     model_cls: GraphQLObjectType,
     lookup_type: GraphQLObjectType,
-) -> Optional[str]:
+) -> str:
     for name, field in model_cls.fields.items():
         if field.type == lookup_type:
             return name
+    raise Exception(
+        f"Relationship lookup for a type:{lookup_type} field on {model_cls} failed",
+    )
 
 
 def _parse_model_list_field(
