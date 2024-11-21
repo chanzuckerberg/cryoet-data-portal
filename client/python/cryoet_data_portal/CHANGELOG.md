@@ -1,5 +1,22 @@
 # Changelog
 
+## [4.1.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.0.0...cryoet-data-portal-python-client-v4.1.0) (2024-11-21)
+
+
+### ✨ Features
+
+* codegeneration for docstrings ([#1307](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1307)) ([cf0a008](https://github.com/chanzuckerberg/cryoet-data-portal/commit/cf0a0085bf39965bf06b7318af347f50eb0f9b32))
+
+
+### 🐞 Bug Fixes
+
+* Fixes for relationship field naming. ([#1348](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1348)) ([703d470](https://github.com/chanzuckerberg/cryoet-data-portal/commit/703d470787420c1f24f731004c6b62b5a13126a4))
+
+
+### 📝 Documentation
+
+* Final edits before ML Challenge ([#1313](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1313)) ([a675983](https://github.com/chanzuckerberg/cryoet-data-portal/commit/a67598344265d7dbec52ff5c1bfce79a3dd2dd2d))
+
 ## [4.0.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v3.1.1...cryoet-data-portal-python-client-v4.0.0) (2024-10-30)
 
 
