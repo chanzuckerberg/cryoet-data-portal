@@ -293,8 +293,9 @@ def _parse_model_field(
 
 
 def _get_remote_field_name_by_type(
-    model_cls: GraphQLObjectType, lookup_type: GraphQLObjectType,
-) -> str | None:
+    model_cls: GraphQLObjectType,
+    lookup_type: GraphQLObjectType,
+) -> Optional[str]:
     for name, field in model_cls.fields.items():
         if field.type == lookup_type:
             return name
