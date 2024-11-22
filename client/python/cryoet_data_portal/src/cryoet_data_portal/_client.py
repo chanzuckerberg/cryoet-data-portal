@@ -27,14 +27,6 @@ class Client:
     """
 
     def __init__(self, url: Optional[str] = None):
-        if not url:
-            url = DEFAULT_URL
-        transport = RequestsHTTPTransport(
-            url=url,
-            retries=3,
-            headers={"User-agent": USER_AGENT},
-        )
-
         with open(
             os.path.join(
                 pathlib.Path(__file__).parent.resolve(),
@@ -43,8 +35,26 @@ class Client:
         ) as f:
             schema_str = f.read()
 
-        self.client = GQLClient(transport=transport, schema=schema_str)
-        self.ds = DSLSchema(self.client.schema)
+        if not url:
+            url = DEFAULT_URL
+
+        self.url = url
+        # Parsing the schema is relatively expensive, so we want to make sure it's
+        # done only once per instantiation of the client.
+        client = GQLClient(schema=schema_str)
+        self.schema = client.schema
+        if not self.schema:
+            raise Exception("Could not parse schema")
+        self.ds = DSLSchema(self.schema)
+
+    # We instantiate a new GQLClient for every request to ensure thread safety.
+    def get_client(self) -> GQLClient:
+        transport = RequestsHTTPTransport(
+            url=self.url,
+            retries=3,
+            headers={"User-agent": USER_AGENT},
+        )
+        return GQLClient(transport=transport, schema=self.schema)
 
     def build_query(
         self,
@@ -71,7 +81,7 @@ class Client:
     def find(self, cls, query_filters=None):
         gql_type = cls._get_gql_type()
         gql_root = cls._get_gql_root_field()
-        response = self.client.execute(
+        response = self.get_client().execute(
             self.build_query(cls, gql_root, gql_type, query_filters),
         )
         return [cls(self, **item) for item in response[gql_root]]
