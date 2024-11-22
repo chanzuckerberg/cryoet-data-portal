@@ -1,3 +1,5 @@
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 from cryoet_data_portal import Dataset, Run
 from cryoet_data_portal._client import Client
 from cryoet_data_portal._models import Annotation
@@ -84,3 +86,20 @@ def test_item_relationship_with_missing_id(client: Client):
     assert anno
     assert anno.deposition_id is None
     assert anno.deposition is None
+
+
+# Make sure we can fetch data via a thread pool without errors
+def test_thread_safety(client: Client):
+    def _make_request(client: Client):
+        return Annotation.find(client)
+
+    with ThreadPoolExecutor() as tpe:
+        futures = []
+        threads = 5
+        for _ in range(0, threads):
+            futures.append(tpe.submit(_make_request, client))
+        num_results = 0
+        for item in as_completed(futures):
+            num_results += 1
+            assert len(item.result()) == 6
+        assert num_results == threads
