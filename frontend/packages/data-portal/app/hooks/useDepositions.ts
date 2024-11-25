@@ -1,33 +1,25 @@
+import { detailedDiff } from 'deep-object-diff'
 import { useMemo } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetDepositionsDataQuery } from 'app/__generated__/graphql'
-
-export type Deposition = GetDepositionsDataQuery['depositions'][number]
+import { GetDepositionsDataV2Query } from 'app/__generated_v2__/graphql'
+import {
+  remapV1BrowseAllDepositions,
+  remapV2BrowseAllDepositions,
+} from 'app/apiNormalization'
 
 export function useDepositions() {
-  const data = useTypedLoaderData<GetDepositionsDataQuery>()
+  const { v1, v2 } = useTypedLoaderData<{
+    v1: GetDepositionsDataQuery
+    v2: GetDepositionsDataV2Query
+  }>()
 
-  return useMemo(
-    () => ({
-      depositions: data.depositions,
-      depositionCount: data.depositions_aggregate.aggregate?.count ?? 0,
+  const v1result = useMemo(() => remapV1BrowseAllDepositions(v1), [v1])
+  const v2result = useMemo(() => remapV2BrowseAllDepositions(v2), [v2])
 
-      filteredDepositionCount:
-        data.filtered_depositions_aggregate.aggregate?.count ?? 0,
+  // eslint-disable-next-line no-console
+  console.log(detailedDiff(v1result.depositions, v2result.depositions))
 
-      objectNames: data.object_names.map((value) => value.object_name),
-
-      objectShapeTypes: data.object_shape_types.map(
-        (value) => value.shape_type,
-      ),
-    }),
-    [
-      data.depositions,
-      data.depositions_aggregate.aggregate?.count,
-      data.filtered_depositions_aggregate.aggregate?.count,
-      data.object_names,
-      data.object_shape_types,
-    ],
-  )
+  return v2result
 }
