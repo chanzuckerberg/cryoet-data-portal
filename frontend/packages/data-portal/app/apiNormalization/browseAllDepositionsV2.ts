@@ -26,17 +26,19 @@ const remapV2Deposition = remapAPI<
           .filter((value) => value !== '') ?? [],
       ),
     ).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })),
-  objectShapeTypes: (deposition) =>
-    Array.from(
-      new Set(
-        deposition.shapeTypes?.edges.flatMap(
-          (edge) =>
-            edge.node.annotationShapes?.edges.flatMap(
-              (edge2) => edge2.node?.shapeType as ObjectShapeType,
-            ),
-        ),
-      ),
-    ).sort((a, b) => a.localeCompare(b)),
+  // TODO: uncomment/remap when efficient query is available
+  // objectShapeTypes: (deposition) =>
+  //   Array.from(
+  //     new Set(
+  //       deposition.shapeTypes?.edges.flatMap(
+  //         (edge) =>
+  //           edge.node.annotationShapes?.edges.flatMap(
+  //             (edge2) => edge2.node?.shapeType as ObjectShapeType,
+  //           ),
+  //       ),
+  //     ),
+  //   ).sort((a, b) => a.localeCompare(b)),
+  objectShapeTypes: () => [],
   acrossDatasets: (deposition) =>
     deposition.annotationDatasetCount?.aggregate?.length ?? 0,
 } as const)

@@ -1,6 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { expect, test } from '@playwright/test'
-import { detailedDiff } from 'deep-object-diff'
+import { updatedDiff } from 'deep-object-diff'
 import {
   loadDepositionsV1Data,
   loadDepositionsV2Data,
@@ -21,21 +21,19 @@ test.describe('API Migration Parity Check', () => {
       const v1 = await loadDepositionsV1Data(client, 1)
       const v2 = await loadDepositionsV2Data(clientV2, 1)
 
-      expect(detailedDiff(v1, v2)).toEqual({
-        added: {},
-        deleted: {},
-        updated: {
-          depositions: v2.depositions.reduce(
-            (acc, v2Deposition, index) => ({
-              ...acc,
-              [index]: {
-                // `acrossDatasets` field is only available in V2 so V1 sets it to 0
-                acrossDatasets: v2Deposition.acrossDatasets,
-              },
-            }),
-            {},
-          ),
-        },
+      expect(updatedDiff(v1, v2)).toEqual({
+        depositions: v2.depositions.reduce(
+          (acc, v2Deposition, index) => ({
+            ...acc,
+            [index]: {
+              // `acrossDatasets` field is only available in V2 so V1 sets it to 0
+              acrossDatasets: v2Deposition.acrossDatasets,
+              // `objectShapeTypes` is inefficient to fetch in V2
+              objectShapeTypes: {}, // we use {} instead of [] here because the differ interprets an empty array as an object
+            },
+          }),
+          {},
+        ),
       })
     })
   })
