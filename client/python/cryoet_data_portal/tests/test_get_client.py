@@ -1,4 +1,4 @@
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 
 from cryoet_data_portal import Dataset, Run
 from cryoet_data_portal._client import Client
