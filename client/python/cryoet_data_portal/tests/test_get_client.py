@@ -1,4 +1,4 @@
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 
 from cryoet_data_portal import Dataset, Run
 from cryoet_data_portal._client import Client
@@ -94,12 +94,9 @@ def test_thread_safety(client: Client):
         return Annotation.find(client)
 
     with ThreadPoolExecutor() as tpe:
-        futures = []
         threads = 5
-        for _ in range(0, threads):
-            futures.append(tpe.submit(_make_request, client))
         num_results = 0
-        for item in as_completed(futures):
+        for annos in tpe.map(_make_request, (client,) * threads):
             num_results += 1
-            assert len(item.result()) == 6
+            assert len(annos) == 6
         assert num_results == threads
