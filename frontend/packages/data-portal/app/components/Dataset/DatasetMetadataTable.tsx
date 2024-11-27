@@ -99,10 +99,13 @@ export function DatasetMetadataTable({
 
     {
       label: t('fundingAgency'),
-      values:
-        dataset.funding_sources
-          ?.map((source) => source.funding_agency_name)
-          .filter(isString) ?? [],
+      values: Array.from(
+        new Set(
+          dataset.funding_sources
+            ?.map((source) => source.funding_agency_name)
+            .filter(isString) ?? [],
+        ),
+      ),
     },
 
     {
