@@ -61,7 +61,7 @@
     "dayjs": "^1.11.10",
     "dedent": "^1.5.3",
     "deep-object-diff": "^1.1.9",
-    "express": "^4.19.2",
+    "express": "^4.21.1",
     "framer-motion": "^10.16.4",
     "graphql": "^16.8.1",
     "i18next": "^23.7.6",
