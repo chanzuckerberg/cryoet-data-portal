@@ -159,7 +159,7 @@ export default function DepositionByIdPage() {
       header={<DepositionHeader />}
       tabs={[
         {
-          title: t('depositionData'),
+          title: t('datasetsWithDepositionData'),
           table: <DatasetsTable />,
           totalCount: datasetsCount,
           filteredCount: filteredDatasetsCount,
