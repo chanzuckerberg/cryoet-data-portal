@@ -26,7 +26,7 @@ From here, installing the latest version of napari with `pip` should work for mo
 pip install -U "napari[all]"
 ```
 
-:::{attention}
+:::{czi-warning} Attention
 For ARM macOS (Apple Silicon), pre-built packages of Qt5 are not available on PyPI, so the above command will fail.
 Instead, either install Qt6 separately with the following two commands
 
@@ -71,7 +71,7 @@ Instead of opening files manually in napari, you can write Python to automate th
 The following code finds all tomograms with a particular annotator and minimum tomogram size
 using the Python client and opens the first one in napari.
 
-:::{attention}
+:::{czi-warning} Attention
 This example depends on installing the napari-ome-zarr plugin mentioned above.
 :::
 
