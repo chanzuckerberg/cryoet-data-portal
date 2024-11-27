@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.2.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.1.0...cryoet-data-portal-python-client-v4.2.0) (2024-11-27)
+
+
+### ✨ Features
+
+* Support a Client object being shared between threads. ([#1351](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1351)) ([ebdc7db](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ebdc7db5069303b8d63481fdee990936c02b2a6a))
+
+
+### 🧹 Miscellaneous Chores
+
+* Make threading tests more concise. ([#1355](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1355)) ([538a480](https://github.com/chanzuckerberg/cryoet-data-portal/commit/538a480497bbb91f280aafa30664e4c9f5e055c4))
+
 ## [4.1.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.0.0...cryoet-data-portal-python-client-v4.1.0) (2024-11-21)
 
 
