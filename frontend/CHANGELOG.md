@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.36.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.36.0...web-v1.36.1) (2024-11-27)
+
+
+### 🐞 Bug Fixes
+
+* duplicate funding agencies ([#1365](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1365)) ([544297c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/544297ce7ac050359a58be014df6feeb70b5ecb1))
+* fix datasets with deposition data typo ([#1358](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1358)) ([c5033c4](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c5033c47049221707da8568042f23afe35886524))
+* Modifier (cmd, shift, ctrl) clicking on `BaseLink` Links modifies current page view & url  ([#1335](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1335)) ([aed70fb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/aed70fb1482afce04eb5a14524f1b8b700b2754b))
+
+
+### 🧹 Miscellaneous Chores
+
+* update deps ([#1361](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1361)) ([d9f6635](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d9f6635f619932a4a1e747224075d0d56a2d6a70))
+
 ## [1.36.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.35.1...web-v1.36.0) (2024-11-06)
 
 
