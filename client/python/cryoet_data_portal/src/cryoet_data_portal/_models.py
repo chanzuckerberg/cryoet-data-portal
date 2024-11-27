@@ -95,7 +95,9 @@ class Alignment(Model):
         """
         Examples:
             >>> alignments = Alignment.find(client, query_filters=[Alignment.run.name == "TS_026"])
+
             Get all results for this type:
+
             >>> alignments = Alignment.find(client)
         """
         return super(Alignment, cls).find(*args, **kwargs)
@@ -107,8 +109,9 @@ class Alignment(Model):
         """
         Examples:
             Get an Alignment by ID:
+
             >>> alignment = Alignment.get_by_id(client, 1)
-                print(alignment.name)
+            >>> print(alignment.name)
         """
         super(Alignment, cls).get_by_id(**kwargs)
 
@@ -198,7 +201,9 @@ class Annotation(Model):
         """
         Examples:
             >>> annotations = Annotation.find(client, query_filters=[Annotation.run.name == "TS_026"])
+
             Get all results for this type:
+
             >>> annotations = Annotation.find(client)
         """
         return super(Annotation, cls).find(*args, **kwargs)
@@ -210,8 +215,9 @@ class Annotation(Model):
         """
         Examples:
             Get an Annotation by ID:
+
             >>> annotation = Annotation.get_by_id(client, 1)
-                print(annotation.name)
+            >>> print(annotation.name)
         """
         super(Annotation, cls).get_by_id(**kwargs)
 
@@ -295,7 +301,9 @@ class AnnotationAuthor(Model):
         """
         Examples:
             >>> annotation_authors = AnnotationAuthor.find(client, query_filters=[AnnotationAuthor.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationAuthor.annotation.object_name.ilike('%membrane%')])
+
             Get all results for this type:
+
             >>> annotation_authors = AnnotationAuthor.find(client)
         """
         return super(AnnotationAuthor, cls).find(*args, **kwargs)
@@ -307,8 +315,9 @@ class AnnotationAuthor(Model):
         """
         Examples:
             Get an AnnotationAuthor by ID:
+
             >>> annotation_author = AnnotationAuthor.get_by_id(client, 1)
-                print(annotation_author.name)
+            >>> print(annotation_author.name)
         """
         super(AnnotationAuthor, cls).get_by_id(**kwargs)
 
@@ -363,7 +372,9 @@ class AnnotationFile(Model):
     def find(cls, *args, **kwargs):
         """
         Examples:
+
             Get all results for this type:
+
             >>> annotation_files = AnnotationFile.find(client)
         """
         return super(AnnotationFile, cls).find(*args, **kwargs)
@@ -375,8 +386,9 @@ class AnnotationFile(Model):
         """
         Examples:
             Get an AnnotationFile by ID:
+
             >>> annotation_file = AnnotationFile.get_by_id(client, 1)
-                print(annotation_file.name)
+            >>> print(annotation_file.name)
         """
         super(AnnotationFile, cls).get_by_id(**kwargs)
 
@@ -419,7 +431,9 @@ class AnnotationMethodLink(Model):
         """
         Examples:
             >>> annotation_method_links = AnnotationMethodLink.find(client, query_filters=[AnnotationMethodLink.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationMethodLink.annotation.object_name.ilike('%membrane%')])
+
             Get all results for this type:
+
             >>> annotation_method_links = AnnotationMethodLink.find(client)
         """
         return super(AnnotationMethodLink, cls).find(*args, **kwargs)
@@ -431,8 +445,9 @@ class AnnotationMethodLink(Model):
         """
         Examples:
             Get an AnnotationMethodLink by ID:
+
             >>> annotation_method_link = AnnotationMethodLink.get_by_id(client, 1)
-                print(annotation_method_link.name)
+            >>> print(annotation_method_link.name)
         """
         super(AnnotationMethodLink, cls).get_by_id(**kwargs)
 
@@ -470,7 +485,9 @@ class AnnotationShape(Model):
         """
         Examples:
             >>> annotation_shapes = AnnotationShape.find(client, query_filters=[AnnotationShape.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationShape.annotation.object_name.ilike('%membrane%')])
+
             Get all results for this type:
+
             >>> annotation_shapes = AnnotationShape.find(client)
         """
         return super(AnnotationShape, cls).find(*args, **kwargs)
@@ -482,8 +499,9 @@ class AnnotationShape(Model):
         """
         Examples:
             Get an AnnotationShape by ID:
+
             >>> annotation_shape = AnnotationShape.get_by_id(client, 1)
-                print(annotation_shape.name)
+            >>> print(annotation_shape.name)
         """
         super(AnnotationShape, cls).get_by_id(**kwargs)
 
@@ -572,7 +590,9 @@ class Dataset(Model):
     def find(cls, *args, **kwargs):
         """
         Examples:
+
             Get all results for this type:
+
             >>> datasets = Dataset.find(client)
         """
         return super(Dataset, cls).find(*args, **kwargs)
@@ -584,8 +604,9 @@ class Dataset(Model):
         """
         Examples:
             Get an Dataset by ID:
+
             >>> dataset = Dataset.get_by_id(client, 1)
-                print(dataset.name)
+            >>> print(dataset.name)
         """
         super(Dataset, cls).get_by_id(**kwargs)
 
@@ -642,8 +663,11 @@ class DatasetAuthor(Model):
         """
         Examples:
             Filter dataset authors by attributes, including attributes in related models:
+
             >>> dataset_authors = DatasetAuthor.find(client, query_filters=[DatasetAuthor.name == "TS_026", DatasetAuthor.dataset.id == 10000])
+
             Get all results for this type:
+
             >>> dataset_authors = DatasetAuthor.find(client)
         """
         return super(DatasetAuthor, cls).find(*args, **kwargs)
@@ -655,8 +679,9 @@ class DatasetAuthor(Model):
         """
         Examples:
             Get an DatasetAuthor by ID:
+
             >>> dataset_author = DatasetAuthor.get_by_id(client, 1)
-                print(dataset_author.name)
+            >>> print(dataset_author.name)
         """
         super(DatasetAuthor, cls).get_by_id(**kwargs)
 
@@ -690,8 +715,11 @@ class DatasetFunding(Model):
         """
         Examples:
             Filter dataset fundings by attributes, including attributes in related models:
+
             >>> dataset_fundings = DatasetFunding.find(client, query_filters=[DatasetFunding.dataset.id == 10000])
+
             Get all results for this type:
+
             >>> dataset_fundings = DatasetFunding.find(client)
         """
         return super(DatasetFunding, cls).find(*args, **kwargs)
@@ -703,8 +731,9 @@ class DatasetFunding(Model):
         """
         Examples:
             Get an DatasetFunding by ID:
+
             >>> dataset_funding = DatasetFunding.get_by_id(client, 1)
-                print(dataset_funding.name)
+            >>> print(dataset_funding.name)
         """
         super(DatasetFunding, cls).get_by_id(**kwargs)
 
@@ -775,7 +804,9 @@ class Deposition(Model):
     def find(cls, *args, **kwargs):
         """
         Examples:
+
             Get all results for this type:
+
             >>> depositions = Deposition.find(client)
         """
         return super(Deposition, cls).find(*args, **kwargs)
@@ -787,8 +818,9 @@ class Deposition(Model):
         """
         Examples:
             Get an Deposition by ID:
+
             >>> deposition = Deposition.get_by_id(client, 1)
-                print(deposition.name)
+            >>> print(deposition.name)
         """
         super(Deposition, cls).get_by_id(**kwargs)
 
@@ -835,7 +867,9 @@ class DepositionAuthor(Model):
     def find(cls, *args, **kwargs):
         """
         Examples:
+
             Get all results for this type:
+
             >>> deposition_authors = DepositionAuthor.find(client)
         """
         return super(DepositionAuthor, cls).find(*args, **kwargs)
@@ -847,8 +881,9 @@ class DepositionAuthor(Model):
         """
         Examples:
             Get an DepositionAuthor by ID:
+
             >>> deposition_author = DepositionAuthor.get_by_id(client, 1)
-                print(deposition_author.name)
+            >>> print(deposition_author.name)
         """
         super(DepositionAuthor, cls).get_by_id(**kwargs)
 
@@ -879,7 +914,9 @@ class DepositionType(Model):
     def find(cls, *args, **kwargs):
         """
         Examples:
+
             Get all results for this type:
+
             >>> deposition_types = DepositionType.find(client)
         """
         return super(DepositionType, cls).find(*args, **kwargs)
@@ -891,8 +928,9 @@ class DepositionType(Model):
         """
         Examples:
             Get an DepositionType by ID:
+
             >>> deposition_type = DepositionType.get_by_id(client, 1)
-                print(deposition_type.name)
+            >>> print(deposition_type.name)
         """
         super(DepositionType, cls).get_by_id(**kwargs)
 
@@ -938,7 +976,9 @@ class Frame(Model):
         """
         Examples:
             >>> frames = Frame.find(client, query_filters=[Frame.run.name == "TS_026"])
+
             Get all results for this type:
+
             >>> frames = Frame.find(client)
         """
         return super(Frame, cls).find(*args, **kwargs)
@@ -950,8 +990,9 @@ class Frame(Model):
         """
         Examples:
             Get an Frame by ID:
+
             >>> frame = Frame.get_by_id(client, 1)
-                print(frame.name)
+            >>> print(frame.name)
         """
         super(Frame, cls).get_by_id(**kwargs)
 
@@ -985,7 +1026,9 @@ class FrameAcquisitionFile(Model):
         """
         Examples:
             >>> frame_acquisition_files = FrameAcquisitionFile.find(client, query_filters=[FrameAcquisitionFile.run.name == "TS_026"])
+
             Get all results for this type:
+
             >>> frame_acquisition_files = FrameAcquisitionFile.find(client)
         """
         return super(FrameAcquisitionFile, cls).find(*args, **kwargs)
@@ -997,8 +1040,9 @@ class FrameAcquisitionFile(Model):
         """
         Examples:
             Get an FrameAcquisitionFile by ID:
+
             >>> frame_acquisition_file = FrameAcquisitionFile.get_by_id(client, 1)
-                print(frame_acquisition_file.name)
+            >>> print(frame_acquisition_file.name)
         """
         super(FrameAcquisitionFile, cls).get_by_id(**kwargs)
 
@@ -1032,7 +1076,9 @@ class GainFile(Model):
         """
         Examples:
             >>> gain_files = GainFile.find(client, query_filters=[GainFile.run.name == "TS_026"])
+
             Get all results for this type:
+
             >>> gain_files = GainFile.find(client)
         """
         return super(GainFile, cls).find(*args, **kwargs)
@@ -1044,8 +1090,9 @@ class GainFile(Model):
         """
         Examples:
             Get an GainFile by ID:
+
             >>> gain_file = GainFile.get_by_id(client, 1)
-                print(gain_file.name)
+            >>> print(gain_file.name)
         """
         super(GainFile, cls).get_by_id(**kwargs)
 
@@ -1086,7 +1133,9 @@ class PerSectionAlignmentParameters(Model):
     def find(cls, *args, **kwargs):
         """
         Examples:
+
             Get all results for this type:
+
             >>> per_section_alignment_parameters = PerSectionAlignmentParameters.find(client)
         """
         return super(PerSectionAlignmentParameters, cls).find(*args, **kwargs)
@@ -1098,8 +1147,9 @@ class PerSectionAlignmentParameters(Model):
         """
         Examples:
             Get an PerSectionAlignmentParameters by ID:
+
             >>> per_section_alignment_parameters = PerSectionAlignmentParameters.get_by_id(client, 1)
-                print(per_section_alignment_parameters.name)
+            >>> print(per_section_alignment_parameters.name)
         """
         super(PerSectionAlignmentParameters, cls).get_by_id(**kwargs)
 
@@ -1159,9 +1209,12 @@ class Run(Model):
         """
         Examples:
             Filter runs by attributes, including attributes in related models:
+
             >>> runs = Run.find(client, query_filters=[Run.name == "TS_026", Run.dataset.id == 10000])
             >>> runs = Run.find(client, query_filters=[Run.name._in(['TS_026', 'TS_027']), Run.annotations.object_name.ilike('%membrane%')])
+
             Get all results for this type:
+
             >>> runs = Run.find(client)
         """
         return super(Run, cls).find(*args, **kwargs)
@@ -1173,8 +1226,9 @@ class Run(Model):
         """
         Examples:
             Get an Run by ID:
+
             >>> run = Run.get_by_id(client, 1)
-                print(run.name)
+            >>> print(run.name)
         """
         super(Run, cls).get_by_id(**kwargs)
 
@@ -1285,7 +1339,9 @@ class TiltSeries(Model):
         """
         Examples:
             >>> tilt_series = TiltSeries.find(client, query_filters=[TiltSeries.run.name == "TS_026"])
+
             Get all results for this type:
+
             >>> tilt_series = TiltSeries.find(client)
         """
         return super(TiltSeries, cls).find(*args, **kwargs)
@@ -1297,8 +1353,9 @@ class TiltSeries(Model):
         """
         Examples:
             Get an TiltSeries by ID:
+
             >>> tilt_series = TiltSeries.get_by_id(client, 1)
-                print(tilt_series.name)
+            >>> print(tilt_series.name)
         """
         super(TiltSeries, cls).get_by_id(**kwargs)
 
@@ -1453,7 +1510,9 @@ class Tomogram(Model):
         """
         Examples:
             >>> tomograms = Tomogram.find(client, query_filters=[Tomogram.run.name == "TS_026"])
+
             Get all results for this type:
+
             >>> tomograms = Tomogram.find(client)
         """
         return super(Tomogram, cls).find(*args, **kwargs)
@@ -1465,8 +1524,9 @@ class Tomogram(Model):
         """
         Examples:
             Get an Tomogram by ID:
+
             >>> tomogram = Tomogram.get_by_id(client, 1)
-                print(tomogram.name)
+            >>> print(tomogram.name)
         """
         super(Tomogram, cls).get_by_id(**kwargs)
 
@@ -1561,7 +1621,9 @@ class TomogramAuthor(Model):
     def find(cls, *args, **kwargs):
         """
         Examples:
+
             Get all results for this type:
+
             >>> tomogram_authors = TomogramAuthor.find(client)
         """
         return super(TomogramAuthor, cls).find(*args, **kwargs)
@@ -1573,8 +1635,9 @@ class TomogramAuthor(Model):
         """
         Examples:
             Get an TomogramAuthor by ID:
+
             >>> tomogram_author = TomogramAuthor.get_by_id(client, 1)
-                print(tomogram_author.name)
+            >>> print(tomogram_author.name)
         """
         super(TomogramAuthor, cls).get_by_id(**kwargs)
 
@@ -1622,7 +1685,9 @@ class TomogramVoxelSpacing(Model):
         """
         Examples:
             >>> tomogram_voxel_spacings = TomogramVoxelSpacing.find(client, query_filters=[TomogramVoxelSpacing.run.name == "TS_026"])
+
             Get all results for this type:
+
             >>> tomogram_voxel_spacings = TomogramVoxelSpacing.find(client)
         """
         return super(TomogramVoxelSpacing, cls).find(*args, **kwargs)
@@ -1634,8 +1699,9 @@ class TomogramVoxelSpacing(Model):
         """
         Examples:
             Get an TomogramVoxelSpacing by ID:
+
             >>> tomogram_voxel_spacing = TomogramVoxelSpacing.get_by_id(client, 1)
-                print(tomogram_voxel_spacing.name)
+            >>> print(tomogram_voxel_spacing.name)
         """
         super(TomogramVoxelSpacing, cls).get_by_id(**kwargs)
 
