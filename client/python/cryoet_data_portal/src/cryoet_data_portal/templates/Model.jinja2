@@ -52,9 +52,13 @@ class {{ model.name }}(Model):
             Get an {{ model.name }} by ID:
 
             >>> {{ model.model_name_underscores }} = {{ model.name }}.get_by_id(client, 1)
+            {% if "name" in model.fields %}
             >>> print({{ model.model_name_underscores }}.name)
+            {% else %}
+            >>> print({{ model.model_name_underscores }}.id)
+            {% endif %}
         """
-        super({{ model.name}}, cls).get_by_id(**kwargs)
+        super({{ model.name }}, cls).get_by_id(**kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__

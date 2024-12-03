@@ -111,7 +111,7 @@ class Alignment(Model):
             Get an Alignment by ID:
 
             >>> alignment = Alignment.get_by_id(client, 1)
-            >>> print(alignment.name)
+            >>> print(alignment.id)
         """
         super(Alignment, cls).get_by_id(**kwargs)
 
@@ -217,7 +217,7 @@ class Annotation(Model):
             Get an Annotation by ID:
 
             >>> annotation = Annotation.get_by_id(client, 1)
-            >>> print(annotation.name)
+            >>> print(annotation.id)
         """
         super(Annotation, cls).get_by_id(**kwargs)
 
@@ -317,7 +317,7 @@ class AnnotationAuthor(Model):
             Get an AnnotationAuthor by ID:
 
             >>> annotation_author = AnnotationAuthor.get_by_id(client, 1)
-            >>> print(annotation_author.name)
+            >>> print(annotation_author.id)
         """
         super(AnnotationAuthor, cls).get_by_id(**kwargs)
 
@@ -388,7 +388,7 @@ class AnnotationFile(Model):
             Get an AnnotationFile by ID:
 
             >>> annotation_file = AnnotationFile.get_by_id(client, 1)
-            >>> print(annotation_file.name)
+            >>> print(annotation_file.id)
         """
         super(AnnotationFile, cls).get_by_id(**kwargs)
 
@@ -447,7 +447,7 @@ class AnnotationMethodLink(Model):
             Get an AnnotationMethodLink by ID:
 
             >>> annotation_method_link = AnnotationMethodLink.get_by_id(client, 1)
-            >>> print(annotation_method_link.name)
+            >>> print(annotation_method_link.id)
         """
         super(AnnotationMethodLink, cls).get_by_id(**kwargs)
 
@@ -501,7 +501,7 @@ class AnnotationShape(Model):
             Get an AnnotationShape by ID:
 
             >>> annotation_shape = AnnotationShape.get_by_id(client, 1)
-            >>> print(annotation_shape.name)
+            >>> print(annotation_shape.id)
         """
         super(AnnotationShape, cls).get_by_id(**kwargs)
 
@@ -606,7 +606,7 @@ class Dataset(Model):
             Get an Dataset by ID:
 
             >>> dataset = Dataset.get_by_id(client, 1)
-            >>> print(dataset.name)
+            >>> print(dataset.id)
         """
         super(Dataset, cls).get_by_id(**kwargs)
 
@@ -681,7 +681,7 @@ class DatasetAuthor(Model):
             Get an DatasetAuthor by ID:
 
             >>> dataset_author = DatasetAuthor.get_by_id(client, 1)
-            >>> print(dataset_author.name)
+            >>> print(dataset_author.id)
         """
         super(DatasetAuthor, cls).get_by_id(**kwargs)
 
@@ -733,7 +733,7 @@ class DatasetFunding(Model):
             Get an DatasetFunding by ID:
 
             >>> dataset_funding = DatasetFunding.get_by_id(client, 1)
-            >>> print(dataset_funding.name)
+            >>> print(dataset_funding.id)
         """
         super(DatasetFunding, cls).get_by_id(**kwargs)
 
@@ -820,7 +820,7 @@ class Deposition(Model):
             Get an Deposition by ID:
 
             >>> deposition = Deposition.get_by_id(client, 1)
-            >>> print(deposition.name)
+            >>> print(deposition.id)
         """
         super(Deposition, cls).get_by_id(**kwargs)
 
@@ -883,7 +883,7 @@ class DepositionAuthor(Model):
             Get an DepositionAuthor by ID:
 
             >>> deposition_author = DepositionAuthor.get_by_id(client, 1)
-            >>> print(deposition_author.name)
+            >>> print(deposition_author.id)
         """
         super(DepositionAuthor, cls).get_by_id(**kwargs)
 
@@ -930,7 +930,7 @@ class DepositionType(Model):
             Get an DepositionType by ID:
 
             >>> deposition_type = DepositionType.get_by_id(client, 1)
-            >>> print(deposition_type.name)
+            >>> print(deposition_type.id)
         """
         super(DepositionType, cls).get_by_id(**kwargs)
 
@@ -992,7 +992,7 @@ class Frame(Model):
             Get an Frame by ID:
 
             >>> frame = Frame.get_by_id(client, 1)
-            >>> print(frame.name)
+            >>> print(frame.id)
         """
         super(Frame, cls).get_by_id(**kwargs)
 
@@ -1042,7 +1042,7 @@ class FrameAcquisitionFile(Model):
             Get an FrameAcquisitionFile by ID:
 
             >>> frame_acquisition_file = FrameAcquisitionFile.get_by_id(client, 1)
-            >>> print(frame_acquisition_file.name)
+            >>> print(frame_acquisition_file.id)
         """
         super(FrameAcquisitionFile, cls).get_by_id(**kwargs)
 
@@ -1092,7 +1092,7 @@ class GainFile(Model):
             Get an GainFile by ID:
 
             >>> gain_file = GainFile.get_by_id(client, 1)
-            >>> print(gain_file.name)
+            >>> print(gain_file.id)
         """
         super(GainFile, cls).get_by_id(**kwargs)
 
@@ -1149,7 +1149,7 @@ class PerSectionAlignmentParameters(Model):
             Get an PerSectionAlignmentParameters by ID:
 
             >>> per_section_alignment_parameters = PerSectionAlignmentParameters.get_by_id(client, 1)
-            >>> print(per_section_alignment_parameters.name)
+            >>> print(per_section_alignment_parameters.id)
         """
         super(PerSectionAlignmentParameters, cls).get_by_id(**kwargs)
 
@@ -1228,7 +1228,7 @@ class Run(Model):
             Get an Run by ID:
 
             >>> run = Run.get_by_id(client, 1)
-            >>> print(run.name)
+            >>> print(run.id)
         """
         super(Run, cls).get_by_id(**kwargs)
 
@@ -1355,7 +1355,7 @@ class TiltSeries(Model):
             Get an TiltSeries by ID:
 
             >>> tilt_series = TiltSeries.get_by_id(client, 1)
-            >>> print(tilt_series.name)
+            >>> print(tilt_series.id)
         """
         super(TiltSeries, cls).get_by_id(**kwargs)
 
@@ -1526,7 +1526,7 @@ class Tomogram(Model):
             Get an Tomogram by ID:
 
             >>> tomogram = Tomogram.get_by_id(client, 1)
-            >>> print(tomogram.name)
+            >>> print(tomogram.id)
         """
         super(Tomogram, cls).get_by_id(**kwargs)
 
@@ -1637,7 +1637,7 @@ class TomogramAuthor(Model):
             Get an TomogramAuthor by ID:
 
             >>> tomogram_author = TomogramAuthor.get_by_id(client, 1)
-            >>> print(tomogram_author.name)
+            >>> print(tomogram_author.id)
         """
         super(TomogramAuthor, cls).get_by_id(**kwargs)
 
@@ -1701,7 +1701,7 @@ class TomogramVoxelSpacing(Model):
             Get an TomogramVoxelSpacing by ID:
 
             >>> tomogram_voxel_spacing = TomogramVoxelSpacing.get_by_id(client, 1)
-            >>> print(tomogram_voxel_spacing.name)
+            >>> print(tomogram_voxel_spacing.id)
         """
         super(TomogramVoxelSpacing, cls).get_by_id(**kwargs)
 
