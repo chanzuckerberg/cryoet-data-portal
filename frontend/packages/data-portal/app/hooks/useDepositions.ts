@@ -2,32 +2,47 @@ import { useMemo } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetDepositionsDataQuery } from 'app/__generated__/graphql'
-
-export type Deposition = GetDepositionsDataQuery['depositions'][number]
+import { GetDepositionsDataV2Query } from 'app/__generated_v2__/graphql'
+import {
+  remapV1BrowseAllDepositions,
+  remapV2BrowseAllDepositions,
+} from 'app/apiNormalization'
+import { BrowseAllDepositionsPageDataType } from 'app/types/PageData/browseAllDepositionsPageData'
+import { pickAPISource } from 'app/utils/apiMigration'
 
 export function useDepositions() {
-  const data = useTypedLoaderData<GetDepositionsDataQuery>()
+  const { v1, v2 } = useTypedLoaderData<{
+    v1: GetDepositionsDataQuery
+    v2: GetDepositionsDataV2Query
+  }>()
 
-  return useMemo(
-    () => ({
-      depositions: data.depositions,
-      depositionCount: data.depositions_aggregate.aggregate?.count ?? 0,
+  const v1result = useMemo(() => remapV1BrowseAllDepositions(v1), [v1])
+  const v2result = useMemo(() => remapV2BrowseAllDepositions(v2), [v2])
 
-      filteredDepositionCount:
-        data.filtered_depositions_aggregate.aggregate?.count ?? 0,
-
-      objectNames: data.object_names.map((value) => value.object_name),
-
-      objectShapeTypes: data.object_shape_types.map(
-        (value) => value.shape_type,
+  const combined = useMemo(
+    () =>
+      pickAPISource<BrowseAllDepositionsPageDataType>(
+        { v1: v1result, v2: v2result },
+        {
+          allObjectNames: 'v2',
+          allObjectShapeTypes: 'v2',
+          filteredDepositionCount: 'v2',
+          totalDepositionCount: 'v2',
+          depositions: {
+            acrossDatasets: 'v2',
+            annotationCount: 'v2',
+            annotatedObjects: 'v2',
+            authors: 'v2',
+            depositionDate: 'v2',
+            id: 'v2',
+            keyPhotoThumbnailUrl: 'v2',
+            objectShapeTypes: 'v1',
+            title: 'v2',
+          },
+        },
       ),
-    }),
-    [
-      data.depositions,
-      data.depositions_aggregate.aggregate?.count,
-      data.filtered_depositions_aggregate.aggregate?.count,
-      data.object_names,
-      data.object_shape_types,
-    ],
+    [v1result, v2result],
   )
+
+  return combined
 }

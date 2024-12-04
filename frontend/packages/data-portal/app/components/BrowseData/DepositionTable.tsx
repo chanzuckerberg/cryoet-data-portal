@@ -22,11 +22,13 @@ import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { DepositionTableWidths } from 'app/constants/table'
-import { Deposition, useDepositions } from 'app/hooks/useDepositions'
+import { useDepositions } from 'app/hooks/useDepositions'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { LogLevel } from 'app/types/logging'
+import { Deposition } from 'app/types/PageData/browseAllDepositionsPageData'
+import { ObjectShapeType } from 'app/types/shapeTypes'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
@@ -34,14 +36,14 @@ import { getErrorMessage } from 'app/utils/string'
 const LOADING_DEPOSITIONS = range(0, MAX_PER_PAGE).map(
   (value) =>
     ({
-      authors: [],
       id: value,
       title: `loading-deposition-${value}`,
-      deposition_date: '',
-      annotations_aggregate: {},
-      dataset_aggregate: {},
-      annotations: [],
-      shape_types: [],
+      depositionDate: '',
+      annotationCount: 0,
+      authors: [],
+      annotatedObjects: [],
+      objectShapeTypes: [],
+      acrossDatasets: 0,
     }) as Deposition,
 )
 
@@ -62,7 +64,7 @@ export function DepositionTable() {
 
     try {
       return [
-        columnHelper.accessor('key_photo_thumbnail_url', {
+        columnHelper.accessor('keyPhotoThumbnailUrl', {
           header: () => <p />,
 
           cell({ row: { original: deposition } }) {
@@ -77,7 +79,7 @@ export function DepositionTable() {
                   <KeyPhoto
                     className="max-w-[134px]"
                     title={deposition.title}
-                    src={deposition.key_photo_thumbnail_url ?? undefined}
+                    src={deposition.keyPhotoThumbnailUrl ?? undefined}
                     loading={isLoadingDebounced}
                     textOnGroupHover="openDeposition"
                   />
@@ -149,7 +151,7 @@ export function DepositionTable() {
           },
         }),
 
-        columnHelper.accessor('deposition_date', {
+        columnHelper.accessor('depositionDate', {
           header: () => (
             <CellHeader
               showSort
@@ -177,11 +179,11 @@ export function DepositionTable() {
           ),
 
           cell({ row: { original: deposition } }) {
-            return <TableCell>{deposition.deposition_date}</TableCell>
+            return <TableCell>{deposition.depositionDate}</TableCell>
           },
         }),
 
-        columnHelper.accessor('annotations_aggregate', {
+        columnHelper.accessor('annotationCount', {
           header: () => (
             <CellHeader width={DepositionTableWidths.annotations}>
               {t('annotations')}
@@ -189,36 +191,31 @@ export function DepositionTable() {
           ),
 
           cell({ row: { original: deposition } }) {
-            const annotationsCount =
-              deposition?.annotations_aggregate?.aggregate?.count ?? 0
-
-            // TODO: (kne42) uncomment this when we can fetch dataset counts properly
-            // const datasetsCount =
-            //   deposition?.dataset_aggregate?.aggregate?.count ?? 0
-
             return (
               <TableCell loadingSkeleton={false}>
                 <p className="text-sds-body-s leading-sds-body-s mb-sds-xxxs">
                   {isLoadingDebounced ? (
                     <Skeleton variant="text" className="max-w-[40%] mt-2" />
                   ) : (
-                    annotationsCount.toLocaleString()
+                    deposition.annotationCount.toLocaleString()
                   )}
                 </p>
-                {/*              TODO: (kne42) uncomment this when we can fetch dataset counts properly
+
                 <p className="text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-body-xxs">
                   {isLoadingDebounced ? (
                     <Skeleton variant="text" className="max-w-[75%] mt-2" />
                   ) : (
-                    t('acrossDatasets', { count: datasetsCount })
+                    t('acrossDatasets', {
+                      count: deposition.acrossDatasets,
+                    })
                   )}
-                </p> */}
+                </p>
               </TableCell>
             )
           },
         }),
 
-        columnHelper.accessor('annotations', {
+        columnHelper.accessor('annotatedObjects', {
           header: () => (
             <CellHeader width={DepositionTableWidths.annotatedObjects}>
               {t('annotatedObjects')}
@@ -226,14 +223,6 @@ export function DepositionTable() {
           ),
 
           cell({ row: { original: deposition } }) {
-            const annotatedObjects = Array.from(
-              new Set(
-                deposition?.annotations?.flatMap(
-                  (annotation) => annotation.object_name,
-                ),
-              ),
-            )
-
             return (
               <TableCell
                 width={DepositionTableWidths.annotatedObjects}
@@ -245,17 +234,19 @@ export function DepositionTable() {
                   </div>
                 )}
               >
-                {annotatedObjects.length === 0 ? (
+                {deposition.annotatedObjects.length === 0 ? (
                   '--'
                 ) : (
-                  <AnnotatedObjectsList annotatedObjects={annotatedObjects} />
+                  <AnnotatedObjectsList
+                    annotatedObjects={deposition.annotatedObjects}
+                  />
                 )}
               </TableCell>
             )
           },
         }),
 
-        columnHelper.accessor('shape_types', {
+        columnHelper.accessor('objectShapeTypes', {
           header: () => (
             <CellHeader width={DepositionTableWidths.objectShapeTypes}>
               {t('objectShapeType')}
@@ -263,14 +254,6 @@ export function DepositionTable() {
           ),
 
           cell({ row: { original: deposition } }) {
-            const shapeTypes = Array.from(
-              new Set(
-                deposition.shape_types?.flatMap((annotation) =>
-                  annotation.files.flatMap((file) => file.shape_type),
-                ),
-              ),
-            )
-
             return (
               <TableCell
                 renderLoadingSkeleton={() => (
@@ -281,12 +264,16 @@ export function DepositionTable() {
                   </div>
                 )}
               >
-                {shapeTypes.length === 0 ? (
+                {deposition.objectShapeTypes.length === 0 ? (
                   '--'
                 ) : (
                   <ul className="list-none flex flex-col gap-sds-xs">
                     {Object.entries(shapeTypeToI18nKey)
-                      .filter(([key]) => shapeTypes.includes(key))
+                      .filter(([key]) =>
+                        deposition.objectShapeTypes.includes(
+                          key as ObjectShapeType,
+                        ),
+                      )
                       .map(([k, v]) => (
                         <li
                           className="whitespace-nowrap overflow-x-hidden overflow-ellipsis"

@@ -2,7 +2,8 @@ import { CellHeaderDirection } from '@czi-sds/components'
 import { json, LoaderFunctionArgs, redirect } from '@remix-run/node'
 
 import { Order_By } from 'app/__generated__/graphql'
-import { apolloClient } from 'app/apollo.server'
+import { OrderBy } from 'app/__generated_v2__/graphql'
+import { apolloClient, apolloClientV2 } from 'app/apollo.server'
 import { DepositionTable } from 'app/components/BrowseData/DepositionTable'
 import {
   TableHeaderDefinition,
@@ -10,6 +11,7 @@ import {
 } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDepositions } from 'app/graphql/getBrowseDepositions.server'
+import { getBrowseDepositionsV2 } from 'app/graphql/getBrowseDepositionsV2.server'
 import { useDepositions } from 'app/hooks/useDepositions'
 import { useI18n } from 'app/hooks/useI18n'
 import { getFeatureFlag } from 'app/utils/featureFlags'
@@ -33,25 +35,37 @@ export async function loader({ request }: LoaderFunctionArgs) {
     | undefined
   const query = url.searchParams.get(QueryParams.Search) ?? ''
 
-  let orderBy: Order_By | null = null
+  let orderByV1: Order_By | null = null
+  let orderByV2: OrderBy | null = null
 
   if (sort) {
-    orderBy = sort === 'asc' ? Order_By.Asc : Order_By.Desc
+    orderByV1 = sort === 'asc' ? Order_By.Asc : Order_By.Desc
+    orderByV2 = sort === 'asc' ? OrderBy.Asc : OrderBy.Desc
   }
 
-  const { data } = await getBrowseDepositions({
-    orderBy,
-    page,
-    query,
-    client: apolloClient,
-    params: url.searchParams,
-  })
+  const [{ data: responseV1 }, { data: responseV2 }] = await Promise.all([
+    getBrowseDepositions({
+      orderBy: orderByV1,
+      page,
+      query,
+      client: apolloClient,
+      params: url.searchParams,
+    }),
+    getBrowseDepositionsV2({
+      orderBy: orderByV2,
+      page,
+      client: apolloClientV2,
+    }),
+  ])
 
-  return json(data)
+  return json({
+    v1: responseV1,
+    v2: responseV2,
+  })
 }
 
 export default function BrowseDepositionsPage() {
-  const { depositionCount, filteredDepositionCount } = useDepositions()
+  const { totalDepositionCount, filteredDepositionCount } = useDepositions()
   const { t } = useI18n()
 
   return (
@@ -64,7 +78,7 @@ export default function BrowseDepositionsPage() {
             'https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_data.html#depositions',
           table: <DepositionTable />,
           filteredCount: filteredDepositionCount,
-          totalCount: depositionCount,
+          totalCount: totalDepositionCount,
           countLabel: t('depositions'),
           Header: TableHeaderDefinition,
         },
