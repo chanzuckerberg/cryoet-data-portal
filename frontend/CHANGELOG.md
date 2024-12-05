@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.37.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.36.1...web-v1.37.0) (2024-12-05)
+
+
+### ✨ Features
+
+* api migration for browse all depositions page ([#1357](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1357)) ([dbec885](https://github.com/chanzuckerberg/cryoet-data-portal/commit/dbec885109a1d9726673462989d0edac92a26d22))
+* api migration setup ([#1356](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1356)) ([72af8e9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/72af8e947d71853643cc6e60b9ce84c89daf00d2))
+
+
+### 🧹 Miscellaneous Chores
+
+* update survey banner copy ([#1371](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1371)) ([286572c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/286572c0221c401d55f9467e5d4eadb1156510d1))
+
 ## [1.36.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.36.0...web-v1.36.1) (2024-11-27)
 
 
