@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.2.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.2.0...cryoet-data-portal-python-client-v4.2.1) (2024-12-06)
+
+
+### 🐞 Bug Fixes
+
+* fix argument and return value handling for get_by_id ([#1380](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1380)) ([2504e4d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/2504e4d8c5aaf5eae1afb69f24b62c77b2843d08))
+* Fix generated examples formatting ([#1369](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1369)) ([6cf8473](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6cf847348365aa1f24f62123c4a50c9cb97ab25d))
+
 ## [4.2.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.1.0...cryoet-data-portal-python-client-v4.2.0) (2024-11-27)
 
 
