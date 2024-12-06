@@ -331,7 +331,7 @@ class AnnotationAuthor(Model):
             Get an AnnotationAuthor by ID:
 
             >>> annotation_author = AnnotationAuthor.get_by_id(client, 1)
-            >>> print(annotation_author.id)
+            >>> print(annotation_author.name)
         """
         return super(AnnotationAuthor, cls).get_by_id(client, id)
 
@@ -469,7 +469,7 @@ class AnnotationMethodLink(Model):
             Get an AnnotationMethodLink by ID:
 
             >>> annotation_method_link = AnnotationMethodLink.get_by_id(client, 1)
-            >>> print(annotation_method_link.id)
+            >>> print(annotation_method_link.name)
         """
         return super(AnnotationMethodLink, cls).get_by_id(client, id)
 
@@ -715,7 +715,7 @@ class DatasetAuthor(Model):
             Get an DatasetAuthor by ID:
 
             >>> dataset_author = DatasetAuthor.get_by_id(client, 1)
-            >>> print(dataset_author.id)
+            >>> print(dataset_author.name)
         """
         return super(DatasetAuthor, cls).get_by_id(client, id)
 
@@ -929,7 +929,7 @@ class DepositionAuthor(Model):
             Get an DepositionAuthor by ID:
 
             >>> deposition_author = DepositionAuthor.get_by_id(client, 1)
-            >>> print(deposition_author.id)
+            >>> print(deposition_author.name)
         """
         return super(DepositionAuthor, cls).get_by_id(client, id)
 
@@ -1298,7 +1298,7 @@ class Run(Model):
             Get an Run by ID:
 
             >>> run = Run.get_by_id(client, 1)
-            >>> print(run.id)
+            >>> print(run.name)
         """
         return super(Run, cls).get_by_id(client, id)
 
@@ -1604,7 +1604,7 @@ class Tomogram(Model):
             Get an Tomogram by ID:
 
             >>> tomogram = Tomogram.get_by_id(client, 1)
-            >>> print(tomogram.id)
+            >>> print(tomogram.name)
         """
         return super(Tomogram, cls).get_by_id(client, id)
 
@@ -1719,7 +1719,7 @@ class TomogramAuthor(Model):
             Get an TomogramAuthor by ID:
 
             >>> tomogram_author = TomogramAuthor.get_by_id(client, 1)
-            >>> print(tomogram_author.id)
+            >>> print(tomogram_author.name)
         """
         return super(TomogramAuthor, cls).get_by_id(client, id)
 
