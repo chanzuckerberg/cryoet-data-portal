@@ -8,13 +8,15 @@ from __future__ import annotations
 
 import os
 from datetime import date
-from typing import List, Optional
+from typing import Iterable, List, Optional
 
+from cryoet_data_portal._client import Client
 from cryoet_data_portal._file_tools import download_directory, download_https
 from cryoet_data_portal._gql_base import (
     BooleanField,
     DateField,
     FloatField,
+    GQLExpression,
     IntField,
     ItemRelationship,
     ListField,
@@ -91,7 +93,11 @@ class Alignment(Model):
     is_portal_standard: bool = BooleanField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             >>> alignments = Alignment.find(client, query_filters=[Alignment.run.name == "TS_026"])
@@ -100,12 +106,12 @@ class Alignment(Model):
 
             >>> alignments = Alignment.find(client)
         """
-        return super(Alignment, cls).find(*args, **kwargs)
+        return super(Alignment, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an Alignment by ID:
@@ -113,7 +119,7 @@ class Alignment(Model):
             >>> alignment = Alignment.get_by_id(client, 1)
             >>> print(alignment.id)
         """
-        super(Alignment, cls).get_by_id(**kwargs)
+        return super(Alignment, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -197,7 +203,11 @@ class Annotation(Model):
     last_modified_date: date = DateField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             >>> annotations = Annotation.find(client, query_filters=[Annotation.run.name == "TS_026"])
@@ -206,12 +216,12 @@ class Annotation(Model):
 
             >>> annotations = Annotation.find(client)
         """
-        return super(Annotation, cls).find(*args, **kwargs)
+        return super(Annotation, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an Annotation by ID:
@@ -219,7 +229,7 @@ class Annotation(Model):
             >>> annotation = Annotation.get_by_id(client, 1)
             >>> print(annotation.id)
         """
-        super(Annotation, cls).get_by_id(**kwargs)
+        return super(Annotation, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -297,7 +307,11 @@ class AnnotationAuthor(Model):
     primary_author_status: bool = BooleanField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             >>> annotation_authors = AnnotationAuthor.find(client, query_filters=[AnnotationAuthor.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationAuthor.annotation.object_name.ilike('%membrane%')])
@@ -306,12 +320,12 @@ class AnnotationAuthor(Model):
 
             >>> annotation_authors = AnnotationAuthor.find(client)
         """
-        return super(AnnotationAuthor, cls).find(*args, **kwargs)
+        return super(AnnotationAuthor, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an AnnotationAuthor by ID:
@@ -319,7 +333,7 @@ class AnnotationAuthor(Model):
             >>> annotation_author = AnnotationAuthor.get_by_id(client, 1)
             >>> print(annotation_author.id)
         """
-        super(AnnotationAuthor, cls).get_by_id(**kwargs)
+        return super(AnnotationAuthor, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -369,7 +383,11 @@ class AnnotationFile(Model):
     source: str = StringField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
 
@@ -377,12 +395,12 @@ class AnnotationFile(Model):
 
             >>> annotation_files = AnnotationFile.find(client)
         """
-        return super(AnnotationFile, cls).find(*args, **kwargs)
+        return super(AnnotationFile, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an AnnotationFile by ID:
@@ -390,7 +408,7 @@ class AnnotationFile(Model):
             >>> annotation_file = AnnotationFile.get_by_id(client, 1)
             >>> print(annotation_file.id)
         """
-        super(AnnotationFile, cls).get_by_id(**kwargs)
+        return super(AnnotationFile, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -427,7 +445,11 @@ class AnnotationMethodLink(Model):
     link: str = StringField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             >>> annotation_method_links = AnnotationMethodLink.find(client, query_filters=[AnnotationMethodLink.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationMethodLink.annotation.object_name.ilike('%membrane%')])
@@ -436,12 +458,12 @@ class AnnotationMethodLink(Model):
 
             >>> annotation_method_links = AnnotationMethodLink.find(client)
         """
-        return super(AnnotationMethodLink, cls).find(*args, **kwargs)
+        return super(AnnotationMethodLink, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an AnnotationMethodLink by ID:
@@ -449,7 +471,7 @@ class AnnotationMethodLink(Model):
             >>> annotation_method_link = AnnotationMethodLink.get_by_id(client, 1)
             >>> print(annotation_method_link.id)
         """
-        super(AnnotationMethodLink, cls).get_by_id(**kwargs)
+        return super(AnnotationMethodLink, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -481,7 +503,11 @@ class AnnotationShape(Model):
     shape_type: str = StringField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             >>> annotation_shapes = AnnotationShape.find(client, query_filters=[AnnotationShape.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationShape.annotation.object_name.ilike('%membrane%')])
@@ -490,12 +516,12 @@ class AnnotationShape(Model):
 
             >>> annotation_shapes = AnnotationShape.find(client)
         """
-        return super(AnnotationShape, cls).find(*args, **kwargs)
+        return super(AnnotationShape, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an AnnotationShape by ID:
@@ -503,7 +529,7 @@ class AnnotationShape(Model):
             >>> annotation_shape = AnnotationShape.get_by_id(client, 1)
             >>> print(annotation_shape.id)
         """
-        super(AnnotationShape, cls).get_by_id(**kwargs)
+        return super(AnnotationShape, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -587,7 +613,11 @@ class Dataset(Model):
     https_prefix: str = StringField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
 
@@ -595,12 +625,12 @@ class Dataset(Model):
 
             >>> datasets = Dataset.find(client)
         """
-        return super(Dataset, cls).find(*args, **kwargs)
+        return super(Dataset, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an Dataset by ID:
@@ -608,7 +638,7 @@ class Dataset(Model):
             >>> dataset = Dataset.get_by_id(client, 1)
             >>> print(dataset.id)
         """
-        super(Dataset, cls).get_by_id(**kwargs)
+        return super(Dataset, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -659,7 +689,11 @@ class DatasetAuthor(Model):
     primary_author_status: bool = BooleanField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             Filter dataset authors by attributes, including attributes in related models:
@@ -670,12 +704,12 @@ class DatasetAuthor(Model):
 
             >>> dataset_authors = DatasetAuthor.find(client)
         """
-        return super(DatasetAuthor, cls).find(*args, **kwargs)
+        return super(DatasetAuthor, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an DatasetAuthor by ID:
@@ -683,7 +717,7 @@ class DatasetAuthor(Model):
             >>> dataset_author = DatasetAuthor.get_by_id(client, 1)
             >>> print(dataset_author.id)
         """
-        super(DatasetAuthor, cls).get_by_id(**kwargs)
+        return super(DatasetAuthor, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -711,7 +745,11 @@ class DatasetFunding(Model):
     grant_id: str = StringField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             Filter dataset fundings by attributes, including attributes in related models:
@@ -722,12 +760,12 @@ class DatasetFunding(Model):
 
             >>> dataset_fundings = DatasetFunding.find(client)
         """
-        return super(DatasetFunding, cls).find(*args, **kwargs)
+        return super(DatasetFunding, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an DatasetFunding by ID:
@@ -735,7 +773,7 @@ class DatasetFunding(Model):
             >>> dataset_funding = DatasetFunding.get_by_id(client, 1)
             >>> print(dataset_funding.id)
         """
-        super(DatasetFunding, cls).get_by_id(**kwargs)
+        return super(DatasetFunding, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -801,7 +839,11 @@ class Deposition(Model):
     key_photo_thumbnail_url: str = StringField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
 
@@ -809,12 +851,12 @@ class Deposition(Model):
 
             >>> depositions = Deposition.find(client)
         """
-        return super(Deposition, cls).find(*args, **kwargs)
+        return super(Deposition, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an Deposition by ID:
@@ -822,7 +864,7 @@ class Deposition(Model):
             >>> deposition = Deposition.get_by_id(client, 1)
             >>> print(deposition.id)
         """
-        super(Deposition, cls).get_by_id(**kwargs)
+        return super(Deposition, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -864,7 +906,11 @@ class DepositionAuthor(Model):
     primary_author_status: bool = BooleanField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
 
@@ -872,12 +918,12 @@ class DepositionAuthor(Model):
 
             >>> deposition_authors = DepositionAuthor.find(client)
         """
-        return super(DepositionAuthor, cls).find(*args, **kwargs)
+        return super(DepositionAuthor, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an DepositionAuthor by ID:
@@ -885,7 +931,7 @@ class DepositionAuthor(Model):
             >>> deposition_author = DepositionAuthor.get_by_id(client, 1)
             >>> print(deposition_author.id)
         """
-        super(DepositionAuthor, cls).get_by_id(**kwargs)
+        return super(DepositionAuthor, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -911,7 +957,11 @@ class DepositionType(Model):
     type: str = StringField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
 
@@ -919,12 +969,12 @@ class DepositionType(Model):
 
             >>> deposition_types = DepositionType.find(client)
         """
-        return super(DepositionType, cls).find(*args, **kwargs)
+        return super(DepositionType, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an DepositionType by ID:
@@ -932,7 +982,7 @@ class DepositionType(Model):
             >>> deposition_type = DepositionType.get_by_id(client, 1)
             >>> print(deposition_type.id)
         """
-        super(DepositionType, cls).get_by_id(**kwargs)
+        return super(DepositionType, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -972,7 +1022,11 @@ class Frame(Model):
     https_frame_path: str = StringField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             >>> frames = Frame.find(client, query_filters=[Frame.run.name == "TS_026"])
@@ -981,12 +1035,12 @@ class Frame(Model):
 
             >>> frames = Frame.find(client)
         """
-        return super(Frame, cls).find(*args, **kwargs)
+        return super(Frame, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an Frame by ID:
@@ -994,7 +1048,7 @@ class Frame(Model):
             >>> frame = Frame.get_by_id(client, 1)
             >>> print(frame.id)
         """
-        super(Frame, cls).get_by_id(**kwargs)
+        return super(Frame, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1022,7 +1076,11 @@ class FrameAcquisitionFile(Model):
     https_mdoc_path: str = StringField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             >>> frame_acquisition_files = FrameAcquisitionFile.find(client, query_filters=[FrameAcquisitionFile.run.name == "TS_026"])
@@ -1031,12 +1089,12 @@ class FrameAcquisitionFile(Model):
 
             >>> frame_acquisition_files = FrameAcquisitionFile.find(client)
         """
-        return super(FrameAcquisitionFile, cls).find(*args, **kwargs)
+        return super(FrameAcquisitionFile, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an FrameAcquisitionFile by ID:
@@ -1044,7 +1102,7 @@ class FrameAcquisitionFile(Model):
             >>> frame_acquisition_file = FrameAcquisitionFile.get_by_id(client, 1)
             >>> print(frame_acquisition_file.id)
         """
-        super(FrameAcquisitionFile, cls).get_by_id(**kwargs)
+        return super(FrameAcquisitionFile, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1072,7 +1130,11 @@ class GainFile(Model):
     https_file_path: str = StringField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             >>> gain_files = GainFile.find(client, query_filters=[GainFile.run.name == "TS_026"])
@@ -1081,12 +1143,12 @@ class GainFile(Model):
 
             >>> gain_files = GainFile.find(client)
         """
-        return super(GainFile, cls).find(*args, **kwargs)
+        return super(GainFile, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an GainFile by ID:
@@ -1094,7 +1156,7 @@ class GainFile(Model):
             >>> gain_file = GainFile.get_by_id(client, 1)
             >>> print(gain_file.id)
         """
-        super(GainFile, cls).get_by_id(**kwargs)
+        return super(GainFile, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1130,7 +1192,11 @@ class PerSectionAlignmentParameters(Model):
     tilt_angle: float = FloatField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
 
@@ -1138,12 +1204,12 @@ class PerSectionAlignmentParameters(Model):
 
             >>> per_section_alignment_parameters = PerSectionAlignmentParameters.find(client)
         """
-        return super(PerSectionAlignmentParameters, cls).find(*args, **kwargs)
+        return super(PerSectionAlignmentParameters, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an PerSectionAlignmentParameters by ID:
@@ -1151,7 +1217,7 @@ class PerSectionAlignmentParameters(Model):
             >>> per_section_alignment_parameters = PerSectionAlignmentParameters.get_by_id(client, 1)
             >>> print(per_section_alignment_parameters.id)
         """
-        super(PerSectionAlignmentParameters, cls).get_by_id(**kwargs)
+        return super(PerSectionAlignmentParameters, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1205,7 +1271,11 @@ class Run(Model):
     https_prefix: str = StringField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             Filter runs by attributes, including attributes in related models:
@@ -1217,12 +1287,12 @@ class Run(Model):
 
             >>> runs = Run.find(client)
         """
-        return super(Run, cls).find(*args, **kwargs)
+        return super(Run, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an Run by ID:
@@ -1230,7 +1300,7 @@ class Run(Model):
             >>> run = Run.get_by_id(client, 1)
             >>> print(run.id)
         """
-        super(Run, cls).get_by_id(**kwargs)
+        return super(Run, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1335,7 +1405,11 @@ class TiltSeries(Model):
     aligned_tiltseries_binning: int = IntField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             >>> tilt_series = TiltSeries.find(client, query_filters=[TiltSeries.run.name == "TS_026"])
@@ -1344,12 +1418,12 @@ class TiltSeries(Model):
 
             >>> tilt_series = TiltSeries.find(client)
         """
-        return super(TiltSeries, cls).find(*args, **kwargs)
+        return super(TiltSeries, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an TiltSeries by ID:
@@ -1357,7 +1431,7 @@ class TiltSeries(Model):
             >>> tilt_series = TiltSeries.get_by_id(client, 1)
             >>> print(tilt_series.id)
         """
-        super(TiltSeries, cls).get_by_id(**kwargs)
+        return super(TiltSeries, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1506,7 +1580,11 @@ class Tomogram(Model):
     last_modified_date: date = DateField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             >>> tomograms = Tomogram.find(client, query_filters=[Tomogram.run.name == "TS_026"])
@@ -1515,12 +1593,12 @@ class Tomogram(Model):
 
             >>> tomograms = Tomogram.find(client)
         """
-        return super(Tomogram, cls).find(*args, **kwargs)
+        return super(Tomogram, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an Tomogram by ID:
@@ -1528,7 +1606,7 @@ class Tomogram(Model):
             >>> tomogram = Tomogram.get_by_id(client, 1)
             >>> print(tomogram.id)
         """
-        super(Tomogram, cls).get_by_id(**kwargs)
+        return super(Tomogram, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1618,7 +1696,11 @@ class TomogramAuthor(Model):
     primary_author_status: bool = BooleanField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
 
@@ -1626,12 +1708,12 @@ class TomogramAuthor(Model):
 
             >>> tomogram_authors = TomogramAuthor.find(client)
         """
-        return super(TomogramAuthor, cls).find(*args, **kwargs)
+        return super(TomogramAuthor, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an TomogramAuthor by ID:
@@ -1639,7 +1721,7 @@ class TomogramAuthor(Model):
             >>> tomogram_author = TomogramAuthor.get_by_id(client, 1)
             >>> print(tomogram_author.id)
         """
-        super(TomogramAuthor, cls).get_by_id(**kwargs)
+        return super(TomogramAuthor, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1681,7 +1763,11 @@ class TomogramVoxelSpacing(Model):
     https_prefix: str = StringField()
 
     @classmethod
-    def find(cls, *args, **kwargs):
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
         """
         Examples:
             >>> tomogram_voxel_spacings = TomogramVoxelSpacing.find(client, query_filters=[TomogramVoxelSpacing.run.name == "TS_026"])
@@ -1690,12 +1776,12 @@ class TomogramVoxelSpacing(Model):
 
             >>> tomogram_voxel_spacings = TomogramVoxelSpacing.find(client)
         """
-        return super(TomogramVoxelSpacing, cls).find(*args, **kwargs)
+        return super(TomogramVoxelSpacing, cls).find(client, query_filters)
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, client: Client, id: int):
         """
         Examples:
             Get an TomogramVoxelSpacing by ID:
@@ -1703,7 +1789,7 @@ class TomogramVoxelSpacing(Model):
             >>> tomogram_voxel_spacing = TomogramVoxelSpacing.get_by_id(client, 1)
             >>> print(tomogram_voxel_spacing.id)
         """
-        super(TomogramVoxelSpacing, cls).get_by_id(**kwargs)
+        return super(TomogramVoxelSpacing, cls).get_by_id(client, id)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__

@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "1.36.0",
+  "version": "1.37.0",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm -r build",
@@ -21,7 +21,11 @@
   "pnpm": {
     "overrides": {
       "@babel/traverse": "^7.23.2",
-      "vite": "^4.5.3"
+      "cross-spawn": "^7.0.3",
+      "dset": "^3.1.4",
+      "rollup": "^3.29.5",
+      "vite": "^4.5.3",
+      "ws": "^7.5.10"
     }
   }
 }

@@ -15,6 +15,9 @@ on:
     paths:
       - 'frontend/**'
 
+permissions:
+  contents: read
+
 defaults:
   run:
     working-directory: frontend/
@@ -77,3 +80,13 @@ jobs:
 
           - name: tsc
             run: pnpm -r type-check
+
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
