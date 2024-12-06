@@ -2601,7 +2601,7 @@ annotations and related files and metadata from the portal.</p>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Alignment.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.Alignment.find" title="cryoet_data_portal.Alignment.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Alignment.find" title="cryoet_data_portal.Alignment.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Alignment.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Alignment.find.client" title="cryoet_data_portal.Alignment.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Alignment.find.query_filters" title="cryoet_data_portal.Alignment.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Alignment.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -2629,9 +2629,9 @@ annotations and related files and metadata from the portal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Alignment.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Alignment.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.Alignment.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.Alignment.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -2641,22 +2641,24 @@ annotations and related files and metadata from the portal.</p>
 </dl>
 <p class="example rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">alignments</span> <span class="o">=</span> <span class="n">Alignment</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Alignment</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">])</span>
-<span class="go">Get all results for this type:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">alignments</span> <span class="o">=</span> <span class="n">Alignment</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">alignments</span> <span class="o">=</span> <span class="n">Alignment</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Alignment.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Alignment.get_by_id" title="cryoet_data_portal.Alignment.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Alignment.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Alignment.get_by_id.client" title="cryoet_data_portal.Alignment.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Alignment.get_by_id.id" title="cryoet_data_portal.Alignment.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Alignment.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Alignment.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Alignment.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.Alignment.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.Alignment.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -2665,11 +2667,11 @@ annotations and related files and metadata from the portal.</p>
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an Alignment by ID:
-&gt;&gt;&gt; alignment = Alignment.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(alignment.name)</p>
-</div></blockquote>
+<p>Get an Alignment by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">alignment</span> <span class="o">=</span> <span class="n">Alignment</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">alignment</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -3015,7 +3017,7 @@ annotations and related files and metadata from the portal.</p>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Annotation.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.Annotation.find" title="cryoet_data_portal.Annotation.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Annotation.find" title="cryoet_data_portal.Annotation.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Annotation.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Annotation.find.client" title="cryoet_data_portal.Annotation.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Annotation.find.query_filters" title="cryoet_data_portal.Annotation.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Annotation.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -3043,9 +3045,9 @@ annotations and related files and metadata from the portal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Annotation.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Annotation.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.Annotation.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.Annotation.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -3055,22 +3057,24 @@ annotations and related files and metadata from the portal.</p>
 </dl>
 <p class="example rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotations</span> <span class="o">=</span> <span class="n">Annotation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Annotation</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">])</span>
-<span class="go">Get all results for this type:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">annotations</span> <span class="o">=</span> <span class="n">Annotation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotations</span> <span class="o">=</span> <span class="n">Annotation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Annotation.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Annotation.get_by_id" title="cryoet_data_portal.Annotation.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Annotation.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Annotation.get_by_id.client" title="cryoet_data_portal.Annotation.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Annotation.get_by_id.id" title="cryoet_data_portal.Annotation.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Annotation.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Annotation.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Annotation.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.Annotation.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.Annotation.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -3079,11 +3083,11 @@ annotations and related files and metadata from the portal.</p>
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an Annotation by ID:
-&gt;&gt;&gt; annotation = Annotation.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(annotation.name)</p>
-</div></blockquote>
+<p>Get an Annotation by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotation</span> <span class="o">=</span> <span class="n">Annotation</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -3232,7 +3236,7 @@ annotations and related files and metadata from the portal.</p>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.AnnotationAuthor.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.AnnotationAuthor.find" title="cryoet_data_portal.AnnotationAuthor.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.AnnotationAuthor.find" title="cryoet_data_portal.AnnotationAuthor.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationAuthor.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationAuthor.find.client" title="cryoet_data_portal.AnnotationAuthor.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationAuthor.find.query_filters" title="cryoet_data_portal.AnnotationAuthor.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationAuthor.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -3260,9 +3264,9 @@ annotations and related files and metadata from the portal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.AnnotationAuthor.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.AnnotationAuthor.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.AnnotationAuthor.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.AnnotationAuthor.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -3272,22 +3276,24 @@ annotations and related files and metadata from the portal.</p>
 </dl>
 <p class="example rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_authors</span> <span class="o">=</span> <span class="n">AnnotationAuthor</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">AnnotationAuthor</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">AnnotationAuthor</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
-<span class="go">Get all results for this type:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_authors</span> <span class="o">=</span> <span class="n">AnnotationAuthor</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_authors</span> <span class="o">=</span> <span class="n">AnnotationAuthor</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.AnnotationAuthor.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.AnnotationAuthor.get_by_id" title="cryoet_data_portal.AnnotationAuthor.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationAuthor.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationAuthor.get_by_id.client" title="cryoet_data_portal.AnnotationAuthor.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationAuthor.get_by_id.id" title="cryoet_data_portal.AnnotationAuthor.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationAuthor.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.AnnotationAuthor.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.AnnotationAuthor.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.AnnotationAuthor.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.AnnotationAuthor.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -3296,11 +3302,11 @@ annotations and related files and metadata from the portal.</p>
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an AnnotationAuthor by ID:
-&gt;&gt;&gt; annotation_author = AnnotationAuthor.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(annotation_author.name)</p>
-</div></blockquote>
+<p>Get an AnnotationAuthor by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_author</span> <span class="o">=</span> <span class="n">AnnotationAuthor</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">annotation_author</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -3449,7 +3455,7 @@ annotations and related files and metadata from the portal.</p>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.AnnotationFile.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.AnnotationFile.find" title="cryoet_data_portal.AnnotationFile.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.AnnotationFile.find" title="cryoet_data_portal.AnnotationFile.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationFile.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationFile.find.client" title="cryoet_data_portal.AnnotationFile.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationFile.find.query_filters" title="cryoet_data_portal.AnnotationFile.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationFile.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -3477,9 +3483,9 @@ annotations and related files and metadata from the portal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.AnnotationFile.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.AnnotationFile.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.AnnotationFile.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.AnnotationFile.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -3488,20 +3494,22 @@ annotations and related files and metadata from the portal.</p>
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get all results for this type:
-&gt;&gt;&gt; annotation_files = AnnotationFile.find(client)</p>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_files</span> <span class="o">=</span> <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.AnnotationFile.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.AnnotationFile.get_by_id" title="cryoet_data_portal.AnnotationFile.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationFile.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationFile.get_by_id.client" title="cryoet_data_portal.AnnotationFile.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationFile.get_by_id.id" title="cryoet_data_portal.AnnotationFile.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationFile.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.AnnotationFile.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.AnnotationFile.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.AnnotationFile.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.AnnotationFile.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -3510,11 +3518,11 @@ annotations and related files and metadata from the portal.</p>
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an AnnotationFile by ID:
-&gt;&gt;&gt; annotation_file = AnnotationFile.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(annotation_file.name)</p>
-</div></blockquote>
+<p>Get an AnnotationFile by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_file</span> <span class="o">=</span> <span class="n">AnnotationFile</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">annotation_file</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -3597,7 +3605,7 @@ annotations and related files and metadata from the portal.</p>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.AnnotationMethodLink.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.AnnotationMethodLink.find" title="cryoet_data_portal.AnnotationMethodLink.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.AnnotationMethodLink.find" title="cryoet_data_portal.AnnotationMethodLink.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationMethodLink.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationMethodLink.find.client" title="cryoet_data_portal.AnnotationMethodLink.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationMethodLink.find.query_filters" title="cryoet_data_portal.AnnotationMethodLink.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationMethodLink.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -3625,9 +3633,9 @@ annotations and related files and metadata from the portal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.AnnotationMethodLink.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.AnnotationMethodLink.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.AnnotationMethodLink.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.AnnotationMethodLink.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -3637,22 +3645,24 @@ annotations and related files and metadata from the portal.</p>
 </dl>
 <p class="example rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_method_links</span> <span class="o">=</span> <span class="n">AnnotationMethodLink</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">AnnotationMethodLink</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">AnnotationMethodLink</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
-<span class="go">Get all results for this type:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_method_links</span> <span class="o">=</span> <span class="n">AnnotationMethodLink</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_method_links</span> <span class="o">=</span> <span class="n">AnnotationMethodLink</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.AnnotationMethodLink.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.AnnotationMethodLink.get_by_id" title="cryoet_data_portal.AnnotationMethodLink.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationMethodLink.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationMethodLink.get_by_id.client" title="cryoet_data_portal.AnnotationMethodLink.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationMethodLink.get_by_id.id" title="cryoet_data_portal.AnnotationMethodLink.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationMethodLink.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.AnnotationMethodLink.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.AnnotationMethodLink.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.AnnotationMethodLink.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.AnnotationMethodLink.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -3661,11 +3671,11 @@ annotations and related files and metadata from the portal.</p>
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an AnnotationMethodLink by ID:
-&gt;&gt;&gt; annotation_method_link = AnnotationMethodLink.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(annotation_method_link.name)</p>
-</div></blockquote>
+<p>Get an AnnotationMethodLink by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_method_link</span> <span class="o">=</span> <span class="n">AnnotationMethodLink</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">annotation_method_link</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -3737,7 +3747,7 @@ annotations and related files and metadata from the portal.</p>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.AnnotationShape.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.AnnotationShape.find" title="cryoet_data_portal.AnnotationShape.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.AnnotationShape.find" title="cryoet_data_portal.AnnotationShape.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationShape.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationShape.find.client" title="cryoet_data_portal.AnnotationShape.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationShape.find.query_filters" title="cryoet_data_portal.AnnotationShape.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationShape.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -3765,9 +3775,9 @@ annotations and related files and metadata from the portal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.AnnotationShape.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.AnnotationShape.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.AnnotationShape.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.AnnotationShape.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -3777,22 +3787,24 @@ annotations and related files and metadata from the portal.</p>
 </dl>
 <p class="example rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_shapes</span> <span class="o">=</span> <span class="n">AnnotationShape</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">AnnotationShape</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">AnnotationShape</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
-<span class="go">Get all results for this type:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_shapes</span> <span class="o">=</span> <span class="n">AnnotationShape</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_shapes</span> <span class="o">=</span> <span class="n">AnnotationShape</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.AnnotationShape.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.AnnotationShape.get_by_id" title="cryoet_data_portal.AnnotationShape.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationShape.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationShape.get_by_id.client" title="cryoet_data_portal.AnnotationShape.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.AnnotationShape.get_by_id.id" title="cryoet_data_portal.AnnotationShape.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.AnnotationShape.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.AnnotationShape.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.AnnotationShape.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.AnnotationShape.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.AnnotationShape.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -3801,11 +3813,11 @@ annotations and related files and metadata from the portal.</p>
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an AnnotationShape by ID:
-&gt;&gt;&gt; annotation_shape = AnnotationShape.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(annotation_shape.name)</p>
-</div></blockquote>
+<p>Get an AnnotationShape by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">annotation_shape</span> <span class="o">=</span> <span class="n">AnnotationShape</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">annotation_shape</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -4199,7 +4211,7 @@ annotations and related files and metadata from the portal.</p>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Dataset.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.Dataset.find" title="cryoet_data_portal.Dataset.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Dataset.find" title="cryoet_data_portal.Dataset.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Dataset.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Dataset.find.client" title="cryoet_data_portal.Dataset.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Dataset.find.query_filters" title="cryoet_data_portal.Dataset.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Dataset.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -4227,9 +4239,9 @@ annotations and related files and metadata from the portal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Dataset.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Dataset.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.Dataset.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.Dataset.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -4238,20 +4250,22 @@ annotations and related files and metadata from the portal.</p>
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get all results for this type:
-&gt;&gt;&gt; datasets = Dataset.find(client)</p>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">datasets</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Dataset.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Dataset.get_by_id" title="cryoet_data_portal.Dataset.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Dataset.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Dataset.get_by_id.client" title="cryoet_data_portal.Dataset.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Dataset.get_by_id.id" title="cryoet_data_portal.Dataset.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Dataset.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Dataset.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Dataset.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.Dataset.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.Dataset.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -4260,11 +4274,11 @@ annotations and related files and metadata from the portal.</p>
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an Dataset by ID:
-&gt;&gt;&gt; dataset = Dataset.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(dataset.name)</p>
-</div></blockquote>
+<p>Get an Dataset by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -4413,7 +4427,7 @@ annotations and related files and metadata from the portal.</p>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.DatasetAuthor.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.DatasetAuthor.find" title="cryoet_data_portal.DatasetAuthor.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.DatasetAuthor.find" title="cryoet_data_portal.DatasetAuthor.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DatasetAuthor.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DatasetAuthor.find.client" title="cryoet_data_portal.DatasetAuthor.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DatasetAuthor.find.query_filters" title="cryoet_data_portal.DatasetAuthor.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DatasetAuthor.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -4441,9 +4455,9 @@ annotations and related files and metadata from the portal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.DatasetAuthor.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.DatasetAuthor.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.DatasetAuthor.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.DatasetAuthor.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -4452,22 +4466,26 @@ annotations and related files and metadata from the portal.</p>
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Filter dataset authors by attributes, including attributes in related models:
-&gt;&gt;&gt; dataset_authors = DatasetAuthor.find(client, query_filters=[DatasetAuthor.name == “TS_026”, DatasetAuthor.dataset.id == 10000])
-Get all results for this type:
-&gt;&gt;&gt; dataset_authors = DatasetAuthor.find(client)</p>
+<p>Filter dataset authors by attributes, including attributes in related models:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset_authors</span> <span class="o">=</span> <span class="n">DatasetAuthor</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">DatasetAuthor</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span> <span class="n">DatasetAuthor</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset_authors</span> <span class="o">=</span> <span class="n">DatasetAuthor</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.DatasetAuthor.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.DatasetAuthor.get_by_id" title="cryoet_data_portal.DatasetAuthor.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DatasetAuthor.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DatasetAuthor.get_by_id.client" title="cryoet_data_portal.DatasetAuthor.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DatasetAuthor.get_by_id.id" title="cryoet_data_portal.DatasetAuthor.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DatasetAuthor.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.DatasetAuthor.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.DatasetAuthor.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.DatasetAuthor.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.DatasetAuthor.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -4476,11 +4494,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an DatasetAuthor by ID:
-&gt;&gt;&gt; dataset_author = DatasetAuthor.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(dataset_author.name)</p>
-</div></blockquote>
+<p>Get an DatasetAuthor by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset_author</span> <span class="o">=</span> <span class="n">DatasetAuthor</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dataset_author</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -4552,7 +4570,7 @@ Get all results for this type:
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.DatasetFunding.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.DatasetFunding.find" title="cryoet_data_portal.DatasetFunding.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.DatasetFunding.find" title="cryoet_data_portal.DatasetFunding.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DatasetFunding.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DatasetFunding.find.client" title="cryoet_data_portal.DatasetFunding.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DatasetFunding.find.query_filters" title="cryoet_data_portal.DatasetFunding.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DatasetFunding.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -4580,9 +4598,9 @@ Get all results for this type:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.DatasetFunding.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.DatasetFunding.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.DatasetFunding.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.DatasetFunding.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -4591,22 +4609,26 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Filter dataset fundings by attributes, including attributes in related models:
-&gt;&gt;&gt; dataset_fundings = DatasetFunding.find(client, query_filters=[DatasetFunding.dataset.id == 10000])
-Get all results for this type:
-&gt;&gt;&gt; dataset_fundings = DatasetFunding.find(client)</p>
+<p>Filter dataset fundings by attributes, including attributes in related models:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset_fundings</span> <span class="o">=</span> <span class="n">DatasetFunding</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">DatasetFunding</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset_fundings</span> <span class="o">=</span> <span class="n">DatasetFunding</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.DatasetFunding.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.DatasetFunding.get_by_id" title="cryoet_data_portal.DatasetFunding.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DatasetFunding.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DatasetFunding.get_by_id.client" title="cryoet_data_portal.DatasetFunding.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DatasetFunding.get_by_id.id" title="cryoet_data_portal.DatasetFunding.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DatasetFunding.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.DatasetFunding.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.DatasetFunding.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.DatasetFunding.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.DatasetFunding.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -4615,11 +4637,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an DatasetFunding by ID:
-&gt;&gt;&gt; dataset_funding = DatasetFunding.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(dataset_funding.name)</p>
-</div></blockquote>
+<p>Get an DatasetFunding by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset_funding</span> <span class="o">=</span> <span class="n">DatasetFunding</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dataset_funding</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -4834,7 +4856,7 @@ Get all results for this type:
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Deposition.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.Deposition.find" title="cryoet_data_portal.Deposition.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Deposition.find" title="cryoet_data_portal.Deposition.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Deposition.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Deposition.find.client" title="cryoet_data_portal.Deposition.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Deposition.find.query_filters" title="cryoet_data_portal.Deposition.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Deposition.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -4862,9 +4884,9 @@ Get all results for this type:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Deposition.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Deposition.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.Deposition.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.Deposition.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -4873,20 +4895,22 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get all results for this type:
-&gt;&gt;&gt; depositions = Deposition.find(client)</p>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">depositions</span> <span class="o">=</span> <span class="n">Deposition</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Deposition.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Deposition.get_by_id" title="cryoet_data_portal.Deposition.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Deposition.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Deposition.get_by_id.client" title="cryoet_data_portal.Deposition.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Deposition.get_by_id.id" title="cryoet_data_portal.Deposition.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Deposition.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Deposition.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Deposition.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.Deposition.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.Deposition.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -4895,11 +4919,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an Deposition by ID:
-&gt;&gt;&gt; deposition = Deposition.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(deposition.name)</p>
-</div></blockquote>
+<p>Get an Deposition by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">deposition</span> <span class="o">=</span> <span class="n">Deposition</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">deposition</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -5048,7 +5072,7 @@ Get all results for this type:
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.DepositionAuthor.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.DepositionAuthor.find" title="cryoet_data_portal.DepositionAuthor.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.DepositionAuthor.find" title="cryoet_data_portal.DepositionAuthor.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DepositionAuthor.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DepositionAuthor.find.client" title="cryoet_data_portal.DepositionAuthor.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DepositionAuthor.find.query_filters" title="cryoet_data_portal.DepositionAuthor.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DepositionAuthor.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -5076,9 +5100,9 @@ Get all results for this type:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.DepositionAuthor.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.DepositionAuthor.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.DepositionAuthor.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.DepositionAuthor.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -5087,20 +5111,22 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get all results for this type:
-&gt;&gt;&gt; deposition_authors = DepositionAuthor.find(client)</p>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">deposition_authors</span> <span class="o">=</span> <span class="n">DepositionAuthor</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.DepositionAuthor.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.DepositionAuthor.get_by_id" title="cryoet_data_portal.DepositionAuthor.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DepositionAuthor.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DepositionAuthor.get_by_id.client" title="cryoet_data_portal.DepositionAuthor.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DepositionAuthor.get_by_id.id" title="cryoet_data_portal.DepositionAuthor.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DepositionAuthor.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.DepositionAuthor.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.DepositionAuthor.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.DepositionAuthor.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.DepositionAuthor.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -5109,11 +5135,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an DepositionAuthor by ID:
-&gt;&gt;&gt; deposition_author = DepositionAuthor.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(deposition_author.name)</p>
-</div></blockquote>
+<p>Get an DepositionAuthor by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">deposition_author</span> <span class="o">=</span> <span class="n">DepositionAuthor</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">deposition_author</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -5174,7 +5200,7 @@ Get all results for this type:
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.DepositionType.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.DepositionType.find" title="cryoet_data_portal.DepositionType.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.DepositionType.find" title="cryoet_data_portal.DepositionType.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DepositionType.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DepositionType.find.client" title="cryoet_data_portal.DepositionType.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DepositionType.find.query_filters" title="cryoet_data_portal.DepositionType.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DepositionType.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -5202,9 +5228,9 @@ Get all results for this type:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.DepositionType.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.DepositionType.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.DepositionType.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.DepositionType.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -5213,20 +5239,22 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get all results for this type:
-&gt;&gt;&gt; deposition_types = DepositionType.find(client)</p>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">deposition_types</span> <span class="o">=</span> <span class="n">DepositionType</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.DepositionType.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.DepositionType.get_by_id" title="cryoet_data_portal.DepositionType.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DepositionType.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DepositionType.get_by_id.client" title="cryoet_data_portal.DepositionType.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.DepositionType.get_by_id.id" title="cryoet_data_portal.DepositionType.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.DepositionType.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.DepositionType.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.DepositionType.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.DepositionType.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.DepositionType.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -5235,11 +5263,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an DepositionType by ID:
-&gt;&gt;&gt; deposition_type = DepositionType.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(deposition_type.name)</p>
-</div></blockquote>
+<p>Get an DepositionType by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">deposition_type</span> <span class="o">=</span> <span class="n">DepositionType</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">deposition_type</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -5377,7 +5405,7 @@ Get all results for this type:
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Frame.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.Frame.find" title="cryoet_data_portal.Frame.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Frame.find" title="cryoet_data_portal.Frame.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Frame.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Frame.find.client" title="cryoet_data_portal.Frame.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Frame.find.query_filters" title="cryoet_data_portal.Frame.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Frame.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -5405,9 +5433,9 @@ Get all results for this type:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Frame.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Frame.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.Frame.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.Frame.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -5417,22 +5445,24 @@ Get all results for this type:
 </dl>
 <p class="example rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">frames</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Frame</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">])</span>
-<span class="go">Get all results for this type:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frames</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">frames</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Frame.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Frame.get_by_id" title="cryoet_data_portal.Frame.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Frame.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Frame.get_by_id.client" title="cryoet_data_portal.Frame.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Frame.get_by_id.id" title="cryoet_data_portal.Frame.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Frame.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Frame.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Frame.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.Frame.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.Frame.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -5441,11 +5471,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an Frame by ID:
-&gt;&gt;&gt; frame = Frame.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(frame.name)</p>
-</div></blockquote>
+<p>Get an Frame by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -5517,7 +5547,7 @@ Get all results for this type:
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.FrameAcquisitionFile.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.FrameAcquisitionFile.find" title="cryoet_data_portal.FrameAcquisitionFile.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.FrameAcquisitionFile.find" title="cryoet_data_portal.FrameAcquisitionFile.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.FrameAcquisitionFile.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.FrameAcquisitionFile.find.client" title="cryoet_data_portal.FrameAcquisitionFile.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.FrameAcquisitionFile.find.query_filters" title="cryoet_data_portal.FrameAcquisitionFile.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.FrameAcquisitionFile.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -5545,9 +5575,9 @@ Get all results for this type:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.FrameAcquisitionFile.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.FrameAcquisitionFile.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.FrameAcquisitionFile.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.FrameAcquisitionFile.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -5557,22 +5587,24 @@ Get all results for this type:
 </dl>
 <p class="example rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">frame_acquisition_files</span> <span class="o">=</span> <span class="n">FrameAcquisitionFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">FrameAcquisitionFile</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">])</span>
-<span class="go">Get all results for this type:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame_acquisition_files</span> <span class="o">=</span> <span class="n">FrameAcquisitionFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">frame_acquisition_files</span> <span class="o">=</span> <span class="n">FrameAcquisitionFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.FrameAcquisitionFile.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.FrameAcquisitionFile.get_by_id" title="cryoet_data_portal.FrameAcquisitionFile.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.FrameAcquisitionFile.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.FrameAcquisitionFile.get_by_id.client" title="cryoet_data_portal.FrameAcquisitionFile.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.FrameAcquisitionFile.get_by_id.id" title="cryoet_data_portal.FrameAcquisitionFile.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.FrameAcquisitionFile.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.FrameAcquisitionFile.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.FrameAcquisitionFile.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.FrameAcquisitionFile.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.FrameAcquisitionFile.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -5581,11 +5613,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an FrameAcquisitionFile by ID:
-&gt;&gt;&gt; frame_acquisition_file = FrameAcquisitionFile.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(frame_acquisition_file.name)</p>
-</div></blockquote>
+<p>Get an FrameAcquisitionFile by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">frame_acquisition_file</span> <span class="o">=</span> <span class="n">FrameAcquisitionFile</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">frame_acquisition_file</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -5657,7 +5689,7 @@ Get all results for this type:
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.GainFile.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.GainFile.find" title="cryoet_data_portal.GainFile.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.GainFile.find" title="cryoet_data_portal.GainFile.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.GainFile.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.GainFile.find.client" title="cryoet_data_portal.GainFile.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.GainFile.find.query_filters" title="cryoet_data_portal.GainFile.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.GainFile.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -5685,9 +5717,9 @@ Get all results for this type:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.GainFile.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.GainFile.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.GainFile.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.GainFile.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -5697,22 +5729,24 @@ Get all results for this type:
 </dl>
 <p class="example rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">gain_files</span> <span class="o">=</span> <span class="n">GainFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">GainFile</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">])</span>
-<span class="go">Get all results for this type:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gain_files</span> <span class="o">=</span> <span class="n">GainFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">gain_files</span> <span class="o">=</span> <span class="n">GainFile</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.GainFile.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.GainFile.get_by_id" title="cryoet_data_portal.GainFile.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.GainFile.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.GainFile.get_by_id.client" title="cryoet_data_portal.GainFile.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.GainFile.get_by_id.id" title="cryoet_data_portal.GainFile.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.GainFile.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.GainFile.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.GainFile.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.GainFile.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.GainFile.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -5721,11 +5755,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an GainFile by ID:
-&gt;&gt;&gt; gain_file = GainFile.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(gain_file.name)</p>
-</div></blockquote>
+<p>Get an GainFile by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">gain_file</span> <span class="o">=</span> <span class="n">GainFile</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">gain_file</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -5841,7 +5875,7 @@ Get all results for this type:
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.PerSectionAlignmentParameters.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.PerSectionAlignmentParameters.find" title="cryoet_data_portal.PerSectionAlignmentParameters.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.PerSectionAlignmentParameters.find" title="cryoet_data_portal.PerSectionAlignmentParameters.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.PerSectionAlignmentParameters.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.PerSectionAlignmentParameters.find.client" title="cryoet_data_portal.PerSectionAlignmentParameters.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.PerSectionAlignmentParameters.find.query_filters" title="cryoet_data_portal.PerSectionAlignmentParameters.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.PerSectionAlignmentParameters.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -5869,9 +5903,9 @@ Get all results for this type:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.PerSectionAlignmentParameters.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.PerSectionAlignmentParameters.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.PerSectionAlignmentParameters.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.PerSectionAlignmentParameters.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -5880,20 +5914,22 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get all results for this type:
-&gt;&gt;&gt; per_section_alignment_parameters = PerSectionAlignmentParameters.find(client)</p>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">per_section_alignment_parameters</span> <span class="o">=</span> <span class="n">PerSectionAlignmentParameters</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.PerSectionAlignmentParameters.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.PerSectionAlignmentParameters.get_by_id" title="cryoet_data_portal.PerSectionAlignmentParameters.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.PerSectionAlignmentParameters.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.PerSectionAlignmentParameters.get_by_id.client" title="cryoet_data_portal.PerSectionAlignmentParameters.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.PerSectionAlignmentParameters.get_by_id.id" title="cryoet_data_portal.PerSectionAlignmentParameters.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.PerSectionAlignmentParameters.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.PerSectionAlignmentParameters.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.PerSectionAlignmentParameters.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.PerSectionAlignmentParameters.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.PerSectionAlignmentParameters.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -5902,11 +5938,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an PerSectionAlignmentParameters by ID:
-&gt;&gt;&gt; per_section_alignment_parameters = PerSectionAlignmentParameters.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(per_section_alignment_parameters.name)</p>
-</div></blockquote>
+<p>Get an PerSectionAlignmentParameters by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">per_section_alignment_parameters</span> <span class="o">=</span> <span class="n">PerSectionAlignmentParameters</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">per_section_alignment_parameters</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -6091,7 +6127,7 @@ Get all results for this type:
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Run.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.Run.find" title="cryoet_data_portal.Run.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Run.find" title="cryoet_data_portal.Run.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Run.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Run.find.client" title="cryoet_data_portal.Run.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Run.find.query_filters" title="cryoet_data_portal.Run.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Run.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -6119,9 +6155,9 @@ Get all results for this type:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Run.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Run.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.Run.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.Run.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -6130,23 +6166,27 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Filter runs by attributes, including attributes in related models:
-&gt;&gt;&gt; runs = Run.find(client, query_filters=[Run.name == “TS_026”, Run.dataset.id == 10000])
-&gt;&gt;&gt; runs = Run.find(client, query_filters=[Run.name._in([‘TS_026’, ‘TS_027’]), Run.annotations.object_name.ilike(‘%membrane%’)])
-Get all results for this type:
-&gt;&gt;&gt; runs = Run.find(client)</p>
+<p>Filter runs by attributes, including attributes in related models:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">,</span> <span class="n">Run</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">_in</span><span class="p">([</span><span class="s1">&#39;TS_026&#39;</span><span class="p">,</span> <span class="s1">&#39;TS_027&#39;</span><span class="p">]),</span> <span class="n">Run</span><span class="o">.</span><span class="n">annotations</span><span class="o">.</span><span class="n">object_name</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="s1">&#39;%membrane%&#39;</span><span class="p">)])</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Run.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Run.get_by_id" title="cryoet_data_portal.Run.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Run.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Run.get_by_id.client" title="cryoet_data_portal.Run.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Run.get_by_id.id" title="cryoet_data_portal.Run.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Run.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Run.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Run.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.Run.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.Run.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -6155,11 +6195,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an Run by ID:
-&gt;&gt;&gt; run = Run.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(run.name)</p>
-</div></blockquote>
+<p>Get an Run by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">run</span> <span class="o">=</span> <span class="n">Run</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -6628,7 +6668,7 @@ Get all results for this type:
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.TiltSeries.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.TiltSeries.find" title="cryoet_data_portal.TiltSeries.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.TiltSeries.find" title="cryoet_data_portal.TiltSeries.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.TiltSeries.find.client" title="cryoet_data_portal.TiltSeries.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.TiltSeries.find.query_filters" title="cryoet_data_portal.TiltSeries.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -6656,9 +6696,9 @@ Get all results for this type:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.TiltSeries.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.TiltSeries.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.TiltSeries.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -6668,22 +6708,24 @@ Get all results for this type:
 </dl>
 <p class="example rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">tilt_series</span> <span class="o">=</span> <span class="n">TiltSeries</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">TiltSeries</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">])</span>
-<span class="go">Get all results for this type:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tilt_series</span> <span class="o">=</span> <span class="n">TiltSeries</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">tilt_series</span> <span class="o">=</span> <span class="n">TiltSeries</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.TiltSeries.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.TiltSeries.get_by_id" title="cryoet_data_portal.TiltSeries.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.TiltSeries.get_by_id.client" title="cryoet_data_portal.TiltSeries.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.TiltSeries.get_by_id.id" title="cryoet_data_portal.TiltSeries.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.TiltSeries.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.TiltSeries.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.TiltSeries.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -6692,11 +6734,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an TiltSeries by ID:
-&gt;&gt;&gt; tilt_series = TiltSeries.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(tilt_series.name)</p>
-</div></blockquote>
+<p>Get an TiltSeries by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">tilt_series</span> <span class="o">=</span> <span class="n">TiltSeries</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tilt_series</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -7232,7 +7274,7 @@ Get all results for this type:
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Tomogram.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.Tomogram.find" title="cryoet_data_portal.Tomogram.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Tomogram.find" title="cryoet_data_portal.Tomogram.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Tomogram.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Tomogram.find.client" title="cryoet_data_portal.Tomogram.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Tomogram.find.query_filters" title="cryoet_data_portal.Tomogram.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Tomogram.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -7260,9 +7302,9 @@ Get all results for this type:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Tomogram.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Tomogram.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.Tomogram.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.Tomogram.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -7272,22 +7314,24 @@ Get all results for this type:
 </dl>
 <p class="example rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">tomograms</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">Tomogram</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">])</span>
-<span class="go">Get all results for this type:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tomograms</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">tomograms</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.Tomogram.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.Tomogram.get_by_id" title="cryoet_data_portal.Tomogram.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Tomogram.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Tomogram.get_by_id.client" title="cryoet_data_portal.Tomogram.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.Tomogram.get_by_id.id" title="cryoet_data_portal.Tomogram.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.Tomogram.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.Tomogram.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.Tomogram.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.Tomogram.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.Tomogram.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -7296,11 +7340,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an Tomogram by ID:
-&gt;&gt;&gt; tomogram = Tomogram.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(tomogram.name)</p>
-</div></blockquote>
+<p>Get an Tomogram by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">tomogram</span> <span class="o">=</span> <span class="n">Tomogram</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tomogram</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -7449,7 +7493,7 @@ Get all results for this type:
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.TomogramAuthor.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.TomogramAuthor.find" title="cryoet_data_portal.TomogramAuthor.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.TomogramAuthor.find" title="cryoet_data_portal.TomogramAuthor.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TomogramAuthor.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.TomogramAuthor.find.client" title="cryoet_data_portal.TomogramAuthor.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.TomogramAuthor.find.query_filters" title="cryoet_data_portal.TomogramAuthor.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TomogramAuthor.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -7477,9 +7521,9 @@ Get all results for this type:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.TomogramAuthor.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.TomogramAuthor.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.TomogramAuthor.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.TomogramAuthor.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -7488,20 +7532,22 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get all results for this type:
-&gt;&gt;&gt; tomogram_authors = TomogramAuthor.find(client)</p>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">tomogram_authors</span> <span class="o">=</span> <span class="n">TomogramAuthor</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.TomogramAuthor.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.TomogramAuthor.get_by_id" title="cryoet_data_portal.TomogramAuthor.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TomogramAuthor.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.TomogramAuthor.get_by_id.client" title="cryoet_data_portal.TomogramAuthor.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.TomogramAuthor.get_by_id.id" title="cryoet_data_portal.TomogramAuthor.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TomogramAuthor.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.TomogramAuthor.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.TomogramAuthor.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.TomogramAuthor.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.TomogramAuthor.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -7510,11 +7556,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an TomogramAuthor by ID:
-&gt;&gt;&gt; tomogram_author = TomogramAuthor.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(tomogram_author.name)</p>
-</div></blockquote>
+<p>Get an TomogramAuthor by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">tomogram_author</span> <span class="o">=</span> <span class="n">TomogramAuthor</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tomogram_author</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
@@ -7633,7 +7679,7 @@ Get all results for this type:
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.TomogramVoxelSpacing.find">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><a class="n reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.find" title="cryoet_data_portal.TomogramVoxelSpacing.find.args (Python parameter)"><span class="n"><span class="pre">args</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.find" title="cryoet_data_portal.TomogramVoxelSpacing.find.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.find" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.find.client" title="cryoet_data_portal.TomogramVoxelSpacing.find.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.find.query_filters" title="cryoet_data_portal.TomogramVoxelSpacing.find.query_filters (Python parameter) — A set of expressions that narrow down the search results"><span class="n"><span class="pre">query_filters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects based on a set of search filters.</p>
 <p>Search filters are combined with <em>and</em> so all results will match all filters.</p>
 <p>Expressions with python-native operators (<code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>) must be in the format:</p>
@@ -7661,9 +7707,9 @@ Get all results for this type:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.TomogramVoxelSpacing.find.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.find.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">query_filters</span></dt><dd><p>A set of expressions that narrow down the search results</p>
+<dt id="cryoet_data_portal.TomogramVoxelSpacing.find.query_filters"><span class="n sig-name">query_filters</span><span class="o">=</span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.find.query_filters" title="Permalink to this definition">¶</a></dt><dd><p>A set of expressions that narrow down the search results</p>
 </dd>
 </dl>
 </dd>
@@ -7673,22 +7719,24 @@ Get all results for this type:
 </dl>
 <p class="example rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">tomogram_voxel_spacings</span> <span class="o">=</span> <span class="n">TomogramVoxelSpacing</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query_filters</span><span class="o">=</span><span class="p">[</span><span class="n">TomogramVoxelSpacing</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS_026&quot;</span><span class="p">])</span>
-<span class="go">Get all results for this type:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tomogram_voxel_spacings</span> <span class="o">=</span> <span class="n">TomogramVoxelSpacing</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p>Get all results for this type:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">tomogram_voxel_spacings</span> <span class="o">=</span> <span class="n">TomogramVoxelSpacing</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </code></pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method objdesc">
 <dt class="sig sig-object highlight py" id="cryoet_data_portal.TomogramVoxelSpacing.get_by_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.get_by_id" title="cryoet_data_portal.TomogramVoxelSpacing.get_by_id.kwargs (Python parameter)"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.get_by_id" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_id</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.get_by_id.client" title="cryoet_data_portal.TomogramVoxelSpacing.get_by_id.client (Python parameter) — A CryoET Portal API Client"><span class="n"><span class="pre">client</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#cryoet_data_portal.TomogramVoxelSpacing.get_by_id.id" title="cryoet_data_portal.TomogramVoxelSpacing.get_by_id.id (Python parameter) — Unique identifier for the object"><span class="n"><span class="pre">id</span></span></a></em></span><span class="sig-paren">)</span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.get_by_id" title="Link to this definition">¶</a></dt>
 <dd><p>Find objects by primary key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
-<dt><span class="sig-name descname">client</span></dt><dd><p>A CryoET Portal API Client</p>
+<dt id="cryoet_data_portal.TomogramVoxelSpacing.get_by_id.client"><span class="n sig-name">client</span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.get_by_id.client" title="Permalink to this definition">¶</a></dt><dd><p>A CryoET Portal API Client</p>
 </dd>
-<dt><span class="sig-name descname">id</span></dt><dd><p>Unique identifier for the object</p>
+<dt id="cryoet_data_portal.TomogramVoxelSpacing.get_by_id.id"><span class="n sig-name">id</span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing.get_by_id.id" title="Permalink to this definition">¶</a></dt><dd><p>Unique identifier for the object</p>
 </dd>
 </dl>
 </dd>
@@ -7697,11 +7745,11 @@ Get all results for this type:
 </dd>
 </dl>
 <p class="example rubric">Examples</p>
-<p>Get an TomogramVoxelSpacing by ID:
-&gt;&gt;&gt; tomogram_voxel_spacing = TomogramVoxelSpacing.get_by_id(client, 1)</p>
-<blockquote>
-<div><p>print(tomogram_voxel_spacing.name)</p>
-</div></blockquote>
+<p>Get an TomogramVoxelSpacing by ID:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">tomogram_voxel_spacing</span> <span class="o">=</span> <span class="n">TomogramVoxelSpacing</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tomogram_voxel_spacing</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method objdesc">
