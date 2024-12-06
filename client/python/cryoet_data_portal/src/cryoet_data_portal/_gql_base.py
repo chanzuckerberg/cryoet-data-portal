@@ -1,5 +1,7 @@
 import functools
-from datetime import datetime
+import json
+import logging
+from datetime import date, datetime
 from importlib import import_module
 from typing import Any, Dict, Iterable, Optional
 
@@ -214,6 +216,17 @@ class Model:
     def to_dict(self) -> Dict[str, Any]:
         """Return a dictionary representation of this object's attributes"""
         return {k: getattr(self, k) for k in self._get_scalar_fields()}
+
+    def _serialize_datetime(self, value):
+        if isinstance(value, (datetime, date)):
+            return value.isoformat()
+        raise TypeError("Unknown type")
+
+    def print_json(self) -> None:
+        """Prints a JSON representation of this object's scalar attributes"""
+        logging.info(
+            json.dumps(self.to_dict(), indent=2, default=self._serialize_datetime),
+        )
 
     @classmethod
     @functools.lru_cache(maxsize=32)
