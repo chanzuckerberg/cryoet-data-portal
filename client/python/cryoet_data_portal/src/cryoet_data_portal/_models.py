@@ -103,14 +103,14 @@ class Alignment(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an Alignment by ID:
             >>> alignment = Alignment.get_by_id(client, 1)
                 print(alignment.name)
         """
-        super(Alignment, cls).get_by_id(**kwargs)
+        return super(Alignment, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -206,14 +206,14 @@ class Annotation(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an Annotation by ID:
             >>> annotation = Annotation.get_by_id(client, 1)
                 print(annotation.name)
         """
-        super(Annotation, cls).get_by_id(**kwargs)
+        return super(Annotation, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -303,14 +303,14 @@ class AnnotationAuthor(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an AnnotationAuthor by ID:
             >>> annotation_author = AnnotationAuthor.get_by_id(client, 1)
                 print(annotation_author.name)
         """
-        super(AnnotationAuthor, cls).get_by_id(**kwargs)
+        return super(AnnotationAuthor, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -371,14 +371,14 @@ class AnnotationFile(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an AnnotationFile by ID:
             >>> annotation_file = AnnotationFile.get_by_id(client, 1)
                 print(annotation_file.name)
         """
-        super(AnnotationFile, cls).get_by_id(**kwargs)
+        return super(AnnotationFile, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -427,14 +427,14 @@ class AnnotationMethodLink(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an AnnotationMethodLink by ID:
             >>> annotation_method_link = AnnotationMethodLink.get_by_id(client, 1)
                 print(annotation_method_link.name)
         """
-        super(AnnotationMethodLink, cls).get_by_id(**kwargs)
+        return super(AnnotationMethodLink, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -478,14 +478,14 @@ class AnnotationShape(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an AnnotationShape by ID:
             >>> annotation_shape = AnnotationShape.get_by_id(client, 1)
                 print(annotation_shape.name)
         """
-        super(AnnotationShape, cls).get_by_id(**kwargs)
+        return super(AnnotationShape, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -580,14 +580,14 @@ class Dataset(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an Dataset by ID:
             >>> dataset = Dataset.get_by_id(client, 1)
                 print(dataset.name)
         """
-        super(Dataset, cls).get_by_id(**kwargs)
+        return super(Dataset, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -651,14 +651,14 @@ class DatasetAuthor(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an DatasetAuthor by ID:
             >>> dataset_author = DatasetAuthor.get_by_id(client, 1)
                 print(dataset_author.name)
         """
-        super(DatasetAuthor, cls).get_by_id(**kwargs)
+        return super(DatasetAuthor, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -699,14 +699,14 @@ class DatasetFunding(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an DatasetFunding by ID:
             >>> dataset_funding = DatasetFunding.get_by_id(client, 1)
                 print(dataset_funding.name)
         """
-        super(DatasetFunding, cls).get_by_id(**kwargs)
+        return super(DatasetFunding, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -783,14 +783,14 @@ class Deposition(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an Deposition by ID:
             >>> deposition = Deposition.get_by_id(client, 1)
                 print(deposition.name)
         """
-        super(Deposition, cls).get_by_id(**kwargs)
+        return super(Deposition, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -843,14 +843,14 @@ class DepositionAuthor(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an DepositionAuthor by ID:
             >>> deposition_author = DepositionAuthor.get_by_id(client, 1)
                 print(deposition_author.name)
         """
-        super(DepositionAuthor, cls).get_by_id(**kwargs)
+        return super(DepositionAuthor, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -887,14 +887,14 @@ class DepositionType(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an DepositionType by ID:
             >>> deposition_type = DepositionType.get_by_id(client, 1)
                 print(deposition_type.name)
         """
-        super(DepositionType, cls).get_by_id(**kwargs)
+        return super(DepositionType, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -946,14 +946,14 @@ class Frame(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an Frame by ID:
             >>> frame = Frame.get_by_id(client, 1)
                 print(frame.name)
         """
-        super(Frame, cls).get_by_id(**kwargs)
+        return super(Frame, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -993,14 +993,14 @@ class FrameAcquisitionFile(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an FrameAcquisitionFile by ID:
             >>> frame_acquisition_file = FrameAcquisitionFile.get_by_id(client, 1)
                 print(frame_acquisition_file.name)
         """
-        super(FrameAcquisitionFile, cls).get_by_id(**kwargs)
+        return super(FrameAcquisitionFile, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1040,14 +1040,14 @@ class GainFile(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an GainFile by ID:
             >>> gain_file = GainFile.get_by_id(client, 1)
                 print(gain_file.name)
         """
-        super(GainFile, cls).get_by_id(**kwargs)
+        return super(GainFile, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1094,14 +1094,14 @@ class PerSectionAlignmentParameters(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an PerSectionAlignmentParameters by ID:
             >>> per_section_alignment_parameters = PerSectionAlignmentParameters.get_by_id(client, 1)
                 print(per_section_alignment_parameters.name)
         """
-        super(PerSectionAlignmentParameters, cls).get_by_id(**kwargs)
+        return super(PerSectionAlignmentParameters, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1169,14 +1169,14 @@ class Run(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an Run by ID:
             >>> run = Run.get_by_id(client, 1)
                 print(run.name)
         """
-        super(Run, cls).get_by_id(**kwargs)
+        return super(Run, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1293,14 +1293,14 @@ class TiltSeries(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an TiltSeries by ID:
             >>> tilt_series = TiltSeries.get_by_id(client, 1)
                 print(tilt_series.name)
         """
-        super(TiltSeries, cls).get_by_id(**kwargs)
+        return super(TiltSeries, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1461,14 +1461,14 @@ class Tomogram(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an Tomogram by ID:
             >>> tomogram = Tomogram.get_by_id(client, 1)
                 print(tomogram.name)
         """
-        super(Tomogram, cls).get_by_id(**kwargs)
+        return super(Tomogram, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1569,14 +1569,14 @@ class TomogramAuthor(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an TomogramAuthor by ID:
             >>> tomogram_author = TomogramAuthor.get_by_id(client, 1)
                 print(tomogram_author.name)
         """
-        super(TomogramAuthor, cls).get_by_id(**kwargs)
+        return super(TomogramAuthor, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1630,14 +1630,14 @@ class TomogramVoxelSpacing(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an TomogramVoxelSpacing by ID:
             >>> tomogram_voxel_spacing = TomogramVoxelSpacing.get_by_id(client, 1)
                 print(tomogram_voxel_spacing.name)
         """
-        super(TomogramVoxelSpacing, cls).get_by_id(**kwargs)
+        return super(TomogramVoxelSpacing, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__

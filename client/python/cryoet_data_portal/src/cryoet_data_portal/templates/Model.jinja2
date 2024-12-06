@@ -43,14 +43,14 @@ class {{ model.name }}(Model):
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
     @classmethod
-    def get_by_id(cls, **kwargs):
+    def get_by_id(cls, *args, **kwargs):
         """
         Examples:
             Get an {{ model.name }} by ID:
             >>> {{ model.model_name_underscores }} = {{ model.name }}.get_by_id(client, 1)
                 print({{ model.model_name_underscores }}.name)
         """
-        super({{ model.name}}, cls).get_by_id(**kwargs)
+        return super({{ model.name}}, cls).get_by_id(*args, **kwargs)
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
