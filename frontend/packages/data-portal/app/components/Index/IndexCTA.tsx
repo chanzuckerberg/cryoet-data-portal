@@ -45,8 +45,8 @@ export function IndexCTA() {
       </h3>
       <div
         className={cns(
-          'w-full grid grid-rows-[1fr_auto] grid-flow-col gap-y-sds-xl gap-x-sds-xxl',
-          'grid-cols-[1fr_auto_1fr_auto_1fr]',
+          'w-full grid grid-rows-[1fr_auto_1px_1fr_auto_1px_1fr] sm:grid-rows-[1fr_auto] grid-flow-row sm:grid-flow-col gap-y-sds-xl gap-x-sds-xxl',
+          'grid-cols-[1fr] sm:grid-cols-[1fr_auto_1fr_auto_1fr]',
         )}
       >
         <CTA
@@ -55,14 +55,14 @@ export function IndexCTA() {
           buttonText={t('browseData')}
           url="/browse-data/datasets"
         />
-        <div className="bg-sds-color-primitive-gray-200 w-sds-xxxs row-span-2" />
+        <div className="bg-sds-color-primitive-gray-200 h-sds-xxxs sm:w-sds-xxxs sm:row-span-2 sm:h-full" />
         <CTA
           title={t('contributeYourData')}
           text={t('contributeCta')}
           buttonText={t('tellUsMore')}
           url={t('urlDataContributionForm')}
         />
-        <div className="bg-sds-color-primitive-gray-200 w-sds-xxxs row-span-2" />
+        <div className="bg-sds-color-primitive-gray-200 h-sds-xxxs sm:w-sds-xxxs sm:row-span-2 sm:h-full" />
         <CTA
           title={t('participateInOurCompetition')}
           text={t('participateInOurCompetitionCTA')}

@@ -162,7 +162,7 @@ export function IndexContributors() {
       <h3 className="font-sds-semibold font-semibold text-sds-header-xl leading-sds-header-xl">
         <I18n i18nKey="thankYouToOurDataContributors" />
       </h3>
-      <ul className="columns-4 gap-sds-xl">
+      <ul className="columns-2 sm:columns-3 lg:columns-4 gap-sds-xl">
         {CONTRIBUTORS.map((name) => (
           <li
             key={name}
