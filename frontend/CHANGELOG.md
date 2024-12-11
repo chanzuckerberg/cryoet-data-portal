@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.37.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.37.0...web-v1.37.1) (2024-12-11)
+
+
+### 🐞 Bug Fixes
+
+* Small tweaks to fix landing page responsiveness on mobile ([#1385](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1385)) ([225c59b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/225c59b097ec5082932b822fdb80d94fb0eea2aa))
+
 ## [1.37.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.36.1...web-v1.37.0) (2024-12-05)
 
 
