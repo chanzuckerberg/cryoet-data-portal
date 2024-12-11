@@ -5,8 +5,8 @@ import { IndexCTA } from './IndexCTA'
 
 export function IndexContent() {
   return (
-    <div className="px-sds-xl overflow-x-clip flex flex-col items-center">
-      <div className="flex flex-col max-w-content-small py-sds-xxl gap-sds-xxl">
+    <div className="px-sds-xl overflow-x-clip flex flex-col items-center w-full">
+      <div className="flex flex-col max-w-content-small py-sds-xxl gap-sds-xxl w-full">
         <div className="flex flex-col gap-sds-xl">
           <h2 className="font-sds-semibold font-semibold text-sds-header-xl leading-sds-header-xl">
             <I18n i18nKey="landingPageWelcomeBlurb" />
