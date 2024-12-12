@@ -184,8 +184,8 @@ jobs:
         if: |
           github.event_name == 'delete' || (
             github.event_name == 'pull_request' && (
-              github.action == 'unlabeled' || (
-                github.action == 'closed' &&
+              github.event.action == 'unlabeled' || (
+                github.event.action == 'closed' &&
                 contains(github.event.pull_request.labels.*.name, 'preview')
               )
             )
