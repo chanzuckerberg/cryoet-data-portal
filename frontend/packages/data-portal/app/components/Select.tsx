@@ -26,6 +26,21 @@ export interface SelectOption {
   component?: JSX.Element
 }
 
+export interface SelectProps {
+  activeKey: string | null
+  className?: string
+  dropdownClasses?: Partial<AutocompleteClasses>
+  dropdownPopperBaseProps?: Partial<PopperProps>
+  label: ReactNode
+  onChange(key: string | null): void
+  options: SelectOption[]
+  showActiveValue?: boolean
+  showDetails?: boolean
+  title?: string
+  tooltip?: ReactNode
+  tooltipProps?: Partial<TooltipProps>
+}
+
 export function Select({
   activeKey,
   className,
@@ -39,20 +54,7 @@ export function Select({
   title,
   tooltip,
   tooltipProps,
-}: {
-  activeKey: string | null
-  className?: string
-  dropdownClasses?: Partial<AutocompleteClasses>
-  dropdownPopperBaseProps?: Partial<PopperProps>
-  label: ReactNode
-  onChange(key: string | null): void
-  options: SelectOption[]
-  showActiveValue?: boolean
-  showDetails?: boolean
-  title?: string
-  tooltip?: ReactNode
-  tooltipProps?: Partial<TooltipProps>
-}) {
+}: SelectProps) {
   const activeOption = useMemo(
     () => options.find((option) => option.key === activeKey),
     [activeKey, options],
@@ -113,7 +115,7 @@ export function Select({
         )}
 
         {tooltip && (
-          <Tooltip tooltip={tooltip} {...tooltipProps}>
+          <Tooltip role="tooltip" tooltip={tooltip} {...tooltipProps}>
             <Icon
               className="!fill-sds-color-primitive-gray-500 hover:!fill-sds-color-primitive-blue-400"
               sdsIcon="InfoCircle"
