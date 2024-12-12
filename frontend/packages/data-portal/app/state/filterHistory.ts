@@ -4,10 +4,10 @@ import { useEffect } from 'react'
 
 import { QueryParams } from 'app/constants/query'
 
-const previousBrowseDatasetParamsAtom = atom('')
-const previousSingleDatasetParamsAtom = atom('')
-const previousDepositionIdAtom = atom<number | null>(null)
-const previousSingleDepositionParamsAtom = atom('')
+export const previousBrowseDatasetParamsAtom = atom('')
+export const previousSingleDatasetParamsAtom = atom('')
+export const previousDepositionIdAtom = atom<number | null>(null)
+export const previousSingleDepositionParamsAtom = atom('')
 
 export function useBrowseDatasetFilterHistory() {
   const [previousBrowseDatasetParams, setPreviousBrowseDatasetParams] = useAtom(
