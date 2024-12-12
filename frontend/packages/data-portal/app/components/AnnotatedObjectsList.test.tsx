@@ -5,12 +5,9 @@ import { ANNOTATED_OBJECTS_MAX } from 'app/constants/pagination'
 import { AnnotatedObjectsList } from './AnnotatedObjectsList'
 
 function getItems(length: number) {
-  return (
-    Array(length)
-      .fill(null)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .map((_, idx) => `test ${idx}`)
-  )
+  return Array(length)
+    .fill(null)
+    .map((_, idx) => `test ${idx}`)
 }
 
 describe('<AnnotatedObjectsList />', () => {
