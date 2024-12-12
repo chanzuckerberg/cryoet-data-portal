@@ -4,7 +4,7 @@ import { range } from 'lodash-es'
 import { ReactNode } from 'react'
 
 import { ANNOTATED_OBJECTS_MAX } from 'app/constants/pagination'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
 import { Tooltip } from './Tooltip'
@@ -30,6 +30,8 @@ export function AnnotatedObjectsList({
   annotatedObjects: string[]
   isLoading?: boolean
 }) {
+  const { t } = useI18n()
+
   if (annotatedObjects.length === 0) {
     return null
   }
@@ -76,7 +78,9 @@ export function AnnotatedObjectsList({
                 'rounded-sds-m py-sds-xxxs px-sds-xs inline',
               )}
             >
-              {i18n.nMoreObjects(nodes.length + 1 - ANNOTATED_OBJECTS_MAX)}
+              {t('nMoreObjects', {
+                count: nodes.length + 1 - ANNOTATED_OBJECTS_MAX,
+              })}
             </div>
           </Tooltip>
         </li>
