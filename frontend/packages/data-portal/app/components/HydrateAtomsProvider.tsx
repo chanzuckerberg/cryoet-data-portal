@@ -2,13 +2,13 @@ import { Provider } from 'jotai'
 import { useHydrateAtoms } from 'jotai/utils'
 import { ReactNode } from 'react'
 
-import { AtomTuple } from 'app/types/state'
+import { AtomTupleWithValue } from 'app/types/state'
 
 function HydrateAtoms({
   initialValues,
   children,
 }: {
-  initialValues: AtomTuple[]
+  initialValues: AtomTupleWithValue[]
   children: ReactNode
 }) {
   useHydrateAtoms(initialValues)
@@ -25,7 +25,7 @@ export function HydrateAtomsProvider({
   initialValues,
   children,
 }: {
-  initialValues: AtomTuple[]
+  initialValues: AtomTupleWithValue[]
   children: ReactNode
 }) {
   return (

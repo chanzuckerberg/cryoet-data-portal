@@ -8,7 +8,7 @@ import {
   previousSingleDatasetParamsAtom,
   previousSingleDepositionParamsAtom,
 } from 'app/state/filterHistory'
-import { AtomTuple } from 'app/types/state'
+import { AtomTupleWithValue } from 'app/types/state'
 
 import { Breadcrumbs } from './Breadcrumbs'
 import { HydrateAtomsProvider } from './HydrateAtomsProvider'
@@ -34,7 +34,7 @@ function renderBreadcrumbs({
   variant: BreadcrumbsProp['variant']
 }) {
   function BreadcrumbWrapper() {
-    const initialValues: AtomTuple[] = []
+    const initialValues: AtomTupleWithValue[] = []
 
     if (previousBrowseDatasetParams) {
       initialValues.push([

@@ -4,5 +4,9 @@
 
 import { WritableAtom } from 'jotai'
 
-export type AnyWritableAtom = WritableAtom<unknown, any[], any>
-export type AtomTuple<A = AnyWritableAtom, V = unknown> = readonly [A, V]
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyWritableAtom = WritableAtom<unknown, any[], any>
+export type AtomTupleWithValue<A = AnyWritableAtom, V = unknown> = readonly [
+  A,
+  V,
+]
