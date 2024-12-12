@@ -14,3 +14,7 @@ jest.mock('react-i18next', () => ({
     init: () => {},
   },
 }))
+
+jest.mock('@web3-storage/multipart-parser', () => ({
+  parseMultipart: jest.fn(),
+}))
