@@ -2,7 +2,7 @@ import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetRunByIdQuery } from 'app/__generated__/graphql'
 import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
-import { isNotNullish } from 'app/utils/nullish'
+import { isDefined } from 'app/utils/nullish'
 
 export function useRunById() {
   const { v1, v2 } = useTypedLoaderData<{
@@ -54,7 +54,7 @@ export function useRunById() {
 
   const annotationSoftwares = v1.annotations_for_softwares
     .map((annotation) => annotation.annotation_software)
-    .filter(isNotNullish)
+    .filter(isDefined)
 
   const resolutions = v1.tomograms_for_resolutions.map(
     (tomogram) => tomogram.voxel_spacing,
