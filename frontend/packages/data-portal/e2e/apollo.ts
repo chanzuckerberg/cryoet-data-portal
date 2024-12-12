@@ -2,7 +2,13 @@
  * Version of `apollo.server.ts` that is safe to use in e2e tests.
  */
 
-import * as apollo from '@apollo/client'
+// For some reason we need to use a `default` export even though the types
+// do not have one. It might be playwright doing something weird with the imports
+// or the apollo types have to be updated to export a default export.
+// TODO remove ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import apollo from '@apollo/client'
 
 import { ENVIRONMENT_CONTEXT_DEFAULT_VALUE } from '../app/context/Environment.context'
 
