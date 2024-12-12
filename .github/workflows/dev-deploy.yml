@@ -170,7 +170,8 @@ jobs:
           success() &&
           github.event_name == 'pull_request' && (
             github.event.action == 'unlabeled'
-          )
+          ) &&
+           steps.find-comment.outputs.comment-id != ''
         uses: actions/github-script@v7
         with:
           script: |
