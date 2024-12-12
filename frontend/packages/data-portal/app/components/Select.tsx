@@ -141,7 +141,7 @@ export function Select({
           setAnchorEl(event.currentTarget)
           setOpen(true)
         }}
-        value={showActiveValue ? (activeOption?.value ?? '') : undefined}
+        value={showActiveValue ? activeOption?.value ?? '' : undefined}
       />
 
       <DropdownMenu
