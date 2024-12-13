@@ -43,3 +43,4 @@ jobs:
         with:
           folder: docsite # The folder the action should deploy.
           branch: gh-pages
+          target-folder: dev
