@@ -1,9 +1,5 @@
----
-hide-navigation: true
----
-
 (neuroglancer-quickstart)=
-# Neuroglancer Quick Start
+# Neuroglancer Quickstart
 
 [Neuroglancer](https://connectomics.readthedocs.io/en/latest/external/neuroglancer.html#neuroglancer) is an open-source, web-based visualization tool utilized by the CryoET Data Portal for viewing tomograms and their annotations directly in the browser. Neuroglancer supports arbitrary (non axis-aligned) cross-sectional views of volumetric data and 3D meshes, which are essential features for exploring CryoET data.
 
