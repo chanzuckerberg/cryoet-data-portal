@@ -29,10 +29,4 @@ Guide on how the CryoET Data Portal is organized
 
 Overview of the data pipeline from acquisition to analysis
 :::
-
-:::{grid-item-card} Neuroglancer Quick Start
-:link: neuroglancer-quickstart
-:link-type: ref
-
-Learn how to visualize tomograms and annotations in Neuroglancer
 ::::
