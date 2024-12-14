@@ -11,11 +11,13 @@ export function Drawer({
   className,
   onClose,
   open,
+  PaperComponent = Paper,
 }: {
   children: ReactNode
   className?: string
   onClose(): void
   open: boolean
+  PaperComponent?: typeof Paper
 }) {
   const drawerRef = useRef<HTMLDivElement>(null)
 
@@ -45,9 +47,12 @@ export function Drawer({
             }}
             transition={{ duration: theme.transitions.duration.complex / 1000 }}
           >
-            <Paper className="flex flex-auto overflow-y-auto" elevation={10}>
+            <PaperComponent
+              className="flex flex-auto overflow-y-auto"
+              elevation={10}
+            >
               {children}
-            </Paper>
+            </PaperComponent>
           </motion.div>
         )}
       </AnimatePresence>

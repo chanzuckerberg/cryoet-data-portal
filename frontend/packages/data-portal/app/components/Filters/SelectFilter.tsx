@@ -57,11 +57,11 @@ export function SelectFilter<
   )
 
   const convertSdsOptionToBaseOption = useCallback(
-    ({ name, ...sdsOption }: DefaultAutocompleteOption) =>
+    (option: string | DefaultAutocompleteOption) =>
       ({
-        ...sdsOption,
-        label: name,
-        value: labelValueMap[name],
+        ...(typeof option === 'string' ? {} : option),
+        label: typeof option === 'string' ? option : option.name,
+        value: labelValueMap[typeof option === 'string' ? option : option.name],
       }) as AutocompleteValue<Option, Multiple, DisableClearable, FreeSolo>,
     [labelValueMap],
   )

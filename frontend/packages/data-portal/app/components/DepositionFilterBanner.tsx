@@ -2,6 +2,7 @@ import { Button, Callout } from '@czi-sds/components'
 
 import { I18n } from 'app/components/I18n'
 import { QueryParams } from 'app/constants/query'
+import { useI18n } from 'app/hooks/useI18n'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import {
   useDepositionHistory,
@@ -25,6 +26,8 @@ export function DepositionFilterBanner({
     useSingleDatasetFilterHistory()
   const { previousSingleDepositionParams } = useDepositionHistory()
   const [, setDepositionId] = useQueryParam<string>(QueryParams.DepositionId)
+
+  const { t } = useI18n()
 
   return (
     <Callout className="!w-full" classes={{ message: 'w-full' }} intent="info">
@@ -54,7 +57,7 @@ export function DepositionFilterBanner({
           sdsType="secondary"
           className="shrink-0"
         >
-          Remove Filter
+          {t('removeFilter')}
         </Button>
       </div>
     </Callout>

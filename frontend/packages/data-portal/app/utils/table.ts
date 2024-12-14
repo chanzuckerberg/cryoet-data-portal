@@ -1,6 +1,6 @@
 import { TableData } from 'app/types/table'
 
-import { isNotNullish } from './nullish'
+import { isDefined } from './nullish'
 
 export function getTableData(...metadata: Array<TableData | boolean>) {
   return metadata
@@ -8,7 +8,7 @@ export function getTableData(...metadata: Array<TableData | boolean>) {
     .map((data) => {
       const values = (
         data.values instanceof Function ? data.values() : data.values
-      ).filter((value) => isNotNullish(value) && value !== '')
+      ).filter((value) => isDefined(value) && value !== '')
 
       return {
         ...data,

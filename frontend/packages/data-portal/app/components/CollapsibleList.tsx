@@ -4,13 +4,13 @@ import { ReactNode, useState } from 'react'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
-interface ListEntry {
+export interface CollapsibleListEntry {
   key: string
   entry: ReactNode
 }
 
 export interface CollapsibleListProps {
-  entries?: ListEntry[]
+  entries?: CollapsibleListEntry[]
 
   // Number of items displayed when collapsed.
   // Collapse triggers when entries has >= collapseAfter + 2 items, so minimum "Show _ more" value
