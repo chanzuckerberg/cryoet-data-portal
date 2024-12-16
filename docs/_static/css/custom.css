@@ -327,6 +327,31 @@ dl.class > dd > dl:nth-child(27) {
   border-bottom: 0.01px solid var(--md-default-fg-color--lightest);
 }
 
+/* Admonitions */
+.md-typeset .admonition-title {
+  font-weight: 400;
+}
+
+.md-typeset .czi-info.admonition>p:not(.admonition-title),
+.md-typeset .czi-warning.admonition>p:not(.admonition-title) {
+  margin-left: 1.4rem;
+}
+
+.md-typeset .czi-info.admonition>div,
+.md-typeset .czi-warning.admonition>div {
+  margin-left: 1.4rem;
+}
+
+.md-typeset .czi-info>.admonition-title, .md-typeset .admonition.czi-info {
+  background-color: #e2eeff;
+  border-color: #E2EEFF !important;
+}
+
+.md-typeset .czi-warning>.admonition-title, .md-typeset .admonition.czi-warning {
+  background-color: #FFF3E1;
+  border-color: #FFF3E1 !important;
+}
+
 /* Figure/video captions */
 .md-typeset figcaption {
   min-width: 75%;

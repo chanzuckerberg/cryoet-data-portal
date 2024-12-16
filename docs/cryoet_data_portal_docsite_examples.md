@@ -3,8 +3,8 @@
 
 Below are code snippets for completing various tasks using the Python Client API. Have an example you'd like to share with the community? Submit a [GitHub issue](https://github.com/chanzuckerberg/cryoet-data-portal/issues) and include "Example:" in your title.
 
-<details open>
-  <summary>Query by annotated object or Gene Ontology terms using owlready2 library</summary>
+:::{czi-info} Query by annotated object or Gene Ontology terms using owlready2 library
+:collapsible: open
 
 Find all membrane annotations, including when the annotation has a subclass of membrane.
 
@@ -35,11 +35,10 @@ object_runs = set([po.run.id for po in portal_objects])
 # Datasets that contain annotations with that term
 object_datasets = set([po.run.dataset_id for po in portal_objects])
 ```
+:::
 
-</details>
-
-<details>
-  <summary>List zarr file contents using the zarr package and HTTPS link</summary>
+:::{czi-info} List zarr file contents using the zarr package and HTTPS link
+:collapsible:
 
 Stream data using https
 
@@ -63,11 +62,10 @@ for i in g.attrs["multiscales"][0]["datasets"]:
   x = zarr.open(f"{url}/{path}")
   print(x.info_items())
 ```
+:::
 
-</details>
-
-<details>
-  <summary>List zarr-file contents using the ome-zarr package and HTTPS link</summary>
+:::{czi-info} List zarr-file contents using the ome-zarr package and HTTPS link
+:collapsible:
 
 Stream data using https
 
@@ -89,11 +87,10 @@ reader = Reader(parse_url(url))
 nodes = list(reader())
 nodes[0].data
 ```
+:::
 
-</details>
-
-<details>
-  <summary>List zarr-file contents using the zarr package and S3 link</summary>
+:::{czi-info} List zarr-file contents using the zarr package and S3 link
+:collapsible:
 
 Stream data via S3
 
@@ -109,11 +106,10 @@ tomo = Tomogram.find(client, [Tomogram.run.dataset_id == 10000])[0]
 g = zarr.open_group(tomo.s3_omezarr_dir, mode='r')
 g.info_items()
 ```
+:::
 
-</details>
-
-<details>
-  <summary>Open a tomogram array using the zarr package and HTTPS link</summary>
+:::{czi-info} Open a tomogram array using the zarr package and HTTPS link
+:collapsible:
 
 Stream data using https
 
@@ -127,11 +123,10 @@ tomo = Tomogram.find(client, [Tomogram.run.dataset_id == 10000])[0]
 
 g = zarr.open_array(f"{tomo.https_omezarr_dir}/0", mode='r')
 ```
+:::
 
-</details>
-
-<details>
-  <summary>Find all annotation files available in ZARR format from a dataset</summary>
+:::{czi-info} Find all annotation files available in ZARR format from a dataset
+:collapsible:
 
 Use as training data for a segmentation model
 
@@ -147,11 +142,10 @@ ret = AnnotationFile.find(client, [
     AnnotationFile.format == 'zarr'
 ])
 ```
+:::
 
-</details>
-
-<details>
-  <summary>Open a Point-annotation file and stream the contents from S3</summary>
+:::{czi-info} Open a Point-annotation file and stream the contents from S3
+:collapsible:
 
 Use as training data for a particle picking model
 
@@ -175,11 +169,10 @@ with fs.open(ret[0].s3_path) as pointfile:
   for point in ndjson.reader(pointfile):
       print(f"A {name} at {point['location']['x']}, {point['location']['y']}, {point['location']['z']}")
 ```
+:::
 
-</details>
-
-<details>
-  <summary>Find all datasets that have movie frames available</summary>
+:::{czi-info} Find all datasets that have movie frames available
+:collapsible:
 
 Start processing the raw data
 
@@ -192,11 +185,10 @@ client = Client()
 # Find all datasets, that have 1 or more frame files
 datasets_with_frames = Dataset.find(client, [Dataset.runs.frames.id != None])
 ```
+:::
 
-</details>
-
-<details>
-  <summary>Find all tomograms with voxel spacing below a threshold</summary>
+:::{czi-info} Find all tomograms with voxel spacing below a threshold
+:collapsible:
 
 Select data of a specific resolution
 
@@ -215,11 +207,10 @@ s3mrc = [t.s3_mrc_scale0 for t in tomos]
 # S3 URIs for Zarrs
 s3zarr = [t.s3_omezarr_dir for t in tomos]
 ```
+:::
 
-</details>
-
-<details>
-  <summary>Compute statistics on the portal data using the API client</summary>
+:::{czi-info} Compute statistics on the portal data using the API client
+:collapsible:
 
 Find how many runs there are in total for a given species
 
@@ -251,11 +242,10 @@ plt.bar(sorted_by_run.keys(), sorted_by_run.values(), color='g')
 plt.xticks(rotation=30, ha='right')
 plt.show()
 ```
+:::
 
-</details>
-
-<details>
-  <summary>Download the movie stacks of one run using S3 file streaming</summary>
+:::{czi-info} Download the movie stacks of one run using S3 file streaming
+:collapsible:
 
 Start processing from raw data
 
@@ -284,5 +274,4 @@ for frame in frames_list:
   frame_path = frame.s3_path
   fs.get_file(frame_path, os.path.join(outdir, os.path.basename(frame_path)))
 ```
-
-</details>
+:::
