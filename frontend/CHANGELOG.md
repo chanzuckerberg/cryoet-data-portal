@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.37.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.37.1...web-v1.37.2) (2024-12-17)
+
+
+### 🧪 Tests
+
+* simple component unit tests ([#1392](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1392)) ([45e214e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/45e214e1b02970edf795de5392709e0be23f959c))
+
 ## [1.37.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.37.0...web-v1.37.1) (2024-12-11)
 
 
