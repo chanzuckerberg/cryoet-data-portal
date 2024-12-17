@@ -27,7 +27,7 @@ Short code snippets using the API
 :link: using-napari
 :link-type: ref
 
-Quick start guide on using napari for visualizing data
+Quickstart guide on using napari for visualizing data
 :::
 
 :::{grid-item-card} Predicting sample boundaries
@@ -35,6 +35,14 @@ Quick start guide on using napari for visualizing data
 :link-type: ref
 
 End to end tutorial from downloading data to analyzing tomograms
+:::
+
+:::{grid-item-card} Neuroglancer Quickstart
+:link: neuroglancer-quickstart
+:link-type: ref
+
+Learn how to visualize tomograms and annotations in Neuroglancer
+:::
 ::::
 
 Please start a [discussion on Github](https://github.com/chanzuckerberg/cryoet-data-portal/discussions/new/choose) if you'd like to request a tutorial.
