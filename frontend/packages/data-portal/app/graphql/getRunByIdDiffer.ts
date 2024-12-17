@@ -286,9 +286,9 @@ export function logIfHasDiff(
 
   if (Object.keys(diffObject).length > 0) {
     console.log(
-      `DIFF AT ${url}: ${JSON.stringify(diffObject)} --- ${JSON.stringify(
-        diff(v2, v1Transformed),
-      )}`,
+      `DIFF AT ${url}: ${JSON.stringify(
+        diffObject,
+      )} ========== ${JSON.stringify(diff(v2, v1Transformed))}`,
     )
   }
 }
