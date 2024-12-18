@@ -35,7 +35,7 @@ export function logIfHasDiff(
   }
   // Tomogram deposition relations in V1 are incomplete.
   for (const tomogram of v2.tomograms) {
-    // Delete fields that don't exist.
+    // Delete fields that don't exist in V1.
     delete tomogram.alignment
     delete tomogram.isVisualizationDefault
     delete tomogram.releaseDate
