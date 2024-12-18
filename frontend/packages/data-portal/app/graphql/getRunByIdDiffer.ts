@@ -33,7 +33,6 @@ export function logIfHasDiff(
       edge.node.format.localeCompare(edge.node.format),
     )
   }
-  // Tomogram deposition relations in V1 are incomplete.
   for (const tomogram of v2.tomograms) {
     // Delete fields that don't exist in V1.
     delete tomogram.alignment
@@ -41,13 +40,12 @@ export function logIfHasDiff(
     delete tomogram.releaseDate
     delete tomogram.lastModifiedDate
     delete tomogram.relatedDatabaseEntries
-    // Tomogram deposition relations in V1 are incomplete.
     delete tomogram.deposition
     // Standard tomograms are V2 only.
     tomogram.isPortalStandard = false
   }
-  // Frames are not populated in V2 yet.
   for (const run of v2.runs) {
+    // There are no frames in V1.
     delete run.framesAggregate
   }
 
