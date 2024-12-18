@@ -1362,6 +1362,9 @@ class TiltSeries(Model):
         is_aligned (bool): Whether this tilt series is aligned
         pixel_spacing (float): Pixel spacing equal in both axes in angstroms
         aligned_tiltseries_binning (int): Binning factor of the aligned tilt series
+        size_x (int): Number of pixels in the 3D data fast axis
+        size_y (int): Number of pixels in the 3D data medium axis
+        size_z (int): Number of pixels in the 3D data slow axis
     """
 
     _gql_type: str = "Tiltseries"
@@ -1403,6 +1406,9 @@ class TiltSeries(Model):
     is_aligned: bool = BooleanField()
     pixel_spacing: float = FloatField()
     aligned_tiltseries_binning: int = IntField()
+    size_x: int = IntField()
+    size_y: int = IntField()
+    size_z: int = IntField()
 
     @classmethod
     def find(
