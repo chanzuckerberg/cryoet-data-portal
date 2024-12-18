@@ -93,9 +93,14 @@ const GET_RUN_BY_ID_QUERY = gql(`
         }
 
         funding_sources(
-          order_by: {
-            funding_agency_name: asc
-          }
+          order_by: [
+            {
+              funding_agency_name: asc
+            },
+            {
+              grant_id: asc
+            }
+          ]
         ) {
           funding_agency_name
           grant_id
