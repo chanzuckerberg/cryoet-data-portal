@@ -5,14 +5,14 @@ on:
     branches:
       - main
     paths:
-      - 'client/python/**'
-      - '.github/workflows/client-python.yml'
+      - "client/python/**"
+      - ".github/workflows/client-python.yml"
   pull_request:
     branches:
-      - '**'
+      - "**"
     paths:
-      - 'client/python/**'
-      - '.github/workflows/client-python.yml'
+      - "client/python/**"
+      - ".github/workflows/client-python.yml"
 
 jobs:
   test-client-python:
@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: ['3.7', '3.8', '3.9', '3.10']
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
       - name: Checkout Repo
@@ -46,7 +46,7 @@ jobs:
           make coverage
 
       - name: Upload Coverage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage
           path: ./client/python/cryoet_data_portal/.coverage*
@@ -63,7 +63,7 @@ jobs:
           fetch-depth: 0
 
       - name: Download Coverage
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: coverage
           path: .
@@ -71,7 +71,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install Requirements
         run: |
