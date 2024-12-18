@@ -693,6 +693,9 @@ input TiltseriesWhereClause {
   isAligned: BoolComparators
   pixelSpacing: FloatComparators
   alignedTiltseriesBinning: IntComparators
+  sizeX: IntComparators
+  sizeY: IntComparators
+  sizeZ: IntComparators
   id: IntComparators
 }
 
@@ -1167,6 +1170,9 @@ input TiltseriesOrderByClause {
   isAligned: orderBy
   pixelSpacing: orderBy
   alignedTiltseriesBinning: orderBy
+  sizeX: orderBy
+  sizeY: orderBy
+  sizeZ: orderBy
   id: orderBy
 }
 
@@ -1456,12 +1462,16 @@ type AnnotationShapeMinMaxColumns {
 
 type AnnotationShapeGroupByOptions {
   annotation: AnnotationGroupByOptions
+  annotationFiles: AnnotationFileGroupByOptions
   shapeType: annotation_file_shape_type_enum
   id: Int
 }
 
 type AnnotationGroupByOptions {
   run: RunGroupByOptions
+  annotationShapes: AnnotationShapeGroupByOptions
+  methodLinks: AnnotationMethodLinkGroupByOptions
+  authors: AnnotationAuthorGroupByOptions
   deposition: DepositionGroupByOptions
   s3MetadataPath: String
   httpsMetadataPath: String
@@ -1486,15 +1496,163 @@ type AnnotationGroupByOptions {
 }
 
 type RunGroupByOptions {
+  alignments: AlignmentGroupByOptions
+  annotations: AnnotationGroupByOptions
   dataset: DatasetGroupByOptions
+  frames: FrameGroupByOptions
+  gainFiles: GainFileGroupByOptions
+  frameAcquisitionFiles: FrameAcquisitionFileGroupByOptions
+  tiltseries: TiltseriesGroupByOptions
+  tomogramVoxelSpacings: TomogramVoxelSpacingGroupByOptions
+  tomograms: TomogramGroupByOptions
   name: String
   s3Prefix: String
   httpsPrefix: String
   id: Int
 }
 
+type AlignmentGroupByOptions {
+  annotationFiles: AnnotationFileGroupByOptions
+  perSectionAlignments: PerSectionAlignmentParametersGroupByOptions
+  deposition: DepositionGroupByOptions
+  tiltseries: TiltseriesGroupByOptions
+  tomograms: TomogramGroupByOptions
+  run: RunGroupByOptions
+  alignmentType: alignment_type_enum
+  alignmentMethod: alignment_method_type_enum
+  volumeXDimension: Float
+  volumeYDimension: Float
+  volumeZDimension: Float
+  volumeXOffset: Float
+  volumeYOffset: Float
+  volumeZOffset: Float
+  xRotationOffset: Float
+  tiltOffset: Float
+  affineTransformationMatrix: String
+  s3AlignmentMetadata: String
+  httpsAlignmentMetadata: String
+  isPortalStandard: Boolean
+  id: Int
+}
+
+type AnnotationFileGroupByOptions {
+  alignment: AlignmentGroupByOptions
+  annotationShape: AnnotationShapeGroupByOptions
+  tomogramVoxelSpacing: TomogramVoxelSpacingGroupByOptions
+  format: String
+  s3Path: String
+  httpsPath: String
+  isVisualizationDefault: Boolean
+  source: annotation_file_source_enum
+  id: Int
+}
+
+type TomogramVoxelSpacingGroupByOptions {
+  annotationFiles: AnnotationFileGroupByOptions
+  run: RunGroupByOptions
+  tomograms: TomogramGroupByOptions
+  voxelSpacing: Float
+  s3Prefix: String
+  httpsPrefix: String
+  id: Int
+}
+
+type TomogramGroupByOptions {
+  alignment: AlignmentGroupByOptions
+  authors: TomogramAuthorGroupByOptions
+  deposition: DepositionGroupByOptions
+  run: RunGroupByOptions
+  tomogramVoxelSpacing: TomogramVoxelSpacingGroupByOptions
+  name: String
+  sizeX: Int
+  sizeY: Int
+  sizeZ: Int
+  voxelSpacing: Float
+  fiducialAlignmentStatus: fiducial_alignment_status_enum
+  reconstructionMethod: tomogram_reconstruction_method_enum
+  processing: tomogram_processing_enum
+  tomogramVersion: Float
+  processingSoftware: String
+  reconstructionSoftware: String
+  isPortalStandard: Boolean
+  isAuthorSubmitted: Boolean
+  isVisualizationDefault: Boolean
+  s3OmezarrDir: String
+  httpsOmezarrDir: String
+  s3MrcFile: String
+  httpsMrcFile: String
+  scale0Dimensions: String
+  scale1Dimensions: String
+  scale2Dimensions: String
+  ctfCorrected: Boolean
+  offsetX: Int
+  offsetY: Int
+  offsetZ: Int
+  keyPhotoUrl: String
+  keyPhotoThumbnailUrl: String
+  neuroglancerConfig: String
+  publications: String
+  relatedDatabaseEntries: String
+  id: Int
+  depositionDate: DateTime
+  releaseDate: DateTime
+  lastModifiedDate: DateTime
+}
+
+type TomogramAuthorGroupByOptions {
+  tomogram: TomogramGroupByOptions
+  id: Int
+  authorListOrder: Int
+  orcid: String
+  name: String
+  email: String
+  affiliationName: String
+  affiliationAddress: String
+  affiliationIdentifier: String
+  correspondingAuthorStatus: Boolean
+  primaryAuthorStatus: Boolean
+}
+
+type DepositionGroupByOptions {
+  authors: DepositionAuthorGroupByOptions
+  alignments: AlignmentGroupByOptions
+  annotations: AnnotationGroupByOptions
+  datasets: DatasetGroupByOptions
+  frames: FrameGroupByOptions
+  tiltseries: TiltseriesGroupByOptions
+  tomograms: TomogramGroupByOptions
+  title: String
+  description: String
+  depositionTypes: DepositionTypeGroupByOptions
+  depositionPublications: String
+  relatedDatabaseEntries: String
+  depositionDate: DateTime
+  releaseDate: DateTime
+  lastModifiedDate: DateTime
+  keyPhotoUrl: String
+  keyPhotoThumbnailUrl: String
+  id: Int
+}
+
+type DepositionAuthorGroupByOptions {
+  deposition: DepositionGroupByOptions
+  id: Int
+  authorListOrder: Int
+  orcid: String
+  name: String
+  email: String
+  affiliationName: String
+  affiliationAddress: String
+  affiliationIdentifier: String
+  correspondingAuthorStatus: Boolean
+  primaryAuthorStatus: Boolean
+}
+
 type DatasetGroupByOptions {
   deposition: DepositionGroupByOptions
+  fundingSources: DatasetFundingGroupByOptions
+  authors: DatasetAuthorGroupByOptions
+  runs: RunGroupByOptions
   title: String
   description: String
   organismName: String
@@ -1523,17 +1681,130 @@ type DatasetGroupByOptions {
   id: Int
 }
 
-type DepositionGroupByOptions {
-  title: String
-  description: String
-  depositionPublications: String
-  relatedDatabaseEntries: String
-  depositionDate: DateTime
-  releaseDate: DateTime
-  lastModifiedDate: DateTime
-  keyPhotoUrl: String
-  keyPhotoThumbnailUrl: String
+type DatasetFundingGroupByOptions {
+  dataset: DatasetGroupByOptions
+  fundingAgencyName: String
+  grantId: String
   id: Int
+}
+
+type DatasetAuthorGroupByOptions {
+  dataset: DatasetGroupByOptions
+  id: Int
+  authorListOrder: Int
+  orcid: String
+  name: String
+  email: String
+  affiliationName: String
+  affiliationAddress: String
+  affiliationIdentifier: String
+  correspondingAuthorStatus: Boolean
+  primaryAuthorStatus: Boolean
+}
+
+type FrameGroupByOptions {
+  deposition: DepositionGroupByOptions
+  run: RunGroupByOptions
+  rawAngle: Float
+  acquisitionOrder: Int
+  dose: Float
+  isGainCorrected: Boolean
+  s3FramePath: String
+  httpsFramePath: String
+  id: Int
+}
+
+type TiltseriesGroupByOptions {
+  alignments: AlignmentGroupByOptions
+  run: RunGroupByOptions
+  deposition: DepositionGroupByOptions
+  s3OmezarrDir: String
+  s3MrcFile: String
+  httpsOmezarrDir: String
+  httpsMrcFile: String
+  s3AngleList: String
+  httpsAngleList: String
+  accelerationVoltage: Int
+  sphericalAberrationConstant: Float
+  microscopeManufacturer: tiltseries_microscope_manufacturer_enum
+  microscopeModel: String
+  microscopeEnergyFilter: String
+  microscopePhasePlate: String
+  microscopeImageCorrector: String
+  microscopeAdditionalInfo: String
+  cameraManufacturer: String
+  cameraModel: String
+  tiltMin: Float
+  tiltMax: Float
+  tiltRange: Float
+  tiltStep: Float
+  tiltingScheme: String
+  tiltAxis: Float
+  totalFlux: Float
+  dataAcquisitionSoftware: String
+  relatedEmpiarEntry: String
+  binningFromFrames: Float
+  tiltSeriesQuality: Int
+  isAligned: Boolean
+  pixelSpacing: Float
+  alignedTiltseriesBinning: Int
+  sizeX: Int
+  sizeY: Int
+  sizeZ: Int
+  id: Int
+}
+
+type DepositionTypeGroupByOptions {
+  deposition: DepositionGroupByOptions
+  type: deposition_types_enum
+  id: Int
+}
+
+type PerSectionAlignmentParametersGroupByOptions {
+  alignment: AlignmentGroupByOptions
+  zIndex: Int
+  xOffset: Float
+  yOffset: Float
+  volumeXRotation: Float
+  inPlaneRotation: [[Float!]!]
+  tiltAngle: Float
+  id: Int
+}
+
+type GainFileGroupByOptions {
+  run: RunGroupByOptions
+  s3FilePath: String
+  httpsFilePath: String
+  id: Int
+}
+
+type FrameAcquisitionFileGroupByOptions {
+  run: RunGroupByOptions
+  s3MdocPath: String
+  httpsMdocPath: String
+  id: Int
+}
+
+type AnnotationMethodLinkGroupByOptions {
+  annotation: AnnotationGroupByOptions
+  linkType: annotation_method_link_type_enum
+  name: String
+  link: String
+  id: Int
+}
+
+type AnnotationAuthorGroupByOptions {
+  annotation: AnnotationGroupByOptions
+  id: Int
+  authorListOrder: Int
+  orcid: String
+  name: String
+  email: String
+  affiliationName: String
+  affiliationAddress: String
+  affiliationIdentifier: String
+  correspondingAuthorStatus: Boolean
+  primaryAuthorStatus: Boolean
 }
 
 enum AnnotationShapeCountColumns {
@@ -1611,14 +1882,6 @@ type AnnotationMethodLinkNumericalColumns {
 }
 
 type AnnotationMethodLinkMinMaxColumns {
-  name: String
-  link: String
-  id: Int
-}
-
-type AnnotationMethodLinkGroupByOptions {
-  annotation: AnnotationGroupByOptions
-  linkType: annotation_method_link_type_enum
   name: String
   link: String
   id: Int
@@ -1737,20 +2000,6 @@ type AnnotationAuthorMinMaxColumns {
   affiliationName: String
   affiliationAddress: String
   affiliationIdentifier: String
-}
-
-type AnnotationAuthorGroupByOptions {
-  annotation: AnnotationGroupByOptions
-  id: Int
-  authorListOrder: Int
-  orcid: String
-  name: String
-  email: String
-  affiliationName: String
-  affiliationAddress: String
-  affiliationIdentifier: String
-  correspondingAuthorStatus: Boolean
-  primaryAuthorStatus: Boolean
 }
 
 enum AnnotationAuthorCountColumns {
@@ -2042,20 +2291,6 @@ type DepositionAuthorMinMaxColumns {
   affiliationIdentifier: String
 }
 
-type DepositionAuthorGroupByOptions {
-  deposition: DepositionGroupByOptions
-  id: Int
-  authorListOrder: Int
-  orcid: String
-  name: String
-  email: String
-  affiliationName: String
-  affiliationAddress: String
-  affiliationIdentifier: String
-  correspondingAuthorStatus: Boolean
-  primaryAuthorStatus: Boolean
-}
-
 enum DepositionAuthorCountColumns {
   deposition
   id
@@ -2109,63 +2344,6 @@ type AlignmentMinMaxColumns {
   affineTransformationMatrix: String
   s3AlignmentMetadata: String
   httpsAlignmentMetadata: String
-  id: Int
-}
-
-type AlignmentGroupByOptions {
-  deposition: DepositionGroupByOptions
-  tiltseries: TiltseriesGroupByOptions
-  run: RunGroupByOptions
-  alignmentType: alignment_type_enum
-  alignmentMethod: alignment_method_type_enum
-  volumeXDimension: Float
-  volumeYDimension: Float
-  volumeZDimension: Float
-  volumeXOffset: Float
-  volumeYOffset: Float
-  volumeZOffset: Float
-  xRotationOffset: Float
-  tiltOffset: Float
-  affineTransformationMatrix: String
-  s3AlignmentMetadata: String
-  httpsAlignmentMetadata: String
-  isPortalStandard: Boolean
-  id: Int
-}
-
-type TiltseriesGroupByOptions {
-  run: RunGroupByOptions
-  deposition: DepositionGroupByOptions
-  s3OmezarrDir: String
-  s3MrcFile: String
-  httpsOmezarrDir: String
-  httpsMrcFile: String
-  s3AngleList: String
-  httpsAngleList: String
-  accelerationVoltage: Int
-  sphericalAberrationConstant: Float
-  microscopeManufacturer: tiltseries_microscope_manufacturer_enum
-  microscopeModel: String
-  microscopeEnergyFilter: String
-  microscopePhasePlate: String
-  microscopeImageCorrector: String
-  microscopeAdditionalInfo: String
-  cameraManufacturer: String
-  cameraModel: String
-  tiltMin: Float
-  tiltMax: Float
-  tiltRange: Float
-  tiltStep: Float
-  tiltingScheme: String
-  tiltAxis: Float
-  totalFlux: Float
-  dataAcquisitionSoftware: String
-  relatedEmpiarEntry: String
-  binningFromFrames: Float
-  tiltSeriesQuality: Int
-  isAligned: Boolean
-  pixelSpacing: Float
-  alignedTiltseriesBinning: Int
   id: Int
 }
 
@@ -2523,13 +2701,6 @@ type DatasetFundingMinMaxColumns {
   id: Int
 }
 
-type DatasetFundingGroupByOptions {
-  dataset: DatasetGroupByOptions
-  fundingAgencyName: String
-  grantId: String
-  id: Int
-}
-
 enum DatasetFundingCountColumns {
   dataset
   fundingAgencyName
@@ -2640,20 +2811,6 @@ type DatasetAuthorMinMaxColumns {
   affiliationName: String
   affiliationAddress: String
   affiliationIdentifier: String
-}
-
-type DatasetAuthorGroupByOptions {
-  dataset: DatasetGroupByOptions
-  id: Int
-  authorListOrder: Int
-  orcid: String
-  name: String
-  email: String
-  affiliationName: String
-  affiliationAddress: String
-  affiliationIdentifier: String
-  correspondingAuthorStatus: Boolean
-  primaryAuthorStatus: Boolean
 }
 
 enum DatasetAuthorCountColumns {
@@ -2902,18 +3059,6 @@ type FrameMinMaxColumns {
   id: Int
 }
 
-type FrameGroupByOptions {
-  deposition: DepositionGroupByOptions
-  run: RunGroupByOptions
-  rawAngle: Float
-  acquisitionOrder: Int
-  dose: Float
-  isGainCorrected: Boolean
-  s3FramePath: String
-  httpsFramePath: String
-  id: Int
-}
-
 enum FrameCountColumns {
   deposition
   run
@@ -3069,6 +3214,15 @@ type Tiltseries implements EntityInterface & Node {
 
   """Binning factor of the aligned tilt series"""
   alignedTiltseriesBinning: Int
+
+  """Number of pixels in the 3D data fast axis"""
+  sizeX: Int
+
+  """Number of pixels in the 3D data medium axis"""
+  sizeY: Int
+
+  """Number of pixels in the 3D data slow axis"""
+  sizeZ: Int
 }
 
 type TiltseriesAggregate {
@@ -3099,6 +3253,9 @@ type TiltseriesNumericalColumns {
   tiltSeriesQuality: Int
   pixelSpacing: Float
   alignedTiltseriesBinning: Int
+  sizeX: Int
+  sizeY: Int
+  sizeZ: Int
   id: Int
 }
 
@@ -3131,6 +3288,9 @@ type TiltseriesMinMaxColumns {
   tiltSeriesQuality: Int
   pixelSpacing: Float
   alignedTiltseriesBinning: Int
+  sizeX: Int
+  sizeY: Int
+  sizeZ: Int
   id: Int
 }
 
@@ -3168,6 +3328,9 @@ enum TiltseriesCountColumns {
   isAligned
   pixelSpacing
   alignedTiltseriesBinning
+  sizeX
+  sizeY
+  sizeZ
   id
 }
 
@@ -3486,69 +3649,6 @@ type TomogramAuthorMinMaxColumns {
   affiliationIdentifier: String
 }
 
-type TomogramAuthorGroupByOptions {
-  tomogram: TomogramGroupByOptions
-  id: Int
-  authorListOrder: Int
-  orcid: String
-  name: String
-  email: String
-  affiliationName: String
-  affiliationAddress: String
-  affiliationIdentifier: String
-  correspondingAuthorStatus: Boolean
-  primaryAuthorStatus: Boolean
-}
-
-type TomogramGroupByOptions {
-  alignment: AlignmentGroupByOptions
-  deposition: DepositionGroupByOptions
-  run: RunGroupByOptions
-  tomogramVoxelSpacing: TomogramVoxelSpacingGroupByOptions
-  name: String
-  sizeX: Int
-  sizeY: Int
-  sizeZ: Int
-  voxelSpacing: Float
-  fiducialAlignmentStatus: fiducial_alignment_status_enum
-  reconstructionMethod: tomogram_reconstruction_method_enum
-  processing: tomogram_processing_enum
-  tomogramVersion: Float
-  processingSoftware: String
-  reconstructionSoftware: String
-  isPortalStandard: Boolean
-  isAuthorSubmitted: Boolean
-  isVisualizationDefault: Boolean
-  s3OmezarrDir: String
-  httpsOmezarrDir: String
-  s3MrcFile: String
-  httpsMrcFile: String
-  scale0Dimensions: String
-  scale1Dimensions: String
-  scale2Dimensions: String
-  ctfCorrected: Boolean
-  offsetX: Int
-  offsetY: Int
-  offsetZ: Int
-  keyPhotoUrl: String
-  keyPhotoThumbnailUrl: String
-  neuroglancerConfig: String
-  publications: String
-  relatedDatabaseEntries: String
-  id: Int
-  depositionDate: DateTime
-  releaseDate: DateTime
-  lastModifiedDate: DateTime
-}
-
-type TomogramVoxelSpacingGroupByOptions {
-  run: RunGroupByOptions
-  voxelSpacing: Float
-  s3Prefix: String
-  httpsPrefix: String
-  id: Int
-}
-
 enum TomogramAuthorCountColumns {
   tomogram
   id
@@ -3656,18 +3756,6 @@ type AnnotationFileMinMaxColumns {
   format: String
   s3Path: String
   httpsPath: String
-  id: Int
-}
-
-type AnnotationFileGroupByOptions {
-  alignment: AlignmentGroupByOptions
-  annotationShape: AnnotationShapeGroupByOptions
-  tomogramVoxelSpacing: TomogramVoxelSpacingGroupByOptions
-  format: String
-  s3Path: String
-  httpsPath: String
-  isVisualizationDefault: Boolean
-  source: annotation_file_source_enum
   id: Int
 }
 
@@ -3844,12 +3932,6 @@ type DepositionTypeMinMaxColumns {
   id: Int
 }
 
-type DepositionTypeGroupByOptions {
-  deposition: DepositionGroupByOptions
-  type: deposition_types_enum
-  id: Int
-}
-
 enum DepositionTypeCountColumns {
   deposition
   type
@@ -3947,17 +4029,6 @@ type PerSectionAlignmentParametersMinMaxColumns {
   id: Int
 }
 
-type PerSectionAlignmentParametersGroupByOptions {
-  alignment: AlignmentGroupByOptions
-  zIndex: Int
-  xOffset: Float
-  yOffset: Float
-  volumeXRotation: Float
-  inPlaneRotation: [[Float!]!]
-  tiltAngle: Float
-  id: Int
-}
-
 enum PerSectionAlignmentParametersCountColumns {
   alignment
   zIndex
@@ -4014,13 +4085,6 @@ type GainFileNumericalColumns {
 }
 
 type GainFileMinMaxColumns {
-  s3FilePath: String
-  httpsFilePath: String
-  id: Int
-}
-
-type GainFileGroupByOptions {
-  run: RunGroupByOptions
   s3FilePath: String
   httpsFilePath: String
   id: Int
@@ -4097,13 +4161,6 @@ type FrameAcquisitionFileNumericalColumns {
 }
 
 type FrameAcquisitionFileMinMaxColumns {
-  s3MdocPath: String
-  httpsMdocPath: String
-  id: Int
-}
-
-type FrameAcquisitionFileGroupByOptions {
-  run: RunGroupByOptions
   s3MdocPath: String
   httpsMdocPath: String
   id: Int
@@ -5569,6 +5626,15 @@ input TiltseriesCreateInput {
   """Binning factor of the aligned tilt series"""
   alignedTiltseriesBinning: Int = null
 
+  """Number of pixels in the 3D data fast axis"""
+  sizeX: Int = null
+
+  """Number of pixels in the 3D data medium axis"""
+  sizeY: Int = null
+
+  """Number of pixels in the 3D data slow axis"""
+  sizeZ: Int = null
+
   """Numeric identifier (May change!)"""
   id: Int!
 }
@@ -5674,6 +5740,15 @@ input TiltseriesUpdateInput {
 
   """Binning factor of the aligned tilt series"""
   alignedTiltseriesBinning: Int = null
+
+  """Number of pixels in the 3D data fast axis"""
+  sizeX: Int = null
+
+  """Number of pixels in the 3D data medium axis"""
+  sizeY: Int = null
+
+  """Number of pixels in the 3D data slow axis"""
+  sizeZ: Int = null
 
   """Numeric identifier (May change!)"""
   id: Int
