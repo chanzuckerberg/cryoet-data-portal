@@ -5,14 +5,14 @@ on:
     branches:
       - main
     paths:
-      - 'client/python/**'
-      - '.github/workflows/client-python.yml'
+      - "client/python/**"
+      - ".github/workflows/client-python.yml"
   pull_request:
     branches:
-      - '**'
+      - "**"
     paths:
-      - 'client/python/**'
-      - '.github/workflows/client-python.yml'
+      - "client/python/**"
+      - ".github/workflows/client-python.yml"
 
 jobs:
   test-client-python:
@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: ['3.7', '3.8', '3.9', '3.10']
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
       - name: Checkout Repo
@@ -46,11 +46,14 @@ jobs:
           make coverage
 
       - name: Upload Coverage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: coverage
+          name: coverage-${{ matrix.os }}-${{ matrix.python-version }}
           path: ./client/python/cryoet_data_portal/.coverage*
           retention-days: 3
+          include-hidden-files: true
+      - name: Verify Coverage Files
+        run: ls -la ./client/python/cryoet_data_portal
 
   submit-codecoverage:
     needs:
@@ -63,15 +66,21 @@ jobs:
           fetch-depth: 0
 
       - name: Download Coverage
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: coverage
-          path: .
+          path: ./coverage
+
+      - name: Verify Coverage Artifacts
+        run: ls -R ./coverage
+
+      - name: Move Coverage Files
+        run: |
+          find ./coverage -type f -name ".coverage*" -exec mv {} . \;
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: "3.12"
 
       - name: Install Requirements
         run: |
