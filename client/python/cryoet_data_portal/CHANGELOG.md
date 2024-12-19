@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.2.1...cryoet-data-portal-python-client-v4.2.2) (2024-12-19)
+
+
+### 🧹 Miscellaneous Chores
+
+* update python matrix ([#1407](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1407)) ([639cd90](https://github.com/chanzuckerberg/cryoet-data-portal/commit/639cd901ca4c0def4baa1bdd6e8bd1aeb011a46e))
+
 ## [4.2.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.2.0...cryoet-data-portal-python-client-v4.2.1) (2024-12-06)
 
 
