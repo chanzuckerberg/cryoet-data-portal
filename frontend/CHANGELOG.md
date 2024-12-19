@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.37.3](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.37.2...web-v1.37.3) (2024-12-19)
+
+
+### 🐞 Bug Fixes
+
+* Fix run query diff logging ([#1405](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1405)) ([7179752](https://github.com/chanzuckerberg/cryoet-data-portal/commit/71797529b5114157979683aef35abcab9d014903))
+
 ## [1.37.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.37.1...web-v1.37.2) (2024-12-17)
 
 
