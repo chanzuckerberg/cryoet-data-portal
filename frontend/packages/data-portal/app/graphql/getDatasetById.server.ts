@@ -65,7 +65,7 @@ const GET_DATASET_BY_ID = gql(`
       sample_type
       tissue_name
       tissue_id
-      
+
       authors(
         order_by: {
           author_list_order: asc,
