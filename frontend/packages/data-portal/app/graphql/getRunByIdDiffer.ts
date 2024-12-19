@@ -12,7 +12,7 @@ import {
   Tomogram_Reconstruction_Method_Enum,
 } from 'app/__generated_v2__/graphql'
 
-/* eslint-disable no-console, no-param-reassign */
+/* eslint-disable no-console, no-param-reassign, no-explicit-any */
 export function logIfHasDiff(
   url: string,
   v1: GetRunByIdQuery,
