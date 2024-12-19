@@ -397,7 +397,7 @@ function getAnnotationShapesFilter(
   }
   if (objectId) {
     where.annotation!.objectId = {
-      _ilike: `%${objectId.replace(':', '_')}`,
+      _ilike: `%${objectId.replace(':', '_')}`, // _ is wildcard
     }
   }
   if (methodTypes.length > 0) {

@@ -34,7 +34,16 @@ const GET_DATASET_BY_ID = gql(`
       title
       description
 
-      funding_sources {
+      funding_sources(
+        order_by: [
+          {
+            funding_agency_name: asc
+          },
+          {
+            grant_id: asc
+          }
+        ]
+      ) {
         funding_agency_name
         grant_id
       }
@@ -56,6 +65,7 @@ const GET_DATASET_BY_ID = gql(`
       sample_type
       tissue_name
       tissue_id
+      
       authors(
         order_by: {
           author_list_order: asc,
