@@ -16,7 +16,6 @@ import {
   DEFAULT_TILT_RANGE_MIN,
 } from 'app/constants/tiltSeries'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
-import { isNumber } from 'lodash-es'
 
 const GET_DATASET_BY_ID_QUERY_V2 = gql(`
   query GetDatasetByIdV2(
@@ -231,23 +230,23 @@ function getRunFilter(
   const tiltRangeMin = parseFloat(filterState.tiltSeries.min)
   const tiltRangeMax = parseFloat(filterState.tiltSeries.max)
   if (
-    isNumber(tiltRangeMin) ||
-    isNumber(tiltRangeMax) ||
+    isFinite(tiltRangeMin) ||
+    isFinite(tiltRangeMax) ||
     filterState.tiltSeries.qualityScore.length > 0
   ) {
     where.tiltseries = {}
   }
-  if (isNumber(tiltRangeMin) || isNumber(tiltRangeMax)) {
+  if (isFinite(tiltRangeMin) || isFinite(tiltRangeMax)) {
     where.tiltseries!.tiltRange = {
-      _gte: isNumber(tiltRangeMin) ? tiltRangeMin : DEFAULT_TILT_RANGE_MIN,
-      _lte: isNumber(tiltRangeMax) ? tiltRangeMax : DEFAULT_TILT_RANGE_MAX,
+      _gte: isFinite(tiltRangeMin) ? tiltRangeMin : DEFAULT_TILT_RANGE_MIN,
+      _lte: isFinite(tiltRangeMax) ? tiltRangeMax : DEFAULT_TILT_RANGE_MAX,
     }
   }
   if (filterState.tiltSeries.qualityScore.length > 0) {
     where.tiltseries!.tiltSeriesQuality = {
       _in: filterState.tiltSeries.qualityScore
         .map(parseInt)
-        .filter((val) => isNumber(val)),
+        .filter((val) => isFinite(val)),
     }
   }
 
@@ -281,7 +280,7 @@ function getRunFilter(
       _ilike: `%${filterState.annotation.objectId.replace(':', '_')}`, // _ is wildcard
     }
   }
-  console.log(where)
+
   return where
 }
 
