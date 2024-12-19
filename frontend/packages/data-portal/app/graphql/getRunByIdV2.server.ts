@@ -238,7 +238,6 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
           methodLinks {
             edges {
               node {
-                id
                 link
                 linkType
                 name
