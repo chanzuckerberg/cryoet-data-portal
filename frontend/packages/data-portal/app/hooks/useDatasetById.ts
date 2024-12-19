@@ -2,12 +2,17 @@ import { useMemo } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
+import { GetDatasetByIdV2Query } from 'app/__generated_v2__/graphql'
 
 export function useDatasetById() {
-  const {
-    datasets: [dataset],
-    deposition,
-  } = useTypedLoaderData<GetDatasetByIdQuery>()
+  const { v1 } = useTypedLoaderData<{
+    v1: GetDatasetByIdQuery
+    v2: GetDatasetByIdV2Query
+  }>()
+
+  const dataset = v1.datasets[0]
+
+  const { deposition } = v1
 
   const objectNames = useMemo(
     () =>
