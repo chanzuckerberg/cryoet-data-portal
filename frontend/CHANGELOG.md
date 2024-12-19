@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.38.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.37.2...web-v1.38.0) (2024-12-19)
+
+
+### ✨ Features
+
+* Add V2 query for dataset page ([#1409](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1409)) ([36ba07f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/36ba07f8c650070caaa5e337b029b3666c8ae4db))
+
+
+### 🐞 Bug Fixes
+
+* Fix more run page diff logs ([#1414](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1414)) ([78b8fa9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/78b8fa98696c0f2a3668e2aacb691ef4f4e6f00c))
+* Fix run query diff logging ([#1405](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1405)) ([7179752](https://github.com/chanzuckerberg/cryoet-data-portal/commit/71797529b5114157979683aef35abcab9d014903))
+
 ## [1.37.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.37.1...web-v1.37.2) (2024-12-17)
 
 
