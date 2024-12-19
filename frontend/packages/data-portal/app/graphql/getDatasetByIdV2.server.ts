@@ -230,23 +230,27 @@ function getRunFilter(
   const tiltRangeMin = parseFloat(filterState.tiltSeries.min)
   const tiltRangeMax = parseFloat(filterState.tiltSeries.max)
   if (
-    isFinite(tiltRangeMin) ||
-    isFinite(tiltRangeMax) ||
+    Number.isFinite(tiltRangeMin) ||
+    Number.isFinite(tiltRangeMax) ||
     filterState.tiltSeries.qualityScore.length > 0
   ) {
     where.tiltseries = {}
   }
-  if (isFinite(tiltRangeMin) || isFinite(tiltRangeMax)) {
+  if (Number.isFinite(tiltRangeMin) || Number.isFinite(tiltRangeMax)) {
     where.tiltseries!.tiltRange = {
-      _gte: isFinite(tiltRangeMin) ? tiltRangeMin : DEFAULT_TILT_RANGE_MIN,
-      _lte: isFinite(tiltRangeMax) ? tiltRangeMax : DEFAULT_TILT_RANGE_MAX,
+      _gte: Number.isFinite(tiltRangeMin)
+        ? tiltRangeMin
+        : DEFAULT_TILT_RANGE_MIN,
+      _lte: Number.isFinite(tiltRangeMax)
+        ? tiltRangeMax
+        : DEFAULT_TILT_RANGE_MAX,
     }
   }
   if (filterState.tiltSeries.qualityScore.length > 0) {
     where.tiltseries!.tiltSeriesQuality = {
       _in: filterState.tiltSeries.qualityScore
         .map(parseInt)
-        .filter((val) => isFinite(val)),
+        .filter((val) => Number.isFinite(val)),
     }
   }
 
