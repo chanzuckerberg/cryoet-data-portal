@@ -23,23 +23,29 @@ export function logIfHasDiff(
   v2 = structuredClone(v2)
   // There are no alignments in V1.
   delete v2.alignmentsAggregate.aggregate
-  // Sort annotation files for consistency.
   for (const annotationShape of v2.annotationShapes) {
+    // There are no alignments in V1.
+    for (const annotationFile of annotationShape.annotationFiles.edges) {
+      delete annotationFile.node.alignmentId
+    }
+    // Sort annotation files for consistency.
     annotationShape.annotationFiles.edges.sort((edge) =>
       edge.node.format.localeCompare(edge.node.format),
     )
   }
-  // Tomogram deposition relations in V1 are incomplete.
   for (const tomogram of v2.tomograms) {
-    // There are no alignments in V1.
+    // Delete fields that don't exist in V1.
     delete tomogram.alignment
-    // Tomogram deposition relations in V1 are incomplete.
+    delete tomogram.isVisualizationDefault
+    delete tomogram.releaseDate
+    delete tomogram.lastModifiedDate
+    delete tomogram.relatedDatabaseEntries
     delete tomogram.deposition
     // Standard tomograms are V2 only.
     tomogram.isPortalStandard = false
   }
-  // Frames are not populated in V2 yet.
   for (const run of v2.runs) {
+    // There are no frames in V1.
     delete run.framesAggregate
   }
 
@@ -98,7 +104,7 @@ export function logIfHasDiff(
             ? Number(run.dataset.organism_taxid)
             : run.dataset.organism_taxid,
         otherSetup: run.dataset.other_setup,
-        // publications: run.dataset.dataset_publications,
+        datasetPublications: run.dataset.dataset_publications,
         relatedDatabaseEntries: run.dataset.related_database_entries,
         releaseDate: `${run.dataset.release_date}T00:00:00+00:00`,
         s3Prefix: run.dataset.s3_prefix,
@@ -156,7 +162,10 @@ export function logIfHasDiff(
                   alignment: {
                     affineTransformationMatrix: JSON.stringify(
                       tomogram.affine_transformation_matrix,
-                    ).replaceAll(',', ', '),
+                    )
+                      .replaceAll('[', '{')
+                      .replaceAll(']', '}')
+                      .replaceAll(', ', ','),
                   },
                 },
               })),
@@ -196,12 +205,12 @@ export function logIfHasDiff(
         annotationSoftware: file.annotation.annotation_software,
         confidencePrecision: file.annotation.confidence_precision,
         confidenceRecall: file.annotation.confidence_recall,
-        depositionDate: file.annotation.deposition_date,
+        depositionDate: `${file.annotation.deposition_date}T00:00:00+00:00`,
         groundTruthStatus: file.annotation.ground_truth_status,
         groundTruthUsed: file.annotation.ground_truth_used,
         id: file.annotation.id,
         isCuratorRecommended: file.annotation.is_curator_recommended,
-        lastModifiedDate: file.annotation.last_modified_date!,
+        lastModifiedDate: `${file.annotation.last_modified_date}T00:00:00+00:00`,
         methodLinks: {
           edges: [],
         },
@@ -211,11 +220,11 @@ export function logIfHasDiff(
         objectId: file.annotation.object_id,
         objectName: file.annotation.object_name,
         objectState: file.annotation.object_state,
-        releaseDate: file.annotation.release_date,
+        releaseDate: `${file.annotation.release_date}T00:00:00+00:00`,
         authors: {
           edges: file.annotation.authors.map((author) => ({
             node: {
-              primaryAuthorStatus: author.primary_author_status,
+              primaryAuthorStatus: author.primary_author_status ?? false,
               correspondingAuthorStatus: author.corresponding_author_status,
               name: author.name,
               email: author.email,
@@ -286,9 +295,9 @@ export function logIfHasDiff(
 
   if (Object.keys(diffObject).length > 0) {
     console.log(
-      `DIFF AT ${url}: ${JSON.stringify(diffObject)} --- ${JSON.stringify(
-        diff(v2, v1Transformed),
-      )}`,
+      `DIFF AT ${url} ========== ${JSON.stringify(
+        v1Transformed,
+      )} ========== ${JSON.stringify(v2)}`,
     )
   }
 }
