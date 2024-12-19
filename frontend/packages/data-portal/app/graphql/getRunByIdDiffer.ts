@@ -12,7 +12,7 @@ import {
   Tomogram_Reconstruction_Method_Enum,
 } from 'app/__generated_v2__/graphql'
 
-/* eslint-disable no-console, no-param-reassign */
+/* eslint-disable no-console, no-param-reassign, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return */
 export function logIfHasDiff(
   url: string,
   v1: GetRunByIdQuery,
@@ -29,8 +29,14 @@ export function logIfHasDiff(
       delete annotationFile.node.alignmentId
     }
     // Sort annotation files for consistency.
-    annotationShape.annotationFiles.edges.sort((edge) =>
-      edge.node.format.localeCompare(edge.node.format),
+    annotationShape.annotationFiles.edges.sort(
+      (annotationFileA, annotationFileB) =>
+        annotationFileA.node.format.localeCompare(annotationFileB.node.format),
+    )
+    // Sort method links for consistency.
+    annotationShape.annotation?.methodLinks.edges.sort(
+      (methodLinkA, methodLinkB) =>
+        methodLinkA.node.link.localeCompare(methodLinkB.node.link),
     )
   }
   for (const tomogram of v2.tomograms) {
@@ -190,6 +196,7 @@ export function logIfHasDiff(
       shapeType: file.shape_type as Annotation_File_Shape_Type_Enum,
       annotationFiles: {
         edges: file.annotation.files
+          .filter((nestedFile) => nestedFile.shape_type === file.shape_type)
           .map((nestedFile) => ({
             node: {
               format: nestedFile.format,
@@ -212,7 +219,18 @@ export function logIfHasDiff(
         isCuratorRecommended: file.annotation.is_curator_recommended,
         lastModifiedDate: `${file.annotation.last_modified_date}T00:00:00+00:00`,
         methodLinks: {
-          edges: [],
+          edges: file.annotation.method_links
+            ?.map((methodLink: any) => ({
+              node: {
+                link: methodLink.link,
+                linkType: methodLink.link_type,
+                name: methodLink.custom_name,
+              },
+            }))
+            .sort(
+              (methodLinkA: any, methodLinkB: any) =>
+                methodLinkA.node.link?.localeCompare(methodLinkB.node.link),
+            ),
         },
         methodType: file.annotation.method_type as Annotation_Method_Type_Enum,
         objectCount: file.annotation.object_count,
@@ -295,9 +313,9 @@ export function logIfHasDiff(
 
   if (Object.keys(diffObject).length > 0) {
     console.log(
-      `DIFF AT ${url} ========== ${JSON.stringify(
+      `DIFF AT ${url} ======================================== ${JSON.stringify(
         v1Transformed,
-      )} ========== ${JSON.stringify(v2)}`,
+      )} ======================================== ${JSON.stringify(v2)}`,
     )
   }
 }
