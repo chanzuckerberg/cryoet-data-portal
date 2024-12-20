@@ -1,4 +1,5 @@
 {
+  "bootstrap-sha": "eadfdac438f49a89de7f67d9cf1899b1f9749298",
   "changelog-sections": [
     { "type": "feat", "section": "✨ Features" },
     { "type": "fix", "section": "🐞 Bug Fixes" },
