@@ -2,7 +2,6 @@ try:
     from importlib import metadata
 except ImportError:
     # for python <=3.7
-    # TODO: Remove after, testing
     import importlib_metadata as metadata  # type: ignore[no-redef]
 
 try:
