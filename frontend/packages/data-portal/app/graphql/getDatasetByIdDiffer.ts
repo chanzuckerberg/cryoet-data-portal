@@ -267,9 +267,11 @@ export function logIfHasDiff(
 
   if (Object.keys(diffObject).length > 0) {
     console.log(
-      `DIFF AT ${url} ======================================== ${JSON.stringify(
+      `DIFF AT ${url} ================================================================================ ${JSON.stringify(
         v1Transformed,
-      )} ======================================== ${JSON.stringify(v2)}`,
+      )} ================================================================================ ${JSON.stringify(
+        v2,
+      )}`,
     )
   }
 }

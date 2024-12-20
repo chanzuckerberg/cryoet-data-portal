@@ -105,6 +105,7 @@ const GET_DATASET_BY_ID = gql(`
         limit: $run_limit,
         offset: $run_offset,
         where: $filter,
+        order_by: { name: asc }
       ) {
         id
         name

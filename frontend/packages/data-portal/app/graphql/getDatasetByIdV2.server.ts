@@ -136,6 +136,9 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
     # Runs table
     runs(
       where: $runFilter,
+      orderBy: {
+        name: asc
+      },
       limitOffset: {
         limit: $runLimit,
         offset: $runOffset
