@@ -168,10 +168,7 @@ export function logIfHasDiff(
                   alignment: {
                     affineTransformationMatrix: JSON.stringify(
                       tomogram.affine_transformation_matrix,
-                    )
-                      .replaceAll('[', '{')
-                      .replaceAll(']', '}')
-                      .replaceAll(', ', ','),
+                    ).replaceAll(',', ', '),
                   },
                 },
               })),
