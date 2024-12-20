@@ -48,8 +48,6 @@ const GET_DATASET_BY_ID = gql(`
         grant_id
       }
 
-      related_database_entries
-
       # Sample and experiments data
       cell_component_name
       cell_component_id

@@ -55,8 +55,6 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
         }
       }
 
-      relatedDatabaseEntries
-
       # Sample and experiments data
       cellComponentName
       cellComponentId
