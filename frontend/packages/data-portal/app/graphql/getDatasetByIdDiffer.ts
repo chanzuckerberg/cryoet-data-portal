@@ -8,7 +8,7 @@ import {
   Tiltseries_Microscope_Manufacturer_Enum,
 } from 'app/__generated_v2__/graphql'
 
-/* eslint-disable no-console, no-param-reassign, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return */
+/* eslint-disable no-console, no-param-reassign */
 export function logIfHasDiff(
   url: string,
   v1: GetDatasetByIdQuery,
