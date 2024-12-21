@@ -42,14 +42,15 @@ export function SurveyBanner() {
 
   const location = useLocation()
 
+  if (!BANNER_ALLOWLIST.some((regex) => regex.test(location.pathname))) {
+    return null
+  }
+
   return (
     <div
       className={cns(
         'hidden screen-716:block sticky bottom-0 w-full',
         styles.banner,
-
-        BANNER_ALLOWLIST.every((regex) => !regex.test(location.pathname)) &&
-          'screen-716:hidden',
       )}
     >
       <Banner

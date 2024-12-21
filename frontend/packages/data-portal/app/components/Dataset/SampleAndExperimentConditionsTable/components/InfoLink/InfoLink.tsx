@@ -8,13 +8,12 @@ import {
   WORMBASE_PATTERN,
 } from 'app/constants/datasetInfoLinks'
 
-export function InfoLink({
-  value,
-  id,
-}: {
+export interface InfoLinkProps {
   value?: string | null
-  id?: string | null
-}) {
+  id?: number | string | null
+}
+
+export function InfoLink({ value, id }: InfoLinkProps) {
   if (!value) {
     return <span>--</span>
   }
@@ -22,7 +21,7 @@ export function InfoLink({
   if (id) {
     let link
     if (typeof id === 'number') {
-      link = `${NCBI}${id as number}`
+      link = `${NCBI}${id}`
     } else if (id.match(NCBI_ONTOLOGY_PATTERN)) {
       link = `${NCBI}${id.replace('NCBITaxon:', '')}`
     } else if (id.match(WORMBASE_PATTERN)) {

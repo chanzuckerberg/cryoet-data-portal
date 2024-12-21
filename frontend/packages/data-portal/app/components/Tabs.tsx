@@ -1,5 +1,6 @@
-import Tab from '@mui/material/Tab'
-import MUITabs, { TabsProps } from '@mui/material/Tabs'
+// TODO path imports not working in unit tests
+// eslint-disable-next-line cryoet-data-portal/no-root-mui-import
+import { Tab, Tabs as MUITabs, TabsProps } from '@mui/material'
 import { ReactNode } from 'react'
 
 import { cns } from 'app/utils/cns'

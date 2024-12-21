@@ -8,6 +8,7 @@ module.exports = {
   moduleNameMapper: {
     '^app/(.*)$': '<rootDir>/app/$1',
     '^(.*).png$': '<rootDir>/app/utils/fileMock.ts',
+    '^(.*).module.css$': 'identity-obj-proxy',
   },
 
   transform: {
