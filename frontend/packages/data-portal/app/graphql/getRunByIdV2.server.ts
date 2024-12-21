@@ -15,314 +15,243 @@ import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
 const GET_RUN_BY_ID_QUERY_V2 = gql(`
-    query GetRunByIdV2(
-      $id: Int
-      $limit: Int
-      $annotationShapesOffset: Int
-      $annotationShapesFilter: AnnotationShapeWhereClause
-    ) {
-      runs(where: { id: { _eq: $id } }) {
+  query GetRunByIdV2(
+    $id: Int
+    $limit: Int
+    $annotationShapesOffset: Int
+    $annotationShapesFilter: AnnotationShapeWhereClause
+  ) {
+    runs(where: { id: { _eq: $id } }) {
+      id
+      name
+
+      # Metadata sidebar
+      tiltseries(first: 1) {
+        edges {
+          node {
+            accelerationVoltage
+            alignedTiltseriesBinning
+            binningFromFrames
+            cameraManufacturer
+            cameraModel
+            dataAcquisitionSoftware
+            id
+            isAligned
+            microscopeAdditionalInfo
+            microscopeEnergyFilter
+            microscopeImageCorrector
+            microscopeManufacturer
+            microscopeModel
+            microscopePhasePlate
+            pixelSpacing
+            relatedEmpiarEntry
+            sphericalAberrationConstant
+            tiltAxis
+            tiltMax
+            tiltMin
+            tiltRange
+            tiltSeriesQuality
+            tiltStep
+            tiltingScheme
+            totalFlux
+          }
+        }
+      }
+
+      dataset {
+        cellComponentName
+        cellComponentId
+        cellName
+        cellStrainName
+        cellStrainId
+        cellTypeId
+        depositionDate
+        description
+        gridPreparation
         id
-        name
+        lastModifiedDate
+        organismName
+        organismTaxid
+        otherSetup
+        datasetPublications
+        relatedDatabaseEntries
+        relatedDatabaseEntries
+        releaseDate
+        s3Prefix
+        samplePreparation
+        sampleType
+        tissueName
+        tissueId
+        title
 
-        # Metadata sidebar
-        tiltseries(first: 1) {
-          edges {
-            node {
-              accelerationVoltage
-              alignedTiltseriesBinning
-              binningFromFrames
-              cameraManufacturer
-              cameraModel
-              dataAcquisitionSoftware
-              id
-              isAligned
-              microscopeAdditionalInfo
-              microscopeEnergyFilter
-              microscopeImageCorrector
-              microscopeManufacturer
-              microscopeModel
-              microscopePhasePlate
-              pixelSpacing
-              relatedEmpiarEntry
-              sphericalAberrationConstant
-              tiltAxis
-              tiltMax
-              tiltMin
-              tiltRange
-              tiltSeriesQuality
-              tiltStep
-              tiltingScheme
-              totalFlux
-            }
+        fundingSources(
+          orderBy: {
+            fundingAgencyName: asc
+            grantId: asc
           }
-        }
-
-        dataset {
-          cellComponentName
-          cellComponentId
-          cellName
-          cellStrainName
-          cellStrainId
-          cellTypeId
-          depositionDate
-          description
-          gridPreparation
-          id
-          lastModifiedDate
-          organismName
-          organismTaxid
-          otherSetup
-          datasetPublications
-          relatedDatabaseEntries
-          relatedDatabaseEntries
-          releaseDate
-          s3Prefix
-          samplePreparation
-          sampleType
-          tissueName
-          tissueId
-          title
-
-          fundingSources(
-            orderBy: {
-              fundingAgencyName: asc
-              grantId: asc
-            }
-          ) {
-            edges {
-              node {
-                fundingAgencyName
-                grantId
-              }
-            }
-          }
-
-          authors(
-            orderBy: {
-              authorListOrder: asc,
-            },
-          ) {
-            edges {
-              node {
-                correspondingAuthorStatus
-                email
-                name
-                orcid
-                primaryAuthorStatus
-              }
-            }
-          }
-        }
-
-        # Legacy single tomogram
-        tomogramVoxelSpacings(
-          first: 1
-          # where: {
-          #   tomograms: {
-          #     isAuthorSubmitted: { _eq: true} # TODO(bchu): Uncomment when bool bug fixed AND isAuthorSubmitted is populated.
-          #   }
-          # }
         ) {
           edges {
             node {
-              id
-              s3Prefix
+              fundingAgencyName
+              grantId
+            }
+          }
+        }
 
-              tomograms(
-                first: 1
-                where: {
-                  isVisualizationDefault: { _eq: true }
-                }
-                # where: {
-                #   isAuthorSubmitted: { _eq: true } # TODO(bchu): Uncomment when bool bug fixed.
-                # }
-              ) {
-                edges {
-                  node {
-                    ctfCorrected
-                    fiducialAlignmentStatus
-                    id
-                    keyPhotoUrl
-                    name
-                    neuroglancerConfig
-                    processing
-                    processingSoftware
-                    reconstructionMethod
-                    reconstructionSoftware
-                    sizeX
-                    sizeY
-                    sizeZ
-                    voxelSpacing
-                    alignment {
-                      affineTransformationMatrix
-                    }
+        authors(
+          orderBy: {
+            authorListOrder: asc,
+          },
+        ) {
+          edges {
+            node {
+              correspondingAuthorStatus
+              email
+              name
+              orcid
+              primaryAuthorStatus
+            }
+          }
+        }
+      }
+
+      # Legacy single tomogram
+      tomogramVoxelSpacings(
+        first: 1
+        # where: {
+        #   tomograms: {
+        #     isAuthorSubmitted: { _eq: true} # TODO(bchu): Uncomment when bool bug fixed AND isAuthorSubmitted is populated.
+        #   }
+        # }
+      ) {
+        edges {
+          node {
+            id
+            s3Prefix
+
+            tomograms(
+              first: 1
+              where: {
+                isVisualizationDefault: { _eq: true }
+              }
+              # where: {
+              #   isAuthorSubmitted: { _eq: true } # TODO(bchu): Uncomment when bool bug fixed.
+              # }
+            ) {
+              edges {
+                node {
+                  ctfCorrected
+                  fiducialAlignmentStatus
+                  id
+                  keyPhotoUrl
+                  name
+                  neuroglancerConfig
+                  processing
+                  processingSoftware
+                  reconstructionMethod
+                  reconstructionSoftware
+                  sizeX
+                  sizeY
+                  sizeZ
+                  voxelSpacing
+                  alignment {
+                    affineTransformationMatrix
                   }
                 }
               }
             }
           }
         }
-
-        # Header
-        framesAggregate {
-          aggregate {
-            count
-          }
-        }
-        tiltseriesAggregate {
-          aggregate {
-            count
-            avg {
-              tiltSeriesQuality
-            }
-          }
-        }
       }
 
       # Header
-      alignmentsAggregate(where: {run: {id: {_eq: $id}}}) {
+      framesAggregate {
         aggregate {
           count
         }
       }
-
-      # Annotations table
-      annotationShapes(
-        where: $annotationShapesFilter
-        orderBy: [
-          {
-            annotation: {
-              groundTruthStatus: desc
-            }
-          },
-          {
-            annotation: {
-              depositionDate: desc
-            }
-          },
-          {
-            annotation: {
-              id: desc
-            }
-          }
-        ]
-        limitOffset: {
-          limit: $limit
-          offset: $annotationShapesOffset
-        }
-      ) {
-        shapeType
-        annotationFiles {
-          edges {
-            node {
-              alignmentId
-              format
-              httpsPath
-              s3Path
-            }
-          }
-        }
-        annotation {
-          annotationMethod
-          annotationPublication
-          annotationSoftware
-          confidencePrecision
-          confidenceRecall
-          depositionDate
-          groundTruthStatus
-          groundTruthUsed
-          id
-          isCuratorRecommended
-          lastModifiedDate
-          methodLinks {
-            edges {
-              node {
-                link
-                linkType
-                name
-              }
-            }
-          }
-          methodType
-          objectCount
-          objectDescription
-          objectId
-          objectName
-          objectState
-          releaseDate
-          authors(orderBy: { authorListOrder: asc }) {
-            edges {
-              node {
-                primaryAuthorStatus
-                correspondingAuthorStatus
-                name
-                email
-                orcid
-              }
-            }
-          }
-          authorsAggregate {
-            aggregate {
-              count
-            }
-          }
-          deposition {
-            id
-            title
+      tiltseriesAggregate {
+        aggregate {
+          count
+          avg {
+            tiltSeriesQuality
           }
         }
       }
+    }
 
-      # Tomograms table + download selector
-      tomograms(where: { run: { id: { _eq: $id } } }) {
-        alignment {
-          id
-          affineTransformationMatrix
-          alignmentType
-          tiltOffset
-          volumeXDimension
-          volumeYDimension
-          volumeZDimension
-          volumeXOffset
-          volumeYOffset
-          volumeZOffset
-          xRotationOffset
+    # Header
+    alignmentsAggregate(where: {run: {id: {_eq: $id}}}) {
+      aggregate {
+        count
+      }
+    }
+
+    # Annotations table
+    annotationShapes(
+      where: $annotationShapesFilter
+      orderBy: [
+        {
+          annotation: {
+            groundTruthStatus: desc
+          }
+        },
+        {
+          annotation: {
+            depositionDate: desc
+          }
+        },
+        {
+          annotation: {
+            id: desc
+          }
         }
-        ctfCorrected
-        fiducialAlignmentStatus
-        httpsMrcFile
+      ]
+      limitOffset: {
+        limit: $limit
+        offset: $annotationShapesOffset
+      }
+    ) {
+      shapeType
+      annotationFiles {
+        edges {
+          node {
+            alignmentId
+            format
+            httpsPath
+            s3Path
+          }
+        }
+      }
+      annotation {
+        annotationMethod
+        annotationPublication
+        annotationSoftware
+        confidencePrecision
+        confidenceRecall
+        depositionDate
+        groundTruthStatus
+        groundTruthUsed
         id
-        isPortalStandard
-        isAuthorSubmitted
-        isVisualizationDefault
-        keyPhotoThumbnailUrl
-        keyPhotoUrl
-        name
-        neuroglancerConfig
-        processing
-        processingSoftware
-        reconstructionMethod
-        reconstructionSoftware
-        s3MrcFile
-        s3OmezarrDir
-        sizeX
-        sizeY
-        sizeZ
-        voxelSpacing
-        releaseDate
+        isCuratorRecommended
         lastModifiedDate
-        relatedDatabaseEntries
-        deposition {
-          id
-          depositionDate
-          title
+        methodLinks {
+          edges {
+            node {
+              link
+              linkType
+              name
+            }
+          }
         }
-        tomogramVoxelSpacing {
-          id
-          s3Prefix
-        }
-        authors {
+        methodType
+        objectCount
+        objectDescription
+        objectId
+        objectName
+        objectState
+        releaseDate
+        authors(orderBy: { authorListOrder: asc }) {
           edges {
             node {
               primaryAuthorStatus
@@ -333,8 +262,79 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
             }
           }
         }
+        authorsAggregate {
+          aggregate {
+            count
+          }
+        }
+        deposition {
+          id
+          title
+        }
       }
     }
+
+    # Tomograms table + download selector
+    tomograms(where: { run: { id: { _eq: $id } } }) {
+      alignment {
+        id
+        affineTransformationMatrix
+        alignmentType
+        tiltOffset
+        volumeXDimension
+        volumeYDimension
+        volumeZDimension
+        volumeXOffset
+        volumeYOffset
+        volumeZOffset
+        xRotationOffset
+      }
+      ctfCorrected
+      fiducialAlignmentStatus
+      httpsMrcFile
+      id
+      isPortalStandard
+      isAuthorSubmitted
+      isVisualizationDefault
+      keyPhotoThumbnailUrl
+      keyPhotoUrl
+      name
+      neuroglancerConfig
+      processing
+      processingSoftware
+      reconstructionMethod
+      reconstructionSoftware
+      s3MrcFile
+      s3OmezarrDir
+      sizeX
+      sizeY
+      sizeZ
+      voxelSpacing
+      releaseDate
+      lastModifiedDate
+      relatedDatabaseEntries
+      deposition {
+        id
+        depositionDate
+        title
+      }
+      tomogramVoxelSpacing {
+        id
+        s3Prefix
+      }
+      authors {
+        edges {
+          node {
+            primaryAuthorStatus
+            correspondingAuthorStatus
+            name
+            email
+            orcid
+          }
+        }
+      }
+    }
+  }
 `)
 
 function getAnnotationShapesFilter(

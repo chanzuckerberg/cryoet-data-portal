@@ -14,6 +14,7 @@ import { TablePageLayout } from 'app/components/TablePageLayout'
 import { RUN_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
+import { logIfHasDiff } from 'app/graphql/getDatasetByIdDiffer'
 import { getDatasetByIdV2 } from 'app/graphql/getDatasetByIdV2.server'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
@@ -60,6 +61,13 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       status: 404,
       statusText: `Dataset with ID ${id} not found`,
     })
+  }
+
+  try {
+    logIfHasDiff(request.url, responseV1, responseV2)
+  } catch (error) {
+    // eslint-disable-next-line no-console, @typescript-eslint/restrict-template-expressions
+    console.log(`DIFF ERROR: ${error}`)
   }
 
   return json({
