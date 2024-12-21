@@ -38,7 +38,7 @@ export function DepositionFilterBanner({
             i18nKey={labelI18n}
             values={{
               ...deposition,
-              url: `/depositions/${deposition.id}${previousSingleDepositionParams}`,
+              url: `/depositions/${deposition.id}?${previousSingleDepositionParams}`,
             }}
             tOptions={{ interpolation: { escapeValue: false } }}
           />
