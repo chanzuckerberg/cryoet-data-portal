@@ -80,7 +80,7 @@ describe('<MLChallengeBanner />', () => {
     setMockTime('2024-12-01')
 
     await renderMlChallengeBanner()
-    await getMockUser().click(screen.getByRole('button'))
+    await getMockUser({ hasFakeTimers: true }).click(screen.getByRole('button'))
 
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
     expect(localStorageMock.setValue).toHaveBeenCalledWith(

@@ -98,7 +98,7 @@ describe('<TablePageLayout />', () => {
 
     await renderTablePageLayout(tabs)
     expect(remixMock.setParams).toHaveBeenCalled()
-    expect(remixMock.getLastSetParams().toString()).toEqual('')
+    expect(remixMock.getLastSetParams()?.toString()).toEqual('')
   })
 
   it('should open next page on click', async () => {
@@ -110,7 +110,7 @@ describe('<TablePageLayout />', () => {
         .querySelector('[data-order=last]')!,
     )
 
-    expect(remixMock.getLastSetParams().toString()).toEqual('page=2')
+    expect(remixMock.getLastSetParams()?.toString()).toEqual('page=2')
   })
 
   it('should disable previous page button on first page', async () => {
@@ -135,7 +135,7 @@ describe('<TablePageLayout />', () => {
         .querySelector('[data-order=first]')!,
     )
 
-    expect(remixMock.getLastSetParams().toString()).toEqual('page=1')
+    expect(remixMock.getLastSetParams()?.toString()).toEqual('page=1')
   })
 
   it('should disable next button on last page', async () => {
@@ -161,6 +161,6 @@ describe('<TablePageLayout />', () => {
     await renderTablePageLayout(tabs)
     await userEvent.click(screen.getByText('3', { selector: 'li' }))
 
-    expect(remixMock.getLastSetParams().toString()).toEqual('page=3')
+    expect(remixMock.getLastSetParams()?.toString()).toEqual('page=3')
   })
 })
