@@ -57,13 +57,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       client: apolloClient,
       params: url.searchParams,
     }),
-    getRunByIdV2(
-      apolloClientV2,
+    getRunByIdV2({
+      client: apolloClientV2,
       id,
       annotationsPage,
-      url.searchParams,
-      Number.isNaN(depositionId) ? undefined : depositionId,
-    ),
+      params: url.searchParams,
+      depositionId: Number.isNaN(depositionId) ? undefined : depositionId,
+    }),
   ])
 
   if (responseV1.runs.length === 0) {

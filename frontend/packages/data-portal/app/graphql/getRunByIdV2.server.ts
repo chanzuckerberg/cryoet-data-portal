@@ -422,13 +422,21 @@ function getAnnotationShapesFilter(
   return where
 }
 
-export async function getRunByIdV2(
-  client: ApolloClient<NormalizedCacheObject>,
-  id: number,
-  annotationsPage: number,
-  params: URLSearchParams = new URLSearchParams(),
-  depositionId?: number,
-): Promise<ApolloQueryResult<GetRunByIdV2Query>> {
+export interface GetRunByIdV2Params {
+  client: ApolloClient<NormalizedCacheObject>
+  id: number
+  annotationsPage: number
+  params: URLSearchParams
+  depositionId?: number
+}
+
+export async function getRunByIdV2({
+  client,
+  id,
+  annotationsPage,
+  params = new URLSearchParams(),
+  depositionId,
+}: GetRunByIdV2Params): Promise<ApolloQueryResult<GetRunByIdV2Query>> {
   return client.query({
     query: GET_RUN_BY_ID_QUERY_V2,
     variables: {
