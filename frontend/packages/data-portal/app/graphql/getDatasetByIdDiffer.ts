@@ -253,14 +253,15 @@ export function logIfHasDiff(
             groupA.groupBy.tiltSeriesQuality - groupB.groupBy.tiltSeriesQuality,
         ),
     },
-    depositions: v1.deposition
-      ? [
-          {
-            id: v1.deposition.id,
-            title: v1.deposition.title,
-          },
-        ]
-      : [],
+    depositions:
+      v1.deposition != null
+        ? [
+            {
+              id: v1.deposition.id,
+              title: v1.deposition.title,
+            },
+          ]
+        : [],
   }
 
   const diffObject = diff(v1Transformed, v2)
