@@ -47,17 +47,23 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const annotationsPage = +(
     url.searchParams.get(QueryParams.AnnotationsPage) ?? '1'
   )
-  const depositionId = +(url.searchParams.get(QueryParams.DepositionId) ?? '-1')
+  const depositionId = Number(url.searchParams.get(QueryParams.DepositionId))
 
   const [{ data: responseV1 }, { data: responseV2 }] = await Promise.all([
     getRunById({
       id,
       annotationsPage,
-      depositionId,
+      depositionId: Number.isNaN(depositionId) ? undefined : depositionId,
       client: apolloClient,
       params: url.searchParams,
     }),
-    getRunByIdV2(apolloClientV2, id, annotationsPage, url.searchParams),
+    getRunByIdV2(
+      apolloClientV2,
+      id,
+      annotationsPage,
+      url.searchParams,
+      Number.isNaN(depositionId) ? undefined : depositionId,
+    ),
   ])
 
   if (responseV1.runs.length === 0) {

@@ -20,6 +20,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
     $limit: Int
     $annotationShapesOffset: Int
     $annotationShapesFilter: AnnotationShapeWhereClause
+    $depositionId: Int
   ) {
     runs(where: { id: { _eq: $id } }) {
       id
@@ -272,6 +273,13 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
           title
         }
       }
+
+      # Deposition banner
+      # Returns empty array if $depositionId not defined
+      depositions(where: { id: { _eq: $depositionId }}) {
+        id
+        title
+      }
     }
 
     # Tomograms table + download selector
@@ -419,6 +427,7 @@ export async function getRunByIdV2(
   id: number,
   annotationsPage: number,
   params: URLSearchParams = new URLSearchParams(),
+  depositionId?: number,
 ): Promise<ApolloQueryResult<GetRunByIdV2Query>> {
   return client.query({
     query: GET_RUN_BY_ID_QUERY_V2,
@@ -430,6 +439,7 @@ export async function getRunByIdV2(
         id,
         getFilterState(params),
       ),
+      depositionId,
     },
   })
 }
