@@ -434,7 +434,7 @@ export async function getRunByIdV2({
   client,
   id,
   annotationsPage,
-  params = new URLSearchParams(),
+  params,
   depositionId,
 }: GetRunByIdV2Params): Promise<ApolloQueryResult<GetRunByIdV2Query>> {
   return client.query({
