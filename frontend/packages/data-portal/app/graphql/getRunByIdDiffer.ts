@@ -304,6 +304,15 @@ export function logIfHasDiff(
         })),
       },
     })),
+    depositions:
+      v1.deposition != null
+        ? [
+            {
+              id: v1.deposition.id,
+              title: v1.deposition.title,
+            },
+          ]
+        : [],
   }
 
   const diffObject = diff(v1Transformed, v2)

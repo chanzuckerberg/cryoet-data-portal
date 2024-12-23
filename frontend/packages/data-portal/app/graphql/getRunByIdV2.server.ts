@@ -20,6 +20,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
     $limit: Int
     $annotationShapesOffset: Int
     $annotationShapesFilter: AnnotationShapeWhereClause
+    $depositionId: Int
   ) {
     runs(where: { id: { _eq: $id } }) {
       id
@@ -334,6 +335,13 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         }
       }
     }
+
+    # Deposition banner
+    # Returns empty array if $depositionId not defined
+    depositions(where: { id: { _eq: $depositionId }}) {
+      id
+      title
+    }
   }
 `)
 
@@ -414,12 +422,21 @@ function getAnnotationShapesFilter(
   return where
 }
 
-export async function getRunByIdV2(
-  client: ApolloClient<NormalizedCacheObject>,
-  id: number,
-  annotationsPage: number,
-  params: URLSearchParams = new URLSearchParams(),
-): Promise<ApolloQueryResult<GetRunByIdV2Query>> {
+export interface GetRunByIdV2Params {
+  client: ApolloClient<NormalizedCacheObject>
+  id: number
+  annotationsPage: number
+  params: URLSearchParams
+  depositionId?: number
+}
+
+export async function getRunByIdV2({
+  client,
+  id,
+  annotationsPage,
+  params,
+  depositionId,
+}: GetRunByIdV2Params): Promise<ApolloQueryResult<GetRunByIdV2Query>> {
   return client.query({
     query: GET_RUN_BY_ID_QUERY_V2,
     variables: {
@@ -430,6 +447,7 @@ export async function getRunByIdV2(
         id,
         getFilterState(params),
       ),
+      depositionId,
     },
   })
 }

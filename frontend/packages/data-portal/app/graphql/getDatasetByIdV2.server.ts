@@ -202,6 +202,7 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
     }
 
     # Deposition banner
+    # Returns empty array if $depositionId not defined
     depositions(where: { id: { _eq: $depositionId }}) {
       id
       title
