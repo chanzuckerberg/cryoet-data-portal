@@ -73,7 +73,7 @@ export function useRunById() {
 
   const alignmentsCount = v2.alignmentsAggregate.aggregate?.[0]?.count ?? 0
 
-  const { deposition } = v1
+  const deposition = v2.depositions[0]
 
   return {
     run,
