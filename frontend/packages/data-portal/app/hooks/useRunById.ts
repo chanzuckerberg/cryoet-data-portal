@@ -40,6 +40,7 @@ export function useRunById() {
     return t2.id - t1.id
   })
 
+  // TODO(bchu): Sort manually in V2.
   const processingMethods = v1.tomograms_for_distinct_processing_methods.map(
     (tomogram) => tomogram.processing,
   )
@@ -56,6 +57,7 @@ export function useRunById() {
     .map((annotation) => annotation.annotation_software)
     .filter(isDefined)
 
+  // TODO(bchu): Sort manually in V2.
   const resolutions = v1.tomograms_for_resolutions.map(
     (tomogram) => tomogram.voxel_spacing,
   )

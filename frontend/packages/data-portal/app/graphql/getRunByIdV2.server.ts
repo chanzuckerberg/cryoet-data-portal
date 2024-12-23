@@ -20,6 +20,8 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
     $limit: Int
     $annotationShapesOffset: Int
     $annotationShapesFilter: AnnotationShapeWhereClause
+    $annotationShapesFilterGroundTruthTrue: AnnotationShapeWhereClause
+    $annotationShapesFilterGroundTruthFalse: AnnotationShapeWhereClause
     $depositionId: Int
   ) {
     runs(where: { id: { _eq: $id } }) {
@@ -336,6 +338,79 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
       }
     }
 
+    # Annotation metadata:
+    uniqueAnnotationSoftwares: annotationsAggregate(where: { runId: { _eq: $id }}) {
+      aggregate {
+        count
+        groupBy {
+          annotationSoftware
+        }
+      }
+    }
+    uniqueObjectNames: annotationsAggregate(where: { runId: { _eq: $id }}) {
+      aggregate {
+        count
+        groupBy {
+          objectName
+        }
+      }
+    }
+    uniqueShapeTypes: annotationShapesAggregate(where: { annotation: { runId: { _eq: $id }}}) {
+      aggregate {
+        count
+        groupBy {
+          shapeType
+        }
+      }
+    }
+
+    # Tomogram metadata:
+    uniqueResolutions: tomogramVoxelSpacingsAggregate(where: { runId: { _eq: $id }}) {
+      aggregate {
+        count
+        groupBy {
+          voxelSpacing
+        }
+      }
+    }
+    uniqueProcessingMethods: tomogramsAggregate(where: { runId: { _eq: $id }}) {
+      aggregate {
+        count
+        groupBy {
+          processing
+        }
+      }
+    }
+
+    # Annotation counts:
+    numTotalAnnotationRows: annotationShapesAggregate(where: { annotation: { runId: { _eq: $id }}}) {
+      aggregate {
+        count
+      }
+    }
+    numFilteredAnnotationRows: annotationShapesAggregate(where: $annotationShapesFilter) {
+      aggregate {
+        count
+      }
+    }
+    numFilteredGroundTruthAnnotationRows: annotationShapesAggregate(where: $annotationShapesFilterGroundTruthTrue) {
+      aggregate {
+        count
+      }
+    }
+    numFilteredOtherAnnotationRows: annotationShapesAggregate(where: $annotationShapesFilterGroundTruthFalse) {
+      aggregate {
+        count
+      }
+    }
+
+    # Tomogram counts:
+    tomogramsAggregate(where: { runId: { _eq: $id }}) {
+      aggregate {
+        count
+      }
+    }
+
     # Deposition banner
     # Returns empty array if $depositionId not defined
     depositions(where: { id: { _eq: $depositionId }}) {
@@ -348,6 +423,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
 function getAnnotationShapesFilter(
   runId: number,
   filterState: FilterState,
+  groundTruthStatus?: boolean,
 ): AnnotationShapeWhereClause {
   const where: AnnotationShapeWhereClause = {
     annotation: {
@@ -419,6 +495,13 @@ function getAnnotationShapesFilter(
     }
   }
 
+  // Ground truth dividers
+  if (groundTruthStatus !== undefined) {
+    where.annotation!.groundTruthStatus = {
+      _eq: groundTruthStatus,
+    }
+  }
+
   return where
 }
 
@@ -446,6 +529,16 @@ export async function getRunByIdV2({
       annotationShapesFilter: getAnnotationShapesFilter(
         id,
         getFilterState(params),
+      ),
+      annotationShapesFilterGroundTruthTrue: getAnnotationShapesFilter(
+        id,
+        getFilterState(params),
+        /* groundTruthStatus */ true,
+      ),
+      annotationShapesFilterGroundTruthFalse: getAnnotationShapesFilter(
+        id,
+        getFilterState(params),
+        /* groundTruthStatus */ false,
       ),
       depositionId,
     },
