@@ -7,19 +7,61 @@ on:
   delete:
     branches:
       - 'dev-*'
+  pull_request:
+    types: [labeled, unlabeled, synchronize, closed]
 
 # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
 permissions:
-  id-token: write
   contents: read
+  id-token: write
+  pull-requests: write
 
 jobs:
   deploy-to-dev:
     name: deploy dev branch
     runs-on: ubuntu-latest
     environment: dev
-    if: github.repository == 'chanzuckerberg/cryoet-data-portal'
+    if: |
+      github.repository == 'chanzuckerberg/cryoet-data-portal' && (
+        github.event_name != 'pull_request' || (
+          startsWith(github.head_ref, 'dev-') != true && (
+            contains(github.event.pull_request.labels.*.name, 'preview') || (
+              github.event.action == 'unlabeled' &&
+              github.event.label.name == 'preview'
+            )
+          )
+        )
+      )
+
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - id: deploy-data
+        name: get stack name
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+            const event = ${{ toJson(github.event) }}
+            const eventName = '${{ github.event_name }}'
+
+            let name = ''
+
+            switch (eventName) {
+              case 'pull_request': {
+                name = event.pull_request.head.ref
+                break
+              }
+
+              default: {
+                name = event.ref.replace('refs/heads/', '')
+                break
+              }
+            }
+
+            return name.replaceAll('/', '-').slice(0, 25)
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -27,16 +69,15 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-duration-seconds: 1200
-      - name: Setting up stack name
-        run: |
-          if [[ ${#GITHUB_REF_NAME} -gt 25 ]]; then
-            echo "branch name: ${GITHUB_REF_NAME}, length ${#GITHUB_REF_NAME}, is $((${#GITHUB_REF_NAME} - 25)) characters too long, please use a branch name that's 25 characters or shorter"
-            exit 1
-          else
-            echo $GITHUB_REF_NAME | tr '[:upper:]' '[:lower:]' | xargs -I {} -n 1 echo STACK_NAME={} >> $GITHUB_ENV
-          fi
+
       - name: Create or update dev stack
-        if: ${{ github.event_name == 'push' }}
+        if: |
+          github.event_name == 'push' || (
+            github.event_name == 'pull_request' && (
+              github.event.action == 'labeled' ||
+              github.event.action == 'synchronize'
+            )
+          )
         uses: chanzuckerberg/github-actions/.github/actions/deploy-happy-stack@v1.24.0
         env:
           # Force using BuildKit instead of normal Docker, required so that metadata
@@ -46,7 +87,7 @@ jobs:
           DOCKER_REPO: ${{ secrets.ECR_REPO }}/
           ENV: dev
         with:
-          stack-name: ${{ env.STACK_NAME }}
+          stack-name: ${{ steps.deploy-data.outputs.result }}
           create-tag: true
           tfe-token: ${{ secrets.TFE_TOKEN }}
           working-directory: ./frontend
@@ -54,23 +95,95 @@ jobs:
           operation: create-or-update
 
       - name: Annotate workflow run with frontend URL
-        if: ${{ github.event_name == 'push' }} && success()
+        if: |
+          github.event_name == 'push' || (
+            github.event_name == 'pull_request' && (
+              github.event.action == 'labeled' ||
+              github.event.action == 'synchronize'
+            )
+          )
         run: |
           echo "# Frontend URL:" >> $GITHUB_STEP_SUMMARY
           echo >> $GITHUB_STEP_SUMMARY
-          echo "https://${{ env.STACK_NAME }}.cryoet.dev.si.czi.technology" >> $GITHUB_STEP_SUMMARY
+          echo "https://${{ steps.deploy-data.outputs.result }}.cryoet.dev.si.czi.technology" >> $GITHUB_STEP_SUMMARY
 
-      - name: Delete dev set up stack name
-        if: ${{ github.event_name == 'delete' && startsWith(github.event.ref, 'dev-') }}
-        run: |
-          echo ${{ github.event.ref }} | tr '[:upper:]' '[:lower:]' | xargs -I {} -n 1 echo DELETE_STACK_NAME={} >> $GITHUB_ENV
+      - id: find-comment
+        name: Find PR comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/find-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-includes: 'Frontend Preview URL'
+
+      - id: get-comment-date
+        name: Get PR comment updated date
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+            const date = new Date()
+
+            const options = {
+              month: '2-digit',
+              day: '2-digit',
+              year: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: true,
+            };
+
+            const pstDate = date.toLocaleString('en-US', { timeZone: 'America/Los_Angeles', ...options });
+            return pstDate.replace(',', ' @');
+
+      - name: Post comment on PR
+        if: |
+          github.event_name == 'pull_request' && (
+            github.event.action == 'labeled' ||
+            github.event.action == 'synchronize'
+          )
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id}}
+          issue-number: ${{ github.event.pull_request.number}}
+          edit-mode: replace
+          body: |
+            # Frontend Preview URL
+
+            https://${{ steps.deploy-data.outputs.result }}.cryoet.dev.si.czi.technology
+
+            Updated: ${{ steps.get-comment-date.outputs.result }} PST
+
+      - name: Delete PR comment
+        if: |
+          github.event_name == 'pull_request' && (
+            github.event.action == 'unlabeled' ||
+            github.event.action == 'closed'
+          ) &&
+          steps.find-comment.outputs.comment-id != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.deleteComment({
+              comment_id: ${{ steps.find-comment.outputs.comment-id }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+
       - name: Delete dev
-        if: ${{ github.event_name == 'delete' && startsWith(github.event.ref, 'dev-') }}
+        if: |
+          github.event_name == 'delete' || (
+            github.event_name == 'pull_request' && (
+              github.event.action == 'unlabeled' ||
+              github.event.action == 'closed'
+            )
+          )
         uses: chanzuckerberg/github-actions/.github/actions/deploy-happy-stack@v1.24.0
         env:
           ENV: dev
         with:
-          stack-name: ${{ env.DELETE_STACK_NAME }}
+          stack-name: ${{ steps.deploy-data.outputs.result }}
           operation: delete
           tfe-token: ${{ secrets.TFE_TOKEN }}
           env: dev
