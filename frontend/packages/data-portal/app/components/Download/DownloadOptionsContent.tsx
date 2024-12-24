@@ -39,7 +39,6 @@ export function DownloadOptionsContent() {
     downloadTab,
     setDownloadTab,
     downloadConfig,
-    tomogramProcessing,
     tomogramSampling,
     annotationId,
     referenceTomogramId,
