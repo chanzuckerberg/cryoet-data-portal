@@ -40,40 +40,46 @@ export function useRunById() {
     return t2.id - t1.id
   })
 
-  // TODO(bchu): Sort manually in V2.
-  const processingMethods = v1.tomograms_for_distinct_processing_methods.map(
-    (tomogram) => tomogram.processing,
-  )
+  const objectNames =
+    v2.uniqueObjectNames.aggregate
+      ?.map((aggregate) => aggregate.groupBy?.objectName)
+      .filter(isDefined) ?? []
 
-  const objectNames = v1.annotations_for_object_names.map(
-    (annotation) => annotation.object_name,
-  )
+  const objectShapeTypes =
+    v2.uniqueShapeTypes.aggregate
+      ?.map((aggregate) => aggregate.groupBy?.shapeType)
+      .filter(isDefined) ?? []
 
-  const objectShapeTypes = v1.annotation_files_for_shape_types.map(
-    (file) => file.shape_type,
-  )
+  const annotationSoftwares =
+    v2.uniqueAnnotationSoftwares.aggregate
+      ?.map((aggregate) => aggregate.groupBy?.annotationSoftware)
+      .filter(isDefined) ?? []
 
-  const annotationSoftwares = v1.annotations_for_softwares
-    .map((annotation) => annotation.annotation_software)
-    .filter(isDefined)
+  const resolutions =
+    v2.uniqueResolutions.aggregate
+      ?.map((aggregate) => aggregate.groupBy?.voxelSpacing)
+      .filter(isDefined)
+      .sort((resolutionA, resolutionB) => resolutionA - resolutionB) ?? []
 
-  // TODO(bchu): Sort manually in V2.
-  const resolutions = v1.tomograms_for_resolutions.map(
-    (tomogram) => tomogram.voxel_spacing,
-  )
+  const processingMethods =
+    v2.uniqueProcessingMethods.aggregate
+      ?.map((aggregate) => aggregate.groupBy?.processing)
+      .filter(isDefined)
+      .sort((processingMethodA, processingMethodB) =>
+        processingMethodA.localeCompare(processingMethodB),
+      ) ?? []
 
   const annotationFilesAggregates = {
-    totalCount: v1.annotation_files_aggregate_for_total.aggregate?.count ?? 0,
-    filteredCount:
-      v1.annotation_files_aggregate_for_filtered.aggregate?.count ?? 0,
+    totalCount: v2.numTotalAnnotationRows.aggregate?.[0].count ?? 0,
+    filteredCount: v2.numFilteredAnnotationRows.aggregate?.[0].count ?? 0,
     groundTruthCount:
-      v1.annotation_files_aggregate_for_ground_truth.aggregate?.count ?? 0,
-    otherCount: v1.annotation_files_aggregate_for_other.aggregate?.count ?? 0,
+      v2.numFilteredGroundTruthAnnotationRows.aggregate?.[0].count ?? 0,
+    otherCount: v2.numFilteredOtherAnnotationRows.aggregate?.[0].count ?? 0,
   }
 
-  const tomogramsCount = v1.tomograms_aggregate.aggregate?.count ?? 0
+  const tomogramsCount = v2.tomogramsAggregate.aggregate?.[0].count ?? 0
 
-  const alignmentsCount = v2.alignmentsAggregate.aggregate?.[0]?.count ?? 0
+  const alignmentsCount = v2.alignmentsAggregate.aggregate?.[0].count ?? 0
 
   const deposition = v2.depositions[0]
 
