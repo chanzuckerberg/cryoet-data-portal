@@ -1,5 +1,4 @@
 import { Button, Icon } from '@czi-sds/components'
-import { match, P } from 'ts-pattern'
 
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { CollapsibleList } from 'app/components/CollapsibleList'
@@ -21,29 +20,9 @@ import {
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { TableDataValue } from 'app/types/table'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 
-interface FileSummaryData {
-  key: string
-  value: number
-}
-
-function FileSummary({ data }: { data: FileSummaryData[] }) {
-  const { t } = useI18n()
-  return (
-    <InlineMetadata
-      label={t('fileSummary')}
-      fields={data.map(({ key, value }) => ({
-        key,
-        value: t('fileCount', { count: value }),
-      }))}
-    />
-  )
-}
-
 export function RunHeader() {
-  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
   const {
     run,
     processingMethods,
@@ -67,10 +46,7 @@ export function RunHeader() {
       (currentTomogram) => currentTomogram.isVisualizationDefault,
     ) ?? tomograms.at(0)
 
-  const keyPhotoURL =
-    (multipleTomogramsEnabled
-      ? tomogramV2?.keyPhotoUrl
-      : tomogram?.key_photo_url) ?? undefined
+  const keyPhotoURL = tomogramV2?.keyPhotoUrl ?? undefined
 
   const neuroglancerConfig = tomogramV2?.neuroglancerConfig
 
@@ -85,20 +61,7 @@ export function RunHeader() {
       actions={
         <div className="flex items-center gap-2.5">
           <ViewTomogramButton
-            tomogramId={match({
-              multipleTomogramsEnabled,
-              tomogramV2Id: tomogramV2?.id,
-              tomogramV1Id: tomogram?.id,
-            })
-              .with(
-                { multipleTomogramsEnabled: true, tomogramV2Id: P.number },
-                ({ tomogramV2Id }) => tomogramV2Id.toString(),
-              )
-              .with(
-                { multipleTomogramsEnabled: false, tomogramV1Id: P.number },
-                ({ tomogramV1Id }) => tomogramV1Id.toString(),
-              )
-              .otherwise(() => undefined)}
+            tomogramId={tomogramV2?.id?.toString()}
             neuroglancerConfig={neuroglancerConfig}
             buttonProps={{
               sdsStyle: 'rounded',
@@ -147,64 +110,41 @@ export function RunHeader() {
               {t('runOverview')}
             </PageHeaderSubtitle>
 
-            {multipleTomogramsEnabled ? (
-              <InlineMetadata
-                label={t('dataSummary')}
-                fields={[
-                  {
-                    key: t('frames'),
-                    value: framesCount > 0 ? t('available') : t('notSubmitted'),
-                    valueClass:
-                      framesCount > 0
-                        ? undefined
-                        : 'text-sds-color-primitive-gray-500',
-                  },
-                  {
-                    key: t('tiltSeries'),
-                    value:
-                      tiltSeriesCount > 0 ? t('available') : t('notSubmitted'),
-                    valueClass:
-                      tiltSeriesCount > 0
-                        ? undefined
-                        : 'text-sds-color-primitive-gray-500',
-                  },
-                  {
-                    key: t('alignment'),
-                    value:
-                      alignmentsCount > 0 ? t('available') : t('notSubmitted'),
-                  },
-                  {
-                    key: t('tomograms'),
-                    value: tomogramsCount.toString(),
-                  },
-                  {
-                    key: t('annotations'),
-                    value: annotationsCount.toString(),
-                  },
-                ]}
-              />
-            ) : (
-              <FileSummary
-                data={[
-                  {
-                    key: t('frames'),
-                    value: framesCount,
-                  },
-                  {
-                    key: t('tiltSeries'),
-                    value: tiltSeriesCount,
-                  },
-                  {
-                    key: t('tomograms'),
-                    value: tomogramsCount,
-                  },
-                  {
-                    key: t('annotations'),
-                    value: annotationsCount,
-                  },
-                ]}
-              />
-            )}
+            <InlineMetadata
+              label={t('dataSummary')}
+              fields={[
+                {
+                  key: t('frames'),
+                  value: framesCount > 0 ? t('available') : t('notSubmitted'),
+                  valueClass:
+                    framesCount > 0
+                      ? undefined
+                      : 'text-sds-color-primitive-gray-500',
+                },
+                {
+                  key: t('tiltSeries'),
+                  value:
+                    tiltSeriesCount > 0 ? t('available') : t('notSubmitted'),
+                  valueClass:
+                    tiltSeriesCount > 0
+                      ? undefined
+                      : 'text-sds-color-primitive-gray-500',
+                },
+                {
+                  key: t('alignment'),
+                  value:
+                    alignmentsCount > 0 ? t('available') : t('notSubmitted'),
+                },
+                {
+                  key: t('tomograms'),
+                  value: tomogramsCount.toString(),
+                },
+                {
+                  key: t('annotations'),
+                  value: annotationsCount.toString(),
+                },
+              ]}
+            />
 
             <div className="flex gap-sds-xxl flex-col lg:flex-row">
               <MetadataTable

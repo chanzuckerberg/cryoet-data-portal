@@ -110,34 +110,18 @@ export function DownloadOptionsContent() {
       {objectShapeType && (
         <ModalSubtitle label={t('objectShapeType')} value={objectShapeType} />
       )}
-      {multipleTomogramsEnabled && referenceTomogram !== undefined && (
+      {referenceTomogram !== undefined && (
         <ModalSubtitle
           label={t('referenceTomogram')}
           value={getTomogramName(referenceTomogram)}
         />
       )}
-      {!multipleTomogramsEnabled && tomogramSampling && tomogramToDownload && (
+      {annotationToDownload && tomogramToDownload?.alignment && (
         <ModalSubtitle
-          label={t('tomogramSampling')}
-          value={`${t('unitAngstrom', { value: tomogramSampling })}, (${
-            tomogramToDownload.sizeX
-          }, ${tomogramToDownload.sizeY}, ${tomogramToDownload.sizeZ})px`}
+          label={t('alignmentId')}
+          value={tomogramToDownload.alignment.id}
         />
       )}
-      {!multipleTomogramsEnabled && tomogramProcessing && (
-        <ModalSubtitle
-          label={t('tomogramProcessing')}
-          value={tomogramProcessing}
-        />
-      )}
-      {multipleTomogramsEnabled &&
-        annotationToDownload &&
-        tomogramToDownload?.alignment && (
-          <ModalSubtitle
-            label={t('alignmentId')}
-            value={tomogramToDownload.alignment.id}
-          />
-        )}
       {annotationToDownload && (
         <ModalSubtitle
           label={t('alignmentId')}
@@ -180,9 +164,7 @@ export function DownloadOptionsContent() {
 
       <DownloadTabContent />
 
-      {multipleTomogramsEnabled &&
-      annotationToDownload !== undefined &&
-      tomogramToDownload?.alignment ? (
+      {annotationToDownload !== undefined && tomogramToDownload?.alignment ? (
         <AnnotationAlignmentCallout
           alignmentId={tomogramToDownload.alignment.id}
           initialState="closed"
