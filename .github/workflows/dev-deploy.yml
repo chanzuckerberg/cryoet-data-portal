@@ -74,10 +74,8 @@ jobs:
         if: |
           github.event_name == 'push' || (
             github.event_name == 'pull_request' && (
-              github.event.action == 'labeled' || (
-                github.event.action == 'synchronize' &&
-                contains(github.event.pull_request.labels.*.name, 'preview')
-              )
+              github.event.action == 'labeled' ||
+              github.event.action == 'synchronize'
             )
           )
         uses: chanzuckerberg/github-actions/.github/actions/deploy-happy-stack@v1.24.0
