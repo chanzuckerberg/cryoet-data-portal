@@ -27,6 +27,8 @@ const GET_DATASETS_DATA_QUERY = gql(`
       dataset_publications
       key_photo_thumbnail_url
       related_database_entries
+      release_date
+
       authors(
         order_by: {
           author_list_order: asc,

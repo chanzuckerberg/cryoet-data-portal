@@ -2,6 +2,10 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { expect, test } from '@playwright/test'
 import { updatedDiff } from 'deep-object-diff'
 import {
+  loadDatasetsV1Data,
+  loadDatasetsV2Data,
+} from 'e2e/apiLoaders/browseAllDatasets'
+import {
   loadDepositionsV1Data,
   loadDepositionsV2Data,
 } from 'e2e/apiLoaders/browseAllDepositions'
@@ -36,5 +40,16 @@ test.describe('API Migration Parity Check', () => {
         ),
       })
     })
+  })
+
+  test.describe('getBrowseAllDatasetsPageData', () => {
+    test('should return the same data for V1 and V2', async () => {
+      const v1 = await loadDatasetsV1Data(client, 1)
+      const v2 = await loadDatasetsV2Data(clientV2, 1)
+
+      expect(updatedDiff(v1, v2)).toEqual({})
+    })
+
+    // TODO: add a test that checks for filtering once V2 filtering is fixed
   })
 })

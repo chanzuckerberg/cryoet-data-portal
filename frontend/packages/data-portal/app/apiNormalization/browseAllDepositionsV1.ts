@@ -7,6 +7,8 @@ import {
 import { ObjectShapeType } from 'app/types/shapeTypes'
 import { remapAPI } from 'app/utils/apiMigration'
 
+import { stringCompare } from './utils'
+
 const remapV1Author = remapAPI<
   GetDepositionsDataQuery['depositions'][number]['authors'][number],
   AuthorInfoType
@@ -32,7 +34,7 @@ const remapV1Deposition = remapAPI<
       new Set(
         deposition.annotations.map((annotation) => annotation.object_name),
       ),
-    ).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })),
+    ).sort(stringCompare),
   objectShapeTypes: (deposition) =>
     Array.from(
       new Set(
@@ -40,7 +42,7 @@ const remapV1Deposition = remapAPI<
           annotation.files.map((file) => file.shape_type as ObjectShapeType),
         ),
       ),
-    ).sort((a, b) => a.localeCompare(b)),
+    ).sort(stringCompare),
   acrossDatasets: () => 0,
 } as const)
 
@@ -56,7 +58,7 @@ export const remapV1BrowseAllDepositions = remapAPI<
   allObjectNames: (data) =>
     Array.from(
       new Set(data.object_names.map((annotation) => annotation.object_name)),
-    ).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })),
+    ).sort(stringCompare),
   allObjectShapeTypes: (data) =>
     Array.from(
       new Set(
@@ -64,5 +66,5 @@ export const remapV1BrowseAllDepositions = remapAPI<
           (annotation) => annotation.shape_type as ObjectShapeType,
         ),
       ),
-    ).sort((a, b) => a.localeCompare(b)),
+    ).sort(stringCompare),
 } as const)

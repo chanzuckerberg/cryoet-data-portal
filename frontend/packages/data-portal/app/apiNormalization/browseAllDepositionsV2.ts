@@ -6,6 +6,8 @@ import {
 import { ObjectShapeType } from 'app/types/shapeTypes'
 import { remapAPI } from 'app/utils/apiMigration'
 
+import { stringCompare } from './utils'
+
 const remapV2Deposition = remapAPI<
   GetDepositionsDataV2Query['depositions'][number],
   Deposition
@@ -25,7 +27,7 @@ const remapV2Deposition = remapAPI<
           ?.map((aggregate) => aggregate.groupBy?.objectName ?? '')
           .filter((value) => value !== '') ?? [],
       ),
-    ).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })),
+    ).sort(stringCompare),
   // TODO: uncomment/remap when efficient query is available
   // objectShapeTypes: (deposition) =>
   //   Array.from(
@@ -37,7 +39,7 @@ const remapV2Deposition = remapAPI<
   //           ),
   //       ),
   //     ),
-  //   ).sort((a, b) => a.localeCompare(b)),
+  //   ).sort(stringCompare),
   objectShapeTypes: () => [],
   acrossDatasets: (deposition) =>
     deposition.annotationDatasetCount?.aggregate?.length ?? 0,
@@ -66,7 +68,7 @@ export const remapV2BrowseAllDepositions = remapAPI<
           ?.map((aggregate) => aggregate.groupBy?.objectName ?? '')
           .filter((value) => value !== '') ?? [],
       ),
-    ).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })),
+    ).sort(stringCompare),
   allObjectShapeTypes: (data) =>
     Array.from(
       new Set(
@@ -74,5 +76,5 @@ export const remapV2BrowseAllDepositions = remapAPI<
           (aggregate) => aggregate.groupBy?.shapeType as ObjectShapeType,
         ) ?? [],
       ),
-    ).sort((a, b) => a.localeCompare(b)),
+    ).sort(stringCompare),
 } as const)
