@@ -1,18 +1,16 @@
 import { Callout, CalloutTitle } from '@czi-sds/components'
 import RadioGroup from '@mui/material/RadioGroup'
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { match } from 'ts-pattern'
 
 import { CopyBox } from 'app/components/CopyBox'
 import { I18n } from 'app/components/I18n'
 import { Radio } from 'app/components/Radio'
-import { Select, SelectOption } from 'app/components/Select'
 import { useDownloadModalContext } from 'app/context/DownloadModal.context'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import { useLogPlausibleCopyEvent } from 'app/hooks/useLogPlausibleCopyEvent'
 import { DownloadConfig } from 'app/types/download'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { FileFormatDropdown } from './FileFormatDropdown'
 import { TomogramSelector } from './Tomogram/TomogramSelector'
@@ -20,19 +18,12 @@ import { TomogramSelector } from './Tomogram/TomogramSelector'
 const TOMOGRAM_FILE_FORMATS = ['mrc', 'zarr']
 
 export function ConfigureTomogramDownloadContent() {
-  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
-
   const { t } = useI18n()
 
   const {
     downloadConfig,
-    tomogramProcessing,
-    tomogramSampling,
     setAllAnnotationsConfig,
-    setTomogramConfigDeprecated,
     setTomogramConfig,
-    setTomogramProcessing,
-    setTomogramSampling,
     setTomogramId,
   } = useDownloadModalQueryParamState()
 
@@ -40,47 +31,12 @@ export function ConfigureTomogramDownloadContent() {
     tomogramToDownload,
     allAnnotationFiles = [],
     allTomograms = [],
-    allTomogramProcessing = [],
     runId,
   } = useDownloadModalContext()
 
-  const tomogramSamplingOptions = useMemo<SelectOption[]>(
-    () =>
-      allTomograms.map((tomogram) => ({
-        key: t('unitAngstrom', { value: tomogram.voxelSpacing }),
-        value: `(${tomogram.sizeX}, ${tomogram.sizeY}, ${tomogram.sizeZ})px`,
-      })),
-    [allTomograms, t],
-  )
-
-  const tomogramProcessingOptions = useMemo<SelectOption[]>(
-    () =>
-      allTomogramProcessing.map((processing) => ({
-        key: processing,
-        value: processing,
-      })),
-    [allTomogramProcessing],
-  )
-
   const setTomogramConfigWithInitialValues = useCallback(() => {
-    if (multipleTomogramsEnabled) {
-      setTomogramConfig(allTomograms[0]?.id.toString())
-      return
-    }
-
-    const tomogram = allTomograms.at(0)
-    const processing = allTomogramProcessing.at(0)
-
-    if (tomogram && processing) {
-      setTomogramConfigDeprecated(`${tomogram.voxelSpacing}`, processing)
-    }
-  }, [
-    allTomogramProcessing,
-    allTomograms,
-    setTomogramConfigDeprecated,
-    setTomogramConfig,
-    multipleTomogramsEnabled,
-  ])
+    setTomogramConfig(allTomograms[0]?.id.toString())
+  }, [allTomograms, setTomogramConfig])
 
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
 
@@ -106,64 +62,21 @@ export function ConfigureTomogramDownloadContent() {
         >
           <div className="flex flex-col gap-sds-l">
             <div className="flex items-center gap-sds-l pt-sds-m">
-              {multipleTomogramsEnabled ? (
-                <TomogramSelector
-                  title={t('selectTomogram')}
-                  selectedTomogram={tomogramToDownload}
-                  allTomograms={allTomograms}
-                  onSelectTomogramId={setTomogramId}
-                  className="max-w-[450px]"
-                />
-              ) : (
-                <>
-                  <Select
-                    activeKey={
-                      tomogramSampling
-                        ? t('unitAngstrom', { value: tomogramSampling })
-                        : null
-                    }
-                    className="flex-grow"
-                    label={
-                      tomogramToDownload
-                        ? `${t('unitAngstrom', {
-                            value: tomogramToDownload.voxelSpacing,
-                          })}`
-                        : '--'
-                    }
-                    onChange={(value) =>
-                      setTomogramSampling(value ? value.replace('Å', '') : null)
-                    }
-                    options={tomogramSamplingOptions}
-                    title={t('tomogramSampling')}
-                  />
-
-                  <Select
-                    activeKey={tomogramProcessing}
-                    className="flex-grow"
-                    label={tomogramProcessing ?? '--'}
-                    onChange={setTomogramProcessing}
-                    options={tomogramProcessingOptions}
-                    showActiveValue={false}
-                    showDetails={false}
-                    title={t('tomogramProcessing')}
-                  />
-                </>
-              )}
+              <TomogramSelector
+                title={t('selectTomogram')}
+                selectedTomogram={tomogramToDownload}
+                allTomograms={allTomograms}
+                onSelectTomogramId={setTomogramId}
+                className="max-w-[450px]"
+              />
             </div>
 
             <FileFormatDropdown
-              className={
-                !multipleTomogramsEnabled ? 'max-w-[228px]' : undefined
-              }
               fileFormats={TOMOGRAM_FILE_FORMATS}
-              selectDropdownClasses={
-                multipleTomogramsEnabled
-                  ? {
-                      root: 'w-[436px]',
-                      listbox: '!pr-0',
-                    }
-                  : undefined
-              }
+              selectDropdownClasses={{
+                root: 'w-[436px]',
+                listbox: '!pr-0',
+              }}
             />
           </div>
         </Radio>
@@ -206,11 +119,9 @@ export function ConfigureTomogramDownloadContent() {
         </Callout>
       )}
 
-      {multipleTomogramsEnabled && (
-        <Callout intent="notice" className="!w-full !mt-0">
-          <I18n i18nKey="annotationsMayRequireTransformation" />
-        </Callout>
-      )}
+      <Callout intent="notice" className="!w-full !mt-0">
+        <I18n i18nKey="annotationsMayRequireTransformation" />
+      </Callout>
     </>
   )
 }

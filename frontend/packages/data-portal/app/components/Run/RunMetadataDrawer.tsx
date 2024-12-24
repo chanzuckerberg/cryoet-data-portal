@@ -5,14 +5,11 @@ import { IdPrefix } from 'app/constants/idPrefixes'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { RunTiltSeriesTable } from './RunTiltSeriesTable'
-import { TomogramsMetadataSection } from './TomogramsMetadataSection'
 import { TomogramsSummarySection } from './TomogramsSummarySection'
 
 export function RunMetadataDrawer() {
-  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
   const { run } = useRunById()
 
   return (
@@ -32,11 +29,7 @@ export function RunMetadataDrawer() {
         initialOpen={false}
       />
       <RunTiltSeriesTable />
-      {multipleTomogramsEnabled ? (
-        <TomogramsSummarySection />
-      ) : (
-        <TomogramsMetadataSection />
-      )}
+      <TomogramsSummarySection />
     </MetadataDrawer>
   )
 }

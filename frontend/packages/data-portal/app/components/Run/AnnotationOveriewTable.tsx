@@ -21,7 +21,6 @@ export function AnnotationOverviewTable() {
   const { activeAnnotation: annotation } = useAnnotation()
   const { t } = useI18n()
   const isDepositionsEnabled = useFeatureFlag('depositions')
-  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
 
   const methodLinks = useMemo(
     () =>
@@ -97,30 +96,26 @@ export function AnnotationOverviewTable() {
           label: t('lastModifiedDate'),
           values: [annotation.last_modified_date ?? '--'],
         },
-        ...(multipleTomogramsEnabled
-          ? [
-              {
-                label: t('alignmentId'),
-                labelExtra: (
-                  <Tooltip
-                    tooltip={<I18n i18nKey="alignmentIdTooltip" />}
-                    placement="top"
-                  >
-                    <Icon
-                      sdsIcon="InfoCircle"
-                      sdsSize="s"
-                      className="!fill-sds-color-primitive-gray-500"
-                      sdsType="button"
-                    />
-                  </Tooltip>
-                ),
-                values: [
-                  v2AnnotationShape?.annotationFiles.edges.at(0)?.node
-                    .alignmentId ?? '--',
-                ],
-              },
-            ]
-          : []),
+        {
+          label: t('alignmentId'),
+          labelExtra: (
+            <Tooltip
+              tooltip={<I18n i18nKey="alignmentIdTooltip" />}
+              placement="top"
+            >
+              <Icon
+                sdsIcon="InfoCircle"
+                sdsSize="s"
+                className="!fill-sds-color-primitive-gray-500"
+                sdsType="button"
+              />
+            </Tooltip>
+          ),
+          values: [
+            v2AnnotationShape?.annotationFiles.edges.at(0)?.node.alignmentId ??
+              '--',
+          ],
+        },
         {
           label: t('methodType'),
           values: [annotation.method_type ?? '--'],
