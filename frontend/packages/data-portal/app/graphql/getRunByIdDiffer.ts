@@ -54,6 +54,41 @@ export function logIfHasDiff(
     // There are no frames in V1.
     delete run.framesAggregate
   }
+  // Don't care about counts.
+  for (const aggregate of v2.uniqueAnnotationSoftwares.aggregate ?? []) {
+    delete aggregate.count
+  }
+  for (const aggregate of v2.uniqueObjectNames.aggregate ?? []) {
+    delete aggregate.count
+  }
+  for (const aggregate of v2.uniqueShapeTypes.aggregate ?? []) {
+    delete aggregate.count
+  }
+  for (const aggregate of v2.uniqueResolutions.aggregate ?? []) {
+    delete aggregate.count
+  }
+  for (const aggregate of v2.uniqueProcessingMethods.aggregate ?? []) {
+    delete aggregate.count
+  }
+  // Consistent sort order.
+  v2.uniqueAnnotationSoftwares.aggregate?.sort((gropuByA, groupByB) =>
+    gropuByA.groupBy!.annotationSoftware!.localeCompare(
+      groupByB.groupBy!.annotationSoftware!,
+    ),
+  )
+  v2.uniqueObjectNames.aggregate?.sort((groupA, groupB) =>
+    groupA.groupBy!.objectName!.localeCompare(groupB.groupBy!.objectName!),
+  )
+  v2.uniqueShapeTypes.aggregate?.sort((groupA, groupB) =>
+    groupA.groupBy!.shapeType!.localeCompare(groupB.groupBy!.shapeType!),
+  )
+  v2.uniqueResolutions.aggregate?.sort(
+    (groupA, groupB) =>
+      groupA.groupBy!.voxelSpacing! - groupB.groupBy!.voxelSpacing!,
+  )
+  v2.uniqueProcessingMethods.aggregate?.sort((groupA, groupB) =>
+    groupA.groupBy!.processing!.localeCompare(groupB.groupBy!.processing!),
+  )
 
   const v1Transformed: GetRunByIdV2Query = {
     runs: v1.runs.map((run) => ({
@@ -304,6 +339,93 @@ export function logIfHasDiff(
         })),
       },
     })),
+    uniqueAnnotationSoftwares: {
+      aggregate: v1.annotations_for_softwares
+        .map((annotation) => ({
+          groupBy: {
+            annotationSoftware: annotation.annotation_software,
+          },
+        }))
+        .sort((groupByA, groupByB) =>
+          groupByA.groupBy.annotationSoftware!.localeCompare(
+            groupByB.groupBy.annotationSoftware!,
+          ),
+        ),
+    },
+    uniqueObjectNames: {
+      aggregate: v1.annotations_for_object_names
+        .map((annotation) => ({
+          groupBy: {
+            objectName: annotation.object_name,
+          },
+        }))
+        .sort((groupA, groupB) =>
+          groupA.groupBy.objectName.localeCompare(groupB.groupBy.objectName),
+        ),
+    },
+    uniqueShapeTypes: {
+      aggregate: v1.annotation_files_for_shape_types
+        .map((file) => ({
+          groupBy: {
+            shapeType: file.shape_type as Annotation_File_Shape_Type_Enum,
+          },
+        }))
+        .sort((groupA, groupB) =>
+          groupA.groupBy.shapeType.localeCompare(groupB.groupBy.shapeType),
+        ),
+    },
+    uniqueResolutions: {
+      aggregate: v1.tomograms_for_resolutions.map((tomogram) => ({
+        groupBy: {
+          voxelSpacing: tomogram.voxel_spacing,
+        },
+      })),
+    },
+    uniqueProcessingMethods: {
+      aggregate: v1.tomograms_for_distinct_processing_methods.map(
+        (tomogram) => ({
+          groupBy: {
+            processing: tomogram.processing as Tomogram_Processing_Enum,
+          },
+        }),
+      ),
+    },
+    numTotalAnnotationRows: {
+      aggregate: [
+        {
+          count: v1.annotation_files_aggregate_for_total.aggregate?.count,
+        },
+      ],
+    },
+    numFilteredAnnotationRows: {
+      aggregate: [
+        {
+          count: v1.annotation_files_aggregate_for_filtered.aggregate?.count,
+        },
+      ],
+    },
+    numFilteredGroundTruthAnnotationRows: {
+      aggregate: [
+        {
+          count:
+            v1.annotation_files_aggregate_for_ground_truth.aggregate?.count,
+        },
+      ],
+    },
+    numFilteredOtherAnnotationRows: {
+      aggregate: [
+        {
+          count: v1.annotation_files_aggregate_for_other.aggregate?.count,
+        },
+      ],
+    },
+    tomogramsAggregate: {
+      aggregate: [
+        {
+          count: v1.tomograms_aggregate.aggregate?.count,
+        },
+      ],
+    },
     depositions:
       v1.deposition != null
         ? [
