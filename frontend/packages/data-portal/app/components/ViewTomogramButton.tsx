@@ -3,7 +3,6 @@ import { Button, ButtonProps, TooltipProps } from '@czi-sds/components'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getNeuroglancerUrl } from 'app/utils/url'
 
 import { Link } from './Link'
@@ -27,7 +26,6 @@ export function ViewTomogramButton({
   tooltipPlacement,
   setIsHoveringOver,
 }: ViewTomogramButtonProps) {
-  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
   const plausible = usePlausible()
   const { t } = useI18n()
 
@@ -36,18 +34,16 @@ export function ViewTomogramButton({
   }
 
   const enabled = tomogramId !== undefined && neuroglancerConfig != null
-  const enabledTooltipText = multipleTomogramsEnabled
-    ? t('viewTomogramInNeuroglancer', {
-        id: `${IdPrefix.Tomogram}-${tomogramId}`,
-      })
-    : undefined
-  const disabledTooltipText = multipleTomogramsEnabled
-    ? t('noTomogramsAvailable')
-    : t('noTomogramAvailable')
 
   return (
     <Tooltip
-      tooltip={enabled ? enabledTooltipText : disabledTooltipText}
+      tooltip={
+        enabled
+          ? t('viewTomogramInNeuroglancer', {
+              id: `${IdPrefix.Tomogram}-${tomogramId}`,
+            })
+          : t('noTomogramsAvailable')
+      }
       sdsStyle="dark"
       center
       placement={tooltipPlacement}

@@ -4,11 +4,10 @@ import { useEnvironment } from 'app/context/Environment.context'
 
 export type FeatureFlagEnvironment = typeof process.env.ENV
 
-export type FeatureFlagKey = 'depositions' | 'multipleTomograms'
+export type FeatureFlagKey = 'depositions'
 
 export const FEATURE_FLAGS: Record<FeatureFlagKey, FeatureFlagEnvironment[]> = {
   depositions: ['local', 'dev', 'staging', 'prod'],
-  multipleTomograms: ['local', 'dev', 'staging', 'prod'],
 }
 
 const ENABLE_FEATURE_PARAM = 'enable-feature'
