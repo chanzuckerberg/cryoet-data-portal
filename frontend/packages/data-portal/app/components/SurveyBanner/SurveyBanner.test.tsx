@@ -45,7 +45,7 @@ describe('<SurveyBanner />', () => {
     setMockTime(time)
 
     await renderSurveyBanner()
-    await getMockUser({ hasFakeTimers: true }).click(screen.getByRole('button'))
+    await getMockUser().click(screen.getByRole('button'))
 
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
     expect(localStorageMock.setValue).toHaveBeenCalledWith(
