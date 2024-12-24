@@ -36,7 +36,5 @@ export enum QueryParams {
   TableTab = 'table-tab',
   TiltRangeMax = 'tilt_max',
   TiltRangeMin = 'tilt_min',
-  TomogramProcessing = 'tomogram-processing',
-  TomogramSampling = 'tomogram-sampling',
   TomogramsPage = 'tomograms-page',
 }

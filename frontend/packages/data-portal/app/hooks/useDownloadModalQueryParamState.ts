@@ -26,13 +26,6 @@ export function useDownloadModalQueryParamState() {
     QueryParams.DownloadConfig,
   )
 
-  const [tomogramProcessing, setTomogramProcessing] = useQueryParam<string>(
-    QueryParams.TomogramProcessing,
-  )
-  const [tomogramSampling, setTomogramSampling] = useQueryParam<string>(
-    QueryParams.TomogramSampling,
-  )
-
   const [annotationId, setAnnotationId] = useQueryParam<string>(
     QueryParams.AnnotationId,
   )
@@ -62,8 +55,6 @@ export function useDownloadModalQueryParamState() {
     [QueryParams.DownloadStep]: stringParam<DownloadStep>(),
     [QueryParams.DownloadTab]: stringParam<DownloadTab>(),
     [QueryParams.DownloadTomogramId]: stringParam(),
-    [QueryParams.TomogramProcessing]: stringParam(),
-    [QueryParams.TomogramSampling]: stringParam(),
     [QueryParams.AnnotationId]: stringParam(),
     [QueryParams.ReferenceTomogramId]: stringParam(),
     [QueryParams.ObjectShapeType]: stringParam(),
@@ -82,8 +73,6 @@ export function useDownloadModalQueryParamState() {
         datasetId,
         fileSize,
         runId,
-        tomogramProcessing: rest.tomogramProcessing ?? tomogramProcessing,
-        tomogramSampling: rest.tomogramSampling ?? tomogramSampling,
         annotationId: rest.annotationId ?? annotationId,
         objectShapeType: rest.objectShapeType ?? objectShapeType,
         step: rest.step ?? downloadStep ?? DownloadStep.Download,
@@ -98,8 +87,6 @@ export function useDownloadModalQueryParamState() {
       downloadTab,
       fileFormat,
       objectShapeType,
-      tomogramProcessing,
-      tomogramSampling,
     ],
   )
 
@@ -217,18 +204,6 @@ export function useDownloadModalQueryParamState() {
     [getPlausiblePayload, plausible, setDownloadParams],
   )
 
-  /** @deprecated */
-  const setTomogramConfigDeprecated = useCallback(
-    (initialTomogramSampling: string, initialTomogramProcessing: string) =>
-      setDownloadParams({
-        [QueryParams.DownloadConfig]: DownloadConfig.Tomogram,
-        [QueryParams.TomogramSampling]: initialTomogramSampling,
-        [QueryParams.TomogramProcessing]: initialTomogramProcessing,
-        [QueryParams.FileFormat]: 'mrc',
-      }),
-    [setDownloadParams],
-  )
-
   const setTomogramConfig = useCallback(
     (id?: string) =>
       setDownloadParams({
@@ -243,8 +218,6 @@ export function useDownloadModalQueryParamState() {
     () =>
       setDownloadParams({
         [QueryParams.DownloadConfig]: DownloadConfig.AllAnnotations,
-        [QueryParams.TomogramSampling]: null,
-        [QueryParams.TomogramProcessing]: null,
         [QueryParams.FileFormat]: null,
       }),
     [setDownloadParams],
@@ -283,12 +256,7 @@ export function useDownloadModalQueryParamState() {
     setDownloadTab,
     setFileFormat,
     setObjectShapeType,
-    setTomogramConfigDeprecated,
     setTomogramConfig,
-    setTomogramProcessing,
-    setTomogramSampling,
-    tomogramProcessing,
-    tomogramSampling,
     annotationName,
     setAnnotationName,
   }
