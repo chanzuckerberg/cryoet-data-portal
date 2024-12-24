@@ -1,49 +1,24 @@
-import { useMemo } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
 import { GetDatasetByIdV2Query } from 'app/__generated_v2__/graphql'
 
 export function useDatasetById() {
-  const { v1 } = useTypedLoaderData<{
+  const { v1, v2 } = useTypedLoaderData<{
     v1: GetDatasetByIdQuery
     v2: GetDatasetByIdV2Query
   }>()
 
   const dataset = v1.datasets[0]
 
-  const { deposition } = v1
+  const deposition = v2.depositions[0]
 
-  const objectNames = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          dataset.run_stats.flatMap((run) =>
-            run.tomogram_voxel_spacings.flatMap((voxelSpacing) =>
-              voxelSpacing.annotations.flatMap(
-                (annotation) => annotation.object_name,
-              ),
-            ),
-          ),
-        ),
-      ),
-    [dataset.run_stats],
+  const objectNames = v2.annotationsAggregate.aggregate!.map(
+    (aggregate) => aggregate.groupBy!.objectName!,
   )
 
-  const objectShapeTypes = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          dataset.run_stats.flatMap((run) =>
-            run.tomogram_voxel_spacings.flatMap((voxelSpacing) =>
-              voxelSpacing.annotations.flatMap((annotation) =>
-                annotation.files.flatMap((file) => file.shape_type),
-              ),
-            ),
-          ),
-        ),
-      ),
-    [dataset.run_stats],
+  const objectShapeTypes = v2.annotationShapesAggregate.aggregate!.map(
+    (aggregate) => aggregate.groupBy!.shapeType!,
   )
 
   return {
