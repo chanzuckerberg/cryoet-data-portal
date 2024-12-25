@@ -25,7 +25,7 @@ const remapV2Dataset = remapAPI<
         dataset.runs.edges.flatMap(
           (edge) =>
             edge.node.annotationsAggregate?.aggregate?.flatMap(
-              (aggregate) => aggregate.groupBy?.objectName ?? '',
+              (aggregate) => aggregate?.groupBy?.objectName ?? '',
             ) ?? [],
         ),
       ),
@@ -38,8 +38,8 @@ export const remapV2BrowseAllDatasets = remapAPI<
   GetDatasetsDataV2Query,
   BrowseAllDatasetsPageDataType
 >({
-  totalDatasetCount: (data) => data.datasetCount.aggregate?.at(0)?.count ?? 0,
+  totalDatasetCount: (data) => data.datasetCount?.aggregate?.at(0)?.count ?? 0,
   filteredDatasetCount: (data) =>
-    data.filteredDatasetCount.aggregate?.at(0)?.count ?? 0,
+    data.filteredDatasetCount?.aggregate?.at(0)?.count ?? 0,
   datasets: (data) => data.datasets.map(remapV2Dataset),
 } as const)

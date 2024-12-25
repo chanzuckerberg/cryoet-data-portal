@@ -1,8 +1,8 @@
 import { CellHeaderDirection } from '@czi-sds/components'
 import { json, LoaderFunctionArgs } from '@remix-run/node'
 
-import { Order_By } from 'app/__generated__/graphql'
-import { apolloClient } from 'app/apollo.server'
+import { OrderBy } from 'app/__generated_v2__/graphql'
+import { apolloClient, apolloClientV2 } from 'app/apollo.server'
 import { DatasetTable } from 'app/components/BrowseData'
 import { BrowseDataSearch } from 'app/components/BrowseData/BrowseDataSearch'
 import { DatasetFilter } from 'app/components/DatasetFilter'
@@ -14,7 +14,7 @@ import {
 } from 'app/components/TablePageLayout'
 import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
-import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
+import { getBrowseDatasetsV2 } from 'app/graphql/getBrowseDatasetsV2.server'
 import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
@@ -31,18 +31,18 @@ export async function loader({ request }: LoaderFunctionArgs) {
     | undefined
   const query = url.searchParams.get(QueryParams.Search) ?? ''
 
-  let orderBy: Order_By | null = null
+  let orderBy: OrderBy | null = null
 
   if (sort) {
-    orderBy = sort === 'asc' ? Order_By.Asc : Order_By.Desc
+    orderBy = sort === 'asc' ? OrderBy.Asc : OrderBy.Desc
   }
 
   const [datasetsResponse, datasetsFilterResponse] = await Promise.all([
-    getBrowseDatasets({
+    getBrowseDatasetsV2({
       orderBy,
       page,
       query,
-      client: apolloClient,
+      client: apolloClientV2,
       params: url.searchParams,
     }),
     getDatasetsFilterData({ client: apolloClient }),
