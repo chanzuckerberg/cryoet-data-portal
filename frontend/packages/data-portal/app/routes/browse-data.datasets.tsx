@@ -59,7 +59,7 @@ function BrowseDatasetTableHeader(props: TableHeaderProps) {
 }
 
 export default function BrowseDatasetsPage() {
-  const { datasetCount, filteredDatasetCount } = useDatasets()
+  const { totalDatasetCount, filteredDatasetCount } = useDatasets()
   const { t } = useI18n()
 
   const { setPreviousBrowseDatasetParams } = useBrowseDatasetFilterHistory()
@@ -81,7 +81,7 @@ export default function BrowseDatasetsPage() {
           table: <DatasetTable />,
           noFilteredResults: <NoFilteredResults showSearchTip />,
           filteredCount: filteredDatasetCount,
-          totalCount: datasetCount,
+          totalCount: totalDatasetCount,
           countLabel: t('datasets'),
           Header: BrowseDatasetTableHeader,
         },

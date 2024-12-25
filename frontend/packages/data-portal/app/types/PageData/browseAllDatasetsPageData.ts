@@ -12,8 +12,9 @@ export type Dataset = {
   authors: AuthorInfoType[]
   keyPhotoThumbnailUrl?: string
   organismName: string
-  datasetPublications: string[]
-  relatedDatabaseEntries: string[]
+  // TODO: convert datasetPublications and relatedDatabaseEntries to arrays
+  datasetPublications: string
+  relatedDatabaseEntries: string
   runCount: number
   annotatedObjects: string[]
 }

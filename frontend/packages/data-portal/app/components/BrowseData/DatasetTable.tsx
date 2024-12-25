@@ -24,10 +24,11 @@ import { IdPrefix } from 'app/constants/idPrefixes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { DatasetTableWidths } from 'app/constants/table'
-import { Dataset, useDatasets } from 'app/hooks/useDatasets'
+import { useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { LogLevel } from 'app/types/logging'
+import { Dataset } from 'app/types/PageData/browseAllDatasetsPageData'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
@@ -39,8 +40,11 @@ const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
       authors: [],
       id: value,
       title: `loading-dataset-${value}`,
-      runs: [],
-      runs_aggregate: {},
+      organismName: '',
+      relatedDatabaseEntries: '',
+      annotatedObjects: [],
+      datasetPublications: '',
+      runCount: 0,
     }) as Dataset,
 )
 
@@ -79,7 +83,7 @@ export function DatasetTable() {
 
     try {
       return [
-        columnHelper.accessor('key_photo_thumbnail_url', {
+        columnHelper.accessor('keyPhotoThumbnailUrl', {
           header: () => <p />,
 
           cell({ row: { original: dataset } }) {
@@ -94,7 +98,7 @@ export function DatasetTable() {
                   <KeyPhoto
                     className="max-w-[134px]"
                     title={dataset.title}
-                    src={dataset.key_photo_thumbnail_url ?? undefined}
+                    src={dataset.keyPhotoThumbnailUrl ?? undefined}
                     loading={isLoadingDebounced}
                     textOnGroupHover={
                       isClickingOnEmpiarId ? undefined : 'openDataset'
@@ -185,7 +189,7 @@ export function DatasetTable() {
           },
         }),
 
-        columnHelper.accessor('related_database_entries', {
+        columnHelper.accessor('relatedDatabaseEntries', {
           header: () => (
             <CellHeader width={DatasetTableWidths.empiarId}>
               {t('empiarID')}
@@ -223,7 +227,7 @@ export function DatasetTable() {
           },
         }),
 
-        columnHelper.accessor('organism_name', {
+        columnHelper.accessor('organismName', {
           header: () => (
             <CellHeader width={DatasetTableWidths.organismName}>
               {t('organismName')}
@@ -238,32 +242,25 @@ export function DatasetTable() {
           ),
         }),
 
-        columnHelper.accessor(
-          (dataset) => dataset.runs_aggregate.aggregate?.count,
-          {
-            id: 'runs',
+        columnHelper.accessor('runCount', {
+          header: () => (
+            <CellHeader
+              tooltip={<I18n i18nKey="runsTooltip" />}
+              width={DatasetTableWidths.runs}
+            >
+              {t('runs')}
+            </CellHeader>
+          ),
 
-            header: () => (
-              <CellHeader
-                tooltip={<I18n i18nKey="runsTooltip" />}
-                width={DatasetTableWidths.runs}
-              >
-                {t('runs')}
-              </CellHeader>
-            ),
+          cell: ({ getValue }) => (
+            <TableCell
+              primaryText={String(getValue() ?? 0)}
+              width={DatasetTableWidths.runs}
+            />
+          ),
+        }),
 
-            cell: ({ getValue }) => (
-              <TableCell
-                primaryText={String(getValue() ?? 0)}
-                width={DatasetTableWidths.runs}
-              />
-            ),
-          },
-        ),
-
-        columnHelper.accessor((dataset) => dataset.runs, {
-          id: 'annotatedObjects',
-
+        columnHelper.accessor('annotatedObjects', {
           header: () => (
             <CellHeader width={DatasetTableWidths.annotatedObjects}>
               {t('annotatedObjects')}
@@ -271,18 +268,7 @@ export function DatasetTable() {
           ),
 
           cell({ getValue }) {
-            const runs = getValue()
-            const annotatedObjects = Array.from(
-              new Set(
-                runs.flatMap((run) =>
-                  run.tomogram_voxel_spacings.flatMap((voxelSpacing) =>
-                    voxelSpacing.annotations.flatMap(
-                      (annotation) => annotation.object_name,
-                    ),
-                  ),
-                ),
-              ),
-            )
+            const annotatedObjects = getValue() ?? []
 
             return (
               <TableCell
