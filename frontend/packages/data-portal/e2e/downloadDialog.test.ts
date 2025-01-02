@@ -10,7 +10,6 @@ import { SINGLE_DATASET_URL, SINGLE_RUN_URL, translations } from './constants'
 import { DownloadDialogActor } from './pageObjects/downloadDialog/downloadDialogActor'
 import {
   ANNOTATION_NON_STANDARD_TOMOGRAM_DOWNLOAD_TABS,
-  ANNOTATION_STANDARD_TOMOGRAM_DOWNLOAD_TABS,
   SINGLE_DATASET_DOWNLOAD_TABS,
   TOMOGRAM_DOWNLOAD_TABS,
 } from './pageObjects/downloadDialog/types'
