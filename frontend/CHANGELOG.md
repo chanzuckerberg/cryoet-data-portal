@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.38.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.37.2...web-v1.38.0) (2025-01-02)
+
+
+### ✨ Features
+
+* Add deposition to V2 run query ([#1424](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1424)) ([2632ac0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/2632ac0b7f8ddedfce50dc8dfa4b2e0fc3b4fb9b))
+* Add diff logging for dataset page ([#1419](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1419)) ([4ee07f7](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4ee07f7f183d7fed8dbdfb51f600cd90cb8825e9))
+* Add V2 query for dataset page ([#1409](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1409)) ([36ba07f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/36ba07f8c650070caaa5e337b029b3666c8ae4db))
+* Finish converting run page query to V2 ([#1425](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1425)) ([c46b9e5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c46b9e537121e4b14a4ee6dbab21c123a04a215b))
+* Use some V2 fields in dataset page ([#1427](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1427)) ([bec698e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/bec698e6a391012f82c9c482196bbe06ac5c25c6))
+
+
+### 🐞 Bug Fixes
+
+* Fix affine transformation matrix diff log ([#1422](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1422)) ([9b823e1](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9b823e1fdb678df075e26209b28ad85287635cd7))
+* Fix more run page diff logs ([#1414](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1414)) ([78b8fa9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/78b8fa98696c0f2a3668e2aacb691ef4f4e6f00c))
+* Fix run query diff logging ([#1405](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1405)) ([7179752](https://github.com/chanzuckerberg/cryoet-data-portal/commit/71797529b5114157979683aef35abcab9d014903))
+
+
+### 🧪 Tests
+
+* unit tests feature components ([#1423](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1423)) ([2473e30](https://github.com/chanzuckerberg/cryoet-data-portal/commit/2473e3029aa64ed5764afc516f4ae6184a276783))
+
 ## [1.37.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.37.1...web-v1.37.2) (2024-12-17)
 
 
