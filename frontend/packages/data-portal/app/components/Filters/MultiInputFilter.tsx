@@ -3,7 +3,7 @@ import { isEqual } from 'lodash-es'
 import { useCallback, useMemo, useState } from 'react'
 
 import { QueryParams } from 'app/constants/query'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 import { isFilterPrefixValid, removeIdPrefix } from 'app/utils/idPrefixes'
 
@@ -17,17 +17,19 @@ export interface InputFilterData {
   hideLabel?: boolean
 }
 
+export interface MultiInputFilterProps {
+  filters: InputFilterData[]
+  label: string
+  title?: string
+  subtitle?: string
+}
+
 export function MultiInputFilter({
   filters,
   label,
   title,
   subtitle,
-}: {
-  filters: InputFilterData[]
-  label: string
-  title?: string
-  subtitle?: string
-}) {
+}: MultiInputFilterProps) {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const getQueryParamValues = useCallback(
@@ -51,6 +53,8 @@ export function MultiInputFilter({
     return hasInvalidPrefix || isEqual(values, getQueryParamValues())
   }, [filters, getQueryParamValues, values])
 
+  const { t } = useI18n()
+
   return (
     <DropdownFilterButton
       activeFilters={filters
@@ -63,11 +67,11 @@ export function MultiInputFilter({
       description={
         <>
           <p className="text-sds-header-xs leading-sds-header-xs font-semibold">
-            {title ?? i18n.filterByAnyOfTheFollowing}
+            {title ?? t('filterByAnyOfTheFollowing')}
           </p>
 
           <p className="text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-body-xxs">
-            {subtitle ?? `(${i18n.limitOneValuePerField})`}
+            {subtitle ?? `(${t('limitOneValuePerField')})`}
           </p>
         </>
       }
