@@ -12,6 +12,27 @@ import styles from './Filters.module.css'
 type DisableClearable = false
 type FreeSolo = false
 
+export interface SelectFilterProps<
+  Option extends BaseFilterOption,
+  Multiple extends boolean = false,
+> {
+  className?: string
+  details?: ReactNode
+  groupBy?: (
+    option: AutocompleteValue<Option, Multiple, DisableClearable, FreeSolo>,
+  ) => string
+  label: string
+  multiple?: Multiple
+  onChange(
+    value: AutocompleteValue<Option, Multiple, DisableClearable, FreeSolo>,
+  ): void
+  options: Option[]
+  popperClassName?: string
+  search?: boolean
+  title?: string
+  value?: AutocompleteValue<Option, Multiple, DisableClearable, FreeSolo>
+}
+
 /**
  * Wrapper over ComplexFilter to add a type parameter for the autocomplete
  * option so that we can add strict typing to the option keys.
@@ -31,23 +52,7 @@ export function SelectFilter<
   search,
   title,
   value,
-}: {
-  className?: string
-  details?: ReactNode
-  groupBy?: (
-    option: AutocompleteValue<Option, Multiple, DisableClearable, FreeSolo>,
-  ) => string
-  label: string
-  multiple?: Multiple
-  onChange(
-    value: AutocompleteValue<Option, Multiple, DisableClearable, FreeSolo>,
-  ): void
-  options: Option[]
-  popperClassName?: string
-  search?: boolean
-  title?: string
-  value?: AutocompleteValue<Option, Multiple, DisableClearable, FreeSolo>
-}) {
+}: SelectFilterProps<Option, Multiple>) {
   const labelValueMap = useMemo(
     () =>
       Object.fromEntries(
