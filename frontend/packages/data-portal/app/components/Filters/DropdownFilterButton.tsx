@@ -80,7 +80,10 @@ export function DropdownFilterButton({
         <div className="flex flex-col gap-sds-xs">
           {activeFilters.map((filter) => {
             return (
-              <div className="pl-sds-s flex flex-col">
+              <div
+                key={`${filter.value}-${filter.queryParam}-${filter.label}`}
+                className="pl-sds-s flex flex-col"
+              >
                 {filter.label && (
                   <p className="text-sds-body-xs leading-sds-body-xs text-sds-color-primitive-gray-500 uppercase">
                     {filter.label}
