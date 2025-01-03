@@ -1,9 +1,10 @@
 import { Button, Icon } from '@czi-sds/components'
-import Popover from '@mui/material/Popover'
+// eslint-disable-next-line cryoet-data-portal/no-root-mui-import
+import { Popover } from '@mui/material'
 import { ReactNode, useRef, useState } from 'react'
 
 import { QueryParams } from 'app/constants/query'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 import { getPrefixedId } from 'app/utils/idPrefixes'
 
@@ -11,6 +12,18 @@ export interface ActiveDropdownFilterData {
   label?: string
   queryParam?: QueryParams
   value: string
+}
+
+export interface DropdownFilterButtonProps {
+  activeFilters: ActiveDropdownFilterData[]
+  children: ReactNode
+  description?: ReactNode
+  disabled?: boolean
+  label: string
+  onApply(): void
+  onCancel(): void
+  onOpen?(): void
+  onRemoveFilter(filter: ActiveDropdownFilterData): void
 }
 
 export function DropdownFilterButton({
@@ -23,19 +36,10 @@ export function DropdownFilterButton({
   onCancel,
   onOpen,
   onRemoveFilter,
-}: {
-  activeFilters: ActiveDropdownFilterData[]
-  children: ReactNode
-  description?: ReactNode
-  disabled?: boolean
-  label: string
-  onApply(): void
-  onCancel(): void
-  onOpen?(): void
-  onRemoveFilter(filter: ActiveDropdownFilterData): void
-}) {
+}: DropdownFilterButtonProps) {
   const [open, setOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const { t } = useI18n()
 
   return (
     <div>
@@ -76,7 +80,10 @@ export function DropdownFilterButton({
         <div className="flex flex-col gap-sds-xs">
           {activeFilters.map((filter) => {
             return (
-              <div className="pl-sds-s flex flex-col">
+              <div
+                key={`${filter.value}-${filter.queryParam}-${filter.label}`}
+                className="pl-sds-s flex flex-col"
+              >
                 {filter.label && (
                   <p className="text-sds-body-xs leading-sds-body-xs text-sds-color-primitive-gray-500 uppercase">
                     {filter.label}
@@ -92,6 +99,7 @@ export function DropdownFilterButton({
                     <Button
                       className="!min-w-0 !w-0"
                       onClick={() => onRemoveFilter(filter)}
+                      aria-label="remove-filter"
                     >
                       <Icon
                         className="!fill-white !w-[10px] !h-[10px]"
@@ -128,7 +136,7 @@ export function DropdownFilterButton({
                 setOpen(false)
               }}
             >
-              {i18n.apply}
+              {t('apply')}
             </Button>
 
             <Button
@@ -139,7 +147,7 @@ export function DropdownFilterButton({
                 setOpen(false)
               }}
             >
-              {i18n.cancel}
+              {t('cancel')}
             </Button>
           </div>
         </div>

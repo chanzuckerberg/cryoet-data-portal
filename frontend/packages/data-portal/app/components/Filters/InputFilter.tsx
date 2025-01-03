@@ -2,6 +2,16 @@ import { InputText } from '@czi-sds/components'
 
 import styles from './Filters.module.css'
 
+export interface InputFilterProps {
+  id: string
+  label: string
+  value: string
+  onChange(value: string): void
+  hideLabel?: boolean
+  className?: string
+  error?: boolean
+}
+
 export function InputFilter({
   id,
   label,
@@ -10,15 +20,7 @@ export function InputFilter({
   hideLabel,
   className,
   error,
-}: {
-  id: string
-  label: string
-  onChange(value: string): void
-  value: string
-  hideLabel?: boolean
-  className?: string
-  error?: boolean
-}) {
+}: InputFilterProps) {
   return (
     // apply style override here since it has higher specificity and MUI is weird
     <div className={styles.inputText}>
