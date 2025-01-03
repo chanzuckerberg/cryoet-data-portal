@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.39.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.38.0...web-v1.39.0) (2025-01-03)
+
+
+### ✨ Features
+
+* Use V2 aggregate data in run page ([#1429](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1429)) ([f7754e4](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f7754e4d88e20232f4456e61b51205727b90c1f8))
+
+
+### 🧹 Miscellaneous Chores
+
+* Remove Multiple Tomograms flag ([#1434](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1434)) ([531ece1](https://github.com/chanzuckerberg/cryoet-data-portal/commit/531ece1e955f936893e72a3184d7da3d723c4ecf))
+
 ## [1.38.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.37.2...web-v1.38.0) (2025-01-02)
 
 
