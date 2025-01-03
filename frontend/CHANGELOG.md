@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.39.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.39.0...web-v1.39.1) (2025-01-03)
+
+
+### 🧪 Tests
+
+* filter components unit tests ([#1436](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1436)) ([1acbf30](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1acbf3074de170ea8891fd6bb07b5cbba64b45e0))
+
 ## [1.39.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.38.0...web-v1.39.0) (2025-01-03)
 
 
