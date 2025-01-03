@@ -4,7 +4,6 @@ import { createElement, MouseEvent, ReactNode } from 'react'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { DownloadConfig } from 'app/types/download'
 import { cns } from 'app/utils/cns'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { Tooltip } from '../Tooltip'
 
@@ -25,7 +24,6 @@ export function Radio({
   onClick?(): void
   value: DownloadConfig
 }) {
-  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
   const { downloadConfig } = useDownloadModalQueryParamState()
   const isActive = downloadConfig === value
 
@@ -54,12 +52,7 @@ export function Radio({
         <InputRadio value={value} disabled={disabled} />
       </div>
 
-      <div
-        className={cns(
-          'flex flex-col gap-sds-xxxs !tracking-[0.3px]',
-          multipleTomogramsEnabled && 'grow',
-        )}
-      >
+      <div className={cns('flex flex-col gap-sds-xxxs !tracking-[0.3px] grow')}>
         <span
           className={cns(
             'text-sds-header-s leading-sds-header-s font-semibold',

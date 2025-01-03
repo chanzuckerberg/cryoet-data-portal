@@ -31,7 +31,6 @@ export function constructDialogUrl(
     annotationFile,
     tomogram,
     fileFormat,
-    multipleTomograms = false,
   }: {
     tab?: string
     step?: string
@@ -39,7 +38,6 @@ export function constructDialogUrl(
     annotationFile?: { annotation: { id: string }; shape_type: string }
     tomogram?: { id: number; sampling: number; processing: string }
     fileFormat?: string
-    multipleTomograms?: boolean
   },
 ): URL {
   const expectedUrl = new URL(url)
@@ -54,21 +52,14 @@ export function constructDialogUrl(
   }
 
   if (annotationFile) {
-    if (multipleTomograms) {
-      params.append(QueryParams.ReferenceTomogramId, String(tomogram!.id))
-    }
+    params.append(QueryParams.ReferenceTomogramId, String(tomogram!.id))
     params.append(
       QueryParams.AnnotationId,
       String(annotationFile.annotation.id),
     )
     params.append(QueryParams.ObjectShapeType, annotationFile.shape_type)
   } else if (tomogram) {
-    if (multipleTomograms) {
-      params.append(QueryParams.DownloadTomogramId, String(tomogram.id))
-    } else {
-      params.append(QueryParams.TomogramSampling, String(tomogram.sampling))
-      params.append(QueryParams.TomogramProcessing, tomogram.processing)
-    }
+    params.append(QueryParams.DownloadTomogramId, String(tomogram.id))
   }
 
   if (fileFormat) {
@@ -78,11 +69,6 @@ export function constructDialogUrl(
   if (tab) {
     params.append(QueryParams.DownloadTab, tab)
   }
-
-  params.append(
-    multipleTomograms ? 'enable-feature' : 'disable-feature',
-    'multipleTomograms',
-  )
 
   return expectedUrl
 }

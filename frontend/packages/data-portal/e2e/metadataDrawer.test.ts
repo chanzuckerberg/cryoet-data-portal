@@ -81,35 +81,11 @@ test.describe('Metadata Drawer', () => {
 
     test('metadata should have correct data', async ({ page }) => {
       const metadataDrawerPage = new MetadataDrawerPage(page)
-      await metadataDrawerPage.goTo(
-        `${SINGLE_RUN_URL}?disable-feature=multipleTomograms`,
-      )
+      await metadataDrawerPage.goTo(SINGLE_RUN_URL)
       await metadataDrawerPage.openViewAllInfoDrawer()
       await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
 
-      const data = await getSingleRunTestMetadata(
-        client,
-        /* multipleTomogramsEnabled */ false,
-      )
-      await metadataDrawerPage.expectMetadataDrawerToShowTitle(data.title)
-      await metadataDrawerPage.expandAllAccordions()
-      await metadataDrawerPage.expectMetadataTableCellsToDisplayValues(data)
-    })
-
-    test('metadata should have correct data - multipleTomograms on', async ({
-      page,
-    }) => {
-      const metadataDrawerPage = new MetadataDrawerPage(page)
-      await metadataDrawerPage.goTo(
-        `${SINGLE_RUN_URL}?enable-feature=multipleTomograms`,
-      )
-      await metadataDrawerPage.openViewAllInfoDrawer()
-      await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
-
-      const data = await getSingleRunTestMetadata(
-        client,
-        /* multipleTomogramsEnabled */ true,
-      )
+      const data = await getSingleRunTestMetadata(client)
       await metadataDrawerPage.expectMetadataDrawerToShowTitle(data.title)
       await metadataDrawerPage.expandAllAccordions()
       await metadataDrawerPage.expectMetadataTableCellsToDisplayValues(data)
@@ -151,7 +127,7 @@ test.describe('Metadata Drawer', () => {
   })
 
   test.describe(`Tomogram Metadata: ${SINGLE_RUN_PATH}`, () => {
-    const url = `${SINGLE_RUN_URL}?table-tab=Tomograms&enable-feature=multipleTomograms`
+    const url = `${SINGLE_RUN_URL}?table-tab=Tomograms`
 
     test('should open metadata drawer', async ({ page }) => {
       const metadataDrawerPage = new MetadataDrawerPage(page)
