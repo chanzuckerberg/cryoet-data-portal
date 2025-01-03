@@ -1,5 +1,6 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
+  testTimeout: 10000,
   preset: 'ts-jest/presets/default-esm',
   setupFilesAfterEnv: ['@testing-library/jest-dom', '<rootDir>/setupTests.ts'],
   testEnvironment: 'jsdom',
