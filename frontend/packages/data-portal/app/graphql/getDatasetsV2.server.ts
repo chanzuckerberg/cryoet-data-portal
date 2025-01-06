@@ -340,7 +340,7 @@ export async function getBrowseDatasets({
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
 
-      // Order by dataset title if orderBy is set, otherwise order by release date
+      // Default order is by release date.
       orderBy: [
         titleOrderDirection
           ? { title: titleOrderDirection }
