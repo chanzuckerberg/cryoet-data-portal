@@ -22,8 +22,6 @@ import {
 } from 'app/constants/tiltSeries'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
-import { GET_DATASETS_FILTER_VALUES_FRAGMENT } from './fragments/getDatasetsFilterValuesV2.server'
-
 const GET_DATASETS_QUERY = gql(`
   query GetDatasetsV2(
     $limit: Int,
@@ -85,8 +83,6 @@ const GET_DATASETS_QUERY = gql(`
 
     ...DatasetsFilterValues
   }
-  
-  ${GET_DATASETS_FILTER_VALUES_FRAGMENT}
 `)
 
 function getFilter(
