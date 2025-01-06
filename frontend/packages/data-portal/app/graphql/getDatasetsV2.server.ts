@@ -28,7 +28,7 @@ const GET_DATASETS_QUERY = gql(`
     $offset: Int,
     $orderBy: [DatasetOrderByClause!]!,
     $filter: DatasetWhereClause!,
-    $depositionFilter: IntComparators
+    $depositionFilter: IntComparators # Unused, but must be defined because DatasetsFilterValues references it.
   ) {
     datasets(
       where: $filter
@@ -325,7 +325,7 @@ function convertReconstructionMethodToV2(
   }
 }
 
-export async function getBrowseDatasets({
+export async function getDatasetsV2({
   page,
   titleOrderDirection,
   searchText,
@@ -338,20 +338,10 @@ export async function getBrowseDatasets({
   params: URLSearchParams
   client: ApolloClient<NormalizedCacheObject>
 }): Promise<ApolloQueryResult<GetDatasetsV2Query>> {
-  const filterState = getFilterState(params)
-  const depositionId =
-    filterState.ids.deposition !== null
-      ? parseInt(filterState.ids.deposition)
-      : undefined
-
   return client.query({
     query: GET_DATASETS_QUERY,
     variables: {
-      filter: getFilter(filterState, searchText),
-      depositionFilter:
-        filterState.ids.deposition !== undefined
-          ? { _eq: depositionId }
-          : undefined,
+      filter: getFilter(getFilterState(params), searchText),
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
       // Default order is by release date.

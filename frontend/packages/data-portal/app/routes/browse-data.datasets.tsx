@@ -2,7 +2,8 @@ import { CellHeaderDirection } from '@czi-sds/components'
 import { json, LoaderFunctionArgs } from '@remix-run/node'
 
 import { Order_By } from 'app/__generated__/graphql'
-import { apolloClient } from 'app/apollo.server'
+import { OrderBy } from 'app/__generated_v2__/graphql'
+import { apolloClient, apolloClientV2 } from 'app/apollo.server'
 import { DatasetTable } from 'app/components/BrowseData'
 import { BrowseDataSearch } from 'app/components/BrowseData/BrowseDataSearch'
 import { DatasetFilter } from 'app/components/DatasetFilter'
@@ -16,6 +17,7 @@ import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
+import { getDatasetsV2 } from 'app/graphql/getDatasetsV2.server'
 import { useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
 import {
@@ -32,12 +34,18 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const query = url.searchParams.get(QueryParams.Search) ?? ''
 
   let orderBy: Order_By | null = null
+  let orderByV2: OrderBy | undefined
 
   if (sort) {
     orderBy = sort === 'asc' ? Order_By.Asc : Order_By.Desc
+    orderByV2 = sort === 'asc' ? OrderBy.Asc : OrderBy.Desc
   }
 
-  const [datasetsResponse, datasetsFilterResponse] = await Promise.all([
+  const [
+    { data: responseV1 },
+    { data: filterValuesResponseV1 },
+    { data: responseV2 },
+  ] = await Promise.all([
     getBrowseDatasets({
       orderBy,
       page,
@@ -46,11 +54,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
       params: url.searchParams,
     }),
     getDatasetsFilterData({ client: apolloClient }),
+    getDatasetsV2({
+      page,
+      titleOrderDirection: orderByV2,
+      searchText: query,
+      params: url.searchParams,
+      client: apolloClientV2,
+    }),
   ])
 
   return json({
-    datasetsData: datasetsResponse.data,
-    datasetsFilterData: datasetsFilterResponse.data,
+    v1: responseV1,
+    v1FilterValues: filterValuesResponseV1,
+    v2: responseV2,
   })
 }
 

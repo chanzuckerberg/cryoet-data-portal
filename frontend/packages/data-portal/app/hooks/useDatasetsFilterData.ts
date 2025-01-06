@@ -5,41 +5,39 @@ import { useTypedLoaderData } from 'remix-typedjson'
 import { GetDatasetsFilterDataQuery } from 'app/__generated__/graphql'
 
 export function useDatasetsFilterData() {
-  const { datasetsFilterData: data } = useTypedLoaderData<{
-    datasetsFilterData: GetDatasetsFilterDataQuery
+  const { v1FilterValues: v1 } = useTypedLoaderData<{
+    v1FilterValues: GetDatasetsFilterDataQuery
   }>()
 
   return useMemo(
     () => ({
-      organismNames: data.organism_names
+      organismNames: v1.organism_names
         .map((value) => value.organism_name)
         .filter(isString),
 
-      cameraManufacturers: data.camera_manufacturers.map(
+      cameraManufacturers: v1.camera_manufacturers.map(
         (value) => value.camera_manufacturer,
       ),
 
-      reconstructionMethods: data.reconstruction_methods.map(
+      reconstructionMethods: v1.reconstruction_methods.map(
         (value) => value.reconstruction_method,
       ),
 
-      reconstructionSoftwares: data.reconstruction_softwares.map(
+      reconstructionSoftwares: v1.reconstruction_softwares.map(
         (value) => value.reconstruction_software,
       ),
 
-      objectNames: data.object_names.map((value) => value.object_name),
+      objectNames: v1.object_names.map((value) => value.object_name),
 
-      objectShapeTypes: data.object_shape_types.map(
-        (value) => value.shape_type,
-      ),
+      objectShapeTypes: v1.object_shape_types.map((value) => value.shape_type),
     }),
     [
-      data.organism_names,
-      data.camera_manufacturers,
-      data.reconstruction_methods,
-      data.reconstruction_softwares,
-      data.object_names,
-      data.object_shape_types,
+      v1.organism_names,
+      v1.camera_manufacturers,
+      v1.reconstruction_methods,
+      v1.reconstruction_softwares,
+      v1.object_names,
+      v1.object_shape_types,
     ],
   )
 }
