@@ -218,6 +218,8 @@ function getRunFilter(
     datasetId: {
       _eq: datasetId,
     },
+    tiltseries: {},
+    annotations: {},
   }
 
   // Deposition filter:
@@ -231,13 +233,6 @@ function getRunFilter(
   // Tilt series filters:
   const tiltRangeMin = parseFloat(filterState.tiltSeries.min)
   const tiltRangeMax = parseFloat(filterState.tiltSeries.max)
-  if (
-    Number.isFinite(tiltRangeMin) ||
-    Number.isFinite(tiltRangeMax) ||
-    filterState.tiltSeries.qualityScore.length > 0
-  ) {
-    where.tiltseries = {}
-  }
   if (Number.isFinite(tiltRangeMin) || Number.isFinite(tiltRangeMax)) {
     where.tiltseries!.tiltRange = {
       _gte: Number.isFinite(tiltRangeMin)
@@ -257,14 +252,6 @@ function getRunFilter(
   }
 
   // Annotation filters:
-  if (
-    filterState.includedContents.isGroundTruthEnabled ||
-    filterState.annotation.objectNames.length > 0 ||
-    filterState.annotation.objectShapeTypes.length > 0 ||
-    filterState.annotation.objectId !== null
-  ) {
-    where.annotations = {}
-  }
   if (filterState.includedContents.isGroundTruthEnabled) {
     where.annotations!.groundTruthStatus = { _eq: true }
   }
