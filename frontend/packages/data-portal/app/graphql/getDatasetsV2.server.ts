@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+
 import type {
   ApolloClient,
   ApolloQueryResult,
@@ -20,12 +22,15 @@ import {
 } from 'app/constants/tiltSeries'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
+import { GET_DATASETS_FILTER_VALUES_FRAGMENT } from './fragments/getDatasetsFilterValuesV2.server'
+
 const GET_DATASETS_QUERY = gql(`
   query GetDatasetsV2(
     $limit: Int,
     $offset: Int,
     $orderBy: [DatasetOrderByClause!]!,
-    $filter: DatasetWhereClause!
+    $filter: DatasetWhereClause!,
+    $depositionFilter: IntComparators
   ) {
     datasets(
       where: $filter
@@ -77,7 +82,11 @@ const GET_DATASETS_QUERY = gql(`
         count
       }
     }
+
+    ...DatasetsFilterValues
   }
+  
+  ${GET_DATASETS_FILTER_VALUES_FRAGMENT}
 `)
 
 function getFilter(
@@ -333,13 +342,22 @@ export async function getBrowseDatasets({
   params: URLSearchParams
   client: ApolloClient<NormalizedCacheObject>
 }): Promise<ApolloQueryResult<GetDatasetsV2Query>> {
+  const filterState = getFilterState(params)
+  const depositionId =
+    filterState.ids.deposition !== null
+      ? parseInt(filterState.ids.deposition)
+      : undefined
+
   return client.query({
     query: GET_DATASETS_QUERY,
     variables: {
-      filter: getFilter(getFilterState(params), searchText),
+      filter: getFilter(filterState, searchText),
+      depositionFilter:
+        filterState.ids.deposition !== undefined
+          ? { _eq: depositionId }
+          : undefined,
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
-
       // Default order is by release date.
       orderBy: [
         titleOrderDirection
