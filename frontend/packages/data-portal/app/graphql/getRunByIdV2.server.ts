@@ -432,6 +432,7 @@ function getAnnotationShapesFilter(
           _eq: runId,
         },
       },
+      authors: {},
     },
   }
 
@@ -457,9 +458,6 @@ function getAnnotationShapesFilter(
 
   // Author filters
   const { name, orcid } = filterState.author
-  if (name || orcid) {
-    where.annotation!.authors = {}
-  }
   if (name) {
     where.annotation!.authors!.name = {
       _ilike: `%${name}%`,

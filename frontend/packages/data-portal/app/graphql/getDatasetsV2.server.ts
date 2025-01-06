@@ -1,19 +1,30 @@
-import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { performance } from 'perf_hooks'
-import { match } from 'ts-pattern'
+import type {
+  ApolloClient,
+  ApolloQueryResult,
+  NormalizedCacheObject,
+} from '@apollo/client'
 
 import { gql } from 'app/__generated_v2__'
-import { Datasets_Bool_Exp, Order_By } from 'app/__generated__/graphql'
+import {
+  Annotation_File_Shape_Type_Enum,
+  DatasetWhereClause,
+  Fiducial_Alignment_Status_Enum,
+  GetDatasetsV2Query,
+  OrderBy,
+  Tomogram_Reconstruction_Method_Enum,
+} from 'app/__generated_v2__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import {
+  DEFAULT_TILT_RANGE_MAX,
+  DEFAULT_TILT_RANGE_MIN,
+} from 'app/constants/tiltSeries'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
-import { getTiltRangeFilter } from 'app/utils/filter'
-import { DatasetWhereClause } from 'app/__generated_v2__/graphql'
 
-const GET_DATASETS_DATA_QUERY = gql(`
-  query GetDatasetsDataV2(
+const GET_DATASETS_QUERY = gql(`
+  query GetDatasetsV2(
     $limit: Int,
     $offset: Int,
-    $orderBy: DatasetOrderByClause!,
+    $orderBy: [DatasetOrderByClause!]!,
     $filter: DatasetWhereClause!
   ) {
     datasets(
@@ -48,7 +59,7 @@ const GET_DATASETS_DATA_QUERY = gql(`
         aggregate {
           count
           groupBy {
-            annotations: {
+            annotations {
               objectName
             }
           }
@@ -69,8 +80,13 @@ const GET_DATASETS_DATA_QUERY = gql(`
   }
 `)
 
-function getFilter(filterState: FilterState, searchText: string) {
-  const where: DatasetWhereClause = {}
+function getFilter(
+  filterState: FilterState,
+  searchText?: string,
+): DatasetWhereClause {
+  const where: DatasetWhereClause = {
+    runs: { annotations: {}, tiltseries: {}, tomograms: {} },
+  }
 
   // Search by Dataset Name
   if (searchText) {
@@ -79,15 +95,11 @@ function getFilter(filterState: FilterState, searchText: string) {
     }
   }
 
-  // Included Contents section:
+  // INCLUDED CONTENTS SECTION
   // Ground Truth Annotation
   if (filterState.includedContents.isGroundTruthEnabled) {
-    where.runs = {
-      annotations: {
-        groundTruthStatus: {
-          _eq: true,
-        },
-      },
+    where.runs!.annotations!.groundTruthStatus = {
+      _eq: true,
     }
   }
   // Available Files
@@ -159,224 +171,183 @@ function getFilter(filterState: FilterState, searchText: string) {
   //   })
   // }
 
-  // Name/ID section:
+  // NAME/ID SECTION
   // Dataset IDs
-  const datasetId = Number(filterState.ids.dataset)
-  if (Number.isFinite(datasetId)) {
+  const datasetId =
+    filterState.ids.dataset !== null
+      ? parseInt(filterState.ids.dataset)
+      : undefined
+  if (Number.isInteger(datasetId)) {
     where.id = {
       _eq: datasetId,
     }
   }
-  // Empiar filter
   const empiarId = filterState.ids.empiar
-  if (empiarId) {
-    idFilters.push({
-      related_database_entries: {
-        _like: `%EMPIAR-${empiarId}%`,
-      },
-    })
-  }
-  // EMDB filter
   const emdbId = filterState.ids.emdb
-  if (emdbId) {
-    idFilters.push({
-      related_database_entries: {
-        _like: `%EMD-${emdbId}%`,
-      },
-    })
+  if (empiarId && emdbId) {
+    where.relatedDatabaseEntries = {
+      _regex: `(EMPIAR-${empiarId}.*EMD-${emdbId})|(EMD-${emdbId}.*EMPIAR-${empiarId})`, // Ignores order
+    }
+  } else if (empiarId) {
+    where.relatedDatabaseEntries = {
+      _regex: `EMPIAR-${empiarId}`,
+    }
+  } else if (emdbId) {
+    where.relatedDatabaseEntries = {
+      _regex: `EMD-${emdbId}`,
+    }
   }
-  // Author name filter
+  // Dataset Author
+  if (filterState.author.name || filterState.author.orcid) {
+    where.authors = {}
+  }
   if (filterState.author.name) {
-    where.push({
-      authors: {
-        name: {
-          _ilike: `%${filterState.author.name}%`,
-        },
-      },
-    })
+    where.authors!.name = {
+      _ilike: `%${filterState.author.name}%`,
+    }
   }
-  // Author Orcid filter
   if (filterState.author.orcid) {
-    where.push({
-      authors: {
-        orcid: {
-          _ilike: `%${filterState.author.orcid}%`,
-        },
-      },
-    })
+    where.authors!.orcid = {
+      _ilike: `%${filterState.author.orcid}%`,
+    }
   }
-  // Deposition ID filter
-  const depositionId = +(filterState.ids.deposition ?? Number.NaN)
-  if (!Number.isNaN(depositionId) && depositionId > 0) {
-    idFilters.push({
-      runs: {
-        tomogram_voxel_spacings: {
-          annotations: {
-            deposition_id: {
-              _eq: depositionId,
-            },
-          },
-        },
-      },
-    })
+  // Deposition ID
+  const depositionId =
+    filterState.ids.deposition !== null
+      ? parseInt(filterState.ids.deposition)
+      : undefined
+  if (Number.isInteger(depositionId)) {
+    where.depositionId = {
+      _eq: depositionId,
+    }
   }
 
-  // Sample and experiment condition filters
+  // SAMPLE AND EXPERIMENT CONDITIONS SECTION
   const { organismNames } = filterState.sampleAndExperimentConditions
-
-  // Organism name filter
   if (organismNames.length > 0) {
-    where.push({
-      organism_name: { _in: organismNames },
-    })
+    where.organismName = {
+      _in: organismNames,
+    }
   }
 
-  // Hardware filters
-  // Camera manufacturer filter
-  if (filterState.hardware.cameraManufacturer) {
-    where.push({
-      runs: {
-        tiltseries: {
-          camera_manufacturer: {
-            _eq: filterState.hardware.cameraManufacturer,
-          },
-        },
-      },
-    })
-  }
-
-  // Tilt series metadata filters
-  const tiltRangeFilter = getTiltRangeFilter(
-    filterState.tiltSeries.min,
-    filterState.tiltSeries.max,
-  )
-
-  if (tiltRangeFilter) {
-    where.push({
-      runs: tiltRangeFilter,
-    })
-  }
-
-  // Tomogram metadata filters
-  if (filterState.tomogram.fiducialAlignmentStatus) {
-    where.push({
-      runs: {
-        tomogram_voxel_spacings: {
-          tomograms: {
-            fiducial_alignment_status: {
-              _eq:
-                filterState.tomogram.fiducialAlignmentStatus === 'true'
-                  ? 'FIDUCIAL'
-                  : 'NON_FIDUCIAL',
-            },
-          },
-        },
-      },
-    })
-  }
-
-  // Reconstruction method filter
-  if (filterState.tomogram.reconstructionMethod) {
-    where.push({
-      runs: {
-        tomogram_voxel_spacings: {
-          tomograms: {
-            reconstruction_method: {
-              _eq: filterState.tomogram.reconstructionMethod,
-            },
-          },
-        },
-      },
-    })
-  }
-
-  // Reconstruction software filter
-  if (filterState.tomogram.reconstructionSoftware) {
-    where.push({
-      runs: {
-        tomogram_voxel_spacings: {
-          tomograms: {
-            reconstruction_software: {
-              _eq: filterState.tomogram.reconstructionSoftware,
-            },
-          },
-        },
-      },
-    })
-  }
-
-  // Annotation filters
-  const { objectNames, objectShapeTypes } = filterState.annotation
-
-  // Object names filter
+  // ANNOTATION METADATA SECTION
+  const { objectNames, objectId, objectShapeTypes } = filterState.annotation
   if (objectNames.length > 0) {
-    where.push({
-      runs: {
-        tomogram_voxel_spacings: {
-          annotations: {
-            object_name: {
-              _in: objectNames,
-            },
-          },
-        },
-      },
-    })
+    // Object Name
+    where.runs!.annotations!.objectName = {
+      _in: objectNames,
+    }
   }
-
-  // Object shape type filter
+  // Object ID
+  if (objectId) {
+    where.runs!.annotations!.objectId = {
+      _eq: objectId,
+    }
+  }
+  // Object Shape Type
   if (objectShapeTypes.length > 0) {
-    where.push({
-      runs: {
-        tomogram_voxel_spacings: {
-          annotations: {
-            files: {
-              shape_type: {
-                _in: objectShapeTypes,
-              },
-            },
-          },
-        },
+    where.runs!.annotations!.annotationShapes = {
+      shapeType: {
+        _in: objectShapeTypes as Annotation_File_Shape_Type_Enum[], // TODO(bchu): Remove typecast.
       },
-    })
+    }
   }
 
-  return { _and: where } as Datasets_Bool_Exp
+  // HARDWARE SECTION
+  if (filterState.hardware.cameraManufacturer) {
+    where.runs!.tiltseries!.cameraManufacturer = {
+      _eq: filterState.hardware.cameraManufacturer,
+    }
+  }
+
+  // TILT SERIES METADATA SECTION
+  const tiltRangeMin = parseFloat(filterState.tiltSeries.min)
+  const tiltRangeMax = parseFloat(filterState.tiltSeries.max)
+  if (Number.isFinite(tiltRangeMin) || Number.isFinite(tiltRangeMax)) {
+    where.runs!.tiltseries!.tiltRange = {
+      _gte: Number.isFinite(tiltRangeMin)
+        ? tiltRangeMin
+        : DEFAULT_TILT_RANGE_MIN,
+      _lte: Number.isFinite(tiltRangeMax)
+        ? tiltRangeMax
+        : DEFAULT_TILT_RANGE_MAX,
+    }
+  }
+
+  // TOMOGRAM METADATA SECTION
+  // Fiducial Alignment Status
+  if (filterState.tomogram.fiducialAlignmentStatus) {
+    where.runs!.tomograms!.fiducialAlignmentStatus = {
+      _eq:
+        filterState.tomogram.fiducialAlignmentStatus === 'true'
+          ? Fiducial_Alignment_Status_Enum.Fiducial
+          : Fiducial_Alignment_Status_Enum.NonFiducial,
+    }
+  }
+  // Reconstruction Method
+  if (filterState.tomogram.reconstructionMethod) {
+    where.runs!.tomograms!.reconstructionMethod = {
+      _eq: convertReconstructionMethodToV2(
+        filterState.tomogram.reconstructionMethod,
+      ),
+    }
+  }
+  // Reconstruction Software
+  if (filterState.tomogram.reconstructionSoftware) {
+    where.runs!.tomograms!.reconstructionSoftware = {
+      _eq: filterState.tomogram.reconstructionSoftware,
+    }
+  }
+
+  return where
+}
+
+function convertReconstructionMethodToV2(
+  v1: string,
+): Tomogram_Reconstruction_Method_Enum {
+  switch (v1) {
+    case 'Fourier Space':
+      return Tomogram_Reconstruction_Method_Enum.FourierSpace
+    case 'SART':
+      return Tomogram_Reconstruction_Method_Enum.Sart
+    case 'SIRT':
+      return Tomogram_Reconstruction_Method_Enum.Sirt
+    case 'WBP':
+      return Tomogram_Reconstruction_Method_Enum.Wbp
+    case 'Unknown':
+    default:
+      return Tomogram_Reconstruction_Method_Enum.Unknown
+  }
 }
 
 export async function getBrowseDatasets({
+  page,
+  titleOrderDirection,
+  searchText,
+  params,
   client,
-  orderBy,
-  page = 1,
-  params = new URLSearchParams(),
-  query = '',
 }: {
+  page: number
+  titleOrderDirection?: OrderBy
+  searchText?: string
+  params: URLSearchParams
   client: ApolloClient<NormalizedCacheObject>
-  orderBy?: Order_By | null
-  page?: number
-  params?: URLSearchParams
-  query?: string
-}) {
-  const start = performance.now()
-
-  const results = await client.query({
-    query: GET_DATASETS_DATA_QUERY,
+}): Promise<ApolloQueryResult<GetDatasetsV2Query>> {
+  return client.query({
+    query: GET_DATASETS_QUERY,
     variables: {
-      filter: getFilter(getFilterState(params), query),
+      filter: getFilter(getFilterState(params), searchText),
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
 
       // Order by dataset title if orderBy is set, otherwise order by release date
-      orderBy: orderBy
-        ? { title: orderBy }
-        : {
-            release_date: Order_By.Desc,
-          },
+      orderBy: [
+        titleOrderDirection
+          ? { title: titleOrderDirection }
+          : {
+              releaseDate: OrderBy.Desc,
+            },
+      ],
     },
   })
-
-  const end = performance.now()
-  // eslint-disable-next-line no-console
-  console.log(`getBrowseDatasets query perf: ${end - start}ms`)
-
-  return results
 }

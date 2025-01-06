@@ -60,6 +60,9 @@ module.exports = {
     // Allow use of continue in loops
     'no-continue': 'off',
 
+    // Rule only exists b/c of an edge case in IE8
+    radix: 'off',
+
     // Sometimes it's safe to call async functions and not handle their errors.
     '@typescript-eslint/no-misused-promises': 'off',
     // Allow us to use function/variable hoisting.
