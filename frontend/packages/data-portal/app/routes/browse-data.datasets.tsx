@@ -16,6 +16,7 @@ import {
 import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
+import { logIfHasDiff } from 'app/graphql/getDatasetsDiffer'
 import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { getDatasetsV2 } from 'app/graphql/getDatasetsV2.server'
 import { useDatasets } from 'app/hooks/useDatasets'
@@ -62,6 +63,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
       client: apolloClientV2,
     }),
   ])
+
+  try {
+    logIfHasDiff(request.url, responseV1, filterValuesResponseV1, responseV2)
+  } catch (error) {
+    // eslint-disable-next-line no-console, @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access,
+    console.log(`DIFF ERROR: ${(error as any)?.stack}`)
+  }
 
   return json({
     v1: responseV1,

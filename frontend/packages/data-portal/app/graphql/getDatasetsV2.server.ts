@@ -357,14 +357,15 @@ export async function getDatasetsV2({
       filter: getFilter(getFilterState(params), searchText),
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
-      // Default order is by release date.
-      orderBy: [
-        titleOrderDirection
-          ? { title: titleOrderDirection }
-          : {
+      // Default order primarily by release date.
+      orderBy: titleOrderDirection
+        ? [
+            { title: titleOrderDirection },
+            {
               releaseDate: OrderBy.Desc,
             },
-      ],
+          ]
+        : [{ releaseDate: OrderBy.Desc }, { title: OrderBy.Asc }],
     },
   })
 }

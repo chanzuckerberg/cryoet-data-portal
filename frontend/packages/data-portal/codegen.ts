@@ -36,6 +36,7 @@ const config: CodegenConfig = {
 
       presetConfig: {
         gqlTagName: 'gql',
+        fragmentMasking: false,
       },
 
       config: {
