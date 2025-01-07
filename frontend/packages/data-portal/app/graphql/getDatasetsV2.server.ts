@@ -317,6 +317,7 @@ function getFilter(
     }
   }
 
+  console.log(JSON.stringify(where))
   return where
 }
 
