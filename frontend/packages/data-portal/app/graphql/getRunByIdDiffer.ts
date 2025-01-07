@@ -39,6 +39,8 @@ export function logIfHasDiff(
         methodLinkA.node.link.localeCompare(methodLinkB.node.link),
     )
   }
+  // Tomograms are currently being sorted by the FE.
+  v2.tomograms.sort((tomogramA, tomogramB) => tomogramB.id - tomogramA.id)
   for (const tomogram of v2.tomograms) {
     // Delete fields that don't exist in V1.
     delete tomogram.alignment
@@ -295,50 +297,52 @@ export function logIfHasDiff(
         },
       },
     })),
-    tomograms: v1.tomograms.map((tomogram) => ({
-      ctfCorrected: tomogram.ctf_corrected,
-      fiducialAlignmentStatus:
-        tomogram.fiducial_alignment_status as Fiducial_Alignment_Status_Enum,
-      httpsMrcFile: tomogram.https_mrc_scale0,
-      id: tomogram.id,
-      isPortalStandard: false,
-      isAuthorSubmitted: tomogram.is_canonical,
-      keyPhotoThumbnailUrl: tomogram.key_photo_thumbnail_url,
-      keyPhotoUrl: tomogram.key_photo_url,
-      name: tomogram.name,
-      neuroglancerConfig: tomogram.neuroglancer_config,
-      processing: tomogram.processing as Tomogram_Processing_Enum,
-      processingSoftware: tomogram.processing_software,
-      reconstructionMethod: (tomogram.reconstruction_method ===
-      'Weighted back projection'
-        ? 'WBP'
-        : tomogram.reconstruction_method) as Tomogram_Reconstruction_Method_Enum,
-      reconstructionSoftware: tomogram.reconstruction_software,
-      s3MrcFile: tomogram.s3_mrc_scale0,
-      s3OmezarrDir: tomogram.s3_omezarr_dir,
-      sizeX: tomogram.size_x,
-      sizeY: tomogram.size_y,
-      sizeZ: tomogram.size_z,
-      voxelSpacing: tomogram.voxel_spacing,
-      tomogramVoxelSpacing:
-        tomogram.tomogram_voxel_spacing != null
-          ? {
-              id: tomogram.tomogram_voxel_spacing.id,
-              s3Prefix: tomogram.tomogram_voxel_spacing.s3_prefix!,
-            }
-          : undefined,
-      authors: {
-        edges: tomogram.authors.map((author) => ({
-          node: {
-            primaryAuthorStatus: author.primary_author_status,
-            correspondingAuthorStatus: author.corresponding_author_status,
-            name: author.name,
-            email: author.email,
-            orcid: author.orcid,
-          },
-        })),
-      },
-    })),
+    tomograms: v1.tomograms
+      .map((tomogram) => ({
+        ctfCorrected: tomogram.ctf_corrected,
+        fiducialAlignmentStatus:
+          tomogram.fiducial_alignment_status as Fiducial_Alignment_Status_Enum,
+        httpsMrcFile: tomogram.https_mrc_scale0,
+        id: tomogram.id,
+        isPortalStandard: false,
+        isAuthorSubmitted: tomogram.is_canonical,
+        keyPhotoThumbnailUrl: tomogram.key_photo_thumbnail_url,
+        keyPhotoUrl: tomogram.key_photo_url,
+        name: tomogram.name,
+        neuroglancerConfig: tomogram.neuroglancer_config,
+        processing: tomogram.processing as Tomogram_Processing_Enum,
+        processingSoftware: tomogram.processing_software,
+        reconstructionMethod: (tomogram.reconstruction_method ===
+        'Weighted back projection'
+          ? 'WBP'
+          : tomogram.reconstruction_method) as Tomogram_Reconstruction_Method_Enum,
+        reconstructionSoftware: tomogram.reconstruction_software,
+        s3MrcFile: tomogram.s3_mrc_scale0,
+        s3OmezarrDir: tomogram.s3_omezarr_dir,
+        sizeX: tomogram.size_x,
+        sizeY: tomogram.size_y,
+        sizeZ: tomogram.size_z,
+        voxelSpacing: tomogram.voxel_spacing,
+        tomogramVoxelSpacing:
+          tomogram.tomogram_voxel_spacing != null
+            ? {
+                id: tomogram.tomogram_voxel_spacing.id,
+                s3Prefix: tomogram.tomogram_voxel_spacing.s3_prefix!,
+              }
+            : undefined,
+        authors: {
+          edges: tomogram.authors.map((author) => ({
+            node: {
+              primaryAuthorStatus: author.primary_author_status,
+              correspondingAuthorStatus: author.corresponding_author_status,
+              name: author.name,
+              email: author.email,
+              orcid: author.orcid,
+            },
+          })),
+        },
+      }))
+      .sort((tomogramA, tomogramB) => tomogramB.id - tomogramA.id),
     uniqueAnnotationSoftwares: {
       aggregate: v1.annotations_for_softwares
         .map((annotation) => ({
@@ -443,7 +447,9 @@ export function logIfHasDiff(
     console.log(
       `DIFF AT ${url} ======================================== ${JSON.stringify(
         v1Transformed,
-      )} ======================================== ${JSON.stringify(v2)}`,
+      )} ================================================================================ ${JSON.stringify(
+        v2,
+      )}`,
     )
   }
 }
