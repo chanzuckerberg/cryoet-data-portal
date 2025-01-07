@@ -3,7 +3,8 @@
 
 Below are code snippets for completing various tasks using the Python Client API. Have an example you'd like to share with the community? Submit a [GitHub issue](https://github.com/chanzuckerberg/cryoet-data-portal/issues) and include "Example:" in your title.
 
-:::{czi-info} Query by annotated object or Gene Ontology terms using owlready2 library
+:::{admonition} Query by annotated object or Gene Ontology terms using owlready2 library
+:class: czi-faq
 :collapsible: open
 
 Find all membrane annotations, including when the annotation has a subclass of membrane.
@@ -37,7 +38,8 @@ object_datasets = set([po.run.dataset_id for po in portal_objects])
 ```
 :::
 
-:::{czi-info} List zarr file contents using the zarr package and HTTPS link
+:::{admonition} List zarr file contents using the zarr package and HTTPS link
+:class: czi-faq
 :collapsible:
 
 Stream data using https
@@ -64,7 +66,8 @@ for i in g.attrs["multiscales"][0]["datasets"]:
 ```
 :::
 
-:::{czi-info} List zarr-file contents using the ome-zarr package and HTTPS link
+:::{admonition} List zarr-file contents using the ome-zarr package and HTTPS link
+:class: czi-faq
 :collapsible:
 
 Stream data using https
@@ -89,7 +92,8 @@ nodes[0].data
 ```
 :::
 
-:::{czi-info} List zarr-file contents using the zarr package and S3 link
+:::{admonition} List zarr-file contents using the zarr package and S3 link
+:class: czi-faq
 :collapsible:
 
 Stream data via S3
@@ -108,7 +112,8 @@ g.info_items()
 ```
 :::
 
-:::{czi-info} Open a tomogram array using the zarr package and HTTPS link
+:::{admonition} Open a tomogram array using the zarr package and HTTPS link
+:class: czi-faq
 :collapsible:
 
 Stream data using https
@@ -125,7 +130,8 @@ g = zarr.open_array(f"{tomo.https_omezarr_dir}/0", mode='r')
 ```
 :::
 
-:::{czi-info} Find all annotation files available in ZARR format from a dataset
+:::{admonition} Find all annotation files available in ZARR format from a dataset
+:class: czi-faq
 :collapsible:
 
 Use as training data for a segmentation model
@@ -144,7 +150,8 @@ ret = AnnotationFile.find(client, [
 ```
 :::
 
-:::{czi-info} Open a Point-annotation file and stream the contents from S3
+:::{admonition} Open a Point-annotation file and stream the contents from S3
+:class: czi-faq
 :collapsible:
 
 Use as training data for a particle picking model
@@ -171,7 +178,8 @@ with fs.open(ret[0].s3_path) as pointfile:
 ```
 :::
 
-:::{czi-info} Find all datasets that have movie frames available
+:::{admonition} Find all datasets that have movie frames available
+:class: czi-faq
 :collapsible:
 
 Start processing the raw data
@@ -187,7 +195,8 @@ datasets_with_frames = Dataset.find(client, [Dataset.runs.frames.id != None])
 ```
 :::
 
-:::{czi-info} Find all tomograms with voxel spacing below a threshold
+:::{admonition} Find all tomograms with voxel spacing below a threshold
+:class: czi-faq
 :collapsible:
 
 Select data of a specific resolution
@@ -209,7 +218,8 @@ s3zarr = [t.s3_omezarr_dir for t in tomos]
 ```
 :::
 
-:::{czi-info} Compute statistics on the portal data using the API client
+:::{admonition} Compute statistics on the portal data using the API client
+:class: czi-faq
 :collapsible:
 
 Find how many runs there are in total for a given species
@@ -244,7 +254,8 @@ plt.show()
 ```
 :::
 
-:::{czi-info} Download the movie stacks of one run using S3 file streaming
+:::{admonition} Download the movie stacks of one run using S3 file streaming
+:class: czi-faq
 :collapsible:
 
 Start processing from raw data

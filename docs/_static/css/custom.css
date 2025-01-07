@@ -332,6 +332,12 @@ dl.class > dd > dl:nth-child(27) {
   font-weight: 400;
 }
 
+/* Dark mode admonitions */
+div.czi-info.admonition,
+div.czi-warning.admonition {
+  color: black !important;
+}
+
 .md-typeset .czi-info.admonition>p:not(.admonition-title),
 .md-typeset .czi-warning.admonition>p:not(.admonition-title) {
   margin-left: 1.4rem;
