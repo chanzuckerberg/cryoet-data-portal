@@ -87,9 +87,7 @@ function getFilter(
   filterState: FilterState,
   searchText?: string,
 ): DatasetWhereClause {
-  const where: DatasetWhereClause = {
-    runs: { annotations: {}, tiltseries: {}, tomograms: {} },
-  }
+  const where: DatasetWhereClause = {}
 
   // Search by Dataset Name
   if (searchText) {
@@ -101,7 +99,9 @@ function getFilter(
   // INCLUDED CONTENTS SECTION
   // Ground Truth Annotation
   if (filterState.includedContents.isGroundTruthEnabled) {
-    where.runs!.annotations!.groundTruthStatus = {
+    where.runs ??= { annotations: {} }
+    where.runs.annotations ??= {}
+    where.runs.annotations.groundTruthStatus = {
       _eq: true,
     }
   }
@@ -201,16 +201,15 @@ function getFilter(
     }
   }
   // Dataset Author
-  if (filterState.author.name || filterState.author.orcid) {
-    where.authors = {}
-  }
   if (filterState.author.name) {
-    where.authors!.name = {
+    where.authors ??= {}
+    where.authors.name = {
       _ilike: `%${filterState.author.name}%`,
     }
   }
   if (filterState.author.orcid) {
-    where.authors!.orcid = {
+    where.authors ??= {}
+    where.authors.orcid = {
       _ilike: `%${filterState.author.orcid}%`,
     }
   }
@@ -235,21 +234,27 @@ function getFilter(
 
   // ANNOTATION METADATA SECTION
   const { objectNames, objectId, objectShapeTypes } = filterState.annotation
+  // Object Name
   if (objectNames.length > 0) {
-    // Object Name
-    where.runs!.annotations!.objectName = {
+    where.runs ??= { annotations: {} }
+    where.runs.annotations ??= {}
+    where.runs.annotations.objectName = {
       _in: objectNames,
     }
   }
   // Object ID
   if (objectId) {
-    where.runs!.annotations!.objectId = {
+    where.runs ??= { annotations: {} }
+    where.runs.annotations ??= {}
+    where.runs.annotations.objectId = {
       _eq: objectId,
     }
   }
   // Object Shape Type
   if (objectShapeTypes.length > 0) {
-    where.runs!.annotations!.annotationShapes = {
+    where.runs ??= { annotations: {} }
+    where.runs.annotations ??= {}
+    where.runs.annotations.annotationShapes = {
       shapeType: {
         _in: objectShapeTypes as Annotation_File_Shape_Type_Enum[], // TODO(bchu): Remove typecast.
       },
@@ -258,7 +263,9 @@ function getFilter(
 
   // HARDWARE SECTION
   if (filterState.hardware.cameraManufacturer) {
-    where.runs!.tiltseries!.cameraManufacturer = {
+    where.runs ??= { tiltseries: {} }
+    where.runs.tiltseries ??= {}
+    where.runs.tiltseries.cameraManufacturer = {
       _eq: filterState.hardware.cameraManufacturer,
     }
   }
@@ -267,7 +274,9 @@ function getFilter(
   const tiltRangeMin = parseFloat(filterState.tiltSeries.min)
   const tiltRangeMax = parseFloat(filterState.tiltSeries.max)
   if (Number.isFinite(tiltRangeMin) || Number.isFinite(tiltRangeMax)) {
-    where.runs!.tiltseries!.tiltRange = {
+    where.runs ??= { tiltseries: {} }
+    where.runs.tiltseries ??= {}
+    where.runs.tiltseries.tiltRange = {
       _gte: Number.isFinite(tiltRangeMin)
         ? tiltRangeMin
         : DEFAULT_TILT_RANGE_MIN,
@@ -280,7 +289,9 @@ function getFilter(
   // TOMOGRAM METADATA SECTION
   // Fiducial Alignment Status
   if (filterState.tomogram.fiducialAlignmentStatus) {
-    where.runs!.tomograms!.fiducialAlignmentStatus = {
+    where.runs ??= { tomograms: {} }
+    where.runs.tomograms ??= {}
+    where.runs.tomograms.fiducialAlignmentStatus = {
       _eq:
         filterState.tomogram.fiducialAlignmentStatus === 'true'
           ? Fiducial_Alignment_Status_Enum.Fiducial
@@ -289,7 +300,9 @@ function getFilter(
   }
   // Reconstruction Method
   if (filterState.tomogram.reconstructionMethod) {
-    where.runs!.tomograms!.reconstructionMethod = {
+    where.runs ??= { tomograms: {} }
+    where.runs.tomograms ??= {}
+    where.runs.tomograms.reconstructionMethod = {
       _eq: convertReconstructionMethodToV2(
         filterState.tomogram.reconstructionMethod,
       ),
@@ -297,7 +310,9 @@ function getFilter(
   }
   // Reconstruction Software
   if (filterState.tomogram.reconstructionSoftware) {
-    where.runs!.tomograms!.reconstructionSoftware = {
+    where.runs ??= { tomograms: {} }
+    where.runs.tomograms ??= {}
+    where.runs.tomograms.reconstructionSoftware = {
       _eq: filterState.tomogram.reconstructionSoftware,
     }
   }
