@@ -67,7 +67,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   try {
     logIfHasDiff(request.url, responseV1, filterValuesResponseV1, responseV2)
   } catch (error) {
-    // eslint-disable-next-line no-console, @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access,
+    // eslint-disable-next-line no-console, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
     console.log(`DIFF ERROR: ${(error as any)?.stack}`)
   }
 
