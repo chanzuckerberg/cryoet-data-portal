@@ -7,8 +7,9 @@ import {
 import {
   Annotation_File_Shape_Type_Enum,
   GetDatasetsV2Query,
-  Tomogram_Reconstruction_Method_Enum,
 } from 'app/__generated_v2__/graphql'
+
+import { convertReconstructionMethodToV2 } from './common'
 
 /* eslint-disable no-console, no-param-reassign */
 export function logIfHasDiff(
@@ -61,11 +62,17 @@ export function logIfHasDiff(
   for (const group of v2.distinctReconstructionSoftwares.aggregate!) {
     delete group.count
   }
-  v2.distinctReconstructionSoftwares.aggregate!.sort((groupA, groupB) =>
-    String(groupA.groupBy!.reconstructionSoftware).localeCompare(
-      String(groupB.groupBy!.reconstructionSoftware),
-    ),
-  )
+  v2.distinctReconstructionSoftwares.aggregate =
+    v2.distinctReconstructionSoftwares
+      .aggregate!.filter(
+        // Bug in APIv2 returns this as a duplicate of 'AreTomo3 v2.0.4'
+        (group) => group.groupBy?.reconstructionSoftware !== 'AreTomo3_v2.0.4',
+      )
+      .sort((groupA, groupB) =>
+        String(groupA.groupBy!.reconstructionSoftware).localeCompare(
+          String(groupB.groupBy!.reconstructionSoftware),
+        ),
+      )
   for (const group of v2.distinctObjectNames.aggregate!) {
     delete group.count
   }
@@ -101,11 +108,15 @@ export function logIfHasDiff(
         })),
       },
       runsCount: {
-        aggregate: [
-          {
-            count: dataset.runs_aggregate.aggregate!.count,
-          },
-        ],
+        aggregate:
+          // Platformics returns an empty array if the count is 0.
+          dataset.runs_aggregate.aggregate!.count !== 0
+            ? [
+                {
+                  count: dataset.runs_aggregate.aggregate!.count,
+                },
+              ]
+            : [],
       },
       distinctObjectNames: {
         aggregate: [
@@ -177,8 +188,9 @@ export function logIfHasDiff(
       aggregate: v1FilterValues.reconstruction_methods
         .map((reconstructionMethod) => ({
           groupBy: {
-            reconstructionMethod:
-              reconstructionMethod.reconstruction_method as Tomogram_Reconstruction_Method_Enum,
+            reconstructionMethod: convertReconstructionMethodToV2(
+              reconstructionMethod.reconstruction_method,
+            ),
           },
         }))
         .sort((groupA, groupB) =>

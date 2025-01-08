@@ -11,7 +11,6 @@ import {
   Fiducial_Alignment_Status_Enum,
   GetDatasetsV2Query,
   OrderBy,
-  Tomogram_Reconstruction_Method_Enum,
 } from 'app/__generated_v2__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import {
@@ -19,6 +18,8 @@ import {
   DEFAULT_TILT_RANGE_MIN,
 } from 'app/constants/tiltSeries'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
+
+import { convertReconstructionMethodToV2 } from './common'
 
 const GET_DATASETS_QUERY = gql(`
   query GetDatasetsV2(
@@ -317,26 +318,7 @@ function getFilter(
     }
   }
 
-  console.log(JSON.stringify(where))
   return where
-}
-
-function convertReconstructionMethodToV2(
-  v1: string,
-): Tomogram_Reconstruction_Method_Enum {
-  switch (v1) {
-    case 'Fourier Space':
-      return Tomogram_Reconstruction_Method_Enum.FourierSpace
-    case 'SART':
-      return Tomogram_Reconstruction_Method_Enum.Sart
-    case 'SIRT':
-      return Tomogram_Reconstruction_Method_Enum.Sirt
-    case 'WBP':
-      return Tomogram_Reconstruction_Method_Enum.Wbp
-    case 'Unknown':
-    default:
-      return Tomogram_Reconstruction_Method_Enum.Unknown
-  }
 }
 
 export async function getDatasetsV2({
