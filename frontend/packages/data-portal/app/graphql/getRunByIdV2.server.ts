@@ -432,7 +432,6 @@ function getAnnotationShapesFilter(
           _eq: runId,
         },
       },
-      authors: {},
     },
   }
 
@@ -459,12 +458,16 @@ function getAnnotationShapesFilter(
   // Author filters
   const { name, orcid } = filterState.author
   if (name) {
-    where.annotation!.authors!.name = {
+    where.annotation ??= { authors: {} }
+    where.annotation.authors ??= {}
+    where.annotation.authors.name = {
       _ilike: `%${name}%`,
     }
   }
   if (orcid) {
-    where.annotation!.authors!.orcid = {
+    where.annotation ??= { authors: {} }
+    where.annotation.authors ??= {}
+    where.annotation.authors.orcid = {
       _ilike: `%${orcid}%`,
     }
   }
@@ -473,29 +476,34 @@ function getAnnotationShapesFilter(
   const { objectNames, annotationSoftwares, methodTypes, objectId } =
     filterState.annotation
   if (objectNames.length > 0) {
-    where.annotation!.objectName = {
+    where.annotation ??= {}
+    where.annotation.objectName = {
       _in: objectNames,
     }
   }
   if (objectId) {
-    where.annotation!.objectId = {
+    where.annotation ??= {}
+    where.annotation.objectId = {
       _ilike: `%${objectId.replace(':', '_')}`, // _ is wildcard
     }
   }
   if (methodTypes.length > 0) {
-    where.annotation!.methodType = {
+    where.annotation ??= {}
+    where.annotation.methodType = {
       _in: methodTypes as Annotation_Method_Type_Enum[],
     }
   }
   if (annotationSoftwares.length > 0) {
-    where.annotation!.annotationSoftware = {
+    where.annotation ??= {}
+    where.annotation.annotationSoftware = {
       _in: annotationSoftwares,
     }
   }
 
   // Ground truth dividers
   if (groundTruthStatus !== undefined) {
-    where.annotation!.groundTruthStatus = {
+    where.annotation ??= {}
+    where.annotation.groundTruthStatus = {
       _eq: groundTruthStatus,
     }
   }
