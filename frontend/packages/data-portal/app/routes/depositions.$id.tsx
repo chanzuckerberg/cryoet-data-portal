@@ -105,7 +105,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
   return typedjson({
     depositionData: depositionResponse.data,
-    datasetsFilterData: datasetsFilterReponse.data,
+    v1FilterValues: datasetsFilterReponse.data,
     annotationMethodCounts,
   })
 }
