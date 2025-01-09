@@ -74,22 +74,29 @@ export function logIfHasDiff(
   }
   // Consistent sort order.
   v2.uniqueAnnotationSoftwares.aggregate?.sort((gropuByA, groupByB) =>
-    gropuByA.groupBy!.annotationSoftware!.localeCompare(
-      groupByB.groupBy!.annotationSoftware!,
+    String(gropuByA.groupBy!.annotationSoftware).localeCompare(
+      String(groupByB.groupBy!.annotationSoftware),
     ),
   )
   v2.uniqueObjectNames.aggregate?.sort((groupA, groupB) =>
-    groupA.groupBy!.objectName!.localeCompare(groupB.groupBy!.objectName!),
+    String(groupA.groupBy!.objectName).localeCompare(
+      String(groupB.groupBy!.objectName),
+    ),
   )
   v2.uniqueShapeTypes.aggregate?.sort((groupA, groupB) =>
-    groupA.groupBy!.shapeType!.localeCompare(groupB.groupBy!.shapeType!),
+    String(groupA.groupBy!.shapeType).localeCompare(
+      String(groupB.groupBy!.shapeType),
+    ),
   )
   v2.uniqueResolutions.aggregate?.sort(
     (groupA, groupB) =>
-      groupA.groupBy!.voxelSpacing! - groupB.groupBy!.voxelSpacing!,
+      Number(groupA.groupBy!.voxelSpacing) -
+      Number(groupB.groupBy!.voxelSpacing),
   )
   v2.uniqueProcessingMethods.aggregate?.sort((groupA, groupB) =>
-    groupA.groupBy!.processing!.localeCompare(groupB.groupBy!.processing!),
+    String(groupA.groupBy!.processing).localeCompare(
+      String(groupB.groupBy!.processing),
+    ),
   )
 
   const v1Transformed: GetRunByIdV2Query = {
@@ -351,8 +358,8 @@ export function logIfHasDiff(
           },
         }))
         .sort((groupByA, groupByB) =>
-          groupByA.groupBy.annotationSoftware!.localeCompare(
-            groupByB.groupBy.annotationSoftware!,
+          String(groupByA.groupBy.annotationSoftware).localeCompare(
+            String(groupByB.groupBy.annotationSoftware),
           ),
         ),
     },
