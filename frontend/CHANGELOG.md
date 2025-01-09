@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.40.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.39.0...web-v1.40.0) (2025-01-09)
+
+
+### ✨ Features
+
+* Add diff detection for new datasets page query ([#1446](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1446)) ([2ac96b6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/2ac96b63c2980ed4af3a8cc818c825bea9ae5bfd))
+* Migrate datasets page query ([#1438](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1438)) ([d634ebd](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d634ebd72d6f907b06586a58b6977f2f803a2b07))
+
+
+### 🐞 Bug Fixes
+
+* Fix deposition dropdown filters being broken ([#1448](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1448)) ([3257850](https://github.com/chanzuckerberg/cryoet-data-portal/commit/325785055627343b2b3f97143d5ede4ae07b29cd))
+* Never send empty argument objects to APIv2 ([#1447](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1447)) ([2087cf6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/2087cf676b8fd46ae39ecf39e5846e825895e574))
+* Remove non-null assertions in dataset page hook ([#1450](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1450)) ([8d258b7](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8d258b73c1d5f535c08ecab1070e82504ccf79fb))
+
+
+### 🧪 Tests
+
+* filter components unit tests ([#1436](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1436)) ([1acbf30](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1acbf3074de170ea8891fd6bb07b5cbba64b45e0))
+
 ## [1.39.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.38.0...web-v1.39.0) (2025-01-03)
 
 
