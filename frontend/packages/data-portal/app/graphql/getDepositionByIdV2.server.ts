@@ -39,20 +39,23 @@ const GET_DEPOSITION_BY_ID = gql(`
               }
             }
           }
-          annotations {
-            edges {
-              node {
-                files(distinctOn: shapeType) {
-                  edges {
-                    node {
-                      shapeType
+          distinctShapeTypes: annotationsAggregate {
+            aggregate {
+                count
+                groupBy {
+                    annotationShapes {
+                        shapeType
                     }
-                  }
                 }
-              }
             }
           }
-          annotationMethods: annotations(distinctOn: annotationMethod) {
+          annotationMethodCounts: annotationsAggregate {
+            aggregate {
+                count
+                groupBy {
+                    annotationMethod
+                }
+            }
             edges {
               node {
                 annotationMethod
@@ -88,6 +91,7 @@ const GET_DEPOSITION_BY_ID = gql(`
       }
     }
 
+    # This section is very similar to the datasets page.
     datasets(
       limitOffset: {
         limit: $datasetLimit,
