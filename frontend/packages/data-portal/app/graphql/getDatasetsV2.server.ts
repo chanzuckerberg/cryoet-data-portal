@@ -27,7 +27,7 @@ const GET_DATASETS_QUERY = gql(`
     $offset: Int,
     $orderBy: [DatasetOrderByClause!]!,
     $filter: DatasetWhereClause!,
-    $depositionFilter: IntComparators # Unused, but must be defined because DatasetsFilterValues references it.
+    $depositionIdFilter: IntComparators # Unused, but must be defined because DatasetsFilterValues references it.
   ) {
     datasets(
       where: $filter
@@ -80,7 +80,7 @@ const GET_DATASETS_QUERY = gql(`
       }
     }
 
-    ...DatasetsFilterValues
+    ...DatasetsAggregates @include(if: $filterByDeposition)
   }
 `)
 

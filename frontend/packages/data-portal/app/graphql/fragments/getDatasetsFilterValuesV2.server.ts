@@ -1,13 +1,15 @@
 import { gql } from 'app/__generated_v2__'
 
 /**
- * Shares filter options queries between datasets and deposition pages (filters are near identical).
+ * Shares aggregate queries between datasets and deposition pages (the 2 pages are very similar).
  *
- * Parent query must define $depositionFilter.
+ * Parent query must define $depositionIdFilter. If $depositionIdFilter is undefined, the queries
+ *  will count everything. It makes the fragment significantly more readable to allow sending an
+ *  empty argument object.
  */
-export const GET_DATASETS_FILTER_VALUES_FRAGMENT = gql(`
+export const GET_DATASETS_AGGREGATES_FRAGMENT = gql(`
   fragment DatasetsAggregates on Query {
-    distinctOrganismNames: datasetsAggregate(where: { depositionId: $depositionFilter }) {
+    distinctOrganismNames: datasetsAggregate(where: { depositionId: $depositionIdFilter }) {
       aggregate {
         count
         groupBy {
@@ -16,7 +18,7 @@ export const GET_DATASETS_FILTER_VALUES_FRAGMENT = gql(`
       }
     }
 
-    distinctCameraManufacturers: tiltseriesAggregate(where: { depositionId: $depositionFilter }) {
+    distinctCameraManufacturers: tiltseriesAggregate(where: { depositionId: $depositionIdFilter }) {
       aggregate {
         count
         groupBy {
@@ -25,7 +27,7 @@ export const GET_DATASETS_FILTER_VALUES_FRAGMENT = gql(`
       }
     }
 
-    distinctReconstructionMethods: tomogramsAggregate(where: { depositionId: $depositionFilter }) {
+    distinctReconstructionMethods: tomogramsAggregate(where: { depositionId: $depositionIdFilter }) {
       aggregate {
         count
         groupBy {
@@ -34,7 +36,7 @@ export const GET_DATASETS_FILTER_VALUES_FRAGMENT = gql(`
       }
     }
 
-    distinctReconstructionSoftwares: tomogramsAggregate(where: { depositionId: $depositionFilter }) {
+    distinctReconstructionSoftwares: tomogramsAggregate(where: { depositionId: $depositionIdFilter }) {
       aggregate {
         count
         groupBy {
@@ -43,7 +45,7 @@ export const GET_DATASETS_FILTER_VALUES_FRAGMENT = gql(`
       }
     }
 
-    distinctObjectNames: annotationsAggregate(where: { depositionId: $depositionFilter }) {
+    distinctObjectNames: annotationsAggregate(where: { depositionId: $depositionIdFilter }) {
       aggregate {
         count
         groupBy {
@@ -52,7 +54,7 @@ export const GET_DATASETS_FILTER_VALUES_FRAGMENT = gql(`
       }
     }
 
-    distinctShapeTypes: annotationShapesAggregate(where: { annotation: { depositionId: $depositionFilter } }) {
+    distinctShapeTypes: annotationShapesAggregate(where: { annotation: { depositionId: $depositionIdFilter } }) {
       aggregate {
         count
         groupBy {
