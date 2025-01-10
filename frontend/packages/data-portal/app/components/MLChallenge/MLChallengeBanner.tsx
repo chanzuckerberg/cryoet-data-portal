@@ -39,7 +39,7 @@ export function MLChallengeBanner() {
       }}
     >
       <div className="[&_a]:text-white [&_a]:border-b [&_a]:border-dashed [&_a]:border-white">
-        <I18n i18nKey="mlChallengeIsClosingSoon" />
+        <I18n i18nKey="mlCompetitionIsClosingSoon" />
       </div>
     </Banner>
   )
