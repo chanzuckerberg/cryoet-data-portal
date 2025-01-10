@@ -51,6 +51,7 @@ describe('<MLChallengeBanner />', () => {
   it('should dismiss banner on click', async () => {
     jest.spyOn(Storage.prototype, 'setItem')
     await renderMlChallengeBanner()
+    expect(screen.queryByRole('banner')).toBeVisible()
     await getMockUser().click(screen.getByRole('button'))
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
     expect(localStorage.setItem).toHaveBeenCalledWith('true')
