@@ -4,14 +4,14 @@ import { useState } from 'react'
 
 import { LocalStorageKeys } from 'app/constants/localStorage'
 import { useEffectOnce } from 'app/hooks/useEffectOnce'
-import { useI18n } from 'app/hooks/useI18n'
+
+import { I18n } from '../I18n'
 
 const BANNER_PATHS = [/^\/$/, /^\/browse-data\/.*$/]
 
 export function MLChallengeBanner() {
-  const { t } = useI18n()
-  const [open, setOpen] = useState(false)
   const location = useLocation()
+  const [open, setOpen] = useState(false)
 
   // open banner on client side to prevent flash of content since local storage
   // is not available when server-side rendering.
@@ -39,7 +39,7 @@ export function MLChallengeBanner() {
       }}
     >
       <div className="[&_a]:text-white [&_a]:border-b [&_a]:border-dashed [&_a]:border-white">
-        {t('mlChallengeIsClosingSoon')}
+        <I18n i18nKey="mlChallengeIsClosingSoon" />
       </div>
     </Banner>
   )
