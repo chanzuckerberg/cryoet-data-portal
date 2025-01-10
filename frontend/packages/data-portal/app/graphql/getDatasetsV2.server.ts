@@ -26,11 +26,16 @@ const GET_DATASETS_QUERY = gql(`
     $limit: Int,
     $offset: Int,
     $orderBy: [DatasetOrderByClause!]!,
-    $filter: DatasetWhereClause!,
-    $depositionIdFilter: IntComparators # Unused, but must be defined because DatasetsFilterValues references it.
+    $datasetsFilter: DatasetWhereClause!,
+    # Unused, but must be defined because DatasetsAggregates references them:
+    $datasetsByDepositionFilter: DatasetWhereClause,
+    $tiltseriesByDepositionFilter: TiltseriesWhereClause,
+    $tomogramsByDepositionFilter: TomogramWhereClause,
+    $annotationsByDepositionFilter: AnnotationWhereClause,
+    $annotationShapesByDepositionFilter: AnnotationShapeWhereClause
   ) {
     datasets(
-      where: $filter
+      where: $datasetsFilter
       orderBy: $orderBy,
       limitOffset: {
         limit: $limit,
@@ -69,18 +74,7 @@ const GET_DATASETS_QUERY = gql(`
       }
     }
 
-    totalDatasetsCount: datasetsAggregate {
-      aggregate {
-        count
-      }
-    }
-    filteredDatasetsCount: datasetsAggregate(where: $filter) {
-      aggregate {
-        count
-      }
-    }
-
-    ...DatasetsAggregates @include(if: $filterByDeposition)
+    ...DatasetsAggregates
   }
 `)
 
@@ -337,7 +331,7 @@ export async function getDatasetsV2({
   return client.query({
     query: GET_DATASETS_QUERY,
     variables: {
-      filter: getFilter(getFilterState(params), searchText),
+      datasetsFilter: getFilter(getFilterState(params), searchText),
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
       // Default order primarily by release date.
