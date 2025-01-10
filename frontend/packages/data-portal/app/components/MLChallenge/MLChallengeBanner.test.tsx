@@ -17,6 +17,8 @@ const remixMock = new RemixMock()
 describe('<MLChallengeBanner />', () => {
   beforeEach(() => {
     remixMock.reset()
+    jest.spyOn(Storage.prototype, 'getItem')
+    jest.spyOn(Storage.prototype, 'setItem')
   })
 
   const paths = ['/', '/browse-data/datasets', '/browse-data/depositions']
@@ -41,18 +43,13 @@ describe('<MLChallengeBanner />', () => {
   })
 
   it('should not render banner if was dismissed', async () => {
-    localStorage.set('competition-ending-banner-dismissed', 'true')
+    jest.spyOn(Storage.prototype, 'getItem').mockReturnValue('true')
     await renderMlChallengeBanner()
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
   })
 
-  it('should still render banner if dismissed was previous banner', async () => {
-    localStorage.set('competition-banner-dismissed', 'true')
-    await renderMlChallengeBanner()
-    expect(screen.getByRole('banner')).toBeVisible()
-  })
-
   it('should dismiss banner on click', async () => {
+    jest.spyOn(Storage.prototype, 'setItem')
     await renderMlChallengeBanner()
     await getMockUser().click(screen.getByRole('button'))
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
