@@ -20,6 +20,9 @@ describe('<MLChallengeBanner />', () => {
     jest.spyOn(Storage.prototype, 'getItem')
     jest.spyOn(Storage.prototype, 'setItem')
   })
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
 
   const paths = ['/', '/browse-data/datasets', '/browse-data/depositions']
 
