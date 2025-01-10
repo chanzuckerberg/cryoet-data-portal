@@ -25,33 +25,47 @@ describe('<MLChallengeBanner />', () => {
   paths.forEach((pathname) => {
     it(`should render on ${pathname}`, async () => {
       remixMock.mockPathname(pathname)
+
       await renderMlChallengeBanner()
+
       expect(screen.queryByRole('banner')).toBeVisible()
     })
   })
 
   it('should not render on blocked pages', async () => {
     remixMock.mockPathname('/competition')
+
     await renderMlChallengeBanner()
+
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
   })
 
   it('should render challenge ending message', async () => {
+    remixMock.mockPathname('/')
+
     await renderMlChallengeBanner()
+
     expect(screen.getByText('mlCompetitionIsClosingSoon')).toBeVisible()
   })
 
   it('should not render banner if was dismissed', async () => {
+    remixMock.mockPathname('/')
     jest.spyOn(Storage.prototype, 'getItem').mockReturnValue('true')
+
     await renderMlChallengeBanner()
+
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
   })
 
   it('should dismiss banner on click', async () => {
     jest.spyOn(Storage.prototype, 'setItem')
+    remixMock.mockPathname('/')
     await renderMlChallengeBanner()
+
     expect(screen.queryByRole('banner')).toBeVisible()
+
     await getMockUser().click(screen.getByRole('button'))
+
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
     expect(localStorage.setItem).toHaveBeenCalledWith('true')
   })
