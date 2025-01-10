@@ -16,12 +16,8 @@ const remixMock = new RemixMock()
 
 describe('<MLChallengeBanner />', () => {
   beforeEach(() => {
-    remixMock.reset()
-    jest.spyOn(Storage.prototype, 'getItem')
-    jest.spyOn(Storage.prototype, 'setItem')
-  })
-  afterEach(() => {
     jest.clearAllMocks()
+    remixMock.reset()
   })
 
   const paths = ['/', '/browse-data/datasets', '/browse-data/depositions']
