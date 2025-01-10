@@ -106,7 +106,7 @@ const GET_DEPOSITION_BY_ID = gql(`
 
       runs {
         tomogram_voxel_spacings {
-          annotations(distinct_on: object_name) {
+          annotations(distinct_on: object_name, where: { deposition_id: { _eq: $id }}) {
             object_name
           }
 

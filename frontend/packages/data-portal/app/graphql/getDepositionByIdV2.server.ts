@@ -9,82 +9,77 @@ import { getTiltRangeFilter } from 'app/utils/filter'
 
 const GET_DEPOSITION_BY_ID = gql(`
   query GetDepositionByIdV2(
-    $id: Int!,
+    $depositionId: Int!,
     $datasetLimit: Int,
     $datasetOffset: Int,
     $datasetOrderBy: OrderByEnum,
     $filter: DatasetWhereClause!,
   ) {
-    depositions(where: { id: { _eq: $id }}) {
-      edges {
-        node {
-          depositionDate
-          depositionPublications
-          description
-          id
-          keyPhotoUrl
-          lastModifiedDate
-          relatedDatabaseEntries
-          releaseDate
-          s3Prefix
-          title
-          authors(orderBy: { authorListOrder: asc }) {
-            edges {
-              node {
-                correspondingAuthorStatus
-                email
-                name
-                orcid
-                primaryAuthorStatus
-              }
+    # Deposition:
+    depositions(where: { id: { _eq: $depositionId }}) {
+      depositionDate
+      depositionPublications
+      description
+      id
+      keyPhotoUrl
+      lastModifiedDate
+      relatedDatabaseEntries
+      releaseDate
+      s3Prefix
+      title
+      authors(orderBy: { authorListOrder: asc }) {
+        edges {
+          node {
+            correspondingAuthorStatus
+            email
+            name
+            orcid
+            primaryAuthorStatus
+          }
+        }
+      }
+      annotationsAggregate {
+        aggregate {
+          count
+        }
+      }
+      distinctOrganismNames: datasetsAggregate {
+        aggregate {
+          count
+          groupBy {
+            organismName
+          }
+        }
+      }
+      distinctObjectNames: annotationsAggregate {
+        aggregate {
+          count
+          groupBy {
+            objectName
+          }
+        }
+      }
+      distinctShapeTypes: annotationsAggregate {
+        aggregate {
+          count
+          groupBy {
+            annotationShapes {
+              shapeType   
             }
           }
-          distinctShapeTypes: annotationsAggregate {
-            aggregate {
-                count
-                groupBy {
-                    annotationShapes {
-                        shapeType
-                    }
-                }
-            }
-          }
-          annotationMethodCounts: annotationsAggregate {
-            aggregate {
-                count
-                groupBy {
-                    annotationMethod
-                }
-            }
-            edges {
-              node {
-                annotationMethod
-                annotationSoftware
-                methodLinks
-                methodType
-              }
-            }
-          }
-
-          annotationsAggregate {
-            aggregate {
-              count
-            }
-          }
-
-          organismNames: datasets(distinctOn: organismName) {
-            edges {
-              node {
-                organismName
-              }
-            }
-          }
-
-          objectNames: annotations(distinctOn: objectName) {
-            edges {
-              node {
-                objectName
-              }
+        }
+      }
+      annotationMethodCounts: annotationsAggregate {
+        aggregate {
+          count
+          groupBy {
+            annotationMethod
+            annotationSoftware
+            methodType
+            methodLinks {
+              link
+              linkType
+              name
             }
           }
         }
@@ -92,24 +87,20 @@ const GET_DEPOSITION_BY_ID = gql(`
     }
 
     # This section is very similar to the datasets page.
+    # Datasets:
     datasets(
+      where: $filter
+      orderBy: $orderBy,
       limitOffset: {
-        limit: $datasetLimit,
-        offset: $datasetOffset
-      },
-      orderBy: { title: $datasetOrderBy },
-      where: {
-        _and: [
-          $filter,
-          { runs: { annotations: { depositionId: { _eq: $id }}}}
-        ]
-      },
+        limit: $limit,
+        offset: $offset
+      }
     ) {
       id
       title
       organismName
+      datasetPublications
       keyPhotoThumbnailUrl
-
       authors(orderBy: { authorListOrder: asc }) {
         edges {
           node {
@@ -119,25 +110,22 @@ const GET_DEPOSITION_BY_ID = gql(`
           }
         }
       }
-
-      runsAggregate(where: { annotations: { depositionId: { _eq: $id }}}) {
+      runsCount: runsAggregate(where: { annotations: { depositionId: { _eq: $depositionId }}}) {
         aggregate {
           count
         }
       }
-
       runs {
-        annotations(distinctOn: objectName) {
-          edges {
-            node {
-              objectName
+        edges {
+          node {
+            annotationsAggregate(where: { depositionId: { _eq: $depositionId }}) {
+              aggregate {
+                count
+                groupBy {
+                  objectName
+                }
+              }
             }
-          }
-        }
-
-        annotationsAggregate(where: { depositionId: { _eq: $id }}) {
-          aggregate {
-            count
           }
         }
       }
@@ -161,6 +149,8 @@ const GET_DEPOSITION_BY_ID = gql(`
         count
       }
     }
+
+    ...DatasetsFilterValues
   }
 `)
 
