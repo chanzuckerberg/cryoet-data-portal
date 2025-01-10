@@ -6,7 +6,7 @@ import { gql } from 'app/__generated_v2__'
  * Parent query must define $depositionFilter.
  */
 export const GET_DATASETS_FILTER_VALUES_FRAGMENT = gql(`
-  fragment DatasetsFilterValues on Query {
+  fragment DatasetsAggregates on Query {
     distinctOrganismNames: datasetsAggregate(where: { depositionId: $depositionFilter }) {
       aggregate {
         count
