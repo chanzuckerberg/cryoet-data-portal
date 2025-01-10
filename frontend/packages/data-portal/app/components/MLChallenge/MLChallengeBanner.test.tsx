@@ -58,6 +58,7 @@ describe('<MLChallengeBanner />', () => {
   })
 
   it('should dismiss banner on click', async () => {
+    jest.spyOn(Storage.prototype, 'getItem').mockReturnValue('false')
     jest.spyOn(Storage.prototype, 'setItem')
     remixMock.mockPathname('/')
     await renderMlChallengeBanner()
