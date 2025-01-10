@@ -58,7 +58,7 @@ describe('<MLChallengeBanner />', () => {
   })
 
   it('should dismiss banner on click', async () => {
-    jest.spyOn(Storage.prototype, 'getItem').mockReturnValue('false')
+    jest.spyOn(Storage.prototype, 'getItem').mockReturnValue(null)
     jest.spyOn(Storage.prototype, 'setItem')
     remixMock.mockPathname('/')
     await renderMlChallengeBanner()
@@ -68,6 +68,9 @@ describe('<MLChallengeBanner />', () => {
     await getMockUser().click(screen.getByRole('button'))
 
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
-    expect(localStorage.setItem).toHaveBeenCalledWith('true')
+    expect(localStorage.setItem).toHaveBeenCalledWith(
+      'competition-ending-banner-dismissed',
+      'true',
+    )
   })
 })
