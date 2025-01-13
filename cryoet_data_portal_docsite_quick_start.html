@@ -1,5 +1,6 @@
 
 
+
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
@@ -43,6 +44,10 @@
     
     
     
+
+<script defer data-domain="chanzuckerberg.github.io/cryoet-data-portal" src="https://plausible.io/js/script.js"></script>
+
+
   </head>
   
   
@@ -1488,7 +1493,7 @@
 <p class="admonition-title">Attention</p>
 <p>This loop is impractical! It iterates over all data in the Portal. It is simply for demonstrative purposes and should not be included in efficient code.</p>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Dataset</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Dataset</span>
 
 <span class="c1"># Instantiate a client, using the data portal GraphQL API by default</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
@@ -1512,7 +1517,7 @@
 </div>
 <h3 id="find-all-datasets-containing-membrane-annotations">Find all datasets containing membrane annotations<a class="headerlink" href="#find-all-datasets-containing-membrane-annotations" title="Link to this heading">¶</a></h3>
 <p>The below example uses the <code class="docutils literal notranslate"><span class="pre">find</span></code> method with a longer API expression in the query to select datasets that have membrane annotations and print the IDs of those datasets.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">cryoet_data_portal</span> <span class="k">as</span> <span class="nn">portal</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">portal</span>
 
 <span class="c1"># Instantiate a client, using the data portal GraphQL API by default</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">portal</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
@@ -1525,9 +1530,9 @@
 </div>
 <h3 id="find-all-tomograms-for-a-certain-organism-and-download-preview-sized-mrc-files">Find all tomograms for a certain organism and download preview-sized MRC files<a class="headerlink" href="#find-all-tomograms-for-a-certain-organism-and-download-preview-sized-mrc-files" title="Link to this heading">¶</a></h3>
 <p>The following iterates over all tomograms related to a specific organism and downloads each tomogram in MRC format.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
-<span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 
 <span class="c1"># Instantiate a client, using the data portal GraphQL API by default</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>

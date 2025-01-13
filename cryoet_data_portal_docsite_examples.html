@@ -1,5 +1,6 @@
 
 
+
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
@@ -43,6 +44,10 @@
     
     
     
+
+<script defer data-domain="chanzuckerberg.github.io/cryoet-data-portal" src="https://plausible.io/js/script.js"></script>
+
+
   </head>
   
   
@@ -795,8 +800,8 @@
 <details open>
   <summary>Query by annotated object or Gene Ontology terms using owlready2 library</summary>
 <p>Find all membrane annotations, including when the annotation has a subclass of membrane.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">owlready2</span> <span class="k">as</span> <span class="nn">owl</span>
-<span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Annotation</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">owlready2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">owl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Annotation</span>
 
 <span class="c1"># Get Gene Ontology</span>
 <span class="n">onto</span> <span class="o">=</span> <span class="n">owl</span><span class="o">.</span><span class="n">get_ontology</span><span class="p">(</span><span class="s1">&#39;https://purl.obolibrary.org/obo/go.owl&#39;</span><span class="p">)</span>
@@ -826,8 +831,8 @@
 <details>
   <summary>List zarr file contents using the zarr package and HTTPS link</summary>
 <p>Stream data using https</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
-<span class="kn">import</span> <span class="nn">zarr</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">zarr</span>
 
 <span class="c1"># An example Tomogram</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
@@ -850,9 +855,9 @@
 <details>
   <summary>List zarr-file contents using the ome-zarr package and HTTPS link</summary>
 <p>Stream data using https</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
-<span class="kn">from</span> <span class="nn">ome_zarr.io</span> <span class="kn">import</span> <span class="n">parse_url</span>
-<span class="kn">from</span> <span class="nn">ome_zarr.reader</span> <span class="kn">import</span> <span class="n">Reader</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ome_zarr.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_url</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ome_zarr.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span>
 
 <span class="c1"># An example Tomogram</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
@@ -872,8 +877,8 @@
 <details>
   <summary>List zarr-file contents using the zarr package and S3 link</summary>
 <p>Stream data via S3</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
-<span class="kn">import</span> <span class="nn">zarr</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">zarr</span>
 
 <span class="c1"># An example Tomogram</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
@@ -888,8 +893,8 @@
 <details>
   <summary>Open a tomogram array using the zarr package and HTTPS link</summary>
 <p>Stream data using https</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
-<span class="kn">import</span> <span class="nn">zarr</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">zarr</span>
 
 <span class="c1"># An example Tomogram</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
@@ -902,7 +907,7 @@
 <details>
   <summary>Find all annotation files available in ZARR format from a dataset</summary>
 <p>Use as training data for a segmentation model</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">AnnotationFile</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">AnnotationFile</span>
 
 <span class="c1"># Get the client</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
@@ -918,9 +923,9 @@
 <details>
   <summary>Open a Point-annotation file and stream the contents from S3</summary>
 <p>Use as training data for a particle picking model</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">AnnotationFile</span>
-<span class="kn">import</span> <span class="nn">s3fs</span>
-<span class="kn">import</span> <span class="nn">ndjson</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">AnnotationFile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">s3fs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ndjson</span>
 
 <span class="c1"># Get a client instance</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
@@ -942,7 +947,7 @@
 <details>
   <summary>Find all datasets that have movie frames available</summary>
 <p>Start processing the raw data</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Dataset</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Dataset</span>
 
 <span class="c1"># Get client instance</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
@@ -955,7 +960,7 @@
 <details>
   <summary>Find all tomograms with voxel spacing below a threshold</summary>
 <p>Select data of a specific resolution</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 
 <span class="c1"># Get client instance</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
@@ -974,8 +979,8 @@
 <details>
   <summary>Compute statistics on the portal data using the API client</summary>
 <p>Find how many runs there are in total for a given species</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">Run</span><span class="p">,</span> <span class="n">Annotation</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">Run</span><span class="p">,</span> <span class="n">Annotation</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="c1"># Get client instance</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
@@ -1006,9 +1011,9 @@
 <details>
   <summary>Download the movie stacks of one run using S3 file streaming</summary>
 <p>Start processing from raw data</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cryoet_data_portal</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Run</span>
-<span class="kn">import</span> <span class="nn">s3fs</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Run</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">s3fs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 
