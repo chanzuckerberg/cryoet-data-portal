@@ -4,12 +4,12 @@ import { gql } from 'app/__generated_v2__'
  * Shares aggregate queries between datasets and deposition pages (the 2 pages are very similar).
  *
  * Parent query must define the following variables:
- * - $datasetsFilter
- * - $datasetsByDepositionFilter
- * - $tiltseriesByDepositionFilter
- * - $tomogramsByDepositionFilter
- * - $annotationsByDepositionFilter
- * - $annotationShapesByDepositionFilter
+ * - $datasetsFilter: DatasetWhereClause
+ * - $datasetsByDepositionFilter: DatasetWhereClause
+ * - $tiltseriesByDepositionFilter: TiltseriesWhereClause
+ * - $tomogramsByDepositionFilter: TomogramWhereClause
+ * - $annotationsByDepositionFilter: AnnotationWhereClause
+ * - $annotationShapesByDepositionFilter: AnnotationShapeWhereClause
  */
 export const GET_DATASETS_AGGREGATES_FRAGMENT = gql(`
   fragment DatasetsAggregates on Query {

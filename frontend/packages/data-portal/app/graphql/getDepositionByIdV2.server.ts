@@ -10,10 +10,16 @@ import { getTiltRangeFilter } from 'app/utils/filter'
 const GET_DEPOSITION_BY_ID = gql(`
   query GetDepositionByIdV2(
     $depositionId: Int!,
-    $datasetLimit: Int,
-    $datasetOffset: Int,
-    $datasetOrderBy: OrderByEnum,
-    $filter: DatasetWhereClause!,
+    $datasetsLimit: Int,
+    $datasetsOffset: Int,
+    $datasetsOrderBy: OrderByEnum,
+    $datasetsFilter: DatasetWhereClause!,
+    # For DatasetsAggregates only:
+    $datasetsByDepositionFilter: DatasetWhereClause,
+    $tiltseriesByDepositionFilter: TiltseriesWhereClause,
+    $tomogramsByDepositionFilter: TomogramWhereClause,
+    $annotationsByDepositionFilter: AnnotationWhereClause,
+    $annotationShapesByDepositionFilter: AnnotationShapeWhereClause
   ) {
     # Deposition:
     depositions(where: { id: { _eq: $depositionId }}) {
@@ -86,8 +92,8 @@ const GET_DEPOSITION_BY_ID = gql(`
       }
     }
 
-    # This section is very similar to the datasets page.
     # Datasets:
+    # This section is very similar to the datasets page.
     datasets(
       where: $filter
       orderBy: $orderBy,
@@ -131,26 +137,7 @@ const GET_DEPOSITION_BY_ID = gql(`
       }
     }
 
-    datasetsAggregate(where: { runs: { annotations: { depositionId: { _eq: $id }}}}) {
-      aggregate {
-        count
-      }
-    }
-
-    filteredDatasetsAggregate: datasetsAggregate(
-      where: {
-        _and: [
-          $filter,
-          { runs: { annotations: { depositionId: { _eq: $id }}}}
-        ]
-      }
-    ) {
-      aggregate {
-        count
-      }
-    }
-
-    ...DatasetsFilterValues
+    ...DatasetsAggregates
   }
 `)
 
@@ -441,14 +428,25 @@ export async function getDepositionById({
   page?: number
   params?: URLSearchParams
 }) {
+  const depositionIdFilter = {
+    depositionId: {
+      _eq: id,
+    },
+  }
+
   return client.query({
     query: GET_DEPOSITION_BY_ID,
     variables: {
-      id,
-      dataset_limit: MAX_PER_PAGE,
-      dataset_offset: (page - 1) * MAX_PER_PAGE,
-      dataset_order_by: orderBy,
-      filter: getFilter(getFilterState(params)),
+      depositionId: id,
+      datasetsLimit: MAX_PER_PAGE,
+      datasetsOffset: (page - 1) * MAX_PER_PAGE,
+      datasetsOrderBy: orderBy,
+      datasetsFilter: getFilter(getFilterState(params)),
+      datasetsByDepositionFilter: depositionIdFilter,
+      tiltseriesByDepositionFilter: depositionIdFilter,
+      tomogramsByDepositionFilter: depositionIdFilter,
+      annotationsByDepositionFilter: depositionIdFilter,
+      annotationShapesByDepositionFilter: depositionIdFilter,
     },
   })
 }
