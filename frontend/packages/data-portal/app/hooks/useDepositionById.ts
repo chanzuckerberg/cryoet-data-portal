@@ -8,8 +8,8 @@ export type Deposition = NonNullable<GetDepositionByIdQuery['deposition']>
 export type Dataset = GetDepositionByIdQuery['datasets'][number]
 
 export function useDepositionById() {
-  const { depositionData: data, annotationMethodCounts } = useTypedLoaderData<{
-    depositionData: GetDepositionByIdQuery
+  const { v1: data, annotationMethodCounts } = useTypedLoaderData<{
+    v1: GetDepositionByIdQuery
     annotationMethodCounts: Map<string, number>
   }>()
 

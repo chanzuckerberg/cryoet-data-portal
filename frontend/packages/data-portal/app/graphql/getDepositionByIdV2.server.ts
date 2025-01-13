@@ -1,7 +1,11 @@
-import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import type {
+  ApolloClient,
+  ApolloQueryResult,
+  NormalizedCacheObject,
+} from '@apollo/client'
 
 import { gql } from 'app/__generated_v2__'
-import { OrderBy } from 'app/__generated_v2__/graphql'
+import { GetDepositionByIdV2Query, OrderBy } from 'app/__generated_v2__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { getFilterState } from 'app/hooks/useFilter'
 
@@ -139,19 +143,19 @@ const GET_DEPOSITION_BY_ID = gql(`
   }
 `)
 
-export async function getDepositionById({
+export async function getDepositionByIdV2({
   client,
   id,
   orderBy,
-  page = 1,
-  params = new URLSearchParams(),
+  page,
+  params,
 }: {
   client: ApolloClient<NormalizedCacheObject>
   orderBy?: OrderBy
   id: number
-  page?: number
-  params?: URLSearchParams
-}) {
+  page: number
+  params: URLSearchParams
+}): Promise<ApolloQueryResult<GetDepositionByIdV2Query>> {
   const depositionIdFilter = {
     depositionId: {
       _eq: id,
