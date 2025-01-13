@@ -1,7 +1,7 @@
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 
-import { Order_By } from 'app/__generated__/graphql'
 import { gql } from 'app/__generated_v2__'
+import { OrderBy } from 'app/__generated_v2__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { getFilterState } from 'app/hooks/useFilter'
 
@@ -10,9 +10,9 @@ import { getDatasetsFilter } from './common'
 const GET_DEPOSITION_BY_ID = gql(`
   query GetDepositionByIdV2(
     $id: Int!,
-    $datasetsLimit: Int,
-    $datasetsOffset: Int,
-    $datasetsOrderBy: OrderByEnum,
+    $datasetsLimit: Int!,
+    $datasetsOffset: Int!,
+    $datasetsOrderBy: [DatasetOrderByClause!],
     $datasetsFilter: DatasetWhereClause!,
     $datasetsByDepositionFilter: DatasetWhereClause!,
     $tiltseriesByDepositionFilter: TiltseriesWhereClause!,
@@ -30,7 +30,6 @@ const GET_DEPOSITION_BY_ID = gql(`
       lastModifiedDate
       relatedDatabaseEntries
       releaseDate
-      s3Prefix
       title
       authors(orderBy: { authorListOrder: asc }) {
         edges {
@@ -95,10 +94,10 @@ const GET_DEPOSITION_BY_ID = gql(`
     # This section is very similar to the datasets page.
     datasets(
       where: $datasetsFilter
-      orderBy: $orderBy,
+      orderBy: $datasetsOrderBy,
       limitOffset: {
-        limit: $limit,
-        offset: $offset
+        limit: $datasetsLimit,
+        offset: $datasetsOffset
       }
     ) {
       id
@@ -148,7 +147,7 @@ export async function getDepositionById({
   params = new URLSearchParams(),
 }: {
   client: ApolloClient<NormalizedCacheObject>
-  orderBy?: Order_By | null
+  orderBy?: OrderBy
   id: number
   page?: number
   params?: URLSearchParams
@@ -165,7 +164,7 @@ export async function getDepositionById({
       id,
       datasetsLimit: MAX_PER_PAGE,
       datasetsOffset: (page - 1) * MAX_PER_PAGE,
-      datasetsOrderBy: orderBy,
+      datasetsOrderBy: orderBy !== undefined ? [{ title: orderBy }] : undefined,
       datasetsFilter: getDatasetsFilter({
         filterState: getFilterState(params),
         depositionId: id,

@@ -132,6 +132,7 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
       QueryParams.ObjectName,
       QueryParams.ObjectId,
       QueryParams.ObjectShapeType,
+      QueryParams.Sort,
     ],
   })
 }
