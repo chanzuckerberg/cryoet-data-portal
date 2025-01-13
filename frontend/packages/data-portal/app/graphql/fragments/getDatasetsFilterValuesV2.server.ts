@@ -1,13 +1,30 @@
 import { gql } from 'app/__generated_v2__'
 
 /**
- * Shares filter options queries between datasets and deposition pages (filters are near identical).
+ * Shares aggregate queries between datasets and deposition pages (the 2 pages are very similar).
  *
- * Parent query must define $depositionFilter.
+ * Parent query must define the following variables:
+ * - $datasetsFilter
+ * - $datasetsByDepositionFilter
+ * - $tiltseriesByDepositionFilter
+ * - $tomogramsByDepositionFilter
+ * - $annotationsByDepositionFilter
+ * - $annotationShapesByDepositionFilter
  */
-export const GET_DATASETS_FILTER_VALUES_FRAGMENT = gql(`
-  fragment DatasetsFilterValues on Query {
-    distinctOrganismNames: datasetsAggregate(where: { depositionId: $depositionFilter }) {
+export const GET_DATASETS_AGGREGATES_FRAGMENT = gql(`
+  fragment DatasetsAggregates on Query {
+    filteredDatasetsCount: datasetsAggregate(where: $datasetsFilter) {
+      aggregate {
+        count
+      }
+    }
+    totalDatasetsCount: datasetsAggregate(where: $datasetsByDepositionFilter) {
+      aggregate {
+        count
+      }
+    }
+
+    distinctOrganismNames: datasetsAggregate(where: $datasetsByDepositionFilter) {
       aggregate {
         count
         groupBy {
@@ -15,8 +32,7 @@ export const GET_DATASETS_FILTER_VALUES_FRAGMENT = gql(`
         }
       }
     }
-
-    distinctCameraManufacturers: tiltseriesAggregate(where: { depositionId: $depositionFilter }) {
+    distinctCameraManufacturers: tiltseriesAggregate(where: $tiltseriesByDepositionFilter) {
       aggregate {
         count
         groupBy {
@@ -24,8 +40,7 @@ export const GET_DATASETS_FILTER_VALUES_FRAGMENT = gql(`
         }
       }
     }
-
-    distinctReconstructionMethods: tomogramsAggregate(where: { depositionId: $depositionFilter }) {
+    distinctReconstructionMethods: tomogramsAggregate(where: $tomogramsByDepositionFilter) {
       aggregate {
         count
         groupBy {
@@ -33,8 +48,7 @@ export const GET_DATASETS_FILTER_VALUES_FRAGMENT = gql(`
         }
       }
     }
-
-    distinctReconstructionSoftwares: tomogramsAggregate(where: { depositionId: $depositionFilter }) {
+    distinctReconstructionSoftwares: tomogramsAggregate(where: $tomogramsByDepositionFilter) {
       aggregate {
         count
         groupBy {
@@ -42,8 +56,7 @@ export const GET_DATASETS_FILTER_VALUES_FRAGMENT = gql(`
         }
       }
     }
-
-    distinctObjectNames: annotationsAggregate(where: { depositionId: $depositionFilter }) {
+    distinctObjectNames: annotationsAggregate(where: $annotationsByDepositionFilter) {
       aggregate {
         count
         groupBy {
@@ -51,8 +64,7 @@ export const GET_DATASETS_FILTER_VALUES_FRAGMENT = gql(`
         }
       }
     }
-
-    distinctShapeTypes: annotationShapesAggregate(where: { annotation: { depositionId: $depositionFilter } }) {
+    distinctShapeTypes: annotationShapesAggregate(where: $annotationShapesByDepositionFilter) {
       aggregate {
         count
         groupBy {
