@@ -6,7 +6,7 @@ hide-navigation: true
 
 We hope these answers will help you get the most out of the CryoET Data Portal!
 
-:::{admonition} How do I get help with using the Data Portal?
+:::{admonition} How do I get help with using the Data Portal? <a class="headerlink" href="#get-help" title="Permalink to this question">¶</a>
 :class: czi-faq
 :name: get-help
 :collapsible:
@@ -14,7 +14,7 @@ We hope these answers will help you get the most out of the CryoET Data Portal!
 Did you encounter a bug, error, or other issue while using the portal? [Submit an issue on Github](https://github.com/chanzuckerberg/cryoet-data-portal/issues/new?assignees=&labels=bug&projects=&template=bug.md&title=) to let us know!
 :::
 
-:::{admonition} How do I submit an issue on Github?
+:::{admonition} How do I submit an issue on Github? <a class="headerlink" href="#submit-issue" title="Permalink to this question">¶</a>
 :class: czi-faq
 :name: submit-issue
 :collapsible:
@@ -23,7 +23,7 @@ To submit an issue, you'll need to create a [free Github account](https://github
 For more information about submiting issues on Github, please refer to [Github's documentation](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue#creating-an-issue-from-a-repository).
 :::
 
-:::{admonition} What are datasets, runs, and annotations in the Data Portal?
+:::{admonition} What are datasets, runs, and annotations in the Data Portal? <a class="headerlink" href="#data-schema" title="Permalink to this question">¶</a>
 :class: czi-faq
 :name: data-schema
 :collapsible:
@@ -37,7 +37,7 @@ The CryoET Data Portal uses the following data schema:
 You can refer to a graphic of the [data schema here](cryoet_data_portal_docsite_data).
 :::
 
-:::{admonition} How do I download data using Amazon Web Services (AWS)?
+:::{admonition} How do I download data using Amazon Web Services (AWS)? <a class="headerlink" href="#download-aws" title="Permalink to this question">¶</a>
 :class: czi-faq
 :name: download-aws
 :collapsible:
@@ -67,21 +67,21 @@ aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomogram
 In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow [these instructions to optimize download speed](cryoet_data_portal_docsite_aws.md#optimize-download-speed).
 :::
 
-:::{admonition} How do I use Neuroglancer to visualize tomograms with their annotations?
+:::{admonition} How do I use Neuroglancer to visualize tomograms with their annotations? <a class="headerlink" href="#visualize-neuroglancer" title="Permalink to this question">¶</a>
 :class: czi-faq
 :name: visualize-neuroglancer
 :collapsible:
 All tomograms in the Data Portal are viewable in Neuroglancer along with their annotations. You can open a tomogram in Neuroglancer by clicking the blue `View Tomogram` button on any run page in the Portal. This will open an instance of Neuroglancer in a separate tab of your browser with the selected data along with their annotations already loaded. For more information about visualizing data with Neuroglancer, check out our [Quickstart guide](neuroglancer_quickstart) or the [documentation from Connectomics](https://connectomics.readthedocs.io/en/latest/external/neuroglancer.html#basic-usage), the team that develops Neuroglancer.
 :::
 
-:::{admonition} How do I use napari to visualize tomograms with their annotations?
+:::{admonition} How do I use napari to visualize tomograms with their annotations? <a class="headerlink" href="#visualize-napari" title="Permalink to this question">¶</a>
 :class: czi-faq
 :name: visualize-napari
 :collapsible:
 The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](cryoet_data_portal_docsite_napari) to learn more about napari and CryoET Data Portal.
 :::
 
-:::{admonition} How do I download data using the Portal's API?
+:::{admonition} How do I download data using the Portal's API? <a class="headerlink" href="#download-api" title="Permalink to this question">¶</a>
 :class: czi-faq
 :name: download-api
 :collapsible:
@@ -107,7 +107,7 @@ tomo.download_omezarr()
 For more examples of downloading data with the API, check out the [tutorial here](cryoet_data_portal_docsite_quick_start.md#api-methods-overview). The Data Portal API reference can be found [here](python-api).
 :::
 
-:::{admonition} How do I use the Portal's API to select data?
+:::{admonition} How do I use the Portal's API to select data? <a class="headerlink" href="#select-api" title="Permalink to this question">¶</a>
 :class: czi-faq
 :name: select-api
 :collapsible:
@@ -135,7 +135,7 @@ for run in runs_list:
 For more examples of using the <Function>`find`</Function> operator, check out the [tutorial here](cryoet_data_portal_docsite_quick_start.md#examples). The Data Portal API reference can be found [here](python-api).
 :::
 
-:::{admonition} What is the meaning of the tilt series quality score?
+:::{admonition} What is the meaning of the tilt series quality score? <a class="headerlink" href="#tilt-series-quality" title="Permalink to this question">¶</a>
 :class: czi-faq
 :name: tilt-series-quality
 :collapsible:
@@ -150,7 +150,7 @@ The tilt series quality score/rating is a relative subjective scale meant for co
 | 1      | Low       | Not useful for analysis with current tools (not alignable), useful as a test case for problematic data only.                                                                         |
 :::
 
-:::{admonition} What is the dataset identifier and Portal ID?
+:::{admonition} What is the dataset identifier and Portal ID? <a class="headerlink" href="#dataset-identifier" title="Permalink to this question">¶</a>
 :class: czi-faq
 :name: dataset-identifier
 :collapsible:
@@ -159,7 +159,7 @@ The dataset identifier in the API refers to the Portal ID provided in the Portal
 Descriptions of all terminology and metadata used in the Portal is provided [here](python-api).
 :::
 
-:::{admonition} Which annotations are displayed with a tomogram in Neuroglancer?
+:::{admonition} Which annotations are displayed with a tomogram in Neuroglancer? <a class="headerlink" href="#default-annotations" title="Permalink to this question">¶</a>
 :class: czi-faq
 :name: default-annotations
 :collapsible:
@@ -170,7 +170,7 @@ There is no definitive rule for which annotations are displayed in the Neuroglan
 The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](cryoet_data_portal_docsite_napari) to learn more about napari and CryoET Data Portal.
 :::
 
-:::{admonition} How do I contribute data to the Portal?
+:::{admonition} How do I contribute data to the Portal? <a class="headerlink" href="#contribute-data" title="Permalink to this question">¶</a>
 :class: czi-faq
 :name: contribute-data
 :collapsible:
