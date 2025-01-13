@@ -68,7 +68,7 @@ const GET_DEPOSITION_BY_ID = gql(`
           count
           groupBy {
             annotationShapes {
-              shapeType   
+              shapeType
             }
           }
         }
