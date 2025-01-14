@@ -1,8 +1,16 @@
-import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import type {
+  ApolloClient,
+  ApolloQueryResult,
+  NormalizedCacheObject,
+} from '@apollo/client'
 import { match } from 'ts-pattern'
 
 import { gql } from 'app/__generated__'
-import { Datasets_Bool_Exp, Order_By } from 'app/__generated__/graphql'
+import {
+  Datasets_Bool_Exp,
+  GetDepositionByIdQuery,
+  Order_By,
+} from 'app/__generated__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 import { getTiltRangeFilter } from 'app/utils/filter'
@@ -106,7 +114,7 @@ const GET_DEPOSITION_BY_ID = gql(`
 
       runs {
         tomogram_voxel_spacings {
-          annotations(distinct_on: object_name) {
+          annotations(distinct_on: object_name, where: { deposition_id: { _eq: $id }}) {
             object_name
           }
 
@@ -419,7 +427,7 @@ export async function getDepositionById({
   id: number
   page?: number
   params?: URLSearchParams
-}) {
+}): Promise<ApolloQueryResult<GetDepositionByIdQuery>> {
   return client.query({
     query: GET_DEPOSITION_BY_ID,
     variables: {
