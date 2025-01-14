@@ -223,9 +223,8 @@ function getRunFilter(
   // Deposition filter:
   const depositionId = +(filterState.ids.deposition ?? Number.NaN)
   if (!Number.isNaN(depositionId) && depositionId > 0) {
-    where.dataset = {
-      depositionId: { _eq: depositionId },
-    }
+    where.annotations ??= {}
+    where.annotations.depositionId = { _eq: depositionId }
   }
 
   // Tilt series filters:
