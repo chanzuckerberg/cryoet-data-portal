@@ -23,7 +23,6 @@ jobs:
     name: find release PR
     runs-on: ubuntu-latest
     if: github.repository == 'chanzuckerberg/cryoet-data-portal'
-    needs: run-staging-e2e-test
     steps:
       - name: find release PR
         uses: actions/github-script@v7
