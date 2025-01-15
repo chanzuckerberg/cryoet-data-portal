@@ -7,7 +7,8 @@ import { useEffect } from 'react'
 import { typedjson } from 'remix-typedjson'
 
 import { Order_By } from 'app/__generated__/graphql'
-import { apolloClient } from 'app/apollo.server'
+import { OrderBy } from 'app/__generated_v2__/graphql'
+import { apolloClient, apolloClientV2 } from 'app/apollo.server'
 import { DatasetFilter } from 'app/components/DatasetFilter'
 import { DepositionMetadataDrawer } from 'app/components/Deposition'
 import { DatasetsTable } from 'app/components/Deposition/DatasetsTable'
@@ -19,6 +20,7 @@ import { QueryParams } from 'app/constants/query'
 import { getAnnotationCountForAnnotationMethod } from 'app/graphql/getAnnotationCountForAnnotationMethod'
 import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { getDepositionById } from 'app/graphql/getDepositionById.server'
+import { getDepositionByIdV2 } from 'app/graphql/getDepositionByIdV2.server'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import {
@@ -55,12 +57,18 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   }
 
   let orderBy: Order_By | null = null
+  let orderByV2: OrderBy | undefined
 
   if (sort) {
     orderBy = sort === 'asc' ? Order_By.Asc : Order_By.Desc
+    orderByV2 = sort === 'asc' ? OrderBy.Asc : OrderBy.Desc
   }
 
-  const [depositionResponse, datasetsFilterReponse] = await Promise.all([
+  const [
+    { data: responseV1 },
+    { data: datasetsFilterReponse },
+    { data: responseV2 },
+  ] = await Promise.all([
     getDepositionById({
       id,
       orderBy,
@@ -72,18 +80,23 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       client: apolloClient,
       depositionId: id,
     }),
+    getDepositionByIdV2({
+      client: apolloClientV2,
+      id,
+      orderBy: orderByV2,
+      page,
+      params: url.searchParams,
+    }),
   ])
 
-  if (depositionResponse.data.deposition === null) {
+  if (responseV1.deposition == null) {
     throw new Response(null, {
       status: 404,
       statusText: `Deposition with ID ${id} not found`,
     })
   }
 
-  const deposition = depositionResponse.data.deposition as NonNullable<
-    typeof depositionResponse.data.deposition
-  >
+  const { deposition } = responseV1
 
   const annotationMethodCounts = new Map(
     await Promise.all(
@@ -104,9 +117,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   )
 
   return typedjson({
-    depositionData: depositionResponse.data,
-    datasetsFilterData: datasetsFilterReponse.data,
+    v1: responseV1,
+    v1FilterValues: datasetsFilterReponse,
     annotationMethodCounts,
+    v2: responseV2,
   })
 }
 
@@ -132,6 +146,7 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
       QueryParams.ObjectName,
       QueryParams.ObjectId,
       QueryParams.ObjectShapeType,
+      QueryParams.Sort,
     ],
   })
 }

@@ -3,7 +3,8 @@ hide-navigation: true
 ---
 
 (quick-start)=
-# Quick start
+
+# Quickstart
 
 This page provides details to help you get started using the CryoET Data Portal Client API.
 
@@ -19,7 +20,7 @@ This page provides details to help you get started using the CryoET Data Portal 
 
 The CryoET Data Portal Client requires a Linux or MacOS system with:
 
-- Python 3.7 to Python 3.11.
+- Python 3.8 to Python 3.12.
 - Recommended: >16 GB of memory.
 - Recommended: >5 Mbps internet connection.
 - Recommended: for increased performance, use the API through an AWS-EC2 instance from the region `us-west-2`. The CryoET Portal data are hosted in a AWS-S3 bucket in that region.
@@ -43,22 +44,22 @@ pip install -U cryoet-data-portal
 
 The Portal API has methods for searching and downloading data. **Every class** has a `find` and `get_by_id` method for selecting data, and some classes have `download...` methods for downloading the data. Below is a table of the API classes that have download methods.
 
-| **Class**               | **Download Methods**                                                                                 |
-|-------------------------|--------------------------------------------------------------------------------------------------------|
-| {class}`Annotation <cryoet_data_portal.Annotation>`| `download`, `download_metadata`  |
-| {class}`Dataset <cryoet_data_portal.Dataset>`| `download_everything`     |
-| {class}`Run <cryoet_data_portal.Run>`| `download_everything`                  |
-| {class}`TiltSeries <cryoet_data_portal.TiltSeries>`| `download_alignment_file`, `download_angle_list`, `download_mrcfile`, `download_omezarr` |
-| {class}`Tomogram <cryoet_data_portal.Tomogram>`| `download_all_annotations`, `download_mrcfile`, `download_omezarr`  |
-| {class}`TomogramVoxelSpacing <cryoet_data_portal.TomogramVoxelSpacing>`| `download_everything`          |
+| **Class**                                                               | **Download Methods**                                                                     |
+| ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| {class}`Annotation <cryoet_data_portal.Annotation>`                     | `download`, `download_metadata`                                                          |
+| {class}`Dataset <cryoet_data_portal.Dataset>`                           | `download_everything`                                                                    |
+| {class}`Run <cryoet_data_portal.Run>`                                   | `download_everything`                                                                    |
+| {class}`TiltSeries <cryoet_data_portal.TiltSeries>`                     | `download_alignment_file`, `download_angle_list`, `download_mrcfile`, `download_omezarr` |
+| {class}`Tomogram <cryoet_data_portal.Tomogram>`                         | `download_all_annotations`, `download_mrcfile`, `download_omezarr`                       |
+| {class}`TomogramVoxelSpacing <cryoet_data_portal.TomogramVoxelSpacing>` | `download_everything`                                                                    |
 
 The `find` method selects data based on user-chosen queries. These queries can have python operators `==`, `!=`, `>`, `>=`, `<`, `<=`; method operators `like`, `ilike`, `_in`; and strings or numbers. The method operators are defined in the table below:
 
-| **Method Operator** | **Definition**                                                                               |
-|---------------------|----------------------------------------------------------------------------------------------|
-| like                | partial match, with the `%` character being a wildcard                                        |
-| ilike               | case-insensitive partial match, with the `%` character being a wildcard                       |
-| _in                 | accepts a list of values that are acceptable matches                                          |
+| **Method Operator** | **Definition**                                                          |
+| ------------------- | ----------------------------------------------------------------------- |
+| like                | partial match, with the `%` character being a wildcard                  |
+| ilike               | case-insensitive partial match, with the `%` character being a wildcard |
+| \_in                | accepts a list of values that are acceptable matches                    |
 
 The general format of using the `find` method is as follows:
 

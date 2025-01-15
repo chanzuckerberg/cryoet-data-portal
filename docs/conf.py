@@ -123,7 +123,6 @@ html_theme_options = {
             "aliases": [],
         },
     ],
-    # "analytics": {"provider": "google", "property": "G-XXXXXXXXXX"},
 }
 
 # Remove icons from toc elements in API page

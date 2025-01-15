@@ -8,7 +8,7 @@ import {
 import { TableDataValue } from 'app/types/table'
 import { cns } from 'app/utils/cns'
 
-interface DatabaseEntryProps {
+export interface DatabaseEntryProps {
   entry: TableDataValue
   inline?: boolean
 }

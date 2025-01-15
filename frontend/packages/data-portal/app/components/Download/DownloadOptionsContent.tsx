@@ -15,7 +15,6 @@ import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQuery
 import { useI18n } from 'app/hooks/useI18n'
 import { DownloadConfig, DownloadTab } from 'app/types/download'
 import { checkExhaustive } from 'app/types/utils'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getTomogramName } from 'app/utils/tomograms'
 
 import { I18n } from '../I18n'
@@ -35,13 +34,11 @@ const DOWNLOAD_TAB_MAP: Record<DownloadTab, ComponentType> = {
 }
 
 export function DownloadOptionsContent() {
-  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
   const { t } = useI18n()
   const {
     downloadTab,
     setDownloadTab,
     downloadConfig,
-    tomogramProcessing,
     tomogramSampling,
     annotationId,
     referenceTomogramId,
@@ -74,7 +71,7 @@ export function DownloadOptionsContent() {
     <>
       <ModalSubtitle label={t('datasetName')} value={datasetTitle} />
       {runName && <ModalSubtitle label={t('runName')} value={runName} />}
-      {multipleTomogramsEnabled && tomogramToDownload !== undefined && (
+      {tomogramToDownload !== undefined && (
         <>
           <ModalSubtitle
             label={t('tomogramName')}
@@ -112,34 +109,18 @@ export function DownloadOptionsContent() {
       {objectShapeType && (
         <ModalSubtitle label={t('objectShapeType')} value={objectShapeType} />
       )}
-      {multipleTomogramsEnabled && referenceTomogram !== undefined && (
+      {referenceTomogram !== undefined && (
         <ModalSubtitle
           label={t('referenceTomogram')}
           value={getTomogramName(referenceTomogram)}
         />
       )}
-      {!multipleTomogramsEnabled && tomogramSampling && tomogramToDownload && (
+      {annotationToDownload && tomogramToDownload?.alignment && (
         <ModalSubtitle
-          label={t('tomogramSampling')}
-          value={`${t('unitAngstrom', { value: tomogramSampling })}, (${
-            tomogramToDownload.sizeX
-          }, ${tomogramToDownload.sizeY}, ${tomogramToDownload.sizeZ})px`}
+          label={t('alignmentId')}
+          value={tomogramToDownload.alignment.id}
         />
       )}
-      {!multipleTomogramsEnabled && tomogramProcessing && (
-        <ModalSubtitle
-          label={t('tomogramProcessing')}
-          value={tomogramProcessing}
-        />
-      )}
-      {multipleTomogramsEnabled &&
-        annotationToDownload &&
-        tomogramToDownload?.alignment && (
-          <ModalSubtitle
-            label={t('alignmentId')}
-            value={tomogramToDownload.alignment.id}
-          />
-        )}
       {annotationToDownload && (
         <ModalSubtitle
           label={t('alignmentId')}
@@ -182,9 +163,7 @@ export function DownloadOptionsContent() {
 
       <DownloadTabContent />
 
-      {multipleTomogramsEnabled &&
-      annotationToDownload !== undefined &&
-      tomogramToDownload?.alignment ? (
+      {annotationToDownload !== undefined && tomogramToDownload?.alignment ? (
         <AnnotationAlignmentCallout
           alignmentId={tomogramToDownload.alignment.id}
           initialState="closed"

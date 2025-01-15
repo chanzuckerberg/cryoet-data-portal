@@ -42,6 +42,7 @@ export function TomogramTypeBadge({
         />
       }
       placement="top"
+      role="tooltip"
     >
       {badge}
     </Tooltip>

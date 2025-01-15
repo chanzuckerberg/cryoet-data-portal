@@ -5,7 +5,8 @@ import type { I18nKeys } from 'app/types/i18n'
 
 import { Link, VariantLinkProps } from './Link'
 
-interface Props extends Omit<TransProps<I18nKeys>, 'ns' | 'i18nKey'> {
+export interface I18nProps
+  extends Omit<TransProps<I18nKeys>, 'ns' | 'i18nKey'> {
   i18nKey: I18nKeys
   linkProps?: Partial<VariantLinkProps>
 }
@@ -14,7 +15,7 @@ interface Props extends Omit<TransProps<I18nKeys>, 'ns' | 'i18nKey'> {
  * Wrapper over `Trans` component with strong typing support for i18n keys. It
  * also includes a few default components for rendering inline JSX.
  */
-export function I18n({ i18nKey, components, linkProps, ...props }: Props) {
+export function I18n({ i18nKey, components, linkProps, ...props }: I18nProps) {
   return (
     <Trans
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -24,16 +24,28 @@ As shown in the diagram above, the CryoET Data Portal has 3 levels in the data h
 
 - **Annotation** is a point or segmentation indicating the location of a macromolecular complex in the tomogram. On a run overview page, you may choose to download individual annotations.
 
+All data is added to the Portal through Depositions, which is described below, and a subset of depositions are displayed in the depositions tab on the Portal.
+
 For more detailed explanations refer to the sections below.
 
-1. [Datasets](#datasets)
-2. [Runs](#runs)
-3. [Annotations](#annotations)
-4. [Depositions](#depositions)
+1. [Depositions](#depositions)
+2. [Datasets](#datasets)
+3. [Runs](#runs)
+4. [Annotations](#annotations)
+
+## Depositions
+
+```{figure} ./figures/depositions.png
+:alt: Depositions defined
+:align: center
+
+Types of depositions
+```
+Depositions are collections of data submitted together. All data being submitted together will be tagged with the same deposition ID, starting with CZCDP (e.g. CZCDP-12345; note that only the numeric part is supported in the API). On the Portal, we will surface depositions that contain annotations submitted together. In the future, depositions surfaced on the Portal may include tomograms added to existing datasets or sets of datasets contributed together.
 
 ## Datasets
 
-Datasets are contributed sets of image files associated with imaging one sample type with the same sample preparation methods. Datasets contain runs, where each run corresponds to imaging one physical location in the prepared samples.
+Datasets are contributed sets of image files associated with imaging one sample type with the same sample preparation methods. Datasets contain runs, where each run corresponds to imaging one physical location in the prepared samples. Dataset IDs start with DS (e.g. DS-10000; note that only the numeric part is supported in the API).
 
 The Browse Datasets page shows a table of all datasets on the Portal. These datasets are not currently ordered. Instead, the left side filter panel provides options for filtering the table according to files included in the datasets, such as ground truth annotation files; the author or ID of the dataset; organism in the sample; hardware; metadata for the tilt series or reconstructed tomograms. In addition, the search bar filters based on keywords or phrases contained in the dataset titles. The dataset entries in the table have descriptive names, such as "S. pombe cryo-FIB lamellae acquired with defocus-only," which aim to summarize the experiment as well as a Dataset ID assigned by the Portal, the organism name, number of runs in the dataset, and list of annotated objects, such as membrane. Datasets on the Portal may be found in other image databases. On the Browse Datasets page, the datasets table shows the EMPIAR ID for datasets that are also found on the Electron Microscopy Public Image Archive.
 
@@ -105,7 +117,7 @@ The metadata schema of any JSON file stored with the data on the data portal's S
 
 ## Runs
 
-A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. However, in the [data schema](data-model) used in the Portal API, runs are connected to tomograms through the `TomogramVoxelSpacing` class which specifies the sampling or voxel size of the tomogram. For a single run, multiple tomograms of different spacings can be available.
+A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. On the Data Portal pages, runs are directly linked to their tomograms. For a single run, multiple tomograms of different spacings can be available. Run IDs start with RN (e.g. RN-427; note that only the numeric part is supported in the API).
 
 An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run. These metadata are defined in the tables below including their mapping to attributes in the Portal API:
 
@@ -180,7 +192,7 @@ Runs are downloaded as folders named the author-chosen run name. As shown in the
 
 ## Annotations
 
-Annotations are summarized in a table on Run Overview pages. Each annotation has an Annotation ID, which is assigned by the Portal and is subject to change in the rare case where the annotation data needs to be re-ingested in the Portal. Each annotation labels exactly one type of object, such as ribosome or membrane, indicated by the Object Type column of the table. For every object, there is one type of annotation per entry in the table indicated in the Object Shape Type column. The options are Segmentation for semantic segmentation masks, Instance Segmentation for segmentation masks where each individual object is labeled with its own color, Point for point annotations, and Oriented Point for point annotations that have an associated rotation matrix. The method used for generating the annotation is displayed for each annotation with manual meaning the annotations were created by hand, automated meaning automated tools or algorithms without supervision were used, and hybrid meaning the annotations were generated using a combination of automated and manual methods.
+Annotations are summarized in a table on Run Overview pages. Each annotation has an Annotation ID, which is assigned by the Portal and is subject to change in the rare case where the annotation data needs to be re-ingested in the Portal. Annotation IDs start with AN (e.g. AN-2480; note that only the numeric part is supported in the API). Each annotation labels exactly one type of object, such as ribosome or membrane, indicated by the Object Type column of the table. For every object, there is one type of annotation per entry in the table indicated in the Object Shape Type column. The options are Segmentation for semantic segmentation masks, Instance Segmentation for segmentation masks where each individual object is labeled with its own color, Point for point annotations, and Oriented Point for point annotations that have an associated rotation matrix. The method used for generating the annotation is displayed for each annotation with manual meaning the annotations were created by hand, automated meaning automated tools or algorithms without supervision were used, and hybrid meaning the annotations were generated using a combination of automated and manual methods.
 
 Annotations also have an optional precision field, which is the percentage of true positives among the total number of positive predictions where a value of 100% means everything found is actually the object of interest, and a recall field, which is the percentage of true positives among the actual number of objects where a value of 100% meaning all objects of interest were found. The Precision and Recall fields can only be calculated by comparing with a ground truth annotation, so for many annotations on the Portal, this field is marked NA for not available.
 
@@ -232,13 +244,3 @@ Individual entries in the annotations table can be downloaded using the `Downloa
 Instance Segmentations, Oriented Points, and Points all can be downloaded directly in the browser as Newline Delimited JSON (ndJSON) files, where each line in the file is its own JSON. The download dialog also has instructions for downloading using curl, [Amazon Web Services Command Line Interface](cryoet_data_portal_docsite_aws) or the [Portal API](python-api). In all cases, the JSON entries have a `type` field with instancePoint, orientedPoint, and point for Instance Segmentations, Oriented Points, and Points, respectively, and a `location` field with the x, y, z coordinates. For Instance Segmentations, there is also an `instance_id` to group points into geometric segmentation masks. For Oriented Points, there is also an `xyz_rotation_matrix` field with a 3x3 rotation matrix corresponding to each point.
 
 Semantic segmentation masks can downloaded using [Amazon Web Services Command Line Interface](cryoet_data_portal_docsite_aws) or the [Portal API](python-api) as MRC files or OME-Zarr directories. When downloading all annotations on a Run Overview page, both the MRC file and the OME-Zarr directory will be downloaded for each segmentation mask.
-
-## Depositions
-
-```{figure} ./figures/depositions.png
-:alt: Depositions defined
-:align: center
-
-Types of depositions
-```
-Depositions are collections of data submitted together. All data being submitted together will be tagged with the same deposition ID. On the Portal, we will surface depositions that contain annotations submitted together. In the future, depositions surfaced on the Portal may include tomograms added to existing datasets or sets of datasets contributed together.
