@@ -75,12 +75,27 @@ export function logIfHasDiff(
   for (const group of v2.depositions[0].distinctOrganismNames!.aggregate!) {
     delete group.count
   }
+  v2.depositions[0].distinctOrganismNames!.aggregate!.sort((groupA, groupB) =>
+    String(groupA.groupBy!.organismName).localeCompare(
+      String(groupB.groupBy!.organismName),
+    ),
+  )
   for (const group of v2.depositions[0].distinctObjectNames!.aggregate!) {
     delete group.count
   }
+  v2.depositions[0].distinctObjectNames!.aggregate!.sort((groupA, groupB) =>
+    String(groupA.groupBy!.objectName).localeCompare(
+      String(groupB.groupBy!.objectName),
+    ),
+  )
   for (const group of v2.depositions[0].distinctShapeTypes!.aggregate!) {
     delete group.count
   }
+  v2.depositions[0].distinctShapeTypes!.aggregate!.sort((groupA, groupB) =>
+    String(groupA.groupBy!.annotationShapes!.shapeType).localeCompare(
+      String(groupB.groupBy!.annotationShapes!.shapeType),
+    ),
+  )
   v2.depositions[0].annotationMethodCounts!.aggregate!.sort((groupA, groupB) =>
     String(groupA.groupBy!.annotationMethod).localeCompare(
       String(groupB.groupBy!.annotationMethod),
@@ -90,9 +105,6 @@ export function logIfHasDiff(
     .annotationMethodAndMethodLinksCombinations!.aggregate!) {
     delete group.count
   }
-  v2.datasets.sort(
-    (datasetA, datasetB) => datasetA.title.localeCompare(datasetB.title), // V1 and V2 sort by title length differently.
-  )
   v2.depositions[0].annotationMethodAndMethodLinksCombinations!.aggregate!.sort(
     (groupA, groupB) =>
       groupA.groupBy!.annotationMethod !== groupB.groupBy!.annotationMethod
@@ -102,6 +114,9 @@ export function logIfHasDiff(
         : String(groupA.groupBy!.methodLinks!.link).localeCompare(
             String(groupB.groupBy!.methodLinks!.link),
           ),
+  )
+  v2.datasets.sort(
+    (datasetA, datasetB) => datasetA.title.localeCompare(datasetB.title), // V1 and V2 sort by title length differently.
   )
   for (const group of v2.distinctOrganismNames.aggregate!) {
     delete group.count
@@ -156,14 +171,14 @@ export function logIfHasDiff(
   const v1Transformed: GetDepositionByIdV2Query = {
     depositions: [
       {
-        depositionDate: v1.deposition!.deposition_date,
+        depositionDate: `${v1.deposition!.deposition_date}T00:00:00+00:00`,
         depositionPublications: v1.deposition!.deposition_publications,
         description: v1.deposition!.description,
         id: v1.deposition!.id,
         keyPhotoUrl: v1.deposition!.key_photo_url,
-        lastModifiedDate: v1.deposition!.last_modified_date,
+        lastModifiedDate: `${v1.deposition!.last_modified_date}T00:00:00+00:00`,
         relatedDatabaseEntries: v1.deposition!.related_database_entries,
-        releaseDate: v1.deposition!.release_date,
+        releaseDate: `${v1.deposition!.release_date}T00:00:00+00:00`,
         title: v1.deposition!.title,
         authors: {
           edges: v1.deposition!.authors.map((author) => ({
