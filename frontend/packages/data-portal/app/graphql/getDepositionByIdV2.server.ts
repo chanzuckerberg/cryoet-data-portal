@@ -82,7 +82,14 @@ const GET_DEPOSITION_BY_ID = gql(`
           count
           groupBy {
             annotationMethod
-            annotationSoftware
+          }
+        }
+      }
+      annotationMethodAndMethodLinksCombinations: annotationsAggregate {
+        aggregate {
+          count
+          groupBy {
+            annotationMethod
             methodType
             methodLinks {
               link
@@ -107,7 +114,6 @@ const GET_DEPOSITION_BY_ID = gql(`
       id
       title
       organismName
-      datasetPublications
       keyPhotoThumbnailUrl
       authors(orderBy: { authorListOrder: asc }) {
         edges {
