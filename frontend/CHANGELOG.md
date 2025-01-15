@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.41.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.40.0...web-v1.41.0) (2025-01-14)
+
+
+### ✨ Features
+
+* Convert deposition page query to V2 ([#1452](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1452)) ([c55bad8](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c55bad82130062a135ad876e82385ac44e848963))
+* Update ML Challenge banner ([#1457](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1457)) ([d873866](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d873866cdb478de0d8c5682fd5534535f3b2d40b))
+
+
+### 🐞 Bug Fixes
+
+* Fix deposition filter on run page ([#1466](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1466)) ([0f26b64](https://github.com/chanzuckerberg/cryoet-data-portal/commit/0f26b64476cd1670055cc2e7ff9d6de8de58131a))
+
+
+### 🧹 Miscellaneous Chores
+
+* Refactor datasets filter values fragment ([#1456](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1456)) ([4e3c156](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4e3c156aae40bed62d3bdc5a519f8f33ef13509c))
+
 ## [1.40.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.39.0...web-v1.40.0) (2025-01-09)
 
 
