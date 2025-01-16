@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.43.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.42.0...web-v1.43.0) (2025-01-16)
+
+
+### ✨ Features
+
+* Another dummy PR ([#1473](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1473)) ([1f8fd97](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1f8fd976f958f995757acbab504840a5fa67521f))
+
 ## [1.42.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.41.0...web-v1.42.0) (2025-01-15)
 
 
