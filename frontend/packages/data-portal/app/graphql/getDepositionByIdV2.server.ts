@@ -95,7 +95,7 @@ const GET_DEPOSITION_BY_ID = gql(`
     }
 
     # Datasets:
-    # This section is very similar to the datasets page
+    # This section is very similar to the datasets page.
     datasets(
       where: $datasetsFilter
       orderBy: $datasetsOrderBy,
