@@ -21,6 +21,7 @@ import { getAnnotationCountForAnnotationMethod } from 'app/graphql/getAnnotation
 import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { getDepositionById } from 'app/graphql/getDepositionById.server'
 import { getDepositionByIdV2 } from 'app/graphql/getDepositionByIdV2.server'
+import { logIfHasDiff } from 'app/graphql/getDepositionDiffer'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import {
@@ -115,6 +116,19 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       ),
     ),
   )
+
+  try {
+    logIfHasDiff(
+      request.url,
+      responseV1,
+      datasetsFilterReponse,
+      annotationMethodCounts,
+      responseV2,
+    )
+  } catch (error) {
+    // eslint-disable-next-line no-console, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+    console.log(`DIFF ERROR: ${(error as any)?.stack}`)
+  }
 
   return typedjson({
     v1: responseV1,

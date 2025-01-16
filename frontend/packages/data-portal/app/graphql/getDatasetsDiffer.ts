@@ -63,16 +63,11 @@ export function logIfHasDiff(
     delete group.count
   }
   v2.distinctReconstructionSoftwares.aggregate =
-    v2.distinctReconstructionSoftwares
-      .aggregate!.filter(
-        // Bug in APIv2 returns this as a duplicate of 'AreTomo3 v2.0.4'
-        (group) => group.groupBy?.reconstructionSoftware !== 'AreTomo3_v2.0.4',
-      )
-      .sort((groupA, groupB) =>
-        String(groupA.groupBy!.reconstructionSoftware).localeCompare(
-          String(groupB.groupBy!.reconstructionSoftware),
-        ),
-      )
+    v2.distinctReconstructionSoftwares.aggregate!.sort((groupA, groupB) =>
+      String(groupA.groupBy!.reconstructionSoftware).localeCompare(
+        String(groupB.groupBy!.reconstructionSoftware),
+      ),
+    )
   for (const group of v2.distinctObjectNames.aggregate!) {
     delete group.count
   }
