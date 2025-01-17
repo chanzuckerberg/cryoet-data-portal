@@ -11,14 +11,14 @@ import { FileFormatDropdown } from './FileFormatDropdown'
 
 export function ConfigureAnnotationDownloadContent() {
   const { objectShapeType, fileFormat } = useDownloadModalQueryParamState()
-  const { annotationToDownload, allTomograms } = useDownloadModalContext()
+  const { annotationShapeToDownload, allTomograms } = useDownloadModalContext()
 
   const fileFormats = useMemo<string[]>(
     () =>
-      annotationToDownload?.files
+      annotationShapeToDownload?.files
         .filter((annotation) => annotation.shape_type === objectShapeType)
         .map((annotation) => annotation.format) ?? [],
-    [annotationToDownload?.files, objectShapeType],
+    [annotationShapeToDownload?.files, objectShapeType],
   )
 
   const { annotationShapes } = useRunById()
@@ -30,7 +30,7 @@ export function ConfigureAnnotationDownloadContent() {
     annotationShapes
       .find(
         (shape) =>
-          shape.annotation?.id === annotationToDownload?.id &&
+          shape.annotation?.id === annotationShapeToDownload?.id &&
           shape.shapeType === objectShapeType &&
           shape.annotationFiles.edges.some(isMatchingFormat),
       )

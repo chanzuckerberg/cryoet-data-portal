@@ -54,7 +54,7 @@ export function DownloadOptionsContent() {
     objectName,
     runId,
     runName,
-    annotationToDownload,
+    annotationShapeToDownload,
     tomogramToDownload,
     type,
   } = useDownloadModalContext()
@@ -115,16 +115,16 @@ export function DownloadOptionsContent() {
           value={getTomogramName(referenceTomogram)}
         />
       )}
-      {annotationToDownload && tomogramToDownload?.alignment && (
+      {annotationShapeToDownload && tomogramToDownload?.alignment && (
         <ModalSubtitle
           label={t('alignmentId')}
           value={tomogramToDownload.alignment.id}
         />
       )}
-      {annotationToDownload && (
+      {annotationShapeToDownload && (
         <ModalSubtitle
           label={t('alignmentId')}
-          value={`${IdPrefix.Alignment}-${annotationToDownload.id}`}
+          value={`${IdPrefix.Alignment}-${annotationShapeToDownload.id}`}
         />
       )}
       {fileFormat && (
@@ -163,7 +163,8 @@ export function DownloadOptionsContent() {
 
       <DownloadTabContent />
 
-      {annotationToDownload !== undefined && tomogramToDownload?.alignment ? (
+      {annotationShapeToDownload !== undefined &&
+      tomogramToDownload?.alignment ? (
         <AnnotationAlignmentCallout
           alignmentId={tomogramToDownload.alignment.id}
           initialState="closed"

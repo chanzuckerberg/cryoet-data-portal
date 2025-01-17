@@ -13,7 +13,7 @@ export function ConfigureDownloadContent() {
   const { annotationName, annotationId, objectShapeType } =
     useDownloadModalQueryParamState()
 
-  const { annotationToDownload, datasetTitle, runName, objectName } =
+  const { annotationShapeToDownload, datasetTitle, runName, objectName } =
     useDownloadModalContext()
 
   return (
@@ -35,10 +35,10 @@ export function ConfigureDownloadContent() {
       {objectShapeType && (
         <ModalSubtitle label={t('objectShapeType')} value={objectShapeType} />
       )}
-      {annotationToDownload !== undefined && (
+      {annotationShapeToDownload !== undefined && (
         <ModalSubtitle
           label={t('alignmentId')}
-          value={`${IdPrefix.Alignment}-${annotationToDownload.id}`}
+          value={`${IdPrefix.Alignment}-${annotationShapeToDownload.id}`}
         />
       )}
 
