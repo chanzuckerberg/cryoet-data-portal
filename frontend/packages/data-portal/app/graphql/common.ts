@@ -91,8 +91,7 @@ export function getDatasetsFilter({
         }
         break
       case 'tilt-series-alignment':
-        where.runs.tiltseries ??= {}
-        where.runs.tiltseries.alignmentsAggregate = {
+        where.runs.alignmentsAggregate = {
           count: {
             predicate: {
               _gt: 0,
