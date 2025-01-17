@@ -121,6 +121,25 @@ object_description_options = [
     ("py:.*", dict(include_fields_in_toc=False)),
 ]
 
+sphinx_immaterial_custom_admonitions = [
+    {
+        "name": "czi-info",
+        "title": "Info",
+        "color": "#3867FA",
+        "icon": "IconExclamationMarkCircleLarge",
+        "override": True,
+    },
+    {
+        "name": "czi-warning",
+        "title": "Warning",
+        "color": "#F5A623",
+        "icon": "IconExclamationMarkCircleLarge",
+        "override": True,
+    },
+]
+
+sphinx_immaterial_icon_path = ["./_static/img"]
+
 # -- Options for myst -------------------------------------------------
 myst_enable_extensions = ['colon_fence']
 myst_heading_anchors = 4
