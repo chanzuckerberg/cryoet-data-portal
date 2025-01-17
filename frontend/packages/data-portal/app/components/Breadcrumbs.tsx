@@ -70,7 +70,11 @@ export function Breadcrumbs({
     const params =
       variant === 'deposition' ? undefined : previousBrowseDatasetParams
 
-    return `${url}?${params}`
+    if (params) {
+      return `${url}?${params}`
+    }
+
+    return url
   }, [previousBrowseDatasetParams, variant])
 
   const singleDatasetLink = useMemo(() => {
@@ -80,7 +84,11 @@ export function Breadcrumbs({
 
     const url = `/datasets/${data.id}`
 
-    return `${url}?${previousSingleDatasetParams}`
+    if (previousSingleDatasetParams) {
+      return `${url}?${previousSingleDatasetParams}`
+    }
+
+    return url
   }, [variant, data.id, previousSingleDatasetParams])
 
   const returnToDepositionLink =

@@ -1,0 +1,9 @@
+{# Import the theme's layout. #}
+{% extends '!layout.html' %}
+
+{%- block extrahead %}
+{# Add custom things to the head HTML tag #}
+<script defer data-domain="chanzuckerberg.github.io/cryoet-data-portal" src="https://plausible.io/js/script.js"></script>
+{# Call the parent block #}
+{{ super() }}
+{%- endblock %}

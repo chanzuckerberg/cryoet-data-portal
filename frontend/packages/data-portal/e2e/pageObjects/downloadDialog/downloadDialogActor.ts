@@ -37,7 +37,6 @@ export class DownloadDialogActor {
     tab,
     annotationFile,
     tomogram,
-    multipleTomograms,
   }: {
     config?: DownloadConfig
     fileFormat?: string
@@ -46,7 +45,6 @@ export class DownloadDialogActor {
     tab?: DownloadTab
     annotationFile?: { annotation: { id: string }; shape_type: string }
     tomogram?: { id: number; sampling: number; processing: string }
-    multipleTomograms?: boolean
   }) {
     const expectedUrl = constructDialogUrl(baseUrl, {
       config,
@@ -55,7 +53,6 @@ export class DownloadDialogActor {
       tab,
       annotationFile,
       tomogram,
-      multipleTomograms,
     })
     await this.downloadDialogPage.goTo(expectedUrl.href)
   }
@@ -67,7 +64,6 @@ export class DownloadDialogActor {
     baseUrl,
     step,
     tab,
-    multipleTomograms,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     config?: DownloadConfig
@@ -75,7 +71,6 @@ export class DownloadDialogActor {
     baseUrl: string
     step?: DownloadStep
     tab?: DownloadTab
-    multipleTomograms?: boolean
   }) {
     const { data } = await fetchTestSingleRun(client)
     const tomogram = data.tomograms[0]
@@ -91,7 +86,6 @@ export class DownloadDialogActor {
         sampling: tomogram.voxel_spacing,
         processing: tomogram.processing,
       },
-      multipleTomograms,
     })
   }
 
@@ -100,13 +94,11 @@ export class DownloadDialogActor {
     baseUrl,
     step,
     tab,
-    multipleTomograms,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     baseUrl: string
     step?: DownloadStep
     tab?: DownloadTab
-    multipleTomograms?: boolean
   }) {
     const { data } = await fetchTestSingleRun(client)
     const annotationFile = data.annotation_files[0]
@@ -128,7 +120,6 @@ export class DownloadDialogActor {
         sampling: tomogram.voxel_spacing,
         processing: tomogram.processing,
       },
-      multipleTomograms,
     })
   }
   // #endregion Navigate
@@ -219,7 +210,6 @@ export class DownloadDialogActor {
     tab,
     tomogram,
     step,
-    multipleTomograms = false,
   }: {
     baseUrl: string
     config?: string
@@ -228,7 +218,6 @@ export class DownloadDialogActor {
     annotationFile?: { annotation: { id: string }; shape_type: string }
     tomogram?: { id: number; sampling: number; processing: string }
     step?: DownloadStep
-    multipleTomograms?: boolean
   }) {
     const expectedUrl = constructDialogUrl(baseUrl, {
       config,
@@ -236,7 +225,6 @@ export class DownloadDialogActor {
       tab,
       tomogram,
       step,
-      multipleTomograms,
     })
     const actualUrl = new URL(this.downloadDialogPage.url())
     expect(actualUrl.pathname).toBe(expectedUrl.pathname)
@@ -250,7 +238,6 @@ export class DownloadDialogActor {
     fileFormat,
     tab,
     step,
-    multipleTomograms = false,
   }: {
     baseUrl: string
     client: ApolloClient<NormalizedCacheObject>
@@ -258,7 +245,6 @@ export class DownloadDialogActor {
     fileFormat?: string
     tab?: DownloadTab
     step?: DownloadStep
-    multipleTomograms?: boolean
   }) {
     const { data } = await fetchTestSingleRun(client)
     const tomogram = data.tomograms[0]
@@ -274,7 +260,6 @@ export class DownloadDialogActor {
         processing: tomogram.processing,
       },
       step,
-      multipleTomograms,
     })
   }
 
@@ -285,7 +270,6 @@ export class DownloadDialogActor {
     fileFormat,
     tab,
     step,
-    multipleTomograms = false,
   }: {
     baseUrl: string
     client: ApolloClient<NormalizedCacheObject>
@@ -293,7 +277,6 @@ export class DownloadDialogActor {
     fileFormat?: string
     tab?: DownloadTab
     step?: DownloadStep
-    multipleTomograms?: boolean
   }) {
     const { data } = await fetchTestSingleRun(client)
     const annotationFile = data.annotation_files[0]
@@ -316,7 +299,6 @@ export class DownloadDialogActor {
         processing: tomogram.processing,
       },
       step,
-      multipleTomograms,
     })
   }
 

@@ -6,7 +6,7 @@ const SCHEMA_URL =
 
 const SCHEMA_URL_V2 =
   process.env.API_URL_V2 ||
-  'https://graphql.cryoet.staging.si.czi.technology/graphql'
+  'https://graphql.cryoetdataportal.czscience.com/graphql'
 
 const config: CodegenConfig = {
   generates: {
@@ -36,6 +36,7 @@ const config: CodegenConfig = {
 
       presetConfig: {
         gqlTagName: 'gql',
+        fragmentMasking: false,
       },
 
       config: {

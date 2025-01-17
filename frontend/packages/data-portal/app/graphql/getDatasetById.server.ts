@@ -34,12 +34,19 @@ const GET_DATASET_BY_ID = gql(`
       title
       description
 
-      funding_sources {
+      funding_sources(
+        order_by: [
+          {
+            funding_agency_name: asc
+          },
+          {
+            grant_id: asc
+          }
+        ]
+      ) {
         funding_agency_name
         grant_id
       }
-
-      related_database_entries
 
       # Sample and experiments data
       cell_component_name
@@ -56,6 +63,7 @@ const GET_DATASET_BY_ID = gql(`
       sample_type
       tissue_name
       tissue_id
+
       authors(
         order_by: {
           author_list_order: asc,
@@ -97,6 +105,7 @@ const GET_DATASET_BY_ID = gql(`
         limit: $run_limit,
         offset: $run_offset,
         where: $filter,
+        order_by: { name: asc }
       ) {
         id
         name

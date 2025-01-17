@@ -110,7 +110,6 @@ html_theme_options = {
         "text": "Inter",  # used for all the pages' text
         "code": "Roboto Mono",  # used for literal code blocks
     },
-    # "analytics": {"provider": "google", "property": "G-XXXXXXXXXX"},
 }
 
 # Remove icons from toc elements in API page

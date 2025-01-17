@@ -30,7 +30,6 @@ import { useQueryParam } from 'app/hooks/useQueryParam'
 import { useRunById } from 'app/hooks/useRunById'
 import { BaseAnnotation } from 'app/state/annotation'
 import { DownloadConfig } from 'app/types/download'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
@@ -47,17 +46,23 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const annotationsPage = +(
     url.searchParams.get(QueryParams.AnnotationsPage) ?? '1'
   )
-  const depositionId = +(url.searchParams.get(QueryParams.DepositionId) ?? '-1')
+  const depositionId = Number(url.searchParams.get(QueryParams.DepositionId))
 
   const [{ data: responseV1 }, { data: responseV2 }] = await Promise.all([
     getRunById({
       id,
       annotationsPage,
-      depositionId,
+      depositionId: Number.isNaN(depositionId) ? undefined : depositionId,
       client: apolloClient,
       params: url.searchParams,
     }),
-    getRunByIdV2(apolloClientV2, id, annotationsPage, url.searchParams),
+    getRunByIdV2({
+      client: apolloClientV2,
+      id,
+      annotationsPage,
+      params: url.searchParams,
+      depositionId: Number.isNaN(depositionId) ? undefined : depositionId,
+    }),
   ])
 
   if (responseV1.runs.length === 0) {
@@ -70,8 +75,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   try {
     logIfHasDiff(request.url, responseV1, responseV2)
   } catch (error) {
-    // eslint-disable-next-line no-console, @typescript-eslint/restrict-template-expressions
-    console.log(`DIFF ERROR: ${error}`)
+    // eslint-disable-next-line no-console, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+    console.log(`DIFF ERROR: ${(error as any)?.stack}`)
   }
 
   return json({
@@ -98,7 +103,6 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 }
 
 export default function RunByIdPage() {
-  const multipleTomogramsEnabled = useFeatureFlag('multipleTomograms')
   const {
     run,
     processingMethods,
@@ -112,8 +116,6 @@ export default function RunByIdPage() {
   const {
     downloadConfig,
     openRunDownloadModal,
-    tomogramProcessing,
-    tomogramSampling,
     annotationId,
     tomogramId,
     fileFormat,
@@ -122,12 +124,7 @@ export default function RunByIdPage() {
 
   const activeTomogram =
     downloadConfig === DownloadConfig.Tomogram
-      ? tomograms.find((tomogram) =>
-          multipleTomogramsEnabled
-            ? tomogram.id === Number(tomogramId)
-            : `${tomogram.voxelSpacing}` === tomogramSampling &&
-              tomogram.processing === tomogramProcessing,
-        )
+      ? tomograms.find((tomogram) => tomogram.id === Number(tomogramId))
       : undefined
 
   const tomogram = run.tomogram_voxel_spacings.at(0)
@@ -166,7 +163,7 @@ export default function RunByIdPage() {
   return (
     <TablePageLayout
       header={<RunHeader />}
-      tabsTitle={multipleTomogramsEnabled ? t('browseRunData') : undefined}
+      tabsTitle={t('browseRunData')}
       banner={
         depositionId &&
         deposition && (
@@ -214,37 +211,33 @@ export default function RunByIdPage() {
           ),
           noFilteredResults: <NoFilteredResults />,
         },
-        ...(multipleTomogramsEnabled
-          ? [
-              {
-                title: t('tomograms'),
-                table: <TomogramsTable />,
-                pageQueryParamKey: QueryParams.TomogramsPage,
-                filteredCount: tomogramsCount,
-                totalCount: tomogramsCount,
-                countLabel: t('tomograms'),
-                noTotalResults: (
-                  <NoTotalResults
-                    title={startCase(t('noTomogramsAvailable'))}
-                    description={t(
-                      'downloadAllRunDataViaApiToCreateYourOwnReconstructions',
-                    )}
-                    buttons={[
-                      {
-                        text: t('downloadThisRun'),
-                        onClick: () => {
-                          openRunDownloadModal({
-                            runId: run.id,
-                            datasetId: run.dataset.id,
-                          })
-                        },
-                      },
-                    ]}
-                  />
-                ),
-              },
-            ]
-          : []),
+        {
+          title: t('tomograms'),
+          table: <TomogramsTable />,
+          pageQueryParamKey: QueryParams.TomogramsPage,
+          filteredCount: tomogramsCount,
+          totalCount: tomogramsCount,
+          countLabel: t('tomograms'),
+          noTotalResults: (
+            <NoTotalResults
+              title={startCase(t('noTomogramsAvailable'))}
+              description={t(
+                'downloadAllRunDataViaApiToCreateYourOwnReconstructions',
+              )}
+              buttons={[
+                {
+                  text: t('downloadThisRun'),
+                  onClick: () => {
+                    openRunDownloadModal({
+                      runId: run.id,
+                      datasetId: run.dataset.id,
+                    })
+                  },
+                },
+              ]}
+            />
+          ),
+        },
       ]}
       downloadModal={
         <DownloadModal

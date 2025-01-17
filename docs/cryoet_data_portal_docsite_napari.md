@@ -10,7 +10,7 @@ We added some extra tools and documentation to help use napari with the CryoET D
 
 Installing complex Python packages like napari can be difficult, especially as it and its dependencies evolve over time.
 We strongly recommend isolating your installation in an environment to manage this complexity.
-If you followed the quick start guide and already created a virtual environment to install the `cryoet-data-portal` package, you *may* be able to reuse that environment for installing napari.
+If you followed the quickstart guide and already created a virtual environment to install the `cryoet-data-portal` package, you *may* be able to reuse that environment for installing napari.
 
 However, many napari users and developers use the `conda` environment manager, so we recommend that here instead.
 Download and install [miniconda](https://docs.conda.io/en/latest/miniconda.html) and run the following commands to create and activate a conda environment.

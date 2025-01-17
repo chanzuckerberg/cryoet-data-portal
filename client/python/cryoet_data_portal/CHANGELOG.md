@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.3.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.2.1...cryoet-data-portal-python-client-v4.3.0) (2024-12-19)
+
+
+### ✨ Features
+
+* add size fields to TiltSeries ([#1406](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1406)) ([3b8e709](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3b8e709a5d44be4085be54c780723fb6910fb521))
+
+
+### 🧹 Miscellaneous Chores
+
+* update python matrix ([#1407](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1407)) ([639cd90](https://github.com/chanzuckerberg/cryoet-data-portal/commit/639cd901ca4c0def4baa1bdd6e8bd1aeb011a46e))
+
 ## [4.2.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.2.0...cryoet-data-portal-python-client-v4.2.1) (2024-12-06)
 
 
