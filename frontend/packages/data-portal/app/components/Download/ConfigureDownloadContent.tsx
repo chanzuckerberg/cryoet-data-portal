@@ -10,11 +10,20 @@ import { ConfigureTomogramDownloadContent } from './ConfigureTomogramDownloadCon
 export function ConfigureDownloadContent() {
   const { t } = useI18n()
 
-  const { annotationName, annotationId, objectShapeType } =
+  const { annotationName, annotationId, objectShapeType, referenceTomogramId } =
     useDownloadModalQueryParamState()
 
-  const { annotationToDownload, datasetTitle, runName, objectName } =
-    useDownloadModalContext()
+  const {
+    annotationToDownload,
+    datasetTitle,
+    runName,
+    objectName,
+    allTomograms,
+  } = useDownloadModalContext()
+
+  const alignmentId = allTomograms?.find(
+    (tomogram) => tomogram.id === Number(referenceTomogramId),
+  )?.alignment?.id
 
   return (
     <>
@@ -35,10 +44,10 @@ export function ConfigureDownloadContent() {
       {objectShapeType && (
         <ModalSubtitle label={t('objectShapeType')} value={objectShapeType} />
       )}
-      {annotationToDownload !== undefined && (
+      {annotationToDownload !== undefined && alignmentId && (
         <ModalSubtitle
           label={t('alignmentId')}
-          value={`${IdPrefix.Alignment}-${annotationToDownload.id}`}
+          value={`${IdPrefix.Alignment}-${alignmentId}`}
         />
       )}
 
