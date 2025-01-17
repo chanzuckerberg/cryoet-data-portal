@@ -9,7 +9,7 @@ export interface DownloadModalContextValue {
   annotationShapeToDownload?: AnnotationShape
   tomogramToDownload?: TomogramV2
 
-  allAnnotationFiles?: GetRunByIdQuery['annotation_files']
+  allAnnotationShapes?: AnnotationShape[]
   allTomograms?: TomogramV2[]
   allTomogramProcessing?: string[]
   datasetId?: number

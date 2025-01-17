@@ -228,14 +228,14 @@ export default function RunByIdPage() {
         <DownloadModal
           annotationShapeToDownload={activeAnnotationShape}
           tomogramToDownload={activeTomogram}
-          allAnnotationFiles={annotationFiles}
+          allAnnotationShapes={annotationShapes}
           allTomograms={tomograms}
           allTomogramProcessing={processingMethods}
           datasetId={run.dataset.id}
           datasetTitle={run.dataset.title}
           fileSize={fileSize}
           httpsPath={httpsPath}
-          objectName={activeAnnotationShape?.object_name}
+          objectName={activeAnnotationShape?.annotation?.objectName}
           runId={run.id}
           runName={run.name}
           s3Path={match({
@@ -259,11 +259,9 @@ export default function RunByIdPage() {
             .with(
               { annotationId },
               () =>
-                activeAnnotationShape?.files.find(
-                  (file) =>
-                    file.format === fileFormat &&
-                    file.shape_type === objectShapeType,
-                )?.s3_path,
+                activeAnnotationShape?.annotationFiles.edges.find(
+                  (file) => file.node.format === fileFormat,
+                )?.node.s3Path,
             )
             .otherwise(() => undefined)}
           tomogramId={activeTomogram?.id ?? undefined}

@@ -124,7 +124,7 @@ export function DownloadOptionsContent() {
       {annotationShapeToDownload && (
         <ModalSubtitle
           label={t('alignmentId')}
-          value={`${IdPrefix.Alignment}-${annotationShapeToDownload.id}`}
+          value={`${IdPrefix.Alignment}-${annotationShapeToDownload.id}`} Wait for Kira's PR cuz of merge conflicts
         />
       )}
       {fileFormat && (
