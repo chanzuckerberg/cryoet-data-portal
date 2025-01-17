@@ -10,6 +10,7 @@ import {
   DEFAULT_TILT_RANGE_MIN,
 } from 'app/constants/tiltSeries'
 import { FilterState } from 'app/hooks/useFilter'
+import { checkExhaustive } from 'app/types/utils'
 
 export const depositionWithAnnotationFilter: Depositions_Bool_Exp = {
   annotations_aggregate: {
@@ -70,30 +71,10 @@ export function getDatasetsFilter({
   }
   // Available Files
   for (const availableFile of filterState.includedContents.availableFiles) {
+    where.runs ??= {}
     switch (availableFile) {
       case 'raw-frames':
-        where.runs ??= { tiltseries: {} }
-        where.runs.tiltseries.framesCount = {
-          _gt: 0,
-        }
-        break
-      case 'tilt-series':
-        where.runs ??= { tiltseries_aggregate: {} }
-        where.runs.tiltseries_aggregate.count = {
-          predicate: {
-            _gt: 0,
-          },
-        }
-        break
-      case 'tilt-series-alignment':
-        where.runs ??= { tiltseries: {} }
-        where.runs.tiltseries.httpsAlignmentFile = {
-          _is_null: false,
-        }
-        break
-      case 'tomogram':
-        where.runs ??= { tomogramVoxelSpacings: {} }
-        where.runs.tomogramVoxelSpacings.tomogramsAggregate = {
+        where.runs.framesAggregate = {
           count: {
             predicate: {
               _gt: 0,
@@ -101,72 +82,50 @@ export function getDatasetsFilter({
           },
         }
         break
+      case 'tilt-series':
+        where.runs.tiltseriesAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
+      case 'tilt-series-alignment':
+        where.runs.tiltseries ??= {}
+        where.runs.tiltseries.alignmentsAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
+      case 'tomogram':
+        where.runs.tomogramsAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
+      default:
+        checkExhaustive(availableFile)
     }
   }
-  filterState.includedContents.availableFiles.forEach((file) =>
-    match(file)
-      .with('raw-frames', () =>
-        where.push({
-          runs: {
-            tiltseries: {
-              frames_count: {
-                _gt: 0,
-              },
-            },
-          },
-        }),
-      )
-      .with('tilt-series', () =>
-        where.push({
-          runs: {
-            tiltseries_aggregate: {
-              count: {
-                predicate: {
-                  _gt: 0,
-                },
-              },
-            },
-          },
-        }),
-      )
-      .with('tilt-series-alignment', () =>
-        where.push({
-          runs: {
-            tiltseries: {
-              https_alignment_file: {
-                _is_null: false,
-              },
-            },
-          },
-        }),
-      )
-      .with('tomogram', () =>
-        where.push({
-          runs: {
-            tomogram_voxel_spacings: {
-              tomograms_aggregate: {
-                count: {
-                  predicate: {
-                    _gt: 0,
-                  },
-                },
-              },
-            },
-          },
-        }),
-      )
-      .exhaustive(),
-  )
   // Number of Runs
-  if (filterState.includedContents.numberOfRuns) {
-    const runCount = +filterState.includedContents.numberOfRuns.slice(1)
-    where.push({
-      runs_aggregate: {
-        count: {
-          predicate: { _gte: runCount },
+  const numberOfRuns = filterState.includedContents.numberOfRuns
+    ? parseInt(filterState.includedContents.numberOfRuns.replace('>', ''))
+    : undefined
+  if (Number.isInteger(numberOfRuns)) {
+    where.runsAggregate = {
+      count: {
+        predicate: {
+          _gte: numberOfRuns,
         },
       },
-    })
+    }
   }
 
   // NAME/ID SECTION
