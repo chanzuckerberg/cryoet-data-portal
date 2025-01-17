@@ -82,7 +82,7 @@ Below are 3 examples of common operations you can do with the API. Check out the
 
 To illustrate the relationships among the classes in the Portal, below is a loop that iterates over all datasets in the portal, then all runs per dataset, then all tomograms per run and outputs the name of each object.
 
-:::{attention}
+:::{czi-info} Note
 This loop is impractical! It iterates over all data in the Portal. It is simply for demonstrative purposes and should not be included in efficient code.
 :::
 

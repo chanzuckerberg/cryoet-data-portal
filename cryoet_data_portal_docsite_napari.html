@@ -33,10 +33,10 @@
         <style>:root{--md-text-font:"Inter";--md-code-font:"Roboto Mono"}</style>
       
     
-        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.59362b978ce63bd4f.min.css?v=96b30452" />
+        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.90fbd2a6f74eecca3.min.css?v=dbf9023d" />
         <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
         <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=4987f8f5" />
+        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=101db6d5" />
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -1121,7 +1121,7 @@ conda<span class="w"> </span>activate<span class="w"> </span>napari-env
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span><span class="s2">&quot;napari[all]&quot;</span>
 </code></pre></div>
 </div>
-<div class="attention admonition">
+<div class="czi-warning admonition">
 <p class="admonition-title">Attention</p>
 <p>For ARM macOS (Apple Silicon), pre-built packages of Qt5 are not available on PyPI, so the above command will fail.
 Instead, either install Qt6 separately with the following two commands</p>
@@ -1152,7 +1152,7 @@ Alternatively, access napari’s file menu and click on <em>Open File(s)</em> or
 <p>Instead of opening files manually in napari, you can write Python to automate this process.
 The following code finds all tomograms with a particular annotator and minimum tomogram size
 using the Python client and opens the first one in napari.</p>
-<div class="attention admonition">
+<div class="czi-warning admonition">
 <p class="admonition-title">Attention</p>
 <p>This example depends on installing the napari-ome-zarr plugin mentioned above.</p>
 </div>

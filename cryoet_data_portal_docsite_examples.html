@@ -33,10 +33,10 @@
         <style>:root{--md-text-font:"Inter";--md-code-font:"Roboto Mono"}</style>
       
     
-        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.59362b978ce63bd4f.min.css?v=96b30452" />
+        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.90fbd2a6f74eecca3.min.css?v=dbf9023d" />
         <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
         <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=4987f8f5" />
+        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=101db6d5" />
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -797,9 +797,8 @@
 
 <h1 id="examples"><span id="id1"></span>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h1>
 <p>Below are code snippets for completing various tasks using the Python Client API. Have an example you’d like to share with the community? Submit a <a class="reference external" href="https://github.com/chanzuckerberg/cryoet-data-portal/issues">GitHub issue</a> and include “Example:” in your title.</p>
-<details open>
-  <summary>Query by annotated object or Gene Ontology terms using owlready2 library</summary>
-<p>Find all membrane annotations, including when the annotation has a subclass of membrane.</p>
+<details class="czi-faq admonition" open="">
+<summary class="admonition-title">Query by annotated object or Gene Ontology terms using owlready2 library</summary><p>Find all membrane annotations, including when the annotation has a subclass of membrane.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">owlready2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">owl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Annotation</span>
 
@@ -828,9 +827,8 @@
 </code></pre></div>
 </div>
 </details>
-<details>
-  <summary>List zarr file contents using the zarr package and HTTPS link</summary>
-<p>Stream data using https</p>
+<details class="czi-faq admonition">
+<summary class="admonition-title">List zarr file contents using the zarr package and HTTPS link</summary><p>Stream data using https</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">zarr</span>
 
@@ -852,9 +850,8 @@
 </code></pre></div>
 </div>
 </details>
-<details>
-  <summary>List zarr-file contents using the ome-zarr package and HTTPS link</summary>
-<p>Stream data using https</p>
+<details class="czi-faq admonition">
+<summary class="admonition-title">List zarr-file contents using the ome-zarr package and HTTPS link</summary><p>Stream data using https</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ome_zarr.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_url</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ome_zarr.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span>
@@ -874,9 +871,8 @@
 </code></pre></div>
 </div>
 </details>
-<details>
-  <summary>List zarr-file contents using the zarr package and S3 link</summary>
-<p>Stream data via S3</p>
+<details class="czi-faq admonition">
+<summary class="admonition-title">List zarr-file contents using the zarr package and S3 link</summary><p>Stream data via S3</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">zarr</span>
 
@@ -890,9 +886,8 @@
 </code></pre></div>
 </div>
 </details>
-<details>
-  <summary>Open a tomogram array using the zarr package and HTTPS link</summary>
-<p>Stream data using https</p>
+<details class="czi-faq admonition">
+<summary class="admonition-title">Open a tomogram array using the zarr package and HTTPS link</summary><p>Stream data using https</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">zarr</span>
 
@@ -904,9 +899,8 @@
 </code></pre></div>
 </div>
 </details>
-<details>
-  <summary>Find all annotation files available in ZARR format from a dataset</summary>
-<p>Use as training data for a segmentation model</p>
+<details class="czi-faq admonition">
+<summary class="admonition-title">Find all annotation files available in ZARR format from a dataset</summary><p>Use as training data for a segmentation model</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">AnnotationFile</span>
 
 <span class="c1"># Get the client</span>
@@ -920,9 +914,8 @@
 </code></pre></div>
 </div>
 </details>
-<details>
-  <summary>Open a Point-annotation file and stream the contents from S3</summary>
-<p>Use as training data for a particle picking model</p>
+<details class="czi-faq admonition">
+<summary class="admonition-title">Open a Point-annotation file and stream the contents from S3</summary><p>Use as training data for a particle picking model</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">AnnotationFile</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">s3fs</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">ndjson</span>
@@ -944,9 +937,8 @@
 </code></pre></div>
 </div>
 </details>
-<details>
-  <summary>Find all datasets that have movie frames available</summary>
-<p>Start processing the raw data</p>
+<details class="czi-faq admonition">
+<summary class="admonition-title">Find all datasets that have movie frames available</summary><p>Start processing the raw data</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Dataset</span>
 
 <span class="c1"># Get client instance</span>
@@ -957,9 +949,8 @@
 </code></pre></div>
 </div>
 </details>
-<details>
-  <summary>Find all tomograms with voxel spacing below a threshold</summary>
-<p>Select data of a specific resolution</p>
+<details class="czi-faq admonition">
+<summary class="admonition-title">Find all tomograms with voxel spacing below a threshold</summary><p>Select data of a specific resolution</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Tomogram</span>
 
 <span class="c1"># Get client instance</span>
@@ -976,9 +967,8 @@
 </code></pre></div>
 </div>
 </details>
-<details>
-  <summary>Compute statistics on the portal data using the API client</summary>
-<p>Find how many runs there are in total for a given species</p>
+<details class="czi-faq admonition">
+<summary class="admonition-title">Compute statistics on the portal data using the API client</summary><p>Find how many runs there are in total for a given species</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">Run</span><span class="p">,</span> <span class="n">Annotation</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
@@ -1008,9 +998,8 @@
 </code></pre></div>
 </div>
 </details>
-<details>
-  <summary>Download the movie stacks of one run using S3 file streaming</summary>
-<p>Start processing from raw data</p>
+<details class="czi-faq admonition">
+<summary class="admonition-title">Download the movie stacks of one run using S3 file streaming</summary><p>Start processing from raw data</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Run</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">s3fs</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
