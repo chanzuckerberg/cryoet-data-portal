@@ -137,6 +137,7 @@ dmypy.json
 
 .idea
 .terraform
+.DS_Store
 
 # Files specific to this repo
 webdav_settings.json

@@ -223,23 +223,16 @@ function getRunFilter(
   // Deposition filter:
   const depositionId = +(filterState.ids.deposition ?? Number.NaN)
   if (!Number.isNaN(depositionId) && depositionId > 0) {
-    where.dataset = {
-      depositionId: { _eq: depositionId },
-    }
+    where.annotations ??= {}
+    where.annotations.depositionId = { _eq: depositionId }
   }
 
   // Tilt series filters:
   const tiltRangeMin = parseFloat(filterState.tiltSeries.min)
   const tiltRangeMax = parseFloat(filterState.tiltSeries.max)
-  if (
-    Number.isFinite(tiltRangeMin) ||
-    Number.isFinite(tiltRangeMax) ||
-    filterState.tiltSeries.qualityScore.length > 0
-  ) {
-    where.tiltseries = {}
-  }
   if (Number.isFinite(tiltRangeMin) || Number.isFinite(tiltRangeMax)) {
-    where.tiltseries!.tiltRange = {
+    where.tiltseries ??= {}
+    where.tiltseries.tiltRange = {
       _gte: Number.isFinite(tiltRangeMin)
         ? tiltRangeMin
         : DEFAULT_TILT_RANGE_MIN,
@@ -249,7 +242,8 @@ function getRunFilter(
     }
   }
   if (filterState.tiltSeries.qualityScore.length > 0) {
-    where.tiltseries!.tiltSeriesQuality = {
+    where.tiltseries ??= {}
+    where.tiltseries.tiltSeriesQuality = {
       _in: filterState.tiltSeries.qualityScore
         .map(parseInt)
         .filter((val) => Number.isFinite(val)),
@@ -257,24 +251,19 @@ function getRunFilter(
   }
 
   // Annotation filters:
-  if (
-    filterState.includedContents.isGroundTruthEnabled ||
-    filterState.annotation.objectNames.length > 0 ||
-    filterState.annotation.objectShapeTypes.length > 0 ||
-    filterState.annotation.objectId !== null
-  ) {
-    where.annotations = {}
-  }
   if (filterState.includedContents.isGroundTruthEnabled) {
-    where.annotations!.groundTruthStatus = { _eq: true }
+    where.annotations ??= {}
+    where.annotations.groundTruthStatus = { _eq: true }
   }
   if (filterState.annotation.objectNames.length > 0) {
-    where.annotations!.objectName = {
+    where.annotations ??= {}
+    where.annotations.objectName = {
       _in: filterState.annotation.objectNames,
     }
   }
   if (filterState.annotation.objectShapeTypes.length > 0) {
-    where.annotations!.annotationShapes = {
+    where.annotations ??= {}
+    where.annotations.annotationShapes = {
       shapeType: {
         _in: filterState.annotation
           .objectShapeTypes as Annotation_File_Shape_Type_Enum[], // TODO(bchu): Remove typecast.
@@ -282,7 +271,8 @@ function getRunFilter(
     }
   }
   if (filterState.annotation.objectId !== null) {
-    where.annotations!.objectId = {
+    where.annotations ??= {}
+    where.annotations.objectId = {
       _ilike: `%${filterState.annotation.objectId.replace(':', '_')}`, // _ is wildcard
     }
   }

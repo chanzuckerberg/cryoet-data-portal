@@ -7,6 +7,16 @@ import { useI18n } from 'app/hooks/useI18n'
 import { DropdownFilterButton } from './DropdownFilterButton'
 import { InputFilter } from './InputFilter'
 
+export interface RegexFilterProps {
+  id: string
+  label: string
+  title: string
+  queryParam: QueryParams
+  regex: RegExp
+  displayNormalizer?(value: string): string
+  paramNormalizer?(value: string): string
+}
+
 // TODO: make this more generic as a single input popup filter
 export function RegexFilter({
   id,
@@ -16,15 +26,7 @@ export function RegexFilter({
   regex: validationRegex,
   displayNormalizer,
   paramNormalizer,
-}: {
-  id: string
-  label: string
-  title: string
-  queryParam: QueryParams
-  regex: RegExp
-  displayNormalizer?: (value: string) => string
-  paramNormalizer?: (value: string) => string
-}) {
+}: RegexFilterProps) {
   const { t } = useI18n()
   const [searchParams, setSearchParams] = useSearchParams()
 

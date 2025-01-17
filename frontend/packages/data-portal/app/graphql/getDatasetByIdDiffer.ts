@@ -26,7 +26,9 @@ export function logIfHasDiff(
     }
     // Consistent sort order.
     run.annotationsAggregate?.aggregate?.sort((groupA, groupB) =>
-      groupA.groupBy!.objectName!.localeCompare(groupB.groupBy!.objectName!),
+      String(groupA.groupBy!.objectName).localeCompare(
+        String(groupB.groupBy!.objectName),
+      ),
     )
   }
   for (const annotationsAggreate of v2.annotationsAggregate.aggregate ?? []) {
@@ -41,14 +43,19 @@ export function logIfHasDiff(
   }
   // Consistent sort order.
   v2.annotationsAggregate.aggregate?.sort((groupA, groupB) =>
-    groupA.groupBy!.objectName!.localeCompare(groupB.groupBy!.objectName!),
+    String(groupA.groupBy!.objectName).localeCompare(
+      String(groupB.groupBy!.objectName),
+    ),
   )
   v2.annotationShapesAggregate.aggregate?.sort((groupA, groupB) =>
-    groupA.groupBy!.shapeType!.localeCompare(groupB.groupBy!.shapeType!),
+    String(groupA.groupBy!.shapeType).localeCompare(
+      String(groupB.groupBy!.shapeType),
+    ),
   )
   v2.tiltseriesAggregate.aggregate?.sort(
     (groupA, groupB) =>
-      groupA.groupBy!.tiltSeriesQuality! - groupB.groupBy!.tiltSeriesQuality!,
+      Number(groupA.groupBy!.tiltSeriesQuality) -
+      Number(groupB.groupBy!.tiltSeriesQuality),
   )
 
   const v1Transformed: GetDatasetByIdV2Query = {
@@ -270,7 +277,7 @@ export function logIfHasDiff(
     console.log(
       `DIFF AT ${url} ================================================================================ ${JSON.stringify(
         v1Transformed,
-      )} ================================================================================ ${JSON.stringify(
+      )} ================================================================================================================================================================ ${JSON.stringify(
         v2,
       )}`,
     )

@@ -12,13 +12,13 @@ const GET_DATASETS_DATA_QUERY = gql(`
   query GetDatasetsData(
     $limit: Int,
     $offset: Int,
-    $order_by: datasets_order_by!,
+    $order_by: [datasets_order_by!]!,
     $filter: datasets_bool_exp,
   ) {
     datasets(
       limit: $limit,
       offset: $offset,
-      order_by: [$order_by],
+      order_by: $order_by,
       where: $filter
     ) {
       id
@@ -383,12 +383,15 @@ export async function getBrowseDatasets({
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
 
-      // Order by dataset title if orderBy is set, otherwise order by release date
+      // Default order primarily by release date.
       order_by: orderBy
-        ? { title: orderBy }
-        : {
-            release_date: Order_By.Desc,
-          },
+        ? [{ title: orderBy }, { release_date: Order_By.Desc }]
+        : [
+            {
+              release_date: Order_By.Desc,
+            },
+            { title: Order_By.Asc },
+          ],
     },
   })
 
