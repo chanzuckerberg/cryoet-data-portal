@@ -10,7 +10,6 @@ import {
   DEFAULT_TILT_RANGE_MIN,
 } from 'app/constants/tiltSeries'
 import { FilterState } from 'app/hooks/useFilter'
-import { checkExhaustive } from 'app/types/utils'
 
 export const depositionWithAnnotationFilter: Depositions_Bool_Exp = {
   annotations_aggregate: {
@@ -111,7 +110,6 @@ export function getDatasetsFilter({
         }
         break
       default:
-        checkExhaustive(availableFile)
     }
   }
   // Number of Runs
