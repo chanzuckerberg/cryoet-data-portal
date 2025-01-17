@@ -314,12 +314,19 @@ dl.class > dd > dl:nth-child(27) {
 
 .czi-faq.admonition > summary.admonition-title {
   background-color: var(--md-default-bg-color);
-  padding-left: 14px;
+  padding-left: 14px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  font-weight: 600;
 }
 
 .czi-faq.admonition > summary.admonition-title::before {
   content: none;
   margin-right: 10px;
+}
+
+.czi-faq.admonition > summary.admonition-title::after {
+  background-color: #6C6C6C;
 }
 
 .md-typeset .admonition, .md-typeset details {
@@ -381,21 +388,21 @@ div.czi-warning.admonition {
 
 [data-md-color-scheme="slate"] {
   div.czi-info.admonition,
-    div.czi-warning.admonition {
-      color: white !important;
-    }
-  
-    .md-typeset .czi-info>.admonition-title,
-    .md-typeset .admonition.czi-info {
-      background-color: rgb(15, 29, 74); /* dark blue */
-      border-color: rgb(15, 29, 74) !important;
-    }
-  
-    .md-typeset .czi-warning>.admonition-title,
-    .md-typeset .admonition.czi-warning {
-      background-color: rgb(54, 27, 7); /* dark brown */
-      border-color: rgb(54, 27, 7) !important;
-    }
+  div.czi-warning.admonition {
+    color: white !important;
+  }
+
+  .md-typeset .czi-info>.admonition-title,
+  .md-typeset .admonition.czi-info {
+    background-color: rgb(15, 29, 74); /* dark blue */
+    border-color: rgb(15, 29, 74) !important;
+  }
+
+  .md-typeset .czi-warning>.admonition-title,
+  .md-typeset .admonition.czi-warning {
+    background-color: rgb(54, 27, 7); /* dark brown */
+    border-color: rgb(54, 27, 7) !important;
+  }
 }
 
 .md-typeset .czi-info.admonition>p:not(.admonition-title),
