@@ -69,73 +69,61 @@ export function getDatasetsFilter({
     }
   }
   // Available Files
-  // TODO(bchu): Implement when available in API.
-  // filterState.includedContents.availableFiles.forEach((file) =>
-  //   match(file)
-  //     .with('raw-frames', () =>
-  //       where.push({
-  //         runs: {
-  //           tiltseries: {
-  //             frames_count: {
-  //               _gt: 0,
-  //             },
-  //           },
-  //         },
-  //       }),
-  //     )
-  //     .with('tilt-series', () =>
-  //       where.push({
-  //         runs: {
-  //           tiltseries_aggregate: {
-  //             count: {
-  //               predicate: {
-  //                 _gt: 0,
-  //               },
-  //             },
-  //           },
-  //         },
-  //       }),
-  //     )
-  //     .with('tilt-series-alignment', () =>
-  //       where.push({
-  //         runs: {
-  //           tiltseries: {
-  //             https_alignment_file: {
-  //               _is_null: false,
-  //             },
-  //           },
-  //         },
-  //       }),
-  //     )
-  //     .with('tomogram', () =>
-  //       where.push({
-  //         runs: {
-  //           tomogram_voxel_spacings: {
-  //             tomograms_aggregate: {
-  //               count: {
-  //                 predicate: {
-  //                   _gt: 0,
-  //                 },
-  //               },
-  //             },
-  //           },
-  //         },
-  //       }),
-  //     )
-  //     .exhaustive(),
-  // )
+  for (const availableFile of filterState.includedContents.availableFiles) {
+    where.runs ??= {}
+    switch (availableFile) {
+      case 'raw-frames':
+        where.runs.framesAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
+      case 'tilt-series':
+        where.runs.tiltseriesAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
+      case 'tilt-series-alignment':
+        where.runs.alignmentsAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
+      case 'tomogram':
+        where.runs.tomogramsAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
+      default:
+    }
+  }
   // Number of Runs
-  // TODO: Implement when available in API.
-  // if (filterState.includedContents.numberOfRuns) {
-  //   const runCount = +filterState.includedContents.numberOfRuns.slice(1)
-  //   where.push({
-  //     runs_aggregate: {
-  //       count: {
-  //         predicate: { _gte: runCount },
-  //       },
-  //     },
-  //   })
-  // }
+  const numberOfRuns = filterState.includedContents.numberOfRuns
+    ? parseInt(filterState.includedContents.numberOfRuns.replace('>', ''))
+    : undefined
+  if (Number.isInteger(numberOfRuns)) {
+    where.runsAggregate = {
+      count: {
+        predicate: {
+          _gte: numberOfRuns,
+        },
+      },
+    }
+  }
 
   // NAME/ID SECTION
   // Dataset IDs
