@@ -2,7 +2,7 @@ import { Callout, CalloutTitle } from '@czi-sds/components'
 
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
-import { TomogramV2 } from 'app/types/gqlResponseTypes'
+import { TomogramV2 } from 'app/types/gql/runPageTypes'
 import { getTomogramName } from 'app/utils/tomograms'
 
 import { CopyBox } from '../CopyBox'

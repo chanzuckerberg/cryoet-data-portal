@@ -6,6 +6,7 @@ import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { Katex } from 'app/components/Katex'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
+import { Tiltseries as TiltseriesV2 } from 'app/types/gql/genericTypes'
 import { TableData } from 'app/types/table'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 
@@ -167,6 +168,172 @@ export function useTiltSeriesValueMappings(tiltSeries?: Partial<Tiltseries>) {
       [TiltSeriesKeys.TotalFlux]: {
         label: t('totalFlux'),
         values: [tiltSeries?.total_flux ? tiltSeries.total_flux : '--'],
+        renderValue: (value) => (
+          <p className="flex gap-1 items-center">
+            <span>{value}</span>
+            <Katex math="\frac{e^-}{\text{\AA}^2}" />
+          </p>
+        ),
+      },
+    }),
+    [tiltSeries, t],
+  )
+}
+
+export function useTiltSeriesTableRowsV2(tiltSeries?: TiltseriesV2) {
+  const { t } = useI18n()
+
+  return useMemo<Record<TiltSeriesKeys, TableData>>(
+    () => ({
+      [TiltSeriesKeys.AccelerationVoltage]: {
+        label: t('accelerationVoltage'),
+        values: [
+          tiltSeries?.accelerationVoltage
+            ? t('unitVolts', {
+                value: tiltSeries?.accelerationVoltage,
+              })
+            : '--',
+        ],
+      },
+
+      [TiltSeriesKeys.AdditionalMicroscopeOpticalSetup]: {
+        label: t('additionalMicroscopeOpticalSetup'),
+        values: [tiltSeries?.microscopeAdditionalInfo ?? 'None'],
+      },
+
+      [TiltSeriesKeys.AlignedBinning]: {
+        label: t('alignedTiltSeriesBinning'),
+        values: [tiltSeries?.alignedTiltseriesBinning ?? '--'],
+      },
+
+      [TiltSeriesKeys.BinningFromFrames]: {
+        label: t('bingingFromFrames'),
+        values: [
+          tiltSeries?.binningFromFrames ? tiltSeries.binningFromFrames : '--',
+        ],
+      },
+
+      [TiltSeriesKeys.CameraManufacturer]: {
+        label: t('cameraManufacturer'),
+        values: [tiltSeries?.cameraManufacturer ?? '--'],
+      },
+
+      [TiltSeriesKeys.CameraModel]: {
+        label: t('cameraModel'),
+        values: [tiltSeries?.cameraModel ?? '--'],
+      },
+
+      [TiltSeriesKeys.DataAcquisitionSoftware]: {
+        label: t('dataAcquisitionSoftware'),
+        values: [tiltSeries?.dataAcquisitionSoftware ?? '--'],
+      },
+
+      [TiltSeriesKeys.EnergyFilter]: {
+        label: t('energyFilter'),
+        values: [tiltSeries?.microscopeEnergyFilter ?? '--'],
+      },
+
+      [TiltSeriesKeys.Id]: {
+        label: t('tiltSeriesId'),
+        values: [
+          tiltSeries?.id ? `${IdPrefix.TiltSeries}-${tiltSeries.id}` : '--',
+        ],
+      },
+
+      [TiltSeriesKeys.ImageCorrector]: {
+        label: t('imageCorrector'),
+        values: [tiltSeries?.microscopeImageCorrector ?? 'None'],
+      },
+
+      [TiltSeriesKeys.MicroscopeManufacturer]: {
+        label: t('microscopeManufacturer'),
+        values: [tiltSeries?.microscopeManufacturer ?? '--'],
+      },
+
+      [TiltSeriesKeys.MicroscopeModel]: {
+        label: t('microscopeModel'),
+        values: [tiltSeries?.microscopeModel ?? '--'],
+      },
+
+      [TiltSeriesKeys.PhasePlate]: {
+        label: t('phasePlate'),
+        values: [tiltSeries?.microscopePhasePlate ?? 'None'],
+      },
+
+      [TiltSeriesKeys.PixelSpacing]: {
+        label: t('pixelSpacing'),
+        values: [tiltSeries?.pixelSpacing ?? '--'],
+        renderValue: (value) => (
+          <p className="flex gap-1 items-center">
+            <span>{value}</span>
+            <Katex math="\frac{\text{\AA}}{px}" />
+          </p>
+        ),
+      },
+
+      [TiltSeriesKeys.RelatedEmpiarEntry]: {
+        label: t('relatedEmpiarEntry'),
+
+        values: tiltSeries?.relatedEmpiarEntry
+          ? [tiltSeries.relatedEmpiarEntry]
+          : [],
+
+        renderValue: (value: string) => <DatabaseEntry entry={value} inline />,
+      },
+
+      [TiltSeriesKeys.SeriesIsAligned]: {
+        label: t('seriesIsAligned'),
+        values: [tiltSeries?.isAligned ? t('true') : t('false')],
+      },
+
+      [TiltSeriesKeys.SphericalAberrationConstant]: {
+        label: t('sphericalAberrationConstant'),
+        values: [
+          tiltSeries?.sphericalAberrationConstant
+            ? t('unitMillimeter', {
+                value: tiltSeries.sphericalAberrationConstant,
+              })
+            : '--',
+        ],
+      },
+
+      [TiltSeriesKeys.TiltAxis]: {
+        label: t('tiltAxis'),
+        values: [
+          tiltSeries?.tiltAxis
+            ? t('unitDegree', { value: tiltSeries.tiltAxis })
+            : '--',
+        ],
+      },
+
+      [TiltSeriesKeys.TiltingScheme]: {
+        label: t('tiltingScheme'),
+        values: [tiltSeries?.tiltingScheme ?? '--'],
+      },
+
+      [TiltSeriesKeys.TiltRange]: {
+        label: t('tiltRange'),
+        values: [
+          tiltSeries &&
+          isNumber(tiltSeries?.tiltMin) &&
+          isNumber(tiltSeries.tiltMax)
+            ? getTiltRangeLabel(t, tiltSeries.tiltMin, tiltSeries.tiltMax)
+            : '--',
+        ],
+      },
+
+      [TiltSeriesKeys.TiltStep]: {
+        label: t('tiltStep'),
+        values: [
+          tiltSeries?.tiltStep
+            ? t('unitDegree', { value: tiltSeries.tiltStep })
+            : '--',
+        ],
+      },
+
+      [TiltSeriesKeys.TotalFlux]: {
+        label: t('totalFlux'),
+        values: [tiltSeries?.totalFlux ? tiltSeries.totalFlux : '--'],
         renderValue: (value) => (
           <p className="flex gap-1 items-center">
             <span>{value}</span>

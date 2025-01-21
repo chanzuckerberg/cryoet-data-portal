@@ -1,6 +1,6 @@
 import { startCase } from 'lodash-es'
 
-import { TomogramV2 } from 'app/types/gqlResponseTypes'
+import { TomogramV2 } from 'app/types/gql/runPageTypes'
 
 export function isFiducial(status: string | null | undefined) {
   return status === 'FIDUCIAL'

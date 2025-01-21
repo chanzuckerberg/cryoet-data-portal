@@ -1,6 +1,6 @@
 import { TomogramTypeBadge } from 'app/components/TomogramTypeBadge'
 import { useI18n } from 'app/hooks/useI18n'
-import { TomogramV2 } from 'app/types/gqlResponseTypes'
+import { TomogramV2 } from 'app/types/gql/runPageTypes'
 import { getTomogramName } from 'app/utils/tomograms'
 
 export interface TomogramSelectorLabelProps {

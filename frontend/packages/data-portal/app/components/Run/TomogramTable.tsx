@@ -16,7 +16,7 @@ import {
 } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
 import { metadataDrawerTomogramAtom } from 'app/state/metadataDrawerTomogram'
-import { TomogramV2 } from 'app/types/gqlResponseTypes'
+import { TomogramV2 } from 'app/types/gql/runPageTypes'
 import { cnsNoMerge } from 'app/utils/cns'
 import { getTomogramName } from 'app/utils/tomograms'
 
