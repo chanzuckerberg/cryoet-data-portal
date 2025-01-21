@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.44.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.43.0...web-v1.44.0) (2025-01-21)
+
+
+### ✨ Features
+
+* Add aggregate filters to datasets and deposition queries ([#1470](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1470)) ([7fdd048](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7fdd0485a4ba2f78dd3d49de637f51f5a6d50eac))
+* Diff logging for deposition page ([#1467](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1467)) ([3947969](https://github.com/chanzuckerberg/cryoet-data-portal/commit/39479692f464953c1e8a54330d5729edadc66c0d))
+
+
+### 🐞 Bug Fixes
+
+* Run page differ fixes to handle BE edge cases/bugs ([#1498](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1498)) ([69125a9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/69125a95af416dd5995cf8a90503d6750084b44e))
+
 ## [1.43.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.42.0...web-v1.43.0) (2025-01-16)
 
 
