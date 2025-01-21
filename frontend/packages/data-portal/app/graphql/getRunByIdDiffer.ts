@@ -212,24 +212,33 @@ export function logIfHasDiff(
                   alignment: {
                     affineTransformationMatrix: JSON.stringify(
                       tomogram.affine_transformation_matrix,
-                    ).replaceAll(',', ', '),
+                    )
+                      .replaceAll(',', ', ')
+                      // TODO: Remove when BE bug fixed.
+                      .replaceAll('{', '[')
+                      .replaceAll('}', ']'),
                   },
                 },
               })),
             },
           },
         })),
-      },
-      tiltseriesAggregate: {
-        aggregate: [
-          {
-            count: run.tiltseries_aggregate.aggregate?.count,
-            avg: {
-              tiltSeriesQuality:
-                run.tiltseries_aggregate.aggregate?.avg?.tilt_series_quality,
-            },
-          },
-        ],
+        tiltseriesAggregate: {
+          aggregate:
+            // Platformics returns an empty array if the count is 0.
+            run.tiltseries_aggregate.aggregate!.count === 0
+              ? [
+                  {
+                    count: run.tiltseries_aggregate.aggregate?.count,
+                    avg: {
+                      tiltSeriesQuality:
+                        run.tiltseries_aggregate.aggregate?.avg
+                          ?.tilt_series_quality,
+                    },
+                  },
+                ]
+              : [],
+        },
       },
     })),
     alignmentsAggregate: {},
