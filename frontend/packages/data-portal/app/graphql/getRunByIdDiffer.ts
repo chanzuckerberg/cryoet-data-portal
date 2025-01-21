@@ -269,18 +269,19 @@ export function logIfHasDiff(
         isCuratorRecommended: file.annotation.is_curator_recommended,
         lastModifiedDate: `${file.annotation.last_modified_date}T00:00:00+00:00`,
         methodLinks: {
-          edges: file.annotation.method_links
-            ?.map((methodLink: any) => ({
-              node: {
-                link: methodLink.link,
-                linkType: methodLink.link_type,
-                name: methodLink.custom_name,
-              },
-            }))
-            .sort(
-              (methodLinkA: any, methodLinkB: any) =>
-                methodLinkA.node.link?.localeCompare(methodLinkB.node.link),
-            ),
+          edges:
+            file.annotation.method_links
+              ?.map((methodLink: any) => ({
+                node: {
+                  link: methodLink.link,
+                  linkType: methodLink.link_type,
+                  name: methodLink.custom_name,
+                },
+              }))
+              .sort(
+                (methodLinkA: any, methodLinkB: any) =>
+                  methodLinkA.node.link?.localeCompare(methodLinkB.node.link),
+              ) ?? [],
         },
         methodType: file.annotation.method_type as Annotation_Method_Type_Enum,
         objectCount: file.annotation.object_count,
