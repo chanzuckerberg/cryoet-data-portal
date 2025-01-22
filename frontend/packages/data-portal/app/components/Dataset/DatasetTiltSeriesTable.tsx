@@ -19,7 +19,7 @@ export function DatasetTiltSeriesTable() {
 
   return (
     <TiltSeriesTable
-      tiltseriesV2={
+      tiltSeriesData={
         dataset.runMetadata.edges[0]?.node.tiltseries.edges[0]?.node
       }
       fields={SELECT_FIELDS}

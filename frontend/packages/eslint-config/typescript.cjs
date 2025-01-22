@@ -79,6 +79,9 @@ module.exports = {
       },
     ],
 
+    // Access __typename from GQL objects.
+    'no-underscore-dangle': 'off',
+
     // Allow us to use the above naming pattern for destructuring unused variables.
     '@typescript-eslint/naming-convention': [
       'error',
