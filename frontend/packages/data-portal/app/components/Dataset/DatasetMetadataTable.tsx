@@ -107,7 +107,7 @@ export function DatasetMetadataTable({
           isV2
             ? dataset.fundingSources?.edges
                 ?.map((fundingSource) => fundingSource?.node?.grantId)
-                .filter(isDefined) ?? []
+                .filter(isDefined)
             : dataset.funding_sources
                 ?.map((source) => source.grant_id)
                 .filter(isString),
