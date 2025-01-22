@@ -25,13 +25,14 @@ export function TiltSeriesTable({
   const mappings = useTiltSeriesValueMappings(tiltSeriesData)
   const v2Rows = useTiltSeriesTableRowsV2(tiltseriesV2)
 
-  const tableData = tiltSeriesData
-    ? getTableData(
-        ...fields.map((field) =>
-          tiltSeriesData !== undefined ? mappings[field] : v2Rows[field],
-        ),
-      )
-    : []
+  const tableData =
+    tiltSeriesData !== undefined || tiltseriesV2 !== undefined
+      ? getTableData(
+          ...fields.map((field) =>
+            tiltSeriesData !== undefined ? mappings[field] : v2Rows[field],
+          ),
+        )
+      : []
 
   return (
     <AccordionMetadataTable
