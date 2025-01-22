@@ -112,5 +112,5 @@ export function SampleAndExperimentConditionsTable({
 }
 
 function isV2Dataset(dataset: DatasetType | Dataset): dataset is Dataset {
-  return 'sampleType' in dataset
+  return dataset.__typename === 'Dataset'
 }

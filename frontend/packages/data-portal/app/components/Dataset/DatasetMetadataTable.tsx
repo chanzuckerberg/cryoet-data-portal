@@ -166,5 +166,5 @@ export function DatasetMetadataTable({
 }
 
 function isV2Dataset(dataset: DatasetType | Dataset): dataset is Dataset {
-  return 'fundingSources' in dataset
+  return dataset.__typename === 'Dataset'
 }
