@@ -122,10 +122,10 @@ export function DatasetMetadataTable({
           isV2
             ? dataset.fundingSources?.edges
                 ?.map((fundingSource) => fundingSource?.node?.fundingAgencyName)
-                .filter(isDefined) ?? []
+                .filter(isDefined)
             : dataset.funding_sources
                 ?.map((source) => source.funding_agency_name)
-                .filter(isString) ?? [],
+                .filter(isString),
         ),
       ),
     },
