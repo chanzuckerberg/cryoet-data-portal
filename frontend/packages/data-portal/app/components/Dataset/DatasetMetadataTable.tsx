@@ -27,10 +27,8 @@ export function DatasetMetadataTable({
   const { t } = useI18n()
   const isV2 = isV2Dataset(dataset)
 
-  const authors =
-    (isV2
-      ? dataset.authors?.edges?.map((author) => author.node)
-      : dataset.authors) ?? []
+  const numAuthors =
+    (isV2 ? dataset.authors?.edges?.length : dataset.authors?.length) ?? 0
 
   const datasetMetadata = getTableData(
     !!showAllFields && {
@@ -93,7 +91,7 @@ export function DatasetMetadataTable({
     },
 
     !!showAllFields && {
-      label: authors.length === 1 ? t('author') : t('authors'),
+      label: numAuthors.length === 1 ? t('author') : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
         return <AuthorList authors={dataset.authors as AuthorInfo[]} large />
