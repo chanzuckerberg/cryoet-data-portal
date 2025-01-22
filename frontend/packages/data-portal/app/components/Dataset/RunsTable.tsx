@@ -76,7 +76,7 @@ export function RunsTable() {
 
     return [
       columnHelper.accessor(
-        (run) => run.tomograms.edges[0].node.keyPhotoThumbnailUrl ?? undefined,
+        (run) => run.tomograms.edges[0]?.node.keyPhotoThumbnailUrl ?? undefined,
         {
           id: 'key-photo',
           header: () => <p />,
@@ -147,7 +147,8 @@ export function RunsTable() {
       }),
 
       columnHelper.accessor(
-        (run) => run.tiltseriesAggregate?.aggregate?.[0].avg?.tiltSeriesQuality,
+        (run) =>
+          run.tiltseriesAggregate?.aggregate?.[0]?.avg?.tiltSeriesQuality,
         {
           id: 'tilt-series-quality',
           header: () => (
@@ -207,7 +208,7 @@ export function RunsTable() {
         },
       ),
 
-      columnHelper.accessor((run) => run.tomograms.edges[0].node, {
+      columnHelper.accessor((run) => run.tomograms.edges[0]?.node, {
         id: 'viewTomogram',
         header: () => <CellHeader width={RunTableWidths.actions} />,
         cell({ row: { original: run }, getValue }) {
@@ -215,7 +216,7 @@ export function RunsTable() {
           return (
             <TableCell horizontalAlign="right" width={RunTableWidths.actions}>
               <ViewTomogramButton
-                tomogramId={tomogram.id.toString()}
+                tomogramId={tomogram?.id.toString()}
                 buttonProps={{
                   sdsType: 'secondary',
                   sdsStyle: 'square',
@@ -227,11 +228,11 @@ export function RunsTable() {
                   datasetId: dataset.id,
                   organism: dataset.organismName ?? 'None',
                   runId: run.id,
-                  tomogramId: tomogram.id ?? 'None',
+                  tomogramId: tomogram?.id ?? 'None',
                   type: 'dataset',
                 }}
                 tooltipPlacement="top"
-                neuroglancerConfig={tomogram.neuroglancerConfig}
+                neuroglancerConfig={tomogram?.neuroglancerConfig}
                 setIsHoveringOver={setIsHoveringOverInteractable}
               />
             </TableCell>
