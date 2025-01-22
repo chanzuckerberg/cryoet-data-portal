@@ -91,7 +91,7 @@ export function DatasetMetadataTable({
     },
 
     !!showAllFields && {
-      label: numAuthors.length === 1 ? t('author') : t('authors'),
+      label: numAuthors === 1 ? t('author') : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
         return <AuthorList authors={dataset.authors as AuthorInfo[]} large />
