@@ -51,6 +51,10 @@ export function logIfHasDiff(
     delete tomogram.deposition
     // Standard tomograms are V2 only.
     tomogram.isPortalStandard = false
+    // Authors are sorted on the FE.
+    tomogram.authors.edges.sort((authorA, authorB) =>
+      authorA.node.name.localeCompare(authorB.node.name),
+    )
   }
   for (const run of v2.runs) {
     // There are no frames in V1.
@@ -191,7 +195,7 @@ export function logIfHasDiff(
             tomograms: {
               edges: tomogramVoxelSpacing.tomograms.map((tomogram) => ({
                 node: {
-                  ctfCorrected: tomogram.ctf_corrected,
+                  ctfCorrected: Boolean(tomogram.ctf_corrected),
                   fiducialAlignmentStatus:
                     tomogram.fiducial_alignment_status as Fiducial_Alignment_Status_Enum,
                   id: tomogram.id,
@@ -316,7 +320,7 @@ export function logIfHasDiff(
     })),
     tomograms: v1.tomograms
       .map((tomogram) => ({
-        ctfCorrected: tomogram.ctf_corrected,
+        ctfCorrected: Boolean(tomogram.ctf_corrected),
         fiducialAlignmentStatus:
           tomogram.fiducial_alignment_status as Fiducial_Alignment_Status_Enum,
         httpsMrcFile: tomogram.https_mrc_scale0,
@@ -348,15 +352,19 @@ export function logIfHasDiff(
               }
             : undefined,
         authors: {
-          edges: tomogram.authors.map((author) => ({
-            node: {
-              primaryAuthorStatus: author.primary_author_status,
-              correspondingAuthorStatus: author.corresponding_author_status,
-              name: author.name,
-              email: author.email,
-              orcid: author.orcid,
-            },
-          })),
+          edges: tomogram.authors
+            .map((author) => ({
+              node: {
+                primaryAuthorStatus: author.primary_author_status,
+                correspondingAuthorStatus: author.corresponding_author_status,
+                name: author.name,
+                email: author.email,
+                orcid: author.orcid,
+              },
+            }))
+            .sort((authorA, authorB) =>
+              authorA.node.name.localeCompare(authorB.node.name),
+            ),
         },
       }))
       .sort((tomogramA, tomogramB) => tomogramB.id - tomogramA.id),
