@@ -106,7 +106,7 @@ export function TomogramsTable() {
         ),
         cell: ({ getValue }) => (
           <TableCell width={TomogramTableWidths.depositionDate}>
-            <div>{getValue()}</div>
+            <div>{getValue().split('T')[0]}</div>
           </TableCell>
         ),
       }),
