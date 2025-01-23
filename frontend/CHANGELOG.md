@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.45.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.44.0...web-v1.45.0) (2025-01-23)
+
+
+### ✨ Features
+
+* Migrate datasets and deposition filter values to use V2 data ([#1502](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1502)) ([f338feb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f338febe9114aaf9f016b45d482d1db0ba433883))
+* Migrate rest of dataset page to use V2 data ([#1499](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1499)) ([8aad11e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8aad11eb58bbe1a03ff8feaf2fe5f27ceb226c9d))
+
+
+### 🐞 Bug Fixes
+
+* Convert null to false for annotation authors in run page differ ([#1506](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1506)) ([50ced05](https://github.com/chanzuckerberg/cryoet-data-portal/commit/50ced05a3a997d11b1bfab04a0b2940e4334475c))
+* More adjustments to run query differ ([#1501](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1501)) ([4b8f40b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4b8f40b3447e6aefb5be8d491e6493c09ae072ef))
+
 ## [1.44.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.43.0...web-v1.44.0) (2025-01-21)
 
 
