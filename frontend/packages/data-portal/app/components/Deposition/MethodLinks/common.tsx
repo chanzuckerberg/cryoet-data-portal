@@ -15,7 +15,7 @@ export interface MethodLinkProps {
   className?: string
   linkProps?: Partial<VariantLinkProps>
 }
-
+// test
 const METHOD_TYPE_TO_I18N_KEY: { [key in MethodLinkType]: I18nKeys } = {
   source_code: 'sourceCode',
   model_weights: 'modelWeights',
