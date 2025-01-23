@@ -79,7 +79,8 @@ export function DatasetsTable() {
     try {
       return [
         columnHelper.accessor('key_photo_thumbnail_url', {
-          header: () => <p />,
+          // eslint-disable-next-line jsx-a11y/control-has-associated-label
+          header: () => <td />,
 
           cell({ row: { original: dataset } }) {
             const datasetUrl = getDatasetUrl(dataset.id)
@@ -140,7 +141,7 @@ export function DatasetsTable() {
                 width={DepositionPageDatasetTableWidths.id}
               >
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
-                  <p
+                  <div
                     className={cnsNoMerge(
                       'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
                       'group-hover:text-sds-color-primitive-blue-500',
@@ -151,7 +152,7 @@ export function DatasetsTable() {
                     ) : (
                       <TableLink to={datasetUrl}>{dataset.title}</TableLink>
                     )}
-                  </p>
+                  </div>
 
                   <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
                     {isLoadingDebounced ? (
@@ -161,7 +162,7 @@ export function DatasetsTable() {
                     )}
                   </p>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500 mt-sds-s">
+                  <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500 mt-sds-s">
                     {isLoadingDebounced ? (
                       <>
                         <Skeleton className="max-w-[80%] mt-2" variant="text" />
@@ -174,7 +175,7 @@ export function DatasetsTable() {
                     ) : (
                       <AuthorList authors={dataset.authors} compact />
                     )}
-                  </p>
+                  </div>
                 </div>
               </TableCell>
             )

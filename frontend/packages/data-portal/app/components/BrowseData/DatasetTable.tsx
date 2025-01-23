@@ -80,6 +80,7 @@ export function DatasetTable() {
     try {
       return [
         columnHelper.accessor('key_photo_thumbnail_url', {
+          // eslint-disable-next-line jsx-a11y/control-has-associated-label
           header: () => <td />,
 
           cell({ row: { original: dataset } }) {
