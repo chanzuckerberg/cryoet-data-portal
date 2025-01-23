@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 
 import { Select } from 'app/components/Select'
-import { TomogramV2 } from 'app/types/gqlResponseTypes'
+import { TomogramV2 } from 'app/types/gql/runPageTypes'
 import { cns } from 'app/utils/cns'
 
 import { TomogramSelectorInputLabel } from './TomogramSelectorLabel'

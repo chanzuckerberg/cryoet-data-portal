@@ -21,12 +21,12 @@ export function DatasetOverview() {
   const { t } = useI18n()
 
   // clean up entries into lists
-  const publicationEntries = dataset.dataset_publications
+  const publicationEntries = dataset.datasetPublications
     ?.split(',')
     .map((e) => e.trim())
     .filter((e) => DOI_ID.exec(e)) // only show DOI links
 
-  const relatedDatabaseEntries = dataset.related_database_entries
+  const relatedDatabaseEntries = dataset.relatedDatabaseEntries
     ?.split(',')
     .map((e) => e.trim())
 
@@ -49,7 +49,7 @@ export function DatasetOverview() {
           <AuthorLegend />
         </div>
         <AuthorList
-          authors={dataset.authors}
+          authors={dataset.authors.edges.map((author) => author.node)}
           className="text-sds-body-xxs leading-sds-body-xxs"
           subtle
         />

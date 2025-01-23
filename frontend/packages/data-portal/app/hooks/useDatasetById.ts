@@ -5,12 +5,14 @@ import { GetDatasetByIdV2Query } from 'app/__generated_v2__/graphql'
 import { isDefined } from 'app/utils/nullish'
 
 export function useDatasetById() {
-  const { v1, v2 } = useTypedLoaderData<{
+  const { v2 } = useTypedLoaderData<{
     v1: GetDatasetByIdQuery
     v2: GetDatasetByIdV2Query
   }>()
 
-  const dataset = v1.datasets[0]
+  const { runs } = v2
+
+  const dataset = v2.datasets[0]
 
   const deposition = v2.depositions[0]
 
@@ -24,10 +26,17 @@ export function useDatasetById() {
       ?.map((aggregate) => aggregate.groupBy?.shapeType)
       .filter(isDefined) ?? []
 
+  const tiltseriesQualityScores =
+    v2.tiltseriesAggregate.aggregate
+      ?.map((aggregate) => aggregate.groupBy?.tiltSeriesQuality)
+      .filter(isDefined) ?? []
+
   return {
+    runs,
     dataset,
+    deposition,
     objectNames,
     objectShapeTypes,
-    deposition,
+    tiltseriesQualityScores,
   }
 }

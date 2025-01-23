@@ -7,7 +7,6 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
 import { useCallback, useMemo, useState } from 'react'
 
-import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
 import { I18n } from 'app/components/I18n'
 import { KeyPhoto } from 'app/components/KeyPhoto'
@@ -24,27 +23,28 @@ import { IdPrefix } from 'app/constants/idPrefixes'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { RunTableWidths } from 'app/constants/table'
-import { TiltSeriesScore } from 'app/constants/tiltSeries'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
+import { Run } from 'app/types/gql/datasetPageTypes'
 import { cnsNoMerge } from 'app/utils/cns'
+import { isDefined } from 'app/utils/nullish'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
-
-type Run = GetDatasetByIdQuery['datasets'][number]['runs'][number]
 
 const LOADING_RUNS = range(0, MAX_PER_PAGE).map<Run>(() => ({
   id: 0,
   name: '',
-  tiltseries_aggregate: {},
-  tomogram_voxel_spacings: [],
+  tiltseriesAggregate: {},
+  annotationsAggregate: {},
+  tomograms: {
+    edges: [],
+  },
 }))
 
 export function RunsTable() {
   const { isLoadingDebounced } = useIsLoading()
-  const { dataset, deposition } = useDatasetById()
-  const runs = dataset.runs as unknown as Run[]
+  const { dataset, deposition, runs } = useDatasetById()
   const { t } = useI18n()
   const [searchParams] = useSearchParams()
 
@@ -76,14 +76,11 @@ export function RunsTable() {
 
     return [
       columnHelper.accessor(
-        (run) =>
-          run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
-            ?.key_photo_thumbnail_url,
+        (run) => run.tomograms.edges[0]?.node.keyPhotoThumbnailUrl ?? undefined,
         {
           id: 'key-photo',
           header: () => <p />,
-
-          cell: ({ row: { original: run } }) => (
+          cell: ({ getValue, row: { original: run } }) => (
             <TableCell
               width={RunTableWidths.photo}
               renderLoadingSkeleton={false}
@@ -91,10 +88,7 @@ export function RunsTable() {
               <KeyPhoto
                 className="max-w-[134px]"
                 title={run.name}
-                src={
-                  run.tomogram_voxel_spacings?.[0]?.tomograms?.[0]
-                    ?.key_photo_thumbnail_url ?? undefined
-                }
+                src={getValue()}
                 loading={isLoadingDebounced}
                 textOnGroupHover={
                   isHoveringOverInteractable ? undefined : 'openRun'
@@ -153,7 +147,8 @@ export function RunsTable() {
       }),
 
       columnHelper.accessor(
-        (run) => run.tiltseries_aggregate?.aggregate?.avg?.tilt_series_quality,
+        (run) =>
+          run.tiltseriesAggregate?.aggregate?.[0]?.avg?.tiltSeriesQuality,
         {
           id: 'tilt-series-quality',
           header: () => (
@@ -166,7 +161,7 @@ export function RunsTable() {
           ),
 
           cell: ({ getValue }) => {
-            const score = getValue() as TiltSeriesScore | null | undefined
+            const score = getValue()
 
             return (
               <TableCell width={RunTableWidths.tiltSeriesQuality}>
@@ -181,91 +176,69 @@ export function RunsTable() {
         },
       ),
 
-      columnHelper.accessor((run) => run.tomogram_voxel_spacings, {
-        id: 'annotatedObjects',
+      columnHelper.accessor(
+        (run) =>
+          run.annotationsAggregate?.aggregate
+            ?.map((aggregate) => aggregate.groupBy?.objectName)
+            .filter(isDefined) ?? [],
+        {
+          id: 'annotatedObjects',
 
-        header: () => (
-          <CellHeader width={RunTableWidths.annotatedObjects}>
-            {t('annotatedObjects')}
-          </CellHeader>
-        ),
+          header: () => (
+            <CellHeader width={RunTableWidths.annotatedObjects}>
+              {t('annotatedObjects')}
+            </CellHeader>
+          ),
 
-        cell({ getValue }) {
-          const voxelSpacings = getValue()
-          const annotatedObjects = Array.from(
-            new Set(
-              voxelSpacings?.flatMap?.((voxelSpacing) =>
-                voxelSpacing.annotations.flatMap(
-                  (annotation) => annotation.object_name,
-                ),
-              ),
-            ),
-          )
-
-          return (
+          cell: ({ getValue }) => (
             <TableCell
               renderLoadingSkeleton={false}
               width={RunTableWidths.annotatedObjects}
             >
-              {annotatedObjects.length === 0 ? (
+              {getValue().length === 0 ? (
                 '--'
               ) : (
                 <AnnotatedObjectsList
-                  annotatedObjects={annotatedObjects}
+                  annotatedObjects={getValue()}
                   isLoading={isLoadingDebounced}
                 />
               )}
             </TableCell>
+          ),
+        },
+      ),
+
+      columnHelper.accessor((run) => run.tomograms.edges[0]?.node, {
+        id: 'viewTomogram',
+        header: () => <CellHeader width={RunTableWidths.actions} />,
+        cell({ row: { original: run }, getValue }) {
+          const tomogram = getValue()
+          return (
+            <TableCell horizontalAlign="right" width={RunTableWidths.actions}>
+              <ViewTomogramButton
+                tomogramId={tomogram?.id.toString()}
+                buttonProps={{
+                  sdsType: 'secondary',
+                  sdsStyle: 'square',
+                  startIcon: (
+                    <Icon sdsIcon="Cube" sdsType="button" sdsSize="s" />
+                  ),
+                }}
+                event={{
+                  datasetId: dataset.id,
+                  organism: dataset.organismName ?? 'None',
+                  runId: run.id,
+                  tomogramId: tomogram?.id ?? 'None',
+                  type: 'dataset',
+                }}
+                tooltipPlacement="top"
+                neuroglancerConfig={tomogram?.neuroglancerConfig}
+                setIsHoveringOver={setIsHoveringOverInteractable}
+              />
+            </TableCell>
           )
         },
       }),
-
-      columnHelper.accessor(
-        (run) =>
-          run.tomogram_voxel_spacings?.find(
-            (voxelSpacing) => voxelSpacing.tomograms[0].neuroglancer_config,
-          )?.tomograms?.[0]?.neuroglancer_config,
-        {
-          id: 'viewTomogram',
-          header: () => <CellHeader width={RunTableWidths.actions} />,
-
-          cell({ row, getValue }) {
-            const neuroglancerConfig = getValue()
-
-            const run = row.original
-            const tomogram = run.tomogram_voxel_spacings
-              .find(
-                (voxelSpacing) => voxelSpacing.tomograms[0].neuroglancer_config,
-              )
-              ?.tomograms.at(0)
-
-            return (
-              <TableCell horizontalAlign="right" width={RunTableWidths.actions}>
-                <ViewTomogramButton
-                  tomogramId={tomogram?.id?.toString()}
-                  buttonProps={{
-                    sdsType: 'secondary',
-                    sdsStyle: 'square',
-                    startIcon: (
-                      <Icon sdsIcon="Cube" sdsType="button" sdsSize="s" />
-                    ),
-                  }}
-                  event={{
-                    datasetId: dataset.id,
-                    organism: dataset.organism_name ?? 'None',
-                    runId: run.id,
-                    tomogramId: tomogram?.id ?? 'None',
-                    type: 'dataset',
-                  }}
-                  tooltipPlacement="top"
-                  neuroglancerConfig={neuroglancerConfig}
-                  setIsHoveringOver={setIsHoveringOverInteractable}
-                />
-              </TableCell>
-            )
-          },
-        },
-      ),
     ] as ColumnDef<Run>[]
   }, [
     isLoadingDebounced,
@@ -273,7 +246,7 @@ export function RunsTable() {
     t,
     getRunUrl,
     dataset.id,
-    dataset.organism_name,
+    dataset.organismName,
   ])
 
   return (

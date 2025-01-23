@@ -35,7 +35,7 @@ export function DatasetHeader() {
         </div>
       }
       breadcrumbs={<Breadcrumbs variant="dataset" data={dataset} />}
-      lastModifiedDate={dataset.last_modified_date ?? dataset.deposition_date}
+      lastModifiedDate={dataset.lastModifiedDate.split('T')[0]}
       metadata={[
         {
           key: t('datasetId'),
@@ -43,13 +43,13 @@ export function DatasetHeader() {
         },
       ]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Dataset)}
-      releaseDate={dataset.release_date}
+      releaseDate={dataset.releaseDate.split('T')[0]}
       title={dataset.title}
       renderHeader={({ moreInfo }) => (
         <div className="flex flex-row w-full justify-between gap-sds-xxl p-sds-xl">
           <HeaderKeyPhoto
             title={dataset.title}
-            url={dataset.key_photo_url ?? undefined}
+            url={dataset.keyPhotoUrl ?? undefined}
           />
 
           <div className="flex flex-col gap-sds-xl flex-1 min-w-[300px]">
