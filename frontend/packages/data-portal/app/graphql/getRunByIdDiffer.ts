@@ -297,8 +297,10 @@ export function logIfHasDiff(
         authors: {
           edges: file.annotation.authors.map((author) => ({
             node: {
-              primaryAuthorStatus: author.primary_author_status ?? false,
-              correspondingAuthorStatus: author.corresponding_author_status,
+              primaryAuthorStatus: Boolean(author.primary_author_status),
+              correspondingAuthorStatus: Boolean(
+                author.corresponding_author_status,
+              ),
               name: author.name,
               email: author.email,
               orcid: author.orcid,
