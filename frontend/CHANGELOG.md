@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.45.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.45.0...web-v1.45.1) (2025-01-24)
+
+
+### 🐞 Bug Fixes
+
+* Fix hydration errors throughout app ([#1507](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1507)) ([fd44d14](https://github.com/chanzuckerberg/cryoet-data-portal/commit/fd44d1416a9303354e2cdbd032900b2e1c64b586))
+* Model/weight method links not properly rendered ([#1509](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1509)) ([4f967c0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4f967c0a8502bc28e2740f2d4f433dbb299dd8cb))
+* Remove time zones from tomogram date fields ([#1511](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1511)) ([76c4b05](https://github.com/chanzuckerberg/cryoet-data-portal/commit/76c4b053bc1fa5ef149428077b942b58380b6d82))
+
 ## [1.45.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.44.0...web-v1.45.0) (2025-01-23)
 
 
