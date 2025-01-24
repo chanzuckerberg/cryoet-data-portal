@@ -12,6 +12,8 @@ import {
   Tomogram_Reconstruction_Method_Enum,
 } from 'app/__generated_v2__/graphql'
 
+import { removeTypenames } from './common'
+
 /* eslint-disable no-console, no-param-reassign, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return */
 export function logIfHasDiff(
   url: string,
@@ -21,6 +23,8 @@ export function logIfHasDiff(
   console.log('Checking for run query diffs')
 
   v2 = structuredClone(v2)
+  removeTypenames(v2)
+
   // There are no alignments in V1.
   delete v2.alignmentsAggregate.aggregate
   for (const annotationShape of v2.annotationShapes) {

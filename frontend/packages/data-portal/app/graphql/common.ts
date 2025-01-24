@@ -272,3 +272,15 @@ export function getDatasetsFilter({
 
   return where
 }
+
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, no-param-reassign, @typescript-eslint/no-unsafe-argument */
+// TODO(bchu): Delete this after migration.
+export function removeTypenames(object: any): void {
+  delete object?.__typename__
+
+  for (const [value] of Object.entries(object)) {
+    if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
+      removeTypenames(value)
+    }
+  }
+}
