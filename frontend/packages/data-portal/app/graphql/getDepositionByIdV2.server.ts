@@ -51,32 +51,6 @@ const GET_DEPOSITION_BY_ID = gql(`
           count
         }
       }
-      distinctOrganismNames: datasetsAggregate {
-        aggregate {
-          count
-          groupBy {
-            organismName
-          }
-        }
-      }
-      distinctObjectNames: annotationsAggregate {
-        aggregate {
-          count
-          groupBy {
-            objectName
-          }
-        }
-      }
-      distinctShapeTypes: annotationsAggregate {
-        aggregate {
-          count
-          groupBy {
-            annotationShapes {
-              shapeType
-            }
-          }
-        }
-      }
       annotationMethodCounts: annotationsAggregate {
         aggregate {
           count

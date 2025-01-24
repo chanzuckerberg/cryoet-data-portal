@@ -19,7 +19,7 @@ import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { logIfHasDiff } from 'app/graphql/getDatasetsDiffer'
 import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { getDatasetsV2 } from 'app/graphql/getDatasetsV2.server'
-import { useDatasets } from 'app/hooks/useDatasets'
+import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useI18n } from 'app/hooks/useI18n'
 import {
   useBrowseDatasetFilterHistory,
@@ -83,7 +83,7 @@ function BrowseDatasetTableHeader(props: TableHeaderProps) {
 }
 
 export default function BrowseDatasetsPage() {
-  const { datasetCount, filteredDatasetCount } = useDatasets()
+  const { filteredDatasetsCount, totalDatasetsCount } = useDatasetsFilterData()
   const { t } = useI18n()
 
   const { setPreviousBrowseDatasetParams } = useBrowseDatasetFilterHistory()
@@ -104,8 +104,8 @@ export default function BrowseDatasetsPage() {
           filterPanel: <DatasetFilter />,
           table: <DatasetTable />,
           noFilteredResults: <NoFilteredResults showSearchTip />,
-          filteredCount: filteredDatasetCount,
-          totalCount: datasetCount,
+          filteredCount: filteredDatasetsCount,
+          totalCount: totalDatasetsCount,
           countLabel: t('datasets'),
           Header: BrowseDatasetTableHeader,
         },
