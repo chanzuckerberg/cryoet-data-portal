@@ -281,6 +281,10 @@ export function removeTypenames(object: any): void {
   for (const [, value] of Object.entries(object)) {
     if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
       removeTypenames(value)
+      continue
+    }
+    if (Array.isArray(value)) {
+      value.forEach(removeTypenames)
     }
   }
 }
