@@ -18,7 +18,7 @@ export interface MethodLinkProps {
 
 const METHOD_TYPE_TO_I18N_KEY: { [key in MethodLinkType]: I18nKeys } = {
   source_code: 'sourceCode',
-  model_weights: 'modelWeights',
+  models_weights: 'modelWeights',
   website: 'website',
   documentation: 'documentation',
   other: 'other',
@@ -28,7 +28,7 @@ export const ICON_MAP: { [key in MethodLinkType]: ReactNode } = {
   source_code: (
     <SourceCodeIcon className="w-sds-icon-s h-sds-icon-s inline-block" />
   ),
-  model_weights: (
+  models_weights: (
     <WeightsIcon className="w-sds-icon-s h-sds-icon-s inline-block" />
   ),
   website: (
