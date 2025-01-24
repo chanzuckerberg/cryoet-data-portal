@@ -278,7 +278,7 @@ export function getDatasetsFilter({
 export function removeTypenames(object: any): void {
   delete object?.__typename
 
-  for (const [value] of Object.entries(object)) {
+  for (const [, value] of Object.entries(object)) {
     if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
       removeTypenames(value)
     }
