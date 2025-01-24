@@ -153,7 +153,11 @@ export async function getDepositionByIdV2({
         filterState: getFilterState(params),
         depositionId: id,
       }),
-      datasetsByDepositionFilter: depositionIdFilter,
+      datasetsByDepositionFilter: {
+        runs: {
+          annotations: depositionIdFilter,
+        },
+      },
       tiltseriesByDepositionFilter: depositionIdFilter,
       tomogramsByDepositionFilter: depositionIdFilter,
       annotationsByDepositionFilter: depositionIdFilter,
