@@ -345,8 +345,9 @@ export function AnnotationTable() {
                     datasetId: run.dataset.id,
                     runId: run.id,
                     annotationId: annotation.id,
-                    referenceTomogramId: tomograms.find(
-                      (tomogram) => tomogram.isPortalStandard,
+                    referenceTomogramId: (
+                      tomograms.find((tomogram) => tomogram.isPortalStandard) ??
+                      tomograms.at(0)
                     )?.id,
                     objectShapeType: annotation.shape_type,
                     fileFormat: annotation.format,
