@@ -12,7 +12,7 @@ import {
 } from 'app/__generated_v2__/graphql'
 import { MethodLinkDataType } from 'app/components/Deposition/MethodLinks/type'
 
-import { convertReconstructionMethodToV2 } from './common'
+import { convertReconstructionMethodToV2, removeTypenames } from './common'
 
 /* eslint-disable no-console, no-param-reassign */
 export function logIfHasDiff(
@@ -25,6 +25,7 @@ export function logIfHasDiff(
   console.log('Checking for deposition query diffs')
 
   v2 = structuredClone(v2)
+  removeTypenames(v2)
 
   // Condense per dataset annotation aggregates into single run where the first aggregate has the
   // count of all groups and all other counts are 0. The V1 counts are grouped by
