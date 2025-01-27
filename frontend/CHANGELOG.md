@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.46.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.45.1...web-v1.46.0) (2025-01-27)
+
+
+### ✨ Features
+
+* Disable API migration test ([#1532](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1532)) ([8941b7b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8941b7bc7b49ac851a5f1cf0fdd83b070a058384))
+
+
+### 🐞 Bug Fixes
+
+* Ignore __typename in diff logs ([#1518](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1518)) ([f1b5416](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f1b5416f75d69444088420bc139cec1304480805))
+* Update prod image_pull_policy to Always ([#1534](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1534)) ([c738b36](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c738b361a4b21642ec99b26133c8f4998c06b788))
+* Update staging image_pull_policy ([#1533](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1533)) ([4e9f133](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4e9f133473dfb3e58d1100de48dfea46f9161c45))
+
 ## [1.45.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.45.0...web-v1.45.1) (2025-01-24)
 
 
