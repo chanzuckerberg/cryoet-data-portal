@@ -22,7 +22,9 @@ export function logIfHasDiff(
   v1AnnotationMethodCounts: Map<string, number>,
   v2: GetDepositionByIdV2Query,
 ): void {
-  console.log('Checking for deposition query diffs')
+  console.log(
+    `Checking for deposition query diffs ${new Date().toLocaleString()}`,
+  )
 
   v2 = structuredClone(v2)
 

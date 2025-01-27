@@ -18,7 +18,7 @@ export function logIfHasDiff(
   v1: GetRunByIdQuery,
   v2: GetRunByIdV2Query,
 ): void {
-  console.log('Checking for run query diffs')
+  console.log(`Checking for run query diffs ${new Date().toLocaleString()}`)
 
   v2 = structuredClone(v2)
   // There are no alignments in V1.

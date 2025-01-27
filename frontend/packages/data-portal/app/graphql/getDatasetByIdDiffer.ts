@@ -14,7 +14,7 @@ export function logIfHasDiff(
   v1: GetDatasetByIdQuery,
   v2: GetDatasetByIdV2Query,
 ): void {
-  console.log('Checking for dataset query diffs')
+  console.log(`Checking for dataset query diffs ${new Date().toLocaleString()}`)
 
   v2 = structuredClone(v2)
 
