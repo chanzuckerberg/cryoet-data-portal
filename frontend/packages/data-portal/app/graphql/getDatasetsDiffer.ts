@@ -18,7 +18,9 @@ export function logIfHasDiff(
   v1FilterValues: GetDatasetsFilterDataQuery,
   v2: GetDatasetsV2Query,
 ): void {
-  console.log('Checking for datasets query diffs')
+  console.log(
+    `Checking for datasets query diffs ${new Date().toLocaleString()}`,
+  )
 
   v2 = structuredClone(v2)
   removeTypenames(v2)
