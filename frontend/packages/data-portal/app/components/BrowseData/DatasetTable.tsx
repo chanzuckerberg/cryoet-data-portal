@@ -24,25 +24,24 @@ import { IdPrefix } from 'app/constants/idPrefixes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { DatasetTableWidths } from 'app/constants/table'
-import { Dataset, useDatasets } from 'app/hooks/useDatasets'
+import { useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
+import { Dataset } from 'app/types/gql/datasetsPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
+import { isDefined } from 'app/utils/nullish'
 import { getErrorMessage } from 'app/utils/string'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
-const LOADING_DATASETS = range(0, MAX_PER_PAGE).map(
-  (value) =>
-    ({
-      authors: [],
-      id: value,
-      title: `loading-dataset-${value}`,
-      runs: [],
-      runs_aggregate: {},
-    }) as Dataset,
-)
+const LOADING_DATASETS: Dataset[] = range(0, MAX_PER_PAGE).map(() => ({
+  authors: {
+    edges: [],
+  },
+  id: 0,
+  title: '',
+}))
 
 export function DatasetTable() {
   const { t } = useI18n()
@@ -79,7 +78,7 @@ export function DatasetTable() {
 
     try {
       return [
-        columnHelper.accessor('key_photo_thumbnail_url', {
+        columnHelper.accessor('keyPhotoThumbnailUrl', {
           // eslint-disable-next-line jsx-a11y/control-has-associated-label
           header: () => <td />,
 
@@ -95,7 +94,7 @@ export function DatasetTable() {
                   <KeyPhoto
                     className="max-w-[134px]"
                     title={dataset.title}
-                    src={dataset.key_photo_thumbnail_url ?? undefined}
+                    src={dataset.keyPhotoThumbnailUrl ?? undefined}
                     loading={isLoadingDebounced}
                     textOnGroupHover={
                       isClickingOnEmpiarId ? undefined : 'openDataset'
@@ -177,7 +176,12 @@ export function DatasetTable() {
                         />
                       </>
                     ) : (
-                      <AuthorList authors={dataset.authors} compact />
+                      <AuthorList
+                        authors={dataset.authors.edges.map(
+                          (author) => author.node,
+                        )}
+                        compact
+                      />
                     )}
                   </div>
                 </div>
@@ -186,7 +190,7 @@ export function DatasetTable() {
           },
         }),
 
-        columnHelper.accessor('related_database_entries', {
+        columnHelper.accessor('relatedDatabaseEntries', {
           header: () => (
             <CellHeader width={DatasetTableWidths.empiarId}>
               {t('empiarID')}
@@ -224,7 +228,7 @@ export function DatasetTable() {
           },
         }),
 
-        columnHelper.accessor('organism_name', {
+        columnHelper.accessor('organismName', {
           header: () => (
             <CellHeader width={DatasetTableWidths.organismName}>
               {t('organismName')}
@@ -240,7 +244,7 @@ export function DatasetTable() {
         }),
 
         columnHelper.accessor(
-          (dataset) => dataset.runs_aggregate.aggregate?.count,
+          (dataset) => dataset.runsCount?.aggregate?.[0]?.count ?? 0,
           {
             id: 'runs',
 
@@ -255,37 +259,28 @@ export function DatasetTable() {
 
             cell: ({ getValue }) => (
               <TableCell
-                primaryText={String(getValue() ?? 0)}
+                primaryText={getValue().toLocaleString()}
                 width={DatasetTableWidths.runs}
               />
             ),
           },
         ),
 
-        columnHelper.accessor((dataset) => dataset.runs, {
-          id: 'annotatedObjects',
+        columnHelper.accessor(
+          (dataset) =>
+            dataset.distinctObjectNames?.aggregate
+              ?.map((aggregate) => aggregate.groupBy?.annotations?.objectName)
+              .filter(isDefined) ?? [],
+          {
+            id: 'annotatedObjects',
 
-          header: () => (
-            <CellHeader width={DatasetTableWidths.annotatedObjects}>
-              {t('annotatedObjects')}
-            </CellHeader>
-          ),
+            header: () => (
+              <CellHeader width={DatasetTableWidths.annotatedObjects}>
+                {t('annotatedObjects')}
+              </CellHeader>
+            ),
 
-          cell({ getValue }) {
-            const runs = getValue()
-            const annotatedObjects = Array.from(
-              new Set(
-                runs.flatMap((run) =>
-                  run.tomogram_voxel_spacings.flatMap((voxelSpacing) =>
-                    voxelSpacing.annotations.flatMap(
-                      (annotation) => annotation.object_name,
-                    ),
-                  ),
-                ),
-              ),
-            )
-
-            return (
+            cell: ({ getValue }) => (
               <TableCell
                 width={DatasetTableWidths.annotatedObjects}
                 renderLoadingSkeleton={() => (
@@ -296,15 +291,15 @@ export function DatasetTable() {
                   </div>
                 )}
               >
-                {annotatedObjects.length === 0 ? (
+                {getValue().length === 0 ? (
                   '--'
                 ) : (
-                  <AnnotatedObjectsList annotatedObjects={annotatedObjects} />
+                  <AnnotatedObjectsList annotatedObjects={getValue()} />
                 )}
               </TableCell>
-            )
+            ),
           },
-        }),
+        ),
       ] as ColumnDef<Dataset>[]
     } catch (err) {
       sendLogs({
