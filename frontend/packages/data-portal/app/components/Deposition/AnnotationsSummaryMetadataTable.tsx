@@ -1,8 +1,10 @@
+import { Annotation_File_Shape_Type_Enum } from 'app/__generated_v2__/graphql'
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { CollapsibleList } from 'app/components/CollapsibleList'
-import { shapeTypeToI18nKeyPlural } from 'app/constants/objectShapeTypes'
+import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
+import { checkExhaustive } from 'app/types/utils'
 import { getTableData } from 'app/utils/table'
 
 export function AnnotationsSummaryMetadataTable({
@@ -12,8 +14,9 @@ export function AnnotationsSummaryMetadataTable({
 }) {
   const { t } = useI18n()
 
-  const { deposition, objectNames, objectShapeTypes, organismNames } =
-    useDepositionById()
+  const { deposition } = useDepositionById()
+  const { organismNames, objectNames, objectShapeTypes } =
+    useDatasetsFilterData()
 
   const annotationsSummaryMetadata = getTableData(
     {
@@ -54,11 +57,22 @@ export function AnnotationsSummaryMetadataTable({
       values: [],
       renderValue: () => (
         <ul className="flex flex-col list-none gap-sds-xs text-sds-body-s leading-sds-body-s">
-          {Object.entries(shapeTypeToI18nKeyPlural)
-            .filter(([k]) => objectShapeTypes.includes(k))
-            .map(([k, v]) => (
-              <li key={k}>{t(v)}</li>
-            ))}
+          {objectShapeTypes.map((shapeType) => {
+            switch (shapeType) {
+              case Annotation_File_Shape_Type_Enum.InstanceSegmentation:
+                return <li key={shapeType}>{t('instanceSegmentations')}</li>
+              case Annotation_File_Shape_Type_Enum.OrientedPoint:
+                return <li key={shapeType}>{t('orientedPoints')}</li>
+              case Annotation_File_Shape_Type_Enum.Point:
+                return <li key={shapeType}>{t('points')}</li>
+              case Annotation_File_Shape_Type_Enum.SegmentationMask:
+                return <li key={shapeType}>{t('segmentationMasks')}</li>
+              case Annotation_File_Shape_Type_Enum.Mesh:
+                return <li key={shapeType}>{t('meshes')}</li>
+              default:
+                return checkExhaustive(shapeType)
+            }
+          })}
         </ul>
       ),
     },

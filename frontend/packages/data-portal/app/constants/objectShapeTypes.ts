@@ -9,10 +9,3 @@ export const shapeTypeToI18nKey = {
   Point: 'point',
   SegmentationMask: 'segmentationMask',
 } as const satisfies ShapeTypeToI18nKeyMap
-
-export const shapeTypeToI18nKeyPlural = {
-  InstanceSegmentation: 'instanceSegmentations',
-  OrientedPoint: 'orientedPoints',
-  Point: 'points',
-  SegmentationMask: 'segmentationMasks',
-} as const satisfies ShapeTypeToI18nKeyMap

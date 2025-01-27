@@ -73,30 +73,6 @@ export function logIfHasDiff(
   }
   // Counts not used.
   // Create consistent sort order.
-  for (const group of v2.depositions[0].distinctOrganismNames!.aggregate!) {
-    delete group.count
-  }
-  v2.depositions[0].distinctOrganismNames!.aggregate!.sort((groupA, groupB) =>
-    String(groupA.groupBy!.organismName).localeCompare(
-      String(groupB.groupBy!.organismName),
-    ),
-  )
-  for (const group of v2.depositions[0].distinctObjectNames!.aggregate!) {
-    delete group.count
-  }
-  v2.depositions[0].distinctObjectNames!.aggregate!.sort((groupA, groupB) =>
-    String(groupA.groupBy!.objectName).localeCompare(
-      String(groupB.groupBy!.objectName),
-    ),
-  )
-  for (const group of v2.depositions[0].distinctShapeTypes!.aggregate!) {
-    delete group.count
-  }
-  v2.depositions[0].distinctShapeTypes!.aggregate!.sort((groupA, groupB) =>
-    String(groupA.groupBy!.annotationShapes!.shapeType).localeCompare(
-      String(groupB.groupBy!.annotationShapes!.shapeType),
-    ),
-  )
   v2.depositions[0].annotationMethodCounts!.aggregate!.sort((groupA, groupB) =>
     String(groupA.groupBy!.annotationMethod).localeCompare(
       String(groupB.groupBy!.annotationMethod),
@@ -203,51 +179,6 @@ export function logIfHasDiff(
                   },
                 ]
               : [],
-        },
-        distinctOrganismNames: {
-          aggregate: v1
-            .deposition!.organism_names.map((dataset) => ({
-              groupBy: {
-                organismName: dataset.organism_name,
-              },
-            }))
-            .sort((groupA, groupB) =>
-              String(groupA.groupBy.organismName).localeCompare(
-                String(groupB.groupBy.organismName),
-              ),
-            ),
-        },
-        distinctObjectNames: {
-          aggregate: v1
-            .deposition!.object_names.map((annotation) => ({
-              groupBy: {
-                objectName: annotation.object_name,
-              },
-            }))
-            .sort((groupA, groupB) =>
-              String(groupA.groupBy.objectName).localeCompare(
-                String(groupB.groupBy.objectName),
-              ),
-            ),
-        },
-        distinctShapeTypes: {
-          aggregate: [
-            ...new Set(
-              v1.deposition!.annotations.flatMap((annotation) =>
-                annotation.files.map((file) => file.shape_type),
-              ),
-            ),
-          ]
-            .sort((shapeTypeA, shapeTypeB) =>
-              String(shapeTypeA).localeCompare(String(shapeTypeB)),
-            )
-            .map((shapeType) => ({
-              groupBy: {
-                annotationShapes: {
-                  shapeType: shapeType as Annotation_File_Shape_Type_Enum,
-                },
-              },
-            })),
         },
         annotationMethodCounts: {
           aggregate: [...v1AnnotationMethodCounts.entries()]
