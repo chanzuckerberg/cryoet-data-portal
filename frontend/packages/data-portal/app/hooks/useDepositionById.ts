@@ -25,7 +25,7 @@ export function useDepositionById() {
 
   return {
     deposition: v1.deposition as Deposition,
-    datasets: v1.datasets,
+    datasets: v2.datasets,
     annotationMethodCounts,
   }
 }

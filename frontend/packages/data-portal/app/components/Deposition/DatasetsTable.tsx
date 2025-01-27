@@ -4,7 +4,7 @@ import { CellHeaderDirection } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
 import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
-import { range, sum } from 'lodash-es'
+import { range } from 'lodash-es'
 import { useCallback, useMemo } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
@@ -23,26 +23,28 @@ import { IdPrefix } from 'app/constants/idPrefixes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { DepositionPageDatasetTableWidths } from 'app/constants/table'
-import { Dataset, useDepositionById } from 'app/hooks/useDepositionById'
+import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
+import { Dataset } from 'app/types/gql/depositionPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
+import { isDefined } from 'app/utils/nullish'
 import { getErrorMessage } from 'app/utils/string'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
-const LOADING_DATASETS: Dataset[] = range(0, MAX_PER_PAGE).map(
-  (value) =>
-    ({
-      authors: [],
-      id: value,
-      title: `loading-dataset-${value}`,
-      runs: [],
-      runs_aggregate: {},
-    }) as Dataset,
-)
+const LOADING_DATASETS: Dataset[] = range(0, MAX_PER_PAGE).map(() => ({
+  authors: {
+    edges: [],
+  },
+  id: 0,
+  runs: {
+    edges: [],
+  },
+  title: '',
+}))
 
 export function DatasetsTable() {
   const { t } = useI18n()
@@ -78,11 +80,11 @@ export function DatasetsTable() {
 
     try {
       return [
-        columnHelper.accessor('key_photo_thumbnail_url', {
+        columnHelper.accessor('keyPhotoThumbnailUrl', {
           // eslint-disable-next-line jsx-a11y/control-has-associated-label
           header: () => <td />,
 
-          cell({ row: { original: dataset } }) {
+          cell({ getValue, row: { original: dataset } }) {
             const datasetUrl = getDatasetUrl(dataset.id)
 
             return (
@@ -94,7 +96,7 @@ export function DatasetsTable() {
                   <KeyPhoto
                     className="max-w-[134px]"
                     title={dataset.title}
-                    src={dataset.key_photo_thumbnail_url ?? undefined}
+                    src={getValue() ?? undefined}
                     loading={isLoadingDebounced}
                     textOnGroupHover="openDataset"
                   />
@@ -173,7 +175,12 @@ export function DatasetsTable() {
                         />
                       </>
                     ) : (
-                      <AuthorList authors={dataset.authors} compact />
+                      <AuthorList
+                        authors={dataset.authors.edges.map(
+                          (author) => author.node,
+                        )}
+                        compact
+                      />
                     )}
                   </div>
                 </div>
@@ -182,7 +189,7 @@ export function DatasetsTable() {
           },
         }),
 
-        columnHelper.accessor('organism_name', {
+        columnHelper.accessor('organismName', {
           header: () => (
             <CellHeader width={DepositionPageDatasetTableWidths.organism}>
               {t('organism')}
@@ -198,7 +205,7 @@ export function DatasetsTable() {
         }),
 
         columnHelper.accessor(
-          (dataset) => dataset.runs_aggregate?.aggregate?.count,
+          (dataset) => dataset.runsCount?.aggregate?.[0]?.count ?? 0,
           {
             id: 'runs',
 
@@ -224,71 +231,67 @@ export function DatasetsTable() {
 
             cell: ({ getValue }) => (
               <TableCell
-                primaryText={(getValue() ?? 0).toLocaleString()}
+                primaryText={getValue().toLocaleString()}
                 width={DepositionPageDatasetTableWidths.runs}
               />
             ),
           },
         ),
 
-        columnHelper.accessor((dataset) => dataset.runs, {
-          id: 'annotations',
+        columnHelper.accessor(
+          (dataset) =>
+            dataset.runs.edges
+              .flatMap(
+                (run) =>
+                  run.node.annotationsAggregate?.aggregate?.map(
+                    (aggregate) => aggregate.count ?? 0,
+                  ) ?? [],
+              )
+              .reduce((prevCount, nextCount) => prevCount + nextCount, 0),
+          {
+            id: 'annotations',
 
-          header: () => (
-            <CellHeader
-              width={DepositionPageDatasetTableWidths.annotations}
-              subHeader={t('depositionOnly')}
-            >
-              {t('annotations')}
-            </CellHeader>
-          ),
+            header: () => (
+              <CellHeader
+                width={DepositionPageDatasetTableWidths.annotations}
+                subHeader={t('depositionOnly')}
+              >
+                {t('annotations')}
+              </CellHeader>
+            ),
 
-          cell({ getValue }) {
-            const runs = getValue()
-            const annotationCount = sum(
-              runs.flatMap((run) =>
-                run.tomogram_voxel_spacings.flatMap(
-                  (voxelSpacing) =>
-                    voxelSpacing.annotations_aggregate.aggregate?.count ?? 0,
-                ),
-              ),
-            )
-
-            return (
+            cell: ({ getValue }) => (
               <TableCell width={DepositionPageDatasetTableWidths.annotations}>
-                {annotationCount.toLocaleString()}
+                {getValue().toLocaleString()}
               </TableCell>
-            )
+            ),
           },
-        }),
+        ),
 
-        columnHelper.accessor((dataset) => dataset.runs, {
-          id: 'annotatedObjects',
-
-          header: () => (
-            <CellHeader
-              width={DepositionPageDatasetTableWidths.annotatedObjects}
-              subHeader={t('depositionOnly')}
-            >
-              {t('annotatedObjects')}
-            </CellHeader>
-          ),
-
-          cell({ getValue }) {
-            const runs = getValue()
-            const annotatedObjects = Array.from(
-              new Set(
-                runs.flatMap((run) =>
-                  run.tomogram_voxel_spacings.flatMap((voxelSpacing) =>
-                    voxelSpacing.annotations.flatMap(
-                      (annotation) => annotation.object_name,
-                    ),
-                  ),
-                ),
+        columnHelper.accessor(
+          (dataset) => [
+            ...new Set(
+              dataset.runs.edges.flatMap(
+                (run) =>
+                  run.node.annotationsAggregate?.aggregate
+                    ?.map((aggregate) => aggregate.groupBy?.objectName)
+                    .filter(isDefined) ?? [],
               ),
-            )
+            ),
+          ],
+          {
+            id: 'annotatedObjects',
 
-            return (
+            header: () => (
+              <CellHeader
+                width={DepositionPageDatasetTableWidths.annotatedObjects}
+                subHeader={t('depositionOnly')}
+              >
+                {t('annotatedObjects')}
+              </CellHeader>
+            ),
+
+            cell: ({ getValue }) => (
               <TableCell
                 width={DepositionPageDatasetTableWidths.annotatedObjects}
                 renderLoadingSkeleton={() => (
@@ -299,15 +302,15 @@ export function DatasetsTable() {
                   </div>
                 )}
               >
-                {annotatedObjects.length === 0 ? (
+                {getValue().length === 0 ? (
                   '--'
                 ) : (
-                  <AnnotatedObjectsList annotatedObjects={annotatedObjects} />
+                  <AnnotatedObjectsList annotatedObjects={getValue()} />
                 )}
               </TableCell>
-            )
+            ),
           },
-        }),
+        ),
       ] as ColumnDef<Dataset>[]
     } catch (err) {
       sendLogs({
