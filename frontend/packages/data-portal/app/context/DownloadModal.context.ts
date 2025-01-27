@@ -1,7 +1,6 @@
 import { createContext, useContext } from 'react'
 
-import { GetRunByIdQuery } from 'app/__generated__/graphql'
-import { TomogramV2 } from 'app/types/gql/runPageTypes'
+import { AnnotationShape, TomogramV2 } from 'app/types/gql/runPageTypes'
 
 export type DownloadModalType = 'dataset' | 'runs' | 'annotation'
 
