@@ -67,7 +67,7 @@ export function IndexCTA() {
           title={t('exploreDocs')}
           text={t('exploreDocsCTA')}
           buttonText={t('viewDocs')}
-          url='https://chanzuckerberg.github.io/cryoet-data-portal'
+          url="https://chanzuckerberg.github.io/cryoet-data-portal"
         />
       </div>
     </div>
