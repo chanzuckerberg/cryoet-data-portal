@@ -23,7 +23,7 @@ jobs:
     name: find release PR
     runs-on: ubuntu-latest
     if: github.repository == 'chanzuckerberg/cryoet-data-portal'
-    # needs: run-staging-e2e-test
+    needs: run-staging-e2e-test
     steps:
       - name: find release PR
         uses: actions/github-script@v7
@@ -53,14 +53,14 @@ jobs:
 
             return pr
 
-  # run-staging-e2e-test:
-  #   name: Run e2e test on staging
-  #   uses: ./.github/workflows/frontend-e2e-tests.yml
-  #   secrets: inherit
-  #   # The variable IS_DEPLOY_ALLOWED is used to manually gate the prod deploys
-  #   if: vars.IS_DEPLOY_ALLOWED == 'true'
-  #   with:
-  #     environment: staging
+  run-staging-e2e-test:
+    name: Run e2e test on staging
+    uses: ./.github/workflows/frontend-e2e-tests.yml
+    secrets: inherit
+    # The variable IS_DEPLOY_ALLOWED is used to manually gate the prod deploys
+    if: vars.IS_DEPLOY_ALLOWED == 'true'
+    with:
+      environment: staging
 
   tag-frontend-release:
 
