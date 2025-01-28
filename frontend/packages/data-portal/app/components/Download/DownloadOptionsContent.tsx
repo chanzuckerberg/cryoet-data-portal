@@ -165,7 +165,12 @@ export function DownloadOptionsContent() {
         <AnnotationAlignmentCallout
           alignmentId={annotationFileAlignmentId}
           initialState="closed"
-          misalignedTomograms={[]}
+          misalignedTomograms={
+            allTomograms?.filter(
+              (tomogram) =>
+                tomogram.alignment?.id !== annotationFileAlignmentId,
+            ) ?? []
+          }
         />
       ) : (
         <Callout intent="notice" className="!w-full !mt-sds-xl">
