@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.47.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.46.0...web-v1.47.0) (2025-01-28)
+
+
+### ✨ Features
+
+* Add timestamps to diff logs ([#1541](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1541)) ([c9fab5a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c9fab5a2c841952e8f9519e6fcdeebb4298a2f4e))
+* Complete migration of datasets page to V2 ([#1550](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1550)) ([bd7d690](https://github.com/chanzuckerberg/cryoet-data-portal/commit/bd7d69018483967f074a9320ba6418d920501dd6))
+* Convert deposition page datasets table to use V2 data ([#1549](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1549)) ([d9cb610](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d9cb6104d67251d25a1f87149d74927b538f9783))
+* Finish migrating deposition and datasets aggregates to use V2 ([#1512](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1512)) ([6221819](https://github.com/chanzuckerberg/cryoet-data-portal/commit/62218192c6fb1b2731116fc859af297609027588))
+* Stop using V1 annotation method counts query in deposition page, switch to main deposition V2 query ([#1517](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1517)) ([ded3162](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ded3162ff6352da9e721488d4680bd411d06f8af))
+
 ## [1.46.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.45.1...web-v1.46.0) (2025-01-27)
 
 
