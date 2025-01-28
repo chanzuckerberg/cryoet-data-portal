@@ -12,6 +12,10 @@ import {
 import { range, toNumber } from 'lodash-es'
 import { ComponentProps, ReactNode, useCallback, useMemo } from 'react'
 
+import {
+  Annotation_File_Shape_Type_Enum,
+  Annotation_Method_Type_Enum,
+} from 'app/__generated_v2__/graphql'
 import { AuthorList } from 'app/components/AuthorList'
 import { I18n } from 'app/components/I18n'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
@@ -35,32 +39,37 @@ import {
   useMetadataDrawer,
 } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
-import { AnnotationRow, useAnnotation } from 'app/state/annotation'
+import { useAnnotation } from 'app/state/annotation'
+import { AnnotationShape } from 'app/types/gql/runPageTypes'
 import { I18nKeys } from 'app/types/i18n'
 import { ObjectShapeType } from 'app/types/shapeTypes'
 import { DASHED_BORDERED_CLASSES } from 'app/utils/classNames'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
-const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<AnnotationRow>(() => ({
-  annotation_method: '',
-  author_affiliations: [],
-  authors_aggregate: {},
-  authors: [],
-  confidence_precision: 0,
-  deposition_date: '',
-  files: [],
-  ground_truth_status: false,
-  id: 0,
-  object_count: 0,
-  object_id: '',
-  object_name: '',
-  release_date: '',
-  format: '',
-  https_path: '',
-  s3_path: '',
-  shape_type: '',
-  fileId: 0,
-}))
+const LOADING_ANNOTATIONS: AnnotationShape[] = range(0, MAX_PER_PAGE).map(
+  () => ({
+    annotationFiles: {
+      edges: [],
+    },
+    annotation: {
+      annotationMethod: '',
+      authors: {
+        edges: [],
+      },
+      depositionDate: '',
+      id: 0,
+      lastModifiedDate: '',
+      methodLinks: {
+        edges: [],
+      },
+      methodType: Annotation_Method_Type_Enum.Manual,
+      objectId: '',
+      objectName: '',
+      releaseDate: '',
+    },
+    shapeType: Annotation_File_Shape_Type_Enum.Point,
+  }),
+)
 
 function ConfidenceValue({ value }: { value: number }) {
   const { t } = useI18n()
@@ -78,7 +87,7 @@ function ConfidenceValue({ value }: { value: number }) {
 export function AnnotationTable() {
   const { isLoadingDebounced } = useIsLoading()
   const [searchParams] = useSearchParams()
-  const { run, annotationFiles, annotationFilesAggregates, tomograms } =
+  const { run, annotationShapes, annotationFilesAggregates, tomograms } =
     useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { setActiveAnnotation } = useAnnotation()
@@ -87,7 +96,7 @@ export function AnnotationTable() {
   const { openAnnotationDownloadModal } = useDownloadModalQueryParamState()
 
   const openAnnotationDrawer = useCallback(
-    (annotation: AnnotationRow) => {
+    (annotation: AnnotationShape) => {
       setActiveAnnotation(annotation)
       toggleDrawer(MetadataDrawerId.Annotation)
     },
@@ -95,7 +104,7 @@ export function AnnotationTable() {
   )
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<AnnotationRow>()
+    const columnHelper = createColumnHelper<AnnotationShape>()
 
     function getConfidenceCell({
       cellHeaderProps,
@@ -105,7 +114,7 @@ export function AnnotationTable() {
     }: {
       cellHeaderProps?: Partial<ComponentProps<typeof CellHeader>>
       header: string
-      key: keyof AnnotationRow
+      key: keyof AnnotationShape
       tooltipI18nKey?: I18nKeys
     }) {
       return columnHelper.accessor(key, {
@@ -141,13 +150,13 @@ export function AnnotationTable() {
     }
 
     return [
-      columnHelper.accessor('id', {
+      columnHelper.accessor((annotationShape) => annotationShape.annotation, {
+        id: 'annotationName',
         header: () => (
           <CellHeader width={AnnotationTableWidths.id}>
             {t('annotationName')}
           </CellHeader>
         ),
-
         cell: ({ row: { original: annotation } }) => (
           <TableCell
             className="flex flex-col gap-sds-xxxs !items-start"
@@ -378,23 +387,6 @@ export function AnnotationTable() {
     tomograms,
   ])
 
-  const annotations = useMemo(
-    () =>
-      annotationFiles.map((annotationFile) => {
-        const {
-          annotation: _,
-          id,
-          ...restAnnotationFileFields
-        } = annotationFile
-        return {
-          fileId: id,
-          ...restAnnotationFileFields,
-          ...annotationFile.annotation,
-        } as AnnotationRow
-      }),
-    [annotationFiles],
-  )
-
   const currentPage = toNumber(
     searchParams.get(QueryParams.AnnotationsPage) ?? 1,
   )
@@ -457,7 +449,7 @@ export function AnnotationTable() {
 
   return (
     <PageTable
-      data={isLoadingDebounced ? LOADING_ANNOTATIONS : annotations}
+      data={isLoadingDebounced ? LOADING_ANNOTATIONS : annotationShapes}
       columns={columns}
       getBeforeRowElement={getGroundTruthDividersForRow}
       getAfterTableElement={getGroundTruthDividersWhenNoRows}
