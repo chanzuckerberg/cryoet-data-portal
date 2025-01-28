@@ -64,10 +64,10 @@ export function IndexCTA() {
         />
         <div className="bg-sds-color-primitive-gray-200 h-sds-xxxs sm:w-sds-xxxs sm:row-span-2 sm:h-full" />
         <CTA
-          title={t('participateInOurCompetition')}
-          text={t('participateInOurCompetitionCTA')}
-          buttonText={t('learnMore')}
-          url="/competition"
+          title={t('exploreDocs')}
+          text={t('exploreDocsCTA')}
+          buttonText={t('viewDocs')}
+          url='https://chanzuckerberg.github.io/cryoet-data-portal'
         />
       </div>
     </div>
