@@ -65,6 +65,10 @@ export function DownloadOptionsContent() {
   const referenceTomogram = allTomograms?.find(
     (tomogram) => tomogram.id.toString() === referenceTomogramId,
   )
+  const annotationFileAlignmentId =
+    annotationShapeToDownload?.annotationFiles.edges.find(
+      (file) => file.node.format === fileFormat,
+    )?.node.alignmentId ?? undefined
   const DownloadTabContent = DOWNLOAD_TAB_MAP[selectedTab]
 
   return (
@@ -115,16 +119,10 @@ export function DownloadOptionsContent() {
           value={getTomogramName(referenceTomogram)}
         />
       )}
-      {annotationShapeToDownload && tomogramToDownload?.alignment && (
+      {annotationFileAlignmentId !== undefined && (
         <ModalSubtitle
           label={t('alignmentId')}
-          value={tomogramToDownload.alignment.id}
-        />
-      )}
-      {annotationShapeToDownload && (
-        <ModalSubtitle
-          label={t('alignmentId')}
-          value={`${IdPrefix.Alignment}-${annotationShapeToDownload.id}`} Wait for Kira's PR cuz of merge conflicts
+          value={`${IdPrefix.Alignment}-${annotationFileAlignmentId}`}
         />
       )}
       {fileFormat && (
@@ -163,10 +161,9 @@ export function DownloadOptionsContent() {
 
       <DownloadTabContent />
 
-      {annotationShapeToDownload !== undefined &&
-      tomogramToDownload?.alignment ? (
+      {annotationFileAlignmentId !== undefined ? (
         <AnnotationAlignmentCallout
-          alignmentId={tomogramToDownload.alignment.id}
+          alignmentId={annotationFileAlignmentId}
           initialState="closed"
           misalignedTomograms={[]}
         />
