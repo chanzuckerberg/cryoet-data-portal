@@ -119,7 +119,7 @@ html_theme_options = {
         },
         {
             "version": "stable",
-            "title": "Stable",
+            "title": "Stable (v3.0)",
             "aliases": [],
         },
     ],
