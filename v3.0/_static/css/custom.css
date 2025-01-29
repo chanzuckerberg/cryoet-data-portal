@@ -491,3 +491,19 @@ div .centered-quote {
   margin-left: 20px;
   width: 100%;
 }
+
+/* Version dropdown */
+.md-version {
+  font-size: 0.65rem !important;
+  color: hsl(0deg 0% 80.39%) !important;
+}
+
+.md-version__item {
+  font-weight: 400;
+  color: hsl(0deg 0% 80.39%) !important;
+}
+
+.md-version__list {
+  margin-top: 2rem;
+  background-color: #101010;
+}
