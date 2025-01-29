@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.47.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.47.0...web-v1.47.1) (2025-01-29)
+
+
+### 🧹 Miscellaneous Chores
+
+* Skip failing test ([#1553](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1553)) ([2c5b084](https://github.com/chanzuckerberg/cryoet-data-portal/commit/2c5b0841f00e0a5bb2b92de08055f42afb6c5d12))
+
 ## [1.47.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.46.0...web-v1.47.0) (2025-01-28)
 
 
