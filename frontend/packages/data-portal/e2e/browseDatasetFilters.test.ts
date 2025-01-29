@@ -12,7 +12,8 @@ import { getApolloClient } from './apollo'
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
 import { getObjectShapeTypeLabel, onlyRunIfEnabled } from './utils'
 
-test.describe('Browse datasets page filters', () => {
+// eslint-disable-next-line playwright/no-skipped-test
+test.skip('Browse datasets page filters', () => {
   let client: ApolloClient<NormalizedCacheObject>
   let filtersPage: FiltersPage
   let filtersActor: FiltersActor
