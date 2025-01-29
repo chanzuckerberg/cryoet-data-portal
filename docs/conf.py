@@ -118,9 +118,9 @@ html_theme_options = {
             "aliases": [],
         },
         {
-            "version": "stable",
+            "version": "v3.0",
             "title": "Stable (v3.0)",
-            "aliases": [],
+            "aliases": ["stable"],
         },
     ],
 }
