@@ -65,9 +65,7 @@ export function AnnotatedObjectsList({
           <Tooltip
             classes={{ tooltip: '!p-0 !bg-transparent' }}
             placement="left"
-            tooltip={
-              <List className="font-semibold">{nodes}</List>
-            }
+            tooltip={<List className="font-semibold">{nodes}</List>}
           >
             <div
               className={cns(
