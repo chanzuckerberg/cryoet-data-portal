@@ -8,8 +8,9 @@ describe('utils/url', () => {
       expect(isExternalUrl('https://www.google.com')).toBe(true)
     })
 
-    it('should return true for external URLs', () => {
-      expect(isExternalUrl('https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_faq.html')).toBe(true)
+   it('should return true for non-external URLs', () => {
+      expect(isExternalUrl('/competition')).toBe(false)
+    })
     })
   })
 
