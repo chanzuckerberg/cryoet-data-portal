@@ -33,6 +33,7 @@ export function Radio({
       className: cns(
         'flex gap-sds-default p-sds-l transition-colors text-left',
         isActive && 'bg-sds-color-primitive-gray-100',
+        'hover:bg-sds-color-primitive-gray-100',
       ),
       ...(isActive
         ? {}
