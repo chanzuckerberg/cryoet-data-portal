@@ -8,12 +8,10 @@ describe('utils/url', () => {
       expect(isExternalUrl('https://www.google.com')).toBe(true)
     })
 
-   it('should return true for non-external URLs', () => {
+    it('should return true for non-external URLs', () => {
       expect(isExternalUrl('/competition')).toBe(false)
     })
-    })
   })
-
   describe('createUrl()', () => {
     it('should create url object without host', () => {
       const url = createUrl('/path')
