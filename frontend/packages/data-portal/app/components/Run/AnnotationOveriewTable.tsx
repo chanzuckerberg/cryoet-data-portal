@@ -5,39 +5,40 @@ import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorList } from 'app/components/AuthorList'
 import { MethodLink } from 'app/components/Deposition/MethodLinks'
-import { generateMethodLinks } from 'app/components/Deposition/MethodLinks/common'
-import { MethodLinkDataType } from 'app/components/Deposition/MethodLinks/type'
+import { generateMethodLinksV2 } from 'app/components/Deposition/MethodLinks/common'
 import { Link } from 'app/components/Link'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
-import { useAnnotation } from 'app/state/annotation'
+import { useSelectedAnnotationShape } from 'app/state/annotation'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { I18n } from '../I18n'
 import { Tooltip } from '../Tooltip'
 
 export function AnnotationOverviewTable() {
-  const { activeAnnotation: annotation } = useAnnotation()
+  const { selectedAnnotationShape } = useSelectedAnnotationShape()
   const { t } = useI18n()
   const isDepositionsEnabled = useFeatureFlag('depositions')
 
   const methodLinks = useMemo(
     () =>
-      generateMethodLinks(
-        (annotation?.method_links ?? []) as MethodLinkDataType[],
+      generateMethodLinksV2(
+        selectedAnnotationShape?.annotation?.methodLinks.edges.map(
+          (methodLink) => methodLink.node,
+        ) ?? [],
       ),
-    [annotation],
+    [selectedAnnotationShape],
   )
 
   const { annotationShapes } = useRunById()
   const v2AnnotationShape = annotationShapes.find(
     (currentAnnotation) =>
-      currentAnnotation.annotation?.id === annotation?.id &&
-      currentAnnotation.shapeType === annotation?.shape_type,
+      currentAnnotation.annotation?.id === selectedAnnotationShape?.id &&
+      currentAnnotation.shapeType === selectedAnnotationShape?.shapeType,
   )
 
-  if (!annotation) {
+  if (!selectedAnnotationShape) {
     return null
   }
 
@@ -48,22 +49,34 @@ export function AnnotationOverviewTable() {
       data={[
         {
           label:
-            annotation.authors.length === 1
+            selectedAnnotationShape.annotation?.authors.edges.length === 1
               ? t('annotationAuthor')
               : t('annotationAuthors'),
           labelExtra: <AuthorLegend inline />,
           renderValue: () => {
-            return <AuthorList authors={annotation.authors} large />
+            return (
+              <AuthorList
+                authors={
+                  selectedAnnotationShape.annotation?.authors.edges.map(
+                    (author) => author.node,
+                  ) ?? []
+                }
+                large
+              />
+            )
           },
           values: [''],
           className: 'leading-sds-body-s',
         },
         {
           label: t('publication'),
-          values: [annotation.annotation_publication ?? '--'],
+          values: [
+            selectedAnnotationShape.annotation?.annotationPublication ?? '--',
+          ],
         },
 
-        ...(isDepositionsEnabled && annotation.deposition
+        ...(isDepositionsEnabled &&
+        selectedAnnotationShape.annotation?.deposition
           ? [
               {
                 label: t('depositionName'),
@@ -71,30 +84,34 @@ export function AnnotationOverviewTable() {
                 renderValue: () => (
                   <Link
                     className="text-sds-color-primitive-blue-400"
-                    to={`/depositions/${annotation.deposition?.id}`}
+                    to={`/depositions/${selectedAnnotationShape.annotation?.deposition?.id}`}
                   >
-                    {annotation.deposition?.title}
+                    {selectedAnnotationShape.annotation?.deposition?.title}
                   </Link>
                 ),
               },
               {
                 label: t('depositionId'),
-                values: [`${IdPrefix.Deposition}-${annotation.deposition?.id}`],
+                values: [
+                  `${IdPrefix.Deposition}-${selectedAnnotationShape.annotation?.deposition?.id}`,
+                ],
               },
             ]
           : []),
 
         {
           label: t('depositionDate'),
-          values: [annotation.deposition_date],
+          values: [selectedAnnotationShape.annotation?.depositionDate ?? '--'],
         },
         {
           label: t('releaseDate'),
-          values: [annotation.release_date],
+          values: [selectedAnnotationShape.annotation?.releaseDate ?? '--'],
         },
         {
           label: t('lastModifiedDate'),
-          values: [annotation.last_modified_date ?? '--'],
+          values: [
+            selectedAnnotationShape.annotation?.lastModifiedDate ?? '--',
+          ],
         },
         {
           label: t('alignmentId'),
@@ -112,21 +129,24 @@ export function AnnotationOverviewTable() {
             </Tooltip>
           ),
           values: [
+            // Assumes all files have the same alignment ID.
             v2AnnotationShape?.annotationFiles.edges.at(0)?.node.alignmentId ??
               '--',
           ],
         },
         {
           label: t('methodType'),
-          values: [annotation.method_type ?? '--'],
+          values: [selectedAnnotationShape.annotation?.methodType ?? '--'],
         },
         {
           label: t('annotationMethod'),
-          values: [annotation.annotation_method],
+          values: [selectedAnnotationShape.annotation?.annotationMethod],
         },
         {
           label: t('annotationSoftware'),
-          values: [annotation.annotation_software ?? '--'],
+          values: [
+            selectedAnnotationShape.annotation?.annotationSoftware ?? '--',
+          ],
         },
 
         ...(isDepositionsEnabled

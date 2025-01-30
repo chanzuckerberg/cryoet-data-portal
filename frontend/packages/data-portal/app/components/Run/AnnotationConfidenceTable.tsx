@@ -1,9 +1,9 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { useI18n } from 'app/hooks/useI18n'
-import { useAnnotation } from 'app/state/annotation'
+import { useSelectedAnnotationShape } from 'app/state/annotation'
 
 export function AnnotationConfidenceTable() {
-  const { activeAnnotation: annotation } = useAnnotation()
+  const { activeAnnotation: annotation } = useSelectedAnnotationShape()
   const { t } = useI18n()
 
   if (!annotation) {

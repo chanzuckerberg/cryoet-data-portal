@@ -2,7 +2,7 @@ import { MetadataDrawer } from 'app/components/MetadataDrawer'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
 import { i18n } from 'app/i18n'
-import { useAnnotation } from 'app/state/annotation'
+import { useSelectedAnnotationShape } from 'app/state/annotation'
 import { getAnnotationTitle } from 'app/utils/annotation'
 
 import { AnnotationConfidenceTable } from './AnnotationConfidenceTable'
@@ -10,7 +10,7 @@ import { AnnotationObjectTable } from './AnnotationObjectTable/AnnotationObjectT
 import { AnnotationOverviewTable } from './AnnotationOveriewTable'
 
 export function AnnotationDrawer() {
-  const { activeAnnotation, setActiveAnnotation } = useAnnotation()
+  const { activeAnnotation, setActiveAnnotation } = useSelectedAnnotationShape()
 
   return (
     <MetadataDrawer

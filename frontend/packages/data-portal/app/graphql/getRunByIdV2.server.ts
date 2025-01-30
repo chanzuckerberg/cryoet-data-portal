@@ -215,6 +215,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         offset: $annotationShapesOffset
       }
     ) {
+      id
       shapeType
       annotationFiles {
         edges {

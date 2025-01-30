@@ -1,7 +1,7 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
 import { useI18n } from 'app/hooks/useI18n'
-import { useAnnotation } from 'app/state/annotation'
+import { useSelectedAnnotationShape } from 'app/state/annotation'
 import { ObjectShapeType } from 'app/types/shapeTypes'
 import { getTableData } from 'app/utils/table'
 
@@ -9,7 +9,7 @@ import { ObjectIdLink } from './components/ObjectIdLink'
 
 export function AnnotationObjectTable() {
   const { t } = useI18n()
-  const { activeAnnotation: annotation } = useAnnotation()
+  const { activeAnnotation: annotation } = useSelectedAnnotationShape()
 
   if (!annotation) {
     return null

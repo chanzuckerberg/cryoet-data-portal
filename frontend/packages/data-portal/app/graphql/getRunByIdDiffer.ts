@@ -28,6 +28,8 @@ export function logIfHasDiff(
   // There are no alignments in V1.
   delete v2.alignmentsAggregate.aggregate
   for (const annotationShape of v2.annotationShapes) {
+    // No equivalent ID in V1.
+    annotationShape.id = 0
     // There are no alignments in V1.
     for (const annotationFile of annotationShape.annotationFiles.edges) {
       delete annotationFile.node.alignmentId
@@ -251,6 +253,7 @@ export function logIfHasDiff(
     })),
     alignmentsAggregate: {},
     annotationShapes: v1.annotation_files.map((file) => ({
+      id: 0,
       shapeType: file.shape_type as Annotation_File_Shape_Type_Enum,
       annotationFiles: {
         edges: file.annotation.files

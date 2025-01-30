@@ -3,16 +3,18 @@ import { useMemo } from 'react'
 
 import { AnnotationShape } from 'app/types/gql/runPageTypes'
 
-const activeAnnotationAtom = atom<AnnotationShape | null>(null)
+const selectedAnnotationAtom = atom<AnnotationShape | null>(null)
 
-export function useAnnotation() {
-  const [activeAnnotation, setActiveAnnotation] = useAtom(activeAnnotationAtom)
+export function useSelectedAnnotationShape() {
+  const [selectedAnnotationShape, setSelectedAnnotationShape] = useAtom(
+    selectedAnnotationAtom,
+  )
 
   return useMemo(
     () => ({
-      activeAnnotation,
-      setActiveAnnotation,
+      selectedAnnotationShape,
+      setSelectedAnnotationShape,
     }),
-    [activeAnnotation, setActiveAnnotation],
+    [selectedAnnotationShape, setSelectedAnnotationShape],
   )
 }
