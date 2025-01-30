@@ -17,7 +17,7 @@ export function AnnotationDrawer() {
       disabled={!selectedAnnotationShape}
       drawerId={MetadataDrawerId.Annotation}
       label={i18n.annotationDetails}
-      title={`${selectedAnnotationShape?.id} - ${selectedAnnotationShape?.annotation?.objectName}`}
+      title={`${selectedAnnotationShape?.id} ${selectedAnnotationShape?.annotation?.objectName}`}
       idInfo={{
         label: 'annotationId',
         text: `${IdPrefix.Annotation}-${selectedAnnotationShape?.annotation?.id}`,

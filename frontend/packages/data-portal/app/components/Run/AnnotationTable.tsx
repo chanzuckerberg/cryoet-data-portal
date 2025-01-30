@@ -22,9 +22,8 @@ import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import {
-  methodLabels,
-  methodTooltipLabels,
-  MethodType,
+  getMethodTypeLabelI18nKey,
+  getMethodTypeTooltipI18nKey,
 } from 'app/constants/methodTypes'
 import { getShapeTypeI18nKey } from 'app/constants/objectShapeTypes'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
@@ -289,35 +288,25 @@ export function AnnotationTable() {
           </CellHeader>
         ),
 
-        cell: ({ getValue, row: { original: annotationShape } }) => {
-          if (!getValue()) {
-            return (
-              <TableCell width={AnnotationTableWidths.methodType}>--</TableCell>
-            )
-          }
-
-          const methodType = getValue() as MethodType
-
-          return (
-            <TableCell
-              width={AnnotationTableWidths.methodType}
-              tooltip={<I18n i18nKey={methodTooltipLabels[methodType]} />}
-              tooltipProps={{ placement: 'top' }}
+        cell: ({ getValue, row: { original: annotationShape } }) => (
+          <TableCell
+            width={AnnotationTableWidths.methodType}
+            tooltip={<I18n i18nKey={getMethodTypeTooltipI18nKey(getValue())} />}
+            tooltipProps={{ placement: 'top' }}
+          >
+            {/* convert to link when activate annotation state is moved to URL */}
+            <button
+              className={cnsNoMerge(
+                'text-sds-header-s leading-sds-header-s',
+                DASHED_BORDERED_CLASSES,
+              )}
+              onClick={() => openAnnotationDrawer(annotationShape)}
+              type="button"
             >
-              {/* convert to link when activate annotation state is moved to URL */}
-              <button
-                className={cnsNoMerge(
-                  'text-sds-header-s leading-sds-header-s',
-                  DASHED_BORDERED_CLASSES,
-                )}
-                onClick={() => openAnnotationDrawer(annotationShape)}
-                type="button"
-              >
-                {t(methodLabels[methodType])}
-              </button>
-            </TableCell>
-          )
-        },
+              {t(getMethodTypeLabelI18nKey(getValue()))}
+            </button>
+          </TableCell>
+        ),
       }),
 
       getConfidenceCell({
