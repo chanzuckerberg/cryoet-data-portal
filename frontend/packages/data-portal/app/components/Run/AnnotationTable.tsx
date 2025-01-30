@@ -189,7 +189,7 @@ export function AnnotationTable() {
                     {t('annotationId')}: {IdPrefix.Annotation}-
                   </span>
                   <span data-testid={TestIds.AnnotationId}>
-                    {annotationShape.id}
+                    {annotationShape.annotation?.id}
                   </span>
                 </p>
 
@@ -240,7 +240,7 @@ export function AnnotationTable() {
         cell: ({ getValue }) => (
           <TableCell width={AnnotationTableWidths.depositionDate}>
             <div className="line-clamp-2 text-ellipsis capitalize">
-              {getValue()}
+              {getValue().split('T')[0]}
             </div>
           </TableCell>
         ),

@@ -228,6 +228,7 @@
   "limitOneValuePerField": "Limit one value per field",
   "manual": "Manual",
   "meetsAll": "Meets all",
+  "mesh": "Mesh",
   "meshes": "Meshes",
   "metadata": "Metadata",
   "methodCount": "Method {{ value }}",

@@ -3,14 +3,14 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useSelectedAnnotationShape } from 'app/state/annotation'
 
 export function AnnotationConfidenceTable() {
-  const { activeAnnotation: annotation } = useSelectedAnnotationShape()
+  const { selectedAnnotationShape } = useSelectedAnnotationShape()
   const { t } = useI18n()
 
-  if (!annotation) {
+  if (!selectedAnnotationShape) {
     return null
   }
 
-  const isGroundTruth = annotation.ground_truth_status
+  const isGroundTruth = selectedAnnotationShape.annotation?.groundTruthStatus
 
   return (
     <AccordionMetadataTable
@@ -26,7 +26,7 @@ export function AnnotationConfidenceTable() {
           values: [
             isGroundTruth
               ? t('notApplicable')
-              : annotation.ground_truth_used ?? '--',
+              : selectedAnnotationShape.annotation?.groundTruthUsed ?? '--',
           ],
           className: 'text-sds-color-primitive-gray-500',
         },
@@ -35,7 +35,7 @@ export function AnnotationConfidenceTable() {
           values: [
             isGroundTruth
               ? t('notApplicable')
-              : annotation.confidence_precision ?? '--',
+              : selectedAnnotationShape.annotation?.confidenceRecall ?? '--',
           ],
           className: 'text-sds-color-primitive-gray-500',
         },
@@ -44,7 +44,7 @@ export function AnnotationConfidenceTable() {
           values: [
             isGroundTruth
               ? t('notApplicable')
-              : annotation.confidence_recall ?? '--',
+              : selectedAnnotationShape.annotation?.confidenceRecall ?? '--',
           ],
           className: 'text-sds-color-primitive-gray-500',
         },

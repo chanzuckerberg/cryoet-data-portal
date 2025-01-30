@@ -11,7 +11,6 @@ import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
 import { useSelectedAnnotationShape } from 'app/state/annotation'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { I18n } from '../I18n'
 import { Tooltip } from '../Tooltip'
@@ -19,7 +18,6 @@ import { Tooltip } from '../Tooltip'
 export function AnnotationOverviewTable() {
   const { selectedAnnotationShape } = useSelectedAnnotationShape()
   const { t } = useI18n()
-  const isDepositionsEnabled = useFeatureFlag('depositions')
 
   const methodLinks = useMemo(
     () =>
@@ -75,8 +73,7 @@ export function AnnotationOverviewTable() {
           ],
         },
 
-        ...(isDepositionsEnabled &&
-        selectedAnnotationShape.annotation?.deposition
+        ...(selectedAnnotationShape.annotation?.deposition
           ? [
               {
                 label: t('depositionName'),
@@ -101,16 +98,24 @@ export function AnnotationOverviewTable() {
 
         {
           label: t('depositionDate'),
-          values: [selectedAnnotationShape.annotation?.depositionDate ?? '--'],
+          values: [
+            selectedAnnotationShape.annotation?.depositionDate.split('T')[0] ??
+              '--',
+          ],
         },
         {
           label: t('releaseDate'),
-          values: [selectedAnnotationShape.annotation?.releaseDate ?? '--'],
+          values: [
+            selectedAnnotationShape.annotation?.releaseDate.split('T')[0] ??
+              '--',
+          ],
         },
         {
           label: t('lastModifiedDate'),
           values: [
-            selectedAnnotationShape.annotation?.lastModifiedDate ?? '--',
+            selectedAnnotationShape.annotation?.lastModifiedDate.split(
+              'T',
+            )[0] ?? '--',
           ],
         },
         {
@@ -140,7 +145,9 @@ export function AnnotationOverviewTable() {
         },
         {
           label: t('annotationMethod'),
-          values: [selectedAnnotationShape.annotation?.annotationMethod],
+          values: [
+            selectedAnnotationShape.annotation?.annotationMethod ?? '--',
+          ],
         },
         {
           label: t('annotationSoftware'),
@@ -148,37 +155,32 @@ export function AnnotationOverviewTable() {
             selectedAnnotationShape.annotation?.annotationSoftware ?? '--',
           ],
         },
-
-        ...(isDepositionsEnabled
-          ? [
-              {
-                label: t('methodLinks'),
-                // No value required for this field, render only links component
-                values: [''],
-                renderValue: () =>
-                  methodLinks.length > 0 ? (
-                    <ul>
-                      {methodLinks.map((link) => (
-                        <li key={`${link.url}_${link.i18nLabel}_${link.title}`}>
-                          <MethodLink
-                            {...link}
-                            className="text-sds-header-s leading-sds-header-s whitespace-nowrap overflow-hidden text-ellipsis"
-                            linkProps={{
-                              className:
-                                'text-sds-color-primitive-blue-400 overflow-hidden text-ellipsis',
-                            }}
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-sds-body-s leading-sds-body-s text-sds-color-primitive-gray-500">
-                      {t('notSubmitted')}
-                    </p>
-                  ),
-              },
-            ]
-          : []),
+        {
+          label: t('methodLinks'),
+          // No value required for this field, render only links component
+          values: [''],
+          renderValue: () =>
+            methodLinks.length > 0 ? (
+              <ul>
+                {methodLinks.map((link) => (
+                  <li key={`${link.url}_${link.i18nLabel}_${link.title}`}>
+                    <MethodLink
+                      {...link}
+                      className="text-sds-header-s leading-sds-header-s whitespace-nowrap overflow-hidden text-ellipsis"
+                      linkProps={{
+                        className:
+                          'text-sds-color-primitive-blue-400 overflow-hidden text-ellipsis',
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sds-body-s leading-sds-body-s text-sds-color-primitive-gray-500">
+                {t('notSubmitted')}
+              </p>
+            ),
+        },
       ]}
     />
   )

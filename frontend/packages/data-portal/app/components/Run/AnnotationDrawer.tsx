@@ -3,26 +3,26 @@ import { IdPrefix } from 'app/constants/idPrefixes'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
 import { i18n } from 'app/i18n'
 import { useSelectedAnnotationShape } from 'app/state/annotation'
-import { getAnnotationTitle } from 'app/utils/annotation'
 
 import { AnnotationConfidenceTable } from './AnnotationConfidenceTable'
 import { AnnotationObjectTable } from './AnnotationObjectTable/AnnotationObjectTable'
 import { AnnotationOverviewTable } from './AnnotationOveriewTable'
 
 export function AnnotationDrawer() {
-  const { activeAnnotation, setActiveAnnotation } = useSelectedAnnotationShape()
+  const { selectedAnnotationShape, setSelectedAnnotationShape } =
+    useSelectedAnnotationShape()
 
   return (
     <MetadataDrawer
-      disabled={!activeAnnotation}
+      disabled={!selectedAnnotationShape}
       drawerId={MetadataDrawerId.Annotation}
       label={i18n.annotationDetails}
-      title={getAnnotationTitle(activeAnnotation)}
+      title={`${selectedAnnotationShape?.id} - ${selectedAnnotationShape?.annotation?.objectName}`}
       idInfo={{
         label: 'annotationId',
-        text: `${IdPrefix.Annotation}-${activeAnnotation?.id}`,
+        text: `${IdPrefix.Annotation}-${selectedAnnotationShape?.annotation?.id}`,
       }}
-      onClose={() => setActiveAnnotation(null)}
+      onClose={() => setSelectedAnnotationShape(null)}
     >
       <AnnotationOverviewTable />
       <AnnotationObjectTable />
