@@ -271,7 +271,7 @@ export async function getAnnotationTestData(
   const { annotation } = data.annotation_files[0]
 
   return {
-    title: `${annotation.id} - ${annotation.object_name}`,
+    title: `${annotation.id} ${annotation.object_name}`,
     metadata: getAnnotationTestMetdata(annotation),
   }
 }
