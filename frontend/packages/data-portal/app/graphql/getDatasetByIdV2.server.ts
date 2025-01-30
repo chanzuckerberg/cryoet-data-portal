@@ -6,7 +6,6 @@ import type {
 
 import { gql } from 'app/__generated_v2__'
 import {
-  Annotation_File_Shape_Type_Enum,
   GetDatasetByIdV2Query,
   RunWhereClause,
 } from 'app/__generated_v2__/graphql'
@@ -265,8 +264,7 @@ function getRunFilter(
     where.annotations ??= {}
     where.annotations.annotationShapes = {
       shapeType: {
-        _in: filterState.annotation
-          .objectShapeTypes as Annotation_File_Shape_Type_Enum[], // TODO(bchu): Remove typecast.
+        _in: filterState.annotation.objectShapeTypes,
       },
     }
   }
