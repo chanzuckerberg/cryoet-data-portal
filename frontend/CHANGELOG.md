@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.48.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.47.1...web-v1.48.0) (2025-01-29)
+
+
+### ✨ Features
+
+* Add CTA for docsite on Portal homepage ([#1552](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1552)) ([97c987e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/97c987e67311a00d391c452af1233b83e15477ed))
+* Take down ML Challenge banner ([#1554](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1554)) ([7fc4ac2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7fc4ac28f6f05fb7969f9f094e4086e7d9f22734))
+
 ## [1.47.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.47.0...web-v1.47.1) (2025-01-29)
 
 
