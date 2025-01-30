@@ -14,15 +14,15 @@ const DEV_LINKS = [
   },
   {
     label: i18n.api,
-    href: 'https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html',
+    href: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/python-api.html',
   },
   {
     label: i18n.napariPlugin,
-    href: 'https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html',
+    href: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_napari.html',
   },
   {
     label: i18n.documentation,
-    href: 'https://chanzuckerberg.github.io/cryoet-data-portal/index.html',
+    href: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/index.html',
   },
 ]
 
