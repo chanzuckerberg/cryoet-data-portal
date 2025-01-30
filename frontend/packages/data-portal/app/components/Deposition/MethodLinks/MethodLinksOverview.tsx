@@ -17,6 +17,7 @@ import { useI18n } from 'app/hooks/useI18n'
 import { generateMethodLinks } from './common'
 import { MethodLink } from './MethodLink'
 import { MethodLinkDataType } from './type'
+import { Annotation_Method_Type_Enum } from 'app/__generated_v2__/graphql'
 
 function MethodTypeSection({
   methodType,
@@ -87,11 +88,17 @@ export function MethodLinksOverview() {
         {t('annotationMethodsSummary')}
       </PageHeaderSubtitle>
       <div className="p-sds-l flex flex-col gap-sds-l bg-sds-color-primitive-gray-100  rounded-sds-m">
-        {deposition.annotation_methods
-          .sort(
-            (a, b) =>
-              methodTypes.indexOf((a.method_type ?? 'manual') as MethodType) -
-              methodTypes.indexOf((b.method_type ?? 'manual') as MethodType),
+        {deposition.annotationMethodAndMethodLinksCombinations?.aggregate
+          ?.sort(
+            (aggregateA, aggregateB) =>
+              methodTypes.indexOf(
+                aggregateA.groupBy?.methodType ??
+                  Annotation_Method_Type_Enum.Manual,
+              ) -
+              methodTypes.indexOf(
+                aggregateB.groupBy?.methodType ??
+                  Annotation_Method_Type_Enum.Manual,
+              ),
           )
           .map(({ method_type, method_links }, i) => (
             <>

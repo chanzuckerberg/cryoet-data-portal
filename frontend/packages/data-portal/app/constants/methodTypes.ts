@@ -2,7 +2,12 @@ import { Annotation_Method_Type_Enum } from 'app/__generated_v2__/graphql'
 import { I18nKeys } from 'app/types/i18n'
 import { checkExhaustive } from 'app/types/utils'
 
-export const methodTypes = ['hybrid', 'automated', 'manual'] as const
+export const METHOD_TYPE_ORDER = [
+  Annotation_Method_Type_Enum.Hybrid,
+  Annotation_Method_Type_Enum.Automated,
+  Annotation_Method_Type_Enum.Manual,
+  Annotation_Method_Type_Enum.Simulated,
+]
 
 export type MethodType = (typeof methodTypes)[number]
 
