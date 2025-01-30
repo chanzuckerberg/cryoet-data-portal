@@ -26,7 +26,7 @@ import {
   methodTooltipLabels,
   MethodType,
 } from 'app/constants/methodTypes'
-import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
+import { getShapeTypeI18nKey } from 'app/constants/objectShapeTypes'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { AnnotationTableWidths } from 'app/constants/table'
@@ -42,7 +42,6 @@ import { useRunById } from 'app/hooks/useRunById'
 import { useSelectedAnnotationShape } from 'app/state/annotation'
 import { AnnotationShape } from 'app/types/gql/runPageTypes'
 import { I18nKeys } from 'app/types/i18n'
-import { ObjectShapeType } from 'app/types/shapeTypes'
 import { DASHED_BORDERED_CLASSES } from 'app/utils/classNames'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
@@ -267,11 +266,14 @@ export function AnnotationTable() {
           </CellHeader>
         ),
 
-        cell: ({ getValue }) => (
-          <TableCell width={AnnotationTableWidths.files}>
-            {t(shapeTypeToI18nKey[getValue() as ObjectShapeType])}
-          </TableCell>
-        ),
+        cell: ({ getValue }) => {
+          const shapeType = getValue()
+          return (
+            <TableCell width={AnnotationTableWidths.files}>
+              {shapeType != null ? t(getShapeTypeI18nKey(shapeType)) : '--'}
+            </TableCell>
+          )
+        },
       }),
 
       columnHelper.accessor('annotation.methodType', {

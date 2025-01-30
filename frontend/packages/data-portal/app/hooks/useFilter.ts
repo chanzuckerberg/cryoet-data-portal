@@ -2,6 +2,7 @@ import { useLocation, useSearchParams } from '@remix-run/react'
 import { useCallback, useMemo } from 'react'
 import { match, P } from 'ts-pattern'
 
+import { Annotation_File_Shape_Type_Enum } from 'app/__generated_v2__/graphql'
 import { QueryParams } from 'app/constants/query'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
 import {
@@ -72,7 +73,13 @@ export function getFilterState(searchParams: URLSearchParams) {
 
       objectNames: searchParams.getAll(QueryParams.ObjectName),
 
-      objectShapeTypes: searchParams.getAll(QueryParams.ObjectShapeType),
+      objectShapeTypes: searchParams
+        .getAll(QueryParams.ObjectShapeType)
+        .filter((shapeType): shapeType is Annotation_File_Shape_Type_Enum =>
+          Object.values<string>(Annotation_File_Shape_Type_Enum).includes(
+            shapeType,
+          ),
+        ),
     },
   }
 }
