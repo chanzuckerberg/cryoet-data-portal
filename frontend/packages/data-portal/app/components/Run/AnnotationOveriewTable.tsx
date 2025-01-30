@@ -9,7 +9,6 @@ import { generateMethodLinksV2 } from 'app/components/Deposition/MethodLinks/com
 import { Link } from 'app/components/Link'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
-import { useRunById } from 'app/hooks/useRunById'
 import { useSelectedAnnotationShape } from 'app/state/annotation'
 
 import { I18n } from '../I18n'
@@ -27,13 +26,6 @@ export function AnnotationOverviewTable() {
         ) ?? [],
       ),
     [selectedAnnotationShape],
-  )
-
-  const { annotationShapes } = useRunById()
-  const v2AnnotationShape = annotationShapes.find(
-    (currentAnnotation) =>
-      currentAnnotation.annotation?.id === selectedAnnotationShape?.id &&
-      currentAnnotation.shapeType === selectedAnnotationShape?.shapeType,
   )
 
   if (!selectedAnnotationShape) {
@@ -135,8 +127,8 @@ export function AnnotationOverviewTable() {
           ),
           values: [
             // Assumes all files have the same alignment ID.
-            v2AnnotationShape?.annotationFiles.edges.at(0)?.node.alignmentId ??
-              '--',
+            selectedAnnotationShape?.annotationFiles.edges[0]?.node
+              .alignmentId ?? '--',
           ],
         },
         {
