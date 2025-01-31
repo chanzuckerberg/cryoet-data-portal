@@ -143,24 +143,34 @@ export function CompletedChallengeLayout() {
       <JumpToAnchor id={CompletedMLChallengeSectionId.Impact} />
       <Section color="primary100">
         <div className="flex flex-col screen-760:flex-row justify-between gap-sds-xl">
-          <div className='screen-760:max-w-[500px]'>
+          <div className="screen-760:max-w-[500px]">
             <h2 className="text-[34px] font-semibold mb-sds-xxl mt-[60px]">
               Impact
             </h2>
             <h3 className="text-sds-header-xl leading-sds-header-xl font-semibold mt-sds-xxl">
-              Read the paper on the phantom sample and reference annotations 
+              Read the paper on the phantom sample and reference annotations
             </h3>
             <p className="text-sds-body-m leading-sds-body-m text-sds-color-primitive-gray-700 mt-sds-xl mb-sds-xxl">
-            The phantom sample contained several protein complexes to mimic cellular CryoET data. Generating reference annotations took months utilizing improved methods for particle picking.
+              The phantom sample contained several protein complexes to mimic
+              cellular CryoET data. Generating reference annotations took months
+              utilizing improved methods for particle picking.
             </p>
             <Link to="/TODO">
-              <Button sdsStyle="rounded" sdsType="primary" className="mb-sds-xxl">
+              <Button
+                sdsStyle="rounded"
+                sdsType="primary"
+                className="mb-sds-xxl"
+              >
                 Read Paper
               </Button>
             </Link>
           </div>
           <div className="w-[113%] left-[-7%] screen-760:left-0 relative screen-1024:w-[340px]">
-            <img className="w-full" src="/images/researchPaper.svg" alt="Impact Preview" />
+            <img
+              className="w-full"
+              src="/images/researchPaper.svg"
+              alt="Impact Preview"
+            />
           </div>
         </div>
       </Section>
