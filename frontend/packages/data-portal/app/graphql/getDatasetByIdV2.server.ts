@@ -35,7 +35,7 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
       lastModifiedDate
       releaseDate
       depositionDate
-
+      fileSize
       # Dataset metadata
       id
       title

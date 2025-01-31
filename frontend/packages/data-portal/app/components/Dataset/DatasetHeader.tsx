@@ -1,4 +1,5 @@
 import { Button, Icon } from '@czi-sds/components'
+import prettyBytes from 'pretty-bytes'
 
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { DatasetOverview } from 'app/components/Dataset/DatasetOverview'
@@ -40,6 +41,10 @@ export function DatasetHeader() {
         {
           key: t('datasetId'),
           value: `${IdPrefix.Dataset}-${dataset.id}`,
+        },
+        {
+          key: t('estimatedDownloadSize'),
+          value: dataset.fileSize ? prettyBytes(dataset.fileSize) : 'None',
         },
       ]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Dataset)}
