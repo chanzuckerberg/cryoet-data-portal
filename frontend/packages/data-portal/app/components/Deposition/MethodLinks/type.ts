@@ -1,5 +1,3 @@
-import { MethodType } from 'app/constants/methodTypes'
-
 // note: below is also used for ordering in lists
 export const METHOD_LINK_TYPES = [
   'source_code',
