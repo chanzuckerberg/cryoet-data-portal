@@ -1,47 +1,54 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
-import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
+import { getShapeTypeI18nKey } from 'app/constants/objectShapeTypes'
 import { useI18n } from 'app/hooks/useI18n'
-import { useAnnotation } from 'app/state/annotation'
-import { ObjectShapeType } from 'app/types/shapeTypes'
+import { useSelectedAnnotationShape } from 'app/state/annotation'
 import { getTableData } from 'app/utils/table'
 
 import { ObjectIdLink } from './components/ObjectIdLink'
 
 export function AnnotationObjectTable() {
   const { t } = useI18n()
-  const { activeAnnotation: annotation } = useAnnotation()
+  const { selectedAnnotationShape } = useSelectedAnnotationShape()
 
-  if (!annotation) {
+  if (!selectedAnnotationShape) {
     return null
   }
 
   const annotationObject = getTableData(
     {
       label: t('objectName'),
-      values: [annotation.object_name],
+      values: [selectedAnnotationShape.annotation?.objectName ?? '--'],
     },
     {
       label: t('objectId'),
       renderValue: () => {
-        return <ObjectIdLink id={annotation.object_id} />
+        return (
+          <ObjectIdLink
+            id={selectedAnnotationShape.annotation?.objectId ?? ''}
+          />
+        )
       },
       values: [],
     },
     {
       label: t('objectCount'),
-      values: [String(annotation.object_count)],
+      values: [String(selectedAnnotationShape.annotation?.objectCount)],
     },
     {
       label: t('objectShapeType'),
-      values: [t(shapeTypeToI18nKey[annotation.shape_type as ObjectShapeType])],
+      values: [
+        selectedAnnotationShape.shapeType != null
+          ? t(getShapeTypeI18nKey(selectedAnnotationShape.shapeType))
+          : '--',
+      ],
     },
     {
       label: t('objectState'),
-      values: [annotation.object_state ?? '--'],
+      values: [selectedAnnotationShape.annotation?.objectState ?? '--'],
     },
     {
       label: t('objectDescription'),
-      values: [annotation.object_description ?? '--'],
+      values: [selectedAnnotationShape.annotation?.objectDescription ?? '--'],
     },
   )
 

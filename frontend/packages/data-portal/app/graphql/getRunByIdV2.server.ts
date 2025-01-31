@@ -6,7 +6,6 @@ import {
 
 import { gql } from 'app/__generated_v2__'
 import {
-  Annotation_File_Shape_Type_Enum,
   Annotation_Method_Type_Enum,
   AnnotationShapeWhereClause,
   GetRunByIdV2Query,
@@ -215,6 +214,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         offset: $annotationShapesOffset
       }
     ) {
+      id
       shapeType
       annotationFiles {
         edges {
@@ -451,7 +451,7 @@ function getAnnotationShapesFilter(
   } = filterState
   if (objectShapeTypes.length > 0) {
     where.shapeType = {
-      _in: objectShapeTypes as Annotation_File_Shape_Type_Enum[],
+      _in: objectShapeTypes,
     }
   }
 
