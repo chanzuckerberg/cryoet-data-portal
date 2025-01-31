@@ -1,5 +1,6 @@
 import { Callout, CalloutTitle } from '@czi-sds/components'
 import RadioGroup from '@mui/material/RadioGroup'
+import prettyBytes from 'pretty-bytes'
 import { useCallback } from 'react'
 import { match } from 'ts-pattern'
 
@@ -60,6 +61,16 @@ export function ConfigureTomogramDownloadContent() {
           description={t('selectASpecificTomogram')}
           onClick={setTomogramConfigWithInitialValues}
         >
+          <div>
+            {t('estimatedDownloadSizeMrc')}:{' '}
+            {tomogramToDownload?.fileSizeMrc &&
+              prettyBytes(Number(tomogramToDownload.fileSizeMrc))}
+          </div>
+          <div>
+            {t('estimatedDownloadSizeZarr')}:{' '}
+            {tomogramToDownload?.fileSizeOmezarr &&
+              prettyBytes(Number(tomogramToDownload.fileSizeOmezarr))}
+          </div>
           <div className="flex flex-col gap-sds-l">
             <div className="flex items-center gap-sds-l pt-sds-m">
               <TomogramSelector
@@ -88,7 +99,15 @@ export function ConfigureTomogramDownloadContent() {
           disabledTooltip={t('noAnnotationsAvailableToDownload')}
           description={t('downloadAvailableAnnotationsInSupported')}
           onClick={setAllAnnotationsConfig}
-        />
+        >
+          <div>
+            {t('estimatedDownloadSize')}:{' '}
+            {prettyBytes(
+              Number(allTomograms[0]?.fileSizeOmezarr ?? 0) +
+                Number(allTomograms[0]?.fileSizeMrc ?? 0),
+            )}
+          </div>
+        </Radio>
       </RadioGroup>
 
       {runId && (

@@ -40,6 +40,9 @@ export function TomogramSelectorOption({
       <div className="text-sds-body-xxs text-sds-color-primitive-gray-500 font-normal capitalize">
         {t('postProcessing')}: {tomogram.processing}
       </div>
+      <div className="text-sds-body-xxs text-sds-color-primitive-gray-500 font-normal capitalize">
+        {t('postProcessing')}: {tomogram.processing}
+      </div>
     </div>
   )
 }

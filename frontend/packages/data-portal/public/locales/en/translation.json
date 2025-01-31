@@ -158,6 +158,8 @@
   "ends": "Ends",
   "energyFilter": "Energy Filter",
   "estimatedDownloadSize": "Estimated Download Size",
+  "estimatedDownloadSizeMrc": "Estimated Download Size MRC",
+  "estimatedDownloadSizeZarr": "Estimated Download Size OME-ZARR",
   "excellent": "Excellent",
   "exploreInPortal": "Explore in Portal",
   "fall2024": "Fall 2024",

@@ -224,6 +224,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
             format
             httpsPath
             s3Path
+            fileSize
           }
         }
       }
@@ -295,6 +296,8 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
       }
       ctfCorrected
       fiducialAlignmentStatus
+      fileSizeMrc
+      fileSizeOmezarr
       httpsMrcFile
       id
       isPortalStandard
