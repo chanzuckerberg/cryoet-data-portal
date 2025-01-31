@@ -22,19 +22,6 @@ export function DepositionOverview() {
 
   const { t } = useI18n()
 
-  const annotationsCount =
-    deposition.annotations_aggregate.aggregate?.count ?? 0
-
-  // clean up entries into lists
-  const publicationEntries = deposition.deposition_publications
-    ?.split(',')
-    .map((e) => e.trim())
-    .filter((e) => DOI_ID.exec(e)) // only show DOI links
-
-  const relatedDatabaseEntries = deposition.related_database_entries
-    ?.split(',')
-    .map((e) => e.trim())
-
   return (
     <div className="flex flex-col gap-sds-xl">
       <div>
@@ -56,7 +43,7 @@ export function DepositionOverview() {
           <AuthorLegend />
         </div>
         <AuthorList
-          authors={deposition.authors}
+          authors={deposition.authors.edges.map((author) => author.node)}
           className="text-sds-body-xxs leading-sds-body-xxs"
           subtle
         />
@@ -68,18 +55,33 @@ export function DepositionOverview() {
             <span className="font-semibold text-sds-color-primitive-common-black">
               {t('annotations')}:
             </span>
-            {annotationsCount.toLocaleString()}
+            {(
+              deposition.annotationMethodCounts?.aggregate?.[0]?.count ?? 0
+            ).toLocaleString()}
           </p>
         </div>
 
         <div className="flex-1 max-w-[260px]">
           <h3 className={sectionHeaderStyles}>{t('publications')}</h3>
-          <DatabaseList entries={publicationEntries} />
+          <DatabaseList
+            entries={deposition.depositionPublications
+              ?.split(',')
+              .map((publication) => publication.trim())
+              .filter((publication) =>
+                // only show DOI links
+                DOI_ID.exec(publication),
+              )}
+          />
         </div>
 
         <div className="flex-1 max-w-[260px]">
           <h3 className={sectionHeaderStyles}>{t('relatedDatabases')}</h3>
-          <DatabaseList entries={relatedDatabaseEntries} collapseAfter={1} />
+          <DatabaseList
+            entries={deposition.relatedDatabaseEntries
+              ?.split(',')
+              .map((entry) => entry.trim())}
+            collapseAfter={1}
+          />
         </div>
       </div>
       <MethodLinksOverview />
