@@ -110,6 +110,19 @@ html_theme_options = {
         "text": "Inter",  # used for all the pages' text
         "code": "Roboto Mono",  # used for literal code blocks
     },
+    "version_dropdown": True,
+    "version_info": [
+        {
+            "version": "dev", # version number or path
+            "title": "Latest",
+            "aliases": [],
+        },
+        {
+            "version": "v3.0",
+            "title": "Stable (v3.0)",
+            "aliases": ["stable"],
+        },
+    ],
 }
 
 # Remove icons from toc elements in API page

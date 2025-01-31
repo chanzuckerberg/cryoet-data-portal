@@ -12,18 +12,24 @@ import {
   Tomogram_Reconstruction_Method_Enum,
 } from 'app/__generated_v2__/graphql'
 
+import { removeTypenames } from './common'
+
 /* eslint-disable no-console, no-param-reassign, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return */
 export function logIfHasDiff(
   url: string,
   v1: GetRunByIdQuery,
   v2: GetRunByIdV2Query,
 ): void {
-  console.log('Checking for run query diffs')
+  console.log(`Checking for run query diffs ${new Date().toLocaleString()}`)
 
   v2 = structuredClone(v2)
+  removeTypenames(v2)
+
   // There are no alignments in V1.
   delete v2.alignmentsAggregate.aggregate
   for (const annotationShape of v2.annotationShapes) {
+    // No equivalent ID in V1.
+    annotationShape.id = 0
     // There are no alignments in V1.
     for (const annotationFile of annotationShape.annotationFiles.edges) {
       delete annotationFile.node.alignmentId
@@ -247,6 +253,7 @@ export function logIfHasDiff(
     })),
     alignmentsAggregate: {},
     annotationShapes: v1.annotation_files.map((file) => ({
+      id: 0,
       shapeType: file.shape_type as Annotation_File_Shape_Type_Enum,
       annotationFiles: {
         edges: file.annotation.files

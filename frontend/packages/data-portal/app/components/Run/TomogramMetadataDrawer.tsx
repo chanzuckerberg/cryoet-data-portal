@@ -95,15 +95,15 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('depositionDate'),
-            values: [tomogram.deposition?.depositionDate ?? ''],
+            values: [tomogram.deposition?.depositionDate.split('T')[0] ?? ''],
           },
           {
             label: t('releaseDate'),
-            values: [tomogram.releaseDate ?? ''],
+            values: [tomogram.releaseDate?.split('T')[0] ?? ''],
           },
           {
             label: t('lastModifiedDate'),
-            values: [tomogram.lastModifiedDate ?? ''],
+            values: [tomogram.lastModifiedDate?.split('T')[0] ?? ''],
           },
         )}
       />

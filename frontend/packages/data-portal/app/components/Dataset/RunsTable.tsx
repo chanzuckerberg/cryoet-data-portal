@@ -79,7 +79,8 @@ export function RunsTable() {
         (run) => run.tomograms.edges[0]?.node.keyPhotoThumbnailUrl ?? undefined,
         {
           id: 'key-photo',
-          header: () => <p />,
+          // eslint-disable-next-line jsx-a11y/control-has-associated-label
+          header: () => <td />,
           cell: ({ getValue, row: { original: run } }) => (
             <TableCell
               width={RunTableWidths.photo}

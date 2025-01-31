@@ -58,7 +58,7 @@ export function TableCell({
         className={cns('align-top px-3 py-4', cellProps.className)}
         style={cellProps.style}
       >
-        <p className="text-sds-body-s leading-sds-body-s font-normal">
+        <div className="text-sds-body-s leading-sds-body-s font-normal">
           <Tooltip
             className="inline"
             tooltip={primaryText}
@@ -67,7 +67,7 @@ export function TableCell({
           >
             {primaryText}
           </Tooltip>
-        </p>
+        </div>
       </td>
     )
   }

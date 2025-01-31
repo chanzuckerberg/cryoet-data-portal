@@ -1,8 +1,10 @@
 import { Icon } from '@czi-sds/components'
 import { ReactNode } from 'react'
 
+import { Annotation_Method_Link_Type_Enum } from 'app/__generated_v2__/graphql'
 import { SourceCodeIcon, WeightsIcon } from 'app/components/icons'
 import { VariantLinkProps } from 'app/components/Link'
+import { AnnotationMethodLink } from 'app/types/gql/genericTypes'
 import { I18nKeys } from 'app/types/i18n'
 
 import { METHOD_LINK_TYPES, MethodLinkDataType, MethodLinkType } from './type'
@@ -18,7 +20,7 @@ export interface MethodLinkProps {
 
 const METHOD_TYPE_TO_I18N_KEY: { [key in MethodLinkType]: I18nKeys } = {
   source_code: 'sourceCode',
-  model_weights: 'modelWeights',
+  models_weights: 'modelWeights',
   website: 'website',
   documentation: 'documentation',
   other: 'other',
@@ -28,7 +30,7 @@ export const ICON_MAP: { [key in MethodLinkType]: ReactNode } = {
   source_code: (
     <SourceCodeIcon className="w-sds-icon-s h-sds-icon-s inline-block" />
   ),
-  model_weights: (
+  models_weights: (
     <WeightsIcon className="w-sds-icon-s h-sds-icon-s inline-block" />
   ),
   website: (
@@ -80,4 +82,27 @@ export function generateMethodLinks(
         METHOD_LINK_TYPES.indexOf(b.link_type),
     )
     .map((props) => methodLinkFromVariant(props))
+}
+
+export function generateMethodLinksV2(
+  links: AnnotationMethodLink[],
+): MethodLinkProps[] {
+  return links
+    .sort(
+      (a, b) =>
+        METHOD_LINK_TYPES.indexOf(getLinkType(a)) -
+        METHOD_LINK_TYPES.indexOf(getLinkType(b)),
+    )
+    .map((link) => ({
+      title: link.name ?? '',
+      url: link.link ?? '',
+      icon: ICON_MAP[getLinkType(link)],
+      i18nLabel: METHOD_TYPE_TO_I18N_KEY[getLinkType(link)],
+    }))
+}
+
+function getLinkType(
+  link: AnnotationMethodLink,
+): Annotation_Method_Link_Type_Enum {
+  return link.linkType ?? Annotation_Method_Link_Type_Enum.Other
 }

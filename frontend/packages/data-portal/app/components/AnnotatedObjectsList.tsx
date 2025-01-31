@@ -1,4 +1,3 @@
-import Paper from '@mui/material/Paper'
 import Skeleton from '@mui/material/Skeleton'
 import { range } from 'lodash-es'
 import { ReactNode } from 'react'
@@ -65,11 +64,7 @@ export function AnnotatedObjectsList({
           <Tooltip
             classes={{ tooltip: '!p-0 !bg-transparent' }}
             placement="left"
-            tooltip={
-              <Paper className="p-sds-m text-black w-[250px]" elevation={4}>
-                <List className="font-semibold">{nodes}</List>
-              </Paper>
-            }
+            tooltip={<List className="font-semibold">{nodes}</List>}
           >
             <div
               className={cns(

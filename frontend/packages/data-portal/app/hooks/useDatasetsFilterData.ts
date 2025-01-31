@@ -12,6 +12,8 @@ export function useDatasetsFilterData() {
   }>()
 
   return {
+    filteredDatasetsCount: v2.filteredDatasetsCount.aggregate?.[0]?.count ?? 0,
+    totalDatasetsCount: v2.totalDatasetsCount.aggregate?.[0]?.count ?? 0,
     organismNames:
       v2.distinctOrganismNames.aggregate
         ?.map((aggregate) => aggregate.groupBy?.organismName)

@@ -22,6 +22,7 @@ import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
 import { getDepositionById } from 'app/graphql/getDepositionById.server'
 import { getDepositionByIdV2 } from 'app/graphql/getDepositionByIdV2.server'
 import { logIfHasDiff } from 'app/graphql/getDepositionDiffer'
+import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import {
@@ -166,8 +167,8 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 }
 
 export default function DepositionByIdPage() {
-  const { deposition, datasetsCount, filteredDatasetsCount } =
-    useDepositionById()
+  const { deposition } = useDepositionById()
+  const { filteredDatasetsCount, totalDatasetsCount } = useDatasetsFilterData()
   const { t } = useI18n()
 
   const { setPreviousDepositionId, setPreviousSingleDepositionParams } =
@@ -190,7 +191,7 @@ export default function DepositionByIdPage() {
         {
           title: t('datasetsWithDepositionData'),
           table: <DatasetsTable />,
-          totalCount: datasetsCount,
+          totalCount: totalDatasetsCount,
           filteredCount: filteredDatasetsCount,
           filterPanel: <DatasetFilter depositionPageVariant />,
           countLabel: t('datasets'),

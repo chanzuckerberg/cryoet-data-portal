@@ -1,6 +1,5 @@
 import { Depositions_Bool_Exp } from 'app/__generated__/graphql'
 import {
-  Annotation_File_Shape_Type_Enum,
   DatasetWhereClause,
   Fiducial_Alignment_Status_Enum,
   Tomogram_Reconstruction_Method_Enum,
@@ -209,7 +208,7 @@ export function getDatasetsFilter({
     where.runs.annotations ??= {}
     where.runs.annotations.annotationShapes = {
       shapeType: {
-        _in: objectShapeTypes as Annotation_File_Shape_Type_Enum[], // TODO(bchu): Remove typecast.
+        _in: objectShapeTypes,
       },
     }
   }
@@ -271,4 +270,18 @@ export function getDatasetsFilter({
   }
 
   return where
+}
+
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, no-param-reassign, @typescript-eslint/no-unsafe-argument */
+// TODO(bchu): Delete this after migration.
+export function removeTypenames(object: any): void {
+  delete object?.__typename
+
+  for (const [, value] of Object.entries(object)) {
+    if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
+      removeTypenames(value)
+    } else if (Array.isArray(value)) {
+      value.forEach(removeTypenames)
+    }
+  }
 }

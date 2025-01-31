@@ -8,15 +8,18 @@ import {
   Tiltseries_Microscope_Manufacturer_Enum,
 } from 'app/__generated_v2__/graphql'
 
+import { removeTypenames } from './common'
+
 /* eslint-disable no-console, no-param-reassign */
 export function logIfHasDiff(
   url: string,
   v1: GetDatasetByIdQuery,
   v2: GetDatasetByIdV2Query,
 ): void {
-  console.log('Checking for dataset query diffs')
+  console.log(`Checking for dataset query diffs ${new Date().toLocaleString()}`)
 
   v2 = structuredClone(v2)
+  removeTypenames(v2)
 
   // Counts not used.
   for (const run of v2.runs) {

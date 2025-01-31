@@ -53,7 +53,7 @@ export function CellHeader({
         !tooltip ? 'hover:!text-sds-color-semantic-text-base-secondary' : ''
       }
     >
-      <p className="line-clamp-1">
+      <div className="line-clamp-1">
         <Tooltip
           className="inline"
           tooltip={tooltip}
@@ -63,7 +63,7 @@ export function CellHeader({
         >
           {children}
         </Tooltip>
-      </p>
+      </div>
 
       {subHeader && (
         <p className="text-sds-body-xxxs leading-sds-body-xxxs font-normal">

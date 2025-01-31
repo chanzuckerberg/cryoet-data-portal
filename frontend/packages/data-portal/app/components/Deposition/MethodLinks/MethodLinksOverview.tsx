@@ -36,7 +36,7 @@ function MethodTypeSection({
       <h3 className="text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold uppercase">
         {t('methodType')}
       </h3>
-      <p className="flex flex-row gap-sds-xxs text-sds-body-xxs leading-sds-body-xxs col-start-1">
+      <div className="flex flex-row gap-sds-xxs text-sds-body-xxs leading-sds-body-xxs col-start-1">
         {t(methodLabels[methodType])}
         <Tooltip
           // FIXME: make arrow centred on icon
@@ -50,7 +50,7 @@ function MethodTypeSection({
             className="!text-sds-color-primitive-gray-500"
           />
         </Tooltip>
-      </p>
+      </div>
       <h3 className="text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold uppercase col-start-2 row-start-1">
         {t('methodLinks')}
       </h3>
