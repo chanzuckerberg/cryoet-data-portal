@@ -1,6 +1,8 @@
 import { typedjson } from 'remix-typedjson'
 
 import { MLChallenge } from 'app/components/MLChallenge'
+import { CompletedMLChallenge } from 'app/components/MLChallenge/CompletedMLChallenge/CompletedMLChallenge'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getLocalFileContent } from 'app/utils/repo.server'
 
 export async function loader() {
@@ -32,5 +34,9 @@ export async function loader() {
 }
 
 export default function CompetitionPage() {
+  const showPostMlChallenge = useFeatureFlag('postMlChallenge')
+  if (showPostMlChallenge) {
+    return <CompletedMLChallenge />
+  }
   return <MLChallenge />
 }
