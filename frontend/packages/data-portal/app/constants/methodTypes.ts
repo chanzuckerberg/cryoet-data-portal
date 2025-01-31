@@ -5,22 +5,10 @@ import { checkExhaustive } from 'app/types/utils'
 export const METHOD_TYPE_ORDER = [
   Annotation_Method_Type_Enum.Hybrid,
   Annotation_Method_Type_Enum.Automated,
-  Annotation_Method_Type_Enum.Manual,
+  // TODO: Confirm with PM where this should be when BE actually starts returning Simulated.
   Annotation_Method_Type_Enum.Simulated,
+  Annotation_Method_Type_Enum.Manual,
 ]
-
-export type MethodType = (typeof methodTypes)[number]
-
-type MethodTypeLabels = {
-  [key in MethodType]: I18nKeys
-}
-
-/** @deprecated */
-export const methodLabels: MethodTypeLabels = {
-  automated: 'automated',
-  hybrid: 'hybrid',
-  manual: 'manual',
-}
 
 export function getMethodTypeLabelI18nKey(
   methodType: Annotation_Method_Type_Enum,
@@ -37,13 +25,6 @@ export function getMethodTypeLabelI18nKey(
     default:
       return checkExhaustive(methodType)
   }
-}
-
-/** @deprecated */
-export const methodTooltipLabels: MethodTypeLabels = {
-  automated: 'methodTypeAutomated',
-  hybrid: 'methodTypeHybrid',
-  manual: 'methodTypeManual',
 }
 
 export function getMethodTypeTooltipI18nKey(

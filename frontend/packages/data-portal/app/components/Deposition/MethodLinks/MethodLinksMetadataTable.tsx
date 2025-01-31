@@ -4,11 +4,6 @@ import { useMemo } from 'react'
 
 import { Accordion } from 'app/components/Accordion'
 import { MetadataTable } from 'app/components/Table'
-import {
-  methodLabels,
-  MethodType,
-  methodTypes,
-} from 'app/constants/methodTypes'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'

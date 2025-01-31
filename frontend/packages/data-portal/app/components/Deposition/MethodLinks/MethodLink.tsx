@@ -1,8 +1,18 @@
-import { Link } from 'app/components/Link'
+import { ReactNode } from 'react'
+
+import { Link, VariantLinkProps } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
+import { I18nKeys } from 'app/types/i18n'
 import { cns } from 'app/utils/cns'
 
-import { MethodLinkProps } from './common'
+export interface MethodLinkProps {
+  i18nLabel: I18nKeys
+  url: string
+  icon: ReactNode
+  title?: string
+  className?: string
+  linkProps?: Partial<VariantLinkProps>
+}
 
 export function MethodLink({
   icon,

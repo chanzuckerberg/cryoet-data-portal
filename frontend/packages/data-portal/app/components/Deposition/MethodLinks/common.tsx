@@ -3,20 +3,11 @@ import { ReactNode } from 'react'
 
 import { Annotation_Method_Link_Type_Enum } from 'app/__generated_v2__/graphql'
 import { SourceCodeIcon, WeightsIcon } from 'app/components/icons'
-import { VariantLinkProps } from 'app/components/Link'
 import { AnnotationMethodLink } from 'app/types/gql/genericTypes'
 import { I18nKeys } from 'app/types/i18n'
 
+import { MethodLinkProps } from './MethodLink'
 import { METHOD_LINK_TYPES, MethodLinkDataType, MethodLinkType } from './type'
-
-export interface MethodLinkProps {
-  i18nLabel: I18nKeys
-  url: string
-  icon: ReactNode
-  title?: string
-  className?: string
-  linkProps?: Partial<VariantLinkProps>
-}
 
 const METHOD_TYPE_TO_I18N_KEY: { [key in MethodLinkType]: I18nKeys } = {
   source_code: 'sourceCode',
@@ -84,7 +75,7 @@ export function generateMethodLinks(
     .map((props) => methodLinkFromVariant(props))
 }
 
-export function generateMethodLinksV2(
+export function generateMethodLinkProps(
   links: AnnotationMethodLink[],
 ): MethodLinkProps[] {
   return links
