@@ -76,7 +76,7 @@ export function generateMethodLinks(
 }
 
 export function generateMethodLinkProps(
-  links: AnnotationMethodLink[],
+  links: Array<Pick<AnnotationMethodLink, 'name' | 'linkType' | 'link'>>,
 ): MethodLinkProps[] {
   return links
     .sort(

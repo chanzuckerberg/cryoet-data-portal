@@ -2,29 +2,33 @@ import { useMemo } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import {
+  Annotation_Method_Link_Type_Enum,
   Annotation_Method_Type_Enum,
   GetDepositionByIdV2Query,
 } from 'app/__generated_v2__/graphql'
 import { METHOD_TYPE_ORDER } from 'app/constants/methodTypes'
-import { MethodLink } from 'app/types/gql/depositionPageTypes'
+
+export interface AnnotationMethodMetadata {
+  annotationMethod: string
+  annotationSoftware?: string
+  methodType?: Annotation_Method_Type_Enum
+  count: number
+  methodLinks: Array<{
+    name?: string
+    linkType?: Annotation_Method_Link_Type_Enum
+    link?: string
+  }>
+}
 
 export function useDepositionById() {
   const { v2 } = useTypedLoaderData<{
     v2: GetDepositionByIdV2Query
   }>()
 
-  const annotationMethods: Array<{
-    annotationMethod: string
-    methodType?: Annotation_Method_Type_Enum
-    methodLinks: MethodLink[]
-  }> = useMemo(() => {
+  const annotationMethods: AnnotationMethodMetadata[] = useMemo(() => {
     const annotationMethodToMetadata = new Map<
       string,
-      {
-        methodType?: Annotation_Method_Type_Enum
-        count: number
-        methodLinks: MethodLink[]
-      }
+      Omit<AnnotationMethodMetadata, 'annotationMethod'>
     >()
     // Populate everything except counts:
     for (const { groupBy } of v2.depositions[0]
@@ -35,15 +39,18 @@ export function useDepositionById() {
       }
       if (!annotationMethodToMetadata.has(annotationMethod)) {
         annotationMethodToMetadata.set(annotationMethod, {
+          annotationSoftware: groupBy?.annotationSoftware ?? undefined,
           methodType: groupBy?.methodType ?? undefined,
           count: 0,
           methodLinks: [],
         })
       }
       if (groupBy?.methodLinks != null) {
-        annotationMethodToMetadata
-          .get(annotationMethod)!
-          .methodLinks.push(groupBy?.methodLinks)
+        annotationMethodToMetadata.get(annotationMethod)!.methodLinks.push({
+          name: groupBy.methodLinks.name ?? undefined,
+          linkType: groupBy.methodLinks.linkType ?? undefined,
+          link: groupBy.methodLinks.link ?? undefined,
+        })
       }
     }
     // Populate counts:
@@ -62,6 +69,8 @@ export function useDepositionById() {
     return [...annotationMethodToMetadata.entries()]
       .map(([annotationMethod, metadata]) => ({
         annotationMethod,
+        annotationSoftware: metadata.annotationSoftware,
+        count: metadata.count,
         methodType: metadata.methodType,
         methodLinks: metadata.methodLinks,
       }))

@@ -12,11 +12,11 @@ import {
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 
+import { generateMethodLinkProps } from './common'
 import { MethodLink } from './MethodLink'
 
 export function MethodLinksOverview() {
   const { t } = useI18n()
-
   const { annotationMethods } = useDepositionById()
 
   const separator = <div className="h-[1px] bg-sds-color-primitive-gray-300" />
@@ -63,23 +63,25 @@ export function MethodLinksOverview() {
                   {t('methodLinks')}
                 </h3>
                 <CollapsibleList
-                  entries={links?.map((link) => ({
-                    key: `${link.url}_${link.i18nLabel}_${link.title}`,
-                    entry: (
-                      <MethodLink
-                        {...link}
-                        className="text-sds-body-xxs leading-sds-body-xxs"
-                        linkProps={{
-                          className: 'text-sds-color-primitive-gray-600',
-                          variant: 'dashed-underlined',
-                        }}
-                      />
-                    ),
-                  }))}
+                  entries={generateMethodLinkProps(methodLinks).map(
+                    (methodLinkProps) => ({
+                      key: `${annotationMethod}_${methodLinkProps.title}_${methodLinkProps.url}`,
+                      entry: (
+                        <MethodLink
+                          {...methodLinkProps}
+                          className="text-sds-body-xxs leading-sds-body-xxs"
+                          linkProps={{
+                            className: 'text-sds-color-primitive-gray-600',
+                            variant: 'dashed-underlined',
+                          }}
+                        />
+                      ),
+                    }),
+                  )}
                   collapseAfter={1}
                 />
               </div>
-              {i < deposition.annotation_methods.length - 1 && separator}
+              {i < annotationMethods.length - 1 && separator}
             </>
           ),
         )}

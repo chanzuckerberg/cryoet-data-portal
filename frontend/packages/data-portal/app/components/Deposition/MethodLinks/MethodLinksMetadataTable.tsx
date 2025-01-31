@@ -11,6 +11,8 @@ import { getTableData } from 'app/utils/table'
 import { generateMethodLinks } from './common'
 import { MethodLink } from './MethodLink'
 import { MethodDataType, MethodLinkDataType } from './type'
+import { getMethodTypeLabelI18nKey } from 'app/constants/methodTypes'
+import { Annotation_Method_Type_Enum } from 'app/__generated_v2__/graphql'
 
 const COLUMN_WIDTH = 170
 
@@ -49,73 +51,13 @@ function MethodLinkList({
   )
 }
 
-function MethodSummarySection({
-  label,
-  data,
-  annotationsCount,
-}: {
-  label?: string
-  data: MethodDataType
-  annotationsCount: number
-}) {
-  const { t } = useI18n()
-
-  const tableData = getTableData(
-    {
-      label: t('methodType'),
-      values: [t(methodLabels[data.method_type])],
-    },
-    {
-      label: t('numberOfAnnotations'),
-      values: [annotationsCount.toLocaleString()],
-    },
-    {
-      label: t('annotationMethod'),
-      values: [data.annotation_method],
-    },
-    {
-      label: t('annotationSoftware'),
-      values: [data.annotation_software],
-    },
-    {
-      label: t('methodLinks'),
-      values: [],
-      renderValue: () => <MethodLinkList links={data.method_links ?? []} />,
-    },
-  )
-
-  return (
-    <div>
-      {label && (
-        <div className="flex flex-row gap-[10px] mt-sds-xs mb-[10px] items-center whitespace-nowrap">
-          <p className="uppercase text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold text-sds-color-primitive-gray-600 basis-0 flex-initial">
-            {label}
-          </p>
-          <div className="flex-grow h-[1px] bg-sds-color-primitive-gray-300" />
-        </div>
-      )}
-      <MetadataTable
-        data={tableData}
-        tableCellLabelProps={{
-          renderLoadingSkeleton: false,
-          width: { min: COLUMN_WIDTH, max: COLUMN_WIDTH },
-        }}
-        tableCellValueProps={{
-          renderLoadingSkeleton: false,
-          width: { min: COLUMN_WIDTH },
-        }}
-      />
-    </div>
-  )
-}
-
 export function MethodLinksMetadataTable({
   initialOpen = true,
 }: {
   initialOpen?: boolean
 }) {
   const { t } = useI18n()
-  const { deposition, annotationMethodCounts } = useDepositionById()
+  const { annotationMethods } = useDepositionById()
 
   return (
     <Accordion
@@ -123,29 +65,64 @@ export function MethodLinksMetadataTable({
       header={t('annotationMethodsSummary')}
       initialOpen={initialOpen}
     >
-      {deposition.annotation_methods
-        .sort(
-          (a, b) =>
-            methodTypes.indexOf((a.method_type ?? 'manual') as MethodType) -
-            methodTypes.indexOf((b.method_type ?? 'manual') as MethodType),
-        )
-        .map((methodData, i) => (
-          <div className="flex flex-col gap-sds-xl">
-            <MethodSummarySection
-              label={
-                deposition.annotation_methods.length === 1
-                  ? undefined
-                  : t('methodCount', {
-                      value: startCase(converter.toWords(i + 1)),
-                    })
-              }
-              data={methodData as MethodDataType}
-              annotationsCount={
-                annotationMethodCounts.get(methodData.annotation_method) ?? 0
-              }
+      {annotationMethods.map((annotationMethod, i) => (
+        <div className="flex flex-col gap-sds-xl">
+          <div>
+            {annotationMethods.length > 1 && (
+              <div className="flex flex-row gap-[10px] mt-sds-xs mb-[10px] items-center whitespace-nowrap">
+                <p className="uppercase text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold text-sds-color-primitive-gray-600 basis-0 flex-initial">
+                  {t('methodCount', {
+                    value: startCase(converter.toWords(i + 1)),
+                  })}
+                </p>
+                <div className="flex-grow h-[1px] bg-sds-color-primitive-gray-300" />
+              </div>
+            )}
+            <MetadataTable
+              data={getTableData(
+                {
+                  label: t('methodType'),
+                  values: [
+                    t(
+                      getMethodTypeLabelI18nKey(
+                        annotationMethod.methodType ??
+                          Annotation_Method_Type_Enum.Automated,
+                      ),
+                    ),
+                  ],
+                },
+                {
+                  label: t('numberOfAnnotations'),
+                  values: [annotationsCount.toLocaleString()],
+                },
+                {
+                  label: t('annotationMethod'),
+                  values: [data.annotation_method],
+                },
+                {
+                  label: t('annotationSoftware'),
+                  values: [data.annotation_software],
+                },
+                {
+                  label: t('methodLinks'),
+                  values: [],
+                  renderValue: () => (
+                    <MethodLinkList links={data.method_links ?? []} />
+                  ),
+                },
+              )}
+              tableCellLabelProps={{
+                renderLoadingSkeleton: false,
+                width: { min: COLUMN_WIDTH, max: COLUMN_WIDTH },
+              }}
+              tableCellValueProps={{
+                renderLoadingSkeleton: false,
+                width: { min: COLUMN_WIDTH },
+              }}
             />
           </div>
-        ))}
+        </div>
+      ))}
     </Accordion>
   )
 }

@@ -203,6 +203,7 @@ export function logIfHasDiff(
                 (methodLink) => ({
                   groupBy: {
                     annotationMethod: annotation.annotation_method,
+                    annotationSoftware: annotation.annotation_software,
                     methodType:
                       annotation.method_type as Annotation_Method_Type_Enum,
                     methodLinks: {
