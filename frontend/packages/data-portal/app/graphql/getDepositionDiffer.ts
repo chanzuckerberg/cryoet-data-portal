@@ -13,7 +13,7 @@ import {
 
 import { convertReconstructionMethodToV2, removeTypenames } from './common'
 
-/* eslint-disable no-console, no-param-reassign */
+/* eslint-disable no-console, no-param-reassign, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return */
 export function logIfHasDiff(
   url: string,
   v1: GetDepositionByIdQuery,
