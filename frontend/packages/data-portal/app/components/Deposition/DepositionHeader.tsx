@@ -19,9 +19,7 @@ export function DepositionHeader() {
   return (
     <PageHeader
       breadcrumbs={<Breadcrumbs variant="deposition" data={deposition} />}
-      lastModifiedDate={
-        deposition?.last_modified_date ?? deposition?.deposition_date
-      }
+      lastModifiedDate={deposition.lastModifiedDate.split('T')[0]}
       metadata={[
         {
           key: t('depositionId'),
@@ -29,13 +27,13 @@ export function DepositionHeader() {
         },
       ]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Deposition)}
-      releaseDate={deposition.release_date}
+      releaseDate={deposition.releaseDate.split('T')[0]}
       title={deposition.title}
       renderHeader={({ moreInfo }) => (
         <div className="flex flex-row w-full justify-between gap-sds-xxl p-sds-xl">
           <HeaderKeyPhoto
             title={deposition.title}
-            url={deposition.key_photo_url ?? undefined}
+            url={deposition.keyPhotoUrl ?? undefined}
           />
 
           <div className="flex flex-col gap-sds-xl flex-1 min-w-[300px]">

@@ -10,7 +10,6 @@ import {
   Annotation_Method_Type_Enum,
   GetDepositionByIdV2Query,
 } from 'app/__generated_v2__/graphql'
-import { MethodLinkDataType } from 'app/components/Deposition/MethodLinks/type'
 
 import { convertReconstructionMethodToV2, removeTypenames } from './common'
 
@@ -199,22 +198,20 @@ export function logIfHasDiff(
         annotationMethodAndMethodLinksCombinations: {
           aggregate: v1
             .deposition!.annotation_methods.flatMap((annotation) =>
-              (annotation.method_links as MethodLinkDataType[]).map(
-                (methodLink) => ({
-                  groupBy: {
-                    annotationMethod: annotation.annotation_method,
-                    annotationSoftware: annotation.annotation_software,
-                    methodType:
-                      annotation.method_type as Annotation_Method_Type_Enum,
-                    methodLinks: {
-                      link: methodLink.link,
-                      linkType:
-                        methodLink.link_type as Annotation_Method_Link_Type_Enum,
-                      name: methodLink.custom_name,
-                    },
+              annotation.method_links.map((methodLink: any) => ({
+                groupBy: {
+                  annotationMethod: annotation.annotation_method,
+                  annotationSoftware: annotation.annotation_software,
+                  methodType:
+                    annotation.method_type as Annotation_Method_Type_Enum,
+                  methodLinks: {
+                    link: methodLink.link,
+                    linkType:
+                      methodLink.link_type as Annotation_Method_Link_Type_Enum,
+                    name: methodLink.custom_name,
                   },
-                }),
-              ),
+                },
+              })),
             )
             .sort((groupA, groupB) =>
               groupA.groupBy.annotationMethod !==

@@ -56,7 +56,7 @@ export function DepositionOverview() {
               {t('annotations')}:
             </span>
             {(
-              deposition.annotationMethodCounts?.aggregate?.[0]?.count ?? 0
+              deposition.annotationsAggregate?.aggregate?.[0]?.count ?? 0
             ).toLocaleString()}
           </p>
         </div>

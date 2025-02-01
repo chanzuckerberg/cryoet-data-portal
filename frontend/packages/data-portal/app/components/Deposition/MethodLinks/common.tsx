@@ -7,17 +7,27 @@ import { AnnotationMethodLink } from 'app/types/gql/genericTypes'
 import { I18nKeys } from 'app/types/i18n'
 
 import { MethodLinkProps } from './MethodLink'
-import { METHOD_LINK_TYPES, MethodLinkDataType, MethodLinkType } from './type'
 
-const METHOD_TYPE_TO_I18N_KEY: { [key in MethodLinkType]: I18nKeys } = {
+export const METHOD_LINK_TYPE_ORDER: Annotation_Method_Link_Type_Enum[] = [
+  Annotation_Method_Link_Type_Enum.SourceCode,
+  Annotation_Method_Link_Type_Enum.ModelsWeights,
+  Annotation_Method_Link_Type_Enum.Website,
+  Annotation_Method_Link_Type_Enum.Documentation,
+  Annotation_Method_Link_Type_Enum.Other,
+]
+
+const METHOD_TYPE_TO_I18N_KEY: Record<
+  Annotation_Method_Link_Type_Enum,
+  I18nKeys
+> = {
   source_code: 'sourceCode',
   models_weights: 'modelWeights',
   website: 'website',
   documentation: 'documentation',
   other: 'other',
-} as const
+}
 
-export const ICON_MAP: { [key in MethodLinkType]: ReactNode } = {
+export const ICON_MAP: Record<Annotation_Method_Link_Type_Enum, ReactNode> = {
   source_code: (
     <SourceCodeIcon className="w-sds-icon-s h-sds-icon-s inline-block" />
   ),
@@ -48,31 +58,6 @@ export const ICON_MAP: { [key in MethodLinkType]: ReactNode } = {
       className="!text-current"
     />
   ),
-} as const
-
-function methodLinkFromVariant({
-  link_type: variant,
-  link: url,
-  custom_name: title,
-}: MethodLinkDataType): MethodLinkProps {
-  return {
-    i18nLabel: METHOD_TYPE_TO_I18N_KEY[variant],
-    url,
-    title,
-    icon: ICON_MAP[variant],
-  }
-}
-
-export function generateMethodLinks(
-  links: MethodLinkDataType[],
-): MethodLinkProps[] {
-  return links
-    .sort(
-      (a, b) =>
-        METHOD_LINK_TYPES.indexOf(a.link_type) -
-        METHOD_LINK_TYPES.indexOf(b.link_type),
-    )
-    .map((props) => methodLinkFromVariant(props))
 }
 
 export function generateMethodLinkProps(
@@ -81,8 +66,8 @@ export function generateMethodLinkProps(
   return links
     .sort(
       (a, b) =>
-        METHOD_LINK_TYPES.indexOf(getLinkType(a)) -
-        METHOD_LINK_TYPES.indexOf(getLinkType(b)),
+        METHOD_LINK_TYPE_ORDER.indexOf(getLinkType(a)) -
+        METHOD_LINK_TYPE_ORDER.indexOf(getLinkType(b)),
     )
     .map((link) => ({
       title: link.name ?? '',

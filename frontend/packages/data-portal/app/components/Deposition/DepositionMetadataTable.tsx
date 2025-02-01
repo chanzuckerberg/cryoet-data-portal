@@ -3,11 +3,10 @@ import { useState } from 'react'
 
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { AuthorLegend } from 'app/components/AuthorLegend'
-import { AuthorInfo } from 'app/components/AuthorLink'
 import { AuthorList } from 'app/components/AuthorList'
 import { DatabaseEntryList } from 'app/components/DatabaseEntry'
-import { Deposition } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
+import { Deposition } from 'app/types/gql/depositionPageTypes'
 import { getTableData } from 'app/utils/table'
 
 function CollapsibleDescription({ text }: { text: string }) {
@@ -48,12 +47,17 @@ export function DepositionMetadataTable({
   const depositionMetadata = getTableData(
     {
       label:
-        deposition.authors && deposition.authors.length === 1
+        deposition.authors && deposition.authors.edges.length === 1
           ? t('author')
           : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
-        return <AuthorList authors={deposition.authors as AuthorInfo[]} large />
+        return (
+          <AuthorList
+            authors={deposition.authors.edges.map((author) => author.node)}
+            large
+          />
+        )
       },
       values: [],
       className: 'leading-sds-body-s',
@@ -61,7 +65,7 @@ export function DepositionMetadataTable({
 
     {
       label: t('publications'),
-      values: [deposition.deposition_publications ?? ''],
+      values: [deposition.depositionPublications ?? ''],
       renderValue: (value: string) => {
         return <DatabaseEntryList entries={value} />
       },
@@ -69,7 +73,7 @@ export function DepositionMetadataTable({
 
     {
       label: t('relatedDatabases'),
-      values: [deposition.related_database_entries ?? ''],
+      values: [deposition.relatedDatabaseEntries ?? ''],
       renderValue: (value: string) => {
         return <DatabaseEntryList entries={value} />
       },
@@ -85,17 +89,17 @@ export function DepositionMetadataTable({
 
     {
       label: t('depositionDate'),
-      values: [deposition.deposition_date],
+      values: [deposition.depositionDate.split('T')[0]],
     },
 
     {
       label: t('releaseDate'),
-      values: [deposition.release_date],
+      values: [deposition.releaseDate.split('T')[0]],
     },
 
     {
       label: t('lastModifiedDate'),
-      values: [deposition.last_modified_date ?? ''],
+      values: [deposition.lastModifiedDate.split('T')[0]],
     },
   )
 
