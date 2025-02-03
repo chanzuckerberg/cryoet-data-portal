@@ -408,6 +408,14 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
       }
     }
 
+    numTotalSizeAnnotationFiles: annotationFilesAggregate(where: { annotationShape: { annotation: { runId: { _eq: $id }}}}) {
+      aggregate {
+        sum {
+          fileSize
+        }
+      }
+    }
+
     # Tomogram counts:
     tomogramsAggregate(where: { runId: { _eq: $id }}) {
       aggregate {

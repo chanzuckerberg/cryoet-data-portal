@@ -119,12 +119,10 @@ export default function RunByIdPage() {
     objectShapeType,
   } = useDownloadModalQueryParamState()
 
-  const currentTomogram = tomograms.find(
-    (tomogram) => tomogram.id === Number(tomogramId),
-  )
-
   const activeTomogram =
-    downloadConfig === DownloadConfig.Tomogram ? currentTomogram : undefined
+    downloadConfig === DownloadConfig.Tomogram
+      ? tomograms.find((tomogram) => tomogram.id === Number(tomogramId))
+      : undefined
 
   const tomogram = run.tomogram_voxel_spacings.at(0)
 
@@ -134,38 +132,38 @@ export default function RunByIdPage() {
       annotationShape.shapeType === objectShapeType,
   )
 
-  const annotationFilesTotalSize = annotationShapes.reduce(
-    (acc, shape) =>
-      acc +
-      shape.annotationFiles.edges.reduce(
-        (total, file) => total + (file.node.fileSize as number),
-        0,
-      ),
-    0,
-  )
+  // const annotationFilesTotalSize = annotationShapes.reduce(
+  //   (acc, shape) =>
+  //     acc +
+  //     shape.annotationFiles.edges.reduce(
+  //       (total, file) => total + (file.node.fileSize as number),
+  //       0,
+  //     ),
+  //   0,
+  // )
 
-  const foundFile = activeAnnotationShape?.annotationFiles.edges.find(
+  const activeFile = activeAnnotationShape?.annotationFiles.edges.find(
     (file) => file.node.format === fileFormat,
   )
 
-  const httpsPath = foundFile
-    ? foundFile.node.httpsPath
+  const httpsPath = activeFile
+    ? activeFile.node.httpsPath
     : activeTomogram?.httpsMrcFile ?? undefined
 
-  const getFileSize = (): number | undefined => {
-    if (foundFile) {
-      return (foundFile.node.fileSize as number) ?? undefined
+  const getFileSize = () => {
+    if (activeFile) {
+      return activeFile.node.fileSize ?? undefined
     }
     if (fileFormat === 'mrc') {
-      return (activeTomogram?.fileSizeMrc as number) ?? undefined
+      return activeTomogram?.fileSizeMrc ?? undefined
     }
     if (fileFormat === 'zarr') {
-      return (activeTomogram?.fileSizeOmezarr as number) ?? undefined
+      return activeTomogram?.fileSizeOmezarr ?? undefined
     }
-    return annotationFilesTotalSize
+    return annotationFilesAggregates.totalSize
   }
 
-  const fileSize: number | undefined = getFileSize()
+  const fileSize = getFileSize()
 
   const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
 

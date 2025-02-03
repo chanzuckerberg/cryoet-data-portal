@@ -456,6 +456,15 @@ export function logIfHasDiff(
         },
       ],
     },
+    numTotalSizeAnnotationFiles: {
+      aggregate: [
+        {
+          sum: {
+            fileSize: v1.annotation_files_aggregate_for_total.aggregate?.count,
+          },
+        },
+      ],
+    },
     tomogramsAggregate: {
       aggregate: [
         {
