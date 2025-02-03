@@ -30,7 +30,7 @@ export function ConfigureTomogramDownloadContent() {
 
   const {
     tomogramToDownload,
-    allAnnotationFiles = [],
+    allAnnotationShapes = [],
     allTomograms = [],
     runId,
   } = useDownloadModalContext()
@@ -95,7 +95,7 @@ export function ConfigureTomogramDownloadContent() {
         <Radio
           value={DownloadConfig.AllAnnotations}
           label={t('downloadAllAnnotations')}
-          disabled={allAnnotationFiles.length === 0}
+          disabled={allAnnotationShapes.length === 0}
           disabledTooltip={t('noAnnotationsAvailableToDownload')}
           description={t('downloadAvailableAnnotationsInSupported')}
           onClick={setAllAnnotationsConfig}

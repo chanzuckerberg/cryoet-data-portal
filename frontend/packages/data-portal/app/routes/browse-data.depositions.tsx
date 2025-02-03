@@ -75,7 +75,7 @@ export default function BrowseDepositionsPage() {
           title: t('depositions'),
           description: t('depositionsDescription'),
           learnMoreLink:
-            'https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_data.html#depositions',
+            'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_data.html#depositions',
           table: <DepositionTable />,
           filteredCount: filteredDepositionCount,
           totalCount: totalDepositionCount,

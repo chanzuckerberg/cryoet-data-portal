@@ -12,8 +12,6 @@ export function useRunById() {
 
   const run = v1.runs[0]
 
-  const annotationFiles = v1.annotation_files
-
   const { tomograms, annotationShapes } = v2
 
   // Sort by isPortalStandard, then isAuthorSubmitted, then by id if all else is equal
@@ -85,7 +83,6 @@ export function useRunById() {
 
   return {
     run,
-    annotationFiles,
     tomograms,
     processingMethods,
     objectNames,

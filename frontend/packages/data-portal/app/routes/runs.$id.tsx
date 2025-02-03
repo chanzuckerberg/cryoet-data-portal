@@ -3,7 +3,6 @@
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { startCase, toNumber } from 'lodash-es'
-import { useMemo } from 'react'
 import { match } from 'ts-pattern'
 
 import { apolloClient, apolloClientV2 } from 'app/apollo.server'
@@ -28,7 +27,6 @@ import { useFileSize } from 'app/hooks/useFileSize'
 import { useI18n } from 'app/hooks/useI18n'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import { useRunById } from 'app/hooks/useRunById'
-import { BaseAnnotation } from 'app/state/annotation'
 import { DownloadConfig } from 'app/types/download'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
@@ -103,16 +101,16 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 }
 
 export default function RunByIdPage() {
+  const { t } = useI18n()
   const {
     run,
     processingMethods,
-    annotationFiles,
+    annotationShapes,
     tomograms,
     annotationFilesAggregates,
     tomogramsCount,
     deposition,
   } = useRunById()
-
   const {
     downloadConfig,
     openRunDownloadModal,
@@ -128,31 +126,18 @@ export default function RunByIdPage() {
       : undefined
 
   const tomogram = run.tomogram_voxel_spacings.at(0)
-  const { t } = useI18n()
 
-  const activeAnnotation: BaseAnnotation | undefined = useMemo(
-    () =>
-      annotationFiles.find(
-        (file) => file.annotation.id === toNumber(annotationId),
-      )?.annotation,
-    [annotationId, annotationFiles],
+  const activeAnnotationShape = annotationShapes.find(
+    (annotationShape) =>
+      annotationShape.annotation?.id === toNumber(annotationId) &&
+      annotationShape.shapeType === objectShapeType,
   )
 
-  const httpsPath = useMemo(() => {
-    if (activeAnnotation) {
-      return activeAnnotation.files?.find(
-        (file) =>
-          file.format === fileFormat && file.shape_type === objectShapeType,
-      )?.https_path
-    }
-
-    return activeTomogram?.httpsMrcFile ?? undefined
-  }, [
-    activeAnnotation,
-    activeTomogram?.httpsMrcFile,
-    fileFormat,
-    objectShapeType,
-  ])
+  const httpsPath = activeAnnotationShape
+    ? activeAnnotationShape.annotationFiles.edges.find(
+        (file) => file.node.format === fileFormat,
+      )?.node.httpsPath
+    : activeTomogram?.httpsMrcFile ?? undefined
 
   const { data: fileSize } = useFileSize(httpsPath, {
     enabled: fileFormat !== 'zarr',
@@ -241,16 +226,16 @@ export default function RunByIdPage() {
       ]}
       downloadModal={
         <DownloadModal
-          annotationToDownload={activeAnnotation}
+          annotationShapeToDownload={activeAnnotationShape}
           tomogramToDownload={activeTomogram}
-          allAnnotationFiles={annotationFiles}
+          allAnnotationShapes={annotationShapes}
           allTomograms={tomograms}
           allTomogramProcessing={processingMethods}
           datasetId={run.dataset.id}
           datasetTitle={run.dataset.title}
           fileSize={fileSize}
           httpsPath={httpsPath}
-          objectName={activeAnnotation?.object_name}
+          objectName={activeAnnotationShape?.annotation?.objectName}
           runId={run.id}
           runName={run.name}
           s3Path={match({
@@ -274,11 +259,9 @@ export default function RunByIdPage() {
             .with(
               { annotationId },
               () =>
-                activeAnnotation?.files.find(
-                  (file) =>
-                    file.format === fileFormat &&
-                    file.shape_type === objectShapeType,
-                )?.s3_path,
+                activeAnnotationShape?.annotationFiles.edges.find(
+                  (file) => file.node.format === fileFormat,
+                )?.node.s3Path,
             )
             .otherwise(() => undefined)}
           tomogramId={activeTomogram?.id ?? undefined}

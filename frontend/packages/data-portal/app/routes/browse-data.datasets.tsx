@@ -100,7 +100,7 @@ export default function BrowseDatasetsPage() {
           title: t('datasets'),
           description: t('datasetsDescription'),
           learnMoreLink:
-            'https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_data.html#datasets',
+            'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_data.html#datasets',
           filterPanel: <DatasetFilter />,
           table: <DatasetTable />,
           noFilteredResults: <NoFilteredResults showSearchTip />,

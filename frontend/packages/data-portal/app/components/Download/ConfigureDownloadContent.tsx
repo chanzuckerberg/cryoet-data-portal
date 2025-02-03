@@ -9,12 +9,15 @@ import { ConfigureTomogramDownloadContent } from './ConfigureTomogramDownloadCon
 
 export function ConfigureDownloadContent() {
   const { t } = useI18n()
-
-  const { annotationName, annotationId, objectShapeType } =
+  const { annotationName, annotationId, fileFormat, objectShapeType } =
     useDownloadModalQueryParamState()
-
-  const { annotationToDownload, datasetTitle, runName, objectName } =
+  const { annotationShapeToDownload, datasetTitle, runName, objectName } =
     useDownloadModalContext()
+
+  const annotationFileAlignmentId =
+    annotationShapeToDownload?.annotationFiles.edges.find(
+      (file) => file.node.format === fileFormat,
+    )?.node.alignmentId ?? undefined
 
   return (
     <>
@@ -35,10 +38,10 @@ export function ConfigureDownloadContent() {
       {objectShapeType && (
         <ModalSubtitle label={t('objectShapeType')} value={objectShapeType} />
       )}
-      {annotationToDownload !== undefined && (
+      {annotationFileAlignmentId !== undefined && (
         <ModalSubtitle
           label={t('alignmentId')}
-          value={`${IdPrefix.Alignment}-${annotationToDownload.id}`}
+          value={`${IdPrefix.Alignment}-${annotationFileAlignmentId}`}
         />
       )}
 

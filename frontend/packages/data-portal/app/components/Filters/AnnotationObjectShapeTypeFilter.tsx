@@ -1,20 +1,20 @@
 import { useMemo } from 'react'
 
-import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
+import { Annotation_File_Shape_Type_Enum } from 'app/__generated_v2__/graphql'
+import { getShapeTypeI18nKey } from 'app/constants/objectShapeTypes'
 import { QueryParams } from 'app/constants/query'
 import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
 import { BaseFilterOption } from 'app/types/filter'
-import { ObjectShapeType } from 'app/types/shapeTypes'
 
 import { SelectFilter } from './SelectFilter'
 
 function getObjectShapeTypeOptions(
-  objectShapeTypes: string[],
+  objectShapeTypes: Annotation_File_Shape_Type_Enum[],
   t: ReturnType<typeof useI18n>['t'],
 ): BaseFilterOption[] {
   return objectShapeTypes.map((value) => ({
-    label: t(shapeTypeToI18nKey[value as ObjectShapeType]),
+    label: t(getShapeTypeI18nKey(value)),
     value,
   }))
 }
@@ -22,7 +22,7 @@ function getObjectShapeTypeOptions(
 export function AnnotatedObjectShapeTypeFilter({
   allObjectShapeTypes,
 }: {
-  allObjectShapeTypes: string[]
+  allObjectShapeTypes: Annotation_File_Shape_Type_Enum[]
 }) {
   const { t } = useI18n()
 
