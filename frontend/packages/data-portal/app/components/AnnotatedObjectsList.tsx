@@ -1,4 +1,3 @@
-import Paper from '@mui/material/Paper'
 import Skeleton from '@mui/material/Skeleton'
 import { range } from 'lodash-es'
 import { ReactNode } from 'react'

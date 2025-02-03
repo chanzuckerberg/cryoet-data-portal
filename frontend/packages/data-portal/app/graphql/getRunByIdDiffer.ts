@@ -12,18 +12,24 @@ import {
   Tomogram_Reconstruction_Method_Enum,
 } from 'app/__generated_v2__/graphql'
 
+import { removeTypenames } from './common'
+
 /* eslint-disable no-console, no-param-reassign, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return */
 export function logIfHasDiff(
   url: string,
   v1: GetRunByIdQuery,
   v2: GetRunByIdV2Query,
 ): void {
-  console.log('Checking for run query diffs')
+  console.log(`Checking for run query diffs ${new Date().toLocaleString()}`)
 
   v2 = structuredClone(v2)
+  removeTypenames(v2)
+
   // There are no alignments in V1.
   delete v2.alignmentsAggregate.aggregate
   for (const annotationShape of v2.annotationShapes) {
+    // No equivalent ID in V1.
+    annotationShape.id = 0
     // There are no alignments in V1.
     for (const annotationFile of annotationShape.annotationFiles.edges) {
       delete annotationFile.node.alignmentId
@@ -51,6 +57,10 @@ export function logIfHasDiff(
     delete tomogram.deposition
     // Standard tomograms are V2 only.
     tomogram.isPortalStandard = false
+    // Authors are sorted on the FE.
+    tomogram.authors.edges.sort((authorA, authorB) =>
+      authorA.node.name.localeCompare(authorB.node.name),
+    )
   }
   for (const run of v2.runs) {
     // There are no frames in V1.
@@ -191,7 +201,7 @@ export function logIfHasDiff(
             tomograms: {
               edges: tomogramVoxelSpacing.tomograms.map((tomogram) => ({
                 node: {
-                  ctfCorrected: tomogram.ctf_corrected,
+                  ctfCorrected: Boolean(tomogram.ctf_corrected),
                   fiducialAlignmentStatus:
                     tomogram.fiducial_alignment_status as Fiducial_Alignment_Status_Enum,
                   id: tomogram.id,
@@ -212,28 +222,38 @@ export function logIfHasDiff(
                   alignment: {
                     affineTransformationMatrix: JSON.stringify(
                       tomogram.affine_transformation_matrix,
-                    ).replaceAll(',', ', '),
+                    )
+                      .replaceAll(',', ', ')
+                      // TODO: Remove when BE bug fixed.
+                      .replaceAll('{', '[')
+                      .replaceAll('}', ']'),
                   },
                 },
               })),
             },
           },
         })),
-      },
-      tiltseriesAggregate: {
-        aggregate: [
-          {
-            count: run.tiltseries_aggregate.aggregate?.count,
-            avg: {
-              tiltSeriesQuality:
-                run.tiltseries_aggregate.aggregate?.avg?.tilt_series_quality,
-            },
-          },
-        ],
+        tiltseriesAggregate: {
+          aggregate:
+            // Platformics returns an empty array if the count is 0.
+            run.tiltseries_aggregate.aggregate!.count === 0
+              ? [
+                  {
+                    count: run.tiltseries_aggregate.aggregate?.count,
+                    avg: {
+                      tiltSeriesQuality:
+                        run.tiltseries_aggregate.aggregate?.avg
+                          ?.tilt_series_quality,
+                    },
+                  },
+                ]
+              : [],
+        },
       },
     })),
     alignmentsAggregate: {},
     annotationShapes: v1.annotation_files.map((file) => ({
+      id: 0,
       shapeType: file.shape_type as Annotation_File_Shape_Type_Enum,
       annotationFiles: {
         edges: file.annotation.files
@@ -260,18 +280,19 @@ export function logIfHasDiff(
         isCuratorRecommended: file.annotation.is_curator_recommended,
         lastModifiedDate: `${file.annotation.last_modified_date}T00:00:00+00:00`,
         methodLinks: {
-          edges: file.annotation.method_links
-            ?.map((methodLink: any) => ({
-              node: {
-                link: methodLink.link,
-                linkType: methodLink.link_type,
-                name: methodLink.custom_name,
-              },
-            }))
-            .sort(
-              (methodLinkA: any, methodLinkB: any) =>
-                methodLinkA.node.link?.localeCompare(methodLinkB.node.link),
-            ),
+          edges:
+            file.annotation.method_links
+              ?.map((methodLink: any) => ({
+                node: {
+                  link: methodLink.link,
+                  linkType: methodLink.link_type,
+                  name: methodLink.custom_name,
+                },
+              }))
+              .sort(
+                (methodLinkA: any, methodLinkB: any) =>
+                  methodLinkA.node.link?.localeCompare(methodLinkB.node.link),
+              ) ?? [],
         },
         methodType: file.annotation.method_type as Annotation_Method_Type_Enum,
         objectCount: file.annotation.object_count,
@@ -284,7 +305,8 @@ export function logIfHasDiff(
           edges: file.annotation.authors.map((author) => ({
             node: {
               primaryAuthorStatus: author.primary_author_status ?? false,
-              correspondingAuthorStatus: author.corresponding_author_status,
+              correspondingAuthorStatus:
+                author.corresponding_author_status ?? false,
               name: author.name,
               email: author.email,
               orcid: author.orcid,
@@ -306,7 +328,7 @@ export function logIfHasDiff(
     })),
     tomograms: v1.tomograms
       .map((tomogram) => ({
-        ctfCorrected: tomogram.ctf_corrected,
+        ctfCorrected: Boolean(tomogram.ctf_corrected),
         fiducialAlignmentStatus:
           tomogram.fiducial_alignment_status as Fiducial_Alignment_Status_Enum,
         httpsMrcFile: tomogram.https_mrc_scale0,
@@ -338,15 +360,19 @@ export function logIfHasDiff(
               }
             : undefined,
         authors: {
-          edges: tomogram.authors.map((author) => ({
-            node: {
-              primaryAuthorStatus: author.primary_author_status,
-              correspondingAuthorStatus: author.corresponding_author_status,
-              name: author.name,
-              email: author.email,
-              orcid: author.orcid,
-            },
-          })),
+          edges: tomogram.authors
+            .map((author) => ({
+              node: {
+                primaryAuthorStatus: author.primary_author_status,
+                correspondingAuthorStatus: author.corresponding_author_status,
+                name: author.name,
+                email: author.email,
+                orcid: author.orcid,
+              },
+            }))
+            .sort((authorA, authorB) =>
+              authorA.node.name.localeCompare(authorB.node.name),
+            ),
         },
       }))
       .sort((tomogramA, tomogramB) => tomogramB.id - tomogramA.id),

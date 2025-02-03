@@ -1,5 +1,113 @@
 # Changelog
 
+## [1.48.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.47.1...web-v1.48.0) (2025-01-29)
+
+
+### ✨ Features
+
+* Add CTA for docsite on Portal homepage ([#1552](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1552)) ([97c987e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/97c987e67311a00d391c452af1233b83e15477ed))
+* Take down ML Challenge banner ([#1554](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1554)) ([7fc4ac2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7fc4ac28f6f05fb7969f9f094e4086e7d9f22734))
+
+## [1.47.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.47.0...web-v1.47.1) (2025-01-29)
+
+
+### 🧹 Miscellaneous Chores
+
+* Skip failing test ([#1553](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1553)) ([2c5b084](https://github.com/chanzuckerberg/cryoet-data-portal/commit/2c5b0841f00e0a5bb2b92de08055f42afb6c5d12))
+
+## [1.47.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.46.0...web-v1.47.0) (2025-01-28)
+
+
+### ✨ Features
+
+* Add timestamps to diff logs ([#1541](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1541)) ([c9fab5a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c9fab5a2c841952e8f9519e6fcdeebb4298a2f4e))
+* Complete migration of datasets page to V2 ([#1550](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1550)) ([bd7d690](https://github.com/chanzuckerberg/cryoet-data-portal/commit/bd7d69018483967f074a9320ba6418d920501dd6))
+* Convert deposition page datasets table to use V2 data ([#1549](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1549)) ([d9cb610](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d9cb6104d67251d25a1f87149d74927b538f9783))
+* Finish migrating deposition and datasets aggregates to use V2 ([#1512](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1512)) ([6221819](https://github.com/chanzuckerberg/cryoet-data-portal/commit/62218192c6fb1b2731116fc859af297609027588))
+* Stop using V1 annotation method counts query in deposition page, switch to main deposition V2 query ([#1517](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1517)) ([ded3162](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ded3162ff6352da9e721488d4680bd411d06f8af))
+
+## [1.46.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.45.1...web-v1.46.0) (2025-01-27)
+
+
+### ✨ Features
+
+* Disable API migration test ([#1532](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1532)) ([8941b7b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8941b7bc7b49ac851a5f1cf0fdd83b070a058384))
+
+
+### 🐞 Bug Fixes
+
+* Ignore __typename in diff logs ([#1518](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1518)) ([f1b5416](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f1b5416f75d69444088420bc139cec1304480805))
+* Update prod image_pull_policy to Always ([#1534](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1534)) ([c738b36](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c738b361a4b21642ec99b26133c8f4998c06b788))
+* Update staging image_pull_policy ([#1533](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1533)) ([4e9f133](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4e9f133473dfb3e58d1100de48dfea46f9161c45))
+
+## [1.45.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.45.0...web-v1.45.1) (2025-01-24)
+
+
+### 🐞 Bug Fixes
+
+* Fix hydration errors throughout app ([#1507](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1507)) ([fd44d14](https://github.com/chanzuckerberg/cryoet-data-portal/commit/fd44d1416a9303354e2cdbd032900b2e1c64b586))
+* Model/weight method links not properly rendered ([#1509](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1509)) ([4f967c0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4f967c0a8502bc28e2740f2d4f433dbb299dd8cb))
+* Remove time zones from tomogram date fields ([#1511](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1511)) ([76c4b05](https://github.com/chanzuckerberg/cryoet-data-portal/commit/76c4b053bc1fa5ef149428077b942b58380b6d82))
+
+## [1.45.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.44.0...web-v1.45.0) (2025-01-23)
+
+
+### ✨ Features
+
+* Migrate datasets and deposition filter values to use V2 data ([#1502](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1502)) ([f338feb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f338febe9114aaf9f016b45d482d1db0ba433883))
+* Migrate rest of dataset page to use V2 data ([#1499](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1499)) ([8aad11e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8aad11eb58bbe1a03ff8feaf2fe5f27ceb226c9d))
+
+
+### 🐞 Bug Fixes
+
+* Convert null to false for annotation authors in run page differ ([#1506](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1506)) ([50ced05](https://github.com/chanzuckerberg/cryoet-data-portal/commit/50ced05a3a997d11b1bfab04a0b2940e4334475c))
+* More adjustments to run query differ ([#1501](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1501)) ([4b8f40b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4b8f40b3447e6aefb5be8d491e6493c09ae072ef))
+
+## [1.44.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.43.0...web-v1.44.0) (2025-01-21)
+
+
+### ✨ Features
+
+* Add aggregate filters to datasets and deposition queries ([#1470](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1470)) ([7fdd048](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7fdd0485a4ba2f78dd3d49de637f51f5a6d50eac))
+* Diff logging for deposition page ([#1467](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1467)) ([3947969](https://github.com/chanzuckerberg/cryoet-data-portal/commit/39479692f464953c1e8a54330d5729edadc66c0d))
+
+
+### 🐞 Bug Fixes
+
+* Run page differ fixes to handle BE edge cases/bugs ([#1498](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1498)) ([69125a9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/69125a95af416dd5995cf8a90503d6750084b44e))
+
+## [1.43.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.42.0...web-v1.43.0) (2025-01-16)
+
+
+### ✨ Features
+
+* Another dummy PR ([#1473](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1473)) ([1f8fd97](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1f8fd976f958f995757acbab504840a5fa67521f))
+
+## [1.42.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.41.0...web-v1.42.0) (2025-01-15)
+
+
+### ✨ Features
+
+* Dummy PR to trigger release please ([#1471](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1471)) ([212cff1](https://github.com/chanzuckerberg/cryoet-data-portal/commit/212cff1a7640bf51f48a2bf4b9a0adef0a8f7565))
+
+## [1.41.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.40.0...web-v1.41.0) (2025-01-14)
+
+
+### ✨ Features
+
+* Convert deposition page query to V2 ([#1452](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1452)) ([c55bad8](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c55bad82130062a135ad876e82385ac44e848963))
+* Update ML Challenge banner ([#1457](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1457)) ([d873866](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d873866cdb478de0d8c5682fd5534535f3b2d40b))
+
+
+### 🐞 Bug Fixes
+
+* Fix deposition filter on run page ([#1466](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1466)) ([0f26b64](https://github.com/chanzuckerberg/cryoet-data-portal/commit/0f26b64476cd1670055cc2e7ff9d6de8de58131a))
+
+
+### 🧹 Miscellaneous Chores
+
+* Refactor datasets filter values fragment ([#1456](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1456)) ([4e3c156](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4e3c156aae40bed62d3bdc5a519f8f33ef13509c))
+
 ## [1.40.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.39.0...web-v1.40.0) (2025-01-09)
 
 

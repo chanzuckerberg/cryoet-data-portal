@@ -54,7 +54,7 @@ export function DownloadOptionsContent() {
     objectName,
     runId,
     runName,
-    annotationToDownload,
+    annotationShapeToDownload,
     tomogramToDownload,
     type,
   } = useDownloadModalContext()
@@ -65,6 +65,10 @@ export function DownloadOptionsContent() {
   const referenceTomogram = allTomograms?.find(
     (tomogram) => tomogram.id.toString() === referenceTomogramId,
   )
+  const annotationFileAlignmentId =
+    annotationShapeToDownload?.annotationFiles.edges.find(
+      (file) => file.node.format === fileFormat,
+    )?.node.alignmentId ?? undefined
   const DownloadTabContent = DOWNLOAD_TAB_MAP[selectedTab]
 
   return (
@@ -115,16 +119,10 @@ export function DownloadOptionsContent() {
           value={getTomogramName(referenceTomogram)}
         />
       )}
-      {annotationToDownload && tomogramToDownload?.alignment && (
+      {annotationFileAlignmentId !== undefined && (
         <ModalSubtitle
           label={t('alignmentId')}
-          value={tomogramToDownload.alignment.id}
-        />
-      )}
-      {annotationToDownload && (
-        <ModalSubtitle
-          label={t('alignmentId')}
-          value={`${IdPrefix.Alignment}-${annotationToDownload.id}`}
+          value={`${IdPrefix.Alignment}-${annotationFileAlignmentId}`}
         />
       )}
       {fileFormat && (
@@ -163,11 +161,16 @@ export function DownloadOptionsContent() {
 
       <DownloadTabContent />
 
-      {annotationToDownload !== undefined && tomogramToDownload?.alignment ? (
+      {annotationFileAlignmentId !== undefined ? (
         <AnnotationAlignmentCallout
-          alignmentId={tomogramToDownload.alignment.id}
+          alignmentId={annotationFileAlignmentId}
           initialState="closed"
-          misalignedTomograms={[]}
+          misalignedTomograms={
+            allTomograms?.filter(
+              (tomogram) =>
+                tomogram.alignment?.id !== annotationFileAlignmentId,
+            ) ?? []
+          }
         />
       ) : (
         <Callout intent="notice" className="!w-full !mt-sds-xl">

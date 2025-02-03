@@ -105,8 +105,8 @@ export default function DatasetByIdPage() {
           title: t('runs'),
           filterPanel: <RunFilter />,
           table: <RunsTable />,
-          filteredCount: dataset.filtered_runs_count.aggregate?.count ?? 0,
-          totalCount: dataset.runs_aggregate.aggregate?.count ?? 0,
+          filteredCount: dataset.filteredRunsCount?.aggregate?.[0]?.count ?? 0,
+          totalCount: dataset.runsAggregate?.aggregate?.[0]?.count ?? 0,
           countLabel: i18n.runs,
           noFilteredResults: <NoFilteredResults />,
         },
@@ -115,7 +115,7 @@ export default function DatasetByIdPage() {
         <DownloadModal
           datasetId={dataset.id}
           datasetTitle={dataset.title}
-          s3Path={dataset.s3_prefix}
+          s3Path={dataset.s3Prefix}
           type="dataset"
         />
       }

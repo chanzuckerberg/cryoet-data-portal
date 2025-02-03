@@ -170,7 +170,7 @@ jobs:
           E2E_CONFIG: ${{ secrets.E2E_CONFIG }}
           CI: true
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: html-report-${{ matrix.browser }}-${{ matrix.shardCurrent }}-${{ matrix.shardTotal }}

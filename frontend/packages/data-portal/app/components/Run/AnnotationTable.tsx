@@ -12,17 +12,20 @@ import {
 import { range, toNumber } from 'lodash-es'
 import { ComponentProps, ReactNode, useCallback, useMemo } from 'react'
 
+import {
+  Annotation_File_Shape_Type_Enum,
+  Annotation_Method_Type_Enum,
+} from 'app/__generated_v2__/graphql'
 import { AuthorList } from 'app/components/AuthorList'
 import { I18n } from 'app/components/I18n'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { Tooltip } from 'app/components/Tooltip'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import {
-  methodLabels,
-  methodTooltipLabels,
-  MethodType,
+  getMethodTypeLabelI18nKey,
+  getMethodTypeTooltipI18nKey,
 } from 'app/constants/methodTypes'
-import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
+import { getShapeTypeI18nKey } from 'app/constants/objectShapeTypes'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { AnnotationTableWidths } from 'app/constants/table'
@@ -35,32 +38,39 @@ import {
   useMetadataDrawer,
 } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
-import { AnnotationRow, useAnnotation } from 'app/state/annotation'
+import { useSelectedAnnotationShape } from 'app/state/annotation'
+import { AnnotationShape } from 'app/types/gql/runPageTypes'
 import { I18nKeys } from 'app/types/i18n'
-import { ObjectShapeType } from 'app/types/shapeTypes'
 import { DASHED_BORDERED_CLASSES } from 'app/utils/classNames'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
-const LOADING_ANNOTATIONS = range(0, MAX_PER_PAGE).map<AnnotationRow>(() => ({
-  annotation_method: '',
-  author_affiliations: [],
-  authors_aggregate: {},
-  authors: [],
-  confidence_precision: 0,
-  deposition_date: '',
-  files: [],
-  ground_truth_status: false,
-  id: 0,
-  object_count: 0,
-  object_id: '',
-  object_name: '',
-  release_date: '',
-  format: '',
-  https_path: '',
-  s3_path: '',
-  shape_type: '',
-  fileId: 0,
-}))
+import { getDefaultFileFormat } from '../Download/FileFormatDropdown'
+
+const LOADING_ANNOTATIONS: AnnotationShape[] = range(0, MAX_PER_PAGE).map(
+  () => ({
+    id: 0,
+    annotationFiles: {
+      edges: [],
+    },
+    annotation: {
+      annotationMethod: '',
+      authors: {
+        edges: [],
+      },
+      depositionDate: '',
+      id: 0,
+      lastModifiedDate: '',
+      methodLinks: {
+        edges: [],
+      },
+      methodType: Annotation_Method_Type_Enum.Manual,
+      objectId: '',
+      objectName: '',
+      releaseDate: '',
+    },
+    shapeType: Annotation_File_Shape_Type_Enum.Point,
+  }),
+)
 
 function ConfidenceValue({ value }: { value: number }) {
   const { t } = useI18n()
@@ -78,24 +88,24 @@ function ConfidenceValue({ value }: { value: number }) {
 export function AnnotationTable() {
   const { isLoadingDebounced } = useIsLoading()
   const [searchParams] = useSearchParams()
-  const { run, annotationFiles, annotationFilesAggregates, tomograms } =
+  const { run, annotationShapes, annotationFilesAggregates, tomograms } =
     useRunById()
   const { toggleDrawer } = useMetadataDrawer()
-  const { setActiveAnnotation } = useAnnotation()
+  const { setSelectedAnnotationShape } = useSelectedAnnotationShape()
   const { t } = useI18n()
 
   const { openAnnotationDownloadModal } = useDownloadModalQueryParamState()
 
   const openAnnotationDrawer = useCallback(
-    (annotation: AnnotationRow) => {
-      setActiveAnnotation(annotation)
+    (annotation: AnnotationShape) => {
+      setSelectedAnnotationShape(annotation)
       toggleDrawer(MetadataDrawerId.Annotation)
     },
-    [toggleDrawer, setActiveAnnotation],
+    [toggleDrawer, setSelectedAnnotationShape],
   )
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<AnnotationRow>()
+    const columnHelper = createColumnHelper<AnnotationShape>()
 
     function getConfidenceCell({
       cellHeaderProps,
@@ -105,7 +115,7 @@ export function AnnotationTable() {
     }: {
       cellHeaderProps?: Partial<ComponentProps<typeof CellHeader>>
       header: string
-      key: keyof AnnotationRow
+      key: Parameters<typeof columnHelper.accessor>[0]
       tooltipI18nKey?: I18nKeys
     }) {
       return columnHelper.accessor(key, {
@@ -141,14 +151,14 @@ export function AnnotationTable() {
     }
 
     return [
-      columnHelper.accessor('id', {
+      columnHelper.accessor((annotationShape) => annotationShape.annotation, {
+        id: 'annotationName',
         header: () => (
           <CellHeader width={AnnotationTableWidths.id}>
             {t('annotationName')}
           </CellHeader>
         ),
-
-        cell: ({ row: { original: annotation } }) => (
+        cell: ({ row: { original: annotationShape } }) => (
           <TableCell
             className="flex flex-col gap-sds-xxxs !items-start"
             renderLoadingSkeleton={() => (
@@ -167,8 +177,8 @@ export function AnnotationTable() {
                   'text-ellipsis line-clamp-2 break-all',
                 )}
               >
-                <span>{annotation.fileId} </span>
-                <span>{annotation.object_name}</span>
+                <span>{annotationShape.id} </span>
+                <span>{annotationShape.annotation?.objectName}</span>
               </p>
 
               <div className="flex items-center gap-sds-xxs">
@@ -177,11 +187,11 @@ export function AnnotationTable() {
                     {t('annotationId')}: {IdPrefix.Annotation}-
                   </span>
                   <span data-testid={TestIds.AnnotationId}>
-                    {annotation.id}
+                    {annotationShape.annotation?.id}
                   </span>
                 </p>
 
-                {annotation.ground_truth_status && (
+                {annotationShape.annotation?.groundTruthStatus && (
                   <Tooltip
                     tooltip={<I18n i18nKey="groundTruthTooltip" />}
                     placement="top"
@@ -202,13 +212,20 @@ export function AnnotationTable() {
             </div>
 
             <div className="text-sds-color-semantic-text-base-secondary text-sds-body-xxs leading-sds-header-xxs mt-sds-s">
-              <AuthorList authors={annotation.authors} compact />
+              <AuthorList
+                authors={
+                  annotationShape.annotation?.authors.edges.map(
+                    (author) => author.node,
+                  ) ?? []
+                }
+                compact
+              />
             </div>
           </TableCell>
         ),
       }),
 
-      columnHelper.accessor('deposition_date', {
+      columnHelper.accessor('annotation.depositionDate', {
         header: () => (
           <CellHeader
             className="whitespace-nowrap text-ellipsis"
@@ -221,13 +238,13 @@ export function AnnotationTable() {
         cell: ({ getValue }) => (
           <TableCell width={AnnotationTableWidths.depositionDate}>
             <div className="line-clamp-2 text-ellipsis capitalize">
-              {getValue()}
+              {getValue().split('T')[0]}
             </div>
           </TableCell>
         ),
       }),
 
-      columnHelper.accessor('object_name', {
+      columnHelper.accessor('annotation.objectName', {
         header: () => (
           <CellHeader width={AnnotationTableWidths.objectName}>
             {t('objectName')}
@@ -241,21 +258,24 @@ export function AnnotationTable() {
         ),
       }),
 
-      columnHelper.accessor('shape_type', {
+      columnHelper.accessor('shapeType', {
         header: () => (
           <CellHeader width={AnnotationTableWidths.files}>
             {t('objectShapeType')}
           </CellHeader>
         ),
 
-        cell: ({ getValue }) => (
-          <TableCell width={AnnotationTableWidths.files}>
-            {t(shapeTypeToI18nKey[getValue() as ObjectShapeType])}
-          </TableCell>
-        ),
+        cell: ({ getValue }) => {
+          const shapeType = getValue()
+          return (
+            <TableCell width={AnnotationTableWidths.files}>
+              {shapeType != null ? t(getShapeTypeI18nKey(shapeType)) : '--'}
+            </TableCell>
+          )
+        },
       }),
 
-      columnHelper.accessor('id', {
+      columnHelper.accessor('annotation.methodType', {
         id: 'method-type',
 
         header: () => (
@@ -268,45 +288,35 @@ export function AnnotationTable() {
           </CellHeader>
         ),
 
-        cell: ({ row: { original: annotation } }) => {
-          if (!annotation.method_type) {
-            return (
-              <TableCell width={AnnotationTableWidths.methodType}>--</TableCell>
-            )
-          }
-
-          const methodType = annotation.method_type as MethodType
-
-          return (
-            <TableCell
-              width={AnnotationTableWidths.methodType}
-              tooltip={<I18n i18nKey={methodTooltipLabels[methodType]} />}
-              tooltipProps={{ placement: 'top' }}
+        cell: ({ getValue, row: { original: annotationShape } }) => (
+          <TableCell
+            width={AnnotationTableWidths.methodType}
+            tooltip={<I18n i18nKey={getMethodTypeTooltipI18nKey(getValue())} />}
+            tooltipProps={{ placement: 'top' }}
+          >
+            {/* convert to link when activate annotation state is moved to URL */}
+            <button
+              className={cnsNoMerge(
+                'text-sds-header-s leading-sds-header-s',
+                DASHED_BORDERED_CLASSES,
+              )}
+              onClick={() => openAnnotationDrawer(annotationShape)}
+              type="button"
             >
-              {/* convert to link when activate annotation state is moved to URL */}
-              <button
-                className={cnsNoMerge(
-                  'text-sds-header-s leading-sds-header-s',
-                  DASHED_BORDERED_CLASSES,
-                )}
-                onClick={() => openAnnotationDrawer(annotation)}
-                type="button"
-              >
-                {t(methodLabels[methodType])}
-              </button>
-            </TableCell>
-          )
-        },
+              {t(getMethodTypeLabelI18nKey(getValue()))}
+            </button>
+          </TableCell>
+        ),
       }),
 
       getConfidenceCell({
-        key: 'confidence_precision',
+        key: 'annotation.confidencePrecision',
         header: t('precision'),
         tooltipI18nKey: 'precisionTooltip',
       }),
 
       getConfidenceCell({
-        key: 'confidence_recall',
+        key: 'annotation.confidenceRecall',
         header: t('recall'),
         tooltipI18nKey: 'recallTooltip',
       }),
@@ -316,13 +326,13 @@ export function AnnotationTable() {
         // Render empty cell header so that it doesn't break the table layout
         header: () => <CellHeader width={AnnotationTableWidths.actions} />,
 
-        cell: ({ row: { original: annotation } }) => (
+        cell: ({ row: { original: annotationShape } }) => (
           <TableCell width={AnnotationTableWidths.actions}>
             <div className="flex flex-col gap-sds-xs items-start">
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
-                onClick={() => openAnnotationDrawer(annotation)}
+                onClick={() => openAnnotationDrawer(annotationShape)}
                 startIcon={
                   <Icon sdsIcon="InfoCircle" sdsSize="s" sdsType="button" />
                 }
@@ -340,19 +350,23 @@ export function AnnotationTable() {
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
-                onClick={() =>
+                onClick={() => {
                   openAnnotationDownloadModal({
                     datasetId: run.dataset.id,
                     runId: run.id,
-                    annotationId: annotation.id,
+                    annotationId: annotationShape.annotation?.id,
                     referenceTomogramId: tomograms.find(
                       (tomogram) => tomogram.isPortalStandard,
                     )?.id,
-                    objectShapeType: annotation.shape_type,
-                    fileFormat: annotation.format,
-                    annotationName: `${annotation.fileId} ${annotation.object_name}`,
+                    objectShapeType: annotationShape.shapeType ?? undefined,
+                    fileFormat: getDefaultFileFormat(
+                      annotationShape.annotationFiles.edges.map(
+                        (file) => file.node.format,
+                      ),
+                    ),
+                    annotationName: `${annotationShape.id} ${annotationShape.annotation?.objectName}`,
                   })
-                }
+                }}
                 startIcon={
                   <Icon sdsIcon="Download" sdsSize="s" sdsType="button" />
                 }
@@ -368,7 +382,7 @@ export function AnnotationTable() {
           </TableCell>
         ),
       }),
-    ] as ColumnDef<AnnotationRow>[]
+    ] as ColumnDef<AnnotationShape>[]
   }, [
     t,
     openAnnotationDrawer,
@@ -377,23 +391,6 @@ export function AnnotationTable() {
     run.id,
     tomograms,
   ])
-
-  const annotations = useMemo(
-    () =>
-      annotationFiles.map((annotationFile) => {
-        const {
-          annotation: _,
-          id,
-          ...restAnnotationFileFields
-        } = annotationFile
-        return {
-          fileId: id,
-          ...restAnnotationFileFields,
-          ...annotationFile.annotation,
-        } as AnnotationRow
-      }),
-    [annotationFiles],
-  )
 
   const currentPage = toNumber(
     searchParams.get(QueryParams.AnnotationsPage) ?? 1,
@@ -407,13 +404,14 @@ export function AnnotationTable() {
    *  - The non ground truth divider is attached to the first non ground truth row.
    */
   const getGroundTruthDividersForRow = (
-    table: Table<AnnotationRow>,
-    row: Row<AnnotationRow>,
+    table: Table<AnnotationShape>,
+    row: Row<AnnotationShape>,
   ): ReactNode => {
     return (
       <>
         {row.index === 0 &&
-          (currentPage === 1 || row.original.ground_truth_status) && (
+          (currentPage === 1 ||
+            row.original.annotation?.groundTruthStatus === true) && (
             <RowDivider
               groundTruth
               count={annotationFilesAggregates.groundTruthCount}
@@ -421,7 +419,9 @@ export function AnnotationTable() {
           )}
 
         {row.id ===
-          table.getRowModel().rows.find((r) => !r.original.ground_truth_status)
+          table
+            .getRowModel()
+            .rows.find((r) => r.original.annotation?.groundTruthStatus !== true)
             ?.id && (
           <RowDivider
             groundTruth={false}
@@ -457,7 +457,7 @@ export function AnnotationTable() {
 
   return (
     <PageTable
-      data={isLoadingDebounced ? LOADING_ANNOTATIONS : annotations}
+      data={isLoadingDebounced ? LOADING_ANNOTATIONS : annotationShapes}
       columns={columns}
       getBeforeRowElement={getGroundTruthDividersForRow}
       getAfterTableElement={getGroundTruthDividersWhenNoRows}

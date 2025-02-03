@@ -9,6 +9,8 @@ import { DatabaseEntryList } from 'app/components/DatabaseEntry'
 import { Link } from 'app/components/Link'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
+import { Dataset } from 'app/types/gql/genericTypes'
+import { isDefined } from 'app/utils/nullish'
 import { getTableData } from 'app/utils/table'
 
 import { DatasetType } from './type'
@@ -18,11 +20,15 @@ export function DatasetMetadataTable({
   showAllFields,
   initialOpen,
 }: {
-  dataset: DatasetType
+  dataset: DatasetType | Dataset
   showAllFields?: boolean
   initialOpen?: boolean
 }) {
   const { t } = useI18n()
+  const isV2 = isV2Dataset(dataset)
+
+  const numAuthors =
+    (isV2 ? dataset.authors?.edges?.length : dataset.authors?.length) ?? 0
 
   const datasetMetadata = getTableData(
     !!showAllFields && {
@@ -60,24 +66,32 @@ export function DatasetMetadataTable({
 
     {
       label: t('depositionDate'),
-      values: [dataset.deposition_date ?? ''],
+      values: [
+        (isV2
+          ? dataset.depositionDate?.split('T')[0]
+          : dataset.deposition_date) ?? '',
+      ],
     },
 
     !!showAllFields && {
       label: t('releaseDate'),
-      values: [dataset.release_date ?? ''],
+      values: [
+        (isV2 ? dataset.releaseDate?.split('T')[0] : dataset.release_date) ??
+          '',
+      ],
     },
 
     !!showAllFields && {
       label: t('lastModifiedDate'),
-      values: [dataset.last_modified_date ?? ''],
+      values: [
+        (isV2
+          ? dataset.lastModifiedDate?.split('T')[0]
+          : dataset.last_modified_date) ?? '',
+      ],
     },
 
     !!showAllFields && {
-      label:
-        dataset.authors && dataset.authors.length === 1
-          ? t('author')
-          : t('authors'),
+      label: numAuthors === 1 ? t('author') : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
         return <AuthorList authors={dataset.authors as AuthorInfo[]} large />
@@ -90,9 +104,13 @@ export function DatasetMetadataTable({
       label: t('grantID'),
       values: Array.from(
         new Set(
-          dataset.funding_sources
-            ?.map((source) => source.grant_id)
-            .filter(isString),
+          isV2
+            ? dataset.fundingSources?.edges
+                ?.map((fundingSource) => fundingSource?.node?.grantId)
+                .filter(isDefined)
+            : dataset.funding_sources
+                ?.map((source) => source.grant_id)
+                .filter(isString),
         ),
       ),
     },
@@ -101,16 +119,24 @@ export function DatasetMetadataTable({
       label: t('fundingAgency'),
       values: Array.from(
         new Set(
-          dataset.funding_sources
-            ?.map((source) => source.funding_agency_name)
-            .filter(isString) ?? [],
+          isV2
+            ? dataset.fundingSources?.edges
+                ?.map((fundingSource) => fundingSource?.node?.fundingAgencyName)
+                .filter(isDefined)
+            : dataset.funding_sources
+                ?.map((source) => source.funding_agency_name)
+                .filter(isString),
         ),
       ),
     },
 
     {
       label: t('relatedDatabases'),
-      values: [dataset.related_database_entries ?? ''],
+      values: [
+        (isV2
+          ? dataset.relatedDatabaseEntries
+          : dataset.related_database_entries) ?? '',
+      ],
       renderValue: (value: string) => {
         return <DatabaseEntryList entries={value} />
       },
@@ -118,7 +144,11 @@ export function DatasetMetadataTable({
 
     !!showAllFields && {
       label: t('publications'),
-      values: [dataset.dataset_publications ?? ''],
+      values: [
+        (isV2
+          ? dataset.relatedDatabaseEntries
+          : dataset.dataset_publications) ?? '',
+      ],
       renderValue: (value: string) => {
         return <DatabaseEntryList entries={value} />
       },
@@ -133,4 +163,8 @@ export function DatasetMetadataTable({
       initialOpen={initialOpen}
     />
   )
+}
+
+function isV2Dataset(dataset: DatasetType | Dataset): dataset is Dataset {
+  return dataset.__typename === 'Dataset'
 }

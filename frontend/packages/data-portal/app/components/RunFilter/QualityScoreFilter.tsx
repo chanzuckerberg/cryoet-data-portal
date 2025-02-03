@@ -10,7 +10,7 @@ import { useTiltScoreI18n } from 'app/hooks/useTiltScoreI18n'
 import { BaseFilterOption } from 'app/types/filter'
 
 export function QualityScoreFilter() {
-  const { dataset } = useDatasetById()
+  const { tiltseriesQualityScores } = useDatasetById()
 
   const {
     updateValue,
@@ -18,18 +18,6 @@ export function QualityScoreFilter() {
   } = useFilter()
 
   const { t } = useI18n()
-
-  const allQualityScores = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          dataset.run_stats.flatMap((run) =>
-            run.tiltseries.map((tiltSeries) => tiltSeries.tilt_series_quality),
-          ),
-        ),
-      ) as TiltSeriesScore[],
-    [dataset.run_stats],
-  )
 
   const tiltScoreI18n = useTiltScoreI18n()
   const getScoreOptions = useCallback(
@@ -47,8 +35,8 @@ export function QualityScoreFilter() {
   )
 
   const qualityScoreOptions = useMemo(
-    () => getScoreOptions(allQualityScores),
-    [allQualityScores, getScoreOptions],
+    () => getScoreOptions(tiltseriesQualityScores),
+    [tiltseriesQualityScores, getScoreOptions],
   )
 
   const qualityScoreValue = useMemo(

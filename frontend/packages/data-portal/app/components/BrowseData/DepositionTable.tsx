@@ -65,8 +65,8 @@ export function DepositionTable() {
     try {
       return [
         columnHelper.accessor('keyPhotoThumbnailUrl', {
-          header: () => <p />,
-
+          // eslint-disable-next-line jsx-a11y/control-has-associated-label
+          header: () => <td />,
           cell({ row: { original: deposition } }) {
             const depositionUrl = `/depositions/${deposition.id}`
 

@@ -21,6 +21,17 @@ const FILE_FORMAT_TOOLTIP_I18N: Record<string, I18nKeys> = {
 }
 
 export const FILE_FORMAT_ORDER = ['mrc', 'zarr', 'ndjson']
+export function getDefaultFileFormat(
+  availableFormats: string[],
+): string | undefined {
+  for (const fileFormat of FILE_FORMAT_ORDER) {
+    if (availableFormats.includes(fileFormat)) {
+      return fileFormat
+    }
+  }
+
+  return undefined
+}
 
 /**
  * Renders select dropdown with file formats specified in the `fileFormats`
@@ -41,7 +52,6 @@ export function FileFormatDropdown({
   const matchingFileFormats = FILE_FORMAT_ORDER.filter((format) =>
     fileFormats.includes(format),
   )
-  const defaultFormat = matchingFileFormats[0]
 
   const fileFormatOptions = useMemo<SelectOption[]>(
     () =>
@@ -53,7 +63,8 @@ export function FileFormatDropdown({
     [matchingFileFormats, t],
   )
 
-  const selectedFormat = fileFormat ?? defaultFormat
+  const selectedFormat =
+    fileFormat ?? getDefaultFileFormat(matchingFileFormats)!
 
   return (
     <Select

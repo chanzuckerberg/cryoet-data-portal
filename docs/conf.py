@@ -110,7 +110,19 @@ html_theme_options = {
         "text": "Inter",  # used for all the pages' text
         "code": "Roboto Mono",  # used for literal code blocks
     },
-    # "analytics": {"provider": "google", "property": "G-XXXXXXXXXX"},
+    "version_dropdown": True,
+    "version_info": [
+        {
+            "version": "dev", # version number or path
+            "title": "Latest",
+            "aliases": [],
+        },
+        {
+            "version": "v3.0",
+            "title": "Stable (v3.0)",
+            "aliases": ["stable"],
+        },
+    ],
 }
 
 # Remove icons from toc elements in API page
@@ -121,6 +133,25 @@ object_description_options = [
     ("py:attribute", dict(include_in_toc=False)),
     ("py:.*", dict(include_fields_in_toc=False)),
 ]
+
+sphinx_immaterial_custom_admonitions = [
+    {
+        "name": "czi-info",
+        "title": "Info",
+        "color": "#3867FA",
+        "icon": "IconExclamationMarkCircleLarge",
+        "override": True,
+    },
+    {
+        "name": "czi-warning",
+        "title": "Warning",
+        "color": "#F5A623",
+        "icon": "IconExclamationMarkCircleLarge",
+        "override": True,
+    },
+]
+
+sphinx_immaterial_icon_path = ["./_static/img"]
 
 # -- Options for myst -------------------------------------------------
 myst_enable_extensions = ['colon_fence']

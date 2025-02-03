@@ -30,11 +30,11 @@ export const TOP_LEVEL_LINKS: TopNavLink[] = [
 export const TOOLS_LINKS: NavLink[] = [
   {
     label: 'api',
-    link: 'https://chanzuckerberg.github.io/cryoet-data-portal/python-api.html',
+    link: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/python-api.html',
   },
   {
     label: 'napariPlugin',
-    link: 'https://chanzuckerberg.github.io/cryoet-data-portal/cryoet_data_portal_docsite_napari.html',
+    link: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_napari.html',
   },
 ]
 

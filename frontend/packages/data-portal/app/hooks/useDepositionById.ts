@@ -1,59 +1,31 @@
-import { useMemo } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetDepositionByIdQuery } from 'app/__generated__/graphql'
+import { GetDepositionByIdV2Query } from 'app/__generated_v2__/graphql'
+import { isDefined } from 'app/utils/nullish'
 
 export type Deposition = NonNullable<GetDepositionByIdQuery['deposition']>
 
 export type Dataset = GetDepositionByIdQuery['datasets'][number]
 
 export function useDepositionById() {
-  const { depositionData: data, annotationMethodCounts } = useTypedLoaderData<{
-    depositionData: GetDepositionByIdQuery
-    annotationMethodCounts: Map<string, number>
+  const { v1, v2 } = useTypedLoaderData<{
+    v1: GetDepositionByIdQuery
+    v2: GetDepositionByIdV2Query
   }>()
 
-  const objectNames = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          data.deposition?.object_names.flatMap(
-            (annotation) => annotation.object_name,
-          ),
-        ),
-      ),
-    [data.deposition?.object_names],
-  )
-
-  const objectShapeTypes = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          data.deposition?.annotations.flatMap((annotation) =>
-            annotation.files.flatMap((file) => file.shape_type),
-          ),
-        ),
-      ),
-    [data.deposition?.annotations],
-  )
-
-  const organismNames = useMemo(
-    () =>
-      Array.from(
-        new Set(data.datasets.flatMap((dataset) => dataset.organism_name)),
-      ).filter(Boolean) as string[],
-    [data.datasets],
+  const annotationMethodCounts = new Map<string, number>(
+    v2.depositions[0].annotationMethodCounts?.aggregate
+      ?.map((aggregate) => [
+        aggregate.groupBy?.annotationMethod,
+        aggregate.count ?? 0,
+      ])
+      .filter((entry): entry is [string, number] => isDefined(entry[0])) ?? [],
   )
 
   return {
-    deposition: data.deposition as Deposition,
-    datasets: data.datasets,
-    datasetsCount: data.datasets_aggregate.aggregate?.count ?? 0,
-    filteredDatasetsCount:
-      data.filtered_datasets_aggregate.aggregate?.count ?? 0,
-    objectNames,
-    objectShapeTypes,
-    organismNames,
+    deposition: v1.deposition as Deposition,
+    datasets: v2.datasets,
     annotationMethodCounts,
   }
 }

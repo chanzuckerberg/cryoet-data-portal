@@ -36,6 +36,7 @@ module "stack" {
       initial_delay_seconds     = 100
       liveness_timeout_seconds  = 30
       readiness_timeout_seconds = 30
+      image_pull_policy         = "Always"
     }
   }
   create_dashboard = false

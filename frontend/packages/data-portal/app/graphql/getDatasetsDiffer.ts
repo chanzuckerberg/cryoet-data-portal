@@ -9,7 +9,7 @@ import {
   GetDatasetsV2Query,
 } from 'app/__generated_v2__/graphql'
 
-import { convertReconstructionMethodToV2 } from './common'
+import { convertReconstructionMethodToV2, removeTypenames } from './common'
 
 /* eslint-disable no-console, no-param-reassign */
 export function logIfHasDiff(
@@ -18,9 +18,12 @@ export function logIfHasDiff(
   v1FilterValues: GetDatasetsFilterDataQuery,
   v2: GetDatasetsV2Query,
 ): void {
-  console.log('Checking for datasets query diffs')
+  console.log(
+    `Checking for datasets query diffs ${new Date().toLocaleString()}`,
+  )
 
   v2 = structuredClone(v2)
+  removeTypenames(v2)
 
   // Counts not used.
   // Create consistent sort order.
@@ -63,16 +66,11 @@ export function logIfHasDiff(
     delete group.count
   }
   v2.distinctReconstructionSoftwares.aggregate =
-    v2.distinctReconstructionSoftwares
-      .aggregate!.filter(
-        // Bug in APIv2 returns this as a duplicate of 'AreTomo3 v2.0.4'
-        (group) => group.groupBy?.reconstructionSoftware !== 'AreTomo3_v2.0.4',
-      )
-      .sort((groupA, groupB) =>
-        String(groupA.groupBy!.reconstructionSoftware).localeCompare(
-          String(groupB.groupBy!.reconstructionSoftware),
-        ),
-      )
+    v2.distinctReconstructionSoftwares.aggregate!.sort((groupA, groupB) =>
+      String(groupA.groupBy!.reconstructionSoftware).localeCompare(
+        String(groupB.groupBy!.reconstructionSoftware),
+      ),
+    )
   for (const group of v2.distinctObjectNames.aggregate!) {
     delete group.count
   }
