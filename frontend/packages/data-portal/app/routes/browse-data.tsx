@@ -15,7 +15,7 @@ const GET_TOOLBAR_DATA_QUERY = gql(`
       }
     }
 
-    depositionsAggregate {
+    depositionsAggregate(where: { depositionTypes: { type: { _eq: annotation }}}) {
       aggregate {
         count
       }
