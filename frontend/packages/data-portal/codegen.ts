@@ -12,7 +12,12 @@ const config: CodegenConfig = {
   generates: {
     './app/__generated__/': {
       schema: SCHEMA_URL,
-      documents: ['app/**/*.{ts,tsx}', '!app/**/*V2*.{ts,tsx}'],
+      documents: [
+        'app/**/*.{ts,tsx}',
+        '!app/**/*V2*.{ts,tsx}',
+        '!app/routes/_index.tsx',
+        '!app/routes/browse-data.tsx',
+      ],
       preset: 'client',
       plugins: [],
 
@@ -30,7 +35,11 @@ const config: CodegenConfig = {
     },
     './app/__generated_v2__/': {
       schema: SCHEMA_URL_V2,
-      documents: ['app/**/*V2*.{ts,tsx}'],
+      documents: [
+        'app/**/*V2*.{ts,tsx}',
+        'app/routes/_index.tsx',
+        'app/routes/browse-data.tsx',
+      ],
       preset: 'client',
       plugins: [],
 

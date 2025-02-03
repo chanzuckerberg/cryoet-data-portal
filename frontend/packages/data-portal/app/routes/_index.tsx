@@ -1,32 +1,32 @@
 import type { MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/server-runtime'
 
-import { gql } from 'app/__generated__'
-import { apolloClient } from 'app/apollo.server'
+import { gql } from 'app/__generated_v2__'
+import { apolloClientV2 } from 'app/apollo.server'
 import { IndexContent, IndexHeader } from 'app/components/Index'
 
 const LANDING_PAGE_DATA_QUERY = gql(`
   query LandingPageData {
-    datasets_aggregate {
+    datasetsAggregate {
       aggregate {
-        count(distinct: true)
+        count
       }
     }
-    species_aggregate: datasets_aggregate {
+    distinctSpecies: datasetsAggregate {
       aggregate {
-        count(distinct: true, columns: organism_taxid)
+        count(columns: organismTaxid, distinct: true)
       }
     }
-    tomograms_aggregate {
+    tomogramsAggregate {
       aggregate {
-        count(distinct: true)
+        count
       }
     }
   }
 `)
 
 export async function loader() {
-  const { data } = await apolloClient.query({
+  const { data } = await apolloClientV2.query({
     query: LANDING_PAGE_DATA_QUERY,
   })
 

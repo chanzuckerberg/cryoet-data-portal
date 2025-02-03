@@ -1,7 +1,7 @@
 import { Button } from '@czi-sds/components'
 import { useTypedLoaderData } from 'remix-typedjson'
 
-import { LandingPageDataQuery } from 'app/__generated__/graphql'
+import { LandingPageDataQuery } from 'app/__generated_v2__/graphql'
 import { I18n } from 'app/components/I18n'
 import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
@@ -34,10 +34,6 @@ export function IndexHeader() {
   const { t } = useI18n()
   const data = useTypedLoaderData<LandingPageDataQuery>()
 
-  const datasets = data.datasets_aggregate.aggregate?.count
-  const species = data.species_aggregate.aggregate?.count
-  const tomograms = data.tomograms_aggregate.aggregate?.count
-
   return (
     <div
       className={cnsNoMerge(
@@ -60,11 +56,20 @@ export function IndexHeader() {
             <I18n i18nKey="landingHeaderTitle" />
           </h1>
           <div className="flex flex-row justify-center w-full">
-            <MetricField title={t('datasets')} count={datasets ?? 0} />
+            <MetricField
+              title={t('datasets')}
+              count={data.datasetsAggregate.aggregate?.[0]?.count ?? 0}
+            />
             {DIVIDER}
-            <MetricField title={t('species')} count={species ?? 0} />
+            <MetricField
+              title={t('species')}
+              count={data.distinctSpecies.aggregate?.[0]?.count ?? 0}
+            />
             {DIVIDER}
-            <MetricField title={t('tomograms')} count={tomograms ?? 0} />
+            <MetricField
+              title={t('tomograms')}
+              count={data.tomogramsAggregate.aggregate?.[0]?.count ?? 0}
+            />
           </div>
           <Link to="/browse-data/datasets">
             <Button
