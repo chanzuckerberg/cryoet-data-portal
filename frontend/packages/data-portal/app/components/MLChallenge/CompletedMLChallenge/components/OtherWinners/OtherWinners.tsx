@@ -1,28 +1,77 @@
 import { Button } from '@czi-sds/components'
 import { useState } from 'react'
 
+import { useWindowSize } from 'app/hooks/useWindowSize'
 import { cns } from 'app/utils/cns'
 
 import { Winner, WinnerCard } from '../WinnerCard/WinnerCard'
 
 export function OtherWinners({ winners }: { winners: Winner[] }) {
-  const [caroselPosition, setCaroselPosition] = useState(1)
-  const numberOfVisibleCards = 3
-  // const slidesLeftOver = winners.length % numberOfVisibleCards
-  const numberOfSlides =
-    Math.floor(winners.length / numberOfVisibleCards) +
-    (winners.length % numberOfVisibleCards ? 1 : 0)
-  // console.log('numberOfSlides', numberOfSlides)
-  const changeCaroselPosition = (direction: 'left' | 'right') => {
+  const [carouselPosition, setCarouselPosition] = useState<number>(1)
+  const winnersLength = winners.length - 3
+  const gap = 40
+  const size = useWindowSize()
+  const numberOfVisibleCards =
+    // eslint-disable-next-line no-nested-ternary
+    size?.width && size.width <= 667
+      ? 1
+      : size?.width && size.width <= 1345
+      ? 2
+      : 3
+
+  const totalWidth =
+    // eslint-disable-next-line no-nested-ternary
+    size?.width && size.width <= 1024
+      ? size.width - 48 // 48 is for the padding of the parent container
+      : size?.width && size.width < 1345
+      ? 800
+      : 1100
+
+  const incompleteLastSlideCardNum = winnersLength % numberOfVisibleCards
+  const numberOfSlides = Math.ceil(winnersLength / numberOfVisibleCards)
+  const numberOfSlidesArray = [...Array(numberOfSlides).keys()]
+  const cardWidth =
+    (totalWidth - (numberOfVisibleCards - 1) * gap) / numberOfVisibleCards
+
+  const getCarouselOffset = ({ position }: { position: number }) => {
+    // if it is not the last slide or if the last slide has the full amount of visible cards
+    const getPreviousSlidesWidth = (includeLastSlide: boolean) => {
+      const totalSlidesWidth =
+        totalWidth * (position - (includeLastSlide ? 1 : 2)) +
+        gap * (position - (includeLastSlide ? 1 : 2))
+      // We add an extra gap to center the carousel within the viewport after including box shadows
+      return totalSlidesWidth
+    }
+
+    if (position !== numberOfSlides || incompleteLastSlideCardNum === 0) {
+      return getPreviousSlidesWidth(true)
+    }
+    // If the last slide has less than the total possible numberOfVisibleCards
+    const offset = getPreviousSlidesWidth(false)
+    const offsetLastSlide = (cardWidth + gap) * incompleteLastSlideCardNum
+    return offset + offsetLastSlide
+  }
+
+  // console.table({
+  //   cardWidth,
+  //   totalWidth,
+  //   numberOfSlides,
+  //   numberOfVisibleCards,
+  //   gap,
+  //   incompleteLastSlideCardNum,
+  //   getCarouselOffset: getCarouselOffset({ position: carouselPosition }),
+  // })
+
+  const changeCarouselPosition = (direction: 'left' | 'right') => {
     if (direction === 'left') {
-      setCaroselPosition((prev) => {
+      setCarouselPosition((prev) => {
         if (prev === 1) {
           return prev
         }
         return prev - 1
       })
     } else {
-      setCaroselPosition((prev) => {
+      setCarouselPosition((prev) => {
         if (prev === numberOfSlides) {
           return prev
         }
@@ -30,28 +79,18 @@ export function OtherWinners({ winners }: { winners: Winner[] }) {
       })
     }
   }
-
-  const numberOfSlidesArray = [...Array(numberOfSlides).keys()]
-
-  // width of each card is 340px (at this breakpoint)
-  // gap between each card is 40px
-  // number of cards visible at a time is 3
-
-  // const cardAndGapWidth = 340 + 40
-  // const
-  // const numberOfNotVisibleCards = winners.length - ( numberOfVisibleCards
-  // const offsetCarosel = numberOfNotVisibleCards * 340 + 40
   return (
     <div>
       <div className="overflow-x-clip w-[calc(100%+40px)] translate-x-[-20px]">
         <div
+          style={{
+            right: `${getCarouselOffset({ position: carouselPosition })}px`,
+            gridTemplateColumns: `repeat(${winnersLength}, ${cardWidth}px)`,
+          }}
           className={cns(
-            'grid grid-cols-[repeat(7,_340px)] gap-sds-xxl',
+            'grid gap-sds-xxl',
             'translate-x-[20px] relative',
             'transition-all duration-600 ease-in-out',
-            caroselPosition === 1 && 'right-[0px]',
-            caroselPosition === 2 && 'right-[1140px]',
-            caroselPosition === 3 && 'right-[1520px]',
           )}
         >
           {winners.map(
@@ -72,21 +111,27 @@ export function OtherWinners({ winners }: { winners: Winner[] }) {
           sdsStyle="icon"
           icon="ChevronLeft"
           sdsSize="small"
-          onClick={() => changeCaroselPosition('left')}
-          disabled={caroselPosition === 1}
+          onClick={() => changeCarouselPosition('left')}
+          disabled={carouselPosition === 1}
         />
-        <div className="grid grid-cols-3 gap-sds-s grid-rows-[4px]">
+        <div
+          style={{
+            gridTemplateColumns: `repeat(${numberOfSlides}, ${
+              numberOfSlides > 4 ? 20 : 45
+            }px)`,
+          }}
+          className={`grid grid-cols-${numberOfSlides} gap-sds-s grid-rows-[4px]`}
+        >
           {numberOfSlidesArray.map((_, index) => (
             <div
               // eslint-disable-next-line react/no-array-index-key
               key={index}
               className={`
                   rounded-full
-                  w-[45px]
                   h-full
                   bg-sds-color-primitive-gray-200
                   ${
-                    index === caroselPosition - 1
+                    index === carouselPosition - 1
                       ? 'bg-sds-color-semantic-component-accent-icon'
                       : 'bg-sds-color-primitive-gray-200'
                   }
@@ -99,8 +144,8 @@ export function OtherWinners({ winners }: { winners: Winner[] }) {
           sdsStyle="icon"
           icon="ChevronRight"
           sdsSize="small"
-          onClick={() => changeCaroselPosition('right')}
-          disabled={caroselPosition === numberOfSlides}
+          onClick={() => changeCarouselPosition('right')}
+          disabled={carouselPosition === numberOfSlides}
         />
       </div>
     </div>
