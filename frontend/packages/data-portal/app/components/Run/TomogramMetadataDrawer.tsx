@@ -61,7 +61,7 @@ export function TomogramMetadataDrawer() {
           },
           {
             label: t('publications'),
-            values: [run.dataset.dataset_publications ?? ''],
+            values: [run.dataset?.datasetPublications ?? ''],
             renderValue: (value: string) => (
               <DatabaseEntryList entries={value} />
             ),

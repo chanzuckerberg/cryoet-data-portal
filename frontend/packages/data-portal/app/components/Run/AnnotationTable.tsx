@@ -352,7 +352,7 @@ export function AnnotationTable() {
                 sdsStyle="minimal"
                 onClick={() => {
                   openAnnotationDownloadModal({
-                    datasetId: run.dataset.id,
+                    datasetId: run.dataset?.id,
                     runId: run.id,
                     annotationId: annotationShape.annotation?.id,
                     referenceTomogramId: tomograms.find(
@@ -387,7 +387,7 @@ export function AnnotationTable() {
     t,
     openAnnotationDrawer,
     openAnnotationDownloadModal,
-    run.dataset.id,
+    run.dataset?.id,
     run.id,
     tomograms,
   ])
