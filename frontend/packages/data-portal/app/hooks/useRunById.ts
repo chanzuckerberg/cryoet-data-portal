@@ -1,16 +1,14 @@
 import { useTypedLoaderData } from 'remix-typedjson'
 
-import { GetRunByIdQuery } from 'app/__generated__/graphql'
 import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { isDefined } from 'app/utils/nullish'
 
 export function useRunById() {
-  const { v1, v2 } = useTypedLoaderData<{
-    v1: GetRunByIdQuery
+  const { v2 } = useTypedLoaderData<{
     v2: GetRunByIdV2Query
   }>()
 
-  const run = v1.runs[0]
+  const run = v2.runs[0]
 
   const { tomograms, annotationShapes } = v2
 
