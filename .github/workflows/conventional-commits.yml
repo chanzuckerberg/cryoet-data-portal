@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   conventional_commit_title:
-    runs-on: [ARM64, self-hosted, Linux]
+    runs-on: [ARM64]
     steps:
       - uses: amannn/action-semantic-pull-request@v5
         env:
