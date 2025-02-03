@@ -1,23 +1,12 @@
-export type AuthorInfo =
-  | {
-      corresponding_author_status?: boolean | null
-      email?: string | null
-      name: string
-      orcid?: string | null
-      primary_author_status?: boolean | null
-    }
-  | AuthorInfoV2
+import { DeepPartial } from 'utility-types'
 
-export type AuthorInfoV2 = {
-  correspondingAuthorStatus?: boolean | null
-  email?: string | null
-  name: string
-  orcid?: string | null
-  primaryAuthorStatus?: boolean | null
-}
+import { Dataset_Authors } from 'app/__generated__/graphql'
+import { Author } from 'app/types/gql/genericTypes'
+
+export type AuthorInfo = DeepPartial<Dataset_Authors> | Author
 
 // TODO(kira-api-migration): Delete this when everything migrated.
-export function convertToAuthorInfoV2(author: AuthorInfo): AuthorInfoV2 {
+export function convertToAuthorInfoV2(author: AuthorInfo): Author {
   return 'corresponding_author_status' in author ||
     'primary_author_status' in author
     ? {

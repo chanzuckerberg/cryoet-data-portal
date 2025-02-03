@@ -3,7 +3,6 @@ import { isString } from 'lodash-es'
 
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { AuthorLegend } from 'app/components/AuthorLegend'
-import { AuthorInfo } from 'app/components/AuthorLink'
 import { AuthorList } from 'app/components/AuthorList'
 import { DatabaseEntryList } from 'app/components/DatabaseEntry'
 import { Link } from 'app/components/Link'
@@ -27,8 +26,10 @@ export function DatasetMetadataTable({
   const { t } = useI18n()
   const isV2 = isV2Dataset(dataset)
 
-  const numAuthors =
-    (isV2 ? dataset.authors?.edges?.length : dataset.authors?.length) ?? 0
+  const authors =
+    (isV2
+      ? dataset.authors?.edges?.map((author) => author.node).filter(isDefined)
+      : dataset.authors) ?? []
 
   const datasetMetadata = getTableData(
     !!showAllFields && {
@@ -91,10 +92,10 @@ export function DatasetMetadataTable({
     },
 
     !!showAllFields && {
-      label: numAuthors === 1 ? t('author') : t('authors'),
+      label: authors.length === 1 ? t('author') : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
-        return <AuthorList authors={dataset.authors as AuthorInfo[]} large />
+        return <AuthorList authors={authors} large />
       },
       values: [],
       className: 'leading-sds-body-s',
