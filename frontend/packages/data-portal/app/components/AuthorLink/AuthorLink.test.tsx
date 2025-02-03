@@ -50,13 +50,13 @@ it('should have icon if user is corresponding author', () => {
 it('should use regular icon size', () => {
   render(<AuthorLink author={pick(DEFAULT_AUTHOR, 'name')} />)
 
-  const text = screen.getByText(DEFAULT_AUTHOR.name)
+  const text = screen.getByText(DEFAULT_AUTHOR.name!)
   expect(text).toHaveClass('text-xs')
 })
 
 it('should use large icon size', () => {
   render(<AuthorLink author={pick(DEFAULT_AUTHOR, 'name')} large />)
 
-  const text = screen.getByText(DEFAULT_AUTHOR.name)
+  const text = screen.getByText(DEFAULT_AUTHOR.name!)
   expect(text).toHaveClass('text-sm')
 })
