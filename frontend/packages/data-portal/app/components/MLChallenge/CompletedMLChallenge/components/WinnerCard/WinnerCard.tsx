@@ -37,17 +37,11 @@ export function WinnerCard({
       className={cns(
         'py-sds-l px-sds-xl border-t-[8px] border-t-sds-color-semantic-component-accent-icon',
         'bg-light-sds-color-white shadow-card',
-        'flex flex-col screen-620:flex-row screen-1345:flex-col gap-sds-s',
+        'flex flex-col screen-667:flex-row screen-1345:flex-col gap-sds-s',
       )}
     >
       {place <= 3 && (
-        <div
-          className="winner-image bg-cover bg-no-repeat bg-center bg-[url('https://files.cryoetdataportal.cziscience.com/depositions_metadata/10314/Images/snapshot.png')] w-full h-inherit min-h-[232px]"
-          // style={{
-          //   backgroundImage:
-          //     "url('https://files.cryoetdataportal.cziscience.com/depositions_metadata/10314/Images/snapshot.png')",
-          // }}
-        />
+        <div className="winner-image bg-cover bg-no-repeat bg-center bg-[url('https://files.cryoetdataportal.cziscience.com/depositions_metadata/10314/Images/snapshot.png')] w-full h-inherit min-h-[232px]" />
       )}
       <div>
         <div className="flex justify-between mt-sds-l">
