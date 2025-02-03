@@ -9,10 +9,9 @@ describe('utils/url', () => {
     })
 
     it('should return true for non-external URLs', () => {
-      expect(isExternalUrl('/faq')).toBe(false)
+      expect(isExternalUrl('/competition')).toBe(false)
     })
   })
-
   describe('createUrl()', () => {
     it('should create url object without host', () => {
       const url = createUrl('/path')
