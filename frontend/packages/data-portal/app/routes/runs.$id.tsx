@@ -23,7 +23,6 @@ import { getRunById } from 'app/graphql/getRunById.server'
 import { logIfHasDiff } from 'app/graphql/getRunByIdDiffer'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
-import { useFileSize } from 'app/hooks/useFileSize'
 import { useI18n } from 'app/hooks/useI18n'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import { useRunById } from 'app/hooks/useRunById'
@@ -120,10 +119,12 @@ export default function RunByIdPage() {
     objectShapeType,
   } = useDownloadModalQueryParamState()
 
+  const currentTomogram = tomograms.find(
+    (tomogram) => tomogram.id === Number(tomogramId),
+  )
+
   const activeTomogram =
-    downloadConfig === DownloadConfig.Tomogram
-      ? tomograms.find((tomogram) => tomogram.id === Number(tomogramId))
-      : undefined
+    downloadConfig === DownloadConfig.Tomogram ? currentTomogram : undefined
 
   const tomogram = run.tomogram_voxel_spacings.at(0)
 
@@ -133,15 +134,38 @@ export default function RunByIdPage() {
       annotationShape.shapeType === objectShapeType,
   )
 
-  const httpsPath = activeAnnotationShape
-    ? activeAnnotationShape.annotationFiles.edges.find(
-        (file) => file.node.format === fileFormat,
-      )?.node.httpsPath
+  const annotationFilesTotalSize = annotationShapes.reduce(
+    (acc, shape) =>
+      acc +
+      shape.annotationFiles.edges.reduce(
+        (total, file) => total + (file.node.fileSize as number),
+        0,
+      ),
+    0,
+  )
+
+  const foundFile = activeAnnotationShape?.annotationFiles.edges.find(
+    (file) => file.node.format === fileFormat,
+  )
+
+  const httpsPath = foundFile
+    ? foundFile.node.httpsPath
     : activeTomogram?.httpsMrcFile ?? undefined
 
-  const { data: fileSize } = useFileSize(httpsPath, {
-    enabled: fileFormat !== 'zarr',
-  })
+  const getFileSize = (): number | undefined => {
+    if (foundFile) {
+      return (foundFile.node.fileSize as number) ?? undefined
+    }
+    if (fileFormat === 'mrc') {
+      return (activeTomogram?.fileSizeMrc as number) ?? undefined
+    }
+    if (fileFormat === 'zarr') {
+      return (activeTomogram?.fileSizeOmezarr as number) ?? undefined
+    }
+    return annotationFilesTotalSize
+  }
+
+  const fileSize: number | undefined = getFileSize()
 
   const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
 
