@@ -18,7 +18,7 @@ import {
   TableLink,
 } from 'app/components/Table'
 import { IdPrefix } from 'app/constants/idPrefixes'
-import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
+import { getShapeTypeI18nKey } from 'app/constants/objectShapeTypes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { DepositionTableWidths } from 'app/constants/table'
@@ -28,7 +28,6 @@ import { useIsLoading } from 'app/hooks/useIsLoading'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { LogLevel } from 'app/types/logging'
 import { Deposition } from 'app/types/PageData/browseAllDepositionsPageData'
-import { ObjectShapeType } from 'app/types/shapeTypes'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
@@ -268,20 +267,14 @@ export function DepositionTable() {
                   '--'
                 ) : (
                   <ul className="list-none flex flex-col gap-sds-xs">
-                    {Object.entries(shapeTypeToI18nKey)
-                      .filter(([key]) =>
-                        deposition.objectShapeTypes.includes(
-                          key as ObjectShapeType,
-                        ),
-                      )
-                      .map(([k, v]) => (
-                        <li
-                          className="whitespace-nowrap overflow-x-hidden overflow-ellipsis"
-                          key={k}
-                        >
-                          {t(v)}
-                        </li>
-                      ))}
+                    {deposition.objectShapeTypes.map((shapeType) => (
+                      <li
+                        className="whitespace-nowrap overflow-x-hidden overflow-ellipsis"
+                        key={shapeType}
+                      >
+                        {t(getShapeTypeI18nKey(shapeType))}
+                      </li>
+                    ))}
                   </ul>
                 )}
               </TableCell>

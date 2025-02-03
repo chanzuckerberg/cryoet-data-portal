@@ -5,6 +5,7 @@ import {
 } from 'app/types/PageData/browseAllDepositionsPageData'
 import { ObjectShapeType } from 'app/types/shapeTypes'
 import { remapAPI } from 'app/utils/apiMigration'
+import { isDefined } from 'app/utils/nullish'
 
 const remapV2Deposition = remapAPI<
   GetDepositionsDataV2Query['depositions'][number],
@@ -26,19 +27,12 @@ const remapV2Deposition = remapAPI<
           .filter((value) => value !== '') ?? [],
       ),
     ).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })),
-  // TODO: uncomment/remap when efficient query is available
-  // objectShapeTypes: (deposition) =>
-  //   Array.from(
-  //     new Set(
-  //       deposition.shapeTypes?.edges.flatMap(
-  //         (edge) =>
-  //           edge.node.annotationShapes?.edges.flatMap(
-  //             (edge2) => edge2.node?.shapeType as ObjectShapeType,
-  //           ),
-  //       ),
-  //     ),
-  //   ).sort((a, b) => a.localeCompare(b)),
-  objectShapeTypes: () => [],
+  objectShapeTypes: (deposition) =>
+    deposition.distinctShapeTypes?.aggregate
+      ?.map((aggregate) => aggregate.groupBy?.annotationShapes?.shapeType)
+      .filter(isDefined)
+      .sort((shapeTypeA, shapeTypeB) => shapeTypeA.localeCompare(shapeTypeB)) ??
+    [],
   acrossDatasets: (deposition) =>
     deposition.annotationDatasetCount?.aggregate?.length ?? 0,
 } as const)

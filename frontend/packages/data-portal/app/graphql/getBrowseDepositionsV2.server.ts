@@ -53,20 +53,16 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
         }
       }
 
-      ## TODO: find how to get distinct shape types – as-is increases load time by ~2000ms (3x slower compared to v1)
-      # shapeTypes: annotations {
-      #   edges {
-      #     node {
-      #       annotationShapes {
-      #         edges {
-      #           node {
-      #             shapeType
-      #           }
-      #         }
-      #       }
-      #     }
-      #   }
-      # }
+      distinctShapeTypes: annotationsAggregate {
+        aggregate {
+          count
+          groupBy {
+            annotationShapes {
+              shapeType
+            }
+          }
+        }
+      }
 
       annotationDatasetCount: annotationsAggregate {
         aggregate {

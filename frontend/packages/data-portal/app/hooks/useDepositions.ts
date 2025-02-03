@@ -36,7 +36,7 @@ export function useDepositions() {
             depositionDate: 'v2',
             id: 'v2',
             keyPhotoThumbnailUrl: 'v2',
-            objectShapeTypes: 'v1',
+            objectShapeTypes: 'v2',
             title: 'v2',
           },
         },
