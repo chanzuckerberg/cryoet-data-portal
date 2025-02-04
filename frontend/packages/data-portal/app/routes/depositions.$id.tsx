@@ -67,6 +67,13 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     params: url.searchParams,
   })
 
+  if (responseV2.depositions.length === 0) {
+    throw new Response(null, {
+      status: 404,
+      statusText: `Deposition with ID ${id} not found`,
+    })
+  }
+
   return typedjson({
     v2: responseV2,
   })
