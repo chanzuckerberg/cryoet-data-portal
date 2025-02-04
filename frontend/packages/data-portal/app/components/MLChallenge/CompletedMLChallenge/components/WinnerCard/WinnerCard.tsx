@@ -36,7 +36,7 @@ export function WinnerCard({
     <div
       className={cns(
         'py-sds-l px-sds-xl border-t-[8px] border-t-sds-color-semantic-component-accent-icon',
-        'bg-light-sds-color-white shadow-card',
+        'bg-white shadow-card',
         'flex flex-col screen-667:flex-row screen-1345:flex-col gap-sds-s',
       )}
     >
