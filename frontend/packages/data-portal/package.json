@@ -138,5 +138,8 @@
     "ts-jest": "^29.1.2",
     "typed-css-modules": "^0.8.0",
     "typescript": "^5.2.2"
+  },
+  "engines": {
+    "pnpm": "8.10.5"
   }
 }
