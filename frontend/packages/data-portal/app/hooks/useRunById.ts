@@ -68,13 +68,13 @@ export function useRunById() {
       ) ?? []
 
   const annotationFilesAggregates = {
-    totalCount: v2.numTotalAnnotationRows.aggregate?.[0].count ?? 0,
-    filteredCount: v2.numFilteredAnnotationRows.aggregate?.[0].count ?? 0,
+    totalCount: v2.numTotalAnnotationRows.aggregate?.[0]?.count ?? 0,
+    filteredCount: v2.numFilteredAnnotationRows.aggregate?.[0]?.count ?? 0,
     groundTruthCount:
-      v2.numFilteredGroundTruthAnnotationRows.aggregate?.[0].count ?? 0,
-    otherCount: v2.numFilteredOtherAnnotationRows.aggregate?.[0].count ?? 0,
+      v2.numFilteredGroundTruthAnnotationRows.aggregate?.[0]?.count ?? 0,
+    otherCount: v2.numFilteredOtherAnnotationRows.aggregate?.[0]?.count ?? 0,
     totalSize:
-      v2.numTotalSizeAnnotationFiles?.aggregate?.[0].sum?.fileSize ?? 0,
+      v2.numTotalSizeAnnotationFiles?.aggregate?.[0]?.sum?.fileSize ?? 0,
   }
 
   const tomogramsCount = v2.tomogramsAggregate.aggregate?.[0].count ?? 0

@@ -28,5 +28,8 @@
   },
   "devDependencies": {
     "eslint-plugin-playwright": "^0.16.0"
+  },
+  "engines": {
+    "pnpm": "8.10.5"
   }
 }
