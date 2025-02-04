@@ -132,16 +132,6 @@ export default function RunByIdPage() {
       annotationShape.shapeType === objectShapeType,
   )
 
-  // const annotationFilesTotalSize = annotationShapes.reduce(
-  //   (acc, shape) =>
-  //     acc +
-  //     shape.annotationFiles.edges.reduce(
-  //       (total, file) => total + (file.node.fileSize as number),
-  //       0,
-  //     ),
-  //   0,
-  // )
-
   const activeFile = activeAnnotationShape?.annotationFiles.edges.find(
     (file) => file.node.format === fileFormat,
   )
