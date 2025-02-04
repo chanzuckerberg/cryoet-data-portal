@@ -68,7 +68,7 @@ export function useRunById() {
       ) ?? []
 
   const annotationFilesAggregates = {
-    totalCount: v2.numTotalAnnotationRows.aggregate?.[0].count ?? 0,
+    totalCount: v2.numTotalAnnotationRows.aggregate?.[0]?.count ?? 0,
     filteredCount: v2.numFilteredAnnotationRows.aggregate?.[0].count ?? 0,
     groundTruthCount:
       v2.numFilteredGroundTruthAnnotationRows.aggregate?.[0].count ?? 0,
