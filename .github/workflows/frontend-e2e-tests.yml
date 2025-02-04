@@ -31,7 +31,7 @@ jobs:
       - name: Install PNPM
         uses: pnpm/action-setup@v4
         with:
-          version: 8.9.0
+          version: 9.4.0
           run_install: false
 
       - name: Get pnpm store directory
@@ -106,7 +106,7 @@ jobs:
       - name: Install PNPM
         uses: pnpm/action-setup@v4
         with:
-          version: 8.9.0
+          version: 9.4.0
           run_install: false
 
       - name: Get pnpm store directory
