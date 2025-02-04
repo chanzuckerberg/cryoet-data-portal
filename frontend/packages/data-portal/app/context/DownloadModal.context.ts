@@ -20,7 +20,6 @@ export interface DownloadModalContextValue {
   runName?: string
   s3Path?: string
   tomogramId?: number
-  tomogramVoxelId?: number
   type: DownloadModalType
 }
 

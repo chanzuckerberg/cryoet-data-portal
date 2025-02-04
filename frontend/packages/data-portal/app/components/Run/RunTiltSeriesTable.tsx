@@ -32,7 +32,7 @@ export function RunTiltSeriesTable() {
 
   return (
     <TiltSeriesTable
-      tiltSeriesData={run.tiltseries[0]}
+      tiltSeriesData={run.tiltseries.edges[0]?.node}
       fields={SELECT_FIELDS}
     />
   )

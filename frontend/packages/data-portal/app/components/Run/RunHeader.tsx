@@ -36,9 +36,7 @@ export function RunHeader() {
   const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
 
-  const tiltSeries = run.tiltseries[0]
-
-  const tomogram = run.tomogram_voxel_spacings.at(0)?.tomograms.at(0)
+  const tiltSeries = run.tiltseries.edges[0]?.node
 
   // Use author submitted tomogram if available, otherwise default to the first one
   const tomogramV2 =
@@ -50,8 +48,8 @@ export function RunHeader() {
 
   const { openRunDownloadModal } = useDownloadModalQueryParamState()
 
-  const framesCount = run.tiltseries_aggregate.aggregate?.sum?.frames_count ?? 0
-  const tiltSeriesCount = run.tiltseries_aggregate.aggregate?.count ?? 0
+  const framesCount = run.framesAggregate?.aggregate?.[0]?.count ?? 0
+  const tiltSeriesCount = run.tiltseriesAggregate?.aggregate?.[0]?.count ?? 0
   const annotationsCount = annotationFilesAggregates.totalCount
 
   return (
@@ -68,10 +66,10 @@ export function RunHeader() {
             }}
             tooltipPlacement="bottom"
             event={{
-              datasetId: run.dataset.id,
-              organism: run.dataset.organism_name ?? 'None',
+              datasetId: run.dataset?.id ?? 0,
+              organism: run.dataset?.organismName ?? 'None',
               runId: run.id,
-              tomogramId: tomogram?.id ?? 'None',
+              tomogramId: tomogramV2?.id?.toString() ?? 'None',
               type: 'run',
             }}
           />
@@ -82,7 +80,7 @@ export function RunHeader() {
             sdsStyle="rounded"
             onClick={() =>
               openRunDownloadModal({
-                datasetId: run.dataset.id,
+                datasetId: run.dataset?.id,
                 runId: run.id,
               })
             }
@@ -91,11 +89,11 @@ export function RunHeader() {
           </Button>
         </div>
       }
-      releaseDate={run.dataset.release_date}
-      lastModifiedDate={
-        run.dataset.last_modified_date ?? run.dataset.deposition_date
+      releaseDate={run.dataset?.releaseDate.split('T')[0]}
+      lastModifiedDate={run.dataset?.lastModifiedDate.split('T')[0]}
+      breadcrumbs={
+        run.dataset != null && <Breadcrumbs variant="run" data={run.dataset} />
       }
-      breadcrumbs={<Breadcrumbs variant="run" data={run.dataset} />}
       metadata={[{ key: t('runId'), value: `${IdPrefix.Run}-${run.id}` }]}
       onMoreInfoClick={() => toggleDrawer(MetadataDrawerId.Run)}
       title={run.name}
@@ -164,8 +162,8 @@ export function RunHeader() {
                     // hack to align with score badge
                     labelExtra: <span className="mt-sds-xxxs h-[18px]" />,
                     values:
-                      typeof tiltSeries?.tilt_series_quality === 'number'
-                        ? [String(tiltSeries.tilt_series_quality)]
+                      tiltSeries?.tiltSeriesQuality !== undefined
+                        ? [String(tiltSeries.tiltSeriesQuality)]
                         : [],
                     renderValue: (value) => (
                       <TiltSeriesQualityScoreBadge score={+value} />
@@ -174,22 +172,25 @@ export function RunHeader() {
                   {
                     label: t('tiltRange'),
                     values:
-                      typeof tiltSeries?.tilt_min === 'number' &&
-                      typeof tiltSeries?.tilt_max === 'number'
+                      tiltSeries?.tiltRange !== undefined &&
+                      tiltSeries.tiltMin !== undefined &&
+                      tiltSeries.tiltMax !== undefined
                         ? [
                             getTiltRangeLabel(
                               t,
-                              tiltSeries.tilt_min,
-                              tiltSeries.tilt_max,
+                              tiltSeries.tiltRange,
+                              tiltSeries.tiltMin,
+                              tiltSeries.tiltMax,
                             ),
                           ]
                         : [],
                   },
                   {
                     label: i18n.tiltScheme,
-                    values: tiltSeries?.tilting_scheme
-                      ? [tiltSeries.tilting_scheme]
-                      : [],
+                    values:
+                      tiltSeries?.tiltingScheme !== undefined
+                        ? [tiltSeries.tiltingScheme]
+                        : [],
                   },
                 ]}
               />

@@ -28,6 +28,7 @@ export function useTiltSeriesValueMappings(
   const tiltAxis = isV2 ? tiltSeries.tiltAxis : tiltSeries?.tilt_axis
   const tiltMin = isV2 ? tiltSeries.tiltMin : tiltSeries?.tilt_min
   const tiltMax = isV2 ? tiltSeries.tiltMax : tiltSeries?.tilt_max
+  const tiltRange = isV2 ? tiltSeries.tiltRange : tiltMax! - tiltMin!
   const tiltStep = isV2 ? tiltSeries.tiltStep : tiltSeries?.tilt_step
 
   return useMemo<Record<TiltSeriesKeys, TableData>>(
@@ -201,8 +202,10 @@ export function useTiltSeriesValueMappings(
       [TiltSeriesKeys.TiltRange]: {
         label: t('tiltRange'),
         values: [
-          tiltMin !== undefined && tiltMax !== undefined
-            ? getTiltRangeLabel(t, tiltMin, tiltMax)
+          tiltMin !== undefined &&
+          tiltMax !== undefined &&
+          tiltRange !== undefined
+            ? getTiltRangeLabel(t, tiltRange, tiltMin, tiltMax)
             : '--',
         ],
       },
@@ -237,6 +240,7 @@ export function useTiltSeriesValueMappings(
       tiltAxis,
       tiltMax,
       tiltMin,
+      tiltRange,
       tiltStep,
     ],
   )

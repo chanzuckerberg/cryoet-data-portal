@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react'
 
-import { AuthorInfoV2, MockAuthorLink } from 'app/components/AuthorLink'
+import { MockAuthorLink } from 'app/components/AuthorLink'
+import { AuthorInfoType } from 'app/types/authorInfo'
 
 import { AuthorList } from './AuthorList'
 
-const DEFAULT_AUTHORS: AuthorInfoV2[] = [
+const DEFAULT_AUTHORS: AuthorInfoType[] = [
   { name: 'Foo', correspondingAuthorStatus: true },
   { name: 'Bar' },
   { name: 'Foo Bar', primaryAuthorStatus: true },

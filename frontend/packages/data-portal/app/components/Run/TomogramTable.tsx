@@ -200,8 +200,8 @@ export function TomogramsTable() {
                   }}
                   tooltipPlacement="top"
                   event={{
-                    datasetId: run.dataset.id,
-                    organism: run.dataset.organism_name ?? 'None',
+                    datasetId: run.dataset?.id ?? 0,
+                    organism: run.dataset?.organismName ?? 'None',
                     runId: run.id,
                     tomogramId: original.id,
                     type: 'tomogram',
@@ -226,7 +226,7 @@ export function TomogramsTable() {
                 onClick={() => {
                   openTomogramDownloadModal({
                     tomogramId: original.id,
-                    datasetId: run.dataset.id,
+                    datasetId: run.dataset?.id,
                     runId: run.id,
                   })
                 }}
@@ -243,8 +243,8 @@ export function TomogramsTable() {
     ] as ColumnDef<TomogramV2>[] // https://github.com/TanStack/table/issues/4382
   }, [
     run.id,
-    run.dataset.id,
-    run.dataset.organism_name,
+    run.dataset?.id,
+    run.dataset?.organismName,
     openMetadataDrawer,
     openTomogramDownloadModal,
     t,

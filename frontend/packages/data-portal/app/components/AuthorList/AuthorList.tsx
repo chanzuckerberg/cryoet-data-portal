@@ -7,14 +7,16 @@ import {
 } from 'app/components/AuthorLink'
 import { cns } from 'app/utils/cns'
 
-function getAuthorKey(author: AuthorInfo) {
-  return author.name + author.email
+function getAuthorKey(author: AuthorInfo): string {
+  return `${author.name}-${author.email}`
 }
 
 const SEPARATOR = `, `
 
 function getAuthorIds(authors: AuthorInfo[]) {
-  return authors.map((author) => author.name + author.email + author.orcid)
+  return authors.map(
+    (author) => `${author.name} - ${author.email} - ${author.orcid}`,
+  )
 }
 
 export function AuthorList({

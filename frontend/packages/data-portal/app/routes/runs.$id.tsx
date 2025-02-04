@@ -124,8 +124,6 @@ export default function RunByIdPage() {
       ? tomograms.find((tomogram) => tomogram.id === Number(tomogramId))
       : undefined
 
-  const tomogram = run.tomogram_voxel_spacings.at(0)
-
   const activeAnnotationShape = annotationShapes.find(
     (annotationShape) =>
       annotationShape.annotation?.id === toNumber(annotationId) &&
@@ -189,7 +187,7 @@ export default function RunByIdPage() {
                   onClick: () => {
                     openRunDownloadModal({
                       runId: run.id,
-                      datasetId: run.dataset.id,
+                      datasetId: run.dataset?.id,
                     })
                   },
                 },
@@ -227,7 +225,7 @@ export default function RunByIdPage() {
                   onClick: () => {
                     openRunDownloadModal({
                       runId: run.id,
-                      datasetId: run.dataset.id,
+                      datasetId: run.dataset?.id,
                     })
                   },
                 },
@@ -243,8 +241,8 @@ export default function RunByIdPage() {
           allAnnotationShapes={annotationShapes}
           allTomograms={tomograms}
           allTomogramProcessing={processingMethods}
-          datasetId={run.dataset.id}
-          datasetTitle={run.dataset.title}
+          datasetId={run.dataset?.id}
+          datasetTitle={run.dataset?.title}
           fileSize={fileSize}
           httpsPath={httpsPath}
           objectName={activeAnnotationShape?.annotation?.objectName}
@@ -264,8 +262,9 @@ export default function RunByIdPage() {
               () => activeTomogram?.s3OmezarrDir ?? undefined,
             )
             .with({ downloadConfig: DownloadConfig.AllAnnotations }, () =>
-              tomogram?.s3_prefix
-                ? `${tomogram.s3_prefix}Annotations`
+              // TODO(1578): Support command that downloads multiple voxel spacing folders.
+              run.tomogramVoxelSpacings.edges[0]?.node.s3Prefix
+                ? `${run.tomogramVoxelSpacings.edges[0].node.s3Prefix}Annotations`
                 : undefined,
             )
             .with(
@@ -277,7 +276,6 @@ export default function RunByIdPage() {
             )
             .otherwise(() => undefined)}
           tomogramId={activeTomogram?.id ?? undefined}
-          tomogramVoxelId={tomogram?.id ?? undefined}
           type={annotationId ? 'annotation' : 'runs'}
         />
       }

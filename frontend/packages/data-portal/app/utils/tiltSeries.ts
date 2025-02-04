@@ -7,9 +7,14 @@ export function inQualityScoreRange(score: number): score is TiltSeriesScore {
   return inRange(score, TiltSeriesScore.VeryPoor, TiltSeriesScore.Excellent + 1)
 }
 
-export function getTiltRangeLabel(t: I18nTFunction, min: number, max: number) {
+export function getTiltRangeLabel(
+  t: I18nTFunction,
+  range: number,
+  min: number,
+  max: number,
+) {
   return `${t('unitDegree', {
-    value: max - min,
+    value: range,
   })} (${t('valueToValue', {
     value1: t('unitDegree', { value: min }),
     value2: t('unitDegree', { value: max }),
