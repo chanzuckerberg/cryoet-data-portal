@@ -7,7 +7,7 @@ import styles from './MdxGlossary.module.css'
 
 const COLLAPSE_AFTER = 3
 
-export function MdxGlossary({ children }: { children: ReactNode }) {
+export function MdxToggleShowMore({ children }: { children: ReactNode }) {
   const { t } = useI18n()
 
   const [collapsed, setCollapsed] = useState(true)

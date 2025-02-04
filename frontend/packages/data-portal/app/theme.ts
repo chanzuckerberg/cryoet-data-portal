@@ -1,6 +1,6 @@
-import { defaultAppTheme, makeThemeOptions } from '@czi-sds/components'
+import { makeThemeOptions, SDSAppTheme } from '@czi-sds/components'
 import { createTheme } from '@mui/material/styles'
 
-export const appTheme = makeThemeOptions(defaultAppTheme)
+const appTheme = makeThemeOptions(SDSAppTheme)
 
 export const theme = createTheme(appTheme)

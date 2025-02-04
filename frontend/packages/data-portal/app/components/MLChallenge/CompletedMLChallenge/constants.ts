@@ -4,7 +4,6 @@ export enum CompletedMLChallengeSectionId {
   Impact = 'impact',
   Winners = 'winningTeams',
   About = 'about',
-  HowToParticipate = 'how-to-participate',
   CompetitionData = 'competition-data',
   WhatIsCryoET = 'what-is-cryoet',
   CompetitionContributors = 'contributors',
@@ -29,10 +28,6 @@ export const NAV_ITEMS: CompletedRawNavItem[] = [
   {
     id: CompletedMLChallengeSectionId.About,
     label: 'aboutTheCompetition',
-  },
-  {
-    id: CompletedMLChallengeSectionId.HowToParticipate,
-    label: 'howToParticipate',
   },
   {
     id: CompletedMLChallengeSectionId.CompetitionData,
