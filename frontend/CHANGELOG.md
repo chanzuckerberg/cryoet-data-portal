@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.49.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.48.0...web-v1.49.0) (2025-02-04)
+
+
+### ✨ Features
+
+* add fileSize to asset downloads ([#1570](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1570)) ([0af74ea](https://github.com/chanzuckerberg/cryoet-data-portal/commit/0af74ea7dff007755153e8a7054ee210bd26bff1))
+* Complete deposition page migration to V2 ([#1566](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1566)) ([9cc5522](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9cc55222be29e081c22494220d087259eb9f4817))
+* Finish run page migration to V2 ([#1577](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1577)) ([14d3439](https://github.com/chanzuckerberg/cryoet-data-portal/commit/14d34393f65d681adabb7783c323c77469e416ea))
+* Migrate annotations table to V2 data ([#1433](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1433)) ([1f8a76c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1f8a76c8ab72da31feda2dbd9ec96f58a33d266b))
+* Migrate missing field from depositions query ([#1576](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1576)) ([8795234](https://github.com/chanzuckerberg/cryoet-data-portal/commit/87952340284efc8d4f536dcb643db5de67aab888))
+* Migrate other misc queries ([#1574](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1574)) ([69764a7](https://github.com/chanzuckerberg/cryoet-data-portal/commit/69764a7f6970908bdc3ff940c439d14d42d84e84))
+
+
+### 🐞 Bug Fixes
+
+* Add hover state for Download radio buttons ([#1571](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1571)) ([3a0dd17](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3a0dd1765576213be6c39b5128edd975d7e675a2))
+* Hold pnpm at 8.10.5 to fix deploys ([#1579](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1579)) ([5889add](https://github.com/chanzuckerberg/cryoet-data-portal/commit/5889addcd924662f36f00976e4e2097f2de43446))
+* Remove duplicate contributor names in landing page ([#1514](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1514)) ([b38c7e3](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b38c7e37e3e9343225407ebc3654bea5884e0e43))
+* Remove duplicated tooltip from Annotated Objects list ([#1460](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1460)) ([a42889e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/a42889e933efb0cbb56a7d7825bf4199c40bdcd1))
+* Update docs site links to point to stable ([#1564](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1564)) ([b79eed0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b79eed0a5fcc718adcf79af03c2e3974e2ded9bc))
+
+
+### 🧹 Miscellaneous Chores
+
+* Remove portal FAQ, point to docs site ([#1475](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1475)) ([68a4854](https://github.com/chanzuckerberg/cryoet-data-portal/commit/68a48543d33c1a2d15f1ac592d2deace2bcdd9a6))
+
 ## [1.48.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.47.1...web-v1.48.0) (2025-01-29)
 
 
