@@ -175,6 +175,7 @@ export function MainContent() {
           {...whatIsCryoET}
           components={{
             ...COMMON_MDX_COMPONENTS,
+            ToggleShowMore: MdxToggleShowMore,
           }}
         />
       </Section>
