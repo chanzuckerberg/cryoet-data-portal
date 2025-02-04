@@ -6,7 +6,7 @@ export function TopThreeWinners({ winners }: { winners: Winner[] }) {
   return (
     <div className="top-three-winners">
       <div className="screen-716:flex justify-between items-end mt-sds-xxl mb-sds-xl">
-        <h2 className="text-[24px] screen-512:text-[34px] leading-[34px] screen-512:leading-[46px] tracking-[0.3px] font-semibold">
+        <h2 className="text-[24px] screen-512:text-[34px] leading-[34px] screen-512:leading-[46px] tracking-[0.8px] font-semibold">
           10 Winning Teams
         </h2>
         <div className="flex items-center gap-sds-xs">
