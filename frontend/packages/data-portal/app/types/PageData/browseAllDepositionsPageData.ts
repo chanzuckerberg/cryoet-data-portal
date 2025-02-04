@@ -1,3 +1,4 @@
+import { Annotation_File_Shape_Type_Enum } from 'app/__generated_v2__/graphql'
 import { AuthorInfoType } from 'app/types/authorInfo'
 import { ObjectShapeType } from 'app/types/shapeTypes'
 
@@ -18,5 +19,5 @@ export type Deposition = {
   annotationCount: number
   acrossDatasets: number
   annotatedObjects: string[]
-  objectShapeTypes: ObjectShapeType[]
+  objectShapeTypes: Annotation_File_Shape_Type_Enum[]
 }

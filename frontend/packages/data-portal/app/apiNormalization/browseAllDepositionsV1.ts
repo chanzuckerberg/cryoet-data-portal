@@ -33,14 +33,7 @@ const remapV1Deposition = remapAPI<
         deposition.annotations.map((annotation) => annotation.object_name),
       ),
     ).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })),
-  objectShapeTypes: (deposition) =>
-    Array.from(
-      new Set(
-        deposition.shape_types.flatMap((annotation) =>
-          annotation.files.map((file) => file.shape_type as ObjectShapeType),
-        ),
-      ),
-    ).sort((a, b) => a.localeCompare(b)),
+  objectShapeTypes: () => [],
   acrossDatasets: () => 0,
 } as const)
 
