@@ -116,6 +116,7 @@ export default function DatasetByIdPage() {
           datasetId={dataset.id}
           datasetTitle={dataset.title}
           s3Path={dataset.s3Prefix}
+          fileSize={dataset.fileSize ?? undefined}
           type="dataset"
         />
       }

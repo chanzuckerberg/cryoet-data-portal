@@ -73,6 +73,8 @@ export function useRunById() {
     groundTruthCount:
       v2.numFilteredGroundTruthAnnotationRows.aggregate?.[0].count ?? 0,
     otherCount: v2.numFilteredOtherAnnotationRows.aggregate?.[0].count ?? 0,
+    totalSize:
+      v2.numTotalSizeAnnotationFiles?.aggregate?.[0].sum?.fileSize ?? 0,
   }
 
   const tomogramsCount = v2.tomogramsAggregate.aggregate?.[0].count ?? 0

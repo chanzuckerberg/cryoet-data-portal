@@ -23,7 +23,6 @@ import { getRunById } from 'app/graphql/getRunById.server'
 import { logIfHasDiff } from 'app/graphql/getRunByIdDiffer'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
-import { useFileSize } from 'app/hooks/useFileSize'
 import { useI18n } from 'app/hooks/useI18n'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import { useRunById } from 'app/hooks/useRunById'
@@ -133,15 +132,28 @@ export default function RunByIdPage() {
       annotationShape.shapeType === objectShapeType,
   )
 
-  const httpsPath = activeAnnotationShape
-    ? activeAnnotationShape.annotationFiles.edges.find(
-        (file) => file.node.format === fileFormat,
-      )?.node.httpsPath
+  const activeFile = activeAnnotationShape?.annotationFiles.edges.find(
+    (file) => file.node.format === fileFormat,
+  )
+
+  const httpsPath = activeFile
+    ? activeFile.node.httpsPath
     : activeTomogram?.httpsMrcFile ?? undefined
 
-  const { data: fileSize } = useFileSize(httpsPath, {
-    enabled: fileFormat !== 'zarr',
-  })
+  const getFileSize = () => {
+    if (activeFile) {
+      return activeFile.node.fileSize ?? undefined
+    }
+    if (fileFormat === 'mrc') {
+      return activeTomogram?.fileSizeMrc ?? undefined
+    }
+    if (fileFormat === 'zarr') {
+      return activeTomogram?.fileSizeOmezarr ?? undefined
+    }
+    return annotationFilesAggregates.totalSize
+  }
+
+  const fileSize = getFileSize()
 
   const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
 

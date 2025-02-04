@@ -69,6 +69,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         cellTypeId
         depositionDate
         description
+        fileSize
         gridPreparation
         id
         lastModifiedDate
@@ -223,6 +224,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
             format
             httpsPath
             s3Path
+            fileSize
           }
         }
       }
@@ -294,6 +296,8 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
       }
       ctfCorrected
       fiducialAlignmentStatus
+      fileSizeMrc
+      fileSizeOmezarr
       httpsMrcFile
       id
       isPortalStandard
@@ -401,6 +405,14 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
     numFilteredOtherAnnotationRows: annotationShapesAggregate(where: $annotationShapesFilterGroundTruthFalse) {
       aggregate {
         count
+      }
+    }
+
+    numTotalSizeAnnotationFiles: annotationFilesAggregate(where: { annotationShape: { annotation: { runId: { _eq: $id }}}}) {
+      aggregate {
+        sum {
+          fileSize
+        }
       }
     }
 
