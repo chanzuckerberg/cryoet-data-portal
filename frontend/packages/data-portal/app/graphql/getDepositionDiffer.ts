@@ -10,11 +10,10 @@ import {
   Annotation_Method_Type_Enum,
   GetDepositionByIdV2Query,
 } from 'app/__generated_v2__/graphql'
-import { MethodLinkDataType } from 'app/components/Deposition/MethodLinks/type'
 
 import { convertReconstructionMethodToV2, removeTypenames } from './common'
 
-/* eslint-disable no-console, no-param-reassign */
+/* eslint-disable no-console, no-param-reassign, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return */
 export function logIfHasDiff(
   url: string,
   v1: GetDepositionByIdQuery,
@@ -199,21 +198,20 @@ export function logIfHasDiff(
         annotationMethodAndMethodLinksCombinations: {
           aggregate: v1
             .deposition!.annotation_methods.flatMap((annotation) =>
-              (annotation.method_links as MethodLinkDataType[]).map(
-                (methodLink) => ({
-                  groupBy: {
-                    annotationMethod: annotation.annotation_method,
-                    methodType:
-                      annotation.method_type as Annotation_Method_Type_Enum,
-                    methodLinks: {
-                      link: methodLink.link,
-                      linkType:
-                        methodLink.link_type as Annotation_Method_Link_Type_Enum,
-                      name: methodLink.custom_name,
-                    },
+              annotation.method_links.map((methodLink: any) => ({
+                groupBy: {
+                  annotationMethod: annotation.annotation_method,
+                  annotationSoftware: annotation.annotation_software,
+                  methodType:
+                    annotation.method_type as Annotation_Method_Type_Enum,
+                  methodLinks: {
+                    link: methodLink.link,
+                    linkType:
+                      methodLink.link_type as Annotation_Method_Link_Type_Enum,
+                    name: methodLink.custom_name,
                   },
-                }),
-              ),
+                },
+              })),
             )
             .sort((groupA, groupB) =>
               groupA.groupBy.annotationMethod !==

@@ -5,7 +5,7 @@ import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorList } from 'app/components/AuthorList'
 import { MethodLink } from 'app/components/Deposition/MethodLinks'
-import { generateMethodLinksV2 } from 'app/components/Deposition/MethodLinks/common'
+import { generateMethodLinkProps } from 'app/components/Deposition/MethodLinks/common'
 import { Link } from 'app/components/Link'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
@@ -20,7 +20,7 @@ export function AnnotationOverviewTable() {
 
   const methodLinks = useMemo(
     () =>
-      generateMethodLinksV2(
+      generateMethodLinkProps(
         selectedAnnotationShape?.annotation?.methodLinks.edges.map(
           (methodLink) => methodLink.node,
         ) ?? [],

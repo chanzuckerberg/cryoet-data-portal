@@ -64,6 +64,7 @@ const GET_DEPOSITION_BY_ID = gql(`
           count
           groupBy {
             annotationMethod
+            annotationSoftware
             methodType
             methodLinks {
               link

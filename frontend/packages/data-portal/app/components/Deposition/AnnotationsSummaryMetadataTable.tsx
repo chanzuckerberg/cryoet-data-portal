@@ -23,7 +23,7 @@ export function AnnotationsSummaryMetadataTable({
       label: t('annotationsTotal'),
       values: [
         (
-          deposition?.annotations_aggregate?.aggregate?.count ?? 0
+          deposition.annotationsAggregate?.aggregate?.[0]?.count ?? 0
         ).toLocaleString(),
       ],
     },
