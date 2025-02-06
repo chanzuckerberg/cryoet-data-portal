@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.50.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.49.0...web-v1.50.0) (2025-02-06)
+
+
+### ✨ Features
+
+* Stop querying V1 ([#1582](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1582)) ([cbf2ce1](https://github.com/chanzuckerberg/cryoet-data-portal/commit/cbf2ce15d73ae8eaf8cc3a36a224efdeef2681a5))
+
+
+### 🐞 Bug Fixes
+
+* Update font to intended Inter font ([#1581](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1581)) ([da33522](https://github.com/chanzuckerberg/cryoet-data-portal/commit/da33522ab7e3b3f0abfe750b1631355598f3be68))
+
 ## [1.49.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.48.0...web-v1.49.0) (2025-02-04)
 
 
