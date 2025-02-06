@@ -91,43 +91,43 @@ export function CompletedChallengeLayout() {
 
   const winners = [
     {
-      name: 'Diana A',
+      name: 'Project Name A',
       score: 99.0,
     },
     {
-      name: 'Susan A',
+      name: 'Project Name B',
       score: 98.0,
     },
     {
-      name: 'Diana B',
+      name: 'Project Name C',
       score: 97.0,
     },
     {
-      name: 'Susan B',
+      name: 'Project Name D',
       score: 96.0,
     },
     {
-      name: 'Diana C',
+      name: 'Project Name E',
       score: 95.0,
     },
     {
-      name: 'Susan C',
+      name: 'Project Name F',
       score: 94.0,
     },
     {
-      name: 'Diana D',
+      name: 'Project Name G',
       score: 93.0,
     },
     {
-      name: 'Susan D',
+      name: 'Project Name H',
       score: 92.0,
     },
     {
-      name: 'Diana E',
+      name: 'Project Name I',
       score: 91.0,
     },
     {
-      name: 'Susan E',
+      name: 'Project Name J',
       score: 90.0,
     },
   ]
@@ -137,33 +137,31 @@ export function CompletedChallengeLayout() {
       <JumpToAnchor id={CompletedMLChallengeSectionId.Impact} />
       <Section color="primary100">
         <div className="flex flex-col screen-760:flex-row justify-between gap-sds-xl">
-          <div className="screen-760:max-w-[500px]">
+          <div className="screen-760:max-w-[500px] screen-1345:max-w-[66%]">
             <h2 className="text-[34px] font-semibold mb-sds-xxl mt-[60px] tracking-[0.3px]">
-              Impact
+              {t('impact')}
             </h2>
             <h3 className="text-sds-header-xl leading-sds-header-xl font-semibold mt-sds-xxl">
-              Read the paper on the phantom sample and reference annotations
+              {t('impactSubTitle')}
             </h3>
             <p className="text-sds-body-m leading-sds-body-m text-sds-color-primitive-gray-700 mt-sds-xl mb-sds-xxl">
-              The phantom sample contained several protein complexes to mimic
-              cellular CryoET data. Generating reference annotations took months
-              utilizing improved methods for particle picking.
+              {t('impactExplanation')}
             </p>
-            <Link to="/TODO">
+            <Link to={t('impactPaperLink')}>
               <Button
                 sdsStyle="rounded"
                 sdsType="primary"
                 className="mb-sds-xxl"
               >
-                Read Paper
+                {t('readPaper')}
               </Button>
             </Link>
           </div>
           <div className="w-[113%] left-[-7%] screen-760:left-0 relative screen-1024:w-[340px]">
             <img
-              className="w-full"
+              className="w-full screen-760:mt-sds-xxl screen-879:mt-sds-m -mb-[55px]"
               src="/images/researchPaper.svg"
-              alt="Impact Preview"
+              alt="Bio Rxiv Paper Preview with the title 'Annotating CryoET Volumes: A Machine Learning Challenge'"
             />
           </div>
         </div>

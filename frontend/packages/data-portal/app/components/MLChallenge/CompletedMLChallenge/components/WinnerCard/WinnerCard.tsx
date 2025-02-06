@@ -1,5 +1,6 @@
 import { Button } from '@czi-sds/components'
 
+import { AuthorList } from 'app/components/AuthorList'
 import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
@@ -31,7 +32,48 @@ export function WinnerCard({
   place: number
 }) {
   const { t } = useI18n()
-
+  const authors = [
+    {
+      correspondingAuthorStatus: null,
+      email: null,
+      name: 'Willy W. Sun',
+      orcid: null,
+      primaryAuthorStatus: true,
+      __typename: 'DatasetAuthor',
+    },
+    {
+      correspondingAuthorStatus: null,
+      email: null,
+      name: 'Dennis J Michalak',
+      orcid: null,
+      primaryAuthorStatus: true,
+      __typename: 'DatasetAuthor',
+    },
+    {
+      correspondingAuthorStatus: true,
+      email: null,
+      name: 'Kem A. Sochacki',
+      orcid: '0000-0003-1160-4558',
+      primaryAuthorStatus: true,
+      __typename: 'DatasetAuthor',
+    },
+    {
+      correspondingAuthorStatus: true,
+      email: null,
+      name: 'Jenny E. Hinshaw',
+      orcid: '0000-0002-5130-5061',
+      primaryAuthorStatus: false,
+      __typename: 'DatasetAuthor',
+    },
+    {
+      correspondingAuthorStatus: true,
+      email: null,
+      name: 'Justin W. Taraska',
+      orcid: '0000-0001-5355-9535',
+      primaryAuthorStatus: false,
+      __typename: 'DatasetAuthor',
+    },
+  ]
   return (
     <div
       className={cns(
@@ -55,7 +97,7 @@ export function WinnerCard({
           {winner.name}
         </h4>
         <h5 className="text-sds-color-primitive-gray-600 mt-sds-xs">
-          Members: Author Name, Author Name, Author Name
+          Members: <AuthorList authors={authors} subtle />
         </h5>
         {place <= 3 && (
           <p className="mt-sds-s">

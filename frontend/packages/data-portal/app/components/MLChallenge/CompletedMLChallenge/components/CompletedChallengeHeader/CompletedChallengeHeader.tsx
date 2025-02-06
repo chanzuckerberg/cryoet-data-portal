@@ -35,12 +35,13 @@ export function CompletedChallengeHeader() {
         <ChallengeInfo title={t('length')} content={t('mlChallengeLength')} />
       </div>
       <div className="flex flex-col screen-512:flex-row justify-center gap-sds-l">
-        <Link to="/TODO">
+        {/* TODO: Add filtered depositions url */}
+        <Link to="/browse-data/depositions">
           <Button sdsStyle="rounded" sdsType="primary">
             {t('viewWinners')}
           </Button>
         </Link>
-        <Link to="/TODO">
+        <Link to={t('impactPaperLink')}>
           <Button sdsStyle="rounded" sdsType="secondary">
             {t('viewOutcome')}
           </Button>

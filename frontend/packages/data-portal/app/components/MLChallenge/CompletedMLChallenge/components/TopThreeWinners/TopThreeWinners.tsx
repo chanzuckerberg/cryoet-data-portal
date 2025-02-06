@@ -1,4 +1,6 @@
-import { Icon, Tooltip } from '@czi-sds/components'
+import { Icon, Link } from '@czi-sds/components'
+
+import { Tooltip } from 'app/components/Tooltip'
 
 import { Winner, WinnerCard } from '../WinnerCard/WinnerCard'
 
@@ -14,15 +16,26 @@ export function TopThreeWinners({ winners }: { winners: Winner[] }) {
             How is this score calculated
           </p>
           <Tooltip
-            title="Submissions were scored using an average F  metric, adjusted for the detection difficulty of each species. Learn More"
-            placement="top"
+            tooltip={
+              <div className="text-sds-body-s leading-sds-body-s">
+                {/* eslint-disable-next-line prettier/prettier */}
+                Submissions were scored using an average F<span className="relative top-sds-xxxs">&beta;</span> metric,
+                adjusted for the detection difficulty of each species.
+                <Link to="/TODO">
+                  <span className="text-sds-color-primitive-blue-400">
+                    Learn more
+                  </span>
+                </Link>
+              </div>
+            }
+            placement="top-start"
+            sdsStyle="light"
           >
             <span>
               <Icon
                 sdsIcon="InfoCircle"
                 sdsSize="s"
-                className="text-light-sds-color-primitive-gray-600
-                  dark:text-dark-sds-color-primitive-gray-600 mb-sds-xxxs"
+                className="text-sds-color-primitive-gray-600 mb-sds-xxxs"
                 sdsType="interactive"
               />
             </span>
