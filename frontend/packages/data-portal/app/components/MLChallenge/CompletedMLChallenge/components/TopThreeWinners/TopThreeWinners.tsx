@@ -18,8 +18,9 @@ export function TopThreeWinners({ winners }: { winners: Winner[] }) {
           <Tooltip
             tooltip={
               <div className="text-sds-body-s leading-sds-body-s">
-                {/* eslint-disable-next-line prettier/prettier */}
-                Submissions were scored using an average F<span className="relative top-sds-xxxs">&beta;</span> metric,
+                {}
+                Submissions were scored using an average F
+                <span className="relative top-sds-xxxs">&beta;</span> metric,
                 adjusted for the detection difficulty of each species.
                 <Link to="/TODO">
                   <span className="text-sds-color-primitive-blue-400">
