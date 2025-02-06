@@ -22,11 +22,9 @@ export function TopThreeWinners({ winners }: { winners: Winner[] }) {
                 Submissions were scored using an average F
                 <span className="relative top-sds-xxxs">&beta;</span> metric,
                 adjusted for the detection difficulty of each species.
-                <Link to="/TODO">
-                  <span className="text-sds-color-primitive-blue-400">
-                    Learn more
-                  </span>
-                </Link>
+                <div className="text-sds-color-primitive-blue-400">
+                  <Link to="/TODO">Learn more</Link>
+                </div>
               </div>
             }
             placement="top-start"

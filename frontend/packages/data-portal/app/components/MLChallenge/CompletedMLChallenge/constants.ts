@@ -8,7 +8,6 @@ export enum CompletedMLChallengeSectionId {
   WhatIsCryoET = 'what-is-cryoet',
   CompetitionContributors = 'contributors',
   Glossary = 'glossary',
-  Contact = 'contact',
 }
 
 export interface CompletedRawNavItem {
@@ -38,15 +37,11 @@ export const NAV_ITEMS: CompletedRawNavItem[] = [
     label: 'whatIsCryoET',
   },
   {
-    id: CompletedMLChallengeSectionId.CompetitionContributors,
-    label: 'competitionContributors',
-  },
-  {
     id: CompletedMLChallengeSectionId.Glossary,
     label: 'glossaryOfTerms',
   },
   {
-    id: CompletedMLChallengeSectionId.Contact,
-    label: 'contact',
+    id: CompletedMLChallengeSectionId.CompetitionContributors,
+    label: 'competitionContributors',
   },
 ]
