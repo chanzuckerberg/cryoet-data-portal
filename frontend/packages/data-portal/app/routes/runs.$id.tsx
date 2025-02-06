@@ -5,7 +5,7 @@ import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { startCase, toNumber } from 'lodash-es'
 import { match } from 'ts-pattern'
 
-import { apolloClient, apolloClientV2 } from 'app/apollo.server'
+import { apolloClientV2 } from 'app/apollo.server'
 import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
 import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
@@ -19,8 +19,6 @@ import { TomogramMetadataDrawer } from 'app/components/Run/TomogramMetadataDrawe
 import { TomogramsTable } from 'app/components/Run/TomogramTable'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
-import { getRunById } from 'app/graphql/getRunById.server'
-import { logIfHasDiff } from 'app/graphql/getRunByIdDiffer'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
@@ -45,39 +43,22 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   )
   const depositionId = Number(url.searchParams.get(QueryParams.DepositionId))
 
-  const [{ data: responseV1 }, { data: responseV2 }] = await Promise.all([
-    getRunById({
-      id,
-      annotationsPage,
-      depositionId: Number.isNaN(depositionId) ? undefined : depositionId,
-      client: apolloClient,
-      params: url.searchParams,
-    }),
-    getRunByIdV2({
-      client: apolloClientV2,
-      id,
-      annotationsPage,
-      params: url.searchParams,
-      depositionId: Number.isNaN(depositionId) ? undefined : depositionId,
-    }),
-  ])
+  const { data: responseV2 } = await getRunByIdV2({
+    client: apolloClientV2,
+    id,
+    annotationsPage,
+    params: url.searchParams,
+    depositionId: Number.isNaN(depositionId) ? undefined : depositionId,
+  })
 
-  if (responseV1.runs.length === 0) {
+  if (responseV2.runs.length === 0) {
     throw new Response(null, {
       status: 404,
       statusText: `Run with ID ${id} not found`,
     })
   }
 
-  try {
-    logIfHasDiff(request.url, responseV1, responseV2)
-  } catch (error) {
-    // eslint-disable-next-line no-console, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
-    console.log(`DIFF ERROR: ${(error as any)?.stack}`)
-  }
-
   return json({
-    v1: responseV1,
     v2: responseV2,
   })
 }
