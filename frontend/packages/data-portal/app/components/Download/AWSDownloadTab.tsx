@@ -22,6 +22,27 @@ export function getAwsCommand({
   return `aws s3 --no-sign-request ${s3Command} ${s3Path} ${destinationPath}`
 }
 
+export function getAwsCommandAllAnnotations({
+  s3Path = '',
+}: {
+  s3Path: string | undefined
+}): string {
+  function getBasePath(path: string) {
+    const pathMatch = path.match(/^(s3:\/\/[^/]+\/.*?\/Reconstructions)/)
+    return pathMatch ? pathMatch[1] : path
+  }
+
+  return `
+  aws s3 ls ${getBasePath(s3Path)}/ --no-sign-request | \\
+  awk '{print $2}' | grep 'VoxelSpacing' | \\
+  while read -r folder; do
+    aws s3 --no-sign-request sync \\
+        "${getBasePath(s3Path)}/$\{folder}Annotations" \\
+        "Annotations/$\{folder}"
+  done
+  `
+}
+
 export function AWSDownloadTab() {
   const { t } = useI18n()
   const { s3Path } = useDownloadModalContext()
@@ -36,13 +57,17 @@ export function AWSDownloadTab() {
   })
     .with(
       { pathname: P.string.includes('/datasets') },
-      { downloadConfig: DownloadConfig.AllAnnotations },
       { fileFormat: 'zarr' },
       () => 'sync' as const,
     )
     .otherwise(() => 'cp' as const)
 
-  const awsCommand = getAwsCommand({ s3Path, s3Command })
+  let awsCommand = ''
+  if (downloadConfig === DownloadConfig.AllAnnotations) {
+    awsCommand = getAwsCommandAllAnnotations({ s3Path })
+  } else {
+    awsCommand = getAwsCommand({ s3Path, s3Command })
+  }
 
   return (
     <div className="pt-sds-xl">
