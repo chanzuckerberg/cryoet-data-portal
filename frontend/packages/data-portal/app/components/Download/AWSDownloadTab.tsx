@@ -50,7 +50,7 @@ export function AWSDownloadTab() {
   })
     .with(
       { pathname: P.string.includes('/datasets') },
-      { isAllAnnotations },
+      { isAllAnnotations: true },
       { fileFormat: 'zarr' },
       () => 'sync' as const,
     )
