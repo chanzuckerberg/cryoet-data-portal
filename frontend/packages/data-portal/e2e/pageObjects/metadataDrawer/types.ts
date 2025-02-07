@@ -1,6 +1,7 @@
 import { DeepPartial } from 'utility-types'
 
-import { GetDatasetByIdQuery, GetRunByIdQuery } from 'app/__generated__/graphql'
+import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
+import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { I18nKeys } from 'app/types/i18n'
 
 export type DrawerMetadataValue = number | string | null | undefined | string[]
@@ -16,8 +17,8 @@ export interface DrawerTestData {
 
 export type Dataset =
   | GetDatasetByIdQuery['datasets'][number]
-  | GetRunByIdQuery['runs'][number]['dataset']
+  | GetRunByIdV2Query['runs'][number]['dataset']
 
 export type TiltSeries =
   GetDatasetByIdQuery['datasets'][number]['run_metadata'][number]['tiltseries'][number] &
-    GetRunByIdQuery['runs'][number]['tiltseries'][number]
+    GetRunByIdV2Query['runs'][number]['tiltseries']['edges'][number]
