@@ -63,7 +63,7 @@ export function ViewTomogramButton({
         }}
         onMouseEnter={() => setIsHoveringOver?.(true)}
         onMouseLeave={() => setIsHoveringOver?.(false)}
-        className="min-w-[144px]"
+        className="min-w-[152px]"
       >
         <Button
           href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
