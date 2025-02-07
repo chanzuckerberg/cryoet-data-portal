@@ -26,7 +26,7 @@ export function getAwsCommand({
   const destinationPath = originPath?.split('/').pop()
 
   if (isAllAnnotations) {
-    const basePathMatch = s3Path?.match(/^(s3:\/\/[^/]+\/.*?\/Reconstructions)/)
+    const basePathMatch = s3Path?.match(/^([^/]+\/.*?\/Reconstructions)/)
     const basePath = basePathMatch ? basePathMatch[1] : ''
 
     return `${AWS_S3_BASE_COMMAND} ${s3Command} ${basePath}/ Annotations --exclude "*" --include "*/Annotations/*"`
