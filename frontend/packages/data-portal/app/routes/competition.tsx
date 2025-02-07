@@ -1,7 +1,10 @@
 import { typedjson } from 'remix-typedjson'
 
+import { OrderBy } from 'app/__generated_v2__/graphql'
+import { apolloClientV2 } from 'app/apollo.server'
 import { MLChallenge } from 'app/components/MLChallenge'
 import { CompletedMLChallenge } from 'app/components/MLChallenge/CompletedMLChallenge/CompletedMLChallenge'
+import { getWinningDepositions } from 'app/graphql/getWinningDepositionsV2.server'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getLocalFileContent } from 'app/utils/repo.server'
 
@@ -9,6 +12,12 @@ export async function loader() {
   const prefix = `${
     process.env.NODE_ENV === 'production' ? 'app' : 'frontend'
   }/packages/data-portal/app/components/MLChallenge/MdxContent`
+
+  const { data } = await getWinningDepositions({
+    limit: 10,
+    orderBy: OrderBy.Asc,
+    client: apolloClientV2,
+  })
 
   const [
     aboutTheCompetition,
@@ -38,6 +47,7 @@ export async function loader() {
     whatIsCryoET,
     competitionContributors,
     challengeResources,
+    winningDepositions: data,
   })
 }
 

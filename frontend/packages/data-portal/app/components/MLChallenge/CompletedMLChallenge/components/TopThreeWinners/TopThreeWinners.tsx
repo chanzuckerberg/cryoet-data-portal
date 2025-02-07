@@ -18,7 +18,6 @@ export function TopThreeWinners({ winners }: { winners: Winner[] }) {
           <Tooltip
             tooltip={
               <div className="text-sds-body-s leading-sds-body-s">
-                {}
                 Submissions were scored using an average F
                 <span className="relative top-sds-xxxs">&beta;</span> metric,
                 adjusted for the detection difficulty of each species.
@@ -41,11 +40,11 @@ export function TopThreeWinners({ winners }: { winners: Winner[] }) {
           </Tooltip>
         </div>
       </div>
-      <div className="flex flex-col screen-1345:flex-row gap-sds-xxl">
+      <div className="grid grid-cols-1 screen-1345:grid-cols-3 gap-sds-xxl">
         {winners.map(
           (winner, index) =>
             index <= 2 && (
-              <WinnerCard winner={winner} key={winner.name} place={index + 1} />
+              <WinnerCard winner={winner} key={winner.id} place={index + 1} />
             ),
         )}
       </div>

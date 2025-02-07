@@ -3,6 +3,7 @@ import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { ReactNode } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
+import { GetWinningDepositionsDataQuery } from 'app/__generated_v2__/graphql'
 import { Link } from 'app/components/Link'
 import styles from 'app/components/MDX/MdxBody.module.css'
 import { TopThreeWinners } from 'app/components/MLChallenge/CompletedMLChallenge/components/TopThreeWinners/TopThreeWinners'
@@ -79,58 +80,17 @@ export function CompletedChallengeLayout() {
     whatIsCryoET,
     competitionContributors,
     challengeResources,
+    winningDepositions,
   } = useTypedLoaderData<{
     aboutTheCompetitionCompleted: MDXRemoteSerializeResult
     glossary: MDXRemoteSerializeResult
     whatIsCryoET: MDXRemoteSerializeResult
     competitionContributors: MDXRemoteSerializeResult
     challengeResources: MDXRemoteSerializeResult
+    winningDepositions: GetWinningDepositionsDataQuery
   }>()
 
   const { t } = useI18n()
-
-  const winners = [
-    {
-      name: 'Project Name A',
-      score: 99.0,
-    },
-    {
-      name: 'Project Name B',
-      score: 98.0,
-    },
-    {
-      name: 'Project Name C',
-      score: 97.0,
-    },
-    {
-      name: 'Project Name D',
-      score: 96.0,
-    },
-    {
-      name: 'Project Name E',
-      score: 95.0,
-    },
-    {
-      name: 'Project Name F',
-      score: 94.0,
-    },
-    {
-      name: 'Project Name G',
-      score: 93.0,
-    },
-    {
-      name: 'Project Name H',
-      score: 92.0,
-    },
-    {
-      name: 'Project Name I',
-      score: 91.0,
-    },
-    {
-      name: 'Project Name J',
-      score: 90.0,
-    },
-  ]
 
   return (
     <div className="flex flex-col max-w-full screen-1024:max-w-[800px] screen-1345:max-w-[1100px] mx-auto">
@@ -169,10 +129,10 @@ export function CompletedChallengeLayout() {
 
       <JumpToAnchor id={CompletedMLChallengeSectionId.Winners} />
       <Section>
-        <TopThreeWinners winners={winners} />
+        <TopThreeWinners winners={winningDepositions.depositions} />
       </Section>
       <Section color="primary100">
-        <OtherWinners winners={winners} />
+        <OtherWinners winners={winningDepositions.depositions} />
       </Section>
 
       <JumpToAnchor id={CompletedMLChallengeSectionId.About} />
