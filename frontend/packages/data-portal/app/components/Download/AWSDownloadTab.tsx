@@ -11,36 +11,28 @@ import { DownloadConfig } from 'app/types/download'
 
 import { SelectSaveDestination } from './SelectSaveDestination'
 
+const AWS_S3_BASE_COMMAND = 'aws s3 --no-sign-request'
+
 export function getAwsCommand({
   s3Path,
   s3Command,
+  isAllAnnotations = false,
 }: {
   s3Path: string | undefined
   s3Command: 'cp' | 'sync'
+  isAllAnnotations?: boolean
 }): string {
-  const destinationPath = s3Path?.replace(/\/$/, '').split('/').pop()
-  return `aws s3 --no-sign-request ${s3Command} ${s3Path} ${destinationPath}`
-}
+  const originPath = s3Path?.replace(/\/$/, '')
+  const destinationPath = originPath?.split('/').pop()
 
-export function getAwsCommandAllAnnotations({
-  s3Path = '',
-}: {
-  s3Path: string | undefined
-}): string {
-  function getBasePath(path: string) {
-    const pathMatch = path.match(/^(s3:\/\/[^/]+\/.*?\/Reconstructions)/)
-    return pathMatch ? pathMatch[1] : path
+  if (isAllAnnotations) {
+    const basePathMatch = s3Path?.match(/^(s3:\/\/[^/]+\/.*?\/Reconstructions)/)
+    const basePath = basePathMatch ? basePathMatch[1] : ''
+
+    return `${AWS_S3_BASE_COMMAND} ${s3Command} ${basePath}/ Annotations --exclude "*" --include "*/Annotations/*"`
   }
 
-  return `
-  aws s3 ls ${getBasePath(s3Path)}/ --no-sign-request | \\
-  awk '{print $2}' | grep 'VoxelSpacing' | \\
-  while read -r folder; do
-    aws s3 --no-sign-request sync \\
-        "${getBasePath(s3Path)}/$\{folder}Annotations" \\
-        "Annotations/$\{folder}"
-  done
-  `
+  return `${AWS_S3_BASE_COMMAND} ${s3Command} ${originPath} ${destinationPath}`
 }
 
 export function AWSDownloadTab() {
@@ -57,17 +49,14 @@ export function AWSDownloadTab() {
   })
     .with(
       { pathname: P.string.includes('/datasets') },
+      { downloadConfig: DownloadConfig.AllAnnotations },
       { fileFormat: 'zarr' },
       () => 'sync' as const,
     )
     .otherwise(() => 'cp' as const)
 
-  let awsCommand = ''
-  if (downloadConfig === DownloadConfig.AllAnnotations) {
-    awsCommand = getAwsCommandAllAnnotations({ s3Path })
-  } else {
-    awsCommand = getAwsCommand({ s3Path, s3Command })
-  }
+  const isAllAnnotations = downloadConfig === DownloadConfig.AllAnnotations
+  const awsCommand = getAwsCommand({ s3Path, s3Command, isAllAnnotations })
 
   return (
     <div className="pt-sds-xl">
