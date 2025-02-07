@@ -42,6 +42,8 @@
   "annotationsMayRequireTransformation": "Annotations may require transformation if the desired tomogram has a different Alignment ID. <url to='https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_data.html#annotations'>Learn about annotation transformation.</url>",
   "annotationsSummary": "Annotations Summary",
   "annotationsTotal": "Annotations (Total)",
+  "announcementBannerText": "The Python API v3 will be deprecated soon. $t(announcementLearnMore)",
+  "announcementLearnMore": "<url to='https://chanzuckerberg.github.io/cryoet-data-portal/stable/changelog.html' newTab='true'>Learn More</url>",
   "api": "API",
   "apiDocLink": "https://chanzuckerberg.github.io/cryoet-data-portal/stable/python-api.html",
   "apply": "Apply",
