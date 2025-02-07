@@ -1,18 +1,12 @@
 import { Button } from '@czi-sds/components'
 
-import { AuthorInfo } from 'app/components/AuthorLink'
+import { GetWinningDepositionsDataQuery } from 'app/__generated_v2__/graphql'
 import { AuthorList } from 'app/components/AuthorList'
 import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
-export type Winner = {
-  keyPhotoThumbnailUrl?: string | undefined
-  title: string
-  description: string
-  authors: { edges: { node: AuthorInfo }[] }
-  id: string
-}
+export type Winner = GetWinningDepositionsDataQuery['depositions'][0]
 
 const getNumberSuffix = (place: number) => {
   switch (place) {
