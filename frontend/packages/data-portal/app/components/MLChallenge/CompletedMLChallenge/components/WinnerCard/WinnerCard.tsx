@@ -62,7 +62,7 @@ export function WinnerCard({
           {/* // TODO(smccanny): Add the score to the winner card */}
           <p className="text-sds-body-m leading-sds-body-m">Score: 90.00</p>
         </div>
-        <h4 className="text-sds-body-m leading-sds-body-m font-semibold mt-sds-s line-clamp-2">
+        <h4 className="text-sds-body-m leading-sds-body-m font-semibold mt-sds-s">
           {winner.title}
         </h4>
         <h5 className="text-sds-color-primitive-gray-600 mt-sds-xs">

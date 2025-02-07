@@ -9,7 +9,7 @@ export function useResizeObserver(): [
   const ref = useRef<HTMLDivElement>(null)
   const [rect, setRect] = useState<ObserverRect>()
 
-  useEffect((): void => {
+  useEffect(() => {
     if (!ref.current) return
 
     const observer = new ResizeObserver((entries) => {
@@ -20,8 +20,6 @@ export function useResizeObserver(): [
     })
 
     observer.observe(ref.current)
-
-    return () => observer.disconnect()
   }, [])
 
   return [ref, rect]
