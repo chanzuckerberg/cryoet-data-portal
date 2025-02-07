@@ -1,5 +1,5 @@
 import { Button, IconNameToSizes } from '@czi-sds/components'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 import { cns } from 'app/utils/cns'
 
@@ -45,6 +45,12 @@ export function Carousel({
     const offsetLastSlide = (cardWidth + gap) * incompleteLastSlideCardNum
     return offset + offsetLastSlide
   }
+
+  useEffect(() => {
+    if (carouselPosition > numberOfSlides) {
+      setCarouselPosition(1)
+    }
+  }, [carouselPosition, numberOfSlides])
 
   const changeCarouselPosition = (direction: 'left' | 'right') => {
     if (direction === 'left') {
@@ -92,6 +98,7 @@ export function Carousel({
         <div
           style={{
             gridTemplateColumns: `repeat(${numberOfSlides}, ${
+              // if the number of slides is greater than 4, we want to reduce the size of the dots to 20px
               numberOfSlides > 4 ? 20 : 45
             }px)`,
           }}

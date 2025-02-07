@@ -1,9 +1,11 @@
+import { ReactNode } from 'react'
+
 export function ChallengeInfo({
   title,
   content,
 }: {
   title: string
-  content: string | JSX.Element
+  content: string | ReactNode
 }) {
   return (
     <div className="font-semibold">
