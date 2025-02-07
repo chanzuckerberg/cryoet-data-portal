@@ -4,6 +4,7 @@ import { DownloadDialogPage } from 'e2e/pageObjects/downloadDialog/downloadDialo
 
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
+import { test as ctest, expect as cexpect } from '@chromatic-com/playwright'
 
 import { getApolloClient } from './apollo'
 import { SINGLE_DATASET_URL, SINGLE_RUN_URL, translations } from './constants'

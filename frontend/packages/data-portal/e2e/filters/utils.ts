@@ -7,11 +7,9 @@ import {
   GetDatasetsDataQuery,
   GetRunByIdQuery,
 } from 'app/__generated__/graphql'
-import { AVAILABLE_FILES_VALUE_TO_I18N_MAP } from 'app/components/DatasetFilter/constants'
 import { TestIds } from 'app/constants/testIds'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
-import { getRunById } from 'app/graphql/getRunById.server'
 
 async function waitForTableCountChange({
   countLabel,
@@ -210,35 +208,4 @@ export async function validateRunsTable({
     validateRows: getRunTableFilterValidator(data),
     countLabel: translations.runs,
   })
-}
-
-export async function validateAnnotationsTable({
-  client,
-  page,
-  params,
-  pageNumber = 1,
-  id = +E2E_CONFIG.runId,
-}: TableValidatorOptions & { id?: number }) {
-  const { data } = await getRunById({
-    client,
-    params,
-    id,
-    annotationsPage: pageNumber,
-  })
-
-  await validateTable({
-    page,
-    singleRunData: data,
-    validateRows: getAnnotationTableFilterValidator(data),
-    countLabel: translations.annotations,
-  })
-}
-
-export const serializeAvailableFiles = (value: string): string => {
-  return (
-    Object.entries(AVAILABLE_FILES_VALUE_TO_I18N_MAP).find(
-      ([, i18nKey]) =>
-        translations[i18nKey as keyof typeof translations] === value,
-    )?.[0] ?? value
-  )
 }

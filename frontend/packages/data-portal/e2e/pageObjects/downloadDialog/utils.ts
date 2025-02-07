@@ -11,7 +11,6 @@ import { getAwsCommand } from 'app/components/Download/AWSDownloadTab'
 import { getCurlCommand } from 'app/components/Download/CurlDownloadTab'
 import { QueryParams } from 'app/constants/query'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
-import { getRunById } from 'app/graphql/getRunById.server'
 import { DownloadTab } from 'app/types/download'
 
 export function skipClipboardTestsForWebkit(browserName: string) {
