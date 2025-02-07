@@ -41,21 +41,21 @@ export function AWSDownloadTab() {
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
   const location = useLocation()
   const { downloadConfig, fileFormat } = useDownloadModalQueryParamState()
+  const isAllAnnotations = downloadConfig === DownloadConfig.AllAnnotations
 
   const s3Command = match({
     pathname: location.pathname,
-    downloadConfig,
+    isAllAnnotations,
     fileFormat,
   })
     .with(
       { pathname: P.string.includes('/datasets') },
-      { downloadConfig: DownloadConfig.AllAnnotations },
+      { isAllAnnotations },
       { fileFormat: 'zarr' },
       () => 'sync' as const,
     )
     .otherwise(() => 'cp' as const)
 
-  const isAllAnnotations = downloadConfig === DownloadConfig.AllAnnotations
   const awsCommand = getAwsCommand({ s3Path, s3Command, isAllAnnotations })
 
   return (
