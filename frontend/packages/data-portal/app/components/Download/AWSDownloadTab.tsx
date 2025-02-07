@@ -11,15 +11,28 @@ import { DownloadConfig } from 'app/types/download'
 
 import { SelectSaveDestination } from './SelectSaveDestination'
 
+const AWS_S3_BASE_COMMAND = 'aws s3 --no-sign-request'
+
 export function getAwsCommand({
   s3Path,
   s3Command,
+  isAllAnnotations = false,
 }: {
   s3Path: string | undefined
   s3Command: 'cp' | 'sync'
+  isAllAnnotations?: boolean
 }): string {
-  const destinationPath = s3Path?.replace(/\/$/, '').split('/').pop()
-  return `aws s3 --no-sign-request ${s3Command} ${s3Path} ${destinationPath}`
+  const originPath = s3Path?.replace(/\/$/, '')
+  const destinationPath = originPath?.split('/').pop()
+
+  if (isAllAnnotations) {
+    const basePathMatch = s3Path?.match(/^([^/]+\/.*?\/Reconstructions)/)
+    const basePath = basePathMatch ? basePathMatch[1] : ''
+
+    return `${AWS_S3_BASE_COMMAND} ${s3Command} ${basePath}/ Annotations --exclude "*" --include "*/Annotations/*"`
+  }
+
+  return `${AWS_S3_BASE_COMMAND} ${s3Command} ${originPath} ${destinationPath}`
 }
 
 export function AWSDownloadTab() {
@@ -28,21 +41,22 @@ export function AWSDownloadTab() {
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
   const location = useLocation()
   const { downloadConfig, fileFormat } = useDownloadModalQueryParamState()
+  const isAllAnnotations = downloadConfig === DownloadConfig.AllAnnotations
 
   const s3Command = match({
     pathname: location.pathname,
-    downloadConfig,
+    isAllAnnotations,
     fileFormat,
   })
     .with(
       { pathname: P.string.includes('/datasets') },
-      { downloadConfig: DownloadConfig.AllAnnotations },
+      { isAllAnnotations: true },
       { fileFormat: 'zarr' },
       () => 'sync' as const,
     )
     .otherwise(() => 'cp' as const)
 
-  const awsCommand = getAwsCommand({ s3Path, s3Command })
+  const awsCommand = getAwsCommand({ s3Path, s3Command, isAllAnnotations })
 
   return (
     <div className="pt-sds-xl">

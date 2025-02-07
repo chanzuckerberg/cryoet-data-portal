@@ -348,6 +348,7 @@ export class DownloadDialogActor {
     const expectedCommand = getAwsCommand({
       s3Path: s3Prefix,
       s3Command: 'sync',
+      isAllAnnotations: true,
     })
     expect(clipboardValue).toBe(expectedCommand)
   }
