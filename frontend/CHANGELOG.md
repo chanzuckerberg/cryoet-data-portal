@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.50.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.50.0...web-v1.50.1) (2025-02-07)
+
+
+### 🐞 Bug Fixes
+
+* Runs table View Tomogram button styling ([#1591](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1591)) ([02af936](https://github.com/chanzuckerberg/cryoet-data-portal/commit/02af936de1154d301e1a50421c5906ae42f0c801))
+
 ## [1.50.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.49.0...web-v1.50.0) (2025-02-06)
 
 
