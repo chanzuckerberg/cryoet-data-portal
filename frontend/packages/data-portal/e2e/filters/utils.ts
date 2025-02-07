@@ -5,13 +5,13 @@ import { TableValidatorOptions } from 'e2e/pageObjects/filters/types'
 import {
   GetDatasetByIdQuery,
   GetDatasetsDataQuery,
-  GetRunByIdQuery,
 } from 'app/__generated__/graphql'
+import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { AVAILABLE_FILES_VALUE_TO_I18N_MAP } from 'app/components/DatasetFilter/constants'
 import { TestIds } from 'app/constants/testIds'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
-import { getRunById } from 'app/graphql/getRunById.server'
+import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 
 async function waitForTableCountChange({
   countLabel,
@@ -88,10 +88,10 @@ export function getRunTableFilterValidator(expectedData: GetDatasetByIdQuery) {
 }
 
 export function getAnnotationTableFilterValidator(
-  expectedData: GetRunByIdQuery,
+  expectedData: GetRunByIdV2Query,
 ) {
   const annotationIds = new Set(
-    expectedData.annotation_files.map((file) => file.annotation.id),
+    expectedData.annotationShapes.map((shape) => shape.annotation!.id),
   )
 
   return async (page: Page) => {
@@ -120,19 +120,19 @@ export async function validateTable({
   countLabel?: string
   page: Page
   singleDatasetData?: GetDatasetByIdQuery
-  singleRunData?: GetRunByIdQuery
+  singleRunData?: GetRunByIdV2Query
   validateRows(page: Page): Promise<void>
 }) {
   const expectedFilterCount =
     browseDatasetsData?.filtered_datasets_aggregate.aggregate?.count ??
     singleDatasetData?.datasets.at(0)?.filtered_runs_count.aggregate?.count ??
-    singleRunData?.annotation_files_aggregate_for_filtered.aggregate?.count ??
+    singleRunData?.numFilteredAnnotationRows.aggregate?.[0].count ??
     0
 
   const expectedTotalCount =
     browseDatasetsData?.datasets_aggregate.aggregate?.count ??
     singleDatasetData?.datasets.at(0)?.runs_aggregate.aggregate?.count ??
-    singleRunData?.annotation_files_aggregate_for_total.aggregate?.count ??
+    singleRunData?.numTotalAnnotationRows.aggregate?.[0].count ??
     0
 
   await waitForTableCountChange({
@@ -219,9 +219,9 @@ export async function validateAnnotationsTable({
   pageNumber = 1,
   id = +E2E_CONFIG.runId,
 }: TableValidatorOptions & { id?: number }) {
-  const { data } = await getRunById({
+  const { data } = await getRunByIdV2({
     client,
-    params,
+    params: params ?? new URLSearchParams(),
     id,
     annotationsPage: pageNumber,
   })

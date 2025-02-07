@@ -4,19 +4,15 @@ import { getObjectShapeTypeLabel } from 'e2e/utils'
 import { startCase } from 'lodash-es'
 import { DeepPartial } from 'utility-types'
 
-import {
-  Annotations,
-  Datasets,
-  GetRunByIdQuery,
-  Tiltseries,
-} from 'app/__generated__/graphql'
+import { Annotations, Datasets, Tiltseries } from 'app/__generated__/graphql'
 import {
   Dataset,
   Fiducial_Alignment_Status_Enum,
+  GetRunByIdV2Query,
   Tomogram,
 } from 'app/__generated_v2__/graphql'
+import { Dataset as DatasetV2 } from 'app/types/gql/genericTypes'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
-import { getRunById } from 'app/graphql/getRunById.server'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { ObjectShapeType } from 'app/types/shapeTypes'
 
@@ -62,6 +58,8 @@ function getDatasetTestMetadata({
   }
 }
 
+function getDatasetTestMetadataV2(dataset: DatasetV2)
+
 function getTiltSeriesTestMetadata({
   tiltSeries,
   type,
@@ -100,18 +98,18 @@ function getTiltSeriesTestMetadata({
 }
 
 function getTomogramAccordionTestMetadata(
-  response: GetRunByIdQuery,
+  response: GetRunByIdV2Query,
 ): DrawerTestMetadata {
   return {
-    totalTomograms: response.tomograms_aggregate.aggregate!.count.toString(),
-    resolutionsAvailable: response.tomograms_for_resolutions.map((tomo) =>
-      tomo.voxel_spacing.toString(),
+    totalTomograms: response.tomogramsAggregate.aggregate![0].count!.toString(),
+    resolutionsAvailable: response.uniqueResolutions.aggregate!.map(
+      (aggregate) => aggregate.groupBy!.voxelSpacing!.toString(),
     ),
-    tomogramProcessing: response.tomograms_for_distinct_processing_methods.map(
-      (tomo) => startCase(tomo.processing),
+    tomogramProcessing: response.uniqueProcessingMethods.aggregate!.map(
+      (aggregate) => startCase(aggregate.groupBy!.processing!),
     ),
-    annotatedObjects: response.annotations_for_object_names
-      .map((annotation) => annotation.object_name)
+    annotatedObjects: response.uniqueObjectNames
+      .aggregate!.map((aggregate) => aggregate.groupBy!.objectName!)
       .slice(0, 4),
   }
 }
@@ -232,14 +230,15 @@ export async function getSingleDatasetTestMetadata(
 export async function getSingleRunTestMetadata(
   client: ApolloClient<NormalizedCacheObject>,
 ): Promise<DrawerTestData> {
-  const { data } = await getRunById({
+  const { data } = await getRunByIdV2({
     client,
     id: +E2E_CONFIG.runId,
     annotationsPage: 1,
+    params: new URLSearchParams(),
   })
 
   const [run] = data.runs
-  const [tiltSeries] = run.tiltseries
+  const [tiltSeries] = run.tiltseries.edges
 
   return {
     title: run.name,
@@ -262,10 +261,11 @@ export async function getSingleRunTestMetadata(
 export async function getAnnotationTestData(
   client: ApolloClient<NormalizedCacheObject>,
 ) {
-  const { data } = await getRunById({
+  const { data } = await getRunByIdV2({
     client,
     id: +E2E_CONFIG.runId,
     annotationsPage: 1,
+    params: new URLSearchParams(),
   })
 
   const { annotation } = data.annotation_files[0]

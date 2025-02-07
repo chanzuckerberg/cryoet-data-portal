@@ -2,16 +2,17 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { test } from '@playwright/test'
 import { E2E_CONFIG } from 'e2e/constants'
 
-import { GetRunByIdQuery } from 'app/__generated__/graphql'
+import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import {
   getAnnotationCodeSnippet,
   getTomogramCodeSnippet,
 } from 'app/components/Download/APIDownloadTab'
 import { getAwsCommand } from 'app/components/Download/AWSDownloadTab'
 import { getCurlCommand } from 'app/components/Download/CurlDownloadTab'
+import { getDefaultFileFormat } from 'app/components/Download/FileFormatDropdown'
 import { QueryParams } from 'app/constants/query'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
-import { getRunById } from 'app/graphql/getRunById.server'
+import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { DownloadTab } from 'app/types/download'
 
 export function skipClipboardTestsForWebkit(browserName: string) {
@@ -82,7 +83,12 @@ export function fetchTestSingleDataset(
 export function fetchTestSingleRun(
   client: ApolloClient<NormalizedCacheObject>,
 ) {
-  return getRunById({ client, id: +E2E_CONFIG.runId, annotationsPage: 1 })
+  return getRunByIdV2({
+    client,
+    id: +E2E_CONFIG.runId,
+    annotationsPage: 1,
+    params: new URLSearchParams(),
+  })
 }
 
 export function getTomogramDownloadCommand({
@@ -90,28 +96,22 @@ export function getTomogramDownloadCommand({
   fileFormat,
   tab,
 }: {
-  data: GetRunByIdQuery
+  data: GetRunByIdV2Query
   fileFormat?: string
   tab: DownloadTab
 }): string {
-  const tomogram = data.runs[0].tomogram_voxel_spacings[0].tomograms[0]
-  const activeTomogram = data.tomograms.find((tomo) => {
-    return (
-      tomo.voxel_spacing === tomogram.voxel_spacing &&
-      tomo.processing === tomogram.processing
-    )
-  })
+  const activeTomogram = data.tomograms[0]
 
   switch (tab) {
     case DownloadTab.API:
       return getTomogramCodeSnippet(activeTomogram?.id, fileFormat)
     case DownloadTab.AWS:
       return getAwsCommand({
-        s3Path: activeTomogram?.s3_mrc_scale0,
+        s3Path: activeTomogram.s3MrcFile!,
         s3Command: 'cp',
       })
     case DownloadTab.Curl:
-      return getCurlCommand(activeTomogram?.https_mrc_scale0)
+      return getCurlCommand(activeTomogram.httpsMrcFile!)
     case DownloadTab.Download:
       return ''
     default:
@@ -123,31 +123,33 @@ export function getAnnotationDownloadCommand({
   data,
   tab,
 }: {
-  data: GetRunByIdQuery
+  data: GetRunByIdV2Query
   tab: DownloadTab
 }): string {
-  const annotationFile = data.annotation_files[0]
-  const fileFormat = annotationFile.format
+  const annotationShape = data.annotationShapes[0]
+  const fileFormat = getDefaultFileFormat(
+    annotationShape.annotationFiles.edges.map((file) => file.node.format),
+  )!
 
   switch (tab) {
     case DownloadTab.PortalCLI: // TODO(bchu): Update.
     case DownloadTab.API:
       return getAnnotationCodeSnippet(
-        annotationFile.annotation.id.toString(),
+        annotationShape.annotation!.id.toString(),
         fileFormat,
       )
     case DownloadTab.AWS:
       return getAwsCommand({
-        s3Path: annotationFile.annotation.files.find(
-          (file) => file.format === fileFormat,
-        )!.s3_path,
+        s3Path: annotationShape.annotationFiles.edges.find(
+          (file) => file.node.format === fileFormat,
+        )!.node.format,
         s3Command: 'cp',
       })
     case DownloadTab.Curl:
       return getCurlCommand(
-        annotationFile.annotation.files.find(
-          (file) => file.format === fileFormat,
-        )!.https_path,
+        annotationShape.annotationFiles.edges.find(
+          (file) => file.node.format === fileFormat,
+        )!.node.httpsPath,
       )
     case DownloadTab.Download:
       return ''
