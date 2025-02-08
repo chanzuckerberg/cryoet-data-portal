@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.51.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.50.1...web-v1.51.0) (2025-02-08)
+
+
+### ✨ Features
+
+* Add page for Completed ML challenge ([#1569](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1569)) ([7f2a192](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7f2a192e4cad9d309ee9991d449650c63235a454))
+
+
+### 🐞 Bug Fixes
+
+* All Annotations AWS CLI command ([#1593](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1593)) ([adea04e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/adea04e254bbabb138d404b934e2cd5310d1477d))
+
 ## [1.50.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.50.0...web-v1.50.1) (2025-02-07)
 
 
