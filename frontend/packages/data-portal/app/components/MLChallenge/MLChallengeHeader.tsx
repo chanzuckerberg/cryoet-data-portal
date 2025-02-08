@@ -1,20 +1,8 @@
 import { Button } from '@czi-sds/components'
 
 import { Link } from 'app/components/Link'
+import { ChallengeInfo } from 'app/components/MLChallenge/ChallengeInfo'
 import { useI18n } from 'app/hooks/useI18n'
-
-function ChallengeInfo({ title, content }: { title: string; content: string }) {
-  return (
-    <div className="font-semibold">
-      <p className="text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps-xxxs uppercase text-sds-color-primitive-gray-600">
-        {title}
-      </p>
-      <p className="text-sds-header-l leading-sds-header-l font-semibold">
-        {content}
-      </p>
-    </div>
-  )
-}
 
 export function MLChallengeHeader() {
   const { t } = useI18n()

@@ -3,17 +3,14 @@ import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { ReactNode } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
-import { I18n } from 'app/components/I18n'
-import { SpeechBubbleIcon } from 'app/components/icons'
+import { GetWinningDepositionsDataQuery } from 'app/__generated_v2__/graphql'
 import { Link } from 'app/components/Link'
 import styles from 'app/components/MDX/MdxBody.module.css'
+import { TopThreeWinners } from 'app/components/MLChallenge/CompletedMLChallenge/components/TopThreeWinners/TopThreeWinners'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
-import { MLChallengeSectionId } from './constants'
 import {
-  BookIcon,
-  GlobeIcon,
   MdxContributorList,
   MdxIconGrid,
   MdxLink,
@@ -21,9 +18,9 @@ import {
   MdxSeeLeaderboard,
   MdxTable,
   MdxToggleShowMore,
-  RocketIcon,
-  UpdateIcon,
-} from './MdxComponents'
+} from '../../../MdxComponents'
+import { CompletedMLChallengeSectionId } from '../../constants'
+import { OtherWinners } from '../OtherWinners/OtherWinners'
 
 const COMMON_MDX_COMPONENTS = {
   a: MdxLink,
@@ -39,7 +36,7 @@ function JumpToAnchor({
   id,
 }: {
   className?: string
-  id: MLChallengeSectionId
+  id: CompletedMLChallengeSectionId
 }) {
   // Translate div up a bit to account for space between header and the nav bar.
   // We use translate so we don't affect the layout.
@@ -76,55 +73,87 @@ function Section({
   )
 }
 
-export function MainContent() {
+export function CompletedChallengeLayout() {
   const {
-    aboutTheCompetition,
+    aboutTheCompetitionCompleted,
     glossary,
-    howToParticipate,
     whatIsCryoET,
     competitionContributors,
+    challengeResources,
+    winningDepositions,
   } = useTypedLoaderData<{
-    aboutTheCompetition: MDXRemoteSerializeResult
+    aboutTheCompetitionCompleted: MDXRemoteSerializeResult
     glossary: MDXRemoteSerializeResult
-    howToParticipate: MDXRemoteSerializeResult
     whatIsCryoET: MDXRemoteSerializeResult
     competitionContributors: MDXRemoteSerializeResult
+    challengeResources: MDXRemoteSerializeResult
+    winningDepositions: GetWinningDepositionsDataQuery
   }>()
 
   const { t } = useI18n()
 
   return (
-    <div className="flex flex-col max-w-content-small">
-      <JumpToAnchor id={MLChallengeSectionId.About} />
+    <div className="flex flex-col max-w-full screen-1024:max-w-[800px] screen-1345:max-w-[1100px] mx-auto">
+      <JumpToAnchor id={CompletedMLChallengeSectionId.Impact} />
+      <Section color="primary100">
+        <div className="flex flex-col screen-760:flex-row justify-between gap-sds-xl">
+          <div className="screen-760:max-w-[500px] screen-1345:max-w-[66%]">
+            <h2 className="text-[34px] font-semibold mb-sds-xxl mt-[60px] tracking-[0.3px]">
+              {t('impact')}
+            </h2>
+            <h3 className="text-sds-header-xl leading-sds-header-xl font-semibold mt-sds-xxl">
+              {t('impactSubTitle')}
+            </h3>
+            <p className="text-sds-body-m leading-sds-body-m text-sds-color-primitive-gray-700 mt-sds-xl mb-sds-xxl">
+              {t('impactExplanation')}
+            </p>
+            <Link to={t('impactPaperLink')}>
+              <Button
+                sdsStyle="rounded"
+                sdsType="primary"
+                className="mb-sds-xxl"
+              >
+                {t('readPaper')}
+              </Button>
+            </Link>
+          </div>
+          <div className="w-[113%] left-[-7%] screen-760:left-0 relative screen-1024:w-[340px]">
+            <img
+              className="w-full screen-760:mt-sds-xxl screen-879:mt-sds-m -mb-[55px]"
+              src="/images/researchPaper.svg"
+              alt="Bio Rxiv Paper Preview with the title 'Annotating CryoET Volumes: A Machine Learning Challenge'"
+            />
+          </div>
+        </div>
+      </Section>
 
+      <JumpToAnchor id={CompletedMLChallengeSectionId.Winners} />
+      <Section>
+        <TopThreeWinners winners={winningDepositions.depositions} />
+      </Section>
+      <Section color="primary100">
+        <OtherWinners winners={winningDepositions.depositions} />
+      </Section>
+
+      <JumpToAnchor id={CompletedMLChallengeSectionId.About} />
       <Section useMdxStyles>
+        <h2 className="[&&]:text-[34px] font-semibold mt-[55px] tracking-[0.3px]">
+          Competition Details
+        </h2>
         <MDXRemote
-          {...aboutTheCompetition}
+          {...aboutTheCompetitionCompleted}
           components={{
             ...COMMON_MDX_COMPONENTS,
             PrizeTable: MdxPrizeTable,
             SeeLeaderboard: MdxSeeLeaderboard,
+            ToggleShowMore: MdxToggleShowMore,
           }}
         />
       </Section>
 
-      <JumpToAnchor id={MLChallengeSectionId.HowToParticipate} />
-      <Section color="primary100" className="min-h-[270px]" useMdxStyles>
-        <MDXRemote
-          {...howToParticipate}
-          components={{
-            ...COMMON_MDX_COMPONENTS,
-            BookIcon,
-            GlobeIcon,
-            RocketIcon,
-            UpdateIcon,
-          }}
-        />
-      </Section>
-
-      <JumpToAnchor id={MLChallengeSectionId.CompetitionData} />
-      <Section color="primary200" className="gap-sds-xl">
-        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
+      <JumpToAnchor id={CompletedMLChallengeSectionId.CompetitionData} />
+      <Section color="primary100" className="gap-sds-xl" useMdxStyles>
+        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold [&&]:mb-0">
           {t('competitionData')}
         </h2>
         <div
@@ -135,12 +164,12 @@ export function MainContent() {
           )}
         >
           <div>
-            <p className="text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps-xxxs font-semibold uppercase text-sds-color-primitive-gray-500 mb-sds-xs">
+            <h4 className="text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps-xxxs font-semibold uppercase text-sds-color-primitive-gray-500 mb-sds-xs">
               {t('competitionDepositionName')}:
-            </p>
-            <p className="text-sds-header-m leading-sds-header-m font-semibold mb-sds-l">
+            </h4>
+            <h3 className="text-sds-header-m leading-sds-header-m font-semibold mb-sds-l [&&&]:mt-0">
               {t('competitionDataHeader')}
-            </p>
+            </h3>
             <p className="text-sds-body-s leading-sds-body-s mb-sds-l text-justify">
               {t('competitionDataDetails')}
             </p>
@@ -164,12 +193,18 @@ export function MainContent() {
             className="rounded-sds-m"
           />
         </div>
-        <p className="font-semibold">
-          <I18n i18nKey="competitionDataSubnote" />
-        </p>
+        <div className="w-full h-sds-xxxs bg-sds-color-primitive-gray-200" />
+        <div className="mb-sds-xl">
+          <MDXRemote
+            {...challengeResources}
+            components={{
+              ...COMMON_MDX_COMPONENTS,
+            }}
+          />
+        </div>
       </Section>
 
-      <JumpToAnchor id={MLChallengeSectionId.WhatIsCryoET} />
+      <JumpToAnchor id={CompletedMLChallengeSectionId.WhatIsCryoET} />
       <Section useMdxStyles>
         <MDXRemote
           {...whatIsCryoET}
@@ -180,8 +215,21 @@ export function MainContent() {
         />
       </Section>
 
-      <JumpToAnchor id={MLChallengeSectionId.CompetitionContributors} />
-      <Section color="gray100" className="gap-sds-xl">
+      <JumpToAnchor id={CompletedMLChallengeSectionId.Glossary} />
+      <Section color="gray100" className="min-h-[270px]" useMdxStyles>
+        <MDXRemote
+          {...glossary}
+          components={{
+            ...COMMON_MDX_COMPONENTS,
+            ToggleShowMore: MdxToggleShowMore,
+          }}
+        />
+      </Section>
+
+      <JumpToAnchor
+        id={CompletedMLChallengeSectionId.CompetitionContributors}
+      />
+      <Section className="gap-sds-xl">
         <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
           {t('competitionContributors')}
         </h2>
@@ -211,41 +259,6 @@ export function MainContent() {
               />
             </div>
           </div>
-        </div>
-      </Section>
-
-      <JumpToAnchor id={MLChallengeSectionId.Glossary} />
-      <Section className="min-h-[270px]" useMdxStyles>
-        <MDXRemote
-          {...glossary}
-          components={{
-            ...COMMON_MDX_COMPONENTS,
-            ToggleShowMore: MdxToggleShowMore,
-          }}
-        />
-      </Section>
-
-      <JumpToAnchor id={MLChallengeSectionId.Contact} />
-      <Section
-        className="font-semibold py-[80px] screen-716:py-[50px]"
-        color="primary100"
-      >
-        <div className="flex justify-center gap-sds-xxl">
-          <div>
-            <h2 className="text-sds-header-xl leading-sds-header-xl">
-              {t('contact')}
-            </h2>
-
-            <p className="text-sds-body-m leading-sds-body-m mt-sds-xl">
-              <I18n i18nKey="haveMoreQuestions" />
-            </p>
-          </div>
-
-          <SpeechBubbleIcon
-            className="flex-shrink-0 hidden screen-716:block"
-            color="#a9bdfc"
-            width={150}
-          />
         </div>
       </Section>
     </div>

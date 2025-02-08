@@ -1,0 +1,58 @@
+## About the Competition
+
+We held a [competition](https://www.kaggle.com/competitions/czii-cryo-et-object-identification/) for the development of machine learning algorithms to overcome a major bottleneck limiting biomedical discoveries—the annotation and analysis of high resolution 3D images from advanced imaging technologies.
+
+### Goal
+
+**Advance the understanding of cell biology through machine learning algorithms to annotate particles in 3D images of cells captured by cryoET.**
+
+The resulting algorithms were able to perform robust annotation of particles of variable shapes and sizes within the hundreds of 3D images in the competition dataset after being trained on a limited set of available reference annotations from the same dataset.
+
+<ToggleShowMore>
+
+### Impact
+
+**The algorithms developed through this competition were only considered for one of 10 cash prizes, but are also compatible for use on existing standardized data in the open access [CryoET Data Portal](https://cryoetdataportal.czscience.com/). This means they can readily have a huge impact on the field of cell biology, and even lay a foundation for future medicines.**
+
+Understanding detailed protein interactions in the context of the cell’s internal architecture is not possible with other conventional bioimaging technologies like light microscopy. CryoET can do this, but the field is currently stuck in a bottleneck of annotation. For example, there are over 15,732 tomograms publicly available in standardized format through the CryoET Data Portal alone. Only 5% of these have molecular annotations, which are necessary to derive insights about cell biology and find new targets for therapies to treat diseases.
+
+By design, any tools developed for the purposes of the competition are compatible to be applied to the entire data corpus on the CryoET Data Portal with relative ease. Competition algorithms can also help provide benchmark datasets and standardized pipelines to guide the continuous improvement of machine learning models.
+
+The CryoET Data Portal is only a year old, but with a growing number of contributors, collaboration between the CryoET community and machine learning developers can uncover new insights about how all of the components of a cell come together—in different cells and during different states of health, disease and age. The field is due for a revolution: machine learning algorithms that can robustly annotate different particles within cells will unlock the discoveries currently trapped in thousands of existing tomograms.
+
+### Challenge Task
+
+Contestants were tasked with developing ML algorithms that could robustly perform multi-class particle labeling on hundreds of unseen tomograms after being trained on a limited set of annotated tomograms from the same dataset as well as any other data — either synthetic or experimental — of the competitors’ choice.
+
+To encourage generalizability, we have chosen five target particles that have diverse shapes and collectively span nearly an order of magnitude in molecular weight:
+
+- Virus-like Particles or VLPs
+- Thyroglobulin
+- Beta-galactosidase
+- Apo-ferritin
+- 80S ribosome
+
+The algorithm had to be able to identify these target particles amidst non-target particles present in the samples, including nucleosomes, filaments, proteasomes, membrane-bound proteins, as well as structural features like membranes that frequently confuse picking algorithms.
+
+### Prizes and Judging Criteria
+
+Ten prizes were awarded for overall picking accuracy of all 5 particles:
+
+<PrizeTable>
+
+| Prize               | Amount          |
+| :------------------ | :-------------- |
+| **1st Place:**      | $15,000 USD     |
+| **2nd Place:**      | $12,000 USD     |
+| **3rd Place:**      | $10,000 USD     |
+| **4th Place:**      | $7,000 USD      |
+| **5th Place:**      | $6,000 USD      |
+| **6th-10th Place:** | $5,000 USD each |
+
+</PrizeTable>
+
+Judging accuracy for these prizes was relative to reference annotations that we generated through an elaborate and rigorous workflow. These “ground truth” labels were used to score participants’ results and were released on the CryoET Data Portal as a resource to benchmark future algorithm development after the contest ended.
+
+<SeeLeaderboard />
+
+</ToggleShowMore>

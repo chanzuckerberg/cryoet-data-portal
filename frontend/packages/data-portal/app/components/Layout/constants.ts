@@ -10,6 +10,23 @@ interface TopNavLink extends NavLink {
   isActive(pathname: string): boolean
 }
 
+// TODO: Remove once post competition page is live
+export const TOP_LEVEL_LINKS_COMPETITION: TopNavLink[] = [
+  {
+    isActive: (pathname) =>
+      pathname.includes('/datasets') ||
+      pathname.includes('/runs') ||
+      pathname.includes('/depositions'),
+    label: 'browseData',
+    link: SiteLinks.BROWSE_DATA_DATASETS,
+  },
+  {
+    isActive: (pathname) => pathname === '/competition',
+    label: 'competition',
+    link: SiteLinks.COMPETITION,
+  },
+]
+
 export const TOP_LEVEL_LINKS: TopNavLink[] = [
   {
     isActive: (pathname) =>
@@ -19,10 +36,9 @@ export const TOP_LEVEL_LINKS: TopNavLink[] = [
     label: 'browseData',
     link: SiteLinks.BROWSE_DATA_DATASETS,
   },
-
   {
     isActive: (pathname) => pathname === '/competition',
-    label: 'competition',
+    label: 'pastCompetition',
     link: SiteLinks.COMPETITION,
   },
 ]
