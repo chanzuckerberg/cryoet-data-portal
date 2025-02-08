@@ -2,3 +2,5 @@ __generated__
 __generated_v2__
 **/*.module.css.d.ts
 node_modules/
+
+*storybook.log
