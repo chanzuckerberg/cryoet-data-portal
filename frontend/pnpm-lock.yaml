@@ -306,8 +306,8 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0
       playwright:
-        specifier: ^1.50.1
-        version: 1.50.1
+        specifier: 1.50.0
+        version: 1.50.0
       postcss:
         specifier: ^8.4.31
         version: 8.4.31
@@ -10457,8 +10457,8 @@ packages:
     hasBin: true
     dev: true
 
-  /playwright-core@1.50.1:
-    resolution: {integrity: sha512-ra9fsNWayuYumt+NiM069M6OkcRb1FZSK8bgi66AtpFoWkg2+y0bJSNmkFrWhMbEBbVKC/EruAHH3g0zmtwGmQ==}
+  /playwright-core@1.50.0:
+    resolution: {integrity: sha512-CXkSSlr4JaZs2tZHI40DsZUN/NIwgaUPsyLuOAaIZp2CyF2sN5MM5NJsyB188lFSSozFxQ5fPT4qM+f0tH/6wQ==}
     engines: {node: '>=18'}
     hasBin: true
     dev: true
@@ -10473,12 +10473,12 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /playwright@1.50.1:
-    resolution: {integrity: sha512-G8rwsOQJ63XG6BbKj2w5rHeavFjy5zynBA9zsJMMtBoe/Uf757oG12NXz6e6OirF7RCrTVAKFXbLmn1RbL7Qaw==}
+  /playwright@1.50.0:
+    resolution: {integrity: sha512-+GinGfGTrd2IfX1TA4N2gNmeIksSb+IAe589ZH+FlmpV3MYTx6+buChGIuDLQwrGNCw2lWibqV50fU510N7S+w==}
     engines: {node: '>=18'}
     hasBin: true
     dependencies:
-      playwright-core: 1.50.1
+      playwright-core: 1.50.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
