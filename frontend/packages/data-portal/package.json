@@ -28,9 +28,7 @@
     "start": "NODE_ENV=production node --loader ts-node/esm server.ts",
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage --config jest.config.cjs",
     "test:watch": "NODE_OPTIONS='--experimental-vm-modules' jest --watch --coverage --config jest.config.cjs",
-    "type-check": "tsc -p tsconfig.json --noEmit",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "type-check": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",
