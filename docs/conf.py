@@ -83,6 +83,7 @@ html_theme_options = {
         "toc.sticky",
         "navigation.tabs",
         "navigation.tabs.sticky",
+        "announce.dismiss",
     ],
     "palette": [
         {
