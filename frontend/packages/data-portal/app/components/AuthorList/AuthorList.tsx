@@ -1,11 +1,17 @@
 import { ComponentProps, ComponentType, useMemo } from 'react'
 
 import {
-  AuthorInfo,
+  AuthorInfo as AuthorInfoSansKaggle,
   AuthorLink,
   convertToAuthorInfoV2,
 } from 'app/components/AuthorLink'
 import { cns } from 'app/utils/cns'
+
+// TODO(smccanny): Remove this when we have a proper author info type
+type AuthorInfo = AuthorInfoSansKaggle & {
+  kaggleId?: string
+  kaggleUserName?: string
+}
 
 function getAuthorKey(author: AuthorInfo): string {
   return `${author.name}-${author.email}`
@@ -34,9 +40,9 @@ export function AuthorList({
   large?: boolean
   subtle?: boolean
 }) {
-  const authorsPrimary = []
-  const authorsOther = []
-  const authorsCorresponding = []
+  const authorsPrimary = [] as AuthorInfo[]
+  const authorsOther = [] as AuthorInfo[]
+  const authorsCorresponding = [] as AuthorInfo[]
   for (const author of authors.map(convertToAuthorInfoV2)) {
     if (author.primaryAuthorStatus) {
       authorsPrimary.push(author)

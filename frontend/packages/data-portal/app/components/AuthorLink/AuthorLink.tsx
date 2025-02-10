@@ -12,6 +12,7 @@ import {
   convertToAuthorInfoV2,
 } from './types'
 
+// TODO(smccanny): Remove this when we have a proper author info type
 type AuthorInfo = AuthorInfoSansKaggle & {
   kaggleId?: string
   kaggleUserName?: string
@@ -44,30 +45,6 @@ export function AuthorLink({
   large?: boolean
   LinkComponent?: ComponentType<LinkProps>
 }) {
-  const kaggleIds = [
-    { kaggleId: 'tangtang1999', kaggleUserName: 'tangtang1999' },
-    { kaggleId: 'adatasciencenewbie', kaggleUserName: 'a datascience newbie' },
-    { kaggleId: 'hydantess', kaggleUserName: 'hyd' },
-  ]
-  const flip = Math.random() < 0.5
-  const addKaggle = (authorSansKaggle: AuthorInfoSansKaggle) => {
-    // if (flip) {
-    if (flip) {
-      return {
-        ...authorSansKaggle,
-        ...kaggleIds[Math.floor(Math.random() * kaggleIds.length)],
-      }
-    }
-    return {
-      ...authorSansKaggle,
-      ...kaggleIds[Math.floor(Math.random() * kaggleIds.length)],
-      name: '',
-    }
-    // }
-    // return authorSansKaggle
-  }
-  const authorPlusKaggle = addKaggle(author)
-  console.log(authorPlusKaggle)
   const iconSize = large ? LARGE_ICON_SIZE_PX : BASE_ICON_SIZE_PX
   const content = (
     <Tooltip
@@ -82,7 +59,7 @@ export function AuthorLink({
             {AUTHOR_HANDLE_CONTENT.map(
               ({ key, value, icon: Icon, urlPrefix }) => {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                const authorValue = authorPlusKaggle[value as keyof AuthorInfo]
+                const authorValue = author[value as keyof AuthorInfo]
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                 return (
                   authorValue && (
@@ -100,7 +77,7 @@ export function AuthorLink({
                         // className="border-black border-dashed border-b mb-0 -pb-2 hover:border-solid leading-sds-body-xxs bg-lime-400"
                       >
                         {value === 'kaggleId'
-                          ? authorPlusKaggle.kaggleUserName
+                          ? author.kaggleUserName
                           : authorValue}
                       </Link>
                     </li>
@@ -118,27 +95,27 @@ export function AuthorLink({
           className={cns(
             'inline border-b mb-sds-xxxs',
 
-            authorPlusKaggle.orcid || authorPlusKaggle.kaggleId
+            author.orcid || author.kaggleId
               ? [
                   'border-dashed hover:border-solid',
 
-                  convertToAuthorInfoV2(authorPlusKaggle).primaryAuthorStatus
+                  convertToAuthorInfoV2(author).primaryAuthorStatus
                     ? 'border-black'
                     : 'border-sds-color-primitive-gray-500',
                 ]
               : 'border-transparent',
           )}
         >
-          {authorPlusKaggle.orcid && (
+          {author.orcid && (
             <ORCIDIcon className="inline mb-0.5 mr-sds-xxxs" width={iconSize} />
           )}
 
           <span className={large ? 'text-sm' : 'text-xs'}>
-            {authorPlusKaggle.name || authorPlusKaggle.kaggleUserName}
+            {author.name || author.kaggleUserName}
           </span>
         </span>
 
-        {convertToAuthorInfoV2(authorPlusKaggle).correspondingAuthorStatus && (
+        {convertToAuthorInfoV2(author).correspondingAuthorStatus && (
           <EnvelopeIcon
             className={cns(
               'text-sds-color-primitive-gray-400 mx-sds-xxxs',
@@ -150,9 +127,9 @@ export function AuthorLink({
     </Tooltip>
   )
 
-  if (authorPlusKaggle.orcid) {
+  if (author.orcid) {
     return (
-      <LinkComponent to={`${ORC_ID_URL}/${authorPlusKaggle.orcid}`}>
+      <LinkComponent to={`${ORC_ID_URL}/${author.orcid}`}>
         {content}
       </LinkComponent>
     )
