@@ -179,7 +179,3 @@ jobs:
 
       - name: Run Chromatic
         uses: chromaui/action@latest
-        with:
-          playwright: true
-          projectToken: chpt_fda0cc83112e755
-        env: CHROMATIC_ARCHIVE_LOCATION=./test-results
