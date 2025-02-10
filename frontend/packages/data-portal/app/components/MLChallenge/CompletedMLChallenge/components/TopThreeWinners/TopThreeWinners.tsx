@@ -22,7 +22,7 @@ export function TopThreeWinners({ winners }: { winners: Winner[] }) {
                 <span className="relative top-sds-xxxs">&beta;</span> metric,
                 adjusted for the detection difficulty of each species.
                 <div className="text-sds-color-primitive-blue-400">
-                  {/* TODO(smccanny) - Add link to doc or reference here */}
+                  {/* TODO(smccanny) - Add link to doc or reference here so that we can link out correctly */}
                   <Link to="/">Learn more</Link>
                 </div>
               </div>
