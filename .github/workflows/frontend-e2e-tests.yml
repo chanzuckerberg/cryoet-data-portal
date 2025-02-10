@@ -176,3 +176,13 @@ jobs:
           name: html-report-${{ matrix.browser }}-${{ matrix.shardCurrent }}-${{ matrix.shardTotal }}
           path: frontend/packages/data-portal/playwright-report/
           retention-days: 1
+
+      - name: Run Chromatic
+        uses: chromaui/action@latest
+        with:
+          # ⚠️ Enable Playwright
+          playwright: true
+          # ⚠️ Make sure to configure a `CHROMATIC_PROJECT_TOKEN` repository secret
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        # ⚠️ Optionally configure the archive location with env vars
+        env: CHROMATIC_ARCHIVE_LOCATION=frontend/packages/data-portal/playwright-report/

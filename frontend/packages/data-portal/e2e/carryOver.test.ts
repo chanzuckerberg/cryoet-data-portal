@@ -1,5 +1,4 @@
-import { expect, test } from '@playwright/test'
-
+import { test, expect } from '@chromatic-com/playwright'
 import { QueryParams } from 'app/constants/query'
 
 import {
