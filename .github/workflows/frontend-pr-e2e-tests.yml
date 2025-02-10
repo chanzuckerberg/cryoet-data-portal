@@ -1,6 +1,11 @@
 name: Frontend PR E2E Tests
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
   pull_request:
     branches:
       - '**'
