@@ -58,9 +58,8 @@ export function AuthorLink({
           <ul>
             {AUTHOR_HANDLE_CONTENT.map(
               ({ key, value, icon: Icon, urlPrefix }) => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 const authorValue = author[value as keyof AuthorInfo]
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
                 return (
                   authorValue && (
                     <li
