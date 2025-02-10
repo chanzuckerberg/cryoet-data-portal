@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 
 import { MockAuthorLink } from 'app/components/AuthorLink'
+import { TestIds } from 'app/constants/testIds'
 import { AuthorInfoType } from 'app/types/authorInfo'
 
 import { AuthorList } from './AuthorList'
@@ -154,5 +155,5 @@ describe('compact', () => {
 })
 
 function findAuthorStrings(): string[] {
-  return (screen.getByRole('paragraph').textContent ?? '').split(', ')
+  return (screen.getByTestId(TestIds.AuthorList).textContent ?? '').split(', ')
 }

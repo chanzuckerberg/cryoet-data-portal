@@ -5,6 +5,7 @@ import {
   AuthorLink,
   convertToAuthorInfoV2,
 } from 'app/components/AuthorLink'
+import { TestIds } from 'app/constants/testIds'
 import { cns } from 'app/utils/cns'
 
 // TODO(smccanny): Remove this when we have a proper author info type
@@ -75,7 +76,7 @@ export function AuthorList({
 
   // TODO: let's find a better way of doing this
   return (
-    <div className={className}>
+    <div data-testid={TestIds.AuthorList} className={className}>
       <ul className={cns(!compact && 'font-semibold')}>
         {authorsPrimary.map((author, i, arr) => (
           <li key={getAuthorKey(author)} className="float-left mr-sds-xxs">
