@@ -1,4 +1,4 @@
-import { ComponentProps, ComponentType, Fragment, useMemo } from 'react'
+import { ComponentProps, ComponentType, useMemo } from 'react'
 
 import {
   AuthorInfo,
@@ -69,12 +69,12 @@ export function AuthorList({
 
   // TODO: let's find a better way of doing this
   return (
-    <p className={className}>
-      <span className={cns(!compact && 'font-semibold')}>
+    <div className={className}>
+      <ul className={cns(!compact && 'font-semibold')}>
         {authorsPrimary.map((author, i, arr) => (
-          <Fragment key={getAuthorKey(author)}>
+          <li key={getAuthorKey(author)} className="float-left mr-sds-xxs">
             {compact ? (
-              author.name
+              author.name ?? author.kaggleUserName
             ) : (
               <AuthorLinkComponent author={author} large={large} />
             )}
@@ -82,36 +82,38 @@ export function AuthorList({
               authorsOther.length + authorsCorresponding.length === 0 &&
               arr.length - 1 === i
             ) && SEPARATOR}
-          </Fragment>
+          </li>
         ))}
-      </span>
+      </ul>
 
-      <span
+      <ul
         className={cns(
           subtle && !compact && 'text-sds-color-primitive-gray-600',
         )}
       >
-        {compact
-          ? otherCollapsed
-          : authorsOther.map((author, i, arr) => (
-              <Fragment key={getAuthorKey(author)}>
-                <AuthorLinkComponent author={author} large={large} />
-                {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
-                  SEPARATOR}
-              </Fragment>
-            ))}
+        {compact ? (
+          <li className="float-left mr-sds-xxs">{otherCollapsed}</li>
+        ) : (
+          authorsOther.map((author, i, arr) => (
+            <li key={getAuthorKey(author)} className="float-left mr-sds-xxs">
+              <AuthorLinkComponent author={author} large={large} />
+              {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
+                SEPARATOR}
+            </li>
+          ))
+        )}
 
         {authorsCorresponding.map((author, i, arr) => (
-          <Fragment key={getAuthorKey(author)}>
+          <li key={getAuthorKey(author)} className="float-left mr-sds-xxs">
             {compact ? (
-              author.name
+              author.name ?? author.kaggleUserName
             ) : (
               <AuthorLinkComponent author={author} large={large} />
             )}
             {!(arr.length - 1 === i) && SEPARATOR}
-          </Fragment>
+          </li>
         ))}
-      </span>
-    </p>
+      </ul>
+    </div>
   )
 }
