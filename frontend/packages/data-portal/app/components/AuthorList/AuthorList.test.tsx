@@ -121,7 +121,7 @@ describe('compact', () => {
 
   it('should not render other authors when compact', () => {
     render(<AuthorList authors={DEFAULT_AUTHORS} compact />)
-    const authorNode = screen.getByRole('paragraph')
+    const authorNode = screen.getByTestId(TestIds.AuthorList)
     const authors = (authorNode.textContent ?? '').split(', ')
     const otherAuthors = authors.slice(2, -2)
 
