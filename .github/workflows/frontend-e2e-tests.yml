@@ -97,6 +97,8 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -179,6 +181,7 @@ jobs:
 
       - name: Run Chromatic
         uses: chromaui/action@latest
+        if: always()
         with:
           playwright: true
           projectToken: chpt_fda0cc83112e755
