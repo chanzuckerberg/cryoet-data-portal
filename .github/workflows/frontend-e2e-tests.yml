@@ -181,5 +181,5 @@ jobs:
         uses: chromaui/action@latest
         with:
           playwright: true
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          projectToken: chpt_fda0cc83112e755
         env: CHROMATIC_ARCHIVE_LOCATION=frontend/packages/data-portal/playwright-report/
