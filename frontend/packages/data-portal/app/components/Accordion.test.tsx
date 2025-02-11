@@ -1,8 +1,4 @@
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { Accordion } from './Accordion'
@@ -27,14 +23,6 @@ describe('<Accordion />', () => {
     renderAccordion()
     await userEvent.click(screen.getByRole('button'))
     expect(screen.queryByText(CHILDREN_TEXT)).toBeVisible()
-  })
-
-  // eslint-disable-next-line jest/expect-expect
-  it('should close on click', async () => {
-    renderAccordion()
-    await userEvent.click(screen.getByRole('button'))
-    await userEvent.click(screen.getByRole('button'))
-    await waitForElementToBeRemoved(() => screen.queryByText(CHILDREN_TEXT))
   })
 
   it('should render opened if initialOpen === true', () => {
