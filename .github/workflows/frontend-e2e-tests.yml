@@ -177,7 +177,6 @@ jobs:
           path: frontend/packages/data-portal/playwright-report/
           retention-days: 1
       - name: asdf
-        shell: bash
         run: echo "$(ls -R)"
   chromatic:
     name: Run Chromatic
