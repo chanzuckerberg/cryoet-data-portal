@@ -26,12 +26,10 @@ describe('<Accordion />', () => {
   })
 
   it('should close on click', async () => {
+    const user = userEvent.setup()
     renderAccordion()
-    await userEvent.click(screen.getByRole('button'))
-    await new Promise((resolve) => {
-      setTimeout(resolve, 1000)
-    })
-    await userEvent.click(screen.getByRole('button'))
+    await user.click(screen.getByRole('button'))
+    await user.click(screen.getByRole('button'))
     expect(screen.queryByText(CHILDREN_TEXT)).not.toBeVisible()
   })
 
