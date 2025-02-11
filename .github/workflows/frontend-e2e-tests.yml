@@ -221,4 +221,4 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           workingDir: frontend/packages/data-portal
         env:
-          CHROMATIC_ARCHIVE_LOCATION: frontend/packages/data-portal/playwright-report/chromatic-archives/
+          CHROMATIC_ARCHIVE_LOCATION: playwright-report/chromatic-archives/
