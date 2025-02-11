@@ -183,6 +183,7 @@ jobs:
     name: Run Chromatic
     needs: frontend-e2e-tests
     runs-on: macos-latest
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -206,3 +207,4 @@ jobs:
           workingDir: frontend/packages/data-portal
         env:
           CHROMATIC_ARCHIVE_LOCATION: frontend/packages/data-portal/playwright-report/
+          E2E_CONFIG: ${{ secrets.E2E_CONFIG }}
