@@ -97,8 +97,6 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -176,7 +174,7 @@ jobs:
         if: always()
         with:
           name: html-report-${{ matrix.browser }}-${{ matrix.shardCurrent }}-${{ matrix.shardTotal }}
-          path: frontend/packages/data-portal/playwright-report/
+          path: frontend/packages/data-portal/playwright-report/chromatic-archives/
           retention-days: 1
 
   chromatic:
@@ -212,7 +210,7 @@ jobs:
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v4
         with:
-          path: frontend/packages/data-portal/playwright-report/
+          path: frontend/packages/data-portal/playwright-report/chromatic-archives/
           pattern: html-report-*
           merge-multiple: true
       - name: Run Chromatic
@@ -222,5 +220,5 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           workingDir: frontend/packages/data-portal
         env:
-          CHROMATIC_ARCHIVE_LOCATION: frontend/packages/data-portal/playwright-report/
+          CHROMATIC_ARCHIVE_LOCATION: frontend/packages/data-portal/playwright-report/chromatic-archives/
           E2E_CONFIG: ${{ secrets.E2E_CONFIG }}
