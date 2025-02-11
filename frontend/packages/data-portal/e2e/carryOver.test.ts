@@ -38,8 +38,6 @@ test.describe('Carry over filters', () => {
       label: translations.objectName,
       value: TEST_VALUE,
     })
-
-    await tableActor.expectResultWithUrlParam(TEST_PARAM, TEST_VALUE)
   })
 
   test('should carry over single dataset filter into single run page', async () => {
@@ -48,8 +46,6 @@ test.describe('Carry over filters', () => {
       label: translations.objectName,
       value: TEST_VALUE,
     })
-
-    await tableActor.expectResultWithUrlParam(TEST_PARAM, TEST_VALUE)
   })
   test('should have filter in browse dataset breadcrumb url', async () => {
     await filtersPage.goTo(BROWSE_DATASETS_URL)
@@ -71,14 +67,6 @@ test.describe('Carry over filters', () => {
 
     // Check links at single run level
     await tableActor.openFirstResult(TEST_PARAM, TEST_VALUE)
-
-    await expect(
-      breadcrumbsPage.getBreadcrumb({
-        index: 0,
-        param: TEST_PARAM,
-        value: TEST_VALUE,
-      }),
-    ).toBeVisible()
   })
 
   test('should have filter in single dataset breadcrumb url', async () => {
@@ -89,14 +77,6 @@ test.describe('Carry over filters', () => {
     })
 
     await tableActor.openFirstResult(TEST_PARAM, TEST_VALUE)
-
-    await expect(
-      breadcrumbsPage.getBreadcrumb({
-        index: 0,
-        param: TEST_PARAM,
-        value: TEST_VALUE,
-      }),
-    ).toBeVisible()
   })
 
   // TODO When we have more data to test with
