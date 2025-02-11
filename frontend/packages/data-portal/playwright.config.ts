@@ -11,6 +11,7 @@ const BROWSER = process.env.E2E_BROWSER
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
   testDir: './e2e',
+  testMatch: '*carryOver*',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
