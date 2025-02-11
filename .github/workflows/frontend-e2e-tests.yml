@@ -168,6 +168,7 @@ jobs:
           API_URL_V2: ${{ vars.API_URL_V2 }}
           E2E_BROWSER: ${{ matrix.browser }}
           E2E_CONFIG: ${{ secrets.E2E_CONFIG }}
+          HOME: /root
           CI: true
 
       - uses: actions/upload-artifact@v4
