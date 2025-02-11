@@ -11,7 +11,7 @@ export function CryoETHomeLink() {
         className="text-sds-header-m font-semibold ml-2 whitespace-nowrap"
         to={SiteLinks.HOME}
       >
-        asdf
+        {t('title')}
       </Link>
       <div className="px-sds-xs py-sds-xxxs bg-sds-color-primitive-blue-400 rounded-sds-m text-sds-body-xxxs">
         {t('beta')}
