@@ -7,6 +7,7 @@ export enum QueryParams {
   AuthorOrcid = 'author_orcid',
   AvailableFiles = 'files',
   CameraManufacturer = 'camera_manufacturer',
+  Competition = 'competition',
   DatasetId = 'dataset_id',
   DepositionId = 'deposition-id',
   DownloadConfig = 'download-config',

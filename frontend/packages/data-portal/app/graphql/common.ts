@@ -1,6 +1,8 @@
 import { Depositions_Bool_Exp } from 'app/__generated__/graphql'
 import {
   DatasetWhereClause,
+  Deposition_Types_Enum,
+  DepositionWhereClause,
   Fiducial_Alignment_Status_Enum,
   Tomogram_Reconstruction_Method_Enum,
 } from 'app/__generated_v2__/graphql'
@@ -269,6 +271,44 @@ export function getDatasetsFilter({
     }
   }
 
+  return where
+}
+
+export function getDepositionFilter({
+  filterState,
+}: {
+  filterState: FilterState
+}): DepositionWhereClause {
+  const where: DepositionWhereClause = {}
+
+  // Competition Filter
+  if (filterState.tags.competition) {
+    // where.depositionTags ??= {}
+    // where.depositionTags = {
+    //   _eq: "competitionCZII2024",
+    // }
+    // TODO: (smccanny) Remove this when the competition field is implemented
+    where.id ??= {}
+    where.id = {
+      _eq: 10308,
+    }
+  }
+
+  // Deposition Author
+  if (filterState.author.name) {
+    where.authors ??= {}
+    where.authors.name = {
+      _ilike: `%${filterState.author.name}%`,
+    }
+  }
+  if (filterState.author.orcid) {
+    where.authors ??= {}
+    where.authors.orcid = {
+      _ilike: `%${filterState.author.orcid}%`,
+    }
+  }
+
+  where.depositionTypes = { type: { _eq: Deposition_Types_Enum.Annotation } }
   return where
 }
 

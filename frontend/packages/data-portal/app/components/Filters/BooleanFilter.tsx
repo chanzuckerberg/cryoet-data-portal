@@ -16,7 +16,12 @@ export function BooleanFilter({
   value: boolean
 }) {
   return (
-    <div className={cns('pt-sds-m pl-sds-m whitespace-nowrap', styles.boolean)}>
+    <div
+      className={cns(
+        'pt-sds-m pl-sds-s pb-sds-s whitespace-nowrap',
+        styles.boolean,
+      )}
+    >
       <InputCheckbox
         checked={value}
         onChange={(event) => onChange(event.target.checked)}
