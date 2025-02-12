@@ -1,5 +1,4 @@
 import { Banner } from '@czi-sds/components'
-import { styled } from '@mui/material/styles'
 import { useLocation } from '@remix-run/react'
 import { useState } from 'react'
 
@@ -22,16 +21,16 @@ export function AnnouncementBanner() {
         'true',
     ),
   )
-  const NoticeBanner = styled(Banner)`
-    background-color: #fff3db; /* Should be Notice.surface-secondary */
-    color: #000000; /* Should be Base.text-primary */
-  `
+
   return (
-    <NoticeBanner
+    <Banner
       dismissed={
         !open || BANNER_PATHS.every((regex) => !regex.test(location.pathname))
       }
       dismissible
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore Almost all props that a <div> can take are actually ok.
+      className="!bg-[#fff3db] !text-black [&_svg]:!fill-black"
       sdsType="primary"
       onClose={() => {
         setOpen(false)
@@ -44,6 +43,6 @@ export function AnnouncementBanner() {
       <div className="[&_a]:text-black [&_a]:border-b [&_a]:border-dashed [&_a]:border-black">
         <I18n i18nKey="deprecatedApiBannerText" />
       </div>
-    </NoticeBanner>
+    </Banner>
   )
 }
