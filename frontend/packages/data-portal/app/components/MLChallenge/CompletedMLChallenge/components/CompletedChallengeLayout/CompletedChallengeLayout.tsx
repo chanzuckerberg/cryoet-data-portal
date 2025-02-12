@@ -160,7 +160,7 @@ export function CompletedChallengeLayout() {
           className={cns(
             'p-sds-xl screen-716:p-sds-xxl',
             'flex flex-col-reverse screen-716:flex-row gap-sds-xl screen-716:gap-sds-xxl justify-between items-center',
-            'bg-sds-color-primitive-common-white border border-sds-color-primitive-gray-200 rounded-sds-m shadow-sds-l',
+            'bg-sds-color-primitive-common-white border border-sds-color-primitive-gray-200 rounded-sds-m shadow-card',
           )}
         >
           <div>

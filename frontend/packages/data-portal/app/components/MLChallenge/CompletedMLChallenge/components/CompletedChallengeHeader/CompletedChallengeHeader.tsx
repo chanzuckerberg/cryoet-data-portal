@@ -26,6 +26,7 @@ export function CompletedChallengeHeader() {
             <Tag
               className="[&&]:bg-[#238444] [&&]:mt-sds-xxs [&&]:hover:bg-[#105b2b]"
               label={t('particleDetectionChallengeStatus')}
+              hover={false}
             />
           }
         />
@@ -35,13 +36,12 @@ export function CompletedChallengeHeader() {
         <ChallengeInfo title={t('length')} content={t('mlChallengeLength')} />
       </div>
       <div className="flex flex-col screen-512:flex-row justify-center gap-sds-l">
-        {/* TODO: Add filtered depositions url */}
-        <Link to="/browse-data/depositions">
+        <Link to="/browse-data/depositions?competition=true">
           <Button sdsStyle="rounded" sdsType="primary">
             {t('viewWinners')}
           </Button>
         </Link>
-        <Link to={t('impactPaperLink')}>
+        <Link to="https://www.biorxiv.org/content/10.1101/2024.11.04.621686v1">
           <Button sdsStyle="rounded" sdsType="secondary">
             {t('viewOutcome')}
           </Button>
