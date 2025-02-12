@@ -1,0 +1,541 @@
+/* Main textual elements */
+html, body {
+  --md-text-font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+.md-typeset {
+  font-size: 14px;
+  letter-spacing: 0.09px;
+  font-family: "Inter";
+}
+
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #1A6CEF;
+  --md-code-bg-color: #F6F6F6;
+  --md-code-fg-color: #000000;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: #101010;
+  --md-primary-fg-color: #A2C9FF;
+  --md-code-bg-color: #494949;
+  --md-code-fg-color: #FFFFFF;
+  --sd-color-card-border: var(--md-default-fg-color--light);
+}
+
+/* Header */
+.md-header {
+  background-color: black;
+}
+
+.md-header__button.md-logo {
+  display: none;
+}
+
+.md-header__topic {
+  align-items: center;
+  position: relative;
+}
+
+.md-ellipsis {
+  font-size: 16px;
+}
+
+.md-ellipsis--cet>img {
+  vertical-align: sub;
+}
+
+.md-ellipsis--cet {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+[dir="ltr"] .md-header__title {
+  margin-left: 1.1rem;
+}
+
+/* Vertical line in header */
+.hv {
+  border-left: 1px solid white;
+  height: 18px;
+  padding-right: 12px;
+  margin-left: 16px;
+  opacity: 0.8;
+}
+
+/* Search bar */
+.md-search__form, .md-search__form:hover {
+  background-color: #282A34;
+}
+
+@media screen and (min-width: 1024px) {
+  .md-search__inner {
+    width: 14rem;
+  }
+}
+
+/* Fixes for mobile navbar */
+@media screen and (max-width: 1024px) {
+  .md-nav--primary .md-nav__title[for="__drawer"] {
+    background-color: black;
+    margin-top: -2rem;
+    text-wrap: wrap;
+    line-height: 1.5;
+  }
+
+  .md-header__topic {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+  }
+
+  .md-header__title {
+    height: auto;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .md-ellipsis--cet {
+    line-height: 1.5;
+  }
+
+  .md-nav--primary .md-nav__title .md-logo {
+    display: none;
+  }
+
+  .md-source__facts {
+    display: none;
+  }
+
+  .md-grid {
+    max-width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .md-nav__source {
+    background-color: black;
+  }
+}
+
+/* Navigation tabs (top) */
+.md-tabs {
+  background-color: black;
+}
+
+[dir="ltr"] .md-tabs__list {
+  margin-left: .7rem;
+}
+
+/* Content area */
+.md-grid {
+  max-width: 80%;
+}
+
+.md-content {
+  margin-left: 9px;
+}
+
+/* Left sidebar */
+.md-nav--primary .md-nav__title {
+  box-shadow: none;
+}
+
+.md-sidebar {
+  padding-left: 0.5rem;
+}
+
+/* Prevents duplicate entry for the tutorials page - sphinx immaterial bug? */
+li.md-nav__item.md-nav__item--active.md-nav__current-toc {
+  display: none;
+}
+
+/* Right sidebar */
+ul.md-nav__list > li.md-nav__item > a.md-nav__link > span.md-ellipsis {
+  font-size: 0.7rem;
+}
+
+.md-nav__link--active > span.md-ellipsis {
+  font-weight: 600;
+}
+
+/* Footer */
+
+.md-footer {
+    background-color: #333333;
+    color: ffffff;
+}
+
+.md-footer-meta {
+    background-color: black;
+    color: white;
+    max-height: fit-content;
+}
+
+html .md-footer-meta.md-typeset a {
+    color: var(--md-footer-fg-color--light);
+    text-decoration: none;
+}
+
+.md-footer-meta__inner {
+    color: black;
+    flex-direction: column;
+    max-width: 80%;
+    padding-left: 1.35rem;
+    padding-right: 1.35rem;
+}
+
+.czi {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 0.4rem;
+}
+
+.czi-inner {
+  display: flex;
+  flex-direction: row;
+  padding-top: 0.4rem;
+  align-items: center;
+  color: white;
+}
+
+/* Vertical line in footer */
+.vl {
+    border-left: 1px solid white;
+    height: 34px;
+    opacity: 0.4;
+    margin-right: 22px;
+    margin-left: 22px;
+    margin-bottom: 4px;
+}
+
+.md-copyright {
+  margin-left: 0rem;
+}
+
+/* Footer mobile display */
+@media (max-width: 1024px) {
+    .vl, .hv {
+        display: none;
+    }
+    .czi-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+    }
+
+    .czi-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: baseline;
+    }
+
+    .czi {
+      display: flex;
+      flex-direction: column;
+      align-items: baseline;
+    }
+}
+
+/* Better display of attributes in class descriptions */
+dl.py.attribute.objdesc {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+}
+
+dl.py.attribute.objdesc > dt.sig.sig-object.highlight.py {
+  grid-column-start: 1;
+  background-color: var(--md-default-bg-color);
+  align-content: baseline;
+  font-size: 1em;
+}
+
+dl.py.attribute.objdesc > dd {
+  grid-column-start: 2;
+  margin-top: 0;
+  margin-bottom: 0;
+  align-content: baseline;
+}
+
+dl.py.attribute.objdesc > dd > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.md-typeset blockquote, .md-typeset dl, .md-typeset ol, .md-typeset pre, .md-typeset ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+dl.py.attribute.objdesc > dd > dl.field-list.simple {
+  display: grid;
+  line-height: 1;
+  margin-top: 0;
+  margin-bottom: 0;
+  grid-template: "a b" auto / 1fr 10fr;
+}
+
+dl.py.attribute.objdesc > dd > dl.field-list.simple > dd.field-odd > p {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+dl.py.attribute.objdesc > dd > dl.field-list.simple > dt.field-odd {
+  margin-bottom: 10px;
+}
+
+
+dl.py.attribute.objdesc > dd > dl.field-list.simple >dt {
+  grid-column-start: 1;
+  grid-row-start: auto;
+  align-content: end;
+}
+
+dl.py.attribute.objdesc > dd > dl.field-list.simple >dd {
+  grid-column-start: 2;
+  grid-row-start: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+}
+
+dl.class > dd > dl:nth-child(27) {
+  margin-bottom: 20px;
+}
+
+/* FAQ Admonitions */
+.czi-faq.admonition {
+  border: none;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.czi-faq.admonition > summary.admonition-title {
+  background-color: var(--md-default-bg-color);
+  padding-left: 14px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  font-weight: 600;
+}
+
+.czi-faq.admonition > summary.admonition-title::before {
+  content: none;
+  margin-right: 10px;
+}
+
+.czi-faq.admonition > summary.admonition-title::after {
+  background-color: #6C6C6C;
+}
+
+.md-typeset .admonition, .md-typeset details {
+  border-radius: 0;
+  box-shadow: none;
+  border-bottom: 0.01px solid var(--md-default-fg-color--lightest);
+}
+
+/* Admonitions */
+.md-typeset .admonition-title {
+  font-weight: 600;
+  padding: 0 0 0 44px !important;
+}
+
+.md-typeset .admonition-title:before {
+  top: 0;
+  height: 24px;
+  width: 24px;
+}
+
+[data-md-color-scheme="slate"] {
+  .md-typeset .czi-info.admonition>.admonition-title:before {
+    background-color: rgb(162, 201, 255) !important;
+  }
+
+  .md-typeset .czi-warning.admonition>.admonition-title:before {
+    background-color: rgb(229, 188, 99) !important;
+  }
+}
+
+div.czi-info.admonition,
+div.czi-warning.admonition {
+  border-radius: 4px;
+  margin-top: 12px !important;
+  margin-bottom: 12px !important;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border: 0;
+}
+
+/* Dark mode admonitions */
+[data-md-color-scheme="default"] {
+  div.czi-info.admonition, div.czi-warning.admonition {
+    color: black !important;
+  }
+
+  .md-typeset .czi-info>.admonition-title,
+  .md-typeset .admonition.czi-info {
+    background-color: #e2eeff; /* light blue */
+    border-color: #E2EEFF !important;
+  }
+
+  .md-typeset .czi-warning>.admonition-title,
+  .md-typeset .admonition.czi-warning {
+    background-color: #FFF3E1; /* light yellow */
+    border-color: #FFF3E1 !important;
+  }
+}
+
+[data-md-color-scheme="slate"] {
+  div.czi-info.admonition,
+  div.czi-warning.admonition {
+    color: white !important;
+  }
+
+  .md-typeset .czi-info>.admonition-title,
+  .md-typeset .admonition.czi-info {
+    background-color: rgb(15, 29, 74); /* dark blue */
+    border-color: rgb(15, 29, 74) !important;
+  }
+
+  .md-typeset .czi-warning>.admonition-title,
+  .md-typeset .admonition.czi-warning {
+    background-color: rgb(54, 27, 7); /* dark brown */
+    border-color: rgb(54, 27, 7) !important;
+  }
+}
+
+.md-typeset .czi-info.admonition>p:not(.admonition-title),
+.md-typeset .czi-warning.admonition>p:not(.admonition-title) {
+  margin-left: 32px;
+  margin-top: 6px;
+  margin-bottom: 0 !important;
+}
+
+.md-typeset .czi-info.admonition>div,
+.md-typeset .czi-warning.admonition>div {
+  margin-left: 32px;
+}
+
+.czi-info.admonition .highlight-shell .highlight>pre code,
+.czi-info.admonition>p code,
+.czi-warning.admonition .highlight-shell .highlight>pre code,
+.czi-warning.admonition>p code {
+  background-color: #F3F3F3 !important;
+  color: black;
+}
+
+/* Figure/video captions */
+.md-typeset figcaption {
+  min-width: 75%;
+  max-width: fit-content;
+  text-align: justify;
+  font-size: small;
+  margin-top: 0px;
+}
+
+/* Better spacing around figure elements */
+.md-typeset figure {
+  margin-top: 30px;
+}
+
+.md-typeset figure img {
+  margin: auto;
+}
+
+/* Dark mode figures */
+[data-md-color-scheme="default"] {
+  .md-typeset figure.only-light {
+    display: block !important;
+  }
+  .md-typeset figure.only-dark {
+    display: none !important;
+  }
+}
+[data-md-color-scheme="slate"] {
+  .md-typeset figure.only-light {
+    display: none !important;
+  }
+  .md-typeset figure.only-dark {
+    display: block !important;
+  }
+}
+
+/* Landing page button */
+.sd-btn {
+  font-size: 0.75rem;
+}
+
+/* Centered quote */
+div .centered-quote {
+  text-align: center;
+  font-style: italic;
+  max-width: 24rem;
+  margin: auto;
+}
+
+/* Side by side videos */
+.sidevideos {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  width: 33%;
+}
+
+/* Side by side figures */
+.sidefigures {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  width: 100%;
+}
+
+/* Version dropdown */
+.md-version {
+  font-size: 0.65rem !important;
+  color: hsl(0deg 0% 80.39%) !important;
+}
+
+.md-version__item {
+  font-weight: 400;
+  color: hsl(0deg 0% 80.39%) !important;
+}
+
+.md-version__list {
+  margin-top: 2rem;
+  background-color: #101010;
+}
+
+/* Announcement banner */
+.md-banner {
+  background-color: #0B68F8;
+  color: white;
+  text-align: center;
+  padding: 8px 16px;
+  line-height: 24px;
+}
+
+.md-banner .md-typeset a {
+  color: white;
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+}
+
+.md-banner__inner, .md-banner p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+div.md-banner__inner {
+  max-width: none;
+}
+
+.md-banner .md-icon svg {
+  height: 18px;
+}
+
+.md-banner__button {
+  padding-top: 2px;
+}
