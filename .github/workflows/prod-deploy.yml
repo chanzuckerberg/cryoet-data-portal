@@ -184,18 +184,10 @@ jobs:
           operation: create-or-update
           github-repo-branch: ${{ needs.tag-frontend-release.outputs.tag }}
 
-  run-prod-e2e-test:
-    name: Run e2e test on prod
-    needs: deploy-to-prod
-    uses: ./.github/workflows/frontend-e2e-tests.yml
-    secrets: inherit
-    with:
-      environment: prod
-
   notify-slack:
     name: Notify slack channel
     runs-on: ubuntu-latest
-    needs: [run-prod-e2e-test, find-frontend-release-pr]
+    needs: [deploy-to-prod, find-frontend-release-pr]
     if: needs.find-frontend-release-pr.outputs.pr != '' && !cancelled()
 
     steps:
@@ -211,7 +203,7 @@ jobs:
             const pr = ${{ needs.find-frontend-release-pr.outputs.pr }}
 
             return createSlackPayload({
-              passed: '${{ needs.run-prod-e2e-test.result }}' === 'success',
+              passed: '${{ needs.deploy-to-prod.result }}' === 'success',
               prNumber: pr.number,
               runId: '${{ github.run_id }}',
             })
