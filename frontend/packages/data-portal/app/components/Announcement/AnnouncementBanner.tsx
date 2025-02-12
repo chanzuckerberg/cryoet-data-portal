@@ -1,4 +1,5 @@
 import { Banner } from '@czi-sds/components'
+import { styled } from '@mui/material/styles'
 import { useLocation } from '@remix-run/react'
 import { useState } from 'react'
 
@@ -21,9 +22,12 @@ export function AnnouncementBanner() {
         'true',
     ),
   )
-
+  const NoticeBanner = styled(Banner)`
+    background-color: #fff3db; /* Should be Notice.surface-secondary */
+    color: #000000; /* Should be Base.text-primary */
+  `
   return (
-    <Banner
+    <NoticeBanner
       dismissed={
         !open || BANNER_PATHS.every((regex) => !regex.test(location.pathname))
       }
@@ -37,9 +41,9 @@ export function AnnouncementBanner() {
         )
       }}
     >
-      <div className="[&_a]:text-white [&_a]:border-b [&_a]:border-dashed [&_a]:border-white">
+      <div className="[&_a]:text-black [&_a]:border-b [&_a]:border-dashed [&_a]:border-black">
         <I18n i18nKey="deprecatedApiBannerText" />
       </div>
-    </Banner>
+    </NoticeBanner>
   )
 }
