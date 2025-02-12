@@ -9,7 +9,6 @@
     "build:remix": "remix build",
     "clean": "rm -rf build public/build .cache/ node_modules/.cache/ app/__generated__/",
     "clean:modules": "rm -rf node_modules",
-    "chromatic": "chromatic --playwright --project-token=chpt_fda0cc83112e755",
     "dev": "pnpm build:codegen && run-p -l 'dev:*'",
     "dev:codegen": "pnpm build:codegen -w",
     "dev:remix": "remix dev --manual -c 'node --loader ts-node/esm --watch-path server.ts --watch server.ts'",
