@@ -76,6 +76,30 @@ describe('<DropdownFilterButton />', () => {
     expect(onOpen).toHaveBeenCalled()
   })
 
+  it('should apply filters on click', async () => {
+    const onApply = jest.fn()
+    const label = 'Test Label'
+    const children = 'Test children'
+    await renderDropdownFilterButton({ children, label, onApply })
+
+    await userEvent.click(screen.getByRole('button', { name: label }))
+    await userEvent.click(screen.getByRole('button', { name: 'apply' }))
+    expect(onApply).toHaveBeenCalled()
+    expect(screen.queryByText(children)).not.toBeVisible()
+  })
+
+  it('should cancel on click', async () => {
+    const onCancel = jest.fn()
+    const label = 'Test Label'
+    const children = 'Test Children'
+    await renderDropdownFilterButton({ children, onCancel, label })
+
+    await userEvent.click(screen.getByRole('button', { name: label }))
+    await userEvent.click(screen.getByRole('button', { name: 'cancel' }))
+    expect(onCancel).toHaveBeenCalled()
+    expect(screen.queryByText(children)).not.toBeVisible()
+  })
+
   it('should disable apply button', async () => {
     const onApply = jest.fn()
     const label = 'Test Label'

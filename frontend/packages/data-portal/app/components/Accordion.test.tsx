@@ -25,6 +25,18 @@ describe('<Accordion />', () => {
     expect(screen.queryByText(CHILDREN_TEXT)).toBeVisible()
   })
 
+  it('should close on click', async () => {
+    renderAccordion()
+
+    await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('button'))
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1000)
+    })
+
+    expect(screen.queryByText(CHILDREN_TEXT)).not.toBeVisible()
+  })
+
   it('should render opened if initialOpen === true', () => {
     renderAccordion(true)
     expect(screen.queryByText(CHILDREN_TEXT)).toBeVisible()
