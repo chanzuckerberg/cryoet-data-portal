@@ -6,6 +6,7 @@ hide-navigation: true
 
 :::{czi-warning} Attention
 The v3 Python API will be deprecated on Wednesday, February 26, 2025. Please update your Python API client to continue accessing the `cryoet-data-portal` package.
+:::
 
 ## v4 Python API
 
