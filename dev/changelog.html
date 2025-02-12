@@ -33,10 +33,10 @@
         <style>:root{--md-text-font:"Inter";--md-code-font:"Roboto Mono"}</style>
       
     
-        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.90fbd2a6f74eecca3.min.css?v=dbf9023d" />
+        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.ba2d240df9002af5f.min.css?v=b2e1a5e1" />
         <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
         <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=fed18638" />
+        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=5c9142f6" />
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -70,12 +70,33 @@
     <div data-md-component="skip">
       
         
-        <a href="#v4-0-0" class="md-skip">
+        <a href="#v4-python-api" class="md-skip">
           Skip to content
         </a>
       
     </div>
     <div data-md-component="announce">
+      
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+              <button class="md-banner__button md-icon" aria-label="Don't show this again">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+              </button>
+            
+            
+<div style="display: flex; justify-self: center;">
+<img src="_static/img/IconExclamationMarkCircleLarge.svg" alt="Exclamation icon" width="24" style="margin-right: 12px; filter: invert(100%);">
+<p>
+    The Python API v3 will be deprecated on Wednesday, February 26, 2025.
+    <a href="changelog.html">Learn more</a>
+</p></div>
+
+          </div>
+          
+            <script>var content,el=document.querySelector("[data-md-component=announce]");el&&(content=el.querySelector(".md-typeset"),__md_hash(content.innerHTML)===__md_get("__announce")&&(el.hidden=!0))</script>
+          
+        </aside>
       
     </div>
     
@@ -589,18 +610,17 @@
 
 <!-- Table of contents item -->
 <li class="md-nav__item">
-  <a href="#v4-0-0" class="md-nav__link">
+  <a href="#v4-python-api" class="md-nav__link">
     
-      <span class="md-ellipsis">v4.<wbr>0.<wbr>0</span>
+      <span class="md-ellipsis">v4 Python API</span>
     
   </a>
 
   <!-- Table of contents list -->
   
-    <nav class="md-nav" aria-label="v4.0.0">
-      <ul class="md-nav__list">
-        
-          <!--
+</li>
+      
+        <!--
   Copyright (c) 2016-2022 Martin Donath <martin.donath@squidfunk.com>
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -624,18 +644,13 @@
 
 <!-- Table of contents item -->
 <li class="md-nav__item">
-  <a href="#migration-notes" class="md-nav__link">
+  <a href="#changes-to-the-client" class="md-nav__link">
     
-      <span class="md-ellipsis">Migration Notes:<wbr></span>
+      <span class="md-ellipsis">Changes to the Client</span>
     
   </a>
 
   <!-- Table of contents list -->
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -918,18 +933,17 @@
 
 <!-- Table of contents item -->
 <li class="md-nav__item">
-  <a href="#v4-0-0" class="md-nav__link">
+  <a href="#v4-python-api" class="md-nav__link">
     
-      <span class="md-ellipsis">v4.<wbr>0.<wbr>0</span>
+      <span class="md-ellipsis">v4 Python API</span>
     
   </a>
 
   <!-- Table of contents list -->
   
-    <nav class="md-nav" aria-label="v4.0.0">
-      <ul class="md-nav__list">
-        
-          <!--
+</li>
+      
+        <!--
   Copyright (c) 2016-2022 Martin Donath <martin.donath@squidfunk.com>
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -953,18 +967,13 @@
 
 <!-- Table of contents item -->
 <li class="md-nav__item">
-  <a href="#migration-notes" class="md-nav__link">
+  <a href="#changes-to-the-client" class="md-nav__link">
     
-      <span class="md-ellipsis">Migration Notes:<wbr></span>
+      <span class="md-ellipsis">Changes to the Client</span>
     
   </a>
 
   <!-- Table of contents list -->
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -988,8 +997,46 @@
   </a>
 
 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Link to this heading">¶</a></h1>
-<h2 id="v4-0-0">v4.0.0<a class="headerlink" href="#v4-0-0" title="Link to this heading">¶</a></h2>
-<p>The v4.0.0 release of the Python API was paired with the v3 release of the Client. A summary of the changes between Client v2 and Client v3 is below along with some migration notes, including a list of new API classes.</p>
+<div class="czi-warning admonition">
+<p class="admonition-title">Attention</p>
+<p>The v3 Python API will be deprecated on Wednesday, February 26, 2025. Please update your Python API client to continue accessing the <code class="docutils literal notranslate"><span class="pre">cryoet-data-portal</span></code> package.</p>
+<p class="rubric" id="v4-python-api">v4 Python API<a class="headerlink" href="#v4-python-api" title="Permalink to this headline">¶</a></p>
+<p>8 new classes were added to the API:</p>
+<table class="docutils data align-default">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Class name</p></th>
+<th class="head text-center"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">Alignment</span></code></p></td>
+<td class="text-center"><p>Tilt series alignment</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">AnnotationMethodLink</span></code></p></td>
+<td class="text-center"><p>A set of links to models, source code, documentation, etc referenced by annotation method</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">AnnotationShape</span></code></p></td>
+<td class="text-center"><p>Shapes associated with an annotation</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">DepositionType</span></code></p></td>
+<td class="text-center"><p>The type of data submitted as a part of a deposition (e.g. annotation, dataset, tomogram)</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">Frame</span></code></p></td>
+<td class="text-center"><p>Raw frames used for generating tilt series</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">FrameAcquisitionFile</span></code></p></td>
+<td class="text-center"><p>References to files containing more information about frame acquisition</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">GainFile</span></code></p></td>
+<td class="text-center"><p>Gain values for frames in this run</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">PerSectionAlignmentParameters</span></code></p></td>
+<td class="text-center"><p>Map alignment parameters to tilt series frames</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric" id="changes-to-the-client">Changes to the Client<a class="headerlink" href="#changes-to-the-client" title="Permalink to this headline">¶</a></p>
+<p>The v4 release of the Python API was paired with the v3 release of the Client. A summary of the changes between Client v2 and Client v3 is below.</p>
 <table class="docutils data align-default">
 <thead>
 <tr class="row-odd"><th class="head text-center"><p>Client V2 Field</p></th>
@@ -1065,43 +1112,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="migration-notes">Migration Notes:<a class="headerlink" href="#migration-notes" title="Link to this heading">¶</a></h3>
-<ul class="simple">
-<li><p>8 new classes were added to the API:</p></li>
-</ul>
-<table class="docutils data align-default">
-<thead>
-<tr class="row-odd"><th class="head text-center"><p>Class name</p></th>
-<th class="head text-center"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">Alignment</span></code></p></td>
-<td class="text-center"><p>Tilt series alignment</p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">AnnotationMethodLink</span></code></p></td>
-<td class="text-center"><p>A set of links to models, source code, documentation, etc referenced by annotation method</p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">AnnotationShape</span></code></p></td>
-<td class="text-center"><p>Shapes associated with an annotation</p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">DepositionType</span></code></p></td>
-<td class="text-center"><p>The type of data submitted as a part of a deposition (e.g. annotation, dataset, tomogram)</p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">Frame</span></code></p></td>
-<td class="text-center"><p>Raw frames used for generating tilt series</p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">FrameAcquisitionFile</span></code></p></td>
-<td class="text-center"><p>References to files containing more information about frame acquisition</p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">GainFile</span></code></p></td>
-<td class="text-center"><p>Gain values for frames in this run</p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">PerSectionAlignmentParameters</span></code></p></td>
-<td class="text-center"><p>Map alignment parameters to tilt series frames</p></td>
-</tr>
-</tbody>
-</table>
+</div>
 
 
 
@@ -1280,7 +1291,7 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": ".", "features": ["toc.follow", "toc.sticky", "navigation.tabs", "navigation.tabs.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike", "staticVersions": [{"aliases": [], "title": "Latest", "version": "dev"}, {"aliases": ["stable"], "title": "Stable (v3.0)", "version": "v3.0"}], "versionPath": null}}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["toc.follow", "toc.sticky", "navigation.tabs", "navigation.tabs.sticky", "announce.dismiss"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike", "staticVersions": [{"aliases": [], "title": "Latest", "version": "dev"}, {"aliases": ["stable"], "title": "Stable (v3.0)", "version": "v3.0"}], "versionPath": null}}</script>
     
       
         <script src="_static/sphinx_immaterial_theme.f9d9eeeb247ace16c.min.js?v=8ec58cb5"></script>
