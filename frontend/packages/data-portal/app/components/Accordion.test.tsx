@@ -30,6 +30,7 @@ describe('<Accordion />', () => {
 
     await userEvent.click(screen.getByRole('button'))
     await userEvent.click(screen.getByRole('button'))
+    // Wait for animation.
     await new Promise((resolve) => {
       setTimeout(resolve, 1000)
     })
