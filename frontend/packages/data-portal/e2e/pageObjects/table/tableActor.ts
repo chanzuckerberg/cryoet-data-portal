@@ -16,7 +16,7 @@ export class TableActor {
 
   async openFirstResult(param?: QueryParams, value?: string) {
     await this.tablePage.getResultLink({ index: 0, param, value }).click()
-    await this.tablePage.waitForInteractive()
     await waitForTableReload(this.tablePage.page)
+    await this.tablePage.waitForInteractive()
   }
 }
