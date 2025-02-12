@@ -1,4 +1,5 @@
 import { expect } from '@playwright/test'
+import { waitForTableReload } from 'e2e/utils'
 
 import { QueryParams } from 'app/constants/query'
 
@@ -16,5 +17,6 @@ export class TableActor {
   async openFirstResult(param?: QueryParams, value?: string) {
     await this.tablePage.getResultLink({ index: 0, param, value }).click()
     await this.tablePage.waitForInteractive()
+    await waitForTableReload(this.tablePage.page)
   }
 }
