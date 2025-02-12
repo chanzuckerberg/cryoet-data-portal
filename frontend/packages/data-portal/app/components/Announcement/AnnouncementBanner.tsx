@@ -17,7 +17,7 @@ export function AnnouncementBanner() {
   // is not available when server-side rendering.
   useEffectOnce(() =>
     setOpen(
-      localStorage.getItem(LocalStorageKeys.AnnouncementBannerDismissed) !==
+      localStorage.getItem(LocalStorageKeys.PythonV3DeprecatedDismissed) !==
         'true',
     ),
   )
@@ -32,13 +32,13 @@ export function AnnouncementBanner() {
       onClose={() => {
         setOpen(false)
         localStorage.setItem(
-          LocalStorageKeys.AnnouncementBannerDismissed,
+          LocalStorageKeys.PythonV3DeprecatedDismissed,
           'true',
         )
       }}
     >
       <div className="[&_a]:text-white [&_a]:border-b [&_a]:border-dashed [&_a]:border-white">
-        <I18n i18nKey="announcementBannerText" />
+        <I18n i18nKey="deprecatedApiBannerText" />
       </div>
     </Banner>
   )

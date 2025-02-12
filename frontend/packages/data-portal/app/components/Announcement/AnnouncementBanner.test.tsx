@@ -61,7 +61,7 @@ describe('<AnnouncementBanner />', () => {
 
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
     expect(localStorage.setItem).toHaveBeenCalledWith(
-      'announcement-dismissed',
+      'deprecation-dismissed',
       'true',
     )
   })
