@@ -289,9 +289,8 @@ export function logIfHasDiff(
                   name: methodLink.custom_name,
                 },
               }))
-              .sort(
-                (methodLinkA: any, methodLinkB: any) =>
-                  methodLinkA.node.link?.localeCompare(methodLinkB.node.link),
+              .sort((methodLinkA: any, methodLinkB: any) =>
+                methodLinkA.node.link?.localeCompare(methodLinkB.node.link),
               ) ?? [],
         },
         methodType: file.annotation.method_type as Annotation_Method_Type_Enum,

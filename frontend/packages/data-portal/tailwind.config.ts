@@ -77,9 +77,7 @@ export default {
           .filter(([key]) => key.includes('to'))
           .map(([key, value]) => {
             return {
-              [`gradient-img-${key.slice(
-                key.indexOf('-') + 1,
-              )}`]: `${value}, var(--tw-background-image)`,
+              [`gradient-img-${key.slice(key.indexOf('-') + 1)}`]: `${value}, var(--tw-background-image)`,
             }
           })
         return values.reduce((prev, curr) => ({ ...prev, ...curr }))
