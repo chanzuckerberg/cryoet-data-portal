@@ -5,8 +5,8 @@ import {
   GetDatasetByIdQuery,
   GetDatasetsDataQuery,
   GetDatasetsFilterDataQuery,
-  GetRunByIdQuery,
 } from 'app/__generated__/graphql'
+import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { AVAILABLE_FILES_VALUE_TO_I18N_MAP } from 'app/components/DatasetFilter/constants'
 
 import { QueryParamObjectType, RowCounterType } from './types'
@@ -44,12 +44,12 @@ export function getExpectedFilterCount({
 }: {
   browseDatasetsData?: GetDatasetsDataQuery
   singleDatasetData?: GetDatasetByIdQuery
-  singleRunData?: GetRunByIdQuery
+  singleRunData?: GetRunByIdV2Query
 }) {
   return (
     browseDatasetsData?.filtered_datasets_aggregate.aggregate?.count ??
     singleDatasetData?.datasets.at(0)?.filtered_runs_count.aggregate?.count ??
-    singleRunData?.annotation_files_aggregate_for_filtered.aggregate?.count ??
+    singleRunData?.numFilteredAnnotationRows.aggregate?.[0].count ??
     0
   )
 }
@@ -61,12 +61,12 @@ export function getExpectedTotalCount({
 }: {
   browseDatasetsData?: GetDatasetsDataQuery
   singleDatasetData?: GetDatasetByIdQuery
-  singleRunData?: GetRunByIdQuery
+  singleRunData?: GetRunByIdV2Query
 }) {
   return (
     browseDatasetsData?.datasets_aggregate.aggregate?.count ??
     singleDatasetData?.datasets.at(0)?.runs_aggregate.aggregate?.count ??
-    singleRunData?.annotation_files_aggregate_for_total.aggregate?.count ??
+    singleRunData?.numTotalAnnotationRows.aggregate?.[0].count ??
     0
   )
 }
@@ -75,14 +75,14 @@ export function getExpectedTotalCount({
 export function getAnnotationRowCountFromData({
   singleRunData,
 }: {
-  singleRunData: GetRunByIdQuery
+  singleRunData: GetRunByIdV2Query
 }): RowCounterType {
   const rowCounter: RowCounterType = {}
-  for (const file of singleRunData.annotation_files) {
-    if (rowCounter[file.annotation.id] === undefined) {
-      rowCounter[file.annotation.id] = 1
+  for (const shape of singleRunData.annotationShapes) {
+    if (rowCounter[shape.annotation!.id] === undefined) {
+      rowCounter[shape.annotation!.id] = 1
     } else {
-      rowCounter[file.annotation.id] += 1
+      rowCounter[shape.annotation!.id] += 1
     }
   }
   return rowCounter

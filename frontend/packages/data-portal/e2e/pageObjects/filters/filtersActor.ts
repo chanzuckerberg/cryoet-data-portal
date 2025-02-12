@@ -5,12 +5,12 @@ import { waitForTableReload } from 'e2e/utils'
 import {
   GetDatasetByIdQuery,
   GetDatasetsDataQuery,
-  GetRunByIdQuery,
 } from 'app/__generated__/graphql'
+import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { getBrowseDatasets } from 'app/graphql/getBrowseDatasets.server'
 import { getDatasetById } from 'app/graphql/getDatasetById.server'
 import { getDatasetsFilterData } from 'app/graphql/getDatasetsFilterData.server'
-import { getRunById } from 'app/graphql/getRunById.server'
+import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 
 import { FiltersPage } from './filtersPage'
 import { MultiInputFilterType, QueryParamObjectType } from './types'
@@ -72,7 +72,7 @@ export class FiltersActor {
       serialize,
     })
 
-    const { data } = await getRunById({
+    const { data } = await getRunByIdV2({
       client,
       params,
       id,
@@ -209,14 +209,14 @@ export class FiltersActor {
   public async expectAnnotationsTableToBeCorrect({
     singleRunData,
   }: {
-    singleRunData: GetRunByIdQuery
+    singleRunData: GetRunByIdV2Query
   }) {
     // Extract counts from response
     const expectedGroundTruthCount =
-      singleRunData.annotation_files_aggregate_for_ground_truth.aggregate
-        ?.count ?? 0
+      singleRunData.numFilteredGroundTruthAnnotationRows.aggregate?.[0].count ??
+      0
     const expectedOtherCount =
-      singleRunData.annotation_files_aggregate_for_other.aggregate?.count ?? 0
+      singleRunData.numFilteredOtherAnnotationRows.aggregate?.[0].count ?? 0
     const expectedFilterCount = getExpectedFilterCount({ singleRunData })
     const expectedTotalCount = getExpectedTotalCount({ singleRunData })
 
