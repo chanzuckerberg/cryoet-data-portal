@@ -17,9 +17,8 @@ export function AnnouncementBanner() {
   // is not available when server-side rendering.
   useEffectOnce(() =>
     setOpen(
-      localStorage.getItem(
-        LocalStorageKeys.AnnouncementBannerDismissed,
-      ) !== 'true',
+      localStorage.getItem(LocalStorageKeys.AnnouncementBannerDismissed) !==
+        'true',
     ),
   )
 
