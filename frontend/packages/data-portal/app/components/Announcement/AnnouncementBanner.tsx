@@ -7,7 +7,7 @@ import { useEffectOnce } from 'app/hooks/useEffectOnce'
 
 import { I18n } from '../I18n'
 
-const BANNER_PATHS = [/^\/$/, /^\/browse-data\/.*$/]
+const BANNER_PATHS = [/.*/]
 
 export function AnnouncementBanner() {
   const location = useLocation()
