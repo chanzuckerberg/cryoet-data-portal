@@ -528,11 +528,14 @@ div .centered-quote {
   margin-bottom: 0;
 }
 
-.md-banner__button {
-  margin: 0;
-  height: 18px;
+div.md-banner__inner {
+  max-width: none;
 }
 
 .md-banner .md-icon svg {
   height: 18px;
+}
+
+.md-banner__button {
+  padding-top: 2px;
 }
