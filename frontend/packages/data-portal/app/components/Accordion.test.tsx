@@ -27,8 +27,14 @@ describe('<Accordion />', () => {
 
   it('should close on click', async () => {
     renderAccordion()
+
     await userEvent.click(screen.getByRole('button'))
     await userEvent.click(screen.getByRole('button'))
+    // Wait for animation.
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1000)
+    })
+
     expect(screen.queryByText(CHILDREN_TEXT)).not.toBeVisible()
   })
 

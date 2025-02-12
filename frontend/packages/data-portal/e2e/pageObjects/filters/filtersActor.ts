@@ -1,5 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { translations } from 'e2e/constants'
+import { waitForTableReload } from 'e2e/utils'
 
 import {
   GetDatasetByIdQuery,
@@ -153,6 +154,7 @@ export class FiltersActor {
     await this.filtersPage.selectFilterOption(value)
     // Click again to close
     await this.filtersPage.clickFilterDropdown(label)
+    await waitForTableReload(this.filtersPage.page)
   }
 
   public async removeSingleSelectFilter({
