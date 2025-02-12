@@ -22,6 +22,6 @@ export function getObjectShapeTypeLabel(shapeType: ObjectShapeType): string {
 }
 
 export async function waitForTableReload(page: Page): Promise<void> {
-  await page.waitForSelector('.MuiSkeleton', { state: 'visible' })
-  await page.waitForSelector('.MuiSkeleton', { state: 'hidden' })
+  await page.waitForSelector('.MuiSkeleton-root', { state: 'visible' })
+  await page.waitForSelector('.MuiSkeleton-root', { state: 'hidden' })
 }
