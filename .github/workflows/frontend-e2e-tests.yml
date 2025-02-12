@@ -3,7 +3,7 @@ on:
     inputs:
       browsers:
         type: string
-        default: '["chromium", "firefox", "webkit"]'
+        default: '["chromium"]'
 
       environment:
         required: true
