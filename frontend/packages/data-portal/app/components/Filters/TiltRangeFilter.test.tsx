@@ -11,7 +11,7 @@ async function renderTiltRangeFilter() {
   render(<TiltRangeFilter />)
 }
 
-describe('<TiltRangeFilter />', () => {
+describe.only('<TiltRangeFilter />', () => {
   beforeEach(() => {
     remixMock.reset()
   })

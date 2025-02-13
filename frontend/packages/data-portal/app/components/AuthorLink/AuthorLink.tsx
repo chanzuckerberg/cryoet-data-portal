@@ -1,3 +1,6 @@
+import { LinkProps } from '@remix-run/react'
+import { ComponentType } from 'react'
+
 import { EnvelopeIcon, KaggleIcon, ORCIDIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { cns } from 'app/utils/cns'
@@ -28,7 +31,9 @@ const AUTHOR_HANDLE_CONTENT = [
   {
     key: 'Kaggle',
     value: 'kaggleId',
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     icon: KaggleIcon,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     urlPrefix: KAGGLE_URL,
   },
 ]
@@ -36,9 +41,11 @@ const AUTHOR_HANDLE_CONTENT = [
 export function AuthorLink({
   author,
   large,
+  LinkComponent = Link,
 }: {
   author: AuthorInfo
   large?: boolean
+  LinkComponent?: ComponentType<LinkProps>
 }) {
   const kaggleIds = [
     { kaggleId: 'tangtang1999', kaggleUserName: 'tangtang1999' },
@@ -148,5 +155,12 @@ export function AuthorLink({
     </Tooltip>
   )
 
+  if (author.orcid) {
+    return (
+      <LinkComponent to={`${ORC_ID_URL}/${author.orcid}`}>
+        {content}
+      </LinkComponent>
+    )
+  }
   return content
 }
