@@ -4,10 +4,10 @@ import { pick } from 'lodash-es'
 
 import { MockLinkComponent } from 'app/components/Link'
 import { TestIds } from 'app/constants/testIds'
+import { Author } from 'app/types/gql/genericTypes'
 
 import { AuthorLink } from './AuthorLink'
 import { ORC_ID_URL } from './constants'
-import { Author } from 'app/types/gql/genericTypes'
 
 const DEFAULT_AUTHOR: Author = {
   correspondingAuthorStatus: true,

@@ -3,10 +3,10 @@ import { ComponentType } from 'react'
 
 import { EnvelopeIcon, ORCIDIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
+import { Author } from 'app/types/gql/genericTypes'
 import { cns } from 'app/utils/cns'
 
 import { ORC_ID_URL } from './constants'
-import { Author } from 'app/types/gql/genericTypes'
 
 const BASE_ICON_SIZE_PX = 10
 const LARGE_ICON_SIZE_PX = 14
