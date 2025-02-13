@@ -11,9 +11,16 @@ import { DrawerTestData } from './types'
 export class MetadataDrawerPage extends BasePage {
   // #region Click
   public async openViewAllInfoDrawer() {
-    await this.page
-      .getByRole('button', { name: translations.viewAllInfo })
-      .click()
+    const button = this.page.getByRole('button', {
+      name: translations.viewAllInfo,
+    })
+
+    if (button) {
+      // Scroll into view
+      await button.scrollIntoViewIfNeeded()
+    }
+
+    await button.click()
   }
 
   public async openInfoDrawer() {
