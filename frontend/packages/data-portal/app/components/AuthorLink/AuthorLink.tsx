@@ -3,17 +3,14 @@ import { ComponentType } from 'react'
 
 import { EnvelopeIcon, KaggleIcon, ORCIDIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
+import { Author as AuthorInfoSansKaggle } from 'app/types/gql/genericTypes'
 import { cns } from 'app/utils/cns'
 
 import { Tooltip } from '../Tooltip'
 import { KAGGLE_URL, ORC_ID_URL } from './constants'
-import {
-  AuthorInfo as AuthorInfoSansKaggle,
-  convertToAuthorInfoV2,
-} from './types'
 
 // TODO(smccanny): Remove this when we have a proper author info type
-type AuthorInfo = AuthorInfoSansKaggle & {
+type Author = AuthorInfoSansKaggle & {
   kaggleId?: string
   kaggleUserName?: string
 }
@@ -43,7 +40,7 @@ export function AuthorLink({
   large,
   LinkComponent = Link,
 }: {
-  author: AuthorInfo
+  author: Author
   large?: boolean
   LinkComponent?: ComponentType<LinkProps>
 }) {
@@ -88,7 +85,7 @@ export function AuthorLink({
           <ul>
             {AUTHOR_HANDLE_CONTENT.map(
               ({ key, value, icon: Icon, urlPrefix }) => {
-                const authorValue = authorPlusKaggle[value as keyof AuthorInfo]
+                const authorValue = authorPlusKaggle[value as keyof Author]
 
                 return (
                   authorValue && (
@@ -125,7 +122,7 @@ export function AuthorLink({
               ? [
                   'border-dashed hover:border-solid',
 
-                  convertToAuthorInfoV2(authorPlusKaggle).primaryAuthorStatus
+                  authorPlusKaggle.primaryAuthorStatus === true
                     ? 'border-black'
                     : 'border-sds-color-primitive-gray-500',
                 ]
@@ -141,7 +138,7 @@ export function AuthorLink({
           </span>
         </span>
 
-        {convertToAuthorInfoV2(authorPlusKaggle).correspondingAuthorStatus && (
+        {authorPlusKaggle.correspondingAuthorStatus === true && (
           <EnvelopeIcon
             className={cns(
               'text-sds-color-primitive-gray-400 mx-sds-xxxs',

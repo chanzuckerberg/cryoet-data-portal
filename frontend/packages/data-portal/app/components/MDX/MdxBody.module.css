@@ -30,7 +30,7 @@
 
   h2 {
     @apply text-sds-header-xl leading-sds-header-xl;
-    @apply mb-sds-l;
+    @apply mb-sds-xl;
 
     &:not(:first-child) {
       @apply mt-sds-xl;
@@ -70,7 +70,7 @@
     }
 
     &:not(:first-of-type) {
-      @apply mt-sds-m;
+      @apply mt-sds-l;
     }
   }
 
@@ -89,7 +89,7 @@
     }
 
     h3 {
-      @apply mt-sds-l;
+      @apply mt-sds-xl;
     }
 
     h4 {

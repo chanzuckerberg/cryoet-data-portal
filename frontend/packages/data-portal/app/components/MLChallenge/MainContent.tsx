@@ -15,12 +15,12 @@ import {
   BookIcon,
   GlobeIcon,
   MdxContributorList,
-  MdxGlossary,
   MdxIconGrid,
   MdxLink,
   MdxPrizeTable,
   MdxSeeLeaderboard,
   MdxTable,
+  MdxToggleShowMore,
   RocketIcon,
   UpdateIcon,
 } from './MdxComponents'
@@ -175,6 +175,7 @@ export function MainContent() {
           {...whatIsCryoET}
           components={{
             ...COMMON_MDX_COMPONENTS,
+            ToggleShowMore: MdxToggleShowMore,
           }}
         />
       </Section>
@@ -219,7 +220,7 @@ export function MainContent() {
           {...glossary}
           components={{
             ...COMMON_MDX_COMPONENTS,
-            Glossary: MdxGlossary,
+            ToggleShowMore: MdxToggleShowMore,
           }}
         />
       </Section>

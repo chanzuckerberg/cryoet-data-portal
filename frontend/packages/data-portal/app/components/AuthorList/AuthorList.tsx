@@ -1,26 +1,22 @@
 import { ComponentProps, ComponentType, useMemo } from 'react'
 
-import {
-  AuthorInfo as AuthorInfoSansKaggle,
-  AuthorLink,
-  convertToAuthorInfoV2,
-} from 'app/components/AuthorLink'
-import { TestIds } from 'app/constants/testIds'
+import { AuthorLink } from 'app/components/AuthorLink'
+import { Author as AuthorInfoSansKaggle} from 'app/types/gql/genericTypes'
 import { cns } from 'app/utils/cns'
 
 // TODO(smccanny): Remove this when we have a proper author info type
-type AuthorInfo = AuthorInfoSansKaggle & {
+type Author = AuthorInfoSansKaggle & {
   kaggleId?: string
   kaggleUserName?: string
 }
 
-function getAuthorKey(author: AuthorInfo): string {
+function getAuthorKey(author: Author): string {
   return `${author.name}-${author.email}`
 }
 
 const SEPARATOR = `, `
 
-function getAuthorIds(authors: AuthorInfo[]) {
+function getAuthorIds(authors: Author[]) {
   return authors.map(
     (author) => `${author.name} - ${author.email} - ${author.orcid}`,
   )
@@ -36,17 +32,17 @@ export function AuthorList({
   vertical = false,
 }: {
   AuthorLinkComponent?: ComponentType<ComponentProps<typeof AuthorLink>>
-  authors: AuthorInfo[]
+  authors: Author[]
   className?: string
   compact?: boolean
   large?: boolean
   subtle?: boolean
   vertical?: boolean
 }) {
-  const authorsPrimary = [] as AuthorInfo[]
-  const authorsOther = [] as AuthorInfo[]
-  const authorsCorresponding = [] as AuthorInfo[]
-  for (const author of authors.map(convertToAuthorInfoV2)) {
+  const authorsPrimary = [] as Author[]
+  const authorsOther = [] as Author[]
+  const authorsCorresponding = [] as Author[]
+  for (const author of authors) {
     if (author.primaryAuthorStatus) {
       authorsPrimary.push(author)
     } else if (author.correspondingAuthorStatus) {
