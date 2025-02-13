@@ -221,6 +221,7 @@ jobs:
       - name: Run Chromatic
         uses: chromaui/action@latest
         with:
+          autoAcceptChanges: "main"
           playwright: true
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           workingDir: frontend/packages/data-portal
