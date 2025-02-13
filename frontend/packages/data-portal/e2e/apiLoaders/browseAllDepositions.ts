@@ -31,6 +31,7 @@ export async function loadDepositionsV2Data(
     client,
     orderBy: OrderBy.Desc,
     page,
+    params: new URLSearchParams(),
   })
 
   return remapV2BrowseAllDepositions(data)
