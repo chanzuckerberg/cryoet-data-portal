@@ -33,6 +33,7 @@ export function Drawer({
               'flex flex-auto bg-sds-color-primitive-common-white',
               'max-w-[490px] min-w-[490px]',
               'z-20 absolute right-0',
+              // 45px is the height of the top nav
               'h-[calc(100vh-45px)]',
               className,
             )}
