@@ -1,9 +1,8 @@
 import Paper from '@mui/material/Paper'
 import { useClickOutside } from '@react-hookz/web'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ReactNode, useEffect, useRef } from 'react'
+import { ReactNode, useRef } from 'react'
 
-import { useMetadataDrawer } from 'app/hooks/useMetadataDrawer'
 import { theme } from 'app/theme'
 import { cns } from 'app/utils/cns'
 
@@ -23,13 +22,6 @@ export function Drawer({
   const drawerRef = useRef<HTMLDivElement>(null)
 
   useClickOutside(drawerRef, onClose)
-  const { activeDrawer } = useMetadataDrawer()
-
-  useEffect(() => {
-    if (activeDrawer !== null) {
-      window.scrollTo(0, 40)
-    }
-  }, [activeDrawer])
 
   return (
     <>
