@@ -32,10 +32,8 @@ export function Drawer({
             className={cns(
               'flex flex-auto bg-sds-color-primitive-common-white',
               'max-w-[490px] min-w-[490px]',
-              'z-20 fixed right-0',
-
-              // 45px is the height of the top nav
-              'top-[45px] h-[calc(100vh-45px)]',
+              'z-20 absolute right-0',
+              'h-[calc(100vh-45px)]',
               className,
             )}
             initial="hidden"

@@ -61,7 +61,7 @@ export function TablePageLayout({
     <>
       {downloadModal}
 
-      <div className="flex flex-col flex-auto">
+      <div className="flex flex-col flex-auto relative">
         {header}
 
         {tabs.length > 1 && (
