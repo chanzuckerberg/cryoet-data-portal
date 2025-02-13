@@ -81,8 +81,8 @@ export function AuthorLink({
         !authorPlusKaggle.orcid && !authorPlusKaggle.kaggleId
       }
       tooltip={
-        <div className="min-w-[200px]">
-          <h4 className="text-sds-color-primitive-gray-500 text-sds-header-xxs leading-sds-header-xxs">
+        <div className="min-w-[200px] pt-sds-xxs pb-sds-s">
+          <h4 className="text-sds-color-primitive-gray-500 text-sds-header-xxs leading-sds-header-xxs font-semibold mb-sds-s">
             Author Handle
           </h4>
           <ul>
