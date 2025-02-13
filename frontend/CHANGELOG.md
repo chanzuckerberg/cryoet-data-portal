@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.52.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.51.0...web-v1.52.0) (2025-02-13)
+
+
+### ✨ Features
+
+* Add deprecation warning banner for doc site and Portal UI ([#1599](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1599)) ([1eb048e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1eb048e25464f1bf4641635c1af16fbcdef27dec))
+
+
+### 🧹 Miscellaneous Chores
+
+* Delete all V1 queries ([#1622](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1622)) ([7c66054](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7c66054ce89f7e07ef8b02939ef8e78a51257d0f))
+* Enable Chromatic ([#1601](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1601)) ([95f31dd](https://github.com/chanzuckerberg/cryoet-data-portal/commit/95f31ddfdf28cf9b58a00fb3b433dc6c1989838f))
+
 ## [1.51.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.50.1...web-v1.51.0) (2025-02-08)
 
 
