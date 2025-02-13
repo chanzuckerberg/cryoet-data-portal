@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react'
 
-import { MockAuthorLink } from 'app/components/AuthorLink'
 import { TestIds } from 'app/constants/testIds'
 import { AuthorInfoType } from 'app/types/authorInfo'
 
@@ -66,9 +65,7 @@ describe('non-compact', () => {
       orcid: `0000-0000-0000-000${idx}`,
     }))
 
-    render(
-      <AuthorList authors={authors} AuthorLinkComponent={MockAuthorLink} />,
-    )
+    render(<AuthorList authors={authors} />)
 
     authors.forEach((author) =>
       expect(
@@ -108,13 +105,7 @@ describe('compact', () => {
       orcid: `0000-0000-0000-000${idx}`,
     }))
 
-    render(
-      <AuthorList
-        authors={authors}
-        AuthorLinkComponent={MockAuthorLink}
-        compact
-      />,
-    )
+    render(<AuthorList authors={authors} compact />)
 
     expect(screen.queryByRole('link')).not.toBeInTheDocument()
   })

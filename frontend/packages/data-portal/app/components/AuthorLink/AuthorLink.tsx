@@ -1,6 +1,3 @@
-import { LinkProps } from '@remix-run/react'
-import { ComponentType } from 'react'
-
 import { EnvelopeIcon, KaggleIcon, ORCIDIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { cns } from 'app/utils/cns'
@@ -39,26 +36,52 @@ const AUTHOR_HANDLE_CONTENT = [
 export function AuthorLink({
   author,
   large,
-  LinkComponent = Link,
 }: {
   author: AuthorInfo
   large?: boolean
-  LinkComponent?: ComponentType<LinkProps>
 }) {
+  const kaggleIds = [
+    { kaggleId: 'tangtang1999', kaggleUserName: 'tangtang1999' },
+    { kaggleId: 'adatasciencenewbie', kaggleUserName: 'a datascience newbie' },
+    { kaggleId: 'hydantess', kaggleUserName: 'hyd' },
+  ]
+  const flip = Math.random() < 0.5
+  const addKaggle = (authorSansKaggle: AuthorInfoSansKaggle) => {
+    // if (flip) {
+    if (flip) {
+      return {
+        ...authorSansKaggle,
+        ...kaggleIds[Math.floor(Math.random() * kaggleIds.length)],
+      }
+    }
+    return {
+      ...authorSansKaggle,
+      ...kaggleIds[Math.floor(Math.random() * kaggleIds.length)],
+      name: '',
+    }
+    // }
+    // return authorSansKaggle
+  }
+  const authorPlusKaggle = addKaggle(author)
   const iconSize = large ? LARGE_ICON_SIZE_PX : BASE_ICON_SIZE_PX
   const content = (
     <Tooltip
       className="inline"
       placement="top"
+      offset={[0, -3]}
+      size="inherit"
+      disableHoverListener={
+        !authorPlusKaggle.orcid && !authorPlusKaggle.kaggleId
+      }
       tooltip={
-        <div className="overflow-hidden">
+        <div className="min-w-[200px]">
           <h4 className="text-sds-color-primitive-gray-500 text-sds-header-xxs leading-sds-header-xxs">
             Author Handle
           </h4>
           <ul>
             {AUTHOR_HANDLE_CONTENT.map(
               ({ key, value, icon: Icon, urlPrefix }) => {
-                const authorValue = author[value as keyof AuthorInfo]
+                const authorValue = authorPlusKaggle[value as keyof AuthorInfo]
 
                 return (
                   authorValue && (
@@ -73,10 +96,9 @@ export function AuthorLink({
                       <Link
                         to={`${urlPrefix}/${authorValue}`}
                         variant="dashed-underlined"
-                        // className="border-black border-dashed border-b mb-0 -pb-2 hover:border-solid leading-sds-body-xxs bg-lime-400"
                       >
                         {value === 'kaggleId'
-                          ? author.kaggleUserName
+                          ? authorPlusKaggle.kaggleUserName
                           : authorValue}
                       </Link>
                     </li>
@@ -94,27 +116,27 @@ export function AuthorLink({
           className={cns(
             'inline border-b mb-sds-xxxs',
 
-            author.orcid || author.kaggleId
+            authorPlusKaggle.orcid || authorPlusKaggle.kaggleId
               ? [
                   'border-dashed hover:border-solid',
 
-                  convertToAuthorInfoV2(author).primaryAuthorStatus
+                  convertToAuthorInfoV2(authorPlusKaggle).primaryAuthorStatus
                     ? 'border-black'
                     : 'border-sds-color-primitive-gray-500',
                 ]
               : 'border-transparent',
           )}
         >
-          {author.orcid && (
+          {authorPlusKaggle.orcid && (
             <ORCIDIcon className="inline mb-0.5 mr-sds-xxxs" width={iconSize} />
           )}
 
           <span className={large ? 'text-sm' : 'text-xs'}>
-            {author.name || author.kaggleUserName}
+            {authorPlusKaggle.name || authorPlusKaggle.kaggleUserName}
           </span>
         </span>
 
-        {convertToAuthorInfoV2(author).correspondingAuthorStatus && (
+        {convertToAuthorInfoV2(authorPlusKaggle).correspondingAuthorStatus && (
           <EnvelopeIcon
             className={cns(
               'text-sds-color-primitive-gray-400 mx-sds-xxxs',
@@ -125,14 +147,6 @@ export function AuthorLink({
       </span>
     </Tooltip>
   )
-
-  if (author.orcid) {
-    return (
-      <LinkComponent to={`${ORC_ID_URL}/${author.orcid}`}>
-        {content}
-      </LinkComponent>
-    )
-  }
 
   return content
 }

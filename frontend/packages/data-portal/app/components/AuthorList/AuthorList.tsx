@@ -77,9 +77,9 @@ export function AuthorList({
   // TODO: let's find a better way of doing this
   return (
     <div data-testid={TestIds.AuthorList} className={className}>
-      <ul className={cns(!compact && 'font-semibold')}>
+      <ul className={cns(!compact && 'font-semibold', 'inline')}>
         {authorsPrimary.map((author, i, arr) => (
-          <li key={getAuthorKey(author)} className="float-left mr-sds-xxs">
+          <li key={getAuthorKey(author)} className="inline">
             {compact ? (
               author.name ?? author.kaggleUserName
             ) : (
@@ -96,13 +96,14 @@ export function AuthorList({
       <ul
         className={cns(
           subtle && !compact && 'text-sds-color-primitive-gray-600',
+          'inline',
         )}
       >
         {compact ? (
-          <li className="float-left mr-sds-xxs">{otherCollapsed}</li>
+          <li className="inline">{otherCollapsed}</li>
         ) : (
           authorsOther.map((author, i, arr) => (
-            <li key={getAuthorKey(author)} className="float-left mr-sds-xxs">
+            <li key={getAuthorKey(author)} className="inline">
               <AuthorLinkComponent author={author} large={large} />
               {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
                 SEPARATOR}
@@ -111,7 +112,7 @@ export function AuthorList({
         )}
 
         {authorsCorresponding.map((author, i, arr) => (
-          <li key={getAuthorKey(author)} className="float-left mr-sds-xxs">
+          <li key={getAuthorKey(author)} className="inline">
             {compact ? (
               author.name ?? author.kaggleUserName
             ) : (
