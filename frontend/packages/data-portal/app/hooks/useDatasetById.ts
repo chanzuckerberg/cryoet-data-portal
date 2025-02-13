@@ -1,12 +1,10 @@
 import { useTypedLoaderData } from 'remix-typedjson'
 
-import { GetDatasetByIdQuery } from 'app/__generated__/graphql'
 import { GetDatasetByIdV2Query } from 'app/__generated_v2__/graphql'
 import { isDefined } from 'app/utils/nullish'
 
 export function useDatasetById() {
   const { v2 } = useTypedLoaderData<{
-    v1: GetDatasetByIdQuery
     v2: GetDatasetByIdV2Query
   }>()
 
