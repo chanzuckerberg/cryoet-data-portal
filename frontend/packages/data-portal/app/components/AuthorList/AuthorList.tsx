@@ -33,6 +33,7 @@ export function AuthorList({
   compact = false,
   large,
   subtle = false,
+  vertical = false,
 }: {
   AuthorLinkComponent?: ComponentType<ComponentProps<typeof AuthorLink>>
   authors: AuthorInfo[]
@@ -40,6 +41,7 @@ export function AuthorList({
   compact?: boolean
   large?: boolean
   subtle?: boolean
+  vertical?: boolean
 }) {
   const authorsPrimary = [] as AuthorInfo[]
   const authorsOther = [] as AuthorInfo[]
@@ -77,9 +79,9 @@ export function AuthorList({
   // TODO: let's find a better way of doing this
   return (
     <div data-testid={TestIds.AuthorList} className={className}>
-      <ul className={cns(!compact && 'font-semibold', 'inline')}>
+      <ul className={cns(!compact && 'font-semibold', !vertical && 'inline')}>
         {authorsPrimary.map((author, i, arr) => (
-          <li key={getAuthorKey(author)} className="inline">
+          <li key={getAuthorKey(author)} className={cns(!vertical && 'inline')}>
             {compact ? (
               author.name ?? author.kaggleUserName
             ) : (
@@ -88,7 +90,9 @@ export function AuthorList({
             {!(
               authorsOther.length + authorsCorresponding.length === 0 &&
               arr.length - 1 === i
-            ) && SEPARATOR}
+            ) &&
+              !vertical &&
+              SEPARATOR}
           </li>
         ))}
       </ul>
@@ -96,29 +100,33 @@ export function AuthorList({
       <ul
         className={cns(
           subtle && !compact && 'text-sds-color-primitive-gray-600',
-          'inline',
+          !vertical && 'inline',
         )}
       >
         {compact ? (
-          <li className="inline">{otherCollapsed}</li>
+          <li className={cns(!vertical && 'inline')}>{otherCollapsed}</li>
         ) : (
           authorsOther.map((author, i, arr) => (
-            <li key={getAuthorKey(author)} className="inline">
+            <li
+              key={getAuthorKey(author)}
+              className={cns(!vertical && 'inline')}
+            >
               <AuthorLinkComponent author={author} large={large} />
               {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
+                !vertical &&
                 SEPARATOR}
             </li>
           ))
         )}
 
         {authorsCorresponding.map((author, i, arr) => (
-          <li key={getAuthorKey(author)} className="inline">
+          <li key={getAuthorKey(author)} className={cns(!vertical && 'inline')}>
             {compact ? (
               author.name ?? author.kaggleUserName
             ) : (
               <AuthorLinkComponent author={author} large={large} />
             )}
-            {!(arr.length - 1 === i) && SEPARATOR}
+            {!(arr.length - 1 === i) && !vertical && SEPARATOR}
           </li>
         ))}
       </ul>

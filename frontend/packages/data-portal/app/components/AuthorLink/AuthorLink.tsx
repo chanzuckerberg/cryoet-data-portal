@@ -104,9 +104,7 @@ export function AuthorLink({
                         to={`${urlPrefix}/${authorValue}`}
                         variant="dashed-underlined"
                       >
-                        {value === 'kaggleId'
-                          ? authorPlusKaggle.kaggleUserName
-                          : authorValue}
+                        {authorValue}
                       </Link>
                     </li>
                   )
@@ -155,9 +153,9 @@ export function AuthorLink({
     </Tooltip>
   )
 
-  if (author.orcid) {
+  if (authorPlusKaggle.orcid && !authorPlusKaggle.kaggleId) {
     return (
-      <LinkComponent to={`${ORC_ID_URL}/${author.orcid}`}>
+      <LinkComponent to={`${ORC_ID_URL}/${authorPlusKaggle.orcid}`}>
         {content}
       </LinkComponent>
     )
