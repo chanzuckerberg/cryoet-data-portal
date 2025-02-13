@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 
-import { Tiltseries } from 'app/__generated__/graphql'
 import { DatabaseEntry } from 'app/components/DatabaseEntry'
 import { Katex } from 'app/components/Katex'
 import { IdPrefix } from 'app/constants/idPrefixes'
@@ -11,34 +10,17 @@ import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 
 import { TiltSeriesKeys } from './constants'
 
-export function useTiltSeriesValueMappings(
-  tiltSeries?: Partial<Tiltseries> | TiltseriesV2,
-) {
+export function useTiltSeriesValueMappings(tiltSeries?: TiltseriesV2) {
   const { t } = useI18n()
-
-  const isV2 = isV2Tiltseries(tiltSeries)
-
-  const accelerationVoltage = isV2
-    ? tiltSeries.accelerationVoltage
-    : tiltSeries?.acceleration_voltage
-  const isAligned = isV2 ? tiltSeries.isAligned : tiltSeries?.is_aligned
-  const sphericalAberrationConstant = isV2
-    ? tiltSeries.sphericalAberrationConstant
-    : tiltSeries?.spherical_aberration_constant
-  const tiltAxis = isV2 ? tiltSeries.tiltAxis : tiltSeries?.tilt_axis
-  const tiltMin = isV2 ? tiltSeries.tiltMin : tiltSeries?.tilt_min
-  const tiltMax = isV2 ? tiltSeries.tiltMax : tiltSeries?.tilt_max
-  const tiltRange = isV2 ? tiltSeries.tiltRange : tiltMax! - tiltMin!
-  const tiltStep = isV2 ? tiltSeries.tiltStep : tiltSeries?.tilt_step
 
   return useMemo<Record<TiltSeriesKeys, TableData>>(
     () => ({
       [TiltSeriesKeys.AccelerationVoltage]: {
         label: t('accelerationVoltage'),
         values: [
-          accelerationVoltage !== undefined
+          tiltSeries?.accelerationVoltage !== undefined
             ? t('unitVolts', {
-                value: accelerationVoltage,
+                value: tiltSeries.accelerationVoltage,
               })
             : '--',
         ],
@@ -46,63 +28,37 @@ export function useTiltSeriesValueMappings(
 
       [TiltSeriesKeys.AdditionalMicroscopeOpticalSetup]: {
         label: t('additionalMicroscopeOpticalSetup'),
-        values: [
-          (isV2
-            ? tiltSeries.microscopeAdditionalInfo
-            : tiltSeries?.microscope_additional_info) ?? 'None',
-        ],
+        values: [tiltSeries?.microscopeAdditionalInfo ?? 'None'],
       },
 
       [TiltSeriesKeys.AlignedBinning]: {
         label: t('alignedTiltSeriesBinning'),
-        values: [
-          (isV2
-            ? tiltSeries.alignedTiltseriesBinning
-            : tiltSeries?.aligned_tiltseries_binning) ?? '--',
-        ],
+        values: [tiltSeries?.alignedTiltseriesBinning ?? '--'],
       },
 
       [TiltSeriesKeys.BinningFromFrames]: {
         label: t('bingingFromFrames'),
-        values: [
-          (isV2
-            ? tiltSeries.binningFromFrames
-            : tiltSeries?.binning_from_frames) ?? '--',
-        ],
+        values: [tiltSeries?.binningFromFrames ?? '--'],
       },
 
       [TiltSeriesKeys.CameraManufacturer]: {
         label: t('cameraManufacturer'),
-        values: [
-          (isV2
-            ? tiltSeries.cameraManufacturer
-            : tiltSeries?.camera_manufacturer) ?? '--',
-        ],
+        values: [tiltSeries?.cameraManufacturer ?? '--'],
       },
 
       [TiltSeriesKeys.CameraModel]: {
         label: t('cameraModel'),
-        values: [
-          (isV2 ? tiltSeries.cameraModel : tiltSeries?.camera_model) ?? '--',
-        ],
+        values: [tiltSeries?.cameraModel ?? '--'],
       },
 
       [TiltSeriesKeys.DataAcquisitionSoftware]: {
         label: t('dataAcquisitionSoftware'),
-        values: [
-          (isV2
-            ? tiltSeries.dataAcquisitionSoftware
-            : tiltSeries?.data_acquisition_software) ?? '--',
-        ],
+        values: [tiltSeries?.dataAcquisitionSoftware ?? '--'],
       },
 
       [TiltSeriesKeys.EnergyFilter]: {
         label: t('energyFilter'),
-        values: [
-          (isV2
-            ? tiltSeries.microscopeEnergyFilter
-            : tiltSeries?.microscope_energy_filter) ?? '--',
-        ],
+        values: [tiltSeries?.microscopeEnergyFilter ?? '--'],
       },
 
       [TiltSeriesKeys.Id]: {
@@ -114,44 +70,27 @@ export function useTiltSeriesValueMappings(
 
       [TiltSeriesKeys.ImageCorrector]: {
         label: t('imageCorrector'),
-        values: [
-          (isV2
-            ? tiltSeries.microscopeImageCorrector
-            : tiltSeries?.microscope_image_corrector) ?? 'None',
-        ],
+        values: [tiltSeries?.microscopeImageCorrector ?? 'None'],
       },
 
       [TiltSeriesKeys.MicroscopeManufacturer]: {
         label: t('microscopeManufacturer'),
-        values: [
-          (isV2
-            ? tiltSeries.microscopeManufacturer
-            : tiltSeries?.microscope_manufacturer) ?? '--',
-        ],
+        values: [tiltSeries?.microscopeManufacturer ?? '--'],
       },
 
       [TiltSeriesKeys.MicroscopeModel]: {
         label: t('microscopeModel'),
-        values: [
-          (isV2 ? tiltSeries.microscopeModel : tiltSeries?.microscope_model) ??
-            '--',
-        ],
+        values: [tiltSeries?.microscopeModel ?? '--'],
       },
 
       [TiltSeriesKeys.PhasePlate]: {
         label: t('phasePlate'),
-        values: [
-          (isV2
-            ? tiltSeries.microscopePhasePlate
-            : tiltSeries?.microscope_phase_plate) ?? 'None',
-        ],
+        values: [tiltSeries?.microscopePhasePlate ?? 'None'],
       },
 
       [TiltSeriesKeys.PixelSpacing]: {
         label: t('pixelSpacing'),
-        values: [
-          (isV2 ? tiltSeries.pixelSpacing : tiltSeries?.pixel_spacing) ?? '--',
-        ],
+        values: [tiltSeries?.pixelSpacing ?? '--'],
         renderValue: (value) => (
           <p className="flex gap-1 items-center">
             <span>{value}</span>
@@ -162,25 +101,21 @@ export function useTiltSeriesValueMappings(
 
       [TiltSeriesKeys.RelatedEmpiarEntry]: {
         label: t('relatedEmpiarEntry'),
-        values: [
-          (isV2
-            ? tiltSeries.relatedEmpiarEntry
-            : tiltSeries?.related_empiar_entry) ?? '--',
-        ],
+        values: [tiltSeries?.relatedEmpiarEntry ?? '--'],
         renderValue: (value: string) => <DatabaseEntry entry={value} inline />,
       },
 
       [TiltSeriesKeys.SeriesIsAligned]: {
         label: t('seriesIsAligned'),
-        values: [isAligned ? t('true') : t('false')],
+        values: [tiltSeries?.isAligned === true ? t('true') : t('false')],
       },
 
       [TiltSeriesKeys.SphericalAberrationConstant]: {
         label: t('sphericalAberrationConstant'),
         values: [
-          sphericalAberrationConstant !== undefined
+          tiltSeries?.sphericalAberrationConstant !== undefined
             ? t('unitMillimeter', {
-                value: sphericalAberrationConstant,
+                value: tiltSeries.sphericalAberrationConstant,
               })
             : '--',
         ],
@@ -188,24 +123,30 @@ export function useTiltSeriesValueMappings(
 
       [TiltSeriesKeys.TiltAxis]: {
         label: t('tiltAxis'),
-        values: [tiltAxis ? t('unitDegree', { value: tiltAxis }) : '--'],
+        values: [
+          tiltSeries?.tiltAxis
+            ? t('unitDegree', { value: tiltSeries.tiltAxis })
+            : '--',
+        ],
       },
 
       [TiltSeriesKeys.TiltingScheme]: {
         label: t('tiltingScheme'),
-        values: [
-          (isV2 ? tiltSeries.tiltingScheme : tiltSeries?.tilting_scheme) ??
-            '--',
-        ],
+        values: [tiltSeries?.tiltingScheme ?? '--'],
       },
 
       [TiltSeriesKeys.TiltRange]: {
         label: t('tiltRange'),
         values: [
-          tiltMin !== undefined &&
-          tiltMax !== undefined &&
-          tiltRange !== undefined
-            ? getTiltRangeLabel(t, tiltRange, tiltMin, tiltMax)
+          tiltSeries?.tiltRange !== undefined &&
+          tiltSeries?.tiltMin !== undefined &&
+          tiltSeries?.tiltMax !== undefined
+            ? getTiltRangeLabel(
+                t,
+                tiltSeries.tiltRange,
+                tiltSeries.tiltMin,
+                tiltSeries.tiltMax,
+              )
             : '--',
         ],
       },
@@ -213,15 +154,15 @@ export function useTiltSeriesValueMappings(
       [TiltSeriesKeys.TiltStep]: {
         label: t('tiltStep'),
         values: [
-          tiltStep !== undefined ? t('unitDegree', { value: tiltStep }) : '--',
+          tiltSeries?.tiltStep !== undefined
+            ? t('unitDegree', { value: tiltSeries.tiltStep })
+            : '--',
         ],
       },
 
       [TiltSeriesKeys.TotalFlux]: {
         label: t('totalFlux'),
-        values: [
-          (isV2 ? tiltSeries.totalFlux : tiltSeries?.total_flux) ?? '--',
-        ],
+        values: [tiltSeries?.totalFlux ?? '--'],
         renderValue: (value) => (
           <p className="flex gap-1 items-center">
             <span>{value}</span>
@@ -230,24 +171,6 @@ export function useTiltSeriesValueMappings(
         ),
       },
     }),
-    [
-      tiltSeries,
-      t,
-      accelerationVoltage,
-      isAligned,
-      isV2,
-      sphericalAberrationConstant,
-      tiltAxis,
-      tiltMax,
-      tiltMin,
-      tiltRange,
-      tiltStep,
-    ],
+    [tiltSeries, t],
   )
-}
-
-function isV2Tiltseries(
-  tiltseries?: Partial<Tiltseries> | TiltseriesV2,
-): tiltseries is TiltseriesV2 {
-  return tiltseries?.__typename === 'Tiltseries'
 }
