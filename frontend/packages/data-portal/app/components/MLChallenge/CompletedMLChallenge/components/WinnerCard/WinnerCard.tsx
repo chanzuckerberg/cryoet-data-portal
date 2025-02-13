@@ -73,16 +73,6 @@ export function WinnerCard({
           <p className="mt-sds-s line-clamp-5">{winner.description}</p>
         )}
         <div className="grow flex flex-col items-end screen-360:flex-row gap-sds-m screen-360:gap-sds-l justify-stretch screen-360:justify-end mt-sds-l">
-          {/* TODO(smccanny): where does this link go? */}
-          <Link to="https://www.kaggle.com/competitions/czii-cryo-et-object-identification/">
-            <Button
-              sdsStyle="rounded"
-              sdsType="secondary"
-              className="w-full screen-360:w-initial"
-            >
-              {t('viewModel')}
-            </Button>
-          </Link>
           <Link to={`/depositions/${winner.id}`}>
             <Button
               sdsStyle="rounded"

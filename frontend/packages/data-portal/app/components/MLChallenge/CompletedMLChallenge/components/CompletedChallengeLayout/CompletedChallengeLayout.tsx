@@ -96,15 +96,15 @@ export function CompletedChallengeLayout() {
     <div className="flex flex-col max-w-full screen-1024:max-w-[800px] screen-1345:max-w-[1100px] mx-auto">
       <JumpToAnchor id={CompletedMLChallengeSectionId.Impact} />
       <Section color="primary100">
-        <div className="flex flex-col screen-760:flex-row justify-between gap-sds-xl">
-          <div className="screen-760:max-w-[500px] screen-1345:max-w-[66%]">
-            <h2 className="text-[34px] font-semibold mb-sds-xxl mt-[60px] tracking-[0.3px]">
+        <div className="flex flex-col screen-760:flex-row justify-between screen-760:items-center gap-sds-xl">
+          <div className="screen-760:max-w-[500px] screen-1345:max-w-[56%]">
+            <h2 className="text-[26px] screen-512:text-[34px] leading-[34px] screen-512:leading-[46px] font-semibold mb-sds-xxl mt-sds-xxl screen-512:mt-[60px] tracking-[0.3px]">
               {t('impact')}
             </h2>
-            <h3 className="text-sds-header-xl leading-sds-header-xl font-semibold mt-sds-xxl">
+            <h3 className="text-sds-header-xl leading-sds-header-xl screen-512:text-[18px] screen-512:leading-[24px] font-semibold mt-sds-xxl">
               {t('impactSubTitle')}
             </h3>
-            <p className="text-sds-body-m leading-sds-body-m text-sds-color-primitive-gray-700 mt-sds-xl mb-sds-xxl">
+            <p className="text-sds-body-m leading-sds-body-m text-[#6C6C6C] mt-sds-xl mb-sds-xxl">
               {t('impactExplanation')}
             </p>
             <Link to={t('impactPaperLink')}>
@@ -117,7 +117,7 @@ export function CompletedChallengeLayout() {
               </Button>
             </Link>
           </div>
-          <div className="w-[113%] left-[-7%] screen-760:left-0 relative screen-1024:w-[340px]">
+          <div className="w-[113%] left-[-7%] screen-760:left-0 relative screen-1024:w-[400px]">
             <img
               className="w-full screen-760:mt-sds-xxl screen-879:mt-sds-m -mb-[55px]"
               src="/images/researchPaper.svg"
@@ -171,7 +171,7 @@ export function CompletedChallengeLayout() {
               {t('competitionDataHeader')}
             </h3>
             <p className="text-sds-body-s leading-sds-body-s mb-sds-l text-justify">
-              {t('competitionDataDetails')}
+              {t('competitionDataDetailsPast')}
             </p>
             <div className="flex gap-sds-default">
               <Link to="/depositions/10310" newTab>

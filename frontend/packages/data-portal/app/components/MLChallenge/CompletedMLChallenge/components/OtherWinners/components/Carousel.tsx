@@ -3,6 +3,16 @@ import { ReactElement, useEffect, useState } from 'react'
 
 import { cns } from 'app/utils/cns'
 
+const getButtonClasses = (direction: 'left' | 'right') =>
+  cns(
+    direction === 'right' ? '[&_svg]:left-[1px]' : '[&_svg]:right-[1px]',
+    '[&_svg]:relative [&_svg]:fill-[#6C6C6C]',
+    '[&&]:disabled:bg-[#DFDFDF] [&_svg]:disabled:fill-[#C3C3C3]',
+    '[&_svg]:hover:fill-[#0041B9] [&&]:hover:bg-sds-color-primitive-gray-100',
+    '[&&]:bg-white rounded-full shadow-[0px_2px_4px_0px_#0000001F]',
+    'transition',
+  )
+
 export function Carousel({
   totalCards,
   leftIcon,
@@ -94,6 +104,7 @@ export function Carousel({
           sdsSize="small"
           onClick={() => changeCarouselPosition('left')}
           disabled={carouselPosition === 1}
+          className={getButtonClasses('left')}
         />
         <div
           style={{
@@ -128,6 +139,7 @@ export function Carousel({
           sdsSize="small"
           onClick={() => changeCarouselPosition('right')}
           disabled={carouselPosition === numberOfSlides}
+          className={getButtonClasses('right')}
         />
       </div>
     </div>
