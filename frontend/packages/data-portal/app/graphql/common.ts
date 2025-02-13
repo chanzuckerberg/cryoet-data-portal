@@ -299,6 +299,8 @@ export function getDepositionFilter({
     where.authors ??= {}
     where.authors.name = {
       _ilike: `%${filterState.author.name}%`,
+      // TODO: (smccanny) Add this when the kaggle field is implemented
+      // _ilike: `%${filterState.author.kaggleId}%`,
     }
   }
   if (filterState.author.orcid) {

@@ -1,5 +1,6 @@
 import { QueryParams } from 'app/constants/query'
 import { useFilter } from 'app/hooks/useFilter'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { ErrorBoundary } from '../ErrorBoundary'
 import {
@@ -10,6 +11,7 @@ import {
 } from '../Filters'
 
 export function DepositionsFilters() {
+  const showCompetitionFilter = useFeatureFlag('postMlChallenge')
   const {
     updateValue,
     tags: { competition },
@@ -18,13 +20,17 @@ export function DepositionsFilters() {
     {
       logId: 'competition-filter',
       filter: (
-        <BooleanFilter
-          label="CZII ML Competition 2024"
-          onChange={(value) =>
-            updateValue(QueryParams.Competition, value ? 'true' : null)
-          }
-          value={competition}
-        />
+        <div>
+          {showCompetitionFilter && (
+            <BooleanFilter
+              label="CZII ML Competition 2024"
+              onChange={(value) =>
+                updateValue(QueryParams.Competition, value ? 'true' : null)
+              }
+              value={competition}
+            />
+          )}
+        </div>
       ),
     },
     {
