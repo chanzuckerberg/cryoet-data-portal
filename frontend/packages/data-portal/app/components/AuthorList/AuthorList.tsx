@@ -1,6 +1,7 @@
 import { ComponentProps, ComponentType, useMemo } from 'react'
 
 import { AuthorLink } from 'app/components/AuthorLink'
+import { TestIds } from 'app/constants/testIds'
 import { Author as AuthorInfoSansKaggle } from 'app/types/gql/genericTypes'
 import { cns } from 'app/utils/cns'
 
