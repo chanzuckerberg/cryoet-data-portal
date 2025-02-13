@@ -8,13 +8,13 @@ import { BROWSE_DATASETS_URL, SINGLE_DATASET_URL } from './constants'
 // let tableActor: TableActor
 // let breadcrumbsPage: BreadcrumbsPage
 
-test.beforeEach(({ page }) => {
-  // filtersPage = new FiltersPage(page)
-  // filtersActor = new FiltersActor(filtersPage)
-  // tablePage = new TablePage(page)
-  // tableActor = new TableActor(tablePage)
-  // breadcrumbsPage = new BreadcrumbsPage(page)
-})
+// test.beforeEach(({ page }) => {
+// filtersPage = new FiltersPage(page)
+// filtersActor = new FiltersActor(filtersPage)
+// tablePage = new TablePage(page)
+// tableActor = new TableActor(tablePage)
+// breadcrumbsPage = new BreadcrumbsPage(page)
+// })
 
 // const TEST_PARAM = QueryParams.ObjectName
 // const TEST_VALUE = E2E_CONFIG.objectName
