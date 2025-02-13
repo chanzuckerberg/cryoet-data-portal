@@ -1,7 +1,7 @@
 import { ComponentProps, ComponentType, useMemo } from 'react'
 
 import { AuthorLink } from 'app/components/AuthorLink'
-import { Author as AuthorInfoSansKaggle} from 'app/types/gql/genericTypes'
+import { Author as AuthorInfoSansKaggle } from 'app/types/gql/genericTypes'
 import { cns } from 'app/utils/cns'
 
 // TODO(smccanny): Remove this when we have a proper author info type
