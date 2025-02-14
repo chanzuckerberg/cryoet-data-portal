@@ -3,6 +3,7 @@ import { ComponentType } from 'react'
 
 import { EnvelopeIcon, KaggleIcon, ORCIDIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
+import { TestIds } from 'app/constants/testIds'
 import { Author as AuthorInfoSansKaggle } from 'app/types/gql/genericTypes'
 import { cns } from 'app/utils/cns'
 
@@ -10,7 +11,7 @@ import { Tooltip } from '../Tooltip'
 import { KAGGLE_URL, ORC_ID_URL } from './constants'
 
 // TODO(smccanny): Remove this when we have a proper author info type
-type Author = AuthorInfoSansKaggle & {
+export type Author = AuthorInfoSansKaggle & {
   kaggleId?: string
 }
 
@@ -85,7 +86,7 @@ export function AuthorLink({
       }
       sdsStyle="light"
     >
-      <span className="inline">
+      <span className="inline" data-testid={TestIds.AuthorLink}>
         <span
           className={cns(
             'inline border-b mb-sds-xxxs',

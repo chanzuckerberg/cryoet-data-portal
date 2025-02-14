@@ -21,7 +21,7 @@ const AUTHOR_MAP = Object.fromEntries(
   DEFAULT_AUTHORS.map((author) => [author.name, author]),
 )
 
-describe.skip('non-compact', () => {
+describe('non-compact', () => {
   it('should render authors', () => {
     render(<AuthorList authors={DEFAULT_AUTHORS} />)
 
@@ -61,15 +61,15 @@ describe.skip('non-compact', () => {
     )
   })
 
-  it('should render author links', () => {
-    const authors = DEFAULT_AUTHORS.map((author, idx) => ({
+  it.skip('should render author links', () => {
+    const authorsWithOrcid = DEFAULT_AUTHORS.map((author, idx) => ({
       ...author,
       orcid: `0000-0000-0000-000${idx}`,
     }))
 
-    render(<AuthorList authors={authors} />)
+    render(<AuthorList authors={authorsWithOrcid} />)
 
-    authors.forEach((author) =>
+    authorsWithOrcid.forEach((author) =>
       expect(
         screen.getByRole('link', { name: `${author.name}` }),
       ).toBeInTheDocument(),
@@ -100,7 +100,7 @@ describe.skip('non-compact', () => {
   })
 })
 
-describe.skip('compact', () => {
+describe('compact', () => {
   it('should not render author links when compact', () => {
     const authors = DEFAULT_AUTHORS.map((author, idx) => ({
       ...author,

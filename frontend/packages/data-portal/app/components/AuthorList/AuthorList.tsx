@@ -8,7 +8,6 @@ import { cns } from 'app/utils/cns'
 // TODO(smccanny): Remove this when we have a proper author info type
 type Author = AuthorInfoSansKaggle & {
   kaggleId?: string
-  kaggleUserName?: string
 }
 
 function getAuthorKey(author: Author): string {
@@ -80,7 +79,7 @@ export function AuthorList({
         {authorsPrimary.map((author, i, arr) => (
           <li key={getAuthorKey(author)} className={cns(!vertical && 'inline')}>
             {compact ? (
-              author.name ?? author.kaggleUserName
+              author.name
             ) : (
               <AuthorLinkComponent author={author} large={large} />
             )}
@@ -119,7 +118,7 @@ export function AuthorList({
         {authorsCorresponding.map((author, i, arr) => (
           <li key={getAuthorKey(author)} className={cns(!vertical && 'inline')}>
             {compact ? (
-              author.name ?? author.kaggleUserName
+              author.name
             ) : (
               <AuthorLinkComponent author={author} large={large} />
             )}

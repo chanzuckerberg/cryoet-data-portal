@@ -8,4 +8,5 @@ export enum TestIds {
   OrcIdIcon = 'orc-id-icon',
   Pagination = 'pagination',
   AuthorList = 'author-list',
+  AuthorLink = 'author-link',
 }
