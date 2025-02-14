@@ -48,8 +48,7 @@ export function RunsTable() {
   const { t } = useI18n()
   const [searchParams] = useSearchParams()
 
-  const [isHoveringOverInteractable] =
-    useState(false)
+  const [isHoveringOverInteractable] = useState(false)
   const navigate = useNavigate()
 
   const getRunUrl = useCallback(

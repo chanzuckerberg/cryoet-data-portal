@@ -49,7 +49,7 @@ export function ViewTomogramButton({
             <br />
             <Link
               to={t('neuroglancerTutorialLink')}
-              variant={'dashed-underlined'}
+              variant="dashed-underlined"
               className="!text-sds-color-primitive-gray-300 text-sds-body-xxs !border-sds-color-primitive-gray-800"
             >
               <p>
