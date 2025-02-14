@@ -81,6 +81,10 @@ export function getFilterState(searchParams: URLSearchParams) {
           ),
         ),
     },
+
+    tags: {
+      competition: searchParams.get(QueryParams.Competition) === 'true',
+    },
   }
 }
 
