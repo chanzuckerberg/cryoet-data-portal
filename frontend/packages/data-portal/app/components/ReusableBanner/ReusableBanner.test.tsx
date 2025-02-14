@@ -68,7 +68,7 @@ describe('<ReusableBanner />', () => {
 
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
     expect(localStorage.setItem).toHaveBeenCalledWith(
-      'deprecation-dismissed',
+      'competition-survey-banner-dismissed',
       'true',
     )
   })
