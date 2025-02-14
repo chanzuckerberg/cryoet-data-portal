@@ -11,7 +11,7 @@ import { cns } from 'app/utils/cns'
 /**
  * Reusable banner component used to display any banner component.
  *
- * As the Portal's Banner need evolves, feel free to add more props to this
+ * As the Portal's Banner need evolves, add more props to this
  * component to make it more flexible (ie localStorage customization, icon).
  */
 
