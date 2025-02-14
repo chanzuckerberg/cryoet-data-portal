@@ -14,8 +14,7 @@ export function Layout({ children }: { children: ReactNode }) {
         bannerTextKey="deprecatedApiBannerText"
         localStorageKey={LocalStorageKeys.PythonV3DeprecatedDismissed}
         allowedPathsRegex={[/^(?!\/competition).*$/]}
-        backgroundColor="#fff3db"
-        textColor="black"
+        className="!bg-[#fff3db] !text-black [&_svg]:!fill-black"
       />
       <TopNavigation />
       <div className="flex flex-col flex-[1_0_auto]">{children}</div>
