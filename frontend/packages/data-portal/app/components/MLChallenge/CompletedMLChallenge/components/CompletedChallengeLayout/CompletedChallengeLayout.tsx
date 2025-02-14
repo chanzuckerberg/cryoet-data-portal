@@ -98,7 +98,7 @@ export function CompletedChallengeLayout() {
       <Section color="primary100">
         <div className="flex flex-col screen-760:flex-row justify-between screen-760:items-center gap-sds-xl">
           <div className="screen-760:max-w-[500px] screen-1345:max-w-[56%]">
-            <h2 className="text-[26px] screen-512:text-[34px] leading-[34px] screen-512:leading-[46px] font-semibold mb-sds-xxl mt-sds-xxl screen-512:mt-[60px] tracking-[0.3px]">
+            <h2 className="text-[26px] screen-512:text-[34px] leading-[34px] tracking-[0.8px] screen-512:leading-[46px] font-semibold mb-sds-xxl mt-sds-xxl screen-512:mt-[0px] tracking-[0.3px]">
               {t('impact')}
             </h2>
             <h3 className="text-sds-header-xl leading-sds-header-xl screen-512:text-[18px] screen-512:leading-[24px] font-semibold mt-sds-xxl">
@@ -117,9 +117,9 @@ export function CompletedChallengeLayout() {
               </Button>
             </Link>
           </div>
-          <div className="w-[113%] left-[-7%] screen-760:left-0 relative screen-1024:w-[400px]">
+          <div className="w-[113%] left-[-7%] screen-760:left-[26px] relative screen-1024:w-[400px]">
             <img
-              className="w-full screen-760:mt-sds-xxl screen-879:mt-sds-m -mb-[55px]"
+              className="w-full -mb-[16%] screen-1024:-mb-[43px] screen-1345:-mb-[63px]"
               src="/images/researchPaper.svg"
               alt="Bio Rxiv Paper Preview with the title 'Annotating CryoET Volumes: A Machine Learning Challenge'"
             />
