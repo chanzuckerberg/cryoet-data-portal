@@ -1,19 +1,16 @@
 import { ComponentProps, ComponentType, Fragment, useMemo } from 'react'
 
-import {
-  AuthorInfo,
-  AuthorLink,
-  convertToAuthorInfoV2,
-} from 'app/components/AuthorLink'
+import { AuthorLink } from 'app/components/AuthorLink'
+import { Author } from 'app/types/gql/genericTypes'
 import { cns } from 'app/utils/cns'
 
-function getAuthorKey(author: AuthorInfo): string {
+function getAuthorKey(author: Author): string {
   return `${author.name}-${author.email}`
 }
 
 const SEPARATOR = `, `
 
-function getAuthorIds(authors: AuthorInfo[]) {
+function getAuthorIds(authors: Author[]) {
   return authors.map(
     (author) => `${author.name} - ${author.email} - ${author.orcid}`,
   )
@@ -28,7 +25,7 @@ export function AuthorList({
   subtle = false,
 }: {
   AuthorLinkComponent?: ComponentType<ComponentProps<typeof AuthorLink>>
-  authors: AuthorInfo[]
+  authors: Author[]
   className?: string
   compact?: boolean
   large?: boolean
@@ -37,7 +34,7 @@ export function AuthorList({
   const authorsPrimary = []
   const authorsOther = []
   const authorsCorresponding = []
-  for (const author of authors.map(convertToAuthorInfoV2)) {
+  for (const author of authors) {
     if (author.primaryAuthorStatus) {
       authorsPrimary.push(author)
     } else if (author.correspondingAuthorStatus) {
