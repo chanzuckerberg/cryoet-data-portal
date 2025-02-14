@@ -3,7 +3,7 @@ on:
     inputs:
       browsers:
         type: string
-        default: '["chromium", "firefox", "webkit"]'
+        default: '["chromium"]'
 
       environment:
         required: true
@@ -171,8 +171,57 @@ jobs:
           CI: true
 
       - uses: actions/upload-artifact@v4
-        if: failure()
+        if: always()
         with:
           name: html-report-${{ matrix.browser }}-${{ matrix.shardCurrent }}-${{ matrix.shardTotal }}
           path: frontend/packages/data-portal/playwright-report/
           retention-days: 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chromatic-report-${{ matrix.browser }}-${{ matrix.shardCurrent }}-${{ matrix.shardTotal }}
+          path: frontend/packages/data-portal/test-results/
+          retention-days: 1
+  chromatic:
+    name: Run Chromatic
+    needs: frontend-e2e-tests
+    runs-on: macos-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+      - name: Install PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.10.5
+          run_install: false
+      - name: Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: frontend
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: frontend/packages/data-portal/test-results/
+          pattern: chromatic-report-*
+          merge-multiple: true
+      - name: Run Chromatic
+        uses: chromaui/action@latest
+        with:
+          autoAcceptChanges: "main"
+          playwright: true
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: frontend/packages/data-portal

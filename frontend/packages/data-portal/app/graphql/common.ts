@@ -1,4 +1,3 @@
-import { Depositions_Bool_Exp } from 'app/__generated__/graphql'
 import {
   DatasetWhereClause,
   Deposition_Types_Enum,
@@ -11,16 +10,6 @@ import {
   DEFAULT_TILT_RANGE_MIN,
 } from 'app/constants/tiltSeries'
 import { FilterState } from 'app/hooks/useFilter'
-
-export const depositionWithAnnotationFilter: Depositions_Bool_Exp = {
-  annotations_aggregate: {
-    count: {
-      predicate: {
-        _gt: 0,
-      },
-    },
-  },
-}
 
 export function convertReconstructionMethodToV2(
   v1: string,
