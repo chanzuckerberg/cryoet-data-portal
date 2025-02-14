@@ -1,8 +1,14 @@
-import { ComponentProps, ComponentType, Fragment, useMemo } from 'react'
+import { ComponentProps, ComponentType, useMemo } from 'react'
 
 import { AuthorLink } from 'app/components/AuthorLink'
-import { Author } from 'app/types/gql/genericTypes'
+import { TestIds } from 'app/constants/testIds'
+import { Author as AuthorInfoSansKaggle } from 'app/types/gql/genericTypes'
 import { cns } from 'app/utils/cns'
+
+// TODO(smccanny): Remove this when we have a proper author info type
+type Author = AuthorInfoSansKaggle & {
+  kaggleId?: string
+}
 
 function getAuthorKey(author: Author): string {
   return `${author.name}-${author.email}`
@@ -23,6 +29,7 @@ export function AuthorList({
   compact = false,
   large,
   subtle = false,
+  vertical = false,
 }: {
   AuthorLinkComponent?: ComponentType<ComponentProps<typeof AuthorLink>>
   authors: Author[]
@@ -30,10 +37,11 @@ export function AuthorList({
   compact?: boolean
   large?: boolean
   subtle?: boolean
+  vertical?: boolean
 }) {
-  const authorsPrimary = []
-  const authorsOther = []
-  const authorsCorresponding = []
+  const authorsPrimary = [] as Author[]
+  const authorsOther = [] as Author[]
+  const authorsCorresponding = [] as Author[]
   for (const author of authors) {
     if (author.primaryAuthorStatus) {
       authorsPrimary.push(author)
@@ -66,10 +74,10 @@ export function AuthorList({
 
   // TODO: let's find a better way of doing this
   return (
-    <p className={className}>
-      <span className={cns(!compact && 'font-semibold')}>
+    <div data-testid={TestIds.AuthorList} className={className}>
+      <ul className={cns(!compact && 'font-semibold', !vertical && 'inline')}>
         {authorsPrimary.map((author, i, arr) => (
-          <Fragment key={getAuthorKey(author)}>
+          <li key={getAuthorKey(author)} className={cns(!vertical && 'inline')}>
             {compact ? (
               author.name
             ) : (
@@ -78,37 +86,46 @@ export function AuthorList({
             {!(
               authorsOther.length + authorsCorresponding.length === 0 &&
               arr.length - 1 === i
-            ) && SEPARATOR}
-          </Fragment>
+            ) &&
+              !vertical &&
+              SEPARATOR}
+          </li>
         ))}
-      </span>
+      </ul>
 
-      <span
+      <ul
         className={cns(
           subtle && !compact && 'text-sds-color-primitive-gray-600',
+          !vertical && 'inline',
         )}
       >
-        {compact
-          ? otherCollapsed
-          : authorsOther.map((author, i, arr) => (
-              <Fragment key={getAuthorKey(author)}>
-                <AuthorLinkComponent author={author} large={large} />
-                {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
-                  SEPARATOR}
-              </Fragment>
-            ))}
+        {compact ? (
+          <li className={cns(!vertical && 'inline')}>{otherCollapsed}</li>
+        ) : (
+          authorsOther.map((author, i, arr) => (
+            <li
+              key={getAuthorKey(author)}
+              className={cns(!vertical && 'inline')}
+            >
+              <AuthorLinkComponent author={author} large={large} />
+              {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
+                !vertical &&
+                SEPARATOR}
+            </li>
+          ))
+        )}
 
         {authorsCorresponding.map((author, i, arr) => (
-          <Fragment key={getAuthorKey(author)}>
+          <li key={getAuthorKey(author)} className={cns(!vertical && 'inline')}>
             {compact ? (
               author.name
             ) : (
               <AuthorLinkComponent author={author} large={large} />
             )}
-            {!(arr.length - 1 === i) && SEPARATOR}
-          </Fragment>
+            {!(arr.length - 1 === i) && !vertical && SEPARATOR}
+          </li>
         ))}
-      </span>
-    </p>
+      </ul>
+    </div>
   )
 }

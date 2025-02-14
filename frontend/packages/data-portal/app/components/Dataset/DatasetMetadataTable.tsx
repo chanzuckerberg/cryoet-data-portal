@@ -78,7 +78,7 @@ export function DatasetMetadataTable({
       label: authors.length === 1 ? t('author') : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
-        return <AuthorList authors={authors} large />
+        return <AuthorList authors={authors} large vertical />
       },
       values: [],
       className: 'leading-sds-body-s',

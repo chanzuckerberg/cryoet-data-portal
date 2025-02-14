@@ -7,4 +7,6 @@ export enum TestIds {
   MetadataDrawerCloseButton = 'metadata-drawer-close-button',
   OrcIdIcon = 'orc-id-icon',
   Pagination = 'pagination',
+  AuthorList = 'author-list',
+  AuthorLink = 'author-link',
 }
