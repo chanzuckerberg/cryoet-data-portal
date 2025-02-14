@@ -12,7 +12,7 @@ import { cns } from 'app/utils/cns'
  * Reusable banner component used to display any banner component.
  *
  * As the Portal's Banner need evolves, feel free to add more props to this
- * component to make it more flexible (ie icon, background and text colors etc).
+ * component to make it more flexible (ie localStorage customization, icon).
  */
 
 export function ReusableBanner({
@@ -21,12 +21,16 @@ export function ReusableBanner({
   sdsType = 'primary',
   className,
   allowedPathsRegex = [],
+  backgroundColor,
+  textColor,
 }: {
   localStorageKey: LocalStorageKeys
   bannerTextKey: I18nProps['i18nKey']
   className?: string
   sdsType?: 'primary' | 'secondary' | 'tertiary'
   allowedPathsRegex?: RegExp[]
+  backgroundColor?: string
+  textColor?: string
 }) {
   // open banner on client side to prevent flash of content since local storage
   // is not available when server-side rendering.
@@ -43,17 +47,20 @@ export function ReusableBanner({
       dismissed={!open || !isCurrentPathAllowed}
       dismissible
       sdsType={sdsType ?? 'primary'}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore Almost all props that a <div> can take are actually ok.
+      className={cns(
+        className,
+        backgroundColor && `!bg-[${backgroundColor}]`,
+        textColor && `!text-${textColor} [&_svg]:!fill-${textColor}`,
+        '[&_a]:text-current [&_a]:border-b [&_a]:border-dashed [&_a]:border-current',
+      )}
       onClose={() => {
         setOpen(false)
         localStorage.setItem(localStorageKey, 'true')
       }}
     >
-      <div
-        className={cns(
-          '[&_a]:text-white [&_a]:border-b [&_a]:border-dashed [&_a]:border-white',
-          className && className,
-        )}
-      >
+      <div className="px-sds-xl">
         <I18n i18nKey={bannerTextKey} />
       </div>
     </Banner>
