@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.53.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.52.0...web-v1.53.0) (2025-02-14)
+
+
+### ✨ Features
+
+* add reusable banner to competition page ([#1627](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1627)) ([0c94d3a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/0c94d3a6221853bb359ee3bf628e47fe2654834a))
+
 ## [1.52.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.51.0...web-v1.52.0) (2025-02-13)
 
 
