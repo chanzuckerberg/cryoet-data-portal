@@ -46,6 +46,7 @@ export const NAV_ITEMS: CompletedRawNavItem[] = [
   },
 ]
 
+// Hardcoded scores for the ML Challenge 2024 based on the deposition ID
 export const SCORES_BY_DEPOSITION_ID: {
   [x: string]: { score: number; id: number }
 } = {
