@@ -263,12 +263,14 @@ export function getDatasetsFilter({
   return where
 }
 
-export function getDepositionFilter({
+export function getDepositionsFilter({
   filterState,
 }: {
   filterState: FilterState
 }): DepositionWhereClause {
-  const where: DepositionWhereClause = {}
+  const where: DepositionWhereClause = {
+    depositionTypes: { type: { _eq: Deposition_Types_Enum.Annotation } },
+  }
 
   // Competition Filter
   if (filterState.tags.competition) {
@@ -299,7 +301,6 @@ export function getDepositionFilter({
     }
   }
 
-  where.depositionTypes = { type: { _eq: Deposition_Types_Enum.Annotation } }
   return where
 }
 

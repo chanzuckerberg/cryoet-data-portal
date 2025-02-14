@@ -6,7 +6,7 @@ import { OrderBy } from 'app/__generated_v2__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { getFilterState } from 'app/hooks/useFilter'
 
-import { getDepositionFilter } from './common'
+import { getDepositionsFilter } from './common'
 
 const GET_DEPOSITIONS_DATA_QUERY = gql(`
   query GetDepositionsDataV2(
@@ -130,7 +130,7 @@ export async function getBrowseDepositionsV2({
   const results = await client.query({
     query: GET_DEPOSITIONS_DATA_QUERY,
     variables: {
-      depositionFilter: getDepositionFilter({
+      depositionFilter: getDepositionsFilter({
         filterState: getFilterState(params),
       }),
       limit: MAX_PER_PAGE,
