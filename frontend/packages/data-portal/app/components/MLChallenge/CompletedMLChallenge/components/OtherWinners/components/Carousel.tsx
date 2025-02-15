@@ -116,19 +116,22 @@ export function Carousel({
           className={`grid grid-cols-${numberOfSlides} gap-sds-s grid-rows-[4px]`}
         >
           {numberOfSlidesArray.map((_, index) => (
-            <div
+            <button
               // eslint-disable-next-line react/no-array-index-key
               key={index}
-              className={`
-                  rounded-full
-                  h-full
-                  bg-sds-color-primitive-gray-200
-                  ${
-                    index === carouselPosition - 1
-                      ? 'bg-sds-color-semantic-component-accent-icon'
-                      : 'bg-sds-color-primitive-gray-200'
-                  }
-                `}
+              onClick={() => setCarouselPosition(index + 1)}
+              type="button"
+              aria-label={`Go to Carousel Slide ${index + 1}`}
+              disabled={index === carouselPosition - 1}
+              className={cns(
+                'rounded-full h-full',
+                'bg-sds-color-primitive-gray-200',
+                index !== carouselPosition - 1 &&
+                  'hover:bg-sds-color-primitive-gray-300',
+                index === carouselPosition - 1
+                  ? 'bg-sds-color-semantic-component-accent-icon'
+                  : 'bg-sds-color-primitive-gray-200',
+              )}
             />
           ))}
         </div>
