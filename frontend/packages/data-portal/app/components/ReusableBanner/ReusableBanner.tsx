@@ -40,6 +40,7 @@ export function ReusableBanner({
   )
   return (
     <Banner
+      data-chromatic="ignore"
       dismissed={!open || !isCurrentPathAllowed}
       dismissible
       sdsType={sdsType ?? 'primary'}

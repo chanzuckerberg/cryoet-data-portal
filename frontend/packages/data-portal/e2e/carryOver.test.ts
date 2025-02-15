@@ -1,4 +1,4 @@
-import { test } from '@chromatic-com/playwright'
+import { takeSnapshot, test } from '@chromatic-com/playwright'
 
 import { BROWSE_DATASETS_URL, SINGLE_DATASET_URL } from './constants'
 
@@ -22,12 +22,14 @@ import { BROWSE_DATASETS_URL, SINGLE_DATASET_URL } from './constants'
 test.describe('Carry over filters', () => {
   test('should carry over datasets filter into single dataset page', async ({
     page,
-  }) => {
+  }, testInfo) => {
     await page.goto(BROWSE_DATASETS_URL)
     // await filtersActor.addSingleSelectFilter({
     //   label: translations.objectName,
     //   value: TEST_VALUE,
     // })
+
+    takeSnapshot(page, testInfo)
   })
 
   test('should carry over single dataset filter into single run page', async ({
