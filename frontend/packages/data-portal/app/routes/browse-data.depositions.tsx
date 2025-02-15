@@ -4,6 +4,8 @@ import { json, LoaderFunctionArgs, redirect } from '@remix-run/node'
 import { OrderBy } from 'app/__generated_v2__/graphql'
 import { apolloClientV2 } from 'app/apollo.server'
 import { DepositionTable } from 'app/components/BrowseData/DepositionTable'
+import { DepositionsFilters } from 'app/components/DepositionsFilters/DepositionsFilters'
+import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import {
   TableHeaderDefinition,
   TablePageLayout,
@@ -42,6 +44,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     orderBy: orderByV2,
     page,
     client: apolloClientV2,
+    params: url.searchParams,
   })
 
   return json({
@@ -62,10 +65,12 @@ export default function BrowseDepositionsPage() {
           learnMoreLink:
             'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_data.html#depositions',
           table: <DepositionTable />,
+          filterPanel: <DepositionsFilters />,
           filteredCount: filteredDepositionCount,
           totalCount: totalDepositionCount,
           countLabel: t('depositions'),
           Header: TableHeaderDefinition,
+          noFilteredResults: <NoFilteredResults />,
         },
       ]}
     />
