@@ -137,8 +137,8 @@ export function CompletedChallengeLayout() {
 
       <JumpToAnchor id={CompletedMLChallengeSectionId.About} />
       <Section useMdxStyles>
-        <h2 className="[&&]:text-[34px] font-semibold mt-[55px] tracking-[0.3px]">
-          Competition Details
+        <h2 className="[&&]:text-[34px] font-semibold tracking-[0.3px]">
+          {t('competitionDetails')}
         </h2>
         <MDXRemote
           {...aboutTheCompetitionCompleted}

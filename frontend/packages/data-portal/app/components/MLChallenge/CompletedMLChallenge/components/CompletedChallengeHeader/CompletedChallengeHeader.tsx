@@ -41,7 +41,7 @@ export function CompletedChallengeHeader() {
             {t('viewWinners')}
           </Button>
         </Link>
-        <Link to="https://www.biorxiv.org/content/10.1101/2024.11.04.621686v1">
+        <Link to="https://www.biorxiv.org/content/10.1101/2024.11.04.621686v2">
           <Button sdsStyle="rounded" sdsType="secondary">
             {t('viewOutcome')}
           </Button>
