@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cryoet-Neuroglancer</title>
+    <script type="module">
+      import "neuroglancer";
+      import { setupDefaultViewer } from "neuroglancer/unstable/ui/default_viewer_setup.js";
+
+      const originalReplaceState = history.replaceState;
+      history.replaceState = function(...args) {
+          originalReplaceState.apply(history, args);
+          window.parent.postMessage({
+              type: 'synchash',
+              hash: window.location.hash,
+            }, '*');
+      };
+
+      window.addEventListener('message', (event) => {
+          const {type, hash} = event.data
+          if (type === 'hashchange' && window.location.hash !== hash) {
+              window.location.hash = hash;
+          }
+      });
+
+      setupDefaultViewer();
+    </script>
+  </head>
+</html>

@@ -7,6 +7,7 @@ import { getNeuroglancerUrl } from 'app/utils/url'
 
 import { Link } from './Link'
 import { Tooltip } from './Tooltip'
+import { useLocation } from '@remix-run/react'
 
 export interface ViewTomogramButtonProps {
   tomogramId?: string
@@ -15,7 +16,7 @@ export interface ViewTomogramButtonProps {
   event: EventPayloads[Events.ViewTomogram]
   neuroglancerConfig: string | null | undefined
   tooltipPlacement: TooltipProps['placement']
-  setIsHoveringOver?: (isHoveringOver: boolean) => void
+  setIsHoveringOver?: (isHoveringOver: boolean) => void,
 }
 
 export function ViewTomogramButton({
@@ -34,6 +35,7 @@ export function ViewTomogramButton({
   }
 
   const enabled = tomogramId !== undefined && neuroglancerConfig != null
+  const runId = useLocation().pathname.slice(6)
 
   return (
     <Tooltip
@@ -66,7 +68,8 @@ export function ViewTomogramButton({
         className="min-w-[144px]"
       >
         <Button
-          href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
+          // href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
+          href={enabled ? `/view/runs/${runId}/#!${encodeURIComponent(neuroglancerConfig)}` : undefined}
           disabled={!enabled}
           LinkComponent={Link}
           {...buttonProps}
