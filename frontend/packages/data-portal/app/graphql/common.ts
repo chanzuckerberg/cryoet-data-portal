@@ -5,6 +5,7 @@ import {
   Fiducial_Alignment_Status_Enum,
   Tomogram_Reconstruction_Method_Enum,
 } from 'app/__generated_v2__/graphql'
+import { Tags } from 'app/constants/tags'
 import {
   DEFAULT_TILT_RANGE_MAX,
   DEFAULT_TILT_RANGE_MIN,
@@ -274,14 +275,9 @@ export function getDepositionsFilter({
 
   // Competition Filter
   if (filterState.tags.competition) {
-    // where.depositionTags ??= {}
-    // where.depositionTags = {
-    //   _eq: "competitionCZII2024",
-    // }
-    // TODO: (smccanny) Remove this when the competition field is implemented
-    where.id ??= {}
-    where.id = {
-      _eq: 10308,
+    where.tag ??= {}
+    where.tag = {
+      _eq: Tags.MLCompetition2024,
     }
   }
 
@@ -290,8 +286,6 @@ export function getDepositionsFilter({
     where.authors ??= {}
     where.authors.name = {
       _ilike: `%${filterState.author.name}%`,
-      // TODO: (smccanny) Add this when the kaggle field is implemented
-      // _ilike: `%${filterState.author.kaggleId}%`,
     }
   }
   if (filterState.author.orcid) {
