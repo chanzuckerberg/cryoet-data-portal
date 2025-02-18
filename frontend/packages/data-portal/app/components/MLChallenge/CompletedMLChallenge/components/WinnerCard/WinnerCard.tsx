@@ -6,7 +6,7 @@ import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
-import { SCORES_BY_DEPOSITION_ID } from '../../constants'
+import { TEAM_INFO_BY_DEPOSITION_ID } from '../../constants'
 
 export type Winner = GetWinningDepositionsDataQuery['depositions'][0]
 
@@ -61,11 +61,12 @@ export function WinnerCard({
           {/* // TODO(smccanny): Add the score to the winner card */}
           <p className="text-sds-body-m leading-sds-body-m">
             Score:{' '}
-            {SCORES_BY_DEPOSITION_ID[winner.id.toString()]?.score || 0.66666}
+            {TEAM_INFO_BY_DEPOSITION_ID[winner.id.toString()]?.score || 0.66666}
           </p>
         </div>
         <h4 className="text-sds-body-m leading-sds-body-m font-semibold mt-sds-s">
-          {winner.title}
+          {TEAM_INFO_BY_DEPOSITION_ID[winner.id.toString()]?.teamName ||
+            'Team Name'}
         </h4>
         <h5 className="text-sds-color-primitive-gray-600 mt-sds-xs">
           Members:{' '}
