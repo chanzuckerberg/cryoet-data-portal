@@ -25,6 +25,7 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
     ) {
       id
       title
+      tag
       keyPhotoThumbnailUrl
       depositionDate
 

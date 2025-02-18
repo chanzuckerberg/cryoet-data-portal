@@ -19,6 +19,7 @@ export type Author = DeepPartial<
     | 'email'
     | 'name'
     | 'orcid'
+    | 'kaggleId'
     | 'primaryAuthorStatus'
   >
 >

@@ -1,6 +1,7 @@
 import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorList } from 'app/components/AuthorList'
 import { DatabaseList } from 'app/components/DatabaseList'
+import { Link } from 'app/components/Link'
 import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
 import { DOI_ID } from 'app/constants/external-dbs'
 import { useDepositionById } from 'app/hooks/useDepositionById'
@@ -31,6 +32,20 @@ export function DepositionOverview() {
         <p className="text-sds-body-m leading-sds-body-m">
           {deposition.description}
         </p>
+        {/* TODO: smccanny - use enum */}
+        {deposition.tag === 'competitionML2024Winners' && (
+          <div className="pt-sds-m flex ">
+            <p className="text-sds-body-xs leading-sds-body-xs font-semibold mr-sds-xs">
+              {t('seeAlso')}:
+            </p>
+            <Link
+              to="/competition"
+              className="text-sds-color-primitive-blue-400 hover:underline"
+            >
+              {t('cryoetDataAnnotationMLComp')}
+            </Link>
+          </div>
+        )}
       </div>
       <div>
         <div
