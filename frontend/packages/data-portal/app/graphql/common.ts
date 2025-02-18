@@ -1,8 +1,11 @@
 import {
   DatasetWhereClause,
+  Deposition_Types_Enum,
+  DepositionWhereClause,
   Fiducial_Alignment_Status_Enum,
   Tomogram_Reconstruction_Method_Enum,
 } from 'app/__generated_v2__/graphql'
+import { Tags } from 'app/constants/tags'
 import {
   DEFAULT_TILT_RANGE_MAX,
   DEFAULT_TILT_RANGE_MIN,
@@ -255,6 +258,40 @@ export function getDatasetsFilter({
     where.runs.tomograms ??= {}
     where.runs.tomograms.reconstructionSoftware = {
       _eq: filterState.tomogram.reconstructionSoftware,
+    }
+  }
+
+  return where
+}
+
+export function getDepositionsFilter({
+  filterState,
+}: {
+  filterState: FilterState
+}): DepositionWhereClause {
+  const where: DepositionWhereClause = {
+    depositionTypes: { type: { _eq: Deposition_Types_Enum.Annotation } },
+  }
+
+  // Competition Filter
+  if (filterState.tags.competition) {
+    where.tag ??= {}
+    where.tag = {
+      _eq: Tags.MLCompetition2024,
+    }
+  }
+
+  // Deposition Author
+  if (filterState.author.name) {
+    where.authors ??= {}
+    where.authors.name = {
+      _ilike: `%${filterState.author.name}%`,
+    }
+  }
+  if (filterState.author.orcid) {
+    where.authors ??= {}
+    where.authors.orcid = {
+      _ilike: `%${filterState.author.orcid}%`,
     }
   }
 

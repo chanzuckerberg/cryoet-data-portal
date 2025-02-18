@@ -2,49 +2,56 @@ import { beforeEach, jest } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
 
 import { MockI18n } from 'app/components/I18n.mock'
+import { LocalStorageKeys } from 'app/constants/localStorage'
 import { RemixMock } from 'app/mocks/Remix.mock'
 import { getMockUser } from 'app/utils/mock'
 
-async function renderAnnouncementBanner() {
-  const { AnnouncementBanner } = await import('./AnnouncementBanner')
-  render(<AnnouncementBanner />)
+async function renderReusableBanner() {
+  const { ReusableBanner } = await import('./ReusableBanner')
+  render(
+    <ReusableBanner
+      bannerTextKey="mlCompetitionSurveyBanner"
+      localStorageKey={LocalStorageKeys.CompetitionSurveyBannerDismissed}
+      allowedPathsRegex={[/^\/competition.*$/]}
+    />,
+  )
 }
 
 jest.unstable_mockModule('app/components/I18n', () => ({ I18n: MockI18n }))
 
 const remixMock = new RemixMock()
 
-describe('<AnnouncementBanner />', () => {
+describe('<ReusableBanner />', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     remixMock.reset()
   })
 
-  const paths = ['/', '/browse-data/datasets', '/browse-data/depositions']
+  const paths = ['/competition']
 
   paths.forEach((pathname) => {
     it(`should render on ${pathname}`, async () => {
       remixMock.mockPathname(pathname)
 
-      await renderAnnouncementBanner()
+      await renderReusableBanner()
 
       expect(screen.queryByRole('banner')).toBeVisible()
     })
   })
 
   it('should not render on blocked pages', async () => {
-    remixMock.mockPathname('/competition')
+    remixMock.mockPathname('/')
 
-    await renderAnnouncementBanner()
+    await renderReusableBanner()
 
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
   })
 
   it('should not render banner if was dismissed', async () => {
-    remixMock.mockPathname('/')
+    remixMock.mockPathname('/competition')
     jest.spyOn(Storage.prototype, 'getItem').mockReturnValue('true')
 
-    await renderAnnouncementBanner()
+    await renderReusableBanner()
 
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
   })
@@ -52,8 +59,8 @@ describe('<AnnouncementBanner />', () => {
   it('should dismiss banner on click', async () => {
     jest.spyOn(Storage.prototype, 'getItem').mockReturnValue(null)
     jest.spyOn(Storage.prototype, 'setItem')
-    remixMock.mockPathname('/')
-    await renderAnnouncementBanner()
+    remixMock.mockPathname('/competition')
+    await renderReusableBanner()
 
     expect(screen.queryByRole('banner')).toBeVisible()
 
@@ -61,7 +68,7 @@ describe('<AnnouncementBanner />', () => {
 
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
     expect(localStorage.setItem).toHaveBeenCalledWith(
-      'deprecation-dismissed',
+      'competition-survey-banner-dismissed',
       'true',
     )
   })

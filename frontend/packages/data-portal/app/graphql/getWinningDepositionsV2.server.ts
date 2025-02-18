@@ -9,6 +9,7 @@ import {
   GetWinningDepositionsDataQuery,
   OrderBy,
 } from 'app/__generated_v2__/graphql'
+import { sortArrayByScore } from 'app/components/MLChallenge/CompletedMLChallenge/constants'
 
 const GET_WINNING_DEPOSITIONS_DATA_QUERY = gql(`
   query GetWinningDepositionsData(
@@ -20,7 +21,9 @@ const GET_WINNING_DEPOSITIONS_DATA_QUERY = gql(`
         limit: $limit,
       },
       orderBy: { depositionDate: $orderByDeposition, id: desc },
-      where: {depositionTypes: {type: {_eq: annotation}}}
+      # TODO(smccanny): Uncomment this line when we have the competitionML2024Winners tag
+      # where: {depositionTypes: {type: {_eq: annotation}}, tags: {tag: {_eq: "competitionML2024Winners"}}},
+      where: {depositionTypes: {type: {_eq: annotation}}},
     ) {
       id
       title
@@ -58,7 +61,7 @@ export async function getWinningDepositions({
 }): Promise<ApolloQueryResult<GetWinningDepositionsDataQuery>> {
   const start = performance.now()
 
-  const results = await client.query({
+  const results = await client.query<GetWinningDepositionsDataQuery>({
     query: GET_WINNING_DEPOSITIONS_DATA_QUERY,
     variables: {
       limit: limit ?? 10,
@@ -66,6 +69,8 @@ export async function getWinningDepositions({
       orderByDeposition: orderBy ?? OrderBy.Asc,
     },
   })
+
+  sortArrayByScore(results?.data?.depositions)
 
   const end = performance.now()
   // eslint-disable-next-line no-console
