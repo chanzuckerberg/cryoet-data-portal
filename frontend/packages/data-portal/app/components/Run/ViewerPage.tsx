@@ -3,13 +3,26 @@ import { useLocation } from "@remix-run/react";
 import { NeuroglancerWrapper, updateState } from "neuroglancer";
 
 
-const toggleLayersVisibility = (state: any) => {
+ // Button action for toggling layers visibility
+const toggleLayersVisibility = () => {
+  updateState((state) => {
     for (const layer of state.neuroglancer.layers) {
-        layer.visible = !(layer.visible === undefined || layer.visible)
-    }
-    return state;
+      layer.visible = !(layer.visible === undefined || layer.visible)
+  }
+  return state;
+  })
 };
 
+const toggleAnnotations = () => {
+  updateState((state) => {
+    for (const layer of state.neuroglancer.layers) {
+      if (layer.type === "annotation") {
+        layer.visible = !(layer.visible === undefined || layer.visible)
+      }
+    }
+    return state
+  })
+}
 
 const NEUROGLANCER_URL = "https://neuroglancer.czi.dev.metacell.us"
 const CRYOET_PORTAL_DOC_URL = "https://chanzuckerberg.github.io/cryoet-data-portal/neuroglancer_quickstart.html#neuroglancer-quickstart"
@@ -22,13 +35,6 @@ const ViewerPage = () => {
 
   const providerUrl = useLocation();
   const runId = providerUrl.pathname.toString().match(/.*\/(\d+)\/$/)![1];
-
-  // Button action for toggling layers visibility
-  const toggleButton = () => {
-    updateState((state) => {
-      return toggleLayersVisibility(state)
-    })
-  };
 
   return (
     <div className="main-container">
@@ -49,8 +55,11 @@ const ViewerPage = () => {
           >
               Load example data
           </button>
-          <button className="toggle-button" onClick={toggleButton}>
+          <button className="toggle-button" onClick={toggleLayersVisibility}>
               Toggle layers visibility
+          </button>
+          <button className="toggle-button" onClick={toggleAnnotations}>
+              Toggle annotations
           </button>
         </div>
       </header>
