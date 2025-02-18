@@ -5,20 +5,25 @@ import { useState } from "react";
 
 
  // Button action for toggling layers visibility
-const toggleLayersVisibility = () => {
+const isAnnotation = (layer: any) => layer.type === "annotation" || layer.type === "segmentation";
+const toggleVisibility = (layer: any) => !(layer.visible === undefined || layer.visible);
+
+ const toggleLayersVisibility = () => {
   updateState((state) => {
     for (const layer of state.neuroglancer.layers) {
-      layer.visible = !(layer.visible === undefined || layer.visible)
+      layer.visible = toggleVisibility(layer);
   }
   return state;
   })
 };
 
+
+
 const toggleAnnotations = () => {
   updateState((state) => {
     for (const layer of state.neuroglancer.layers) {
-      if (layer.type === "annotation") {
-        layer.visible = !(layer.visible === undefined || layer.visible)
+      if (isAnnotation(layer)) {
+        layer.visible = toggleVisibility(layer);
       }
     }
     return state
@@ -27,7 +32,7 @@ const toggleAnnotations = () => {
 
 const hasAnnotationLayers = (state: any) => {
   const root = state.neuroglancer || state;
-  return root.layers.some(l => l.type === "annotation");
+  return root.layers.some(isAnnotation);
 }
 
 const CRYOET_PORTAL_DOC_URL = "https://chanzuckerberg.github.io/cryoet-data-portal/neuroglancer_quickstart.html#neuroglancer-quickstart"
