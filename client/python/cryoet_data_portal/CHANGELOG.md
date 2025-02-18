@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.3.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.3.0...cryoet-data-portal-python-client-v4.3.1) (2025-02-18)
+
+
+### 🐞 Bug Fixes
+
+* Remove duplicated tooltip from Annotated Objects list ([#1460](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1460)) ([a42889e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/a42889e933efb0cbb56a7d7825bf4199c40bdcd1))
+
 ## [4.3.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.2.1...cryoet-data-portal-python-client-v4.3.0) (2024-12-19)
 
 
