@@ -13,9 +13,10 @@ import {
 interface NeuroglancerWrapperProps {
     baseUrl?: string,
     onStateChange?: (state: ResolvedSuperState) => void,
+    compressURL?: boolean,
 }
 
-const NeuroglancerWrapper = ({ onStateChange }: NeuroglancerWrapperProps) => {
+const NeuroglancerWrapper = ({ onStateChange, compressURL = true }: NeuroglancerWrapperProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const superState = useRef<SuperState>(newSuperState(window.location.hash))
 
@@ -35,7 +36,7 @@ const NeuroglancerWrapper = ({ onStateChange }: NeuroglancerWrapperProps) => {
       if (hashIsUncompressed(hash)) {
         // In case we receive a uncompressed hash
         state.neuroglancer = hash
-        const newState = encodeState(state)
+        const newState = encodeState(state, compressURL)
         history.replaceState(null, "", newState); // We replace main window hash with the compressed one
         iframe.contentWindow?.postMessage(
           // We propagate the hash we received to the iframe
@@ -58,7 +59,7 @@ const NeuroglancerWrapper = ({ onStateChange }: NeuroglancerWrapperProps) => {
       if (type === "synchash" && window.location.hash !== hash) {
         const originalLength = JSON.stringify(superState.current).length
         updateNeuroglancerConfigInSuperstate(superState.current, hash)
-        const newHash = encodeState(superState.current);
+        const newHash = encodeState(superState.current, compressURL);
         console.debug(
           "Hash gain, original",
           originalLength,
@@ -80,7 +81,7 @@ const NeuroglancerWrapper = ({ onStateChange }: NeuroglancerWrapperProps) => {
       window.removeEventListener("hashchange", handleHashChange);
       window.removeEventListener("message", handleMessage);
     };
-  }, [onStateChange]);
+  }, [onStateChange, compressURL]);
 
   return (
     <iframe

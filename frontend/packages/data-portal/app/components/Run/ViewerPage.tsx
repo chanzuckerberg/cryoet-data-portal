@@ -51,7 +51,7 @@ const ViewerPage = () => {
         </div>
       </header>
       <div className="iframe-container">
-        <NeuroglancerWrapper baseUrl={NEUROGLANCER_URL}/>
+        <NeuroglancerWrapper baseUrl={NEUROGLANCER_URL} />
       </div>
     </div>
   );
