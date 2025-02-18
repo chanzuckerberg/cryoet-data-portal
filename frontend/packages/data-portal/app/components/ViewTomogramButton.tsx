@@ -35,8 +35,6 @@ export function ViewTomogramButton({
   }
 
   const enabled = tomogramId !== undefined && neuroglancerConfig != null
-  const runId = useLocation().pathname.slice(6)
-
   return (
     <Tooltip
       tooltip={
@@ -69,7 +67,7 @@ export function ViewTomogramButton({
       >
         <Button
           // href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
-          href={enabled ? `/view/runs/${runId}/#!${encodeURIComponent(neuroglancerConfig)}` : undefined}
+          href={enabled ? `/view/runs/${event.runId}/#!${encodeURIComponent(neuroglancerConfig)}` : undefined}
           disabled={!enabled}
           LinkComponent={Link}
           {...buttonProps}
