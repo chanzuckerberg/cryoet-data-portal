@@ -6,6 +6,8 @@ import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
+import { SCORES_BY_DEPOSITION_ID } from '../../constants'
+
 export type Winner = GetWinningDepositionsDataQuery['depositions'][0]
 
 const getNumberSuffix = (place: number) => {
@@ -32,9 +34,12 @@ export function WinnerCard({
   return (
     <div
       className={cns(
-        'py-sds-l px-sds-xl border-t-[8px] border-t-sds-color-semantic-component-accent-icon',
+        'py-sds-l px-sds-xl',
         'bg-white shadow-card',
         'grid grid-cols-1 gap-sds-s',
+        place <= 3
+          ? 'border-t-[8px] border-t-sds-color-semantic-component-accent-icon'
+          : 'border-b-[8px] border-b-sds-color-semantic-component-accent-icon',
         place <= 3 &&
           'grid-rows-[4fr_5fr] screen-667:grid-cols-[1fr_2fr] screen-667:grid-rows-1 screen-1345:grid-cols-1 screen-1345:grid-rows-[232px_1fr]',
       )}
@@ -54,7 +59,10 @@ export function WinnerCard({
             {getNumberSuffix(place)} Place
           </h3>
           {/* // TODO(smccanny): Add the score to the winner card */}
-          <p className="text-sds-body-m leading-sds-body-m">Score: 90.00</p>
+          <p className="text-sds-body-m leading-sds-body-m">
+            Score:{' '}
+            {SCORES_BY_DEPOSITION_ID[winner.id.toString()]?.score || 0.66666}
+          </p>
         </div>
         <h4 className="text-sds-body-m leading-sds-body-m font-semibold mt-sds-s">
           {winner.title}
@@ -70,16 +78,6 @@ export function WinnerCard({
           <p className="mt-sds-s line-clamp-5">{winner.description}</p>
         )}
         <div className="grow flex flex-col items-end screen-360:flex-row gap-sds-m screen-360:gap-sds-l justify-stretch screen-360:justify-end mt-sds-l">
-          {/* TODO(smccanny): where does this link go? */}
-          <Link to="https://www.kaggle.com/competitions/czii-cryo-et-object-identification/">
-            <Button
-              sdsStyle="rounded"
-              sdsType="secondary"
-              className="w-full screen-360:w-initial"
-            >
-              {t('viewModel')}
-            </Button>
-          </Link>
           <Link to={`/depositions/${winner.id}`}>
             <Button
               sdsStyle="rounded"
