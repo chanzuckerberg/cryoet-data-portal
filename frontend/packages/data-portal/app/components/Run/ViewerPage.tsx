@@ -21,6 +21,7 @@ const ViewerPage = () => {
   const exampleHash = EXAMPLE_CRYOET_HASH;
 
   const providerUrl = useLocation();
+  const runId = providerUrl.pathname.toString().match(/.*\/(\d+)\/$/)![1];
 
   // Button action for toggling layers visibility
   const toggleButton = () => {
@@ -37,6 +38,9 @@ const ViewerPage = () => {
         </a>
         <p className="portal-title">CryoET data portal neuroglancer coming from {providerUrl.pathname.toString()}</p>
         <div className="button-group">
+          <a href={`/runs/${runId}`}>
+            <button className="toggle-button"> Go back to run</button>
+          </a>
           <button
             className="toggle-button"
             onClick={() => {
