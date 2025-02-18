@@ -1,5 +1,3 @@
-// TODO: smccanny reenable this test
-/* eslint-disable jest/no-disabled-tests */
 import { render, screen } from '@testing-library/react'
 
 import { TestIds } from 'app/constants/testIds'
@@ -61,6 +59,8 @@ describe('non-compact', () => {
     )
   })
 
+  // TODO: smccanny reenable this test - "useHref() may be used only in the context of a <Router> component"
+  // eslint-disable-next-line jest/no-disabled-tests
   it.skip('should render author links', () => {
     const authorsWithOrcid = DEFAULT_AUTHORS.map((author, idx) => ({
       ...author,

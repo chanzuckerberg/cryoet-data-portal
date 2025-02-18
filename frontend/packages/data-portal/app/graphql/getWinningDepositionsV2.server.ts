@@ -38,6 +38,7 @@ const GET_WINNING_DEPOSITIONS_DATA_QUERY = gql(`
             correspondingAuthorStatus
             email
             orcid
+            kaggleId
           }
         }
       }

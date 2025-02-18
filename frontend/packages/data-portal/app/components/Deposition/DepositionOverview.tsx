@@ -32,19 +32,20 @@ export function DepositionOverview() {
         <p className="text-sds-body-m leading-sds-body-m">
           {deposition.description}
         </p>
-        {/* TODO: smccanny - fix when data is available on the query */}
-        {/* {deposition.tag === "mlCompetition2024"  && ( */}
-        <div className="pt-sds-m flex ">
-          <p className="text-sds-body-xs leading-sds-body-xs font-semibold mr-sds-xs">
-            {t('seeAlso')}:
-          </p>
-          <Link
-            to="/competition"
-            className="text-sds-color-primitive-blue-400 hover:underline"
-          >
-            {t('cryoetDataAnnotationMLComp')}
-          </Link>
-        </div>
+        {/* TODO: smccanny - use enum */}
+        {deposition.tag === 'competitionML2024Winners' && (
+          <div className="pt-sds-m flex ">
+            <p className="text-sds-body-xs leading-sds-body-xs font-semibold mr-sds-xs">
+              {t('seeAlso')}:
+            </p>
+            <Link
+              to="/competition"
+              className="text-sds-color-primitive-blue-400 hover:underline"
+            >
+              {t('cryoetDataAnnotationMLComp')}
+            </Link>
+          </div>
+        )}
       </div>
       <div>
         <div

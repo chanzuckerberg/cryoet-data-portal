@@ -4,11 +4,12 @@ import { pick } from 'lodash-es'
 
 import { MockLinkComponent } from 'app/components/Link'
 import { TestIds } from 'app/constants/testIds'
+import { Author } from 'app/types/gql/genericTypes'
 
-import { Author as AuthorPlusKaggle, AuthorLink } from './AuthorLink'
+import { AuthorLink } from './AuthorLink'
 import { ORC_ID_URL } from './constants'
 
-const DEFAULT_AUTHOR: AuthorPlusKaggle = {
+const DEFAULT_AUTHOR: Author = {
   correspondingAuthorStatus: true,
   email: 'actin.filament@gmail.com',
   name: 'Actin Filament',

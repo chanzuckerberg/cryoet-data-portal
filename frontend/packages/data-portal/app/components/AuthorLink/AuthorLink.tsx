@@ -4,16 +4,11 @@ import { ComponentType } from 'react'
 import { EnvelopeIcon, KaggleIcon, ORCIDIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { TestIds } from 'app/constants/testIds'
-import { Author as AuthorInfoSansKaggle } from 'app/types/gql/genericTypes'
+import { Author } from 'app/types/gql/genericTypes'
 import { cns } from 'app/utils/cns'
 
 import { Tooltip } from '../Tooltip'
 import { KAGGLE_URL, ORC_ID_URL } from './constants'
-
-// TODO(smccanny): Remove this when we have a proper author info type
-export type Author = AuthorInfoSansKaggle & {
-  kaggleId?: string
-}
 
 const BASE_ICON_SIZE_PX = 10
 const LARGE_ICON_SIZE_PX = 14
