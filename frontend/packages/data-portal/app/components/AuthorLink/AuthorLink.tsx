@@ -42,7 +42,7 @@ export function AuthorLink({
     <Tooltip
       className="inline"
       placement="top"
-      offset={[0, -3]}
+      offset={[0, -5]}
       size="inherit"
       disableHoverListener={!author.orcid && !author.kaggleId}
       tooltip={
