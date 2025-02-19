@@ -36,6 +36,16 @@ export function I18n({ i18nKey, components, linkProps, ...props }: I18nProps) {
           </Link>
         ),
 
+        sdsLink: (
+          <Link
+            className="border-b border-dashed hover:border-solid border-color-inherit"
+            {...(linkProps as Required<Partial<VariantLinkProps>, 'to'>)}
+          >
+            {/* This will get replaced by I18next */}
+            tmp
+          </Link>
+        ),
+
         url: (
           <Link
             className="text-sds-color-primitive-blue-400"
