@@ -70,9 +70,12 @@ export function AuthorList({
   // TODO: let's find a better way of doing this
   return (
     <div data-testid={TestIds.AuthorList} className={className}>
-      <ul className={cns(!compact && 'font-semibold', !vertical && 'inline')}>
+      <ul className={cns(!vertical && 'flex flex-wrap')}>
         {authorsPrimary.map((author, i, arr) => (
-          <li key={getAuthorKey(author)} className={cns(!vertical && 'inline')}>
+          <li
+            key={getAuthorKey(author)}
+            className={cns(!compact && 'font-semibold', 'pr-sds-xs')}
+          >
             {compact ? (
               author.name
             ) : (
@@ -86,21 +89,24 @@ export function AuthorList({
               SEPARATOR}
           </li>
         ))}
-      </ul>
 
-      <ul
-        className={cns(
-          subtle && !compact && 'text-sds-color-primitive-gray-600',
-          !vertical && 'inline',
-        )}
-      >
         {compact ? (
-          <li className={cns(!vertical && 'inline')}>{otherCollapsed}</li>
+          <li
+            className={cns(
+              subtle && !compact && 'text-sds-color-primitive-gray-600',
+              'pr-sds-xs',
+            )}
+          >
+            {otherCollapsed}
+          </li>
         ) : (
           authorsOther.map((author, i, arr) => (
             <li
               key={getAuthorKey(author)}
-              className={cns(!vertical && 'inline')}
+              className={cns(
+                subtle && !compact && 'text-sds-color-primitive-gray-600',
+                'pr-sds-xs',
+              )}
             >
               <AuthorLinkComponent author={author} large={large} />
               {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
@@ -111,7 +117,7 @@ export function AuthorList({
         )}
 
         {authorsCorresponding.map((author, i, arr) => (
-          <li key={getAuthorKey(author)} className={cns(!vertical && 'inline')}>
+          <li key={getAuthorKey(author)} className="pr-sds-xs">
             {compact ? (
               author.name
             ) : (
