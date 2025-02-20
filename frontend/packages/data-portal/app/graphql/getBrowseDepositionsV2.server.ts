@@ -1,8 +1,15 @@
-import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import type {
+  ApolloClient,
+  ApolloQueryResult,
+  NormalizedCacheObject,
+} from '@apollo/client'
 import { performance } from 'perf_hooks'
 
 import { gql } from 'app/__generated_v2__'
-import { OrderBy } from 'app/__generated_v2__/graphql'
+import {
+  GetDepositionsDataV2Query,
+  OrderBy,
+} from 'app/__generated_v2__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { getFilterState } from 'app/hooks/useFilter'
 
@@ -146,7 +153,10 @@ export async function getBrowseDepositionsV2({
     delete filtersWithKaggleId?.authors?.name
 
     // Run both queries concurrently
-    const [resultsWithName, resultsWithKaggleId] = await Promise.all([
+    const [resultsWithName, resultsWithKaggleId]: [
+      ApolloQueryResult<GetDepositionsDataV2Query>,
+      ApolloQueryResult<GetDepositionsDataV2Query>,
+    ] = await Promise.all([
       client.query({
         query: GET_DEPOSITIONS_DATA_QUERY,
         variables: {
@@ -164,11 +174,18 @@ export async function getBrowseDepositionsV2({
     ])
 
     // Combine the results - this will be sorted later in remapV2BrowseAllDepositions function
-    resultsWithName.data.depositions.push(
+    resultsWithName?.data.depositions.push(
       ...resultsWithKaggleId.data.depositions,
     )
-    resultsWithName.data.filteredDepositionCount.aggregate.count +=
-      resultsWithKaggleId.data.filteredDepositionCount.aggregate.count
+    if (
+      resultsWithName.data.filteredDepositionCount.aggregate &&
+      resultsWithKaggleId.data.filteredDepositionCount.aggregate &&
+      resultsWithName.data.filteredDepositionCount.aggregate[0].count &&
+      resultsWithKaggleId.data.filteredDepositionCount.aggregate[0].count
+    ) {
+      resultsWithName.data.filteredDepositionCount.aggregate[0].count +=
+        resultsWithKaggleId.data.filteredDepositionCount.aggregate[0].count
+    }
 
     const end = performance.now()
     // eslint-disable-next-line no-console
