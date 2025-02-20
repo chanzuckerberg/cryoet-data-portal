@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.55.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.54.0...web-v1.55.0) (2025-02-20)
+
+
+### ✨ Features
+
+* Add filters for All Depositions page  ([#1606](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1606)) ([52db617](https://github.com/chanzuckerberg/cryoet-data-portal/commit/52db6175abc424ce4e00e5dc42389e8ee6af1a73))
+* add Kaggle Id to Author Link  ([#1602](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1602)) ([700d4c5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/700d4c5009c1c3553e671306fcb1a3f8f8de5f56))
+
+
+### 🐞 Bug Fixes
+
+* Apply integration feedback to Post ML Competition ([#1629](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1629)) ([82b42f1](https://github.com/chanzuckerberg/cryoet-data-portal/commit/82b42f110e426503daa29d2d325369c8f70ac2ce))
+
 ## [1.54.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.53.0...web-v1.54.0) (2025-02-14)
 
 
