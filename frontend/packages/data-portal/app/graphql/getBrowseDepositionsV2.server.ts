@@ -128,12 +128,59 @@ export async function getBrowseDepositionsV2({
 }) {
   const start = performance.now()
 
+  const filters = getDepositionsFilter({
+    filterState: getFilterState(params),
+  })
+
+  if (filters.authors) {
+    // (smccanny - Feb 2025) We want to filter depositions by author name or kaggleId,
+    // but the API only supports filtering by one at a time for now.
+
+    const filtersWithKaggleId = {
+      ...filters,
+      authors: {
+        name: filters.authors.name,
+        kaggleId: filters.authors.name,
+      },
+    }
+    delete filtersWithKaggleId?.authors?.name
+
+    // Run both queries concurrently
+    const [resultsWithName, resultsWithKaggleId] = await Promise.all([
+      client.query({
+        query: GET_DEPOSITIONS_DATA_QUERY,
+        variables: {
+          depositionFilter: filters,
+          orderByDeposition: orderBy ?? OrderBy.Desc,
+        },
+      }),
+      client.query({
+        query: GET_DEPOSITIONS_DATA_QUERY,
+        variables: {
+          depositionFilter: filtersWithKaggleId,
+          orderByDeposition: orderBy ?? OrderBy.Desc,
+        },
+      }),
+    ])
+
+    // Combine the results - this will be sorted later in remapV2BrowseAllDepositions function
+    resultsWithName.data.depositions.push(
+      ...resultsWithKaggleId.data.depositions,
+    )
+    resultsWithName.data.filteredDepositionCount.aggregate.count +=
+      resultsWithKaggleId.data.filteredDepositionCount.aggregate.count
+
+    const end = performance.now()
+    // eslint-disable-next-line no-console
+    console.log(`getBrowseDepositionsV2 query perf: ${end - start}ms`)
+
+    return resultsWithName
+  }
+
   const results = await client.query({
     query: GET_DEPOSITIONS_DATA_QUERY,
     variables: {
-      depositionFilter: getDepositionsFilter({
-        filterState: getFilterState(params),
-      }),
+      depositionFilter: filters,
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
       orderByDeposition: orderBy ?? OrderBy.Desc,
