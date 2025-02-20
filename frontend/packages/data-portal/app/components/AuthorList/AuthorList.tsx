@@ -74,7 +74,7 @@ export function AuthorList({
         {authorsPrimary.map((author, i, arr) => (
           <li
             key={getAuthorKey(author)}
-            className={cns(!compact && 'font-semibold', 'pr-sds-xs')}
+            className={cns(!compact && 'font-semibold', 'pr-sds-xxs')}
           >
             {compact ? (
               author.name
@@ -94,7 +94,7 @@ export function AuthorList({
           <li
             className={cns(
               subtle && !compact && 'text-sds-color-primitive-gray-600',
-              'pr-sds-xs',
+              'pr-sds-xxs',
             )}
           >
             {otherCollapsed}
@@ -105,7 +105,7 @@ export function AuthorList({
               key={getAuthorKey(author)}
               className={cns(
                 subtle && !compact && 'text-sds-color-primitive-gray-600',
-                'pr-sds-xs',
+                'pr-sds-xxs',
               )}
             >
               <AuthorLinkComponent author={author} large={large} />
@@ -117,7 +117,7 @@ export function AuthorList({
         )}
 
         {authorsCorresponding.map((author, i, arr) => (
-          <li key={getAuthorKey(author)} className="pr-sds-xs">
+          <li key={getAuthorKey(author)} className="pr-sds-xxs">
             {compact ? (
               author.name
             ) : (
