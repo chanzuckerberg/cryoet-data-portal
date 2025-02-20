@@ -381,6 +381,7 @@
   "scoreTooltip": "Submissions were scored using an average F <sub className='relative top-sds-xxxs'>&beta;</sub> metric, adjusted for the detection difficulty of each species.",
   "search": "Search",
   "searchByDatasetName": "Search by Dataset Name",
+  "seeAlso": "See also",
   "seeLeaderboard": "See Leaderboard",
   "seeOnKaggle": "See on Kaggle",
   "segmentationMask": "Segmentation Mask",
