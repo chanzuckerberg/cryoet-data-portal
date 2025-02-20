@@ -41,12 +41,11 @@ export function ViewTomogramButton({
       tooltip={
         enabled ? (
           <>
-            <span className="font-semibold">
+            <h4 className="font-semibold">
               {t('viewTomogramInNeuroglancer', {
                 id: `${IdPrefix.Tomogram}-${tomogramId}`,
               })}
-            </span>
-            <br />
+            </h4>
             <Link
               to={t('neuroglancerTutorialLink')}
               variant="dashed-underlined"
@@ -78,7 +77,7 @@ export function ViewTomogramButton({
             trackViewTomogram()
           }
         }}
-        onMouseEnter={() => setIsHoveringOver?.(true)}
+        onMouseEnter={() => setIsHoveringOver?.(false)} // could be changed back to true if we needed this fine-grained control
         onMouseLeave={() => setIsHoveringOver?.(false)}
         className="min-w-[152px]"
       >

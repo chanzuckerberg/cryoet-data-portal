@@ -48,7 +48,8 @@ export function RunsTable() {
   const { t } = useI18n()
   const [searchParams] = useSearchParams()
 
-  const [isHoveringOverInteractable] = useState(false)
+  const [isHoveringOverInteractable, setIsHoveringOverInteractable] =
+    useState(false)
   const navigate = useNavigate()
 
   const getRunUrl = useCallback(
@@ -233,6 +234,7 @@ export function RunsTable() {
                 }}
                 tooltipPlacement="top"
                 neuroglancerConfig={tomogram?.neuroglancerConfig}
+                setIsHoveringOver={setIsHoveringOverInteractable}
               />
             </TableCell>
           )
