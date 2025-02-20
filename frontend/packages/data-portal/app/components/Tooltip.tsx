@@ -26,7 +26,7 @@ export interface TooltipProps
   offset?: TooltipOffset
   tooltip: ReactNode
   center?: boolean
-  size?: 's' | 'm'
+  size?: 's' | 'm' | 'inherit'
 }
 
 export function getTooltipProps({
@@ -59,6 +59,7 @@ export function getTooltipProps({
         '!font-normal !text-sds-body-xs !leading-sds-body-xs',
         'shadow-lg',
         size === 's' && 'w-[200px]',
+        size === 'inherit' && '[&&&]:max-w-none',
         'border-solid border border-sds-color-primitive-gray-300',
         classes?.tooltip,
       ),

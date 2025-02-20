@@ -3,5 +3,6 @@ export type AuthorInfoType = {
   email?: string | null
   name: string
   orcid?: string | null
+  kaggleId?: string | null
   primaryAuthorStatus?: boolean | null
 }

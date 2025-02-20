@@ -56,6 +56,7 @@ export function DepositionMetadataTable({
           <AuthorList
             authors={deposition.authors.edges.map((author) => author.node)}
             large
+            vertical
           />
         )
       },
