@@ -6,7 +6,6 @@ import { useI18n } from 'app/hooks/useI18n'
 import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
 import { getNeuroglancerUrl } from 'app/utils/url'
 
-import { cns } from 'app/utils/cns'
 import { Link } from './Link'
 import { Tooltip } from './Tooltip'
 
