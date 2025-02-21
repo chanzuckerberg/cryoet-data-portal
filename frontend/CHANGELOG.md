@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.55.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.55.0...web-v1.55.1) (2025-02-21)
+
+
+### 🐞 Bug Fixes
+
+* Add team names to Post ML page ([#1638](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1638)) ([8362348](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8362348305d5bf37d6765549c78190a229d767f0))
+* nit spacing on author list ([#1642](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1642)) ([24fd3dc](https://github.com/chanzuckerberg/cryoet-data-portal/commit/24fd3dcbb01571b04c2033a8a612cefe03daea8e))
+
 ## [1.55.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.54.0...web-v1.55.0) (2025-02-20)
 
 
