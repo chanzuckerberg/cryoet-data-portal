@@ -6,6 +6,7 @@ import { useI18n } from 'app/hooks/useI18n'
 import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
 import { getNeuroglancerUrl } from 'app/utils/url'
 
+import { cns } from 'app/utils/cns'
 import { Link } from './Link'
 import { Tooltip } from './Tooltip'
 
@@ -85,6 +86,7 @@ export function ViewTomogramButton({
           href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
           disabled={!enabled}
           LinkComponent={Link}
+          className="!min-w-[141px] min-h-[32px] hover:!bg-sds-color-primitive-gray-200 rounded-md"
           {...buttonProps}
         >
           <span>{t('viewTomogram')}</span>
