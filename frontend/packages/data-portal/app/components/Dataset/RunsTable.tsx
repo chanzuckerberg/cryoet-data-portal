@@ -219,8 +219,8 @@ export function RunsTable() {
               <ViewTomogramButton
                 tomogramId={tomogram?.id.toString()}
                 buttonProps={{
-                  sdsType: 'secondary',
-                  sdsStyle: 'square',
+                  sdsType: 'primary',
+                  sdsStyle: 'minimal',
                   startIcon: (
                     <Icon sdsIcon="Cube" sdsType="button" sdsSize="s" />
                   ),
