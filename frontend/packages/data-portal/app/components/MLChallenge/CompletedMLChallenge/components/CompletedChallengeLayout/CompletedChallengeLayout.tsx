@@ -4,6 +4,7 @@ import { ReactNode } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetWinningDepositionsDataQuery } from 'app/__generated_v2__/graphql'
+import { I18n } from 'app/components/I18n'
 import { Link } from 'app/components/Link'
 import styles from 'app/components/MDX/MdxBody.module.css'
 import { TopThreeWinners } from 'app/components/MLChallenge/CompletedMLChallenge/components/TopThreeWinners/TopThreeWinners'
@@ -101,21 +102,27 @@ export function CompletedChallengeLayout() {
             <h2 className="text-[26px] screen-512:text-[34px] leading-[34px] tracking-[0.8px] screen-512:leading-[46px] font-semibold mb-sds-xxl mt-sds-xxl screen-512:mt-[0px] tracking-[0.3px]">
               {t('impact')}
             </h2>
-            <h3 className="text-sds-header-xl leading-sds-header-xl screen-512:text-[18px] screen-512:leading-[24px] font-semibold mt-sds-xxl">
+            <h3 className="screen-512:text-sds-header-xl screen-512:leading-sds-header-xl text-[18px] leading-[24px] font-semibold mt-sds-xxl">
               {t('impactSubTitle')}
             </h3>
-            <p className="text-sds-body-m leading-sds-body-m text-[#6C6C6C] mt-sds-xl mb-sds-xxl">
-              {t('impactExplanation')}
+            <p className="text-sds-body-m leading-sds-body-m text-[#6C6C6C] mt-sds-xl">
+              <I18n i18nKey="impactExplanation" />
             </p>
-            <Link to={t('impactPaperLink')}>
-              <Button
-                sdsStyle="rounded"
-                sdsType="primary"
-                className="mb-sds-xxl"
-              >
-                {t('readPaper')}
-              </Button>
-            </Link>
+            <p className="text-sds-body-m leading-sds-body-m text-[#6C6C6C] mt-sds-xl mb-sds-xxl">
+              {t('impactCTAText')}
+            </p>
+            <div className="flex gap-sds-l mb-sds-xxl">
+              <Link to="https://www.biorxiv.org/content/10.1101/2024.11.04.621686v2/">
+                <Button sdsStyle="rounded" sdsType="primary">
+                  {t('readPaper')}
+                </Button>
+              </Link>
+              <Link to="https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=Portal&hide_Event=true">
+                <Button sdsStyle="rounded" sdsType="secondary">
+                  {t('contributeAnnotations')}
+                </Button>
+              </Link>
+            </div>
           </div>
           <div className="w-[113%] left-[-7%] screen-760:left-[26px] relative screen-1024:w-[400px]">
             <img
