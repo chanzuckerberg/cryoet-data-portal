@@ -240,7 +240,64 @@ html .md-footer-meta.md-typeset a {
 }
 
 /* Better display of attributes in class descriptions */
-dl.py.attribute.objdesc {
+
+div.attrstable {
+  display: table !important;
+  width: 100%;
+  margin-bottom: .5em;
+  padding: 0 .8rem;
+}
+
+table.attribute-list {
+  background-color: var(--md-default-bg-color);
+  border: .05rem solid var(--md-typeset-table-color);
+  border-radius: .1rem;
+  display: table !important;
+  font-size: .64rem;
+  max-width: 100%;
+  overflow: auto;
+  touch-action: auto;
+  margin-top: 1rem;
+}
+
+table.attribute-list.thead {
+  display: table-header-group;
+  vertical-align: middle;
+}
+
+table.attribute-list.tbody {
+  display: table-row-group;
+  vertical-align: middle;
+}
+
+tr {
+  display: table-row;
+}
+
+th {
+  font-weight: 700;
+}
+
+td {
+  border-top: .05rem solid var(--md-typeset-table-color);
+}
+
+td > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+th, td {
+  padding: .9375em 1.25em;
+  text-align: left;
+  vertical-align: top;
+}
+
+.attribute-list tbody tr {
+  transition: background-color 125ms;
+}
+
+/* dl.py.attribute.objdesc {
   display: grid;
   grid-template-columns: 1fr 2.5fr;
 }
@@ -303,7 +360,7 @@ dl.py.attribute.objdesc > dd > dl.field-list.simple >dd {
 
 dl.class > dd > dl:nth-child(27) {
   margin-bottom: 20px;
-}
+} */
 
 /* FAQ Admonitions */
 .czi-faq.admonition {
