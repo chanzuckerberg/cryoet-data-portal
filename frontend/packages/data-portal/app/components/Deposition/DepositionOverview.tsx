@@ -4,6 +4,7 @@ import { DatabaseList } from 'app/components/DatabaseList'
 import { Link } from 'app/components/Link'
 import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
 import { DOI_ID } from 'app/constants/external-dbs'
+import { Tags } from 'app/constants/tags'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { cnsNoMerge } from 'app/utils/cns'
@@ -32,8 +33,7 @@ export function DepositionOverview() {
         <p className="text-sds-body-m leading-sds-body-m">
           {deposition.description}
         </p>
-        {/* TODO: smccanny - use enum */}
-        {deposition.tag === 'competitionML2024Winners' && (
+        {deposition.tag === Tags.MLCompetition2024 && (
           <div className="pt-sds-m flex ">
             <p className="text-sds-body-xs leading-sds-body-xs font-semibold mr-sds-xs">
               {t('seeAlso')}:

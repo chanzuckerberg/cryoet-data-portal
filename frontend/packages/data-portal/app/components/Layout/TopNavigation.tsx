@@ -26,7 +26,7 @@ export function TopNavigation() {
     setMobileMenuOpen(false)
   }, [pathname])
 
-  // TODO: Remove once post competition page is live
+  // TODO: (smccanny) Remove once post competition page is live
   const TEMP_LINKS = showPostMlChallenge
     ? TOP_LEVEL_LINKS
     : TOP_LEVEL_LINKS_COMPETITION

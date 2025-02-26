@@ -58,10 +58,9 @@ export function WinnerCard({
             {place}
             {getNumberSuffix(place)} Place
           </h3>
-          {/* // TODO(smccanny): Add the score to the winner card */}
           <p className="text-sds-body-m leading-sds-body-m">
             Score:{' '}
-            {TEAM_INFO_BY_DEPOSITION_ID[winner.id.toString()]?.score || 0.66666}
+            {TEAM_INFO_BY_DEPOSITION_ID[winner.id.toString()]?.score || '--'}
           </p>
         </div>
         <h4 className="text-sds-body-m leading-sds-body-m font-semibold mt-sds-s">
