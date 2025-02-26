@@ -135,12 +135,17 @@ export function CompletedChallengeLayout() {
       </Section>
 
       <JumpToAnchor id={CompletedMLChallengeSectionId.Winners} />
-      <Section>
-        <TopThreeWinners winners={winningDepositions.depositions} />
-      </Section>
-      <Section color="primary100">
-        <OtherWinners winners={winningDepositions.depositions} />
-      </Section>
+
+      {winningDepositions.depositions.length > 0 && (
+        <Section>
+          <TopThreeWinners winners={winningDepositions.depositions} />
+        </Section>
+      )}
+      {winningDepositions.depositions.length > 3 && (
+        <Section color="primary100">
+          <OtherWinners winners={winningDepositions.depositions} />
+        </Section>
+      )}
 
       <JumpToAnchor id={CompletedMLChallengeSectionId.About} />
       <Section useMdxStyles>

@@ -61,15 +61,12 @@ export async function getWinningDepositions({
 }): Promise<ApolloQueryResult<GetWinningDepositionsDataQuery>> {
   const start = performance.now()
 
-  console.log(Tags.MLCompetition2024, 'competitionML2024Winners')
-  console.log(Tags.MLCompetition2024 === 'competitionML2024Winners')
-
   const results = await client.query<GetWinningDepositionsDataQuery>({
     query: GET_WINNING_DEPOSITIONS_DATA_QUERY,
     variables: {
       limit: limit ?? 10,
       orderByDeposition: orderBy ?? OrderBy.Asc,
-      tags: Tags.MLCompetition2024,
+      tag: Tags.MLCompetition2024,
     },
   })
 
