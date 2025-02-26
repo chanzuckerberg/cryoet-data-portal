@@ -20,7 +20,7 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
         limit: $limit,
         offset: $offset,
       },
-      orderBy: { depositionDate: $orderByDeposition, id: desc },
+      orderBy: { lastModifiedDate: $orderByDeposition, id: desc },
       where: $depositionFilter,
     ) {
       id
