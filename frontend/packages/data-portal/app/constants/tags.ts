@@ -1,3 +1,3 @@
-export enum Tags {
-  MLCompetition2024 = 'competitionML2024Winners',
+export const Tags = {
+  MLCompetition2024: 'competitionML2024Winners',
 }
