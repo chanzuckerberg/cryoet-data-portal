@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.55.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.55.1...web-v1.55.2) (2025-02-25)
+
+
+### 🐞 Bug Fixes
+
+* Make authors tooltip fit content properly ([#1651](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1651)) ([c8e7a20](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c8e7a2016735e30aeea23a57738b984d20db35fc))
+* Surface neuroglancer in View Tomogram tooltip ([#1631](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1631)) ([f2020c6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f2020c61c69c3f94c01ab57200aff442f91dfe1e))
+
 ## [1.55.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.55.0...web-v1.55.1) (2025-02-21)
 
 
