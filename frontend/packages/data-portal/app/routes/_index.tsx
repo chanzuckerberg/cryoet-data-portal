@@ -38,6 +38,7 @@ export const meta: MetaFunction = () => {
     {
       title: 'CryoET Data Portal',
       description: 'Welcome to the CryoET Data Portal!',
+      image: 'https://cryoetdataportal.czscience.com/images/index-header.png',
     },
   ]
 }
