@@ -1,3 +1,4 @@
+import type { MetaFunction } from '@remix-run/node'
 import { typedjson } from 'remix-typedjson'
 
 import { OrderBy } from 'app/__generated_v2__/graphql'
@@ -51,6 +52,44 @@ export async function loader() {
     challengeResources,
     winningDepositions: data,
   })
+}
+
+export const meta: MetaFunction = () => {
+  return [
+    {
+      title: 'ML Competition | CryoET Data Portal',
+    },
+    {
+      property: 'og:title',
+      content: 'CryoET Data Portal - ML Competition',
+    },
+    {
+      property: 'og:type',
+      content: 'website',
+    },
+    {
+      property: 'og:image',
+      content: 'https://cryoetdataportal.czscience.com/images/index-header.png',
+    },
+    {
+      property: 'og:url',
+      content: 'https://cryoetdataportal.czscience.com/competition',
+    },
+    {
+      property: 'og:description',
+      content:
+        'Learn about the winners of our competition to advance the understanding of cell biology through machine learning algorithms to annotate particles in 3D images of cells captured by cryoET.',
+    },
+    {
+      property: 'description',
+      content:
+        'Learn about the winners of our competition to advance the understanding of cell biology through machine learning algorithms to annotate particles in 3D images of cells captured by cryoET.',
+    },
+    {
+      property: 'twitter:card',
+      content: 'summary_large_image',
+    },
+  ]
 }
 
 export default function CompetitionPage() {
