@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.56.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.55.2...web-v1.56.0) (2025-02-27)
+
+
+### ✨ Features
+
+* Prepare code for real kaggle id and tag data ([#1655](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1655)) ([af3ff6f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/af3ff6f89c47464ffd3ab4b77b6f7ca337fc3ea9))
+
+
+### 🧹 Miscellaneous Chores
+
+* Remove deprecation banner ([#1658](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1658)) ([69cffc9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/69cffc9d530e78e7f4e1187b64fa338cfd80836f))
+
 ## [1.55.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.55.1...web-v1.55.2) (2025-02-25)
 
 
