@@ -173,24 +173,40 @@ export async function getBrowseDepositionsV2({
       }),
     ])
 
-    // Combine the results - this will be sorted later in remapV2BrowseAllDepositions function
-    resultsWithName?.data.depositions.push(
-      ...resultsWithKaggleId.data.depositions,
-    )
-    if (
-      resultsWithName.data.filteredDepositionCount.aggregate &&
-      resultsWithKaggleId.data.filteredDepositionCount.aggregate &&
-      resultsWithName.data.filteredDepositionCount.aggregate[0].count &&
-      resultsWithKaggleId.data.filteredDepositionCount.aggregate[0].count
-    ) {
-      resultsWithName.data.filteredDepositionCount.aggregate[0].count +=
-        resultsWithKaggleId.data.filteredDepositionCount.aggregate[0].count
+    if (!resultsWithKaggleId.data.depositions) {
+      queryPerfEnd(start)
+      return resultsWithName
     }
 
-    const end = performance.now()
-    // eslint-disable-next-line no-console
-    console.log(`getBrowseDepositionsV2 query perf: ${end - start}ms`)
+    if (!resultsWithName.data.depositions) {
+      queryPerfEnd(start)
+      return resultsWithKaggleId
+    }
 
+    const mergedDepositions = [
+      ...resultsWithName.data.depositions,
+      ...resultsWithKaggleId.data.depositions,
+    ].reduce(
+      (acc, curr) => {
+        if (!acc.some((dep) => dep.id === curr.id)) {
+          acc.push(curr)
+        }
+        return acc
+      },
+      [] as GetDepositionsDataV2Query['depositions'],
+    )
+
+    resultsWithName.data.depositions = mergedDepositions
+
+    if (
+      resultsWithName.data.filteredDepositionCount.aggregate &&
+      resultsWithKaggleId.data.filteredDepositionCount.aggregate
+    ) {
+      resultsWithName.data.filteredDepositionCount.aggregate[0].count =
+        mergedDepositions.length
+    }
+
+    queryPerfEnd(start)
     return resultsWithName
   }
 
@@ -209,4 +225,10 @@ export async function getBrowseDepositionsV2({
   console.log(`getBrowseDepositionsV2 query perf: ${end - start}ms`)
 
   return results
+}
+
+function queryPerfEnd(start: number) {
+  const end = performance.now()
+  // eslint-disable-next-line no-console
+  console.log(`getBrowseDepositionsV2 query perf: ${end - start}ms`)
 }
