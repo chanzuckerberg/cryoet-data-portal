@@ -1,5 +1,6 @@
-import { Icon, Link } from '@czi-sds/components'
+import { Icon } from '@czi-sds/components'
 
+import { Link } from 'app/components/Link'
 import { Tooltip } from 'app/components/Tooltip'
 import { useI18n } from 'app/hooks/useI18n'
 
