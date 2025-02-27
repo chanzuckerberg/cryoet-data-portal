@@ -144,10 +144,7 @@ export function CompletedChallengeLayout() {
 
       <JumpToAnchor id={CompletedMLChallengeSectionId.About} />
       <Section useMdxStyles>
-        <h2
-          className="[&&]:text-[26px] [&&]:screen-512:text-[34px] [&&]:leading-[34px] [&&]:tracking-[0.8px]
-          [&&]:screen-512:leading-[46px] font-semibold [&&]:screen-512:tracking-[0.3px]"
-        >
+        <h2 className="[&&]:text-[26px] [&&]:screen-512:text-[34px] [&&]:leading-[34px] [&&]:tracking-[0.8px] [&&]:screen-512:leading-[46px] font-semibold [&&]:screen-512:tracking-[0.3px]">
           {t('competitionDetails')}
         </h2>
         <MDXRemote
