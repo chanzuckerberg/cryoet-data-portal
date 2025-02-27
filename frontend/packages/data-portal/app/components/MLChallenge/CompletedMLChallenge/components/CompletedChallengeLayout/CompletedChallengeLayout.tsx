@@ -99,7 +99,7 @@ export function CompletedChallengeLayout() {
       <Section color="primary100">
         <div className="flex flex-col screen-760:flex-row justify-between screen-760:items-center gap-sds-xl">
           <div className="screen-760:max-w-[500px] screen-1345:max-w-[56%]">
-            <h2 className="text-[26px] screen-512:text-[34px] leading-[34px] tracking-[0.8px] screen-512:leading-[46px] font-semibold mb-sds-xxl mt-sds-xxl screen-512:mt-[0px] tracking-[0.3px]">
+            <h2 className="text-[26px] screen-512:text-[34px] leading-[34px] tracking-[0.8px] screen-512:leading-[46px] font-semibold mb-sds-xxl mt-sds-xxl screen-512:mt-[0px] screen-512:tracking-[0.3px]">
               {t('impact')}
             </h2>
             <h3 className="screen-512:text-sds-header-xl screen-512:leading-sds-header-xl text-[18px] leading-[24px] font-semibold mt-sds-xxl">
@@ -149,7 +149,7 @@ export function CompletedChallengeLayout() {
 
       <JumpToAnchor id={CompletedMLChallengeSectionId.About} />
       <Section useMdxStyles>
-        <h2 className="[&&]:text-[34px] font-semibold tracking-[0.3px]">
+        <h2 className="[&&]:text-[26px] [&&]:screen-512:text-[34px] [&&]:leading-[34px] [&&]:tracking-[0.8px] [&&]:screen-512:leading-[46px] font-semibold [&&]:screen-512:tracking-[0.3px]">
           {t('competitionDetails')}
         </h2>
         <MDXRemote
