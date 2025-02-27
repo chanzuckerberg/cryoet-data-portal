@@ -183,18 +183,14 @@ export async function getBrowseDepositionsV2({
       return resultsWithKaggleId
     }
 
-    const mergedDepositions = [
-      ...resultsWithName.data.depositions,
-      ...resultsWithKaggleId.data.depositions,
-    ].reduce(
-      (acc, curr) => {
-        if (!acc.some((dep) => dep.id === curr.id)) {
-          acc.push(curr)
-        }
-        return acc
-      },
-      [] as GetDepositionsDataV2Query['depositions'],
+    const depositionsMap = new Map(
+      [
+        ...resultsWithName.data.depositions,
+        ...resultsWithKaggleId.data.depositions,
+      ].map((dep) => [dep.id, dep]), // Map each deposition by its id
     )
+
+    const mergedDepositions = Array.from(depositionsMap.values())
 
     resultsWithName.data.depositions = mergedDepositions
 
