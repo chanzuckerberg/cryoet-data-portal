@@ -10,7 +10,7 @@ interface TopNavLink extends NavLink {
   isActive(pathname: string): boolean
 }
 
-// TODO: Remove once post competition page is live
+// TODO: (smccanny) Remove once post competition page is live
 export const TOP_LEVEL_LINKS_COMPETITION: TopNavLink[] = [
   {
     isActive: (pathname) =>
