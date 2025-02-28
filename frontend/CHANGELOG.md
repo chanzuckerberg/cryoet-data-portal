@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.57.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.56.0...web-v1.57.0) (2025-02-28)
+
+
+### ✨ Features
+
+* Filter depositions by kaggleId or name in Author Name field ([#1640](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1640)) ([fd9d656](https://github.com/chanzuckerberg/cryoet-data-portal/commit/fd9d656667580bdf279bcf47e8ccc2b720ebe232))
+
+
+### 🐞 Bug Fixes
+
+* Add Meta Tags and fix nits ([#1656](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1656)) ([eb5134b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/eb5134b76029c217dc12715cad7832ddcbbd6bc3))
+* Add run specific ids to annotation table ([#1663](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1663)) ([03c7374](https://github.com/chanzuckerberg/cryoet-data-portal/commit/03c7374be006e1c387199319c233c54b0b84811a))
+
 ## [1.56.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.55.2...web-v1.56.0) (2025-02-27)
 
 
