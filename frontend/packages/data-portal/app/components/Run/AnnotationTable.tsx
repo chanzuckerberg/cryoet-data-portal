@@ -85,6 +85,12 @@ function ConfidenceValue({ value }: { value: number }) {
   )
 }
 
+function parseFilePath(filePath: string) {
+  const path = filePath.split('/')
+  // get containing folder of the file
+  return path.at(-2)
+}
+
 export function AnnotationTable() {
   const { isLoadingDebounced } = useIsLoading()
   const [searchParams] = useSearchParams()
@@ -177,7 +183,12 @@ export function AnnotationTable() {
                   'text-ellipsis line-clamp-2 break-all',
                 )}
               >
-                <span>{annotationShape.id} </span>
+                <span className="pr-sds-xs">
+                  {annotationShape.annotationFiles.edges[0] &&
+                    parseFilePath(
+                      annotationShape.annotationFiles.edges[0].node.s3Path,
+                    )}
+                </span>
                 <span>{annotationShape.annotation?.objectName}</span>
               </p>
 
