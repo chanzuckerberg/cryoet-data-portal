@@ -34,11 +34,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     | CellHeaderDirection
     | undefined
 
-  let orderByV2: OrderBy | null = null
-
-  if (sort) {
-    orderByV2 = sort === 'asc' ? OrderBy.Asc : OrderBy.Desc
-  }
+  const orderByV2 = sort === 'asc' ? OrderBy.Asc : OrderBy.Desc
 
   const { data: responseV2 } = await getBrowseDepositionsV2({
     orderBy: orderByV2,
@@ -49,6 +45,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   return json({
     v2: responseV2,
+    orderBy: orderByV2,
   })
 }
 
