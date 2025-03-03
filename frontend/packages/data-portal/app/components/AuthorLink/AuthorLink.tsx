@@ -40,7 +40,7 @@ export function AuthorLink({
   const iconSize = large ? LARGE_ICON_SIZE_PX : BASE_ICON_SIZE_PX
   const content = (
     <Tooltip
-      className="inline"
+      className="inline cursor-pointer"
       placement="top"
       offset={[0, -5]}
       size="inherit"
@@ -48,7 +48,7 @@ export function AuthorLink({
       tooltip={
         <div className="min-w-[200px] pt-sds-xxs pb-sds-s">
           <h4 className="text-sds-color-primitive-gray-500 text-sds-header-xxs leading-sds-header-xxs font-semibold mb-sds-s">
-            Author Handle
+            Author Handle(s)
           </h4>
           <ul>
             {AUTHOR_HANDLE_CONTENT.map(
