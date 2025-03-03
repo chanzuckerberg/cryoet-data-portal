@@ -1,0 +1,6 @@
+stack:
+  services:
+    frontend:
+      image:
+        tag: sha-4f0ca7f
+      replicaCount: 1
