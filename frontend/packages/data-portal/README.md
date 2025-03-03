@@ -2,7 +2,7 @@
 
 Web interface for accessing the CryoET Data Portal.
 
-Run the following to setup your local
+Run the following
 
 ```sh
 # Start data portal in dev mode
