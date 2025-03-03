@@ -1,12 +1,14 @@
 FROM node:20.8-alpine as build
 
-COPY . /app
+COPY ../../.. /app
 
 WORKDIR /app
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store npm -g i pnpm@8.10.5 && pnpm i
 
-WORKDIR /app/packages/data-portal
-RUN pnpm build
+RUN npm install -g pnpm@8.10.5
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+RUN pnpm --filter=./packages/data-portal build
 
 FROM node:20.8-alpine as server
 
