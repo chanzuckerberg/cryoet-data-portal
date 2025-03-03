@@ -6,7 +6,7 @@ WORKDIR /app
 
 RUN npm install -g pnpm@8.10.5
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm i
 
 RUN pnpm --filter=./packages/data-portal build
 
