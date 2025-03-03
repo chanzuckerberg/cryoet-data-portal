@@ -19,7 +19,7 @@ stack:
   services:
     frontend:
       image:
-        repository: 533267185808.dkr.ecr.us-west-2.amazonaws.com/core-platform/cryoet-data-portal/frontend
+        repository: 533267185808.dkr.ecr.us-west-2.amazonaws.com/core-platform/cryoet-data-portal/frontend/frontend
       paths:
       - /
       pathType: Prefix
