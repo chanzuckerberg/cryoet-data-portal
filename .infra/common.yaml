@@ -5,37 +5,7 @@ stack:
       enabled: false
     service:
       port: 8080
-    livenessProbe:
-      failureThreshold: 3
-      httpGet:
-        path: /
-        port: 8080
-        scheme: HTTP
-      periodSeconds: 10
-      successThreshold: 1
-      timeoutSeconds: 1
-      initialDelaySeconds: 10
-    readinessProbe:
-      failureThreshold: 3
-      httpGet:
-        path: /
-        port: 8080
-        scheme: HTTP
-      periodSeconds: 10
-      successThreshold: 1
-      timeoutSeconds: 1
-      initialDelaySeconds: 10
     env:
-      - name: PYTHONPATH
-        value: .
-      - name: CERBOS_URL
-        value: http://localhost:3692
-      - name: DEFAULT_UPLOAD_BUCKET
-        value: local-bucket
-      - name: DEFAULT_UPLOAD_PROTOCOL
-        value: s3
-      - name: OUTPUT_S3_PREFIX
-        value: platformics
       - name: AWS_REGION
         value: us-west-2
       - name: AWS_ACCESS_KEY_ID
@@ -46,52 +16,10 @@ stack:
         value: /var/keys/public_key.pem
       - name: JWK_PRIVATE_KEY_FILE
         value: /var/keys/private_key.pem
-    # volumeMounts:
-    #   - mountPath: /var/policies
-    #     name: cerbos-policies
-    #     readOnly: false
-    #   - mountPath: /var/keys
-    #     name: keys
-    #     readOnly: false
-    # volumes:
-    #   - name: cerbos-policies
-    #     emptyDir:
-    #       sizeLimit: 50Mi
-    #   - name: keys
-    #     emptyDir:
-    #       sizeLimit: 10Mi
   services:
-    apiv2:
+    frontend:
       image:
         repository: 533267185808.dkr.ecr.us-west-2.amazonaws.com/core-platform/cryoet-data-portal-backend/apiv2/apiv2
-      resources:
-        limits:
-          cpu: "3"
-          memory: "3Gi"
-        requests:
-          cpu: "500m"
-          memory: "512Mi"
-      sidecars:
-        - name: cerbos
-          image: ghcr.io/cerbos/cerbos:0.29.0
-          args: ["server", "--config", "/var/policies/cerbos/config.yaml"]
-          imagePullPolicy: IfNotPresent
-          livenessProbe:
-            failureThreshold: 3
-            tcpSocket:
-              port: 3692
-            initialDelaySeconds: 10
-            periodSeconds: 3
-            successThreshold: 1
-            timeoutSeconds: 10
-          volumeMounts:
-            - mountPath: /var/policies
-              name: cerbos-policies
-              readOnly: false
-          resources:
-            limits:
-              cpu: "1"
-              memory: "512Mi"
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
+      paths:
+      - /frontend
+      pathType: Prefix
