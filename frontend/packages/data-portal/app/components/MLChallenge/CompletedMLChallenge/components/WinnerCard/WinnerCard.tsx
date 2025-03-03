@@ -69,10 +69,12 @@ export function WinnerCard({
         </h4>
         <h5 className="text-sds-color-primitive-gray-600 mt-sds-xs">
           Members:{' '}
-          <AuthorList
-            authors={winner.authors.edges.map((author) => author.node)}
-            subtle
-          />
+          <span className="text-black">
+            <AuthorList
+              authors={winner.authors.edges.map((author) => author.node)}
+              subtle
+            />
+          </span>
         </h5>
         {place <= 3 && (
           <p className="mt-sds-s line-clamp-5">{winner.description}</p>
