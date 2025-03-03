@@ -40,7 +40,7 @@ jobs:
       images: |
         {
           "frontend": {
-            "context": "./frontend",
+            "context": "./frontend/packages/data-portal",
             "dockerfile": "frontend/packages/data-portal/Dockerfile"
           }
         }
