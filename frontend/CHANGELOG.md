@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.58.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.57.0...web-v1.58.0) (2025-03-04)
+
+
+### ✨ Features
+
+* Promote Post ML competition page to prod ([#1667](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1667)) ([6feda70](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6feda70c31c7cf551577bf814d06a4fef41dc26d))
+
 ## [1.57.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/web-v1.56.0...web-v1.57.0) (2025-03-03)
 
 
