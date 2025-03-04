@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   run_if:
-    if: github.head_ref == 'release-please--branches--main--components--frontend'
+    if: github.head_ref == 'release-please--branches--main--components--cryoet-data-portal-frontend'
     runs-on: ARM64
     steps:
       - run: echo "The head branch of this PR is the release please branch"
