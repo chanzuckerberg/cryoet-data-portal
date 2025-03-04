@@ -1,4 +1,4 @@
-FROM 533267185808.dkr.ecr.us-west-2.amazonaws.com/docker.io/central/library/node:20.8-alpine as build
+FROM node:20.8-alpine as build
 
 COPY . /app
 
