@@ -5,7 +5,7 @@ on:
     paths:
     - 'frontend/**'
     branches:
-    - release-please--branches--main--components--frontend
+    - release-please--branches--main--components--cryoet-data-portal-frontend
 
 jobs:
   argus_builder:
