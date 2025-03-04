@@ -2,5 +2,5 @@ stack:
   services:
     frontend:
       image:
-        tag: sha-836bbd3
+        tag: sha-e105825
       replicaCount: 1
