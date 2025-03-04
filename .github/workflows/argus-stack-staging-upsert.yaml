@@ -1,0 +1,35 @@
+name: Update staging
+
+on:
+  pull_request:
+    types: [ opened, synchronize ]
+    paths:
+      - '.infra/common.yaml'
+      - '.infra/staging/values.yaml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run_if:
+    if: github.head_ref == 'release-please--branches--main--components--frontend'
+    runs-on: ARM64
+    steps:
+      - run: echo "The head branch of this PR is the release please branch"
+
+  staging_stack_upsert:
+    needs: run_if
+    runs-on: ARM64
+    permissions:
+      id-token: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Update Staging Stack
+        uses: chanzuckerberg/argus-artifacts/ci/packages/create-stack@v0.54.1
+        with:
+          appName: cryoet-frontend
+          envName: staging
+          postStackDetails: false
