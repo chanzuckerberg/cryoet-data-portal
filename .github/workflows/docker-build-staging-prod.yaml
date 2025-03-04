@@ -14,5 +14,5 @@ jobs:
     with:
       envs: staging,prod
       path_filters: '!.infra/**,frontend/**'
-      branches_include: release-please--branches--main--components--frontend
+      branches_include: release-please--branches--main--components--cryoet-data-portal-frontend
       force_update_manifests: true
