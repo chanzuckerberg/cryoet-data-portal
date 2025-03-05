@@ -240,14 +240,10 @@ export function DatasetsTable() {
 
         columnHelper.accessor(
           (dataset) =>
-            dataset.runs.edges
-              .flatMap(
-                (run) =>
-                  run.node.annotationsAggregate?.aggregate?.map(
-                    (aggregate) => aggregate.count ?? 0,
-                  ) ?? [],
-              )
-              .reduce((prevCount, nextCount) => prevCount + nextCount, 0),
+            deposition.annotationsAggregate?.aggregate?.find(
+              (agg) => agg.groupBy?.run?.dataset?.id === dataset.id,
+            )?.count ?? 0,
+
           {
             id: 'annotations',
 
@@ -328,6 +324,7 @@ export function DatasetsTable() {
     }
   }, [
     datasetSort,
+    deposition.annotationsAggregate?.aggregate,
     getDatasetUrl,
     isLoadingDebounced,
     searchParams,
