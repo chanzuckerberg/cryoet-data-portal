@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.59.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.59.0...cryoet-data-portal-frontend-v1.59.1) (2025-03-06)
+
+
+### 🐞 Bug Fixes
+
+* deposition annotations count ([#1679](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1679)) ([ea152fc](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ea152fc894aa7fdb123e1d790ed963be7b09fd36))
+
+
+### 🧹 Miscellaneous Chores
+
+* Update survey banner text ([#1675](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1675)) ([97588e8](https://github.com/chanzuckerberg/cryoet-data-portal/commit/97588e8f2f9877c5b6f0067736d7097490887d06))
+
 ## [1.59.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.58.0...cryoet-data-portal-frontend-v1.59.0) (2025-03-04)
 
 
