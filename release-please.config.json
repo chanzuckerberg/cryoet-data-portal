@@ -14,8 +14,12 @@
   ],
   "packages": {
     "frontend": {
-      "release-type": "node",
-      "skip-github-release": true,
+      "package-name": "cryoet-data-portal-frontend",
+      "release-type": "simple",
+      "bump-minor-pre-major": false,
+      "bump-patch-for-minor-pre-major": false,
+      "draft": false,
+      "prerelease": false,
       "separate-pull-requests": true
     },
     "client/python/cryoet_data_portal": {
