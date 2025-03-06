@@ -24,3 +24,5 @@ jobs:
         with:
           appName: cryoet-frontend
           envName: rdev
+        env:
+          API_URL_V2: ${{ secrets.API_URL_V2 }}
