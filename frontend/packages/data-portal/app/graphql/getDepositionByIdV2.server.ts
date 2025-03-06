@@ -51,6 +51,14 @@ const GET_DEPOSITION_BY_ID = gql(`
       annotationsAggregate {
         aggregate {
           count
+
+          groupBy {
+            run {
+              dataset {
+                id
+              }
+            }
+          }
         }
       }
       annotationMethodCounts: annotationsAggregate {
