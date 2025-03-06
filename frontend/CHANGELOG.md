@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.61.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.61.0...cryoet-data-portal-frontend-v1.61.1) (2025-03-06)
+
+
+### 🐞 Bug Fixes
+
+* env vars ([#1685](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1685)) ([cb2aa62](https://github.com/chanzuckerberg/cryoet-data-portal/commit/cb2aa62db52321fa798425ff7333532547c5d9b6))
+
 ## [1.61.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.60.0...cryoet-data-portal-frontend-v1.61.0) (2025-03-06)
 
 
