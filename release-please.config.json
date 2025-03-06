@@ -15,7 +15,7 @@
   "packages": {
     "frontend": {
       "package-name": "cryoet-data-portal-frontend",
-      "release-type": "simple",
+      "release-type": "node",
       "bump-minor-pre-major": false,
       "bump-patch-for-minor-pre-major": false,
       "draft": false,
