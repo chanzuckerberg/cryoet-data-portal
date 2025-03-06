@@ -4,3 +4,8 @@ stack:
       image:
         tag: sha-3d20c9f
       replicaCount: 1
+      env:
+        - name: API_URL_V2
+          value: https://graphql.cryoetdataportal.czscience.com/graphql
+        - name: ENV
+          value: prod
