@@ -92,9 +92,5 @@ export const meta: MetaFunction = () => {
 
 export default function CompetitionPage() {
   const showPostMlChallenge = useFeatureFlag('postMlChallenge')
-  return (
-    <>
-      {showPostMlChallenge ? <CompletedMLChallenge /> : <MLChallenge />}
-    </>
-  )
+  return <>{showPostMlChallenge ? <CompletedMLChallenge /> : <MLChallenge />}</>
 }
