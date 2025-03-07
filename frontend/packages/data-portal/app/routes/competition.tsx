@@ -5,8 +5,6 @@ import { OrderBy } from 'app/__generated_v2__/graphql'
 import { apolloClientV2 } from 'app/apollo.server'
 import { MLChallenge } from 'app/components/MLChallenge'
 import { CompletedMLChallenge } from 'app/components/MLChallenge/CompletedMLChallenge/CompletedMLChallenge'
-import { ReusableBanner } from 'app/components/ReusableBanner/ReusableBanner'
-import { LocalStorageKeys } from 'app/constants/localStorage'
 import { getWinningDepositions } from 'app/graphql/getWinningDepositionsV2.server'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getLocalFileContent } from 'app/utils/repo.server'
@@ -94,15 +92,5 @@ export const meta: MetaFunction = () => {
 
 export default function CompetitionPage() {
   const showPostMlChallenge = useFeatureFlag('postMlChallenge')
-  return (
-    <>
-      <ReusableBanner
-        bannerTextKey="mlCompetitionSurveyBanner"
-        localStorageKey={LocalStorageKeys.CompetitionSurveyBannerDismissed}
-        allowedPathsRegex={[/^\/competition.*$/]}
-        className="sticky top-[48px] w-full z-30"
-      />
-      {showPostMlChallenge ? <CompletedMLChallenge /> : <MLChallenge />}
-    </>
-  )
+  return <>{showPostMlChallenge ? <CompletedMLChallenge /> : <MLChallenge />}</>
 }
