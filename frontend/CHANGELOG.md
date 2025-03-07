@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.61.3](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.61.2...cryoet-data-portal-frontend-v1.61.3) (2025-03-07)
+
+
+### 🧹 Miscellaneous Chores
+
+* Remove Competition survey banner ([#1689](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1689)) ([3937d5b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3937d5bafeceace1d41d52cb7a86551d9cd0a392))
+
 ## [1.61.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.61.1...cryoet-data-portal-frontend-v1.61.2) (2025-03-07)
 
 
