@@ -96,12 +96,6 @@ export default function CompetitionPage() {
   const showPostMlChallenge = useFeatureFlag('postMlChallenge')
   return (
     <>
-      <ReusableBanner
-        bannerTextKey="mlCompetitionSurveyBanner"
-        localStorageKey={LocalStorageKeys.CompetitionSurveyBannerDismissed}
-        allowedPathsRegex={[/^\/competition.*$/]}
-        className="sticky top-[48px] w-full z-30"
-      />
       {showPostMlChallenge ? <CompletedMLChallenge /> : <MLChallenge />}
     </>
   )
