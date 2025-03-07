@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.61.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.61.1...cryoet-data-portal-frontend-v1.61.2) (2025-03-07)
+
+
+### 🐞 Bug Fixes
+
+* remove happy ([#1687](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1687)) ([d754cd5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d754cd5ccc7ce6119e88ad915f60ab4b4dc87d61))
+
 ## [1.61.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.61.0...cryoet-data-portal-frontend-v1.61.1) (2025-03-06)
 
 
