@@ -219,11 +219,13 @@ export function RunsTable() {
               <ViewTomogramButton
                 tomogramId={tomogram?.id.toString()}
                 buttonProps={{
-                  sdsType: 'secondary',
-                  sdsStyle: 'square',
+                  sdsType: 'primary',
+                  sdsStyle: 'minimal',
                   startIcon: (
                     <Icon sdsIcon="Cube" sdsType="button" sdsSize="s" />
                   ),
+                  className:
+                    '!min-w-[141px] min-h-[32px] hover:!bg-sds-color-primitive-gray-200 rounded-md',
                 }}
                 event={{
                   datasetId: dataset.id,

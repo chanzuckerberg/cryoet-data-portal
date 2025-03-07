@@ -507,3 +507,35 @@ div .centered-quote {
   margin-top: 2rem;
   background-color: #101010;
 }
+
+/* Announcement banner */
+.md-banner {
+  background-color: #0B68F8;
+  color: white;
+  text-align: center;
+  padding: 8px 16px;
+  line-height: 24px;
+}
+
+.md-banner .md-typeset a {
+  color: white;
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+}
+
+.md-banner__inner, .md-banner p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+div.md-banner__inner {
+  max-width: none;
+}
+
+.md-banner .md-icon svg {
+  height: 18px;
+}
+
+.md-banner__button {
+  padding-top: 2px;
+}

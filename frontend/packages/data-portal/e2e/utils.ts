@@ -1,4 +1,4 @@
-import { test } from '@playwright/test'
+import { Page, test } from '@playwright/test'
 
 import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
 import { ObjectShapeType } from 'app/types/shapeTypes'
@@ -19,4 +19,9 @@ export function onlyRunIfEnabled(key: FeatureFlagKey) {
 export function getObjectShapeTypeLabel(shapeType: ObjectShapeType): string {
   const key = shapeTypeToI18nKey[shapeType]
   return key ? translations[key] : ''
+}
+
+export async function waitForTableReload(page: Page): Promise<void> {
+  await page.waitForSelector('.MuiSkeleton-root', { state: 'visible' })
+  await page.waitForSelector('.MuiSkeleton-root', { state: 'hidden' })
 }

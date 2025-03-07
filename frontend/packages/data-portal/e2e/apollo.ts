@@ -12,16 +12,6 @@ import apollo from '@apollo/client'
 
 import { ENVIRONMENT_CONTEXT_DEFAULT_VALUE } from '../app/context/Environment.context'
 
-export function getApolloClient() {
-  return new apollo.ApolloClient({
-    ssrMode: true,
-    cache: new apollo.InMemoryCache(),
-    link: apollo.createHttpLink({
-      uri: process.env.API_URL ?? ENVIRONMENT_CONTEXT_DEFAULT_VALUE.API_URL,
-    }),
-  })
-}
-
 export function getApolloClientV2() {
   return new apollo.ApolloClient({
     ssrMode: true,

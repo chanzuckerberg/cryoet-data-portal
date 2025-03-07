@@ -77,6 +77,7 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
             email
             name
             orcid
+            kaggleId
             primaryAuthorStatus
           }
         }

@@ -1,0 +1,21 @@
+name: Delete an RDev Stack
+
+on:
+  pull_request:
+    types: [ unlabeled, closed ]
+
+jobs:
+  delete-stack:
+    runs-on: ARM64
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'stack') || github.event.pull_request.state == 'closed' }}
+    permissions:
+      id-token: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Delete Stack
+        uses: chanzuckerberg/argus-artifacts/ci/packages/delete-stack@v0.54.3
+        with:
+          appName: cryoet-frontend
+          envName: rdev

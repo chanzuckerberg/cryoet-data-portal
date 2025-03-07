@@ -4,25 +4,26 @@ import { pick } from 'lodash-es'
 
 import { MockLinkComponent } from 'app/components/Link'
 import { TestIds } from 'app/constants/testIds'
+import { Author } from 'app/types/gql/genericTypes'
 
 import { AuthorLink } from './AuthorLink'
 import { ORC_ID_URL } from './constants'
-import { AuthorInfo } from './types'
 
-const DEFAULT_AUTHOR: AuthorInfo = {
+const DEFAULT_AUTHOR: Author = {
   correspondingAuthorStatus: true,
   email: 'actin.filament@gmail.com',
   name: 'Actin Filament',
   orcid: '0000-0000-0000-0000',
+  kaggleId: 'actin_filament',
   primaryAuthorStatus: false,
 }
 
-it('should not be link if orc ID is not provided', () => {
+it('should not be link if orc ID or kaggleId is not provided', () => {
   render(<AuthorLink author={pick(DEFAULT_AUTHOR, 'name')} />)
   expect(screen.queryByRole('link')).not.toBeInTheDocument()
 })
 
-it('should be a link if orc ID is provided', () => {
+it('should be a link if only orc ID provided', () => {
   render(
     <AuthorLink
       author={pick(DEFAULT_AUTHOR, 'name', 'orcid')}
@@ -34,6 +35,18 @@ it('should be a link if orc ID is provided', () => {
   expect(link).toBeInTheDocument()
   expect(link).toHaveProperty('href', `${ORC_ID_URL}/${DEFAULT_AUTHOR.orcid}`)
   expect(screen.getByTestId(TestIds.OrcIdIcon)).toBeInTheDocument()
+})
+
+it('should have a tooltip if kaggle Id provided', () => {
+  render(
+    <AuthorLink
+      author={pick(DEFAULT_AUTHOR, 'name', 'kaggleId')}
+      LinkComponent={MockLinkComponent}
+    />,
+  )
+
+  const link = screen.getByTestId(TestIds.AuthorLink)
+  expect(link).toBeInTheDocument()
 })
 
 it('should have icon if user is corresponding author', () => {

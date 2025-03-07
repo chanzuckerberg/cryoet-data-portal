@@ -42,10 +42,14 @@ function Legend() {
 
 export function AuthorLegend({ inline = false }: { inline?: boolean }) {
   return (
-    <Tooltip tooltip={<Legend />} placement="top">
-      <div
-        className={inline ? 'relative w-sds-icon-s h-sds-icon-s' : undefined}
-      >
+    <Tooltip
+      tooltip={<Legend />}
+      placement="top"
+      sdsStyle="light"
+      width="wide"
+      className="flex items-center"
+    >
+      <div className={inline ? 'relative w-sds-icon-s h-sds-icon-s' : 'flex'}>
         <Icon
           sdsIcon="InfoCircle"
           sdsSize={inline ? 's' : 'xs'}

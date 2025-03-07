@@ -1,0 +1,18 @@
+name: Docker Build Staging/Prod
+
+on:
+  push:
+    paths:
+    - 'frontend/**'
+    branches:
+    - release-please--branches--main--components--cryoet-data-portal-frontend
+
+jobs:
+  argus_builder:
+    uses: ./.github/workflows/workflow-argus-docker-build.yaml
+    secrets: inherit
+    with:
+      envs: staging,prod
+      path_filters: '!.infra/**,frontend/**'
+      branches_include: release-please--branches--main--components--cryoet-data-portal-frontend
+      force_update_manifests: true

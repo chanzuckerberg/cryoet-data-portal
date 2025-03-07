@@ -35,6 +35,7 @@ const GET_DEPOSITION_BY_ID = gql(`
       relatedDatabaseEntries
       releaseDate
       title
+      tag
       authors(orderBy: { authorListOrder: asc }) {
         edges {
           node {
@@ -42,6 +43,7 @@ const GET_DEPOSITION_BY_ID = gql(`
             email
             name
             orcid
+            kaggleId
             primaryAuthorStatus
           }
         }
@@ -49,6 +51,14 @@ const GET_DEPOSITION_BY_ID = gql(`
       annotationsAggregate {
         aggregate {
           count
+
+          groupBy {
+            run {
+              dataset {
+                id
+              }
+            }
+          }
         }
       }
       annotationMethodCounts: annotationsAggregate {

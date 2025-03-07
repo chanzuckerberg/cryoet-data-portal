@@ -1,8 +1,10 @@
 import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorList } from 'app/components/AuthorList'
 import { DatabaseList } from 'app/components/DatabaseList'
+import { Link } from 'app/components/Link'
 import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
 import { DOI_ID } from 'app/constants/external-dbs'
+import { Tags } from 'app/constants/tags'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { cnsNoMerge } from 'app/utils/cns'
@@ -31,6 +33,19 @@ export function DepositionOverview() {
         <p className="text-sds-body-m leading-sds-body-m">
           {deposition.description}
         </p>
+        {deposition.tag === Tags.MLCompetition2024 && (
+          <div className="pt-sds-m flex ">
+            <p className="text-sds-body-xs leading-sds-body-xs font-semibold mr-sds-xs">
+              {t('seeAlso')}:
+            </p>
+            <Link
+              to="/competition"
+              className="text-sds-color-primitive-blue-400 hover:underline"
+            >
+              {t('cryoetDataAnnotationMLComp')}
+            </Link>
+          </div>
+        )}
       </div>
       <div>
         <div
@@ -56,7 +71,10 @@ export function DepositionOverview() {
               {t('annotations')}:
             </span>
             {(
-              deposition.annotationsAggregate?.aggregate?.[0]?.count ?? 0
+              deposition.annotationsAggregate?.aggregate?.reduce(
+                (total, { count }) => total + (count ?? 0),
+                0,
+              ) ?? 0
             ).toLocaleString()}
           </p>
         </div>

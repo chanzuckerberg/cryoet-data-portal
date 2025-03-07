@@ -1,0 +1,24 @@
+name: Update prod
+
+on:
+  release:
+    types: [published]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prod_stack_upsert:
+    runs-on: ARM64
+    permissions:
+      id-token: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Update Prod Stack
+        uses: chanzuckerberg/argus-artifacts/ci/packages/create-stack@v0.54.3
+        with:
+          appName: cryoet-frontend
+          envName: prod

@@ -23,10 +23,16 @@ export default {
       ...sds,
 
       screens: {
+        'screen-360': '360px',
+        'screen-512': '512px',
+        'screen-667': '667px',
         'screen-716': '716px',
         'screen-760': '760px',
         'screen-790': '790px',
+        'screen-879': '879px',
         'screen-1024': '1024px',
+        'screen-1345': '1345px',
+        'screen-1500': '1500px',
         'screen-2040': '2040px',
       },
 
@@ -61,6 +67,10 @@ export default {
 
       dropShadow: {
         'landing-header': '0 0 7px rgba(0, 0, 0, 0.5)',
+      },
+
+      boxShadow: {
+        card: '0px 2px 12px 0px #0000004D',
       },
 
       backgroundImage: () => {

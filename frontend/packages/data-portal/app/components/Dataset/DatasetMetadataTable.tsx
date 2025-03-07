@@ -1,5 +1,4 @@
 import { Icon } from '@czi-sds/components'
-import { isString } from 'lodash-es'
 
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { AuthorLegend } from 'app/components/AuthorLegend'
@@ -12,24 +11,19 @@ import { Dataset } from 'app/types/gql/genericTypes'
 import { isDefined } from 'app/utils/nullish'
 import { getTableData } from 'app/utils/table'
 
-import { DatasetType } from './type'
-
 export function DatasetMetadataTable({
   dataset,
   showAllFields,
   initialOpen,
 }: {
-  dataset: DatasetType | Dataset
+  dataset: Dataset
   showAllFields?: boolean
   initialOpen?: boolean
 }) {
   const { t } = useI18n()
-  const isV2 = isV2Dataset(dataset)
 
   const authors =
-    (isV2
-      ? dataset.authors?.edges?.map((author) => author.node).filter(isDefined)
-      : dataset.authors) ?? []
+    dataset.authors?.edges?.map((author) => author.node).filter(isDefined) ?? []
 
   const datasetMetadata = getTableData(
     !!showAllFields && {
@@ -67,35 +61,24 @@ export function DatasetMetadataTable({
 
     {
       label: t('depositionDate'),
-      values: [
-        (isV2
-          ? dataset.depositionDate?.split('T')[0]
-          : dataset.deposition_date) ?? '',
-      ],
+      values: [dataset.depositionDate?.split('T')[0] ?? ''],
     },
 
     !!showAllFields && {
       label: t('releaseDate'),
-      values: [
-        (isV2 ? dataset.releaseDate?.split('T')[0] : dataset.release_date) ??
-          '',
-      ],
+      values: [dataset.releaseDate?.split('T')[0] ?? ''],
     },
 
     !!showAllFields && {
       label: t('lastModifiedDate'),
-      values: [
-        (isV2
-          ? dataset.lastModifiedDate?.split('T')[0]
-          : dataset.last_modified_date) ?? '',
-      ],
+      values: [dataset.lastModifiedDate?.split('T')[0] ?? ''],
     },
 
     !!showAllFields && {
       label: authors.length === 1 ? t('author') : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
-        return <AuthorList authors={authors} large />
+        return <AuthorList authors={authors} large vertical />
       },
       values: [],
       className: 'leading-sds-body-s',
@@ -105,13 +88,9 @@ export function DatasetMetadataTable({
       label: t('grantID'),
       values: Array.from(
         new Set(
-          isV2
-            ? dataset.fundingSources?.edges
-                ?.map((fundingSource) => fundingSource?.node?.grantId)
-                .filter(isDefined)
-            : dataset.funding_sources
-                ?.map((source) => source.grant_id)
-                .filter(isString),
+          dataset.fundingSources?.edges
+            ?.map((fundingSource) => fundingSource?.node?.grantId)
+            .filter(isDefined),
         ),
       ),
     },
@@ -120,24 +99,16 @@ export function DatasetMetadataTable({
       label: t('fundingAgency'),
       values: Array.from(
         new Set(
-          isV2
-            ? dataset.fundingSources?.edges
-                ?.map((fundingSource) => fundingSource?.node?.fundingAgencyName)
-                .filter(isDefined)
-            : dataset.funding_sources
-                ?.map((source) => source.funding_agency_name)
-                .filter(isString),
+          dataset.fundingSources?.edges
+            ?.map((fundingSource) => fundingSource?.node?.fundingAgencyName)
+            .filter(isDefined),
         ),
       ),
     },
 
     {
       label: t('relatedDatabases'),
-      values: [
-        (isV2
-          ? dataset.relatedDatabaseEntries
-          : dataset.related_database_entries) ?? '',
-      ],
+      values: [dataset.relatedDatabaseEntries ?? ''],
       renderValue: (value: string) => {
         return <DatabaseEntryList entries={value} />
       },
@@ -145,11 +116,7 @@ export function DatasetMetadataTable({
 
     !!showAllFields && {
       label: t('publications'),
-      values: [
-        (isV2
-          ? dataset.relatedDatabaseEntries
-          : dataset.dataset_publications) ?? '',
-      ],
+      values: [dataset.relatedDatabaseEntries ?? ''],
       renderValue: (value: string) => {
         return <DatabaseEntryList entries={value} />
       },
@@ -164,8 +131,4 @@ export function DatasetMetadataTable({
       initialOpen={initialOpen}
     />
   )
-}
-
-function isV2Dataset(dataset: DatasetType | Dataset): dataset is Dataset {
-  return dataset.__typename === 'Dataset'
 }

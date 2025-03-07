@@ -1,5 +1,6 @@
 import { Button, ButtonProps, TooltipProps } from '@czi-sds/components'
 
+import { I18n } from 'app/components/I18n'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
@@ -38,16 +39,31 @@ export function ViewTomogramButton({
   return (
     <Tooltip
       tooltip={
-        enabled
-          ? t('viewTomogramInNeuroglancer', {
-              id: `${IdPrefix.Tomogram}-${tomogramId}`,
-            })
-          : t('noTomogramsAvailable')
+        enabled ? (
+          <>
+            <h4 className="font-semibold">
+              {t('viewTomogramInNeuroglancer', {
+                id: `${IdPrefix.Tomogram}-${tomogramId}`,
+              })}
+            </h4>
+            <Link
+              to={t('neuroglancerTutorialLink')}
+              variant="dashed-underlined"
+              className="!text-sds-color-primitive-gray-300 text-sds-body-xxs !border-sds-color-primitive-gray-800"
+            >
+              <p>
+                <I18n i18nKey="viewNeuroglancerTutorial" />
+              </p>
+            </Link>
+          </>
+        ) : (
+          t('noTomogramsAvailable')
+        )
       }
       sdsStyle="dark"
       center
       placement={tooltipPlacement}
-      size="s"
+      size="m"
     >
       {/* We need to disable this rule because we need the div to capture bubbled click events from
        the link button below. This is because Plausible automatically adds event listeners to every
@@ -61,9 +77,9 @@ export function ViewTomogramButton({
             trackViewTomogram()
           }
         }}
-        onMouseEnter={() => setIsHoveringOver?.(true)}
+        onMouseEnter={() => setIsHoveringOver?.(false)} // could be changed back to true if we needed this fine-grained control
         onMouseLeave={() => setIsHoveringOver?.(false)}
-        className="min-w-[144px]"
+        className="min-w-[152px]"
       >
         <Button
           // href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}

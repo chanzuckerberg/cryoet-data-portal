@@ -1,0 +1,21 @@
+name: Docker Build Rdev
+
+on:
+  pull_request:
+    types: [ labeled, synchronize ]
+    paths:
+      - 'frontend/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rdev_argus_builder:
+    uses: ./.github/workflows/workflow-argus-docker-build.yaml
+    secrets: inherit
+    if: contains(github.event.pull_request.labels.*.name, 'stack') && github.event.sender.type != 'Bot'
+    with:
+      envs: rdev
+      path_filters: 'frontend/**'
+      branches_ignore: main,release-please--branches--main--components--cryoet-data-portal-frontend

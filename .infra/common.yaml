@@ -1,0 +1,25 @@
+stack:
+  global:
+    replicaCount: 2
+    autoscaling:
+      enabled: false
+    service:
+      port: 8080
+    env:
+      - name: AWS_REGION
+        value: us-west-2
+      - name: AWS_ACCESS_KEY_ID
+        value: test
+      - name: AWS_SECRET_ACCESS_KEY
+        value: test
+      - name: JWK_PUBLIC_KEY_FILE
+        value: /var/keys/public_key.pem
+      - name: JWK_PRIVATE_KEY_FILE
+        value: /var/keys/private_key.pem
+  services:
+    frontend:
+      image:
+        repository: 533267185808.dkr.ecr.us-west-2.amazonaws.com/core-platform/cryoet-data-portal/frontend/frontend
+      paths:
+      - /
+      pathType: Prefix

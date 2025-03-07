@@ -1,19 +1,17 @@
-import { ComponentProps, ComponentType, Fragment, useMemo } from 'react'
+import { ComponentProps, ComponentType, useMemo } from 'react'
 
-import {
-  AuthorInfo,
-  AuthorLink,
-  convertToAuthorInfoV2,
-} from 'app/components/AuthorLink'
+import { AuthorLink } from 'app/components/AuthorLink'
+import { TestIds } from 'app/constants/testIds'
+import { Author } from 'app/types/gql/genericTypes'
 import { cns } from 'app/utils/cns'
 
-function getAuthorKey(author: AuthorInfo): string {
+function getAuthorKey(author: Author): string {
   return `${author.name}-${author.email}`
 }
 
 const SEPARATOR = `, `
 
-function getAuthorIds(authors: AuthorInfo[]) {
+function getAuthorIds(authors: Author[]) {
   return authors.map(
     (author) => `${author.name} - ${author.email} - ${author.orcid}`,
   )
@@ -26,18 +24,20 @@ export function AuthorList({
   compact = false,
   large,
   subtle = false,
+  vertical = false,
 }: {
   AuthorLinkComponent?: ComponentType<ComponentProps<typeof AuthorLink>>
-  authors: AuthorInfo[]
+  authors: Author[]
   className?: string
   compact?: boolean
   large?: boolean
   subtle?: boolean
+  vertical?: boolean
 }) {
-  const authorsPrimary = []
-  const authorsOther = []
-  const authorsCorresponding = []
-  for (const author of authors.map(convertToAuthorInfoV2)) {
+  const authorsPrimary = [] as Author[]
+  const authorsOther = [] as Author[]
+  const authorsCorresponding = [] as Author[]
+  for (const author of authors) {
     if (author.primaryAuthorStatus) {
       authorsPrimary.push(author)
     } else if (author.correspondingAuthorStatus) {
@@ -69,10 +69,13 @@ export function AuthorList({
 
   // TODO: let's find a better way of doing this
   return (
-    <p className={className}>
-      <span className={cns(!compact && 'font-semibold')}>
+    <div data-testid={TestIds.AuthorList} className={className}>
+      <ul className={cns(!vertical && 'flex flex-wrap')}>
         {authorsPrimary.map((author, i, arr) => (
-          <Fragment key={getAuthorKey(author)}>
+          <li
+            key={getAuthorKey(author)}
+            className={cns(!compact && 'font-semibold', 'pr-sds-xxs')}
+          >
             {compact ? (
               author.name
             ) : (
@@ -81,37 +84,49 @@ export function AuthorList({
             {!(
               authorsOther.length + authorsCorresponding.length === 0 &&
               arr.length - 1 === i
-            ) && SEPARATOR}
-          </Fragment>
+            ) &&
+              !vertical &&
+              SEPARATOR}
+          </li>
         ))}
-      </span>
 
-      <span
-        className={cns(
-          subtle && !compact && 'text-sds-color-primitive-gray-600',
+        {compact ? (
+          <li
+            className={cns(
+              subtle && !compact && 'text-sds-color-primitive-gray-600',
+              'pr-sds-xxs',
+            )}
+          >
+            {otherCollapsed}
+          </li>
+        ) : (
+          authorsOther.map((author, i, arr) => (
+            <li
+              key={getAuthorKey(author)}
+              className={cns(
+                subtle && !compact && 'text-sds-color-primitive-gray-600',
+                'pr-sds-xxs',
+              )}
+            >
+              <AuthorLinkComponent author={author} large={large} />
+              {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
+                !vertical &&
+                SEPARATOR}
+            </li>
+          ))
         )}
-      >
-        {compact
-          ? otherCollapsed
-          : authorsOther.map((author, i, arr) => (
-              <Fragment key={getAuthorKey(author)}>
-                <AuthorLinkComponent author={author} large={large} />
-                {!(authorsCorresponding.length === 0 && arr.length - 1 === i) &&
-                  SEPARATOR}
-              </Fragment>
-            ))}
 
         {authorsCorresponding.map((author, i, arr) => (
-          <Fragment key={getAuthorKey(author)}>
+          <li key={getAuthorKey(author)} className="pr-sds-xxs">
             {compact ? (
               author.name
             ) : (
               <AuthorLinkComponent author={author} large={large} />
             )}
-            {!(arr.length - 1 === i) && SEPARATOR}
-          </Fragment>
+            {!(arr.length - 1 === i) && !vertical && SEPARATOR}
+          </li>
         ))}
-      </span>
-    </p>
+      </ul>
+    </div>
   )
 }

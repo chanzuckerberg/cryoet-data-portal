@@ -85,7 +85,7 @@ describe('<DropdownFilterButton />', () => {
     await userEvent.click(screen.getByRole('button', { name: label }))
     await userEvent.click(screen.getByRole('button', { name: 'apply' }))
     expect(onApply).toHaveBeenCalled()
-    expect(screen.queryByText(children)).not.toBeInTheDocument()
+    expect(screen.queryByText(children)).not.toBeVisible()
   })
 
   it('should cancel on click', async () => {
@@ -97,7 +97,7 @@ describe('<DropdownFilterButton />', () => {
     await userEvent.click(screen.getByRole('button', { name: label }))
     await userEvent.click(screen.getByRole('button', { name: 'cancel' }))
     expect(onCancel).toHaveBeenCalled()
-    expect(screen.queryByText(children)).not.toBeInTheDocument()
+    expect(screen.queryByText(children)).not.toBeVisible()
   })
 
   it('should disable apply button', async () => {

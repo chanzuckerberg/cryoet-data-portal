@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "1.49.0",
+  "version": "1.60.0",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm -r build",

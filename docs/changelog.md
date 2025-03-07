@@ -4,10 +4,28 @@ hide-navigation: true
 
 # Changelog
 
-## v4.0.0
+:::{czi-warning} Attention
+The v3 Python API will be deprecated on Wednesday, February 26, 2025. Please update your Python API client to continue accessing the `cryoet-data-portal` package.
+:::
 
-The v4.0.0 release of the Python API was paired with the v3 release of the Client. A summary of the changes between Client v2 and Client v3 is below along with some migration notes, including a list of new API classes.
+## v4 Python API
 
+8 new classes were added to the API:
+
+| Class name | Description |
+| :---: | :---: |
+| `Alignment` | Tilt series alignment |
+| `AnnotationMethodLink` | A set of links to models, source code, documentation, etc referenced by annotation method |
+| `AnnotationShape` | Shapes associated with an annotation |
+| `DepositionType` | The type of data submitted as a part of a deposition (e.g. annotation, dataset, tomogram) |
+| `Frame` | Raw frames used for generating tilt series |
+| `FrameAcquisitionFile` | References to files containing more information about frame acquisition |
+| `GainFile` | Gain values for frames in this run |
+| `PerSectionAlignmentParameters` | Map alignment parameters to tilt series frames |
+
+### Changes to the Client
+
+The v4 release of the Python API was paired with the v3 release of the Client. A summary of the changes between Client v2 and Client v3 is below.
 
 | Client V2 Field | Client V3 Field |
 | :---: | :---: |
@@ -33,18 +51,3 @@ The v4.0.0 release of the Python API was paired with the v3 release of the Clien
 | `Deposition.https_prefix` | removed |
 | `TomogramVoxelSpacing.annotations` | `TomogramVoxelSpacing.annotation_files[*].annotation_shape.annotations` |
 | `Tiltseries.download_collection_metadata()` | removed |
-
-### Migration Notes:
-
-- 8 new classes were added to the API:
-
-| Class name | Description |
-| :---: | :---: |
-| `Alignment` | Tilt series alignment |
-| `AnnotationMethodLink` | A set of links to models, source code, documentation, etc referenced by annotation method |
-| `AnnotationShape` | Shapes associated with an annotation |
-| `DepositionType` | The type of data submitted as a part of a deposition (e.g. annotation, dataset, tomogram) |
-| `Frame` | Raw frames used for generating tilt series |
-| `FrameAcquisitionFile` | References to files containing more information about frame acquisition |
-| `GainFile` | Gain values for frames in this run |
-| `PerSectionAlignmentParameters` | Map alignment parameters to tilt series frames |

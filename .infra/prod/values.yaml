@@ -1,0 +1,11 @@
+stack:
+  services:
+    frontend:
+      image:
+        tag: sha-75440e1
+      replicaCount: 1
+      env:
+        - name: API_URL_V2
+          value: https://graphql.cryoetdataportal.czscience.com/graphql
+        - name: ENV
+          value: prod

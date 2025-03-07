@@ -8,8 +8,6 @@ import { TopNavigation } from './TopNavigation'
 export function Layout({ children }: { children: ReactNode }) {
   return (
     <main className="flex flex-col flex-auto">
-      {/* TODO: Add back in to announce winners! */}
-      {/* <MLChallengeBanner /> */}
       <TopNavigation />
       <div className="flex flex-col flex-[1_0_auto]">{children}</div>
       <Footer />
