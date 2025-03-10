@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.62.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.62.0...cryoet-data-portal-frontend-v1.62.1) (2025-03-10)
+
+
+### 🐞 Bug Fixes
+
+* Update find release PR to closed ([#1694](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1694)) ([99327bc](https://github.com/chanzuckerberg/cryoet-data-portal/commit/99327bc581ca659a040661a69f78e57a2179f766))
+
 ## [1.62.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.61.3...cryoet-data-portal-frontend-v1.62.0) (2025-03-10)
 
 
