@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.62.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.61.3...cryoet-data-portal-frontend-v1.62.0) (2025-03-10)
+
+
+### ✨ Features
+
+* Add slack notification for prod deploy ([#1692](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1692)) ([58f7a80](https://github.com/chanzuckerberg/cryoet-data-portal/commit/58f7a80ad6c9596e1b70478ca8451992b87bbdb5))
+
 ## [1.61.3](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.61.2...cryoet-data-portal-frontend-v1.61.3) (2025-03-07)
 
 
