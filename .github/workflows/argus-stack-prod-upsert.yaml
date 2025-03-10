@@ -22,3 +22,70 @@ jobs:
         with:
           appName: cryoet-frontend
           envName: prod
+
+  find-frontend-release-pr:
+      concurrency:
+        group: create-frontend-release-${{ github.ref }}
+        cancel-in-progress: true
+
+      outputs:
+        pr: ${{ steps.find-release-pr.outputs.result }}
+
+      name: find release PR
+      runs-on: ubuntu-latest
+      if: github.repository == 'chanzuckerberg/cryoet-data-portal'
+      steps:
+        - name: find release PR
+          uses: actions/github-script@v7
+          id: find-release-pr
+          with:
+            script: |
+              const { owner, repo } = context.repo
+              const { data: searchResult } = await github.rest.search.issuesAndPullRequests(
+                {
+                  q: `repo:${owner}/${repo} is:pr is:open label:"autorelease: tagged" "chore(main): release cryoet-data-portal-frontend"`,
+                  per_page: 1,
+                }
+              )
+              const [issue] = searchResult.items
+              if (!issue) {
+                throw new Error('No release PR found')
+              }
+              // Getting PR data from /pulls API has more info about the pull
+              // request like merge_commit_sha.
+              const { data: pr } = await github.rest.pulls.get({
+                owner,
+                repo,
+                pull_number: issue.number,
+              })
+              return pr
+
+  notify-slack:
+    name: Notify slack channel
+    runs-on: ubuntu-latest
+    needs: [prod_stack_upsert, find-frontend-release-pr]
+    if: needs.prod_stack_upsert.result == 'success' || needs.prod_stack_upsert.result == 'failure'
+
+    steps:
+      - name: checkout repo for tagging
+        uses: actions/checkout@v4
+
+      - name: Create slack payload
+        id: slack-payload
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const createSlackPayload = require('./.github/create-slack-payload')
+            const pr = ${{ needs.find-frontend-release-pr.outputs.pr }}
+            return createSlackPayload({
+              passed: '${{ needs.prod_stack_upsert.result }}' === 'success',
+              prNumber: pr.number,
+              runId: '${{ github.run_id }}',
+            })
+      - name: Send slack notification
+        uses: slackapi/slack-github-action@v1.26.0
+        env:
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          payload: ${{ fromJson(steps.slack-payload.outputs.result) }}
