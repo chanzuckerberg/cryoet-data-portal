@@ -45,7 +45,7 @@ The npm script `dev` can be used for starting the data portal dev server:
 pnpm dev
 ```
 
-## Run Docker Compose
+## Docker Compose
 
 A docker compose file is provided for convenience in starting up and destroying frontend services during local development:
 
