@@ -50,10 +50,10 @@ export function IndexCTA() {
         )}
       >
         <CTA
-          title={t('viewAndDownloadDatasets')}
-          text={t('viewDatasetsCta')}
-          buttonText={t('browseData')}
-          url="/browse-data/datasets"
+          title={t('mlCompetitionRecap')}
+          text={t('mlCompetitionRecapCta')}
+          buttonText={t('learnMore')}
+          url="/competition"
         />
         <div className="bg-sds-color-primitive-gray-200 h-sds-xxxs sm:w-sds-xxxs sm:row-span-2 sm:h-full" />
         <CTA
