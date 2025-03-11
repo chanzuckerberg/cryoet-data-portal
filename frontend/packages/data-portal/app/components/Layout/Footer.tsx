@@ -21,6 +21,14 @@ const DEV_LINKS = [
     href: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_napari.html',
   },
   {
+    label: i18n.contributeData,
+    href: 'https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=Contribution+from+portal&hide_Event=true',
+  },
+  {
+    label: i18n.feedback,
+    href: 'https://airtable.com/apppmytRJXoXYTO9w/shrjmV9knAC7E7VVM?prefill_Event=Footer&hide_Event=true',
+  },
+  {
     label: i18n.documentation,
     href: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/index.html',
   },
