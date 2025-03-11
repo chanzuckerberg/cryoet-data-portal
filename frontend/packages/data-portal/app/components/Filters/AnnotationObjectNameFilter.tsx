@@ -38,6 +38,7 @@ export function AnnotatedObjectNameFilter({
   return (
     <SelectFilter
       multiple
+      search
       label={label}
       onChange={(options) => updateValue(QueryParams.ObjectName, options)}
       options={objectNameOptions}
