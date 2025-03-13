@@ -10,7 +10,6 @@ export interface ResolvedSuperState extends Record<string, any> {
 
 const emptySuperState = (config: string): SuperState => {
   return {
-    extra: 44,
     neuroglancer: config.length > 0 ? decompressHash(config) : "",
   };
 };
@@ -123,7 +122,7 @@ export function compressHash(hash: string): string {
     return hash;
   }
   const gzipHash = pako.gzip(hash2jsonString(hash));
-  // @ts-ignore
+  // @ts-expect-error: UInt8Array and number[] are compatible in this context
   const base64UrlFragment = btoa(String.fromCharCode.apply(null, gzipHash));
   const newHash = `#!${b64Tob64Url(base64UrlFragment)}`;
   return newHash;

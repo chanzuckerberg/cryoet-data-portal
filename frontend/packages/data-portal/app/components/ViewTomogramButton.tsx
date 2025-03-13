@@ -4,11 +4,9 @@ import { I18n } from 'app/components/I18n'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
-import { getNeuroglancerUrl } from 'app/utils/url'
 
 import { Link } from './Link'
 import { Tooltip } from './Tooltip'
-import { useLocation } from '@remix-run/react'
 
 export interface ViewTomogramButtonProps {
   tomogramId?: string
@@ -17,7 +15,7 @@ export interface ViewTomogramButtonProps {
   event: EventPayloads[Events.ViewTomogram]
   neuroglancerConfig: string | null | undefined
   tooltipPlacement: TooltipProps['placement']
-  setIsHoveringOver?: (isHoveringOver: boolean) => void,
+  setIsHoveringOver?: (isHoveringOver: boolean) => void
 }
 
 export function ViewTomogramButton({
@@ -83,7 +81,11 @@ export function ViewTomogramButton({
       >
         <Button
           // href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
-          href={enabled ? `/view/runs/${event.runId}/#!${encodeURIComponent(neuroglancerConfig)}` : undefined}
+          href={
+            enabled
+              ? `/view/runs/${event.runId}/#!${encodeURIComponent(neuroglancerConfig)}`
+              : undefined
+          }
           disabled={!enabled}
           LinkComponent={Link}
           {...buttonProps}
