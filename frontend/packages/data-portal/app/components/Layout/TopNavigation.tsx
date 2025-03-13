@@ -4,12 +4,11 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Link } from 'app/components/Link'
-import { cns } from 'app/utils/cns'
-import { useFeatureFlag } from 'app/utils/featureFlags'
+import { cns, cnsNoMerge } from 'app/utils/cns'
 
-import { AboutAndHelpDropdown } from './AboutAndHelpDropdown'
+import { AboutAndReportDropdown } from './AboutAndReportDropdown'
 import styles from './buttons.module.css'
-import { TOP_LEVEL_LINKS, TOP_LEVEL_LINKS_COMPETITION } from './constants'
+import { TOP_LEVEL_LINKS } from './constants'
 import { CryoETHomeLink } from './CryoETHomeLink'
 import { MobileNavigationMenu } from './MobileNavigationMenu'
 import { ToolsDropdown } from './ToolsDropdown'
@@ -17,19 +16,12 @@ import { ToolsDropdown } from './ToolsDropdown'
 export function TopNavigation() {
   const { pathname } = useLocation()
   const { t } = useTranslation()
-  const showPostMlChallenge = useFeatureFlag('postMlChallenge')
-
   const [mobileMenuIsOpen, setMobileMenuOpen] = useState(false)
 
   // force close mobile menu when navigating
   useEffect(() => {
     setMobileMenuOpen(false)
   }, [pathname])
-
-  // TODO: (smccanny) Remove once post competition page is live
-  const TEMP_LINKS = showPostMlChallenge
-    ? TOP_LEVEL_LINKS
-    : TOP_LEVEL_LINKS_COMPETITION
 
   return (
     <nav
@@ -42,14 +34,14 @@ export function TopNavigation() {
       <CryoETHomeLink />
 
       {/* Add empty space to push content to right */}
-      <div className="basis-sds-xxl flex-grow screen-790:mr-sds-xxl" />
+      <div className="basis-sds-xxl flex-grow screen-1024:mr-sds-xxl" />
 
-      <div className="hidden screen-716:flex basis-auto flex-shrink-0">
-        {TEMP_LINKS.map((link) => (
+      <div className="hidden screen-1024:flex basis-auto flex-shrink-0">
+        {TOP_LEVEL_LINKS.map((link) => (
           <Link
-            className={cns(
-              'text-sds-header-s leading-sds-header-s font-semibold mr-sds-xxl p-0',
-              link.isActive(pathname)
+            className={cnsNoMerge(
+              'leading-sds-header-s font-semibold mr-sds-xxl p-0 text-sds-header-s',
+              link.isActive && link.isActive(pathname)
                 ? 'text-sds-color-primitive-common-white'
                 : 'text-sds-color-primitive-gray-400 hover:text-sds-color-primitive-common-white',
             )}
@@ -61,11 +53,11 @@ export function TopNavigation() {
         ))}
 
         <ToolsDropdown className="mr-sds-xxl text-sds-header-s" />
-        <AboutAndHelpDropdown className="screen-790:ml-sds-xxl text-sds-header-s" />
+        <AboutAndReportDropdown className="screen-1024:ml-sds-xxl text-sds-header-s" />
       </div>
 
       <Button
-        className="screen-716:!hidden"
+        className="screen-1024:!hidden"
         icon="LinesHorizontal3"
         sdsStyle="icon"
         sdsType="tertiary"
