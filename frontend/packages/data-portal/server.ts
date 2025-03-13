@@ -6,6 +6,7 @@ import compression from 'compression'
 import express, { NextFunction, Request, Response } from 'express'
 import fs from 'fs'
 import morgan from 'morgan'
+import path from 'path'
 import sourceMapSupport from 'source-map-support'
 
 import { ServerContext } from 'app/types/context'
@@ -86,6 +87,10 @@ async function main() {
   // Everything else (like favicon.ico) is cached for an hour. You may want to be
   // more aggressive with this caching.
   app.use(express.static('public', { maxAge: '1h' }))
+  app.use(
+    '/neuroglancer',
+    express.static(path.join('..', 'neuroglancer', 'dist')),
+  )
 
   app.use(morgan('tiny'))
 
