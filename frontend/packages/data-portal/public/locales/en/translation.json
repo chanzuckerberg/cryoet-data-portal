@@ -1,6 +1,6 @@
 {
   "about": "About",
-  "aboutAndHelp": "About & Help",
+  "aboutAndReport": "About & Report",
   "aboutCryoEtData": "About CryoET Data",
   "aboutTheCompetition": "About the Competition",
   "aboutTheCompetitionContent1": "Cryogenic Electron Tomography (CryoET) is an advanced imaging technique for visualizing cellular structures at near-atomic resolution. CryoET has led to significant scientific advances in our understanding of protein structure, cellular function, and disease. These insights come from analyzing annotated CryoET data where different parts of the cell and even individual proteins are segmented.",
@@ -207,7 +207,6 @@
   "hardware": "Hardware",
   "haveMoreQuestions": "Have a question? Reach out to our team at <url to='mailto:cryoetdataportal@chanzuckerberg.com'>cryoetdataportal@chanzuckerberg.com</url>.",
   "headshotOfName": "Headshot of {{name}}",
-  "helpAndReport": "Help & Report",
   "helpUsAchieveThisVision": "Help us achieve this vision",
   "howIsScoreCalculated": "How is this score calculated",
   "howToCite": "How to cite",
@@ -360,6 +359,7 @@
   "relatedEmpiarEntry": "Related EMPIAR Entry",
   "releaseDate": "Release Date",
   "removeFilter": "Remove Filter",
+  "report": "Report",
   "reportIssueOnGithub": "Report Issue on GitHub",
   "resetAll": "Reset All",
   "resolutionsAvailable": "Samplings Available",
