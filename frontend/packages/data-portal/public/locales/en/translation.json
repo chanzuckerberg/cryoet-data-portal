@@ -261,6 +261,8 @@
   "mlCompetitionIsClosingSoon": "ML Competition is closing soon. Enter by 1/29 for cash prizes. $t(mlCompetitionLearnMore)",
   "mlCompetitionHasBegun": "ML Competition has begun. Enter for cash prizes. $t(mlCompetitionLearnMore)",
   "mlCompetitionLearnMore": "<url to='/competition'>Learn More</url>",
+  "mlCompetitionRecap": "ML Competition Recap",
+  "mlCompetitionRecapCta": "Discover how ML advanced annotation of subcellular structures and proteins in cryoET data.",
   "mlCompetitionSurveyBanner": "Participants, it's your last chance to <url to='https://chanzuck.co1.qualtrics.com/jfe/form/SV_7NVtWWx911Nuq9w?Q_CHL=updatedbanner'>share feedback</url>! Survey closes on Friday. Every 15th eligible respondent will receive a $100 gift card.",
   "modelWeights": "Model Weights",
   "moderate": "Moderate",
