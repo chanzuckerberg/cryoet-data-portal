@@ -3,13 +3,13 @@ import { MenuItemHeader } from 'app/components/MenuItemHeader'
 import { MenuItemLink } from 'app/components/MenuItemLink'
 import { useI18n } from 'app/hooks/useI18n'
 
-import { ABOUT_LINKS, HELP_AND_REPORT_LINKS } from './constants'
+import { ABOUT_LINKS, REPORT_LINKS } from './constants'
 
-export function AboutAndHelpDropdown({ className }: { className?: string }) {
+export function AboutAndReportDropdown({ className }: { className?: string }) {
   const { t } = useI18n()
 
   return (
-    <MenuDropdown className={className} title={t('aboutAndHelp')}>
+    <MenuDropdown className={className} title={t('aboutAndReport')}>
       <MenuItemHeader>{t('about')}</MenuItemHeader>
 
       {ABOUT_LINKS.map(({ label, link }) => (
@@ -18,9 +18,9 @@ export function AboutAndHelpDropdown({ className }: { className?: string }) {
         </MenuItemLink>
       ))}
 
-      <MenuItemHeader>{t('helpAndReport')}</MenuItemHeader>
+      <MenuItemHeader>{t('report')}</MenuItemHeader>
 
-      {HELP_AND_REPORT_LINKS.map(({ label, link }) => (
+      {REPORT_LINKS.map(({ label, link }) => (
         <MenuItemLink key={label} to={link}>
           {t(label)}
         </MenuItemLink>
