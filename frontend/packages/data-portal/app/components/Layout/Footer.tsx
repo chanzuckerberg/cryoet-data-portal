@@ -22,11 +22,11 @@ const DEV_LINKS = [
   },
   {
     label: i18n.contributeData,
-    href: 'https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=Contribution+from+portal&hide_Event=true',
+    href: 'https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=ContributionPortalFooter&hide_Event=true',
   },
   {
     label: i18n.feedback,
-    href: 'https://airtable.com/apppmytRJXoXYTO9w/shrjmV9knAC7E7VVM?prefill_Event=Footer&hide_Event=true',
+    href: 'https://airtable.com/apppmytRJXoXYTO9w/shrjmV9knAC7E7VVM?prefill_Event=FeedbackPortalFooter&hide_Event=true',
   },
   {
     label: i18n.documentation,
