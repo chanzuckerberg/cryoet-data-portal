@@ -1,4 +1,4 @@
-# Cryoet neuroglander as a library
+# Cryoet neuroglancer as a library
 
 
 This project provides an integration of Neuroglancer as a library for the CryoET Data Portal. The project relies on vite for the packaging as Neuroglancer still doesn't supports esbuild-based builds (used by remix).
