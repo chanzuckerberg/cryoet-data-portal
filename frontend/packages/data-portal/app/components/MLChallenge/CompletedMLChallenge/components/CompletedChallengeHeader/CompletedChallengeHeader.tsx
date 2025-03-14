@@ -16,7 +16,7 @@ export function CompletedChallengeHeader() {
       <h1 className="text-[26px] screen-512:text-[34px] leading-[34px] screen-512:leading-[46px] tracking-[0.8px] font-semibold max-w-content-small mx-auto">
         {t('cryoetDataAnnotationMLComp')}
       </h1>
-      <h2 className="text-[14px] screen-512:text-sds-body-m leading-[24px] screen-512:leading-sds-body-m screen-512:mt-sds-xs max-w-content-small mx-auto">
+      <h2 className="text-[14px] screen-512:text-sds-body-m-400-wide leading-[24px] screen-512:leading-sds-body-m screen-512:mt-sds-xs max-w-content-small mx-auto">
         {t('developAMLModel')}
       </h2>
       <div className="flex flex-col screen-512:flex-row my-sds-xl gap-sds-xl justify-center">

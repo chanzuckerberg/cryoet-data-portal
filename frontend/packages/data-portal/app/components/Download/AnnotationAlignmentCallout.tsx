@@ -29,24 +29,24 @@ export function AnnotationAlignmentCallout({
       sdsStage={initialState}
     >
       <CalloutTitle>
-        <p className="text-sds-body-xs leading-sds-body-xs">
+        <p className="text-sds-body-xs-400-wide leading-sds-body-xs">
           <I18n i18nKey="annotationsMayRequireTransformation" />
         </p>
       </CalloutTitle>
-      <p className="text-sds-header-xs leading-sds-header-xs mt-sds-default font-semibold">
+      <p className="text-sds-header-xs-600-wide leading-sds-header-xs mt-sds-default font-semibold">
         {t('alignmentId')}
       </p>
       <CopyBox content={alignmentId} />
 
       {misalignedTomograms.length > 0 && (
         <>
-          <p className="text-sds-body-xs leading-sds-body-xs mt-[10px]">
+          <p className="text-sds-body-xs-400-wide leading-sds-body-xs mt-[10px]">
             <I18n i18nKey="thisAnnotationRequiresTransformation" />
           </p>
 
           <div className="bg-[#ffdb97] flex flex-col gap-[12px] mt-sds-xxs p-sds-s rounded-[2px]">
             {misalignedTomograms.map((tomogram) => (
-              <div className="text-sds-body-xxs !leading-[18px]">
+              <div className="text-sds-body-xxs-400-wide !leading-[18px]">
                 <div className="font-semibold">{getTomogramName(tomogram)}</div>
                 <div>
                   Tomogram ID: {IdPrefix.Tomogram}-{tomogram.id}

@@ -28,7 +28,7 @@ export function MetadataTable({
   return (
     <div className="flex flex-col gap-sds-xs">
       {title && (
-        <p className="text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps uppercase font-semibold">
+        <p className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs tracking-sds-caps uppercase font-semibold">
           {title}
         </p>
       )}
@@ -57,8 +57,8 @@ export function MetadataTable({
                     className={cnsNoMerge(
                       'text-light-sds-color-primitive-gray-600 items-end font-semibold flex flex-row gap-sds-xxs',
                       small
-                        ? 'text-sds-header-xxs leading-sds-header-xxs'
-                        : 'text-sds-header-s leading-sds-header-s',
+                        ? 'text-sds-header-xxs-600-wide leading-sds-header-xxs'
+                        : 'text-sds-header-s-600-wide leading-sds-header-s',
                     )}
                   >
                     {datum.label}
@@ -70,7 +70,8 @@ export function MetadataTable({
                 <TableCell
                   className={cns(
                     '!p-sds-s',
-                    small && '!text-sds-body-xxs !leading-sds-body-xxs',
+                    small &&
+                      '!text-sds-body-xxs-400-wide !leading-sds-body-xxs',
                   )}
                   {...tableCellValueProps}
                 >

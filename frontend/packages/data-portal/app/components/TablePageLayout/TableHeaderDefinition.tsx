@@ -21,11 +21,11 @@ export function TableHeaderDefinition({
 
   return (
     <div className="pt-sds-s px-sds-xl max-w-content">
-      <h1 className="text-sds-header-xxl leading-sds-header-xxl tracking-sds-header-xxl font-semibold">
+      <h1 className="text-sds-header-xxl-600-wide leading-sds-header-xxl tracking-sds-header-xxl font-semibold">
         {title}
       </h1>
 
-      <p className="text-sds-body-s leading-sds-body-s tracking-sds-body-s max-w-[600px] mt-sds-s">
+      <p className="text-sds-body-s-400-wide leading-sds-body-s tracking-sds-body-s max-w-[600px] mt-sds-s">
         <span className="text-sds-color-semantic-text-base-secondary">
           {description}
         </span>

@@ -35,7 +35,7 @@ export function TomogramsSummarySection() {
                   return prev
                 })
               }}
-              className="!uppercase !text-sds-caps-xxxs !p-0"
+              className="!uppercase !text-sds-caps-xxxs-600-wide !p-0"
             >
               {t('goToTomograms')}
             </Button>

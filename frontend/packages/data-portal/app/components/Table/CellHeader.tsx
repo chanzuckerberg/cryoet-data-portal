@@ -66,7 +66,7 @@ export function CellHeader({
       </div>
 
       {subHeader && (
-        <p className="text-sds-body-xxxs leading-sds-body-xxxs font-normal">
+        <p className="text-sds-body-xxxs-400-wide leading-sds-body-xxxs font-normal">
           {subHeader}
         </p>
       )}

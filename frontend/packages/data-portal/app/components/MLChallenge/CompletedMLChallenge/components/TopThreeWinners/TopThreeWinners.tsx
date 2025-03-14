@@ -16,13 +16,13 @@ export function TopThreeWinners({ winners }: { winners: Winner[] }) {
           {t('tenWinningTeams')}
         </h2>
         <div className="flex items-center gap-sds-xs">
-          <p className="text-[16px] screen-512:text-sds-body-l leading-[26px] screen-512:leading-sds-body-l">
+          <p className="text-[16px] screen-512:text-sds-body-l-400-wide leading-[26px] screen-512:leading-sds-body-l">
             {t('howIsScoreCalculated')}
           </p>
           <Tooltip
             offset={[0, -3]}
             tooltip={
-              <div className="text-sds-body-s leading-sds-body-s">
+              <div className="text-sds-body-s-400-wide leading-sds-body-s">
                 Submissions were scored using an average F
                 <span className="relative top-sds-xxxs">&beta;</span> metric,
                 adjusted for the detection difficulty of each species.

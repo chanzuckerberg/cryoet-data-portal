@@ -141,7 +141,7 @@ export function DownloadOptionsContent() {
         <ModalSubtitle label={t('annotations')} value={t('all')} />
       )}
 
-      <p className="font-semibold text-sds-body-m leading-sds-body-m mt-sds-xl">
+      <p className="font-semibold text-sds-body-m-400-wide leading-sds-body-m mt-sds-xl">
         {t('selectDownloadMethod')}:
       </p>
 

@@ -16,13 +16,13 @@ export function NoTotalResults({
   return (
     <div className="flex justify-center items-center gap-sds-xxl border-t border-light-sds-color-primitive-gray-300">
       <div className="flex flex-col justify-center items-baseline h-[425px] gap-[20px]">
-        <h1 className="text-sds-header-l font-semibold">{title}</h1>
-        <div className="text-sds-body-s">{description}</div>
+        <h1 className="text-sds-header-l-600-wide font-semibold">{title}</h1>
+        <div className="text-sds-body-s-400-wide">{description}</div>
         {buttons.map((button) => (
           <Button
             sdsType="primary"
             sdsStyle="minimal"
-            className="!normal-case !text-sds-body-s"
+            className="!normal-case !text-sds-body-s-400-wide"
             onClick={button.onClick}
           >
             {button.text}

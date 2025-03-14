@@ -31,7 +31,7 @@ export function TableHeader({
         !!description && 'bg-light-sds-color-primitive-gray-100',
       )}
     >
-      <p className="text-sds-header-l leading-sds-header-l font-semibold">
+      <p className="text-sds-header-l-600-wide leading-sds-header-l font-semibold">
         {title}
       </p>
 

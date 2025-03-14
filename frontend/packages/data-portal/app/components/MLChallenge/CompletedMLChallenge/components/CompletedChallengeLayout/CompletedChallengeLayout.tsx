@@ -104,13 +104,13 @@ export function CompletedChallengeLayout() {
             <h2 className="text-[26px] screen-512:text-[34px] leading-[34px] tracking-[0.8px] screen-512:leading-[46px] font-semibold mb-sds-xxl mt-sds-xxl screen-512:mt-[0px] screen-512:tracking-[0.3px]">
               {t('impact')}
             </h2>
-            <h3 className="screen-512:text-sds-header-xl screen-512:leading-sds-header-xl text-[18px] leading-[24px] font-semibold mt-sds-xxl">
+            <h3 className="screen-512:text-sds-header-xl-600-wide screen-512:leading-sds-header-xl text-[18px] leading-[24px] font-semibold mt-sds-xxl">
               {t('impactSubTitle')}
             </h3>
-            <p className="text-sds-body-m leading-sds-body-m text-[#6C6C6C] mt-sds-xl">
+            <p className="text-sds-body-m-400-wide leading-sds-body-m text-[#6C6C6C] mt-sds-xl">
               <I18n i18nKey="impactExplanation" />
             </p>
-            <p className="text-sds-body-m leading-sds-body-m text-[#6C6C6C] mt-sds-xl mb-sds-xxl">
+            <p className="text-sds-body-m-400-wide leading-sds-body-m text-[#6C6C6C] mt-sds-xl mb-sds-xxl">
               {t('impactCTAText')}
             </p>
             <div className="flex gap-sds-l mb-sds-xxl">
@@ -167,7 +167,7 @@ export function CompletedChallengeLayout() {
 
       <JumpToAnchor id={CompletedMLChallengeSectionId.CompetitionData} />
       <Section color="primary100" className="gap-sds-xl" useMdxStyles>
-        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold [&&]:mb-0">
+        <h2 className="text-sds-header-xl-600-wide leading-sds-header-xl font-semibold [&&]:mb-0">
           {t('competitionData')}
         </h2>
         <div
@@ -178,13 +178,13 @@ export function CompletedChallengeLayout() {
           )}
         >
           <div>
-            <h4 className="text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps-xxxs font-semibold uppercase text-light-sds-color-primitive-gray-500 mb-sds-xs">
+            <h4 className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs tracking-sds-caps-xxxs font-semibold uppercase text-light-sds-color-primitive-gray-500 mb-sds-xs">
               {t('competitionDepositionName')}:
             </h4>
-            <h3 className="text-sds-header-m leading-sds-header-m font-semibold mb-sds-l [&&&]:mt-0">
+            <h3 className="text-sds-header-m-600-wide leading-sds-header-m font-semibold mb-sds-l [&&&]:mt-0">
               {t('competitionDataHeader')}
             </h3>
-            <p className="text-sds-body-s leading-sds-body-s mb-sds-l text-justify">
+            <p className="text-sds-body-s-400-wide leading-sds-body-s mb-sds-l text-justify">
               {t('competitionDataDetailsPast')}
             </p>
             <div className="flex gap-sds-default">
@@ -244,10 +244,10 @@ export function CompletedChallengeLayout() {
         id={CompletedMLChallengeSectionId.CompetitionContributors}
       />
       <Section className="gap-sds-xl">
-        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
+        <h2 className="text-sds-header-xl-600-wide leading-sds-header-xl font-semibold">
           {t('competitionContributors')}
         </h2>
-        <p className="text-sds-body-s leading-sds-body-s">
+        <p className="text-sds-body-s-400-wide leading-sds-body-s">
           {t('competitionContributorsBlurb')}
         </p>
         <MDXRemote
@@ -256,7 +256,7 @@ export function CompletedChallengeLayout() {
         />
         <div className="flex flex-col items-center mt-sds-l">
           <div className="w-full h-[2px] bg-light-sds-color-primitive-gray-200 mb-sds-xxl" />
-          <p className="text-sds-caps-xxs leading-sds-caps-xxs uppercase font-semibold text-light-sds-color-primitive-gray-500 mb-sds-l">
+          <p className="text-sds-caps-xxs-600-wide leading-sds-caps-xxs uppercase font-semibold text-light-sds-color-primitive-gray-500 mb-sds-l">
             {t('sponsoredBy')}:
           </p>
           <div className="flex flex-col screen-1024:flex-row gap-sds-xl items-center w-full max-w-[350px] screen-1024:max-w-none justify-between">

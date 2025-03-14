@@ -16,10 +16,10 @@ function MetricField({ title, count }: { title: string; count: number }) {
         'font-semibold',
       )}
     >
-      <p className="text-sds-caps-xxxs leading-sds-caps-xxxs uppercase drop-shadow-landing-header">
+      <p className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs uppercase drop-shadow-landing-header">
         {title}
       </p>
-      <p className="text-sds-header-l leading-sds-header-l drop-shadow-landing-header">
+      <p className="text-sds-header-l-600-wide leading-sds-header-l drop-shadow-landing-header">
         {count.toLocaleString()}
       </p>
     </div>
@@ -86,7 +86,7 @@ export function IndexHeader() {
           </Link>
         </div>
         <Link to={t('urlAPIQuickstart')}>
-          <p className="underline underline-offset-1 decoration-1 text-sds-body-xxs leading-none drop-shadow-landing-header">
+          <p className="underline underline-offset-1 decoration-1 text-sds-body-xxs-400-wide leading-none drop-shadow-landing-header">
             <I18n i18nKey="orExploreViaApi" />
           </p>
         </Link>

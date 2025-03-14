@@ -47,7 +47,7 @@ export function AuthorLink({
       disableHoverListener={!author.orcid && !author.kaggleId}
       tooltip={
         <div className="min-w-[200px] pt-sds-xxs pb-sds-s">
-          <h4 className="text-light-sds-color-primitive-gray-500 text-sds-header-xxs leading-sds-header-xxs font-semibold mb-sds-s">
+          <h4 className="text-light-sds-color-primitive-gray-500 text-sds-header-xxs-600-wide leading-sds-header-xxs font-semibold mb-sds-s">
             Author Handle(s)
           </h4>
           <ul>

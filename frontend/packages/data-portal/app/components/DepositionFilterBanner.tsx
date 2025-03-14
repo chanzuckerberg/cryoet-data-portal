@@ -33,7 +33,7 @@ export function DepositionFilterBanner({
     <Callout className="!w-full" classes={{ message: 'w-full' }} intent="info">
       <div className="flex w-full items-center gap-sds-l justify-between">
         {/* TODO: (kne42) sync with design on what we want to do on overflow */}
-        <p className="text-sds-body-xs leading-sds-body-xs flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+        <p className="text-sds-body-xs-400-wide leading-sds-body-xs flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
           <I18n
             i18nKey={labelI18n}
             values={{

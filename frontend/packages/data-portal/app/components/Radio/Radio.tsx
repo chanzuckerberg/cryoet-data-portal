@@ -56,7 +56,7 @@ export function Radio({
       <div className={cns('flex flex-col gap-sds-xxxs !tracking-[0.3px] grow')}>
         <span
           className={cns(
-            'text-sds-header-s leading-sds-header-s font-semibold',
+            'text-sds-header-s-600-wide leading-sds-header-s font-semibold',
             disabled && '!text-[#c3c3c3]',
           )}
         >
@@ -64,7 +64,7 @@ export function Radio({
         </span>
         <span
           className={cns(
-            'text-sds-body-xs leading-sds-body-xs',
+            'text-sds-body-xs-400-wide leading-sds-body-xs',
             disabled
               ? '!text-[#c3c3c3]'
               : 'text-light-sds-color-primitive-gray-600',

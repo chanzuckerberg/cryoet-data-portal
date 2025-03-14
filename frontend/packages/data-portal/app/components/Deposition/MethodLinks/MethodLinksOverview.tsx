@@ -33,10 +33,10 @@ export function MethodLinksOverview() {
           ({ annotationMethod, methodType, methodLinks }, i) => (
             <>
               <div className="grid grid-cols-[1fr_2fr] gap-x-sds-xl gap-y-sds-xs">
-                <h3 className="text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold uppercase">
+                <h3 className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs font-semibold uppercase">
                   {t('methodType')}
                 </h3>
-                <div className="flex flex-row gap-sds-xxs text-sds-body-xxs leading-sds-body-xxs col-start-1">
+                <div className="flex flex-row gap-sds-xxs text-sds-body-xxs-400-wide leading-sds-body-xxs col-start-1">
                   {t(
                     getMethodTypeLabelI18nKey(
                       methodType ?? Annotation_Method_Type_Enum.Automated,
@@ -61,7 +61,7 @@ export function MethodLinksOverview() {
                     />
                   </Tooltip>
                 </div>
-                <h3 className="text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold uppercase col-start-2 row-start-1">
+                <h3 className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs font-semibold uppercase col-start-2 row-start-1">
                   {t('methodLinks')}
                 </h3>
                 <CollapsibleList
@@ -71,7 +71,7 @@ export function MethodLinksOverview() {
                       entry: (
                         <MethodLink
                           {...methodLinkProps}
-                          className="text-sds-body-xxs leading-sds-body-xxs"
+                          className="text-sds-body-xxs-400-wide leading-sds-body-xxs"
                           linkProps={{
                             className:
                               'text-light-sds-color-primitive-gray-600',

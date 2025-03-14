@@ -32,7 +32,7 @@ function TiltRangeInput({
 
   return (
     <div className="flex flex-col gap-sds-xxxs">
-      <p className="text-sds-body-xs leading-sds-body-xs tracking-sds-default">
+      <p className="text-sds-body-xs-400-wide leading-sds-body-xs tracking-sds-default">
         {label}:
       </p>
 
@@ -136,7 +136,7 @@ export function TiltRangeFilter() {
           />
         </div>
 
-        <p className="text-light-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-body-xxs">
+        <p className="text-light-sds-color-primitive-gray-600 text-sds-body-xxs-400-wide leading-sds-body-xxs">
           {t('tiltRangeFilterDescription')}
         </p>
       </div>

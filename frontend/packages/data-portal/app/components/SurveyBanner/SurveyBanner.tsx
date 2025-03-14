@@ -65,7 +65,7 @@ export function SurveyBanner() {
         <div className="flex items-center gap-sds-default">
           <Icon sdsIcon="SpeechBubbles" sdsSize="l" sdsType="static" />
 
-          <p className="text-sds-body-s leading-sds-body-s">
+          <p className="text-sds-body-s-400-wide leading-sds-body-s">
             <I18n i18nKey="surveyBanner" />
           </p>
         </div>

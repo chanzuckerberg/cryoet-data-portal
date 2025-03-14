@@ -9,10 +9,10 @@ import { Tooltip } from './Tooltip'
 function Legend() {
   return (
     <div className="flex flex-col gap-sds-m min-w-fit">
-      <h4 className="text-sds-header-xxs leading-sds-header-xxs font-semibold text-light-sds-color-primitive-gray-500">
+      <h4 className="text-sds-header-xxs-600-wide leading-sds-header-xxs font-semibold text-light-sds-color-primitive-gray-500">
         <I18n i18nKey="authorNameLegend" />
       </h4>
-      <div className="grid grid-cols-[max-content_max-content] gap-x-sds-xl gap-y-sds-xxs text-sds-body-xs leading-sds-body-xs text-light-sds-color-primitive-gray-900 ">
+      <div className="grid grid-cols-[max-content_max-content] gap-x-sds-xl gap-y-sds-xxs text-sds-body-xs-400-wide leading-sds-body-xs text-light-sds-color-primitive-gray-900 ">
         <I18n i18nKey="boldedText" />
         <span className="font-semibold">
           <I18n i18nKey="primaryAuthor" />

@@ -19,7 +19,7 @@ export function TiltSeriesQualityScoreBadge({
   return (
     <div
       className={cns(
-        'px-sds-xs py-sds-xxxs text-sds-body-xxxs leading-sds-body-xxxs rounded inline-flex',
+        'px-sds-xs py-sds-xxxs text-sds-body-xxxs-400-wide leading-sds-body-xxxs rounded inline-flex',
 
         match(score)
           .with(

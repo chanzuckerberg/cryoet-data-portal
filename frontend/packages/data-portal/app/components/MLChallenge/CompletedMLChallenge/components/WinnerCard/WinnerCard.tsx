@@ -54,16 +54,16 @@ export function WinnerCard({
       )}
       <div className="grow flex flex-col">
         <div className="flex justify-between mt-sds-l">
-          <h3 className="text-sds-header-xl leading-sds-header-xl font-semibold">
+          <h3 className="text-sds-header-xl-600-wide leading-sds-header-xl font-semibold">
             {place}
             {getNumberSuffix(place)} Place
           </h3>
-          <p className="text-sds-body-m leading-sds-body-m">
+          <p className="text-sds-body-m-400-wide leading-sds-body-m">
             Score:{' '}
             {TEAM_INFO_BY_DEPOSITION_ID[winner.id.toString()]?.score || '--'}
           </p>
         </div>
-        <h4 className="text-sds-body-m leading-sds-body-m font-semibold mt-sds-s">
+        <h4 className="text-sds-body-m-400-wide leading-sds-body-m font-semibold mt-sds-s">
           {TEAM_INFO_BY_DEPOSITION_ID[winner.id.toString()]?.teamName ||
             'Team Name'}
         </h4>

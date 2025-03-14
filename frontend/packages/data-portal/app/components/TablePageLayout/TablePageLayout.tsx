@@ -67,7 +67,7 @@ export function TablePageLayout({
         {tabs.length > 1 && (
           <div className="max-w-content w-full self-center px-sds-xl">
             {tabsTitle && (
-              <div className="text-sds-header-l leading-sds-header-l font-semibold mb-sds-s">
+              <div className="text-sds-header-l-600-wide leading-sds-header-l font-semibold mb-sds-s">
                 {tabsTitle}
               </div>
             )}
