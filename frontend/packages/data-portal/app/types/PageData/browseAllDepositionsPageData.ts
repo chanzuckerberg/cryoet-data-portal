@@ -18,6 +18,6 @@ export type Deposition = {
   depositionDate: string
   annotationCount: number
   acrossDatasets: number
-  annotatedObjects: string[]
+  annotatedObjects: Map<string, boolean>
   objectShapeTypes: Annotation_File_Shape_Type_Enum[]
 }

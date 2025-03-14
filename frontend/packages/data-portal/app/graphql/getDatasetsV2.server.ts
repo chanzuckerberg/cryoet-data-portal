@@ -58,6 +58,7 @@ const GET_DATASETS_QUERY = gql(`
           groupBy {
             annotations {
               objectName
+              groundTruthStatus
             }
           }
         }
