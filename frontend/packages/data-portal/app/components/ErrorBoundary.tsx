@@ -64,6 +64,7 @@ function FallbackRender({ error, resetErrorBoundary }: FallbackProps) {
       <p className="font-bold text-black ml-2">{t('somethingWentWrong')}:</p>
       <pre className="text-red-500 ml-2">{errorMessage}</pre>
       <Button
+        sdsStyle="square"
         onClick={() => {
           resetErrorBoundary()
 

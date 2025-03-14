@@ -13,7 +13,7 @@ export function PageHeaderSubtitle({
     <h2
       className={cns(
         className,
-        'text-sds-header-l leading-sds-header-l font-semibold',
+        'text-sds-header-l-600-wide leading-sds-header-l font-semibold',
       )}
     >
       {children}

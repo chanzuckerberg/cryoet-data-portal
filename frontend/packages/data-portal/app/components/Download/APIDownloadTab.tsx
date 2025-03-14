@@ -139,14 +139,18 @@ export function APIDownloadTab() {
 
   return (
     <div className="pt-sds-xl">
-      <Callout className="!w-full !mt-0" intent="info">
-        <I18n
-          i18nKey={calloutKey as I18nKeys}
-          tOptions={{
-            interpolation: { escapeValue: false },
-          }}
-        />
-      </Callout>
+      <Callout
+        className="!w-full !mt-0"
+        intent="info"
+        body={
+          <I18n
+            i18nKey={calloutKey as I18nKeys}
+            tOptions={{
+              interpolation: { escapeValue: false },
+            }}
+          />
+        }
+      />
 
       <CopyBox
         className="mt-sds-l"

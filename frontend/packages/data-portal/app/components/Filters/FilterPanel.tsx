@@ -8,7 +8,7 @@ export function FilterPanel({ children }: { children: ReactNode }) {
   return (
     <aside className="flex flex-col gap-sds-xxs">
       <div className="pl-sds-xl pr-sds-m pt-sds-xl">
-        <p className="font-semibold text-sds-header-m leading-sds-header-m">
+        <p className="font-semibold text-sds-header-m-600-wide leading-sds-header-m">
           {t('filterBy')}:
         </p>
       </div>

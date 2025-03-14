@@ -38,8 +38,8 @@ export function WinnerCard({
         'bg-white shadow-card',
         'grid grid-cols-1 gap-sds-s',
         place <= 3
-          ? 'border-t-[8px] border-t-sds-color-semantic-component-accent-icon'
-          : 'border-b-[8px] border-b-sds-color-semantic-component-accent-icon',
+          ? 'border-t-[8px] border-t-light-sds-color-semantic-accent-ornament'
+          : 'border-b-[8px] border-b-light-sds-color-semantic-accent-ornament',
         place <= 3 &&
           'grid-rows-[4fr_5fr] screen-667:grid-cols-[1fr_2fr] screen-667:grid-rows-1 screen-1345:grid-cols-1 screen-1345:grid-rows-[232px_1fr]',
       )}
@@ -54,20 +54,20 @@ export function WinnerCard({
       )}
       <div className="grow flex flex-col">
         <div className="flex justify-between mt-sds-l">
-          <h3 className="text-sds-header-xl leading-sds-header-xl font-semibold">
+          <h3 className="text-sds-header-xl-600-wide leading-sds-header-xl font-semibold">
             {place}
             {getNumberSuffix(place)} Place
           </h3>
-          <p className="text-sds-body-m leading-sds-body-m">
+          <p className="text-sds-body-m-400-wide leading-sds-body-m">
             Score:{' '}
             {TEAM_INFO_BY_DEPOSITION_ID[winner.id.toString()]?.score || '--'}
           </p>
         </div>
-        <h4 className="text-sds-body-m leading-sds-body-m font-semibold mt-sds-s">
+        <h4 className="text-sds-body-m-400-wide leading-sds-body-m font-semibold mt-sds-s">
           {TEAM_INFO_BY_DEPOSITION_ID[winner.id.toString()]?.teamName ||
             'Team Name'}
         </h4>
-        <h5 className="text-sds-color-primitive-gray-600 mt-sds-xs">
+        <h5 className="text-light-sds-color-primitive-gray-600 mt-sds-xs">
           Members:{' '}
           <span className="text-black">
             <AuthorList

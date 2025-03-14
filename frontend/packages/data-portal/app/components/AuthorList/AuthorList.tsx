@@ -93,7 +93,7 @@ export function AuthorList({
         {compact ? (
           <li
             className={cns(
-              subtle && !compact && 'text-sds-color-primitive-gray-600',
+              subtle && !compact && 'text-light-sds-color-primitive-gray-600',
               'pr-sds-xxs',
             )}
           >
@@ -104,7 +104,7 @@ export function AuthorList({
             <li
               key={getAuthorKey(author)}
               className={cns(
-                subtle && !compact && 'text-sds-color-primitive-gray-600',
+                subtle && !compact && 'text-light-sds-color-primitive-gray-600',
                 'pr-sds-xxs',
               )}
             >

@@ -48,7 +48,7 @@ export function I18n({ i18nKey, components, linkProps, ...props }: I18nProps) {
 
         url: (
           <Link
-            className="text-sds-color-primitive-blue-400"
+            className="text-light-sds-color-primitive-blue-500"
             {...(linkProps as Required<Partial<VariantLinkProps>, 'to'>)}
           >
             {/* This will get replaced by I18next */}

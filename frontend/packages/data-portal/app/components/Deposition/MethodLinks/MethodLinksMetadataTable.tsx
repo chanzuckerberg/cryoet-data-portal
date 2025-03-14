@@ -25,7 +25,7 @@ function MethodLinkList({
 
   if (methodLinks.length === 0) {
     return (
-      <p className="text-sds-body-s leading-sds-body-s text-sds-color-primitive-gray-500">
+      <p className="text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-500">
         {t('notSubmitted')}
       </p>
     )
@@ -39,10 +39,10 @@ function MethodLinkList({
         >
           <MethodLink
             {...methodLinkProps}
-            className="text-sds-body-s leading-sds-body-s whitespace-nowrap overflow-hidden text-ellipsis"
+            className="text-sds-body-s-400-wide leading-sds-body-s whitespace-nowrap overflow-hidden text-ellipsis"
             linkProps={{
               className:
-                'text-sds-color-primitive-blue-400  overflow-hidden text-ellipsis',
+                'text-light-sds-color-primitive-blue-500  overflow-hidden text-ellipsis',
             }}
           />
         </li>
@@ -80,12 +80,12 @@ export function MethodLinksMetadataTable({
             <div>
               {annotationMethods.length > 1 && (
                 <div className="flex flex-row gap-[10px] mt-sds-xs mb-[10px] items-center whitespace-nowrap">
-                  <p className="uppercase text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold text-sds-color-primitive-gray-600 basis-0 flex-initial">
+                  <p className="uppercase text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs font-semibold text-light-sds-color-primitive-gray-600 basis-0 flex-initial">
                     {t('methodCount', {
                       value: startCase(converter.toWords(i + 1)),
                     })}
                   </p>
-                  <div className="flex-grow h-[1px] bg-sds-color-primitive-gray-300" />
+                  <div className="flex-grow h-[1px] bg-light-sds-color-primitive-gray-300" />
                 </div>
               )}
               <MetadataTable

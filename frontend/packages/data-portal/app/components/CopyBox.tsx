@@ -26,7 +26,7 @@ export function CopyBox({
       {title && (
         <p
           className={cns(
-            'text-sds-header-s leading-sds-header-s font-semibold mb-sds-xxs',
+            'text-sds-header-s-600-wide leading-sds-header-s font-semibold mb-sds-xxs',
             titleClassName,
           )}
         >
@@ -36,7 +36,7 @@ export function CopyBox({
 
       <div
         className={cns(
-          'bg-sds-color-primitive-gray-100 border-[0.5px] border-sds-color-primitive-gray-300',
+          'bg-light-sds-color-primitive-gray-100 border-[0.5px] border-light-sds-color-primitive-gray-300',
           'p-sds-default flex gap-sds-s',
         )}
       >
@@ -52,6 +52,7 @@ export function CopyBox({
         <div className="flex flex-col">
           <Button
             className="!min-w-0 uppercase !p-0"
+            sdsStyle="minimal"
             onClick={() => {
               onCopy?.()
 

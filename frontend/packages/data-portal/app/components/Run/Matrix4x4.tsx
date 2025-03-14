@@ -19,7 +19,7 @@ export function Matrix4x4({
       <div className="grid grid-flow-row grid-rows-4 grid-cols-4 gap-x-sds-xxxs">
         {matrix.split(' ').map((value) => {
           return (
-            <p className="w-[24.5px] h-[24px] text-center text-sds-body-s leading-sds-body-s ">
+            <p className="w-[24.5px] h-[24px] text-center text-sds-body-s-400-wide leading-sds-body-s ">
               {value}
             </p>
           )

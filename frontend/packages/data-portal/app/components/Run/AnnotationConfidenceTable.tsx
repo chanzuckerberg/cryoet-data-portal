@@ -28,7 +28,7 @@ export function AnnotationConfidenceTable() {
               ? t('notApplicable')
               : selectedAnnotationShape.annotation?.groundTruthUsed ?? '--',
           ],
-          className: 'text-sds-color-primitive-gray-500',
+          className: 'text-light-sds-color-primitive-gray-500',
         },
         {
           label: t('precision'),
@@ -37,7 +37,7 @@ export function AnnotationConfidenceTable() {
               ? t('notApplicable')
               : selectedAnnotationShape.annotation?.confidenceRecall ?? '--',
           ],
-          className: 'text-sds-color-primitive-gray-500',
+          className: 'text-light-sds-color-primitive-gray-500',
         },
         {
           label: t('recall'),
@@ -46,7 +46,7 @@ export function AnnotationConfidenceTable() {
               ? t('notApplicable')
               : selectedAnnotationShape.annotation?.confidenceRecall ?? '--',
           ],
-          className: 'text-sds-color-primitive-gray-500',
+          className: 'text-light-sds-color-primitive-gray-500',
         },
       ]}
     />

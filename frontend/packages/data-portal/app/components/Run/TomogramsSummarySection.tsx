@@ -25,6 +25,7 @@ export function TomogramsSummarySection() {
           <li className="flex justify-between overflow-x-auto">
             {values[0]}
             <Button
+              sdsStyle="minimal"
               onClick={() => {
                 setSearchParams((prev) => {
                   // Cannot use closeDrawer()
@@ -35,7 +36,7 @@ export function TomogramsSummarySection() {
                   return prev
                 })
               }}
-              className="!uppercase !text-sds-caps-xxxs !p-0"
+              className="!uppercase !text-sds-caps-xxxs-600-wide !p-0"
             >
               {t('goToTomograms')}
             </Button>

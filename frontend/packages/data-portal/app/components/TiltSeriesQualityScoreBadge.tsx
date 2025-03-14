@@ -19,18 +19,18 @@ export function TiltSeriesQualityScoreBadge({
   return (
     <div
       className={cns(
-        'px-sds-xs py-sds-xxxs text-sds-body-xxxs leading-sds-body-xxxs rounded inline-flex',
+        'px-sds-xs py-sds-xxxs text-sds-body-xxxs-400-wide leading-sds-body-xxxs rounded inline-flex',
 
         match(score)
           .with(
             TiltSeriesScore.VeryPoor,
             () =>
-              'bg-sds-color-primitive-red-400 text-sds-color-primitive-common-white',
+              'bg-light-sds-color-primitive-red-400 text-light-sds-color-primitive-gray-50',
           )
           .with(
             TiltSeriesScore.Poor,
             () =>
-              'bg-sds-color-primitive-yellow-400 text-sds-color-primitive-common-white',
+              'bg-light-sds-color-primitive-yellow-400 text-light-sds-color-primitive-gray-50',
           )
           .with(
             P.union(
@@ -39,7 +39,7 @@ export function TiltSeriesQualityScoreBadge({
               TiltSeriesScore.Excellent,
             ),
             () =>
-              'bg-sds-color-primitive-green-400 text-sds-color-primitive-common-white',
+              'bg-light-sds-color-primitive-green-400 text-light-sds-color-primitive-gray-50',
           )
           .otherwise(() => ''),
       )}

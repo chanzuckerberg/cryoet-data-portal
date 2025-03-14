@@ -14,7 +14,7 @@ export function DirectDownloadTab() {
   return (
     <div className="pt-sds-xl">
       <p className="flex items-center gap-sds-xxs">
-        <span className="text-sds-header-s leading-sds-header-s font-semibold">
+        <span className="text-sds-header-s-600-wide leading-sds-header-s font-semibold">
           {t('clickToDownloadViaBrowser')}
         </span>
       </p>
@@ -40,7 +40,7 @@ export function DirectDownloadTab() {
         </Button>
       )}
 
-      <p className="text-sds-body-xs leading-sds-body-xs text-sds-color-primitive-gray-500">
+      <p className="text-sds-body-xs-400-wide leading-sds-body-xs text-light-sds-color-primitive-gray-500">
         {t('ifYouEncounterIssuesWithDownloadTime')}
       </p>
     </div>

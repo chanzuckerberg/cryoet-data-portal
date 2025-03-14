@@ -56,7 +56,7 @@ export function AnnotationsSummaryMetadataTable({
       label: t('objectShapeTypes'),
       values: [],
       renderValue: () => (
-        <ul className="flex flex-col list-none gap-sds-xs text-sds-body-s leading-sds-body-s">
+        <ul className="flex flex-col list-none gap-sds-xs text-sds-body-s-400-wide leading-sds-body-s">
           {objectShapeTypes.map((shapeType) => {
             switch (shapeType) {
               case Annotation_File_Shape_Type_Enum.InstanceSegmentation:

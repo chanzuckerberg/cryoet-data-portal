@@ -52,7 +52,7 @@ export function PageHeader({
                 <h1
                   className={cns(
                     'font-semibold',
-                    'text-sds-header-xxl leading-sds-header-xxl',
+                    'text-sds-header-xxl-600-wide leading-sds-header-xxl',
                     'max-w-[1000px]',
                   )}
                 >
@@ -70,7 +70,7 @@ export function PageHeader({
                   className={cns(
                     'row-start-1 col-start-2',
                     'flex self-start items-center justify-end gap-sds-xs',
-                    'text-xs text-sds-color-primitive-gray-600',
+                    'text-xs text-light-sds-color-primitive-gray-600',
                   )}
                 >
                   {releaseDate && (
@@ -80,7 +80,7 @@ export function PageHeader({
                   )}
 
                   {releaseDate && lastModifiedDate && (
-                    <div className="h-3 w-px bg-sds-color-primitive-gray-400" />
+                    <div className="h-3 w-px bg-light-sds-color-primitive-gray-400" />
                   )}
 
                   {lastModifiedDate && (

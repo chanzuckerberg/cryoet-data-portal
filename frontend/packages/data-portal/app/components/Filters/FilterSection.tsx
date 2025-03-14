@@ -15,11 +15,12 @@ export function FilterSection({
     <div
       className={cns(
         'pl-sds-l pb-sds-m',
-        border && 'border-b last:border-0 border-sds-color-primitive-gray-300',
+        border &&
+          'border-b last:border-0 border-light-sds-color-primitive-gray-300',
       )}
     >
       {title && (
-        <h3 className="font-semibold text-sds-header-s leading-sds-header-s pl-sds-s pt-sds-s">
+        <h3 className="font-semibold text-sds-header-s-600-wide leading-sds-header-s pl-sds-s pt-sds-s">
           {title}
         </h3>
       )}

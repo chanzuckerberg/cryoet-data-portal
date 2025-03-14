@@ -28,8 +28,8 @@ export function MenuDropdown({
             'font-semibold',
 
             anchorEl
-              ? 'text-sds-color-primitive-common-white'
-              : 'text-sds-color-primitive-gray-400 group-hover:text-sds-color-primitive-common-white',
+              ? 'text-light-sds-color-primitive-gray-50'
+              : 'text-light-sds-color-primitive-gray-400 group-hover:text-light-sds-color-primitive-gray-50',
           )}
         >
           {title}
@@ -38,11 +38,10 @@ export function MenuDropdown({
         <Icon
           sdsIcon={anchorEl ? 'ChevronUp' : 'ChevronDown'}
           sdsSize="xs"
-          sdsType="iconButton"
           className={cns(
             anchorEl
-              ? '!w-[10px] !h-[10px] !fill-sds-color-primitive-common-white'
-              : '!w-[10px] !h-[10px] !fill-sds-color-primitive-gray-400 group-hover:!fill-sds-color-primitive-common-white',
+              ? '!w-[10px] !h-[10px] !fill-light-sds-color-primitive-gray-50'
+              : '!w-[10px] !h-[10px] !fill-light-sds-color-primitive-gray-400 group-hover:!fill-light-sds-color-primitive-gray-50',
           )}
         />
       </button>

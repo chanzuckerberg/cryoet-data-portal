@@ -21,7 +21,7 @@ export function TomogramTypeBadge({
     <div
       className={cns(
         'inline-flex items-center px-sds-xs py-sds-xxxs',
-        '!text-sds-body-xxxs text-[#002660] font-normal leading-sds-body-xxxs rounded bg-[#e9f1ff]',
+        '!text-sds-body-xxxs-400-wide text-[#002660] font-normal leading-sds-body-xxxs rounded bg-[#e9f1ff]',
         size === 'small' ? 'h-[16px]' : 'h-[20px]',
         showTooltip && 'cursor-pointer',
       )}

@@ -14,7 +14,7 @@ export function PageTable<T>({ hoverType, ...props }: PageTableProps<T>) {
         container: '!min-w-fit !overflow-x-visible px-sds-xl',
         row: cns(
           hoverType === 'group' &&
-            'group hover:!bg-sds-color-primitive-gray-100 hover:cursor-pointer',
+            'group hover:!bg-light-sds-color-primitive-gray-100 hover:cursor-pointer',
           hoverType === 'none' && 'hover:!bg-inherit',
         ),
       }}

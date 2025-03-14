@@ -25,7 +25,7 @@ export function DatasetHeader() {
       actions={
         <div>
           <Button
-            startIcon={<Icon sdsIcon="Download" sdsType="button" sdsSize="l" />}
+            startIcon={<Icon sdsIcon="Download" sdsSize="l" />}
             sdsType="primary"
             sdsStyle="rounded"
             onClick={() => openDatasetDownloadModal({ datasetId: dataset.id })}

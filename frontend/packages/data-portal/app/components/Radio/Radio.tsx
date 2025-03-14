@@ -32,8 +32,8 @@ export function Radio({
     {
       className: cns(
         'flex gap-sds-default p-sds-l transition-colors text-left',
-        isActive && 'bg-sds-color-primitive-gray-100',
-        'hover:bg-sds-color-primitive-gray-100',
+        isActive && 'bg-light-sds-color-primitive-gray-100',
+        'hover:bg-light-sds-color-primitive-gray-100',
       ),
       ...(isActive
         ? {}
@@ -56,7 +56,7 @@ export function Radio({
       <div className={cns('flex flex-col gap-sds-xxxs !tracking-[0.3px] grow')}>
         <span
           className={cns(
-            'text-sds-header-s leading-sds-header-s font-semibold',
+            'text-sds-header-s-600-wide leading-sds-header-s font-semibold',
             disabled && '!text-[#c3c3c3]',
           )}
         >
@@ -64,8 +64,10 @@ export function Radio({
         </span>
         <span
           className={cns(
-            'text-sds-body-xs leading-sds-body-xs',
-            disabled ? '!text-[#c3c3c3]' : 'text-sds-color-primitive-gray-600',
+            'text-sds-body-xs-400-wide leading-sds-body-xs',
+            disabled
+              ? '!text-[#c3c3c3]'
+              : 'text-light-sds-color-primitive-gray-600',
           )}
         >
           {description}

@@ -30,7 +30,7 @@ export function Drawer({
           <motion.div
             ref={drawerRef}
             className={cns(
-              'flex flex-auto bg-sds-color-primitive-common-white',
+              'flex flex-auto bg-light-sds-color-primitive-gray-50',
               'max-w-[490px] min-w-[490px]',
               'z-20 fixed right-0',
 

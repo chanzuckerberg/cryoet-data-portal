@@ -107,8 +107,8 @@ export function DepositionTable() {
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                   <p
                     className={cnsNoMerge(
-                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
-                      'group-hover:text-sds-color-primitive-blue-500',
+                      'text-sds-body-m-400-wide leading-sds-body-m font-semibold text-light-sds-color-primitive-blue-500',
+                      'group-hover:text-light-sds-color-primitive-blue-600',
                     )}
                   >
                     {isLoadingDebounced ? (
@@ -120,7 +120,7 @@ export function DepositionTable() {
                     )}
                   </p>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
+                  <p className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-semantic-base-text-primary">
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
@@ -130,7 +130,7 @@ export function DepositionTable() {
                     )}
                   </p>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500 mt-sds-s">
+                  <p className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-primitive-gray-500 mt-sds-s">
                     {isLoadingDebounced ? (
                       <>
                         <Skeleton className="max-w-[80%] mt-2" variant="text" />
@@ -192,7 +192,7 @@ export function DepositionTable() {
           cell({ row: { original: deposition } }) {
             return (
               <TableCell loadingSkeleton={false}>
-                <p className="text-sds-body-s leading-sds-body-s mb-sds-xxxs">
+                <p className="text-sds-body-s-400-wide leading-sds-body-s mb-sds-xxxs">
                   {isLoadingDebounced ? (
                     <Skeleton variant="text" className="max-w-[40%] mt-2" />
                   ) : (
@@ -200,7 +200,7 @@ export function DepositionTable() {
                   )}
                 </p>
 
-                <p className="text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-body-xxs">
+                <p className="text-light-sds-color-primitive-gray-600 text-sds-body-xxs-400-wide leading-sds-body-xxs">
                   {isLoadingDebounced ? (
                     <Skeleton variant="text" className="max-w-[75%] mt-2" />
                   ) : (

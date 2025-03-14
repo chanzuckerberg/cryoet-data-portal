@@ -46,8 +46,8 @@ export function CollapsibleList({
           'flex',
           inlineVariant ? 'flex-wrap gap-sds-xxs' : 'flex-col gap-sds-xs',
           tableVariant
-            ? 'text-sds-body-s leading-sds-body-s'
-            : 'text-sds-body-xxs leading-sds-body-xxs',
+            ? 'text-sds-body-s-400-wide leading-sds-body-s'
+            : 'text-sds-body-xxs-400-wide leading-sds-body-xxs',
           collapsible && 'transition-[max-height_0.2s_ease-out]',
         )}
       >
@@ -67,7 +67,7 @@ export function CollapsibleList({
         <div
           className={cns(
             'mt-sds-xxs font-semibold',
-            tableVariant && 'text-sds-color-primitive-blue-400',
+            tableVariant && 'text-light-sds-color-primitive-blue-500',
           )}
         >
           <button type="button" onClick={() => setCollapsed(!collapsed)}>
@@ -79,12 +79,7 @@ export function CollapsibleList({
             >
               {collapsed ? (
                 <>
-                  <Icon
-                    sdsIcon="Plus"
-                    sdsSize="xs"
-                    sdsType="static"
-                    className="!text-current"
-                  />
+                  <Icon sdsIcon="Plus" sdsSize="xs" className="!text-current" />
                   {t('showNumberMore', {
                     count: entries.length - collapseAfter,
                   })}
@@ -94,7 +89,6 @@ export function CollapsibleList({
                   <Icon
                     sdsIcon="Minus"
                     sdsSize="xs"
-                    sdsType="static"
                     className="!text-current"
                   />
                   {t('showLess')}
@@ -106,7 +100,7 @@ export function CollapsibleList({
       )}
     </div>
   ) : (
-    <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-600">
+    <p className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-primitive-gray-600">
       {t('notSubmitted')}
     </p>
   )

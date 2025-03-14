@@ -9,13 +9,8 @@ export function MdxSeeLeaderboard() {
         to="https://www.kaggle.com/competitions/czii-cryo-et-object-identification/leaderboard"
         className="flex items-baseline"
       >
-        See Leaderboard
-        <Icon
-          sdsIcon="Open"
-          sdsSize="xs"
-          sdsType="static"
-          className="ml-sds-xs"
-        />
+        <span>See Leaderboard</span>
+        <Icon sdsIcon="Open" sdsSize="xs" className="ml-sds-xs" />
       </Link>
     </p>
   )

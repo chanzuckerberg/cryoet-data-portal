@@ -78,7 +78,7 @@ export function TomogramMetadataDrawer() {
             values: [tomogram.deposition?.title ?? ''],
             renderValue: (value: string) => (
               <Link
-                className="text-sds-color-primitive-blue-400"
+                className="text-light-sds-color-primitive-blue-500"
                 to={`/depositions/${tomogram.deposition?.id}`}
               >
                 {value}
@@ -138,7 +138,7 @@ export function TomogramMetadataDrawer() {
           {
             label: t('voxelSpacing'),
             subLabel: (
-              <div className="text-sds-header-xxs font-normal text-sds-color-semantic-text-neutral">
+              <div className="text-sds-header-xxs-600-wide font-normal text-light-sds-color-semantic-neutral-text">
                 {t('sizeXYZ')}
               </div>
             ),
@@ -149,7 +149,7 @@ export function TomogramMetadataDrawer() {
             renderValues: (values: string[]) => (
               <ul className="list-none">
                 <li className="leading-[20px]">{values[0]}</li>
-                <li className="text-sds-header-xxs font-normal text-sds-color-semantic-text-neutral">
+                <li className="text-sds-header-xxs-600-wide font-normal text-light-sds-color-semantic-neutral-text">
                   {values[1]}
                 </li>
               </ul>
@@ -183,8 +183,7 @@ export function TomogramMetadataDrawer() {
                 <Icon
                   sdsIcon="InfoCircle"
                   sdsSize="s"
-                  className="!fill-sds-color-primitive-gray-500"
-                  sdsType="button"
+                  className="!fill-light-sds-color-primitive-gray-500"
                 />
               </Tooltip>
             ),
@@ -205,8 +204,7 @@ export function TomogramMetadataDrawer() {
                 <Icon
                   sdsIcon="InfoCircle"
                   sdsSize="s"
-                  className="!fill-sds-color-primitive-gray-500"
-                  sdsType="button"
+                  className="!fill-light-sds-color-primitive-gray-500"
                 />
               </Tooltip>
             ),

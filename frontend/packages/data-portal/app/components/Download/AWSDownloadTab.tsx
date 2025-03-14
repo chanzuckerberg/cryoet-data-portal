@@ -65,7 +65,7 @@ export function AWSDownloadTab() {
       <CopyBox
         content={awsCommand}
         title={`2. ${t('copyAndRunAwsCliCommand')}`}
-        titleClassName="text-sds-header-s leading-sds-header-s font-semibold mt-sds-l"
+        titleClassName="text-sds-header-s-600-wide leading-sds-header-s font-semibold mt-sds-l"
         onCopy={() => logPlausibleCopyEvent('aws-s3-command', awsCommand)}
       />
       <div className="mt-sds-xxs">

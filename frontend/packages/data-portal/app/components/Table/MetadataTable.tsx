@@ -28,7 +28,7 @@ export function MetadataTable({
   return (
     <div className="flex flex-col gap-sds-xs">
       {title && (
-        <p className="text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps uppercase font-semibold">
+        <p className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs tracking-sds-caps-xxxs-600-wide uppercase font-semibold">
           {title}
         </p>
       )}
@@ -42,7 +42,8 @@ export function MetadataTable({
             return (
               <TableRow
                 className={cns(
-                  (idx + 1) % 2 !== 0 && 'bg-sds-color-primitive-gray-100',
+                  (idx + 1) % 2 !== 0 &&
+                    'bg-light-sds-color-primitive-gray-100',
                 )}
                 key={datum.label + values.join(', ')}
               >
@@ -54,10 +55,10 @@ export function MetadataTable({
                 >
                   <span
                     className={cnsNoMerge(
-                      'text-sds-color-primitive-gray-600 items-end font-semibold flex flex-row gap-sds-xxs',
+                      'text-light-sds-color-primitive-gray-600 items-end font-semibold flex flex-row gap-sds-xxs',
                       small
-                        ? 'text-sds-header-xxs leading-sds-header-xxs'
-                        : 'text-sds-header-s leading-sds-header-s',
+                        ? 'text-sds-header-xxs-600-wide leading-sds-header-xxs'
+                        : 'text-sds-header-s-600-wide leading-sds-header-s',
                     )}
                   >
                     {datum.label}
@@ -69,14 +70,15 @@ export function MetadataTable({
                 <TableCell
                   className={cns(
                     '!p-sds-s',
-                    small && '!text-sds-body-xxs !leading-sds-body-xxs',
+                    small &&
+                      '!text-sds-body-xxs-400-wide !leading-sds-body-xxs',
                   )}
                   {...tableCellValueProps}
                 >
                   {datum.renderValues?.(values) ??
                     match(values.length)
                       .with(0, () => (
-                        <span className="text-sds-color-semantic-text-base-secondary">
+                        <span className="text-light-sds-color-semantic-base-text-secondary">
                           {t('notSubmitted')}
                         </span>
                       ))

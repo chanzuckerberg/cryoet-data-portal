@@ -68,8 +68,8 @@ export function AnnotatedObjectsList({
           >
             <div
               className={cns(
-                'bg-sds-color-primitive-gray-200 text-sds-color-primitive-gray-600 hover:cursor-pointer',
-                'text-sds-body-xxxs leading-sds-body-xxxs',
+                'bg-light-sds-color-primitive-gray-200 text-light-sds-color-primitive-gray-600 hover:cursor-pointer',
+                'text-sds-body-xxxs-400-wide leading-sds-body-xxxs',
                 'rounded-sds-m py-sds-xxxs px-sds-xs inline',
               )}
             >

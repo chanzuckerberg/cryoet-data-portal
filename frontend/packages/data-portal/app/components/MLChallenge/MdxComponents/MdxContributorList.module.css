@@ -1,5 +1,5 @@
 .contributorList {
-  @apply text-sds-body-xs leading-sds-body-xs;
+  @apply text-sds-body-xs-400-wide leading-sds-body-xs;
 
   ul {
     @apply columns-2 screen-716:columns-3 screen-1024:columns-4;
