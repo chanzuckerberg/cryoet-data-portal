@@ -83,7 +83,7 @@ export function MetadataDrawer({
             </p>
 
             {idInfo && (
-              <p className="flex flex-row gap-sds-xs items-baseline text-sds-color-primitive-gray-500 mt-sds-xxs">
+              <p className="flex flex-row gap-sds-xs items-baseline text-light-sds-color-primitive-gray-500 mt-sds-xxs">
                 <span className="text-sds-header-xxs leading-sds-header-xxs font-semibold">
                   {t(idInfo.label)}:
                 </span>
@@ -100,7 +100,7 @@ export function MetadataDrawer({
             className="!min-w-[36px] !min-h-[36px] !max-w-[36px] !max-h-[36px]"
           >
             <Icon
-              className="!fill-sds-color-primitive-gray-500"
+              className="!fill-light-sds-color-primitive-gray-500"
               sdsIcon="XMark"
               sdsSize="l"
               sdsType="button"
@@ -108,7 +108,7 @@ export function MetadataDrawer({
           </Button>
         </header>
 
-        <div className="px-sds-xl border-b-2 border-sds-color-primitive-gray-200">
+        <div className="px-sds-xl border-b-2 border-light-sds-color-primitive-gray-200">
           <Tabs
             className="!m-0"
             tabs={TAB_OPTIONS}
@@ -123,7 +123,7 @@ export function MetadataDrawer({
             'px-sds-xl pt-sds-xl pb-sds-xxl',
 
             drawer.activeTab === MetadataTab.Metadata &&
-              'divide-y divide-sds-color-primitive-gray-300',
+              'divide-y divide-light-sds-color-primitive-gray-300',
           )}
         >
           {drawer.activeTab === MetadataTab.Metadata && children}

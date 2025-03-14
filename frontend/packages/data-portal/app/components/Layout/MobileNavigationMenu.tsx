@@ -19,7 +19,7 @@ function SubMenu({ title, links }: { title: I18nKeys; links: NavLink[] }) {
 
   return (
     <div className="border-t border-sds-gray-500 pt-sds-l flex flex-col gap-sds-l">
-      <p className="text-sds-caps-xxs leading-sds-caps-xxs font-semibold uppercase text-sds-color-primitive-gray-400">
+      <p className="text-sds-caps-xxs leading-sds-caps-xxs font-semibold uppercase text-light-sds-color-primitive-gray-400">
         {t(title)}
       </p>
       <div className="flex flex-col gap-sds-m">
@@ -41,7 +41,7 @@ export function MobileNavigationMenu({ onClose }: { onClose: () => void }) {
   const { t } = useI18n()
 
   return (
-    <nav className="fixed max-w-[100vw] z-30 top-0 bottom-0 right-0 left-0 bg-sds-color-primitive-common-black screen-716:hidden px-sds-xl overflow-y-scroll">
+    <nav className="fixed max-w-[100vw] z-30 top-0 bottom-0 right-0 left-0 bg-light-sds-color-primitive-gray-900  screen-716:hidden px-sds-xl overflow-y-scroll">
       <div className="flex justify-between py-sds-m items-center">
         <CryoETHomeLink />
         <Button
@@ -59,7 +59,7 @@ export function MobileNavigationMenu({ onClose }: { onClose: () => void }) {
           <Link
             key={label}
             to={link}
-            className="text-sds-header-m leading-sds-header-m font-semibold text-sds-color-primitive-gray-300"
+            className="text-sds-header-m leading-sds-header-m font-semibold text-light-sds-color-primitive-gray-300"
           >
             {t(label)}
           </Link>

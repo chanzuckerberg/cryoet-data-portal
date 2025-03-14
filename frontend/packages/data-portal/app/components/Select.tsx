@@ -117,7 +117,7 @@ export function Select({
         {tooltip && (
           <Tooltip role="tooltip" tooltip={tooltip} {...tooltipProps}>
             <Icon
-              className="!fill-sds-color-primitive-gray-500 hover:!fill-sds-color-primitive-blue-400"
+              className="!fill-light-sds-color-primitive-gray-500 hover:!fill-light-sds-color-primitive-blue-400"
               sdsIcon="InfoCircle"
               sdsSize="xs"
               sdsType="static"
@@ -131,8 +131,8 @@ export function Select({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         className={cns(
-          'w-full !bg-white hover:!border-sds-color-primitive-blue-400',
-          open && '!border-sds-color-primitive-blue-400',
+          'w-full !bg-white hover:!border-light-sds-color-primitive-blue-400',
+          open && '!border-light-sds-color-primitive-blue-400',
         )}
         label={label}
         sdsStage="userInput"

@@ -32,8 +32,8 @@ export function IndexContent() {
         <IndexCTA />
         <IndexContributors />
         <div className="flex flex-col gap-sds-m">
-          <div className="flex-initial h-sds-xxxs bg-sds-color-primitive-gray-200" />
-          <p className="text-sds-body-xxxs leading-sds-body-xxxs text-sds-color-primitive-gray-600">
+          <div className="flex-initial h-sds-xxxs bg-light-sds-color-primitive-gray-200" />
+          <p className="text-sds-body-xxxs leading-sds-body-xxxs text-light-sds-color-primitive-gray-600">
             <I18n i18nKey="landingHeaderImageAttribution" />
           </p>
         </div>

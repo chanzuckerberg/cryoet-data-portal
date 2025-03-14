@@ -78,7 +78,7 @@ export function TomogramMetadataDrawer() {
             values: [tomogram.deposition?.title ?? ''],
             renderValue: (value: string) => (
               <Link
-                className="text-sds-color-primitive-blue-400"
+                className="text-light-sds-color-primitive-blue-400"
                 to={`/depositions/${tomogram.deposition?.id}`}
               >
                 {value}
@@ -183,7 +183,7 @@ export function TomogramMetadataDrawer() {
                 <Icon
                   sdsIcon="InfoCircle"
                   sdsSize="s"
-                  className="!fill-sds-color-primitive-gray-500"
+                  className="!fill-light-sds-color-primitive-gray-500"
                   sdsType="button"
                 />
               </Tooltip>
@@ -205,7 +205,7 @@ export function TomogramMetadataDrawer() {
                 <Icon
                   sdsIcon="InfoCircle"
                   sdsSize="s"
-                  className="!fill-sds-color-primitive-gray-500"
+                  className="!fill-light-sds-color-primitive-gray-500"
                   sdsType="button"
                 />
               </Tooltip>

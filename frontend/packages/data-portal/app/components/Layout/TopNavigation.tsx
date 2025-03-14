@@ -26,7 +26,7 @@ export function TopNavigation() {
   return (
     <nav
       className={cns(
-        'bg-sds-color-primitive-common-black text-sds-color-primitive-common-white',
+        'bg-light-sds-color-primitive-gray-900  text-light-sds-color-primitive-gray-50',
         'flex py-sds-m flex-shrink-0 items-center px-sds-xl',
         'sticky top-0 z-30',
       )}
@@ -42,8 +42,8 @@ export function TopNavigation() {
             className={cnsNoMerge(
               'leading-sds-header-s font-semibold mr-sds-xxl p-0 text-sds-header-s',
               link.isActive && link.isActive(pathname)
-                ? 'text-sds-color-primitive-common-white'
-                : 'text-sds-color-primitive-gray-400 hover:text-sds-color-primitive-common-white',
+                ? 'text-light-sds-color-primitive-gray-50'
+                : 'text-light-sds-color-primitive-gray-400 hover:text-light-sds-color-primitive-gray-50',
             )}
             to={link.link}
             key={link.link}

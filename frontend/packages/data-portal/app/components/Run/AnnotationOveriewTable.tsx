@@ -72,7 +72,7 @@ export function AnnotationOverviewTable() {
                 values: ['Deposition Name'],
                 renderValue: () => (
                   <Link
-                    className="text-sds-color-primitive-blue-400"
+                    className="text-light-sds-color-primitive-blue-400"
                     to={`/depositions/${selectedAnnotationShape.annotation?.deposition?.id}`}
                   >
                     {selectedAnnotationShape.annotation?.deposition?.title}
@@ -120,7 +120,7 @@ export function AnnotationOverviewTable() {
               <Icon
                 sdsIcon="InfoCircle"
                 sdsSize="s"
-                className="!fill-sds-color-primitive-gray-500"
+                className="!fill-light-sds-color-primitive-gray-500"
                 sdsType="button"
               />
             </Tooltip>
@@ -161,14 +161,14 @@ export function AnnotationOverviewTable() {
                       className="text-sds-header-s leading-sds-header-s whitespace-nowrap overflow-hidden text-ellipsis"
                       linkProps={{
                         className:
-                          'text-sds-color-primitive-blue-400 overflow-hidden text-ellipsis',
+                          'text-light-sds-color-primitive-blue-400 overflow-hidden text-ellipsis',
                       }}
                     />
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-sds-body-s leading-sds-body-s text-sds-color-primitive-gray-500">
+              <p className="text-sds-body-s leading-sds-body-s text-light-sds-color-primitive-gray-500">
                 {t('notSubmitted')}
               </p>
             ),

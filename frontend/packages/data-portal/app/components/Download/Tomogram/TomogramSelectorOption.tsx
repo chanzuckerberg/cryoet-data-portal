@@ -20,7 +20,7 @@ export function TomogramSelectorOption({
       <div className={isSelected ? 'font-semibold' : ''}>
         {getTomogramName(tomogram)}
       </div>
-      <div className="text-sds-body-xxs text-sds-color-primitive-gray-500 font-normal">
+      <div className="text-sds-body-xxs text-light-sds-color-primitive-gray-500 font-normal">
         {t('tomogramId')}: {IdPrefix.Tomogram}-{tomogram.id}{' '}
         {tomogram.isPortalStandard && (
           <TomogramTypeBadge type="standard" size="small" />
@@ -29,15 +29,15 @@ export function TomogramSelectorOption({
           <TomogramTypeBadge type="author" size="small" />
         )}
       </div>
-      <div className="text-sds-body-xxs text-sds-color-primitive-gray-500 font-normal">
+      <div className="text-sds-body-xxs text-light-sds-color-primitive-gray-500 font-normal">
         {t('tomogramSampling')}:{' '}
         {t('unitAngstrom', { value: tomogram.voxelSpacing })} ({tomogram.sizeX},{' '}
         {tomogram.sizeY}, {tomogram.sizeZ})px
       </div>
-      <div className="text-sds-body-xxs text-sds-color-primitive-gray-500 font-normal">
+      <div className="text-sds-body-xxs text-light-sds-color-primitive-gray-500 font-normal">
         {t('reconstructionMethod')}: {tomogram.reconstructionMethod}
       </div>
-      <div className="text-sds-body-xxs text-sds-color-primitive-gray-500 font-normal capitalize">
+      <div className="text-sds-body-xxs text-light-sds-color-primitive-gray-500 font-normal capitalize">
         {t('postProcessing')}: {tomogram.processing}
       </div>
     </div>

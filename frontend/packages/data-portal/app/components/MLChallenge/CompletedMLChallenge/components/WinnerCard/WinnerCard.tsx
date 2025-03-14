@@ -67,7 +67,7 @@ export function WinnerCard({
           {TEAM_INFO_BY_DEPOSITION_ID[winner.id.toString()]?.teamName ||
             'Team Name'}
         </h4>
-        <h5 className="text-sds-color-primitive-gray-600 mt-sds-xs">
+        <h5 className="text-light-sds-color-primitive-gray-600 mt-sds-xs">
           Members:{' '}
           <span className="text-black">
             <AuthorList

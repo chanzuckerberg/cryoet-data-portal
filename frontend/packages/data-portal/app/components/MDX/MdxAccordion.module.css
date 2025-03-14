@@ -57,7 +57,7 @@
 
     > thead > tr {
       @apply border-b-2;
-      @apply border-sds-color-primitive-gray-300;
+      @apply border-light-sds-color-primitive-gray-300;
 
       @apply font-semibold;
       @apply uppercase;

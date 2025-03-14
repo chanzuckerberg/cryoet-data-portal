@@ -26,7 +26,7 @@ export function TopThreeWinners({ winners }: { winners: Winner[] }) {
                 Submissions were scored using an average F
                 <span className="relative top-sds-xxxs">&beta;</span> metric,
                 adjusted for the detection difficulty of each species.
-                <div className="text-sds-color-primitive-blue-400">
+                <div className="text-light-sds-color-primitive-blue-400">
                   <Link to="https://www.kaggle.com/competitions/czii-cryo-et-object-identification/overview/evaluation">
                     Learn more
                   </Link>
@@ -40,7 +40,7 @@ export function TopThreeWinners({ winners }: { winners: Winner[] }) {
               <Icon
                 sdsIcon="InfoCircle"
                 sdsSize="s"
-                className="text-sds-color-primitive-gray-600 mb-sds-xxxs"
+                className="text-light-sds-color-primitive-gray-600 mb-sds-xxxs"
                 sdsType="interactive"
               />
             </span>

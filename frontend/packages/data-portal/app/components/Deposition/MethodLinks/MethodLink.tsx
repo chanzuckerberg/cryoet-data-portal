@@ -26,7 +26,7 @@ export function MethodLink({
 
   return (
     <span className={cns('flex flex-row', className)}>
-      <span className="text-sds-color-primitive-common-black items-center flex flex-row">
+      <span className="text-light-sds-color-primitive-gray-900  items-center flex flex-row">
         {icon}
         <span className="font-semibold ml-sds-xxs mr-sds-xs">
           {t(i18nLabel)}:

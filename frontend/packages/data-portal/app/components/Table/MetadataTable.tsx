@@ -42,7 +42,8 @@ export function MetadataTable({
             return (
               <TableRow
                 className={cns(
-                  (idx + 1) % 2 !== 0 && 'bg-sds-color-primitive-gray-100',
+                  (idx + 1) % 2 !== 0 &&
+                    'bg-light-sds-color-primitive-gray-100',
                 )}
                 key={datum.label + values.join(', ')}
               >
@@ -54,7 +55,7 @@ export function MetadataTable({
                 >
                   <span
                     className={cnsNoMerge(
-                      'text-sds-color-primitive-gray-600 items-end font-semibold flex flex-row gap-sds-xxs',
+                      'text-light-sds-color-primitive-gray-600 items-end font-semibold flex flex-row gap-sds-xxs',
                       small
                         ? 'text-sds-header-xxs leading-sds-header-xxs'
                         : 'text-sds-header-s leading-sds-header-s',

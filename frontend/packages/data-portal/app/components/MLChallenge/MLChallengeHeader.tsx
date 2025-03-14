@@ -8,11 +8,11 @@ export function MLChallengeHeader() {
   const { t } = useI18n()
 
   const divider = (
-    <div className="hidden screen-716:block h-full w-px bg-sds-color-primitive-gray-400" />
+    <div className="hidden screen-716:block h-full w-px bg-light-sds-color-primitive-gray-400" />
   )
 
   return (
-    <div className="bg-sds-color-primitive-blue-200 flex flex-col justify-center p-sds-xl screen-716:py-sds-xxl text-center">
+    <div className="bg-light-sds-color-primitive-blue-200 flex flex-col justify-center p-sds-xl screen-716:py-sds-xxl text-center">
       <h1 className="text-sds-header-xxl leading-sds-header-xxl font-semibold">
         {t('cryoetDataAnnotationMLComp')}
       </h1>
