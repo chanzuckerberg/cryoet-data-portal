@@ -10,9 +10,9 @@ function getItems(length: number) {
     .map((_, idx) => `test ${idx}`)
 }
 
-function getMap(length: number) {
+function getMap(length: number, value = true) {
   return getItems(length).reduce((acc, item) => {
-    acc.set(item, true)
+    acc.set(item, value)
     return acc
   }, new Map<string, boolean>())
 }
@@ -22,6 +22,22 @@ describe('<AnnotatedObjectsList />', () => {
     const items = getMap(ANNOTATED_OBJECTS_MAX)
     render(<AnnotatedObjectsList annotatedObjects={items} />)
     items.forEach((_, key) => expect(screen.getByText(key)).toBeVisible())
+  })
+
+  it('should render a GT tag if ground truth is true', () => {
+    const items = getMap(ANNOTATED_OBJECTS_MAX)
+    render(<AnnotatedObjectsList annotatedObjects={items} />)
+    items.forEach((_, key) => {
+      expect(screen.getByTestId(`${key}-gtTag`)).toBeVisible()
+    })
+  })
+
+  it('should not render a GT tag if ground truth is false', () => {
+    const items = getMap(ANNOTATED_OBJECTS_MAX, false)
+    render(<AnnotatedObjectsList annotatedObjects={items} />)
+    items.forEach((_, key) => {
+      expect(screen.getByTestId(`${key}-gtTag`)).toBeVisible()
+    })
   })
 
   it('should render n more objects if list is greater than max', () => {

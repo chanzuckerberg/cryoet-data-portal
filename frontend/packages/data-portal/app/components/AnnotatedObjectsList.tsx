@@ -49,6 +49,7 @@ export function AnnotatedObjectsList({
             <li className="break-all flex items-center" key={obj[0]}>
               <span className="shrink line-clamp-1 mr-sds-xxs">{obj[0]}</span>
               <Tooltip
+                data-testid={`${obj[0]}-gtTag`}
                 className="shrink-0"
                 placement="top-start"
                 sdsStyle="light"
