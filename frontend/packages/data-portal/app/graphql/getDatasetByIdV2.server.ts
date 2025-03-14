@@ -158,6 +158,7 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
           count
           groupBy {
             objectName
+            groundTruthStatus
           }
         }
       }

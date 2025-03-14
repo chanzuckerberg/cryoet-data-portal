@@ -23,13 +23,20 @@ const remapV2Deposition = remapAPI<
   annotationCount: (deposition) =>
     deposition.annotationsCount?.aggregate?.at(0)?.count ?? 0,
   annotatedObjects: (deposition) =>
-    Array.from(
-      new Set(
-        deposition.objectNames?.aggregate
-          ?.map((aggregate) => aggregate.groupBy?.objectName ?? '')
-          .filter((value) => value !== '') ?? [],
-      ),
-    ).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })),
+    deposition.objectNames?.aggregate?.reduce((acc, aggregate) => {
+      const objectName = aggregate.groupBy?.objectName
+      const groundTruthStatus = !!aggregate.groupBy?.groundTruthStatus
+      if (!objectName) return acc // Skip invalid entries
+      if (acc.has(objectName)) {
+        // If the objectName is already in the map
+        if (groundTruthStatus) {
+          acc.set(objectName, true) // if any runs have the ground truth status, set the annotatedObject to true
+        }
+      } else {
+        acc.set(objectName, groundTruthStatus)
+      }
+      return acc
+    }, new Map<string, boolean>()) || new Map<string, boolean>(),
   objectShapeTypes: (deposition) =>
     deposition.distinctShapeTypes?.aggregate
       ?.map((aggregate) => aggregate.groupBy?.annotationShapes?.shapeType)

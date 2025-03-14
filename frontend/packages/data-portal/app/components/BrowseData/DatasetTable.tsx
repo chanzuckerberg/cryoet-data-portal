@@ -270,7 +270,7 @@ export function DatasetTable() {
             dataset.distinctObjectNames?.aggregate?.reduce((acc, aggregate) => {
               const objectName = aggregate?.groupBy?.annotations?.objectName
               const groundTruthStatus =
-                aggregate?.groupBy?.annotations?.groundTruthStatus ?? false
+                !!aggregate?.groupBy?.annotations?.groundTruthStatus
               if (!objectName) return acc // Skip invalid entries
               if (acc.has(objectName)) {
                 // If the objectName is already in the map
@@ -281,7 +281,7 @@ export function DatasetTable() {
                 acc.set(objectName, groundTruthStatus)
               }
               return acc
-            }, new Map<string, boolean>()) ?? [],
+            }, new Map<string, boolean>()) || new Map<string, boolean>(),
           {
             id: 'annotatedObjects',
 
@@ -302,7 +302,7 @@ export function DatasetTable() {
                   </div>
                 )}
               >
-                {getValue().length === 0 ? (
+                {getValue().size === 0 ? (
                   '--'
                 ) : (
                   <AnnotatedObjectsList annotatedObjects={getValue()} />

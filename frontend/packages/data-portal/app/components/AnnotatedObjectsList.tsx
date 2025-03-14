@@ -52,10 +52,11 @@ export function AnnotatedObjectsList({
                 className="shrink-0"
                 placement="top-start"
                 sdsStyle="light"
+                offset={[0, -8]}
                 slotProps={{
                   tooltip: {
                     style: {
-                      maxWidth: 199, // Override the max-width specification for dark sdsStyle.
+                      maxWidth: 210, // Override the max-width specification for dark sdsStyle.
                     },
                   },
                 }}
@@ -63,7 +64,11 @@ export function AnnotatedObjectsList({
                   <>
                     Ground truth annotation(s) available.{' '}
                     <span className="text-sds-color-primitive-blue-400">
-                      <Link to="https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_data.html#ground-truth-flagn">
+                      <Link
+                        className="cursor-pointer"
+                        to="https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_data.html#ground-truth-flagn"
+                        stopPropagation
+                      >
                         Learn more
                       </Link>
                     </span>

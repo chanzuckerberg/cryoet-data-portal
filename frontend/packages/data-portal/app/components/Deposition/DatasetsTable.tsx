@@ -31,7 +31,6 @@ import { Dataset } from 'app/types/gql/depositionPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
-import { isDefined } from 'app/utils/nullish'
 import { getErrorMessage } from 'app/utils/string'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
@@ -265,16 +264,28 @@ export function DatasetsTable() {
         ),
 
         columnHelper.accessor(
-          (dataset) => [
-            ...new Set(
-              dataset.runs.edges.flatMap(
-                (run) =>
-                  run.node.annotationsAggregate?.aggregate
-                    ?.map((aggregate) => aggregate.groupBy?.objectName)
-                    .filter(isDefined) ?? [],
-              ),
-            ),
-          ],
+          (dataset) =>
+            dataset.runs.edges.reduce((acc, run) => {
+              const annotations = run.node.annotationsAggregate?.aggregate
+              if (annotations) {
+                annotations.forEach((annotation) => {
+                  const objectName = annotation.groupBy?.objectName
+                  const groundTruthStatus =
+                    !!annotation.groupBy?.groundTruthStatus
+                  if (!objectName) return acc // Skip invalid entries
+                  if (acc.has(objectName)) {
+                    // If the objectName is already in the map
+                    if (groundTruthStatus) {
+                      acc.set(objectName, true) // if any runs have the ground truth status, set the annotatedObject to true
+                    }
+                  } else {
+                    acc.set(objectName, groundTruthStatus)
+                  }
+                  return acc
+                })
+              }
+              return acc
+            }, new Map<string, boolean>()) || new Map<string, boolean>(),
           {
             id: 'annotatedObjects',
 
@@ -298,11 +309,10 @@ export function DatasetsTable() {
                   </div>
                 )}
               >
-                {getValue().length === 0 ? (
-                  '--'
-                ) : (
-                  <AnnotatedObjectsList annotatedObjects={getValue()} />
-                )}
+                {getValue().size === 0
+                  ? '--'
+                  : (console.log('getValue()', getValue()),
+                    (<AnnotatedObjectsList annotatedObjects={getValue()} />))}
               </TableCell>
             ),
           },

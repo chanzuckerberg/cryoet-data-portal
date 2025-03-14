@@ -40,7 +40,7 @@ const LOADING_DEPOSITIONS = range(0, MAX_PER_PAGE).map(
       depositionDate: '',
       annotationCount: 0,
       authors: [],
-      annotatedObjects: [],
+      annotatedObjects: new Map<string, boolean>(),
       objectShapeTypes: [],
       acrossDatasets: 0,
     }) as Deposition,
@@ -233,7 +233,7 @@ export function DepositionTable() {
                   </div>
                 )}
               >
-                {deposition.annotatedObjects.length === 0 ? (
+                {deposition.annotatedObjects.size === 0 ? (
                   '--'
                 ) : (
                   <AnnotatedObjectsList
