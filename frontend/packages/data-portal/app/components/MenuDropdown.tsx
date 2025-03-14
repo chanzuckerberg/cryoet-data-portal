@@ -38,7 +38,6 @@ export function MenuDropdown({
         <Icon
           sdsIcon={anchorEl ? 'ChevronUp' : 'ChevronDown'}
           sdsSize="xs"
-          sdsType="iconButton"
           className={cns(
             anchorEl
               ? '!w-[10px] !h-[10px] !fill-light-sds-color-primitive-gray-50'

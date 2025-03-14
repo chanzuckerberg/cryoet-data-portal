@@ -41,7 +41,6 @@ export function TopThreeWinners({ winners }: { winners: Winner[] }) {
                 sdsIcon="InfoCircle"
                 sdsSize="s"
                 className="text-light-sds-color-primitive-gray-600 mb-sds-xxxs"
-                sdsType="interactive"
               />
             </span>
           </Tooltip>

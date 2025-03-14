@@ -32,7 +32,7 @@ export function InputFilter({
         fullWidth
         hideLabel={hideLabel}
         className={className}
-        intent={error ? 'error' : undefined}
+        intent={error ? 'negative' : undefined}
       />
     </div>
   )

@@ -121,7 +121,6 @@ export function AnnotationOverviewTable() {
                 sdsIcon="InfoCircle"
                 sdsSize="s"
                 className="!fill-light-sds-color-primitive-gray-500"
-                sdsType="button"
               />
             </Tooltip>
           ),

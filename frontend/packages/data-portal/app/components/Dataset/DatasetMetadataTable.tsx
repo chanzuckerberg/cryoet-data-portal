@@ -40,7 +40,6 @@ export function DatasetMetadataTable({
             <Icon
               sdsIcon="ChevronRight"
               sdsSize="xs"
-              sdsType="iconButton"
               className="!w-[10px] !h-[10px] !fill-light-sds-color-primitive-blue-400"
             />
           </Link>
