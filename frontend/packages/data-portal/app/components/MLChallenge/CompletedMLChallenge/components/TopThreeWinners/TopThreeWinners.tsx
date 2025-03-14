@@ -40,7 +40,7 @@ export function TopThreeWinners({ winners }: { winners: Winner[] }) {
               <Icon
                 sdsIcon="InfoCircle"
                 sdsSize="s"
-                className="text-light-sds-color-primitive-gray-600 mb-sds-xxxs"
+                className="!text-light-sds-color-primitive-gray-600 mb-sds-xxxs"
               />
             </span>
           </Tooltip>
