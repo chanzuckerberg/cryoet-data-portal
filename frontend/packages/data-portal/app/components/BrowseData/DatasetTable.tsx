@@ -145,9 +145,9 @@ export function DatasetTable() {
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                   <div
                     className={cnsNoMerge(
-                      'text-sds-body-m-400-wide leading-sds-body-m font-semibold text-light-sds-color-primitive-blue-400',
+                      'text-sds-body-m-400-wide leading-sds-body-m font-semibold text-light-sds-color-primitive-blue-500',
                       !isClickingOnEmpiarId &&
-                        'group-hover:text-light-sds-color-primitive-blue-500',
+                        'group-hover:text-light-sds-color-primitive-blue-600',
                     )}
                   >
                     {isLoadingDebounced ? (

@@ -46,7 +46,7 @@ export function TableHeader({
         {learnMoreLink && (
           <Link
             to={learnMoreLink}
-            className="text-light-sds-color-primitive-blue-400 ml-sds-xxs"
+            className="text-light-sds-color-primitive-blue-500 ml-sds-xxs"
           >
             {t('learnMore')}
           </Link>

@@ -72,7 +72,7 @@ export function AnnotationOverviewTable() {
                 values: ['Deposition Name'],
                 renderValue: () => (
                   <Link
-                    className="text-light-sds-color-primitive-blue-400"
+                    className="text-light-sds-color-primitive-blue-500"
                     to={`/depositions/${selectedAnnotationShape.annotation?.deposition?.id}`}
                   >
                     {selectedAnnotationShape.annotation?.deposition?.title}
@@ -160,7 +160,7 @@ export function AnnotationOverviewTable() {
                       className="text-sds-header-s-600-wide leading-sds-header-s whitespace-nowrap overflow-hidden text-ellipsis"
                       linkProps={{
                         className:
-                          'text-light-sds-color-primitive-blue-400 overflow-hidden text-ellipsis',
+                          'text-light-sds-color-primitive-blue-500 overflow-hidden text-ellipsis',
                       }}
                     />
                   </li>

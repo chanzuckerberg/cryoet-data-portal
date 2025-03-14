@@ -107,8 +107,8 @@ export function DepositionTable() {
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                   <p
                     className={cnsNoMerge(
-                      'text-sds-body-m-400-wide leading-sds-body-m font-semibold text-light-sds-color-primitive-blue-400',
-                      'group-hover:text-light-sds-color-primitive-blue-500',
+                      'text-sds-body-m-400-wide leading-sds-body-m font-semibold text-light-sds-color-primitive-blue-500',
+                      'group-hover:text-light-sds-color-primitive-blue-600',
                     )}
                   >
                     {isLoadingDebounced ? (
