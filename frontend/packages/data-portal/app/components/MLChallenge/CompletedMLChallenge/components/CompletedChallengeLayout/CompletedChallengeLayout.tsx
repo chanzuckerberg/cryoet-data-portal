@@ -52,7 +52,7 @@ function Section({
 }: {
   children: ReactNode
   className?: string
-  color?: 'primary100' | 'primary200' | 'gray100' | 'gray500'
+  color?: 'primary100' | 'gray100'
   useMdxStyles?: boolean
 }) {
   return (
@@ -61,12 +61,8 @@ function Section({
         'py-sds-xl screen-716:py-sds-xxl flex flex-col',
         color &&
           'relative after:h-full after:w-[200vw] after:absolute after:top-0 after:-translate-x-1/2 after:-z-10',
-        color === 'primary100' &&
-          'after:bg-light-sds-color-primitive-blue-100 ',
-        color === 'primary200' &&
-          'after:bg-light-sds-color-primitive-blue-200 ',
+        color === 'primary100' && 'after:bg-[#EFF2FC]',
         color === 'gray100' && 'after:bg-light-sds-color-primitive-gray-100 ',
-        color === 'gray500' && 'after:bg-light-sds-color-primitive-gray-500 ',
         useMdxStyles && styles.body,
         className,
       )}
@@ -98,7 +94,7 @@ export function CompletedChallengeLayout() {
   return (
     <div className="flex flex-col max-w-full screen-1024:max-w-[800px] screen-1345:max-w-[1100px] mx-auto">
       <JumpToAnchor id={CompletedMLChallengeSectionId.Impact} />
-      <Section color="primary100">
+      <Section color="gray100">
         <div className="flex flex-col screen-760:flex-row justify-between screen-760:items-center gap-sds-xl">
           <div className="screen-760:max-w-[500px] screen-1345:max-w-[56%]">
             <h2 className="text-[26px] screen-512:text-[34px] leading-[34px] tracking-[0.8px] screen-512:leading-[46px] font-semibold mb-sds-xxl mt-sds-xxl screen-512:mt-[0px] screen-512:tracking-[0.3px]">
