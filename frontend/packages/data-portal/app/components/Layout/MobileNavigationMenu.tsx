@@ -18,7 +18,7 @@ function SubMenu({ title, links }: { title: I18nKeys; links: NavLink[] }) {
   const { t } = useI18n()
 
   return (
-    <div className="border-t border-sds-gray-500 pt-sds-l flex flex-col gap-sds-l">
+    <div className="border-t border-light-sds-color-primitive-gray-500 pt-sds-l flex flex-col gap-sds-l">
       <p className="text-sds-caps-xxs leading-sds-caps-xxs font-semibold uppercase text-light-sds-color-primitive-gray-400">
         {t(title)}
       </p>
