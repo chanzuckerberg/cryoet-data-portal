@@ -178,7 +178,7 @@ export function CompletedChallengeLayout() {
           )}
         >
           <div>
-            <h4 className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs tracking-sds-caps-xxxs font-semibold uppercase text-light-sds-color-primitive-gray-500 mb-sds-xs">
+            <h4 className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs tracking-sds-caps-xxxs-600-wide font-semibold uppercase text-light-sds-color-primitive-gray-500 mb-sds-xs">
               {t('competitionDepositionName')}:
             </h4>
             <h3 className="text-sds-header-m-600-wide leading-sds-header-m font-semibold mb-sds-l [&&&]:mt-0">

@@ -28,7 +28,7 @@ export function MetadataTable({
   return (
     <div className="flex flex-col gap-sds-xs">
       {title && (
-        <p className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs tracking-sds-caps uppercase font-semibold">
+        <p className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs tracking-sds-caps-xxxs-600-wide uppercase font-semibold">
           {title}
         </p>
       )}

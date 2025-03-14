@@ -15,7 +15,7 @@ import { MethodLinksOverview } from './MethodLinks'
 const sectionHeaderStyles = cnsNoMerge(
   'font-semibold uppercase',
   'text-light-sds-color-primitive-gray-900 ',
-  'text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs tracking-sds-caps',
+  'text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs tracking-sds-caps-xxxs-600-wide',
   'mb-sds-xs',
 )
 
