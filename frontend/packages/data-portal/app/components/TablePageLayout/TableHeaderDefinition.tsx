@@ -32,7 +32,7 @@ export function TableHeaderDefinition({
 
         {learnMoreLink && (
           <Link
-            className="text-light-sds-color-semantic-accent-text-action hover:text-sds-color-semantic-text-action-hover"
+            className="text-light-sds-color-semantic-accent-text-action hover:text-light-sds-color-semantic-accent-text-action-hover"
             to={learnMoreLink}
           >
             {' '}

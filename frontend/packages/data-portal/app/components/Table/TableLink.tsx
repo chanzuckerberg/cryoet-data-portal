@@ -13,7 +13,7 @@ export function TableLink({ children, ...props }: LinkProps) {
       <span
         className={cns(
           'hidden group-hover:inline-flex',
-          '[&_svg]:text-sds-color-semantic-text-action-hover',
+          '[&_svg]:text-light-sds-color-semantic-accent-text-action-hover',
         )}
       >
         <Icon sdsIcon="ChevronRight" sdsSize="xs" />
