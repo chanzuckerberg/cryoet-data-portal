@@ -309,10 +309,11 @@ export function DatasetsTable() {
                   </div>
                 )}
               >
-                {getValue().size === 0
-                  ? '--'
-                  : (console.log('getValue()', getValue()),
-                    (<AnnotatedObjectsList annotatedObjects={getValue()} />))}
+                {getValue().size === 0 ? (
+                  '--'
+                ) : (
+                  <AnnotatedObjectsList annotatedObjects={getValue()} />
+                )}
               </TableCell>
             ),
           },
