@@ -38,8 +38,8 @@ export function WinnerCard({
         'bg-white shadow-card',
         'grid grid-cols-1 gap-sds-s',
         place <= 3
-          ? 'border-t-[8px] border-t-sds-color-semantic-component-accent-icon'
-          : 'border-b-[8px] border-b-sds-color-semantic-component-accent-icon',
+          ? 'border-t-[8px] border-t-light-sds-color-semantic-accent-ornament'
+          : 'border-b-[8px] border-b-light-sds-color-semantic-accent-ornament',
         place <= 3 &&
           'grid-rows-[4fr_5fr] screen-667:grid-cols-[1fr_2fr] screen-667:grid-rows-1 screen-1345:grid-cols-1 screen-1345:grid-rows-[232px_1fr]',
       )}

@@ -86,7 +86,7 @@ export function TomogramsTable() {
               )}
             </div>
 
-            <div className=" text-sds-color-semantic-text-base-secondary text-sds-body-xxs-400-wide leading-sds-header-xxs mt-2">
+            <div className=" text-light-sds-color-semantic-base-text-secondary text-sds-body-xxs-400-wide leading-sds-header-xxs mt-2">
               <AuthorList
                 authors={original.authors.edges.map((edge) => edge.node)}
                 compact
@@ -129,7 +129,7 @@ export function TomogramsTable() {
               <Tooltip tooltip={<I18n i18nKey="alignmentIdCanonicalTooltip" />}>
                 <p
                   className={cnsNoMerge(
-                    'text-sds-body-xxs-400-wide leading-sds-body-xxs text-sds-color-semantic-text-base-secondary',
+                    'text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-semantic-base-text-secondary',
                     'underline underline-offset-4 decoration-dashed',
                   )}
                 >
@@ -149,7 +149,7 @@ export function TomogramsTable() {
         cell: ({ getValue, row: { original } }) => (
           <TableCell width={TomogramTableWidths.voxelSpacing}>
             {t('unitAngstrom', { value: getValue() })}
-            <div className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-sds-color-semantic-text-base-secondary">
+            <div className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-semantic-base-text-secondary">
               ({original.sizeX}, {original.sizeY}, {original.sizeZ})px
             </div>
           </TableCell>

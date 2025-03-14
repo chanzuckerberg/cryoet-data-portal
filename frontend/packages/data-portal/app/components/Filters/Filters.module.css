@@ -7,7 +7,17 @@
 
   :global(.MuiTypography-root) span span {
     @apply !text-sds-body-s-400-wide !leading-sds-body-s font-semibold;
-    @apply !text-light-sds-color-primitive-gray-500;
+    @apply !text-light-sds-color-primitive-gray-600;
+  }
+
+  &:hover {
+    :global(.MuiTypography-root) span span {
+      @apply !text-black;
+    }
+  }
+
+  svg {
+    @apply fill-white;
   }
 }
 
@@ -29,7 +39,7 @@
   }
 
   :global(#meets-all) {
-    @apply text-sds-body-xs-400-wide leading-sds-body-xs text-sds-color-semantic-text-base-secondary;
+    @apply text-sds-body-xs-400-wide leading-sds-body-xs text-light-sds-color-semantic-base-text-secondary;
 
     letter-spacing: 0.3px;
   }

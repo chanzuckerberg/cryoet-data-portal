@@ -120,7 +120,6 @@ export function Select({
               className="!fill-light-sds-color-primitive-gray-500 hover:!fill-light-sds-color-primitive-blue-400"
               sdsIcon="InfoCircle"
               sdsSize="xs"
-              sdsType="static"
             />
           </Tooltip>
         )}

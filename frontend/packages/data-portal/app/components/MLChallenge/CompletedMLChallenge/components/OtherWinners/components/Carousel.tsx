@@ -129,7 +129,7 @@ export function Carousel({
                 index !== carouselPosition - 1 &&
                   'hover:bg-light-sds-color-primitive-gray-300',
                 index === carouselPosition - 1
-                  ? 'bg-sds-color-semantic-component-accent-icon'
+                  ? 'bg-light-sds-color-semantic-accent-ornament'
                   : 'bg-light-sds-color-primitive-gray-200',
               )}
             />

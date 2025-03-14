@@ -26,13 +26,13 @@ export function TableHeaderDefinition({
       </h1>
 
       <p className="text-sds-body-s-400-wide leading-sds-body-s tracking-sds-body-s-400-wide max-w-[600px] mt-sds-s">
-        <span className="text-sds-color-semantic-text-base-secondary">
+        <span className="text-light-sds-color-semantic-base-text-secondary">
           {description}
         </span>
 
         {learnMoreLink && (
           <Link
-            className="text-sds-color-semantic-text-action-default hover:text-sds-color-semantic-text-action-hover"
+            className="text-light-sds-color-semantic-accent-text-action hover:text-sds-color-semantic-text-action-hover"
             to={learnMoreLink}
           >
             {' '}
