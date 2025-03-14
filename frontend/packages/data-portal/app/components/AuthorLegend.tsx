@@ -46,6 +46,7 @@ export function AuthorLegend({ inline = false }: { inline?: boolean }) {
       tooltip={<Legend />}
       placement="top"
       sdsStyle="light"
+      size="inherit"
       width="wide"
       className="flex items-center"
     >
