@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.64.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.63.0...cryoet-data-portal-frontend-v1.64.0) (2025-03-17)
+
+
+### ✨ Features
+
+* Add Ground Truth tag Annotation Objects ([#1708](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1708)) ([83911b2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/83911b23807b1a1c70d1394c9d8545a598fb0f4e))
+
 ## [1.63.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.62.1...cryoet-data-portal-frontend-v1.63.0) (2025-03-14)
 
 
