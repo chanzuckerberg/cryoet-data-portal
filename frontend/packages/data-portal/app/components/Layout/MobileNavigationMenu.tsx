@@ -7,8 +7,8 @@ import { I18nKeys } from 'app/types/i18n'
 import styles from './buttons.module.css'
 import {
   ABOUT_LINKS,
-  HELP_AND_REPORT_LINKS,
   NavLink,
+  REPORT_LINKS,
   TOOLS_LINKS,
   TOP_LEVEL_LINKS,
 } from './constants'
@@ -66,7 +66,7 @@ export function MobileNavigationMenu({ onClose }: { onClose: () => void }) {
         ))}
         <SubMenu title="tools" links={TOOLS_LINKS} />
         <SubMenu title="about" links={ABOUT_LINKS} />
-        <SubMenu title="helpAndReport" links={HELP_AND_REPORT_LINKS} />
+        <SubMenu title="report" links={REPORT_LINKS} />
       </div>
     </nav>
   )
