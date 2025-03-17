@@ -2,6 +2,7 @@ import Skeleton from '@mui/material/Skeleton'
 import { range } from 'lodash-es'
 import { ReactNode } from 'react'
 
+import { Link } from 'app/components/Link'
 import { ANNOTATED_OBJECTS_MAX } from 'app/constants/pagination'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
@@ -26,29 +27,66 @@ export function AnnotatedObjectsList({
   annotatedObjects,
   isLoading,
 }: {
-  annotatedObjects: string[]
+  annotatedObjects: Map<string, boolean>
   isLoading?: boolean
 }) {
   const { t } = useI18n()
-
-  if (annotatedObjects.length === 0) {
+  const annotatedObjectsArray = Array.from(annotatedObjects)
+  if (annotatedObjectsArray.length === 0) {
     return null
   }
 
   const nodes = isLoading
-    ? range(0, ANNOTATED_OBJECTS_MAX).map((val) => (
+    ? range(0, ANNOTATED_OBJECTS_MAX).map((val: number) => (
         <Skeleton key={`skeleton-${val}`} variant="rounded" />
       ))
-    : annotatedObjects
-        .slice()
+    : annotatedObjectsArray
         .sort((val1, val2) =>
-          val1.toLowerCase().localeCompare(val2.toLocaleLowerCase()),
+          val1[0].toLowerCase().localeCompare(val2[0].toLowerCase()),
         )
-        .map((obj) => (
-          <li className="text-ellipsis line-clamp-1 break-all" key={obj}>
-            {obj}
-          </li>
-        ))
+        .map((obj) => {
+          return (
+            <li className="break-all flex items-center" key={obj[0]}>
+              <span className="shrink line-clamp-1 mr-sds-xxs">{obj[0]}</span>
+              <Tooltip
+                data-testid={`${obj[0]}-gtTag`}
+                className="shrink-0"
+                placement="top-start"
+                sdsStyle="light"
+                offset={[0, -8]}
+                slotProps={{
+                  tooltip: {
+                    style: {
+                      maxWidth: 210, // Override the max-width specification for dark sdsStyle.
+                    },
+                  },
+                }}
+                tooltip={
+                  <>
+                    Ground truth annotation(s) available.{' '}
+                    <span className="text-sds-color-primitive-blue-400">
+                      <Link
+                        className="cursor-pointer"
+                        to="https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_data.html#ground-truth-flagn"
+                        stopPropagation
+                      >
+                        {t('learnMore')}
+                      </Link>
+                    </span>
+                  </>
+                }
+              >
+                {obj[1] ? (
+                  <span className="h-18 w-18 text-[10px] text-[#0041B9] bg-[#E2EEFF] rounded-full px-[2.5px] py-[3px] tracking-[-0.3px] !font-[400]">
+                    GT
+                  </span>
+                ) : (
+                  ''
+                )}
+              </Tooltip>
+            </li>
+          )
+        })
 
   return (
     <List>
@@ -74,7 +112,7 @@ export function AnnotatedObjectsList({
               )}
             >
               {t('nMoreObjects', {
-                count: nodes.length + 1 - ANNOTATED_OBJECTS_MAX,
+                count: nodes.length,
               })}
             </div>
           </Tooltip>

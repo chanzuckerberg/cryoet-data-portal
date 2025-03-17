@@ -9,6 +9,7 @@ import {
 import { ObjectShapeType } from 'app/types/shapeTypes'
 import { remapAPI } from 'app/utils/apiMigration'
 import { isDefined } from 'app/utils/nullish'
+import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 
 const remapV2Deposition = remapAPI<
   GetDepositionsDataV2Query['depositions'][number],
@@ -23,13 +24,15 @@ const remapV2Deposition = remapAPI<
   annotationCount: (deposition) =>
     deposition.annotationsCount?.aggregate?.at(0)?.count ?? 0,
   annotatedObjects: (deposition) =>
-    Array.from(
-      new Set(
-        deposition.objectNames?.aggregate
-          ?.map((aggregate) => aggregate.groupBy?.objectName ?? '')
-          .filter((value) => value !== '') ?? [],
-      ),
-    ).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })),
+    deposition.objectNames?.aggregate?.reduce((acc, aggregate) => {
+      const objectName = aggregate.groupBy?.objectName
+      const groundTruthStatus = !!aggregate.groupBy?.groundTruthStatus
+      return setObjectNameAndGroundTruthStatus(
+        objectName,
+        groundTruthStatus,
+        acc,
+      )
+    }, new Map<string, boolean>()) || new Map<string, boolean>(),
   objectShapeTypes: (deposition) =>
     deposition.distinctShapeTypes?.aggregate
       ?.map((aggregate) => aggregate.groupBy?.annotationShapes?.shapeType)

@@ -31,7 +31,7 @@ import { Dataset } from 'app/types/gql/depositionPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
-import { isDefined } from 'app/utils/nullish'
+import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { getErrorMessage } from 'app/utils/string'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
@@ -265,16 +265,23 @@ export function DatasetsTable() {
         ),
 
         columnHelper.accessor(
-          (dataset) => [
-            ...new Set(
-              dataset.runs.edges.flatMap(
-                (run) =>
-                  run.node.annotationsAggregate?.aggregate
-                    ?.map((aggregate) => aggregate.groupBy?.objectName)
-                    .filter(isDefined) ?? [],
-              ),
-            ),
-          ],
+          (dataset) =>
+            dataset.runs.edges.reduce((acc, run) => {
+              const annotations = run.node.annotationsAggregate?.aggregate
+              if (annotations) {
+                annotations.forEach((annotation) => {
+                  const objectName = annotation.groupBy?.objectName
+                  const groundTruthStatus =
+                    !!annotation.groupBy?.groundTruthStatus
+                  return setObjectNameAndGroundTruthStatus(
+                    objectName,
+                    groundTruthStatus,
+                    acc,
+                  )
+                })
+              }
+              return acc
+            }, new Map<string, boolean>()) || new Map<string, boolean>(),
           {
             id: 'annotatedObjects',
 
@@ -298,7 +305,7 @@ export function DatasetsTable() {
                   </div>
                 )}
               >
-                {getValue().length === 0 ? (
+                {getValue().size === 0 ? (
                   '--'
                 ) : (
                   <AnnotatedObjectsList annotatedObjects={getValue()} />

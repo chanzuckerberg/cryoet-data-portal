@@ -28,7 +28,7 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { Run } from 'app/types/gql/datasetPageTypes'
 import { cnsNoMerge } from 'app/utils/cns'
-import { isDefined } from 'app/utils/nullish'
+import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
@@ -179,9 +179,15 @@ export function RunsTable() {
 
       columnHelper.accessor(
         (run) =>
-          run.annotationsAggregate?.aggregate
-            ?.map((aggregate) => aggregate.groupBy?.objectName)
-            .filter(isDefined) ?? [],
+          run.annotationsAggregate?.aggregate?.reduce((acc, aggregate) => {
+            const objectName = aggregate.groupBy?.objectName
+            const groundTruthStatus = !!aggregate.groupBy?.groundTruthStatus
+            return setObjectNameAndGroundTruthStatus(
+              objectName,
+              groundTruthStatus,
+              acc,
+            )
+          }, new Map<string, boolean>()) || new Map<string, boolean>(),
         {
           id: 'annotatedObjects',
 
@@ -196,7 +202,7 @@ export function RunsTable() {
               renderLoadingSkeleton={false}
               width={RunTableWidths.annotatedObjects}
             >
-              {getValue().length === 0 ? (
+              {getValue().size === 0 ? (
                 '--'
               ) : (
                 <AnnotatedObjectsList

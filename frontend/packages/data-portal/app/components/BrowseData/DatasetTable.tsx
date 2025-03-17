@@ -31,7 +31,7 @@ import { Dataset } from 'app/types/gql/datasetsPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
-import { isDefined } from 'app/utils/nullish'
+import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { getErrorMessage } from 'app/utils/string'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
@@ -268,9 +268,16 @@ export function DatasetTable() {
 
         columnHelper.accessor(
           (dataset) =>
-            dataset.distinctObjectNames?.aggregate
-              ?.map((aggregate) => aggregate.groupBy?.annotations?.objectName)
-              .filter(isDefined) ?? [],
+            dataset.distinctObjectNames?.aggregate?.reduce((acc, aggregate) => {
+              const objectName = aggregate?.groupBy?.annotations?.objectName
+              const groundTruthStatus =
+                !!aggregate?.groupBy?.annotations?.groundTruthStatus
+              return setObjectNameAndGroundTruthStatus(
+                objectName,
+                groundTruthStatus,
+                acc,
+              )
+            }, new Map<string, boolean>()) || new Map<string, boolean>(),
           {
             id: 'annotatedObjects',
 
@@ -291,7 +298,7 @@ export function DatasetTable() {
                   </div>
                 )}
               >
-                {getValue().length === 0 ? (
+                {getValue().size === 0 ? (
                   '--'
                 ) : (
                   <AnnotatedObjectsList annotatedObjects={getValue()} />
