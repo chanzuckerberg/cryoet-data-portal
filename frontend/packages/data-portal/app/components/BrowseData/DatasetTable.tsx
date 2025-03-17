@@ -31,6 +31,7 @@ import { Dataset } from 'app/types/gql/datasetsPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
+import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { getErrorMessage } from 'app/utils/string'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
@@ -271,16 +272,11 @@ export function DatasetTable() {
               const objectName = aggregate?.groupBy?.annotations?.objectName
               const groundTruthStatus =
                 !!aggregate?.groupBy?.annotations?.groundTruthStatus
-              if (!objectName) return acc // Skip invalid entries
-              if (acc.has(objectName)) {
-                // If the objectName is already in the map
-                if (groundTruthStatus) {
-                  acc.set(objectName, true) // if any runs have the ground truth status, set the annotatedObject to true
-                }
-              } else {
-                acc.set(objectName, groundTruthStatus)
-              }
-              return acc
+              return setObjectNameAndGroundTruthStatus(
+                objectName,
+                groundTruthStatus,
+                acc,
+              )
             }, new Map<string, boolean>()) || new Map<string, boolean>(),
           {
             id: 'annotatedObjects',

@@ -70,7 +70,7 @@ export function AnnotatedObjectsList({
                         to="https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_data.html#ground-truth-flagn"
                         stopPropagation
                       >
-                        Learn more
+                        {t('learnMore')}
                       </Link>
                     </span>
                   </>

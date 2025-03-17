@@ -9,6 +9,7 @@ import {
 import { ObjectShapeType } from 'app/types/shapeTypes'
 import { remapAPI } from 'app/utils/apiMigration'
 import { isDefined } from 'app/utils/nullish'
+import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 
 const remapV2Deposition = remapAPI<
   GetDepositionsDataV2Query['depositions'][number],
@@ -26,16 +27,11 @@ const remapV2Deposition = remapAPI<
     deposition.objectNames?.aggregate?.reduce((acc, aggregate) => {
       const objectName = aggregate.groupBy?.objectName
       const groundTruthStatus = !!aggregate.groupBy?.groundTruthStatus
-      if (!objectName) return acc // Skip invalid entries
-      if (acc.has(objectName)) {
-        // If the objectName is already in the map
-        if (groundTruthStatus) {
-          acc.set(objectName, true) // if any runs have the ground truth status, set the annotatedObject to true
-        }
-      } else {
-        acc.set(objectName, groundTruthStatus)
-      }
-      return acc
+      return setObjectNameAndGroundTruthStatus(
+        objectName,
+        groundTruthStatus,
+        acc,
+      )
     }, new Map<string, boolean>()) || new Map<string, boolean>(),
   objectShapeTypes: (deposition) =>
     deposition.distinctShapeTypes?.aggregate
