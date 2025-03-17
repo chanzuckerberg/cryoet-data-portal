@@ -78,3 +78,14 @@ export const HELP_AND_REPORT_LINKS: NavLink[] = [
     link: `${REPO}/discussions`,
   },
 ]
+
+export const NEUROGLANCER_HELP_LINKS: NavLink[] = [
+  {
+    label: 'goToNeuroglancerDocumentation',
+    link: '',
+  },
+  {
+    label: 'neuroglancerWalkthrough',
+    link: '#',
+  },
+]

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, ReactNode } from 'react'
 
 import { SmallChevronRightIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
@@ -11,6 +11,7 @@ import {
   useSingleDatasetFilterHistory,
 } from 'app/state/filterHistory'
 import { BreadcrumbType } from 'app/types/breadcrumbs'
+import { Tooltip } from './Tooltip'
 import { cns } from 'app/utils/cns'
 
 function Breadcrumb({
@@ -20,7 +21,7 @@ function Breadcrumb({
   type,
   datasetId,
 }: {
-  text: string
+  text: ReactNode
   link?: string
   className?: string
   type?: BreadcrumbType
@@ -44,16 +45,22 @@ function Breadcrumb({
       {text}
     </Link>
   ) : (
-    <p className={cns(className, 'font-semibold')}>{text}</p>
+    <p className={cns(className, 'font-normal')}>{text}</p>
   )
 }
 
 export function Breadcrumbs({
   variant,
   data,
+  type = "breadcrumb-dark",
+  classname,
+  activeBreadcrumbText
 }: {
   variant: 'dataset' | 'deposition' | 'run'
-  data: { id: number; title: string }
+  data: { id: number; title: string },
+  type?: string,
+  classname?: string,
+  activeBreadcrumbText?: ReactNode
 }) {
   const { t } = useI18n()
 
@@ -97,14 +104,14 @@ export function Breadcrumbs({
       : `/depositions/${previousDepositionId}?${previousSingleDepositionParams}`
 
   const chevronIcon = (
-    <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0" />
+    <SmallChevronRightIcon className={`w-[8px] h-[8px] shrink-0 ${type === "breadcrumb-light" ? "fill-[#999]" : "fill-black"}`} />
   )
 
   const plausible = usePlausible()
 
   return (
     <div
-      className="flex flex-col flex-auto gap-1"
+      className="flex flex-col flex-auto gap-1 max-w-xl"
       data-testid={TestIds.Breadcrumbs}
     >
       {returnToDepositionLink && (
@@ -125,7 +132,13 @@ export function Breadcrumbs({
         </Link>
       )}
 
-      <div className="flex flex-row gap-sds-s text-sds-body-s leading-sds-body-s text-sds-color-primitive-common-black items-center whitespace-nowrap content-start">
+      <div 
+        className={`flex flex-row gap-sds-s 
+          text-sds-body-s leading-sds-body-s 
+          ${type === "breadcrumb-light" ? "text-[#999]" : "text-sds-color-primitive-common-black"}
+          ${classname}
+          items-center whitespace-nowrap content-start`}
+      >
         <Breadcrumb
           text={t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')}
           link={browseAllLink}
@@ -142,23 +155,25 @@ export function Breadcrumbs({
         {variant === 'deposition' ? (
           <Breadcrumb text={t('deposition')} />
         ) : (
-          <Breadcrumb
-            text={
-              variant === 'dataset'
-                ? `${t('dataset')}`
-                : `${t('dataset')}: ${data.title}`
-            }
-            link={singleDatasetLink}
-            className="overflow-ellipsis overflow-hidden flex-initial"
-            type={BreadcrumbType.SingleDataset}
-            datasetId={data.id}
-          />
+          <Tooltip tooltip={variant === 'dataset'? `${t('dataset')}` : `${t('dataset')}: ${data.title}`} className='overflow-hidden overflow-ellipsis'>
+            <Breadcrumb
+              text={
+                variant === 'dataset'
+                  ? `${t('dataset')}`
+                  : `${t('dataset')}: ${data.title}`
+              }
+              link={singleDatasetLink}
+              className="overflow-ellipsis overflow-hidden flex-initial"
+              type={BreadcrumbType.SingleDataset}
+              datasetId={data.id}
+            />
+          </Tooltip>
         )}
 
-        {variant === 'run' && (
+        {activeBreadcrumbText && (
           <>
             {chevronIcon}
-            <Breadcrumb text={t('run')} className="shrink-0" />
+            <Breadcrumb text={activeBreadcrumbText} className={`shrink-0 ${type === "breadcrumb-light" && "text-white"}`} />
           </>
         )}
       </div>
