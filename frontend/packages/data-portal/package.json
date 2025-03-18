@@ -32,7 +32,7 @@
   "dependencies": {
     "@apollo/client": "^3.8.5",
     "@babel/runtime": "^7.23.2",
-    "@czi-sds/components": "^20.8.0",
+    "@czi-sds/components": "^22.3.0",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
