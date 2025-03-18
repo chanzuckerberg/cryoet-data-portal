@@ -37,7 +37,7 @@ export function KeyPhoto({
           'group-hover:before:bg-opacity-30',
           'group-hover:before:w-full',
           'group-hover:before:h-full',
-          'group-hover:before:text-sds-body-s',
+          'group-hover:before:text-sds-body-s-400-wide',
           'group-hover:before:flex-wrap',
           'group-hover:before:content-center',
           'group-hover:before:content-i18n',

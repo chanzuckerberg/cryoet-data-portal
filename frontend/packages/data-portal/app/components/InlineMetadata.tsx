@@ -32,8 +32,8 @@ export function InlineMetadata({
             className={cnsNoMerge(
               'font-semibold',
               subheader
-                ? 'text-light-sds-color-primitive-gray-600 tracking-sds-body-xxs text-sds-caps-xxs leading-sds-caps-xxs'
-                : 'text-sds-body-xxs leading-sds-body-xxs',
+                ? 'text-light-sds-color-primitive-gray-600 tracking-sds-body-xxs text-sds-caps-xxs-600-wide leading-sds-caps-xxs'
+                : 'text-sds-body-xxs-400-wide leading-sds-body-xxs',
               uppercase && 'uppercase',
               subheader && uppercase && 'tracking-sds-caps',
               keyClass,
@@ -45,8 +45,8 @@ export function InlineMetadata({
           <span
             className={cnsNoMerge(
               subheader
-                ? 'text-sds-body-s leading-sds-body-s'
-                : 'text-sds-body-xxs leading-sds-body-xxs',
+                ? 'text-sds-body-s-400-wide leading-sds-body-s'
+                : 'text-sds-body-xxs-400-wide leading-sds-body-xxs',
               valueClass,
             )}
           >
@@ -60,7 +60,7 @@ export function InlineMetadata({
   if (label) {
     return (
       <div className="flex flex-row gap-sds-xl text-light-sds-color-primitive-gray-900  items-baseline">
-        <span className="text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold uppercase tracking-sds-caps">
+        <span className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs font-semibold uppercase tracking-sds-caps">
           {label}
         </span>
         {fieldsRender}

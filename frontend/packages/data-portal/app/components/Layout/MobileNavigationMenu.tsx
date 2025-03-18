@@ -19,7 +19,7 @@ function SubMenu({ title, links }: { title: I18nKeys; links: NavLink[] }) {
 
   return (
     <div className="border-t border-light-sds-color-primitive-gray-500 pt-sds-l flex flex-col gap-sds-l">
-      <p className="text-sds-caps-xxs leading-sds-caps-xxs font-semibold uppercase text-light-sds-color-primitive-gray-400">
+      <p className="text-sds-caps-xxs-600-wide leading-sds-caps-xxs font-semibold uppercase text-light-sds-color-primitive-gray-400">
         {t(title)}
       </p>
       <div className="flex flex-col gap-sds-m">
@@ -27,7 +27,7 @@ function SubMenu({ title, links }: { title: I18nKeys; links: NavLink[] }) {
           <Link
             key={label}
             to={link}
-            className="text-sds-header-m leading-sds-header-m font-semibold text-sds-gray-300"
+            className="text-sds-header-m-600-wide leading-sds-header-m font-semibold text-sds-gray-300"
           >
             {t(label)}
           </Link>
@@ -59,7 +59,7 @@ export function MobileNavigationMenu({ onClose }: { onClose: () => void }) {
           <Link
             key={label}
             to={link}
-            className="text-sds-header-m leading-sds-header-m font-semibold text-light-sds-color-primitive-gray-300"
+            className="text-sds-header-m-600-wide leading-sds-header-m font-semibold text-light-sds-color-primitive-gray-300"
           >
             {t(label)}
           </Link>

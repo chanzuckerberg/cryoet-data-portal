@@ -124,7 +124,7 @@ export function RunsTable() {
                 ) : (
                   <TableLink
                     className={cnsNoMerge(
-                      'text-sds-body-m leading-sds-body-m font-semibold text-light-sds-color-primitive-blue-400',
+                      'text-sds-body-m-400-wide leading-sds-body-m font-semibold text-light-sds-color-primitive-blue-400',
                       !isHoveringOverInteractable &&
                         'group-hover:text-light-sds-color-primitive-blue-500',
                     )}
@@ -134,7 +134,7 @@ export function RunsTable() {
                   </TableLink>
                 )}
 
-                <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
+                <p className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
                   {isLoadingDebounced ? (
                     <Skeleton className="max-w-[120px]" variant="text" />
                   ) : (

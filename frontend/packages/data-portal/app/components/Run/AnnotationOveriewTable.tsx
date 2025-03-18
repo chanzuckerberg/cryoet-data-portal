@@ -158,7 +158,7 @@ export function AnnotationOverviewTable() {
                   <li key={`${link.url}_${link.i18nLabel}_${link.title}`}>
                     <MethodLink
                       {...link}
-                      className="text-sds-header-s leading-sds-header-s whitespace-nowrap overflow-hidden text-ellipsis"
+                      className="text-sds-header-s-600-wide leading-sds-header-s whitespace-nowrap overflow-hidden text-ellipsis"
                       linkProps={{
                         className:
                           'text-light-sds-color-primitive-blue-400 overflow-hidden text-ellipsis',
@@ -168,7 +168,7 @@ export function AnnotationOverviewTable() {
                 ))}
               </ul>
             ) : (
-              <p className="text-sds-body-s leading-sds-body-s text-light-sds-color-primitive-gray-500">
+              <p className="text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-500">
                 {t('notSubmitted')}
               </p>
             ),

@@ -70,11 +70,11 @@ export function TomogramsTable() {
             className="flex flex-col !items-start"
             width={TomogramTableWidths.name}
           >
-            <div className="text-sds-body-m leading-sds-body-m font-semibold text-ellipsis line-clamp-1 break-all">
+            <div className="text-sds-body-m-400-wide leading-sds-body-m font-semibold text-ellipsis line-clamp-1 break-all">
               {getTomogramName(original)}
             </div>
 
-            <div className="flex items-center flex-wrap gap-sds-xs text-sds-body-xxs mt-sds-xxxs">
+            <div className="flex items-center flex-wrap gap-sds-xs text-sds-body-xxs-400-wide mt-sds-xxxs">
               {`${t('tomogramId')}: ${IdPrefix.Tomogram}-${original.id}`}
 
               {original.isPortalStandard && (
@@ -86,7 +86,7 @@ export function TomogramsTable() {
               )}
             </div>
 
-            <div className=" text-sds-color-semantic-text-base-secondary text-sds-body-xxs leading-sds-header-xxs mt-2">
+            <div className=" text-sds-color-semantic-text-base-secondary text-sds-body-xxs-400-wide leading-sds-header-xxs mt-2">
               <AuthorList
                 authors={original.authors.edges.map((edge) => edge.node)}
                 compact
@@ -129,7 +129,7 @@ export function TomogramsTable() {
               <Tooltip tooltip={<I18n i18nKey="alignmentIdCanonicalTooltip" />}>
                 <p
                   className={cnsNoMerge(
-                    'text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-secondary',
+                    'text-sds-body-xxs-400-wide leading-sds-body-xxs text-sds-color-semantic-text-base-secondary',
                     'underline underline-offset-4 decoration-dashed',
                   )}
                 >
@@ -149,7 +149,7 @@ export function TomogramsTable() {
         cell: ({ getValue, row: { original } }) => (
           <TableCell width={TomogramTableWidths.voxelSpacing}>
             {t('unitAngstrom', { value: getValue() })}
-            <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-secondary">
+            <div className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-sds-color-semantic-text-base-secondary">
               ({original.sizeX}, {original.sizeY}, {original.sizeZ})px
             </div>
           </TableCell>
@@ -193,7 +193,7 @@ export function TomogramsTable() {
                   buttonProps={{
                     sdsStyle: 'square',
                     sdsType: 'primary',
-                    className: '!text-sds-body-xxs !h-sds-icon-xl',
+                    className: '!text-sds-body-xxs-400-wide !h-sds-icon-xl',
                     startIcon: (
                       <Icon sdsIcon="Cube" sdsType="button" sdsSize="xs" />
                     ),
@@ -211,7 +211,7 @@ export function TomogramsTable() {
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
-                className="!justify-start !ml-sds-m !text-sds-body-xxs"
+                className="!justify-start !ml-sds-m !text-sds-body-xxs-400-wide"
                 onClick={() => openMetadataDrawer(original)}
                 startIcon={
                   <Icon sdsIcon="InfoCircle" sdsSize="xs" sdsType="button" />
@@ -222,7 +222,7 @@ export function TomogramsTable() {
               <Button
                 sdsType="primary"
                 sdsStyle="minimal"
-                className="!justify-start !ml-sds-m !text-sds-body-xxs"
+                className="!justify-start !ml-sds-m !text-sds-body-xxs-400-wide"
                 onClick={() => {
                   openTomogramDownloadModal({
                     tomogramId: original.id,

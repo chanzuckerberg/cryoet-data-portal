@@ -109,7 +109,7 @@ export function Select({
     <div className={cns('flex flex-col gap-sds-xxs', className)}>
       <div className="flex items-center gap-sds-xxs">
         {title && (
-          <p className="text-sds-header-xs leading-sds-header-xs font-semibold">
+          <p className="text-sds-header-xs-600-wide leading-sds-header-xs font-semibold">
             {title}:
           </p>
         )}

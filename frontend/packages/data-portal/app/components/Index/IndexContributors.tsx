@@ -157,14 +157,14 @@ const CONTRIBUTORS = [
 export function IndexContributors() {
   return (
     <div className="flex flex-col gap-sds-xl h-full -mb-sds-xxs">
-      <h3 className="font-semibold text-sds-header-xl leading-sds-header-xl">
+      <h3 className="font-semibold text-sds-header-xl-600-wide leading-sds-header-xl">
         <I18n i18nKey="thankYouToOurDataContributors" />
       </h3>
       <ul className="columns-2 sm:columns-3 lg:columns-4 gap-sds-xl">
         {CONTRIBUTORS.map((name) => (
           <li
             key={name}
-            className="text-sds-body-xs leading-sds-body-xs mb-sds-xxs"
+            className="text-sds-body-xs-400-wide leading-sds-body-xs mb-sds-xxs"
           >
             {name}
           </li>

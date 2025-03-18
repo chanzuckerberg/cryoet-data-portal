@@ -61,7 +61,7 @@ export function DatabaseEntry(props: DatabaseEntryProps) {
 
 export function DatabaseEntryList({ entries }: { entries: string }) {
   return (
-    <ul className="flex flex-col gap-sds-xs text-sds-body-s leading-sds-body-xs">
+    <ul className="flex flex-col gap-sds-xs text-sds-body-s-400-wide leading-sds-body-xs">
       {entries.split(',').map((entry) => {
         return (
           <li key={entry}>

@@ -19,7 +19,7 @@ function CTA({
   return (
     <>
       <div className="flex flex-col gap-sds-xs min-w-[150px]">
-        <h4 className="font-semibold text-sds-header-m leading-sds-header-m">
+        <h4 className="font-semibold text-sds-header-m-600-wide leading-sds-header-m">
           {title}
         </h4>
         <p>{text}</p>
@@ -40,7 +40,7 @@ export function IndexCTA() {
 
   return (
     <div className="py-sds-xxl flex flex-col gap-sds-xl relative after:h-full after:w-[200vw] after:bg-light-sds-color-primitive-blue-100 after:absolute after:top-0 after:-translate-x-1/2 after:-z-10">
-      <h3 className="font-semibold text-sds-header-xl leading-sds-header-xl">
+      <h3 className="font-semibold text-sds-header-xl-600-wide leading-sds-header-xl">
         <I18n i18nKey="helpUsAchieveThisVision" />
       </h3>
       <div

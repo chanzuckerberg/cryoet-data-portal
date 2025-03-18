@@ -126,7 +126,7 @@ export function MainContent() {
 
       <JumpToAnchor id={MLChallengeSectionId.CompetitionData} />
       <Section color="primary200" className="gap-sds-xl">
-        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
+        <h2 className="text-sds-header-xl-600-wide leading-sds-header-xl font-semibold">
           {t('competitionData')}
         </h2>
         <div
@@ -137,13 +137,13 @@ export function MainContent() {
           )}
         >
           <div>
-            <p className="text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps-xxxs font-semibold uppercase text-light-sds-color-primitive-gray-500 mb-sds-xs">
+            <p className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs tracking-sds-caps-xxxs font-semibold uppercase text-light-sds-color-primitive-gray-500 mb-sds-xs">
               {t('competitionDepositionName')}:
             </p>
-            <p className="text-sds-header-m leading-sds-header-m font-semibold mb-sds-l">
+            <p className="text-sds-header-m-600-wide leading-sds-header-m font-semibold mb-sds-l">
               {t('competitionDataHeader')}
             </p>
-            <p className="text-sds-body-s leading-sds-body-s mb-sds-l text-justify">
+            <p className="text-sds-body-s-400-wide leading-sds-body-s mb-sds-l text-justify">
               {t('competitionDataDetails')}
             </p>
             <div className="flex gap-sds-default">
@@ -184,10 +184,10 @@ export function MainContent() {
 
       <JumpToAnchor id={MLChallengeSectionId.CompetitionContributors} />
       <Section color="gray100" className="gap-sds-xl">
-        <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
+        <h2 className="text-sds-header-xl-600-wide leading-sds-header-xl font-semibold">
           {t('competitionContributors')}
         </h2>
-        <p className="text-sds-body-s leading-sds-body-s">
+        <p className="text-sds-body-s-400-wide leading-sds-body-s">
           {t('competitionContributorsBlurb')}
         </p>
         <MDXRemote
@@ -196,7 +196,7 @@ export function MainContent() {
         />
         <div className="flex flex-col items-center mt-sds-l">
           <div className="w-full h-[2px] bg-light-sds-color-primitive-gray-200 mb-sds-xxl" />
-          <p className="text-sds-caps-xxs leading-sds-caps-xxs uppercase font-semibold text-light-sds-color-primitive-gray-500 mb-sds-l">
+          <p className="text-sds-caps-xxs-600-wide leading-sds-caps-xxs uppercase font-semibold text-light-sds-color-primitive-gray-500 mb-sds-l">
             {t('sponsoredBy')}:
           </p>
           <div className="flex flex-col screen-1024:flex-row gap-sds-xl items-center w-full max-w-[350px] screen-1024:max-w-none justify-between">
@@ -234,11 +234,11 @@ export function MainContent() {
       >
         <div className="flex justify-center gap-sds-xxl">
           <div>
-            <h2 className="text-sds-header-xl leading-sds-header-xl">
+            <h2 className="text-sds-header-xl-600-wide leading-sds-header-xl">
               {t('contact')}
             </h2>
 
-            <p className="text-sds-body-m leading-sds-body-m mt-sds-xl">
+            <p className="text-sds-body-m-400-wide leading-sds-body-m mt-sds-xl">
               <I18n i18nKey="haveMoreQuestions" />
             </p>
           </div>

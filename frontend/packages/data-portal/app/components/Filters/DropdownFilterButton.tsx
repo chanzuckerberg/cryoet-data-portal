@@ -85,14 +85,14 @@ export function DropdownFilterButton({
                 className="pl-sds-s flex flex-col"
               >
                 {filter.label && (
-                  <p className="text-sds-body-xs leading-sds-body-xs text-light-sds-color-primitive-gray-500 uppercase">
+                  <p className="text-sds-body-xs-400-wide leading-sds-body-xs text-light-sds-color-primitive-gray-500 uppercase">
                     {filter.label}
                   </p>
                 )}
 
                 <div>
                   <div className="bg-light-sds-color-primitive-blue-400 rounded-sds-m py-sds-xxs px-sds-s inline-flex items-center gap-sds-s">
-                    <span className="text-sds-body-xs leading-sds-body-xs font-semibold text-white">
+                    <span className="text-sds-body-xs-400-wide leading-sds-body-xs font-semibold text-white">
                       {getPrefixedId(filter.value, filter.queryParam)}
                     </span>
 

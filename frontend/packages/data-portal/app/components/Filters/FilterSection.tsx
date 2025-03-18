@@ -20,7 +20,7 @@ export function FilterSection({
       )}
     >
       {title && (
-        <h3 className="font-semibold text-sds-header-s leading-sds-header-s pl-sds-s pt-sds-s">
+        <h3 className="font-semibold text-sds-header-s-600-wide leading-sds-header-s pl-sds-s pt-sds-s">
           {title}
         </h3>
       )}

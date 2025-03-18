@@ -52,7 +52,7 @@ export function PageHeader({
                 <h1
                   className={cns(
                     'font-semibold',
-                    'text-sds-header-xxl leading-sds-header-xxl',
+                    'text-sds-header-xxl-600-wide leading-sds-header-xxl',
                     'max-w-[1000px]',
                   )}
                 >

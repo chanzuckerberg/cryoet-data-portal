@@ -56,7 +56,7 @@ export function getTooltipProps({
         '!px-sds-l !py-2',
         sdsStyle === 'dark' ? '!bg-black !text-white' : '!bg-white !text-black',
         center ? '!text-center' : '!text-left',
-        '!font-normal !text-sds-body-xs !leading-sds-body-xs',
+        '!font-normal !text-sds-body-xs-400-wide !leading-sds-body-xs',
         'shadow-lg',
         size === 's' && 'w-[200px]',
         size === 'inherit' && '[&&&]:max-w-none',

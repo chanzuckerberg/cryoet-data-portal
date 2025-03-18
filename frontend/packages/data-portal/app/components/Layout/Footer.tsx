@@ -94,7 +94,7 @@ export function Footer() {
           className={cns(
             'flex flex-col screen-716:flex-row',
             'items-center gap-sds-m screen-716:gap-sds-xxl',
-            'text-sds-body-s font-semibold',
+            'text-sds-body-s-400-wide font-semibold',
           )}
         >
           {DEV_LINKS.map(({ label, href }) => (
@@ -109,7 +109,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="flex items-center mt-[36px] screen-716:mt-[70px] text-sds-body-s flex-col screen-716:flex-row gap-y-sds-l screen-716:gap-y-sds-xxl">
+      <div className="flex items-center mt-[36px] screen-716:mt-[70px] text-sds-body-s-400-wide flex-col screen-716:flex-row gap-y-sds-l screen-716:gap-y-sds-xxl">
         <div className="hidden screen-716:block">{legalLinks}</div>
         <div className="screen-716:hidden">{cziLinks}</div>
 

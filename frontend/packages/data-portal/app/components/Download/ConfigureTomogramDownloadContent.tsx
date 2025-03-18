@@ -99,16 +99,16 @@ export function ConfigureTomogramDownloadContent() {
           sdsStage="open"
         >
           <CalloutTitle>
-            <p className="text-sds-body-xs leading-sds-body-xs">
+            <p className="text-sds-body-xs-400-wide leading-sds-body-xs">
               <I18n i18nKey="downloadAllRunData" />
             </p>
 
-            <p className="text-sds-body-xs leading-sds-body-xs">
+            <p className="text-sds-body-xs-400-wide leading-sds-body-xs">
               {t('runDataIncludes')}
             </p>
           </CalloutTitle>
 
-          <p className="text-sds-header-xs leading-sds-header-xs mt-sds-default font-semibold">
+          <p className="text-sds-header-xs-600-wide leading-sds-header-xs mt-sds-default font-semibold">
             {t('runId')}
           </p>
 
