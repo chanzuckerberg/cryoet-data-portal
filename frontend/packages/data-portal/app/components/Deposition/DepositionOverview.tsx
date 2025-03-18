@@ -40,7 +40,7 @@ export function DepositionOverview() {
             </p>
             <Link
               to="/competition"
-              className="text-light-sds-color-primitive-blue-400 hover:underline"
+              className="text-light-sds-color-primitive-blue-500 hover:underline"
             >
               {t('cryoetDataAnnotationMLComp')}
             </Link>

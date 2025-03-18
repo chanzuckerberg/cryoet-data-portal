@@ -13,7 +13,7 @@ export function CryoETHomeLink() {
       >
         {t('title')}
       </Link>
-      <div className="px-sds-xs py-sds-xxxs bg-light-sds-color-primitive-blue-400 rounded-sds-m text-sds-body-xxxs-400-wide">
+      <div className="px-sds-xs py-sds-xxxs bg-light-sds-color-primitive-blue-500 rounded-sds-m text-sds-body-xxxs-400-wide">
         {t('beta')}
       </div>
     </div>

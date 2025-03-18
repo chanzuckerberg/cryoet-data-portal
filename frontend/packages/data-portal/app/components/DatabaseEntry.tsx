@@ -47,7 +47,7 @@ export function DatabaseEntry(props: DatabaseEntryProps) {
       <Link
         className={
           inline
-            ? 'text-light-sds-color-primitive-blue-400 truncate'
+            ? 'text-light-sds-color-primitive-blue-500 truncate'
             : 'text-light-sds-color-primitive-gray-600'
         }
         to={URL_MAP.get(dbtype) + id}

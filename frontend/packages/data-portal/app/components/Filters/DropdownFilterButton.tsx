@@ -91,7 +91,7 @@ export function DropdownFilterButton({
                 )}
 
                 <div>
-                  <div className="bg-light-sds-color-primitive-blue-500 rounded-sds-m py-sds-xxs px-sds-s inline-flex items-center gap-sds-s">
+                  <div className="bg-light-sds-color-primitive-blue-600 rounded-sds-m py-sds-xxs px-sds-s inline-flex items-center gap-sds-s">
                     <span className="text-sds-body-xs-400-wide leading-sds-body-xs font-semibold text-white">
                       {getPrefixedId(filter.value, filter.queryParam)}
                     </span>

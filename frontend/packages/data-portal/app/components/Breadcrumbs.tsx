@@ -33,7 +33,7 @@ function Breadcrumb({
       to={link}
       className={cns(
         className,
-        'hover:text-light-sds-color-primitive-blue-400',
+        'hover:text-light-sds-color-primitive-blue-500',
       )}
       onClick={() => {
         if (type) {
@@ -112,7 +112,7 @@ export function Breadcrumbs({
     >
       {returnToDepositionLink && (
         <Link
-          className="uppercase font-semibold text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs text-light-sds-color-primitive-blue-400"
+          className="uppercase font-semibold text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs text-light-sds-color-primitive-blue-500"
           to={returnToDepositionLink}
           onClick={() =>
             plausible(Events.ClickBreadcrumb, {

@@ -16,7 +16,7 @@ export function ObjectIdLink({ id }: { id: string }) {
   // don't link if no patterns match
   if (link) {
     return (
-      <Link to={link} className="text-light-sds-color-primitive-blue-400">
+      <Link to={link} className="text-light-sds-color-primitive-blue-500">
         {id}
       </Link>
     )
