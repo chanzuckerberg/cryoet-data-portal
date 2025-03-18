@@ -83,7 +83,7 @@ export function MetadataDrawer({
             </p>
 
             {idInfo && (
-              <p className="flex flex-row gap-sds-xs items-baseline text-light-sds-color-primitive-gray-500 mt-sds-xxs">
+              <p className="flex flex-row gap-sds-xs items-baseline text-light-sds-color-semantic-base-text-secondary">
                 <span className="text-sds-header-xxs-600-wide leading-sds-header-xxs font-semibold">
                   {t(idInfo.label)}:
                 </span>
