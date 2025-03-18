@@ -75,7 +75,7 @@
   }
 
   a {
-    @apply text-sds-color-semantic-text-action-default;
+    @apply text-light-sds-color-semantic-accent-text-action;
   }
 
   b,

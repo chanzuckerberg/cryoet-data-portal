@@ -78,7 +78,7 @@ export function MetadataTable({
                   {datum.renderValues?.(values) ??
                     match(values.length)
                       .with(0, () => (
-                        <span className="text-sds-color-semantic-text-base-secondary">
+                        <span className="text-light-sds-color-semantic-base-text-secondary">
                           {t('notSubmitted')}
                         </span>
                       ))

@@ -224,7 +224,7 @@ export function AnnotationTable() {
               </div>
             </div>
 
-            <div className="text-sds-color-semantic-text-base-secondary text-sds-body-xxs-400-wide leading-sds-header-xxs mt-sds-s">
+            <div className="text-light-sds-color-semantic-base-text-secondary text-sds-body-xxs-400-wide leading-sds-header-xxs mt-sds-s">
               <AuthorList
                 authors={
                   annotationShape.annotation?.authors.edges.map(

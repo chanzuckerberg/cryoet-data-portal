@@ -45,6 +45,7 @@ export function DropdownFilterButton({
     <div>
       {/* Filter button  */}
       <Button
+        sdsStyle="minimal"
         className={cns(
           'flex items-center gap-sds-xs group',
           open && '!bg-light-sds-color-primitive-gray-100',
@@ -58,7 +59,7 @@ export function DropdownFilterButton({
         <span
           className={cns(
             'font-semibold group-hover:text-black transition-colors text-sm',
-            open ? 'text-black' : 'text-light-sds-color-primitive-gray-500',
+            open ? 'text-black' : 'text-light-sds-color-primitive-gray-600',
           )}
         >
           {label}
@@ -67,11 +68,10 @@ export function DropdownFilterButton({
         <Icon
           className={cns(
             'group-hover:!fill-black transition-colors',
-            open ? '!fill-black' : '!fill-light-sds-color-primitive-gray-500',
+            open ? '!fill-black' : '!fill-light-sds-color-primitive-gray-600',
           )}
           sdsIcon="ChevronDown"
           sdsSize="xs"
-          sdsType="button"
         />
       </Button>
 
@@ -91,7 +91,7 @@ export function DropdownFilterButton({
                 )}
 
                 <div>
-                  <div className="bg-light-sds-color-primitive-blue-400 rounded-sds-m py-sds-xxs px-sds-s inline-flex items-center gap-sds-s">
+                  <div className="bg-light-sds-color-primitive-blue-500 rounded-sds-m py-sds-xxs px-sds-s inline-flex items-center gap-sds-s">
                     <span className="text-sds-body-xs-400-wide leading-sds-body-xs font-semibold text-white">
                       {getPrefixedId(filter.value, filter.queryParam)}
                     </span>
@@ -100,12 +100,12 @@ export function DropdownFilterButton({
                       className="!min-w-0 !w-0"
                       onClick={() => onRemoveFilter(filter)}
                       aria-label="remove-filter"
+                      sdsStyle="minimal"
                     >
                       <Icon
                         className="!fill-white !w-[10px] !h-[10px]"
                         sdsIcon="XMark"
                         sdsSize="xs"
-                        sdsType="static"
                       />
                     </Button>
                   </div>

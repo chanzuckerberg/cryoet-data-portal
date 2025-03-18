@@ -138,7 +138,7 @@ export function TomogramMetadataDrawer() {
           {
             label: t('voxelSpacing'),
             subLabel: (
-              <div className="text-sds-header-xxs-600-wide font-normal text-sds-color-semantic-text-neutral">
+              <div className="text-sds-header-xxs-600-wide font-normal text-light-sds-color-semantic-neutral-text">
                 {t('sizeXYZ')}
               </div>
             ),
@@ -149,7 +149,7 @@ export function TomogramMetadataDrawer() {
             renderValues: (values: string[]) => (
               <ul className="list-none">
                 <li className="leading-[20px]">{values[0]}</li>
-                <li className="text-sds-header-xxs-600-wide font-normal text-sds-color-semantic-text-neutral">
+                <li className="text-sds-header-xxs-600-wide font-normal text-light-sds-color-semantic-neutral-text">
                   {values[1]}
                 </li>
               </ul>

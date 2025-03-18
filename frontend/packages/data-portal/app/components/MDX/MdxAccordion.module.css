@@ -43,7 +43,7 @@
   }
 
   a {
-    @apply text-sds-color-semantic-text-action-default;
+    @apply text-light-sds-color-semantic-accent-text-action;
   }
 
   table {
@@ -61,7 +61,7 @@
 
       @apply font-semibold;
       @apply uppercase;
-      @apply text-sds-color-semantic-text-neutral;
+      @apply text-light-sds-color-semantic-neutral-text;
     }
 
     th,
@@ -74,7 +74,7 @@
     font-family: 'Andale Mono', monospace;
     @apply text-sds-body-s-400-wide leading-sds-body-s;
     @apply p-sds-xxxs;
-    @apply bg-sds-color-semantic-component-base-surface-secondary;
+    @apply bg-light-sds-color-semantic-base-background-secondary;
     @apply rounded-sds-m;
     border: 0.5px solid theme('colors.gray.300');
     @apply whitespace-nowrap;
@@ -84,7 +84,7 @@
 
   pre {
     @apply p-sds-m;
-    @apply bg-sds-color-semantic-component-base-surface-secondary;
+    @apply bg-light-sds-color-semantic-base-background-secondary;
     @apply rounded-sds-m;
     border: 0.5px solid theme('colors.gray.300');
     @apply overflow-x-scroll;

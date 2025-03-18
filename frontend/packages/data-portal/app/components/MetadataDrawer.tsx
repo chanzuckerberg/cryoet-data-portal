@@ -74,7 +74,7 @@ export function MetadataDrawer({
       >
         <header className="flex items-start justify-between px-sds-xl pt-sds-xl pb-sds-xxl">
           <div className="flex flex-col">
-            <p className="text-xs text-sds-color-semantic-text-base-secondary font-semibold uppercase mb-sds-s">
+            <p className="text-xs text-light-sds-color-semantic-base-text-secondary font-semibold uppercase mb-sds-s">
               {label}
             </p>
 
