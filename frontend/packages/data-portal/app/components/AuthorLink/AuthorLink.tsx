@@ -47,7 +47,7 @@ export function AuthorLink({
       disableHoverListener={!author.orcid && !author.kaggleId}
       tooltip={
         <div className="min-w-[200px] pt-sds-xxs pb-sds-s">
-          <h4 className="text-sds-color-primitive-gray-500 text-sds-header-xxs leading-sds-header-xxs font-semibold mb-sds-s">
+          <h4 className="text-light-sds-color-primitive-gray-500 text-sds-header-xxs leading-sds-header-xxs font-semibold mb-sds-s">
             Author Handle(s)
           </h4>
           <ul>
@@ -92,7 +92,7 @@ export function AuthorLink({
 
                   author.primaryAuthorStatus === true
                     ? 'border-black'
-                    : 'border-sds-color-primitive-gray-500',
+                    : 'border-light-sds-color-primitive-gray-500',
                 ]
               : 'border-transparent',
           )}
@@ -107,7 +107,7 @@ export function AuthorLink({
         {author.correspondingAuthorStatus === true && (
           <EnvelopeIcon
             className={cns(
-              'text-sds-color-primitive-gray-400 mx-sds-xxxs',
+              'text-light-sds-color-primitive-gray-400 mx-sds-xxxs',
               'mb-2 inline-block h-sds-icon-xs w-sds-icon-xs',
             )}
           />

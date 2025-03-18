@@ -11,10 +11,10 @@ import { cnsNoMerge } from 'app/utils/cns'
 
 import { MethodLinksOverview } from './MethodLinks'
 
-// use clsx here instead of cns since it erroneously merges text-sds-color-primitive-gray-500 and text-sds-caps-xxxs
+// use clsx here instead of cns since it erroneously merges text-light-sds-color-primitive-gray-500 and text-sds-caps-xxxs
 const sectionHeaderStyles = cnsNoMerge(
   'font-semibold uppercase',
-  'text-sds-color-primitive-common-black',
+  'text-light-sds-color-primitive-gray-900 ',
   'text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps',
   'mb-sds-xs',
 )
@@ -40,7 +40,7 @@ export function DepositionOverview() {
             </p>
             <Link
               to="/competition"
-              className="text-sds-color-primitive-blue-400 hover:underline"
+              className="text-light-sds-color-primitive-blue-400 hover:underline"
             >
               {t('cryoetDataAnnotationMLComp')}
             </Link>
@@ -67,7 +67,7 @@ export function DepositionOverview() {
         <div className="flex-1 max-w-[260px]">
           <h3 className={sectionHeaderStyles}>{t('depositionData')}</h3>
           <p className="flex flex-row gap-sds-xs">
-            <span className="font-semibold text-sds-color-primitive-common-black">
+            <span className="font-semibold text-light-sds-color-primitive-gray-900 ">
               {t('annotations')}:
             </span>
             {(

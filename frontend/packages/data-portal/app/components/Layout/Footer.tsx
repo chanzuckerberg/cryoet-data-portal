@@ -55,14 +55,14 @@ export function Footer() {
       {LEGAL_LINKS.map(({ label, href }, idx) => (
         <Fragment key={label + href}>
           <Link
-            className="text-sds-color-primitive-common-white hover:text-sds-color-primitive-gray-300"
+            className="text-light-sds-color-primitive-gray-50 hover:text-light-sds-color-primitive-gray-300"
             to={href}
           >
             {label}
           </Link>
 
           {idx !== LEGAL_LINKS.length - 1 && (
-            <div className="h-sds-l w-px bg-sds-color-primitive-gray-300" />
+            <div className="h-sds-l w-px bg-light-sds-color-primitive-gray-300" />
           )}
         </Fragment>
       ))}
@@ -75,7 +75,7 @@ export function Footer() {
         <CZIIcon />
       </Link>
 
-      <div className="h-[34px] w-px bg-sds-color-primitive-common-white/30" />
+      <div className="h-[34px] w-px bg-light-sds-color-primitive-gray-50/30" />
 
       <Link to="https://www.czimaginginstitute.org/">
         <ImageInstituteIcon />
@@ -84,7 +84,7 @@ export function Footer() {
   )
 
   return (
-    <footer className="bg-sds-color-primitive-common-black min-h-[213px] pt-[41px] pb-sds-xxl px-sds-xl screen-716:px-sds-xxl flex flex-col flex-shrink-0">
+    <footer className="bg-light-sds-color-primitive-gray-900  min-h-[213px] pt-[41px] pb-sds-xxl px-sds-xl screen-716:px-sds-xxl flex flex-col flex-shrink-0">
       <div className="flex items-center flex-wrap flex-col screen-716:flex-row gap-y-sds-xl screen-716:gap-y-sds-xxl">
         <CryoETHomeLink />
 
@@ -100,7 +100,7 @@ export function Footer() {
           {DEV_LINKS.map(({ label, href }) => (
             <Link
               key={label + href}
-              className="text-sds-color-primitive-common-white hover:text-sds-color-primitive-gray-300"
+              className="text-light-sds-color-primitive-gray-50 hover:text-light-sds-color-primitive-gray-300"
               to={href}
             >
               {label}

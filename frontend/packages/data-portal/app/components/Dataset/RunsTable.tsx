@@ -124,9 +124,9 @@ export function RunsTable() {
                 ) : (
                   <TableLink
                     className={cnsNoMerge(
-                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
+                      'text-sds-body-m leading-sds-body-m font-semibold text-light-sds-color-primitive-blue-400',
                       !isHoveringOverInteractable &&
-                        'group-hover:text-sds-color-primitive-blue-500',
+                        'group-hover:text-light-sds-color-primitive-blue-500',
                     )}
                     to={runUrl}
                   >
@@ -231,7 +231,7 @@ export function RunsTable() {
                     <Icon sdsIcon="Cube" sdsType="button" sdsSize="s" />
                   ),
                   className:
-                    '!min-w-[141px] min-h-[32px] hover:!bg-sds-color-primitive-gray-200 rounded-md',
+                    '!min-w-[141px] min-h-[32px] hover:!bg-light-sds-color-primitive-gray-200 rounded-md',
                 }}
                 event={{
                   datasetId: dataset.id,

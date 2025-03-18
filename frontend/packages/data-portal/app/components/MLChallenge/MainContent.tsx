@@ -63,10 +63,12 @@ function Section({
         'py-sds-xl screen-716:py-sds-xxl flex flex-col',
         color &&
           'relative after:h-full after:w-[200vw] after:absolute after:top-0 after:-translate-x-1/2 after:-z-10',
-        color === 'primary100' && 'after:bg-sds-color-primitive-blue-100 ',
-        color === 'primary200' && 'after:bg-sds-color-primitive-blue-200 ',
-        color === 'gray100' && 'after:bg-sds-color-primitive-gray-100 ',
-        color === 'gray500' && 'after:bg-sds-color-primitive-gray-500 ',
+        color === 'primary100' &&
+          'after:bg-light-sds-color-primitive-blue-100 ',
+        color === 'primary200' &&
+          'after:bg-light-sds-color-primitive-blue-200 ',
+        color === 'gray100' && 'after:bg-light-sds-color-primitive-gray-100 ',
+        color === 'gray500' && 'after:bg-light-sds-color-primitive-gray-500 ',
         useMdxStyles && styles.body,
         className,
       )}
@@ -131,11 +133,11 @@ export function MainContent() {
           className={cns(
             'p-sds-xl screen-716:p-sds-xxl',
             'flex flex-col-reverse screen-716:flex-row gap-sds-xl screen-716:gap-sds-xxl justify-between items-center',
-            'bg-sds-color-primitive-common-white border border-sds-color-primitive-gray-200 rounded-sds-m shadow-sds-l',
+            'bg-light-sds-color-primitive-gray-50 border border-light-sds-color-primitive-gray-200 rounded-sds-m shadow-sds-l',
           )}
         >
           <div>
-            <p className="text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps-xxxs font-semibold uppercase text-sds-color-primitive-gray-500 mb-sds-xs">
+            <p className="text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps-xxxs font-semibold uppercase text-light-sds-color-primitive-gray-500 mb-sds-xs">
               {t('competitionDepositionName')}:
             </p>
             <p className="text-sds-header-m leading-sds-header-m font-semibold mb-sds-l">
@@ -193,8 +195,8 @@ export function MainContent() {
           components={{ ContributorList: MdxContributorList }}
         />
         <div className="flex flex-col items-center mt-sds-l">
-          <div className="w-full h-[2px] bg-sds-color-primitive-gray-200 mb-sds-xxl" />
-          <p className="text-sds-caps-xxs leading-sds-caps-xxs uppercase font-semibold text-sds-color-primitive-gray-500 mb-sds-l">
+          <div className="w-full h-[2px] bg-light-sds-color-primitive-gray-200 mb-sds-xxl" />
+          <p className="text-sds-caps-xxs leading-sds-caps-xxs uppercase font-semibold text-light-sds-color-primitive-gray-500 mb-sds-l">
             {t('sponsoredBy')}:
           </p>
           <div className="flex flex-col screen-1024:flex-row gap-sds-xl items-center w-full max-w-[350px] screen-1024:max-w-none justify-between">

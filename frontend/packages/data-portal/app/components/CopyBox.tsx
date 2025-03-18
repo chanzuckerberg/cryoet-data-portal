@@ -36,7 +36,7 @@ export function CopyBox({
 
       <div
         className={cns(
-          'bg-sds-color-primitive-gray-100 border-[0.5px] border-sds-color-primitive-gray-300',
+          'bg-light-sds-color-primitive-gray-100 border-[0.5px] border-light-sds-color-primitive-gray-300',
           'p-sds-default flex gap-sds-s',
         )}
       >

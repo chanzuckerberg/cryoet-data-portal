@@ -52,7 +52,7 @@ export function RegexFilter({
             {title}
           </p>
 
-          <p className="text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-body-xxs">
+          <p className="text-light-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-body-xxs">
             {`(${t('limitOneValuePerField')})`}
           </p>
         </>

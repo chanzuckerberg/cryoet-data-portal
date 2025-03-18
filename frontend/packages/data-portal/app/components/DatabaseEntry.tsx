@@ -37,7 +37,7 @@ export function DatabaseEntry(props: DatabaseEntryProps) {
       {(!inline || dbtype === DatabaseType.DOI) && (
         <span
           className={cns(
-            'text-sds-color-primitive-common-black',
+            'text-light-sds-color-primitive-gray-900 ',
             !inline && 'font-semibold',
           )}
         >
@@ -47,8 +47,8 @@ export function DatabaseEntry(props: DatabaseEntryProps) {
       <Link
         className={
           inline
-            ? 'text-sds-color-primitive-blue-400 truncate'
-            : 'text-sds-color-primitive-gray-600'
+            ? 'text-light-sds-color-primitive-blue-400 truncate'
+            : 'text-light-sds-color-primitive-gray-600'
         }
         to={URL_MAP.get(dbtype) + id}
         variant={inline ? undefined : 'dashed-underlined'}

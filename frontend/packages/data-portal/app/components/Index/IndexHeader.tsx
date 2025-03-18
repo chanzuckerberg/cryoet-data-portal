@@ -74,7 +74,7 @@ export function IndexHeader() {
           <Link to="/browse-data/datasets">
             <Button
               className={cns(
-                '!bg-sds-color-primitive-gray-200 !text-black !shadow-none',
+                '!bg-light-sds-color-primitive-gray-200 !text-black !shadow-none',
                 'hover:text-black hover:!bg-white',
                 'drop-shadow-[0_0_7px_rgba(0,0,0,0.5)]',
               )}

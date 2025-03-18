@@ -16,7 +16,7 @@ export function TableCount({
   const { t } = useI18n()
 
   return (
-    <p className="text-sds-body-xs text-sds-color-primitive-gray-500 whitespace-nowrap mr-sds-xxl">
+    <p className="text-sds-body-xs text-light-sds-color-primitive-gray-500 whitespace-nowrap mr-sds-xxl">
       {isLoadingDebounced ? (
         <Skeleton className="max-w-" variant="text" />
       ) : (

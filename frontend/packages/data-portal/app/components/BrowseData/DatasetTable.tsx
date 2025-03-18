@@ -145,9 +145,9 @@ export function DatasetTable() {
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                   <div
                     className={cnsNoMerge(
-                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
+                      'text-sds-body-m leading-sds-body-m font-semibold text-light-sds-color-primitive-blue-400',
                       !isClickingOnEmpiarId &&
-                        'group-hover:text-sds-color-primitive-blue-500',
+                        'group-hover:text-light-sds-color-primitive-blue-500',
                     )}
                   >
                     {isLoadingDebounced ? (
@@ -165,7 +165,7 @@ export function DatasetTable() {
                     )}
                   </div>
 
-                  <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500 mt-sds-s">
+                  <div className="text-sds-body-xxs leading-sds-body-xxs text-light-sds-color-primitive-gray-500 mt-sds-s">
                     {isLoadingDebounced ? (
                       <>
                         <Skeleton className="max-w-[80%] mt-2" variant="text" />

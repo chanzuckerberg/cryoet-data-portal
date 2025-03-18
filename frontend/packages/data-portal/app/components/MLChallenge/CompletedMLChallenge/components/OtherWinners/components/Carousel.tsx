@@ -8,7 +8,7 @@ const getButtonClasses = (direction: 'left' | 'right') =>
     direction === 'right' ? '[&_svg]:left-[1px]' : '[&_svg]:right-[1px]',
     '[&_svg]:relative [&_svg]:fill-[#6C6C6C]',
     '[&&]:disabled:bg-[#DFDFDF] [&_svg]:disabled:fill-[#C3C3C3]',
-    '[&_svg]:hover:fill-[#0041B9] [&&]:hover:bg-sds-color-primitive-gray-100',
+    '[&_svg]:hover:fill-[#0041B9] [&&]:hover:bg-light-sds-color-primitive-gray-100',
     '[&&]:bg-white rounded-full shadow-[0px_2px_4px_0px_#0000001F]',
     'transition',
   )
@@ -125,12 +125,12 @@ export function Carousel({
               disabled={index === carouselPosition - 1}
               className={cns(
                 'rounded-full h-full',
-                'bg-sds-color-primitive-gray-200',
+                'bg-light-sds-color-primitive-gray-200',
                 index !== carouselPosition - 1 &&
-                  'hover:bg-sds-color-primitive-gray-300',
+                  'hover:bg-light-sds-color-primitive-gray-300',
                 index === carouselPosition - 1
                   ? 'bg-sds-color-semantic-component-accent-icon'
-                  : 'bg-sds-color-primitive-gray-200',
+                  : 'bg-light-sds-color-primitive-gray-200',
               )}
             />
           ))}

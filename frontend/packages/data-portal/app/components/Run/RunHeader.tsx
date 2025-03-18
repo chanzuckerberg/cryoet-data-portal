@@ -118,7 +118,7 @@ export function RunHeader() {
                   valueClass:
                     framesCount > 0
                       ? undefined
-                      : 'text-sds-color-primitive-gray-500',
+                      : 'text-light-sds-color-primitive-gray-500',
                 },
                 {
                   key: t('tiltSeries'),
@@ -127,7 +127,7 @@ export function RunHeader() {
                   valueClass:
                     tiltSeriesCount > 0
                       ? undefined
-                      : 'text-sds-color-primitive-gray-500',
+                      : 'text-light-sds-color-primitive-gray-500',
                 },
                 {
                   key: t('alignment'),

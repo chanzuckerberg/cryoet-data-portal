@@ -7,7 +7,7 @@
 
   :global(.MuiTypography-root) span span {
     @apply !text-sds-body-s !leading-sds-body-s font-semibold;
-    @apply !text-sds-color-primitive-gray-500;
+    @apply !text-light-sds-color-primitive-gray-500;
   }
 }
 

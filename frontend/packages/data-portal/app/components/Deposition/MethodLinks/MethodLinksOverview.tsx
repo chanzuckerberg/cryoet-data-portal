@@ -19,14 +19,16 @@ export function MethodLinksOverview() {
   const { t } = useI18n()
   const { annotationMethods } = useDepositionById()
 
-  const separator = <div className="h-[1px] bg-sds-color-primitive-gray-300" />
+  const separator = (
+    <div className="h-[1px] bg-light-sds-color-primitive-gray-300" />
+  )
 
   return (
     <div>
       <PageHeaderSubtitle className="mb-sds-m">
         {t('annotationMethodsSummary')}
       </PageHeaderSubtitle>
-      <div className="p-sds-l flex flex-col gap-sds-l bg-sds-color-primitive-gray-100  rounded-sds-m">
+      <div className="p-sds-l flex flex-col gap-sds-l bg-light-sds-color-primitive-gray-100  rounded-sds-m">
         {annotationMethods.map(
           ({ annotationMethod, methodType, methodLinks }, i) => (
             <>
@@ -55,7 +57,7 @@ export function MethodLinksOverview() {
                       sdsIcon="InfoCircle"
                       sdsSize="xs"
                       sdsType="static"
-                      className="!text-sds-color-primitive-gray-500"
+                      className="!text-light-sds-color-primitive-gray-500"
                     />
                   </Tooltip>
                 </div>
@@ -71,7 +73,8 @@ export function MethodLinksOverview() {
                           {...methodLinkProps}
                           className="text-sds-body-xxs leading-sds-body-xxs"
                           linkProps={{
-                            className: 'text-sds-color-primitive-gray-600',
+                            className:
+                              'text-light-sds-color-primitive-gray-600',
                             variant: 'dashed-underlined',
                           }}
                         />

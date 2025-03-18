@@ -14,7 +14,7 @@ export function NoTotalResults({
   buttons,
 }: NoTotalResultsProps) {
   return (
-    <div className="flex justify-center items-center gap-sds-xxl border-t border-sds-color-primitive-gray-300">
+    <div className="flex justify-center items-center gap-sds-xxl border-t border-light-sds-color-primitive-gray-300">
       <div className="flex flex-col justify-center items-baseline h-[425px] gap-[20px]">
         <h1 className="text-sds-header-l font-semibold">{title}</h1>
         <div className="text-sds-body-s">{description}</div>

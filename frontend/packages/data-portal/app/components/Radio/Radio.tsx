@@ -32,8 +32,8 @@ export function Radio({
     {
       className: cns(
         'flex gap-sds-default p-sds-l transition-colors text-left',
-        isActive && 'bg-sds-color-primitive-gray-100',
-        'hover:bg-sds-color-primitive-gray-100',
+        isActive && 'bg-light-sds-color-primitive-gray-100',
+        'hover:bg-light-sds-color-primitive-gray-100',
       ),
       ...(isActive
         ? {}
@@ -65,7 +65,9 @@ export function Radio({
         <span
           className={cns(
             'text-sds-body-xs leading-sds-body-xs',
-            disabled ? '!text-[#c3c3c3]' : 'text-sds-color-primitive-gray-600',
+            disabled
+              ? '!text-[#c3c3c3]'
+              : 'text-light-sds-color-primitive-gray-600',
           )}
         >
           {description}
