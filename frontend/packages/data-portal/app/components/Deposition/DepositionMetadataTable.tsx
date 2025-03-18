@@ -24,7 +24,6 @@ function CollapsibleDescription({ text }: { text: string }) {
             <Icon
               sdsIcon={isCollapsed ? 'Plus' : 'Minus'}
               sdsSize="xs"
-              sdsType="static"
               className="!text-current"
             />
             {t(isCollapsed ? 'showMore' : 'showLess')}

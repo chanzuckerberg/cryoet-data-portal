@@ -62,7 +62,7 @@ export function RunHeader() {
             buttonProps={{
               sdsStyle: 'rounded',
               sdsType: 'primary',
-              startIcon: <Icon sdsIcon="Cube" sdsType="button" sdsSize="s" />,
+              startIcon: <Icon sdsIcon="Cube" sdsSize="s" />,
             }}
             tooltipPlacement="bottom"
             event={{
@@ -75,7 +75,7 @@ export function RunHeader() {
           />
 
           <Button
-            startIcon={<Icon sdsIcon="Download" sdsType="button" sdsSize="l" />}
+            startIcon={<Icon sdsIcon="Download" sdsSize="l" />}
             sdsType="secondary"
             sdsStyle="rounded"
             onClick={() =>

@@ -16,7 +16,6 @@ export function MdxToggleShowMore({ children }: { children: ReactNode }) {
           <Icon
             sdsIcon={collapsed ? 'Plus' : 'Minus'}
             sdsSize="xs"
-            sdsType="static"
             className="!text-current"
           />
           {t(collapsed ? 'showAll' : 'showLess')}

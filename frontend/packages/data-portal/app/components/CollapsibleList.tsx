@@ -79,12 +79,7 @@ export function CollapsibleList({
             >
               {collapsed ? (
                 <>
-                  <Icon
-                    sdsIcon="Plus"
-                    sdsSize="xs"
-                    sdsType="static"
-                    className="!text-current"
-                  />
+                  <Icon sdsIcon="Plus" sdsSize="xs" className="!text-current" />
                   {t('showNumberMore', {
                     count: entries.length - collapseAfter,
                   })}
@@ -94,7 +89,6 @@ export function CollapsibleList({
                   <Icon
                     sdsIcon="Minus"
                     sdsSize="xs"
-                    sdsType="static"
                     className="!text-current"
                   />
                   {t('showLess')}

@@ -112,7 +112,6 @@ function DownloadModalContent() {
               className="!fill-sds-color-semantic-component-base-icon"
               sdsIcon="XMark"
               sdsSize="l"
-              sdsType="button"
             />
           </button>
         </div>

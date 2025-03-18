@@ -227,9 +227,7 @@ export function RunsTable() {
                 buttonProps={{
                   sdsType: 'primary',
                   sdsStyle: 'minimal',
-                  startIcon: (
-                    <Icon sdsIcon="Cube" sdsType="button" sdsSize="s" />
-                  ),
+                  startIcon: <Icon sdsIcon="Cube" sdsSize="s" />,
                   className:
                     '!min-w-[141px] min-h-[32px] hover:!bg-light-sds-color-primitive-gray-200 rounded-md',
                 }}

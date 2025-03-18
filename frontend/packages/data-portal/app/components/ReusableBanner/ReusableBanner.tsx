@@ -1,4 +1,4 @@
-import { Banner } from '@czi-sds/components'
+import { Banner, BannerProps } from '@czi-sds/components'
 import { useLocation } from '@remix-run/react'
 import { useState } from 'react'
 
@@ -25,7 +25,7 @@ export function ReusableBanner({
   localStorageKey: LocalStorageKeys
   bannerTextKey: I18nProps['i18nKey']
   className?: string
-  sdsType?: 'primary' | 'secondary' | 'tertiary'
+  sdsType?: BannerProps['sdsType']
   allowedPathsRegex?: RegExp[]
 }) {
   // open banner on client side to prevent flash of content since local storage

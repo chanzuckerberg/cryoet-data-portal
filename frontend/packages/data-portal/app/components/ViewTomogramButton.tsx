@@ -85,7 +85,7 @@ export function ViewTomogramButton({
           href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
           disabled={!enabled}
           LinkComponent={Link}
-          {...buttonProps}
+          {...(buttonProps as ButtonProps)}
         >
           <span>{t('viewTomogram')}</span>
         </Button>

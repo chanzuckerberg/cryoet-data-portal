@@ -56,7 +56,6 @@ export function MethodLinksOverview() {
                     <Icon
                       sdsIcon="InfoCircle"
                       sdsSize="xs"
-                      sdsType="static"
                       className="!text-light-sds-color-primitive-gray-500"
                     />
                   </Tooltip>

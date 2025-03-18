@@ -194,9 +194,7 @@ export function TomogramsTable() {
                     sdsStyle: 'square',
                     sdsType: 'primary',
                     className: '!text-sds-body-xxs-400-wide !h-sds-icon-xl',
-                    startIcon: (
-                      <Icon sdsIcon="Cube" sdsType="button" sdsSize="xs" />
-                    ),
+                    startIcon: <Icon sdsIcon="Cube" sdsSize="xs" />,
                   }}
                   tooltipPlacement="top"
                   event={{
@@ -213,9 +211,7 @@ export function TomogramsTable() {
                 sdsStyle="minimal"
                 className="!justify-start !ml-sds-m !text-sds-body-xxs-400-wide"
                 onClick={() => openMetadataDrawer(original)}
-                startIcon={
-                  <Icon sdsIcon="InfoCircle" sdsSize="xs" sdsType="button" />
-                }
+                startIcon={<Icon sdsIcon="InfoCircle" sdsSize="xs" />}
               >
                 <span>{t('info')}</span>
               </Button>
@@ -230,9 +226,7 @@ export function TomogramsTable() {
                     runId: run.id,
                   })
                 }}
-                startIcon={
-                  <Icon sdsIcon="Download" sdsSize="xs" sdsType="button" />
-                }
+                startIcon={<Icon sdsIcon="Download" sdsSize="xs" />}
               >
                 {t('download')}
               </Button>

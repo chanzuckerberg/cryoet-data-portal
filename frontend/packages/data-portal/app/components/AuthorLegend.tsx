@@ -53,7 +53,6 @@ export function AuthorLegend({ inline = false }: { inline?: boolean }) {
         <Icon
           sdsIcon="InfoCircle"
           sdsSize={inline ? 's' : 'xs'}
-          sdsType="button"
           className={cns(
             '!text-inherit !inline-block !align-baseline !fill-light-sds-color-primitive-gray-500',
             inline && 'absolute bottom-sds-xxxs',
