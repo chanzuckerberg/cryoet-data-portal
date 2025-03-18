@@ -11,6 +11,7 @@ import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQuery
 import { useI18n } from 'app/hooks/useI18n'
 import { PlausibleDownloadModalPayload } from 'app/hooks/usePlausible'
 import { DownloadStep } from 'app/types/download'
+import { cns } from 'app/utils/cns'
 
 import { ConfigureDownloadContent } from './ConfigureDownloadContent'
 import { DownloadOptionsContent } from './DownloadOptionsContent'
@@ -110,7 +111,12 @@ function DownloadModalContent() {
         <div>
           <button onClick={closeModal} type="button">
             <Icon
-              className="!fill-sds-color-semantic-component-base-icon"
+              className={cns(
+                'transition-colors',
+                '!text-light-sds-color-semantic-base-ornament-secondary',
+                'hover:!text-light-sds-color-semantic-base-ornament-secondary-hover',
+                'active:!text-light-sds-color-semantic-base-ornament-secondary-hover',
+              )}
               sdsIcon="XMark"
               sdsSize="l"
             />
