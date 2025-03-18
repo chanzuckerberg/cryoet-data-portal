@@ -32,7 +32,7 @@ function TiltRangeInput({
 
   return (
     <div className="flex flex-col gap-sds-xxxs">
-      <p className="text-sds-body-xs-400-wide leading-sds-body-xs tracking-sds-default">
+      <p className="text-sds-body-xs-400-wide leading-sds-body-xs tracking-sds-body-xs-400-wide">
         {label}:
       </p>
 
