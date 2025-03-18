@@ -61,7 +61,7 @@ function Section({
         'py-sds-xl screen-716:py-sds-xxl flex flex-col',
         color &&
           'relative after:h-full after:w-[200vw] after:absolute after:top-0 after:-translate-x-1/2 after:-z-10',
-        color === 'primary100' && 'after:bg-[#EFF2FC]',
+        color === 'primary100' && 'after:bg-light-sds-color-primitive-blue-100',
         color === 'gray100' && 'after:bg-light-sds-color-primitive-gray-100 ',
         useMdxStyles && styles.body,
         className,
