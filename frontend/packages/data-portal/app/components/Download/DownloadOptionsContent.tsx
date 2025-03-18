@@ -173,9 +173,11 @@ export function DownloadOptionsContent() {
           }
         />
       ) : (
-        <Callout intent="notice" className="!w-full !mt-sds-xl">
-          <I18n i18nKey="annotationsMayRequireTransformation" />
-        </Callout>
+        <Callout
+          intent="notice"
+          className="!w-full !mt-sds-xl"
+          body={<I18n i18nKey="annotationsMayRequireTransformation" />}
+        />
       )}
     </>
   )

@@ -95,23 +95,26 @@ export function ConfigureTomogramDownloadContent() {
         <Callout
           className="!w-full !mt-sds-xl !mb-sds-xxs"
           intent="info"
-          expandable
+          sdsStyle="expandable"
           sdsStage="open"
+          body={
+            <>
+              <CalloutTitle>
+                <p className="text-sds-body-xs-400-wide leading-sds-body-xs">
+                  <I18n i18nKey="downloadAllRunData" />
+                </p>
+
+                <p className="text-sds-body-xs-400-wide leading-sds-body-xs">
+                  {t('runDataIncludes')}
+                </p>
+              </CalloutTitle>
+
+              <p className="text-sds-header-xs-600-wide leading-sds-header-xs mt-sds-default font-semibold">
+                {t('runId')}
+              </p>
+            </>
+          }
         >
-          <CalloutTitle>
-            <p className="text-sds-body-xs-400-wide leading-sds-body-xs">
-              <I18n i18nKey="downloadAllRunData" />
-            </p>
-
-            <p className="text-sds-body-xs-400-wide leading-sds-body-xs">
-              {t('runDataIncludes')}
-            </p>
-          </CalloutTitle>
-
-          <p className="text-sds-header-xs-600-wide leading-sds-header-xs mt-sds-default font-semibold">
-            {t('runId')}
-          </p>
-
           <CopyBox
             content={runId}
             onCopy={() => logPlausibleCopyEvent('run-id', String(runId))}
@@ -119,9 +122,11 @@ export function ConfigureTomogramDownloadContent() {
         </Callout>
       )}
 
-      <Callout intent="notice" className="!w-full !mt-0">
-        <I18n i18nKey="annotationsMayRequireTransformation" />
-      </Callout>
+      <Callout
+        intent="notice"
+        className="!w-full !mt-0"
+        body={<I18n i18nKey="annotationsMayRequireTransformation" />}
+      />
     </>
   )
 }
