@@ -13,7 +13,7 @@ function MetricField({ title, count }: { title: string; count: number }) {
       className={cns(
         'flex flex-col items-center justify-center',
         'flex-auto max-w-[120px] w-full px-sds-m',
-        'font-sds-semibold font-semibold',
+        'font-semibold',
       )}
     >
       <p className="text-sds-caps-xxxs leading-sds-caps-xxxs uppercase drop-shadow-landing-header">
@@ -52,7 +52,7 @@ export function IndexHeader() {
     >
       <div className="flex flex-col items-center gap-sds-m text-white">
         <div className="flex flex-col gap-sds-xl items-center">
-          <h1 className="text-[32px] leading-[34px] font-sds-semibold font-semibold drop-shadow-landing-header">
+          <h1 className="text-[32px] leading-[34px] font-semibold drop-shadow-landing-header">
             <I18n i18nKey="landingHeaderTitle" />
           </h1>
           <div className="flex flex-row justify-center w-full">

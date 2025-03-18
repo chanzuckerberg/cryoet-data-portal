@@ -8,10 +8,10 @@ export function IndexContent() {
     <div className="px-sds-xl overflow-x-clip flex flex-col items-center w-full">
       <div className="flex flex-col max-w-content-small py-sds-xxl gap-sds-xxl w-full">
         <div className="flex flex-col gap-sds-xl">
-          <h2 className="font-sds-semibold font-semibold text-sds-header-xl leading-sds-header-xl">
+          <h2 className="font-semibold text-sds-header-xl leading-sds-header-xl">
             <I18n i18nKey="landingPageWelcomeBlurb" />
           </h2>
-          <div className="font-sds-regular text-sds-body-s leading-sds-body-s flex flex-col gap-sds-l">
+          <div className="font-sds-body text-sds-body-s leading-sds-body-s flex flex-col gap-sds-l">
             <p>
               <I18n i18nKey="landingPageCopy1" />
             </p>
