@@ -156,7 +156,7 @@ export function DatasetsTable() {
                     )}
                   </div>
 
-                  <p className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
+                  <p className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-semantic-base-text-primary">
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
