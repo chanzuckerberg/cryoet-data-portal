@@ -7,7 +7,6 @@ import { match } from 'ts-pattern'
 
 import { apolloClientV2 } from 'app/apollo.server'
 import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
-import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
 import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import { NoTotalResults } from 'app/components/NoTotalResults'
@@ -22,7 +21,6 @@ import { QueryParams } from 'app/constants/query'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
-import { useQueryParam } from 'app/hooks/useQueryParam'
 import { useRunById } from 'app/hooks/useRunById'
 import { DownloadConfig } from 'app/types/download'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
@@ -89,7 +87,6 @@ export default function RunByIdPage() {
     tomograms,
     annotationFilesAggregates,
     tomogramsCount,
-    deposition,
   } = useRunById()
   const {
     downloadConfig,
@@ -134,21 +131,10 @@ export default function RunByIdPage() {
 
   const fileSize = getFileSize()
 
-  const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
-
   return (
     <TablePageLayout
       header={<RunHeader />}
       tabsTitle={t('browseRunData')}
-      banner={
-        depositionId &&
-        deposition && (
-          <DepositionFilterBanner
-            deposition={deposition}
-            labelI18n="onlyDisplayingAnnotations"
-          />
-        )
-      }
       tabs={[
         {
           title: t('annotations'),
