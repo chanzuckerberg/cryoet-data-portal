@@ -88,7 +88,6 @@ function DownloadModalContent() {
   return (
     <Dialog
       classes={{
-        root: 'breh',
         paper:
           '!max-w-[600px] border border-light-sds-color-primitive-gray-100',
       }}
