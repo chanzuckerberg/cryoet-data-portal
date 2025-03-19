@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.65.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.64.0...cryoet-data-portal-frontend-v1.65.0) (2025-03-19)
+
+
+### ✨ Features
+
+* remove banner and change 'prizes' ([#1716](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1716)) ([9b3596b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9b3596b7974c8e8a86cdab27680b4bad0ac3e688))
+
 ## [1.64.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.63.0...cryoet-data-portal-frontend-v1.64.0) (2025-03-17)
 
 
