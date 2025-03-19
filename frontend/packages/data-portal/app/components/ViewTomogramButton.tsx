@@ -49,7 +49,7 @@ export function ViewTomogramButton({
             <Link
               to={t('neuroglancerTutorialLink')}
               variant="dashed-underlined"
-              className="!text-sds-color-primitive-gray-300 text-sds-body-xxs !border-sds-color-primitive-gray-800"
+              className="!text-light-sds-color-primitive-gray-300 text-sds-body-xxs-400-wide !border-light-sds-color-primitive-gray-800"
             >
               <p>
                 <I18n i18nKey="viewNeuroglancerTutorial" />
@@ -85,7 +85,7 @@ export function ViewTomogramButton({
           href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
           disabled={!enabled}
           LinkComponent={Link}
-          {...buttonProps}
+          {...(buttonProps as ButtonProps)}
         >
           <span>{t('viewTomogram')}</span>
         </Button>

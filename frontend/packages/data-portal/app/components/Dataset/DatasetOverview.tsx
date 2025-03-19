@@ -8,11 +8,11 @@ import { cnsNoMerge } from 'app/utils/cns'
 
 import { PageHeaderSubtitle } from '../PageHeaderSubtitle'
 
-// use clsx here instead of cns since it erroneously merges text-sds-color-primitive-gray-500 and text-sds-caps-xxxs
+// use clsx here instead of cns since it erroneously merges text-light-sds-color-primitive-gray-500 and text-sds-caps-xxxs-600-wide
 const sectionHeaderStyles = cnsNoMerge(
   'font-semibold uppercase',
-  'text-sds-color-primitive-common-black',
-  'text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps',
+  'text-light-sds-color-primitive-gray-900 ',
+  'text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs tracking-sds-caps-xxxs-600-wide',
   'mb-sds-xs',
 )
 
@@ -35,7 +35,7 @@ export function DatasetOverview() {
       <PageHeaderSubtitle className="mt-sds-m">
         {t('datasetOverview')}
       </PageHeaderSubtitle>
-      <p className="text-sds-body-m leading-sds-body-m">
+      <p className="text-sds-body-m-400-wide leading-sds-body-m">
         {dataset.description}
       </p>
       <div>
@@ -50,7 +50,7 @@ export function DatasetOverview() {
         </div>
         <AuthorList
           authors={dataset.authors.edges.map((author) => author.node)}
-          className="text-sds-body-xxs leading-sds-body-xxs"
+          className="text-sds-body-xxs-400-wide leading-sds-body-xxs"
           subtle
         />
       </div>

@@ -1,7 +1,7 @@
 .prizeTable {
   @apply w-full;
   @apply rounded-sds-m;
-  @apply bg-sds-color-semantic-component-base-surface-secondary;
+  @apply bg-light-sds-color-semantic-base-background-secondary;
 
   padding: 10px;
   margin-top: 10px;

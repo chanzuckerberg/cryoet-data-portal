@@ -124,9 +124,9 @@ export function RunsTable() {
                 ) : (
                   <TableLink
                     className={cnsNoMerge(
-                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
+                      'text-sds-body-m-400-wide leading-sds-body-m font-semibold text-light-sds-color-primitive-blue-500',
                       !isHoveringOverInteractable &&
-                        'group-hover:text-sds-color-primitive-blue-500',
+                        'group-hover:text-light-sds-color-primitive-blue-600',
                     )}
                     to={runUrl}
                   >
@@ -134,7 +134,7 @@ export function RunsTable() {
                   </TableLink>
                 )}
 
-                <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
+                <p className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-semantic-base-text-primary">
                   {isLoadingDebounced ? (
                     <Skeleton className="max-w-[120px]" variant="text" />
                   ) : (
@@ -227,11 +227,9 @@ export function RunsTable() {
                 buttonProps={{
                   sdsType: 'primary',
                   sdsStyle: 'minimal',
-                  startIcon: (
-                    <Icon sdsIcon="Cube" sdsType="button" sdsSize="s" />
-                  ),
+                  startIcon: <Icon sdsIcon="Cube" sdsSize="s" />,
                   className:
-                    '!min-w-[141px] min-h-[32px] hover:!bg-sds-color-primitive-gray-200 rounded-md',
+                    '!min-w-[141px] min-h-[32px] hover:!bg-light-sds-color-primitive-gray-200 rounded-md',
                 }}
                 event={{
                   datasetId: dataset.id,

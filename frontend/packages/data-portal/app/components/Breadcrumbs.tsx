@@ -31,7 +31,10 @@ function Breadcrumb({
   return link ? (
     <Link
       to={link}
-      className={cns(className, 'hover:text-sds-color-primitive-blue-400')}
+      className={cns(
+        className,
+        'hover:text-light-sds-color-primitive-blue-500',
+      )}
       onClick={() => {
         if (type) {
           plausible(Events.ClickBreadcrumb, {
@@ -109,7 +112,7 @@ export function Breadcrumbs({
     >
       {returnToDepositionLink && (
         <Link
-          className="uppercase font-semibold text-sds-caps-xxxs leading-sds-caps-xxxs text-sds-color-primitive-blue-400"
+          className="uppercase font-semibold text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs text-light-sds-color-primitive-blue-500"
           to={returnToDepositionLink}
           onClick={() =>
             plausible(Events.ClickBreadcrumb, {
@@ -125,7 +128,7 @@ export function Breadcrumbs({
         </Link>
       )}
 
-      <div className="flex flex-row gap-sds-s text-sds-body-s leading-sds-body-s text-sds-color-primitive-common-black items-center whitespace-nowrap content-start">
+      <div className="flex flex-row gap-sds-s text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
         <Breadcrumb
           text={t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')}
           link={browseAllLink}

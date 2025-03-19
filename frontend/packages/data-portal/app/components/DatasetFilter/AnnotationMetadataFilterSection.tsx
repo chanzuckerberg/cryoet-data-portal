@@ -19,7 +19,7 @@ export function AnnotationMetadataFilterSection({
   return (
     <FilterSection title={t('annotationMetadata')}>
       {depositionPageVariant && (
-        <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500 pl-sds-s">
+        <p className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-primitive-gray-500 pl-sds-s">
           {t('depositionAnnotationsOnly')}
         </p>
       )}

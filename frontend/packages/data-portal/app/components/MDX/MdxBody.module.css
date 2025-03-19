@@ -1,5 +1,5 @@
 .body {
-  @apply text-sds-body-s leading-sds-body-s;
+  @apply text-sds-body-s-400-wide leading-sds-body-s;
 
   ol {
     @apply list-decimal;
@@ -8,7 +8,7 @@
     li:has(h2) {
       &::marker {
         @apply font-semibold;
-        @apply text-sds-header-xl leading-sds-header-xl;
+        @apply text-sds-header-xl-600-wide leading-sds-header-xl;
       }
     }
   }
@@ -29,7 +29,7 @@
   }
 
   h2 {
-    @apply text-sds-header-xl leading-sds-header-xl;
+    @apply text-sds-header-xl-600-wide leading-sds-header-xl;
     @apply mb-sds-xl;
 
     &:not(:first-child) {
@@ -38,7 +38,7 @@
   }
 
   h3 {
-    @apply text-sds-header-m leading-sds-header-m;
+    @apply text-sds-header-m-600-wide leading-sds-header-m;
     @apply mb-sds-s;
 
     &:not(:first-child) {
@@ -47,7 +47,7 @@
   }
 
   h4 {
-    @apply text-sds-header-s leading-sds-header-s;
+    @apply text-sds-header-s-600-wide leading-sds-header-s;
     @apply mb-sds-xxs;
 
     &:not(:first-child) {
@@ -56,7 +56,7 @@
   }
 
   h5 {
-    @apply text-sds-body-m leading-sds-body-m;
+    @apply text-sds-body-m-400-wide leading-sds-body-m;
     @apply mb-sds-xl;
   }
 
@@ -75,7 +75,7 @@
   }
 
   a {
-    @apply text-sds-color-semantic-text-action-default;
+    @apply text-light-sds-color-semantic-accent-text-action;
   }
 
   b,

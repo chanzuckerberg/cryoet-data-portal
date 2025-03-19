@@ -48,11 +48,11 @@ export function RegexFilter({
       activeFilters={paramValue ? [{ value: displayValue, queryParam }] : []}
       description={
         <>
-          <p className="text-sds-header-xs leading-sds-header-xs font-semibold">
+          <p className="text-sds-header-xs-600-wide leading-sds-header-xs font-semibold">
             {title}
           </p>
 
-          <p className="text-sds-color-primitive-gray-600 text-sds-body-xxs leading-sds-body-xxs">
+          <p className="text-light-sds-color-primitive-gray-600 text-sds-body-xxs-400-wide leading-sds-body-xxs">
             {`(${t('limitOneValuePerField')})`}
           </p>
         </>

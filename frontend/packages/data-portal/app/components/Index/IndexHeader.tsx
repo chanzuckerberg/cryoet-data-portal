@@ -13,13 +13,13 @@ function MetricField({ title, count }: { title: string; count: number }) {
       className={cns(
         'flex flex-col items-center justify-center',
         'flex-auto max-w-[120px] w-full px-sds-m',
-        'font-sds-semibold font-semibold',
+        'font-semibold',
       )}
     >
-      <p className="text-sds-caps-xxxs leading-sds-caps-xxxs uppercase drop-shadow-landing-header">
+      <p className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs uppercase drop-shadow-landing-header">
         {title}
       </p>
-      <p className="text-sds-header-l leading-sds-header-l drop-shadow-landing-header">
+      <p className="text-sds-header-l-600-wide leading-sds-header-l drop-shadow-landing-header">
         {count.toLocaleString()}
       </p>
     </div>
@@ -52,7 +52,7 @@ export function IndexHeader() {
     >
       <div className="flex flex-col items-center gap-sds-m text-white">
         <div className="flex flex-col gap-sds-xl items-center">
-          <h1 className="text-[32px] leading-[34px] font-sds-semibold font-semibold drop-shadow-landing-header">
+          <h1 className="text-[32px] leading-[34px] font-semibold drop-shadow-landing-header">
             <I18n i18nKey="landingHeaderTitle" />
           </h1>
           <div className="flex flex-row justify-center w-full">
@@ -74,7 +74,7 @@ export function IndexHeader() {
           <Link to="/browse-data/datasets">
             <Button
               className={cns(
-                '!bg-sds-color-primitive-gray-200 !text-black !shadow-none',
+                '!bg-light-sds-color-primitive-gray-100 !text-black !shadow-none',
                 'hover:text-black hover:!bg-white',
                 'drop-shadow-[0_0_7px_rgba(0,0,0,0.5)]',
               )}
@@ -86,7 +86,7 @@ export function IndexHeader() {
           </Link>
         </div>
         <Link to={t('urlAPIQuickstart')}>
-          <p className="underline underline-offset-1 decoration-1 text-sds-body-xxs leading-none drop-shadow-landing-header">
+          <p className="underline underline-offset-1 decoration-1 text-sds-body-xxs-400-wide leading-none drop-shadow-landing-header">
             <I18n i18nKey="orExploreViaApi" />
           </p>
         </Link>

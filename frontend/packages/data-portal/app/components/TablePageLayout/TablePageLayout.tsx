@@ -67,7 +67,7 @@ export function TablePageLayout({
         {tabs.length > 1 && (
           <div className="max-w-content w-full self-center px-sds-xl">
             {tabsTitle && (
-              <div className="text-sds-header-l leading-sds-header-l font-semibold mb-sds-s">
+              <div className="text-sds-header-l-600-wide leading-sds-header-l font-semibold mb-sds-s">
                 {tabsTitle}
               </div>
             )}
@@ -83,7 +83,7 @@ export function TablePageLayout({
                 label: (
                   <div>
                     <span>{tab.title}</span>
-                    <span className="text-sds-color-primitive-gray-500 ml-[16px]">
+                    <span className="text-light-sds-color-primitive-gray-500 ml-[16px]">
                       {tab.filteredCount}
                     </span>
                   </div>
@@ -150,7 +150,7 @@ function TablePageTabContent({
         <div
           className={cns(
             'flex flex-col flex-shrink-0 w-[235px]',
-            'border-t border-r border-sds-color-primitive-gray-300',
+            'border-t border-r border-light-sds-color-primitive-gray-300',
           )}
         >
           {filterPanel}
@@ -161,7 +161,7 @@ function TablePageTabContent({
         className={cns(
           'flex flex-col flex-auto',
           'pb-sds-xxl',
-          'border-t border-sds-color-primitive-gray-300',
+          'border-t border-light-sds-color-primitive-gray-300',
           'overflow-x-scroll max-w-full',
           !banner && 'pt-sds-xl',
 
