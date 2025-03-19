@@ -2,11 +2,11 @@ import Skeleton from '@mui/material/Skeleton'
 import { range } from 'lodash-es'
 import { ReactNode } from 'react'
 
-import { Link } from 'app/components/Link'
 import { ANNOTATED_OBJECTS_MAX } from 'app/constants/pagination'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
+import { I18n } from './I18n'
 import { Tooltip } from './Tooltip'
 
 function List({
@@ -61,20 +61,7 @@ export function AnnotatedObjectsList({
                     },
                   },
                 }}
-                tooltip={
-                  <>
-                    Ground truth annotation(s) available.{' '}
-                    <span className="text-sds-color-primitive-blue-400">
-                      <Link
-                        className="cursor-pointer"
-                        to="https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_data.html#ground-truth-flagn"
-                        stopPropagation
-                      >
-                        {t('learnMore')}
-                      </Link>
-                    </span>
-                  </>
-                }
+                tooltip={<I18n i18nKey="groundTruthAnnotationAvailable" />}
               >
                 {obj[1] ? (
                   <span className="h-18 w-18 text-[10px] text-[#0041B9] bg-[#E2EEFF] rounded-full px-[2.5px] py-[3px] tracking-[-0.3px] !font-[400]">

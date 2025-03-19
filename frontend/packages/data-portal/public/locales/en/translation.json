@@ -199,6 +199,7 @@
   "gridPreparation": "Grid Preparation",
   "groundTruth": "Ground Truth",
   "groundTruthAnnotation": "Ground Truth Annotation",
+  "groundTruthAnnotationAvailable": "Ground truth annotation(s) available. <url to='https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_data.html#ground-truth-flagn'>Learn more</url>",
   "groundTruthAnnotations_one": "{{count}} Ground Truth Annotation",
   "groundTruthAnnotations_other": "{{count}} Ground Truth Annotations",
   "groundTruthStatus": "Ground Truth Status",

@@ -51,7 +51,7 @@ export function CopyBox({
 
         <div className="flex flex-col">
           <Button
-            className="!min-w-0 uppercase !p-0"
+            className="!min-w-0 uppercase !p-0 !text-light-sds-color-semantic-accent-text-action"
             sdsStyle="minimal"
             onClick={() => {
               onCopy?.()
