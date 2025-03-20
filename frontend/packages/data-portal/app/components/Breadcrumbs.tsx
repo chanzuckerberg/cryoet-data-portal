@@ -100,10 +100,10 @@ export function Breadcrumbs({
     previousDepositionId === null || variant === 'deposition'
       ? undefined
       : `/depositions/${previousDepositionId}?${previousSingleDepositionParams}`
-  
+
   const typeStyles = {
-    breadcrumbLight: "text-[#999] fill-[#999]",
-    breadcrumbDark: "text-sds-color-primitive-common-black fill-black"
+    breadcrumbLight: 'text-[#999] fill-[#999]',
+    breadcrumbDark: 'text-sds-color-primitive-common-black fill-black',
   }
 
   const chevronIcon = (
@@ -146,7 +146,8 @@ export function Breadcrumbs({
       >
         <Breadcrumb
           text={
-            variant !== 'neuroglancer' && t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')
+            variant !== 'neuroglancer' &&
+            t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')
           }
           link={browseAllLink}
           className="shrink-0"
@@ -161,18 +162,20 @@ export function Breadcrumbs({
 
         {variant === 'deposition' ? (
           <Breadcrumb text={t('deposition')} />
-        ) : variant !== 'neuroglancer' && (
-          <Breadcrumb
-            text={
-              variant === 'dataset'
-                ? `${t('dataset')}`
-                : `${t('dataset')}: ${data.title}`
-            }
-            link={singleDatasetLink}
-            className="overflow-ellipsis overflow-hidden flex-initial"
-            type={BreadcrumbType.SingleDataset}
-            datasetId={data.id}
-          />
+        ) : (
+          variant !== 'neuroglancer' && (
+            <Breadcrumb
+              text={
+                variant === 'dataset'
+                  ? `${t('dataset')}`
+                  : `${t('dataset')}: ${data.title}`
+              }
+              link={singleDatasetLink}
+              className="overflow-ellipsis overflow-hidden flex-initial"
+              type={BreadcrumbType.SingleDataset}
+              datasetId={data.id}
+            />
+          )
         )}
 
         {variant === 'neuroglancer' && (
