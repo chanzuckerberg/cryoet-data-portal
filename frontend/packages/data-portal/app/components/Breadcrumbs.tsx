@@ -51,12 +51,12 @@ function Breadcrumb({
 
 export function Breadcrumbs({
   variant,
-  type = 'breadcrumb-dark',
+  type = 'breadcrumbDark',
   data,
   activeBreadcrumbText,
 }: {
   variant: 'dataset' | 'deposition' | 'run' | 'neuroglancer'
-  type?: string
+  type?: 'breadcrumbDark' | 'breadcrumbLight'
   data: { id: number; title: string }
   activeBreadcrumbText?: ReactNode
 }) {
@@ -100,10 +100,15 @@ export function Breadcrumbs({
     previousDepositionId === null || variant === 'deposition'
       ? undefined
       : `/depositions/${previousDepositionId}?${previousSingleDepositionParams}`
+  
+  const typeStyles = {
+    breadcrumbLight: "text-[#999] fill-[#999]",
+    breadcrumbDark: "text-sds-color-primitive-common-black fill-black"
+  }
 
   const chevronIcon = (
     <SmallChevronRightIcon
-      className={`w-[8px] h-[8px] shrink-0 ${type === 'breadcrumb-light' ? 'fill-[#999]' : 'fill-black'}`}
+      className={`w-[8px] h-[8px] shrink-0 ${typeStyles[type]}`}
     />
   )
 
@@ -135,7 +140,7 @@ export function Breadcrumbs({
       <div
         className={`flex flex-row gap-sds-s 
         text-sds-body-s leading-sds-body-s 
-        ${type === 'breadcrumb-light' ? 'text-[#999]' : 'text-sds-color-primitive-common-black'}
+        ${typeStyles[type]}
         ${variant === 'neuroglancer' ? 'text-[13px] font-normal' : ''}
         items-center whitespace-nowrap content-start`}
       >
@@ -201,7 +206,7 @@ export function Breadcrumbs({
             {chevronIcon}
             <Breadcrumb
               text={activeBreadcrumbText}
-              className={`shrink-0 !font-normal ${type === 'breadcrumb-light' && 'text-white'}`}
+              className={`shrink-0 !font-normal ${typeStyles[type]}`}
             />
           </>
         )}

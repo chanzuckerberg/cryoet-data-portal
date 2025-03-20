@@ -84,7 +84,7 @@ function ViewerPage({ run } : { run: any }) {
       >
         <div className="flex items-center gap-4">
           <CryoETHomeLink textSize="text-sm" />
-          <Breadcrumbs variant="neuroglancer" data={run.dataset} type="breadcrumb-light" activeBreadcrumbText={activeBreadcrumbText} />
+          <Breadcrumbs variant="neuroglancer" data={run.dataset} type="breadcrumbLight" activeBreadcrumbText={activeBreadcrumbText} />
         </div>
         {/* Add empty space to push content to right */}
         <div className="basis-sds-xxl flex-grow screen-790:mr-sds-xxl" />
