@@ -3,6 +3,8 @@ import './ViewerPage.css'
 import { useLocation } from '@remix-run/react'
 import { currentState, NeuroglancerWrapper, updateState } from 'neuroglancer'
 import { useState } from 'react'
+import Tour from './Tour'
+import { steps } from './steps';
 
 // Button action for toggling layers visibility
 const isAnnotation = (layer: any) =>
@@ -46,7 +48,7 @@ function ViewerPage() {
 
   const providerUrl = useLocation()
   const runId = providerUrl.pathname.toString().match(/.*\/(\d+)\/$/)![1]
-
+  const [run, setRun] = useState(false);
   const [hasAnnotations, setHasAnnotations] = useState(
     hasAnnotationLayers(currentState()),
   )
@@ -54,12 +56,24 @@ function ViewerPage() {
   const updateButtons = (state: any) => {
     setHasAnnotations(hasAnnotationLayers(state))
   }
+  
+  const handleTutorialStart = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    setRun(true)
+  }
+
+  const handleTourClose = () => {
+    setRun(false)
+  }
 
   return (
     <div className="main-container">
       <header className="main-header">
         <a href={cryoetUrl} target="_blank" rel="noopener noreferrer">
           <button className="cryoet-doc-button">View documentation</button>
+        </a>
+        <a href={cryoetUrl} target="_blank" rel="noopener noreferrer">
+          <button className="cryoet-doc-button" onClick={handleTutorialStart}>View tutorial</button>
         </a>
         <p className="portal-title">
           CryoET data portal neuroglancer coming from{' '}
@@ -90,6 +104,7 @@ function ViewerPage() {
       <div className="iframe-container">
         <NeuroglancerWrapper onStateChange={updateButtons} />
       </div>
+      <Tour run={run} steps={steps} onJoyrideCallback={() => {}} onClose={handleTourClose}/>
     </div>
   )
 }
