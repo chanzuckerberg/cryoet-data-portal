@@ -28,12 +28,13 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
 ]
 dependencies = [
-  "requests",
-  "boto3",
-  "deepmerge",
-  "gql[requests]",
-  "tqdm",
-  "strcase",
+  "requests==2.32.3",
+  "boto3>=1.37.17",
+  "deepmerge==2.0",
+  "gql[requests]==3.*",
+  "tqdm==4.67.*",
+  "strcase==1.0.0",
+  "jinja2==3.*"
 ]
 
 [project.urls]
