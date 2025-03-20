@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.65.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.65.0...cryoet-data-portal-frontend-v1.65.1) (2025-03-20)
+
+
+### 🐞 Bug Fixes
+
+* Add the word in! ([#1719](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1719)) ([052cb3b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/052cb3bbc68f924813642ebb489edaa4daf6fb8f))
+
+
+### 🧹 Miscellaneous Chores
+
+* Upgrade SDS to ^22.3.0 ([#1706](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1706)) ([33689a6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/33689a693bf16e392eaf83d43a463b808352c0ff))
+
 ## [1.65.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.64.0...cryoet-data-portal-frontend-v1.65.0) (2025-03-19)
 
 
