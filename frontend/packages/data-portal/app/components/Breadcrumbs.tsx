@@ -116,7 +116,7 @@ export function Breadcrumbs({
 
   return (
     <div
-      className={`flex flex-col flex-auto gap-1 ${variant === 'neuroglancer' ? 'max-w-xl' : ''}`}
+      className={`flex flex-col flex-auto gap-1 ${variant === 'neuroglancer' && 'max-w-xl'}`}
       data-testid={TestIds.Breadcrumbs}
     >
       {returnToDepositionLink && (
@@ -146,9 +146,7 @@ export function Breadcrumbs({
       >
         <Breadcrumb
           text={
-            variant === 'neuroglancer'
-              ? ''
-              : t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')
+            variant !== 'neuroglancer' && t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')
           }
           link={browseAllLink}
           className="shrink-0"
@@ -163,9 +161,7 @@ export function Breadcrumbs({
 
         {variant === 'deposition' ? (
           <Breadcrumb text={t('deposition')} />
-        ) : variant === 'neuroglancer' ? (
-          <></>
-        ) : (
+        ) : variant !== 'neuroglancer' && (
           <Breadcrumb
             text={
               variant === 'dataset'
