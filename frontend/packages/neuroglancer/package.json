@@ -15,7 +15,7 @@
     "format": "prettier --cache -w -l ."
   },
   "dependencies": {
-    "neuroglancer": "git+https://github.com/google/neuroglancer.git",
+    "neuroglancer": "git+https://github.com/google/neuroglancer.git#master",
     "pako": "^2.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
