@@ -4,7 +4,7 @@ import { useLocation } from '@remix-run/react'
 import { currentState, NeuroglancerWrapper, updateState } from 'neuroglancer'
 import { useState } from 'react'
 import Tour from './Tour'
-import { steps } from './steps';
+import { getTutorialSteps } from './steps';
 
 // Button action for toggling layers visibility
 const isAnnotation = (layer: any) =>
@@ -56,7 +56,7 @@ function ViewerPage() {
   const updateButtons = (state: any) => {
     setHasAnnotations(hasAnnotationLayers(state))
   }
-  
+
   const handleTutorialStart = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     setRun(true)
@@ -104,7 +104,7 @@ function ViewerPage() {
       <div className="iframe-container">
         <NeuroglancerWrapper onStateChange={updateButtons} />
       </div>
-      <Tour run={run} steps={steps} onJoyrideCallback={() => {}} onClose={handleTourClose}/>
+      {run && <Tour run={run} steps={getTutorialSteps()} onJoyrideCallback={() => {}} onClose={handleTourClose}/>}
     </div>
   )
 }

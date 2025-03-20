@@ -48,7 +48,7 @@ const Tour: React.FC<CustomTourProps> = ({ steps, run, onJoyrideCallback, onClos
                     Previous
                   </button>
                 )}
-                <button {...props.primaryProps} className={filledStyles}>
+                <button {...props.primaryProps} className={filledStyles} onClick={onClose}>
                   {props.isLastStep ? "Close tour" : "Next"}
                 </button>
               </>
