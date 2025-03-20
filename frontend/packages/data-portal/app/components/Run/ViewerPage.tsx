@@ -78,13 +78,13 @@ function ViewerPage({ run } : { run: any }) {
     <div className="main-container">
       <nav
         className={cns('bg-sds-color-primitive-common-black text-sds-color-primitive-common-white',
-          'flex py-sds-m flex-shrink-0 items-center px-sds-xl',
-          'sticky top-0 z-30',
+          'flex flex-shrink-0 items-center py-1',
+          'sticky top-0 z-30 max-h-12',
         )}
       >
         <div className="flex items-center gap-4">
-          <CryoETHomeLink />
-          <Breadcrumbs variant="run" data={run.dataset} type="breadcrumb-light" classname="text-[13px]" activeBreadcrumbText={activeBreadcrumbText} />
+          <CryoETHomeLink textSize="text-sm" />
+          <Breadcrumbs variant="neuroglancer" data={run.dataset} type="breadcrumb-light" activeBreadcrumbText={activeBreadcrumbText} />
         </div>
         {/* Add empty space to push content to right */}
         <div className="basis-sds-xxl flex-grow screen-790:mr-sds-xxl" />

@@ -45,21 +45,19 @@ function Breadcrumb({
       {text}
     </Link>
   ) : (
-    <p className={cns(className, 'font-normal')}>{text}</p>
+    <p className={cns(className, 'font-semibold')}>{text}</p>
   )
 }
 
 export function Breadcrumbs({
   variant,
-  data,
   type = "breadcrumb-dark",
-  classname,
+  data,
   activeBreadcrumbText
 }: {
-  variant: 'dataset' | 'deposition' | 'run'
-  data: { id: number; title: string },
+  variant: 'dataset' | 'deposition' | 'run' | 'neuroglancer'
   type?: string,
-  classname?: string,
+  data: { id: number; title: string },
   activeBreadcrumbText?: ReactNode
 }) {
   const { t } = useI18n()
@@ -111,7 +109,7 @@ export function Breadcrumbs({
 
   return (
     <div
-      className="flex flex-col flex-auto gap-1 max-w-xl"
+      className={`flex flex-col flex-auto gap-1 ${variant==="neuroglancer" ? "max-w-xl" : ""}`}
       data-testid={TestIds.Breadcrumbs}
     >
       {returnToDepositionLink && (
@@ -132,15 +130,14 @@ export function Breadcrumbs({
         </Link>
       )}
 
-      <div 
-        className={`flex flex-row gap-sds-s 
-          text-sds-body-s leading-sds-body-s 
-          ${type === "breadcrumb-light" ? "text-[#999]" : "text-sds-color-primitive-common-black"}
-          ${classname}
-          items-center whitespace-nowrap content-start`}
+      <div className={`flex flex-row gap-sds-s 
+        text-sds-body-s leading-sds-body-s 
+        ${type === "breadcrumb-light" ? "text-[#999]" : "text-sds-color-primitive-common-black"}
+        ${variant === "neuroglancer" ? "text-[13px] font-normal" : ""}
+        items-center whitespace-nowrap content-start`}
       >
         <Breadcrumb
-          text={t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')}
+          text={variant === "neuroglancer" ? "" : t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')}
           link={browseAllLink}
           className="shrink-0"
           type={
@@ -150,18 +147,30 @@ export function Breadcrumbs({
           }
         />
 
-        {chevronIcon}
+        {variant !== "neuroglancer" && <>
+          {chevronIcon}
+        </>}
 
         {variant === 'deposition' ? (
           <Breadcrumb text={t('deposition')} />
-        ) : (
-          <Tooltip tooltip={variant === 'dataset'? `${t('dataset')}` : `${t('dataset')}: ${data.title}`} className='overflow-hidden overflow-ellipsis'>
+        ) : variant === "neuroglancer" ? <></> : (
+          <Breadcrumb
+            text={
+              variant === 'dataset'
+                ? `${t('dataset')}`
+                : `${t('dataset')}: ${data.title}`
+            }
+            link={singleDatasetLink}
+            className="overflow-ellipsis overflow-hidden flex-initial"
+            type={BreadcrumbType.SingleDataset}
+            datasetId={data.id}
+          />
+        )}
+
+        {variant === 'neuroglancer' && (
+          <Tooltip tooltip={data.title || t('dataset')} className='overflow-hidden overflow-ellipsis'>
             <Breadcrumb
-              text={
-                variant === 'dataset'
-                  ? `${t('dataset')}`
-                  : `${t('dataset')}: ${data.title}`
-              }
+              text={data.title || t('dataset')}
               link={singleDatasetLink}
               className="overflow-ellipsis overflow-hidden flex-initial"
               type={BreadcrumbType.SingleDataset}
@@ -170,10 +179,17 @@ export function Breadcrumbs({
           </Tooltip>
         )}
 
-        {activeBreadcrumbText && (
+        {variant === 'run' && (
           <>
             {chevronIcon}
-            <Breadcrumb text={activeBreadcrumbText} className={`shrink-0 ${type === "breadcrumb-light" && "text-white"}`} />
+            <Breadcrumb text={t('run')} className="shrink-0" />
+          </>
+        )}
+
+        {activeBreadcrumbText && variant === "neuroglancer" && (
+          <>
+            {chevronIcon}
+            <Breadcrumb text={activeBreadcrumbText} className={`shrink-0 !font-normal ${type === "breadcrumb-light" && "text-white"}`} />
           </>
         )}
       </div>
