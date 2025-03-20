@@ -33,7 +33,7 @@ export function TopNavigation() {
 
   const isItNeuroglancerPage = pathname.includes("/view/runs/");
 
-  if(isItNeuroglancerPage) {
+  if (isItNeuroglancerPage) {
     return null;
   }
 
