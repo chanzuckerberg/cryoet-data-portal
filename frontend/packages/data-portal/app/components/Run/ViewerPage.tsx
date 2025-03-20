@@ -75,7 +75,7 @@ function ViewerPage({ run } : { run: any }) {
   );
 
   return (
-    <div className="main-container">
+    <div className="flex flex-col overflow-hidden h-full">
       <nav
         className={cns('bg-sds-color-primitive-common-black text-sds-color-primitive-common-white',
           'flex flex-shrink-0 items-center py-1',
