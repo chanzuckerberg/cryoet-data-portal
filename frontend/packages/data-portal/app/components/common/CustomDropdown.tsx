@@ -1,23 +1,29 @@
-import { ReactNode, ComponentProps } from "react";
-import { MenuDropdown } from "app/components/MenuDropdown";
-import { MenuItemHeader } from "app/components/MenuItemHeader";
-import { MenuItem, Icon } from "@czi-sds/components";
+import { ReactNode, ComponentProps } from 'react'
+import { MenuDropdown } from 'app/components/MenuDropdown'
+import { MenuItemHeader } from 'app/components/MenuItemHeader'
+import { MenuItem, Icon } from '@czi-sds/components'
 
 type CustomDropdownProps = {
-  className?: string;
-  title?: string;
-  variant?: "standard" | "outlined" | "filled";
-  buttonElement?: ReactNode;
-  children: ReactNode;
-};
+  className?: string
+  title?: string
+  variant?: 'standard' | 'outlined' | 'filled'
+  buttonElement?: ReactNode
+  children: ReactNode
+}
 
-export function CustomDropdownSection({ title, children } : { title: string, children: ReactNode }) {
+export function CustomDropdownSection({
+  title,
+  children,
+}: {
+  title: string
+  children: ReactNode
+}) {
   return (
     <div>
       {title && <MenuItemHeader>{title}</MenuItemHeader>}
       {children}
     </div>
-  );
+  )
 }
 
 export function CustomDropdownOption({
@@ -26,34 +32,45 @@ export function CustomDropdownOption({
   children,
   ...props
 }: ComponentProps<typeof MenuItem> & {
-  selected?: boolean;
-  onClick?: () => void;
+  selected?: boolean
+  onClick?: () => void
 }) {
   return (
     <MenuItem {...props} onClick={onSelect}>
       <div className="flex items-center justify-center flex-auto gap-3">
         <div className="inline-flex w-4 h-4">
           {selected ? (
-            <Icon sdsIcon="Check" sdsType="button" sdsSize="s" className="!fill-[#0B68F8]" />
+            <Icon
+              sdsIcon="Check"
+              sdsType="button"
+              sdsSize="s"
+              className="!fill-[#0B68F8]"
+            />
           ) : null}
         </div>
-        <div className={`flex flex-col ${selected && "font-semibold"}`}>{children}</div>
+        <div className={`flex flex-col ${selected && 'font-semibold'}`}>
+          {children}
+        </div>
       </div>
     </MenuItem>
-  );
+  )
 }
 
 export function CustomDropdown({
   className,
   title,
-  variant = "standard",
+  variant = 'standard',
   buttonElement,
-  children
+  children,
 }: CustomDropdownProps) {
-  
   return (
-    <MenuDropdown className={className} title={title} variant={variant} buttonElement={buttonElement}>
+    <MenuDropdown
+      className={className}
+      title={title}
+      variant={variant}
+      buttonElement={buttonElement}
+    >
       {children}
     </MenuDropdown>
-  );
+  )
 }

@@ -51,13 +51,13 @@ function Breadcrumb({
 
 export function Breadcrumbs({
   variant,
-  type = "breadcrumb-dark",
+  type = 'breadcrumb-dark',
   data,
-  activeBreadcrumbText
+  activeBreadcrumbText,
 }: {
   variant: 'dataset' | 'deposition' | 'run' | 'neuroglancer'
-  type?: string,
-  data: { id: number; title: string },
+  type?: string
+  data: { id: number; title: string }
   activeBreadcrumbText?: ReactNode
 }) {
   const { t } = useI18n()
@@ -102,14 +102,16 @@ export function Breadcrumbs({
       : `/depositions/${previousDepositionId}?${previousSingleDepositionParams}`
 
   const chevronIcon = (
-    <SmallChevronRightIcon className={`w-[8px] h-[8px] shrink-0 ${type === "breadcrumb-light" ? "fill-[#999]" : "fill-black"}`} />
+    <SmallChevronRightIcon
+      className={`w-[8px] h-[8px] shrink-0 ${type === 'breadcrumb-light' ? 'fill-[#999]' : 'fill-black'}`}
+    />
   )
 
   const plausible = usePlausible()
 
   return (
     <div
-      className={`flex flex-col flex-auto gap-1 ${variant==="neuroglancer" ? "max-w-xl" : ""}`}
+      className={`flex flex-col flex-auto gap-1 ${variant === 'neuroglancer' ? 'max-w-xl' : ''}`}
       data-testid={TestIds.Breadcrumbs}
     >
       {returnToDepositionLink && (
@@ -130,14 +132,19 @@ export function Breadcrumbs({
         </Link>
       )}
 
-      <div className={`flex flex-row gap-sds-s 
+      <div
+        className={`flex flex-row gap-sds-s 
         text-sds-body-s leading-sds-body-s 
-        ${type === "breadcrumb-light" ? "text-[#999]" : "text-sds-color-primitive-common-black"}
-        ${variant === "neuroglancer" ? "text-[13px] font-normal" : ""}
+        ${type === 'breadcrumb-light' ? 'text-[#999]' : 'text-sds-color-primitive-common-black'}
+        ${variant === 'neuroglancer' ? 'text-[13px] font-normal' : ''}
         items-center whitespace-nowrap content-start`}
       >
         <Breadcrumb
-          text={variant === "neuroglancer" ? "" : t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')}
+          text={
+            variant === 'neuroglancer'
+              ? ''
+              : t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')
+          }
           link={browseAllLink}
           className="shrink-0"
           type={
@@ -147,13 +154,13 @@ export function Breadcrumbs({
           }
         />
 
-        {variant !== "neuroglancer" && <>
-          {chevronIcon}
-        </>}
+        {variant !== 'neuroglancer' && <>{chevronIcon}</>}
 
         {variant === 'deposition' ? (
           <Breadcrumb text={t('deposition')} />
-        ) : variant === "neuroglancer" ? <></> : (
+        ) : variant === 'neuroglancer' ? (
+          <></>
+        ) : (
           <Breadcrumb
             text={
               variant === 'dataset'
@@ -168,7 +175,10 @@ export function Breadcrumbs({
         )}
 
         {variant === 'neuroglancer' && (
-          <Tooltip tooltip={data.title || t('dataset')} className='overflow-hidden overflow-ellipsis'>
+          <Tooltip
+            tooltip={data.title || t('dataset')}
+            className="overflow-hidden overflow-ellipsis"
+          >
             <Breadcrumb
               text={data.title || t('dataset')}
               link={singleDatasetLink}
@@ -186,10 +196,13 @@ export function Breadcrumbs({
           </>
         )}
 
-        {activeBreadcrumbText && variant === "neuroglancer" && (
+        {activeBreadcrumbText && variant === 'neuroglancer' && (
           <>
             {chevronIcon}
-            <Breadcrumb text={activeBreadcrumbText} className={`shrink-0 !font-normal ${type === "breadcrumb-light" && "text-white"}`} />
+            <Breadcrumb
+              text={activeBreadcrumbText}
+              className={`shrink-0 !font-normal ${type === 'breadcrumb-light' && 'text-white'}`}
+            />
           </>
         )}
       </div>
