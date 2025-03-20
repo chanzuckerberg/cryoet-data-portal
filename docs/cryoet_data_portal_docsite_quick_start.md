@@ -53,6 +53,8 @@ The Portal API has methods for searching and downloading data. **Every class**, 
 | {class}`Tomogram <cryoet_data_portal.Tomogram>`                         | `download_all_annotations`, `download_mrcfile`, `download_omezarr`                       |
 | {class}`TomogramVoxelSpacing <cryoet_data_portal.TomogramVoxelSpacing>` | `download_everything`                                                                    |
 
+### `find` Method
+
 The `find` method selects data based on user-chosen queries. These queries can have python operators `==`, `!=`, `>`, `>=`, `<`, `<=`; method operators `like`, `ilike`, `_in`; and strings or numbers. The method operators are defined in the table below:
 
 | **Method Operator** | **Definition**                                                          |
@@ -94,6 +96,8 @@ client = Client()
 # Find all annotations of fatty acid synthase
 results = Annotation.find(client,[Annotation.object_name.ilike('fatty acid synthase%')])
 ```
+
+### `get_by_id` Method
 
 The `get_by_id` method allows you to select data using the ID found on the Portal. For example, to select the data for [Dataset 10005](https://cryoetdataportal.czscience.com/datasets/10005) on the Portal and download it into your current directory use this snippet:
 
