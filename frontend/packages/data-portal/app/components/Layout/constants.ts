@@ -82,7 +82,7 @@ export const HELP_AND_REPORT_LINKS: NavLink[] = [
 export const NEUROGLANCER_HELP_LINKS: NavLink[] = [
   {
     label: 'goToNeuroglancerDocumentation',
-    link: '',
+    link: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/neuroglancer_quickstart.html#neuroglancer-quickstart',
   },
   {
     label: 'neuroglancerWalkthrough',
