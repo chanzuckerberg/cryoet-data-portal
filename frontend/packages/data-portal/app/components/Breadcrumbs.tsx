@@ -51,12 +51,12 @@ function Breadcrumb({
 
 export function Breadcrumbs({
   variant,
-  type = 'breadcrumbDark',
+  type = 'dark',
   data,
   activeBreadcrumbText,
 }: {
   variant: 'dataset' | 'deposition' | 'run' | 'neuroglancer'
-  type?: 'breadcrumbDark' | 'breadcrumbLight'
+  type?: 'dark' | 'light'
   data: { id: number; title: string }
   activeBreadcrumbText?: ReactNode
 }) {
@@ -102,8 +102,8 @@ export function Breadcrumbs({
       : `/depositions/${previousDepositionId}?${previousSingleDepositionParams}`
 
   const typeStyles = {
-    breadcrumbLight: 'text-[#999] fill-[#999]',
-    breadcrumbDark: 'text-sds-color-primitive-common-black fill-black',
+    light: 'text-[#999] fill-[#999]',
+    dark: 'text-sds-color-primitive-common-black fill-black',
   }
 
   const chevronIcon = (
