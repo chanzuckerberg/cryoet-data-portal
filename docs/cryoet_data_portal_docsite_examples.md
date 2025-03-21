@@ -17,7 +17,7 @@ You have multiple options for accessing them:
 
 To install the `cryoet-alignment` package with pip, use: `pip install "cryoet-alignment>=0.0.10"`
 
-The below code snippet shows how to download tiltseries and alignments for dataset 10447 using the `cryoet-alignment` package:
+The below code snippet shows how to download tiltseries and alignments for dataset 10447 using the `cryoet-alignment` package with the `cryoet-data-portal` API:
 
 ```
 import cryoet_data_portal as cdp
