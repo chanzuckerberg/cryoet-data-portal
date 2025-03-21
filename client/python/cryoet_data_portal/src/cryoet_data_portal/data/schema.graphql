@@ -14,6 +14,7 @@ type Query {
   depositionTypes(where: DepositionTypeWhereClause = null, orderBy: [DepositionTypeOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [DepositionType!]!
   frames(where: FrameWhereClause = null, orderBy: [FrameOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Frame!]!
   perSectionAlignmentParameters(where: PerSectionAlignmentParametersWhereClause = null, orderBy: [PerSectionAlignmentParametersOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [PerSectionAlignmentParameters!]!
+  perSectionParameters(where: PerSectionParametersWhereClause = null, orderBy: [PerSectionParametersOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [PerSectionParameters!]!
   runs(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Run!]!
   tiltseries(where: TiltseriesWhereClause = null, orderBy: [TiltseriesOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Tiltseries!]!
   tomogramAuthors(where: TomogramAuthorWhereClause = null, orderBy: [TomogramAuthorOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [TomogramAuthor!]!
@@ -35,6 +36,7 @@ type Query {
   depositionTypesAggregate(where: DepositionTypeWhereClause = null): DepositionTypeAggregate!
   framesAggregate(where: FrameWhereClause = null): FrameAggregate!
   perSectionAlignmentParametersAggregate(where: PerSectionAlignmentParametersWhereClause = null): PerSectionAlignmentParametersAggregate!
+  perSectionParametersAggregate(where: PerSectionParametersWhereClause = null): PerSectionParametersAggregate!
   runsAggregate(where: RunWhereClause = null): RunAggregate!
   tiltseriesAggregate(where: TiltseriesWhereClause = null): TiltseriesAggregate!
   tomogramAuthorsAggregate(where: TomogramAuthorWhereClause = null): TomogramAuthorAggregate!
@@ -169,6 +171,23 @@ type Run implements EntityInterface & Node {
     last: Int = null
   ): FrameAcquisitionFileConnection!
   frameAcquisitionFilesAggregate(where: FrameAcquisitionFileWhereClause = null): FrameAcquisitionFileAggregate
+  perSectionParameters(
+    where: PerSectionParametersWhereClause = null
+    orderBy: [PerSectionParametersOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): PerSectionParametersConnection!
+  perSectionParametersAggregate(where: PerSectionParametersWhereClause = null): PerSectionParametersAggregate
   tiltseries(
     where: TiltseriesWhereClause = null
     orderBy: [TiltseriesOrderByClause!] = []
@@ -410,6 +429,9 @@ type AnnotationFile implements EntityInterface & Node {
   """s3 path of the annotation file"""
   s3Path: String!
 
+  """Size of annota file in bytes"""
+  fileSize: Float
+
   """HTTPS path for this annotation file"""
   httpsPath: String!
 
@@ -426,12 +448,15 @@ type AnnotationFile implements EntityInterface & Node {
 
 input AlignmentWhereClause {
   annotationFiles: AnnotationFileWhereClause
+  annotationFilesAggregate: AnnotationFileAggregateWhereClause
   perSectionAlignments: PerSectionAlignmentParametersWhereClause
+  perSectionAlignmentsAggregate: PerSectionAlignmentParametersAggregateWhereClause
   deposition: DepositionWhereClause
   depositionId: IntComparators
   tiltseries: TiltseriesWhereClause
   tiltseriesId: IntComparators
   tomograms: TomogramWhereClause
+  tomogramsAggregate: TomogramAggregateWhereClause
   run: RunWhereClause
   runId: IntComparators
   alignmentType: Alignment_type_enumEnumComparators
@@ -460,6 +485,7 @@ input AnnotationFileWhereClause {
   tomogramVoxelSpacingId: IntComparators
   format: StrComparators
   s3Path: StrComparators
+  fileSize: FloatComparators
   httpsPath: StrComparators
   isVisualizationDefault: BoolComparators
   source: Annotation_file_source_enumEnumComparators
@@ -482,6 +508,7 @@ input AnnotationShapeWhereClause {
   annotation: AnnotationWhereClause
   annotationId: IntComparators
   annotationFiles: AnnotationFileWhereClause
+  annotationFilesAggregate: AnnotationFileAggregateWhereClause
   shapeType: Annotation_file_shape_type_enumEnumComparators
   id: IntComparators
 }
@@ -490,8 +517,11 @@ input AnnotationWhereClause {
   run: RunWhereClause
   runId: IntComparators
   annotationShapes: AnnotationShapeWhereClause
+  annotationShapesAggregate: AnnotationShapeAggregateWhereClause
   methodLinks: AnnotationMethodLinkWhereClause
+  methodLinksAggregate: AnnotationMethodLinkAggregateWhereClause
   authors: AnnotationAuthorWhereClause
+  authorsAggregate: AnnotationAuthorAggregateWhereClause
   deposition: DepositionWhereClause
   depositionId: IntComparators
   s3MetadataPath: StrComparators
@@ -518,27 +548,103 @@ input AnnotationWhereClause {
 
 input RunWhereClause {
   alignments: AlignmentWhereClause
+  alignmentsAggregate: AlignmentAggregateWhereClause
   annotations: AnnotationWhereClause
+  annotationsAggregate: AnnotationAggregateWhereClause
   dataset: DatasetWhereClause
   datasetId: IntComparators
   frames: FrameWhereClause
+  framesAggregate: FrameAggregateWhereClause
   gainFiles: GainFileWhereClause
+  gainFilesAggregate: GainFileAggregateWhereClause
   frameAcquisitionFiles: FrameAcquisitionFileWhereClause
+  frameAcquisitionFilesAggregate: FrameAcquisitionFileAggregateWhereClause
+  perSectionParameters: PerSectionParametersWhereClause
+  perSectionParametersAggregate: PerSectionParametersAggregateWhereClause
   tiltseries: TiltseriesWhereClause
+  tiltseriesAggregate: TiltseriesAggregateWhereClause
   tomogramVoxelSpacings: TomogramVoxelSpacingWhereClause
+  tomogramVoxelSpacingsAggregate: TomogramVoxelSpacingAggregateWhereClause
   tomograms: TomogramWhereClause
+  tomogramsAggregate: TomogramAggregateWhereClause
   name: StrComparators
   s3Prefix: StrComparators
   httpsPrefix: StrComparators
   id: IntComparators
 }
 
+input AlignmentAggregateWhereClause {
+  count: AlignmentAggregateWhereClauseCount!
+}
+
+input AlignmentAggregateWhereClauseCount {
+  arguments: AlignmentCountColumns
+  distinct: Boolean
+  filter: AlignmentWhereClause
+  predicate: IntComparators
+}
+
+enum AlignmentCountColumns {
+  alignmentType
+  alignmentMethod
+  volumeXDimension
+  volumeYDimension
+  volumeZDimension
+  volumeXOffset
+  volumeYOffset
+  volumeZOffset
+  xRotationOffset
+  tiltOffset
+  affineTransformationMatrix
+  s3AlignmentMetadata
+  httpsAlignmentMetadata
+  isPortalStandard
+  id
+}
+
+input AnnotationAggregateWhereClause {
+  count: AnnotationAggregateWhereClauseCount!
+}
+
+input AnnotationAggregateWhereClauseCount {
+  arguments: AnnotationCountColumns
+  distinct: Boolean
+  filter: AnnotationWhereClause
+  predicate: IntComparators
+}
+
+enum AnnotationCountColumns {
+  s3MetadataPath
+  httpsMetadataPath
+  annotationPublication
+  annotationMethod
+  groundTruthStatus
+  objectId
+  objectName
+  objectDescription
+  objectState
+  objectCount
+  confidencePrecision
+  confidenceRecall
+  groundTruthUsed
+  annotationSoftware
+  isCuratorRecommended
+  methodType
+  depositionDate
+  releaseDate
+  lastModifiedDate
+  id
+}
+
 input DatasetWhereClause {
   deposition: DepositionWhereClause
   depositionId: IntComparators
   fundingSources: DatasetFundingWhereClause
+  fundingSourcesAggregate: DatasetFundingAggregateWhereClause
   authors: DatasetAuthorWhereClause
+  authorsAggregate: DatasetAuthorAggregateWhereClause
   runs: RunWhereClause
+  runsAggregate: RunAggregateWhereClause
   title: StrComparators
   description: StrComparators
   organismName: StrComparators
@@ -564,20 +670,30 @@ input DatasetWhereClause {
   relatedDatabaseEntries: StrComparators
   s3Prefix: StrComparators
   httpsPrefix: StrComparators
+  fileSize: FloatComparators
   id: IntComparators
 }
 
 input DepositionWhereClause {
   authors: DepositionAuthorWhereClause
+  authorsAggregate: DepositionAuthorAggregateWhereClause
   alignments: AlignmentWhereClause
+  alignmentsAggregate: AlignmentAggregateWhereClause
   annotations: AnnotationWhereClause
+  annotationsAggregate: AnnotationAggregateWhereClause
   datasets: DatasetWhereClause
+  datasetsAggregate: DatasetAggregateWhereClause
   frames: FrameWhereClause
+  framesAggregate: FrameAggregateWhereClause
   tiltseries: TiltseriesWhereClause
+  tiltseriesAggregate: TiltseriesAggregateWhereClause
   tomograms: TomogramWhereClause
+  tomogramsAggregate: TomogramAggregateWhereClause
   title: StrComparators
   description: StrComparators
+  tag: StrComparators
   depositionTypes: DepositionTypeWhereClause
+  depositionTypesAggregate: DepositionTypeAggregateWhereClause
   depositionPublications: StrComparators
   relatedDatabaseEntries: StrComparators
   depositionDate: DatetimeComparators
@@ -594,6 +710,7 @@ input DepositionAuthorWhereClause {
   id: IntComparators
   authorListOrder: IntComparators
   orcid: StrComparators
+  kaggleId: StrComparators
   name: StrComparators
   email: StrComparators
   affiliationName: StrComparators
@@ -631,17 +748,86 @@ input BoolComparators {
   _is_null: Boolean
 }
 
+input DepositionAuthorAggregateWhereClause {
+  count: DepositionAuthorAggregateWhereClauseCount!
+}
+
+input DepositionAuthorAggregateWhereClauseCount {
+  arguments: DepositionAuthorCountColumns
+  distinct: Boolean
+  filter: DepositionAuthorWhereClause
+  predicate: IntComparators
+}
+
+enum DepositionAuthorCountColumns {
+  id
+  authorListOrder
+  orcid
+  kaggleId
+  name
+  email
+  affiliationName
+  affiliationAddress
+  affiliationIdentifier
+  correspondingAuthorStatus
+  primaryAuthorStatus
+}
+
+input DatasetAggregateWhereClause {
+  count: DatasetAggregateWhereClauseCount!
+}
+
+input DatasetAggregateWhereClauseCount {
+  arguments: DatasetCountColumns
+  distinct: Boolean
+  filter: DatasetWhereClause
+  predicate: IntComparators
+}
+
+enum DatasetCountColumns {
+  title
+  description
+  organismName
+  organismTaxid
+  tissueName
+  tissueId
+  cellName
+  cellTypeId
+  cellStrainName
+  cellStrainId
+  sampleType
+  samplePreparation
+  gridPreparation
+  otherSetup
+  keyPhotoUrl
+  keyPhotoThumbnailUrl
+  cellComponentName
+  cellComponentId
+  depositionDate
+  releaseDate
+  lastModifiedDate
+  datasetPublications
+  relatedDatabaseEntries
+  s3Prefix
+  httpsPrefix
+  fileSize
+  id
+}
+
 input FrameWhereClause {
   deposition: DepositionWhereClause
   depositionId: IntComparators
   run: RunWhereClause
   runId: IntComparators
-  rawAngle: FloatComparators
   acquisitionOrder: IntComparators
-  dose: FloatComparators
+  accumulatedDose: FloatComparators
+  exposureDose: FloatComparators
   isGainCorrected: BoolComparators
+  perSectionParameters: PerSectionParametersWhereClause
+  perSectionParametersAggregate: PerSectionParametersAggregateWhereClause
   s3FramePath: StrComparators
   httpsFramePath: StrComparators
+  fileSize: FloatComparators
   id: IntComparators
 }
 
@@ -657,14 +843,34 @@ input FloatComparators {
   _is_null: Boolean
 }
 
+input PerSectionParametersWhereClause {
+  astigmaticAngle: FloatComparators
+  frame: FrameWhereClause
+  frameId: IntComparators
+  majorDefocus: FloatComparators
+  maxResolution: FloatComparators
+  minorDefocus: FloatComparators
+  phaseShift: FloatComparators
+  rawAngle: FloatComparators
+  run: RunWhereClause
+  runId: IntComparators
+  tiltseries: TiltseriesWhereClause
+  tiltseriesId: IntComparators
+  zIndex: IntComparators
+  id: IntComparators
+}
+
 input TiltseriesWhereClause {
   alignments: AlignmentWhereClause
+  alignmentsAggregate: AlignmentAggregateWhereClause
   run: RunWhereClause
   runId: IntComparators
   deposition: DepositionWhereClause
   depositionId: IntComparators
   s3OmezarrDir: StrComparators
+  fileSizeOmezarr: FloatComparators
   s3MrcFile: StrComparators
+  fileSizeMrc: FloatComparators
   httpsOmezarrDir: StrComparators
   httpsMrcFile: StrComparators
   s3AngleList: StrComparators
@@ -677,6 +883,8 @@ input TiltseriesWhereClause {
   microscopePhasePlate: StrComparators
   microscopeImageCorrector: StrComparators
   microscopeAdditionalInfo: StrComparators
+  perSectionParameters: PerSectionParametersWhereClause
+  perSectionParametersAggregate: PerSectionParametersAggregateWhereClause
   cameraManufacturer: StrComparators
   cameraModel: StrComparators
   tiltMin: FloatComparators
@@ -718,10 +926,105 @@ enum tiltseries_microscope_manufacturer_enum {
   SIMULATED
 }
 
+input PerSectionParametersAggregateWhereClause {
+  count: PerSectionParametersAggregateWhereClauseCount!
+}
+
+input PerSectionParametersAggregateWhereClauseCount {
+  arguments: PerSectionParametersCountColumns
+  distinct: Boolean
+  filter: PerSectionParametersWhereClause
+  predicate: IntComparators
+}
+
+enum PerSectionParametersCountColumns {
+  astigmaticAngle
+  majorDefocus
+  maxResolution
+  minorDefocus
+  phaseShift
+  rawAngle
+  zIndex
+  id
+}
+
+input FrameAggregateWhereClause {
+  count: FrameAggregateWhereClauseCount!
+}
+
+input FrameAggregateWhereClauseCount {
+  arguments: FrameCountColumns
+  distinct: Boolean
+  filter: FrameWhereClause
+  predicate: IntComparators
+}
+
+enum FrameCountColumns {
+  acquisitionOrder
+  accumulatedDose
+  exposureDose
+  isGainCorrected
+  s3FramePath
+  httpsFramePath
+  fileSize
+  id
+}
+
+input TiltseriesAggregateWhereClause {
+  count: TiltseriesAggregateWhereClauseCount!
+}
+
+input TiltseriesAggregateWhereClauseCount {
+  arguments: TiltseriesCountColumns
+  distinct: Boolean
+  filter: TiltseriesWhereClause
+  predicate: IntComparators
+}
+
+enum TiltseriesCountColumns {
+  s3OmezarrDir
+  fileSizeOmezarr
+  s3MrcFile
+  fileSizeMrc
+  httpsOmezarrDir
+  httpsMrcFile
+  s3AngleList
+  httpsAngleList
+  accelerationVoltage
+  sphericalAberrationConstant
+  microscopeManufacturer
+  microscopeModel
+  microscopeEnergyFilter
+  microscopePhasePlate
+  microscopeImageCorrector
+  microscopeAdditionalInfo
+  cameraManufacturer
+  cameraModel
+  tiltMin
+  tiltMax
+  tiltRange
+  tiltStep
+  tiltingScheme
+  tiltAxis
+  totalFlux
+  dataAcquisitionSoftware
+  relatedEmpiarEntry
+  binningFromFrames
+  tiltSeriesQuality
+  isAligned
+  pixelSpacing
+  alignedTiltseriesBinning
+  sizeX
+  sizeY
+  sizeZ
+  id
+}
+
 input TomogramWhereClause {
   alignment: AlignmentWhereClause
   alignmentId: IntComparators
   authors: TomogramAuthorWhereClause
+  authorsAggregate: TomogramAuthorAggregateWhereClause
   deposition: DepositionWhereClause
   depositionId: IntComparators
   run: RunWhereClause
@@ -744,8 +1047,10 @@ input TomogramWhereClause {
   isVisualizationDefault: BoolComparators
   s3OmezarrDir: StrComparators
   httpsOmezarrDir: StrComparators
+  fileSizeOmezarr: FloatComparators
   s3MrcFile: StrComparators
   httpsMrcFile: StrComparators
+  fileSizeMrc: FloatComparators
   scale0Dimensions: StrComparators
   scale1Dimensions: StrComparators
   scale2Dimensions: StrComparators
@@ -770,6 +1075,7 @@ input TomogramAuthorWhereClause {
   id: IntComparators
   authorListOrder: IntComparators
   orcid: StrComparators
+  kaggleId: StrComparators
   name: StrComparators
   email: StrComparators
   affiliationName: StrComparators
@@ -779,15 +1085,113 @@ input TomogramAuthorWhereClause {
   primaryAuthorStatus: BoolComparators
 }
 
+input TomogramAuthorAggregateWhereClause {
+  count: TomogramAuthorAggregateWhereClauseCount!
+}
+
+input TomogramAuthorAggregateWhereClauseCount {
+  arguments: TomogramAuthorCountColumns
+  distinct: Boolean
+  filter: TomogramAuthorWhereClause
+  predicate: IntComparators
+}
+
+enum TomogramAuthorCountColumns {
+  id
+  authorListOrder
+  orcid
+  kaggleId
+  name
+  email
+  affiliationName
+  affiliationAddress
+  affiliationIdentifier
+  correspondingAuthorStatus
+  primaryAuthorStatus
+}
+
 input TomogramVoxelSpacingWhereClause {
   annotationFiles: AnnotationFileWhereClause
+  annotationFilesAggregate: AnnotationFileAggregateWhereClause
   run: RunWhereClause
   runId: IntComparators
   tomograms: TomogramWhereClause
+  tomogramsAggregate: TomogramAggregateWhereClause
   voxelSpacing: FloatComparators
   s3Prefix: StrComparators
   httpsPrefix: StrComparators
   id: IntComparators
+}
+
+input AnnotationFileAggregateWhereClause {
+  count: AnnotationFileAggregateWhereClauseCount!
+}
+
+input AnnotationFileAggregateWhereClauseCount {
+  arguments: AnnotationFileCountColumns
+  distinct: Boolean
+  filter: AnnotationFileWhereClause
+  predicate: IntComparators
+}
+
+enum AnnotationFileCountColumns {
+  format
+  s3Path
+  fileSize
+  httpsPath
+  isVisualizationDefault
+  source
+  id
+}
+
+input TomogramAggregateWhereClause {
+  count: TomogramAggregateWhereClauseCount!
+}
+
+input TomogramAggregateWhereClauseCount {
+  arguments: TomogramCountColumns
+  distinct: Boolean
+  filter: TomogramWhereClause
+  predicate: IntComparators
+}
+
+enum TomogramCountColumns {
+  name
+  sizeX
+  sizeY
+  sizeZ
+  voxelSpacing
+  fiducialAlignmentStatus
+  reconstructionMethod
+  processing
+  tomogramVersion
+  processingSoftware
+  reconstructionSoftware
+  isPortalStandard
+  isAuthorSubmitted
+  isVisualizationDefault
+  s3OmezarrDir
+  httpsOmezarrDir
+  fileSizeOmezarr
+  s3MrcFile
+  httpsMrcFile
+  fileSizeMrc
+  scale0Dimensions
+  scale1Dimensions
+  scale2Dimensions
+  ctfCorrected
+  offsetX
+  offsetY
+  offsetZ
+  keyPhotoUrl
+  keyPhotoThumbnailUrl
+  neuroglancerConfig
+  publications
+  relatedDatabaseEntries
+  id
+  depositionDate
+  releaseDate
+  lastModifiedDate
 }
 
 input Fiducial_alignment_status_enumEnumComparators {
@@ -843,6 +1247,8 @@ enum tomogram_processing_enum {
   denoised
   filtered
   raw
+  filtered_even
+  filtered_odd
 }
 
 input DatetimeComparators {
@@ -885,6 +1291,22 @@ enum deposition_types_enum {
   tomogram
 }
 
+input DepositionTypeAggregateWhereClause {
+  count: DepositionTypeAggregateWhereClauseCount!
+}
+
+input DepositionTypeAggregateWhereClauseCount {
+  arguments: DepositionTypeCountColumns
+  distinct: Boolean
+  filter: DepositionTypeWhereClause
+  predicate: IntComparators
+}
+
+enum DepositionTypeCountColumns {
+  type
+  id
+}
+
 input DatasetFundingWhereClause {
   dataset: DatasetWhereClause
   datasetId: IntComparators
@@ -893,12 +1315,30 @@ input DatasetFundingWhereClause {
   id: IntComparators
 }
 
+input DatasetFundingAggregateWhereClause {
+  count: DatasetFundingAggregateWhereClauseCount!
+}
+
+input DatasetFundingAggregateWhereClauseCount {
+  arguments: DatasetFundingCountColumns
+  distinct: Boolean
+  filter: DatasetFundingWhereClause
+  predicate: IntComparators
+}
+
+enum DatasetFundingCountColumns {
+  fundingAgencyName
+  grantId
+  id
+}
+
 input DatasetAuthorWhereClause {
   dataset: DatasetWhereClause
   datasetId: IntComparators
   id: IntComparators
   authorListOrder: IntComparators
   orcid: StrComparators
+  kaggleId: StrComparators
   name: StrComparators
   email: StrComparators
   affiliationName: StrComparators
@@ -906,6 +1346,49 @@ input DatasetAuthorWhereClause {
   affiliationIdentifier: StrComparators
   correspondingAuthorStatus: BoolComparators
   primaryAuthorStatus: BoolComparators
+}
+
+input DatasetAuthorAggregateWhereClause {
+  count: DatasetAuthorAggregateWhereClauseCount!
+}
+
+input DatasetAuthorAggregateWhereClauseCount {
+  arguments: DatasetAuthorCountColumns
+  distinct: Boolean
+  filter: DatasetAuthorWhereClause
+  predicate: IntComparators
+}
+
+enum DatasetAuthorCountColumns {
+  id
+  authorListOrder
+  orcid
+  kaggleId
+  name
+  email
+  affiliationName
+  affiliationAddress
+  affiliationIdentifier
+  correspondingAuthorStatus
+  primaryAuthorStatus
+}
+
+input RunAggregateWhereClause {
+  count: RunAggregateWhereClauseCount!
+}
+
+input RunAggregateWhereClauseCount {
+  arguments: RunCountColumns
+  distinct: Boolean
+  filter: RunWhereClause
+  predicate: IntComparators
+}
+
+enum RunCountColumns {
+  name
+  s3Prefix
+  httpsPrefix
+  id
 }
 
 input Sample_type_enumEnumComparators {
@@ -939,12 +1422,80 @@ input GainFileWhereClause {
   id: IntComparators
 }
 
+input GainFileAggregateWhereClause {
+  count: GainFileAggregateWhereClauseCount!
+}
+
+input GainFileAggregateWhereClauseCount {
+  arguments: GainFileCountColumns
+  distinct: Boolean
+  filter: GainFileWhereClause
+  predicate: IntComparators
+}
+
+enum GainFileCountColumns {
+  s3FilePath
+  httpsFilePath
+  id
+}
+
 input FrameAcquisitionFileWhereClause {
   run: RunWhereClause
   runId: IntComparators
   s3MdocPath: StrComparators
   httpsMdocPath: StrComparators
   id: IntComparators
+}
+
+input FrameAcquisitionFileAggregateWhereClause {
+  count: FrameAcquisitionFileAggregateWhereClauseCount!
+}
+
+input FrameAcquisitionFileAggregateWhereClauseCount {
+  arguments: FrameAcquisitionFileCountColumns
+  distinct: Boolean
+  filter: FrameAcquisitionFileWhereClause
+  predicate: IntComparators
+}
+
+enum FrameAcquisitionFileCountColumns {
+  s3MdocPath
+  httpsMdocPath
+  id
+}
+
+input TomogramVoxelSpacingAggregateWhereClause {
+  count: TomogramVoxelSpacingAggregateWhereClauseCount!
+}
+
+input TomogramVoxelSpacingAggregateWhereClauseCount {
+  arguments: TomogramVoxelSpacingCountColumns
+  distinct: Boolean
+  filter: TomogramVoxelSpacingWhereClause
+  predicate: IntComparators
+}
+
+enum TomogramVoxelSpacingCountColumns {
+  voxelSpacing
+  s3Prefix
+  httpsPrefix
+  id
+}
+
+input AnnotationShapeAggregateWhereClause {
+  count: AnnotationShapeAggregateWhereClauseCount!
+}
+
+input AnnotationShapeAggregateWhereClauseCount {
+  arguments: AnnotationShapeCountColumns
+  distinct: Boolean
+  filter: AnnotationShapeWhereClause
+  predicate: IntComparators
+}
+
+enum AnnotationShapeCountColumns {
+  shapeType
+  id
 }
 
 input AnnotationMethodLinkWhereClause {
@@ -976,12 +1527,31 @@ enum annotation_method_link_type_enum {
   website
 }
 
+input AnnotationMethodLinkAggregateWhereClause {
+  count: AnnotationMethodLinkAggregateWhereClauseCount!
+}
+
+input AnnotationMethodLinkAggregateWhereClauseCount {
+  arguments: AnnotationMethodLinkCountColumns
+  distinct: Boolean
+  filter: AnnotationMethodLinkWhereClause
+  predicate: IntComparators
+}
+
+enum AnnotationMethodLinkCountColumns {
+  linkType
+  name
+  link
+  id
+}
+
 input AnnotationAuthorWhereClause {
   annotation: AnnotationWhereClause
   annotationId: IntComparators
   id: IntComparators
   authorListOrder: IntComparators
   orcid: StrComparators
+  kaggleId: StrComparators
   name: StrComparators
   email: StrComparators
   affiliationName: StrComparators
@@ -989,6 +1559,31 @@ input AnnotationAuthorWhereClause {
   affiliationIdentifier: StrComparators
   correspondingAuthorStatus: BoolComparators
   primaryAuthorStatus: BoolComparators
+}
+
+input AnnotationAuthorAggregateWhereClause {
+  count: AnnotationAuthorAggregateWhereClauseCount!
+}
+
+input AnnotationAuthorAggregateWhereClauseCount {
+  arguments: AnnotationAuthorCountColumns
+  distinct: Boolean
+  filter: AnnotationAuthorWhereClause
+  predicate: IntComparators
+}
+
+enum AnnotationAuthorCountColumns {
+  id
+  authorListOrder
+  orcid
+  kaggleId
+  name
+  email
+  affiliationName
+  affiliationAddress
+  affiliationIdentifier
+  correspondingAuthorStatus
+  primaryAuthorStatus
 }
 
 input Annotation_method_type_enumEnumComparators {
@@ -1059,6 +1654,27 @@ input PerSectionAlignmentParametersWhereClause {
   id: IntComparators
 }
 
+input PerSectionAlignmentParametersAggregateWhereClause {
+  count: PerSectionAlignmentParametersAggregateWhereClauseCount!
+}
+
+input PerSectionAlignmentParametersAggregateWhereClauseCount {
+  arguments: PerSectionAlignmentParametersCountColumns
+  distinct: Boolean
+  filter: PerSectionAlignmentParametersWhereClause
+  predicate: IntComparators
+}
+
+enum PerSectionAlignmentParametersCountColumns {
+  zIndex
+  xOffset
+  yOffset
+  volumeXRotation
+  inPlaneRotation
+  tiltAngle
+  id
+}
+
 input Alignment_type_enumEnumComparators {
   _eq: alignment_type_enum
   _neq: alignment_type_enum
@@ -1118,6 +1734,7 @@ input AlignmentOrderByClause {
 input DepositionOrderByClause {
   title: orderBy
   description: orderBy
+  tag: orderBy
   depositionPublications: orderBy
   relatedDatabaseEntries: orderBy
   depositionDate: orderBy
@@ -1141,7 +1758,9 @@ input TiltseriesOrderByClause {
   run: RunOrderByClause
   deposition: DepositionOrderByClause
   s3OmezarrDir: orderBy
+  fileSizeOmezarr: orderBy
   s3MrcFile: orderBy
+  fileSizeMrc: orderBy
   httpsOmezarrDir: orderBy
   httpsMrcFile: orderBy
   s3AngleList: orderBy
@@ -1211,6 +1830,7 @@ input DatasetOrderByClause {
   relatedDatabaseEntries: orderBy
   s3Prefix: orderBy
   httpsPrefix: orderBy
+  fileSize: orderBy
   id: orderBy
 }
 
@@ -1502,6 +2122,7 @@ type RunGroupByOptions {
   frames: FrameGroupByOptions
   gainFiles: GainFileGroupByOptions
   frameAcquisitionFiles: FrameAcquisitionFileGroupByOptions
+  perSectionParameters: PerSectionParametersGroupByOptions
   tiltseries: TiltseriesGroupByOptions
   tomogramVoxelSpacings: TomogramVoxelSpacingGroupByOptions
   tomograms: TomogramGroupByOptions
@@ -1541,6 +2162,7 @@ type AnnotationFileGroupByOptions {
   tomogramVoxelSpacing: TomogramVoxelSpacingGroupByOptions
   format: String
   s3Path: String
+  fileSize: Float
   httpsPath: String
   isVisualizationDefault: Boolean
   source: annotation_file_source_enum
@@ -1579,8 +2201,10 @@ type TomogramGroupByOptions {
   isVisualizationDefault: Boolean
   s3OmezarrDir: String
   httpsOmezarrDir: String
+  fileSizeOmezarr: Float
   s3MrcFile: String
   httpsMrcFile: String
+  fileSizeMrc: Float
   scale0Dimensions: String
   scale1Dimensions: String
   scale2Dimensions: String
@@ -1604,6 +2228,7 @@ type TomogramAuthorGroupByOptions {
   id: Int
   authorListOrder: Int
   orcid: String
+  kaggleId: String
   name: String
   email: String
   affiliationName: String
@@ -1623,6 +2248,7 @@ type DepositionGroupByOptions {
   tomograms: TomogramGroupByOptions
   title: String
   description: String
+  tag: String
   depositionTypes: DepositionTypeGroupByOptions
   depositionPublications: String
   relatedDatabaseEntries: String
@@ -1639,6 +2265,7 @@ type DepositionAuthorGroupByOptions {
   id: Int
   authorListOrder: Int
   orcid: String
+  kaggleId: String
   name: String
   email: String
   affiliationName: String
@@ -1678,6 +2305,7 @@ type DatasetGroupByOptions {
   relatedDatabaseEntries: String
   s3Prefix: String
   httpsPrefix: String
+  fileSize: Float
   id: Int
 }
 
@@ -1693,6 +2321,7 @@ type DatasetAuthorGroupByOptions {
   id: Int
   authorListOrder: Int
   orcid: String
+  kaggleId: String
   name: String
   email: String
   affiliationName: String
@@ -1705,12 +2334,28 @@ type DatasetAuthorGroupByOptions {
 type FrameGroupByOptions {
   deposition: DepositionGroupByOptions
   run: RunGroupByOptions
-  rawAngle: Float
   acquisitionOrder: Int
-  dose: Float
+  accumulatedDose: Float
+  exposureDose: Float
   isGainCorrected: Boolean
+  perSectionParameters: PerSectionParametersGroupByOptions
   s3FramePath: String
   httpsFramePath: String
+  fileSize: Float
+  id: Int
+}
+
+type PerSectionParametersGroupByOptions {
+  astigmaticAngle: Float
+  frame: FrameGroupByOptions
+  majorDefocus: Float
+  maxResolution: Float
+  minorDefocus: Float
+  phaseShift: Float
+  rawAngle: Float
+  run: RunGroupByOptions
+  tiltseries: TiltseriesGroupByOptions
+  zIndex: Int
   id: Int
 }
 
@@ -1719,7 +2364,9 @@ type TiltseriesGroupByOptions {
   run: RunGroupByOptions
   deposition: DepositionGroupByOptions
   s3OmezarrDir: String
+  fileSizeOmezarr: Float
   s3MrcFile: String
+  fileSizeMrc: Float
   httpsOmezarrDir: String
   httpsMrcFile: String
   s3AngleList: String
@@ -1732,6 +2379,7 @@ type TiltseriesGroupByOptions {
   microscopePhasePlate: String
   microscopeImageCorrector: String
   microscopeAdditionalInfo: String
+  perSectionParameters: PerSectionParametersGroupByOptions
   cameraManufacturer: String
   cameraModel: String
   tiltMin: Float
@@ -1798,6 +2446,7 @@ type AnnotationAuthorGroupByOptions {
   id: Int
   authorListOrder: Int
   orcid: String
+  kaggleId: String
   name: String
   email: String
   affiliationName: String
@@ -1805,13 +2454,6 @@ type AnnotationAuthorGroupByOptions {
   affiliationIdentifier: String
   correspondingAuthorStatus: Boolean
   primaryAuthorStatus: Boolean
-}
-
-enum AnnotationShapeCountColumns {
-  annotation
-  annotationFiles
-  shapeType
-  id
 }
 
 """A connection to a list of items."""
@@ -1887,14 +2529,6 @@ type AnnotationMethodLinkMinMaxColumns {
   id: Int
 }
 
-enum AnnotationMethodLinkCountColumns {
-  annotation
-  linkType
-  name
-  link
-  id
-}
-
 """A connection to a list of items."""
 type AnnotationAuthorConnection {
   """Pagination data for this connection"""
@@ -1929,6 +2563,9 @@ type AnnotationAuthor implements EntityInterface & Node {
   """A unique, persistent identifier for researchers, provided by ORCID."""
   orcid: String
 
+  """A unique, persistent identifier for kaggle users at kaggle.com."""
+  kaggleId: String
+
   """Full name of an annotation author (e.g. Jane Doe)."""
   name: String!
 
@@ -1962,6 +2599,7 @@ input AnnotationAuthorOrderByClause {
   id: orderBy
   authorListOrder: orderBy
   orcid: orderBy
+  kaggleId: orderBy
   name: orderBy
   email: orderBy
   affiliationName: orderBy
@@ -1995,25 +2633,12 @@ type AnnotationAuthorMinMaxColumns {
   id: Int
   authorListOrder: Int
   orcid: String
+  kaggleId: String
   name: String
   email: String
   affiliationName: String
   affiliationAddress: String
   affiliationIdentifier: String
-}
-
-enum AnnotationAuthorCountColumns {
-  annotation
-  id
-  authorListOrder
-  orcid
-  name
-  email
-  affiliationName
-  affiliationAddress
-  affiliationIdentifier
-  correspondingAuthorStatus
-  primaryAuthorStatus
 }
 
 """Deposition metadata"""
@@ -2148,6 +2773,9 @@ type Deposition implements EntityInterface & Node {
 
   """Description for the deposition"""
   description: String!
+
+  """Tag for the deposition - like ml competition"""
+  tag: String
   depositionTypes(
     where: DepositionTypeWhereClause = null
     orderBy: [DepositionTypeOrderByClause!] = []
@@ -2222,6 +2850,9 @@ type DepositionAuthor implements EntityInterface & Node {
   """A unique, persistent identifier for researchers, provided by ORCID."""
   orcid: String
 
+  """A unique, persistent identifier for kaggle users at kaggle.com."""
+  kaggleId: String
+
   """Full name of a deposition author (e.g. Jane Doe)."""
   name: String!
 
@@ -2251,6 +2882,7 @@ input DepositionAuthorOrderByClause {
   id: orderBy
   authorListOrder: orderBy
   orcid: orderBy
+  kaggleId: orderBy
   name: orderBy
   email: orderBy
   affiliationName: orderBy
@@ -2284,25 +2916,12 @@ type DepositionAuthorMinMaxColumns {
   id: Int
   authorListOrder: Int
   orcid: String
+  kaggleId: String
   name: String
   email: String
   affiliationName: String
   affiliationAddress: String
   affiliationIdentifier: String
-}
-
-enum DepositionAuthorCountColumns {
-  deposition
-  id
-  authorListOrder
-  orcid
-  name
-  email
-  affiliationName
-  affiliationAddress
-  affiliationIdentifier
-  correspondingAuthorStatus
-  primaryAuthorStatus
 }
 
 type AlignmentAggregate {
@@ -2345,30 +2964,6 @@ type AlignmentMinMaxColumns {
   s3AlignmentMetadata: String
   httpsAlignmentMetadata: String
   id: Int
-}
-
-enum AlignmentCountColumns {
-  annotationFiles
-  perSectionAlignments
-  deposition
-  tiltseries
-  tomograms
-  run
-  alignmentType
-  alignmentMethod
-  volumeXDimension
-  volumeYDimension
-  volumeZDimension
-  volumeXOffset
-  volumeYOffset
-  volumeZOffset
-  xRotationOffset
-  tiltOffset
-  affineTransformationMatrix
-  s3AlignmentMetadata
-  httpsAlignmentMetadata
-  isPortalStandard
-  id
 }
 
 """A connection to a list of items."""
@@ -2429,34 +3024,6 @@ type AnnotationMinMaxColumns {
   releaseDate: DateTime
   lastModifiedDate: DateTime
   id: Int
-}
-
-enum AnnotationCountColumns {
-  run
-  annotationShapes
-  methodLinks
-  authors
-  deposition
-  s3MetadataPath
-  httpsMetadataPath
-  annotationPublication
-  annotationMethod
-  groundTruthStatus
-  objectId
-  objectName
-  objectDescription
-  objectState
-  objectCount
-  confidencePrecision
-  confidenceRecall
-  groundTruthUsed
-  annotationSoftware
-  isCuratorRecommended
-  methodType
-  depositionDate
-  releaseDate
-  lastModifiedDate
-  id
 }
 
 """A connection to a list of items."""
@@ -2632,6 +3199,9 @@ type Dataset implements EntityInterface & Node {
 
   """The https directory path where this dataset is contained"""
   httpsPrefix: String!
+
+  """Size of the dataset in bytes"""
+  fileSize: Float
 }
 
 """A connection to a list of items."""
@@ -2701,13 +3271,6 @@ type DatasetFundingMinMaxColumns {
   id: Int
 }
 
-enum DatasetFundingCountColumns {
-  dataset
-  fundingAgencyName
-  grantId
-  id
-}
-
 """A connection to a list of items."""
 type DatasetAuthorConnection {
   """Pagination data for this connection"""
@@ -2742,7 +3305,10 @@ type DatasetAuthor implements EntityInterface & Node {
   """A unique, persistent identifier for researchers, provided by ORCID."""
   orcid: String
 
-  """Full name of an author (e.g. Jane Doe)."""
+  """A unique, persistent identifier for kaggle users at kaggle.com."""
+  kaggleId: String
+
+  """Full name of a dataset author (e.g. Jane Doe)."""
   name: String!
 
   """Email address for this author"""
@@ -2773,6 +3339,7 @@ input DatasetAuthorOrderByClause {
   id: orderBy
   authorListOrder: orderBy
   orcid: orderBy
+  kaggleId: orderBy
   name: orderBy
   email: orderBy
   affiliationName: orderBy
@@ -2806,25 +3373,12 @@ type DatasetAuthorMinMaxColumns {
   id: Int
   authorListOrder: Int
   orcid: String
+  kaggleId: String
   name: String
   email: String
   affiliationName: String
   affiliationAddress: String
   affiliationIdentifier: String
-}
-
-enum DatasetAuthorCountColumns {
-  dataset
-  id
-  authorListOrder
-  orcid
-  name
-  email
-  affiliationName
-  affiliationAddress
-  affiliationIdentifier
-  correspondingAuthorStatus
-  primaryAuthorStatus
 }
 
 """A connection to a list of items."""
@@ -2871,22 +3425,6 @@ type RunMinMaxColumns {
   id: Int
 }
 
-enum RunCountColumns {
-  alignments
-  annotations
-  dataset
-  frames
-  gainFiles
-  frameAcquisitionFiles
-  tiltseries
-  tomogramVoxelSpacings
-  tomograms
-  name
-  s3Prefix
-  httpsPrefix
-  id
-}
-
 type DatasetAggregate {
   aggregate: [DatasetAggregateFunctions!]
 }
@@ -2904,6 +3442,7 @@ type DatasetAggregateFunctions {
 
 type DatasetNumericalColumns {
   organismTaxid: Int
+  fileSize: Float
   id: Int
 }
 
@@ -2932,40 +3471,8 @@ type DatasetMinMaxColumns {
   relatedDatabaseEntries: String
   s3Prefix: String
   httpsPrefix: String
+  fileSize: Float
   id: Int
-}
-
-enum DatasetCountColumns {
-  deposition
-  fundingSources
-  authors
-  runs
-  title
-  description
-  organismName
-  organismTaxid
-  tissueName
-  tissueId
-  cellName
-  cellTypeId
-  cellStrainName
-  cellStrainId
-  sampleType
-  samplePreparation
-  gridPreparation
-  otherSetup
-  keyPhotoUrl
-  keyPhotoThumbnailUrl
-  cellComponentName
-  cellComponentId
-  depositionDate
-  releaseDate
-  lastModifiedDate
-  datasetPublications
-  relatedDatabaseEntries
-  s3Prefix
-  httpsPrefix
-  id
 }
 
 """A connection to a list of items."""
@@ -2997,96 +3504,116 @@ type Frame implements EntityInterface & Node {
   run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
   runId: Int!
 
-  """Camera angle for a frame"""
-  rawAngle: Float
-
   """Frame's acquistion order within a tilt experiment"""
   acquisitionOrder: Int
 
-  """The raw camera angle for a frame"""
-  dose: Float
+  """The total accumulated dose exposure frame"""
+  accumulatedDose: Float
+
+  """The dose exposure of this frame"""
+  exposureDose: Float
 
   """Whether this frame has been gain corrected"""
   isGainCorrected: Boolean
+  perSectionParameters(
+    where: PerSectionParametersWhereClause = null
+    orderBy: [PerSectionParametersOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): PerSectionParametersConnection!
+  perSectionParametersAggregate(where: PerSectionParametersWhereClause = null): PerSectionParametersAggregate
 
   """S3 path to the frame file"""
-  s3FramePath: String!
+  s3FramePath: String
 
   """HTTPS path to the frame file"""
-  httpsFramePath: String!
+  httpsFramePath: String
+
+  """Size of the frame file in bytes"""
+  fileSize: Float
+}
+
+"""A connection to a list of items."""
+type PerSectionParametersConnection {
+  """Pagination data for this connection"""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [PerSectionParametersEdge!]!
+}
+
+"""An edge in a connection."""
+type PerSectionParametersEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: PerSectionParameters!
+}
+
+"""Map individual Frames to a Tiltseries"""
+type PerSectionParameters implements EntityInterface & Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+
+  """
+  Angle (in degrees) from reciprocal space X axis to the major axis of defocus.
+  """
+  astigmaticAngle: Float
+  frame(where: FrameWhereClause = null, orderBy: [FrameOrderByClause!] = []): Frame
+  frameId: Int!
+
+  """
+  Defocus (major axis) estimated for this tilt image in Angstrom (underfocus has positive sign).
+  """
+  majorDefocus: Float
+
+  """Maximum resolution of the frame"""
+  maxResolution: Float
+
+  """
+  Defocus (minor axis) estimated for this tilt image in Angstrom (underfocus has positive sign).
+  """
+  minorDefocus: Float
+
+  """Phase shift estimated for this tilt image in degrees."""
+  phaseShift: Float
+
+  """Nominal tilt angle for this tilt image reported by the microscope."""
+  rawAngle: Float!
+  run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
+  runId: Int!
+  tiltseries(where: TiltseriesWhereClause = null, orderBy: [TiltseriesOrderByClause!] = []): Tiltseries
+  tiltseriesId: Int!
+
+  """Index (0-based) of this tilt image in the tilt series stack."""
+  zIndex: Int!
 }
 
 input FrameOrderByClause {
   deposition: DepositionOrderByClause
   run: RunOrderByClause
-  rawAngle: orderBy
   acquisitionOrder: orderBy
-  dose: orderBy
+  accumulatedDose: orderBy
+  exposureDose: orderBy
   isGainCorrected: orderBy
   s3FramePath: orderBy
   httpsFramePath: orderBy
+  fileSize: orderBy
   id: orderBy
-}
-
-type FrameAggregate {
-  aggregate: [FrameAggregateFunctions!]
-}
-
-type FrameAggregateFunctions {
-  sum: FrameNumericalColumns
-  avg: FrameNumericalColumns
-  stddev: FrameNumericalColumns
-  variance: FrameNumericalColumns
-  min: FrameMinMaxColumns
-  max: FrameMinMaxColumns
-  groupBy: FrameGroupByOptions
-  count(distinct: Boolean = false, columns: FrameCountColumns = null): Int
-}
-
-type FrameNumericalColumns {
-  rawAngle: Float
-  acquisitionOrder: Int
-  dose: Float
-  id: Int
-}
-
-type FrameMinMaxColumns {
-  rawAngle: Float
-  acquisitionOrder: Int
-  dose: Float
-  s3FramePath: String
-  httpsFramePath: String
-  id: Int
-}
-
-enum FrameCountColumns {
-  deposition
-  run
-  rawAngle
-  acquisitionOrder
-  dose
-  isGainCorrected
-  s3FramePath
-  httpsFramePath
-  id
-}
-
-"""A connection to a list of items."""
-type TiltseriesConnection {
-  """Pagination data for this connection"""
-  pageInfo: PageInfo!
-
-  """Contains the nodes in this connection"""
-  edges: [TiltseriesEdge!]!
-}
-
-"""An edge in a connection."""
-type TiltseriesEdge {
-  """A cursor for use in pagination"""
-  cursor: String!
-
-  """The item at the end of the edge"""
-  node: Tiltseries!
 }
 
 type Tiltseries implements EntityInterface & Node {
@@ -3120,8 +3647,14 @@ type Tiltseries implements EntityInterface & Node {
   """S3 path to this tiltseries in multiscale OME-Zarr format"""
   s3OmezarrDir: String
 
+  """Size of the tiltseries in OME-Zarr format in bytes"""
+  fileSizeOmezarr: Float
+
   """S3 path to this tiltseries in MRC format (no scaling)"""
   s3MrcFile: String
+
+  """Size of the tiltseries in MRC format in bytes"""
+  fileSizeMrc: Float
 
   """HTTPS path to this tiltseries in multiscale OME-Zarr format"""
   httpsOmezarrDir: String
@@ -3160,6 +3693,23 @@ type Tiltseries implements EntityInterface & Node {
   Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
   """
   microscopeAdditionalInfo: String
+  perSectionParameters(
+    where: PerSectionParametersWhereClause = null
+    orderBy: [PerSectionParametersOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): PerSectionParametersConnection!
+  perSectionParametersAggregate(where: PerSectionParametersWhereClause = null): PerSectionParametersAggregate
 
   """Name of the camera manufacturer"""
   cameraManufacturer: String!
@@ -3225,6 +3775,108 @@ type Tiltseries implements EntityInterface & Node {
   sizeZ: Int
 }
 
+input PerSectionParametersOrderByClause {
+  astigmaticAngle: orderBy
+  frame: FrameOrderByClause
+  majorDefocus: orderBy
+  maxResolution: orderBy
+  minorDefocus: orderBy
+  phaseShift: orderBy
+  rawAngle: orderBy
+  run: RunOrderByClause
+  tiltseries: TiltseriesOrderByClause
+  zIndex: orderBy
+  id: orderBy
+}
+
+type PerSectionParametersAggregate {
+  aggregate: [PerSectionParametersAggregateFunctions!]
+}
+
+type PerSectionParametersAggregateFunctions {
+  sum: PerSectionParametersNumericalColumns
+  avg: PerSectionParametersNumericalColumns
+  stddev: PerSectionParametersNumericalColumns
+  variance: PerSectionParametersNumericalColumns
+  min: PerSectionParametersMinMaxColumns
+  max: PerSectionParametersMinMaxColumns
+  groupBy: PerSectionParametersGroupByOptions
+  count(distinct: Boolean = false, columns: PerSectionParametersCountColumns = null): Int
+}
+
+type PerSectionParametersNumericalColumns {
+  astigmaticAngle: Float
+  majorDefocus: Float
+  maxResolution: Float
+  minorDefocus: Float
+  phaseShift: Float
+  rawAngle: Float
+  zIndex: Int
+  id: Int
+}
+
+type PerSectionParametersMinMaxColumns {
+  astigmaticAngle: Float
+  majorDefocus: Float
+  maxResolution: Float
+  minorDefocus: Float
+  phaseShift: Float
+  rawAngle: Float
+  zIndex: Int
+  id: Int
+}
+
+type FrameAggregate {
+  aggregate: [FrameAggregateFunctions!]
+}
+
+type FrameAggregateFunctions {
+  sum: FrameNumericalColumns
+  avg: FrameNumericalColumns
+  stddev: FrameNumericalColumns
+  variance: FrameNumericalColumns
+  min: FrameMinMaxColumns
+  max: FrameMinMaxColumns
+  groupBy: FrameGroupByOptions
+  count(distinct: Boolean = false, columns: FrameCountColumns = null): Int
+}
+
+type FrameNumericalColumns {
+  acquisitionOrder: Int
+  accumulatedDose: Float
+  exposureDose: Float
+  fileSize: Float
+  id: Int
+}
+
+type FrameMinMaxColumns {
+  acquisitionOrder: Int
+  accumulatedDose: Float
+  exposureDose: Float
+  s3FramePath: String
+  httpsFramePath: String
+  fileSize: Float
+  id: Int
+}
+
+"""A connection to a list of items."""
+type TiltseriesConnection {
+  """Pagination data for this connection"""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [TiltseriesEdge!]!
+}
+
+"""An edge in a connection."""
+type TiltseriesEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: Tiltseries!
+}
+
 type TiltseriesAggregate {
   aggregate: [TiltseriesAggregateFunctions!]
 }
@@ -3241,6 +3893,8 @@ type TiltseriesAggregateFunctions {
 }
 
 type TiltseriesNumericalColumns {
+  fileSizeOmezarr: Float
+  fileSizeMrc: Float
   accelerationVoltage: Int
   sphericalAberrationConstant: Float
   tiltMin: Float
@@ -3261,7 +3915,9 @@ type TiltseriesNumericalColumns {
 
 type TiltseriesMinMaxColumns {
   s3OmezarrDir: String
+  fileSizeOmezarr: Float
   s3MrcFile: String
+  fileSizeMrc: Float
   httpsOmezarrDir: String
   httpsMrcFile: String
   s3AngleList: String
@@ -3292,46 +3948,6 @@ type TiltseriesMinMaxColumns {
   sizeY: Int
   sizeZ: Int
   id: Int
-}
-
-enum TiltseriesCountColumns {
-  alignments
-  run
-  deposition
-  s3OmezarrDir
-  s3MrcFile
-  httpsOmezarrDir
-  httpsMrcFile
-  s3AngleList
-  httpsAngleList
-  accelerationVoltage
-  sphericalAberrationConstant
-  microscopeManufacturer
-  microscopeModel
-  microscopeEnergyFilter
-  microscopePhasePlate
-  microscopeImageCorrector
-  microscopeAdditionalInfo
-  cameraManufacturer
-  cameraModel
-  tiltMin
-  tiltMax
-  tiltRange
-  tiltStep
-  tiltingScheme
-  tiltAxis
-  totalFlux
-  dataAcquisitionSoftware
-  relatedEmpiarEntry
-  binningFromFrames
-  tiltSeriesQuality
-  isAligned
-  pixelSpacing
-  alignedTiltseriesBinning
-  sizeX
-  sizeY
-  sizeZ
-  id
 }
 
 """A connection to a list of items."""
@@ -3441,11 +4057,17 @@ type Tomogram implements EntityInterface & Node {
   """HTTPS path to this tomogram in multiscale OME-Zarr format"""
   httpsOmezarrDir: String
 
+  """Size of the tomogram in OME-Zarr format in bytes"""
+  fileSizeOmezarr: Float
+
   """S3 path to this tomogram in MRC format (no scaling)"""
   s3MrcFile: String
 
   """HTTPS path to this tomogram in MRC format (no scaling)"""
   httpsMrcFile: String
+
+  """Size of the tomogram in MRC format in bytes"""
+  fileSizeMrc: Float
 
   """comma separated x,y,z dimensions of the unscaled tomogram"""
   scale0Dimensions: String
@@ -3531,6 +4153,9 @@ type TomogramAuthor implements EntityInterface & Node {
   """A unique, persistent identifier for researchers, provided by ORCID."""
   orcid: String
 
+  """A unique, persistent identifier for kaggle users at kaggle.com."""
+  kaggleId: String
+
   """Full name of an author (e.g. Jane Doe)."""
   name: String!
 
@@ -3576,8 +4201,10 @@ input TomogramOrderByClause {
   isVisualizationDefault: orderBy
   s3OmezarrDir: orderBy
   httpsOmezarrDir: orderBy
+  fileSizeOmezarr: orderBy
   s3MrcFile: orderBy
   httpsMrcFile: orderBy
+  fileSizeMrc: orderBy
   scale0Dimensions: orderBy
   scale1Dimensions: orderBy
   scale2Dimensions: orderBy
@@ -3609,6 +4236,7 @@ input TomogramAuthorOrderByClause {
   id: orderBy
   authorListOrder: orderBy
   orcid: orderBy
+  kaggleId: orderBy
   name: orderBy
   email: orderBy
   affiliationName: orderBy
@@ -3642,25 +4270,12 @@ type TomogramAuthorMinMaxColumns {
   id: Int
   authorListOrder: Int
   orcid: String
+  kaggleId: String
   name: String
   email: String
   affiliationName: String
   affiliationAddress: String
   affiliationIdentifier: String
-}
-
-enum TomogramAuthorCountColumns {
-  tomogram
-  id
-  authorListOrder
-  orcid
-  name
-  email
-  affiliationName
-  affiliationAddress
-  affiliationIdentifier
-  correspondingAuthorStatus
-  primaryAuthorStatus
 }
 
 """Voxel spacings for a run"""
@@ -3727,6 +4342,7 @@ input AnnotationFileOrderByClause {
   tomogramVoxelSpacing: TomogramVoxelSpacingOrderByClause
   format: orderBy
   s3Path: orderBy
+  fileSize: orderBy
   httpsPath: orderBy
   isVisualizationDefault: orderBy
   source: orderBy
@@ -3749,26 +4365,16 @@ type AnnotationFileAggregateFunctions {
 }
 
 type AnnotationFileNumericalColumns {
+  fileSize: Float
   id: Int
 }
 
 type AnnotationFileMinMaxColumns {
   format: String
   s3Path: String
+  fileSize: Float
   httpsPath: String
   id: Int
-}
-
-enum AnnotationFileCountColumns {
-  alignment
-  annotationShape
-  tomogramVoxelSpacing
-  format
-  s3Path
-  httpsPath
-  isVisualizationDefault
-  source
-  id
 }
 
 type TomogramAggregate {
@@ -3792,6 +4398,8 @@ type TomogramNumericalColumns {
   sizeZ: Int
   voxelSpacing: Float
   tomogramVersion: Float
+  fileSizeOmezarr: Float
+  fileSizeMrc: Float
   offsetX: Int
   offsetY: Int
   offsetZ: Int
@@ -3809,8 +4417,10 @@ type TomogramMinMaxColumns {
   reconstructionSoftware: String
   s3OmezarrDir: String
   httpsOmezarrDir: String
+  fileSizeOmezarr: Float
   s3MrcFile: String
   httpsMrcFile: String
+  fileSizeMrc: Float
   scale0Dimensions: String
   scale1Dimensions: String
   scale2Dimensions: String
@@ -3826,48 +4436,6 @@ type TomogramMinMaxColumns {
   depositionDate: DateTime
   releaseDate: DateTime
   lastModifiedDate: DateTime
-}
-
-enum TomogramCountColumns {
-  alignment
-  authors
-  deposition
-  run
-  tomogramVoxelSpacing
-  name
-  sizeX
-  sizeY
-  sizeZ
-  voxelSpacing
-  fiducialAlignmentStatus
-  reconstructionMethod
-  processing
-  tomogramVersion
-  processingSoftware
-  reconstructionSoftware
-  isPortalStandard
-  isAuthorSubmitted
-  isVisualizationDefault
-  s3OmezarrDir
-  httpsOmezarrDir
-  s3MrcFile
-  httpsMrcFile
-  scale0Dimensions
-  scale1Dimensions
-  scale2Dimensions
-  ctfCorrected
-  offsetX
-  offsetY
-  offsetZ
-  keyPhotoUrl
-  keyPhotoThumbnailUrl
-  neuroglancerConfig
-  publications
-  relatedDatabaseEntries
-  id
-  depositionDate
-  releaseDate
-  lastModifiedDate
 }
 
 """A connection to a list of items."""
@@ -3930,12 +4498,6 @@ type DepositionTypeNumericalColumns {
 
 type DepositionTypeMinMaxColumns {
   id: Int
-}
-
-enum DepositionTypeCountColumns {
-  deposition
-  type
-  id
 }
 
 """A connection to a list of items."""
@@ -4029,17 +4591,6 @@ type PerSectionAlignmentParametersMinMaxColumns {
   id: Int
 }
 
-enum PerSectionAlignmentParametersCountColumns {
-  alignment
-  zIndex
-  xOffset
-  yOffset
-  volumeXRotation
-  inPlaneRotation
-  tiltAngle
-  id
-}
-
 """A connection to a list of items."""
 type GainFileConnection {
   """Pagination data for this connection"""
@@ -4088,13 +4639,6 @@ type GainFileMinMaxColumns {
   s3FilePath: String
   httpsFilePath: String
   id: Int
-}
-
-enum GainFileCountColumns {
-  run
-  s3FilePath
-  httpsFilePath
-  id
 }
 
 """A connection to a list of items."""
@@ -4166,13 +4710,6 @@ type FrameAcquisitionFileMinMaxColumns {
   id: Int
 }
 
-enum FrameAcquisitionFileCountColumns {
-  run
-  s3MdocPath
-  httpsMdocPath
-  id
-}
-
 """A connection to a list of items."""
 type TomogramVoxelSpacingConnection {
   """Pagination data for this connection"""
@@ -4218,16 +4755,6 @@ type TomogramVoxelSpacingMinMaxColumns {
   id: Int
 }
 
-enum TomogramVoxelSpacingCountColumns {
-  annotationFiles
-  run
-  tomograms
-  voxelSpacing
-  s3Prefix
-  httpsPrefix
-  id
-}
-
 input LimitOffsetClause {
   limit: Int
   offset: Int
@@ -4255,6 +4782,7 @@ type DepositionNumericalColumns {
 type DepositionMinMaxColumns {
   title: String
   description: String
+  tag: String
   depositionPublications: String
   relatedDatabaseEntries: String
   depositionDate: DateTime
@@ -4266,16 +4794,9 @@ type DepositionMinMaxColumns {
 }
 
 enum DepositionCountColumns {
-  authors
-  alignments
-  annotations
-  datasets
-  frames
-  tiltseries
-  tomograms
   title
   description
-  depositionTypes
+  tag
   depositionPublications
   relatedDatabaseEntries
   depositionDate
@@ -4332,6 +4853,9 @@ type Mutation {
   createPerSectionAlignmentParameters(input: PerSectionAlignmentParametersCreateInput!): PerSectionAlignmentParameters!
   updatePerSectionAlignmentParameters(input: PerSectionAlignmentParametersUpdateInput!, where: PerSectionAlignmentParametersWhereClauseMutations!): [PerSectionAlignmentParameters!]!
   deletePerSectionAlignmentParameters(where: PerSectionAlignmentParametersWhereClauseMutations!): [PerSectionAlignmentParameters!]!
+  createPerSectionParameters(input: PerSectionParametersCreateInput!): PerSectionParameters!
+  updatePerSectionParameters(input: PerSectionParametersUpdateInput!, where: PerSectionParametersWhereClauseMutations!): [PerSectionParameters!]!
+  deletePerSectionParameters(where: PerSectionParametersWhereClauseMutations!): [PerSectionParameters!]!
   createRun(input: RunCreateInput!): Run!
   updateRun(input: RunUpdateInput!, where: RunWhereClauseMutations!): [Run!]!
   deleteRun(where: RunWhereClauseMutations!): [Run!]!
@@ -4531,6 +5055,9 @@ input AnnotationAuthorCreateInput {
   """A unique, persistent identifier for researchers, provided by ORCID."""
   orcid: String = null
 
+  """A unique, persistent identifier for kaggle users at kaggle.com."""
+  kaggleId: String = null
+
   """Full name of an annotation author (e.g. Jane Doe)."""
   name: String!
 
@@ -4571,6 +5098,9 @@ input AnnotationAuthorUpdateInput {
 
   """A unique, persistent identifier for researchers, provided by ORCID."""
   orcid: String = null
+
+  """A unique, persistent identifier for kaggle users at kaggle.com."""
+  kaggleId: String = null
 
   """Full name of an annotation author (e.g. Jane Doe)."""
   name: String
@@ -4620,6 +5150,9 @@ input AnnotationFileCreateInput {
   """s3 path of the annotation file"""
   s3Path: String!
 
+  """Size of annota file in bytes"""
+  fileSize: Float = null
+
   """HTTPS path for this annotation file"""
   httpsPath: String!
 
@@ -4652,6 +5185,9 @@ input AnnotationFileUpdateInput {
 
   """s3 path of the annotation file"""
   s3Path: String
+
+  """Size of annota file in bytes"""
+  fileSize: Float = null
 
   """HTTPS path for this annotation file"""
   httpsPath: String
@@ -4891,7 +5427,10 @@ input DatasetAuthorCreateInput {
   """A unique, persistent identifier for researchers, provided by ORCID."""
   orcid: String = null
 
-  """Full name of an author (e.g. Jane Doe)."""
+  """A unique, persistent identifier for kaggle users at kaggle.com."""
+  kaggleId: String = null
+
+  """Full name of a dataset author (e.g. Jane Doe)."""
   name: String!
 
   """Email address for this author"""
@@ -4930,7 +5469,10 @@ input DatasetAuthorUpdateInput {
   """A unique, persistent identifier for researchers, provided by ORCID."""
   orcid: String = null
 
-  """Full name of an author (e.g. Jane Doe)."""
+  """A unique, persistent identifier for kaggle users at kaggle.com."""
+  kaggleId: String = null
+
+  """Full name of a dataset author (e.g. Jane Doe)."""
   name: String
 
   """Email address for this author"""
@@ -5089,6 +5631,9 @@ input DatasetCreateInput {
   """The https directory path where this dataset is contained"""
   httpsPrefix: String!
 
+  """Size of the dataset in bytes"""
+  fileSize: Float = null
+
   """
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
@@ -5192,6 +5737,9 @@ input DatasetUpdateInput {
   """The https directory path where this dataset is contained"""
   httpsPrefix: String
 
+  """Size of the dataset in bytes"""
+  fileSize: Float = null
+
   """
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
   """
@@ -5213,6 +5761,9 @@ input DepositionAuthorCreateInput {
 
   """A unique, persistent identifier for researchers, provided by ORCID."""
   orcid: String = null
+
+  """A unique, persistent identifier for kaggle users at kaggle.com."""
+  kaggleId: String = null
 
   """Full name of a deposition author (e.g. Jane Doe)."""
   name: String!
@@ -5250,6 +5801,9 @@ input DepositionAuthorUpdateInput {
   """A unique, persistent identifier for researchers, provided by ORCID."""
   orcid: String = null
 
+  """A unique, persistent identifier for kaggle users at kaggle.com."""
+  kaggleId: String = null
+
   """Full name of a deposition author (e.g. Jane Doe)."""
   name: String
 
@@ -5285,6 +5839,9 @@ input DepositionCreateInput {
   """Description for the deposition"""
   description: String!
 
+  """Tag for the deposition - like ml competition"""
+  tag: String = null
+
   """The publications related to this deposition"""
   depositionPublications: String = null
 
@@ -5316,6 +5873,9 @@ input DepositionUpdateInput {
 
   """Description for the deposition"""
   description: String
+
+  """Tag for the deposition - like ml competition"""
+  tag: String = null
 
   """The publications related to this deposition"""
   depositionPublications: String = null
@@ -5378,23 +5938,26 @@ input FrameCreateInput {
   depositionId: ID!
   runId: ID!
 
-  """Camera angle for a frame"""
-  rawAngle: Float = null
-
   """Frame's acquistion order within a tilt experiment"""
   acquisitionOrder: Int = null
 
-  """The raw camera angle for a frame"""
-  dose: Float = null
+  """The total accumulated dose exposure frame"""
+  accumulatedDose: Float = null
+
+  """The dose exposure of this frame"""
+  exposureDose: Float = null
 
   """Whether this frame has been gain corrected"""
   isGainCorrected: Boolean = null
 
   """S3 path to the frame file"""
-  s3FramePath: String!
+  s3FramePath: String = null
 
   """HTTPS path to the frame file"""
-  httpsFramePath: String!
+  httpsFramePath: String = null
+
+  """Size of the frame file in bytes"""
+  fileSize: Float = null
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -5404,23 +5967,26 @@ input FrameUpdateInput {
   depositionId: ID
   runId: ID
 
-  """Camera angle for a frame"""
-  rawAngle: Float = null
-
   """Frame's acquistion order within a tilt experiment"""
   acquisitionOrder: Int = null
 
-  """The raw camera angle for a frame"""
-  dose: Float = null
+  """The total accumulated dose exposure frame"""
+  accumulatedDose: Float = null
+
+  """The dose exposure of this frame"""
+  exposureDose: Float = null
 
   """Whether this frame has been gain corrected"""
   isGainCorrected: Boolean = null
 
   """S3 path to the frame file"""
-  s3FramePath: String
+  s3FramePath: String = null
 
   """HTTPS path to the frame file"""
-  httpsFramePath: String
+  httpsFramePath: String = null
+
+  """Size of the frame file in bytes"""
+  fileSize: Float = null
 
   """Numeric identifier (May change!)"""
   id: Int
@@ -5486,6 +6052,92 @@ input PerSectionAlignmentParametersWhereClauseMutations {
   id: IntComparators
 }
 
+input PerSectionParametersCreateInput {
+  """
+  Angle (in degrees) from reciprocal space X axis to the major axis of defocus.
+  """
+  astigmaticAngle: Float = null
+
+  """Frame that this section is a part of"""
+  frameId: ID!
+
+  """
+  Defocus (major axis) estimated for this tilt image in Angstrom (underfocus has positive sign).
+  """
+  majorDefocus: Float = null
+
+  """Maximum resolution of the frame"""
+  maxResolution: Float = null
+
+  """
+  Defocus (minor axis) estimated for this tilt image in Angstrom (underfocus has positive sign).
+  """
+  minorDefocus: Float = null
+
+  """Phase shift estimated for this tilt image in degrees."""
+  phaseShift: Float = null
+
+  """Nominal tilt angle for this tilt image reported by the microscope."""
+  rawAngle: Float!
+
+  """Run that this section is a part of"""
+  runId: ID!
+
+  """Tiltseries that this section is a part of"""
+  tiltseriesId: ID!
+
+  """Index (0-based) of this tilt image in the tilt series stack."""
+  zIndex: Int!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+}
+
+input PerSectionParametersUpdateInput {
+  """
+  Angle (in degrees) from reciprocal space X axis to the major axis of defocus.
+  """
+  astigmaticAngle: Float = null
+
+  """Frame that this section is a part of"""
+  frameId: ID
+
+  """
+  Defocus (major axis) estimated for this tilt image in Angstrom (underfocus has positive sign).
+  """
+  majorDefocus: Float = null
+
+  """Maximum resolution of the frame"""
+  maxResolution: Float = null
+
+  """
+  Defocus (minor axis) estimated for this tilt image in Angstrom (underfocus has positive sign).
+  """
+  minorDefocus: Float = null
+
+  """Phase shift estimated for this tilt image in degrees."""
+  phaseShift: Float = null
+
+  """Nominal tilt angle for this tilt image reported by the microscope."""
+  rawAngle: Float
+
+  """Run that this section is a part of"""
+  runId: ID
+
+  """Tiltseries that this section is a part of"""
+  tiltseriesId: ID
+
+  """Index (0-based) of this tilt image in the tilt series stack."""
+  zIndex: Int
+
+  """Numeric identifier (May change!)"""
+  id: Int
+}
+
+input PerSectionParametersWhereClauseMutations {
+  id: IntComparators
+}
+
 input RunCreateInput {
   """Dataset that this run is a part of"""
   datasetId: ID!
@@ -5531,8 +6183,14 @@ input TiltseriesCreateInput {
   """S3 path to this tiltseries in multiscale OME-Zarr format"""
   s3OmezarrDir: String = null
 
+  """Size of the tiltseries in OME-Zarr format in bytes"""
+  fileSizeOmezarr: Float = null
+
   """S3 path to this tiltseries in MRC format (no scaling)"""
   s3MrcFile: String = null
+
+  """Size of the tiltseries in MRC format in bytes"""
+  fileSizeMrc: Float = null
 
   """HTTPS path to this tiltseries in multiscale OME-Zarr format"""
   httpsOmezarrDir: String = null
@@ -5646,8 +6304,14 @@ input TiltseriesUpdateInput {
   """S3 path to this tiltseries in multiscale OME-Zarr format"""
   s3OmezarrDir: String = null
 
+  """Size of the tiltseries in OME-Zarr format in bytes"""
+  fileSizeOmezarr: Float = null
+
   """S3 path to this tiltseries in MRC format (no scaling)"""
   s3MrcFile: String = null
+
+  """Size of the tiltseries in MRC format in bytes"""
+  fileSizeMrc: Float = null
 
   """HTTPS path to this tiltseries in multiscale OME-Zarr format"""
   httpsOmezarrDir: String = null
@@ -5771,6 +6435,9 @@ input TomogramAuthorCreateInput {
   """A unique, persistent identifier for researchers, provided by ORCID."""
   orcid: String = null
 
+  """A unique, persistent identifier for kaggle users at kaggle.com."""
+  kaggleId: String = null
+
   """Full name of an author (e.g. Jane Doe)."""
   name: String!
 
@@ -5807,6 +6474,9 @@ input TomogramAuthorUpdateInput {
 
   """A unique, persistent identifier for researchers, provided by ORCID."""
   orcid: String = null
+
+  """A unique, persistent identifier for kaggle users at kaggle.com."""
+  kaggleId: String = null
 
   """Full name of an author (e.g. Jane Doe)."""
   name: String
@@ -5949,11 +6619,17 @@ input TomogramCreateInput {
   """HTTPS path to this tomogram in multiscale OME-Zarr format"""
   httpsOmezarrDir: String = null
 
+  """Size of the tomogram in OME-Zarr format in bytes"""
+  fileSizeOmezarr: Float = null
+
   """S3 path to this tomogram in MRC format (no scaling)"""
   s3MrcFile: String = null
 
   """HTTPS path to this tomogram in MRC format (no scaling)"""
   httpsMrcFile: String = null
+
+  """Size of the tomogram in MRC format in bytes"""
+  fileSizeMrc: Float = null
 
   """comma separated x,y,z dimensions of the unscaled tomogram"""
   scale0Dimensions: String = null
@@ -6075,11 +6751,17 @@ input TomogramUpdateInput {
   """HTTPS path to this tomogram in multiscale OME-Zarr format"""
   httpsOmezarrDir: String = null
 
+  """Size of the tomogram in OME-Zarr format in bytes"""
+  fileSizeOmezarr: Float = null
+
   """S3 path to this tomogram in MRC format (no scaling)"""
   s3MrcFile: String = null
 
   """HTTPS path to this tomogram in MRC format (no scaling)"""
   httpsMrcFile: String = null
+
+  """Size of the tomogram in MRC format in bytes"""
+  fileSizeMrc: Float = null
 
   """comma separated x,y,z dimensions of the unscaled tomogram"""
   scale0Dimensions: String = null

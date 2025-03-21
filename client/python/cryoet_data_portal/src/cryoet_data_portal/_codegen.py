@@ -70,6 +70,7 @@ GQL_TO_MODEL_TYPE = {
     "FrameAcquisitionFile": "FrameAcquisitionFile",
     "GainFile": "GainFile",
     "PerSectionAlignmentParameters": "PerSectionAlignmentParameters",
+    "PerSectionParameters": "PerSectionParameters",
     "Run": "Run",
     "Tiltseries": "TiltSeries",
     "Tomogram": "Tomogram",
