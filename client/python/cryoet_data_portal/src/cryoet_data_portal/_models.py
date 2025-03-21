@@ -8,24 +8,22 @@ from __future__ import annotations
 
 import os
 from datetime import date
-from typing import Iterable, List, Optional
+from typing import List, Optional, Iterable
 
-from cryoet_data_portal._client import Client
 from cryoet_data_portal._file_tools import download_directory, download_https
+from cryoet_data_portal._client import Client
 from cryoet_data_portal._gql_base import (
     BooleanField,
     DateField,
     FloatField,
-    GQLExpression,
     IntField,
     ItemRelationship,
-    ListField,
+    GQLExpression,
     ListRelationship,
     Model,
     StringField,
+    ListField,
 )
-
-
 class Alignment(Model):
     """Tiltseries Alignment
 
@@ -60,16 +58,8 @@ class Alignment(Model):
     _gql_root_field: str = "alignments"
 
     id: int = IntField()
-    annotation_files: List[AnnotationFile] = ListRelationship(
-        "AnnotationFile",
-        "id",
-        "alignment_id",
-    )
-    per_section_alignments: List[PerSectionAlignmentParameters] = ListRelationship(
-        "PerSectionAlignmentParameters",
-        "id",
-        "alignment_id",
-    )
+    annotation_files: List[AnnotationFile] = ListRelationship("AnnotationFile", "id", "alignment_id")
+    per_section_alignments: List[PerSectionAlignmentParameters] = ListRelationship("PerSectionAlignmentParameters", "id", "alignment_id")
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
     deposition_id: int = IntField()
     tiltseries: TiltSeries = ItemRelationship("TiltSeries", "tiltseries_id", "id")
@@ -93,11 +83,7 @@ class Alignment(Model):
     is_portal_standard: bool = BooleanField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             >>> alignments = Alignment.find(client, query_filters=[Alignment.run.name == "TS_026"])
@@ -121,11 +107,10 @@ class Alignment(Model):
         """
         return super(Alignment, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
-
-
 class Annotation(Model):
     """Metadata for an annotation
 
@@ -165,21 +150,9 @@ class Annotation(Model):
     id: int = IntField()
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
-    annotation_shapes: List[AnnotationShape] = ListRelationship(
-        "AnnotationShape",
-        "id",
-        "annotation_id",
-    )
-    method_links: List[AnnotationMethodLink] = ListRelationship(
-        "AnnotationMethodLink",
-        "id",
-        "annotation_id",
-    )
-    authors: List[AnnotationAuthor] = ListRelationship(
-        "AnnotationAuthor",
-        "id",
-        "annotation_id",
-    )
+    annotation_shapes: List[AnnotationShape] = ListRelationship("AnnotationShape", "id", "annotation_id")
+    method_links: List[AnnotationMethodLink] = ListRelationship("AnnotationMethodLink", "id", "annotation_id")
+    authors: List[AnnotationAuthor] = ListRelationship("AnnotationAuthor", "id", "annotation_id")
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
     deposition_id: int = IntField()
     s3_metadata_path: str = StringField()
@@ -203,11 +176,7 @@ class Annotation(Model):
     last_modified_date: date = DateField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             >>> annotations = Annotation.find(client, query_filters=[Annotation.run.name == "TS_026"])
@@ -230,6 +199,7 @@ class Annotation(Model):
             >>> print(annotation.id)
         """
         return super(Annotation, cls).get_by_id(client, id)
+
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -270,8 +240,6 @@ class Annotation(Model):
                 download_metadata = True
         if download_metadata:
             self.download_metadata(dest_path)
-
-
 class AnnotationAuthor(Model):
     """Metadata for an annotation's authors
 
@@ -309,11 +277,7 @@ class AnnotationAuthor(Model):
     primary_author_status: bool = BooleanField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             >>> annotation_authors = AnnotationAuthor.find(client, query_filters=[AnnotationAuthor.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationAuthor.annotation.object_name.ilike('%membrane%')])
@@ -337,11 +301,10 @@ class AnnotationAuthor(Model):
         """
         return super(AnnotationAuthor, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
-
-
 class AnnotationFile(Model):
     """Metadata for files associated with an annotation
 
@@ -367,17 +330,9 @@ class AnnotationFile(Model):
     id: int = IntField()
     alignment: Alignment = ItemRelationship("Alignment", "alignment_id", "id")
     alignment_id: int = IntField()
-    annotation_shape: AnnotationShape = ItemRelationship(
-        "AnnotationShape",
-        "annotation_shape_id",
-        "id",
-    )
+    annotation_shape: AnnotationShape = ItemRelationship("AnnotationShape", "annotation_shape_id", "id")
     annotation_shape_id: int = IntField()
-    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(
-        "TomogramVoxelSpacing",
-        "tomogram_voxel_spacing_id",
-        "id",
-    )
+    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship("TomogramVoxelSpacing", "tomogram_voxel_spacing_id", "id")
     tomogram_voxel_spacing_id: int = IntField()
     format: str = StringField()
     s3_path: str = StringField()
@@ -387,11 +342,7 @@ class AnnotationFile(Model):
     source: str = StringField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
 
@@ -414,6 +365,7 @@ class AnnotationFile(Model):
         """
         return super(AnnotationFile, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
@@ -424,8 +376,6 @@ class AnnotationFile(Model):
             download_directory(self.s3_path, recursive_prefix, dest_path)
         else:
             download_https(self.https_path, dest_path)
-
-
 class AnnotationMethodLink(Model):
     """A set of links to models, source code, documentation, etc referenced by annotation method
 
@@ -449,11 +399,7 @@ class AnnotationMethodLink(Model):
     link: str = StringField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             >>> annotation_method_links = AnnotationMethodLink.find(client, query_filters=[AnnotationMethodLink.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationMethodLink.annotation.object_name.ilike('%membrane%')])
@@ -477,11 +423,10 @@ class AnnotationMethodLink(Model):
         """
         return super(AnnotationMethodLink, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
-
-
 class AnnotationShape(Model):
     """Shapes associated with an annotation
 
@@ -499,19 +444,11 @@ class AnnotationShape(Model):
     id: int = IntField()
     annotation: Annotation = ItemRelationship("Annotation", "annotation_id", "id")
     annotation_id: int = IntField()
-    annotation_files: List[AnnotationFile] = ListRelationship(
-        "AnnotationFile",
-        "id",
-        "annotation_shape_id",
-    )
+    annotation_files: List[AnnotationFile] = ListRelationship("AnnotationFile", "id", "annotation_shape_id")
     shape_type: str = StringField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             >>> annotation_shapes = AnnotationShape.find(client, query_filters=[AnnotationShape.annotation.run.name._in(['TS_026', 'TS_027']), AnnotationShape.annotation.object_name.ilike('%membrane%')])
@@ -535,11 +472,10 @@ class AnnotationShape(Model):
         """
         return super(AnnotationShape, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
-
-
 class Dataset(Model):
     """A collection of imaging experiments on the same organism
 
@@ -584,11 +520,7 @@ class Dataset(Model):
     id: int = IntField()
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
     deposition_id: int = IntField()
-    funding_sources: List[DatasetFunding] = ListRelationship(
-        "DatasetFunding",
-        "id",
-        "dataset_id",
-    )
+    funding_sources: List[DatasetFunding] = ListRelationship("DatasetFunding", "id", "dataset_id")
     authors: List[DatasetAuthor] = ListRelationship("DatasetAuthor", "id", "dataset_id")
     runs: List[Run] = ListRelationship("Run", "id", "dataset_id")
     title: str = StringField()
@@ -619,11 +551,7 @@ class Dataset(Model):
     file_size: float = FloatField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
 
@@ -646,6 +574,7 @@ class Dataset(Model):
         """
         return super(Dataset, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
@@ -658,8 +587,6 @@ class Dataset(Model):
         """
         recursive_prefix = "/".join(self.s3_prefix.strip("/").split("/")[:-1]) + "/"
         download_directory(self.s3_prefix, recursive_prefix, dest_path)
-
-
 class DatasetAuthor(Model):
     """An author of a dataset
 
@@ -697,11 +624,7 @@ class DatasetAuthor(Model):
     primary_author_status: bool = BooleanField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             Filter dataset authors by attributes, including attributes in related models:
@@ -727,11 +650,10 @@ class DatasetAuthor(Model):
         """
         return super(DatasetAuthor, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
-
-
 class DatasetFunding(Model):
     """Metadata for a dataset's funding sources
 
@@ -753,11 +675,7 @@ class DatasetFunding(Model):
     grant_id: str = StringField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             Filter dataset fundings by attributes, including attributes in related models:
@@ -783,11 +701,10 @@ class DatasetFunding(Model):
         """
         return super(DatasetFunding, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
-
-
 class Deposition(Model):
     """Deposition metadata
 
@@ -817,17 +734,9 @@ class Deposition(Model):
     _gql_root_field: str = "depositions"
 
     id: int = IntField()
-    authors: List[DepositionAuthor] = ListRelationship(
-        "DepositionAuthor",
-        "id",
-        "deposition_id",
-    )
+    authors: List[DepositionAuthor] = ListRelationship("DepositionAuthor", "id", "deposition_id")
     alignments: List[Alignment] = ListRelationship("Alignment", "id", "deposition_id")
-    annotations: List[Annotation] = ListRelationship(
-        "Annotation",
-        "id",
-        "deposition_id",
-    )
+    annotations: List[Annotation] = ListRelationship("Annotation", "id", "deposition_id")
     datasets: List[Dataset] = ListRelationship("Dataset", "id", "deposition_id")
     frames: List[Frame] = ListRelationship("Frame", "id", "deposition_id")
     tiltseries: List[TiltSeries] = ListRelationship("TiltSeries", "id", "deposition_id")
@@ -835,11 +744,7 @@ class Deposition(Model):
     title: str = StringField()
     description: str = StringField()
     tag: str = StringField()
-    deposition_types: List[DepositionType] = ListRelationship(
-        "DepositionType",
-        "id",
-        "deposition_id",
-    )
+    deposition_types: List[DepositionType] = ListRelationship("DepositionType", "id", "deposition_id")
     deposition_publications: str = StringField()
     related_database_entries: str = StringField()
     deposition_date: date = DateField()
@@ -849,11 +754,7 @@ class Deposition(Model):
     key_photo_thumbnail_url: str = StringField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
 
@@ -876,11 +777,10 @@ class Deposition(Model):
         """
         return super(Deposition, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
-
-
 class DepositionAuthor(Model):
     """Authors for a deposition
 
@@ -918,11 +818,7 @@ class DepositionAuthor(Model):
     primary_author_status: bool = BooleanField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
 
@@ -945,11 +841,10 @@ class DepositionAuthor(Model):
         """
         return super(DepositionAuthor, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
-
-
 class DepositionType(Model):
     """None
 
@@ -969,11 +864,7 @@ class DepositionType(Model):
     type: str = StringField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
 
@@ -996,11 +887,10 @@ class DepositionType(Model):
         """
         return super(DepositionType, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
-
-
 class Frame(Model):
     """None
 
@@ -1014,6 +904,7 @@ class Frame(Model):
         accumulated_dose (float): The total accumulated dose exposure frame
         exposure_dose (float): The dose exposure of this frame
         is_gain_corrected (bool): Whether this frame has been gain corrected
+        per_section_parameters (List[PerSectionParameters]): The per section parameters of this frame
         s3_frame_path (str): S3 path to the frame file
         https_frame_path (str): HTTPS path to the frame file
         file_size (float): Size of the frame file in bytes
@@ -1031,16 +922,13 @@ class Frame(Model):
     accumulated_dose: float = FloatField()
     exposure_dose: float = FloatField()
     is_gain_corrected: bool = BooleanField()
+    per_section_parameters: List[PerSectionParameters] = ListRelationship("PerSectionParameters", "id", "frame_id")
     s3_frame_path: str = StringField()
     https_frame_path: str = StringField()
     file_size: float = FloatField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             >>> frames = Frame.find(client, query_filters=[Frame.run.name == "TS_026"])
@@ -1064,11 +952,10 @@ class Frame(Model):
         """
         return super(Frame, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
-
-
 class FrameAcquisitionFile(Model):
     """References to files containing more information about frame acquisition
 
@@ -1090,11 +977,7 @@ class FrameAcquisitionFile(Model):
     https_mdoc_path: str = StringField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             >>> frame_acquisition_files = FrameAcquisitionFile.find(client, query_filters=[FrameAcquisitionFile.run.name == "TS_026"])
@@ -1118,11 +1001,10 @@ class FrameAcquisitionFile(Model):
         """
         return super(FrameAcquisitionFile, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
-
-
 class GainFile(Model):
     """Gain values for frames in this run
 
@@ -1144,11 +1026,7 @@ class GainFile(Model):
     https_file_path: str = StringField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             >>> gain_files = GainFile.find(client, query_filters=[GainFile.run.name == "TS_026"])
@@ -1172,11 +1050,10 @@ class GainFile(Model):
         """
         return super(GainFile, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
-
-
 class PerSectionAlignmentParameters(Model):
     """Map alignment parameters to tilt series frames
 
@@ -1206,11 +1083,7 @@ class PerSectionAlignmentParameters(Model):
     tilt_angle: float = FloatField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
 
@@ -1233,11 +1106,77 @@ class PerSectionAlignmentParameters(Model):
         """
         return super(PerSectionAlignmentParameters, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
+class PerSectionParameters(Model):
+    """Map individual Frames to a Tiltseries
+
+    Attributes:
+        id (int): Numeric identifier (May change!)
+        astigmatic_angle (float): Angle (in degrees) from reciprocal space X axis to the major axis of defocus.
+        frame (Frame): The frame this per section parameters is a part of
+        frame_id (int): None
+        major_defocus (float): Defocus (major axis) estimated for this tilt image in Angstrom (underfocus has positive sign).
+        max_resolution (float): Maximum resolution of the frame
+        minor_defocus (float): Defocus (minor axis) estimated for this tilt image in Angstrom (underfocus has positive sign).
+        phase_shift (float): Phase shift estimated for this tilt image in degrees.
+        raw_angle (float): Nominal tilt angle for this tilt image reported by the microscope.
+        run (Run): The run this per section parameters is a part of
+        run_id (int): None
+        tiltseries (TiltSeries): The tilt series this per section parameters is a part of
+        tiltseries_id (int): None
+        z_index (int): Index (0-based) of this tilt image in the tilt series stack.
+    """
+
+    _gql_type: str = "PerSectionParameters"
+    _gql_root_field: str = "perSectionParameters"
+
+    id: int = IntField()
+    astigmatic_angle: float = FloatField()
+    frame: Frame = ItemRelationship("Frame", "frame_id", "id")
+    frame_id: int = IntField()
+    major_defocus: float = FloatField()
+    max_resolution: float = FloatField()
+    minor_defocus: float = FloatField()
+    phase_shift: float = FloatField()
+    raw_angle: float = FloatField()
+    run: Run = ItemRelationship("Run", "run_id", "id")
+    run_id: int = IntField()
+    tiltseries: TiltSeries = ItemRelationship("TiltSeries", "tiltseries_id", "id")
+    tiltseries_id: int = IntField()
+    z_index: int = IntField()
+
+    @classmethod
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
+        """
+        Examples:
+            >>> per_section_parameters = PerSectionParameters.find(client, query_filters=[PerSectionParameters.run.name == "TS_026"])
+
+            Get all results for this type:
+
+            >>> per_section_parameters = PerSectionParameters.find(client)
+        """
+        return super(PerSectionParameters, cls).find(client, query_filters)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, client: Client, id: int):
+        """
+        Examples:
+            Get an PerSectionParameters by ID:
+
+            >>> per_section_parameters = PerSectionParameters.get_by_id(client, 1)
+            >>> print(per_section_parameters.id)
+        """
+        return super(PerSectionParameters, cls).get_by_id(client, id)
 
 
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
 class Run(Model):
     """None
 
@@ -1250,6 +1189,7 @@ class Run(Model):
         frames (List[Frame]): The frames of this run
         gain_files (List[GainFile]): The gain files of this run
         frame_acquisition_files (List[FrameAcquisitionFile]): The frame acquisition files of this run
+        per_section_parameters (List[PerSectionParameters]): The per section parameters of this run
         tiltseries (List[TiltSeries]): The tilt series of this run
         tomogram_voxel_spacings (List[TomogramVoxelSpacing]): The tomogram voxel spacings of this run
         tomograms (List[Tomogram]): The tomograms of this run
@@ -1268,28 +1208,17 @@ class Run(Model):
     dataset_id: int = IntField()
     frames: List[Frame] = ListRelationship("Frame", "id", "run_id")
     gain_files: List[GainFile] = ListRelationship("GainFile", "id", "run_id")
-    frame_acquisition_files: List[FrameAcquisitionFile] = ListRelationship(
-        "FrameAcquisitionFile",
-        "id",
-        "run_id",
-    )
+    frame_acquisition_files: List[FrameAcquisitionFile] = ListRelationship("FrameAcquisitionFile", "id", "run_id")
+    per_section_parameters: List[PerSectionParameters] = ListRelationship("PerSectionParameters", "id", "run_id")
     tiltseries: List[TiltSeries] = ListRelationship("TiltSeries", "id", "run_id")
-    tomogram_voxel_spacings: List[TomogramVoxelSpacing] = ListRelationship(
-        "TomogramVoxelSpacing",
-        "id",
-        "run_id",
-    )
+    tomogram_voxel_spacings: List[TomogramVoxelSpacing] = ListRelationship("TomogramVoxelSpacing", "id", "run_id")
     tomograms: List[Tomogram] = ListRelationship("Tomogram", "id", "run_id")
     name: str = StringField()
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             Filter runs by attributes, including attributes in related models:
@@ -1316,6 +1245,7 @@ class Run(Model):
         """
         return super(Run, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
@@ -1334,8 +1264,6 @@ class Run(Model):
             self.s3_prefix,
             dest_path,
         )
-
-
 class TiltSeries(Model):
     """None
 
@@ -1362,6 +1290,7 @@ class TiltSeries(Model):
         microscope_phase_plate (str): Phase plate configuration
         microscope_image_corrector (str): Image corrector setup
         microscope_additional_info (str): Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
+        per_section_parameters (List[PerSectionParameters]): The per section parameters of this tilt series
         camera_manufacturer (str): Name of the camera manufacturer
         camera_model (str): Camera model name
         tilt_min (float): Minimal tilt angle in degrees
@@ -1408,6 +1337,7 @@ class TiltSeries(Model):
     microscope_phase_plate: str = StringField()
     microscope_image_corrector: str = StringField()
     microscope_additional_info: str = StringField()
+    per_section_parameters: List[PerSectionParameters] = ListRelationship("PerSectionParameters", "id", "tiltseries_id")
     camera_manufacturer: str = StringField()
     camera_model: str = StringField()
     tilt_min: float = FloatField()
@@ -1429,11 +1359,7 @@ class TiltSeries(Model):
     size_z: int = IntField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             >>> tilt_series = TiltSeries.find(client, query_filters=[TiltSeries.run.name == "TS_026"])
@@ -1456,6 +1382,7 @@ class TiltSeries(Model):
             >>> print(tilt_series.id)
         """
         return super(TiltSeries, cls).get_by_id(client, id)
+
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1497,8 +1424,6 @@ class TiltSeries(Model):
         """
         url = self.https_mrc_file
         download_https(url, dest_path)
-
-
 class Tomogram(Model):
     """Metadata describing a tomogram.
 
@@ -1556,20 +1481,12 @@ class Tomogram(Model):
     id: int = IntField()
     alignment: Alignment = ItemRelationship("Alignment", "alignment_id", "id")
     alignment_id: int = IntField()
-    authors: List[TomogramAuthor] = ListRelationship(
-        "TomogramAuthor",
-        "id",
-        "tomogram_id",
-    )
+    authors: List[TomogramAuthor] = ListRelationship("TomogramAuthor", "id", "tomogram_id")
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
     deposition_id: int = IntField()
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
-    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(
-        "TomogramVoxelSpacing",
-        "tomogram_voxel_spacing_id",
-        "id",
-    )
+    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship("TomogramVoxelSpacing", "tomogram_voxel_spacing_id", "id")
     tomogram_voxel_spacing_id: int = IntField()
     name: str = StringField()
     size_x: int = IntField()
@@ -1608,11 +1525,7 @@ class Tomogram(Model):
     last_modified_date: date = DateField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             >>> tomograms = Tomogram.find(client, query_filters=[Tomogram.run.name == "TS_026"])
@@ -1635,6 +1548,7 @@ class Tomogram(Model):
             >>> print(tomogram.name)
         """
         return super(Tomogram, cls).get_by_id(client, id)
+
 
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
@@ -1671,24 +1585,19 @@ class Tomogram(Model):
             shape (Optional[str], optional): Choose a specific shape type to download (e.g.: OrientedPoint, SegmentationMask)
             format (Optional[str], optional): Choose a specific file format to download (e.g.: mrc, ndjson)
         """
-        filters = [
-            AnnotationFile.tomogram_voxel_spacing_id == self.tomogram_voxel_spacing_id,
-            AnnotationFile.alignment_id == self.alignment_id,
-        ]
+        filters = [AnnotationFile.tomogram_voxel_spacing_id == self.tomogram_voxel_spacing_id, AnnotationFile.alignment_id == self.alignment_id]
         if shape:
             filters.append(AnnotationFile.annotation_shape.shape_type == shape)
         if format:
             filters.append(AnnotationFile.format == format)
         anno_files = AnnotationFile.find(self._client, filters)
-        downloaded_metadata = set()
+        downloaded_metadata = set([])
         for file in anno_files:
             file.download(dest_path)
             annotation_id = file.annotation_shape.annotation_id
             if annotation_id not in downloaded_metadata:
                 downloaded_metadata.add(annotation_id)
                 file.annotation_shape.annotation.download_metadata(dest_path)
-
-
 class TomogramAuthor(Model):
     """Author of a tomogram
 
@@ -1726,11 +1635,7 @@ class TomogramAuthor(Model):
     primary_author_status: bool = BooleanField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
 
@@ -1753,11 +1658,10 @@ class TomogramAuthor(Model):
         """
         return super(TomogramAuthor, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
-
-
 class TomogramVoxelSpacing(Model):
     """Voxel spacings for a run
 
@@ -1776,28 +1680,16 @@ class TomogramVoxelSpacing(Model):
     _gql_root_field: str = "tomogramVoxelSpacings"
 
     id: int = IntField()
-    annotation_files: List[AnnotationFile] = ListRelationship(
-        "AnnotationFile",
-        "id",
-        "tomogram_voxel_spacing_id",
-    )
+    annotation_files: List[AnnotationFile] = ListRelationship("AnnotationFile", "id", "tomogram_voxel_spacing_id")
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
-    tomograms: List[Tomogram] = ListRelationship(
-        "Tomogram",
-        "id",
-        "tomogram_voxel_spacing_id",
-    )
+    tomograms: List[Tomogram] = ListRelationship("Tomogram", "id", "tomogram_voxel_spacing_id")
     voxel_spacing: float = FloatField()
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
 
     @classmethod
-    def find(
-        cls,
-        client: Client,
-        query_filters: Optional[Iterable[GQLExpression]] = None,
-    ):
+    def find(cls, client: Client, query_filters: Optional[Iterable[GQLExpression]] = None):
         """
         Examples:
             >>> tomogram_voxel_spacings = TomogramVoxelSpacing.find(client, query_filters=[TomogramVoxelSpacing.run.name == "TS_026"])
@@ -1821,6 +1713,7 @@ class TomogramVoxelSpacing(Model):
         """
         return super(TomogramVoxelSpacing, cls).get_by_id(client, id)
 
+
     get_by_id.__func__.__doc__ = (
         Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
     )
@@ -1832,8 +1725,6 @@ class TomogramVoxelSpacing(Model):
             dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
         """
         download_directory(self.s3_prefix, self.run.s3_prefix, dest_path)
-
-
 Alignment.setup()
 Annotation.setup()
 AnnotationAuthor.setup()
@@ -1850,6 +1741,7 @@ Frame.setup()
 FrameAcquisitionFile.setup()
 GainFile.setup()
 PerSectionAlignmentParameters.setup()
+PerSectionParameters.setup()
 Run.setup()
 TiltSeries.setup()
 Tomogram.setup()
