@@ -13,10 +13,13 @@ You have multiple options for accessing them:
 
 - Directly using the API client by using `Alignment.per_section_alignments` (see the [PerSectionSectionAlignmentParameters class](https://chanzuckerberg.github.io/cryoet-data-portal/stable/api_reference.html#cryoet_data_portal.PerSectionAlignmentParameters)). Retrieve the metadata file on the S3 bucket using `Alignment.s3_alignment_metadata(S3-URI)` or `Alignment.https_alignment_metadata(HTTP-URL)`.
 
-- For an even more convenient way, you can use the `cryoet-alignment` python package to directly create AreTomo3- or IMOD-formatted alignment files:
+- For an even more convenient way, you can use the `cryoet-alignment` python package to directly create [AreTomo3-](https://github.com/czimaginginstitute/AreTomo3) or [IMOD-formatted](https://bio3d.colorado.edu/imod/) alignment files:
 
-Install using pip: pip install "cryoet-alignment>=0.0.10"
-Use the below snippet to download tiltseries and alignments for 10447:
+To install the `cryoet-alignment` package with pip, use: `pip install "cryoet-alignment>=0.0.10"`
+
+The below code snippet shows how to download tiltseries and alignments for dataset 10447 using the `cryoet-alignment` package:
+
+```
 import cryoet_data_portal as cdp
 import os
 from cryoet_alignment.io.cryoet_data_portal import Alignment
