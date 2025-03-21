@@ -132,7 +132,7 @@ Every class in the Data Portal API has a <Function>`find`</Function> method whic
 - <Function>`ilike`</Function> is similar to like but case-insensitive
 - <Function>`_in`</Function> accepts a list of values that are acceptable matches.
 
-The general structure of these commands is `class.find(client, query_filters=[LIST QUERIES HERE])`. For example, the script below will print the names of all runs that have "ts" in their name and more than 900 pixels in their "fast" axis.
+The general structure of these commands is `class.find(client, query_filters=[LIST QUERIES HERE])`. For example, the script below will print the names of all runs that have "ts" in their name and more than 900 pixels in their "fast" axis. Notice how method operators are used like attributes and python operators are used in expressions.
 
 ```python
 from cryoet_data_portal import Client, Run
