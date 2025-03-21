@@ -1,5 +1,5 @@
 import { Link } from 'app/components/Link'
-import { SiteLinks } from 'app/constants/siteLinks'
+import { SITE_LINKS } from 'app/constants/siteLinks'
 import { useI18n } from 'app/hooks/useI18n'
 
 export function CryoETHomeLink() {
@@ -9,7 +9,7 @@ export function CryoETHomeLink() {
     <div className="flex items-center gap-sds-s text-light-sds-color-primitive-gray-50">
       <Link
         className="text-sds-header-m-600-wide font-semibold ml-2 whitespace-nowrap"
-        to={SiteLinks.HOME}
+        to={SITE_LINKS.HOME}
       >
         {t('title')}
       </Link>

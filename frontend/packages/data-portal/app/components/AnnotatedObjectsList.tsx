@@ -2,11 +2,13 @@ import Skeleton from '@mui/material/Skeleton'
 import { range } from 'lodash-es'
 import { ReactNode } from 'react'
 
+import { MiniTag } from 'app/components/common/MiniTag/MiniTag'
 import { ANNOTATED_OBJECTS_MAX } from 'app/constants/pagination'
+import { SITE_LINKS } from 'app/constants/siteLinks'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
-import { I18n } from './I18n'
+import { Link } from './Link'
 import { Tooltip } from './Tooltip'
 
 function List({
@@ -53,7 +55,7 @@ export function AnnotatedObjectsList({
                 className="shrink-0"
                 placement="top-start"
                 sdsStyle="light"
-                offset={[0, -8]}
+                offset={[0, -10]}
                 slotProps={{
                   tooltip: {
                     style: {
@@ -61,15 +63,20 @@ export function AnnotatedObjectsList({
                     },
                   },
                 }}
-                tooltip={<I18n i18nKey="groundTruthAnnotationAvailable" />}
+                tooltip={
+                  <>
+                    {t('groundTruthAnnotationAvailable')}{' '}
+                    <Link
+                      className="cursor-pointer text-light-sds-color-primitive-blue-500 border-solid hover:border-b border-light-sds-color-primitive-blue-500"
+                      to={SITE_LINKS.GROUND_TRUTH_FLAG_DOCS}
+                      stopPropagation
+                    >
+                      {t('learnMore')}
+                    </Link>
+                  </>
+                }
               >
-                {obj[1] ? (
-                  <span className="h-18 w-18 text-[10px] text-[#0041B9] bg-[#E2EEFF] rounded-full px-[2.5px] py-[3px] tracking-[-0.3px] !font-[400]">
-                    GT
-                  </span>
-                ) : (
-                  ''
-                )}
+                {obj[1] ? <MiniTag>{t('gT')}</MiniTag> : ''}
               </Tooltip>
             </li>
           )
