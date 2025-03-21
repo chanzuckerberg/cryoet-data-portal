@@ -104,7 +104,7 @@ function ViewerPage() {
       <div className="iframe-container">
         <NeuroglancerWrapper onStateChange={updateButtons} />
       </div>
-      {run && <Tour run={run} steps={getTutorialSteps()} onJoyrideCallback={() => {}} onClose={handleTourClose}/>}
+      {run && <Tour run={run} steps={getTutorialSteps()} onClose={handleTourClose}/>}
     </div>
   )
 }
