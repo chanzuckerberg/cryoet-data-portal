@@ -42,7 +42,7 @@ pip install -U cryoet-data-portal
 
 ## API Methods Overview
 
-The Portal API has methods for searching and downloading data. **Every class** has a `find` and `get_by_id` method for selecting data, and some classes have `download...` methods for downloading the data. Below is a table of the API classes that have download methods.
+The Portal API has methods for searching and downloading data. **Every class**, except for `Client`, has a `find` and `get_by_id` method for selecting data, `to_dict()` method for converting attributes to a dictionary, and some classes have `download...` methods for downloading the data. Below is a table of the API classes that have download methods.
 
 | **Class**                                                               | **Download Methods**                                                                     |
 | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
@@ -52,6 +52,8 @@ The Portal API has methods for searching and downloading data. **Every class** h
 | {class}`TiltSeries <cryoet_data_portal.TiltSeries>`                     | `download_alignment_file`, `download_angle_list`, `download_mrcfile`, `download_omezarr` |
 | {class}`Tomogram <cryoet_data_portal.Tomogram>`                         | `download_all_annotations`, `download_mrcfile`, `download_omezarr`                       |
 | {class}`TomogramVoxelSpacing <cryoet_data_portal.TomogramVoxelSpacing>` | `download_everything`                                                                    |
+
+### `find` Method
 
 The `find` method selects data based on user-chosen queries. These queries can have python operators `==`, `!=`, `>`, `>=`, `<`, `<=`; method operators `like`, `ilike`, `_in`; and strings or numbers. The method operators are defined in the table below:
 
@@ -64,12 +66,47 @@ The `find` method selects data based on user-chosen queries. These queries can h
 The general format of using the `find` method is as follows:
 
 ```
-data_of_interest = find(client, queries)
+data_of_interest = find(client, [queries])
 ```
+Below is an example of using a python operator with the `find` method.
+
+```
+from cryoet_data_portal import Client, Tomogram
+
+# Instantiate a client, using the data portal GraphQL API by default
+client = Client()
+
+# Find all tomograms related to a specific organism
+tomos = Tomogram.find(
+    client,
+    [
+        Tomogram.run.dataset.organism_name == "Schizosaccharomyces pombe"
+    ],
+)
+```
+
+Method operators are utilized like attributes in the queries. Below is an example of using a method operator with the `find` method.
+
+```
+from cryoet_data_portal import Client, Annotation
+
+# Instantiate a client, using the data portal GraphQL API by default
+client = Client()
+
+# Find all annotations of fatty acid synthase
+results = Annotation.find(client,[Annotation.object_name.ilike('fatty acid synthase%')])
+```
+
+### `get_by_id` Method
 
 The `get_by_id` method allows you to select data using the ID found on the Portal. For example, to select the data for [Dataset 10005](https://cryoetdataportal.czscience.com/datasets/10005) on the Portal and download it into your current directory use this snippet:
 
 ```
+from cryoet_data_portal import Client, Dataset
+
+# Instantiate a client, using the data portal GraphQL API by default
+client = Client()
+
 data_10005 = Dataset.get_by_id(client, 10005)
 data_10005.download_everything()
 ```
@@ -152,7 +189,7 @@ for tomo in tomos:
     print(tomo.name)
 
     # Print the tomogram metadata as a json string
-    print(json.dumps(tomo.to_dict(), indent=4))
+    print(json.dumps(tomo.to_dict(), indent=4, default=str))
 
     # Download a tomogram in the MRC format (uncomment to actually download files)
     # tomo.download_mrcfile()

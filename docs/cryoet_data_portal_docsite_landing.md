@@ -4,7 +4,7 @@ hide-navigation: true
 
 # CryoET Data Portal | Documentation
 
-The [Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute)](https://www.czimaginginstitute.org/) has made a beta release of the [CryoET Data Portal](https://cryoetdataportal.czscience.com) providing queryable and organized data from CryoET experiments. Each of the over 15,000 tomograms on the Portal have at least one structure annotated.
+The [Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute)](https://www.czimaginginstitute.org/) has made a beta release of the [CryoET Data Portal](https://cryoetdataportal.czscience.com) providing queryable and organized data from CryoET experiments. Each of the nearly 20,000 tomograms on the Portal have at least one structure annotated.
 
 ```{button-ref} data-organization
 :color: primary
@@ -72,7 +72,7 @@ Refer to [this how-to guide](download-data) for information on downloading data 
 
 ## Citing the CryoET Data Portal
 
-Data from the portal must acknowledge the data providers and the original publications. The following is provided as an example:
+Work using data from the portal must acknowledge the data providers and the original publications. The following is provided as an example:
 
 Some of the data used in this work was provided by the group(s) of Julia Mahamid (EMBL)/Jürgen Plitzko (MPI) [see [beta site](https://cryoetdataportal.czscience.com) for current details]. The work is described more fully in the publication:
 

@@ -31,7 +31,7 @@ aws s3 sync --no-sign-request [S3 bucket URL] [Local destination path]
 For example, to download a particular JSON file of tomogram metadata into a folder called "Downloads" use:
 
 ```
-aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
+aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10162/ycw2012-03-12-3/Reconstructions/VoxelSpacing15.480/Tomograms/100/tomogram_metadata.json ~/Downloads/
 ```
 
 In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files. To speed up download, you can follow [these instructions to optimize download speed](#optimize-download-speed).
@@ -94,13 +94,13 @@ PRE 10004/
 To download a file, We can use the `s3` and `cp`(for single files) or `sync`(for multiple files) as the `<command>` and `<subcommand>`, respectively. The basic structure of this command is `aws s3 cp --no-sign-request [s3 bucket URL] [Local destination path]` (for single file download) or `aws s3 sync --no-sign-request [s3 bucket URL] [Local destination path]` (for multiple file download) , where the `Local destination path` is wherever you'd like the file to be downloaded. For example, to download a particular single JSON file of tomogram metadata into a folder called "Downloads" use:
 
 ```
-aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json ~/Downloads/
+aws s3 cp --no-sign-request s3://cryoet-data-portal-public/10162/ycw2012-03-12-3/Reconstructions/VoxelSpacing15.480/Tomograms/100/tomogram_metadata.json ~/Downloads/
 ```
 
 The file should appear in your specified directory and the output in terminal / command prompt should be something like:
 
 ```
-download: s3://cryoet-data-portal-public/10000/TS_026/Tomograms/VoxelSpacing13.48/CanonicalTomogram/tomogram_metadata.json to ./tomogram_metadata.json
+download: s3://cryoet-data-portal-public/10162/ycw2012-03-12-3/Reconstructions/VoxelSpacing15.480/Tomograms/100/tomogram_metadata.json to ./tomogram_metadata.json
 ```
 
 In the above example, the download happened very quickly because the file was only about 1 kB in size. However, typical tomograms are multiple GB, so expect downloading to take 30-60 mins for a single tomogram for a given run, but downloading could take as long as days depending on the number and sizes of the files.
