@@ -10,6 +10,8 @@ import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from "app/components/MenuItemLink";
 import { CustomDropdown, CustomDropdownSection, CustomDropdownOption } from '../common/CustomDropdown'
 import { ABOUT_LINKS, HELP_AND_REPORT_LINKS, NEUROGLANCER_HELP_LINKS } from '../Layout/constants'
+import Tour from './Tour'
+import { getTutorialSteps } from './steps';
 import { useI18n } from 'app/hooks/useI18n'
 
 // Button action for toggling layers visibility
@@ -57,9 +59,19 @@ function ViewerPage({ run } : { run: any }) {
     hasAnnotationLayers(currentState()),
   )
   const [annotations, setAnnotations] = useState<any>([])
+  const [tourOpen, setTourOpen] = useState(false);
 
   const updateButtons = (state: any) => {
     setHasAnnotations(hasAnnotationLayers(state))
+  }
+
+  const handleTutorialStart = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    setTourOpen(true)
+  }
+
+  const handleTourClose = () => {
+    setTourOpen(false)
   }
 
   useEffect(() => {
@@ -159,6 +171,7 @@ function ViewerPage({ run } : { run: any }) {
       <div className="iframe-container">
         <NeuroglancerWrapper onStateChange={updateButtons} />
       </div>
+      {run && <Tour run={tourOpen} steps={getTutorialSteps()} onClose={handleTourClose}/>}
     </div>
   )
 }
