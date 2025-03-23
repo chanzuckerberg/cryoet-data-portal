@@ -31,6 +31,13 @@ export function TopNavigation() {
     ? TOP_LEVEL_LINKS
     : TOP_LEVEL_LINKS_COMPETITION
 
+  const isItNeuroglancerPage = pathname.includes("/view/runs/");
+
+  if (isItNeuroglancerPage) {
+    return null;
+  }
+
+  
   return (
     <nav
       className={cns(

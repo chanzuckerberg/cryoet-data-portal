@@ -78,3 +78,14 @@ export const HELP_AND_REPORT_LINKS: NavLink[] = [
     link: `${REPO}/discussions`,
   },
 ]
+
+export const NEUROGLANCER_HELP_LINKS: NavLink[] = [
+  {
+    label: 'goToNeuroglancerDocumentation',
+    link: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/neuroglancer_quickstart.html#neuroglancer-quickstart',
+  },
+  {
+    label: 'neuroglancerWalkthrough',
+    link: '#',
+  },
+]
