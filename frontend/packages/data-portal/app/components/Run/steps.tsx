@@ -22,17 +22,33 @@ const keyboardShortcuts = [
 ]
 
 const getIframeElement = (selector: string): HTMLElement | string => {
-  const iframe = document.querySelector('iframe')
+  const iframe = document.querySelector('iframe');
   if (iframe?.contentDocument) {
-    return iframe.contentDocument.querySelector(selector) as HTMLElement | 'body'
+    const element = iframe.contentDocument.querySelector(selector) as HTMLElement;
+    if (element) {
+      const rect = element.getBoundingClientRect();
+      const iframeRect = iframe.getBoundingClientRect();
+
+      const proxyElement = document.createElement('div');
+      proxyElement.style.position = 'absolute';
+      proxyElement.style.top = `${rect.top + iframeRect.top}px`;
+      proxyElement.style.left = `${rect.left + iframeRect.left}px`;
+      proxyElement.style.width = `${rect.width}px`;
+      proxyElement.style.height = `${rect.height}px`;
+      proxyElement.style.zIndex = '-1';
+
+      document.body.appendChild(proxyElement);
+      return proxyElement;
+    }
   }
-  return 'body'
-}
+  return 'body';
+};
 
 export const getTutorialSteps: () => Step[] = () => [
   {
     target: '.neuroglancer-iframe',
     placement: 'center',
+    disableBeacon: true,
     title: 'Exploring CryoET Data in Neuroglancer',
     content: (
       <StepContent variant='default'>
@@ -54,7 +70,7 @@ export const getTutorialSteps: () => Step[] = () => [
   {
     target: getIframeElement('.neuroglancer-layer-group-viewer .neuroglancer-panel'),
     title: 'Main viewport',
-    placement: 'right-start',
+    placement: 'left-start',
     content: (
       <StepContent variant='compact'>
         <div className="text-[#767676]">
@@ -71,7 +87,7 @@ export const getTutorialSteps: () => Step[] = () => [
   {
     target: getIframeElement('.neuroglancer-rendered-data-panel'),
     title: 'Essential controls',
-    placement: 'bottom-start',
+    placement: 'left-end',
     content: (
       <StepContent variant='simple'>
         <div className='mt-4 mb-4'></div>
@@ -85,7 +101,7 @@ export const getTutorialSteps: () => Step[] = () => [
   {
     target: getIframeElement('.neuroglancer-rendered-data-panel'),
     title: 'Keyboard shortcuts',
-    placement: 'bottom-start',
+    placement: 'left-end',
     content: (
       <StepContent variant='simple'>
         <div className='mt-4 mb-4'></div>
@@ -129,6 +145,7 @@ export const getTutorialSteps: () => Step[] = () => [
   {
     target: getIframeElement('.neuroglancer-viewer-top-row'),
     title: 'Controls top panel',
+    placement: 'bottom-end',
     content: (
       <StepContent variant='minimal'>
         <p className='text-[#767676] flex flex-col gap-4'>

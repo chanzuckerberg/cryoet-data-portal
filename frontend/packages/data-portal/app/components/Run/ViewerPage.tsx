@@ -9,7 +9,8 @@ import { Button } from '@czi-sds/components'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from "app/components/MenuItemLink";
 import { CustomDropdown, CustomDropdownSection, CustomDropdownOption } from '../common/CustomDropdown'
-import { ABOUT_LINKS, HELP_AND_REPORT_LINKS, NEUROGLANCER_HELP_LINKS } from '../Layout/constants'
+import { ABOUT_LINKS, HELP_AND_REPORT_LINKS, NEUROGLANCER_DOC_LINK } from '../Layout/constants'
+import { ACTIONS } from 'react-joyride'
 import Tour from './Tour'
 import { getTutorialSteps } from './steps';
 import { useI18n } from 'app/hooks/useI18n'
@@ -59,7 +60,8 @@ function ViewerPage({ run } : { run: any }) {
     hasAnnotationLayers(currentState()),
   )
   const [annotations, setAnnotations] = useState<any>([])
-  const [tourOpen, setTourOpen] = useState(false);
+  const [tourRunning, setTourRunning] = useState(false);
+  const [stepIndex, setStepIndex] = useState<number>(0);
 
   const updateButtons = (state: any) => {
     setHasAnnotations(hasAnnotationLayers(state))
@@ -67,12 +69,24 @@ function ViewerPage({ run } : { run: any }) {
 
   const handleTutorialStart = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    setTourOpen(true)
+    setTourRunning(true)
   }
 
   const handleTourClose = () => {
-    setTourOpen(false)
+    setTourRunning(false)
   }
+
+  const handleTourStepMove = (index: number, action: (typeof ACTIONS)[keyof typeof ACTIONS]) => {
+    setStepIndex(index + (action === ACTIONS.PREV ? -1 : 1)); 
+  }
+
+  const handleRestart = () => {
+    setTourRunning(false)
+    setTimeout(() => {
+      setStepIndex(0)
+      setTourRunning(true)
+    }, 300)
+  };
 
   useEffect(() => {
     const filteredAnnotations = state.layers.filter((layer: any) => layer.type === "annotation");
@@ -158,11 +172,12 @@ function ViewerPage({ run } : { run: any }) {
                 ))}
               </CustomDropdownSection>
               <CustomDropdownSection title="Neuroglancer help">
-                {NEUROGLANCER_HELP_LINKS.map((option) => (
-                  <MenuItemLink key={option.label} to={option.link}>
-                    {t(option.label)}
-                  </MenuItemLink>
-                ))}
+                <MenuItemLink to={NEUROGLANCER_DOC_LINK}>
+                  {t('goToNeuroglancerDocumentation')}
+                </MenuItemLink>
+                <button type="button" className="py-1.5 px-2" onClick={handleTutorialStart}>
+                  {t('neuroglancerWalkthrough')}
+                </button>
               </CustomDropdownSection>
             </CustomDropdown>
           </div>
@@ -171,7 +186,7 @@ function ViewerPage({ run } : { run: any }) {
       <div className="iframe-container">
         <NeuroglancerWrapper onStateChange={updateButtons} />
       </div>
-      {run && <Tour run={tourOpen} steps={getTutorialSteps()} onClose={handleTourClose}/>}
+      {run && <Tour run={tourRunning} stepIndex={stepIndex} steps={getTutorialSteps()} onRestart={handleRestart} onClose={handleTourClose} onMove={handleTourStepMove}/>}
     </div>
   )
 }
