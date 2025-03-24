@@ -171,7 +171,7 @@ The tilt series quality score/rating is a relative subjective scale meant for co
 :collapsible:
 The dataset identifier in the API refers to the Portal ID provided in the Portal. This number is assigned by the Data Portal as a unique identifier for a dataset and is used as the directory name in the data filetree. Note that when using the Portal API only the numeric part of the dataset ID should be used.
 
-Descriptions of all terminology and metadata used in the Portal is provided [here](api_reference).
+Descriptions of all terminology and metadata used in the Portal is provided [in the API Reference page](api_reference).
 :::
 
 :::{admonition} How do I contribute data to the Portal? <a class="headerlink" href="#contribute-data" title="Permalink to this question">¶</a>

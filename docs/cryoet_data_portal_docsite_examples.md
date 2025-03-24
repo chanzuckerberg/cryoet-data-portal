@@ -11,7 +11,7 @@ Alignment files are stored in the database, as well as in metadata-files on S3.
 
 You have multiple options for accessing them:
 
-- Directly using the API client by using `Alignment.per_section_alignments` (see the [PerSectionSectionAlignmentParameters class](api_reference#cryoet_data_portal.PerSectionAlignmentParameters)). Retrieve the metadata file on the S3 bucket using `Alignment.s3_alignment_metadata(S3-URI)` or `Alignment.https_alignment_metadata(HTTP-URL)`.
+- Directly using the API client by using `Alignment.per_section_alignments` (see the {class}`PerSectionSectionAlignmentParameters class <cryoet_data_portal.PerSectionAlignmentParameters>`). Retrieve the metadata file on the S3 bucket using `Alignment.s3_alignment_metadata(S3-URI)` or `Alignment.https_alignment_metadata(HTTP-URL)`.
 
 - For an even more convenient way, you can use the `cryoet-alignment` python package to directly create [AreTomo3-](https://github.com/czimaginginstitute/AreTomo3) or [IMOD-formatted](https://bio3d.colorado.edu/imod/) alignment files:
 

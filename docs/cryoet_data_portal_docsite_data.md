@@ -182,7 +182,7 @@ Runs are downloaded as folders named the author-chosen run name. As shown in the
 
 ## Tilt Series
 
-Please refer to our educational article about [CryoET Data Collection](cryoet_workflow#data-collection) for a detailed description of tilt series. Each tilt series has a Tilt Series ID, which is assigned by the Portal and is subject to change in the rare case where the tilt series data needs to be re-ingested in the Portal. Tilt Series IDs start with TS (e.g. TS-12345; note that only the numeric part is supported in the API).
+Please refer to our educational article about [CryoET Data Collection](./cryoet_workflow.md#data-collection) for a detailed description of tilt series. Each tilt series has a Tilt Series ID, which is assigned by the Portal and is subject to change in the rare case where the tilt series data needs to be re-ingested in the Portal. Tilt Series IDs start with TS (e.g. TS-12345; note that only the numeric part is supported in the API).
 
 ### Frames
 When acquiring tilted projections of a sample as part of a CryoET tilt series acquisition, one actually acquires a movie at each tilt (stored as so-called “movie stacks” or “frame stacks”) so that beam induced motion can be corrected after acquisition by compensating translations and warping. Upon correction, these frames are summed to form a single image at each tilt angle, and the collection of images is referred to as the tilt series. Usually, each run of a CryoET dataset will have 30-50 frame stacks of 5-100 frames associated with it, where the number of stacks is the same as the number of tilts during acquisition. Acquisition metadata are stored in MDOC-files, which are text-based with one section per frame stack. 
@@ -190,12 +190,12 @@ When acquiring tilted projections of a sample as part of a CryoET tilt series ac
 When available, the `Frames` folder in a downloaded run contains the raw frame images, acquisition metadata MDOC file, and an additional metadata file in JSON format.
 
 ### Gains
-Individual pixels or whole sectors of the direct electron detector used in [CryoET Data Acquisition](intro_cryoet#electron) can have different responses to the same incident signal. In order to control for this uneven detector response, an image is acquired without any sample in the beam path. This flat-field image, called a “gain reference”, allows correction of the recorded signal in the images acquired of a real sample. A single gain reference can be applicable to multiple runs of a cryoET dataset.
+Individual pixels or whole sectors of the direct electron detector used in [CryoET Data Acquisition](./intro_cryoet.md#electron) can have different responses to the same incident signal. In order to control for this uneven detector response, an image is acquired without any sample in the beam path. This flat-field image, called a “gain reference”, allows correction of the recorded signal in the images acquired of a real sample. A single gain reference can be applicable to multiple runs of a cryoET dataset.
 
 When available, the `Gains` folder in a downloaded run contains the gain reference image.
 
 ### Tilt Series Assembly
-The raw frame stacks from image acquisition are motion corrected and averaged at each tilt angle to form the tilt series. Please refer to our educational article about [CryoET Data Collection](cryoet_workflow#data-collection) for a detailed description of tilt series assembly from the raw frame stacks. 
+The raw frame stacks from image acquisition are motion corrected and averaged at each tilt angle to form the tilt series. Please refer to our educational article about [CryoET Data Collection](./cryoet_workflow.md#data-collection) for a detailed description of tilt series assembly from the raw frame stacks. 
 
 When available, the `TiltSeries` folder in a downloaded run contains the tilt series images in MRC and OME-Zarr file format, tilt series metadata JSON file, and the rawtlt file. The rawtlt file contains a list of the tilt angles from image acquisition and is used by downstream programs for alignment and tomogram reconstruction. 
 
@@ -212,7 +212,7 @@ The tilt series quality score is found on Dataset Overview pages in the run tabl
 | 1      | Low       | Not useful for analysis with current tools (not alignable), useful as a test case for problematic data only.|
 
 ## Tomograms
-Please refer to our educational article about [CryoET Data Processing](cryoet_workflow#image-preprocessing) for a high level description of how tomograms are reconstructed from tilt series. Part of the tomogram reconstruction process, involves aligning the tilt series and correcting it using an estimated contrast transfer function (CTF). A detailed article on this process is coming soon. On the Portal, alignnment metadata JSON files are available for every tomogram, and these files contain the affine transformation matrix along with information such as the alignment type (e.g. local vs global).
+Please refer to our educational article about [CryoET Data Processing](./cryoet_workflow.md#image-preprocessing) for a high level description of how tomograms are reconstructed from tilt series. Part of the tomogram reconstruction process, involves aligning the tilt series and correcting it using an estimated contrast transfer function (CTF). A detailed article on this process is coming soon. On the Portal, alignnment metadata JSON files are available for every tomogram, and these files contain the affine transformation matrix along with information such as the alignment type (e.g. local vs global).
 
 Tomograms are summarized in a table on Run Overview pages. Note that by default the Annotations table is displayed on the Run Overview pages, but you can toggle to the Tomograms table by clicking the tab above the table. Each tomogram has a Tomogram ID, which is assigned by the Portal and is subject to change in the rare case where the tomogram data needs to be re-ingested in the Portal. Tomogram IDs start with TM (e.g. TM-6091; note that only the numeric part is supported in the API).
 
