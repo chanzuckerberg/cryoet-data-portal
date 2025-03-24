@@ -281,6 +281,7 @@ class AnnotationAuthor(Model):
         annotation_id (int): None
         author_list_order (int): The order in which the author appears in the publication
         orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
+        kaggle_id (str): A unique, persistent identifier for kaggle users at kaggle.com.
         name (str): Full name of an annotation author (e.g. Jane Doe).
         email (str): Email address for this author
         affiliation_name (str): Name of the institution an annotator is affiliated with. Sometimes, one annotator may have multiple affiliations.
@@ -298,6 +299,7 @@ class AnnotationAuthor(Model):
     annotation_id: int = IntField()
     author_list_order: int = IntField()
     orcid: str = StringField()
+    kaggle_id: str = StringField()
     name: str = StringField()
     email: str = StringField()
     affiliation_name: str = StringField()
@@ -353,6 +355,7 @@ class AnnotationFile(Model):
         tomogram_voxel_spacing_id (int): None
         format (str): File format for this file
         s3_path (str): s3 path of the annotation file
+        file_size (float): Size of annota file in bytes
         https_path (str): HTTPS path for this annotation file
         is_visualization_default (bool): Data curator’s subjective choice of default annotation to display in visualization for an object
         source (str): The source type for the annotation file (dataset_author, community, or portal_standard)
@@ -378,6 +381,7 @@ class AnnotationFile(Model):
     tomogram_voxel_spacing_id: int = IntField()
     format: str = StringField()
     s3_path: str = StringField()
+    file_size: float = FloatField()
     https_path: str = StringField()
     is_visualization_default: bool = BooleanField()
     source: str = StringField()
@@ -571,6 +575,7 @@ class Dataset(Model):
         related_database_entries (str): If a CryoET dataset is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.
         s3_prefix (str): The S3 public bucket path where this dataset is contained
         https_prefix (str): The https directory path where this dataset is contained
+        file_size (float): Size of the dataset in bytes
     """
 
     _gql_type: str = "Dataset"
@@ -611,6 +616,7 @@ class Dataset(Model):
     related_database_entries: str = StringField()
     s3_prefix: str = StringField()
     https_prefix: str = StringField()
+    file_size: float = FloatField()
 
     @classmethod
     def find(
@@ -663,7 +669,8 @@ class DatasetAuthor(Model):
         dataset_id (int): None
         author_list_order (int): The order in which the author appears in the publication
         orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
-        name (str): Full name of an author (e.g. Jane Doe).
+        kaggle_id (str): A unique, persistent identifier for kaggle users at kaggle.com.
+        name (str): Full name of a dataset author (e.g. Jane Doe).
         email (str): Email address for this author
         affiliation_name (str): Name of the institutions an author is affiliated with. Comma separated
         affiliation_address (str): Address of the institution an author is affiliated with.
@@ -680,6 +687,7 @@ class DatasetAuthor(Model):
     dataset_id: int = IntField()
     author_list_order: int = IntField()
     orcid: str = StringField()
+    kaggle_id: str = StringField()
     name: str = StringField()
     email: str = StringField()
     affiliation_name: str = StringField()
@@ -794,6 +802,7 @@ class Deposition(Model):
         tomograms (List[Tomogram]): The tomograms of this deposition
         title (str): Title for the deposition
         description (str): Description for the deposition
+        tag (str): Tag for the deposition - like ml competition
         deposition_types (List[DepositionType]): The deposition types of this deposition
         deposition_publications (str): The publications related to this deposition
         related_database_entries (str): The related database entries to this deposition
@@ -825,6 +834,7 @@ class Deposition(Model):
     tomograms: List[Tomogram] = ListRelationship("Tomogram", "id", "deposition_id")
     title: str = StringField()
     description: str = StringField()
+    tag: str = StringField()
     deposition_types: List[DepositionType] = ListRelationship(
         "DepositionType",
         "id",
@@ -880,6 +890,7 @@ class DepositionAuthor(Model):
         deposition_id (int): None
         author_list_order (int): The order in which the author appears in the publication
         orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
+        kaggle_id (str): A unique, persistent identifier for kaggle users at kaggle.com.
         name (str): Full name of a deposition author (e.g. Jane Doe).
         email (str): Email address for this author
         affiliation_name (str): Name of the institutions an author is affiliated with. Comma separated
@@ -897,6 +908,7 @@ class DepositionAuthor(Model):
     deposition_id: int = IntField()
     author_list_order: int = IntField()
     orcid: str = StringField()
+    kaggle_id: str = StringField()
     name: str = StringField()
     email: str = StringField()
     affiliation_name: str = StringField()
@@ -998,12 +1010,14 @@ class Frame(Model):
         deposition_id (int): None
         run (Run): The run this frame is a part of
         run_id (int): None
-        raw_angle (float): Camera angle for a frame
         acquisition_order (int): Frame's acquistion order within a tilt experiment
-        dose (float): The raw camera angle for a frame
+        accumulated_dose (float): The total accumulated dose exposure frame
+        exposure_dose (float): The dose exposure of this frame
         is_gain_corrected (bool): Whether this frame has been gain corrected
+        per_section_parameters (List[PerSectionParameters]): The per section parameters of this frame
         s3_frame_path (str): S3 path to the frame file
         https_frame_path (str): HTTPS path to the frame file
+        file_size (float): Size of the frame file in bytes
     """
 
     _gql_type: str = "Frame"
@@ -1014,12 +1028,18 @@ class Frame(Model):
     deposition_id: int = IntField()
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
-    raw_angle: float = FloatField()
     acquisition_order: int = IntField()
-    dose: float = FloatField()
+    accumulated_dose: float = FloatField()
+    exposure_dose: float = FloatField()
     is_gain_corrected: bool = BooleanField()
+    per_section_parameters: List[PerSectionParameters] = ListRelationship(
+        "PerSectionParameters",
+        "id",
+        "frame_id",
+    )
     s3_frame_path: str = StringField()
     https_frame_path: str = StringField()
+    file_size: float = FloatField()
 
     @classmethod
     def find(
@@ -1224,6 +1244,78 @@ class PerSectionAlignmentParameters(Model):
     )
 
 
+class PerSectionParameters(Model):
+    """Map individual Frames to a Tiltseries
+
+    Attributes:
+        id (int): Numeric identifier (May change!)
+        astigmatic_angle (float): Angle (in degrees) from reciprocal space X axis to the major axis of defocus.
+        frame (Frame): The frame this per section parameters is a part of
+        frame_id (int): None
+        major_defocus (float): Defocus (major axis) estimated for this tilt image in Angstrom (underfocus has positive sign).
+        max_resolution (float): Maximum resolution of the frame
+        minor_defocus (float): Defocus (minor axis) estimated for this tilt image in Angstrom (underfocus has positive sign).
+        phase_shift (float): Phase shift estimated for this tilt image in degrees.
+        raw_angle (float): Nominal tilt angle for this tilt image reported by the microscope.
+        run (Run): The run this per section parameters is a part of
+        run_id (int): None
+        tiltseries (TiltSeries): The tilt series this per section parameters is a part of
+        tiltseries_id (int): None
+        z_index (int): Index (0-based) of this tilt image in the tilt series stack.
+    """
+
+    _gql_type: str = "PerSectionParameters"
+    _gql_root_field: str = "perSectionParameters"
+
+    id: int = IntField()
+    astigmatic_angle: float = FloatField()
+    frame: Frame = ItemRelationship("Frame", "frame_id", "id")
+    frame_id: int = IntField()
+    major_defocus: float = FloatField()
+    max_resolution: float = FloatField()
+    minor_defocus: float = FloatField()
+    phase_shift: float = FloatField()
+    raw_angle: float = FloatField()
+    run: Run = ItemRelationship("Run", "run_id", "id")
+    run_id: int = IntField()
+    tiltseries: TiltSeries = ItemRelationship("TiltSeries", "tiltseries_id", "id")
+    tiltseries_id: int = IntField()
+    z_index: int = IntField()
+
+    @classmethod
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
+        """
+        Examples:
+            >>> per_section_parameters = PerSectionParameters.find(client, query_filters=[PerSectionParameters.run.name == "TS_026"])
+
+            Get all results for this type:
+
+            >>> per_section_parameters = PerSectionParameters.find(client)
+        """
+        return super(PerSectionParameters, cls).find(client, query_filters)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, client: Client, id: int):
+        """
+        Examples:
+            Get an PerSectionParameters by ID:
+
+            >>> per_section_parameters = PerSectionParameters.get_by_id(client, 1)
+            >>> print(per_section_parameters.id)
+        """
+        return super(PerSectionParameters, cls).get_by_id(client, id)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
+
 class Run(Model):
     """None
 
@@ -1236,6 +1328,7 @@ class Run(Model):
         frames (List[Frame]): The frames of this run
         gain_files (List[GainFile]): The gain files of this run
         frame_acquisition_files (List[FrameAcquisitionFile]): The frame acquisition files of this run
+        per_section_parameters (List[PerSectionParameters]): The per section parameters of this run
         tiltseries (List[TiltSeries]): The tilt series of this run
         tomogram_voxel_spacings (List[TomogramVoxelSpacing]): The tomogram voxel spacings of this run
         tomograms (List[Tomogram]): The tomograms of this run
@@ -1256,6 +1349,11 @@ class Run(Model):
     gain_files: List[GainFile] = ListRelationship("GainFile", "id", "run_id")
     frame_acquisition_files: List[FrameAcquisitionFile] = ListRelationship(
         "FrameAcquisitionFile",
+        "id",
+        "run_id",
+    )
+    per_section_parameters: List[PerSectionParameters] = ListRelationship(
+        "PerSectionParameters",
         "id",
         "run_id",
     )
@@ -1333,7 +1431,9 @@ class TiltSeries(Model):
         deposition (Deposition): The deposition this tilt series is a part of
         deposition_id (int): None
         s3_omezarr_dir (str): S3 path to this tiltseries in multiscale OME-Zarr format
+        file_size_omezarr (float): Size of the tiltseries in OME-Zarr format in bytes
         s3_mrc_file (str): S3 path to this tiltseries in MRC format (no scaling)
+        file_size_mrc (float): Size of the tiltseries in MRC format in bytes
         https_omezarr_dir (str): HTTPS path to this tiltseries in multiscale OME-Zarr format
         https_mrc_file (str): HTTPS path to this tiltseries in MRC format (no scaling)
         s3_angle_list (str): S3 path to the angle list file for this tiltseries
@@ -1346,6 +1446,7 @@ class TiltSeries(Model):
         microscope_phase_plate (str): Phase plate configuration
         microscope_image_corrector (str): Image corrector setup
         microscope_additional_info (str): Other microscope optical setup information, in addition to energy filter, phase plate and image corrector
+        per_section_parameters (List[PerSectionParameters]): The per section parameters of this tilt series
         camera_manufacturer (str): Name of the camera manufacturer
         camera_model (str): Camera model name
         tilt_min (float): Minimal tilt angle in degrees
@@ -1377,7 +1478,9 @@ class TiltSeries(Model):
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
     deposition_id: int = IntField()
     s3_omezarr_dir: str = StringField()
+    file_size_omezarr: float = FloatField()
     s3_mrc_file: str = StringField()
+    file_size_mrc: float = FloatField()
     https_omezarr_dir: str = StringField()
     https_mrc_file: str = StringField()
     s3_angle_list: str = StringField()
@@ -1390,6 +1493,11 @@ class TiltSeries(Model):
     microscope_phase_plate: str = StringField()
     microscope_image_corrector: str = StringField()
     microscope_additional_info: str = StringField()
+    per_section_parameters: List[PerSectionParameters] = ListRelationship(
+        "PerSectionParameters",
+        "id",
+        "tiltseries_id",
+    )
     camera_manufacturer: str = StringField()
     camera_model: str = StringField()
     tilt_min: float = FloatField()
@@ -1511,8 +1619,10 @@ class Tomogram(Model):
         is_visualization_default (bool): Data curator’s subjective choice of default tomogram to display in visualization for a run
         s3_omezarr_dir (str): S3 path to this tomogram in multiscale OME-Zarr format
         https_omezarr_dir (str): HTTPS path to this tomogram in multiscale OME-Zarr format
+        file_size_omezarr (float): Size of the tomogram in OME-Zarr format in bytes
         s3_mrc_file (str): S3 path to this tomogram in MRC format (no scaling)
         https_mrc_file (str): HTTPS path to this tomogram in MRC format (no scaling)
+        file_size_mrc (float): Size of the tomogram in MRC format in bytes
         scale_0_dimensions (str): comma separated x,y,z dimensions of the unscaled tomogram
         scale_1_dimensions (str): comma separated x,y,z dimensions of the scale1 tomogram
         scale_2_dimensions (str): comma separated x,y,z dimensions of the scale2 tomogram
@@ -1567,8 +1677,10 @@ class Tomogram(Model):
     is_visualization_default: bool = BooleanField()
     s3_omezarr_dir: str = StringField()
     https_omezarr_dir: str = StringField()
+    file_size_omezarr: float = FloatField()
     s3_mrc_file: str = StringField()
     https_mrc_file: str = StringField()
+    file_size_mrc: float = FloatField()
     scale_0_dimensions: str = StringField()
     scale_1_dimensions: str = StringField()
     scale_2_dimensions: str = StringField()
@@ -1676,6 +1788,7 @@ class TomogramAuthor(Model):
         tomogram_id (int): None
         author_list_order (int): The order in which the author appears in the publication
         orcid (str): A unique, persistent identifier for researchers, provided by ORCID.
+        kaggle_id (str): A unique, persistent identifier for kaggle users at kaggle.com.
         name (str): Full name of an author (e.g. Jane Doe).
         email (str): Email address for this author
         affiliation_name (str): Name of the institutions an author is affiliated with. Comma separated
@@ -1693,6 +1806,7 @@ class TomogramAuthor(Model):
     tomogram_id: int = IntField()
     author_list_order: int = IntField()
     orcid: str = StringField()
+    kaggle_id: str = StringField()
     name: str = StringField()
     email: str = StringField()
     affiliation_name: str = StringField()
@@ -1826,6 +1940,7 @@ Frame.setup()
 FrameAcquisitionFile.setup()
 GainFile.setup()
 PerSectionAlignmentParameters.setup()
+PerSectionParameters.setup()
 Run.setup()
 TiltSeries.setup()
 Tomogram.setup()
