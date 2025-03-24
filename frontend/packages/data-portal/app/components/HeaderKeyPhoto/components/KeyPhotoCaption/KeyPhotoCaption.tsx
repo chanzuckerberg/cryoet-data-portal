@@ -24,13 +24,9 @@ export const getKeyPhotoCaption = ({ type, data }: KeyPhotoCaptionProps) => {
       data.tomogramVoxelSpacings.edges.some(
         (edge) =>
           // TODO: (smccanny) what the heck is going on with the types here?
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           edge?.node?.annotationFilesAggregate?.aggregate &&
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           edge.node.annotationFilesAggregate.aggregate?.length > 0 &&
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           edge.node.annotationFilesAggregate.aggregate[0]?.count &&
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           edge.node.annotationFilesAggregate.aggregate[0].count > 0,
       )
     ) {
@@ -56,7 +52,6 @@ export const getKeyPhotoCaption = ({ type, data }: KeyPhotoCaptionProps) => {
     if (data.sampleType === Sample_Type_Enum.InVitro) {
       return <I18n i18nKey="keyPhotoCaptionDatasetInVitro" />
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (data.deposition?.annotationsAggregate?.aggregate?.[0]?.count) {
       return (
         <I18n
