@@ -221,7 +221,6 @@ def format_attributes(item):
                 attr_type = child.dd.dl.dd.p
                 attr_type.name = "span"
                 attr_type["class"] = "pre"
-                print(f"{attr_type=}")
                 attr_desc = child.dd.p
                 new_row = attributes.new_tag("tr", attrs={"class": "doc-section-item"})
                 new_row.append(attributes.new_tag("td", attrs={"class": "nowrap"})).append(attr_name.wrap(attributes.new_tag("code")))
