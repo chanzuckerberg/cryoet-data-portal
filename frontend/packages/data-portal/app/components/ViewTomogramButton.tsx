@@ -49,6 +49,7 @@ export function ViewTomogramButton({
             <Link
               to={t('neuroglancerTutorialLink')}
               variant="dashed-underlined"
+              stopPropagation
               className="!text-light-sds-color-primitive-gray-300 text-sds-body-xxs-400-wide !border-light-sds-color-primitive-gray-800"
             >
               <p>

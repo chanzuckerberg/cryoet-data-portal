@@ -3,6 +3,59 @@
 
 Below are code snippets for completing various tasks using the Python Client API. Have an example you'd like to share with the community? Submit a [GitHub issue](https://github.com/chanzuckerberg/cryoet-data-portal/issues) and include "Example:" in your title.
 
+:::{admonition} Access and download alignment files
+:class: czi-faq
+:collapsible: open
+
+Alignment files are stored in the database, as well as in metadata-files on S3.
+
+You have multiple options for accessing them:
+
+- Directly using the API client by using `Alignment.per_section_alignments` (see the {class}`PerSectionSectionAlignmentParameters class <cryoet_data_portal.PerSectionAlignmentParameters>`). Retrieve the metadata file on the S3 bucket using `Alignment.s3_alignment_metadata(S3-URI)` or `Alignment.https_alignment_metadata(HTTP-URL)`.
+
+- For an even more convenient way, you can use the `cryoet-alignment` python package to directly create [AreTomo3-](https://github.com/czimaginginstitute/AreTomo3) or [IMOD-formatted](https://bio3d.colorado.edu/imod/) alignment files:
+
+To install the `cryoet-alignment` package with pip, use: `pip install "cryoet-alignment>=0.0.10"`
+
+The below code snippet shows how to download tiltseries and alignments for dataset 10447 using the `cryoet-alignment` package with the `cryoet-data-portal` API:
+
+```
+import cryoet_data_portal as cdp
+import os
+from cryoet_alignment.io.cryoet_data_portal import Alignment
+from cryoet_alignment import write
+
+client = cdp.Client()
+
+# Loop through all tomograms of 10447
+for tomogram in cdp.Tomogram.find(client, [cdp.Tomogram.run.dataset_id==10447]):
+    # Some output to track progress
+    print(f"Processing tomogram {tomogram.id} from run {tomogram.run.name}")
+
+    # Read cryoet-data-portal alignment from S3
+    cdp_ali = Alignment.from_s3(tomogram.alignment.s3_alignment_metadata)
+
+    # Get necessary tilt series metadata
+    tilt_series = tomogram.alignment.tiltseries
+    pixel_size = tilt_series.pixel_spacing
+    dim_z, dim_y, dim_x = tilt_series.size_z, tilt_series.size_y, tilt_series.size_x
+
+    # Create some destination directory (adapt path to your needs)
+    os.makedirs(f"/tmp/10447_data/{tomogram.run.name}/", exist_ok=True)
+
+    # Download the tiltseries
+    tilt_series.download_mrcfile(f"/tmp/10447_data/{tomogram.run.name}/")
+
+    # Save in IMOD format
+    imod_ali = cdp_ali.to_imod(ts_size=(dim_x, dim_y, dim_z), ts_spacing=pixel_size)
+    write(imod_ali, f"/tmp/10447_data/{tomogram.run.name}/{tomogram.run.name}")
+
+    # Save in AreTomo3 format
+    are_ali = cdp_ali.to_aretomo(ts_size=(dim_x, dim_y, dim_z))
+    write(are_ali, f"/tmp/10447_data/{tomogram.run.name}/{tomogram.run.name}.aln")
+```
+:::
+
 :::{admonition} Query by annotated object or Gene Ontology terms using owlready2 library
 :class: czi-faq
 :collapsible: open
