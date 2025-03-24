@@ -128,8 +128,8 @@ importers:
         specifier: ^16.8.1
         version: 16.8.1
       i18next:
-        specifier: ^23.7.6
-        version: 23.7.6
+        specifier: ^24.2.3
+        version: 24.2.3(typescript@5.2.2)
       i18next-browser-languagedetector:
         specifier: ^7.2.0
         version: 7.2.0
@@ -180,7 +180,7 @@ importers:
         version: 4.0.12(react@18.2.0)
       react-i18next:
         specifier: ^13.5.0
-        version: 13.5.0(i18next@23.7.6)(react-dom@18.2.0)(react@18.2.0)
+        version: 13.5.0(i18next@24.2.3)(react-dom@18.2.0)(react@18.2.0)
       react-is:
         specifier: ^18.2.0
         version: 18.2.0
@@ -198,7 +198,7 @@ importers:
         version: 2.0.0
       remix-i18next:
         specifier: ^5.4.0
-        version: 5.4.0(@remix-run/react@2.15.0)(@remix-run/server-runtime@2.15.0)(i18next@23.7.6)(react-i18next@13.5.0)(react@18.2.0)
+        version: 5.4.0(@remix-run/react@2.15.0)(@remix-run/server-runtime@2.15.0)(i18next@24.2.3)(react-i18next@13.5.0)(react@18.2.0)
       remix-typedjson:
         specifier: ^0.2.2
         version: 0.2.2(@remix-run/react@2.15.0)(@remix-run/server-runtime@2.15.0)(react@18.2.0)
@@ -1195,6 +1195,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.14.0
+
+  /@babel/runtime@7.26.10:
+    resolution: {integrity: sha512-2WJMeRQPHKSPemqk/awGrAiuFfzBmOIPXKizAsVhWH9YJqLZ0H+HS4c8loHGgW6utJ3E/ejXQUsiGaQy2NZ9Fw==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.14.0
+    dev: false
 
   /@babel/template@7.22.15:
     resolution: {integrity: sha512-QPErUVm4uyJa60rkI73qneDacvdvzxshT3kksGqlGWYdOTIUOwJ7RDUL8sGqslY1uXWSL6xMFKEXDS3ox2uF0w==}
@@ -8361,10 +8368,16 @@ packages:
       - encoding
     dev: false
 
-  /i18next@23.7.6:
-    resolution: {integrity: sha512-O66BhXBw0fH4bEJMA0/klQKPEbcwAp5wjXEL803pdAynNbg2f4qhLIYlNHJyE7icrL6XmSZKPYaaXwy11kJ6YQ==}
+  /i18next@24.2.3(typescript@5.2.2):
+    resolution: {integrity: sha512-lfbf80OzkocvX7nmZtu7nSTNbrTYR52sLWxPtlXX1zAhVw8WEnFk4puUkCR4B1dNQwbSpEHHHemcZu//7EcB7A==}
+    peerDependencies:
+      typescript: ^5
+    peerDependenciesMeta:
+      typescript:
+        optional: true
     dependencies:
-      '@babel/runtime': 7.23.2
+      '@babel/runtime': 7.26.10
+      typescript: 5.2.2
     dev: false
 
   /iconv-lite@0.4.24:
@@ -11764,7 +11777,7 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-i18next@13.5.0(i18next@23.7.6)(react-dom@18.2.0)(react@18.2.0):
+  /react-i18next@13.5.0(i18next@24.2.3)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-CFJ5NDGJ2MUyBohEHxljOq/39NQ972rh1ajnadG9BjTk+UXbHLq4z5DKEbEQBDoIhUmmbuS/fIMJKo6VOax1HA==}
     peerDependencies:
       i18next: '>= 23.2.3'
@@ -11779,7 +11792,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.2
       html-parse-stringify: 3.0.1
-      i18next: 23.7.6
+      i18next: 24.2.3(typescript@5.2.2)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -12067,7 +12080,7 @@ packages:
     resolution: {integrity: sha512-/62tYiOe6DzS5BqVsNpH/nkGlX45C/Sp6V+NtiN6JQNS1Viay7cWkazmRkrQrdFj2eshDe96SIQNIoMxqhzBOg==}
     dev: false
 
-  /remix-i18next@5.4.0(@remix-run/react@2.15.0)(@remix-run/server-runtime@2.15.0)(i18next@23.7.6)(react-i18next@13.5.0)(react@18.2.0):
+  /remix-i18next@5.4.0(@remix-run/react@2.15.0)(@remix-run/server-runtime@2.15.0)(i18next@24.2.3)(react-i18next@13.5.0)(react@18.2.0):
     resolution: {integrity: sha512-4TGdkvSihr7X4qqpT31zleIyyRr3Z6MSu49t0zeZhFQrNqb6m7Ob/kVA5QfAl+jOa3Eow30bQ2fuOTBlQ07efA==}
     peerDependencies:
       '@remix-run/react': ^1.0.0 || ^2.0.0
@@ -12079,11 +12092,11 @@ packages:
       '@remix-run/react': 2.15.0(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)
       '@remix-run/server-runtime': 2.15.0(typescript@5.2.2)
       accept-language-parser: 1.5.0
-      i18next: 23.7.6
+      i18next: 24.2.3(typescript@5.2.2)
       intl-parse-accept-language: 1.0.0
       lru-cache: 7.18.3
       react: 18.2.0
-      react-i18next: 13.5.0(i18next@23.7.6)(react-dom@18.2.0)(react@18.2.0)
+      react-i18next: 13.5.0(i18next@24.2.3)(react-dom@18.2.0)(react@18.2.0)
       use-consistent-value: 1.0.0(react@18.2.0)
     dev: false
 

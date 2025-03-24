@@ -3,6 +3,7 @@ import { Button, Icon } from '@czi-sds/components'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { DatasetOverview } from 'app/components/Dataset/DatasetOverview'
 import { PageHeader } from 'app/components/PageHeader'
+import { DATA_TYPES } from 'app/constants/dataTypes'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
@@ -12,7 +13,8 @@ import {
   useMetadataDrawer,
 } from 'app/hooks/useMetadataDrawer'
 
-import { HeaderKeyPhoto } from '../HeaderKeyPhoto'
+import { getKeyPhotoCaption } from '../HeaderKeyPhoto/components/KeyPhotoCaption/KeyPhotoCaption'
+import { HeaderKeyPhoto } from '../HeaderKeyPhoto/HeaderKeyPhoto'
 
 export function DatasetHeader() {
   const { dataset } = useDatasetById()
@@ -50,6 +52,10 @@ export function DatasetHeader() {
           <HeaderKeyPhoto
             title={dataset.title}
             url={dataset.keyPhotoUrl ?? undefined}
+            caption={getKeyPhotoCaption({
+              type: DATA_TYPES.DATASET,
+              data: dataset,
+            })}
           />
 
           <div className="flex flex-col gap-sds-xl flex-1 min-w-[300px]">
