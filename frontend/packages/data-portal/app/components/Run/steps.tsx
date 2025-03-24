@@ -52,8 +52,9 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement('.neuroglancer-side-panel'),
+    target: getIframeElement('.neuroglancer-layer-group-viewer .neuroglancer-panel'),
     title: 'Main viewport',
+    placement: 'right-start',
     content: (
       <StepContent variant='compact'>
         <div className="text-[#767676]">
@@ -68,9 +69,9 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement('.neuroglancer-side-panel'),
+    target: getIframeElement('.neuroglancer-rendered-data-panel'),
     title: 'Essential controls',
-    placement: 'bottom',
+    placement: 'bottom-start',
     content: (
       <StepContent variant='simple'>
         <div className='mt-4 mb-4'></div>
@@ -82,8 +83,9 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: '.button-group',
+    target: getIframeElement('.neuroglancer-rendered-data-panel'),
     title: 'Keyboard shortcuts',
+    placement: 'bottom-start',
     content: (
       <StepContent variant='simple'>
         <div className='mt-4 mb-4'></div>
@@ -96,8 +98,9 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement('.neuroglancer-layer-list-panel-items'),
+    target: getIframeElement('.neuroglancer-side-panel'),
     title: 'Layer management',
+    placement: 'right-start',
     content: (
       <StepContent variant='simple'>
         <div className='mt-4 mb-4'></div>
@@ -111,6 +114,7 @@ export const getTutorialSteps: () => Step[] = () => [
   {
     target: getIframeElement('.neuroglancer-layer-side-panel-tab-view'),
     title: 'Layer controls',
+    placement: 'left-start',
     content: (
       <StepContent variant='minimal'>
         <p className='text-[#767676]'>

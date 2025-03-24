@@ -14,7 +14,7 @@ const filledButtonStyles = "py-1.5 px-3 rounded-sds-l font-semibold bg-[#0B68F8]
 const CustomTooltip = (props: any, onClose: () => void) => {
   const { index, isLastStep, size, step, closeProps, backProps, primaryProps } = props;
 
-  const tooltipContainerStyles = index === 0 || isLastStep ? "p-10 max-w-[650px]" : "p-4 max-w-[320px]";
+  const tooltipContainerStyles = index === 0 || isLastStep ? "p-10 max-w-[650px]" : "p-4 max-w-[334px]";
   const titleStyles = index === 0 ? "text-[22px] leading-[30px]" : "text-base leading-6";
   const buttonContainerStyles = index === 0 || isLastStep ? "mt-10" : "mt-6";
 
@@ -48,7 +48,7 @@ const CustomTooltip = (props: any, onClose: () => void) => {
                 Close
               </button>
               <button {...primaryProps} className={filledButtonStyles}>
-                Take a Tour
+                Take a tour
               </button>
             </>
           ) : (
@@ -75,8 +75,13 @@ const Tour: React.FC<CustomTourProps> = ({ steps, run, onClose }) => {
       steps={steps}
       run={run}
       continuous
-      disableScrolling
+      disableOverlayClose
       floaterProps={{ hideArrow: true }}
+      styles={{
+        options: {
+          zIndex: 10000,
+        },
+      }}
       tooltipComponent={(props) => CustomTooltip(props, onClose)}
     />
   );
