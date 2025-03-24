@@ -132,7 +132,15 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
           node {
             id
             s3Prefix
-
+            annotationFilesAggregate(
+              where: {
+                isVisualizationDefault: { _eq: true }
+              }
+            ) {
+              aggregate {
+                count
+              }
+            }
             tomograms(
               first: 1
               where: {
