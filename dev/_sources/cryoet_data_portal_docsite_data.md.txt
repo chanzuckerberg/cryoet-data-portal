@@ -185,7 +185,7 @@ Runs are downloaded as folders named the author-chosen run name. As shown in the
 Please refer to our educational article about [CryoET Data Collection](./cryoet_workflow.md#data-collection) for a detailed description of tilt series. Each tilt series has a Tilt Series ID, which is assigned by the Portal and is subject to change in the rare case where the tilt series data needs to be re-ingested in the Portal. Tilt Series IDs start with TS (e.g. TS-12345; note that only the numeric part is supported in the API).
 
 ### Frames
-When acquiring tilted projections of a sample as part of a CryoET tilt series acquisition, one actually acquires a movie at each tilt (stored as so-called “movie stacks” or “frame stacks”) so that beam induced motion can be corrected after acquisition by compensating translations and warping. Upon correction, these frames are summed to form a single image at each tilt angle, and the collection of images is referred to as the tilt series. Usually, each run of a CryoET dataset will have 30-50 frame stacks of 5-100 frames associated with it, where the number of stacks is the same as the number of tilts during acquisition. Acquisition metadata are stored in MDOC-files, which are text-based with one section per frame stack. 
+When acquiring tilted projections of a sample as part of a CryoET tilt series acquisition, one actually acquires a movie at each tilt (stored as so-called “movie stacks” or “frame stacks”) so that beam induced motion can be corrected after acquisition by compensating translations and warping. Upon correction, these frames are summed to form a single image at each tilt angle, and the collection of images is referred to as the tilt series. Usually, each run of a CryoET dataset will have 30-50 frame stacks of 5-100 frames associated with it, where the number of stacks is the same as the number of tilts during acquisition. Acquisition metadata are stored in MDOC-files, which are text-based with one section per frame stack.
 
 When available, the `Frames` folder in a downloaded run contains the raw frame images, acquisition metadata MDOC file, and an additional metadata file in JSON format.
 
@@ -195,9 +195,9 @@ Individual pixels or whole sectors of the direct electron detector used in [Cryo
 When available, the `Gains` folder in a downloaded run contains the gain reference image.
 
 ### Tilt Series Assembly
-The raw frame stacks from image acquisition are motion corrected and averaged at each tilt angle to form the tilt series. Please refer to our educational article about [CryoET Data Collection](./cryoet_workflow.md#data-collection) for a detailed description of tilt series assembly from the raw frame stacks. 
+The raw frame stacks from image acquisition are motion corrected and averaged at each tilt angle to form the tilt series. Please refer to our educational article about [CryoET Data Collection](./cryoet_workflow.md#data-collection) for a detailed description of tilt series assembly from the raw frame stacks.
 
-When available, the `TiltSeries` folder in a downloaded run contains the tilt series images in MRC and OME-Zarr file format, tilt series metadata JSON file, and the rawtlt file. The rawtlt file contains a list of the tilt angles from image acquisition and is used by downstream programs for alignment and tomogram reconstruction. 
+When available, the `TiltSeries` folder in a downloaded run contains the tilt series images in MRC and OME-Zarr file format, tilt series metadata JSON file, and the rawtlt file. The rawtlt file contains a list of the tilt angles from image acquisition and is used by downstream programs for alignment and tomogram reconstruction.
 
 ### Tilt Series Quality
 
@@ -216,9 +216,9 @@ Please refer to our educational article about [CryoET Data Processing](./cryoet_
 
 Tomograms are summarized in a table on Run Overview pages. Note that by default the Annotations table is displayed on the Run Overview pages, but you can toggle to the Tomograms table by clicking the tab above the table. Each tomogram has a Tomogram ID, which is assigned by the Portal and is subject to change in the rare case where the tomogram data needs to be re-ingested in the Portal. Tomogram IDs start with TM (e.g. TM-6091; note that only the numeric part is supported in the API).
 
-The Tomogram table has columns with the author-chosen Tomogram Name (including the Tomogram ID and a truncated list of authors), Deposition Date, Alignment ID (ID of the alignment file used to align the tilt series for tomogram reconstruction), Voxel Spacing (containing both the voxel spacing in angstroms and the size of the tomogram in pixels), Reconstruction Method (e.g. WBP for weighted back projection), and Post-Processing information (e.g. denoised, filtered, etc.). 
+The Tomogram table has columns with the author-chosen Tomogram Name (including the Tomogram ID and a truncated list of authors), Deposition Date, Alignment ID (ID of the alignment file used to align the tilt series for tomogram reconstruction), Voxel Spacing (containing both the voxel spacing in angstroms and the size of the tomogram in pixels), Reconstruction Method (e.g. WBP for weighted back projection), and Post-Processing information (e.g. denoised, filtered, etc.).
 
-When available, each tomogram in the table has its own `View Tomogram` button which will open Neuroglancer in a new tab with the tomogram along with all its available annotations preloaded. Check out our [Neuroglancer Quickstart](neuroglancer_quickstart) to learn more about navigating Neuroglancer. 
+When available, each tomogram in the table has its own `View Tomogram` button which will open Neuroglancer in a new tab with the tomogram along with all its available annotations preloaded. Check out our [Neuroglancer Quickstart](neuroglancer_quickstart) to learn more about navigating Neuroglancer.
 
 Each tomogram entry in the table also has a `Download` button which opens a dialog containing direct download and code snippets for other download methods.
 
@@ -311,7 +311,7 @@ Each annotation has its own metadata, which can be viewed using the info icon on
 
 ### Visualizing Annotations with Tomograms in Neuroglancer
 
-On the upper right hand side of Run Overview pages, the `View Tomogram` button opens Neuroglancer in a new tab with the "default" tomogram along with all its available annotations preloaded. The tooltip on the `View Tomogram` button specifies the ID of the "default" tomogram. By navigating to the Tomogram table using the tab above the Annotations table, you may also click the `View Tomogram` button for a specific tomogram entry to open it in Neuroglancer with applicable annotations preloaded. Check out our [Neuroglancer Quickstart](neuroglancer_quickstart) to learn more about navigating Neuroglancer. 
+On the upper right hand side of Run Overview pages, the `View Tomogram` button opens Neuroglancer in a new tab with the "default" tomogram along with all its available annotations preloaded. The tooltip on the `View Tomogram` button specifies the ID of the "default" tomogram. By navigating to the Tomogram table using the tab above the Annotations table, you may also click the `View Tomogram` button for a specific tomogram entry to open it in Neuroglancer with applicable annotations preloaded. Check out our [Neuroglancer Quickstart](neuroglancer_quickstart) to learn more about navigating Neuroglancer.
 
 There is no definitive rule for which annotations are open in the Neuroglancer canvases with a tomogram by default. However, all annotations can be opened in the canvas by clicking any annotation layers with strikethrough text in the list above the canvases. The annotations shown by default are manually chosen by the data curation team to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
 
