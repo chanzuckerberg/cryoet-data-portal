@@ -21,7 +21,7 @@ export function RunFilter() {
 
   return (
     <FilterPanel>
-      <FilterSection title={t('includedContents')}>
+      <FilterSection title={t('datasetContents')}>
         <GroundTruthAnnotationFilter />
       </FilterSection>
 

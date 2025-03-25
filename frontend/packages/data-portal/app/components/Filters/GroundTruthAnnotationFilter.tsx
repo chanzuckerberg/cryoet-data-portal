@@ -2,6 +2,7 @@ import { QueryParams } from 'app/constants/query'
 import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
 
+import { MiniTag } from '../common/MiniTag/MiniTag'
 import { BooleanFilter } from './BooleanFilter'
 
 export function GroundTruthAnnotationFilter({
@@ -17,17 +18,25 @@ export function GroundTruthAnnotationFilter({
 
   return (
     <>
-      <BooleanFilter
-        label={t('groundTruthAnnotation')}
-        onChange={(value) =>
-          updateValue(QueryParams.GroundTruthAnnotation, value ? 'true' : null)
-        }
-        value={isGroundTruthEnabled}
-        // FIXME: once sds upgraded to 0.20.x uncomment this
-        // caption={
-        //   depositionPageVariant ? t('depositionAnnotationsOnly') : undefined
-        // }
-      />
+      <div className="flex items-baseline">
+        <BooleanFilter
+          label={t('groundTruthAnnotationAvailableFilter')}
+          onChange={(value) =>
+            updateValue(
+              QueryParams.GroundTruthAnnotation,
+              value ? 'true' : null,
+            )
+          }
+          value={isGroundTruthEnabled}
+          // FIXME: once sds upgraded to 0.20.x uncomment this
+          // caption={
+          //   depositionPageVariant ? t('depositionAnnotationsOnly') : undefined
+          // }
+        />
+        <div className="relative top-[12px] gap-sds-xxs">
+          <MiniTag>{t('gT')}</MiniTag>
+        </div>
+      </div>
       {/* FIXME: once sds upgraded to 0.20.x delete below line and remove fragment wrapper */}
       {depositionPageVariant && (
         <p className="pl-9 text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-primitive-gray-500">

@@ -18,7 +18,7 @@ export function BooleanFilter({
   return (
     <div
       className={cns(
-        'pt-sds-m pl-sds-s pb-sds-s whitespace-nowrap',
+        'pt-sds-m pl-sds-s pb-sds-s max-w-[190px]',
         styles.boolean,
       )}
     >

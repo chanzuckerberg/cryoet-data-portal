@@ -2,7 +2,7 @@
 
 .boolean {
   :global(.MuiFormControlLabel-root) {
-    @apply !m-0 !items-center;
+    @apply !m-0;
   }
 
   :global(.MuiTypography-root) span span {
