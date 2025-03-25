@@ -52,7 +52,6 @@ const hasAnnotationLayers = (state: any) => {
 
 function ViewerPage({ run } : { run: any }) {
   const { t } = useI18n()
-  const state = currentState().neuroglancer;
   const [hasAnnotations, setHasAnnotations] = useState(
     hasAnnotationLayers(currentState()),
   )
@@ -63,7 +62,9 @@ function ViewerPage({ run } : { run: any }) {
   }
 
   useEffect(() => {
-    const filteredAnnotations = state.layers.filter((layer: any) => layer.type === "annotation");
+    const state = currentState()
+    const root = state.neuroglancer || state
+    const filteredAnnotations = root.layers.filter((layer: any) => layer.type === "annotation");
 
     setAnnotations(filteredAnnotations);
   }, []);
