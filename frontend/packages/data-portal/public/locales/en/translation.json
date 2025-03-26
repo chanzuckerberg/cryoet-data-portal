@@ -374,6 +374,7 @@
   "returnToDeposition": "Return To Deposition",
   "rotationX": "Rotation (x)",
   "run": "Run",
+  "runContents": "Run Contents",
   "runDataIncludes": "Run data includes all available movie frames, tilt series, tomograms, annotations, and associated metadata.",
   "runDetails": "Run Details",
   "runId": "Run ID",

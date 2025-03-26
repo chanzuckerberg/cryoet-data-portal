@@ -152,6 +152,7 @@ export const i18n = {
   reportIssueOnGithub: 'Report Issue on GitHub',
   resolutionsAvailable: 'Samplings Available',
   run: 'Run',
+  runContents: 'Run Contents',
   runCount: (count: number, max: number) => `${count} of ${max} Runs`,
   runDetails: 'Run Details',
   runs: 'Runs',
