@@ -2,7 +2,7 @@
 
 .boolean {
   :global(.MuiFormControlLabel-root) {
-    @apply !m-0;
+    @apply !m-0 !items-center;
   }
 
   :global(.MuiTypography-root) span span {
@@ -18,6 +18,16 @@
 
   svg {
     @apply fill-white;
+  }
+}
+
+.booleanWrapped {
+  :global(.MuiFormControlLabel-root) {
+    @apply !items-start;
+  }
+
+  :global(.MuiTypography-root) {
+    @apply !-mt-sds-xxs;
   }
 }
 
