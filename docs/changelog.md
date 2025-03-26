@@ -21,10 +21,6 @@ The v3 Python API will be deprecated on Wednesday, February 26, 2025. Please upd
 | dose             | Remove  | True     | float     | This is removed in favour of adding fields with more standardized naming.                       |
 | rawAngle         | Remove  | True     | float     | This is moved to the perSectionParameter.rawAngle                                               |
 
-### GainFile Class Modifications
-| Name     | Status | Nullable | Data Type | Description                                |
-|----------|--------|----------|-----------|--------------------------------------------|
-| checksum | New    | False    | string    | To help users identify unique gain files   |
 
 ### Summary of new class PerSectionParameter
 | Name           | Status | Data Type  | Is Nullable | Description                                                                                     |
