@@ -16,25 +16,24 @@ export type KeyPhotoCaptionProps =
   | { type: DATA_TYPES.DEPOSITION; data?: undefined }
 
 export const getKeyPhotoCaption = ({ type, data }: KeyPhotoCaptionProps) => {
+  // 03/25 (smccanny): Hardcode dataset ids that have author submitted images for now
+  // because there is not way to distinguish them.
+  // This will be revisited when we have a Bring Your Own Data feature.
   const AUTHOR_SUBMITTED_IMAGES_DATASET_IDS = [
     10000, 10001, 10002, 10005, 10006,
   ]
   if (type === DATA_TYPES.RUN) {
     if (
-      data.tomogramVoxelSpacings.edges.some(
-        (edge) =>
-          // TODO: (smccanny) what the heck is going on with the types here?
-          edge?.node?.annotationFilesAggregate?.aggregate &&
-          edge.node.annotationFilesAggregate.aggregate?.length > 0 &&
-          edge.node.annotationFilesAggregate.aggregate[0]?.count &&
-          edge.node.annotationFilesAggregate.aggregate[0].count > 0,
-      )
+      data?.dataset?.deposition?.annotationsAggregate?.aggregate?.[0]?.count &&
+      data.tomogramId
     ) {
-      return <I18n i18nKey="keyPhotoCaptionRunWithAnnotations" />
+      return (
+        <I18n
+          i18nKey="keyPhotoCaptionRunWithAnnotations"
+          values={{ tomogramId: data.tomogramId }}
+        />
+      )
     }
-    // TODO: (smccanny) add one more case to deal with runs that have annotations but
-    // they keyPhoto is not an annotated image
-
     return data.tomogramId ? (
       <I18n
         i18nKey="keyPhotoCaptionRun"

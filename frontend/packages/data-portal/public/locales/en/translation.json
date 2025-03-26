@@ -232,7 +232,7 @@
   "keyPhotoCaptionDatasetWithAnnotations": "Central slab from a representative tomogram of a {{organismName}} sample with selected set of annotations.",
   "keyPhotoCaptionDataset": "Central slab from a representative tomogram of a {{organismName}} sample.",
   "keyPhotoCaptionRun": "Central slab of tomogram {{tomogramId}}.",
-  "keyPhotoCaptionRunWithAnnotations": "Central slab of tomogram with selected set of annotations.",
+  "keyPhotoCaptionRunWithAnnotations": "Central slab of tomogram {{tomogramId}} with selected set of annotations.",
   "keyPhotoCaptionDepositions": "Central slab of 4 representative tomograms with selected sets of annotations.",
   "landingHeaderImageAttribution": "Top Image: The inner workings of an algal cell as depicted with cryo-electron tomography, which aggregates multiple snapshots of a single piece of material. Visible are the Golgi apparatus (green and magenta), and vesicles (multi-colored circles). | Photo credit: Y. S. Bykkov et al./eLIFE (CC BY 4.0)",
   "landingHeaderTitle": "Open access to annotated cryoET tomograms",
