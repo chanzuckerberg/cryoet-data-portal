@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.65.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.65.1...cryoet-data-portal-frontend-v1.65.2) (2025-03-26)
+
+
+### 🐞 Bug Fixes
+
+* stop propagation for tooltip links ([#1724](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1724)) ([594e240](https://github.com/chanzuckerberg/cryoet-data-portal/commit/594e2404ca44fa55f37925082949bbcba3e3df0f))
+
 ## [1.65.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.65.0...cryoet-data-portal-frontend-v1.65.1) (2025-03-20)
 
 
