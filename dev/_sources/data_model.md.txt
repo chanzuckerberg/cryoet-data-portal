@@ -11,7 +11,7 @@ If you prefer to query our API endpoint directly, it's available at [https://gra
 
 A simplified diagram of the data model is below (click the image to enlarge):
 
-```{image} _static/img/data-model.png
+```{image} _static/img/data_model.png
 :width: 1000
 :alt: Simplified data model
 :align: center
