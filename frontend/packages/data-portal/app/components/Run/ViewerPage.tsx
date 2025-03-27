@@ -27,6 +27,13 @@ const toggleVisibility = (layer: any) =>
 //   })
 // }
 
+const changeBackgroundColor = (color: string) => {
+  updateState((state) => {
+    state.neuroglancer.crossSectionBackgroundColor = color
+    return state
+  })
+}
+
 const toggleAnnotations = () => {
   updateState((state) => {
     for (const layer of state.neuroglancer.layers) {
@@ -123,7 +130,7 @@ function ViewerPage({ run } : { run: any }) {
                 <CustomDropdownOption selected={false} onSelect={() => toggleBoundingBox()}>Bounding box</CustomDropdownOption>
                 <CustomDropdownOption selected={false} onSelect={() => console.log("Axis lines")}>Axis lines</CustomDropdownOption>
                 <CustomDropdownOption selected={false} onSelect={() => console.log("Scale bar")}>Scale bar</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("Change background to white")}>Change background to white</CustomDropdownOption>
+                <CustomDropdownOption selected={false} onSelect={() => changeBackgroundColor("#ffffff")}>Change background to white</CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
                 <CustomDropdownOption selected={false} onSelect={() => console.log("Snap to the nearest axis")}>Snap to the nearest axis</CustomDropdownOption>
