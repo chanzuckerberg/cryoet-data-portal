@@ -1,6 +1,6 @@
 import './ViewerPage.css'
 
-import { currentState, NeuroglancerWrapper, updateState } from 'neuroglancer'
+import { currentNeuroglancerState, currentState, NeuroglancerWrapper, updateState } from 'neuroglancer'
 import { useState, useEffect } from 'react'
 import { cns } from 'app/utils/cns'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
@@ -62,9 +62,8 @@ function ViewerPage({ run } : { run: any }) {
   }
 
   useEffect(() => {
-    const state = currentState()
-    const root = state.neuroglancer || state
-    const filteredAnnotations = root.layers.filter((layer: any) => layer.type === "annotation");
+    const state = currentNeuroglancerState()
+    const filteredAnnotations = state.layers.filter((layer: any) => layer.type === "annotation");
 
     setAnnotations(filteredAnnotations);
   }, []);
@@ -97,7 +96,7 @@ function ViewerPage({ run } : { run: any }) {
                 {annotations.map((annotation: any) => (
                   <CustomDropdownOption
                     key={annotation?.name}
-                    selected={true}
+                    selected
                     onSelect={() => console.log(annotation)}
                   >
                     <span>{annotation?.name}</span>
