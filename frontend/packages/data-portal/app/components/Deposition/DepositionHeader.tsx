@@ -1,6 +1,7 @@
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { HeaderKeyPhoto } from 'app/components/HeaderKeyPhoto'
 import { PageHeader } from 'app/components/PageHeader'
+import { DATA_TYPES } from 'app/constants/dataTypes'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
@@ -9,6 +10,7 @@ import {
   useMetadataDrawer,
 } from 'app/hooks/useMetadataDrawer'
 
+import { getKeyPhotoCaption } from '../KeyPhotoCaption/KeyPhotoCaption'
 import { DepositionOverview } from './DepositionOverview'
 
 export function DepositionHeader() {
@@ -34,6 +36,9 @@ export function DepositionHeader() {
           <HeaderKeyPhoto
             title={deposition.title}
             url={deposition.keyPhotoUrl ?? undefined}
+            caption={getKeyPhotoCaption({
+              type: DATA_TYPES.DEPOSITION,
+            })}
           />
 
           <div className="flex flex-col gap-sds-xl flex-1 min-w-[300px]">
