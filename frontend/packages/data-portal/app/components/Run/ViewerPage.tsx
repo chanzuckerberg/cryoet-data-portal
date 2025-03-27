@@ -47,6 +47,18 @@ const toggleAnnotations = () => {
   })
 }
 
+const toggleLayer = (name: string) => {
+  updateState((state) => {
+    const layer = state.neuroglancer.layers.find((l: any) => l.name === name)
+    if (layer) {
+      const archived = boolValue(layer.archived, /* defaultValue =*/ false)
+      layer.archived = !archived
+      layer.visible = archived
+    }
+    return state
+  })
+}
+
 const toggleBoundingBox = () => {
   updateState((state) => {
     const switchedBoundingBoxStatus = !hasBoundingBox()
@@ -172,9 +184,9 @@ function ViewerPage({ run } : { run: any }) {
                 <CustomDropdownOption selected={false} onSelect={() => toggleAnnotations()}>All annotations</CustomDropdownOption>
                 {currentNeuroglancerState().layers.filter((layer: any) => layer.type === "annotation").map((annotation: any) => (
                   <CustomDropdownOption
-                    key={annotation?.name}
-                    selected
-                    onSelect={() => console.log(annotation)}
+                    key={annotation.name}
+                    selected={!boolValue(annotation.archived, /* defaultValue =*/ false)}
+                    onSelect={() => toggleLayer(annotation.name)}
                   >
                     <span>{annotation?.name}</span>
                     <span className="text-xs text-[#767676] font-normal">#CZCDP-12795</span>
