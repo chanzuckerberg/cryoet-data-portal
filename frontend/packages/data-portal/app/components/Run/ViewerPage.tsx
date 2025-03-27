@@ -111,6 +111,21 @@ const toggleShowScaleBar = () => {
   })
 }
 
+const currentLayout = () => {
+  return currentNeuroglancerState().layout
+}
+
+const isCurrentLayout = (layout: string) => {
+  return currentLayout() === layout
+}
+
+const setCurrentLayout = (layout: string) => {
+  updateState((state) => {
+    state.neuroglancer.layout = layout
+    return state
+  })
+}
+
 
 function ViewerPage({ run } : { run: any }) {
   const { t } = useI18n()
@@ -169,11 +184,11 @@ function ViewerPage({ run } : { run: any }) {
             </CustomDropdown>
             <CustomDropdown title="Layout" variant="outlined">
               <CustomDropdownSection title="Layout">
-                <CustomDropdownOption selected={false} onSelect={() => console.log("4 panel")}>4 panel</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("XY")}>XY</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("XZ")}>XZ</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("YZ")}>YZ</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("3D")}>3D</CustomDropdownOption>
+                <CustomDropdownOption selected={isCurrentLayout("4panel")} onSelect={() => setCurrentLayout("4panel")}>4 panel</CustomDropdownOption>
+                <CustomDropdownOption selected={isCurrentLayout("xy")} onSelect={() => setCurrentLayout("xy")}>XY</CustomDropdownOption>
+                <CustomDropdownOption selected={isCurrentLayout("xz")} onSelect={() => setCurrentLayout("xz")}>XZ</CustomDropdownOption>
+                <CustomDropdownOption selected={isCurrentLayout("yz")} onSelect={() => setCurrentLayout("yz")}>YZ</CustomDropdownOption>
+                <CustomDropdownOption selected={isCurrentLayout("3d")} onSelect={() => setCurrentLayout("3d")}>3D</CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Toggle Panels">
                 <CustomDropdownOption selected={false} onSelect={() => console.log("All panels")}>All panels</CustomDropdownOption>
@@ -188,7 +203,7 @@ function ViewerPage({ run } : { run: any }) {
                 <CustomDropdownOption selected={isBackgroundWhite()} onSelect={() => changeBackgroundColor(BACKGROUND_COLOR)}>Change background to white</CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
-                <CustomDropdownOption selected={false} onSelect={() => console.log("Snap to the nearest axis")}>Snap to the nearest axis</CustomDropdownOption>
+                <CustomDropdownOption disabled selected={false} onSelect={() => console.log("Snap to the nearest axis")}>Snap to the nearest axis</CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
             <Button sdsType="primary" sdsStyle="rounded">Share</Button>
