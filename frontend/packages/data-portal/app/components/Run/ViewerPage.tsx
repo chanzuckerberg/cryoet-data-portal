@@ -1,7 +1,7 @@
 import './ViewerPage.css'
 
-import { currentNeuroglancerState, currentState, NeuroglancerWrapper, ResolvedSuperState, updateState } from 'neuroglancer'
-import { useState, useEffect } from 'react'
+import { currentNeuroglancerState, NeuroglancerWrapper, ResolvedSuperState, updateState } from 'neuroglancer'
+import { useState } from 'react'
 import { cns } from 'app/utils/cns'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
@@ -141,21 +141,11 @@ const setCurrentLayout = (layout: string) => {
 
 function ViewerPage({ run } : { run: any }) {
   const { t } = useI18n()
-  const [hasAnnotations, setHasAnnotations] = useState(
-    hasAnnotationLayers(currentNeuroglancerState()),
-  )
-  const [annotations, setAnnotations] = useState<any>([])
+  const [renderVersion, setRenderVersion] = useState(0)
 
-  const updateButtons = (state: ResolvedSuperState) => {
-    setHasAnnotations(hasAnnotationLayers(state.neuroglancer))
+  const refresh = () => {
+    setRenderVersion(renderVersion + 1)
   }
-
-  // useEffect(() => {
-  //   const state = currentNeuroglancerState()
-  //   const filteredAnnotations = state.layers.filter((layer: any) => layer.type === "annotation");
-
-  //   setAnnotations(filteredAnnotations);
-  // }, []);
 
   const activeBreadcrumbText = (
     <p>
@@ -246,7 +236,7 @@ function ViewerPage({ run } : { run: any }) {
         </div>
       </nav>
       <div className="iframe-container">
-        <NeuroglancerWrapper />
+        <NeuroglancerWrapper onStateChange={refresh} />
       </div>
     </div>
   )
