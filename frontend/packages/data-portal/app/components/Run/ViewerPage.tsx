@@ -1,6 +1,6 @@
 import './ViewerPage.css'
 
-import { currentNeuroglancerState, currentState, NeuroglancerWrapper, updateState } from 'neuroglancer'
+import { currentNeuroglancerState, currentState, NeuroglancerWrapper, ResolvedSuperState, updateState } from 'neuroglancer'
 import { useState, useEffect } from 'react'
 import { cns } from 'app/utils/cns'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
@@ -12,23 +12,25 @@ import { CustomDropdown, CustomDropdownSection, CustomDropdownOption } from '../
 import { ABOUT_LINKS, HELP_AND_REPORT_LINKS, NEUROGLANCER_HELP_LINKS } from '../Layout/constants'
 import { useI18n } from 'app/hooks/useI18n'
 
+const BACKGROUND_COLOR = "#ffffff"
+
 // Button action for toggling layers visibility
 const isAnnotation = (layer: any) =>
   layer.type === 'annotation' || layer.type === 'segmentation'
 const toggleVisibility = (layer: any) =>
   !(layer.visible === undefined || layer.visible)
 
-// const toggleLayersVisibility = () => {
-//   updateState((state) => {
-//     for (const layer of state.neuroglancer.layers) {
-//       layer.visible = toggleVisibility(layer)
-//     }
-//     return state
-//   })
-// }
+const boolValue = (value: boolean | undefined, defaultValue: boolean = true) => {
+  return (value === undefined && defaultValue) || value
+}
 
 const changeBackgroundColor = (color: string) => {
   updateState((state) => {
+    if (isBackgroundWhite()) {
+      state.neuroglancer.crossSectionBackgroundColor = state.previousBackgroundColor
+      return state
+    }
+    state.previousBackgroundColor = state.neuroglancer.crossSectionBackgroundColor
     state.neuroglancer.crossSectionBackgroundColor = color
     return state
   })
@@ -47,33 +49,86 @@ const toggleAnnotations = () => {
 
 const toggleBoundingBox = () => {
   updateState((state) => {
-    state.neuroglancer.showDefaultAnnotations = toggleAnnotations();
+    const switchedBoundingBoxStatus = !hasBoundingBox()
+    for (const layer of state.neuroglancer.layers) {
+      if (layer.type !== "image" && layer.type !== "segmentation") {
+        continue
+      }
+      if (layer.source?.subsources) {
+        layer.source.subsources.bounds = switchedBoundingBoxStatus
+      } else {
+        const src = layer.source
+        layer.source = {
+          url: src,
+          subsources: {
+            default: true,
+            bounds: switchedBoundingBoxStatus,
+            mesh: true,
+          },
+          enableDefaultSubsources: false
+        }
+      }
+    }
     return state
   })
 }
 
-const hasAnnotationLayers = (state: any) => {
-  const root = state.neuroglancer || state
-  return root.layers.some(isAnnotation)
+const hasBoundingBox = () => {
+  return currentNeuroglancerState().layers
+  .filter((l: any) => l.type === "image" || l.type === "segmentation")
+  .some(
+    (layer: any) => layer.source?.subsources && boolValue(layer.source?.subsources?.bounds, /* defaultValue =*/ false)
+  )
 }
+
+const toggleAxisLine = () => {
+  updateState((state) => {
+    state.neuroglancer.showAxisLines = !axisLineEnabled()
+    return state
+  })
+}
+
+const axisLineEnabled = () => {
+  return boolValue(currentNeuroglancerState().showAxisLines);
+}
+
+const hasAnnotationLayers = (state: any) => {
+  return state.layers.some(isAnnotation)
+}
+
+const isBackgroundWhite = () => {
+  return currentNeuroglancerState().crossSectionBackgroundColor === BACKGROUND_COLOR
+}
+
+const showScaleBarEnabled = () => {
+  return boolValue(currentNeuroglancerState().showScaleBar)
+}
+
+const toggleShowScaleBar = () => {
+  updateState((state) => {
+    state.neuroglancer.showScaleBar = !showScaleBarEnabled()
+    return state
+  })
+}
+
 
 function ViewerPage({ run } : { run: any }) {
   const { t } = useI18n()
   const [hasAnnotations, setHasAnnotations] = useState(
-    hasAnnotationLayers(currentState()),
+    hasAnnotationLayers(currentNeuroglancerState()),
   )
   const [annotations, setAnnotations] = useState<any>([])
 
-  const updateButtons = (state: any) => {
-    setHasAnnotations(hasAnnotationLayers(state))
+  const updateButtons = (state: ResolvedSuperState) => {
+    setHasAnnotations(hasAnnotationLayers(state.neuroglancer))
   }
 
-  useEffect(() => {
-    const state = currentNeuroglancerState()
-    const filteredAnnotations = state.layers.filter((layer: any) => layer.type === "annotation");
+  // useEffect(() => {
+  //   const state = currentNeuroglancerState()
+  //   const filteredAnnotations = state.layers.filter((layer: any) => layer.type === "annotation");
 
-    setAnnotations(filteredAnnotations);
-  }, []);
+  //   setAnnotations(filteredAnnotations);
+  // }, []);
 
   const activeBreadcrumbText = (
     <p>
@@ -100,7 +155,7 @@ function ViewerPage({ run } : { run: any }) {
             <CustomDropdown title="Annotations" variant="outlined">
               <CustomDropdownSection title="Toggle annotations per deposition">
                 <CustomDropdownOption selected={false} onSelect={() => toggleAnnotations()}>All annotations</CustomDropdownOption>
-                {annotations.map((annotation: any) => (
+                {currentNeuroglancerState().layers.filter((layer: any) => layer.type === "annotation").map((annotation: any) => (
                   <CustomDropdownOption
                     key={annotation?.name}
                     selected
@@ -122,15 +177,15 @@ function ViewerPage({ run } : { run: any }) {
               </CustomDropdownSection>
               <CustomDropdownSection title="Toggle Panels">
                 <CustomDropdownOption selected={false} onSelect={() => console.log("All panels")}>All panels</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("Top layer bar")}>Top layer bar</CustomDropdownOption>
+                <CustomDropdownOption disabled selected={false} onSelect={() => console.log("Top layer bar")}>Top layer bar</CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
             <CustomDropdown title="Actions" variant="outlined">
               <CustomDropdownSection title="Appearance">
-                <CustomDropdownOption selected={false} onSelect={() => toggleBoundingBox()}>Bounding box</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("Axis lines")}>Axis lines</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("Scale bar")}>Scale bar</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => changeBackgroundColor("#ffffff")}>Change background to white</CustomDropdownOption>
+                <CustomDropdownOption selected={hasBoundingBox()} onSelect={toggleBoundingBox}>Bounding box</CustomDropdownOption>
+                <CustomDropdownOption selected={axisLineEnabled()} onSelect={toggleAxisLine}>Axis lines</CustomDropdownOption>
+                <CustomDropdownOption selected={showScaleBarEnabled()} onSelect={toggleShowScaleBar}>Scale bar</CustomDropdownOption>
+                <CustomDropdownOption selected={isBackgroundWhite()} onSelect={() => changeBackgroundColor(BACKGROUND_COLOR)}>Change background to white</CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
                 <CustomDropdownOption selected={false} onSelect={() => console.log("Snap to the nearest axis")}>Snap to the nearest axis</CustomDropdownOption>
@@ -164,7 +219,7 @@ function ViewerPage({ run } : { run: any }) {
         </div>
       </nav>
       <div className="iframe-container">
-        <NeuroglancerWrapper onStateChange={updateButtons} />
+        <NeuroglancerWrapper />
       </div>
     </div>
   )
