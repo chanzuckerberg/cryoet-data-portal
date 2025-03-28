@@ -2,10 +2,12 @@
 
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 
+import { Run } from 'app/__generated_v2__/graphql'
 import { apolloClientV2 } from 'app/apollo.server'
 import { DatasetMetadataDrawer } from 'app/components/Dataset'
 import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
 import { RunsTable } from 'app/components/Dataset/RunsTable'
+import { getContentSummaryCounts } from 'app/components/Dataset/utils'
 import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
 import { NoFilteredResults } from 'app/components/NoFilteredResults'
@@ -58,7 +60,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 }
 
 export default function DatasetByIdPage() {
-  const { dataset, deposition } = useDatasetById()
+  const { dataset, deposition, runs } = useDatasetById()
   const { t } = useI18n()
   const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
 
@@ -98,6 +100,8 @@ export default function DatasetByIdPage() {
           datasetTitle={dataset.title}
           s3Path={dataset.s3Prefix}
           fileSize={dataset.fileSize ?? undefined}
+          totalRuns={dataset.runsAggregate?.aggregate?.[0]?.count ?? 0}
+          datasetContentsSummary={getContentSummaryCounts(runs as Run[])}
           type="dataset"
         />
       }

@@ -1,6 +1,7 @@
 import { Icon } from '@czi-sds/components'
 import React from 'react'
 
+import { SummaryData } from 'app/components/Dataset/utils'
 import { Link } from 'app/components/Link'
 import { Tooltip } from 'app/components/Tooltip'
 import { useI18n } from 'app/hooks/useI18n'
@@ -8,15 +9,6 @@ import { I18nKeys } from 'app/types/i18n'
 import { cnsNoMerge } from 'app/utils/cns'
 
 import { sectionHeaderStyles } from './constants'
-
-type SummaryData = {
-  annotations: number
-  tomograms: number
-  frames: string
-  tiltSeries: string
-  ctf?: string
-  alignment: string
-}
 
 interface ContentsTooltipType {
   [x: string]: {
@@ -52,32 +44,32 @@ export function ContentsSummaryTable({
     learnMoreLink?: string
   }[] = [
     {
-      labelKey: t('annotations'),
+      labelKey: 'annotations',
       toolTipContentKey: t('contentExplanationAnnotation'),
       learnMoreLink:
         'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_data.html#annotations',
     },
     {
-      labelKey: t('tomograms'),
+      labelKey: 'tomograms',
       toolTipContentKey: t('contentExplanationTomograms'),
       learnMoreLink:
         'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_workflow.html#image-processing',
     },
     {
-      labelKey: t('frames'),
+      labelKey: 'frames',
       toolTipContentKey: t('contentExplanationFrames'),
       learnMoreLink:
         'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_workflow.html#image-processing',
     },
     {
-      labelKey: t('tiltSeries'),
+      labelKey: 'tiltSeries',
       toolTipContentKey: t('contentExplanationTiltSeries'),
       learnMoreLink:
         'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_workflow.html#image-processing',
     },
     {
       labelKey: 'alignment',
-      toolTipContentKey: 'contentExplanationAlignment',
+      toolTipContentKey: t('contentExplanationAlignment'),
     },
     // TODO: (smccanny) Add this in when CTF is available
     // {
@@ -137,7 +129,6 @@ export function ContentsSummaryTable({
         {SUMMARY_TABLE_INFO.map((entry) => (
           <React.Fragment key={entry.labelKey}>
             <Tooltip
-              // data-testid={`${obj[0]}-gtTag`}
               className="cursor-pointer group justify-self-start"
               placement="top"
               sdsStyle="light"
@@ -165,7 +156,7 @@ export function ContentsSummaryTable({
               }
             >
               <h4 className="justify-self-start text-light-sds-color-semantic-base-text-primary underline decoration-dashed decoration-sds-color-semantic-base-border-primary font-semibold underline-offset-[2.5px] group-hover:decoration-solid">
-                {entry.labelKey}
+                {t(entry.labelKey)}
               </h4>
             </Tooltip>
             <p className="text-right">{data[entry.labelKey]}</p>
