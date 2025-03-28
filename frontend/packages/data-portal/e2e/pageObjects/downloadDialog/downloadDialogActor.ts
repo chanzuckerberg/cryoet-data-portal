@@ -3,6 +3,7 @@
  */
 
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import { expect } from '@chromatic-com/playwright'
 import { E2E_CONFIG } from 'e2e/constants'
 
 import {
