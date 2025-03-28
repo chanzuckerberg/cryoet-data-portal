@@ -1,38 +1,11 @@
-import { Icon } from '@czi-sds/components'
-import { useState } from 'react'
-
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorList } from 'app/components/AuthorList'
+import { CollapsibleDescription } from 'app/components/common/CollapsibleDescription/CollapsibleDescription'
 import { DatabaseEntryList } from 'app/components/DatabaseEntry'
 import { useI18n } from 'app/hooks/useI18n'
 import { Deposition } from 'app/types/gql/depositionPageTypes'
 import { getTableData } from 'app/utils/table'
-
-function CollapsibleDescription({ text }: { text: string }) {
-  const { t } = useI18n()
-  const [isCollapsed, setCollapsed] = useState(true)
-
-  return (
-    <div>
-      <p className={isCollapsed ? 'text-ellipsis line-clamp-3' : undefined}>
-        {text}
-      </p>
-      <div className="mt-sds-s font-semibold text-light-sds-color-primitive-blue-500">
-        <button type="button" onClick={() => setCollapsed((prev) => !prev)}>
-          <span className="flex flex-row gap-sds-xxs items-center">
-            <Icon
-              sdsIcon={isCollapsed ? 'Plus' : 'Minus'}
-              sdsSize="xs"
-              className="!text-current"
-            />
-            {t(isCollapsed ? 'showMore' : 'showLess')}
-          </span>
-        </button>
-      </div>
-    </div>
-  )
-}
 
 export function DepositionMetadataTable({
   deposition,

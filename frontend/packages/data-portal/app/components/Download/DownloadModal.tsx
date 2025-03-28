@@ -61,7 +61,10 @@ function DownloadModalContent() {
           subtitle: hasMultipleSteps
             ? t('stepCount', { count: 2, max: 2 })
             : null,
-          title: t('downloadOptions'),
+          title:
+            type === 'dataset'
+              ? t('downloadDatasetTitle')
+              : t('downloadOptions'),
         }),
       )
       .otherwise(() => ({

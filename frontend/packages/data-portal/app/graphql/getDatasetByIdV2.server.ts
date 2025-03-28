@@ -162,6 +162,21 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
           }
         }
       }
+      tomogramsAggregate {
+        aggregate {
+          count
+        }
+      }
+      framesAggregate {
+        aggregate {
+          count
+        }
+      }
+      alignmentsAggregate {
+        aggregate {
+          count
+        }
+      }
       tomograms(
         first: 1,
         where: { isVisualizationDefault: { _eq: true } }
