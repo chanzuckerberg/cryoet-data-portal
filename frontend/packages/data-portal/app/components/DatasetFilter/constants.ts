@@ -5,6 +5,7 @@ export const AVAILABLE_FILES_VALUE_TO_I18N_MAP: Record<
   AvailableFilesFilterValue,
   I18nKeys
 > = {
+  annotation: 'annotation',
   'raw-frames': 'rawFrames',
   'tilt-series': 'tiltSeries',
   'tilt-series-alignment': 'tiltSeriesAlignment',

@@ -98,22 +98,26 @@ export function IncludedContentsFilterSection({
   }, [showMeetsAll, t])
 
   return (
-    <FilterSection title={i18n.includedContents}>
-      <GroundTruthAnnotationFilter
-        depositionPageVariant={depositionPageVariant}
-      />
-
+    <FilterSection
+      title={
+        depositionPageVariant ? i18n.depositionContents : i18n.datasetContents
+      }
+    >
       <SelectFilter
         multiple
         options={allAvailableFilesOptions}
         value={availableFilesOptions}
-        label={i18n.availableFiles}
+        label={i18n.dataTypes}
         onChange={(options) => {
           setShowMeetsAll((options?.length ?? 0) > 0)
           updateValue(QueryParams.AvailableFiles, options)
         }}
         title={`${t('resultsMustIncludeAllFileTypes')}:`}
         className={AVAILABLE_FILES_CLASS_NAME}
+      />
+
+      <GroundTruthAnnotationFilter
+        depositionPageVariant={depositionPageVariant}
       />
 
       <SelectFilter

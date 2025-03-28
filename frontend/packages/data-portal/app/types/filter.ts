@@ -17,6 +17,7 @@ export interface BaseFilterOption<T extends string = string>
 export type NumberOfRunsFilterOption = BaseFilterOption<NumberOfRunsFilterValue>
 
 export type AvailableFilesFilterValue =
+  | 'annotation'
   | 'raw-frames'
   | 'tilt-series'
   | 'tilt-series-alignment'

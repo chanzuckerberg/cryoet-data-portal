@@ -63,6 +63,15 @@ export function getDatasetsFilter({
   for (const availableFile of filterState.includedContents.availableFiles) {
     where.runs ??= {}
     switch (availableFile) {
+      case 'annotation':
+        where.runs.annotationsAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
       case 'raw-frames':
         where.runs.framesAggregate = {
           count: {

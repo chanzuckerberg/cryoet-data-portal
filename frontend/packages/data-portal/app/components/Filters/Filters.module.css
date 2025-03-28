@@ -21,6 +21,16 @@
   }
 }
 
+.booleanWrapped {
+  :global(.MuiFormControlLabel-root) {
+    @apply !items-start;
+  }
+
+  :global(.MuiTypography-root) {
+    @apply !-mt-sds-xxs;
+  }
+}
+
 .select {
   :global(.MuiButtonBase-root) {
     @apply w-max;
