@@ -105,6 +105,71 @@ export function Breadcrumbs({
 
   const plausible = usePlausible()
 
+  const buildDepositionBreadcrumb = () => {
+    return (
+      <div className="flex flex-row gap-sds-s text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
+        <Breadcrumb
+          text={t('allDepositions')}
+          link={browseAllLink}
+          className="shrink-0"
+          type={BreadcrumbType.AllDepositions}
+        />
+        {chevronIcon}
+        <Breadcrumb text={t('deposition')} />
+      </div>
+    )
+  }
+
+  const buildRunBreadcrumb = () => {
+    return (
+      <div className="flex flex-row gap-sds-s text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
+        <Breadcrumb
+          text={t('allDatasets')}
+          link={browseAllLink}
+          className="shrink-0"
+          type={BreadcrumbType.AllDatasets}
+        />
+        {chevronIcon}
+        <Breadcrumb
+          text={`${t('dataset')}: ${data.title}`}
+          link={singleDatasetLink}
+          className="overflow-ellipsis overflow-hidden flex-initial"
+          type={BreadcrumbType.SingleDataset}
+          datasetId={data.id}
+        />
+        {chevronIcon}
+        <Breadcrumb text={t('run')} className="shrink-0" />
+      </div>
+    )
+  }
+
+  const buildDatasetBreadcrumb = () => {
+    return (
+      <div className="flex flex-row gap-sds-s text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
+        <Breadcrumb
+          text={t('allDatasets')}
+          link={browseAllLink}
+          className="shrink-0"
+          type={BreadcrumbType.AllDatasets}
+        />
+        {chevronIcon}
+        <Breadcrumb
+          text={`${t('dataset')}`}
+          link={singleDatasetLink}
+          className="overflow-ellipsis overflow-hidden flex-initial"
+          type={BreadcrumbType.SingleDataset}
+          datasetId={data.id}
+        />
+      </div>
+    )
+  }
+
+  const breadCrumbVariations = {
+    dataset: buildDatasetBreadcrumb,
+    deposition: buildDepositionBreadcrumb,
+    run: buildRunBreadcrumb,
+  }
+
   return (
     <div
       className="flex flex-col flex-auto gap-1"
@@ -127,44 +192,7 @@ export function Breadcrumbs({
           {t('returnToDeposition')}
         </Link>
       )}
-
-      <div className="flex flex-row gap-sds-s text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
-        <Breadcrumb
-          text={t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')}
-          link={browseAllLink}
-          className="shrink-0"
-          type={
-            variant === 'deposition'
-              ? BreadcrumbType.AllDepositions
-              : BreadcrumbType.AllDatasets
-          }
-        />
-
-        {chevronIcon}
-
-        {variant === 'deposition' ? (
-          <Breadcrumb text={t('deposition')} />
-        ) : (
-          <Breadcrumb
-            text={
-              variant === 'dataset'
-                ? `${t('dataset')}`
-                : `${t('dataset')}: ${data.title}`
-            }
-            link={singleDatasetLink}
-            className="overflow-ellipsis overflow-hidden flex-initial"
-            type={BreadcrumbType.SingleDataset}
-            datasetId={data.id}
-          />
-        )}
-
-        {variant === 'run' && (
-          <>
-            {chevronIcon}
-            <Breadcrumb text={t('run')} className="shrink-0" />
-          </>
-        )}
-      </div>
+      {breadCrumbVariations[variant]()}
     </div>
   )
 }
