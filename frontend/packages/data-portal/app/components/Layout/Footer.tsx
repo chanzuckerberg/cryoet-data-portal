@@ -4,6 +4,7 @@ import { CZIIcon, ImageInstituteIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
+import { useLocation } from '@remix-run/react'
 
 import { CryoETHomeLink } from './CryoETHomeLink'
 
@@ -42,6 +43,8 @@ const LEGAL_LINKS = [
 ]
 
 export function Footer() {
+  const { pathname } = useLocation()
+
   const legalLinks = (
     <div className="flex items-center gap-sds-s">
       {LEGAL_LINKS.map(({ label, href }, idx) => (
@@ -74,6 +77,12 @@ export function Footer() {
       </Link>
     </div>
   )
+
+  const isItNeuroglancerPage = pathname.includes("/view/runs/");
+
+  if (isItNeuroglancerPage) {
+    return null;
+  }
 
   return (
     <footer className="bg-sds-color-primitive-common-black min-h-[213px] pt-[41px] pb-sds-xxl px-sds-xl screen-716:px-sds-xxl flex flex-col flex-shrink-0">
