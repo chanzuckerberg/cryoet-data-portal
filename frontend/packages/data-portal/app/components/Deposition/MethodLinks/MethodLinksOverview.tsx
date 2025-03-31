@@ -19,22 +19,24 @@ export function MethodLinksOverview() {
   const { t } = useI18n()
   const { annotationMethods } = useDepositionById()
 
-  const separator = <div className="h-[1px] bg-sds-color-primitive-gray-300" />
+  const separator = (
+    <div className="h-[1px] bg-light-sds-color-primitive-gray-300" />
+  )
 
   return (
     <div>
       <PageHeaderSubtitle className="mb-sds-m">
         {t('annotationMethodsSummary')}
       </PageHeaderSubtitle>
-      <div className="p-sds-l flex flex-col gap-sds-l bg-sds-color-primitive-gray-100  rounded-sds-m">
+      <div className="p-sds-l flex flex-col gap-sds-l bg-light-sds-color-primitive-gray-100  rounded-sds-m">
         {annotationMethods.map(
           ({ annotationMethod, methodType, methodLinks }, i) => (
             <>
               <div className="grid grid-cols-[1fr_2fr] gap-x-sds-xl gap-y-sds-xs">
-                <h3 className="text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold uppercase">
+                <h3 className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs font-semibold uppercase">
                   {t('methodType')}
                 </h3>
-                <div className="flex flex-row gap-sds-xxs text-sds-body-xxs leading-sds-body-xxs col-start-1">
+                <div className="flex flex-row gap-sds-xxs text-sds-body-xxs-400-wide leading-sds-body-xxs col-start-1">
                   {t(
                     getMethodTypeLabelI18nKey(
                       methodType ?? Annotation_Method_Type_Enum.Automated,
@@ -54,12 +56,11 @@ export function MethodLinksOverview() {
                     <Icon
                       sdsIcon="InfoCircle"
                       sdsSize="xs"
-                      sdsType="static"
-                      className="!text-sds-color-primitive-gray-500"
+                      className="!text-light-sds-color-primitive-gray-500"
                     />
                   </Tooltip>
                 </div>
-                <h3 className="text-sds-caps-xxxs leading-sds-caps-xxxs font-semibold uppercase col-start-2 row-start-1">
+                <h3 className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs font-semibold uppercase col-start-2 row-start-1">
                   {t('methodLinks')}
                 </h3>
                 <CollapsibleList
@@ -69,9 +70,10 @@ export function MethodLinksOverview() {
                       entry: (
                         <MethodLink
                           {...methodLinkProps}
-                          className="text-sds-body-xxs leading-sds-body-xxs"
+                          className="text-sds-body-xxs-400-wide leading-sds-body-xxs"
                           linkProps={{
-                            className: 'text-sds-color-primitive-gray-600',
+                            className:
+                              'text-light-sds-color-primitive-gray-600',
                             variant: 'dashed-underlined',
                           }}
                         />

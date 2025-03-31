@@ -11,6 +11,7 @@ import { isExternalUrl } from 'app/utils/url'
 export type VariantLinkProps = LinkProps & {
   newTab?: boolean
   variant?: 'dashed-bordered' | 'dashed-underlined'
+  stopPropagation?: boolean
 }
 
 function BaseLink(
@@ -20,6 +21,7 @@ function BaseLink(
     variant,
     className,
     newTab,
+    stopPropagation,
     ...props
   }: VariantLinkProps & { href?: string },
   ref: ForwardedRef<HTMLAnchorElement>,
@@ -47,6 +49,10 @@ function BaseLink(
       event.stopPropagation()
       event.nativeEvent.stopImmediatePropagation()
       window.open(event.currentTarget.href, '_blank', 'noopener,noreferrer')
+    }
+    if (stopPropagation) {
+      event.stopPropagation()
+      event.nativeEvent.stopImmediatePropagation()
     }
   }
 

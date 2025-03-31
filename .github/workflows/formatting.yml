@@ -6,7 +6,6 @@ on:
       - 'client/**'
       - 'frontend/**'
       - 'backend/**'
-      - 'docs/_static/css/**'
       - '.github/workflows/**' # Re-run if a workflow is modified - useful to test workflow changes in PRs
   push:
     branches:

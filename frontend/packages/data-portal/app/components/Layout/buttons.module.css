@@ -3,12 +3,12 @@
   height: 32px !important;
 
   svg {
-    @apply !text-sds-color-primitive-common-white;
+    @apply !text-light-sds-color-primitive-gray-50;
   }
 }
 
 .buttonHamburger {
   svg {
-    @apply !text-sds-color-primitive-gray-400;
+    @apply !text-light-sds-color-primitive-gray-400;
   }
 }

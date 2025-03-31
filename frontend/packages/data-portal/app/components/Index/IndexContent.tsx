@@ -8,10 +8,10 @@ export function IndexContent() {
     <div className="px-sds-xl overflow-x-clip flex flex-col items-center w-full">
       <div className="flex flex-col max-w-content-small py-sds-xxl gap-sds-xxl w-full">
         <div className="flex flex-col gap-sds-xl">
-          <h2 className="font-sds-semibold font-semibold text-sds-header-xl leading-sds-header-xl">
+          <h2 className="font-semibold text-sds-header-xl-600-wide leading-sds-header-xl">
             <I18n i18nKey="landingPageWelcomeBlurb" />
           </h2>
-          <div className="font-sds-regular text-sds-body-s leading-sds-body-s flex flex-col gap-sds-l">
+          <div className="font-sds-body text-sds-body-s-400-wide leading-sds-body-s flex flex-col gap-sds-l">
             <p>
               <I18n i18nKey="landingPageCopy1" />
             </p>
@@ -32,8 +32,8 @@ export function IndexContent() {
         <IndexCTA />
         <IndexContributors />
         <div className="flex flex-col gap-sds-m">
-          <div className="flex-initial h-sds-xxxs bg-sds-color-primitive-gray-200" />
-          <p className="text-sds-body-xxxs leading-sds-body-xxxs text-sds-color-primitive-gray-600">
+          <div className="flex-initial h-sds-xxxs bg-light-sds-color-primitive-gray-200" />
+          <p className="text-sds-body-xxxs-400-wide leading-sds-body-xxxs text-light-sds-color-primitive-gray-600">
             <I18n i18nKey="landingHeaderImageAttribution" />
           </p>
         </div>

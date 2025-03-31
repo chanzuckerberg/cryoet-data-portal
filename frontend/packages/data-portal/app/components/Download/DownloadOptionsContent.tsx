@@ -141,11 +141,11 @@ export function DownloadOptionsContent() {
         <ModalSubtitle label={t('annotations')} value={t('all')} />
       )}
 
-      <p className="font-semibold text-sds-body-m leading-sds-body-m mt-sds-xl">
+      <p className="font-semibold text-sds-body-m-400-wide leading-sds-body-m mt-sds-xl">
         {t('selectDownloadMethod')}:
       </p>
 
-      <div className="border-b-2 border-sds-color-primitive-gray-200">
+      <div className="border-b-2 border-light-sds-color-primitive-gray-200">
         <Tabs
           onChange={(tab) =>
             setDownloadTab({
@@ -173,9 +173,11 @@ export function DownloadOptionsContent() {
           }
         />
       ) : (
-        <Callout intent="notice" className="!w-full !mt-sds-xl">
-          <I18n i18nKey="annotationsMayRequireTransformation" />
-        </Callout>
+        <Callout
+          intent="notice"
+          className="!w-full !mt-sds-xl"
+          body={<I18n i18nKey="annotationsMayRequireTransformation" />}
+        />
       )}
     </>
   )

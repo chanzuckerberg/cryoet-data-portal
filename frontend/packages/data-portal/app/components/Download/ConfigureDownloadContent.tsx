@@ -45,7 +45,7 @@ export function ConfigureDownloadContent() {
         />
       )}
 
-      <p className="mt-sds-xl text-sds-body-m leading-sds-body-m font-semibold">
+      <p className="mt-sds-xl text-sds-body-m-400-wide leading-sds-body-m font-semibold">
         {t('selectDownload')}
       </p>
 

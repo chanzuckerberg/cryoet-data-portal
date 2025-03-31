@@ -25,7 +25,7 @@ export function CurlDownloadTab() {
       <CopyBox
         content={curlCommand}
         title={`2. ${t('copyAndRunCurlCommand')}`}
-        titleClassName="text-sds-header-s leading-sds-header-s font-semibold mt-sds-l"
+        titleClassName="text-sds-header-s-600-wide leading-sds-header-s font-semibold mt-sds-l"
         onCopy={() => logPlausibleCopyEvent('curl-command', curlCommand)}
       />
 

@@ -13,7 +13,7 @@ export function MenuItemLink({
 }) {
   return (
     <MenuItem className={styles.menuItem} divider={divider}>
-      <Link className="flex flex-auto !text-sds-body-xs" {...props} />
+      <Link className="flex flex-auto !text-sds-body-xs-400-wide" {...props} />
     </MenuItem>
   )
 }

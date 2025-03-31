@@ -60,6 +60,7 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
         aggregate {
           groupBy {
             objectName
+            groundTruthStatus
           }
           count
         }

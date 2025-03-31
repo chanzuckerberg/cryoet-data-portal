@@ -11,6 +11,7 @@ import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQuery
 import { useI18n } from 'app/hooks/useI18n'
 import { PlausibleDownloadModalPayload } from 'app/hooks/usePlausible'
 import { DownloadStep } from 'app/types/download'
+import { cns } from 'app/utils/cns'
 
 import { ConfigureDownloadContent } from './ConfigureDownloadContent'
 import { DownloadOptionsContent } from './DownloadOptionsContent'
@@ -87,7 +88,8 @@ function DownloadModalContent() {
   return (
     <Dialog
       classes={{
-        paper: '!max-w-[600px] border border-sds-color-primitive-gray-100',
+        paper:
+          '!max-w-[600px] border border-light-sds-color-primitive-gray-100',
       }}
       onClose={closeModal}
       open={!!isModalOpen}
@@ -96,11 +98,11 @@ function DownloadModalContent() {
       <div className="flex justify-between">
         <div className="flex-col gap-sds-xxs py-sds-xxs">
           {modalData.subtitle && (
-            <p className="text-sds-color-primitive-gray-500 text-sds-body-xs leading-sds-body-xs">
+            <p className="text-light-sds-color-primitive-gray-500 text-sds-body-xs-400-wide leading-sds-body-xs">
               {modalData.subtitle}
             </p>
           )}
-          <h2 className="text-sds-header-xl leading-sds-header-xl font-semibold">
+          <h2 className="text-sds-header-xl-600-wide leading-sds-header-xl font-semibold">
             {modalData.title}
           </h2>
         </div>
@@ -108,10 +110,14 @@ function DownloadModalContent() {
         <div>
           <button onClick={closeModal} type="button">
             <Icon
-              className="!fill-sds-color-semantic-component-base-icon"
+              className={cns(
+                'transition-colors',
+                '!text-light-sds-color-semantic-base-ornament-secondary',
+                'hover:!text-light-sds-color-semantic-base-ornament-secondary-hover',
+                'active:!text-light-sds-color-semantic-base-ornament-secondary-hover',
+              )}
               sdsIcon="XMark"
               sdsSize="l"
-              sdsType="button"
             />
           </button>
         </div>

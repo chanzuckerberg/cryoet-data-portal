@@ -34,30 +34,11 @@ export const ICON_MAP: Record<Annotation_Method_Link_Type_Enum, ReactNode> = {
   models_weights: (
     <WeightsIcon className="w-sds-icon-s h-sds-icon-s inline-block" />
   ),
-  website: (
-    <Icon
-      sdsIcon="Globe"
-      sdsType="static"
-      sdsSize="s"
-      className="!text-current"
-    />
-  ),
+  website: <Icon sdsIcon="Globe" sdsSize="s" className="!text-current" />,
   documentation: (
-    <Icon
-      sdsIcon="Document"
-      sdsType="static"
-      sdsSize="s"
-      className="!text-current"
-    />
+    <Icon sdsIcon="Document" sdsSize="s" className="!text-current" />
   ),
-  other: (
-    <Icon
-      sdsIcon="Link"
-      sdsType="static"
-      sdsSize="s"
-      className="!text-current"
-    />
-  ),
+  other: <Icon sdsIcon="Link" sdsSize="s" className="!text-current" />,
 }
 
 export function generateMethodLinkProps(
