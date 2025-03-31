@@ -30,7 +30,7 @@ export function GroundTruthAnnotationFilter({
       />
       {/* FIXME: once sds upgraded to 0.20.x delete below line and remove fragment wrapper */}
       {depositionPageVariant && (
-        <p className="pl-9 text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500">
+        <p className="pl-9 text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-primitive-gray-500">
           {t('depositionAnnotationsOnly')}
         </p>
       )}

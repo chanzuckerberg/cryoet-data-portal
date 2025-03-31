@@ -31,7 +31,7 @@ import { Dataset } from 'app/types/gql/datasetsPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
-import { isDefined } from 'app/utils/nullish'
+import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { getErrorMessage } from 'app/utils/string'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
@@ -145,9 +145,9 @@ export function DatasetTable() {
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                   <div
                     className={cnsNoMerge(
-                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
+                      'text-sds-body-m-400-wide leading-sds-body-m font-semibold text-light-sds-color-primitive-blue-500',
                       !isClickingOnEmpiarId &&
-                        'group-hover:text-sds-color-primitive-blue-500',
+                        'group-hover:text-light-sds-color-primitive-blue-600',
                     )}
                   >
                     {isLoadingDebounced ? (
@@ -157,7 +157,7 @@ export function DatasetTable() {
                     )}
                   </div>
 
-                  <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
+                  <div className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-semantic-base-text-primary">
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
@@ -165,7 +165,7 @@ export function DatasetTable() {
                     )}
                   </div>
 
-                  <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500 mt-sds-s">
+                  <div className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-semantic-base-text-secondary mt-sds-s">
                     {isLoadingDebounced ? (
                       <>
                         <Skeleton className="max-w-[80%] mt-2" variant="text" />
@@ -268,9 +268,16 @@ export function DatasetTable() {
 
         columnHelper.accessor(
           (dataset) =>
-            dataset.distinctObjectNames?.aggregate
-              ?.map((aggregate) => aggregate.groupBy?.annotations?.objectName)
-              .filter(isDefined) ?? [],
+            dataset.distinctObjectNames?.aggregate?.reduce((acc, aggregate) => {
+              const objectName = aggregate?.groupBy?.annotations?.objectName
+              const groundTruthStatus =
+                !!aggregate?.groupBy?.annotations?.groundTruthStatus
+              return setObjectNameAndGroundTruthStatus(
+                objectName,
+                groundTruthStatus,
+                acc,
+              )
+            }, new Map<string, boolean>()) || new Map<string, boolean>(),
           {
             id: 'annotatedObjects',
 
@@ -291,7 +298,7 @@ export function DatasetTable() {
                   </div>
                 )}
               >
-                {getValue().length === 0 ? (
+                {getValue().size === 0 ? (
                   '--'
                 ) : (
                   <AnnotatedObjectsList annotatedObjects={getValue()} />

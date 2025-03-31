@@ -47,6 +47,7 @@ export const i18n = {
   cellularComponent: 'Cellular Component',
   citations: 'Citations',
   confidence: 'confidence',
+  contributeData: 'Contribute Data',
   contributeCta:
     'We encourage you to share datasets and/or annotations to existing data. Click below to fill out the inquiry form.',
   contributeYourData: 'Contribute your Data',
@@ -73,6 +74,7 @@ export const i18n = {
   excellent: 'Excellent',
   false: 'False',
   faq: 'FAQ',
+  feedback: 'Feedback',
   fiducialAlignmentStatus: 'Fiducial Alignment Status',
   filterBy: 'Filter by',
   filterByAnyOfTheFollowing: 'Filter by any of the following',

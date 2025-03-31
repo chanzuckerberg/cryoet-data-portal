@@ -31,7 +31,7 @@ import { Dataset } from 'app/types/gql/depositionPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
-import { isDefined } from 'app/utils/nullish'
+import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { getErrorMessage } from 'app/utils/string'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
@@ -145,8 +145,8 @@ export function DatasetsTable() {
                 <div className="flex flex-col flex-auto gap-sds-xxxs min-h-[100px]">
                   <div
                     className={cnsNoMerge(
-                      'text-sds-body-m leading-sds-body-m font-semibold text-sds-color-primitive-blue-400',
-                      'group-hover:text-sds-color-primitive-blue-500',
+                      'text-sds-body-m-400-wide leading-sds-body-m font-semibold text-light-sds-color-primitive-blue-500',
+                      'group-hover:text-light-sds-color-primitive-blue-600',
                     )}
                   >
                     {isLoadingDebounced ? (
@@ -156,7 +156,7 @@ export function DatasetsTable() {
                     )}
                   </div>
 
-                  <p className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-semantic-text-base-primary">
+                  <p className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-semantic-base-text-primary">
                     {isLoadingDebounced ? (
                       <Skeleton className="max-w-[120px]" variant="text" />
                     ) : (
@@ -164,7 +164,7 @@ export function DatasetsTable() {
                     )}
                   </p>
 
-                  <div className="text-sds-body-xxs leading-sds-body-xxs text-sds-color-primitive-gray-500 mt-sds-s">
+                  <div className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-primitive-gray-500 mt-sds-s">
                     {isLoadingDebounced ? (
                       <>
                         <Skeleton className="max-w-[80%] mt-2" variant="text" />
@@ -217,7 +217,7 @@ export function DatasetsTable() {
                       <I18n i18nKey="runsTooltip" />
                       {t('symbolPeriod')}
                     </p>
-                    <p className="mt-sds-s text-sds-color-primitive-gray-600 text-sds-body-xxxs leading-sds-body-xxxs">
+                    <p className="mt-sds-s text-light-sds-color-primitive-gray-600 text-sds-body-xxxs-400-wide leading-sds-body-xxxs">
                       <I18n i18nKey="runsTooltipDepositionSubtext" />
                     </p>
                   </div>
@@ -265,16 +265,23 @@ export function DatasetsTable() {
         ),
 
         columnHelper.accessor(
-          (dataset) => [
-            ...new Set(
-              dataset.runs.edges.flatMap(
-                (run) =>
-                  run.node.annotationsAggregate?.aggregate
-                    ?.map((aggregate) => aggregate.groupBy?.objectName)
-                    .filter(isDefined) ?? [],
-              ),
-            ),
-          ],
+          (dataset) =>
+            dataset.runs.edges.reduce((acc, run) => {
+              const annotations = run.node.annotationsAggregate?.aggregate
+              if (annotations) {
+                annotations.forEach((annotation) => {
+                  const objectName = annotation.groupBy?.objectName
+                  const groundTruthStatus =
+                    !!annotation.groupBy?.groundTruthStatus
+                  return setObjectNameAndGroundTruthStatus(
+                    objectName,
+                    groundTruthStatus,
+                    acc,
+                  )
+                })
+              }
+              return acc
+            }, new Map<string, boolean>()) || new Map<string, boolean>(),
           {
             id: 'annotatedObjects',
 
@@ -298,7 +305,7 @@ export function DatasetsTable() {
                   </div>
                 )}
               >
-                {getValue().length === 0 ? (
+                {getValue().size === 0 ? (
                   '--'
                 ) : (
                   <AnnotatedObjectsList annotatedObjects={getValue()} />

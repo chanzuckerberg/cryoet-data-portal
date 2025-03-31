@@ -122,6 +122,7 @@ const GET_DEPOSITION_BY_ID = gql(`
                 count
                 groupBy {
                   objectName
+                  groundTruthStatus
                 }
               }
             }

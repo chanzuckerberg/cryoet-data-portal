@@ -4,12 +4,11 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Link } from 'app/components/Link'
-import { cns } from 'app/utils/cns'
-import { useFeatureFlag } from 'app/utils/featureFlags'
+import { cns, cnsNoMerge } from 'app/utils/cns'
 
-import { AboutAndHelpDropdown } from './AboutAndHelpDropdown'
+import { AboutAndReportDropdown } from './AboutAndReportDropdown'
 import styles from './buttons.module.css'
-import { TOP_LEVEL_LINKS, TOP_LEVEL_LINKS_COMPETITION } from './constants'
+import { TOP_LEVEL_LINKS } from './constants'
 import { CryoETHomeLink } from './CryoETHomeLink'
 import { MobileNavigationMenu } from './MobileNavigationMenu'
 import { ToolsDropdown } from './ToolsDropdown'
@@ -17,8 +16,6 @@ import { ToolsDropdown } from './ToolsDropdown'
 export function TopNavigation() {
   const { pathname } = useLocation()
   const { t } = useTranslation()
-  const showPostMlChallenge = useFeatureFlag('postMlChallenge')
-
   const [mobileMenuIsOpen, setMobileMenuOpen] = useState(false)
 
   // force close mobile menu when navigating
@@ -26,22 +23,15 @@ export function TopNavigation() {
     setMobileMenuOpen(false)
   }, [pathname])
 
-  // TODO: (smccanny) Remove once post competition page is live
-  const TEMP_LINKS = showPostMlChallenge
-    ? TOP_LEVEL_LINKS
-    : TOP_LEVEL_LINKS_COMPETITION
-
-  const isItNeuroglancerPage = pathname.includes("/view/runs/");
+  const isItNeuroglancerPage = pathname.includes('/view/runs/')
 
   if (isItNeuroglancerPage) {
-    return null;
+    return null
   }
-
-  
   return (
     <nav
       className={cns(
-        'bg-sds-color-primitive-common-black text-sds-color-primitive-common-white',
+        'bg-light-sds-color-primitive-gray-900  text-light-sds-color-primitive-gray-50',
         'flex py-sds-m flex-shrink-0 items-center px-sds-xl',
         'sticky top-0 z-30',
       )}
@@ -49,16 +39,16 @@ export function TopNavigation() {
       <CryoETHomeLink />
 
       {/* Add empty space to push content to right */}
-      <div className="basis-sds-xxl flex-grow screen-790:mr-sds-xxl" />
+      <div className="basis-sds-xxl flex-grow screen-1024:mr-sds-xxl" />
 
-      <div className="hidden screen-716:flex basis-auto flex-shrink-0">
-        {TEMP_LINKS.map((link) => (
+      <div className="hidden screen-1024:flex basis-auto flex-shrink-0">
+        {TOP_LEVEL_LINKS.map((link) => (
           <Link
-            className={cns(
-              'text-sds-header-s leading-sds-header-s font-semibold mr-sds-xxl p-0',
-              link.isActive(pathname)
-                ? 'text-sds-color-primitive-common-white'
-                : 'text-sds-color-primitive-gray-400 hover:text-sds-color-primitive-common-white',
+            className={cnsNoMerge(
+              'leading-sds-header-s font-semibold mr-sds-xxl p-0 text-sds-header-s-600-wide',
+              link.isActive && link.isActive(pathname)
+                ? 'text-light-sds-color-primitive-gray-50'
+                : 'text-light-sds-color-primitive-gray-400 hover:text-light-sds-color-primitive-gray-50',
             )}
             to={link.link}
             key={link.link}
@@ -67,12 +57,12 @@ export function TopNavigation() {
           </Link>
         ))}
 
-        <ToolsDropdown className="mr-sds-xxl text-sds-header-s" />
-        <AboutAndHelpDropdown className="screen-790:ml-sds-xxl text-sds-header-s" />
+        <ToolsDropdown className="mr-sds-xxl text-sds-header-s-600-wide" />
+        <AboutAndReportDropdown className="screen-1024:ml-sds-xxl text-sds-header-s-600-wide" />
       </div>
 
       <Button
-        className="screen-716:!hidden"
+        className="screen-1024:!hidden"
         icon="LinesHorizontal3"
         sdsStyle="icon"
         sdsType="tertiary"

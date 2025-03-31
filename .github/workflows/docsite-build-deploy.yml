@@ -1,15 +1,34 @@
 name: Build and Deploy Docsite
 on:
   workflow_dispatch: # Used to make post-release docfixes
+  pull_request:
+    paths:
+      - "docs/**"
   push:
     branches:
       - main
     paths:
-      - 'docs/**'
+      - "docs/**"
 
 permissions:
   contents: write
 jobs:
+  pre-commit-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Run pre-commit without pnpm
+        uses: pre-commit/action@v3.0.0
+        env:
+          SKIP: pnpm-lint
+
   build-and-deploy:
     concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest

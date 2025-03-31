@@ -11,11 +11,11 @@ import { cnsNoMerge } from 'app/utils/cns'
 
 import { MethodLinksOverview } from './MethodLinks'
 
-// use clsx here instead of cns since it erroneously merges text-sds-color-primitive-gray-500 and text-sds-caps-xxxs
+// use clsx here instead of cns since it erroneously merges text-light-sds-color-primitive-gray-500 and text-sds-caps-xxxs-600-wide
 const sectionHeaderStyles = cnsNoMerge(
   'font-semibold uppercase',
-  'text-sds-color-primitive-common-black',
-  'text-sds-caps-xxxs leading-sds-caps-xxxs tracking-sds-caps',
+  'text-light-sds-color-primitive-gray-900 ',
+  'text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs tracking-sds-caps-xxxs-600-wide',
   'mb-sds-xs',
 )
 
@@ -30,17 +30,17 @@ export function DepositionOverview() {
         <PageHeaderSubtitle className="my-sds-m">
           {t('depositionOverview')}
         </PageHeaderSubtitle>
-        <p className="text-sds-body-m leading-sds-body-m">
+        <p className="text-sds-body-m-400-wide leading-sds-body-m">
           {deposition.description}
         </p>
         {deposition.tag === Tags.MLCompetition2024 && (
           <div className="pt-sds-m flex ">
-            <p className="text-sds-body-xs leading-sds-body-xs font-semibold mr-sds-xs">
+            <p className="text-sds-body-xs-400-wide leading-sds-body-xs font-semibold mr-sds-xs">
               {t('seeAlso')}:
             </p>
             <Link
               to="/competition"
-              className="text-sds-color-primitive-blue-400 hover:underline"
+              className="text-light-sds-color-primitive-blue-500 hover:underline"
             >
               {t('cryoetDataAnnotationMLComp')}
             </Link>
@@ -59,7 +59,7 @@ export function DepositionOverview() {
         </div>
         <AuthorList
           authors={deposition.authors.edges.map((author) => author.node)}
-          className="text-sds-body-xxs leading-sds-body-xxs"
+          className="text-sds-body-xxs-400-wide leading-sds-body-xxs"
           subtle
         />
       </div>
@@ -67,7 +67,7 @@ export function DepositionOverview() {
         <div className="flex-1 max-w-[260px]">
           <h3 className={sectionHeaderStyles}>{t('depositionData')}</h3>
           <p className="flex flex-row gap-sds-xs">
-            <span className="font-semibold text-sds-color-primitive-common-black">
+            <span className="font-semibold text-light-sds-color-primitive-gray-900 ">
               {t('annotations')}:
             </span>
             {(
