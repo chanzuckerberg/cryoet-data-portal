@@ -32,6 +32,8 @@ test.describe('Single dataset page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-dataset')
     })
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -66,6 +68,8 @@ test.describe('Single dataset page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-dataset')
     })
   })
   test.describe('Deposition ID filter', () => {
@@ -96,6 +100,8 @@ test.describe('Single dataset page filters', () => {
       await filtersPage.expectFilterTagToExist(
         getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
       )
+
+      await filtersPage.waitForTableLoad('single-dataset')
     })
     test('should filter by deposition ID when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -136,6 +142,8 @@ test.describe('Single dataset page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-dataset')
     })
   })
   test.describe('Object Name filter', () => {
@@ -156,6 +164,8 @@ test.describe('Single dataset page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-dataset')
     })
     test('should filter by object name when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -190,6 +200,8 @@ test.describe('Single dataset page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-dataset')
     })
   })
   test.describe('Object Shape Type filter', () => {
@@ -212,6 +224,8 @@ test.describe('Single dataset page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-dataset')
     })
     test('should filter by object shape type when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -248,6 +262,8 @@ test.describe('Single dataset page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-dataset')
     })
   })
 })
