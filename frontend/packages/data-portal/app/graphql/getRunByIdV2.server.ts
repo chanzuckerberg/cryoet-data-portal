@@ -67,6 +67,15 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         cellStrainName
         cellStrainId
         cellTypeId
+        deposition {
+          annotationsAggregate(
+            where: {annotationShapesAggregate: {count: {filter: {annotationFiles: {isVisualizationDefault: {_eq: true}}}}}}
+          ) {
+            aggregate {
+              count
+            }
+          }
+        }
         depositionDate
         description
         fileSize
@@ -132,7 +141,15 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
           node {
             id
             s3Prefix
-
+            annotationFilesAggregate(
+              where: {
+                isVisualizationDefault: { _eq: true }
+              }
+            ) {
+              aggregate {
+                count
+              }
+            }
             tomograms(
               first: 1
               where: {
