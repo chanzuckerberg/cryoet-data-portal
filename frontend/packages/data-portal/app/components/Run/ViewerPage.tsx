@@ -9,10 +9,10 @@ import { Button } from '@czi-sds/components'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from "app/components/MenuItemLink";
 import { CustomDropdown, CustomDropdownSection, CustomDropdownOption } from '../common/CustomDropdown'
-import { ABOUT_LINKS, HELP_AND_REPORT_LINKS, NEUROGLANCER_DOC_LINK } from '../Layout/constants'
 import { ACTIONS } from 'react-joyride'
 import Tour from './Tour'
 import { getTutorialSteps } from './steps';
+import { ABOUT_LINKS, REPORT_LINKS, NEUROGLANCER_DOC_LINK  } from '../Layout/constants'
 import { useI18n } from 'app/hooks/useI18n'
 
 // Button action for toggling layers visibility
@@ -165,8 +165,8 @@ function ViewerPage({ run } : { run: any }) {
                   </MenuItemLink>
                 ))}
               </CustomDropdownSection>
-              <CustomDropdownSection title="Help & Support">
-                {HELP_AND_REPORT_LINKS.map((option) => (
+              <CustomDropdownSection title="Report">
+                {REPORT_LINKS.map((option) => (
                   <MenuItemLink key={option.label} to={option.link}>
                     {t(option.label)}
                   </MenuItemLink>
