@@ -184,7 +184,7 @@
   "filterBy": "Filter by",
   "filterByAnyOfTheFollowing": "Filter by any of the following",
   "filterByDepositionId": "Filter by Deposition ID",
-  "filterByObjectId": "Filter by Object ID",
+  "filterByObjectId": "Filter by one type of Object ID",
   "filterCountOfMaxType": "{{count}} of {{max}} {{type}}",
   "filterRange": "Filter Range",
   "filterTooRestrictive": "The applied filters may be too restrictive.",

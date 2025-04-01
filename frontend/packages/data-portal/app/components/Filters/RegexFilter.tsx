@@ -1,11 +1,13 @@
 import { useSearchParams } from '@remix-run/react'
 import { useMemo, useState } from 'react'
 
+import { PrefixOption } from 'app/components/AnnotationFilter/ObjectIdFilter/PrefixValueContext'
 import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'
 
 import { DropdownFilterButton } from './DropdownFilterButton'
 import { InputFilter } from './InputFilter'
+import { PrefixOptionFilter } from './PrefixOptionFilter'
 
 export interface RegexFilterProps {
   id: string
@@ -13,6 +15,7 @@ export interface RegexFilterProps {
   title: string
   queryParam: QueryParams
   regex: RegExp
+  prefixOptions?: PrefixOption[]
   displayNormalizer?(value: string): string
   paramNormalizer?(value: string): string
 }
@@ -26,6 +29,7 @@ export function RegexFilter({
   regex: validationRegex,
   displayNormalizer,
   paramNormalizer,
+  prefixOptions,
 }: RegexFilterProps) {
   const { t } = useI18n()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -38,10 +42,12 @@ export function RegexFilter({
     [paramValue, displayNormalizer],
   )
 
-  const isDisabled = useMemo(
-    () => !validationRegex.test(value),
-    [value, validationRegex],
-  )
+  // console.log('value', value)
+
+  const isDisabled = useMemo(() => {
+    // console.log('isDisabled', value, validationRegex.test(value))
+    return !validationRegex.test(value)
+  }, [value, validationRegex])
 
   return (
     <DropdownFilterButton
@@ -52,9 +58,11 @@ export function RegexFilter({
             {title}
           </p>
 
-          <p className="text-light-sds-color-primitive-gray-600 text-sds-body-xxs-400-wide leading-sds-body-xxs">
-            {`(${t('limitOneValuePerField')})`}
-          </p>
+          {!prefixOptions && (
+            <p className="text-light-sds-color-primitive-gray-600 text-sds-body-xxs-400-wide leading-sds-body-xxs">
+              {`(${t('limitOneValuePerField')})`}
+            </p>
+          )}
         </>
       }
       label={label}
@@ -88,14 +96,26 @@ export function RegexFilter({
       disabled={isDisabled}
     >
       <div className="mt-sds-xs">
-        <InputFilter
-          value={value}
-          id={id}
-          label={label}
-          onChange={(newValue) => setValue(newValue)}
-          hideLabel
-          error={!!value && isDisabled}
-        />
+        {prefixOptions ? (
+          <PrefixOptionFilter
+            value={value}
+            id={id}
+            label={label}
+            onChange={(newValue) => setValue(newValue)}
+            prefixOptions={prefixOptions}
+            hideLabel
+            error={!!value && isDisabled}
+          />
+        ) : (
+          <InputFilter
+            value={value}
+            id={id}
+            label={label}
+            onChange={(newValue) => setValue(newValue)}
+            hideLabel
+            error={!!value && isDisabled}
+          />
+        )}
       </div>
     </DropdownFilterButton>
   )
