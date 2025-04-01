@@ -72,7 +72,7 @@ const CustomTooltip = (props: any, onRestart: () => void, onClose: () => void) =
                 </button>
               )}
               {isLastStep && (
-                <button {...primaryProps} onClick={onClose} className={filledButtonStyles}>
+                <button onClick={onClose} className={filledButtonStyles}>
                   Close tour
                 </button>
               )}
@@ -103,6 +103,7 @@ const Tour: React.FC<CustomTourProps> = ({ steps, run, stepIndex, onRestart, onC
     console.log(data);
     console.groupEnd();
   };
+
 
   return (
     <Joyride

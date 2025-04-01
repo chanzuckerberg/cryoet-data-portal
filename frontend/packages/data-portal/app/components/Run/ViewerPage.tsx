@@ -73,6 +73,9 @@ function ViewerPage({ run } : { run: any }) {
 
   const handleTourClose = () => {
     setTourRunning(false)
+    setTimeout(() => {
+      setStepIndex(0)
+    }, 300)
   }
 
   const handleTourStepMove = (index: number, action: (typeof ACTIONS)[keyof typeof ACTIONS]) => {
@@ -100,6 +103,7 @@ function ViewerPage({ run } : { run: any }) {
       {run.name} <span className='text-sds-color-primitive-common-white opacity-60'>(#RN-{run.id})</span>
     </p>
   );
+
 
   return (
     <div className="flex flex-col overflow-hidden h-full">
