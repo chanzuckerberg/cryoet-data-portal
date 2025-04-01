@@ -139,7 +139,7 @@ function ViewerPage({ run } : { run: any }) {
                   </MenuItemLink>
                 ))}
               </CustomDropdownSection>
-              <CustomDropdownSection title="Help & Support">
+              <CustomDropdownSection title="Report">
                 {REPORT_LINKS.map((option) => (
                   <MenuItemLink key={option.label} to={option.link}>
                     {t(option.label)}
