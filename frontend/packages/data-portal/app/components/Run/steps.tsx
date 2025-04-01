@@ -68,7 +68,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement('.neuroglancer-layer-group-viewer .neuroglancer-panel'),
+    target: getIframeElement('.neuroglancer-layer-group-viewer:has(.neuroglancer-rendered-data-panel)'),
     title: 'Main viewport',
     placement: 'left-start',
     content: (
@@ -85,7 +85,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement('.neuroglancer-rendered-data-panel'),
+    target: getIframeElement('.neuroglancer-layer-group-viewer:has(.neuroglancer-rendered-data-panel)'),
     title: 'Essential controls',
     placement: 'left-end',
     content: (
@@ -99,7 +99,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement('.neuroglancer-rendered-data-panel'),
+    target: getIframeElement('.neuroglancer-layer-group-viewer:has(.neuroglancer-rendered-data-panel)'),
     title: 'Keyboard shortcuts',
     placement: 'left-end',
     content: (
@@ -130,7 +130,7 @@ export const getTutorialSteps: () => Step[] = () => [
   {
     target: getIframeElement('.neuroglancer-layer-side-panel-tab-view'),
     title: 'Layer controls',
-    placement: 'left-start',
+    placement: 'right-start',
     content: (
       <StepContent variant='minimal'>
         <p className='text-[#767676]'>

@@ -1,23 +1,33 @@
 import { Icon, Menu } from '@czi-sds/components'
-import { ReactNode, useRef, useState } from 'react'
+import { ReactNode, useRef, useState, useImperativeHandle, forwardRef } from 'react'
 
 import { cns } from 'app/utils/cns'
 
-export function MenuDropdown({
-  children,
-  className,
-  title,
-  variant = 'standard',
-  buttonElement,
-}: {
+export type MenuDropdownRef = {
+  closeMenu: () => void
+}
+
+export const MenuDropdown = forwardRef<MenuDropdownRef, {
   children: ReactNode
   variant?: 'standard' | 'outlined' | 'filled'
   className?: string
   title: ReactNode
   buttonElement?: ReactNode
-}) {
+}
+>(({ 
+  children,
+  className,
+  title,
+  variant = 'standard',
+  buttonElement
+}, ref) => {
+
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
+
+  useImperativeHandle(ref, () => ({
+    closeMenu: () => setAnchorEl(null),
+  }))
 
   const variantStyles = {
     standard: '!p-0',
@@ -97,4 +107,4 @@ export function MenuDropdown({
       </Menu>
     </div>
   )
-}
+});
