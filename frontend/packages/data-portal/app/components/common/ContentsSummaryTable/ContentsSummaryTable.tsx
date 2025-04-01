@@ -92,16 +92,16 @@ export function ContentsSummaryTable({
         <Tooltip
           tooltip={
             <>
-              {CONTENTS_TOOLTIPS[page].key}{' '}
+              {t(CONTENTS_TOOLTIPS[page].key)}{' '}
               <Link
                 to={CONTENTS_TOOLTIPS[page].link}
-                className="cursor-pointer text-light-sds-color-primitive-blue-500 border-solid hover:border-b border-light-sds-color-primitive-blue-500"
+                className="text-light-sds-color-primitive-blue-500 border-solid hover:border-b border-light-sds-color-primitive-blue-500"
               >
                 {t('learnMore')}
               </Link>
             </>
           }
-          className="cursor-pointer group justify-self-start"
+          className="group justify-self-start"
           placement="top"
           sdsStyle="light"
           offset={[0, -8]}
@@ -129,8 +129,8 @@ export function ContentsSummaryTable({
         {SUMMARY_TABLE_INFO.map((entry) => (
           <React.Fragment key={entry.labelKey}>
             <Tooltip
-              className="cursor-pointer group justify-self-start"
-              placement="top"
+              className="group justify-self-start"
+              placement="left"
               sdsStyle="light"
               offset={[0, -8]}
               slotProps={{
@@ -145,7 +145,7 @@ export function ContentsSummaryTable({
                   {entry.toolTipContentKey}{' '}
                   {entry.learnMoreLink && (
                     <Link
-                      className="cursor-pointer text-light-sds-color-primitive-blue-500 border-solid hover:border-b border-light-sds-color-primitive-blue-500"
+                      className="text-light-sds-color-primitive-blue-500 border-solid hover:border-b border-light-sds-color-primitive-blue-500"
                       to={entry.learnMoreLink}
                       stopPropagation
                     >
