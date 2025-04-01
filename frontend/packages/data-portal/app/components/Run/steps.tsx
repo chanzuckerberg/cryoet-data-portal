@@ -1,5 +1,5 @@
 import { Step } from 'react-joyride'
-import clsx from "clsx";
+import { cns } from 'app/utils/cns'
 
 interface StepContentProps {
   children: any
@@ -183,7 +183,7 @@ const StepContent = ({children, variant = "default", className} : StepContentPro
   };
 
   return (
-    <div className={clsx(variantStyles[variant], className)}>
+    <div className={cns(variantStyles[variant], className)}>
       {children}
     </div>
   );
