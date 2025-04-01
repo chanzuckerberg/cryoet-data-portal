@@ -1,6 +1,5 @@
 import { KeyPhoto } from './KeyPhoto'
 import { KeyPhotoCaption } from './KeyPhotoCaption/KeyPhotoCaption'
-import { Link } from './Link'
 
 export interface HeaderKeyPhotoProps {
   title: string
@@ -15,23 +14,14 @@ export function HeaderKeyPhoto({
   title,
   overlayContent,
 }: HeaderKeyPhotoProps) {
-  if (url === undefined) {
+  if (!url) {
     return <KeyPhoto title={title} />
   }
 
   return (
     <div className="max-w-[465px] grow">
-      {overlayContent ? (
-        <>
-          <KeyPhoto title={title} src={url} overlayContent={overlayContent} />
-          <KeyPhotoCaption caption={caption} />
-        </>
-      ) : (
-        <Link to={url}>
-          <KeyPhoto title={title} src={url} />
-          <KeyPhotoCaption caption={caption} />
-        </Link>
-      )}
+      <KeyPhoto title={title} src={url} overlayContent={overlayContent} />
+      <KeyPhotoCaption caption={caption} />
     </div>
   )
 }

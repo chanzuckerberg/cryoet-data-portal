@@ -5,6 +5,7 @@ import {
 } from 'app/__generated_v2__/graphql'
 import { I18n } from 'app/components/I18n'
 import { DATA_TYPES } from 'app/constants/dataTypes'
+import { useI18n } from 'app/hooks/useI18n'
 
 type KeyPhotoRun = GetRunByIdV2Query['runs'][0] & {
   tomogramId?: string | null
@@ -78,9 +79,10 @@ export function KeyPhotoCaption({
 }: {
   caption?: React.ReactNode | null
 }) {
+  const { t } = useI18n()
   return (
     <p className="mt-sds-xs text-light-sds-color-semantic-base-text-secondary text-sds-body-xxs-400-wide">
-      {caption || 'No caption available'}
+      {t('photoCaption')}: {caption || t('noCaptionAvailable')}
     </p>
   )
 }
