@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test'
+import { expect } from '@chromatic-com/playwright'
 import { BasePage } from 'e2e/pageObjects/basePage'
 import { escapeRegExp } from 'lodash-es'
 
