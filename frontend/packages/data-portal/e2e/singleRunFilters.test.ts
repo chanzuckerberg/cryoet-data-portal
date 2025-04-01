@@ -1,4 +1,4 @@
-import { test } from '@playwright/test'
+import { test } from '@chromatic-com/playwright'
 import { FiltersActor } from 'e2e/pageObjects/filters/filtersActor'
 import { FiltersPage } from 'e2e/pageObjects/filters/filtersPage'
 
