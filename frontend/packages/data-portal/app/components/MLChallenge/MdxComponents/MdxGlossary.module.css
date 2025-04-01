@@ -1,5 +1,5 @@
 .glossary {
-  @apply !text-sds-body-s !leading-sds-body-s;
+  @apply !text-sds-body-s-400-wide !leading-sds-body-s;
 
   ul {
     @apply !mt-0;

@@ -74,20 +74,20 @@ export function MetadataDrawer({
       >
         <header className="flex items-start justify-between px-sds-xl pt-sds-xl pb-sds-xxl">
           <div className="flex flex-col">
-            <p className="text-xs text-sds-color-semantic-text-base-secondary font-semibold uppercase mb-sds-s">
+            <p className="text-xs text-light-sds-color-semantic-base-text-secondary font-semibold uppercase mb-sds-s">
               {label}
             </p>
 
-            <p className="text-sds-header-xl font-semibold text-black leading-sds-header-xl line-clamp-3">
+            <p className="text-sds-header-xl-600-wide font-semibold text-black leading-sds-header-xl line-clamp-3">
               {title}
             </p>
 
             {idInfo && (
-              <p className="flex flex-row gap-sds-xs items-baseline text-sds-color-primitive-gray-500 mt-sds-xxs">
-                <span className="text-sds-header-xxs leading-sds-header-xxs font-semibold">
+              <p className="flex flex-row gap-sds-xs items-baseline text-light-sds-color-semantic-base-text-secondary">
+                <span className="text-sds-header-xxs-600-wide leading-sds-header-xxs font-semibold">
                   {t(idInfo.label)}:
                 </span>
-                <span className="text-sds-body-s leading-sds-body-s">
+                <span className="text-sds-body-s-400-wide leading-sds-body-s">
                   {idInfo.text}
                 </span>
               </p>
@@ -98,17 +98,18 @@ export function MetadataDrawer({
             onClick={handleClose}
             data-testid={TestIds.MetadataDrawerCloseButton}
             className="!min-w-[36px] !min-h-[36px] !max-w-[36px] !max-h-[36px]"
-          >
-            <Icon
-              className="!fill-sds-color-primitive-gray-500"
-              sdsIcon="XMark"
-              sdsSize="l"
-              sdsType="button"
-            />
-          </Button>
+            sdsStyle="icon"
+            icon={
+              <Icon
+                className="!fill-light-sds-color-primitive-gray-500"
+                sdsIcon="XMark"
+                sdsSize="l"
+              />
+            }
+          />
         </header>
 
-        <div className="px-sds-xl border-b-2 border-sds-color-primitive-gray-200">
+        <div className="px-sds-xl border-b-2 border-light-sds-color-primitive-gray-200">
           <Tabs
             className="!m-0"
             tabs={TAB_OPTIONS}
@@ -123,7 +124,7 @@ export function MetadataDrawer({
             'px-sds-xl pt-sds-xl pb-sds-xxl',
 
             drawer.activeTab === MetadataTab.Metadata &&
-              'divide-y divide-sds-color-primitive-gray-300',
+              'divide-y divide-light-sds-color-primitive-gray-300',
           )}
         >
           {drawer.activeTab === MetadataTab.Metadata && children}

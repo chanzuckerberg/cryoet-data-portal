@@ -6,7 +6,7 @@ export function DisabledTabTooltip() {
   return (
     <>
       <div className="font-semibold text-center">{t('methodNotAvailable')}</div>
-      <div className="text-sds-header-xxs text-center">
+      <div className="text-sds-header-xxs-600-wide text-center">
         {t('theseAnnotationsMustBeTransformed')}
       </div>
     </>

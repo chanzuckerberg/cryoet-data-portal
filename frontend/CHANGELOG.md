@@ -1,5 +1,52 @@
 # Changelog
 
+## [1.65.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.65.1...cryoet-data-portal-frontend-v1.65.2) (2025-03-26)
+
+
+### 🐞 Bug Fixes
+
+* stop propagation for tooltip links ([#1724](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1724)) ([594e240](https://github.com/chanzuckerberg/cryoet-data-portal/commit/594e2404ca44fa55f37925082949bbcba3e3df0f))
+
+## [1.65.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.65.0...cryoet-data-portal-frontend-v1.65.1) (2025-03-20)
+
+
+### 🐞 Bug Fixes
+
+* Add the word in! ([#1719](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1719)) ([052cb3b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/052cb3bbc68f924813642ebb489edaa4daf6fb8f))
+
+
+### 🧹 Miscellaneous Chores
+
+* Upgrade SDS to ^22.3.0 ([#1706](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1706)) ([33689a6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/33689a693bf16e392eaf83d43a463b808352c0ff))
+
+## [1.65.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.64.0...cryoet-data-portal-frontend-v1.65.0) (2025-03-19)
+
+
+### ✨ Features
+
+* remove banner and change 'prizes' ([#1716](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1716)) ([9b3596b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9b3596b7974c8e8a86cdab27680b4bad0ac3e688))
+
+## [1.64.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.63.0...cryoet-data-portal-frontend-v1.64.0) (2025-03-17)
+
+
+### ✨ Features
+
+* Add Ground Truth tag Annotation Objects ([#1708](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1708)) ([83911b2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/83911b23807b1a1c70d1394c9d8545a598fb0f4e))
+
+## [1.63.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.62.1...cryoet-data-portal-frontend-v1.63.0) (2025-03-14)
+
+
+### ✨ Features
+
+* add links in footer ([#1702](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1702)) ([25d86e2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/25d86e28c10eeda93b7c5573b4d233f0fe0503c8))
+* swap text on front page ([#1703](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1703)) ([39dc757](https://github.com/chanzuckerberg/cryoet-data-portal/commit/39dc757aef63ae531d54049f8f5f7c06f8bee55e))
+* update top nav ([#1705](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1705)) ([17b0687](https://github.com/chanzuckerberg/cryoet-data-portal/commit/17b0687025e2d6444795c5e6adf18824634c8d9e))
+
+
+### 🐞 Bug Fixes
+
+* add search to object name filter ([#1704](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1704)) ([4b3c4e6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4b3c4e6cb9afe2ce06abf7eb3bf79bd2a8552794))
+
 ## [1.62.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.62.0...cryoet-data-portal-frontend-v1.62.1) (2025-03-10)
 
 

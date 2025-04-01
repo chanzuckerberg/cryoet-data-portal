@@ -50,7 +50,9 @@ export function CellHeader({
       }}
       hideSortIcon={!showSort}
       className={
-        !tooltip ? 'hover:!text-sds-color-semantic-text-base-secondary' : ''
+        !tooltip
+          ? 'hover:!text-light-sds-color-semantic-base-text-secondary'
+          : ''
       }
     >
       <div className="line-clamp-1">
@@ -66,7 +68,7 @@ export function CellHeader({
       </div>
 
       {subHeader && (
-        <p className="text-sds-body-xxxs leading-sds-body-xxxs font-normal">
+        <p className="text-sds-body-xxxs-400-wide leading-sds-body-xxxs font-normal">
           {subHeader}
         </p>
       )}

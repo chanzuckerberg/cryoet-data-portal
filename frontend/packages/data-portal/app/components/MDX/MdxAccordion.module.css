@@ -2,12 +2,12 @@
 
 .accordion {
   h2 {
-    @apply text-sds-header-xs leading-sds-header-xs font-semibold;
+    @apply text-sds-header-xs-600-wide leading-sds-header-xs font-semibold;
     @apply mt-sds-l mb-sds-xxs;
   }
 
   h3 {
-    @apply text-sds-header-xxs leading-sds-header-xxs font-semibold;
+    @apply text-sds-header-xxs-600-wide leading-sds-header-xxs font-semibold;
     @apply mt-sds-m mb-sds-xxxs;
   }
 
@@ -17,11 +17,11 @@
 
   section {
     &:has(> h2) {
-      @apply text-sds-body-xs leading-sds-body-xs;
+      @apply text-sds-body-xs-400-wide leading-sds-body-xs;
     }
 
     &:has(> h3) {
-      @apply text-sds-body-xxs leading-sds-body-xxs;
+      @apply text-sds-body-xxs-400-wide leading-sds-body-xxs;
     }
   }
 
@@ -43,12 +43,12 @@
   }
 
   a {
-    @apply text-sds-color-semantic-text-action-default;
+    @apply text-light-sds-color-semantic-accent-text-action;
   }
 
   table {
     @apply table-auto;
-    @apply text-sds-body-s;
+    @apply text-sds-body-s-400-wide;
     @apply mx-sds-s;
 
     :not(:first-child) {
@@ -57,11 +57,11 @@
 
     > thead > tr {
       @apply border-b-2;
-      @apply border-sds-color-primitive-gray-300;
+      @apply border-light-sds-color-primitive-gray-300;
 
       @apply font-semibold;
       @apply uppercase;
-      @apply text-sds-color-semantic-text-neutral;
+      @apply text-light-sds-color-semantic-neutral-text;
     }
 
     th,
@@ -72,9 +72,9 @@
 
   code {
     font-family: 'Andale Mono', monospace;
-    @apply text-sds-body-s leading-sds-body-s;
+    @apply text-sds-body-s-400-wide leading-sds-body-s;
     @apply p-sds-xxxs;
-    @apply bg-sds-color-semantic-component-base-surface-secondary;
+    @apply bg-light-sds-color-semantic-base-background-secondary;
     @apply rounded-sds-m;
     border: 0.5px solid theme('colors.gray.300');
     @apply whitespace-nowrap;
@@ -84,7 +84,7 @@
 
   pre {
     @apply p-sds-m;
-    @apply bg-sds-color-semantic-component-base-surface-secondary;
+    @apply bg-light-sds-color-semantic-base-background-secondary;
     @apply rounded-sds-m;
     border: 0.5px solid theme('colors.gray.300');
     @apply overflow-x-scroll;

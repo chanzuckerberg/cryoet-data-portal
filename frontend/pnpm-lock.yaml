@@ -34,8 +34,8 @@ importers:
         specifier: ^7.23.2
         version: 7.23.2
       '@czi-sds/components':
-        specifier: ^20.8.0
-        version: 20.8.0(@emotion/core@11.0.0)(@emotion/css@11.13.0)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/base@5.0.0-beta.19)(@mui/icons-material@5.14.13)(@mui/lab@5.0.0-alpha.148)(@mui/material@5.14.13)(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^22.3.2
+        version: 22.3.2(@emotion/css@11.13.0)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/base@5.0.0-beta.19)(@mui/icons-material@5.14.13)(@mui/lab@5.0.0-alpha.148)(@mui/material@5.14.13)(react-dom@18.2.0)(react@18.2.0)
       '@emotion/cache':
         specifier: ^11.11.0
         version: 11.11.0
@@ -1540,10 +1540,9 @@ packages:
       postcss-selector-parser: 6.0.13
     dev: true
 
-  /@czi-sds/components@20.8.0(@emotion/core@11.0.0)(@emotion/css@11.13.0)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/base@5.0.0-beta.19)(@mui/icons-material@5.14.13)(@mui/lab@5.0.0-alpha.148)(@mui/material@5.14.13)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-SOcsz4o0rWmROMsPWYj3IpT1KrCl16RhS3FYtGNzboSgZYs3E7UHYRUKEA/vS78fHWnTOh3EFsp78MQLGnkEDw==}
+  /@czi-sds/components@22.3.2(@emotion/css@11.13.0)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/base@5.0.0-beta.19)(@mui/icons-material@5.14.13)(@mui/lab@5.0.0-alpha.148)(@mui/material@5.14.13)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-v5USs4oJSD5w4KRKiX2xeHXLiw8Y9kiJ260M6gxEB0Zc1/aO27Vn4SF8jPX9pwgm3RBBTUPYchJaRQ2K4/LqWA==}
     peerDependencies:
-      '@emotion/core': ^11.0.0
       '@emotion/css': ^11.11.2
       '@emotion/react': ^11.11.3
       '@emotion/styled': ^11.11.0
@@ -1554,7 +1553,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0
     dependencies:
-      '@emotion/core': 11.0.0
       '@emotion/css': 11.13.0
       '@emotion/react': 11.11.1(@types/react@18.2.28)(react@18.2.0)
       '@emotion/styled': 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.28)(react@18.2.0)
@@ -1618,10 +1616,6 @@ packages:
       '@emotion/utils': 1.4.0
       '@emotion/weak-memoize': 0.4.0
       stylis: 4.2.0
-    dev: false
-
-  /@emotion/core@11.0.0:
-    resolution: {integrity: sha512-w4sE3AmHmyG6RDKf6mIbtHpgJUSJ2uGvPQb8VXFL7hFjMPibE8IiehG8cMX3Ztm4svfCQV6KqusQbeIOkurBcA==}
     dev: false
 
   /@emotion/css@11.13.0:

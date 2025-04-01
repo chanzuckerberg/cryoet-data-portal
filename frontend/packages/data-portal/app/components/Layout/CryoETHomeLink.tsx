@@ -1,19 +1,24 @@
 import { Link } from 'app/components/Link'
-import { SiteLinks } from 'app/constants/siteLinks'
+import { SITE_LINKS } from 'app/constants/siteLinks'
 import { useI18n } from 'app/hooks/useI18n'
+import { cns } from 'app/utils/cns'
 
-export function CryoETHomeLink({ textSize } : { textSize?: string }) {
+export function CryoETHomeLink({ textSize }: { textSize?: string }) {
   const { t } = useI18n()
 
   return (
-    <div className="flex items-center gap-sds-s text-sds-color-primitive-common-white">
+    <div className="flex items-center gap-sds-s text-light-sds-color-primitive-gray-50">
       <Link
-        className={`text-sds-header-m font-semibold ml-2 whitespace-nowrap ${textSize}`}
-        to={SiteLinks.HOME}
+        className={cns(
+          'text-sds-header-m',
+          'font-semibold ml-2 whitespace-nowrap',
+          textSize,
+        )}
+        to={SITE_LINKS.HOME}
       >
         {t('title')}
       </Link>
-      <div className="px-sds-xs py-sds-xxxs bg-sds-color-primitive-blue-400 rounded-sds-m text-sds-body-xxxs">
+      <div className="px-sds-xs py-sds-xxxs bg-light-sds-color-primitive-blue-500 rounded-sds-m text-sds-body-xxxs-400-wide">
         {t('beta')}
       </div>
     </div>

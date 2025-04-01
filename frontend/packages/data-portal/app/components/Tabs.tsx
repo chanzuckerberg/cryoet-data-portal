@@ -34,7 +34,7 @@ export function Tabs<T>({
           // Translate to overlap with bottom gray border used in different places
           // in the UI.
           root: 'translate-y-[2px] !min-h-0',
-          indicator: 'bg-sds-color-primitive-blue-500',
+          indicator: '!bg-light-sds-color-primitive-blue-500',
           flexContainer: 'gap-sds-xl !pb-sds-xxs',
         }}
       >
@@ -43,7 +43,7 @@ export function Tabs<T>({
             <Tab
               classes={{
                 root: cns(
-                  'text-sds-color-primitive-gray-500 !text-sds-body-s',
+                  'text-light-sds-color-primitive-gray-500 !text-sds-body-s-400-wide',
                   '!leading-sds-body-s !font-semibold',
                   '!p-0 !min-w-[max-content] !min-h-0',
                   'transition-colors',

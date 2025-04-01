@@ -32,7 +32,7 @@ export function DatasetMetadataTable({
       renderValue: (value) => {
         return (
           <Link
-            className="flex flex-row gap-sds-xs w-full items-center justify-center text-sds-color-primitive-blue-400"
+            className="flex flex-row gap-sds-xs w-full items-center justify-center text-light-sds-color-primitive-blue-500"
             to={`/datasets/${dataset.id}`}
             target="_blank"
           >
@@ -40,8 +40,7 @@ export function DatasetMetadataTable({
             <Icon
               sdsIcon="ChevronRight"
               sdsSize="xs"
-              sdsType="iconButton"
-              className="!w-[10px] !h-[10px] !fill-sds-color-primitive-blue-400"
+              className="!w-[10px] !h-[10px] !fill-light-sds-color-primitive-blue-500"
             />
           </Link>
         )

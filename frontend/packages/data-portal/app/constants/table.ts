@@ -18,7 +18,7 @@ export const DatasetTableWidths = {
   empiarId: { min: 120, max: 130 },
   organismName: { min: 100, max: 400 },
   runs: { min: 70, max: 100 },
-  annotatedObjects: { min: 120, max: 400 },
+  annotatedObjects: { min: 150, max: 400 },
 }
 
 export const AnnotationTableWidths = {

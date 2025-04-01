@@ -37,11 +37,11 @@ export function NoFilteredResults({
     <div className="flex items-center justify-center h-full">
       <div className="flex gap-sds-xxl">
         <div className="flex flex-col max-w-[324px]">
-          <p className="font-semibold text-sds-header-l leading-sds-header-l">
+          <p className="font-semibold text-sds-header-l-600-wide leading-sds-header-l">
             {t('noResultsFound')}
           </p>
 
-          <div className="mt-3.5 text-sds-body-s leading-sds-body-s">
+          <div className="mt-3.5 text-sds-body-s-400-wide leading-sds-body-s">
             <p>{t('noResultsBeforeYouTryAgain')}</p>
 
             <ul className="list-disc pl-sds-xxl">
