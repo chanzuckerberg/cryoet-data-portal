@@ -90,7 +90,19 @@ export const getTutorialSteps: () => Step[] = () => [
     placement: 'left-end',
     content: (
       <StepContent variant='simple'>
-        <div className='mt-4 mb-4'></div>
+        <div className='mt-4 mb-4'>
+          {/* <video controls autoPlay loop muted playsInline>
+            <source src="images/essential_controls.mp4" type="video/mp4" />
+            <img src="_static/img/raw_tilt_series.png"
+              title="Your browser does not support the video tag."
+              alt="Movie clips of raw tilt series, tilt series after alignment, and tomogram of a purified lysosome."
+            />
+          </video> */}
+          <img src="../../../public/images/czii-logo.png"
+              title="logo"
+              alt="logo here"
+            />
+        </div>
         <p className='text-[#767676]'>Move, pan and zoom in each panels with these mouse navigation:</p>
         <div className='flex flex-col gap-3 mt-3'>
           <KeyActionList actions={essentialControls} />
