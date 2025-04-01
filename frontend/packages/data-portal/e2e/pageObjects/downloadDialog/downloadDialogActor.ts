@@ -93,19 +93,20 @@ export class DownloadDialogActor {
     baseUrl,
     step,
     tab,
+    fileFormat,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     baseUrl: string
     step?: DownloadStep
     tab?: DownloadTab
+    fileFormat?: string
   }) {
     const { data } = await fetchTestSingleRun(client)
     const annotationShape = data.annotationShapes[0]
-    const annotationFile = annotationShape.annotationFiles.edges[0].node
     const tomogram = data.tomograms[0]
     await this.goToDownloadDialogUrl({
       baseUrl,
-      fileFormat: annotationFile.format,
+      fileFormat,
       step,
       tab,
       annotationFile: {
@@ -348,6 +349,7 @@ export class DownloadDialogActor {
     const expectedCommand = getAnnotationDownloadCommand({
       data,
       tab,
+      fileFormat: 'mrc',
     })
     expect(clipboardValue).toBe(expectedCommand)
   }

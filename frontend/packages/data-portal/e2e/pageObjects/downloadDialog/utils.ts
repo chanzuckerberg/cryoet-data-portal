@@ -140,13 +140,13 @@ export function getTomogramDownloadCommand({
 export function getAnnotationDownloadCommand({
   data,
   tab,
+  fileFormat,
 }: {
   data: GetRunByIdV2Query
   tab: DownloadTab
+  fileFormat: string
 }): string {
   const annotationShape = data.annotationShapes[0]
-  const annotationFile = annotationShape.annotationFiles.edges[0].node
-  const fileFormat = annotationFile.format
 
   switch (tab) {
     case DownloadTab.PortalCLI: // TODO(bchu): Update.
