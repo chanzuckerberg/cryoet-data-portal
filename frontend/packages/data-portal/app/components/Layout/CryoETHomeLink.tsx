@@ -2,7 +2,7 @@ import { Link } from 'app/components/Link'
 import { SiteLinks } from 'app/constants/siteLinks'
 import { useI18n } from 'app/hooks/useI18n'
 
-export function CryoETHomeLink({ textSize } : { textSize?: string }) {
+export function CryoETHomeLink({ textSize }: { textSize?: string }) {
   const { t } = useI18n()
 
   return (

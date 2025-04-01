@@ -61,36 +61,13 @@ const toggleLayer = (name: string) => {
 
 const toggleBoundingBox = () => {
   updateState((state) => {
-    const switchedBoundingBoxStatus = !hasBoundingBox()
-    for (const layer of state.neuroglancer.layers) {
-      if (layer.type !== "image" && layer.type !== "segmentation") {
-        continue
-      }
-      if (layer.source?.subsources) {
-        layer.source.subsources.bounds = switchedBoundingBoxStatus
-      } else {
-        const src = layer.source
-        layer.source = {
-          url: src,
-          subsources: {
-            default: true,
-            bounds: switchedBoundingBoxStatus,
-            mesh: true,
-          },
-          enableDefaultSubsources: false
-        }
-      }
-    }
+    state.neuroglancer.showDefaultAnnotations = !hasBoundingBox()
     return state
   })
 }
 
 const hasBoundingBox = () => {
-  return currentNeuroglancerState().layers
-  .filter((l: any) => l.type === "image" || l.type === "segmentation")
-  .some(
-    (layer: any) => layer.source?.subsources && boolValue(layer.source?.subsources?.bounds, /* defaultValue =*/ false)
-  )
+  return boolValue(currentNeuroglancerState().showDefaultAnnotations)
 }
 
 const toggleAxisLine = () => {
