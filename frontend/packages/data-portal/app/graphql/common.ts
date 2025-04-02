@@ -100,13 +100,9 @@ export function getDatasetsFilter({
         }
         break
       case 'ctf':
-        where.runs.tomogramsAggregate = {
-          count: {
-            filter: {
-              ctfCorrected: {
-                _eq: true,
-              },
-            },
+        where.runs.perSectionParameters = {
+          majorDefocus: {
+            _is_null: false,
           },
         }
         break
