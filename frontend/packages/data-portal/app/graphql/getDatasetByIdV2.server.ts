@@ -39,7 +39,14 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
       id
       title
       description
-
+      deposition{
+        id
+        annotationsAggregate(where: {annotationShapes: {annotationFilesAggregate: {count: {filter: {isVisualizationDefault: {_eq: true}}}}}}) {
+          aggregate {
+            count
+          }
+        }
+      }
       fundingSources(
         orderBy: {
           fundingAgencyName: asc,
