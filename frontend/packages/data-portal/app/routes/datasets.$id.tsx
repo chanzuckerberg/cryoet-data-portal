@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
+import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 
 import { Run } from 'app/__generated_v2__/graphql'
@@ -24,6 +25,7 @@ import {
   useSingleDatasetFilterHistory,
   useSyncParamsWithState,
 } from 'app/state/filterHistory'
+import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
@@ -56,6 +58,24 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
   return json({
     v2: responseV2,
+  })
+}
+
+export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
+  return shouldRevalidatePage({
+    ...args,
+    paramsToRefetch: [
+      QueryParams.ObjectName,
+      QueryParams.ObjectId,
+      QueryParams.ObjectShapeType,
+      QueryParams.MethodType,
+      QueryParams.AnnotationsPage,
+      QueryParams.DepositionId,
+      QueryParams.TiltRangeMin,
+      QueryParams.TiltRangeMax,
+      QueryParams.QualityScore,
+      QueryParams.GroundTruthAnnotation,
+    ],
   })
 }
 
