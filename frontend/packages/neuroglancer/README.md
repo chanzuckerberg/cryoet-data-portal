@@ -75,6 +75,15 @@ state.neuroglancer // access neuroglancer state
 state.x  // access the "x" information from the super state
 ```
 
+On the current implementation, `currentState()` can return either the super state, or a the neuroglancer state only depending on the current window hash (or any hash passed as parameter). This means that the user needs to test if the `neuroglancer` key exists in the object before using it to know if it's a super state or/and to access neuroglancer state. To have a consistent access to either the super state or the Neuroglancer's state, there is two other functions that can be used:
+
+```typescript
+currentNeuroglancerState() // access neuroglancer state
+currentSuperState()  // access the super state
+```
+
+If for some reasons, when calling `currentSuperState` the super state actually doesn't exist for the current hash (or the hash passed as parameter of the function), then a new empty super state wrapping the Neuroglancer's state is created.
+
 ## How to update the state and super state of Neuroglancer
 
 To change the state of Neuroglancer from "outside" Neuroglancer", i.e: without having to modify Neuroglancer code to introduce new actions, this project provides the `updateState(...)` function which takes a callback as parameter receiving the super state as parameter. Here is an example about how the state can be modified:

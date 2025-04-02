@@ -15,6 +15,7 @@ const emptySuperState = (config: string): SuperState => {
 };
 
 export const updateState = (onStateChange: (state: ResolvedSuperState) => ResolvedSuperState) => {
+  // const state = currentState();
   const state = currentState();
   const newState = onStateChange(state);
   commitState(newState);
@@ -74,6 +75,18 @@ export const currentState = (hash = window.location.hash) => {
   }
   return superState;
 };
+
+export const currentNeuroglancerState = (hash = window.location.hash) => {
+  const superState = parseState(hash);
+  if (superState.neuroglancer) {
+    return parseState(superState.neuroglancer);
+  }
+  return superState;
+}
+
+export const currentSuperState = (hash = window.location.hash) => {
+  return parseSuperState(hash);
+}
 
 export const commitState = (state: SuperState | ResolvedSuperState) => {
   state.neuroglancer = encodeState(state.neuroglancer, /* compress = */ false);

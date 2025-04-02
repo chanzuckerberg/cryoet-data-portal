@@ -1,7 +1,7 @@
 import './ViewerPage.css'
 
-import { currentState, NeuroglancerWrapper, updateState } from 'neuroglancer'
-import { useState, useEffect } from 'react'
+import { currentNeuroglancerState, NeuroglancerWrapper, ResolvedSuperState, updateState } from 'neuroglancer'
+import { useState } from 'react'
 import { cns } from 'app/utils/cns'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
@@ -15,20 +15,29 @@ import { getTutorialSteps } from './steps';
 import { ABOUT_LINKS, REPORT_LINKS, NEUROGLANCER_DOC_LINK  } from '../Layout/constants'
 import { useI18n } from 'app/hooks/useI18n'
 
+const BACKGROUND_COLOR = "#ffffff"
+
 // Button action for toggling layers visibility
 const isAnnotation = (layer: any) =>
   layer.type === 'annotation' || layer.type === 'segmentation'
 const toggleVisibility = (layer: any) =>
   !(layer.visible === undefined || layer.visible)
 
-// const toggleLayersVisibility = () => {
-//   updateState((state) => {
-//     for (const layer of state.neuroglancer.layers) {
-//       layer.visible = toggleVisibility(layer)
-//     }
-//     return state
-//   })
-// }
+const boolValue = (value: boolean | undefined, defaultValue: boolean = true) => {
+  return (value === undefined && defaultValue) || value
+}
+
+const changeBackgroundColor = (color: string) => {
+  updateState((state) => {
+    if (isBackgroundWhite()) {
+      state.neuroglancer.crossSectionBackgroundColor = state.previousBackgroundColor
+      return state
+    }
+    state.previousBackgroundColor = state.neuroglancer.crossSectionBackgroundColor
+    state.neuroglancer.crossSectionBackgroundColor = color
+    return state
+  })
+}
 
 const toggleAnnotations = () => {
   updateState((state) => {
@@ -41,29 +50,84 @@ const toggleAnnotations = () => {
   })
 }
 
-const toggleBoundingBox = () => {
+const toggleLayer = (name: string) => {
   updateState((state) => {
-    state.neuroglancer.showDefaultAnnotations = toggleAnnotations();
+    const layer = state.neuroglancer.layers.find((l: any) => l.name === name)
+    if (layer) {
+      const archived = boolValue(layer.archived, /* defaultValue =*/ false)
+      layer.archived = !archived
+      layer.visible = archived
+    }
     return state
   })
 }
 
-const hasAnnotationLayers = (state: any) => {
-  const root = state.neuroglancer || state
-  return root.layers.some(isAnnotation)
+const toggleBoundingBox = () => {
+  updateState((state) => {
+    state.neuroglancer.showDefaultAnnotations = !hasBoundingBox()
+    return state
+  })
 }
+
+const hasBoundingBox = () => {
+  return boolValue(currentNeuroglancerState().showDefaultAnnotations)
+}
+
+const toggleAxisLine = () => {
+  updateState((state) => {
+    state.neuroglancer.showAxisLines = !axisLineEnabled()
+    return state
+  })
+}
+
+const axisLineEnabled = () => {
+  return boolValue(currentNeuroglancerState().showAxisLines);
+}
+
+const hasAnnotationLayers = (state: any) => {
+  return state.layers.some(isAnnotation)
+}
+
+const isBackgroundWhite = () => {
+  return currentNeuroglancerState().crossSectionBackgroundColor === BACKGROUND_COLOR
+}
+
+const showScaleBarEnabled = () => {
+  return boolValue(currentNeuroglancerState().showScaleBar)
+}
+
+const toggleShowScaleBar = () => {
+  updateState((state) => {
+    state.neuroglancer.showScaleBar = !showScaleBarEnabled()
+    return state
+  })
+}
+
+const currentLayout = () => {
+  return currentNeuroglancerState().layout
+}
+
+const isCurrentLayout = (layout: string) => {
+  return currentLayout() === layout
+}
+
+const setCurrentLayout = (layout: string) => {
+  updateState((state) => {
+    state.neuroglancer.layout = layout
+    return state
+  })
+}
+
 
 function ViewerPage({ run } : { run: any }) {
   const { t } = useI18n()
-  const [hasAnnotations, setHasAnnotations] = useState(
-    hasAnnotationLayers(currentState()),
-  )
+  const [renderVersion, setRenderVersion] = useState(0)
   const [annotations, setAnnotations] = useState<any>([])
   const [tourRunning, setTourRunning] = useState(false);
   const [stepIndex, setStepIndex] = useState<number>(0);
 
-  const updateButtons = (state: any) => {
-    setHasAnnotations(hasAnnotationLayers(state))
+  const refresh = () => {
+    setRenderVersion(renderVersion + 1)
   }
 
   const handleTutorialStart = (event: React.MouseEvent<HTMLElement>) => {
@@ -89,14 +153,6 @@ function ViewerPage({ run } : { run: any }) {
       setTourRunning(true)
     }, 300)
   };
-
-  useEffect(() => {
-    const state = currentState()
-    const root = state.neuroglancer || state
-    const filteredAnnotations = root.layers.filter((layer: any) => layer.type === "annotation");
-
-    setAnnotations(filteredAnnotations);
-  }, []);
 
   const activeBreadcrumbText = (
     <p>
@@ -124,11 +180,11 @@ function ViewerPage({ run } : { run: any }) {
             <CustomDropdown title="Annotations" variant="outlined">
               <CustomDropdownSection title="Toggle annotations per deposition">
                 <CustomDropdownOption selected={false} onSelect={() => toggleAnnotations()}>All annotations</CustomDropdownOption>
-                {annotations.map((annotation: any) => (
+                {currentNeuroglancerState().layers.filter((layer: any) => layer.type === "annotation").map((annotation: any) => (
                   <CustomDropdownOption
-                    key={annotation?.name}
-                    selected={true}
-                    onSelect={() => console.log(annotation)}
+                    key={annotation.name}
+                    selected={!boolValue(annotation.archived, /* defaultValue =*/ false)}
+                    onSelect={() => toggleLayer(annotation.name)}
                   >
                     <span>{annotation?.name}</span>
                     <span className="text-xs text-[#767676] font-normal">#CZCDP-12795</span>
@@ -138,26 +194,26 @@ function ViewerPage({ run } : { run: any }) {
             </CustomDropdown>
             <CustomDropdown title="Layout" variant="outlined">
               <CustomDropdownSection title="Layout">
-                <CustomDropdownOption selected={false} onSelect={() => console.log("4 panel")}>4 panel</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("XY")}>XY</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("XZ")}>XZ</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("YZ")}>YZ</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("3D")}>3D</CustomDropdownOption>
+                <CustomDropdownOption selected={isCurrentLayout("4panel")} onSelect={() => setCurrentLayout("4panel")}>4 panel</CustomDropdownOption>
+                <CustomDropdownOption selected={isCurrentLayout("xy")} onSelect={() => setCurrentLayout("xy")}>XY</CustomDropdownOption>
+                <CustomDropdownOption selected={isCurrentLayout("xz")} onSelect={() => setCurrentLayout("xz")}>XZ</CustomDropdownOption>
+                <CustomDropdownOption selected={isCurrentLayout("yz")} onSelect={() => setCurrentLayout("yz")}>YZ</CustomDropdownOption>
+                <CustomDropdownOption selected={isCurrentLayout("3d")} onSelect={() => setCurrentLayout("3d")}>3D</CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Toggle Panels">
                 <CustomDropdownOption selected={false} onSelect={() => console.log("All panels")}>All panels</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("Top layer bar")}>Top layer bar</CustomDropdownOption>
+                <CustomDropdownOption disabled selected={false} onSelect={() => console.log("Top layer bar")}>Top layer bar</CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
             <CustomDropdown title="Actions" variant="outlined">
               <CustomDropdownSection title="Appearance">
-                <CustomDropdownOption selected={false} onSelect={() => toggleBoundingBox()}>Bounding box</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("Axis lines")}>Axis lines</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("Scale bar")}>Scale bar</CustomDropdownOption>
-                <CustomDropdownOption selected={false} onSelect={() => console.log("Change background to white")}>Change background to white</CustomDropdownOption>
+                <CustomDropdownOption selected={hasBoundingBox()} onSelect={toggleBoundingBox}>Bounding box</CustomDropdownOption>
+                <CustomDropdownOption selected={axisLineEnabled()} onSelect={toggleAxisLine}>Axis lines</CustomDropdownOption>
+                <CustomDropdownOption selected={showScaleBarEnabled()} onSelect={toggleShowScaleBar}>Scale bar</CustomDropdownOption>
+                <CustomDropdownOption selected={isBackgroundWhite()} onSelect={() => changeBackgroundColor(BACKGROUND_COLOR)}>Change background to white</CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
-                <CustomDropdownOption selected={false} onSelect={() => console.log("Snap to the nearest axis")}>Snap to the nearest axis</CustomDropdownOption>
+                <CustomDropdownOption disabled selected={false} onSelect={() => console.log("Snap to the nearest axis")}>Snap to the nearest axis</CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
             <Button sdsType="primary" sdsStyle="rounded">Share</Button>
@@ -189,7 +245,7 @@ function ViewerPage({ run } : { run: any }) {
         </div>
       </nav>
       <div className="iframe-container">
-        <NeuroglancerWrapper onStateChange={updateButtons} />
+        <NeuroglancerWrapper onStateChange={refresh} />
       </div>
       {run && <Tour run={tourRunning} stepIndex={stepIndex} steps={getTutorialSteps()} onRestart={handleRestart} onClose={handleTourClose} onMove={handleTourStepMove}/>}
     </div>
