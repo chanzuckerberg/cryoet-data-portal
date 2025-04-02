@@ -18,11 +18,11 @@ export type NumberOfRunsFilterOption = BaseFilterOption<NumberOfRunsFilterValue>
 
 export type AvailableFilesFilterValue =
   | 'annotation'
+  | 'tomogram'
   | 'raw-frames'
   | 'tilt-series'
-  | 'tilt-series-alignment'
   | 'ctf'
-  | 'tomogram'
+  | 'tilt-series-alignment'
 
 export type AvailableFilesFilterOption =
   BaseFilterOption<AvailableFilesFilterValue>

@@ -280,7 +280,6 @@ export function getDatasetsFilter({
       _eq: filterState.tomogram.reconstructionSoftware,
     }
   }
-  console.log('where', where)
   return where
 }
 
