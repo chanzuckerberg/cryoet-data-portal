@@ -16,14 +16,16 @@ export class RemixMock {
 
   useSearchParams = jest.fn()
 
+  navigateFn = jest.fn()
+
   constructor() {
     jest.mock('@remix-run/react', () => ({
       Link: jest.fn(),
       useLocation: this.useLocation,
       useNavigation: this.useNavigation,
       useSearchParams: this.useSearchParams,
+      useNavigate: () => this.navigateFn,
     }))
-
     this.reset()
   }
 
