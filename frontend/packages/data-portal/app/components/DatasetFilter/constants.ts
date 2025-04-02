@@ -7,6 +7,7 @@ export const AVAILABLE_FILES_VALUE_TO_I18N_MAP: Record<
 > = {
   annotation: 'annotation',
   tomogram: 'tomograms',
+  ctf: 'CTF',
   'raw-frames': 'rawFrames',
   'tilt-series': 'tiltSeries',
   'tilt-series-alignment': 'tiltSeriesAlignment',

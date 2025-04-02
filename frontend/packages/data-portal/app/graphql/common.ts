@@ -99,6 +99,17 @@ export function getDatasetsFilter({
           },
         }
         break
+      case 'ctf':
+        where.runs.tomogramsAggregate = {
+          count: {
+            filter: {
+              ctfCorrected: {
+                _eq: true,
+              },
+            },
+          },
+        }
+        break
       case 'tomogram':
         where.runs.tomogramsAggregate = {
           count: {
@@ -269,7 +280,7 @@ export function getDatasetsFilter({
       _eq: filterState.tomogram.reconstructionSoftware,
     }
   }
-
+  console.log('where', where)
   return where
 }
 

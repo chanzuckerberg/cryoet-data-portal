@@ -21,6 +21,7 @@ export type AvailableFilesFilterValue =
   | 'raw-frames'
   | 'tilt-series'
   | 'tilt-series-alignment'
+  | 'ctf'
   | 'tomogram'
 
 export type AvailableFilesFilterOption =
