@@ -224,7 +224,7 @@ function ViewerPage({ run } : { run: any }) {
       <div className="iframe-container">
         <NeuroglancerWrapper onStateChange={refresh} />
       </div>
-      <Snackbar open={shareClicked} intent="positive" title='Share link copied to clipboard' className='max-h-8 max-w-[265px]'/>
+      <Snackbar open={shareClicked} intent="positive" title='Share link copied to clipboard' className='max-h-8 !max-w-[265px]'/>
     </div>
   )
 }
