@@ -12,26 +12,26 @@ export function KeyPhoto({
   src,
   title,
   textOnGroupHover,
+  overlayContent,
 }: {
   className?: string
   loading?: boolean
   src?: string
   title: string
   textOnGroupHover?: I18nKeys
+  overlayContent?: React.ReactNode
 }) {
   const { t } = useI18n()
-
   return (
     <div
       className={cns(
         'flex-shrink-0 basis-[134px] aspect-[4/3] min-w-[134px]',
         'flex items-center justify-center bg-light-sds-color-primitive-gray-100',
         'rounded-sds-m',
-
-        // crop image to container dimensions
         'overflow-hidden object-cover',
+        'relative',
+        'group',
         textOnGroupHover && [
-          'relative',
           'before:absolute',
           'before:bg-black',
           'group-hover:before:bg-opacity-30',
@@ -49,17 +49,22 @@ export function KeyPhoto({
       )}
       data-i18n-content={textOnGroupHover ? t(textOnGroupHover) : ''}
     >
+      {overlayContent && (
+        <div className="absolute inset-0 bg-black bg-opacity-50 z-10 transition-all opacity-0 group-hover:opacity-100">
+          {overlayContent}
+        </div>
+      )}
       {match([src, loading])
-        .with([P._, true], () => <Skeleton variant="rounded" />)
+        .with([P._, true], () => <Skeleton variant="rounded" className="z-0" />)
         .with([P.string, false], () => (
           <img
             alt={`key visualization for ${title}`}
             src={src}
-            className="w-full"
+            className="w-full z-0"
           />
         ))
         .otherwise(() => (
-          <KeyPhotoFallbackIcon className="text-light-sds-color-primitive-gray-200 font-normal aspect-square w-1/5" />
+          <KeyPhotoFallbackIcon className="text-light-sds-color-primitive-gray-200 font-normal aspect-square w-1/5 z-0" />
         ))}
     </div>
   )
