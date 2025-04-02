@@ -1,4 +1,9 @@
 {
+<<<<<<< HEAD
   "frontend": "1.65.2",
   "client/python/cryoet_data_portal": "4.3.1"
+=======
+  "frontend": "1.66.0",
+  "client/python/cryoet_data_portal": "4.4.0"
+>>>>>>> 4b96f00 (chore(main): release cryoet-data-portal-frontend 1.66.0 (#1744))
 }
