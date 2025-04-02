@@ -1,4 +1,4 @@
-import { Notification } from "@czi-sds/components";
+import { Notification } from '@czi-sds/components'
 import { cns } from 'app/utils/cns'
 
 interface SnackbarProps {
