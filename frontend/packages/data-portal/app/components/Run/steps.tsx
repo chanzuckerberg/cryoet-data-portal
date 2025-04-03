@@ -52,7 +52,11 @@ export const getTutorialSteps: () => Step[] = () => [
     title: 'Exploring CryoET Data in Neuroglancer',
     content: (
       <StepContent variant='default'>
-        <div className="p-6 bg-[#EBEBEB] rounded"></div>
+        <div className="p-6 bg-[#EBEBEB] rounded relative overflow-hidden min-h-[247px]">
+          <div className='absolute left-6 right-6 rounded overflow-hidden'>
+            <img src='/images/CZICRY_thumbail.png' alt='CZICRY thumbnail' className='w-full rounded' />
+          </div>
+        </div>
         <p className='flex flex-col gap-10'>
           <span>
             The CryoET Data Portal provides an interactive data viewer powered
