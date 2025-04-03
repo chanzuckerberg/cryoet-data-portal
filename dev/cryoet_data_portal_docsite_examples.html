@@ -994,7 +994,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing tomogram </span><span class="si">{</span><span class="n">tomogram</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> from run </span><span class="si">{</span><span class="n">tomogram</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># Read cryoet-data-portal alignment from S3</span>
-    <span class="n">cdp_ali</span> <span class="o">=</span> <span class="n">Alignment</span><span class="o">.</span><span class="n">from_s3</span><span class="p">(</span><span class="n">tomogram</span><span class="o">.</span><span class="n">alignment</span><span class="o">.</span><span class="n">s3_alignment_metadata</span><span class="p">,</span> <span class="n">anon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cdp_ali</span> <span class="o">=</span> <span class="n">Alignment</span><span class="o">.</span><span class="n">from_s3</span><span class="p">(</span><span class="n">tomogram</span><span class="o">.</span><span class="n">alignment</span><span class="o">.</span><span class="n">s3_alignment_metadata</span><span class="p">)</span>
 
     <span class="c1"># Get necessary tilt series metadata</span>
     <span class="n">tilt_series</span> <span class="o">=</span> <span class="n">tomogram</span><span class="o">.</span><span class="n">alignment</span><span class="o">.</span><span class="n">tiltseries</span>
@@ -1017,7 +1017,7 @@
 </code></pre></div>
 </div>
 </details>
-<details class="czi-faq admonition">
+<details class="czi-faq admonition" open="">
 <summary class="admonition-title">Query by annotated object or Gene Ontology terms using owlready2 library</summary><p>Find all membrane annotations, including when the annotation has a subclass of membrane.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">owlready2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">owl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">cryoet_data_portal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Annotation</span>

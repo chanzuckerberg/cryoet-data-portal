@@ -33,7 +33,7 @@ for tomogram in cdp.Tomogram.find(client, [cdp.Tomogram.run.dataset_id==10447]):
     print(f"Processing tomogram {tomogram.id} from run {tomogram.run.name}")
 
     # Read cryoet-data-portal alignment from S3
-    cdp_ali = Alignment.from_s3(tomogram.alignment.s3_alignment_metadata, anon=True)
+    cdp_ali = Alignment.from_s3(tomogram.alignment.s3_alignment_metadata)
 
     # Get necessary tilt series metadata
     tilt_series = tomogram.alignment.tiltseries
@@ -58,7 +58,7 @@ for tomogram in cdp.Tomogram.find(client, [cdp.Tomogram.run.dataset_id==10447]):
 
 :::{admonition} Query by annotated object or Gene Ontology terms using owlready2 library
 :class: czi-faq
-:collapsible:
+:collapsible: open
 
 Find all membrane annotations, including when the annotation has a subclass of membrane.
 
