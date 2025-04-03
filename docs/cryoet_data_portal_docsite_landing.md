@@ -4,7 +4,7 @@ hide-navigation: true
 
 # CryoET Data Portal | Documentation
 
-The [Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute)](https://www.czimaginginstitute.org/) has made a beta release of the [CryoET Data Portal](https://cryoetdataportal.czscience.com) providing queryable and organized data from CryoET experiments. Each of the over 15,000 tomograms on the Portal have at least one structure annotated.
+The [Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute)](https://www.czimaginginstitute.org/) has made a beta release of the [CryoET Data Portal](https://cryoetdataportal.czscience.com) providing queryable and organized data from CryoET experiments. Each of the nearly 20,000 tomograms on the Portal have at least one structure annotated.
 
 ```{button-ref} data-organization
 :color: primary
@@ -72,14 +72,14 @@ Refer to [this how-to guide](download-data) for information on downloading data 
 
 ## Citing the CryoET Data Portal
 
-Data from the portal must acknowledge the data providers and the original publications. The following is provided as an example:
+Work using data from the portal must acknowledge the data providers and the original publications. The following is provided as an example:
 
-Some of the data used in this work was provided by the group(s) of Julia Mahamid (EMBL)/Jürgen Plitzko (MPI) [see [beta site](https://cryoetdataportal.czscience.com) for current details]. The work is described more fully in the publication:
-
-| Provider | Julia Mahamid | Julia Mahamid | Jürgen Plitzko |
-| ----------- | ----------- | ----------- | ----------- |
-| Dataset name | 10000 | 10001 | 10004 |
-| Acknowledgement | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1101/2023.04.28.538734](https://www.biorxiv.org/content/10.1101/2023.04.28.538734v1) |
+> Some of the data used in this work was provided by the group(s) of Julia Mahamid (EMBL)/Jürgen Plitzko (MPI) [see [beta site](https://cryoetdataportal.czscience.com) for current details]. The work is described more fully in the publication:
+>
+> | Provider | Julia Mahamid | Julia Mahamid | Jürgen Plitzko |
+> | ----------- | ----------- | ----------- | ----------- |
+> | Dataset name | 10000 | 10001 | 10004 |
+> | Acknowledgement | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1101/2023.04.28.538734](https://www.biorxiv.org/content/10.1101/2023.04.28.538734v1) |
 
 :::{czi-info} Note
 Segmentation experts and developers are also encouraged to get in touch with the data providers if they feel they have developed a useful tool that might help to process the entirety of the datasets (which are much larger than the subsets provided for the portal) more efficiently or effectively.

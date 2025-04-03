@@ -20,18 +20,20 @@ As shown in the diagram above, the CryoET Data Portal has 3 levels in the data h
 
 - **Dataset** is a set of image files for tilt series, reconstructed tomograms, and cellular and/or subcellular annotation files. Every dataset contains only one sample type prepared with the same conditions. The dataset title, such as "S. pombe cryo-FIB lamellae acquired with defocus-only," summarizes these conditions. Samples can be a cell, tissue or organism; intact organelle; in-vitro mixture of macromolecules or their complex; or in-silico synthetic data, where the experimental conditions are kept constant. Datasets typically contain multiple runs (see below). Downloading a dataset downloads all files, including all available tilt series, tomograms, and annotations.
 
-- **Run** is one experiment, or replicate, within a dataset, where all runs in a dataset have the same sample conditions. Every run contains a collection of all tomography data and annotations related to imaging one physical location in a sample. It typically contains one tilt series and all associated data (e.g. movie frames, tilt series image stack, tomograms, annotations, and metadata), but in some cases, it may be a set of tilt series that form a mosaic. Runs contain at least one annotation for every tomogram. When downloading a run from a Portal page, you may choose to download the tomogram or all available annotations. To download all data associated with a run (i.e. all available movie frames, tilt series image stack, tomograms, annotations, and associated metadata), [use the API](#run-download-options).
+- **Run** is one experiment, or replicate, within a dataset, where all runs in a dataset have the same sample conditions. Every run contains a collection of all tomography data and annotations related to imaging one physical location in a sample, and within one dataset, runs may correspond to individual locations within a single sample. Each run typically contains one tilt series and all associated data (e.g. movie frames, tilt series image stack, tomograms, annotations, and metadata), but in some cases, it may be a set of tilt series that form a mosaic. Runs contain at least one annotation for every tomogram. When downloading a run from a Portal page, you may choose to download the tomogram or all available annotations. To download all data associated with a run (i.e. all available movie frames, tilt series image stack, tomograms, annotations, and associated metadata), [use the API](#run-download-options).
 
 - **Annotation** is a point or segmentation indicating the location of a macromolecular complex in the tomogram. On a run overview page, you may choose to download individual annotations.
 
 All data is added to the Portal through Depositions, which is described below, and a subset of depositions are displayed in the depositions tab on the Portal.
 
-For more detailed explanations refer to the sections below.
+For more detailed explanations of all data types in the Portal refer to the sections below.
 
 1. [Depositions](#depositions)
 2. [Datasets](#datasets)
 3. [Runs](#runs)
-4. [Annotations](#annotations)
+4. [Tilt Series](#tilt-series)
+5. [Tomograms](#tomograms)
+6. [Annotations](#annotations)
 
 ## Depositions
 
@@ -90,18 +92,6 @@ On a given Dataset Overview page, the View All Info panel contains metadata for 
 
 The table on a Dataset Overview page contains an overview of the runs in the dataset. Each run has a name defined by the dataset authors as well as a Run ID, which is assigned by the Portal and is subject to change in the rare case where the run data needs to be re-ingested to the Portal. In addition to the run name, the [tilt series quality](#tilt-series-quality) and list of annotated objects is detailed for each run. Each entry has a `View Tomogram` button which will display the tomogram using an instance of Neuroglancer in the browser. The tomogram is visualized along with annotations that are manually chosen to display as many annotations as possible without overlap or occlusion.
 
-#### Tilt Series Quality
-
-The tilt series quality score is assigned by the dataset authors to communicate their quality estimate to users. This score is only applicable for comparing tilt series within a dataset on a relative subjective scale. Score ranges 1-5, with 5 being best. Below is an example scale based mainly on alignability and usefulness for the intended analysis.
-
-| Rating | Quality   | Description                                                                                                                                                                          |
-| :----: | :-------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 5      | Excellent | Full Tilt Series/Reconstructions could be used in publication ready figures.                                                                                                         |
-| 4      | Good      | Full Tilt Series/Reconstructions are useful for analysis (subtomogram averaging, segmentation).                                                                                      |
-| 3      | Medium    | Minor parts of the tilt series (projection images) need to be or have been discarded prior to reconstruction and analysis.                                                           |
-| 2      | Marginal  | Major parts of the tilt series (projection images) need to be or have been discarded prior to reconstruction and analysis. Useful for analysis only after heavy manual intervention. |
-| 1      | Low       | Not useful for analysis with current tools (not alignable), useful as a test case for problematic data only.|
-
 ### Dataset Download Options
 
 ```{figure} ./figures/dataset_download.png
@@ -153,7 +143,7 @@ An overview of all runs in a dataset is presented in the Dataset Overview page. 
 | Processing Software                     | Tomogram.processing_software                                                            | Processing software used to derive the tomogram.                                                   |
 | Available Processing                    | Tomogram.processing                                                                     | Description of additional processing used to derive the tomogram, e.g. denoised.                   |
 | Smallest Available Voxel Spacing        | `min_vs = min([vs.voxel_spacing for vs in Run.tomogram_voxel_spacings])`                           | Smallest voxel spacing of the available tomograms.                                                 |
-| Size (x, y, z)                          | `(Tomogram.size_x, Tomogram.size_y, Tomogram.size_z)` or `Tomogram.scale0_dimensions`   | Comma separated x,y,z dimensions of the unscaled tomogram.                                         |
+| Size (x, y, z)                          | `(Tomogram.size_x, Tomogram.size_y, Tomogram.size_z)` or `Tomogram.scale0_dimensions`   | Comma separated x,y,z dimensions of the unscaled tomogram in pixels.                                         |
 | Fiducial Alignment Status               | Tomogram.fiducial_alignment_status                                                      | Fiducial Alignment status: True = aligned with fiducial, False = aligned without fiducial.         |
 | Ctf Corrected                           | Tomogram.ctf_corrected                                                                  | Whether this tomogram is contrast transfer function corrected.                                     |
 | Affine Transformation Matrix            | Tomogram.affine_transformation_matrix                                                   | The flip or rotation transformation.                                                               |
@@ -189,6 +179,93 @@ run.download_everything()
 </figure>
 
 Runs are downloaded as folders named the author-chosen run name. As shown in the diagram above, the folder contains subfolders named Alignments, Frames, Gains, Reconstructions, and TiltSeries; and a JSON file named `run_metadata.json` containing the run metadata. The Alignments folder contains a JSON file for every alignment that specifies the alignment parameters including the affine transformation matrix. The Frames and Gains folders contain the raw movie frames and the gain files for correcting for the detector's sensitivity, respectively. The TiltSeries folder contains the tilt series images as an MRC file and OME-Zarr directory as well as a JSON file with the tilt series metadata. The Reconstructions folder has a subfolder for every voxel spacing available, and each of those folders contains subfolders NeuorglancerPrecompute, which has files for visualizing the data in Neuroglancer; Images, which contains the key photos of the run displayed on the Portal; Tomograms, which has the tomograms associated with the run as an MRC file and OME-Zarr directory along with tomogram metadata and metadata for visualizing the tomogram with Neuroglancer; and Annotations. More details on the Annotation folder file structure is found in the documentation [below](#annotation-download-options).
+
+## Tilt Series
+
+Please refer to our educational article about [CryoET Data Collection](./cryoet_workflow.md#data-collection) for a detailed description of tilt series. Each tilt series has a Tilt Series ID, which is assigned by the Portal and is subject to change in the rare case where the tilt series data needs to be re-ingested in the Portal. Tilt Series IDs start with TS (e.g. TS-12345; note that only the numeric part is supported in the API).
+
+### Frames
+When acquiring tilted projections of a sample as part of a CryoET tilt series acquisition, one actually acquires a movie at each tilt (stored as so-called “movie stacks” or “frame stacks”) so that beam induced motion can be corrected after acquisition by compensating translations and warping. Upon correction, these frames are summed to form a single image at each tilt angle, and the collection of images is referred to as the tilt series. Usually, each run of a CryoET dataset will have 30-50 frame stacks of 5-100 frames associated with it, where the number of stacks is the same as the number of tilts during acquisition. Acquisition metadata are stored in MDOC-files, which are text-based with one section per frame stack.
+
+When available, the `Frames` folder in a downloaded run contains the raw frame images, acquisition metadata MDOC file, and an additional metadata file in JSON format.
+
+### Gains
+Individual pixels or whole sectors of the direct electron detector used in [CryoET Data Acquisition](./intro_cryoet.md#electron) can have different responses to the same incident signal. In order to control for this uneven detector response, an image is acquired without any sample in the beam path. This flat-field image, called a “gain reference”, allows correction of the recorded signal in the images acquired of a real sample. A single gain reference can be applicable to multiple runs of a cryoET dataset.
+
+When available, the `Gains` folder in a downloaded run contains the gain reference image.
+
+### Tilt Series Assembly
+The raw frame stacks from image acquisition are motion corrected and averaged at each tilt angle to form the tilt series. Please refer to our educational article about [CryoET Data Collection](./cryoet_workflow.md#data-collection) for a detailed description of tilt series assembly from the raw frame stacks.
+
+When available, the `TiltSeries` folder in a downloaded run contains the tilt series images in MRC and OME-Zarr file format, tilt series metadata JSON file, and the rawtlt file. The rawtlt file contains a list of the tilt angles from image acquisition and is used by downstream programs for alignment and tomogram reconstruction.
+
+### Tilt Series Quality
+
+The tilt series quality score is found on Dataset Overview pages in the run table and on Run Overview pages in the header. This score is assigned by the dataset authors to communicate their quality estimate to users. This score is only applicable for comparing tilt series within a dataset on a relative subjective scale. Score ranges 1-5, with 5 being best. Below is an example scale based mainly on alignability and usefulness for the intended analysis.
+
+| Rating | Quality   | Description                                                                                                                                                                          |
+| :----: | :-------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 5      | Excellent | Full Tilt Series/Reconstructions could be used in publication ready figures.                                                                                                         |
+| 4      | Good      | Full Tilt Series/Reconstructions are useful for analysis (subtomogram averaging, segmentation).                                                                                      |
+| 3      | Medium    | Minor parts of the tilt series (projection images) need to be or have been discarded prior to reconstruction and analysis.                                                           |
+| 2      | Marginal  | Major parts of the tilt series (projection images) need to be or have been discarded prior to reconstruction and analysis. Useful for analysis only after heavy manual intervention. |
+| 1      | Low       | Not useful for analysis with current tools (not alignable), useful as a test case for problematic data only.|
+
+## Tomograms
+Please refer to our educational article about [CryoET Data Processing](./cryoet_workflow.md#image-preprocessing) for a high level description of how tomograms are reconstructed from tilt series. Part of the tomogram reconstruction process, involves aligning the tilt series and correcting it using an estimated contrast transfer function (CTF). A detailed article on this process is coming soon. On the Portal, alignnment metadata JSON files are available for every tomogram, and these files contain the affine transformation matrix along with information such as the alignment type (e.g. local vs global).
+
+Tomograms are summarized in a table on Run Overview pages. Note that by default the Annotations table is displayed on the Run Overview pages, but you can toggle to the Tomograms table by clicking the tab above the table. Each tomogram has a Tomogram ID, which is assigned by the Portal and is subject to change in the rare case where the tomogram data needs to be re-ingested in the Portal. Tomogram IDs start with TM (e.g. TM-6091; note that only the numeric part is supported in the API).
+
+The Tomogram table has columns with the author-chosen Tomogram Name (including the Tomogram ID and a truncated list of authors), Deposition Date, Alignment ID (ID of the alignment file used to align the tilt series for tomogram reconstruction), Voxel Spacing (containing both the voxel spacing in angstroms and the size of the tomogram in pixels), Reconstruction Method (e.g. WBP for weighted back projection), and Post-Processing information (e.g. denoised, filtered, etc.).
+
+When available, each tomogram in the table has its own `View Tomogram` button which will open Neuroglancer in a new tab with the tomogram along with all its available annotations preloaded. Check out our [Neuroglancer Quickstart](neuroglancer_quickstart) to learn more about navigating Neuroglancer.
+
+Each tomogram entry in the table also has a `Download` button which opens a dialog containing direct download and code snippets for other download methods.
+
+Each tomogram has its own metadata, which can be viewed using the info icon on the entry in the tomograms table. These metadata are defined in the tables below including their mapping to attributes in the Portal API:
+
+**Tomogram Overview**
+| **Portal Metadata**       | **API Expression**                  | **Definition**                                                                                 |
+|---------------------------|-------------------------------------|------------------------------------------------------------------------------------------------|
+| Authors             | Tomogram.authors                       | The tomogram authors of this tomogram.                                                     |
+| Publications               | Tomogram.publications   | Comma-separated list of DOIs for publications associated with the tomogram.                                               |
+| Related Databases               | Tomogram.related_database_entries              | If a CryoET tomogram is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.                |
+| Deposition Name         | Tomogram.deposition        | The name of the deposition this tomogram is a part of. |
+| Deposition ID       | Tomogram.deposition_id      | The ID of the deposition this tomogram is a part of.                                                  |
+| Deposition Date           | Tomogram.deposition_date          | Date when a tomogram is initially received by the Data Portal.                           |
+| Release Date              | Tomogram.release_date             | Date when a tomogram is made public by the Data Portal.                                    |
+| Last Modified Date        | Tomogram.last_modified_date       | Date when a tomogram was last modified in the Data Portal.                                   |
+
+**Reconstruction and Processing**
+| **Portal Metadata**              | **API Expression**                  | **Definition** |
+|-----------------------------|----------------------------------|------------|
+| Portal Standard Status      | Tomogram.is_portal_standard  | Whether this tomogram adheres to portal standards. |
+| Submitted by Dataset Author | Tomogram.is_author_submitted  | Whether this tomogram was submitted by the author of the dataset it belongs to.|
+| Reconstruction Software     | Tomogram.reconstruction_software | Name of software used for reconstruction |
+| Reconstruction Method       | Tomogram.reconstruction_method  | Describe reconstruction method (WBP, SART, SIRT).|
+| Processing Software         | Tomogram.processing_software  | Processing software used to derive the tomogram. |
+| Processing                  | Tomogram.processing  | Describe additional processing used to derive the tomogram|
+| Voxel Spacing               | Tomogram.voxel_spacing |Voxel spacing equal in all three axes in angstroms|
+| Size (x,y,z)                | `(Tomogram.size_x, Tomogram.size_y, Tomogram.size_z)` or `Tomogram.scale0_dimensions`| Comma separated x,y,z dimensions of the unscaled tomogram in pixels.|
+| Fiducial Alignment Status   | Tomogram.fiducial_alignment_status | Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial.|
+| Ctf Corrected               | Tomogram.ctf_corrected | Whether this tomogram is CTF corrected |
+
+
+**Alignment**
+| **Portal Metadata**               | **API Expression**                                               | **Definition** |
+|------------------------------|---------------------------------------------------------------|------------|
+| Alignment ID                 | Tomogram.alignment_id  |The ID of the alignment used to generate this tomogram.|
+| Canonical Status             | -- | Whether or not the tomogram is considered canonical, meaning as minimal processing as possible.|
+| Alignment Type               | --  | Method of alignment used to generate the tomogram (e.g. local, global, fiducial-based, etc.)|
+| Dimension (x,y,z)            | --  | Comma separated x,y,z dimensions of the unscaled tomogram in angstroms. |
+| Offset (x,y,z)               | `(Tomogram.offset_x, Tomogram.offset_y, Tomogram.offset_z)` | Comma separated x,y,z offsets of the data relative to the canonical tomogram in pixels. |
+| Rotation (x)                 | -- | -- |
+| Tilt Offset                  | -- | --|
+| Affine Transformation Matrix | -- | --|
+
+### Tomogram Download Options
+
+Individual entries in the Tomograms table can be downloaded using the `Download` button on the right side of each entry in the table. This button opens a dialog with tomogram selection in a drop down by name (whichever tomogram entry was chosen will be loaded by default) along with a dropdown to chose between MRC and OME-Zarr file format. On the next page of the dialog, the tomogram can be downloaded directly or if desired, code snippets and instructions are available in separate tabs for downloading the tomogram via cURL, [AWS CLI](cryoet_data_portal_docsite_aws), or the [Portal API](api-reference).
 
 ## Annotations
 
@@ -234,7 +311,9 @@ Each annotation has its own metadata, which can be viewed using the info icon on
 
 ### Visualizing Annotations with Tomograms in Neuroglancer
 
-There is no definitive rule for which annotations are displayed with a tomogram in Neuroglancer by default. The annotations are manually chosen by the data curation team to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
+On the upper right hand side of Run Overview pages, the `View Tomogram` button opens Neuroglancer in a new tab with the "default" tomogram along with all its available annotations preloaded. The tooltip on the `View Tomogram` button specifies the ID of the "default" tomogram. By navigating to the Tomogram table using the tab above the Annotations table, you may also click the `View Tomogram` button for a specific tomogram entry to open it in Neuroglancer with applicable annotations preloaded. Check out our [Neuroglancer Quickstart](neuroglancer_quickstart) to learn more about navigating Neuroglancer.
+
+There is no definitive rule for which annotations are open in the Neuroglancer canvases with a tomogram by default. However, all annotations can be opened in the canvas by clicking any annotation layers with strikethrough text in the list above the canvases. The annotations shown by default are manually chosen by the data curation team to display as many annotations as possible without overlap or occlusion. For example, when the cytoplasm is annotated as a whole, it would occlude other annotations, such as protein picks. When there is a ground truth and predicted annotation, the ground truth annotation is displayed by default. Authors contributing data can specify the desired default annotations during the submission process.
 
 The CryoET Data Portal napari plugin can be used to visualize tomograms, annotations, and metadata. Refer to [this documentation](https://github.com/chanzuckerberg/napari-cryoet-data-portal#usage) to learn about how to use the plugin and to [this page](cryoet_data_portal_docsite_napari) to learn more about napari and CryoET Data Portal.
 

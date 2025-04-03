@@ -17,10 +17,12 @@ export interface BaseFilterOption<T extends string = string>
 export type NumberOfRunsFilterOption = BaseFilterOption<NumberOfRunsFilterValue>
 
 export type AvailableFilesFilterValue =
+  | 'annotation'
+  | 'tomogram'
   | 'raw-frames'
   | 'tilt-series'
+  | 'ctf'
   | 'tilt-series-alignment'
-  | 'tomogram'
 
 export type AvailableFilesFilterOption =
   BaseFilterOption<AvailableFilesFilterValue>

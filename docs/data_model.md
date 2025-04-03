@@ -9,9 +9,9 @@ To facilitate programmatic use of the CryoET Data Portal, we have a Python API c
 
 If you prefer to query our API endpoint directly, it's available at [https://graphql.cryoetdataportal.czscience.com/graphql](https://graphql.cryoetdataportal.czscience.com/graphql).
 
-A simplified diagram of the data model is below:
+A simplified diagram of the data model is below (click the image to enlarge):
 
-```{image} _static/img/data_model.png
+```{image} _static/img/data-model.png
 :width: 1000
 :alt: Simplified data model
 :align: center

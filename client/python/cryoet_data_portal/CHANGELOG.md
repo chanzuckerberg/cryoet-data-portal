@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.4.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.3.1...cryoet-data-portal-python-client-v4.4.0) (2025-03-24)
+
+
+### ✨ Features
+
+* Adding Frames and CTF components ([#1722](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1722)) ([8e82747](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8e8274700f9ab12880c3de8e7ae29e7e73100c99))
+
 ## [4.3.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.3.0...cryoet-data-portal-python-client-v4.3.1) (2025-02-18)
 
 
