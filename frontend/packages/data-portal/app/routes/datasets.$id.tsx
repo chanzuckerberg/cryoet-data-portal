@@ -80,7 +80,7 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 }
 
 export default function DatasetByIdPage() {
-  const { dataset, deposition, runs } = useDatasetById()
+  const { dataset, deposition, unFilteredRuns } = useDatasetById()
   const { t } = useI18n()
   const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
 
@@ -121,7 +121,9 @@ export default function DatasetByIdPage() {
           s3Path={dataset.s3Prefix}
           fileSize={dataset.fileSize ?? undefined}
           totalRuns={dataset.runsAggregate?.aggregate?.[0]?.count ?? 0}
-          datasetContentsSummary={getContentSummaryCounts(runs as Run[])}
+          datasetContentsSummary={getContentSummaryCounts(
+            unFilteredRuns as Run[],
+          )}
           type="dataset"
         />
       }

@@ -68,15 +68,13 @@ export function ContentsSummaryTable({
         'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_workflow.html#image-processing',
     },
     {
+      labelKey: 'ctf',
+      toolTipContentKey: t('contentExplanationCtf'),
+    },
+    {
       labelKey: 'alignment',
       toolTipContentKey: t('contentExplanationAlignment'),
     },
-    // TODO: (smccanny) Add this in when CTF is available
-    // {
-    //   labelKey: 'ctf',
-    //   toolTipContentKey: 'contentExplanationCtf',
-    //   value: 'Available',
-    // },
   ]
   const page = title.includes('Dataset') ? 'datasets' : 'runs'
   return (

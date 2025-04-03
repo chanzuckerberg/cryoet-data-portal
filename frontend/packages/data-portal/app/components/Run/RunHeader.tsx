@@ -32,6 +32,7 @@ export function RunHeader() {
     annotationFilesAggregates,
     tomogramsCount,
     alignmentsCount,
+    ctfCount,
     tomograms,
   } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
@@ -200,6 +201,7 @@ export function RunHeader() {
               data={{
                 annotations: annotationsCount,
                 tomograms: tomogramsCount,
+                ctf: ctfCount > 0 ? t('available') : t('notSubmitted'),
                 alignment:
                   alignmentsCount > 0 ? t('available') : t('notSubmitted'),
                 frames: framesCount > 0 ? t('available') : t('notSubmitted'),

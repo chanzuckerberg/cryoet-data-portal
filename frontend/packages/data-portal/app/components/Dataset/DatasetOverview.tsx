@@ -14,7 +14,7 @@ import { PageHeaderSubtitle } from '../PageHeaderSubtitle'
 import { getContentSummaryCounts } from './utils'
 
 export function DatasetOverview() {
-  const { dataset, runs } = useDatasetById()
+  const { dataset, unFilteredRuns } = useDatasetById()
   const { t } = useI18n()
 
   // clean up entries into lists
@@ -71,7 +71,7 @@ export function DatasetOverview() {
         <ContentsSummaryTable
           title={t('datasetContents')}
           runs={dataset.runsAggregate?.aggregate?.[0].count}
-          data={getContentSummaryCounts(runs as Run[])}
+          data={getContentSummaryCounts(unFilteredRuns as Run[])}
         />
       </div>
     </>

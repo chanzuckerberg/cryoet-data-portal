@@ -162,6 +162,24 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
           }
         }
       }
+      tomograms(
+        first: 1,
+        where: { isVisualizationDefault: { _eq: true } }
+      ) {
+        edges {
+          node {
+            id
+            keyPhotoThumbnailUrl
+            neuroglancerConfig
+          }
+        }
+      }
+    }
+
+    # Dataset Contents
+    unFilteredRuns: runs(where: { datasetId: { _eq: $id }}) {
+      id
+      name
       tomogramsAggregate {
         aggregate {
           count
@@ -177,16 +195,19 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
           count
         }
       }
-      tomograms(
-        first: 1,
-        where: { isVisualizationDefault: { _eq: true } }
-      ) {
-        edges {
-          node {
-            id
-            keyPhotoThumbnailUrl
-            neuroglancerConfig
-          }
+      annotationsAggregate {
+        aggregate {
+          count
+        }
+      }
+      tiltseriesAggregate {
+        aggregate {
+          count
+        }
+      }
+      perSectionParametersAggregate(where: {majorDefocus: {_is_null: false}}) {
+        aggregate {
+          count
         }
       }
     }

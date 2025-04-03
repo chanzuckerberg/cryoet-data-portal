@@ -424,6 +424,16 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
       }
     }
 
+    # CTF Aggregate
+    perSectionParametersAggregate(
+      where: { majorDefocus: { _is_null: false }, runId: { _eq: $id } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    # Alignment counts
+
     # Deposition banner
     # Returns empty array if $depositionId not defined
     depositions(where: { id: { _eq: $depositionId }}) {

@@ -119,6 +119,10 @@ export function DownloadOptionsContent() {
       value: datasetContentsSummary?.tiltSeries ?? '--',
     },
     type === 'dataset' && {
+      label: t('ctf'),
+      value: datasetContentsSummary?.ctf ?? '--',
+    },
+    type === 'dataset' && {
       label: t('alignment'),
       value: datasetContentsSummary?.alignment ?? '--',
     },

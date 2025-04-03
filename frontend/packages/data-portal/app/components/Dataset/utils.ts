@@ -5,7 +5,7 @@ export interface SummaryData {
   tomograms: number
   frames: string
   tiltSeries: string
-  ctf?: string
+  ctf: string
   alignment: string
 }
 
@@ -14,6 +14,7 @@ export const getContentSummaryCounts = (runs: Run[]): SummaryData => {
   let tomograms = 0
   let framesAvailable = false
   let tiltSeriesAvailable = false
+  let ctfAvailable = false
   let alignmentAvailable = false
 
   for (const run of runs) {
@@ -27,13 +28,16 @@ export const getContentSummaryCounts = (runs: Run[]): SummaryData => {
         (sum, agg) => sum + (agg?.count || 0),
         0,
       ) || 0
-
     framesAvailable ||=
       run.framesAggregate?.aggregate?.some((agg) => (agg?.count || 0) > 0) ||
       false
     tiltSeriesAvailable ||=
       run.tiltseriesAggregate?.aggregate?.some(
-        (agg) => (agg?.avg?.tiltSeriesQuality || 0) > 0,
+        (agg) => (agg?.count || 0) > 0,
+      ) || false
+    ctfAvailable ||=
+      run.perSectionParametersAggregate?.aggregate?.some(
+        (agg) => (agg?.count || 0) > 0,
       ) || false
     alignmentAvailable ||=
       run.alignmentsAggregate?.aggregate?.some(
@@ -46,6 +50,7 @@ export const getContentSummaryCounts = (runs: Run[]): SummaryData => {
     tomograms,
     frames: framesAvailable ? 'Available' : 'Not Submitted',
     tiltSeries: tiltSeriesAvailable ? 'Available' : 'Not Submitted',
+    ctf: ctfAvailable ? 'Available' : 'Not Submitted',
     alignment: alignmentAvailable ? 'Available' : 'Not Submitted',
   }
 }
