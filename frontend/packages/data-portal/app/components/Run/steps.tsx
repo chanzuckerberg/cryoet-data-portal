@@ -87,21 +87,17 @@ export const getTutorialSteps: () => Step[] = () => [
   {
     target: getIframeElement('.neuroglancer-layer-group-viewer:has(.neuroglancer-rendered-data-panel)'),
     title: 'Essential controls',
-    placement: 'left-end',
+    placement: 'left',
     content: (
       <StepContent variant='simple'>
         <div className='mt-4 mb-4'>
-          {/* <video controls autoPlay loop muted playsInline>
-            <source src="images/essential_controls.mp4" type="video/mp4" />
-            <img src="_static/img/raw_tilt_series.png"
+          <video autoPlay loop muted playsInline className='rounded'>
+            <source src="/images/essential_controls.mp4" type="video/mp4" />
+            <img src="/images/ml-challenge-competition-data-preview.png"
               title="Your browser does not support the video tag."
               alt="Movie clips of raw tilt series, tilt series after alignment, and tomogram of a purified lysosome."
             />
-          </video> */}
-          <img src="../../../public/images/czii-logo.png"
-              title="logo"
-              alt="logo here"
-            />
+          </video>
         </div>
         <p className='text-[#767676]'>Move, pan and zoom in each panels with these mouse navigation:</p>
         <div className='flex flex-col gap-3 mt-3'>
@@ -113,10 +109,18 @@ export const getTutorialSteps: () => Step[] = () => [
   {
     target: getIframeElement('.neuroglancer-layer-group-viewer:has(.neuroglancer-rendered-data-panel)'),
     title: 'Keyboard shortcuts',
-    placement: 'left-end',
+    placement: 'left',
     content: (
       <StepContent variant='simple'>
-        <div className='mt-4 mb-4'></div>
+        <div className='mt-4 mb-4'>
+          <video autoPlay loop muted playsInline className='rounded'>
+            <source src="/images/keyboard_shortcuts.mp4" type="video/mp4" />
+            <img src="/images/ml-challenge-competition-data-preview.png"
+              title="Your browser does not support the video tag."
+              alt="Movie clips of raw tilt series, tilt series after alignment, and tomogram of a purified lysosome."
+            />
+          </video>
+        </div>
         <p className='text-[#767676]'>Quickly access top tools with shortcuts. Here are some useful shortcuts:</p>
         <div className='flex flex-col gap-3 mt-3 mb-4'>
           <KeyActionList actions={keyboardShortcuts} />
@@ -126,12 +130,20 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement('.neuroglancer-side-panel'),
+    target: getIframeElement('.neuroglancer-side-panel:has(.neuroglancer-layer-list-panel-items) .neuroglancer-side-panel-titlebar'),
     title: 'Layer management',
-    placement: 'right-start',
+    placement: 'right-end',
     content: (
       <StepContent variant='simple'>
-        <div className='mt-4 mb-4'></div>
+        <div className='mt-4 mb-4'>
+          <video autoPlay loop muted playsInline className='rounded'>
+            <source src="/images/layer_management.mp4" type="video/mp4" />
+            <img src="/images/ml-challenge-competition-data-preview.png"
+              title="Your browser does not support the video tag."
+              alt="Movie clips of raw tilt series, tilt series after alignment, and tomogram of a purified lysosome."
+            />
+          </video>
+        </div>
         <p className='text-[#767676] flex flex-col gap-4'>
           <span>Data is organized into distinct layers, which all appear in this menu.</span>
           <span>You can toggle layer visibility, open layer controls or archive (hide from viewer and top layer bar) your layers from here.</span>
