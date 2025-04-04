@@ -40,6 +40,8 @@ test.describe('Carry over filters', () => {
       label: translations.objectName,
       value: TEST_VALUE,
     })
+
+    await tableActor.openFirstResult(TEST_PARAM, TEST_VALUE)
   })
 
   test('should carry over single dataset filter into single run page', async ({
@@ -50,6 +52,8 @@ test.describe('Carry over filters', () => {
       label: translations.objectName,
       value: TEST_VALUE,
     })
+
+    await tableActor.openFirstResult(TEST_PARAM, TEST_VALUE)
   })
   test('should have filter in browse dataset breadcrumb url', async ({
     page,
