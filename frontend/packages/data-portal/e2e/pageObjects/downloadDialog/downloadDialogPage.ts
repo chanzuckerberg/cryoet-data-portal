@@ -29,7 +29,10 @@ export class DownloadDialogPage extends BasePage {
 
   public async clickCopyButton(): Promise<void> {
     const dialog = this.getDialog()
-    await dialog.getByRole('button', { name: translations.copy }).click()
+    await dialog
+      .getByRole('button', { name: translations.copy })
+      .first()
+      .click()
   }
 
   public async clickCloseButton(): Promise<void> {
