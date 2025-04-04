@@ -33,6 +33,8 @@ test.describe('Browse datasets page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('browse-datasets')
     })
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -67,6 +69,8 @@ test.describe('Browse datasets page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('browse-datasets')
     })
   })
 
@@ -91,6 +95,8 @@ test.describe('Browse datasets page filters', () => {
           ],
           serialize: serializeAvailableFiles,
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
 
       test('should filter when opening URL', async () => {
@@ -129,6 +135,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
 
@@ -151,6 +159,8 @@ test.describe('Browse datasets page filters', () => {
           ],
           serialize: serializeAvailableFiles,
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
 
       test('should filter when opening URL', async () => {
@@ -189,6 +199,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
 
@@ -211,6 +223,8 @@ test.describe('Browse datasets page filters', () => {
           ],
           serialize: serializeAvailableFiles,
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
 
       test('should filter when opening URL', async () => {
@@ -249,6 +263,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
 
@@ -271,6 +287,8 @@ test.describe('Browse datasets page filters', () => {
           ],
           serialize: serializeAvailableFiles,
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
 
       test('should filter when opening URL', async () => {
@@ -309,6 +327,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
 
@@ -358,6 +378,8 @@ test.describe('Browse datasets page filters', () => {
           ],
           serialize: serializeAvailableFiles,
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
       test('should filter multiple values when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
@@ -421,6 +443,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
   })
@@ -448,6 +472,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
@@ -482,6 +508,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
 
@@ -507,6 +535,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
@@ -541,6 +571,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
 
@@ -566,6 +598,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
@@ -600,6 +634,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
   })
@@ -627,6 +663,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
@@ -661,6 +699,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
     test.describe('Author ORCID filter', () => {
@@ -685,6 +725,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
 
       test('should filter when opening URL', async () => {
@@ -721,6 +763,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
   })
@@ -754,6 +798,8 @@ test.describe('Browse datasets page filters', () => {
         await filtersPage.expectFilterTagToExist(
           getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
         )
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
@@ -794,6 +840,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
   })
@@ -818,6 +866,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
@@ -852,6 +902,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
     test.describe('Selecting multiple organisms', () => {
@@ -881,6 +933,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
@@ -924,6 +978,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
     test.describe('Searching for an organism name in the filter', () => {
@@ -956,6 +1012,8 @@ test.describe('Browse datasets page filters', () => {
           ],
           serialize: JSON.stringify,
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
 
       test('should filter when opening URL', async () => {
@@ -994,6 +1052,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
 
@@ -1016,6 +1076,8 @@ test.describe('Browse datasets page filters', () => {
           ],
           serialize: JSON.stringify,
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
 
       test('should filter when opening URL', async () => {
@@ -1054,6 +1116,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
 
@@ -1076,6 +1140,8 @@ test.describe('Browse datasets page filters', () => {
           ],
           serialize: JSON.stringify,
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
 
       test('should filter when opening URL', async () => {
@@ -1114,6 +1180,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
 
@@ -1136,6 +1204,8 @@ test.describe('Browse datasets page filters', () => {
           ],
           serialize: JSON.stringify,
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
 
       test('should filter when opening URL', async () => {
@@ -1174,6 +1244,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
 
@@ -1196,6 +1268,8 @@ test.describe('Browse datasets page filters', () => {
           ],
           serialize: JSON.stringify,
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
 
       test('should filter when opening URL', async () => {
@@ -1234,6 +1308,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
   })
@@ -1256,6 +1332,8 @@ test.describe('Browse datasets page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('browse-datasets')
     })
 
     test('should filter when opening URL', async () => {
@@ -1292,6 +1370,8 @@ test.describe('Browse datasets page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('browse-datasets')
     })
   })
 
@@ -1315,6 +1395,8 @@ test.describe('Browse datasets page filters', () => {
           ],
           serialize: (value) => value.toLowerCase(),
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
 
       test('should filter when opening URL', async () => {
@@ -1353,6 +1435,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
 
@@ -1375,6 +1459,8 @@ test.describe('Browse datasets page filters', () => {
           ],
           serialize: (value) => value.toLowerCase(),
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
 
       test('should filter when opening URL', async () => {
@@ -1413,6 +1499,8 @@ test.describe('Browse datasets page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('browse-datasets')
       })
     })
   })
@@ -1435,6 +1523,8 @@ test.describe('Browse datasets page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('browse-datasets')
     })
 
     test('should filter when opening URL', async () => {
@@ -1471,6 +1561,8 @@ test.describe('Browse datasets page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('browse-datasets')
     })
   })
 
@@ -1492,6 +1584,8 @@ test.describe('Browse datasets page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('browse-datasets')
     })
 
     test('should filter when opening URL', async () => {
@@ -1528,6 +1622,8 @@ test.describe('Browse datasets page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('browse-datasets')
     })
   })
 
@@ -1549,6 +1645,8 @@ test.describe('Browse datasets page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('browse-datasets')
     })
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -1583,6 +1681,8 @@ test.describe('Browse datasets page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('browse-datasets')
     })
   })
 
@@ -1606,6 +1706,8 @@ test.describe('Browse datasets page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('browse-datasets')
     })
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -1642,6 +1744,8 @@ test.describe('Browse datasets page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('browse-datasets')
     })
   })
 })
