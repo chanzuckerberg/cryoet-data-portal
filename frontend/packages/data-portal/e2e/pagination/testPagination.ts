@@ -4,7 +4,8 @@
  * Please do not use this file as an example of how to write tests.
  */
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { expect, Page, test } from '@playwright/test'
+import { expect, test } from '@chromatic-com/playwright'
+import { Page } from '@playwright/test'
 import { getApolloClientV2 } from 'e2e/apollo'
 import { E2E_CONFIG } from 'e2e/constants'
 import { goTo } from 'e2e/filters/utils'
