@@ -1,6 +1,7 @@
 import React from "react";
 import Joyride, { Step, ACTIONS, STATUS, EVENTS, ORIGIN, CallBackProps } from "react-joyride";
 import { Icon } from "@czi-sds/components";
+import { cns } from 'app/utils/cns'
 
 interface CustomTourProps {
   steps: Step[];
@@ -22,9 +23,9 @@ const CustomTooltip = (props: any, onRestart: () => void, onClose: () => void) =
   const buttonContainerStyles = index === 0 || isLastStep ? "mt-10" : "mt-6";
 
   return (
-    <div className={`bg-white rounded ${tooltipContainerStyles}`}>
+    <div className={cns(tooltipContainerStyles, 'bg-white rounded')}>
       <div className="flex justify-between items-center">
-        <div className={`font-semibold ${titleStyles}`}>{step.title}</div>
+        <div className={cns(titleStyles, 'font-semibold')}>{step.title}</div>
         <button onClick={onClose} className="w-4 h-4 flex items-center">
           <Icon
             sdsIcon="XMark"
@@ -37,7 +38,7 @@ const CustomTooltip = (props: any, onRestart: () => void, onClose: () => void) =
 
       <p>{step.content}</p>
 
-      <div className={`flex justify-between items-center ${buttonContainerStyles}`}>
+      <div className={cns(buttonContainerStyles, 'flex justify-between items-center')}>
         {index > 0 && (
           <p className="text-[#767676] text-sm">
             Step {index} of {size - 1}
