@@ -134,9 +134,9 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement('.neuroglancer-side-panel:has(.neuroglancer-layer-list-panel-items) .neuroglancer-side-panel-titlebar'),
+    target: getIframeElement('.neuroglancer-side-panel:has(.neuroglancer-layer-list-panel-items)'),
     title: 'Layer management',
-    placement: 'right-end',
+    placement: 'right-start',
     content: (
       <StepContent variant='simple'>
         <div className='mt-4 mb-4'>
