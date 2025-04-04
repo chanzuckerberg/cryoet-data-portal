@@ -1,0 +1,7 @@
+{# Import the theme's layout. #}
+{% extends '!layout.html' %}
+
+{%- block content %}
+{% set content = page.content|format_attributes %}
+{{ content }}
+{% endblock %}
