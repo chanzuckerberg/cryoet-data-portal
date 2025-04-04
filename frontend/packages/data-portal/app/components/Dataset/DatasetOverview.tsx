@@ -1,4 +1,3 @@
-import { Run } from 'app/__generated_v2__/graphql'
 import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorList } from 'app/components/AuthorList'
 import { CollapsibleDescription } from 'app/components/common/CollapsibleDescription/CollapsibleDescription'
@@ -71,7 +70,7 @@ export function DatasetOverview() {
         <ContentsSummaryTable
           title={t('datasetContents')}
           runs={dataset.runsAggregate?.aggregate?.[0].count}
-          data={getContentSummaryCounts(unFilteredRuns as Run[])}
+          data={getContentSummaryCounts(unFilteredRuns)}
         />
       </div>
     </>

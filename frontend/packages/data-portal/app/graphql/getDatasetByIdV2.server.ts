@@ -185,8 +185,6 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
 
     # Dataset Contents
     unFilteredRuns: runs(where: { datasetId: { _eq: $id }}) {
-      id
-      name
       tomogramsAggregate {
         aggregate {
           count

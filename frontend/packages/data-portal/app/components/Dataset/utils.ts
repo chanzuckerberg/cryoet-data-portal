@@ -1,4 +1,4 @@
-import { Run } from 'app/__generated_v2__/graphql'
+import { UnfilteredRun } from 'app/types/gql/datasetPageTypes'
 
 export interface SummaryData {
   annotations: number
@@ -9,7 +9,7 @@ export interface SummaryData {
   alignment: string
 }
 
-export const getContentSummaryCounts = (runs: Run[]): SummaryData => {
+export const getContentSummaryCounts = (runs: UnfilteredRun[]): SummaryData => {
   let annotations = 0
   let tomograms = 0
   let framesAvailable = false

@@ -3,7 +3,6 @@
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 
-import { Run } from 'app/__generated_v2__/graphql'
 import { apolloClientV2 } from 'app/apollo.server'
 import { DatasetMetadataDrawer } from 'app/components/Dataset'
 import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
@@ -121,9 +120,7 @@ export default function DatasetByIdPage() {
           s3Path={dataset.s3Prefix}
           fileSize={dataset.fileSize ?? undefined}
           totalRuns={dataset.runsAggregate?.aggregate?.[0]?.count ?? 0}
-          datasetContentsSummary={getContentSummaryCounts(
-            unFilteredRuns as Run[],
-          )}
+          datasetContentsSummary={getContentSummaryCounts(unFilteredRuns)}
           type="dataset"
         />
       }
