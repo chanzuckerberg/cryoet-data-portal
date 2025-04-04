@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test'
+import { expect } from '@chromatic-com/playwright'
 import { waitForTableReload } from 'e2e/utils'
 
 import { QueryParams } from 'app/constants/query'

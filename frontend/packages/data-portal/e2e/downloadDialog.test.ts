@@ -1,5 +1,5 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { expect, test } from '@playwright/test'
+import { expect, test } from '@chromatic-com/playwright'
 import { DownloadDialogPage } from 'e2e/pageObjects/downloadDialog/downloadDialogPage'
 
 import { IdPrefix } from 'app/constants/idPrefixes'
