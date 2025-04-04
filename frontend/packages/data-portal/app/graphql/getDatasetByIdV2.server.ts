@@ -183,6 +183,40 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
       }
     }
 
+    # Dataset Contents
+    unFilteredRuns: runs(where: { datasetId: { _eq: $id }}) {
+      tomogramsAggregate {
+        aggregate {
+          count
+        }
+      }
+      framesAggregate {
+        aggregate {
+          count
+        }
+      }
+      alignmentsAggregate {
+        aggregate {
+          count
+        }
+      }
+      annotationsAggregate {
+        aggregate {
+          count
+        }
+      }
+      tiltseriesAggregate {
+        aggregate {
+          count
+        }
+      }
+      perSectionParametersAggregate(where: {majorDefocus: {_is_null: false}}) {
+        aggregate {
+          count
+        }
+      }
+    }
+
     # Filter selectors
     annotationsAggregate(where: { run: { datasetId: { _eq: $id }}}) {
       aggregate {
