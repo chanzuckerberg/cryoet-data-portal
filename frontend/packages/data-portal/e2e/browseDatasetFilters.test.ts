@@ -10,7 +10,7 @@ import { getPrefixedId } from 'app/utils/idPrefixes'
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
 import { getObjectShapeTypeLabel, onlyRunIfEnabled } from './utils'
 
-test('Browse datasets page filters', () => {
+test.describe('Browse datasets page filters', () => {
   let filtersPage: FiltersPage
   let filtersActor: FiltersActor
 
