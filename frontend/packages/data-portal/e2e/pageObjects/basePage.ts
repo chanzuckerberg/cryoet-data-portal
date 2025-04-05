@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test'
+import { goTo, waitForInteractive } from 'e2e/filters/utils'
 
 // import { goTo, waitForInteractive } from 'e2e/filters/utils'
 import { QueryParams } from 'app/constants/query'
@@ -23,17 +24,17 @@ export abstract class BasePage {
    * it too fast while the JavaScript is still loading and hydrating.
    */
 
-  // public async goTo(url: string) {
-  //   await goTo(this.page, url)
-  // }
+  public async goTo(url: string) {
+    await goTo(this.page, url)
+  }
 
   /**
    * Wait for page to become interactive. Useful for waiting for the page to
    * become interactive after a navigation within the UI.
    */
-  // public async waitForInteractive() {
-  //   await waitForInteractive(this.page)
-  // }
+  public async waitForInteractive() {
+    await waitForInteractive(this.page)
+  }
 
   // #endregion Navigate
 

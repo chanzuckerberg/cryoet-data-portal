@@ -2,6 +2,8 @@
 // import { E2E_CONFIG, translations } from 'e2e/constants'
 // import { TableValidatorOptions } from 'e2e/pageObjects/filters/types'
 
+import { Page } from '@playwright/test'
+
 // import {
 //   GetDatasetByIdQuery,
 //   GetDatasetsDataQuery,
@@ -144,24 +146,24 @@
 //   await validateRows(page)
 // }
 
-// /**
-//  * When loading the page, we need to wait a bit after so that the SDS components
-//  * have time to become interactive. Without the timeout, the tests become more
-//  * flaky and occasionally fail. For example, the filter dropdowns sometimes
-//  * don't open when clicked on because the playwright browser starts clicking on
-//  * it too fast while the JavaScript is still loading and hydrating.
-//  */
-// const TIME_UNTIL_INTERACTIVE = 3000
+/**
+ * When loading the page, we need to wait a bit after so that the SDS components
+ * have time to become interactive. Without the timeout, the tests become more
+ * flaky and occasionally fail. For example, the filter dropdowns sometimes
+ * don't open when clicked on because the playwright browser starts clicking on
+ * it too fast while the JavaScript is still loading and hydrating.
+ */
+const TIME_UNTIL_INTERACTIVE = 3000
 
-// export async function waitForInteractive(page: Page) {
-//   // eslint-disable-next-line playwright/no-wait-for-timeout
-//   await page.waitForTimeout(TIME_UNTIL_INTERACTIVE)
-// }
+export async function waitForInteractive(page: Page) {
+  // eslint-disable-next-line playwright/no-wait-for-timeout
+  await page.waitForTimeout(TIME_UNTIL_INTERACTIVE)
+}
 
-// export async function goTo(page: Page, url: string) {
-//   await page.goto(url)
-//   await waitForInteractive(page)
-// }
+export async function goTo(page: Page, url: string) {
+  await page.goto(url)
+  await waitForInteractive(page)
+}
 
 // export function skipClipboardTestsForWebkit(browserName: string) {
 //   // eslint-disable-next-line playwright/no-skipped-test
