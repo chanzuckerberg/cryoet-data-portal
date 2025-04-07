@@ -114,10 +114,11 @@ export function PrefixOptionFilter({
           onChange={(event) => onChange(event.target.value)}
           onMouseOver={() => setInputHover(true)}
           onMouseLeave={() => setInputHover(false)}
+          placeholder={prefixValue?.placeholder || ''}
           value={value}
           hideLabel={hideLabel}
           className={cns(
-            'relative border-light-sds-color-primitive-gray-400 !mb-sds-xs relative left-[-3px]',
+            'relative border-light-sds-color-primitive-gray-400 !mb-sds-xs left-[-3px] w-[205px]',
             className,
           )}
           intent={error ? 'negative' : undefined}

@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState } from 'react'
 export type PrefixOption = DefaultAutocompleteOption & {
   link: string
   prefix: string
+  placeholder: string
 }
 
 type PrefixValueContextType = {

@@ -16,11 +16,13 @@ export function EntityIdFilter({
   label,
   title,
   queryParam,
+  placeholder,
 }: {
   id: string
   label: string
   title: string
   queryParam: QueryParams
+  placeholder?: string
 }) {
   const prefix = QueryParamToIdPrefixMap[queryParam]
   const validationRegex = useMemo(
@@ -35,6 +37,7 @@ export function EntityIdFilter({
       title={title}
       queryParam={queryParam}
       regex={validationRegex}
+      placeholder={placeholder}
       displayNormalizer={(value) => getPrefixedId(value, queryParam)}
       paramNormalizer={(value) => removeIdPrefix(value, queryParam) ?? ''}
     />

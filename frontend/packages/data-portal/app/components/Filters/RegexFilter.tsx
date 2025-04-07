@@ -18,6 +18,7 @@ export interface RegexFilterProps {
   prefixOptions?: PrefixOption[]
   displayNormalizer?(value: string): string
   paramNormalizer?(value: string): string
+  placeholder?: string
 }
 
 // TODO: make this more generic as a single input popup filter
@@ -30,6 +31,7 @@ export function RegexFilter({
   displayNormalizer,
   paramNormalizer,
   prefixOptions,
+  placeholder,
 }: RegexFilterProps) {
   const { t } = useI18n()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -113,6 +115,7 @@ export function RegexFilter({
             label={label}
             onChange={(newValue) => setValue(newValue)}
             hideLabel
+            placeholder={placeholder}
             error={!!value && isDisabled}
           />
         )}

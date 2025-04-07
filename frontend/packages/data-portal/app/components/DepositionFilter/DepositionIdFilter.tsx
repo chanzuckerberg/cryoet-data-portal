@@ -11,6 +11,7 @@ export function DepositionIdFilter() {
       title={t('filterByDepositionId')}
       label={t('depositionId')}
       queryParam={QueryParams.DepositionId}
+      placeholder={t('depositionIdPlaceholder')}
     />
   )
 }
