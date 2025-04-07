@@ -6,7 +6,7 @@ export function PageHeaderSubtitle({
   className,
   children,
 }: {
-  className: string
+  className?: string
   children: ReactNode
 }) {
   return (

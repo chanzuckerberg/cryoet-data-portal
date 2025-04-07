@@ -4,12 +4,13 @@ import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { CollapsibleList } from 'app/components/CollapsibleList'
 import { HeaderKeyPhoto } from 'app/components/HeaderKeyPhoto'
 import { I18n } from 'app/components/I18n'
-import { InlineMetadata } from 'app/components/InlineMetadata'
+import { getKeyPhotoCaption } from 'app/components/KeyPhotoCaption/KeyPhotoCaption'
 import { PageHeader } from 'app/components/PageHeader'
 import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
 import { MetadataTable } from 'app/components/Table'
 import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
 import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
+import { DATA_TYPES } from 'app/constants/dataTypes'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
@@ -21,6 +22,10 @@ import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { TableDataValue } from 'app/types/table'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
+import { getNeuroglancerUrl } from 'app/utils/url'
+
+import { ContentsSummaryTable } from '../common/ContentsSummaryTable/ContentsSummaryTable'
+import { Link } from '../Link'
 
 export function RunHeader() {
   const {
@@ -31,6 +36,7 @@ export function RunHeader() {
     annotationFilesAggregates,
     tomogramsCount,
     alignmentsCount,
+    ctfCount,
     tomograms,
   } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
@@ -51,13 +57,13 @@ export function RunHeader() {
   const framesCount = run.framesAggregate?.aggregate?.[0]?.count ?? 0
   const tiltSeriesCount = run.tiltseriesAggregate?.aggregate?.[0]?.count ?? 0
   const annotationsCount = annotationFilesAggregates.totalCount
-
+  const tomogramId = tomogramV2?.id?.toString()
   return (
     <PageHeader
       actions={
         <div className="flex items-center gap-2.5">
           <ViewTomogramButton
-            tomogramId={tomogramV2?.id?.toString()}
+            tomogramId={tomogramId}
             neuroglancerConfig={neuroglancerConfig}
             buttonProps={{
               sdsStyle: 'rounded',
@@ -69,7 +75,7 @@ export function RunHeader() {
               datasetId: run.dataset?.id ?? 0,
               organism: run.dataset?.organismName ?? 'None',
               runId: run.id,
-              tomogramId: tomogramV2?.id?.toString() ?? 'None',
+              tomogramId: tomogramId ?? 'None',
               type: 'run',
             }}
           />
@@ -102,136 +108,155 @@ export function RunHeader() {
           <HeaderKeyPhoto
             title={run.name}
             url={tomogramV2?.keyPhotoUrl ?? undefined}
+            caption={getKeyPhotoCaption({
+              type: DATA_TYPES.RUN,
+              data: { ...run, tomogramId },
+            })}
+            overlayContent={
+              (neuroglancerConfig && tomogramId && (
+                <button
+                  type="button"
+                  className="w-full h-full flex flex-column justify-center items-center text-center"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    window.open(getNeuroglancerUrl(neuroglancerConfig))
+                  }}
+                >
+                  <div className="text-light-sds-color-primitive-gray-50">
+                    <h3 className="text-sds-body-l-600-wide font-semibold pb-sds-xl">
+                      <Icon
+                        sdsIcon="Cube"
+                        sdsSize="l"
+                        color="gray"
+                        shade={100}
+                        className="mr-sds-xs"
+                      />
+                      {t('viewTomogram')}
+                    </h3>
+                    <h4 className="text-sds-header-xs-400-wide pb-sds-xs">
+                      {t('viewTomogramInNeuroglancer', {
+                        id: `${IdPrefix.Tomogram}-${tomogramId}`,
+                      })}
+                    </h4>
+                    <Link
+                      to={t('neuroglancerTutorialLink')}
+                      variant="dashed-underlined"
+                      stopPropagation
+                      className="text-light-sds-color-semantic-base-text-secondary-inverse"
+                    >
+                      <I18n i18nKey="viewNeuroglancerTutorial" />
+                    </Link>
+                  </div>
+                </button>
+              )) ||
+              undefined
+            }
           />
 
-          <div className="flex flex-col gap-sds-xl flex-1 pt-sds-l">
-            <PageHeaderSubtitle className="mt-sds-m">
-              {t('runOverview')}
-            </PageHeaderSubtitle>
-
-            <InlineMetadata
-              label={t('dataSummary')}
-              fields={[
-                {
-                  key: t('frames'),
-                  value: framesCount > 0 ? t('available') : t('notSubmitted'),
-                  valueClass:
-                    framesCount > 0
-                      ? undefined
-                      : 'text-light-sds-color-primitive-gray-500',
-                },
-                {
-                  key: t('tiltSeries'),
-                  value:
-                    tiltSeriesCount > 0 ? t('available') : t('notSubmitted'),
-                  valueClass:
-                    tiltSeriesCount > 0
-                      ? undefined
-                      : 'text-light-sds-color-primitive-gray-500',
-                },
-                {
-                  key: t('alignment'),
-                  value:
-                    alignmentsCount > 0 ? t('available') : t('notSubmitted'),
-                },
-                {
-                  key: t('tomograms'),
-                  value: tomogramsCount.toString(),
-                },
-                {
-                  key: t('annotations'),
-                  value: annotationsCount.toString(),
-                },
-              ]}
-            />
-
-            <div className="flex gap-sds-xxl flex-col lg:flex-row">
-              <MetadataTable
-                small
-                title={i18n.tiltSeries}
-                tableCellLabelProps={{
-                  width: { min: 100, max: 100 },
-                }}
-                data={[
-                  {
-                    labelTooltip: <I18n i18nKey="tiltSeriesTooltip" />,
-                    labelTooltipProps: {
-                      arrowPadding: { right: 230 },
+          <div className="flex-1 flex gap-sds-xxl items-start">
+            <div className="flex flex-col gap-sds-xl">
+              <PageHeaderSubtitle>{t('runOverview')}</PageHeaderSubtitle>
+              <div className="flex gap-sds-xxl flex-col">
+                <MetadataTable
+                  small
+                  title={i18n.tiltSeries}
+                  tableCellLabelProps={{
+                    width: { min: 100, max: 100 },
+                  }}
+                  data={[
+                    {
+                      labelTooltip: <I18n i18nKey="tiltSeriesTooltip" />,
+                      labelTooltipProps: {
+                        arrowPadding: { right: 230 },
+                      },
+                      label: t('tiltQuality'),
+                      // hack to align with score badge
+                      labelExtra: <span className="mt-sds-xxxs h-[18px]" />,
+                      values:
+                        tiltSeries?.tiltSeriesQuality !== undefined
+                          ? [String(tiltSeries.tiltSeriesQuality)]
+                          : [],
+                      renderValue: (value) => (
+                        <TiltSeriesQualityScoreBadge score={+value} />
+                      ),
                     },
-                    label: t('tiltQuality'),
-                    // hack to align with score badge
-                    labelExtra: <span className="mt-sds-xxxs h-[18px]" />,
-                    values:
-                      tiltSeries?.tiltSeriesQuality !== undefined
-                        ? [String(tiltSeries.tiltSeriesQuality)]
-                        : [],
-                    renderValue: (value) => (
-                      <TiltSeriesQualityScoreBadge score={+value} />
-                    ),
-                  },
-                  {
-                    label: t('tiltRange'),
-                    values:
-                      tiltSeries?.tiltRange !== undefined &&
-                      tiltSeries.tiltMin !== undefined &&
-                      tiltSeries.tiltMax !== undefined
-                        ? [
-                            getTiltRangeLabel(
-                              t,
-                              tiltSeries.tiltRange,
-                              tiltSeries.tiltMin,
-                              tiltSeries.tiltMax,
-                            ),
-                          ]
-                        : [],
-                  },
-                  {
-                    label: i18n.tiltScheme,
-                    values:
-                      tiltSeries?.tiltingScheme !== undefined
-                        ? [tiltSeries.tiltingScheme]
-                        : [],
-                  },
-                ]}
-              />
+                    {
+                      label: t('tiltRange'),
+                      values:
+                        tiltSeries?.tiltRange !== undefined &&
+                        tiltSeries.tiltMin !== undefined &&
+                        tiltSeries.tiltMax !== undefined
+                          ? [
+                              getTiltRangeLabel(
+                                t,
+                                tiltSeries.tiltRange,
+                                tiltSeries.tiltMin,
+                                tiltSeries.tiltMax,
+                              ),
+                            ]
+                          : [],
+                    },
+                    {
+                      label: i18n.tiltScheme,
+                      values:
+                        tiltSeries?.tiltingScheme !== undefined
+                          ? [tiltSeries.tiltingScheme]
+                          : [],
+                    },
+                  ]}
+                />
 
-              <MetadataTable
-                small
-                title={i18n.tomogram}
-                tableCellLabelProps={{ width: { min: 100, max: 180 } }}
-                data={[
-                  {
-                    label: i18n.resolutionsAvailable,
-                    inline: true,
-                    values: resolutions.map((resolution) =>
-                      t('unitAngstrom', { value: resolution }),
-                    ),
-                  },
-                  {
-                    label: i18n.tomogramProcessing,
-                    values: processingMethods,
-                    className: 'capitalize',
-                  },
-                  {
-                    label: i18n.annotatedObjects,
-                    inline: true,
-                    values: objectNames,
-                    renderValues: (values: TableDataValue[]) => (
-                      <CollapsibleList
-                        entries={values.map((value) => ({
-                          key: value.toString(),
-                          entry: value.toString(),
-                        }))}
-                        inlineVariant
-                        collapseAfter={6}
-                      />
-                    ),
-                  },
-                ]}
-              />
+                <MetadataTable
+                  small
+                  title={i18n.tomogram}
+                  tableCellLabelProps={{ width: { min: 100, max: 180 } }}
+                  data={[
+                    {
+                      label: i18n.resolutionsAvailable,
+                      inline: true,
+                      values: resolutions.map((resolution) =>
+                        t('unitAngstrom', { value: resolution }),
+                      ),
+                    },
+                    {
+                      label: i18n.tomogramProcessing,
+                      values: processingMethods,
+                      className: 'capitalize',
+                    },
+                    {
+                      label: i18n.annotatedObjects,
+                      inline: true,
+                      values: objectNames,
+                      renderValues: (values: TableDataValue[]) => (
+                        <CollapsibleList
+                          entries={values.map((value) => ({
+                            key: value.toString(),
+                            entry: value.toString(),
+                          }))}
+                          inlineVariant
+                          collapseAfter={6}
+                        />
+                      ),
+                    },
+                  ]}
+                />
+              </div>
+              {moreInfo}
             </div>
-
-            {moreInfo}
+            <ContentsSummaryTable
+              title={t('runContents')}
+              data={{
+                annotations: annotationsCount,
+                tomograms: tomogramsCount,
+                ctf: ctfCount > 0 ? t('available') : t('notSubmitted'),
+                alignment:
+                  alignmentsCount > 0 ? t('available') : t('notSubmitted'),
+                frames: framesCount > 0 ? t('available') : t('notSubmitted'),
+                tiltSeries:
+                  tiltSeriesCount > 0 ? t('available') : t('notSubmitted'),
+              }}
+            />
           </div>
         </div>
       )}

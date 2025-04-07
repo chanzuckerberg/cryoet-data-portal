@@ -39,7 +39,14 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
       id
       title
       description
-
+      deposition{
+        id
+        annotationsAggregate(where: {annotationShapes: {annotationFilesAggregate: {count: {filter: {isVisualizationDefault: {_eq: true}}}}}}) {
+          aggregate {
+            count
+          }
+        }
+      }
       fundingSources(
         orderBy: {
           fundingAgencyName: asc,
@@ -172,6 +179,40 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
             keyPhotoThumbnailUrl
             neuroglancerConfig
           }
+        }
+      }
+    }
+
+    # Dataset Contents
+    unFilteredRuns: runs(where: { datasetId: { _eq: $id }}) {
+      tomogramsAggregate {
+        aggregate {
+          count
+        }
+      }
+      framesAggregate {
+        aggregate {
+          count
+        }
+      }
+      alignmentsAggregate {
+        aggregate {
+          count
+        }
+      }
+      annotationsAggregate {
+        aggregate {
+          count
+        }
+      }
+      tiltseriesAggregate {
+        aggregate {
+          count
+        }
+      }
+      perSectionParametersAggregate(where: {majorDefocus: {_is_null: false}}) {
+        aggregate {
+          count
         }
       }
     }
