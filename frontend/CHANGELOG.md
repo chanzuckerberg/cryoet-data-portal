@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.66.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.65.2...cryoet-data-portal-frontend-v1.66.0) (2025-04-01)
+
+
+### ✨ Features
+
+* Add Key Photo Captions ([#1730](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1730)) ([21cabe9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/21cabe9c5af4d615500a2d73718231cc53dcb60f))
+
 ## [1.65.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.65.1...cryoet-data-portal-frontend-v1.65.2) (2025-03-26)
 
 
