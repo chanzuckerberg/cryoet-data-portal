@@ -119,7 +119,10 @@ export function Breadcrumbs({
 
   return (
     <div
-      className={cns(variant === 'neuroglancer' && 'max-w-xl', 'flex flex-col flex-auto gap-1')}
+      className={cns(
+        variant === 'neuroglancer' && 'max-w-xl',
+        'flex flex-col flex-auto gap-1',
+      )}
       data-testid={TestIds.Breadcrumbs}
     >
       {returnToDepositionLink && (
