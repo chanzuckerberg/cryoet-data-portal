@@ -42,7 +42,6 @@ export function CustomDropdownOption({
           {selected ? (
             <Icon
               sdsIcon="Check"
-              sdsType="button"
               sdsSize="s"
               className="!fill-[#0B68F8]"
             />
