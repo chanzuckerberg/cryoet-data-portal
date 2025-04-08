@@ -18,7 +18,7 @@ from jinja2.filters import FILTERS
 import copy
 
 logger = logging.getLogger("sphinx")
-version = cryoet_data_portal.__version__
+version = "v4.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
