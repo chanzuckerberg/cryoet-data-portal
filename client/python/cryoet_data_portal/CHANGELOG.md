@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.4.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.4.0...cryoet-data-portal-python-client-v4.4.1) (2025-04-08)
+
+
+### 🧹 Miscellaneous Chores
+
+* Updating documentation ([830074d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/830074d9f453a9a1afb77eae252082d108763ab3))
+* Updating documentation generation for PerSectionParameters ([#1751](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1751)) ([830074d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/830074d9f453a9a1afb77eae252082d108763ab3))
+
 ## [4.4.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.3.1...cryoet-data-portal-python-client-v4.4.0) (2025-03-24)
 
 
