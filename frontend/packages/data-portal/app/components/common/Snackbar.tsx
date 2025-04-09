@@ -29,13 +29,12 @@ const Snackbar = ({
         className,
       )}
       slideDirection="left"
-      autoDismiss={3000}
     >
       <style>{`
         .MuiAlert-message {
           padding: 0 !important;
         }
-        .MuiAlert-icon, .MuiSvgIcon-root {
+        .MuiAlert-icon, .MuiAlert-icon .MuiSvgIcon-root {
           width: 1rem !important;
           height: 1rem !important;
         }

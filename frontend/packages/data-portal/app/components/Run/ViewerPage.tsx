@@ -198,7 +198,7 @@ function ViewerPage({ run } : { run: any }) {
                 <CustomDropdownOption selected={false} onSelect={snap}>Snap to the nearest axis</CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
-            <Button sdsType="primary" sdsStyle="rounded" onClick={handleShareClick}>Share</Button>
+            <Button sdsType="primary" sdsStyle="rounded" disabled={shareClicked} onClick={handleShareClick}>Share</Button>
             <CustomDropdown className='w-11 h-11 p-3' buttonElement={<InfoIcon className="w-5 h-5" />}>
               <CustomDropdownSection title="About">
                 {ABOUT_LINKS.map((option) => (
