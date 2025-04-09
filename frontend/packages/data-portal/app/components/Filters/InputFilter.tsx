@@ -10,6 +10,7 @@ export interface InputFilterProps {
   hideLabel?: boolean
   className?: string
   error?: boolean
+  placeholder?: string
 }
 
 export function InputFilter({
@@ -19,6 +20,7 @@ export function InputFilter({
   value,
   hideLabel,
   className,
+  placeholder,
   error,
 }: InputFilterProps) {
   return (
@@ -32,6 +34,7 @@ export function InputFilter({
         fullWidth
         hideLabel={hideLabel}
         className={className}
+        placeholder={placeholder}
         intent={error ? 'negative' : undefined}
       />
     </div>

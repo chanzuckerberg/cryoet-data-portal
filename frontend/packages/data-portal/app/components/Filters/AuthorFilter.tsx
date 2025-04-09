@@ -14,11 +14,13 @@ export function AuthorFilter({ label }: { label: string }) {
         id: 'author-name-input',
         label: `${t('authorName')}:`,
         queryParam: QueryParams.AuthorName,
+        placeholder: t('authorNamePlaceholder'),
       },
       {
         id: 'author-orcid-input',
         label: `${t('authorOrcid')}:`,
         queryParam: QueryParams.AuthorOrcid,
+        placeholder: t('authorOrcidPlaceholder'),
       },
     ],
     [t],
