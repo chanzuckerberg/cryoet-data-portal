@@ -40,11 +40,7 @@ export function CustomDropdownOption({
       <div className="flex items-center justify-center flex-auto gap-3">
         <div className="inline-flex w-4 h-4">
           {selected ? (
-            <Icon
-              sdsIcon="Check"
-              sdsSize="s"
-              className="!fill-[#0B68F8]"
-            />
+            <Icon sdsIcon="Check" sdsSize="s" className="!fill-[#0B68F8]" />
           ) : null}
         </div>
         <div className={`flex flex-col ${selected && 'font-semibold'}`}>
