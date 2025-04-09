@@ -150,3 +150,7 @@ export function decompressHash(hash: string): string {
   const hashFragment = new TextDecoder().decode(pako.ungzip(gzipedHash));
   return `#!${hashFragment}`;
 }
+
+export function currentNeuroglancer(neuroglancerIframeID = "neuroglancer-iframe") {
+  return (document.getElementById(neuroglancerIframeID) as any)?.contentWindow?.viewer;
+}
