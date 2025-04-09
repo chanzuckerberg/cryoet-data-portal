@@ -111,7 +111,7 @@ export function Breadcrumbs({
 
   const chevronIcon = (
     <SmallChevronRightIcon
-      className={`w-[8px] h-[8px] shrink-0 ${typeStyles[type]}`}
+      className={cns(typeStyles[type], 'w-[8px] h-[8px] shrink-0')}
     />
   )
 
@@ -119,9 +119,10 @@ export function Breadcrumbs({
 
   return (
     <div
-      className={`flex flex-col flex-auto gap-1 ${
-        variant === 'neuroglancer' && 'max-w-xl'
-      }`}
+      className={cns(
+        variant === 'neuroglancer' && 'max-w-xl',
+        'flex flex-col flex-auto gap-1',
+      )}
       data-testid={TestIds.Breadcrumbs}
     >
       {returnToDepositionLink && (
@@ -216,7 +217,7 @@ export function Breadcrumbs({
             {chevronIcon}
             <Breadcrumb
               text={activeBreadcrumbText}
-              className={`shrink-0 !font-normal ${typeStyles[type]}`}
+              className={cns(typeStyles[type], 'shrink-0 !font-normal')}
             />
           </>
         )}

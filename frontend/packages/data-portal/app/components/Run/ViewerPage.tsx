@@ -1,7 +1,7 @@
 import './ViewerPage.css'
 
-import { currentNeuroglancerState, NeuroglancerWrapper, ResolvedSuperState, updateState } from 'neuroglancer'
-import { useState, useEffect } from 'react'
+import { currentInternalState, currentNeuroglancerState, NeuroglancerWrapper, currentNeuroglancer, updateState } from 'neuroglancer'
+import { useState } from 'react'
 import { cns } from 'app/utils/cns'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
@@ -118,6 +118,10 @@ const setCurrentLayout = (layout: string) => {
   })
 }
 
+const snap = () => {
+  const viewer = currentNeuroglancer();
+  viewer.navigationState.pose.orientation.snap();
+}
 
 function ViewerPage({ run } : { run: any }) {
   const { t } = useI18n()
@@ -224,7 +228,7 @@ function ViewerPage({ run } : { run: any }) {
                 <CustomDropdownOption selected={isBackgroundWhite()} onSelect={() => changeBackgroundColor(BACKGROUND_COLOR)}>Change background to white</CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
-                <CustomDropdownOption disabled selected={false} onSelect={() => console.log("Snap to the nearest axis")}>Snap to the nearest axis</CustomDropdownOption>
+                <CustomDropdownOption selected={false} onSelect={snap}>Snap to the nearest axis</CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
             <Button sdsType="primary" sdsStyle="rounded">Share</Button>
