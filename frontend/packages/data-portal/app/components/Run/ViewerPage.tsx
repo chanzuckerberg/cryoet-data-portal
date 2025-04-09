@@ -60,25 +60,21 @@ const toggleLayer = (name: string) => {
 }
 
 const toggleBoundingBox = () => {
-  updateState((state) => {
-    state.neuroglancer.showDefaultAnnotations = !hasBoundingBox()
-    return state
-  })
+  const viewer = currentNeuroglancer();
+  viewer.showDefaultAnnotations.value = !viewer.showDefaultAnnotations.value;
 }
 
 const hasBoundingBox = () => {
-  return boolValue(currentNeuroglancerState().showDefaultAnnotations)
+  return currentNeuroglancer()?.showDefaultAnnotations.value
 }
 
 const toggleAxisLine = () => {
-  updateState((state) => {
-    state.neuroglancer.showAxisLines = !axisLineEnabled()
-    return state
-  })
+  const viewer = currentNeuroglancer();
+  viewer.showAxisLines.value = !viewer.showAxisLines.value;
 }
 
 const axisLineEnabled = () => {
-  return boolValue(currentNeuroglancerState().showAxisLines);
+  return currentNeuroglancer()?.showAxisLines.value;
 }
 
 const hasAnnotationLayers = (state: any) => {
@@ -90,14 +86,12 @@ const isBackgroundWhite = () => {
 }
 
 const showScaleBarEnabled = () => {
-  return boolValue(currentNeuroglancerState().showScaleBar)
+  return currentNeuroglancer()?.showScaleBar.value;
 }
 
 const toggleShowScaleBar = () => {
-  updateState((state) => {
-    state.neuroglancer.showScaleBar = !showScaleBarEnabled()
-    return state
-  })
+  const viewer = currentNeuroglancer();
+  viewer.showScaleBar.value = !viewer.showScaleBar.value;
 }
 
 const currentLayout = () => {
