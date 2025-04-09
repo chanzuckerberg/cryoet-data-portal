@@ -2,6 +2,7 @@ import { ReactNode, ComponentProps } from 'react'
 import { MenuDropdown } from 'app/components/MenuDropdown'
 import { MenuItemHeader } from 'app/components/MenuItemHeader'
 import { MenuItem, Icon } from '@czi-sds/components'
+import { cns } from 'app/utils/cns'
 
 type CustomDropdownProps = {
   className?: string
@@ -48,7 +49,7 @@ export function CustomDropdownOption({
             />
           ) : null}
         </div>
-        <div className={`flex flex-col ${selected && 'font-semibold'}`}>
+        <div className={cns(selected && 'font-semibold', 'flex flex-col')}>
           {children}
         </div>
       </div>
