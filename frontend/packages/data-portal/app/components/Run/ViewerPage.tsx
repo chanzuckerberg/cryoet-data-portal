@@ -1,6 +1,6 @@
 import './ViewerPage.css'
 
-import { currentInternalState, currentNeuroglancerState, NeuroglancerWrapper, currentNeuroglancer, updateState } from 'neuroglancer'
+import { currentNeuroglancerState, NeuroglancerWrapper, currentNeuroglancer, updateState, NeuroglancerLayout } from 'neuroglancer'
 import { useState } from 'react'
 import { cns } from 'app/utils/cns'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
@@ -38,6 +38,9 @@ const changeBackgroundColor = (color: string) => {
 
 const toggleAnnotations = () => {
   updateState((state) => {
+    if (!state.neuroglancer.layers) {
+      return state
+    }
     for (const layer of state.neuroglancer.layers) {
       if (isAnnotation(layer)) {
         layer.visible = toggleVisibility(layer)
@@ -49,6 +52,9 @@ const toggleAnnotations = () => {
 
 const toggleLayer = (name: string) => {
   updateState((state) => {
+    if (!state.neuroglancer.layers) {
+      return state
+    }
     const layer = state.neuroglancer.layers.find((l: any) => l.name === name)
     if (layer) {
       const archived = boolValue(layer.archived, /* defaultValue =*/ false)
@@ -104,7 +110,7 @@ const isCurrentLayout = (layout: string) => {
 
 const setCurrentLayout = (layout: string) => {
   updateState((state) => {
-    state.neuroglancer.layout = layout
+    state.neuroglancer.layout = layout as NeuroglancerLayout
     return state
   })
 }
