@@ -24,7 +24,6 @@ export function BooleanFilter({
         styles.boolean,
         !wrapped && 'whitespace-nowrap',
         wrapped && 'max-w-[185px]',
-        wrapped && styles.booleanWrapped,
       )}
     >
       <InputCheckbox

@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test'
+import { expect } from '@chromatic-com/playwright'
 import { translations } from 'e2e/constants'
 import { isArray } from 'lodash-es'
 import { _DeepPartialArray } from 'utility-types/dist/mapped-types'

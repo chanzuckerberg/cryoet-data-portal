@@ -1,4 +1,5 @@
-import { Page, test } from '@playwright/test'
+import { test } from '@chromatic-com/playwright'
+import { Page } from '@playwright/test'
 
 import { shapeTypeToI18nKey } from 'app/constants/objectShapeTypes'
 import { ObjectShapeType } from 'app/types/shapeTypes'
