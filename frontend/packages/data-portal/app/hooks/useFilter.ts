@@ -7,7 +7,7 @@ import { QueryParams } from 'app/constants/query'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
 import {
   AvailableFilesFilterValue,
-  BaseFilterOption,
+  FilterValue,
   NumberOfRunsFilterValue,
 } from 'app/types/filter'
 
@@ -90,13 +90,6 @@ export function getFilterState(searchParams: URLSearchParams) {
 
 export type FilterState = ReturnType<typeof getFilterState>
 
-type FilterValue =
-  | string
-  | null
-  | string[]
-  | BaseFilterOption
-  | BaseFilterOption[]
-
 function normalizeFilterValue(value: FilterValue) {
   return match(value)
     .returnType<string[]>()
@@ -174,24 +167,24 @@ export function useFilter() {
         const entries = Object.entries(params) as [QueryParams, FilterValue][]
         entries.forEach(([param, value]) => logPlausibleEvent(param, value))
 
-        setSearchParams(
-          (prev) => {
-            prev.delete(QueryParams.Page)
+        const currentParams = new URLSearchParams(window.location.search)
 
-            entries.forEach(([param, value]) => {
-              prev.delete(param)
+        currentParams.delete(QueryParams.Page)
+        entries.forEach(([param, value]) => {
+          currentParams.delete(param)
+          if (value) {
+            normalizeFilterValue(value).forEach((v) =>
+              currentParams.append(param, v),
+            )
+          }
+        })
 
-              if (value) {
-                normalizeFilterValue(value).forEach((v) =>
-                  prev.append(param, v),
-                )
-              }
-            })
+        const newUrl = `${window.location.pathname}?${currentParams.toString()}`
 
-            return prev
-          },
-          { replace: true },
-        )
+        navigate(newUrl, {
+          replace: true,
+          preventScrollReset: true,
+        })
       },
     }),
 

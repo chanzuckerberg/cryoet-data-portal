@@ -31,3 +31,10 @@ export type FiducialAlignmentStatusFilterValue = 'true' | 'false'
 
 export type FiducialAlignmentStatusFilterOption =
   BaseFilterOption<FiducialAlignmentStatusFilterValue>
+
+export type FilterValue =
+  | string
+  | null
+  | string[]
+  | BaseFilterOption
+  | BaseFilterOption[]
