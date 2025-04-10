@@ -120,6 +120,19 @@ const snap = () => {
   viewer.navigationState.pose.orientation.snap();
 }
 
+const toggleTopBar = () => {
+  const viewer = currentNeuroglancer()
+  viewer.uiConfiguration.showLayerPanel.value = !isTopBarVisible()
+}
+
+const isTopBarVisible = () => {
+  const viewer = currentNeuroglancer()
+  if (viewer === undefined || viewer.uiConfiguration === undefined) {
+    return false
+  }
+  return viewer.uiConfiguration.showLayerPanel.value
+}
+
 function ViewerPage({ run } : { run: any }) {
   const { t } = useI18n()
   const [renderVersion, setRenderVersion] = useState(0)
@@ -175,7 +188,11 @@ function ViewerPage({ run } : { run: any }) {
               </CustomDropdownSection>
               <CustomDropdownSection title="Toggle Panels">
                 <CustomDropdownOption selected={false} onSelect={() => console.log("All panels")}>All panels</CustomDropdownOption>
-                <CustomDropdownOption disabled selected={false} onSelect={() => console.log("Top layer bar")}>Top layer bar</CustomDropdownOption>
+                <CustomDropdownOption selected={isTopBarVisible()} onSelect={() => {
+                  toggleTopBar()
+                  refresh()
+                  }
+                }>Top layer bar</CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
             <CustomDropdown title="Actions" variant="outlined">
