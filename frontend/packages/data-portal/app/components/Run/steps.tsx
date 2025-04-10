@@ -54,7 +54,7 @@ export const getTutorialSteps: () => Step[] = () => [
       <StepContent variant='default'>
         <div className="p-6 bg-[#EBEBEB] rounded relative overflow-hidden min-h-[247px]">
           <div className='absolute left-6 right-6 rounded overflow-hidden'>
-            <img src='/images/CZICRY_thumbail.png' alt='CZICRY thumbnail' className='w-full rounded' />
+            <img src='/images/neuroglancer_tour/CZICRY_thumbail.png' alt='CZICRY thumbnail' className='w-full rounded' />
           </div>
         </div>
         <p className='flex flex-col gap-10'>
@@ -95,13 +95,7 @@ export const getTutorialSteps: () => Step[] = () => [
     content: (
       <StepContent variant='simple'>
         <div className='mt-4 mb-4'>
-          <video autoPlay loop muted playsInline className='rounded'>
-            <source src="/images/essential_controls.mp4" type="video/mp4" />
-            <img src="/images/ml-challenge-competition-data-preview.png"
-              title="Your browser does not support the video tag."
-              alt="Movie clips of raw tilt series, tilt series after alignment, and tomogram of a purified lysosome."
-            />
-          </video>
+          <img src="/images/neuroglancer_tour/essential_controls.gif" title="Essential controls" alt="essential controls gif image" />
         </div>
         <p className='text-[#767676]'>Move, pan and zoom in each panels with these mouse navigation:</p>
         <div className='flex flex-col gap-3 mt-3'>
@@ -117,13 +111,7 @@ export const getTutorialSteps: () => Step[] = () => [
     content: (
       <StepContent variant='simple'>
         <div className='mt-4 mb-4'>
-          <video autoPlay loop muted playsInline className='rounded'>
-            <source src="/images/keyboard_shortcuts.mp4" type="video/mp4" />
-            <img src="/images/ml-challenge-competition-data-preview.png"
-              title="Your browser does not support the video tag."
-              alt="Movie clips of raw tilt series, tilt series after alignment, and tomogram of a purified lysosome."
-            />
-          </video>
+          <img src="/images/neuroglancer_tour/keyboard_shortcuts.gif" title="Keyboard shortcuts" alt="keyboard shortcuts gif image" />
         </div>
         <p className='text-[#767676]'>Quickly access top tools with shortcuts. Here are some useful shortcuts:</p>
         <div className='flex flex-col gap-3 mt-3 mb-4'>
@@ -140,13 +128,7 @@ export const getTutorialSteps: () => Step[] = () => [
     content: (
       <StepContent variant='simple'>
         <div className='mt-4 mb-4'>
-          <video autoPlay loop muted playsInline className='rounded'>
-            <source src="/images/layer_management.mp4" type="video/mp4" />
-            <img src="/images/ml-challenge-competition-data-preview.png"
-              title="Your browser does not support the video tag."
-              alt="Movie clips of raw tilt series, tilt series after alignment, and tomogram of a purified lysosome."
-            />
-          </video>
+          <img src="/images/neuroglancer_tour/layer_management.gif" title="Layer management" alt="layer management gif image" />
         </div>
         <p className='text-[#767676] flex flex-col gap-4'>
           <span>Data is organized into distinct layers, which all appear in this menu.</span>

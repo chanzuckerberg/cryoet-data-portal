@@ -1,7 +1,7 @@
 import './ViewerPage.css'
 
 import { currentInternalState, currentNeuroglancerState, NeuroglancerWrapper, currentNeuroglancer, updateState } from 'neuroglancer'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { cns } from 'app/utils/cns'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
