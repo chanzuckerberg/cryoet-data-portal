@@ -57,9 +57,12 @@ jobs:
         run: |
           cd docs/
           make clean && make html
-          cp -r _build/html/* ../docsite/.
+          if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+          run: |
+            cp -r _build/html/* ../docsite/.
 
       - name: Deploy 🚀
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docsite # The folder the action should deploy.
