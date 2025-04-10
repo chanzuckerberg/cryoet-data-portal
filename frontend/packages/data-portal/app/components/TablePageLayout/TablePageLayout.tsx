@@ -1,5 +1,5 @@
 import { Pagination } from '@czi-sds/components'
-import { useSearchParams } from '@remix-run/react'
+import { useLocation, useNavigate, useSearchParams } from '@remix-run/react'
 import { ComponentType, ReactNode, useEffect } from 'react'
 
 import { ErrorBoundary } from 'app/components/ErrorBoundary'
@@ -118,20 +118,26 @@ function TablePageTabContent({
   banner,
   Header = TableHeader,
 }: TableLayoutTab) {
+  const location = useLocation()
+  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const pageQueryParamValue = +(searchParams.get(pageQueryParamKey) ?? '1')
 
   useEffect(() => {
     if (Math.ceil(filteredCount / MAX_PER_PAGE) < pageQueryParamValue) {
-      setSearchParams(
-        (prev) => {
-          prev.delete(pageQueryParamKey)
-          return prev
-        },
-        { replace: true },
-      )
+      searchParams.delete(pageQueryParamKey)
+      const newUrl = `${location.pathname}?${searchParams.toString()}`
+      navigate(newUrl, { replace: true, preventScrollReset: true })
     }
-  }, [filteredCount, pageQueryParamKey, pageQueryParamValue, setSearchParams])
+  }, [
+    filteredCount,
+    location.pathname,
+    location.search,
+    navigate,
+    pageQueryParamKey,
+    pageQueryParamValue,
+    searchParams,
+  ])
 
   function setPage(nextPage: number) {
     setSearchParams((prev) => {
