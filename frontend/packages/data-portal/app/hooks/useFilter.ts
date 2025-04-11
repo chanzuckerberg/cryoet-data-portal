@@ -148,9 +148,11 @@ export function useFilter() {
           (prev) => {
             prev.delete(param)
             prev.delete(QueryParams.Page)
+
             if (value) {
               normalizeFilterValue(value).forEach((v) => prev.append(param, v))
             }
+
             return prev
           },
           { replace: true, preventScrollReset: true },
@@ -164,6 +166,7 @@ export function useFilter() {
         setSearchParams(
           (prev) => {
             prev.delete(QueryParams.Page)
+
             entries.forEach(([param, value]) => {
               prev.delete(param)
               if (value) {
@@ -172,6 +175,7 @@ export function useFilter() {
                 )
               }
             })
+
             return prev
           },
           { replace: true, preventScrollReset: true },
