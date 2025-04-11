@@ -127,10 +127,7 @@ const toggleTopBar = () => {
 
 const isTopBarVisible = () => {
   const viewer = currentNeuroglancer()
-  if (viewer === undefined || viewer.uiConfiguration === undefined) {
-    return false
-  }
-  return viewer.uiConfiguration.showLayerPanel.value
+  return viewer?.uiConfiguration?.showLayerPanel.value ?? false
 }
 
 function ViewerPage({ run } : { run: any }) {
