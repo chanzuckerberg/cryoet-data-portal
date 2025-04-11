@@ -114,10 +114,13 @@ export function MultiInputFilter({
           [filter.id]: '',
         }))
 
-        setSearchParams((prev) => {
-          prev.delete(filter.queryParam)
-          return prev
-        })
+        setSearchParams(
+          (prev) => {
+            prev.delete(filter.queryParam)
+            return prev
+          },
+          { preventScrollReset: true },
+        )
       }}
       disabled={isDisabled}
     >

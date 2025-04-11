@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useSearchParams } from '@remix-run/react'
+import { useLocation, useSearchParams } from '@remix-run/react'
 import { useCallback, useMemo } from 'react'
 import { match, P } from 'ts-pattern'
 
@@ -104,7 +104,6 @@ export function useFilter() {
   const [searchParams, setSearchParams] = useSearchParams()
   const plausible = usePlausible()
   const location = useLocation()
-  const navigate = useNavigate()
   const filterType = match(location.pathname)
     .with(P.string.regex(/\/runs/), () => 'run' as const)
     .otherwise(() => 'dataset' as const)
@@ -145,49 +144,40 @@ export function useFilter() {
       updateValue(param: QueryParams, value?: FilterValue) {
         logPlausibleEvent(param, value)
 
-        const currentParams = new URLSearchParams(window.location.search)
-        currentParams.delete(param)
-        currentParams.delete(QueryParams.Page)
-
-        if (value) {
-          normalizeFilterValue(value).forEach((v) =>
-            currentParams.append(param, v),
-          )
-        }
-
-        const newUrl = `${window.location.pathname}?${currentParams.toString()}`
-
-        navigate(newUrl, {
-          replace: true,
-          preventScrollReset: true,
-        })
+        setSearchParams(
+          (prev) => {
+            prev.delete(param)
+            prev.delete(QueryParams.Page)
+            if (value) {
+              normalizeFilterValue(value).forEach((v) => prev.append(param, v))
+            }
+            return prev
+          },
+          { replace: true, preventScrollReset: true },
+        )
       },
 
       updateValues(params: Partial<Record<QueryParams, FilterValue>>) {
         const entries = Object.entries(params) as [QueryParams, FilterValue][]
         entries.forEach(([param, value]) => logPlausibleEvent(param, value))
 
-        const currentParams = new URLSearchParams(window.location.search)
-
-        currentParams.delete(QueryParams.Page)
-        entries.forEach(([param, value]) => {
-          currentParams.delete(param)
-          if (value) {
-            normalizeFilterValue(value).forEach((v) =>
-              currentParams.append(param, v),
-            )
-          }
-        })
-
-        const newUrl = `${window.location.pathname}?${currentParams.toString()}`
-
-        navigate(newUrl, {
-          replace: true,
-          preventScrollReset: true,
-        })
+        setSearchParams(
+          (prev) => {
+            prev.delete(QueryParams.Page)
+            entries.forEach(([param, value]) => {
+              prev.delete(param)
+              if (value) {
+                normalizeFilterValue(value).forEach((v) =>
+                  prev.append(param, v),
+                )
+              }
+            })
+            return prev
+          },
+          { replace: true, preventScrollReset: true },
+        )
       },
     }),
-
-    [logPlausibleEvent, searchParams, setSearchParams, navigate],
+    [logPlausibleEvent, searchParams, setSearchParams],
   )
 }
