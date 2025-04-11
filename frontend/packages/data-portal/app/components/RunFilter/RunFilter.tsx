@@ -11,7 +11,7 @@ import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 
-import { ObjectIdFilter } from '../AnnotationFilter/ObjectIdFilter'
+import { ObjectIdFilter } from '../AnnotationFilter/ObjectIdFilter/ObjectIdFilter'
 import { QualityScoreFilter } from './QualityScoreFilter'
 
 export function RunFilter() {

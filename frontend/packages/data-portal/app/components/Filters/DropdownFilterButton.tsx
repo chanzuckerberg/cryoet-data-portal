@@ -122,7 +122,7 @@ export function DropdownFilterButton({
         open={open}
         anchorOrigin={{ vertical: 40, horizontal: 'left' }}
       >
-        <div className="px-sds-l py-sds-default min-w-[278px] max-w-[320px] flex flex-col">
+        <div className="px-sds-l py-sds-default min-w-[278px] max-w-[350px] flex flex-col">
           {description}
           {children}
 
