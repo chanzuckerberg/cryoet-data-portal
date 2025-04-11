@@ -9,9 +9,9 @@ import { DatasetFilter } from 'app/components/DatasetFilter'
 import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import {
   TableHeaderDefinition,
-  TableHeaderProps,
   TablePageLayout,
 } from 'app/components/TablePageLayout'
+import { TableHeaderProps } from 'app/components/TablePageLayout/types'
 import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 import { getDatasetsV2 } from 'app/graphql/getDatasetsV2.server'

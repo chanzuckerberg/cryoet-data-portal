@@ -8,7 +8,7 @@ import { QueryParams } from 'app/constants/query'
 import { TestIds } from 'app/constants/testIds'
 import { RemixMock } from 'app/mocks/Remix.mock'
 
-import { TableLayoutTab, TablePageLayoutProps } from './TablePageLayout'
+import { TableLayoutTab, TablePageLayoutProps } from './types'
 
 async function renderTablePageLayout(tabs: TablePageLayoutProps['tabs']) {
   const { TablePageLayout } = await import('./TablePageLayout')
