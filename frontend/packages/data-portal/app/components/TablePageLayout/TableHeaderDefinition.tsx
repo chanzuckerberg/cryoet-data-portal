@@ -4,7 +4,7 @@ import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
 
 import { TableCount } from './TableCount'
-import { TableHeaderProps } from './TableHeader'
+import { TableHeaderProps } from './types'
 
 export function TableHeaderDefinition({
   countLabel,

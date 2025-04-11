@@ -3,14 +3,7 @@ import { TableCount } from 'app/components/TablePageLayout/TableCount'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
-export interface TableHeaderProps {
-  countLabel: string
-  description?: string
-  filteredCount: number
-  title: string
-  totalCount: number
-  learnMoreLink?: string
-}
+import { TableHeaderProps } from '../../types'
 
 export function TableHeader({
   countLabel,
