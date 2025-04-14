@@ -14,6 +14,7 @@ import Tour from './Tour'
 import { getTutorialSteps } from './steps';
 import { ABOUT_LINKS, REPORT_LINKS, NEUROGLANCER_DOC_LINK  } from '../Layout/constants'
 import { useI18n } from 'app/hooks/useI18n'
+import Snackbar from '../common/Snackbar'
 
 const BACKGROUND_COLOR = "#ffffff"
 
@@ -129,6 +130,7 @@ function ViewerPage({ run } : { run: any }) {
   const [annotations, setAnnotations] = useState<any>([])
   const [tourRunning, setTourRunning] = useState(false);
   const [stepIndex, setStepIndex] = useState<number>(0);
+  const [shareClicked, setShareClicked] = useState<boolean>(false)
 
   const refresh = () => {
     setRenderVersion(renderVersion + 1)
@@ -169,6 +171,13 @@ function ViewerPage({ run } : { run: any }) {
     }
   }, [])
 
+  const handleShareClick = () => {
+    setShareClicked(true)
+    setTimeout(() => {
+      setShareClicked(false)
+    }, 3000)
+  }
+
   const activeBreadcrumbText = (
     <p>
       {run.name} <span className='text-sds-color-primitive-common-white opacity-60'>(#RN-{run.id})</span>
@@ -177,7 +186,7 @@ function ViewerPage({ run } : { run: any }) {
 
 
   return (
-    <div className="flex flex-col overflow-hidden h-full">
+    <div className="flex flex-col overflow-hidden h-full relative">
       <nav
         className={cns('bg-sds-color-primitive-common-black text-sds-color-primitive-common-white',
           'flex flex-shrink-0 items-center py-1',
@@ -231,7 +240,7 @@ function ViewerPage({ run } : { run: any }) {
                 <CustomDropdownOption selected={false} onSelect={snap}>Snap to the nearest axis</CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
-            <Button sdsType="primary" sdsStyle="rounded">Share</Button>
+            <Button sdsType="primary" sdsStyle="rounded" disabled={shareClicked} onClick={handleShareClick}>Share</Button>
             <CustomDropdown className='w-11 h-11 p-3' buttonElement={<InfoIcon className="w-5 h-5" />}>
               <CustomDropdownSection title="About">
                 {ABOUT_LINKS.map((option) => (
@@ -263,6 +272,7 @@ function ViewerPage({ run } : { run: any }) {
         <NeuroglancerWrapper onStateChange={refresh} />
       </div>
       {run && <Tour run={tourRunning} stepIndex={stepIndex} steps={getTutorialSteps()} onRestart={handleRestart} onClose={handleTourClose} onMove={handleTourStepMove}/>}
+      <Snackbar open={shareClicked} intent="positive" title='Share link copied to clipboard' className='max-h-8 !max-w-[265px]'/>
     </div>
   )
 }
