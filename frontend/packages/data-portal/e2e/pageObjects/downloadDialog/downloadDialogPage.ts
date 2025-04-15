@@ -1,4 +1,5 @@
-import { expect, Locator } from '@playwright/test'
+import { expect } from '@chromatic-com/playwright'
+import { Locator } from '@playwright/test'
 import { translations } from 'e2e/constants'
 import { BasePage } from 'e2e/pageObjects/basePage'
 
