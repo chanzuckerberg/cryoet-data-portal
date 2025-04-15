@@ -130,17 +130,5 @@ test.describe('Metadata Drawer', () => {
       await metadataDrawerPage.closeMetadataDrawer()
       await metadataDrawerPage.expectMetadataDrawerToBeHidden()
     })
-
-    // test('metadata should have correct data', async ({ page }) => {
-    //   const metadataDrawerPage = new MetadataDrawerPage(page)
-    //   await metadataDrawerPage.goTo(url)
-    //   await metadataDrawerPage.openInfoDrawer()
-    //   await metadataDrawerPage.waitForMetadataDrawerToBeVisible()
-
-    //   const data = await getTomogramTestData(clientV2)
-    //   await metadataDrawerPage.expectMetadataDrawerToShowTitle(data.title)
-    //   await metadataDrawerPage.expandAllAccordions()
-    //   await metadataDrawerPage.expectMetadataTableCellsToDisplayValues(data)
-    // })
   })
 })
