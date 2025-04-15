@@ -44,10 +44,7 @@ export function RegexFilter({
     [paramValue, displayNormalizer],
   )
 
-  // console.log('value', value)
-
   const isDisabled = useMemo(() => {
-    // console.log('isDisabled', value, validationRegex.test(value))
     return !validationRegex.test(value)
   }, [value, validationRegex])
 
