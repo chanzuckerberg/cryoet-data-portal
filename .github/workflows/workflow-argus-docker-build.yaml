@@ -29,7 +29,7 @@ on:
 
 jobs:
   argus_builder:
-    uses: chanzuckerberg/github-actions/.github/workflows/argus-docker-build.yaml@v5
+    uses: chanzuckerberg/github-actions/.github/workflows/argus-docker-build.yaml@v6
     secrets: inherit
     with:
       branches_include: ${{ inputs.branches_include }}
