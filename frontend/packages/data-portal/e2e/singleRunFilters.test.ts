@@ -41,6 +41,8 @@ test.describe('Single run page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('single-run')
       })
 
       test('should filter when opening URL', async () => {
@@ -77,6 +79,8 @@ test.describe('Single run page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('single-run')
       })
     })
     test.describe('Author ORCID filter', () => {
@@ -101,6 +105,8 @@ test.describe('Single run page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('single-run')
       })
       test('should filter when opening URL', async () => {
         await filtersActor.goToFilteredUrl({
@@ -135,6 +141,8 @@ test.describe('Single run page filters', () => {
             },
           ],
         })
+
+        await filtersPage.waitForTableLoad('single-run')
       })
     })
   })
@@ -166,6 +174,8 @@ test.describe('Single run page filters', () => {
       await filtersPage.expectFilterTagToExist(
         getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
       )
+
+      await filtersPage.waitForTableLoad('single-run')
     })
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -206,6 +216,8 @@ test.describe('Single run page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-run')
     })
   })
   test.describe('Object Name filter', () => {
@@ -226,6 +238,8 @@ test.describe('Single run page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-run')
     })
 
     test('should filter when opening URL', async () => {
@@ -262,6 +276,8 @@ test.describe('Single run page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-run')
     })
   })
 
@@ -287,6 +303,8 @@ test.describe('Single run page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-run')
     })
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -322,6 +340,8 @@ test.describe('Single run page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-run')
     })
   })
 
@@ -345,6 +365,8 @@ test.describe('Single run page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-run')
     })
 
     test('should filter when opening URL', async () => {
@@ -383,6 +405,8 @@ test.describe('Single run page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-run')
     })
   })
 
@@ -404,6 +428,8 @@ test.describe('Single run page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-run')
     })
 
     test('should filter when opening URL', async () => {
@@ -440,6 +466,8 @@ test.describe('Single run page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-run')
     })
   })
 
@@ -461,6 +489,8 @@ test.describe('Single run page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-run')
     })
 
     test('should filter when opening URL', async () => {
@@ -497,6 +527,8 @@ test.describe('Single run page filters', () => {
           },
         ],
       })
+
+      await filtersPage.waitForTableLoad('single-run')
     })
   })
 })
