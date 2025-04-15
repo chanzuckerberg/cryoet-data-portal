@@ -35,7 +35,7 @@ test.describe('downloadDialog', () => {
       await downloadDialogPage.openDialog(translations.downloadDataset)
 
       await downloadDialogActor.expectDialogToBeOpen({
-        title: translations.downloadOptions,
+        title: translations.downloadDatasetTitle,
       })
       downloadDialogActor.expectDialogUrlToMatch({
         baseUrl: SINGLE_DATASET_URL,
@@ -61,7 +61,7 @@ test.describe('downloadDialog', () => {
         })
 
         await downloadDialogActor.expectDialogToBeOpen({
-          title: translations.downloadOptions,
+          title: translations.downloadDatasetTitle,
         })
         await downloadDialogActor.expectDialogToBeOnCorrectTab({
           tab: DownloadTab.AWS,
@@ -75,7 +75,7 @@ test.describe('downloadDialog', () => {
           tab: DownloadTab.API,
         })
         await downloadDialogActor.expectDialogToBeOpen({
-          title: translations.downloadOptions,
+          title: translations.downloadDatasetTitle,
         })
         await downloadDialogPage.clickTab(DownloadTab.AWS)
 
@@ -97,7 +97,7 @@ test.describe('downloadDialog', () => {
           tab: DownloadTab.AWS,
         })
         await downloadDialogActor.expectDialogToBeOpen({
-          title: translations.downloadOptions,
+          title: translations.downloadDatasetTitle,
         })
         await downloadDialogPage.clickCopyButton()
 
@@ -110,7 +110,7 @@ test.describe('downloadDialog', () => {
           tab: DownloadTab.AWS,
         })
         await downloadDialogActor.expectDialogToBeOpen({
-          title: translations.downloadOptions,
+          title: translations.downloadDatasetTitle,
         })
         await downloadDialogPage.clickCloseButton()
 
@@ -126,7 +126,7 @@ test.describe('downloadDialog', () => {
         })
 
         await downloadDialogActor.expectDialogToBeOpen({
-          title: translations.downloadOptions,
+          title: translations.downloadDatasetTitle,
         })
         await downloadDialogActor.expectDialogToBeOnCorrectTab({
           tab: DownloadTab.API,
@@ -140,7 +140,7 @@ test.describe('downloadDialog', () => {
           tab: DownloadTab.AWS,
         })
         await downloadDialogActor.expectDialogToBeOpen({
-          title: translations.downloadOptions,
+          title: translations.downloadDatasetTitle,
         })
         await downloadDialogPage.clickTab(DownloadTab.API)
 
@@ -162,7 +162,7 @@ test.describe('downloadDialog', () => {
           tab: DownloadTab.API,
         })
         await downloadDialogActor.expectDialogToBeOpen({
-          title: translations.downloadOptions,
+          title: translations.downloadDatasetTitle,
         })
         await downloadDialogPage.clickCopyButton()
 
@@ -174,7 +174,7 @@ test.describe('downloadDialog', () => {
           tab: DownloadTab.API,
         })
         await downloadDialogActor.expectDialogToBeOpen({
-          title: translations.downloadOptions,
+          title: translations.downloadDatasetTitle,
         })
         await downloadDialogPage.clickCloseButton()
 
