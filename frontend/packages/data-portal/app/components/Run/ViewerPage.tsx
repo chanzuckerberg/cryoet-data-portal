@@ -119,6 +119,25 @@ const setCurrentLayout = (layout: string) => {
   })
 }
 
+const showSelectedLayerPanel = (minSize: number = 0) => {
+  updateState((state) => {
+    console.log(state);
+    state.neuroglancer.selectedLayer.visible = true
+    state.neuroglancer.selectedLayer.size = Math.max(
+      minSize, state.neuroglancer.selectedLayer.size ?? 0)
+    return state
+  })
+}
+
+const showLayerListPanel = (minSize: number = 0) => {
+  updateState((state) => {
+    state.neuroglancer.layerListPanel.visible = true
+    state.neuroglancer.layerListPanel.size = Math.max(
+      minSize, state.neuroglancer.layerListPanel.size ?? 0) 
+    return state
+  })
+}
+
 const snap = () => {
   const viewer = currentNeuroglancer();
   viewer.navigationState.pose.orientation.snap();
@@ -143,6 +162,8 @@ function ViewerPage({ run } : { run: any }) {
 
   const handleTourStart = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()
+    showSelectedLayerPanel(350)
+    showLayerListPanel(350)
     setTourRunning(true)
   }
 
