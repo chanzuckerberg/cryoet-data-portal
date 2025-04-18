@@ -176,10 +176,16 @@ function ViewerPage({ run } : { run: any }) {
   }, [])
 
   const handleShareClick = () => {
-    setShareClicked(true)
-    setTimeout(() => {
-      setShareClicked(false)
-    }, 3000)
+    navigator.clipboard.writeText(window.location.href)
+    .then(() => {
+      setShareClicked(true);
+      setTimeout(() => {
+        setShareClicked(false);
+      }, 3000);
+    })
+    .catch((err) => {
+      console.error('Failed to copy URL: ', err);
+    });
   }
 
   const activeBreadcrumbText = (
