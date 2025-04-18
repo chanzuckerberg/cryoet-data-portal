@@ -1,11 +1,15 @@
 import pako from "pako";
+import { CompleteStateOfANeuroglancerInstance, The2_X2GridLayoutWithXyYzXzAnd3_DPanels } from "./NeuroglancerState";
+
+export type NeuroglancerLayout = The2_X2GridLayoutWithXyYzXzAnd3_DPanels;
+export type NeuroglancerState = CompleteStateOfANeuroglancerInstance;
 
 export interface SuperState extends Record<string, any> {
   neuroglancer: string;
 }
 
 export interface ResolvedSuperState extends Record<string, any> {
-  neuroglancer: Record<string, any>;
+  neuroglancer: NeuroglancerState;
 }
 
 const emptySuperState = (config: string): SuperState => {

@@ -1,6 +1,6 @@
 import './ViewerPage.css'
 
-import { currentInternalState, currentNeuroglancerState, NeuroglancerWrapper, currentNeuroglancer, updateState } from 'neuroglancer'
+import { currentNeuroglancerState, NeuroglancerWrapper, currentNeuroglancer, updateState, NeuroglancerLayout } from 'neuroglancer'
 import { useState } from 'react'
 import { cns } from 'app/utils/cns'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
@@ -39,6 +39,9 @@ const changeBackgroundColor = (color: string) => {
 
 const toggleAnnotations = () => {
   updateState((state) => {
+    if (!state.neuroglancer.layers) {
+      return state
+    }
     for (const layer of state.neuroglancer.layers) {
       if (isAnnotation(layer)) {
         layer.visible = toggleVisibility(layer)
@@ -50,6 +53,9 @@ const toggleAnnotations = () => {
 
 const toggleLayer = (name: string) => {
   updateState((state) => {
+    if (!state.neuroglancer.layers) {
+      return state
+    }
     const layer = state.neuroglancer.layers.find((l: any) => l.name === name)
     if (layer) {
       const archived = boolValue(layer.archived, /* defaultValue =*/ false)
@@ -61,25 +67,21 @@ const toggleLayer = (name: string) => {
 }
 
 const toggleBoundingBox = () => {
-  updateState((state) => {
-    state.neuroglancer.showDefaultAnnotations = !hasBoundingBox()
-    return state
-  })
+  const viewer = currentNeuroglancer();
+  viewer.showDefaultAnnotations.value = !viewer.showDefaultAnnotations.value;
 }
 
 const hasBoundingBox = () => {
-  return boolValue(currentNeuroglancerState().showDefaultAnnotations)
+  return currentNeuroglancer()?.showDefaultAnnotations.value
 }
 
 const toggleAxisLine = () => {
-  updateState((state) => {
-    state.neuroglancer.showAxisLines = !axisLineEnabled()
-    return state
-  })
+  const viewer = currentNeuroglancer();
+  viewer.showAxisLines.value = !viewer.showAxisLines.value;
 }
 
 const axisLineEnabled = () => {
-  return boolValue(currentNeuroglancerState().showAxisLines);
+  return currentNeuroglancer()?.showAxisLines.value;
 }
 
 const hasAnnotationLayers = (state: any) => {
@@ -91,14 +93,12 @@ const isBackgroundWhite = () => {
 }
 
 const showScaleBarEnabled = () => {
-  return boolValue(currentNeuroglancerState().showScaleBar)
+  return currentNeuroglancer()?.showScaleBar.value;
 }
 
 const toggleShowScaleBar = () => {
-  updateState((state) => {
-    state.neuroglancer.showScaleBar = !showScaleBarEnabled()
-    return state
-  })
+  const viewer = currentNeuroglancer();
+  viewer.showScaleBar.value = !viewer.showScaleBar.value;
 }
 
 const currentLayout = () => {
@@ -111,7 +111,7 @@ const isCurrentLayout = (layout: string) => {
 
 const setCurrentLayout = (layout: string) => {
   updateState((state) => {
-    state.neuroglancer.layout = layout
+    state.neuroglancer.layout = layout as NeuroglancerLayout
     return state
   })
 }

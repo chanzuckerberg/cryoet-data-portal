@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# JSON schema files
+viewer_state.yml
+layer.yml
