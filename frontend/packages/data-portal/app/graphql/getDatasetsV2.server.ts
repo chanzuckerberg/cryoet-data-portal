@@ -70,13 +70,13 @@ const GET_DATASETS_QUERY = gql(`
 `)
 
 export async function getDatasetsV2({
-  page = 1,
+  page,
   titleOrderDirection,
   searchText,
   params = new URLSearchParams(),
   client,
 }: {
-  page?: number
+  page: number
   titleOrderDirection?: OrderBy
   searchText?: string
   params?: URLSearchParams

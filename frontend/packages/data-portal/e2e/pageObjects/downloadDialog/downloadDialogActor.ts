@@ -152,23 +152,6 @@ export class DownloadDialogActor {
     }
   }
 
-  // public async expectDownloadRunStepTwoToShowCorrectContent({
-  //   client,
-  // }: {
-  //   client: ApolloClient<NormalizedCacheObject>
-  // }) {
-  //   const { data } = await fetchTestSingleRun(client)
-  //   const runName = data.runs[0].name
-  //   const datasetName = data.runs[0].dataset.title
-  //   await this.expectDialogToBeOpen({
-  //     title: translations.downloadOptions,
-  //     substrings: [
-  //       `${translations.datasetName}: ${datasetName}`,
-  //       `${translations.runName}: ${runName}`,
-  //       `${translations.annotations}: ${translations.all}`,
-  //     ],
-  //   })
-  // }
   public expectDialogUrlToMatch({
     baseUrl,
     config,

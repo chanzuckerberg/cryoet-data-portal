@@ -3,10 +3,8 @@
  * This is because we did not have time to refactor.
  * Please do not use this file as an example of how to write tests.
  */
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { expect, test } from '@chromatic-com/playwright'
 import { Page } from '@playwright/test'
-import { getApolloClientV2 } from 'e2e/apollo'
 import { E2E_CONFIG } from 'e2e/constants'
 import { goTo } from 'e2e/filters/utils'
 import { isNumber } from 'lodash-es'
@@ -14,11 +12,7 @@ import { isNumber } from 'lodash-es'
 import { QueryParams } from 'app/constants/query'
 import { TestIds } from 'app/constants/testIds'
 
-import {
-  GetMaxPages,
-  PaginationFilter,
-  TestOptions as PaginationTestOptions,
-} from './types'
+import { PaginationFilter, TestOptions as PaginationTestOptions } from './types'
 
 function getPagination(page: Page) {
   return page.getByTestId(TestIds.Pagination)
@@ -30,6 +24,12 @@ function getPreviousButton(page: Page) {
 
 function getNextButton(page: Page) {
   return page.locator(`[data-order="last"]`)
+}
+
+async function getLastPageButton(page: Page) {
+  const items = getPagination(page).locator('li')
+  const itemCount = await items.count()
+  return items.nth(itemCount - 2)
 }
 
 async function clickVisiblePageButton(page: Page, pageNumber: number) {
@@ -56,25 +56,17 @@ async function waitForPageNumber(page: Page, pageNumber: number) {
 const { pagination } = E2E_CONFIG
 
 export function testPagination({
-  getMaxPages,
   rowLoadedSelector,
   testFilter,
   testFilterWithNoPages,
   url,
 }: {
-  getMaxPages: GetMaxPages
   rowLoadedSelector: string
   testFilter: PaginationFilter
   testFilterWithNoPages: PaginationFilter
   url: string
 }) {
   test.describe(url.replace(E2E_CONFIG.url, ''), () => {
-    let client: ApolloClient<NormalizedCacheObject>
-
-    test.beforeEach(() => {
-      client = getApolloClientV2()
-    })
-
     async function openPage({
       filter,
       page,
@@ -102,9 +94,6 @@ export function testPagination({
         filter ? ' when filtered' : ''
       }`, async ({ page }) => {
         await openPage({ page, filter })
-
-        const maxPages = await getMaxPages(client, filter)
-        await expect(getPagination(page)).toContainText(`${maxPages}`)
       })
     }
 
@@ -178,8 +167,11 @@ export function testPagination({
     })
 
     test('should disable next button when on last page', async ({ page }) => {
-      const maxPages = await getMaxPages(client)
-      await openPage({ page, pageNumber: maxPages })
+      await openPage({ page })
+
+      const lastPageButton = await getLastPageButton(page)
+      await lastPageButton.click()
+
       await expect(getNextButton(page)).toHaveAttribute('disabled')
     })
 

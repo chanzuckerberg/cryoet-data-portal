@@ -1,6 +1,6 @@
 import { expect } from '@chromatic-com/playwright'
-import { translations } from 'e2e/constants'
 import { BasePage } from 'e2e/pageObjects/basePage'
+import { waitForTableReload } from 'e2e/utils'
 import { escapeRegExp } from 'lodash-es'
 
 import { TestIds } from 'app/constants/testIds'
@@ -198,26 +198,7 @@ export class FiltersPage extends BasePage {
   // #region Bool
   // #endregion Bool
 
-  async waitForTableLoad(
-    type:
-      | 'browse-datasets'
-      | 'browse-depositions'
-      | 'single-dataset'
-      | 'single-deposition'
-      | 'single-run',
-  ) {
-    const labelMap: Record<typeof type, string> = {
-      'browse-datasets': translations.datasets,
-      'browse-depositions': translations.depositions,
-      'single-dataset': translations.runs,
-      'single-run': translations.annotations,
-      'single-deposition': translations.datasets,
-    }
-
-    const label = labelMap[type]
-
-    await this.page
-      .getByText(new RegExp(`^[0-9]* of [0-9]* ${label}$`))
-      .waitFor()
+  async waitForTableLoad() {
+    await waitForTableReload(this.page)
   }
 }

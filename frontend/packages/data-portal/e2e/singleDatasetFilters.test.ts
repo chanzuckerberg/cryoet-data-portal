@@ -33,7 +33,7 @@ test.describe('Single dataset page filters', () => {
         ],
       })
 
-      await filtersPage.waitForTableLoad('single-dataset')
+      await filtersPage.waitForTableLoad()
     })
     test('should filter when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -69,7 +69,7 @@ test.describe('Single dataset page filters', () => {
         ],
       })
 
-      await filtersPage.waitForTableLoad('single-dataset')
+      await filtersPage.waitForTableLoad()
     })
   })
   test.describe('Deposition ID filter', () => {
@@ -101,7 +101,7 @@ test.describe('Single dataset page filters', () => {
         getPrefixedId(E2E_CONFIG.depositionId, QueryParams.DepositionId),
       )
 
-      await filtersPage.waitForTableLoad('single-dataset')
+      await filtersPage.waitForTableLoad()
     })
     test('should filter by deposition ID when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -143,7 +143,7 @@ test.describe('Single dataset page filters', () => {
         ],
       })
 
-      await filtersPage.waitForTableLoad('single-dataset')
+      await filtersPage.waitForTableLoad()
     })
   })
   test.describe('Object Name filter', () => {
@@ -164,8 +164,6 @@ test.describe('Single dataset page filters', () => {
           },
         ],
       })
-
-      await filtersPage.waitForTableLoad('single-dataset')
     })
     test('should filter by object name when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -201,7 +199,7 @@ test.describe('Single dataset page filters', () => {
         ],
       })
 
-      await filtersPage.waitForTableLoad('single-dataset')
+      await filtersPage.waitForTableLoad()
     })
   })
   test.describe('Object Shape Type filter', () => {
@@ -224,8 +222,6 @@ test.describe('Single dataset page filters', () => {
           },
         ],
       })
-
-      await filtersPage.waitForTableLoad('single-dataset')
     })
     test('should filter by object shape type when opening URL', async () => {
       await filtersActor.goToFilteredUrl({
@@ -263,7 +259,7 @@ test.describe('Single dataset page filters', () => {
         ],
       })
 
-      await filtersPage.waitForTableLoad('single-dataset')
+      await filtersPage.waitForTableLoad()
     })
   })
 })
