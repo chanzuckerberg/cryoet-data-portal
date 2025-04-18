@@ -159,8 +159,8 @@ export const getTutorialSteps: () => Step[] = () => [
     content: (
       <StepContent variant='minimal'>
         <p className='text-[#767676] flex flex-col gap-4'>
-          <span>Find some of the most crucial functionality in the main header bar, including loading groups of annotations, changing the viewer layout, and more!</span>
-          <span>Just below this is the neuroglancer top bar, which contains even more detailed settings, such as the cross-section background color, should you need them.</span>
+          <span>We've extracted some of the most crucial functionality of neuroglancer into the top bar, including loading groups of annotations, changing the viewer layout, and more!</span>
+          <span>However, you can find more further controls in neuroglancer header bar, such as screenshots and cursor selection details, should you need them.</span>
         </p>
       </StepContent>
     )
@@ -187,7 +187,7 @@ export const getTutorialSteps: () => Step[] = () => [
 const StepContent = ({children, variant = "default", className} : StepContentProps) => {
   const variantStyles = {
     default: "flex flex-col gap-6 mt-6",
-    compact: "flex flex-col gap-6 mt-1",
+    compact: "flex flex-col gap-6",
     simple: "flex flex-col",
     minimal: "mt-1",
   };
