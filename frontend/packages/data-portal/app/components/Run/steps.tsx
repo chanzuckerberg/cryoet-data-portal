@@ -159,8 +159,7 @@ export const getTutorialSteps: () => Step[] = () => [
     content: (
       <StepContent variant='minimal'>
         <p className='text-[#767676] flex flex-col gap-4'>
-          <span>We've extracted some of the most crucial functionality of neuroglancer into the top bar, including loading groups of annotations, changing the viewer layout, and more!</span>
-          <span>However, you can find more further controls in neuroglancer header bar, such as screenshots and cursor selection details, should you need them.</span>
+          <span>You can find futher controls in the neuroglancer header bar, such as taking screenshots and showing or hiding panels in the viewer, should you need them.</span>
         </p>
       </StepContent>
     )
@@ -171,7 +170,10 @@ export const getTutorialSteps: () => Step[] = () => [
     title: 'Congratulations!',
     content: (
       <StepContent variant='default'>
-        <p>You've just learned the basics of navigating and analysing annotated tomograms from the CryroET Data Portal with Neuroglancer!</p>
+        <p className='flex flex-col gap-3'>
+          <span>You've just learned the basics of navigating and analysing annotated tomograms from the CryroET Data Portal with Neuroglancer!</span>
+          <span>We've extracted some of the most crucial functionality of neuroglancer into the main top bar, including loading groups of annotations, changing the viewer layout, and more.</span>
+        </p>
         <div className='flex flex-col gap-3'>
           <p>As a recap, here are some useful shortcuts</p>
           <div className='rounded p-4 bg-[#F8F8F8] flex flex-col gap-3'>
