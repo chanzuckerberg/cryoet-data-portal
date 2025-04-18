@@ -73,13 +73,13 @@ export async function getDatasetsV2({
   page,
   titleOrderDirection,
   searchText,
-  params,
+  params = new URLSearchParams(),
   client,
 }: {
   page: number
   titleOrderDirection?: OrderBy
   searchText?: string
-  params: URLSearchParams
+  params?: URLSearchParams
   client: ApolloClient<NormalizedCacheObject>
 }): Promise<ApolloQueryResult<GetDatasetsV2Query>> {
   return client.query({
