@@ -118,7 +118,7 @@ export function PrefixOptionFilter({
           value={value}
           hideLabel={hideLabel}
           className={cns(
-            'relative border-light-sds-color-primitive-gray-400 !mb-sds-xs !mr-0 left-[-3px] w-[193px]',
+            'relative border-light-sds-color-primitive-gray-400 !mb-sds-xs !mr-0 left-[-3px] w-[195px]',
             className,
           )}
           intent={error ? 'negative' : undefined}
