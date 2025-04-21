@@ -7,7 +7,7 @@ import { QueryParams } from 'app/constants/query'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
 import {
   AvailableFilesFilterValue,
-  BaseFilterOption,
+  FilterValue,
   NumberOfRunsFilterValue,
 } from 'app/types/filter'
 
@@ -90,13 +90,6 @@ export function getFilterState(searchParams: URLSearchParams) {
 
 export type FilterState = ReturnType<typeof getFilterState>
 
-type FilterValue =
-  | string
-  | null
-  | string[]
-  | BaseFilterOption
-  | BaseFilterOption[]
-
 function normalizeFilterValue(value: FilterValue) {
   return match(value)
     .returnType<string[]>()
@@ -162,7 +155,7 @@ export function useFilter() {
 
             return prev
           },
-          { replace: true },
+          { replace: true, preventScrollReset: true },
         )
       },
 
@@ -176,7 +169,6 @@ export function useFilter() {
 
             entries.forEach(([param, value]) => {
               prev.delete(param)
-
               if (value) {
                 normalizeFilterValue(value).forEach((v) =>
                   prev.append(param, v),
@@ -186,11 +178,10 @@ export function useFilter() {
 
             return prev
           },
-          { replace: true },
+          { replace: true, preventScrollReset: true },
         )
       },
     }),
-
     [logPlausibleEvent, searchParams, setSearchParams],
   )
 }
