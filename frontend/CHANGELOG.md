@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.68.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.67.0...cryoet-data-portal-frontend-v1.68.0) (2025-04-21)
+
+
+### ✨ Features
+
+* Add Object Id Prefix ([#1743](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1743)) ([11037f7](https://github.com/chanzuckerberg/cryoet-data-portal/commit/11037f785afb18a81e073325d87be8b5be981fc0))
+
+
+### 🐞 Bug Fixes
+
+* add min width to descriptions  ([#1775](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1775)) ([d5c084c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d5c084c53920a589cdf2abbfcaa10d05ebcca27a))
+
 ## [1.67.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.66.0...cryoet-data-portal-frontend-v1.67.0) (2025-04-11)
 
 
