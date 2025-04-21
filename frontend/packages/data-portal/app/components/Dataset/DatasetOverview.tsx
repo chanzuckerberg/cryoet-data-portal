@@ -29,7 +29,8 @@ export function DatasetOverview() {
   return (
     <>
       <div className="flex gap-sds-xxl items-start">
-        <div>
+        <div className="min-w-[calc(100%-232px)]">
+          {/* 232px is the width of aside plus gap */}
           <PageHeaderSubtitle>{t('datasetOverview')}</PageHeaderSubtitle>
           <CollapsibleDescription
             className="text-sds-body-s-400-wide leading-sds-body-s mt-sds-s"
