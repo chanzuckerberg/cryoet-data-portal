@@ -15,6 +15,7 @@ export interface InputFilterData {
   label: string
   queryParam: QueryParams
   hideLabel?: boolean
+  placeholder?: string
 }
 
 export interface MultiInputFilterProps {
@@ -132,6 +133,7 @@ export function MultiInputFilter({
             id={filter.id}
             label={filter.label}
             hideLabel={filter.hideLabel}
+            placeholder={filter.placeholder || ''}
             onChange={(value) =>
               setValues((prev) => ({
                 ...prev,
