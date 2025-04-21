@@ -143,6 +143,7 @@ function ViewerPage({ run } : { run: any }) {
     });
   }
 
+  const helperText = "text-xs text-[#767676] font-normal";
   const activeBreadcrumbText = (
     <p>
       {run.name} <span className='text-sds-color-primitive-common-white opacity-60'>(#RN-{run.id})</span>
@@ -175,7 +176,7 @@ function ViewerPage({ run } : { run: any }) {
                     onSelect={() => toggleLayer(annotation.name)}
                   >
                     <span>{annotation?.name}</span>
-                    <span className="text-xs text-[#767676] font-normal">#CZCDP-12795</span>
+                    <span className={helperText}>#CZCDP-12795</span>
                   </CustomDropdownOption>
                 ))}
               </CustomDropdownSection>
@@ -195,13 +196,33 @@ function ViewerPage({ run } : { run: any }) {
             </CustomDropdown>
             <CustomDropdown title="Actions" variant="outlined">
               <CustomDropdownSection title="Appearance">
-                <CustomDropdownOption selected={hasBoundingBox()} onSelect={toggleBoundingBox}>Bounding box</CustomDropdownOption>
-                <CustomDropdownOption selected={axisLineEnabled()} onSelect={toggleAxisLine}>Axis lines</CustomDropdownOption>
-                <CustomDropdownOption selected={showScaleBarEnabled()} onSelect={toggleShowScaleBar}>Scale bar</CustomDropdownOption>
+                <CustomDropdownOption selected={hasBoundingBox()} onSelect={toggleBoundingBox}>
+                  <div className='flex justify-between items-center'>
+                    <p>Bounding box</p>
+                    <p className={helperText}>v</p>
+                  </div>
+                </CustomDropdownOption>
+                <CustomDropdownOption selected={axisLineEnabled()} onSelect={toggleAxisLine}>
+                  <div className='flex justify-between items-center'>
+                    <p>Axis lines</p>
+                    <p className={helperText}>a</p>
+                  </div>
+                </CustomDropdownOption>
+                <CustomDropdownOption selected={showScaleBarEnabled()} onSelect={toggleShowScaleBar}>
+                  <div className='flex justify-between items-center'>
+                    <p>Scale bar</p>
+                    <p className={helperText}>b</p>
+                  </div>
+                </CustomDropdownOption>
                 <CustomDropdownOption selected={isBackgroundWhite()} onSelect={() => changeBackgroundColor(BACKGROUND_COLOR)}>Change background to white</CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
-                <CustomDropdownOption selected={false} onSelect={snap}>Snap to the nearest axis</CustomDropdownOption>
+                <CustomDropdownOption selected={false} onSelect={snap}>
+                  <div className='flex justify-between items-center'>
+                    <p>Snap to the nearest axis</p>
+                    <p className={helperText}>z</p>
+                  </div>
+                </CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
             <Button sdsType="primary" sdsStyle="rounded" disabled={shareClicked} onClick={handleShareClick}>Share</Button>
