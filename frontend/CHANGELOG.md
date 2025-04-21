@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.67.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.66.0...cryoet-data-portal-frontend-v1.67.0) (2025-04-11)
+
+
+### ✨ Features
+
+* Add Data Summary to Run and Dataset Pages ([#1739](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1739)) ([4830cda](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4830cdaa7310546652cfc56a579bb6e36611b5ee))
+* Improve Ground Truth Filter ([#1736](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1736)) ([8c37056](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8c370568b812e18c4a3be75f173cfc4267d6c67c))
+
+
+### 🐞 Bug Fixes
+
+* Scroll position with filter ([#1752](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1752)) ([8e2bd21](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8e2bd21a4e1aff0076aec6582477c96b0732d8a9))
+
 ## [1.66.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.65.2...cryoet-data-portal-frontend-v1.66.0) (2025-04-01)
 
 

@@ -72,25 +72,31 @@ export function RegexFilter({
           const newParamValue = paramNormalizer ? paramNormalizer(value) : value
           setValue(displayNormalizer ? displayNormalizer(value) : value)
 
-          setSearchParams((prev) => {
-            prev.delete(queryParam)
+          setSearchParams(
+            (prev) => {
+              prev.delete(queryParam)
 
-            if (newParamValue) {
-              prev.set(queryParam, newParamValue)
-            }
+              if (newParamValue) {
+                prev.set(queryParam, newParamValue)
+              }
 
-            return prev
-          })
+              return prev
+            },
+            { preventScrollReset: true },
+          )
         }
       }}
       onCancel={() => setValue('')}
       onRemoveFilter={() => {
         setValue('')
 
-        setSearchParams((prev) => {
-          prev.delete(queryParam)
-          return prev
-        })
+        setSearchParams(
+          (prev) => {
+            prev.delete(queryParam)
+            return prev
+          },
+          { preventScrollReset: true },
+        )
       }}
       disabled={isDisabled}
     >

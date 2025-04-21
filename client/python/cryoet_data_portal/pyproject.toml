@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cryoet_data_portal"
-version = "4.4.0"
+version = "4.4.1"
 description = "API Client to facilitate the use of the CryoET Portal. For more information about the API and the project visit https://github.com/chanzuckerberg/cryoet-data-portal/"
 authors = [
   { name = "Chan Zuckerberg Initiative", email = "cryoetdataportal@chanzuckerberg.com" },
