@@ -3,7 +3,6 @@ import { useMemo, useState } from 'react'
 
 import { PrefixOption } from 'app/components/AnnotationFilter/ObjectIdFilter/PrefixValueContext'
 import { QueryParams } from 'app/constants/query'
-import { useI18n } from 'app/hooks/useI18n'
 
 import { DropdownFilterButton } from './DropdownFilterButton'
 import { InputFilter } from './InputFilter'
@@ -19,6 +18,7 @@ export interface RegexFilterProps {
   displayNormalizer?(value: string): string
   paramNormalizer?(value: string): string
   placeholder?: string
+  instructions?: string
 }
 
 // TODO: make this more generic as a single input popup filter
@@ -32,8 +32,8 @@ export function RegexFilter({
   paramNormalizer,
   prefixOptions,
   placeholder,
+  instructions,
 }: RegexFilterProps) {
-  const { t } = useI18n()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const paramValue = searchParams.get(queryParam) ?? ''
@@ -53,13 +53,13 @@ export function RegexFilter({
       activeFilters={paramValue ? [{ value: displayValue, queryParam }] : []}
       description={
         <>
-          <p className="text-sds-header-xs-600-wide leading-sds-header-xs font-semibold">
+          <p className="text-sds-header-s-600-wide leading-sds-header-s tracking-sds-body-s-600-wide font-semibold">
             {title}
           </p>
 
-          {!prefixOptions && (
-            <p className="text-light-sds-color-primitive-gray-600 text-sds-body-xxs-400-wide leading-sds-body-xxs">
-              {`(${t('limitOneValuePerField')})`}
+          {instructions && (
+            <p className="text-light-sds-color-primitive-gray-600 text-sds-body-xxs-400-wide leading-sds-body-xxs tracking-sds-body-xxs">
+              {instructions}
             </p>
           )}
         </>
@@ -94,7 +94,7 @@ export function RegexFilter({
       }}
       disabled={isDisabled}
     >
-      <div className="mt-sds-xs">
+      <div className="mt-sds-m">
         {prefixOptions ? (
           <PrefixOptionFilter
             value={value}

@@ -8,7 +8,7 @@ export function DepositionIdFilter() {
   return (
     <EntityIdFilter
       id="deposition-id-input"
-      title={t('filterByDepositionId')}
+      title={`${t('filterByDepositionId')}:`}
       label={t('depositionId')}
       queryParam={QueryParams.DepositionId}
       placeholder={t('depositionIdPlaceholder')}

@@ -40,7 +40,7 @@ export function ObjectIdFilterContent() {
   return (
     <RegexFilter
       id="object-id-input"
-      title={t('filterByObjectId')}
+      title={`${t('filterByObjectId')}:`}
       label={t('objectId')}
       queryParam={QueryParams.ObjectId}
       regex={validationRegex}

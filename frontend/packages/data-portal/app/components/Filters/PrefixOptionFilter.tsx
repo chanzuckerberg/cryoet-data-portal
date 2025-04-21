@@ -118,7 +118,7 @@ export function PrefixOptionFilter({
           value={value}
           hideLabel={hideLabel}
           className={cns(
-            'relative border-light-sds-color-primitive-gray-400 !mb-sds-xs left-[-3px] w-[205px]',
+            'relative border-light-sds-color-primitive-gray-400 !mb-sds-xs !mr-0 left-[-3px] w-[193px]',
             className,
           )}
           intent={error ? 'negative' : undefined}
@@ -138,7 +138,7 @@ export function PrefixOptionFilter({
         onClickAway={() => handleClickAway()}
       />
       {prefixValue && (
-        <div className="text-sds-header-xxxs-600-wide leading-sds-header-xxs">
+        <div className="text-sds-header-xxs-600-wide leading-sds-header-xxs">
           <span className="font-semibold">{prefixValue.details}: </span>
           <Link
             variant="dashed-underlined"

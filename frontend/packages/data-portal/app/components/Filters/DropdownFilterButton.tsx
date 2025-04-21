@@ -126,8 +126,9 @@ export function DropdownFilterButton({
           {description}
           {children}
 
-          <div className="flex items-center gap-sds-default mt-sds-l">
+          <div className="flex items-center justify-stretch gap-sds-default mt-sds-l">
             <Button
+              className="w-full"
               disabled={disabled}
               sdsType="primary"
               sdsStyle="square"
@@ -140,6 +141,7 @@ export function DropdownFilterButton({
             </Button>
 
             <Button
+              className="w-full"
               sdsType="secondary"
               sdsStyle="square"
               onClick={() => {
