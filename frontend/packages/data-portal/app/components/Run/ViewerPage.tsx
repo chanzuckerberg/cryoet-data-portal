@@ -13,8 +13,6 @@ import { ABOUT_LINKS, REPORT_LINKS, NEUROGLANCER_HELP_LINKS } from '../Layout/co
 import { useI18n } from 'app/hooks/useI18n'
 import Snackbar from '../common/Snackbar'
 
-const BACKGROUND_COLOR = "#ffffff"
-
 // Button action for toggling layers visibility
 const isAnnotation = (layer: any) =>
   layer.type === 'annotation' || layer.type === 'segmentation'
@@ -23,18 +21,6 @@ const toggleVisibility = (layer: any) =>
 
 const boolValue = (value: boolean | undefined, defaultValue: boolean = true) => {
   return (value === undefined && defaultValue) || value
-}
-
-const changeBackgroundColor = (color: string) => {
-  updateState((state) => {
-    if (isBackgroundWhite()) {
-      state.neuroglancer.crossSectionBackgroundColor = state.previousBackgroundColor
-      return state
-    }
-    state.previousBackgroundColor = state.neuroglancer.crossSectionBackgroundColor
-    state.neuroglancer.crossSectionBackgroundColor = color
-    return state
-  })
 }
 
 const toggleAnnotations = () => {
@@ -86,10 +72,6 @@ const axisLineEnabled = () => {
 
 const hasAnnotationLayers = (state: any) => {
   return state.layers.some(isAnnotation)
-}
-
-const isBackgroundWhite = () => {
-  return currentNeuroglancerState().crossSectionBackgroundColor === BACKGROUND_COLOR
 }
 
 const showScaleBarEnabled = () => {
@@ -198,7 +180,6 @@ function ViewerPage({ run } : { run: any }) {
                 <CustomDropdownOption selected={hasBoundingBox()} onSelect={toggleBoundingBox}>Bounding box</CustomDropdownOption>
                 <CustomDropdownOption selected={axisLineEnabled()} onSelect={toggleAxisLine}>Axis lines</CustomDropdownOption>
                 <CustomDropdownOption selected={showScaleBarEnabled()} onSelect={toggleShowScaleBar}>Scale bar</CustomDropdownOption>
-                <CustomDropdownOption selected={isBackgroundWhite()} onSelect={() => changeBackgroundColor(BACKGROUND_COLOR)}>Change background to white</CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
                 <CustomDropdownOption selected={false} onSelect={snap}>Snap to the nearest axis</CustomDropdownOption>
