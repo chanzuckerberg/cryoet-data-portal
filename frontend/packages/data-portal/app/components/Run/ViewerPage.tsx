@@ -16,8 +16,6 @@ import { ABOUT_LINKS, REPORT_LINKS, NEUROGLANCER_DOC_LINK  } from '../Layout/con
 import { useI18n } from 'app/hooks/useI18n'
 import Snackbar from '../common/Snackbar'
 
-const BACKGROUND_COLOR = "#ffffff"
-
 // Button action for toggling layers visibility
 const isAnnotation = (layer: any) =>
   layer.type === 'annotation' || layer.type === 'segmentation'
@@ -26,18 +24,6 @@ const toggleVisibility = (layer: any) =>
 
 const boolValue = (value: boolean | undefined, defaultValue: boolean = true) => {
   return (value === undefined && defaultValue) || value
-}
-
-const changeBackgroundColor = (color: string) => {
-  updateState((state) => {
-    if (isBackgroundWhite()) {
-      state.neuroglancer.crossSectionBackgroundColor = state.previousBackgroundColor
-      return state
-    }
-    state.previousBackgroundColor = state.neuroglancer.crossSectionBackgroundColor
-    state.neuroglancer.crossSectionBackgroundColor = color
-    return state
-  })
 }
 
 const toggleAnnotations = () => {
@@ -91,10 +77,6 @@ const hasAnnotationLayers = (state: any) => {
   return state.layers.some(isAnnotation)
 }
 
-const isBackgroundWhite = () => {
-  return currentNeuroglancerState().crossSectionBackgroundColor === BACKGROUND_COLOR
-}
-
 const showScaleBarEnabled = () => {
   return currentNeuroglancer()?.showScaleBar.value;
 }
@@ -135,6 +117,16 @@ const showLayerListPanel = (minSize: number = 0) => {
 const snap = () => {
   const viewer = currentNeuroglancer();
   viewer.navigationState.pose.orientation.snap();
+}
+
+const toggleTopBar = () => {
+  const viewer = currentNeuroglancer()
+  viewer.uiConfiguration.showLayerPanel.value = !isTopBarVisible()
+}
+
+const isTopBarVisible = () => {
+  const viewer = currentNeuroglancer()
+  return viewer?.uiConfiguration?.showLayerPanel.value ?? false
 }
 
 function ViewerPage({ run } : { run: any }) {
@@ -203,6 +195,7 @@ function ViewerPage({ run } : { run: any }) {
     });
   }
 
+  const helperText = "text-xs text-[#767676] font-normal";
   const activeBreadcrumbText = (
     <p>
       {run.name} <span className='text-sds-color-primitive-common-white opacity-60'>(#RN-{run.id})</span>
@@ -236,7 +229,7 @@ function ViewerPage({ run } : { run: any }) {
                     onSelect={() => toggleLayer(annotation.name)}
                   >
                     <span>{annotation?.name}</span>
-                    <span className="text-xs text-[#767676] font-normal">#CZCDP-12795</span>
+                    <span className={helperText}>#CZCDP-12795</span>
                   </CustomDropdownOption>
                 ))}
               </CustomDropdownSection>
@@ -251,18 +244,41 @@ function ViewerPage({ run } : { run: any }) {
               </CustomDropdownSection>
               <CustomDropdownSection title="Toggle Panels">
                 <CustomDropdownOption selected={false} onSelect={() => console.log("All panels")}>All panels</CustomDropdownOption>
-                <CustomDropdownOption disabled selected={false} onSelect={() => console.log("Top layer bar")}>Top layer bar</CustomDropdownOption>
+                <CustomDropdownOption selected={isTopBarVisible()} onSelect={() => {
+                  toggleTopBar()
+                  refresh()
+                  }
+                }>Top layer bar</CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
             <CustomDropdown title="Actions" variant="outlined">
               <CustomDropdownSection title="Appearance">
-                <CustomDropdownOption selected={hasBoundingBox()} onSelect={toggleBoundingBox}>Bounding box</CustomDropdownOption>
-                <CustomDropdownOption selected={axisLineEnabled()} onSelect={toggleAxisLine}>Axis lines</CustomDropdownOption>
-                <CustomDropdownOption selected={showScaleBarEnabled()} onSelect={toggleShowScaleBar}>Scale bar</CustomDropdownOption>
-                <CustomDropdownOption selected={isBackgroundWhite()} onSelect={() => changeBackgroundColor(BACKGROUND_COLOR)}>Change background to white</CustomDropdownOption>
+                <CustomDropdownOption selected={hasBoundingBox()} onSelect={toggleBoundingBox}>
+                  <div className='flex justify-between items-center'>
+                    <p>Bounding box</p>
+                    <p className={helperText}>v</p>
+                  </div>
+                </CustomDropdownOption>
+                <CustomDropdownOption selected={axisLineEnabled()} onSelect={toggleAxisLine}>
+                  <div className='flex justify-between items-center'>
+                    <p>Axis lines</p>
+                    <p className={helperText}>a</p>
+                  </div>
+                </CustomDropdownOption>
+                <CustomDropdownOption selected={showScaleBarEnabled()} onSelect={toggleShowScaleBar}>
+                  <div className='flex justify-between items-center'>
+                    <p>Scale bar</p>
+                    <p className={helperText}>b</p>
+                  </div>
+                </CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
-                <CustomDropdownOption selected={false} onSelect={snap}>Snap to the nearest axis</CustomDropdownOption>
+                <CustomDropdownOption selected={false} onSelect={snap}>
+                  <div className='flex justify-between items-center'>
+                    <p>Snap to nearest axis</p>
+                    <p className={helperText}>z</p>
+                  </div>
+                </CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
             <Button sdsType="primary" sdsStyle="rounded" disabled={shareClicked} onClick={handleShareClick}>Share</Button>
