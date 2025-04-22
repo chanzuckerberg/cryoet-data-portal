@@ -199,7 +199,7 @@ export const i18n = {
   viewDatasetsCta:
     'Find and visualize cryoET datasets in the portal and download to use for your own work.',
   yes: 'Yes',
-  goToNeuroglancerDocumentation: "Go to Neuroglancer Documentation",
-  neuroglancerWalkthrough: "Neuroglancer Walkthrough",
-  neuroglancerHelp: "Neuroglancer help"
+  goToNeuroglancerDocumentation: 'Go to Neuroglancer Documentation',
+  neuroglancerWalkthrough: 'Neuroglancer Walkthrough',
+  neuroglancerHelp: 'Neuroglancer help',
 }

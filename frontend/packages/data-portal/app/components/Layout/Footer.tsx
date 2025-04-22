@@ -86,10 +86,10 @@ export function Footer() {
     </div>
   )
 
-  const isItNeuroglancerPage = pathname.includes("/view/runs/");
+  const isItNeuroglancerPage = pathname.includes('/view/runs/')
 
   if (isItNeuroglancerPage) {
-    return null;
+    return null
   }
 
   return (

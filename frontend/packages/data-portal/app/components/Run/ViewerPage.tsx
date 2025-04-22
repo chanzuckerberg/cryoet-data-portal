@@ -170,7 +170,7 @@ function ViewerPage({ run }: { run: any }) {
 
   const togglePanels = () => {
     const superState = currentState()
-    const panels = {
+    const panelsDefaultValues = {
       helpPanel: false,
       settingsPanel: false,
       selectedLayer: false,
@@ -179,27 +179,34 @@ function ViewerPage({ run }: { run: any }) {
     }
     if (superState.savedPanelsStatus) {
       updateState((state) => {
-        const currentPanelConfig: Record<string, boolean> = {}
-        for (const [panelName, defaultValue] of Object.entries(panels)) {
-          state.neuroglancer[panelName].visible = !boolValue(state.neuroglancer[panelName].visible, defaultValue)
+        for (const [panelName, defaultValue] of Object.entries(
+          panelsDefaultValues,
+        )) {
+          state.neuroglancer[panelName].visible = !boolValue(
+            state.neuroglancer[panelName].visible,
+            defaultValue,
+          )
           delete state.savedPanelsStatus
         }
-        state.savedPanelsStatus = currentPanelConfig;
         return state
       })
     } else {
       updateState((state) => {
         const currentPanelConfig: Record<string, boolean> = {}
-        for (const [panelName, defaultValue] of Object.entries(panels)) {
-          const isVisible = boolValue(state.neuroglancer[panelName].visible, defaultValue)
+        for (const [panelName, defaultValue] of Object.entries(
+          panelsDefaultValues,
+        )) {
+          const isVisible = boolValue(
+            state.neuroglancer[panelName].visible,
+            defaultValue,
+          )
           currentPanelConfig[panelName] = isVisible
           state.neuroglancer[panelName].visible = !isVisible
         }
-        state.savedPanelsStatus = currentPanelConfig;
+        state.savedPanelsStatus = currentPanelConfig
         return state
       })
     }
-
   }
 
   const activeBreadcrumbText = (
