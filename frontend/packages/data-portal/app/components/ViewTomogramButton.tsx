@@ -83,7 +83,12 @@ export function ViewTomogramButton({
         className="min-w-[152px]"
       >
         <Button
-          href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
+          onClick={(e) => {
+            if (enabled) {
+              e.stopPropagation()
+              window.open(getNeuroglancerUrl(neuroglancerConfig), '_blank')
+            }
+          }}
           disabled={!enabled}
           LinkComponent={Link}
           {...(buttonProps as ButtonProps)}
