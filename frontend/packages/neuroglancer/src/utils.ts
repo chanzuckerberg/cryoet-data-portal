@@ -19,9 +19,8 @@ const emptySuperState = (config: string): SuperState => {
 };
 
 export const updateState = (onStateChange: (state: ResolvedSuperState) => ResolvedSuperState) => {
-  // const state = currentState();
   const state = currentState();
-  const newState = onStateChange(state);
+  const newState = onStateChange(state as any);
   commitState(newState);
 };
 
@@ -73,7 +72,7 @@ function hash2jsonString(hash: string): string {
 
 // Helper functions for parsing and encoding state
 export const currentState = (hash = window.location.hash) => {
-  const superState = parseState(hash);
+  const superState = parseSuperState(hash);
   if (superState.neuroglancer) {
     superState.neuroglancer = parseState(superState.neuroglancer);
   }

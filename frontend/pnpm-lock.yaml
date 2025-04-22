@@ -419,8 +419,8 @@ importers:
   packages/neuroglancer:
     dependencies:
       neuroglancer:
-        specifier: git+https://github.com/google/neuroglancer.git#master
-        version: github.com/google/neuroglancer/11b30e345d0c8b2e66f39bb2f248a3a66870a589(typescript@5.6.3)
+        specifier: git+https://github.com/metacell/neuroglancer.git#feature/CC-292-bis
+        version: github.com/metacell/neuroglancer/369e092fae4369fb79cb2b75545d13beebbdebd0(typescript@5.6.3)
       pako:
         specifier: ^2.1.0
         version: 2.1.0
@@ -16078,31 +16078,8 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
-  github.com/google/neuroglancer/11b30e345d0c8b2e66f39bb2f248a3a66870a589(typescript@5.6.3):
-    resolution: {tarball: https://codeload.github.com/google/neuroglancer/tar.gz/11b30e345d0c8b2e66f39bb2f248a3a66870a589}
-    id: github.com/google/neuroglancer/11b30e345d0c8b2e66f39bb2f248a3a66870a589
-    name: neuroglancer
-    version: 2.40.1
-    engines: {node: '>=22'}
-    dependencies:
-      codemirror: 5.65.18
-      core-js: 3.40.0
-      crc-32: 1.2.2
-      gl-matrix: 3.1.0
-      ikonate: github.com/mikolajdobrucki/ikonate/a86b4107c6ec717e7877f880a930d1ccf0b59d89
-      lodash-es: 4.17.21
-      msgpackr: 1.11.2
-      nifti-reader-js: 0.6.9
-      numcodecs: 0.3.2
-      valibot: 1.0.0-rc.1(typescript@5.6.3)
-    transitivePeerDependencies:
-      - bufferutil
-      - typescript
-      - utf-8-validate
-    dev: false
-
-  github.com/mikolajdobrucki/ikonate/a86b4107c6ec717e7877f880a930d1ccf0b59d89:
-    resolution: {tarball: https://codeload.github.com/mikolajdobrucki/ikonate/tar.gz/a86b4107c6ec717e7877f880a930d1ccf0b59d89}
+  git@github.com+mikolajdobrucki/ikonate/a86b4107c6ec717e7877f880a930d1ccf0b59d89:
+    resolution: {commit: a86b4107c6ec717e7877f880a930d1ccf0b59d89, repo: git@github.com:mikolajdobrucki/ikonate.git, type: git}
     name: ikonate
     version: 1.1.1
     dependencies:
@@ -16111,5 +16088,29 @@ packages:
       xmldom: 0.1.31
     transitivePeerDependencies:
       - bufferutil
+      - utf-8-validate
+    dev: false
+
+  github.com/metacell/neuroglancer/369e092fae4369fb79cb2b75545d13beebbdebd0(typescript@5.6.3):
+    resolution: {tarball: https://codeload.github.com/metacell/neuroglancer/tar.gz/369e092fae4369fb79cb2b75545d13beebbdebd0}
+    id: github.com/metacell/neuroglancer/369e092fae4369fb79cb2b75545d13beebbdebd0
+    name: neuroglancer
+    version: 2.40.1
+    engines: {node: '>=22'}
+    requiresBuild: true
+    dependencies:
+      codemirror: 5.65.18
+      core-js: 3.40.0
+      crc-32: 1.2.2
+      gl-matrix: 3.1.0
+      ikonate: git@github.com+mikolajdobrucki/ikonate/a86b4107c6ec717e7877f880a930d1ccf0b59d89
+      lodash-es: 4.17.21
+      msgpackr: 1.11.2
+      nifti-reader-js: 0.6.9
+      numcodecs: 0.3.2
+      valibot: 1.0.0-rc.1(typescript@5.6.3)
+    transitivePeerDependencies:
+      - bufferutil
+      - typescript
       - utf-8-validate
     dev: false
