@@ -8,11 +8,12 @@ interface StepContentProps {
 }
 
 const essentialControls = [
-  {key: 'CTRL', action: 'scroll or Pinch', description: 'Zoom in/out of the 2D images'},
-  {key: 'Left-click', action: 'drag', description: 'Pan in 2D'},
-  {action: 'Scroll', description: 'Slice through 3D data'},
-  {key: 'Left-Click', action: 'drag', description: 'Rotate 3D Volume'},
-  {key: 'shift', action: 'click and rotate', description: 'Oblique slicing'}
+  {key: 'CTRL', action: 'scroll or Pinch', description: 'Zoom in 2D images'},
+  {action: 'Scroll', description: 'Move through slices'},
+  {key: 'Left-click', action: 'drag', description: 'Pan 2D images'},
+  {key: 'Left-click', action: 'drag', description: 'Rotate 3D Volume'},
+  {key: 'Shift', action: 'click and drag', description: 'Oblique slice in 2D'},
+  {key: 'Shift', action: 'click and drag', description: 'Pan in 3D'}
 ]
 
 const keyboardShortcuts = [
@@ -97,7 +98,7 @@ export const getTutorialSteps: () => Step[] = () => [
         <div className='mt-4 mb-4'>
           <img src="/images/neuroglancer_tour/essential_controls.gif" title="Essential controls" alt="essential controls gif image" />
         </div>
-        <p className='text-[#767676]'>Move, pan and zoom in each panels with these mouse navigation:</p>
+        <p className='text-[#767676]'>Move, pan and zoom in each panel with these mouse navigation controls:</p>
         <div className='flex flex-col gap-3 mt-3'>
           <KeyActionList actions={essentialControls} />
         </div>
@@ -209,7 +210,7 @@ const KeyActionList = ({ actions }: { actions: { key?: string; action?: string; 
           {control.key && (<>
             <span className='bg-[#EBEBEB] py-0.5 px-1 rounded-sm'>{control.key}</span>
           </>)}
-          {control.action && control.key && <span>+ {' '}</span>}
+          {control.action && control.key && <span> + {' '}</span>}
           {control.action}
         </p>
         <p className='text-[#767676] text-xs text-right'>{control.description}</p>
