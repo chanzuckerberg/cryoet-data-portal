@@ -555,7 +555,7 @@ export interface GetRunByIdV2Params {
   client: ApolloClient<NormalizedCacheObject>
   id: number
   annotationsPage: number
-  params: URLSearchParams
+  params?: URLSearchParams
   depositionId?: number
 }
 
@@ -563,7 +563,7 @@ export async function getRunByIdV2({
   client,
   id,
   annotationsPage,
-  params,
+  params = new URLSearchParams(),
   depositionId,
 }: GetRunByIdV2Params): Promise<ApolloQueryResult<GetRunByIdV2Query>> {
   return client.query({

@@ -1,5 +1,7 @@
-import { expect } from '@playwright/test'
+import { expect } from '@chromatic-com/playwright'
+import { translations } from 'e2e/constants'
 import { BasePage } from 'e2e/pageObjects/basePage'
+import { waitForTableReload } from 'e2e/utils'
 import { escapeRegExp } from 'lodash-es'
 
 import { TestIds } from 'app/constants/testIds'
@@ -62,7 +64,9 @@ export class FiltersPage extends BasePage {
   }
 
   public async toggleGroundTruthFilter() {
-    await this.page.getByText('Ground Truth Annotation').click()
+    await this.page
+      .getByText(translations.groundTruthAnnotationAvailableFilter)
+      .click()
   }
   // #endregion Click
 
@@ -196,4 +200,8 @@ export class FiltersPage extends BasePage {
 
   // #region Bool
   // #endregion Bool
+
+  async waitForTableLoad() {
+    await waitForTableReload(this.page)
+  }
 }
