@@ -214,7 +214,7 @@ function ViewerPage({ run } : { run: any }) {
               <CustomDropdownSection title="Move">
                 <CustomDropdownOption selected={false} onSelect={snap}>
                   <div className='flex justify-between items-center'>
-                    <p>Snap to the nearest axis</p>
+                    <p>Snap to nearest axis</p>
                     <p className={helperText}>z</p>
                   </div>
                 </CustomDropdownOption>
