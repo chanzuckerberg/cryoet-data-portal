@@ -7,6 +7,7 @@ import { expect, test } from '@chromatic-com/playwright'
 import { Page } from '@playwright/test'
 import { E2E_CONFIG } from 'e2e/constants'
 import { goTo } from 'e2e/filters/utils'
+import { waitForTableReload } from 'e2e/utils'
 import { isNumber } from 'lodash-es'
 
 import { QueryParams } from 'app/constants/query'
@@ -56,12 +57,10 @@ async function waitForPageNumber(page: Page, pageNumber: number) {
 const { pagination } = E2E_CONFIG
 
 export function testPagination({
-  rowLoadedSelector,
   testFilter,
   testFilterWithNoPages,
   url,
 }: {
-  rowLoadedSelector: string
   testFilter: PaginationFilter
   testFilterWithNoPages: PaginationFilter
   url: string
@@ -102,11 +101,10 @@ export function testPagination({
         filter ? ' and is filtered' : ''
       }`, async ({ page }) => {
         await openPage({ page, filter })
-
         await clickVisiblePageButton(page, pageNumber)
-        await page.waitForSelector(rowLoadedSelector)
 
         await waitForPageNumber(page, pageNumber)
+        await waitForTableReload(page)
       })
     }
 
@@ -121,9 +119,9 @@ export function testPagination({
 
         await openPaginationDropdown(page)
         await selectPaginationDropdownOption(page, pageNumber)
-        await page.waitForSelector(rowLoadedSelector)
 
         await waitForPageNumber(page, pageNumber)
+        await waitForTableReload(page)
       })
     }
 
@@ -146,8 +144,8 @@ export function testPagination({
     }) => {
       await openPage({ page })
       await getNextButton(page).click()
-      await page.waitForSelector(rowLoadedSelector)
       await waitForPageNumber(page, 2)
+      await waitForTableReload(page)
     })
 
     test('should load previous page when clicking on previous button', async ({
@@ -155,8 +153,8 @@ export function testPagination({
     }) => {
       await openPage({ page, pageNumber: 2 })
       await getPreviousButton(page).click()
-      await page.waitForSelector(rowLoadedSelector)
       await waitForPageNumber(page, 1)
+      await waitForTableReload(page)
     })
 
     test('should disable previous button when on first page', async ({

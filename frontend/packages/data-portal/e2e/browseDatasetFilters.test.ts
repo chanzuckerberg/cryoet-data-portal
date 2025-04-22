@@ -185,6 +185,7 @@ test.describe('Browse datasets page filters', () => {
         })
 
         await filtersPage.removeMultiInputFilter(E2E_CONFIG.empiarId)
+        await filtersPage.waitForTableLoad()
 
         await filtersActor.expectUrlQueryParamsToBeCorrect({
           url: BROWSE_DATASETS_URL,
