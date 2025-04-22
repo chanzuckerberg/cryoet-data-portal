@@ -13,8 +13,6 @@ import { ABOUT_LINKS, REPORT_LINKS, NEUROGLANCER_HELP_LINKS } from '../Layout/co
 import { useI18n } from 'app/hooks/useI18n'
 import Snackbar from '../common/Snackbar'
 
-const BACKGROUND_COLOR = "#ffffff"
-
 // Button action for toggling layers visibility
 const isAnnotation = (layer: any) =>
   layer.type === 'annotation' || layer.type === 'segmentation'
@@ -23,18 +21,6 @@ const toggleVisibility = (layer: any) =>
 
 const boolValue = (value: boolean | undefined, defaultValue: boolean = true) => {
   return (value === undefined && defaultValue) || value
-}
-
-const changeBackgroundColor = (color: string) => {
-  updateState((state) => {
-    if (isBackgroundWhite()) {
-      state.neuroglancer.crossSectionBackgroundColor = state.previousBackgroundColor
-      return state
-    }
-    state.previousBackgroundColor = state.neuroglancer.crossSectionBackgroundColor
-    state.neuroglancer.crossSectionBackgroundColor = color
-    return state
-  })
 }
 
 const toggleAnnotations = () => {
@@ -88,10 +74,6 @@ const hasAnnotationLayers = (state: any) => {
   return state.layers.some(isAnnotation)
 }
 
-const isBackgroundWhite = () => {
-  return currentNeuroglancerState().crossSectionBackgroundColor === BACKGROUND_COLOR
-}
-
 const showScaleBarEnabled = () => {
   return currentNeuroglancer()?.showScaleBar.value;
 }
@@ -119,6 +101,16 @@ const setCurrentLayout = (layout: string) => {
 const snap = () => {
   const viewer = currentNeuroglancer();
   viewer.navigationState.pose.orientation.snap();
+}
+
+const toggleTopBar = () => {
+  const viewer = currentNeuroglancer()
+  viewer.uiConfiguration.showLayerPanel.value = !isTopBarVisible()
+}
+
+const isTopBarVisible = () => {
+  const viewer = currentNeuroglancer()
+  return viewer?.uiConfiguration?.showLayerPanel.value ?? false
 }
 
 function ViewerPage({ run } : { run: any }) {
@@ -191,7 +183,11 @@ function ViewerPage({ run } : { run: any }) {
               </CustomDropdownSection>
               <CustomDropdownSection title="Toggle Panels">
                 <CustomDropdownOption selected={false} onSelect={() => console.log("All panels")}>All panels</CustomDropdownOption>
-                <CustomDropdownOption disabled selected={false} onSelect={() => console.log("Top layer bar")}>Top layer bar</CustomDropdownOption>
+                <CustomDropdownOption selected={isTopBarVisible()} onSelect={() => {
+                  toggleTopBar()
+                  refresh()
+                  }
+                }>Top layer bar</CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
             <CustomDropdown title="Actions" variant="outlined">
@@ -214,7 +210,6 @@ function ViewerPage({ run } : { run: any }) {
                     <p className={helperText}>b</p>
                   </div>
                 </CustomDropdownOption>
-                <CustomDropdownOption selected={isBackgroundWhite()} onSelect={() => changeBackgroundColor(BACKGROUND_COLOR)}>Change background to white</CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
                 <CustomDropdownOption selected={false} onSelect={snap}>
