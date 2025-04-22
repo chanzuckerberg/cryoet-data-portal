@@ -9,6 +9,11 @@ import {
 } from './constants'
 
 test.describe('Metadata Drawer', () => {
+  test.use({
+    // Wait for the drawer to animate before taking snapshot
+    delay: 1000,
+  })
+
   test.describe(`Single Dataset: ${SINGLE_DATASET_PATH}`, () => {
     test('should open metadata drawer', async ({ page }) => {
       const metadataDrawerPage = new MetadataDrawerPage(page)
