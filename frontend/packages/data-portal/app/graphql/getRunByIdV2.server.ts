@@ -186,11 +186,19 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
       }
 
       # Header
-      framesAggregate {
-        aggregate {
-          count
+      # Filter by non-null frame file path since it can be null
+      frames(where: {
+        httpsFramePath: {
+          _is_null: false
+        },
+      }) {
+        edges {
+          node {
+            id
+          }
         }
       }
+
       tiltseriesAggregate {
         aggregate {
           count
