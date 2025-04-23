@@ -164,7 +164,7 @@ const isTopBarVisible = () => {
   return viewer?.uiConfiguration?.showLayerPanel.value ?? false
 }
 
-function ViewerPage({ run } : { run: any }) {
+function ViewerPage({ run }: { run: any }) {
   const { t } = useI18n()
   const [renderVersion, setRenderVersion] = useState(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
@@ -187,7 +187,7 @@ function ViewerPage({ run } : { run: any }) {
       })
   }
 
-  const helperText = "text-xs text-[#767676] font-normal";
+  const helperText = 'text-xs text-[#767676] font-normal'
   const activeBreadcrumbText = (
     <p>
       {run.name}{' '}
@@ -285,31 +285,42 @@ function ViewerPage({ run } : { run: any }) {
                 <CustomDropdownOption selected={false} onSelect={togglePanels}>
                   All panels
                 </CustomDropdownOption>
-                <CustomDropdownOption selected={isTopBarVisible()} onSelect={() => {
-                  toggleTopBar()
-                  refresh()
-                  }
-                }>
+                <CustomDropdownOption
+                  selected={isTopBarVisible()}
+                  onSelect={() => {
+                    toggleTopBar()
+                    refresh()
+                  }}
+                >
                   Top layer bar
                 </CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
             <CustomDropdown title="Actions" variant="outlined">
               <CustomDropdownSection title="Appearance">
-                <CustomDropdownOption selected={hasBoundingBox()} onSelect={toggleBoundingBox}>
-                  <div className='flex justify-between items-center'>
+                <CustomDropdownOption
+                  selected={hasBoundingBox()}
+                  onSelect={toggleBoundingBox}
+                >
+                  <div className="flex justify-between items-center">
                     <p>Bounding box</p>
                     <p className={helperText}>v</p>
                   </div>
                 </CustomDropdownOption>
-                <CustomDropdownOption selected={axisLineEnabled()} onSelect={toggleAxisLine}>
-                  <div className='flex justify-between items-center'>
+                <CustomDropdownOption
+                  selected={axisLineEnabled()}
+                  onSelect={toggleAxisLine}
+                >
+                  <div className="flex justify-between items-center">
                     <p>Axis lines</p>
                     <p className={helperText}>a</p>
                   </div>
                 </CustomDropdownOption>
-                <CustomDropdownOption selected={showScaleBarEnabled()} onSelect={toggleShowScaleBar}>
-                  <div className='flex justify-between items-center'>
+                <CustomDropdownOption
+                  selected={showScaleBarEnabled()}
+                  onSelect={toggleShowScaleBar}
+                >
+                  <div className="flex justify-between items-center">
                     <p>Scale bar</p>
                     <p className={helperText}>b</p>
                   </div>
@@ -317,7 +328,7 @@ function ViewerPage({ run } : { run: any }) {
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
                 <CustomDropdownOption selected={false} onSelect={snap}>
-                  <div className='flex justify-between items-center'>
+                  <div className="flex justify-between items-center">
                     <p>Snap to nearest axis</p>
                     <p className={helperText}>z</p>
                   </div>
