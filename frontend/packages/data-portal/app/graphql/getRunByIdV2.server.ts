@@ -202,10 +202,12 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
     }
 
     # Header
-    alignmentsAggregate(where: {run: {id: {_eq: $id}}}) {
-      aggregate {
-        count
-      }
+    # Filter by non-null alignment method since it can be null
+    alignments(where: {
+      run: { id: { _eq: $id } },
+      alignmentMethod: { _is_null: false, },
+    }) {
+      id
     }
 
     # Annotations table
