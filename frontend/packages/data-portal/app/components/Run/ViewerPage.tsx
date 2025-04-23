@@ -27,8 +27,6 @@ import {
 import { useI18n } from 'app/hooks/useI18n'
 import Snackbar from '../common/Snackbar'
 
-const BACKGROUND_COLOR = '#ffffff'
-
 // Button action for toggling layers visibility
 const isAnnotation = (layer: any) =>
   layer.type === 'annotation' || layer.type === 'segmentation'
@@ -40,20 +38,6 @@ const boolValue = (
   defaultValue: boolean = true,
 ): boolean => {
   return value === undefined ? defaultValue : value
-}
-
-const changeBackgroundColor = (color: string) => {
-  updateState((state) => {
-    if (isBackgroundWhite()) {
-      state.neuroglancer.crossSectionBackgroundColor =
-        state.previousBackgroundColor
-      return state
-    }
-    state.previousBackgroundColor =
-      state.neuroglancer.crossSectionBackgroundColor
-    state.neuroglancer.crossSectionBackgroundColor = color
-    return state
-  })
 }
 
 const toggleAnnotations = () => {
@@ -101,12 +85,6 @@ const toggleAxisLine = () => {
 
 const axisLineEnabled = () => {
   return currentNeuroglancer()?.showAxisLines.value
-}
-
-const isBackgroundWhite = () => {
-  return (
-    currentNeuroglancerState().crossSectionBackgroundColor === BACKGROUND_COLOR
-  )
 }
 
 const showScaleBarEnabled = () => {
@@ -176,7 +154,17 @@ const togglePanels = () => {
   })
 }
 
-function ViewerPage({ run }: { run: any }) {
+const toggleTopBar = () => {
+  const viewer = currentNeuroglancer()
+  viewer.uiConfiguration.showLayerPanel.value = !isTopBarVisible()
+}
+
+const isTopBarVisible = () => {
+  const viewer = currentNeuroglancer()
+  return viewer?.uiConfiguration?.showLayerPanel.value ?? false
+}
+
+function ViewerPage({ run } : { run: any }) {
   const { t } = useI18n()
   const [renderVersion, setRenderVersion] = useState(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
@@ -199,6 +187,7 @@ function ViewerPage({ run }: { run: any }) {
       })
   }
 
+  const helperText = "text-xs text-[#767676] font-normal";
   const activeBreadcrumbText = (
     <p>
       {run.name}{' '}
@@ -296,45 +285,42 @@ function ViewerPage({ run }: { run: any }) {
                 <CustomDropdownOption selected={false} onSelect={togglePanels}>
                   All panels
                 </CustomDropdownOption>
-                <CustomDropdownOption
-                  disabled
-                  selected={false}
-                  onSelect={() => console.log('Top layer bar')}
-                >
+                <CustomDropdownOption selected={isTopBarVisible()} onSelect={() => {
+                  toggleTopBar()
+                  refresh()
+                  }
+                }>
                   Top layer bar
                 </CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
             <CustomDropdown title="Actions" variant="outlined">
               <CustomDropdownSection title="Appearance">
-                <CustomDropdownOption
-                  selected={hasBoundingBox()}
-                  onSelect={toggleBoundingBox}
-                >
-                  Bounding box
+                <CustomDropdownOption selected={hasBoundingBox()} onSelect={toggleBoundingBox}>
+                  <div className='flex justify-between items-center'>
+                    <p>Bounding box</p>
+                    <p className={helperText}>v</p>
+                  </div>
                 </CustomDropdownOption>
-                <CustomDropdownOption
-                  selected={axisLineEnabled()}
-                  onSelect={toggleAxisLine}
-                >
-                  Axis lines
+                <CustomDropdownOption selected={axisLineEnabled()} onSelect={toggleAxisLine}>
+                  <div className='flex justify-between items-center'>
+                    <p>Axis lines</p>
+                    <p className={helperText}>a</p>
+                  </div>
                 </CustomDropdownOption>
-                <CustomDropdownOption
-                  selected={showScaleBarEnabled()}
-                  onSelect={toggleShowScaleBar}
-                >
-                  Scale bar
-                </CustomDropdownOption>
-                <CustomDropdownOption
-                  selected={isBackgroundWhite()}
-                  onSelect={() => changeBackgroundColor(BACKGROUND_COLOR)}
-                >
-                  Change background to white
+                <CustomDropdownOption selected={showScaleBarEnabled()} onSelect={toggleShowScaleBar}>
+                  <div className='flex justify-between items-center'>
+                    <p>Scale bar</p>
+                    <p className={helperText}>b</p>
+                  </div>
                 </CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
                 <CustomDropdownOption selected={false} onSelect={snap}>
-                  Snap to the nearest axis
+                  <div className='flex justify-between items-center'>
+                    <p>Snap to nearest axis</p>
+                    <p className={helperText}>z</p>
+                  </div>
                 </CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
