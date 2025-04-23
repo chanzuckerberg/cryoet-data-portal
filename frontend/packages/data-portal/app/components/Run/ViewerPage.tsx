@@ -6,9 +6,6 @@ import {
   currentNeuroglancer,
   updateState,
   NeuroglancerLayout,
-  currentSuperState,
-  currentState,
-  commitState,
 } from 'neuroglancer'
 import { useState } from 'react'
 import { cns } from 'app/utils/cns'
@@ -42,7 +39,7 @@ const boolValue = (
   value: boolean | undefined,
   defaultValue: boolean = true,
 ): boolean => {
-  return (value === undefined && defaultValue) || value
+  return value === undefined ? defaultValue : value
 }
 
 const changeBackgroundColor = (color: string) => {
@@ -106,10 +103,6 @@ const axisLineEnabled = () => {
   return currentNeuroglancer()?.showAxisLines.value
 }
 
-const hasAnnotationLayers = (state: any) => {
-  return state.layers.some(isAnnotation)
-}
-
 const isBackgroundWhite = () => {
   return (
     currentNeuroglancerState().crossSectionBackgroundColor === BACKGROUND_COLOR
@@ -145,6 +138,44 @@ const snap = () => {
   viewer.navigationState.pose.orientation.snap()
 }
 
+const togglePanels = () => {
+  const panelsDefaultValues = {
+    helpPanel: false,
+    settingsPanel: false,
+    selectedLayer: false,
+    layerListPanel: false,
+    selection: true,
+  }
+  type PanelName = keyof typeof panelsDefaultValues
+  updateState((state) => {
+    if (state.savedPanelsStatus) {
+      for (const panelName of state.savedPanelsStatus as PanelName[]) {
+        state.neuroglancer[panelName].visible = !boolValue(
+          state.neuroglancer[panelName].visible,
+          panelsDefaultValues[panelName],
+        )
+        delete state.savedPanelsStatus
+      }
+      return state
+    }
+    const currentPanelConfig: string[] = []
+    for (const [panelName, defaultValue] of Object.entries(
+      panelsDefaultValues,
+    )) {
+      const isVisible = boolValue(
+        state.neuroglancer[panelName].visible,
+        defaultValue,
+      )
+      if (isVisible) {
+        currentPanelConfig.push(panelName)
+        state.neuroglancer[panelName].visible = !isVisible
+      }
+    }
+    state.savedPanelsStatus = currentPanelConfig
+    return state
+  })
+}
+
 function ViewerPage({ run }: { run: any }) {
   const { t } = useI18n()
   const [renderVersion, setRenderVersion] = useState(0)
@@ -166,47 +197,6 @@ function ViewerPage({ run }: { run: any }) {
       .catch((err) => {
         console.error('Failed to copy URL: ', err)
       })
-  }
-
-  const togglePanels = () => {
-    const superState = currentState()
-    const panelsDefaultValues = {
-      helpPanel: false,
-      settingsPanel: false,
-      selectedLayer: false,
-      layerListPanel: false,
-      selection: true,
-    }
-    if (superState.savedPanelsStatus) {
-      updateState((state) => {
-        for (const [panelName, defaultValue] of Object.entries(
-          panelsDefaultValues,
-        )) {
-          state.neuroglancer[panelName].visible = !boolValue(
-            state.neuroglancer[panelName].visible,
-            defaultValue,
-          )
-          delete state.savedPanelsStatus
-        }
-        return state
-      })
-    } else {
-      updateState((state) => {
-        const currentPanelConfig: Record<string, boolean> = {}
-        for (const [panelName, defaultValue] of Object.entries(
-          panelsDefaultValues,
-        )) {
-          const isVisible = boolValue(
-            state.neuroglancer[panelName].visible,
-            defaultValue,
-          )
-          currentPanelConfig[panelName] = isVisible
-          state.neuroglancer[panelName].visible = !isVisible
-        }
-        state.savedPanelsStatus = currentPanelConfig
-        return state
-      })
-    }
   }
 
   const activeBreadcrumbText = (
@@ -249,7 +239,7 @@ function ViewerPage({ run }: { run: any }) {
                   All annotations
                 </CustomDropdownOption>
                 {currentNeuroglancerState()
-                  .layers.filter((layer: any) => layer.type === 'annotation')
+                  .layers?.filter((layer: any) => layer.type === 'annotation')
                   .map((annotation: any) => (
                     <CustomDropdownOption
                       key={annotation.name}
