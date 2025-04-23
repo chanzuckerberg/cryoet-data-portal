@@ -54,7 +54,7 @@ export function RunHeader() {
 
   const { openRunDownloadModal } = useDownloadModalQueryParamState()
 
-  const framesCount = run.framesAggregate?.aggregate?.[0]?.count ?? 0
+  const framesCount = run.frames.edges.length
   const tiltSeriesCount = run.tiltseriesAggregate?.aggregate?.[0]?.count ?? 0
   const annotationsCount = annotationFilesAggregates.totalCount
   const tomogramId = tomogramV2?.id?.toString()
