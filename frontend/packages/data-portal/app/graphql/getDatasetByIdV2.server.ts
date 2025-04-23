@@ -287,7 +287,7 @@ function getRunFilter(
     where.tiltseries ??= {}
     where.tiltseries.tiltSeriesQuality = {
       _in: filterState.tiltSeries.qualityScore
-        .map(parseInt)
+        .map((score) => parseInt(score))
         .filter((val) => Number.isFinite(val)),
     }
   }
