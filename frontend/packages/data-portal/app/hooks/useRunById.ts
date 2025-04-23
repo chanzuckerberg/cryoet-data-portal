@@ -77,7 +77,7 @@ export function useRunById() {
 
   const tomogramsCount = v2.tomogramsAggregate.aggregate?.[0].count ?? 0
   const ctfCount = v2.perSectionParametersAggregate.aggregate?.[0].count ?? 0
-  const alignmentsCount = v2.alignmentsAggregate.aggregate?.[0].count ?? 0
+  const alignmentsCount = v2.alignments.length
 
   const deposition = v2.depositions[0]
 
