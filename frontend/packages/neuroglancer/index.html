@@ -6,25 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cryoet-Neuroglancer</title>
     <script type="module">
-      import "neuroglancer";
-      import { setupDefaultViewer } from "neuroglancer/unstable/ui/default_viewer_setup.js";
+      import 'neuroglancer'
+      import { setupDefaultViewer } from 'neuroglancer/unstable/ui/default_viewer_setup.js'
 
-      const originalReplaceState = history.replaceState;
-      history.replaceState = function(...args) {
-          originalReplaceState.apply(history, args);
-          window.parent.postMessage({
-              type: 'synchash',
-              hash: window.location.hash,
-            }, '*');
-      };
+      const originalReplaceState = history.replaceState
+      history.replaceState = function (...args) {
+        originalReplaceState.apply(history, args)
+        window.parent.postMessage(
+          {
+            type: 'synchash',
+            hash: window.location.hash,
+          },
+          '*',
+        )
+      }
 
       window.addEventListener('message', (event) => {
-          const {type, hash} = event.data
-          if (type === 'hashchange' && window.location.hash !== hash) {
-              window.location.hash = hash;
-          }
-      });
-
+        const { type, hash } = event.data
+        if (type === 'hashchange' && window.location.hash !== hash) {
+          window.location.hash = hash
+        }
+      })
       window.neuroglancer = setupDefaultViewer({ showLayerPanel: false });
     </script>
   </head>

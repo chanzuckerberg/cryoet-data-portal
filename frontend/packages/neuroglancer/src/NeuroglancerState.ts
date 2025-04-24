@@ -1,3 +1,4 @@
+// Do not modify this file: it is generated from JSON schemas defined in Neuroglancer.
 export interface CompleteStateOfANeuroglancerInstance {
     concurrentDownloads?:          number;
     crossSectionDepth?:            number;
