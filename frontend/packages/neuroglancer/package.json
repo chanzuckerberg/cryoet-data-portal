@@ -13,11 +13,11 @@
     "preview": "vite preview",
     "prebuild": "eslint .",
     "format": "prettier --cache -w -l .",
-    "generate-interface": "pnpm download-schemas && quicktype -s schema viewer_state.yml layer.yml -o src/NeuroglancerState.ts --just-types --nice-property-names",
+    "generate-interface": "pnpm download-schemas && quicktype -s schema viewer_state.yml layer.yml -o src/NeuroglancerState.ts --just-types --nice-property-names && sed -i '1i// Do not modify this file: it is generated from JSON schemas defined in Neuroglancer.' src/NeuroglancerState.ts",
     "download-schemas": "wget -N https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/viewer_state.yml -O viewer_state.yml && wget -N https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/layer.yml -O layer.yml"
   },
   "dependencies": {
-    "neuroglancer": "git+https://github.com/google/neuroglancer.git#master",
+    "neuroglancer": "git+https://github.com/metacell/neuroglancer.git#feature/CC-292-bis",
     "pako": "^2.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
