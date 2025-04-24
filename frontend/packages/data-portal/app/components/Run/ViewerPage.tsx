@@ -440,12 +440,14 @@ function ViewerPage({ run }: { run: any }) {
                 >
                   {t('neuroglancerWalkthrough')}
                 </button>
+              </CustomDropdownSection>
+              <CustomDropdownSection title="Neuroglancer demo here">
                 <button
                   type="button"
                   className="py-1.5 px-2"
                   onClick={handleTourStart}
                 >
-                  {t('neuroglancerWalkthroughDemo')}
+                  {t('neuroglancerWalkthrough')}
                 </button>
               </CustomDropdownSection>
             </CustomDropdown>
