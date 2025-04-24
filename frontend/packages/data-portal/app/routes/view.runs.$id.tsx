@@ -50,7 +50,7 @@ export default function RunByIdViewerPage() {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ViewerPage run={run}/>
+      <ViewerPage run={run} />
     </Suspense>
   )
 }

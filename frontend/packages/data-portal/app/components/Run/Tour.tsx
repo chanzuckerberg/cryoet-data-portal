@@ -1,26 +1,45 @@
-import React from "react";
-import Joyride, { Step, ACTIONS, STATUS, EVENTS, ORIGIN, CallBackProps } from "react-joyride";
-import { Icon } from "@czi-sds/components";
+import React from 'react'
+import Joyride, {
+  Step,
+  ACTIONS,
+  STATUS,
+  EVENTS,
+  ORIGIN,
+  CallBackProps,
+} from 'react-joyride'
+import { Icon } from '@czi-sds/components'
 import { cns } from 'app/utils/cns'
 
 interface CustomTourProps {
-  steps: Step[];
-  run: boolean;
-  stepIndex: number;
-  onRestart: () => void;
-  onClose: () => void;
-  onMove: (index: number, action: (typeof ACTIONS)[keyof typeof ACTIONS]) => void;
+  steps: Step[]
+  run: boolean
+  stepIndex: number
+  onRestart: () => void
+  onClose: () => void
+  onMove: (
+    index: number,
+    action: (typeof ACTIONS)[keyof typeof ACTIONS],
+  ) => void
 }
 
-const outlinedButtonStyles = "py-1.5 px-3 rounded-sds-l font-semibold border border-[#0B68F8] text-[#0B68F8]";
-const filledButtonStyles = "py-1.5 px-3 rounded-sds-l font-semibold bg-[#0B68F8] text-white";
+const outlinedButtonStyles =
+  'py-1.5 px-3 rounded-sds-l font-semibold border border-[#0B68F8] text-[#0B68F8]'
+const filledButtonStyles =
+  'py-1.5 px-3 rounded-sds-l font-semibold bg-[#0B68F8] text-white'
 
-const CustomTooltip = (props: any, onRestart: () => void, onClose: () => void) => {
-  const { index, isLastStep, size, step, closeProps, backProps, primaryProps } = props;
+const CustomTooltip = (
+  props: any,
+  onRestart: () => void,
+  onClose: () => void,
+) => {
+  const { index, isLastStep, size, step, closeProps, backProps, primaryProps } =
+    props
 
-  const tooltipContainerStyles = index === 0 || isLastStep ? "p-10 max-w-[650px]" : "p-4 max-w-[334px]";
-  const titleStyles = index === 0 ? "text-[22px] leading-[30px]" : "text-base leading-6";
-  const buttonContainerStyles = index === 0 || isLastStep ? "mt-10" : "mt-6";
+  const tooltipContainerStyles =
+    index === 0 || isLastStep ? 'p-10 max-w-[650px]' : 'p-4 max-w-[334px]'
+  const titleStyles =
+    index === 0 ? 'text-[22px] leading-[30px]' : 'text-base leading-6'
+  const buttonContainerStyles = index === 0 || isLastStep ? 'mt-10' : 'mt-6'
 
   return (
     <div className={cns(tooltipContainerStyles, 'bg-white rounded')}>
@@ -38,7 +57,12 @@ const CustomTooltip = (props: any, onRestart: () => void, onClose: () => void) =
 
       <p>{step.content}</p>
 
-      <div className={cns(buttonContainerStyles, 'flex justify-between items-center')}>
+      <div
+        className={cns(
+          buttonContainerStyles,
+          'flex justify-between items-center',
+        )}
+      >
         {index > 0 && (
           <p className="text-[#767676] text-sm">
             Step {index} of {size - 1}
@@ -48,7 +72,11 @@ const CustomTooltip = (props: any, onRestart: () => void, onClose: () => void) =
         <div className="flex gap-2 ml-auto">
           {index === 0 ? (
             <>
-              <button {...closeProps} onClick={onClose} className={outlinedButtonStyles}>
+              <button
+                {...closeProps}
+                onClick={onClose}
+                className={outlinedButtonStyles}
+              >
                 Close
               </button>
               <button {...primaryProps} className={filledButtonStyles}>
@@ -82,29 +110,38 @@ const CustomTooltip = (props: any, onRestart: () => void, onClose: () => void) =
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-const Tour: React.FC<CustomTourProps> = ({ steps, run, stepIndex, onRestart, onClose, onMove }) => {
-
+const Tour: React.FC<CustomTourProps> = ({
+  steps,
+  run,
+  stepIndex,
+  onRestart,
+  onClose,
+  onMove,
+}) => {
   const handleJoyrideCallback = (data: CallBackProps) => {
-    const { action, index, origin, status, type } = data;
+    const { action, index, origin, status, type } = data
 
     if (action === ACTIONS.CLOSE && origin === ORIGIN.KEYBOARD) {
-      onClose();
+      onClose()
     }
 
-    if (([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND] as string[]).includes(type)) {
-      onMove(index, action);
-    } else if (([STATUS.FINISHED, STATUS.SKIPPED] as string[]).includes(status)) {
-      onClose();
+    if (
+      ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND] as string[]).includes(type)
+    ) {
+      onMove(index, action)
+    } else if (
+      ([STATUS.FINISHED, STATUS.SKIPPED] as string[]).includes(status)
+    ) {
+      onClose()
     }
 
-    console.groupCollapsed(type);
-    console.log(data);
-    console.groupEnd();
-  };
-
+    console.groupCollapsed(type)
+    console.log(data)
+    console.groupEnd()
+  }
 
   return (
     <Joyride
@@ -123,7 +160,7 @@ const Tour: React.FC<CustomTourProps> = ({ steps, run, stepIndex, onRestart, onC
       callback={handleJoyrideCallback}
       tooltipComponent={(props) => CustomTooltip(props, onRestart, onClose)}
     />
-  );
-};
+  )
+}
 
-export default Tour;
+export default Tour
