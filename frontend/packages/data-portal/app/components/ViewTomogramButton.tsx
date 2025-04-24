@@ -72,7 +72,10 @@ export function ViewTomogramButton({
        directly because Plausible will overwrite it. */}
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
-        onClick={trackViewTomogram}
+        onClick={(e) => {
+          e.stopPropagation()
+          trackViewTomogram()
+        }}
         onKeyDown={({ key }) => {
           if (key === 'Enter') {
             trackViewTomogram()
@@ -83,12 +86,7 @@ export function ViewTomogramButton({
         className="min-w-[152px]"
       >
         <Button
-          onClick={(e) => {
-            if (enabled) {
-              e.stopPropagation()
-              window.open(getNeuroglancerUrl(neuroglancerConfig), '_blank')
-            }
-          }}
+          href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
           disabled={!enabled}
           LinkComponent={Link}
           {...(buttonProps as ButtonProps)}
