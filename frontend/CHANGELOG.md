@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.68.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.68.0...cryoet-data-portal-frontend-v1.68.1) (2025-04-24)
+
+
+### 🐞 Bug Fixes
+
+* filter by non-null alignment method ([#1789](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1789)) ([b53974d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b53974d4d2f198faf65bca56dca1e84c94af48f5))
+* frames available ([#1786](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1786)) ([411b915](https://github.com/chanzuckerberg/cryoet-data-portal/commit/411b915cdedceed15e6f7de2c73f8b77db63a63d))
+* stop propagation on button link ([#1782](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1782)) ([ef5de20](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ef5de20bf6761a5a428ed0ad0caffce08db88c39))
+* tilt series quality score filter for multiple values ([#1787](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1787)) ([172c62d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/172c62d0918902154144962a05467a3f125c4bc6))
+* view tomogram button propogration ([#1791](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1791)) ([51ff092](https://github.com/chanzuckerberg/cryoet-data-portal/commit/51ff09272fb1c825eca8b48002a059cf59925bed))
+
+
+### 🧪 Tests
+
+* migrate chromatic tests ([#1745](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1745)) ([942b6f3](https://github.com/chanzuckerberg/cryoet-data-portal/commit/942b6f3717e6a361af6f70f07df374d4f8a95f7f))
+
 ## [1.68.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.67.0...cryoet-data-portal-frontend-v1.68.0) (2025-04-21)
 
 
