@@ -424,7 +424,7 @@ importers:
     dependencies:
       neuroglancer:
         specifier: git+https://github.com/metacell/neuroglancer.git#feature/CC-292-bis
-        version: github.com/metacell/neuroglancer/369e092fae4369fb79cb2b75545d13beebbdebd0(typescript@5.6.3)
+        version: github.com/metacell/neuroglancer/87eda10c00298ea54eb51da32e16f2a09576301b(typescript@5.6.3)
       pako:
         specifier: ^2.1.0
         version: 2.1.0
@@ -2327,6 +2327,7 @@ packages:
   /@gilbarbara/deep-equal@0.3.1:
     resolution: {integrity: sha512-I7xWjLs2YSVMc5gGx1Z3ZG1lgFpITPndpi8Ku55GeEIKpACCPQNS/OTqQbxgTCfq0Ncvcc+CrFov96itVh6Qvw==}
     dev: false
+
   /@glideapps/ts-necessities@2.2.3:
     resolution: {integrity: sha512-gXi0awOZLHk3TbW55GZLCPP6O+y/b5X1pBXKBVckFONSwF1z1E5ND2BGJsghQFah+pW7pkkyFb2VhUQI2qhL5w==}
     dev: true
@@ -13265,7 +13266,7 @@ packages:
       scroll: 3.0.1
       scrollparent: 2.1.0
       tree-changes: 0.11.3
-      type-fest: 4.37.0
+      type-fest: 4.40.0
     transitivePeerDependencies:
       - '@types/react'
     dev: false
@@ -15088,8 +15089,8 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  /type-fest@4.37.0:
-    resolution: {integrity: sha512-S/5/0kFftkq27FPNye0XM1e2NsnoD/3FS+pBmbjmmtLT6I+i344KoOf7pvXreaFsDamWeaJX55nczA1m5PsBDg==}
+  /type-fest@4.40.0:
+    resolution: {integrity: sha512-ABHZ2/tS2JkvH1PEjxFDTUWC8dB5OsIGZP4IFLhR293GqT5Y5qB1WwL2kMPYhQW9DVgVD8Hd7I8gjwPIf5GFkw==}
     engines: {node: '>=16'}
     dev: false
 
@@ -16180,22 +16181,9 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
-  git@github.com+mikolajdobrucki/ikonate/a86b4107c6ec717e7877f880a930d1ccf0b59d89:
-    resolution: {commit: a86b4107c6ec717e7877f880a930d1ccf0b59d89, repo: git@github.com:mikolajdobrucki/ikonate.git, type: git}
-    name: ikonate
-    version: 1.1.1
-    dependencies:
-      jsdom: 11.10.0
-      pretty: 2.0.0
-      xmldom: 0.1.31
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: false
-
-  github.com/metacell/neuroglancer/369e092fae4369fb79cb2b75545d13beebbdebd0(typescript@5.6.3):
-    resolution: {tarball: https://codeload.github.com/metacell/neuroglancer/tar.gz/369e092fae4369fb79cb2b75545d13beebbdebd0}
-    id: github.com/metacell/neuroglancer/369e092fae4369fb79cb2b75545d13beebbdebd0
+  github.com/metacell/neuroglancer/87eda10c00298ea54eb51da32e16f2a09576301b(typescript@5.6.3):
+    resolution: {tarball: https://codeload.github.com/metacell/neuroglancer/tar.gz/87eda10c00298ea54eb51da32e16f2a09576301b}
+    id: github.com/metacell/neuroglancer/87eda10c00298ea54eb51da32e16f2a09576301b
     name: neuroglancer
     version: 2.40.1
     engines: {node: '>=22'}
@@ -16205,7 +16193,7 @@ packages:
       core-js: 3.40.0
       crc-32: 1.2.2
       gl-matrix: 3.1.0
-      ikonate: git@github.com+mikolajdobrucki/ikonate/a86b4107c6ec717e7877f880a930d1ccf0b59d89
+      ikonate: github.com/mikolajdobrucki/ikonate/a86b4107c6ec717e7877f880a930d1ccf0b59d89
       lodash-es: 4.17.21
       msgpackr: 1.11.2
       nifti-reader-js: 0.6.9
@@ -16214,5 +16202,18 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - typescript
+      - utf-8-validate
+    dev: false
+
+  github.com/mikolajdobrucki/ikonate/a86b4107c6ec717e7877f880a930d1ccf0b59d89:
+    resolution: {tarball: https://codeload.github.com/mikolajdobrucki/ikonate/tar.gz/a86b4107c6ec717e7877f880a930d1ccf0b59d89}
+    name: ikonate
+    version: 1.1.1
+    dependencies:
+      jsdom: 11.10.0
+      pretty: 2.0.0
+      xmldom: 0.1.31
+    transitivePeerDependencies:
+      - bufferutil
       - utf-8-validate
     dev: false
