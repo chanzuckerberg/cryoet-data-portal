@@ -164,10 +164,82 @@ const isTopBarVisible = () => {
   return viewer?.uiConfiguration?.showLayerPanel.value ?? false
 }
 
-function ViewerPage({ run }: { run: any }) {
+const buildDepositsConfig = (annotations: any, tomograms: any[]) => {
+  const config: any = {}
+  const layers = currentNeuroglancerState().layers || []
+  for (const tomogram of tomograms) {
+    const depositionId = tomogram.deposition.id
+    if (
+      !(depositionId in config) &&
+      layers.some(
+        (l) => l.type === 'image' && l.source.endsWith(tomogram.s3OmezarrDir),
+      )
+    ) {
+      config[depositionId] = [tomogram]
+    }
+  }
+  for (const annotation of annotations.edges.map((e: any) => e.node)) {
+    const depositionId = annotation.depositionId
+    const httpsPath = annotation.httpsMetadataPath
+      .replace('.json', '')
+      .split('/')
+      .slice(-2)
+      .join('-')
+    const layer = layers.find(
+      (l) =>
+        l.source.includes?.(httpsPath) || l.source.url?.includes(httpsPath),
+    )
+    if (!(depositionId in config)) {
+      config[depositionId] = [{ name: layer?.name, annotation }]
+    } else {
+      config[depositionId].push({ name: layer?.name, annotation })
+    }
+  }
+  return config
+}
+
+const isDepositionActivated = (depositionEntries: string[]) => {
+  const layers = currentNeuroglancerState().layers || []
+  return layers
+    .filter((l) => l.name && depositionEntries.includes(l.name))
+    .some((l) => !boolValue(l.archived, /* defaultValue =*/ false))
+}
+
+const toggleDepositions = (depositionEntries: string[]) => {
+  const isCurrentlyActive = isDepositionActivated(depositionEntries)
+  updateState((state) => {
+    const layers = state.neuroglancer?.layers || []
+    for (const layer of layers.filter(
+      (l) => l.name && depositionEntries.includes(l.name),
+    )) {
+      layer.archived = isCurrentlyActive
+      layer.visible = !isCurrentlyActive
+    }
+    return state
+  })
+}
+
+const toggleAllDepositions = () => {
+  updateState((state) => {
+    const layers = state.neuroglancer?.layers || []
+    const layersOfInterest = layers.filter((l) => l.type !== 'image')
+    let archived = layersOfInterest.some((l) =>
+      boolValue(l.archived, /* defaultValue =*/ false),
+    )
+    for (const layer of layersOfInterest) {
+      layer.archived = !archived
+      layer.visible = archived
+    }
+    return state
+  })
+}
+
+function ViewerPage({ run, tomograms }: { run: any; tomograms: any }) {
   const { t } = useI18n()
   const [renderVersion, setRenderVersion] = useState(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
+
+  const depositionConfigs = buildDepositsConfig(run.annotations, tomograms)
 
   const refresh = () => {
     setRenderVersion(renderVersion + 1)
@@ -223,29 +295,29 @@ function ViewerPage({ run }: { run: any }) {
               <CustomDropdownSection title="Toggle annotations per deposition">
                 <CustomDropdownOption
                   selected={false}
-                  onSelect={() => toggleAnnotations()}
+                  onSelect={() => toggleAllDepositions()}
                 >
                   All annotations
                 </CustomDropdownOption>
-                {currentNeuroglancerState()
-                  .layers?.filter((layer: any) => layer.type === 'annotation')
-                  .map((annotation: any) => (
+                {Object.keys(depositionConfigs).map((depositionId, i) => {
+                  const layersOfInterest = depositionConfigs[depositionId].map(
+                    (c: any) => c.name,
+                  )
+                  return (
                     <CustomDropdownOption
-                      key={annotation.name}
-                      selected={
-                        !boolValue(
-                          annotation.archived,
-                          /* defaultValue =*/ false,
-                        )
-                      }
-                      onSelect={() => toggleLayer(annotation.name)}
+                      key={depositionId.toString()}
+                      selected={isDepositionActivated(layersOfInterest)}
+                      onSelect={() => {
+                        toggleDepositions(layersOfInterest)
+                      }}
                     >
-                      <span>{annotation?.name}</span>
+                      <span>Deposition #{i + 1}</span>
                       <span className="text-xs text-[#767676] font-normal">
-                        #CZCDP-12795
+                        #CZCDP-{depositionId}
                       </span>
                     </CustomDropdownOption>
-                  ))}
+                  )
+                })}
               </CustomDropdownSection>
             </CustomDropdown>
             <CustomDropdown title="Layout" variant="outlined">
