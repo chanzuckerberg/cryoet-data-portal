@@ -96,6 +96,16 @@ const toggleShowScaleBar = () => {
   viewer.showScaleBar.value = !viewer.showScaleBar.value
 }
 
+const showSectionsEnabled = () => {
+  return currentNeuroglancer()?.showPerspectiveSliceViews.value
+}
+
+const toggleShowSections = () => {
+  const viewer = currentNeuroglancer()
+  viewer.showPerspectiveSliceViews.value =
+    !viewer.showPerspectiveSliceViews.value
+}
+
 const currentLayout = () => {
   return currentNeuroglancerState().layout
 }
@@ -400,6 +410,15 @@ function ViewerPage({ run }: { run: any }) {
                   <div className="flex justify-between items-center">
                     <p>Scale bar</p>
                     <p className={helperText}>b</p>
+                  </div>
+                </CustomDropdownOption>
+                <CustomDropdownOption
+                  selected={showSectionsEnabled()}
+                  onSelect={toggleShowSections}
+                >
+                  <div className="flex justify-between items-center">
+                    <p>Cross-sections</p>
+                    <p className={helperText}>s</p>
                   </div>
                 </CustomDropdownOption>
               </CustomDropdownSection>
