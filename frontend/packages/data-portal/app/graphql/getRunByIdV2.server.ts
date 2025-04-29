@@ -213,6 +213,7 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
     # Filter by non-null alignment method since it can be null
     alignments(where: {
       alignmentMethod: { _is_null: false, },
+      runId: { _eq: $id }
     }) {
       id
     }
