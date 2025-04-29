@@ -24,6 +24,7 @@ const keyboardShortcuts = [
   { key: 'v', description: 'Toggle bounding box' },
   { key: 'a', description: 'Toggle axis lines' },
   { key: 'b', description: 'Toggle scale bar' },
+  { key: 's', description: 'Toggle cross-sections' },
 ]
 
 const getIframeElement = (selector: string): HTMLElement | string => {
