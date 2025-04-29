@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.68.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.68.1...cryoet-data-portal-frontend-v1.68.2) (2025-04-29)
+
+
+### 🐞 Bug Fixes
+
+* run alignments ([#1793](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1793)) ([8dd7d73](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8dd7d7346d149ddfda35234979a68a9a36925807))
+
 ## [1.68.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.68.0...cryoet-data-portal-frontend-v1.68.1) (2025-04-24)
 
 
