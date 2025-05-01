@@ -1,51 +1,63 @@
+import { useState, useEffect } from 'react'
 import { Notification } from '@czi-sds/components'
 import { cns } from 'app/utils/cns'
 
 interface SnackbarProps {
   open: boolean
-  title: string
   intent?: 'info' | 'negative' | 'positive' | 'notice'
-  description?: string
+  title?: string
+  message?: string
   className?: string
+  handleClose: () => void
+  autoHideDuration?: number
 }
 
 const Snackbar = ({
   open,
-  title,
   intent = 'info',
-  description,
+  title,
+  message,
   className,
+  handleClose,
+  autoHideDuration = 8000
 }: SnackbarProps) => {
-  if (!open) {
-    return null
+  const [localOpen, setLocalOpen] = useState(open);
+
+  useEffect(() => {
+    setLocalOpen(open);
+    
+    if (open) {
+      const timer = setTimeout(() => {
+        setLocalOpen(false);
+        handleClose();
+      }, autoHideDuration);
+
+      return () => clearTimeout(timer);
+    }
+  }, [open, handleClose, autoHideDuration]);
+
+  if (!localOpen) {
+    return null;
   }
 
   return (
     <Notification
       intent={intent}
+      slideDirection="right"
+      autoDismiss={autoHideDuration}
+      onClose={() => {
+        setLocalOpen(false)
+        handleClose();
+      }}
       className={cns(
-        `absolute flex !items-center bottom-0 left-0 right-0 z-10 !border-l-0 
-        !m-auto !mb-1 !py-2 !px-4 rounded !bg-white`,
+        "absolute bottom-0 left-3 z-10 !min-w-[392px]",
         className,
       )}
-      slideDirection="left"
     >
-      <style>{`
-        .MuiAlert-message {
-          padding: 0 !important;
-        }
-        .MuiAlert-icon, .MuiAlert-icon .MuiSvgIcon-root {
-          width: 1rem !important;
-          height: 1rem !important;
-        }
-        .MuiAlert-standardSuccess .MuiAlert-icon {
-          color: #1B9C4A;
-        }
-      `}</style>
-      <p className="!font-semibold !m-0 p-0">{title}</p>
-      {description}
+      {title && <p className="!font-semibold !m-0 p-0">{title}</p>}
+      {message}
     </Notification>
   )
 }
 
-export default Snackbar
+export default Snackbar;
