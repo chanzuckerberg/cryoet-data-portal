@@ -13,7 +13,7 @@ interface SnackbarProps {
   autoHideDuration?: number
 }
 
-function Snackbar({
+const Snackbar = ({
   open,
   intent = 'info',
   title,
