@@ -1,31 +1,33 @@
 import './ViewerPage.css'
 
+import { Button } from '@czi-sds/components'
 import {
-  currentNeuroglancerState,
-  NeuroglancerWrapper,
   currentNeuroglancer,
-  updateState,
+  currentNeuroglancerState,
   NeuroglancerLayout,
+  NeuroglancerWrapper,
+  updateState,
 } from 'neuroglancer'
 import { useState } from 'react'
-import { cns } from 'app/utils/cns'
-import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
+
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
-import { Button } from '@czi-sds/components'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
+import { useI18n } from 'app/hooks/useI18n'
+import { cns } from 'app/utils/cns'
+
 import {
   CustomDropdown,
-  CustomDropdownSection,
   CustomDropdownOption,
+  CustomDropdownSection,
 } from '../common/CustomDropdown'
+import Snackbar from '../common/Snackbar'
 import {
   ABOUT_LINKS,
-  REPORT_LINKS,
   NEUROGLANCER_HELP_LINKS,
+  REPORT_LINKS,
 } from '../Layout/constants'
-import { useI18n } from 'app/hooks/useI18n'
-import Snackbar from '../common/Snackbar'
+import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 
 
 // Button action for toggling layers visibility
@@ -179,7 +181,7 @@ const buildDepositsConfig = (annotations: any) => {
   const config: any = {}
   const layers = currentNeuroglancerState().layers || []
   for (const annotation of annotations.edges.map((e: any) => e.node)) {
-    const depositionId = annotation.depositionId
+    const { depositionId } = annotation
     const httpsPath = annotation.httpsMetadataPath
       .replace('.json', '')
       .split('/')
@@ -204,8 +206,8 @@ const isDepositionActivated = (depositionEntries: string[]) => {
     .filter((l) => l.name && depositionEntries.includes(l.name))
     .some(
       (l) =>
-        !boolValue(l.archived, /* defaultValue =*/ false) &&
-        boolValue(l.visible, /* defaultValue =*/ true),
+        !boolValue(l.archived, /* defaultValue = */ false) &&
+        boolValue(l.visible, /* defaultValue = */ true),
     )
 }
 
@@ -227,10 +229,10 @@ const toggleAllDepositions = () => {
   updateState((state) => {
     const layers = state.neuroglancer?.layers || []
     const layersOfInterest = layers.filter((l) => l.type !== 'image')
-    let archived = layersOfInterest.some(
+    const archived = layersOfInterest.some(
       (l) =>
-        boolValue(l.archived, /* defaultValue =*/ false) &&
-        boolValue(l.visible, /* defaultValue =*/ true),
+        boolValue(l.archived, /* defaultValue = */ false) &&
+        boolValue(l.visible, /* defaultValue = */ true),
     )
     for (const layer of layersOfInterest) {
       layer.archived = !archived
@@ -245,8 +247,8 @@ const isAllLayerActive = () => {
   const layersOfInterest = layers.filter((l) => l.type !== 'image')
   return layersOfInterest.every(
     (l) =>
-      !boolValue(l.archived, /* defaultValue =*/ false) &&
-      boolValue(l.visible, /* defaultValue =*/ true),
+      !boolValue(l.archived, /* defaultValue = */ false) &&
+      boolValue(l.visible, /* defaultValue = */ true),
   )
 }
 
@@ -473,7 +475,7 @@ function ViewerPage({ run }: { run: any }) {
           </div>
         </div>
       </nav>
-      <div className="iframe-container">
+      <div className="iframeContainer">
         <NeuroglancerWrapper onStateChange={refresh} />
       </div>
       <Snackbar

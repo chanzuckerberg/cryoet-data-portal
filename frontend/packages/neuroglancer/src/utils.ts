@@ -166,7 +166,7 @@ export function decompressHash(hash: string): string {
 }
 
 export function currentNeuroglancer(
-  neuroglancerIframeID = 'neuroglancer-iframe',
+  neuroglancerIframeID = 'neuroglancerIframe',
 ) {
   return (document.getElementById(neuroglancerIframeID) as any)?.contentWindow
     ?.viewer

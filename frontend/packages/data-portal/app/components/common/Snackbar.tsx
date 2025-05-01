@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Notification } from '@czi-sds/components'
+
 import { cns } from 'app/utils/cns'
 
 interface SnackbarProps {
@@ -12,7 +13,7 @@ interface SnackbarProps {
   autoHideDuration?: number
 }
 
-const Snackbar = ({
+function Snackbar({
   open,
   intent = 'info',
   title,

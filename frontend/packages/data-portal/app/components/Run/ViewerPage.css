@@ -1,23 +1,20 @@
-.iframe-container {
+.iframeContainer {
   height: 90vh;
   width: 100%;
   flex-grow: 1;
   overflow: hidden;
-}
-
-.iframe-container {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   user-select: none;
 }
 
-.iframe-container:focus {
+.iframeContainer:focus {
   outline: none !important;
 }
 
-.neuroglancer-iframe {
+.neuroglancerIframe {
   width: 100%;
   height: 100%;
-  border: none;
+  border: 0;
   display: block;
 }

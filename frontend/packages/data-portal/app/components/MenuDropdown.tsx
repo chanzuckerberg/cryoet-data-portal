@@ -9,12 +9,14 @@ export function MenuDropdown({
   title,
   variant = 'standard',
   buttonElement,
+  paperClassName
 }: {
   children: ReactNode
   variant?: 'standard' | 'outlined' | 'filled'
   className?: string
   title: ReactNode
   buttonElement?: ReactNode
+  paperClassName?: string
 }) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -92,6 +94,11 @@ export function MenuDropdown({
         open={!!anchorEl}
         onClose={() => setAnchorEl(null)}
         className="mt-2"
+        slotProps={{
+          paper: {
+            className: paperClassName,
+          },
+        }}
       >
         {children}
       </Menu>

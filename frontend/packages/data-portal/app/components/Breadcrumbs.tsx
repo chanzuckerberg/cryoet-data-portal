@@ -1,4 +1,4 @@
-import { useMemo, ReactNode } from 'react'
+import { ReactNode, useMemo } from 'react'
 
 import { SmallChevronRightIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
@@ -11,8 +11,9 @@ import {
   useSingleDatasetFilterHistory,
 } from 'app/state/filterHistory'
 import { BreadcrumbType } from 'app/types/breadcrumbs'
-import { Tooltip } from './Tooltip'
 import { cns } from 'app/utils/cns'
+
+import { Tooltip } from './Tooltip'
 
 function Breadcrumb({
   text,

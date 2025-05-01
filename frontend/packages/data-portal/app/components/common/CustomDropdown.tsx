@@ -1,7 +1,8 @@
-import { ReactNode, ComponentProps } from 'react'
+import { Icon, MenuItem } from '@czi-sds/components'
+import { ComponentProps, ReactNode } from 'react'
+
 import { MenuDropdown } from 'app/components/MenuDropdown'
 import { MenuItemHeader } from 'app/components/MenuItemHeader'
-import { MenuItem, Icon } from '@czi-sds/components'
 import { cns } from 'app/utils/cns'
 
 type CustomDropdownProps = {
@@ -76,6 +77,7 @@ export function CustomDropdown({
       title={title}
       variant={variant}
       buttonElement={buttonElement}
+      paperClassName="!min-w-[250px]"
     >
       {children}
     </MenuDropdown>
