@@ -92,8 +92,8 @@ const NeuroglancerWrapper = ({
 
   return (
     <iframe
-      className="neuroglancer-iframe"
-      id="neuroglancer-iframe"
+      className="neuroglancerIframe"
+      id="neuroglancerIframe"
       ref={iframeRef}
       src={`${baseUrl}/${superState.current.neuroglancer}`} // We need to give an uncompress hash initially
       title="Neuroglancer"

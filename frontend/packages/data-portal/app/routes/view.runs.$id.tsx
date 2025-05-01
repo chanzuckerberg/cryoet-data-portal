@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
-import { lazy, Suspense } from 'react'
 import { json, type LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { lazy, Suspense } from 'react'
+
 import { apolloClientV2 } from 'app/apollo.server'
 import { QueryParams } from 'app/constants/query'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
@@ -50,7 +51,7 @@ export default function RunByIdViewerPage() {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ViewerPage run={run}/>
+      <ViewerPage run={run} />
     </Suspense>
   )
 }

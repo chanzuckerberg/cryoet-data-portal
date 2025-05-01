@@ -1,4 +1,5 @@
 import { Notification } from '@czi-sds/components'
+
 import { cns } from 'app/utils/cns'
 
 interface SnackbarProps {
@@ -9,13 +10,13 @@ interface SnackbarProps {
   className?: string
 }
 
-const Snackbar = ({
+function Snackbar({
   open,
   title,
   intent = 'info',
   description,
   className,
-}: SnackbarProps) => {
+}: SnackbarProps) {
   if (!open) {
     return null
   }
