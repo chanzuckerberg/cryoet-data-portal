@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
 import { Notification } from '@czi-sds/components'
+import { useEffect, useState } from 'react'
 
 import { cns } from 'app/utils/cns'
 
@@ -13,32 +13,32 @@ interface SnackbarProps {
   autoHideDuration?: number
 }
 
-const Snackbar = ({
+function Snackbar({
   open,
   intent = 'info',
   title,
   message,
   className,
   handleClose,
-  autoHideDuration = 8000
-}: SnackbarProps) => {
-  const [localOpen, setLocalOpen] = useState(open);
+  autoHideDuration = 8000,
+}: SnackbarProps) {
+  const [localOpen, setLocalOpen] = useState(open)
 
   useEffect(() => {
-    setLocalOpen(open);
-    
+    setLocalOpen(open)
+
     if (open) {
       const timer = setTimeout(() => {
-        setLocalOpen(false);
-        handleClose();
-      }, autoHideDuration);
+        setLocalOpen(false)
+        handleClose()
+      }, autoHideDuration)
 
-      return () => clearTimeout(timer);
+      return () => clearTimeout(timer)
     }
-  }, [open, handleClose, autoHideDuration]);
+  }, [open, handleClose, autoHideDuration])
 
   if (!localOpen) {
-    return null;
+    return null
   }
 
   return (
@@ -48,12 +48,9 @@ const Snackbar = ({
       autoDismiss={autoHideDuration}
       onClose={() => {
         setLocalOpen(false)
-        handleClose();
+        handleClose()
       }}
-      className={cns(
-        "absolute bottom-0 left-3 z-10 !min-w-[392px]",
-        className,
-      )}
+      className={cns('absolute bottom-0 left-3 z-10 !min-w-[392px]', className)}
     >
       {title && <p className="!font-semibold !m-0 p-0">{title}</p>}
       {message}
@@ -61,4 +58,4 @@ const Snackbar = ({
   )
 }
 
-export default Snackbar;
+export default Snackbar

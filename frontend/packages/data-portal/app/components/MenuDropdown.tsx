@@ -9,7 +9,7 @@ export function MenuDropdown({
   title,
   variant = 'standard',
   buttonElement,
-  paperClassName
+  paperClassName,
 }: {
   children: ReactNode
   variant?: 'standard' | 'outlined' | 'filled'

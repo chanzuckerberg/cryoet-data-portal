@@ -29,7 +29,6 @@ import {
 } from '../Layout/constants'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 
-
 // Button action for toggling layers visibility
 // const isAnnotation = (layer: any) =>
 //   layer.type === 'annotation' || layer.type === 'segmentation'
@@ -276,8 +275,8 @@ function ViewerPage({ run }: { run: any }) {
   }
 
   const handleSnapActionClick = () => {
-    snap();
-    setSnapActionClicked(true);
+    snap()
+    setSnapActionClicked(true)
   }
 
   const helperText = 'text-xs text-[#767676] font-normal'
@@ -289,7 +288,6 @@ function ViewerPage({ run }: { run: any }) {
       </span>
     </p>
   )
-
 
   return (
     <div className="flex flex-col overflow-hidden h-full relative">
@@ -430,7 +428,10 @@ function ViewerPage({ run }: { run: any }) {
                 </CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
-                <CustomDropdownOption selected={false} onSelect={handleSnapActionClick}>
+                <CustomDropdownOption
+                  selected={false}
+                  onSelect={handleSnapActionClick}
+                >
                   <div className="flex justify-between items-center">
                     <p>Snap to nearest axis</p>
                     <p className={helperText}>z</p>
