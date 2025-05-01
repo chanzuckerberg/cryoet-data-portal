@@ -76,6 +76,7 @@ export function CustomDropdown({
       title={title}
       variant={variant}
       buttonElement={buttonElement}
+      paperClassName="!min-w-[250px]"
     >
       {children}
     </MenuDropdown>
