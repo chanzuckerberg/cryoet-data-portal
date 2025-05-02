@@ -70,7 +70,7 @@ const NeuroglancerWrapper = ({
           'newHash',
           newHash.length,
           'gain',
-          ((hash.length - newHash.length) / hash.length) * 100,
+          ((originalLength - newHash.length) / originalLength) * 100,
           '%',
         )
         history.replaceState(null, '', newHash)
