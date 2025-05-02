@@ -46,11 +46,11 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 const ViewerPage = lazy(() => import('app/components/Run/ViewerPage'))
 
 export default function RunByIdViewerPage() {
-  const { run } = useRunById()
-
+  const { run, tomograms } = useRunById()
+  const tomogram = tomograms.find((t) => t.neuroglancerConfig)
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ViewerPage run={run} />
+      <ViewerPage run={run} tomogram={tomogram} />
     </Suspense>
   )
 }
