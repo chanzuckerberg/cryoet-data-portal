@@ -207,24 +207,24 @@ The same slice is visualized through **a.** the CTF-deconvolved tomogram reconst
 
 The following files will be found in the main output folder:
 
-1. General files 
+1. General files
 
-  `AreTomo3_Session.json`: record of the run parameters
-  `TiltSeries_Metrics.csv`: record of the tilt-series quality metrics
-  `MdocDone.txt`: list of the processed tilt-series
-  `TiltSeries_TimeStamp.csv`: list of processing timestamps
+- `AreTomo3_Session.json`: record of the run parameters
+- `TiltSeries_Metrics.csv`: record of the tilt-series quality metrics
+- `MdocDone.txt`: list of the processed tilt-series
+- `TiltSeries_TimeStamp.csv`: list of processing timestamps
 
 2. Per tilt-series (run) files
 
-  `{run}.aln`: record of global and local alignments
-  `{run}.mrc`: 2D motion-corrected tilt-series (tomographically unaligned)
-  `{run}CTF.mrc`, `{run}CTF.txt`: CTF fits and parameters
-  `{run}_Vol.mrc`: reconstructed volume
+- `{run}.aln`: record of global and local alignments
+- `{run}.mrc`: 2D motion-corrected tilt-series (tomographically unaligned)
+- `{run}CTF.mrc`, `{run}CTF.txt`: CTF fits and parameters
+- `{run}_Vol.mrc`: reconstructed volume
 
 3. Subfolders
 
-  `{run}_IMOD`: contains IMOD-style CTF and alignment files
-  `{run}_Log`: stores log files for the processed tilt-series
+- `{run}_IMOD`: contains IMOD-style CTF and alignment files
+- `{run}_Log`: stores log files for the processed tilt-series
 
 ### DenoisET output files
 
@@ -233,12 +233,11 @@ The following files will be found in the main output folder:
 1. `denoise3d.json` or `predict3d.json`: record of the run parameters
 2. `{run}_Vol.mrc`: denoised tomogram
 3. `training`: if training from scratch, directory containing the following files:
-
-  `epoch{n}.pth`: model weights from the nth epoch
-  `{run}_epoch{n}.mrc`: representative denoised tomogram after the nth epoch
-  `traininglist.txt`: list of tomograms selected for training
-  `training_stats.csv`: per epoch statistics like training loss
-  `traininglist.png`: figure comparing distribution of quality metrics for the selected and all tomograms
+  - `epoch{n}.pth`: model weights from the nth epoch
+  - `{run}_epoch{n}.mrc`: representative denoised tomogram after the nth epoch
+  - `traininglist.txt`: list of tomograms selected for training
+  - `training_stats.csv`: per epoch statistics like training loss
+  - `traininglist.png`: figure comparing distribution of quality metrics for the selected and all tomograms
 
 ## Contact
 
