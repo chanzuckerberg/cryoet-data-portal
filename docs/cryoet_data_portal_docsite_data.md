@@ -24,7 +24,7 @@ As shown in the diagram above, the CryoET Data Portal has 3 levels in the data h
 
 - **Annotation** is a point or segmentation indicating the location of a macromolecular complex in the tomogram. On a run overview page, you may choose to download individual annotations.
 
-All data is added to the Portal through Depositions, which is described below, and a subset of depositions are displayed in the depositions tab on the Portal.
+All data is added to the Portal through Depositions, which is described below, and a subset of depositions are displayed in the depositions tab on "Browse Data" page of the Portal.
 
 For more detailed explanations of all data types in the Portal refer to the sections below.
 
@@ -111,9 +111,12 @@ A tomography run is a collection of all data and annotations related to one phys
 
 An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run. These metadata are defined in the tables below including their mapping to attributes in the Portal API:
 
+(Dataset, Sample and Experiment Conditions?)
+
 **Tilt Series**
 | **Portal Metadata**                       | **API Expression**                        | **Definition**                                                                                                 |
 |-------------------------------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| Tilt Series ID                            | TiltSeries.id                             | Numeric identifier.                                                                     |
 | Microscope Manufacturer                   | TiltSeries.microscope_manufacturer        | Name of the microscope manufacturer.                                                                          |
 | Microscope Model                          | TiltSeries.microscope_model               | Microscope model name.                                                                                        |
 | Phase Plate                               | TiltSeries.microscope_phase_plate         | Phase plate configuration.                                                                                    |
@@ -128,26 +131,20 @@ An overview of all runs in a dataset is presented in the Dataset Overview page. 
 | Pixel Spacing                             | TiltSeries.pixel_spacing                  | Pixel spacing for the tilt series.                                                                            |
 | Tilt Axis                                 | TiltSeries.tilt_axis                      | Rotation angle in degrees.                                                                                    |
 | Tilt Range                                | TiltSeries.tilt_range                     | Total tilt range in degrees.                                                                                  |
-| Tile Step                                 | TiltSeries.tiltstep                       | Tilt step in degrees.                                                                                         |
+| Tile Step                                 | TiltSeries.tilt_step                       | Tilt step in degrees.                                                                                         |
 | Tilting Scheme                            | TiltSeries.tilting_scheme                 | The order of stage tilting during acquisition of the data.                                                    |
 | Total Flux                                | TiltSeries.total_flux                     | Number of electrons reaching the specimen in a square Angstrom area for the entire tilt series.                |
 | Binning from Frames                       | TiltSeries.binning_from_frames            | Describes the binning factor from frames to tilt series file.                                                 |
 | Series is Aligned                         | No API field                              | True or false, indicating whether the tilt series images have been transformed to account for the tomographic alignment. |
 | Related EMPIAR Entry                      | TiltSeries.related_empiar_entry           | EMPIAR dataset identifier If a tilt series is deposited into EMPIAR.                                           |
 
-**Tomogram**
+**Tomograms Summary**
 | **Portal Metadata**                     | **API Expression**                                                                      | **Definition**                                                                                     |
 |-----------------------------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
-| Reconstruction Software                 | Tomogram.reconstruction_software                                                        | Name of software used for reconstruction.                                                          |
-| Reconstruction Method                   | Tomogram.reconstruction_method                                                          | Reconstruction method, e.g. Weighted back-projection, SART, SIRT.                                   |
-| Processing Software                     | Tomogram.processing_software                                                            | Processing software used to derive the tomogram.                                                   |
-| Available Processing                    | Tomogram.processing                                                                     | Description of additional processing used to derive the tomogram, e.g. denoised.                   |
-| Smallest Available Voxel Spacing        | `min_vs = min([vs.voxel_spacing for vs in Run.tomogram_voxel_spacings])`                           | Smallest voxel spacing of the available tomograms.                                                 |
-| Size (x, y, z)                          | `(Tomogram.size_x, Tomogram.size_y, Tomogram.size_z)` or `Tomogram.scale0_dimensions`   | Comma separated x,y,z dimensions of the unscaled tomogram in pixels.                                         |
-| Fiducial Alignment Status               | Tomogram.fiducial_alignment_status                                                      | Fiducial Alignment status: True = aligned with fiducial, False = aligned without fiducial.         |
-| Ctf Corrected                           | Tomogram.ctf_corrected                                                                  | Whether this tomogram is contrast transfer function corrected.                                     |
-| Affine Transformation Matrix            | Tomogram.affine_transformation_matrix                                                   | The flip or rotation transformation.                                                               |
-
+| Total Tomograms                         | No API field                                                                            | Number of tomograms in this run.                                                                 |
+| Samplings Available                     | |
+| Tomogram Processing | |
+| Annotated Objects   | |
 
 ### Run Overview Page
 
@@ -284,12 +281,16 @@ Each annotation has its own metadata, which can be viewed using the info icon on
 | Annotation ID             | Annotation.id                       | Numeric identifier assigned by the Portal.                                                     |
 | Annotation Authors        | Annotation.authors                  | Authors of this annotation.                                                                    |
 | Publication               | Annotation.annotation_publication   | DOIs for publications that describe the dataset.                                               |
+| Deposition Name           | ? | |
+| Deposition ID             | Annotation.deposition_id            | The ID of the deposition this annotation is a part of.                                          |
 | Deposition Date           | Annotation.deposition_date          | Date when an annotation set is initially received by the Data Portal.                           |
 | Release Date              | Annotation.release_date             | Date when annotation data is made public by the Data Portal.                                    |
 | Last Modified Date        | Annotation.last_modified_date       | Date when an annotation was last modified in the Data Portal.                                   |
+| Alignment ID              | ?             | |
 | Method Type               | Annotation.method_type              | The method type for generating the annotation (e.g., manual, hybrid, automated).                |
 | Annotation Method         | Annotation.annotation_method        | Describes how the annotation is made, e.g., Manual, crYoLO, Positive Unlabeled Learning, template matching. |
 | Annotation Software       | Annotation.annotation_software      | Software used for generating this annotation.                                                  |
+| Method Links | | | 
 
 **Annotation Object**
 | **Portal Metadata**       | **API Expression**                 | **Definition**                                                                                               |
@@ -297,7 +298,7 @@ Each annotation has its own metadata, which can be viewed using the info icon on
 | Object Name               | Annotation.object_name             | Name of the object being annotated, e.g., ribosome, nuclear pore complex, actin filament, membrane.          |
 | Object ID                 | Annotation.object_id               | Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object.                |
 | Object Count              | Annotation.object_count            | Number of objects identified.                                                                                 |
-| Object Shape Type         | AnnotationFile.shape_type          | Description of whether this is a Point, OrientedPoint, or SegmentationMask file.                              |
+| Object Shape Type         | AnnotationShape.shape_type          | Description of whether this is a Point, OrientedPoint, or SegmentationMask file.                              |
 | Object State              | Annotation.object_state            | Additional information about the annotated object not captured by the gene ontology (e.g., open or closed state for molecules). |
 | Object Description        | Annotation.object_description      | Description of the annotated object, including additional information not covered by the Annotation object name and state. |
 
