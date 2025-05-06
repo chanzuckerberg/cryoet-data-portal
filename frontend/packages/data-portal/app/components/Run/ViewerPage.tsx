@@ -441,7 +441,7 @@ function ViewerPage({ run }: { run: any }) {
                   selected={currentState().savedPanelsStatus !== undefined}
                   onSelect={togglePanels}
                 >
-                  All panels
+                  Hide open panels
                 </CustomDropdownOption>
                 <CustomDropdownOption
                   selected={isTopBarVisible()}
@@ -450,7 +450,7 @@ function ViewerPage({ run }: { run: any }) {
                     scheduleRefresh()
                   }}
                 >
-                  Top layer bar
+                  Show top layer bar
                 </CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
