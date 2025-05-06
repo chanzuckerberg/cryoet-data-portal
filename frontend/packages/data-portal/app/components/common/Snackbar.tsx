@@ -22,32 +22,22 @@ function Snackbar({
   handleClose,
   autoHideDuration = 8000,
 }: SnackbarProps) {
-  const [localOpen, setLocalOpen] = useState(open)
-
   useEffect(() => {
-    setLocalOpen(open)
-
     if (open) {
       const timer = setTimeout(() => {
-        setLocalOpen(false)
         handleClose()
       }, autoHideDuration)
 
       return () => clearTimeout(timer)
     }
-  }, [open, handleClose, autoHideDuration])
-
-  if (!localOpen) {
-    return null
-  }
+  }, [open])
 
   return (
-    <Notification
+    open && <Notification
       intent={intent}
       slideDirection="right"
       autoDismiss={autoHideDuration}
       onClose={() => {
-        setLocalOpen(false)
         handleClose()
       }}
       className={cns('absolute bottom-0 left-3 z-10 !min-w-[392px]', className)}
