@@ -10,7 +10,7 @@ import {
   ResolvedSuperState,
   updateState,
 } from 'neuroglancer'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
@@ -265,6 +265,7 @@ function ViewerPage({ run }: { run: any }) {
   const { t } = useI18n()
   const [renderVersion, setRenderVersion] = useState(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
+  const iframeRef = useRef<HTMLIFrameElement>()
 
   const depositionConfigs = buildDepositsConfig(run.annotations)
 
@@ -292,6 +293,40 @@ function ViewerPage({ run }: { run: any }) {
       return undefined
     })
   }
+
+  useEffect(() => {
+    const keyDownHandler = (event: KeyboardEvent) => {
+      const iframe = iframeRef.current
+      const iframeWindow = iframe?.contentWindow
+
+      if (!iframeWindow) {
+        return
+      }
+
+      const targetElement = (iframeWindow as any).neuroglancer?.element
+      if (!targetElement) {
+        return
+      }
+
+      const simulatedEvent = new KeyboardEvent('keydown', {
+        key: event.key,
+        code: event.code,
+        keyCode: event.keyCode,
+        altKey: event.altKey,
+        ctrlKey: event.ctrlKey,
+        shiftKey: event.shiftKey,
+        metaKey: event.metaKey,
+        bubbles: true,
+      })
+
+      targetElement.dispatchEvent(simulatedEvent)
+    }
+
+    window.addEventListener('keydown', keyDownHandler)
+    return () => {
+      window.removeEventListener('keydown', keyDownHandler)
+    }
+  }, [])
 
   const handleShareClick = () => {
     navigator.clipboard
@@ -505,7 +540,7 @@ function ViewerPage({ run }: { run: any }) {
         </div>
       </nav>
       <div className="iframeContainer">
-        <NeuroglancerWrapper onStateChange={handleOnStateChange} />
+        <NeuroglancerWrapper onStateChange={handleOnStateChange} ref={iframeRef} />
       </div>
       <Snackbar
         open={shareClicked}
