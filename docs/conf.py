@@ -119,13 +119,13 @@ html_theme_options = {
     "version_info": [
         {
             "version": "dev", # version number or path
-            "title": "Latest",
-            "aliases": [],
+            "title": "Stable (latest)", # title to be displayed in the dropdown
+            "aliases": ["stable"], # list of aliases for the version
         },
         {
             "version": "v4.0",
-            "title": "Stable (v4.0)",
-            "aliases": ["stable"],
+            "title": "v4.0",
+            "aliases": [""],
         },
     ],
 }
