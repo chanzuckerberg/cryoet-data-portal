@@ -203,7 +203,7 @@ The same slice is visualized through **a.** the CTF-deconvolved tomogram reconst
 The same slice is visualized through **a.** the CTF-deconvolved tomogram reconstructed by AreTomo3 and this tomogram after denoising with **b.** the provided pre-trained model or **c.** the new model trained from scratch.
 ```
 
-### AreTomo3 output files 
+### AreTomo3 output files
 
 The following files will be found in the main output folder:
 
