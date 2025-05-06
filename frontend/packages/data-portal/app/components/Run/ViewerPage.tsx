@@ -4,8 +4,10 @@ import { Button } from '@czi-sds/components'
 import {
   currentNeuroglancer,
   currentNeuroglancerState,
+  currentState,
   NeuroglancerLayout,
   NeuroglancerWrapper,
+  ResolvedSuperState,
   updateState,
 } from 'neuroglancer'
 import { useEffect, useRef, useState } from 'react'
@@ -41,6 +43,15 @@ const boolValue = (
 ): boolean => {
   return value === undefined ? defaultValue : value
 }
+
+const panelsDefaultValues = {
+  helpPanel: false,
+  settingsPanel: false,
+  selectedLayer: false,
+  layerListPanel: false,
+  selection: true,
+}
+type PanelName = keyof typeof panelsDefaultValues
 
 // const toggleAnnotations = () => {
 //   updateState((state) => {
@@ -129,23 +140,22 @@ const snap = () => {
 }
 
 const togglePanels = () => {
-  const panelsDefaultValues = {
-    helpPanel: false,
-    settingsPanel: false,
-    selectedLayer: false,
-    layerListPanel: false,
-    selection: true,
-  }
-  type PanelName = keyof typeof panelsDefaultValues
   updateState((state) => {
     if (state.savedPanelsStatus) {
+      // Restore the configuration
       for (const panelName of state.savedPanelsStatus as PanelName[]) {
-        state.neuroglancer[panelName].visible = !boolValue(
-          state.neuroglancer[panelName].visible,
-          panelsDefaultValues[panelName],
-        )
-        delete state.savedPanelsStatus
+        if (!(panelName in state.neuroglancer)) {
+          state.neuroglancer[panelName] = {
+            visible: !panelsDefaultValues[panelName],
+          }
+        } else {
+          state.neuroglancer[panelName].visible = !boolValue(
+            state.neuroglancer[panelName].visible,
+            panelsDefaultValues[panelName],
+          )
+        }
       }
+      delete state.savedPanelsStatus
       return state
     }
     const currentPanelConfig: string[] = []
@@ -153,7 +163,7 @@ const togglePanels = () => {
       panelsDefaultValues,
     )) {
       const isVisible = boolValue(
-        state.neuroglancer[panelName].visible,
+        state.neuroglancer[panelName]?.visible,
         defaultValue,
       )
       if (isVisible) {
@@ -259,8 +269,29 @@ function ViewerPage({ run }: { run: any }) {
 
   const depositionConfigs = buildDepositsConfig(run.annotations)
 
-  const refresh = () => {
+  const scheduleRefresh = () => {
     setRenderVersion(renderVersion + 1)
+  }
+
+  const handleOnStateChange = (state: ResolvedSuperState) => {
+    scheduleRefresh()
+    if (!state.savedPanelsStatus) {
+      return
+    }
+    updateState((state) => {
+      const savedPanels = state.savedPanelsStatus
+      for (const panelName of savedPanels as PanelName[]) {
+        const visible = boolValue(
+          state.neuroglancer[panelName]?.visible,
+          panelsDefaultValues[panelName],
+        )
+        if (visible && savedPanels.includes(panelName)) {
+          delete state.savedPanelsStatus
+          return state
+        }
+      }
+      return undefined
+    })
   }
 
   useEffect(() => {
@@ -375,7 +406,7 @@ function ViewerPage({ run }: { run: any }) {
             <CustomDropdown title="Layout" variant="outlined">
               <CustomDropdownSection title="Layout">
                 <CustomDropdownOption
-                  selected={isCurrentLayout('4panel')}
+                  selected={isCurrentLayout('4panel') || isCurrentLayout('4panel-alt')}
                   onSelect={() => setCurrentLayout('4panel')}
                 >
                   4 panel
@@ -406,17 +437,20 @@ function ViewerPage({ run }: { run: any }) {
                 </CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Toggle Panels">
-                <CustomDropdownOption selected={false} onSelect={togglePanels}>
-                  All panels
+                <CustomDropdownOption
+                  selected={currentState().savedPanelsStatus !== undefined}
+                  onSelect={togglePanels}
+                >
+                  Hide open panels
                 </CustomDropdownOption>
                 <CustomDropdownOption
                   selected={isTopBarVisible()}
                   onSelect={() => {
                     toggleTopBar()
-                    refresh()
+                    scheduleRefresh()
                   }}
                 >
-                  Top layer bar
+                  Show top layer bar
                 </CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
@@ -506,7 +540,7 @@ function ViewerPage({ run }: { run: any }) {
         </div>
       </nav>
       <div className="iframeContainer">
-        <NeuroglancerWrapper onStateChange={refresh} ref={iframeRef} />
+        <NeuroglancerWrapper onStateChange={handleOnStateChange} ref={iframeRef} />
       </div>
       <Snackbar
         open={shareClicked}
