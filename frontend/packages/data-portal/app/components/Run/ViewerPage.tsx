@@ -371,7 +371,7 @@ function ViewerPage({ run }: { run: any }) {
             <CustomDropdown title="Layout" variant="outlined">
               <CustomDropdownSection title="Layout">
                 <CustomDropdownOption
-                  selected={isCurrentLayout('4panel')}
+                  selected={isCurrentLayout('4panel') || isCurrentLayout('4panel-alt')}
                   onSelect={() => setCurrentLayout('4panel')}
                 >
                   4 panel
