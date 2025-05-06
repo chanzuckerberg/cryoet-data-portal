@@ -37,4 +37,4 @@ Multiple branches are used to manage the documentation:
 
 ## Backports
 
-The latest version of the site is automatically generated and deployed to the `gh-pages` branch whenever a PR is merged to the main branch. However, if a bug is found in the documentation for a previous version, the `backport-docs` label can be used to flag the need for a rebuild of the documentation for that version. In that case, the commits associated with the PR will be (manually) cherry-picked to the `docs-vX.X` branch, and the documentation will need to be rebuilt and deployed to the `gh-pages` branch.
+The latest version of the site is automatically generated and deployed to the `gh-pages` branch whenever a PR is merged to the main branch. However, if a bug is found in the documentation for a previous version, the `backport-docs` GitHub label can be used on a pull request or issue to flag the need for a rebuild of the documentation for that version. In that case, the commits associated with the PR will be (manually) cherry-picked to the `docs-vX.X` branch, and the documentation will need to be rebuilt and deployed to the `gh-pages` branch.
