@@ -126,6 +126,7 @@ const setCurrentLayout = (layout: string) => {
 const snap = () => {
   const viewer = currentNeuroglancer()
   viewer.navigationState.pose.orientation.snap()
+  viewer.perspectiveNavigationState.pose.orientation.snap()
 }
 
 const togglePanels = () => {
