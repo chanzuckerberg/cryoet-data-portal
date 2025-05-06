@@ -43,6 +43,13 @@ End to end tutorial from downloading data to analyzing tomograms
 
 Learn how to visualize tomograms and annotations in Neuroglancer
 :::
+
+:::{grid-item-card} AreTomoLive Demo
+:link: tutorial-aretomo3
+:link-type: ref
+
+AreTomoLive Demo using data from the CryoET Data Portal
+:::
 ::::
 
 Please start a [discussion on Github](https://github.com/chanzuckerberg/cryoet-data-portal/discussions/new/choose) if you'd like to request a tutorial.
