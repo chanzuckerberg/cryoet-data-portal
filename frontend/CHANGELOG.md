@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.69.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.68.2...cryoet-data-portal-frontend-v1.69.0) (2025-05-07)
+
+
+### ✨ Features
+
+* Changing the way the breadcrumb is built to accomodate variants ([#1790](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1790)) ([9997dd9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9997dd90718467df4e7d5500ca04e0740a01aa50))
+
 ## [1.68.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.68.1...cryoet-data-portal-frontend-v1.68.2) (2025-04-29)
 
 
