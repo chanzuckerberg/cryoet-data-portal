@@ -177,13 +177,26 @@ const togglePanels = () => {
 }
 
 const toggleTopBar = () => {
+  const isVisible = isTopBarVisible()
+  updateState((state) => {
+    state.showLayerTopBar = !isVisible
+    return state
+  })
   const viewer = currentNeuroglancer()
-  viewer.uiConfiguration.showLayerPanel.value = !isTopBarVisible()
+  viewer.uiConfiguration.showLayerPanel.value = !isVisible
 }
 
 const isTopBarVisible = () => {
+  const state = currentState()
+  return boolValue(state.showLayerTopBar, /* defaultValue = */ false)
+}
+
+const setTopBarVisibleFromSuperState = () => {
   const viewer = currentNeuroglancer()
-  return viewer?.uiConfiguration?.showLayerPanel.value ?? false
+  const isVisible = viewer.uiConfiguration.showLayerPanel.value
+  const shouldBeVisible = isTopBarVisible()
+  if (isVisible === shouldBeVisible) return
+  viewer.uiConfiguration.showLayerPanel.value = shouldBeVisible
 }
 
 const buildDepositsConfig = (annotations: any) => {
@@ -275,6 +288,7 @@ function ViewerPage({ run }: { run: any }) {
 
   const handleOnStateChange = (state: ResolvedSuperState) => {
     scheduleRefresh()
+    setTopBarVisibleFromSuperState()
     if (!state.savedPanelsStatus) {
       return
     }
@@ -406,7 +420,9 @@ function ViewerPage({ run }: { run: any }) {
             <CustomDropdown title="Layout" variant="outlined">
               <CustomDropdownSection title="Layout">
                 <CustomDropdownOption
-                  selected={isCurrentLayout('4panel') || isCurrentLayout('4panel-alt')}
+                  selected={
+                    isCurrentLayout('4panel') || isCurrentLayout('4panel-alt')
+                  }
                   onSelect={() => setCurrentLayout('4panel')}
                 >
                   4 panel
@@ -445,10 +461,7 @@ function ViewerPage({ run }: { run: any }) {
                 </CustomDropdownOption>
                 <CustomDropdownOption
                   selected={isTopBarVisible()}
-                  onSelect={() => {
-                    toggleTopBar()
-                    scheduleRefresh()
-                  }}
+                  onSelect={toggleTopBar}
                 >
                   Show top layer bar
                 </CustomDropdownOption>
