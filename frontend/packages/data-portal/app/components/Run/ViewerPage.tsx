@@ -193,10 +193,7 @@ const isTopBarVisible = () => {
 
 const setTopBarVisibleFromSuperState = () => {
   const viewer = currentNeuroglancer()
-  const isVisible = viewer.uiConfiguration.showLayerPanel.value
-  const shouldBeVisible = isTopBarVisible()
-  if (isVisible === shouldBeVisible) return
-  viewer.uiConfiguration.showLayerPanel.value = shouldBeVisible
+  viewer.uiConfiguration.showLayerPanel.value = isTopBarVisible()
 }
 
 const buildDepositsConfig = (annotations: any) => {
