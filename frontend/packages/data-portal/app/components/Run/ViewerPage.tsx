@@ -137,6 +137,7 @@ const setCurrentLayout = (layout: string) => {
 const snap = () => {
   const viewer = currentNeuroglancer()
   viewer.navigationState.pose.orientation.snap()
+  viewer.perspectiveNavigationState.pose.orientation.snap()
 }
 
 const togglePanels = () => {
@@ -275,6 +276,7 @@ function ViewerPage({ run }: { run: any }) {
   const { t } = useI18n()
   const [renderVersion, setRenderVersion] = useState(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
+  const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
   const iframeRef = useRef<HTMLIFrameElement>()
 
   const depositionConfigs = buildDepositsConfig(run.annotations)
@@ -344,13 +346,15 @@ function ViewerPage({ run }: { run: any }) {
       .writeText(window.location.href)
       .then(() => {
         setShareClicked(true)
-        setTimeout(() => {
-          setShareClicked(false)
-        }, 3000)
       })
       .catch((err) => {
         console.error('Failed to copy URL: ', err)
       })
+  }
+
+  const handleSnapActionClick = () => {
+    snap()
+    setSnapActionClicked(true)
   }
 
   const helperText = 'text-xs text-[#767676] font-normal'
@@ -504,7 +508,10 @@ function ViewerPage({ run }: { run: any }) {
                 </CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
-                <CustomDropdownOption selected={false} onSelect={snap}>
+                <CustomDropdownOption
+                  selected={false}
+                  onSelect={handleSnapActionClick}
+                >
                   <div className="flex justify-between items-center">
                     <p>Snap to nearest axis</p>
                     <p className={helperText}>z</p>
@@ -555,8 +562,14 @@ function ViewerPage({ run }: { run: any }) {
       <Snackbar
         open={shareClicked}
         intent="positive"
-        title="Share link copied to clipboard"
-        className="max-h-8 !max-w-[265px]"
+        message="Share link copied to clipboard"
+        handleClose={() => setShareClicked(false)}
+      />
+      <Snackbar
+        open={snapActionClicked}
+        intent="positive"
+        message="Snapped to the nearest axis"
+        handleClose={() => setSnapActionClicked(false)}
       />
     </div>
   )
