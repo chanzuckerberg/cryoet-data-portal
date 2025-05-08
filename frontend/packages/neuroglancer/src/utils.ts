@@ -22,10 +22,13 @@ const emptySuperState = (config: string): SuperState => {
 }
 
 export const updateState = (
-  onStateChange: (state: ResolvedSuperState) => ResolvedSuperState,
+  onStateChange: (state: ResolvedSuperState) => ResolvedSuperState | undefined,
 ) => {
   const state = currentState()
   const newState = onStateChange(state)
+  if (newState === undefined) {
+    return
+  }
   commitState(newState)
 }
 
