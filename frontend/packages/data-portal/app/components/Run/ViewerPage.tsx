@@ -35,12 +35,6 @@ import Tour from './Tour'
 import { getTutorialSteps } from './steps'
 
 
-// Button action for toggling layers visibility
-// const isAnnotation = (layer: any) =>
-//   layer.type === 'annotation' || layer.type === 'segmentation'
-// const toggleVisibility = (layer: any) =>
-//   !(layer.visible === undefined || layer.visible)
-
 const boolValue = (
   value: boolean | undefined,
   defaultValue: boolean = true,
@@ -56,35 +50,6 @@ const panelsDefaultValues = {
   selection: true,
 }
 type PanelName = keyof typeof panelsDefaultValues
-
-// const toggleAnnotations = () => {
-//   updateState((state) => {
-//     if (!state.neuroglancer.layers) {
-//       return state
-//     }
-//     for (const layer of state.neuroglancer.layers) {
-//       if (isAnnotation(layer)) {
-//         layer.visible = toggleVisibility(layer)
-//       }
-//     }
-//     return state
-//   })
-// }
-
-// const toggleLayer = (name: string) => {
-//   updateState((state) => {
-//     if (!state.neuroglancer.layers) {
-//       return state
-//     }
-//     const layer = state.neuroglancer.layers.find((l: any) => l.name === name)
-//     if (layer) {
-//       const archived = boolValue(layer.archived, /* defaultValue =*/ false)
-//       layer.archived = !archived
-//       layer.visible = archived
-//     }
-//     return state
-//   })
-// }
 
 const toggleBoundingBox = () => {
   const viewer = currentNeuroglancer()
