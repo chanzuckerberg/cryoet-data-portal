@@ -468,7 +468,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                   selected={currentState().savedPanelsStatus !== undefined}
                   onSelect={togglePanels}
                 >
-                  Hide open panels
+                  Hide panels
                 </CustomDropdownOption>
                 <CustomDropdownOption
                   selected={isTopBarVisible()}
