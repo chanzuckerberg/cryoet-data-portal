@@ -1,5 +1,6 @@
 import { Step } from 'react-joyride'
 import { cns } from 'app/utils/cns'
+import { InfoIcon } from 'app/components/icons'
 
 interface StepContentProps {
   children: any
@@ -246,6 +247,13 @@ export const getTutorialSteps: () => Step[] = () => [
             <a href="#">documentation</a>
           </span>
           .
+        </p>
+        <p className="flex gap-1">
+          Easily access this walkthrough again through the {' '}
+          <span>
+            <InfoIcon className="w-5 h-5" />
+          </span>
+           help menu.
         </p>
       </StepContent>
     ),
