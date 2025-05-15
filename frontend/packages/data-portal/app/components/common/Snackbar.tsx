@@ -1,49 +1,49 @@
 import { Notification } from '@czi-sds/components'
+import { useEffect, useState } from 'react'
+
 import { cns } from 'app/utils/cns'
 
 interface SnackbarProps {
   open: boolean
-  title: string
   intent?: 'info' | 'negative' | 'positive' | 'notice'
-  description?: string
+  title?: string
+  message?: string
   className?: string
+  handleClose: () => void
+  autoHideDuration?: number
 }
 
-const Snackbar = ({
+function Snackbar({
   open,
-  title,
   intent = 'info',
-  description,
+  title,
+  message,
   className,
-}: SnackbarProps) => {
-  if (!open) {
-    return null
-  }
+  handleClose,
+  autoHideDuration = 8000,
+}: SnackbarProps) {
+  useEffect(() => {
+    if (open) {
+      const timer = setTimeout(() => {
+        handleClose()
+      }, autoHideDuration)
+
+      return () => clearTimeout(timer)
+    }
+  }, [open])
 
   return (
-    <Notification
+    open && <Notification
       intent={intent}
-      className={cns(
-        `absolute flex !items-center bottom-0 left-0 right-0 z-10 !border-l-0 
-        !m-auto !mb-1 !py-2 !px-4 rounded !bg-white`,
-        className,
-      )}
-      slideDirection="left"
+      slideDirection="right"
+      autoDismiss={autoHideDuration}
+      onClose={() => {
+        handleClose()
+      }}
+      className={cns('absolute bottom-0 left-3 z-10 !min-w-[392px]', className)}
     >
-      <style>{`
-        .MuiAlert-message {
-          padding: 0 !important;
-        }
-        .MuiAlert-icon, .MuiAlert-icon .MuiSvgIcon-root {
-          width: 1rem !important;
-          height: 1rem !important;
-        }
-        .MuiAlert-standardSuccess .MuiAlert-icon {
-          color: #1B9C4A;
-        }
-      `}</style>
-      <p className="!font-semibold !m-0 p-0">{title}</p>
-      {description}
+      {title && <p className="!font-semibold !m-0 p-0">{title}</p>}
+      {message}
     </Notification>
   )
 }

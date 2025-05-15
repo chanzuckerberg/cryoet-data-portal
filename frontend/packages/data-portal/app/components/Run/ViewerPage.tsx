@@ -1,24 +1,30 @@
 import './ViewerPage.css'
 
-import {
-  currentNeuroglancerState,
-  NeuroglancerWrapper,
-  currentNeuroglancer,
-  updateState,
-  NeuroglancerLayout,
-} from 'neuroglancer'
-import { useState, useEffect } from 'react'
-import { cns } from 'app/utils/cns'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { Button } from '@czi-sds/components'
+import {
+  currentNeuroglancer,
+  currentNeuroglancerState,
+  currentState,
+  NeuroglancerLayout,
+  NeuroglancerWrapper,
+  ResolvedSuperState,
+  updateState,
+} from 'neuroglancer'
+import { useEffect, useRef, useState } from 'react'
+
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
+import { useI18n } from 'app/hooks/useI18n'
+import { cns } from 'app/utils/cns'
+
 import {
   CustomDropdown,
-  CustomDropdownSection,
   CustomDropdownOption,
+  CustomDropdownSection,
 } from '../common/CustomDropdown'
+import Snackbar from '../common/Snackbar'
 import {
   ABOUT_LINKS,
   REPORT_LINKS,
@@ -27,14 +33,13 @@ import {
 import { ACTIONS } from 'react-joyride'
 import Tour from './Tour'
 import { getTutorialSteps } from './steps'
-import { useI18n } from 'app/hooks/useI18n'
-import Snackbar from '../common/Snackbar'
+
 
 // Button action for toggling layers visibility
-const isAnnotation = (layer: any) =>
-  layer.type === 'annotation' || layer.type === 'segmentation'
-const toggleVisibility = (layer: any) =>
-  !(layer.visible === undefined || layer.visible)
+// const isAnnotation = (layer: any) =>
+//   layer.type === 'annotation' || layer.type === 'segmentation'
+// const toggleVisibility = (layer: any) =>
+//   !(layer.visible === undefined || layer.visible)
 
 const boolValue = (
   value: boolean | undefined,
@@ -43,34 +48,43 @@ const boolValue = (
   return value === undefined ? defaultValue : value
 }
 
-const toggleAnnotations = () => {
-  updateState((state) => {
-    if (!state.neuroglancer.layers) {
-      return state
-    }
-    for (const layer of state.neuroglancer.layers) {
-      if (isAnnotation(layer)) {
-        layer.visible = toggleVisibility(layer)
-      }
-    }
-    return state
-  })
+const panelsDefaultValues = {
+  helpPanel: false,
+  settingsPanel: false,
+  selectedLayer: false,
+  layerListPanel: false,
+  selection: true,
 }
+type PanelName = keyof typeof panelsDefaultValues
 
-const toggleLayer = (name: string) => {
-  updateState((state) => {
-    if (!state.neuroglancer.layers) {
-      return state
-    }
-    const layer = state.neuroglancer.layers.find((l: any) => l.name === name)
-    if (layer) {
-      const archived = boolValue(layer.archived, /* defaultValue =*/ false)
-      layer.archived = !archived
-      layer.visible = archived
-    }
-    return state
-  })
-}
+// const toggleAnnotations = () => {
+//   updateState((state) => {
+//     if (!state.neuroglancer.layers) {
+//       return state
+//     }
+//     for (const layer of state.neuroglancer.layers) {
+//       if (isAnnotation(layer)) {
+//         layer.visible = toggleVisibility(layer)
+//       }
+//     }
+//     return state
+//   })
+// }
+
+// const toggleLayer = (name: string) => {
+//   updateState((state) => {
+//     if (!state.neuroglancer.layers) {
+//       return state
+//     }
+//     const layer = state.neuroglancer.layers.find((l: any) => l.name === name)
+//     if (layer) {
+//       const archived = boolValue(layer.archived, /* defaultValue =*/ false)
+//       layer.archived = !archived
+//       layer.visible = archived
+//     }
+//     return state
+//   })
+// }
 
 const toggleBoundingBox = () => {
   const viewer = currentNeuroglancer()
@@ -99,6 +113,16 @@ const toggleShowScaleBar = () => {
   viewer.showScaleBar.value = !viewer.showScaleBar.value
 }
 
+const showSectionsEnabled = () => {
+  return currentNeuroglancer()?.showPerspectiveSliceViews.value
+}
+
+const toggleShowSections = () => {
+  const viewer = currentNeuroglancer()
+  viewer.showPerspectiveSliceViews.value =
+    !viewer.showPerspectiveSliceViews.value
+}
+
 const currentLayout = () => {
   return currentNeuroglancerState().layout
 }
@@ -117,26 +141,26 @@ const setCurrentLayout = (layout: string) => {
 const snap = () => {
   const viewer = currentNeuroglancer()
   viewer.navigationState.pose.orientation.snap()
+  viewer.perspectiveNavigationState.pose.orientation.snap()
 }
 
 const togglePanels = () => {
-  const panelsDefaultValues = {
-    helpPanel: false,
-    settingsPanel: false,
-    selectedLayer: false,
-    layerListPanel: false,
-    selection: true,
-  }
-  type PanelName = keyof typeof panelsDefaultValues
   updateState((state) => {
     if (state.savedPanelsStatus) {
+      // Restore the configuration
       for (const panelName of state.savedPanelsStatus as PanelName[]) {
-        state.neuroglancer[panelName].visible = !boolValue(
-          state.neuroglancer[panelName].visible,
-          panelsDefaultValues[panelName],
-        )
-        delete state.savedPanelsStatus
+        if (!(panelName in state.neuroglancer)) {
+          state.neuroglancer[panelName] = {
+            visible: !panelsDefaultValues[panelName],
+          }
+        } else {
+          state.neuroglancer[panelName].visible = !boolValue(
+            state.neuroglancer[panelName].visible,
+            panelsDefaultValues[panelName],
+          )
+        }
       }
+      delete state.savedPanelsStatus
       return state
     }
     const currentPanelConfig: string[] = []
@@ -144,7 +168,7 @@ const togglePanels = () => {
       panelsDefaultValues,
     )) {
       const isVisible = boolValue(
-        state.neuroglancer[panelName].visible,
+        state.neuroglancer[panelName]?.visible,
         defaultValue,
       )
       if (isVisible) {
@@ -158,13 +182,98 @@ const togglePanels = () => {
 }
 
 const toggleTopBar = () => {
+  const isVisible = isTopBarVisible()
+  updateState((state) => {
+    state.showLayerTopBar = !isVisible
+    return state
+  })
   const viewer = currentNeuroglancer()
-  viewer.uiConfiguration.showLayerPanel.value = !isTopBarVisible()
+  viewer.uiConfiguration.showLayerPanel.value = !isVisible
 }
 
 const isTopBarVisible = () => {
+  const state = currentState()
+  return boolValue(state.showLayerTopBar, /* defaultValue = */ false)
+}
+
+const setTopBarVisibleFromSuperState = () => {
   const viewer = currentNeuroglancer()
-  return viewer?.uiConfiguration?.showLayerPanel.value ?? false
+  viewer.uiConfiguration.showLayerPanel.value = isTopBarVisible()
+}
+
+const buildDepositsConfig = (annotations: any) => {
+  const config: any = {}
+  const layers = currentNeuroglancerState().layers || []
+  for (const annotation of annotations.edges.map((e: any) => e.node)) {
+    const { depositionId } = annotation
+    const httpsPath = annotation.httpsMetadataPath
+      .replace('.json', '')
+      .split('/')
+      .slice(-2)
+      .join('-')
+    const layer = layers.find(
+      (l) =>
+        l.source.includes?.(httpsPath) || l.source.url?.includes(httpsPath),
+    )
+    if (!(depositionId in config)) {
+      config[depositionId] = [{ name: layer?.name, annotation }]
+    } else {
+      config[depositionId].push({ name: layer?.name, annotation })
+    }
+  }
+  return config
+}
+
+const isDepositionActivated = (depositionEntries: string[]) => {
+  const layers = currentNeuroglancerState().layers || []
+  return layers
+    .filter((l) => l.name && depositionEntries.includes(l.name))
+    .some(
+      (l) =>
+        !boolValue(l.archived, /* defaultValue = */ false) &&
+        boolValue(l.visible, /* defaultValue = */ true),
+    )
+}
+
+const toggleDepositions = (depositionEntries: string[]) => {
+  const isCurrentlyActive = isDepositionActivated(depositionEntries)
+  updateState((state) => {
+    const layers = state.neuroglancer?.layers || []
+    for (const layer of layers.filter(
+      (l) => l.name && depositionEntries.includes(l.name),
+    )) {
+      layer.archived = isCurrentlyActive
+      layer.visible = !isCurrentlyActive
+    }
+    return state
+  })
+}
+
+const toggleAllDepositions = () => {
+  updateState((state) => {
+    const layers = state.neuroglancer?.layers || []
+    const layersOfInterest = layers.filter((l) => l.type !== 'image')
+    const archived = layersOfInterest.some(
+      (l) =>
+        boolValue(l.archived, /* defaultValue = */ false) &&
+        boolValue(l.visible, /* defaultValue = */ true),
+    )
+    for (const layer of layersOfInterest) {
+      layer.archived = !archived
+      layer.visible = archived
+    }
+    return state
+  })
+}
+
+const isAllLayerActive = () => {
+  const layers = currentNeuroglancerState().layers || []
+  const layersOfInterest = layers.filter((l) => l.type !== 'image')
+  return layersOfInterest.every(
+    (l) =>
+      !boolValue(l.archived, /* defaultValue = */ false) &&
+      boolValue(l.visible, /* defaultValue = */ true),
+  )
 }
 
 function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
@@ -173,8 +282,12 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
   const [tourRunning, setTourRunning] = useState(false)
   const [stepIndex, setStepIndex] = useState<number>(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
+  const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
+  const iframeRef = useRef<HTMLIFrameElement>()
 
-  const refresh = () => {
+  const depositionConfigs = buildDepositsConfig(run.annotations)
+
+  const scheduleRefresh = () => {
     setRenderVersion(renderVersion + 1)
   }
 
@@ -209,6 +322,28 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     }, 300)
   }
 
+  const handleOnStateChange = (state: ResolvedSuperState) => {
+    scheduleRefresh()
+    setTopBarVisibleFromSuperState()
+    if (!state.savedPanelsStatus) {
+      return
+    }
+    updateState((state) => {
+      const savedPanels = state.savedPanelsStatus
+      for (const panelName of savedPanels as PanelName[]) {
+        const visible = boolValue(
+          state.neuroglancer[panelName]?.visible,
+          panelsDefaultValues[panelName],
+        )
+        if (visible && savedPanels.includes(panelName)) {
+          delete state.savedPanelsStatus
+          return state
+        }
+      }
+      return undefined
+    })
+  }
+
   useEffect(() => {
     const shouldStartTutorial = localStorage.getItem('startTutorial') === 'true'
 
@@ -216,6 +351,38 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
       setTourRunning(true)
 
       localStorage.removeItem('startTutorial')
+    }    
+
+    const keyDownHandler = (event: KeyboardEvent) => {
+      const iframe = iframeRef.current
+      const iframeWindow = iframe?.contentWindow
+
+      if (!iframeWindow) {
+        return
+      }
+
+      const targetElement = (iframeWindow as any).neuroglancer?.element
+      if (!targetElement) {
+        return
+      }
+
+      const simulatedEvent = new KeyboardEvent('keydown', {
+        key: event.key,
+        code: event.code,
+        keyCode: event.keyCode,
+        altKey: event.altKey,
+        ctrlKey: event.ctrlKey,
+        shiftKey: event.shiftKey,
+        metaKey: event.metaKey,
+        bubbles: true,
+      })
+
+      targetElement.dispatchEvent(simulatedEvent)
+    }
+
+    window.addEventListener('keydown', keyDownHandler)
+    return () => {
+      window.removeEventListener('keydown', keyDownHandler)
     }
   }, [])
 
@@ -224,13 +391,15 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
       .writeText(window.location.href)
       .then(() => {
         setShareClicked(true)
-        setTimeout(() => {
-          setShareClicked(false)
-        }, 3000)
       })
       .catch((err) => {
         console.error('Failed to copy URL: ', err)
       })
+  }
+
+  const handleSnapActionClick = () => {
+    snap()
+    setSnapActionClicked(true)
   }
 
   const helperText = 'text-xs text-[#767676] font-normal'
@@ -268,36 +437,38 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
             <CustomDropdown title="Annotations" variant="outlined">
               <CustomDropdownSection title="Toggle annotations per deposition">
                 <CustomDropdownOption
-                  selected={false}
-                  onSelect={() => toggleAnnotations()}
+                  selected={isAllLayerActive()}
+                  onSelect={() => toggleAllDepositions()}
                 >
                   All annotations
                 </CustomDropdownOption>
-                {currentNeuroglancerState()
-                  .layers?.filter((layer: any) => layer.type === 'annotation')
-                  .map((annotation: any) => (
+                {Object.keys(depositionConfigs).map((depositionId, i) => {
+                  const layersOfInterest = depositionConfigs[depositionId].map(
+                    (c: any) => c.name,
+                  )
+                  return (
                     <CustomDropdownOption
-                      key={annotation.name}
-                      selected={
-                        !boolValue(
-                          annotation.archived,
-                          /* defaultValue =*/ false,
-                        )
-                      }
-                      onSelect={() => toggleLayer(annotation.name)}
+                      key={depositionId.toString()}
+                      selected={isDepositionActivated(layersOfInterest)}
+                      onSelect={() => {
+                        toggleDepositions(layersOfInterest)
+                      }}
                     >
-                      <span>{annotation?.name}</span>
+                      <span>Deposition #{i + 1}</span>
                       <span className="text-xs text-[#767676] font-normal">
-                        #CZCDP-12795
+                        #CZCDP-{depositionId}
                       </span>
                     </CustomDropdownOption>
-                  ))}
+                  )
+                })}
               </CustomDropdownSection>
             </CustomDropdown>
             <CustomDropdown title="Layout" variant="outlined">
               <CustomDropdownSection title="Layout">
                 <CustomDropdownOption
-                  selected={isCurrentLayout('4panel')}
+                  selected={
+                    isCurrentLayout('4panel') || isCurrentLayout('4panel-alt')
+                  }
                   onSelect={() => setCurrentLayout('4panel')}
                 >
                   4 panel
@@ -328,17 +499,17 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                 </CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Toggle Panels">
-                <CustomDropdownOption selected={false} onSelect={togglePanels}>
-                  All panels
+                <CustomDropdownOption
+                  selected={currentState().savedPanelsStatus !== undefined}
+                  onSelect={togglePanels}
+                >
+                  Hide open panels
                 </CustomDropdownOption>
                 <CustomDropdownOption
                   selected={isTopBarVisible()}
-                  onSelect={() => {
-                    toggleTopBar()
-                    refresh()
-                  }}
+                  onSelect={toggleTopBar}
                 >
-                  Top layer bar
+                  Show top layer bar
                 </CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
@@ -371,9 +542,21 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                     <p className={helperText}>b</p>
                   </div>
                 </CustomDropdownOption>
+                <CustomDropdownOption
+                  selected={showSectionsEnabled()}
+                  onSelect={toggleShowSections}
+                >
+                  <div className="flex justify-between items-center">
+                    <p>Cross-sections</p>
+                    <p className={helperText}>s</p>
+                  </div>
+                </CustomDropdownOption>
               </CustomDropdownSection>
               <CustomDropdownSection title="Move">
-                <CustomDropdownOption selected={false} onSelect={snap}>
+                <CustomDropdownOption
+                  selected={false}
+                  onSelect={handleSnapActionClick}
+                >
                   <div className="flex justify-between items-center">
                     <p>Snap to nearest axis</p>
                     <p className={helperText}>z</p>
@@ -423,8 +606,8 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
           </div>
         </div>
       </nav>
-      <div className="iframe-container">
-        <NeuroglancerWrapper onStateChange={refresh} />
+      <div className="iframeContainer">
+        <NeuroglancerWrapper onStateChange={handleOnStateChange} ref={iframeRef} />
       </div>
       {run && (
         <Tour
@@ -439,8 +622,14 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
       <Snackbar
         open={shareClicked}
         intent="positive"
-        title="Share link copied to clipboard"
-        className="max-h-8 !max-w-[265px]"
+        message="Share link copied to clipboard"
+        handleClose={() => setShareClicked(false)}
+      />
+      <Snackbar
+        open={snapActionClicked}
+        intent="positive"
+        message="Snapped to the nearest axis"
+        handleClose={() => setSnapActionClicked(false)}
       />
     </div>
   )
