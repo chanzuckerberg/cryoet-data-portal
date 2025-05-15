@@ -1,7 +1,6 @@
+import React, { ReactNode, ComponentProps, useRef } from 'react'
+import { MenuDropdown, MenuDropdownRef } from 'app/components/MenuDropdown'
 import { Icon, MenuItem } from '@czi-sds/components'
-import { ComponentProps, ReactNode } from 'react'
-
-import { MenuDropdown } from 'app/components/MenuDropdown'
 import { MenuItemHeader } from 'app/components/MenuItemHeader'
 import { cns } from 'app/utils/cns'
 
@@ -71,15 +70,41 @@ export function CustomDropdown({
   buttonElement,
   children,
 }: CustomDropdownProps) {
+  const dropdownRef = useRef<MenuDropdownRef>(null)
+
+  const wrapChildrenWithCloseHandler = (children: ReactNode): ReactNode => {
+    return React.Children.map(children, (child) => {
+      if (!React.isValidElement(child)) return child
+
+      if (child.type === 'button' && child.props.onClick) {
+        return React.cloneElement(child, {
+          onClick: (e: React.MouseEvent) => {
+            child.props.onClick(e)
+            dropdownRef.current?.closeMenu()
+          },
+        })
+      }
+
+      if (child.props.children) {
+        return React.cloneElement(child, {
+          children: wrapChildrenWithCloseHandler(child.props.children),
+        })
+      }
+
+      return child
+    })
+  }
+
   return (
     <MenuDropdown
+      ref={dropdownRef}
       className={className}
       title={title}
       variant={variant}
       buttonElement={buttonElement}
       paperClassName="!min-w-[250px]"
     >
-      {children}
+      {wrapChildrenWithCloseHandler(children)}
     </MenuDropdown>
   )
 }

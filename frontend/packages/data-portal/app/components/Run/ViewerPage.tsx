@@ -1,5 +1,7 @@
 import './ViewerPage.css'
 
+import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
+import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { Button } from '@czi-sds/components'
 import {
   currentNeuroglancer,
@@ -12,7 +14,6 @@ import {
 } from 'neuroglancer'
 import { useEffect, useRef, useState } from 'react'
 
-import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
 import { useI18n } from 'app/hooks/useI18n'
@@ -26,16 +27,13 @@ import {
 import Snackbar from '../common/Snackbar'
 import {
   ABOUT_LINKS,
-  NEUROGLANCER_HELP_LINKS,
   REPORT_LINKS,
+  NEUROGLANCER_DOC_LINK,
 } from '../Layout/constants'
-import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
+import { ACTIONS } from 'react-joyride'
+import Tour from './Tour'
+import { getTutorialSteps } from './steps'
 
-// Button action for toggling layers visibility
-// const isAnnotation = (layer: any) =>
-//   layer.type === 'annotation' || layer.type === 'segmentation'
-// const toggleVisibility = (layer: any) =>
-//   !(layer.visible === undefined || layer.visible)
 
 const boolValue = (
   value: boolean | undefined,
@@ -52,35 +50,6 @@ const panelsDefaultValues = {
   selection: true,
 }
 type PanelName = keyof typeof panelsDefaultValues
-
-// const toggleAnnotations = () => {
-//   updateState((state) => {
-//     if (!state.neuroglancer.layers) {
-//       return state
-//     }
-//     for (const layer of state.neuroglancer.layers) {
-//       if (isAnnotation(layer)) {
-//         layer.visible = toggleVisibility(layer)
-//       }
-//     }
-//     return state
-//   })
-// }
-
-// const toggleLayer = (name: string) => {
-//   updateState((state) => {
-//     if (!state.neuroglancer.layers) {
-//       return state
-//     }
-//     const layer = state.neuroglancer.layers.find((l: any) => l.name === name)
-//     if (layer) {
-//       const archived = boolValue(layer.archived, /* defaultValue =*/ false)
-//       layer.archived = !archived
-//       layer.visible = archived
-//     }
-//     return state
-//   })
-// }
 
 const toggleBoundingBox = () => {
   const viewer = currentNeuroglancer()
@@ -272,9 +241,11 @@ const isAllLayerActive = () => {
   )
 }
 
-function ViewerPage({ run }: { run: any }) {
+function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
   const { t } = useI18n()
   const [renderVersion, setRenderVersion] = useState(0)
+  const [tourRunning, setTourRunning] = useState(false)
+  const [stepIndex, setStepIndex] = useState<number>(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
   const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
   const iframeRef = useRef<HTMLIFrameElement>()
@@ -283,6 +254,37 @@ function ViewerPage({ run }: { run: any }) {
 
   const scheduleRefresh = () => {
     setRenderVersion(renderVersion + 1)
+  }
+
+  const handleTourStartInNewTab = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault()
+    localStorage.setItem('startTutorial', 'true')
+    const { protocol, host, pathname, search } = window.location
+    const urlWithoutHash = `${protocol}//${host}${pathname}${search}#!${encodeURIComponent(tomogram.neuroglancerConfig)}`
+    // window.open(window.location.href, '_blank')
+    window.open(urlWithoutHash, '_blank')
+  }
+
+  const handleTourClose = () => {
+    setTourRunning(false)
+    setTimeout(() => {
+      setStepIndex(0)
+    }, 300)
+  }
+
+  const handleTourStepMove = (
+    index: number,
+    action: (typeof ACTIONS)[keyof typeof ACTIONS],
+  ) => {
+    setStepIndex(index + (action === ACTIONS.PREV ? -1 : 1))
+  }
+
+  const handleRestart = () => {
+    setTourRunning(false)
+    setTimeout(() => {
+      setStepIndex(0)
+      setTourRunning(true)
+    }, 300)
   }
 
   const handleOnStateChange = (state: ResolvedSuperState) => {
@@ -308,6 +310,14 @@ function ViewerPage({ run }: { run: any }) {
   }
 
   useEffect(() => {
+    const shouldStartTutorial = localStorage.getItem('startTutorial') === 'true'
+
+    if (shouldStartTutorial) {
+      setTourRunning(true)
+
+      localStorage.removeItem('startTutorial')
+    }    
+
     const keyDownHandler = (event: KeyboardEvent) => {
       const iframe = iframeRef.current
       const iframeWindow = iframe?.contentWindow
@@ -546,11 +556,16 @@ function ViewerPage({ run }: { run: any }) {
                 ))}
               </CustomDropdownSection>
               <CustomDropdownSection title="Neuroglancer help">
-                {NEUROGLANCER_HELP_LINKS.map((option) => (
-                  <MenuItemLink key={option.label} to={option.link}>
-                    {t(option.label)}
-                  </MenuItemLink>
-                ))}
+                <MenuItemLink to={NEUROGLANCER_DOC_LINK}>
+                  {t('goToNeuroglancerDocumentation')}
+                </MenuItemLink>
+                <button
+                  type="button"
+                  className="py-1.5 px-2"
+                  onClick={handleTourStartInNewTab}
+                >
+                  {t('neuroglancerWalkthrough')}
+                </button>
               </CustomDropdownSection>
             </CustomDropdown>
           </div>
@@ -559,6 +574,16 @@ function ViewerPage({ run }: { run: any }) {
       <div className="iframeContainer">
         <NeuroglancerWrapper onStateChange={handleOnStateChange} ref={iframeRef} />
       </div>
+      {run && (
+        <Tour
+          run={tourRunning}
+          stepIndex={stepIndex}
+          steps={getTutorialSteps()}
+          onRestart={handleRestart}
+          onClose={handleTourClose}
+          onMove={handleTourStepMove}
+        />
+      )}
       <Snackbar
         open={shareClicked}
         intent="positive"
