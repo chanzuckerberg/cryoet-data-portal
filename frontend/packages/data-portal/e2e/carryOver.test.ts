@@ -32,10 +32,8 @@ const TEST_PARAM = QueryParams.ObjectName
 const TEST_VALUE = E2E_CONFIG.objectName
 
 test.describe('Carry over filters', () => {
-  test('should carry over datasets filter into single dataset page', async ({
-    page,
-  }) => {
-    await page.goto(BROWSE_DATASETS_URL)
+  test('should carry over datasets filter into single dataset page', async () => {
+    await filtersPage.goTo(BROWSE_DATASETS_URL)
     await filtersActor.addSingleSelectFilter({
       label: translations.objectName,
       value: TEST_VALUE,
@@ -44,10 +42,8 @@ test.describe('Carry over filters', () => {
     await tableActor.openFirstResult(TEST_PARAM, TEST_VALUE)
   })
 
-  test('should carry over single dataset filter into single run page', async ({
-    page,
-  }) => {
-    await page.goto(SINGLE_DATASET_URL)
+  test('should carry over single dataset filter into single run page', async () => {
+    await filtersPage.goTo(SINGLE_DATASET_URL)
     await filtersActor.addSingleSelectFilter({
       label: translations.objectName,
       value: TEST_VALUE,
@@ -55,10 +51,8 @@ test.describe('Carry over filters', () => {
 
     await tableActor.openFirstResult(TEST_PARAM, TEST_VALUE)
   })
-  test('should have filter in browse dataset breadcrumb url', async ({
-    page,
-  }) => {
-    await page.goto(BROWSE_DATASETS_URL)
+  test('should have filter in browse dataset breadcrumb url', async () => {
+    await filtersPage.goTo(BROWSE_DATASETS_URL)
     await filtersActor.addSingleSelectFilter({
       label: translations.objectName,
       value: TEST_VALUE,
@@ -79,10 +73,8 @@ test.describe('Carry over filters', () => {
     await tableActor.openFirstResult(TEST_PARAM, TEST_VALUE)
   })
 
-  test('should have filter in single dataset breadcrumb url', async ({
-    page,
-  }) => {
-    await page.goto(SINGLE_DATASET_URL)
+  test('should have filter in single dataset breadcrumb url', async () => {
+    await filtersPage.goTo(SINGLE_DATASET_URL)
     await filtersActor.addSingleSelectFilter({
       label: translations.objectName,
       value: TEST_VALUE,
