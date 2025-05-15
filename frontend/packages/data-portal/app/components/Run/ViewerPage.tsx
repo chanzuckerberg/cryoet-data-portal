@@ -7,6 +7,7 @@ import {
   currentNeuroglancer,
   currentNeuroglancerState,
   currentState,
+  encodeState,
   NeuroglancerLayout,
   NeuroglancerWrapper,
   ResolvedSuperState,
@@ -34,6 +35,7 @@ import { ACTIONS } from 'react-joyride'
 import Tour from './Tour'
 import { getTutorialSteps } from './steps'
 
+const WALKTHROUGH_PANEL_SIZE = 400
 
 const boolValue = (
   value: boolean | undefined,
@@ -256,12 +258,21 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     setRenderVersion(renderVersion + 1)
   }
 
+  const adjustPanelSize = (stringState: string) => {
+    const state = JSON.parse(stringState)
+    if (state.layerListPanel) {
+      state.layerListPanel.size = WALKTHROUGH_PANEL_SIZE
+      state.selectedLayer.size = WALKTHROUGH_PANEL_SIZE
+    }
+    return encodeState(state, /* compress = */ false)
+  }
+
   const handleTourStartInNewTab = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()
     localStorage.setItem('startTutorial', 'true')
     const { protocol, host, pathname, search } = window.location
-    const urlWithoutHash = `${protocol}//${host}${pathname}${search}#!${encodeURIComponent(tomogram.neuroglancerConfig)}`
-    // window.open(window.location.href, '_blank')
+    const newEncodedState = adjustPanelSize(tomogram.neuroglancerConfig)
+    const urlWithoutHash = `${protocol}//${host}${pathname}${search}${newEncodedState}`
     window.open(urlWithoutHash, '_blank')
   }
 
@@ -316,7 +327,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
       setTourRunning(true)
 
       localStorage.removeItem('startTutorial')
-    }    
+    }
 
     const keyDownHandler = (event: KeyboardEvent) => {
       const iframe = iframeRef.current
@@ -572,7 +583,10 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
         </div>
       </nav>
       <div className="iframeContainer">
-        <NeuroglancerWrapper onStateChange={handleOnStateChange} ref={iframeRef} />
+        <NeuroglancerWrapper
+          onStateChange={handleOnStateChange}
+          ref={iframeRef}
+        />
       </div>
       {run && (
         <Tour
