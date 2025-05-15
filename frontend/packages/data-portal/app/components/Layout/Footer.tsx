@@ -1,10 +1,10 @@
+import { useLocation } from '@remix-run/react'
 import { Fragment } from 'react'
 
 import { CZIIcon, ImageInstituteIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { i18n } from 'app/i18n'
 import { cns } from 'app/utils/cns'
-import { useLocation } from '@remix-run/react'
 
 import { CryoETHomeLink } from './CryoETHomeLink'
 

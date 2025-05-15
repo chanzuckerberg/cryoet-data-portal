@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
 import { lazy, Suspense } from 'react'
-import { json, type LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { apolloClientV2 } from 'app/apollo.server'
+import { type LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { typedjson } from 'remix-typedjson'
+
 import { QueryParams } from 'app/constants/query'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useRunById } from 'app/hooks/useRunById'
+import { apolloClientV2 } from 'app/apollo.server'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
@@ -38,7 +40,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     })
   }
 
-  return json({
+  return typedjson({
     v2: responseV2,
   })
 }
@@ -50,7 +52,7 @@ export default function RunByIdViewerPage() {
   const tomogram = tomograms.find((t) => t.neuroglancerConfig)
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ViewerPage run={run} tomogram={tomogram} />
+      <ViewerPage run={run} tomogram={tomogram}/>
     </Suspense>
   )
 }

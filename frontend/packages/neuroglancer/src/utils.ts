@@ -22,10 +22,13 @@ const emptySuperState = (config: string): SuperState => {
 }
 
 export const updateState = (
-  onStateChange: (state: ResolvedSuperState) => ResolvedSuperState,
+  onStateChange: (state: ResolvedSuperState) => ResolvedSuperState | undefined,
 ) => {
   const state = currentState()
   const newState = onStateChange(state)
+  if (newState === undefined) {
+    return
+  }
   commitState(newState)
 }
 
@@ -166,7 +169,7 @@ export function decompressHash(hash: string): string {
 }
 
 export function currentNeuroglancer(
-  neuroglancerIframeID = 'neuroglancer-iframe',
+  neuroglancerIframeID = 'neuroglancerIframe',
 ) {
   return (document.getElementById(neuroglancerIframeID) as any)?.contentWindow
     ?.viewer

@@ -54,7 +54,7 @@ const getIframeElement = (selector: string): HTMLElement | string => {
 
 export const getTutorialSteps: () => Step[] = () => [
   {
-    target: '.neuroglancer-iframe',
+    target: '.neuroglancerIframe',
     placement: 'center',
     disableBeacon: true,
     title: 'Exploring CryoET Data in Neuroglancer',
@@ -218,7 +218,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: '.neuroglancer-iframe',
+    target: '.neuroglancerIframe',
     placement: 'center',
     title: 'Congratulations!',
     content: (

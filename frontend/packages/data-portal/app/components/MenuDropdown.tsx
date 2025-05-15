@@ -21,10 +21,11 @@ export const MenuDropdown = forwardRef<
     className?: string
     title: ReactNode
     buttonElement?: ReactNode
+    paperClassName?: string
   }
->(
+>( 
   (
-    { children, className, title, variant = 'standard', buttonElement },
+    { children, className, title, variant = 'standard', buttonElement, paperClassName},
     ref,
   ) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
@@ -107,6 +108,11 @@ export const MenuDropdown = forwardRef<
           open={!!anchorEl}
           onClose={() => setAnchorEl(null)}
           className="mt-2"
+          slotProps={{
+            paper: {
+              className: paperClassName,
+            },
+          }}
         >
           {children}
         </Menu>
