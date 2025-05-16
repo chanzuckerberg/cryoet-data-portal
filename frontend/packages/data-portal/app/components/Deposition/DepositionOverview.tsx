@@ -8,11 +8,13 @@ import { Tags } from 'app/constants/tags'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { cnsNoMerge } from 'app/utils/cns'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { MethodLinksOverview } from './MethodLinks'
+import { MethodSummary } from './MethodSummary'
 
 // use clsx here instead of cns since it erroneously merges text-light-sds-color-primitive-gray-500 and text-sds-caps-xxxs-600-wide
-const sectionHeaderStyles = cnsNoMerge(
+const SECTION_HEADER_STYLES = cnsNoMerge(
   'font-semibold uppercase',
   'text-light-sds-color-primitive-gray-900 ',
   'text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs tracking-sds-caps-xxxs-600-wide',
@@ -23,6 +25,8 @@ export function DepositionOverview() {
   const { deposition } = useDepositionById()
 
   const { t } = useI18n()
+
+  const isExpandDepositions = useFeatureFlag('expandDepositions')
 
   return (
     <div className="flex flex-col gap-sds-xl">
@@ -51,7 +55,7 @@ export function DepositionOverview() {
         <div
           className={cnsNoMerge(
             'flex flex-row gap-sds-xxs',
-            sectionHeaderStyles,
+            SECTION_HEADER_STYLES,
           )}
         >
           <h3>{t('authors')}</h3>
@@ -65,7 +69,7 @@ export function DepositionOverview() {
       </div>
       <div className="flex flex-row gap-sds-xxl">
         <div className="flex-1 max-w-[260px]">
-          <h3 className={sectionHeaderStyles}>{t('depositionData')}</h3>
+          <h3 className={SECTION_HEADER_STYLES}>{t('depositionData')}</h3>
           <p className="flex flex-row gap-sds-xs">
             <span className="font-semibold text-light-sds-color-primitive-gray-900 ">
               {t('annotations')}:
@@ -80,7 +84,7 @@ export function DepositionOverview() {
         </div>
 
         <div className="flex-1 max-w-[260px]">
-          <h3 className={sectionHeaderStyles}>{t('publications')}</h3>
+          <h3 className={SECTION_HEADER_STYLES}>{t('publications')}</h3>
           <DatabaseList
             entries={deposition.depositionPublications
               ?.split(',')
@@ -93,7 +97,7 @@ export function DepositionOverview() {
         </div>
 
         <div className="flex-1 max-w-[260px]">
-          <h3 className={sectionHeaderStyles}>{t('relatedDatabases')}</h3>
+          <h3 className={SECTION_HEADER_STYLES}>{t('relatedDatabases')}</h3>
           <DatabaseList
             entries={deposition.relatedDatabaseEntries
               ?.split(',')
@@ -102,7 +106,8 @@ export function DepositionOverview() {
           />
         </div>
       </div>
-      <MethodLinksOverview />
+
+      {isExpandDepositions ? <MethodSummary /> : <MethodLinksOverview />}
     </div>
   )
 }
