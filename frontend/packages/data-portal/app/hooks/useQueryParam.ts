@@ -18,17 +18,29 @@ function defaultDeserialize<T>(value: string | null) {
 }
 
 interface SerializationOptions<T> {
+  defaultValue?: T
   deserialize?: (value: string | null) => T | null
   serialize?: (value: unknown) => string
 }
 
-export function useQueryParam<T>(
+type UseQueryParamsResult<
+  T,
+  DefaultValue extends T | undefined,
+> = DefaultValue extends undefined
+  ? [T | null, QueryParamStateSetter<T>]
+  : [T, QueryParamStateSetter<T>]
+
+export function useQueryParam<
+  T,
+  DefaultValue extends T | undefined = undefined,
+>(
   queryParam: QueryParams,
   {
-    serialize = defaultSerialize,
+    defaultValue,
     deserialize = defaultDeserialize,
+    serialize = defaultSerialize,
   }: SerializationOptions<T> = {},
-): [T | null, QueryParamStateSetter<T>] {
+): UseQueryParamsResult<T, DefaultValue> {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const value = useMemo(
@@ -61,7 +73,10 @@ export function useQueryParam<T>(
     [queryParam, serialize, setSearchParams],
   )
 
-  return [value, setValue]
+  return [value ?? defaultValue, setValue] as UseQueryParamsResult<
+    T,
+    DefaultValue
+  >
 }
 
 export const stringParam = <T extends string = string>() => '' as T
