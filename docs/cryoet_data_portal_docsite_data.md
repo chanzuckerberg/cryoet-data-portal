@@ -111,8 +111,6 @@ A tomography run is a collection of all data and annotations related to one phys
 
 An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run. These metadata are defined in the tables below including their mapping to attributes in the Portal API:
 
-(Dataset, Sample and Experiment Conditions?)
-
 **Tilt Series**
 | **Portal Metadata**                       | **API Expression**                        | **Definition**                                                                                                 |
 |-------------------------------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------------|
@@ -131,7 +129,7 @@ An overview of all runs in a dataset is presented in the Dataset Overview page. 
 | Pixel Spacing                             | TiltSeries.pixel_spacing                  | Pixel spacing for the tilt series.                                                                            |
 | Tilt Axis                                 | TiltSeries.tilt_axis                      | Rotation angle in degrees.                                                                                    |
 | Tilt Range                                | TiltSeries.tilt_range                     | Total tilt range in degrees.                                                                                  |
-| Tile Step                                 | TiltSeries.tilt_step                       | Tilt step in degrees.                                                                                         |
+| Tilt Step                                 | TiltSeries.tilt_step                       | Tilt step in degrees.                                                                                         |
 | Tilting Scheme                            | TiltSeries.tilting_scheme                 | The order of stage tilting during acquisition of the data.                                                    |
 | Total Flux                                | TiltSeries.total_flux                     | Number of electrons reaching the specimen in a square Angstrom area for the entire tilt series.                |
 | Binning from Frames                       | TiltSeries.binning_from_frames            | Describes the binning factor from frames to tilt series file.                                                 |
@@ -139,12 +137,12 @@ An overview of all runs in a dataset is presented in the Dataset Overview page. 
 | Related EMPIAR Entry                      | TiltSeries.related_empiar_entry           | EMPIAR dataset identifier If a tilt series is deposited into EMPIAR.                                           |
 
 **Tomograms Summary**
-| **Portal Metadata**                     | **API Expression**                                                                      | **Definition**                                                                                     |
-|-----------------------------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
-| Total Tomograms                         | No API field                                                                            | Number of tomograms in this run.                                                                 |
-| Samplings Available                     | |
-| Tomogram Processing | |
-| Annotated Objects   | |
+| **Portal Metadata**       | **API Expression**     | **Definition**                    |
+|---------------------------|------ -----------------|-----------------------------------|
+| Total Tomograms           | len(Run.tomograms)     | Number of tomograms in this run.  |
+| Samplings Available       |                        |                                   |
+| Tomogram Processing       |                        |                                   |
+| Annotated Objects         |                        |                                   |
 
 ### Run Overview Page
 
@@ -224,25 +222,25 @@ Each tomogram has its own metadata, which can be viewed using the info icon on t
 **Tomogram Overview**
 | **Portal Metadata**       | **API Expression**                  | **Definition**                                                                                 |
 |---------------------------|-------------------------------------|------------------------------------------------------------------------------------------------|
-| Authors             | Tomogram.authors                       | The tomogram authors of this tomogram.                                                     |
-| Publications               | Tomogram.publications   | Comma-separated list of DOIs for publications associated with the tomogram.                                               |
-| Related Databases               | Tomogram.related_database_entries              | If a CryoET tomogram is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.                |
-| Deposition Name         | Tomogram.deposition        | The name of the deposition this tomogram is a part of. |
-| Deposition ID       | Tomogram.deposition_id      | The ID of the deposition this tomogram is a part of.                                                  |
-| Deposition Date           | Tomogram.deposition_date          | Date when a tomogram is initially received by the Data Portal.                           |
-| Release Date              | Tomogram.release_date             | Date when a tomogram is made public by the Data Portal.                                    |
-| Last Modified Date        | Tomogram.last_modified_date       | Date when a tomogram was last modified in the Data Portal.                                   |
+| Authors                   | Tomogram.authors                   | The tomogram authors of this tomogram.                                                          |
+| Publications              | Tomogram.publications              | Comma-separated list of DOIs for publications associated with the tomogram.                     |
+| Related Databases         | Tomogram.related_database_entries  | If a CryoET tomogram is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers. |
+| Deposition Name           | Tomogram.deposition                | The name of the deposition this tomogram is a part of.                                          |
+| Deposition ID             | Tomogram.deposition_id             | The ID of the deposition this tomogram is a part of.                                            |
+| Deposition Date           | Tomogram.deposition_date           | Date when a tomogram is initially received by the Data Portal.                                  |
+| Release Date              | Tomogram.release_date              | Date when a tomogram is made public by the Data Portal.                                         |
+| Last Modified Date        | Tomogram.last_modified_date        | Date when a tomogram was last modified in the Data Portal.                                      |
 
 **Reconstruction and Processing**
-| **Portal Metadata**              | **API Expression**                  | **Definition** |
-|-----------------------------|----------------------------------|------------|
+| **Portal Metadata**         | **API Expression**                  | **Definition** |
+|-----------------------------|-------------------------------------|------------|
 | Portal Standard Status      | Tomogram.is_portal_standard  | Whether this tomogram adheres to portal standards. |
 | Submitted by Dataset Author | Tomogram.is_author_submitted  | Whether this tomogram was submitted by the author of the dataset it belongs to.|
 | Reconstruction Software     | Tomogram.reconstruction_software | Name of software used for reconstruction |
 | Reconstruction Method       | Tomogram.reconstruction_method  | Describe reconstruction method (WBP, SART, SIRT).|
 | Processing Software         | Tomogram.processing_software  | Processing software used to derive the tomogram. |
 | Processing                  | Tomogram.processing  | Describe additional processing used to derive the tomogram|
-| Voxel Spacing               | Tomogram.voxel_spacing |Voxel spacing equal in all three axes in angstroms|
+| Voxel Spacing               | Tomogram.voxel_spacing | Voxel spacing equal in all three axes in angstroms|
 | Size (x,y,z)                | `(Tomogram.size_x, Tomogram.size_y, Tomogram.size_z)` or `Tomogram.scale0_dimensions`| Comma separated x,y,z dimensions of the unscaled tomogram in pixels.|
 | Fiducial Alignment Status   | Tomogram.fiducial_alignment_status | Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial.|
 | Ctf Corrected               | Tomogram.ctf_corrected | Whether this tomogram is CTF corrected |
@@ -297,8 +295,8 @@ Each annotation has its own metadata, which can be viewed using the info icon on
 |---------------------------|------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | Object Name               | Annotation.object_name             | Name of the object being annotated, e.g., ribosome, nuclear pore complex, actin filament, membrane.          |
 | Object ID                 | Annotation.object_id               | Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object.                |
-| Object Count              | Annotation.object_count            | Number of objects identified.                                                                                 |
-| Object Shape Type         | AnnotationShape.shape_type          | Description of whether this is a Point, OrientedPoint, or SegmentationMask file.                              |
+| Object Count              | Annotation.object_count            | Number of objects identified.                                                                                |
+| Object Shape Type         | AnnotationShape.shape_type         | Description of whether this is a Point, OrientedPoint, or SegmentationMask file.                             |
 | Object State              | Annotation.object_state            | Additional information about the annotated object not captured by the gene ontology (e.g., open or closed state for molecules). |
 | Object Description        | Annotation.object_description      | Description of the annotated object, including additional information not covered by the Annotation object name and state. |
 
