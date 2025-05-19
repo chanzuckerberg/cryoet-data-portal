@@ -34,6 +34,7 @@ import {
 import { ACTIONS } from 'react-joyride'
 import Tour from './Tour'
 import { getTutorialSteps } from './steps'
+import CustomBanner from '../common/CustomBanner'
 
 const WALKTHROUGH_PANEL_SIZE = 400
 
@@ -388,6 +389,10 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     </p>
   )
 
+  const bannerMessage = (<span>
+    New to Neuroglancer? Learn the essentials in this <button className='text-[#1A6CEF]' onClick={handleTourStartInNewTab}>guided tour</button>.
+  </span>)
+
   return (
     <div className="flex flex-col overflow-hidden h-full relative">
       <nav
@@ -610,6 +615,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
         message="Snapped to the nearest axis"
         handleClose={() => setSnapActionClicked(false)}
       />
+      <CustomBanner message={bannerMessage} />
     </div>
   )
 }
