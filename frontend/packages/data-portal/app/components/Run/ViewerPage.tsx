@@ -402,7 +402,6 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
           <Breadcrumbs
             variant="neuroglancer"
             data={run.dataset}
-            type="light"
             activeBreadcrumbText={activeBreadcrumbText}
           />
         </div>

@@ -55,12 +55,10 @@ function Breadcrumb({
 
 export function Breadcrumbs({
   variant,
-  type = 'dark',
   data,
   activeBreadcrumbText,
 }: {
   variant: 'dataset' | 'deposition' | 'run' | 'neuroglancer'
-  type?: 'dark' | 'light'
   data: { id: number; title: string }
   activeBreadcrumbText?: ReactNode
 }) {
@@ -105,15 +103,8 @@ export function Breadcrumbs({
       ? undefined
       : `/depositions/${previousDepositionId}?${previousSingleDepositionParams}`
 
-  const typeStyles = {
-    light: 'text-[#999] fill-[#999]',
-    dark: 'text-sds-color-primitive-common-black fill-black',
-  }
-
   const chevronIcon = (
-    <SmallChevronRightIcon
-      className={cns(typeStyles[type], 'w-[8px] h-[8px] shrink-0')}
-    />
+    <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0" />
   )
 
   const plausible = usePlausible()
@@ -177,10 +168,52 @@ export function Breadcrumbs({
     )
   }
 
+  const buildNeuroglancerBreadcrumb = () => {
+    const neuroglancerChevronIcon = (
+      <SmallChevronRightIcon
+        className='w-[8px] h-[8px] shrink-0 text-[#999] fill-[#999]'
+      />
+    )
+    return (
+      <div className="flex flex-row gap-sds-s text-[#999] fill-[#999] text-[13px] font-normal leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
+        <Breadcrumb
+          text={<></>}
+          link={browseAllLink}
+          className='shrink-0'
+          type={BreadcrumbType.AllDatasets}
+          />
+        
+        <Tooltip
+          tooltip={data.title || t('dataset')}
+          className="overflow-hidden overlfow-ellipsis"
+        >
+          <Breadcrumb
+          text={data.title || t('dataset')}
+          link={singleDatasetLink}
+          className='overflow-ellipsis overflow-hidden flex-initial'
+          type={BreadcrumbType.SingleDataset}
+          datasetId={data.id}
+          />
+        </Tooltip>
+
+        {activeBreadcrumbText && (
+          <>
+            {neuroglancerChevronIcon}
+            <Breadcrumb
+              text={activeBreadcrumbText}
+              className={'text-[#999] fill-[#999] shrink-0 !font-normal'}
+              />
+          </>)
+    }
+    </div>
+    )
+  }
+
   const breadCrumbVariations = {
     dataset: buildDatasetBreadcrumb,
     deposition: buildDepositionBreadcrumb,
     run: buildRunBreadcrumb,
+    neuroglancer: buildNeuroglancerBreadcrumb,
   }
 
   return (
