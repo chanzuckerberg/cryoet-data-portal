@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Create Stack
         id: upsert
-        uses: chanzuckerberg/argus-artifacts/ci/packages/create-stack@v0.54.3
+        uses: chanzuckerberg/argus-artifacts/ci/packages/create-stack@v0
         with:
           appName: cryoet-frontend
           envName: rdev

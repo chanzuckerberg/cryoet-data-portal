@@ -118,6 +118,71 @@ export function Breadcrumbs({
 
   const plausible = usePlausible()
 
+  const buildDepositionBreadcrumb = () => {
+    return (
+      <div className="flex flex-row gap-sds-s text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
+        <Breadcrumb
+          text={t('allDepositions')}
+          link={browseAllLink}
+          className="shrink-0"
+          type={BreadcrumbType.AllDepositions}
+        />
+        {chevronIcon}
+        <Breadcrumb text={t('deposition')} />
+      </div>
+    )
+  }
+
+  const buildRunBreadcrumb = () => {
+    return (
+      <div className="flex flex-row gap-sds-s text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
+        <Breadcrumb
+          text={t('allDatasets')}
+          link={browseAllLink}
+          className="shrink-0"
+          type={BreadcrumbType.AllDatasets}
+        />
+        {chevronIcon}
+        <Breadcrumb
+          text={`${t('dataset')}: ${data.title}`}
+          link={singleDatasetLink}
+          className="overflow-ellipsis overflow-hidden flex-initial"
+          type={BreadcrumbType.SingleDataset}
+          datasetId={data.id}
+        />
+        {chevronIcon}
+        <Breadcrumb text={t('run')} className="shrink-0" />
+      </div>
+    )
+  }
+
+  const buildDatasetBreadcrumb = () => {
+    return (
+      <div className="flex flex-row gap-sds-s text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
+        <Breadcrumb
+          text={t('allDatasets')}
+          link={browseAllLink}
+          className="shrink-0"
+          type={BreadcrumbType.AllDatasets}
+        />
+        {chevronIcon}
+        <Breadcrumb
+          text={`${t('dataset')}`}
+          link={singleDatasetLink}
+          className="overflow-ellipsis overflow-hidden flex-initial"
+          type={BreadcrumbType.SingleDataset}
+          datasetId={data.id}
+        />
+      </div>
+    )
+  }
+
+  const breadCrumbVariations = {
+    dataset: buildDatasetBreadcrumb,
+    deposition: buildDepositionBreadcrumb,
+    run: buildRunBreadcrumb,
+  }
+
   return (
     <div
       className={cns(
@@ -143,86 +208,7 @@ export function Breadcrumbs({
           {t('returnToDeposition')}
         </Link>
       )}
-
-      <div
-        className={cns(
-          'flex',
-          'flex-row gap-sds-s',
-          typeStyles[type],
-          variant === 'neuroglancer' ? 'text-[13px] font-normal' : '',
-          'text-sds-body-s-400-wide',
-          'leading-sds-body-s',
-          'text-light-sds-color-primitive-gray-900',
-          'items-center whitespace-nowrap',
-          'content-start',
-        )}
-      >
-        <Breadcrumb
-          text={
-            variant !== 'neuroglancer' &&
-            t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')
-          }
-          link={browseAllLink}
-          className="shrink-0"
-          type={
-            variant === 'deposition'
-              ? BreadcrumbType.AllDepositions
-              : BreadcrumbType.AllDatasets
-          }
-        />
-
-        {variant !== 'neuroglancer' && <>{chevronIcon}</>}
-
-        {variant === 'deposition' ? (
-          <Breadcrumb text={t('deposition')} />
-        ) : (
-          variant !== 'neuroglancer' && (
-            <Breadcrumb
-              text={
-                variant === 'dataset'
-                  ? `${t('dataset')}`
-                  : `${t('dataset')}: ${data.title}`
-              }
-              link={singleDatasetLink}
-              className="overflow-ellipsis overflow-hidden flex-initial"
-              type={BreadcrumbType.SingleDataset}
-              datasetId={data.id}
-            />
-          )
-        )}
-
-        {variant === 'neuroglancer' && (
-          <Tooltip
-            tooltip={data.title || t('dataset')}
-            className="overflow-hidden overflow-ellipsis"
-          >
-            <Breadcrumb
-              text={data.title || t('dataset')}
-              link={singleDatasetLink}
-              className="overflow-ellipsis overflow-hidden flex-initial"
-              type={BreadcrumbType.SingleDataset}
-              datasetId={data.id}
-            />
-          </Tooltip>
-        )}
-
-        {variant === 'run' && (
-          <>
-            {chevronIcon}
-            <Breadcrumb text={t('run')} className="shrink-0" />
-          </>
-        )}
-
-        {activeBreadcrumbText && variant === 'neuroglancer' && (
-          <>
-            {chevronIcon}
-            <Breadcrumb
-              text={activeBreadcrumbText}
-              className={cns(typeStyles[type], 'shrink-0 !font-normal')}
-            />
-          </>
-        )}
-      </div>
+      {breadCrumbVariations[variant]()}
     </div>
   )
 }

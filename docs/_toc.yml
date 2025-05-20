@@ -18,6 +18,7 @@ subtrees:
       - file: cryoet_data_portal_docsite_napari.md
       - file: tutorial_sample_boundaries.md
       - file: neuroglancer_quickstart.md
+      - file: tutorial_aretomo3.md
   - file: about.md
     subtrees:
     - entries:

@@ -1,5 +1,4 @@
-// import { translations } from 'e2e/constants'
-// import { isString } from 'lodash-es'
+import { translations } from 'e2e/constants'
 
 // import {
 //   GetDatasetByIdQuery,
@@ -7,35 +6,37 @@
 //   GetDatasetsFilterDataQuery,
 //   GetRunByIdQuery,
 // } from 'app/__generated__/graphql'
-// import { AVAILABLE_FILES_VALUE_TO_I18N_MAP } from 'app/components/DatasetFilter/constants'
+import { AVAILABLE_FILES_VALUE_TO_I18N_MAP } from 'app/components/DatasetFilter/constants'
+
+import { QueryParamObjectType } from './types'
 
 // import { QueryParamObjectType, RowCounterType } from './types'
 
-// export function getExpectedUrlWithQueryParams({
-//   url,
-//   queryParamsList,
-//   serialize,
-// }: {
-//   url: string
-//   queryParamsList?: QueryParamObjectType[]
-//   serialize?: (value: string) => string
-// }): { expectedUrl: URL; params: URLSearchParams } {
-//   const expectedUrl = new URL(url)
-//   const params = expectedUrl.searchParams
-//   if (!queryParamsList) {
-//     return { expectedUrl, params }
-//   }
+export function getExpectedUrlWithQueryParams({
+  url,
+  queryParamsList,
+  serialize,
+}: {
+  url: string
+  queryParamsList?: QueryParamObjectType[]
+  serialize?: (value: string) => string
+}): { expectedUrl: URL; params: URLSearchParams } {
+  const expectedUrl = new URL(url)
+  const params = expectedUrl.searchParams
+  if (!queryParamsList) {
+    return { expectedUrl, params }
+  }
 
-//   queryParamsList.forEach(({ queryParamKey, queryParamValue }) => {
-//     if (queryParamKey) {
-//       params.append(
-//         queryParamKey,
-//         serialize ? serialize(queryParamValue) : queryParamValue,
-//       )
-//     }
-//   })
-//   return { expectedUrl, params: expectedUrl.searchParams }
-// }
+  queryParamsList.forEach(({ queryParamKey, queryParamValue }) => {
+    if (queryParamKey) {
+      params.append(
+        queryParamKey,
+        serialize ? serialize(queryParamValue) : queryParamValue,
+      )
+    }
+  })
+  return { expectedUrl, params: expectedUrl.searchParams }
+}
 
 // export function getExpectedFilterCount({
 //   browseDatasetsData,
@@ -123,14 +124,14 @@
 //   return rowCounter
 // }
 
-// export const serializeAvailableFiles = (value: string): string => {
-//   return (
-//     Object.entries(AVAILABLE_FILES_VALUE_TO_I18N_MAP).find(
-//       ([, i18nKey]) =>
-//         translations[i18nKey as keyof typeof translations] === value,
-//     )?.[0] ?? value
-//   )
-// }
+export const serializeAvailableFiles = (value: string): string => {
+  return (
+    Object.entries(AVAILABLE_FILES_VALUE_TO_I18N_MAP).find(
+      ([, i18nKey]) =>
+        translations[i18nKey as keyof typeof translations] === value,
+    )?.[0] ?? value
+  )
+}
 
 // export function getFilteredOrganismNamesFromData({
 //   datasetsFilterData,

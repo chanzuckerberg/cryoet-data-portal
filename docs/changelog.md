@@ -8,6 +8,42 @@ hide-navigation: true
 The v3 Python API was deprecated on Wednesday, February 26, 2025. Please update your Python API client to continue accessing the `cryoet-data-portal` package.
 :::
 
+## v4.X Python API
+
+2 classes (Frame and GainFile) were modified and 1 class (PerSectionParameter) was added to the API. The changes are detailed below:
+
+### Frame Class Modifications
+
+| Name             | Status  | Nullable | Data Type | Description                                                                                      |
+|------------------|---------|----------|-----------|--------------------------------------------------------------------------------------------------|
+| accumulatedDose  | New     | False    | float     | Dose (in e⁻/Å²) that was applied to the region of interest before this frame stack was acquired |
+| exposureDose     | New     | False    | float     | Dose (in e⁻/Å²) that was applied during acquisition of this frame stack                         |
+| dose             | Remove  | True     | float     | This is removed in favour of adding fields with more standardized naming.                       |
+| rawAngle         | Remove  | True     | float     | This is moved to the perSectionParameter.rawAngle                                               |
+
+
+### Summary of new class PerSectionParameter
+| Name           | Status | Data Type  | Is Nullable | Description                                                                                     |
+|----------------|--------|------------|-------------|-------------------------------------------------------------------------------------------------|
+| astigmaticAngle| New    | float      | True        | Angle (in degrees) from reciprocal space X axis to the major axis of defocus.                  |
+| frameId        | New    | int        | False       | ID of the frame this entry is associated with.                                                  |
+| frame          | New    | Frame      | False       | The frame this entry is associated with.                                                        |
+| id             | New    | int        | False       | ID for the per section parameter record                                                         |
+| majorDefocus   | New    | float      | True        | Defocus (major axis) estimated for this tilt image in Å (underfocus has positive sign).        |
+| minorDefocus   | New    | float      | True        | Defocus (minor axis) estimated for this tilt image in Å (underfocus has positive sign).        |
+| phaseShift     | New    | float      | True        |                                                                                                 |
+| maxResolution  | New    | float      | True        |                                                                                                 |
+| rawAngle       | New    | float      | False       | Nominal tilt angle for this tilt image reported by the microscope.                             |
+| runId          | New    | int        | False       | ID of the Run this entry is associated with.                                                    |
+| run            | New    | Run        | False       | The run this entry is associated with.                                                          |
+| tiltseriesId   | New    | int        | False       | ID of the tiltseries this entry is associated with.                                             |
+| tiltseries     | New    | Tiltseries | False       | The tiltseries this entry is associated with.                                                   |
+| zIndex         | New    | int        | False       | Index (0-based) of this tilt image in the tilt series stack.                                   |
+
+### Changes to the Client
+
+The python client’s data model was also updated to include new data models and update existing data models.
+
 ## v4 Python API
 
 8 new classes were added to the API:

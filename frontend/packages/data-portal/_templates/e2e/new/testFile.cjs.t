@@ -2,7 +2,7 @@
 to: e2e/<%= name %>.test.ts
 ---
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { test } from '@playwright/test'
+import { test } from '@chromatic-com/playwright'
 import { <%= h.changeCase.pascal(name) %>Page } from 'e2e/pageObjects/<%= name %>/<%= name %>Page'
 
 test.describe('<%= name %>', () => {

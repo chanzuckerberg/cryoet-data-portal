@@ -12,7 +12,7 @@ import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { AnnotationSoftwareFilter } from './AnnotationSoftwareFilter'
 import { MethodTypeFilter } from './MethodTypeFilter'
-import { ObjectIdFilter } from './ObjectIdFilter'
+import { ObjectIdFilter } from './ObjectIdFilter/ObjectIdFilter'
 
 export function AnnotationFilter() {
   const { t } = useI18n()

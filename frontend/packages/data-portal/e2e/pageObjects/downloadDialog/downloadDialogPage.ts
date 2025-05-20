@@ -1,4 +1,5 @@
-import { expect, Locator } from '@playwright/test'
+import { expect } from '@chromatic-com/playwright'
+import { Locator } from '@playwright/test'
 import { translations } from 'e2e/constants'
 import { BasePage } from 'e2e/pageObjects/basePage'
 
@@ -28,7 +29,10 @@ export class DownloadDialogPage extends BasePage {
 
   public async clickCopyButton(): Promise<void> {
     const dialog = this.getDialog()
-    await dialog.getByRole('button', { name: translations.copy }).click()
+    await dialog
+      .getByRole('button', { name: translations.copy })
+      .first()
+      .click()
   }
 
   public async clickCloseButton(): Promise<void> {

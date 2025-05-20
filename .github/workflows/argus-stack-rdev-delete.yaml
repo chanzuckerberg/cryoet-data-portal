@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Delete Stack
-        uses: chanzuckerberg/argus-artifacts/ci/packages/delete-stack@v0.54.3
+        uses: chanzuckerberg/argus-artifacts/ci/packages/delete-stack@v0
         with:
           appName: cryoet-frontend
           envName: rdev

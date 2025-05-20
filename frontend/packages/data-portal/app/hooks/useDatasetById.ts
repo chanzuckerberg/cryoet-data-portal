@@ -10,6 +10,8 @@ export function useDatasetById() {
 
   const { runs } = v2
 
+  const { unFilteredRuns } = v2
+
   const dataset = v2.datasets[0]
 
   const deposition = v2.depositions[0]
@@ -31,6 +33,7 @@ export function useDatasetById() {
 
   return {
     runs,
+    unFilteredRuns,
     dataset,
     deposition,
     objectNames,

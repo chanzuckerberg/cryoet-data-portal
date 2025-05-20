@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'react'
 
+import { SummaryData } from 'app/components/Dataset/utils'
 import { AnnotationShape, TomogramV2 } from 'app/types/gql/runPageTypes'
 
 export type DownloadModalType = 'dataset' | 'runs' | 'annotation'
@@ -13,12 +14,14 @@ export interface DownloadModalContextValue {
   allTomogramProcessing?: string[]
   datasetId?: number
   datasetTitle?: string
+  datasetContentsSummary?: SummaryData
   fileSize?: number
   httpsPath?: string
   objectName?: string
   runId?: number
   runName?: string
   s3Path?: string
+  totalRuns?: number
   tomogramId?: number
   type: DownloadModalType
 }
