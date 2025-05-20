@@ -75,3 +75,11 @@ export const AnnotationMethodTableWidths = {
   methodDetails: { min: 360, max: 360 },
   methodLinks: { min: 280, max: 280 },
 }
+
+export const TomogramMethodTableWidths = {
+  count: { min: 72, max: 72 },
+  voxelSpacing: { min: 85, max: 85 },
+  reconstructionMethod: { min: 138, max: 138 },
+  postProcessing: { min: 96, max: 96 },
+  ctfCorrected: { min: 89, max: 89 },
+}
