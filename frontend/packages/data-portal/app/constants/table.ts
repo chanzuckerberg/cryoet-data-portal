@@ -93,3 +93,10 @@ export const AcquisitionMethodTableWidths = {
   electronOptics: { width: 125 },
   phasePlate: { width: 23 },
 }
+
+export const ExperimentalConditionsTableWidths = {
+  sampleType: { width: 100 },
+  samplePreparation: { width: 160 },
+  gridPreparation: { width: 120 },
+  runs: { width: 100 },
+}
