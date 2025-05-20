@@ -99,7 +99,7 @@ export function MethodSummaryTomogramsTable() {
       columnHelper.accessor('ctfCorrected', {
         header: () => (
           <CellHeader width={TomogramMethodTableWidths.ctfCorrected}>
-            {t('methodLinks')}
+            {t('ctfCorrected')}
           </CellHeader>
         ),
 

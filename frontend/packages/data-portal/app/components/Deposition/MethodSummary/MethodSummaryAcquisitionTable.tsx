@@ -49,7 +49,7 @@ export function MethodSummaryAcquisitionTable() {
       columnHelper.accessor('microscope', {
         header: () => (
           <CellHeader width={AcquisitionMethodTableWidths.microscope}>
-            {t('tomograms')}
+            {t('microscope')}
           </CellHeader>
         ),
 
