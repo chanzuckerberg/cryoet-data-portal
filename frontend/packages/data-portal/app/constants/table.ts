@@ -70,16 +70,26 @@ export const DepositionPageDatasetTableWidths = {
 }
 
 export const AnnotationMethodTableWidths = {
-  count: { min: 72, max: 72 },
-  methodType: { min: 80, max: 80 },
-  methodDetails: { min: 360, max: 360 },
-  methodLinks: { min: 280, max: 280 },
+  count: { width: 72 },
+  methodType: { width: 80 },
+  methodDetails: { width: 360 },
+  methodLinks: { width: 280 },
 }
 
 export const TomogramMethodTableWidths = {
-  count: { min: 72, max: 72 },
-  voxelSpacing: { min: 85, max: 85 },
-  reconstructionMethod: { min: 138, max: 138 },
-  postProcessing: { min: 96, max: 96 },
-  ctfCorrected: { min: 89, max: 89 },
+  count: { width: 72 },
+  voxelSpacing: { width: 85 },
+  reconstructionMethod: { width: 138 },
+  postProcessing: { width: 96 },
+  ctfCorrected: { width: 89 },
+}
+
+export const AcquisitionMethodTableWidths = {
+  microscope: { width: 108 },
+  camera: { width: 94 },
+  tiltingScheme: { width: 100 },
+  pixelSize: { width: 57 },
+  energyFilter: { width: 72 },
+  electronOptics: { width: 125 },
+  phasePlate: { width: 23 },
 }
