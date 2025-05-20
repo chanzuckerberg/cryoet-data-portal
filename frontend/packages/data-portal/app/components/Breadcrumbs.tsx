@@ -170,29 +170,20 @@ export function Breadcrumbs({
 
   const buildNeuroglancerBreadcrumb = () => {
     const neuroglancerChevronIcon = (
-      <SmallChevronRightIcon
-        className='w-[8px] h-[8px] shrink-0 text-[#999] fill-[#999]'
-      />
+      <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0 text-[#999] fill-[#999]" />
     )
     return (
-      <div className="flex flex-row gap-sds-s text-[#999] fill-[#999] text-[13px] font-normal leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
-        <Breadcrumb
-          text={<></>}
-          link={browseAllLink}
-          className='shrink-0'
-          type={BreadcrumbType.AllDatasets}
-          />
-        
+      <div className="flex flex-row gap-sds-s text-[#999] fill-[#999] text-[13px] font-normal text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
         <Tooltip
           tooltip={data.title || t('dataset')}
-          className="overflow-hidden overlfow-ellipsis"
+          className="overflow-hidden overflow-ellipsis"
         >
           <Breadcrumb
-          text={data.title || t('dataset')}
-          link={singleDatasetLink}
-          className='overflow-ellipsis overflow-hidden flex-initial'
-          type={BreadcrumbType.SingleDataset}
-          datasetId={data.id}
+            text={data.title || t('dataset')}
+            link={singleDatasetLink}
+            className="overflow-ellipsis overflow-hidden flex-initial"
+            type={BreadcrumbType.SingleDataset}
+            datasetId={data.id}
           />
         </Tooltip>
 
@@ -202,10 +193,10 @@ export function Breadcrumbs({
             <Breadcrumb
               text={activeBreadcrumbText}
               className={'text-[#999] fill-[#999] shrink-0 !font-normal'}
-              />
-          </>)
-    }
-    </div>
+            />
+          </>
+        )}
+      </div>
     )
   }
 
