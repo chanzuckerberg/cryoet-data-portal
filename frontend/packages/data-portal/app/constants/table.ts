@@ -68,3 +68,10 @@ export const DepositionPageDatasetTableWidths = {
   annotations: { min: 120, max: 200 },
   annotatedObjects: { min: 120, max: 400 },
 }
+
+export const AnnotationMethodTableWidths = {
+  count: { min: 72, max: 72 },
+  methodType: { min: 80, max: 80 },
+  methodDetails: { min: 360, max: 360 },
+  methodLinks: { min: 280, max: 280 },
+}

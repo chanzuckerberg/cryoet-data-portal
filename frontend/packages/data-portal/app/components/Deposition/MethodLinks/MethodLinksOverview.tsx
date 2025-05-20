@@ -1,19 +1,9 @@
-import { Icon } from '@czi-sds/components'
-
-import { Annotation_Method_Type_Enum } from 'app/__generated_v2__/graphql'
-import { CollapsibleList } from 'app/components/CollapsibleList'
-import { I18n } from 'app/components/I18n'
 import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
-import { Tooltip } from 'app/components/Tooltip'
-import {
-  getMethodTypeLabelI18nKey,
-  getMethodTypeTooltipI18nKey,
-} from 'app/constants/methodTypes'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 
-import { generateMethodLinkProps } from './common'
-import { MethodLink } from './MethodLink'
+import { MethodLinkList } from './MethodLinkList'
+import { MethodTypeLabel } from './MethodTypeLabel'
 
 export function MethodLinksOverview() {
   const { t } = useI18n()
@@ -36,51 +26,19 @@ export function MethodLinksOverview() {
                 <h3 className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs font-semibold uppercase">
                   {t('methodType')}
                 </h3>
-                <div className="flex flex-row gap-sds-xxs text-sds-body-xxs-400-wide leading-sds-body-xxs col-start-1">
-                  {t(
-                    getMethodTypeLabelI18nKey(
-                      methodType ?? Annotation_Method_Type_Enum.Automated,
-                    ),
-                  )}
-                  <Tooltip
-                    // FIXME: make arrow centred on icon
-                    placement="top"
-                    tooltip={
-                      <I18n
-                        i18nKey={getMethodTypeTooltipI18nKey(
-                          methodType ?? Annotation_Method_Type_Enum.Automated,
-                        )}
-                      />
-                    }
-                  >
-                    <Icon
-                      sdsIcon="InfoCircle"
-                      sdsSize="xs"
-                      className="!text-light-sds-color-primitive-gray-500"
-                    />
-                  </Tooltip>
-                </div>
+
+                <MethodTypeLabel
+                  className="col-start-1"
+                  methodType={methodType}
+                />
+
                 <h3 className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs font-semibold uppercase col-start-2 row-start-1">
                   {t('methodLinks')}
                 </h3>
-                <CollapsibleList
-                  entries={generateMethodLinkProps(methodLinks).map(
-                    (methodLinkProps) => ({
-                      key: `${annotationMethod}_${methodLinkProps.title}_${methodLinkProps.url}`,
-                      entry: (
-                        <MethodLink
-                          {...methodLinkProps}
-                          className="text-sds-body-xxs-400-wide leading-sds-body-xxs"
-                          linkProps={{
-                            className:
-                              'text-light-sds-color-primitive-gray-600',
-                            variant: 'dashed-underlined',
-                          }}
-                        />
-                      ),
-                    }),
-                  )}
-                  collapseAfter={1}
+
+                <MethodLinkList
+                  annotationMethod={annotationMethod}
+                  methodLinks={methodLinks}
                 />
               </div>
               {i < annotationMethods.length - 1 && separator}
