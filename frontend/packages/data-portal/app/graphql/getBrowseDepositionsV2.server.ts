@@ -139,10 +139,8 @@ export async function getBrowseDepositionsV2({
   const filters = getDepositionsFilter({
     filterState: getFilterState(params),
   })
-
   // If we have an author filter, we need to run two queries and merge the results
   if (filters.authors) {
-    console.log('filters', filters)
     // (smccanny - Feb 2025) We want to filter depositions by author name or kaggleId,
     // but the API only supports filtering by one at a time for now.
 
@@ -154,7 +152,7 @@ export async function getBrowseDepositionsV2({
         orcid: filters.authors.orcid,
       },
     }
-    delete filtersWithKaggleId.authors.name
+    delete filtersWithKaggleId?.authors?.name
 
     // Run both queries concurrently
     const [resultsWithName, resultsWithKaggleId]: [
