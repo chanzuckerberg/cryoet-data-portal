@@ -1,4 +1,5 @@
-import { Icon } from '@czi-sds/components'
+import { Button, Icon } from '@czi-sds/components'
+import { type ReactNode, useState } from 'react'
 
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { AuthorLegend } from 'app/components/AuthorLegend'
@@ -10,6 +11,29 @@ import { useI18n } from 'app/hooks/useI18n'
 import { Dataset } from 'app/types/gql/genericTypes'
 import { isDefined } from 'app/utils/nullish'
 import { getTableData } from 'app/utils/table'
+
+function DatasetDescription({ children }: { children: ReactNode }) {
+  const [showAll, setShowAll] = useState(false)
+  const { t } = useI18n()
+
+  return (
+    <>
+      <span className={showAll ? '' : 'text-ellipsis line-clamp-3'}>
+        {children}
+      </span>
+
+      <Button
+        startIcon={<Icon sdsIcon="Plus" sdsSize="xs" />}
+        sdsStyle="minimal"
+        onClick={() => setShowAll((prev) => !prev)}
+      >
+        <span className="text-light-sds-color-primitive-blue-500">
+          {t(showAll ? 'showLess' : 'showMore')}
+        </span>
+      </Button>
+    </>
+  )
+}
 
 export function DatasetMetadataTable({
   dataset,
@@ -52,28 +76,7 @@ export function DatasetMetadataTable({
       values: [dataset.id ? `${IdPrefix.Dataset}-${dataset.id}` : '--'],
     },
 
-    !!showAllFields && {
-      label: t('description'),
-      values: [dataset.description ?? ''],
-      className: 'text-ellipsis line-clamp-3',
-    },
-
     {
-      label: t('depositionDate'),
-      values: [dataset.depositionDate?.split('T')[0] ?? ''],
-    },
-
-    !!showAllFields && {
-      label: t('releaseDate'),
-      values: [dataset.releaseDate?.split('T')[0] ?? ''],
-    },
-
-    !!showAllFields && {
-      label: t('lastModifiedDate'),
-      values: [dataset.lastModifiedDate?.split('T')[0] ?? ''],
-    },
-
-    !!showAllFields && {
       label: authors.length === 1 ? t('author') : t('authors'),
       labelExtra: <AuthorLegend inline />,
       renderValue: () => {
@@ -81,6 +84,45 @@ export function DatasetMetadataTable({
       },
       values: [],
       className: 'leading-sds-body-s',
+    },
+
+    {
+      label: t('publications'),
+      values: [dataset.datasetPublications ?? ''],
+      renderValue: (value: string) => {
+        return <DatabaseEntryList entries={value} />
+      },
+    },
+
+    {
+      label: t('relatedDatabases'),
+      values: [dataset.relatedDatabaseEntries ?? ''],
+      renderValue: (value: string) => {
+        return <DatabaseEntryList entries={value} />
+      },
+    },
+
+    {
+      label: t('description'),
+      values: [dataset.description ?? ''],
+      renderValue: (value: string) => {
+        return <DatasetDescription>{value}</DatasetDescription>
+      },
+    },
+
+    {
+      label: t('depositionDate'),
+      values: [dataset.depositionDate?.split('T')[0] ?? ''],
+    },
+
+    {
+      label: t('releaseDate'),
+      values: [dataset.releaseDate?.split('T')[0] ?? ''],
+    },
+
+    {
+      label: t('lastModifiedDate'),
+      values: [dataset.lastModifiedDate?.split('T')[0] ?? ''],
     },
 
     {
@@ -103,22 +145,6 @@ export function DatasetMetadataTable({
             .filter(isDefined),
         ),
       ),
-    },
-
-    {
-      label: t('relatedDatabases'),
-      values: [dataset.relatedDatabaseEntries ?? ''],
-      renderValue: (value: string) => {
-        return <DatabaseEntryList entries={value} />
-      },
-    },
-
-    !!showAllFields && {
-      label: t('publications'),
-      values: [dataset.relatedDatabaseEntries ?? ''],
-      renderValue: (value: string) => {
-        return <DatabaseEntryList entries={value} />
-      },
     },
   )
 
