@@ -23,7 +23,7 @@ function DatasetDescription({ children }: { children: ReactNode }) {
       </span>
 
       <Button
-        startIcon={<Icon sdsIcon="Plus" sdsSize="xs" />}
+        startIcon={<Icon sdsIcon={showAll ? 'Minus' : 'Plus'} sdsSize="xs" />}
         sdsStyle="minimal"
         onClick={() => setShowAll((prev) => !prev)}
       >
