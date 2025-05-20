@@ -149,6 +149,7 @@ export async function getBrowseDepositionsV2({
       authors: {
         name: filters.authors.name,
         kaggleId: filters.authors.name,
+        orcid: filters.authors.orcid,
       },
     }
     delete filtersWithKaggleId?.authors?.name
