@@ -68,3 +68,35 @@ export const DepositionPageDatasetTableWidths = {
   annotations: { min: 120, max: 200 },
   annotatedObjects: { min: 120, max: 400 },
 }
+
+export const AnnotationMethodTableWidths = {
+  count: { width: 72 },
+  methodType: { width: 80 },
+  methodDetails: { width: 360 },
+  methodLinks: { width: 280 },
+}
+
+export const TomogramMethodTableWidths = {
+  count: { width: 72 },
+  voxelSpacing: { width: 85 },
+  reconstructionMethod: { width: 138 },
+  postProcessing: { width: 96 },
+  ctfCorrected: { width: 89 },
+}
+
+export const AcquisitionMethodTableWidths = {
+  microscope: { width: 108 },
+  camera: { width: 94 },
+  tiltingScheme: { width: 100 },
+  pixelSize: { width: 57 },
+  energyFilter: { width: 72 },
+  electronOptics: { width: 125 },
+  phasePlate: { width: 23 },
+}
+
+export const ExperimentalConditionsTableWidths = {
+  sampleType: { width: 100 },
+  samplePreparation: { width: 160 },
+  gridPreparation: { width: 120 },
+  runs: { width: 100 },
+}
