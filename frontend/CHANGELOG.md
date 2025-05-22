@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.70.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.69.1...cryoet-data-portal-frontend-v1.70.0) (2025-05-22)
+
+
+### ✨ Features
+
+* dataset metadata drawer updates ([#1819](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1819)) ([32e643e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/32e643e5db854d62043ab78646cbfc2b7227c46c))
+* method summary ([#1816](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1816)) ([5a1ecd1](https://github.com/chanzuckerberg/cryoet-data-portal/commit/5a1ecd138cca9aa8b3d3edadfa62d684f955fcb9))
+
 ## [1.69.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.69.0...cryoet-data-portal-frontend-v1.69.1) (2025-05-20)
 
 
