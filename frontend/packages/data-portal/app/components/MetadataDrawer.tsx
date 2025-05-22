@@ -126,7 +126,7 @@ export function MetadataDrawer({
             className="!m-0"
             tabs={tabs}
             value={drawer.activeTab ?? MetadataTab.Metadata}
-            onChange={() => null}
+            onChange={(value) => drawer.setActiveTab(value)}
           />
         </div>
 
