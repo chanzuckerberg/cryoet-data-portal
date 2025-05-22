@@ -18,10 +18,13 @@ export function DatasetMetadataDrawer() {
       title={dataset.title}
       label={t('datasetDetails')}
       idInfo={{ label: 'datasetId', text: `${IdPrefix.Dataset}-${dataset.id}` }}
-    >
-      <DatasetMetadataTable dataset={dataset} />
-      <SampleAndExperimentConditionsTable dataset={dataset} />
-      <DatasetTiltSeriesTable />
-    </MetadataDrawer>
+      renderMetadataTab={() => (
+        <>
+          <DatasetMetadataTable dataset={dataset} />
+          <SampleAndExperimentConditionsTable dataset={dataset} />
+          <DatasetTiltSeriesTable />
+        </>
+      )}
+    />
   )
 }

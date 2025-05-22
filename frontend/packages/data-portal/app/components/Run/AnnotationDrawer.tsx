@@ -23,10 +23,13 @@ export function AnnotationDrawer() {
         text: `${IdPrefix.Annotation}-${selectedAnnotationShape?.annotation?.id}`,
       }}
       onClose={() => setSelectedAnnotationShape(null)}
-    >
-      <AnnotationOverviewTable />
-      <AnnotationObjectTable />
-      <AnnotationConfidenceTable />
-    </MetadataDrawer>
+      renderMetadataTab={() => (
+        <>
+          <AnnotationOverviewTable />
+          <AnnotationObjectTable />
+          <AnnotationConfidenceTable />
+        </>
+      )}
+    />
   )
 }

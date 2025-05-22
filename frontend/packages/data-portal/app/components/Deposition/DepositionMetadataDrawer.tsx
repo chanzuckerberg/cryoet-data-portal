@@ -21,10 +21,13 @@ export function DepositionMetadataDrawer() {
         label: 'depositionId',
         text: `${IdPrefix.Deposition}-${deposition?.id}`,
       }}
-    >
-      <DepositionMetadataTable deposition={deposition} />
-      <AnnotationsSummaryMetadataTable />
-      <MethodLinksMetadataTable />
-    </MetadataDrawer>
+      renderMetadataTab={() => (
+        <>
+          <DepositionMetadataTable deposition={deposition} />
+          <AnnotationsSummaryMetadataTable />
+          <MethodLinksMetadataTable />
+        </>
+      )}
+    />
   )
 }

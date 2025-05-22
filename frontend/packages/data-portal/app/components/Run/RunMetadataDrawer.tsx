@@ -18,22 +18,26 @@ export function RunMetadataDrawer() {
       title={run.name}
       label={i18n.runDetails}
       idInfo={{ label: 'runId', text: `${IdPrefix.Run}-${run.id}` }}
-    >
-      {run.dataset != null && (
+      renderMetadataTab={() => (
         <>
-          <DatasetMetadataTable
-            showAllFields
-            dataset={run.dataset}
-            initialOpen={false}
-          />
-          <SampleAndExperimentConditionsTable
-            dataset={run.dataset}
-            initialOpen={false}
-          />
+          {run.dataset != null && (
+            <>
+              <DatasetMetadataTable
+                showAllFields
+                dataset={run.dataset}
+                initialOpen={false}
+              />
+              <SampleAndExperimentConditionsTable
+                dataset={run.dataset}
+                initialOpen={false}
+              />
+            </>
+          )}
+
+          <RunTiltSeriesTable />
+          <TomogramsSummarySection />
         </>
       )}
-      <RunTiltSeriesTable />
-      <TomogramsSummarySection />
-    </MetadataDrawer>
+    />
   )
 }
