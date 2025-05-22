@@ -24,3 +24,34 @@ export const TOMOGRAM_METHOD_MOCK_DATA: TomogramMethodItem[] = [
     ctfCorrected: false,
   },
 ]
+
+export interface AcquisitionMethodItem {
+  microscope: string
+  camera: string
+  tiltingScheme: string
+  pixelSize: number
+  energyFilter: string
+  electronOptics: string
+  phasePlate: string
+}
+
+export const ACQUISITION_METHOD_MOCK_DATA: AcquisitionMethodItem[] = [
+  {
+    microscope: 'FEI - TITAN KRIOS',
+    camera: 'FEI - FALCON IV',
+    tiltingScheme: 'dose-symmetric',
+    pixelSize: 1.05,
+    energyFilter: 'SELECTRIS',
+    electronOptics: '300 kV / Cs = 2.7 mm',
+    phasePlate: 'LPP',
+  },
+  {
+    microscope: 'FEI - TITAN KRIOS',
+    camera: 'FEI - FALCON IV',
+    tiltingScheme: 'dose-symmetric',
+    pixelSize: 1.05,
+    energyFilter: 'SELECTRIS',
+    electronOptics: '300 kV / Cs = 2.7 mm',
+    phasePlate: 'LPP',
+  },
+]

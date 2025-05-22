@@ -9,6 +9,7 @@
   "aboutTheOrganizers": "About the Organizers",
   "accelerationVoltage": "Acceleration Voltage",
   "acquisition": "Acquisition",
+  "acquisitionMethods": "Acquisition Methods",
   "acrossDatasets_one": "Across {{count}} Dataset",
   "acrossDatasets_other": "Across {{count}} Datasets",
   "additionalMicroscopeOpticalSetup": "Additional microscope optical setup",
