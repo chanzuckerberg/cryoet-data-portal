@@ -1,4 +1,4 @@
-import { ObjectIdFilter } from 'app/components/AnnotationFilter/ObjectIdFilter'
+import { ObjectIdFilter } from 'app/components/AnnotationFilter/ObjectIdFilter/ObjectIdFilter'
 import {
   AnnotatedObjectNameFilter,
   AnnotatedObjectShapeTypeFilter,

@@ -1,5 +1,60 @@
 # Changelog
 
+## [1.69.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.68.2...cryoet-data-portal-frontend-v1.69.0) (2025-05-07)
+
+
+### ✨ Features
+
+* Changing the way the breadcrumb is built to accomodate variants ([#1790](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1790)) ([9997dd9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9997dd90718467df4e7d5500ca04e0740a01aa50))
+
+## [1.68.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.68.1...cryoet-data-portal-frontend-v1.68.2) (2025-04-29)
+
+
+### 🐞 Bug Fixes
+
+* run alignments ([#1793](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1793)) ([8dd7d73](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8dd7d7346d149ddfda35234979a68a9a36925807))
+
+## [1.68.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.68.0...cryoet-data-portal-frontend-v1.68.1) (2025-04-24)
+
+
+### 🐞 Bug Fixes
+
+* filter by non-null alignment method ([#1789](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1789)) ([b53974d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b53974d4d2f198faf65bca56dca1e84c94af48f5))
+* frames available ([#1786](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1786)) ([411b915](https://github.com/chanzuckerberg/cryoet-data-portal/commit/411b915cdedceed15e6f7de2c73f8b77db63a63d))
+* stop propagation on button link ([#1782](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1782)) ([ef5de20](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ef5de20bf6761a5a428ed0ad0caffce08db88c39))
+* tilt series quality score filter for multiple values ([#1787](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1787)) ([172c62d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/172c62d0918902154144962a05467a3f125c4bc6))
+* view tomogram button propogration ([#1791](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1791)) ([51ff092](https://github.com/chanzuckerberg/cryoet-data-portal/commit/51ff09272fb1c825eca8b48002a059cf59925bed))
+
+
+### 🧪 Tests
+
+* migrate chromatic tests ([#1745](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1745)) ([942b6f3](https://github.com/chanzuckerberg/cryoet-data-portal/commit/942b6f3717e6a361af6f70f07df374d4f8a95f7f))
+
+## [1.68.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.67.0...cryoet-data-portal-frontend-v1.68.0) (2025-04-21)
+
+
+### ✨ Features
+
+* Add Object Id Prefix ([#1743](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1743)) ([11037f7](https://github.com/chanzuckerberg/cryoet-data-portal/commit/11037f785afb18a81e073325d87be8b5be981fc0))
+
+
+### 🐞 Bug Fixes
+
+* add min width to descriptions  ([#1775](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1775)) ([d5c084c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d5c084c53920a589cdf2abbfcaa10d05ebcca27a))
+
+## [1.67.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.66.0...cryoet-data-portal-frontend-v1.67.0) (2025-04-11)
+
+
+### ✨ Features
+
+* Add Data Summary to Run and Dataset Pages ([#1739](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1739)) ([4830cda](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4830cdaa7310546652cfc56a579bb6e36611b5ee))
+* Improve Ground Truth Filter ([#1736](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1736)) ([8c37056](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8c370568b812e18c4a3be75f173cfc4267d6c67c))
+
+
+### 🐞 Bug Fixes
+
+* Scroll position with filter ([#1752](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1752)) ([8e2bd21](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8e2bd21a4e1aff0076aec6582477c96b0732d8a9))
+
 ## [1.66.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.65.2...cryoet-data-portal-frontend-v1.66.0) (2025-04-01)
 
 

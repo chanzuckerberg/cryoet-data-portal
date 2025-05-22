@@ -15,6 +15,7 @@ export interface InputFilterData {
   label: string
   queryParam: QueryParams
   hideLabel?: boolean
+  placeholder?: string
 }
 
 export interface MultiInputFilterProps {
@@ -77,23 +78,27 @@ export function MultiInputFilter({
       }
       label={label}
       onApply={() =>
-        setSearchParams((prev) => {
-          filters.forEach((filter) => {
-            prev.delete(filter.queryParam)
-            const value = values[filter.id]
+        setSearchParams(
+          (prev) => {
+            filters.forEach((filter) => {
+              prev.delete(filter.queryParam)
+              const value = values[filter.id]
 
-            if (value) {
-              // Our filters currently support numeric IDs and use the queryParam as the key
-              // The filter will show the prefix, but we do not need to store it in the query params
-              prev.set(
-                filter.queryParam,
-                removeIdPrefix(value, filter.queryParam) ?? '',
-              )
-            }
-          })
+              if (value) {
+                // Our filters currently support numeric IDs and use the queryParam as the key
+                // The filter will show the prefix, but we do not need to store it in the query params
+                prev.set(
+                  filter.queryParam,
+                  removeIdPrefix(value, filter.queryParam) ?? '',
+                )
+              }
+            })
 
-          return prev
-        })
+            prev.delete(QueryParams.Page)
+            return prev
+          },
+          { preventScrollReset: true },
+        )
       }
       onCancel={() => setValues(getQueryParamValues())}
       onRemoveFilter={(filterToRemove) => {
@@ -110,10 +115,13 @@ export function MultiInputFilter({
           [filter.id]: '',
         }))
 
-        setSearchParams((prev) => {
-          prev.delete(filter.queryParam)
-          return prev
-        })
+        setSearchParams(
+          (prev) => {
+            prev.delete(filter.queryParam)
+            return prev
+          },
+          { preventScrollReset: true },
+        )
       }}
       disabled={isDisabled}
     >
@@ -125,6 +133,7 @@ export function MultiInputFilter({
             id={filter.id}
             label={filter.label}
             hideLabel={filter.hideLabel}
+            placeholder={filter.placeholder || ''}
             onChange={(value) =>
               setValues((prev) => ({
                 ...prev,

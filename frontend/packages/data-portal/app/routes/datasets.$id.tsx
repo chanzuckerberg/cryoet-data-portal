@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
+import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 
 import { apolloClientV2 } from 'app/apollo.server'
 import { DatasetMetadataDrawer } from 'app/components/Dataset'
 import { DatasetHeader } from 'app/components/Dataset/DatasetHeader'
 import { RunsTable } from 'app/components/Dataset/RunsTable'
+import { getContentSummaryCounts } from 'app/components/Dataset/utils'
 import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
 import { NoFilteredResults } from 'app/components/NoFilteredResults'
@@ -22,6 +24,7 @@ import {
   useSingleDatasetFilterHistory,
   useSyncParamsWithState,
 } from 'app/state/filterHistory'
+import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
@@ -57,8 +60,26 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   })
 }
 
+export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
+  return shouldRevalidatePage({
+    ...args,
+    paramsToRefetch: [
+      QueryParams.ObjectName,
+      QueryParams.ObjectId,
+      QueryParams.ObjectShapeType,
+      QueryParams.MethodType,
+      QueryParams.AnnotationsPage,
+      QueryParams.DepositionId,
+      QueryParams.TiltRangeMin,
+      QueryParams.TiltRangeMax,
+      QueryParams.QualityScore,
+      QueryParams.GroundTruthAnnotation,
+    ],
+  })
+}
+
 export default function DatasetByIdPage() {
-  const { dataset, deposition } = useDatasetById()
+  const { dataset, deposition, unFilteredRuns } = useDatasetById()
   const { t } = useI18n()
   const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
 
@@ -98,6 +119,8 @@ export default function DatasetByIdPage() {
           datasetTitle={dataset.title}
           s3Path={dataset.s3Prefix}
           fileSize={dataset.fileSize ?? undefined}
+          totalRuns={dataset.runsAggregate?.aggregate?.[0]?.count ?? 0}
+          datasetContentsSummary={getContentSummaryCounts(unFilteredRuns)}
           type="dataset"
         />
       }

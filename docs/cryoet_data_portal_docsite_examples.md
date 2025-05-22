@@ -3,8 +3,9 @@
 
 Below are code snippets for completing various tasks using the Python Client API. Have an example you'd like to share with the community? Submit a [GitHub issue](https://github.com/chanzuckerberg/cryoet-data-portal/issues) and include "Example:" in your title.
 
-:::{admonition} Access and download alignment files
+:::{admonition} Access and download alignment files <a class="headerlink" href="#download-example" title="Permalink to this example">¶</a>
 :class: czi-faq
+:name: download-example
 :collapsible: open
 
 Alignment files are stored in the database, as well as in metadata-files on S3.
@@ -33,7 +34,7 @@ for tomogram in cdp.Tomogram.find(client, [cdp.Tomogram.run.dataset_id==10447]):
     print(f"Processing tomogram {tomogram.id} from run {tomogram.run.name}")
 
     # Read cryoet-data-portal alignment from S3
-    cdp_ali = Alignment.from_s3(tomogram.alignment.s3_alignment_metadata)
+    cdp_ali = Alignment.from_s3(tomogram.alignment.s3_alignment_metadata, anon=True)
 
     # Get necessary tilt series metadata
     tilt_series = tomogram.alignment.tiltseries
@@ -56,9 +57,10 @@ for tomogram in cdp.Tomogram.find(client, [cdp.Tomogram.run.dataset_id==10447]):
 ```
 :::
 
-:::{admonition} Query by annotated object or Gene Ontology terms using owlready2 library
+:::{admonition} Query by annotated object or Gene Ontology terms using owlready2 library <a class="headerlink" href="#query-example" title="Permalink to this example">¶</a>
 :class: czi-faq
-:collapsible: open
+:name: query-example
+:collapsible:
 
 Find all membrane annotations, including when the annotation has a subclass of membrane.
 
@@ -91,8 +93,9 @@ object_datasets = set([po.run.dataset_id for po in portal_objects])
 ```
 :::
 
-:::{admonition} List zarr file contents using the zarr package and HTTPS link
+:::{admonition} List zarr file contents using the zarr package and HTTPS link <a class="headerlink" href="#list-contents-example" title="Permalink to this example">¶</a>
 :class: czi-faq
+:name: list-contents-example
 :collapsible:
 
 Stream data using https
@@ -119,8 +122,9 @@ for i in g.attrs["multiscales"][0]["datasets"]:
 ```
 :::
 
-:::{admonition} List zarr-file contents using the ome-zarr package and HTTPS link
+:::{admonition} List zarr-file contents using the ome-zarr package and HTTPS link <a class="headerlink" href="#list-https-example" title="Permalink to this example">¶</a>
 :class: czi-faq
+:name: list-https-example
 :collapsible:
 
 Stream data using https
@@ -145,8 +149,9 @@ nodes[0].data
 ```
 :::
 
-:::{admonition} List zarr-file contents using the zarr package and S3 link
+:::{admonition} List zarr-file contents using the zarr package and S3 link <a class="headerlink" href="#list-s3-example" title="Permalink to this example">¶</a>
 :class: czi-faq
+:name: list-s3-example
 :collapsible:
 
 Stream data via S3
@@ -165,8 +170,9 @@ g.info_items()
 ```
 :::
 
-:::{admonition} Open a tomogram array using the zarr package and HTTPS link
+:::{admonition} Open a tomogram array using the zarr package and HTTPS link <a class="headerlink" href="#open-tomogram-example" title="Permalink to this example">¶</a>
 :class: czi-faq
+:name: open-tomogram-example
 :collapsible:
 
 Stream data using https
@@ -183,8 +189,9 @@ g = zarr.open_array(f"{tomo.https_omezarr_dir}/0", mode='r')
 ```
 :::
 
-:::{admonition} Find all annotation files available in ZARR format from a dataset
+:::{admonition} Find all annotation files available in ZARR format from a dataset <a class="headerlink" href="#find-annotations-example" title="Permalink to this example">¶</a>
 :class: czi-faq
+:name: find-annotations-example
 :collapsible:
 
 Use as training data for a segmentation model
@@ -203,8 +210,9 @@ ret = AnnotationFile.find(client, [
 ```
 :::
 
-:::{admonition} Open a Point-annotation file and stream the contents from S3
+:::{admonition} Open a Point-annotation file and stream the contents from S3 <a class="headerlink" href="#open-annotations-example" title="Permalink to this example">¶</a>
 :class: czi-faq
+:name: open-annotations-example
 :collapsible:
 
 Use as training data for a particle picking model
@@ -231,8 +239,9 @@ with fs.open(ret[0].s3_path) as pointfile:
 ```
 :::
 
-:::{admonition} Find all datasets that have movie frames available
+:::{admonition} Find all datasets that have movie frames available <a class="headerlink" href="#find-datasets-example" title="Permalink to this example">¶</a>
 :class: czi-faq
+:name: find-datasets-example
 :collapsible:
 
 Start processing the raw data
@@ -248,8 +257,9 @@ datasets_with_frames = Dataset.find(client, [Dataset.runs.frames.id != None])
 ```
 :::
 
-:::{admonition} Find all tomograms with voxel spacing below a threshold
+:::{admonition} Find all tomograms with voxel spacing below a threshold <a class="headerlink" href="#find-threshold-example" title="Permalink to this example">¶</a>
 :class: czi-faq
+:name: find-threshold-example
 :collapsible:
 
 Select data of a specific resolution
@@ -271,8 +281,9 @@ s3zarr = [t.s3_omezarr_dir for t in tomos]
 ```
 :::
 
-:::{admonition} Compute statistics on the portal data using the API client
+:::{admonition} Compute statistics on the portal data using the API client <a class="headerlink" href="#compute-example" title="Permalink to this example">¶</a>
 :class: czi-faq
+:name: compute-example
 :collapsible:
 
 Find how many runs there are in total for a given species
@@ -307,8 +318,9 @@ plt.show()
 ```
 :::
 
-:::{admonition} Download the movie stacks of one run using S3 file streaming
+:::{admonition} Download the movie stacks of one run using S3 file streaming <a class="headerlink" href="#download-movie-example" title="Permalink to this example">¶</a>
 :class: czi-faq
+:name: download-movie-example
 :collapsible:
 
 Start processing from raw data

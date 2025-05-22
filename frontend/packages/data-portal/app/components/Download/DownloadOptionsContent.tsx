@@ -1,37 +1,22 @@
 import { Callout } from '@czi-sds/components'
-import { TFunction } from 'i18next'
-import { isNumber, isString, startCase } from 'lodash-es'
+import { isNumber, startCase } from 'lodash-es'
 import prettyBytes from 'pretty-bytes'
-import { ComponentType } from 'react'
+import { useMemo } from 'react'
 
 import { ModalSubtitle } from 'app/components/ModalSubtitle'
-import { TabData, Tabs } from 'app/components/Tabs'
+import { Tabs } from 'app/components/Tabs'
 import { IdPrefix } from 'app/constants/idPrefixes'
-import {
-  DownloadModalType,
-  useDownloadModalContext,
-} from 'app/context/DownloadModal.context'
+import { useDownloadModalContext } from 'app/context/DownloadModal.context'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
-import { DownloadConfig, DownloadTab } from 'app/types/download'
-import { checkExhaustive } from 'app/types/utils'
+import { DownloadConfig } from 'app/types/download'
 import { getTomogramName } from 'app/utils/tomograms'
 
 import { I18n } from '../I18n'
 import { AnnotationAlignmentCallout } from './AnnotationAlignmentCallout'
-import { APIDownloadTab } from './APIDownloadTab'
-import { AWSDownloadTab } from './AWSDownloadTab'
-import { CurlDownloadTab } from './CurlDownloadTab'
-import { DirectDownloadTab } from './DirectDownloadTab'
 import { FILE_FORMAT_LABEL_I18N } from './FileFormatDropdown'
-
-const DOWNLOAD_TAB_MAP: Record<DownloadTab, ComponentType> = {
-  api: APIDownloadTab,
-  aws: AWSDownloadTab,
-  curl: CurlDownloadTab,
-  download: DirectDownloadTab,
-  'portal-cli': APIDownloadTab, // TODO(bchu)
-}
+import { DOWNLOAD_TAB_MAP } from './types'
+import { buildSubtitles, getDownloadTabs } from './utils'
 
 export function DownloadOptionsContent() {
   const { t } = useI18n()
@@ -50,16 +35,21 @@ export function DownloadOptionsContent() {
     allTomograms,
     datasetId,
     datasetTitle,
+    datasetContentsSummary,
     fileSize,
     objectName,
     runId,
     runName,
     annotationShapeToDownload,
     tomogramToDownload,
+    totalRuns,
     type,
   } = useDownloadModalContext()
 
-  const downloadTabs = getDownloadTabs(type, fileFormat, t)
+  const downloadTabs = useMemo(
+    () => getDownloadTabs(type, fileFormat, t),
+    [type, fileFormat, t],
+  )
   const selectedTab =
     downloadTab ?? downloadTabs.find((tab) => !tab.disabled)!.value // Default to first enabled tab
   const referenceTomogram = allTomograms?.find(
@@ -71,75 +61,90 @@ export function DownloadOptionsContent() {
     )?.node.alignmentId ?? undefined
   const DownloadTabContent = DOWNLOAD_TAB_MAP[selectedTab]
 
+  const subtitles = buildSubtitles(
+    datasetTitle && { label: t('datasetName'), value: datasetTitle },
+    runName && { label: t('runName'), value: runName },
+    tomogramToDownload && {
+      label: t('tomogramName'),
+      value: getTomogramName(tomogramToDownload),
+    },
+    tomogramToDownload && {
+      label: t('tomogramId'),
+      value: `${IdPrefix.Tomogram}-${tomogramToDownload.id}`,
+    },
+    tomogramToDownload && {
+      label: t('tomogramSampling'),
+      value: `${t('unitAngstrom', { value: tomogramSampling })}, (${
+        tomogramToDownload.sizeX
+      }, ${tomogramToDownload.sizeY}, ${tomogramToDownload.sizeZ})px`,
+    },
+    tomogramToDownload && {
+      label: t('reconstructionMethod'),
+      value: startCase(tomogramToDownload.reconstructionMethod),
+    },
+    tomogramToDownload && {
+      label: t('tomogramProcessing'),
+      value: tomogramToDownload.processing,
+    },
+    annotationName && { label: t('annotationName'), value: annotationName },
+    annotationId && { label: t('annotationId'), value: annotationId },
+    objectName && { label: t('objectName'), value: objectName },
+    objectShapeType && { label: t('objectShapeType'), value: objectShapeType },
+    referenceTomogram && {
+      label: t('referenceTomogram'),
+      value: getTomogramName(referenceTomogram),
+    },
+    annotationFileAlignmentId && {
+      label: t('alignmentId'),
+      value: `${IdPrefix.Alignment}-${annotationFileAlignmentId}`,
+    },
+    fileFormat && {
+      label: t('fileFormat'),
+      value: t(FILE_FORMAT_LABEL_I18N[fileFormat]),
+    },
+    isNumber(fileSize) && {
+      label: t('estimatedDownloadSize'),
+      value: prettyBytes(fileSize),
+    },
+    type === 'dataset' && {
+      label: t('totalRuns'),
+      value: totalRuns,
+    },
+    type === 'dataset' && {
+      label: t('frames'),
+      value: datasetContentsSummary?.frames ?? '--',
+    },
+    type === 'dataset' && {
+      label: t('tiltSeries'),
+      value: datasetContentsSummary?.tiltSeries ?? '--',
+    },
+    type === 'dataset' && {
+      label: t('ctf'),
+      value: datasetContentsSummary?.ctf ?? '--',
+    },
+    type === 'dataset' && {
+      label: t('alignment'),
+      value: datasetContentsSummary?.alignment ?? '--',
+    },
+    type === 'dataset' && {
+      label: t('tomograms'),
+      value: datasetContentsSummary?.tomograms ?? '--',
+    },
+    type === 'dataset' && {
+      label: t('annotations'),
+      value: datasetContentsSummary?.annotations ?? '--',
+    },
+    downloadConfig === DownloadConfig.AllAnnotations && {
+      label: t('annotations'),
+      value: t('all'),
+    },
+  )
+
   return (
     <>
-      <ModalSubtitle label={t('datasetName')} value={datasetTitle} />
-      {runName && <ModalSubtitle label={t('runName')} value={runName} />}
-      {tomogramToDownload !== undefined && (
-        <>
-          <ModalSubtitle
-            label={t('tomogramName')}
-            value={getTomogramName(tomogramToDownload)}
-          />
-          <ModalSubtitle
-            label={t('tomogramId')}
-            value={`${IdPrefix.Tomogram}-${tomogramToDownload.id}`}
-          />
-          <ModalSubtitle
-            label={t('tomogramSampling')}
-            value={`${t('unitAngstrom', { value: tomogramSampling })}, (${
-              tomogramToDownload.sizeX
-            }, ${tomogramToDownload.sizeY}, ${tomogramToDownload.sizeZ})px`}
-          />
-          <ModalSubtitle
-            label={t('reconstructionMethod')}
-            value={startCase(tomogramToDownload.reconstructionMethod)}
-          />
-          <ModalSubtitle
-            label={t('tomogramProcessing')}
-            value={tomogramToDownload.processing}
-          />
-        </>
-      )}
-      {annotationName && (
-        <ModalSubtitle label={t('annotationName')} value={annotationName} />
-      )}
-      {annotationId && (
-        <ModalSubtitle label={t('annotationId')} value={annotationId} />
-      )}
-      {objectName && (
-        <ModalSubtitle label={t('objectName')} value={objectName} />
-      )}
-      {objectShapeType && (
-        <ModalSubtitle label={t('objectShapeType')} value={objectShapeType} />
-      )}
-      {referenceTomogram !== undefined && (
-        <ModalSubtitle
-          label={t('referenceTomogram')}
-          value={getTomogramName(referenceTomogram)}
-        />
-      )}
-      {annotationFileAlignmentId !== undefined && (
-        <ModalSubtitle
-          label={t('alignmentId')}
-          value={`${IdPrefix.Alignment}-${annotationFileAlignmentId}`}
-        />
-      )}
-      {fileFormat && (
-        <ModalSubtitle
-          label={t('fileFormat')}
-          value={t(FILE_FORMAT_LABEL_I18N[fileFormat])}
-        />
-      )}
-      {isNumber(fileSize) && (
-        <ModalSubtitle
-          label={t('estimatedDownloadSize')}
-          value={prettyBytes(fileSize)}
-        />
-      )}
-      {downloadConfig === DownloadConfig.AllAnnotations && (
-        <ModalSubtitle label={t('annotations')} value={t('all')} />
-      )}
+      {subtitles.map(({ label, value }) => (
+        <ModalSubtitle key={label} label={label} value={value} />
+      ))}
 
       <p className="font-semibold text-sds-body-m-400-wide leading-sds-body-m mt-sds-xl">
         {t('selectDownloadMethod')}:
@@ -181,42 +186,4 @@ export function DownloadOptionsContent() {
       )}
     </>
   )
-}
-
-function getDownloadTabs(
-  type: DownloadModalType,
-  fileFormat: string | null,
-  t: TFunction<'translation', undefined>,
-): Array<TabData<DownloadTab>> {
-  switch (type) {
-    case 'dataset':
-      return [
-        { value: DownloadTab.AWS, label: t('viaAwsS3') },
-        { value: DownloadTab.API, label: t('viaApi') },
-      ]
-    case 'runs':
-      return [
-        ...(isString(fileFormat) && fileFormat !== 'zarr'
-          ? [
-              { value: DownloadTab.Download, label: t('directDownload') },
-              { value: DownloadTab.Curl, label: t('viaCurl') },
-            ]
-          : []),
-        { value: DownloadTab.AWS, label: t('viaAwsS3') },
-        { value: DownloadTab.API, label: t('viaApi') },
-      ]
-    case 'annotation':
-      return [
-        ...(isString(fileFormat) && fileFormat !== 'zarr'
-          ? [
-              { value: DownloadTab.Download, label: t('directDownload') },
-              { value: DownloadTab.Curl, label: t('viaCurl') },
-            ]
-          : []),
-        { value: DownloadTab.AWS, label: t('viaAwsS3') },
-        { value: DownloadTab.API, label: t('viaApi') },
-      ]
-    default:
-      return checkExhaustive(type)
-  }
 }

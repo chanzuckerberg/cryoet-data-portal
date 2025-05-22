@@ -13,7 +13,11 @@ author = "Chan Zuckerberg Initiative"
 import cryoet_data_portal
 import logging
 from sphinx.util import logging as sphinx_logging
+from bs4 import BeautifulSoup
+from jinja2.filters import FILTERS
+import copy
 
+logger = logging.getLogger("sphinx")
 version = cryoet_data_portal.__version__
 
 # -- General configuration ---------------------------------------------------
@@ -61,7 +65,7 @@ external_toc_exclude_missing = True
 # Inject custom css files in `/_static/css/*`
 html_static_path = ["_static"]
 html_css_files = ["css/custom.css"]
-html_js_files = ["js/faq.js"]
+html_js_files = ["js/faq.js", "js/version_redirect.js"]
 
 html_logo = ""
 html_title = "CryoET Data Portal Documentation"
@@ -115,13 +119,13 @@ html_theme_options = {
     "version_info": [
         {
             "version": "dev", # version number or path
-            "title": "Latest",
-            "aliases": [],
+            "title": "Stable (latest)", # title to be displayed in the dropdown
+            "aliases": ["stable"], # list of aliases for the version
         },
         {
             "version": "v4.0",
-            "title": "Stable (v4.0)",
-            "aliases": ["stable"],
+            "title": "v4.0",
+            "aliases": [""],
         },
     ],
 }
@@ -182,10 +186,70 @@ class FilterSphinxWarnings(logging.Filter):
         return not (filter_out in msg)
 
 
+def format_attributes(item):
+    """Format attributes in a table instead of a list in API Reference page.
+
+    """
+    soup = BeautifulSoup(item, "html.parser")
+    classes = soup.find_all("dl", "py class objdesc")
+
+    for c in classes:
+        # A class has the following contents:
+        # 0 -> '\n'
+        # 1 -> <dt class="sig sig-object highlight py" id="cryoet_data_portal.TomogramVoxelSpacing">
+        #        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryoet_data_portal.</span></span><span class="sig-name descname"><span class="pre">TomogramVoxelSpacing</span></span><a class="headerlink" href="#cryoet_data_portal.TomogramVoxelSpacing" title="Link to this definition">¶</a></dt>
+        # 2 -> '\n'
+        # 3 -> <dd><p>Voxel spacings for a run</p>
+        #        <dl class="py attribute objdesc"> ... (including methods)
+        desc = c.contents[3]
+        # Create table structure
+        attributes = BeautifulSoup("<div class='attrstable' id='attrstable'></div>", "html.parser")
+        attributes.div.append(attributes.new_tag("span", attrs={"class": "doc-section-title"}))
+        attributes.div.span.append(attributes.new_tag("b")).append("Attributes:")
+        attributes.div.append(attributes.new_tag('table'))
+        attributes.div.table["class"] = "docutils field-list attribute-list"
+        attributes.div.table.append(soup.new_tag("thead"))
+        attributes.div.table.thead.append(soup.new_tag("tr"))
+        attributes.div.table.thead.tr.append(soup.new_tag("th")).append("Name")
+        attributes.div.table.thead.tr.append(soup.new_tag("th")).append("Type")
+        attributes.div.table.thead.tr.append(soup.new_tag("th")).append("Description")
+        attributes.div.table.append(soup.new_tag("tbody"))
+        # child -> <dl class="py attribute objdesc">...</dl>
+        for child in desc.children:
+            if child.name=="dl" and "attribute" in child["class"]:
+                attr_name = child.dt.span.span
+                attr_type = child.dd.dl.dd.p
+                attr_type.name = "span"
+                attr_type["class"] = "pre"
+                attr_desc = child.dd.p
+                new_row = attributes.new_tag("tr", attrs={"class": "doc-section-item"})
+                new_row.append(attributes.new_tag("td", attrs={"class": "nowrap"})).append(attr_name.wrap(attributes.new_tag("code")))
+                new_row.append(attributes.new_tag("td", attrs={"class": "nowrap"})).append(attr_type.wrap(attributes.new_tag("code")))
+                new_row.append(attributes.new_tag("td")).append(attr_desc)
+                attributes.div.table.tbody.append(new_row)
+                if desc.find(id="attrstable"):
+                    desc.find(id="attrstable").decompose()
+                child.replace_with(copy.copy(attributes.div))
+    return str(soup)
+
+FILTERS["format_attributes"] = format_attributes
+
+def html_page_context(app, pagename, templatename, context, doctree):
+    """Add custom template for API Reference page.
+
+    Works in conjunction with format_attributes.
+
+    """
+    if pagename == "api_reference":
+        return "api_template.html"
+
+
 def setup(app):
-    logger = logging.getLogger("sphinx")
     warning_handler, *_ = [
         h for h in logger.handlers
         if isinstance(h, sphinx_logging.WarningStreamHandler)
     ]
     warning_handler.filters.insert(0, FilterSphinxWarnings(app))
+
+    # Docstring styling for Python API
+    app.connect("html-page-context", html_page_context)
