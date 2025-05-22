@@ -12,7 +12,7 @@ import styles from './CustomBanner.module.css'
 const DURATION_BEFORE_SHOW_SURVEY = 2
 const DURATION_UNIT_BEFORE_SHOW_SURVEY: OpUnitType = 'weeks'
 
-const CustomBanner = ({ message }: { message: any }) => {
+function CustomBanner({ message }: { message: any }) {
   const { value: lastDismissed, set: setLastDismissed } = useLocalStorageValue<
     string | null
   >(LocalStorageKeys.SurveyBannerDismissed, { defaultValue: null })
@@ -24,9 +24,9 @@ const CustomBanner = ({ message }: { message: any }) => {
     setOpen(
       lastDismissed
         ? dayjs().diff(
-          dayjs(lastDismissed),
-          DURATION_UNIT_BEFORE_SHOW_SURVEY,
-        ) >= DURATION_BEFORE_SHOW_SURVEY
+            dayjs(lastDismissed),
+            DURATION_UNIT_BEFORE_SHOW_SURVEY,
+          ) >= DURATION_BEFORE_SHOW_SURVEY
         : true,
     ),
   )
@@ -35,7 +35,7 @@ const CustomBanner = ({ message }: { message: any }) => {
     <div
       className={cns(
         'hidden screen-716:block sticky bottom-0 w-full',
-        styles.banner
+        styles.banner,
       )}
     >
       <Banner
@@ -59,4 +59,4 @@ const CustomBanner = ({ message }: { message: any }) => {
   )
 }
 
-export default CustomBanner;
+export default CustomBanner

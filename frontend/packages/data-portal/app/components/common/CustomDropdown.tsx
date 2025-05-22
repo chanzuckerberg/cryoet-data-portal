@@ -1,6 +1,7 @@
-import React, { ReactNode, ComponentProps, useRef } from 'react'
-import { MenuDropdown, MenuDropdownRef } from 'app/components/MenuDropdown'
 import { Icon, MenuItem } from '@czi-sds/components'
+import React, { ComponentProps, ReactNode, useRef } from 'react'
+
+import { MenuDropdown, MenuDropdownRef } from 'app/components/MenuDropdown'
 import { MenuItemHeader } from 'app/components/MenuItemHeader'
 import { cns } from 'app/utils/cns'
 

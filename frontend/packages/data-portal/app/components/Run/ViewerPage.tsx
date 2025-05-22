@@ -1,7 +1,5 @@
 import './ViewerPage.css'
 
-import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
-import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { Button } from '@czi-sds/components'
 import {
   currentNeuroglancer,
@@ -14,12 +12,15 @@ import {
   updateState,
 } from 'neuroglancer'
 import { useEffect, useRef, useState } from 'react'
+import { ACTIONS } from 'react-joyride'
 
+import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
+import CustomBanner from '../common/CustomBanner'
 import {
   CustomDropdown,
   CustomDropdownOption,
@@ -28,13 +29,12 @@ import {
 import Snackbar from '../common/Snackbar'
 import {
   ABOUT_LINKS,
-  REPORT_LINKS,
   NEUROGLANCER_DOC_LINK,
+  REPORT_LINKS,
 } from '../Layout/constants'
-import { ACTIONS } from 'react-joyride'
-import Tour from './Tour'
+import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { getTutorialSteps } from './steps'
-import CustomBanner from '../common/CustomBanner'
+import Tour from './Tour'
 
 const WALKTHROUGH_PANEL_SIZE = 400
 
@@ -389,9 +389,15 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     </p>
   )
 
-  const bannerMessage = (<span>
-    New to Neuroglancer? Learn the essentials in <button className='text-[#1A6CEF]' onClick={handleTourStartInNewTab}>this guided tour</button>.
-  </span>)
+  const bannerMessage = (
+    <span>
+      New to Neuroglancer? Learn the essentials in{' '}
+      <button className="text-[#1A6CEF]" onClick={handleTourStartInNewTab}>
+        this guided tour
+      </button>
+      .
+    </span>
+  )
 
   return (
     <div className="flex flex-col overflow-hidden h-full relative">
