@@ -390,7 +390,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
   )
 
   const bannerMessage = (<span>
-    New to Neuroglancer? Learn the essentials in this <button className='text-[#1A6CEF]' onClick={handleTourStartInNewTab}>guided tour</button>.
+    New to Neuroglancer? Learn the essentials in <button className='text-[#1A6CEF]' onClick={handleTourStartInNewTab}>this guided tour</button>.
   </span>)
 
   return (
