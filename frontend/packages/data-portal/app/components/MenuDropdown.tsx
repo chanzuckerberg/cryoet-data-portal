@@ -23,9 +23,16 @@ export const MenuDropdown = forwardRef<
     buttonElement?: ReactNode
     paperClassName?: string
   }
->( 
+>(
   (
-    { children, className, title, variant = 'standard', buttonElement, paperClassName},
+    {
+      children,
+      className,
+      title,
+      variant = 'standard',
+      buttonElement,
+      paperClassName,
+    },
     ref,
   ) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
