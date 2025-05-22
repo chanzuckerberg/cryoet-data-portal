@@ -52,7 +52,7 @@ export default function RunByIdViewerPage() {
   const tomogram = tomograms.find((t) => t.neuroglancerConfig)
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ViewerPage run={run} tomogram={tomogram}/>
+      <ViewerPage run={run} tomogram={tomogram} />
     </Suspense>
   )
 }

@@ -33,18 +33,23 @@ function Snackbar({
   }, [open])
 
   return (
-    open && <Notification
-      intent={intent}
-      slideDirection="right"
-      autoDismiss={autoHideDuration}
-      onClose={() => {
-        handleClose()
-      }}
-      className={cns('absolute bottom-0 left-3 z-10 !min-w-[392px]', className)}
-    >
-      {title && <p className="!font-semibold !m-0 p-0">{title}</p>}
-      {message}
-    </Notification>
+    open && (
+      <Notification
+        intent={intent}
+        slideDirection="right"
+        autoDismiss={autoHideDuration}
+        onClose={() => {
+          handleClose()
+        }}
+        className={cns(
+          'absolute bottom-0 left-3 z-10 !min-w-[392px]',
+          className,
+        )}
+      >
+        {title && <p className="!font-semibold !m-0 p-0">{title}</p>}
+        {message}
+      </Notification>
+    )
   )
 }
 
