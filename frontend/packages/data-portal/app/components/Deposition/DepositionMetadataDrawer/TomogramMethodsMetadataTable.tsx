@@ -1,32 +1,8 @@
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
+import { TOMOGRAM_METHOD_MOCK_DATA } from '../mock'
 import { MethodTableList } from './MethodTableList'
-
-interface TomogramTableData {
-  tomogram: number
-  voxelSpacing: number
-  reconstructionMethod: string
-  postProcessing: string
-  ctfCorrected: boolean
-}
-
-const MOCK_DATA: TomogramTableData[] = [
-  {
-    tomogram: 30,
-    voxelSpacing: 4.99,
-    reconstructionMethod: 'WBP',
-    postProcessing: 'Denoised',
-    ctfCorrected: false,
-  },
-  {
-    tomogram: 30,
-    voxelSpacing: 4.99,
-    reconstructionMethod: 'SIRT',
-    postProcessing: 'Denoised',
-    ctfCorrected: true,
-  },
-]
 
 export function TomogramMethodsMetadataTable() {
   const { t } = useI18n()
@@ -34,13 +10,13 @@ export function TomogramMethodsMetadataTable() {
   return (
     <MethodTableList
       accordionId="tomogram-methods-table"
-      data={MOCK_DATA}
+      data={TOMOGRAM_METHOD_MOCK_DATA}
       header="tomogramMethods"
       getTableData={(data) =>
         getTableData(
           {
             label: t('tomogram'),
-            values: [data.tomogram],
+            values: [data.count],
           },
           {
             label: t('voxelSpacing'),
