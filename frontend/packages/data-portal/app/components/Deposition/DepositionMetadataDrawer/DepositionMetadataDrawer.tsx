@@ -1,16 +1,33 @@
+import { MethodLinksMetadataTable } from 'app/components/Deposition/MethodLinks/MethodLinksMetadataTable'
 import { MetadataDrawer } from 'app/components/MetadataDrawer'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 
+import { AcquisitionMethodsMetadataTable } from './AcquisitionMethodsMetadataTable'
+import { AnnotationsMethodsMetadataTable } from './AnnotationsMethodsMetadataTable'
 import { AnnotationsSummaryMetadataTable } from './AnnotationsSummaryMetadataTable'
 import { DepositionMetadataTable } from './DepositionMetadataTable'
-import { MethodLinksMetadataTable } from './MethodLinks'
+import { ExperimentalConditionsMetadataTable } from './ExperimentalConditionsMetadataTable'
+import { TomogramMethodsMetadataTable } from './TomogramMethodsMetadataTable'
 
 export function DepositionMetadataDrawer() {
   const { t } = useI18n()
   const { deposition } = useDepositionById()
+  const isExpandDepositions = useFeatureFlag('expandDepositions')
+
+  function renderHowToCiteTab() {
+    return (
+      <>
+        <AnnotationsMethodsMetadataTable />
+        <TomogramMethodsMetadataTable />
+        <AcquisitionMethodsMetadataTable />
+        <ExperimentalConditionsMetadataTable />
+      </>
+    )
+  }
 
   return (
     <MetadataDrawer
@@ -25,9 +42,11 @@ export function DepositionMetadataDrawer() {
         <>
           <DepositionMetadataTable deposition={deposition} />
           <AnnotationsSummaryMetadataTable />
-          <MethodLinksMetadataTable />
+
+          {!isExpandDepositions && <MethodLinksMetadataTable />}
         </>
       )}
+      renderHowToCiteTab={isExpandDepositions ? renderHowToCiteTab : undefined}
     />
   )
 }
