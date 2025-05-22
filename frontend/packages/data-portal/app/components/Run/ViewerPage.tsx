@@ -381,12 +381,12 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
 
   const helperText = 'text-xs text-[#767676] font-normal'
   const activeBreadcrumbText = (
-    <p>
+    <a href={`${window.origin}/runs/${run.id}`}>
       {run.name}{' '}
       <span className="text-sds-color-primitive-common-white opacity-60">
         (#RN-{run.id})
       </span>
-    </p>
+    </a>
   )
 
   const bannerMessage = (
