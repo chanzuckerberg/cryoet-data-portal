@@ -55,3 +55,29 @@ export const ACQUISITION_METHOD_MOCK_DATA: AcquisitionMethodItem[] = [
     phasePlate: 'LPP',
   },
 ]
+
+export interface ExperimentalConditionsMethodItem {
+  gridPreparation: string
+  pixelSize: number
+  runs: number
+  samplePreparation: number
+  sampleType: string
+}
+
+export const EXPERIMENTAL_CONDITIONS_MOCK_DATA: ExperimentalConditionsMethodItem[] =
+  [
+    {
+      gridPreparation: 'dose-symmetric',
+      pixelSize: 1.05,
+      runs: 20,
+      samplePreparation: 1.05,
+      sampleType: 'Chlamydomonas reinhardtii',
+    },
+    {
+      gridPreparation: 'dose-symmetric',
+      pixelSize: 1.05,
+      runs: 3,
+      samplePreparation: 1.05,
+      sampleType: 'Chlamydomonas reinhardtii',
+    },
+  ]
