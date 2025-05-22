@@ -1,10 +1,8 @@
 import { Banner, Icon } from '@czi-sds/components'
 import { useLocalStorageValue } from '@react-hookz/web'
-import { useLocation } from '@remix-run/react'
 import dayjs, { OpUnitType } from 'dayjs'
 import { useState } from 'react'
 
-import { I18n } from 'app/components/I18n'
 import { LocalStorageKeys } from 'app/constants/localStorage'
 import { useEffectOnce } from 'app/hooks/useEffectOnce'
 import { cns } from 'app/utils/cns'
@@ -18,7 +16,7 @@ const CustomBanner = ({ message }: { message: any }) => {
   const { value: lastDismissed, set: setLastDismissed } = useLocalStorageValue<
     string | null
   >(LocalStorageKeys.SurveyBannerDismissed, { defaultValue: null })
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
 
   // open banner on client side to prevent flash of content since local storage
   // is not available when server-side rendering.
@@ -41,8 +39,8 @@ const CustomBanner = ({ message }: { message: any }) => {
       )}
     >
       <Banner
-        // dismissed={!open}
-        // dismissible
+        dismissed={!open}
+        dismissible
         sdsType="secondary"
         onClose={() => {
           setLastDismissed(dayjs().toISOString())
