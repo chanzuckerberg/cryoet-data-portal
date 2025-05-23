@@ -20,7 +20,6 @@ import { MenuItemLink } from 'app/components/MenuItemLink'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
-import CustomBanner from '../common/CustomBanner'
 import {
   CustomDropdown,
   CustomDropdownOption,
@@ -32,6 +31,7 @@ import {
   NEUROGLANCER_DOC_LINK,
   REPORT_LINKS,
 } from '../Layout/constants'
+import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { getTutorialSteps } from './steps'
 import Tour from './Tour'
@@ -389,16 +389,6 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     </a>
   )
 
-  const bannerMessage = (
-    <span>
-      New to Neuroglancer? Learn the essentials in{' '}
-      <button className="text-[#1A6CEF]" onClick={handleTourStartInNewTab}>
-        this guided tour
-      </button>
-      .
-    </span>
-  )
-
   return (
     <div className="flex flex-col overflow-hidden h-full relative">
       <nav
@@ -620,7 +610,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
         message="Snapped to the nearest axis"
         handleClose={() => setSnapActionClicked(false)}
       />
-      <CustomBanner message={bannerMessage} />
+      <NeuroglancerBanner onStartTour={handleTourStartInNewTab} />
     </div>
   )
 }
