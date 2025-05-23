@@ -3,39 +3,21 @@
 import { type ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { useMemo } from 'react'
 
+import {
+  EXPERIMENTAL_CONDITIONS_MOCK_DATA,
+  type ExperimentalConditionsMethodItem,
+} from 'app/components/Deposition//mock'
 import { CellHeader, TableCell } from 'app/components/Table'
 import { ExperimentalConditionsTableWidths } from 'app/constants/table'
 import { useI18n } from 'app/hooks/useI18n'
 
 import { MethodSummaryTable } from './MethodSummaryTable'
 
-interface ExperimentalConditionsTableItem {
-  sampleType: string
-  samplePreparation: number
-  gridPreparation: string
-  runs: number
-}
-
-const MOCK_DATA: ExperimentalConditionsTableItem[] = [
-  {
-    sampleType: 'Chlamydomonas reinhardtii',
-    samplePreparation: 1.05,
-    gridPreparation: 'dose-symmetric',
-    runs: 20,
-  },
-  {
-    sampleType: 'Chlamydomonas reinhardtii',
-    samplePreparation: 1.05,
-    gridPreparation: 'dose-symmetric',
-    runs: 3,
-  },
-]
-
 export function MethodSummaryExperimentalConditionsTable() {
   const { t } = useI18n()
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<ExperimentalConditionsTableItem>()
+    const columnHelper = createColumnHelper<ExperimentalConditionsMethodItem>()
 
     return [
       columnHelper.accessor('sampleType', {
@@ -97,8 +79,13 @@ export function MethodSummaryExperimentalConditionsTable() {
           </TableCell>
         ),
       }),
-    ] as ColumnDef<ExperimentalConditionsTableItem>[]
+    ] as ColumnDef<ExperimentalConditionsMethodItem>[]
   }, [t])
 
-  return <MethodSummaryTable columns={columns} data={MOCK_DATA} />
+  return (
+    <MethodSummaryTable
+      columns={columns}
+      data={EXPERIMENTAL_CONDITIONS_MOCK_DATA}
+    />
+  )
 }
