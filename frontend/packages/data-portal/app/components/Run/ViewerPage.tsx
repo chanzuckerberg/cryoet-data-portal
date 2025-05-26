@@ -302,7 +302,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     else if (newIndex === 4)
       updateTourStepFromState(false /* layerControlVisibility = */)
     else {
-      // On step 3 and 5 we may not needc to update the state,
+      // On step 3 and 5 we may not need to update the state,
       const { neuroglancer } = currentState()
       const isPanelVisible = boolValue(
         neuroglancer.selectedLayer?.visible,
