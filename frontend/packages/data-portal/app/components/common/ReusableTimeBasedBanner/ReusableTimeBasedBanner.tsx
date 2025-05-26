@@ -1,4 +1,5 @@
 import { Banner, Icon } from '@czi-sds/components'
+import { useLocalStorageValue } from '@react-hookz/web'
 import { useLocation } from '@remix-run/react'
 import dayjs, { OpUnitType } from 'dayjs'
 
@@ -8,45 +9,44 @@ import { cns } from 'app/utils/cns'
 
 import styles from './ReusableTimeBasedBanner.module.css'
 
-const durationUnitBeforeShowSurvey: OpUnitType = 'weeks'
+const BANNER_REDISPLAY_UNITS: OpUnitType = 'weeks'
 
 type ReusableTimeBasedBannerProps = {
   open: boolean
-  handleOpen: (val: boolean) => void
-  lastDismissed: string
-  handleClose: () => void
-  message?: any
+  setOpen: (open: boolean) => void
+  localStorageKey: string
+  message?: JSX.Element | string
   messageKey?: 'surveyBanner'
   sdsType?: 'primary' | 'secondary'
   icon?: 'SpeechBubbles' | 'Book'
   pathRegexAllowList?: RegExp[]
-  durationBeforeShowSurvey?: number
+  durationBeforeShowSurveyInWeeks?: number
 }
 
 export function ReusableTimeBasedBanner({
   open,
-  handleOpen,
-  lastDismissed,
-  handleClose,
+  setOpen,
+  localStorageKey,
   messageKey,
   message,
   sdsType = 'secondary',
   icon = 'SpeechBubbles',
   pathRegexAllowList = [],
-  durationBeforeShowSurvey = 2
+  durationBeforeShowSurveyInWeeks = 2,
 }: ReusableTimeBasedBannerProps) {
-  
   const location = useLocation()
+
+  const { value: lastDismissed, set: setLastDismissed } = useLocalStorageValue<
+    string | null
+  >(localStorageKey, { defaultValue: null })
 
   // open banner on client side to prevent flash of content since local storage
   // is not available when server-side rendering.
   useEffectOnce(() =>
-    handleOpen(
+    setOpen(
       lastDismissed
-        ? dayjs().diff(
-          dayjs(lastDismissed),
-          durationUnitBeforeShowSurvey,
-        ) >= durationBeforeShowSurvey
+        ? dayjs().diff(dayjs(lastDismissed), BANNER_REDISPLAY_UNITS) >=
+            durationBeforeShowSurveyInWeeks
         : true,
     ),
   )
@@ -59,12 +59,20 @@ export function ReusableTimeBasedBanner({
   }
 
   return (
-    <div className={cns('hidden screen-716:block sticky bottom-0 w-full', styles.banner)}>
+    <div
+      className={cns(
+        'hidden screen-716:block sticky bottom-0 w-full',
+        styles.banner,
+      )}
+    >
       <Banner
         dismissed={!open}
         dismissible
         sdsType={sdsType}
-        onClose={handleClose}
+        onClose={() => {
+          setLastDismissed(dayjs().toISOString())
+          setOpen(false)
+        }}
       >
         <div className="flex items-center gap-sds-default">
           <Icon sdsIcon={icon} sdsSize="l" />
