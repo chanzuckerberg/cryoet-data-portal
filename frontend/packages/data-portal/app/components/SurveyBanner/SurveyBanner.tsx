@@ -1,7 +1,6 @@
 import { useState } from 'react'
+
 import { ReusableTimeBasedBanner } from '../common/ReusableTimeBasedBanner/ReusableTimeBasedBanner'
-import { useLocalStorageValue } from '@react-hookz/web'
-import dayjs from 'dayjs'
 
 const BANNER_ALLOWLIST = [
   /^\/datasets\/.*$/,
@@ -11,26 +10,12 @@ const BANNER_ALLOWLIST = [
 
 export function SurveyBanner() {
   const [open, setOpen] = useState(false)
-  const { value: lastDismissed, set: setLastDismissed } = useLocalStorageValue<string | null>(
-    "surveyBanner",
-    { defaultValue: null }
-  )
-
-  const handleOpenState = (value: boolean) => {
-    setOpen(value)
-  }
-
-  const handleClose = () => {
-    setLastDismissed(dayjs().toISOString())
-    setOpen(false)
-  }
 
   return (
     <ReusableTimeBasedBanner
       open={open}
-      handleOpen={handleOpenState}
-      lastDismissed={lastDismissed}
-      handleClose={handleClose}
+      setOpen={setOpen}
+      localStorageKey="surveyBanner"
       messageKey="surveyBanner"
       sdsType="secondary"
       icon="SpeechBubbles"

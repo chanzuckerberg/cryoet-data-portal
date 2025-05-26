@@ -31,8 +31,8 @@ import {
   NEUROGLANCER_DOC_LINK,
   REPORT_LINKS,
 } from '../Layout/constants'
-import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
+import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { getTutorialSteps } from './steps'
 import Tour from './Tour'
 

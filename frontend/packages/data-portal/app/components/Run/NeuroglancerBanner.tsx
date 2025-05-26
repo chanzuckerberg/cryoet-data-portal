@@ -1,29 +1,25 @@
-import React, { useState } from 'react'
-import { ReusableTimeBasedBanner } from '../common/ReusableTimeBasedBanner/ReusableTimeBasedBanner'
 import { useLocalStorageValue } from '@react-hookz/web'
 import dayjs from 'dayjs'
+import React, { useState } from 'react'
+
+import { ReusableTimeBasedBanner } from '../common/ReusableTimeBasedBanner/ReusableTimeBasedBanner'
 
 type NeuroglancerBannerProps = {
   onStartTour: (event: React.MouseEvent<HTMLElement>) => void
 }
 
+const NEUROGLANCER_BANNER_KEY = 'neuroglancerBanner'
+
 export function NeuroglancerBanner({ onStartTour }: NeuroglancerBannerProps) {
   const [open, setOpen] = useState(false)
-  const { value: lastDismissed, set: setLastDismissed } = useLocalStorageValue<string | null>(
-    "neuroglancerBanner",
-    { defaultValue: null }
-  )
 
-  const handleOpenState = (value: boolean) => {
-    setOpen(value)
-  }
+  const { set: setLastDismissed } = useLocalStorageValue<string | null>(
+    NEUROGLANCER_BANNER_KEY,
+    { defaultValue: null },
+  )
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     onStartTour(event)
-    handleClose()
-  }
-
-  const handleClose = () => {
     setLastDismissed(dayjs().toISOString())
     setOpen(false)
   }
@@ -31,7 +27,7 @@ export function NeuroglancerBanner({ onStartTour }: NeuroglancerBannerProps) {
   const bannerMessage = (
     <span>
       New to Neuroglancer? Learn the essentials in{' '}
-      <button className="text-[#1A6CEF]" onClick={handleClick}>
+      <button type="button" className="text-[#1A6CEF]" onClick={handleClick}>
         this guided tour
       </button>
       .
@@ -41,13 +37,12 @@ export function NeuroglancerBanner({ onStartTour }: NeuroglancerBannerProps) {
   return (
     <ReusableTimeBasedBanner
       open={open}
-      handleOpen={handleOpenState}
-      lastDismissed={lastDismissed}
-      handleClose={handleClose}
+      setOpen={setOpen}
+      localStorageKey={NEUROGLANCER_BANNER_KEY}
       message={bannerMessage}
       sdsType="secondary"
       icon="Book"
-      durationBeforeShowSurvey={1}
+      durationBeforeShowSurveyInWeeks={1}
     />
   )
 }
