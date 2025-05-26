@@ -287,7 +287,33 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     index: number,
     action: (typeof ACTIONS)[keyof typeof ACTIONS],
   ) => {
-    setStepIndex(index + (action === ACTIONS.PREV ? -1 : 1))
+    // To keep the tour in sync with the state, we need to update the
+    // state, and then then tour index in the state update callback
+    const updateTourStepFromState = (layerControlVisibility: boolean) => {
+      updateState((state) => {
+        state.neuroglancer.selectedLayer.visible = layerControlVisibility
+        state.tourStepIndex = newIndex
+        return state
+      })
+    }
+
+    const newIndex = action === ACTIONS.NEXT ? index + 1 : index - 1
+    if (newIndex < 3 || newIndex > 5) setStepIndex(newIndex)
+    else if (newIndex === 4)
+      updateTourStepFromState(false /* layerControlVisibility = */)
+    else {
+      // On step 3 and 5 we may not needc to update the state,
+      const { neuroglancer } = currentState()
+      const isPanelVisible = boolValue(
+        neuroglancer.selectedLayer?.visible,
+        panelsDefaultValues.selectedLayer,
+      )
+      if (isPanelVisible) {
+        setStepIndex(newIndex)
+      } else {
+        updateTourStepFromState(true /* layerControlVisibility = */)
+      }
+    }
   }
 
   const handleRestart = () => {
@@ -301,6 +327,9 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
   const handleOnStateChange = (state: ResolvedSuperState) => {
     scheduleRefresh()
     setTopBarVisibleFromSuperState()
+    if (state.tourStepIndex) {
+      setStepIndex(state.tourStepIndex)
+    }
     if (!state.savedPanelsStatus) {
       return
     }

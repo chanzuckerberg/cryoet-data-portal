@@ -90,6 +90,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
     title: 'Main viewport',
     placement: 'left-start',
+    disableBeacon: true,
     content: (
       <StepContent variant="compact">
         <div className="text-[#767676]">
@@ -114,6 +115,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
     title: 'Essential controls',
     placement: 'left',
+    disableBeacon: true,
     content: (
       <StepContent variant="simple">
         <div className="mt-4 mb-4">
@@ -138,6 +140,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
     title: 'Keyboard shortcuts',
     placement: 'left',
+    disableBeacon: true,
     content: (
       <StepContent variant="simple">
         <div className="mt-4 mb-4">
@@ -164,6 +167,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
     title: 'Layer management',
     placement: 'right-start',
+    disableBeacon: true,
     content: (
       <StepContent variant="simple">
         <div className="mt-4 mb-4">
@@ -190,6 +194,7 @@ export const getTutorialSteps: () => Step[] = () => [
     target: getIframeElement('.neuroglancer-layer-side-panel-tab-view'),
     title: 'Layer controls',
     placement: 'right-start',
+    disableBeacon: true,
     content: (
       <StepContent variant="minimal">
         <p className="text-[#767676]">
@@ -206,6 +211,7 @@ export const getTutorialSteps: () => Step[] = () => [
     target: getIframeElement('.neuroglancer-viewer-top-row'),
     title: 'Controls top panel',
     placement: 'bottom-end',
+    disableBeacon: true,
     content: (
       <StepContent variant="minimal">
         <p className="text-[#767676] flex flex-col gap-4">
@@ -222,6 +228,7 @@ export const getTutorialSteps: () => Step[] = () => [
     target: '.neuroglancerIframe',
     placement: 'center',
     title: 'Congratulations!',
+    disableBeacon: true,
     content: (
       <StepContent variant="default">
         <p className="flex flex-col gap-3">
