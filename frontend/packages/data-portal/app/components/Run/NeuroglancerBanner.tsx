@@ -38,7 +38,7 @@ export function NeuroglancerBanner({ onStartTour }: NeuroglancerBannerProps) {
     <ReusableTimeBasedBanner
       open={open}
       setOpen={setOpen}
-      localStorageKey="neuroglancerBanner"
+      localStorageKey={NEUROGLANCER_BANNER_KEY}
       message={bannerMessage}
       sdsType="secondary"
       icon="Book"
