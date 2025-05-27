@@ -173,7 +173,7 @@ export function Breadcrumbs({
       <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0 text-[#999] fill-[#999]" />
     )
     return (
-      <div className="flex flex-row gap-sds-s text-[#999] fill-[#999] text-[13px] font-normal text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
+      <div className="flex flex-row gap-sds-s text-dark-sds-color-primitive-gray-500 fill-[#999] font-normal text-sds-body-s-400-wide leading-sds-body-s items-center whitespace-nowrap content-start">
         <Tooltip
           tooltip={data.title || t('dataset')}
           className="overflow-hidden overflow-ellipsis"
@@ -192,7 +192,9 @@ export function Breadcrumbs({
             {neuroglancerChevronIcon}
             <Breadcrumb
               text={activeBreadcrumbText}
-              className="text-[#999] fill-[#999] shrink-0 !font-normal"
+              className={
+                'text-dark-sds-color-primitive-gray-900 shrink-0 !font-normal'
+              }
             />
           </>
         )}

@@ -411,12 +411,12 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
         <div className="hidden screen-716:flex basis-auto flex-shrink-0">
           <div className="flex items-center gap-1">
             <CustomDropdown title="Annotations" variant="outlined">
-              <CustomDropdownSection title="Toggle annotations per deposition">
+              <CustomDropdownSection title="Show annotations for deposition">
                 <CustomDropdownOption
                   selected={isAllLayerActive()}
                   onSelect={() => toggleAllDepositions()}
                 >
-                  All annotations
+                  All depositions
                 </CustomDropdownOption>
                 {Object.keys(depositionConfigs).map((depositionId, i) => {
                   const layersOfInterest = depositionConfigs[depositionId].map(
