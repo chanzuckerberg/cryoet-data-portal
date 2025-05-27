@@ -1,6 +1,7 @@
 import { Step } from 'react-joyride'
-import { cns } from 'app/utils/cns'
+
 import { InfoIcon } from 'app/components/icons'
+import { cns } from 'app/utils/cns'
 
 interface StepContentProps {
   children: any
@@ -260,11 +261,11 @@ export const getTutorialSteps: () => Step[] = () => [
   },
 ]
 
-const StepContent = ({
+function StepContent({
   children,
   variant = 'default',
   className,
-}: StepContentProps) => {
+}: StepContentProps) {
   const variantStyles = {
     default: 'flex flex-col gap-6 mt-6',
     compact: 'flex flex-col gap-6',
@@ -277,32 +278,34 @@ const StepContent = ({
   )
 }
 
-const KeyActionList = ({
+function KeyActionList({
   actions,
 }: {
   actions: { key?: string; action?: string; description: string }[]
-}) => (
-  <>
-    {actions.map((control, index) => (
-      <div
-        key={`${control.key}_${index}`}
-        className="flex items-center justify-between"
-      >
-        <p className="font-semibold text-xs font-mono whitespace-nowrap">
-          {control.key && (
-            <>
-              <span className="bg-[#EBEBEB] py-0.5 px-1 rounded-sm">
-                {control.key}
-              </span>
-            </>
-          )}
-          {control.action && control.key && <span> + </span>}
-          {control.action}
-        </p>
-        <p className="text-[#767676] text-xs text-right">
-          {control.description}
-        </p>
-      </div>
-    ))}
-  </>
-)
+}) {
+  return (
+    <>
+      {actions.map((control, index) => (
+        <div
+          key={`${control.key}_${index}`}
+          className="flex items-center justify-between"
+        >
+          <p className="font-semibold text-xs font-mono whitespace-nowrap">
+            {control.key && (
+              <>
+                <span className="bg-[#EBEBEB] py-0.5 px-1 rounded-sm">
+                  {control.key}
+                </span>
+              </>
+            )}
+            {control.action && control.key && <span> + </span>}
+            {control.action}
+          </p>
+          <p className="text-[#767676] text-xs text-right">
+            {control.description}
+          </p>
+        </div>
+      ))}
+    </>
+  )
+}

@@ -1,5 +1,5 @@
 import { Notification } from '@czi-sds/components'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import { cns } from 'app/utils/cns'
 

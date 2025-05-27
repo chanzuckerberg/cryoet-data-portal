@@ -1,7 +1,5 @@
 import './ViewerPage.css'
 
-import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
-import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { Button } from '@czi-sds/components'
 import {
   currentNeuroglancer,
@@ -14,7 +12,9 @@ import {
   updateState,
 } from 'neuroglancer'
 import { useEffect, useRef, useState } from 'react'
+import { ACTIONS } from 'react-joyride'
 
+import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
 import { useI18n } from 'app/hooks/useI18n'
@@ -28,12 +28,13 @@ import {
 import Snackbar from '../common/Snackbar'
 import {
   ABOUT_LINKS,
-  REPORT_LINKS,
   NEUROGLANCER_DOC_LINK,
+  REPORT_LINKS,
 } from '../Layout/constants'
-import { ACTIONS } from 'react-joyride'
-import Tour from './Tour'
+import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
+import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { getTutorialSteps } from './steps'
+import Tour from './Tour'
 
 const WALKTHROUGH_PANEL_SIZE = 400
 
@@ -609,6 +610,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
         message="Snapped to the nearest axis"
         handleClose={() => setSnapActionClicked(false)}
       />
+      <NeuroglancerBanner onStartTour={handleTourStartInNewTab} />
     </div>
   )
 }
