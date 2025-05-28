@@ -1,13 +1,14 @@
+import { Icon } from '@czi-sds/components'
 import React from 'react'
 import Joyride, {
-  Step,
   ACTIONS,
-  STATUS,
+  CallBackProps,
   EVENTS,
   ORIGIN,
-  CallBackProps,
+  STATUS,
+  Step,
 } from 'react-joyride'
-import { Icon } from '@czi-sds/components'
+
 import { cns } from 'app/utils/cns'
 
 interface CustomTourProps {
@@ -27,11 +28,7 @@ const outlinedButtonStyles =
 const filledButtonStyles =
   'py-1.5 px-3 rounded-sds-l font-semibold bg-[#0B68F8] text-white'
 
-const CustomTooltip = (
-  props: any,
-  onRestart: () => void,
-  onClose: () => void,
-) => {
+function CustomTooltip(props: any, onRestart: () => void, onClose: () => void) {
   const { index, isLastStep, size, step, closeProps, backProps, primaryProps } =
     props
 

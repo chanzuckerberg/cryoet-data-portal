@@ -1,10 +1,10 @@
 import { Icon, Menu } from '@czi-sds/components'
 import {
+  forwardRef,
   ReactNode,
+  useImperativeHandle,
   useRef,
   useState,
-  useImperativeHandle,
-  forwardRef,
 } from 'react'
 
 import { cns } from 'app/utils/cns'
