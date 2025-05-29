@@ -52,7 +52,7 @@ export const MenuDropdown = forwardRef<
       standard: anchorEl
         ? '!fill-sds-color-primitive-common-white'
         : '!fill-sds-color-primitive-gray-400 group-hover:!fill-sds-color-primitive-common-white',
-      outlined: '!fill-[#A2C9FF]',
+      outlined: '!text-[#A2C9FF]',
       filled: '!fill-sds-color-primitive-common-white',
     }
 

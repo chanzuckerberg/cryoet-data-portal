@@ -419,7 +419,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
   )
 
   return (
-    <div className="flex flex-col overflow-hidden h-full relative">
+    <div className="flex flex-col overflow-hidden h-full relative bg-dark-sds-color-primitive-gray-50">
       <nav
         className={cns(
           'bg-sds-color-primitive-common-black text-sds-color-primitive-common-white',
