@@ -57,11 +57,17 @@ export function useMetadataDrawer() {
     [setQueryParams],
   )
 
+  const setActiveTab = useCallback(
+    (tab: MetadataTab) => setQueryParams({ [QueryParams.Tab]: tab }),
+    [setQueryParams],
+  )
+
   return {
     activeDrawer,
     activeTab,
-    openDrawer,
     closeDrawer,
+    openDrawer,
+    setActiveTab,
     toggleDrawer,
   }
 }

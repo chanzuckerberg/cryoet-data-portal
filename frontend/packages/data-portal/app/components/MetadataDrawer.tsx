@@ -1,8 +1,7 @@
 import { Button, Icon } from '@czi-sds/components'
 import { usePrevious } from '@react-hookz/web'
-import { ReactNode, useCallback, useEffect } from 'react'
+import { type ComponentType, useCallback, useEffect, useMemo } from 'react'
 
-import { Demo } from 'app/components/Demo'
 import { Drawer } from 'app/components/Drawer'
 import { TabData, Tabs } from 'app/components/Tabs'
 import { TestIds } from 'app/constants/testIds'
@@ -13,37 +12,27 @@ import {
   useMetadataDrawer,
 } from 'app/hooks/useMetadataDrawer'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
-import { i18n } from 'app/i18n'
 import { I18nKeys } from 'app/types/i18n'
 import { cns } from 'app/utils/cns'
 
-const TAB_OPTIONS: TabData<MetadataTab>[] = [
-  {
-    label: i18n.metadata,
-    value: MetadataTab.Metadata,
-  },
-  // {
-  //   label: i18n.howToCite,
-  //   value: MetadataTab.HowToCite,
-  // },
-]
-
 interface MetaDataDrawerProps {
-  children: ReactNode
   disabled?: boolean
   drawerId: MetadataDrawerId
+  HowToCiteTabComponent?: ComponentType
   idInfo?: { label: I18nKeys; text: string }
   label: string
+  MetadataTabComponent?: ComponentType
   onClose?(): void
   title: string
 }
 
 export function MetadataDrawer({
-  children,
   disabled,
   drawerId,
+  HowToCiteTabComponent,
   idInfo,
   label,
+  MetadataTabComponent,
   onClose,
   title,
 }: MetaDataDrawerProps) {
@@ -65,6 +54,29 @@ export function MetadataDrawer({
       plausible(Events.ToggleMetadataDrawer, { type: drawerId, open: isOpen })
     }
   }, [drawerId, isOpen, plausible, prevIsOpen])
+
+  const tabs = useMemo<TabData<MetadataTab>[]>(
+    () => [
+      ...(MetadataTabComponent
+        ? [
+            {
+              label: t('metadata'),
+              value: MetadataTab.Metadata,
+            },
+          ]
+        : []),
+
+      ...(HowToCiteTabComponent
+        ? [
+            {
+              label: t('howToCite'),
+              value: MetadataTab.HowToCite,
+            },
+          ]
+        : []),
+    ],
+    [HowToCiteTabComponent, MetadataTabComponent, t],
+  )
 
   return (
     <Drawer open={isOpen} onClose={handleClose}>
@@ -112,9 +124,9 @@ export function MetadataDrawer({
         <div className="px-sds-xl border-b-2 border-light-sds-color-primitive-gray-200">
           <Tabs
             className="!m-0"
-            tabs={TAB_OPTIONS}
+            tabs={tabs}
             value={drawer.activeTab ?? MetadataTab.Metadata}
-            onChange={() => null}
+            onChange={(value) => drawer.setActiveTab(value)}
           />
         </div>
 
@@ -127,11 +139,11 @@ export function MetadataDrawer({
               'divide-y divide-light-sds-color-primitive-gray-300',
           )}
         >
-          {drawer.activeTab === MetadataTab.Metadata && children}
+          {drawer.activeTab === MetadataTab.Metadata &&
+            MetadataTabComponent && <MetadataTabComponent />}
 
-          {drawer.activeTab === MetadataTab.HowToCite && (
-            <Demo>How to cite</Demo>
-          )}
+          {drawer.activeTab === MetadataTab.HowToCite &&
+            HowToCiteTabComponent && <HowToCiteTabComponent />}
         </div>
       </div>
     </Drawer>
