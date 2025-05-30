@@ -3,19 +3,12 @@
 import { type LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { lazy, Suspense } from 'react'
 import { typedjson } from 'remix-typedjson'
-import { ThemeProvider as EmotionThemeProvider } from '@emotion/react'
-import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
 import { makeThemeOptions, SDSDarkAppTheme } from '@czi-sds/components'
-import CssBaseline from '@mui/material/CssBaseline'
-import { createTheme } from '@mui/material/styles'
 
 import { apolloClientV2 } from 'app/apollo.server'
 import { QueryParams } from 'app/constants/query'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useRunById } from 'app/hooks/useRunById'
-
-const appTheme = makeThemeOptions(SDSDarkAppTheme, 'dark')
-const theme = createTheme(appTheme)
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
@@ -59,15 +52,8 @@ export default function RunByIdViewerPage() {
   const { run, tomograms } = useRunById()
   const tomogram = tomograms.find((t) => t.neuroglancerConfig)
   return (
-    <StyledEngineProvider>
-      <ThemeProvider theme={theme}>
-        <EmotionThemeProvider theme={theme}>
-          <CssBaseline />
-          <Suspense fallback={<div>Loading...</div>}>
-            <ViewerPage run={run} tomogram={tomogram} />
-          </Suspense>
-        </EmotionThemeProvider>
-      </ThemeProvider>
-    </StyledEngineProvider>
+    <Suspense fallback={<div>Loading...</div>}>
+      <ViewerPage run={run} tomogram={tomogram} />
+    </Suspense>
   )
 }
