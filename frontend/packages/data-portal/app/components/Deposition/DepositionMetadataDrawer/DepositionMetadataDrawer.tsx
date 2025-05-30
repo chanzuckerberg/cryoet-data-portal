@@ -18,17 +18,6 @@ export function DepositionMetadataDrawer() {
   const { deposition } = useDepositionById()
   const isExpandDepositions = useFeatureFlag('expandDepositions')
 
-  function renderHowToCiteTab() {
-    return (
-      <>
-        <AnnotationsMethodsMetadataTable />
-        <TomogramMethodsMetadataTable />
-        <AcquisitionMethodsMetadataTable />
-        <ExperimentalConditionsMetadataTable />
-      </>
-    )
-  }
-
   return (
     <MetadataDrawer
       drawerId={MetadataDrawerId.Deposition}
@@ -38,15 +27,33 @@ export function DepositionMetadataDrawer() {
         label: 'depositionId',
         text: `${IdPrefix.Deposition}-${deposition?.id}`,
       }}
-      renderMetadataTab={() => (
-        <>
-          <DepositionMetadataTable deposition={deposition} />
-          <AnnotationsSummaryMetadataTable />
-
-          {!isExpandDepositions && <MethodLinksMetadataTable />}
-        </>
-      )}
-      renderHowToCiteTab={isExpandDepositions ? renderHowToCiteTab : undefined}
+      MetadataTabComponent={MetadataTab}
+      HowToCiteTabComponent={isExpandDepositions ? HowToCiteTab : undefined}
     />
+  )
+}
+
+function MetadataTab() {
+  const { deposition } = useDepositionById()
+  const isExpandDepositions = useFeatureFlag('expandDepositions')
+
+  return (
+    <>
+      <DepositionMetadataTable deposition={deposition} />
+      <AnnotationsSummaryMetadataTable />
+
+      {!isExpandDepositions && <MethodLinksMetadataTable />}
+    </>
+  )
+}
+
+function HowToCiteTab() {
+  return (
+    <>
+      <AnnotationsMethodsMetadataTable />
+      <TomogramMethodsMetadataTable />
+      <AcquisitionMethodsMetadataTable />
+      <ExperimentalConditionsMetadataTable />
+    </>
   )
 }

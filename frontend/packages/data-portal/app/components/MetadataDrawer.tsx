@@ -1,6 +1,6 @@
 import { Button, Icon } from '@czi-sds/components'
 import { usePrevious } from '@react-hookz/web'
-import { ReactNode, useCallback, useEffect, useMemo } from 'react'
+import { type ComponentType, useCallback, useEffect, useMemo } from 'react'
 
 import { Drawer } from 'app/components/Drawer'
 import { TabData, Tabs } from 'app/components/Tabs'
@@ -18,22 +18,22 @@ import { cns } from 'app/utils/cns'
 interface MetaDataDrawerProps {
   disabled?: boolean
   drawerId: MetadataDrawerId
+  HowToCiteTabComponent?: ComponentType
   idInfo?: { label: I18nKeys; text: string }
   label: string
+  MetadataTabComponent?: ComponentType
   onClose?(): void
-  renderHowToCiteTab?(): ReactNode
-  renderMetadataTab?(): ReactNode
   title: string
 }
 
 export function MetadataDrawer({
   disabled,
   drawerId,
+  HowToCiteTabComponent,
   idInfo,
   label,
+  MetadataTabComponent,
   onClose,
-  renderHowToCiteTab,
-  renderMetadataTab,
   title,
 }: MetaDataDrawerProps) {
   const drawer = useMetadataDrawer()
@@ -57,7 +57,7 @@ export function MetadataDrawer({
 
   const tabs = useMemo<TabData<MetadataTab>[]>(
     () => [
-      ...(renderMetadataTab
+      ...(MetadataTabComponent
         ? [
             {
               label: t('metadata'),
@@ -66,7 +66,7 @@ export function MetadataDrawer({
           ]
         : []),
 
-      ...(renderHowToCiteTab
+      ...(HowToCiteTabComponent
         ? [
             {
               label: t('howToCite'),
@@ -75,7 +75,7 @@ export function MetadataDrawer({
           ]
         : []),
     ],
-    [renderHowToCiteTab, renderMetadataTab, t],
+    [HowToCiteTabComponent, MetadataTabComponent, t],
   )
 
   return (
@@ -139,9 +139,11 @@ export function MetadataDrawer({
               'divide-y divide-light-sds-color-primitive-gray-300',
           )}
         >
-          {drawer.activeTab === MetadataTab.Metadata && renderMetadataTab?.()}
+          {drawer.activeTab === MetadataTab.Metadata &&
+            MetadataTabComponent && <MetadataTabComponent />}
 
-          {drawer.activeTab === MetadataTab.HowToCite && renderHowToCiteTab?.()}
+          {drawer.activeTab === MetadataTab.HowToCite &&
+            HowToCiteTabComponent && <HowToCiteTabComponent />}
         </div>
       </div>
     </Drawer>
