@@ -63,6 +63,9 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
       annotations (where: {runId: {_eq: $id}}, ) {
         edges {
           node {
+            deposition {
+             title
+            }
             depositionId
             objectId
             objectName
