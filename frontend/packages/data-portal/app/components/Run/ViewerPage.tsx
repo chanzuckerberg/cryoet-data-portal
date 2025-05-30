@@ -169,7 +169,7 @@ const setTopBarVisibleFromSuperState = () => {
   viewer.uiConfiguration.showLayerPanel.value = isTopBarVisible()
 }
 
-const buildDepositsConfig = (annotations: any) => {
+const buildDepositsConfig = (annotations: any): Record<number, any[]> => {
   const config: any = {}
   const layers = currentNeuroglancerState().layers || []
   for (const annotation of annotations.edges.map((e: any) => e.node)) {
@@ -447,8 +447,8 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                 >
                   All depositions
                 </CustomDropdownOption>
-                {Object.keys(depositionConfigs).map((depositionId, i) => {
-                  const layersOfInterest = depositionConfigs[depositionId].map(
+                {Object.entries(depositionConfigs).map(([depositionId, depositions], i) => {
+                  const layersOfInterest = depositions.map(
                     (c: any) => c.name,
                   )
                   return (
@@ -459,7 +459,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                         toggleDepositions(layersOfInterest)
                       }}
                     >
-                      <span>Deposition #{i + 1}</span>
+                      <span>{depositions?.[0].annotation.deposition.title}</span>
                       <span className="text-xs text-[#767676] font-normal">
                         #CZCDP-{depositionId}
                       </span>
