@@ -601,7 +601,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                 </MenuItemLink>
                 <button
                   type="button"
-                  className="py-1.5 px-2"
+                  className="py-1.5 px-2 w-full text-left hover:bg-light-sds-color-primitive-gray-300 hover:bg-opacity-30"
                   onClick={handleTourStartInNewTab}
                 >
                   {t('neuroglancerWalkthrough')}
