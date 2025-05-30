@@ -466,7 +466,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                             {depositions?.[0].annotation.deposition.title}
                           </span>
                           <span className="text-xs text-[#767676] font-normal">
-                            #CZCDP-{depositionId}
+                            CZCDP-{depositionId}
                           </span>
                         </CustomDropdownOption>
                       )
