@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.71.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.70.0...cryoet-data-portal-frontend-v1.71.0) (2025-06-02)
+
+
+### ✨ Features
+
+* deposition metadata drawer updates ([#1824](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1824)) ([53e61e9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/53e61e903b684afb662be169ff83d86d378b4905))
+
 ## [1.70.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.69.1...cryoet-data-portal-frontend-v1.70.0) (2025-05-22)
 
 
