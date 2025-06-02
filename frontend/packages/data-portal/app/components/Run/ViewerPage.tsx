@@ -17,6 +17,7 @@ import { ACTIONS } from 'react-joyride'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
+import { Tooltip } from '../Tooltip'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
@@ -458,9 +459,11 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                           toggleDepositions(layersOfInterest)
                         }}
                       >
-                        <span>
-                          {depositions?.[0].annotation.deposition.title}
-                        </span>
+                        <Tooltip tooltip={depositions?.[0].annotation.deposition.title}>
+                          <span className="line-clamp-2">
+                            {depositions?.[0].annotation.deposition.title}
+                          </span>
+                        </Tooltip>
                         <span className="text-xs text-[#767676] font-normal">
                           #CZCDP-{depositionId}
                         </span>
