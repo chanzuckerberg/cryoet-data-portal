@@ -34,8 +34,8 @@ function Breadcrumb({
     <Link
       to={link}
       className={cns(
-        className,
         'hover:text-light-sds-color-primitive-blue-500',
+        className,
       )}
       onClick={() => {
         if (type) {
@@ -181,7 +181,7 @@ export function Breadcrumbs({
           <Breadcrumb
             text={data.title || t('dataset')}
             link={singleDatasetLink}
-            className="overflow-ellipsis overflow-hidden flex-initial"
+            className="overflow-ellipsis overflow-hidden flex-initial hover:text-light-sds-color-primitive-gray-50"
             type={BreadcrumbType.SingleDataset}
             datasetId={data.id}
           />

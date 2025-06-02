@@ -31,6 +31,7 @@ import {
   NEUROGLANCER_DOC_LINK,
   REPORT_LINKS,
 } from '../Layout/constants'
+import { Tooltip } from '../Tooltip'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { getTutorialSteps } from './steps'
@@ -410,12 +411,14 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
 
   const helperText = 'text-xs text-[#767676] font-normal'
   const activeBreadcrumbText = (
-    <a href={`${window.origin}/runs/${run.id}`}>
-      {run.name}{' '}
-      <span className="text-sds-color-primitive-common-white opacity-60">
-        (#RN-{run.id})
-      </span>
-    </a>
+    <Tooltip tooltip={run.name || t('runName')}>
+      <a href={`${window.origin}/runs/${run.id}`}>
+        {run.name}{' '}
+        <span className="text-sds-color-primitive-common-white opacity-60">
+          (#RN-{run.id})
+        </span>
+      </a>
+    </Tooltip>
   )
 
   return (
