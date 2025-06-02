@@ -3,47 +3,20 @@
 import { type ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { useMemo } from 'react'
 
+import {
+  ACQUISITION_METHOD_MOCK_DATA,
+  type AcquisitionMethodItem,
+} from 'app/components/Deposition/mock'
 import { CellHeader, TableCell } from 'app/components/Table'
 import { AcquisitionMethodTableWidths } from 'app/constants/table'
 import { useI18n } from 'app/hooks/useI18n'
 
 import { MethodSummaryTable } from './MethodSummaryTable'
 
-interface AcquisitionTableItem {
-  microscope: string
-  camera: string
-  tiltingScheme: string
-  pixelSize: number
-  energyFilter: string
-  electronOptics: string
-  phasePlate: string
-}
-
-const MOCK_DATA: AcquisitionTableItem[] = [
-  {
-    microscope: 'FEI - TITAN KRIOS',
-    camera: 'FEI - FALCON IV',
-    tiltingScheme: 'dose-symmetric',
-    pixelSize: 1.05,
-    energyFilter: 'SELECTRIS',
-    electronOptics: '300 kV / Cs = 2.7 mm',
-    phasePlate: 'LPP',
-  },
-  {
-    microscope: 'FEI - TITAN KRIOS',
-    camera: 'FEI - FALCON IV',
-    tiltingScheme: 'dose-symmetric',
-    pixelSize: 1.05,
-    energyFilter: 'SELECTRIS',
-    electronOptics: '300 kV / Cs = 2.7 mm',
-    phasePlate: 'LPP',
-  },
-]
-
 export function MethodSummaryAcquisitionTable() {
   const { t } = useI18n()
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<AcquisitionTableItem>()
+    const columnHelper = createColumnHelper<AcquisitionMethodItem>()
 
     return [
       columnHelper.accessor('microscope', {
@@ -143,8 +116,10 @@ export function MethodSummaryAcquisitionTable() {
           </TableCell>
         ),
       }),
-    ] as ColumnDef<AcquisitionTableItem>[]
+    ] as ColumnDef<AcquisitionMethodItem>[]
   }, [t])
 
-  return <MethodSummaryTable columns={columns} data={MOCK_DATA} />
+  return (
+    <MethodSummaryTable columns={columns} data={ACQUISITION_METHOD_MOCK_DATA} />
+  )
 }

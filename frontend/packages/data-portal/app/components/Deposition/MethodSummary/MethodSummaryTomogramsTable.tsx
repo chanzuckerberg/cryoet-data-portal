@@ -3,41 +3,20 @@
 import { type ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { useMemo } from 'react'
 
+import {
+  TOMOGRAM_METHOD_MOCK_DATA,
+  type TomogramMethodItem,
+} from 'app/components/Deposition/mock'
 import { CellHeader, TableCell } from 'app/components/Table'
 import { TomogramMethodTableWidths } from 'app/constants/table'
 import { useI18n } from 'app/hooks/useI18n'
 
 import { MethodSummaryTable } from './MethodSummaryTable'
 
-interface TomogramTableItem {
-  count: number
-  voxelSpacing: number
-  reconstructionMethod: string
-  postProcessing: string
-  ctfCorrected: boolean
-}
-
-const MOCK_DATA: TomogramTableItem[] = [
-  {
-    count: 10,
-    voxelSpacing: 2.5,
-    reconstructionMethod: 'WBP',
-    postProcessing: 'Denoised',
-    ctfCorrected: true,
-  },
-  {
-    count: 20,
-    voxelSpacing: 4.99,
-    reconstructionMethod: 'WBP',
-    postProcessing: 'Denoised',
-    ctfCorrected: false,
-  },
-]
-
 export function MethodSummaryTomogramsTable() {
   const { t } = useI18n()
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<TomogramTableItem>()
+    const columnHelper = createColumnHelper<TomogramMethodItem>()
 
     return [
       columnHelper.accessor('count', {
@@ -109,8 +88,10 @@ export function MethodSummaryTomogramsTable() {
           </TableCell>
         ),
       }),
-    ] as ColumnDef<TomogramTableItem>[]
+    ] as ColumnDef<TomogramMethodItem>[]
   }, [t])
 
-  return <MethodSummaryTable columns={columns} data={MOCK_DATA} />
+  return (
+    <MethodSummaryTable columns={columns} data={TOMOGRAM_METHOD_MOCK_DATA} />
+  )
 }
