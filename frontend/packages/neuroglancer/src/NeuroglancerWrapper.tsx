@@ -8,6 +8,9 @@ import {
   updateNeuroglancerConfigInSuperstate,
   parseState,
   type ResolvedSuperState,
+  compressHash,
+  decompressHash,
+  hash2jsonString,
 } from './utils'
 
 interface NeuroglancerWrapperProps {
