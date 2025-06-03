@@ -254,6 +254,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
   const iframeRef = useRef<HTMLIFrameElement>()
 
   const depositionConfigs = buildDepositsConfig(run.annotations)
+  const shouldShowAnnotationDropdown = Object.keys(depositionConfigs).length > 0
 
   const scheduleRefresh = () => {
     setRenderVersion(renderVersion + 1)
@@ -439,37 +440,41 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
         <div className="basis-sds-xxl flex-grow screen-790:mr-sds-xxl" />
         <div className="hidden screen-716:flex basis-auto flex-shrink-0">
           <div className="flex items-center gap-1">
-            <CustomDropdown title="Annotations" variant="outlined">
-              <CustomDropdownSection title="Show annotations for deposition">
-                <CustomDropdownOption
-                  selected={isAllLayerActive()}
-                  onSelect={() => toggleAllDepositions()}
-                >
-                  All depositions
-                </CustomDropdownOption>
-                {Object.entries(depositionConfigs).map(
-                  ([depositionId, depositions], i) => {
-                    const layersOfInterest = depositions.map((c: any) => c.name)
-                    return (
-                      <CustomDropdownOption
-                        key={depositionId.toString()}
-                        selected={isDepositionActivated(layersOfInterest)}
-                        onSelect={() => {
-                          toggleDepositions(layersOfInterest)
-                        }}
-                      >
-                        <span>
-                          {depositions?.[0].annotation.deposition.title}
-                        </span>
-                        <span className="text-xs text-[#767676] font-normal">
-                          #CZCDP-{depositionId}
-                        </span>
-                      </CustomDropdownOption>
-                    )
-                  },
-                )}
-              </CustomDropdownSection>
-            </CustomDropdown>
+            {shouldShowAnnotationDropdown && (
+              <CustomDropdown title="Annotations" variant="outlined">
+                <CustomDropdownSection title="Show annotations for deposition">
+                  <CustomDropdownOption
+                    selected={isAllLayerActive()}
+                    onSelect={() => toggleAllDepositions()}
+                  >
+                    All depositions
+                  </CustomDropdownOption>
+                  {Object.entries(depositionConfigs).map(
+                    ([depositionId, depositions], i) => {
+                      const layersOfInterest = depositions.map(
+                        (c: any) => c.name,
+                      )
+                      return (
+                        <CustomDropdownOption
+                          key={depositionId.toString()}
+                          selected={isDepositionActivated(layersOfInterest)}
+                          onSelect={() => {
+                            toggleDepositions(layersOfInterest)
+                          }}
+                        >
+                          <span>
+                            {depositions?.[0].annotation.deposition.title}
+                          </span>
+                          <span className="text-xs text-[#767676] font-normal">
+                            CZCDP-{depositionId}
+                          </span>
+                        </CustomDropdownOption>
+                      )
+                    },
+                  )}
+                </CustomDropdownSection>
+              </CustomDropdown>
+            )}
             <CustomDropdown title="Layout" variant="outlined">
               <CustomDropdownSection title="Layout">
                 <CustomDropdownOption
