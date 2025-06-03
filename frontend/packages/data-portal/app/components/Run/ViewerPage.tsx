@@ -128,7 +128,11 @@ const togglePanels = () => {
           )
         }
       }
+      if (state.dimensionSlider && !isDimensionSliderVisible()) {
+        state = toggleToolPaletteVisible(state)
+      }
       delete state.savedPanelsStatus
+      delete state.dimensionSlider
       return state
     }
     const currentPanelConfig: string[] = []
@@ -143,6 +147,10 @@ const togglePanels = () => {
         currentPanelConfig.push(panelName)
         state.neuroglancer[panelName].visible = !isVisible
       }
+    }
+    state.dimensionSlider = isDimensionSliderVisible()
+    if (state.dimensionSlider) {
+      state = toggleToolPaletteVisible(state)
     }
     state.savedPanelsStatus = currentPanelConfig
     return state
@@ -180,33 +188,32 @@ const isDimensionSliderVisible = () => {
   return boolValue(tool?.visible, /* defaultValue = */ true)
 }
 
+const makeToolPalette = (state: ResolvedSuperState) => {
+  state.neuroglancer.toolPalettes = {
+    Dimensions: {
+      side: 'bottom',
+      row: 1,
+      size: 100,
+      visible: true,
+      query: 'type:dimension',
+    },
+  }
+  return state
+}
+
+const toggleToolPaletteVisible = (state: ResolvedSuperState) => {
+  const toolPalette = Object.entries(
+    state.neuroglancer.toolPalettes,
+  )[0][1] as any
+  toolPalette.visible = !isDimensionSliderVisible()
+  return state
+}
+
 const toggleDimensionSlider = () => {
-  const isVisible = isDimensionSliderVisible()
   const hasToolPalette =
     Object.keys(currentState().neuroglancer?.toolPalettes || {}).length > 0
-  if (!hasToolPalette) {
-    // If there is no tool palette, we make one
-    updateState((state) => {
-      state.neuroglancer.toolPalettes = {
-        Dimensions: {
-          side: 'bottom',
-          row: 1,
-          size: 100,
-          visible: true,
-          query: 'type:dimension',
-        },
-      }
-      return state
-    })
-  } else {
-    updateState((state) => {
-      const toolPalette = Object.entries(
-        state.neuroglancer.toolPalettes,
-      )[0][1] as any
-      toolPalette.visible = !isVisible
-      return state
-    })
-  }
+  if (!hasToolPalette) updateState(makeToolPalette)
+  else updateState(toggleToolPaletteVisible)
 }
 
 const buildDepositsConfig = (annotations: any): Record<number, any[]> => {
