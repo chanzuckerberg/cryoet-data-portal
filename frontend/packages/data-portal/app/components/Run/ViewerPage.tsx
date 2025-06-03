@@ -169,6 +169,46 @@ const setTopBarVisibleFromSuperState = () => {
   viewer.uiConfiguration.showLayerPanel.value = isTopBarVisible()
 }
 
+const isDimensionSliderVisible = () => {
+  const state = currentState()
+  const toolPalettes = state.neuroglancer?.toolPalettes || {}
+  if (Object.keys(toolPalettes).length === 0) {
+    // If there are no tool palettes, the dimension slider is not visible
+    return false
+  }
+  const tool = Object.entries(toolPalettes)[0][1] as any
+  return boolValue(tool?.visible, /* defaultValue = */ true)
+}
+
+const toggleDimensionSlider = () => {
+  const isVisible = isDimensionSliderVisible()
+  const hasToolPalette =
+    Object.keys(currentState().neuroglancer?.toolPalettes || {}).length > 0
+  if (!hasToolPalette) {
+    // If there is no tool palette, we make one
+    updateState((state) => {
+      state.neuroglancer.toolPalettes = {
+        Dimensions: {
+          side: 'bottom',
+          row: 1,
+          size: 100,
+          visible: true,
+          query: 'type:dimension',
+        },
+      }
+      return state
+    })
+  } else {
+    updateState((state) => {
+      const toolPalette = Object.entries(
+        state.neuroglancer.toolPalettes,
+      )[0][1] as any
+      toolPalette.visible = !isVisible
+      return state
+    })
+  }
+}
+
 const buildDepositsConfig = (annotations: any): Record<number, any[]> => {
   const config: any = {}
   const layers = currentNeuroglancerState().layers || []
@@ -522,6 +562,12 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                   onSelect={toggleTopBar}
                 >
                   Show top layer bar
+                </CustomDropdownOption>
+                <CustomDropdownOption
+                  selected={isDimensionSliderVisible()}
+                  onSelect={toggleDimensionSlider}
+                >
+                  Show dimension slider
                 </CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
