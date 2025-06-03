@@ -28,7 +28,10 @@
           window.location.hash = hash
         }
       })
-      window.neuroglancer = setupDefaultViewer({ showLayerPanel: false });
+      window.neuroglancer = setupDefaultViewer({
+        showLayerPanel: false,
+        showToolPaletteButton: false,
+      })
     </script>
   </head>
 </html>
