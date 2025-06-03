@@ -103,7 +103,7 @@ export function CustomDropdown({
       title={title}
       variant={variant}
       buttonElement={buttonElement}
-      paperClassName="!min-w-[250px] !max-w-[320px]"
+      paperClassName="!min-w-[250px] !max-w-[380px]"
     >
       {wrapChildrenWithCloseHandler(children)}
     </MenuDropdown>
