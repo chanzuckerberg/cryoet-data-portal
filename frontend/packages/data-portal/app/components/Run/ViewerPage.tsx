@@ -450,7 +450,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                     All depositions
                   </CustomDropdownOption>
                   {Object.entries(depositionConfigs).map(
-                    ([depositionId, depositions], i) => {
+                    ([depositionId, depositions], _) => {
                       const layersOfInterest = depositions.map(
                         (c: any) => c.name,
                       )
@@ -462,7 +462,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                             toggleDepositions(layersOfInterest)
                           }}
                         >
-                          <span>
+                          <span className="line-clamp-3">
                             {depositions?.[0].annotation.deposition.title}
                           </span>
                           <span className="text-xs text-[#767676] font-normal">
