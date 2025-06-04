@@ -412,13 +412,13 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
 
   const helperText = 'text-xs text-[#767676] font-normal'
   const activeBreadcrumbText = (
-    <Tooltip tooltip={run.name || t('runName')}>
-      <a href={`${window.origin}/runs/${run.id}`}>
+    <Tooltip tooltip={run.name || t('runName')} className="flex overflow-ellipsis overflow-hidden whitespace-nowrap max-w-[12.5rem]">
+      <a href={`${window.origin}/runs/${run.id}`} className="overflow-hidden overflow-ellipsis">
         {run.name}{' '}
-        <span className="text-sds-color-primitive-common-white opacity-60">
-          (#RN-{run.id})
-        </span>
       </a>
+      <span className="text-sds-color-primitive-common-white opacity-60 ml-1">
+        (#RN-{run.id})
+      </span>
     </Tooltip>
   )
 
