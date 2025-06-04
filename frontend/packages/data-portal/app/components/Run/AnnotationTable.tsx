@@ -41,6 +41,7 @@ import { useRunById } from 'app/hooks/useRunById'
 import { useSelectedAnnotationShape } from 'app/state/annotation'
 import { AnnotationShape } from 'app/types/gql/runPageTypes'
 import { I18nKeys } from 'app/types/i18n'
+import { getAnnotationName } from 'app/utils/annotation'
 import { DASHED_BORDERED_CLASSES } from 'app/utils/classNames'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
@@ -375,7 +376,10 @@ export function AnnotationTable() {
                         (file) => file.node.format,
                       ),
                     ),
-                    annotationName: `${annotationShape.id} ${annotationShape.annotation?.objectName}`,
+                    annotationName: getAnnotationName(
+                      annotationShape.id,
+                      annotationShape.annotation?.objectName,
+                    ),
                   })
                 }}
                 startIcon={<Icon sdsIcon="Download" sdsSize="s" />}
