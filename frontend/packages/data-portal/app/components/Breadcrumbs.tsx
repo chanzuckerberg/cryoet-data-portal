@@ -175,7 +175,7 @@ export function Breadcrumbs({
     return (
       <div className="flex flex-row gap-sds-s text-dark-sds-color-primitive-gray-500 fill-[#999] font-normal text-sds-body-s-400-wide leading-sds-body-s items-center whitespace-nowrap content-start">
         <Tooltip
-          tooltip={`Go to ${data.title || t('dataset')}`}
+          tooltip={`Go to Dataset ${data.title || t('dataset')}`}
           className="overflow-hidden overflow-ellipsis"
         >
           <Breadcrumb
