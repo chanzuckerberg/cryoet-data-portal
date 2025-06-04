@@ -417,7 +417,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
         {run.name}{' '}
       </a>
       <span className="text-sds-color-primitive-common-white opacity-60 ml-1">
-        (#RN-{run.id})
+        (RN-{run.id})
       </span>
     </Tooltip>
   )
