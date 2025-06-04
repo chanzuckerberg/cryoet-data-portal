@@ -14,6 +14,7 @@ import { getCurlCommand } from 'app/components/Download/CurlDownloadTab'
 import { QueryParams } from 'app/constants/query'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { DownloadTab } from 'app/types/download'
+import type { AnnotationShape } from 'app/types/gql/runPageTypes'
 
 // import { GetRunByIdQuery } from 'app/__generated__/graphql'
 // import {
@@ -48,7 +49,10 @@ export function constructDialogUrl(
     tab?: string
     step?: string
     config?: string
-    annotationFile?: { annotation: { id: string }; shape_type: string }
+    annotationFile?: {
+      annotation: { id: string; name: string }
+      shape_type: string
+    }
     tomogram?: { id: number; sampling: number; processing: string }
     fileFormat?: string
   },
@@ -71,6 +75,7 @@ export function constructDialogUrl(
       String(annotationFile.annotation.id),
     )
     params.append(QueryParams.ObjectShapeType, annotationFile.shape_type)
+    params.append(QueryParams.AnnotationName, annotationFile.annotation.name)
   } else if (tomogram) {
     params.append(QueryParams.DownloadTomogramId, String(tomogram.id))
   }
@@ -138,36 +143,28 @@ export function getTomogramDownloadCommand({
 }
 
 export function getAnnotationDownloadCommand({
-  data,
+  annotationShape,
   tab,
-  fileFormat,
 }: {
-  data: GetRunByIdV2Query
+  annotationShape: AnnotationShape
   tab: DownloadTab
-  fileFormat: string
 }): string {
-  const annotationShape = data.annotationShapes[0]
+  const annotationFile = annotationShape.annotationFiles.edges.at(0)?.node
 
   switch (tab) {
     case DownloadTab.PortalCLI: // TODO(bchu): Update.
     case DownloadTab.API:
       return getAnnotationCodeSnippet(
         annotationShape.annotation?.id.toString() ?? '',
-        fileFormat,
+        annotationFile?.format ?? '',
       )
     case DownloadTab.AWS:
       return getAwsCommand({
-        s3Path: annotationShape.annotationFiles.edges.find(
-          (file) => file.node.format === fileFormat,
-        )!.node.s3Path,
+        s3Path: annotationFile?.s3Path ?? '',
         s3Command: 'cp',
       })
     case DownloadTab.Curl:
-      return getCurlCommand(
-        annotationShape.annotationFiles.edges.find(
-          (file) => file.node.format === fileFormat,
-        )!.node.httpsPath,
-      )
+      return getCurlCommand(annotationFile?.httpsPath)
     case DownloadTab.Download:
       return ''
     default:
