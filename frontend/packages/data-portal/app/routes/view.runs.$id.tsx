@@ -3,7 +3,6 @@
 import { type LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { lazy, Suspense } from 'react'
 import { typedjson } from 'remix-typedjson'
-import { makeThemeOptions, SDSDarkAppTheme } from '@czi-sds/components'
 
 import { apolloClientV2 } from 'app/apollo.server'
 import { QueryParams } from 'app/constants/query'
