@@ -104,13 +104,23 @@ export class DownloadDialogActor {
     tab?: DownloadTab
   }) {
     const { data } = await fetchTestSingleRun(client)
-    const annotationShape = data.annotationShapes[0]
+
+    const annotationShape =
+      data.annotationShapes.find((shape) =>
+        shape.annotationFiles.edges.some((file) => file.node.format === 'mrc'),
+      ) ?? data.annotationShapes[0]
+
+    const fileFormat = annotationShape.annotationFiles.edges.find(
+      (file) => file.node.format === 'mrc',
+    )?.node.format
+
     const tomogram = data.tomograms[0]
+
     await this.goToDownloadDialogUrl({
       baseUrl,
+      fileFormat,
       step,
       tab,
-      fileFormat: annotationShape.annotationFiles.edges.at(0)?.node.format,
 
       annotationFile: {
         annotation: {
@@ -338,7 +348,12 @@ export class DownloadDialogActor {
     const clipboard = await this.downloadDialogPage.getClipboardHandle()
     const clipboardValue = await clipboard.jsonValue()
     const { data } = await fetchTestSingleRun(client)
-    const annotationShape = data.annotationShapes[0]
+
+    const annotationShape =
+      data.annotationShapes.find((shape) =>
+        shape.annotationFiles.edges.some((file) => file.node.format === 'mrc'),
+      ) ?? data.annotationShapes[0]
+
     const expectedCommand = getAnnotationDownloadCommand({
       annotationShape,
       tab,
