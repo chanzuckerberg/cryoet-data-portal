@@ -71,8 +71,8 @@ export const extractConfigFromSuperState = (hash: string): string => {
   return superstate.neuroglancer || ''
 }
 
-function hash2jsonString(hash: string): string {
-  if (hash.startsWith('#!')) {
+export function hash2jsonString(hash: string): string {
+  if (hash?.startsWith('#!')) {
     return hash.slice(2)
   }
   return hash
@@ -140,7 +140,7 @@ function b64UrlTo64(value: string): string {
 }
 
 export function hashIsUncompressed(hash: string): boolean {
-  return hash.includes('%')
+  return hash?.includes('%')
 }
 
 export function hashIsCompressed(hash: string): boolean {
