@@ -244,6 +244,7 @@ test.describe('downloadDialog', () => {
 
         await downloadDialogPage.clickDialogRadio(
           translations.downloadAllAnnotations,
+          DownloadConfig.AllAnnotations,
         )
 
         await downloadDialogPage.expectRadioToBeSelected(
@@ -286,6 +287,7 @@ test.describe('downloadDialog', () => {
 
         await downloadDialogPage.clickDialogRadio(
           translations.downloadAllAnnotations,
+          DownloadConfig.AllAnnotations,
         )
 
         await downloadDialogPage.expectRadioToBeSelected(
@@ -498,7 +500,10 @@ test.describe('downloadDialog', () => {
           title: translations.configureDownload,
         })
 
-        await downloadDialogPage.clickDialogRadio(translations.downloadTomogram)
+        await downloadDialogPage.clickDialogRadio(
+          translations.downloadTomogram,
+          DownloadConfig.Tomogram,
+        )
 
         await downloadDialogPage.expectRadioToBeSelected(
           DownloadConfig.Tomogram,
@@ -541,7 +546,10 @@ test.describe('downloadDialog', () => {
           title: translations.configureDownload,
         })
 
-        await downloadDialogPage.clickDialogRadio(translations.downloadTomogram)
+        await downloadDialogPage.clickDialogRadio(
+          translations.downloadTomogram,
+          DownloadConfig.Tomogram,
+        )
 
         await downloadDialogPage.expectRadioToBeSelected(
           DownloadConfig.Tomogram,
@@ -589,7 +597,10 @@ test.describe('downloadDialog', () => {
           downloadDialogPage.getDialog().getByRole('radio', { checked: true }),
         ).toHaveCount(0)
 
-        await downloadDialogPage.clickDialogRadio(translations.downloadTomogram)
+        await downloadDialogPage.clickDialogRadio(
+          translations.downloadTomogram,
+          DownloadConfig.Tomogram,
+        )
         await downloadDialogPage.selectFileType('OME-ZARR')
         await downloadDialogPage.clickNextButton()
 
@@ -734,18 +745,15 @@ test.describe('downloadDialog', () => {
 
     test.describe('Download Annotation', () => {
       test('should select from url', async () => {
-        const fileFormat = 'mrc'
         await downloadDialogActor.goToAnnotationDownloadDialogUrl({
           baseUrl: SINGLE_RUN_URL,
           client,
           step: DownloadStep.Configure,
-          fileFormat,
         })
 
         await downloadDialogActor.expectDialogToBeOpen({
           title: translations.configureDownload,
         })
-        await expect(downloadDialogPage.getDialog()).toContainText(fileFormat)
       })
 
       test.describe('should open tabs from url', () => {
@@ -756,7 +764,6 @@ test.describe('downloadDialog', () => {
               client,
               step: DownloadStep.Download,
               tab,
-              fileFormat: 'mrc',
             })
 
             await downloadDialogActor.expectDialogToBeOpen({
@@ -788,7 +795,6 @@ test.describe('downloadDialog', () => {
               client,
               step: DownloadStep.Download,
               tab: fromTab,
-              fileFormat: 'mrc',
             })
 
             await downloadDialogActor.expectDialogToBeOpen({
@@ -825,7 +831,6 @@ test.describe('downloadDialog', () => {
               client,
               step: DownloadStep.Download,
               tab,
-              fileFormat: 'mrc',
             })
 
             await downloadDialogActor.expectDialogToBeOpen({
