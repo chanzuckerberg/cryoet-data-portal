@@ -164,7 +164,7 @@ export function getAnnotationDownloadCommand({
         s3Command: 'cp',
       })
     case DownloadTab.Curl:
-      return getCurlCommand(annotationFile?.httpsPath)
+      return getCurlCommand(annotationFile?.httpsPath ?? '')
     case DownloadTab.Download:
       return ''
     default:
