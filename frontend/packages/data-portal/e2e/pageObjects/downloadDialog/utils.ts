@@ -149,7 +149,9 @@ export function getAnnotationDownloadCommand({
   annotationShape: AnnotationShape
   tab: DownloadTab
 }): string {
-  const annotationFile = annotationShape.annotationFiles.edges.at(0)?.node
+  const annotationFile = annotationShape.annotationFiles.edges.find(
+    (file) => file.node.format === 'mrc',
+  )?.node
 
   switch (tab) {
     case DownloadTab.PortalCLI: // TODO(bchu): Update.
