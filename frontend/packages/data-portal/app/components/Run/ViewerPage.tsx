@@ -11,7 +11,7 @@ import {
   ResolvedSuperState,
   updateState,
 } from 'neuroglancer'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ACTIONS } from 'react-joyride'
 
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
@@ -100,11 +100,15 @@ const isCurrentLayout = (layout: string) => {
   return currentLayout() === layout
 }
 
-const setCurrentLayout = (layout: string) => {
-  updateState((state) => {
+const setCurrentLayout = (layout: string, commit: boolean = true) => {
+  const stateModifier = (state: ResolvedSuperState) => {
     state.neuroglancer.layout = layout as NeuroglancerLayout
     return state
-  })
+  }
+  if (commit) {
+    updateState(stateModifier)
+  }
+  return stateModifier
 }
 
 const snap = () => {
@@ -113,8 +117,8 @@ const snap = () => {
   viewer.perspectiveNavigationState.pose.orientation.snap()
 }
 
-const togglePanels = () => {
-  updateState((state) => {
+const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
+  const stateModifier = (state: ResolvedSuperState) => {
     if (state.savedPanelsStatus) {
       // Restore the configuration
       for (const panelName of state.savedPanelsStatus as PanelName[]) {
@@ -141,23 +145,58 @@ const togglePanels = () => {
         defaultValue,
       )
       if (isVisible) {
-        currentPanelConfig.push(panelName)
-        state.neuroglancer[panelName].visible = !isVisible
+        if (show !== undefined) {
+          if (show === false) {
+            currentPanelConfig.push(panelName)
+          }
+          state.neuroglancer[panelName].visible = show
+        } else {
+          currentPanelConfig.push(panelName)
+          state.neuroglancer[panelName].visible = !isVisible
+        }
       }
     }
     state.savedPanelsStatus = currentPanelConfig
     return state
-  })
+  }
+
+  if (commit) {
+    updateState(stateModifier)
+  }
+
+  return stateModifier
 }
 
-const toggleTopBar = () => {
-  const isVisible = isTopBarVisible()
-  updateState((state) => {
-    state.showLayerTopBar = !isVisible
+const toggleTopBar = (show: boolean | undefined = undefined, commit = true) => {
+  const stateModifier = (state: ResolvedSuperState) => {
+    state.showLayerTopBar = show !== undefined ? show : !isVisible
     return state
-  })
+  }
+
+  const isVisible = isTopBarVisible()
+
+  if (commit) {
+    updateState(stateModifier)
+  }
+
   const viewer = currentNeuroglancer()
-  viewer.uiConfiguration.showLayerPanel.value = !isVisible
+  if (viewer) {
+    viewer.uiConfiguration.showLayerPanel.value = !isVisible
+  }
+
+  return stateModifier
+}
+
+const chain = (
+  modifiers: ((state: ResolvedSuperState) => ResolvedSuperState)[],
+): ((state: ResolvedSuperState) => ResolvedSuperState | undefined) => {
+  return (state: ResolvedSuperState) => {
+    let finalState = state
+    for (const modifier of modifiers) {
+      finalState = modifier(finalState)
+    }
+    return finalState
+  }
 }
 
 const isTopBarVisible = () => {
@@ -245,6 +284,22 @@ const isAllLayerActive = () => {
   )
 }
 
+const isSmallScreen = () => {
+  return (
+    (window.innerHeight <= 950 && window.innerWidth <= 600) ||
+    (window.innerHeight <= 600 && window.innerWidth <= 950)
+  )
+}
+
+const adjustPanelSize = (stringState: string) => {
+  const state = JSON.parse(stringState)
+  if (state.layerListPanel) {
+    state.layerListPanel.size = WALKTHROUGH_PANEL_SIZE
+    state.selectedLayer.size = WALKTHROUGH_PANEL_SIZE
+  }
+  return encodeState(state, /* compress = */ false)
+}
+
 function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
   const { t } = useI18n()
   const [renderVersion, setRenderVersion] = useState(0)
@@ -253,6 +308,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
   const [shareClicked, setShareClicked] = useState<boolean>(false)
   const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
   const iframeRef = useRef<HTMLIFrameElement>()
+  const hashReady = useRef<boolean>(false)
 
   const depositionConfigs = buildDepositsConfig(run.annotations)
   const shouldShowAnnotationDropdown = Object.keys(depositionConfigs).length > 0
@@ -261,23 +317,17 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     setRenderVersion(renderVersion + 1)
   }
 
-  const adjustPanelSize = (stringState: string) => {
-    const state = JSON.parse(stringState)
-    if (state.layerListPanel) {
-      state.layerListPanel.size = WALKTHROUGH_PANEL_SIZE
-      state.selectedLayer.size = WALKTHROUGH_PANEL_SIZE
-    }
-    return encodeState(state, /* compress = */ false)
-  }
-
-  const handleTourStartInNewTab = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault()
-    localStorage.setItem('startTutorial', 'true')
-    const { protocol, host, pathname, search } = window.location
-    const newEncodedState = adjustPanelSize(tomogram.neuroglancerConfig)
-    const urlWithoutHash = `${protocol}//${host}${pathname}${search}${newEncodedState}`
-    window.open(urlWithoutHash, '_blank')
-  }
+  const handleTourStartInNewTab = useCallback(
+    () => (event: React.MouseEvent<HTMLElement>) => {
+      event.preventDefault()
+      localStorage.setItem('startTutorial', 'true')
+      const { protocol, host, pathname, search } = window.location
+      const newEncodedState = adjustPanelSize(tomogram.neuroglancerConfig)
+      const urlWithoutHash = `${protocol}//${host}${pathname}${search}${newEncodedState}`
+      window.open(urlWithoutHash, '_blank')
+    },
+    [tomogram],
+  )
 
   const handleTourClose = () => {
     setTourRunning(false)
@@ -326,6 +376,23 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
       setTourRunning(true)
     }, 300)
   }
+
+  useEffect(() => {
+    // Schedule to check for small devices 1s after this save
+    if (isSmallScreen()) {
+      updateState((state) => {
+        const newState = chain([
+          togglePanels(false, /* commit = */ false),
+          toggleTopBar(false, /* commit = */ false),
+          setCurrentLayout('xy', /* commit = */ false),
+        ])(state)
+        return newState
+      })
+    } else {
+      scheduleRefresh()
+    }
+    hashReady.current = true
+  }, [])
 
   const handleOnStateChange = (state: ResolvedSuperState) => {
     scheduleRefresh()
@@ -522,13 +589,13 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
               <CustomDropdownSection title="Toggle Panels">
                 <CustomDropdownOption
                   selected={currentState().savedPanelsStatus !== undefined}
-                  onSelect={togglePanels}
+                  onSelect={() => togglePanels()}
                 >
                   Hide UI
                 </CustomDropdownOption>
                 <CustomDropdownOption
                   selected={isTopBarVisible()}
-                  onSelect={toggleTopBar}
+                  onSelect={() => toggleTopBar()}
                 >
                   Show top layer bar
                 </CustomDropdownOption>
@@ -628,10 +695,12 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
         </div>
       </nav>
       <div className="iframeContainer">
-        <NeuroglancerWrapper
-          onStateChange={handleOnStateChange}
-          ref={iframeRef}
-        />
+        {hashReady.current && (
+          <NeuroglancerWrapper
+            onStateChange={handleOnStateChange}
+            ref={iframeRef}
+          />
+        )}
       </div>
       {run && (
         <Tour

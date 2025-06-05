@@ -9,6 +9,8 @@
       import 'neuroglancer'
       import { setupDefaultViewer } from 'neuroglancer/unstable/ui/default_viewer_setup.js'
 
+      window.neuroglancer = setupDefaultViewer({ showLayerPanel: false });
+
       const originalReplaceState = history.replaceState
       history.replaceState = function (...args) {
         originalReplaceState.apply(history, args)
@@ -27,7 +29,6 @@
           window.location.hash = hash
         }
       })
-      window.neuroglancer = setupDefaultViewer({ showLayerPanel: false });
     </script>
   </head>
 </html>
