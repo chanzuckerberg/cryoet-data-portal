@@ -12,6 +12,7 @@ import {
 } from 'app/components/Download/APIDownloadTab'
 import { getAwsCommand } from 'app/components/Download/AWSDownloadTab'
 import { DownloadConfig, DownloadStep, DownloadTab } from 'app/types/download'
+import { getAnnotationName } from 'app/utils/annotation'
 
 import { DownloadDialogPage } from './downloadDialogPage'
 import {
@@ -43,7 +44,10 @@ export class DownloadDialogActor {
     baseUrl: string
     step?: DownloadStep
     tab?: DownloadTab
-    annotationFile?: { annotation: { id: string }; shape_type: string }
+    annotationFile?: {
+      annotation: { id: string; name: string }
+      shape_type: string
+    }
     tomogram?: { id: number; sampling: number; processing: string }
   }) {
     const expectedUrl = constructDialogUrl(baseUrl, {
@@ -93,28 +97,43 @@ export class DownloadDialogActor {
     baseUrl,
     step,
     tab,
-    fileFormat,
   }: {
     client: ApolloClient<NormalizedCacheObject>
     baseUrl: string
     step?: DownloadStep
     tab?: DownloadTab
-    fileFormat?: string
   }) {
     const { data } = await fetchTestSingleRun(client)
-    const annotationShape = data.annotationShapes[0]
+
+    const annotationShape =
+      data.annotationShapes.find((shape) =>
+        shape.annotationFiles.edges.some((file) => file.node.format === 'mrc'),
+      ) ?? data.annotationShapes[0]
+
+    const fileFormat = annotationShape.annotationFiles.edges.find(
+      (file) => file.node.format === 'mrc',
+    )?.node.format
+
     const tomogram = data.tomograms[0]
+
     await this.goToDownloadDialogUrl({
       baseUrl,
       fileFormat,
       step,
       tab,
+
       annotationFile: {
         annotation: {
           id: annotationShape?.annotation?.id.toString() ?? '',
+          name: getAnnotationName(
+            annotationShape.id,
+            annotationShape.annotation?.objectName,
+          ),
         },
+
         shape_type: annotationShape.shapeType ?? '',
       },
+
       tomogram: {
         id: tomogram.id,
         sampling: tomogram.voxelSpacing,
@@ -329,10 +348,15 @@ export class DownloadDialogActor {
     const clipboard = await this.downloadDialogPage.getClipboardHandle()
     const clipboardValue = await clipboard.jsonValue()
     const { data } = await fetchTestSingleRun(client)
+
+    const annotationShape =
+      data.annotationShapes.find((shape) =>
+        shape.annotationFiles.edges.some((file) => file.node.format === 'mrc'),
+      ) ?? data.annotationShapes[0]
+
     const expectedCommand = getAnnotationDownloadCommand({
-      data,
+      annotationShape,
       tab,
-      fileFormat: 'mrc',
     })
     expect(clipboardValue).toBe(expectedCommand)
   }

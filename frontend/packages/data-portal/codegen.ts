@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import { CodegenConfig } from '@graphql-codegen/cli'
 
 const SCHEMA_URL_V2 =

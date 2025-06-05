@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 
+import 'dotenv/config'
+
 import { createRequestHandler } from '@remix-run/express'
 import { broadcastDevReady, installGlobals, ServerBuild } from '@remix-run/node'
 import compression from 'compression'
