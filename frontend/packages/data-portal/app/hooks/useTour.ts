@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { currentState, encodeState, updateState } from 'neuroglancer';
 import { ACTIONS } from 'react-joyride';
 

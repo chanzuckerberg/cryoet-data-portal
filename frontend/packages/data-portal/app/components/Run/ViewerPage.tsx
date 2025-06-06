@@ -10,7 +10,7 @@ import {
   ResolvedSuperState,
   updateState,
 } from 'neuroglancer'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
@@ -413,11 +413,6 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     setSnapActionClicked(true)
   }
 
-  const onStartTour = useCallback(
-    (e: React.MouseEvent<HTMLElement>) => handleTourStartInNewTab(e),
-    [handleTourStartInNewTab]
-  );
-
   const helperText = 'text-xs text-[#767676] font-normal'
   const activeBreadcrumbText = (
     <Tooltip
@@ -626,7 +621,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                 <button
                   type="button"
                   className="py-1.5 px-2 w-full text-left hover:bg-light-sds-color-primitive-gray-300 hover:bg-opacity-30"
-                  onClick={onStartTour}
+                  onClick={handleTourStartInNewTab}
                 >
                   {t('neuroglancerWalkthrough')}
                 </button>
@@ -665,7 +660,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
         message="Snapped to the nearest axis"
         handleClose={() => setSnapActionClicked(false)}
       />
-      <NeuroglancerBanner onStartTour={onStartTour} />
+      <NeuroglancerBanner onStartTour={handleTourStartInNewTab} />
     </div>
   )
 }
