@@ -1,13 +1,13 @@
 import { translations } from 'e2e/constants'
 
+import { AVAILABLE_FILES_VALUE_TO_I18N_MAP } from 'app/components/Filters/constants'
+
 // import {
 //   GetDatasetByIdQuery,
 //   GetDatasetsDataQuery,
 //   GetDatasetsFilterDataQuery,
 //   GetRunByIdQuery,
 // } from 'app/__generated__/graphql'
-import { AVAILABLE_FILES_VALUE_TO_I18N_MAP } from 'app/components/DatasetFilter/constants'
-
 import { QueryParamObjectType } from './types'
 
 // import { QueryParamObjectType, RowCounterType } from './types'
