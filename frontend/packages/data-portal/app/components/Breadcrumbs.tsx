@@ -192,9 +192,7 @@ export function Breadcrumbs({
             {neuroglancerChevronIcon}
             <Breadcrumb
               text={activeBreadcrumbText}
-              className={
-                'text-dark-sds-color-primitive-gray-900 shrink-0 !font-normal'
-              }
+              className="text-dark-sds-color-primitive-gray-900 shrink-0 !font-normal"
             />
           </>
         )}

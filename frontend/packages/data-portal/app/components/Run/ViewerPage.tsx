@@ -16,6 +16,7 @@ import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
 import { useI18n } from 'app/hooks/useI18n'
+import useTour from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
 
 import {
@@ -33,7 +34,6 @@ import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { Tooltip } from '../Tooltip'
 import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { getTutorialSteps } from './steps'
-import useTour from 'app/hooks/useTour'
 import Tour from './Tour'
 
 const boolValue = (
@@ -298,8 +298,8 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     handleTourStartInNewTab,
     handleTourClose,
     handleRestart,
-    handleTourStepMove
-  } = useTour(tomogram);
+    handleTourStepMove,
+  } = useTour(tomogram)
   const [renderVersion, setRenderVersion] = useState(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
   const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
