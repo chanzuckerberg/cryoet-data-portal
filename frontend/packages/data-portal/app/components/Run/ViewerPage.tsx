@@ -317,17 +317,14 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     setRenderVersion(renderVersion + 1)
   }
 
-  const handleTourStartInNewTab = useCallback(
-    () => (event: React.MouseEvent<HTMLElement>) => {
-      event.preventDefault()
-      localStorage.setItem('startTutorial', 'true')
-      const { protocol, host, pathname, search } = window.location
-      const newEncodedState = adjustPanelSize(tomogram.neuroglancerConfig)
-      const urlWithoutHash = `${protocol}//${host}${pathname}${search}${newEncodedState}`
-      window.open(urlWithoutHash, '_blank')
-    },
-    [tomogram],
-  )
+  const handleTourStartInNewTab = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault()
+    localStorage.setItem('startTutorial', 'true')
+    const { protocol, host, pathname, search } = window.location
+    const newEncodedState = adjustPanelSize(tomogram.neuroglancerConfig)
+    const urlWithoutHash = `${protocol}//${host}${pathname}${search}${newEncodedState}`
+    window.open(urlWithoutHash, '_blank')
+  }
 
   const handleTourClose = () => {
     setTourRunning(false)
