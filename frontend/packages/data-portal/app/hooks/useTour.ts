@@ -32,30 +32,21 @@ export default function useTour(tomogram: any) {
     const [tourRunning, setTourRunning] = useState(false);
     const [stepIndex, setStepIndex] = useState<number>(0);
 
-    const handleTourClose = () => {
-        setTourRunning(false)
-        setTimeout(() => {
-            setStepIndex(0)
-        }, 300)
-    }
-
-    const handleRestart = () => {
-        setTourRunning(false)
-        setTimeout(() => {
-            setStepIndex(0)
-            setTourRunning(true)
-        }, 300)
-    }
-
-    const handleTourStartInNewTab = useCallback(() => (event: React.MouseEvent<HTMLElement>) => {
-        console.log("do we call it? ")
+    const handleTourStartInNewTab = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault()
         localStorage.setItem('startTutorial', 'true')
         const { protocol, host, pathname, search } = window.location
         const newEncodedState = adjustPanelSize(tomogram.neuroglancerConfig)
         const urlWithoutHash = `${protocol}//${host}${pathname}${search}${newEncodedState}`
         window.open(urlWithoutHash, '_blank')
-    }, [tomogram]);
+    }
+
+    const handleTourClose = () => {
+        setTourRunning(false)
+        setTimeout(() => {
+            setStepIndex(0)
+        }, 300)
+    }
 
     const handleTourStepMove = (
         index: number,
@@ -88,6 +79,14 @@ export default function useTour(tomogram: any) {
                 updateTourStepFromState(true /* layerControlVisibility = */)
             }
         }
+    }
+
+    const handleRestart = () => {
+        setTourRunning(false)
+        setTimeout(() => {
+            setStepIndex(0)
+            setTourRunning(true)
+        }, 300)
     }
 
     return {
