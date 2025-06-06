@@ -16,9 +16,10 @@ export type Deposition = {
   authors: AuthorInfoType[]
   keyPhotoThumbnailUrl?: string
   depositionDate: string
-  annotationCount: number | undefined
+  annotationCount?: number
   acrossDatasets: number
   annotatedObjects: Map<string, boolean>
   objectShapeTypes: Annotation_File_Shape_Type_Enum[]
-  tomogramsCount: number | undefined
+  tomogramsCount?: number
+  totalImagingData: number
 }
