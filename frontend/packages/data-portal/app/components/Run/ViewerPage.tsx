@@ -5,14 +5,12 @@ import {
   currentNeuroglancer,
   currentNeuroglancerState,
   currentState,
-  encodeState,
   NeuroglancerLayout,
   NeuroglancerWrapper,
   ResolvedSuperState,
   updateState,
 } from 'neuroglancer'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ACTIONS } from 'react-joyride'
 
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
@@ -35,9 +33,8 @@ import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { Tooltip } from '../Tooltip'
 import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { getTutorialSteps } from './steps'
+import useTour from 'app/hooks/useTour'
 import Tour from './Tour'
-
-const WALKTHROUGH_PANEL_SIZE = 400
 
 const boolValue = (
   value: boolean | undefined,
@@ -291,20 +288,19 @@ const isSmallScreen = () => {
   )
 }
 
-const adjustPanelSize = (stringState: string) => {
-  const state = JSON.parse(stringState)
-  if (state.layerListPanel) {
-    state.layerListPanel.size = WALKTHROUGH_PANEL_SIZE
-    state.selectedLayer.size = WALKTHROUGH_PANEL_SIZE
-  }
-  return encodeState(state, /* compress = */ false)
-}
-
 function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
   const { t } = useI18n()
+  const {
+    tourRunning,
+    setTourRunning,
+    stepIndex,
+    setStepIndex,
+    handleTourStartInNewTab,
+    handleTourClose,
+    handleRestart,
+    handleTourStepMove
+  } = useTour(tomogram);
   const [renderVersion, setRenderVersion] = useState(0)
-  const [tourRunning, setTourRunning] = useState(false)
-  const [stepIndex, setStepIndex] = useState<number>(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
   const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
   const iframeRef = useRef<HTMLIFrameElement>()
@@ -315,66 +311,6 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
 
   const scheduleRefresh = () => {
     setRenderVersion(renderVersion + 1)
-  }
-
-  const handleTourStartInNewTab = useCallback(
-    () => (event: React.MouseEvent<HTMLElement>) => {
-      event.preventDefault()
-      localStorage.setItem('startTutorial', 'true')
-      const { protocol, host, pathname, search } = window.location
-      const newEncodedState = adjustPanelSize(tomogram.neuroglancerConfig)
-      const urlWithoutHash = `${protocol}//${host}${pathname}${search}${newEncodedState}`
-      window.open(urlWithoutHash, '_blank')
-    },
-    [tomogram],
-  )
-
-  const handleTourClose = () => {
-    setTourRunning(false)
-    setTimeout(() => {
-      setStepIndex(0)
-    }, 300)
-  }
-
-  const handleTourStepMove = (
-    index: number,
-    action: (typeof ACTIONS)[keyof typeof ACTIONS],
-  ) => {
-    // To keep the tour in sync with the state, we need to update the
-    // state, and then then tour index in the state update callback
-    const updateTourStepFromState = (layerControlVisibility: boolean) => {
-      updateState((state) => {
-        state.neuroglancer.selectedLayer.visible = layerControlVisibility
-        state.tourStepIndex = newIndex
-        return state
-      })
-    }
-
-    const newIndex = action === ACTIONS.NEXT ? index + 1 : index - 1
-    if (newIndex < 3 || newIndex > 5) setStepIndex(newIndex)
-    else if (newIndex === 4)
-      updateTourStepFromState(false /* layerControlVisibility = */)
-    else {
-      // On step 3 and 5 we may not need to update the state,
-      const { neuroglancer } = currentState()
-      const isPanelVisible = boolValue(
-        neuroglancer.selectedLayer?.visible,
-        panelsDefaultValues.selectedLayer,
-      )
-      if (isPanelVisible) {
-        setStepIndex(newIndex)
-      } else {
-        updateTourStepFromState(true /* layerControlVisibility = */)
-      }
-    }
-  }
-
-  const handleRestart = () => {
-    setTourRunning(false)
-    setTimeout(() => {
-      setStepIndex(0)
-      setTourRunning(true)
-    }, 300)
   }
 
   useEffect(() => {
@@ -476,6 +412,11 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     snap()
     setSnapActionClicked(true)
   }
+
+  const onStartTour = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => handleTourStartInNewTab(e),
+    [handleTourStartInNewTab]
+  );
 
   const helperText = 'text-xs text-[#767676] font-normal'
   const activeBreadcrumbText = (
@@ -685,7 +626,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                 <button
                   type="button"
                   className="py-1.5 px-2 w-full text-left hover:bg-light-sds-color-primitive-gray-300 hover:bg-opacity-30"
-                  onClick={handleTourStartInNewTab}
+                  onClick={onStartTour}
                 >
                   {t('neuroglancerWalkthrough')}
                 </button>
@@ -724,7 +665,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
         message="Snapped to the nearest axis"
         handleClose={() => setSnapActionClicked(false)}
       />
-      <NeuroglancerBanner onStartTour={handleTourStartInNewTab} />
+      <NeuroglancerBanner onStartTour={onStartTour} />
     </div>
   )
 }
