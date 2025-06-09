@@ -43,6 +43,27 @@ const remapV2Deposition = remapAPI<
     deposition.annotationDatasetCount?.aggregate?.length ?? 0,
   tomogramsCount: (deposition) =>
     deposition.tomogramsCount?.aggregate?.at(0)?.count ?? undefined,
+  totalImagingData: (deposition) => {
+    let totalImagingData = 0
+
+    for (const aggregate of deposition.framesFileSizes?.aggregate ?? []) {
+      totalImagingData += aggregate.sum?.fileSize ?? 0
+    }
+
+    for (const aggregate of deposition.tiltSeriesFileSizes?.aggregate ?? []) {
+      totalImagingData +=
+        (aggregate.sum?.fileSizeMrc ?? 0) +
+        (aggregate.sum?.fileSizeOmezarr ?? 0)
+    }
+
+    for (const aggregate of deposition.tomogramFileSizes?.aggregate ?? []) {
+      totalImagingData +=
+        (aggregate.sum?.fileSizeMrc ?? 0) +
+        (aggregate.sum?.fileSizeOmezarr ?? 0)
+    }
+
+    return totalImagingData
+  },
 } as const)
 
 export const remapV2BrowseAllDepositions = (

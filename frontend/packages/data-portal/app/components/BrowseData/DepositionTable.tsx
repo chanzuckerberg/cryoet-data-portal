@@ -5,6 +5,7 @@ import Skeleton from '@mui/material/Skeleton'
 import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
+import prettyBytes from 'pretty-bytes'
 import { useMemo } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
@@ -40,12 +41,11 @@ const LOADING_DEPOSITIONS = range(0, MAX_PER_PAGE).map(
       id: value,
       title: `loading-deposition-${value}`,
       depositionDate: '',
-      annotationCount: 0,
       authors: [],
       annotatedObjects: new Map<string, boolean>(),
       objectShapeTypes: [],
       acrossDatasets: 0,
-      tomogramsCount: 0,
+      totalImagingData: 0,
     }) as Deposition,
 )
 
@@ -218,11 +218,12 @@ export function DepositionTable() {
                     })
                   }
 
-                  dataTypes.push({
-                    label: 'imagingData',
-                    // TODO replace with value from backend
-                    value: '10 GB',
-                  })
+                  if (deposition.totalImagingData > 0) {
+                    dataTypes.push({
+                      label: 'imagingData',
+                      value: prettyBytes(deposition.totalImagingData),
+                    })
+                  }
 
                   return (
                     <TableCell loadingSkeleton={false}>
@@ -264,7 +265,7 @@ export function DepositionTable() {
                             className="max-w-[40%] mt-2"
                           />
                         ) : (
-                          deposition.annotationCount.toLocaleString()
+                          deposition.annotationCount?.toLocaleString()
                         )}
                       </p>
 

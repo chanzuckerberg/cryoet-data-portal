@@ -95,6 +95,32 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
           count
         }
       }
+
+      framesFileSizes: framesAggregate {
+        aggregate {
+          sum {
+            fileSize
+          }
+        }
+      }
+
+      tiltSeriesFileSizes: tiltseriesAggregate {
+        aggregate {
+          sum {
+            fileSizeMrc
+            fileSizeOmezarr
+          }
+        }
+      }
+
+      tomogramFileSizes: tomogramsAggregate {
+        aggregate {
+          sum {
+            fileSizeMrc
+            fileSizeOmezarr
+          }
+        }
+      }
     }
 
     totalDepositionCount: depositionsAggregate(where: {depositionTypes: {type: {_eq: annotation}}}) {
