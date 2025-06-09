@@ -193,7 +193,7 @@ export function DepositionTable() {
                 id: 'dataTypesAndCounts',
 
                 header: () => (
-                  <CellHeader width={DepositionTableWidths.dataTypes}>
+                  <CellHeader width={DepositionTableWidths.dataTypesAndCounts}>
                     {t('dataTypesAndCounts')}
                   </CellHeader>
                 ),
