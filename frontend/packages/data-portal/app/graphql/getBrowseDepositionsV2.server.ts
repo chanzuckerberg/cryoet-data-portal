@@ -56,6 +56,12 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
         }
       }
 
+      tomogramsCount: tomogramsAggregate {
+        aggregate {
+          count
+        }
+      }
+
       objectNames: annotationsAggregate {
         aggregate {
           groupBy {

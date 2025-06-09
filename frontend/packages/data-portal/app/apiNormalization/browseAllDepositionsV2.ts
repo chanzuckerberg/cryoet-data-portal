@@ -22,7 +22,7 @@ const remapV2Deposition = remapAPI<
   authors: (deposition) =>
     deposition.authors?.edges?.map((edge) => edge.node) ?? [],
   annotationCount: (deposition) =>
-    deposition.annotationsCount?.aggregate?.at(0)?.count ?? 0,
+    deposition.annotationsCount?.aggregate?.at(0)?.count ?? undefined,
   annotatedObjects: (deposition) =>
     deposition.objectNames?.aggregate?.reduce((acc, aggregate) => {
       const objectName = aggregate.groupBy?.objectName
@@ -41,6 +41,8 @@ const remapV2Deposition = remapAPI<
     [],
   acrossDatasets: (deposition) =>
     deposition.annotationDatasetCount?.aggregate?.length ?? 0,
+  tomogramsCount: (deposition) =>
+    deposition.tomogramsCount?.aggregate?.at(0)?.count ?? undefined,
 } as const)
 
 export const remapV2BrowseAllDepositions = (
