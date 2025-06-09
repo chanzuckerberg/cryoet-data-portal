@@ -44,7 +44,7 @@ export function ConfigureTomogramDownloadContent() {
     <>
       <RadioGroup
         className="flex flex-col gap-sds-xxs flex-grow"
-        value={downloadConfig}
+        value={downloadConfig ?? null}
         onChange={(event) =>
           match(event.target.value as DownloadConfig)
             .with(DownloadConfig.Tomogram, setTomogramConfigWithInitialValues)
