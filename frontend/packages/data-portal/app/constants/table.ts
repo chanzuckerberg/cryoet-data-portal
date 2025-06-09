@@ -58,6 +58,7 @@ export const DepositionTableWidths = {
   annotations: { min: 120, max: 200 },
   annotatedObjects: { min: 140, max: 400 },
   objectShapeTypes: { min: 120, max: 200 },
+  dataTypesAndCounts: { min: 184, max: 184 },
 }
 
 export const DepositionPageDatasetTableWidths = {

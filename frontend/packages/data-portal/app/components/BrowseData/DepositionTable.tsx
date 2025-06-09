@@ -5,6 +5,7 @@ import Skeleton from '@mui/material/Skeleton'
 import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
+import prettyBytes from 'pretty-bytes'
 import { useMemo } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
@@ -26,9 +27,11 @@ import { useDepositions } from 'app/hooks/useDepositions'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
+import type { I18nKeys } from 'app/types/i18n'
 import { LogLevel } from 'app/types/logging'
 import { Deposition } from 'app/types/PageData/browseAllDepositionsPageData'
 import { cnsNoMerge } from 'app/utils/cns'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
 
@@ -38,11 +41,11 @@ const LOADING_DEPOSITIONS = range(0, MAX_PER_PAGE).map(
       id: value,
       title: `loading-deposition-${value}`,
       depositionDate: '',
-      annotationCount: 0,
       authors: [],
       annotatedObjects: new Map<string, boolean>(),
       objectShapeTypes: [],
       acrossDatasets: 0,
+      totalImagingData: 0,
     }) as Deposition,
 )
 
@@ -57,6 +60,8 @@ export function DepositionTable() {
 
   const { isLoadingDebounced } = useIsLoading()
   const navigate = useNavigate()
+
+  const isExpandDepositions = useFeatureFlag('expandDepositions')
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Deposition>()
@@ -182,105 +187,179 @@ export function DepositionTable() {
           },
         }),
 
-        columnHelper.accessor('annotationCount', {
-          header: () => (
-            <CellHeader width={DepositionTableWidths.annotations}>
-              {t('annotations')}
-            </CellHeader>
-          ),
+        ...(isExpandDepositions
+          ? [
+              columnHelper.display({
+                id: 'dataTypesAndCounts',
 
-          cell({ row: { original: deposition } }) {
-            return (
-              <TableCell loadingSkeleton={false}>
-                <p className="text-sds-body-s-400-wide leading-sds-body-s mb-sds-xxxs">
-                  {isLoadingDebounced ? (
-                    <Skeleton variant="text" className="max-w-[40%] mt-2" />
-                  ) : (
-                    deposition.annotationCount.toLocaleString()
-                  )}
-                </p>
+                header: () => (
+                  <CellHeader width={DepositionTableWidths.dataTypesAndCounts}>
+                    {t('dataTypesAndCounts')}
+                  </CellHeader>
+                ),
 
-                <p className="text-light-sds-color-primitive-gray-600 text-sds-body-xxs-400-wide leading-sds-body-xxs">
-                  {isLoadingDebounced ? (
-                    <Skeleton variant="text" className="max-w-[75%] mt-2" />
-                  ) : (
-                    t('acrossDatasets', {
-                      count: deposition.acrossDatasets,
+                cell({ row: { original: deposition } }) {
+                  const dataTypes: {
+                    label: I18nKeys
+                    value: string
+                  }[] = []
+
+                  if (deposition.annotationCount !== undefined) {
+                    dataTypes.push({
+                      label: 'annotations',
+                      value: deposition.annotationCount.toLocaleString(),
                     })
-                  )}
-                </p>
-              </TableCell>
-            )
-          },
-        }),
+                  }
 
-        columnHelper.accessor('annotatedObjects', {
-          header: () => (
-            <CellHeader width={DepositionTableWidths.annotatedObjects}>
-              {t('annotatedObjects')}
-            </CellHeader>
-          ),
+                  if (deposition.tomogramsCount !== undefined) {
+                    dataTypes.push({
+                      label: 'tomograms',
+                      value: deposition.tomogramsCount.toLocaleString(),
+                    })
+                  }
 
-          cell({ row: { original: deposition } }) {
-            return (
-              <TableCell
-                width={DepositionTableWidths.annotatedObjects}
-                renderLoadingSkeleton={() => (
-                  <div className="flex flex-col gap-2">
-                    {range(0, ANNOTATED_OBJECTS_MAX).map((val) => (
-                      <Skeleton key={`skeleton-${val}`} variant="rounded" />
-                    ))}
-                  </div>
-                )}
-              >
-                {deposition.annotatedObjects.size === 0 ? (
-                  '--'
-                ) : (
-                  <AnnotatedObjectsList
-                    annotatedObjects={deposition.annotatedObjects}
-                  />
-                )}
-              </TableCell>
-            )
-          },
-        }),
+                  if (deposition.totalImagingData > 0) {
+                    dataTypes.push({
+                      label: 'imagingData',
+                      value: prettyBytes(deposition.totalImagingData),
+                    })
+                  }
 
-        columnHelper.accessor('objectShapeTypes', {
-          header: () => (
-            <CellHeader width={DepositionTableWidths.objectShapeTypes}>
-              {t('objectShapeType')}
-            </CellHeader>
-          ),
+                  return (
+                    <TableCell loadingSkeleton={false}>
+                      {dataTypes.map(({ label, value }) => (
+                        <p className="text-sds-body-s-400-wide leading-sds-body-s mb-sds-xxxs">
+                          <span>{t(label)}: </span>
+                          {isLoadingDebounced ? (
+                            <Skeleton
+                              variant="text"
+                              className="max-w-[40%] mt-2"
+                            />
+                          ) : (
+                            <span className="text-light-sds-color-semantic-base-text-secondary">
+                              {value}
+                            </span>
+                          )}
+                        </p>
+                      ))}
+                    </TableCell>
+                  )
+                },
+              }),
+            ]
+          : [
+              columnHelper.accessor('annotationCount', {
+                header: () => (
+                  <CellHeader width={DepositionTableWidths.annotations}>
+                    {t('annotations')}
+                  </CellHeader>
+                ),
 
-          cell({ row: { original: deposition } }) {
-            return (
-              <TableCell
-                renderLoadingSkeleton={() => (
-                  <div className="flex flex-col gap-2">
-                    {range(0, 2).map((val) => (
-                      <Skeleton key={`skeleton-${val}`} variant="rounded" />
-                    ))}
-                  </div>
-                )}
-              >
-                {deposition.objectShapeTypes.length === 0 ? (
-                  '--'
-                ) : (
-                  <ul className="list-none flex flex-col gap-sds-xs">
-                    {deposition.objectShapeTypes.map((shapeType) => (
-                      <li
-                        className="whitespace-nowrap overflow-x-hidden overflow-ellipsis"
-                        key={shapeType}
-                      >
-                        {t(getShapeTypeI18nKey(shapeType))}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </TableCell>
-            )
-          },
-        }),
+                cell({ row: { original: deposition } }) {
+                  return (
+                    <TableCell loadingSkeleton={false}>
+                      <p className="text-sds-body-s-400-wide leading-sds-body-s mb-sds-xxxs">
+                        {isLoadingDebounced ? (
+                          <Skeleton
+                            variant="text"
+                            className="max-w-[40%] mt-2"
+                          />
+                        ) : (
+                          deposition.annotationCount?.toLocaleString()
+                        )}
+                      </p>
+
+                      <p className="text-light-sds-color-primitive-gray-600 text-sds-body-xxs-400-wide leading-sds-body-xxs">
+                        {isLoadingDebounced ? (
+                          <Skeleton
+                            variant="text"
+                            className="max-w-[75%] mt-2"
+                          />
+                        ) : (
+                          t('acrossDatasets', {
+                            count: deposition.acrossDatasets,
+                          })
+                        )}
+                      </p>
+                    </TableCell>
+                  )
+                },
+              }),
+
+              columnHelper.accessor('annotatedObjects', {
+                header: () => (
+                  <CellHeader width={DepositionTableWidths.annotatedObjects}>
+                    {t('annotatedObjects')}
+                  </CellHeader>
+                ),
+
+                cell({ row: { original: deposition } }) {
+                  return (
+                    <TableCell
+                      width={DepositionTableWidths.annotatedObjects}
+                      renderLoadingSkeleton={() => (
+                        <div className="flex flex-col gap-2">
+                          {range(0, ANNOTATED_OBJECTS_MAX).map((val) => (
+                            <Skeleton
+                              key={`skeleton-${val}`}
+                              variant="rounded"
+                            />
+                          ))}
+                        </div>
+                      )}
+                    >
+                      {deposition.annotatedObjects.size === 0 ? (
+                        '--'
+                      ) : (
+                        <AnnotatedObjectsList
+                          annotatedObjects={deposition.annotatedObjects}
+                        />
+                      )}
+                    </TableCell>
+                  )
+                },
+              }),
+
+              columnHelper.accessor('objectShapeTypes', {
+                header: () => (
+                  <CellHeader width={DepositionTableWidths.objectShapeTypes}>
+                    {t('objectShapeType')}
+                  </CellHeader>
+                ),
+
+                cell({ row: { original: deposition } }) {
+                  return (
+                    <TableCell
+                      renderLoadingSkeleton={() => (
+                        <div className="flex flex-col gap-2">
+                          {range(0, 2).map((val) => (
+                            <Skeleton
+                              key={`skeleton-${val}`}
+                              variant="rounded"
+                            />
+                          ))}
+                        </div>
+                      )}
+                    >
+                      {deposition.objectShapeTypes.length === 0 ? (
+                        '--'
+                      ) : (
+                        <ul className="list-none flex flex-col gap-sds-xs">
+                          {deposition.objectShapeTypes.map((shapeType) => (
+                            <li
+                              className="whitespace-nowrap overflow-x-hidden overflow-ellipsis"
+                              key={shapeType}
+                            >
+                              {t(getShapeTypeI18nKey(shapeType))}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </TableCell>
+                  )
+                },
+              }),
+            ]),
       ] as ColumnDef<Deposition>[]
     } catch (err) {
       sendLogs({
@@ -296,7 +375,14 @@ export function DepositionTable() {
 
       throw err
     }
-  }, [depositionSort, isLoadingDebounced, searchParams, setSearchParams, t])
+  }, [
+    depositionSort,
+    isExpandDepositions,
+    isLoadingDebounced,
+    searchParams,
+    setSearchParams,
+    t,
+  ])
 
   const plausible = usePlausible()
 
