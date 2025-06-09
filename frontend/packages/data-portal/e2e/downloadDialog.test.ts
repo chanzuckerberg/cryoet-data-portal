@@ -244,7 +244,6 @@ test.describe('downloadDialog', () => {
 
         await downloadDialogPage.clickDialogRadio(
           translations.downloadAllAnnotations,
-          DownloadConfig.AllAnnotations,
         )
 
         await downloadDialogPage.expectRadioToBeSelected(
@@ -287,7 +286,6 @@ test.describe('downloadDialog', () => {
 
         await downloadDialogPage.clickDialogRadio(
           translations.downloadAllAnnotations,
-          DownloadConfig.AllAnnotations,
         )
 
         await downloadDialogPage.expectRadioToBeSelected(
@@ -500,10 +498,7 @@ test.describe('downloadDialog', () => {
           title: translations.configureDownload,
         })
 
-        await downloadDialogPage.clickDialogRadio(
-          translations.downloadTomogram,
-          DownloadConfig.Tomogram,
-        )
+        await downloadDialogPage.clickDialogRadio(translations.downloadTomogram)
 
         await downloadDialogPage.expectRadioToBeSelected(
           DownloadConfig.Tomogram,
@@ -546,10 +541,7 @@ test.describe('downloadDialog', () => {
           title: translations.configureDownload,
         })
 
-        await downloadDialogPage.clickDialogRadio(
-          translations.downloadTomogram,
-          DownloadConfig.Tomogram,
-        )
+        await downloadDialogPage.clickDialogRadio(translations.downloadTomogram)
 
         await downloadDialogPage.expectRadioToBeSelected(
           DownloadConfig.Tomogram,
@@ -597,10 +589,7 @@ test.describe('downloadDialog', () => {
           downloadDialogPage.getDialog().getByRole('radio', { checked: true }),
         ).toHaveCount(0)
 
-        await downloadDialogPage.clickDialogRadio(
-          translations.downloadTomogram,
-          DownloadConfig.Tomogram,
-        )
+        await downloadDialogPage.clickDialogRadio(translations.downloadTomogram)
         await downloadDialogPage.selectFileType('OME-ZARR')
         await downloadDialogPage.clickNextButton()
 

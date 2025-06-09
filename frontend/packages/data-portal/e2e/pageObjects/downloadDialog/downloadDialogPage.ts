@@ -45,16 +45,9 @@ export class DownloadDialogPage extends BasePage {
     await dialog.locator('button:has(svg)').first().click()
   }
 
-  public async clickDialogRadio(
-    name: string,
-    config: DownloadConfig,
-  ): Promise<void> {
+  public async clickDialogRadio(name: string): Promise<void> {
     const dialog = this.getDialog()
     await dialog.getByRole('button', { name }).click()
-
-    // TODO remove when radio selection is fixed
-    // https://github.com/chanzuckerberg/cryoet-data-portal/issues/1825
-    await dialog.locator(`input[type="radio"][value="${config}"]`).click()
   }
 
   public async selectFileType(fileType: string): Promise<void> {
