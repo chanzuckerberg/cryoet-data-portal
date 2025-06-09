@@ -247,16 +247,16 @@ Each tomogram has its own metadata, which can be viewed using the info icon on t
 
 
 **Alignment**
-| **Portal Metadata**          | **API Expression**      | **Definition**                                                                                  |
-|------------------------------|-------------------------|-------------------------------------------------------------------------------------------------|
-| Alignment ID                 | `Tomogram.alignment_id` | The ID of the alignment used to generate this tomogram.                                         |
-| Canonical Status             | --                      | Whether or not the tomogram is considered canonical, meaning as minimal processing as possible. |
-| Alignment Type               | --                      | Method of alignment used to generate the tomogram (e.g. local, global, fiducial-based, etc.)    |
-| Dimension (x,y,z)            | --                      | Comma separated x,y,z dimensions of the unscaled tomogram in angstroms.                         |
+| **Portal Metadata**          | **API Expression**            | **Definition**                                                                                  |
+|------------------------------|-------------------------------|-------------------------------------------------------------------------------------------------|
+| Alignment ID                 | `Tomogram.alignment_id`       | The ID of the alignment used to generate this tomogram.                                         |
+| Canonical Status             | --                            | Whether or not the tomogram is considered canonical, meaning as minimal processing as possible. |
+| Alignment Type               | --                            | Method of alignment used to generate the tomogram (e.g. local, global, fiducial-based, etc.)    |
+| Dimension (x,y,z)            | --                            | Comma separated x,y,z dimensions of the unscaled tomogram in angstroms.                         |
 | Offset (x,y,z)               | `(Tomogram.offset_x, Tomogram.offset_y, Tomogram.offset_z)` | Comma separated x,y,z offsets of the data relative to the canonical tomogram in pixels. |
-| Rotation (x)                 | --                      | -- |
-| Tilt Offset                  | --                      | -- |
-| Affine Transformation Matrix | --                      | -- |
+| Rotation (x)                 | `Alignment.x_rotation_offset` | -- |
+| Tilt Offset                  | `Alignment.tilt_offset`       | -- |
+| Affine Transformation Matrix | `Alignment.affine_transformation_matrix` | -- |
 
 ### Tomogram Download Options
 
@@ -279,16 +279,16 @@ Each annotation has its own metadata, which can be viewed using the info icon on
 | Annotation ID             | `Annotation.id`                     | Numeric identifier assigned by the Portal.                                                     |
 | Annotation Authors        | `Annotation.authors`                | Authors of this annotation.                                                                    |
 | Publication               | `Annotation.annotation_publication` | DOIs for publications that describe the dataset.                                               |
-| Deposition Name           | --                                  | |
+| Deposition Name           | `Annotation.deposition.name`        | |
 | Deposition ID             | `Annotation.deposition_id`          | The ID of the deposition this annotation is a part of.                                         |
 | Deposition Date           | `Annotation.deposition_date`        | Date when an annotation set is initially received by the Data Portal.                          |
 | Release Date              | `Annotation.release_date`           | Date when annotation data is made public by the Data Portal.                                   |
 | Last Modified Date        | `Annotation.last_modified_date`     | Date when an annotation was last modified in the Data Portal.                                  |
-| Alignment ID              | --                                  | |
+| Alignment ID              | `Annotation.annotation_shapes[X].annotation_files[Y].alignment_id` | |
 | Method Type               | `Annotation.method_type`            | The method type for generating the annotation (e.g., manual, hybrid, automated).               |
 | Annotation Method         | `Annotation.annotation_method`      | Describes how the annotation is made, e.g., Manual, crYoLO, Positive Unlabeled Learning, template matching. |
 | Annotation Software       | `Annotation.annotation_software`    | Software used for generating this annotation.                                                  |
-| Method Links              | --                                  | |
+| Method Links              | `Annotation.method_links`           | Returns `list[AnnotationMethodLink]`|
 
 **Annotation Object**
 | **Portal Metadata**       | **API Expression**              | **Definition**                                                                                               |
