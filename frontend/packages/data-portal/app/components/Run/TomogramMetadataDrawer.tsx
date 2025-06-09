@@ -103,7 +103,7 @@ function MetadataTab() {
             label: t('depositionId'),
             values: [
               tomogram.deposition?.id !== undefined
-                ? `${IdPrefix.Dataset}-${tomogram.deposition.id}`
+                ? `${IdPrefix.Deposition}-${tomogram.deposition.id}`
                 : '',
             ],
           },
