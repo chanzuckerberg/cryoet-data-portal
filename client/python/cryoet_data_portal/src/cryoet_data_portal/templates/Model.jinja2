@@ -51,7 +51,7 @@ class {{ model.name }}(Model):
         Examples:
             Get an {{ model.name }} by ID:
 
-            >>> {{ model.model_name_underscores }} = {{ model.name }}.get_by_id(client, 1)
+            >>> {{ model.model_name_underscores }} = {{ model.name }}.get_by_id(client, 10000)
             {% if model.fields | selectattr("name", "==", "name") | list | length %}
             >>> print({{ model.model_name_underscores }}.name)
             {% else %}

@@ -116,7 +116,7 @@ class Alignment(Model):
         Examples:
             Get an Alignment by ID:
 
-            >>> alignment = Alignment.get_by_id(client, 1)
+            >>> alignment = Alignment.get_by_id(client, 10000)
             >>> print(alignment.id)
         """
         return super(Alignment, cls).get_by_id(client, id)
@@ -226,7 +226,7 @@ class Annotation(Model):
         Examples:
             Get an Annotation by ID:
 
-            >>> annotation = Annotation.get_by_id(client, 1)
+            >>> annotation = Annotation.get_by_id(client, 10000)
             >>> print(annotation.id)
         """
         return super(Annotation, cls).get_by_id(client, id)
@@ -332,7 +332,7 @@ class AnnotationAuthor(Model):
         Examples:
             Get an AnnotationAuthor by ID:
 
-            >>> annotation_author = AnnotationAuthor.get_by_id(client, 1)
+            >>> annotation_author = AnnotationAuthor.get_by_id(client, 10000)
             >>> print(annotation_author.name)
         """
         return super(AnnotationAuthor, cls).get_by_id(client, id)
@@ -409,7 +409,7 @@ class AnnotationFile(Model):
         Examples:
             Get an AnnotationFile by ID:
 
-            >>> annotation_file = AnnotationFile.get_by_id(client, 1)
+            >>> annotation_file = AnnotationFile.get_by_id(client, 10000)
             >>> print(annotation_file.id)
         """
         return super(AnnotationFile, cls).get_by_id(client, id)
@@ -472,7 +472,7 @@ class AnnotationMethodLink(Model):
         Examples:
             Get an AnnotationMethodLink by ID:
 
-            >>> annotation_method_link = AnnotationMethodLink.get_by_id(client, 1)
+            >>> annotation_method_link = AnnotationMethodLink.get_by_id(client, 10000)
             >>> print(annotation_method_link.name)
         """
         return super(AnnotationMethodLink, cls).get_by_id(client, id)
@@ -530,7 +530,7 @@ class AnnotationShape(Model):
         Examples:
             Get an AnnotationShape by ID:
 
-            >>> annotation_shape = AnnotationShape.get_by_id(client, 1)
+            >>> annotation_shape = AnnotationShape.get_by_id(client, 10000)
             >>> print(annotation_shape.id)
         """
         return super(AnnotationShape, cls).get_by_id(client, id)
@@ -641,7 +641,7 @@ class Dataset(Model):
         Examples:
             Get an Dataset by ID:
 
-            >>> dataset = Dataset.get_by_id(client, 1)
+            >>> dataset = Dataset.get_by_id(client, 10000)
             >>> print(dataset.id)
         """
         return super(Dataset, cls).get_by_id(client, id)
@@ -722,7 +722,7 @@ class DatasetAuthor(Model):
         Examples:
             Get an DatasetAuthor by ID:
 
-            >>> dataset_author = DatasetAuthor.get_by_id(client, 1)
+            >>> dataset_author = DatasetAuthor.get_by_id(client, 10000)
             >>> print(dataset_author.name)
         """
         return super(DatasetAuthor, cls).get_by_id(client, id)
@@ -778,7 +778,7 @@ class DatasetFunding(Model):
         Examples:
             Get an DatasetFunding by ID:
 
-            >>> dataset_funding = DatasetFunding.get_by_id(client, 1)
+            >>> dataset_funding = DatasetFunding.get_by_id(client, 10000)
             >>> print(dataset_funding.id)
         """
         return super(DatasetFunding, cls).get_by_id(client, id)
@@ -871,7 +871,7 @@ class Deposition(Model):
         Examples:
             Get an Deposition by ID:
 
-            >>> deposition = Deposition.get_by_id(client, 1)
+            >>> deposition = Deposition.get_by_id(client, 10000)
             >>> print(deposition.id)
         """
         return super(Deposition, cls).get_by_id(client, id)
@@ -940,7 +940,7 @@ class DepositionAuthor(Model):
         Examples:
             Get an DepositionAuthor by ID:
 
-            >>> deposition_author = DepositionAuthor.get_by_id(client, 1)
+            >>> deposition_author = DepositionAuthor.get_by_id(client, 10000)
             >>> print(deposition_author.name)
         """
         return super(DepositionAuthor, cls).get_by_id(client, id)
@@ -991,7 +991,7 @@ class DepositionType(Model):
         Examples:
             Get an DepositionType by ID:
 
-            >>> deposition_type = DepositionType.get_by_id(client, 1)
+            >>> deposition_type = DepositionType.get_by_id(client, 10000)
             >>> print(deposition_type.id)
         """
         return super(DepositionType, cls).get_by_id(client, id)
@@ -1065,7 +1065,7 @@ class Frame(Model):
         Examples:
             Get an Frame by ID:
 
-            >>> frame = Frame.get_by_id(client, 1)
+            >>> frame = Frame.get_by_id(client, 10000)
             >>> print(frame.id)
         """
         return super(Frame, cls).get_by_id(client, id)
@@ -1119,7 +1119,7 @@ class FrameAcquisitionFile(Model):
         Examples:
             Get an FrameAcquisitionFile by ID:
 
-            >>> frame_acquisition_file = FrameAcquisitionFile.get_by_id(client, 1)
+            >>> frame_acquisition_file = FrameAcquisitionFile.get_by_id(client, 10000)
             >>> print(frame_acquisition_file.id)
         """
         return super(FrameAcquisitionFile, cls).get_by_id(client, id)
@@ -1173,7 +1173,7 @@ class GainFile(Model):
         Examples:
             Get an GainFile by ID:
 
-            >>> gain_file = GainFile.get_by_id(client, 1)
+            >>> gain_file = GainFile.get_by_id(client, 10000)
             >>> print(gain_file.id)
         """
         return super(GainFile, cls).get_by_id(client, id)
@@ -1234,7 +1234,7 @@ class PerSectionAlignmentParameters(Model):
         Examples:
             Get an PerSectionAlignmentParameters by ID:
 
-            >>> per_section_alignment_parameters = PerSectionAlignmentParameters.get_by_id(client, 1)
+            >>> per_section_alignment_parameters = PerSectionAlignmentParameters.get_by_id(client, 10000)
             >>> print(per_section_alignment_parameters.id)
         """
         return super(PerSectionAlignmentParameters, cls).get_by_id(client, id)
@@ -1306,7 +1306,7 @@ class PerSectionParameters(Model):
         Examples:
             Get an PerSectionParameters by ID:
 
-            >>> per_section_parameters = PerSectionParameters.get_by_id(client, 1)
+            >>> per_section_parameters = PerSectionParameters.get_by_id(client, 10000)
             >>> print(per_section_parameters.id)
         """
         return super(PerSectionParameters, cls).get_by_id(client, id)
@@ -1395,7 +1395,7 @@ class Run(Model):
         Examples:
             Get an Run by ID:
 
-            >>> run = Run.get_by_id(client, 1)
+            >>> run = Run.get_by_id(client, 10000)
             >>> print(run.name)
         """
         return super(Run, cls).get_by_id(client, id)
@@ -1542,7 +1542,7 @@ class TiltSeries(Model):
         Examples:
             Get an TiltSeries by ID:
 
-            >>> tilt_series = TiltSeries.get_by_id(client, 1)
+            >>> tilt_series = TiltSeries.get_by_id(client, 10000)
             >>> print(tilt_series.id)
         """
         return super(TiltSeries, cls).get_by_id(client, id)
@@ -1721,7 +1721,7 @@ class Tomogram(Model):
         Examples:
             Get an Tomogram by ID:
 
-            >>> tomogram = Tomogram.get_by_id(client, 1)
+            >>> tomogram = Tomogram.get_by_id(client, 10000)
             >>> print(tomogram.name)
         """
         return super(Tomogram, cls).get_by_id(client, id)
@@ -1838,7 +1838,7 @@ class TomogramAuthor(Model):
         Examples:
             Get an TomogramAuthor by ID:
 
-            >>> tomogram_author = TomogramAuthor.get_by_id(client, 1)
+            >>> tomogram_author = TomogramAuthor.get_by_id(client, 10000)
             >>> print(tomogram_author.name)
         """
         return super(TomogramAuthor, cls).get_by_id(client, id)
@@ -1906,7 +1906,7 @@ class TomogramVoxelSpacing(Model):
         Examples:
             Get an TomogramVoxelSpacing by ID:
 
-            >>> tomogram_voxel_spacing = TomogramVoxelSpacing.get_by_id(client, 1)
+            >>> tomogram_voxel_spacing = TomogramVoxelSpacing.get_by_id(client, 10000)
             >>> print(tomogram_voxel_spacing.id)
         """
         return super(TomogramVoxelSpacing, cls).get_by_id(client, id)
