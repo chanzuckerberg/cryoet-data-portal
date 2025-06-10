@@ -13,14 +13,13 @@ Here is a list of the features that are provided by this project:
 
 ## Updating the neuroglancer schema file
 
-The `NeuroglancerState.ts` file contains the schema of the Neuroglancer state, which is used to generate the typescript types for the Neuroglancer state. This file is generated from the Neuroglancer schema file, which can be found in the Neuroglancer repository.
-To update the `NeuroglancerState.ts` file, you can run the following command:
+The `NeuroglancerState.ts` file provides types for the neuroglancer state and **should not be edited manually**. This file is updated automatically when running `pnpm build` or `pnpm dev`, but you can also trigger an update if needed. To trigger an update of the `NeuroglancerState.ts` file, you can run the following command:
 
 ```bash
 pnpm -r generate-interface
 ```
 
-This is done automatially when running `pnpm build` or `pnpm dev`, but you can also run it manually if needed. This command will download the Neuroglancer schema files and generate the `NeuroglancerState.ts` file with the latest types.
+The `generate-interface` command will download the Neuroglancer schema files and generate the `NeuroglancerState.ts` file with the latest types from the neuroglancer schema files in the neuroglancer git repository.
 
 ## How to include the Neuroglancer component in your page
 
