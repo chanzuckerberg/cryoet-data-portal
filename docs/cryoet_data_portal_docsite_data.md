@@ -139,10 +139,10 @@ An overview of all runs in a dataset is presented in the Dataset Overview page. 
 **Tomograms Summary**
 | **Portal Metadata**       | **API Expression**    | **Definition**                    |
 |---------------------------|-----------------------|-----------------------------------|
-| Total Tomograms           | `len(Run.tomograms)`  | Number of tomograms in this run.  |
-| Samplings Available       | --                    |                                   |
-| Tomogram Processing       | --                    |                                   |
-| Annotated Objects         | --                    |                                   |
+| Total Tomograms           | `len(Run.tomograms)`  | Number of tomograms in this run. |
+| Samplings Available       | see [how to get all voxel spacings available for this run](all-voxel-spacings-example) |  |
+| Tomogram Processing       | see [how to get all types of post-processing methods for tomograms in this run](all-tomogram-processing-example) |  |
+| Annotated Objects         | see [how to get all annotated object names for this run](all-annotated-object-example) |  |
 
 ### Run Overview Page
 
