@@ -11,6 +11,16 @@ Here is a list of the features that are provided by this project:
 - Super state including Neuroglancer state, so it's possible to store meta-information in the super state
 - Set of functions to handle the state and the super state in a simple way, and way of getting notified when the internal state of Neuroglancer changes.
 
+## Updating the neuroglancer schema file
+
+The `NeuroglancerState.ts` file provides types for the neuroglancer state and **should not be edited manually**. This file is updated automatically when running `pnpm build` or `pnpm dev`, but you can also trigger an update if needed. To trigger an update of the `NeuroglancerState.ts` file, you can run the following command:
+
+```bash
+pnpm -r generate-interface
+```
+
+The `generate-interface` command will download the Neuroglancer schema files and generate the `NeuroglancerState.ts` file with the latest types from the neuroglancer schema files in the neuroglancer git repository.
+
 ## How to include the Neuroglancer component in your page
 
 Two things needs to be done to be able to have the Neuroglancer component running:
