@@ -45,7 +45,6 @@ function CustomTooltip(props: any, onRestart: () => void, onClose: () => void) {
         <button onClick={onClose} className="w-4 h-4 flex items-center">
           <Icon
             sdsIcon="XMark"
-            sdsType="button"
             sdsSize="s"
             className="!text-[#767676]"
           />
@@ -145,6 +144,7 @@ const Tour: React.FC<CustomTourProps> = ({
       steps={steps}
       run={run}
       stepIndex={stepIndex}
+      spotlightClicks={true}
       continuous
       disableOverlayClose
       disableScrolling
