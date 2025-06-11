@@ -355,7 +355,7 @@ class AnnotationFile(Model):
         tomogram_voxel_spacing_id (int): None
         format (str): File format for this file
         s3_path (str): s3 path of the annotation file
-        file_size (float): Size of annota file in bytes
+        file_size (float): Size of annotation file in bytes
         https_path (str): HTTPS path for this annotation file
         is_visualization_default (bool): Data curator’s subjective choice of default annotation to display in visualization for an object
         source (str): The source type for the annotation file (dataset_author, community, or portal_standard)
