@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.72.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.72.0...cryoet-data-portal-frontend-v1.72.1) (2025-06-11)
+
+
+### 🧹 Miscellaneous Chores
+
+* Fix URL in Learn More link for Ground Truth ([#1843](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1843)) ([4a4d4f0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4a4d4f0fe65bff88686f8eb3bf474d6b9afde880))
+
 ## [1.72.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.71.0...cryoet-data-portal-frontend-v1.72.0) (2025-06-09)
 
 
