@@ -170,7 +170,7 @@ export function Breadcrumbs({
 
   const buildNeuroglancerBreadcrumb = () => {
     const neuroglancerChevronIcon = (
-      <SmallChevronRightIcon className="hidden lg:block w-[8px] h-[8px] shrink-0 text-[#999] fill-[#999]" />
+      <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0 text-[#999] fill-[#999]" />
     )
     return (
       <div className="flex flex-row gap-sds-s text-dark-sds-color-primitive-gray-500 fill-[#999] font-normal text-sds-body-s-400-wide leading-sds-body-s items-center whitespace-nowrap content-start">
@@ -211,7 +211,7 @@ export function Breadcrumbs({
     <div
       className={cns(
         'flex-col flex-auto gap-1',
-        variant === 'neuroglancer' ? 'hidden md:flex' : 'flex',
+        variant === 'neuroglancer' ? 'hidden lg:flex' : 'flex',
       )}
       data-testid={TestIds.Breadcrumbs}
     >
