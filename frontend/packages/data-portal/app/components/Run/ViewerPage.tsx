@@ -464,12 +464,9 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
   const activeBreadcrumbText = (
     <Tooltip
       tooltip={`Go to Run ${run.name || t('runName')}`}
-      className="flex items-center overflow-ellipsis overflow-hidden whitespace-nowrap max-w-[12.5rem]"
+      className="flex items-center truncate max-w-0 lg:max-w-[12rem] 2xl:max-w-[20rem]"
     >
-      <a
-        href={`${window.origin}/runs/${run.id}`}
-        className="overflow-hidden overflow-ellipsis"
-      >
+      <a href={`${window.origin}/runs/${run.id}`} className="truncate">
         {run.name}{' '}
       </a>
       <span className="text-sds-color-primitive-common-white opacity-60 ml-1">
@@ -496,8 +493,8 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
           />
         </div>
         {/* Add empty space to push content to right */}
-        <div className="basis-sds-xxl flex-grow screen-790:mr-sds-xxl" />
-        <div className="hidden screen-716:flex basis-auto flex-shrink-0">
+        <div className="basis-sds-xxl flex-grow md:mr-sds-xxl" />
+        <div className="flex basis-auto flex-shrink-0">
           <div className="flex items-center gap-1">
             {shouldShowAnnotationDropdown && (
               <CustomDropdown title="Annotations" variant="outlined">
