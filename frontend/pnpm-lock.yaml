@@ -423,8 +423,8 @@ importers:
   packages/neuroglancer:
     dependencies:
       neuroglancer:
-        specifier: git+https://github.com/google/neuroglancer.git#master
-        version: github.com/google/neuroglancer/41b967277bccaf1c99fcdec58106c81818a94850(typescript@5.6.3)
+        specifier: git+https://github.com/metacell/neuroglancer.git#feat/CC-376
+        version: github.com/metacell/neuroglancer/a26ab9b551229582505bb7919f7761f45beac219(typescript@5.6.3)
       pako:
         specifier: ^2.1.0
         version: 2.1.0
@@ -16181,12 +16181,14 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
-  github.com/google/neuroglancer/41b967277bccaf1c99fcdec58106c81818a94850(typescript@5.6.3):
-    resolution: {tarball: https://codeload.github.com/google/neuroglancer/tar.gz/41b967277bccaf1c99fcdec58106c81818a94850}
-    id: github.com/google/neuroglancer/41b967277bccaf1c99fcdec58106c81818a94850
+  github.com/metacell/neuroglancer/a26ab9b551229582505bb7919f7761f45beac219(typescript@5.6.3):
+    resolution: {tarball: https://codeload.github.com/metacell/neuroglancer/tar.gz/a26ab9b551229582505bb7919f7761f45beac219}
+    id: github.com/metacell/neuroglancer/a26ab9b551229582505bb7919f7761f45beac219
     name: neuroglancer
     version: 2.40.1
     engines: {node: '>=22'}
+    prepare: true
+    requiresBuild: true
     dependencies:
       codemirror: 5.65.18
       core-js: 3.40.0

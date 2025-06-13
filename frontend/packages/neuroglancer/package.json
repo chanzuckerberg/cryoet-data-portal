@@ -17,7 +17,7 @@
     "download-schemas": "curl -L https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/viewer_state.yml -o viewer_state.yml && curl -L https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/layer.yml -o layer.yml"
   },
   "dependencies": {
-    "neuroglancer": "git+https://github.com/google/neuroglancer.git#master",
+    "neuroglancer": "git+https://github.com/metacell/neuroglancer.git#feat/CC-376",
     "pako": "^2.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

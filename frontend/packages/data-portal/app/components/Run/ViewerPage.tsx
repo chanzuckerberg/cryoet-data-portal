@@ -116,7 +116,7 @@ const snap = () => {
 
 const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
   const stateModifier = (state: ResolvedSuperState) => {
-    if (state.savedPanelsStatus) {
+    if (state.savedPanelsStatus && (show === undefined || show === true)) {
       // Restore the configuration
       for (const panelName of state.savedPanelsStatus as PanelName[]) {
         if (!(panelName in state.neuroglancer)) {
@@ -130,7 +130,11 @@ const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
           )
         }
       }
+      if (state.dimensionSlider && !isDimensionPanelVisible()) {
+        state = toggleDimensionPanelVisible(state)
+      }
       delete state.savedPanelsStatus
+      delete state.dimensionSlider
       return state
     }
     const currentPanelConfig: string[] = []
@@ -152,6 +156,10 @@ const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
           state.neuroglancer[panelName].visible = !isVisible
         }
       }
+    }
+    state.dimensionSlider = isDimensionPanelVisible()
+    if (state.dimensionSlider) {
+      state = toggleDimensionPanelVisible(state, show)
     }
     state.savedPanelsStatus = currentPanelConfig
     return state
@@ -204,6 +212,48 @@ const isTopBarVisible = () => {
 const setTopBarVisibleFromSuperState = () => {
   const viewer = currentNeuroglancer()
   viewer.uiConfiguration.showLayerPanel.value = isTopBarVisible()
+}
+
+const isDimensionPanelVisible = () => {
+  const state = currentState()
+  const toolPalettes = state.neuroglancer?.toolPalettes || {}
+  if (Object.keys(toolPalettes).length === 0) {
+    // If there are no tool palettes, the dimension slider is not visible
+    return false
+  }
+  const tool = Object.values(toolPalettes)[0] as any
+  return boolValue(tool?.visible, /* defaultValue = */ true)
+}
+
+const makeDimensionPanel = (state: ResolvedSuperState) => {
+  state.neuroglancer.toolPalettes = {
+    Dimensions: {
+      side: 'bottom',
+      row: 1,
+      size: 100,
+      visible: true,
+      query: 'type:dimension',
+      verticalStacking: false,
+    },
+  }
+  return state
+}
+
+const toggleDimensionPanelVisible = (
+  state: ResolvedSuperState,
+  show?: Boolean,
+) => {
+  const toolPalette = Object.values(state.neuroglancer.toolPalettes)[0] as any
+  if (toolPalette === undefined) return state
+  toolPalette.visible = show !== undefined ? show : !isDimensionPanelVisible()
+  return state
+}
+
+const toggleOrMakeDimensionPanel = () => {
+  const hasToolPalette =
+    Object.keys(currentState().neuroglancer?.toolPalettes || {}).length > 0
+  if (!hasToolPalette) updateState(makeDimensionPanel)
+  else updateState(toggleDimensionPanelVisible)
 }
 
 const buildDepositsConfig = (annotations: any): Record<number, any[]> => {
@@ -531,6 +581,12 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                   onSelect={() => toggleTopBar()}
                 >
                   Show top layer bar
+                </CustomDropdownOption>
+                <CustomDropdownOption
+                  selected={isDimensionPanelVisible()}
+                  onSelect={toggleOrMakeDimensionPanel}
+                >
+                  Show dimension slider
                 </CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>
