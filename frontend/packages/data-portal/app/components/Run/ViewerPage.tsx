@@ -366,9 +366,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
 
   useEffect(() => {
     // Schedule to check for small devices 1s after this save
-    console.log('hi')
     if (isSmallScreen()) {
-      console.log('Small screen detected, setting initial layout to xy')
       updateState((state) => {
         const newState = chain([
           togglePanels(false, /* commit = */ false),
