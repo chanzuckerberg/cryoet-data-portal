@@ -116,7 +116,7 @@ const snap = () => {
 
 const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
   const stateModifier = (state: ResolvedSuperState) => {
-    if (state.savedPanelsStatus) {
+    if (state.savedPanelsStatus && (show === undefined || show === true)) {
       // Restore the configuration
       for (const panelName of state.savedPanelsStatus as PanelName[]) {
         if (!(panelName in state.neuroglancer)) {
