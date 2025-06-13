@@ -221,7 +221,7 @@ const isDimensionPanelVisible = () => {
     // If there are no tool palettes, the dimension slider is not visible
     return false
   }
-  const tool = Object.entries(toolPalettes)[0][1] as any
+  const tool = Object.values(toolPalettes)[0] as any
   return boolValue(tool?.visible, /* defaultValue = */ true)
 }
 
@@ -243,9 +243,7 @@ const toggleDimensionPanelVisible = (
   state: ResolvedSuperState,
   show?: Boolean,
 ) => {
-  const toolPalette = Object.entries(
-    state.neuroglancer.toolPalettes,
-  )[0][1] as any
+  const toolPalette = Object.values(state.neuroglancer.toolPalettes)[0] as any
   if (toolPalette === undefined) return state
   toolPalette.visible = show !== undefined ? show : !isDimensionPanelVisible()
   return state
