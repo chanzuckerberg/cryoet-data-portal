@@ -233,6 +233,7 @@ const makeDimensionPanel = (state: ResolvedSuperState) => {
       size: 100,
       visible: true,
       query: 'type:dimension',
+      verticalStacking: false,
     },
   }
   return state
