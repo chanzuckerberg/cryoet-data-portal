@@ -734,18 +734,15 @@ test.describe('downloadDialog', () => {
 
     test.describe('Download Annotation', () => {
       test('should select from url', async () => {
-        const fileFormat = 'mrc'
         await downloadDialogActor.goToAnnotationDownloadDialogUrl({
           baseUrl: SINGLE_RUN_URL,
           client,
           step: DownloadStep.Configure,
-          fileFormat,
         })
 
         await downloadDialogActor.expectDialogToBeOpen({
           title: translations.configureDownload,
         })
-        await expect(downloadDialogPage.getDialog()).toContainText(fileFormat)
       })
 
       test.describe('should open tabs from url', () => {
@@ -756,7 +753,6 @@ test.describe('downloadDialog', () => {
               client,
               step: DownloadStep.Download,
               tab,
-              fileFormat: 'mrc',
             })
 
             await downloadDialogActor.expectDialogToBeOpen({
@@ -788,7 +784,6 @@ test.describe('downloadDialog', () => {
               client,
               step: DownloadStep.Download,
               tab: fromTab,
-              fileFormat: 'mrc',
             })
 
             await downloadDialogActor.expectDialogToBeOpen({
@@ -825,7 +820,6 @@ test.describe('downloadDialog', () => {
               client,
               step: DownloadStep.Download,
               tab,
-              fileFormat: 'mrc',
             })
 
             await downloadDialogActor.expectDialogToBeOpen({

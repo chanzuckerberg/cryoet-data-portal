@@ -429,7 +429,7 @@ type AnnotationFile implements EntityInterface & Node {
   """s3 path of the annotation file"""
   s3Path: String!
 
-  """Size of annota file in bytes"""
+  """Size of annotation file in bytes"""
   fileSize: Float
 
   """HTTPS path for this annotation file"""
@@ -5150,7 +5150,7 @@ input AnnotationFileCreateInput {
   """s3 path of the annotation file"""
   s3Path: String!
 
-  """Size of annota file in bytes"""
+  """Size of annotation file in bytes"""
   fileSize: Float = null
 
   """HTTPS path for this annotation file"""
@@ -5186,7 +5186,7 @@ input AnnotationFileUpdateInput {
   """s3 path of the annotation file"""
   s3Path: String
 
-  """Size of annota file in bytes"""
+  """Size of annotation file in bytes"""
   fileSize: Float = null
 
   """HTTPS path for this annotation file"""

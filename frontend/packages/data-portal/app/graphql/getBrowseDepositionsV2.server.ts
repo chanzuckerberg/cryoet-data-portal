@@ -56,6 +56,12 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
         }
       }
 
+      tomogramsCount: tomogramsAggregate {
+        aggregate {
+          count
+        }
+      }
+
       objectNames: annotationsAggregate {
         aggregate {
           groupBy {
@@ -87,6 +93,32 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
             }
           }
           count
+        }
+      }
+
+      framesFileSizes: framesAggregate {
+        aggregate {
+          sum {
+            fileSize
+          }
+        }
+      }
+
+      tiltSeriesFileSizes: tiltseriesAggregate {
+        aggregate {
+          sum {
+            fileSizeMrc
+            fileSizeOmezarr
+          }
+        }
+      }
+
+      tomogramFileSizes: tomogramsAggregate {
+        aggregate {
+          sum {
+            fileSizeMrc
+            fileSizeOmezarr
+          }
         }
       }
     }
@@ -149,6 +181,7 @@ export async function getBrowseDepositionsV2({
       authors: {
         name: filters.authors.name,
         kaggleId: filters.authors.name,
+        orcid: filters.authors.orcid,
       },
     }
     delete filtersWithKaggleId?.authors?.name

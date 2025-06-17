@@ -20,6 +20,7 @@ export enum QueryParams {
   FileFormat = 'file-format',
   GroundTruthAnnotation = 'ground_truth',
   MetadataDrawer = 'metadata',
+  MethodSummaryTab = 'method-summary-tab',
   MethodType = 'method-type',
   NumberOfRuns = 'runs',
   ObjectId = 'object-id',

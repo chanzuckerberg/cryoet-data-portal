@@ -1,5 +1,44 @@
 # Changelog
 
+## [1.72.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.71.0...cryoet-data-portal-frontend-v1.72.0) (2025-06-09)
+
+
+### ✨ Features
+
+* depositions table and filter updates ([#1841](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1841)) ([717c217](https://github.com/chanzuckerberg/cryoet-data-portal/commit/717c217a09589057684a8e4de8c3ae96054ec309))
+
+
+### 🐞 Bug Fixes
+
+* deposition id prefix ([#1835](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1835)) ([68dc3b8](https://github.com/chanzuckerberg/cryoet-data-portal/commit/68dc3b89ad8a604c30d45dba5bde7b39e478c390))
+
+
+### ⚙ Continuous Integration
+
+* fix E2E tests ([#1836](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1836)) ([0f71048](https://github.com/chanzuckerberg/cryoet-data-portal/commit/0f71048631e7e925a9df0c89bd108d408c04ab5d))
+
+## [1.71.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.70.0...cryoet-data-portal-frontend-v1.71.0) (2025-06-02)
+
+
+### ✨ Features
+
+* deposition metadata drawer updates ([#1824](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1824)) ([53e61e9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/53e61e903b684afb662be169ff83d86d378b4905))
+
+## [1.70.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.69.1...cryoet-data-portal-frontend-v1.70.0) (2025-05-22)
+
+
+### ✨ Features
+
+* dataset metadata drawer updates ([#1819](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1819)) ([32e643e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/32e643e5db854d62043ab78646cbfc2b7227c46c))
+* method summary ([#1816](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1816)) ([5a1ecd1](https://github.com/chanzuckerberg/cryoet-data-portal/commit/5a1ecd138cca9aa8b3d3edadfa62d684f955fcb9))
+
+## [1.69.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.69.0...cryoet-data-portal-frontend-v1.69.1) (2025-05-20)
+
+
+### 🐞 Bug Fixes
+
+* depositions orcid filterby ([#1817](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1817)) ([bfcab94](https://github.com/chanzuckerberg/cryoet-data-portal/commit/bfcab9483bcc0f4b0fe7a711ff00bbaf6dc02c6a))
+
 ## [1.69.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.68.2...cryoet-data-portal-frontend-v1.69.0) (2025-05-07)
 
 
