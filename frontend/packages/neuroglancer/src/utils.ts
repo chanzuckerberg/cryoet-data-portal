@@ -5,7 +5,19 @@ import {
 } from './NeuroglancerState'
 
 export type NeuroglancerLayout = `${The2_X2GridLayoutWithXyYzXzAnd3_DPanels}`
-export type NeuroglancerState = CompleteStateOfANeuroglancerInstance
+export interface PanelState {
+  visible: boolean | undefined
+}
+export interface NeuroglancerStateInterface
+  extends CompleteStateOfANeuroglancerInstance {
+  helpPanel?: PanelState
+  settingsPanel?: PanelState
+  selectedLayer?: PanelState
+  layerListPanel?: PanelState
+  selection?: PanelState
+  toolPalettes?: Record<string, PanelState>
+}
+export type NeuroglancerState = NeuroglancerStateInterface
 
 export interface SuperState extends Record<string, any> {
   neuroglancer: string

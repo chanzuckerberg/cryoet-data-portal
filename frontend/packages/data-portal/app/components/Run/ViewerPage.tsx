@@ -66,13 +66,19 @@ interface Viewer {
   }
 }
 
+interface ViewerPageSuperState extends ResolvedSuperState {
+  showLayerTopBar?: boolean
+  restoreLayerTopBar?: boolean // Whether to restore the top layer bar
+  dimensionSlider?: boolean // Whether the dimension slider is visible
+  savedPanelsStatus?: PanelName[] // List of panels that are currently visible
+}
+
 function getCurrentNeuroglancer(): Viewer | undefined {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  const viewer = currentNeuroglancer()
-  if (viewer !== undefined) {
-    return viewer as Viewer
-  }
-  return undefined
+  return currentNeuroglancer() as Viewer | undefined
+}
+
+function getCurrentState(): ViewerPageSuperState {
+  return currentState() as ViewerPageSuperState
 }
 
 const boolValue = (
@@ -145,8 +151,10 @@ const setCurrentLayout = (
   commit: boolean = true,
 ) => {
   const stateModifier = (state: ResolvedSuperState) => {
-    state.neuroglancer.layout = layout
-    return state
+    const newState = state
+    // @ts-expect-error: The neuroglancer state is not typed with NeuroglancerLayout
+    newState.neuroglancer.layout = layout
+    return newState
   }
   if (commit) {
     updateState(stateModifier)
@@ -162,54 +170,61 @@ const snap = () => {
 }
 
 const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
-  const stateModifier = (state: ResolvedSuperState) => {
+  const stateModifier = (state: ViewerPageSuperState) => {
+    let newState = state
     if (state.savedPanelsStatus && (show === undefined || show === true)) {
       // Restore the configuration
-      for (const panelName of state.savedPanelsStatus as PanelName[]) {
+      console.log(state);
+      for (const panelName of state.savedPanelsStatus) {
         if (!(panelName in state.neuroglancer)) {
-          state.neuroglancer[panelName] = {
+          newState.neuroglancer[panelName] = {
             visible: !panelsDefaultValues[panelName],
           }
         } else {
-          state.neuroglancer[panelName].visible = !boolValue(
-            state.neuroglancer[panelName].visible,
+          newState.neuroglancer[panelName]!.visible = !boolValue(
+            state.neuroglancer[panelName]?.visible,
             panelsDefaultValues[panelName],
           )
         }
       }
       if (state.dimensionSlider && !isDimensionPanelVisible()) {
-        state = toggleDimensionPanelVisible(state)
+        newState = toggleDimensionPanelVisible(newState)
       }
-      delete state.savedPanelsStatus
-      delete state.dimensionSlider
-      return state
+      if (state.restoreLayerTopBar && !isTopBarVisible()) {
+        newState = toggleTopBar(true, false)(newState)
+      }
+      delete newState.savedPanelsStatus
+      delete newState.dimensionSlider
+      delete newState.restoreLayerTopBar
+      return newState
     }
-    const currentPanelConfig: string[] = []
-    for (const [panelName, defaultValue] of Object.entries(
-      panelsDefaultValues,
-    )) {
-      const isVisible = boolValue(
-        state.neuroglancer[panelName]?.visible,
-        defaultValue,
-      )
+    const currentPanelConfig: PanelName[] = []
+    for (const [name, defaultValue] of Object.entries(panelsDefaultValues)) {
+      const panelName = name as PanelName
+      const panelState = state.neuroglancer[panelName]
+      const isVisible = boolValue(panelState?.visible, defaultValue)
       if (isVisible) {
         if (show !== undefined) {
           if (show === false) {
             currentPanelConfig.push(panelName)
           }
-          state.neuroglancer[panelName].visible = show
+          newState.neuroglancer[panelName]!.visible = show
         } else {
           currentPanelConfig.push(panelName)
-          state.neuroglancer[panelName].visible = !isVisible
+          newState.neuroglancer[panelName]!.visible = !isVisible
         }
       }
     }
-    state.dimensionSlider = isDimensionPanelVisible()
-    if (state.dimensionSlider) {
-      state = toggleDimensionPanelVisible(state, show)
+    newState.dimensionSlider = isDimensionPanelVisible()
+    if (newState.dimensionSlider) {
+      newState = toggleDimensionPanelVisible(newState, show)
     }
-    state.savedPanelsStatus = currentPanelConfig
-    return state
+    newState.restoreLayerTopBar = isTopBarVisible()
+    if (newState.restoreLayerTopBar) {
+      newState = toggleTopBar(show, false)(newState)
+    }
+    newState.savedPanelsStatus = currentPanelConfig
+    return newState
   }
 
   if (commit) {
@@ -221,8 +236,9 @@ const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
 
 const toggleTopBar = (show: boolean | undefined = undefined, commit = true) => {
   const stateModifier = (state: ResolvedSuperState) => {
-    state.showLayerTopBar = show !== undefined ? show : !isVisible
-    return state
+    const newState = state
+    newState.showLayerTopBar = show !== undefined ? show : !isVisible
+    return newState
   }
 
   const isVisible = isTopBarVisible()
@@ -252,7 +268,7 @@ const chain = (
 }
 
 const isTopBarVisible = () => {
-  const state = currentState()
+  const state = getCurrentState()
   return boolValue(state.showLayerTopBar, /* defaultValue = */ false)
 }
 
