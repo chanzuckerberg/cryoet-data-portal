@@ -70,16 +70,126 @@ aws s3 ls --no-sign-request s3://cryoet-data-portal-public
 
 Refer to [this how-to guide](download-data) for information on downloading data from our AWS S3 bucket.
 
+(citing-the-cryoet-data-portal)=
 ## Citing the CryoET Data Portal
 
-Work using data from the portal must acknowledge the data providers and the original publications. The following is provided as an example:
+### Portal Citation
 
-> Some of the data used in this work was provided by the group(s) of Julia Mahamid (EMBL)/Jürgen Plitzko (MPI) [see [beta site](https://cryoetdataportal.czscience.com) for current details]. The work is described more fully in the publication:
+If you use the CryoET Data Portal in your work, please cite the following publication:
+
+Ermel, U., Cheng, A., Ni, J.X. et al. A data portal for providing standardized annotations for cryo-electron tomography. Nat Methods 21, 2200–2202 (2024). https://doi.org/10.1038/s41592-024-02477-2
+
+### Acknowledging Data Contributors
+
+If you use data from the Portal in your work, please acknowledge the authors and cite associated publications. Below is an example of recommended formatting:
+
+> Some of the data used in this work was provided by Irene de Teresa Trueba et al and Mallak Ali et al. The data are available through the CryoET Data Portal (Nat Methods 21, 2200–2202 (2024). https://doi.org/10.1038/s41592-024-02477-2) with the following metadata.
 >
-> | Provider | Julia Mahamid | Julia Mahamid | Jürgen Plitzko |
-> | ----------- | ----------- | ----------- | ----------- |
-> | Dataset name | 10000 | 10001 | 10004 |
-> | Acknowledgement | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1038/s41592-022-01746-2](http://doi.org/doi:10.1038/s41592-022-01746-2) | [doi:10.1101/2023.04.28.538734](https://www.biorxiv.org/content/10.1101/2023.04.28.538734v1) |
+> | Deposition ID | Entity Type | Entity ID(s) | Primary Author(s) | Associated Publication DOI(s) |
+> | ------------- | ----------- | ------------ | ----------------- | ----------------------------- |
+> | 10000 | Dataset | 10000, 10001 | Irene de Teresa Trueba | 10.1101/2022.04.12.488077, 10.1038/s41592-022-01746-2 |
+> | 10312 | Dataset | 10442 | Mallak Ali, Ariana Peck, Yue Yu, Jonathan Schwartz | None |
+
+### Finding Citation Metadata via the API or GraphQL
+
+You can programmatically retrieve metadata for your citations via the Python API.
+
+#### API Example - Dataset, Annotation, or Tomogram
+
+```python
+from cryoet_data_portal import Client, Dataset
+client = Client()
+dataset = Dataset.get_by_id(client, 10442)
+print(dataset.deposition_id)  # Get the deposition ID
+print(dataset.dataset_publications)   # List of DOIs of associated publications
+```
+
+Output:
+```python
+10312
+None
+```
+
+#### API Example - Runs
+
+For runs, access the deposition ID and publication DOIs through the parent dataset:
+
+```python
+from cryoet_data_portal import Client, Run
+client = Client()
+
+run = Run.get_by_id(client, 10005) # use the numeric Run ID
+print(run.dataset.deposition_id)  # Get the deposition ID
+print(run.dataset.dataset_publications)   # List of DOIs of associated publications
+```
+
+Output:
+```python
+10029
+10.1073/pnas.1518952113
+```
+
+#### GraphQL Example - Dataset, Annotation or Tomogram
+
+```graphql
+query GetDatasetPublication {
+  datasets(where: { id: { _eq: 10442 } }) {
+    id
+    depositionId
+    datasetPublications
+  }
+}
+```
+
+Output:
+```json
+{
+  "data": {
+    "datasets": [
+      {
+        "id": 10442,
+        "depositionId": 10312,
+        "datasetPublications": null
+      }
+    ]
+  }
+}
+```
+
+#### GraphQL Example - Runs
+
+For runs, access the deposition ID and publication DOIs through the parent dataset:
+
+```graphql
+query GetRunPublication{
+  runs(where: { id: { _eq: 10005 } }) {
+    id
+    dataset {
+      depositionId
+      datasetPublications
+    }
+  }
+}
+```
+
+Output:
+```json
+{
+  "data": {
+    "runs": [
+      {
+        "id": 10005,
+        "dataset": {
+          "depositionId": 10029,
+          "datasetPublications": [
+            "10.1073/pnas.1518952113"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
 
 :::{czi-info} Note
 Segmentation experts and developers are also encouraged to get in touch with the data providers if they feel they have developed a useful tool that might help to process the entirety of the datasets (which are much larger than the subsets provided for the portal) more efficiently or effectively.
