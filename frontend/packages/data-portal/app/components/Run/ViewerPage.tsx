@@ -34,7 +34,7 @@ import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { Tooltip } from '../Tooltip'
 import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { getTutorialSteps } from './steps'
-import Tour from './Tour'
+import { Tour } from './Tour'
 
 const boolValue = (
   value: boolean | undefined,
@@ -241,7 +241,7 @@ const makeDimensionPanel = (state: ResolvedSuperState) => {
 
 const toggleDimensionPanelVisible = (
   state: ResolvedSuperState,
-  show?: Boolean,
+  show?: boolean,
 ) => {
   const toolPalette = Object.values(state.neuroglancer.toolPalettes)[0] as any
   if (toolPalette === undefined) return state
