@@ -10,6 +10,7 @@ import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
 import { MetadataTable } from 'app/components/Table'
 import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
 import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
+import { CitationButton } from 'app/components/CitationButton'
 import { DATA_TYPES } from 'app/constants/dataTypes'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
@@ -93,6 +94,17 @@ export function RunHeader() {
           >
             {t('downloadWithAdditionalOptions')}
           </Button>
+
+          <CitationButton
+            buttonProps={{
+              sdsStyle: 'rounded',
+              sdsType: 'primary',
+              startIcon: <Icon sdsIcon="Book" sdsSize="s" />,
+            }}
+            tooltipPlacement="bottom"
+          >
+            {t('citePortal')}
+          </CitationButton>
         </div>
       }
       releaseDate={run.dataset?.releaseDate.split('T')[0]}
