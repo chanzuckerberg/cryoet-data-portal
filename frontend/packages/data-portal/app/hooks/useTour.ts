@@ -1,4 +1,9 @@
-import { currentState, encodeState, updateState } from 'neuroglancer'
+import {
+  currentState,
+  encodeState,
+  NeuroglancerState,
+  updateState,
+} from 'neuroglancer'
 import { useState } from 'react'
 import { ACTIONS } from 'react-joyride'
 
@@ -20,15 +25,51 @@ const panelsDefaultValues = {
 }
 
 const adjustPanelSize = (stringState: string) => {
-  const state = JSON.parse(stringState)
+  const state = JSON.parse(stringState) as NeuroglancerState
   if (state.layerListPanel) {
     state.layerListPanel.size = WALKTHROUGH_PANEL_SIZE
+  }
+  if (state.selectedLayer) {
     state.selectedLayer.size = WALKTHROUGH_PANEL_SIZE
   }
   return encodeState(state, /* compress = */ false)
 }
 
-export default function useTour(tomogram: any) {
+export interface Annotation {
+  depositionId: number
+  httpsMetadataPath: string
+  deposition: {
+    title: string
+  }
+}
+
+export interface Annotations {
+  edges: [
+    {
+      node: Annotation
+    },
+  ]
+}
+
+export interface Run {
+  id: number
+  name?: string
+  dataset: {
+    id: number
+    title: string
+  }
+  annotations: Annotations
+}
+
+export interface Tomogram {
+  id: string
+  name?: string
+  run: Run
+  dataset: string
+  neuroglancerConfig: string
+}
+
+export function useTour(tomogram: Tomogram) {
   const [tourRunning, setTourRunning] = useState(false)
   const [stepIndex, setStepIndex] = useState<number>(0)
 
@@ -56,9 +97,10 @@ export default function useTour(tomogram: any) {
     // state, and then then tour index in the state update callback
     const updateTourStepFromState = (layerControlVisibility: boolean) => {
       updateState((state) => {
-        state.neuroglancer.selectedLayer.visible = layerControlVisibility
-        state.tourStepIndex = newIndex
-        return state
+        const newState = state
+        newState.neuroglancer.selectedLayer!.visible = layerControlVisibility
+        newState.tourStepIndex = newIndex
+        return newState
       })
     }
 

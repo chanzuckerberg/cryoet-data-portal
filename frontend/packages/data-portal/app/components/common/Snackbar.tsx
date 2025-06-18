@@ -13,7 +13,7 @@ interface SnackbarProps {
   autoHideDuration?: number
 }
 
-function Snackbar({
+export function Snackbar({
   open,
   intent = 'info',
   title,
@@ -30,7 +30,8 @@ function Snackbar({
 
       return () => clearTimeout(timer)
     }
-  }, [open])
+    return () => {}
+  }, [open, autoHideDuration, handleClose])
 
   return (
     open && (
@@ -52,5 +53,3 @@ function Snackbar({
     )
   )
 }
-
-export default Snackbar

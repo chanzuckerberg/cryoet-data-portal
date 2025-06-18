@@ -16,7 +16,13 @@ import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
 import { useI18n } from 'app/hooks/useI18n'
-import useTour from 'app/hooks/useTour'
+import {
+  Annotation,
+  Annotations,
+  Run,
+  Tomogram,
+  useTour,
+} from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
 
 import {
@@ -24,7 +30,7 @@ import {
   CustomDropdownOption,
   CustomDropdownSection,
 } from '../common/CustomDropdown'
-import Snackbar from '../common/Snackbar'
+import { Snackbar } from '../common/Snackbar'
 import {
   ABOUT_LINKS,
   NEUROGLANCER_DOC_LINK,
@@ -74,22 +80,6 @@ interface ViewerPageSuperState extends ResolvedSuperState {
   tourStepIndex?: number // The current step index in the tour
 }
 
-interface Annotation {
-  depositionId: number
-  httpsMetadataPath: string
-  deposition: {
-    title: string
-  }
-}
-
-interface Annotations {
-  edges: [
-    {
-      node: Annotation
-    },
-  ]
-}
-
 interface AnnotationConfig {
   name?: string
   annotation: Annotation
@@ -99,23 +89,6 @@ interface LayerWithSource {
   source: string | { url?: string }
   archived?: boolean
   visible?: boolean
-}
-
-interface Run {
-  id: string
-  name?: string
-  dataset: {
-    id: number
-    title: string
-  }
-  annotations: Annotations
-}
-
-interface Tomogram {
-  id: string
-  name?: string
-  run: Run
-  dataset: string
 }
 
 function getCurrentNeuroglancer(): Viewer | undefined {
