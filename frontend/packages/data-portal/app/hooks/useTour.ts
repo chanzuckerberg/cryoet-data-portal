@@ -1,4 +1,3 @@
-import type { Tomogram } from 'app/components/Run/ViewerPageTypes'
 import {
   currentState,
   encodeState,
@@ -7,6 +6,8 @@ import {
 } from 'neuroglancer'
 import { useState } from 'react'
 import { ACTIONS } from 'react-joyride'
+
+import type { Tomogram } from 'app/components/Run/ViewerPageTypes'
 
 const WALKTHROUGH_PANEL_SIZE = 400
 

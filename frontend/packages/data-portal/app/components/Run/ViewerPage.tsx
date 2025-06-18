@@ -15,13 +15,13 @@ import { useEffect, useRef, useState } from 'react'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
-import { useI18n } from 'app/hooks/useI18n'
 import type {
   Annotation,
   Annotations,
   Run,
   Tomogram,
 } from 'app/components/Run/ViewerPageTypes'
+import { useI18n } from 'app/hooks/useI18n'
 import { useTour } from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
 
