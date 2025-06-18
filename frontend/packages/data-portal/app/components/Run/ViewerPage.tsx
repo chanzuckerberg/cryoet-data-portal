@@ -71,12 +71,15 @@ interface ViewerPageSuperState extends ResolvedSuperState {
   restoreLayerTopBar?: boolean // Whether to restore the top layer bar
   dimensionSlider?: boolean // Whether the dimension slider is visible
   savedPanelsStatus?: PanelName[] // List of panels that are currently visible
-  stepIndex?: number // The current step index in the tour
+  tourStepIndex?: number // The current step index in the tour
 }
 
 interface Annotation {
   depositionId: number
   httpsMetadataPath: string
+  deposition: {
+    title: string
+  }
 }
 
 interface Annotations {
@@ -395,7 +398,7 @@ const buildDepositsConfig = (
   return config
 }
 
-const isDepositionActivated = (depositionEntries: string[]) => {
+const isDepositionActivated = (depositionEntries: (string | undefined)[]) => {
   const layers = currentNeuroglancerState().layers || []
   return layers
     .filter((l) => l.name && depositionEntries.includes(l.name))
@@ -408,7 +411,7 @@ const isDepositionActivated = (depositionEntries: string[]) => {
     })
 }
 
-const toggleDepositions = (depositionEntries: string[]) => {
+const toggleDepositions = (depositionEntries: (string | undefined)[]) => {
   const isCurrentlyActive = isDepositionActivated(depositionEntries)
   updateState((state) => {
     const layers = state.neuroglancer?.layers || []
@@ -500,6 +503,7 @@ function ViewerPage({ run, tomogram }: { run: Run; tomogram: Tomogram }) {
       scheduleRefresh()
     }
     hashReady.current = true
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleOnStateChange = (state: ViewerPageSuperState) => {
@@ -545,7 +549,9 @@ function ViewerPage({ run, tomogram }: { run: Run; tomogram: Tomogram }) {
         return
       }
 
-      const targetElement = (iframeWindow as any).neuroglancer?.element
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+      const targetElement = (iframeWindow as any).neuroglancer
+        ?.element as HTMLElement | null
       if (!targetElement) {
         return
       }
@@ -568,7 +574,7 @@ function ViewerPage({ run, tomogram }: { run: Run; tomogram: Tomogram }) {
     return () => {
       window.removeEventListener('keydown', keyDownHandler)
     }
-  }, [])
+  }, [setTourRunning])
 
   const handleShareClick = () => {
     navigator.clipboard
@@ -577,7 +583,7 @@ function ViewerPage({ run, tomogram }: { run: Run; tomogram: Tomogram }) {
         setShareClicked(true)
       })
       .catch((err) => {
-        console.error('Failed to copy URL: ', err)
+        throw new Error(`Failed to copy share link: ${err}`)
       })
   }
 
@@ -632,10 +638,9 @@ function ViewerPage({ run, tomogram }: { run: Run; tomogram: Tomogram }) {
                     All depositions
                   </CustomDropdownOption>
                   {Object.entries(depositionConfigs).map(
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     ([depositionId, depositions], _) => {
-                      const layersOfInterest = depositions.map(
-                        (c: any) => c.name,
-                      )
+                      const layersOfInterest = depositions.map((c) => c.name)
                       return (
                         <CustomDropdownOption
                           key={depositionId.toString()}
@@ -841,4 +846,5 @@ function ViewerPage({ run, tomogram }: { run: Run; tomogram: Tomogram }) {
   )
 }
 
+// eslint-disable-next-line import/no-default-export
 export default ViewerPage
