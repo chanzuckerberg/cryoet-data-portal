@@ -4,9 +4,19 @@ import {
   The2_X2GridLayoutWithXyYzXzAnd3_DPanels,
 } from './NeuroglancerState'
 
+// TODO could try to update this in neuroglancer main in the state yaml
+// so that the auto-generated types are more complete
+// for now, we just extend the auto-generated types from the neuroglancer docs
 export type NeuroglancerLayout = `${The2_X2GridLayoutWithXyYzXzAnd3_DPanels}`
 export interface PanelState {
-  visible: boolean | undefined
+  visible?: boolean
+  side?: 'left' | 'right' | 'top' | 'bottom' | undefined
+  row?: number
+  size?: number
+}
+export interface ToolPaletteState extends PanelState {
+  query?: string
+  verticalStacking?: boolean
 }
 export interface NeuroglancerStateInterface
   extends CompleteStateOfANeuroglancerInstance {
@@ -15,7 +25,7 @@ export interface NeuroglancerStateInterface
   selectedLayer?: PanelState
   layerListPanel?: PanelState
   selection?: PanelState
-  toolPalettes?: Record<string, PanelState>
+  toolPalettes?: Record<string, ToolPaletteState>
 }
 export type NeuroglancerState = NeuroglancerStateInterface
 

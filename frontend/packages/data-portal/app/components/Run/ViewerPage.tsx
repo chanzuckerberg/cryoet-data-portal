@@ -67,10 +67,52 @@ interface Viewer {
 }
 
 interface ViewerPageSuperState extends ResolvedSuperState {
-  showLayerTopBar?: boolean
+  showLayerTopBar?: boolean // Whether the top layer bar is visible
   restoreLayerTopBar?: boolean // Whether to restore the top layer bar
   dimensionSlider?: boolean // Whether the dimension slider is visible
   savedPanelsStatus?: PanelName[] // List of panels that are currently visible
+  stepIndex?: number // The current step index in the tour
+}
+
+interface Annotation {
+  depositionId: number
+  httpsMetadataPath: string
+}
+
+interface Annotations {
+  edges: [
+    {
+      node: Annotation
+    },
+  ]
+}
+
+interface AnnotationConfig {
+  name?: string
+  annotation: Annotation
+}
+
+interface LayerWithSource {
+  source: string | { url?: string }
+  archived?: boolean
+  visible?: boolean
+}
+
+interface Run {
+  id: string
+  name?: string
+  dataset: {
+    id: number
+    title: string
+  }
+  annotations: Annotations
+}
+
+interface Tomogram {
+  id: string
+  name?: string
+  run: Run
+  dataset: string
 }
 
 function getCurrentNeuroglancer(): Viewer | undefined {
@@ -174,7 +216,6 @@ const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
     let newState = state
     if (state.savedPanelsStatus && (show === undefined || show === true)) {
       // Restore the configuration
-      console.log(state);
       for (const panelName of state.savedPanelsStatus) {
         if (!(panelName in state.neuroglancer)) {
           newState.neuroglancer[panelName] = {
@@ -285,12 +326,13 @@ const isDimensionPanelVisible = () => {
     // If there are no tool palettes, the dimension slider is not visible
     return false
   }
-  const tool = Object.values(toolPalettes)[0] as any
+  const tool = Object.values(toolPalettes)[0]
   return boolValue(tool?.visible, /* defaultValue = */ true)
 }
 
 const makeDimensionPanel = (state: ResolvedSuperState) => {
-  state.neuroglancer.toolPalettes = {
+  const newState = state
+  newState.neuroglancer.toolPalettes = {
     Dimensions: {
       side: 'bottom',
       row: 1,
@@ -300,14 +342,15 @@ const makeDimensionPanel = (state: ResolvedSuperState) => {
       verticalStacking: false,
     },
   }
-  return state
+  return newState
 }
 
 const toggleDimensionPanelVisible = (
   state: ResolvedSuperState,
   show?: boolean,
 ) => {
-  const toolPalette = Object.values(state.neuroglancer.toolPalettes)[0] as any
+  if (state.neuroglancer.toolPalettes === undefined) return state
+  const toolPalette = Object.values(state.neuroglancer.toolPalettes)[0]
   if (toolPalette === undefined) return state
   toolPalette.visible = show !== undefined ? show : !isDimensionPanelVisible()
   return state
@@ -320,20 +363,29 @@ const toggleOrMakeDimensionPanel = () => {
   else updateState(toggleDimensionPanelVisible)
 }
 
-const buildDepositsConfig = (annotations: any): Record<number, any[]> => {
-  const config: any = {}
+const buildDepositsConfig = (
+  annotations: Annotations,
+): Record<number, AnnotationConfig[]> => {
+  const config: Record<number, AnnotationConfig[]> = {}
   const layers = currentNeuroglancerState().layers || []
-  for (const annotation of annotations.edges.map((e: any) => e.node)) {
+  for (const annotation of annotations.edges.map((e) => e.node)) {
     const { depositionId } = annotation
     const httpsPath = annotation.httpsMetadataPath
       .replace('.json', '')
       .split('/')
       .slice(-2)
       .join('-')
-    const layer = layers.find(
-      (l) =>
-        l.source.includes?.(httpsPath) || l.source.url?.includes(httpsPath),
-    )
+    const layer = layers.find((li) => {
+      const l = li as LayerWithSource
+      if (!l.source) return false
+      if (typeof l.source === 'string') {
+        return l.source.includes(httpsPath)
+      }
+      if (typeof l.source === 'object' && l.source.url) {
+        return l.source.url.includes(httpsPath)
+      }
+      return false
+    })
     if (!(depositionId in config)) {
       config[depositionId] = [{ name: layer?.name, annotation }]
     } else {
@@ -347,11 +399,13 @@ const isDepositionActivated = (depositionEntries: string[]) => {
   const layers = currentNeuroglancerState().layers || []
   return layers
     .filter((l) => l.name && depositionEntries.includes(l.name))
-    .some(
-      (l) =>
+    .some((li) => {
+      const l = li as LayerWithSource
+      return (
         !boolValue(l.archived, /* defaultValue = */ false) &&
-        boolValue(l.visible, /* defaultValue = */ true),
-    )
+        boolValue(l.visible, /* defaultValue = */ true)
+      )
+    })
 }
 
 const toggleDepositions = (depositionEntries: string[]) => {
@@ -361,7 +415,7 @@ const toggleDepositions = (depositionEntries: string[]) => {
     for (const layer of layers.filter(
       (l) => l.name && depositionEntries.includes(l.name),
     )) {
-      layer.archived = isCurrentlyActive
+      ;(layer as LayerWithSource).archived = isCurrentlyActive
       layer.visible = !isCurrentlyActive
     }
     return state
@@ -372,13 +426,15 @@ const toggleAllDepositions = () => {
   updateState((state) => {
     const layers = state.neuroglancer?.layers || []
     const layersOfInterest = layers.filter((l) => l.type !== 'image')
-    const archived = layersOfInterest.some(
-      (l) =>
+    const archived = layersOfInterest.some((li) => {
+      const l = li as LayerWithSource
+      return (
         boolValue(l.archived, /* defaultValue = */ false) &&
-        boolValue(l.visible, /* defaultValue = */ true),
-    )
+        boolValue(l.visible, /* defaultValue = */ true)
+      )
+    })
     for (const layer of layersOfInterest) {
-      layer.archived = !archived
+      ;(layer as LayerWithSource).archived = !archived
       layer.visible = archived
     }
     return state
@@ -388,11 +444,13 @@ const toggleAllDepositions = () => {
 const isAllLayerActive = () => {
   const layers = currentNeuroglancerState().layers || []
   const layersOfInterest = layers.filter((l) => l.type !== 'image')
-  return layersOfInterest.every(
-    (l) =>
+  return layersOfInterest.every((li) => {
+    const l = li as LayerWithSource
+    return (
       !boolValue(l.archived, /* defaultValue = */ false) &&
-      boolValue(l.visible, /* defaultValue = */ true),
-  )
+      boolValue(l.visible, /* defaultValue = */ true)
+    )
+  })
 }
 
 const isSmallScreen = () => {
@@ -402,7 +460,7 @@ const isSmallScreen = () => {
   )
 }
 
-function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
+function ViewerPage({ run, tomogram }: { run: Run; tomogram: Tomogram }) {
   const { t } = useI18n()
   const {
     tourRunning,
@@ -444,7 +502,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     hashReady.current = true
   }, [])
 
-  const handleOnStateChange = (state: ResolvedSuperState) => {
+  const handleOnStateChange = (state: ViewerPageSuperState) => {
     scheduleRefresh()
     setTopBarVisibleFromSuperState()
     if (state.tourStepIndex) {
@@ -453,16 +511,17 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     if (!state.savedPanelsStatus) {
       return
     }
-    updateState((state) => {
-      const savedPanels = state.savedPanelsStatus
-      for (const panelName of savedPanels as PanelName[]) {
+    updateState((newStateInput) => {
+      const newState = newStateInput as ViewerPageSuperState
+      const savedPanels = newState.savedPanelsStatus || []
+      for (const panelName of savedPanels) {
         const visible = boolValue(
-          state.neuroglancer[panelName]?.visible,
+          newState.neuroglancer[panelName]?.visible,
           panelsDefaultValues[panelName],
         )
         if (visible && savedPanels.includes(panelName)) {
-          delete state.savedPanelsStatus
-          return state
+          delete newState.savedPanelsStatus
+          return newState
         }
       }
       return undefined
