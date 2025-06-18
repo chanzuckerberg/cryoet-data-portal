@@ -16,13 +16,13 @@ import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
 import { useI18n } from 'app/hooks/useI18n'
-import {
+import type {
   Annotation,
   Annotations,
   Run,
   Tomogram,
-  useTour,
-} from 'app/hooks/useTour'
+} from 'app/components/Run/ViewerPageTypes'
+import { useTour } from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
 
 import {
