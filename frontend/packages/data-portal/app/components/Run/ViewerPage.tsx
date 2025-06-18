@@ -638,8 +638,7 @@ function ViewerPage({ run, tomogram }: { run: Run; tomogram: Tomogram }) {
                     All depositions
                   </CustomDropdownOption>
                   {Object.entries(depositionConfigs).map(
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    ([depositionId, depositions], _) => {
+                    ([depositionId, depositions]) => {
                       const layersOfInterest = depositions.map((c) => c.name)
                       return (
                         <CustomDropdownOption
@@ -815,7 +814,7 @@ function ViewerPage({ run, tomogram }: { run: Run; tomogram: Tomogram }) {
         {hashReady.current && (
           <NeuroglancerWrapper
             onStateChange={handleOnStateChange}
-            ref={iframeRef}
+            ref={iframeRef as any} // eslint-disable-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
           />
         )}
       </div>
