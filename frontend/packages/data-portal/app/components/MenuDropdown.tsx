@@ -91,7 +91,6 @@ export const MenuDropdown = forwardRef<
             <Icon
               sdsIcon={anchorEl ? 'ChevronUp' : 'ChevronDown'}
               sdsSize="xs"
-              sdsType="iconButton"
               className={cns(
                 iconStyles[variant],
                 anchorEl
