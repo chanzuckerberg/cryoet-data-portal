@@ -10,18 +10,18 @@ import { Tooltip } from './Tooltip'
 
 export interface CitationButtonProps {
   buttonProps: Partial<ButtonProps>
-  event: EventPayloads[Events.ViewTomogram]
+  //event: EventPayloads[Events.CitePortal]
   tooltipPlacement: TooltipProps['placement']
   setIsHoveringOver?: (isHoveringOver: boolean) => void
 }
 
 export function CitationButton({
   buttonProps,
-  event,
+  //event,
   tooltipPlacement,
   setIsHoveringOver,
 }: CitationButtonProps) {
-  const plausible = usePlausible()
+  //const plausible = usePlausible()
   const { t } = useI18n()
 
   // function trackCitation() {
@@ -34,16 +34,6 @@ export function CitationButton({
             <h4 className="font-semibold">
               {t('citePortalText')}
             </h4>
-            <Link
-              to={t('citePortalLink')}
-              variant="dashed-underlined"
-              stopPropagation
-              className="!text-light-sds-color-primitive-gray-300 text-sds-body-xxs-400-wide !border-light-sds-color-primitive-gray-800"
-            >
-              <p>
-                <I18n i18nKey="citePortalLinkText" />
-              </p>
-            </Link>
           </>
       }
       sdsStyle="dark"
@@ -69,7 +59,7 @@ export function CitationButton({
           LinkComponent={Link}
           {...(buttonProps as ButtonProps)}
         >
-          <span>{t('citePortalLinkText')}</span>
+          <span>{t('citePortal')}</span>
         </Button>
       </div>
     </Tooltip>

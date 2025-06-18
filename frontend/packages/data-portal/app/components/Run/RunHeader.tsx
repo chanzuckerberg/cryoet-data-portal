@@ -98,7 +98,7 @@ export function RunHeader() {
           <CitationButton
             buttonProps={{
               sdsStyle: 'rounded',
-              sdsType: 'primary',
+              sdsType: 'secondary',
               startIcon: <Icon sdsIcon="Book" sdsSize="s" />,
             }}
             tooltipPlacement="bottom"
