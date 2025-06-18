@@ -4,7 +4,7 @@ import {
   The2_X2GridLayoutWithXyYzXzAnd3_DPanels,
 } from './NeuroglancerState'
 
-export type NeuroglancerLayout = The2_X2GridLayoutWithXyYzXzAnd3_DPanels
+export type NeuroglancerLayout = `${The2_X2GridLayoutWithXyYzXzAnd3_DPanels}`
 export type NeuroglancerState = CompleteStateOfANeuroglancerInstance
 
 export interface SuperState extends Record<string, any> {

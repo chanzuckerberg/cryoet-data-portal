@@ -36,6 +36,45 @@ import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { getTutorialSteps } from './steps'
 import { Tour } from './Tour'
 
+interface WatchableBoolean {
+  value: boolean
+}
+
+// The neuroglancer viewer has more available properties,
+// here we only define the ones we use in this file.
+interface Viewer {
+  showDefaultAnnotations: WatchableBoolean
+  showAxisLines: WatchableBoolean
+  showScaleBar: WatchableBoolean
+  showPerspectiveSliceViews: WatchableBoolean
+  navigationState: {
+    pose: {
+      orientation: {
+        snap: () => void
+      }
+    }
+  }
+  perspectiveNavigationState: {
+    pose: {
+      orientation: {
+        snap: () => void
+      }
+    }
+  }
+  uiConfiguration: {
+    showLayerPanel: WatchableBoolean // This is the top layer bar
+  }
+}
+
+function getCurrentNeuroglancer(): Viewer | undefined {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const viewer = currentNeuroglancer()
+  if (viewer !== undefined) {
+    return viewer as Viewer
+  }
+  return undefined
+}
+
 const boolValue = (
   value: boolean | undefined,
   defaultValue: boolean = true,
@@ -53,38 +92,42 @@ const panelsDefaultValues = {
 type PanelName = keyof typeof panelsDefaultValues
 
 const toggleBoundingBox = () => {
-  const viewer = currentNeuroglancer()
+  const viewer = getCurrentNeuroglancer()
+  if (!viewer) return
   viewer.showDefaultAnnotations.value = !viewer.showDefaultAnnotations.value
 }
 
 const hasBoundingBox = () => {
-  return currentNeuroglancer()?.showDefaultAnnotations.value
+  return getCurrentNeuroglancer()?.showDefaultAnnotations.value
 }
 
 const toggleAxisLine = () => {
-  const viewer = currentNeuroglancer()
+  const viewer = getCurrentNeuroglancer()
+  if (!viewer) return
   viewer.showAxisLines.value = !viewer.showAxisLines.value
 }
 
 const axisLineEnabled = () => {
-  return currentNeuroglancer()?.showAxisLines.value
+  return getCurrentNeuroglancer()?.showAxisLines.value
 }
 
 const showScaleBarEnabled = () => {
-  return currentNeuroglancer()?.showScaleBar.value
+  return getCurrentNeuroglancer()?.showScaleBar.value
 }
 
 const toggleShowScaleBar = () => {
-  const viewer = currentNeuroglancer()
+  const viewer = getCurrentNeuroglancer()
+  if (!viewer) return
   viewer.showScaleBar.value = !viewer.showScaleBar.value
 }
 
 const showSectionsEnabled = () => {
-  return currentNeuroglancer()?.showPerspectiveSliceViews.value
+  return getCurrentNeuroglancer()?.showPerspectiveSliceViews.value
 }
 
 const toggleShowSections = () => {
-  const viewer = currentNeuroglancer()
+  const viewer = getCurrentNeuroglancer()
+  if (!viewer) return
   viewer.showPerspectiveSliceViews.value =
     !viewer.showPerspectiveSliceViews.value
 }
@@ -93,13 +136,16 @@ const currentLayout = () => {
   return currentNeuroglancerState().layout
 }
 
-const isCurrentLayout = (layout: string) => {
+const isCurrentLayout = (layout: NeuroglancerLayout) => {
   return currentLayout() === layout
 }
 
-const setCurrentLayout = (layout: string, commit: boolean = true) => {
+const setCurrentLayout = (
+  layout: NeuroglancerLayout,
+  commit: boolean = true,
+) => {
   const stateModifier = (state: ResolvedSuperState) => {
-    state.neuroglancer.layout = layout as NeuroglancerLayout
+    state.neuroglancer.layout = layout
     return state
   }
   if (commit) {
@@ -109,7 +155,8 @@ const setCurrentLayout = (layout: string, commit: boolean = true) => {
 }
 
 const snap = () => {
-  const viewer = currentNeuroglancer()
+  const viewer = getCurrentNeuroglancer()
+  if (!viewer) return
   viewer.navigationState.pose.orientation.snap()
   viewer.perspectiveNavigationState.pose.orientation.snap()
 }
@@ -184,7 +231,7 @@ const toggleTopBar = (show: boolean | undefined = undefined, commit = true) => {
     updateState(stateModifier)
   }
 
-  const viewer = currentNeuroglancer()
+  const viewer = getCurrentNeuroglancer()
   if (viewer) {
     viewer.uiConfiguration.showLayerPanel.value = !isVisible
   }
@@ -210,7 +257,8 @@ const isTopBarVisible = () => {
 }
 
 const setTopBarVisibleFromSuperState = () => {
-  const viewer = currentNeuroglancer()
+  const viewer = getCurrentNeuroglancer()
+  if (!viewer) return
   viewer.uiConfiguration.showLayerPanel.value = isTopBarVisible()
 }
 
