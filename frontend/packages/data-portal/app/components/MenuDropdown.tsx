@@ -77,10 +77,7 @@ export const MenuDropdown = forwardRef<
           >
             <span
               ref={menuRef}
-              className={cns(
-                'font-semibold',
-                textStyles[variant]
-              )}
+              className={cns('font-semibold', textStyles[variant])}
             >
               {title}
             </span>
@@ -88,10 +85,7 @@ export const MenuDropdown = forwardRef<
             <Icon
               sdsIcon={anchorEl ? 'ChevronUp' : 'ChevronDown'}
               sdsSize="xs"
-              className={cns(
-                iconStyles[variant],
-                '!w-[10px] !h-[10px]'
-              )}
+              className={cns(iconStyles[variant], '!w-[10px] !h-[10px]')}
             />
           </button>
         ) : (
