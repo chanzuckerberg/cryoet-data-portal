@@ -50,16 +50,16 @@ export const MenuDropdown = forwardRef<
 
     const iconStyles = {
       standard: anchorEl
-        ? '!fill-sds-color-primitive-common-white'
-        : '!fill-sds-color-primitive-gray-400 group-hover:!fill-sds-color-primitive-common-white',
+        ? '!text-light-sds-color-primitive-gray-400'
+        : '!text-light-sds-color-primitive-gray-400 group-hover:!text-light-sds-color-primitive-gray-50',
       outlined: '!text-[#A2C9FF]',
       filled: '!fill-sds-color-primitive-common-white',
     }
 
     const textStyles = {
       standard: anchorEl
-        ? 'text-sds-color-primitive-common-white'
-        : 'text-sds-color-primitive-gray-400 group-hover:text-sds-color-primitive-common-white',
+        ? 'text-light-sds-color-primitive-gray-400'
+        : 'text-light-sds-color-primitive-gray-400 group-hover:text-light-sds-color-primitive-gray-50',
       outlined: '!text-[#A2C9FF]',
       filled: '!fill-sds-color-primitive-common-white',
     }
@@ -79,10 +79,7 @@ export const MenuDropdown = forwardRef<
               ref={menuRef}
               className={cns(
                 'font-semibold',
-                textStyles[variant],
-                anchorEl
-                  ? 'text-sds-color-primitive-common-white'
-                  : 'text-sds-color-primitive-gray-400 group-hover:text-sds-color-primitive-common-white',
+                textStyles[variant]
               )}
             >
               {title}
@@ -93,9 +90,7 @@ export const MenuDropdown = forwardRef<
               sdsSize="xs"
               className={cns(
                 iconStyles[variant],
-                anchorEl
-                  ? '!w-[10px] !h-[10px] !fill-sds-color-primitive-common-white'
-                  : '!w-[10px] !h-[10px] !fill-sds-color-primitive-gray-400 group-hover:!fill-sds-color-primitive-common-white',
+                '!w-[10px] !h-[10px]'
               )}
             />
           </button>
