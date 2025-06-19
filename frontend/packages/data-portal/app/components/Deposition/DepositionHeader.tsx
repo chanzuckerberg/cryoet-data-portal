@@ -30,6 +30,9 @@ export function DepositionHeader() {
               startIcon: <Icon sdsIcon="Book" sdsSize="s" />,
             }}
             tooltipPlacement="bottom"
+            event={{
+              cite: true,
+            }}
           >
             {t('citePortal')}
           </CitationButton>

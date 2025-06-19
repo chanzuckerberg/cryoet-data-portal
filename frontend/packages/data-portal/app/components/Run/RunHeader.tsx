@@ -102,6 +102,9 @@ export function RunHeader() {
               startIcon: <Icon sdsIcon="Book" sdsSize="s" />,
             }}
             tooltipPlacement="bottom"
+            event={{
+              cite: true,
+            }}
           >
             {t('citePortal')}
           </CitationButton>

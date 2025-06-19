@@ -54,7 +54,7 @@ export type DownloadModalPropKeys = keyof PlausibleDownloadModalPayload
 
 export type EventPayloads = {
   [Events.CitePortal]: {
-    id: number
+    cite: boolean
   }
   [Events.ClickBackToConfigureDownload]: PlausibleDownloadModalPayload
   [Events.ClickDownloadTab]: PlausibleDownloadModalPayload
