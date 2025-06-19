@@ -105,9 +105,7 @@ export function RunHeader() {
             event={{
               cite: true,
             }}
-          >
-            {t('citePortal')}
-          </CitationButton>
+          />
         </div>
       }
       releaseDate={run.dataset?.releaseDate.split('T')[0]}

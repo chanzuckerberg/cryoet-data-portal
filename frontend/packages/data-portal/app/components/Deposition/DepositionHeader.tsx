@@ -33,9 +33,7 @@ export function DepositionHeader() {
             event={{
               cite: true,
             }}
-          >
-            {t('citePortal')}
-          </CitationButton>
+          />
         </div>
       }
       breadcrumbs={<Breadcrumbs variant="deposition" data={deposition} />}

@@ -46,9 +46,7 @@ export function DatasetHeader() {
             event={{
               cite: true,
             }}
-          >
-            {t('citePortal')}
-          </CitationButton>
+          />
         </div>
       }
       breadcrumbs={<Breadcrumbs variant="dataset" data={dataset} />}
