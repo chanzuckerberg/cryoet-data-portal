@@ -1,12 +1,12 @@
 import { Button, Icon } from '@czi-sds/components'
 
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
+import { CitationButton } from 'app/components/CitationButton'
 import { DatasetOverview } from 'app/components/Dataset/DatasetOverview'
 import { PageHeader } from 'app/components/PageHeader'
 import { DATA_TYPES } from 'app/constants/dataTypes'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDatasetById } from 'app/hooks/useDatasetById'
-import { CitationButton } from 'app/components/CitationButton'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import {

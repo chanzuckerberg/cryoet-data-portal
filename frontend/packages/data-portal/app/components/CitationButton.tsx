@@ -2,6 +2,7 @@ import { Button, ButtonProps, TooltipProps } from '@czi-sds/components'
 
 import { useI18n } from 'app/hooks/useI18n'
 import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
+
 import { Link } from './Link'
 import { Tooltip } from './Tooltip'
 
@@ -48,7 +49,7 @@ export function CitationButton({
           trackCitation()
         }}
         onKeyDown={({ key }) => {
-          if (key == 'Enter') {
+          if (key === 'Enter') {
             trackCitation()
           }
         }}

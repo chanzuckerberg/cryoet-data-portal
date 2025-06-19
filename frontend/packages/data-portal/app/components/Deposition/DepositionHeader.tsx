@@ -1,9 +1,11 @@
+import { Icon } from '@czi-sds/components'
+
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
+import { CitationButton } from 'app/components/CitationButton'
 import { HeaderKeyPhoto } from 'app/components/HeaderKeyPhoto'
 import { PageHeader } from 'app/components/PageHeader'
 import { DATA_TYPES } from 'app/constants/dataTypes'
 import { IdPrefix } from 'app/constants/idPrefixes'
-import { CitationButton } from 'app/components/CitationButton'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import {
