@@ -1,32 +1,30 @@
-import { Button, ButtonProps, TooltipProps, Icon } from '@czi-sds/components'
+import { Button, ButtonProps, TooltipProps } from '@czi-sds/components'
 
-import { I18n } from 'app/components/I18n'
-import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
-
 import { Link } from './Link'
 import { Tooltip } from './Tooltip'
 
 export interface CitationButtonProps {
   buttonProps: Partial<ButtonProps>
-  //event: EventPayloads[Events.CitePortal]
+  event: EventPayloads[Events.CitePortal]
   tooltipPlacement: TooltipProps['placement']
   setIsHoveringOver?: (isHoveringOver: boolean) => void
 }
 
 export function CitationButton({
   buttonProps,
-  //event,
+  event,
   tooltipPlacement,
   setIsHoveringOver,
 }: CitationButtonProps) {
-  //const plausible = usePlausible()
+  const plausible = usePlausible()
   const { t } = useI18n()
 
-  // function trackCitation() {
-  //   plausible(Events.CitePortal, event)
-  // }
+  function trackCitation() {
+    plausible(Events.CitePortal, event)
+  }
+
   return (
     <Tooltip
       tooltip={
@@ -47,6 +45,12 @@ export function CitationButton({
       <div
         onClick={(e) => {
           e.stopPropagation()
+          trackCitation()
+        }}
+        onKeyDown={({ key }) => {
+          if (key == 'Enter') {
+            trackCitation()
+          }
         }}
         onMouseEnter={() => setIsHoveringOver?.(false)} // could be changed back to true if we needed this fine-grained control
         onMouseLeave={() => setIsHoveringOver?.(false)}

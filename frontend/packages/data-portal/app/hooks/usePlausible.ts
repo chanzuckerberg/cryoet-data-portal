@@ -16,6 +16,7 @@ export const PLAUSIBLE_ENV_URL_MAP: Record<NodeJS.ProcessEnv['ENV'], string> = {
 }
 
 export enum Events {
+  CitePortal = 'Cite Portal',
   ClickBackToConfigureDownload = 'Click back to configure download',
   ClickBreadcrumb = 'Click breadcrumb',
   ClickBrowseDataTab = 'Click browse data tab',
@@ -52,6 +53,9 @@ export type PlausibleDownloadModalPayload<T = object> = T & {
 export type DownloadModalPropKeys = keyof PlausibleDownloadModalPayload
 
 export type EventPayloads = {
+  [Events.CitePortal]: {
+    id: number
+  }
   [Events.ClickBackToConfigureDownload]: PlausibleDownloadModalPayload
   [Events.ClickDownloadTab]: PlausibleDownloadModalPayload
   [Events.ClickDownloadTomogram]: PlausibleDownloadModalPayload<{
