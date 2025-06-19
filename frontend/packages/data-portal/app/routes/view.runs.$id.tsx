@@ -50,13 +50,9 @@ const ViewerPage = lazy(() => import('app/components/Run/ViewerPage'))
 export default function RunByIdViewerPage() {
   const { run, tomograms } = useRunById()
   const tomogram = tomograms.find((t) => t.neuroglancerConfig)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const typedRun = run as any
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const typedTomogram = tomogram as any
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ViewerPage run={typedRun} tomogram={typedTomogram} />
+      <ViewerPage run={run} tomogram={tomogram} />
     </Suspense>
   )
 }

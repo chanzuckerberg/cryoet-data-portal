@@ -7,7 +7,9 @@ import {
 import { useState } from 'react'
 import { ACTIONS } from 'react-joyride'
 
-import type { Tomogram } from 'app/components/Run/ViewerPageTypes'
+import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
+
+type Tomogram = GetRunByIdV2Query['tomograms'][number]
 
 const WALKTHROUGH_PANEL_SIZE = 400
 
@@ -37,17 +39,19 @@ const adjustPanelSize = (stringState: string) => {
   return encodeState(state, /* compress = */ false)
 }
 
-export function useTour(tomogram: Tomogram) {
+export function useTour(tomogram: Tomogram | undefined) {
   const [tourRunning, setTourRunning] = useState(false)
   const [stepIndex, setStepIndex] = useState<number>(0)
 
   const handleTourStartInNewTab = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()
-    localStorage.setItem('startTutorial', 'true')
-    const { protocol, host, pathname, search } = window.location
-    const newEncodedState = adjustPanelSize(tomogram.neuroglancerConfig)
-    const urlWithoutHash = `${protocol}//${host}${pathname}${search}${newEncodedState}`
-    window.open(urlWithoutHash, '_blank')
+    if (tomogram?.neuroglancerConfig) {
+      localStorage.setItem('startTutorial', 'true')
+      const { protocol, host, pathname, search } = window.location
+      const newEncodedState = adjustPanelSize(tomogram.neuroglancerConfig)
+      const urlWithoutHash = `${protocol}//${host}${pathname}${search}${newEncodedState}`
+      window.open(urlWithoutHash, '_blank')
+    }
   }
 
   const handleTourClose = () => {

@@ -12,15 +12,10 @@ import {
 } from 'neuroglancer'
 import { useEffect, useRef, useState } from 'react'
 
+import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
-import type {
-  Annotation,
-  Annotations,
-  Run,
-  Tomogram,
-} from 'app/components/Run/ViewerPageTypes'
 import { useI18n } from 'app/hooks/useI18n'
 import { useTour } from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
@@ -41,6 +36,15 @@ import { Tooltip } from '../Tooltip'
 import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { getTutorialSteps } from './steps'
 import { Tour } from './Tour'
+
+type Run = GetRunByIdV2Query['runs'][number]
+type Tomogram = GetRunByIdV2Query['tomograms'][number]
+type Annotations = Run['annotations']
+type Annotation = Annotations['edges'][number]['node']
+interface AnnotationUIConfig {
+  name?: string
+  annotation: Annotation
+}
 
 interface WatchableBoolean {
   value: boolean
@@ -78,11 +82,6 @@ interface ViewerPageSuperState extends ResolvedSuperState {
   dimensionSlider?: boolean // Whether the dimension slider is visible
   savedPanelsStatus?: PanelName[] // List of panels that are currently visible
   tourStepIndex?: number // The current step index in the tour
-}
-
-interface AnnotationConfig {
-  name?: string
-  annotation: Annotation
 }
 
 interface LayerWithSource {
@@ -341,11 +340,11 @@ const toggleOrMakeDimensionPanel = () => {
 
 const buildDepositsConfig = (
   annotations: Annotations,
-): Record<number, AnnotationConfig[]> => {
-  const config: Record<number, AnnotationConfig[]> = {}
+): Record<number, AnnotationUIConfig[]> => {
+  const config: Record<number, AnnotationUIConfig[]> = {}
   const layers = currentNeuroglancerState().layers || []
   for (const annotation of annotations.edges.map((e) => e.node)) {
-    const { depositionId } = annotation
+    let { depositionId } = annotation
     const httpsPath = annotation.httpsMetadataPath
       .replace('.json', '')
       .split('/')
@@ -362,6 +361,9 @@ const buildDepositsConfig = (
       }
       return false
     })
+    if (depositionId === undefined || depositionId === null) {
+      depositionId = -1 // Use -1 for layers without a depositionId
+    }
     if (!(depositionId in config)) {
       config[depositionId] = [{ name: layer?.name, annotation }]
     } else {
@@ -436,7 +438,13 @@ const isSmallScreen = () => {
   )
 }
 
-function ViewerPage({ run, tomogram }: { run: Run; tomogram: Tomogram }) {
+function ViewerPage({
+  run,
+  tomogram,
+}: {
+  run: Run
+  tomogram: Tomogram | undefined
+}) {
   const { t } = useI18n()
   const {
     tourRunning,
@@ -580,6 +588,10 @@ function ViewerPage({ run, tomogram }: { run: Run; tomogram: Tomogram }) {
     </Tooltip>
   )
 
+  const breadcrumbsData = {
+    id: run.dataset?.id || 0,
+    title: run.dataset?.title || 'dataset',
+  }
   return (
     <div className="flex flex-col overflow-hidden h-full relative bg-dark-sds-color-primitive-gray-50">
       <nav
@@ -593,7 +605,7 @@ function ViewerPage({ run, tomogram }: { run: Run; tomogram: Tomogram }) {
           <CryoETHomeLink textSize="text-sm" />
           <Breadcrumbs
             variant="neuroglancer"
-            data={run.dataset}
+            data={breadcrumbsData}
             activeBreadcrumbText={activeBreadcrumbText}
           />
         </div>
@@ -622,7 +634,8 @@ function ViewerPage({ run, tomogram }: { run: Run; tomogram: Tomogram }) {
                           }}
                         >
                           <span className="line-clamp-3">
-                            {depositions?.[0].annotation.deposition.title}
+                            {depositions?.[0].annotation?.deposition?.title ||
+                              'Deposition'}
                           </span>
                           <span className="text-xs text-[#767676] font-normal">
                             CZCDP-{depositionId}
