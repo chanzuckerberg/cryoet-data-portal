@@ -17,10 +17,6 @@ overrides:
 importers:
 
   .:
-    dependencies:
-      react-joyride:
-        specifier: ^2.9.3
-        version: 2.9.3(@types/react@18.3.18)(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       npm-run-all:
         specifier: ^4.1.5
@@ -196,6 +192,9 @@ importers:
       react-is:
         specifier: ^18.2.0
         version: 18.2.0
+      react-joyride:
+        specifier: ^2.9.3
+        version: 2.9.3(@types/react@18.2.28)(react-dom@18.2.0)(react@18.2.0)
       react-query:
         specifier: ^3.39.3
         version: 3.39.3(react-dom@18.2.0)(react@18.2.0)
@@ -13227,13 +13226,13 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /react-innertext@1.1.5(@types/react@18.3.18)(react@18.2.0):
+  /react-innertext@1.1.5(@types/react@18.2.28)(react@18.2.0):
     resolution: {integrity: sha512-PWAqdqhxhHIv80dT9znP2KvS+hfkbRovFp4zFYHFFlOoQLRiawIic81gKb3U1wEyJZgMwgs3JoLtwryASRWP3Q==}
     peerDependencies:
       '@types/react': '>=0.0.0 <=99'
       react: 18.2.0
     dependencies:
-      '@types/react': 18.3.18
+      '@types/react': 18.2.28
       react: 18.2.0
     dev: false
 
@@ -13248,7 +13247,7 @@ packages:
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
 
-  /react-joyride@2.9.3(@types/react@18.3.18)(react-dom@18.2.0)(react@18.2.0):
+  /react-joyride@2.9.3(@types/react@18.2.28)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-1+Mg34XK5zaqJ63eeBhqdbk7dlGCFp36FXwsEvgpjqrtyywX2C6h9vr3jgxP0bGHCw8Ilsp/nRDzNVq6HJ3rNw==}
     peerDependencies:
       react: 18.2.0
@@ -13261,7 +13260,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-floater: 0.7.9(react-dom@18.2.0)(react@18.2.0)
-      react-innertext: 1.1.5(@types/react@18.3.18)(react@18.2.0)
+      react-innertext: 1.1.5(@types/react@18.2.28)(react@18.2.0)
       react-is: 16.13.1
       scroll: 3.0.1
       scrollparent: 2.1.0
@@ -16187,7 +16186,6 @@ packages:
     name: neuroglancer
     version: 2.40.1
     engines: {node: '>=22'}
-    prepare: true
     requiresBuild: true
     dependencies:
       codemirror: 5.65.18

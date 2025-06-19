@@ -1,5 +1,4 @@
 import { Icon } from '@czi-sds/components'
-import React from 'react'
 import Joyride, {
   ACTIONS,
   CallBackProps,
@@ -7,6 +6,7 @@ import Joyride, {
   ORIGIN,
   STATUS,
   Step,
+  TooltipRenderProps,
 } from 'react-joyride'
 
 import { cns } from 'app/utils/cns'
@@ -28,7 +28,11 @@ const outlinedButtonStyles =
 const filledButtonStyles =
   'py-1.5 px-3 rounded-sds-l font-semibold bg-[#0B68F8] text-white'
 
-function CustomTooltip(props: any, onRestart: () => void, onClose: () => void) {
+function CustomTooltip(
+  props: TooltipRenderProps,
+  onRestart: () => void,
+  onClose: () => void,
+) {
   const { index, isLastStep, size, step, closeProps, backProps, primaryProps } =
     props
 
@@ -42,7 +46,11 @@ function CustomTooltip(props: any, onRestart: () => void, onClose: () => void) {
     <div className={cns(tooltipContainerStyles, 'bg-white rounded')}>
       <div className="flex justify-between items-center">
         <div className={cns(titleStyles, 'font-semibold')}>{step.title}</div>
-        <button onClick={onClose} className="w-4 h-4 flex items-center">
+        <button
+          type="button"
+          onClick={onClose}
+          className="w-4 h-4 flex items-center"
+        >
           <Icon sdsIcon="XMark" sdsSize="s" className="!text-[#767676]" />
         </button>
       </div>
@@ -65,35 +73,56 @@ function CustomTooltip(props: any, onRestart: () => void, onClose: () => void) {
           {index === 0 ? (
             <>
               <button
+                type="button"
                 {...closeProps}
                 onClick={onClose}
                 className={outlinedButtonStyles}
               >
                 Close
               </button>
-              <button {...primaryProps} className={filledButtonStyles}>
+              <button
+                type="button"
+                {...primaryProps}
+                className={filledButtonStyles}
+              >
                 Take a tour
               </button>
             </>
           ) : (
             <>
               {index > 0 && !isLastStep && (
-                <button {...backProps} className={outlinedButtonStyles}>
+                <button
+                  type="button"
+                  {...backProps}
+                  className={outlinedButtonStyles}
+                >
                   Previous
                 </button>
               )}
               {index > 0 && isLastStep && (
-                <button onClick={onRestart} className={outlinedButtonStyles}>
+                <button
+                  type="button"
+                  onClick={onRestart}
+                  className={outlinedButtonStyles}
+                >
                   Restart
                 </button>
               )}
               {!isLastStep && (
-                <button {...primaryProps} className={filledButtonStyles}>
+                <button
+                  type="button"
+                  {...primaryProps}
+                  className={filledButtonStyles}
+                >
                   Next
                 </button>
               )}
               {isLastStep && (
-                <button onClick={onClose} className={filledButtonStyles}>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className={filledButtonStyles}
+                >
                   Close tour
                 </button>
               )}
@@ -105,14 +134,14 @@ function CustomTooltip(props: any, onRestart: () => void, onClose: () => void) {
   )
 }
 
-const Tour: React.FC<CustomTourProps> = ({
+export function Tour({
   steps,
   run,
   stepIndex,
   onRestart,
   onClose,
   onMove,
-}) => {
+}: CustomTourProps) {
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { action, index, origin, status, type } = data
 
@@ -129,10 +158,6 @@ const Tour: React.FC<CustomTourProps> = ({
     ) {
       onClose()
     }
-
-    console.groupCollapsed(type)
-    console.log(data)
-    console.groupEnd()
   }
 
   return (
@@ -140,7 +165,7 @@ const Tour: React.FC<CustomTourProps> = ({
       steps={steps}
       run={run}
       stepIndex={stepIndex}
-      spotlightClicks={true}
+      spotlightClicks
       continuous
       disableOverlayClose
       disableScrolling
@@ -155,5 +180,3 @@ const Tour: React.FC<CustomTourProps> = ({
     />
   )
 }
-
-export default Tour

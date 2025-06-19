@@ -1,6 +1,15 @@
-import { currentState, encodeState, updateState } from 'neuroglancer'
+import {
+  currentState,
+  encodeState,
+  NeuroglancerState,
+  updateState,
+} from 'neuroglancer'
 import { useState } from 'react'
 import { ACTIONS } from 'react-joyride'
+
+import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
+
+type Tomogram = GetRunByIdV2Query['tomograms'][number]
 
 const WALKTHROUGH_PANEL_SIZE = 400
 
@@ -20,25 +29,29 @@ const panelsDefaultValues = {
 }
 
 const adjustPanelSize = (stringState: string) => {
-  const state = JSON.parse(stringState)
+  const state = JSON.parse(stringState) as NeuroglancerState
   if (state.layerListPanel) {
     state.layerListPanel.size = WALKTHROUGH_PANEL_SIZE
+  }
+  if (state.selectedLayer) {
     state.selectedLayer.size = WALKTHROUGH_PANEL_SIZE
   }
   return encodeState(state, /* compress = */ false)
 }
 
-export default function useTour(tomogram: any) {
+export function useTour(tomogram: Tomogram | undefined) {
   const [tourRunning, setTourRunning] = useState(false)
   const [stepIndex, setStepIndex] = useState<number>(0)
 
   const handleTourStartInNewTab = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()
-    localStorage.setItem('startTutorial', 'true')
-    const { protocol, host, pathname, search } = window.location
-    const newEncodedState = adjustPanelSize(tomogram.neuroglancerConfig)
-    const urlWithoutHash = `${protocol}//${host}${pathname}${search}${newEncodedState}`
-    window.open(urlWithoutHash, '_blank')
+    if (tomogram?.neuroglancerConfig) {
+      localStorage.setItem('startTutorial', 'true')
+      const { protocol, host, pathname, search } = window.location
+      const newEncodedState = adjustPanelSize(tomogram.neuroglancerConfig)
+      const urlWithoutHash = `${protocol}//${host}${pathname}${search}${newEncodedState}`
+      window.open(urlWithoutHash, '_blank')
+    }
   }
 
   const handleTourClose = () => {
@@ -56,9 +69,10 @@ export default function useTour(tomogram: any) {
     // state, and then then tour index in the state update callback
     const updateTourStepFromState = (layerControlVisibility: boolean) => {
       updateState((state) => {
-        state.neuroglancer.selectedLayer.visible = layerControlVisibility
-        state.tourStepIndex = newIndex
-        return state
+        const newState = state
+        newState.neuroglancer.selectedLayer!.visible = layerControlVisibility
+        newState.tourStepIndex = newIndex
+        return newState
       })
     }
 

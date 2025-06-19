@@ -3,8 +3,10 @@ import { Step } from 'react-joyride'
 import { InfoIcon } from 'app/components/icons'
 import { cns } from 'app/utils/cns'
 
+import { NEUROGLANCER_DOC_LINK } from '../Layout/constants'
+
 interface StepContentProps {
-  children: any
+  children: React.ReactNode
   variant: 'default' | 'simple' | 'minimal' | 'compact'
   className?: string
 }
@@ -123,7 +125,7 @@ export const getTutorialSteps: () => Step[] = () => [
           <img
             src="/images/neuroglancer_tour/essential_controls.gif"
             title="Essential controls"
-            alt="essential controls gif image"
+            alt="essential controls gif"
           />
         </div>
         <p className="text-[#767676]">
@@ -148,7 +150,7 @@ export const getTutorialSteps: () => Step[] = () => [
           <img
             src="/images/neuroglancer_tour/keyboard_shortcuts.gif"
             title="Keyboard shortcuts"
-            alt="keyboard shortcuts gif image"
+            alt="keyboard shortcuts gif"
           />
         </div>
         <p className="text-[#767676]">
@@ -175,7 +177,7 @@ export const getTutorialSteps: () => Step[] = () => [
           <img
             src="/images/neuroglancer_tour/layer_management.gif"
             title="Layer management"
-            alt="layer management gif image"
+            alt="layer management gif"
           />
         </div>
         <p className="text-[#767676] flex flex-col gap-4">
@@ -252,7 +254,7 @@ export const getTutorialSteps: () => Step[] = () => [
         <p>
           Ready to learn more? Visit our{' '}
           <span className="font-semibold text-[#0B68F8]">
-            <a href="#">documentation</a>
+            <a href={NEUROGLANCER_DOC_LINK}>documentation</a>
           </span>
           .
         </p>
@@ -292,9 +294,9 @@ function KeyActionList({
 }) {
   return (
     <>
-      {actions.map((control, index) => (
+      {actions.map((control) => (
         <div
-          key={`${control.key}_${index}`}
+          key={`${control.description}`}
           className="flex items-center justify-between"
         >
           <p className="font-semibold text-xs font-mono whitespace-nowrap">

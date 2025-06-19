@@ -8,9 +8,6 @@ import {
   updateNeuroglancerConfigInSuperstate,
   parseState,
   type ResolvedSuperState,
-  compressHash,
-  decompressHash,
-  hash2jsonString,
 } from './utils'
 
 interface NeuroglancerWrapperProps {
@@ -19,7 +16,7 @@ interface NeuroglancerWrapperProps {
   compressURL?: boolean
 }
 
-const NeuroglancerWrapper = forwardRef<HTMLIFrameElement, {}>(
+const NeuroglancerWrapper = forwardRef<HTMLIFrameElement, NeuroglancerWrapperProps>(
   (
     {
       baseUrl = '/neuroglancer',
@@ -68,18 +65,8 @@ const NeuroglancerWrapper = forwardRef<HTMLIFrameElement, {}>(
         const { type, hash } = event.data
         // When we receive a sync from neuroglancer (iFrame), we know it's uncompressed
         if (type === 'synchash' && window.location.hash !== hash) {
-          const originalLength = JSON.stringify(superState.current).length
           updateNeuroglancerConfigInSuperstate(superState.current, hash)
           const newHash = encodeState(superState.current, compressURL)
-          console.debug(
-            'Hash gain, original',
-            originalLength,
-            'newHash',
-            newHash.length,
-            'gain',
-            ((originalLength - newHash.length) / originalLength) * 100,
-            '%',
-          )
           history.replaceState(null, '', newHash)
           onStateChange?.({
             ...superState.current,
@@ -95,7 +82,7 @@ const NeuroglancerWrapper = forwardRef<HTMLIFrameElement, {}>(
         window.removeEventListener('hashchange', handleHashChange)
         window.removeEventListener('message', handleMessage)
       }
-    }, [onStateChange, compressURL])
+    }, [onStateChange, compressURL, ref])
 
     return (
       <iframe

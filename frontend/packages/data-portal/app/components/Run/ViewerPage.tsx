@@ -12,11 +12,12 @@ import {
 } from 'neuroglancer'
 import { useEffect, useRef, useState } from 'react'
 
+import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
 import { useI18n } from 'app/hooks/useI18n'
-import useTour from 'app/hooks/useTour'
+import { useTour } from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
 
 import {
@@ -24,7 +25,7 @@ import {
   CustomDropdownOption,
   CustomDropdownSection,
 } from '../common/CustomDropdown'
-import Snackbar from '../common/Snackbar'
+import { Snackbar } from '../common/Snackbar'
 import {
   ABOUT_LINKS,
   NEUROGLANCER_DOC_LINK,
@@ -34,7 +35,30 @@ import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { Tooltip } from '../Tooltip'
 import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { getTutorialSteps } from './steps'
-import Tour from './Tour'
+import { Tour } from './Tour'
+
+type Run = GetRunByIdV2Query['runs'][number]
+type Tomogram = GetRunByIdV2Query['tomograms'][number]
+type Annotations = Run['annotations']
+type Annotation = Annotations['edges'][number]['node']
+interface AnnotationUIConfig {
+  name?: string
+  annotation: Annotation
+}
+
+// The viewer page super state extends the resolved super state
+// with additional properties specific to the viewer page.
+interface ViewerPageSuperState extends ResolvedSuperState {
+  showLayerTopBar?: boolean // Whether the top layer bar is visible
+  restoreLayerTopBar?: boolean // Whether to restore the top layer bar
+  dimensionSlider?: boolean // Whether the dimension slider is visible
+  savedPanelsStatus?: PanelName[] // List of panels that are currently visible
+  tourStepIndex?: number // The current step index in the tour
+}
+
+function getCurrentState(): ViewerPageSuperState {
+  return currentState() as ViewerPageSuperState
+}
 
 const boolValue = (
   value: boolean | undefined,
@@ -54,6 +78,7 @@ type PanelName = keyof typeof panelsDefaultValues
 
 const toggleBoundingBox = () => {
   const viewer = currentNeuroglancer()
+  if (!viewer) return
   viewer.showDefaultAnnotations.value = !viewer.showDefaultAnnotations.value
 }
 
@@ -63,6 +88,7 @@ const hasBoundingBox = () => {
 
 const toggleAxisLine = () => {
   const viewer = currentNeuroglancer()
+  if (!viewer) return
   viewer.showAxisLines.value = !viewer.showAxisLines.value
 }
 
@@ -76,6 +102,7 @@ const showScaleBarEnabled = () => {
 
 const toggleShowScaleBar = () => {
   const viewer = currentNeuroglancer()
+  if (!viewer) return
   viewer.showScaleBar.value = !viewer.showScaleBar.value
 }
 
@@ -85,6 +112,7 @@ const showSectionsEnabled = () => {
 
 const toggleShowSections = () => {
   const viewer = currentNeuroglancer()
+  if (!viewer) return
   viewer.showPerspectiveSliceViews.value =
     !viewer.showPerspectiveSliceViews.value
 }
@@ -93,14 +121,19 @@ const currentLayout = () => {
   return currentNeuroglancerState().layout
 }
 
-const isCurrentLayout = (layout: string) => {
+const isCurrentLayout = (layout: NeuroglancerLayout) => {
   return currentLayout() === layout
 }
 
-const setCurrentLayout = (layout: string, commit: boolean = true) => {
+const setCurrentLayout = (
+  layout: NeuroglancerLayout,
+  commit: boolean = true,
+) => {
   const stateModifier = (state: ResolvedSuperState) => {
-    state.neuroglancer.layout = layout as NeuroglancerLayout
-    return state
+    const newState = state
+    // @ts-expect-error: The neuroglancer state is not typed with NeuroglancerLayout
+    newState.neuroglancer.layout = layout
+    return newState
   }
   if (commit) {
     updateState(stateModifier)
@@ -110,59 +143,66 @@ const setCurrentLayout = (layout: string, commit: boolean = true) => {
 
 const snap = () => {
   const viewer = currentNeuroglancer()
+  if (!viewer) return
   viewer.navigationState.pose.orientation.snap()
   viewer.perspectiveNavigationState.pose.orientation.snap()
 }
 
 const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
-  const stateModifier = (state: ResolvedSuperState) => {
+  const stateModifier = (state: ViewerPageSuperState) => {
+    let newState = state
     if (state.savedPanelsStatus && (show === undefined || show === true)) {
       // Restore the configuration
-      for (const panelName of state.savedPanelsStatus as PanelName[]) {
+      for (const panelName of state.savedPanelsStatus) {
         if (!(panelName in state.neuroglancer)) {
-          state.neuroglancer[panelName] = {
+          newState.neuroglancer[panelName] = {
             visible: !panelsDefaultValues[panelName],
           }
         } else {
-          state.neuroglancer[panelName].visible = !boolValue(
-            state.neuroglancer[panelName].visible,
+          newState.neuroglancer[panelName]!.visible = !boolValue(
+            state.neuroglancer[panelName]?.visible,
             panelsDefaultValues[panelName],
           )
         }
       }
       if (state.dimensionSlider && !isDimensionPanelVisible()) {
-        state = toggleDimensionPanelVisible(state)
+        newState = toggleDimensionPanelVisible(newState)
       }
-      delete state.savedPanelsStatus
-      delete state.dimensionSlider
-      return state
+      if (state.restoreLayerTopBar && !isTopBarVisible()) {
+        newState = toggleTopBar(true, false)(newState)
+      }
+      delete newState.savedPanelsStatus
+      delete newState.dimensionSlider
+      delete newState.restoreLayerTopBar
+      return newState
     }
-    const currentPanelConfig: string[] = []
-    for (const [panelName, defaultValue] of Object.entries(
-      panelsDefaultValues,
-    )) {
-      const isVisible = boolValue(
-        state.neuroglancer[panelName]?.visible,
-        defaultValue,
-      )
+    const currentPanelConfig: PanelName[] = []
+    for (const [name, defaultValue] of Object.entries(panelsDefaultValues)) {
+      const panelName = name as PanelName
+      const panelState = state.neuroglancer[panelName]
+      const isVisible = boolValue(panelState?.visible, defaultValue)
       if (isVisible) {
         if (show !== undefined) {
           if (show === false) {
             currentPanelConfig.push(panelName)
           }
-          state.neuroglancer[panelName].visible = show
+          newState.neuroglancer[panelName]!.visible = show
         } else {
           currentPanelConfig.push(panelName)
-          state.neuroglancer[panelName].visible = !isVisible
+          newState.neuroglancer[panelName]!.visible = !isVisible
         }
       }
     }
-    state.dimensionSlider = isDimensionPanelVisible()
-    if (state.dimensionSlider) {
-      state = toggleDimensionPanelVisible(state, show)
+    newState.dimensionSlider = isDimensionPanelVisible()
+    if (newState.dimensionSlider) {
+      newState = toggleDimensionPanelVisible(newState, show)
     }
-    state.savedPanelsStatus = currentPanelConfig
-    return state
+    newState.restoreLayerTopBar = isTopBarVisible()
+    if (newState.restoreLayerTopBar) {
+      newState = toggleTopBar(show, false)(newState)
+    }
+    newState.savedPanelsStatus = currentPanelConfig
+    return newState
   }
 
   if (commit) {
@@ -174,8 +214,9 @@ const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
 
 const toggleTopBar = (show: boolean | undefined = undefined, commit = true) => {
   const stateModifier = (state: ResolvedSuperState) => {
-    state.showLayerTopBar = show !== undefined ? show : !isVisible
-    return state
+    const newState = state
+    newState.showLayerTopBar = show !== undefined ? show : !isVisible
+    return newState
   }
 
   const isVisible = isTopBarVisible()
@@ -205,12 +246,13 @@ const chain = (
 }
 
 const isTopBarVisible = () => {
-  const state = currentState()
+  const state = getCurrentState()
   return boolValue(state.showLayerTopBar, /* defaultValue = */ false)
 }
 
 const setTopBarVisibleFromSuperState = () => {
   const viewer = currentNeuroglancer()
+  if (!viewer) return
   viewer.uiConfiguration.showLayerPanel.value = isTopBarVisible()
 }
 
@@ -221,12 +263,13 @@ const isDimensionPanelVisible = () => {
     // If there are no tool palettes, the dimension slider is not visible
     return false
   }
-  const tool = Object.values(toolPalettes)[0] as any
+  const tool = Object.values(toolPalettes)[0]
   return boolValue(tool?.visible, /* defaultValue = */ true)
 }
 
 const makeDimensionPanel = (state: ResolvedSuperState) => {
-  state.neuroglancer.toolPalettes = {
+  const newState = state
+  newState.neuroglancer.toolPalettes = {
     Dimensions: {
       side: 'bottom',
       row: 1,
@@ -236,14 +279,15 @@ const makeDimensionPanel = (state: ResolvedSuperState) => {
       verticalStacking: false,
     },
   }
-  return state
+  return newState
 }
 
 const toggleDimensionPanelVisible = (
   state: ResolvedSuperState,
-  show?: Boolean,
+  show?: boolean,
 ) => {
-  const toolPalette = Object.values(state.neuroglancer.toolPalettes)[0] as any
+  if (state.neuroglancer.toolPalettes === undefined) return state
+  const toolPalette = Object.values(state.neuroglancer.toolPalettes)[0]
   if (toolPalette === undefined) return state
   toolPalette.visible = show !== undefined ? show : !isDimensionPanelVisible()
   return state
@@ -256,20 +300,31 @@ const toggleOrMakeDimensionPanel = () => {
   else updateState(toggleDimensionPanelVisible)
 }
 
-const buildDepositsConfig = (annotations: any): Record<number, any[]> => {
-  const config: any = {}
+const buildDepositsConfig = (
+  annotations: Annotations,
+): Record<number, AnnotationUIConfig[]> => {
+  const config: Record<number, AnnotationUIConfig[]> = {}
   const layers = currentNeuroglancerState().layers || []
-  for (const annotation of annotations.edges.map((e: any) => e.node)) {
-    const { depositionId } = annotation
+  for (const annotation of annotations.edges.map((e) => e.node)) {
+    let { depositionId } = annotation
     const httpsPath = annotation.httpsMetadataPath
       .replace('.json', '')
       .split('/')
       .slice(-2)
       .join('-')
-    const layer = layers.find(
-      (l) =>
-        l.source.includes?.(httpsPath) || l.source.url?.includes(httpsPath),
-    )
+    const layer = layers.find((l) => {
+      if (!l.source) return false
+      if (typeof l.source === 'string') {
+        return l.source.includes(httpsPath)
+      }
+      if (typeof l.source === 'object' && l.source.url) {
+        return l.source.url.includes(httpsPath)
+      }
+      return false
+    })
+    if (depositionId === undefined || depositionId === null) {
+      depositionId = -1 // Use -1 for layers without a depositionId
+    }
     if (!(depositionId in config)) {
       config[depositionId] = [{ name: layer?.name, annotation }]
     } else {
@@ -279,7 +334,7 @@ const buildDepositsConfig = (annotations: any): Record<number, any[]> => {
   return config
 }
 
-const isDepositionActivated = (depositionEntries: string[]) => {
+const isDepositionActivated = (depositionEntries: (string | undefined)[]) => {
   const layers = currentNeuroglancerState().layers || []
   return layers
     .filter((l) => l.name && depositionEntries.includes(l.name))
@@ -290,7 +345,7 @@ const isDepositionActivated = (depositionEntries: string[]) => {
     )
 }
 
-const toggleDepositions = (depositionEntries: string[]) => {
+const toggleDepositions = (depositionEntries: (string | undefined)[]) => {
   const isCurrentlyActive = isDepositionActivated(depositionEntries)
   updateState((state) => {
     const layers = state.neuroglancer?.layers || []
@@ -338,7 +393,13 @@ const isSmallScreen = () => {
   )
 }
 
-function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
+function ViewerPage({
+  run,
+  tomogram,
+}: {
+  run: Run
+  tomogram: Tomogram | undefined
+}) {
   const { t } = useI18n()
   const {
     tourRunning,
@@ -378,9 +439,10 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
       scheduleRefresh()
     }
     hashReady.current = true
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleOnStateChange = (state: ResolvedSuperState) => {
+  const handleOnStateChange = (state: ViewerPageSuperState) => {
     scheduleRefresh()
     setTopBarVisibleFromSuperState()
     if (state.tourStepIndex) {
@@ -389,16 +451,17 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     if (!state.savedPanelsStatus) {
       return
     }
-    updateState((state) => {
-      const savedPanels = state.savedPanelsStatus
-      for (const panelName of savedPanels as PanelName[]) {
+    updateState((newStateInput) => {
+      const newState = newStateInput as ViewerPageSuperState
+      const savedPanels = newState.savedPanelsStatus || []
+      for (const panelName of savedPanels) {
         const visible = boolValue(
-          state.neuroglancer[panelName]?.visible,
+          newState.neuroglancer[panelName]?.visible,
           panelsDefaultValues[panelName],
         )
         if (visible && savedPanels.includes(panelName)) {
-          delete state.savedPanelsStatus
-          return state
+          delete newState.savedPanelsStatus
+          return newState
         }
       }
       return undefined
@@ -422,7 +485,9 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
         return
       }
 
-      const targetElement = (iframeWindow as any).neuroglancer?.element
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+      const targetElement = (iframeWindow as any).neuroglancer
+        ?.element as HTMLElement | null
       if (!targetElement) {
         return
       }
@@ -445,7 +510,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     return () => {
       window.removeEventListener('keydown', keyDownHandler)
     }
-  }, [])
+  }, [setTourRunning])
 
   const handleShareClick = () => {
     navigator.clipboard
@@ -454,7 +519,8 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
         setShareClicked(true)
       })
       .catch((err) => {
-        console.error('Failed to copy URL: ', err)
+        // eslint-disable-next-line no-console
+        console.error('Failed to copy URL to clipboard:', err)
       })
   }
 
@@ -478,6 +544,10 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
     </Tooltip>
   )
 
+  const breadcrumbsData = {
+    id: run.dataset?.id || 0,
+    title: run.dataset?.title || 'dataset',
+  }
   return (
     <div className="flex flex-col overflow-hidden h-full relative bg-dark-sds-color-primitive-gray-50">
       <nav
@@ -491,7 +561,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
           <CryoETHomeLink textSize="text-sm" />
           <Breadcrumbs
             variant="neuroglancer"
-            data={run.dataset}
+            data={breadcrumbsData}
             activeBreadcrumbText={activeBreadcrumbText}
           />
         </div>
@@ -509,10 +579,8 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                     All depositions
                   </CustomDropdownOption>
                   {Object.entries(depositionConfigs).map(
-                    ([depositionId, depositions], _) => {
-                      const layersOfInterest = depositions.map(
-                        (c: any) => c.name,
-                      )
+                    ([depositionId, depositions]) => {
+                      const layersOfInterest = depositions.map((c) => c.name)
                       return (
                         <CustomDropdownOption
                           key={depositionId.toString()}
@@ -522,7 +590,8 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
                           }}
                         >
                           <span className="line-clamp-3">
-                            {depositions?.[0].annotation.deposition.title}
+                            {depositions?.[0].annotation?.deposition?.title ||
+                              'Deposition'}
                           </span>
                           <span className="text-xs text-[#767676] font-normal">
                             CZCDP-{depositionId}
@@ -687,7 +756,7 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
         {hashReady.current && (
           <NeuroglancerWrapper
             onStateChange={handleOnStateChange}
-            ref={iframeRef}
+            ref={iframeRef as any} // eslint-disable-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
           />
         )}
       </div>
@@ -718,4 +787,5 @@ function ViewerPage({ run, tomogram }: { run: any; tomogram: any }) {
   )
 }
 
+// eslint-disable-next-line import/no-default-export
 export default ViewerPage

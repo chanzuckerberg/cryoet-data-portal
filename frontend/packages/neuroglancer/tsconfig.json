@@ -7,7 +7,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": false,
     "isolatedModules": true,
     "moduleDetection": "force",

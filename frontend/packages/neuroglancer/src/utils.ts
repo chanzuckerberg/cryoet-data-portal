@@ -2,10 +2,22 @@ import pako from 'pako'
 import {
   CompleteStateOfANeuroglancerInstance,
   The2_X2GridLayoutWithXyYzXzAnd3_DPanels,
+  LayerElement,
 } from './NeuroglancerState'
 
-export type NeuroglancerLayout = The2_X2GridLayoutWithXyYzXzAnd3_DPanels
-export type NeuroglancerState = CompleteStateOfANeuroglancerInstance
+// TODO could try to update this in neuroglancer main in the state yaml
+// so that the auto-generated types are more complete
+// for now, we just extend the auto-generated types from the neuroglancer docs
+export interface NeuroglancerState
+  extends CompleteStateOfANeuroglancerInstance {
+  helpPanel?: PanelState
+  settingsPanel?: PanelState
+  selectedLayer?: PanelState
+  layerListPanel?: PanelState
+  selection?: PanelState
+  toolPalettes?: Record<string, ToolPaletteState>
+  layers?: LayerWithSource[]
+}
 
 export interface SuperState extends Record<string, any> {
   neuroglancer: string
@@ -13,6 +25,55 @@ export interface SuperState extends Record<string, any> {
 
 export interface ResolvedSuperState extends Record<string, any> {
   neuroglancer: NeuroglancerState
+}
+
+export type NeuroglancerLayout = `${The2_X2GridLayoutWithXyYzXzAnd3_DPanels}`
+
+// The neuroglancer viewer has more available properties,
+// here we define a subset of the properties on the viewer
+export interface NeuroglancerViewer {
+  showDefaultAnnotations: WatchableBoolean
+  showAxisLines: WatchableBoolean
+  showScaleBar: WatchableBoolean
+  showPerspectiveSliceViews: WatchableBoolean
+  navigationState: {
+    pose: {
+      orientation: {
+        snap: () => void
+      }
+    }
+  }
+  perspectiveNavigationState: {
+    pose: {
+      orientation: {
+        snap: () => void
+      }
+    }
+  }
+  uiConfiguration: {
+    showLayerPanel: WatchableBoolean // This is the top layer bar
+  }
+}
+
+interface PanelState {
+  visible?: boolean
+  side?: 'left' | 'right' | 'top' | 'bottom' | undefined
+  row?: number
+  size?: number
+}
+
+interface ToolPaletteState extends PanelState {
+  query?: string
+  verticalStacking?: boolean
+}
+
+interface LayerWithSource extends LayerElement {
+  source: string | { url?: string }
+  archived?: boolean
+}
+
+interface WatchableBoolean {
+  value: boolean
 }
 
 const emptySuperState = (config: string): SuperState => {
@@ -170,7 +231,7 @@ export function decompressHash(hash: string): string {
 
 export function currentNeuroglancer(
   neuroglancerIframeID = 'neuroglancerIframe',
-) {
+): NeuroglancerViewer | undefined {
   return (document.getElementById(neuroglancerIframeID) as any)?.contentWindow
-    ?.viewer
+    ?.viewer as NeuroglancerViewer | undefined
 }

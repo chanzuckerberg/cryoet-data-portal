@@ -46,12 +46,7 @@ export function CustomDropdownOption({
       <div className="flex items-center justify-center flex-auto gap-3 w-full">
         <div className="inline-flex w-4 h-4">
           {selected ? (
-            <Icon
-              sdsIcon="Check"
-              sdsType="button"
-              sdsSize="s"
-              className="!fill-[#0B68F8]"
-            />
+            <Icon sdsIcon="Check" sdsSize="s" className="!fill-[#0B68F8]" />
           ) : null}
         </div>
         <div
@@ -73,26 +68,36 @@ export function CustomDropdown({
 }: CustomDropdownProps) {
   const dropdownRef = useRef<MenuDropdownRef>(null)
 
-  const wrapChildrenWithCloseHandler = (children: ReactNode): ReactNode => {
-    return React.Children.map(children, (child) => {
+  // Recursively wraps children with a click handler that closes the dropdown
+  const wrapChildrenWithCloseHandler = (
+    inputChildren: ReactNode,
+  ): ReactNode => {
+    return React.Children.map(inputChildren, (child) => {
       if (!React.isValidElement(child)) return child
-
-      if (child.type === 'button' && child.props.onClick) {
-        return React.cloneElement(child, {
+      const typedChild = child as React.ReactElement<{
+        type: string
+        onClick?: (e: React.MouseEvent) => void
+        props: {
+          onClick?: (e: React.MouseEvent) => void
+        }
+        children?: ReactNode
+      }>
+      if (typedChild.type === 'button' && typedChild.props.onClick) {
+        return React.cloneElement(typedChild, {
           onClick: (e: React.MouseEvent) => {
-            child.props.onClick(e)
+            typedChild.props.onClick!(e)
             dropdownRef.current?.closeMenu()
           },
         })
       }
 
-      if (child.props.children) {
-        return React.cloneElement(child, {
-          children: wrapChildrenWithCloseHandler(child.props.children),
+      if (typedChild.props.children) {
+        return React.cloneElement(typedChild, {
+          children: wrapChildrenWithCloseHandler(typedChild.props.children),
         })
       }
 
-      return child
+      return typedChild
     })
   }
 

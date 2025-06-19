@@ -175,11 +175,11 @@ export function Breadcrumbs({
     return (
       <div className="flex flex-row gap-sds-s text-dark-sds-color-primitive-gray-500 fill-[#999] font-normal text-sds-body-s-400-wide leading-sds-body-s items-center whitespace-nowrap content-start">
         <Tooltip
-          tooltip={`Go to Dataset ${data.title || t('dataset')}`}
+          tooltip={`Go to Dataset ${data.title}`}
           className="truncate max-w-0 lg:max-w-[10rem] xl:max-w-[16rem] 2xl:max-w-xl"
         >
           <Breadcrumb
-            text={data.title || t('dataset')}
+            text={data.title}
             link={singleDatasetLink}
             className="overflow-ellipsis overflow-hidden flex-initial hover:text-light-sds-color-primitive-gray-50"
             type={BreadcrumbType.SingleDataset}
