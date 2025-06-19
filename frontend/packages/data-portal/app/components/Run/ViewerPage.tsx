@@ -46,52 +46,14 @@ interface AnnotationUIConfig {
   annotation: Annotation
 }
 
-interface WatchableBoolean {
-  value: boolean
-}
-
-// The neuroglancer viewer has more available properties,
-// here we only define the ones we use in this file.
-interface Viewer {
-  showDefaultAnnotations: WatchableBoolean
-  showAxisLines: WatchableBoolean
-  showScaleBar: WatchableBoolean
-  showPerspectiveSliceViews: WatchableBoolean
-  navigationState: {
-    pose: {
-      orientation: {
-        snap: () => void
-      }
-    }
-  }
-  perspectiveNavigationState: {
-    pose: {
-      orientation: {
-        snap: () => void
-      }
-    }
-  }
-  uiConfiguration: {
-    showLayerPanel: WatchableBoolean // This is the top layer bar
-  }
-}
-
+// The viewer page super state extends the resolved super state
+// with additional properties specific to the viewer page.
 interface ViewerPageSuperState extends ResolvedSuperState {
   showLayerTopBar?: boolean // Whether the top layer bar is visible
   restoreLayerTopBar?: boolean // Whether to restore the top layer bar
   dimensionSlider?: boolean // Whether the dimension slider is visible
   savedPanelsStatus?: PanelName[] // List of panels that are currently visible
   tourStepIndex?: number // The current step index in the tour
-}
-
-interface LayerWithSource {
-  source: string | { url?: string }
-  archived?: boolean
-  visible?: boolean
-}
-
-function getCurrentNeuroglancer(): Viewer | undefined {
-  return currentNeuroglancer() as Viewer | undefined
 }
 
 function getCurrentState(): ViewerPageSuperState {
@@ -115,41 +77,41 @@ const panelsDefaultValues = {
 type PanelName = keyof typeof panelsDefaultValues
 
 const toggleBoundingBox = () => {
-  const viewer = getCurrentNeuroglancer()
+  const viewer = currentNeuroglancer()
   if (!viewer) return
   viewer.showDefaultAnnotations.value = !viewer.showDefaultAnnotations.value
 }
 
 const hasBoundingBox = () => {
-  return getCurrentNeuroglancer()?.showDefaultAnnotations.value
+  return currentNeuroglancer()?.showDefaultAnnotations.value
 }
 
 const toggleAxisLine = () => {
-  const viewer = getCurrentNeuroglancer()
+  const viewer = currentNeuroglancer()
   if (!viewer) return
   viewer.showAxisLines.value = !viewer.showAxisLines.value
 }
 
 const axisLineEnabled = () => {
-  return getCurrentNeuroglancer()?.showAxisLines.value
+  return currentNeuroglancer()?.showAxisLines.value
 }
 
 const showScaleBarEnabled = () => {
-  return getCurrentNeuroglancer()?.showScaleBar.value
+  return currentNeuroglancer()?.showScaleBar.value
 }
 
 const toggleShowScaleBar = () => {
-  const viewer = getCurrentNeuroglancer()
+  const viewer = currentNeuroglancer()
   if (!viewer) return
   viewer.showScaleBar.value = !viewer.showScaleBar.value
 }
 
 const showSectionsEnabled = () => {
-  return getCurrentNeuroglancer()?.showPerspectiveSliceViews.value
+  return currentNeuroglancer()?.showPerspectiveSliceViews.value
 }
 
 const toggleShowSections = () => {
-  const viewer = getCurrentNeuroglancer()
+  const viewer = currentNeuroglancer()
   if (!viewer) return
   viewer.showPerspectiveSliceViews.value =
     !viewer.showPerspectiveSliceViews.value
@@ -180,7 +142,7 @@ const setCurrentLayout = (
 }
 
 const snap = () => {
-  const viewer = getCurrentNeuroglancer()
+  const viewer = currentNeuroglancer()
   if (!viewer) return
   viewer.navigationState.pose.orientation.snap()
   viewer.perspectiveNavigationState.pose.orientation.snap()
@@ -263,7 +225,7 @@ const toggleTopBar = (show: boolean | undefined = undefined, commit = true) => {
     updateState(stateModifier)
   }
 
-  const viewer = getCurrentNeuroglancer()
+  const viewer = currentNeuroglancer()
   if (viewer) {
     viewer.uiConfiguration.showLayerPanel.value = !isVisible
   }
@@ -289,7 +251,7 @@ const isTopBarVisible = () => {
 }
 
 const setTopBarVisibleFromSuperState = () => {
-  const viewer = getCurrentNeuroglancer()
+  const viewer = currentNeuroglancer()
   if (!viewer) return
   viewer.uiConfiguration.showLayerPanel.value = isTopBarVisible()
 }
@@ -350,8 +312,7 @@ const buildDepositsConfig = (
       .split('/')
       .slice(-2)
       .join('-')
-    const layer = layers.find((li) => {
-      const l = li as LayerWithSource
+    const layer = layers.find((l) => {
       if (!l.source) return false
       if (typeof l.source === 'string') {
         return l.source.includes(httpsPath)
@@ -377,13 +338,11 @@ const isDepositionActivated = (depositionEntries: (string | undefined)[]) => {
   const layers = currentNeuroglancerState().layers || []
   return layers
     .filter((l) => l.name && depositionEntries.includes(l.name))
-    .some((li) => {
-      const l = li as LayerWithSource
-      return (
+    .some(
+      (l) =>
         !boolValue(l.archived, /* defaultValue = */ false) &&
-        boolValue(l.visible, /* defaultValue = */ true)
-      )
-    })
+        boolValue(l.visible, /* defaultValue = */ true),
+    )
 }
 
 const toggleDepositions = (depositionEntries: (string | undefined)[]) => {
@@ -393,7 +352,7 @@ const toggleDepositions = (depositionEntries: (string | undefined)[]) => {
     for (const layer of layers.filter(
       (l) => l.name && depositionEntries.includes(l.name),
     )) {
-      ;(layer as LayerWithSource).archived = isCurrentlyActive
+      layer.archived = isCurrentlyActive
       layer.visible = !isCurrentlyActive
     }
     return state
@@ -404,15 +363,13 @@ const toggleAllDepositions = () => {
   updateState((state) => {
     const layers = state.neuroglancer?.layers || []
     const layersOfInterest = layers.filter((l) => l.type !== 'image')
-    const archived = layersOfInterest.some((li) => {
-      const l = li as LayerWithSource
-      return (
+    const archived = layersOfInterest.some(
+      (l) =>
         boolValue(l.archived, /* defaultValue = */ false) &&
-        boolValue(l.visible, /* defaultValue = */ true)
-      )
-    })
+        boolValue(l.visible, /* defaultValue = */ true),
+    )
     for (const layer of layersOfInterest) {
-      ;(layer as LayerWithSource).archived = !archived
+      layer.archived = !archived
       layer.visible = archived
     }
     return state
@@ -422,13 +379,11 @@ const toggleAllDepositions = () => {
 const isAllLayerActive = () => {
   const layers = currentNeuroglancerState().layers || []
   const layersOfInterest = layers.filter((l) => l.type !== 'image')
-  return layersOfInterest.every((li) => {
-    const l = li as LayerWithSource
-    return (
+  return layersOfInterest.every(
+    (l) =>
       !boolValue(l.archived, /* defaultValue = */ false) &&
-      boolValue(l.visible, /* defaultValue = */ true)
-    )
-  })
+      boolValue(l.visible, /* defaultValue = */ true),
+  )
 }
 
 const isSmallScreen = () => {
