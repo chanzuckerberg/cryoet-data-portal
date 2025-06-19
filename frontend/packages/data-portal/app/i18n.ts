@@ -205,5 +205,4 @@ export const i18n = {
   yes: 'Yes',
   goToNeuroglancerDocumentation: 'Go to Neuroglancer Documentation',
   neuroglancerWalkthrough: 'Neuroglancer Walkthrough',
-  neuroglancerHelp: 'Neuroglancer help',
 }

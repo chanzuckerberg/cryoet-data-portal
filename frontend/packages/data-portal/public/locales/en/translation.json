@@ -543,6 +543,5 @@
   "youMustHaveCurlInstalled": "You must have cURL installed. <url to='$t(curlSetupLink)'>How to Install cURL</url>",
   "zarrLink": "https://zarr.readthedocs.io/en/stable/",
   "goToNeuroglancerDocumentation": "Go to Neuroglancer Documentation",
-  "neuroglancerWalkthrough": "Neuroglancer Walkthrough",
-  "neuroglancerHelp": "Neuroglancer help"
+  "neuroglancerWalkthrough": "Neuroglancer Walkthrough"
 }
