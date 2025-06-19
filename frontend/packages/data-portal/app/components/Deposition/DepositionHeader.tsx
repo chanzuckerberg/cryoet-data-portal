@@ -3,6 +3,7 @@ import { HeaderKeyPhoto } from 'app/components/HeaderKeyPhoto'
 import { PageHeader } from 'app/components/PageHeader'
 import { DATA_TYPES } from 'app/constants/dataTypes'
 import { IdPrefix } from 'app/constants/idPrefixes'
+import { CitationButton } from 'app/components/CitationButton'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import {
@@ -20,6 +21,20 @@ export function DepositionHeader() {
 
   return (
     <PageHeader
+      actions={
+        <div>
+          <CitationButton
+            buttonProps={{
+              sdsStyle: 'rounded',
+              sdsType: 'secondary',
+              startIcon: <Icon sdsIcon="Book" sdsSize="s" />,
+            }}
+            tooltipPlacement="bottom"
+          >
+            {t('citePortal')}
+          </CitationButton>
+        </div>
+      }
       breadcrumbs={<Breadcrumbs variant="deposition" data={deposition} />}
       lastModifiedDate={deposition.lastModifiedDate.split('T')[0]}
       metadata={[

@@ -6,6 +6,7 @@ import { PageHeader } from 'app/components/PageHeader'
 import { DATA_TYPES } from 'app/constants/dataTypes'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDatasetById } from 'app/hooks/useDatasetById'
+import { CitationButton } from 'app/components/CitationButton'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import {
@@ -25,7 +26,7 @@ export function DatasetHeader() {
   return (
     <PageHeader
       actions={
-        <div>
+        <div className="flex items-center gap-2.5">
           <Button
             startIcon={<Icon sdsIcon="Download" sdsSize="l" />}
             sdsType="primary"
@@ -34,6 +35,17 @@ export function DatasetHeader() {
           >
             {t('downloadDataset')}
           </Button>
+
+          <CitationButton
+            buttonProps={{
+              sdsStyle: 'rounded',
+              sdsType: 'secondary',
+              startIcon: <Icon sdsIcon="Book" sdsSize="s" />,
+            }}
+            tooltipPlacement="bottom"
+          >
+            {t('citePortal')}
+          </CitationButton>
         </div>
       }
       breadcrumbs={<Breadcrumbs variant="dataset" data={dataset} />}
