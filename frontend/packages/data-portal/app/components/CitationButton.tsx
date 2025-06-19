@@ -30,11 +30,9 @@ export function CitationButton({
   return (
     <Tooltip
       tooltip={
-          <>
-            <h4 className="font-semibold">
-              {t('citePortalText')}
-            </h4>
-          </>
+        <>
+          <h4 className="font-semibold">{t('citePortalText')}</h4>
+        </>
       }
       sdsStyle="dark"
       center
