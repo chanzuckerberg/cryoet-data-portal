@@ -519,7 +519,8 @@ function ViewerPage({
         setShareClicked(true)
       })
       .catch((err) => {
-        throw new Error(`Failed to copy share link: ${err}`)
+        // eslint-disable-next-line no-console
+        console.error('Failed to copy URL to clipboard:', err)
       })
   }
 

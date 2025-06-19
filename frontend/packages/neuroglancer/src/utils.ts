@@ -233,5 +233,5 @@ export function currentNeuroglancer(
   neuroglancerIframeID = 'neuroglancerIframe',
 ): NeuroglancerViewer | undefined {
   return (document.getElementById(neuroglancerIframeID) as any)?.contentWindow
-    ?.viewer
+    ?.viewer as NeuroglancerViewer | undefined
 }
