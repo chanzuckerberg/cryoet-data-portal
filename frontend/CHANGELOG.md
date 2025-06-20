@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.73.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.72.0...cryoet-data-portal-frontend-v1.73.0) (2025-06-20)
+
+
+### ✨ Features
+
+* single deposition table updates setup ([#1851](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1851)) ([b393913](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b393913dd44cdb484f11f30d88a18368adf12e2d))
+
+
+### 🧹 Miscellaneous Chores
+
+* Fix URL in Learn More link for Ground Truth ([#1843](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1843)) ([4a4d4f0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4a4d4f0fe65bff88686f8eb3bf474d6b9afde880))
+
 ## [1.72.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.71.0...cryoet-data-portal-frontend-v1.72.0) (2025-06-09)
 
 
