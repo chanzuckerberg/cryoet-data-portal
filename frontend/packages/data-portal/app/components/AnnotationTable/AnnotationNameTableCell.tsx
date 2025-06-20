@@ -26,7 +26,7 @@ export function AnnotationNameTableCell({
           'text-ellipsis line-clamp-2 break-all',
         )}
       >
-        <span className="pr-sds-xs">{s3Path && parseFilePath(s3Path)}</span>
+        {s3Path && <span className="pr-sds-xs">{parseFilePath(s3Path)}</span>}
         <span>{objectName}</span>
       </p>
 
