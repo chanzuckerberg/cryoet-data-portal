@@ -1,6 +1,7 @@
 import { Button, Icon } from '@czi-sds/components'
 
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
+import { CitationButton } from 'app/components/CitationButton'
 import { DatasetOverview } from 'app/components/Dataset/DatasetOverview'
 import { PageHeader } from 'app/components/PageHeader'
 import { DATA_TYPES } from 'app/constants/dataTypes'
@@ -25,7 +26,7 @@ export function DatasetHeader() {
   return (
     <PageHeader
       actions={
-        <div>
+        <div className="flex items-center gap-sds-s">
           <Button
             startIcon={<Icon sdsIcon="Download" sdsSize="l" />}
             sdsType="primary"
@@ -34,6 +35,18 @@ export function DatasetHeader() {
           >
             {t('downloadDataset')}
           </Button>
+
+          <CitationButton
+            buttonProps={{
+              sdsStyle: 'rounded',
+              sdsType: 'secondary',
+              startIcon: <Icon sdsIcon="Book" sdsSize="s" />,
+            }}
+            tooltipPlacement="bottom"
+            event={{
+              cite: true,
+            }}
+          />
         </div>
       }
       breadcrumbs={<Breadcrumbs variant="dataset" data={dataset} />}
