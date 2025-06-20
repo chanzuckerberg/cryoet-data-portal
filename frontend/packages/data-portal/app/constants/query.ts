@@ -10,6 +10,7 @@ export enum QueryParams {
   Competition = 'competition',
   DatasetId = 'dataset_id',
   DepositionId = 'deposition-id',
+  DepositionTab = 'deposition-tab',
   DownloadConfig = 'download-config',
   DownloadStep = 'download-step',
   DownloadTab = 'download-tab',

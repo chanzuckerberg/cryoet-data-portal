@@ -131,7 +131,39 @@ const GET_DEPOSITION_BY_ID = gql(`
       }
     }
 
+    allRuns: runs(where: {
+      annotations: {
+        depositionId: { _eq: $id }
+      }
+    }) {
+      ...DataContents
+    }
+
     ...DatasetsAggregates
+
+    annotationsCount: annotationsAggregate(where: {
+      depositionId: {
+        _eq: $id
+      }
+    }) {
+      aggregate {
+        count
+      }
+    }
+
+    tomogramsCount: tomogramsAggregate(where: {
+      run: {
+        annotations: {
+          depositionId: {
+            _eq: $id
+          }
+        }
+      }
+    }) {
+      aggregate {
+        count
+      }
+    }
   }
 `)
 
