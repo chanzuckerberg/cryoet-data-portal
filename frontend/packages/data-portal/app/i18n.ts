@@ -31,7 +31,7 @@ export const i18n = {
   askOnGitHub: 'Ask a Question on GitHub',
   author: 'Author',
   authorName: 'Author Name',
-  authorOrcid: 'Author ORCID',
+  authorOrcid: 'Author ORCID ID',
   authors: 'Authors',
   authorsMaybePlural: 'Author(s)',
   dataTypes: 'Data Types',

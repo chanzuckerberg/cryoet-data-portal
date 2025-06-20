@@ -54,7 +54,7 @@
   "authorName": "Author Name",
   "authorNameLegend": "Author Name Legend",
   "authorNamePlaceholder": "Sami Writer",
-  "authorOrcid": "Author ORCID",
+  "authorOrcid": "Author ORCID ID",
   "authorOrcidPlaceholder": "0000-0002-0004-0006",
   "authorSubmitted": "Author Submitted",
   "authorSubmittedTooltip": "<semibold>Author Submitted:</semibold> Tomogram contributed by the dataset author.",
