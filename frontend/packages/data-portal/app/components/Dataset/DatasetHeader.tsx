@@ -26,7 +26,7 @@ export function DatasetHeader() {
   return (
     <PageHeader
       actions={
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-sds-s">
           <Button
             startIcon={<Icon sdsIcon="Download" sdsSize="l" />}
             sdsType="primary"

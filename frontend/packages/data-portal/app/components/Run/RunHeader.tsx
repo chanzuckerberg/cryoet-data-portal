@@ -62,7 +62,7 @@ export function RunHeader() {
   return (
     <PageHeader
       actions={
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-sds-s">
           <ViewTomogramButton
             tomogramId={tomogramId}
             neuroglancerConfig={neuroglancerConfig}
