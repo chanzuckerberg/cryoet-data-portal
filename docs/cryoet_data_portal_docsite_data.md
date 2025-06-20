@@ -250,7 +250,7 @@ Each tomogram has its own metadata, which can be viewed using the info icon on t
 | **Portal Metadata**          | **API Expression**            | **Definition**                                                                                  |
 |------------------------------|-------------------------------|-------------------------------------------------------------------------------------------------|
 | Alignment ID                 | `Tomogram.alignment_id`       | The ID of the alignment used to generate this tomogram.                                         |
-| Canonical Status             | --                            | Whether or not the tomogram is considered canonical, meaning as minimal processing as possible. |
+| Portal Standard Status       | --                            | Whether or not the tomogram is considered canonical, meaning as minimal processing as possible. |
 | Alignment Type               | --                            | Method of alignment used to generate the tomogram (e.g. local, global, fiducial-based, etc.)    |
 | Dimension (x,y,z)            | --                            | Comma separated x,y,z dimensions of the unscaled tomogram in angstroms.                         |
 | Offset (x,y,z)               | `(Tomogram.offset_x, Tomogram.offset_y, Tomogram.offset_z)` | Comma separated x,y,z offsets of the data relative to the canonical tomogram in pixels. |
