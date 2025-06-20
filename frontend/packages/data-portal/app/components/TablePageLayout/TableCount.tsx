@@ -21,9 +21,11 @@ export function TableCount({
         <Skeleton className="max-w-" variant="text" />
       ) : (
         t('filterCountOfMaxType', {
-          type,
-          count: filteredCount,
-          max: totalCount,
+          replace: {
+            type,
+            count: filteredCount.toLocaleString(),
+            max: totalCount.toLocaleString(),
+          },
         })
       )}
     </p>

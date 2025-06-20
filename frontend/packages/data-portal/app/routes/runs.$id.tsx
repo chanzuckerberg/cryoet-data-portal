@@ -12,10 +12,10 @@ import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import { NoTotalResults } from 'app/components/NoTotalResults'
 import { RunHeader } from 'app/components/Run'
 import { AnnotationDrawer } from 'app/components/Run/AnnotationDrawer'
-import { AnnotationTable } from 'app/components/Run/AnnotationTable'
+import { RunAnnotationTable } from 'app/components/Run/RunAnnotationTable'
 import { RunMetadataDrawer } from 'app/components/Run/RunMetadataDrawer'
+import { RunTomogramsTable } from 'app/components/Run/RunTomogramsTable'
 import { TomogramMetadataDrawer } from 'app/components/Run/TomogramMetadataDrawer'
-import { TomogramsTable } from 'app/components/Run/TomogramTable'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { QueryParams } from 'app/constants/query'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
@@ -139,7 +139,7 @@ export default function RunByIdPage() {
         {
           title: t('annotations'),
           filterPanel: <AnnotationFilter />,
-          table: <AnnotationTable />,
+          table: <RunAnnotationTable />,
           pageQueryParamKey: QueryParams.AnnotationsPage,
           filteredCount: annotationFilesAggregates.filteredCount,
           totalCount: annotationFilesAggregates.totalCount,
@@ -175,7 +175,7 @@ export default function RunByIdPage() {
         },
         {
           title: t('tomograms'),
-          table: <TomogramsTable />,
+          table: <RunTomogramsTable />,
           pageQueryParamKey: QueryParams.TomogramsPage,
           filteredCount: tomogramsCount,
           totalCount: tomogramsCount,

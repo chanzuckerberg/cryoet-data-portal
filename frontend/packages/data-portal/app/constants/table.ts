@@ -26,7 +26,7 @@ export const AnnotationTableWidths = {
   confidenceCell: { min: 81, max: 120 },
   depositionDate: { min: 91, max: 120 },
   objectName: { min: 120, max: 250 },
-  files: { min: 100, max: 150 },
+  shapeType: { width: 150 },
   methodType: { min: 81, max: 120 },
   actions: { min: 120, max: 120 },
 }
