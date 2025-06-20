@@ -224,7 +224,7 @@ Each tomogram has its own metadata, which can be viewed using the info icon on t
 |---------------------------|-------------------------------------|------------------------------------------------------------------------------------------------|
 | Authors                   | `Tomogram.authors`                  | The tomogram authors of this tomogram.                                                         |
 | Publications              | `Tomogram.publications`             | Comma-separated list of DOIs for publications associated with the tomogram.                    |
-| Related Databases         | `Tomogram.related_database_entries` | If a CryoET tomogram is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers. |
+| Related Databases         | `Tomogram.related_database_entries` | Comma-separated list of other database identifiers (e.g. EMPIAR-11445) if the tomogram is also deposited into other databases.|
 | Deposition Name           | `Tomogram.deposition`               | The name of the deposition this tomogram is a part of.                                         |
 | Deposition ID             | `Tomogram.deposition_id`            | The ID of the deposition this tomogram is a part of.                                           |
 | Deposition Date           | `Tomogram.deposition_date`          | Date when a tomogram is initially received by the Data Portal.                                 |
@@ -234,7 +234,7 @@ Each tomogram has its own metadata, which can be viewed using the info icon on t
 **Reconstruction and Processing**
 | **Portal Metadata**         | **API Expression**                   | **Definition**                                                                  |
 |-----------------------------|--------------------------------------|---------------------------------------------------------------------------------|
-| Portal Standard Status      | `Tomogram.is_portal_standard`        | Whether this tomogram adheres to portal standards.                              |
+| Portal Standard Status      | `Tomogram.is_portal_standard`        | Whether this tomogram is a standardized reconstruction of the original tomogram, following a consistent format and coordinate space, and completed by CZII.|
 | Submitted by Dataset Author | `Tomogram.is_author_submitted`       | Whether this tomogram was submitted by the author of the dataset it belongs to. |
 | Reconstruction Software     | `Tomogram.reconstruction_software`   | Name of software used for reconstruction                                        |
 | Reconstruction Method       | `Tomogram.reconstruction_method`     | Describe reconstruction method (WBP, SART, SIRT).                               |
