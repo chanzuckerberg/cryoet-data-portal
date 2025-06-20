@@ -31,7 +31,7 @@ from ._models import (
     TomogramVoxelSpacing,
 )
 
-__version__ = "4.4.1"
+__version__ = "4.4.2"
 
 __all__ = [
     "Client",
