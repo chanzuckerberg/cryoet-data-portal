@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.4.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.4.1...cryoet-data-portal-python-client-v4.4.2) (2025-06-20)
+
+
+### 🧹 Miscellaneous Chores
+
+* Fix typo in AnnotationFile API documentation ([#1844](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1844)) ([d538d9c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d538d9c3db05a661c2b28b1f4bcedf0580c84148))
+
 ## [4.4.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.4.0...cryoet-data-portal-python-client-v4.4.1) (2025-04-08)
 
 
