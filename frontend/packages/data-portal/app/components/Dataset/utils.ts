@@ -11,16 +11,21 @@ export interface SummaryData {
 }
 
 export const getContentSummaryCounts = (runs: UnfilteredRun[]): SummaryData => {
-  const dataContents = getDataContents(runs)
+  const {
+    annotations,
+    tomograms,
+    framesAvailable,
+    tiltSeriesAvailable,
+    ctfAvailable,
+    alignmentAvailable,
+  } = getDataContents(runs)
 
   return {
-    annotations: dataContents.annotations,
-    tomograms: dataContents.tomograms,
-    frames: dataContents.framesAvailable ? 'Available' : 'Not Submitted',
-    tiltSeries: dataContents.tiltSeriesAvailable
-      ? 'Available'
-      : 'Not Submitted',
-    ctf: dataContents.ctfAvailable ? 'Available' : 'Not Submitted',
-    alignment: dataContents.alignmentAvailable ? 'Available' : 'Not Submitted',
+    annotations,
+    tomograms,
+    frames: framesAvailable ? 'Available' : 'Not Submitted',
+    tiltSeries: tiltSeriesAvailable ? 'Available' : 'Not Submitted',
+    ctf: ctfAvailable ? 'Available' : 'Not Submitted',
+    alignment: alignmentAvailable ? 'Available' : 'Not Submitted',
   }
 }
