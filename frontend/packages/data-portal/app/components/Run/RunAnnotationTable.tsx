@@ -103,7 +103,7 @@ export function RunAnnotationTable() {
     width: AnnotationTableWidths.id,
   })
 
-  const shapeTypeColumn = useShapeTypeColumn(AnnotationTableWidths.files)
+  const shapeTypeColumn = useShapeTypeColumn(AnnotationTableWidths.shapeType)
 
   const methodTypeColumn = useMethodTypeColumn({
     onClick: openAnnotationDrawer,
