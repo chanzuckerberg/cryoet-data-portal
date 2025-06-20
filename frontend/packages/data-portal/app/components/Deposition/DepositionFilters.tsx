@@ -54,7 +54,7 @@ export function DepositionFilters() {
             key={label}
             className={cns(
               'flex items-center justify-between px-sds-xl',
-              'text-sds-body-xs-400-wide, tracking-sds-body-xs-400-wide leading-sds-body-xs',
+              'text-sds-body-xs-400-wide tracking-sds-body-xs-400-wide leading-sds-body-xs',
               'text-light-sds-color-semantic-base-text-secondary',
             )}
           >
