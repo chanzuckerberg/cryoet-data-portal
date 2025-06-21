@@ -208,7 +208,7 @@ function MetadataTab() {
             ],
           },
           {
-            label: t('canonicalStatus'),
+            label: t('portalStandardStatus'),
             values: [tomogram.isPortalStandard ? 'True' : 'False'],
             labelExtra: (
               <Tooltip
