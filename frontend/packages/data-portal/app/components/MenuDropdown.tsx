@@ -78,7 +78,7 @@ export const MenuDropdown = forwardRef<
     const buildStandardMenuButton = () => {
       return (
         <button
-          className="!p-0 flex items-center gap-2 group"
+          className="!p-0 flex items-center gap-2"
           onClick={() => setAnchorEl(menuRef.current)}
           type="button"
         >
@@ -111,7 +111,12 @@ export const MenuDropdown = forwardRef<
     const buildOutlinedMenuButton = () => {
       return (
         <button
-          className="border border-[#A2C9FF] px-3.5 py-1.5 rounded-full flex items-center gap-2 group"
+          className={cns(
+            'border px-3.5 py-1.5 rounded-full flex items-center gap-2',
+            anchorEl
+              ? 'border-dark-sds-color-primitive-blue-700 bg-dark-sds-color-primitive-blue-700'
+              : 'border-dark-sds-color-primitive-blue-600 group-hover:border-dark-sds-color-primitive-blue-700 group-hover:bg-dark-sds-color-primitive-blue-700',
+          )}
           onClick={() => setAnchorEl(menuRef.current)}
           type="button"
         >
@@ -122,7 +127,7 @@ export const MenuDropdown = forwardRef<
 
               anchorEl
                 ? 'text-light-sds-color-primitive-gray-900'
-                : 'text-dark-sds-color-primitive-blue-600 group-hover:text-light-sds-color-primitive-gray-50',
+                : 'text-dark-sds-color-primitive-blue-600 group-hover:text-light-sds-color-primitive-gray-900',
             )}
           >
             {title}
@@ -134,7 +139,7 @@ export const MenuDropdown = forwardRef<
             className={cns(
               anchorEl
                 ? '!w-[10px] !h-[10px] !fill-light-sds-color-primitive-gray-900'
-                : '!w-[10px] !h-[10px] !fill-dark-sds-color-primitive-blue-600 group-hover:!fill-light-sds-color-primitive-gray-50',
+                : '!w-[10px] !h-[10px] !fill-dark-sds-color-primitive-blue-600 group-hover:!fill-light-sds-color-primitive-gray-900',
             )}
           />
         </button>
@@ -143,11 +148,11 @@ export const MenuDropdown = forwardRef<
 
     const buildMenuButtonVariations = {
       standard: buildStandardMenuButton,
-      outlined: buildOutlinedMenuButton
+      outlined: buildOutlinedMenuButton,
     }
 
     return (
-      <div className={className}>
+      <div className={cns(className, 'group')}>
         {title ? buildMenuButtonVariations[variant]() : buttonElement}
 
         <Menu
