@@ -724,7 +724,7 @@ function ViewerPage({
             >
               <CustomDropdownSection title="About">
                 {ABOUT_LINKS.map((option) => (
-                  <MenuItemLink key={option.label} to={option.link}>
+                  <MenuItemLink key={option.label} to={option.link} target="_blank">
                     {t(option.label)}
                   </MenuItemLink>
                 ))}
