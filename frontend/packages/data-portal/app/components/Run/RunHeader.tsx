@@ -1,6 +1,7 @@
 import { Button, Icon } from '@czi-sds/components'
 
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
+import { CitationButton } from 'app/components/CitationButton'
 import { CollapsibleList } from 'app/components/CollapsibleList'
 import { HeaderKeyPhoto } from 'app/components/HeaderKeyPhoto'
 import { I18n } from 'app/components/I18n'
@@ -61,7 +62,7 @@ export function RunHeader() {
   return (
     <PageHeader
       actions={
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-sds-s">
           <ViewTomogramButton
             tomogramId={tomogramId}
             neuroglancerConfig={neuroglancerConfig}
@@ -93,6 +94,18 @@ export function RunHeader() {
           >
             {t('downloadWithAdditionalOptions')}
           </Button>
+
+          <CitationButton
+            buttonProps={{
+              sdsStyle: 'rounded',
+              sdsType: 'secondary',
+              startIcon: <Icon sdsIcon="Book" sdsSize="s" />,
+            }}
+            tooltipPlacement="bottom"
+            event={{
+              cite: true,
+            }}
+          />
         </div>
       }
       releaseDate={run.dataset?.releaseDate.split('T')[0]}

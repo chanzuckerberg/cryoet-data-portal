@@ -1,4 +1,7 @@
+import { Icon } from '@czi-sds/components'
+
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
+import { CitationButton } from 'app/components/CitationButton'
 import { HeaderKeyPhoto } from 'app/components/HeaderKeyPhoto'
 import { PageHeader } from 'app/components/PageHeader'
 import { DATA_TYPES } from 'app/constants/dataTypes'
@@ -20,6 +23,21 @@ export function DepositionHeader() {
 
   return (
     <PageHeader
+      actions={
+        <div>
+          <CitationButton
+            buttonProps={{
+              sdsStyle: 'rounded',
+              sdsType: 'secondary',
+              startIcon: <Icon sdsIcon="Book" sdsSize="s" />,
+            }}
+            tooltipPlacement="bottom"
+            event={{
+              cite: true,
+            }}
+          />
+        </div>
+      }
       breadcrumbs={<Breadcrumbs variant="deposition" data={deposition} />}
       lastModifiedDate={deposition.lastModifiedDate.split('T')[0]}
       metadata={[
