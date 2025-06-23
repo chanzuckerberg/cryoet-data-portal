@@ -108,9 +108,42 @@ export const MenuDropdown = forwardRef<
       )
     }
 
+    const buildOutlinedMenuButton = () => {
+      return (
+        <button
+          className="border border-[#A2C9FF] px-3.5 py-1.5 rounded-full flex items-center gap-2 group"
+          onClick={() => setAnchorEl(menuRef.current)}
+          type="button"
+        >
+          <span
+            ref={menuRef}
+            className={cns(
+              'font-semibold',
+
+              anchorEl
+                ? 'text-light-sds-color-primitive-gray-900'
+                : 'text-dark-sds-color-primitive-blue-600 group-hover:text-light-sds-color-primitive-gray-50',
+            )}
+          >
+            {title}
+          </span>
+
+          <Icon
+            sdsIcon={anchorEl ? 'ChevronUp' : 'ChevronDown'}
+            sdsSize="xs"
+            className={cns(
+              anchorEl
+                ? '!w-[10px] !h-[10px] !fill-light-sds-color-primitive-gray-900'
+                : '!w-[10px] !h-[10px] !fill-dark-sds-color-primitive-blue-600 group-hover:!fill-light-sds-color-primitive-gray-50',
+            )}
+          />
+        </button>
+      )
+    }
+
     const buildMenuButtonVariations = {
       standard: buildStandardMenuButton,
-      outlined: buildStandardMenuButton
+      outlined: buildOutlinedMenuButton
     }
 
     return (
