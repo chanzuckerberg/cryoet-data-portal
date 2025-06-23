@@ -13,39 +13,6 @@ export type MenuDropdownRef = {
   closeMenu: () => void
 }
 
-const MENU_STYLES = {
-  button: {
-    standard: {
-      default: '!p-0',
-    },
-    outlined: {
-      default: 'border px-3.5 py-1.5 rounded-full',
-      active: 'border-white',
-      inactive: 'border-black',
-    },
-  },
-  text: {
-    standard: {
-      active: 'text-light-sds-color-primitive-gray-50',
-      inactive: 'text-light-sds-color-primitive-gray-400',
-    },
-    outlined: {
-      active: 'text-black',
-      inactive: 'text-dark-sds-color-primitive-gray-600',
-    },
-  },
-  icon: {
-    standard: {
-      active: '!fill-light-sds-color-primitive-gray-50',
-      inactive: '!fill-light-sds-color-primitive-gray-400',
-    },
-    outlined: {
-      active: '!fill-black',
-      inactive: '!fill-dark-sds-color-primitive-gray-600',
-    },
-  },
-}
-
 export const MenuDropdown = forwardRef<
   MenuDropdownRef,
   {
@@ -146,6 +113,22 @@ export const MenuDropdown = forwardRef<
       )
     }
 
+    const buildIconOnlyMenuButton = () => {
+      return (
+        <button
+          onClick={() => setAnchorEl(menuRef.current)}
+          type="button"
+          className={
+            anchorEl
+              ? '!fill-light-sds-color-primitive-gray-50'
+              : '!fill-light-sds-color-primitive-gray-500 group-hover:!fill-light-sds-color-primitive-gray-50'
+          }
+        >
+          <span ref={menuRef}>{buttonElement}</span>
+        </button>
+      )
+    }
+
     const buildMenuButtonVariations = {
       standard: buildStandardMenuButton,
       outlined: buildOutlinedMenuButton,
@@ -153,7 +136,9 @@ export const MenuDropdown = forwardRef<
 
     return (
       <div className={cns(className, 'group')}>
-        {title ? buildMenuButtonVariations[variant]() : buttonElement}
+        {title
+          ? buildMenuButtonVariations[variant]()
+          : buildIconOnlyMenuButton()}
 
         <Menu
           anchorEl={anchorEl}
