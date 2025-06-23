@@ -75,62 +75,47 @@ export const MenuDropdown = forwardRef<
       closeMenu: () => setAnchorEl(null),
     }))
 
-    return (
-      <div className={cns(className, 'group')}>
-        {title ? (
-          <button
+    const buildStandardMenuButton = () => {
+      return (
+        <button
+          className="!p-0 flex items-center gap-2 group"
+          onClick={() => setAnchorEl(menuRef.current)}
+          type="button"
+        >
+          <span
+            ref={menuRef}
             className={cns(
-              'flex items-center gap-2',
-              MENU_STYLES.button[variant].default,
-              variant === 'outlined' &&
-                (anchorEl
-                  ? MENU_STYLES.button[variant].active
-                  : cns(
-                      MENU_STYLES.button[variant].inactive,
-                      `group-hover:${MENU_STYLES.button[variant].active}`,
-                    )),
-            )}
-            onClick={() => setAnchorEl(menuRef.current)}
-            type="button"
-          >
-            <span
-              ref={menuRef}
-              className={cns(
-                'font-semibold',
-                anchorEl
-                  ? MENU_STYLES.text[variant].active
-                  : cns(
-                      MENU_STYLES.text[variant].inactive,
-                      `group-hover:${MENU_STYLES.text[variant].active}`,
-                    ),
-              )}
-            >
-              {title}
-            </span>
+              'font-semibold',
 
-            <Icon
-              sdsIcon={anchorEl ? 'ChevronUp' : 'ChevronDown'}
-              sdsSize="xs"
-              className={cns(
-                '!w-[10px] !h-[10px]',
-                anchorEl
-                  ? MENU_STYLES.icon[variant].active
-                  : cns(
-                      MENU_STYLES.icon[variant].inactive,
-                      `group-hover:${MENU_STYLES.icon[variant].active}`,
-                    ),
-              )}
-            />
-          </button>
-        ) : (
-          <button
-            onClick={() => setAnchorEl(menuRef.current)}
-            type="button"
-            className="text-[#999] hover:text-sds-color-primitive-common-white"
+              anchorEl
+                ? 'text-light-sds-color-primitive-gray-50'
+                : 'text-light-sds-color-primitive-gray-400 group-hover:text-light-sds-color-primitive-gray-50',
+            )}
           >
-            <span ref={menuRef}>{buttonElement}</span>
-          </button>
-        )}
+            {title}
+          </span>
+
+          <Icon
+            sdsIcon={anchorEl ? 'ChevronUp' : 'ChevronDown'}
+            sdsSize="xs"
+            className={cns(
+              anchorEl
+                ? '!w-[10px] !h-[10px] !fill-light-sds-color-primitive-gray-50'
+                : '!w-[10px] !h-[10px] !fill-light-sds-color-primitive-gray-400 group-hover:!fill-light-sds-color-primitive-gray-50',
+            )}
+          />
+        </button>
+      )
+    }
+
+    const buildMenuButtonVariations = {
+      standard: buildStandardMenuButton,
+      outlined: buildStandardMenuButton
+    }
+
+    return (
+      <div className={className}>
+        {title ? buildMenuButtonVariations[variant]() : buttonElement}
 
         <Menu
           anchorEl={anchorEl}
