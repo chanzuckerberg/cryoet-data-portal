@@ -8,7 +8,7 @@ import { cns } from 'app/utils/cns'
 type CustomDropdownProps = {
   className?: string
   title?: string
-  variant?: 'standard' | 'outlined' | 'filled'
+  variant?: 'standard' | 'outlined'
   buttonElement?: ReactNode
   children: ReactNode
 }

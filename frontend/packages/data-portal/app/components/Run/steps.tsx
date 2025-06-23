@@ -117,7 +117,7 @@ export const getTutorialSteps: () => Step[] = () => [
       '.neuroglancer-layer-group-viewer:has(.neuroglancer-rendered-data-panel)',
     ),
     title: 'Essential controls',
-    placement: 'left',
+    placement: 'left-start',
     disableBeacon: true,
     content: (
       <StepContent variant="simple">
@@ -142,7 +142,7 @@ export const getTutorialSteps: () => Step[] = () => [
       '.neuroglancer-layer-group-viewer:has(.neuroglancer-rendered-data-panel)',
     ),
     title: 'Keyboard shortcuts',
-    placement: 'left',
+    placement: 'left-start',
     disableBeacon: true,
     content: (
       <StepContent variant="simple">
