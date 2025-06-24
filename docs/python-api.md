@@ -21,10 +21,16 @@ Information on classes and methods
 Visualize the relationships between classes in the Python API
 :::
 
-:::{grid-item-card} Changelog
-:link: changelog
+:::{grid-item-card} Release Notes
+:link: release_notes
 :link-type: doc
 
 Log and migration guide for major API releases
 :::
+
+:::{grid-item-card} Changelog
+:link: full_changelog
+:link-type: doc
+
+Full changelog for the Python API Client
 ::::

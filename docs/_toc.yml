@@ -9,7 +9,8 @@ subtrees:
     - entries:
       - file: api_reference.md
       - file: data_model.md
-      - file: changelog.md
+      - file: release_notes.md
+      - file: full_changelog.md
   - file: tutorials.md
     subtrees:
     - entries:
