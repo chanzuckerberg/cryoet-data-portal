@@ -553,11 +553,12 @@ function ViewerPage({
       <nav
         className={cns(
           'bg-sds-color-primitive-common-black text-sds-color-primitive-common-white',
-          'flex flex-shrink-0 items-center py-1',
-          'sticky top-0 z-30 max-h-12',
+          'flex flex-shrink-0 py-1 flex-col',
+          'sticky top-0 z-30 max-h-20 items-start',
+          'sm:flex-row sm:max-h-12 sm:items-center',
         )}
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1 md:gap-4">
           <CryoETHomeLink textSize="text-sm" />
           <Breadcrumbs
             variant="neuroglancer"
@@ -568,7 +569,7 @@ function ViewerPage({
         {/* Add empty space to push content to right */}
         <div className="basis-sds-xxl flex-grow md:mr-sds-xxl" />
         <div className="flex basis-auto flex-shrink-0">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center pt-1 gap-[1px] sm:gap-1 sm:pt-0">
             {shouldShowAnnotationDropdown && (
               <CustomDropdown title="Annotations" variant="outlined">
                 <CustomDropdownSection title="Show annotations for deposition">
@@ -719,7 +720,7 @@ function ViewerPage({
               Share
             </Button>
             <CustomDropdown
-              className="w-11 h-11 p-3"
+              className="w-4 h-11 pl-1 py-3 sm:w-11 sm:px-3"
               buttonElement={<InfoIcon className="w-5 h-5" />}
             >
               <CustomDropdownSection title="About">
