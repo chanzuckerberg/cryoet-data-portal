@@ -12,6 +12,7 @@ import {
 } from 'neuroglancer'
 import { useEffect, useRef, useState } from 'react'
 
+import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
 import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
@@ -25,7 +26,6 @@ import {
   CustomDropdownOption,
   CustomDropdownSection,
 } from '../common/CustomDropdown'
-import { Snackbar } from '../common/Snackbar'
 import {
   ABOUT_LINKS,
   NEUROGLANCER_DOC_LINK,
@@ -420,6 +420,17 @@ function ViewerPage({
   const depositionConfigs = buildDepositsConfig(run.annotations)
   const shouldShowAnnotationDropdown = Object.keys(depositionConfigs).length > 0
 
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason,
+  ) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setSnapActionClicked(false)
+  }
+
   const scheduleRefresh = () => {
     setRenderVersion(renderVersion + 1)
   }
@@ -724,7 +735,11 @@ function ViewerPage({
             >
               <CustomDropdownSection title="About">
                 {ABOUT_LINKS.map((option) => (
-                  <MenuItemLink key={option.label} to={option.link} target="_blank">
+                  <MenuItemLink
+                    key={option.label}
+                    to={option.link}
+                    target="_blank"
+                  >
                     {t(option.label)}
                   </MenuItemLink>
                 ))}
@@ -771,16 +786,10 @@ function ViewerPage({
         />
       )}
       <Snackbar
-        open={shareClicked}
-        intent="positive"
-        message="Share link copied to clipboard"
-        handleClose={() => setShareClicked(false)}
-      />
-      <Snackbar
         open={snapActionClicked}
-        intent="positive"
-        message="Snapped to the nearest axis"
-        handleClose={() => setSnapActionClicked(false)}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Snap clicked"
       />
       <NeuroglancerBanner onStartTour={handleTourStartInNewTab} />
     </div>
