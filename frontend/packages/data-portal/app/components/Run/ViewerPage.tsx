@@ -1,6 +1,8 @@
 import './ViewerPage.css'
 
 import { Button } from '@czi-sds/components'
+import Alert from '@mui/material/Alert'
+import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
 import {
   currentNeuroglancer,
   currentNeuroglancerState,
@@ -25,7 +27,6 @@ import {
   CustomDropdownOption,
   CustomDropdownSection,
 } from '../common/CustomDropdown'
-import { Snackbar } from '../common/Snackbar'
 import {
   ABOUT_LINKS,
   NEUROGLANCER_DOC_LINK,
@@ -524,9 +525,31 @@ function ViewerPage({
       })
   }
 
+  const handleShareSnackbarClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason,
+  ) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setShareClicked(false)
+  }
+
   const handleSnapActionClick = () => {
     snap()
     setSnapActionClicked(true)
+  }
+
+  const handleSnapSnackbarClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason,
+  ) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setSnapActionClicked(false)
   }
 
   const helperText = 'text-xs text-[#767676] font-normal'
@@ -725,7 +748,11 @@ function ViewerPage({
             >
               <CustomDropdownSection title="About">
                 {ABOUT_LINKS.map((option) => (
-                  <MenuItemLink key={option.label} to={option.link} target="_blank">
+                  <MenuItemLink
+                    key={option.label}
+                    to={option.link}
+                    target="_blank"
+                  >
                     {t(option.label)}
                   </MenuItemLink>
                 ))}
@@ -772,17 +799,33 @@ function ViewerPage({
         />
       )}
       <Snackbar
-        open={shareClicked}
-        intent="positive"
-        message="Share link copied to clipboard"
-        handleClose={() => setShareClicked(false)}
-      />
-      <Snackbar
         open={snapActionClicked}
-        intent="positive"
-        message="Snapped to the nearest axis"
-        handleClose={() => setSnapActionClicked(false)}
-      />
+        autoHideDuration={6000}
+        onClose={handleSnapSnackbarClose}
+      >
+        <Alert
+          onClose={handleSnapSnackbarClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {t('snapActionSuccess')}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={shareClicked}
+        autoHideDuration={6000}
+        onClose={handleShareSnackbarClose}
+      >
+        <Alert
+          onClose={handleShareSnackbarClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {t('shareActionSuccess')}
+        </Alert>
+      </Snackbar>
       <NeuroglancerBanner onStartTour={handleTourStartInNewTab} />
     </div>
   )
