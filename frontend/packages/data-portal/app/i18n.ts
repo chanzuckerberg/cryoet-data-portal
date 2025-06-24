@@ -206,5 +206,5 @@ export const i18n = {
   goToNeuroglancerDocumentation: 'Go to Neuroglancer Documentation',
   neuroglancerWalkthrough: 'Neuroglancer Walkthrough',
   snapActionSuccess: 'Snapped to nearest axis',
-  shareActionSuccess: 'Sharable viewer link copied to clipboard',
+  shareActionSuccess: 'Shareable viewer link copied to clipboard',
 }
