@@ -186,3 +186,11 @@ We will work with you to upload the data to the Portal. Please fill out [this co
 
 In the future, we plan to implement a self-upload process so that users can add their data to the Portal on their own.
 :::
+
+:::{admonition} How do I cite the CryoET Data Portal and data used in my work? <a class="headerlink" href="#cite-portal" title="Permalink to this question">¶</a>
+:class: czi-faq
+:name: cite-portal
+:collapsible:
+
+Please refer to our citation guidance [found here](citing-the-cryoet-data-portal).
+:::

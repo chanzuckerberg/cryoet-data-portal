@@ -18,10 +18,12 @@ export function Tabs<T>({
   tabs,
   value,
   onChange,
+  vertical,
 }: Pick<TabsProps, 'className' | 'classes'> & {
   onChange(value: T): void
   tabs: TabData<T>[]
   value: T
+  vertical?: boolean
 }) {
   return (
     // Use Material UI tabs because SDS tabs have bug where styles aren't
@@ -33,10 +35,14 @@ export function Tabs<T>({
         classes={{
           // Translate to overlap with bottom gray border used in different places
           // in the UI.
-          root: 'translate-y-[2px] !min-h-0',
-          indicator: '!bg-light-sds-color-primitive-blue-500',
-          flexContainer: 'gap-sds-xl !pb-sds-xxs',
+          root: 'translate-y-[2px] !min-h-0 w-full',
+          indicator: cns(
+            '!bg-light-sds-color-primitive-blue-500',
+            vertical && '!w-[6px]',
+          ),
+          flexContainer: cns('!pb-sds-xxs', !vertical && 'gap-sds-xl'),
         }}
+        orientation={vertical ? 'vertical' : 'horizontal'}
       >
         {tabs.map((tab) => {
           const tabComponent = (
@@ -48,6 +54,8 @@ export function Tabs<T>({
                   '!p-0 !min-w-[max-content] !min-h-0',
                   'transition-colors',
                   tab.disabled && 'opacity-100 !text-[#ccc]',
+                  vertical && '!px-sds-xl !h-10',
+                  vertical && tab.value === value && '!bg-[#edf3fd]',
                 ),
                 selected: '!text-black',
               }}
