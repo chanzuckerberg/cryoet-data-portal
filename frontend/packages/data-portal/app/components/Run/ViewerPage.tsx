@@ -553,9 +553,9 @@ function ViewerPage({
       <nav
         className={cns(
           'bg-sds-color-primitive-common-black text-sds-color-primitive-common-white',
-          'flex flex-shrink-0 pt-1 pb-20 flex-col',
-          'sticky top-0 z-30 max-h-12 items-start',
-          'sm:flex-row sm:pb-1 sm:items-center',
+          'flex flex-shrink-0 py-1 flex-col',
+          'sticky top-0 z-30 max-h-20 items-start',
+          'sm:flex-row sm:max-h-12 sm:items-center',
         )}
       >
         <div className="flex items-center gap-1 md:gap-4">
