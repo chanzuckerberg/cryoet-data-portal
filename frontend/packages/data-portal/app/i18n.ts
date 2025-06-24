@@ -205,4 +205,6 @@ export const i18n = {
   yes: 'Yes',
   goToNeuroglancerDocumentation: 'Go to Neuroglancer Documentation',
   neuroglancerWalkthrough: 'Neuroglancer Walkthrough',
+  snapActionSuccess: 'Snapped to nearest axis',
+  shareActionSuccess: 'Sharable viewer link copied to clipboard',
 }
