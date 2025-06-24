@@ -37,7 +37,7 @@ const LOADING_ANNOTATIONS = Array.from(
         edges: [
           {
             node: {
-              s3Path: 's3://example.com/loading',
+              s3Path: '',
             },
           },
         ],

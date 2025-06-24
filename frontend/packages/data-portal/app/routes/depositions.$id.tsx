@@ -17,8 +17,7 @@ import { DepositionMetadataDrawer } from 'app/components/Deposition/DepositionMe
 import { DepositionTableRenderer } from 'app/components/Deposition/DepositionTableRenderer'
 import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import { TablePageLayout } from 'app/components/TablePageLayout'
-import { TableCount } from 'app/components/TablePageLayout/TableCount'
-import type { TableHeaderProps } from 'app/components/TablePageLayout/types'
+import { TableCountHeader } from 'app/components/TablePageLayout/TableCountHeader'
 import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 import { getDepositionAnnotations } from 'app/graphql/getDepositionAnnotationsV2.server'
@@ -219,21 +218,5 @@ export default function DepositionByIdPage() {
       ]}
       drawers={<DepositionMetadataDrawer />}
     />
-  )
-}
-
-function TableCountHeader({
-  filteredCount,
-  totalCount,
-  countLabel,
-}: TableHeaderProps) {
-  return (
-    <div className="ml-sds-xl flex items-center">
-      <TableCount
-        filteredCount={filteredCount}
-        totalCount={totalCount}
-        type={countLabel}
-      />
-    </div>
   )
 }
