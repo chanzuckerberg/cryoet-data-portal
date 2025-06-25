@@ -22,30 +22,27 @@ export function DepositedInTableCell({
   runId?: number
   runName?: string
 }) {
-  const depositItems: DepositItem[] = useMemo(
-    () => [
-      ...(datasetId && datasetTitle
-        ? [
-            {
-              label: 'dataset' as I18nKeys,
-              value: datasetTitle,
-              url: `/datasets/${datasetId}`,
-            },
-          ]
-        : []),
+  const depositItems = useMemo(() => {
+    const items: DepositItem[] = []
 
-      ...(runId && runName
-        ? [
-            {
-              label: 'run' as I18nKeys,
-              value: runName,
-              url: `/runs/${runId}`,
-            },
-          ]
-        : []),
-    ],
-    [datasetId, datasetTitle, runId, runName],
-  )
+    if (datasetId && datasetTitle) {
+      items.push({
+        label: 'dataset' as I18nKeys,
+        value: datasetTitle,
+        url: `/datasets/${datasetId}`,
+      })
+    }
+
+    if (runId && runName) {
+      items.push({
+        label: 'run' as I18nKeys,
+        value: runName,
+        url: `/runs/${runId}`,
+      })
+    }
+
+    return items
+  }, [datasetId, datasetTitle, runId, runName])
 
   const { t } = useI18n()
 
