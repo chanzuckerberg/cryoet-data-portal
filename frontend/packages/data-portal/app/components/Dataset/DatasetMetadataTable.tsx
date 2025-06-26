@@ -116,6 +116,54 @@ export function DatasetMetadataTable({
     },
 
     {
+      label: t('originalDepositionName'),
+      values: [dataset.deposition?.title ?? ''],
+      renderValue: (value: string) => {
+        return (
+          <Link
+            className="text-light-sds-color-primitive-blue-500"
+            to={`/depositions/${dataset.deposition?.id}`}
+          >
+            {value}
+          </Link>
+        )
+      },
+    },
+
+    {
+      label: t('originalDepositionId'),
+      values: [dataset.deposition?.id ?? '--'],
+      renderValue: (value: string) => {
+        return (
+          <span>
+            {IdPrefix.Deposition}-{value}
+          </span>
+        )
+      },
+    },
+
+    {
+      label: t('additionalContributions'),
+      values: [10310, 10311, 10312],
+      renderValues(values) {
+        return (
+          <ul>
+            {values.map((value) => (
+              <li key={value}>
+                <Link
+                  className="text-light-sds-color-primitive-blue-500"
+                  to={`/depositions/${value}`}
+                >
+                  {IdPrefix.Deposition}-{value}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )
+      },
+    },
+
+    {
       label: t('releaseDate'),
       values: [dataset.releaseDate?.split('T')[0] ?? ''],
     },
