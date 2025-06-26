@@ -68,6 +68,9 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         cellStrainId
         cellTypeId
         deposition {
+          id
+          title
+
           annotationsAggregate(
             where: {annotationShapesAggregate: {count: {filter: {annotationFiles: {isVisualizationDefault: {_eq: true}}}}}}
           ) {

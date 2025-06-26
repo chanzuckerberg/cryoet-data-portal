@@ -42,6 +42,7 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
       deposition{
         id
         description
+        title
         annotationsAggregate(where: {annotationShapes: {annotationFilesAggregate: {count: {filter: {isVisualizationDefault: {_eq: true}}}}}}) {
           aggregate {
             count
