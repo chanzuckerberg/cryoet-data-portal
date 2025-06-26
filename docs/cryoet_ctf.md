@@ -233,7 +233,7 @@ correction.
   </figcaption>
 </figure>
 
-## Tilt Angle Limitation (“Missing Wedge” Problem) 
+## Tilt Angle Limitation (“Missing Wedge” Problem)
 
 CryoET reconstructs tomograms by combining 2D images of a sample taken at different tilt angles. However, due to
 hardware limitations, it is not possible to capture a full ±90° range of tilt angles. As the sample tilts, the grid and
