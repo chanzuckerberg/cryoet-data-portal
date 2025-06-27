@@ -561,9 +561,12 @@ function ViewerPage({
       <a href={`${window.origin}/runs/${run.id}`} className="truncate">
         {run.name}{' '}
       </a>
-      <span className="text-sds-color-primitive-common-white opacity-60 ml-1">
+      <a
+        href={`${window.origin}/runs/${run.id}`}
+        className="text-sds-color-primitive-common-white opacity-60 pl-1"
+      >
         (RN-{run.id})
-      </span>
+      </a>
     </Tooltip>
   )
 
