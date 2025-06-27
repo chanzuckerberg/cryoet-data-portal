@@ -32,24 +32,55 @@ const keyboardShortcuts = [
 ]
 
 const getIframeElement = (selector: string): HTMLElement | string => {
+  console.log('Checking iframe proxy for selector:', selector)
   const iframe = document.querySelector('iframe')
   if (iframe?.contentDocument) {
     const element = iframe.contentDocument.querySelector(
       selector,
     ) as HTMLElement
-    if (element) {
+    // Check if a proxy element already exists
+    const existingProxy = document.getElementById(
+      selector.replace(/[^a-zA-Z0-9]/g, '-'),
+    )
+    let proxyElement: HTMLElement | undefined
+    if (existingProxy) {
+      proxyElement = existingProxy as HTMLElement
+    } else if (element) {
+      console.log('Making iframe proxy for selector:', selector)
+
+      proxyElement = document.createElement('div')
+      proxyElement.id = selector.replace(/[^a-zA-Z0-9]/g, '-')
+      proxyElement.className = 'joyride-iframe-proxy'
+      proxyElement.style.position = 'absolute'
+      proxyElement.style.zIndex = '-1'
+      proxyElement.style.pointerEvents = 'none'
+      proxyElement.style.backgroundColor = 'transparent'
+      document.body.appendChild(proxyElement)
+
+      window.addEventListener('resize', () => {
+        const iframeElement = document.querySelector('iframe')
+        if (!iframeElement || !iframeElement.contentDocument) {
+          return
+        }
+        const targetElement = iframeElement.contentDocument.querySelector(
+          selector,
+        ) as HTMLElement
+        const newRect = targetElement.getBoundingClientRect()
+        const iframeRect = iframeElement.getBoundingClientRect()
+        proxyElement!.style.top = `${newRect.top + iframeRect.top}px`
+        proxyElement!.style.left = `${newRect.left + iframeRect.left}px`
+        proxyElement!.style.width = `${newRect.width}px`
+        proxyElement!.style.height = `${newRect.height}px`
+      })
+    }
+    if (element && proxyElement) {
       const rect = element.getBoundingClientRect()
       const iframeRect = iframe.getBoundingClientRect()
-
-      const proxyElement = document.createElement('div')
-      proxyElement.style.position = 'absolute'
       proxyElement.style.top = `${rect.top + iframeRect.top}px`
       proxyElement.style.left = `${rect.left + iframeRect.left}px`
       proxyElement.style.width = `${rect.width}px`
       proxyElement.style.height = `${rect.height}px`
-      proxyElement.style.zIndex = '-1'
 
-      document.body.appendChild(proxyElement)
       return proxyElement
     }
   }

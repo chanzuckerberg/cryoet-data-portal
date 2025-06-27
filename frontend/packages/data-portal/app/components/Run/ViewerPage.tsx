@@ -791,7 +791,7 @@ function ViewerPage({
           />
         )}
       </div>
-      {run && (
+      {run && tourRunning && (
         <Tour
           run={tourRunning}
           stepIndex={stepIndex}
