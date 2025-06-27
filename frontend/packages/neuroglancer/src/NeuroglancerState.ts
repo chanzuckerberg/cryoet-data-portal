@@ -1,42 +1,40 @@
 export interface CompleteStateOfANeuroglancerInstance {
-  concurrentDownloads?: number
-  crossSectionDepth?: number
-  crossSectionOrientation?: number[]
-  crossSectionScale?: number
-  dimensions?: SpecifiesACoordinateSpace
-  displayDimensions?: string[]
-  gpuMemoryLimit?: number
-  hideCrossSectionBackground3D?: boolean
-  layers?: LayerElement[]
-  layout?:
-    | The2_X2GridLayoutWithXyYzXzAnd3_DPanels
-    | DescribesTheRefDataViewsDataViewToDisplay
-  position?: number[]
-  prefetch?: boolean
-  projectionDepth?: number
-  projectionOrientation?: number[]
-  projectionScale?: number
-  relativeDisplayScales?: number[]
-  showAxisLines?: boolean
-  showDefaultAnnotations?: boolean
-  showScaleBar?: boolean
-  showSlices?: boolean
-  systemMemoryLimit?: number
-  title?: string
-  wireFrame?: boolean
-  [property: string]: any
+    concurrentDownloads?:          number;
+    crossSectionDepth?:            number;
+    crossSectionOrientation?:      number[];
+    crossSectionScale?:            number;
+    dimensions?:                   SpecifiesACoordinateSpace;
+    displayDimensions?:            string[];
+    gpuMemoryLimit?:               number;
+    hideCrossSectionBackground3D?: boolean;
+    layers?:                       LayerElement[];
+    layout?:                       The2_X2GridLayoutWithXyYzXzAnd3_DPanels | DescribesTheRefDataViewsDataViewToDisplay;
+    position?:                     number[];
+    prefetch?:                     boolean;
+    projectionDepth?:              number;
+    projectionOrientation?:        number[];
+    projectionScale?:              number;
+    relativeDisplayScales?:        number[];
+    showAxisLines?:                boolean;
+    showDefaultAnnotations?:       boolean;
+    showScaleBar?:                 boolean;
+    showSlices?:                   boolean;
+    systemMemoryLimit?:            number;
+    title?:                        string;
+    wireFrame?:                    boolean;
+    [property: string]: any;
 }
 
 export interface SpecifiesACoordinateSpace {
-  dimensionName?: Array<number | string>
-  [property: string]: any
+    dimensionName?: Array<number | string>;
+    [property: string]: any;
 }
 
 export interface LayerElement {
-  name?: string
-  type?: string
-  visible?: boolean
-  [property: string]: any
+    name?:    string;
+    type?:    string;
+    visible?: boolean;
+    [property: string]: any;
 }
 
 /**
@@ -72,27 +70,27 @@ export interface LayerElement {
  * the third display dimension (blue) pointing away from the camera.
  */
 export enum The2_X2GridLayoutWithXyYzXzAnd3_DPanels {
-  The3D = '3d',
-  The4Panel = '4panel',
-  The4PanelAlt = '4panel-alt',
-  Xy = 'xy',
-  Xy3D = 'xy-3d',
-  Xz = 'xz',
-  Xz3D = 'xz-3d',
-  Yz = 'yz',
-  Yz3D = 'yz-3d',
+    The3D = "3d",
+    The4Panel = "4panel",
+    The4PanelAlt = "4panel-alt",
+    Xy = "xy",
+    Xy3D = "xy-3d",
+    Xz = "xz",
+    Xz3D = "xz-3d",
+    Yz = "yz",
+    Yz3D = "yz-3d",
 }
 
 export interface DescribesTheRefDataViewsDataViewToDisplay {
-  orthographicProjection?: boolean
-  type: string
-  flex?: number
-  [property: string]: any
+    orthographicProjection?: boolean;
+    type:                    string;
+    flex?:                   number;
+    [property: string]: any;
 }
 
 export interface LayerWithinANeuroglancerInstance {
-  name?: string
-  type?: string
-  visible?: boolean
-  [property: string]: any
+    name?:    string;
+    type?:    string;
+    visible?: boolean;
+    [property: string]: any;
 }
