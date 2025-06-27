@@ -17,7 +17,10 @@
     "strict": true,
     "target": "esnext",
     "incremental": true,
-    "types": ["@testing-library/jest-dom"]
+    "types": ["@testing-library/jest-dom"],
+    "paths": {
+      "neuroglancer": ["../neuroglancer/dist"]
+    }
   },
   "include": ["*.d.ts", "*.ts", "app/**/*.ts", "app/**/*.tsx", "e2e/**/*.ts"],
   "exclude": ["node_modules"]
