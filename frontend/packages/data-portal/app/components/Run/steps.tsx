@@ -32,7 +32,6 @@ const keyboardShortcuts = [
 ]
 
 const getIframeElement = (selector: string): HTMLElement | string => {
-  console.log('Checking iframe proxy for selector:', selector)
   const iframe = document.querySelector('iframe')
   if (iframe?.contentDocument) {
     const element = iframe.contentDocument.querySelector(
@@ -46,7 +45,6 @@ const getIframeElement = (selector: string): HTMLElement | string => {
     if (existingProxy) {
       proxyElement = existingProxy as HTMLElement
     } else if (element) {
-      console.log('Making iframe proxy for selector:', selector)
 
       proxyElement = document.createElement('div')
       proxyElement.id = selector.replace(/[^a-zA-Z0-9]/g, '-')
