@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "pnpm generate-interface && vite build && tsc --build",
-    "lint": "eslint src --report-unused-disable-directives --fix",
+    "lint": "eslint src --report-unused-disable-directives --fix && prettier --cache -w -l .",
     "preview": "vite preview",
     "prebuild": "eslint .",
     "format": "prettier --cache -w -l .",
@@ -17,7 +17,7 @@
     "download-schemas": "curl -L https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/viewer_state.yml -o viewer_state.yml && curl -L https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/layer.yml -o layer.yml"
   },
   "dependencies": {
-    "neuroglancer": "git+https://github.com/metacell/neuroglancer.git#feat/CC-376",
+    "neuroglancer": "git+https://github.com/metacell/neuroglancer.git#feat/cryoet-data-portal",
     "pako": "^2.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

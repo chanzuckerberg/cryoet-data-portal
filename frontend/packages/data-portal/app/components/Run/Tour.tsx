@@ -166,6 +166,7 @@ export function Tour({
       run={run}
       stepIndex={stepIndex}
       spotlightClicks
+      spotlightPadding={0}
       continuous
       disableOverlayClose
       disableScrolling

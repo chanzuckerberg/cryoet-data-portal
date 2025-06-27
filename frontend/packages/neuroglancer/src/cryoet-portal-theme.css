@@ -1,20 +1,24 @@
 .neuroglancer-tool-palette-query {
-    display: none !important;
+  display: none !important;
 }
 
 .neuroglancer-tool-palette-items {
-    flex-direction: row !important;
-    align-items: flex-start !important;
-    overflow-x: auto !important;
-    height: 100% !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  overflow-x: auto !important;
+  height: 100% !important;
 }
 
 .neuroglancer-tool-palette-tool-container {
-    width: 100% !important;
-    align-items: flex-start !important;
+  width: 100% !important;
+  align-items: flex-start !important;
 }
 
 .neuroglancer-side-panel-drop-zone {
-    width: 0px !important;
-    display: none !important;
+  width: 0px !important;
+  display: none !important;
+}
+
+.neuroglancer-layer-list-panel-item-visibility {
+  display: none !important;
 }

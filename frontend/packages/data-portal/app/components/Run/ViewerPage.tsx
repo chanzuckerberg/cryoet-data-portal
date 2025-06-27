@@ -271,7 +271,7 @@ const isDimensionPanelVisible = () => {
 const makeDimensionPanel = (state: ResolvedSuperState) => {
   const newState = state
   newState.neuroglancer.toolPalettes = {
-    Dimensions: {
+    Position: {
       side: 'bottom',
       row: 1,
       size: 100,
@@ -682,7 +682,7 @@ function ViewerPage({
                   selected={isDimensionPanelVisible()}
                   onSelect={toggleOrMakeDimensionPanel}
                 >
-                  Show dimension slider
+                  Show position selector
                 </CustomDropdownOption>
               </CustomDropdownSection>
             </CustomDropdown>

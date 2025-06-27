@@ -67,8 +67,8 @@ export const getTutorialSteps: () => Step[] = () => [
         <div className="p-6 bg-[#EBEBEB] rounded relative overflow-hidden min-h-[247px]">
           <div className="absolute left-6 right-6 rounded overflow-hidden">
             <img
-              src="/images/neuroglancer_tour/CZICRY_thumbail.png"
-              alt="CZICRY thumbnail"
+              src="/images/neuroglancer_tour/viewer_example.png"
+              alt="Portal viewer example"
               className="w-full rounded"
             />
           </div>
