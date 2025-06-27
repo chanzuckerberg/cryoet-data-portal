@@ -791,7 +791,12 @@ function ViewerPage({
           />
         )}
       </div>
-      {run && tourRunning && <ProxyOverlayWrapper selectors={proxyStepSelectors} />}
+      {run && tourRunning && (
+        <ProxyOverlayWrapper
+          selectors={proxyStepSelectors}
+          stepIndex={stepIndex}
+        />
+      )}
       {run && tourRunning && (
         <Tour
           run={tourRunning}
