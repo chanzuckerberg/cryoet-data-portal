@@ -10,6 +10,76 @@ import Joyride, {
 } from 'react-joyride'
 
 import { cns } from 'app/utils/cns'
+import { useEffect, useState } from 'react'
+
+const ProxyOverlay: React.FC<{ targetSelector: string; className: string }> = ({
+  targetSelector,
+  className,
+}) => {
+  const [style, setStyle] = useState<React.CSSProperties | null>(null)
+
+  const iframeSelector = 'iframe'
+  useEffect(() => {
+    const iframe = document.querySelector(
+      iframeSelector,
+    ) as HTMLIFrameElement | null
+    if (!iframe?.contentDocument) return
+
+    const target = iframe.contentDocument.querySelector(
+      targetSelector,
+    ) as HTMLElement | null
+    if (!target) return
+
+    const updatePosition = () => {
+      const iframeRect = iframe.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+
+      setStyle({
+        position: 'absolute',
+        top: targetRect.top + iframeRect.top,
+        left: targetRect.left + iframeRect.left,
+        width: targetRect.width,
+        height: targetRect.height,
+        zIndex: -1,
+        pointerEvents: 'none',
+        backgroundColor: 'transparent',
+      })
+    }
+
+    updatePosition()
+    window.addEventListener('resize', updatePosition)
+    return () => window.removeEventListener('resize', updatePosition)
+  })
+
+  if (!style) return null
+
+  // Replace characters that are not valid in CSS selectors
+  const sanitizedSelector = targetSelector.replace(/[^a-zA-Z0-9-_:.]/g, '-')
+  console.log(
+    'Return a div with className:',
+    className,
+    'and id:',
+    sanitizedSelector,
+  )
+  return <div className={className} id={sanitizedSelector} style={style} />
+}
+
+export const ProxyOverlayWrapper: React.FC<{
+  selectors: { target: string; className: string }[]
+}> = ({ selectors }) => {
+  // Get the unique target selectors from the steps
+  console.log('ProxyOverlayWrapper selectors:', selectors)
+  return (
+    <>
+      {selectors.map((selector) => (
+        <ProxyOverlay
+          targetSelector={selector.target}
+          className={selector.className}
+        />
+      ))}
+    </>
+  )
+}
 
 interface CustomTourProps {
   steps: Step[]
