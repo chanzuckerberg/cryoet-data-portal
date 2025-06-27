@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "pnpm generate-interface && vite build && tsc --build",
-    "lint": "eslint src --report-unused-disable-directives --fix",
+    "lint": "eslint src --report-unused-disable-directives --fix && prettier --cache -w -l .",
     "preview": "vite preview",
     "prebuild": "eslint .",
     "format": "prettier --cache -w -l .",

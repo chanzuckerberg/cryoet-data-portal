@@ -16,7 +16,10 @@ interface NeuroglancerWrapperProps {
   compressURL?: boolean
 }
 
-const NeuroglancerWrapper = forwardRef<HTMLIFrameElement, NeuroglancerWrapperProps>(
+const NeuroglancerWrapper = forwardRef<
+  HTMLIFrameElement,
+  NeuroglancerWrapperProps
+>(
   (
     {
       baseUrl = '/neuroglancer',
