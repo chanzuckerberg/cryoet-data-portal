@@ -121,10 +121,16 @@ export function DatasetMetadataTable({
       label: t('originalDepositionName'),
       values: [dataset.deposition?.title ?? ''],
       renderValue: (value: string) => {
+        const id = dataset.deposition?.id
+
+        if (!id) {
+          return <span>--</span>
+        }
+
         return (
           <Link
             className="text-light-sds-color-primitive-blue-500"
-            to={`/depositions/${dataset.deposition?.id}`}
+            to={`/depositions/${id}`}
           >
             {value}
           </Link>
