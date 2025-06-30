@@ -81,6 +81,17 @@ export function useRunById() {
 
   const deposition = v2.depositions[0]
 
+  // Get additional contributing depositions (excluding the original deposition)
+  const additionalContributingDepositions = Array.from(
+    new Set([
+      ...(v2.depositionsWithAnnotations?.map((dep) => dep.id) ?? []),
+      ...(v2.depositionsWithTomograms?.map((dep) => dep.id) ?? []),
+      ...(v2.depositionsWithDatasets?.map((dep) => dep.id) ?? []),
+    ]),
+  )
+    .filter((id) => id !== run?.dataset?.deposition?.id)
+    .sort((a, b) => Number(a) - Number(b))
+
   return {
     run,
     tomograms,
@@ -95,5 +106,6 @@ export function useRunById() {
     ctfCount,
     deposition,
     annotationShapes,
+    additionalContributingDepositions,
   }
 }

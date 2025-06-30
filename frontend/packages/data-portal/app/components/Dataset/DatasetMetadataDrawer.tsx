@@ -24,11 +24,14 @@ export function DatasetMetadataDrawer() {
 }
 
 function MetadataTab() {
-  const { dataset } = useDatasetById()
+  const { dataset, additionalContributingDepositions } = useDatasetById()
 
   return (
     <>
-      <DatasetMetadataTable dataset={dataset} />
+      <DatasetMetadataTable
+        dataset={dataset}
+        additionalContributingDepositions={additionalContributingDepositions}
+      />
       <SampleAndExperimentConditionsTable dataset={dataset} />
       <DatasetTiltSeriesTable />
     </>

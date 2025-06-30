@@ -31,6 +31,17 @@ export function useDatasetById() {
       ?.map((aggregate) => aggregate.groupBy?.tiltSeriesQuality)
       .filter(isDefined) ?? []
 
+  // Get additional contributing depositions (excluding the original deposition)
+  const additionalContributingDepositions = Array.from(
+    new Set([
+      ...(v2.depositionsWithAnnotations?.map((dep) => dep.id) ?? []),
+      ...(v2.depositionsWithTomograms?.map((dep) => dep.id) ?? []),
+      ...(v2.depositionsWithDatasets?.map((dep) => dep.id) ?? []),
+    ]),
+  )
+    .filter((id) => id !== dataset?.deposition?.id)
+    .sort((a, b) => Number(a) - Number(b))
+
   return {
     runs,
     unFilteredRuns,
@@ -39,5 +50,6 @@ export function useDatasetById() {
     objectNames,
     objectShapeTypes,
     tiltseriesQualityScores,
+    additionalContributingDepositions,
   }
 }

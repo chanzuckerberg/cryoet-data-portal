@@ -39,10 +39,12 @@ export function DatasetMetadataTable({
   dataset,
   showAllFields,
   initialOpen,
+  additionalContributingDepositions = [],
 }: {
   dataset: Dataset
   showAllFields?: boolean
   initialOpen?: boolean
+  additionalContributingDepositions?: number[]
 }) {
   const { t } = useI18n()
 
@@ -113,6 +115,60 @@ export function DatasetMetadataTable({
     {
       label: t('depositionDate'),
       values: [dataset.depositionDate?.split('T')[0] ?? ''],
+    },
+
+    {
+      label: t('originalDepositionName'),
+      values: [dataset.deposition?.title ?? ''],
+      renderValue: (value: string) => {
+        const id = dataset.deposition?.id
+
+        if (!id) {
+          return <span>--</span>
+        }
+
+        return (
+          <Link
+            className="text-light-sds-color-primitive-blue-500"
+            to={`/depositions/${id}`}
+          >
+            {value}
+          </Link>
+        )
+      },
+    },
+
+    {
+      label: t('originalDepositionId'),
+      values: [dataset.deposition?.id ?? '--'],
+      renderValue: (value: string) => {
+        return (
+          <span>
+            {IdPrefix.Deposition}-{value}
+          </span>
+        )
+      },
+    },
+
+    {
+      label: t('additionalContributions'),
+      values: additionalContributingDepositions,
+      renderValues(values) {
+        return (
+          <ul>
+            {values.map((value) => (
+              <li key={value}>
+                <Link
+                  className="text-light-sds-color-primitive-blue-500"
+                  to={`/depositions/${value}`}
+                >
+                  {IdPrefix.Deposition}-{value}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )
+      },
     },
 
     {
