@@ -1,7 +1,6 @@
 import './ViewerPage.css'
 
 import { Button } from '@czi-sds/components'
-import { SnackbarCloseReason } from '@mui/material/Snackbar'
 import {
   currentNeuroglancer,
   currentNeuroglancerState,
@@ -525,31 +524,9 @@ function ViewerPage({
       })
   }
 
-  const handleShareSnackbarClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: SnackbarCloseReason,
-  ) => {
-    if (reason === 'clickaway') {
-      return
-    }
-
-    setShareClicked(false)
-  }
-
   const handleSnapActionClick = () => {
     snap()
     setSnapActionClicked(true)
-  }
-
-  const handleSnapSnackbarClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: SnackbarCloseReason,
-  ) => {
-    if (reason === 'clickaway') {
-      return
-    }
-
-    setSnapActionClicked(false)
   }
 
   const helperText = 'text-xs text-[#767676] font-normal'
@@ -804,7 +781,7 @@ function ViewerPage({
       <CustomSnackbar
         open={snapActionClicked}
         autoHideDuration={6000}
-        handleClose={handleSnapSnackbarClose}
+        handleClose={() => setSnapActionClicked(false)}
         variant="filled"
         severity="success"
         message={t('snapActionSuccess')}
@@ -812,7 +789,7 @@ function ViewerPage({
       <CustomSnackbar
         open={shareClicked}
         autoHideDuration={6000}
-        handleClose={handleShareSnackbarClose}
+        handleClose={() => setShareClicked(false)}
         variant="filled"
         severity="success"
         message={t('shareActionSuccess')}
