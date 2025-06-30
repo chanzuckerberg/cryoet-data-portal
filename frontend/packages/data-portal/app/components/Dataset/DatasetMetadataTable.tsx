@@ -39,10 +39,12 @@ export function DatasetMetadataTable({
   dataset,
   showAllFields,
   initialOpen,
+  additionalContributingDepositions = [],
 }: {
   dataset: Dataset
   showAllFields?: boolean
   initialOpen?: boolean
+  additionalContributingDepositions?: number[]
 }) {
   const { t } = useI18n()
 
@@ -144,7 +146,7 @@ export function DatasetMetadataTable({
 
     {
       label: t('additionalContributions'),
-      values: [10310, 10311, 10312],
+      values: additionalContributingDepositions,
       renderValues(values) {
         return (
           <ul>
