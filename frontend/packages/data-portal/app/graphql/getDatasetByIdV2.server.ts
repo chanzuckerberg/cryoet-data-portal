@@ -222,6 +222,34 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
       id
       title
     }
+
+    depositionsWithAnnotations: depositions(where: {
+      annotations: {
+        run: {
+          datasetId: { _eq: $id }
+        }
+      }
+    }) {
+      id
+    }
+
+    depositionsWithTomograms: depositions(where: {
+      tomograms: {
+        run: {
+          datasetId: { _eq: $id }
+        }
+      }
+    }) {
+      id
+    }
+
+    depositionsWithDatasets: depositions(where: {
+      datasets: {
+        id: { _eq: $id }
+      }
+    }) {
+      id
+    }
   }
 `)
 
