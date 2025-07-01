@@ -1,6 +1,8 @@
 import './ViewerPage.css'
 
 import { Button } from '@czi-sds/components'
+import Alert from '@mui/material/Alert'
+import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
 import {
   currentNeuroglancer,
   currentNeuroglancerState,
@@ -25,7 +27,6 @@ import {
   CustomDropdownOption,
   CustomDropdownSection,
 } from '../common/CustomDropdown'
-import { CustomSnackbar } from '../common/CustomSnackbar'
 import {
   ABOUT_LINKS,
   NEUROGLANCER_DOC_LINK,
@@ -393,6 +394,38 @@ const isSmallScreen = () => {
   )
 }
 
+const snackbarStyles = {
+  width: '100%',
+  padding: '1rem',
+  alignItems: 'center',
+  '& .MuiAlert-icon': {
+    fontSize: '24px',
+    padding: '0px',
+  },
+  '& .MuiAlert-message': {
+    fontSize: '13px',
+    lineHeight: '20px',
+    padding: '0px',
+  },
+  '& .MuiAlert-action': {
+    padding: '0px',
+    marginLeft: '0.75rem',
+    marginRight: '0px',
+    '& .MuiIconButton-root': {
+      padding: '0px',
+    },
+    '& .MuiSvgIcon-root': {
+      fontSize: '1rem',
+    },
+  },
+  '&.MuiAlert-filledSuccess': {
+    backgroundColor: '#DAF4DE',
+    '& .MuiAlert-icon': {
+      color: '#105B2B',
+    },
+  },
+}
+
 function ViewerPage({
   run,
   tomogram,
@@ -524,9 +557,31 @@ function ViewerPage({
       })
   }
 
+  const handleShareSnackbarClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason,
+  ) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setShareClicked(false);
+  }
+
   const handleSnapActionClick = () => {
     snap()
     setSnapActionClicked(true)
+  }
+
+  const handleSnapSnackbarClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason,
+  ) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setSnapActionClicked(false);
   }
 
   const helperText = 'text-xs text-[#767676] font-normal'
@@ -551,6 +606,23 @@ function ViewerPage({
     id: run.dataset?.id || 0,
     title: run.dataset?.title || 'dataset',
   }
+
+  useEffect(() => {
+    if (shareClicked) {
+      setTimeout(() => {
+        setShareClicked(false);
+      }, 6000)
+    }
+  }, [shareClicked]);
+
+  useEffect(() => {
+    if (snapActionClicked) {
+      setTimeout(() => {
+        setSnapActionClicked(false);
+      }, 6000)
+    }
+  }, [snapActionClicked]);
+
   return (
     <div className="flex flex-col overflow-hidden h-full relative bg-dark-sds-color-primitive-gray-50">
       <nav
@@ -778,22 +850,32 @@ function ViewerPage({
           onMove={handleTourStepMove}
         />
       )}
-      <CustomSnackbar
+      <Snackbar
         open={snapActionClicked}
-        autoHideDuration={6000}
-        handleClose={() => setSnapActionClicked(false)}
-        variant="filled"
-        severity="success"
-        message={t('snapActionSuccess')}
-      />
-      <CustomSnackbar
+        onClose={handleSnapSnackbarClose}
+      >
+        <Alert
+          onClose={handleSnapSnackbarClose}
+          severity="success"
+          variant="filled"
+          sx={snackbarStyles}
+        >
+          {t('snapActionSuccess')}
+        </Alert>
+      </Snackbar>
+      <Snackbar
         open={shareClicked}
-        autoHideDuration={6000}
-        handleClose={() => setShareClicked(false)}
-        variant="filled"
-        severity="success"
-        message={t('shareActionSuccess')}
-      />
+        onClose={handleShareSnackbarClose}
+      >
+        <Alert
+          onClose={handleShareSnackbarClose}
+          severity="success"
+          variant="filled"
+          sx={snackbarStyles}
+        >
+          {t('shareActionSuccess')}
+        </Alert>
+      </Snackbar>
       <NeuroglancerBanner onStartTour={handleTourStartInNewTab} />
     </div>
   )
