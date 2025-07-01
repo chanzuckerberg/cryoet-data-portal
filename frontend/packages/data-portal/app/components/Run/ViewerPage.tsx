@@ -1,8 +1,7 @@
 import './ViewerPage.css'
 
 import { Button } from '@czi-sds/components'
-import Alert from '@mui/material/Alert'
-import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
+import { SnackbarCloseReason } from '@mui/material/Snackbar'
 import {
   currentNeuroglancer,
   currentNeuroglancerState,
@@ -27,6 +26,7 @@ import {
   CustomDropdownOption,
   CustomDropdownSection,
 } from '../common/CustomDropdown'
+import { CustomSnackbar } from '../common/CustomSnackbar'
 import {
   ABOUT_LINKS,
   NEUROGLANCER_DOC_LINK,
@@ -807,34 +807,22 @@ function ViewerPage({
           onMove={handleTourStepMove}
         />
       )}
-      <Snackbar
+      <CustomSnackbar
         open={snapActionClicked}
         autoHideDuration={6000}
-        onClose={handleSnapSnackbarClose}
-      >
-        <Alert
-          onClose={handleSnapSnackbarClose}
-          severity="success"
-          variant="filled"
-          sx={{ width: '100%' }}
-        >
-          {t('snapActionSuccess')}
-        </Alert>
-      </Snackbar>
-      <Snackbar
+        handleClose={handleSnapSnackbarClose}
+        variant="filled"
+        severity="success"
+        message={t('snapActionSuccess')}
+      />
+      <CustomSnackbar
         open={shareClicked}
         autoHideDuration={6000}
-        onClose={handleShareSnackbarClose}
-      >
-        <Alert
-          onClose={handleShareSnackbarClose}
-          severity="success"
-          variant="filled"
-          sx={{ width: '100%' }}
-        >
-          {t('shareActionSuccess')}
-        </Alert>
-      </Snackbar>
+        handleClose={handleShareSnackbarClose}
+        variant="filled"
+        severity="success"
+        message={t('shareActionSuccess')}
+      />
       <NeuroglancerBanner onStartTour={handleTourStartInNewTab} />
     </div>
   )

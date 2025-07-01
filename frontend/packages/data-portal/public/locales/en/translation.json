@@ -548,5 +548,5 @@
   "goToNeuroglancerDocumentation": "Go to Neuroglancer Documentation",
   "neuroglancerWalkthrough": "Neuroglancer Walkthrough",
   "snapActionSuccess": "Snapped to nearest axis",
-  "shareActionSuccess": "Shareable link copied to clipboard"
+  "shareActionSuccess": "Share link copied to clipboard"
 }
