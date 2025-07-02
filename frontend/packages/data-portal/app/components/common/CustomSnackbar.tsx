@@ -1,6 +1,6 @@
-import Alert from '@mui/material/Alert';
-import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
-import { CheckCircleOutlineOutlined } from '@mui/icons-material';
+import { CheckCircleOutlineOutlined } from '@mui/icons-material'
+import Alert from '@mui/material/Alert'
+import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
 
 type CustomSnackbarProps = {
   open: boolean
@@ -54,16 +54,15 @@ export function CustomSnackbar({
   handleClose,
 }: CustomSnackbarProps) {
   return (
-    <Snackbar
-      open={open}
-      onClose={handleClose}
-    >
+    <Snackbar open={open} onClose={handleClose}>
       <Alert
         onClose={handleClose}
         severity={severity}
         variant={variant}
         sx={styles}
-        icon={severity === 'success' ? <CheckCircleOutlineOutlined /> : undefined}
+        icon={
+          severity === 'success' ? <CheckCircleOutlineOutlined /> : undefined
+        }
       >
         {message}
       </Alert>

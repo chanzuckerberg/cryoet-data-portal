@@ -26,6 +26,7 @@ import {
   CustomDropdownOption,
   CustomDropdownSection,
 } from '../common/CustomDropdown'
+import { CustomSnackbar } from '../common/CustomSnackbar'
 import {
   ABOUT_LINKS,
   NEUROGLANCER_DOC_LINK,
@@ -36,7 +37,6 @@ import { Tooltip } from '../Tooltip'
 import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { getTutorialSteps } from './steps'
 import { Tour } from './Tour'
-import { CustomSnackbar } from '../common/CustomSnackbar'
 
 type Run = GetRunByIdV2Query['runs'][number]
 type Tomogram = GetRunByIdV2Query['tomograms'][number]
@@ -394,39 +394,6 @@ const isSmallScreen = () => {
   )
 }
 
-const snackbarStyles = {
-  width: '100%',
-  padding: '1rem',
-  alignItems: 'center',
-  borderLeft: '0.25rem solid #105B2B',
-  '& .MuiAlert-icon': {
-    fontSize: '24px',
-    padding: '0px',
-  },
-  '& .MuiAlert-message': {
-    fontSize: '13px',
-    lineHeight: '20px',
-    padding: '0px',
-  },
-  '& .MuiAlert-action': {
-    padding: '0px',
-    marginLeft: '0.75rem',
-    marginRight: '0px',
-    '& .MuiIconButton-root': {
-      padding: '0px',
-    },
-    '& .MuiSvgIcon-root': {
-      fontSize: '1rem',
-    },
-  },
-  '&.MuiAlert-filledSuccess': {
-    backgroundColor: '#DAF4DE',
-    '& .MuiAlert-icon': {
-      color: '#105B2B',
-    },
-  },
-}
-
 function ViewerPage({
   run,
   tomogram,
@@ -566,7 +533,7 @@ function ViewerPage({
       return
     }
 
-    setShareClicked(false);
+    setShareClicked(false)
   }
 
   const handleSnapActionClick = () => {
@@ -582,10 +549,11 @@ function ViewerPage({
       return
     }
 
-    setSnapActionClicked(false);
+    setSnapActionClicked(false)
   }
 
-  const helperText = 'text-light-sds-color-primitive-gray-600 text-sds-body-xxxs-400-narrow'
+  const helperText =
+    'text-light-sds-color-primitive-gray-600 text-sds-body-xxxs-400-narrow'
   const activeBreadcrumbText = (
     <Tooltip
       tooltip={`Go to Run ${run.name || t('runName')}`}
@@ -611,18 +579,18 @@ function ViewerPage({
   useEffect(() => {
     if (shareClicked) {
       setTimeout(() => {
-        setShareClicked(false);
+        setShareClicked(false)
       }, 6000)
     }
-  }, [shareClicked]);
+  }, [shareClicked])
 
   useEffect(() => {
     if (snapActionClicked) {
       setTimeout(() => {
-        setSnapActionClicked(false);
+        setSnapActionClicked(false)
       }, 6000)
     }
-  }, [snapActionClicked]);
+  }, [snapActionClicked])
 
   return (
     <div className="flex flex-col overflow-hidden h-full relative bg-dark-sds-color-primitive-gray-50">
