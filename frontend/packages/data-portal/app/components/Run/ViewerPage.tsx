@@ -3,6 +3,7 @@ import './ViewerPage.css'
 import { Button } from '@czi-sds/components'
 import Alert from '@mui/material/Alert'
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
+import { CheckCircleOutlineOutlined } from '@mui/icons-material'
 import {
   currentNeuroglancer,
   currentNeuroglancerState,
@@ -607,13 +608,13 @@ function ViewerPage({
     title: run.dataset?.title || 'dataset',
   }
 
-  useEffect(() => {
-    if (shareClicked) {
-      setTimeout(() => {
-        setShareClicked(false);
-      }, 6000)
-    }
-  }, [shareClicked]);
+  // useEffect(() => {
+  //   if (shareClicked) {
+  //     setTimeout(() => {
+  //       setShareClicked(false);
+  //     }, 6000)
+  //   }
+  // }, [shareClicked]);
 
   useEffect(() => {
     if (snapActionClicked) {
@@ -858,6 +859,7 @@ function ViewerPage({
           onClose={handleSnapSnackbarClose}
           severity="success"
           variant="filled"
+          icon={<CheckCircleOutlineOutlined />}
           sx={snackbarStyles}
         >
           {t('snapActionSuccess')}
@@ -871,6 +873,7 @@ function ViewerPage({
           onClose={handleShareSnackbarClose}
           severity="success"
           variant="filled"
+          icon={<CheckCircleOutlineOutlined />}
           sx={snackbarStyles}
         >
           {t('shareActionSuccess')}
