@@ -399,6 +399,7 @@ const snackbarStyles = {
   width: '100%',
   padding: '1rem',
   alignItems: 'center',
+  borderLeft: '0.25rem solid #105B2B',
   '& .MuiAlert-icon': {
     fontSize: '24px',
     padding: '0px',
@@ -608,13 +609,13 @@ function ViewerPage({
     title: run.dataset?.title || 'dataset',
   }
 
-  // useEffect(() => {
-  //   if (shareClicked) {
-  //     setTimeout(() => {
-  //       setShareClicked(false);
-  //     }, 6000)
-  //   }
-  // }, [shareClicked]);
+  useEffect(() => {
+    if (shareClicked) {
+      setTimeout(() => {
+        setShareClicked(false);
+      }, 6000)
+    }
+  }, [shareClicked]);
 
   useEffect(() => {
     if (snapActionClicked) {
