@@ -552,7 +552,8 @@ function ViewerPage({
     setSnapActionClicked(false)
   }
 
-  const helperText = 'text-light-sds-color-primitive-gray-600 text-sds-body-xxxs-400-narrow'
+  const helperText =
+    'text-light-sds-color-primitive-gray-600 text-sds-body-xxxs-400-narrow'
   const activeBreadcrumbText = (
     <Tooltip
       tooltip={`Go to Run ${run.name || t('runName')}`}
@@ -574,6 +575,23 @@ function ViewerPage({
     id: run.dataset?.id || 0,
     title: run.dataset?.title || 'dataset',
   }
+
+  useEffect(() => {
+    if (shareClicked) {
+      setTimeout(() => {
+        setShareClicked(false)
+      }, 6000)
+    }
+  }, [shareClicked])
+
+  useEffect(() => {
+    if (snapActionClicked) {
+      setTimeout(() => {
+        setSnapActionClicked(false)
+      }, 6000)
+    }
+  }, [snapActionClicked])
+
   return (
     <div className="flex flex-col overflow-hidden h-full relative bg-dark-sds-color-primitive-gray-50">
       <nav
@@ -803,7 +821,6 @@ function ViewerPage({
       )}
       <CustomSnackbar
         open={snapActionClicked}
-        autoHideDuration={6000}
         handleClose={handleSnapSnackbarClose}
         variant="filled"
         severity="success"
@@ -811,7 +828,6 @@ function ViewerPage({
       />
       <CustomSnackbar
         open={shareClicked}
-        autoHideDuration={6000}
         handleClose={handleShareSnackbarClose}
         variant="filled"
         severity="success"
