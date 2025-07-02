@@ -1,9 +1,7 @@
 import './ViewerPage.css'
 
 import { Button } from '@czi-sds/components'
-import Alert from '@mui/material/Alert'
-import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
-import { CheckCircleOutlineOutlined } from '@mui/icons-material'
+import { SnackbarCloseReason } from '@mui/material/Snackbar'
 import {
   currentNeuroglancer,
   currentNeuroglancerState,
@@ -38,6 +36,7 @@ import { Tooltip } from '../Tooltip'
 import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { getTutorialSteps } from './steps'
 import { Tour } from './Tour'
+import { CustomSnackbar } from '../common/CustomSnackbar'
 
 type Run = GetRunByIdV2Query['runs'][number]
 type Tomogram = GetRunByIdV2Query['tomograms'][number]
@@ -852,34 +851,20 @@ function ViewerPage({
           onMove={handleTourStepMove}
         />
       )}
-      <Snackbar
+      <CustomSnackbar
         open={snapActionClicked}
-        onClose={handleSnapSnackbarClose}
-      >
-        <Alert
-          onClose={handleSnapSnackbarClose}
-          severity="success"
-          variant="filled"
-          icon={<CheckCircleOutlineOutlined />}
-          sx={snackbarStyles}
-        >
-          {t('snapActionSuccess')}
-        </Alert>
-      </Snackbar>
-      <Snackbar
+        handleClose={handleSnapSnackbarClose}
+        variant="filled"
+        severity="success"
+        message={t('snapActionSuccess')}
+      />
+      <CustomSnackbar
         open={shareClicked}
-        onClose={handleShareSnackbarClose}
-      >
-        <Alert
-          onClose={handleShareSnackbarClose}
-          severity="success"
-          variant="filled"
-          icon={<CheckCircleOutlineOutlined />}
-          sx={snackbarStyles}
-        >
-          {t('shareActionSuccess')}
-        </Alert>
-      </Snackbar>
+        handleClose={handleShareSnackbarClose}
+        variant="filled"
+        severity="success"
+        message={t('shareActionSuccess')}
+      />
       <NeuroglancerBanner onStartTour={handleTourStartInNewTab} />
     </div>
   )
