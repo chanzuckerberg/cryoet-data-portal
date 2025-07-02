@@ -42,6 +42,7 @@ const adjustPanelSize = (stringState: string) => {
 export function useTour(tomogram: Tomogram | undefined) {
   const [tourRunning, setTourRunning] = useState(false)
   const [stepIndex, setStepIndex] = useState<number>(0)
+  const [proxyIndex, setProxyIndex] = useState<number>(0)
 
   const handleTourStartInNewTab = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()
@@ -65,19 +66,24 @@ export function useTour(tomogram: Tomogram | undefined) {
     index: number,
     action: (typeof ACTIONS)[keyof typeof ACTIONS],
   ) => {
+    const newIndex = action === ACTIONS.NEXT ? index + 1 : index - 1
     // To keep the tour in sync with the state, we need to update the
     // state, and then then tour index in the state update callback
-    const updateTourStepFromState = (layerControlVisibility: boolean) => {
+    const updateTourStepFromState = (layerControlVisibility?: boolean) => {
       updateState((state) => {
         const newState = state
-        newState.neuroglancer.selectedLayer!.visible = layerControlVisibility
+        if (layerControlVisibility !== undefined) {
+          newState.neuroglancer.selectedLayer!.visible = layerControlVisibility
+        }
         newState.tourStepIndex = newIndex
         return newState
       })
     }
 
-    const newIndex = action === ACTIONS.NEXT ? index + 1 : index - 1
-    if (newIndex < 3 || newIndex > 5) setStepIndex(newIndex)
+    // TODO replacing this fully was a bit much. What we should do instead
+    // is only call updateTourStepFromState when changing from 0 to 1
+    // (inital positioning)
+    if (newIndex < 3 || newIndex > 5) updateTourStepFromState()
     else if (newIndex === 4)
       updateTourStepFromState(false /* layerControlVisibility = */)
     else {
@@ -88,7 +94,7 @@ export function useTour(tomogram: Tomogram | undefined) {
         panelsDefaultValues.selectedLayer,
       )
       if (isPanelVisible) {
-        setStepIndex(newIndex)
+        updateTourStepFromState()
       } else {
         updateTourStepFromState(true /* layerControlVisibility = */)
       }
@@ -112,5 +118,7 @@ export function useTour(tomogram: Tomogram | undefined) {
     handleRestart,
     handleTourStepMove,
     handleTourStartInNewTab,
+    proxyIndex,
+    setProxyIndex,
   }
 }

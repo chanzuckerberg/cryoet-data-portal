@@ -411,6 +411,8 @@ function ViewerPage({
     handleTourClose,
     handleRestart,
     handleTourStepMove,
+    proxyIndex,
+    setProxyIndex,
   } = useTour(tomogram)
   const [renderVersion, setRenderVersion] = useState(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
@@ -447,7 +449,11 @@ function ViewerPage({
     scheduleRefresh()
     setTopBarVisibleFromSuperState()
     if (state.tourStepIndex) {
-      setStepIndex(state.tourStepIndex)
+      if (stepIndex !== state.tourStepIndex) {
+        console.log('setting tour proxy index to', state.tourStepIndex)
+        setProxyIndex(state.tourStepIndex)
+        setStepIndex(state.tourStepIndex)
+      }
     }
     if (!state.savedPanelsStatus) {
       return
@@ -792,12 +798,6 @@ function ViewerPage({
         )}
       </div>
       {run && tourRunning && (
-        <ProxyOverlayWrapper
-          selectors={proxyStepSelectors}
-          stepIndex={stepIndex}
-        />
-      )}
-      {run && tourRunning && (
         <Tour
           run={tourRunning}
           stepIndex={stepIndex}
@@ -805,6 +805,8 @@ function ViewerPage({
           onRestart={handleRestart}
           onClose={handleTourClose}
           onMove={handleTourStepMove}
+          proxySelectors={proxyStepSelectors}
+          proxyIndex={proxyIndex}
         />
       )}
       <CustomSnackbar

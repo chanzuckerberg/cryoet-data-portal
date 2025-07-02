@@ -10,7 +10,7 @@ import Joyride, {
 } from 'react-joyride'
 
 import { cns } from 'app/utils/cns'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 
 const ProxyOverlay: React.FC<{
   targetSelector: string
@@ -18,25 +18,7 @@ const ProxyOverlay: React.FC<{
   stepIndex: number
 }> = ({ targetSelector, className, stepIndex }) => {
   const [style, setStyle] = useState<React.CSSProperties | undefined>(undefined)
-  const hasPositioned = useRef(false)
   useEffect(() => {
-    console.log('ProxyOverlay useEffect called for:', targetSelector)
-    let intervalId: number
-
-    const checkPositioned = () => {
-      console.log('Checking position for:', targetSelector)
-      if (hasPositioned.current) {
-        console.log('Already positioned for:', targetSelector)
-        return
-      }
-      const ready = updatePosition()
-      if (ready && !hasPositioned.current) {
-        hasPositioned.current = true
-        clearInterval(intervalId)
-        window.removeEventListener('resize', updatePosition)
-      }
-    }
-
     const updatePosition = () => {
       const iframe = document.querySelector(
         'iframe',
@@ -63,12 +45,10 @@ const ProxyOverlay: React.FC<{
       return true
     }
 
-    // Poll for the initial position
-    intervalId = window.setInterval(checkPositioned, 1000)
+    window.addEventListener('resize', updatePosition)
     updatePosition()
 
     return () => {
-      clearInterval(intervalId)
       window.removeEventListener('resize', updatePosition)
     }
   }, [targetSelector, stepIndex])
@@ -108,6 +88,8 @@ interface CustomTourProps {
     index: number,
     action: (typeof ACTIONS)[keyof typeof ACTIONS],
   ) => void
+  proxySelectors: { target: string; className: string }[]
+  proxyIndex: number
 }
 
 const outlinedButtonStyles =
@@ -228,6 +210,8 @@ export function Tour({
   onRestart,
   onClose,
   onMove,
+  proxySelectors,
+  proxyIndex,
 }: CustomTourProps) {
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { action, index, origin, status, type } = data
@@ -248,23 +232,26 @@ export function Tour({
   }
 
   return (
-    <Joyride
-      steps={steps}
-      run={run}
-      stepIndex={stepIndex}
-      spotlightClicks
-      spotlightPadding={0}
-      continuous
-      disableOverlayClose
-      disableScrolling
-      floaterProps={{ hideArrow: true }}
-      styles={{
-        options: {
-          zIndex: 10000,
-        },
-      }}
-      callback={handleJoyrideCallback}
-      tooltipComponent={(props) => CustomTooltip(props, onRestart, onClose)}
-    />
+    <div>
+      <ProxyOverlayWrapper selectors={proxySelectors} stepIndex={proxyIndex} />
+      <Joyride
+        steps={steps}
+        run={run}
+        stepIndex={stepIndex}
+        spotlightClicks
+        spotlightPadding={0}
+        continuous
+        disableOverlayClose
+        disableScrolling
+        floaterProps={{ hideArrow: true }}
+        styles={{
+          options: {
+            zIndex: 10000,
+          },
+        }}
+        callback={handleJoyrideCallback}
+        tooltipComponent={(props) => CustomTooltip(props, onRestart, onClose)}
+      />
+    </div>
   )
 }
