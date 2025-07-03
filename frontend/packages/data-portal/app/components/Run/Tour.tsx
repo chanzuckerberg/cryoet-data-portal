@@ -10,7 +10,7 @@ import Joyride, {
 } from 'react-joyride'
 
 import { cns } from 'app/utils/cns'
-import { useEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 
 const ProxyOverlay: React.FC<{
   targetSelector: string
@@ -18,7 +18,8 @@ const ProxyOverlay: React.FC<{
   stepIndex: number
 }> = ({ targetSelector, className, stepIndex }) => {
   const [style, setStyle] = useState<React.CSSProperties | undefined>(undefined)
-  useEffect(() => {
+  // Note might want to use useLayoutEffect here
+  useLayoutEffect(() => {
     const updatePosition = () => {
       const iframe = document.querySelector(
         'iframe',

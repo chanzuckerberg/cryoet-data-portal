@@ -80,10 +80,11 @@ export function useTour(tomogram: Tomogram | undefined) {
       })
     }
 
-    // TODO replacing this fully was a bit much. What we should do instead
-    // is only call updateTourStepFromState when changing from 0 to 1
-    // (inital positioning)
-    if (newIndex < 3 || newIndex > 5) updateTourStepFromState()
+    if (newIndex === 1 && action === ACTIONS.NEXT) {
+      updateTourStepFromState()
+      return
+    }
+    if (newIndex < 3 || newIndex > 5) setStepIndex(newIndex)
     else if (newIndex === 4)
       updateTourStepFromState(false /* layerControlVisibility = */)
     else {
@@ -94,7 +95,7 @@ export function useTour(tomogram: Tomogram | undefined) {
         panelsDefaultValues.selectedLayer,
       )
       if (isPanelVisible) {
-        updateTourStepFromState()
+        setStepIndex(newIndex)
       } else {
         updateTourStepFromState(true /* layerControlVisibility = */)
       }
