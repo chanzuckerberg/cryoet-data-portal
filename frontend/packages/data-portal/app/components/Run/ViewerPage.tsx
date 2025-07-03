@@ -557,7 +557,8 @@ function ViewerPage({
     setSnapActionClicked(false)
   }
 
-  const helperText = 'text-xs text-[#767676] font-normal'
+  const helperText =
+    'text-light-sds-color-primitive-gray-600 text-sds-body-xxxs-400-narrow'
   const activeBreadcrumbText = (
     <Tooltip
       tooltip={`Go to Run ${run.name || t('runName')}`}
@@ -568,7 +569,7 @@ function ViewerPage({
       </a>
       <a
         href={`${window.origin}/runs/${run.id}`}
-        className="text-sds-color-primitive-common-white opacity-60 pl-1"
+        className="text-dark-sds-color-primitive-gray-900 opacity-60 pl-1"
       >
         (RN-{run.id})
       </a>
@@ -579,18 +580,35 @@ function ViewerPage({
     id: run.dataset?.id || 0,
     title: run.dataset?.title || 'dataset',
   }
+
+  useEffect(() => {
+    if (shareClicked) {
+      setTimeout(() => {
+        setShareClicked(false)
+      }, 6000)
+    }
+  }, [shareClicked])
+
+  useEffect(() => {
+    if (snapActionClicked) {
+      setTimeout(() => {
+        setSnapActionClicked(false)
+      }, 6000)
+    }
+  }, [snapActionClicked])
+
   return (
     <div className="flex flex-col overflow-hidden h-full relative bg-dark-sds-color-primitive-gray-50">
       <nav
         className={cns(
-          'bg-sds-color-primitive-common-black text-sds-color-primitive-common-white',
+          'bg-dark-sds-color-primitive-gray-50 text-dark-sds-color-primitive-gray-900',
           'flex flex-shrink-0 py-1 flex-col',
           'sticky top-0 z-30 max-h-20 items-start',
           'sm:flex-row sm:max-h-12 sm:items-center',
         )}
       >
         <div className="flex items-center gap-1 md:gap-4">
-          <CryoETHomeLink textSize="text-sm" />
+          <CryoETHomeLink textSize="text-sds-body-s-400-narrow" />
           <Breadcrumbs
             variant="neuroglancer"
             data={breadcrumbsData}
@@ -625,7 +643,7 @@ function ViewerPage({
                             {depositions?.[0].annotation?.deposition?.title ||
                               'Deposition'}
                           </span>
-                          <span className="text-xs text-[#767676] font-normal">
+                          <span className="text-sds-body-xxxs-400-narrow text-light-sds-color-primitive-gray-600">
                             CZCDP-{depositionId}
                           </span>
                         </CustomDropdownOption>
@@ -810,7 +828,6 @@ function ViewerPage({
       )}
       <CustomSnackbar
         open={snapActionClicked}
-        autoHideDuration={6000}
         handleClose={handleSnapSnackbarClose}
         variant="filled"
         severity="success"
@@ -818,7 +835,6 @@ function ViewerPage({
       />
       <CustomSnackbar
         open={shareClicked}
-        autoHideDuration={6000}
         handleClose={handleShareSnackbarClose}
         variant="filled"
         severity="success"
