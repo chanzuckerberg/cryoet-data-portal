@@ -36,7 +36,7 @@ import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { Tooltip } from '../Tooltip'
 import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { getTutorialSteps, proxyStepSelectors } from './steps'
-import { ProxyOverlayWrapper, Tour } from './Tour'
+import { Tour } from './Tour'
 
 type Run = GetRunByIdV2Query['runs'][number]
 type Tomogram = GetRunByIdV2Query['tomograms'][number]
@@ -450,7 +450,6 @@ function ViewerPage({
     setTopBarVisibleFromSuperState()
     if (state.tourStepIndex) {
       if (stepIndex !== state.tourStepIndex) {
-        console.log('setting tour proxy index to', state.tourStepIndex)
         setProxyIndex(state.tourStepIndex)
         setStepIndex(state.tourStepIndex)
       }

@@ -81,24 +81,30 @@ export function useTour(tomogram: Tomogram | undefined) {
     }
 
     if (newIndex === 1 && action === ACTIONS.NEXT) {
+      // Special case: starting the tour from the beginning
+      // This lets us know when neuroglancer is ready
+      // and we can move the proxy elements to the right place
       updateTourStepFromState()
       return
     }
-    if (newIndex < 3 || newIndex > 5) setStepIndex(newIndex)
-    else if (newIndex === 4)
+
+    if (newIndex === 4) {
+      // Step 4 always triggers update as we force layer hidden
       updateTourStepFromState(false /* layerControlVisibility = */)
-    else {
-      // On step 3 and 5 we may not need to update the state,
-      const { neuroglancer } = currentState()
-      const isPanelVisible = boolValue(
-        neuroglancer.selectedLayer?.visible,
-        panelsDefaultValues.selectedLayer,
-      )
-      if (isPanelVisible) {
-        setStepIndex(newIndex)
-      } else {
-        updateTourStepFromState(true /* layerControlVisibility = */)
-      }
+      return
+    }
+
+    // Steps 3 and 5 — only update state if panel visibility needs to change
+    const { neuroglancer } = currentState()
+    const isPanelVisible = boolValue(
+      neuroglancer.selectedLayer?.visible,
+      panelsDefaultValues.selectedLayer,
+    )
+
+    if (isPanelVisible) {
+      setStepIndex(newIndex)
+    } else {
+      updateTourStepFromState(true /* layerControlVisibility = */)
     }
   }
 

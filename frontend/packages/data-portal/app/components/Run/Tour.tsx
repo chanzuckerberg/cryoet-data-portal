@@ -1,4 +1,5 @@
 import { Icon } from '@czi-sds/components'
+import { useLayoutEffect, useState } from 'react'
 import Joyride, {
   ACTIONS,
   CallBackProps,
@@ -10,26 +11,25 @@ import Joyride, {
 } from 'react-joyride'
 
 import { cns } from 'app/utils/cns'
-import { useLayoutEffect, useState } from 'react'
 
-const ProxyOverlay: React.FC<{
+function ProxyOverlay({
+  targetSelector,
+  className,
+  stepIndex,
+}: {
   targetSelector: string
   className: string
   stepIndex: number
-}> = ({ targetSelector, className, stepIndex }) => {
+}) {
   const [style, setStyle] = useState<React.CSSProperties | undefined>(undefined)
-  // Note might want to use useLayoutEffect here
   useLayoutEffect(() => {
     const updatePosition = () => {
-      const iframe = document.querySelector(
-        'iframe',
-      ) as HTMLIFrameElement | null
+      const iframe = document.querySelector('iframe')
       const target = iframe?.contentDocument?.querySelector(
         targetSelector,
       ) as HTMLElement | null
       if (!iframe || !target) return
 
-      console.log('Updating position for:', targetSelector)
       const iframeRect = iframe.getBoundingClientRect()
       const targetRect = target.getBoundingClientRect()
 
@@ -43,7 +43,6 @@ const ProxyOverlay: React.FC<{
         pointerEvents: 'none',
         backgroundColor: 'transparent',
       })
-      return true
     }
 
     window.addEventListener('resize', updatePosition)
@@ -54,17 +53,17 @@ const ProxyOverlay: React.FC<{
     }
   }, [targetSelector, stepIndex])
 
-  console.log('Rendering ProxyOverlay for:', targetSelector)
   const sanitizedSelector = targetSelector.replace(/[^a-zA-Z0-9-_:.]/g, '-')
   return <div className={className} id={sanitizedSelector} style={style} />
 }
 
-export const ProxyOverlayWrapper: React.FC<{
+function ProxyOverlayGroup({
+  selectors,
+  stepIndex,
+}: {
   selectors: { target: string; className: string }[]
   stepIndex: number
-}> = ({ selectors, stepIndex }) => {
-  // Get the unique target selectors from the steps
-  console.log('ProxyOverlayWrapper selectors:', selectors)
+}) {
   return (
     <>
       {selectors.map((selector) => (
@@ -234,7 +233,7 @@ export function Tour({
 
   return (
     <div>
-      <ProxyOverlayWrapper selectors={proxySelectors} stepIndex={proxyIndex} />
+      <ProxyOverlayGroup selectors={proxySelectors} stepIndex={proxyIndex} />
       <Joyride
         steps={steps}
         run={run}
