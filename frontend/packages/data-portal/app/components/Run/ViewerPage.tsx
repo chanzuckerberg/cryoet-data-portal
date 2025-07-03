@@ -35,7 +35,7 @@ import {
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
 import { Tooltip } from '../Tooltip'
 import { NeuroglancerBanner } from './NeuroglancerBanner'
-import { getTutorialSteps } from './steps'
+import { getTutorialSteps, proxyStepSelectors } from './steps'
 import { Tour } from './Tour'
 
 type Run = GetRunByIdV2Query['runs'][number]
@@ -411,6 +411,8 @@ function ViewerPage({
     handleTourClose,
     handleRestart,
     handleTourStepMove,
+    proxyIndex,
+    setProxyIndex,
   } = useTour(tomogram)
   const [renderVersion, setRenderVersion] = useState(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
@@ -447,7 +449,10 @@ function ViewerPage({
     scheduleRefresh()
     setTopBarVisibleFromSuperState()
     if (state.tourStepIndex) {
-      setStepIndex(state.tourStepIndex)
+      if (stepIndex !== state.tourStepIndex) {
+        setProxyIndex(state.tourStepIndex)
+        setStepIndex(state.tourStepIndex)
+      }
     }
     if (!state.savedPanelsStatus) {
       return
@@ -817,6 +822,8 @@ function ViewerPage({
           onRestart={handleRestart}
           onClose={handleTourClose}
           onMove={handleTourStepMove}
+          proxySelectors={proxyStepSelectors}
+          proxyIndex={proxyIndex}
         />
       )}
       <CustomSnackbar

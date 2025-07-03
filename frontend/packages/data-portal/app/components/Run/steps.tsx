@@ -31,59 +31,26 @@ const keyboardShortcuts = [
   { key: 's', description: 'Toggle cross-sections' },
 ]
 
-const getIframeElement = (selector: string): HTMLElement | string => {
-  const iframe = document.querySelector('iframe')
-  if (iframe?.contentDocument) {
-    const element = iframe.contentDocument.querySelector(
-      selector,
-    ) as HTMLElement
-    // Check if a proxy element already exists
-    const existingProxy = document.getElementById(
-      selector.replace(/[^a-zA-Z0-9]/g, '-'),
-    )
-    let proxyElement: HTMLElement | undefined
-    if (existingProxy) {
-      proxyElement = existingProxy as HTMLElement
-    } else if (element) {
-
-      proxyElement = document.createElement('div')
-      proxyElement.id = selector.replace(/[^a-zA-Z0-9]/g, '-')
-      proxyElement.className = 'joyride-iframe-proxy'
-      proxyElement.style.position = 'absolute'
-      proxyElement.style.zIndex = '-1'
-      proxyElement.style.pointerEvents = 'none'
-      proxyElement.style.backgroundColor = 'transparent'
-      document.body.appendChild(proxyElement)
-
-      window.addEventListener('resize', () => {
-        const iframeElement = document.querySelector('iframe')
-        if (!iframeElement || !iframeElement.contentDocument) {
-          return
-        }
-        const targetElement = iframeElement.contentDocument.querySelector(
-          selector,
-        ) as HTMLElement
-        const newRect = targetElement.getBoundingClientRect()
-        const iframeRect = iframeElement.getBoundingClientRect()
-        proxyElement!.style.top = `${newRect.top + iframeRect.top}px`
-        proxyElement!.style.left = `${newRect.left + iframeRect.left}px`
-        proxyElement!.style.width = `${newRect.width}px`
-        proxyElement!.style.height = `${newRect.height}px`
-      })
-    }
-    if (element && proxyElement) {
-      const rect = element.getBoundingClientRect()
-      const iframeRect = iframe.getBoundingClientRect()
-      proxyElement.style.top = `${rect.top + iframeRect.top}px`
-      proxyElement.style.left = `${rect.left + iframeRect.left}px`
-      proxyElement.style.width = `${rect.width}px`
-      proxyElement.style.height = `${rect.height}px`
-
-      return proxyElement
-    }
-  }
-  return 'body'
-}
+export const proxyStepSelectors: { target: string; className: string }[] = [
+  {
+    target:
+      '.neuroglancer-layer-group-viewer:has(.neuroglancer-rendered-data-panel)',
+    className: 'joyride-proxy-layer-group-viewer',
+  },
+  {
+    target:
+      '.neuroglancer-side-panel:has(.neuroglancer-layer-list-panel-items)',
+    className: 'joyride-proxy-side-panel',
+  },
+  {
+    target: '.neuroglancer-layer-side-panel-tab-view',
+    className: 'joyride-proxy-layer-side-panel-tab-view',
+  },
+  {
+    target: '.neuroglancer-viewer-top-row',
+    className: 'joyride-proxy-viewer-top-row',
+  },
+]
 
 export const getTutorialSteps: () => Step[] = () => [
   {
@@ -117,9 +84,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement(
-      '.neuroglancer-layer-group-viewer:has(.neuroglancer-rendered-data-panel)',
-    ),
+    target: '.joyride-proxy-layer-group-viewer',
     title: 'Main viewport',
     placement: 'left-start',
     disableBeacon: true,
@@ -142,9 +107,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement(
-      '.neuroglancer-layer-group-viewer:has(.neuroglancer-rendered-data-panel)',
-    ),
+    target: '.joyride-proxy-layer-group-viewer',
     title: 'Essential controls',
     placement: 'left-start',
     disableBeacon: true,
@@ -167,9 +130,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement(
-      '.neuroglancer-layer-group-viewer:has(.neuroglancer-rendered-data-panel)',
-    ),
+    target: '.joyride-proxy-layer-group-viewer',
     title: 'Keyboard shortcuts',
     placement: 'left-start',
     disableBeacon: true,
@@ -194,9 +155,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement(
-      '.neuroglancer-side-panel:has(.neuroglancer-layer-list-panel-items)',
-    ),
+    target: '.joyride-proxy-side-panel',
     title: 'Layer management',
     placement: 'right-start',
     disableBeacon: true,
@@ -223,7 +182,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement('.neuroglancer-layer-side-panel-tab-view'),
+    target: '.joyride-proxy-layer-side-panel-tab-view',
     title: 'Layer controls',
     placement: 'right-start',
     disableBeacon: true,
@@ -240,7 +199,7 @@ export const getTutorialSteps: () => Step[] = () => [
     ),
   },
   {
-    target: getIframeElement('.neuroglancer-viewer-top-row'),
+    target: '.joyride-proxy-viewer-top-row',
     title: 'Controls top panel',
     placement: 'bottom-end',
     disableBeacon: true,
