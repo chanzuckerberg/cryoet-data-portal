@@ -15,6 +15,7 @@ export enum MetadataDrawerId {
 export enum MetadataTab {
   HowToCite = 'howToCite',
   Metadata = 'metadata',
+  ObjectOverview = 'objectOverview',
 }
 
 export function useMetadataDrawer() {
