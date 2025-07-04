@@ -7,6 +7,7 @@ import {
   GroundTruthAnnotationFilter,
   TiltRangeFilter,
 } from 'app/components/Filters'
+import { ObjectNameIdFilter } from 'app/components/Filters/ObjectNameIdFilter/ObjectNameIdFilter'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useFeatureFlag } from 'app/utils/featureFlags'
@@ -17,6 +18,7 @@ import { QualityScoreFilter } from './QualityScoreFilter'
 export function RunFilter() {
   const { t } = useI18n()
   const showDepositions = useFeatureFlag('depositions')
+  const showObjectNameIdFilter = useFeatureFlag('identifiedObjects')
   const { objectNames, objectShapeTypes } = useDatasetById()
 
   return (
@@ -27,12 +29,21 @@ export function RunFilter() {
 
       {showDepositions && <NameOrIdFilterSection />}
 
-      <FilterSection title={t('annotationMetadata')}>
-        <AnnotatedObjectNameFilter
-          allObjectNames={objectNames}
-          label={t('objectName')}
-        />
-        <ObjectIdFilter />
+      <FilterSection title={t('objectMetadata')}>
+        {showObjectNameIdFilter ? (
+          <ObjectNameIdFilter
+            label={t('objectNameOrId')}
+            objectNames={objectNames}
+          />
+        ) : (
+          <>
+            <AnnotatedObjectNameFilter
+              allObjectNames={objectNames}
+              label={t('objectName')}
+            />
+            <ObjectIdFilter />
+          </>
+        )}
         <AnnotatedObjectShapeTypeFilter
           allObjectShapeTypes={objectShapeTypes}
         />
