@@ -8,11 +8,13 @@ export type FeatureFlagKey =
   | 'depositions'
   | 'expandDepositions'
   | 'postMlChallenge'
+  | 'identifiedObjects'
 
 export const FEATURE_FLAGS: Record<FeatureFlagKey, FeatureFlagEnvironment[]> = {
   depositions: ['local', 'dev', 'staging', 'prod'],
   expandDepositions: ['local', 'dev'],
   postMlChallenge: ['local', 'dev', 'staging', 'prod'],
+  identifiedObjects: ['local', 'dev'],
 }
 
 const ENABLE_FEATURE_PARAM = 'enable-feature'
