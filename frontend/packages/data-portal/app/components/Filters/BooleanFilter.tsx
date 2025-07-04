@@ -10,17 +10,19 @@ export function BooleanFilter({
   onChange,
   value,
   wrapped,
+  hasTag = false,
 }: {
   caption?: string
   label: string
   onChange(value: boolean): void
   value: boolean
   wrapped?: boolean
+  hasTag?: boolean
 }) {
   return (
     <div
       className={cns(
-        'pt-sds-m pl-sds-s pb-sds-s',
+        hasTag && 'pt-sds-m pl-sds-s pb-sds-s',
         styles.boolean,
         !wrapped && 'whitespace-nowrap',
         wrapped && 'max-w-[185px]',

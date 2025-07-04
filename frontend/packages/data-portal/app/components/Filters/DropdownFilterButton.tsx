@@ -78,41 +78,58 @@ export function DropdownFilterButton({
       {/* active filter chips  */}
       {activeFilters.length > 0 && (
         <div className="flex flex-col gap-sds-xs">
-          {activeFilters.map((filter) => {
-            return (
-              <div
-                key={`${filter.value}-${filter.queryParam}-${filter.label}`}
-                className="pl-sds-s flex flex-col"
-              >
-                {filter.label && (
-                  <p className="text-sds-body-xs-400-wide leading-sds-body-xs text-light-sds-color-primitive-gray-500 uppercase">
-                    {filter.label}
-                  </p>
-                )}
+          {(() => {
+            // Group filters by their label (type)
+            const groupedFilters = activeFilters.reduce(
+              (acc, filter) => {
+                const key = filter.label || 'default'
+                if (!acc[key]) {
+                  acc[key] = []
+                }
+                acc[key].push(filter)
+                return acc
+              },
+              {} as Record<string, typeof activeFilters>,
+            )
 
-                <div>
-                  <div className="bg-light-sds-color-primitive-blue-600 rounded-sds-m py-sds-xxs px-sds-s inline-flex items-center gap-sds-s">
-                    <span className="text-sds-body-xs-400-wide leading-sds-body-xs font-semibold text-white">
-                      {getPrefixedId(filter.value, filter.queryParam)}
-                    </span>
+            return Object.entries(groupedFilters).map(
+              ([groupLabel, filters]) => (
+                <div key={groupLabel} className="pl-sds-s flex flex-col">
+                  {groupLabel !== 'default' && groupLabel && (
+                    <p className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs text-light-sds-color-primitive-gray-500 uppercase mb-sds-xxs">
+                      {groupLabel}
+                    </p>
+                  )}
 
-                    <Button
-                      className="!min-w-0 !w-0"
-                      onClick={() => onRemoveFilter(filter)}
-                      aria-label="remove-filter"
-                      sdsStyle="minimal"
-                    >
-                      <Icon
-                        className="!fill-white !w-[10px] !h-[10px]"
-                        sdsIcon="XMark"
-                        sdsSize="xs"
-                      />
-                    </Button>
+                  <div className="flex flex-wrap gap-sds-xxs">
+                    {filters.map((filter) => (
+                      <div
+                        key={`${filter.value}-${filter.queryParam}-${filter.label}`}
+                        className="bg-light-sds-color-semantic-accent-fill-primary rounded-sds-m py-sds-xxs px-sds-s mr-sds-m inline-flex items-center gap-sds-s hover:bg-light-sds-color-primitive-blue-600 hover:cursor-pointer transition-colors"
+                      >
+                        <span className="text-sds-body-xs-400-wide leading-sds-body-xs font-semibold text-white">
+                          {getPrefixedId(filter.value, filter.queryParam)}
+                        </span>
+
+                        <Button
+                          className="!min-w-0 !w-0"
+                          onClick={() => onRemoveFilter(filter)}
+                          aria-label="remove-filter"
+                          sdsStyle="minimal"
+                        >
+                          <Icon
+                            className="!fill-white !w-[10px] !h-[10px]"
+                            sdsIcon="XMark"
+                            sdsSize="xs"
+                          />
+                        </Button>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
+              ),
             )
-          })}
+          })()}
         </div>
       )}
 

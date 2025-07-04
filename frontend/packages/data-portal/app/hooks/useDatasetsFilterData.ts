@@ -31,7 +31,7 @@ export function useDatasetsFilterData() {
         ?.map((aggregate) => aggregate.groupBy?.reconstructionSoftware)
         .filter(isDefined) ?? [],
     objectNames:
-      v2.distinctObjectNames.aggregate
+      v2.distinctObjectNames?.aggregate
         ?.map((aggregate) => aggregate.groupBy?.objectName)
         .filter(isDefined) ?? [],
     objectShapeTypes:
