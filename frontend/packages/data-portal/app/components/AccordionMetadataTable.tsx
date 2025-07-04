@@ -43,7 +43,7 @@ export function AccordionMetadataTable({
     return (
       Array.isArray(objectTableData) &&
       objectTableData.length > 0 &&
-      'data' in objectTableData
+      objectTableData.every(item => 'data' in item)
     )
   }
 
