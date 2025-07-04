@@ -50,7 +50,6 @@ export interface MultiSelectProps extends SelectPropsBase {
   multiple: true
   activeKeys: string[]
   onChange(keys: string[]): void
-  maxDisplayedItems?: number
 }
 
 export type SelectProps = SingleSelectProps | MultiSelectProps
@@ -80,9 +79,6 @@ export function Select(props: SelectProps) {
   const onChange = multiple
     ? (props as MultiSelectProps).onChange
     : (props as SingleSelectProps).onChange
-  const maxDisplayedItems = multiple
-    ? (props as MultiSelectProps).maxDisplayedItems ?? 3
-    : 0
 
   const activeOptions = useMemo(() => {
     if (multiple) {
@@ -136,7 +132,6 @@ export function Select(props: SelectProps) {
   const [open, setOpen] = useState(false)
 
   const closeDropdown = useCallback(() => {
-    console.debug('Closing dropdown')
     setAnchorEl(null)
     setOpen(false)
   }, [])
@@ -241,6 +236,8 @@ export function Select(props: SelectProps) {
         value={multiple ? activeSdsOptions : activeSdsOption}
         anchorEl={anchorEl}
         onClose={closeDropdown}
+        // @ts-expect-error sds types are not correct
+        // eslint-disable-next-line react/jsx-no-bind
         onChange={handleOnChange}
         onClickAway={closeDropdown}
         search={search}

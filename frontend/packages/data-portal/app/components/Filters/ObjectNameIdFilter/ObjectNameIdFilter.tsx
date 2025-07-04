@@ -262,7 +262,6 @@ export function ObjectNameIdFilter({
           }
           showActiveValue
           showDetails={false}
-          maxDisplayedItems={2}
         />
 
         <PrefixValueProvider initialOptions={prefixOptions}>

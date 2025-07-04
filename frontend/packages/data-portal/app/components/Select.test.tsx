@@ -12,19 +12,46 @@ const TEST_OPTIONS: SelectOption[] = Array(3)
     label: `Label ${idx}`,
   }))
 
+interface TestSelectProps
+  extends Partial<Omit<SelectProps, 'activeKey' | 'activeKeys' | 'onChange'>> {
+  activeKey?: string | null
+  activeKeys?: string[]
+  onChange?:
+    | jest.Mock
+    | ((key: string | null) => void)
+    | ((keys: string[]) => void)
+}
+
 function renderSelect({
   activeKey = null,
   label = 'Test Label',
   onChange = jest.fn(),
   ...props
-}: Partial<SelectProps> = {}) {
+}: TestSelectProps = {}) {
+  const baseProps = {
+    label,
+    options: TEST_OPTIONS,
+    ...props,
+  }
+
+  // Default to single select props if no multiple specified
+  if (props.multiple) {
+    return render(
+      <Select
+        {...baseProps}
+        multiple
+        activeKeys={props.activeKeys || []}
+        onChange={onChange as (keys: string[]) => void}
+      />,
+    )
+  }
+
   return render(
     <Select
+      {...baseProps}
+      multiple={false}
       activeKey={activeKey}
-      label={label}
-      onChange={onChange}
-      options={TEST_OPTIONS}
-      {...props}
+      onChange={onChange as (key: string | null) => void}
     />,
   )
 }
