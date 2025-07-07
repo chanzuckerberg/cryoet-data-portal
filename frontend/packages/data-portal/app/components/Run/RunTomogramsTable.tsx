@@ -123,7 +123,7 @@ export function RunTomogramsTable() {
             </p>
 
             {tomogram.isPortalStandard && (
-              <Tooltip tooltip={<I18n i18nKey="alignmentIdCanonicalTooltip" />}>
+              <Tooltip tooltip={<I18n i18nKey="alignmentIdTooltip" />}>
                 <p
                   className={cnsNoMerge(
                     'text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-semantic-base-text-secondary',
