@@ -140,9 +140,14 @@ describe('<Select />', () => {
       screen.getByText(`${activeOption.label ?? activeOption.key}`),
     )
 
+    // Close the dropdown by pressing Escape since disableCloseOnSelect is true
+    await userEvent.keyboard('{Escape}')
+
+    // Now check that the option is selected (should show the value, not the label)
+    expect(screen.getByText(activeOption.value)).toBeVisible()
+    // The dropdown should be closed, so the option labels should not be visible
     expect(
       screen.queryByText(activeOption.label ?? activeOption.key),
     ).not.toBeInTheDocument()
-    expect(screen.queryByText(activeOption.value)).not.toBeInTheDocument()
   })
 })
