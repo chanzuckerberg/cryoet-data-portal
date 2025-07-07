@@ -10,10 +10,8 @@ import {
 import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
 
-import {
-  ActiveDropdownFilterData,
-  DropdownFilterButton,
-} from './DropdownFilterButton/DropdownFilterButton'
+import { ActiveDropdownFilterData } from './DropdownFilterButton/components/FilterChips/FilterChips'
+import { DropdownFilterButton } from './DropdownFilterButton/DropdownFilterButton'
 
 function TiltRangeInput({
   id,

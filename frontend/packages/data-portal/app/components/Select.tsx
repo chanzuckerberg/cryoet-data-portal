@@ -237,7 +237,7 @@ export function Select(props: SelectProps) {
         anchorEl={anchorEl}
         onClose={closeDropdown}
         // @ts-expect-error sds types are not correct
-        // eslint-disable-next-line react/jsx-no-bind
+
         onChange={handleOnChange}
         onClickAway={closeDropdown}
         search={search}
