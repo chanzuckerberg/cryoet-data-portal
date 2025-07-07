@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import { PrefixOption } from 'app/components/AnnotationFilter/ObjectIdFilter/PrefixValueContext'
 import { QueryParams } from 'app/constants/query'
 
-import { DropdownFilterButton } from './DropdownFilterButton'
+import { DropdownFilterButton } from './DropdownFilterButton/DropdownFilterButton'
 import { InputFilter } from './InputFilter'
 import { PrefixOptionFilter } from './PrefixOptionFilter'
 

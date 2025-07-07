@@ -134,7 +134,6 @@ describe('<SelectFilter />', () => {
     // Wait for the button to appear and then click it
     const button = await screen.findByRole('button')
     await userEvent.click(button)
-    
     // Wait for the combobox to appear after clicking the button
     const combobox = await screen.findByRole('combobox')
     await userEvent.type(combobox, '1')

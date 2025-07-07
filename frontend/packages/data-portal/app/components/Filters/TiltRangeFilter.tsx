@@ -13,7 +13,7 @@ import { useI18n } from 'app/hooks/useI18n'
 import {
   ActiveDropdownFilterData,
   DropdownFilterButton,
-} from './DropdownFilterButton'
+} from './DropdownFilterButton/DropdownFilterButton'
 
 function TiltRangeInput({
   id,

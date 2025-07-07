@@ -1,18 +1,15 @@
 import { Button, Icon } from '@czi-sds/components'
 // eslint-disable-next-line cryoet-data-portal/no-root-mui-import
 import { Popover } from '@mui/material'
-import { ReactNode, useRef, useState } from 'react'
+import { ReactNode, useMemo, useRef, useState } from 'react'
 
-import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
-import { getPrefixedId } from 'app/utils/idPrefixes'
 
-export interface ActiveDropdownFilterData {
-  label?: string
-  queryParam?: QueryParams
-  value: string
-}
+import {
+  ActiveDropdownFilterData,
+  FilterChips,
+} from './components/FilterChips/FilterChips'
 
 export interface DropdownFilterButtonProps {
   activeFilters: ActiveDropdownFilterData[]
@@ -24,6 +21,20 @@ export interface DropdownFilterButtonProps {
   onCancel(): void
   onOpen?(): void
   onRemoveFilter(filter: ActiveDropdownFilterData): void
+}
+
+function groupFiltersByLabel(filters: ActiveDropdownFilterData[]) {
+  return filters.reduce(
+    (acc, filter) => {
+      const key = filter.label || 'default'
+      if (!acc[key]) {
+        acc[key] = []
+      }
+      acc[key].push(filter)
+      return acc
+    },
+    {} as Record<string, ActiveDropdownFilterData[]>,
+  )
 }
 
 export function DropdownFilterButton({
@@ -41,9 +52,14 @@ export function DropdownFilterButton({
   const buttonRef = useRef<HTMLButtonElement>(null)
   const { t } = useI18n()
 
+  // Memoize the grouped filters to avoid recalculating on every render
+  const groupedFilters = useMemo(
+    () => groupFiltersByLabel(activeFilters),
+    [activeFilters],
+  )
+
   return (
     <div>
-      {/* Filter button  */}
       <Button
         sdsStyle="minimal"
         className={cns(
@@ -75,65 +91,15 @@ export function DropdownFilterButton({
         />
       </Button>
 
-      {/* active filter chips  */}
       {activeFilters.length > 0 && (
         <div className="flex flex-col gap-sds-xs">
-          {(() => {
-            // Group filters by their label (type)
-            const groupedFilters = activeFilters.reduce(
-              (acc, filter) => {
-                const key = filter.label || 'default'
-                if (!acc[key]) {
-                  acc[key] = []
-                }
-                acc[key].push(filter)
-                return acc
-              },
-              {} as Record<string, typeof activeFilters>,
-            )
-
-            return Object.entries(groupedFilters).map(
-              ([groupLabel, filters]) => (
-                <div key={groupLabel} className="pl-sds-s flex flex-col">
-                  {groupLabel !== 'default' && groupLabel && (
-                    <p className="text-sds-caps-xxxs-600-wide leading-sds-caps-xxxs text-light-sds-color-primitive-gray-500 uppercase mb-sds-xxs">
-                      {groupLabel}
-                    </p>
-                  )}
-
-                  <div className="flex flex-wrap gap-sds-xxs">
-                    {filters.map((filter) => (
-                      <div
-                        key={`${filter.value}-${filter.queryParam}-${filter.label}`}
-                        className="bg-light-sds-color-semantic-accent-fill-primary rounded-sds-m py-sds-xxs px-sds-s mr-sds-m inline-flex items-center gap-sds-s hover:bg-light-sds-color-primitive-blue-600 hover:cursor-pointer transition-colors"
-                      >
-                        <span className="text-sds-body-xs-400-wide leading-sds-body-xs font-semibold text-white">
-                          {getPrefixedId(filter.value, filter.queryParam)}
-                        </span>
-
-                        <Button
-                          className="!min-w-0 !w-0"
-                          onClick={() => onRemoveFilter(filter)}
-                          aria-label="remove-filter"
-                          sdsStyle="minimal"
-                        >
-                          <Icon
-                            className="!fill-white !w-[10px] !h-[10px]"
-                            sdsIcon="XMark"
-                            sdsSize="xs"
-                          />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ),
-            )
-          })()}
+          <FilterChips
+            groupedFilters={groupedFilters}
+            onRemoveFilter={onRemoveFilter}
+          />
         </div>
       )}
 
-      {/* filter popup */}
       <Popover
         anchorEl={buttonRef.current}
         open={open}

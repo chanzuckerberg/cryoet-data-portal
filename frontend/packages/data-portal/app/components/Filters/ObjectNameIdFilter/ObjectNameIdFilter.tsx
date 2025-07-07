@@ -12,7 +12,7 @@ import { isFilterPrefixValid, removeIdPrefix } from 'app/utils/idPrefixes'
 import { arrayToString, stringToArray } from 'app/utils/string'
 
 import { BooleanFilter } from '../BooleanFilter'
-import { DropdownFilterButton } from '../DropdownFilterButton'
+import { DropdownFilterButton } from '../DropdownFilterButton/DropdownFilterButton'
 
 export interface InputFilterData {
   id: string

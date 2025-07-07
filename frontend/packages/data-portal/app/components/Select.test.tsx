@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { Select, SelectOption, SelectProps } from './Select'
@@ -130,9 +130,22 @@ describe('<Select />', () => {
   })
 
   it('should set active value on click', async () => {
-    renderSelect()
-
     const activeOption = TEST_OPTIONS[1]
+    let selectedKey: string | null = null
+
+    const onChange = jest.fn((key: string | null) => {
+      selectedKey = key
+    })
+
+    const { container, rerender } = render(
+      <Select
+        activeKey={selectedKey}
+        label="Test Label"
+        onChange={onChange}
+        options={TEST_OPTIONS}
+      />,
+    )
+
     expect(screen.queryByText(activeOption.value)).not.toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button'))
@@ -140,14 +153,32 @@ describe('<Select />', () => {
       screen.getByText(`${activeOption.label ?? activeOption.key}`),
     )
 
-    // Close the dropdown by pressing Escape since disableCloseOnSelect is true
-    await userEvent.keyboard('{Escape}')
+    // Verify onChange was called with the correct key
+    expect(onChange).toHaveBeenCalledWith(activeOption.key)
 
-    // Now check that the option is selected (should show the value, not the label)
-    expect(screen.getByText(activeOption.value)).toBeVisible()
+    // Re-render with the new selected state
+    rerender(
+      <Select
+        activeKey={selectedKey}
+        label="Test Label"
+        onChange={onChange}
+        options={TEST_OPTIONS}
+      />,
+    )
+
+    // Close the dropdown by clicking outside since disableCloseOnSelect is true
+    await userEvent.click(container)
+
+    // Wait for the dropdown to close and verify the option is selected
+    await waitFor(() => {
+      expect(screen.getByText(activeOption.value)).toBeVisible()
+    })
+
     // The dropdown should be closed, so the option labels should not be visible
-    expect(
-      screen.queryByText(activeOption.label ?? activeOption.key),
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        screen.queryByText(activeOption.label ?? activeOption.key),
+      ).not.toBeInTheDocument()
+    })
   })
 })
