@@ -7,7 +7,7 @@ import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 import { isFilterPrefixValid, removeIdPrefix } from 'app/utils/idPrefixes'
 
-import { DropdownFilterButton } from './DropdownFilterButton'
+import { DropdownFilterButton } from './DropdownFilterButton/DropdownFilterButton'
 import { InputFilter } from './InputFilter'
 
 export interface InputFilterData {
