@@ -25,7 +25,7 @@ export function RunMetadataDrawer() {
 }
 
 function MetadataTab() {
-  const { run } = useRunById()
+  const { run, additionalContributingDepositions } = useRunById()
 
   return (
     <>
@@ -35,6 +35,9 @@ function MetadataTab() {
             showAllFields
             dataset={run.dataset}
             initialOpen={false}
+            additionalContributingDepositions={
+              additionalContributingDepositions
+            }
           />
           <SampleAndExperimentConditionsTable
             dataset={run.dataset}
