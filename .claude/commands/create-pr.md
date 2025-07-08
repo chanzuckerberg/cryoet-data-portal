@@ -83,10 +83,10 @@ This command expects that `/create-commits` has been run first to create logical
 - If branch doesn't exist on remote OR has unpushed commits, push: `git push -u origin <branch-name>`
 - Analyze existing commit messages to determine primary scope and generate PR title
 - Create PR body with:
+  - **Issue**: If ISSUE_NUMBER is provided, add "#$ISSUE_NUMBER" at the very top on its own line
   - **Summary**: Brief overview of changes made (derived from commit messages)
   - **Changes**: Bullet list of major modifications (from commit history)
   - **Testing**: Instructions for testing the changes
-  - **Issue Link**: If ISSUE_NUMBER is provided, add "Closes #$ISSUE_NUMBER"
 
 #### PR Title Generation:
 
@@ -94,6 +94,24 @@ This command expects that `/create-commits` has been run first to create logical
 - Extract primary scope from most recent or most significant commit
 - Use format: `<primary-scope>: <concise-description>`
 - Example: `feat: add dataset metadata display functionality`
+
+#### PR Body Format:
+
+When ISSUE_NUMBER is provided, the PR body should start with the issue reference on its own line:
+```
+#1806
+
+## Summary
+Brief overview of changes...
+
+## Changes
+- List of modifications...
+
+## Testing
+- Testing instructions...
+```
+
+When no issue number is provided, start directly with the Summary section.
 
 #### PR Creation Command:
 
@@ -145,12 +163,14 @@ After successful PR creation:
 
 ### PR Body Generation:
 
+- If issue number is provided, place it at the very top as "#ISSUE_NUMBER" on its own line
 - Parse commit messages to extract meaningful summary
 - Group related commits to describe feature scope
 - Include testing instructions based on changed files:
   - **Frontend changes**: Include `cd frontend && pnpm test` and `cd frontend && pnpm e2e`
   - **Python client changes**: Include `cd client/python/cryoet_data_portal && make coverage`
   - **Documentation changes**: Include `cd docs && make html`
+- Note: Do NOT use closing keywords like "Closes", "Fixes", or "Resolves" with issue references
 
 ### Base Branch Validation Requirements:
 
