@@ -17,14 +17,14 @@ jobs:
     #   github.event.pull_request.user.login == 'external-contributor' ||
     #   github.event.pull_request.user.login == 'new-developer' ||
     #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
-    
+
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: read
       issues: read
       id-token: write
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,21 +39,52 @@ jobs:
 
           # Optional: Specify model (defaults to Claude Sonnet 4, uncomment for Claude Opus 4)
           # model: "claude-opus-4-20250514"
-          
+
           # Direct prompt for automated review (no @claude mention needed)
           direct_prompt: |
-            Please review this pull request and provide feedback on:
-            - Code quality and best practices
-            - Potential bugs or issues
-            - Performance considerations
-            - Security concerns
-            - Test coverage
-            
-            Be constructive and helpful in your feedback.
+            You are reviewing code for the CryoET Data Portal, a scientific data platform with:
+            - Frontend: React/Remix with TypeScript, GraphQL (Apollo), Material-UI + Tailwind CSS
+            - Backend: Python client library with GraphQL and AWS S3 integration
+            - Testing: Jest/Playwright (frontend), pytest (Python)
+            - Strict TypeScript and mypy type checking enabled
+
+            Please provide a thorough code review focusing on:
+
+            ## General Review Criteria
+            - Code consistency with existing patterns in the codebase
+            - Potential bugs, edge cases, or error conditions
+            - Security vulnerabilities (XSS, injection, exposed secrets)
+            - Performance implications for large datasets
+            - Test coverage for new functionality
+
+            ## Frontend-Specific (TypeScript/React/Remix files)
+            - TypeScript: Ensure strict mode compliance, proper type inference, avoid `any`
+            - React: Check for proper hooks usage, memoization where needed, key props
+            - Remix: Validate loader/action patterns, proper error boundaries
+            - GraphQL: Review query efficiency, proper use of generated types from __generated_v2__
+            - State: Ensure proper search params or jotai atom usage, avoid unnecessary re-renders
+            - CSS: Verify CSS Modules with camelCase classes, Tailwind utility usage
+            - Accessibility: Check ARIA labels, keyboard navigation, screen reader support
+            - i18n: Ensure all user-facing text uses translation keys
+
+            ## Python Client-Specific (Python files)
+            - Type hints: All functions should have complete type annotations
+            - API consistency: Methods should follow existing client patterns
+            - Error handling: Proper exception handling and informative error messages
+            - AWS integration: Secure S3 operations, proper credential handling
+            - Testing: pytest fixtures usage, proper mocking of external services
+            - Python compatibility: Ensure code works with Python 3.7-3.12
+
+            ## Configuration/Infrastructure Files
+            - GitHub Actions: Check for efficiency, proper secret usage
+            - Environment variables: No hardcoded values, proper defaults
+            - Dependencies: Verify versions are pinned appropriately
+
+            Be constructive and educational in feedback. For junior developers, explain the "why" behind suggestions. Focus on maintainability and scientific data integrity.
 
           # Optional: Use sticky comments to make Claude reuse the same comment on subsequent pushes to the same PR
-          # use_sticky_comment: true
-          
+          use_sticky_comment: true
+
           # Optional: Customize review based on file types
           # direct_prompt: |
           #   Review this PR focusing on:
@@ -61,18 +92,22 @@ jobs:
           #   - For API endpoints: Security, input validation, and error handling
           #   - For React components: Performance, accessibility, and best practices
           #   - For tests: Coverage, edge cases, and test quality
-          
+
           # Optional: Different prompts for different authors
           # direct_prompt: |
-          #   ${{ github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR' && 
+          #   ${{ github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR' &&
           #   'Welcome! Please review this PR from a first-time contributor. Be encouraging and provide detailed explanations for any suggestions.' ||
           #   'Please provide a thorough code review focusing on our coding standards and best practices.' }}
-          
+
           # Optional: Add specific tools for running tests or linting
-          # allowed_tools: "Bash(npm run test),Bash(npm run lint),Bash(npm run typecheck)"
-          
+          allowed_tools: |
+            Bash(curl *)
+            Bash(git *)
+            Bash(npm *)
+            Bash(pnpm *)
+            mcp__sequential-thinking__sequentialthinking
+
           # Optional: Skip review for certain conditions
           # if: |
           #   !contains(github.event.pull_request.title, '[skip-review]') &&
           #   !contains(github.event.pull_request.title, '[WIP]')
-
