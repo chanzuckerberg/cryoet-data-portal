@@ -42,4 +42,5 @@ export enum QueryParams {
   TomogramProcessing = 'tomogram-processing',
   TomogramSampling = 'tomogram-sampling',
   TomogramsPage = 'tomograms-page',
+  GroupBy = 'group-by',
 }
