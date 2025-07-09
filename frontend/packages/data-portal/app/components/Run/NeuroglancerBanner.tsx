@@ -2,19 +2,19 @@ import { useLocalStorageValue } from '@react-hookz/web'
 import dayjs from 'dayjs'
 import React, { useState } from 'react'
 
+import { LocalStorageKeys } from 'app/constants/localStorage'
+
 import { ReusableTimeBasedBanner } from '../common/ReusableTimeBasedBanner/ReusableTimeBasedBanner'
 
 type NeuroglancerBannerProps = {
   onStartTour: (event: React.MouseEvent<HTMLElement>) => void
 }
 
-const NEUROGLANCER_BANNER_KEY = 'neuroglancerBanner'
-
 export function NeuroglancerBanner({ onStartTour }: NeuroglancerBannerProps) {
   const [open, setOpen] = useState(false)
 
   const { set: setLastDismissed } = useLocalStorageValue<string | null>(
-    NEUROGLANCER_BANNER_KEY,
+    LocalStorageKeys.NeuroglancerBannerDismissed,
     { defaultValue: null },
   )
 
@@ -42,7 +42,7 @@ export function NeuroglancerBanner({ onStartTour }: NeuroglancerBannerProps) {
     <ReusableTimeBasedBanner
       open={open}
       setOpen={setOpen}
-      localStorageKey={NEUROGLANCER_BANNER_KEY}
+      localStorageKey={LocalStorageKeys.NeuroglancerBannerDismissed}
       message={bannerMessage}
       sdsType="secondary"
       icon="Book"

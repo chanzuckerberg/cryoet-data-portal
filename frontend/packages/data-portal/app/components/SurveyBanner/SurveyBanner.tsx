@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import { LocalStorageKeys } from 'app/constants/localStorage'
+
 import { ReusableTimeBasedBanner } from '../common/ReusableTimeBasedBanner/ReusableTimeBasedBanner'
 
 const BANNER_ALLOWLIST = [
@@ -15,7 +17,7 @@ export function SurveyBanner() {
     <ReusableTimeBasedBanner
       open={open}
       setOpen={setOpen}
-      localStorageKey="surveyBanner"
+      localStorageKey={LocalStorageKeys.SurveyBannerDismissed}
       messageKey="surveyBanner"
       sdsType="secondary"
       icon="SpeechBubbles"
