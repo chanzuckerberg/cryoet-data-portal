@@ -1,5 +1,7 @@
 FROM node:20.8-alpine as build
 
+RUN apk add --no-cache curl
+
 COPY . /app
 
 WORKDIR /app
