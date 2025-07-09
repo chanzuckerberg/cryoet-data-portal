@@ -108,11 +108,18 @@ function CustomTooltip(
   const tooltipContainerStyles =
     index === 0 || isLastStep ? 'p-10 max-w-[650px]' : 'p-4 max-w-[334px]'
   const titleStyles =
-    index === 0 ? 'text-sds-header-xl-600-wide' : 'text-sds-body-m-400-wide leading-6'
+    index === 0
+      ? 'text-sds-header-xl-600-wide'
+      : 'text-sds-body-m-400-wide leading-6'
   const buttonContainerStyles = index === 0 || isLastStep ? 'mt-10' : 'mt-6'
 
   return (
-    <div className={cns(tooltipContainerStyles, 'bg-dark-sds-color-primitive-gray-900 rounded')}>
+    <div
+      className={cns(
+        tooltipContainerStyles,
+        'bg-dark-sds-color-primitive-gray-900 rounded',
+      )}
+    >
       <div className="flex justify-between items-center">
         <div className={cns(titleStyles, 'font-semibold')}>{step.title}</div>
         <button
@@ -120,7 +127,11 @@ function CustomTooltip(
           onClick={onClose}
           className="w-4 h-4 flex items-center"
         >
-          <Icon sdsIcon="XMark" sdsSize="s" className="!text-light-sds-color-primitive-gray-600" />
+          <Icon
+            sdsIcon="XMark"
+            sdsSize="s"
+            className="!text-light-sds-color-primitive-gray-600"
+          />
         </button>
       </div>
 

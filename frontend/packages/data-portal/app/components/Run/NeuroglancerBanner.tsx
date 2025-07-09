@@ -27,7 +27,11 @@ export function NeuroglancerBanner({ onStartTour }: NeuroglancerBannerProps) {
   const bannerMessage = (
     <span>
       New to Neuroglancer? Learn the essentials in{' '}
-      <button type="button" className="text-light-sds-color-primitive-blue-500" onClick={handleClick}>
+      <button
+        type="button"
+        className="text-light-sds-color-primitive-blue-500"
+        onClick={handleClick}
+      >
         this guided tour
       </button>
       .
