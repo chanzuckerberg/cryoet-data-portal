@@ -45,7 +45,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   })
 }
 
-const ViewerPage = lazy(() => import('app/components/Run/ViewerPage'))
+const ViewerPage = lazy(() => import('app/components/Viewer/ViewerPage'))
 
 export default function RunByIdViewerPage() {
   const { run, tomograms } = useRunById()
