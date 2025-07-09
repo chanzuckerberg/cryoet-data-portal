@@ -19,6 +19,7 @@ export interface TablePageLayoutProps {
   downloadModal?: ReactNode
   drawers?: ReactNode
   title?: string
+  titleContent?: ReactNode
 }
 
 export interface TableLayoutTab {
