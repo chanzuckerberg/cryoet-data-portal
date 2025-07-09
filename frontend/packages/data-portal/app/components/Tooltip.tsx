@@ -60,7 +60,7 @@ export function getTooltipProps({
         'shadow-lg',
         size === 's' && 'w-[200px]',
         size === 'inherit' && '[&&&]:max-w-none',
-        'border-solid border border-light-sds-color-primitive-gray-300',
+        'border-solid border border-light-sds-color-primitive-gray-300 cursor-default',
         classes?.tooltip,
       ),
     },

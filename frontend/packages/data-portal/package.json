@@ -96,7 +96,8 @@
     "tailwind-merge": "^1.14.0",
     "ts-node": "^10.9.1",
     "ts-pattern": "^5.0.5",
-    "utility-types": "^3.10.0"
+    "utility-types": "^3.10.0",
+    "react-joyride": "^2.9.3"
   },
   "devDependencies": {
     "@chromatic-com/playwright": "^0.11.2",

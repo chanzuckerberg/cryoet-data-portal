@@ -63,6 +63,15 @@ export function getDatasetsFilter({
   for (const availableFile of filterState.includedContents.availableFiles) {
     where.runs ??= {}
     switch (availableFile) {
+      case 'annotation':
+        where.runs.annotationsAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
       case 'raw-frames':
         where.runs.framesAggregate = {
           count: {
@@ -87,6 +96,13 @@ export function getDatasetsFilter({
             predicate: {
               _gt: 0,
             },
+          },
+        }
+        break
+      case 'ctf':
+        where.runs.perSectionParameters = {
+          majorDefocus: {
+            _is_null: false,
           },
         }
         break
@@ -260,7 +276,6 @@ export function getDatasetsFilter({
       _eq: filterState.tomogram.reconstructionSoftware,
     }
   }
-
   return where
 }
 
@@ -292,6 +307,81 @@ export function getDepositionsFilter({
     where.authors ??= {}
     where.authors.orcid = {
       _ilike: `%${filterState.author.orcid}%`,
+    }
+  }
+
+  const filterDepositionId =
+    filterState.ids.deposition !== null
+      ? parseInt(filterState.ids.deposition)
+      : undefined
+  if (Number.isInteger(filterDepositionId)) {
+    where.id = {
+      _eq: filterDepositionId,
+    }
+  }
+
+  for (const file of filterState.includedContents.availableFiles) {
+    switch (file) {
+      case 'annotation':
+        where.annotationsAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
+
+      case 'raw-frames':
+        where.framesAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
+
+      case 'tilt-series':
+        where.tiltseriesAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
+
+      case 'tilt-series-alignment':
+        where.alignmentsAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
+
+      case 'ctf':
+        where.frames ??= {}
+        where.frames.perSectionParameters = {
+          majorDefocus: {
+            _is_null: false,
+          },
+        }
+        break
+
+      case 'tomogram':
+        where.tomogramsAggregate = {
+          count: {
+            predicate: {
+              _gt: 0,
+            },
+          },
+        }
+        break
+
+      default:
     }
   }
 

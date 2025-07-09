@@ -12,16 +12,18 @@ import { TableCell } from './TableCell'
 
 export function MetadataTable({
   data,
+  invertRowColor,
+  small,
   tableCellLabelProps,
   tableCellValueProps,
   title,
-  small,
 }: {
   data: TableData[]
+  invertRowColor?: boolean
+  small?: boolean
   tableCellLabelProps?: ComponentProps<typeof TableCell>
   tableCellValueProps?: ComponentProps<typeof TableCell>
   title?: string
-  small?: boolean
 }) {
   const { t } = useI18n()
 
@@ -39,11 +41,12 @@ export function MetadataTable({
             const values =
               datum.values instanceof Function ? datum.values() : datum.values
 
+            const index = idx + (invertRowColor ? 0 : 1)
+
             return (
               <TableRow
                 className={cns(
-                  (idx + 1) % 2 !== 0 &&
-                    'bg-light-sds-color-primitive-gray-100',
+                  index % 2 !== 0 && 'bg-light-sds-color-primitive-gray-100',
                 )}
                 key={datum.label + values.join(', ')}
               >

@@ -22,13 +22,10 @@ import { IDENTITY_MATRIX_4X4, Matrix4x4 } from './Matrix4x4'
 export function TomogramMetadataDrawer() {
   const { t } = useI18n()
   const [tomogram] = useAtom(metadataDrawerTomogramAtom)
-  const { run } = useRunById()
 
   if (tomogram === undefined) {
     return null
   }
-
-  const { alignment } = tomogram
 
   return (
     <MetadataDrawer
@@ -40,7 +37,24 @@ export function TomogramMetadataDrawer() {
       }}
       disabled={tomogram === undefined}
       drawerId={MetadataDrawerId.Tomogram}
-    >
+      MetadataTabComponent={MetadataTab}
+    />
+  )
+}
+
+function MetadataTab() {
+  const { t } = useI18n()
+  const [tomogram] = useAtom(metadataDrawerTomogramAtom)
+  const { run } = useRunById()
+
+  if (tomogram === undefined) {
+    return null
+  }
+
+  const { alignment } = tomogram
+
+  return (
+    <>
       <AccordionMetadataTable
         header={t('tomogramOverview')}
         id="tomogram-overview"
@@ -89,7 +103,7 @@ export function TomogramMetadataDrawer() {
             label: t('depositionId'),
             values: [
               tomogram.deposition?.id !== undefined
-                ? `${IdPrefix.Dataset}-${tomogram.deposition.id}`
+                ? `${IdPrefix.Deposition}-${tomogram.deposition.id}`
                 : '',
             ],
           },
@@ -266,7 +280,7 @@ export function TomogramMetadataDrawer() {
           },
         )}
       />
-    </MetadataDrawer>
+    </>
   )
 }
 

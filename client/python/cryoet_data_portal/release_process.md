@@ -3,6 +3,20 @@ To release a new version of python client, merge a pull request to main with cha
 
 If the version number needs to be change see [release-plesae documentation](https://github.com/googleapis/release-please?tab=readme-ov-file#how-do-i-change-the-version-number) for how to change the version number. This same process can be used to manually release the package.
 
+## Update Client
+To update the client to include changes in the prod graphql API, run the following command:
+
+```base
+make codegen
+```
+
+This will pull down all the changes for classes that the client is already aware of.
+
+To make the client aware of a new class, add it to the `GQL_TO_MODEL_TYPE` in the [codegen script](./src/cryoet_data_portal/_codegen.py), before running the make command.
+
+Include the new class in the `__all__` section of the [__init__.py](./src/cryoet_data_portal/__init__.py) if needed.
+
+
 ## Build Locally
 The python client can be build locally by running the following:
 ```bash

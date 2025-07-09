@@ -183,6 +183,11 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
       }
     }
 
+    # Dataset Contents
+    unFilteredRuns: runs(where: { datasetId: { _eq: $id }}) {
+      ...DataContents,
+    }
+
     # Filter selectors
     annotationsAggregate(where: { run: { datasetId: { _eq: $id }}}) {
       aggregate {
@@ -253,7 +258,7 @@ function getRunFilter(
     where.tiltseries ??= {}
     where.tiltseries.tiltSeriesQuality = {
       _in: filterState.tiltSeries.qualityScore
-        .map(parseInt)
+        .map((score) => parseInt(score, 10))
         .filter((val) => Number.isFinite(val)),
     }
   }

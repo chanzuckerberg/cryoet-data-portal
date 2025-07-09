@@ -5,27 +5,37 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cryoet-Neuroglancer</title>
+    <!-- Neuroglancer styles, TODO can remove if horizontal palettes in main -->
+    <!-- TODO if neuroglancer version is back to main, need to remove hiding eye icon-->
+    <link rel="stylesheet" href="/src/cryoet-portal-theme.css" />
     <script type="module">
-      import "neuroglancer";
-      import { setupDefaultViewer } from "neuroglancer/unstable/ui/default_viewer_setup.js";
+      import 'neuroglancer'
+      import { setupDefaultViewer } from 'neuroglancer/unstable/ui/default_viewer_setup.js'
 
-      const originalReplaceState = history.replaceState;
-      history.replaceState = function(...args) {
-          originalReplaceState.apply(history, args);
-          window.parent.postMessage({
-              type: 'synchash',
-              hash: window.location.hash,
-            }, '*');
-      };
+      window.neuroglancer = setupDefaultViewer({
+        showLayerPanel: false,
+        showToolPaletteButton: false,
+        showAllDimensionPlotBounds: false,
+      })
+
+      const originalReplaceState = history.replaceState
+      history.replaceState = function (...args) {
+        originalReplaceState.apply(history, args)
+        window.parent.postMessage(
+          {
+            type: 'synchash',
+            hash: window.location.hash,
+          },
+          '*',
+        )
+      }
 
       window.addEventListener('message', (event) => {
-          const {type, hash} = event.data
-          if (type === 'hashchange' && window.location.hash !== hash) {
-              window.location.hash = hash;
-          }
-      });
-
-      window.neuroglancer = setupDefaultViewer();
+        const { type, hash } = event.data
+        if (type === 'hashchange' && window.location.hash !== hash) {
+          window.location.hash = hash
+        }
+      })
     </script>
   </head>
 </html>

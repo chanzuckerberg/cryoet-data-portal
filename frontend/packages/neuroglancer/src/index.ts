@@ -1,3 +1,3 @@
-export { default as NeuroglancerWrapper } from "./NeuroglancerWrapper";
+export { default as NeuroglancerWrapper } from './NeuroglancerWrapper'
 
-export * from "./utils";
+export * from './utils'

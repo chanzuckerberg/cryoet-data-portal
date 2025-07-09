@@ -26,7 +26,7 @@ export const AnnotationTableWidths = {
   confidenceCell: { min: 81, max: 120 },
   depositionDate: { min: 91, max: 120 },
   objectName: { min: 120, max: 250 },
-  files: { min: 100, max: 150 },
+  shapeType: { width: 150 },
   methodType: { min: 81, max: 120 },
   actions: { min: 120, max: 120 },
 }
@@ -58,6 +58,7 @@ export const DepositionTableWidths = {
   annotations: { min: 120, max: 200 },
   annotatedObjects: { min: 140, max: 400 },
   objectShapeTypes: { min: 120, max: 200 },
+  dataTypesAndCounts: { min: 184, max: 184 },
 }
 
 export const DepositionPageDatasetTableWidths = {
@@ -67,4 +68,36 @@ export const DepositionPageDatasetTableWidths = {
   runs: { min: 120, max: 200 },
   annotations: { min: 120, max: 200 },
   annotatedObjects: { min: 120, max: 400 },
+}
+
+export const AnnotationMethodTableWidths = {
+  count: { width: 72 },
+  methodType: { width: 80 },
+  methodDetails: { width: 360 },
+  methodLinks: { width: 280 },
+}
+
+export const TomogramMethodTableWidths = {
+  count: { width: 72 },
+  voxelSpacing: { width: 85 },
+  reconstructionMethod: { width: 138 },
+  postProcessing: { width: 96 },
+  ctfCorrected: { width: 89 },
+}
+
+export const AcquisitionMethodTableWidths = {
+  microscope: { width: 108 },
+  camera: { width: 94 },
+  tiltingScheme: { width: 100 },
+  pixelSize: { width: 57 },
+  energyFilter: { width: 72 },
+  electronOptics: { width: 125 },
+  phasePlate: { width: 23 },
+}
+
+export const ExperimentalConditionsTableWidths = {
+  sampleType: { width: 100 },
+  samplePreparation: { width: 160 },
+  gridPreparation: { width: 120 },
+  runs: { width: 100 },
 }

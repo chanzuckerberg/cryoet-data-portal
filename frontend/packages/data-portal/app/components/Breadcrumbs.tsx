@@ -1,4 +1,4 @@
-import { useMemo, ReactNode } from 'react'
+import { ReactNode, useMemo } from 'react'
 
 import { SmallChevronRightIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
@@ -11,8 +11,9 @@ import {
   useSingleDatasetFilterHistory,
 } from 'app/state/filterHistory'
 import { BreadcrumbType } from 'app/types/breadcrumbs'
-import { Tooltip } from './Tooltip'
 import { cns } from 'app/utils/cns'
+
+import { Tooltip } from './Tooltip'
 
 function Breadcrumb({
   text,
@@ -33,8 +34,8 @@ function Breadcrumb({
     <Link
       to={link}
       className={cns(
-        className,
         'hover:text-light-sds-color-primitive-blue-500',
+        className,
       )}
       onClick={() => {
         if (type) {
@@ -54,12 +55,10 @@ function Breadcrumb({
 
 export function Breadcrumbs({
   variant,
-  type = 'dark',
   data,
   activeBreadcrumbText,
 }: {
   variant: 'dataset' | 'deposition' | 'run' | 'neuroglancer'
-  type?: 'dark' | 'light'
   data: { id: number; title: string }
   activeBreadcrumbText?: ReactNode
 }) {
@@ -104,24 +103,115 @@ export function Breadcrumbs({
       ? undefined
       : `/depositions/${previousDepositionId}?${previousSingleDepositionParams}`
 
-  const typeStyles = {
-    light: 'text-[#999] fill-[#999]',
-    dark: 'text-sds-color-primitive-common-black fill-black',
-  }
-
   const chevronIcon = (
-    <SmallChevronRightIcon
-      className={cns(typeStyles[type], 'w-[8px] h-[8px] shrink-0')}
-    />
+    <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0" />
   )
 
   const plausible = usePlausible()
 
+  const buildDepositionBreadcrumb = () => {
+    return (
+      <div className="flex flex-row gap-sds-s text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
+        <Breadcrumb
+          text={t('allDepositions')}
+          link={browseAllLink}
+          className="shrink-0"
+          type={BreadcrumbType.AllDepositions}
+        />
+        {chevronIcon}
+        <Breadcrumb text={t('deposition')} />
+      </div>
+    )
+  }
+
+  const buildRunBreadcrumb = () => {
+    return (
+      <div className="flex flex-row gap-sds-s text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
+        <Breadcrumb
+          text={t('allDatasets')}
+          link={browseAllLink}
+          className="shrink-0"
+          type={BreadcrumbType.AllDatasets}
+        />
+        {chevronIcon}
+        <Breadcrumb
+          text={`${t('dataset')}: ${data.title}`}
+          link={singleDatasetLink}
+          className="overflow-ellipsis overflow-hidden flex-initial"
+          type={BreadcrumbType.SingleDataset}
+          datasetId={data.id}
+        />
+        {chevronIcon}
+        <Breadcrumb text={t('run')} className="shrink-0" />
+      </div>
+    )
+  }
+
+  const buildDatasetBreadcrumb = () => {
+    return (
+      <div className="flex flex-row gap-sds-s text-sds-body-s-400-wide leading-sds-body-s text-light-sds-color-primitive-gray-900  items-center whitespace-nowrap content-start">
+        <Breadcrumb
+          text={t('allDatasets')}
+          link={browseAllLink}
+          className="shrink-0"
+          type={BreadcrumbType.AllDatasets}
+        />
+        {chevronIcon}
+        <Breadcrumb
+          text={`${t('dataset')}`}
+          link={singleDatasetLink}
+          className="overflow-ellipsis overflow-hidden flex-initial"
+          type={BreadcrumbType.SingleDataset}
+          datasetId={data.id}
+        />
+      </div>
+    )
+  }
+
+  const buildNeuroglancerBreadcrumb = () => {
+    const neuroglancerChevronIcon = (
+      <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0 text-[#999] fill-[#999]" />
+    )
+    return (
+      <div className="flex flex-row gap-sds-s text-dark-sds-color-primitive-gray-500 fill-[#999] font-normal text-sds-body-s-400-wide leading-sds-body-s items-center whitespace-nowrap content-start">
+        <Tooltip
+          tooltip={`Go to Dataset ${data.title}`}
+          className="truncate max-w-0 lg:max-w-[8rem] xl:max-w-[16rem] 2xl:max-w-xl"
+        >
+          <Breadcrumb
+            text={data.title}
+            link={singleDatasetLink}
+            className="overflow-ellipsis overflow-hidden flex-initial hover:text-light-sds-color-primitive-gray-50"
+            type={BreadcrumbType.SingleDataset}
+            datasetId={data.id}
+          />
+        </Tooltip>
+
+        {activeBreadcrumbText && (
+          <>
+            {neuroglancerChevronIcon}
+            <Breadcrumb
+              text={activeBreadcrumbText}
+              className="text-dark-sds-color-primitive-gray-900 shrink-0 !font-normal"
+            />
+          </>
+        )}
+      </div>
+    )
+  }
+
+  const breadCrumbVariations = {
+    dataset: buildDatasetBreadcrumb,
+    deposition: buildDepositionBreadcrumb,
+    run: buildRunBreadcrumb,
+    neuroglancer: buildNeuroglancerBreadcrumb,
+  }
+
   return (
     <div
       className={cns(
-        variant === 'neuroglancer' && 'max-w-xl',
-        'flex flex-col flex-auto gap-1',
+        'flex-col flex-auto gap-1',
+        variant === 'neuroglancer' ? 'hidden lg:flex' : 'flex',
       )}
       data-testid={TestIds.Breadcrumbs}
     >
@@ -142,86 +232,7 @@ export function Breadcrumbs({
           {t('returnToDeposition')}
         </Link>
       )}
-
-      <div
-        className={cns(
-          'flex',
-          'flex-row gap-sds-s',
-          typeStyles[type],
-          variant === 'neuroglancer' ? 'text-[13px] font-normal' : '',
-          'text-sds-body-s-400-wide',
-          'leading-sds-body-s',
-          'text-light-sds-color-primitive-gray-900',
-          'items-center whitespace-nowrap',
-          'content-start',
-        )}
-      >
-        <Breadcrumb
-          text={
-            variant !== 'neuroglancer' &&
-            t(variant === 'deposition' ? 'allDepositions' : 'allDatasets')
-          }
-          link={browseAllLink}
-          className="shrink-0"
-          type={
-            variant === 'deposition'
-              ? BreadcrumbType.AllDepositions
-              : BreadcrumbType.AllDatasets
-          }
-        />
-
-        {variant !== 'neuroglancer' && <>{chevronIcon}</>}
-
-        {variant === 'deposition' ? (
-          <Breadcrumb text={t('deposition')} />
-        ) : (
-          variant !== 'neuroglancer' && (
-            <Breadcrumb
-              text={
-                variant === 'dataset'
-                  ? `${t('dataset')}`
-                  : `${t('dataset')}: ${data.title}`
-              }
-              link={singleDatasetLink}
-              className="overflow-ellipsis overflow-hidden flex-initial"
-              type={BreadcrumbType.SingleDataset}
-              datasetId={data.id}
-            />
-          )
-        )}
-
-        {variant === 'neuroglancer' && (
-          <Tooltip
-            tooltip={data.title || t('dataset')}
-            className="overflow-hidden overflow-ellipsis"
-          >
-            <Breadcrumb
-              text={data.title || t('dataset')}
-              link={singleDatasetLink}
-              className="overflow-ellipsis overflow-hidden flex-initial"
-              type={BreadcrumbType.SingleDataset}
-              datasetId={data.id}
-            />
-          </Tooltip>
-        )}
-
-        {variant === 'run' && (
-          <>
-            {chevronIcon}
-            <Breadcrumb text={t('run')} className="shrink-0" />
-          </>
-        )}
-
-        {activeBreadcrumbText && variant === 'neuroglancer' && (
-          <>
-            {chevronIcon}
-            <Breadcrumb
-              text={activeBreadcrumbText}
-              className={cns(typeStyles[type], 'shrink-0 !font-normal')}
-            />
-          </>
-        )}
-      </div>
+      {breadCrumbVariations[variant]()}
     </div>
   )
 }

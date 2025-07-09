@@ -60,6 +60,23 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         }
       }
 
+      annotations (where: {runId: {_eq: $id}}, ) {
+        edges {
+          node {
+            deposition {
+             title
+            }
+            depositionId
+            objectId
+            objectName
+            objectDescription
+            objectState
+            s3MetadataPath
+            httpsMetadataPath
+          }
+        }
+      }
+
       dataset {
         cellComponentName
         cellComponentId
@@ -186,11 +203,19 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
       }
 
       # Header
-      framesAggregate {
-        aggregate {
-          count
+      # Filter by non-null frame file path since it can be null
+      frames(where: {
+        httpsFramePath: {
+          _is_null: false
+        },
+      }) {
+        edges {
+          node {
+            id
+          }
         }
       }
+
       tiltseriesAggregate {
         aggregate {
           count
@@ -202,10 +227,12 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
     }
 
     # Header
-    alignmentsAggregate(where: {run: {id: {_eq: $id}}}) {
-      aggregate {
-        count
-      }
+    # Filter by non-null alignment method since it can be null
+    alignments(where: {
+      alignmentMethod: { _is_null: false, },
+      runId: { _eq: $id }
+    }) {
+      id
     }
 
     # Annotations table
@@ -441,6 +468,16 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
       }
     }
 
+    # CTF Aggregate
+    perSectionParametersAggregate(
+      where: { majorDefocus: { _is_null: false }, runId: { _eq: $id } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    # Alignment counts
+
     # Deposition banner
     # Returns empty array if $depositionId not defined
     depositions(where: { id: { _eq: $depositionId }}) {
@@ -545,7 +582,7 @@ export interface GetRunByIdV2Params {
   client: ApolloClient<NormalizedCacheObject>
   id: number
   annotationsPage: number
-  params: URLSearchParams
+  params?: URLSearchParams
   depositionId?: number
 }
 
@@ -553,7 +590,7 @@ export async function getRunByIdV2({
   client,
   id,
   annotationsPage,
-  params,
+  params = new URLSearchParams(),
   depositionId,
 }: GetRunByIdV2Params): Promise<ApolloQueryResult<GetRunByIdV2Query>> {
   return client.query({

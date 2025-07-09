@@ -3,3 +3,4 @@ myst_nb
 sphinx-external-toc
 sphinx-design
 pre-commit
+bs4
