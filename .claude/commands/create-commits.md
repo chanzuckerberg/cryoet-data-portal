@@ -5,37 +5,42 @@ This command automates the creation of logical, well-structured commits with int
 ## Command Usage
 
 - `create-commits` - Basic usage with current branch
-- `create-commits --base develop` - Create commits with custom base branch reference
-
-### Flag Details
-
-- `--base <branch-name>` - Specify the base branch for reference (default: main)
-  - Useful when working with feature branches or dependent branches
-  - Helps determine which changes are new since branching from base
 
 ## Workflow
 
 ### 1. Branch Management
 
 - Check current branch name using `git branch --show-current`
-- Determine base branch (default: `main`, or value from `--base` flag)
-- Validate base branch exists: `git show-ref --verify refs/heads/<base-branch>` or `git ls-remote --heads origin <base-branch>`
+- Determine base branch (default: `main`)
+- Validate base branch exists: `git show-ref --verify refs/heads/main` or `git ls-remote --heads origin main`
 - If current branch is same as base branch:
   - Analyze staged and unstaged changes to determine scope
   - Create new branch with format: `<scope>/auto-<timestamp>-<short-description>`
   - Example: `feat/auto-20250625-dataset-metadata-updates`
 - If current branch is different from base branch:
   - Use existing branch for commit creation
-  - Verify branch is not behind remote base branch: `git merge-base --is-ancestor origin/<base-branch> HEAD`
+  - Verify branch is not behind remote base branch: `git merge-base --is-ancestor origin/main HEAD`
 
 ### 2. Pre-Commit Validation
 
 Execute the following commands in sequence and stop if any fail:
 
-- Run `pnpm lint` to check for linting issues
-- If linting fails, run `pnpm lint:fix` to auto-fix issues
-- Run `pnpm data-portal type-check` to verify TypeScript types
+**For Frontend Changes:**
+
+- Run `cd frontend && pnpm lint` to check for linting issues
+- If linting fails, run `cd frontend && pnpm lint:fix` to auto-fix issues
+- Run `cd frontend && pnpm data-portal type-check` to verify TypeScript types
 - If type check fails, report specific errors and require manual fixes before proceeding
+
+**For Python Client Changes:**
+
+- Run `cd client/python/cryoet_data_portal && make coverage` to run Python tests
+- If tests fail, report specific errors and require manual fixes before proceeding
+
+**For Documentation Changes:**
+
+- Run `cd docs && make html` to build documentation
+- If build fails, report specific errors and require manual fixes before proceeding
 
 ### 3. Change Analysis and Commit Splitting
 
@@ -43,13 +48,31 @@ Analyze all staged and unstaged changes to intelligently group them:
 
 #### File Grouping Logic:
 
-- **UI Components**: Group `*.tsx` files in `/components/` together
-- **GraphQL Operations**: Group `*.server.ts` files in `/graphql/` together
-- **Type Definitions**: Group `__generated_v2__/**/*.ts` files together
-- **Translations**: Group `translation.json` changes separately
-- **Configuration**: Group config files (`*.config.*`, `package.json`, etc.) together
-- **Tests**: Group test files (`*.test.*`, `*.spec.*`) together
-- **Documentation**: Group `*.md` files together
+**Frontend Changes:**
+
+- **UI Components**: Group `frontend/**/*.tsx` files in `/components/` together
+- **GraphQL Operations**: Group `frontend/**/*.server.ts` files in `/graphql/` together
+- **Type Definitions**: Group `frontend/**/__generated_v2__/**/*.ts` files together
+- **Translations**: Group `frontend/**/translation.json` changes separately
+- **Frontend Config**: Group frontend config files (`frontend/**/*.config.*`, `frontend/package.json`, etc.) together
+- **Frontend Tests**: Group frontend test files (`frontend/**/*.test.*`, `frontend/**/*.spec.*`) together
+
+**Python Client Changes:**
+
+- **Python Source**: Group `client/python/**/*.py` files by module
+- **Python Tests**: Group `client/python/**/test_*.py` files together
+- **Python Config**: Group Python config files (`client/python/**/pyproject.toml`, `client/python/**/Makefile`, etc.) together
+
+**Documentation Changes:**
+
+- **Docs**: Group `docs/**/*.md`, `docs/**/*.rst` files together
+- **Website Docs**: Group `website-docs/**/*.mdx` files together
+
+**Repository-wide Changes:**
+
+- **Root Configuration**: Group root config files (`*.config.*`, `package.json`, `pyproject.toml`, etc.) together
+- **CI/CD**: Group `.github/**/*` files together
+- **Root Documentation**: Group root `*.md` files together
 
 #### Commit Creation Strategy:
 
@@ -98,25 +121,31 @@ For each commit group:
 
 ### Lint Failures:
 
-- Attempt auto-fix with `pnpm lint:fix`
+- Attempt auto-fix with `cd frontend && pnpm lint:fix`
 - If still failing, list specific errors and pause for manual resolution
 
 ### Type Check Failures:
 
 - Display TypeScript errors clearly
 - Require manual fixes before proceeding
-- Suggest running `pnpm data-portal build:codegen` if GraphQL types are stale
+- Suggest running `cd frontend && pnpm data-portal build:codegen` if GraphQL types are stale
+
+### Python Test Failures:
+
+- Display Python test errors clearly
+- Require manual fixes before proceeding
+- Suggest running `cd client/python/cryoet_data_portal && make test-infra` if test infrastructure needs setup
 
 ### Git Conflicts:
 
-- If branch is behind base branch, suggest rebasing first: `git rebase origin/<base-branch>`
+- If branch is behind base branch, suggest rebasing first: `git rebase origin/main`
 - If conflicts exist, pause and request manual resolution
 
 ### Base Branch Validation:
 
 - If specified base branch doesn't exist locally or remotely, list available branches and exit
 - If current branch is the same as base branch, require creation of new branch first
-- If base branch is not accessible, suggest fetching: `git fetch origin <base-branch>`
+- If base branch is not accessible, suggest fetching: `git fetch origin main`
 
 ### Empty Changes:
 
@@ -145,10 +174,10 @@ After successful commit creation:
 
 ### Base Branch Validation Requirements:
 
-1. **Branch Existence Check**: Verify base branch exists using `git show-ref --verify refs/heads/<base-branch>` (local) or `git ls-remote --heads origin <base-branch>` (remote)
-2. **Branch Accessibility**: Ensure base branch is up-to-date with remote: `git fetch origin <base-branch>`
+1. **Branch Existence Check**: Verify base branch exists using `git show-ref --verify refs/heads/main` (local) or `git ls-remote --heads origin main` (remote)
+2. **Branch Accessibility**: Ensure base branch is up-to-date with remote: `git fetch origin main`
 3. **Self-Reference Prevention**: Prevent creating commits when current branch equals base branch without creating new branch first
-4. **Branch Relationship Validation**: Check if current branch has diverged from base branch using `git merge-base <base-branch> HEAD`
+4. **Branch Relationship Validation**: Check if current branch has diverged from base branch using `git merge-base main HEAD`
 
 ## Workflow Summary
 

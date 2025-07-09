@@ -15,6 +15,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Start dev server: `pnpm dev` (runs data-portal dev server with codegen and hot reload)
 - Build all packages: `pnpm build`
 - Clean builds: `pnpm clean`
+- Clean node_modules: `pnpm clean:modules`
+- Start production server: `pnpm start`
 
 ### Data Portal Package Commands
 
@@ -31,9 +33,15 @@ Run these from the data-portal package or use `pnpm data-portal <command>`:
 - Watch tests: `pnpm data-portal test:watch`
 - E2E tests: `pnpm data-portal e2e` (Playwright)
 - E2E debug mode: `pnpm data-portal e2e:debug`
+- Install E2E browsers: `pnpm e2e:install-browsers`
 - Lint all: `pnpm lint`
 - Fix linting: `pnpm lint:fix`
 - Type check: `pnpm data-portal type-check`
+
+Individual linters:
+- ESLint only: `pnpm lint:eslint` / `pnpm lint:eslint:fix`
+- Prettier only: `pnpm lint:prettier` / `pnpm lint:prettier:fix`
+- Stylelint only: `pnpm lint:stylelint` / `pnpm lint:stylelint:fix`
 
 ## Architecture Overview
 
@@ -77,6 +85,8 @@ Run these from the data-portal package or use `pnpm data-portal <command>`:
 - GraphQL queries use typed document nodes with fragment masking disabled
 - Internationalization keys follow hierarchical structure in translation.json
 - CSS Modules for component-specific styles, Tailwind for utilities
+- CSS Module TypeScript definitions generated via typed-css-modules
+- Build CSS types: `pnpm build:tcm` / Watch: `pnpm dev:tcm`
 
 ### Development Workflow
 
@@ -90,3 +100,22 @@ Run these from the data-portal package or use `pnpm data-portal <command>`:
 - Environment variables injected via root loader for client-side access
 - Supports multiple environments (dev, staging, prod) via ENV variable
 - Plausible analytics integration with environment-specific domains
+- Create `.env` file from `.env.sample` for local development
+- Node.js v20.8.0 required (see `.nvmrc`)
+- PNPM v8.10.5 enforced
+
+### Testing Configuration
+
+- Jest with ts-jest for ESM support
+- Test timeout: 10 seconds
+- Coverage reporting enabled by default
+- E2E tests support video recording on failure
+- Multiple browser support (Chromium, Firefox, WebKit)
+
+### Code Quality Standards
+
+- TypeScript strict mode enabled
+- ESLint extends Airbnb + TypeScript rules
+- Prettier: no semicolons, single quotes, trailing commas
+- Stylelint: enforces camelCase for CSS module classes
+- CSS architecture: PostCSS with nesting, autoprefixer, Tailwind plugins
