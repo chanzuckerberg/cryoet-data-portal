@@ -1,4 +1,4 @@
-import { Link as RemixLink, LinkProps } from '@remix-run/react'
+import { Link as RemixLink, LinkProps, useSearchParams } from '@remix-run/react'
 import { ForwardedRef, forwardRef } from 'react'
 
 import {
@@ -6,7 +6,7 @@ import {
   DASHED_UNDERLINED_CLASSES,
 } from 'app/utils/classNames'
 import { cnsNoMerge } from 'app/utils/cns'
-import { isExternalUrl } from 'app/utils/url'
+import { isExternalUrl, preserveFeatureFlagParams } from 'app/utils/url'
 
 export type VariantLinkProps = LinkProps & {
   newTab?: boolean
@@ -26,8 +26,15 @@ function BaseLink(
   }: VariantLinkProps & { href?: string },
   ref: ForwardedRef<HTMLAnchorElement>,
 ) {
+  const [searchParams] = useSearchParams()
   let newTabProps: Partial<LinkProps> = {}
-  const url = href ?? to
+  const originalUrl = href ?? to
+
+  // Preserve feature flag parameters for internal links
+  const url =
+    typeof originalUrl === 'string'
+      ? preserveFeatureFlagParams(originalUrl, searchParams)
+      : originalUrl
 
   if (newTab || (typeof url === 'string' && isExternalUrl(url))) {
     // For new tabs, add rel=noreferrer for security:

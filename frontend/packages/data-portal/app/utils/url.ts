@@ -60,3 +60,33 @@ export function carryOverFilterParams({
 
   return params
 }
+
+/**
+ * Preserves feature flag parameters when navigating to a new URL.
+ * Takes feature flag parameters from current search params and adds them to the target URL.
+ *
+ * @param targetUrl The URL to navigate to
+ * @param currentSearchParams Current URL search parameters
+ * @returns URL with preserved feature flag parameters
+ */
+export function preserveFeatureFlagParams(
+  targetUrl: string,
+  currentSearchParams: URLSearchParams,
+): string {
+  // Don't modify external URLs
+  if (isExternalUrl(targetUrl)) {
+    return targetUrl
+  }
+
+  const url = createUrl(targetUrl)
+  const targetParams = url.searchParams
+
+  // Preserve feature flag parameters
+  for (const key of SYSTEM_PARAMS) {
+    currentSearchParams.getAll(key).forEach((value) => {
+      targetParams.append(key, value)
+    })
+  }
+
+  return url.pathname + url.search
+}

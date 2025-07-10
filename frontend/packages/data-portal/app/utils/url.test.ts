@@ -1,6 +1,11 @@
 import { QueryParams } from 'app/constants/query'
 
-import { carryOverFilterParams, createUrl, isExternalUrl } from './url'
+import {
+  carryOverFilterParams,
+  createUrl,
+  isExternalUrl,
+  preserveFeatureFlagParams,
+} from './url'
 
 describe('utils/url', () => {
   describe('isExternalUrl()', () => {
@@ -268,6 +273,168 @@ describe('utils/url', () => {
       expect(result.get(QueryParams.EmdbId)).toBeNull()
       // Other params should not be carried over
       expect(result.get(QueryParams.ObjectName)).toBeNull()
+    })
+  })
+
+  describe('preserveFeatureFlagParams()', () => {
+    it('should preserve feature flag parameters for internal URLs', () => {
+      const currentParams = new URLSearchParams([
+        [QueryParams.EnableFeature, 'feature1'],
+        [QueryParams.DisableFeature, 'feature2'],
+      ])
+
+      const result = preserveFeatureFlagParams(
+        '/browse-data/datasets',
+        currentParams,
+      )
+
+      expect(result).toBe(
+        '/browse-data/datasets?enable-feature=feature1&disable-feature=feature2',
+      )
+    })
+
+    it('should preserve multiple values for the same feature flag parameter', () => {
+      const currentParams = new URLSearchParams([
+        [QueryParams.EnableFeature, 'feature1'],
+        [QueryParams.EnableFeature, 'feature2'],
+        [QueryParams.DisableFeature, 'feature3'],
+      ])
+
+      const result = preserveFeatureFlagParams('/competition', currentParams)
+
+      expect(result).toBe(
+        '/competition?enable-feature=feature1&enable-feature=feature2&disable-feature=feature3',
+      )
+    })
+
+    it('should not modify external URLs', () => {
+      const currentParams = new URLSearchParams([
+        [QueryParams.EnableFeature, 'feature1'],
+        [QueryParams.DisableFeature, 'feature2'],
+      ])
+
+      const externalUrl = 'https://example.com/page'
+      const result = preserveFeatureFlagParams(externalUrl, currentParams)
+
+      expect(result).toBe(externalUrl)
+    })
+
+    it('should handle URLs that already have parameters', () => {
+      const currentParams = new URLSearchParams([
+        [QueryParams.EnableFeature, 'feature1'],
+      ])
+
+      const result = preserveFeatureFlagParams(
+        '/browse-data/datasets?page=2&sort=name',
+        currentParams,
+      )
+
+      expect(result).toBe(
+        '/browse-data/datasets?page=2&sort=name&enable-feature=feature1',
+      )
+    })
+
+    it('should handle empty search parameters', () => {
+      const currentParams = new URLSearchParams()
+
+      const result = preserveFeatureFlagParams(
+        '/browse-data/datasets',
+        currentParams,
+      )
+
+      expect(result).toBe('/browse-data/datasets')
+    })
+
+    it('should handle URLs with fragments', () => {
+      const currentParams = new URLSearchParams([
+        [QueryParams.EnableFeature, 'feature1'],
+      ])
+
+      const result = preserveFeatureFlagParams(
+        '/competition#section1',
+        currentParams,
+      )
+
+      expect(result).toBe('/competition?enable-feature=feature1')
+    })
+
+    it('should handle root path URLs', () => {
+      const currentParams = new URLSearchParams([
+        [QueryParams.EnableFeature, 'feature1'],
+        [QueryParams.DisableFeature, 'feature2'],
+      ])
+
+      const result = preserveFeatureFlagParams('/', currentParams)
+
+      expect(result).toBe('/?enable-feature=feature1&disable-feature=feature2')
+    })
+
+    it('should not preserve non-feature flag parameters', () => {
+      const currentParams = new URLSearchParams([
+        [QueryParams.EnableFeature, 'feature1'],
+        [QueryParams.ObjectName, 'ribosome'],
+        [QueryParams.Page, '2'],
+      ])
+
+      const result = preserveFeatureFlagParams(
+        '/browse-data/datasets',
+        currentParams,
+      )
+
+      expect(result).toBe('/browse-data/datasets?enable-feature=feature1')
+    })
+
+    it('should handle special characters in feature flag values', () => {
+      const currentParams = new URLSearchParams([
+        [QueryParams.EnableFeature, 'feature-with-dashes'],
+        [QueryParams.DisableFeature, 'feature_with_underscores'],
+      ])
+
+      const result = preserveFeatureFlagParams('/competition', currentParams)
+
+      expect(result).toBe(
+        '/competition?enable-feature=feature-with-dashes&disable-feature=feature_with_underscores',
+      )
+    })
+
+    it('should maintain parameter order consistency', () => {
+      const currentParams = new URLSearchParams()
+      currentParams.append(QueryParams.DisableFeature, 'feature1')
+      currentParams.append(QueryParams.EnableFeature, 'feature2')
+      currentParams.append(QueryParams.DisableFeature, 'feature3')
+
+      const result = preserveFeatureFlagParams('/competition', currentParams)
+
+      // Parameters are processed in SYSTEM_PARAMS order: EnableFeature first, then DisableFeature
+      expect(result).toBe(
+        '/competition?enable-feature=feature2&disable-feature=feature1&disable-feature=feature3',
+      )
+    })
+
+    it('should handle absolute paths with leading slash', () => {
+      const currentParams = new URLSearchParams([
+        [QueryParams.EnableFeature, 'feature1'],
+      ])
+
+      const result = preserveFeatureFlagParams(
+        '/browse-data/datasets',
+        currentParams,
+      )
+
+      expect(result).toBe('/browse-data/datasets?enable-feature=feature1')
+    })
+
+    it('should handle relative paths without leading slash', () => {
+      const currentParams = new URLSearchParams([
+        [QueryParams.EnableFeature, 'feature1'],
+      ])
+
+      const result = preserveFeatureFlagParams(
+        'browse-data/datasets',
+        currentParams,
+      )
+
+      expect(result).toBe('/browse-data/datasets?enable-feature=feature1')
     })
   })
 })
