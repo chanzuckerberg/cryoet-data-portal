@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.74.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.73.0...cryoet-data-portal-frontend-v1.74.0) (2025-07-10)
+
+
+### ✨ Features
+
+* add core feature flag parameter handling ([#1894](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1894)) ([f92a05b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f92a05bd7008edf710659bdca4b222ff4cdb65fa))
+
+
+### ⚙ Continuous Integration
+
+* enhance Claude GitHub Actions and documentation ([#1890](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1890)) ([e0093eb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/e0093eb3ee54f581981a1cf28709eb01217d39f4))
+
 ## [1.73.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.72.0...cryoet-data-portal-frontend-v1.73.0) (2025-07-08)
 
 
