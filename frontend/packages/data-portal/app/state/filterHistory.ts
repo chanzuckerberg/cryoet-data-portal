@@ -68,7 +68,7 @@ export function useSyncParamsWithState({
     // Keep only allowed filters and system parameters
     for (const key of newParams.keys()) {
       const isAllowedFilter = filters.includes(key as QueryParams)
-      const isSystemParam = (SYSTEM_PARAMS as readonly QueryParams[]).includes(
+      const isSystemParam = SYSTEM_PARAMS.includes(
         key as QueryParams,
       )
 
