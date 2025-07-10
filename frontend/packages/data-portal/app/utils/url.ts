@@ -1,3 +1,4 @@
+import { SYSTEM_PARAMS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 
 /**
@@ -49,9 +50,43 @@ export function carryOverFilterParams({
   params: URLSearchParams
   prevParams: URLSearchParams
 }) {
-  for (const key of filters) {
+  // Combine system parameters and filters, removing duplicates
+  const allParams = [...new Set([...SYSTEM_PARAMS, ...filters])]
+
+  // Carry over all parameters in a single loop
+  for (const key of allParams) {
     prevParams.getAll(key).forEach((value) => params.append(key, value))
   }
 
   return params
+}
+
+/**
+ * Preserves feature flag parameters when navigating to a new URL.
+ * Takes feature flag parameters from current search params and adds them to the target URL.
+ *
+ * @param targetUrl The URL to navigate to
+ * @param currentSearchParams Current URL search parameters
+ * @returns URL with preserved feature flag parameters
+ */
+export function preserveFeatureFlagParams(
+  targetUrl: string,
+  currentSearchParams: URLSearchParams,
+): string {
+  // Don't modify external URLs
+  if (isExternalUrl(targetUrl)) {
+    return targetUrl
+  }
+
+  const url = createUrl(targetUrl)
+  const targetParams = url.searchParams
+
+  // Preserve feature flag parameters
+  for (const key of SYSTEM_PARAMS) {
+    currentSearchParams.getAll(key).forEach((value) => {
+      targetParams.append(key, value)
+    })
+  }
+
+  return url.pathname + url.search
 }

@@ -34,6 +34,7 @@ import { cnsNoMerge } from 'app/utils/cns'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { sendLogs } from 'app/utils/logging'
 import { getErrorMessage } from 'app/utils/string'
+import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
 const LOADING_DEPOSITIONS = range(0, MAX_PER_PAGE).map(
   (value) =>
@@ -392,7 +393,13 @@ export function DepositionTable() {
       columns={columns}
       onTableRowClick={(row) => {
         plausible(Events.ClickDeposition, { id: row.original.id })
-        navigate(`/depositions/${row.original.id}`)
+        const url = createUrl(`/depositions/${row.original.id}`)
+        carryOverFilterParams({
+          filters: [],
+          params: url.searchParams,
+          prevParams: searchParams,
+        })
+        navigate(`${url.pathname}${url.search}`)
       }}
       hoverType="group"
     />
