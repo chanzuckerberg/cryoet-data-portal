@@ -1,3 +1,4 @@
+import { SYSTEM_PARAMS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 
 /**
@@ -49,7 +50,11 @@ export function carryOverFilterParams({
   params: URLSearchParams
   prevParams: URLSearchParams
 }) {
-  for (const key of filters) {
+  // Combine system parameters and filters, removing duplicates
+  const allParams = [...new Set([...SYSTEM_PARAMS, ...filters])]
+
+  // Carry over all parameters in a single loop
+  for (const key of allParams) {
     prevParams.getAll(key).forEach((value) => params.append(key, value))
   }
 
