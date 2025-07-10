@@ -54,4 +54,4 @@ export const DEPOSITION_FILTERS = [
 export const SYSTEM_PARAMS = [
   QueryParams.EnableFeature,
   QueryParams.DisableFeature,
-] as const
+] as QueryParams[]
