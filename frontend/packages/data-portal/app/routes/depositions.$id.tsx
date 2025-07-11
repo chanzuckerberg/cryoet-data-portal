@@ -22,6 +22,11 @@ import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 import { getDepositionAnnotations } from 'app/graphql/getDepositionAnnotationsV2.server'
 import { getDepositionByIdV2 } from 'app/graphql/getDepositionByIdV2.server'
+import {getVoodoo} from 'app/graphql/getVoodooExperimentV2.server'
+import {
+  getDatasetsForDepositionViaTomograms,
+  getDatasetsForDepositionViaAnnotationShapes,
+} from 'app/graphql/getDatasetsForDepositionV2.server'
 import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.server'
 import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
@@ -35,6 +40,7 @@ import { getFeatureFlag, useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
+  console.log("HELLO VOODOO FROM DEPOSITION LOADER"); // REMOVE
   const url = new URL(request.url)
 
   const id = params.id ? +params.id : NaN
@@ -64,6 +70,28 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     orderBy: orderByV2,
     params: url.searchParams,
   })
+
+  // VOODOO Begin Vincent work, giant block of example query usage, not for real use!
+  const voodooResponse = await getVoodoo({
+    client,
+    id,
+  })
+  console.log("voodooResponse", voodooResponse); // REMOVE
+  console.log("voodooResponse.data.depositions", voodooResponse.data.depositions); // REMOVE
+  const voodooData = voodooResponse.data;
+
+  const { data: datasetsViaTomograms } = await getDatasetsForDepositionViaTomograms({
+    client,
+    depositionId: id,
+  })
+
+  const { data: datasetsViaAnnotationShapes } = await getDatasetsForDepositionViaAnnotationShapes({
+    client,
+    depositionId: id,
+  })
+
+  // END VOODOO End Vincent work for requests to GraphQL
+  // There is more Vincent stuff put in to the response and the use hook
 
   if (responseV2.depositions.length === 0) {
     throw new Response(null, {
@@ -116,6 +144,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     v2: responseV2,
     annotations: data && 'annotationShapes' in data ? data : undefined,
     tomograms: data && 'tomograms' in data ? data : undefined,
+    // VOODOO below this line is Vincent demo stuff
+    voodooData: voodooData,
+    datasetsViaTomograms,
+    datasetsViaAnnotationShapes,
   })
 }
 
@@ -149,6 +181,9 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 
 export default function DepositionByIdPage() {
   const { deposition, annotationsCount, tomogramsCount } = useDepositionById()
+  console.log("deposition", deposition); // REMOVE
+  console.log("annotationsCount", annotationsCount); // REMOVE
+  console.log("tomogramsCount", tomogramsCount); // REMOVE
   const { filteredDatasetsCount, totalDatasetsCount } = useDatasetsFilterData()
   const { t } = useI18n()
 
