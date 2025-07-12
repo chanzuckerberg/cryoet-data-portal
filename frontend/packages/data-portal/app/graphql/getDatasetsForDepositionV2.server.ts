@@ -27,6 +27,12 @@
  * it for getting the count on an organism, since an organism is really just a list of datasets.)
  * Note: For #3, we actually provide the counts off the # AnnotationShapes, not just
  * the annotations since it's the former that is how we present # annotations in UX.
+ *
+ * We are not trying to limit the returned results at all since we need to know _all_ the
+ * datasets at once to present it to the user. This should be safe because the number of datasets
+ * is fairly limited and the amount of data we pull per dataset is pretty small.
+ * If this eventually becomes an issue (say, CryoET has lots more datasets in the future and
+ * some wacky deposition has 1 thing in every single one of them), we'll have to rethink stuff.
  */
 import {
   ApolloClient,

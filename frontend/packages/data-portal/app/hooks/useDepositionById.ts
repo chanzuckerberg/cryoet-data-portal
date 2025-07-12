@@ -7,6 +7,7 @@ import {
   GetDatasetsForDepositionViaAnnotationShapesQuery,
   GetDatasetsForDepositionViaTomogramsQuery,
   type GetDepositionAnnotationsQuery,
+  GetDepositionAnnotationsForDatasetsQuery,
   GetDepositionByIdV2Query,
   type GetDepositionTomogramsQuery,
   PerformVoodooQuery,
@@ -33,6 +34,8 @@ export function useDepositionById() {
     voodooData,
     datasetsViaTomograms,
     datasetsViaAnnotationShapes,
+    runCountsForDepositionAnnotations,
+    annotationShapesForDatasets,
   } = useTypedLoaderData<{
     v2: GetDepositionByIdV2Query
     annotations?: GetDepositionAnnotationsQuery
@@ -40,11 +43,15 @@ export function useDepositionById() {
     voodooData: PerformVoodooQuery
     datasetsViaTomograms: GetDatasetsForDepositionViaTomogramsQuery
     datasetsViaAnnotationShapes: GetDatasetsForDepositionViaAnnotationShapesQuery
+    runCountsForDepositionAnnotations: GetDepositionAnnoRunsForDatasetsQuery
+    annotationShapesForDatasets: GetDepositionAnnotationsForDatasetsQuery
   }>()
 
   console.log("voodooData", voodooData); // REMOVE
   console.log("datasetsViaTomograms", datasetsViaTomograms); // REMOVE
   console.log("datasetsViaAnnotationShapes", datasetsViaAnnotationShapes); // REMOVE
+  console.log("runCountsForDepositionAnnotations", runCountsForDepositionAnnotations); // REMOVE
+  console.log("annotationShapesForDatasets", annotationShapesForDatasets); // REMOVE
 
   const annotationMethods: AnnotationMethodMetadata[] = useMemo(() => {
     const annotationMethodToMetadata = new Map<
