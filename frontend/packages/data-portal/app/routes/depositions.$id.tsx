@@ -30,7 +30,10 @@ import {
   getDatasetsForDepositionViaTomograms,
   getDatasetsForDepositionViaAnnotationShapes,
 } from 'app/graphql/getDatasetsForDepositionV2.server'
-import { getDepositionAnnoRunsForDatasets } from 'app/graphql/getDepositionRunsV2.server'
+import {
+  getDepositionAnnoRunCountsForDatasets,
+  getDepositionAnnoRunsForDataset,
+} from 'app/graphql/getDepositionRunsV2.server'
 import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.server'
 import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
@@ -98,10 +101,22 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   // `datasetsViaBlah` results into the datasets associated with either anno or tomo flavor.
   // Sorry I didn't have time to write the code for extracting these dataset ids!
   const EXAMPLE_ALL_DATASET_IDS = [10301, 10302]
-  const { data: runCountsForDepositionAnnotations} = await getDepositionAnnoRunsForDatasets({
+  const { data: runCountsForDepositionAnnotations} = await getDepositionAnnoRunCountsForDatasets({
     client,
     depositionId: id,
     datasetIds: EXAMPLE_ALL_DATASET_IDS,
+  })
+
+  // MANUALLY SET the following dataset id based on deposition you are dev-ing against.
+  // This is a rough example of how user interaction would go. For deposition id 10314,
+  // the user has chosen to expand the accordion of dataset id 10301, so now showing
+  // the run info for that dataset.
+  const EXAMPLE_DATASET_ID = 10301
+  const { data: runsAnnoForDepositionInDataset } = await getDepositionAnnoRunsForDataset({
+    client,
+    depositionId: id,
+    datasetId: EXAMPLE_DATASET_ID,
+    page: 1,
   })
 
   // MANUALLY SET the following array based on deposition you are dev-ing against.
@@ -114,9 +129,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     datasetIds: EXAMPLE_FILTERED_DATASET_IDS,
     page: 1,
   })
-
-
-
   // END VOODOO End Vincent work for requests to GraphQL
   // There is more Vincent stuff put in to the response and the use hook
 
@@ -176,6 +188,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     datasetsViaTomograms,
     datasetsViaAnnotationShapes,
     runCountsForDepositionAnnotations,
+    runsAnnoForDepositionInDataset,
     annotationShapesForDatasets,
   })
 }
