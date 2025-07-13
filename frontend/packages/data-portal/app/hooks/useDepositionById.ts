@@ -13,6 +13,7 @@ import {
   GetDepositionByIdV2Query,
   type GetDepositionTomogramsQuery,
   PerformVoodooQuery,
+  GetAnnotationsForRunAndDepositionQuery,
 } from 'app/__generated_v2__/graphql'
 import { METHOD_TYPE_ORDER } from 'app/constants/methodTypes'
 
@@ -38,6 +39,7 @@ export function useDepositionById() {
     datasetsViaAnnotationShapes,
     runCountsForDepositionAnnotations,
     runsAnnoForDepositionInDataset,
+    annotationsForRunInDeposition,
     annotationShapesForDatasets,
   } = useTypedLoaderData<{
     v2: GetDepositionByIdV2Query
@@ -47,6 +49,7 @@ export function useDepositionById() {
     datasetsViaTomograms: GetDatasetsForDepositionViaTomogramsQuery
     datasetsViaAnnotationShapes: GetDatasetsForDepositionViaAnnotationShapesQuery
     runCountsForDepositionAnnotations: GetDepositionAnnoRunCountsForDatasetsQuery
+    annotationsForRunInDeposition: GetAnnotationsForRunAndDepositionQuery
     runsAnnoForDepositionInDataset: GetDepositionAnnoRunsForDatasetQuery
     annotationShapesForDatasets: GetDepositionAnnotationsForDatasetsQuery
   }>()
@@ -56,6 +59,7 @@ export function useDepositionById() {
   console.log("datasetsViaAnnotationShapes", datasetsViaAnnotationShapes); // REMOVE
   console.log("runCountsForDepositionAnnotations", runCountsForDepositionAnnotations); // REMOVE
   console.log("runsAnnoForDepositionInDataset", runsAnnoForDepositionInDataset); // REMOVE
+  console.log("annotationsForRunInDeposition", annotationsForRunInDeposition); // REMOVE
   console.log("annotationShapesForDatasets", annotationShapesForDatasets); // REMOVE
 
   const annotationMethods: AnnotationMethodMetadata[] = useMemo(() => {
