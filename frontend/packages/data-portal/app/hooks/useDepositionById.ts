@@ -4,7 +4,9 @@ import { useTypedLoaderData } from 'remix-typedjson'
 import {
   Annotation_Method_Link_Type_Enum,
   Annotation_Method_Type_Enum,
+  type GetDepositionAnnotationsQuery,
   GetDepositionByIdV2Query,
+  type GetDepositionTomogramsQuery,
 } from 'app/__generated_v2__/graphql'
 import { METHOD_TYPE_ORDER } from 'app/constants/methodTypes'
 
@@ -21,8 +23,10 @@ export interface AnnotationMethodMetadata {
 }
 
 export function useDepositionById() {
-  const { v2 } = useTypedLoaderData<{
+  const { v2, annotations, tomograms } = useTypedLoaderData<{
     v2: GetDepositionByIdV2Query
+    annotations?: GetDepositionAnnotationsQuery
+    tomograms?: GetDepositionTomogramsQuery
   }>()
 
   const annotationMethods: AnnotationMethodMetadata[] = useMemo(() => {
@@ -86,8 +90,23 @@ export function useDepositionById() {
   }, [v2.depositions])
 
   return {
-    deposition: v2.depositions[0],
-    datasets: v2.datasets,
     annotationMethods,
+    annotations,
+    tomograms,
+    allRuns: v2.allRuns,
+    datasets: v2.datasets,
+    deposition: v2.depositions[0],
+
+    annotationsCount:
+      v2.annotationsCount.aggregate?.reduce(
+        (total, node) => total + (node.count ?? 0),
+        0,
+      ) ?? 0,
+
+    tomogramsCount:
+      v2.tomogramsCount.aggregate?.reduce(
+        (total, node) => total + (node.count ?? 0),
+        0,
+      ) ?? 0,
   }
 }

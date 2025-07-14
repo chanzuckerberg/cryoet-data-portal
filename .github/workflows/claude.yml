@@ -1,0 +1,167 @@
+name: Claude Code
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  issues:
+    types: [opened, assigned]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  claude:
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write
+      actions: read # Required for Claude to read CI results on PRs
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code
+        id: claude
+        uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          max_turns: 50
+
+          # This is an optional setting that allows Claude to read CI results on PRs
+          additional_permissions: |
+            actions: read
+
+          # Optional: Specify model (defaults to Claude Sonnet 4, uncomment for Claude Opus 4)
+          # model: "claude-opus-4-20250514"
+
+          # Optional: Customize the trigger phrase (default: @claude)
+          # trigger_phrase: "/claude"
+
+          # Optional: Trigger when specific user is assigned to an issue
+          # assignee_trigger: "claude-bot"
+
+          # Optional: Allow Claude to run specific commands
+          allowed_tools: |
+            Bash(curl *)
+            Bash(git *)
+            Bash(npm *)
+            Bash(pnpm *)
+            Bash(npx *)
+            Bash(node *)
+            Bash(python *)
+            Bash(pip *)
+            Bash(make *)
+            Bash(pytest *)
+            mcp__sequential-thinking__sequentialthinking
+
+          # Optional: Add custom instructions for Claude to customize its behavior for your project
+          custom_instructions: |
+            ## CryoET Data Portal Codebase Context
+
+            You are working on the CryoET Data Portal, a scientific data platform for sharing cryogenic electron tomography data.
+            Refer to CLAUDE.md in the repository root for detailed development guidance.
+
+            ### Repository Structure
+            - `frontend/`: React/Remix web application (pnpm monorepo)
+              - `packages/data-portal/`: Main web application
+              - Uses strict TypeScript, GraphQL with Apollo Client, Material-UI + Tailwind CSS
+            - `client/python/`: Python API client library (Python 3.7-3.12)
+            - `docs/`: Sphinx documentation
+            - `website-docs/`: Static documentation pages
+
+            ### Tech Stack
+            **Frontend:**
+            - Remix (SSR React framework) with TypeScript strict mode
+            - GraphQL with Apollo Client (types in app/__generated_v2__/)
+            - Material-UI + Tailwind CSS + CSS Modules (camelCase classes)
+            - Jotai for state management
+            - i18next for internationalization
+            - Jest (unit tests), Playwright (E2E tests)
+
+            **Python Client:**
+            - GraphQL client using gql library
+            - boto3 for AWS S3 operations
+            - pytest for testing, mypy for type checking
+            - Black and Ruff for formatting/linting
+
+            ### Essential Commands
+            **Frontend Development:**
+            ```bash
+            cd frontend
+            nvm use                    # Use correct Node version
+            pnpm install               # Install dependencies
+            pnpm dev                   # Start dev server
+            pnpm data-portal build:codegen  # Generate GraphQL types
+            pnpm test                  # Run tests
+            pnpm e2e                   # Run E2E tests
+            pnpm lint:fix              # Fix linting issues
+            pnpm type-check            # TypeScript checking
+            ```
+
+            **Python Development:**
+            ```bash
+            cd client/python/cryoet_data_portal
+            pip install -e .           # Install in dev mode
+            make test-infra            # Setup test infrastructure
+            make coverage              # Run tests with coverage
+            ```
+
+            ### Code Standards
+            1. **TypeScript**: Never use `any`, ensure strict mode compliance
+            2. **React**: Use functional components, proper hooks, memoization where needed
+            3. **GraphQL**: Always regenerate types after query changes
+            4. **CSS**: Use CSS Modules with camelCase, Tailwind utilities
+            5. **Python**: Complete type hints, follow existing API patterns
+            6. **Testing**: Write tests for all new functionality
+            7. **Accessibility**: ARIA labels, keyboard navigation support
+            8. **i18n**: All user text must use translation keys
+
+            ### Common Workflows
+
+            **Adding a Feature:**
+            1. For GraphQL changes: Update queries, run `pnpm data-portal build:codegen`
+            2. Create/modify components following existing patterns
+            3. Add route if needed in app/routes/
+            4. Write tests alongside implementation
+            5. Run `pnpm lint:fix` and `pnpm type-check` before committing
+
+            **Before Committing:**
+            ALWAYS run these commands to ensure code quality:
+            - Frontend: `pnpm lint:fix`, `pnpm type-check`, `pnpm test`
+            - Python: `make coverage`, ensure mypy passes
+
+            ### Important Notes
+            - This is a scientific data platform - prioritize data integrity and accuracy
+            - Consider performance implications for large datasets
+            - Follow existing file structure and naming conventions
+            - Check imports - use existing libraries, don't add new ones without discussion
+            - Never expose secrets or API keys
+            - Use environment variables for configuration
+            - Ensure changes work across supported Python versions (3.7-3.12)
+
+          # Optional: Custom environment variables for Claude
+          # claude_env: |
+          #   NODE_ENV: test
+
+          mcp_config: |
+            {
+              "mcpServers": {
+                "sequential-thinking": {
+                  "command": "npx",
+                  "args": [
+                    "-y",
+                    "@modelcontextprotocol/server-sequential-thinking"
+                  ]
+                }
+              }
+            }

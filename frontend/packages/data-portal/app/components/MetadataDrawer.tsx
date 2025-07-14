@@ -22,6 +22,7 @@ interface MetaDataDrawerProps {
   idInfo?: { label: I18nKeys; text: string }
   label: string
   MetadataTabComponent?: ComponentType
+  ObjectOverviewTabComponent?: ComponentType
   onClose?(): void
   title: string
 }
@@ -33,6 +34,7 @@ export function MetadataDrawer({
   idInfo,
   label,
   MetadataTabComponent,
+  ObjectOverviewTabComponent,
   onClose,
   title,
 }: MetaDataDrawerProps) {
@@ -66,6 +68,15 @@ export function MetadataDrawer({
           ]
         : []),
 
+      ...(ObjectOverviewTabComponent
+        ? [
+            {
+              label: t('objectOverview'),
+              value: MetadataTab.ObjectOverview,
+            },
+          ]
+        : []),
+
       ...(HowToCiteTabComponent
         ? [
             {
@@ -75,7 +86,12 @@ export function MetadataDrawer({
           ]
         : []),
     ],
-    [HowToCiteTabComponent, MetadataTabComponent, t],
+    [
+      HowToCiteTabComponent,
+      MetadataTabComponent,
+      ObjectOverviewTabComponent,
+      t,
+    ],
   )
 
   return (
@@ -141,6 +157,9 @@ export function MetadataDrawer({
         >
           {drawer.activeTab === MetadataTab.Metadata &&
             MetadataTabComponent && <MetadataTabComponent />}
+
+          {drawer.activeTab === MetadataTab.ObjectOverview &&
+            ObjectOverviewTabComponent && <ObjectOverviewTabComponent />}
 
           {drawer.activeTab === MetadataTab.HowToCite &&
             HowToCiteTabComponent && <HowToCiteTabComponent />}

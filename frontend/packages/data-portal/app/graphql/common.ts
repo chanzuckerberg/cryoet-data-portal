@@ -134,14 +134,13 @@ export function getDatasetsFilter({
 
   // NAME/ID SECTION
   // Dataset IDs
-  const datasetId =
-    filterState.ids.dataset !== null
-      ? parseInt(filterState.ids.dataset)
-      : undefined
-  if (Number.isInteger(datasetId)) {
-    where.id = {
-      _eq: datasetId,
-    }
+  const datasetIds = filterState.ids.datasets
+    .map((id) => parseInt(id))
+    .filter((id) => Number.isInteger(id))
+
+  if (datasetIds.length > 0) {
+    where.id =
+      datasetIds.length === 1 ? { _eq: datasetIds[0] } : { _in: datasetIds }
   }
   const empiarId = filterState.ids.empiar
   const emdbId = filterState.ids.emdb

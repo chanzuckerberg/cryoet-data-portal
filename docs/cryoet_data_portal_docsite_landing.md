@@ -1,5 +1,6 @@
 ---
 hide-navigation: true
+tocdepth: 3
 ---
 
 # CryoET Data Portal | Documentation
@@ -77,13 +78,13 @@ Refer to [this how-to guide](download-data) for information on downloading data 
 
 If you use the CryoET Data Portal in your work, please cite the following publication:
 
-Ermel, U., Cheng, A., Ni, J.X. et al. A data portal for providing standardized annotations for cryo-electron tomography. Nat Methods 21, 2200–2202 (2024). https://doi.org/10.1038/s41592-024-02477-2
+Ermel, U., Cheng, A., Ni, J.X. et al. A data portal for providing standardized annotations for cryo-electron tomography. Nat Methods 21, 2200–2202 (2024). [https://doi.org/10.1038/s41592-024-02477-2](https://doi.org/10.1038/s41592-024-02477-2)
 
 ### Acknowledging Data Contributors
 
 If you use data from the Portal in your work, please acknowledge the authors and cite associated publications. Below is an example of recommended formatting:
 
-> Some of the data used in this work was provided by Irene de Teresa Trueba et al and Mallak Ali et al. The data are available through the CryoET Data Portal (Nat Methods 21, 2200–2202 (2024). https://doi.org/10.1038/s41592-024-02477-2) with the following metadata.
+> Some of the data used in this work was provided by Irene de Teresa Trueba et al and Mallak Ali et al. The data are available through the CryoET Data Portal (Nat Methods 21, 2200–2202 (2024). [https://doi.org/10.1038/s41592-024-02477-2](https://doi.org/10.1038/s41592-024-02477-2)) with the following metadata.
 >
 > | Deposition ID | Entity Type | Entity ID(s) | Primary Author(s) | Associated Publication DOI(s) |
 > | ------------- | ----------- | ------------ | ----------------- | ----------------------------- |

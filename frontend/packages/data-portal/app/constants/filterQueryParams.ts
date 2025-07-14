@@ -50,3 +50,8 @@ export const DEPOSITION_FILTERS = [
   ...COMMON_DATASET_FILTERS,
   QueryParams.ObjectId,
 ] as const
+
+export const SYSTEM_PARAMS = [
+  QueryParams.EnableFeature,
+  QueryParams.DisableFeature,
+] as QueryParams[]

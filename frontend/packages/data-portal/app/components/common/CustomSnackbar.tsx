@@ -1,3 +1,4 @@
+import { CheckCircleOutlineOutlined } from '@mui/icons-material'
 import Alert from '@mui/material/Alert'
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
 
@@ -6,7 +7,6 @@ type CustomSnackbarProps = {
   variant?: 'filled' | 'outlined' | 'standard'
   severity?: 'error' | 'info' | 'success' | 'warning'
   message?: JSX.Element | string
-  autoHideDuration: number
   handleClose: (
     event: React.SyntheticEvent | Event,
     reason?: SnackbarCloseReason,
@@ -39,6 +39,7 @@ const styles = {
   },
   '&.MuiAlert-filledSuccess': {
     backgroundColor: '#DAF4DE',
+    borderLeft: '0.25rem solid #105B2B',
     '& .MuiAlert-icon': {
       color: '#105B2B',
     },
@@ -50,20 +51,18 @@ export function CustomSnackbar({
   variant = 'standard',
   severity = 'info',
   message,
-  autoHideDuration,
   handleClose,
 }: CustomSnackbarProps) {
   return (
-    <Snackbar
-      open={open}
-      autoHideDuration={autoHideDuration}
-      onClose={handleClose}
-    >
+    <Snackbar open={open} onClose={handleClose}>
       <Alert
         onClose={handleClose}
         severity={severity}
         variant={variant}
         sx={styles}
+        icon={
+          severity === 'success' ? <CheckCircleOutlineOutlined /> : undefined
+        }
       >
         {message}
       </Alert>

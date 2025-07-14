@@ -10,6 +10,7 @@ export enum QueryParams {
   Competition = 'competition',
   DatasetId = 'dataset_id',
   DepositionId = 'deposition-id',
+  DepositionTab = 'deposition-tab',
   DownloadConfig = 'download-config',
   DownloadStep = 'download-step',
   DownloadTab = 'download-tab',
@@ -41,4 +42,6 @@ export enum QueryParams {
   TomogramProcessing = 'tomogram-processing',
   TomogramSampling = 'tomogram-sampling',
   TomogramsPage = 'tomograms-page',
+  EnableFeature = 'enable-feature',
+  DisableFeature = 'disable-feature',
 }

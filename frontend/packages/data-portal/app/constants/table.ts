@@ -101,3 +101,20 @@ export const ExperimentalConditionsTableWidths = {
   gridPreparation: { width: 120 },
   runs: { width: 100 },
 }
+
+export const DepositionAnnotationTableWidths = {
+  name: { width: 350 },
+  objectShapeType: { width: 160 },
+  methodType: { width: 160 },
+  depositedIn: { width: 340 },
+}
+
+export const DepositionTomogramTableWidths = {
+  photo: PHOTO_COLUMN_WIDTH,
+  name: { width: 200 },
+  voxelSpacing: { width: 160 },
+  reconstructionMethod: { width: 142 },
+  postProcessing: { width: 120 },
+  depositedIn: { width: 230 },
+  actions: { width: 158 },
+}
