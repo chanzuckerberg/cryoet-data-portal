@@ -29,4 +29,11 @@ Guide on how the CryoET Data Portal is organized
 
 Overview of the data pipeline from acquisition to analysis
 :::
+
+:::{grid-item-card} CryoET Image Processing Challenges
+:link: cryoet-ctf
+:link-type: ref
+
+A discussion of major challenges that affect tomogram resolution and analysis
+:::
 ::::

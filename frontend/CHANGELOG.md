@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.74.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.73.0...cryoet-data-portal-frontend-v1.74.0) (2025-07-10)
+
+
+### ✨ Features
+
+* add core feature flag parameter handling ([#1894](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1894)) ([f92a05b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f92a05bd7008edf710659bdca4b222ff4cdb65fa))
+
+
+### ⚙ Continuous Integration
+
+* enhance Claude GitHub Actions and documentation ([#1890](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1890)) ([e0093eb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/e0093eb3ee54f581981a1cf28709eb01217d39f4))
+
+## [1.73.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.72.0...cryoet-data-portal-frontend-v1.73.0) (2025-07-08)
+
+
+### ✨ Features
+
+* Add a citation button to pages ([#1856](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1856)) ([65463fb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/65463fba5dfc5e387384a53e51f50abfd912699b))
+* add dataset and organism filters to deposition page ([#1876](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1876)) ([5f2012f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/5f2012f63ef6d26b6cd17df903f2b9cc977fb0c7))
+* add deposition information to dataset metadata display ([#1873](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1873)) ([79293cf](https://github.com/chanzuckerberg/cryoet-data-portal/commit/79293cfbfb087f93419f7fe1813e2d27f8b2d189))
+* add info panel tab with placeholder data ([#1887](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1887)) ([b6c4b93](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b6c4b937f57e08d53d27686242b3b97942a81e40))
+* added frontend CLAUDE.md ([#1867](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1867)) ([ee3c772](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ee3c772d6ee2aa0657e34f4047e14b91bac22bd4))
+* adding missing commit for [#1852](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1852) ([#1866](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1866)) ([43843d2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/43843d25f7afcfb8bf0095656856c2186e40bc4c))
+* single deposition table updates ([#1852](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1852)) ([4ad2cdc](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4ad2cdce27c63ceaae76456e87576b3fab72536e))
+* single deposition table updates setup ([#1851](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1851)) ([b393913](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b393913dd44cdb484f11f30d88a18368adf12e2d))
+
+
+### 🧹 Miscellaneous Chores
+
+* Fix URL in Learn More link for Ground Truth ([#1843](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1843)) ([4a4d4f0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4a4d4f0fe65bff88686f8eb3bf474d6b9afde880))
+* Update author filter wording to ORCID ID ([#1858](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1858)) ([7d44e7f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7d44e7fc31ed7ba12e4858033542c86aad71894d))
+
 ## [1.72.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.71.0...cryoet-data-portal-frontend-v1.72.0) (2025-06-09)
 
 

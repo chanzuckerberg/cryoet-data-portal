@@ -2,6 +2,7 @@ import { useSearchParams } from '@remix-run/react'
 import { atom, useAtom } from 'jotai'
 import { useEffect } from 'react'
 
+import { SYSTEM_PARAMS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 
 export const previousBrowseDatasetParamsAtom = atom('')
@@ -64,8 +65,12 @@ export function useSyncParamsWithState({
   useEffect(() => {
     const newParams = new URLSearchParams(searchParams)
 
+    // Keep only allowed filters and system parameters
     for (const key of newParams.keys()) {
-      if (!filters.includes(key as QueryParams)) {
+      const isAllowedFilter = filters.includes(key as QueryParams)
+      const isSystemParam = SYSTEM_PARAMS.includes(key as QueryParams)
+
+      if (!isAllowedFilter && !isSystemParam) {
         newParams.delete(key)
       }
     }
