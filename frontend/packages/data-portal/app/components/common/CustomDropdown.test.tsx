@@ -1,48 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import { jest } from '@jest/globals'
-import {
-  CustomDropdown,
-  CustomDropdownSection,
-  CustomDropdownOption,
-} from './CustomDropdown'
+import { CustomDropdownSection, CustomDropdownOption } from './CustomDropdown'
 import userEvent from '@testing-library/user-event'
 
-describe('CustomDropdown', () => {
-  it('should render custom button element', () => {
-    render(
-      <CustomDropdown buttonElement={<div><button>Custom Button</button></div>}>
-        <div>Test Content</div>
-      </CustomDropdown>,
-    )
-
-    expect(screen.getByText('Custom Button')).toBeInTheDocument()
-  })
-
-  it('should apply custom className', () => {
-    const { container } = render(
-      <CustomDropdown className="custom-class">
-        <div>Test</div>
-      </CustomDropdown>,
-    )
-
-    expect(container.firstChild).toHaveClass('custom-class')
-  })
-
-  it('should support different variants', () => {
-    const { rerender } = render(
-      <CustomDropdown variant="standard">
-        <div>Test</div>
-      </CustomDropdown>,
-    )
-
-    rerender(
-      <CustomDropdown variant="outlined">
-        <div>Test</div>
-      </CustomDropdown>,
-    )
-  })
-})
-
+// Top level custom dropdown functionality covered in MenuDropdown tests
 describe('CustomDropdownSection', () => {
   it('should render title and children', () => {
     render(
@@ -90,7 +51,7 @@ describe('CustomDropdownOption', () => {
       .getByText('Selected Option')
       .closest('li')
       ?.querySelector('svg')
-    
+
     expect(icon).toBeInTheDocument()
     expect(screen.getByText('Selected Option')).toHaveClass('font-semibold')
   })
