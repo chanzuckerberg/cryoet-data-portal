@@ -2,19 +2,19 @@ import { useLocalStorageValue } from '@react-hookz/web'
 import dayjs from 'dayjs'
 import React, { useState } from 'react'
 
+import { LocalStorageKeys } from 'app/constants/localStorage'
+
 import { ReusableTimeBasedBanner } from '../common/ReusableTimeBasedBanner/ReusableTimeBasedBanner'
 
 type NeuroglancerBannerProps = {
   onStartTour: (event: React.MouseEvent<HTMLElement>) => void
 }
 
-const NEUROGLANCER_BANNER_KEY = 'neuroglancerBanner'
-
 export function NeuroglancerBanner({ onStartTour }: NeuroglancerBannerProps) {
   const [open, setOpen] = useState(false)
 
   const { set: setLastDismissed } = useLocalStorageValue<string | null>(
-    NEUROGLANCER_BANNER_KEY,
+    LocalStorageKeys.NeuroglancerBannerDismissed,
     { defaultValue: null },
   )
 
@@ -27,7 +27,11 @@ export function NeuroglancerBanner({ onStartTour }: NeuroglancerBannerProps) {
   const bannerMessage = (
     <span>
       New to Neuroglancer? Learn the essentials in{' '}
-      <button type="button" className="text-[#1A6CEF]" onClick={handleClick}>
+      <button
+        type="button"
+        className="text-light-sds-color-primitive-blue-500"
+        onClick={handleClick}
+      >
         this guided tour
       </button>
       .
@@ -38,7 +42,7 @@ export function NeuroglancerBanner({ onStartTour }: NeuroglancerBannerProps) {
     <ReusableTimeBasedBanner
       open={open}
       setOpen={setOpen}
-      localStorageKey={NEUROGLANCER_BANNER_KEY}
+      localStorageKey={LocalStorageKeys.NeuroglancerBannerDismissed}
       message={bannerMessage}
       sdsType="secondary"
       icon="Book"

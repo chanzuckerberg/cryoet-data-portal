@@ -4,6 +4,7 @@ import { useLocation } from '@remix-run/react'
 import dayjs, { OpUnitType } from 'dayjs'
 
 import { I18n } from 'app/components/I18n'
+import { LocalStorageKeys } from 'app/constants/localStorage'
 import { useEffectOnce } from 'app/hooks/useEffectOnce'
 import { cns } from 'app/utils/cns'
 
@@ -14,7 +15,7 @@ const BANNER_REDISPLAY_UNITS: OpUnitType = 'weeks'
 type ReusableTimeBasedBannerProps = {
   open: boolean
   setOpen: (open: boolean) => void
-  localStorageKey: string
+  localStorageKey: LocalStorageKeys
   message?: JSX.Element | string
   messageKey?: 'surveyBanner'
   sdsType?: 'primary' | 'secondary'

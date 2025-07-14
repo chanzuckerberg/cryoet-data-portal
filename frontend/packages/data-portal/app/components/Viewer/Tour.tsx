@@ -1,4 +1,5 @@
 import { Icon } from '@czi-sds/components'
+import { useLayoutEffect, useState } from 'react'
 import Joyride, {
   ACTIONS,
   CallBackProps,
@@ -11,6 +12,72 @@ import Joyride, {
 
 import { cns } from 'app/utils/cns'
 
+function ProxyOverlay({
+  targetSelector,
+  className,
+  stepIndex,
+}: {
+  targetSelector: string
+  className: string
+  stepIndex: number
+}) {
+  const [style, setStyle] = useState<React.CSSProperties | undefined>(undefined)
+  useLayoutEffect(() => {
+    const updatePosition = () => {
+      const iframe = document.querySelector('iframe')
+      const target = iframe?.contentDocument?.querySelector(
+        targetSelector,
+      ) as HTMLElement | null
+      if (!iframe || !target) return
+
+      const iframeRect = iframe.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+
+      setStyle({
+        position: 'absolute',
+        top: targetRect.top + iframeRect.top,
+        left: targetRect.left + iframeRect.left,
+        width: targetRect.width,
+        height: targetRect.height,
+        zIndex: -1,
+        pointerEvents: 'none',
+        backgroundColor: 'transparent',
+      })
+    }
+
+    window.addEventListener('resize', updatePosition)
+    updatePosition()
+
+    return () => {
+      window.removeEventListener('resize', updatePosition)
+    }
+  }, [targetSelector, stepIndex])
+
+  const sanitizedSelector = targetSelector.replace(/[^a-zA-Z0-9-_:.]/g, '-')
+  return <div className={className} id={sanitizedSelector} style={style} />
+}
+
+function ProxyOverlayGroup({
+  selectors,
+  stepIndex,
+}: {
+  selectors: { target: string; className: string }[]
+  stepIndex: number
+}) {
+  return (
+    <>
+      {selectors.map((selector) => (
+        <ProxyOverlay
+          targetSelector={selector.target}
+          className={selector.className}
+          stepIndex={stepIndex}
+          key={selector.target + selector.className + stepIndex}
+        />
+      ))}
+    </>
+  )
+}
+
 interface CustomTourProps {
   steps: Step[]
   run: boolean
@@ -21,12 +88,14 @@ interface CustomTourProps {
     index: number,
     action: (typeof ACTIONS)[keyof typeof ACTIONS],
   ) => void
+  proxySelectors: { target: string; className: string }[]
+  proxyIndex: number
 }
 
 const outlinedButtonStyles =
-  'py-1.5 px-3 rounded-sds-l font-semibold border border-[#0B68F8] text-[#0B68F8]'
+  'py-1.5 px-3 rounded-sds-l font-semibold border border-light-sds-color-primitive-blue-500 text-light-sds-color-primitive-blue-500'
 const filledButtonStyles =
-  'py-1.5 px-3 rounded-sds-l font-semibold bg-[#0B68F8] text-white'
+  'py-1.5 px-3 rounded-sds-l font-semibold bg-light-sds-color-primitive-blue-500 text-dark-sds-color-primitive-gray-900'
 
 function CustomTooltip(
   props: TooltipRenderProps,
@@ -39,11 +108,18 @@ function CustomTooltip(
   const tooltipContainerStyles =
     index === 0 || isLastStep ? 'p-10 max-w-[650px]' : 'p-4 max-w-[334px]'
   const titleStyles =
-    index === 0 ? 'text-[22px] leading-[30px]' : 'text-base leading-6'
+    index === 0
+      ? 'text-sds-header-xl-600-wide'
+      : 'text-sds-body-m-400-wide leading-6'
   const buttonContainerStyles = index === 0 || isLastStep ? 'mt-10' : 'mt-6'
 
   return (
-    <div className={cns(tooltipContainerStyles, 'bg-white rounded')}>
+    <div
+      className={cns(
+        tooltipContainerStyles,
+        'bg-dark-sds-color-primitive-gray-900 rounded',
+      )}
+    >
       <div className="flex justify-between items-center">
         <div className={cns(titleStyles, 'font-semibold')}>{step.title}</div>
         <button
@@ -51,7 +127,11 @@ function CustomTooltip(
           onClick={onClose}
           className="w-4 h-4 flex items-center"
         >
-          <Icon sdsIcon="XMark" sdsSize="s" className="!text-[#767676]" />
+          <Icon
+            sdsIcon="XMark"
+            sdsSize="s"
+            className="!text-light-sds-color-primitive-gray-600"
+          />
         </button>
       </div>
 
@@ -64,7 +144,7 @@ function CustomTooltip(
         )}
       >
         {index > 0 && (
-          <p className="text-[#767676] text-sm">
+          <p className="text-light-sds-color-primitive-gray-600 text-sds-body-s-400-narrow">
             Step {index} of {size - 1}
           </p>
         )}
@@ -141,6 +221,8 @@ export function Tour({
   onRestart,
   onClose,
   onMove,
+  proxySelectors,
+  proxyIndex,
 }: CustomTourProps) {
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { action, index, origin, status, type } = data
@@ -161,23 +243,26 @@ export function Tour({
   }
 
   return (
-    <Joyride
-      steps={steps}
-      run={run}
-      stepIndex={stepIndex}
-      spotlightClicks
-      spotlightPadding={0}
-      continuous
-      disableOverlayClose
-      disableScrolling
-      floaterProps={{ hideArrow: true }}
-      styles={{
-        options: {
-          zIndex: 10000,
-        },
-      }}
-      callback={handleJoyrideCallback}
-      tooltipComponent={(props) => CustomTooltip(props, onRestart, onClose)}
-    />
+    <div>
+      <ProxyOverlayGroup selectors={proxySelectors} stepIndex={proxyIndex} />
+      <Joyride
+        steps={steps}
+        run={run}
+        stepIndex={stepIndex}
+        spotlightClicks
+        spotlightPadding={0}
+        continuous
+        disableOverlayClose
+        disableScrolling
+        floaterProps={{ hideArrow: true }}
+        styles={{
+          options: {
+            zIndex: 10000,
+          },
+        }}
+        callback={handleJoyrideCallback}
+        tooltipComponent={(props) => CustomTooltip(props, onRestart, onClose)}
+      />
+    </div>
   )
 }
