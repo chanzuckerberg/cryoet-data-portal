@@ -17,6 +17,13 @@ export function isExternalUrl(url: string): boolean {
   }
 }
 /**
+ * Checks if the URL is a neuroglancer URL
+ */
+export function isNeuroglancerUrl(url: string): boolean {
+  return url.includes('/#!')
+}
+
+/**
  * Wrapper over the URL constructor with additional functionality. URLs that
  * cannot be constructor without a base will automatically have the base
  * `http://tmp.com` added to the URL. This is to ensure URLs can be created from
