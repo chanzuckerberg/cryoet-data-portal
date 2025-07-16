@@ -12,6 +12,7 @@ import { AtomTupleWithValue } from 'app/types/state'
 
 import { Breadcrumbs } from './Breadcrumbs'
 import { HydrateAtomsProvider } from './HydrateAtomsProvider'
+import userEvent from '@testing-library/user-event'
 
 const BREADCRUMB_DATA = {
   id: 10,
@@ -26,12 +27,14 @@ function renderBreadcrumbs({
   previousSingleDatasetParams,
   previousSingleDepositionParams,
   variant,
+  activeBreadcrumbText,
 }: {
   previousBrowseDatasetParams?: string
   previousDepositionId?: number
   previousSingleDatasetParams?: string
   previousSingleDepositionParams?: string
   variant: BreadcrumbsProp['variant']
+  activeBreadcrumbText?: React.ReactNode
 }) {
   function BreadcrumbWrapper() {
     const initialValues: AtomTupleWithValue[] = []
@@ -63,7 +66,11 @@ function renderBreadcrumbs({
 
     return (
       <HydrateAtomsProvider initialValues={initialValues}>
-        <Breadcrumbs variant={variant} data={BREADCRUMB_DATA} />
+        <Breadcrumbs
+          variant={variant}
+          data={BREADCRUMB_DATA}
+          activeBreadcrumbText={activeBreadcrumbText}
+        />
       </HydrateAtomsProvider>
     )
   }
@@ -200,6 +207,39 @@ describe('<Breadcrumbs />', () => {
       renderBreadcrumbs({ variant: 'deposition' })
 
       expect(screen.queryByText('deposition')).toBeVisible()
+    })
+  })
+
+  describe('variant=neuroglancer', () => {
+    it(`should render a breadcrumb link back to the dataset`, () => {
+      renderBreadcrumbs({ variant: 'neuroglancer' })
+
+      expect(
+        screen.queryByRole('link', {
+          name: SINGLE_DATASET_TITLE,
+        }),
+      ).toHaveAttribute('href', SINGLE_DATASET_URL)
+    })
+
+    it(`should render a tooltip with the dataset title`, async () => {
+      renderBreadcrumbs({ variant: 'neuroglancer' })
+      const option = screen.getByText(SINGLE_DATASET_TITLE)
+      await userEvent.hover(option)
+
+      expect(
+        screen.queryByText(`Go to dataset: ${BREADCRUMB_DATA.title}`),
+      ).toBeVisible()
+    })
+
+    it(`should render a custom active breadcrumb if provided`, () => {
+      const activeBreadcrumbText = 'Active Breadcrumb'
+
+      renderBreadcrumbs({
+        variant: 'dataset',
+        activeBreadcrumbText,
+      })
+
+      expect(screen.queryByText(activeBreadcrumbText)).toBeVisible()
     })
   })
 })
