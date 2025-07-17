@@ -559,7 +559,7 @@ function ViewerPage({
 
   const helperText =
     'text-light-sds-color-primitive-gray-600 text-sds-body-xxxs-400-narrow'
-  const activeBreadcrumbText = (
+  const activeRunBreadcrumb = (
     <Tooltip
       tooltip={`Go to Run ${run.name || t('runName')}`}
       className="flex items-center truncate max-w-0 lg:max-w-[12rem] 2xl:max-w-[20rem]"
@@ -612,7 +612,7 @@ function ViewerPage({
           <Breadcrumbs
             variant="neuroglancer"
             data={breadcrumbsData}
-            activeBreadcrumbText={activeBreadcrumbText}
+            activeBreadcrumbText={activeRunBreadcrumb}
           />
         </div>
         {/* Add empty space to push content to right */}

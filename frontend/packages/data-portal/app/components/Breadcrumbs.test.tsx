@@ -89,6 +89,7 @@ const BROWSE_DATASETS_URL = '/browse-data/datasets'
 const BROWSE_DEPOSITIONS_URL = '/browse-data/depositions'
 const SINGLE_DATASET_URL = `/datasets/${BREADCRUMB_DATA.id}`
 const SINGLE_DATASET_TITLE = `dataset: ${BREADCRUMB_DATA.title}`
+const SINGLE_RUN_URL = `/runs/RUN-123`
 
 function testReturnToDepositionLink() {
   it('should show return to deposition link', () => {
@@ -214,32 +215,49 @@ describe('<Breadcrumbs />', () => {
     it(`should render a breadcrumb link back to the dataset`, () => {
       renderBreadcrumbs({ variant: 'neuroglancer' })
 
-      expect(
-        screen.queryByRole('link', {
-          name: SINGLE_DATASET_TITLE,
-        }),
-      ).toHaveAttribute('href', SINGLE_DATASET_URL)
+      expect(screen.getByText(BREADCRUMB_DATA.title)).toHaveAttribute(
+        'href',
+        SINGLE_DATASET_URL,
+      )
     })
 
     it(`should render a tooltip with the dataset title`, async () => {
       renderBreadcrumbs({ variant: 'neuroglancer' })
-      const option = screen.getByText(SINGLE_DATASET_TITLE)
+      const option = screen.getByText(BREADCRUMB_DATA.title)
       await userEvent.hover(option)
+      const dataTooltip = `Go to Dataset ${BREADCRUMB_DATA.title}`
+      const tooltip = await screen.findByText(dataTooltip)
 
-      expect(
-        screen.queryByText(`Go to dataset: ${BREADCRUMB_DATA.title}`),
-      ).toBeVisible()
+      expect(tooltip).toBeVisible()
     })
 
-    it(`should render a custom active breadcrumb if provided`, () => {
-      const activeBreadcrumbText = 'Active Breadcrumb'
+    it(`should render a custom active breadcrumb text if provided`, () => {
+      const activeBreadcrumbText = (
+        <div>
+          <span>Active Breadcrumb</span>
+        </div>
+      )
 
       renderBreadcrumbs({
-        variant: 'dataset',
+        variant: 'neuroglancer',
         activeBreadcrumbText,
       })
 
-      expect(screen.queryByText(activeBreadcrumbText)).toBeVisible()
+      expect(screen.getByText('Active Breadcrumb')).toBeVisible()
+    })
+
+    it(`should respect the links on the custom active breadcrumb text`, () => {
+      const activeBreadcrumbText = <a href={SINGLE_RUN_URL}>My run name</a>
+
+      renderBreadcrumbs({
+        variant: 'neuroglancer',
+        activeBreadcrumbText,
+      })
+
+      expect(screen.getByText('My run name')).toHaveAttribute(
+        'href',
+        SINGLE_RUN_URL,
+      )
     })
   })
 })
