@@ -43,7 +43,7 @@ describe('<MenuDropdown />', () => {
     expect(screen.getByRole('button')).toHaveClass('rounded-full')
   })
 
-  it('should render custom button element', () => {
+  it('should render custom button content if no title provided', () => {
     render(
       <MenuDropdown
         buttonElement={
