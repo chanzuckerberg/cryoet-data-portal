@@ -228,7 +228,6 @@ describe('<Tour />', () => {
     })
 
     it('should call onClose when X button is clicked', async () => {
-      // TODO I think the onClick here could replace the original tour
       mockJoyride.mockImplementation((props: any) => {
         const { tooltipComponent } = props
         const mockTooltipProps = {
@@ -301,7 +300,6 @@ describe('<Tour />', () => {
       expect(mockOnClose).toHaveBeenCalled()
     })
 
-    // TODO check move direction
     it('should call onMove for STEP_AFTER event', async () => {
       await renderTour()
 
@@ -314,6 +312,18 @@ describe('<Tour />', () => {
 
       mockCallback(callbackData)
       expect(mockOnMove).toHaveBeenCalledWith(1, 'next')
+    })
+
+    it('should call onMove backwards for prev action', async () => {
+      await renderTour()
+      const callbackData = {
+        action: 'prev',
+        index: 0,
+        status: 'running',
+        type: 'step:after',
+      }
+      mockCallback(callbackData)
+      expect(mockOnMove).toHaveBeenCalledWith(0, 'prev')
     })
 
     it('should call onClose when tour is finished', async () => {
