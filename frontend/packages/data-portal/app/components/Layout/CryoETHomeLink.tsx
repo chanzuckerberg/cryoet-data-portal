@@ -10,7 +10,7 @@ export function CryoETHomeLink({ textSize }: { textSize?: string }) {
     <div className="flex items-center gap-sds-s text-light-sds-color-primitive-gray-50">
       <Link
         className={cns(
-          'text-sds-header-m',
+          'text-sds-header-m-600-wide',
           'font-semibold ml-2 whitespace-nowrap',
           textSize,
         )}
