@@ -3,11 +3,11 @@ import Alert from '@mui/material/Alert'
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
 
 type CustomSnackbarProps = {
-  open: boolean
+  open?: boolean
   variant?: 'filled' | 'outlined' | 'standard'
   severity?: 'error' | 'info' | 'success' | 'warning'
   message?: JSX.Element | string
-  handleClose: (
+  handleClose?: (
     event: React.SyntheticEvent | Event,
     reason?: SnackbarCloseReason,
   ) => void
