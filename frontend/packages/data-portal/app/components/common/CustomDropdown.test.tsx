@@ -4,7 +4,7 @@ import { CustomDropdownSection, CustomDropdownOption } from './CustomDropdown'
 import userEvent from '@testing-library/user-event'
 
 // Top level custom dropdown functionality covered in MenuDropdown tests
-describe('CustomDropdownSection', () => {
+describe('<CustomDropdownSection />', () => {
   it('should render title and children', () => {
     render(
       <CustomDropdownSection title="Section Title">
@@ -28,7 +28,7 @@ describe('CustomDropdownSection', () => {
   })
 })
 
-describe('CustomDropdownOption', () => {
+describe('<CustomDropdownOption />', () => {
   it('should render children and handle clicks', async () => {
     const handleClick = jest.fn()
     render(
