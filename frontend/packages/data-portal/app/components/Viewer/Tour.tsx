@@ -243,7 +243,7 @@ export function Tour({
   }
 
   return (
-    <div>
+    run && <div>
       <ProxyOverlayGroup selectors={proxySelectors} stepIndex={proxyIndex} />
       <Joyride
         steps={steps}

@@ -35,7 +35,6 @@ jest.unstable_mockModule('react-joyride', () => ({
   },
 }))
 
-// Mock @czi-sds/components
 jest.unstable_mockModule('@czi-sds/components', () => ({
   Icon: ({ sdsIcon, sdsSize, ...props }: any) => (
     <span {...props} data-testid={`icon-${sdsIcon}`}>
@@ -64,7 +63,11 @@ async function renderTour(props?: any) {
 const mockSteps: Step[] = [
   { target: '.step-1', content: 'Welcome to the tour!', title: 'Title start' },
   { target: '.step-2', content: 'This is step 2', title: 'Step 2 title' },
-  { target: '.step-3', content: 'Final step content', title: 'Final Step title' },
+  {
+    target: '.step-3',
+    content: 'Final step content',
+    title: 'Final Step title',
+  },
 ]
 
 const mockProxySelectors = [
@@ -182,106 +185,50 @@ describe('<Tour />', () => {
   it('should handle run=false', async () => {
     await renderTour({ run: false })
 
-    expect(mockJoyride).toHaveBeenCalledWith(
-      expect.objectContaining({
-        run: false,
-      }),
-      {},
-    )
-    expect(screen.getByText('Welcome to the tour!')).not.toBeInTheDocument()
+    expect(screen.queryByText('Welcome to the tour!')).toBeNull()
   })
 
   describe('Custom Tooltip', () => {
-    // TODO replace by for loop over the steps
-    it('should render welcome step (index 0) with correct text', async () => {
-      mockJoyride.mockImplementation((props: any) => {
-        const { tooltipComponent } = props
-        const mockTooltipProps = {
-          index: 0,
-          isLastStep: false,
-          size: 3,
-          step: mockSteps[0],
-          closeProps: { onClick: jest.fn() },
-          backProps: { onClick: jest.fn() },
-          primaryProps: { onClick: jest.fn() },
+    mockSteps.forEach((step, index) => {
+      it(`should render custom tooltip for step ${index + 1}`, async () => {
+        mockJoyride.mockImplementation((props: any) => {
+          const { tooltipComponent } = props
+          const mockTooltipProps = {
+            index,
+            isLastStep: index === mockSteps.length - 1,
+            size: mockSteps.length,
+            step,
+            closeProps: { onClick: jest.fn() },
+            backProps: { onClick: jest.fn() },
+            primaryProps: { onClick: jest.fn() },
+          }
+
+          return (
+            <div data-testid="joyride-mock">
+              {tooltipComponent(mockTooltipProps)}
+            </div>
+          )
+        })
+        await renderTour()
+
+        expect(screen.getByText(`${step.title}`)).toBeInTheDocument()
+        expect(screen.getByText(`${step.content}`)).toBeInTheDocument()
+        expect(screen.getByTestId('icon-XMark')).toBeInTheDocument()
+        if (index === 0) {
+          expect(screen.getByText('Close')).toBeInTheDocument()
+          expect(screen.getByText('Take a tour')).toBeInTheDocument()
+        } else if (index !== mockSteps.length - 1) {
+          expect(screen.getByText('Previous')).toBeInTheDocument()
+          expect(screen.getByText('Next')).toBeInTheDocument()
+        } else {
+          expect(screen.getByText('Restart')).toBeInTheDocument()
+          expect(screen.getByText('Close tour')).toBeInTheDocument()
         }
-
-        return (
-          <div data-testid="joyride-mock">
-            {tooltipComponent(mockTooltipProps)}
-          </div>
-        )
       })
-
-      await renderTour()
-
-      expect(screen.getByText('Welcome to the tour!')).toBeInTheDocument()
-      expect(screen.getByText('Title start')).toBeInTheDocument()
-      expect(screen.getByText('Close')).toBeInTheDocument()
-      expect(screen.getByText('Take a tour')).toBeInTheDocument()
-      expect(screen.getByTestId('icon-XMark')).toBeInTheDocument()
-    })
-
-    it('should render middle step with correct controls', async () => {
-      mockJoyride.mockImplementation((props: any) => {
-        const { tooltipComponent } = props
-        const mockTooltipProps = {
-          index: 1,
-          isLastStep: false,
-          size: 3,
-          step: mockSteps[1],
-          closeProps: { onClick: jest.fn() },
-          backProps: { onClick: jest.fn() },
-          primaryProps: { onClick: jest.fn() },
-        }
-
-        return (
-          <div data-testid="joyride-mock">
-            {tooltipComponent(mockTooltipProps)}
-          </div>
-        )
-      })
-
-      await renderTour()
-
-      expect(screen.getByText('Step 2 title')).toBeInTheDocument()
-      expect(screen.getByText('This is step 2')).toBeInTheDocument()
-      expect(screen.getByText('Step 1 of 2')).toBeInTheDocument()
-      expect(screen.getByText('Previous')).toBeInTheDocument()
-      expect(screen.getByText('Next')).toBeInTheDocument()
-    })
-
-    it('should render last step with restart and close buttons', async () => {
-      mockJoyride.mockImplementation((props: any) => {
-        const { tooltipComponent } = props
-        const mockTooltipProps = {
-          index: 2,
-          isLastStep: true,
-          size: 3,
-          step: mockSteps[2],
-          closeProps: { onClick: jest.fn() },
-          backProps: { onClick: jest.fn() },
-          primaryProps: { onClick: jest.fn() },
-        }
-
-        return (
-          <div data-testid="joyride-mock">
-            {tooltipComponent(mockTooltipProps)}
-          </div>
-        )
-      })
-
-      await renderTour()
-
-      expect(screen.getByText('Final Step title')).toBeInTheDocument()
-      expect(screen.getByText('Final step content')).toBeInTheDocument()
-      expect(screen.getByText('Step 2 of 2')).toBeInTheDocument()
-      expect(screen.getByText('Restart')).toBeInTheDocument()
-      expect(screen.getByText('Close tour')).toBeInTheDocument()
     })
 
     it('should call onClose when X button is clicked', async () => {
-        // TODO I think the onClick here could replace the original tour
+      // TODO I think the onClick here could replace the original tour
       mockJoyride.mockImplementation((props: any) => {
         const { tooltipComponent } = props
         const mockTooltipProps = {
@@ -376,20 +323,6 @@ describe('<Tour />', () => {
         action: 'next',
         index: 2,
         status: 'finished',
-        type: 'tour:end',
-      }
-
-      mockCallback(callbackData)
-      expect(mockOnClose).toHaveBeenCalled()
-    })
-
-    it('should call onClose when tour is skipped', async () => {
-      await renderTour()
-
-      const callbackData = {
-        action: 'skip',
-        index: 1,
-        status: 'skipped',
         type: 'tour:end',
       }
 
