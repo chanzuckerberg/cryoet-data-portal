@@ -6,6 +6,8 @@ import { LocalStorageKeys } from 'app/constants/localStorage'
 
 import { ReusableTimeBasedBanner } from '../common/ReusableTimeBasedBanner/ReusableTimeBasedBanner'
 
+const BANNER_ALLOWLIST = [/^\/view\/runs\/.*$/]
+
 type NeuroglancerBannerProps = {
   onStartTour: (event: React.MouseEvent<HTMLElement>) => void
 }
@@ -47,6 +49,7 @@ export function NeuroglancerBanner({ onStartTour }: NeuroglancerBannerProps) {
       sdsType="secondary"
       icon="Book"
       durationBeforeShowSurveyInWeeks={1}
+      pathRegexAllowList={BANNER_ALLOWLIST}
     />
   )
 }
