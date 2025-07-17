@@ -48,8 +48,10 @@ function Breadcrumb({
     >
       {text}
     </Link>
-  ) : (
+  ) : typeof text === 'string' ? (
     <p className={cns(className, 'font-semibold')}>{text}</p>
+  ) : (
+    <div className={cns(className, 'font-semibold')}>{text}</div>
   )
 }
 
