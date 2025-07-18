@@ -84,7 +84,6 @@ export function ViewTomogramButton({
         className="min-w-[152px]"
       >
         <Button
-          // href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
           href={
             enabled
               ? `/view/runs/${event.runId}/#!${encodeURIComponent(neuroglancerConfig)}`
