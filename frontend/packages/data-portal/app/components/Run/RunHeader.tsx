@@ -133,7 +133,7 @@ export function RunHeader() {
                   onClick={(e) => {
                     e.stopPropagation()
                     e.preventDefault()
-                    window.open(getNeuroglancerUrl(neuroglancerConfig))
+                    window.open(getNeuroglancerUrl(neuroglancerConfig, run.id))
                   }}
                 >
                   <div className="text-light-sds-color-primitive-gray-50">
