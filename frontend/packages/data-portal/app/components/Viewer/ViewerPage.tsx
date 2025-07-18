@@ -22,7 +22,7 @@ import {
   NeuroglancerDropdownOption,
 } from './NeuroglancerDropdown'
 import { MenuDropdownSection } from '../MenuDropdown'
-import { ReusableSnackbar } from '../common/ReusableSnackbar/CustomSnackbar'
+import { ReusableSnackbar } from '../common/ReusableSnackbar/ReusableSnackbar'
 import {
   ABOUT_LINKS,
   NEUROGLANCER_DOC_LINK,
@@ -61,9 +61,8 @@ import {
   toggleDepositions,
   getCurrentState,
 } from './state'
-import { set } from 'lodash'
+import { useAutoHideSnackbar } from 'app/hooks/useAutoHideSnackbar'
 
-const SNACKBAR_DURATION = 4000
 
 type Run = GetRunByIdV2Query['runs'][number]
 type Tomogram = GetRunByIdV2Query['tomograms'][number]
@@ -140,8 +139,9 @@ function ViewerPage({
   const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
   const iframeRef = useRef<HTMLIFrameElement>()
   const hashReady = useRef<boolean>(false)
-  const shareClickedTimeout = useRef<NodeJS.Timeout | null>(null)
-  const snapActionClickedTimeout = useRef<NodeJS.Timeout | null>(null)
+  
+  const shareSnackbar = useAutoHideSnackbar()
+  const snapSnackbar = useAutoHideSnackbar()
 
   const depositionConfigs = buildDepositionsConfig(run.annotations)
   const shouldShowAnnotationDropdown = Object.keys(depositionConfigs).length > 0
@@ -245,11 +245,7 @@ function ViewerPage({
     navigator.clipboard
       .writeText(window.location.href)
       .then(() => {
-        setShareClicked(true)
-        shareClickedTimeout.current = setTimeout(() => {
-          setShareClicked(false)
-          shareClickedTimeout.current = null
-        }, SNACKBAR_DURATION)
+        shareSnackbar.show(setShareClicked)
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
@@ -264,22 +260,12 @@ function ViewerPage({
     if (reason === 'clickaway') {
       return
     }
-    if (shareClickedTimeout.current) {
-      clearTimeout(shareClickedTimeout.current)
-    }
-    setShareClicked(false)
+    shareSnackbar.hide(setShareClicked)
   }
 
   const handleSnapActionClick = () => {
     snap()
-    setSnapActionClicked(true)
-    if (snapActionClickedTimeout.current) {
-      clearTimeout(snapActionClickedTimeout.current)
-    }
-    snapActionClickedTimeout.current = setTimeout(() => {
-      setSnapActionClicked(false)
-      snapActionClickedTimeout.current = null
-    }, SNACKBAR_DURATION)
+    snapSnackbar.show(setSnapActionClicked)
   }
 
   const handleSnapSnackbarClose = (
@@ -289,11 +275,7 @@ function ViewerPage({
     if (reason === 'clickaway') {
       return
     }
-
-    setSnapActionClicked(false)
-    if (snapActionClickedTimeout.current) {
-      clearTimeout(snapActionClickedTimeout.current)
-    }
+    snapSnackbar.hide(setSnapActionClicked)
   }
 
   const helperText =
