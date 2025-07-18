@@ -100,6 +100,10 @@ function CustomTooltip(
 ) {
   const { index, isLastStep, size, step, closeProps, backProps, primaryProps } =
     props
+  // Remove "title" from the closeProps, backProps, and primaryProps
+  const { title: _, ...closePropsWithoutTitle } = closeProps
+  const { title: __, ...backPropsWithoutTitle } = backProps
+  const { title: ___, ...primaryPropsWithoutTitle } = primaryProps
 
   const tooltipContainerStyles =
     index === 0 || isLastStep ? 'p-10 max-w-[650px]' : 'p-4 max-w-[334px]'
@@ -149,19 +153,27 @@ function CustomTooltip(
               <Button
                 sdsType="secondary"
                 sdsStyle="rounded"
-                {...closeProps}
+                {...closePropsWithoutTitle}
                 onClick={onClose}
               >
                 Close
               </Button>
-              <Button sdsType="primary" sdsStyle="rounded" {...primaryProps}>
+              <Button
+                sdsType="primary"
+                sdsStyle="rounded"
+                {...primaryPropsWithoutTitle}
+              >
                 Take a tour
               </Button>
             </>
           ) : (
             <>
               {index > 0 && !isLastStep && (
-                <Button sdsType="secondary" sdsStyle="rounded" {...backProps}>
+                <Button
+                  sdsType="secondary"
+                  sdsStyle="rounded"
+                  {...backPropsWithoutTitle}
+                >
                   Previous
                 </Button>
               )}
@@ -175,7 +187,11 @@ function CustomTooltip(
                 </Button>
               )}
               {!isLastStep && (
-                <Button sdsType="primary" sdsStyle="rounded" {...primaryProps}>
+                <Button
+                  sdsType="primary"
+                  sdsStyle="rounded"
+                  {...primaryPropsWithoutTitle}
+                >
                   Next
                 </Button>
               )}
