@@ -173,6 +173,9 @@ export const commitState = (state: SuperState | ResolvedSuperState) => {
 export const parseState = (
   hashState: string,
 ): SuperState | NeuroglancerState => {
+  if (!hashState || hashState.length === 0) {
+    return emptySuperState('')
+  }
   const hash = decompressHash(hash2jsonString(hashState))
   const decodedHash = decodeURIComponent(hash)
   return JSON.parse(hash2jsonString(decodedHash))
