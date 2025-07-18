@@ -1,40 +1,36 @@
 import { render, screen } from '@testing-library/react'
 import { jest } from '@jest/globals'
-import { CustomDropdownSection, CustomDropdownOption } from './CustomDropdown'
+import {
+  NeuroglancerDropdownOption,
+  NeuroglancerDropdown,
+} from './NeuroglancerDropdown'
 import userEvent from '@testing-library/user-event'
 
-// Top level custom dropdown functionality covered in MenuDropdown tests
-describe('<CustomDropdownSection />', () => {
-  it('should render title and children', () => {
+// Top level custom dropdown functionality mostly covered in MenuDropdown tests
+describe('<NeuroglancerDropdown />', () => {
+  it('should render with title and children', async () => {
     render(
-      <CustomDropdownSection title="Section Title">
-        <div>Section Content</div>
-      </CustomDropdownSection>,
+      <NeuroglancerDropdown title="Dropdown Title">
+        <div>Dropdown Content</div>
+      </NeuroglancerDropdown>,
     )
 
-    expect(screen.getByText('Section Title')).toBeInTheDocument()
-    expect(screen.getByText('Section Content')).toBeInTheDocument()
-  })
+    expect(screen.getByText('Dropdown Title')).toBeInTheDocument()
+    expect(screen.queryByText('Dropdown Content')).toBeNull()
 
-  it('should render without title', () => {
-    render(
-      <CustomDropdownSection title="">
-        <div>Section Content</div>
-      </CustomDropdownSection>,
-    )
+    await userEvent.click(screen.getByRole('button'))
 
-    expect(screen.queryByRole('heading')).not.toBeInTheDocument()
-    expect(screen.getByText('Section Content')).toBeInTheDocument()
+    expect(screen.queryByText('Dropdown Content')).toBeVisible()
   })
 })
 
-describe('<CustomDropdownOption />', () => {
+describe('<NeuroglancerDropdownOption />', () => {
   it('should render children and handle clicks', async () => {
     const handleClick = jest.fn()
     render(
-      <CustomDropdownOption onSelect={handleClick}>
+      <NeuroglancerDropdownOption onSelect={handleClick}>
         Option Text
-      </CustomDropdownOption>,
+      </NeuroglancerDropdownOption>,
     )
 
     const option = screen.getByText('Option Text')
@@ -44,7 +40,9 @@ describe('<CustomDropdownOption />', () => {
 
   it('should show check icon when selected', () => {
     render(
-      <CustomDropdownOption selected>Selected Option</CustomDropdownOption>,
+      <NeuroglancerDropdownOption selected>
+        Selected Option
+      </NeuroglancerDropdownOption>,
     )
 
     const icon = screen
@@ -57,7 +55,11 @@ describe('<CustomDropdownOption />', () => {
   })
 
   it('should not show check icon when not selected', () => {
-    render(<CustomDropdownOption>Unselected Option</CustomDropdownOption>)
+    render(
+      <NeuroglancerDropdownOption>
+        Unselected Option
+      </NeuroglancerDropdownOption>,
+    )
 
     expect(screen.queryByTestId('CheckIcon')).not.toBeInTheDocument()
     expect(screen.getByText('Unselected Option')).not.toHaveClass(
@@ -67,7 +69,9 @@ describe('<CustomDropdownOption />', () => {
 
   it('should pass through MenuItem props', () => {
     render(
-      <CustomDropdownOption disabled>Disabled Option</CustomDropdownOption>,
+      <NeuroglancerDropdownOption disabled>
+        Disabled Option
+      </NeuroglancerDropdownOption>,
     )
 
     const option = screen.getByText('Disabled Option')
