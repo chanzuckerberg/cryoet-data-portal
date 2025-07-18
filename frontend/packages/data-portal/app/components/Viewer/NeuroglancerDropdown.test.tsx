@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event'
 
 // Top level custom dropdown functionality mostly covered in MenuDropdown tests
 describe('<NeuroglancerDropdown />', () => {
-  it('should render with title and children', () => {
+  it('should render with title and children', async () => {
     render(
       <NeuroglancerDropdown title="Dropdown Title">
         <div>Dropdown Content</div>
@@ -16,7 +16,11 @@ describe('<NeuroglancerDropdown />', () => {
     )
 
     expect(screen.getByText('Dropdown Title')).toBeInTheDocument()
-    expect(screen.getByText('Dropdown Content')).toBeInTheDocument()
+    expect(screen.queryByText('Dropdown Content')).toBeNull()
+
+    await userEvent.click(screen.getByRole('button'))
+
+    expect(screen.queryByText('Dropdown Content')).toBeVisible()
   })
 })
 

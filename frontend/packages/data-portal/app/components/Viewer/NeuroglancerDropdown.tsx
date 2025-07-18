@@ -35,22 +35,11 @@ export function NeuroglancerDropdownOption({
   )
 }
 
-export function NeuroglancerDropdown({
-  className,
-  title,
-  variant = 'standard',
-  buttonElement,
-  children,
-}: MenuDropdownProps) {
+export function NeuroglancerDropdown(props: MenuDropdownProps) {
   return (
     <MenuDropdown
-      className={className}
-      title={title}
-      variant={variant}
-      buttonElement={buttonElement}
+      {...props}
       paperClassName="!min-w-[250px] !max-w-[380px]"
-    >
-      {children}
-    </MenuDropdown>
-  )
+    />
+  );
 }
