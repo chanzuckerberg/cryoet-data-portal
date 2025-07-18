@@ -22,11 +22,11 @@ import { useTour } from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
 
 import {
-  CustomDropdown,
-  CustomDropdownOption,
-  CustomDropdownSection,
-} from '../common/CustomDropdown'
-import { CustomSnackbar } from '../common/CustomSnackbar'
+  NeuroglancerDropdown,
+  NeuroglancerDropdownOption,
+} from './NeuroglancerDropdown'
+import { MenuDropdownSection } from '../MenuDropdown'
+import { CustomSnackbar } from '../common/ReusableSnackbar/CustomSnackbar'
 import {
   ABOUT_LINKS,
   NEUROGLANCER_DOC_LINK,
@@ -61,7 +61,9 @@ function getCurrentState(): ViewerPageSuperState {
   return currentState() as ViewerPageSuperState
 }
 
-const boolValue = (
+// Neuroglancer states only store values if different from the default.
+// So if the value is undefined, that means we assume default value.
+const resolveStateBool = (
   value: boolean | undefined,
   defaultValue: boolean = true,
 ): boolean => {
@@ -160,7 +162,7 @@ const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
             visible: !panelsDefaultValues[panelName],
           }
         } else {
-          newState.neuroglancer[panelName]!.visible = !boolValue(
+          newState.neuroglancer[panelName]!.visible = !resolveStateBool(
             state.neuroglancer[panelName]?.visible,
             panelsDefaultValues[panelName],
           )
@@ -181,7 +183,7 @@ const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
     for (const [name, defaultValue] of Object.entries(panelsDefaultValues)) {
       const panelName = name as PanelName
       const panelState = state.neuroglancer[panelName]
-      const isVisible = boolValue(panelState?.visible, defaultValue)
+      const isVisible = resolveStateBool(panelState?.visible, defaultValue)
       if (isVisible) {
         if (show !== undefined) {
           if (show === false) {
@@ -248,7 +250,7 @@ const chain = (
 
 const isTopBarVisible = () => {
   const state = getCurrentState()
-  return boolValue(state.showLayerTopBar, /* defaultValue = */ false)
+  return resolveStateBool(state.showLayerTopBar, /* defaultValue = */ false)
 }
 
 const setTopBarVisibleFromSuperState = () => {
@@ -265,7 +267,7 @@ const isDimensionPanelVisible = () => {
     return false
   }
   const tool = Object.values(toolPalettes)[0]
-  return boolValue(tool?.visible, /* defaultValue = */ true)
+  return resolveStateBool(tool?.visible, /* defaultValue = */ true)
 }
 
 const makeDimensionPanel = (state: ResolvedSuperState) => {
@@ -341,8 +343,8 @@ const isDepositionActivated = (depositionEntries: (string | undefined)[]) => {
     .filter((l) => l.name && depositionEntries.includes(l.name))
     .some(
       (l) =>
-        !boolValue(l.archived, /* defaultValue = */ false) &&
-        boolValue(l.visible, /* defaultValue = */ true),
+        !resolveStateBool(l.archived, /* defaultValue = */ false) &&
+        resolveStateBool(l.visible, /* defaultValue = */ true),
     )
 }
 
@@ -366,8 +368,8 @@ const toggleAllDepositions = () => {
     const layersOfInterest = layers.filter((l) => l.type !== 'image')
     const archived = layersOfInterest.some(
       (l) =>
-        boolValue(l.archived, /* defaultValue = */ false) &&
-        boolValue(l.visible, /* defaultValue = */ true),
+        resolveStateBool(l.archived, /* defaultValue = */ false) &&
+        resolveStateBool(l.visible, /* defaultValue = */ true),
     )
     for (const layer of layersOfInterest) {
       layer.archived = !archived
@@ -382,8 +384,8 @@ const isAllLayerActive = () => {
   const layersOfInterest = layers.filter((l) => l.type !== 'image')
   return layersOfInterest.every(
     (l) =>
-      !boolValue(l.archived, /* defaultValue = */ false) &&
-      boolValue(l.visible, /* defaultValue = */ true),
+      !resolveStateBool(l.archived, /* defaultValue = */ false) &&
+      resolveStateBool(l.visible, /* defaultValue = */ true),
   )
 }
 
@@ -461,7 +463,7 @@ function ViewerPage({
       const newState = newStateInput as ViewerPageSuperState
       const savedPanels = newState.savedPanelsStatus || []
       for (const panelName of savedPanels) {
-        const visible = boolValue(
+        const visible = resolveStateBool(
           newState.neuroglancer[panelName]?.visible,
           panelsDefaultValues[panelName],
         )
@@ -620,19 +622,19 @@ function ViewerPage({
         <div className="flex basis-auto flex-shrink-0">
           <div className="flex items-center pt-1 gap-[1px] sm:gap-1 sm:pt-0">
             {shouldShowAnnotationDropdown && (
-              <CustomDropdown title="Annotations" variant="outlined">
-                <CustomDropdownSection title="Show annotations for deposition">
-                  <CustomDropdownOption
+              <NeuroglancerDropdown title="Annotations" variant="outlined">
+                <MenuDropdownSection title="Show annotations for deposition">
+                  <NeuroglancerDropdownOption
                     selected={isAllLayerActive()}
                     onSelect={() => toggleAllDepositions()}
                   >
                     All depositions
-                  </CustomDropdownOption>
+                  </NeuroglancerDropdownOption>
                   {Object.entries(depositionConfigs).map(
                     ([depositionId, depositions]) => {
                       const layersOfInterest = depositions.map((c) => c.name)
                       return (
-                        <CustomDropdownOption
+                        <NeuroglancerDropdownOption
                           key={depositionId.toString()}
                           selected={isDepositionActivated(layersOfInterest)}
                           onSelect={() => {
@@ -646,72 +648,72 @@ function ViewerPage({
                           <span className="text-sds-body-xxxs-400-narrow text-light-sds-color-primitive-gray-600">
                             CZCDP-{depositionId}
                           </span>
-                        </CustomDropdownOption>
+                        </NeuroglancerDropdownOption>
                       )
                     },
                   )}
-                </CustomDropdownSection>
-              </CustomDropdown>
+                </MenuDropdownSection>
+              </NeuroglancerDropdown>
             )}
-            <CustomDropdown title="Layout" variant="outlined">
-              <CustomDropdownSection title="Layout">
-                <CustomDropdownOption
+            <NeuroglancerDropdown title="Layout" variant="outlined">
+              <MenuDropdownSection title="Layout">
+                <NeuroglancerDropdownOption
                   selected={
                     isCurrentLayout('4panel') || isCurrentLayout('4panel-alt')
                   }
                   onSelect={() => setCurrentLayout('4panel')}
                 >
                   4 panel
-                </CustomDropdownOption>
-                <CustomDropdownOption
+                </NeuroglancerDropdownOption>
+                <NeuroglancerDropdownOption
                   selected={isCurrentLayout('xy')}
                   onSelect={() => setCurrentLayout('xy')}
                 >
                   XY
-                </CustomDropdownOption>
-                <CustomDropdownOption
+                </NeuroglancerDropdownOption>
+                <NeuroglancerDropdownOption
                   selected={isCurrentLayout('xz')}
                   onSelect={() => setCurrentLayout('xz')}
                 >
                   XZ
-                </CustomDropdownOption>
-                <CustomDropdownOption
+                </NeuroglancerDropdownOption>
+                <NeuroglancerDropdownOption
                   selected={isCurrentLayout('yz')}
                   onSelect={() => setCurrentLayout('yz')}
                 >
                   YZ
-                </CustomDropdownOption>
-                <CustomDropdownOption
+                </NeuroglancerDropdownOption>
+                <NeuroglancerDropdownOption
                   selected={isCurrentLayout('3d')}
                   onSelect={() => setCurrentLayout('3d')}
                 >
                   3D
-                </CustomDropdownOption>
-              </CustomDropdownSection>
-              <CustomDropdownSection title="Toggle Panels">
-                <CustomDropdownOption
+                </NeuroglancerDropdownOption>
+              </MenuDropdownSection>
+              <MenuDropdownSection title="Toggle Panels">
+                <NeuroglancerDropdownOption
                   selected={currentState().savedPanelsStatus !== undefined}
                   onSelect={() => togglePanels()}
                 >
                   Hide UI
-                </CustomDropdownOption>
-                <CustomDropdownOption
+                </NeuroglancerDropdownOption>
+                <NeuroglancerDropdownOption
                   selected={isTopBarVisible()}
                   onSelect={() => toggleTopBar()}
                 >
                   Show top layer bar
-                </CustomDropdownOption>
-                <CustomDropdownOption
+                </NeuroglancerDropdownOption>
+                <NeuroglancerDropdownOption
                   selected={isDimensionPanelVisible()}
                   onSelect={toggleOrMakeDimensionPanel}
                 >
                   Show position selector
-                </CustomDropdownOption>
-              </CustomDropdownSection>
-            </CustomDropdown>
-            <CustomDropdown title="Actions" variant="outlined">
-              <CustomDropdownSection title="Appearance">
-                <CustomDropdownOption
+                </NeuroglancerDropdownOption>
+              </MenuDropdownSection>
+            </NeuroglancerDropdown>
+            <NeuroglancerDropdown title="Actions" variant="outlined">
+              <MenuDropdownSection title="Appearance">
+                <NeuroglancerDropdownOption
                   selected={hasBoundingBox()}
                   onSelect={toggleBoundingBox}
                 >
@@ -719,8 +721,8 @@ function ViewerPage({
                     <p>Bounding box</p>
                     <p className={helperText}>v</p>
                   </div>
-                </CustomDropdownOption>
-                <CustomDropdownOption
+                </NeuroglancerDropdownOption>
+                <NeuroglancerDropdownOption
                   selected={axisLineEnabled()}
                   onSelect={toggleAxisLine}
                 >
@@ -728,8 +730,8 @@ function ViewerPage({
                     <p>Axis lines</p>
                     <p className={helperText}>a</p>
                   </div>
-                </CustomDropdownOption>
-                <CustomDropdownOption
+                </NeuroglancerDropdownOption>
+                <NeuroglancerDropdownOption
                   selected={showScaleBarEnabled()}
                   onSelect={toggleShowScaleBar}
                 >
@@ -737,8 +739,8 @@ function ViewerPage({
                     <p>Scale bar</p>
                     <p className={helperText}>b</p>
                   </div>
-                </CustomDropdownOption>
-                <CustomDropdownOption
+                </NeuroglancerDropdownOption>
+                <NeuroglancerDropdownOption
                   selected={showSectionsEnabled()}
                   onSelect={toggleShowSections}
                 >
@@ -746,10 +748,10 @@ function ViewerPage({
                     <p>Cross-sections</p>
                     <p className={helperText}>s</p>
                   </div>
-                </CustomDropdownOption>
-              </CustomDropdownSection>
-              <CustomDropdownSection title="Move">
-                <CustomDropdownOption
+                </NeuroglancerDropdownOption>
+              </MenuDropdownSection>
+              <MenuDropdownSection title="Move">
+                <NeuroglancerDropdownOption
                   selected={false}
                   onSelect={handleSnapActionClick}
                 >
@@ -757,9 +759,9 @@ function ViewerPage({
                     <p>Snap to nearest axis</p>
                     <p className={helperText}>z</p>
                   </div>
-                </CustomDropdownOption>
-              </CustomDropdownSection>
-            </CustomDropdown>
+                </NeuroglancerDropdownOption>
+              </MenuDropdownSection>
+            </NeuroglancerDropdown>
             <Button
               sdsType="primary"
               sdsStyle="rounded"
@@ -768,11 +770,11 @@ function ViewerPage({
             >
               Share
             </Button>
-            <CustomDropdown
+            <NeuroglancerDropdown
               className="w-4 h-11 pl-1 py-3 sm:w-11 sm:px-3"
               buttonElement={<InfoIcon className="w-5 h-5" />}
             >
-              <CustomDropdownSection title="About">
+              <MenuDropdownSection title="About">
                 {ABOUT_LINKS.map((option) => (
                   <MenuItemLink
                     key={option.label}
@@ -782,15 +784,15 @@ function ViewerPage({
                     {t(option.label)}
                   </MenuItemLink>
                 ))}
-              </CustomDropdownSection>
-              <CustomDropdownSection title="Report">
+              </MenuDropdownSection>
+              <MenuDropdownSection title="Report">
                 {REPORT_LINKS.map((option) => (
                   <MenuItemLink key={option.label} to={option.link}>
                     {t(option.label)}
                   </MenuItemLink>
                 ))}
-              </CustomDropdownSection>
-              <CustomDropdownSection title="Neuroglancer help">
+              </MenuDropdownSection>
+              <MenuDropdownSection title="Neuroglancer help">
                 <MenuItemLink to={NEUROGLANCER_DOC_LINK}>
                   {t('goToNeuroglancerDocumentation')}
                 </MenuItemLink>
@@ -801,8 +803,8 @@ function ViewerPage({
                 >
                   {t('neuroglancerWalkthrough')}
                 </button>
-              </CustomDropdownSection>
-            </CustomDropdown>
+              </MenuDropdownSection>
+            </NeuroglancerDropdown>
           </div>
         </div>
       </nav>

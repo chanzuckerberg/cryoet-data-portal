@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { MenuDropdown } from './MenuDropdown'
+import { MenuDropdown, MenuDropdownSection } from './MenuDropdown'
 
 describe('<MenuDropdown />', () => {
   it('should hide menu initially', () => {
@@ -51,7 +51,6 @@ describe('<MenuDropdown />', () => {
             <button>Custom Button</button>
           </div>
         }
-        title={undefined}
       >
         <div>Test Content</div>
       </MenuDropdown>,
@@ -68,5 +67,29 @@ describe('<MenuDropdown />', () => {
     )
 
     expect(container.firstChild).toHaveClass('custom-class')
+  })
+})
+
+describe('<MenuDropdownSection />', () => {
+  it('should render title and children', () => {
+    render(
+      <MenuDropdownSection title="Section Title">
+        <div>Section Content</div>
+      </MenuDropdownSection>,
+    )
+
+    expect(screen.getByText('Section Title')).toBeInTheDocument()
+    expect(screen.getByText('Section Content')).toBeInTheDocument()
+  })
+
+  it('should render without title', () => {
+    render(
+      <MenuDropdownSection>
+        <div>Section Content</div>
+      </MenuDropdownSection>,
+    )
+
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument()
+    expect(screen.getByText('Section Content')).toBeInTheDocument()
   })
 })
