@@ -3,12 +3,8 @@ import './ViewerPage.css'
 import { Button } from '@czi-sds/components'
 import { SnackbarCloseReason } from '@mui/material/Snackbar'
 import {
-  currentNeuroglancer,
   currentNeuroglancerState,
-  currentState,
-  NeuroglancerLayout,
   NeuroglancerWrapper,
-  ResolvedSuperState,
   updateState,
 } from 'neuroglancer'
 import { useEffect, useRef, useState } from 'react'
@@ -37,6 +33,34 @@ import { Tooltip } from '../Tooltip'
 import { NeuroglancerBanner } from './NeuroglancerBanner'
 import { getTutorialSteps, proxyStepSelectors } from './steps'
 import { Tour } from './Tour'
+import {
+  ViewerPageSuperState,
+  chain,
+  togglePanels,
+  toggleTopBar,
+  setCurrentLayout,
+  setTopBarVisibleFromSuperState,
+  resolveStateBool,
+  panelsDefaultValues,
+  snap,
+  isCurrentLayout,
+  isTopBarVisible,
+  isDimensionPanelVisible,
+  toggleOrMakeDimensionPanel,
+  hasBoundingBox,
+  toggleBoundingBox,
+  axisLineEnabled,
+  toggleAxisLine,
+  showScaleBarEnabled,
+  toggleShowScaleBar,
+  showSectionsEnabled,
+  toggleShowSections,
+  isAllLayerActive,
+  toggleAllDepositions,
+  isDepositionActivated,
+  toggleDepositions,
+  getCurrentState,
+} from './state'
 
 type Run = GetRunByIdV2Query['runs'][number]
 type Tomogram = GetRunByIdV2Query['tomograms'][number]
@@ -47,263 +71,7 @@ interface AnnotationUIConfig {
   annotation: Annotation
 }
 
-// The viewer page super state extends the resolved super state
-// with additional properties specific to the viewer page.
-interface ViewerPageSuperState extends ResolvedSuperState {
-  showLayerTopBar?: boolean // Whether the top layer bar is visible
-  restoreLayerTopBar?: boolean // Whether to restore the top layer bar
-  dimensionSlider?: boolean // Whether the dimension slider is visible
-  savedPanelsStatus?: PanelName[] // List of panels that are currently visible
-  tourStepIndex?: number // The current step index in the tour
-}
-
-function getCurrentState(): ViewerPageSuperState {
-  return currentState() as ViewerPageSuperState
-}
-
-// Neuroglancer states only store values if different from the default.
-// So if the value is undefined, that means we assume default value.
-const resolveStateBool = (
-  value: boolean | undefined,
-  defaultValue: boolean = true,
-): boolean => {
-  return value === undefined ? defaultValue : value
-}
-
-const panelsDefaultValues = {
-  helpPanel: false,
-  settingsPanel: false,
-  selectedLayer: false,
-  layerListPanel: false,
-  selection: true,
-}
-type PanelName = keyof typeof panelsDefaultValues
-
-const toggleBoundingBox = () => {
-  const viewer = currentNeuroglancer()
-  if (!viewer) return
-  viewer.showDefaultAnnotations.value = !viewer.showDefaultAnnotations.value
-}
-
-const hasBoundingBox = () => {
-  return currentNeuroglancer()?.showDefaultAnnotations.value
-}
-
-const toggleAxisLine = () => {
-  const viewer = currentNeuroglancer()
-  if (!viewer) return
-  viewer.showAxisLines.value = !viewer.showAxisLines.value
-}
-
-const axisLineEnabled = () => {
-  return currentNeuroglancer()?.showAxisLines.value
-}
-
-const showScaleBarEnabled = () => {
-  return currentNeuroglancer()?.showScaleBar.value
-}
-
-const toggleShowScaleBar = () => {
-  const viewer = currentNeuroglancer()
-  if (!viewer) return
-  viewer.showScaleBar.value = !viewer.showScaleBar.value
-}
-
-const showSectionsEnabled = () => {
-  return currentNeuroglancer()?.showPerspectiveSliceViews.value
-}
-
-const toggleShowSections = () => {
-  const viewer = currentNeuroglancer()
-  if (!viewer) return
-  viewer.showPerspectiveSliceViews.value =
-    !viewer.showPerspectiveSliceViews.value
-}
-
-const currentLayout = () => {
-  return currentNeuroglancerState().layout
-}
-
-const isCurrentLayout = (layout: NeuroglancerLayout) => {
-  return currentLayout() === layout
-}
-
-const setCurrentLayout = (
-  layout: NeuroglancerLayout,
-  commit: boolean = true,
-) => {
-  const stateModifier = (state: ResolvedSuperState) => {
-    const newState = state
-    // @ts-expect-error: The neuroglancer state is not typed with NeuroglancerLayout
-    newState.neuroglancer.layout = layout
-    return newState
-  }
-  if (commit) {
-    updateState(stateModifier)
-  }
-  return stateModifier
-}
-
-const snap = () => {
-  const viewer = currentNeuroglancer()
-  if (!viewer) return
-  viewer.navigationState.pose.orientation.snap()
-  viewer.perspectiveNavigationState.pose.orientation.snap()
-}
-
-const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
-  const stateModifier = (state: ViewerPageSuperState) => {
-    let newState = state
-    if (state.savedPanelsStatus && (show === undefined || show === true)) {
-      // Restore the configuration
-      for (const panelName of state.savedPanelsStatus) {
-        if (!(panelName in state.neuroglancer)) {
-          newState.neuroglancer[panelName] = {
-            visible: !panelsDefaultValues[panelName],
-          }
-        } else {
-          newState.neuroglancer[panelName]!.visible = !resolveStateBool(
-            state.neuroglancer[panelName]?.visible,
-            panelsDefaultValues[panelName],
-          )
-        }
-      }
-      if (state.dimensionSlider && !isDimensionPanelVisible()) {
-        newState = toggleDimensionPanelVisible(newState)
-      }
-      if (state.restoreLayerTopBar && !isTopBarVisible()) {
-        newState = toggleTopBar(true, false)(newState)
-      }
-      delete newState.savedPanelsStatus
-      delete newState.dimensionSlider
-      delete newState.restoreLayerTopBar
-      return newState
-    }
-    const currentPanelConfig: PanelName[] = []
-    for (const [name, defaultValue] of Object.entries(panelsDefaultValues)) {
-      const panelName = name as PanelName
-      const panelState = state.neuroglancer[panelName]
-      const isVisible = resolveStateBool(panelState?.visible, defaultValue)
-      if (isVisible) {
-        if (show !== undefined) {
-          if (show === false) {
-            currentPanelConfig.push(panelName)
-          }
-          newState.neuroglancer[panelName]!.visible = show
-        } else {
-          currentPanelConfig.push(panelName)
-          newState.neuroglancer[panelName]!.visible = !isVisible
-        }
-      }
-    }
-    newState.dimensionSlider = isDimensionPanelVisible()
-    if (newState.dimensionSlider) {
-      newState = toggleDimensionPanelVisible(newState, show)
-    }
-    newState.restoreLayerTopBar = isTopBarVisible()
-    if (newState.restoreLayerTopBar) {
-      newState = toggleTopBar(show, false)(newState)
-    }
-    newState.savedPanelsStatus = currentPanelConfig
-    return newState
-  }
-
-  if (commit) {
-    updateState(stateModifier)
-  }
-
-  return stateModifier
-}
-
-const toggleTopBar = (show: boolean | undefined = undefined, commit = true) => {
-  const stateModifier = (state: ResolvedSuperState) => {
-    const newState = state
-    newState.showLayerTopBar = show !== undefined ? show : !isVisible
-    return newState
-  }
-
-  const isVisible = isTopBarVisible()
-
-  if (commit) {
-    updateState(stateModifier)
-  }
-
-  const viewer = currentNeuroglancer()
-  if (viewer) {
-    viewer.uiConfiguration.showLayerPanel.value = !isVisible
-  }
-
-  return stateModifier
-}
-
-const chain = (
-  modifiers: ((state: ResolvedSuperState) => ResolvedSuperState)[],
-): ((state: ResolvedSuperState) => ResolvedSuperState | undefined) => {
-  return (state: ResolvedSuperState) => {
-    let finalState = state
-    for (const modifier of modifiers) {
-      finalState = modifier(finalState)
-    }
-    return finalState
-  }
-}
-
-const isTopBarVisible = () => {
-  const state = getCurrentState()
-  return resolveStateBool(state.showLayerTopBar, /* defaultValue = */ false)
-}
-
-const setTopBarVisibleFromSuperState = () => {
-  const viewer = currentNeuroglancer()
-  if (!viewer) return
-  viewer.uiConfiguration.showLayerPanel.value = isTopBarVisible()
-}
-
-const isDimensionPanelVisible = () => {
-  const state = currentState()
-  const toolPalettes = state.neuroglancer?.toolPalettes || {}
-  if (Object.keys(toolPalettes).length === 0) {
-    // If there are no tool palettes, the dimension slider is not visible
-    return false
-  }
-  const tool = Object.values(toolPalettes)[0]
-  return resolveStateBool(tool?.visible, /* defaultValue = */ true)
-}
-
-const makeDimensionPanel = (state: ResolvedSuperState) => {
-  const newState = state
-  newState.neuroglancer.toolPalettes = {
-    Position: {
-      side: 'bottom',
-      row: 1,
-      size: 100,
-      visible: true,
-      query: 'type:dimension',
-      verticalStacking: false,
-    },
-  }
-  return newState
-}
-
-const toggleDimensionPanelVisible = (
-  state: ResolvedSuperState,
-  show?: boolean,
-) => {
-  if (state.neuroglancer.toolPalettes === undefined) return state
-  const toolPalette = Object.values(state.neuroglancer.toolPalettes)[0]
-  if (toolPalette === undefined) return state
-  toolPalette.visible = show !== undefined ? show : !isDimensionPanelVisible()
-  return state
-}
-
-const toggleOrMakeDimensionPanel = () => {
-  const hasToolPalette =
-    Object.keys(currentState().neuroglancer?.toolPalettes || {}).length > 0
-  if (!hasToolPalette) updateState(makeDimensionPanel)
-  else updateState(toggleDimensionPanelVisible)
-}
-
-const buildDepositsConfig = (
+const buildDepositionsConfig = (
   annotations: Annotations,
 ): Record<number, AnnotationUIConfig[]> => {
   const config: Record<number, AnnotationUIConfig[]> = {}
@@ -335,58 +103,6 @@ const buildDepositsConfig = (
     }
   }
   return config
-}
-
-const isDepositionActivated = (depositionEntries: (string | undefined)[]) => {
-  const layers = currentNeuroglancerState().layers || []
-  return layers
-    .filter((l) => l.name && depositionEntries.includes(l.name))
-    .some(
-      (l) =>
-        !resolveStateBool(l.archived, /* defaultValue = */ false) &&
-        resolveStateBool(l.visible, /* defaultValue = */ true),
-    )
-}
-
-const toggleDepositions = (depositionEntries: (string | undefined)[]) => {
-  const isCurrentlyActive = isDepositionActivated(depositionEntries)
-  updateState((state) => {
-    const layers = state.neuroglancer?.layers || []
-    for (const layer of layers.filter(
-      (l) => l.name && depositionEntries.includes(l.name),
-    )) {
-      layer.archived = isCurrentlyActive
-      layer.visible = !isCurrentlyActive
-    }
-    return state
-  })
-}
-
-const toggleAllDepositions = () => {
-  updateState((state) => {
-    const layers = state.neuroglancer?.layers || []
-    const layersOfInterest = layers.filter((l) => l.type !== 'image')
-    const archived = layersOfInterest.some(
-      (l) =>
-        resolveStateBool(l.archived, /* defaultValue = */ false) &&
-        resolveStateBool(l.visible, /* defaultValue = */ true),
-    )
-    for (const layer of layersOfInterest) {
-      layer.archived = !archived
-      layer.visible = archived
-    }
-    return state
-  })
-}
-
-const isAllLayerActive = () => {
-  const layers = currentNeuroglancerState().layers || []
-  const layersOfInterest = layers.filter((l) => l.type !== 'image')
-  return layersOfInterest.every(
-    (l) =>
-      !resolveStateBool(l.archived, /* defaultValue = */ false) &&
-      resolveStateBool(l.visible, /* defaultValue = */ true),
-  )
 }
 
 const isSmallScreen = () => {
@@ -422,7 +138,7 @@ function ViewerPage({
   const iframeRef = useRef<HTMLIFrameElement>()
   const hashReady = useRef<boolean>(false)
 
-  const depositionConfigs = buildDepositsConfig(run.annotations)
+  const depositionConfigs = buildDepositionsConfig(run.annotations)
   const shouldShowAnnotationDropdown = Object.keys(depositionConfigs).length > 0
 
   const scheduleRefresh = () => {
@@ -692,7 +408,7 @@ function ViewerPage({
               </MenuDropdownSection>
               <MenuDropdownSection title="Toggle Panels">
                 <NeuroglancerDropdownOption
-                  selected={currentState().savedPanelsStatus !== undefined}
+                  selected={getCurrentState().savedPanelsStatus !== undefined}
                   onSelect={() => togglePanels()}
                 >
                   Hide UI
