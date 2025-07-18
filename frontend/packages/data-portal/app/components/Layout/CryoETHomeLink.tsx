@@ -3,17 +3,17 @@ import { SITE_LINKS } from 'app/constants/siteLinks'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
-export function CryoETHomeLink({ textSize }: { textSize?: string }) {
+export function CryoETHomeLink({
+  textSize = 'text-sds-header-m-600-wide',
+}: {
+  textSize?: string
+}) {
   const { t } = useI18n()
 
   return (
     <div className="flex items-center gap-sds-s text-light-sds-color-primitive-gray-50">
       <Link
-        className={cns(
-          'text-sds-header-m-600-wide',
-          'font-semibold ml-2 whitespace-nowrap',
-          textSize,
-        )}
+        className={cns(textSize, 'font-semibold ml-2 whitespace-nowrap')}
         to={SITE_LINKS.HOME}
       >
         {t('title')}
