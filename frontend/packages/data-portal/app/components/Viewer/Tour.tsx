@@ -126,8 +126,7 @@ function CustomTooltip(
           onClick={onClose}
           className="w-4 h-4 flex items-center"
           icon={<Icon sdsIcon="XMark" sdsSize="s" />}
-        >
-        </Button>
+        ></Button>
       </div>
 
       <p>{step.content}</p>
@@ -155,22 +154,14 @@ function CustomTooltip(
               >
                 Close
               </Button>
-              <Button
-                sdsType="primary"
-                sdsStyle="rounded"
-                {...primaryProps}
-              >
+              <Button sdsType="primary" sdsStyle="rounded" {...primaryProps}>
                 Take a tour
               </Button>
             </>
           ) : (
             <>
               {index > 0 && !isLastStep && (
-                <Button
-                  sdsType="secondary"
-                  sdsStyle="rounded"
-                  {...backProps}
-                >
+                <Button sdsType="secondary" sdsStyle="rounded" {...backProps}>
                   Previous
                 </Button>
               )}
@@ -184,20 +175,12 @@ function CustomTooltip(
                 </Button>
               )}
               {!isLastStep && (
-                <Button
-                  sdsType="primary"
-                  sdsStyle="rounded"
-                  {...primaryProps}
-                >
+                <Button sdsType="primary" sdsStyle="rounded" {...primaryProps}>
                   Next
                 </Button>
               )}
               {isLastStep && (
-                <Button
-                  sdsType="primary"
-                  sdsStyle="rounded"
-                  onClick={onClose}
-                >
+                <Button sdsType="primary" sdsStyle="rounded" onClick={onClose}>
                   Close tour
                 </Button>
               )}
@@ -238,26 +221,28 @@ export function Tour({
   }
 
   return (
-    run && <div>
-      <ProxyOverlayGroup selectors={proxySelectors} stepIndex={proxyIndex} />
-      <Joyride
-        steps={steps}
-        run={run}
-        stepIndex={stepIndex}
-        spotlightClicks
-        spotlightPadding={0}
-        continuous
-        disableOverlayClose
-        disableScrolling
-        floaterProps={{ hideArrow: true }}
-        styles={{
-          options: {
-            zIndex: 10000,
-          },
-        }}
-        callback={handleJoyrideCallback}
-        tooltipComponent={(props) => CustomTooltip(props, onRestart, onClose)}
-      />
-    </div>
+    run && (
+      <div>
+        <ProxyOverlayGroup selectors={proxySelectors} stepIndex={proxyIndex} />
+        <Joyride
+          steps={steps}
+          run={run}
+          stepIndex={stepIndex}
+          spotlightClicks
+          spotlightPadding={0}
+          continuous
+          disableOverlayClose
+          disableScrolling
+          floaterProps={{ hideArrow: true }}
+          styles={{
+            options: {
+              zIndex: 10000,
+            },
+          }}
+          callback={handleJoyrideCallback}
+          tooltipComponent={(props) => CustomTooltip(props, onRestart, onClose)}
+        />
+      </div>
+    )
   )
 }
