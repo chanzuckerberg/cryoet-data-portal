@@ -23,11 +23,6 @@ export function TopNavigation() {
     setMobileMenuOpen(false)
   }, [pathname])
 
-  const isItNeuroglancerPage = pathname.includes('/view/runs/')
-
-  if (isItNeuroglancerPage) {
-    return null
-  }
   return (
     <nav
       className={cns(

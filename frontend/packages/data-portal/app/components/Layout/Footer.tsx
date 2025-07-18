@@ -1,4 +1,3 @@
-import { useLocation } from '@remix-run/react'
 import { Fragment } from 'react'
 
 import { CZIIcon, ImageInstituteIcon } from 'app/components/icons'
@@ -51,8 +50,6 @@ const LEGAL_LINKS = [
 ]
 
 export function Footer() {
-  const { pathname } = useLocation()
-
   const legalLinks = (
     <div className="flex items-center gap-sds-s">
       {LEGAL_LINKS.map(({ label, href }, idx) => (
@@ -85,12 +82,6 @@ export function Footer() {
       </Link>
     </div>
   )
-
-  const isItNeuroglancerPage = pathname.includes('/view/runs/')
-
-  if (isItNeuroglancerPage) {
-    return null
-  }
 
   return (
     <footer className="bg-light-sds-color-primitive-gray-900  min-h-[213px] pt-[41px] pb-sds-xxl px-sds-xl screen-716:px-sds-xxl flex flex-col flex-shrink-0">

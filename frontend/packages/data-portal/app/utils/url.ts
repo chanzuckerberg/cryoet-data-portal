@@ -20,7 +20,7 @@ export function isExternalUrl(url: string): boolean {
  * Checks if the URL is a neuroglancer URL
  */
 export function isNeuroglancerUrl(url: string): boolean {
-  return url.includes('/#!')
+  return url.includes('/view/runs/')
 }
 
 /**
