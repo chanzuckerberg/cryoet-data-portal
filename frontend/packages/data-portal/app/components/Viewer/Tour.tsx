@@ -118,17 +118,16 @@ function CustomTooltip(
     >
       <div className="flex justify-between items-center">
         <div className={cns(titleStyles, 'font-semibold')}>{step.title}</div>
-        <button
+        <Button
           type="button"
+          sdsStyle="icon"
+          sdsType="tertiary"
+          sdsSize="small"
           onClick={onClose}
           className="w-4 h-4 flex items-center"
+          icon={<Icon sdsIcon="XMark" sdsSize="s" />}
         >
-          <Icon
-            sdsIcon="XMark"
-            sdsSize="s"
-            className="!text-light-sds-color-primitive-gray-600"
-          />
-        </button>
+        </Button>
       </div>
 
       <p>{step.content}</p>
