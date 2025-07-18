@@ -7,6 +7,7 @@ import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
 
 import { Link } from './Link'
 import { Tooltip } from './Tooltip'
+import { getNeuroglancerUrl } from 'app/utils/url'
 
 export interface ViewTomogramButtonProps {
   tomogramId?: string
@@ -86,7 +87,7 @@ export function ViewTomogramButton({
         <Button
           href={
             enabled
-              ? `/view/runs/${event.runId}/#!${encodeURIComponent(neuroglancerConfig)}`
+              ? getNeuroglancerUrl(neuroglancerConfig, event.runId)
               : undefined
           }
           disabled={!enabled}
