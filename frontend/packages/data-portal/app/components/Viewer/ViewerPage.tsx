@@ -22,7 +22,7 @@ import {
   NeuroglancerDropdownOption,
 } from './NeuroglancerDropdown'
 import { MenuDropdownSection } from '../MenuDropdown'
-import { CustomSnackbar } from '../common/ReusableSnackbar/CustomSnackbar'
+import { ReusableSnackbar } from '../common/ReusableSnackbar/CustomSnackbar'
 import {
   ABOUT_LINKS,
   NEUROGLANCER_DOC_LINK,
@@ -61,6 +61,9 @@ import {
   toggleDepositions,
   getCurrentState,
 } from './state'
+import { set } from 'lodash'
+
+const SNACKBAR_DURATION = 4000
 
 type Run = GetRunByIdV2Query['runs'][number]
 type Tomogram = GetRunByIdV2Query['tomograms'][number]
@@ -137,6 +140,8 @@ function ViewerPage({
   const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
   const iframeRef = useRef<HTMLIFrameElement>()
   const hashReady = useRef<boolean>(false)
+  const shareClickedTimeout = useRef<NodeJS.Timeout | null>(null)
+  const snapActionClickedTimeout = useRef<NodeJS.Timeout | null>(null)
 
   const depositionConfigs = buildDepositionsConfig(run.annotations)
   const shouldShowAnnotationDropdown = Object.keys(depositionConfigs).length > 0
@@ -241,6 +246,10 @@ function ViewerPage({
       .writeText(window.location.href)
       .then(() => {
         setShareClicked(true)
+        shareClickedTimeout.current = setTimeout(() => {
+          setShareClicked(false)
+          shareClickedTimeout.current = null
+        }, SNACKBAR_DURATION)
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
@@ -255,13 +264,22 @@ function ViewerPage({
     if (reason === 'clickaway') {
       return
     }
-
+    if (shareClickedTimeout.current) {
+      clearTimeout(shareClickedTimeout.current)
+    }
     setShareClicked(false)
   }
 
   const handleSnapActionClick = () => {
     snap()
     setSnapActionClicked(true)
+    if (snapActionClickedTimeout.current) {
+      clearTimeout(snapActionClickedTimeout.current)
+    }
+    snapActionClickedTimeout.current = setTimeout(() => {
+      setSnapActionClicked(false)
+      snapActionClickedTimeout.current = null
+    }, SNACKBAR_DURATION)
   }
 
   const handleSnapSnackbarClose = (
@@ -273,6 +291,9 @@ function ViewerPage({
     }
 
     setSnapActionClicked(false)
+    if (snapActionClickedTimeout.current) {
+      clearTimeout(snapActionClickedTimeout.current)
+    }
   }
 
   const helperText =
@@ -298,22 +319,6 @@ function ViewerPage({
     id: run.dataset?.id || 0,
     title: run.dataset?.title || 'dataset',
   }
-
-  useEffect(() => {
-    if (shareClicked) {
-      setTimeout(() => {
-        setShareClicked(false)
-      }, 6000)
-    }
-  }, [shareClicked])
-
-  useEffect(() => {
-    if (snapActionClicked) {
-      setTimeout(() => {
-        setSnapActionClicked(false)
-      }, 6000)
-    }
-  }, [snapActionClicked])
 
   return (
     <div className="flex flex-col overflow-hidden h-full relative bg-dark-sds-color-primitive-gray-50">
@@ -544,14 +549,14 @@ function ViewerPage({
           proxyIndex={proxyIndex}
         />
       )}
-      <CustomSnackbar
+      <ReusableSnackbar
         open={snapActionClicked}
         handleClose={handleSnapSnackbarClose}
         variant="filled"
         severity="success"
         message={t('snapActionSuccess')}
       />
-      <CustomSnackbar
+      <ReusableSnackbar
         open={shareClicked}
         handleClose={handleShareSnackbarClose}
         variant="filled"
