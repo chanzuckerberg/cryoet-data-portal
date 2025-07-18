@@ -1,8 +1,6 @@
 /**
  * Neuroglancer Viewer Page State Management
  */
-import './ViewerPage.css'
-
 import {
   currentNeuroglancer,
   currentNeuroglancerState,
