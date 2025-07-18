@@ -35,7 +35,7 @@ import { getTutorialSteps, proxyStepSelectors } from './steps'
 import { Tour } from './Tour'
 import {
   ViewerPageSuperState,
-  chain,
+  chainStateModifiers,
   togglePanels,
   toggleTopBar,
   setCurrentLayout,
@@ -149,7 +149,7 @@ function ViewerPage({
     // Schedule to check for small devices 1s after this save
     if (isSmallScreen()) {
       updateState((state) => {
-        const newState = chain([
+        const newState = chainStateModifiers([
           togglePanels(false, /* commit = */ false),
           toggleTopBar(false, /* commit = */ false),
           setCurrentLayout('xy', /* commit = */ false),

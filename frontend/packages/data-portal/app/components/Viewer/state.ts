@@ -1,3 +1,6 @@
+/**
+ * Neuroglancer Viewer Page State Management
+ */
 import './ViewerPage.css'
 
 import {
@@ -25,10 +28,10 @@ export function getCurrentState(): ViewerPageSuperState {
 
 // Neuroglancer states only store values if different from the default.
 // So if the value is undefined, that means we assume default value.
-export const resolveStateBool = (
+export function resolveStateBool(
   value: boolean | undefined,
   defaultValue: boolean = true,
-): boolean => {
+): boolean {
   return value === undefined ? defaultValue : value
 }
 
@@ -41,59 +44,59 @@ export const panelsDefaultValues = {
 }
 export type PanelName = keyof typeof panelsDefaultValues
 
-export const toggleBoundingBox = () => {
+export function toggleBoundingBox() {
   const viewer = currentNeuroglancer()
   if (!viewer) return
   viewer.showDefaultAnnotations.value = !viewer.showDefaultAnnotations.value
 }
 
-export const hasBoundingBox = () => {
+export function hasBoundingBox() {
   return currentNeuroglancer()?.showDefaultAnnotations.value
 }
 
-export const toggleAxisLine = () => {
+export function toggleAxisLine() {
   const viewer = currentNeuroglancer()
   if (!viewer) return
   viewer.showAxisLines.value = !viewer.showAxisLines.value
 }
 
-export const axisLineEnabled = () => {
+export function axisLineEnabled() {
   return currentNeuroglancer()?.showAxisLines.value
 }
 
-export const showScaleBarEnabled = () => {
+export function showScaleBarEnabled() {
   return currentNeuroglancer()?.showScaleBar.value
 }
 
-export const toggleShowScaleBar = () => {
+export function toggleShowScaleBar() {
   const viewer = currentNeuroglancer()
   if (!viewer) return
   viewer.showScaleBar.value = !viewer.showScaleBar.value
 }
 
-export const showSectionsEnabled = () => {
+export function showSectionsEnabled() {
   return currentNeuroglancer()?.showPerspectiveSliceViews.value
 }
 
-export const toggleShowSections = () => {
+export function toggleShowSections() {
   const viewer = currentNeuroglancer()
   if (!viewer) return
   viewer.showPerspectiveSliceViews.value =
     !viewer.showPerspectiveSliceViews.value
 }
 
-export const currentLayout = () => {
+export function currentLayout() {
   return currentNeuroglancerState().layout
 }
 
-export const isCurrentLayout = (layout: NeuroglancerLayout) => {
+export function isCurrentLayout(layout: NeuroglancerLayout) {
   return currentLayout() === layout
 }
 
-export const setCurrentLayout = (
+export function setCurrentLayout(
   layout: NeuroglancerLayout,
   commit: boolean = true,
-) => {
+) {
   const stateModifier = (state: ResolvedSuperState) => {
     const newState = state
     // @ts-expect-error: The neuroglancer state is not typed with NeuroglancerLayout
@@ -106,14 +109,17 @@ export const setCurrentLayout = (
   return stateModifier
 }
 
-export const snap = () => {
+export function snap() {
   const viewer = currentNeuroglancer()
   if (!viewer) return
   viewer.navigationState.pose.orientation.snap()
   viewer.perspectiveNavigationState.pose.orientation.snap()
 }
 
-export const togglePanels = (show: boolean | undefined = undefined, commit = true) => {
+export function togglePanels(
+  show: boolean | undefined = undefined,
+  commit = true,
+) {
   const stateModifier = (state: ViewerPageSuperState) => {
     let newState = state
     if (state.savedPanelsStatus && (show === undefined || show === true)) {
@@ -177,7 +183,10 @@ export const togglePanels = (show: boolean | undefined = undefined, commit = tru
   return stateModifier
 }
 
-export const toggleTopBar = (show: boolean | undefined = undefined, commit = true) => {
+export function toggleTopBar(
+  show: boolean | undefined = undefined,
+  commit = true,
+) {
   const stateModifier = (state: ResolvedSuperState) => {
     const newState = state
     newState.showLayerTopBar = show !== undefined ? show : !isVisible
@@ -198,9 +207,9 @@ export const toggleTopBar = (show: boolean | undefined = undefined, commit = tru
   return stateModifier
 }
 
-export const chain = (
+export function chainStateModifiers(
   modifiers: ((state: ResolvedSuperState) => ResolvedSuperState)[],
-): ((state: ResolvedSuperState) => ResolvedSuperState | undefined) => {
+): (state: ResolvedSuperState) => ResolvedSuperState | undefined {
   return (state: ResolvedSuperState) => {
     let finalState = state
     for (const modifier of modifiers) {
@@ -210,18 +219,18 @@ export const chain = (
   }
 }
 
-export const isTopBarVisible = () => {
+export function isTopBarVisible() {
   const state = getCurrentState()
   return resolveStateBool(state.showLayerTopBar, /* defaultValue = */ false)
 }
 
-export const setTopBarVisibleFromSuperState = () => {
+export function setTopBarVisibleFromSuperState() {
   const viewer = currentNeuroglancer()
   if (!viewer) return
   viewer.uiConfiguration.showLayerPanel.value = isTopBarVisible()
 }
 
-export const isDimensionPanelVisible = () => {
+export function isDimensionPanelVisible() {
   const state = currentState()
   const toolPalettes = state.neuroglancer?.toolPalettes || {}
   if (Object.keys(toolPalettes).length === 0) {
@@ -232,7 +241,7 @@ export const isDimensionPanelVisible = () => {
   return resolveStateBool(tool?.visible, /* defaultValue = */ true)
 }
 
-export const makeDimensionPanel = (state: ResolvedSuperState) => {
+export function makeDimensionPanel(state: ResolvedSuperState) {
   const newState = state
   newState.neuroglancer.toolPalettes = {
     Position: {
@@ -247,10 +256,10 @@ export const makeDimensionPanel = (state: ResolvedSuperState) => {
   return newState
 }
 
-export const toggleDimensionPanelVisible = (
+export function toggleDimensionPanelVisible(
   state: ResolvedSuperState,
   show?: boolean,
-) => {
+) {
   if (state.neuroglancer.toolPalettes === undefined) return state
   const toolPalette = Object.values(state.neuroglancer.toolPalettes)[0]
   if (toolPalette === undefined) return state
@@ -258,14 +267,16 @@ export const toggleDimensionPanelVisible = (
   return state
 }
 
-export const toggleOrMakeDimensionPanel = () => {
+export function toggleOrMakeDimensionPanel() {
   const hasToolPalette =
     Object.keys(currentState().neuroglancer?.toolPalettes || {}).length > 0
   if (!hasToolPalette) updateState(makeDimensionPanel)
   else updateState(toggleDimensionPanelVisible)
 }
 
-export const isDepositionActivated = (depositionEntries: (string | undefined)[]) => {
+export function isDepositionActivated(
+  depositionEntries: (string | undefined)[],
+) {
   const layers = currentNeuroglancerState().layers || []
   return layers
     .filter((l) => l.name && depositionEntries.includes(l.name))
@@ -276,7 +287,7 @@ export const isDepositionActivated = (depositionEntries: (string | undefined)[])
     )
 }
 
-export const toggleDepositions = (depositionEntries: (string | undefined)[]) => {
+export function toggleDepositions(depositionEntries: (string | undefined)[]) {
   const isCurrentlyActive = isDepositionActivated(depositionEntries)
   updateState((state) => {
     const layers = state.neuroglancer?.layers || []
@@ -290,7 +301,7 @@ export const toggleDepositions = (depositionEntries: (string | undefined)[]) => 
   })
 }
 
-export const toggleAllDepositions = () => {
+export function toggleAllDepositions() {
   updateState((state) => {
     const layers = state.neuroglancer?.layers || []
     const layersOfInterest = layers.filter((l) => l.type !== 'image')
@@ -307,7 +318,7 @@ export const toggleAllDepositions = () => {
   })
 }
 
-export const isAllLayerActive = () => {
+export function isAllLayerActive() {
   const layers = currentNeuroglancerState().layers || []
   const layersOfInterest = layers.filter((l) => l.type !== 'image')
   return layersOfInterest.every(
