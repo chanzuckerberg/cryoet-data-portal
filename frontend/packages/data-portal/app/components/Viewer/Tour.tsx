@@ -1,5 +1,6 @@
 import { Icon } from '@czi-sds/components'
 import { useLayoutEffect, useState } from 'react'
+import { Button } from '@czi-sds/components'
 import Joyride, {
   ACTIONS,
   CallBackProps,
@@ -92,11 +93,6 @@ interface CustomTourProps {
   proxyIndex: number
 }
 
-const outlinedButtonStyles =
-  'py-1.5 px-3 rounded-sds-l font-semibold border border-light-sds-color-primitive-blue-500 text-light-sds-color-primitive-blue-500'
-const filledButtonStyles =
-  'py-1.5 px-3 rounded-sds-l font-semibold bg-light-sds-color-primitive-blue-500 text-dark-sds-color-primitive-gray-900'
-
 function CustomTooltip(
   props: TooltipRenderProps,
   onRestart: () => void,
@@ -152,59 +148,59 @@ function CustomTooltip(
         <div className="flex gap-2 ml-auto">
           {index === 0 ? (
             <>
-              <button
-                type="button"
+              <Button
+                sdsType="secondary"
+                sdsStyle="rounded"
                 {...closeProps}
                 onClick={onClose}
-                className={outlinedButtonStyles}
               >
                 Close
-              </button>
-              <button
-                type="button"
+              </Button>
+              <Button
+                sdsType="primary"
+                sdsStyle="rounded"
                 {...primaryProps}
-                className={filledButtonStyles}
               >
                 Take a tour
-              </button>
+              </Button>
             </>
           ) : (
             <>
               {index > 0 && !isLastStep && (
-                <button
-                  type="button"
+                <Button
+                  sdsType="secondary"
+                  sdsStyle="rounded"
                   {...backProps}
-                  className={outlinedButtonStyles}
                 >
                   Previous
-                </button>
+                </Button>
               )}
               {index > 0 && isLastStep && (
-                <button
-                  type="button"
+                <Button
+                  sdsType="secondary"
+                  sdsStyle="rounded"
                   onClick={onRestart}
-                  className={outlinedButtonStyles}
                 >
                   Restart
-                </button>
+                </Button>
               )}
               {!isLastStep && (
-                <button
-                  type="button"
+                <Button
+                  sdsType="primary"
+                  sdsStyle="rounded"
                   {...primaryProps}
-                  className={filledButtonStyles}
                 >
                   Next
-                </button>
+                </Button>
               )}
               {isLastStep && (
-                <button
-                  type="button"
+                <Button
+                  sdsType="primary"
+                  sdsStyle="rounded"
                   onClick={onClose}
-                  className={filledButtonStyles}
                 >
                   Close tour
-                </button>
+                </Button>
               )}
             </>
           )}
