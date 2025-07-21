@@ -15,6 +15,7 @@ import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
 import { useI18n } from 'app/hooks/useI18n'
 import { useTour } from 'app/hooks/useTour'
+import { useAutoHideSnackbar } from 'app/hooks/useAutoHideSnackbar'
 import { cns } from 'app/utils/cns'
 
 import {
@@ -61,8 +62,6 @@ import {
   toggleDepositions,
   getCurrentState,
 } from './state'
-import { useAutoHideSnackbar } from 'app/hooks/useAutoHideSnackbar'
-
 
 type Run = GetRunByIdV2Query['runs'][number]
 type Tomogram = GetRunByIdV2Query['tomograms'][number]
@@ -139,7 +138,7 @@ function ViewerPage({
   const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
   const iframeRef = useRef<HTMLIFrameElement>()
   const hashReady = useRef<boolean>(false)
-  
+
   const shareSnackbar = useAutoHideSnackbar()
   const snapSnackbar = useAutoHideSnackbar()
 

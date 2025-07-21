@@ -224,8 +224,8 @@ export const getTutorialSteps: () => Step[] = () => [
       <StepContent variant="default">
         <p className="flex flex-col gap-3">
           <span>
-            You've just learned the basics of navigating and analysing annotated
-            tomograms from the CryroET Data Portal with Neuroglancer!
+            You've just learned the basics of navigating annotated
+            tomograms from the CryoET Data Portal with Neuroglancer!
           </span>
           <span>
             We've extracted some of the most crucial functionality of
