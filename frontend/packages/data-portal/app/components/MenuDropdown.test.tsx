@@ -66,7 +66,7 @@ describe('<MenuDropdown />', () => {
       </MenuDropdown>,
     )
 
-    expect(screen.getByRole('button').closest('.custom-class')).toBeInTheDocument()
+    expect(screen.getByRole('button')).toHaveClass('custom-class')
   })
 })
 
