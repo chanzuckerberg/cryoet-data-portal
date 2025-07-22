@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, unused-imports/no-unused-vars, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
+
 import { beforeEach, jest } from '@jest/globals'
 import { fireEvent, render, screen } from '@testing-library/react'
 import type { Step } from 'react-joyride'
@@ -44,7 +46,7 @@ jest.unstable_mockModule('@czi-sds/components', () => ({
   ),
   // @eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   Button: ({ children, sdsType, sdsStyle, sdsSize, ...props }: any) => (
-    <button {...props}>{children}</button>
+    <button {...{ type: 'button', ...props }}>{children}</button>
   ),
 }))
 
@@ -256,7 +258,7 @@ describe('<Tour />', () => {
       await renderTour()
 
       const closeButton = screen.getByRole('button', { name: '' })
-      await getMockUser().click(closeButton!)
+      await getMockUser().click(closeButton)
       expect(mockOnClose).toHaveBeenCalled()
     })
 
