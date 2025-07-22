@@ -36,13 +36,19 @@ jest.unstable_mockModule('react-joyride', () => ({
 }))
 
 jest.unstable_mockModule('@czi-sds/components', () => ({
+  // @eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   Icon: ({ sdsIcon, sdsSize, ...props }: any) => (
     <span {...props} data-testid={`icon-${sdsIcon}`}>
       {sdsIcon}
     </span>
   ),
+  // @eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  Button: ({ children, sdsType, sdsStyle, sdsSize, ...props }: any) => (
+    <button {...props}>{children}</button>
+  ),
 }))
 
+// @eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function renderTour(props?: any) {
   const { Tour } = await import('./Tour')
   const defaultProps = {
@@ -213,7 +219,7 @@ describe('<Tour />', () => {
 
         expect(screen.getByText(`${step.title}`)).toBeInTheDocument()
         expect(screen.getByText(`${step.content}`)).toBeInTheDocument()
-        expect(screen.getByTestId('icon-XMark')).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '' })).toBeInTheDocument()
         if (index === 0) {
           expect(screen.getByText('Close')).toBeInTheDocument()
           expect(screen.getByText('Take a tour')).toBeInTheDocument()
@@ -249,9 +255,7 @@ describe('<Tour />', () => {
 
       await renderTour()
 
-      const closeButton = screen.getByTestId('icon-XMark').closest('button')
-      expect(closeButton).toBeInTheDocument()
-
+      const closeButton = screen.getByRole('button', { name: '' })
       await getMockUser().click(closeButton!)
       expect(mockOnClose).toHaveBeenCalled()
     })
