@@ -30,29 +30,33 @@ function Breadcrumb({
 }) {
   const plausible = usePlausible()
 
-  return link ? (
-    <Link
-      to={link}
-      className={cns(
-        'hover:text-light-sds-color-primitive-blue-500',
-        className,
-      )}
-      onClick={() => {
-        if (type) {
-          plausible(Events.ClickBreadcrumb, {
-            type,
-            ...(datasetId && { datasetId }),
-          })
-        }
-      }}
-    >
-      {text}
-    </Link>
-  ) : typeof text === 'string' ? (
-    <p className={cns(className, 'font-semibold')}>{text}</p>
-  ) : (
-    <div className={cns(className, 'font-semibold')}>{text}</div>
-  )
+  if (link) {
+    return (
+      <Link
+        to={link}
+        className={cns(
+          'hover:text-light-sds-color-primitive-blue-500',
+          className,
+        )}
+        onClick={() => {
+          if (type) {
+            plausible(Events.ClickBreadcrumb, {
+              type,
+              ...(datasetId && { datasetId }),
+            })
+          }
+        }}
+      >
+        {text}
+      </Link>
+    )
+  }
+
+  if (typeof text === 'string') {
+    return <p className={cns(className, 'font-semibold')}>{text}</p>
+  }
+
+  return <div className={cns(className, 'font-semibold')}>{text}</div>
 }
 
 export function Breadcrumbs({
