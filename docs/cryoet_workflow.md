@@ -189,6 +189,6 @@ Below is a summary of a workflow established by the Chan Zuckerberg Imaging Inst
     alt="Schematic of cryoET image processing workflow developed by CZII."
     width="75%"
   >
-  <figcaption style="width:75%;">Workflow highlighting software, real time steps, and current machine learning development efforts at CZII. Implemented software includes <a href="https://github.com/czimaginginstitute/AreTomo3">Aretomo3</a>, DenoiseET, <a href="https://github.com/apeck12/slabpick">Minislab</a>, <a href="https://github.com/copick/DeepFindET">DeepFindET</a>, and <a href="https://github.com/3dem/relion?tab=readme-ov-file">RELION</a>.
+  <figcaption style="width:75%;">Workflow highlighting software, real time steps, and current machine learning development efforts at CZII. Implemented software includes <a href="https://github.com/czimaginginstitute/AreTomo3">Aretomo3</a>, <a href="https://github.com/apeck12/denoiset">DenoisET</a>, <a href="https://github.com/apeck12/slabpick">Minislab</a>, <a href="https://github.com/copick/DeepFindET">DeepFindET</a>, and <a href="https://github.com/3dem/relion?tab=readme-ov-file">RELION</a>.
   </figcaption>
 </figure>
