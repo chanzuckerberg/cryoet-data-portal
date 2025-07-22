@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, unused-imports/no-unused-vars, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, jest/no-conditional-expect, testing-library/no-node-access */
+/* eslint-disable @typescript-eslint/no-explicit-any, unused-imports/no-unused-vars, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument, jest/no-conditional-expect, testing-library/no-node-access */
 
 import { beforeEach, jest } from '@jest/globals'
 import { fireEvent, render, screen } from '@testing-library/react'
