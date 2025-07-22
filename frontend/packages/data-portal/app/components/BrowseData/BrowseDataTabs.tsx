@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from '@remix-run/react'
+import { useLocation, useNavigate, useSearchParams } from '@remix-run/react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetToolbarDataQuery } from 'app/__generated_v2__/graphql'
@@ -12,13 +12,15 @@ export function BrowseDataTabs() {
   const { t } = useI18n()
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const [searchParams] = useSearchParams()
   const data = useTypedLoaderData<GetToolbarDataQuery>()
 
   return (
     <Tabs
       onChange={(nextTab) => {
         plausible(Events.ClickBrowseDataTab, { tab: nextTab })
-        navigate(`/browse-data/${nextTab}`)
+        const search = searchParams.toString()
+        navigate(`/browse-data/${nextTab}${search ? `?${search}` : ''}`)
       }}
       value={
         pathname.includes('/browse-data/depositions')

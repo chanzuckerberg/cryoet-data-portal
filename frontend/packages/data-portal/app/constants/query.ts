@@ -42,4 +42,6 @@ export enum QueryParams {
   TomogramProcessing = 'tomogram-processing',
   TomogramSampling = 'tomogram-sampling',
   TomogramsPage = 'tomograms-page',
+  EnableFeature = 'enable-feature',
+  DisableFeature = 'disable-feature',
 }

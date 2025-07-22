@@ -1,6 +1,7 @@
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
+import { getAdditionalContributingDepositions } from 'app/utils/deposition'
 import { isDefined } from 'app/utils/nullish'
 
 export function useRunById() {
@@ -81,6 +82,15 @@ export function useRunById() {
 
   const deposition = v2.depositions[0]
 
+  // Get additional contributing depositions (excluding the original deposition)
+  const additionalContributingDepositions =
+    getAdditionalContributingDepositions(
+      v2.depositionsWithAnnotations,
+      v2.depositionsWithTomograms,
+      v2.depositionsWithDatasets,
+      run?.dataset?.deposition?.id,
+    )
+
   return {
     run,
     tomograms,
@@ -95,5 +105,6 @@ export function useRunById() {
     ctfCount,
     deposition,
     annotationShapes,
+    additionalContributingDepositions,
   }
 }

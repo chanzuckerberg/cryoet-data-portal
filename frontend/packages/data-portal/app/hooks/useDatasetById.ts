@@ -1,6 +1,7 @@
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetDatasetByIdV2Query } from 'app/__generated_v2__/graphql'
+import { getAdditionalContributingDepositions } from 'app/utils/deposition'
 import { isDefined } from 'app/utils/nullish'
 
 export function useDatasetById() {
@@ -31,6 +32,15 @@ export function useDatasetById() {
       ?.map((aggregate) => aggregate.groupBy?.tiltSeriesQuality)
       .filter(isDefined) ?? []
 
+  // Get additional contributing depositions (excluding the original deposition)
+  const additionalContributingDepositions =
+    getAdditionalContributingDepositions(
+      v2.depositionsWithAnnotations,
+      v2.depositionsWithTomograms,
+      v2.depositionsWithDatasets,
+      dataset?.deposition?.id,
+    )
+
   return {
     runs,
     unFilteredRuns,
@@ -39,5 +49,6 @@ export function useDatasetById() {
     objectNames,
     objectShapeTypes,
     tiltseriesQualityScores,
+    additionalContributingDepositions,
   }
 }
