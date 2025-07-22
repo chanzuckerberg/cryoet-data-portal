@@ -38,19 +38,16 @@ jest.unstable_mockModule('react-joyride', () => ({
 }))
 
 jest.unstable_mockModule('@czi-sds/components', () => ({
-  // @eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   Icon: ({ sdsIcon, sdsSize, ...props }: any) => (
     <span {...props} data-testid={`icon-${sdsIcon}`}>
       {sdsIcon}
     </span>
   ),
-  // @eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   Button: ({ children, sdsType, sdsStyle, sdsSize, ...props }: any) => (
     <button {...{ type: 'button', ...props }}>{children}</button>
   ),
 }))
 
-// @eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function renderTour(props?: any) {
   const { Tour } = await import('./Tour')
   const defaultProps = {
