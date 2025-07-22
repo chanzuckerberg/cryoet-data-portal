@@ -234,7 +234,7 @@ Each tomogram has its own metadata, which can be viewed using the info icon on t
 **Reconstruction and Processing**
 | **Portal Metadata**         | **API Expression**                   | **Definition**                                                                  |
 |-----------------------------|--------------------------------------|---------------------------------------------------------------------------------|
-| Portal Standard Status      | `Tomogram.is_portal_standard`        | Whether this tomogram is a standardized reconstruction of the original tomogram, following a consistent format and coordinate space, and completed by CZII.|
+| Is Portal Standard          | `Tomogram.is_portal_standard`        | Whether this tomogram is a standardized reconstruction of the original tomogram, following a consistent format and coordinate space, and completed by CZII.|
 | Submitted by Dataset Author | `Tomogram.is_author_submitted`       | Whether this tomogram was submitted by the author of the dataset it belongs to. |
 | Reconstruction Software     | `Tomogram.reconstruction_software`   | Name of software used for reconstruction                                        |
 | Reconstruction Method       | `Tomogram.reconstruction_method`     | Describe reconstruction method (WBP, SART, SIRT).                               |
@@ -250,7 +250,7 @@ Each tomogram has its own metadata, which can be viewed using the info icon on t
 | **Portal Metadata**          | **API Expression**            | **Definition**                                                                                  |
 |------------------------------|-------------------------------|-------------------------------------------------------------------------------------------------|
 | Alignment ID                 | `Tomogram.alignment_id`       | The ID of the alignment used to generate this tomogram.                                         |
-| Portal Standard Status       | `Tomogram.is_portal_standard` | Whether or not the tomogram is considered canonical, meaning as minimal processing as possible. |
+| Is Portal Standard.          | `Tomogram.is_portal_standard` | Whether or not the tomogram is considered canonical, meaning as minimal processing as possible. |
 | Alignment Type               | `Alignment.alignment_type`    | Method of alignment used to generate the tomogram (e.g. local, global, fiducial-based, etc.)    |
 | Dimension (x,y,z)            | `(Alignment.volume_x_dimension, Alignment.volume_y_dimension, Alignment.volume_z_dimension)` | Comma separated x,y,z dimensions of the unscaled tomogram in angstroms.                         |
 | Offset (x,y,z)               | `(Tomogram.offset_x, Tomogram.offset_y, Tomogram.offset_z)` | Comma separated x,y,z offsets of the data relative to the canonical tomogram in pixels. |

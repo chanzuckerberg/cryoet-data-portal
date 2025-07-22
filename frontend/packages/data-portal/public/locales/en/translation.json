@@ -377,7 +377,7 @@
   "points": "Points",
   "poor": "Poor",
   "portalStandard": "Portal Standard",
-  "portalStandardStatus": "Portal Standard Status",
+  "portalStandardStatus": "Is Portal Standard",
   "portalStandardTooltip": "<semibold>Portal Standard:</semibold> Tomogram contributed by the Data Portal with standard voxel size.",
   "postProcessing": "Post Processing",
   "precision": "Precision",
