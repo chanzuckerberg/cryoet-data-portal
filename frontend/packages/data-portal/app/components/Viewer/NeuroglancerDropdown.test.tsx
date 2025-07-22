@@ -1,10 +1,11 @@
-import { render, screen } from '@testing-library/react'
 import { jest } from '@jest/globals'
-import {
-  NeuroglancerDropdownOption,
-  NeuroglancerDropdown,
-} from './NeuroglancerDropdown'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
+import {
+  NeuroglancerDropdown,
+  NeuroglancerDropdownOption,
+} from './NeuroglancerDropdown'
 
 // Top level custom dropdown functionality mostly covered in MenuDropdown tests
 describe('<NeuroglancerDropdown />', () => {
@@ -16,7 +17,7 @@ describe('<NeuroglancerDropdown />', () => {
     )
 
     expect(screen.getByText('Dropdown Title')).toBeInTheDocument()
-    expect(screen.queryByText('Dropdown Content')).toBeNull()
+    expect(screen.queryByText('Dropdown Content')).not.toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button'))
 

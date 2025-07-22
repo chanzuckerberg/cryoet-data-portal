@@ -13,16 +13,11 @@ import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
+import { useAutoHideSnackbar } from 'app/hooks/useAutoHideSnackbar'
 import { useI18n } from 'app/hooks/useI18n'
 import { useTour } from 'app/hooks/useTour'
-import { useAutoHideSnackbar } from 'app/hooks/useAutoHideSnackbar'
 import { cns } from 'app/utils/cns'
 
-import {
-  NeuroglancerDropdown,
-  NeuroglancerDropdownOption,
-} from './NeuroglancerDropdown'
-import { MenuDropdownSection } from '../MenuDropdown'
 import { ReusableSnackbar } from '../common/ReusableSnackbar/ReusableSnackbar'
 import {
   ABOUT_LINKS,
@@ -30,38 +25,43 @@ import {
   REPORT_LINKS,
 } from '../Layout/constants'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
+import { MenuDropdownSection } from '../MenuDropdown'
 import { Tooltip } from '../Tooltip'
 import { NeuroglancerBanner } from './NeuroglancerBanner'
-import { getTutorialSteps, proxyStepSelectors } from './steps'
-import { Tour } from './Tour'
 import {
-  ViewerPageSuperState,
+  NeuroglancerDropdown,
+  NeuroglancerDropdownOption,
+} from './NeuroglancerDropdown'
+import {
+  axisLineEnabled,
   chainStateModifiers,
-  togglePanels,
-  toggleTopBar,
+  getCurrentState,
+  hasBoundingBox,
+  isAllLayerActive,
+  isCurrentLayout,
+  isDepositionActivated,
+  isDimensionPanelVisible,
+  isTopBarVisible,
+  panelsDefaultValues,
+  resolveStateBool,
   setCurrentLayout,
   setTopBarVisibleFromSuperState,
-  resolveStateBool,
-  panelsDefaultValues,
-  snap,
-  isCurrentLayout,
-  isTopBarVisible,
-  isDimensionPanelVisible,
-  toggleOrMakeDimensionPanel,
-  hasBoundingBox,
-  toggleBoundingBox,
-  axisLineEnabled,
-  toggleAxisLine,
   showScaleBarEnabled,
-  toggleShowScaleBar,
   showSectionsEnabled,
-  toggleShowSections,
-  isAllLayerActive,
+  snap,
   toggleAllDepositions,
-  isDepositionActivated,
+  toggleAxisLine,
+  toggleBoundingBox,
   toggleDepositions,
-  getCurrentState,
+  toggleOrMakeDimensionPanel,
+  togglePanels,
+  toggleShowScaleBar,
+  toggleShowSections,
+  toggleTopBar,
+  ViewerPageSuperState,
 } from './state'
+import { getTutorialSteps, proxyStepSelectors } from './steps'
+import { Tour } from './Tour'
 
 type Run = GetRunByIdV2Query['runs'][number]
 type Tomogram = GetRunByIdV2Query['tomograms'][number]

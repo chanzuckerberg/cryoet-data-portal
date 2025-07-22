@@ -96,7 +96,7 @@ export function DepositionAnnotationTable() {
       data={
         isLoadingDebounced
           ? LOADING_ANNOTATIONS
-          : annotations?.annotationShapes ?? []
+          : (annotations?.annotationShapes ?? [])
       }
       columns={columns}
       hoverType="none"

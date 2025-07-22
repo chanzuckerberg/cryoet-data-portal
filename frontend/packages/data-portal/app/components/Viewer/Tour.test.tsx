@@ -1,5 +1,5 @@
 import { beforeEach, jest } from '@jest/globals'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import type { Step } from 'react-joyride'
 
 import { getMockUser } from 'app/utils/mock'
@@ -185,7 +185,7 @@ describe('<Tour />', () => {
   it('should handle run=false', async () => {
     await renderTour({ run: false })
 
-    expect(screen.queryByText('Welcome to the tour!')).toBeNull()
+    expect(screen.queryByText('Welcome to the tour!')).not.toBeInTheDocument()
   })
 
   describe('Custom Tooltip', () => {

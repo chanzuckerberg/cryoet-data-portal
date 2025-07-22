@@ -4,10 +4,10 @@ import { I18n } from 'app/components/I18n'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
+import { getNeuroglancerUrl } from 'app/utils/url'
 
 import { Link } from './Link'
 import { Tooltip } from './Tooltip'
-import { getNeuroglancerUrl } from 'app/utils/url'
 
 export interface ViewTomogramButtonProps {
   tomogramId?: string

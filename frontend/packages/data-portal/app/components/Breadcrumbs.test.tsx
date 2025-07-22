@@ -1,5 +1,6 @@
 import { createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 
 import {
@@ -12,7 +13,6 @@ import { AtomTupleWithValue } from 'app/types/state'
 
 import { Breadcrumbs } from './Breadcrumbs'
 import { HydrateAtomsProvider } from './HydrateAtomsProvider'
-import userEvent from '@testing-library/user-event'
 
 const BREADCRUMB_DATA = {
   id: 10,

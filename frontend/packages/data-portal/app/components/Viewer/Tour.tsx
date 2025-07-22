@@ -1,6 +1,5 @@
-import { Icon } from '@czi-sds/components'
+import { Button, Icon } from '@czi-sds/components'
 import { useLayoutEffect, useState } from 'react'
-import { Button } from '@czi-sds/components'
 import Joyride, {
   ACTIONS,
   CallBackProps,
@@ -130,7 +129,7 @@ function CustomTooltip(
           onClick={onClose}
           className="w-4 h-4 flex items-center"
           icon={<Icon sdsIcon="XMark" sdsSize="s" />}
-        ></Button>
+        />
       </div>
 
       <p>{step.content}</p>
