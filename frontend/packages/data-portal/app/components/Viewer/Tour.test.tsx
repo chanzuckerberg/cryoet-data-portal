@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, unused-imports/no-unused-vars, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument, jest/no-conditional-expect, testing-library/no-node-access */
+
 import { beforeEach, jest } from '@jest/globals'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import type { Step } from 'react-joyride'
 
 import { getMockUser } from 'app/utils/mock'
@@ -40,6 +42,9 @@ jest.unstable_mockModule('@czi-sds/components', () => ({
     <span {...props} data-testid={`icon-${sdsIcon}`}>
       {sdsIcon}
     </span>
+  ),
+  Button: ({ children, sdsType, sdsStyle, sdsSize, ...props }: any) => (
+    <button {...{ type: 'button', ...props }}>{children}</button>
   ),
 }))
 
@@ -185,7 +190,7 @@ describe('<Tour />', () => {
   it('should handle run=false', async () => {
     await renderTour({ run: false })
 
-    expect(screen.queryByText('Welcome to the tour!')).toBeNull()
+    expect(screen.queryByText('Welcome to the tour!')).not.toBeInTheDocument()
   })
 
   describe('Custom Tooltip', () => {
@@ -211,9 +216,11 @@ describe('<Tour />', () => {
         })
         await renderTour()
 
-        expect(screen.getByText(`${step.title}`)).toBeInTheDocument()
-        expect(screen.getByText(`${step.content}`)).toBeInTheDocument()
-        expect(screen.getByTestId('icon-XMark')).toBeInTheDocument()
+        expect(screen.getByText(`${step.title as string}`)).toBeInTheDocument()
+        expect(
+          screen.getByText(`${step.content as string}`),
+        ).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '' })).toBeInTheDocument()
         if (index === 0) {
           expect(screen.getByText('Close')).toBeInTheDocument()
           expect(screen.getByText('Take a tour')).toBeInTheDocument()
@@ -249,10 +256,8 @@ describe('<Tour />', () => {
 
       await renderTour()
 
-      const closeButton = screen.getByTestId('icon-XMark').closest('button')
-      expect(closeButton).toBeInTheDocument()
-
-      await getMockUser().click(closeButton!)
+      const closeButton = screen.getByRole('button', { name: '' })
+      await getMockUser().click(closeButton)
       expect(mockOnClose).toHaveBeenCalled()
     })
 

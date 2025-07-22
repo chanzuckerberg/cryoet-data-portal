@@ -48,7 +48,7 @@ describe('<MenuDropdown />', () => {
       <MenuDropdown
         buttonElement={
           <div>
-            <button>Custom Button</button>
+            <button type="button">Custom Button</button>
           </div>
         }
       >
@@ -60,13 +60,13 @@ describe('<MenuDropdown />', () => {
   })
 
   it('should apply custom className', () => {
-    const { container } = render(
+    render(
       <MenuDropdown className="custom-class" title="Custom Class Menu">
         <div>Test</div>
       </MenuDropdown>,
     )
 
-    expect(container.firstChild).toHaveClass('custom-class')
+    expect(screen.getByRole('button')).toHaveClass('custom-class')
   })
 })
 

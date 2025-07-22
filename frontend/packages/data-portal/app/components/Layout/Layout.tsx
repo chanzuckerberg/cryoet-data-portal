@@ -1,11 +1,11 @@
+import { useLocation } from '@remix-run/react'
 import { ReactNode } from 'react'
 
 import { SurveyBanner } from 'app/components/SurveyBanner'
+import { isNeuroglancerUrl } from 'app/utils/url'
 
 import { Footer } from './Footer'
 import { TopNavigation } from './TopNavigation'
-import { useLocation } from '@remix-run/react'
-import { isNeuroglancerUrl } from 'app/utils/url'
 
 export function Layout({ children }: { children: ReactNode }) {
   const { pathname } = useLocation()

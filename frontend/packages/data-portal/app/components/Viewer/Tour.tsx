@@ -1,6 +1,5 @@
-import { Icon } from '@czi-sds/components'
+import { Button, Icon } from '@czi-sds/components'
 import { useLayoutEffect, useState } from 'react'
-import { Button } from '@czi-sds/components'
 import Joyride, {
   ACTIONS,
   CallBackProps,
@@ -101,9 +100,9 @@ function CustomTooltip(
   const { index, isLastStep, size, step, closeProps, backProps, primaryProps } =
     props
   // Remove "title" from the closeProps, backProps, and primaryProps
-  const { title: _, ...closePropsWithoutTitle } = closeProps
-  const { title: __, ...backPropsWithoutTitle } = backProps
-  const { title: ___, ...primaryPropsWithoutTitle } = primaryProps
+  const { title: _unused1, ...closePropsWithoutTitle } = closeProps
+  const { title: _unused2, ...backPropsWithoutTitle } = backProps
+  const { title: _unused3, ...primaryPropsWithoutTitle } = primaryProps
 
   const tooltipContainerStyles =
     index === 0 || isLastStep ? 'p-10 max-w-[650px]' : 'p-4 max-w-[334px]'
@@ -130,7 +129,7 @@ function CustomTooltip(
           onClick={onClose}
           className="w-4 h-4 flex items-center"
           icon={<Icon sdsIcon="XMark" sdsSize="s" />}
-        ></Button>
+        />
       </div>
 
       <p>{step.content}</p>
