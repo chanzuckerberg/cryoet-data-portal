@@ -208,11 +208,11 @@ function MetadataTab() {
             ],
           },
           {
-            label: t('canonicalStatus'),
+            label: t('portalStandardStatus'),
             values: [tomogram.isPortalStandard ? 'True' : 'False'],
             labelExtra: (
               <Tooltip
-                tooltip={<I18n i18nKey="alignmentIdCanonicalTooltip" />}
+                tooltip={<I18n i18nKey="alignmentIdStandardTooltip" />}
                 placement="top"
               >
                 <Icon
