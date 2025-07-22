@@ -9,6 +9,10 @@ html, body {
   font-family: "Inter";
 }
 
+.md-typeset code {
+  word-break: normal;
+}
+
 [data-md-color-scheme="default"] {
   --md-primary-fg-color: #1A6CEF;
   --md-code-bg-color: #F6F6F6;

@@ -44,9 +44,9 @@
       
     
         <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.70220fb7a6025b3f4.min.css?v=191d3e68" />
-        <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+        <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
         <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0158cc88" />
+        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=916a6104" />
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -1617,7 +1617,7 @@ CryoET Data Portal Data Hierarchy</span><a class="headerlink" href="#id2" title=
 <li><p><strong>Run</strong> is one experiment, or replicate, within a dataset, where all runs in a dataset have the same sample conditions. Every run contains a collection of all tomography data and annotations related to imaging one physical location in a sample, and within one dataset, runs may correspond to individual locations within a single sample. Each run typically contains one tilt series and all associated data (e.g. movie frames, tilt series image stack, tomograms, annotations, and metadata), but in some cases, it may be a set of tilt series that form a mosaic. Runs contain at least one annotation for every tomogram. When downloading a run from a Portal page, you may choose to download the tomogram or all available annotations. To download all data associated with a run (i.e. all available movie frames, tilt series image stack, tomograms, annotations, and associated metadata), <a class="reference internal" href="#run-download-options">use the API</a>.</p></li>
 <li><p><strong>Annotation</strong> is a point or segmentation indicating the location of a macromolecular complex in the tomogram. On a run overview page, you may choose to download individual annotations.</p></li>
 </ul>
-<p>All data is added to the Portal through Depositions, which is described below, and a subset of depositions are displayed in the depositions tab on the Portal.</p>
+<p>All data is added to the Portal through Depositions, which is described below, and a subset of depositions are displayed in the depositions tab on “Browse Data” page of the Portal.</p>
 <p>For more detailed explanations of all data types in the Portal refer to the sections below.</p>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="#depositions">Depositions</a></p></li>
@@ -1649,19 +1649,19 @@ Types of depositions</span><a class="headerlink" href="#id3" title="Permalink to
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Deposition Date</p></td>
-<td><p>Dataset.deposition_date</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Dataset.deposition_date</span></code></p></td>
 <td><p>Date when a dataset is initially received by the Data Portal.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Grant ID</p></td>
-<td><p>DatasetFunding.grant_id</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DatasetFunding.grant_id</span></code></p></td>
 <td><p>Grant identifier provided by the funding agency.</p></td>
 </tr>
 <tr class="row-even"><td><p>Funding Agency</p></td>
-<td><p>DatasetFunding.funding_agency_name</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DatasetFunding.funding_agency_name</span></code></p></td>
 <td><p>Name of the funding agency.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Related Databases</p></td>
-<td><p>Dataset.related_database_entries</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Dataset.related_database_entries</span></code></p></td>
 <td><p>The dataset identifier for other databases, e.g. EMPIAR, that contain this dataset.</p></td>
 </tr>
 </tbody>
@@ -1676,39 +1676,39 @@ Types of depositions</span><a class="headerlink" href="#id3" title="Permalink to
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Sample Type</p></td>
-<td><p>Dataset.sample_type</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Dataset.sample_type</span></code></p></td>
 <td><p>Type of sample: cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Organism Name</p></td>
-<td><p>Dataset.organism_name</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Dataset.organism_name</span></code></p></td>
 <td><p>Name of the organism from which the biological sample is derived from, e.g. homo sapiens.</p></td>
 </tr>
 <tr class="row-even"><td><p>Tissue Name</p></td>
-<td><p>Dataset.tissue_name</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Dataset.tissue_name</span></code></p></td>
 <td><p>Name of the tissue from which a biological sample used in a CryoET study is derived from.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Cell Name</p></td>
-<td><p>Dataset.cell_name</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Dataset.cell_name</span></code></p></td>
 <td><p>Name of the cell from which a biological sample used in a CryoET study is derived from, e.g. sperm.</p></td>
 </tr>
 <tr class="row-even"><td><p>Cell Line or Strain Name</p></td>
-<td><p>Dataset.cell_strain_name</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Dataset.cell_strain_name</span></code></p></td>
 <td><p>Cell line or strain for the sample e.g. C57BI</p></td>
 </tr>
 <tr class="row-odd"><td><p>Cellular Component</p></td>
-<td><p>Dataset.cell_component_name</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Dataset.cell_component_name</span></code></p></td>
 <td><p>Name of the cellular component, e.g. sperm flagellum</p></td>
 </tr>
 <tr class="row-even"><td><p>Sample Preparation</p></td>
-<td><p>Dataset.sample_preparation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Dataset.sample_preparation</span></code></p></td>
 <td><p>Description of how the sample was prepared.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Grid Preparation</p></td>
-<td><p>Dataset.grid_preparation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Dataset.grid_preparation</span></code></p></td>
 <td><p>Description of how the CryoET grid was prepared.</p></td>
 </tr>
 <tr class="row-even"><td><p>Other Setup</p></td>
-<td><p>Dataset.other_setup</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Dataset.other_setup</span></code></p></td>
 <td><p>Description of other setup not covered by sample preparation or grid preparation that may make this dataset unique in the same publication.</p></td>
 </tr>
 </tbody>
@@ -1723,43 +1723,43 @@ Types of depositions</span><a class="headerlink" href="#id3" title="Permalink to
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Acceleration Voltage</p></td>
-<td><p>TiltSeries.acceleration_voltage</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.acceleration_voltage</span></code></p></td>
 <td><p>Electron Microscope Accelerator voltage in volts.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Spherical Aberration Constant</p></td>
-<td><p>TiltSeries.spherical_aberration_constant</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.spherical_aberration_constant</span></code></p></td>
 <td><p>Spherical Aberration Constant of the objective lens in millimeters.</p></td>
 </tr>
 <tr class="row-even"><td><p>Microscope Manufacturer</p></td>
-<td><p>TiltSeries.microscope_manufacturer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_manufacturer</span></code></p></td>
 <td><p>Name of the microscope manufacturer.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Microscope Model</p></td>
-<td><p>TiltSeries.microscope_model</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_model</span></code></p></td>
 <td><p>Microscope model name.</p></td>
 </tr>
 <tr class="row-even"><td><p>Energy Filter</p></td>
-<td><p>TiltSeries.microscope_energy_filter</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_energy_filter</span></code></p></td>
 <td><p>Energy filter setup used.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Phase Plate</p></td>
-<td><p>TiltSeries.microscope_phase_plate</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_phase_plate</span></code></p></td>
 <td><p>Phase plate configuration.</p></td>
 </tr>
 <tr class="row-even"><td><p>Image Corrector</p></td>
-<td><p>TiltSeries.microscope_image_corrector</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_image_corrector</span></code></p></td>
 <td><p>Image corrector setup.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Additional microscope optical setup</p></td>
-<td><p>TiltSeries.microscope_additional_info</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_additional_info</span></code></p></td>
 <td><p>Other microscope optical setup information, in addition to energy filter, phase plate and image corrector.</p></td>
 </tr>
 <tr class="row-even"><td><p>Camera Manufacturer</p></td>
-<td><p>TiltSeries.camera_manufacturer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.camera_manufacturer</span></code></p></td>
 <td><p>Name of the camera manufacturer.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Camera Model</p></td>
-<td><p>TiltSeries.camera_model</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.camera_model</span></code></p></td>
 <td><p>Camera model name.</p></td>
 </tr>
 </tbody>
@@ -1787,89 +1787,93 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id4" t
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Microscope Manufacturer</p></td>
-<td><p>TiltSeries.microscope_manufacturer</p></td>
+<tr class="row-even"><td><p>Tilt Series ID</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.id</span></code></p></td>
+<td><p>Numeric identifier.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Microscope Manufacturer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_manufacturer</span></code></p></td>
 <td><p>Name of the microscope manufacturer.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Microscope Model</p></td>
-<td><p>TiltSeries.microscope_model</p></td>
+<tr class="row-even"><td><p>Microscope Model</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_model</span></code></p></td>
 <td><p>Microscope model name.</p></td>
 </tr>
-<tr class="row-even"><td><p>Phase Plate</p></td>
-<td><p>TiltSeries.microscope_phase_plate</p></td>
+<tr class="row-odd"><td><p>Phase Plate</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_phase_plate</span></code></p></td>
 <td><p>Phase plate configuration.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Image Corrector</p></td>
-<td><p>TiltSeries.microscope_image_corrector</p></td>
+<tr class="row-even"><td><p>Image Corrector</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_image_corrector</span></code></p></td>
 <td><p>Image corrector setup.</p></td>
 </tr>
-<tr class="row-even"><td><p>Additional microscope optical setup</p></td>
-<td><p>TiltSeries.microscope_additional_info</p></td>
+<tr class="row-odd"><td><p>Additional microscope optical setup</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_additional_info</span></code></p></td>
 <td><p>Other microscope optical setup information, in addition to energy filter, phase plate and image corrector.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Acceleration Voltage</p></td>
-<td><p>TiltSeries.acceleration_voltage</p></td>
+<tr class="row-even"><td><p>Acceleration Voltage</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.acceleration_voltage</span></code></p></td>
 <td><p>Electron Microscope Accelerator voltage in volts.</p></td>
 </tr>
-<tr class="row-even"><td><p>Spherical Aberration Constant</p></td>
-<td><p>TiltSeries.spherical_aberration_constant</p></td>
+<tr class="row-odd"><td><p>Spherical Aberration Constant</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.spherical_aberration_constant</span></code></p></td>
 <td><p>Spherical Aberration Constant of the objective lens in millimeters.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Camera Manufacturer</p></td>
-<td><p>TiltSeries.camera_manufacturer</p></td>
+<tr class="row-even"><td><p>Camera Manufacturer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.camera_manufacturer</span></code></p></td>
 <td><p>Name of the camera manufacturer.</p></td>
 </tr>
-<tr class="row-even"><td><p>Camera Model</p></td>
-<td><p>TiltSeries.camera_model</p></td>
+<tr class="row-odd"><td><p>Camera Model</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.camera_model</span></code></p></td>
 <td><p>Camera model name.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Energy Filter</p></td>
-<td><p>TiltSeries.microscope_energy_filter</p></td>
+<tr class="row-even"><td><p>Energy Filter</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.microscope_energy_filter</span></code></p></td>
 <td><p>Energy filter setup used.</p></td>
 </tr>
-<tr class="row-even"><td><p>Data Acquisition Software</p></td>
-<td><p>TiltSeries.data_acquisition_software</p></td>
+<tr class="row-odd"><td><p>Data Acquisition Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.data_acquisition_software</span></code></p></td>
 <td><p>Software used to collect data.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Pixel Spacing</p></td>
-<td><p>TiltSeries.pixel_spacing</p></td>
+<tr class="row-even"><td><p>Pixel Spacing</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.pixel_spacing</span></code></p></td>
 <td><p>Pixel spacing for the tilt series.</p></td>
 </tr>
-<tr class="row-even"><td><p>Tilt Axis</p></td>
-<td><p>TiltSeries.tilt_axis</p></td>
+<tr class="row-odd"><td><p>Tilt Axis</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.tilt_axis</span></code></p></td>
 <td><p>Rotation angle in degrees.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Tilt Range</p></td>
-<td><p>TiltSeries.tilt_range</p></td>
+<tr class="row-even"><td><p>Tilt Range</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.tilt_range</span></code></p></td>
 <td><p>Total tilt range in degrees.</p></td>
 </tr>
-<tr class="row-even"><td><p>Tile Step</p></td>
-<td><p>TiltSeries.tiltstep</p></td>
+<tr class="row-odd"><td><p>Tilt Step</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.tilt_step</span></code></p></td>
 <td><p>Tilt step in degrees.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Tilting Scheme</p></td>
-<td><p>TiltSeries.tilting_scheme</p></td>
+<tr class="row-even"><td><p>Tilting Scheme</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.tilting_scheme</span></code></p></td>
 <td><p>The order of stage tilting during acquisition of the data.</p></td>
 </tr>
-<tr class="row-even"><td><p>Total Flux</p></td>
-<td><p>TiltSeries.total_flux</p></td>
+<tr class="row-odd"><td><p>Total Flux</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.total_flux</span></code></p></td>
 <td><p>Number of electrons reaching the specimen in a square Angstrom area for the entire tilt series.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Binning from Frames</p></td>
-<td><p>TiltSeries.binning_from_frames</p></td>
+<tr class="row-even"><td><p>Binning from Frames</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.binning_from_frames</span></code></p></td>
 <td><p>Describes the binning factor from frames to tilt series file.</p></td>
 </tr>
-<tr class="row-even"><td><p>Series is Aligned</p></td>
-<td><p>No API field</p></td>
+<tr class="row-odd"><td><p>Series is Aligned</p></td>
+<td><p>–</p></td>
 <td><p>True or false, indicating whether the tilt series images have been transformed to account for the tomographic alignment.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Related EMPIAR Entry</p></td>
-<td><p>TiltSeries.related_empiar_entry</p></td>
+<tr class="row-even"><td><p>Related EMPIAR Entry</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TiltSeries.related_empiar_entry</span></code></p></td>
 <td><p>EMPIAR dataset identifier If a tilt series is deposited into EMPIAR.</p></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Tomogram</strong></p>
+<p><strong>Tomograms Summary</strong></p>
 <table class="docutils data align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p><strong>Portal Metadata</strong></p></th>
@@ -1878,41 +1882,21 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id4" t
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Reconstruction Software</p></td>
-<td><p>Tomogram.reconstruction_software</p></td>
-<td><p>Name of software used for reconstruction.</p></td>
+<tr class="row-even"><td><p>Total Tomograms</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">len(Run.tomograms)</span></code></p></td>
+<td><p>Number of tomograms in this run.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Reconstruction Method</p></td>
-<td><p>Tomogram.reconstruction_method</p></td>
-<td><p>Reconstruction method, e.g. Weighted back-projection, SART, SIRT.</p></td>
+<tr class="row-odd"><td><p>Samplings Available</p></td>
+<td><p>see <a class="reference internal" href="cryoet_data_portal_docsite_examples.html#all-voxel-spacings-example"><span class="std std-ref">how to get all voxel spacings available for this run</span></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><p>Processing Software</p></td>
-<td><p>Tomogram.processing_software</p></td>
-<td><p>Processing software used to derive the tomogram.</p></td>
+<tr class="row-even"><td><p>Tomogram Processing</p></td>
+<td><p>see <a class="reference internal" href="cryoet_data_portal_docsite_examples.html#all-tomogram-processing-example"><span class="std std-ref">how to get all types of post-processing methods for tomograms in this run</span></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p>Available Processing</p></td>
-<td><p>Tomogram.processing</p></td>
-<td><p>Description of additional processing used to derive the tomogram, e.g. denoised.</p></td>
-</tr>
-<tr class="row-even"><td><p>Smallest Available Voxel Spacing</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">min_vs</span> <span class="pre">=</span> <span class="pre">min([vs.voxel_spacing</span> <span class="pre">for</span> <span class="pre">vs</span> <span class="pre">in</span> <span class="pre">Run.tomogram_voxel_spacings])</span></code></p></td>
-<td><p>Smallest voxel spacing of the available tomograms.</p></td>
-</tr>
-<tr class="row-odd"><td><p>Size (x, y, z)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">(Tomogram.size_x,</span> <span class="pre">Tomogram.size_y,</span> <span class="pre">Tomogram.size_z)</span></code> or <code class="docutils literal notranslate"><span class="pre">Tomogram.scale0_dimensions</span></code></p></td>
-<td><p>Comma separated x,y,z dimensions of the unscaled tomogram in pixels.</p></td>
-</tr>
-<tr class="row-even"><td><p>Fiducial Alignment Status</p></td>
-<td><p>Tomogram.fiducial_alignment_status</p></td>
-<td><p>Fiducial Alignment status: True = aligned with fiducial, False = aligned without fiducial.</p></td>
-</tr>
-<tr class="row-odd"><td><p>Ctf Corrected</p></td>
-<td><p>Tomogram.ctf_corrected</p></td>
-<td><p>Whether this tomogram is contrast transfer function corrected.</p></td>
-</tr>
-<tr class="row-even"><td><p>Affine Transformation Matrix</p></td>
-<td><p>Tomogram.affine_transformation_matrix</p></td>
-<td><p>The flip or rotation transformation.</p></td>
+<tr class="row-odd"><td><p>Annotated Objects</p></td>
+<td><p>see <a class="reference internal" href="cryoet_data_portal_docsite_examples.html#all-annotated-object-example"><span class="std std-ref">how to get all annotated object names for this run</span></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -1998,35 +1982,35 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id4" t
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Authors</p></td>
-<td><p>Tomogram.authors</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.authors</span></code></p></td>
 <td><p>The tomogram authors of this tomogram.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Publications</p></td>
-<td><p>Tomogram.publications</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.publications</span></code></p></td>
 <td><p>Comma-separated list of DOIs for publications associated with the tomogram.</p></td>
 </tr>
 <tr class="row-even"><td><p>Related Databases</p></td>
-<td><p>Tomogram.related_database_entries</p></td>
-<td><p>If a CryoET tomogram is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.related_database_entries</span></code></p></td>
+<td><p>Comma-separated list of other database identifiers (e.g. EMPIAR-11445) if the tomogram is also deposited into other databases.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Deposition Name</p></td>
-<td><p>Tomogram.deposition</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.deposition</span></code></p></td>
 <td><p>The name of the deposition this tomogram is a part of.</p></td>
 </tr>
 <tr class="row-even"><td><p>Deposition ID</p></td>
-<td><p>Tomogram.deposition_id</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.deposition_id</span></code></p></td>
 <td><p>The ID of the deposition this tomogram is a part of.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Deposition Date</p></td>
-<td><p>Tomogram.deposition_date</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.deposition_date</span></code></p></td>
 <td><p>Date when a tomogram is initially received by the Data Portal.</p></td>
 </tr>
 <tr class="row-even"><td><p>Release Date</p></td>
-<td><p>Tomogram.release_date</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.release_date</span></code></p></td>
 <td><p>Date when a tomogram is made public by the Data Portal.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Last Modified Date</p></td>
-<td><p>Tomogram.last_modified_date</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.last_modified_date</span></code></p></td>
 <td><p>Date when a tomogram was last modified in the Data Portal.</p></td>
 </tr>
 </tbody>
@@ -2040,32 +2024,32 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id4" t
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Portal Standard Status</p></td>
-<td><p>Tomogram.is_portal_standard</p></td>
-<td><p>Whether this tomogram adheres to portal standards.</p></td>
+<tr class="row-even"><td><p>Is Portal Standard</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.is_portal_standard</span></code></p></td>
+<td><p>Whether this tomogram is a standardized reconstruction of the original tomogram, following a consistent format and coordinate space, and completed by CZII.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Submitted by Dataset Author</p></td>
-<td><p>Tomogram.is_author_submitted</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.is_author_submitted</span></code></p></td>
 <td><p>Whether this tomogram was submitted by the author of the dataset it belongs to.</p></td>
 </tr>
 <tr class="row-even"><td><p>Reconstruction Software</p></td>
-<td><p>Tomogram.reconstruction_software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.reconstruction_software</span></code></p></td>
 <td><p>Name of software used for reconstruction</p></td>
 </tr>
 <tr class="row-odd"><td><p>Reconstruction Method</p></td>
-<td><p>Tomogram.reconstruction_method</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.reconstruction_method</span></code></p></td>
 <td><p>Describe reconstruction method (WBP, SART, SIRT).</p></td>
 </tr>
 <tr class="row-even"><td><p>Processing Software</p></td>
-<td><p>Tomogram.processing_software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.processing_software</span></code></p></td>
 <td><p>Processing software used to derive the tomogram.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Processing</p></td>
-<td><p>Tomogram.processing</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.processing</span></code></p></td>
 <td><p>Describe additional processing used to derive the tomogram</p></td>
 </tr>
 <tr class="row-even"><td><p>Voxel Spacing</p></td>
-<td><p>Tomogram.voxel_spacing</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.voxel_spacing</span></code></p></td>
 <td><p>Voxel spacing equal in all three axes in angstroms</p></td>
 </tr>
 <tr class="row-odd"><td><p>Size (x,y,z)</p></td>
@@ -2073,11 +2057,11 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id4" t
 <td><p>Comma separated x,y,z dimensions of the unscaled tomogram in pixels.</p></td>
 </tr>
 <tr class="row-even"><td><p>Fiducial Alignment Status</p></td>
-<td><p>Tomogram.fiducial_alignment_status</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.fiducial_alignment_status</span></code></p></td>
 <td><p>Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Ctf Corrected</p></td>
-<td><p>Tomogram.ctf_corrected</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.ctf_corrected</span></code></p></td>
 <td><p>Whether this tomogram is CTF corrected</p></td>
 </tr>
 </tbody>
@@ -2092,19 +2076,19 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id4" t
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Alignment ID</p></td>
-<td><p>Tomogram.alignment_id</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.alignment_id</span></code></p></td>
 <td><p>The ID of the alignment used to generate this tomogram.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Canonical Status</p></td>
-<td><p>–</p></td>
+<tr class="row-odd"><td><p>Is Portal Standard.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Tomogram.is_portal_standard</span></code></p></td>
 <td><p>Whether or not the tomogram is considered canonical, meaning as minimal processing as possible.</p></td>
 </tr>
 <tr class="row-even"><td><p>Alignment Type</p></td>
-<td><p>–</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Alignment.alignment_type</span></code></p></td>
 <td><p>Method of alignment used to generate the tomogram (e.g. local, global, fiducial-based, etc.)</p></td>
 </tr>
 <tr class="row-odd"><td><p>Dimension (x,y,z)</p></td>
-<td><p>–</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(Alignment.volume_x_dimension,</span> <span class="pre">Alignment.volume_y_dimension,</span> <span class="pre">Alignment.volume_z_dimension)</span></code></p></td>
 <td><p>Comma separated x,y,z dimensions of the unscaled tomogram in angstroms.</p></td>
 </tr>
 <tr class="row-even"><td><p>Offset (x,y,z)</p></td>
@@ -2112,15 +2096,15 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id4" t
 <td><p>Comma separated x,y,z offsets of the data relative to the canonical tomogram in pixels.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Rotation (x)</p></td>
-<td><p>–</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Alignment.x_rotation_offset</span></code></p></td>
 <td><p>–</p></td>
 </tr>
 <tr class="row-even"><td><p>Tilt Offset</p></td>
-<td><p>–</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Alignment.tilt_offset</span></code></p></td>
 <td><p>–</p></td>
 </tr>
 <tr class="row-odd"><td><p>Affine Transformation Matrix</p></td>
-<td><p>–</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Alignment.affine_transformation_matrix</span></code></p></td>
 <td><p>–</p></td>
 </tr>
 </tbody>
@@ -2143,40 +2127,56 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id4" t
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Annotation ID</p></td>
-<td><p>Annotation.id</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.id</span></code></p></td>
 <td><p>Numeric identifier assigned by the Portal.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Annotation Authors</p></td>
-<td><p>Annotation.authors</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.authors</span></code></p></td>
 <td><p>Authors of this annotation.</p></td>
 </tr>
 <tr class="row-even"><td><p>Publication</p></td>
-<td><p>Annotation.annotation_publication</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.annotation_publication</span></code></p></td>
 <td><p>DOIs for publications that describe the dataset.</p></td>
 </tr>
+<tr class="row-odd"><td><p>Deposition Name</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.deposition.name</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Deposition ID</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.deposition_id</span></code></p></td>
+<td><p>The ID of the deposition this annotation is a part of.</p></td>
+</tr>
 <tr class="row-odd"><td><p>Deposition Date</p></td>
-<td><p>Annotation.deposition_date</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.deposition_date</span></code></p></td>
 <td><p>Date when an annotation set is initially received by the Data Portal.</p></td>
 </tr>
 <tr class="row-even"><td><p>Release Date</p></td>
-<td><p>Annotation.release_date</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.release_date</span></code></p></td>
 <td><p>Date when annotation data is made public by the Data Portal.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Last Modified Date</p></td>
-<td><p>Annotation.last_modified_date</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.last_modified_date</span></code></p></td>
 <td><p>Date when an annotation was last modified in the Data Portal.</p></td>
 </tr>
-<tr class="row-even"><td><p>Method Type</p></td>
-<td><p>Annotation.method_type</p></td>
+<tr class="row-even"><td><p>Alignment ID</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.annotation_shapes[X].annotation_files[Y].alignment_id</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Method Type</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.method_type</span></code></p></td>
 <td><p>The method type for generating the annotation (e.g., manual, hybrid, automated).</p></td>
 </tr>
-<tr class="row-odd"><td><p>Annotation Method</p></td>
-<td><p>Annotation.annotation_method</p></td>
+<tr class="row-even"><td><p>Annotation Method</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.annotation_method</span></code></p></td>
 <td><p>Describes how the annotation is made, e.g., Manual, crYoLO, Positive Unlabeled Learning, template matching.</p></td>
 </tr>
-<tr class="row-even"><td><p>Annotation Software</p></td>
-<td><p>Annotation.annotation_software</p></td>
+<tr class="row-odd"><td><p>Annotation Software</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.annotation_software</span></code></p></td>
 <td><p>Software used for generating this annotation.</p></td>
+</tr>
+<tr class="row-even"><td><p>Method Links</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.method_links</span></code></p></td>
+<td><p>Returns <code class="docutils literal notranslate"><span class="pre">list[AnnotationMethodLink]</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -2190,27 +2190,27 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id4" t
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Object Name</p></td>
-<td><p>Annotation.object_name</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.object_name</span></code></p></td>
 <td><p>Name of the object being annotated, e.g., ribosome, nuclear pore complex, actin filament, membrane.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Object ID</p></td>
-<td><p>Annotation.object_id</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.object_id</span></code></p></td>
 <td><p>Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object.</p></td>
 </tr>
 <tr class="row-even"><td><p>Object Count</p></td>
-<td><p>Annotation.object_count</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.object_count</span></code></p></td>
 <td><p>Number of objects identified.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Object Shape Type</p></td>
-<td><p>AnnotationFile.shape_type</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AnnotationShape.shape_type</span></code></p></td>
 <td><p>Description of whether this is a Point, OrientedPoint, or SegmentationMask file.</p></td>
 </tr>
 <tr class="row-even"><td><p>Object State</p></td>
-<td><p>Annotation.object_state</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.object_state</span></code></p></td>
 <td><p>Additional information about the annotated object not captured by the gene ontology (e.g., open or closed state for molecules).</p></td>
 </tr>
 <tr class="row-odd"><td><p>Object Description</p></td>
-<td><p>Annotation.object_description</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.object_description</span></code></p></td>
 <td><p>Description of the annotated object, including additional information not covered by the Annotation object name and state.</p></td>
 </tr>
 </tbody>
@@ -2225,19 +2225,19 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id4" t
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Ground Truth Status</p></td>
-<td><p>Annotation.ground_truth_status</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.ground_truth_status</span></code></p></td>
 <td><p>Whether an annotation is considered ground truth, as determined by the annotation author.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Ground Truth Used</p></td>
-<td><p>Annotation.ground_truth_used</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.ground_truth_used</span></code></p></td>
 <td><p>Annotation filename used as ground truth for precision and recall.</p></td>
 </tr>
 <tr class="row-even"><td><p>Precision</p></td>
-<td><p>Annotation.confidence_precision</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.confidence_precision</span></code></p></td>
 <td><p>Percentage of annotation objects being true positive.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Recall</p></td>
-<td><p>Annotation.confidence_recall</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Annotation.confidence_recall</span></code></p></td>
 <td><p>Percentage of true positives being annotated correctly.</p></td>
 </tr>
 </tbody>
