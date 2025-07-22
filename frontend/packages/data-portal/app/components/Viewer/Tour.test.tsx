@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, unused-imports/no-unused-vars, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-explicit-any, unused-imports/no-unused-vars, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, jest/no-conditional-expect, testing-library/no-node-access */
 
 import { beforeEach, jest } from '@jest/globals'
 import { fireEvent, render, screen } from '@testing-library/react'
@@ -219,8 +219,10 @@ describe('<Tour />', () => {
         })
         await renderTour()
 
-        expect(screen.getByText(`${step.title}`)).toBeInTheDocument()
-        expect(screen.getByText(`${step.content}`)).toBeInTheDocument()
+        expect(screen.getByText(`${step.title as string}`)).toBeInTheDocument()
+        expect(
+          screen.getByText(`${step.content as string}`),
+        ).toBeInTheDocument()
         expect(screen.getByRole('button', { name: '' })).toBeInTheDocument()
         if (index === 0) {
           expect(screen.getByText('Close')).toBeInTheDocument()
