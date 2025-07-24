@@ -91,7 +91,7 @@ export function DepositionFilters() {
           {t('filterBy')}:
         </h3>
 
-        <div className="px-sds-l flex flex-col gap-sds-xxs">
+        <div className="px-sds-l flex flex-col gap-sds-xxs pb-sds-xl">
           <DatasetNameOrIdFilter />
           <OrganismNameFilter organismNames={organismNames} />
         </div>

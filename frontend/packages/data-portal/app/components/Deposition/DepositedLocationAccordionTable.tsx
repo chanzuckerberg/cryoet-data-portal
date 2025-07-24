@@ -113,7 +113,6 @@ export function DepositedLocationAccordionTable({
     }
 
     if (tab === DepositionTab.Tomograms) {
-      // TODO: Update TomogramLocationTable to use backend data like LocationTable
       const locData: DepositedLocationData<TomogramRowData> = {
         depositedLocation: dataset.title,
         runs: [], // Empty until backend data is integrated
@@ -127,6 +126,10 @@ export function DepositedLocationAccordionTable({
           onRunToggle={() => {}} // Placeholder until updated
           onRunPageChange={() => {}} // Placeholder until updated
           currentGroupPage={currentPage}
+          depositionId={depositionId}
+          datasetId={datasetId}
+          datasetTitle={dataset.title}
+          isExpanded={isExpanded}
         />
       )
     }
