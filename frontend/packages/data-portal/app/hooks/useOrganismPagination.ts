@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
+import { useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 import { isDefined } from 'app/utils/nullish'
 
@@ -39,6 +40,7 @@ export function useOrganismPagination(
   depositionId: number | undefined,
 ): UseOrganismPaginationReturn {
   const [searchParams] = useSearchParams()
+  const [tab] = useDepositionTab()
 
   // Get current page from URL params
   const currentPage = +(searchParams.get(QueryParams.Page) ?? '1')
@@ -57,7 +59,10 @@ export function useOrganismPagination(
     datasets = [],
     organismCounts = {},
     isLoading,
-  } = useDatasetsForDeposition(depositionId)
+  } = useDatasetsForDeposition({
+    depositionId,
+    type: tab,
+  })
 
   return useMemo(() => {
     if (isLoading || !datasets.length) {

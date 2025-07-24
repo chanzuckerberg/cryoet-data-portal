@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
+import { useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 
 interface UseDatasetPaginationReturn {
@@ -49,6 +50,7 @@ export function useDatasetPagination(
   runCounts?: Record<number, number>,
 ): UseDatasetPaginationReturn {
   const [searchParams] = useSearchParams()
+  const [tab] = useDepositionTab()
 
   // Get current page from URL params
   const currentPage = +(searchParams.get(QueryParams.Page) ?? '1')
@@ -63,7 +65,10 @@ export function useDatasetPagination(
   }, [searchParams])
 
   // Fetch all datasets for the deposition
-  const { datasets = [], isLoading } = useDatasetsForDeposition(depositionId)
+  const { datasets = [], isLoading } = useDatasetsForDeposition({
+    depositionId,
+    type: tab,
+  })
 
   return useMemo(() => {
     if (isLoading || !datasets.length) {
