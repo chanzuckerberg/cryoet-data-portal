@@ -1,4 +1,5 @@
 import type { DataContentsFragment } from 'app/__generated_v2__/graphql'
+import type { TomogramRowData } from 'app/hooks/useTomogramData'
 
 interface DepositionWithId {
   id: number
@@ -92,6 +93,25 @@ interface BackendRun {
     | undefined
 }
 
+interface BackendTomogramRun {
+  __typename?: 'Run' | undefined
+  id: number
+  name: string
+  tomogramsAggregate?:
+    | {
+        __typename?: 'TomogramAggregate' | undefined
+        aggregate?:
+          | {
+              __typename?: 'TomogramAggregateFunctions' | undefined
+              count?: number | null | undefined
+            }[]
+          | null
+          | undefined
+      }
+    | null
+    | undefined
+}
+
 interface AnnotationRowData {
   id: number
   annotationName: string
@@ -113,6 +133,7 @@ interface RunData<T> {
   runName: string
   items: T[]
   annotationCount?: number
+  tomogramCount?: number
 }
 
 interface DepositedLocationData<T> {
@@ -134,6 +155,24 @@ export function transformBackendRunsToComponentFormat(
       runName: run.name,
       items: [], // Empty for unexpanded case
       annotationCount: run.annotationsAggregate?.aggregate?.[0]?.count || 0,
+    })),
+  }
+}
+
+/**
+ * Transforms backend tomogram run data to the component format expected by TomogramLocationTable
+ */
+export function transformBackendTomoRunsToComponentFormat(
+  backendRuns: BackendTomogramRun[],
+  datasetTitle: string,
+): DepositedLocationData<TomogramRowData> {
+  return {
+    depositedLocation: datasetTitle,
+    runs: backendRuns.map((run) => ({
+      id: run.id,
+      runName: run.name,
+      items: [], // Empty for unexpanded case
+      tomogramCount: run.tomogramsAggregate?.aggregate?.[0]?.count || 0,
     })),
   }
 }
