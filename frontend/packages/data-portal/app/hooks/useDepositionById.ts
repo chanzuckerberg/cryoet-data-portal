@@ -4,9 +4,12 @@ import { useTypedLoaderData } from 'remix-typedjson'
 import {
   Annotation_Method_Link_Type_Enum,
   Annotation_Method_Type_Enum,
+  GetDatasetsForDepositionViaAnnotationShapesQuery,
+  GetDatasetsForDepositionViaTomogramsQuery,
   type GetDepositionAnnotationsQuery,
   GetDepositionByIdV2Query,
   type GetDepositionTomogramsQuery,
+  PerformVoodooQuery,
 } from 'app/__generated_v2__/graphql'
 import { METHOD_TYPE_ORDER } from 'app/constants/methodTypes'
 
@@ -23,11 +26,25 @@ export interface AnnotationMethodMetadata {
 }
 
 export function useDepositionById() {
-  const { v2, annotations, tomograms } = useTypedLoaderData<{
+  const {
+    v2,
+    annotations,
+    tomograms,
+    voodooData,
+    datasetsViaTomograms,
+    datasetsViaAnnotationShapes,
+  } = useTypedLoaderData<{
     v2: GetDepositionByIdV2Query
     annotations?: GetDepositionAnnotationsQuery
     tomograms?: GetDepositionTomogramsQuery
+    voodooData: PerformVoodooQuery
+    datasetsViaTomograms: GetDatasetsForDepositionViaTomogramsQuery
+    datasetsViaAnnotationShapes: GetDatasetsForDepositionViaAnnotationShapesQuery
   }>()
+
+  console.log("voodooData", voodooData); // REMOVE
+  console.log("datasetsViaTomograms", datasetsViaTomograms); // REMOVE
+  console.log("datasetsViaAnnotationShapes", datasetsViaAnnotationShapes); // REMOVE
 
   const annotationMethods: AnnotationMethodMetadata[] = useMemo(() => {
     const annotationMethodToMetadata = new Map<
