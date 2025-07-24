@@ -1,9 +1,11 @@
 import Divider from '@mui/material/Divider'
+import { useParams } from '@remix-run/react'
 import { useMemo } from 'react'
 
 import { OrganismNameFilter } from 'app/components/Filters/OrganismNameFilter'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
+import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 import { cns } from 'app/utils/cns'
 import { getDataContents } from 'app/utils/deposition'
 
@@ -11,7 +13,10 @@ import { DatasetNameOrIdFilter } from '../Filters/DatasetNameOrIdFilter'
 import { DepositionTabs } from './DepositionTabs'
 
 export function DepositionFilters() {
+  const params = useParams()
+  const depositionId = params.id ? +params.id : undefined
   const { allRuns } = useDepositionById()
+  const { organismNames } = useDatasetsForDeposition(depositionId)
   const dataContents = getDataContents(allRuns ?? [])
   const dataContentItems = useMemo(
     () =>
@@ -83,7 +88,7 @@ export function DepositionFilters() {
 
         <div className="px-sds-l flex flex-col gap-sds-xxs">
           <DatasetNameOrIdFilter />
-          <OrganismNameFilter />
+          <OrganismNameFilter organismNames={organismNames} />
         </div>
       </div>
     </div>
