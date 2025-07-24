@@ -4,6 +4,7 @@ export interface DepositedLocationData<T> {
 }
 
 export interface RunData<T> {
+  id: number
   runName: string
   items: T[]
   annotationCount?: number
@@ -124,12 +125,18 @@ export function convertToDepositedLocationData<
 >(
   groupedData: Record<string, Record<string, T[]>>,
 ): DepositedLocationData<T>[] {
+  let runIdCounter = 1
   return Object.entries(groupedData).map(([location, runs]) => ({
     depositedLocation: location,
-    runs: Object.entries(runs).map(([runName, items]) => ({
-      runName,
-      items,
-    })),
+    runs: Object.entries(runs).map(([runName, items]) => {
+      const runId = runIdCounter
+      runIdCounter += 1
+      return {
+        id: runId,
+        runName,
+        items,
+      }
+    }),
   }))
 }
 

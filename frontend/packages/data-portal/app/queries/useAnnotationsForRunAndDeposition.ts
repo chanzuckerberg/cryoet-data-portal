@@ -2,6 +2,12 @@ import { useQuery } from '@tanstack/react-query'
 
 import { GetAnnotationsForRunAndDepositionQuery } from 'app/__generated_v2__/graphql'
 
+interface UseAnnotationsForRunAndDepositionParams {
+  depositionId?: number
+  runId?: number
+  page?: number
+}
+
 /**
  * Hook to fetch paginated annotation shapes for a specific run within a specific deposition context
  * using React Query + API route.
@@ -9,16 +15,14 @@ import { GetAnnotationsForRunAndDepositionQuery } from 'app/__generated_v2__/gra
  * This uses a server-side API route to avoid CORS issues with direct GraphQL calls,
  * leveraging React Query for caching and state management.
  *
- * @param depositionId - The ID of the deposition
- * @param runId - The ID of the run to fetch annotations for
- * @param page - The page number for pagination (1-based)
+ * @param params - Object containing depositionId, runId, and page number
  * @returns React Query result with annotation shapes data, loading state, and error handling
  */
-export function useAnnotationsForRunAndDeposition(
-  depositionId: number | undefined,
-  runId: number | undefined,
-  page: number,
-) {
+export function useAnnotationsForRunAndDeposition({
+  depositionId,
+  runId,
+  page = 1,
+}: UseAnnotationsForRunAndDepositionParams) {
   return useQuery({
     queryKey: ['annotations-for-run', depositionId, runId, page],
     queryFn: async (): Promise<GetAnnotationsForRunAndDepositionQuery> => {
