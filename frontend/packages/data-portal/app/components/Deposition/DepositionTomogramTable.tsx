@@ -7,6 +7,7 @@ import {
 } from 'app/__generated_v2__/graphql'
 import { useDepositedInColumn } from 'app/components/Deposition/useDepositedInColumn'
 import { PageTable } from 'app/components/Table'
+import { TableClassNames } from 'app/components/Table/types'
 import { usePostProcessingColumn } from 'app/components/TomogramsTable/usePostProcessingColumn'
 import { useReconstructionMethodColumn } from 'app/components/TomogramsTable/useReconstructionMethodColumn'
 import { useTomogramActionsColumn } from 'app/components/TomogramsTable/useTomogramActionsColumn'
@@ -14,7 +15,6 @@ import { useTomogramKeyPhotoColumn } from 'app/components/TomogramsTable/useTomo
 import { useTomogramNameColumn } from 'app/components/TomogramsTable/useTomogramNameColumn'
 import { useVoxelSpacingColumn } from 'app/components/TomogramsTable/useVoxelSpacingColumn'
 import { DepositionTomogramTableWidths } from 'app/constants/table'
-import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 
 type DepositionTomogramTableData =
@@ -40,9 +40,13 @@ const LOADING_ANNOTATIONS = Array.from(
     }) as DepositionTomogramTableData,
 )
 
-export function DepositionTomogramTable() {
-  const { tomograms } = useDepositionById()
-
+export function DepositionTomogramTable({
+  data,
+  classes,
+}: {
+  data: DepositionTomogramTableData[]
+  classes?: TableClassNames
+}) {
   const { isLoadingDebounced } = useIsLoading()
 
   const keyPhotoColumn = useTomogramKeyPhotoColumn(
@@ -111,11 +115,10 @@ export function DepositionTomogramTable() {
 
   return (
     <PageTable
-      data={
-        isLoadingDebounced ? LOADING_ANNOTATIONS : tomograms?.tomograms ?? []
-      }
+      data={isLoadingDebounced ? LOADING_ANNOTATIONS : data}
       columns={columns}
       hoverType="none"
+      classes={classes}
     />
   )
 }
