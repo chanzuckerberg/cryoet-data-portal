@@ -31,6 +31,7 @@ interface AnnotationRowData {
 
 interface RunRowProps {
   run: RunData<AnnotationRowData>
+  annotationCount?: number
   isExpanded: boolean
   onToggle: () => void
   currentPage: number
@@ -40,6 +41,7 @@ interface RunRowProps {
 
 export function RunRow({
   run,
+  annotationCount,
   isExpanded,
   onToggle,
   currentPage,
@@ -47,7 +49,7 @@ export function RunRow({
   onPageChange,
 }: RunRowProps) {
   const { t } = useI18n()
-  const annotationCount = run.items.length
+  const count = annotationCount ?? run.items.length
   const pageSize = 5
   const startIndex = (currentPage - 1) * pageSize
   const endIndex = startIndex + pageSize
@@ -63,7 +65,7 @@ export function RunRow({
         )}
         onClick={onToggle}
       >
-        <CellComponent colSpan={4} className="!p-2">
+        <CellComponent colSpan={3} className="!p-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-sds-xs">
               <Icon
@@ -84,7 +86,7 @@ export function RunRow({
                   onPageChange={onPageChange}
                   startIndex={startIndex}
                   endIndex={endIndex}
-                  totalItems={run.items.length}
+                  totalItems={count}
                   itemLabel={t('annotation')}
                   itemsLabel={t('annotations')}
                 />
@@ -95,8 +97,7 @@ export function RunRow({
                     'text-light-sds-color-semantic-base-text-secondary',
                   )}
                 >
-                  {annotationCount}{' '}
-                  {annotationCount === 1 ? t('annotation') : t('annotations')}
+                  {count} {count === 1 ? t('annotation') : t('annotations')}
                 </span>
               )}
             </div>
