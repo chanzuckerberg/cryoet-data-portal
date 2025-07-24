@@ -92,12 +92,8 @@ const GET_DEPOSITION_BASE_DATA = gql(`
     }
 
     tomogramsCount: tomogramsAggregate(where: {
-      run: {
-        annotations: {
-          depositionId: {
-            _eq: $id
-          }
-        }
+      depositionId: {
+        _eq: $id
       }
     }) {
       aggregate {
