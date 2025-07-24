@@ -1,7 +1,7 @@
 import { TomogramTypeBadge } from 'app/components/TomogramTypeBadge'
 import { useI18n } from 'app/hooks/useI18n'
 import { TomogramV2 } from 'app/types/gql/runPageTypes'
-import { getTomogramName } from 'app/utils/tomograms'
+import { getTomogramNameFromV2 } from 'app/utils/tomograms'
 
 export interface TomogramSelectorLabelProps {
   tomogram?: TomogramV2
@@ -19,7 +19,7 @@ export function TomogramSelectorInputLabel({
   return (
     <div className="flex gap-sds-xxs">
       <span className="shrink overflow-hidden text-ellipsis">
-        {getTomogramName(tomogram)}
+        {getTomogramNameFromV2(tomogram)}
       </span>
       <span className="text-light-sds-color-primitive-gray-500 font-normal">
         {t('unitAngstrom', { value: tomogram.voxelSpacing })}

@@ -187,17 +187,15 @@ export function TomogramLocationTable({
             // Calculate pagination variables for this run
             const runCurrentPage =
               runPagination[depositedLocation]?.[run.runName] || 1
-            const runPageSize = 5
-            const totalRunPages = Math.ceil(run.items.length / runPageSize)
 
             return (
               <TomogramRow
                 key={run.runName}
                 run={run}
+                depositionId={depositionId}
                 isExpanded={isRunExpanded}
                 onToggle={() => onRunToggle(depositedLocation, run.runName)}
                 currentPage={runCurrentPage}
-                totalPages={totalRunPages}
                 onPageChange={(newPage) =>
                   onRunPageChange(depositedLocation, run.runName, newPage)
                 }

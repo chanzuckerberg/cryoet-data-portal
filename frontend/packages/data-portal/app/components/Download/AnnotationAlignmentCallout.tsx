@@ -3,7 +3,7 @@ import { Callout, CalloutTitle } from '@czi-sds/components'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { TomogramV2 } from 'app/types/gql/runPageTypes'
-import { getTomogramName } from 'app/utils/tomograms'
+import { getTomogramNameFromV2 } from 'app/utils/tomograms'
 
 import { CopyBox } from '../CopyBox'
 import { I18n } from '../I18n'
@@ -48,7 +48,7 @@ export function AnnotationAlignmentCallout({
                 {misalignedTomograms.map((tomogram) => (
                   <div className="text-sds-body-xxs-400-wide !leading-[18px]">
                     <div className="font-semibold">
-                      {getTomogramName(tomogram)}
+                      {getTomogramNameFromV2(tomogram)}
                     </div>
                     <div>
                       Tomogram ID: {IdPrefix.Tomogram}-{tomogram.id}

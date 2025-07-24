@@ -8,6 +8,7 @@ export interface RunData<T> {
   runName: string
   items: T[]
   annotationCount?: number
+  tomogramCount?: number
 }
 
 // Mock deposited locations
