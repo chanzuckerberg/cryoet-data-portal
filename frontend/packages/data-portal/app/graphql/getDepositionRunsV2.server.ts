@@ -30,6 +30,27 @@
  * belong to the deposition of interest. We don't want _all_ the runs in the dataset,
  * we just want those that belong to deposition and are inside the dataset. Provides
  * pagination because we can have very large numbers of runs in some cases.
+ *
+ * --- Pull 3 ---
+ * Get all the annos or tomos (dependent on which flavor query you are using) for a specific
+ * run in the context of a single deposition. We don't want _all_ the annos/tomos in the run,
+ * we just want those that belong to the deposition and are inside the run. For annos specifically,
+ * we have to pull shapes, since that's how we actually show Annotations to the user. We provide
+ * pagination with this query, but strictly speaking, we don't have to: the number of annos/tomos
+ * that belong to a single run are usually not that many, and I'd be quite surprised if it ever
+ * went over 1k, so we could probably get away with grabbing all of them at once and handling
+ * pagination purely in the FE. Still, it's easier to just offload it to the BE and it means
+ * we can keep the same dev pattern as we have for Pull 2 and most of the other paginated
+ * stuff in the app.
+ *
+ * I'm currently providing the total count of annos/tomos available for showing pagination
+ * (the "1-5 of 52 Annotations" page count part), but on second thought, that's not strictly
+ * necessary: we already have that info from Pull 2 above. Since Pull 2 gets the count of
+ * annos/tomos belonging to each run in the current page of runs, this query doesn't have to
+ * return it as well, it's duplicate info. But maybe it makes for an easier dev experience to
+ * have it available? If you wind up using the count info from Pull 2 instead of Pull 3 to
+ * provide the pagination count stuff, probably best to cut that part here just to avoid
+ * future confusion since it would be dead wood.
  */
 import type {
   ApolloClient,
@@ -41,9 +62,13 @@ import { gql } from 'app/__generated_v2__'
 import {
   GetDepositionAnnoRunCountsForDatasetsQuery,
   GetDepositionAnnoRunsForDatasetQuery,
+  GetAnnotationsForRunAndDepositionQuery,
  } from 'app/__generated_v2__/graphql'
 
- import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
+ import {
+  MAX_PER_ACCORDION_GROUP,
+  MAX_PER_FULLY_OPEN_ACCORDION,
+} from 'app/constants/pagination'
 
 
 // Annotation flavor -- TODO create a tomogram flavor as well
@@ -71,7 +96,7 @@ const GET_DEPOSITION_ANNO_RUN_COUNTS_FOR_DATASETS = gql(`
 `)
 
 // Annotation flavor -- TODO create a tomogram flavor as well
-const GET_DEPOSiTION_ANNO_RUNS_FOR_DATASET = gql(`
+const GET_DEPOSITION_ANNO_RUNS_FOR_DATASET = gql(`
   query GetDepositionAnnoRunsForDataset(
     $depositionId: Int!,
     $datasetId: Int!,
@@ -111,6 +136,94 @@ const GET_DEPOSiTION_ANNO_RUNS_FOR_DATASET = gql(`
   }
 `)
 
+// Annotation flavor -- TODO create a tomogram flavor as well
+// This query is very similar to GET_DEPOSITION_ANNOTATIONS_FOR_DATASETS elsewhere,
+// it's just that we filter based on deposition+run rather than deposition+datasets.
+const GET_ANNOTATIONS_FOR_RUN_AND_DEPOSITION = gql(`
+  query GetAnnotationsForRunAndDeposition(
+    $depositionId: Int!,
+    $runId: Int!,
+    $limit: Int!,
+    $offset: Int!,
+  ) {
+    annotationShapes(
+      where: {
+        annotation: {
+          depositionId: {
+            _eq: $depositionId
+          },
+          runId: {
+            _eq: $runId
+          },
+        },
+      },
+      limitOffset: {
+        limit: $limit,
+        offset: $offset,
+      },
+      orderBy: [
+        {
+          annotation: {
+            groundTruthStatus: desc
+          }
+        },
+        {
+          annotation: {
+            depositionDate: desc
+          }
+        },
+        {
+          annotation: {
+            id: desc
+          }
+        }
+      ]
+    ) {
+      id
+      shapeType
+
+      annotation {
+        groundTruthStatus
+        id
+        methodType
+        objectName
+
+        run {
+          id
+          name
+
+          dataset {
+            id
+            title
+          }
+        }
+      }
+
+      annotationFiles(first: 1) {
+        edges {
+          node {
+            s3Path
+          }
+        }
+      }
+    }
+
+    # Count of ALL matching annos (not just this page) to show "1-5 of 52 Annotations", etc
+    annotationShapesAggregate(
+      where: {
+        annotation: {
+          depositionId: {_eq: $depositionId}
+          runId: {_eq: $runId},
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+`)
+
 export async function getDepositionAnnoRunCountsForDatasets({
   client,
   depositionId,
@@ -141,12 +254,35 @@ export async function getDepositionAnnoRunsForDataset({
   page: number
 }): Promise<ApolloQueryResult<GetDepositionAnnoRunsForDatasetQuery>> {
   return client.query({
-    query: GET_DEPOSiTION_ANNO_RUNS_FOR_DATASET,
+    query: GET_DEPOSITION_ANNO_RUNS_FOR_DATASET,
     variables: {
       depositionId,
       datasetId,
       limit: MAX_PER_ACCORDION_GROUP,
       offset: (page - 1) * MAX_PER_ACCORDION_GROUP,
+    }
+  })
+}
+
+export async function getAnnotationsForRunAndDeposition({
+  client,
+  depositionId,
+  runId,
+  page,
+}: {
+  client: ApolloClient<NormalizedCacheObject>
+  depositionId: number
+  runId: number
+  page: number
+}): Promise<ApolloQueryResult<GetAnnotationsForRunAndDepositionQuery>> {
+  console.log("getAnnotationsForRunAndDeposition received page#", page); // REMOVE
+  return client.query({
+    query: GET_ANNOTATIONS_FOR_RUN_AND_DEPOSITION,
+    variables: {
+      depositionId,
+      runId,
+      limit: MAX_PER_FULLY_OPEN_ACCORDION,
+      offset: (page - 1) * MAX_PER_FULLY_OPEN_ACCORDION,
     }
   })
 }

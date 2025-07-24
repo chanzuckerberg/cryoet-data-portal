@@ -1,5 +1,11 @@
 /**
  * - Created new version of GET_DEPOSITION_ANNOTATIONS that handles sorting and dataset filtering
+ *   I believe the original GET_DEPOSITION_ANNOTATIONS query will probably still be necessary
+ *   since having two queries is still the easiest way to handle a version without and a version
+ *   with dataset filtering. However, the original version very likely needs to bring in the
+ *   `orderBy` clause of the newer version so it sorts the same way as the existing annotation
+ *   tables and matches the design. (I just pulled the sorting logic from GET_RUN_BY_ID_QUERY_V2)
+ *   since that's the approach we're trying to match, pretty sure it works here!
  * - Note the `pageSize` arg for the function to do client query on above
  *   This is necessary because we serve the same kind of data whether we filter based on user
  *   directly filtering for a dataset or doing a "Group by" on organism, BUT the page size of
