@@ -95,9 +95,10 @@ export function DepositedLocationAccordionTable({
             runs: [], // Will be populated when accordion expands with real backend data
           },
         ] as DepositedLocationData<AnnotationRowData | TomogramRowData>[],
-        itemCount: datasetCounts?.[dataset.id]?.annotationCount || 0,
+        itemCount: datasetCounts?.[dataset.id]?.runCount || 0,
         metadata: {
           runCount: datasetCounts?.[dataset.id]?.runCount || 0,
+          annotationCount: datasetCounts?.[dataset.id]?.annotationCount || 0,
         },
       }))
     }
