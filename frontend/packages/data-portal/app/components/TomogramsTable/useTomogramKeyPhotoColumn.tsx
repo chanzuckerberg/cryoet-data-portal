@@ -9,13 +9,13 @@ import { type TableColumnWidth } from 'app/constants/table'
 const columnHelper = createColumnHelper<Tomogram>()
 
 export function useTomogramKeyPhotoColumn(width: TableColumnWidth) {
-  return columnHelper.accessor('keyPhotoUrl', {
+  return columnHelper.accessor('keyPhotoThumbnailUrl', {
     header: () => <CellHeader width={width} />,
 
     cell: ({ row: { original } }) => (
       <TableCell width={width}>
         <KeyPhoto
-          className="max-w-[134px]"
+          variant="table"
           title={original.name ?? ''}
           src={original.keyPhotoUrl ?? undefined}
         />
