@@ -2,7 +2,6 @@ import { ReactNode } from 'react'
 
 import { Accordion } from 'app/components/Accordion'
 import { AccordionHeader } from 'app/components/AccordionHeader'
-import { EmptyState } from 'app/components/EmptyState'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { useAccordionState } from 'app/hooks/useAccordionState'
 import { useI18n } from 'app/hooks/useI18n'
@@ -30,7 +29,6 @@ interface GroupedAccordionProps<T> {
   pageSize?: number
   className?: string
   accordionClassName?: string
-  emptyMessage?: string
   showPagination?: boolean
   getGroupId?: (group: GroupedData<T>) => string
 }
@@ -46,7 +44,6 @@ export function GroupedAccordion<T>({
   pageSize = MAX_PER_ACCORDION_GROUP,
   className = '',
   accordionClassName = '',
-  emptyMessage,
   showPagination = true,
   getGroupId,
 }: GroupedAccordionProps<T>) {
@@ -54,9 +51,7 @@ export function GroupedAccordion<T>({
   const { expandedGroups, toggleGroup, pagination, updatePagination } =
     useAccordionState(pageSize)
 
-  if (data.length === 0) {
-    return <EmptyState message={emptyMessage} />
-  }
+  // Removed EmptyState display - messaging is handled at higher level in route components
 
   return (
     <div className={`px-sds-xl ${className}`}>
@@ -135,7 +130,7 @@ export function GroupedAccordion<T>({
                   />
                 }
               >
-                <div className="border-t border-x border-light-sds-color-semantic-base-border-secondary">
+                <div className="border border-light-sds-color-semantic-base-border-secondary">
                   {renderContent(
                     {
                       ...group,
