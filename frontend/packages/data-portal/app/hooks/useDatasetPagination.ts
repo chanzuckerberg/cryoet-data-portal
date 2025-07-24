@@ -7,6 +7,13 @@ import { QueryParams } from 'app/constants/query'
 import { useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 
+interface UseDatasetPaginationProps {
+  depositionId: number | undefined
+  annotationCounts?: Record<number, number>
+  runCounts?: Record<number, number>
+  tomogramRunCounts?: Record<number, number>
+}
+
 interface UseDatasetPaginationReturn {
   // Counts for TablePageLayout pagination controls
   totalDatasetCount: number
@@ -25,6 +32,7 @@ interface UseDatasetPaginationReturn {
     {
       runCount: number
       annotationCount: number
+      tomogramRunCount: number
     }
   >
 
@@ -41,14 +49,15 @@ interface UseDatasetPaginationReturn {
  * 3. Calculates total and filtered dataset counts
  * 4. Returns paginated datasets for the current page
  *
- * @param depositionId - The ID of the deposition
+ * @param props - Configuration object containing depositionId and count data
  * @returns Dataset counts, paginated datasets, and loading state
  */
-export function useDatasetPagination(
-  depositionId: number | undefined,
-  annotationCounts?: Record<number, number>,
-  runCounts?: Record<number, number>,
-): UseDatasetPaginationReturn {
+export function useDatasetPagination({
+  depositionId,
+  annotationCounts,
+  runCounts,
+  tomogramRunCounts,
+}: UseDatasetPaginationProps): UseDatasetPaginationReturn {
   const [searchParams] = useSearchParams()
   const [tab] = useDepositionTab()
 
@@ -112,12 +121,13 @@ export function useDatasetPagination(
     // Create dataset counts map with run and annotation counts
     const datasetCounts: Record<
       number,
-      { runCount: number; annotationCount: number }
+      { runCount: number; annotationCount: number; tomogramRunCount: number }
     > = {}
     datasets.forEach((dataset) => {
       datasetCounts[dataset.id] = {
         runCount: runCounts?.[dataset.id] || 0,
         annotationCount: annotationCounts?.[dataset.id] || 0,
+        tomogramRunCount: tomogramRunCounts?.[dataset.id] || 0,
       }
     })
 
@@ -135,5 +145,6 @@ export function useDatasetPagination(
     isLoading,
     annotationCounts,
     runCounts,
+    tomogramRunCounts,
   ])
 }
