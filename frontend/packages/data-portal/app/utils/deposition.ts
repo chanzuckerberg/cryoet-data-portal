@@ -71,3 +71,67 @@ export function getDataContents(runs: DataContentsFragment[]) {
     alignmentAvailable,
   } as const
 }
+
+// Types for deposition backend integration
+interface BackendRun {
+  __typename?: 'Run' | undefined
+  id: number
+  name: string
+  annotationsAggregate?:
+    | {
+        __typename?: 'AnnotationAggregate' | undefined
+        aggregate?:
+          | {
+              __typename?: 'AnnotationAggregateFunctions' | undefined
+              count?: number | null | undefined
+            }[]
+          | null
+          | undefined
+      }
+    | null
+    | undefined
+}
+
+interface AnnotationRowData {
+  id: number
+  annotationName: string
+  shapeType: string
+  methodType: string
+  depositedIn: string
+  depositedLocation: string
+  runName: string
+  objectName?: string
+  confidence?: number
+  description?: string
+  fileFormat?: string
+  s3Path?: string
+  groundTruthStatus?: boolean
+}
+
+interface RunData<T> {
+  runName: string
+  items: T[]
+  annotationCount?: number
+}
+
+interface DepositedLocationData<T> {
+  depositedLocation: string
+  runs: RunData<T>[]
+}
+
+/**
+ * Transforms backend run data to the component format expected by LocationTable
+ */
+export function transformBackendRunsToComponentFormat(
+  backendRuns: BackendRun[],
+  datasetTitle: string,
+): DepositedLocationData<AnnotationRowData> {
+  return {
+    depositedLocation: datasetTitle,
+    runs: backendRuns.map((run) => ({
+      runName: run.name,
+      items: [], // Empty for unexpanded case
+      annotationCount: run.annotationsAggregate?.aggregate?.[0]?.count || 0,
+    })),
+  }
+}

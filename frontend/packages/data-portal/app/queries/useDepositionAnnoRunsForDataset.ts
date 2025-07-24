@@ -14,11 +14,15 @@ import { GetDepositionAnnoRunsForDatasetQuery } from 'app/__generated_v2__/graph
  * @param page - The page number for pagination (1-based)
  * @returns React Query result with runs data, loading state, and error handling
  */
-export function useDepositionAnnoRunsForDataset(
-  depositionId: number | undefined,
-  datasetId: number | undefined,
-  page: number,
-) {
+export function useDepositionAnnoRunsForDataset({
+  depositionId,
+  datasetId,
+  page,
+}: {
+  depositionId: number | undefined
+  datasetId: number | undefined
+  page: number
+}) {
   return useQuery({
     queryKey: ['deposition-anno-runs', depositionId, datasetId, page],
     queryFn: async (): Promise<GetDepositionAnnoRunsForDatasetQuery> => {
