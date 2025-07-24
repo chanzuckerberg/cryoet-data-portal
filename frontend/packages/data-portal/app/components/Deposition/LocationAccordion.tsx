@@ -1,6 +1,7 @@
 import { Icon } from '@czi-sds/components'
 
 import { Accordion } from 'app/components/Accordion'
+import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { DepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
 import { TomogramRowData } from 'app/hooks/useTomogramData'
@@ -65,7 +66,7 @@ export function LocationAccordion<
   const { depositedLocation } = locationData
   const counts = getDepositedLocationCounts(locationData)
   const currentPage = pagination[depositedLocation] || 1
-  const pageSize = 10
+  const pageSize = MAX_PER_ACCORDION_GROUP
 
   // Calculate total pages based on runs
   const totalPages = Math.ceil(locationData.runs.length / pageSize)
