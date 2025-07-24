@@ -1,9 +1,17 @@
-import { Table as SDSTable, TableHeader } from '@czi-sds/components'
+import {
+  CellComponent,
+  Table as SDSTable,
+  TableHeader,
+  TableRow,
+} from '@czi-sds/components'
+import Skeleton from '@mui/material/Skeleton'
 import TableContainer from '@mui/material/TableContainer'
 
 import { CellHeader } from 'app/components/Table'
+import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { useI18n } from 'app/hooks/useI18n'
 import { useDepositionAnnoRunsForDataset } from 'app/queries/useDepositionAnnoRunsForDataset'
+import { cns } from 'app/utils/cns'
 import { transformBackendRunsToComponentFormat } from 'app/utils/deposition'
 
 import {
@@ -11,6 +19,30 @@ import {
   paginateRunData,
 } from './mockDepositedLocationData'
 import { RunRow } from './RunRow'
+
+// Skeleton component for run loading state
+function SkeletonRunRow() {
+  return (
+    <TableRow
+      className={cns(
+        '!bg-light-sds-color-semantic-base-background-secondary',
+        'border border-light-sds-color-semantic-base-border-secondary',
+      )}
+    >
+      <CellComponent colSpan={3} className="!p-2">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-sds-xs">
+            <Skeleton variant="text" width={16} height={16} />
+            <Skeleton variant="text" width={120} height={20} />
+          </div>
+          <div className="flex justify-end">
+            <Skeleton variant="text" width={80} height={16} />
+          </div>
+        </div>
+      </CellComponent>
+    </TableRow>
+  )
+}
 
 // Extended annotation data with expandable details and mock fields
 interface AnnotationRowData {
@@ -80,7 +112,28 @@ export function LocationTable({
 
   // Show loading state while fetching backend data
   if (isExpanded && isLoading) {
-    return <div className="p-4 text-center">Loading runs...</div>
+    return (
+      <TableContainer className="!px-0">
+        <SDSTable className="!table-fixed">
+          <TableHeader>
+            <CellHeader style={{ width: '350px' }}>
+              {t('annotationName')}
+            </CellHeader>
+            <CellHeader style={{ width: '160px' }}>
+              {t('objectShapeType')}
+            </CellHeader>
+            <CellHeader style={{ width: '160px' }}>
+              {t('methodType')}
+            </CellHeader>
+          </TableHeader>
+          <tbody>
+            {Array.from({ length: MAX_PER_ACCORDION_GROUP }, (_, index) => (
+              <SkeletonRunRow key={`run-skeleton-${index}`} />
+            ))}
+          </tbody>
+        </SDSTable>
+      </TableContainer>
+    )
   }
 
   // Show error state if backend fetch failed

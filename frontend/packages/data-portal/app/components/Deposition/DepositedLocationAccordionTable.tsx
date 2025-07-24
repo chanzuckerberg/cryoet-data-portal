@@ -7,9 +7,11 @@ import {
 import { DepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
 import { TomogramRowData, useTomogramData } from 'app/hooks/useTomogramData'
+import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 
 import { LocationTable } from './LocationTable'
 import { DepositedLocationData } from './mockDepositedLocationData'
+import { SkeletonAccordion } from './SkeletonAccordion'
 import { TomogramLocationTable } from './TomogramLocationTable'
 
 interface DepositedLocationAccordionTableProps {
@@ -66,9 +68,25 @@ export function DepositedLocationAccordionTable({
   datasetCounts,
 }: DepositedLocationAccordionTableProps) {
   const { t } = useI18n()
+
+  // Fetch datasets for skeleton loading state
+  const { isLoading: isDatasetsLoading } =
+    useDatasetsForDeposition(depositionId)
+
   // Only use mock data when no real datasets are provided
   const annotationData = useAnnotationData(tab)
   const tomogramData = useTomogramData(tab)
+
+  // Show skeleton loaders while loading datasets (annotations only)
+  if (isDatasetsLoading && tab === DepositionTab.Annotations) {
+    return (
+      <div className="px-sds-xl">
+        {Array.from({ length: MAX_PER_ACCORDION_GROUP }, (_, index) => (
+          <SkeletonAccordion key={`dataset-skeleton-${index}`} />
+        ))}
+      </div>
+    )
+  }
 
   // Remove direct fetch logic - now handled by LocationTable component
 
