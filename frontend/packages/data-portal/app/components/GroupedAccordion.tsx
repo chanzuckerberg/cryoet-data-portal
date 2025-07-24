@@ -17,7 +17,11 @@ export interface GroupedData<T> {
 
 interface GroupedAccordionProps<T> {
   data: GroupedData<T>[]
-  renderContent: (group: GroupedData<T>, isExpanded: boolean) => ReactNode
+  renderContent: (
+    group: GroupedData<T>,
+    isExpanded: boolean,
+    currentPage: number,
+  ) => ReactNode
   itemLabelSingular: string
   itemLabelPlural: string
   getItemCount?: (group: GroupedData<T>) => number
@@ -66,11 +70,11 @@ export function GroupedAccordion<T>({
           const itemCount = getItemCount
             ? getItemCount(group)
             : group.itemCount || group.items.length
-          const totalPages = Math.ceil(group.items.length / pageSize)
+          const totalPages = Math.ceil(itemCount / pageSize)
 
           // Calculate pagination indices for display
-          const startIndex = (currentPage - 1) * pageSize + 1
-          const endIndex = Math.min(currentPage * pageSize, group.items.length)
+          const startIndex = (currentPage - 1) * pageSize
+          const endIndex = Math.min(currentPage * pageSize, itemCount)
 
           return (
             <div
@@ -114,7 +118,7 @@ export function GroupedAccordion<T>({
                               updatePagination(group.groupKey, page),
                             startIndex,
                             endIndex,
-                            totalItems: group.items.length,
+                            totalItems: itemCount,
                           }
                         : undefined
                     }
@@ -138,6 +142,7 @@ export function GroupedAccordion<T>({
                       items: group.items.slice(startIndex - 1, endIndex),
                     },
                     isExpanded,
+                    currentPage,
                   )}
                 </div>
               </Accordion>
