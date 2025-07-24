@@ -1,4 +1,5 @@
 import {
+  AnnotationShapeWhereClause,
   DatasetWhereClause,
   Deposition_Types_Enum,
   DepositionWhereClause,
@@ -381,6 +382,34 @@ export function getDepositionsFilter({
         break
 
       default:
+    }
+  }
+
+  return where
+}
+
+export interface GetDepositionAnnotationsFilterParams {
+  depositionId: number
+  datasetIds?: number[]
+}
+
+export function getDepositionAnnotationsFilter({
+  depositionId,
+  datasetIds,
+}: GetDepositionAnnotationsFilterParams): AnnotationShapeWhereClause {
+  const where: AnnotationShapeWhereClause = {
+    annotation: {
+      depositionId: {
+        _eq: depositionId,
+      },
+    },
+  }
+
+  if (datasetIds && datasetIds.length > 0) {
+    where.annotation!.run = {
+      datasetId: {
+        _in: datasetIds,
+      },
     }
   }
 
