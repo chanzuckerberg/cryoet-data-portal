@@ -221,9 +221,10 @@ export default function DepositionByIdPage() {
       ? deposition.id
       : undefined
 
-  const { annotationCounts, datasets: allDatasets } = useDatasetsForDeposition(
-    depositionIdForDatasets,
-  )
+  const { annotationCounts, datasets: allDatasets } = useDatasetsForDeposition({
+    depositionId: depositionIdForDatasets,
+    type: tab,
+  })
 
   // Get dataset IDs for run counts
   const datasetIds = allDatasets.map((d) => d.id)
