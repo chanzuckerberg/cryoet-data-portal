@@ -3,13 +3,13 @@ import { Fragment } from 'react'
 
 import { Annotation_Method_Type_Enum } from 'app/__generated_v2__/graphql'
 import { AnnotationNameTableCell } from 'app/components/AnnotationTable/AnnotationNameTableCell'
+import { PaginationControls } from 'app/components/PaginationControls'
 import { TableCell } from 'app/components/Table'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
 import { MethodTypeCell } from './MethodLinks/MethodTypeCell'
 import { RunData } from './mockDepositedLocationData'
-import { PaginationControls } from './PaginationControls'
 
 // Extended annotation data with expandable details and mock fields
 interface AnnotationRowData {

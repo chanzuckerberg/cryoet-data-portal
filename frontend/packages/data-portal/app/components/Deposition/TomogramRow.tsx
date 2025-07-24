@@ -3,6 +3,7 @@ import { Fragment } from 'react'
 
 import { KeyPhoto } from 'app/components/KeyPhoto'
 import { Link } from 'app/components/Link'
+import { PaginationControls } from 'app/components/PaginationControls'
 import { TableCell } from 'app/components/Table'
 import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
 import { DepositionTomogramTableWidths } from 'app/constants/table'
@@ -11,7 +12,6 @@ import { TomogramRowData } from 'app/hooks/useTomogramData'
 import { cns } from 'app/utils/cns'
 
 import { RunData } from './mockDepositedLocationData'
-import { PaginationControls } from './PaginationControls'
 
 interface TomogramRowProps {
   run: RunData<TomogramRowData>
