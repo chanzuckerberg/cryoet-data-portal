@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
 import { GroupedAccordion, GroupedData } from 'app/components/GroupedAccordion'
+import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { DepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
@@ -100,7 +101,7 @@ export function OrganismAccordionTable({ tab }: OrganismAccordionTableProps) {
       itemLabelPlural={
         tab === DepositionTab.Tomograms ? t('tomograms') : t('annotations')
       }
-      pageSize={5}
+      pageSize={MAX_PER_FULLY_OPEN_ACCORDION}
       className=""
       externalLinkBuilder={() => '/'} // TODO: Update with actual link
       onExternalLinkClick={(_, e) => e.stopPropagation()}
