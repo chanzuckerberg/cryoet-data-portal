@@ -39,7 +39,7 @@ export function DepositionTableRenderer({
 }: DepositionTableRendererProps) {
   const [tab] = useDepositionTab()
   const [groupBy] = useQueryParam<GroupByOption>(QueryParams.GroupBy)
-  const { annotations, tomograms } = useDepositionById()
+  const { annotations, tomograms, deposition } = useDepositionById()
 
   // Show accordion view when grouped by organism
   if (groupBy === GroupByOption.Organism) {
@@ -58,6 +58,7 @@ export function DepositionTableRenderer({
     return (
       <DepositedLocationAccordionTable
         tab={tab}
+        depositionId={deposition?.id ?? 0}
         datasets={datasets}
         datasetCounts={datasetCounts}
       />
