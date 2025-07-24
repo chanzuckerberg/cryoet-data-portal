@@ -108,6 +108,7 @@ export async function getDepositionAnnotations({
   const datasetIds = filterState.ids.datasets
     .map((id) => parseInt(id))
     .filter((id) => Number.isInteger(id))
+  const { organismNames } = filterState.sampleAndExperimentConditions
 
   return client.query({
     query: GET_DEPOSITION_ANNOTATIONS,
@@ -115,6 +116,7 @@ export async function getDepositionAnnotations({
       depositionAnnotationsFilter: getDepositionAnnotationsFilter({
         depositionId,
         datasetIds: datasetIds.length > 0 ? datasetIds : undefined,
+        organismNames: organismNames.length > 0 ? organismNames : undefined,
       }),
       limit: pageSize,
       offset: (page - 1) * pageSize,

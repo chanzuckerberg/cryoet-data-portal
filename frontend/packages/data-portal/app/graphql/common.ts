@@ -391,11 +391,13 @@ export function getDepositionsFilter({
 export interface GetDepositionAnnotationsFilterParams {
   depositionId: number
   datasetIds?: number[]
+  organismNames?: string[]
 }
 
 export function getDepositionAnnotationsFilter({
   depositionId,
   datasetIds,
+  organismNames,
 }: GetDepositionAnnotationsFilterParams): AnnotationShapeWhereClause {
   const where: AnnotationShapeWhereClause = {
     annotation: {
@@ -409,6 +411,17 @@ export function getDepositionAnnotationsFilter({
     where.annotation!.run = {
       datasetId: {
         _in: datasetIds,
+      },
+    }
+  }
+
+  if (organismNames && organismNames.length > 0) {
+    where.annotation!.run = {
+      ...where.annotation!.run,
+      dataset: {
+        organismName: {
+          _in: organismNames,
+        },
       },
     }
   }
