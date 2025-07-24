@@ -12,7 +12,6 @@ import {
   GetDepositionAnnotationsForDatasetsQuery,
   GetDepositionByIdV2Query,
   type GetDepositionTomogramsQuery,
-  PerformVoodooQuery,
   GetAnnotationsForRunAndDepositionQuery,
 } from 'app/__generated_v2__/graphql'
 import { METHOD_TYPE_ORDER } from 'app/constants/methodTypes'
@@ -34,7 +33,6 @@ export function useDepositionById() {
     v2,
     annotations,
     tomograms,
-    voodooData,
     datasetsViaTomograms,
     datasetsViaAnnotationShapes,
     runCountsForDepositionAnnotations,
@@ -45,7 +43,6 @@ export function useDepositionById() {
     v2: GetDepositionByIdV2Query
     annotations?: GetDepositionAnnotationsQuery
     tomograms?: GetDepositionTomogramsQuery
-    voodooData: PerformVoodooQuery
     datasetsViaTomograms: GetDatasetsForDepositionViaTomogramsQuery
     datasetsViaAnnotationShapes: GetDatasetsForDepositionViaAnnotationShapesQuery
     runCountsForDepositionAnnotations: GetDepositionAnnoRunCountsForDatasetsQuery
@@ -54,13 +51,14 @@ export function useDepositionById() {
     annotationShapesForDatasets: GetDepositionAnnotationsForDatasetsQuery
   }>()
 
-  console.log("voodooData", voodooData); // REMOVE
+  // BEGIN VINCENT_WORK, giant block of example query outputs, definitely not for deploy!
   console.log("datasetsViaTomograms", datasetsViaTomograms); // REMOVE
   console.log("datasetsViaAnnotationShapes", datasetsViaAnnotationShapes); // REMOVE
   console.log("runCountsForDepositionAnnotations", runCountsForDepositionAnnotations); // REMOVE
   console.log("runsAnnoForDepositionInDataset", runsAnnoForDepositionInDataset); // REMOVE
   console.log("annotationsForRunInDeposition", annotationsForRunInDeposition); // REMOVE
   console.log("annotationShapesForDatasets", annotationShapesForDatasets); // REMOVE
+  // END VINCENT_WORK
 
   const annotationMethods: AnnotationMethodMetadata[] = useMemo(() => {
     const annotationMethodToMetadata = new Map<
