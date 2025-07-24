@@ -51,8 +51,8 @@ export function DepositedLocationAccordionTable({
     return null
   }
 
-  // Show skeleton loaders while loading datasets (annotations only)
-  if (isDatasetsLoading && tab === DepositionTab.Annotations) {
+  // Show skeleton loaders while loading datasets
+  if (isDatasetsLoading) {
     return (
       <div className="px-sds-xl">
         {Array.from({ length: MAX_PER_ACCORDION_GROUP }, (_, index) => (
