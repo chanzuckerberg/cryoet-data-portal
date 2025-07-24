@@ -27,6 +27,7 @@ import { DatasetTableWidths } from 'app/constants/table'
 import { useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { Dataset } from 'app/types/gql/datasetsPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
@@ -46,6 +47,7 @@ const LOADING_DATASETS: Dataset[] = range(0, MAX_PER_PAGE).map(() => ({
 export function DatasetTable() {
   const { t } = useI18n()
   const { datasets } = useDatasets()
+  const isIdentifiedObjectsEnabled = useFeatureFlag('identifiedObjects')
 
   const [searchParams, setSearchParams] = useSearchParams()
   const datasetSort = (searchParams.get(QueryParams.Sort) ?? undefined) as
@@ -269,21 +271,43 @@ export function DatasetTable() {
         columnHelper.accessor(
           (dataset) =>
             dataset.distinctObjectNames?.aggregate?.reduce((acc, aggregate) => {
-              const objectName = aggregate?.groupBy?.annotations?.objectName
+              // Handle annotations
+              const annotationObjectName =
+                aggregate?.groupBy?.annotations?.objectName
               const groundTruthStatus =
                 !!aggregate?.groupBy?.annotations?.groundTruthStatus
-              return setObjectNameAndGroundTruthStatus(
-                objectName,
-                groundTruthStatus,
-                acc,
-              )
+              if (annotationObjectName) {
+                setObjectNameAndGroundTruthStatus(
+                  annotationObjectName,
+                  groundTruthStatus,
+                  acc,
+                )
+              }
+
+              // Handle identifiedObjects (add to union) - only if feature flag is enabled
+              if (isIdentifiedObjectsEnabled) {
+                const identifiedObjectName =
+                  aggregate?.groupBy?.identifiedObjects?.objectName
+                if (identifiedObjectName) {
+                  setObjectNameAndGroundTruthStatus(
+                    identifiedObjectName,
+                    false, // identifiedObjects don't have groundTruthStatus, default to false
+                    acc,
+                  )
+                }
+              }
+
+              return acc
             }, new Map<string, boolean>()) || new Map<string, boolean>(),
           {
             id: 'annotatedObjects',
 
             header: () => (
-              <CellHeader width={DatasetTableWidths.annotatedObjects}>
-                {t('annotatedObjects')}
+              <CellHeader 
+                tooltip="Objects are identified by the authors, curators or contributed annotations."
+                width={DatasetTableWidths.annotatedObjects}
+              >
+                {t('objects')}
               </CellHeader>
             ),
 
@@ -301,7 +325,9 @@ export function DatasetTable() {
                 {getValue().size === 0 ? (
                   '--'
                 ) : (
-                  <AnnotatedObjectsList annotatedObjects={getValue()} />
+                  <>
+                    <AnnotatedObjectsList annotatedObjects={getValue()} />
+                  </>
                 )}
               </TableCell>
             ),
@@ -330,6 +356,7 @@ export function DatasetTable() {
     t,
     searchParams,
     setSearchParams,
+    isIdentifiedObjectsEnabled,
   ])
 
   return (

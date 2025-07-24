@@ -122,6 +122,7 @@ export const i18n = {
   notApplicable: 'Not Applicable',
   notSubmitted: 'Not Submitted',
   numberOfRuns: 'Number of Runs',
+  objects: 'Objects',
   objectCount: 'Object Count',
   objectDescription: 'Object Description',
   objectId: 'Object ID',

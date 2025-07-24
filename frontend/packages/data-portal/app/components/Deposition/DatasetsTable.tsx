@@ -270,6 +270,8 @@ export function DatasetsTable() {
               const annotations = run.node.annotationsAggregate?.aggregate
               if (annotations) {
                 annotations.forEach((annotation) => {
+                  console.log(annotation)
+                  // If the annotation has an objectName and groundTruthStatus, add it to the map
                   const objectName = annotation.groupBy?.objectName
                   const groundTruthStatus =
                     !!annotation.groupBy?.groundTruthStatus
