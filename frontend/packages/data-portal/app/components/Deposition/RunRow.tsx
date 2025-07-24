@@ -107,7 +107,8 @@ export function RunRow({
         className={cns(
           'cursor-pointer',
           '!bg-light-sds-color-semantic-base-background-secondary hover:!bg-light-sds-color-semantic-base-fill-hover',
-          'border border-light-sds-color-semantic-base-border-secondary',
+          'border-none',
+          // 'border border-light-sds-color-semantic-base-border-secondary',
         )}
         onClick={onToggle}
       >

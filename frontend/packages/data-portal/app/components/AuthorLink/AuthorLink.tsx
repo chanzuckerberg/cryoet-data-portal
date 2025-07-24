@@ -4,6 +4,7 @@ import { ComponentType } from 'react'
 import { EnvelopeIcon, KaggleIcon, ORCIDIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { TestIds } from 'app/constants/testIds'
+import { useI18n } from 'app/hooks/useI18n'
 import { Author } from 'app/types/gql/genericTypes'
 import { cns } from 'app/utils/cns'
 
@@ -37,6 +38,7 @@ export function AuthorLink({
   large?: boolean
   LinkComponent?: ComponentType<LinkProps>
 }) {
+  const { t } = useI18n()
   const iconSize = large ? LARGE_ICON_SIZE_PX : BASE_ICON_SIZE_PX
   const content = (
     <Tooltip
@@ -48,7 +50,7 @@ export function AuthorLink({
       tooltip={
         <div className="min-w-[200px] pt-sds-xxs pb-sds-s">
           <h4 className="text-light-sds-color-primitive-gray-500 text-sds-header-xxs-600-wide leading-sds-header-xxs font-semibold mb-sds-s">
-            Author Handle(s)
+            {t('authorHandles')}
           </h4>
           <ul>
             {AUTHOR_HANDLE_CONTENT.map(
