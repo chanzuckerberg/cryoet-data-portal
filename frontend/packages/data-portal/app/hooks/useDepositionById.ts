@@ -7,6 +7,8 @@ import {
   GetDatasetsForDepositionViaAnnotationShapesQuery,
   GetDatasetsForDepositionViaTomogramsQuery,
   type GetDepositionAnnotationsQuery,
+  GetDepositionAnnoRunCountsForDatasetsQuery,
+  GetDepositionAnnoRunsForDatasetQuery,
   GetDepositionAnnotationsForDatasetsQuery,
   GetDepositionByIdV2Query,
   type GetDepositionTomogramsQuery,
@@ -35,6 +37,7 @@ export function useDepositionById() {
     datasetsViaTomograms,
     datasetsViaAnnotationShapes,
     runCountsForDepositionAnnotations,
+    runsAnnoForDepositionInDataset,
     annotationShapesForDatasets,
   } = useTypedLoaderData<{
     v2: GetDepositionByIdV2Query
@@ -43,7 +46,8 @@ export function useDepositionById() {
     voodooData: PerformVoodooQuery
     datasetsViaTomograms: GetDatasetsForDepositionViaTomogramsQuery
     datasetsViaAnnotationShapes: GetDatasetsForDepositionViaAnnotationShapesQuery
-    runCountsForDepositionAnnotations: GetDepositionAnnoRunsForDatasetsQuery
+    runCountsForDepositionAnnotations: GetDepositionAnnoRunCountsForDatasetsQuery
+    runsAnnoForDepositionInDataset: GetDepositionAnnoRunsForDatasetQuery
     annotationShapesForDatasets: GetDepositionAnnotationsForDatasetsQuery
   }>()
 
@@ -51,6 +55,7 @@ export function useDepositionById() {
   console.log("datasetsViaTomograms", datasetsViaTomograms); // REMOVE
   console.log("datasetsViaAnnotationShapes", datasetsViaAnnotationShapes); // REMOVE
   console.log("runCountsForDepositionAnnotations", runCountsForDepositionAnnotations); // REMOVE
+  console.log("runsAnnoForDepositionInDataset", runsAnnoForDepositionInDataset); // REMOVE
   console.log("annotationShapesForDatasets", annotationShapesForDatasets); // REMOVE
 
   const annotationMethods: AnnotationMethodMetadata[] = useMemo(() => {
