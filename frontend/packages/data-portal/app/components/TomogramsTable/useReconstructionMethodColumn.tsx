@@ -1,9 +1,8 @@
-import Skeleton from '@mui/material/Skeleton'
 import { createColumnHelper } from '@tanstack/react-table'
 
 import type { Tomogram } from 'app/__generated_v2__/graphql'
+import { ReconstructionMethodCell } from 'app/components/Deposition/ReconstructionMethodCell'
 import { CellHeader } from 'app/components/Table/CellHeader'
-import { TableCell } from 'app/components/Table/TableCell'
 import { type TableColumnWidth } from 'app/constants/table'
 import { useI18n } from 'app/hooks/useI18n'
 
@@ -24,15 +23,11 @@ export function useReconstructionMethodColumn({
     ),
 
     cell: ({ getValue }) => (
-      <TableCell
+      <ReconstructionMethodCell
+        reconstructionMethod={getValue()}
         width={width}
-        renderLoadingSkeleton={() => (
-          <Skeleton className="w-[120px]" variant="text" />
-        )}
-        showLoadingSkeleton={isLoading}
-      >
-        <div>{getValue()}</div>
-      </TableCell>
+        isLoading={isLoading}
+      />
     ),
   })
 }

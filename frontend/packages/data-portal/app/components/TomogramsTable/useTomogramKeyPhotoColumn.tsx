@@ -1,10 +1,8 @@
-import Skeleton from '@mui/material/Skeleton'
 import { createColumnHelper } from '@tanstack/react-table'
 
 import type { Tomogram } from 'app/__generated_v2__/graphql'
-import { KeyPhoto } from 'app/components/KeyPhoto'
+import { TomogramKeyPhotoCell } from 'app/components/Deposition/TomogramKeyPhotoCell'
 import { CellHeader } from 'app/components/Table/CellHeader'
-import { TableCell } from 'app/components/Table/TableCell'
 import { type TableColumnWidth } from 'app/constants/table'
 
 const columnHelper = createColumnHelper<Tomogram>()
@@ -20,19 +18,12 @@ export function useTomogramKeyPhotoColumn({
     header: () => <CellHeader width={width} />,
 
     cell: ({ row: { original } }) => (
-      <TableCell
+      <TomogramKeyPhotoCell
+        src={original.keyPhotoThumbnailUrl}
+        title={original.name ?? ''}
         width={width}
-        renderLoadingSkeleton={() => (
-          <Skeleton variant="rectangular" width={134} height={100} />
-        )}
-        showLoadingSkeleton={isLoading}
-      >
-        <KeyPhoto
-          variant="table"
-          title={original.name ?? ''}
-          src={original.keyPhotoThumbnailUrl ?? undefined}
-        />
-      </TableCell>
+        isLoading={isLoading}
+      />
     ),
   })
 }
