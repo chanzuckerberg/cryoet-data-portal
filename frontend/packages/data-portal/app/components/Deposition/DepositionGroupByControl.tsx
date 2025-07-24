@@ -36,7 +36,7 @@ export function DepositionGroupByControl() {
   return (
     <div className="flex items-center gap-sds-m">
       <span className="text-sds-header-s-600-wide tracking-sds-header-s-600-wide font-semibold">
-        Group by
+        {t('groupBy')}
       </span>
 
       <SegmentedControl

@@ -321,7 +321,7 @@ export function DatasetsTable() {
         messages: [
           {
             type: 'browser',
-            message: 'Error creating columns for dataset table',
+            message: t('errorCreatingDatasetTableColumns'),
             error: getErrorMessage(err),
           },
         ],
