@@ -1,3 +1,4 @@
+import Skeleton from '@mui/material/Skeleton'
 import { createColumnHelper } from '@tanstack/react-table'
 
 import type { Tomogram } from 'app/__generated_v2__/graphql'
@@ -15,9 +16,11 @@ const columnHelper = createColumnHelper<Tomogram>()
 export function useTomogramNameColumn({
   showAuthors = false,
   width,
+  isLoading,
 }: {
   showAuthors?: boolean
   width: TableColumnWidth
+  isLoading?: boolean
 }) {
   const { t } = useI18n()
 
@@ -25,7 +28,18 @@ export function useTomogramNameColumn({
     header: () => <CellHeader width={width}>{t('tomogramName')}</CellHeader>,
 
     cell: ({ row: { original } }) => (
-      <TableCell className="flex flex-col !items-start" width={width}>
+      <TableCell
+        className="flex flex-col !items-start"
+        width={width}
+        renderLoadingSkeleton={() => (
+          <div>
+            <Skeleton className="w-[200px]" variant="text" />
+            <Skeleton className="w-[150px]" variant="text" />
+            {showAuthors && <Skeleton className="w-[180px]" variant="text" />}
+          </div>
+        )}
+        showLoadingSkeleton={isLoading}
+      >
         <div className="text-sds-body-m-400-wide leading-sds-body-m font-semibold text-ellipsis line-clamp-1 break-all">
           {getTomogramName(original)}
         </div>
