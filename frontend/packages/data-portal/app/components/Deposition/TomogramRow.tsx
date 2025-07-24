@@ -103,7 +103,7 @@ export function TomogramRow({
                   <TableCell width={DepositionTomogramTableWidths.photo}>
                     <div className="pl-sds-xl">
                       <KeyPhoto
-                        className="w-[100px] min-w-[100px] aspect-[4/3]"
+                        variant="table"
                         src={tomogram.keyPhotoUrl}
                         title={tomogram.name}
                       />
