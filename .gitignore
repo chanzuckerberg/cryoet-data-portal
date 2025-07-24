@@ -141,3 +141,4 @@ dmypy.json
 
 # Files specific to this repo
 webdav_settings.json
+.claude/settings.local.json
