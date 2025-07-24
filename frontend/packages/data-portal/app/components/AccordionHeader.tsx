@@ -2,6 +2,7 @@ import { Icon } from '@czi-sds/components'
 import { MouseEvent, ReactNode } from 'react'
 
 import { cns } from 'app/utils/cns'
+import { formatNumber } from 'app/utils/string'
 
 import { Link } from './Link'
 import { PaginationControls } from './PaginationControls'
@@ -72,7 +73,7 @@ export function AccordionHeader({
 
       {!isExpanded && itemCount !== undefined && itemLabel ? (
         <span className="font-normal text-sds-body-xxs-400-wide tracking-sds-body-xxs-400-wide">
-          {itemCount} {itemLabel}
+          {formatNumber(itemCount)} {itemLabel}
           {additionalInfo && ` | ${additionalInfo}`}
         </span>
       ) : null}

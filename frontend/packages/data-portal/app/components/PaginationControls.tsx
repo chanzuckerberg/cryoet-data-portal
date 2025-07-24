@@ -2,6 +2,7 @@ import { Icon } from '@czi-sds/components'
 
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
+import { formatNumber } from 'app/utils/string'
 
 // Constants for styling consistency
 const BUTTON_BASE_CLASSES =
@@ -73,6 +74,7 @@ export function PaginationControls({
   disabled = false,
   onClick,
 }: PaginationControlsProps) {
+  const { t } = useI18n()
   const isPrevDisabled = disabled || currentPage === 1 || totalPages <= 1
   const isNextDisabled =
     disabled || currentPage >= totalPages || totalPages <= 1
@@ -128,8 +130,12 @@ export function PaginationControls({
             'text-light-sds-color-semantic-base-text-secondary',
           )}
         >
-          {startIndex + 1}-{Math.min(endIndex, totalItems)} of {totalItems}{' '}
-          {totalItems === 1 ? itemLabel : itemsLabel}
+          {t('itemsRange', {
+            startIndex: formatNumber(startIndex + 1),
+            endIndex: formatNumber(Math.min(endIndex, totalItems)),
+            total: formatNumber(totalItems),
+            itemLabel: totalItems === 1 ? itemLabel : itemsLabel,
+          })}
         </span>
         <div className="flex items-center gap-sds-xxs">{buttonPair}</div>
       </div>

@@ -5,6 +5,7 @@ import { AccordionHeader } from 'app/components/AccordionHeader'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { useAccordionState } from 'app/hooks/useAccordionState'
 import { useI18n } from 'app/hooks/useI18n'
+import { formatNumber } from 'app/utils/string'
 
 export interface GroupedData<T> {
   groupKey: string
@@ -96,7 +97,9 @@ export function GroupedAccordion<T>({
                     itemsLabel={itemLabelPlural}
                     additionalInfo={
                       !isExpanded && group.metadata?.annotationCount
-                        ? `${group.metadata.annotationCount as number} ${
+                        ? `${formatNumber(
+                            group.metadata.annotationCount as number,
+                          )} ${
                             (group.metadata.annotationCount as number) === 1
                               ? t('annotation')
                               : t('annotations')
