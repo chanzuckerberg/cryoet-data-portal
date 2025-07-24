@@ -1,10 +1,17 @@
 import { useCallback, useState } from 'react'
 
+import {
+  MAX_PER_ACCORDION_GROUP,
+  MAX_PER_FULLY_OPEN_ACCORDION,
+} from 'app/constants/pagination'
+
 /**
  * Hook for managing accordion expanded states and pagination
  * Used by components like OrganismAccordionTable and LocationAccordion
  */
-export function useAccordionState(defaultPageSize = 5) {
+export function useAccordionState(
+  defaultPageSize = MAX_PER_FULLY_OPEN_ACCORDION,
+) {
   // Track expanded state for each accordion group
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(
     {},
@@ -66,7 +73,9 @@ export function useAccordionState(defaultPageSize = 5) {
  * Extended hook for managing nested accordion states
  * Used by components that have accordions within accordions (e.g., locations with runs)
  */
-export function useNestedAccordionState(defaultPageSize = 10) {
+export function useNestedAccordionState(
+  defaultPageSize = MAX_PER_ACCORDION_GROUP,
+) {
   // Use base accordion state for top-level groups
   const topLevel = useAccordionState(defaultPageSize)
 
