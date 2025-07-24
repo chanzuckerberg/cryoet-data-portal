@@ -13,6 +13,21 @@ import { TomogramLocationTable } from './TomogramLocationTable'
 
 interface DepositedLocationAccordionTableProps {
   tab: DepositionTab
+  datasets:
+    | Array<{
+        id: number
+        title: string
+        organismName: string | null
+      }>
+    | null
+    | undefined
+  datasetCounts?: Record<
+    number,
+    {
+      runCount: number
+      annotationCount: number
+    }
+  >
 }
 
 // Transform DepositedLocationData to GroupedData format
@@ -44,6 +59,8 @@ function transformLocationData<T extends AnnotationRowData | TomogramRowData>(
 
 export function DepositedLocationAccordionTable({
   tab,
+  datasets,
+  datasetCounts,
 }: DepositedLocationAccordionTableProps) {
   const { t } = useI18n()
   const annotationData = useAnnotationData(tab)
@@ -60,14 +77,33 @@ export function DepositedLocationAccordionTable({
   } = tab === DepositionTab.Tomograms ? tomogramData : annotationData
 
   // Transform data for GroupedAccordion
-  const transformedData =
-    tab === DepositionTab.Tomograms
+  const transformedData = (() => {
+    if (datasets) {
+      // Transform real datasets to GroupedData format
+      return datasets.map((dataset) => ({
+        groupKey: dataset.id.toString(),
+        groupLabel: dataset.title,
+        items: [
+          {
+            depositedLocation: dataset.title,
+            runs: [], // Will be populated when accordion expands
+          },
+        ] as DepositedLocationData<AnnotationRowData | TomogramRowData>[],
+        itemCount: datasetCounts?.[dataset.id]?.annotationCount || 0,
+        metadata: {
+          runCount: datasetCounts?.[dataset.id]?.runCount || 0,
+        },
+      }))
+    }
+    // Fall back to mock data if no datasets provided
+    return tab === DepositionTab.Tomograms
       ? transformLocationData(
           locationData as DepositedLocationData<TomogramRowData>[],
         )
       : transformLocationData(
           locationData as DepositedLocationData<AnnotationRowData>[],
         )
+  })()
 
   // Determine labels based on tab
   const itemLabelSingular =

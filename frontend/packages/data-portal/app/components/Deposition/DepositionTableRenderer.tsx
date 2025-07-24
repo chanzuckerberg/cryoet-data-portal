@@ -10,15 +10,32 @@ import { DepositionTomogramTable } from './DepositionTomogramTable'
 import { OrganismAccordionTable } from './OrganismAccordionTable'
 
 interface DepositionTableRendererProps {
-  organisms?: string[] // Optional: paginated organisms for current page
-  organismCounts?: Record<string, number> // Optional: annotation counts per organism
-  isOrganismsLoading?: boolean // Optional: whether organisms data is loading
+  organisms?: string[]
+  organismCounts?: Record<string, number>
+  isOrganismsLoading?: boolean
+  datasets?:
+    | Array<{
+        id: number
+        title: string
+        organismName: string | null
+      }>
+    | null
+    | undefined
+  datasetCounts?: Record<
+    number,
+    {
+      runCount: number
+      annotationCount: number
+    }
+  >
 }
 
 export function DepositionTableRenderer({
   organisms,
   organismCounts,
   isOrganismsLoading = false,
+  datasets,
+  datasetCounts,
 }: DepositionTableRendererProps) {
   const [tab] = useDepositionTab()
   const [groupBy] = useQueryParam<GroupByOption>(QueryParams.GroupBy)
@@ -38,7 +55,13 @@ export function DepositionTableRenderer({
 
   // Show accordion view when grouped by deposited location
   if (groupBy === GroupByOption.DepositedLocation) {
-    return <DepositedLocationAccordionTable tab={tab} />
+    return (
+      <DepositedLocationAccordionTable
+        tab={tab}
+        datasets={datasets}
+        datasetCounts={datasetCounts}
+      />
+    )
   }
 
   // Default flat table view
