@@ -10,6 +10,12 @@ export interface DatasetOption {
   organismName: string | null
 }
 
+// Type for the API response that includes organism counts
+export interface DepositionDatasetsResponse {
+  datasets: DatasetOption[]
+  organismCounts: Record<string, number>
+}
+
 /**
  * Hook to fetch datasets for a deposition via annotation shapes using React Query + API route.
  *
@@ -22,9 +28,9 @@ export interface DatasetOption {
 export function useDatasetsForDeposition(depositionId: number | undefined) {
   const query = useQuery({
     queryKey: ['deposition-datasets', depositionId],
-    queryFn: async (): Promise<DatasetOption[]> => {
+    queryFn: async (): Promise<DepositionDatasetsResponse> => {
       if (!depositionId) {
-        return []
+        return { datasets: [], organismCounts: {} }
       }
 
       const response = await fetch(
@@ -35,25 +41,31 @@ export function useDatasetsForDeposition(depositionId: number | undefined) {
         throw new Error('Failed to fetch datasets')
       }
 
-      const { datasets }: { datasets: DatasetOption[] } =
-        (await response.json()) as { datasets: DatasetOption[] }
-      return datasets
+      return response.json() as Promise<DepositionDatasetsResponse>
     },
     enabled: !!depositionId, // Only run query if depositionId is available
   })
 
   const organismNames = useMemo(() => {
-    if (!query.data) return []
+    if (!query.data?.datasets) return []
 
     return [
       ...new Set(
-        query.data.map((dataset) => dataset.organismName).filter(isDefined),
+        query.data.datasets
+          .map((dataset) => dataset.organismName)
+          .filter(isDefined),
       ),
     ].sort()
-  }, [query.data])
+  }, [query.data?.datasets])
+
+  const organismCounts = useMemo(() => {
+    return query.data?.organismCounts || {}
+  }, [query.data?.organismCounts])
 
   return {
     ...query,
+    datasets: query.data?.datasets || [],
     organismNames,
+    organismCounts,
   }
 }

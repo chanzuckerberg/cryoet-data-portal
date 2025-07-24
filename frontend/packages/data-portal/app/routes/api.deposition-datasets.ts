@@ -8,6 +8,11 @@ interface DatasetOption {
   organismName: string | null
 }
 
+interface DepositionDatasetsResponse {
+  datasets: DatasetOption[]
+  organismCounts: Record<string, number>
+}
+
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
   const depositionId = url.searchParams.get('depositionId')
@@ -21,12 +26,23 @@ export async function loader({ request }: LoaderFunctionArgs) {
       Number(depositionId),
     )
 
-    // Transform data to DatasetOption[]
+    // Transform data to DatasetOption[] and aggregate organism counts
     const datasets: DatasetOption[] = []
     const seenIds = new Set<number>()
+    const organismCounts: Record<string, number> = {}
 
     data.annotationShapesAggregate.aggregate?.forEach((item) => {
       const dataset = item.groupBy?.annotation?.run?.dataset
+      const count = item.count || 0
+      const organismName = dataset?.organismName
+
+      // Aggregate annotation counts by organism
+      if (organismName) {
+        organismCounts[organismName] =
+          (organismCounts[organismName] || 0) + count
+      }
+
+      // Collect unique datasets
       if (dataset?.id && dataset?.title && !seenIds.has(dataset.id)) {
         datasets.push({
           id: dataset.id,
@@ -42,7 +58,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
       a.title.localeCompare(b.title),
     )
 
-    return new Response(JSON.stringify({ datasets: sortedDatasets }), {
+    const response: DepositionDatasetsResponse = {
+      datasets: sortedDatasets,
+      organismCounts,
+    }
+
+    return new Response(JSON.stringify(response), {
       headers: {
         'Content-Type': 'application/json',
       },

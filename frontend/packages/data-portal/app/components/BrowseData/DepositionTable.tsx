@@ -227,7 +227,7 @@ export function DepositionTable() {
                   }
 
                   return (
-                    <TableCell loadingSkeleton={false}>
+                    <TableCell showLoadingSkeleton={false}>
                       {dataTypes.map(({ label, value }) => (
                         <p className="text-sds-body-s-400-wide leading-sds-body-s mb-sds-xxxs">
                           <span>{t(label)}: </span>
@@ -258,7 +258,7 @@ export function DepositionTable() {
 
                 cell({ row: { original: deposition } }) {
                   return (
-                    <TableCell loadingSkeleton={false}>
+                    <TableCell showLoadingSkeleton={false}>
                       <p className="text-sds-body-s-400-wide leading-sds-body-s mb-sds-xxxs">
                         {isLoadingDebounced ? (
                           <Skeleton

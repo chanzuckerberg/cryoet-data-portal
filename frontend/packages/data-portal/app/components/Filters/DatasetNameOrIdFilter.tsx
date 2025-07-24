@@ -19,7 +19,7 @@ export function DatasetNameOrIdFilter() {
   const { t } = useI18n()
 
   // Fetch real dataset data using React Query + Apollo
-  const { data: datasets = [] } = useDatasetsForDeposition(depositionId)
+  const { datasets = [] } = useDatasetsForDeposition(depositionId)
 
   // Handle error silently - React Query will log it internally
   // The filter will simply show no options if there's an error
