@@ -44,4 +44,5 @@ export enum QueryParams {
   TomogramsPage = 'tomograms-page',
   EnableFeature = 'enable-feature',
   DisableFeature = 'disable-feature',
+  GroupBy = 'group-by',
 }

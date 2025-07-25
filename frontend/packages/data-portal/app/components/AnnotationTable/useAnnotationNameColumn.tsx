@@ -14,9 +14,11 @@ const columnHelper = createColumnHelper<AnnotationShape>()
 export function useAnnotationNameColumn({
   width,
   showAuthors = false,
+  isLoading,
 }: {
   width: TableColumnWidth
   showAuthors?: boolean
+  isLoading?: boolean
 }) {
   const { t } = useI18n()
 
@@ -36,9 +38,9 @@ export function useAnnotationNameColumn({
             <div>
               <Skeleton className="w-[200px]" variant="text" />
               <Skeleton className="w-[200px]" variant="text" />
-              <Skeleton className="w-[100px]" variant="text" />
             </div>
           )}
+          showLoadingSkeleton={isLoading}
           width={width}
         >
           <AnnotationNameTableCell

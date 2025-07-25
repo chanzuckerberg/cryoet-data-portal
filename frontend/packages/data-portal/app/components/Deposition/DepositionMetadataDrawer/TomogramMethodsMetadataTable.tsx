@@ -1,16 +1,17 @@
+import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
-import { TOMOGRAM_METHOD_MOCK_DATA } from '../mock'
 import { MethodTableList } from './MethodTableList'
 
 export function TomogramMethodsMetadataTable() {
   const { t } = useI18n()
+  const { tomogramMethods } = useDepositionById()
 
   return (
     <MethodTableList
       accordionId="tomogram-methods-table"
-      data={TOMOGRAM_METHOD_MOCK_DATA}
+      data={tomogramMethods}
       header="tomogramMethods"
       getTableData={(data) =>
         getTableData(
@@ -28,7 +29,7 @@ export function TomogramMethodsMetadataTable() {
           },
           {
             label: t('postProcessing'),
-            values: [data.postProcessing],
+            values: [data.processing],
           },
           {
             label: t('ctfCorrected'),

@@ -5,13 +5,13 @@ import {
 import CssBaseline from '@mui/material/CssBaseline'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
 import { RemixBrowser } from '@remix-run/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import Backend from 'i18next-http-backend'
 import { startTransition, useMemo, useState } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import { initReactI18next } from 'react-i18next'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import { getInitialNamespaces } from 'remix-i18next'
 
 import {

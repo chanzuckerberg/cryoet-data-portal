@@ -17,6 +17,7 @@ export function TablePageLayout({
   drawers,
   banner,
   title,
+  titleContent,
 }: TablePageLayoutProps) {
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -64,15 +65,18 @@ export function TablePageLayout({
           <>
             <Divider className="bg-light-sds-color-semantic-base-divider h-1 !mt-sds-xl" />
 
-            <h2
-              className={cns(
-                'font-semibold text-sds-header-xxl-600-wide',
-                'tracking-sds-header-xxl-600-wide leading-sds-header-xxl',
-                'ml-sds-xl mt-sds-xxl mb-sds-l',
-              )}
-            >
-              {title}
-            </h2>
+            <div className="flex items-center gap-[50px] ml-sds-xl mt-sds-xxl mb-sds-l">
+              <h2
+                className={cns(
+                  'font-semibold text-sds-header-xxl-600-wide',
+                  'tracking-sds-header-xxl-600-wide leading-sds-header-xxl',
+                )}
+              >
+                {title}
+              </h2>
+
+              {titleContent}
+            </div>
           </>
         )}
 

@@ -21,6 +21,7 @@ interface SerializationOptions<T> {
   defaultValue?: T
   deserialize?: (value: string | null) => T | null
   serialize?: (value: unknown) => string
+  preventScrollReset?: boolean
 }
 
 type UseQueryParamsResult<
@@ -39,6 +40,7 @@ export function useQueryParam<
     defaultValue,
     deserialize = defaultDeserialize,
     serialize = defaultSerialize,
+    preventScrollReset,
   }: SerializationOptions<T> = {},
 ): UseQueryParamsResult<T, DefaultValue> {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -49,7 +51,7 @@ export function useQueryParam<
   )
 
   const setValue = useCallback<QueryParamStateSetter<T>>(
-    (nextValue, replace = false) =>
+    (nextValue) =>
       setSearchParams(
         (prev) => {
           const prevValue = prev.get(queryParam)
@@ -68,9 +70,9 @@ export function useQueryParam<
 
           return prev
         },
-        { replace },
+        { preventScrollReset },
       ),
-    [queryParam, serialize, setSearchParams],
+    [queryParam, serialize, setSearchParams, preventScrollReset],
   )
 
   return [value ?? defaultValue, setValue] as UseQueryParamsResult<
@@ -94,6 +96,7 @@ export function useQueryParams<T>(
   {
     serialize = defaultSerialize,
     deserialize = defaultDeserialize,
+    preventScrollReset,
   }: SerializationOptions<T> = {},
 ): [T, QueryParamStateSetter<Nullish<T>>] {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -112,33 +115,36 @@ export function useQueryParams<T>(
 
   const setValue = useCallback<QueryParamStateSetter<Nullish<T>>>(
     (nextValue) =>
-      setSearchParams((prev) => {
-        if (nextValue === null) {
-          queryParamKeys.forEach((key) => prev.delete(key))
+      setSearchParams(
+        (prev) => {
+          if (nextValue === null) {
+            queryParamKeys.forEach((key) => prev.delete(key))
+            return prev
+          }
+
+          const prevValue =
+            queryParamKeys.length === 0
+              ? null
+              : (Object.fromEntries(
+                  queryParamKeys.map((key) => [key, prev.get(key)]),
+                ) as T)
+
+          const val = isFunction(nextValue) ? nextValue(prevValue) : nextValue
+          if (val) {
+            Object.entries(val).forEach(([paramKey, paramValue]) => {
+              if (paramValue) {
+                prev.set(paramKey, serialize(paramValue))
+              } else {
+                prev.delete(paramKey)
+              }
+            })
+          }
+
           return prev
-        }
-
-        const prevValue =
-          queryParamKeys.length === 0
-            ? null
-            : (Object.fromEntries(
-                queryParamKeys.map((key) => [key, prev.get(key)]),
-              ) as T)
-
-        const val = isFunction(nextValue) ? nextValue(prevValue) : nextValue
-        if (val) {
-          Object.entries(val).forEach(([paramKey, paramValue]) => {
-            if (paramValue) {
-              prev.set(paramKey, serialize(paramValue))
-            } else {
-              prev.delete(paramKey)
-            }
-          })
-        }
-
-        return prev
-      }),
-    [queryParamKeys, serialize, setSearchParams],
+        },
+        { preventScrollReset },
+      ),
+    [queryParamKeys, serialize, setSearchParams, preventScrollReset],
   )
 
   return [value, setValue]
