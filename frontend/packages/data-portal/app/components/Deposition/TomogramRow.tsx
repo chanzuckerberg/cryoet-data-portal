@@ -7,12 +7,11 @@ import { TableCell } from 'app/components/Table'
 import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
 import { DepositionTomogramTableWidths } from 'app/constants/table'
 import { useI18n } from 'app/hooks/useI18n'
-import { TomogramRowData } from 'app/hooks/useTomogramData'
 import { useTomogramsForRunAndDeposition } from 'app/queries/useTomogramsForRunAndDeposition'
+import { RunData, TomogramRowData } from 'app/types/deposition'
 import { cns } from 'app/utils/cns'
 
 import { DepositedInTableCell } from './DepositedInTableCell'
-import { RunData } from './mockDepositedLocationData'
 import { PostProcessingCell } from './PostProcessingCell'
 import { ReconstructionMethodCell } from './ReconstructionMethodCell'
 import { TomogramActionsCell } from './TomogramActionsCell'
@@ -91,11 +90,9 @@ export function TomogramRow({
     page: currentPage,
   })
 
-  // Use backend data if available, otherwise fall back to mock data
+  // Use backend data count, show 0 if not available
   const totalCount =
-    data?.tomogramsAggregate?.aggregate?.[0]?.count ??
-    run.tomogramCount ??
-    run.items.length
+    data?.tomogramsAggregate?.aggregate?.[0]?.count ?? run.tomogramCount ?? 0
   const pageSize = MAX_PER_FULLY_OPEN_ACCORDION
   const startIndex = (currentPage - 1) * pageSize
   const endIndex = Math.min(startIndex + pageSize, totalCount)
@@ -183,30 +180,23 @@ export function TomogramRow({
             )
           }
 
-          // Transform backend data to component format or use mock data
+          // Transform backend data to component format, use empty array when no data
           const tomograms = data?.tomograms
             ? data.tomograms.map((tomogram) => ({
                 id: tomogram.id,
-                name:
-                  tomogram.name ??
-                  `tomo_${String(tomogram.id).padStart(4, '0')}`,
-                keyPhotoUrl:
-                  tomogram.keyPhotoUrl ??
-                  `/mock/tomogram/thumbnails/tomo_${String(
-                    tomogram.id,
-                  ).padStart(4, '0')}.jpg`,
+                name: tomogram.name ?? '--',
+                keyPhotoUrl: tomogram.keyPhotoUrl ?? null,
                 voxelSpacing: tomogram.voxelSpacing ?? 0,
-                reconstructionMethod:
-                  tomogram.reconstructionMethod ?? 'Unknown',
-                processing: tomogram.processing ?? 'raw',
-                depositedIn: `Dataset ${
-                  tomogram.run?.dataset?.id || 'Unknown'
-                }`,
+                reconstructionMethod: tomogram.reconstructionMethod ?? '--',
+                processing: tomogram.processing ?? '--',
+                depositedIn: tomogram.run?.dataset?.id
+                  ? `Dataset ${tomogram.run.dataset.id}`
+                  : '--',
                 depositedLocation: '',
                 runName: run.runName,
-                neuroglancerConfig: undefined, // Not available in this query
+                neuroglancerConfig: undefined,
               }))
-            : run.items.slice(startIndex, endIndex)
+            : []
 
           return (
             <>

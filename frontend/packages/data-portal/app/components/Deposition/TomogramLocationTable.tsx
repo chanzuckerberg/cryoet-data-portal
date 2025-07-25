@@ -11,15 +11,9 @@ import { CellHeader } from 'app/components/Table'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { DepositionTomogramTableWidths } from 'app/constants/table'
 import { useI18n } from 'app/hooks/useI18n'
-import { TomogramRowData } from 'app/hooks/useTomogramData'
 import { useDepositionTomoRunsForDataset } from 'app/queries/useDepositionTomoRunsForDataset'
 import { cns } from 'app/utils/cns'
-import { transformBackendTomoRunsToComponentFormat } from 'app/utils/deposition'
 
-import {
-  DepositedLocationData,
-  paginateRunData,
-} from './mockDepositedLocationData'
 import { TomogramRow } from './TomogramRow'
 
 // Skeleton component for run loading state
@@ -47,8 +41,6 @@ function SkeletonTomogramRunRow() {
 }
 
 interface TomogramLocationTableProps {
-  locationData: DepositedLocationData<TomogramRowData>
-  pagination: Record<string, number>
   runPagination: Record<string, Record<string, number>>
   expandedRuns: Record<string, Record<string, boolean>>
   onRunToggle: (location: string, runName: string) => void
@@ -62,8 +54,6 @@ interface TomogramLocationTableProps {
 }
 
 export function TomogramLocationTable({
-  locationData,
-  pagination,
   runPagination,
   expandedRuns,
   onRunToggle,
@@ -77,32 +67,26 @@ export function TomogramLocationTable({
   const { t } = useI18n()
 
   // Use the hook to fetch backend data when expanded
-  const {
-    data: backendData,
-    isLoading,
-    error,
-  } = useDepositionTomoRunsForDataset({
+  const { data, isLoading, error } = useDepositionTomoRunsForDataset({
     depositionId: isExpanded ? depositionId : undefined,
     datasetId: isExpanded ? datasetId : undefined,
-    page: currentGroupPage || pagination[datasetTitle] || 1,
+    page: currentGroupPage || 1,
   })
 
-  // Determine which data to use - backend data if available, otherwise fallback to locationData
-  const dataToUse = backendData?.runs
-    ? transformBackendTomoRunsToComponentFormat(backendData.runs, datasetTitle)
-    : locationData
+  // Always use backend data, show empty state when no data available
+  const locationData = data
+    ? {
+        depositedLocation: datasetTitle,
+        runs: data.runs.map((run) => ({
+          id: run.id,
+          runName: run.name ?? '--',
+          items: [], // Empty for unexpanded case
+          tomogramCount: run.tomogramsAggregate?.aggregate?.[0]?.count ?? 0,
+        })),
+      }
+    : { depositedLocation: datasetTitle, runs: [] }
 
-  const { depositedLocation } = dataToUse
-
-  // When using backend data, runs are already paginated by the API
-  // When using mock data, we need to paginate locally
-  const runsToDisplay = backendData?.runs
-    ? dataToUse.runs // Already paginated by backend
-    : paginateRunData(
-        dataToUse.runs,
-        currentGroupPage || pagination[depositedLocation] || 1,
-        10,
-      ).items
+  const { depositedLocation } = locationData
 
   // Show loading state while fetching backend data
   if (isExpanded && isLoading) {
@@ -180,7 +164,7 @@ export function TomogramLocationTable({
           </CellHeader>
         </TableHeader>
         <tbody>
-          {runsToDisplay.map((run) => {
+          {locationData.runs.map((run) => {
             const isRunExpanded =
               expandedRuns[depositedLocation]?.[run.runName] || false
 
