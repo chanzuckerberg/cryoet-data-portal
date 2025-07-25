@@ -79,6 +79,46 @@ const GET_DEPOSITION_BASE_DATA = gql(`
           }
         }
       }
+
+      tomogramMethodCounts: tomogramsAggregate(where: { depositionId: { _eq: $id } }) {
+        aggregate {
+          count
+          groupBy {
+            voxelSpacing
+            reconstructionMethod
+            processing
+            ctfCorrected
+          }
+        }
+      }
+
+      acquisitionMethodCounts: tiltseriesAggregate(where: { depositionId: { _eq: $id } }) {
+        aggregate {
+          count
+          groupBy {
+            microscopeModel
+            cameraModel
+            tiltingScheme
+            pixelSpacing
+            microscopeEnergyFilter
+            microscopePhasePlate
+          }
+        }
+      }
+
+    }
+
+    experimentalConditionsCounts: runsAggregate(where: { annotations: { depositionId: { _eq: $id } } }) {
+      aggregate {
+        count
+        groupBy {
+          dataset {
+            samplePreparation
+            sampleType
+            gridPreparation
+          }
+        }
+      }
     }
 
     annotationsCount: annotationsAggregate(where: {
