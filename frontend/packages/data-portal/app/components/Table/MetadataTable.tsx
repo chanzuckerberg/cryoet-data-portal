@@ -1,7 +1,7 @@
 import { Table } from '@czi-sds/components'
 import TableBody from '@mui/material/TableBody'
 import TableRow from '@mui/material/TableRow'
-import { ComponentProps } from 'react'
+import { ComponentProps, ReactNode } from 'react'
 import { match } from 'ts-pattern'
 
 import { useI18n } from 'app/hooks/useI18n'
@@ -23,9 +23,40 @@ export function MetadataTable({
   small?: boolean
   tableCellLabelProps?: ComponentProps<typeof TableCell>
   tableCellValueProps?: ComponentProps<typeof TableCell>
-  title?: string
+  title?: string | ReactNode
 }) {
   const { t } = useI18n()
+
+  const renderValues = (datum: TableData, values: any[]) =>
+    datum.renderValues?.(values) ??
+    match(values.length)
+      .with(0, () => (
+        <span className="text-light-sds-color-semantic-base-text-secondary">
+          {t('notSubmitted')}
+        </span>
+      ))
+      .with(1, () => (
+        <span className={datum.className}>
+          {datum.renderValue?.(values[0]) ?? values[0]}
+        </span>
+      ))
+      .otherwise(() => (
+        <ul className="list-none flex flex-wrap gap-1">
+          {values.map((value, valueIdx) => (
+            <li
+              className={cns(
+                'overflow-x-auto',
+                datum.inline && 'inline-block',
+                datum.className,
+              )}
+              key={value}
+            >
+              {datum.renderValue?.(value) ?? value}
+              {valueIdx < values.length - 1 && ', '}
+            </li>
+          ))}
+        </ul>
+      ))
 
   return (
     <div className="flex flex-col gap-sds-xs">
@@ -43,7 +74,24 @@ export function MetadataTable({
 
             const index = idx + (invertRowColor ? 0 : 1)
 
-            return (
+            return datum.fullWidth ? (
+              <TableRow
+                className={cns(
+                  index % 2 !== 0 && 'bg-light-sds-color-primitive-gray-100',
+                )}
+                key={datum.label + values.join(', ')}
+              >
+                <TableCell
+                  className="!p-sds-s"
+                  colSpan={2}
+                  tooltip={datum.labelTooltip}
+                  tooltipProps={datum.labelTooltipProps}
+                  {...tableCellValueProps}
+                >
+                  {renderValues(datum, values)}
+                </TableCell>
+              </TableRow>
+            ) : (
               <TableRow
                 className={cns(
                   index % 2 !== 0 && 'bg-light-sds-color-primitive-gray-100',
@@ -78,35 +126,7 @@ export function MetadataTable({
                   )}
                   {...tableCellValueProps}
                 >
-                  {datum.renderValues?.(values) ??
-                    match(values.length)
-                      .with(0, () => (
-                        <span className="text-light-sds-color-semantic-base-text-secondary">
-                          {t('notSubmitted')}
-                        </span>
-                      ))
-                      .with(1, () => (
-                        <span className={datum.className}>
-                          {datum.renderValue?.(values[0]) ?? values[0]}
-                        </span>
-                      ))
-                      .otherwise(() => (
-                        <ul className="list-none flex flex-wrap gap-1">
-                          {values.map((value, valueIdx) => (
-                            <li
-                              className={cns(
-                                'overflow-x-auto',
-                                datum.inline && 'inline-block',
-                                datum.className,
-                              )}
-                              key={value}
-                            >
-                              {datum.renderValue?.(value) ?? value}
-                              {valueIdx < values.length - 1 && ', '}
-                            </li>
-                          ))}
-                        </ul>
-                      ))}
+                  {renderValues(datum, values)}
                 </TableCell>
               </TableRow>
             )
