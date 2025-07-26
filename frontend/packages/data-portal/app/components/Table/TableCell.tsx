@@ -11,6 +11,7 @@ import { cns } from 'app/utils/cns'
 export function TableCell({
   children,
   className,
+  colSpan,
   horizontalAlign,
   primaryText,
   renderLoadingSkeleton = () => <Skeleton variant="text" />,
@@ -20,6 +21,7 @@ export function TableCell({
 }: {
   children?: ReactNode
   className?: string
+  colSpan?: number
   horizontalAlign?: 'left' | 'center' | 'right'
   loadingSkeleton?: boolean
   primaryText?: string
@@ -44,6 +46,7 @@ export function TableCell({
       minWidth: width?.min,
       width: width?.width,
     },
+    ...(colSpan && { colSpan }),
   }
 
   if (renderLoadingSkeleton && isLoadingDebounced) {
@@ -57,6 +60,7 @@ export function TableCell({
       <td
         className={cns('align-top px-3 py-4', cellProps.className)}
         style={cellProps.style}
+        {...(colSpan && { colSpan })}
       >
         <div className="text-sds-body-s-400-wide leading-sds-body-s font-normal">
           <Tooltip
