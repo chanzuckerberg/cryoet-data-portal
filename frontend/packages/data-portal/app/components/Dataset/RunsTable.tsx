@@ -28,6 +28,7 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { Run } from 'app/types/gql/datasetPageTypes'
 import { cnsNoMerge } from 'app/utils/cns'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
@@ -46,6 +47,7 @@ export function RunsTable() {
   const { isLoadingDebounced } = useIsLoading()
   const { dataset, deposition, runs } = useDatasetById()
   const { t } = useI18n()
+  const isIdentifiedObjectsEnabled = useFeatureFlag('identifiedObjects')
   const [searchParams] = useSearchParams()
 
   const [isHoveringOverInteractable, setIsHoveringOverInteractable] =
@@ -178,22 +180,45 @@ export function RunsTable() {
       ),
 
       columnHelper.accessor(
-        (run) =>
-          run.annotationsAggregate?.aggregate?.reduce((acc, aggregate) => {
+        (run) => {
+          const objectsMap = new Map<string, boolean>()
+
+          run.annotationsAggregate?.aggregate?.forEach((aggregate) => {
             const objectName = aggregate.groupBy?.objectName
             const groundTruthStatus = !!aggregate.groupBy?.groundTruthStatus
-            return setObjectNameAndGroundTruthStatus(
-              objectName,
-              groundTruthStatus,
-              acc,
-            )
-          }, new Map<string, boolean>()) || new Map<string, boolean>(),
+            if (objectName) {
+              setObjectNameAndGroundTruthStatus(
+                objectName,
+                groundTruthStatus,
+                objectsMap,
+              )
+            }
+          })
+
+          if (isIdentifiedObjectsEnabled) {
+            run.identifiedObjectsAggregate?.aggregate?.forEach((aggregate) => {
+              const objectName = aggregate.groupBy?.objectName
+              if (objectName) {
+                setObjectNameAndGroundTruthStatus(
+                  objectName,
+                  false, // identifiedObjects don't have groundTruthStatus, default to false
+                  objectsMap,
+                )
+              }
+            })
+          }
+
+          return objectsMap
+        },
         {
           id: 'annotatedObjects',
 
           header: () => (
-            <CellHeader width={RunTableWidths.annotatedObjects}>
-              {t('annotatedObjects')}
+            <CellHeader
+              tooltip="Objects are identified by the authors, curators or contributed annotations."
+              width={RunTableWidths.annotatedObjects}
+            >
+              {t('objects')}
             </CellHeader>
           ),
 
@@ -254,6 +279,7 @@ export function RunsTable() {
     getRunUrl,
     dataset.id,
     dataset.organismName,
+    isIdentifiedObjectsEnabled,
   ])
 
   return (

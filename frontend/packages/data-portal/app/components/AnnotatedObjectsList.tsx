@@ -97,8 +97,10 @@ export function AnnotatedObjectsList({
             classes={{ tooltip: '!p-0 !bg-transparent' }}
             placement="left"
             tooltip={
-              <div className="relative max-h-64 overflow-y-auto">
-                <List className="font-semibold">{nodes}</List>
+              <div className="relative max-h-64">
+                <div className="max-h-64 overflow-y-auto">
+                  <List className="font-semibold pb-2">{nodes}</List>
+                </div>
                 <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white/80 to-transparent pointer-events-none" />
               </div>
             }
