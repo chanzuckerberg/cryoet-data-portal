@@ -27,10 +27,10 @@ import { DatasetTableWidths } from 'app/constants/table'
 import { useDatasets } from 'app/hooks/useDatasets'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 import { Dataset } from 'app/types/gql/datasetsPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { sendLogs } from 'app/utils/logging'
 import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { getErrorMessage } from 'app/utils/string'
@@ -303,7 +303,7 @@ export function DatasetTable() {
             id: 'annotatedObjects',
 
             header: () => (
-              <CellHeader 
+              <CellHeader
                 tooltip="Objects are identified by the authors, curators or contributed annotations."
                 width={DatasetTableWidths.annotatedObjects}
               >
