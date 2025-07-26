@@ -171,6 +171,14 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
           }
         }
       }
+      identifiedObjectsAggregate {
+        aggregate {
+          count
+          groupBy {
+            objectName
+          }
+        }
+      }
       tomograms(
         first: 1,
         where: { isVisualizationDefault: { _eq: true } }

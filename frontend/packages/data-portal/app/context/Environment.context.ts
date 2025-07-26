@@ -10,7 +10,7 @@ export type EnvironmentContextValue = Required<
 export const ENVIRONMENT_CONTEXT_DEFAULT_VALUE: EnvironmentContextValue = {
   API_URL:
     'https://graphql-cryoet-api.cryoet.prod.si.czi.technology/v1/graphql',
-  API_URL_V2: 'https://graphql.cryoetdataportal.czscience.com/graphql',
+  API_URL_V2: 'https://saved-bulldog.dev-cryoet.dev.czi.team/graphql',
   ENV: 'local',
   LOCALHOST_PLAUSIBLE_TRACKING: 'false',
 }
