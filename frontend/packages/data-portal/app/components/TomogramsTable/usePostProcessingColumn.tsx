@@ -1,9 +1,8 @@
-import Skeleton from '@mui/material/Skeleton'
 import { createColumnHelper } from '@tanstack/react-table'
 
 import type { Tomogram } from 'app/__generated_v2__/graphql'
+import { PostProcessingCell } from 'app/components/Deposition/PostProcessingCell'
 import { CellHeader } from 'app/components/Table/CellHeader'
-import { TableCell } from 'app/components/Table/TableCell'
 import { type TableColumnWidth } from 'app/constants/table'
 import { useI18n } from 'app/hooks/useI18n'
 
@@ -22,15 +21,11 @@ export function usePostProcessingColumn({
     header: () => <CellHeader width={width}>{t('postProcessing')}</CellHeader>,
 
     cell: ({ getValue }) => (
-      <TableCell
+      <PostProcessingCell
+        processing={getValue()}
         width={width}
-        renderLoadingSkeleton={() => (
-          <Skeleton className="w-[80px]" variant="text" />
-        )}
-        showLoadingSkeleton={isLoading}
-      >
-        <div className="capitalize">{getValue()}</div>
-      </TableCell>
+        isLoading={isLoading}
+      />
     ),
   })
 }
