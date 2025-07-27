@@ -22,7 +22,11 @@ import { TableCountHeader } from 'app/components/TablePageLayout/TableCountHeade
 import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 import { getDepositionAnnotations } from 'app/graphql/getDepositionAnnotationsV2.server'
-import { getDepositionByIdV2 } from 'app/graphql/getDepositionByIdV2.server'
+import {
+  getDepositionBaseData,
+  getDepositionExpandedData,
+  getDepositionLegacyData,
+} from 'app/graphql/getDepositionByIdV2.server'
 import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.server'
 import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
@@ -60,20 +64,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   }
 
   const client = apolloClientV2
-  const { data: responseV2 } = await getDepositionByIdV2({
-    client,
-    id,
-    page,
-    orderBy: orderByV2,
-    params: url.searchParams,
-  })
-
-  if (responseV2.depositions.length === 0) {
-    throw new Response(null, {
-      status: 404,
-      statusText: `Deposition with ID ${id} not found`,
-    })
-  }
 
   const isExpandDepositions = getFeatureFlag({
     env: process.env.ENV,
@@ -85,10 +75,38 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     QueryParams.DepositionTab,
   ) as DepositionTab | null
 
-  const { data } = await match({
+  // Check existence first
+  const { data: responseV2 } = await getDepositionBaseData({
+    client,
+    id,
+  })
+
+  if (responseV2.depositions.length === 0) {
+    throw new Response(null, {
+      status: 404,
+      statusText: `Deposition with ID ${id} not found`,
+    })
+  }
+
+  // Then fetch remaining data in parallel
+
+  const expandedDataPromise = isExpandDepositions
+    ? getDepositionExpandedData({ client, id })
+    : Promise.resolve({ data: undefined })
+
+  const conditionalDataPromise = match({
     isExpandDepositions,
     depositionTab,
   })
+    .with({ isExpandDepositions: false }, () =>
+      getDepositionLegacyData({
+        client,
+        id,
+        page,
+        orderBy: orderByV2,
+        params: url.searchParams,
+      }),
+    )
     .with(
       {
         isExpandDepositions: true,
@@ -114,10 +132,17 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
           page,
         }),
     )
-    .otherwise(() => ({ data: undefined }))
+    .otherwise(() => Promise.resolve({ data: undefined }))
+
+  const [{ data: expandedData }, { data }] = await Promise.all([
+    expandedDataPromise,
+    conditionalDataPromise,
+  ])
 
   return typedjson({
+    expandedData,
     v2: responseV2,
+    legacyData: data && 'datasets' in data ? data : undefined,
     annotations: data && 'annotationShapes' in data ? data : undefined,
     tomograms: data && 'tomograms' in data ? data : undefined,
   })

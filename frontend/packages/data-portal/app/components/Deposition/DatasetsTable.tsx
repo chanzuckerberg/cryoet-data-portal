@@ -23,7 +23,7 @@ import { IdPrefix } from 'app/constants/idPrefixes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { DepositionPageDatasetTableWidths } from 'app/constants/table'
-import { useDepositionById } from 'app/hooks/useDepositionById'
+import { useDepositionByIdLegacy } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
@@ -48,7 +48,7 @@ const LOADING_DATASETS: Dataset[] = range(0, MAX_PER_PAGE).map(() => ({
 
 export function DatasetsTable() {
   const { t } = useI18n()
-  const { deposition, datasets } = useDepositionById()
+  const { deposition, datasets } = useDepositionByIdLegacy()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const datasetSort = (searchParams.get(QueryParams.Sort) ?? undefined) as
@@ -344,7 +344,7 @@ export function DatasetsTable() {
 
   return (
     <PageTable
-      data={isLoadingDebounced ? LOADING_DATASETS : datasets}
+      data={isLoadingDebounced ? LOADING_DATASETS : datasets ?? []}
       columns={columns}
       hoverType="group"
       onTableRowClick={(row) => {

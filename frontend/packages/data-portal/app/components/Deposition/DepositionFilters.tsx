@@ -12,7 +12,7 @@ import { DepositionTabs } from './DepositionTabs'
 
 export function DepositionFilters() {
   const { allRuns } = useDepositionById()
-  const dataContents = getDataContents(allRuns)
+  const dataContents = getDataContents(allRuns ?? [])
   const dataContentItems = useMemo(
     () =>
       [
