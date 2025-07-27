@@ -1,4 +1,7 @@
-import { SegmentedControl } from '@czi-sds/components'
+import {
+  SegmentedControl,
+  type SingleButtonDefinition,
+} from '@czi-sds/components'
 import { useMemo } from 'react'
 
 import { QueryParams } from 'app/constants/query'
@@ -53,7 +56,10 @@ export function DepositionGroupByControl() {
   )
 }
 
-function useGroupByOptions(annotationsCount: number, t: I18nTFunction) {
+function useGroupByOptions(
+  annotationsCount: number,
+  t: I18nTFunction,
+): SingleButtonDefinition[] {
   return useMemo(() => {
     const groupCounts = {
       [GroupByOption.None]: 0,
@@ -71,6 +77,7 @@ function useGroupByOptions(annotationsCount: number, t: I18nTFunction) {
     return [
       {
         value: GroupByOption.None,
+        tooltipText: t('none'),
         icon: (
           <div className="flex items-center gap-sds-s">
             <span>{t('none')}</span>
@@ -79,6 +86,7 @@ function useGroupByOptions(annotationsCount: number, t: I18nTFunction) {
       },
       {
         value: GroupByOption.DepositedLocation,
+        tooltipText: t('location'),
         icon: (
           <div className="flex items-center gap-sds-s">
             <span>{t('location')}</span>
@@ -91,6 +99,7 @@ function useGroupByOptions(annotationsCount: number, t: I18nTFunction) {
       },
       {
         value: GroupByOption.Organism,
+        tooltipText: t('organism'),
         icon: (
           <div className="flex items-center gap-sds-s">
             <span>{t('organism')}</span>

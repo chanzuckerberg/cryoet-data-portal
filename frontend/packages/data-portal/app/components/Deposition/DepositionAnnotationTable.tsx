@@ -9,8 +9,8 @@ import {
 import { useAnnotationNameColumn } from 'app/components/AnnotationTable/useAnnotationNameColumn'
 import { useShapeTypeColumn } from 'app/components/AnnotationTable/useShapeTypeColumn'
 import { PageTable } from 'app/components/Table'
+import { TableClassNames } from 'app/components/Table/types'
 import { DepositionAnnotationTableWidths } from 'app/constants/table'
-import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 
 import { useMethodTypeColumn } from '../AnnotationTable/useMethodTypeColumn'
@@ -45,9 +45,13 @@ const LOADING_ANNOTATIONS = Array.from(
     }) as DepositionAnnotationTableData,
 )
 
-export function DepositionAnnotationTable() {
-  const { annotations } = useDepositionById()
-
+export function DepositionAnnotationTable({
+  data,
+  classes,
+}: {
+  data: DepositionAnnotationTableData[]
+  classes?: TableClassNames
+}) {
   const { isLoadingDebounced } = useIsLoading()
 
   const annotationNameColumn = useAnnotationNameColumn({
@@ -93,13 +97,10 @@ export function DepositionAnnotationTable() {
 
   return (
     <PageTable
-      data={
-        isLoadingDebounced
-          ? LOADING_ANNOTATIONS
-          : annotations?.annotationShapes ?? []
-      }
+      data={isLoadingDebounced ? LOADING_ANNOTATIONS : data}
       columns={columns}
       hoverType="none"
+      classes={classes}
     />
   )
 }
