@@ -121,7 +121,9 @@ export function ContentsSummaryTable({
         </Tooltip>
       </h3>
       {runs && (
-        <h5 className="mb-sds-s text-sds-body-xxxs-400-wide ">{`(Total ${runs} runs)`}</h5>
+        <h5 className="mb-sds-s text-sds-body-xxxs-400-wide ">
+          {t('totalRunsCount', { count: runs })}
+        </h5>
       )}
       <div className="grid grid-cols-2 text-sds-body-xxxs-400-wide">
         {SUMMARY_TABLE_INFO.map((entry) => (
