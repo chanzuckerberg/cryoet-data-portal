@@ -21,13 +21,17 @@ import { TablePageLayout } from 'app/components/TablePageLayout'
 import { TableCountHeader } from 'app/components/TablePageLayout/TableCountHeader'
 import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
-import { getDepositionAnnotations } from 'app/graphql/getDepositionAnnotationsV2.server'
+import {
+  getDepositionAnnotations,
+  getDepositionAnnotationsForDatasets,
+} from 'app/graphql/getDepositionAnnotationsV2.server'
 import { getDepositionByIdV2 } from 'app/graphql/getDepositionByIdV2.server'
 import {getVoodoo} from 'app/graphql/getVoodooExperimentV2.server'
 import {
   getDatasetsForDepositionViaTomograms,
   getDatasetsForDepositionViaAnnotationShapes,
 } from 'app/graphql/getDatasetsForDepositionV2.server'
+import { getDepositionAnnoRunsForDatasets } from 'app/graphql/getDepositionRunsV2.server'
 import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.server'
 import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
@@ -93,6 +97,29 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     depositionId: id,
   })
 
+  // PROGRAMATICALLY PULL the following array based on boiling down one of the two
+  // `datasetsViaBlah` results into the datasets associated with either anno or tomo flavor.
+  // Sorry I didn't have time to write the code for extracting these dataset ids!
+  const EXAMPLE_ALL_DATASET_IDS = [10301, 10302]
+  const { data: runCountsForDepositionAnnotations} = await getDepositionAnnoRunsForDatasets({
+    client,
+    depositionId: id,
+    datasetIds: EXAMPLE_ALL_DATASET_IDS,
+  })
+
+  // MANUALLY SET the following array based on deposition you are dev-ing against.
+  // Here as a rough example of how user interaction would go. For deposition id 10314
+  // it has two datasets of id 10301 and 10302, so we choose some subset of those.
+  const EXAMPLE_FILTERED_DATASET_IDS = [10301]
+  const { data: annotationShapesForDatasets } = await getDepositionAnnotationsForDatasets({
+    client,
+    depositionId: id,
+    datasetIds: EXAMPLE_FILTERED_DATASET_IDS,
+    page: 1,
+  })
+
+
+
   // END VOODOO End Vincent work for requests to GraphQL
   // There is more Vincent stuff put in to the response and the use hook
 
@@ -151,6 +178,8 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     voodooData: voodooData,
     datasetsViaTomograms,
     datasetsViaAnnotationShapes,
+    runCountsForDepositionAnnotations,
+    annotationShapesForDatasets,
   })
 }
 
@@ -184,9 +213,6 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 
 export default function DepositionByIdPage() {
   const { deposition, annotationsCount, tomogramsCount } = useDepositionById()
-  console.log("deposition", deposition); // REMOVE
-  console.log("annotationsCount", annotationsCount); // REMOVE
-  console.log("tomogramsCount", tomogramsCount); // REMOVE
   const { filteredDatasetsCount, totalDatasetsCount } = useDatasetsFilterData()
   const { t } = useI18n()
 
