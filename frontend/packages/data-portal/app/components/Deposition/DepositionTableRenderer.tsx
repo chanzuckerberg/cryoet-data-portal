@@ -26,6 +26,7 @@ interface DepositionTableRendererProps {
     {
       runCount: number
       annotationCount: number
+      tomogramRunCount: number
     }
   >
 }

@@ -37,6 +37,7 @@ import { useOrganismPagination } from 'app/hooks/useOrganismPagination'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 import { useDepositionRunCounts } from 'app/queries/useDepositionRunCounts'
+import { useDepositionTomoRunCounts } from 'app/queries/useDepositionTomoRunCounts'
 import {
   useDepositionHistory,
   useSyncParamsWithState,
@@ -233,13 +234,18 @@ export default function DepositionByIdPage() {
     depositionIdForDatasets,
     datasetIds,
   )
+  const { data: tomoRunCountsData } = useDepositionTomoRunCounts(
+    depositionIdForDatasets,
+    datasetIds,
+  )
 
   // Use dataset pagination when grouped by deposited location
-  const datasetPagination = useDatasetPagination(
-    depositionIdForDatasets,
+  const datasetPagination = useDatasetPagination({
+    depositionId: depositionIdForDatasets,
     annotationCounts,
-    runCountsData?.runCounts,
-  )
+    runCounts: runCountsData?.runCounts,
+    tomogramRunCounts: tomoRunCountsData?.runCounts,
+  })
 
   // Conditional no results component based on loading states
   const noFilteredResultsComponent = match({
