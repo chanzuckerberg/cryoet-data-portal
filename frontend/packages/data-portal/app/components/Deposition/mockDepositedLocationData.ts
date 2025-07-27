@@ -6,6 +6,7 @@ export interface DepositedLocationData<T> {
 export interface RunData<T> {
   runName: string
   items: T[]
+  annotationCount?: number
 }
 
 // Mock deposited locations
