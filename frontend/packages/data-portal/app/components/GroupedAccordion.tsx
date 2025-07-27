@@ -139,7 +139,11 @@ export function GroupedAccordion<T>({
                   {renderContent(
                     {
                       ...group,
-                      items: group.items.slice(startIndex - 1, endIndex),
+                      // For single-item groups (like datasets), don't apply pagination slicing
+                      items:
+                        group.items.length === 1
+                          ? group.items
+                          : group.items.slice(startIndex - 1, endIndex),
                     },
                     isExpanded,
                     currentPage,

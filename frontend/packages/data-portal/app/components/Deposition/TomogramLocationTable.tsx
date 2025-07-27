@@ -19,6 +19,7 @@ interface TomogramLocationTableProps {
   expandedRuns: Record<string, Record<string, boolean>>
   onRunToggle: (location: string, runName: string) => void
   onRunPageChange: (location: string, runName: string, newPage: number) => void
+  currentGroupPage?: number // Page from GroupedAccordion for runs pagination
 }
 
 export function TomogramLocationTable({
@@ -28,10 +29,11 @@ export function TomogramLocationTable({
   expandedRuns,
   onRunToggle,
   onRunPageChange,
+  currentGroupPage,
 }: TomogramLocationTableProps) {
   const { t } = useI18n()
   const { depositedLocation } = locationData
-  const currentPage = pagination[depositedLocation] || 1
+  const currentPage = currentGroupPage || pagination[depositedLocation] || 1
   const pageSize = 10
 
   // Paginate runs
