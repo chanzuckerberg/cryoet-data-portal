@@ -60,9 +60,7 @@ export function DepositionGroupByControl() {
 function useGroupByOptions(): SingleButtonDefinition[] {
   const { t } = useI18n()
   const { annotationsCount, deposition } = useDepositionById()
-  const { data: datasets = [], isLoading } = useDatasetsForDeposition(
-    deposition?.id,
-  )
+  const { datasets = [], isLoading } = useDatasetsForDeposition(deposition?.id)
 
   return useMemo(() => {
     const groupCounts = {

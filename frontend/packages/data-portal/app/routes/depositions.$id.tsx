@@ -32,6 +32,7 @@ import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { DepositionTab, useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
+import { useOrganismPagination } from 'app/hooks/useOrganismPagination'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import {
   useDepositionHistory,
@@ -204,6 +205,13 @@ export default function DepositionByIdPage() {
     deserialize: (value) => (value as GroupByOption) || GroupByOption.None,
   })
 
+  // Use organism pagination when grouped by organism
+  const organismPagination = useOrganismPagination(
+    isExpandDepositions && groupBy === GroupByOption.Organism
+      ? deposition.id
+      : undefined,
+  )
+
   return (
     <TablePageLayout
       title={t('depositedData')}
@@ -237,12 +245,32 @@ export default function DepositionByIdPage() {
           Header: isExpandDepositions ? TableCountHeader : undefined,
 
           table: isExpandDepositions ? (
-            <DepositionTableRenderer />
+            <DepositionTableRenderer
+              organisms={
+                groupBy === GroupByOption.Organism
+                  ? organismPagination.organisms
+                  : undefined
+              }
+              organismCounts={
+                groupBy === GroupByOption.Organism
+                  ? organismPagination.organismCounts
+                  : undefined
+              }
+              isOrganismsLoading={
+                groupBy === GroupByOption.Organism
+                  ? organismPagination.isLoading
+                  : false
+              }
+            />
           ) : (
             <DatasetsTable />
           ),
 
-          totalCount: match({ isExpandDepositions, tab })
+          totalCount: match({ isExpandDepositions, tab, groupBy })
+            .with(
+              { isExpandDepositions: true, groupBy: GroupByOption.Organism },
+              () => organismPagination.totalOrganismCount,
+            )
             .with(
               { isExpandDepositions: true, tab: DepositionTab.Annotations },
               () => annotationsCount,
@@ -254,7 +282,11 @@ export default function DepositionByIdPage() {
             .otherwise(() => totalDatasetsCount),
 
           // TODO replace annotations and tomograms with filtered counts
-          filteredCount: match({ isExpandDepositions, tab })
+          filteredCount: match({ isExpandDepositions, tab, groupBy })
+            .with(
+              { isExpandDepositions: true, groupBy: GroupByOption.Organism },
+              () => organismPagination.filteredOrganismCount,
+            )
             .with(
               { isExpandDepositions: true, tab: DepositionTab.Annotations },
               () => annotationsCount,

@@ -10,6 +10,7 @@ import { useAnnotationNameColumn } from 'app/components/AnnotationTable/useAnnot
 import { useShapeTypeColumn } from 'app/components/AnnotationTable/useShapeTypeColumn'
 import { PageTable } from 'app/components/Table'
 import { TableClassNames } from 'app/components/Table/types'
+import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
 import { DepositionAnnotationTableWidths } from 'app/constants/table'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
@@ -24,6 +25,7 @@ export function DepositionAnnotationTable({
   data,
   classes,
   getBeforeRowElement,
+  isLoading = false,
 }: {
   data: DepositionAnnotationTableData[]
   classes?: TableClassNames
@@ -31,12 +33,13 @@ export function DepositionAnnotationTable({
     table: ReactTable<DepositionAnnotationTableData>,
     row: Row<DepositionAnnotationTableData>,
   ) => ReactNode
+  isLoading?: boolean
 }) {
   const { t } = useI18n()
   const { isLoadingDebounced } = useIsLoading()
 
   const loadingAnnotations = Array.from(
-    { length: 10 },
+    { length: MAX_PER_FULLY_OPEN_ACCORDION },
     (_, index) =>
       ({
         id: index,
@@ -63,19 +66,23 @@ export function DepositionAnnotationTable({
 
   const annotationNameColumn = useAnnotationNameColumn({
     width: DepositionAnnotationTableWidths.name,
+    isLoading,
   })
 
-  const shapeTypeColumn = useShapeTypeColumn(
-    DepositionAnnotationTableWidths.objectShapeType,
-  )
+  const shapeTypeColumn = useShapeTypeColumn({
+    width: DepositionAnnotationTableWidths.objectShapeType,
+    isLoading,
+  })
 
   const methodTypeColumn = useMethodTypeColumn({
     width: DepositionAnnotationTableWidths.methodType,
+    isLoading,
   })
 
   const depositedInColumn = useDepositedInColumn<DepositionAnnotationTableData>(
     {
       width: DepositionAnnotationTableWidths.depositedIn,
+      isLoading,
 
       getDepositedInData: ({ annotation }) => ({
         datasetId: annotation?.run?.dataset?.id,
@@ -104,7 +111,7 @@ export function DepositionAnnotationTable({
 
   return (
     <PageTable
-      data={isLoadingDebounced ? loadingAnnotations : data}
+      data={isLoadingDebounced || isLoading ? loadingAnnotations : data}
       columns={columns}
       hoverType="none"
       classes={classes}
