@@ -28,15 +28,12 @@ import {
   getDepositionLegacyData,
 } from 'app/graphql/getDepositionByIdV2.server'
 import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.server'
-import { useDatasetPagination } from 'app/hooks/useDatasetPagination'
 import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
+import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
 import { useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
-import { useOrganismPagination } from 'app/hooks/useOrganismPagination'
 import { useQueryParam } from 'app/hooks/useQueryParam'
-import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
-import { useDepositionRunCounts } from 'app/queries/useDepositionRunCounts'
 import {
   useDepositionHistory,
   useSyncParamsWithState,
@@ -210,60 +207,21 @@ export default function DepositionByIdPage() {
     deserialize: (value) => (value as GroupByOption) || GroupByOption.None,
   })
 
-  // Use organism pagination when grouped by organism
-  const organismPagination = useOrganismPagination(
-    isExpandDepositions && groupBy === GroupByOption.Organism
-      ? deposition.id
-      : undefined,
-  )
-
-  // Fetch annotation counts and run counts when grouped by deposited location
-  const depositionIdForDatasets =
-    isExpandDepositions && groupBy === GroupByOption.DepositedLocation
-      ? deposition.id
-      : undefined
-
-  const { annotationCounts, datasets: allDatasets } = useDatasetsForDeposition({
-    depositionId: depositionIdForDatasets,
-    type: tab,
-  })
-
-  // Get dataset IDs for run counts
-  const datasetIds = allDatasets.map((d) => d.id)
-  const { data: runCountsData } = useDepositionRunCounts({
-    depositionId: depositionIdForDatasets,
-    datasetIds,
-    type: DataContentsType.Annotations,
-  })
-  const { data: tomoRunCountsData } = useDepositionRunCounts({
-    depositionId: depositionIdForDatasets,
-    datasetIds,
-    type: DataContentsType.Tomograms,
-  })
-
-  // Use dataset pagination when grouped by deposited location
-  const datasetPagination = useDatasetPagination({
-    depositionId: depositionIdForDatasets,
-    annotationCounts,
-    runCounts: runCountsData?.runCounts,
-    tomogramRunCounts: tomoRunCountsData?.runCounts,
+  // Use consolidated hook for all grouping scenarios
+  const groupedData = useDepositionGroupedData({
+    depositionId: deposition.id,
+    groupBy: groupBy || GroupByOption.None,
+    tab,
+    enabled: isExpandDepositions,
   })
 
   // Conditional no results component based on loading states
   const noFilteredResultsComponent = match({
     isExpandDepositions,
-    tab,
     groupBy,
   })
-    .with({ isExpandDepositions: true, groupBy: GroupByOption.Organism }, () =>
-      !organismPagination.isLoading ? <NoFilteredResults /> : null,
-    )
-    .with(
-      {
-        isExpandDepositions: true,
-        groupBy: GroupByOption.DepositedLocation,
-      },
-      () => (!datasetPagination.isLoading ? <NoFilteredResults /> : null),
+    .with({ isExpandDepositions: true }, () =>
+      !groupedData.isLoading ? <NoFilteredResults /> : null,
     )
     .otherwise(() => <NoFilteredResults />)
 
@@ -303,27 +261,40 @@ export default function DepositionByIdPage() {
             <DepositionTableRenderer
               organisms={
                 groupBy === GroupByOption.Organism
-                  ? organismPagination.organisms
+                  ? groupedData.organisms.map((org) => org.name)
                   : undefined
               }
               organismCounts={
                 groupBy === GroupByOption.Organism
-                  ? organismPagination.organismCounts
+                  ? groupedData.counts.organisms
                   : undefined
               }
-              isOrganismsLoading={
-                groupBy === GroupByOption.Organism
-                  ? organismPagination.isLoading
-                  : false
-              }
+              isOrganismsLoading={groupedData.isLoading}
               datasets={
                 groupBy === GroupByOption.DepositedLocation
-                  ? datasetPagination.datasets
+                  ? groupedData.datasets
                   : undefined
               }
               datasetCounts={
                 groupBy === GroupByOption.DepositedLocation
-                  ? datasetPagination.datasetCounts
+                  ? groupedData.datasets.reduce(
+                      (acc, dataset) => {
+                        acc[dataset.id] = {
+                          runCount: dataset.runCount,
+                          annotationCount: dataset.annotationCount,
+                          tomogramRunCount: dataset.tomogramRunCount,
+                        }
+                        return acc
+                      },
+                      {} as Record<
+                        number,
+                        {
+                          runCount: number
+                          annotationCount: number
+                          tomogramRunCount: number
+                        }
+                      >,
+                    )
                   : undefined
               }
             />
@@ -334,14 +305,14 @@ export default function DepositionByIdPage() {
           totalCount: match({ isExpandDepositions, tab, groupBy })
             .with(
               { isExpandDepositions: true, groupBy: GroupByOption.Organism },
-              () => organismPagination.totalOrganismCount,
+              () => groupedData.organisms.length,
             )
             .with(
               {
                 isExpandDepositions: true,
                 groupBy: GroupByOption.DepositedLocation,
               },
-              () => datasetPagination.totalDatasetCount,
+              () => groupedData.datasets.length,
             )
             .with(
               { isExpandDepositions: true, tab: DataContentsType.Annotations },
@@ -357,14 +328,14 @@ export default function DepositionByIdPage() {
           filteredCount: match({ isExpandDepositions, tab, groupBy })
             .with(
               { isExpandDepositions: true, groupBy: GroupByOption.Organism },
-              () => organismPagination.filteredOrganismCount,
+              () => groupedData.organisms.length,
             )
             .with(
               {
                 isExpandDepositions: true,
                 groupBy: GroupByOption.DepositedLocation,
               },
-              () => datasetPagination.filteredDatasetCount,
+              () => groupedData.datasets.length,
             )
             .with(
               { isExpandDepositions: true, tab: DataContentsType.Annotations },

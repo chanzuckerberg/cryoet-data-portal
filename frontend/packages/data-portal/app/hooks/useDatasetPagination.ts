@@ -4,14 +4,12 @@ import { useMemo } from 'react'
 import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
+import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
 import { useDepositionTab } from 'app/hooks/useDepositionTab'
-import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
+import { GroupByOption } from 'app/types/depositionTypes'
 
 interface UseDatasetPaginationProps {
   depositionId: number | undefined
-  annotationCounts?: Record<number, number>
-  runCounts?: Record<number, number>
-  tomogramRunCounts?: Record<number, number>
 }
 
 interface UseDatasetPaginationReturn {
@@ -54,9 +52,6 @@ interface UseDatasetPaginationReturn {
  */
 export function useDatasetPagination({
   depositionId,
-  annotationCounts,
-  runCounts,
-  tomogramRunCounts,
 }: UseDatasetPaginationProps): UseDatasetPaginationReturn {
   const [searchParams] = useSearchParams()
   const [tab] = useDepositionTab()
@@ -73,11 +68,17 @@ export function useDatasetPagination({
     return filters
   }, [searchParams])
 
-  // Fetch all datasets for the deposition
-  const { datasets = [], isLoading } = useDatasetsForDeposition({
-    depositionId,
-    type: tab,
-  })
+  // Fetch all datasets for the deposition with embedded counts
+  const { datasets, isLoading } = useDepositionGroupedData(
+    {
+      depositionId,
+      groupBy: GroupByOption.DepositedLocation,
+      tab,
+    },
+    {
+      fetchRunCounts: true, // Need run counts for display
+    },
+  )
 
   return useMemo(() => {
     if (isLoading || !datasets.length) {
@@ -118,16 +119,16 @@ export function useDatasetPagination({
     const endIndex = startIndex + MAX_PER_PAGE
     const paginatedDatasets = filteredDatasets.slice(startIndex, endIndex)
 
-    // Create dataset counts map with run and annotation counts
+    // Create dataset counts map from embedded counts in datasets
     const datasetCounts: Record<
       number,
       { runCount: number; annotationCount: number; tomogramRunCount: number }
     > = {}
     datasets.forEach((dataset) => {
       datasetCounts[dataset.id] = {
-        runCount: runCounts?.[dataset.id] || 0,
-        annotationCount: annotationCounts?.[dataset.id] || 0,
-        tomogramRunCount: tomogramRunCounts?.[dataset.id] || 0,
+        runCount: dataset.runCount,
+        annotationCount: dataset.annotationCount,
+        tomogramRunCount: dataset.tomogramRunCount,
       }
     })
 
@@ -138,13 +139,5 @@ export function useDatasetPagination({
       datasetCounts,
       isLoading: false,
     }
-  }, [
-    datasets,
-    currentFilters,
-    currentPage,
-    isLoading,
-    annotationCounts,
-    runCounts,
-    tomogramRunCounts,
-  ])
+  }, [datasets, currentFilters, currentPage, isLoading])
 }

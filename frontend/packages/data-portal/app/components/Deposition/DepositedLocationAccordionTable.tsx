@@ -2,14 +2,15 @@ import { useState } from 'react'
 
 import { GroupedAccordion, GroupedData } from 'app/components/GroupedAccordion'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
+import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
 import { useI18n } from 'app/hooks/useI18n'
-import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 import {
   AnnotationRowData,
   DepositedLocationData,
   TomogramRowData,
 } from 'app/types/deposition'
 import { DataContentsType } from 'app/types/deposition-queries'
+import { GroupByOption } from 'app/types/depositionTypes'
 
 import { LocationTable } from './LocationTable'
 import { SkeletonAccordion } from './SkeletonAccordion'
@@ -81,10 +82,16 @@ export function DepositedLocationAccordionTable({
   }
 
   // Fetch datasets for skeleton loading state
-  const { isLoading: isDatasetsLoading } = useDatasetsForDeposition({
-    depositionId,
-    type: tab,
-  })
+  const { isLoading: isDatasetsLoading } = useDepositionGroupedData(
+    {
+      depositionId,
+      groupBy: GroupByOption.DepositedLocation,
+      tab,
+    },
+    {
+      fetchRunCounts: false, // Only need loading state
+    },
+  )
 
   // Early return if no datasets - component expects real data
   if (!datasets) {

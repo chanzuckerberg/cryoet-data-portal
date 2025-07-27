@@ -4,8 +4,9 @@ import { useMemo } from 'react'
 import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
+import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
 import { useDepositionTab } from 'app/hooks/useDepositionTab'
-import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
+import { GroupByOption } from 'app/types/depositionTypes'
 import { isDefined } from 'app/utils/nullish'
 
 interface UseOrganismPaginationReturn {
@@ -55,14 +56,18 @@ export function useOrganismPagination(
   }, [searchParams])
 
   // Fetch all datasets and organism counts for the deposition
-  const {
-    datasets = [],
-    organismCounts = {},
-    isLoading,
-  } = useDatasetsForDeposition({
-    depositionId,
-    type: tab,
-  })
+  const { datasets, counts, isLoading } = useDepositionGroupedData(
+    {
+      depositionId,
+      groupBy: GroupByOption.Organism,
+      tab,
+    },
+    {
+      fetchRunCounts: true, // Need run counts for display
+    },
+  )
+
+  const organismCounts = counts.organisms
 
   return useMemo(() => {
     if (isLoading || !datasets.length) {
