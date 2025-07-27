@@ -14,6 +14,7 @@ import { useTomogramActionsColumn } from 'app/components/TomogramsTable/useTomog
 import { useTomogramKeyPhotoColumn } from 'app/components/TomogramsTable/useTomogramKeyPhotoColumn'
 import { useTomogramNameColumn } from 'app/components/TomogramsTable/useTomogramNameColumn'
 import { useVoxelSpacingColumn } from 'app/components/TomogramsTable/useVoxelSpacingColumn'
+import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { DepositionTomogramTableWidths } from 'app/constants/table'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
@@ -25,6 +26,8 @@ export function DepositionTomogramTable({
   data,
   classes,
   getBeforeRowElement,
+  isLoading = false,
+  loadingSkeletonCount = MAX_PER_PAGE,
 }: {
   data: DepositionTomogramTableData[]
   classes?: TableClassNames
@@ -32,12 +35,14 @@ export function DepositionTomogramTable({
     table: ReactTable<DepositionTomogramTableData>,
     row: Row<DepositionTomogramTableData>,
   ) => ReactNode
+  isLoading?: boolean
+  loadingSkeletonCount?: number
 }) {
   const { t } = useI18n()
   const { isLoadingDebounced } = useIsLoading()
 
-  const loadingAnnotations = Array.from(
-    { length: 10 },
+  const loadingTomograms = Array.from(
+    { length: loadingSkeletonCount },
     (_, index) =>
       ({
         id: index,
@@ -56,28 +61,34 @@ export function DepositionTomogramTable({
       }) as DepositionTomogramTableData,
   )
 
-  const keyPhotoColumn = useTomogramKeyPhotoColumn(
-    DepositionTomogramTableWidths.photo,
-  )
+  const keyPhotoColumn = useTomogramKeyPhotoColumn({
+    width: DepositionTomogramTableWidths.photo,
+    isLoading,
+  })
 
   const tomogramNameColumn = useTomogramNameColumn({
     width: DepositionTomogramTableWidths.name,
+    isLoading,
   })
 
-  const voxelSpacingColumn = useVoxelSpacingColumn(
-    DepositionTomogramTableWidths.voxelSpacing,
-  )
+  const voxelSpacingColumn = useVoxelSpacingColumn({
+    width: DepositionTomogramTableWidths.voxelSpacing,
+    isLoading,
+  })
 
-  const reconstructionMethodColumn = useReconstructionMethodColumn(
-    DepositionTomogramTableWidths.reconstructionMethod,
-  )
+  const reconstructionMethodColumn = useReconstructionMethodColumn({
+    width: DepositionTomogramTableWidths.reconstructionMethod,
+    isLoading,
+  })
 
-  const postProcessingColumn = usePostProcessingColumn(
-    DepositionTomogramTableWidths.postProcessing,
-  )
+  const postProcessingColumn = usePostProcessingColumn({
+    width: DepositionTomogramTableWidths.postProcessing,
+    isLoading,
+  })
 
   const depositedInColumn = useDepositedInColumn<DepositionTomogramTableData>({
     width: DepositionTomogramTableWidths.depositedIn,
+    isLoading,
 
     getDepositedInData: ({ run }) => ({
       datasetId: run?.dataset?.id,
@@ -122,7 +133,7 @@ export function DepositionTomogramTable({
 
   return (
     <PageTable
-      data={isLoadingDebounced ? loadingAnnotations : data}
+      data={isLoadingDebounced || isLoading ? loadingTomograms : data}
       columns={columns}
       hoverType="none"
       classes={classes}

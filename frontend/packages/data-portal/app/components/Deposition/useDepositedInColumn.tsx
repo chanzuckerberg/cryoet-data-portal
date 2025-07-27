@@ -30,7 +30,10 @@ export function useDepositedInColumn<T>({
     cell: ({ row: { original } }) => (
       <TableCell
         renderLoadingSkeleton={() => (
-          <Skeleton className="w-[200px]" variant="text" />
+          <>
+            <Skeleton className="w-[200px]" variant="text" />
+            <Skeleton className="w-[200px]" variant="text" />
+          </>
         )}
         showLoadingSkeleton={isLoading}
         width={width}
