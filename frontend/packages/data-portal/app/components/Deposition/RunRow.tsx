@@ -5,13 +5,21 @@ import { Annotation_Method_Type_Enum } from 'app/__generated_v2__/graphql'
 import { AnnotationNameTableCell } from 'app/components/AnnotationTable/AnnotationNameTableCell'
 import { PaginationControls } from 'app/components/PaginationControls'
 import { TableCell } from 'app/components/Table'
+import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
 import { useI18n } from 'app/hooks/useI18n'
+import { useAnnotationsForRunAndDeposition } from 'app/queries/useAnnotationsForRunAndDeposition'
 import { cns } from 'app/utils/cns'
 
 import { MethodTypeCell } from './MethodLinks/MethodTypeCell'
-import { RunData } from './mockDepositedLocationData'
 
-// Extended annotation data with expandable details and mock fields
+// Types for RunData and AnnotationRowData
+interface RunData<T> {
+  id: number
+  runName: string
+  items: T[]
+  annotationCount?: number
+}
+
 interface AnnotationRowData {
   id: number
   annotationName: string
@@ -31,28 +39,43 @@ interface AnnotationRowData {
 
 interface RunRowProps {
   run: RunData<AnnotationRowData>
+  depositionId: number
   annotationCount?: number
   isExpanded: boolean
   onToggle: () => void
   currentPage: number
-  totalPages: number
+  // totalPages: number // Not used when backend data is available
   onPageChange: (page: number) => void
 }
 
 export function RunRow({
   run,
+  depositionId,
   annotationCount,
   isExpanded,
   onToggle,
   currentPage,
-  totalPages,
+  // totalPages: _totalPages, // Not used when backend data is available
   onPageChange,
 }: RunRowProps) {
   const { t } = useI18n()
-  const count = annotationCount ?? run.items.length
-  const pageSize = 5
+
+  // Fetch annotations from backend when expanded
+  const { data, isLoading, error } = useAnnotationsForRunAndDeposition({
+    depositionId: isExpanded ? depositionId : undefined,
+    runId: isExpanded ? run.id : undefined,
+    page: currentPage,
+  })
+
+  // Use backend data if available, otherwise fall back to mock data
+  const totalCount =
+    data?.annotationShapesAggregate?.aggregate?.[0]?.count ??
+    annotationCount ??
+    run.items.length
+  const pageSize = MAX_PER_FULLY_OPEN_ACCORDION
   const startIndex = (currentPage - 1) * pageSize
-  const endIndex = startIndex + pageSize
+  const endIndex = Math.min(startIndex + pageSize, totalCount)
+  const calculatedTotalPages = Math.ceil(totalCount / pageSize)
 
   return (
     <Fragment key={run.runName}>
@@ -82,11 +105,11 @@ export function RunRow({
               {isExpanded ? (
                 <PaginationControls
                   currentPage={currentPage}
-                  totalPages={totalPages}
+                  totalPages={calculatedTotalPages}
                   onPageChange={onPageChange}
                   startIndex={startIndex}
                   endIndex={endIndex}
-                  totalItems={count}
+                  totalItems={totalCount}
                   itemLabel={t('annotation')}
                   itemsLabel={t('annotations')}
                 />
@@ -97,7 +120,8 @@ export function RunRow({
                     'text-light-sds-color-semantic-base-text-secondary',
                   )}
                 >
-                  {count} {count === 1 ? t('annotation') : t('annotations')}
+                  {totalCount}{' '}
+                  {totalCount === 1 ? t('annotation') : t('annotations')}
                 </span>
               )}
             </div>
@@ -108,11 +132,51 @@ export function RunRow({
       {/* Expanded annotation rows */}
       {isExpanded &&
         (() => {
-          const paginatedAnnotations = run.items.slice(startIndex, endIndex)
+          // Show loading state
+          if (isLoading) {
+            return (
+              <TableRow className="border-b border-light-sds-color-semantic-base-divider">
+                <CellComponent colSpan={3}>
+                  <div className="pl-sds-xl py-sds-m text-light-sds-color-semantic-base-text-secondary">
+                    Loading annotations...
+                  </div>
+                </CellComponent>
+              </TableRow>
+            )
+          }
+
+          // Show error state
+          if (error) {
+            return (
+              <TableRow className="border-b border-light-sds-color-semantic-base-divider">
+                <CellComponent colSpan={3}>
+                  <div className="pl-sds-xl py-sds-m text-sds-color-primitive-red-600">
+                    Error loading annotations
+                  </div>
+                </CellComponent>
+              </TableRow>
+            )
+          }
+
+          // Transform backend data to component format or use mock data
+          const annotations = data?.annotationShapes
+            ? data.annotationShapes.map((shape) => ({
+                id: shape.annotation?.id ?? shape.id,
+                annotationName: shape.annotation?.objectName ?? '',
+                shapeType: shape.shapeType ?? '',
+                methodType: shape.annotation?.methodType ?? '',
+                depositedIn: '',
+                depositedLocation: '',
+                runName: run.runName,
+                objectName: shape.annotation?.objectName,
+                groundTruthStatus: shape.annotation?.groundTruthStatus,
+                s3Path: shape.annotationFiles?.edges?.[0]?.node?.s3Path,
+              }))
+            : run.items.slice(startIndex, endIndex)
 
           return (
             <>
-              {paginatedAnnotations.map((annotation) => (
+              {annotations.map((annotation) => (
                 <TableRow
                   key={`${run.runName}-${annotation.id}`}
                   className="border-b border-light-sds-color-semantic-base-divider"
@@ -137,7 +201,6 @@ export function RunRow({
                       annotation.methodType as Annotation_Method_Type_Enum
                     }
                   />
-                  <TableCell />
                 </TableRow>
               ))}
             </>

@@ -127,6 +127,7 @@ export function LocationTable({
               <RunRow
                 key={run.runName}
                 run={run}
+                depositionId={depositionId}
                 isExpanded={isRunExpanded}
                 onToggle={() => onRunToggle(depositedLocation, run.runName)}
                 currentPage={runCurrentPage}
