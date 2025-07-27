@@ -19,15 +19,10 @@ import { Fragment, ReactNode } from 'react'
 import { ErrorBoundary } from 'app/components/ErrorBoundary'
 import { cns } from 'app/utils/cns'
 
+import { TableClassNames } from './types'
+
 export interface TableProps<T> {
-  classes?: {
-    body?: string
-    cell?: string
-    container?: string
-    headerCell?: string
-    table?: string
-    row?: string
-  }
+  classes?: TableClassNames
   columns: ColumnDef<T>[]
   data: T[]
   tableProps?: SDSTableProps
