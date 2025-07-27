@@ -204,6 +204,10 @@ export function LocationAccordion<
               expandedRuns={expandedRuns}
               onRunToggle={onRunToggle}
               onRunPageChange={onRunPageChange}
+              depositionId={0} // Mock data scenario
+              datasetId={0} // Mock data scenario
+              datasetTitle={depositedLocation}
+              isExpanded={isExpanded}
             />
           )}
         </div>

@@ -3,6 +3,8 @@ import TableContainer from '@mui/material/TableContainer'
 
 import { CellHeader } from 'app/components/Table'
 import { useI18n } from 'app/hooks/useI18n'
+import { useDepositionAnnoRunsForDataset } from 'app/queries/useDepositionAnnoRunsForDataset'
+import { transformBackendRunsToComponentFormat } from 'app/utils/deposition'
 
 import {
   DepositedLocationData,
@@ -35,6 +37,12 @@ interface LocationTableProps {
   expandedRuns: Record<string, Record<string, boolean>>
   onRunToggle: (location: string, runName: string) => void
   onRunPageChange: (location: string, runName: string, newPage: number) => void
+  // New props for backend integration
+  depositionId: number
+  datasetId: number
+  datasetTitle: string
+  isExpanded: boolean
+  currentGroupPage?: number // Page from GroupedAccordion for runs pagination
 }
 
 export function LocationTable({
@@ -44,18 +52,53 @@ export function LocationTable({
   expandedRuns,
   onRunToggle,
   onRunPageChange,
+  depositionId,
+  datasetId,
+  datasetTitle,
+  isExpanded,
+  currentGroupPage,
 }: LocationTableProps) {
   const { t } = useI18n()
-  const { depositedLocation } = locationData
-  const currentPage = pagination[depositedLocation] || 1
-  const pageSize = 10
 
-  // Paginate runs
-  const paginatedRuns = paginateRunData(
-    locationData.runs,
-    currentPage,
-    pageSize,
-  )
+  // Use the hook to fetch backend data when expanded
+  const {
+    data: backendData,
+    isLoading,
+    error,
+  } = useDepositionAnnoRunsForDataset({
+    depositionId: isExpanded ? depositionId : undefined,
+    datasetId: isExpanded ? datasetId : undefined,
+    page: currentGroupPage || pagination[datasetTitle] || 1,
+  })
+
+  // Determine which data to use - backend data if available, otherwise fallback to locationData
+  const dataToUse = backendData?.runs
+    ? transformBackendRunsToComponentFormat(backendData.runs, datasetTitle)
+    : locationData
+
+  const { depositedLocation } = dataToUse
+
+  // Show loading state while fetching backend data
+  if (isExpanded && isLoading) {
+    return <div className="p-4 text-center">Loading runs...</div>
+  }
+
+  // Show error state if backend fetch failed
+  if (isExpanded && error) {
+    return (
+      <div className="p-4 text-center text-red-600">Error loading runs</div>
+    )
+  }
+
+  // When using backend data, runs are already paginated by the API
+  // When using mock data, we need to paginate locally
+  const runsToDisplay = backendData?.runs
+    ? dataToUse.runs // Already paginated by backend
+    : paginateRunData(
+        dataToUse.runs,
+        currentGroupPage || pagination[depositedLocation] || 1,
+        10,
+      ).items
 
   return (
     <TableContainer className="!px-0">
@@ -68,11 +111,10 @@ export function LocationTable({
             {t('objectShapeType')}
           </CellHeader>
           <CellHeader style={{ width: '160px' }}>{t('methodType')}</CellHeader>
-          <CellHeader> </CellHeader>
         </TableHeader>
         <tbody>
-          {paginatedRuns.items.map((run) => {
-            const isExpanded =
+          {runsToDisplay.map((run) => {
+            const isRunExpanded =
               expandedRuns[depositedLocation]?.[run.runName] || false
 
             // Calculate pagination variables for this run
@@ -85,13 +127,14 @@ export function LocationTable({
               <RunRow
                 key={run.runName}
                 run={run}
-                isExpanded={isExpanded}
+                isExpanded={isRunExpanded}
                 onToggle={() => onRunToggle(depositedLocation, run.runName)}
                 currentPage={runCurrentPage}
                 totalPages={totalRunPages}
                 onPageChange={(newPage) =>
                   onRunPageChange(depositedLocation, run.runName, newPage)
                 }
+                annotationCount={run.annotationCount}
               />
             )
           })}
