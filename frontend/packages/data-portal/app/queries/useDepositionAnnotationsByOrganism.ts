@@ -1,21 +1,17 @@
 import { useQuery } from '@tanstack/react-query'
 
 import type { GetDepositionAnnotationsQuery } from 'app/__generated_v2__/graphql'
-import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
 
 interface UseDepositionAnnotationsByOrganismParams {
   depositionId: number | undefined
   organismName: string | undefined
   page?: number
-  pageSize?: number
+  pageSize: number
   enabled?: boolean
 }
 
 interface AnnotationsByOrganismResponse {
   annotations: GetDepositionAnnotationsQuery['annotationShapes']
-  page: number
-  pageSize: number
-  hasNextPage: boolean
 }
 
 /**
@@ -26,7 +22,7 @@ export function useDepositionAnnotationsByOrganism({
   depositionId,
   organismName,
   page = 1,
-  pageSize = MAX_PER_FULLY_OPEN_ACCORDION,
+  pageSize,
   enabled = true,
 }: UseDepositionAnnotationsByOrganismParams) {
   return useQuery({
@@ -41,9 +37,6 @@ export function useDepositionAnnotationsByOrganism({
       if (!depositionId || !organismName) {
         return {
           annotations: [],
-          page: 1,
-          pageSize,
-          hasNextPage: false,
         }
       }
 

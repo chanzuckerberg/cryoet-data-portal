@@ -2,6 +2,7 @@ import type { LoaderFunctionArgs } from '@remix-run/server-runtime'
 
 import { apolloClientV2 } from 'app/apollo.server'
 import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
+import { QueryParams } from 'app/constants/query'
 import { getDepositionAnnotations } from 'app/graphql/getDepositionAnnotationsV2.server'
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -34,10 +35,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   try {
     // Create URL search params with organism filter
     const params = new URLSearchParams()
-    params.set(
-      'filter.sampleAndExperimentConditions.organismNames',
-      organismName,
-    )
+    params.set(QueryParams.Organism, organismName)
 
     const { data } = await getDepositionAnnotations({
       client: apolloClientV2,
@@ -47,18 +45,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
       params,
     })
 
-    // Calculate total count for pagination
-    // Since we're using limitOffset, we need to make an additional query or estimate
-    // For now, we'll return the data and handle pagination in the frontend
     const annotations = data.annotationShapes || []
-    const hasNextPage = annotations.length === pageSizeNumber
 
     return new Response(
       JSON.stringify({
         annotations,
-        page: pageNumber,
-        pageSize: pageSizeNumber,
-        hasNextPage,
       }),
       {
         headers: {
