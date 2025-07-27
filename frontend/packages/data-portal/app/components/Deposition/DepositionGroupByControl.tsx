@@ -6,16 +6,17 @@ import { useMemo } from 'react'
 
 import { QueryParams } from 'app/constants/query'
 import { useDepositionById } from 'app/hooks/useDepositionById'
-import { I18nTFunction, useI18n } from 'app/hooks/useI18n'
+import { useI18n } from 'app/hooks/useI18n'
 import { useQueryParam } from 'app/hooks/useQueryParam'
+import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 import { GroupByOption } from 'app/types/depositionTypes'
 import { cns } from 'app/utils/cns'
+import { isDefined } from 'app/utils/nullish'
 
 import styles from './DepositionGroupByControl.module.css'
 
 export function DepositionGroupByControl() {
   const { t } = useI18n()
-  const { annotationsCount } = useDepositionById()
 
   const [groupBy, setGroupBy] = useQueryParam<GroupByOption>(
     QueryParams.GroupBy,
@@ -27,7 +28,7 @@ export function DepositionGroupByControl() {
     },
   )
 
-  const groupByOptions = useGroupByOptions(annotationsCount, t)
+  const groupByOptions = useGroupByOptions()
 
   const handleGroupByChange = (value: GroupByOption) => {
     setGroupBy(value)
@@ -56,22 +57,29 @@ export function DepositionGroupByControl() {
   )
 }
 
-function useGroupByOptions(
-  annotationsCount: number,
-  t: I18nTFunction,
-): SingleButtonDefinition[] {
+function useGroupByOptions(): SingleButtonDefinition[] {
+  const { t } = useI18n()
+  const { annotationsCount, deposition } = useDepositionById()
+  const { data: datasets = [], isLoading } = useDatasetsForDeposition(
+    deposition?.id,
+  )
+
   return useMemo(() => {
     const groupCounts = {
-      [GroupByOption.None]: 0,
       [GroupByOption.DepositedLocation]: 0,
       [GroupByOption.Organism]: 0,
     }
 
-    if (annotationsCount > 0) {
-      groupCounts[GroupByOption.None] = 1
-      // TODO: Calculate actual counts based on grouped data
-      groupCounts[GroupByOption.DepositedLocation] = 20
-      groupCounts[GroupByOption.Organism] = 1
+    if (annotationsCount > 0 && !isLoading) {
+      // Calculate actual dataset count (unique datasets)
+      groupCounts[GroupByOption.DepositedLocation] = new Set(
+        datasets.map((dataset) => dataset.id),
+      ).size
+
+      // Calculate actual organism count (unique organism names)
+      groupCounts[GroupByOption.Organism] = new Set(
+        datasets.map((dataset) => dataset.organismName).filter(isDefined),
+      ).size
     }
 
     return [
@@ -111,5 +119,5 @@ function useGroupByOptions(
         ),
       },
     ]
-  }, [annotationsCount, t])
+  }, [annotationsCount, datasets, isLoading, t])
 }
