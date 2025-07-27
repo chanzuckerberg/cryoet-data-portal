@@ -1,4 +1,5 @@
 import { CellComponent, Icon, TableRow } from '@czi-sds/components'
+import Skeleton from '@mui/material/Skeleton'
 import { Fragment } from 'react'
 
 import { Annotation_Method_Type_Enum } from 'app/__generated_v2__/graphql'
@@ -11,6 +12,28 @@ import { useAnnotationsForRunAndDeposition } from 'app/queries/useAnnotationsFor
 import { cns } from 'app/utils/cns'
 
 import { MethodTypeCell } from './MethodLinks/MethodTypeCell'
+
+// Skeleton component for annotation loading state
+function SkeletonAnnotationRow() {
+  return (
+    <TableRow className="border-b border-light-sds-color-semantic-base-divider">
+      <TableCell width={{ width: 350 }}>
+        <div className="pl-sds-xl">
+          <Skeleton variant="text" width={200} height={20} />
+          <Skeleton variant="text" width={200} height={20} />
+        </div>
+      </TableCell>
+
+      <TableCell width={{ width: 160 }}>
+        <Skeleton variant="text" width={80} height={20} />
+      </TableCell>
+
+      <TableCell width={{ width: 160 }}>
+        <Skeleton variant="text" width={100} height={20} />
+      </TableCell>
+    </TableRow>
+  )
+}
 
 // Types for RunData and AnnotationRowData
 interface RunData<T> {
@@ -135,13 +158,16 @@ export function RunRow({
           // Show loading state
           if (isLoading) {
             return (
-              <TableRow className="border-b border-light-sds-color-semantic-base-divider">
-                <CellComponent colSpan={3}>
-                  <div className="pl-sds-xl py-sds-m text-light-sds-color-semantic-base-text-secondary">
-                    Loading annotations...
-                  </div>
-                </CellComponent>
-              </TableRow>
+              <>
+                {Array.from(
+                  { length: MAX_PER_FULLY_OPEN_ACCORDION },
+                  (_, index) => (
+                    <SkeletonAnnotationRow
+                      key={`annotation-skeleton-${index}`}
+                    />
+                  ),
+                )}
+              </>
             )
           }
 
