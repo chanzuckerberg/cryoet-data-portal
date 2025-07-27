@@ -1,4 +1,5 @@
 import { GroupedAccordion, GroupedData } from 'app/components/GroupedAccordion'
+import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import {
   AnnotationRowData,
   useAnnotationData,
@@ -13,6 +14,7 @@ import { TomogramLocationTable } from './TomogramLocationTable'
 
 interface DepositedLocationAccordionTableProps {
   tab: DepositionTab
+  depositionId: number
   datasets:
     | Array<{
         id: number
@@ -59,12 +61,16 @@ function transformLocationData<T extends AnnotationRowData | TomogramRowData>(
 
 export function DepositedLocationAccordionTable({
   tab,
+  depositionId,
   datasets,
   datasetCounts,
 }: DepositedLocationAccordionTableProps) {
   const { t } = useI18n()
+  // Only use mock data when no real datasets are provided
   const annotationData = useAnnotationData(tab)
   const tomogramData = useTomogramData(tab)
+
+  // Remove direct fetch logic - now handled by LocationTable component
 
   // Use the appropriate data based on the tab
   const {
@@ -79,14 +85,14 @@ export function DepositedLocationAccordionTable({
   // Transform data for GroupedAccordion
   const transformedData = (() => {
     if (datasets) {
-      // Transform real datasets to GroupedData format
+      // Transform real datasets to GroupedData format - no mock data needed
       return datasets.map((dataset) => ({
         groupKey: dataset.id.toString(),
         groupLabel: dataset.title,
         items: [
           {
             depositedLocation: dataset.title,
-            runs: [], // Will be populated when accordion expands
+            runs: [], // Will be populated when accordion expands with real backend data
           },
         ] as DepositedLocationData<AnnotationRowData | TomogramRowData>[],
         itemCount: datasetCounts?.[dataset.id]?.annotationCount || 0,
@@ -95,7 +101,7 @@ export function DepositedLocationAccordionTable({
         },
       }))
     }
-    // Fall back to mock data if no datasets provided
+    // Fall back to mock data only if no datasets provided
     return tab === DepositionTab.Tomograms
       ? transformLocationData(
           locationData as DepositedLocationData<TomogramRowData>[],
@@ -106,10 +112,10 @@ export function DepositedLocationAccordionTable({
   })()
 
   // Determine labels based on tab
-  const itemLabelSingular =
-    tab === DepositionTab.Tomograms ? t('tomogram') : t('annotation')
-  const itemLabelPlural =
-    tab === DepositionTab.Tomograms ? t('tomograms') : t('annotations')
+  // const itemLabelSingular =
+  //   tab === DepositionTab.Tomograms ? t('tomogram') : t('annotation')
+  // const itemLabelPlural =
+  //   tab === DepositionTab.Tomograms ? t('tomograms') : t('annotations')
 
   // Render function that directly renders the table
   const renderContent = (
@@ -117,11 +123,54 @@ export function DepositedLocationAccordionTable({
       DepositedLocationData<AnnotationRowData | TomogramRowData>
     >,
     isExpanded: boolean,
+    currentPage: number,
   ) => {
     if (!isExpanded || group.items.length === 0) {
       return null
     }
 
+    // Handle real datasets with backend integration
+    if (datasets) {
+      const datasetId = parseInt(group.groupKey, 10)
+      const dataset = datasets.find((d) => d.id === datasetId)
+
+      if (dataset) {
+        if (tab === DepositionTab.Tomograms) {
+          // Keep existing tomogram logic for now
+          const locData = group.items[0]
+          return (
+            <TomogramLocationTable
+              locationData={locData as DepositedLocationData<TomogramRowData>}
+              pagination={pagination}
+              runPagination={runPagination}
+              expandedRuns={expandedRuns}
+              onRunToggle={handleRunToggle}
+              onRunPageChange={handleRunPageChange}
+              currentGroupPage={currentPage}
+            />
+          )
+        }
+
+        // For annotations, use the new integrated LocationTable
+        return (
+          <LocationTable
+            locationData={{ depositedLocation: dataset.title, runs: [] }}
+            pagination={pagination}
+            runPagination={runPagination}
+            expandedRuns={expandedRuns}
+            onRunToggle={handleRunToggle}
+            onRunPageChange={handleRunPageChange}
+            depositionId={depositionId}
+            datasetId={datasetId}
+            datasetTitle={dataset.title}
+            isExpanded={isExpanded}
+            currentGroupPage={currentPage}
+          />
+        )
+      }
+    }
+
+    // Fallback to mock data for scenarios without real datasets
     const locData = group.items[0]
 
     if (tab === DepositionTab.Tomograms) {
@@ -133,6 +182,7 @@ export function DepositedLocationAccordionTable({
           expandedRuns={expandedRuns}
           onRunToggle={handleRunToggle}
           onRunPageChange={handleRunPageChange}
+          currentGroupPage={currentPage}
         />
       )
     }
@@ -145,6 +195,11 @@ export function DepositedLocationAccordionTable({
         expandedRuns={expandedRuns}
         onRunToggle={handleRunToggle}
         onRunPageChange={handleRunPageChange}
+        depositionId={depositionId}
+        datasetId={0} // Use 0 for mock data scenarios
+        datasetTitle={locData.depositedLocation}
+        isExpanded={isExpanded}
+        currentGroupPage={currentPage}
       />
     )
   }
@@ -153,11 +208,11 @@ export function DepositedLocationAccordionTable({
     <GroupedAccordion
       data={transformedData}
       renderContent={renderContent}
-      itemLabelSingular={itemLabelSingular}
-      itemLabelPlural={itemLabelPlural}
-      getItemCount={(group) => group.itemCount || 0}
-      pageSize={100} // Show all locations at once
-      showPagination={false} // No pagination at location level
+      itemLabelSingular={t('run')}
+      itemLabelPlural={t('runs')}
+      getItemCount={(group) => (group.metadata?.runCount as number) || 0}
+      pageSize={MAX_PER_ACCORDION_GROUP} // Use the standard accordion pagination size (10)
+      showPagination // Enable pagination at location level
       externalLinkBuilder={(group) => `/location/${group.groupKey}`}
       accordionClassName=""
     />
