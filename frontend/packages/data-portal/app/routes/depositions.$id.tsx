@@ -132,8 +132,9 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       () =>
         getDepositionTomograms({
           client,
-          id,
           page,
+          depositionId: id,
+          params: url.searchParams,
         }),
     )
     .otherwise(() => Promise.resolve({ data: undefined }))
