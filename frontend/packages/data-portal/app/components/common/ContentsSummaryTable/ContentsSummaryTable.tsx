@@ -122,7 +122,7 @@ export function ContentsSummaryTable({
       </h3>
       {runs && (
         <h5 className="mb-sds-s text-sds-body-xxxs-400-wide ">
-          {t('totalRunsCount', { count: runs })}
+          ({t('totalRunsCount', { count: runs })})
         </h5>
       )}
       <div className="grid grid-cols-2 text-sds-body-xxxs-400-wide">

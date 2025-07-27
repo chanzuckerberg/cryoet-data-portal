@@ -572,5 +572,5 @@
   "authorHandles": "Author Handle(s)",
   "paginationPreviousPage": "Previous page",
   "paginationNextPage": "Next page",
-  "totalRunsCount": "(Total {{count}} runs)"
+  "totalRunsCount": "Total {{count}} runs"
 }
