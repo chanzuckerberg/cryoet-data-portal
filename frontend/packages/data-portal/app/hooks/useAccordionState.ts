@@ -1,9 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import {
-  MAX_PER_ACCORDION_GROUP,
-  MAX_PER_FULLY_OPEN_ACCORDION,
-} from 'app/constants/pagination'
+import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
 
 /**
  * Hook for managing accordion expanded states and pagination
@@ -66,100 +63,5 @@ export function useAccordionState(
     getCurrentPage,
     isExpanded,
     defaultPageSize,
-  }
-}
-
-/**
- * Extended hook for managing nested accordion states
- * Used by components that have accordions within accordions (e.g., locations with runs)
- */
-export function useNestedAccordionState(
-  defaultPageSize = MAX_PER_ACCORDION_GROUP,
-) {
-  // Use base accordion state for top-level groups
-  const topLevel = useAccordionState(defaultPageSize)
-
-  // Track expanded state for nested groups (e.g., runs within locations)
-  const [expandedNestedGroups, setExpandedNestedGroups] = useState<
-    Record<string, Record<string, boolean>>
-  >({})
-
-  // Track pagination state for nested groups
-  const [nestedPagination, setNestedPagination] = useState<
-    Record<string, Record<string, number>>
-  >({})
-
-  // Toggle handler for nested groups
-  const toggleNestedGroup = useCallback(
-    (parentKey: string, nestedKey: string, expanded: boolean) => {
-      setExpandedNestedGroups((prev) => ({
-        ...prev,
-        [parentKey]: {
-          ...prev[parentKey],
-          [nestedKey]: expanded,
-        },
-      }))
-    },
-    [],
-  )
-
-  // Update pagination for a nested group
-  const updateNestedPagination = useCallback(
-    (parentKey: string, nestedKey: string, page: number) => {
-      setNestedPagination((prev) => ({
-        ...prev,
-        [parentKey]: {
-          ...prev[parentKey],
-          [nestedKey]: page,
-        },
-      }))
-    },
-    [],
-  )
-
-  // Reset pagination for a nested group
-  const resetNestedPagination = useCallback(
-    (parentKey: string, nestedKey?: string) => {
-      setNestedPagination((prev) => {
-        const newPagination = { ...prev }
-        if (nestedKey && newPagination[parentKey]) {
-          delete newPagination[parentKey][nestedKey]
-          if (Object.keys(newPagination[parentKey]).length === 0) {
-            delete newPagination[parentKey]
-          }
-        } else {
-          delete newPagination[parentKey]
-        }
-        return newPagination
-      })
-    },
-    [],
-  )
-
-  // Helper to get current page for a nested group
-  const getNestedCurrentPage = useCallback(
-    (parentKey: string, nestedKey: string) =>
-      nestedPagination[parentKey]?.[nestedKey] || 1,
-    [nestedPagination],
-  )
-
-  // Helper to check if a nested group is expanded
-  const isNestedExpanded = useCallback(
-    (parentKey: string, nestedKey: string) =>
-      expandedNestedGroups[parentKey]?.[nestedKey] || false,
-    [expandedNestedGroups],
-  )
-
-  return {
-    // Top-level state
-    ...topLevel,
-    // Nested state
-    expandedNestedGroups,
-    toggleNestedGroup,
-    nestedPagination,
-    updateNestedPagination,
-    resetNestedPagination,
-    getNestedCurrentPage,
-    isNestedExpanded,
   }
 }
