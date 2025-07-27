@@ -24,87 +24,20 @@ import type {
 } from '@apollo/client'
 
 import { gql } from 'app/__generated_v2__'
-import type {
-  GetDepositionAnnotationsForDatasetsQuery,
-  GetDepositionAnnotationsQuery,
-} from 'app/__generated_v2__/graphql'
+import type { GetDepositionAnnotationsQuery } from 'app/__generated_v2__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { getFilterState } from 'app/hooks/useFilter'
+
+import { getDepositionAnnotationsFilter } from './common'
 
 const GET_DEPOSITION_ANNOTATIONS = gql(`
   query GetDepositionAnnotations(
-    $id: Int!,
+    $depositionAnnotationsFilter: AnnotationShapeWhereClause!,
     $limit: Int!,
     $offset: Int!,
   ) {
     annotationShapes(
-      where: {
-        annotation: {
-          depositionId: {
-            _eq: $id
-          },
-        },
-      },
-
-      limitOffset: {
-        limit: $limit,
-        offset: $offset,
-      },
-    ) {
-      id
-      shapeType
-
-      annotation {
-        groundTruthStatus
-        id
-        methodType
-        objectName
-
-        run {
-          id
-          name
-
-          dataset {
-            id
-            title
-          }
-        }
-      }
-
-      annotationFiles(first: 1) {
-        edges {
-          node {
-            s3Path
-          }
-        }
-      }
-
-    }
-  }
-`)
-
-// I expect there's some way to pass a `null` sort of datasetIds filter that instead
-// will not perform a filter on dataset ids, but I didn't have time to explore how, so
-// // for now we just have two queries.
-const GET_DEPOSITION_ANNOTATIONS_FOR_DATASETS = gql(`
-  query GetDepositionAnnotationsForDatasets(
-    $depositionId: Int!,
-    $datasetIds: [Int!]!,
-    $limit: Int!,
-    $offset: Int!,
-  ) {
-    annotationShapes(
-      where: {
-        annotation: {
-          depositionId: {
-            _eq: $depositionId
-          },
-          run: {
-            datasetId:{
-              _in: $datasetIds
-            },
-          },
-        },
-      },
+      where: $depositionAnnotationsFilter,
       limitOffset: {
         limit: $limit,
         offset: $offset,
@@ -160,41 +93,29 @@ const GET_DEPOSITION_ANNOTATIONS_FOR_DATASETS = gql(`
 
 export async function getDepositionAnnotations({
   client,
-  id,
-  page,
-}: {
-  client: ApolloClient<NormalizedCacheObject>
-  id: number
-  page: number
-}): Promise<ApolloQueryResult<GetDepositionAnnotationsQuery>> {
-  return client.query({
-    query: GET_DEPOSITION_ANNOTATIONS,
-    variables: {
-      id,
-      limit: MAX_PER_PAGE,
-      offset: (page - 1) * MAX_PER_PAGE,
-    },
-  })
-}
-
-export async function getDepositionAnnotationsForDatasets({
-  client,
   depositionId,
-  datasetIds,
-  pageSize = MAX_PER_PAGE,
   page,
+  pageSize = MAX_PER_PAGE,
+  params = new URLSearchParams(),
 }: {
   client: ApolloClient<NormalizedCacheObject>
   depositionId: number
-  datasetIds: number[]
-  pageSize?: number
   page: number
-}): Promise<ApolloQueryResult<GetDepositionAnnotationsForDatasetsQuery>> {
+  pageSize?: number
+  params?: URLSearchParams
+}): Promise<ApolloQueryResult<GetDepositionAnnotationsQuery>> {
+  const filterState = getFilterState(params)
+  const datasetIds = filterState.ids.datasets
+    .map((id) => parseInt(id))
+    .filter((id) => Number.isInteger(id))
+
   return client.query({
-    query: GET_DEPOSITION_ANNOTATIONS_FOR_DATASETS,
+    query: GET_DEPOSITION_ANNOTATIONS,
     variables: {
-      depositionId,
-      datasetIds,
+      depositionAnnotationsFilter: getDepositionAnnotationsFilter({
+        depositionId,
+        datasetIds: datasetIds.length > 0 ? datasetIds : undefined,
+      }),
       limit: pageSize,
       offset: (page - 1) * pageSize,
     },

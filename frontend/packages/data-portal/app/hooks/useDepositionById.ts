@@ -4,12 +4,6 @@ import { useTypedLoaderData } from 'remix-typedjson'
 import {
   Annotation_Method_Link_Type_Enum,
   Annotation_Method_Type_Enum,
-  GetAnnotationsForRunAndDepositionQuery,
-  GetDatasetsForDepositionViaAnnotationShapesQuery,
-  GetDatasetsForDepositionViaTomogramsQuery,
-  GetDepositionAnnoRunCountsForDatasetsQuery,
-  GetDepositionAnnoRunsForDatasetQuery,
-  GetDepositionAnnotationsForDatasetsQuery,
   type GetDepositionAnnotationsQuery,
   GetDepositionByIdV2Query,
   type GetDepositionTomogramsQuery,
@@ -33,16 +27,7 @@ export function useDepositionById() {
     v2: GetDepositionByIdV2Query
     annotations?: GetDepositionAnnotationsQuery
     tomograms?: GetDepositionTomogramsQuery
-    datasetsViaTomograms: GetDatasetsForDepositionViaTomogramsQuery
-    datasetsViaAnnotationShapes: GetDatasetsForDepositionViaAnnotationShapesQuery
-    runCountsForDepositionAnnotations: GetDepositionAnnoRunCountsForDatasetsQuery
-    annotationsForRunInDeposition: GetAnnotationsForRunAndDepositionQuery
-    runsAnnoForDepositionInDataset: GetDepositionAnnoRunsForDatasetQuery
-    annotationShapesForDatasets: GetDepositionAnnotationsForDatasetsQuery
   }>()
-
-  // BEGIN VINCENT_WORK, giant block of example query outputs, definitely not for deploy!
-  // END VINCENT_WORK
 
   const annotationMethods: AnnotationMethodMetadata[] = useMemo(() => {
     const annotationMethodToMetadata = new Map<
