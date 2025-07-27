@@ -4,15 +4,15 @@ import { useTypedLoaderData } from 'remix-typedjson'
 import {
   Annotation_Method_Link_Type_Enum,
   Annotation_Method_Type_Enum,
+  GetAnnotationsForRunAndDepositionQuery,
   GetDatasetsForDepositionViaAnnotationShapesQuery,
   GetDatasetsForDepositionViaTomogramsQuery,
-  type GetDepositionAnnotationsQuery,
   GetDepositionAnnoRunCountsForDatasetsQuery,
   GetDepositionAnnoRunsForDatasetQuery,
   GetDepositionAnnotationsForDatasetsQuery,
+  type GetDepositionAnnotationsQuery,
   GetDepositionByIdV2Query,
   type GetDepositionTomogramsQuery,
-  GetAnnotationsForRunAndDepositionQuery,
 } from 'app/__generated_v2__/graphql'
 import { METHOD_TYPE_ORDER } from 'app/constants/methodTypes'
 
@@ -29,17 +29,7 @@ export interface AnnotationMethodMetadata {
 }
 
 export function useDepositionById() {
-  const {
-    v2,
-    annotations,
-    tomograms,
-    datasetsViaTomograms,
-    datasetsViaAnnotationShapes,
-    runCountsForDepositionAnnotations,
-    runsAnnoForDepositionInDataset,
-    annotationsForRunInDeposition,
-    annotationShapesForDatasets,
-  } = useTypedLoaderData<{
+  const { v2, annotations, tomograms } = useTypedLoaderData<{
     v2: GetDepositionByIdV2Query
     annotations?: GetDepositionAnnotationsQuery
     tomograms?: GetDepositionTomogramsQuery
@@ -52,12 +42,6 @@ export function useDepositionById() {
   }>()
 
   // BEGIN VINCENT_WORK, giant block of example query outputs, definitely not for deploy!
-  console.log("datasetsViaTomograms", datasetsViaTomograms); // REMOVE
-  console.log("datasetsViaAnnotationShapes", datasetsViaAnnotationShapes); // REMOVE
-  console.log("runCountsForDepositionAnnotations", runCountsForDepositionAnnotations); // REMOVE
-  console.log("runsAnnoForDepositionInDataset", runsAnnoForDepositionInDataset); // REMOVE
-  console.log("annotationsForRunInDeposition", annotationsForRunInDeposition); // REMOVE
-  console.log("annotationShapesForDatasets", annotationShapesForDatasets); // REMOVE
   // END VINCENT_WORK
 
   const annotationMethods: AnnotationMethodMetadata[] = useMemo(() => {

@@ -22,18 +22,18 @@ import { TableCountHeader } from 'app/components/TablePageLayout/TableCountHeade
 import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 import {
+  getDatasetsForDepositionViaAnnotationShapes,
+  getDatasetsForDepositionViaTomograms,
+} from 'app/graphql/getDatasetsForDepositionV2.server'
+import {
   getDepositionAnnotations,
   getDepositionAnnotationsForDatasets,
 } from 'app/graphql/getDepositionAnnotationsV2.server'
 import { getDepositionByIdV2 } from 'app/graphql/getDepositionByIdV2.server'
 import {
-  getDatasetsForDepositionViaTomograms,
-  getDatasetsForDepositionViaAnnotationShapes,
-} from 'app/graphql/getDatasetsForDepositionV2.server'
-import {
+  getAnnotationsForRunAndDeposition,
   getDepositionAnnoRunCountsForDatasets,
   getDepositionAnnoRunsForDataset,
-  getAnnotationsForRunAndDeposition,
 } from 'app/graphql/getDepositionRunsV2.server'
 import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.server'
 import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
@@ -81,60 +81,66 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   })
 
   // BEGIN VINCENT_WORK, giant block of example query usage, not for real use!
-  const { data: datasetsViaTomograms } = await getDatasetsForDepositionViaTomograms({
-    client,
-    depositionId: id,
-  })
+  const { data: datasetsViaTomograms } =
+    await getDatasetsForDepositionViaTomograms({
+      client,
+      depositionId: id,
+    })
 
-  const { data: datasetsViaAnnotationShapes } = await getDatasetsForDepositionViaAnnotationShapes({
-    client,
-    depositionId: id,
-  })
+  const { data: datasetsViaAnnotationShapes } =
+    await getDatasetsForDepositionViaAnnotationShapes({
+      client,
+      depositionId: id,
+    })
 
   // PROGRAMATICALLY PULL the following array based on boiling down one of the two
   // `datasetsViaBlah` results into the datasets associated with either anno or tomo flavor.
   // Sorry I didn't have time to write the code for extracting these dataset ids!
   const EXAMPLE_ALL_DATASET_IDS = [10301, 10302]
-  const { data: runCountsForDepositionAnnotations} = await getDepositionAnnoRunCountsForDatasets({
-    client,
-    depositionId: id,
-    datasetIds: EXAMPLE_ALL_DATASET_IDS,
-  })
+  const { data: runCountsForDepositionAnnotations } =
+    await getDepositionAnnoRunCountsForDatasets({
+      client,
+      depositionId: id,
+      datasetIds: EXAMPLE_ALL_DATASET_IDS,
+    })
 
   // MANUALLY SET the following dataset id based on deposition you are dev-ing against.
   // This is a rough example of how user interaction would go. For deposition id 10314,
   // the user has chosen to expand the accordion of dataset id 10301, so now showing
   // the run info for that dataset.
   const EXAMPLE_DATASET_ID = 10301
-  const { data: runsAnnoForDepositionInDataset } = await getDepositionAnnoRunsForDataset({
-    client,
-    depositionId: id,
-    datasetId: EXAMPLE_DATASET_ID,
-    page: 1,
-  })
+  const { data: runsAnnoForDepositionInDataset } =
+    await getDepositionAnnoRunsForDataset({
+      client,
+      depositionId: id,
+      datasetId: EXAMPLE_DATASET_ID,
+      page: 1,
+    })
 
   // MANUALLY SET the following run id based on depostion+dataset you are dev-ing against.
   // This is a rough example of how user interaction would go. For deposition id 10314,
   // the user has chosen to expand the accordion of dataset id 10301, and within that,
   // has selected run id 14070, so now showing annotations for that run in the deposition.
   const EXAMPLE_RUN_ID = 14070
-  const { data: annotationsForRunInDeposition } = await getAnnotationsForRunAndDeposition({
-    client,
-    depositionId: id,
-    runId: EXAMPLE_RUN_ID,
-    page: 1,
-  })
+  const { data: annotationsForRunInDeposition } =
+    await getAnnotationsForRunAndDeposition({
+      client,
+      depositionId: id,
+      runId: EXAMPLE_RUN_ID,
+      page: 1,
+    })
 
   // MANUALLY SET the following array based on deposition you are dev-ing against.
   // Here as a rough example of how user interaction would go. For deposition id 10314
   // it has two datasets of id 10301 and 10302, so we choose some subset of those.
   const EXAMPLE_FILTERED_DATASET_IDS = [10301]
-  const { data: annotationShapesForDatasets } = await getDepositionAnnotationsForDatasets({
-    client,
-    depositionId: id,
-    datasetIds: EXAMPLE_FILTERED_DATASET_IDS,
-    page: 1,
-  })
+  const { data: annotationShapesForDatasets } =
+    await getDepositionAnnotationsForDatasets({
+      client,
+      depositionId: id,
+      datasetIds: EXAMPLE_FILTERED_DATASET_IDS,
+      page: 1,
+    })
   // END VINCENT_WORK for requests to GraphQL
   // There is more Vincent stuff put in to the response and the use hook
 
