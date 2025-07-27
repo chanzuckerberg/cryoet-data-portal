@@ -80,9 +80,9 @@ export function DepositionTable() {
                 renderLoadingSkeleton={false}
                 width={DepositionTableWidths.photo}
               >
-                <Link to={depositionUrl} className="max-w-[134px] self-start">
+                <Link to={depositionUrl} className="self-start">
                   <KeyPhoto
-                    className="max-w-[134px]"
+                    variant="table"
                     title={deposition.title}
                     src={deposition.keyPhotoThumbnailUrl ?? undefined}
                     loading={isLoadingDebounced}

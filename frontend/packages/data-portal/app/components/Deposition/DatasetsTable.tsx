@@ -92,9 +92,9 @@ export function DatasetsTable() {
                 renderLoadingSkeleton={false}
                 width={DepositionPageDatasetTableWidths.photo}
               >
-                <Link to={datasetUrl} className="max-w-[134px] self-start">
+                <Link to={datasetUrl} className="self-start">
                   <KeyPhoto
-                    className="max-w-[134px]"
+                    variant="table"
                     title={dataset.title}
                     src={getValue() ?? undefined}
                     loading={isLoadingDebounced}
