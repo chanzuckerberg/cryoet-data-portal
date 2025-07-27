@@ -120,8 +120,6 @@ export function LocationTable({
             // Calculate pagination variables for this run
             const runCurrentPage =
               runPagination[depositedLocation]?.[run.runName] || 1
-            const runPageSize = 5
-            const totalRunPages = Math.ceil(run.items.length / runPageSize)
 
             return (
               <RunRow
@@ -131,7 +129,6 @@ export function LocationTable({
                 isExpanded={isRunExpanded}
                 onToggle={() => onRunToggle(depositedLocation, run.runName)}
                 currentPage={runCurrentPage}
-                totalPages={totalRunPages}
                 onPageChange={(newPage) =>
                   onRunPageChange(depositedLocation, run.runName, newPage)
                 }
