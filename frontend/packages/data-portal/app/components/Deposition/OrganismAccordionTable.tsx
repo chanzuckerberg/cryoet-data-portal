@@ -133,12 +133,9 @@ function OrganismAnnotationContent({
     )
   }
 
+  // Don't show "no data" message here since there's already a higher-level "No results found"
   if (!isLoading && (!data || data.annotations.length === 0)) {
-    return (
-      <div className="p-4 text-center text-gray-500">
-        No annotations found for this organism
-      </div>
-    )
+    return null
   }
 
   return (
@@ -147,6 +144,7 @@ function OrganismAnnotationContent({
       classes={{
         container: '!px-0',
         table: '[&_thead]:border-b-0',
+        row: 'last:border-none',
       }}
       isLoading={isLoading}
       loadingSkeletonCount={MAX_PER_FULLY_OPEN_ACCORDION}

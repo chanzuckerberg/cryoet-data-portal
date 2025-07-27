@@ -26,7 +26,7 @@ function SkeletonRunRow() {
     <TableRow
       className={cns(
         '!bg-light-sds-color-semantic-base-background-secondary',
-        'border border-light-sds-color-semantic-base-border-secondary',
+        'last:border-none',
       )}
     >
       <CellComponent colSpan={3} className="!p-2">
@@ -114,7 +114,7 @@ export function LocationTable({
   if (isExpanded && isLoading) {
     return (
       <TableContainer className="!px-0">
-        <SDSTable className="!table-fixed">
+        <SDSTable className="!table-fixed [&>thead]:border-none">
           <TableHeader>
             <CellHeader style={{ width: '350px' }}>
               {t('annotationName')}
@@ -155,16 +155,19 @@ export function LocationTable({
 
   return (
     <TableContainer className="!px-0">
-      <SDSTable className="!table-fixed">
+      <SDSTable className="!table-fixed [&>thead]:border-none">
         <TableHeader>
           <CellHeader style={{ width: '350px' }}>
             {t('annotationName')}
           </CellHeader>
+
           <CellHeader style={{ width: '160px' }}>
             {t('objectShapeType')}
           </CellHeader>
+
           <CellHeader style={{ width: '160px' }}>{t('methodType')}</CellHeader>
         </TableHeader>
+
         <tbody>
           {runsToDisplay.map((run) => {
             const isRunExpanded =
