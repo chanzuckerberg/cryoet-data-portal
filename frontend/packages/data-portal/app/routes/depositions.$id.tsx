@@ -239,6 +239,24 @@ export default function DepositionByIdPage() {
     runCountsData?.runCounts,
   )
 
+  // Conditional no results component based on loading states
+  const noFilteredResultsComponent = match({
+    isExpandDepositions,
+    tab,
+    groupBy,
+  })
+    .with({ isExpandDepositions: true, groupBy: GroupByOption.Organism }, () =>
+      !organismPagination.isLoading ? <NoFilteredResults /> : null,
+    )
+    .with(
+      {
+        isExpandDepositions: true,
+        groupBy: GroupByOption.DepositedLocation,
+      },
+      () => (!datasetPagination.isLoading ? <NoFilteredResults /> : null),
+    )
+    .otherwise(() => <NoFilteredResults />)
+
   return (
     <TablePageLayout
       title={t('depositedData')}
@@ -267,7 +285,7 @@ export default function DepositionByIdPage() {
               () => t('tomograms'),
             )
             .otherwise(() => t('datasets')),
-          noFilteredResults: <NoFilteredResults />,
+          noFilteredResults: noFilteredResultsComponent,
           title: t('datasetsWithDepositionData'),
           Header: isExpandDepositions ? TableCountHeader : undefined,
 
