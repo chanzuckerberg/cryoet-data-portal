@@ -109,6 +109,7 @@ interface AnnotationRowData {
 }
 
 interface RunData<T> {
+  id: number
   runName: string
   items: T[]
   annotationCount?: number
@@ -129,6 +130,7 @@ export function transformBackendRunsToComponentFormat(
   return {
     depositedLocation: datasetTitle,
     runs: backendRuns.map((run) => ({
+      id: run.id,
       runName: run.name,
       items: [], // Empty for unexpanded case
       annotationCount: run.annotationsAggregate?.aggregate?.[0]?.count || 0,
