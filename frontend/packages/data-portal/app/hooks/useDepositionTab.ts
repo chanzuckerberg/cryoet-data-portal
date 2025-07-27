@@ -1,15 +1,11 @@
 import { QueryParams } from 'app/constants/query'
+import { DataContentsType } from 'app/types/deposition-queries'
 
 import { useQueryParam } from './useQueryParam'
 
-export enum DepositionTab {
-  Annotations = 'annotations',
-  Tomograms = 'tomograms',
-}
-
 export function useDepositionTab() {
-  return useQueryParam<DepositionTab, DepositionTab>(
+  return useQueryParam<DataContentsType, DataContentsType>(
     QueryParams.DepositionTab,
-    { defaultValue: DepositionTab.Annotations },
+    { defaultValue: DataContentsType.Annotations },
   )
 }
