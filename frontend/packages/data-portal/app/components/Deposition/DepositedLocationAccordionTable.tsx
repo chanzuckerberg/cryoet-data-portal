@@ -2,14 +2,16 @@ import { useState } from 'react'
 
 import { GroupedAccordion, GroupedData } from 'app/components/GroupedAccordion'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
-import { AnnotationRowData } from 'app/hooks/useAnnotationData'
 import { DepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
-import { TomogramRowData } from 'app/hooks/useTomogramData'
 import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
+import {
+  AnnotationRowData,
+  DepositedLocationData,
+  TomogramRowData,
+} from 'app/types/deposition'
 
 import { LocationTable } from './LocationTable'
-import { DepositedLocationData } from './mockDepositedLocationData'
 import { SkeletonAccordion } from './SkeletonAccordion'
 import { TomogramLocationTable } from './TomogramLocationTable'
 
@@ -113,7 +115,7 @@ export function DepositedLocationAccordionTable({
       items: [
         {
           depositedLocation: dataset.title,
-          runs: [], // Will be populated when accordion expands with real backend data
+          runs: [],
         },
       ] as DepositedLocationData<AnnotationRowData | TomogramRowData>[],
       itemCount: runCount,
@@ -124,12 +126,6 @@ export function DepositedLocationAccordionTable({
       },
     }
   })
-
-  // Determine labels based on tab
-  // const itemLabelSingular =
-  //   tab === DepositionTab.Tomograms ? t('tomogram') : t('annotation')
-  // const itemLabelPlural =
-  //   tab === DepositionTab.Tomograms ? t('tomograms') : t('annotations')
 
   // Render function that directly renders the table
   const renderContent = (
@@ -151,14 +147,8 @@ export function DepositedLocationAccordionTable({
     }
 
     if (tab === DepositionTab.Tomograms) {
-      const locData: DepositedLocationData<TomogramRowData> = {
-        depositedLocation: dataset.title,
-        runs: [], // Empty until backend data is integrated
-      }
       return (
         <TomogramLocationTable
-          locationData={locData}
-          pagination={{}} // Placeholder until updated
           runPagination={runPagination}
           expandedRuns={expandedRuns}
           onRunToggle={handleRunToggle}
@@ -173,14 +163,8 @@ export function DepositedLocationAccordionTable({
     }
 
     // For annotations, use the integrated LocationTable
-    const locData: DepositedLocationData<AnnotationRowData> = {
-      depositedLocation: dataset.title,
-      runs: [], // Empty until backend data is integrated
-    }
     return (
       <LocationTable
-        locationData={locData}
-        pagination={{}} // Placeholder until updated
         runPagination={runPagination}
         expandedRuns={expandedRuns}
         onRunToggle={handleRunToggle}

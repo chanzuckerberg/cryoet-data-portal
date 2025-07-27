@@ -90,11 +90,11 @@ export function RunRow({
     page: currentPage,
   })
 
-  // Use backend data if available, otherwise fall back to mock data
+  // Use backend data count, show 0 if not available
   const totalCount =
     data?.annotationShapesAggregate?.aggregate?.[0]?.count ??
     annotationCount ??
-    run.items.length
+    0
   const pageSize = MAX_PER_FULLY_OPEN_ACCORDION
   const startIndex = (currentPage - 1) * pageSize
   const endIndex = Math.min(startIndex + pageSize, totalCount)
@@ -185,21 +185,21 @@ export function RunRow({
             )
           }
 
-          // Transform backend data to component format or use mock data
+          // Transform backend data to component format, use empty array when no data
           const annotations = data?.annotationShapes
             ? data.annotationShapes.map((shape) => ({
                 id: shape.annotation?.id ?? shape.id,
-                annotationName: shape.annotation?.objectName ?? '',
-                shapeType: shape.shapeType ?? '',
-                methodType: shape.annotation?.methodType ?? '',
-                depositedIn: '',
-                depositedLocation: '',
+                annotationName: shape.annotation?.objectName ?? '--',
+                shapeType: shape.shapeType ?? '--',
+                methodType: shape.annotation?.methodType ?? '--',
+                depositedIn: '--',
+                depositedLocation: '--',
                 runName: run.runName,
                 objectName: shape.annotation?.objectName,
                 groundTruthStatus: shape.annotation?.groundTruthStatus,
                 s3Path: shape.annotationFiles?.edges?.[0]?.node?.s3Path,
               }))
-            : run.items.slice(startIndex, endIndex)
+            : []
 
           return (
             <>

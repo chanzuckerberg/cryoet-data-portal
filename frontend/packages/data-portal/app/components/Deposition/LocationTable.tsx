@@ -12,12 +12,7 @@ import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { useI18n } from 'app/hooks/useI18n'
 import { useDepositionAnnoRunsForDataset } from 'app/queries/useDepositionAnnoRunsForDataset'
 import { cns } from 'app/utils/cns'
-import { transformBackendRunsToComponentFormat } from 'app/utils/deposition'
 
-import {
-  DepositedLocationData,
-  paginateRunData,
-} from './mockDepositedLocationData'
 import { RunRow } from './RunRow'
 
 // Skeleton component for run loading state
@@ -44,27 +39,7 @@ function SkeletonRunRow() {
   )
 }
 
-// Extended annotation data with expandable details and mock fields
-interface AnnotationRowData {
-  id: number
-  annotationName: string
-  shapeType: string
-  methodType: string
-  depositedIn: string
-  depositedLocation: string
-  runName: string
-  // Additional fields for expanded view
-  objectName?: string
-  confidence?: number
-  description?: string
-  fileFormat?: string
-  s3Path?: string
-  groundTruthStatus?: boolean
-}
-
 interface LocationTableProps {
-  locationData: DepositedLocationData<AnnotationRowData>
-  pagination: Record<string, number>
   runPagination: Record<string, Record<string, number>>
   expandedRuns: Record<string, Record<string, boolean>>
   onRunToggle: (location: string, runName: string) => void
@@ -78,8 +53,6 @@ interface LocationTableProps {
 }
 
 export function LocationTable({
-  locationData,
-  pagination,
   runPagination,
   expandedRuns,
   onRunToggle,
@@ -93,22 +66,26 @@ export function LocationTable({
   const { t } = useI18n()
 
   // Use the hook to fetch backend data when expanded
-  const {
-    data: backendData,
-    isLoading,
-    error,
-  } = useDepositionAnnoRunsForDataset({
+  const { data, isLoading, error } = useDepositionAnnoRunsForDataset({
     depositionId: isExpanded ? depositionId : undefined,
     datasetId: isExpanded ? datasetId : undefined,
-    page: currentGroupPage || pagination[datasetTitle] || 1,
+    page: currentGroupPage || 1,
   })
 
-  // Determine which data to use - backend data if available, otherwise fallback to locationData
-  const dataToUse = backendData?.runs
-    ? transformBackendRunsToComponentFormat(backendData.runs, datasetTitle)
-    : locationData
+  // Always use backend data, show empty state when no data available
+  const locationData = data
+    ? {
+        depositedLocation: datasetTitle,
+        runs: data.runs.map((run) => ({
+          id: run.id,
+          runName: run.name ?? '--',
+          items: [], // Empty for unexpanded case
+          annotationCount: run.annotationsAggregate?.aggregate?.[0]?.count ?? 0,
+        })),
+      }
+    : { depositedLocation: datasetTitle, runs: [] }
 
-  const { depositedLocation } = dataToUse
+  const { depositedLocation } = locationData
 
   // Show loading state while fetching backend data
   if (isExpanded && isLoading) {
@@ -143,16 +120,6 @@ export function LocationTable({
     )
   }
 
-  // When using backend data, runs are already paginated by the API
-  // When using mock data, we need to paginate locally
-  const runsToDisplay = backendData?.runs
-    ? dataToUse.runs // Already paginated by backend
-    : paginateRunData(
-        dataToUse.runs,
-        currentGroupPage || pagination[depositedLocation] || 1,
-        10,
-      ).items
-
   return (
     <TableContainer className="!px-0">
       <SDSTable className="!table-fixed [&>thead]:border-none">
@@ -169,7 +136,7 @@ export function LocationTable({
         </TableHeader>
 
         <tbody>
-          {runsToDisplay.map((run) => {
+          {locationData.runs.map((run) => {
             const isRunExpanded =
               expandedRuns[depositedLocation]?.[run.runName] || false
 
