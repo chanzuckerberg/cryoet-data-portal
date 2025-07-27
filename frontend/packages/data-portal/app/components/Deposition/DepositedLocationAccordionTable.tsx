@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import { GroupedAccordion, GroupedData } from 'app/components/GroupedAccordion'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
-import { DepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
 import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 import {
@@ -10,13 +9,14 @@ import {
   DepositedLocationData,
   TomogramRowData,
 } from 'app/types/deposition'
+import { DataContentsType } from 'app/types/deposition-queries'
 
 import { LocationTable } from './LocationTable'
 import { SkeletonAccordion } from './SkeletonAccordion'
 import { TomogramLocationTable } from './TomogramLocationTable'
 
 interface DepositedLocationAccordionTableProps {
-  tab: DepositionTab
+  tab: DataContentsType
   depositionId: number
   datasets:
     | Array<{
@@ -95,9 +95,12 @@ export function DepositedLocationAccordionTable({
   if (isDatasetsLoading) {
     return (
       <div className="px-sds-xl">
-        {Array.from({ length: MAX_PER_ACCORDION_GROUP }, (_, index) => (
-          <SkeletonAccordion key={`dataset-skeleton-${index}`} />
-        ))}
+        {Array.from(
+          { length: Math.min(datasets?.length || 0, MAX_PER_ACCORDION_GROUP) },
+          (_, index) => (
+            <SkeletonAccordion key={`dataset-skeleton-${index}`} />
+          ),
+        )}
       </div>
     )
   }
@@ -105,7 +108,7 @@ export function DepositedLocationAccordionTable({
   // Transform real datasets to GroupedData format
   const transformedData = datasets.map((dataset) => {
     const runCount =
-      tab === DepositionTab.Tomograms
+      tab === DataContentsType.Tomograms
         ? datasetCounts?.[dataset.id]?.tomogramRunCount || 0
         : datasetCounts?.[dataset.id]?.runCount || 0
 
@@ -146,7 +149,7 @@ export function DepositedLocationAccordionTable({
       return null
     }
 
-    if (tab === DepositionTab.Tomograms) {
+    if (tab === DataContentsType.Tomograms) {
       return (
         <TomogramLocationTable
           runPagination={runPagination}

@@ -2,7 +2,7 @@
  * Utility functions for parsing and validating URL parameters in API endpoints
  */
 
-import { DepositionTab } from 'app/hooks/useDepositionTab'
+import { DataContentsType } from 'app/types/deposition-queries'
 
 /**
  * Parses a comma-separated string of dataset IDs into an array of numbers
@@ -56,17 +56,17 @@ export function parsePageParams(
 }
 
 /**
- * Validates that a string is a valid DepositionTab enum value
+ * Validates that a string is a valid DataContentsType enum value
  * @param tab The tab parameter to validate
- * @returns The validated DepositionTab value
+ * @returns The validated DataContentsType value
  * @throws Error if the tab value is invalid
  */
-export function validateDepositionTab(tab: string | null): DepositionTab {
+export function validateDepositionTab(tab: string | null): DataContentsType {
   if (!tab) {
-    return DepositionTab.Annotations // Default to annotations tab
+    return DataContentsType.Annotations // Default to annotations tab
   }
 
-  const validTabs = Object.values(DepositionTab) as string[]
+  const validTabs = Object.values(DataContentsType) as string[]
   if (!validTabs.includes(tab)) {
     throw new Error(
       `Invalid deposition tab: ${tab}. Valid values are: ${validTabs.join(
@@ -75,5 +75,5 @@ export function validateDepositionTab(tab: string | null): DepositionTab {
     )
   }
 
-  return tab as DepositionTab
+  return tab as DataContentsType
 }

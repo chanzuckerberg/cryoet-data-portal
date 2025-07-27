@@ -1,23 +1,14 @@
-import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
-import { DepositionTab } from 'app/hooks/useDepositionTab'
+import type {
+  DataContentsType,
+  DepositionDatasetsResponse,
+} from 'app/types/deposition-queries'
+import {
+  createDepositionQuery,
+  createEmptyResponse,
+} from 'app/utils/createDepositionQuery'
 import { isDefined } from 'app/utils/nullish'
-
-// Type for the simplified dataset structure expected by the filter component
-export interface DatasetOption {
-  id: number
-  title: string
-  organismName: string | null
-}
-
-// Type for the API response that includes organism counts
-interface DepositionDatasetsResponse {
-  datasets: DatasetOption[]
-  organismCounts: Record<string, number>
-  annotationCounts: Record<number, number>
-  tomogramCounts: Record<number, number>
-}
 
 /**
  * Hook to fetch datasets for a deposition using React Query + API route.
@@ -34,33 +25,36 @@ export function useDatasetsForDeposition({
   enabled = true,
 }: {
   depositionId: number | undefined
-  type: DepositionTab
+  type: DataContentsType
   enabled?: boolean
 }) {
-  const query = useQuery({
-    queryKey: ['deposition-datasets', depositionId, type],
-    queryFn: async (): Promise<DepositionDatasetsResponse> => {
-      if (!depositionId) {
-        return {
-          datasets: [],
-          organismCounts: {},
-          annotationCounts: {},
-          tomogramCounts: {},
-        }
+  const createQueryHook = createDepositionQuery<
+    DepositionDatasetsResponse,
+    {
+      depositionId: number | undefined
+      type: DataContentsType
+      enabled?: boolean
+    }
+  >({
+    endpoint: 'depositionDatasets',
+    queryKeyPrefix: 'deposition-datasets',
+    getQueryKeyValues: (params) => [params.depositionId, params.type],
+    getApiParams: (params) => ({
+      depositionId: params.depositionId,
+      type: params.type,
+    }),
+    getRequiredParams: (params) => ({
+      depositionId: params.depositionId,
+    }),
+    transformResponse: (data): DepositionDatasetsResponse => {
+      if (!data) {
+        return createEmptyResponse('datasets')
       }
-
-      const response = await fetch(
-        `/api/deposition-datasets?depositionId=${depositionId}&type=${type}`,
-      )
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch datasets')
-      }
-
-      return response.json() as Promise<DepositionDatasetsResponse>
+      return data as DepositionDatasetsResponse
     },
-    enabled: enabled && !!depositionId, // Only run query if enabled and depositionId is available
   })
+
+  const query = createQueryHook({ depositionId, type, enabled })
 
   const organismNames = useMemo(() => {
     if (!query.data?.datasets) return []

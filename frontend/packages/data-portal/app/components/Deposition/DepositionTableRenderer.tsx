@@ -1,7 +1,8 @@
 import { QueryParams } from 'app/constants/query'
 import { useDepositionById } from 'app/hooks/useDepositionById'
-import { DepositionTab, useDepositionTab } from 'app/hooks/useDepositionTab'
+import { useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useQueryParam } from 'app/hooks/useQueryParam'
+import { DataContentsType } from 'app/types/deposition-queries'
 import { GroupByOption } from 'app/types/depositionTypes'
 
 import { DepositedLocationAccordionTable } from './DepositedLocationAccordionTable'
@@ -68,7 +69,7 @@ export function DepositionTableRenderer({
 
   // Default flat table view
   switch (tab) {
-    case DepositionTab.Tomograms:
+    case DataContentsType.Tomograms:
       return <DepositionTomogramTable data={tomograms?.tomograms ?? []} />
 
     default:

@@ -1,24 +1,16 @@
-import { useQuery } from '@tanstack/react-query'
-
-import type {
-  GetDepositionAnnotationsQuery,
-  GetDepositionTomogramsQuery,
-} from 'app/__generated_v2__/graphql'
 import { useFilter } from 'app/hooks/useFilter'
+import type {
+  ItemsByOrganismResponse,
+  UnifiedItemsByOrganismParams,
+} from 'app/types/deposition-queries'
+import { DataContentsType } from 'app/types/deposition-queries'
+import {
+  createEmptyResponse,
+  createOrganismFilteredQuery,
+} from 'app/utils/createDepositionQuery'
 
-interface UseDepositionItemsByOrganismParams {
-  depositionId: number | undefined
-  organismName: string | undefined
-  type: 'annotation' | 'tomogram'
-  page?: number
-  pageSize: number
-  enabled?: boolean
-}
-
-interface ItemsByOrganismResponse {
-  annotations?: GetDepositionAnnotationsQuery['annotationShapes']
-  tomograms?: GetDepositionTomogramsQuery['tomograms']
-}
+interface UseDepositionItemsByOrganismParams
+  extends UnifiedItemsByOrganismParams {}
 
 /**
  * Hook to fetch deposition items (annotations or tomograms) filtered by organism name and dataset IDs.
@@ -37,45 +29,45 @@ export function useDepositionItemsByOrganism({
     ids: { datasets: datasetIds },
   } = useFilter()
 
-  return useQuery({
-    queryKey: [
-      'deposition-items-by-organism',
-      depositionId,
-      organismName,
-      type,
-      page,
-      pageSize,
-      datasetIds,
+  const createQueryHook = createOrganismFilteredQuery<
+    ItemsByOrganismResponse,
+    UseDepositionItemsByOrganismParams & { datasetIds: string[] }
+  >({
+    endpoint: 'depositionItemsByOrganism',
+    queryKeyPrefix: 'deposition-items-by-organism',
+    getQueryKeyValues: (params) => [
+      params.depositionId,
+      params.organismName,
+      params.type,
+      params.page,
+      params.pageSize,
+      params.datasetIds,
     ],
-    queryFn: async (): Promise<ItemsByOrganismResponse> => {
-      if (!depositionId || !organismName) {
-        return type === 'annotation' ? { annotations: [] } : { tomograms: [] }
+    getApiParams: (params) => ({
+      depositionId: params.depositionId,
+      organismName: params.organismName,
+      type: params.type,
+      page: params.page,
+      pageSize: params.pageSize,
+      dataset_id: params.datasetIds,
+    }),
+    transformResponse: (data): ItemsByOrganismResponse => {
+      if (!data) {
+        return type === DataContentsType.Annotations
+          ? createEmptyResponse('annotations')
+          : createEmptyResponse('tomograms')
       }
-
-      const params = new URLSearchParams({
-        depositionId: String(depositionId),
-        organismName,
-        type,
-        page: String(page),
-        pageSize: String(pageSize),
-      })
-
-      // Add dataset IDs if they exist
-      datasetIds.forEach((datasetId) => {
-        params.append('dataset_id', datasetId)
-      })
-
-      const response = await fetch(
-        `/api/deposition-items-by-organism?${params.toString()}`,
-      )
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch ${type}s by organism`)
-      }
-
-      const data = (await response.json()) as ItemsByOrganismResponse
-      return data
+      return data as ItemsByOrganismResponse
     },
-    enabled: enabled && !!depositionId && !!organismName,
+  })
+
+  return createQueryHook({
+    depositionId,
+    organismName,
+    type,
+    page,
+    pageSize,
+    datasetIds,
+    enabled,
   })
 }

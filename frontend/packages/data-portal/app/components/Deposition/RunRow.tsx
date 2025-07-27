@@ -8,7 +8,8 @@ import { PaginationControls } from 'app/components/PaginationControls'
 import { TableCell } from 'app/components/Table'
 import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
 import { useI18n } from 'app/hooks/useI18n'
-import { useAnnotationsForRunAndDeposition } from 'app/queries/useAnnotationsForRunAndDeposition'
+import { useItemsForRunAndDeposition } from 'app/queries/useItemsForRunAndDeposition'
+import { DataContentsType } from 'app/types/deposition-queries'
 import { cns } from 'app/utils/cns'
 
 import { MethodTypeCell } from './MethodLinks/MethodTypeCell'
@@ -84,15 +85,18 @@ export function RunRow({
   const { t } = useI18n()
 
   // Fetch annotations from backend when expanded
-  const { data, isLoading, error } = useAnnotationsForRunAndDeposition({
+  const { data, isLoading, error } = useItemsForRunAndDeposition({
     depositionId: isExpanded ? depositionId : undefined,
     runId: isExpanded ? run.id : undefined,
+    type: DataContentsType.Annotations,
     page: currentPage,
   })
 
   // Use backend data count, show 0 if not available
   const totalCount =
-    data?.annotationShapesAggregate?.aggregate?.[0]?.count ??
+    (data && 'annotationShapesAggregate' in data
+      ? data.annotationShapesAggregate?.aggregate?.[0]?.count
+      : undefined) ??
     annotationCount ??
     0
   const pageSize = MAX_PER_FULLY_OPEN_ACCORDION
@@ -161,7 +165,9 @@ export function RunRow({
             return (
               <>
                 {Array.from(
-                  { length: MAX_PER_FULLY_OPEN_ACCORDION },
+                  {
+                    length: Math.min(totalCount, MAX_PER_FULLY_OPEN_ACCORDION),
+                  },
                   (_, index) => (
                     <SkeletonAnnotationRow
                       key={`annotation-skeleton-${index}`}
@@ -186,20 +192,21 @@ export function RunRow({
           }
 
           // Transform backend data to component format, use empty array when no data
-          const annotations = data?.annotationShapes
-            ? data.annotationShapes.map((shape) => ({
-                id: shape.annotation?.id ?? shape.id,
-                annotationName: shape.annotation?.objectName ?? '--',
-                shapeType: shape.shapeType ?? '--',
-                methodType: shape.annotation?.methodType ?? '--',
-                depositedIn: '--',
-                depositedLocation: '--',
-                runName: run.runName,
-                objectName: shape.annotation?.objectName,
-                groundTruthStatus: shape.annotation?.groundTruthStatus,
-                s3Path: shape.annotationFiles?.edges?.[0]?.node?.s3Path,
-              }))
-            : []
+          const annotations =
+            data && 'annotationShapes' in data && data.annotationShapes
+              ? data.annotationShapes.map((shape) => ({
+                  id: shape.annotation?.id ?? shape.id,
+                  annotationName: shape.annotation?.objectName ?? '--',
+                  shapeType: shape.shapeType ?? '--',
+                  methodType: shape.annotation?.methodType ?? '--',
+                  depositedIn: '--',
+                  depositedLocation: '--',
+                  runName: run.runName,
+                  objectName: shape.annotation?.objectName,
+                  groundTruthStatus: shape.annotation?.groundTruthStatus,
+                  s3Path: shape.annotationFiles?.edges?.[0]?.node?.s3Path,
+                }))
+              : []
 
           return (
             <>

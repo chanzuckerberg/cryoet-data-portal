@@ -1,32 +1,58 @@
-import { useQuery } from '@tanstack/react-query'
+import type {
+  RunCountsResponse,
+  UnifiedRunCountsParams,
+} from 'app/types/deposition-queries'
+import {
+  createDepositionQuery,
+  createEmptyResponse,
+} from 'app/utils/createDepositionQuery'
+import { getRunApiEndpoints } from 'app/utils/deposition-api'
 
-interface RunCountsResponse {
-  runCounts: Record<number, number>
-}
+/**
+ * Unified hook to fetch run counts for datasets within a deposition.
+ * Replaces the previous separate hooks for annotation and tomogram run counts.
+ *
+ * @param params - Object containing depositionId, datasetIds, type, and optional enabled flag
+ * @returns React Query result with run counts data, loading state, and error handling
+ */
+export function useDepositionRunCounts({
+  depositionId,
+  datasetIds,
+  type,
+  enabled = true,
+}: UnifiedRunCountsParams) {
+  const { countsEndpoint } = getRunApiEndpoints(type)
 
-export function useDepositionRunCounts(
-  depositionId: number | undefined,
-  datasetIds: number[],
-) {
-  return useQuery({
-    queryKey: ['deposition-run-counts', depositionId, datasetIds],
-    queryFn: async (): Promise<RunCountsResponse> => {
-      if (!depositionId || datasetIds.length === 0) {
-        return { runCounts: {} }
+  const createQueryHook = createDepositionQuery<
+    RunCountsResponse,
+    UnifiedRunCountsParams
+  >({
+    endpoint: countsEndpoint,
+    queryKeyPrefix: `deposition-${type}-run-counts`,
+    getQueryKeyValues: (params) => [
+      params.depositionId,
+      params.datasetIds.join(','),
+    ],
+    getApiParams: (params) => ({
+      depositionId: params.depositionId,
+      datasetIds: params.datasetIds.join(','),
+    }),
+    getRequiredParams: (params) => ({
+      depositionId: params.depositionId,
+      datasetIds: params.datasetIds?.length > 0 ? params.datasetIds : undefined,
+    }),
+    transformResponse: (data): RunCountsResponse => {
+      if (!data) {
+        return createEmptyResponse('counts')
       }
-
-      const response = await fetch(
-        `/api/deposition-run-counts?depositionId=${depositionId}&datasetIds=${datasetIds.join(
-          ',',
-        )}`,
-      )
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch run counts')
-      }
-
-      return response.json() as Promise<RunCountsResponse>
+      return data as RunCountsResponse
     },
-    enabled: !!depositionId && datasetIds.length > 0,
+  })
+
+  return createQueryHook({
+    depositionId,
+    datasetIds,
+    type,
+    enabled,
   })
 }

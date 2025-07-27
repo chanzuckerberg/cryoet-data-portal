@@ -11,7 +11,8 @@ import { CellHeader } from 'app/components/Table'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { DepositionTomogramTableWidths } from 'app/constants/table'
 import { useI18n } from 'app/hooks/useI18n'
-import { useDepositionTomoRunsForDataset } from 'app/queries/useDepositionTomoRunsForDataset'
+import { useDepositionRunsForDataset } from 'app/queries/useDepositionRunsForDataset'
+import { DataContentsType } from 'app/types/deposition-queries'
 import { cns } from 'app/utils/cns'
 
 import { TomogramRow } from './TomogramRow'
@@ -67,9 +68,10 @@ export function TomogramLocationTable({
   const { t } = useI18n()
 
   // Use the hook to fetch backend data when expanded
-  const { data, isLoading, error } = useDepositionTomoRunsForDataset({
+  const { data, isLoading, error } = useDepositionRunsForDataset({
     depositionId: isExpanded ? depositionId : undefined,
     datasetId: isExpanded ? datasetId : undefined,
+    type: DataContentsType.Tomograms,
     page: currentGroupPage || 1,
   })
 
@@ -81,7 +83,10 @@ export function TomogramLocationTable({
           id: run.id,
           runName: run.name ?? '--',
           items: [], // Empty for unexpanded case
-          tomogramCount: run.tomogramsAggregate?.aggregate?.[0]?.count ?? 0,
+          tomogramCount:
+            'tomogramsAggregate' in run
+              ? run.tomogramsAggregate?.aggregate?.[0]?.count ?? 0
+              : 0,
         })),
       }
     : { depositedLocation: datasetTitle, runs: [] }

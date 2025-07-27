@@ -4,7 +4,7 @@ import {
   getDatasetsForDepositionViaAnnotationShapes,
   getDatasetsForDepositionViaTomograms,
 } from 'app/graphql/getDatasetsForDepositionV2.server'
-import { DepositionTab } from 'app/hooks/useDepositionTab'
+import { DataContentsType } from 'app/types/deposition-queries'
 
 interface DatasetOption {
   id: number
@@ -28,7 +28,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return new Response('Missing or invalid depositionId', { status: 400 })
   }
 
-  if (!type || !Object.values(DepositionTab).includes(type as DepositionTab)) {
+  if (
+    !type ||
+    !Object.values(DataContentsType).includes(type as DataContentsType)
+  ) {
     return new Response(
       'Missing or invalid type parameter. Must be "annotations" or "tomograms"',
       { status: 400 },
@@ -38,7 +41,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   try {
     const depositionIdNum = Number(depositionId)
     const isAnnotationsType =
-      (type as DepositionTab) === DepositionTab.Annotations
+      (type as DataContentsType) === DataContentsType.Annotations
 
     // Transform data to DatasetOption[] and aggregate organism counts
     const datasets: DatasetOption[] = []

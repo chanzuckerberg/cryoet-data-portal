@@ -1,6 +1,7 @@
 import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
 import { useI18n } from 'app/hooks/useI18n'
-import { useDepositionAnnotationsByOrganism } from 'app/queries/useDepositionAnnotationsByOrganism'
+import { useDepositionItemsByOrganism } from 'app/queries/useDepositionItemsByOrganism'
+import { DataContentsType } from 'app/types/deposition-queries'
 
 import { DepositionAnnotationTable } from './DepositionAnnotationTable'
 import { OrganismDataContent } from './OrganismDataContent'
@@ -17,9 +18,10 @@ export function OrganismAnnotationContent({
   page,
 }: OrganismAnnotationContentProps) {
   const { t } = useI18n()
-  const { data, isLoading, error } = useDepositionAnnotationsByOrganism({
+  const { data, isLoading, error } = useDepositionItemsByOrganism({
     depositionId,
     organismName,
+    type: DataContentsType.Annotations,
     page,
     pageSize: MAX_PER_FULLY_OPEN_ACCORDION,
   })

@@ -1,4 +1,4 @@
-import { DepositionTab } from 'app/hooks/useDepositionTab'
+import { DataContentsType } from 'app/types/deposition-queries'
 
 import {
   parseDatasetIds,
@@ -69,9 +69,11 @@ describe('param-parsers', () => {
   describe('validateDepositionTab', () => {
     it('should return valid tab values', () => {
       expect(validateDepositionTab('annotations')).toBe(
-        DepositionTab.Annotations,
+        DataContentsType.Annotations,
       )
-      expect(validateDepositionTab('tomograms')).toBe(DepositionTab.Tomograms)
+      expect(validateDepositionTab('tomograms')).toBe(
+        DataContentsType.Tomograms,
+      )
     })
 
     it('should throw error for invalid tab', () => {
@@ -81,8 +83,8 @@ describe('param-parsers', () => {
     })
 
     it('should return default for null/empty', () => {
-      expect(validateDepositionTab(null)).toBe(DepositionTab.Annotations)
-      expect(validateDepositionTab('')).toBe(DepositionTab.Annotations)
+      expect(validateDepositionTab(null)).toBe(DataContentsType.Annotations)
+      expect(validateDepositionTab('')).toBe(DataContentsType.Annotations)
     })
   })
 })

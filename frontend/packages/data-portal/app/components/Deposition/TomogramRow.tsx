@@ -7,8 +7,9 @@ import { TableCell } from 'app/components/Table'
 import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
 import { DepositionTomogramTableWidths } from 'app/constants/table'
 import { useI18n } from 'app/hooks/useI18n'
-import { useTomogramsForRunAndDeposition } from 'app/queries/useTomogramsForRunAndDeposition'
+import { useItemsForRunAndDeposition } from 'app/queries/useItemsForRunAndDeposition'
 import { RunData, TomogramRowData } from 'app/types/deposition'
+import { DataContentsType } from 'app/types/deposition-queries'
 import { cns } from 'app/utils/cns'
 
 import { DepositedInTableCell } from './DepositedInTableCell'
@@ -84,15 +85,20 @@ export function TomogramRow({
   const { t } = useI18n()
 
   // Fetch tomograms from backend when expanded
-  const { data, isLoading, error } = useTomogramsForRunAndDeposition({
+  const { data, isLoading, error } = useItemsForRunAndDeposition({
     depositionId: isExpanded ? depositionId : undefined,
     runId: isExpanded ? run.id : undefined,
+    type: DataContentsType.Tomograms,
     page: currentPage,
   })
 
   // Use backend data count, show 0 if not available
   const totalCount =
-    data?.tomogramsAggregate?.aggregate?.[0]?.count ?? run.tomogramCount ?? 0
+    (data && 'tomogramsAggregate' in data
+      ? data.tomogramsAggregate?.aggregate?.[0]?.count
+      : undefined) ??
+    run.tomogramCount ??
+    0
   const pageSize = MAX_PER_FULLY_OPEN_ACCORDION
   const startIndex = (currentPage - 1) * pageSize
   const endIndex = Math.min(startIndex + pageSize, totalCount)
@@ -158,7 +164,9 @@ export function TomogramRow({
             return (
               <>
                 {Array.from(
-                  { length: MAX_PER_FULLY_OPEN_ACCORDION },
+                  {
+                    length: Math.min(totalCount, MAX_PER_FULLY_OPEN_ACCORDION),
+                  },
                   (_, index) => (
                     <SkeletonTomogramRow key={`tomogram-skeleton-${index}`} />
                   ),
@@ -181,22 +189,23 @@ export function TomogramRow({
           }
 
           // Transform backend data to component format, use empty array when no data
-          const tomograms = data?.tomograms
-            ? data.tomograms.map((tomogram) => ({
-                id: tomogram.id,
-                name: tomogram.name ?? '--',
-                keyPhotoUrl: tomogram.keyPhotoUrl ?? null,
-                voxelSpacing: tomogram.voxelSpacing ?? 0,
-                reconstructionMethod: tomogram.reconstructionMethod ?? '--',
-                processing: tomogram.processing ?? '--',
-                depositedIn: tomogram.run?.dataset?.id
-                  ? `Dataset ${tomogram.run.dataset.id}`
-                  : '--',
-                depositedLocation: '',
-                runName: run.runName,
-                neuroglancerConfig: undefined,
-              }))
-            : []
+          const tomograms =
+            data && 'tomograms' in data && data.tomograms
+              ? data.tomograms.map((tomogram) => ({
+                  id: tomogram.id,
+                  name: tomogram.name ?? '--',
+                  keyPhotoUrl: tomogram.keyPhotoUrl ?? null,
+                  voxelSpacing: tomogram.voxelSpacing ?? 0,
+                  reconstructionMethod: tomogram.reconstructionMethod ?? '--',
+                  processing: tomogram.processing ?? '--',
+                  depositedIn: tomogram.run?.dataset?.id
+                    ? `Dataset ${tomogram.run.dataset.id}`
+                    : '--',
+                  depositedLocation: '',
+                  runName: run.runName,
+                  neuroglancerConfig: undefined,
+                }))
+              : []
 
           return (
             <>
@@ -234,12 +243,20 @@ export function TomogramRow({
                   <TableCell width={DepositionTomogramTableWidths.depositedIn}>
                     <DepositedInTableCell
                       datasetId={
-                        data?.tomograms?.[0]?.run?.dataset?.id ?? undefined
+                        data && 'tomograms' in data
+                          ? data.tomograms?.[0]?.run?.dataset?.id
+                          : undefined
                       }
                       datasetTitle={
-                        data?.tomograms?.[0]?.run?.dataset?.title ?? undefined
+                        data && 'tomograms' in data
+                          ? data.tomograms?.[0]?.run?.dataset?.title
+                          : undefined
                       }
-                      runId={data?.tomograms?.[0]?.run?.id ?? undefined}
+                      runId={
+                        data && 'tomograms' in data
+                          ? data.tomograms?.[0]?.run?.id
+                          : undefined
+                      }
                       runName={run.runName}
                     />
                   </TableCell>

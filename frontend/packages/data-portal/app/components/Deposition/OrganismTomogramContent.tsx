@@ -1,6 +1,7 @@
 import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
 import { useI18n } from 'app/hooks/useI18n'
-import { useDepositionTomogramsByOrganism } from 'app/queries/useDepositionTomogramsByOrganism'
+import { useDepositionItemsByOrganism } from 'app/queries/useDepositionItemsByOrganism'
+import { DataContentsType } from 'app/types/deposition-queries'
 
 import { DepositionTomogramTable } from './DepositionTomogramTable'
 import { OrganismDataContent } from './OrganismDataContent'
@@ -17,9 +18,10 @@ export function OrganismTomogramContent({
   page,
 }: OrganismTomogramContentProps) {
   const { t } = useI18n()
-  const { data, isLoading, error } = useDepositionTomogramsByOrganism({
+  const { data, isLoading, error } = useDepositionItemsByOrganism({
     depositionId,
     organismName,
+    type: DataContentsType.Tomograms,
     page,
     pageSize: MAX_PER_FULLY_OPEN_ACCORDION,
   })

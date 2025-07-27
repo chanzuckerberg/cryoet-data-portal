@@ -3,15 +3,15 @@ import { useMemo } from 'react'
 import { GroupedAccordion, GroupedData } from 'app/components/GroupedAccordion'
 import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
 import { useDepositionById } from 'app/hooks/useDepositionById'
-import { DepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
+import { DataContentsType } from 'app/types/deposition-queries'
 
 import { OrganismAnnotationContent } from './OrganismAnnotationContent'
 import { OrganismTomogramContent } from './OrganismTomogramContent'
 import { SkeletonAccordion } from './SkeletonAccordion'
 
 interface OrganismAccordionTableProps {
-  tab: DepositionTab
+  tab: DataContentsType
   organisms: string[] // Required: only organisms for current page
   organismCounts: Record<string, number> // Required: annotation counts per organism
   isLoading?: boolean // Whether organisms data is loading
@@ -47,9 +47,12 @@ export function OrganismAccordionTable({
   if (isLoading) {
     return (
       <div className="px-sds-xl">
-        {Array.from({ length: MAX_PER_FULLY_OPEN_ACCORDION }, (_, index) => (
-          <SkeletonAccordion key={`organism-skeleton-${index}`} />
-        ))}
+        {Array.from(
+          { length: Math.min(organisms.length, MAX_PER_FULLY_OPEN_ACCORDION) },
+          (_, index) => (
+            <SkeletonAccordion key={`organism-skeleton-${index}`} />
+          ),
+        )}
       </div>
     )
   }
@@ -62,7 +65,7 @@ export function OrganismAccordionTable({
   ) => {
     if (!isExpanded) return null
 
-    if (tab === DepositionTab.Tomograms) {
+    if (tab === DataContentsType.Tomograms) {
       // Render the organism-specific tomogram content
       return (
         <OrganismTomogramContent
@@ -88,10 +91,10 @@ export function OrganismAccordionTable({
       data={groupedData}
       renderContent={renderContent}
       itemLabelSingular={
-        tab === DepositionTab.Tomograms ? t('tomogram') : t('annotation')
+        tab === DataContentsType.Tomograms ? t('tomogram') : t('annotation')
       }
       itemLabelPlural={
-        tab === DepositionTab.Tomograms ? t('tomograms') : t('annotations')
+        tab === DataContentsType.Tomograms ? t('tomograms') : t('annotations')
       }
       pageSize={MAX_PER_FULLY_OPEN_ACCORDION}
       className=""

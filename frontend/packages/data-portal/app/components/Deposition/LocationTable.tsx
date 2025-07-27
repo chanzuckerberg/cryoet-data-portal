@@ -10,7 +10,8 @@ import TableContainer from '@mui/material/TableContainer'
 import { CellHeader } from 'app/components/Table'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { useI18n } from 'app/hooks/useI18n'
-import { useDepositionAnnoRunsForDataset } from 'app/queries/useDepositionAnnoRunsForDataset'
+import { useDepositionRunsForDataset } from 'app/queries/useDepositionRunsForDataset'
+import { DataContentsType } from 'app/types/deposition-queries'
 import { cns } from 'app/utils/cns'
 
 import { RunRow } from './RunRow'
@@ -66,9 +67,10 @@ export function LocationTable({
   const { t } = useI18n()
 
   // Use the hook to fetch backend data when expanded
-  const { data, isLoading, error } = useDepositionAnnoRunsForDataset({
+  const { data, isLoading, error } = useDepositionRunsForDataset({
     depositionId: isExpanded ? depositionId : undefined,
     datasetId: isExpanded ? datasetId : undefined,
+    type: DataContentsType.Annotations,
     page: currentGroupPage || 1,
   })
 
@@ -80,7 +82,10 @@ export function LocationTable({
           id: run.id,
           runName: run.name ?? '--',
           items: [], // Empty for unexpanded case
-          annotationCount: run.annotationsAggregate?.aggregate?.[0]?.count ?? 0,
+          annotationCount:
+            'annotationsAggregate' in run
+              ? run.annotationsAggregate?.aggregate?.[0]?.count ?? 0
+              : 0,
         })),
       }
     : { depositedLocation: datasetTitle, runs: [] }

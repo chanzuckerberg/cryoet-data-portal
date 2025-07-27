@@ -31,17 +31,17 @@ import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.ser
 import { useDatasetPagination } from 'app/hooks/useDatasetPagination'
 import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
-import { DepositionTab, useDepositionTab } from 'app/hooks/useDepositionTab'
+import { useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
 import { useOrganismPagination } from 'app/hooks/useOrganismPagination'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 import { useDepositionRunCounts } from 'app/queries/useDepositionRunCounts'
-import { useDepositionTomoRunCounts } from 'app/queries/useDepositionTomoRunCounts'
 import {
   useDepositionHistory,
   useSyncParamsWithState,
 } from 'app/state/filterHistory'
+import { DataContentsType } from 'app/types/deposition-queries'
 import { GroupByOption } from 'app/types/depositionTypes'
 import { getFeatureFlag, useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
@@ -78,7 +78,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
   const depositionTab = url.searchParams.get(
     QueryParams.DepositionTab,
-  ) as DepositionTab | null
+  ) as DataContentsType | null
 
   // Check existence first
   const { data: responseV2 } = await getDepositionBaseData({
@@ -115,7 +115,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     .with(
       {
         isExpandDepositions: true,
-        depositionTab: P.union(DepositionTab.Annotations, null),
+        depositionTab: P.union(DataContentsType.Annotations, null),
       },
       () =>
         getDepositionAnnotations({
@@ -128,7 +128,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     .with(
       {
         isExpandDepositions: true,
-        depositionTab: DepositionTab.Tomograms,
+        depositionTab: DataContentsType.Tomograms,
       },
       () =>
         getDepositionTomograms({
@@ -230,14 +230,16 @@ export default function DepositionByIdPage() {
 
   // Get dataset IDs for run counts
   const datasetIds = allDatasets.map((d) => d.id)
-  const { data: runCountsData } = useDepositionRunCounts(
-    depositionIdForDatasets,
+  const { data: runCountsData } = useDepositionRunCounts({
+    depositionId: depositionIdForDatasets,
     datasetIds,
-  )
-  const { data: tomoRunCountsData } = useDepositionTomoRunCounts(
-    depositionIdForDatasets,
+    type: DataContentsType.Annotations,
+  })
+  const { data: tomoRunCountsData } = useDepositionRunCounts({
+    depositionId: depositionIdForDatasets,
     datasetIds,
-  )
+    type: DataContentsType.Tomograms,
+  })
 
   // Use dataset pagination when grouped by deposited location
   const datasetPagination = useDatasetPagination({
@@ -285,11 +287,11 @@ export default function DepositionByIdPage() {
               () => t('organisms'),
             )
             .with(
-              { isExpandDepositions: true, tab: DepositionTab.Annotations },
+              { isExpandDepositions: true, tab: DataContentsType.Annotations },
               () => t('annotations'),
             )
             .with(
-              { isExpandDepositions: true, tab: DepositionTab.Tomograms },
+              { isExpandDepositions: true, tab: DataContentsType.Tomograms },
               () => t('tomograms'),
             )
             .otherwise(() => t('datasets')),
@@ -342,11 +344,11 @@ export default function DepositionByIdPage() {
               () => datasetPagination.totalDatasetCount,
             )
             .with(
-              { isExpandDepositions: true, tab: DepositionTab.Annotations },
+              { isExpandDepositions: true, tab: DataContentsType.Annotations },
               () => annotationsCount,
             )
             .with(
-              { isExpandDepositions: true, tab: DepositionTab.Tomograms },
+              { isExpandDepositions: true, tab: DataContentsType.Tomograms },
               () => tomogramsCount,
             )
             .otherwise(() => totalDatasetsCount),
@@ -365,11 +367,11 @@ export default function DepositionByIdPage() {
               () => datasetPagination.filteredDatasetCount,
             )
             .with(
-              { isExpandDepositions: true, tab: DepositionTab.Annotations },
+              { isExpandDepositions: true, tab: DataContentsType.Annotations },
               () => annotationsCount,
             )
             .with(
-              { isExpandDepositions: true, tab: DepositionTab.Tomograms },
+              { isExpandDepositions: true, tab: DataContentsType.Tomograms },
               () => tomogramsCount,
             )
             .otherwise(() => filteredDatasetsCount),

@@ -5,7 +5,7 @@ import {
   getDepositionAnnoRunsForDataset,
   getDepositionTomoRunsForDataset,
 } from 'app/graphql/getDepositionRunsV2.server'
-import { DepositionTab } from 'app/hooks/useDepositionTab'
+import { DataContentsType } from 'app/types/deposition-queries'
 import {
   createJsonResponse,
   handleApiError,
@@ -24,23 +24,28 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const depositionId = validateNumericParam(depositionIdParam, 'depositionId')
     const datasetId = validateNumericParam(datasetIdParam, 'datasetId')
     const page = validateNumericParam(pageParam, 'page')
-    const type = validateDepositionTab(typeParam)
+    const type: DataContentsType = validateDepositionTab(typeParam)
 
     let result
-    if (type === DepositionTab.Annotations) {
-      result = await getDepositionAnnoRunsForDataset({
-        client: apolloClientV2,
-        depositionId,
-        datasetId,
-        page,
-      })
-    } else {
-      result = await getDepositionTomoRunsForDataset({
-        client: apolloClientV2,
-        depositionId,
-        datasetId,
-        page,
-      })
+    switch (type) {
+      case DataContentsType.Annotations:
+        result = await getDepositionAnnoRunsForDataset({
+          client: apolloClientV2,
+          depositionId,
+          datasetId,
+          page,
+        })
+        break
+      case DataContentsType.Tomograms:
+        result = await getDepositionTomoRunsForDataset({
+          client: apolloClientV2,
+          depositionId,
+          datasetId,
+          page,
+        })
+        break
+      default:
+        throw new Error(`Unsupported type: ${type}`)
     }
 
     return createJsonResponse(result.data)

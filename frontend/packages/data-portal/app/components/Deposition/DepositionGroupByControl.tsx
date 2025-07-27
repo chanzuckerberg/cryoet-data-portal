@@ -7,10 +7,11 @@ import { useMemo } from 'react'
 
 import { QueryParams } from 'app/constants/query'
 import { useDepositionById } from 'app/hooks/useDepositionById'
-import { DepositionTab, useDepositionTab } from 'app/hooks/useDepositionTab'
+import { useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
+import { DataContentsType } from 'app/types/deposition-queries'
 import { GroupByOption } from 'app/types/depositionTypes'
 import { I18nKeys } from 'app/types/i18n'
 import { cns } from 'app/utils/cns'
@@ -66,7 +67,7 @@ function useGroupByOptions(): SingleButtonDefinition[] {
   const [tab] = useDepositionTab()
 
   const count =
-    tab === DepositionTab.Annotations ? annotationsCount : tomogramsCount
+    tab === DataContentsType.Annotations ? annotationsCount : tomogramsCount
 
   const { datasets = [], isLoading } = useDatasetsForDeposition({
     depositionId: deposition?.id,
