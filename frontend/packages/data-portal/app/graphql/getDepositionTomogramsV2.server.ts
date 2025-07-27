@@ -25,6 +25,7 @@ const GET_DEPOSITION_TOMOGRAMS = gql(`
       },
     ) {
       id
+      keyPhotoThumbnailUrl
       name
       neuroglancerConfig
       processing
