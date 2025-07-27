@@ -100,11 +100,11 @@ export function GroupedAccordion<T>({
                     }
                     itemsLabel={itemLabelPlural}
                     additionalInfo={
-                      !isExpanded && group.metadata?.runCount
-                        ? `${group.metadata.runCount as number} ${
-                            (group.metadata.runCount as number) === 1
-                              ? t('run')
-                              : t('runs')
+                      !isExpanded && group.metadata?.annotationCount
+                        ? `${group.metadata.annotationCount as number} ${
+                            (group.metadata.annotationCount as number) === 1
+                              ? t('annotation')
+                              : t('annotations')
                           }`
                         : undefined
                     }
