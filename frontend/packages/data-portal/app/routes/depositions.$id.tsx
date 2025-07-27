@@ -28,10 +28,12 @@ import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { DepositionTab, useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
+import { useQueryParam } from 'app/hooks/useQueryParam'
 import {
   useDepositionHistory,
   useSyncParamsWithState,
 } from 'app/state/filterHistory'
+import { GroupByOption } from 'app/types/depositionTypes'
 import { getFeatureFlag, useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
@@ -170,6 +172,12 @@ export default function DepositionByIdPage() {
 
   const [tab] = useDepositionTab()
 
+  const [groupBy] = useQueryParam<GroupByOption>(QueryParams.GroupBy, {
+    defaultValue: GroupByOption.None,
+    serialize: (value) => String(value),
+    deserialize: (value) => (value as GroupByOption) || GroupByOption.None,
+  })
+
   return (
     <TablePageLayout
       title={t('depositedData')}
@@ -177,7 +185,27 @@ export default function DepositionByIdPage() {
       header={<DepositionHeader />}
       tabs={[
         {
-          countLabel: t('datasets'),
+          countLabel: match({ isExpandDepositions, tab, groupBy })
+            .with(
+              {
+                isExpandDepositions: true,
+                groupBy: GroupByOption.DepositedLocation,
+              },
+              () => t('datasets'),
+            )
+            .with(
+              { isExpandDepositions: true, groupBy: GroupByOption.Organism },
+              () => t('organisms'),
+            )
+            .with(
+              { isExpandDepositions: true, tab: DepositionTab.Annotations },
+              () => t('annotations'),
+            )
+            .with(
+              { isExpandDepositions: true, tab: DepositionTab.Tomograms },
+              () => t('tomograms'),
+            )
+            .otherwise(() => t('datasets')),
           noFilteredResults: <NoFilteredResults />,
           title: t('datasetsWithDepositionData'),
           Header: isExpandDepositions ? TableCountHeader : undefined,

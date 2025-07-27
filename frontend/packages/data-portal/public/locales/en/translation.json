@@ -241,6 +241,7 @@
   "none": "None",
   "location": "Location",
   "organism": "Organism",
+  "organisms": "Organisms",
   "hardware": "Hardware",
   "haveMoreQuestions": "Have a question? Reach out to our team at <url to='mailto:cryoetdataportal@chanzuckerberg.com'>cryoetdataportal@chanzuckerberg.com</url>.",
   "headshotOfName": "Headshot of {{name}}",

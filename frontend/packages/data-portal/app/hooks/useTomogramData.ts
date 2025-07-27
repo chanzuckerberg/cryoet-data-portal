@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { GetDepositionAnnotationsQuery } from 'app/__generated_v2__/graphql'
+import { GetDepositionTomogramsQuery } from 'app/__generated_v2__/graphql'
 import {
   addMockDepositedLocationData,
   convertToDepositedLocationData,
@@ -10,29 +10,25 @@ import {
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { DepositionTab } from 'app/hooks/useDepositionTab'
 
-// Type for annotation shapes from the query
-type AnnotationShape = GetDepositionAnnotationsQuery['annotationShapes'][number]
+// Type for tomograms from the query
+type Tomogram = GetDepositionTomogramsQuery['tomograms'][number]
 
-// Extended annotation data with expandable details and mock fields
-export interface AnnotationRowData {
+// Extended tomogram data with mock fields
+export interface TomogramRowData {
   id: number
-  annotationName: string
-  shapeType: string
-  methodType: string
+  name: string
+  keyPhotoUrl?: string
+  voxelSpacing: number
+  reconstructionMethod: string
+  processing: string
   depositedIn: string
   depositedLocation: string
   runName: string
-  // Additional fields for expanded view
-  objectName?: string
-  confidence?: number
-  description?: string
-  fileFormat?: string
-  s3Path?: string
-  groundTruthStatus?: boolean
+  neuroglancerConfig?: string
 }
 
-export interface UseAnnotationDataResult {
-  locationData: DepositedLocationData<AnnotationRowData>[]
+export interface UseTomogramDataResult {
+  locationData: DepositedLocationData<TomogramRowData>[]
   expandedLocations: Record<string, boolean>
   expandedRuns: Record<string, Record<string, boolean>>
   pagination: Record<string, number>
@@ -47,8 +43,8 @@ export interface UseAnnotationDataResult {
   ) => void
 }
 
-export function useAnnotationData(tab: DepositionTab): UseAnnotationDataResult {
-  const { annotations } = useDepositionById()
+export function useTomogramData(tab: DepositionTab): UseTomogramDataResult {
+  const { tomograms } = useDepositionById()
 
   // Track expanded state for each deposited location accordion
   const [expandedLocations, setExpandedLocations] = useState<
@@ -106,58 +102,54 @@ export function useAnnotationData(tab: DepositionTab): UseAnnotationDataResult {
     }))
   }
 
-  // Transform annotation data to row format
-  const transformAnnotationData = (
-    annotationData: AnnotationShape[],
-  ): Omit<AnnotationRowData, 'depositedLocation' | 'runName'>[] => {
-    // Array of varied annotation names
-    const annotationNames = [
-      '100 Cytosolic Ribosome',
-      '80S Ribosome',
-      'Mitochondrial Ribosome',
-      'Proteasome 26S',
-      'ATP Synthase',
-      'Nuclear Pore Complex',
-      'Actin Filament',
-      'Microtubule',
-      'Intermediate Filament',
-      'Clathrin Coat',
-      'COPI Vesicle',
-      'COPII Vesicle',
-      'Endosome',
-      'Lysosome',
-      'Peroxisome',
-      'Lipid Droplet',
-      'Glycogen Granule',
-      'Stress Granule',
-      'P-body',
-      'Nucleolus',
-    ]
+  // Transform tomogram data to row format with mock data
+  const transformTomogramData = (
+    tomogramData: Tomogram[],
+  ): Omit<TomogramRowData, 'depositedLocation' | 'runName'>[] => {
+    // Arrays for mock data generation
+    const reconstructionMethods = ['WBP', 'SART', 'Fourier Space']
+    const processingTypes = ['raw', 'denoised', 'filtered']
 
-    return annotationData.map((item, index) => ({
-      id: item.id,
-      annotationName: annotationNames[index % annotationNames.length],
-      shapeType: item.shapeType || 'Point',
-      methodType: item.annotation?.methodType || 'Automated',
-      depositedIn: `Dataset ${item.annotation?.run?.dataset?.id || 'Unknown'}`,
-      // Additional details
-      objectName: annotationNames[index % annotationNames.length],
-      confidence: 0.85 + (index % 15) * 0.01, // Varied confidence scores
-      description: 'No description available', // Default as it's not in the schema
-      fileFormat: 'Unknown', // Could extract from file path if needed
-      s3Path: item.annotationFiles?.edges?.[0]?.node?.s3Path || '',
-      groundTruthStatus: index % 5 === 0, // Every 5th annotation is ground truth
-    }))
+    return tomogramData.map((item, index) => {
+      // Generate voxel spacing between 3.5 and 15.0 Å
+      const voxelSpacing = 3.5 + (index % 12) * 0.958
+
+      // Generate tomogram name
+      const tomoNumber = String(index + 1).padStart(4, '0')
+      const name = `tomo_${tomoNumber}`
+
+      // Select reconstruction method and processing cyclically
+      const reconstructionMethod =
+        reconstructionMethods[index % reconstructionMethods.length]
+      const processing = processingTypes[index % processingTypes.length]
+
+      // Generate mock neuroglancer config
+      const neuroglancerConfig =
+        index % 3 === 0
+          ? `{"layers":[{"type":"image","source":"precomputed://s3://bucket/${name}","name":"${name}"}]}`
+          : undefined
+
+      return {
+        id: item.id,
+        name,
+        keyPhotoUrl: `/mock/tomogram/thumbnails/${name}.jpg`,
+        voxelSpacing: parseFloat(voxelSpacing.toFixed(2)),
+        reconstructionMethod,
+        processing,
+        depositedIn: `Dataset ${item.run?.dataset?.id || 'Unknown'}`,
+        neuroglancerConfig,
+      }
+    })
   }
 
   // Process data through the transformation pipeline
-  const processData = (): DepositedLocationData<AnnotationRowData>[] => {
-    if (tab !== DepositionTab.Annotations) {
+  const processData = (): DepositedLocationData<TomogramRowData>[] => {
+    if (tab !== DepositionTab.Tomograms) {
       return []
     }
 
-    const annotationData = annotations?.annotationShapes ?? []
-    const transformedData = transformAnnotationData(annotationData)
+    const tomogramData = tomograms?.tomograms ?? []
+    const transformedData = transformTomogramData(tomogramData)
     const dataWithMocks = addMockDepositedLocationData(transformedData)
     const groupedData = groupByDepositedLocationAndRun(dataWithMocks)
     const locationData = convertToDepositedLocationData(groupedData)

@@ -1,7 +1,9 @@
 import { Icon } from '@czi-sds/components'
 
 import { Accordion } from 'app/components/Accordion'
+import { DepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
+import { TomogramRowData } from 'app/hooks/useTomogramData'
 import { cns } from 'app/utils/cns'
 
 import { Link } from '../Link'
@@ -10,6 +12,7 @@ import {
   DepositedLocationData,
   getDepositedLocationCounts,
 } from './mockDepositedLocationData'
+import { TomogramLocationTable } from './TomogramLocationTable'
 
 // Extended annotation data with expandable details and mock fields
 interface AnnotationRowData {
@@ -29,8 +32,11 @@ interface AnnotationRowData {
   groundTruthStatus?: boolean
 }
 
-interface LocationAccordionProps {
-  locationData: DepositedLocationData<AnnotationRowData>
+interface LocationAccordionProps<
+  T extends AnnotationRowData | TomogramRowData,
+> {
+  locationData: DepositedLocationData<T>
+  tab: DepositionTab
   isExpanded: boolean
   onToggle: (location: string, expanded: boolean) => void
   pagination: Record<string, number>
@@ -41,8 +47,11 @@ interface LocationAccordionProps {
   onRunPageChange: (location: string, runName: string, newPage: number) => void
 }
 
-export function LocationAccordion({
+export function LocationAccordion<
+  T extends AnnotationRowData | TomogramRowData,
+>({
   locationData,
+  tab,
   isExpanded,
   onToggle,
   pagination,
@@ -51,7 +60,7 @@ export function LocationAccordion({
   onPageChange,
   onRunToggle,
   onRunPageChange,
-}: LocationAccordionProps) {
+}: LocationAccordionProps<T>) {
   const { t } = useI18n()
   const { depositedLocation } = locationData
   const counts = getDepositedLocationCounts(locationData)
@@ -61,8 +70,8 @@ export function LocationAccordion({
   // Calculate total pages based on runs
   const totalPages = Math.ceil(locationData.runs.length / pageSize)
 
-  // Get unique annotation count for display
-  const uniqueItemsMap = new Map<number, AnnotationRowData>()
+  // Get unique item count for display
+  const uniqueItemsMap = new Map<number, T>()
   locationData.runs.forEach((run) => {
     run.items.forEach((item) => {
       if (!uniqueItemsMap.has(item.id)) {
@@ -70,10 +79,17 @@ export function LocationAccordion({
       }
     })
   })
-  const uniqueAnnotationCount = uniqueItemsMap.size
+  const uniqueItemCount = uniqueItemsMap.size
 
   const handleLocationToggle = (expanded: boolean) => {
     onToggle(depositedLocation, expanded)
+  }
+
+  const getItemLabel = () => {
+    if (tab === DepositionTab.Tomograms) {
+      return uniqueItemCount === 1 ? t('tomogram') : t('tomograms')
+    }
+    return uniqueItemCount === 1 ? t('annotation') : t('annotations')
   }
 
   return (
@@ -115,10 +131,7 @@ export function LocationAccordion({
               <span className="font-normal text-sds-body-xxs-400-wide tracking-sds-body-xxs-400-wide">
                 {counts.totalRuns}{' '}
                 {counts.totalRuns === 1 ? t('run') : t('runs')} |{' '}
-                {uniqueAnnotationCount}{' '}
-                {uniqueAnnotationCount === 1
-                  ? t('annotation')
-                  : t('annotations')}
+                {uniqueItemCount} {getItemLabel()}
               </span>
             ) : (
               <div className="flex items-center gap-sds-s">
@@ -169,14 +182,29 @@ export function LocationAccordion({
         }
       >
         <div className="border-t border-x border-light-sds-color-semantic-base-border-secondary">
-          <LocationTable
-            locationData={locationData}
-            pagination={pagination}
-            runPagination={runPagination}
-            expandedRuns={expandedRuns}
-            onRunToggle={onRunToggle}
-            onRunPageChange={onRunPageChange}
-          />
+          {tab === DepositionTab.Tomograms ? (
+            <TomogramLocationTable
+              locationData={
+                locationData as DepositedLocationData<TomogramRowData>
+              }
+              pagination={pagination}
+              runPagination={runPagination}
+              expandedRuns={expandedRuns}
+              onRunToggle={onRunToggle}
+              onRunPageChange={onRunPageChange}
+            />
+          ) : (
+            <LocationTable
+              locationData={
+                locationData as DepositedLocationData<AnnotationRowData>
+              }
+              pagination={pagination}
+              runPagination={runPagination}
+              expandedRuns={expandedRuns}
+              onRunToggle={onRunToggle}
+              onRunPageChange={onRunPageChange}
+            />
+          )}
         </div>
       </Accordion>
     </div>
