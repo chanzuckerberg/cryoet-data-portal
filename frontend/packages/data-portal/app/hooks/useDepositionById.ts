@@ -24,6 +24,33 @@ export interface AnnotationMethodMetadata {
   }>
 }
 
+export interface TomogramMethodMetadata {
+  count: number
+  voxelSpacing: string
+  reconstructionMethod: string
+  processing: string
+  ctfCorrected: boolean
+}
+
+export interface AcquisitionMethodMetadata {
+  count: number
+  microscope: string
+  camera: string
+  tiltingScheme: string
+  pixelSize: string
+  energyFilter: string
+  electronOptics: string
+  phasePlate: string
+}
+
+export interface ExperimentalConditionsMethodMetadata {
+  count: number
+  sampleType: string
+  samplePreparation: string
+  gridPreparation: string
+  pixelSize: string
+}
+
 export function useDepositionById() {
   const { v2, expandedData, annotations, tomograms } = useTypedLoaderData<{
     v2: GetDepositionBaseDataV2Query
@@ -92,8 +119,61 @@ export function useDepositionById() {
       )
   }, [v2.depositions])
 
+  const tomogramMethods: TomogramMethodMetadata[] = useMemo(() => {
+    const tomogramMethodsData =
+      v2.depositions[0]?.tomogramMethodCounts?.aggregate ?? []
+
+    return tomogramMethodsData
+      .map((aggregate) => ({
+        count: aggregate.count ?? 0,
+        voxelSpacing: aggregate.groupBy?.voxelSpacing?.toString() ?? '--',
+        reconstructionMethod: aggregate.groupBy?.reconstructionMethod ?? '--',
+        processing: aggregate.groupBy?.processing ?? '--',
+        ctfCorrected: aggregate.groupBy?.ctfCorrected ?? false,
+      }))
+      .sort((a, b) => b.count - a.count)
+  }, [v2.depositions])
+
+  const acquisitionMethods: AcquisitionMethodMetadata[] = useMemo(() => {
+    const acquisitionMethodsData =
+      v2.depositions[0]?.acquisitionMethodCounts?.aggregate ?? []
+
+    return acquisitionMethodsData
+      .map((aggregate) => ({
+        count: aggregate.count ?? 0,
+        microscope: aggregate.groupBy?.microscopeModel ?? '--',
+        camera: aggregate.groupBy?.cameraModel ?? '--',
+        tiltingScheme: aggregate.groupBy?.tiltingScheme ?? '--',
+        pixelSize: aggregate.groupBy?.pixelSpacing?.toString() ?? '--',
+        energyFilter: aggregate.groupBy?.microscopeEnergyFilter ?? '--',
+        electronOptics: '--',
+        phasePlate: aggregate.groupBy?.microscopePhasePlate ?? '--',
+      }))
+      .sort((a, b) => b.count - a.count)
+  }, [v2.depositions])
+
+  const experimentalConditions: ExperimentalConditionsMethodMetadata[] =
+    useMemo(() => {
+      const experimentalConditionsData =
+        v2.experimentalConditionsCounts?.aggregate ?? []
+
+      return experimentalConditionsData
+        .map((aggregate) => ({
+          count: aggregate.count ?? 0,
+          sampleType: aggregate.groupBy?.dataset?.sampleType ?? '--',
+          samplePreparation:
+            aggregate.groupBy?.dataset?.samplePreparation ?? '--',
+          gridPreparation: aggregate.groupBy?.dataset?.gridPreparation ?? '--',
+          pixelSize: '--',
+        }))
+        .sort((a, b) => b.count - a.count)
+    }, [v2.experimentalConditionsCounts])
+
   return {
     annotationMethods,
+    tomogramMethods,
+    acquisitionMethods,
+    experimentalConditions,
     annotations,
     tomograms,
     allRuns: expandedData?.allRuns,

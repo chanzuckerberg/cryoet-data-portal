@@ -1,7 +1,6 @@
 import {
   AnnotationShapeWhereClause,
   DatasetWhereClause,
-  Deposition_Types_Enum,
   DepositionWhereClause,
   Fiducial_Alignment_Status_Enum,
   Tomogram_Reconstruction_Method_Enum,
@@ -285,9 +284,7 @@ export function getDepositionsFilter({
 }: {
   filterState: FilterState
 }): DepositionWhereClause {
-  const where: DepositionWhereClause = {
-    depositionTypes: { type: { _eq: Deposition_Types_Enum.Annotation } },
-  }
+  const where: DepositionWhereClause = {}
 
   // Competition Filter
   if (filterState.tags.competition) {
