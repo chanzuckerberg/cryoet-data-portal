@@ -28,12 +28,15 @@ import {
   getDepositionLegacyData,
 } from 'app/graphql/getDepositionByIdV2.server'
 import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.server'
+import { useDatasetPagination } from 'app/hooks/useDatasetPagination'
 import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { DepositionTab, useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
 import { useOrganismPagination } from 'app/hooks/useOrganismPagination'
 import { useQueryParam } from 'app/hooks/useQueryParam'
+import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
+import { useDepositionRunCounts } from 'app/queries/useDepositionRunCounts'
 import {
   useDepositionHistory,
   useSyncParamsWithState,
@@ -212,6 +215,30 @@ export default function DepositionByIdPage() {
       : undefined,
   )
 
+  // Fetch annotation counts and run counts when grouped by deposited location
+  const depositionIdForDatasets =
+    isExpandDepositions && groupBy === GroupByOption.DepositedLocation
+      ? deposition.id
+      : undefined
+
+  const { annotationCounts, datasets: allDatasets } = useDatasetsForDeposition(
+    depositionIdForDatasets,
+  )
+
+  // Get dataset IDs for run counts
+  const datasetIds = allDatasets.map((d) => d.id)
+  const { data: runCountsData } = useDepositionRunCounts(
+    depositionIdForDatasets,
+    datasetIds,
+  )
+
+  // Use dataset pagination when grouped by deposited location
+  const datasetPagination = useDatasetPagination(
+    depositionIdForDatasets,
+    annotationCounts,
+    runCountsData?.runCounts,
+  )
+
   return (
     <TablePageLayout
       title={t('depositedData')}
@@ -261,6 +288,16 @@ export default function DepositionByIdPage() {
                   ? organismPagination.isLoading
                   : false
               }
+              datasets={
+                groupBy === GroupByOption.DepositedLocation
+                  ? datasetPagination.datasets
+                  : undefined
+              }
+              datasetCounts={
+                groupBy === GroupByOption.DepositedLocation
+                  ? datasetPagination.datasetCounts
+                  : undefined
+              }
             />
           ) : (
             <DatasetsTable />
@@ -270,6 +307,13 @@ export default function DepositionByIdPage() {
             .with(
               { isExpandDepositions: true, groupBy: GroupByOption.Organism },
               () => organismPagination.totalOrganismCount,
+            )
+            .with(
+              {
+                isExpandDepositions: true,
+                groupBy: GroupByOption.DepositedLocation,
+              },
+              () => datasetPagination.totalDatasetCount,
             )
             .with(
               { isExpandDepositions: true, tab: DepositionTab.Annotations },
@@ -286,6 +330,13 @@ export default function DepositionByIdPage() {
             .with(
               { isExpandDepositions: true, groupBy: GroupByOption.Organism },
               () => organismPagination.filteredOrganismCount,
+            )
+            .with(
+              {
+                isExpandDepositions: true,
+                groupBy: GroupByOption.DepositedLocation,
+              },
+              () => datasetPagination.filteredDatasetCount,
             )
             .with(
               { isExpandDepositions: true, tab: DepositionTab.Annotations },
