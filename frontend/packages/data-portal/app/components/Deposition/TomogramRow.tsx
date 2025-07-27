@@ -1,40 +1,105 @@
 import { CellComponent, Icon, TableRow } from '@czi-sds/components'
+import Skeleton from '@mui/material/Skeleton'
 import { Fragment } from 'react'
 
-import { KeyPhoto } from 'app/components/KeyPhoto'
-import { Link } from 'app/components/Link'
 import { PaginationControls } from 'app/components/PaginationControls'
 import { TableCell } from 'app/components/Table'
-import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
+import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
 import { DepositionTomogramTableWidths } from 'app/constants/table'
 import { useI18n } from 'app/hooks/useI18n'
 import { TomogramRowData } from 'app/hooks/useTomogramData'
+import { useTomogramsForRunAndDeposition } from 'app/queries/useTomogramsForRunAndDeposition'
 import { cns } from 'app/utils/cns'
 
+import { DepositedInTableCell } from './DepositedInTableCell'
 import { RunData } from './mockDepositedLocationData'
+import { PostProcessingCell } from './PostProcessingCell'
+import { ReconstructionMethodCell } from './ReconstructionMethodCell'
+import { TomogramActionsCell } from './TomogramActionsCell'
+import { TomogramKeyPhotoCell } from './TomogramKeyPhotoCell'
+import { TomogramNameCell } from './TomogramNameCell'
+import { VoxelSpacingCell } from './VoxelSpacingCell'
+
+// Skeleton component for tomogram loading state
+function SkeletonTomogramRow() {
+  return (
+    <TableRow className="border-b border-light-sds-color-semantic-base-divider">
+      <TomogramKeyPhotoCell
+        src=""
+        title=""
+        width={DepositionTomogramTableWidths.photo}
+        isLoading
+      />
+      <TomogramNameCell
+        id={0}
+        processing=""
+        reconstructionMethod=""
+        width={DepositionTomogramTableWidths.name}
+        isLoading
+      />
+      <VoxelSpacingCell
+        voxelSpacing={0}
+        width={DepositionTomogramTableWidths.voxelSpacing}
+        isLoading
+      />
+      <ReconstructionMethodCell
+        reconstructionMethod=""
+        width={DepositionTomogramTableWidths.reconstructionMethod}
+        isLoading
+      />
+      <PostProcessingCell
+        processing=""
+        width={DepositionTomogramTableWidths.postProcessing}
+        isLoading
+      />
+      <TableCell width={DepositionTomogramTableWidths.depositedIn}>
+        <Skeleton variant="text" width={120} height={20} />
+      </TableCell>
+      <TomogramActionsCell
+        tomogramId={0}
+        width={{ width: 160 }}
+        plausibleData={{ datasetId: 0, organism: '', runId: 0 }}
+        isLoading
+      />
+    </TableRow>
+  )
+}
 
 interface TomogramRowProps {
   run: RunData<TomogramRowData>
+  depositionId: number
   isExpanded: boolean
   onToggle: () => void
   currentPage: number
-  totalPages: number
   onPageChange: (page: number) => void
 }
 
 export function TomogramRow({
   run,
+  depositionId,
   isExpanded,
   onToggle,
   currentPage,
-  totalPages,
   onPageChange,
 }: TomogramRowProps) {
   const { t } = useI18n()
-  const tomogramCount = run.items.length
-  const pageSize = 5
+
+  // Fetch tomograms from backend when expanded
+  const { data, isLoading, error } = useTomogramsForRunAndDeposition({
+    depositionId: isExpanded ? depositionId : undefined,
+    runId: isExpanded ? run.id : undefined,
+    page: currentPage,
+  })
+
+  // Use backend data if available, otherwise fall back to mock data
+  const totalCount =
+    data?.tomogramsAggregate?.aggregate?.[0]?.count ??
+    run.tomogramCount ??
+    run.items.length
+  const pageSize = MAX_PER_FULLY_OPEN_ACCORDION
   const startIndex = (currentPage - 1) * pageSize
-  const endIndex = startIndex + pageSize
+  const endIndex = Math.min(startIndex + pageSize, totalCount)
+  const calculatedTotalPages = Math.ceil(totalCount / pageSize)
 
   return (
     <Fragment key={run.runName}>
@@ -64,11 +129,11 @@ export function TomogramRow({
               {isExpanded ? (
                 <PaginationControls
                   currentPage={currentPage}
-                  totalPages={totalPages}
+                  totalPages={calculatedTotalPages}
                   onPageChange={onPageChange}
                   startIndex={startIndex}
                   endIndex={endIndex}
-                  totalItems={run.items.length}
+                  totalItems={totalCount}
                   itemLabel={t('tomogram')}
                   itemsLabel={t('tomograms')}
                 />
@@ -79,8 +144,8 @@ export function TomogramRow({
                     'text-light-sds-color-semantic-base-text-secondary',
                   )}
                 >
-                  {tomogramCount}{' '}
-                  {tomogramCount === 1 ? t('tomogram') : t('tomograms')}
+                  {totalCount}{' '}
+                  {totalCount === 1 ? t('tomogram') : t('tomograms')}
                 </span>
               )}
             </div>
@@ -91,74 +156,114 @@ export function TomogramRow({
       {/* Expanded tomogram rows */}
       {isExpanded &&
         (() => {
-          const paginatedTomograms = run.items.slice(startIndex, endIndex)
+          // Show loading state
+          if (isLoading) {
+            return (
+              <>
+                {Array.from(
+                  { length: MAX_PER_FULLY_OPEN_ACCORDION },
+                  (_, index) => (
+                    <SkeletonTomogramRow key={`tomogram-skeleton-${index}`} />
+                  ),
+                )}
+              </>
+            )
+          }
+
+          // Show error state
+          if (error) {
+            return (
+              <TableRow className="border-b border-light-sds-color-semantic-base-divider">
+                <CellComponent colSpan={7}>
+                  <div className="pl-sds-xl py-sds-m text-sds-color-primitive-red-600">
+                    Error loading tomograms
+                  </div>
+                </CellComponent>
+              </TableRow>
+            )
+          }
+
+          // Transform backend data to component format or use mock data
+          const tomograms = data?.tomograms
+            ? data.tomograms.map((tomogram) => ({
+                id: tomogram.id,
+                name:
+                  tomogram.name ??
+                  `tomo_${String(tomogram.id).padStart(4, '0')}`,
+                keyPhotoUrl:
+                  tomogram.keyPhotoUrl ??
+                  `/mock/tomogram/thumbnails/tomo_${String(
+                    tomogram.id,
+                  ).padStart(4, '0')}.jpg`,
+                voxelSpacing: tomogram.voxelSpacing ?? 0,
+                reconstructionMethod:
+                  tomogram.reconstructionMethod ?? 'Unknown',
+                processing: tomogram.processing ?? 'raw',
+                depositedIn: `Dataset ${
+                  tomogram.run?.dataset?.id || 'Unknown'
+                }`,
+                depositedLocation: '',
+                runName: run.runName,
+                neuroglancerConfig: undefined, // Not available in this query
+              }))
+            : run.items.slice(startIndex, endIndex)
 
           return (
             <>
-              {paginatedTomograms.map((tomogram) => (
+              {tomograms.map((tomogram) => (
                 <TableRow
                   key={`${run.runName}-${tomogram.id}`}
                   className="border-b border-light-sds-color-semantic-base-divider"
                 >
-                  <TableCell width={DepositionTomogramTableWidths.photo}>
-                    <div className="pl-sds-xl">
-                      <KeyPhoto
-                        variant="table"
-                        src={tomogram.keyPhotoUrl}
-                        title={tomogram.name}
-                      />
-                    </div>
-                  </TableCell>
-                  <TableCell width={DepositionTomogramTableWidths.name}>
-                    <Link
-                      to={`/tomograms/${tomogram.id}`}
-                      className="text-sds-body-s-400-wide text-light-sds-color-semantic-base-link hover:text-light-sds-color-semantic-base-link"
-                    >
-                      {tomogram.name}
-                    </Link>
-                  </TableCell>
-                  <TableCell width={DepositionTomogramTableWidths.voxelSpacing}>
-                    <span className="text-sds-body-s-400-wide">
-                      {tomogram.voxelSpacing} Å
-                    </span>
-                  </TableCell>
-                  <TableCell
+                  <TomogramKeyPhotoCell
+                    src={tomogram.keyPhotoUrl}
+                    title={tomogram.name}
+                    width={DepositionTomogramTableWidths.photo}
+                  />
+                  <TomogramNameCell
+                    id={tomogram.id}
+                    processing={tomogram.processing}
+                    reconstructionMethod={tomogram.reconstructionMethod}
+                    width={DepositionTomogramTableWidths.name}
+                  />
+                  <VoxelSpacingCell
+                    voxelSpacing={tomogram.voxelSpacing}
+                    sizeX={630}
+                    sizeY={630}
+                    sizeZ={200}
+                    width={DepositionTomogramTableWidths.voxelSpacing}
+                  />
+                  <ReconstructionMethodCell
+                    reconstructionMethod={tomogram.reconstructionMethod}
                     width={DepositionTomogramTableWidths.reconstructionMethod}
-                  >
-                    <span className="text-sds-body-s-400-wide">
-                      {tomogram.reconstructionMethod}
-                    </span>
-                  </TableCell>
-                  <TableCell
+                  />
+                  <PostProcessingCell
+                    processing={tomogram.processing}
                     width={DepositionTomogramTableWidths.postProcessing}
-                  >
-                    <span className="text-sds-body-s-400-wide">
-                      {tomogram.processing}
-                    </span>
-                  </TableCell>
+                  />
                   <TableCell width={DepositionTomogramTableWidths.depositedIn}>
-                    <span className="text-sds-body-s-400-wide">
-                      {tomogram.depositedIn}
-                    </span>
-                  </TableCell>
-                  <TableCell width={{ width: 160 }}>
-                    <ViewTomogramButton
-                      tomogramId={tomogram.id.toString()}
-                      neuroglancerConfig={tomogram.neuroglancerConfig}
-                      buttonProps={{
-                        sdsStyle: 'square',
-                        sdsType: 'secondary',
-                      }}
-                      event={{
-                        tomogramId: tomogram.id,
-                        datasetId: 0,
-                        runId: 0,
-                        organism: '',
-                        type: 'tomogram',
-                      }}
-                      tooltipPlacement="top"
+                    <DepositedInTableCell
+                      datasetId={
+                        data?.tomograms?.[0]?.run?.dataset?.id ?? undefined
+                      }
+                      datasetTitle={
+                        data?.tomograms?.[0]?.run?.dataset?.title ?? undefined
+                      }
+                      runId={data?.tomograms?.[0]?.run?.id ?? undefined}
+                      runName={run.runName}
                     />
                   </TableCell>
+                  <TomogramActionsCell
+                    tomogramId={tomogram.id}
+                    neuroglancerConfig={tomogram.neuroglancerConfig}
+                    forceShowViewTomogramButton
+                    width={{ width: 160 }}
+                    plausibleData={{
+                      datasetId: 0,
+                      runId: 0,
+                      organism: '',
+                    }}
+                  />
                 </TableRow>
               ))}
             </>

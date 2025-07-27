@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { GroupedAccordion, GroupedData } from 'app/components/GroupedAccordion'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { AnnotationRowData } from 'app/hooks/useAnnotationData'
@@ -39,6 +41,42 @@ export function DepositedLocationAccordionTable({
   datasetCounts,
 }: DepositedLocationAccordionTableProps) {
   const { t } = useI18n()
+
+  // Track expanded state for individual runs within locations
+  const [expandedRuns, setExpandedRuns] = useState<
+    Record<string, Record<string, boolean>>
+  >({})
+
+  // Track pagination state for each run within locations
+  const [runPagination, setRunPagination] = useState<
+    Record<string, Record<string, number>>
+  >({})
+
+  // Handler to toggle run expansion
+  const handleRunToggle = (location: string, runName: string) => {
+    setExpandedRuns((prev) => ({
+      ...prev,
+      [location]: {
+        ...prev[location],
+        [runName]: !prev[location]?.[runName],
+      },
+    }))
+  }
+
+  // Handler to change run pagination
+  const handleRunPageChange = (
+    location: string,
+    runName: string,
+    newPage: number,
+  ) => {
+    setRunPagination((prev) => ({
+      ...prev,
+      [location]: {
+        ...prev[location],
+        [runName]: newPage,
+      },
+    }))
+  }
 
   // Fetch datasets for skeleton loading state
   const { isLoading: isDatasetsLoading } = useDatasetsForDeposition({
@@ -121,10 +159,10 @@ export function DepositedLocationAccordionTable({
         <TomogramLocationTable
           locationData={locData}
           pagination={{}} // Placeholder until updated
-          runPagination={{}} // Placeholder until updated
-          expandedRuns={{}} // Placeholder until updated
-          onRunToggle={() => {}} // Placeholder until updated
-          onRunPageChange={() => {}} // Placeholder until updated
+          runPagination={runPagination}
+          expandedRuns={expandedRuns}
+          onRunToggle={handleRunToggle}
+          onRunPageChange={handleRunPageChange}
           currentGroupPage={currentPage}
           depositionId={depositionId}
           datasetId={datasetId}
@@ -143,10 +181,10 @@ export function DepositedLocationAccordionTable({
       <LocationTable
         locationData={locData}
         pagination={{}} // Placeholder until updated
-        runPagination={{}} // Placeholder until updated
-        expandedRuns={{}} // Placeholder until updated
-        onRunToggle={() => {}} // Placeholder until updated
-        onRunPageChange={() => {}} // Placeholder until updated
+        runPagination={runPagination}
+        expandedRuns={expandedRuns}
+        onRunToggle={handleRunToggle}
+        onRunPageChange={handleRunPageChange}
         depositionId={depositionId}
         datasetId={datasetId}
         datasetTitle={dataset.title}
