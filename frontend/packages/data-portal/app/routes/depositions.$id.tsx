@@ -12,6 +12,7 @@ import { apolloClientV2 } from 'app/apollo.server'
 import { DatasetFilter } from 'app/components/DatasetFilter'
 import { DatasetsTable } from 'app/components/Deposition/DatasetsTable'
 import { DepositionFilters } from 'app/components/Deposition/DepositionFilters'
+import { DepositionGroupByControl } from 'app/components/Deposition/DepositionGroupByControl'
 import { DepositionHeader } from 'app/components/Deposition/DepositionHeader'
 import { DepositionMetadataDrawer } from 'app/components/Deposition/DepositionMetadataDrawer'
 import { DepositionTableRenderer } from 'app/components/Deposition/DepositionTableRenderer'
@@ -172,6 +173,7 @@ export default function DepositionByIdPage() {
   return (
     <TablePageLayout
       title={t('depositedData')}
+      titleContent={isExpandDepositions ? <DepositionGroupByControl /> : null}
       header={<DepositionHeader />}
       tabs={[
         {
