@@ -26,7 +26,6 @@ import {
   getDepositionAnnotationsForDatasets,
 } from 'app/graphql/getDepositionAnnotationsV2.server'
 import { getDepositionByIdV2 } from 'app/graphql/getDepositionByIdV2.server'
-import {getVoodoo} from 'app/graphql/getVoodooExperimentV2.server'
 import {
   getDatasetsForDepositionViaTomograms,
   getDatasetsForDepositionViaAnnotationShapes,
@@ -51,7 +50,6 @@ import { getFeatureFlag, useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  console.log("HELLO VOODOO FROM DEPOSITION LOADER"); // REMOVE
   const url = new URL(request.url)
 
   const id = params.id ? +params.id : NaN
@@ -82,15 +80,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     params: url.searchParams,
   })
 
-  // VOODOO Begin Vincent work, giant block of example query usage, not for real use!
-  const voodooResponse = await getVoodoo({
-    client,
-    id,
-  })
-  console.log("voodooResponse", voodooResponse); // REMOVE
-  console.log("voodooResponse.data.depositions", voodooResponse.data.depositions); // REMOVE
-  const voodooData = voodooResponse.data;
-
+  // BEGIN VINCENT_WORK, giant block of example query usage, not for real use!
   const { data: datasetsViaTomograms } = await getDatasetsForDepositionViaTomograms({
     client,
     depositionId: id,
@@ -132,9 +122,8 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     client,
     depositionId: id,
     runId: EXAMPLE_RUN_ID,
-    page: 1,  // VOODOO go back to 1!
+    page: 1,
   })
-
 
   // MANUALLY SET the following array based on deposition you are dev-ing against.
   // Here as a rough example of how user interaction would go. For deposition id 10314
@@ -146,7 +135,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     datasetIds: EXAMPLE_FILTERED_DATASET_IDS,
     page: 1,
   })
-  // END VOODOO End Vincent work for requests to GraphQL
+  // END VINCENT_WORK for requests to GraphQL
   // There is more Vincent stuff put in to the response and the use hook
 
   if (responseV2.depositions.length === 0) {
@@ -200,8 +189,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     v2: responseV2,
     annotations: data && 'annotationShapes' in data ? data : undefined,
     tomograms: data && 'tomograms' in data ? data : undefined,
-    // VOODOO below this line is Vincent demo stuff
-    voodooData: voodooData,
     datasetsViaTomograms,
     datasetsViaAnnotationShapes,
     runCountsForDepositionAnnotations,
