@@ -11,6 +11,7 @@ interface DatasetOption {
 interface DepositionDatasetsResponse {
   datasets: DatasetOption[]
   organismCounts: Record<string, number>
+  annotationCounts: Record<number, number>
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -30,6 +31,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const datasets: DatasetOption[] = []
     const seenIds = new Set<number>()
     const organismCounts: Record<string, number> = {}
+    const annotationCounts: Record<number, number> = {}
 
     data.annotationShapesAggregate.aggregate?.forEach((item) => {
       const dataset = item.groupBy?.annotation?.run?.dataset
@@ -42,14 +44,20 @@ export async function loader({ request }: LoaderFunctionArgs) {
           (organismCounts[organismName] || 0) + count
       }
 
-      // Collect unique datasets
-      if (dataset?.id && dataset?.title && !seenIds.has(dataset.id)) {
-        datasets.push({
-          id: dataset.id,
-          title: dataset.title,
-          organismName: dataset.organismName ?? null,
-        })
-        seenIds.add(dataset.id)
+      // Collect unique datasets and aggregate annotation counts by dataset
+      if (dataset?.id && dataset?.title) {
+        if (!seenIds.has(dataset.id)) {
+          datasets.push({
+            id: dataset.id,
+            title: dataset.title,
+            organismName: dataset.organismName ?? null,
+          })
+          seenIds.add(dataset.id)
+        }
+
+        // Aggregate annotation counts by dataset
+        annotationCounts[dataset.id] =
+          (annotationCounts[dataset.id] || 0) + count
       }
     })
 
@@ -61,6 +69,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const response: DepositionDatasetsResponse = {
       datasets: sortedDatasets,
       organismCounts,
+      annotationCounts,
     }
 
     return new Response(JSON.stringify(response), {

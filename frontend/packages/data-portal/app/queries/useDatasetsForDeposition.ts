@@ -11,9 +11,10 @@ export interface DatasetOption {
 }
 
 // Type for the API response that includes organism counts
-export interface DepositionDatasetsResponse {
+interface DepositionDatasetsResponse {
   datasets: DatasetOption[]
   organismCounts: Record<string, number>
+  annotationCounts: Record<number, number>
 }
 
 /**
@@ -30,7 +31,7 @@ export function useDatasetsForDeposition(depositionId: number | undefined) {
     queryKey: ['deposition-datasets', depositionId],
     queryFn: async (): Promise<DepositionDatasetsResponse> => {
       if (!depositionId) {
-        return { datasets: [], organismCounts: {} }
+        return { datasets: [], organismCounts: {}, annotationCounts: {} }
       }
 
       const response = await fetch(
@@ -62,10 +63,15 @@ export function useDatasetsForDeposition(depositionId: number | undefined) {
     return query.data?.organismCounts || {}
   }, [query.data?.organismCounts])
 
+  const annotationCounts = useMemo(() => {
+    return query.data?.annotationCounts || {}
+  }, [query.data?.annotationCounts])
+
   return {
     ...query,
     datasets: query.data?.datasets || [],
     organismNames,
     organismCounts,
+    annotationCounts,
   }
 }
