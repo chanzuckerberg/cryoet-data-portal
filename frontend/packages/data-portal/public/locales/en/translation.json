@@ -566,6 +566,8 @@
   "youMustHaveCurlInstalled": "You must have cURL installed. <url to='$t(curlSetupLink)'>How to Install cURL</url>",
   "zarrLink": "https://zarr.readthedocs.io/en/stable/",
   "errorCreatingDatasetTableColumns": "Error creating columns for dataset table",
+  "errorLoadingAnnotations": "Error loading annotations",
+  "errorLoadingTomograms": "Error loading tomograms",
   "groupBy": "Group by",
   "tomogramViewNotImplemented": "Tomogram view not implemented in this component",
   "unknown": "Unknown",
