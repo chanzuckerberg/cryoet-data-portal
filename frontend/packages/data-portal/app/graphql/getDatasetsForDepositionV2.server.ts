@@ -34,17 +34,14 @@
  * If this eventually becomes an issue (say, CryoET has lots more datasets in the future and
  * some wacky deposition has 1 thing in every single one of them), we'll have to rethink stuff.
  */
-import {
-  ApolloClient,
-  ApolloQueryResult,
-  NormalizedCacheObject,
-} from '@apollo/client'
+import type { ApolloQueryResult } from '@apollo/client'
 
 import { gql } from 'app/__generated_v2__'
 import {
   GetDatasetsForDepositionViaAnnotationShapesQuery,
   GetDatasetsForDepositionViaTomogramsQuery,
 } from 'app/__generated_v2__/graphql'
+import { apolloClientV2 } from 'app/apollo.server'
 
 const GET_DATASETS_FOR_DEPOSITION_VIA_TOMOGRAMS = gql(`
   query getDatasetsForDepositionViaTomograms(
@@ -101,14 +98,10 @@ const GET_DATASETS_FOR_DEPOSITION_VIA_ANNOTATION_SHAPES = gql(`
   }
 `)
 
-export async function getDatasetsForDepositionViaTomograms({
-  client,
-  depositionId,
-}: {
-  client: ApolloClient<NormalizedCacheObject>
-  depositionId: number
-}): Promise<ApolloQueryResult<GetDatasetsForDepositionViaTomogramsQuery>> {
-  return client.query({
+export async function getDatasetsForDepositionViaTomograms(
+  depositionId: number,
+): Promise<ApolloQueryResult<GetDatasetsForDepositionViaTomogramsQuery>> {
+  return apolloClientV2.query({
     query: GET_DATASETS_FOR_DEPOSITION_VIA_TOMOGRAMS,
     variables: {
       depositionId,
@@ -116,16 +109,12 @@ export async function getDatasetsForDepositionViaTomograms({
   })
 }
 
-export async function getDatasetsForDepositionViaAnnotationShapes({
-  client,
-  depositionId,
-}: {
-  client: ApolloClient<NormalizedCacheObject>
-  depositionId: number
-}): Promise<
+export async function getDatasetsForDepositionViaAnnotationShapes(
+  depositionId: number,
+): Promise<
   ApolloQueryResult<GetDatasetsForDepositionViaAnnotationShapesQuery>
 > {
-  return client.query({
+  return apolloClientV2.query({
     query: GET_DATASETS_FOR_DEPOSITION_VIA_ANNOTATION_SHAPES,
     variables: {
       depositionId,
