@@ -1,5 +1,5 @@
-import { ColumnDef } from '@tanstack/react-table'
-import { useMemo } from 'react'
+import { ColumnDef, Row, Table as ReactTable } from '@tanstack/react-table'
+import { ReactNode, useMemo } from 'react'
 
 import {
   type GetDepositionTomogramsQuery,
@@ -15,39 +15,46 @@ import { useTomogramKeyPhotoColumn } from 'app/components/TomogramsTable/useTomo
 import { useTomogramNameColumn } from 'app/components/TomogramsTable/useTomogramNameColumn'
 import { useVoxelSpacingColumn } from 'app/components/TomogramsTable/useVoxelSpacingColumn'
 import { DepositionTomogramTableWidths } from 'app/constants/table'
+import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 
 type DepositionTomogramTableData =
   GetDepositionTomogramsQuery['tomograms'][number]
 
-const LOADING_ANNOTATIONS = Array.from(
-  { length: 10 },
-  (_, index) =>
-    ({
-      id: index,
-      name: `Tomogram ${index + 1}`,
-      processing: Tomogram_Processing_Enum.Raw,
-      reconstructionMethod: 'Unknown',
-      voxelSpacing: 1.0,
-      run: {
-        id: index,
-        name: `Run ${index + 1}`,
-        dataset: {
-          id: index,
-          title: `Dataset ${index + 1}`,
-        },
-      },
-    }) as DepositionTomogramTableData,
-)
-
 export function DepositionTomogramTable({
   data,
   classes,
+  getBeforeRowElement,
 }: {
   data: DepositionTomogramTableData[]
   classes?: TableClassNames
+  getBeforeRowElement?: (
+    table: ReactTable<DepositionTomogramTableData>,
+    row: Row<DepositionTomogramTableData>,
+  ) => ReactNode
 }) {
+  const { t } = useI18n()
   const { isLoadingDebounced } = useIsLoading()
+
+  const loadingAnnotations = Array.from(
+    { length: 10 },
+    (_, index) =>
+      ({
+        id: index,
+        name: `${String(t('tomogram'))} ${index + 1}`,
+        processing: Tomogram_Processing_Enum.Raw,
+        reconstructionMethod: String(t('unknown')),
+        voxelSpacing: 1.0,
+        run: {
+          id: index,
+          name: `${String(t('run'))} ${index + 1}`,
+          dataset: {
+            id: index,
+            title: `${String(t('dataset'))} ${index + 1}`,
+          },
+        },
+      }) as DepositionTomogramTableData,
+  )
 
   const keyPhotoColumn = useTomogramKeyPhotoColumn(
     DepositionTomogramTableWidths.photo,
@@ -115,10 +122,11 @@ export function DepositionTomogramTable({
 
   return (
     <PageTable
-      data={isLoadingDebounced ? LOADING_ANNOTATIONS : data}
+      data={isLoadingDebounced ? loadingAnnotations : data}
       columns={columns}
       hoverType="none"
       classes={classes}
+      getBeforeRowElement={getBeforeRowElement}
     />
   )
 }

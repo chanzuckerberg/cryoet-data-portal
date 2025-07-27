@@ -4,6 +4,7 @@ import { DepositionTab, useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import { GroupByOption } from 'app/types/depositionTypes'
 
+import { DepositedLocationAccordionTable } from './DepositedLocationAccordionTable'
 import { DepositionAnnotationTable } from './DepositionAnnotationTable'
 import { DepositionTomogramTable } from './DepositionTomogramTable'
 import { OrganismAccordionTable } from './OrganismAccordionTable'
@@ -16,6 +17,11 @@ export function DepositionTableRenderer() {
   // Show accordion view when grouped by organism
   if (groupBy === GroupByOption.Organism) {
     return <OrganismAccordionTable tab={tab} />
+  }
+
+  // Show accordion view when grouped by deposited location
+  if (groupBy === GroupByOption.DepositedLocation) {
+    return <DepositedLocationAccordionTable tab={tab} />
   }
 
   // Default flat table view
