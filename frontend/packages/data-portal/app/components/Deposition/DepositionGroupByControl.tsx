@@ -2,14 +2,17 @@ import {
   SegmentedControl,
   type SingleButtonDefinition,
 } from '@czi-sds/components'
+import Skeleton from '@mui/material/Skeleton'
 import { useMemo } from 'react'
 
 import { QueryParams } from 'app/constants/query'
 import { useDepositionById } from 'app/hooks/useDepositionById'
+import { DepositionTab, useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 import { GroupByOption } from 'app/types/depositionTypes'
+import { I18nKeys } from 'app/types/i18n'
 import { cns } from 'app/utils/cns'
 import { isDefined } from 'app/utils/nullish'
 
@@ -59,8 +62,17 @@ export function DepositionGroupByControl() {
 
 function useGroupByOptions(): SingleButtonDefinition[] {
   const { t } = useI18n()
-  const { annotationsCount, deposition } = useDepositionById()
-  const { datasets = [], isLoading } = useDatasetsForDeposition(deposition?.id)
+  const { annotationsCount, tomogramsCount, deposition } = useDepositionById()
+  const [tab] = useDepositionTab()
+
+  const count =
+    tab === DepositionTab.Annotations ? annotationsCount : tomogramsCount
+
+  const { datasets = [], isLoading } = useDatasetsForDeposition({
+    depositionId: deposition?.id,
+    type: tab,
+    enabled: count > 0,
+  })
 
   return useMemo(() => {
     const groupCounts = {
@@ -68,7 +80,7 @@ function useGroupByOptions(): SingleButtonDefinition[] {
       [GroupByOption.Organism]: 0,
     }
 
-    if (annotationsCount > 0 && !isLoading) {
+    if (!isLoading) {
       // Calculate actual dataset count (unique datasets)
       groupCounts[GroupByOption.DepositedLocation] = new Set(
         datasets.map((dataset) => dataset.id),
@@ -80,42 +92,37 @@ function useGroupByOptions(): SingleButtonDefinition[] {
       ).size
     }
 
+    const createButtonDefinition = (
+      value: GroupByOption,
+      i18nKey: I18nKeys,
+    ): SingleButtonDefinition => {
+      const label = t(i18nKey)
+      const buttonCount =
+        value === GroupByOption.None ? 0 : groupCounts[value] || 0
+
+      return {
+        value,
+        tooltipText: label,
+        disabled: value !== GroupByOption.None && buttonCount === 0,
+        icon: (
+          <div className="flex items-center gap-sds-s">
+            <span>{label}</span>
+
+            {value !== GroupByOption.None &&
+              (isLoading ? (
+                <Skeleton variant="text" className="w-[20px] !h-[20px]" />
+              ) : (
+                <span>{buttonCount}</span>
+              ))}
+          </div>
+        ),
+      }
+    }
+
     return [
-      {
-        value: GroupByOption.None,
-        tooltipText: t('none'),
-        icon: (
-          <div className="flex items-center gap-sds-s">
-            <span>{t('none')}</span>
-          </div>
-        ),
-      },
-      {
-        value: GroupByOption.DepositedLocation,
-        tooltipText: t('location'),
-        icon: (
-          <div className="flex items-center gap-sds-s">
-            <span>{t('location')}</span>
-
-            {groupCounts[GroupByOption.DepositedLocation] > 0 && (
-              <span>{groupCounts[GroupByOption.DepositedLocation]}</span>
-            )}
-          </div>
-        ),
-      },
-      {
-        value: GroupByOption.Organism,
-        tooltipText: t('organism'),
-        icon: (
-          <div className="flex items-center gap-sds-s">
-            <span>{t('organism')}</span>
-
-            {groupCounts[GroupByOption.Organism] > 0 && (
-              <span>{groupCounts[GroupByOption.Organism]}</span>
-            )}
-          </div>
-        ),
-      },
+      createButtonDefinition(GroupByOption.None, 'none'),
+      createButtonDefinition(GroupByOption.DepositedLocation, 'location'),
+      createButtonDefinition(GroupByOption.Organism, 'organism'),
     ]
-  }, [annotationsCount, datasets, isLoading, t])
+  }, [datasets, isLoading, t])
 }

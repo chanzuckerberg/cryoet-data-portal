@@ -70,8 +70,10 @@ export function DepositedLocationAccordionTable({
   const { t } = useI18n()
 
   // Fetch datasets for skeleton loading state
-  const { isLoading: isDatasetsLoading } =
-    useDatasetsForDeposition(depositionId)
+  const { isLoading: isDatasetsLoading } = useDatasetsForDeposition({
+    depositionId,
+    type: tab,
+  })
 
   // Only use mock data when no real datasets are provided
   const annotationData = useAnnotationData(tab)
