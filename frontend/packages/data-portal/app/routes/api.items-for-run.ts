@@ -45,7 +45,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         })
         break
       default:
-        throw new Error(`Unsupported type: ${type}`)
+        throw new Error('Unsupported type provided')
     }
 
     return createJsonResponse(result.data)
