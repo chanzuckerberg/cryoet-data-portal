@@ -41,7 +41,10 @@ import {
 } from '@apollo/client'
 
 import { gql } from 'app/__generated_v2__'
-import { GetDatasetsForDepositionViaAnnotationShapesQuery, GetDatasetsForDepositionViaTomogramsQuery } from 'app/__generated_v2__/graphql'
+import {
+  GetDatasetsForDepositionViaAnnotationShapesQuery,
+  GetDatasetsForDepositionViaTomogramsQuery,
+} from 'app/__generated_v2__/graphql'
 
 const GET_DATASETS_FOR_DEPOSITION_VIA_TOMOGRAMS = gql(`
   query getDatasetsForDepositionViaTomograms(
@@ -109,7 +112,7 @@ export async function getDatasetsForDepositionViaTomograms({
     query: GET_DATASETS_FOR_DEPOSITION_VIA_TOMOGRAMS,
     variables: {
       depositionId,
-    }
+    },
   })
 }
 
@@ -119,11 +122,13 @@ export async function getDatasetsForDepositionViaAnnotationShapes({
 }: {
   client: ApolloClient<NormalizedCacheObject>
   depositionId: number
-}): Promise<ApolloQueryResult<GetDatasetsForDepositionViaAnnotationShapesQuery>> {
+}): Promise<
+  ApolloQueryResult<GetDatasetsForDepositionViaAnnotationShapesQuery>
+> {
   return client.query({
     query: GET_DATASETS_FOR_DEPOSITION_VIA_ANNOTATION_SHAPES,
     variables: {
       depositionId,
-    }
+    },
   })
 }

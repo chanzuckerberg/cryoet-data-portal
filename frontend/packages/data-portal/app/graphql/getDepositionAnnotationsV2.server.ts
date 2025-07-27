@@ -24,7 +24,10 @@ import type {
 } from '@apollo/client'
 
 import { gql } from 'app/__generated_v2__'
-import type { GetDepositionAnnotationsForDatasetsQuery, GetDepositionAnnotationsQuery } from 'app/__generated_v2__/graphql'
+import type {
+  GetDepositionAnnotationsForDatasetsQuery,
+  GetDepositionAnnotationsQuery,
+} from 'app/__generated_v2__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 
 const GET_DEPOSITION_ANNOTATIONS = gql(`

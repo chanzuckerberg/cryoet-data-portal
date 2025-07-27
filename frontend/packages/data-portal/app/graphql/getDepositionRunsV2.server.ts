@@ -60,16 +60,14 @@ import type {
 
 import { gql } from 'app/__generated_v2__'
 import {
+  GetAnnotationsForRunAndDepositionQuery,
   GetDepositionAnnoRunCountsForDatasetsQuery,
   GetDepositionAnnoRunsForDatasetQuery,
-  GetAnnotationsForRunAndDepositionQuery,
- } from 'app/__generated_v2__/graphql'
-
- import {
+} from 'app/__generated_v2__/graphql'
+import {
   MAX_PER_ACCORDION_GROUP,
   MAX_PER_FULLY_OPEN_ACCORDION,
 } from 'app/constants/pagination'
-
 
 // Annotation flavor -- TODO create a tomogram flavor as well
 const GET_DEPOSITION_ANNO_RUN_COUNTS_FOR_DATASETS = gql(`
@@ -238,7 +236,7 @@ export async function getDepositionAnnoRunCountsForDatasets({
     variables: {
       depositionId,
       datasetIds,
-    }
+    },
   })
 }
 
@@ -260,7 +258,7 @@ export async function getDepositionAnnoRunsForDataset({
       datasetId,
       limit: MAX_PER_ACCORDION_GROUP,
       offset: (page - 1) * MAX_PER_ACCORDION_GROUP,
-    }
+    },
   })
 }
 
@@ -275,7 +273,6 @@ export async function getAnnotationsForRunAndDeposition({
   runId: number
   page: number
 }): Promise<ApolloQueryResult<GetAnnotationsForRunAndDepositionQuery>> {
-  console.log("getAnnotationsForRunAndDeposition received page#", page); // REMOVE
   return client.query({
     query: GET_ANNOTATIONS_FOR_RUN_AND_DEPOSITION,
     variables: {
@@ -283,6 +280,6 @@ export async function getAnnotationsForRunAndDeposition({
       runId,
       limit: MAX_PER_FULLY_OPEN_ACCORDION,
       offset: (page - 1) * MAX_PER_FULLY_OPEN_ACCORDION,
-    }
+    },
   })
 }
