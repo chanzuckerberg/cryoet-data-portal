@@ -34,6 +34,7 @@ import {
 import {
   getDepositionAnnoRunCountsForDatasets,
   getDepositionAnnoRunsForDataset,
+  getAnnotationsForRunAndDeposition,
 } from 'app/graphql/getDepositionRunsV2.server'
 import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.server'
 import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
@@ -122,6 +123,19 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     page: 1,
   })
 
+  // MANUALLY SET the following run id based on depostion+dataset you are dev-ing against.
+  // This is a rough example of how user interaction would go. For deposition id 10314,
+  // the user has chosen to expand the accordion of dataset id 10301, and within that,
+  // has selected run id 14070, so now showing annotations for that run in the deposition.
+  const EXAMPLE_RUN_ID = 14070
+  const { data: annotationsForRunInDeposition } = await getAnnotationsForRunAndDeposition({
+    client,
+    depositionId: id,
+    runId: EXAMPLE_RUN_ID,
+    page: 1,  // VOODOO go back to 1!
+  })
+
+
   // MANUALLY SET the following array based on deposition you are dev-ing against.
   // Here as a rough example of how user interaction would go. For deposition id 10314
   // it has two datasets of id 10301 and 10302, so we choose some subset of those.
@@ -192,6 +206,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     datasetsViaAnnotationShapes,
     runCountsForDepositionAnnotations,
     runsAnnoForDepositionInDataset,
+    annotationsForRunInDeposition,
     annotationShapesForDatasets,
   })
 }
