@@ -10,7 +10,7 @@ import { useAnnotationNameColumn } from 'app/components/AnnotationTable/useAnnot
 import { useShapeTypeColumn } from 'app/components/AnnotationTable/useShapeTypeColumn'
 import { PageTable } from 'app/components/Table'
 import { TableClassNames } from 'app/components/Table/types'
-import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
+import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { DepositionAnnotationTableWidths } from 'app/constants/table'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
@@ -26,6 +26,7 @@ export function DepositionAnnotationTable({
   classes,
   getBeforeRowElement,
   isLoading = false,
+  loadingSkeletonCount = MAX_PER_PAGE,
 }: {
   data: DepositionAnnotationTableData[]
   classes?: TableClassNames
@@ -34,12 +35,13 @@ export function DepositionAnnotationTable({
     row: Row<DepositionAnnotationTableData>,
   ) => ReactNode
   isLoading?: boolean
+  loadingSkeletonCount?: number
 }) {
   const { t } = useI18n()
   const { isLoadingDebounced } = useIsLoading()
 
   const loadingAnnotations = Array.from(
-    { length: MAX_PER_FULLY_OPEN_ACCORDION },
+    { length: loadingSkeletonCount },
     (_, index) =>
       ({
         id: index,

@@ -169,6 +169,7 @@ function OrganismAnnotationContent({
         table: '[&_thead]:border-b-0',
       }}
       isLoading={isLoading}
+      loadingSkeletonCount={MAX_PER_FULLY_OPEN_ACCORDION}
     />
   )
 }
