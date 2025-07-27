@@ -568,5 +568,9 @@
   "errorCreatingDatasetTableColumns": "Error creating columns for dataset table",
   "groupBy": "Group by",
   "tomogramViewNotImplemented": "Tomogram view not implemented in this component",
-  "unknown": "Unknown"
+  "unknown": "Unknown",
+  "authorHandles": "Author Handle(s)",
+  "paginationPreviousPage": "Previous page",
+  "paginationNextPage": "Next page",
+  "totalRunsCount": "(Total {{count}} runs)"
 }
