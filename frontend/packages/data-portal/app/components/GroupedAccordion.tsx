@@ -3,6 +3,7 @@ import { ReactNode } from 'react'
 import { Accordion } from 'app/components/Accordion'
 import { AccordionHeader } from 'app/components/AccordionHeader'
 import { EmptyState } from 'app/components/EmptyState'
+import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { useAccordionState } from 'app/hooks/useAccordionState'
 import { useI18n } from 'app/hooks/useI18n'
 
@@ -38,7 +39,7 @@ export function GroupedAccordion<T>({
   getItemCount,
   externalLinkBuilder,
   onExternalLinkClick,
-  pageSize = 10,
+  pageSize = MAX_PER_ACCORDION_GROUP,
   className = '',
   accordionClassName = '',
   emptyMessage,
