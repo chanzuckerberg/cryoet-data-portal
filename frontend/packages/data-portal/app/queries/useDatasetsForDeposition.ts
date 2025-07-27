@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
+import { DepositionTab } from 'app/hooks/useDepositionTab'
 import { isDefined } from 'app/utils/nullish'
 
 // Type for the simplified dataset structure expected by the filter component
@@ -15,27 +16,41 @@ interface DepositionDatasetsResponse {
   datasets: DatasetOption[]
   organismCounts: Record<string, number>
   annotationCounts: Record<number, number>
+  tomogramCounts: Record<number, number>
 }
 
 /**
- * Hook to fetch datasets for a deposition via annotation shapes using React Query + API route.
+ * Hook to fetch datasets for a deposition using React Query + API route.
  *
  * This uses a server-side API route to avoid CORS issues with direct GraphQL calls,
  * leveraging React Query for caching and state management.
  *
- * @param depositionId - The ID of the deposition to fetch datasets for
+ * @param params - Object containing depositionId, type, and optional enabled flag
  * @returns React Query result with datasets array, loading state, and error handling
  */
-export function useDatasetsForDeposition(depositionId: number | undefined) {
+export function useDatasetsForDeposition({
+  depositionId,
+  type,
+  enabled = true,
+}: {
+  depositionId: number | undefined
+  type: DepositionTab
+  enabled?: boolean
+}) {
   const query = useQuery({
-    queryKey: ['deposition-datasets', depositionId],
+    queryKey: ['deposition-datasets', depositionId, type],
     queryFn: async (): Promise<DepositionDatasetsResponse> => {
       if (!depositionId) {
-        return { datasets: [], organismCounts: {}, annotationCounts: {} }
+        return {
+          datasets: [],
+          organismCounts: {},
+          annotationCounts: {},
+          tomogramCounts: {},
+        }
       }
 
       const response = await fetch(
-        `/api/deposition-datasets?depositionId=${depositionId}`,
+        `/api/deposition-datasets?depositionId=${depositionId}&type=${type}`,
       )
 
       if (!response.ok) {
@@ -44,7 +59,7 @@ export function useDatasetsForDeposition(depositionId: number | undefined) {
 
       return response.json() as Promise<DepositionDatasetsResponse>
     },
-    enabled: !!depositionId, // Only run query if depositionId is available
+    enabled: enabled && !!depositionId, // Only run query if enabled and depositionId is available
   })
 
   const organismNames = useMemo(() => {
@@ -67,11 +82,16 @@ export function useDatasetsForDeposition(depositionId: number | undefined) {
     return query.data?.annotationCounts || {}
   }, [query.data?.annotationCounts])
 
+  const tomogramCounts = useMemo(() => {
+    return query.data?.tomogramCounts || {}
+  }, [query.data?.tomogramCounts])
+
   return {
     ...query,
     datasets: query.data?.datasets || [],
     organismNames,
     organismCounts,
     annotationCounts,
+    tomogramCounts,
   }
 }
