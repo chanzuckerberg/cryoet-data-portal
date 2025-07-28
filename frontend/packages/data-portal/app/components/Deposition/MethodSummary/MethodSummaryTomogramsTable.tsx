@@ -3,20 +3,21 @@
 import { type ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { useMemo } from 'react'
 
-import {
-  TOMOGRAM_METHOD_MOCK_DATA,
-  type TomogramMethodItem,
-} from 'app/components/Deposition/mock'
 import { CellHeader, TableCell } from 'app/components/Table'
 import { TomogramMethodTableWidths } from 'app/constants/table'
+import {
+  TomogramMethodMetadata,
+  useDepositionById,
+} from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 
 import { MethodSummaryTable } from './MethodSummaryTable'
 
 export function MethodSummaryTomogramsTable() {
   const { t } = useI18n()
+  const { tomogramMethods } = useDepositionById()
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<TomogramMethodItem>()
+    const columnHelper = createColumnHelper<TomogramMethodMetadata>()
 
     return [
       columnHelper.accessor('count', {
@@ -61,7 +62,7 @@ export function MethodSummaryTomogramsTable() {
         ),
       }),
 
-      columnHelper.accessor('postProcessing', {
+      columnHelper.accessor('processing', {
         header: () => (
           <CellHeader width={TomogramMethodTableWidths.postProcessing}>
             {t('postProcessing')}
@@ -70,7 +71,7 @@ export function MethodSummaryTomogramsTable() {
 
         cell: ({ row }) => (
           <TableCell width={TomogramMethodTableWidths.postProcessing}>
-            {row.original.postProcessing}
+            <span className="capitalize">{row.original.processing}</span>
           </TableCell>
         ),
       }),
@@ -88,10 +89,8 @@ export function MethodSummaryTomogramsTable() {
           </TableCell>
         ),
       }),
-    ] as ColumnDef<TomogramMethodItem>[]
+    ] as ColumnDef<TomogramMethodMetadata>[]
   }, [t])
 
-  return (
-    <MethodSummaryTable columns={columns} data={TOMOGRAM_METHOD_MOCK_DATA} />
-  )
+  return <MethodSummaryTable columns={columns} data={tomogramMethods} />
 }

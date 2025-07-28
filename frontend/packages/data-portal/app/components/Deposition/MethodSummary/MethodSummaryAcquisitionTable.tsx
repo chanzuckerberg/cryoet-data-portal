@@ -3,20 +3,21 @@
 import { type ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { useMemo } from 'react'
 
-import {
-  ACQUISITION_METHOD_MOCK_DATA,
-  type AcquisitionMethodItem,
-} from 'app/components/Deposition/mock'
 import { CellHeader, TableCell } from 'app/components/Table'
 import { AcquisitionMethodTableWidths } from 'app/constants/table'
+import {
+  type AcquisitionMethodMetadata,
+  useDepositionById,
+} from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 
 import { MethodSummaryTable } from './MethodSummaryTable'
 
 export function MethodSummaryAcquisitionTable() {
   const { t } = useI18n()
+  const { acquisitionMethods } = useDepositionById()
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<AcquisitionMethodItem>()
+    const columnHelper = createColumnHelper<AcquisitionMethodMetadata>()
 
     return [
       columnHelper.accessor('microscope', {
@@ -116,10 +117,8 @@ export function MethodSummaryAcquisitionTable() {
           </TableCell>
         ),
       }),
-    ] as ColumnDef<AcquisitionMethodItem>[]
+    ] as ColumnDef<AcquisitionMethodMetadata>[]
   }, [t])
 
-  return (
-    <MethodSummaryTable columns={columns} data={ACQUISITION_METHOD_MOCK_DATA} />
-  )
+  return <MethodSummaryTable columns={columns} data={acquisitionMethods} />
 }

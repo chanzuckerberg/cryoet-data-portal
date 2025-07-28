@@ -1,9 +1,10 @@
 import {
+  AnnotationShapeWhereClause,
   DatasetWhereClause,
-  Deposition_Types_Enum,
   DepositionWhereClause,
   Fiducial_Alignment_Status_Enum,
   Tomogram_Reconstruction_Method_Enum,
+  TomogramWhereClause,
 } from 'app/__generated_v2__/graphql'
 import { Tags } from 'app/constants/tags'
 import {
@@ -283,9 +284,7 @@ export function getDepositionsFilter({
 }: {
   filterState: FilterState
 }): DepositionWhereClause {
-  const where: DepositionWhereClause = {
-    depositionTypes: { type: { _eq: Deposition_Types_Enum.Annotation } },
-  }
+  const where: DepositionWhereClause = {}
 
   // Competition Filter
   if (filterState.tags.competition) {
@@ -381,6 +380,86 @@ export function getDepositionsFilter({
         break
 
       default:
+    }
+  }
+
+  return where
+}
+
+export interface GetDepositionAnnotationsFilterParams {
+  depositionId: number
+  datasetIds?: number[]
+  organismNames?: string[]
+}
+
+export function getDepositionAnnotationsFilter({
+  depositionId,
+  datasetIds,
+  organismNames,
+}: GetDepositionAnnotationsFilterParams): AnnotationShapeWhereClause {
+  const where: AnnotationShapeWhereClause = {
+    annotation: {
+      depositionId: {
+        _eq: depositionId,
+      },
+    },
+  }
+
+  if (datasetIds && datasetIds.length > 0) {
+    where.annotation!.run = {
+      datasetId: {
+        _in: datasetIds,
+      },
+    }
+  }
+
+  if (organismNames && organismNames.length > 0) {
+    where.annotation!.run = {
+      ...where.annotation!.run,
+      dataset: {
+        organismName: {
+          _in: organismNames,
+        },
+      },
+    }
+  }
+
+  return where
+}
+
+export interface GetDepositionTomogramsFilterParams {
+  depositionId: number
+  datasetIds?: number[]
+  organismNames?: string[]
+}
+
+export function getDepositionTomogramsFilter({
+  depositionId,
+  datasetIds,
+  organismNames,
+}: GetDepositionTomogramsFilterParams): TomogramWhereClause {
+  const where: TomogramWhereClause = {
+    depositionId: {
+      _eq: depositionId,
+    },
+  }
+
+  if (datasetIds && datasetIds.length > 0) {
+    where.run = {
+      datasetId: {
+        _in: datasetIds,
+      },
+    }
+  }
+
+  if (organismNames && organismNames.length > 0) {
+    where.run = {
+      ...where.run,
+      dataset: {
+        organismName: {
+          _in: organismNames,
+        },
+      },
     }
   }
 
