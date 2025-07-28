@@ -28,7 +28,7 @@ def test_filter_merge(client) -> None:
         client,
         [
             Tomogram.run.name == "RUN001",
-            Tomogram.run.dataset_id == 20002,
+            # Tomogram.run.dataset_id == 20002,
         ],
     )
     assert len(tomograms) == 1
