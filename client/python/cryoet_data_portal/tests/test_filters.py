@@ -27,8 +27,8 @@ def test_filter_merge(client) -> None:
     tomograms = Tomogram.find(
         client,
         [
-            Tomogram.tomogram_voxel_spacing.run.name == "RUN001",
-            # Tomogram.tomogram_voxel_spacing.run.dataset_id == 20002,
+            Tomogram.run.name == "RUN001",
+            Tomogram.run.dataset_id == 20002,
         ],
     )
     assert len(tomograms) == 1
