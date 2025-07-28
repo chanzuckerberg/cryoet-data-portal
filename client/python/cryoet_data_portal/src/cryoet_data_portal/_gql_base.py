@@ -297,6 +297,7 @@ class Model:
         if query_filters:
             for expression in query_filters:
                 filters = always_merger.merge(filters, expression.to_gql())
+        print(f"Querying {cls._get_gql_type()} with filters: {filters}")
         return client.find(cls, filters)
 
     @classmethod
