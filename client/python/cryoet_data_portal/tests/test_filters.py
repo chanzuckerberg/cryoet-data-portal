@@ -1,6 +1,6 @@
 import pytest
 
-from cryoet_data_portal import Run, Tomogram, Dataset
+from cryoet_data_portal import Run, Tomogram
 
 
 def test_basic_filters(client) -> None:
@@ -21,7 +21,6 @@ def test_filter_merge(client) -> None:
     # Make sure our GQL filters get merged instead of letting the longest-path
     # queries overwrite shorter paths.
     print(f"Available runs: {[r.name for r in Run.find(client, [])]}")
-    print(f"Available datasets: {[d.id for d in Dataset.find(client, [])]}")
     print(f"Available tomograms: {[t.id for t in Tomogram.find(client, [])]}")
 
     tomograms = Tomogram.find(

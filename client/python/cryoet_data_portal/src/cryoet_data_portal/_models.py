@@ -6,6 +6,7 @@ Edit the Jinja2 templates instead.
 
 from __future__ import annotations
 
+import logging
 import os
 from datetime import date
 from typing import Iterable, List, Optional
@@ -25,9 +26,7 @@ from cryoet_data_portal._gql_base import (
     StringField,
 )
 
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 class Alignment(Model):
