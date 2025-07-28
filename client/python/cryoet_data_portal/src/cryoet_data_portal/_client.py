@@ -70,7 +70,6 @@ class Client:
             getattr(gql_type, fieldname) for fieldname in cls._get_gql_fields()
         ]
         print(f"root_field: {root_field}")
-        print(f"scalar_fields: {scalar_fields}")
         print(f"query_filters: {query_filters}")
         query = dsl_gql(
             DSLQuery(
