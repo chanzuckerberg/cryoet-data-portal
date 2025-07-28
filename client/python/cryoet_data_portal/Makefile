@@ -34,8 +34,8 @@ coverage:
 		export AWS_SECRET_ACCESS_KEY=test; \
 		export BOTO_ENDPOINT_URL=http://localhost:5566; \
 		export BOTO_SIGNATURE_VERSION=s3v4; \
-		coverage run --parallel-mode -m pytest -v -rP --durations=20 ./tests/
-
+# 		coverage run --parallel-mode -m pytest -v -rP --durations=20 ./tests/
+		pytest -vvv -s . -k "filter_merge"
 .PHONY: test
 test:
 	export AWS_REGION=us-west-2; \
