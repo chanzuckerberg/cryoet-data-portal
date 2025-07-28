@@ -43,26 +43,26 @@ export function RunTomogramsTable() {
     [setMetadataDrawerTomogram, openDrawer],
   )
 
-  const tomogramKeyPhotoColumn = useTomogramKeyPhotoColumn(
-    TomogramTableWidths.photo,
-  )
+  const tomogramKeyPhotoColumn = useTomogramKeyPhotoColumn({
+    width: TomogramTableWidths.photo,
+  })
 
   const tomogramNameColumn = useTomogramNameColumn({
     showAuthors: true,
     width: TomogramTableWidths.name,
   })
 
-  const voxelSpacingColumn = useVoxelSpacingColumn(
-    TomogramTableWidths.voxelSpacing,
-  )
+  const voxelSpacingColumn = useVoxelSpacingColumn({
+    width: TomogramTableWidths.voxelSpacing,
+  })
 
-  const reconstructionMethodColumn = useReconstructionMethodColumn(
-    TomogramTableWidths.reconstructionMethod,
-  )
+  const reconstructionMethodColumn = useReconstructionMethodColumn({
+    width: TomogramTableWidths.reconstructionMethod,
+  })
 
-  const postProcessingColumn = usePostProcessingColumn(
-    TomogramTableWidths.postProcessing,
-  )
+  const postProcessingColumn = usePostProcessingColumn({
+    width: TomogramTableWidths.postProcessing,
+  })
 
   const tomogramActionsColumn = useTomogramActionsColumn({
     width: TomogramTableWidths.actions,

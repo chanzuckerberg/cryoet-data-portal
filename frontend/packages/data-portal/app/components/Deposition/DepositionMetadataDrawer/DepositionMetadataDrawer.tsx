@@ -28,7 +28,9 @@ export function DepositionMetadataDrawer() {
         text: `${IdPrefix.Deposition}-${deposition?.id}`,
       }}
       MetadataTabComponent={MetadataTab}
-      HowToCiteTabComponent={isExpandDepositions ? HowToCiteTab : undefined}
+      MethodSummaryTabComponent={
+        isExpandDepositions ? MethodSummaryTab : undefined
+      }
     />
   )
 }
@@ -47,7 +49,7 @@ function MetadataTab() {
   )
 }
 
-function HowToCiteTab() {
+function MethodSummaryTab() {
   return (
     <>
       <AnnotationsMethodsMetadataTable />

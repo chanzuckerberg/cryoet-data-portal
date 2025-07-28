@@ -1,54 +1,33 @@
+import { useParams } from '@remix-run/react'
 import { useMemo } from 'react'
 
 import { SelectFilter } from 'app/components/Filters'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { QueryParams } from 'app/constants/query'
+import { useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
+import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 import { type BaseFilterOption } from 'app/types/filter'
 
-const MOCK_DATA = [
-  {
-    id: 10301,
-    title: 'Dataset Name A',
-  },
-  {
-    id: 10302,
-    title: 'Dataset Name B',
-  },
-  {
-    id: 10303,
-    title: 'Dataset Name C',
-  },
-  {
-    id: 10304,
-    title: 'Dataset Name D',
-  },
-  {
-    id: 10305,
-    title: 'Dataset Name E',
-  },
-  {
-    id: 10306,
-    title: 'Dataset Name F',
-  },
-  {
-    id: 10307,
-    title: 'Dataset Name G',
-  },
-  {
-    id: 10308,
-    title: 'Dataset Name H',
-  },
-]
-
 export function DatasetNameOrIdFilter() {
+  const params = useParams()
+  const depositionId = params.id ? +params.id : undefined
+  const [tab] = useDepositionTab()
   const {
     updateValue,
     ids: { datasets: datasetIds },
   } = useFilter()
   const { t } = useI18n()
-  const datasets = MOCK_DATA
+
+  // Fetch real dataset data using React Query + Apollo
+  const { datasets = [] } = useDatasetsForDeposition({
+    depositionId,
+    type: tab,
+  })
+
+  // Handle error silently - React Query will log it internally
+  // The filter will simply show no options if there's an error
 
   const allDatasetOptions = useMemo<BaseFilterOption[]>(
     () =>
