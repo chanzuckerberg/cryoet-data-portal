@@ -25,6 +25,10 @@ from cryoet_data_portal._gql_base import (
     StringField,
 )
 
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+
 
 class Alignment(Model):
     """Tiltseries Alignment
