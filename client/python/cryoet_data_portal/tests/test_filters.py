@@ -21,14 +21,13 @@ def test_filter_merge(client) -> None:
     # Make sure our GQL filters get merged instead of letting the longest-path
     # queries overwrite shorter paths.
     print(f"Available runs: {[r.name for r in Run.find(client, [])]}")
-    print(f"Available tomograms: {[t.id for t in Tomogram.find(client, [])]}")
 
     tomograms = Tomogram.find(
         client,
-        [Tomogram.tomogram_voxel_spacing.run.name == "RUN001"],
+        [Tomogram.tomogram_voxel_spacing.run.name == "RUN1"],
     )
     assert len(tomograms) == 1
-    assert tomograms[0].tomogram_voxel_spacing.run.name == "RUN001"
+    assert tomograms[0].tomogram_voxel_spacing.run.name == "RUN1"
 
 
 def test_filter_on_object_raises_exceptions(client) -> None:
