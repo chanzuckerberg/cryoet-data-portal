@@ -1,6 +1,6 @@
 import {
   createEmptyResponse,
-  useOrganismFilteredDepositionQuery,
+  useDepositionQuery,
 } from 'app/hooks/useDepositionQuery'
 import { useFilter } from 'app/hooks/useFilter'
 import type {
@@ -29,7 +29,7 @@ export function useDepositionItemsByOrganism({
     ids: { datasets: datasetIds },
   } = useFilter()
 
-  return useOrganismFilteredDepositionQuery<
+  return useDepositionQuery<
     ItemsByOrganismResponse,
     UseDepositionItemsByOrganismParams & { datasetIds: string[] }
   >(
@@ -51,6 +51,10 @@ export function useDepositionItemsByOrganism({
         page: params.page,
         pageSize: params.pageSize,
         dataset_id: params.datasetIds,
+      }),
+      getRequiredParams: (params) => ({
+        depositionId: params.depositionId,
+        organismName: params.organismName,
       }),
       transformResponse: (data): ItemsByOrganismResponse => {
         if (!data) {
