@@ -54,12 +54,11 @@ jobs:
           sudo apt-get install -y pandoc
 
       - name: Build Sphinx website
+        if: ((github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch'))
         run: |
           cd docs/
           make clean && make html
-          if: ((github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch'))
-          run: |
-            cp -r _build/html/* ../docsite/.
+          cp -r _build/html/* ../docsite/.
 
       - name: Deploy 🚀
         if: ((github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch'))
