@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.74.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.74.0...cryoet-data-portal-frontend-v1.74.1) (2025-07-29)
+
+
+### 📝 Documentation
+
+* Audit of the metadata on docs org page, take 2 ([#1869](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1869)) ([d907687](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d907687b46efd61f59546da8fc294f1f89823010))
+
 ## [1.74.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.73.0...cryoet-data-portal-frontend-v1.74.0) (2025-07-10)
 
 
