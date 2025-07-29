@@ -24,6 +24,11 @@ export function TableCell({
   horizontalAlign?: 'left' | 'center' | 'right'
   primaryText?: string
   renderLoadingSkeleton?: (() => ReactNode) | false
+  /**
+   * Explicitly controls whether to show the loading skeleton.
+   * When true, forces the skeleton to display regardless of global loading state.
+   * When false/undefined, relies on automatic loading detection via useIsLoading hook.
+   */
   showLoadingSkeleton?: boolean
   tooltip?: ReactNode
   tooltipProps?: Partial<TooltipProps>

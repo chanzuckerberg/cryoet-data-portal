@@ -5,8 +5,12 @@ import { cns } from 'app/utils/cns'
 import { formatNumber } from 'app/utils/string'
 
 // Constants for styling consistency
-const BUTTON_BASE_CLASSES =
-  'hover:!bg-light-sds-color-primitive-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed'
+const BUTTON_BASE_CLASSES = cns(
+  'hover:!bg-light-sds-color-primitive-gray-100',
+  'rounded',
+  'disabled:opacity-50',
+  'disabled:cursor-not-allowed',
+)
 const ICON_SIZE = 'xs' as const
 const ICON_DISABLED_COLOR =
   '!text-light-sds-color-semantic-base-ornament-disabled'

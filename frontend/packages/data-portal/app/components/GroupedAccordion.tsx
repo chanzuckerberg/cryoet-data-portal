@@ -141,7 +141,7 @@ export function GroupedAccordion<T>({
                       items:
                         group.items.length === 1
                           ? group.items
-                          : group.items.slice(startIndex - 1, endIndex),
+                          : group.items.slice(startIndex, endIndex),
                     },
                     isExpanded,
                     currentPage,

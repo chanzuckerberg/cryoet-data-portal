@@ -16,6 +16,10 @@ import { LocationTable } from './LocationTable'
 import { SkeletonAccordion } from './SkeletonAccordion'
 import { TomogramLocationTable } from './TomogramLocationTable'
 
+type GroupedDepositedLocationData = GroupedData<
+  DepositedLocationData<AnnotationRowData | TomogramRowData>
+>
+
 interface DepositedLocationAccordionTableProps {
   tab: DataContentsType
   depositionId: number
@@ -139,9 +143,7 @@ export function DepositedLocationAccordionTable({
 
   // Render function that directly renders the table
   const renderContent = (
-    group: GroupedData<
-      DepositedLocationData<AnnotationRowData | TomogramRowData>
-    >,
+    group: GroupedDepositedLocationData,
     isExpanded: boolean,
     currentPage: number,
   ) => {
