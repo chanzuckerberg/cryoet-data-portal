@@ -21,7 +21,11 @@ import { TableCountHeader } from 'app/components/TablePageLayout/TableCountHeade
 import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 import { getDepositionAnnotations } from 'app/graphql/getDepositionAnnotationsV2.server'
-import { getDepositionByIdV2 } from 'app/graphql/getDepositionByIdV2.server'
+import {
+  getDepositionBaseData,
+  getDepositionExpandedData,
+  getDepositionLegacyData,
+} from 'app/graphql/getDepositionByIdV2.server'
 import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.server'
 import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
@@ -57,26 +61,45 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   }
 
   const client = apolloClientV2
-  const { data: responseV2 } = await getDepositionByIdV2({
-    client,
-    id,
-    page,
-    orderBy: orderByV2,
-    params: url.searchParams,
-  })
-
-  if (responseV2.depositions.length === 0) {
-    throw new Response(null, {
-      status: 404,
-      statusText: `Deposition with ID ${id} not found`,
-    })
-  }
 
   const isExpandDepositions = getFeatureFlag({
     env: process.env.ENV,
     key: 'expandDepositions',
     params: url.searchParams,
   })
+
+  // Get base data (always needed)
+  const { data: baseData } = await getDepositionBaseData({ client, id })
+
+  if (baseData.depositions.length === 0) {
+    throw new Response(null, {
+      status: 404,
+      statusText: `Deposition with ID ${id} not found`,
+    })
+  }
+
+  // Get legacy data (datasets table) if not expanding depositions
+  const legacyData = !isExpandDepositions
+    ? await getDepositionLegacyData({
+        client,
+        id,
+        page,
+        orderBy: orderByV2,
+        params: url.searchParams,
+      })
+    : null
+
+  // Get expanded data (allRuns) if expanding depositions
+  const expandedData = isExpandDepositions
+    ? await getDepositionExpandedData({ client, id })
+    : null
+
+  // Combine the data
+  const responseV2 = {
+    ...baseData,
+    ...(legacyData?.data || {}),
+    ...(expandedData?.data || {}),
+  }
 
   const depositionTab = url.searchParams.get(
     QueryParams.DepositionTab,
@@ -94,7 +117,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       () =>
         getDepositionAnnotations({
           client,
-          id,
+          depositionId: id,
           page,
         }),
     )
@@ -106,7 +129,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       () =>
         getDepositionTomograms({
           client,
-          id,
+          depositionId: id,
           page,
         }),
     )
