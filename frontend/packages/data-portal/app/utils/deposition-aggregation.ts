@@ -101,7 +101,12 @@ export function aggregateOrganismCounts(
   const organismCounts: Record<string, number> = {}
 
   items.forEach(({ organismName, count }) => {
-    if (organismName && typeof organismName === 'string' && count) {
+    if (
+      organismName &&
+      typeof organismName === 'string' &&
+      count !== null &&
+      count !== undefined
+    ) {
       organismCounts[organismName] = (organismCounts[organismName] || 0) + count
     }
   })

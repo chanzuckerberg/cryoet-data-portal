@@ -8,9 +8,7 @@ function validateRequiredParams(
   params: Record<string, unknown>,
   requiredFields: string[],
 ): void {
-  const missingFields = requiredFields.filter(
-    (field) => !params[field] && params[field] !== 0,
-  )
+  const missingFields = requiredFields.filter((field) => params[field] == null)
 
   if (missingFields.length > 0) {
     throw new Error(`Missing required parameters: ${missingFields.join(', ')}`)

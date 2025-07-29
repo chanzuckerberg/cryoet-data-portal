@@ -5,6 +5,7 @@ import {
   getDatasetsForDepositionViaTomograms,
 } from 'app/graphql/getDatasetsForDepositionV2.server'
 import { DataContentsType } from 'app/types/deposition-queries'
+import { aggregateDatasetInfo } from 'app/utils/deposition-aggregation'
 
 interface DatasetOption {
   id: number
@@ -43,94 +44,33 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const isAnnotationsType =
       (type as DataContentsType) === DataContentsType.Annotations
 
-    // Transform data to DatasetOption[] and aggregate organism counts
-    const datasets: DatasetOption[] = []
-    const seenIds = new Set<number>()
-    const organismCounts: Record<string, number> = {}
-    const annotationCounts: Record<number, number> = {}
-    const tomogramCounts: Record<number, number> = {}
+    let aggregationResult
+    let annotationCounts: Record<number, number> = {}
+    let tomogramCounts: Record<number, number> = {}
 
     if (isAnnotationsType) {
       const { data } =
         await getDatasetsForDepositionViaAnnotationShapes(depositionIdNum)
 
-      data.annotationShapesAggregate.aggregate?.forEach((item) => {
-        const dataset = item.groupBy?.annotation?.run?.dataset
-        const count = item.count || 0
-        const organismName = dataset?.organismName
-
-        // Aggregate counts by organism
-        if (organismName && typeof organismName === 'string') {
-          organismCounts[organismName] =
-            (organismCounts[organismName] || 0) + count
-        }
-
-        // Collect unique datasets and aggregate counts by dataset
-        if (
-          dataset?.id &&
-          dataset?.title &&
-          typeof dataset.id === 'number' &&
-          typeof dataset.title === 'string'
-        ) {
-          if (!seenIds.has(dataset.id)) {
-            datasets.push({
-              id: dataset.id,
-              title: dataset.title,
-              organismName: dataset.organismName ?? null,
-            })
-            seenIds.add(dataset.id)
-          }
-
-          // Aggregate annotation counts by dataset
-          annotationCounts[dataset.id] =
-            (annotationCounts[dataset.id] || 0) + count
-        }
-      })
+      aggregationResult = aggregateDatasetInfo(
+        data.annotationShapesAggregate.aggregate || [],
+        true, // isAnnotationType
+      )
+      annotationCounts = aggregationResult.counts
     } else {
       const { data } =
         await getDatasetsForDepositionViaTomograms(depositionIdNum)
 
-      data.tomogramsAggregate.aggregate?.forEach((item) => {
-        const dataset = item.groupBy?.run?.dataset
-        const count = item.count || 0
-        const organismName = dataset?.organismName
-
-        // Aggregate counts by organism
-        if (organismName && typeof organismName === 'string') {
-          organismCounts[organismName] =
-            (organismCounts[organismName] || 0) + count
-        }
-
-        // Collect unique datasets and aggregate counts by dataset
-        if (
-          dataset?.id &&
-          dataset?.title &&
-          typeof dataset.id === 'number' &&
-          typeof dataset.title === 'string'
-        ) {
-          if (!seenIds.has(dataset.id)) {
-            datasets.push({
-              id: dataset.id,
-              title: dataset.title,
-              organismName: dataset.organismName ?? null,
-            })
-            seenIds.add(dataset.id)
-          }
-
-          // Aggregate tomogram counts by dataset
-          tomogramCounts[dataset.id] = (tomogramCounts[dataset.id] || 0) + count
-        }
-      })
+      aggregationResult = aggregateDatasetInfo(
+        data.tomogramsAggregate.aggregate || [],
+        false, // isAnnotationType
+      )
+      tomogramCounts = aggregationResult.counts
     }
 
-    // Sort datasets by title for consistent ordering
-    const sortedDatasets = datasets.sort((a, b) =>
-      a.title.localeCompare(b.title),
-    )
-
     const response: DepositionDatasetsResponse = {
-      datasets: sortedDatasets,
-      organismCounts,
+      datasets: aggregationResult.datasets,
+      organismCounts: aggregationResult.organismCounts,
       annotationCounts,
       tomogramCounts,
     }

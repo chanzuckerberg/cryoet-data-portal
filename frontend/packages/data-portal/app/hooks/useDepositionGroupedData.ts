@@ -38,12 +38,7 @@ export function useDepositionGroupedData(
 ): DepositionGroupedDataResult {
   const { depositionId, groupBy, tab, enabled = true } = params
 
-  const {
-    fetchRunCounts = true,
-    enableMemoization = true,
-    onError,
-    onLoadingChange,
-  } = options
+  const { fetchRunCounts = true, onError, onLoadingChange } = options
 
   // Fetch datasets and basic count data
   const datasetsQuery = useDatasetsForDeposition({
@@ -201,8 +196,7 @@ export function useDepositionGroupedData(
     groupBy,
   ])
 
-  // Apply memoization if enabled
-  return enableMemoization ? result : result
+  return result
 }
 
 /**

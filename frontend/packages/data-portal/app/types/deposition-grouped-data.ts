@@ -129,8 +129,6 @@ export enum DepositionGroupedDataError {
 export interface DepositionGroupedDataOptions {
   /** Whether to fetch run counts (expensive operation) */
   fetchRunCounts?: boolean
-  /** Whether to enable aggressive memoization */
-  enableMemoization?: boolean
   /** Custom error handler */
   onError?: (error: Error) => void
   /** Custom loading handler */
