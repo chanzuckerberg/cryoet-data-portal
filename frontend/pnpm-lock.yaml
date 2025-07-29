@@ -92,7 +92,7 @@ importers:
         specifier: ^2.15.0
         version: 2.15.0(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)
       '@tanstack/react-query':
-        specifier: ^5.0.0
+        specifier: ^5.83.0
         version: 5.83.0(react@18.2.0)
       '@tanstack/react-table':
         specifier: ^8.10.6

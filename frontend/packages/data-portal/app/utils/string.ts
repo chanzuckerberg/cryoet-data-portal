@@ -13,7 +13,7 @@ export function getErrorMessage(error: unknown): string {
 }
 
 export function formatNumber(value: number | undefined): string {
-  if (value === undefined || value === null) {
+  if (value === undefined) {
     return '0'
   }
   return value.toLocaleString()

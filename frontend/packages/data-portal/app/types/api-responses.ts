@@ -3,6 +3,11 @@
  * across all deposition-related endpoints
  */
 
+import {
+  GetDepositionAnnotationsQuery,
+  GetDepositionTomogramsQuery,
+} from 'app/__generated_v2__/graphql'
+
 /**
  * Response format for run count endpoints
  */
@@ -46,7 +51,7 @@ export interface PaginatedResponse<T> {
  * The actual data structure will be determined by GraphQL response
  */
 export interface AnnotationsResponse {
-  data: unknown // GraphQL response data
+  data: GetDepositionAnnotationsQuery['annotationShapes']
 }
 
 /**
@@ -54,7 +59,7 @@ export interface AnnotationsResponse {
  * The actual data structure will be determined by GraphQL response
  */
 export interface TomogramsResponse {
-  data: unknown // GraphQL response data
+  data: GetDepositionTomogramsQuery['tomograms']
 }
 
 /**
@@ -62,8 +67,8 @@ export interface TomogramsResponse {
  * Returns either annotations or tomograms based on type parameter
  */
 export interface ItemsByOrganismResponse {
-  annotations?: unknown // GetDepositionAnnotationsQuery['annotationShapes']
-  tomograms?: unknown // GetDepositionTomogramsQuery['tomograms']
+  annotations?: GetDepositionAnnotationsQuery['annotationShapes']
+  tomograms?: GetDepositionTomogramsQuery['tomograms']
 }
 
 /**
