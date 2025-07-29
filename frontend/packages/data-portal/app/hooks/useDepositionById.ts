@@ -5,7 +5,9 @@ import {
   Annotation_Method_Link_Type_Enum,
   Annotation_Method_Type_Enum,
   type GetDepositionAnnotationsQuery,
-  GetDepositionByIdV2Query,
+  GetDepositionBaseDataV2Query,
+  GetDepositionExpandedDataV2Query,
+  GetDepositionLegacyDataV2Query,
   type GetDepositionTomogramsQuery,
 } from 'app/__generated_v2__/graphql'
 import { METHOD_TYPE_ORDER } from 'app/constants/methodTypes'
@@ -24,7 +26,9 @@ export interface AnnotationMethodMetadata {
 
 export function useDepositionById() {
   const { v2, annotations, tomograms } = useTypedLoaderData<{
-    v2: GetDepositionByIdV2Query
+    v2: GetDepositionBaseDataV2Query &
+      Partial<GetDepositionLegacyDataV2Query> &
+      Partial<GetDepositionExpandedDataV2Query>
     annotations?: GetDepositionAnnotationsQuery
     tomograms?: GetDepositionTomogramsQuery
   }>()
@@ -93,8 +97,8 @@ export function useDepositionById() {
     annotationMethods,
     annotations,
     tomograms,
-    allRuns: v2.allRuns,
-    datasets: v2.datasets,
+    allRuns: v2.allRuns ?? [],
+    datasets: v2.datasets ?? [],
     deposition: v2.depositions[0],
 
     annotationsCount:

@@ -2,13 +2,13 @@ import { useTypedLoaderData } from 'remix-typedjson'
 
 import {
   GetDatasetsV2Query,
-  GetDepositionByIdV2Query,
+  GetDepositionLegacyDataV2Query,
 } from 'app/__generated_v2__/graphql'
 import { isDefined } from 'app/utils/nullish'
 
 export function useDatasetsFilterData() {
   const { v2 } = useTypedLoaderData<{
-    v2: GetDatasetsV2Query | GetDepositionByIdV2Query // TODO: Move this data into props.
+    v2: GetDatasetsV2Query | GetDepositionLegacyDataV2Query // TODO: Move this data into props.
   }>()
 
   return {
