@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
 
+import {
+  createEmptyResponse,
+  useDepositionQuery,
+} from 'app/hooks/useDepositionQuery'
 import type {
   DataContentsType,
   DepositionDatasetsResponse,
 } from 'app/types/deposition-queries'
-import {
-  createDepositionQuery,
-  createEmptyResponse,
-} from 'app/utils/createDepositionQuery'
 import { isDefined } from 'app/utils/nullish'
 
 /**
@@ -28,33 +28,34 @@ export function useDatasetsForDeposition({
   type: DataContentsType
   enabled?: boolean
 }) {
-  const createQueryHook = createDepositionQuery<
+  const query = useDepositionQuery<
     DepositionDatasetsResponse,
     {
       depositionId: number | undefined
       type: DataContentsType
       enabled?: boolean
     }
-  >({
-    endpoint: 'depositionDatasets',
-    queryKeyPrefix: 'deposition-datasets',
-    getQueryKeyValues: (params) => [params.depositionId, params.type],
-    getApiParams: (params) => ({
-      depositionId: params.depositionId,
-      type: params.type,
-    }),
-    getRequiredParams: (params) => ({
-      depositionId: params.depositionId,
-    }),
-    transformResponse: (data): DepositionDatasetsResponse => {
-      if (!data) {
-        return createEmptyResponse('datasets')
-      }
-      return data as DepositionDatasetsResponse
+  >(
+    {
+      endpoint: 'depositionDatasets',
+      queryKeyPrefix: 'deposition-datasets',
+      getQueryKeyValues: (params) => [params.depositionId, params.type],
+      getApiParams: (params) => ({
+        depositionId: params.depositionId,
+        type: params.type,
+      }),
+      getRequiredParams: (params) => ({
+        depositionId: params.depositionId,
+      }),
+      transformResponse: (data): DepositionDatasetsResponse => {
+        if (!data) {
+          return createEmptyResponse('datasets')
+        }
+        return data as DepositionDatasetsResponse
+      },
     },
-  })
-
-  const query = createQueryHook({ depositionId, type, enabled })
+    { depositionId, type, enabled },
+  )
 
   const organismNames = useMemo(() => {
     if (!query.data?.datasets) return []

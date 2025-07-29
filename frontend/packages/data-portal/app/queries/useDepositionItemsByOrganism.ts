@@ -1,13 +1,13 @@
+import {
+  createEmptyResponse,
+  useOrganismFilteredDepositionQuery,
+} from 'app/hooks/useDepositionQuery'
 import { useFilter } from 'app/hooks/useFilter'
 import type {
   ItemsByOrganismResponse,
   UnifiedItemsByOrganismParams,
 } from 'app/types/deposition-queries'
 import { DataContentsType } from 'app/types/deposition-queries'
-import {
-  createEmptyResponse,
-  createOrganismFilteredQuery,
-} from 'app/utils/createDepositionQuery'
 
 interface UseDepositionItemsByOrganismParams
   extends UnifiedItemsByOrganismParams {}
@@ -29,45 +29,46 @@ export function useDepositionItemsByOrganism({
     ids: { datasets: datasetIds },
   } = useFilter()
 
-  const createQueryHook = createOrganismFilteredQuery<
+  return useOrganismFilteredDepositionQuery<
     ItemsByOrganismResponse,
     UseDepositionItemsByOrganismParams & { datasetIds: string[] }
-  >({
-    endpoint: 'depositionItemsByOrganism',
-    queryKeyPrefix: 'deposition-items-by-organism',
-    getQueryKeyValues: (params) => [
-      params.depositionId,
-      params.organismName,
-      params.type,
-      params.page,
-      params.pageSize,
-      params.datasetIds,
-    ],
-    getApiParams: (params) => ({
-      depositionId: params.depositionId,
-      organismName: params.organismName,
-      type: params.type,
-      page: params.page,
-      pageSize: params.pageSize,
-      dataset_id: params.datasetIds,
-    }),
-    transformResponse: (data): ItemsByOrganismResponse => {
-      if (!data) {
-        return type === DataContentsType.Annotations
-          ? createEmptyResponse('annotations')
-          : createEmptyResponse('tomograms')
-      }
-      return data as ItemsByOrganismResponse
+  >(
+    {
+      endpoint: 'depositionItemsByOrganism',
+      queryKeyPrefix: 'deposition-items-by-organism',
+      getQueryKeyValues: (params) => [
+        params.depositionId,
+        params.organismName,
+        params.type,
+        params.page,
+        params.pageSize,
+        params.datasetIds,
+      ],
+      getApiParams: (params) => ({
+        depositionId: params.depositionId,
+        organismName: params.organismName,
+        type: params.type,
+        page: params.page,
+        pageSize: params.pageSize,
+        dataset_id: params.datasetIds,
+      }),
+      transformResponse: (data): ItemsByOrganismResponse => {
+        if (!data) {
+          return type === DataContentsType.Annotations
+            ? createEmptyResponse('annotations')
+            : createEmptyResponse('tomograms')
+        }
+        return data as ItemsByOrganismResponse
+      },
     },
-  })
-
-  return createQueryHook({
-    depositionId,
-    organismName,
-    type,
-    page,
-    pageSize,
-    datasetIds,
-    enabled,
-  })
+    {
+      depositionId,
+      organismName,
+      type,
+      page,
+      pageSize,
+      datasetIds,
+      enabled,
+    },
+  )
 }

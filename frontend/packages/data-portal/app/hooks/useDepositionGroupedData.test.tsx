@@ -13,8 +13,17 @@ global.fetch = jest.fn(() =>
   Promise.resolve({
     ok: true,
     json: () => Promise.resolve({}),
-  } as Response)
+  } as Response),
 ) as jest.MockedFunction<typeof fetch>
+
+// Mock the underlying query hook utility
+jest.mock('app/hooks/useDepositionQuery', () => ({
+  useDepositionQuery: () => ({
+    data: undefined,
+    isLoading: false,
+    error: null,
+  }),
+}))
 
 // Mock data for testing
 const mockDatasets = [
@@ -73,10 +82,6 @@ jest.mock('app/utils/deposition-api', () => ({
 
 // Mock the query creation utility - return a function that creates mock hooks
 const mockRunCountsHook = jest.fn()
-jest.mock('app/utils/createDepositionQuery', () => ({
-  createDepositionQuery: jest.fn(() => mockRunCountsHook),
-  createEmptyResponse: jest.fn(() => ({ runCounts: {} })),
-}))
 
 function createTestWrapper() {
   const queryClient = new QueryClient({
@@ -97,7 +102,7 @@ function createTestWrapper() {
 describe('useDepositionGroupedData', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    
+
     // Set up default mock return values
     mockUseDatasetsForDeposition.mockReturnValue({
       datasets: mockDatasets,
@@ -172,7 +177,7 @@ describe('useDepositionGroupedData', () => {
         () =>
           useDepositionGroupedData({
             depositionId: 123,
-            groupBy: GroupByOption.DepositedLocation,  
+            groupBy: GroupByOption.DepositedLocation,
             tab: DataContentsType.Annotations,
           }),
         { wrapper: createTestWrapper() },
@@ -187,7 +192,7 @@ describe('useDepositionGroupedData', () => {
       // For location grouping, organisms array should be empty
       expect(Array.isArray(organismResult.current.organisms)).toBe(true)
       expect(Array.isArray(locationResult.current.organisms)).toBe(true)
-      
+
       // Both should have datasets array
       expect(Array.isArray(organismResult.current.datasets)).toBe(true)
       expect(Array.isArray(locationResult.current.datasets)).toBe(true)
@@ -295,7 +300,10 @@ describe('useDepositionGroupedData', () => {
       expect(result.current.organisms).toEqual([])
       // Error handling may vary based on implementation details, so test structure
       expect(result.current).toHaveProperty('error')
-      expect(typeof result.current.error === 'object' || result.current.error === null).toBe(true)
+      expect(
+        typeof result.current.error === 'object' ||
+          result.current.error === null,
+      ).toBe(true)
     })
 
     it('should maintain data structure integrity during errors', async () => {
@@ -354,7 +362,7 @@ describe('useDepositionGroupedData', () => {
 
     it('should support error callback functionality', async () => {
       const onErrorMock = jest.fn()
-      
+
       // Test that the hook accepts onError callback without throwing
       const { result } = renderHook(
         () =>
@@ -399,7 +407,7 @@ describe('useDepositionGroupedData', () => {
 
     it('should call onLoadingChange callback when provided', async () => {
       const onLoadingChangeMock = jest.fn()
-      
+
       renderHook(
         () =>
           useDepositionGroupedData(
@@ -507,7 +515,7 @@ describe('useDepositionGroupedData', () => {
       expect(Array.isArray(result.current.datasets)).toBe(true)
       expect(result.current.counts).toHaveProperty('organisms')
       expect(result.current.counts).toHaveProperty('annotations')
-      expect(result.current.counts).toHaveProperty('tomograms')  
+      expect(result.current.counts).toHaveProperty('tomograms')
       expect(result.current.counts).toHaveProperty('runs')
     })
   })

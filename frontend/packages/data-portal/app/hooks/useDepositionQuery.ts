@@ -35,75 +35,72 @@ interface BaseQueryParams {
 }
 
 /**
- * Creates a reusable deposition query hook with standard patterns
+ * Direct deposition query hook with standard patterns
  */
-export function createDepositionQuery<TData, TParams extends BaseQueryParams>(
+export function useDepositionQuery<TData, TParams extends BaseQueryParams>(
   config: DepositionQueryConfig<TData, TParams>,
-) {
-  return function useDepositionQuery(
-    params: TParams,
-  ): UseQueryResult<TData, Error> {
-    const {
-      endpoint,
-      queryKeyPrefix,
-      requiredFields = [],
-      transformResponse,
-      getQueryKeyValues,
-      getApiParams,
-      getRequiredParams,
-    } = config
+  params: TParams,
+): UseQueryResult<TData, Error> {
+  const {
+    endpoint,
+    queryKeyPrefix,
+    requiredFields = [],
+    transformResponse,
+    getQueryKeyValues,
+    getApiParams,
+    getRequiredParams,
+  } = config
 
-    // Build query key
-    const queryKeyValues = getQueryKeyValues
-      ? getQueryKeyValues(params)
-      : (Object.values(params).filter((v) => v !== undefined) as (
-          | string
-          | number
-          | boolean
-          | string[]
-          | undefined
-          | null
-        )[])
+  // Build query key
+  const queryKeyValues = getQueryKeyValues
+    ? getQueryKeyValues(params)
+    : (Object.values(params).filter((v) => v !== undefined) as (
+        | string
+        | number
+        | boolean
+        | string[]
+        | undefined
+        | null
+      )[])
 
-    const queryKey = createQueryKey(queryKeyPrefix, ...queryKeyValues)
+  const queryKey = createQueryKey(queryKeyPrefix, ...queryKeyValues)
 
-    // Build API parameters
-    const apiParams = getApiParams
-      ? getApiParams(params)
-      : (Object.fromEntries(
-          Object.entries(params as Record<string, unknown>).filter(
-            ([, value]) => value !== undefined,
-          ),
-        ) as Record<string, string | number | boolean | string[] | undefined>)
+  // Build API parameters
+  const apiParams = getApiParams
+    ? getApiParams(params)
+    : (Object.fromEntries(
+        Object.entries(params as Record<string, unknown>).filter(
+          ([, value]) => value !== undefined,
+        ),
+      ) as Record<string, string | number | boolean | string[] | undefined>)
 
-    // Determine required parameters for enablement check
-    const requiredParams = getRequiredParams
-      ? getRequiredParams(params)
-      : (params as Record<string, unknown>)
+  // Determine required parameters for enablement check
+  const requiredParams = getRequiredParams
+    ? getRequiredParams(params)
+    : (params as Record<string, unknown>)
 
-    // Determine if query should be enabled
-    const isEnabled = shouldEnableQuery(requiredParams, params.enabled)
+  // Determine if query should be enabled
+  const isEnabled = shouldEnableQuery(requiredParams, params.enabled)
 
-    return useQuery({
-      queryKey,
-      queryFn: async (): Promise<TData> => {
-        const data = await fetchDepositionApi<unknown>(
-          endpoint,
-          apiParams,
-          requiredFields,
-        )
+  return useQuery({
+    queryKey,
+    queryFn: async (): Promise<TData> => {
+      const data = await fetchDepositionApi<unknown>(
+        endpoint,
+        apiParams,
+        requiredFields,
+      )
 
-        return transformResponse ? transformResponse(data) : (data as TData)
-      },
-      enabled: isEnabled,
-    })
-  }
+      return transformResponse ? transformResponse(data) : (data as TData)
+    },
+    enabled: isEnabled,
+  })
 }
 
 /**
- * Specialized factory for paginated queries
+ * Specialized hook for paginated queries
  */
-export function createPaginatedDepositionQuery<
+export function usePaginatedDepositionQuery<
   TData,
   TParams extends BaseQueryParams & { page?: number },
 >(
@@ -112,14 +109,15 @@ export function createPaginatedDepositionQuery<
       params: TParams,
     ) => (string | number | boolean | string[] | undefined | null)[]
   },
-) {
+  params: TParams,
+): UseQueryResult<TData, Error> {
   const defaultGetQueryKeyValues = (
-    params: TParams,
+    queryParams: TParams,
   ): (string | number | boolean | string[] | undefined | null)[] => [
-    params.depositionId,
-    params.page ?? 1,
+    queryParams.depositionId,
+    queryParams.page ?? 1,
 
-    ...Object.entries(params)
+    ...Object.entries(queryParams)
       .filter(
         ([key]) =>
           key !== 'depositionId' && key !== 'page' && key !== 'enabled',
@@ -131,16 +129,19 @@ export function createPaginatedDepositionQuery<
       .filter((v) => v !== undefined),
   ]
 
-  return createDepositionQuery<TData, TParams>({
-    ...config,
-    getQueryKeyValues: config.getQueryKeyValues ?? defaultGetQueryKeyValues,
-  })
+  return useDepositionQuery<TData, TParams>(
+    {
+      ...config,
+      getQueryKeyValues: config.getQueryKeyValues ?? defaultGetQueryKeyValues,
+    },
+    params,
+  )
 }
 
 /**
- * Specialized factory for organism-filtered queries
+ * Specialized hook for organism-filtered queries
  */
-export function createOrganismFilteredQuery<
+export function useOrganismFilteredDepositionQuery<
   TData,
   TParams extends BaseQueryParams & {
     depositionId?: number
@@ -158,16 +159,17 @@ export function createOrganismFilteredQuery<
     ) => (string | number | boolean | string[] | undefined | null)[]
     getRequiredParams?: (params: TParams) => Record<string, unknown>
   },
-) {
+  params: TParams,
+): UseQueryResult<TData, Error> {
   const defaultGetQueryKeyValues = (
-    params: TParams & { organismName?: string },
+    queryParams: TParams & { organismName?: string },
   ): (string | number | boolean | string[] | undefined | null)[] => [
-    params.depositionId,
-    params.organismName,
-    params.page ?? 1,
-    params.pageSize,
+    queryParams.depositionId,
+    queryParams.organismName,
+    queryParams.page ?? 1,
+    queryParams.pageSize,
 
-    ...Object.entries(params)
+    ...Object.entries(queryParams)
       .filter(
         ([key]) =>
           ![
@@ -186,17 +188,20 @@ export function createOrganismFilteredQuery<
   ]
 
   const defaultGetRequiredParams = (
-    params: TParams & { organismName?: string },
+    queryParams: TParams & { organismName?: string },
   ) => ({
-    depositionId: params.depositionId,
-    organismName: params.organismName,
+    depositionId: queryParams.depositionId,
+    organismName: queryParams.organismName,
   })
 
-  return createDepositionQuery<TData, TParams>({
-    ...config,
-    getQueryKeyValues: config.getQueryKeyValues ?? defaultGetQueryKeyValues,
-    getRequiredParams: config.getRequiredParams ?? defaultGetRequiredParams,
-  })
+  return useDepositionQuery<TData, TParams>(
+    {
+      ...config,
+      getQueryKeyValues: config.getQueryKeyValues ?? defaultGetQueryKeyValues,
+      getRequiredParams: config.getRequiredParams ?? defaultGetRequiredParams,
+    },
+    params,
+  )
 }
 
 /**

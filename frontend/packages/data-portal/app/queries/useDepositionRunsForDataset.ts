@@ -1,8 +1,8 @@
+import { usePaginatedDepositionQuery } from 'app/hooks/useDepositionQuery'
 import type {
   RunsQueryResponse,
   UnifiedRunsParams,
 } from 'app/types/deposition-queries'
-import { createPaginatedDepositionQuery } from 'app/utils/createDepositionQuery'
 import { getRunApiEndpoints } from 'app/utils/deposition-api'
 
 /**
@@ -21,34 +21,35 @@ export function useDepositionRunsForDataset({
 }: UnifiedRunsParams & { enabled?: boolean }) {
   const { runsEndpoint } = getRunApiEndpoints(type)
 
-  const createQueryHook = createPaginatedDepositionQuery<
+  return usePaginatedDepositionQuery<
     RunsQueryResponse,
     UnifiedRunsParams & { enabled?: boolean }
-  >({
-    endpoint: runsEndpoint,
-    queryKeyPrefix: `deposition-${type}-runs`,
-    requiredFields: ['depositionId', 'datasetId'],
-    getQueryKeyValues: (params) => [
-      params.depositionId,
-      params.datasetId,
-      params.page,
-    ],
-    getApiParams: (params) => ({
-      depositionId: params.depositionId,
-      datasetId: params.datasetId,
-      page: params.page,
-    }),
-    getRequiredParams: (params) => ({
-      depositionId: params.depositionId,
-      datasetId: params.datasetId,
-    }),
-  })
-
-  return createQueryHook({
-    depositionId,
-    datasetId,
-    page,
-    type,
-    enabled,
-  })
+  >(
+    {
+      endpoint: runsEndpoint,
+      queryKeyPrefix: `deposition-${type}-runs`,
+      requiredFields: ['depositionId', 'datasetId'],
+      getQueryKeyValues: (params) => [
+        params.depositionId,
+        params.datasetId,
+        params.page,
+      ],
+      getApiParams: (params) => ({
+        depositionId: params.depositionId,
+        datasetId: params.datasetId,
+        page: params.page,
+      }),
+      getRequiredParams: (params) => ({
+        depositionId: params.depositionId,
+        datasetId: params.datasetId,
+      }),
+    },
+    {
+      depositionId,
+      datasetId,
+      page,
+      type,
+      enabled,
+    },
+  )
 }

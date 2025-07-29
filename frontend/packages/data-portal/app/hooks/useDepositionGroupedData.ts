@@ -1,5 +1,9 @@
 import { useMemo } from 'react'
 
+import {
+  createEmptyResponse,
+  useDepositionQuery,
+} from 'app/hooks/useDepositionQuery'
 import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 import type {
   DatasetWithCounts,
@@ -14,10 +18,6 @@ import type {
   UnifiedRunCountsParams,
 } from 'app/types/deposition-queries'
 import { GroupByOption } from 'app/types/depositionTypes'
-import {
-  createDepositionQuery,
-  createEmptyResponse,
-} from 'app/utils/createDepositionQuery'
 import { getRunApiEndpoints } from 'app/utils/deposition-api'
 import { isDefined } from 'app/utils/nullish'
 
@@ -60,42 +60,43 @@ export function useDepositionGroupedData(
   // Create inline run counts query - consolidated from useDepositionRunCounts
   const { countsEndpoint } = getRunApiEndpoints(tab)
 
-  const createRunCountsQueryHook = createDepositionQuery<
+  // Fetch run counts only if needed and we have dataset IDs
+  const runCountsQuery = useDepositionQuery<
     RunCountsResponse,
     UnifiedRunCountsParams
-  >({
-    endpoint: countsEndpoint,
-    queryKeyPrefix: `deposition-${tab}-run-counts`,
-    getQueryKeyValues: (runCountsParams) => [
-      runCountsParams.depositionId,
-      runCountsParams.datasetIds.join(','),
-    ],
-    getApiParams: (runCountsParams) => ({
-      depositionId: runCountsParams.depositionId,
-      datasetIds: runCountsParams.datasetIds.join(','),
-    }),
-    getRequiredParams: (runCountsParams) => ({
-      depositionId: runCountsParams.depositionId,
-      datasetIds:
-        runCountsParams.datasetIds?.length > 0
-          ? runCountsParams.datasetIds
-          : undefined,
-    }),
-    transformResponse: (data): RunCountsResponse => {
-      if (!data) {
-        return createEmptyResponse('counts')
-      }
-      return data as RunCountsResponse
+  >(
+    {
+      endpoint: countsEndpoint,
+      queryKeyPrefix: `deposition-${tab}-run-counts`,
+      getQueryKeyValues: (runCountsParams) => [
+        runCountsParams.depositionId,
+        runCountsParams.datasetIds.join(','),
+      ],
+      getApiParams: (runCountsParams) => ({
+        depositionId: runCountsParams.depositionId,
+        datasetIds: runCountsParams.datasetIds.join(','),
+      }),
+      getRequiredParams: (runCountsParams) => ({
+        depositionId: runCountsParams.depositionId,
+        datasetIds:
+          runCountsParams.datasetIds?.length > 0
+            ? runCountsParams.datasetIds
+            : undefined,
+      }),
+      transformResponse: (data): RunCountsResponse => {
+        if (!data) {
+          return createEmptyResponse('counts')
+        }
+        return data as RunCountsResponse
+      },
     },
-  })
-
-  // Fetch run counts only if needed and we have dataset IDs
-  const runCountsQuery = createRunCountsQueryHook({
-    depositionId,
-    datasetIds,
-    type: tab,
-    enabled: enabled && fetchRunCounts && datasetIds.length > 0,
-  })
+    {
+      depositionId,
+      datasetIds,
+      type: tab,
+      enabled: enabled && fetchRunCounts && datasetIds.length > 0,
+    },
+  )
 
   // Handle loading state changes
   const isLoading = datasetsQuery.isLoading || runCountsQuery.isLoading

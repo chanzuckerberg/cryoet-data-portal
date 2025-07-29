@@ -1,8 +1,8 @@
+import { usePaginatedDepositionQuery } from 'app/hooks/useDepositionQuery'
 import type {
   ItemsForRunResponse,
   UnifiedItemsForRunParams,
 } from 'app/types/deposition-queries'
-import { createPaginatedDepositionQuery } from 'app/utils/createDepositionQuery'
 import { getItemForRunApiEndpoint } from 'app/utils/deposition-api'
 
 /**
@@ -24,34 +24,35 @@ export function useItemsForRunAndDeposition({
 }: UnifiedItemsForRunParams & { enabled?: boolean }) {
   const endpoint = getItemForRunApiEndpoint(type)
 
-  const createQueryHook = createPaginatedDepositionQuery<
+  return usePaginatedDepositionQuery<
     ItemsForRunResponse,
     UnifiedItemsForRunParams & { enabled?: boolean }
-  >({
-    endpoint,
-    queryKeyPrefix: `${type}s-for-run`,
-    requiredFields: ['depositionId', 'runId'],
-    getQueryKeyValues: (params) => [
-      params.depositionId,
-      params.runId,
-      params.page,
-    ],
-    getApiParams: (params) => ({
-      depositionId: params.depositionId,
-      runId: params.runId,
-      page: params.page,
-    }),
-    getRequiredParams: (params) => ({
-      depositionId: params.depositionId,
-      runId: params.runId,
-    }),
-  })
-
-  return createQueryHook({
-    depositionId,
-    runId,
-    type,
-    page,
-    enabled,
-  })
+  >(
+    {
+      endpoint,
+      queryKeyPrefix: `${type}s-for-run`,
+      requiredFields: ['depositionId', 'runId'],
+      getQueryKeyValues: (params) => [
+        params.depositionId,
+        params.runId,
+        params.page,
+      ],
+      getApiParams: (params) => ({
+        depositionId: params.depositionId,
+        runId: params.runId,
+        page: params.page,
+      }),
+      getRequiredParams: (params) => ({
+        depositionId: params.depositionId,
+        runId: params.runId,
+      }),
+    },
+    {
+      depositionId,
+      runId,
+      type,
+      page,
+      enabled,
+    },
+  )
 }

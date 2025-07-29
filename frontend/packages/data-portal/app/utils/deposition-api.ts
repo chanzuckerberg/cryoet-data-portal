@@ -4,7 +4,7 @@ import { API_ENDPOINTS, DataContentsType } from 'app/types/deposition-queries'
 /**
  * Validates required deposition parameters
  */
-export function validateRequiredParams(
+function validateRequiredParams(
   params: Record<string, unknown>,
   requiredFields: string[],
 ): void {
@@ -20,7 +20,7 @@ export function validateRequiredParams(
 /**
  * Builds URL search parameters for API requests
  */
-export function buildApiParams(
+function buildApiParams(
   params: Record<string, string | number | boolean | string[] | undefined>,
 ): URLSearchParams {
   const searchParams = new URLSearchParams()
@@ -45,7 +45,7 @@ export function buildApiParams(
 /**
  * Creates a complete API URL with parameters
  */
-export function buildApiUrl(
+function buildApiUrl(
   endpoint: DepositionApiEndpoint,
   params: Record<string, string | number | boolean | string[] | undefined>,
 ): string {
@@ -87,17 +87,6 @@ export function createQueryKey(
 }
 
 /**
- * Maps item type to appropriate API endpoint
- */
-export function getItemApiEndpoint(
-  type: DataContentsType,
-): DepositionApiEndpoint {
-  return type === DataContentsType.Annotations
-    ? 'depositionAnnotationsByOrganism'
-    : 'depositionTomogramsByOrganism'
-}
-
-/**
  * Maps run type to appropriate API endpoints
  */
 export function getRunApiEndpoints(type: DataContentsType): {
@@ -125,17 +114,6 @@ export function getItemForRunApiEndpoint(
   return type === DataContentsType.Annotations
     ? 'annotationsForRun'
     : 'tomogramsForRun'
-}
-
-/**
- * Standard error message generator for different operation types
- */
-export function createErrorMessage(
-  operation: string,
-  context?: string,
-): string {
-  const baseMessage = `Failed to fetch ${operation}`
-  return context ? `${baseMessage} for ${context}` : baseMessage
 }
 
 /**
