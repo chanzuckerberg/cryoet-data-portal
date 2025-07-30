@@ -17,7 +17,6 @@ import { useAutoHideSnackbar } from 'app/hooks/useAutoHideSnackbar'
 import { useI18n } from 'app/hooks/useI18n'
 import { useTour } from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
-import { LocalStorageKeys } from 'app/constants/localStorage'
 import { SHOW_TOUR_QUERY_PARAM } from 'app/utils/url'
 
 import { ReusableSnackbar } from '../common/ReusableSnackbar/ReusableSnackbar'
@@ -27,7 +26,7 @@ import {
   REPORT_LINKS,
 } from '../Layout/constants'
 import { CryoETHomeLink } from '../Layout/CryoETHomeLink'
-import { MenuDropdownSection } from '../MenuDropdown'
+import { MenuDropdownRef, MenuDropdownSection } from '../MenuDropdown'
 import { Tooltip } from '../Tooltip'
 import { NeuroglancerBanner } from './NeuroglancerBanner'
 import {
@@ -48,6 +47,7 @@ import {
   resolveStateBool,
   setCurrentLayout,
   setTopBarVisibleFromSuperState,
+  setupTourPanelState,
   showScaleBarEnabled,
   showSectionsEnabled,
   snap,
@@ -66,7 +66,6 @@ import { getTutorialSteps, proxyStepSelectors } from './steps'
 import { Tour } from './Tour'
 
 type Run = GetRunByIdV2Query['runs'][number]
-type Tomogram = GetRunByIdV2Query['tomograms'][number]
 type Annotations = Run['annotations']
 type Annotation = Annotations['edges'][number]['node']
 interface AnnotationUIConfig {
@@ -117,11 +116,9 @@ const isSmallScreen = () => {
 
 function ViewerPage({
   run,
-  tomogram,
   shouldStartTour = false,
 }: {
   run: Run
-  tomogram: Tomogram | undefined
   shouldStartTour?: boolean
 }) {
   const { t } = useI18n()
@@ -130,18 +127,20 @@ function ViewerPage({
     setTourRunning,
     stepIndex,
     setStepIndex,
-    handleTourStartInNewTab,
+    handleTourStart,
     handleTourClose,
     handleRestart,
     handleTourStepMove,
     proxyIndex,
     setProxyIndex,
-  } = useTour(tomogram)
+  } = useTour()
   const [renderVersion, setRenderVersion] = useState(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
   const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
+  // setTourRunning(shouldStartTour)
   const iframeRef = useRef<HTMLIFrameElement>()
   const hashReady = useRef<boolean>(false)
+  const helpMenuRef = useRef<MenuDropdownRef>(null)
 
   const shareSnackbar = useAutoHideSnackbar()
   const snapSnackbar = useAutoHideSnackbar()
@@ -154,6 +153,36 @@ function ViewerPage({
   }
 
   useEffect(() => {
+    // Allows to handle neuroglancer key events while dropdown is open
+    const keyDownHandler = (event: KeyboardEvent) => {
+      const iframe = iframeRef.current
+      const iframeWindow = iframe?.contentWindow
+
+      if (!iframeWindow) {
+        return
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+      const targetElement = (iframeWindow as any).neuroglancer
+        ?.element as HTMLElement | null
+      if (!targetElement) {
+        return
+      }
+
+      const simulatedEvent = new KeyboardEvent('keydown', {
+        key: event.key,
+        code: event.code,
+        keyCode: event.keyCode,
+        altKey: event.altKey,
+        ctrlKey: event.ctrlKey,
+        shiftKey: event.shiftKey,
+        metaKey: event.metaKey,
+        bubbles: true,
+      })
+
+      targetElement.dispatchEvent(simulatedEvent)
+    }
+
     // Schedule to check for small devices 1s after this save
     if (isSmallScreen()) {
       updateState((state) => {
@@ -168,14 +197,29 @@ function ViewerPage({
       scheduleRefresh()
     }
     hashReady.current = true
+
+    window.addEventListener('keydown', keyDownHandler)
+    setTourRunning(shouldStartTour)
+    return () => {
+      window.removeEventListener('keydown', keyDownHandler)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (tourRunning && hashReady.current) {
+      setupTourPanelState()
+    }
+  }, [tourRunning, hashReady])
 
   const handleOnStateChange = (state: ViewerPageSuperState) => {
     scheduleRefresh()
     setTopBarVisibleFromSuperState()
-    if (state.tourStepIndex) {
+    if (tourRunning && state.tourStepIndex !== undefined) {
       if (stepIndex !== state.tourStepIndex) {
+        if (Math.abs(stepIndex - state.tourStepIndex) > 1) {
+          handleRestart()
+        }
         setProxyIndex(state.tourStepIndex)
         setStepIndex(state.tourStepIndex)
       }
@@ -211,53 +255,10 @@ function ViewerPage({
     clearTourQueryParam()
   }
 
-  useEffect(() => {
-    const tutorialKey = LocalStorageKeys.StartNeuroglancerWalkthrough
-    const shouldStartTutorialFromStorage = localStorage.getItem(tutorialKey) === 'true'
-
-    if (shouldStartTour || shouldStartTutorialFromStorage) {
-      setTourRunning(true)
-
-      // Clear localStorage if it was set
-      if (shouldStartTutorialFromStorage) {
-        localStorage.removeItem(tutorialKey)
-      }
-    }
-
-    const keyDownHandler = (event: KeyboardEvent) => {
-      const iframe = iframeRef.current
-      const iframeWindow = iframe?.contentWindow
-
-      if (!iframeWindow) {
-        return
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-      const targetElement = (iframeWindow as any).neuroglancer
-        ?.element as HTMLElement | null
-      if (!targetElement) {
-        return
-      }
-
-      const simulatedEvent = new KeyboardEvent('keydown', {
-        key: event.key,
-        code: event.code,
-        keyCode: event.keyCode,
-        altKey: event.altKey,
-        ctrlKey: event.ctrlKey,
-        shiftKey: event.shiftKey,
-        metaKey: event.metaKey,
-        bubbles: true,
-      })
-
-      targetElement.dispatchEvent(simulatedEvent)
-    }
-
-    window.addEventListener('keydown', keyDownHandler)
-    return () => {
-      window.removeEventListener('keydown', keyDownHandler)
-    }
-  }, [setTourRunning, shouldStartTour])
+  const handleTourStartWithMenuClose = () => {
+    handleTourStart()
+    helpMenuRef.current?.closeMenu()
+  }
 
   const handleShareClick = () => {
     navigator.clipboard
@@ -492,6 +493,7 @@ function ViewerPage({
               Share
             </Button>
             <NeuroglancerDropdown
+              ref={helpMenuRef}
               className="w-4 h-11 pl-1 py-3 sm:w-11 sm:px-3"
               buttonElement={<InfoIcon className="w-5 h-5" />}
             >
@@ -520,7 +522,7 @@ function ViewerPage({
                 <button
                   type="button"
                   className="py-1.5 px-2 w-full text-left hover:bg-light-sds-color-primitive-gray-300 hover:bg-opacity-30"
-                  onClick={handleTourStartInNewTab}
+                  onClick={handleTourStartWithMenuClose}
                 >
                   {t('neuroglancerWalkthrough')}
                 </button>
@@ -563,7 +565,7 @@ function ViewerPage({
         severity="success"
         message={t('shareActionSuccess')}
       />
-      <NeuroglancerBanner onStartTour={handleTourStartInNewTab} />
+      <NeuroglancerBanner onStartTour={handleTourStart} />
     </div>
   )
 }
