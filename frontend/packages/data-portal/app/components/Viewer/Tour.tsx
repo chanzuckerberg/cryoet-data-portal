@@ -132,7 +132,7 @@ function CustomTooltip(
         />
       </div>
 
-      <p>{step.content}</p>
+      <div>{step.content}</div>
 
       <div
         className={cns(
