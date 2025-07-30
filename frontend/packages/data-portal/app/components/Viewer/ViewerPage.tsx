@@ -18,6 +18,7 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useTour } from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
 import { LocalStorageKeys } from 'app/constants/localStorage'
+import { SHOW_TOUR_QUERY_PARAM } from 'app/utils/url'
 
 import { ReusableSnackbar } from '../common/ReusableSnackbar/ReusableSnackbar'
 import {
@@ -197,6 +198,17 @@ function ViewerPage({
       }
       return undefined
     })
+  }
+
+  const clearTourQueryParam = () => {
+    const url = new URL(window.location.href)
+    url.searchParams.delete(SHOW_TOUR_QUERY_PARAM)
+    window.history.replaceState({}, '', url.toString())
+  }
+
+  const handleTourCloseWithCleanup = () => {
+    handleTourClose()
+    clearTourQueryParam()
   }
 
   useEffect(() => {
@@ -531,7 +543,7 @@ function ViewerPage({
           stepIndex={stepIndex}
           steps={getTutorialSteps()}
           onRestart={handleRestart}
-          onClose={handleTourClose}
+          onClose={handleTourCloseWithCleanup}
           onMove={handleTourStepMove}
           proxySelectors={proxyStepSelectors}
           proxyIndex={proxyIndex}
