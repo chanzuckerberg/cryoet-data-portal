@@ -34,7 +34,7 @@ export function useTour(startingStepIndex: number = 0) {
   const handleTourStart = () => {
     const url = new URL(window.location.href)
     url.searchParams.set(SHOW_TOUR_QUERY_PARAM, 'true')
-    history.replaceState({}, '', url.toString())
+    window.history.replaceState({}, '', url.toString())
     resetState()
     setTourRunning(true)
     setIgnoreStepMove(false)
