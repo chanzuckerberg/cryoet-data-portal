@@ -137,7 +137,6 @@ function ViewerPage({
   const [renderVersion, setRenderVersion] = useState(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
   const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
-  // setTourRunning(shouldStartTour)
   const iframeRef = useRef<HTMLIFrameElement>()
   const hashReady = useRef<boolean>(false)
   const helpMenuRef = useRef<MenuDropdownRef>(null)

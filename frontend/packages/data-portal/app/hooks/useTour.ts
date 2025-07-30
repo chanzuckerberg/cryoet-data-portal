@@ -14,25 +14,30 @@ export function useTour(startingStepIndex: number = 0) {
   const [proxyIndex, setProxyIndex] = useState<number>(startingStepIndex)
   const [ignoreStepMove, setIgnoreStepMove] = useState<boolean>(false)
 
+  const resetState = () => {
+    setIgnoreStepMove(true)
+    updateState((state) => {
+      const newState = state
+      newState.tourStepIndex = 0
+      return newState
+    })
+    setStepIndex(0)
+    setProxyIndex(0)
+  }
+
   const handleTourClose = () => {
     setTourRunning(false)
-    setTimeout(() => {
-      setStepIndex(0)
-      setProxyIndex(0)
-    }, 300)
+    resetState()
+    setIgnoreStepMove(false)
   }
 
   const handleTourStart = () => {
     const url = new URL(window.location.href)
     url.searchParams.set(SHOW_TOUR_QUERY_PARAM, 'true')
     history.replaceState({}, '', url.toString())
-    setStepIndex(0)
-    updateState((state) => {
-      const newState = state
-      newState.tourStepIndex = 0
-      return newState
-    })
+    resetState()
     setTourRunning(true)
+    setIgnoreStepMove(false)
   }
 
   const handleTourStepMove = (
@@ -87,13 +92,7 @@ export function useTour(startingStepIndex: number = 0) {
     // Set the tour not running so that the handleStepMove
     // is not called when the step index is set to 0
     setIgnoreStepMove(true)
-    updateState((state) => {
-      const newState = state
-      newState.tourStepIndex = 0
-      return newState
-    })
-    setStepIndex(0)
-    setProxyIndex(0)
+    resetState()
   }
 
   return {
