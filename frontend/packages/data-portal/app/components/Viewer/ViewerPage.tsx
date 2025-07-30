@@ -117,9 +117,11 @@ const isSmallScreen = () => {
 function ViewerPage({
   run,
   tomogram,
+  shouldStartTour = false,
 }: {
   run: Run
   tomogram: Tomogram | undefined
+  shouldStartTour?: boolean
 }) {
   const { t } = useI18n()
   const {
@@ -199,12 +201,15 @@ function ViewerPage({
 
   useEffect(() => {
     const tutorialKey = LocalStorageKeys.StartNeuroglancerWalkthrough
-    const shouldStartTutorial = localStorage.getItem(tutorialKey) === 'true'
+    const shouldStartTutorialFromStorage = localStorage.getItem(tutorialKey) === 'true'
 
-    if (shouldStartTutorial) {
+    if (shouldStartTour || shouldStartTutorialFromStorage) {
       setTourRunning(true)
 
-      localStorage.removeItem(tutorialKey)
+      // Clear localStorage if it was set
+      if (shouldStartTutorialFromStorage) {
+        localStorage.removeItem(tutorialKey)
+      }
     }
 
     const keyDownHandler = (event: KeyboardEvent) => {
@@ -240,7 +245,7 @@ function ViewerPage({
     return () => {
       window.removeEventListener('keydown', keyDownHandler)
     }
-  }, [setTourRunning])
+  }, [setTourRunning, shouldStartTour])
 
   const handleShareClick = () => {
     navigator.clipboard
