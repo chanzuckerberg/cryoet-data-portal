@@ -55,6 +55,7 @@ export function useTour(startingStepIndex: number = 0) {
         if (layerControlVisibility !== undefined) {
           newState.neuroglancer.selectedLayer!.visible = layerControlVisibility
         }
+        newState.neuroglancer.layerListPanel!.visible = true
         newState.tourStepIndex = newIndex
         return newState
       })
