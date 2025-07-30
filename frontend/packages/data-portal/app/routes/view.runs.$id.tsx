@@ -4,11 +4,11 @@ import { type LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { lazy, Suspense } from 'react'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
+import { type GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { apolloClientV2 } from 'app/apollo.server'
 import { QueryParams } from 'app/constants/query'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useRunById } from 'app/hooks/useRunById'
-import { type GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { SHOW_TOUR_QUERY_PARAM } from 'app/utils/url'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
