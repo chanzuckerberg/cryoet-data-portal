@@ -17,6 +17,7 @@ import { useAutoHideSnackbar } from 'app/hooks/useAutoHideSnackbar'
 import { useI18n } from 'app/hooks/useI18n'
 import { useTour } from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
+import { LocalStorageKeys } from 'app/constants/localStorage'
 
 import { ReusableSnackbar } from '../common/ReusableSnackbar/ReusableSnackbar'
 import {
@@ -197,12 +198,13 @@ function ViewerPage({
   }
 
   useEffect(() => {
-    const shouldStartTutorial = localStorage.getItem('startTutorial') === 'true'
+    const tutorialKey = LocalStorageKeys.StartNeuroglancerWalkthrough
+    const shouldStartTutorial = localStorage.getItem(tutorialKey) === 'true'
 
     if (shouldStartTutorial) {
       setTourRunning(true)
 
-      localStorage.removeItem('startTutorial')
+      localStorage.removeItem(tutorialKey)
     }
 
     const keyDownHandler = (event: KeyboardEvent) => {

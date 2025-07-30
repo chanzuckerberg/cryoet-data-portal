@@ -5,7 +5,7 @@ export enum LocalStorageKeys {
   NeuroglancerBannerDismissed = 'neuroglancer-banner-dismissed',
   TableRenderErrorPageReloadCount = 'table-render-error-page-reload-count',
   PythonV3DeprecatedDismissed = 'deprecation-dismissed',
+  StartNeuroglancerWalkthrough = 'start-neuroglancer-walkthrough',
   // DEPRECATED - DO NOT USE (keep these in the enum so we know not to use them in the future):
   CompetitionBannerDismissed = 'competition-banner-dismissed',
-  StartNeuroglancerWalkthrough = 'start-neuroglancer-walkthrough',
 }

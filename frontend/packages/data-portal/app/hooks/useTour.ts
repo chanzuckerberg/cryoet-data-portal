@@ -6,6 +6,7 @@ import {
 } from 'neuroglancer'
 import { useState } from 'react'
 import { ACTIONS } from 'react-joyride'
+import { LocalStorageKeys } from 'app/constants/localStorage'
 
 import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 
@@ -47,7 +48,10 @@ export function useTour(tomogram: Tomogram | undefined) {
   const handleTourStartInNewTab = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()
     if (tomogram?.neuroglancerConfig) {
-      localStorage.setItem('startTutorial', 'true')
+      localStorage.setItem(
+        LocalStorageKeys.StartNeuroglancerWalkthrough,
+        'true',
+      )
       const { protocol, host, pathname, search } = window.location
       const newEncodedState = adjustPanelSize(tomogram.neuroglancerConfig)
       const urlWithoutHash = `${protocol}//${host}${pathname}${search}${newEncodedState}`
