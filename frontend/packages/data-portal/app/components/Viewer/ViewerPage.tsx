@@ -203,7 +203,7 @@ function ViewerPage({
   const clearTourQueryParam = () => {
     const url = new URL(window.location.href)
     url.searchParams.delete(SHOW_TOUR_QUERY_PARAM)
-    window.history.replaceState({}, '', url.toString())
+    history.replaceState({}, '', url.toString())
   }
 
   const handleTourCloseWithCleanup = () => {
