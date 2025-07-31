@@ -24,7 +24,7 @@ As shown in the diagram above, the CryoET Data Portal has 3 levels in the data h
 
 - **Annotation** is a point or segmentation indicating the location of a macromolecular complex in the tomogram. On a run overview page, you may choose to download individual annotations.
 
-All data is added to the Portal through Depositions, which is described below, and a subset of depositions are displayed in the depositions tab on the Portal.
+All data is added to the Portal through Depositions, which is described below, and a subset of depositions are displayed in the depositions tab on "Browse Data" page of the Portal.
 
 For more detailed explanations of all data types in the Portal refer to the sections below.
 
@@ -56,37 +56,37 @@ On a given Dataset Overview page, the View All Info panel contains metadata for 
 **Dataset Metadata**
 | **Portal Metadata** | **API Expression**                    | **Definition**                                                      |
 |---------------------|---------------------------------------|---------------------------------------------------------------------|
-| Deposition Date     | Dataset.deposition_date               | Date when a dataset is initially received by the Data Portal.       |
-| Grant ID            | DatasetFunding.grant_id               | Grant identifier provided by the funding agency.                    |
-| Funding Agency      | DatasetFunding.funding_agency_name    | Name of the funding agency.                                         |
-| Related Databases   | Dataset.related_database_entries      | The dataset identifier for other databases, e.g. EMPIAR, that contain this dataset. |
+| Deposition Date     | `Dataset.deposition_date`             | Date when a dataset is initially received by the Data Portal.       |
+| Grant ID            | `DatasetFunding.grant_id`             | Grant identifier provided by the funding agency.                    |
+| Funding Agency      | `DatasetFunding.funding_agency_name`  | Name of the funding agency.                                         |
+| Related Databases   | `Dataset.related_database_entries`    | The dataset identifier for other databases, e.g. EMPIAR, that contain this dataset. |
 
 **Sample and Experiment Conditions**
-| **Portal Metadata** | **API Expression**                   | **Definition**                                                                                                                                 |
-|---------------------|--------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| Sample Type         | Dataset.sample_type                  | Type of sample: cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other.                                    |
-| Organism Name       | Dataset.organism_name                | Name of the organism from which the biological sample is derived from, e.g. homo sapiens.                                                       |
-| Tissue Name         | Dataset.tissue_name                  | Name of the tissue from which a biological sample used in a CryoET study is derived from.                                                       |
-| Cell Name           | Dataset.cell_name                    | Name of the cell from which a biological sample used in a CryoET study is derived from, e.g. sperm.                                             |
-| Cell Line or Strain Name | Dataset.cell_strain_name       | Cell line or strain for the sample e.g. C57BI                                                                                                   |
-| Cellular Component  | Dataset.cell_component_name          | Name of the cellular component, e.g. sperm flagellum                                                                                            |
-| Sample Preparation  | Dataset.sample_preparation           | Description of how the sample was prepared.                                                                                                     |
-| Grid Preparation    | Dataset.grid_preparation             | Description of how the CryoET grid was prepared.                                                                                                |
-| Other Setup         | Dataset.other_setup                  | Description of other setup not covered by sample preparation or grid preparation that may make this dataset unique in the same publication.      |
+| **Portal Metadata**      | **API Expression**            | **Definition**                                        |
+|--------------------------|-------------------------------|-------------------------------------------------------|
+| Sample Type              | `Dataset.sample_type`         | Type of sample: cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other. |
+| Organism Name            | `Dataset.organism_name`       | Name of the organism from which the biological sample is derived from, e.g. homo sapiens. |
+| Tissue Name              | `Dataset.tissue_name`         | Name of the tissue from which a biological sample used in a CryoET study is derived from. |
+| Cell Name                | `Dataset.cell_name`           | Name of the cell from which a biological sample used in a CryoET study is derived from, e.g. sperm. |
+| Cell Line or Strain Name | `Dataset.cell_strain_name`    | Cell line or strain for the sample e.g. C57BI         |
+| Cellular Component       | `Dataset.cell_component_name` | Name of the cellular component, e.g. sperm flagellum  |
+| Sample Preparation       | `Dataset.sample_preparation`  | Description of how the sample was prepared.           |
+| Grid Preparation         | `Dataset.grid_preparation`    | Description of how the CryoET grid was prepared.      |
+| Other Setup              | `Dataset.other_setup`         | Description of other setup not covered by sample preparation or grid preparation that may make this dataset unique in the same publication. |
 
 **Tilt Series**
-| **Portal Metadata**                       | **API Expression**                        | **Definition**                                                                                                 |
-|-------------------------------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| Acceleration Voltage                      | TiltSeries.acceleration_voltage           | Electron Microscope Accelerator voltage in volts.                                                             |
-| Spherical Aberration Constant             | TiltSeries.spherical_aberration_constant  | Spherical Aberration Constant of the objective lens in millimeters.                                           |
-| Microscope Manufacturer                   | TiltSeries.microscope_manufacturer        | Name of the microscope manufacturer.                                                                          |
-| Microscope Model                          | TiltSeries.microscope_model               | Microscope model name.                                                                                        |
-| Energy Filter                             | TiltSeries.microscope_energy_filter       | Energy filter setup used.                                                                                     |
-| Phase Plate                               | TiltSeries.microscope_phase_plate         | Phase plate configuration.                                                                                    |
-| Image Corrector                           | TiltSeries.microscope_image_corrector     | Image corrector setup.                                                                                        |
-| Additional microscope optical setup       | TiltSeries.microscope_additional_info     | Other microscope optical setup information, in addition to energy filter, phase plate and image corrector.    |
-| Camera Manufacturer                       | TiltSeries.camera_manufacturer            | Name of the camera manufacturer.                                                                              |
-| Camera Model                              | TiltSeries.camera_model                   | Camera model name.                                         |
+| **Portal Metadata**                       | **API Expression**                         | **Definition**                                                                                             |
+|-------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| Acceleration Voltage                      | `TiltSeries.acceleration_voltage`          | Electron Microscope Accelerator voltage in volts.                                                          |
+| Spherical Aberration Constant             | `TiltSeries.spherical_aberration_constant` | Spherical Aberration Constant of the objective lens in millimeters.                                        |
+| Microscope Manufacturer                   | `TiltSeries.microscope_manufacturer`       | Name of the microscope manufacturer.                                                                       |
+| Microscope Model                          | `TiltSeries.microscope_model`              | Microscope model name.                                                                                     |
+| Energy Filter                             | `TiltSeries.microscope_energy_filter`      | Energy filter setup used.                                                                                  |
+| Phase Plate                               | `TiltSeries.microscope_phase_plate`        | Phase plate configuration.                                                                                 |
+| Image Corrector                           | `TiltSeries.microscope_image_corrector`    | Image corrector setup.                                                                                     |
+| Additional microscope optical setup       | `TiltSeries.microscope_additional_info`    | Other microscope optical setup information, in addition to energy filter, phase plate and image corrector. |
+| Camera Manufacturer                       | `TiltSeries.camera_manufacturer`           | Name of the camera manufacturer.                                                                           |
+| Camera Model                              | `TiltSeries.camera_model`                  | Camera model name.                                                                                         |
 
 ### Dataset Overview Page
 
@@ -112,42 +112,37 @@ A tomography run is a collection of all data and annotations related to one phys
 An overview of all runs in a dataset is presented in the Dataset Overview page. Each run has its own Run Overview Page, where the View All Info panel contains metadata for the run. These metadata are defined in the tables below including their mapping to attributes in the Portal API:
 
 **Tilt Series**
-| **Portal Metadata**                       | **API Expression**                        | **Definition**                                                                                                 |
-|-------------------------------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| Microscope Manufacturer                   | TiltSeries.microscope_manufacturer        | Name of the microscope manufacturer.                                                                          |
-| Microscope Model                          | TiltSeries.microscope_model               | Microscope model name.                                                                                        |
-| Phase Plate                               | TiltSeries.microscope_phase_plate         | Phase plate configuration.                                                                                    |
-| Image Corrector                           | TiltSeries.microscope_image_corrector     | Image corrector setup.                                                                                        |
-| Additional microscope optical setup       | TiltSeries.microscope_additional_info     | Other microscope optical setup information, in addition to energy filter, phase plate and image corrector.    |
-| Acceleration Voltage                      | TiltSeries.acceleration_voltage           | Electron Microscope Accelerator voltage in volts.                                                             |
-| Spherical Aberration Constant             | TiltSeries.spherical_aberration_constant  | Spherical Aberration Constant of the objective lens in millimeters.                                           |
-| Camera Manufacturer                       | TiltSeries.camera_manufacturer            | Name of the camera manufacturer.                                                                              |
-| Camera Model                              | TiltSeries.camera_model                   | Camera model name.                                                                                            |
-| Energy Filter                             | TiltSeries.microscope_energy_filter       | Energy filter setup used.                                                                                     |
-| Data Acquisition Software                 | TiltSeries.data_acquisition_software      | Software used to collect data.                                                                                |
-| Pixel Spacing                             | TiltSeries.pixel_spacing                  | Pixel spacing for the tilt series.                                                                            |
-| Tilt Axis                                 | TiltSeries.tilt_axis                      | Rotation angle in degrees.                                                                                    |
-| Tilt Range                                | TiltSeries.tilt_range                     | Total tilt range in degrees.                                                                                  |
-| Tile Step                                 | TiltSeries.tiltstep                       | Tilt step in degrees.                                                                                         |
-| Tilting Scheme                            | TiltSeries.tilting_scheme                 | The order of stage tilting during acquisition of the data.                                                    |
-| Total Flux                                | TiltSeries.total_flux                     | Number of electrons reaching the specimen in a square Angstrom area for the entire tilt series.                |
-| Binning from Frames                       | TiltSeries.binning_from_frames            | Describes the binning factor from frames to tilt series file.                                                 |
-| Series is Aligned                         | No API field                              | True or false, indicating whether the tilt series images have been transformed to account for the tomographic alignment. |
-| Related EMPIAR Entry                      | TiltSeries.related_empiar_entry           | EMPIAR dataset identifier If a tilt series is deposited into EMPIAR.                                           |
+| **Portal Metadata**                       | **API Expression**                         | **Definition**                                                                                                |
+|-------------------------------------------|--------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| Tilt Series ID                            | `TiltSeries.id`                            | Numeric identifier.                                                                                           |
+| Microscope Manufacturer                   | `TiltSeries.microscope_manufacturer`       | Name of the microscope manufacturer.                                                                          |
+| Microscope Model                          | `TiltSeries.microscope_model`              | Microscope model name.                                                                                        |
+| Phase Plate                               | `TiltSeries.microscope_phase_plate`        | Phase plate configuration.                                                                                    |
+| Image Corrector                           | `TiltSeries.microscope_image_corrector`    | Image corrector setup.                                                                                        |
+| Additional microscope optical setup       | `TiltSeries.microscope_additional_info`    | Other microscope optical setup information, in addition to energy filter, phase plate and image corrector.    |
+| Acceleration Voltage                      | `TiltSeries.acceleration_voltage`          | Electron Microscope Accelerator voltage in volts.                                                             |
+| Spherical Aberration Constant             | `TiltSeries.spherical_aberration_constant` | Spherical Aberration Constant of the objective lens in millimeters.                                           |
+| Camera Manufacturer                       | `TiltSeries.camera_manufacturer`           | Name of the camera manufacturer.                                                                              |
+| Camera Model                              | `TiltSeries.camera_model`                  | Camera model name.                                                                                            |
+| Energy Filter                             | `TiltSeries.microscope_energy_filter`      | Energy filter setup used.                                                                                     |
+| Data Acquisition Software                 | `TiltSeries.data_acquisition_software`     | Software used to collect data.                                                                                |
+| Pixel Spacing                             | `TiltSeries.pixel_spacing`                 | Pixel spacing for the tilt series.                                                                            |
+| Tilt Axis                                 | `TiltSeries.tilt_axis`                     | Rotation angle in degrees.                                                                                    |
+| Tilt Range                                | `TiltSeries.tilt_range`                    | Total tilt range in degrees.                                                                                  |
+| Tilt Step                                 | `TiltSeries.tilt_step`                     | Tilt step in degrees.                                                                                         |
+| Tilting Scheme                            | `TiltSeries.tilting_scheme`                | The order of stage tilting during acquisition of the data.                                                    |
+| Total Flux                                | `TiltSeries.total_flux`                    | Number of electrons reaching the specimen in a square Angstrom area for the entire tilt series.               |
+| Binning from Frames                       | `TiltSeries.binning_from_frames`           | Describes the binning factor from frames to tilt series file.                                                 |
+| Series is Aligned                         | --                                         | True or false, indicating whether the tilt series images have been transformed to account for the tomographic alignment. |
+| Related EMPIAR Entry                      | `TiltSeries.related_empiar_entry`          | EMPIAR dataset identifier If a tilt series is deposited into EMPIAR.                                          |
 
-**Tomogram**
-| **Portal Metadata**                     | **API Expression**                                                                      | **Definition**                                                                                     |
-|-----------------------------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
-| Reconstruction Software                 | Tomogram.reconstruction_software                                                        | Name of software used for reconstruction.                                                          |
-| Reconstruction Method                   | Tomogram.reconstruction_method                                                          | Reconstruction method, e.g. Weighted back-projection, SART, SIRT.                                   |
-| Processing Software                     | Tomogram.processing_software                                                            | Processing software used to derive the tomogram.                                                   |
-| Available Processing                    | Tomogram.processing                                                                     | Description of additional processing used to derive the tomogram, e.g. denoised.                   |
-| Smallest Available Voxel Spacing        | `min_vs = min([vs.voxel_spacing for vs in Run.tomogram_voxel_spacings])`                           | Smallest voxel spacing of the available tomograms.                                                 |
-| Size (x, y, z)                          | `(Tomogram.size_x, Tomogram.size_y, Tomogram.size_z)` or `Tomogram.scale0_dimensions`   | Comma separated x,y,z dimensions of the unscaled tomogram in pixels.                                         |
-| Fiducial Alignment Status               | Tomogram.fiducial_alignment_status                                                      | Fiducial Alignment status: True = aligned with fiducial, False = aligned without fiducial.         |
-| Ctf Corrected                           | Tomogram.ctf_corrected                                                                  | Whether this tomogram is contrast transfer function corrected.                                     |
-| Affine Transformation Matrix            | Tomogram.affine_transformation_matrix                                                   | The flip or rotation transformation.                                                               |
-
+**Tomograms Summary**
+| **Portal Metadata**       | **API Expression**    | **Definition**                    |
+|---------------------------|-----------------------|-----------------------------------|
+| Total Tomograms           | `len(Run.tomograms)`  | Number of tomograms in this run. |
+| Samplings Available       | see [how to get all voxel spacings available for this run](all-voxel-spacings-example) |  |
+| Tomogram Processing       | see [how to get all types of post-processing methods for tomograms in this run](all-tomogram-processing-example) |  |
+| Annotated Objects         | see [how to get all annotated object names for this run](all-annotated-object-example) |  |
 
 ### Run Overview Page
 
@@ -227,41 +222,41 @@ Each tomogram has its own metadata, which can be viewed using the info icon on t
 **Tomogram Overview**
 | **Portal Metadata**       | **API Expression**                  | **Definition**                                                                                 |
 |---------------------------|-------------------------------------|------------------------------------------------------------------------------------------------|
-| Authors             | Tomogram.authors                       | The tomogram authors of this tomogram.                                                     |
-| Publications               | Tomogram.publications   | Comma-separated list of DOIs for publications associated with the tomogram.                                               |
-| Related Databases               | Tomogram.related_database_entries              | If a CryoET tomogram is also deposited into another database, enter the database identifier here (e.g. EMPIAR-11445). Use a comma to separate multiple identifiers.                |
-| Deposition Name         | Tomogram.deposition        | The name of the deposition this tomogram is a part of. |
-| Deposition ID       | Tomogram.deposition_id      | The ID of the deposition this tomogram is a part of.                                                  |
-| Deposition Date           | Tomogram.deposition_date          | Date when a tomogram is initially received by the Data Portal.                           |
-| Release Date              | Tomogram.release_date             | Date when a tomogram is made public by the Data Portal.                                    |
-| Last Modified Date        | Tomogram.last_modified_date       | Date when a tomogram was last modified in the Data Portal.                                   |
+| Authors                   | `Tomogram.authors`                  | The tomogram authors of this tomogram.                                                         |
+| Publications              | `Tomogram.publications`             | Comma-separated list of DOIs for publications associated with the tomogram.                    |
+| Related Databases         | `Tomogram.related_database_entries` | Comma-separated list of other database identifiers (e.g. EMPIAR-11445) if the tomogram is also deposited into other databases.|
+| Deposition Name           | `Tomogram.deposition`               | The name of the deposition this tomogram is a part of.                                         |
+| Deposition ID             | `Tomogram.deposition_id`            | The ID of the deposition this tomogram is a part of.                                           |
+| Deposition Date           | `Tomogram.deposition_date`          | Date when a tomogram is initially received by the Data Portal.                                 |
+| Release Date              | `Tomogram.release_date`             | Date when a tomogram is made public by the Data Portal.                                        |
+| Last Modified Date        | `Tomogram.last_modified_date`       | Date when a tomogram was last modified in the Data Portal.                                     |
 
 **Reconstruction and Processing**
-| **Portal Metadata**              | **API Expression**                  | **Definition** |
-|-----------------------------|----------------------------------|------------|
-| Portal Standard Status      | Tomogram.is_portal_standard  | Whether this tomogram adheres to portal standards. |
-| Submitted by Dataset Author | Tomogram.is_author_submitted  | Whether this tomogram was submitted by the author of the dataset it belongs to.|
-| Reconstruction Software     | Tomogram.reconstruction_software | Name of software used for reconstruction |
-| Reconstruction Method       | Tomogram.reconstruction_method  | Describe reconstruction method (WBP, SART, SIRT).|
-| Processing Software         | Tomogram.processing_software  | Processing software used to derive the tomogram. |
-| Processing                  | Tomogram.processing  | Describe additional processing used to derive the tomogram|
-| Voxel Spacing               | Tomogram.voxel_spacing |Voxel spacing equal in all three axes in angstroms|
-| Size (x,y,z)                | `(Tomogram.size_x, Tomogram.size_y, Tomogram.size_z)` or `Tomogram.scale0_dimensions`| Comma separated x,y,z dimensions of the unscaled tomogram in pixels.|
-| Fiducial Alignment Status   | Tomogram.fiducial_alignment_status | Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial.|
-| Ctf Corrected               | Tomogram.ctf_corrected | Whether this tomogram is CTF corrected |
+| **Portal Metadata**         | **API Expression**                   | **Definition**                                                                  |
+|-----------------------------|--------------------------------------|---------------------------------------------------------------------------------|
+| Is Portal Standard          | `Tomogram.is_portal_standard`        | Whether this tomogram is a standardized reconstruction of the original tomogram, following a consistent format and coordinate space, and completed by CZII.|
+| Submitted by Dataset Author | `Tomogram.is_author_submitted`       | Whether this tomogram was submitted by the author of the dataset it belongs to. |
+| Reconstruction Software     | `Tomogram.reconstruction_software`   | Name of software used for reconstruction                                        |
+| Reconstruction Method       | `Tomogram.reconstruction_method`     | Describe reconstruction method (WBP, SART, SIRT).                               |
+| Processing Software         | `Tomogram.processing_software`       | Processing software used to derive the tomogram.                                |
+| Processing                  | `Tomogram.processing`                | Describe additional processing used to derive the tomogram                      |
+| Voxel Spacing               | `Tomogram.voxel_spacing`             | Voxel spacing equal in all three axes in angstroms                              |
+| Size (x,y,z)                | `(Tomogram.size_x, Tomogram.size_y, Tomogram.size_z)` or `Tomogram.scale0_dimensions`| Comma separated x,y,z dimensions of the unscaled tomogram in pixels. |
+| Fiducial Alignment Status   | `Tomogram.fiducial_alignment_status` | Fiducial Alignment status: True = aligned with fiducial False = aligned without fiducial. |
+| Ctf Corrected               | `Tomogram.ctf_corrected`             | Whether this tomogram is CTF corrected                                          |
 
 
 **Alignment**
-| **Portal Metadata**               | **API Expression**                                               | **Definition** |
-|------------------------------|---------------------------------------------------------------|------------|
-| Alignment ID                 | Tomogram.alignment_id  |The ID of the alignment used to generate this tomogram.|
-| Canonical Status             | -- | Whether or not the tomogram is considered canonical, meaning as minimal processing as possible.|
-| Alignment Type               | --  | Method of alignment used to generate the tomogram (e.g. local, global, fiducial-based, etc.)|
-| Dimension (x,y,z)            | --  | Comma separated x,y,z dimensions of the unscaled tomogram in angstroms. |
+| **Portal Metadata**          | **API Expression**            | **Definition**                                                                                  |
+|------------------------------|-------------------------------|-------------------------------------------------------------------------------------------------|
+| Alignment ID                 | `Tomogram.alignment_id`       | The ID of the alignment used to generate this tomogram.                                         |
+| Is Portal Standard.          | `Tomogram.is_portal_standard` | Whether or not the tomogram is considered canonical, meaning as minimal processing as possible. |
+| Alignment Type               | `Alignment.alignment_type`    | Method of alignment used to generate the tomogram (e.g. local, global, fiducial-based, etc.)    |
+| Dimension (x,y,z)            | `(Alignment.volume_x_dimension, Alignment.volume_y_dimension, Alignment.volume_z_dimension)` | Comma separated x,y,z dimensions of the unscaled tomogram in angstroms.                         |
 | Offset (x,y,z)               | `(Tomogram.offset_x, Tomogram.offset_y, Tomogram.offset_z)` | Comma separated x,y,z offsets of the data relative to the canonical tomogram in pixels. |
-| Rotation (x)                 | -- | -- |
-| Tilt Offset                  | -- | --|
-| Affine Transformation Matrix | -- | --|
+| Rotation (x)                 | `Alignment.x_rotation_offset` | -- |
+| Tilt Offset                  | `Alignment.tilt_offset`       | -- |
+| Affine Transformation Matrix | `Alignment.affine_transformation_matrix` | -- |
 
 ### Tomogram Download Options
 
@@ -281,33 +276,37 @@ Each annotation has its own metadata, which can be viewed using the info icon on
 **Annotation Overview**
 | **Portal Metadata**       | **API Expression**                  | **Definition**                                                                                 |
 |---------------------------|-------------------------------------|------------------------------------------------------------------------------------------------|
-| Annotation ID             | Annotation.id                       | Numeric identifier assigned by the Portal.                                                     |
-| Annotation Authors        | Annotation.authors                  | Authors of this annotation.                                                                    |
-| Publication               | Annotation.annotation_publication   | DOIs for publications that describe the dataset.                                               |
-| Deposition Date           | Annotation.deposition_date          | Date when an annotation set is initially received by the Data Portal.                           |
-| Release Date              | Annotation.release_date             | Date when annotation data is made public by the Data Portal.                                    |
-| Last Modified Date        | Annotation.last_modified_date       | Date when an annotation was last modified in the Data Portal.                                   |
-| Method Type               | Annotation.method_type              | The method type for generating the annotation (e.g., manual, hybrid, automated).                |
-| Annotation Method         | Annotation.annotation_method        | Describes how the annotation is made, e.g., Manual, crYoLO, Positive Unlabeled Learning, template matching. |
-| Annotation Software       | Annotation.annotation_software      | Software used for generating this annotation.                                                  |
+| Annotation ID             | `Annotation.id`                     | Numeric identifier assigned by the Portal.                                                     |
+| Annotation Authors        | `Annotation.authors`                | Authors of this annotation.                                                                    |
+| Publication               | `Annotation.annotation_publication` | DOIs for publications that describe the dataset.                                               |
+| Deposition Name           | `Annotation.deposition.name`        | |
+| Deposition ID             | `Annotation.deposition_id`          | The ID of the deposition this annotation is a part of.                                         |
+| Deposition Date           | `Annotation.deposition_date`        | Date when an annotation set is initially received by the Data Portal.                          |
+| Release Date              | `Annotation.release_date`           | Date when annotation data is made public by the Data Portal.                                   |
+| Last Modified Date        | `Annotation.last_modified_date`     | Date when an annotation was last modified in the Data Portal.                                  |
+| Alignment ID              | `Annotation.annotation_shapes[X].annotation_files[Y].alignment_id` | |
+| Method Type               | `Annotation.method_type`            | The method type for generating the annotation (e.g., manual, hybrid, automated).               |
+| Annotation Method         | `Annotation.annotation_method`      | Describes how the annotation is made, e.g., Manual, crYoLO, Positive Unlabeled Learning, template matching. |
+| Annotation Software       | `Annotation.annotation_software`    | Software used for generating this annotation.                                                  |
+| Method Links              | `Annotation.method_links`           | Returns `list[AnnotationMethodLink]`|
 
 **Annotation Object**
-| **Portal Metadata**       | **API Expression**                 | **Definition**                                                                                               |
-|---------------------------|------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| Object Name               | Annotation.object_name             | Name of the object being annotated, e.g., ribosome, nuclear pore complex, actin filament, membrane.          |
-| Object ID                 | Annotation.object_id               | Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object.                |
-| Object Count              | Annotation.object_count            | Number of objects identified.                                                                                 |
-| Object Shape Type         | AnnotationFile.shape_type          | Description of whether this is a Point, OrientedPoint, or SegmentationMask file.                              |
-| Object State              | Annotation.object_state            | Additional information about the annotated object not captured by the gene ontology (e.g., open or closed state for molecules). |
-| Object Description        | Annotation.object_description      | Description of the annotated object, including additional information not covered by the Annotation object name and state. |
+| **Portal Metadata**       | **API Expression**              | **Definition**                                                                                               |
+|---------------------------|---------------------------------|--------------------------------------------------------------------------------------------------------------|
+| Object Name               | `Annotation.object_name`        | Name of the object being annotated, e.g., ribosome, nuclear pore complex, actin filament, membrane.          |
+| Object ID                 | `Annotation.object_id`          | Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object.                |
+| Object Count              | `Annotation.object_count`       | Number of objects identified.                                                                                |
+| Object Shape Type         | `AnnotationShape.shape_type`    | Description of whether this is a Point, OrientedPoint, or SegmentationMask file.                             |
+| Object State              | `Annotation.object_state`       | Additional information about the annotated object not captured by the gene ontology (e.g., open or closed state for molecules). |
+| Object Description        | `Annotation.object_description` | Description of the annotated object, including additional information not covered by the Annotation object name and state. |
 
 **Annotation Confidence**
-| **Portal Metadata**       | **API Expression**                   | **Definition**                                                                                     |
-|---------------------------|--------------------------------------|----------------------------------------------------------------------------------------------------|
-| Ground Truth Status       | Annotation.ground_truth_status       | Whether an annotation is considered ground truth, as determined by the annotation author.          |
-| Ground Truth Used         | Annotation.ground_truth_used         | Annotation filename used as ground truth for precision and recall.                                 |
-| Precision                 | Annotation.confidence_precision      | Percentage of annotation objects being true positive.                                              |
-| Recall                    | Annotation.confidence_recall         | Percentage of true positives being annotated correctly.                                            |
+| **Portal Metadata**       | **API Expression**                | **Definition**                                                                            |
+|---------------------------|-----------------------------------|-------------------------------------------------------------------------------------------|
+| Ground Truth Status       | `Annotation.ground_truth_status`  | Whether an annotation is considered ground truth, as determined by the annotation author. |
+| Ground Truth Used         | `Annotation.ground_truth_used`    | Annotation filename used as ground truth for precision and recall.                        |
+| Precision                 | `Annotation.confidence_precision` | Percentage of annotation objects being true positive.                                     |
+| Recall                    | `Annotation.confidence_recall`    | Percentage of true positives being annotated correctly.                                   |
 
 ### Visualizing Annotations with Tomograms in Neuroglancer
 
