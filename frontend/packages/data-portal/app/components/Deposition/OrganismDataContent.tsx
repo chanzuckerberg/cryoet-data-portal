@@ -31,11 +31,7 @@ export function OrganismDataContent<TData, TTableData extends unknown[]>({
   showLoadingSkeleton = false,
 }: OrganismDataContentProps<TData, TTableData>): ReactNode {
   if (error) {
-    return (
-      <div className="p-4 text-center text-red-600">
-        {errorMessage}: {error.message}
-      </div>
-    )
+    return <div className="p-4 text-center text-red-600">{errorMessage}</div>
   }
 
   // Don't show "no data" message here since there's already a higher-level "No results found"
