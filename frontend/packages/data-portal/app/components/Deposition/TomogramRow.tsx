@@ -181,7 +181,7 @@ export function TomogramRow({
               <TableRow className="border-b border-light-sds-color-semantic-base-divider">
                 <CellComponent colSpan={7}>
                   <div className="pl-sds-xl py-sds-m text-sds-color-primitive-red-600">
-                    Error loading tomograms
+                    {t('errorLoadingTomograms')}
                   </div>
                 </CellComponent>
               </TableRow>

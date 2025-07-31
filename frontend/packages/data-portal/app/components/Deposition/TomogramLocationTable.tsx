@@ -137,7 +137,9 @@ export function TomogramLocationTable({
   // Show error state if backend fetch failed
   if (isExpanded && error) {
     return (
-      <div className="p-4 text-center text-red-600">Error loading runs</div>
+      <div className="p-4 text-center text-red-600">
+        {t('errorLoadingRuns')}
+      </div>
     )
   }
 

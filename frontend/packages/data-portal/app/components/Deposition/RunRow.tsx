@@ -184,7 +184,7 @@ export function RunRow({
               <TableRow className="border-b border-light-sds-color-semantic-base-divider">
                 <CellComponent colSpan={3}>
                   <div className="pl-sds-xl py-sds-m text-sds-color-primitive-red-600">
-                    Error loading annotations
+                    {t('errorLoadingAnnotations')}
                   </div>
                 </CellComponent>
               </TableRow>
