@@ -112,7 +112,7 @@ export function DepositionTomogramTable() {
   return (
     <PageTable
       data={
-        isLoadingDebounced ? LOADING_ANNOTATIONS : tomograms?.tomograms ?? []
+        isLoadingDebounced ? LOADING_ANNOTATIONS : (tomograms?.tomograms ?? [])
       }
       columns={columns}
       hoverType="none"

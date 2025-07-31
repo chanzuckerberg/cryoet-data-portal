@@ -6,7 +6,11 @@ import {
   DASHED_UNDERLINED_CLASSES,
 } from 'app/utils/classNames'
 import { cnsNoMerge } from 'app/utils/cns'
-import { isExternalUrl, preserveFeatureFlagParams } from 'app/utils/url'
+import {
+  isExternalUrl,
+  isNeuroglancerUrl,
+  preserveFeatureFlagParams,
+} from 'app/utils/url'
 
 export type VariantLinkProps = LinkProps & {
   newTab?: boolean
@@ -32,7 +36,7 @@ function BaseLink(
 
   // Preserve feature flag parameters for internal links
   const url =
-    typeof originalUrl === 'string'
+    typeof originalUrl === 'string' && !isNeuroglancerUrl(originalUrl)
       ? preserveFeatureFlagParams(originalUrl, searchParams)
       : originalUrl
 
