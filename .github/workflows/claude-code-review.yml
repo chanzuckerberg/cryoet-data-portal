@@ -1,15 +1,16 @@
 name: Claude Code Review
 
+# TODO enable when claude code action passes trust review
 on:
-  pull_request:
-    # TODO enable when claude code action passes trust review
-    # types: [opened, synchronize]
-    # Optional: Only run on specific file changes
-    # paths:
-    #   - "src/**/*.ts"
-    #   - "src/**/*.tsx"
-    #   - "src/**/*.js"
-    #   - "src/**/*.jsx"
+  workflow_dispatch:
+  # pull_request:
+  #   types: [opened, synchronize]
+  # Optional: Only run on specific file changes
+  # paths:
+  #   - "src/**/*.ts"
+  #   - "src/**/*.tsx"
+  #   - "src/**/*.js"
+  #   - "src/**/*.jsx"
 
 jobs:
   claude-review:
