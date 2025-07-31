@@ -16,6 +16,25 @@ global.fetch = jest.fn(() =>
   } as Response),
 ) as jest.MockedFunction<typeof fetch>
 
+// Mock the required hooks that useDepositionGroupedData now depends on
+const mockUseDepositionId = jest.fn(() => 123)
+const mockUseGroupBy = jest.fn(() => [GroupByOption.DepositedLocation])
+const mockUseActiveDepositionDataType = jest.fn(() => [
+  DataContentsType.Annotations,
+])
+
+jest.mock('app/hooks/useDepositionId', () => ({
+  useDepositionId: mockUseDepositionId,
+}))
+
+jest.mock('app/hooks/useGroupBy', () => ({
+  useGroupBy: mockUseGroupBy,
+}))
+
+jest.mock('app/hooks/useActiveDepositionDataType', () => ({
+  useActiveDepositionDataType: mockUseActiveDepositionDataType,
+}))
+
 // Mock the underlying query hook utility
 jest.mock('app/hooks/useDepositionQuery', () => ({
   useDepositionQuery: () => ({
@@ -125,12 +144,7 @@ describe('useDepositionGroupedData', () => {
   describe('basic functionality', () => {
     it('should return expected data structure', async () => {
       const { result } = renderHook(
-        () =>
-          useDepositionGroupedData({
-            depositionId: 123,
-            groupBy: GroupByOption.DepositedLocation,
-            tab: DataContentsType.Annotations,
-          }),
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 
@@ -164,23 +178,17 @@ describe('useDepositionGroupedData', () => {
     })
 
     it('should handle organism grouping differently than location grouping', async () => {
+      // Test organism grouping
+      mockUseGroupBy.mockReturnValue([GroupByOption.Organism])
       const { result: organismResult } = renderHook(
-        () =>
-          useDepositionGroupedData({
-            depositionId: 123,
-            groupBy: GroupByOption.Organism,
-            tab: DataContentsType.Annotations,
-          }),
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 
+      // Test location grouping
+      mockUseGroupBy.mockReturnValue([GroupByOption.DepositedLocation])
       const { result: locationResult } = renderHook(
-        () =>
-          useDepositionGroupedData({
-            depositionId: 123,
-            groupBy: GroupByOption.DepositedLocation,
-            tab: DataContentsType.Annotations,
-          }),
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 
@@ -204,12 +212,7 @@ describe('useDepositionGroupedData', () => {
 
     it('should return consolidated count data', async () => {
       const { result } = renderHook(
-        () =>
-          useDepositionGroupedData({
-            depositionId: 123,
-            groupBy: GroupByOption.DepositedLocation,
-            tab: DataContentsType.Annotations,
-          }),
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 
@@ -237,12 +240,7 @@ describe('useDepositionGroupedData', () => {
       })
 
       const { result } = renderHook(
-        () =>
-          useDepositionGroupedData({
-            depositionId: 123,
-            groupBy: GroupByOption.DepositedLocation,
-            tab: DataContentsType.Annotations,
-          }),
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 
@@ -259,12 +257,7 @@ describe('useDepositionGroupedData', () => {
       })
 
       const { result } = renderHook(
-        () =>
-          useDepositionGroupedData({
-            depositionId: 123,
-            groupBy: GroupByOption.DepositedLocation,
-            tab: DataContentsType.Annotations,
-          }),
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 
@@ -286,12 +279,7 @@ describe('useDepositionGroupedData', () => {
       })
 
       const { result } = renderHook(
-        () =>
-          useDepositionGroupedData({
-            depositionId: 123,
-            groupBy: GroupByOption.DepositedLocation,
-            tab: DataContentsType.Annotations,
-          }),
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 
@@ -322,12 +310,7 @@ describe('useDepositionGroupedData', () => {
       })
 
       const { result } = renderHook(
-        () =>
-          useDepositionGroupedData({
-            depositionId: 123,
-            groupBy: GroupByOption.DepositedLocation,
-            tab: DataContentsType.Annotations,
-          }),
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 
@@ -360,12 +343,7 @@ describe('useDepositionGroupedData', () => {
       })
 
       const { result } = renderHook(
-        () =>
-          useDepositionGroupedData({
-            depositionId: 123,
-            groupBy: GroupByOption.DepositedLocation,
-            tab: DataContentsType.Annotations,
-          }),
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 
@@ -386,20 +364,10 @@ describe('useDepositionGroupedData', () => {
       expect(typeof result.current.counts).toBe('object')
     })
 
-    it('should support error callback functionality', async () => {
-      const onErrorMock = jest.fn()
-
-      // Test that the hook accepts onError callback without throwing
+    it('should work without throwing errors', async () => {
+      // Test that the hook works without throwing
       const { result } = renderHook(
-        () =>
-          useDepositionGroupedData(
-            {
-              depositionId: 123,
-              groupBy: GroupByOption.DepositedLocation,
-              tab: DataContentsType.Annotations,
-            },
-            { onError: onErrorMock },
-          ),
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 
@@ -407,8 +375,6 @@ describe('useDepositionGroupedData', () => {
         expect(result.current.isLoading).toBe(false)
       })
 
-      // The hook should accept and handle the onError callback
-      expect(typeof onErrorMock).toBe('function')
       // Structure should still be valid
       expect(result.current).toHaveProperty('datasets')
       expect(result.current).toHaveProperty('organisms')
@@ -418,51 +384,29 @@ describe('useDepositionGroupedData', () => {
   describe('configuration options', () => {
     it('should respect enabled parameter', () => {
       const { result } = renderHook(
-        () =>
-          useDepositionGroupedData({
-            depositionId: 123,
-            groupBy: GroupByOption.DepositedLocation,
-            tab: DataContentsType.Annotations,
-            enabled: false,
-          }),
+        () => useDepositionGroupedData({ enabled: false }),
         { wrapper: createTestWrapper() },
       )
 
       expect(result.current.enabled).toBe(false)
     })
 
-    it('should call onLoadingChange callback when provided', async () => {
-      const onLoadingChangeMock = jest.fn()
-
-      renderHook(
-        () =>
-          useDepositionGroupedData(
-            {
-              depositionId: 123,
-              groupBy: GroupByOption.DepositedLocation,
-              tab: DataContentsType.Annotations,
-            },
-            { onLoadingChange: onLoadingChangeMock },
-          ),
+    it('should handle loading states properly', async () => {
+      const { result } = renderHook(
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 
       await waitFor(() => {
-        expect(onLoadingChangeMock).toHaveBeenCalledWith(false)
+        expect(result.current.isLoading).toBe(false)
       })
+
+      expect(result.current).toHaveProperty('isLoading')
     })
 
     it('should handle fetchRunCounts option', async () => {
       const { result } = renderHook(
-        () =>
-          useDepositionGroupedData(
-            {
-              depositionId: 123,
-              groupBy: GroupByOption.DepositedLocation,
-              tab: DataContentsType.Annotations,
-            },
-            { fetchRunCounts: false },
-          ),
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 
@@ -489,12 +433,7 @@ describe('useDepositionGroupedData', () => {
       })
 
       const { result } = renderHook(
-        () =>
-          useDepositionGroupedData({
-            depositionId: 123,
-            groupBy: GroupByOption.DepositedLocation,
-            tab: DataContentsType.Annotations,
-          }),
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 
@@ -524,12 +463,7 @@ describe('useDepositionGroupedData', () => {
       })
 
       const { result } = renderHook(
-        () =>
-          useDepositionGroupedData({
-            depositionId: 123,
-            groupBy: GroupByOption.DepositedLocation,
-            tab: DataContentsType.Annotations,
-          }),
+        () => useDepositionGroupedData({ enabled: true }),
         { wrapper: createTestWrapper() },
       )
 

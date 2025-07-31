@@ -1,46 +1,26 @@
 import Divider from '@mui/material/Divider'
-import { useParams } from '@remix-run/react'
 import { useMemo } from 'react'
 
 import { OrganismNameFilter } from 'app/components/Filters/OrganismNameFilter'
-import { QueryParams } from 'app/constants/query'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
-import { useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
-import { useQueryParam } from 'app/hooks/useQueryParam'
-import { GroupByOption } from 'app/types/depositionTypes'
 import { cns } from 'app/utils/cns'
 import { getDataContents } from 'app/utils/deposition'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { isDefined } from 'app/utils/nullish'
 
+import { DatasetFilter } from '../DatasetFilter'
 import { DatasetNameOrIdFilter } from '../Filters/DatasetNameOrIdFilter'
 import { DepositionTabs } from './DepositionTabs'
 
-export function DepositionFilters() {
-  const params = useParams()
-  const depositionId = params.id ? +params.id : undefined
-  const [tab] = useDepositionTab()
+function DepositionFiltersContent() {
   const { allRuns } = useDepositionById()
 
-  // Get current groupBy value from URL params
-  const [groupBy] = useQueryParam<GroupByOption>(QueryParams.GroupBy, {
-    defaultValue: GroupByOption.None,
-    serialize: (value) => String(value),
-    deserialize: (value) => (value as GroupByOption) || GroupByOption.None,
-  })
-
   // Use the new hook to get datasets
-  const { datasets } = useDepositionGroupedData(
-    {
-      depositionId,
-      groupBy: groupBy || GroupByOption.None,
-      tab,
-    },
-    {
-      fetchRunCounts: false, // Only need organism names
-    },
-  )
+  const { datasets } = useDepositionGroupedData({
+    fetchRunCounts: false, // Only need organism names
+  })
 
   // Extract unique organism names from datasets
   const organismNames = useMemo(
@@ -126,4 +106,14 @@ export function DepositionFilters() {
       </div>
     </div>
   )
+}
+
+export function DepositionFilters() {
+  const isExpandDepositions = useFeatureFlag('expandDepositions')
+
+  if (isExpandDepositions) {
+    return <DepositionFiltersContent />
+  }
+
+  return <DatasetFilter depositionPageVariant />
 }

@@ -5,8 +5,6 @@ import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
-import { useDepositionTab } from 'app/hooks/useDepositionTab'
-import { GroupByOption } from 'app/types/depositionTypes'
 import { isDefined } from 'app/utils/nullish'
 
 interface UseOrganismPaginationReturn {
@@ -34,14 +32,10 @@ interface UseOrganismPaginationReturn {
  * 4. Calculates total and filtered organism counts
  * 5. Returns paginated organisms for the current page
  *
- * @param depositionId - The ID of the deposition
  * @returns Organism counts, paginated organisms, and loading state
  */
-export function useOrganismPagination(
-  depositionId: number | undefined,
-): UseOrganismPaginationReturn {
+export function useOrganismPagination(): UseOrganismPaginationReturn {
   const [searchParams] = useSearchParams()
-  const [tab] = useDepositionTab()
 
   // Get current page from URL params
   const currentPage = +(searchParams.get(QueryParams.Page) ?? '1')
@@ -56,16 +50,9 @@ export function useOrganismPagination(
   }, [searchParams])
 
   // Fetch all datasets and organism counts for the deposition
-  const { datasets, counts, isLoading } = useDepositionGroupedData(
-    {
-      depositionId,
-      groupBy: GroupByOption.Organism,
-      tab,
-    },
-    {
-      fetchRunCounts: true, // Need run counts for display
-    },
-  )
+  const { datasets, counts, isLoading } = useDepositionGroupedData({
+    fetchRunCounts: true, // Need run counts for display
+  })
 
   const organismCounts = counts.organisms
 

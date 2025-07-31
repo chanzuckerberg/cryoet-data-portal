@@ -5,12 +5,11 @@ import {
 import Skeleton from '@mui/material/Skeleton'
 import { useMemo } from 'react'
 
-import { QueryParams } from 'app/constants/query'
+import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
-import { useDepositionTab } from 'app/hooks/useDepositionTab'
+import { useGroupBy } from 'app/hooks/useGroupBy'
 import { useI18n } from 'app/hooks/useI18n'
-import { useQueryParam } from 'app/hooks/useQueryParam'
 import { DataContentsType } from 'app/types/deposition-queries'
 import { GroupByOption } from 'app/types/depositionTypes'
 import { I18nKeys } from 'app/types/i18n'
@@ -22,15 +21,7 @@ import styles from './DepositionGroupByControl.module.css'
 export function DepositionGroupByControl() {
   const { t } = useI18n()
 
-  const [groupBy, setGroupBy] = useQueryParam<GroupByOption>(
-    QueryParams.GroupBy,
-    {
-      defaultValue: GroupByOption.None,
-      serialize: (value) => String(value),
-      deserialize: (value) => (value as GroupByOption) || GroupByOption.None,
-      preventScrollReset: true,
-    },
-  )
+  const [groupBy, setGroupBy] = useGroupBy({ preventScrollReset: true })
 
   const groupByOptions = useGroupByOptions()
 
@@ -63,17 +54,14 @@ export function DepositionGroupByControl() {
 
 function useGroupByOptions(): SingleButtonDefinition[] {
   const { t } = useI18n()
-  const { annotationsCount, tomogramsCount, deposition } = useDepositionById()
-  const [tab] = useDepositionTab()
+  const { annotationsCount, tomogramsCount } = useDepositionById()
+  const [type] = useActiveDepositionDataType()
 
   const count =
-    tab === DataContentsType.Annotations ? annotationsCount : tomogramsCount
+    type === DataContentsType.Annotations ? annotationsCount : tomogramsCount
 
   // Use the new consolidated hook for fetching data
   const { datasets, isLoading } = useDepositionGroupedData({
-    depositionId: deposition?.id,
-    groupBy: GroupByOption.DepositedLocation, // Default groupBy for this calculation
-    tab,
     enabled: count > 0,
   })
 

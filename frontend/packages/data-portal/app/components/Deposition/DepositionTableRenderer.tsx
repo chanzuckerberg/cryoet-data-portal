@@ -1,7 +1,6 @@
-import { QueryParams } from 'app/constants/query'
+import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
 import { useDepositionById } from 'app/hooks/useDepositionById'
-import { useDepositionTab } from 'app/hooks/useDepositionTab'
-import { useQueryParam } from 'app/hooks/useQueryParam'
+import { useGroupBy } from 'app/hooks/useGroupBy'
 import { DataContentsType } from 'app/types/deposition-queries'
 import { GroupByOption } from 'app/types/depositionTypes'
 
@@ -39,15 +38,15 @@ export function DepositionTableRenderer({
   datasets,
   datasetCounts,
 }: DepositionTableRendererProps) {
-  const [tab] = useDepositionTab()
-  const [groupBy] = useQueryParam<GroupByOption>(QueryParams.GroupBy)
-  const { annotations, tomograms, deposition } = useDepositionById()
+  const [type] = useActiveDepositionDataType()
+  const [groupBy] = useGroupBy()
+  const { annotations, tomograms } = useDepositionById()
 
   // Show accordion view when grouped by organism
   if (groupBy === GroupByOption.Organism) {
     return (
       <OrganismAccordionTable
-        tab={tab}
+        tab={type}
         organisms={organisms || []}
         organismCounts={organismCounts || {}}
         isLoading={isOrganismsLoading}
@@ -59,8 +58,6 @@ export function DepositionTableRenderer({
   if (groupBy === GroupByOption.DepositedLocation) {
     return (
       <DepositedLocationAccordionTable
-        tab={tab}
-        depositionId={deposition?.id ?? 0}
         datasets={datasets}
         datasetCounts={datasetCounts}
       />
@@ -68,7 +65,7 @@ export function DepositionTableRenderer({
   }
 
   // Default flat table view
-  switch (tab) {
+  switch (type) {
     case DataContentsType.Tomograms:
       return <DepositionTomogramTable data={tomograms?.tomograms ?? []} />
 
