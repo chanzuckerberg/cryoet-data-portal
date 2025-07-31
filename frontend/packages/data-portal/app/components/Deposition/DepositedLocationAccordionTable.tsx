@@ -107,7 +107,7 @@ export function DepositedLocationAccordionTable({
     return (
       <div className="px-sds-xl">
         {Array.from(
-          { length: Math.min(datasets?.length || 0, MAX_PER_ACCORDION_GROUP) },
+          { length: datasets.length || MAX_PER_ACCORDION_GROUP },
           (_, index) => (
             <SkeletonAccordion key={`dataset-skeleton-${index}`} />
           ),

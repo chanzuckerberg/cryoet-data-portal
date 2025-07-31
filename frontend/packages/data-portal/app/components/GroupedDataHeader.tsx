@@ -7,7 +7,13 @@ import { formatNumber } from 'app/utils/string'
 import { Link } from './Link'
 import { PaginationControls } from './PaginationControls'
 
-export interface AccordionHeaderProps {
+/**
+ * Header component for grouped data sections that displays a title, optional external link,
+ * and contextual information. Shows item counts and additional metadata when collapsed,
+ * and pagination controls when expanded. Used as the header element in accordion components
+ * like GroupedAccordion to provide a consistent interface for expandable data groups.
+ */
+export interface GroupedDataHeaderProps {
   title: string
   isExpanded: boolean
   itemCount?: number
@@ -28,7 +34,7 @@ export interface AccordionHeaderProps {
   className?: string
 }
 
-export function AccordionHeader({
+export function GroupedDataHeader({
   title,
   isExpanded,
   itemCount,
@@ -40,7 +46,7 @@ export function AccordionHeader({
   externalLink,
   onExternalLinkClick,
   className = '',
-}: AccordionHeaderProps): ReactNode {
+}: GroupedDataHeaderProps): ReactNode {
   const handleExternalLinkClick = (e: MouseEvent) => {
     e.stopPropagation()
     onExternalLinkClick?.(e)
@@ -49,17 +55,10 @@ export function AccordionHeader({
   return (
     <div className={cns('flex items-center justify-between w-full', className)}>
       <div className="flex items-center gap-sds-xs">
-        <Icon
-          sdsIcon="ChevronDown"
-          sdsSize="xs"
-          className={cns(
-            'transition-transform !text-light-sds-color-semantic-base-background-primary-inverse',
-            isExpanded ? 'rotate-180' : '',
-          )}
-        />
         <span className="text-sds-header-m-600-wide tracking-sds-header-m-600-wide font-semibold">
           {title}
         </span>
+
         {externalLink && (
           <Link to={externalLink} onClick={handleExternalLinkClick}>
             <Icon

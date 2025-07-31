@@ -67,7 +67,7 @@ export function TomogramActionsCell({
             onClick={onInfoClick}
             startIcon={<Icon sdsIcon="InfoCircle" sdsSize="xs" />}
           >
-            <span>{t('info')}</span>
+            {t('info')}
           </Button>
         )}
 

@@ -1,7 +1,11 @@
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionHeader,
+} from '@czi-sds/components'
 import { ReactNode } from 'react'
 
-import { Accordion } from 'app/components/Accordion'
-import { AccordionHeader } from 'app/components/AccordionHeader'
+import { GroupedDataHeader } from 'app/components/GroupedDataHeader'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { useAccordionState } from 'app/hooks/useAccordionState'
 import { useI18n } from 'app/hooks/useI18n'
@@ -52,8 +56,6 @@ export function GroupedAccordion<T>({
   const { expandedGroups, toggleGroup, pagination, updatePagination } =
     useAccordionState(pageSize)
 
-  // Removed EmptyState display - messaging is handled at higher level in route components
-
   return (
     <div className={`px-sds-xl ${className}`}>
       <div>
@@ -73,66 +75,64 @@ export function GroupedAccordion<T>({
           const endIndex = Math.min(currentPage * pageSize, itemCount)
 
           return (
-            <div
+            <Accordion
               key={group.groupKey}
-              className={
-                isExpanded
-                  ? ''
-                  : '!border-b-2 !border-light-sds-color-semantic-base-divider'
-              }
+              id={`group-${groupId}`}
+              elevation={0}
+              useDivider={!isExpanded}
+              expanded={isExpanded}
+              togglePosition="left"
+              onChange={(_, nextExpanded) => {
+                toggleGroup(group.groupKey, nextExpanded)
+              }}
+              className={`[&_.MuiAccordionDetails-root]:!px-0 ${accordionClassName}`}
             >
-              <Accordion
-                hideChevron
-                id={`group-${groupId}`}
-                className={`[&_.MuiAccordionDetails-root]:!px-0 ${accordionClassName}`}
-                onToggle={(expanded) => toggleGroup(group.groupKey, expanded)}
-                header={
-                  <AccordionHeader
-                    title={group.groupLabel}
-                    isExpanded={isExpanded}
-                    itemCount={itemCount}
-                    itemLabel={
-                      itemCount === 1 ? itemLabelSingular : itemLabelPlural
-                    }
-                    itemsLabel={itemLabelPlural}
-                    additionalInfo={
-                      !isExpanded && group.metadata?.annotationCount
-                        ? `${formatNumber(
-                            group.metadata.annotationCount as number,
-                          )} ${
-                            (group.metadata.annotationCount as number) === 1
-                              ? t('annotation')
-                              : t('annotations')
-                          }`
-                        : undefined
-                    }
-                    showPagination={showPagination && isExpanded}
-                    paginationProps={
-                      showPagination
-                        ? {
-                            currentPage,
-                            totalPages,
-                            onPageChange: (page) =>
-                              updatePagination(group.groupKey, page),
-                            startIndex,
-                            endIndex,
-                            totalItems: itemCount,
-                          }
-                        : undefined
-                    }
-                    externalLink={
-                      externalLinkBuilder
-                        ? externalLinkBuilder(group)
-                        : undefined
-                    }
-                    onExternalLinkClick={
-                      onExternalLinkClick
-                        ? (e) => onExternalLinkClick(group, e)
-                        : undefined
-                    }
-                  />
-                }
-              >
+              <AccordionHeader>
+                <GroupedDataHeader
+                  title={group.groupLabel}
+                  isExpanded={isExpanded}
+                  itemCount={itemCount}
+                  itemLabel={
+                    itemCount === 1 ? itemLabelSingular : itemLabelPlural
+                  }
+                  itemsLabel={itemLabelPlural}
+                  additionalInfo={
+                    !isExpanded && group.metadata?.annotationCount
+                      ? `${formatNumber(
+                          group.metadata.annotationCount as number,
+                        )} ${
+                          (group.metadata.annotationCount as number) === 1
+                            ? t('annotation')
+                            : t('annotations')
+                        }`
+                      : undefined
+                  }
+                  showPagination={showPagination && isExpanded}
+                  paginationProps={
+                    showPagination
+                      ? {
+                          currentPage,
+                          totalPages,
+                          onPageChange: (page) =>
+                            updatePagination(group.groupKey, page),
+                          startIndex,
+                          endIndex,
+                          totalItems: itemCount,
+                        }
+                      : undefined
+                  }
+                  externalLink={
+                    externalLinkBuilder ? externalLinkBuilder(group) : undefined
+                  }
+                  onExternalLinkClick={
+                    onExternalLinkClick
+                      ? (e) => onExternalLinkClick(group, e)
+                      : undefined
+                  }
+                />
+              </AccordionHeader>
+
+              <AccordionDetails>
                 <div className="border border-light-sds-color-semantic-base-border-secondary">
                   {renderContent(
                     {
@@ -147,8 +147,8 @@ export function GroupedAccordion<T>({
                     currentPage,
                   )}
                 </div>
-              </Accordion>
-            </div>
+              </AccordionDetails>
+            </Accordion>
           )
         })}
       </div>

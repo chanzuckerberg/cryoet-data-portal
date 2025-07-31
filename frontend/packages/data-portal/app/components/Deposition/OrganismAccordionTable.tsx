@@ -1,7 +1,10 @@
 import { useMemo } from 'react'
 
 import { GroupedAccordion, GroupedData } from 'app/components/GroupedAccordion'
-import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
+import {
+  MAX_PER_ACCORDION_GROUP,
+  MAX_PER_FULLY_OPEN_ACCORDION,
+} from 'app/constants/pagination'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { DataContentsType } from 'app/types/deposition-queries'
@@ -48,7 +51,7 @@ export function OrganismAccordionTable({
     return (
       <div className="px-sds-xl">
         {Array.from(
-          { length: Math.min(organisms.length, MAX_PER_FULLY_OPEN_ACCORDION) },
+          { length: organisms.length || MAX_PER_ACCORDION_GROUP },
           (_, index) => (
             <SkeletonAccordion key={`organism-skeleton-${index}`} />
           ),
