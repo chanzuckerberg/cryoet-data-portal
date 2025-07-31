@@ -51,8 +51,12 @@ export function getNeuroglancerUrl(
   runId: number,
   activateTour: boolean = false,
 ): string {
-  const tourParam = activateTour ? `?${SHOW_TOUR_QUERY_PARAM}=true` : ''
-  return `/view/runs/${runId}${tourParam}#!${encodeURIComponent(config)}`
+  const url = createUrl(`/view/runs/${runId}`)
+  if (activateTour) {
+    url.searchParams.set(SHOW_TOUR_QUERY_PARAM, 'true')
+  }
+  url.hash = `#!${encodeURIComponent(config)}`
+  return url.pathname + url.search + url.hash
 }
 
 export function carryOverFilterParams({
