@@ -1,4 +1,3 @@
-import { MethodLinksMetadataTable } from 'app/components/Deposition/MethodLinks/MethodLinksMetadataTable'
 import { MetadataDrawer } from 'app/components/MetadataDrawer'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDepositionById } from 'app/hooks/useDepositionById'
@@ -6,12 +5,8 @@ import { useI18n } from 'app/hooks/useI18n'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 
-import { AcquisitionMethodsMetadataTable } from './AcquisitionMethodsMetadataTable'
-import { AnnotationsMethodsMetadataTable } from './AnnotationsMethodsMetadataTable'
-import { AnnotationsSummaryMetadataTable } from './AnnotationsSummaryMetadataTable'
-import { DepositionMetadataTable } from './DepositionMetadataTable'
-import { ExperimentalConditionsMetadataTable } from './ExperimentalConditionsMetadataTable'
-import { TomogramMethodsMetadataTable } from './TomogramMethodsMetadataTable'
+import { DepositionMetadataTab } from './DepositionMetadataTab'
+import { DepositionMethodSummaryTab } from './DepositionMethodSummaryTab'
 
 export function DepositionMetadataDrawer() {
   const { t } = useI18n()
@@ -27,35 +22,10 @@ export function DepositionMetadataDrawer() {
         label: 'depositionId',
         text: `${IdPrefix.Deposition}-${deposition?.id}`,
       }}
-      MetadataTabComponent={MetadataTab}
+      MetadataTabComponent={DepositionMetadataTab}
       MethodSummaryTabComponent={
-        isExpandDepositions ? MethodSummaryTab : undefined
+        isExpandDepositions ? DepositionMethodSummaryTab : undefined
       }
     />
-  )
-}
-
-function MetadataTab() {
-  const { deposition } = useDepositionById()
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
-
-  return (
-    <>
-      <DepositionMetadataTable deposition={deposition} />
-      <AnnotationsSummaryMetadataTable />
-
-      {!isExpandDepositions && <MethodLinksMetadataTable />}
-    </>
-  )
-}
-
-function MethodSummaryTab() {
-  return (
-    <>
-      <AnnotationsMethodsMetadataTable />
-      <TomogramMethodsMetadataTable />
-      <AcquisitionMethodsMetadataTable />
-      <ExperimentalConditionsMetadataTable />
-    </>
   )
 }
