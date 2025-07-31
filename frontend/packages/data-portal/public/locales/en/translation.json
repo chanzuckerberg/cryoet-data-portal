@@ -556,5 +556,6 @@
   "yes": "Yes",
   "youMustHaveCliInstalled": "You must have AWS CLI installed. <url to='$t(awsCliLink)'>How to Install AWS CLI.</url>",
   "youMustHaveCurlInstalled": "You must have cURL installed. <url to='$t(curlSetupLink)'>How to Install cURL</url>",
-  "zarrLink": "https://zarr.readthedocs.io/en/stable/"
+  "zarrLink": "https://zarr.readthedocs.io/en/stable/",
+  "errorLoadingRuns": "Error loading runs"
 }
