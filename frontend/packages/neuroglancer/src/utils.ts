@@ -60,6 +60,7 @@ interface PanelState {
   side?: 'left' | 'right' | 'top' | 'bottom' | undefined
   row?: number
   size?: number
+  layer?: string
 }
 
 interface ToolPaletteState extends PanelState {

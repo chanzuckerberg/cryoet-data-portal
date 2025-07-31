@@ -1,7 +1,11 @@
 import { Icon, MenuItem } from '@czi-sds/components'
-import { ComponentProps } from 'react'
+import { ComponentProps, forwardRef } from 'react'
 
-import { MenuDropdown, MenuDropdownProps } from 'app/components/MenuDropdown'
+import {
+  MenuDropdown,
+  MenuDropdownProps,
+  MenuDropdownRef,
+} from 'app/components/MenuDropdown'
 import { cns } from 'app/utils/cns'
 
 export function NeuroglancerDropdownOption({
@@ -35,8 +39,15 @@ export function NeuroglancerDropdownOption({
   )
 }
 
-export function NeuroglancerDropdown(props: MenuDropdownProps) {
+export const NeuroglancerDropdown = forwardRef<
+  MenuDropdownRef,
+  MenuDropdownProps
+>((props, ref) => {
   return (
-    <MenuDropdown {...props} paperClassName="!min-w-[250px] !max-w-[380px]" />
+    <MenuDropdown
+      {...props}
+      ref={ref}
+      paperClassName="!min-w-[250px] !max-w-[380px]"
+    />
   )
-}
+})

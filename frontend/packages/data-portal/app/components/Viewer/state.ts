@@ -10,6 +10,8 @@ import {
   updateState,
 } from 'neuroglancer'
 
+const TOUR_PANEL_SIZE = 400
+
 // The viewer page super state extends the resolved super state
 // with additional properties specific to the viewer page.
 export interface ViewerPageSuperState extends ResolvedSuperState {
@@ -252,6 +254,26 @@ export function makeDimensionPanel(state: ResolvedSuperState) {
     },
   }
   return newState
+}
+
+export function setupTourPanelState() {
+  updateState((state) => {
+    const newState = state
+    newState.neuroglancer.layerListPanel = {
+      row: 1,
+      size: TOUR_PANEL_SIZE,
+      visible: true,
+      side: 'left',
+    }
+    const currentLayer = newState.neuroglancer.selectedLayer?.layer ?? undefined
+    newState.neuroglancer.selectedLayer = {
+      size: TOUR_PANEL_SIZE,
+      visible: true,
+      side: 'left',
+      layer: currentLayer,
+    }
+    return state
+  })
 }
 
 export function toggleDimensionPanelVisible(

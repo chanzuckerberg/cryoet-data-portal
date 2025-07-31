@@ -153,7 +153,11 @@ export function RunHeader() {
                       })}
                     </h4>
                     <Link
-                      to={t('neuroglancerTutorialLink')}
+                      to={getNeuroglancerUrl(
+                        neuroglancerConfig,
+                        run.id,
+                        true /* activateTour = */,
+                      )}
                       variant="dashed-underlined"
                       stopPropagation
                       className="text-light-sds-color-semantic-base-text-secondary-inverse"
