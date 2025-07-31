@@ -3,8 +3,9 @@ import { useMemo } from 'react'
 
 import { type TabData, Tabs } from 'app/components/Tabs'
 import { useDepositionById } from 'app/hooks/useDepositionById'
-import { DepositionTab, useDepositionTab } from 'app/hooks/useDepositionTab'
+import { useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
+import { DataContentsType } from 'app/types/deposition-queries'
 import { cns } from 'app/utils/cns'
 
 export function DepositionTabs() {
@@ -14,20 +15,20 @@ export function DepositionTabs() {
   return <Tabs tabs={tabs} value={tab} onChange={setTab} vertical />
 }
 
-function useTabs(activeTab: DepositionTab) {
+function useTabs(activeTab: DataContentsType) {
   const { t } = useI18n()
   const { annotationsCount, tomogramsCount } = useDepositionById()
 
-  return useMemo<TabData<DepositionTab>[]>(() => {
+  return useMemo<TabData<DataContentsType>[]>(() => {
     const tabData = [
       {
-        tab: DepositionTab.Annotations,
+        tab: DataContentsType.Annotations,
         label: 'annotations',
         icon: 'Cube',
         count: annotationsCount,
       },
       {
-        tab: DepositionTab.Tomograms,
+        tab: DataContentsType.Tomograms,
         label: 'tomograms',
         icon: 'FlagOutline',
         count: tomogramsCount,

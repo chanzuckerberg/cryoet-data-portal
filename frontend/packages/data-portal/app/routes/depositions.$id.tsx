@@ -12,6 +12,7 @@ import { apolloClientV2 } from 'app/apollo.server'
 import { DatasetFilter } from 'app/components/DatasetFilter'
 import { DatasetsTable } from 'app/components/Deposition/DatasetsTable'
 import { DepositionFilters } from 'app/components/Deposition/DepositionFilters'
+import { DepositionGroupByControl } from 'app/components/Deposition/DepositionGroupByControl'
 import { DepositionHeader } from 'app/components/Deposition/DepositionHeader'
 import { DepositionMetadataDrawer } from 'app/components/Deposition/DepositionMetadataDrawer'
 import { DepositionTableRenderer } from 'app/components/Deposition/DepositionTableRenderer'
@@ -29,12 +30,16 @@ import {
 import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.server'
 import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
-import { DepositionTab, useDepositionTab } from 'app/hooks/useDepositionTab'
+import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
+import { useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
+import { useQueryParam } from 'app/hooks/useQueryParam'
 import {
   useDepositionHistory,
   useSyncParamsWithState,
 } from 'app/state/filterHistory'
+import { DataContentsType } from 'app/types/deposition-queries'
+import { GroupByOption } from 'app/types/depositionTypes'
 import { getFeatureFlag, useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
@@ -68,75 +73,79 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     params: url.searchParams,
   })
 
-  // Get base data (always needed)
-  const { data: baseData } = await getDepositionBaseData({ client, id })
+  const depositionTab = url.searchParams.get(
+    QueryParams.DepositionTab,
+  ) as DataContentsType | null
 
-  if (baseData.depositions.length === 0) {
+  // Check existence first
+  const { data: responseV2 } = await getDepositionBaseData({
+    client,
+    id,
+  })
+
+  if (responseV2.depositions.length === 0) {
     throw new Response(null, {
       status: 404,
       statusText: `Deposition with ID ${id} not found`,
     })
   }
 
-  // Get legacy data (datasets table) if not expanding depositions
-  const legacyData = !isExpandDepositions
-    ? await getDepositionLegacyData({
+  // Then fetch remaining data in parallel
+
+  const expandedDataPromise = isExpandDepositions
+    ? getDepositionExpandedData({ client, id })
+    : Promise.resolve({ data: undefined })
+
+  const conditionalDataPromise = match({
+    isExpandDepositions,
+    depositionTab,
+  })
+    .with({ isExpandDepositions: false }, () =>
+      getDepositionLegacyData({
         client,
         id,
         page,
         orderBy: orderByV2,
         params: url.searchParams,
-      })
-    : null
-
-  // Get expanded data (allRuns) if expanding depositions
-  const expandedData = isExpandDepositions
-    ? await getDepositionExpandedData({ client, id })
-    : null
-
-  // Combine the data
-  const responseV2 = {
-    ...baseData,
-    ...(legacyData?.data || {}),
-    ...(expandedData?.data || {}),
-  }
-
-  const depositionTab = url.searchParams.get(
-    QueryParams.DepositionTab,
-  ) as DepositionTab | null
-
-  const { data } = await match({
-    isExpandDepositions,
-    depositionTab,
-  })
+      }),
+    )
     .with(
       {
         isExpandDepositions: true,
-        depositionTab: P.union(DepositionTab.Annotations, null),
+        depositionTab: P.union(DataContentsType.Annotations, null),
       },
       () =>
         getDepositionAnnotations({
           client,
-          depositionId: id,
           page,
+          depositionId: id,
+          params: url.searchParams,
         }),
     )
     .with(
       {
         isExpandDepositions: true,
-        depositionTab: DepositionTab.Tomograms,
+        depositionTab: DataContentsType.Tomograms,
       },
       () =>
         getDepositionTomograms({
           client,
-          depositionId: id,
           page,
+          depositionId: id,
+          params: url.searchParams,
         }),
     )
-    .otherwise(() => ({ data: undefined }))
+    .otherwise(() => Promise.resolve({ data: undefined }))
+
+  const [{ data: expandedData }, { data }] = await Promise.all([
+    expandedDataPromise,
+    conditionalDataPromise,
+  ])
 
   return typedjson({
+    expandedData,
     v2: responseV2,
+    legacyData: data && 'datasets' in data ? data : undefined,
     annotations: data && 'annotationShapes' in data ? data : undefined,
     tomograms: data && 'tomograms' in data ? data : undefined,
   })
@@ -192,42 +201,148 @@ export default function DepositionByIdPage() {
 
   const [tab] = useDepositionTab()
 
+  const [groupBy] = useQueryParam<GroupByOption>(QueryParams.GroupBy, {
+    defaultValue: GroupByOption.None,
+    serialize: (value) => String(value),
+    deserialize: (value) => (value as GroupByOption) || GroupByOption.None,
+  })
+
+  // Use consolidated hook for all grouping scenarios
+  const groupedData = useDepositionGroupedData({
+    depositionId: deposition.id,
+    groupBy: groupBy || GroupByOption.None,
+    tab,
+    enabled: isExpandDepositions,
+  })
+
+  // Conditional no results component based on loading states
+  const noFilteredResultsComponent = match({
+    isExpandDepositions,
+    groupBy,
+  })
+    .with({ isExpandDepositions: true }, () =>
+      !groupedData.isLoading ? <NoFilteredResults /> : null,
+    )
+    .otherwise(() => <NoFilteredResults />)
+
   return (
     <TablePageLayout
       title={t('depositedData')}
+      titleContent={isExpandDepositions ? <DepositionGroupByControl /> : null}
       header={<DepositionHeader />}
       tabs={[
         {
-          countLabel: t('datasets'),
-          noFilteredResults: <NoFilteredResults />,
+          countLabel: match({ isExpandDepositions, tab, groupBy })
+            .with(
+              {
+                isExpandDepositions: true,
+                groupBy: GroupByOption.DepositedLocation,
+              },
+              () => t('datasets'),
+            )
+            .with(
+              { isExpandDepositions: true, groupBy: GroupByOption.Organism },
+              () => t('organisms'),
+            )
+            .with(
+              { isExpandDepositions: true, tab: DataContentsType.Annotations },
+              () => t('annotations'),
+            )
+            .with(
+              { isExpandDepositions: true, tab: DataContentsType.Tomograms },
+              () => t('tomograms'),
+            )
+            .otherwise(() => t('datasets')),
+          noFilteredResults: noFilteredResultsComponent,
           title: t('datasetsWithDepositionData'),
           Header: isExpandDepositions ? TableCountHeader : undefined,
 
           table: isExpandDepositions ? (
-            <DepositionTableRenderer />
+            <DepositionTableRenderer
+              organisms={
+                groupBy === GroupByOption.Organism
+                  ? groupedData.organisms.map((org) => org.name)
+                  : undefined
+              }
+              organismCounts={
+                groupBy === GroupByOption.Organism
+                  ? groupedData.counts.organisms
+                  : undefined
+              }
+              isOrganismsLoading={groupedData.isLoading}
+              datasets={
+                groupBy === GroupByOption.DepositedLocation
+                  ? groupedData.datasets
+                  : undefined
+              }
+              datasetCounts={
+                groupBy === GroupByOption.DepositedLocation
+                  ? groupedData.datasets.reduce(
+                      (acc, dataset) => {
+                        acc[dataset.id] = {
+                          runCount: dataset.runCount,
+                          annotationCount: dataset.annotationCount,
+                          tomogramRunCount: dataset.tomogramRunCount,
+                        }
+                        return acc
+                      },
+                      {} as Record<
+                        number,
+                        {
+                          runCount: number
+                          annotationCount: number
+                          tomogramRunCount: number
+                        }
+                      >,
+                    )
+                  : undefined
+              }
+            />
           ) : (
             <DatasetsTable />
           ),
 
-          totalCount: match({ isExpandDepositions, tab })
+          totalCount: match({ isExpandDepositions, tab, groupBy })
             .with(
-              { isExpandDepositions: true, tab: DepositionTab.Annotations },
+              { isExpandDepositions: true, groupBy: GroupByOption.Organism },
+              () => groupedData.organisms.length,
+            )
+            .with(
+              {
+                isExpandDepositions: true,
+                groupBy: GroupByOption.DepositedLocation,
+              },
+              () => groupedData.datasets.length,
+            )
+            .with(
+              { isExpandDepositions: true, tab: DataContentsType.Annotations },
               () => annotationsCount,
             )
             .with(
-              { isExpandDepositions: true, tab: DepositionTab.Tomograms },
+              { isExpandDepositions: true, tab: DataContentsType.Tomograms },
               () => tomogramsCount,
             )
             .otherwise(() => totalDatasetsCount),
 
           // TODO replace annotations and tomograms with filtered counts
-          filteredCount: match({ isExpandDepositions, tab })
+          filteredCount: match({ isExpandDepositions, tab, groupBy })
             .with(
-              { isExpandDepositions: true, tab: DepositionTab.Annotations },
+              { isExpandDepositions: true, groupBy: GroupByOption.Organism },
+              () => groupedData.organisms.length,
+            )
+            .with(
+              {
+                isExpandDepositions: true,
+                groupBy: GroupByOption.DepositedLocation,
+              },
+              () => groupedData.datasets.length,
+            )
+            .with(
+              { isExpandDepositions: true, tab: DataContentsType.Annotations },
               () => annotationsCount,
             )
             .with(
-              { isExpandDepositions: true, tab: DepositionTab.Tomograms },
+              { isExpandDepositions: true, tab: DataContentsType.Tomograms },
               () => tomogramsCount,
             )
             .otherwise(() => filteredDatasetsCount),

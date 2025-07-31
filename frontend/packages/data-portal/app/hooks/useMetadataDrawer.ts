@@ -15,6 +15,7 @@ export enum MetadataDrawerId {
 export enum MetadataTab {
   HowToCite = 'howToCite',
   Metadata = 'metadata',
+  MethodSummary = 'methodSummary',
   ObjectOverview = 'objectOverview',
 }
 
