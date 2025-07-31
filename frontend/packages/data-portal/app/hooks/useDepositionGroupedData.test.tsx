@@ -148,15 +148,16 @@ describe('useDepositionGroupedData', () => {
 
       // Verify that datasets are properly structured with count data
       expect(Array.isArray(result.current.datasets)).toBe(true)
-      if (result.current.datasets.length > 0) {
-        const firstDataset = result.current.datasets[0]
-        expect(firstDataset).toHaveProperty('id')
-        expect(firstDataset).toHaveProperty('title')
-        expect(firstDataset).toHaveProperty('organismName')
-        expect(firstDataset).toHaveProperty('runCount')
-        expect(firstDataset).toHaveProperty('annotationCount')
-        expect(firstDataset).toHaveProperty('tomogramRunCount')
-      }
+      // Always verify dataset structure - either has items with properties or is empty
+      expect(result.current.datasets.length).toBeGreaterThanOrEqual(0)
+      result.current.datasets.forEach((dataset) => {
+        expect(dataset).toHaveProperty('id')
+        expect(dataset).toHaveProperty('title')
+        expect(dataset).toHaveProperty('organismName')
+        expect(dataset).toHaveProperty('runCount')
+        expect(dataset).toHaveProperty('annotationCount')
+        expect(dataset).toHaveProperty('tomogramRunCount')
+      })
 
       expect(result.current.error).toBe(null)
       expect(result.current.enabled).toBe(true)
@@ -185,6 +186,9 @@ describe('useDepositionGroupedData', () => {
 
       await waitFor(() => {
         expect(organismResult.current.isLoading).toBe(false)
+      })
+
+      await waitFor(() => {
         expect(locationResult.current.isLoading).toBe(false)
       })
 
@@ -221,7 +225,7 @@ describe('useDepositionGroupedData', () => {
   })
 
   describe('loading states', () => {
-    it('should handle datasets loading state', async () => {
+    it('should handle datasets loading state', () => {
       mockUseDatasetsForDeposition.mockReturnValue({
         datasets: [],
         organismCounts: {},
@@ -247,7 +251,7 @@ describe('useDepositionGroupedData', () => {
       expect(result.current.organisms).toEqual([])
     })
 
-    it('should handle run counts loading state', async () => {
+    it('should handle run counts loading state', () => {
       mockRunCountsHook.mockReturnValue({
         data: undefined,
         isLoading: true,
@@ -306,58 +310,80 @@ describe('useDepositionGroupedData', () => {
       ).toBe(true)
     })
 
-    it('should maintain data structure integrity during errors', async () => {
-      // Test various error scenarios to ensure the hook always returns valid structures
-      const errorScenarios = [
-        {
-          datasets: [],
-          error: new Error('Network error'),
-          isLoading: false,
-        },
-        {
-          datasets: null,
-          error: new Error('Parse error'),
-          isLoading: false,
-        },
-      ]
+    it('should maintain data structure integrity during network errors', async () => {
+      mockUseDatasetsForDeposition.mockReturnValue({
+        datasets: [],
+        organismCounts: {},
+        annotationCounts: {},
+        tomogramCounts: {},
+        organismNames: [],
+        isLoading: false,
+        error: new Error('Network error'),
+      })
 
-      for (const scenario of errorScenarios) {
-        mockUseDatasetsForDeposition.mockReturnValue({
-          datasets: scenario.datasets || [],
-          organismCounts: {},
-          annotationCounts: {},
-          tomogramCounts: {},
-          organismNames: [],
-          isLoading: scenario.isLoading,
-          error: scenario.error,
-        })
+      const { result } = renderHook(
+        () =>
+          useDepositionGroupedData({
+            depositionId: 123,
+            groupBy: GroupByOption.DepositedLocation,
+            tab: DataContentsType.Annotations,
+          }),
+        { wrapper: createTestWrapper() },
+      )
 
-        const { result } = renderHook(
-          () =>
-            useDepositionGroupedData({
-              depositionId: 123,
-              groupBy: GroupByOption.DepositedLocation,
-              tab: DataContentsType.Annotations,
-            }),
-          { wrapper: createTestWrapper() },
-        )
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
 
-        await waitFor(() => {
-          expect(result.current.isLoading).toBe(false)
-        })
+      // Ensure consistent return structure regardless of error conditions
+      expect(result.current).toHaveProperty('datasets')
+      expect(result.current).toHaveProperty('organisms')
+      expect(result.current).toHaveProperty('counts')
+      expect(result.current).toHaveProperty('isLoading')
+      expect(result.current).toHaveProperty('error')
+      expect(result.current).toHaveProperty('enabled')
 
-        // Ensure consistent return structure regardless of error conditions
-        expect(result.current).toHaveProperty('datasets')
-        expect(result.current).toHaveProperty('organisms')
-        expect(result.current).toHaveProperty('counts')
-        expect(result.current).toHaveProperty('isLoading')
-        expect(result.current).toHaveProperty('error')
-        expect(result.current).toHaveProperty('enabled')
+      expect(Array.isArray(result.current.datasets)).toBe(true)
+      expect(Array.isArray(result.current.organisms)).toBe(true)
+      expect(typeof result.current.counts).toBe('object')
+    })
 
-        expect(Array.isArray(result.current.datasets)).toBe(true)
-        expect(Array.isArray(result.current.organisms)).toBe(true)
-        expect(typeof result.current.counts).toBe('object')
-      }
+    it('should maintain data structure integrity during parse errors', async () => {
+      mockUseDatasetsForDeposition.mockReturnValue({
+        datasets: [],
+        organismCounts: {},
+        annotationCounts: {},
+        tomogramCounts: {},
+        organismNames: [],
+        isLoading: false,
+        error: new Error('Parse error'),
+      })
+
+      const { result } = renderHook(
+        () =>
+          useDepositionGroupedData({
+            depositionId: 123,
+            groupBy: GroupByOption.DepositedLocation,
+            tab: DataContentsType.Annotations,
+          }),
+        { wrapper: createTestWrapper() },
+      )
+
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      // Ensure consistent return structure regardless of error conditions
+      expect(result.current).toHaveProperty('datasets')
+      expect(result.current).toHaveProperty('organisms')
+      expect(result.current).toHaveProperty('counts')
+      expect(result.current).toHaveProperty('isLoading')
+      expect(result.current).toHaveProperty('error')
+      expect(result.current).toHaveProperty('enabled')
+
+      expect(Array.isArray(result.current.datasets)).toBe(true)
+      expect(Array.isArray(result.current.organisms)).toBe(true)
+      expect(typeof result.current.counts).toBe('object')
     })
 
     it('should support error callback functionality', async () => {
