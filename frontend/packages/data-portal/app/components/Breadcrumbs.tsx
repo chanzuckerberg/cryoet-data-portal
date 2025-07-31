@@ -30,27 +30,33 @@ function Breadcrumb({
 }) {
   const plausible = usePlausible()
 
-  return link ? (
-    <Link
-      to={link}
-      className={cns(
-        'hover:text-light-sds-color-primitive-blue-500',
-        className,
-      )}
-      onClick={() => {
-        if (type) {
-          plausible(Events.ClickBreadcrumb, {
-            type,
-            ...(datasetId && { datasetId }),
-          })
-        }
-      }}
-    >
-      {text}
-    </Link>
-  ) : (
-    <p className={cns(className, 'font-semibold')}>{text}</p>
-  )
+  if (link) {
+    return (
+      <Link
+        to={link}
+        className={cns(
+          'hover:text-light-sds-color-primitive-blue-500',
+          className,
+        )}
+        onClick={() => {
+          if (type) {
+            plausible(Events.ClickBreadcrumb, {
+              type,
+              ...(datasetId && { datasetId }),
+            })
+          }
+        }}
+      >
+        {text}
+      </Link>
+    )
+  }
+
+  if (typeof text === 'string') {
+    return <p className={cns(className, 'font-semibold')}>{text}</p>
+  }
+
+  return <div className={cns(className, 'font-semibold')}>{text}</div>
 }
 
 export function Breadcrumbs({
@@ -170,7 +176,7 @@ export function Breadcrumbs({
 
   const buildNeuroglancerBreadcrumb = () => {
     const neuroglancerChevronIcon = (
-      <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0 text-[#999] fill-[#999]" />
+      <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0 text-light-sds-color-primitive-gray-300 fill-light-sds-color-primitive-gray-300" />
     )
     return (
       <div className="flex flex-row gap-sds-s text-dark-sds-color-primitive-gray-500 fill-[#999] font-normal text-sds-body-s-400-wide leading-sds-body-s items-center whitespace-nowrap content-start">

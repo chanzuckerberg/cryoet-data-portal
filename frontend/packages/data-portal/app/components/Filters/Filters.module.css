@@ -39,7 +39,7 @@
     padding: 5px theme('padding.sds-s');
 
     ~ div {
-      @apply pl-sds-s;
+      @apply pl-sds-s pt-sds-xxxs;
       @apply mt-0;
 
       &:empty {

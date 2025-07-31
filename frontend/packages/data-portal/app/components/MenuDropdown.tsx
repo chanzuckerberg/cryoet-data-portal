@@ -9,21 +9,22 @@ import {
 
 import { cns } from 'app/utils/cns'
 
+import { MenuItemHeader } from './MenuItemHeader'
+
 export type MenuDropdownRef = {
   closeMenu: () => void
 }
 
-export const MenuDropdown = forwardRef<
-  MenuDropdownRef,
-  {
-    children: ReactNode
-    variant?: 'standard' | 'outlined'
-    className?: string
-    title: ReactNode
-    buttonElement?: ReactNode
-    paperClassName?: string
-  }
->(
+export type MenuDropdownProps = {
+  children: ReactNode
+  variant?: 'standard' | 'outlined'
+  className?: string
+  title?: ReactNode
+  buttonElement?: ReactNode
+  paperClassName?: string
+}
+
+export const MenuDropdown = forwardRef<MenuDropdownRef, MenuDropdownProps>(
   (
     {
       children,
@@ -157,3 +158,18 @@ export const MenuDropdown = forwardRef<
     )
   },
 )
+
+export function MenuDropdownSection({
+  title,
+  children,
+}: {
+  title?: string
+  children: ReactNode
+}) {
+  return (
+    <div>
+      {title && <MenuItemHeader>{title}</MenuItemHeader>}
+      {children}
+    </div>
+  )
+}

@@ -1,5 +1,26 @@
 import type { DataContentsFragment } from 'app/__generated_v2__/graphql'
 
+interface DepositionWithId {
+  id: number
+}
+
+export function getAdditionalContributingDepositions(
+  depositionsWithAnnotations: DepositionWithId[] | null | undefined,
+  depositionsWithTomograms: DepositionWithId[] | null | undefined,
+  depositionsWithDatasets: DepositionWithId[] | null | undefined,
+  originalDepositionId: number | null | undefined,
+): number[] {
+  return Array.from(
+    new Set([
+      ...(depositionsWithAnnotations?.map((dep) => dep.id) ?? []),
+      ...(depositionsWithTomograms?.map((dep) => dep.id) ?? []),
+      ...(depositionsWithDatasets?.map((dep) => dep.id) ?? []),
+    ]),
+  )
+    .filter((id) => id !== originalDepositionId)
+    .sort((a, b) => a - b)
+}
+
 export function getDataContents(runs: DataContentsFragment[]) {
   let annotations = 0
   let tomograms = 0

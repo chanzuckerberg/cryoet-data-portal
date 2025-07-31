@@ -85,6 +85,9 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         cellStrainId
         cellTypeId
         deposition {
+          id
+          title
+
           annotationsAggregate(
             where: {annotationShapesAggregate: {count: {filter: {annotationFiles: {isVisualizationDefault: {_eq: true}}}}}}
           ) {
@@ -483,6 +486,32 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
     depositions(where: { id: { _eq: $depositionId }}) {
       id
       title
+    }
+
+    depositionsWithAnnotations: depositions(where: {
+      annotations: {
+        runId: { _eq: $id }
+      }
+    }) {
+      id
+    }
+
+    depositionsWithTomograms: depositions(where: {
+      tomograms: {
+        runId: { _eq: $id }
+      }
+    }) {
+      id
+    }
+
+    depositionsWithDatasets: depositions(where: {
+      datasets: {
+        runs: {
+          id: { _eq: $id }
+        }
+      }
+    }) {
+      id
     }
   }
 `)

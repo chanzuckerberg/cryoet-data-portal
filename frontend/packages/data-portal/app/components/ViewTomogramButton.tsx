@@ -4,6 +4,7 @@ import { I18n } from 'app/components/I18n'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { EventPayloads, Events, usePlausible } from 'app/hooks/usePlausible'
+import { getNeuroglancerUrl } from 'app/utils/url'
 
 import { Link } from './Link'
 import { Tooltip } from './Tooltip'
@@ -45,7 +46,11 @@ export function ViewTomogramButton({
               })}
             </h4>
             <Link
-              to={t('neuroglancerTutorialLink')}
+              to={getNeuroglancerUrl(
+                neuroglancerConfig,
+                event.runId,
+                true /* activateTour = */,
+              )}
               variant="dashed-underlined"
               stopPropagation
               className="!text-light-sds-color-primitive-gray-300 text-sds-body-xxs-400-wide !border-light-sds-color-primitive-gray-800"
@@ -84,10 +89,9 @@ export function ViewTomogramButton({
         className="min-w-[152px]"
       >
         <Button
-          // href={enabled ? getNeuroglancerUrl(neuroglancerConfig) : undefined}
           href={
             enabled
-              ? `/view/runs/${event.runId}/#!${encodeURIComponent(neuroglancerConfig)}`
+              ? getNeuroglancerUrl(neuroglancerConfig, event.runId)
               : undefined
           }
           disabled={!enabled}

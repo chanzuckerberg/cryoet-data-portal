@@ -1,106 +1,98 @@
-import {
-  currentState,
-  encodeState,
-  NeuroglancerState,
-  updateState,
-} from 'neuroglancer'
+import { updateState } from 'neuroglancer'
 import { useState } from 'react'
 import { ACTIONS } from 'react-joyride'
 
-import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
+import { SHOW_TOUR_QUERY_PARAM } from 'app/utils/url'
 
-type Tomogram = GetRunByIdV2Query['tomograms'][number]
-
-const WALKTHROUGH_PANEL_SIZE = 400
-
-const boolValue = (
-  value: boolean | undefined,
-  defaultValue: boolean = true,
-): boolean => {
-  return value === undefined ? defaultValue : value
-}
-
-const panelsDefaultValues = {
-  helpPanel: false,
-  settingsPanel: false,
-  selectedLayer: false,
-  layerListPanel: false,
-  selection: true,
-}
-
-const adjustPanelSize = (stringState: string) => {
-  const state = JSON.parse(stringState) as NeuroglancerState
-  if (state.layerListPanel) {
-    state.layerListPanel.size = WALKTHROUGH_PANEL_SIZE
-  }
-  if (state.selectedLayer) {
-    state.selectedLayer.size = WALKTHROUGH_PANEL_SIZE
-  }
-  return encodeState(state, /* compress = */ false)
-}
-
-export function useTour(tomogram: Tomogram | undefined) {
+export function useTour(startingStepIndex: number = 0) {
   const [tourRunning, setTourRunning] = useState(false)
-  const [stepIndex, setStepIndex] = useState<number>(0)
+  // Don't directly set the step index, set the state instead in
+  // the neuroglancer super state and then the callback for the
+  // onStateChange in the viewer page will update the step index
+  // in the tour
+  const [stepIndex, setStepIndex] = useState<number>(startingStepIndex)
+  const [proxyIndex, setProxyIndex] = useState<number>(startingStepIndex)
+  const [ignoreStepMove, setIgnoreStepMove] = useState<boolean>(false)
 
-  const handleTourStartInNewTab = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault()
-    if (tomogram?.neuroglancerConfig) {
-      localStorage.setItem('startTutorial', 'true')
-      const { protocol, host, pathname, search } = window.location
-      const newEncodedState = adjustPanelSize(tomogram.neuroglancerConfig)
-      const urlWithoutHash = `${protocol}//${host}${pathname}${search}${newEncodedState}`
-      window.open(urlWithoutHash, '_blank')
-    }
+  const resetState = () => {
+    setIgnoreStepMove(true)
+    updateState((state) => {
+      const newState = state
+      newState.tourStepIndex = 0
+      return newState
+    })
+    setStepIndex(0)
+    setProxyIndex(0)
   }
 
   const handleTourClose = () => {
     setTourRunning(false)
-    setTimeout(() => {
-      setStepIndex(0)
-    }, 300)
+    resetState()
+    setIgnoreStepMove(false)
+  }
+
+  const handleTourStart = () => {
+    const url = new URL(window.location.href)
+    url.searchParams.set(SHOW_TOUR_QUERY_PARAM, 'true')
+    window.history.replaceState({}, '', url.toString())
+    resetState()
+    setTourRunning(true)
+    setIgnoreStepMove(false)
   }
 
   const handleTourStepMove = (
     index: number,
     action: (typeof ACTIONS)[keyof typeof ACTIONS],
   ) => {
+    if (ignoreStepMove) {
+      setStepIndex(0)
+      setProxyIndex(0)
+      setIgnoreStepMove(false)
+      return
+    }
+
+    const newIndex = action === ACTIONS.NEXT ? index + 1 : index - 1
     // To keep the tour in sync with the state, we need to update the
     // state, and then then tour index in the state update callback
-    const updateTourStepFromState = (layerControlVisibility: boolean) => {
+    const updateTourStepFromState = (layerControlVisibility?: boolean) => {
       updateState((state) => {
         const newState = state
-        newState.neuroglancer.selectedLayer!.visible = layerControlVisibility
+        if (layerControlVisibility !== undefined) {
+          newState.neuroglancer.selectedLayer!.visible = layerControlVisibility
+        }
+        newState.neuroglancer.layerListPanel!.visible = true
         newState.tourStepIndex = newIndex
         return newState
       })
     }
 
-    const newIndex = action === ACTIONS.NEXT ? index + 1 : index - 1
-    if (newIndex < 3 || newIndex > 5) setStepIndex(newIndex)
-    else if (newIndex === 4)
-      updateTourStepFromState(false /* layerControlVisibility = */)
-    else {
-      // On step 3 and 5 we may not need to update the state,
-      const { neuroglancer } = currentState()
-      const isPanelVisible = boolValue(
-        neuroglancer.selectedLayer?.visible,
-        panelsDefaultValues.selectedLayer,
-      )
-      if (isPanelVisible) {
-        setStepIndex(newIndex)
-      } else {
-        updateTourStepFromState(true /* layerControlVisibility = */)
-      }
+    if (newIndex === 1 && action === ACTIONS.NEXT) {
+      // Special case: starting the tour from the beginning
+      // This lets us know when neuroglancer is ready
+      // and we can move the proxy elements to the right place
+      updateTourStepFromState()
+      return
     }
+
+    if (newIndex === 4) {
+      // Step 4 always triggers update as we force layer hidden
+      updateTourStepFromState(false /* layerControlVisibility = */)
+      return
+    }
+
+    if (newIndex === 3 || newIndex === 5) {
+      updateTourStepFromState(true /* layerControlVisibility = */)
+      return
+    }
+
+    updateTourStepFromState()
   }
 
   const handleRestart = () => {
-    setTourRunning(false)
-    setTimeout(() => {
-      setStepIndex(0)
-      setTourRunning(true)
-    }, 300)
+    // Set the tour not running so that the handleStepMove
+    // is not called when the step index is set to 0
+    setIgnoreStepMove(true)
+    resetState()
   }
 
   return {
@@ -108,9 +100,11 @@ export function useTour(tomogram: Tomogram | undefined) {
     setTourRunning,
     stepIndex,
     setStepIndex,
+    handleTourStart,
     handleTourClose,
     handleRestart,
     handleTourStepMove,
-    handleTourStartInNewTab,
+    proxyIndex,
+    setProxyIndex,
   }
 }

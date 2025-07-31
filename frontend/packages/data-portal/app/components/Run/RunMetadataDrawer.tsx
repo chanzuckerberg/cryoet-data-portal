@@ -5,13 +5,16 @@ import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 
+import { ObjectOverview } from './ObjectOverview'
 import { RunTiltSeriesTable } from './RunTiltSeriesTable'
 import { TomogramsSummarySection } from './TomogramsSummarySection'
 
 export function RunMetadataDrawer() {
   const { run } = useRunById()
   const { t } = useI18n()
+  const isIdentifiedObjectsEnabled = useFeatureFlag('identifiedObjects')
 
   return (
     <MetadataDrawer
@@ -20,12 +23,15 @@ export function RunMetadataDrawer() {
       label={t('runDetails')}
       idInfo={{ label: 'runId', text: `${IdPrefix.Run}-${run.id}` }}
       MetadataTabComponent={MetadataTab}
+      ObjectOverviewTabComponent={
+        isIdentifiedObjectsEnabled ? ObjectOverview : undefined
+      }
     />
   )
 }
 
 function MetadataTab() {
-  const { run } = useRunById()
+  const { run, additionalContributingDepositions } = useRunById()
 
   return (
     <>
@@ -35,6 +41,9 @@ function MetadataTab() {
             showAllFields
             dataset={run.dataset}
             initialOpen={false}
+            additionalContributingDepositions={
+              additionalContributingDepositions
+            }
           />
           <SampleAndExperimentConditionsTable
             dataset={run.dataset}

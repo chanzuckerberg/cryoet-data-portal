@@ -1,4 +1,7 @@
+import { SYSTEM_PARAMS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
+
+export const SHOW_TOUR_QUERY_PARAM = 'showTour'
 
 /**
  * Checks if the string is an external URL. This works by using the value to
@@ -15,6 +18,13 @@ export function isExternalUrl(url: string): boolean {
     return false
   }
 }
+/**
+ * Checks if the URL is a neuroglancer URL
+ */
+export function isNeuroglancerUrl(url: string): boolean {
+  return url.includes('/view/runs/')
+}
+
 /**
  * Wrapper over the URL constructor with additional functionality. URLs that
  * cannot be constructor without a base will automatically have the base
@@ -36,8 +46,17 @@ export function createUrl(urlOrPath: string, baseUrl?: string): URL {
   return new URL(urlOrPath, base)
 }
 
-export function getNeuroglancerUrl(config: string): string {
-  return `https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(config)}`
+export function getNeuroglancerUrl(
+  config: string,
+  runId: number,
+  activateTour: boolean = false,
+): string {
+  const url = createUrl(`/view/runs/${runId}`)
+  if (activateTour) {
+    url.searchParams.set(SHOW_TOUR_QUERY_PARAM, 'true')
+  }
+  url.hash = `#!${encodeURIComponent(config)}`
+  return url.pathname + url.search + url.hash
 }
 
 export function carryOverFilterParams({
@@ -49,9 +68,43 @@ export function carryOverFilterParams({
   params: URLSearchParams
   prevParams: URLSearchParams
 }) {
-  for (const key of filters) {
+  // Combine system parameters and filters, removing duplicates
+  const allParams = [...new Set([...SYSTEM_PARAMS, ...filters])]
+
+  // Carry over all parameters in a single loop
+  for (const key of allParams) {
     prevParams.getAll(key).forEach((value) => params.append(key, value))
   }
 
   return params
+}
+
+/**
+ * Preserves feature flag parameters when navigating to a new URL.
+ * Takes feature flag parameters from current search params and adds them to the target URL.
+ *
+ * @param targetUrl The URL to navigate to
+ * @param currentSearchParams Current URL search parameters
+ * @returns URL with preserved feature flag parameters
+ */
+export function preserveFeatureFlagParams(
+  targetUrl: string,
+  currentSearchParams: URLSearchParams,
+): string {
+  // Don't modify external URLs
+  if (isExternalUrl(targetUrl)) {
+    return targetUrl
+  }
+
+  const url = createUrl(targetUrl)
+  const targetParams = url.searchParams
+
+  // Preserve feature flag parameters
+  for (const key of SYSTEM_PARAMS) {
+    currentSearchParams.getAll(key).forEach((value) => {
+      targetParams.append(key, value)
+    })
+  }
+
+  return url.pathname + url.search
 }

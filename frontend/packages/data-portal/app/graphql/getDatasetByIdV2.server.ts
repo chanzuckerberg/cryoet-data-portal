@@ -41,6 +41,8 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
       description
       deposition{
         id
+        description
+        title
         annotationsAggregate(where: {annotationShapes: {annotationFilesAggregate: {count: {filter: {isVisualizationDefault: {_eq: true}}}}}}) {
           aggregate {
             count
@@ -219,6 +221,34 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
     depositions(where: { id: { _eq: $depositionId }}) {
       id
       title
+    }
+
+    depositionsWithAnnotations: depositions(where: {
+      annotations: {
+        run: {
+          datasetId: { _eq: $id }
+        }
+      }
+    }) {
+      id
+    }
+
+    depositionsWithTomograms: depositions(where: {
+      tomograms: {
+        run: {
+          datasetId: { _eq: $id }
+        }
+      }
+    }) {
+      id
+    }
+
+    depositionsWithDatasets: depositions(where: {
+      datasets: {
+        id: { _eq: $id }
+      }
+    }) {
+      id
     }
   }
 `)
