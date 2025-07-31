@@ -1,6 +1,8 @@
 import { SYSTEM_PARAMS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 
+export const SHOW_TOUR_QUERY_PARAM = 'showTour'
+
 /**
  * Checks if the string is an external URL. This works by using the value to
  * create a URL object. URL objects will throw errors for relative URLs if a
@@ -16,6 +18,13 @@ export function isExternalUrl(url: string): boolean {
     return false
   }
 }
+/**
+ * Checks if the URL is a neuroglancer URL
+ */
+export function isNeuroglancerUrl(url: string): boolean {
+  return url.includes('/view/runs/')
+}
+
 /**
  * Wrapper over the URL constructor with additional functionality. URLs that
  * cannot be constructor without a base will automatically have the base
@@ -37,8 +46,17 @@ export function createUrl(urlOrPath: string, baseUrl?: string): URL {
   return new URL(urlOrPath, base)
 }
 
-export function getNeuroglancerUrl(config: string): string {
-  return `https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(config)}`
+export function getNeuroglancerUrl(
+  config: string,
+  runId: number,
+  activateTour: boolean = false,
+): string {
+  const url = createUrl(`/view/runs/${runId}`)
+  if (activateTour) {
+    url.searchParams.set(SHOW_TOUR_QUERY_PARAM, 'true')
+  }
+  url.hash = `#!${encodeURIComponent(config)}`
+  return url.pathname + url.search + url.hash
 }
 
 export function carryOverFilterParams({
