@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { GroupedAccordion, GroupedData } from 'app/components/GroupedAccordion'
+import { GroupedAccordion } from 'app/components/GroupedAccordion'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
 import { useI18n } from 'app/hooks/useI18n'
@@ -12,13 +12,8 @@ import {
 import { DataContentsType } from 'app/types/deposition-queries'
 import { GroupByOption } from 'app/types/depositionTypes'
 
-import { LocationTable } from './LocationTable'
+import { DepositedLocationAccordionContent } from './DepositedLocationAccordionContent'
 import { SkeletonAccordion } from './SkeletonAccordion'
-import { TomogramLocationTable } from './TomogramLocationTable'
-
-type GroupedDepositedLocationData = GroupedData<
-  DepositedLocationData<AnnotationRowData | TomogramRowData>
->
 
 interface DepositedLocationAccordionTableProps {
   tab: DataContentsType
@@ -141,59 +136,23 @@ export function DepositedLocationAccordionTable({
     }
   })
 
-  // Render function that directly renders the table
-  const renderContent = (
-    group: GroupedDepositedLocationData,
-    isExpanded: boolean,
-    currentPage: number,
-  ) => {
-    if (!isExpanded || group.items.length === 0) {
-      return null
-    }
-
-    const datasetId = parseInt(group.groupKey, 10)
-    const dataset = datasets.find((d) => d.id === datasetId)
-
-    if (!dataset) {
-      return null
-    }
-
-    if (tab === DataContentsType.Tomograms) {
-      return (
-        <TomogramLocationTable
+  return (
+    <GroupedAccordion
+      data={transformedData}
+      renderContent={(group, isExpanded, currentPage) => (
+        <DepositedLocationAccordionContent
+          group={group}
+          isExpanded={isExpanded}
+          currentPage={currentPage}
+          tab={tab}
+          depositionId={depositionId}
+          datasets={datasets}
           runPagination={runPagination}
           expandedRuns={expandedRuns}
           onRunToggle={handleRunToggle}
           onRunPageChange={handleRunPageChange}
-          currentGroupPage={currentPage}
-          depositionId={depositionId}
-          datasetId={datasetId}
-          datasetTitle={dataset.title}
-          isExpanded={isExpanded}
         />
-      )
-    }
-
-    // For annotations, use the integrated LocationTable
-    return (
-      <LocationTable
-        runPagination={runPagination}
-        expandedRuns={expandedRuns}
-        onRunToggle={handleRunToggle}
-        onRunPageChange={handleRunPageChange}
-        depositionId={depositionId}
-        datasetId={datasetId}
-        datasetTitle={dataset.title}
-        isExpanded={isExpanded}
-        currentGroupPage={currentPage}
-      />
-    )
-  }
-
-  return (
-    <GroupedAccordion
-      data={transformedData}
-      renderContent={renderContent}
+      )}
       itemLabelSingular={t('run')}
       itemLabelPlural={t('runs')}
       getItemCount={(group) => group.itemCount || 0}

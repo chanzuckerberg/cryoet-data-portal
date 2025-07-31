@@ -9,8 +9,7 @@ import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { DataContentsType } from 'app/types/deposition-queries'
 
-import { OrganismAnnotationContent } from './OrganismAnnotationContent'
-import { OrganismTomogramContent } from './OrganismTomogramContent'
+import { OrganismAccordionContent } from './OrganismAccordionContent'
 import { SkeletonAccordion } from './SkeletonAccordion'
 
 interface OrganismAccordionTableProps {
@@ -60,39 +59,18 @@ export function OrganismAccordionTable({
     )
   }
 
-  // Render content function for accordion
-  const renderContent = (
-    group: GroupedData<{ id: string }>,
-    isExpanded: boolean,
-    currentPage: number,
-  ) => {
-    if (!isExpanded) return null
-
-    if (tab === DataContentsType.Tomograms) {
-      // Render the organism-specific tomogram content
-      return (
-        <OrganismTomogramContent
-          depositionId={depositionId}
-          organismName={group.groupKey}
-          page={currentPage}
-        />
-      )
-    }
-
-    // For annotations, render the organism-specific content
-    return (
-      <OrganismAnnotationContent
-        depositionId={depositionId}
-        organismName={group.groupKey}
-        page={currentPage}
-      />
-    )
-  }
-
   return (
     <GroupedAccordion
       data={groupedData}
-      renderContent={renderContent}
+      renderContent={(group, isExpanded, currentPage) => (
+        <OrganismAccordionContent
+          group={group}
+          isExpanded={isExpanded}
+          currentPage={currentPage}
+          tab={tab}
+          depositionId={depositionId}
+        />
+      )}
       itemLabelSingular={
         tab === DataContentsType.Tomograms ? t('tomogram') : t('annotation')
       }
