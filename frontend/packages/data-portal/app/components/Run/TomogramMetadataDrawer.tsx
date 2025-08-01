@@ -7,7 +7,7 @@ import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
 import { metadataDrawerTomogramAtom } from 'app/state/metadataDrawerTomogram'
 import { getTableData } from 'app/utils/table'
-import { getTomogramName, isFiducial } from 'app/utils/tomograms'
+import { getTomogramNameFromV2, isFiducial } from 'app/utils/tomograms'
 
 import { AccordionMetadataTable } from '../AccordionMetadataTable'
 import { AuthorLegend } from '../AuthorLegend'
@@ -29,7 +29,7 @@ export function TomogramMetadataDrawer() {
 
   return (
     <MetadataDrawer
-      title={getTomogramName(tomogram)}
+      title={getTomogramNameFromV2(tomogram)}
       label={t('tomogramDetails')}
       idInfo={{
         label: 'tomogramId',

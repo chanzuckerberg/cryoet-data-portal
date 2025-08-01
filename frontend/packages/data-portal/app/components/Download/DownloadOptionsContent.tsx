@@ -10,7 +10,7 @@ import { useDownloadModalContext } from 'app/context/DownloadModal.context'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
 import { DownloadConfig } from 'app/types/download'
-import { getTomogramName } from 'app/utils/tomograms'
+import { getTomogramNameFromV2 } from 'app/utils/tomograms'
 
 import { I18n } from '../I18n'
 import { AnnotationAlignmentCallout } from './AnnotationAlignmentCallout'
@@ -66,7 +66,7 @@ export function DownloadOptionsContent() {
     runName && { label: t('runName'), value: runName },
     tomogramToDownload && {
       label: t('tomogramName'),
-      value: getTomogramName(tomogramToDownload),
+      value: getTomogramNameFromV2(tomogramToDownload),
     },
     tomogramToDownload && {
       label: t('tomogramId'),
@@ -92,7 +92,7 @@ export function DownloadOptionsContent() {
     objectShapeType && { label: t('objectShapeType'), value: objectShapeType },
     referenceTomogram && {
       label: t('referenceTomogram'),
-      value: getTomogramName(referenceTomogram),
+      value: getTomogramNameFromV2(referenceTomogram),
     },
     annotationFileAlignmentId && {
       label: t('alignmentId'),

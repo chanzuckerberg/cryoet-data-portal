@@ -10,7 +10,7 @@ export interface DepositionGroupedDataParams {
   /** The type of grouping to apply to the data */
   groupBy: GroupByOption
   /** The type of data content to fetch (annotations or tomograms) */
-  tab: DataContentsType
+  type: DataContentsType
   /** Whether to enable the query - useful for conditional fetching */
   enabled?: boolean
 }
@@ -127,6 +127,8 @@ export enum DepositionGroupedDataError {
  * Hook options for customizing behavior
  */
 export interface DepositionGroupedDataOptions {
+  /** Whether to enable the query - useful for conditional fetching */
+  enabled?: boolean
   /** Whether to fetch run counts (expensive operation) */
   fetchRunCounts?: boolean
   /** Custom error handler */

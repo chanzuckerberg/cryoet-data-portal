@@ -15,12 +15,17 @@ export function HeaderKeyPhoto({
   overlayContent,
 }: HeaderKeyPhotoProps) {
   if (!url) {
-    return <KeyPhoto title={title} />
+    return <KeyPhoto variant="header" title={title} />
   }
 
   return (
-    <div className="max-w-[465px] grow">
-      <KeyPhoto title={title} src={url} overlayContent={overlayContent} />
+    <div>
+      <KeyPhoto
+        variant="header"
+        title={title}
+        src={url}
+        overlayContent={overlayContent}
+      />
       <KeyPhotoCaption caption={caption} />
     </div>
   )
