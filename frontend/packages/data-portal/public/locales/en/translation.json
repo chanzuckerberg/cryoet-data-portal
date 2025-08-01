@@ -361,6 +361,7 @@
   "objectState": "Object State",
   "offsetXYZ": "Offset (x,y,z)",
   "onlyDisplayingRunsWithAnnotations": "Only displaying runs with annotations from <urlNoColor to='{{url}}' variant='dashed-bordered'>Deposition CZCDP-{{id}}: \"<ellipsis>{{title}}</ellipsis>\"</urlNoColor>",
+  "onlyDisplayingDatasetsWithOrganismAndDeposition": "Only displaying Datasets containing Organism: \"{{organismName}}\" and Deposition {{depositionId}}: \"{{depositionName}}\".",
   "openDataset": "Open Dataset",
   "openDeposition": "Open Deposition",
   "openRun": "Open Run",
