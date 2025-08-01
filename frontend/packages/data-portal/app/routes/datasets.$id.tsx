@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
-import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
+import { ShouldRevalidateFunctionArgs, useSearchParams } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { match, P } from 'ts-pattern'
 
@@ -85,12 +85,8 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 export default function DatasetByIdPage() {
   const { dataset, deposition, unFilteredRuns } = useDatasetById()
   const { t } = useI18n()
-  const [depositionId, setDepositionId] = useQueryParam<string>(
-    QueryParams.DepositionId,
-  )
-  const [fromLocation, setFromLocation] = useQueryParam<FromLocationKey>(
-    QueryParams.From,
-  )
+  const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
+  const [fromLocation] = useQueryParam<FromLocationKey>(QueryParams.From)
   const isExpandDepositions = useFeatureFlag('expandDepositions')
 
   const { previousSingleDepositionParams } = useDepositionHistory()
@@ -102,19 +98,14 @@ export default function DatasetByIdPage() {
     setParams: setPreviousSingleDatasetParams,
   })
 
+  const [, setSearchParams] = useSearchParams()
   const handleRemoveDepositionFilter = () => {
-    setDepositionId(null)
-
-    // Also clear from parameter when expandDepositions feature flag is enabled
-    if (isExpandDepositions) {
-      setFromLocation(null)
-    }
-
     const nextParams = new URLSearchParams(previousSingleDatasetParams)
     nextParams.delete(QueryParams.DepositionId)
     nextParams.delete(QueryParams.From)
     nextParams.sort()
     setPreviousSingleDatasetParams(nextParams.toString())
+    setSearchParams(nextParams)
   }
 
   const label = isExpandDepositions
