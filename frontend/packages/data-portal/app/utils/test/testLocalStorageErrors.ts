@@ -1,15 +1,12 @@
 import { jest } from '@jest/globals'
 
-export type LocalStorageMethod = 'getItem' | 'setItem' | 'removeItem'
+type LocalStorageMethod = 'getItem' | 'setItem' | 'removeItem'
 
 /**
  * Mock localStorage method to throw a specific error
  * Returns a restore function to clean up the mock
  */
-export function mockLocalStorageError(
-  method: LocalStorageMethod,
-  error: Error,
-) {
+function mockLocalStorageError(method: LocalStorageMethod, error: Error) {
   const mockFn = jest
     .spyOn(Storage.prototype, method)
     .mockImplementation(() => {
@@ -50,7 +47,7 @@ export function mockLocalStorageCorruptedData(
  * Mock localStorage to be completely unavailable
  * Simulates environments where localStorage is disabled
  */
-export function mockLocalStorageUnavailable() {
+function mockLocalStorageUnavailable() {
   const originalLocalStorage = Object.getOwnPropertyDescriptor(
     window,
     'localStorage',
@@ -83,7 +80,7 @@ export function mockLocalStorageGenericError(
  * Test that a banner still functions when localStorage operations fail
  * This is a common test pattern for localStorage error handling
  */
-export async function testBannerWithLocalStorageError<T>(
+async function testBannerWithLocalStorageError<T>(
   renderFunction: () => Promise<T>,
   dismissAction: () => Promise<void>,
   errorMockFunction: () => { restore: () => void },
@@ -105,7 +102,7 @@ export async function testBannerWithLocalStorageError<T>(
 /**
  * Utility to test various localStorage error scenarios in sequence
  */
-export const LOCALSTORAGE_ERROR_SCENARIOS = [
+const LOCALSTORAGE_ERROR_SCENARIOS = [
   {
     name: 'QuotaExceededError',
     setup: mockLocalStorageQuotaExceeded,
