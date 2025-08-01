@@ -1,3 +1,7 @@
+import { useSearchParams } from '@remix-run/react'
+
+import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
+import { QueryParams } from 'app/constants/query'
 import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useGroupBy } from 'app/hooks/useGroupBy'
@@ -41,12 +45,22 @@ export function DepositionTableRenderer({
   const [type] = useActiveDepositionDataType()
   const [groupBy] = useGroupBy()
   const { annotations, tomograms } = useDepositionById()
+  const [searchParams] = useSearchParams()
+
+  // Get current page for accordion pagination
+  const currentPage = +(searchParams.get(QueryParams.Page) ?? '1')
+  const startIndex = (currentPage - 1) * MAX_PER_ACCORDION_GROUP
+  const endIndex = startIndex + MAX_PER_ACCORDION_GROUP
+
+  // Slice data for accordion pagination
+  const paginatedOrganisms = organisms?.slice(startIndex, endIndex)
+  const paginatedDatasets = datasets?.slice(startIndex, endIndex)
 
   // Show accordion view when grouped by organism
   if (groupBy === GroupByOption.Organism) {
     return (
       <OrganismAccordionTable
-        organisms={organisms || []}
+        organisms={paginatedOrganisms || []}
         organismCounts={organismCounts || {}}
         isLoading={isOrganismsLoading}
       />
@@ -57,7 +71,7 @@ export function DepositionTableRenderer({
   if (groupBy === GroupByOption.DepositedLocation) {
     return (
       <DepositedLocationAccordionTable
-        datasets={datasets}
+        datasets={paginatedDatasets}
         datasetCounts={datasetCounts}
       />
     )

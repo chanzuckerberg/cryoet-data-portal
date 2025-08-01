@@ -33,6 +33,7 @@ export interface TableLayoutTab {
 
   table: ReactNode
   pageQueryParamKey?: string
+  pageSize?: number // Optional page size for pagination (defaults to MAX_PER_PAGE)
 
   noFilteredResults?: ReactNode
   noTotalResults?: ReactNode

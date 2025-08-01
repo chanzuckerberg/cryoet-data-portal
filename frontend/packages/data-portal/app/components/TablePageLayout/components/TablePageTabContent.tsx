@@ -23,6 +23,7 @@ export function TablePageTabContent({
   noFilteredResults,
   noTotalResults,
   pageQueryParamKey = QueryParams.Page,
+  pageSize = MAX_PER_PAGE,
   totalCount,
   countLabel,
   banner,
@@ -32,7 +33,7 @@ export function TablePageTabContent({
   const pageQueryParamValue = +(searchParams.get(pageQueryParamKey) ?? '1')
 
   useEffect(() => {
-    if (Math.ceil(filteredCount / MAX_PER_PAGE) < pageQueryParamValue) {
+    if (Math.ceil(filteredCount / pageSize) < pageQueryParamValue) {
       setSearchParams(
         (prev) => {
           prev.delete(pageQueryParamKey)
@@ -41,7 +42,13 @@ export function TablePageTabContent({
         { replace: true, preventScrollReset: true },
       )
     }
-  }, [filteredCount, pageQueryParamKey, pageQueryParamValue, setSearchParams])
+  }, [
+    filteredCount,
+    pageSize,
+    pageQueryParamKey,
+    pageQueryParamValue,
+    setSearchParams,
+  ])
 
   function setPage(nextPage: number) {
     setSearchParams((prev) => {
@@ -106,14 +113,14 @@ export function TablePageTabContent({
               <div className="mt-[100px]">{noFilteredResults}</div>
             )}
 
-            {filteredCount > MAX_PER_PAGE && (
+            {filteredCount > pageSize && (
               <div
                 className="w-full flex justify-center mt-sds-xxl"
                 data-testid={TestIds.Pagination}
               >
                 <Pagination
                   currentPage={pageQueryParamValue}
-                  pageSize={MAX_PER_PAGE}
+                  pageSize={pageSize}
                   totalCount={
                     totalCount === filteredCount ? totalCount : filteredCount
                   }
