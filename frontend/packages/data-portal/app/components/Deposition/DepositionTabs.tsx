@@ -26,6 +26,7 @@ export function DepositionTabs() {
         setSearchParams((prev) => {
           prev.set(QueryParams.DepositionTab, value)
           prev.delete(QueryParams.GroupBy)
+          prev.delete(QueryParams.Page)
           return prev
         })
       }
