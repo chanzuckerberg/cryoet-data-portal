@@ -140,15 +140,7 @@ export default function DatasetByIdPage() {
     isExpandDepositions,
     fromLocation,
   })
-    .with(
-      { depositionId: P.nullish },
-      { deposition: P.nullish },
-      {
-        isExpandDepositions: true,
-        fromLocation: P.not(FromLocationKey.DepositionAnnotations),
-      },
-      () => null,
-    )
+    .with({ depositionId: P.nullish }, { deposition: P.nullish }, () => null)
     .otherwise(() => (
       <DepositionFilterBanner
         label={label}

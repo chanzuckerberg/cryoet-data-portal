@@ -172,11 +172,13 @@ export default function RunByIdPage() {
     deposition,
     isExpandDepositions,
     fromLocation,
+    currentTab,
   })
     .with(
       { depositionId: P.nullish },
       { deposition: P.nullish },
       { isExpandDepositions: false },
+      { isExpandDepositions: true, currentTab: t('tomograms') },
       () => null,
     )
     .otherwise(() => (
