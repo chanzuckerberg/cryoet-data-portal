@@ -25,34 +25,6 @@ export function testBannerAccessibility(bannerElement?: HTMLElement) {
 }
 
 /**
- * Verifies that banner has proper ARIA attributes
- */
-function assertBannerARIA(bannerElement: HTMLElement, expectedLabel?: string) {
-  // Banner should be visible to screen readers
-  expect(bannerElement).not.toHaveAttribute('aria-hidden', 'true')
-
-  // If an expected label is provided, verify it matches
-  if (expectedLabel) {
-    expect(bannerElement).toHaveAttribute('aria-label', expectedLabel)
-  } else {
-    // Verify aria-label exists (it should have some value)
-    const ariaLabel = bannerElement.getAttribute('aria-label')
-    expect(ariaLabel).toBeTruthy()
-  }
-}
-
-/**
- * Verifies that dismiss button has proper ARIA attributes
- */
-function assertDismissButtonARIA(
-  buttonElement: HTMLElement,
-  expectedLabel?: string,
-) {
-  const defaultLabel = expectedLabel || 'Dismiss banner'
-  expect(buttonElement).toHaveAttribute('aria-label', defaultLabel)
-}
-
-/**
  * Tests keyboard navigation for banner components
  */
 export async function testBannerKeyboardNavigation(userEvent: {
