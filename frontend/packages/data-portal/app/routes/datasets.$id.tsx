@@ -10,6 +10,7 @@ import { RunsTable } from 'app/components/Dataset/RunsTable'
 import { getContentSummaryCounts } from 'app/components/Dataset/utils'
 import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
+import { I18n } from 'app/components/I18n'
 import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import { RunFilter } from 'app/components/RunFilter'
 import { TablePageLayout } from 'app/components/TablePageLayout'
@@ -21,6 +22,7 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import { i18n } from 'app/i18n'
 import {
+  useDepositionHistory,
   useSingleDatasetFilterHistory,
   useSyncParamsWithState,
 } from 'app/state/filterHistory'
@@ -81,14 +83,27 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 export default function DatasetByIdPage() {
   const { dataset, deposition, unFilteredRuns } = useDatasetById()
   const { t } = useI18n()
-  const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
+  const [depositionId, setDepositionId] = useQueryParam<string>(
+    QueryParams.DepositionId,
+  )
 
-  const { setPreviousSingleDatasetParams } = useSingleDatasetFilterHistory()
+  const { previousSingleDepositionParams } = useDepositionHistory()
+  const { previousSingleDatasetParams, setPreviousSingleDatasetParams } =
+    useSingleDatasetFilterHistory()
 
   useSyncParamsWithState({
     filters: RUN_FILTERS,
     setParams: setPreviousSingleDatasetParams,
   })
+
+  const handleRemoveDepositionFilter = () => {
+    setDepositionId(null)
+
+    const nextParams = new URLSearchParams(previousSingleDatasetParams)
+    nextParams.delete(QueryParams.DepositionId)
+    nextParams.sort()
+    setPreviousSingleDatasetParams(nextParams.toString())
+  }
 
   return (
     <TablePageLayout
@@ -96,8 +111,18 @@ export default function DatasetByIdPage() {
         depositionId &&
         deposition && (
           <DepositionFilterBanner
-            deposition={deposition}
-            labelI18n="onlyDisplayingRunsWithAnnotations"
+            label={
+              <I18n
+                i18nKey="onlyDisplayingRunsWithAnnotations"
+                values={{
+                  id: deposition.id,
+                  title: deposition.title,
+                  url: `/depositions/${deposition.id}?${previousSingleDepositionParams}`,
+                }}
+                tOptions={{ interpolation: { escapeValue: false } }}
+              />
+            }
+            onRemoveFilter={handleRemoveDepositionFilter}
           />
         )
       }
