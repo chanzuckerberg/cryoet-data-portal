@@ -30,7 +30,6 @@ export interface GroupedDataHeaderProps {
     totalItems?: number
   }
   externalLink?: string
-  onExternalLinkClick?: (e: MouseEvent) => void
   className?: string
 }
 
@@ -44,12 +43,10 @@ export function GroupedDataHeader({
   showPagination = false,
   paginationProps,
   externalLink,
-  onExternalLinkClick,
   className = '',
 }: GroupedDataHeaderProps): ReactNode {
   const handleExternalLinkClick = (e: MouseEvent) => {
     e.stopPropagation()
-    onExternalLinkClick?.(e)
   }
 
   return (
@@ -60,7 +57,7 @@ export function GroupedDataHeader({
         </span>
 
         {externalLink && (
-          <Link to={externalLink} onClick={handleExternalLinkClick}>
+          <Link to={externalLink} onClick={handleExternalLinkClick} newTab>
             <Icon
               sdsIcon="Open"
               sdsSize="xs"
