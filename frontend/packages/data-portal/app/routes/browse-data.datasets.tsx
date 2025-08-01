@@ -116,7 +116,7 @@ export default function BrowseDatasetsPage() {
   const shouldShowBanner = Boolean(
     depositionId &&
       organism &&
-      fromLocation === FromLocationKey.OrganismAccordion &&
+      fromLocation === FromLocationKey.DepositionAnnotations &&
       deposition,
   )
 
