@@ -111,11 +111,7 @@ export function OrganismAccordionTable({
         type === DataContentsType.Tomograms ? t('tomograms') : t('annotations')
       }
       pageSize={MAX_PER_FULLY_OPEN_ACCORDION}
-      className=""
       externalLinkBuilder={buildExternalLink}
-      onExternalLinkClick={(_, e) => {
-        e.stopPropagation()
-      }}
     />
   )
 }

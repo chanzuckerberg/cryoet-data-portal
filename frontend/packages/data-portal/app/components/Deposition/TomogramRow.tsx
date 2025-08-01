@@ -12,7 +12,6 @@ import { RunData, TomogramRowData } from 'app/types/deposition'
 import { DataContentsType } from 'app/types/deposition-queries'
 import { cns } from 'app/utils/cns'
 
-import { DepositedInTableCell } from './DepositedInTableCell'
 import { PostProcessingCell } from './PostProcessingCell'
 import { ReconstructionMethodCell } from './ReconstructionMethodCell'
 import { TomogramActionsCell } from './TomogramActionsCell'
@@ -240,26 +239,6 @@ export function TomogramRow({
                     processing={tomogram.processing}
                     width={DepositionTomogramTableWidths.postProcessing}
                   />
-                  <TableCell width={DepositionTomogramTableWidths.depositedIn}>
-                    <DepositedInTableCell
-                      datasetId={
-                        data && 'tomograms' in data
-                          ? data.tomograms?.[0]?.run?.dataset?.id
-                          : undefined
-                      }
-                      datasetTitle={
-                        data && 'tomograms' in data
-                          ? data.tomograms?.[0]?.run?.dataset?.title
-                          : undefined
-                      }
-                      runId={
-                        data && 'tomograms' in data
-                          ? data.tomograms?.[0]?.run?.id
-                          : undefined
-                      }
-                      runName={run.runName}
-                    />
-                  </TableCell>
                   <TomogramActionsCell
                     tomogramId={tomogram.id}
                     neuroglancerConfig={tomogram.neuroglancerConfig}

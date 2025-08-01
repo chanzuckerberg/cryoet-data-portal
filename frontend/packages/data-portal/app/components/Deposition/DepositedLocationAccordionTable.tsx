@@ -1,7 +1,10 @@
-import { useState } from 'react'
+import { useSearchParams } from '@remix-run/react'
+import { useCallback, useState } from 'react'
 
 import { GroupedAccordion } from 'app/components/GroupedAccordion'
+import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
+import { FromLocationKey, QueryParams } from 'app/constants/query'
 import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
 import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
 import { useDepositionId } from 'app/hooks/useDepositionId'
@@ -12,6 +15,7 @@ import {
   TomogramRowData,
 } from 'app/types/deposition'
 import { DataContentsType } from 'app/types/deposition-queries'
+import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
 import { DepositedLocationAccordionContent } from './DepositedLocationAccordionContent'
 import { SkeletonAccordion } from './SkeletonAccordion'
@@ -42,6 +46,34 @@ export function DepositedLocationAccordionTable({
   const [type] = useActiveDepositionDataType()
   const depositionId = useDepositionId()
   const { t } = useI18n()
+  const [searchParams] = useSearchParams()
+
+  const getDatasetUrl = useCallback(
+    (datasetId: string) => {
+      const url = createUrl(`/datasets/${datasetId}`)
+
+      carryOverFilterParams({
+        filters: DATASET_FILTERS,
+        params: url.searchParams,
+        prevParams: searchParams,
+      })
+
+      // Set deposition ID from hook
+      if (depositionId !== undefined) {
+        url.searchParams.set(QueryParams.DepositionId, depositionId.toString())
+      }
+
+      // Set from parameter based on active data type
+      const fromLocationKey =
+        type === DataContentsType.Annotations
+          ? FromLocationKey.DepositionAnnotations
+          : FromLocationKey.DepositionTomograms
+      url.searchParams.set(QueryParams.From, fromLocationKey)
+
+      return url.pathname + url.search
+    },
+    [searchParams, depositionId, type],
+  )
 
   // Track expanded state for individual runs within locations
   const [expandedRuns, setExpandedRuns] = useState<
@@ -150,7 +182,7 @@ export function DepositedLocationAccordionTable({
       getItemCount={(group) => group.itemCount || 0}
       pageSize={MAX_PER_ACCORDION_GROUP} // Use the standard accordion pagination size (10)
       showPagination // Enable pagination at location level
-      externalLinkBuilder={(group) => `/location/${group.groupKey}`}
+      externalLinkBuilder={(group) => getDatasetUrl(group.groupKey)}
       accordionClassName=""
     />
   )

@@ -163,12 +163,7 @@ export function TomogramLocationTable({
           <CellHeader style={DepositionTomogramTableWidths.postProcessing}>
             {t('postProcessing')}
           </CellHeader>
-          <CellHeader style={DepositionTomogramTableWidths.depositedIn}>
-            {t('depositedIn')}
-          </CellHeader>
-          <CellHeader style={DepositionTomogramTableWidths.actions}>
-            {' '}
-          </CellHeader>
+          <CellHeader style={DepositionTomogramTableWidths.actions} />
         </TableHeader>
         <tbody>
           {locationData.runs.map((run) => {
