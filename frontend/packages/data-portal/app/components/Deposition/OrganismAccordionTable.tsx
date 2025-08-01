@@ -8,6 +8,7 @@ import {
   MAX_PER_FULLY_OPEN_ACCORDION,
 } from 'app/constants/pagination'
 import { FromLocationKey, QueryParams } from 'app/constants/query'
+import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { DataContentsType } from 'app/types/deposition-queries'
@@ -17,18 +18,17 @@ import { OrganismAccordionContent } from './OrganismAccordionContent'
 import { SkeletonAccordion } from './SkeletonAccordion'
 
 interface OrganismAccordionTableProps {
-  tab: DataContentsType
   organisms: string[] // Required: only organisms for current page
   organismCounts: Record<string, number> // Required: annotation counts per organism
   isLoading?: boolean // Whether organisms data is loading
 }
 
 export function OrganismAccordionTable({
-  tab,
   organisms,
   organismCounts,
   isLoading = false,
 }: OrganismAccordionTableProps) {
+  const [type] = useActiveDepositionDataType()
   const { t } = useI18n()
   const { deposition } = useDepositionById()
   const depositionId = deposition?.id
@@ -58,9 +58,14 @@ export function OrganismAccordionTable({
       const url = createUrl('/browse-data/datasets')
 
       // Add deposition ID, organism filters, and from location tracking
-      url.searchParams.set(QueryParams.DepositionId, depositionId.toString())
-      url.searchParams.set(QueryParams.Organism, group.groupKey)
-      url.searchParams.set(QueryParams.From, FromLocationKey.OrganismAccordion)
+      url.searchParams.set(QueryParams.DepositionId, String(depositionId))
+      url.searchParams.set(QueryParams.Organism, String(group.groupKey))
+      const fromLocationKey =
+        type === DataContentsType.Annotations
+          ? FromLocationKey.DepositionAnnotations
+          : FromLocationKey.DepositionTomograms
+
+      url.searchParams.set(QueryParams.From, fromLocationKey)
 
       // Carry over existing filter parameters
       carryOverFilterParams({
@@ -71,7 +76,7 @@ export function OrganismAccordionTable({
 
       return url.pathname + url.search
     },
-    [depositionId, searchParams],
+    [depositionId, searchParams, type],
   )
 
   // Show skeleton loaders while loading
@@ -96,15 +101,14 @@ export function OrganismAccordionTable({
           group={group}
           isExpanded={isExpanded}
           currentPage={currentPage}
-          tab={tab}
           depositionId={depositionId}
         />
       )}
       itemLabelSingular={
-        tab === DataContentsType.Tomograms ? t('tomogram') : t('annotation')
+        type === DataContentsType.Tomograms ? t('tomogram') : t('annotation')
       }
       itemLabelPlural={
-        tab === DataContentsType.Tomograms ? t('tomograms') : t('annotations')
+        type === DataContentsType.Tomograms ? t('tomograms') : t('annotations')
       }
       pageSize={MAX_PER_FULLY_OPEN_ACCORDION}
       className=""

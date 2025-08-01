@@ -46,7 +46,6 @@ export function DepositionTableRenderer({
   if (groupBy === GroupByOption.Organism) {
     return (
       <OrganismAccordionTable
-        tab={type}
         organisms={organisms || []}
         organismCounts={organismCounts || {}}
         isLoading={isOrganismsLoading}
