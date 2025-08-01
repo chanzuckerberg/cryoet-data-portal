@@ -3,9 +3,9 @@ import { DataContentsType } from 'app/types/deposition-queries'
 
 import { useQueryParam } from './useQueryParam'
 
-export function useActiveDepositionDataType() {
+export function useActiveDepositionDataType(preventScrollReset?: boolean) {
   return useQueryParam<DataContentsType, DataContentsType>(
     QueryParams.DepositionTab,
-    { defaultValue: DataContentsType.Annotations },
+    { preventScrollReset, defaultValue: DataContentsType.Annotations },
   )
 }
