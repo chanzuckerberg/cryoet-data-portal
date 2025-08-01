@@ -436,5 +436,39 @@ describe('utils/url', () => {
 
       expect(result).toBe('/browse-data/datasets?enable-feature=feature1')
     })
+
+    it('should not duplicate parameters that already exist in target URL with same value', () => {
+      const currentParams = new URLSearchParams([
+        [QueryParams.From, 'organism-accordion'],
+        [QueryParams.EnableFeature, 'feature1'],
+      ])
+
+      const result = preserveFeatureFlagParams(
+        '/datasets/10442?from=organism-accordion&deposition-id=10312',
+        currentParams,
+      )
+
+      // Should not duplicate the from parameter
+      expect(result).toBe(
+        '/datasets/10442?from=organism-accordion&deposition-id=10312&enable-feature=feature1',
+      )
+    })
+
+    it('should add parameters with different values even if key exists', () => {
+      const currentParams = new URLSearchParams([
+        [QueryParams.From, 'different-source'],
+        [QueryParams.EnableFeature, 'feature1'],
+      ])
+
+      const result = preserveFeatureFlagParams(
+        '/datasets/10442?from=organism-accordion&deposition-id=10312',
+        currentParams,
+      )
+
+      // Should add the different from parameter value
+      expect(result).toBe(
+        '/datasets/10442?from=organism-accordion&deposition-id=10312&enable-feature=feature1&from=different-source',
+      )
+    })
   })
 })
