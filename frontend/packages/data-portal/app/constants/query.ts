@@ -49,5 +49,6 @@ export enum QueryParams {
 }
 
 export enum FromLocationKey {
-  OrganismAccordion = 'organism-accordion',
+  DepositionAnnotations = 'deposition-annotations',
+  DepositionTomograms = 'deposition-tomograms',
 }
