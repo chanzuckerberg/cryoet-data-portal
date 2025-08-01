@@ -1,5 +1,6 @@
 import {
   AnnotationShapeWhereClause,
+  AnnotationWhereClause,
   DatasetWhereClause,
   Deposition_Types_Enum,
   DepositionWhereClause,
@@ -451,6 +452,45 @@ export function getDepositionTomogramsFilter({
   organismNames,
 }: GetDepositionTomogramsFilterParams): TomogramWhereClause {
   const where: TomogramWhereClause = {
+    depositionId: {
+      _eq: depositionId,
+    },
+  }
+
+  if (datasetIds && datasetIds.length > 0) {
+    where.run = {
+      datasetId: {
+        _in: datasetIds,
+      },
+    }
+  }
+
+  if (organismNames && organismNames.length > 0) {
+    where.run = {
+      ...where.run,
+      dataset: {
+        organismName: {
+          _in: organismNames,
+        },
+      },
+    }
+  }
+
+  return where
+}
+
+export interface GetDepositionAnnotationsCountFilterParams {
+  depositionId: number
+  datasetIds?: number[]
+  organismNames?: string[]
+}
+
+export function getDepositionAnnotationsCountFilter({
+  depositionId,
+  datasetIds,
+  organismNames,
+}: GetDepositionAnnotationsCountFilterParams): AnnotationWhereClause {
+  const where: AnnotationWhereClause = {
     depositionId: {
       _eq: depositionId,
     },

@@ -16,6 +16,8 @@ export interface DepositionPageState {
   deposition: ReturnType<typeof useDepositionById>['deposition']
   annotationsCount: number
   tomogramsCount: number
+  filteredAnnotationsCount: number
+  filteredTomogramsCount: number
   filteredDatasetsCount: number
   totalDatasetsCount: number
 
@@ -33,6 +35,10 @@ export interface DepositionPageState {
     counts: {
       organisms: Record<string, number>
     }
+    totalDatasetCount: number
+    filteredDatasetCount: number
+    totalOrganismCount: number
+    filteredOrganismCount: number
     isLoading: boolean
   }
 }
@@ -42,7 +48,13 @@ export interface DepositionPageState {
  * @returns Combined state object with all deposition page data and UI state
  */
 export function useDepositionPageState(): DepositionPageState {
-  const { deposition, annotationsCount, tomogramsCount } = useDepositionById()
+  const {
+    deposition,
+    annotationsCount,
+    tomogramsCount,
+    filteredAnnotationsCount,
+    filteredTomogramsCount,
+  } = useDepositionById()
   const { filteredDatasetsCount, totalDatasetsCount } = useDatasetsFilterData()
 
   const { setPreviousDepositionId, setPreviousSingleDepositionParams } =
@@ -68,6 +80,8 @@ export function useDepositionPageState(): DepositionPageState {
     deposition,
     annotationsCount,
     tomogramsCount,
+    filteredAnnotationsCount,
+    filteredTomogramsCount,
     filteredDatasetsCount,
     totalDatasetsCount,
 

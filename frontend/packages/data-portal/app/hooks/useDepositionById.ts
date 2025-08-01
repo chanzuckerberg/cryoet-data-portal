@@ -190,6 +190,18 @@ export function useDepositionById() {
         (total, node) => total + (node.count ?? 0),
         0,
       ) ?? 0,
+
+    filteredAnnotationsCount:
+      v2.filteredAnnotationsCount.aggregate?.reduce(
+        (total, node) => total + (node.count ?? 0),
+        0,
+      ) ?? 0,
+
+    filteredTomogramsCount:
+      v2.filteredTomogramsCount.aggregate?.reduce(
+        (total, node) => total + (node.count ?? 0),
+        0,
+      ) ?? 0,
   }
 }
 

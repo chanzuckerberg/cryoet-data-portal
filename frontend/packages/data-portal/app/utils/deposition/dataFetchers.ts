@@ -31,16 +31,19 @@ export interface DepositionData {
  * Validates that a deposition exists by fetching base data
  * @param client - Apollo client instance
  * @param id - Deposition ID to validate
+ * @param params - URL search parameters for filtering
  * @throws Response with 404 status if deposition not found
  * @returns Base deposition data
  */
 async function validateDepositionExists(
   client: ApolloClient<NormalizedCacheObject>,
   id: number,
+  params: URLSearchParams,
 ) {
   const { data: responseV2 } = await getDepositionBaseData({
     client,
     id,
+    params,
   })
 
   if (responseV2.depositions.length === 0) {
@@ -139,7 +142,11 @@ export async function fetchDepositionData({
   isExpandDepositions,
 }: FetchDepositionDataParams): Promise<DepositionData> {
   // First validate existence
-  const responseV2 = await validateDepositionExists(client, params.id)
+  const responseV2 = await validateDepositionExists(
+    client,
+    params.id,
+    url.searchParams,
+  )
 
   // Then fetch remaining data in parallel
   const [{ data: expandedData }, { data }] = await Promise.all([

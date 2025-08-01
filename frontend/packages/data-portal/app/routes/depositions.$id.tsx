@@ -95,6 +95,8 @@ export default function DepositionByIdPage() {
     groupedData: state.groupedData,
     annotationsCount: state.annotationsCount,
     tomogramsCount: state.tomogramsCount,
+    filteredAnnotationsCount: state.filteredAnnotationsCount,
+    filteredTomogramsCount: state.filteredTomogramsCount,
     totalDatasetsCount: state.totalDatasetsCount,
     filteredDatasetsCount: state.filteredDatasetsCount,
   })
