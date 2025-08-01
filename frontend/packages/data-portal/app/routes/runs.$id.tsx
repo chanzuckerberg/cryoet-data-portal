@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
-import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
+import { ShouldRevalidateFunctionArgs, useSearchParams } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { startCase, toNumber } from 'lodash-es'
-import { match } from 'ts-pattern'
+import { match, P } from 'ts-pattern'
 
 import { apolloClientV2 } from 'app/apollo.server'
 import { AnnotationFilter } from 'app/components/AnnotationFilter/AnnotationFilter'
+import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
 import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import { NoTotalResults } from 'app/components/NoTotalResults'
@@ -17,12 +18,14 @@ import { RunMetadataDrawer } from 'app/components/Run/RunMetadataDrawer'
 import { RunTomogramsTable } from 'app/components/Run/RunTomogramsTable'
 import { TomogramMetadataDrawer } from 'app/components/Run/TomogramMetadataDrawer'
 import { TablePageLayout } from 'app/components/TablePageLayout'
-import { QueryParams } from 'app/constants/query'
+import { FromLocationKey, QueryParams } from 'app/constants/query'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
 import { useI18n } from 'app/hooks/useI18n'
+import { useQueryParam } from 'app/hooks/useQueryParam'
 import { useRunById } from 'app/hooks/useRunById'
 import { DownloadConfig } from 'app/types/download'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
@@ -87,6 +90,7 @@ export default function RunByIdPage() {
     tomograms,
     annotationFilesAggregates,
     tomogramsCount,
+    deposition,
   } = useRunById()
   const {
     downloadConfig,
@@ -96,6 +100,15 @@ export default function RunByIdPage() {
     fileFormat,
     objectShapeType,
   } = useDownloadModalQueryParamState()
+
+  const [searchParams] = useSearchParams()
+  const [depositionId, setDepositionId] = useQueryParam<string>(
+    QueryParams.DepositionId,
+  )
+  const [fromLocation, setFromLocation] = useQueryParam<FromLocationKey>(
+    QueryParams.From,
+  )
+  const isExpandDepositions = useFeatureFlag('expandDepositions')
 
   const activeTomogram =
     downloadConfig === DownloadConfig.Tomogram
@@ -131,8 +144,51 @@ export default function RunByIdPage() {
 
   const fileSize = getFileSize()
 
+  const handleRemoveDepositionFilter = () => {
+    setDepositionId(null)
+
+    // Also clear from parameter when expandDepositions feature flag is enabled
+    if (isExpandDepositions) {
+      setFromLocation(null)
+    }
+  }
+
+  const activeTabTitle = searchParams.get(QueryParams.TableTab)
+  const currentTab = activeTabTitle ?? t('annotations') // default to annotations tab
+
+  const label =
+    currentTab === t('annotations')
+      ? t('onlyDisplayingAnnotationsFromDeposition', {
+          id: deposition?.id,
+          name: deposition?.title,
+        })
+      : t('onlyDisplayingTomogramsFromDeposition', {
+          id: deposition?.id,
+          name: deposition?.title,
+        })
+
+  const banner = match({
+    depositionId,
+    deposition,
+    isExpandDepositions,
+    fromLocation,
+  })
+    .with(
+      { depositionId: P.nullish },
+      { deposition: P.nullish },
+      { isExpandDepositions: false },
+      () => null,
+    )
+    .otherwise(() => (
+      <DepositionFilterBanner
+        label={label}
+        onRemoveFilter={handleRemoveDepositionFilter}
+      />
+    ))
+
   return (
     <TablePageLayout
+      banner={banner}
       header={<RunHeader />}
       tabsTitle={t('browseRunData')}
       tabs={[
