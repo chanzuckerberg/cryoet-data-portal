@@ -18,3 +18,11 @@ jest.mock('react-i18next', () => ({
 jest.mock('@web3-storage/multipart-parser', () => ({
   parseMultipart: jest.fn(),
 }))
+
+// Mock fetch for tests
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    ok: true,
+    json: () => Promise.resolve({}),
+  } as Response),
+)

@@ -1,29 +1,24 @@
-import type {
-  ApolloClient,
-  ApolloQueryResult,
-  NormalizedCacheObject,
+import {
+  type ApolloClient,
+  type ApolloQueryResult,
+  type NormalizedCacheObject,
 } from '@apollo/client'
 
 import { gql } from 'app/__generated_v2__'
-import { GetDepositionByIdV2Query, OrderBy } from 'app/__generated_v2__/graphql'
+import {
+  GetDepositionBaseDataV2Query,
+  GetDepositionExpandedDataV2Query,
+  GetDepositionLegacyDataV2Query,
+  OrderBy,
+} from 'app/__generated_v2__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { getFilterState } from 'app/hooks/useFilter'
 
 import { getDatasetsFilter } from './common'
 
-const GET_DEPOSITION_BY_ID = gql(`
-  query GetDepositionByIdV2(
-    $id: Int!,
-    $datasetsLimit: Int!,
-    $datasetsOffset: Int!,
-    $datasetsOrderBy: [DatasetOrderByClause!],
-    $datasetsFilter: DatasetWhereClause!,
-    $datasetsByDepositionFilter: DatasetWhereClause!,
-    $tiltseriesByDepositionFilter: TiltseriesWhereClause!,
-    $tomogramsByDepositionFilter: TomogramWhereClause!,
-    $annotationsByDepositionFilter: AnnotationWhereClause!,
-    $annotationShapesByDepositionFilter: AnnotationShapeWhereClause!
-  ) {
+// Base query - always fetched, contains core deposition data and counts
+const GET_DEPOSITION_BASE_DATA = gql(`
+  query GetDepositionBaseDataV2($id: Int!) {
     # Deposition:
     depositions(where: { id: { _eq: $id }}) {
       depositionDate
@@ -84,8 +79,83 @@ const GET_DEPOSITION_BY_ID = gql(`
           }
         }
       }
+
+      tomogramMethodCounts: tomogramsAggregate(where: { depositionId: { _eq: $id } }) {
+        aggregate {
+          count
+          groupBy {
+            voxelSpacing
+            reconstructionMethod
+            processing
+            ctfCorrected
+          }
+        }
+      }
+
+      acquisitionMethodCounts: tiltseriesAggregate(where: { depositionId: { _eq: $id } }) {
+        aggregate {
+          count
+          groupBy {
+            microscopeModel
+            cameraModel
+            tiltingScheme
+            pixelSpacing
+            microscopeEnergyFilter
+            microscopePhasePlate
+          }
+        }
+      }
+
     }
 
+    experimentalConditionsCounts: runsAggregate(where: { annotations: { depositionId: { _eq: $id } } }) {
+      aggregate {
+        count
+        groupBy {
+          dataset {
+            samplePreparation
+            sampleType
+            gridPreparation
+          }
+        }
+      }
+    }
+
+    annotationsCount: annotationsAggregate(where: {
+      depositionId: {
+        _eq: $id
+      }
+    }) {
+      aggregate {
+        count
+      }
+    }
+
+    tomogramsCount: tomogramsAggregate(where: {
+      depositionId: {
+        _eq: $id
+      }
+    }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`)
+
+// Legacy query - only when isExpandDepositions === false, contains datasets and aggregates for DatasetsTable
+const GET_DEPOSITION_LEGACY_DATA = gql(`
+  query GetDepositionLegacyDataV2(
+    $datasetsLimit: Int!,
+    $datasetsOffset: Int!,
+    $datasetsOrderBy: [DatasetOrderByClause!],
+    $datasetsFilter: DatasetWhereClause!,
+    $datasetsByDepositionFilter: DatasetWhereClause!,
+    $tiltseriesByDepositionFilter: TiltseriesWhereClause!,
+    $tomogramsByDepositionFilter: TomogramWhereClause!,
+    $annotationsByDepositionFilter: AnnotationWhereClause!,
+    $annotationShapesByDepositionFilter: AnnotationShapeWhereClause!
+  ) {
     # Datasets:
     # This section is very similar to the datasets page.
     datasets(
@@ -131,6 +201,13 @@ const GET_DEPOSITION_BY_ID = gql(`
       }
     }
 
+    ...DatasetsAggregates
+  }
+`)
+
+// Expanded query - only when isExpandDepositions === true, contains allRuns for DepositionFilters
+const GET_DEPOSITION_EXPANDED_DATA = gql(`
+  query GetDepositionExpandedDataV2($id: Int!) {
     allRuns: runs(where: {
       annotations: {
         depositionId: { _eq: $id }
@@ -138,36 +215,27 @@ const GET_DEPOSITION_BY_ID = gql(`
     }) {
       ...DataContents
     }
-
-    ...DatasetsAggregates
-
-    annotationsCount: annotationsAggregate(where: {
-      depositionId: {
-        _eq: $id
-      }
-    }) {
-      aggregate {
-        count
-      }
-    }
-
-    tomogramsCount: tomogramsAggregate(where: {
-      run: {
-        annotations: {
-          depositionId: {
-            _eq: $id
-          }
-        }
-      }
-    }) {
-      aggregate {
-        count
-      }
-    }
   }
 `)
 
-export async function getDepositionByIdV2({
+// Base data function - simplified to only fetch core deposition info and counts
+export async function getDepositionBaseData({
+  client,
+  id,
+}: {
+  client: ApolloClient<NormalizedCacheObject>
+  id: number
+}): Promise<ApolloQueryResult<GetDepositionBaseDataV2Query>> {
+  return client.query({
+    query: GET_DEPOSITION_BASE_DATA,
+    variables: {
+      id,
+    },
+  })
+}
+
+// Legacy data function - for datasets table and filters when isExpandDepositions === false
+export async function getDepositionLegacyData({
   client,
   id,
   orderBy,
@@ -179,7 +247,7 @@ export async function getDepositionByIdV2({
   id: number
   page: number
   params: URLSearchParams
-}): Promise<ApolloQueryResult<GetDepositionByIdV2Query>> {
+}): Promise<ApolloQueryResult<GetDepositionLegacyDataV2Query>> {
   const depositionIdFilter = {
     depositionId: {
       _eq: id,
@@ -187,12 +255,11 @@ export async function getDepositionByIdV2({
   }
 
   return client.query({
-    query: GET_DEPOSITION_BY_ID,
+    query: GET_DEPOSITION_LEGACY_DATA,
     variables: {
-      id,
       datasetsLimit: MAX_PER_PAGE,
       datasetsOffset: (page - 1) * MAX_PER_PAGE,
-      datasetsOrderBy: orderBy !== undefined ? [{ title: orderBy }] : undefined,
+      datasetsOrderBy: orderBy !== undefined ? [{ title: orderBy }] : [],
       datasetsFilter: getDatasetsFilter({
         filterState: getFilterState(params),
         depositionId: id,
@@ -208,6 +275,22 @@ export async function getDepositionByIdV2({
       annotationShapesByDepositionFilter: {
         annotation: depositionIdFilter,
       },
+    },
+  })
+}
+
+// Expanded data function - for allRuns when isExpandDepositions === true
+export async function getDepositionExpandedData({
+  client,
+  id,
+}: {
+  client: ApolloClient<NormalizedCacheObject>
+  id: number
+}): Promise<ApolloQueryResult<GetDepositionExpandedDataV2Query>> {
+  return client.query({
+    query: GET_DEPOSITION_EXPANDED_DATA,
+    variables: {
+      id,
     },
   })
 }

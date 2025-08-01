@@ -57,8 +57,13 @@ export function MethodSummaryAnnotationTable() {
         ),
 
         cell: ({ row }) => (
-          <TableCell width={AnnotationMethodTableWidths.methodDetails}>
-            {row.original.annotationMethod}
+          <TableCell
+            tooltip={row.original.annotationMethod}
+            width={AnnotationMethodTableWidths.methodDetails}
+          >
+            <span className="line-clamp-2">
+              {row.original.annotationMethod}
+            </span>
           </TableCell>
         ),
       }),
