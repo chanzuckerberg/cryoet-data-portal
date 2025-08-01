@@ -3,8 +3,10 @@ import {
   type SingleButtonDefinition,
 } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
+import { useSearchParams } from '@remix-run/react'
 import { useMemo } from 'react'
 
+import { QueryParams } from 'app/constants/query'
 import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
@@ -21,12 +23,21 @@ import styles from './DepositionGroupByControl.module.css'
 export function DepositionGroupByControl() {
   const { t } = useI18n()
 
-  const [groupBy, setGroupBy] = useGroupBy({ preventScrollReset: true })
+  const [groupBy] = useGroupBy({ preventScrollReset: true })
+  const [, setSearchParams] = useSearchParams()
 
   const groupByOptions = useGroupByOptions()
 
   const handleGroupByChange = (value: GroupByOption) => {
-    setGroupBy(value)
+    // Remove the page parameter when group by changes
+    setSearchParams(
+      (prev) => {
+        prev.set(QueryParams.GroupBy, value)
+        prev.delete(QueryParams.Page)
+        return prev
+      },
+      { preventScrollReset: true },
+    )
   }
 
   return (
