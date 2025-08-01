@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.75.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.74.1...cryoet-data-portal-frontend-v1.75.0) (2025-08-01)
+
+
+### ✨ Features
+
+* group-by frontend + backend integration ([#1916](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1916)) ([3e9df45](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3e9df45f17ca0db7dd18d66ddf5e132161f71ca9))
+
+
+### 🐞 Bug Fixes
+
+* improve depositions UI and filter handling ([#1937](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1937)) ([7befd36](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7befd36f88114de94d47b59098d8f3217e25ae13))
+
 ## [1.74.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.74.0...cryoet-data-portal-frontend-v1.74.1) (2025-07-29)
 
 
