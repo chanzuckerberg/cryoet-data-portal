@@ -39,6 +39,7 @@ export function AnnotationsMethodsMetadataTable() {
               <MethodLinkList
                 annotationMethod={data.annotationMethod}
                 methodLinks={data.methodLinks}
+                simple
               />
             ),
           },

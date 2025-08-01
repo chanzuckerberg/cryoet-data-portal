@@ -22,6 +22,26 @@ export function MethodLinkList({
 
   const methodLinkProps = generateMethodLinkProps(methodLinks)
 
+  // Early return for simple mode - render vertical list without collapsible behavior
+  if (simple) {
+    return (
+      <div className="flex flex-col gap-sds-xs">
+        {methodLinkProps.map((methodLinkItem) => (
+          <MethodLink
+            key={`${annotationMethod}_${methodLinkItem.title}_${methodLinkItem.url}`}
+            {...methodLinkItem}
+            className="text-sds-body-s-400-wide tracking-sds-body-s-400-wide leading-sds-body-s"
+            linkProps={{
+              className: 'text-light-sds-color-semantic-accent-text-action',
+              variant: undefined,
+            }}
+            simple={simple}
+          />
+        ))}
+      </div>
+    )
+  }
+
   if (shouldShowPillTooltip) {
     const [firstLink, ...remainingLinks] = methodLinkProps
 
@@ -52,7 +72,6 @@ export function MethodLinkList({
                         className: 'text-light-sds-color-primitive-gray-600',
                         variant: 'dashed-underlined',
                       }}
-                      simple={simple}
                     />
                   ))}
                 </div>

@@ -1,7 +1,9 @@
 import { Icon } from '@czi-sds/components'
+import { useSearchParams } from '@remix-run/react'
 import { useMemo } from 'react'
 
 import { type TabData, Tabs } from 'app/components/Tabs'
+import { QueryParams } from 'app/constants/query'
 import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
@@ -12,10 +14,25 @@ import { FlagIcon } from '../icons/FlagIcon'
 
 export function DepositionTabs() {
   const preventScrollReset = true
-  const [type, setType] = useActiveDepositionDataType(preventScrollReset)
+  const [type] = useActiveDepositionDataType(preventScrollReset)
+  const [, setSearchParams] = useSearchParams()
   const tabs = useTabs(type)
 
-  return <Tabs tabs={tabs} value={type} onChange={setType} vertical />
+  return (
+    <Tabs
+      tabs={tabs}
+      value={type}
+      onChange={(value) =>
+        setSearchParams((prev) => {
+          prev.set(QueryParams.DepositionTab, value)
+          prev.delete(QueryParams.GroupBy)
+          prev.delete(QueryParams.Page)
+          return prev
+        })
+      }
+      vertical
+    />
+  )
 }
 
 function useTabs(activeTab: DataContentsType) {

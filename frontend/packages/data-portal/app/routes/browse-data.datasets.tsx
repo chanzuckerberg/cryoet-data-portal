@@ -1,5 +1,6 @@
 import { CellHeaderDirection } from '@czi-sds/components'
 import { json, LoaderFunctionArgs } from '@remix-run/node'
+import { useSearchParams } from '@remix-run/react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import { OrderBy } from 'app/__generated_v2__/graphql'
@@ -77,13 +78,9 @@ function BrowseDatasetTableHeader(props: TableHeaderProps) {
 export default function BrowseDatasetsPage() {
   const { filteredDatasetsCount, totalDatasetsCount } = useDatasetsFilterData()
   const { t } = useI18n()
-  const [depositionId, setDepositionId] = useQueryParam<string>(
-    QueryParams.DepositionId,
-  )
-  const [organism, setOrganism] = useQueryParam<string>(QueryParams.Organism)
-  const [fromLocation, setFromLocation] = useQueryParam<FromLocationKey>(
-    QueryParams.From,
-  )
+  const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
+  const [organism] = useQueryParam<string>(QueryParams.Organism)
+  const [fromLocation] = useQueryParam<FromLocationKey>(QueryParams.From)
 
   const { previousBrowseDatasetParams, setPreviousBrowseDatasetParams } =
     useBrowseDatasetFilterHistory()
@@ -93,17 +90,15 @@ export default function BrowseDatasetsPage() {
     setParams: setPreviousBrowseDatasetParams,
   })
 
+  const [, setSearchParams] = useSearchParams()
   const handleRemoveFilter = () => {
-    setFromLocation(null)
-    setOrganism(null)
-    setDepositionId(null)
-
     const nextParams = new URLSearchParams(previousBrowseDatasetParams)
     nextParams.delete(QueryParams.DepositionId)
     nextParams.delete(QueryParams.Organism)
     nextParams.delete(QueryParams.From)
     nextParams.sort()
     setPreviousBrowseDatasetParams(nextParams.toString())
+    setSearchParams(nextParams)
   }
 
   // Get deposition data from loader

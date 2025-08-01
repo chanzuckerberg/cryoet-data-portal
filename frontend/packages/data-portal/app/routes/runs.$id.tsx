@@ -102,12 +102,8 @@ export default function RunByIdPage() {
   } = useDownloadModalQueryParamState()
 
   const [searchParams] = useSearchParams()
-  const [depositionId, setDepositionId] = useQueryParam<string>(
-    QueryParams.DepositionId,
-  )
-  const [fromLocation, setFromLocation] = useQueryParam<FromLocationKey>(
-    QueryParams.From,
-  )
+  const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
+  const [fromLocation] = useQueryParam<FromLocationKey>(QueryParams.From)
   const isExpandDepositions = useFeatureFlag('expandDepositions')
 
   const activeTomogram =
@@ -144,13 +140,13 @@ export default function RunByIdPage() {
 
   const fileSize = getFileSize()
 
+  const [, setSearchParams] = useSearchParams()
   const handleRemoveDepositionFilter = () => {
-    setDepositionId(null)
-
-    // Also clear from parameter when expandDepositions feature flag is enabled
-    if (isExpandDepositions) {
-      setFromLocation(null)
-    }
+    setSearchParams((prev) => {
+      prev.delete(QueryParams.DepositionId)
+      prev.delete(QueryParams.From)
+      return prev
+    })
   }
 
   const activeTabTitle = searchParams.get(QueryParams.TableTab)
