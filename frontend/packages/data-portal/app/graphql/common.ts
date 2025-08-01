@@ -1,6 +1,8 @@
 import {
   AnnotationShapeWhereClause,
+  AnnotationWhereClause,
   DatasetWhereClause,
+  Deposition_Types_Enum,
   DepositionWhereClause,
   Fiducial_Alignment_Status_Enum,
   Tomogram_Reconstruction_Method_Enum,
@@ -281,10 +283,21 @@ export function getDatasetsFilter({
 
 export function getDepositionsFilter({
   filterState,
+  isExpandDepositions = false,
 }: {
   filterState: FilterState
+  isExpandDepositions?: boolean
 }): DepositionWhereClause {
   const where: DepositionWhereClause = {}
+
+  // Filter by annotation deposition type if expand depositions feature flag is off
+  if (!isExpandDepositions) {
+    where.depositionTypes = {
+      type: {
+        _eq: Deposition_Types_Enum.Annotation,
+      },
+    }
+  }
 
   // Competition Filter
   if (filterState.tags.competition) {
@@ -439,6 +452,45 @@ export function getDepositionTomogramsFilter({
   organismNames,
 }: GetDepositionTomogramsFilterParams): TomogramWhereClause {
   const where: TomogramWhereClause = {
+    depositionId: {
+      _eq: depositionId,
+    },
+  }
+
+  if (datasetIds && datasetIds.length > 0) {
+    where.run = {
+      datasetId: {
+        _in: datasetIds,
+      },
+    }
+  }
+
+  if (organismNames && organismNames.length > 0) {
+    where.run = {
+      ...where.run,
+      dataset: {
+        organismName: {
+          _in: organismNames,
+        },
+      },
+    }
+  }
+
+  return where
+}
+
+export interface GetDepositionAnnotationsCountFilterParams {
+  depositionId: number
+  datasetIds?: number[]
+  organismNames?: string[]
+}
+
+export function getDepositionAnnotationsCountFilter({
+  depositionId,
+  datasetIds,
+  organismNames,
+}: GetDepositionAnnotationsCountFilterParams): AnnotationWhereClause {
+  const where: AnnotationWhereClause = {
     depositionId: {
       _eq: depositionId,
     },

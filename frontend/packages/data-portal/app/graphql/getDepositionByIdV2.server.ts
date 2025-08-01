@@ -14,11 +14,19 @@ import {
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { getFilterState } from 'app/hooks/useFilter'
 
-import { getDatasetsFilter } from './common'
+import {
+  getDatasetsFilter,
+  getDepositionAnnotationsCountFilter,
+  getDepositionTomogramsFilter,
+} from './common'
 
 // Base query - always fetched, contains core deposition data and counts
 const GET_DEPOSITION_BASE_DATA = gql(`
-  query GetDepositionBaseDataV2($id: Int!) {
+  query GetDepositionBaseDataV2(
+    $id: Int!,
+    $filteredAnnotationsFilter: AnnotationWhereClause!,
+    $filteredTomogramsFilter: TomogramWhereClause!
+  ) {
     # Deposition:
     depositions(where: { id: { _eq: $id }}) {
       depositionDate
@@ -140,6 +148,18 @@ const GET_DEPOSITION_BASE_DATA = gql(`
         count
       }
     }
+
+    filteredAnnotationsCount: annotationsAggregate(where: $filteredAnnotationsFilter) {
+      aggregate {
+        count
+      }
+    }
+
+    filteredTomogramsCount: tomogramsAggregate(where: $filteredTomogramsFilter) {
+      aggregate {
+        count
+      }
+    }
   }
 `)
 
@@ -222,14 +242,36 @@ const GET_DEPOSITION_EXPANDED_DATA = gql(`
 export async function getDepositionBaseData({
   client,
   id,
+  params = new URLSearchParams(),
 }: {
   client: ApolloClient<NormalizedCacheObject>
   id: number
+  params?: URLSearchParams
 }): Promise<ApolloQueryResult<GetDepositionBaseDataV2Query>> {
+  const filterState = getFilterState(params)
+  const datasetIds = filterState.ids.datasets
+    .map((datasetId) => parseInt(datasetId))
+    .filter((datasetId) => Number.isInteger(datasetId))
+  const { organismNames } = filterState.sampleAndExperimentConditions
+
+  const filteredAnnotationsFilter = getDepositionAnnotationsCountFilter({
+    depositionId: id,
+    datasetIds: datasetIds.length > 0 ? datasetIds : undefined,
+    organismNames: organismNames.length > 0 ? organismNames : undefined,
+  })
+
+  const filteredTomogramsFilter = getDepositionTomogramsFilter({
+    depositionId: id,
+    datasetIds: datasetIds.length > 0 ? datasetIds : undefined,
+    organismNames: organismNames.length > 0 ? organismNames : undefined,
+  })
+
   return client.query({
     query: GET_DEPOSITION_BASE_DATA,
     variables: {
       id,
+      filteredAnnotationsFilter,
+      filteredTomogramsFilter,
     },
   })
 }

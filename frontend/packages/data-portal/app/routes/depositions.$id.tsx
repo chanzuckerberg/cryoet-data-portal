@@ -11,6 +11,7 @@ import { DepositionTableSection } from 'app/components/Deposition/DepositionTabl
 import { NoResultsRenderer } from 'app/components/Deposition/NoResultsRenderer'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { TableCountHeader } from 'app/components/TablePageLayout/TableCountHeader'
+import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
 import { useDepositionPageState } from 'app/hooks/useDepositionPageState'
@@ -95,6 +96,8 @@ export default function DepositionByIdPage() {
     groupedData: state.groupedData,
     annotationsCount: state.annotationsCount,
     tomogramsCount: state.tomogramsCount,
+    filteredAnnotationsCount: state.filteredAnnotationsCount,
+    filteredTomogramsCount: state.filteredTomogramsCount,
     totalDatasetsCount: state.totalDatasetsCount,
     filteredDatasetsCount: state.filteredDatasetsCount,
   })
@@ -123,6 +126,7 @@ export default function DepositionByIdPage() {
           totalCount,
           filteredCount,
           filterPanel: <DepositionFilters />,
+          pageSize: isExpandDepositions ? MAX_PER_ACCORDION_GROUP : undefined,
         },
       ]}
       drawers={<DepositionMetadataDrawer />}

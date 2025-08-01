@@ -190,6 +190,33 @@ export function useDepositionById() {
         (total, node) => total + (node.count ?? 0),
         0,
       ) ?? 0,
+
+    filteredAnnotationsCount:
+      v2.filteredAnnotationsCount.aggregate?.reduce(
+        (total, node) => total + (node.count ?? 0),
+        0,
+      ) ?? 0,
+
+    filteredTomogramsCount:
+      v2.filteredTomogramsCount.aggregate?.reduce(
+        (total, node) => total + (node.count ?? 0),
+        0,
+      ) ?? 0,
+  }
+}
+
+// Legacy hook for components that need legacy data (datasets)
+export function useDepositionByIdLegacy() {
+  const { v2, legacyData } = useTypedLoaderData<{
+    v2: GetDepositionBaseDataV2Query
+    legacyData?: GetDepositionLegacyDataV2Query
+    annotations?: GetDepositionAnnotationsQuery
+    tomograms?: GetDepositionTomogramsQuery
+  }>()
+
+  return {
+    datasets: legacyData?.datasets,
+    deposition: v2.depositions[0],
   }
 }
 

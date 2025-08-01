@@ -30,7 +30,6 @@ interface GroupedAccordionProps<T> {
   itemLabelPlural: string
   getItemCount?: (group: GroupedData<T>) => number
   externalLinkBuilder?: (group: GroupedData<T>) => string
-  onExternalLinkClick?: (group: GroupedData<T>, e: React.MouseEvent) => void
   pageSize?: number
   className?: string
   accordionClassName?: string
@@ -45,7 +44,6 @@ export function GroupedAccordion<T>({
   itemLabelPlural,
   getItemCount,
   externalLinkBuilder,
-  onExternalLinkClick,
   pageSize = MAX_PER_ACCORDION_GROUP,
   className = '',
   accordionClassName = '',
@@ -123,11 +121,6 @@ export function GroupedAccordion<T>({
                   }
                   externalLink={
                     externalLinkBuilder ? externalLinkBuilder(group) : undefined
-                  }
-                  onExternalLinkClick={
-                    onExternalLinkClick
-                      ? (e) => onExternalLinkClick(group, e)
-                      : undefined
                   }
                 />
               </AccordionHeader>

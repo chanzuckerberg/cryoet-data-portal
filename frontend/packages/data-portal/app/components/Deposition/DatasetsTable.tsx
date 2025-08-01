@@ -21,7 +21,7 @@ import {
 import { RUN_FILTERS } from 'app/constants/filterQueryParams'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
-import { QueryParams } from 'app/constants/query'
+import { FromLocationKey, QueryParams } from 'app/constants/query'
 import { DepositionPageDatasetTableWidths } from 'app/constants/table'
 import { useDepositionByIdLegacy } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
@@ -30,6 +30,7 @@ import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { Dataset } from 'app/types/gql/depositionPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { sendLogs } from 'app/utils/logging'
 import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { getErrorMessage } from 'app/utils/string'
@@ -56,6 +57,7 @@ export function DatasetsTable() {
     | undefined
 
   const { isLoadingDebounced } = useIsLoading()
+  const isExpandDepositions = useFeatureFlag('expandDepositions')
 
   const getDatasetUrl = useCallback(
     (id: number) => {
@@ -70,9 +72,17 @@ export function DatasetsTable() {
       // TODO: (kne42) use a different field like `from-deposition-id` that is transformed to `deposition-id` and applies the filter + banner
       url.searchParams.set(QueryParams.DepositionId, `${deposition.id}`)
 
+      // Set from parameter when expandDepositions feature flag is enabled
+      if (isExpandDepositions) {
+        url.searchParams.set(
+          QueryParams.From,
+          FromLocationKey.DepositionAnnotations,
+        )
+      }
+
       return url.pathname + url.search
     },
-    [searchParams, deposition],
+    [searchParams, deposition, isExpandDepositions],
   )
 
   const columns = useMemo(() => {

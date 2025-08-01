@@ -6,6 +6,7 @@ import {
   createEmptyResponse,
   useDepositionQuery,
 } from 'app/hooks/useDepositionQuery'
+import { useFilter } from 'app/hooks/useFilter'
 import { useGroupBy } from 'app/hooks/useGroupBy'
 import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 import type {
@@ -40,6 +41,11 @@ export function useDepositionGroupedData(
   const [groupBy] = useGroupBy()
   const [type] = useActiveDepositionDataType()
   const { enabled = true } = options
+
+  // Get selected dataset IDs from filter state
+  const {
+    ids: { datasets: selectedDatasetIds },
+  } = useFilter()
 
   const { fetchRunCounts = true, onError, onLoadingChange } = options
 
@@ -119,6 +125,10 @@ export function useDepositionGroupedData(
           tomograms: {},
           runs: {},
         },
+        totalDatasetCount: 0,
+        filteredDatasetCount: 0,
+        totalOrganismCount: 0,
+        filteredOrganismCount: 0,
         isLoading: true,
         error: null,
         enabled,
@@ -135,6 +145,10 @@ export function useDepositionGroupedData(
           tomograms: {},
           runs: {},
         },
+        totalDatasetCount: 0,
+        filteredDatasetCount: 0,
+        totalOrganismCount: 0,
+        filteredOrganismCount: 0,
         isLoading: false,
         error,
         enabled,
@@ -148,8 +162,34 @@ export function useDepositionGroupedData(
     const tomogramCounts = datasetsQuery.tomogramCounts || {}
     const runCounts = runCountsQuery.data?.runCounts || {}
 
+    // Calculate total counts before filtering
+    const totalDatasetCount = rawDatasets.length
+    const totalOrganismCount = [
+      ...new Set(
+        rawDatasets.map((dataset) => dataset.organismName).filter(isDefined),
+      ),
+    ].length
+
+    // Filter datasets based on current selection
+    const filteredDatasets =
+      selectedDatasetIds.length > 0
+        ? rawDatasets.filter((dataset) =>
+            selectedDatasetIds.includes(String(dataset.id)),
+          )
+        : rawDatasets
+
+    // Calculate filtered counts after filtering
+    const filteredDatasetCount = filteredDatasets.length
+    const filteredOrganismCount = [
+      ...new Set(
+        filteredDatasets
+          .map((dataset) => dataset.organismName)
+          .filter(isDefined),
+      ),
+    ].length
+
     // Transform datasets with count data
-    const datasetsWithCounts: DatasetWithCounts[] = rawDatasets.map(
+    const datasetsWithCounts: DatasetWithCounts[] = filteredDatasets.map(
       (dataset) => ({
         id: dataset.id,
         title: dataset.title,
@@ -179,6 +219,10 @@ export function useDepositionGroupedData(
       datasets: datasetsWithCounts,
       organisms,
       counts,
+      totalDatasetCount,
+      filteredDatasetCount,
+      totalOrganismCount,
+      filteredOrganismCount,
       isLoading: false,
       error: null,
       enabled,
@@ -193,6 +237,7 @@ export function useDepositionGroupedData(
     datasetsQuery.tomogramCounts,
     runCountsQuery.data,
     groupBy,
+    selectedDatasetIds,
   ])
 
   return result

@@ -14,9 +14,15 @@ export interface CountOptions {
       title: string
       organismName: string | null
     }>
+    totalDatasetCount: number
+    filteredDatasetCount: number
+    totalOrganismCount: number
+    filteredOrganismCount: number
   }
   annotationsCount: number
   tomogramsCount: number
+  filteredAnnotationsCount: number
+  filteredTomogramsCount: number
   totalDatasetsCount: number
   filteredDatasetsCount: number
 }
@@ -43,14 +49,14 @@ export function getTotalCount({
   return match({ isExpandDepositions, tab, groupBy })
     .with(
       { isExpandDepositions: true, groupBy: GroupByOption.Organism },
-      () => groupedData.organisms.length,
+      () => groupedData.totalOrganismCount,
     )
     .with(
       {
         isExpandDepositions: true,
         groupBy: GroupByOption.DepositedLocation,
       },
-      () => groupedData.datasets.length,
+      () => groupedData.totalDatasetCount,
     )
     .with(
       { isExpandDepositions: true, tab: DataContentsType.Annotations },
@@ -73,29 +79,29 @@ export function getFilteredCount({
   tab,
   groupBy,
   groupedData,
-  annotationsCount,
-  tomogramsCount,
+  filteredAnnotationsCount,
+  filteredTomogramsCount,
   filteredDatasetsCount,
 }: CountOptions): number {
   return match({ isExpandDepositions, tab, groupBy })
     .with(
       { isExpandDepositions: true, groupBy: GroupByOption.Organism },
-      () => groupedData.organisms.length,
+      () => groupedData.filteredOrganismCount,
     )
     .with(
       {
         isExpandDepositions: true,
         groupBy: GroupByOption.DepositedLocation,
       },
-      () => groupedData.datasets.length,
+      () => groupedData.filteredDatasetCount,
     )
     .with(
       { isExpandDepositions: true, tab: DataContentsType.Annotations },
-      () => annotationsCount,
+      () => filteredAnnotationsCount,
     )
     .with(
       { isExpandDepositions: true, tab: DataContentsType.Tomograms },
-      () => tomogramsCount,
+      () => filteredTomogramsCount,
     )
     .otherwise(() => filteredDatasetsCount)
 }

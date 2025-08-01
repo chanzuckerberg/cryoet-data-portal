@@ -1,7 +1,6 @@
 import Skeleton from '@mui/material/Skeleton'
 
 import { AuthorList } from 'app/components/AuthorList'
-import { Link } from 'app/components/Link'
 import { TableCell } from 'app/components/Table/TableCell'
 import { TomogramTypeBadge } from 'app/components/TomogramTypeBadge'
 import { IdPrefix } from 'app/constants/idPrefixes'
@@ -57,14 +56,9 @@ export function TomogramNameCell({
       )}
       showLoadingSkeleton={isLoading}
     >
-      <div className="text-sds-body-m-400-wide leading-sds-body-m font-semibold text-ellipsis line-clamp-1 break-all">
-        <Link
-          to={`/tomograms/${id}`}
-          className="text-light-sds-color-semantic-base-link hover:text-light-sds-color-semantic-base-link"
-        >
-          {displayName}
-        </Link>
-      </div>
+      <p className="text-sds-body-m-400-wide leading-sds-body-m font-semibold text-ellipsis line-clamp-1 break-all">
+        {displayName}
+      </p>
 
       <div className="flex items-center flex-wrap gap-sds-xs text-sds-body-xxs-400-wide mt-sds-xxxs">
         {`${t('tomogramId')}: ${IdPrefix.Tomogram}-${id}`}

@@ -1,4 +1,5 @@
 import { GroupedData } from 'app/components/GroupedAccordion'
+import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
 import { DataContentsType } from 'app/types/deposition-queries'
 
 import { OrganismAnnotationContent } from './OrganismAnnotationContent'
@@ -8,7 +9,6 @@ interface OrganismAccordionContentProps {
   group: GroupedData<{ id: string }>
   isExpanded: boolean
   currentPage: number
-  tab: DataContentsType
   depositionId?: number
 }
 
@@ -16,12 +16,13 @@ export function OrganismAccordionContent({
   group,
   isExpanded,
   currentPage,
-  tab,
   depositionId,
 }: OrganismAccordionContentProps) {
+  const [type] = useActiveDepositionDataType()
+
   if (!isExpanded) return null
 
-  if (tab === DataContentsType.Tomograms) {
+  if (type === DataContentsType.Tomograms) {
     // Render the organism-specific tomogram content
     return (
       <OrganismTomogramContent

@@ -50,7 +50,7 @@ export function MethodSummaryExperimentalConditionsTable() {
             tooltip={row.original.samplePreparation}
             width={ExperimentalConditionsTableWidths.samplePreparation}
           >
-            <span className="line-clamp-2">
+            <span className="line-clamp-2 pr-2">
               {row.original.samplePreparation}
             </span>
           </TableCell>
@@ -69,7 +69,9 @@ export function MethodSummaryExperimentalConditionsTable() {
             tooltip={row.original.gridPreparation}
             width={ExperimentalConditionsTableWidths.gridPreparation}
           >
-            <span className="line-clamp-2">{row.original.gridPreparation}</span>
+            <span className="line-clamp-2 pr-2">
+              {row.original.gridPreparation}
+            </span>
           </TableCell>
         ),
       }),

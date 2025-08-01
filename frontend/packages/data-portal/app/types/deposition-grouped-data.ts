@@ -63,12 +63,20 @@ export interface DepositionCounts {
  * The main result interface returned by useDepositionGroupedData
  */
 export interface DepositionGroupedDataResult {
-  /** Array of datasets with associated count data */
+  /** Array of datasets with associated count data (filtered) */
   datasets: DatasetWithCounts[]
-  /** Array of organism data for organism-grouped views */
+  /** Array of organism data for organism-grouped views (filtered) */
   organisms: OrganismData[]
   /** Aggregated count data for different data types */
   counts: DepositionCounts
+  /** Total number of datasets before filtering */
+  totalDatasetCount: number
+  /** Number of datasets after filtering */
+  filteredDatasetCount: number
+  /** Total number of organisms before filtering */
+  totalOrganismCount: number
+  /** Number of organisms after filtering */
+  filteredOrganismCount: number
   /** Combined loading state from all underlying queries */
   isLoading: boolean
   /** Any error from the underlying queries */
