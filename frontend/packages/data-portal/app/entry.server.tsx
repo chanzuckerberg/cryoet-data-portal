@@ -7,11 +7,11 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
 import type { EntryContext } from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createInstance } from 'i18next'
 import Backend from 'i18next-fs-backend'
 import { renderToString } from 'react-dom/server'
 import { I18nextProvider, initReactI18next } from 'react-i18next'
-import { QueryClient, QueryClientProvider } from 'react-query'
 
 import { createEmotionCache } from 'app/utils/createEmotionCache'
 

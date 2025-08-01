@@ -2,17 +2,21 @@ import { useMemo } from 'react'
 
 import { SelectFilter } from 'app/components/Filters'
 import { QueryParams } from 'app/constants/query'
-import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
 import { BaseFilterOption } from 'app/types/filter'
 
-export function OrganismNameFilter() {
+interface OrganismNameFilterProps {
+  organismNames: string[]
+}
+
+export function OrganismNameFilter({
+  organismNames: allOrganismNames,
+}: OrganismNameFilterProps) {
   const {
     updateValue,
     sampleAndExperimentConditions: { organismNames },
   } = useFilter()
-  const { organismNames: allOrganismNames } = useDatasetsFilterData()
 
   const organismNameOptions = useMemo(
     () => allOrganismNames.map<BaseFilterOption>((name) => ({ value: name })),

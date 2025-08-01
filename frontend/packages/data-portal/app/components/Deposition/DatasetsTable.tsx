@@ -21,15 +21,16 @@ import {
 import { RUN_FILTERS } from 'app/constants/filterQueryParams'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
-import { QueryParams } from 'app/constants/query'
+import { FromLocationKey, QueryParams } from 'app/constants/query'
 import { DepositionPageDatasetTableWidths } from 'app/constants/table'
-import { useDepositionById } from 'app/hooks/useDepositionById'
+import { useDepositionByIdLegacy } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
 import { Dataset } from 'app/types/gql/depositionPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { sendLogs } from 'app/utils/logging'
 import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { getErrorMessage } from 'app/utils/string'
@@ -48,7 +49,7 @@ const LOADING_DATASETS: Dataset[] = range(0, MAX_PER_PAGE).map(() => ({
 
 export function DatasetsTable() {
   const { t } = useI18n()
-  const { deposition, datasets } = useDepositionById()
+  const { deposition, datasets } = useDepositionByIdLegacy()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const datasetSort = (searchParams.get(QueryParams.Sort) ?? undefined) as
@@ -56,6 +57,7 @@ export function DatasetsTable() {
     | undefined
 
   const { isLoadingDebounced } = useIsLoading()
+  const isExpandDepositions = useFeatureFlag('expandDepositions')
 
   const getDatasetUrl = useCallback(
     (id: number) => {
@@ -70,9 +72,17 @@ export function DatasetsTable() {
       // TODO: (kne42) use a different field like `from-deposition-id` that is transformed to `deposition-id` and applies the filter + banner
       url.searchParams.set(QueryParams.DepositionId, `${deposition.id}`)
 
+      // Set from parameter when expandDepositions feature flag is enabled
+      if (isExpandDepositions) {
+        url.searchParams.set(
+          QueryParams.From,
+          FromLocationKey.DepositionAnnotations,
+        )
+      }
+
       return url.pathname + url.search
     },
-    [searchParams, deposition],
+    [searchParams, deposition, isExpandDepositions],
   )
 
   const columns = useMemo(() => {
@@ -92,9 +102,9 @@ export function DatasetsTable() {
                 renderLoadingSkeleton={false}
                 width={DepositionPageDatasetTableWidths.photo}
               >
-                <Link to={datasetUrl} className="max-w-[134px] self-start">
+                <Link to={datasetUrl} className="self-start">
                   <KeyPhoto
-                    className="max-w-[134px]"
+                    variant="table"
                     title={dataset.title}
                     src={getValue() ?? undefined}
                     loading={isLoadingDebounced}
@@ -321,7 +331,7 @@ export function DatasetsTable() {
         messages: [
           {
             type: 'browser',
-            message: 'Error creating columns for dataset table',
+            message: t('errorCreatingDatasetTableColumns'),
             error: getErrorMessage(err),
           },
         ],
@@ -344,7 +354,7 @@ export function DatasetsTable() {
 
   return (
     <PageTable
-      data={isLoadingDebounced ? LOADING_DATASETS : datasets}
+      data={isLoadingDebounced ? LOADING_DATASETS : datasets ?? []}
       columns={columns}
       hoverType="group"
       onTableRowClick={(row) => {

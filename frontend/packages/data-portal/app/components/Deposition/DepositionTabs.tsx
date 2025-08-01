@@ -2,34 +2,38 @@ import { Icon } from '@czi-sds/components'
 import { useMemo } from 'react'
 
 import { type TabData, Tabs } from 'app/components/Tabs'
+import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
 import { useDepositionById } from 'app/hooks/useDepositionById'
-import { DepositionTab, useDepositionTab } from 'app/hooks/useDepositionTab'
 import { useI18n } from 'app/hooks/useI18n'
+import { DataContentsType } from 'app/types/deposition-queries'
 import { cns } from 'app/utils/cns'
 
-export function DepositionTabs() {
-  const [tab, setTab] = useDepositionTab()
-  const tabs = useTabs(tab)
+import { FlagIcon } from '../icons/FlagIcon'
 
-  return <Tabs tabs={tabs} value={tab} onChange={setTab} vertical />
+export function DepositionTabs() {
+  const preventScrollReset = true
+  const [type, setType] = useActiveDepositionDataType(preventScrollReset)
+  const tabs = useTabs(type)
+
+  return <Tabs tabs={tabs} value={type} onChange={setType} vertical />
 }
 
-function useTabs(activeTab: DepositionTab) {
+function useTabs(activeTab: DataContentsType) {
   const { t } = useI18n()
   const { annotationsCount, tomogramsCount } = useDepositionById()
 
-  return useMemo<TabData<DepositionTab>[]>(() => {
+  return useMemo<TabData<DataContentsType>[]>(() => {
     const tabData = [
       {
-        tab: DepositionTab.Annotations,
+        tab: DataContentsType.Annotations,
         label: 'annotations',
         icon: 'Cube',
         count: annotationsCount,
       },
       {
-        tab: DepositionTab.Tomograms,
+        tab: DataContentsType.Tomograms,
         label: 'tomograms',
-        icon: 'FlagOutline',
+        icon: <FlagIcon />,
         count: tomogramsCount,
       },
     ] as const
@@ -45,15 +49,19 @@ function useTabs(activeTab: DepositionTab) {
           )}
         >
           <span className="flex items-center gap-sds-xs">
-            <Icon
-              className={
-                activeTab === tab
-                  ? '!text-black'
-                  : '!text-light-sds-color-primitive-gray-600'
-              }
-              sdsIcon={icon}
-              sdsSize="xs"
-            />
+            {typeof icon === 'string' ? (
+              <Icon
+                className={
+                  activeTab === tab
+                    ? '!text-black'
+                    : '!text-light-sds-color-primitive-gray-600'
+                }
+                sdsIcon={icon}
+                sdsSize="xs"
+              />
+            ) : (
+              icon
+            )}
 
             <span>{t(label)}</span>
           </span>

@@ -25,9 +25,11 @@ const ROOT_CLASS_NAME = cnsNoMerge(
 export function useMethodTypeColumn({
   onClick,
   width,
+  isLoading,
 }: {
   onClick?(shape: AnnotationShape): void
   width: TableColumnWidth
+  isLoading?: boolean
 }) {
   const { t } = useI18n()
 
@@ -48,6 +50,7 @@ export function useMethodTypeColumn({
           renderLoadingSkeleton={() => (
             <Skeleton className="w-[200px]" variant="text" />
           )}
+          showLoadingSkeleton={isLoading}
           width={width}
         >
           {match({ methodType, onClick })
