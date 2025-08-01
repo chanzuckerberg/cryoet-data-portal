@@ -80,9 +80,9 @@ export function DepositionTable() {
                 renderLoadingSkeleton={false}
                 width={DepositionTableWidths.photo}
               >
-                <Link to={depositionUrl} className="max-w-[134px] self-start">
+                <Link to={depositionUrl} className="self-start">
                   <KeyPhoto
-                    className="max-w-[134px]"
+                    variant="table"
                     title={deposition.title}
                     src={deposition.keyPhotoThumbnailUrl ?? undefined}
                     loading={isLoadingDebounced}
@@ -227,7 +227,7 @@ export function DepositionTable() {
                   }
 
                   return (
-                    <TableCell loadingSkeleton={false}>
+                    <TableCell showLoadingSkeleton={false}>
                       {dataTypes.map(({ label, value }) => (
                         <p className="text-sds-body-s-400-wide leading-sds-body-s mb-sds-xxxs">
                           <span>{t(label)}: </span>
@@ -258,7 +258,7 @@ export function DepositionTable() {
 
                 cell({ row: { original: deposition } }) {
                   return (
-                    <TableCell loadingSkeleton={false}>
+                    <TableCell showLoadingSkeleton={false}>
                       <p className="text-sds-body-s-400-wide leading-sds-body-s mb-sds-xxxs">
                         {isLoadingDebounced ? (
                           <Skeleton
