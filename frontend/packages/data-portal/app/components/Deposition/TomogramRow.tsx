@@ -212,6 +212,7 @@ export function TomogramRow({
                 <TableRow
                   key={`${run.runName}-${tomogram.id}`}
                   className="border-b border-light-sds-color-semantic-base-divider"
+                  hover={false}
                 >
                   <TomogramKeyPhotoCell
                     src={tomogram.keyPhotoUrl}

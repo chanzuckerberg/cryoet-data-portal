@@ -20,6 +20,7 @@ export function RunAnnotationRow({
     <TableRow
       key={`${runName}-${annotation.id}`}
       className="border-b border-light-sds-color-semantic-base-divider"
+      hover={false}
     >
       <TableCell width={{ width: 350 }}>
         <div className="pl-sds-xl">

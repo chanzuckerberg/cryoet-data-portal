@@ -10,6 +10,7 @@ import { useI18n } from 'app/hooks/useI18n'
 import { DataContentsType } from 'app/types/deposition-queries'
 import type { I18nKeys } from 'app/types/i18n'
 import { DASHED_UNDERLINED_CLASSES } from 'app/utils/classNames'
+import { cns } from 'app/utils/cns'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
 interface DepositItem {
@@ -137,7 +138,14 @@ export function DepositedInTableCell({
           newTab
         >
           <span className="font-semibold">{t(label)}: </span>
-          <span className={DASHED_UNDERLINED_CLASSES}>{value ?? '--'}</span>
+          <span
+            className={cns(
+              DASHED_UNDERLINED_CLASSES,
+              'text-light-sds-color-semantic-base-text-secondary',
+            )}
+          >
+            {value ?? '--'}
+          </span>
         </Link>
       ))}
     </div>

@@ -86,7 +86,7 @@ function DepositionFiltersContent() {
         ))}
       </div>
 
-      <Divider className="bg-light-sds-color-semantic-base-divider h-[3px] !mt-[60px] !mb-sds-xl" />
+      <Divider className="bg-light-sds-color-semantic-base-divider h-[3px] !mt-6 !mb-sds-xl" />
 
       <div>
         <h3
