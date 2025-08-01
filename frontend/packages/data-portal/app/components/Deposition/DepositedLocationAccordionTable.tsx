@@ -2,7 +2,9 @@ import { useState } from 'react'
 
 import { GroupedAccordion } from 'app/components/GroupedAccordion'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
+import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
 import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
+import { useDepositionId } from 'app/hooks/useDepositionId'
 import { useI18n } from 'app/hooks/useI18n'
 import {
   AnnotationRowData,
@@ -10,14 +12,11 @@ import {
   TomogramRowData,
 } from 'app/types/deposition'
 import { DataContentsType } from 'app/types/deposition-queries'
-import { GroupByOption } from 'app/types/depositionTypes'
 
 import { DepositedLocationAccordionContent } from './DepositedLocationAccordionContent'
 import { SkeletonAccordion } from './SkeletonAccordion'
 
 interface DepositedLocationAccordionTableProps {
-  tab: DataContentsType
-  depositionId: number
   datasets:
     | Array<{
         id: number
@@ -37,11 +36,11 @@ interface DepositedLocationAccordionTableProps {
 }
 
 export function DepositedLocationAccordionTable({
-  tab,
-  depositionId,
   datasets,
   datasetCounts,
 }: DepositedLocationAccordionTableProps) {
+  const [type] = useActiveDepositionDataType()
+  const depositionId = useDepositionId()
   const { t } = useI18n()
 
   // Track expanded state for individual runs within locations
@@ -81,16 +80,9 @@ export function DepositedLocationAccordionTable({
   }
 
   // Fetch datasets for skeleton loading state
-  const { isLoading: isDatasetsLoading } = useDepositionGroupedData(
-    {
-      depositionId,
-      groupBy: GroupByOption.DepositedLocation,
-      tab,
-    },
-    {
-      fetchRunCounts: false, // Only need loading state
-    },
-  )
+  const { isLoading: isDatasetsLoading } = useDepositionGroupedData({
+    fetchRunCounts: false, // Only need loading state
+  })
 
   // Early return if no datasets - component expects real data
   if (!datasets) {
@@ -114,7 +106,7 @@ export function DepositedLocationAccordionTable({
   // Transform real datasets to GroupedData format
   const transformedData = datasets.map((dataset) => {
     const runCount =
-      tab === DataContentsType.Tomograms
+      type === DataContentsType.Tomograms
         ? datasetCounts?.[dataset.id]?.tomogramRunCount || 0
         : datasetCounts?.[dataset.id]?.runCount || 0
 
@@ -144,8 +136,8 @@ export function DepositedLocationAccordionTable({
           group={group}
           isExpanded={isExpanded}
           currentPage={currentPage}
-          tab={tab}
-          depositionId={depositionId}
+          tab={type}
+          depositionId={depositionId!}
           datasets={datasets}
           runPagination={runPagination}
           expandedRuns={expandedRuns}

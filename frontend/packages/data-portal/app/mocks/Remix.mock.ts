@@ -25,6 +25,7 @@ export class RemixMock {
       useNavigation: this.useNavigation,
       useSearchParams: this.useSearchParams,
       useNavigate: () => this.navigateFn,
+      useParams: jest.fn(() => ({})),
     }))
     this.reset()
   }

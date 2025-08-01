@@ -1,145 +1,54 @@
-/* eslint-disable @typescript-eslint/no-throw-literal */
-
-import { CellHeaderDirection } from '@czi-sds/components'
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { useEffect } from 'react'
 import { typedjson } from 'remix-typedjson'
-import { match, P } from 'ts-pattern'
 
-import { OrderBy } from 'app/__generated_v2__/graphql'
 import { apolloClientV2 } from 'app/apollo.server'
-import { DatasetFilter } from 'app/components/DatasetFilter'
-import { DatasetsTable } from 'app/components/Deposition/DatasetsTable'
 import { DepositionFilters } from 'app/components/Deposition/DepositionFilters'
+import { DepositionGroupByControl } from 'app/components/Deposition/DepositionGroupByControl'
 import { DepositionHeader } from 'app/components/Deposition/DepositionHeader'
 import { DepositionMetadataDrawer } from 'app/components/Deposition/DepositionMetadataDrawer'
-import { DepositionTableRenderer } from 'app/components/Deposition/DepositionTableRenderer'
-import { NoFilteredResults } from 'app/components/NoFilteredResults'
+import { DepositionTableSection } from 'app/components/Deposition/DepositionTableSection'
+import { NoResultsRenderer } from 'app/components/Deposition/NoResultsRenderer'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { TableCountHeader } from 'app/components/TablePageLayout/TableCountHeader'
-import { DEPOSITION_FILTERS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
-import { getDepositionAnnotations } from 'app/graphql/getDepositionAnnotationsV2.server'
-import {
-  getDepositionBaseData,
-  getDepositionExpandedData,
-  getDepositionLegacyData,
-} from 'app/graphql/getDepositionByIdV2.server'
-import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.server'
-import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
-import { useDepositionById } from 'app/hooks/useDepositionById'
-import { DepositionTab, useDepositionTab } from 'app/hooks/useDepositionTab'
+import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
+import { useDepositionPageState } from 'app/hooks/useDepositionPageState'
+import { useGroupBy } from 'app/hooks/useGroupBy'
 import { useI18n } from 'app/hooks/useI18n'
+import { getTableCounts } from 'app/utils/deposition/countSelectors'
+import { fetchDepositionData } from 'app/utils/deposition/dataFetchers'
+import { getCountLabelI18nKey } from 'app/utils/deposition/labelSelectors'
 import {
-  useDepositionHistory,
-  useSyncParamsWithState,
-} from 'app/state/filterHistory'
+  parseLoaderParams,
+  validateDepositionId,
+} from 'app/utils/deposition/loaderValidation'
 import { getFeatureFlag, useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
 
-  const id = params.id ? +params.id : NaN
-  const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
-  const sort = (url.searchParams.get(QueryParams.Sort) ?? undefined) as
-    | CellHeaderDirection
-    | undefined
-
-  if (Number.isNaN(+id)) {
-    throw new Response(null, {
-      status: 400,
-      statusText: 'ID is not defined',
-    })
-  }
-
-  let orderByV2: OrderBy | undefined
-
-  if (sort) {
-    orderByV2 = sort === 'asc' ? OrderBy.Asc : OrderBy.Desc
-  }
+  // Validate and parse parameters
+  const id = validateDepositionId(params.id)
+  const loaderParams = parseLoaderParams(url, id)
 
   const client = apolloClientV2
-
   const isExpandDepositions = getFeatureFlag({
     env: process.env.ENV,
     key: 'expandDepositions',
     params: url.searchParams,
   })
 
-  // Get base data (always needed)
-  const { data: baseData } = await getDepositionBaseData({ client, id })
-
-  if (baseData.depositions.length === 0) {
-    throw new Response(null, {
-      status: 404,
-      statusText: `Deposition with ID ${id} not found`,
-    })
-  }
-
-  // Get legacy data (datasets table) if not expanding depositions
-  const legacyData = !isExpandDepositions
-    ? await getDepositionLegacyData({
-        client,
-        id,
-        page,
-        orderBy: orderByV2,
-        params: url.searchParams,
-      })
-    : null
-
-  // Get expanded data (allRuns) if expanding depositions
-  const expandedData = isExpandDepositions
-    ? await getDepositionExpandedData({ client, id })
-    : null
-
-  // Combine the data
-  const responseV2 = {
-    ...baseData,
-    ...(legacyData?.data || {}),
-    ...(expandedData?.data || {}),
-  }
-
-  const depositionTab = url.searchParams.get(
-    QueryParams.DepositionTab,
-  ) as DepositionTab | null
-
-  const { data } = await match({
+  // Fetch all deposition data
+  const data = await fetchDepositionData({
+    client,
+    params: loaderParams,
+    url,
     isExpandDepositions,
-    depositionTab,
   })
-    .with(
-      {
-        isExpandDepositions: true,
-        depositionTab: P.union(DepositionTab.Annotations, null),
-      },
-      () =>
-        getDepositionAnnotations({
-          client,
-          depositionId: id,
-          page,
-        }),
-    )
-    .with(
-      {
-        isExpandDepositions: true,
-        depositionTab: DepositionTab.Tomograms,
-      },
-      () =>
-        getDepositionTomograms({
-          client,
-          depositionId: id,
-          page,
-        }),
-    )
-    .otherwise(() => ({ data: undefined }))
 
-  return typedjson({
-    v2: responseV2,
-    annotations: data && 'annotationShapes' in data ? data : undefined,
-    tomograms: data && 'tomograms' in data ? data : undefined,
-  })
+  return typedjson(data)
 }
 
 export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
@@ -171,72 +80,49 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 }
 
 export default function DepositionByIdPage() {
-  const { deposition, annotationsCount, tomogramsCount } = useDepositionById()
-  const { filteredDatasetsCount, totalDatasetsCount } = useDatasetsFilterData()
+  const isExpandDepositions = useFeatureFlag('expandDepositions')
+  const [type] = useActiveDepositionDataType()
+  const [groupBy] = useGroupBy()
   const { t } = useI18n()
 
-  const { setPreviousDepositionId, setPreviousSingleDepositionParams } =
-    useDepositionHistory()
+  const state = useDepositionPageState()
 
-  useEffect(
-    () => setPreviousDepositionId(deposition.id),
-    [deposition.id, setPreviousDepositionId],
-  )
-
-  useSyncParamsWithState({
-    filters: DEPOSITION_FILTERS,
-    setParams: setPreviousSingleDepositionParams,
+  // Calculate counts using extracted utility
+  const { totalCount, filteredCount } = getTableCounts({
+    isExpandDepositions,
+    tab: type,
+    groupBy,
+    groupedData: state.groupedData,
+    annotationsCount: state.annotationsCount,
+    tomogramsCount: state.tomogramsCount,
+    totalDatasetsCount: state.totalDatasetsCount,
+    filteredDatasetsCount: state.filteredDatasetsCount,
   })
 
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
-
-  const [tab] = useDepositionTab()
+  // Get count label using extracted utility
+  const countLabelKey = getCountLabelI18nKey({
+    isExpandDepositions,
+    type,
+    groupBy,
+  })
 
   return (
     <TablePageLayout
       title={t('depositedData')}
+      titleContent={isExpandDepositions ? <DepositionGroupByControl /> : null}
       header={<DepositionHeader />}
       tabs={[
         {
-          countLabel: t('datasets'),
-          noFilteredResults: <NoFilteredResults />,
+          countLabel: t(countLabelKey),
+          noFilteredResults: (
+            <NoResultsRenderer isLoading={state.groupedData.isLoading} />
+          ),
           title: t('datasetsWithDepositionData'),
-          Header: isExpandDepositions ? TableCountHeader : undefined,
-
-          table: isExpandDepositions ? (
-            <DepositionTableRenderer />
-          ) : (
-            <DatasetsTable />
-          ),
-
-          totalCount: match({ isExpandDepositions, tab })
-            .with(
-              { isExpandDepositions: true, tab: DepositionTab.Annotations },
-              () => annotationsCount,
-            )
-            .with(
-              { isExpandDepositions: true, tab: DepositionTab.Tomograms },
-              () => tomogramsCount,
-            )
-            .otherwise(() => totalDatasetsCount),
-
-          // TODO replace annotations and tomograms with filtered counts
-          filteredCount: match({ isExpandDepositions, tab })
-            .with(
-              { isExpandDepositions: true, tab: DepositionTab.Annotations },
-              () => annotationsCount,
-            )
-            .with(
-              { isExpandDepositions: true, tab: DepositionTab.Tomograms },
-              () => tomogramsCount,
-            )
-            .otherwise(() => filteredDatasetsCount),
-
-          filterPanel: isExpandDepositions ? (
-            <DepositionFilters />
-          ) : (
-            <DatasetFilter depositionPageVariant />
-          ),
+          Header: TableCountHeader,
+          table: <DepositionTableSection groupedData={state.groupedData} />,
+          totalCount,
+          filteredCount,
+          filterPanel: <DepositionFilters />,
         },
       ]}
       drawers={<DepositionMetadataDrawer />}

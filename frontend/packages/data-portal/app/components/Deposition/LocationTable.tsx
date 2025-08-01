@@ -159,7 +159,7 @@ export function LocationTable({
                 isExpanded={isRunExpanded}
                 onToggle={() => onRunToggle(depositedLocation, run.runName)}
                 currentPage={runCurrentPage}
-                onPageChange={(newPage) =>
+                onPageChange={(newPage: number) =>
                   onRunPageChange(depositedLocation, run.runName, newPage)
                 }
                 annotationCount={run.annotationCount}

@@ -1,15 +1,17 @@
 import { useMemo } from 'react'
 
+import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
+import { useDepositionId } from 'app/hooks/useDepositionId'
 import {
   createEmptyResponse,
   useDepositionQuery,
 } from 'app/hooks/useDepositionQuery'
+import { useGroupBy } from 'app/hooks/useGroupBy'
 import { useDatasetsForDeposition } from 'app/queries/useDatasetsForDeposition'
 import type {
   DatasetWithCounts,
   DepositionCounts,
   DepositionGroupedDataOptions,
-  DepositionGroupedDataParams,
   DepositionGroupedDataResult,
   OrganismData,
 } from 'app/types/deposition-grouped-data'
@@ -28,24 +30,21 @@ import { isDefined } from 'app/utils/nullish'
  * interface for accessing datasets, organisms, and associated counts regardless of
  * the grouping method or content type.
  *
- * @param params - Configuration object for the hook
  * @param options - Optional configuration for customizing hook behavior
  * @returns Consolidated deposition data with loading states and error handling
  */
 export function useDepositionGroupedData(
-  params: DepositionGroupedDataParams,
   options: DepositionGroupedDataOptions = {},
 ): DepositionGroupedDataResult {
-  const { depositionId, groupBy, tab, enabled = true } = params
+  const depositionId = useDepositionId()
+  const [groupBy] = useGroupBy()
+  const [type] = useActiveDepositionDataType()
+  const { enabled = true } = options
 
   const { fetchRunCounts = true, onError, onLoadingChange } = options
 
   // Fetch datasets and basic count data
-  const datasetsQuery = useDatasetsForDeposition({
-    depositionId,
-    type: tab,
-    enabled,
-  })
+  const datasetsQuery = useDatasetsForDeposition(enabled)
 
   // Extract dataset IDs for run counts query
   const datasetIds = useMemo(() => {
@@ -53,7 +52,7 @@ export function useDepositionGroupedData(
   }, [datasetsQuery.datasets])
 
   // Create inline run counts query - consolidated from useDepositionRunCounts
-  const { countsEndpoint } = getRunApiEndpoints(tab)
+  const { countsEndpoint } = getRunApiEndpoints(type)
 
   // Fetch run counts only if needed and we have dataset IDs
   const runCountsQuery = useDepositionQuery<
@@ -62,7 +61,7 @@ export function useDepositionGroupedData(
   >(
     {
       endpoint: countsEndpoint,
-      queryKeyPrefix: `deposition-${tab}-run-counts`,
+      queryKeyPrefix: `deposition-${type}-run-counts`,
       getQueryKeyValues: (runCountsParams) => [
         runCountsParams.depositionId,
         runCountsParams.datasetIds.join(','),
@@ -88,7 +87,7 @@ export function useDepositionGroupedData(
     {
       depositionId,
       datasetIds,
-      type: tab,
+      type,
       enabled: enabled && fetchRunCounts && datasetIds.length > 0,
     },
   )

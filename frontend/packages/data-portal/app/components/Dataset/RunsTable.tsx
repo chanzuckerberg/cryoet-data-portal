@@ -87,7 +87,7 @@ export function RunsTable() {
               renderLoadingSkeleton={false}
             >
               <KeyPhoto
-                className="max-w-[134px]"
+                variant="table"
                 title={run.name}
                 src={getValue()}
                 loading={isLoadingDebounced}

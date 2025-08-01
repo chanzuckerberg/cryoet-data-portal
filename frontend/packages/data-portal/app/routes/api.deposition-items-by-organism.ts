@@ -5,6 +5,7 @@ import { MAX_PER_FULLY_OPEN_ACCORDION } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { getDepositionAnnotations } from 'app/graphql/getDepositionAnnotationsV2.server'
 import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.server'
+import { DataContentsType } from 'app/types/deposition-queries'
 import {
   createJsonResponse,
   handleApiError,
@@ -16,7 +17,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
   const depositionIdParam = url.searchParams.get('depositionId')
   const organismName = url.searchParams.get('organismName')
-  const type = url.searchParams.get('type') as 'annotation' | 'tomogram'
+  const type = url.searchParams.get('type') as DataContentsType
   const pageParam = url.searchParams.get('page') || '1'
   const pageSizeParam =
     url.searchParams.get('pageSize') || String(MAX_PER_FULLY_OPEN_ACCORDION)
@@ -29,9 +30,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
       throw new Error('Missing organismName')
     }
 
-    if (!type || !['annotation', 'tomogram'].includes(type)) {
+    if (!type || !Object.values(DataContentsType).includes(type)) {
       throw new Error(
-        'Missing or invalid type parameter. Must be "annotation" or "tomogram"',
+        `Missing or invalid type parameter. Must be "${DataContentsType.Annotations}" or "${DataContentsType.Tomograms}"`,
       )
     }
 
@@ -46,7 +47,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       params.append(QueryParams.DatasetId, datasetId)
     })
 
-    if (type === 'annotation') {
+    if (type === DataContentsType.Annotations) {
       const { data } = await getDepositionAnnotations({
         client: apolloClientV2,
         depositionId,
@@ -59,7 +60,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       return createJsonResponse({ annotations })
     }
 
-    if (type === 'tomogram') {
+    if (type === DataContentsType.Tomograms) {
       const { data } = await getDepositionTomograms({
         client: apolloClientV2,
         depositionId,

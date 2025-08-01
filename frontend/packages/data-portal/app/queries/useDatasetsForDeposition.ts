@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
 
+import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
+import { useDepositionId } from 'app/hooks/useDepositionId'
 import {
   createEmptyResponse,
   useDepositionQuery,
@@ -16,23 +18,17 @@ import { isDefined } from 'app/utils/nullish'
  * This uses a server-side API route to avoid CORS issues with direct GraphQL calls,
  * leveraging React Query for caching and state management.
  *
- * @param params - Object containing depositionId, type, and optional enabled flag
+ * @param enabled - Optional flag to enable/disable the query
  * @returns React Query result with datasets array, loading state, and error handling
  */
-export function useDatasetsForDeposition({
-  depositionId,
-  type,
-  enabled = true,
-}: {
-  depositionId: number | undefined
-  type: DataContentsType
-  enabled?: boolean
-}) {
+export function useDatasetsForDeposition(enabled: boolean = true) {
+  const depositionId = useDepositionId()
+  const [type] = useActiveDepositionDataType()
   const query = useDepositionQuery<
     DepositionDatasetsResponse,
     {
       depositionId: number | undefined
-      type: DataContentsType
+      type: DataContentsType | null
       enabled?: boolean
     }
   >(
@@ -42,7 +38,7 @@ export function useDatasetsForDeposition({
       getQueryKeyValues: (params) => [params.depositionId, params.type],
       getApiParams: (params) => ({
         depositionId: params.depositionId,
-        type: params.type,
+        ...(params.type && { type: params.type }),
       }),
       getRequiredParams: (params) => ({
         depositionId: params.depositionId,

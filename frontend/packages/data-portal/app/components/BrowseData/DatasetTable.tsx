@@ -90,9 +90,9 @@ export function DatasetTable() {
                 renderLoadingSkeleton={false}
                 width={DatasetTableWidths.photo}
               >
-                <Link to={datasetUrl} className="max-w-[134px] self-start">
+                <Link to={datasetUrl} className="self-start">
                   <KeyPhoto
-                    className="max-w-[134px]"
+                    variant="table"
                     title={dataset.title}
                     src={dataset.keyPhotoThumbnailUrl ?? undefined}
                     loading={isLoadingDebounced}
