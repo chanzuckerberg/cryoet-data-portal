@@ -1,13 +1,17 @@
-import { useMemo } from 'react'
+import { useSearchParams } from '@remix-run/react'
+import { useCallback, useMemo } from 'react'
 
 import { GroupedAccordion, GroupedData } from 'app/components/GroupedAccordion'
+import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
 import {
   MAX_PER_ACCORDION_GROUP,
   MAX_PER_FULLY_OPEN_ACCORDION,
 } from 'app/constants/pagination'
+import { FromLocationKey, QueryParams } from 'app/constants/query'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { DataContentsType } from 'app/types/deposition-queries'
+import { carryOverFilterParams, createUrl } from 'app/utils/url'
 
 import { OrganismAccordionContent } from './OrganismAccordionContent'
 import { SkeletonAccordion } from './SkeletonAccordion'
@@ -28,6 +32,7 @@ export function OrganismAccordionTable({
   const { t } = useI18n()
   const { deposition } = useDepositionById()
   const depositionId = deposition?.id
+  const [searchParams] = useSearchParams()
 
   // Transform data into GroupedData format (must be called before conditional return)
   const groupedData = useMemo(() => {
@@ -44,6 +49,30 @@ export function OrganismAccordionTable({
       }),
     )
   }, [organisms, organismCounts])
+
+  // Create external link builder for organism accordion headers
+  const buildExternalLink = useCallback(
+    (group: GroupedData<{ id: string }>) => {
+      if (!depositionId) return '/'
+
+      const url = createUrl('/browse-data/datasets')
+
+      // Add deposition ID, organism filters, and from location tracking
+      url.searchParams.set(QueryParams.DepositionId, depositionId.toString())
+      url.searchParams.set(QueryParams.Organism, group.groupKey)
+      url.searchParams.set(QueryParams.From, FromLocationKey.OrganismAccordion)
+
+      // Carry over existing filter parameters
+      carryOverFilterParams({
+        filters: DATASET_FILTERS,
+        params: url.searchParams,
+        prevParams: searchParams,
+      })
+
+      return url.pathname + url.search
+    },
+    [depositionId, searchParams],
+  )
 
   // Show skeleton loaders while loading
   if (isLoading) {
@@ -79,8 +108,10 @@ export function OrganismAccordionTable({
       }
       pageSize={MAX_PER_FULLY_OPEN_ACCORDION}
       className=""
-      externalLinkBuilder={() => '/'} // TODO: Update with actual link
-      onExternalLinkClick={(_, e) => e.stopPropagation()}
+      externalLinkBuilder={buildExternalLink}
+      onExternalLinkClick={(_, e) => {
+        e.stopPropagation()
+      }}
     />
   )
 }
