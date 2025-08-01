@@ -20,8 +20,13 @@ describe('<TiltRangeFilter />', () => {
     await renderTiltRangeFilter()
     await userEvent.click(screen.getByRole('button'))
 
-    await userEvent.type(screen.getByLabelText('tilt-min-input'), '10')
-    await userEvent.type(screen.getByLabelText('tilt-max-input'), '5')
+    const minInput = screen.getByLabelText('tilt-min-input')
+    const maxInput = screen.getByLabelText('tilt-max-input')
+
+    await userEvent.clear(minInput)
+    await userEvent.type(minInput, '10')
+    await userEvent.clear(maxInput)
+    await userEvent.type(maxInput, '5')
 
     expect(screen.getByRole('button', { name: 'apply' })).toBeDisabled()
   })
@@ -44,8 +49,13 @@ describe('<TiltRangeFilter />', () => {
     await renderTiltRangeFilter()
     await userEvent.click(screen.getByRole('button'))
 
-    await userEvent.type(screen.getByLabelText('tilt-min-input'), '5')
-    await userEvent.type(screen.getByLabelText('tilt-max-input'), '10')
+    const minInput = screen.getByLabelText('tilt-min-input')
+    const maxInput = screen.getByLabelText('tilt-max-input')
+
+    await userEvent.clear(minInput)
+    await userEvent.type(minInput, '5')
+    await userEvent.clear(maxInput)
+    await userEvent.type(maxInput, '10')
     await userEvent.click(screen.getByRole('button', { name: 'apply' }))
 
     expect(remixMock.getLastSetParams()?.toString()).toBe(
@@ -57,8 +67,13 @@ describe('<TiltRangeFilter />', () => {
     await renderTiltRangeFilter()
     await userEvent.click(screen.getByRole('button'))
 
-    await userEvent.type(screen.getByLabelText('tilt-min-input'), '5')
-    await userEvent.type(screen.getByLabelText('tilt-max-input'), '10')
+    const minInput = screen.getByLabelText('tilt-min-input')
+    const maxInput = screen.getByLabelText('tilt-max-input')
+
+    await userEvent.clear(minInput)
+    await userEvent.type(minInput, '5')
+    await userEvent.clear(maxInput)
+    await userEvent.type(maxInput, '10')
     await userEvent.click(screen.getByRole('button', { name: 'cancel' }))
 
     expect(remixMock.setParams).not.toHaveBeenCalled()
