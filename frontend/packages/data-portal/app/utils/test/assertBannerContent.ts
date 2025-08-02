@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react'
 
-export interface ExpectedLink {
+interface ExpectedLink {
   text: string
   href: string
   target?: string
@@ -10,7 +10,7 @@ export interface ExpectedLink {
 /**
  * Assert that banner contains expected text content
  */
-export function assertBannerText(expectedTexts: string[]) {
+function assertBannerText(expectedTexts: string[]) {
   expectedTexts.forEach((text) => {
     expect(screen.getByText(text)).toBeInTheDocument()
   })
@@ -19,7 +19,7 @@ export function assertBannerText(expectedTexts: string[]) {
 /**
  * Assert that banner contains expected links with correct attributes
  */
-export function assertBannerLinks(expectedLinks: ExpectedLink[]) {
+function assertBannerLinks(expectedLinks: ExpectedLink[]) {
   expectedLinks.forEach((expectedLink) => {
     const link = screen.getByRole('link', {
       name: new RegExp(expectedLink.text, 'i'),
@@ -41,7 +41,7 @@ export function assertBannerLinks(expectedLinks: ExpectedLink[]) {
 /**
  * Assert that banner has a dismiss button with correct attributes
  */
-export function assertDismissButton(expectedAriaLabel = 'Close') {
+function assertDismissButton(expectedAriaLabel = 'Close') {
   const dismissButton = screen.getByRole('button')
   expect(dismissButton).toBeInTheDocument()
   expect(dismissButton).toHaveAttribute('aria-label', expectedAriaLabel)
@@ -51,7 +51,7 @@ export function assertDismissButton(expectedAriaLabel = 'Close') {
  * Comprehensive banner content verification
  * Tests text, links, and dismiss button in one function
  */
-export function assertBannerContent(
+function assertBannerContent(
   expectedTexts: string[],
   expectedLinks: ExpectedLink[],
   dismissButtonLabel?: string,
@@ -76,10 +76,7 @@ export function assertBannerContent(
  * Assert that links open in new tab with security attributes
  * Common pattern for external links
  */
-export function assertExternalLinkSecurity(
-  linkText: string,
-  expectedHref: string,
-) {
+function assertExternalLinkSecurity(linkText: string, expectedHref: string) {
   const link = screen.getByRole('link', { name: new RegExp(linkText, 'i') })
 
   expect(link).toHaveAttribute('href', expectedHref)
@@ -90,7 +87,7 @@ export function assertExternalLinkSecurity(
 /**
  * Assert that banner contains specific icons by test id or aria-label
  */
-export function assertBannerIcon(iconTestId?: string, iconAriaLabel?: string) {
+function assertBannerIcon(iconTestId?: string, iconAriaLabel?: string) {
   if (iconTestId) {
     expect(screen.getByTestId(iconTestId)).toBeInTheDocument()
   }
@@ -104,7 +101,7 @@ export function assertBannerIcon(iconTestId?: string, iconAriaLabel?: string) {
  * Helper to verify translated content using i18n keys
  * Useful when testing components that use I18n component
  */
-export function assertTranslatedContent(
+function assertTranslatedContent(
   translationKey: string,
   mockI18n: jest.MockedFunction<(props: { i18nKey: string }) => JSX.Element>,
 ) {

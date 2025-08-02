@@ -27,10 +27,7 @@ export function testBannerAccessibility(bannerElement?: HTMLElement) {
 /**
  * Verifies that banner has proper ARIA attributes
  */
-export function assertBannerARIA(
-  bannerElement: HTMLElement,
-  expectedLabel?: string,
-) {
+function assertBannerARIA(bannerElement: HTMLElement, expectedLabel?: string) {
   // Banner should be visible to screen readers
   expect(bannerElement).not.toHaveAttribute('aria-hidden', 'true')
 
@@ -47,7 +44,7 @@ export function assertBannerARIA(
 /**
  * Verifies that dismiss button has proper ARIA attributes
  */
-export function assertDismissButtonARIA(
+function assertDismissButtonARIA(
   buttonElement: HTMLElement,
   expectedLabel?: string,
 ) {
