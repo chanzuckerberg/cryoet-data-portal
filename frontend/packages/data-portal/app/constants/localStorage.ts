@@ -1,6 +1,7 @@
 export enum LocalStorageKeys {
   CompetitionEndingBannerDismissed = 'competition-ending-banner-dismissed',
   CompetitionSurveyBannerDismissed = 'competition-survey-banner-dismissed',
+  PolicyBannerDismissed = 'policy-banner-dismissed',
   SurveyBannerDismissed = 'survey-banner-dismissed',
   TableRenderErrorPageReloadCount = 'table-render-error-page-reload-count',
   PythonV3DeprecatedDismissed = 'deprecation-dismissed',
