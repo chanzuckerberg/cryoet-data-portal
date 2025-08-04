@@ -23,12 +23,15 @@ export function DepositionTabs() {
       tabs={tabs}
       value={type}
       onChange={(value) =>
-        setSearchParams((prev) => {
-          prev.set(QueryParams.DepositionTab, value)
-          prev.delete(QueryParams.GroupBy)
-          prev.delete(QueryParams.Page)
-          return prev
-        })
+        setSearchParams(
+          (prev) => {
+            prev.set(QueryParams.DepositionTab, value)
+            prev.delete(QueryParams.GroupBy)
+            prev.delete(QueryParams.Page)
+            return prev
+          },
+          { preventScrollReset: true },
+        )
       }
       vertical
     />
@@ -44,13 +47,13 @@ function useTabs(activeTab: DataContentsType) {
       {
         tab: DataContentsType.Annotations,
         label: 'annotations',
-        icon: 'Cube',
+        icon: <FlagIcon />,
         count: annotationsCount,
       },
       {
         tab: DataContentsType.Tomograms,
         label: 'tomograms',
-        icon: <FlagIcon />,
+        icon: 'Cube',
         count: tomogramsCount,
       },
     ] as const
