@@ -5,7 +5,6 @@ import Skeleton from '@mui/material/Skeleton'
 import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import prettyBytes from 'pretty-bytes'
 import { useMemo } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
@@ -219,12 +218,13 @@ export function DepositionTable() {
                     })
                   }
 
-                  if (deposition.totalImagingData > 0) {
-                    dataTypes.push({
-                      label: 'imagingData',
-                      value: prettyBytes(deposition.totalImagingData),
-                    })
-                  }
+                  // TODO add when https://github.com/chanzuckerberg/cryoet-data-portal/issues/1840 is fixed
+                  // if (deposition.totalImagingData > 0) {
+                  //   dataTypes.push({
+                  //     label: 'imagingData',
+                  //     value: prettyBytes(deposition.totalImagingData),
+                  //   })
+                  // }
 
                   return (
                     <TableCell showLoadingSkeleton={false}>
