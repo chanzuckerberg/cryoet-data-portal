@@ -25,6 +25,9 @@ const GET_DEPOSITION_TOMOGRAMS = gql(`
       },
       orderBy: [
         {
+          neuroglancerConfig: asc
+        },
+        {
           depositionDate: desc
         },
         {
