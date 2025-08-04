@@ -50,7 +50,12 @@ export function GroupedDataHeader({
   }
 
   return (
-    <div className={cns('flex items-center justify-between w-full', className)}>
+    <div
+      className={cns(
+        'flex items-center justify-between w-full gap-sds-xl',
+        className,
+      )}
+    >
       <div className="flex items-center gap-sds-xs">
         <span className="text-sds-header-m-600-wide tracking-sds-header-m-600-wide font-semibold">
           {title}
@@ -68,7 +73,7 @@ export function GroupedDataHeader({
       </div>
 
       {!isExpanded && itemCount !== undefined && itemLabel ? (
-        <span className="font-normal text-sds-body-xxs-400-wide tracking-sds-body-xxs-400-wide">
+        <span className="font-normal text-sds-body-xxs-400-wide tracking-sds-body-xxs-400-wide whitespace-nowrap">
           {formatNumber(itemCount)} {itemLabel}
           {additionalInfo && ` | ${additionalInfo}`}
         </span>
