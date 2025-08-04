@@ -58,7 +58,7 @@ export function RunAnnotationsList({
     <>
       {annotations.map((annotation) => (
         <RunAnnotationRow
-          key={`${runName}-${annotation.id}`}
+          key={`${runName}-${annotation.id}-${annotation.shapeType}-${annotation.objectName}`}
           annotation={annotation}
           runName={runName}
         />
