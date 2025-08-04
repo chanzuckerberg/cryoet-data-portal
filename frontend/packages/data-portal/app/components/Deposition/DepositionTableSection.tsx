@@ -10,7 +10,6 @@ export interface GroupedDataset {
   organismName: string | null
   runCount: number
   annotationCount: number
-  tomogramRunCount: number
 }
 
 export interface GroupedDataCounts {
@@ -52,7 +51,6 @@ export function DepositionTableSection({
             acc[dataset.id] = {
               runCount: dataset.runCount,
               annotationCount: dataset.annotationCount,
-              tomogramRunCount: dataset.tomogramRunCount,
               tomogramCount: groupedData.counts.tomograms?.[dataset.id] || 0,
             }
             return acc
@@ -62,7 +60,6 @@ export function DepositionTableSection({
             {
               runCount: number
               annotationCount: number
-              tomogramRunCount: number
               tomogramCount: number
             }
           >,

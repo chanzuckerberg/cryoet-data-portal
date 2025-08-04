@@ -34,7 +34,6 @@ interface DepositedLocationAccordionTableProps {
     {
       runCount: number
       annotationCount: number
-      tomogramRunCount: number
       tomogramCount: number
     }
   >
@@ -154,7 +153,6 @@ export function DepositedLocationAccordionTable({
       metadata: {
         runCount: datasetCounts?.[dataset.id]?.runCount || 0,
         annotationCount: datasetCounts?.[dataset.id]?.annotationCount || 0,
-        tomogramRunCount: datasetCounts?.[dataset.id]?.tomogramRunCount || 0,
         tomogramCount: datasetCounts?.[dataset.id]?.tomogramCount || 0,
         dataType: type,
       },

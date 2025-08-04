@@ -184,7 +184,6 @@ describe('useDepositionGroupedData', () => {
         expect(dataset).toHaveProperty('organismName')
         expect(dataset).toHaveProperty('runCount')
         expect(dataset).toHaveProperty('annotationCount')
-        expect(dataset).toHaveProperty('tomogramRunCount')
       })
 
       expect(result.current.error).toBe(null)
