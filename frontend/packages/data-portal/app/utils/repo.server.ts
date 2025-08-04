@@ -14,7 +14,7 @@ export interface RepoFile {
 
 export async function getRepoFileContent(path: string): Promise<string> {
   const response = await axios.get(
-    `https://raw.githubusercontent.com/chanzuckerberg/cryoet-data-portal/main/${path}`,
+    `https://raw.githubusercontent.com/chanzuckerberg/cryoet-data-portal/refs/heads/jeremy/update-policy-docs-test/${path}`,
   )
 
   return response.data as string
