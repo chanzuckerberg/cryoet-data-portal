@@ -17,6 +17,8 @@ const ICON_DISABLED_COLOR =
 const ICON_ENABLED_COLOR =
   '!text-light-sds-color-semantic-base-ornament-secondary'
 
+const ROOT_CLASS_NAME = 'flex items-center whitespace-nowrap'
+
 // Reusable pagination button component
 function PaginationButton({
   direction,
@@ -127,7 +129,7 @@ export function PaginationControls({
   if (showItemCount) {
     // Rich pagination with item count display
     return (
-      <div className="flex items-center gap-sds-s">
+      <div className={cns(ROOT_CLASS_NAME, 'gap-sds-s')}>
         <span
           className={cns(
             'text-sds-body-xxxs-400-wide tracking-sds-body-xxxs-400-wide',
@@ -147,5 +149,5 @@ export function PaginationControls({
   }
 
   // Simple pagination with just buttons
-  return <div className="flex items-center gap-sds-xxs">{buttonPair}</div>
+  return <div className={cns(ROOT_CLASS_NAME, 'gap-sds-xxs')}>{buttonPair}</div>
 }
