@@ -34,6 +34,7 @@ export interface DepositionPageState {
     }>
     counts: {
       organisms: Record<string, number>
+      tomograms: Record<number, number>
     }
     totalDatasetCount: number
     filteredDatasetCount: number

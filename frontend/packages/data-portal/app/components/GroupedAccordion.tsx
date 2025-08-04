@@ -9,6 +9,7 @@ import { GroupedDataHeader } from 'app/components/GroupedDataHeader'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { useAccordionState } from 'app/hooks/useAccordionState'
 import { useI18n } from 'app/hooks/useI18n'
+import { DataContentsType } from 'app/types/deposition-queries'
 import { formatNumber } from 'app/utils/string'
 
 export interface GroupedData<T> {
@@ -95,14 +96,31 @@ export function GroupedAccordion<T>({
                   }
                   itemsLabel={itemLabelPlural}
                   additionalInfo={
-                    !isExpanded && group.metadata?.annotationCount
-                      ? `${formatNumber(
-                          group.metadata.annotationCount as number,
-                        )} ${
-                          (group.metadata.annotationCount as number) === 1
-                            ? t('annotation')
-                            : t('annotations')
-                        }`
+                    !isExpanded && group.metadata
+                      ? (() => {
+                          const dataType = group.metadata
+                            .dataType as DataContentsType
+                          if (
+                            dataType === DataContentsType.Tomograms &&
+                            group.metadata.tomogramCount
+                          ) {
+                            const count = group.metadata.tomogramCount as number
+                            return `${formatNumber(count)} ${
+                              count === 1 ? t('tomogram') : t('tomograms')
+                            }`
+                          }
+                          if (
+                            dataType === DataContentsType.Annotations &&
+                            group.metadata.annotationCount
+                          ) {
+                            const count = group.metadata
+                              .annotationCount as number
+                            return `${formatNumber(count)} ${
+                              count === 1 ? t('annotation') : t('annotations')
+                            }`
+                          }
+                          return undefined
+                        })()
                       : undefined
                   }
                   showPagination={showPagination && isExpanded}

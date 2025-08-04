@@ -35,6 +35,7 @@ interface DepositedLocationAccordionTableProps {
       runCount: number
       annotationCount: number
       tomogramRunCount: number
+      tomogramCount: number
     }
   >
 }
@@ -137,10 +138,8 @@ export function DepositedLocationAccordionTable({
 
   // Transform real datasets to GroupedData format
   const transformedData = datasets.map((dataset) => {
-    const runCount =
-      type === DataContentsType.Tomograms
-        ? datasetCounts?.[dataset.id]?.tomogramRunCount || 0
-        : datasetCounts?.[dataset.id]?.runCount || 0
+    // Always use runCount for the number of runs displayed
+    const runCount = datasetCounts?.[dataset.id]?.runCount || 0
 
     return {
       groupKey: dataset.id.toString(),
@@ -156,6 +155,8 @@ export function DepositedLocationAccordionTable({
         runCount: datasetCounts?.[dataset.id]?.runCount || 0,
         annotationCount: datasetCounts?.[dataset.id]?.annotationCount || 0,
         tomogramRunCount: datasetCounts?.[dataset.id]?.tomogramRunCount || 0,
+        tomogramCount: datasetCounts?.[dataset.id]?.tomogramCount || 0,
+        dataType: type,
       },
     }
   })
