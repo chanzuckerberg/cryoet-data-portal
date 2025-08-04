@@ -164,6 +164,10 @@ ul.md-nav__list > li.md-nav__item > a.md-nav__link > span.md-ellipsis {
   font-weight: 600;
 }
 
+div.md-sidebar.md-sidebar--secondary a {
+  text-wrap: auto;
+}
+
 /* Footer */
 
 .md-footer {
@@ -465,7 +469,11 @@ div.czi-warning.admonition {
   }
 }
 
-/* Landing page button */
+/* Landing page buttons */
+.landing-grid {
+  width: 55%;
+}
+
 .sd-btn {
   font-size: 0.75rem;
 }
