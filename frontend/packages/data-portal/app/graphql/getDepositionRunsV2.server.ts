@@ -80,6 +80,27 @@ const GET_DEPOSITION_ANNO_RUNS_FOR_DATASET = gql(`
         count
       }
     }
+
+    # Get annotation shapes count per run (what users see)
+    annotationShapesAggregate(
+      where: {
+        annotation: {
+          depositionId: {_eq: $depositionId},
+          run: {datasetId: {_eq: $datasetId}}
+        }
+      }
+    ) {
+      aggregate {
+        count
+        groupBy {
+          annotation {
+            run {
+              id
+            }
+          }
+        }
+      }
+    }
   }
 `)
 

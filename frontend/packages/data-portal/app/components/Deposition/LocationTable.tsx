@@ -6,6 +6,7 @@ import {
 } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
 import TableContainer from '@mui/material/TableContainer'
+import { useMemo } from 'react'
 
 import { CellHeader } from 'app/components/Table'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
@@ -75,20 +76,32 @@ export function LocationTable({
   })
 
   // Always use backend data, show empty state when no data available
-  const locationData = data
-    ? {
-        depositedLocation: datasetTitle,
-        runs: data.runs.map((run) => ({
-          id: run.id,
-          runName: run.name ?? '--',
-          items: [], // Empty for unexpanded case
-          annotationCount:
-            'annotationsAggregate' in run
-              ? run.annotationsAggregate?.aggregate?.[0]?.count ?? 0
-              : 0,
-        })),
-      }
-    : { depositedLocation: datasetTitle, runs: [] }
+  const locationData = useMemo(() => {
+    if (!data) {
+      return { depositedLocation: datasetTitle, runs: [] }
+    }
+
+    // Build a lookup map of annotation shapes count by run ID
+    const annotationShapesCountByRunId = new Map<number, number>()
+    if ('annotationShapesAggregate' in data) {
+      data.annotationShapesAggregate.aggregate?.forEach((agg) => {
+        const runId = agg.groupBy?.annotation?.run?.id
+        if (runId !== null && runId !== undefined) {
+          annotationShapesCountByRunId.set(runId, agg.count ?? 0)
+        }
+      })
+    }
+
+    return {
+      depositedLocation: datasetTitle,
+      runs: data.runs.map((run) => ({
+        id: run.id,
+        runName: run.name ?? '--',
+        items: [], // Empty for unexpanded case
+        annotationCount: annotationShapesCountByRunId.get(run.id) ?? 0,
+      })),
+    }
+  }, [data, datasetTitle])
 
   const { depositedLocation } = locationData
 
