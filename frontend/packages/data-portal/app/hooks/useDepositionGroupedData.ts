@@ -196,7 +196,6 @@ export function useDepositionGroupedData(
         organismName: dataset.organismName,
         runCount: runCounts[dataset.id] || 0,
         annotationCount: annotationCounts[dataset.id] || 0,
-        tomogramRunCount: tomogramCounts[dataset.id] || 0,
       }),
     )
 

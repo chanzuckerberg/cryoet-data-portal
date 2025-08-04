@@ -30,10 +30,10 @@ export interface DepositionPageState {
       organismName: string | null
       runCount: number
       annotationCount: number
-      tomogramRunCount: number
     }>
     counts: {
       organisms: Record<string, number>
+      tomograms: Record<number, number>
     }
     totalDatasetCount: number
     filteredDatasetCount: number

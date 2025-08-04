@@ -3,12 +3,13 @@ import {
   AccordionDetails,
   AccordionHeader,
 } from '@czi-sds/components'
-import { ReactNode } from 'react'
+import { ReactNode, useCallback } from 'react'
 
 import { GroupedDataHeader } from 'app/components/GroupedDataHeader'
 import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { useAccordionState } from 'app/hooks/useAccordionState'
 import { useI18n } from 'app/hooks/useI18n'
+import { DataContentsType } from 'app/types/deposition-queries'
 import { formatNumber } from 'app/utils/string'
 
 export interface GroupedData<T> {
@@ -54,6 +55,31 @@ export function GroupedAccordion<T>({
   const { expandedGroups, toggleGroup, pagination, updatePagination } =
     useAccordionState(pageSize)
 
+  const formatAdditionalInfo = useCallback(
+    (metadata: Record<string, unknown> | undefined) => {
+      if (!metadata) return undefined
+
+      const dataType = metadata.dataType as DataContentsType
+      if (dataType === DataContentsType.Tomograms && metadata.tomogramCount) {
+        const count = metadata.tomogramCount as number
+        return `${formatNumber(count)} ${
+          count === 1 ? t('tomogram') : t('tomograms')
+        }`
+      }
+      if (
+        dataType === DataContentsType.Annotations &&
+        metadata.annotationCount
+      ) {
+        const count = metadata.annotationCount as number
+        return `${formatNumber(count)} ${
+          count === 1 ? t('annotation') : t('annotations')
+        }`
+      }
+      return undefined
+    },
+    [t],
+  )
+
   return (
     <div className={`px-sds-xl ${className}`}>
       <div>
@@ -95,14 +121,8 @@ export function GroupedAccordion<T>({
                   }
                   itemsLabel={itemLabelPlural}
                   additionalInfo={
-                    !isExpanded && group.metadata?.annotationCount
-                      ? `${formatNumber(
-                          group.metadata.annotationCount as number,
-                        )} ${
-                          (group.metadata.annotationCount as number) === 1
-                            ? t('annotation')
-                            : t('annotations')
-                        }`
+                    !isExpanded
+                      ? formatAdditionalInfo(group.metadata)
                       : undefined
                   }
                   showPagination={showPagination && isExpanded}

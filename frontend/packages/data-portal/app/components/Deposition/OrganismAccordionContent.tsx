@@ -22,20 +22,13 @@ export function OrganismAccordionContent({
 
   if (!isExpanded) return null
 
-  if (type === DataContentsType.Tomograms) {
-    // Render the organism-specific tomogram content
-    return (
-      <OrganismTomogramContent
-        depositionId={depositionId}
-        organismName={group.groupKey}
-        page={currentPage}
-      />
-    )
-  }
+  const Content =
+    type === DataContentsType.Tomograms
+      ? OrganismTomogramContent
+      : OrganismAnnotationContent
 
-  // For annotations, render the organism-specific content
   return (
-    <OrganismAnnotationContent
+    <Content
       depositionId={depositionId}
       organismName={group.groupKey}
       page={currentPage}

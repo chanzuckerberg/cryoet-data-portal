@@ -56,34 +56,20 @@ export function DepositedLocationAccordionContent({
     return null
   }
 
-  if (tab === DataContentsType.Tomograms) {
-    return (
-      <TomogramLocationTable
-        runPagination={runPagination}
-        expandedRuns={expandedRuns}
-        onRunToggle={onRunToggle}
-        onRunPageChange={onRunPageChange}
-        currentGroupPage={currentPage}
-        depositionId={depositionId}
-        datasetId={datasetId}
-        datasetTitle={dataset.title}
-        isExpanded={isExpanded}
-      />
-    )
-  }
+  const Table =
+    tab === DataContentsType.Tomograms ? TomogramLocationTable : LocationTable
 
-  // For annotations, use the integrated LocationTable
   return (
-    <LocationTable
+    <Table
       runPagination={runPagination}
       expandedRuns={expandedRuns}
       onRunToggle={onRunToggle}
       onRunPageChange={onRunPageChange}
+      currentGroupPage={currentPage}
       depositionId={depositionId}
       datasetId={datasetId}
       datasetTitle={dataset.title}
       isExpanded={isExpanded}
-      currentGroupPage={currentPage}
     />
   )
 }

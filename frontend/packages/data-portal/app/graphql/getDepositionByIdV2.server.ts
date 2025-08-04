@@ -16,7 +16,7 @@ import { getFilterState } from 'app/hooks/useFilter'
 
 import {
   getDatasetsFilter,
-  getDepositionAnnotationsCountFilter,
+  getDepositionAnnotationsFilter,
   getDepositionTomogramsFilter,
 } from './common'
 
@@ -24,7 +24,7 @@ import {
 const GET_DEPOSITION_BASE_DATA = gql(`
   query GetDepositionBaseDataV2(
     $id: Int!,
-    $filteredAnnotationsFilter: AnnotationWhereClause!,
+    $filteredAnnotationsFilter: AnnotationShapeWhereClause!,
     $filteredTomogramsFilter: TomogramWhereClause!
   ) {
     # Deposition:
@@ -129,9 +129,11 @@ const GET_DEPOSITION_BASE_DATA = gql(`
       }
     }
 
-    annotationsCount: annotationsAggregate(where: {
-      depositionId: {
-        _eq: $id
+    annotationsCount: annotationShapesAggregate(where: {
+      annotation: {
+        depositionId: {
+          _eq: $id
+        }
       }
     }) {
       aggregate {
@@ -149,7 +151,7 @@ const GET_DEPOSITION_BASE_DATA = gql(`
       }
     }
 
-    filteredAnnotationsCount: annotationsAggregate(where: $filteredAnnotationsFilter) {
+    filteredAnnotationsCount: annotationShapesAggregate(where: $filteredAnnotationsFilter) {
       aggregate {
         count
       }
@@ -254,7 +256,7 @@ export async function getDepositionBaseData({
     .filter((datasetId) => Number.isInteger(datasetId))
   const { organismNames } = filterState.sampleAndExperimentConditions
 
-  const filteredAnnotationsFilter = getDepositionAnnotationsCountFilter({
+  const filteredAnnotationsFilter = getDepositionAnnotationsFilter({
     depositionId: id,
     datasetIds: datasetIds.length > 0 ? datasetIds : undefined,
     organismNames: organismNames.length > 0 ? organismNames : undefined,

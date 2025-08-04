@@ -15,9 +15,10 @@ export interface TabData<T> {
 }
 
 export function Tabs<T>({
+  className,
+  onChange,
   tabs,
   value,
-  onChange,
   vertical,
 }: Pick<TabsProps, 'className' | 'classes'> & {
   onChange(value: T): void
@@ -28,7 +29,7 @@ export function Tabs<T>({
   return (
     // Use Material UI tabs because SDS tabs have bug where styles aren't
     // rendered correctly within a modal.
-    <div className="flex items-center">
+    <div className={cns('flex items-center', className)}>
       <MUITabs
         value={value}
         onChange={(_, nextTab: T) => onChange(nextTab)}

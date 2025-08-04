@@ -41,8 +41,6 @@ export interface DatasetWithCounts {
   runCount: number
   /** Number of annotations in this dataset */
   annotationCount: number
-  /** Number of tomogram runs in this dataset */
-  tomogramRunCount: number
 }
 
 /**
