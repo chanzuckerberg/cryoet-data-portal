@@ -206,7 +206,11 @@ function ViewerPage({
   }, [])
 
   useEffect(() => {
-    if (tourRunning && hashReady.current) {
+    // if (tourRunning && hashReady.current) {
+    // TODO this should use the above check, but for some reason neuroglancer
+    // ignores the size update in the state after a certain point
+    // so for now we always do the size update on tour start
+    if (hashReady.current) {
       setupTourPanelState()
     }
   }, [tourRunning, hashReady])

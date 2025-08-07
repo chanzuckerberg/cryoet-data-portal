@@ -10,7 +10,7 @@ import {
   updateState,
 } from 'neuroglancer'
 
-const TOUR_PANEL_SIZE = 400
+const TOUR_PANEL_SIZE = 380
 
 // The viewer page super state extends the resolved super state
 // with additional properties specific to the viewer page.
