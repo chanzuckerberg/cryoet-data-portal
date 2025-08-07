@@ -104,7 +104,6 @@ export function DatasetsTable() {
               >
                 <Link to={datasetUrl} className="self-start">
                   <KeyPhoto
-                    variant="table"
                     title={dataset.title}
                     src={getValue() ?? undefined}
                     loading={isLoadingDebounced}

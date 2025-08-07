@@ -13,7 +13,6 @@ export function KeyPhoto({
   title,
   textOnGroupHover,
   overlayContent,
-  variant = 'table',
 }: {
   className?: string
   loading?: boolean
@@ -21,16 +20,12 @@ export function KeyPhoto({
   title: string
   textOnGroupHover?: I18nKeys
   overlayContent?: React.ReactNode
-  variant?: 'table' | 'header'
 }) {
   const { t } = useI18n()
   return (
     <div
       className={cns(
-        'flex-shrink-0 w-full',
-        variant === 'table'
-          ? 'max-w-[134px] max-h-[100px]'
-          : 'max-w-[465px] max-h-[330px]',
+        'flex-shrink-0 basis-[134px] aspect-[4/3] min-w-[134px]',
         'flex items-center justify-center bg-light-sds-color-primitive-gray-100',
         'rounded-sds-m',
         'overflow-hidden object-cover',

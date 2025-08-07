@@ -25,7 +25,7 @@ export function TomogramKeyPhotoCell({
       )}
       showLoadingSkeleton={isLoading}
     >
-      <KeyPhoto variant="table" title={title} src={src ?? undefined} />
+      <KeyPhoto title={title} src={src ?? undefined} />
     </TableCell>
   )
 }
