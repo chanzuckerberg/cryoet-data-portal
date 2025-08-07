@@ -99,7 +99,6 @@ export function RunsTable() {
               renderLoadingSkeleton={false}
             >
               <KeyPhoto
-                variant="table"
                 title={run.name}
                 src={getValue()}
                 loading={isLoadingDebounced}

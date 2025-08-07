@@ -36,14 +36,24 @@ export interface GetDatasetsFilterParams {
   filterState: FilterState
   depositionId?: number
   searchText?: string
+  aggregatedDatasetIds?: number[]
 }
 
 export function getDatasetsFilter({
   filterState,
   depositionId,
   searchText,
+  aggregatedDatasetIds,
 }: GetDatasetsFilterParams): DatasetWhereClause {
   const where: DatasetWhereClause = {}
+
+  // If aggregatedDatasetIds is provided, filter by those specific dataset IDs
+  // This is used with the expandDepositions feature flag for multi-deposition filtering
+  if (aggregatedDatasetIds && aggregatedDatasetIds.length > 0) {
+    where.id = {
+      _in: aggregatedDatasetIds,
+    }
+  }
 
   // Search by Dataset Name
   if (searchText) {

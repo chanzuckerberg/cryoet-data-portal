@@ -81,7 +81,6 @@ export function DepositionTable() {
               >
                 <Link to={depositionUrl} className="self-start">
                   <KeyPhoto
-                    variant="table"
                     title={deposition.title}
                     src={deposition.keyPhotoThumbnailUrl ?? undefined}
                     loading={isLoadingDebounced}
