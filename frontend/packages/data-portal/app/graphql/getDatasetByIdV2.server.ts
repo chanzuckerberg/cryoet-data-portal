@@ -351,9 +351,9 @@ export async function getDatasetByIdV2({
       client,
     })
 
-    // If no runs found with this deposition ID, use impossible ID to return no results
+    // If no runs found with this deposition ID, use empty array to indicate no results
     if (aggregatedRunIds.length === 0) {
-      aggregatedRunIds = [0] // Use impossible ID to return no results
+      aggregatedRunIds = [] // Use empty array to indicate no results
     }
   }
 

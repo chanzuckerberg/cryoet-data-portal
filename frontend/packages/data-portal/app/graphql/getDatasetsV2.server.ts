@@ -113,7 +113,7 @@ export async function getDatasetsV2({
 
     // If no datasets found with this deposition ID, return empty results
     if (aggregatedDatasetIds.length === 0) {
-      datasetsFilter = { id: { _in: [0] } } // Use impossible ID to return no results
+      datasetsFilter = { id: { _in: [] } } // Use empty array to return no results
     } else {
       // Pass 2: Use aggregated dataset IDs in the filter
       datasetsFilter = getDatasetsFilter({

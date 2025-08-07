@@ -152,6 +152,13 @@ async function getDatasetIdsByAlignmentDeposition({
  * Aggregates dataset IDs from all deposition-related queries.
  * Returns a deduplicated array of dataset IDs that have content
  * (annotations, tomograms, alignments, or direct dataset) from the specified deposition.
+ *
+ * PERFORMANCE IMPLICATIONS: This function performs multiple database queries (up to 4 parallel queries)
+ * which can be expensive. This is a temporary workaround to simulate OR operator functionality
+ * that is not currently supported by the backend GraphQL schema.
+ *
+ * TODO: Remove this workaround once backend OR operator support is available and replace
+ * with a single optimized query.
  */
 export async function getAggregatedDatasetIdsByDeposition({
   depositionId,

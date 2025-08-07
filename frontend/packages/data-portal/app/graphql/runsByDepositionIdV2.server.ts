@@ -131,6 +131,13 @@ async function getRunIdsByAlignmentDeposition({
  * Aggregates run IDs from all deposition-related queries.
  * Returns a deduplicated array of run IDs that have content
  * (annotations, tomograms, alignments, or from datasets with deposition ID) from the specified deposition.
+ *
+ * PERFORMANCE IMPLICATIONS: This function performs multiple database queries (up to 4 parallel queries)
+ * which can be expensive. This is a temporary workaround to simulate OR operator functionality
+ * that is not currently supported by the backend GraphQL schema.
+ *
+ * TODO: Remove this workaround once backend OR operator support is available and replace
+ * with a single optimized query.
  */
 export async function getAggregatedRunIdsByDeposition({
   depositionId,
