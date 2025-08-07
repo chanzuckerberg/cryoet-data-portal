@@ -6,6 +6,7 @@ import type {
 
 import { gql } from 'app/__generated_v2__'
 import {
+  GetDatasetIdsByAlignmentDepositionV2Query,
   GetDatasetIdsByAnnotationDepositionV2Query,
   GetDatasetIdsByDepositionV2Query,
   GetDatasetIdsByTomogramDepositionV2Query,
@@ -70,7 +71,32 @@ const GET_DATASET_IDS_BY_TOMOGRAM_DEPOSITION = gql(`
   }
 `)
 
-export async function getDatasetIdsByDeposition({
+// Query to get dataset IDs that have runs with alignments from the specified deposition
+const GET_DATASET_IDS_BY_ALIGNMENT_DEPOSITION = gql(`
+  query GetDatasetIdsByAlignmentDepositionV2($depositionId: Int!) {
+    datasets(
+      where: {
+        runsAggregate: {
+          count: {
+            filter: {
+              alignmentsAggregate: {
+                count: {
+                  filter: { depositionId: { _eq: $depositionId } }
+                  predicate: { _gt: 0 }
+                }
+              }
+            }
+            predicate: { _gt: 0 }
+          }
+        }
+      }
+    ) {
+      id
+    }
+  }
+`)
+
+async function getDatasetIdsByDeposition({
   depositionId,
   client,
 }: {
@@ -83,7 +109,7 @@ export async function getDatasetIdsByDeposition({
   })
 }
 
-export async function getDatasetIdsByAnnotationDeposition({
+async function getDatasetIdsByAnnotationDeposition({
   depositionId,
   client,
 }: {
@@ -96,7 +122,7 @@ export async function getDatasetIdsByAnnotationDeposition({
   })
 }
 
-export async function getDatasetIdsByTomogramDeposition({
+async function getDatasetIdsByTomogramDeposition({
   depositionId,
   client,
 }: {
@@ -109,10 +135,23 @@ export async function getDatasetIdsByTomogramDeposition({
   })
 }
 
+async function getDatasetIdsByAlignmentDeposition({
+  depositionId,
+  client,
+}: {
+  depositionId: number
+  client: ApolloClient<NormalizedCacheObject>
+}): Promise<ApolloQueryResult<GetDatasetIdsByAlignmentDepositionV2Query>> {
+  return client.query({
+    query: GET_DATASET_IDS_BY_ALIGNMENT_DEPOSITION,
+    variables: { depositionId },
+  })
+}
+
 /**
  * Aggregates dataset IDs from all deposition-related queries.
  * Returns a deduplicated array of dataset IDs that have content
- * (annotations, tomograms, or direct dataset) from the specified deposition.
+ * (annotations, tomograms, alignments, or direct dataset) from the specified deposition.
  */
 export async function getAggregatedDatasetIdsByDeposition({
   depositionId,
@@ -122,17 +161,20 @@ export async function getAggregatedDatasetIdsByDeposition({
   client: ApolloClient<NormalizedCacheObject>
 }): Promise<number[]> {
   // Execute all queries in parallel for efficiency
-  const [directResult, annotationResult, tomogramResult] = await Promise.all([
-    getDatasetIdsByDeposition({ depositionId, client }),
-    getDatasetIdsByAnnotationDeposition({ depositionId, client }),
-    getDatasetIdsByTomogramDeposition({ depositionId, client }),
-  ])
+  const [directResult, annotationResult, tomogramResult, alignmentResult] =
+    await Promise.all([
+      getDatasetIdsByDeposition({ depositionId, client }),
+      getDatasetIdsByAnnotationDeposition({ depositionId, client }),
+      getDatasetIdsByTomogramDeposition({ depositionId, client }),
+      getDatasetIdsByAlignmentDeposition({ depositionId, client }),
+    ])
 
   // Collect all dataset IDs
   const allDatasetIds = new Set<number>([
     ...(directResult.data?.datasets?.map((dataset) => dataset.id) || []),
     ...(annotationResult.data?.datasets?.map((dataset) => dataset.id) || []),
     ...(tomogramResult.data?.datasets?.map((dataset) => dataset.id) || []),
+    ...(alignmentResult.data?.datasets?.map((dataset) => dataset.id) || []),
   ])
 
   // Return as sorted array for consistent ordering
