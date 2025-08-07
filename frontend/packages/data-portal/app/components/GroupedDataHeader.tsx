@@ -56,8 +56,8 @@ export function GroupedDataHeader({
         className,
       )}
     >
-      <div className="flex items-center gap-sds-xs">
-        <span className="text-sds-header-m-600-wide tracking-sds-header-m-600-wide font-semibold">
+      <div>
+        <span className="text-sds-header-m-600-wide tracking-sds-header-m-600-wide font-semibold inline">
           {title}
         </span>
 
@@ -66,7 +66,7 @@ export function GroupedDataHeader({
             <Icon
               sdsIcon="Open"
               sdsSize="xs"
-              className="!text-light-sds-color-semantic-base-ornament-secondary"
+              className="!text-light-sds-color-semantic-base-ornament-secondary inline ml-sds-xs"
             />
           </Link>
         )}
