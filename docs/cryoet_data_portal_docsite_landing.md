@@ -7,8 +7,9 @@ tocdepth: 3
 
 The [Chan Zuckerberg Institute for Advanced Biological Imaging (CZ Imaging Institute)](https://www.czimaginginstitute.org/) has made a beta release of the [CryoET Data Portal](https://cryoetdataportal.czscience.com) providing queryable and organized data from CryoET experiments. Each of the nearly 20,000 tomograms on the Portal have at least one structure annotated.
 
-`````{grid} 1 1 2 2
+`````{grid} 1 1 1 2
 :class-container: landing-grid
+:gutter: 2 2 2 2
 
 ````{grid-item}
 ```{button-ref} data-organization

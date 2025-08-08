@@ -1,15 +1,15 @@
 (contributing-data)=
-# Contribute Data to the Portal
+# Contribute data to the Portal
 
 The CryoET Data Portal supports a rapidly growing cryoET data corpus because of generous contributions from researchers like you!
 
-## Submission and Publication Process
+## Submission and publication process
 
 1. Read our [data submission policy](https://cryoetdataportal.czscience.com/data-submission-policy) (all data has a CC0 license) and [data schema](data-organization) to learn how data is shared and organized on the Portal.
 2. Review the [metadata requirements](#metadata-requirements) to understand the requirements of data submission.
 3. [Contact us](https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=Portal&hide_Event=true) and we'll reach out with next steps.
 
-## Metadata Requirements
+## Metadata requirements
 
 ### Glossary
 
@@ -17,13 +17,13 @@ The CryoET Data Portal supports a rapidly growing cryoET data corpus because of 
 * **Dataset:** Datasets are contributed sets of files associated with imaging one sample type with the same experimental conditions
 * **Run:** A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs.
 
-### Deposition of full datasets
+### Contribution of full datasets
 
 #### Deposition (dataset group)
 
 Dataset group depositions contain 1 or more datasets.
 
-**Required**
+**Required metadata**
 
 - Title
 - Description (1-5 sentences)
@@ -32,7 +32,7 @@ Dataset group depositions contain 1 or more datasets.
 
 #### Dataset
 
-**Required**
+**Required metadata**
 
 - Title
 - Description (1-5 sentences)
@@ -60,13 +60,13 @@ Dataset group depositions contain 1 or more datasets.
 - If organelle:
   - Cell Component Name, ID (Gene Ontology)
 
-**Optional**
+**Optional metadata**
 
 - **File/URL**: Key photo for the website
 
-#### Movie Stacks / Acquisition metadata
+#### Movie stacks / Acquisition metadata
 
-**Required per Run**
+**Required metadata per Run**
 
 - **Files:** Movie stacks in MRC, TIFF or EER format (or as listed, compressed)
   - Should be able to be associated to a **Run** by file name or location
@@ -89,14 +89,14 @@ Dataset group depositions contain 1 or more datasets.
   - Phase Plate Type
 - Pixel Size (if not correct in file header)
 
-**Optional**
+**Optional metadata**
 
 - **Files:** Gain reference in MRC, DM4, GAIN format
   - Should be able to be associated with a **Run** (e.g. provide CSV-mapping of run name to gain name)
 
 #### Tilt series (required per Run)
 
-**Required** **per Run**
+**Required metadata per Run**
 
 - **File:** 1 Assembled tilt series in MRC or OME-Zarr format
   - Should be able to be associated to a **Run** by file name or location
@@ -109,7 +109,7 @@ Dataset group depositions contain 1 or more datasets.
 - Tilt axis rotation
 - Whether is already transformed according to alignment in 2D
 
-**Optional**
+**Optional metadata**
 
 - Subjective quality rating according to [this scale](tilt-series-quality)
 
@@ -137,7 +137,7 @@ Dataset group depositions contain 1 or more datasets.
 
 #### Tomograms (optional)
 
-**Required per Run**
+**Required metadata per Run**
 
 - **File**: at least one tomogram in MRC or OME-Zarr format
   - Should be able to be associated to a **Run** by file name or location
@@ -151,22 +151,22 @@ Dataset group depositions contain 1 or more datasets.
 
 #### Annotations (optional)
 
-**Required per Annotated object:**
+**Required metadata per annotated object:**
 
 - Object name
 - Object ID (Gene Ontology or UniprotKB accession number)
 
-**Optional per Annotated object:**
+**Optional metadata per annotated object:**
 
 - Object state
 - object description
 
-**Required per Annotation File:**
+**Required metadata per annotation File:**
 
 - **File:** Annotation in MRC, OME-Zarr, STAR (RELION, STOPGAP), CSV, GLB, STL, OBJ, VTK format
   - At the same size, alignment, voxel spacing as one of the submitted tomograms.
 - Authors (Name, ORCID, email, whether primary or corresponding)
-- Cross-References  (DOI, EMPIAR, EMDB, PDB)
+- Cross-References (DOI, EMPIAR, EMDB, PDB)
 - Can be considered ground truth (True/False)
 - Annotation method
   - Description (steps separated by `+`)
@@ -178,13 +178,13 @@ Dataset group depositions contain 1 or more datasets.
     - Automated
     - Simulated
 
-### Deposition of annotations for existing datasets
+### Contribution of annotations for existing datasets
 
 #### Deposition (annotation group)
 
 Annotation group depositions contain annotations for one or more existing datasets
 
-**Required**
+**Required metadata**
 
 - Title
 - Description (1-5 sentences)
@@ -193,17 +193,17 @@ Annotation group depositions contain annotations for one or more existing datase
 
 #### Annotations
 
-**Required per Annotated object:**
+**Required metadata per annotated object:**
 
 - Object name
 - Object ID (Gene Ontology or UniprotKB accession number)
 - Object state
 
-**Optional per Annotated object:**
+**Optional metadata per annotated object:**
 
 - object description
 
-**Required per Annotation File:**
+**Required metadata per annotation File:**
 
 - **File:** Annotation in MRC, OME-Zarr, STAR (RELION, STOPGAP), CSV, GLB, STL, OBJ, VTK format
   - At the same size, alignment, voxel spacing as one of the existing tomograms.
@@ -220,13 +220,13 @@ Annotation group depositions contain annotations for one or more existing datase
     - Automated
     - Simulated
 
-### Deposition of tomograms for existing datasets
+### Contribution of tomograms for existing datasets
 
 #### Deposition (tomogram group)
 
 Tomogram group depositions contain 1 or more tomograms for an existing dataset.
 
-**Required**
+**Required metadata**
 
 - Title
 - Description (1-5 sentences)
@@ -235,7 +235,7 @@ Tomogram group depositions contain 1 or more tomograms for an existing dataset.
 
 #### Tomograms (required per Run)
 
-**Required per Run**
+**Required metadata per Run**
 
 - **File**: at least one tomogram in MRC or OME-Zarr format
   - Should be able to be associated to a **Run** by file name or location
