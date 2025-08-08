@@ -209,7 +209,8 @@ function ViewerPage({
     // if (tourRunning && hashReady.current) {
     // TODO this should use the above check, but for some reason neuroglancer
     // ignores the size update in the state after a certain point
-    // so for now we always do the size update on tour start
+    // so for now we always do the size update on neuroglancer start
+    // this can be removed if the bug is fixed on neuroglancer side
     if (hashReady.current) {
       setupTourPanelState()
     }

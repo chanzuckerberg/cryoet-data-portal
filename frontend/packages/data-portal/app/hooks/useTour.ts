@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { ACTIONS } from 'react-joyride'
 
 import { SHOW_TOUR_QUERY_PARAM } from 'app/utils/url'
+import { isBigEnoughForTour } from 'app/components/Viewer/state'
 
 export function useTour(startingStepIndex: number = 0) {
   const [tourRunning, setTourRunning] = useState(false)
@@ -34,6 +35,18 @@ export function useTour(startingStepIndex: number = 0) {
   const handleTourStart = () => {
     const url = new URL(window.location.href)
     url.searchParams.set(SHOW_TOUR_QUERY_PARAM, 'true')
+    // TODO in theory this check shouldn't be needed
+    // but there is some bug in neuroglancer with calling the resize
+    // so this is a workaround
+    // Instead we should be able to call setupTourPanelState
+    // This can be removed if the bug is fixed on neuroglancer side
+    const isBigEnough = isBigEnoughForTour()
+    if (!isBigEnough) {
+      // If panel not big enough, we need to open the tour in a new tab
+      // which will trigger the resize of the panels
+      window.open(url.toString(), '_blank')
+      return
+    }
     window.history.replaceState({}, '', url.toString())
     resetState()
     setTourRunning(true)

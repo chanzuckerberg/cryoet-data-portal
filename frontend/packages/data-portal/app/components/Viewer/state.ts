@@ -10,7 +10,8 @@ import {
   updateState,
 } from 'neuroglancer'
 
-const TOUR_PANEL_SIZE = 380
+const TOUR_PANEL_SIZE = 375
+const MINUMUM_TOUR_PANEL_SIZE = 360
 
 // The viewer page super state extends the resolved super state
 // with additional properties specific to the viewer page.
@@ -91,6 +92,12 @@ export function currentLayout() {
 
 export function isCurrentLayout(layout: NeuroglancerLayout) {
   return currentLayout() === layout
+}
+
+export function isBigEnoughForTour() {
+  const state = getCurrentState()
+  const panelSize = state.neuroglancer?.selectedLayer?.size
+  return panelSize !== undefined && panelSize >= MINUMUM_TOUR_PANEL_SIZE
 }
 
 export function setCurrentLayout(
