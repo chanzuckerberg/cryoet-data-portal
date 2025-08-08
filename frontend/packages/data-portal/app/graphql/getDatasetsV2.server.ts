@@ -66,6 +66,9 @@ const GET_DATASETS_QUERY = gql(`
               objectName
               groundTruthStatus
             }
+            identifiedObjects {
+              objectName
+            }
           }
         }
       }
