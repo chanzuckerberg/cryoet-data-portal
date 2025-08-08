@@ -13,9 +13,9 @@ interface StepContentProps {
 
 const essentialControls = [
   { key: 'CTRL', action: 'scroll or Pinch', description: 'Zoom in 2D images' },
-  { action: 'Scroll', description: 'Move through slices' },
-  { key: 'Left-click', action: 'drag', description: 'Pan 2D images' },
-  { key: 'Left-click', action: 'drag', description: 'Rotate 3D Volume' },
+  { key: "Shift", action: 'scroll or Scroll', description: 'Move in slices' },
+  { action: 'Left-click and drag', description: 'Pan 2D images' },
+  { action: 'Left-click and drag', description: 'Rotate 3D Volume' },
   {
     key: 'Shift',
     action: 'click and drag',
@@ -174,8 +174,7 @@ export const getTutorialSteps: () => Step[] = () => [
             menu.
           </span>
           <span>
-            You can toggle layer visibility, open layer controls or archive
-            (hide from viewer and top layer bar) your layers from here.
+            You can toggle layer visibility by clicking the layer color indictor and also open detailed layer controls from button on the right of the layer item.
           </span>
         </p>
       </StepContent>
@@ -189,7 +188,7 @@ export const getTutorialSteps: () => Step[] = () => [
     content: (
       <StepContent variant="minimal">
         <p className="text-[#767676]">
-          Change the visualization settings of individual layers here. Change{' '}
+          Change the visualization settings of individual layers here. You can change{' '}
           <span className="text-black">layer colours</span> or{' '}
           <span className="text-black">opacity</span>,{' '}
           <span className="text-black">image contrast limits</span>,{' '}
@@ -229,7 +228,7 @@ export const getTutorialSteps: () => Step[] = () => [
           </span>
           <span>
             We've extracted some of the most crucial functionality of
-            neuroglancer into the main top bar, including loading groups of
+            neuroglancer into the portal header, including loading groups of
             annotations, changing the viewer layout, and more.
           </span>
         </p>
