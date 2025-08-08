@@ -37,9 +37,18 @@ export function useRunById() {
     return t2.id - t1.id
   })
 
-  const objectNames =
+  const annotatedObjectsData =
     v2.uniqueObjectNames.aggregate
-      ?.map((aggregate) => aggregate.groupBy?.objectName)
+      ?.map((aggregate) => aggregate.groupBy)
+      .filter(isDefined) ?? []
+
+  const objectNames = annotatedObjectsData
+    .map((obj) => obj?.objectName)
+    .filter(isDefined)
+
+  const identifiedObjectsData =
+    v2.identifiedObjectNames.aggregate
+      ?.map((aggregate) => aggregate.groupBy)
       .filter(isDefined) ?? []
 
   const objectShapeTypes =
@@ -96,6 +105,8 @@ export function useRunById() {
     tomograms,
     processingMethods,
     objectNames,
+    annotatedObjectsData,
+    identifiedObjectsData,
     objectShapeTypes,
     annotationSoftwares,
     resolutions,
