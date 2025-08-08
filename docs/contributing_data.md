@@ -1,15 +1,15 @@
 (contributing-data)=
-# Contribute data to the Portal
+# Contribute Data to the Portal
 
 The CryoET Data Portal supports a rapidly growing cryoET data corpus because of generous contributions from researchers like you!
 
-## Submission and publication process
+## Submission and Publication Process
 
 1. Read our [data submission policy](https://cryoetdataportal.czscience.com/data-submission-policy) (all data has a CC0 license) and [data schema](data-organization) to learn how data is shared and organized on the Portal.
 2. Review the [metadata requirements](#metadata-requirements) to understand the requirements of data submission.
 3. [Contact us](https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=Portal&hide_Event=true) and we'll reach out with next steps.
 
-## Metadata requirements
+## Metadata Requirements
 
 ### Glossary
 
@@ -17,13 +17,13 @@ The CryoET Data Portal supports a rapidly growing cryoET data corpus because of 
 * **Dataset:** Datasets are contributed sets of files associated with imaging one sample type with the same experimental conditions
 * **Run:** A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs.
 
-### Contribution of full datasets
+### Contribution of Full Datasets
 
-#### Deposition (dataset group)
+#### Deposition (Dataset Group)
 
 Dataset group depositions contain 1 or more datasets.
 
-**Required metadata**
+**Required Metadata**
 
 - Title
 - Description (1-5 sentences)
@@ -32,7 +32,7 @@ Dataset group depositions contain 1 or more datasets.
 
 #### Dataset
 
-**Required metadata**
+**Required Metadata**
 
 - Title
 - Description (1-5 sentences)
@@ -60,13 +60,13 @@ Dataset group depositions contain 1 or more datasets.
 - If organelle:
   - Cell Component Name, ID (Gene Ontology)
 
-**Optional metadata**
+**Optional Metadata**
 
 - **File/URL**: Key photo for the website
 
-#### Movie stacks / Acquisition metadata
+#### Movie Stacks / Acquisition
 
-**Required metadata per Run**
+**Required Metadata per Run**
 
 - **Files:** Movie stacks in MRC, TIFF or EER format (or as listed, compressed)
   - Should be able to be associated to a **Run** by file name or location
@@ -89,14 +89,14 @@ Dataset group depositions contain 1 or more datasets.
   - Phase Plate Type
 - Pixel Size (if not correct in file header)
 
-**Optional metadata**
+**Optional Metadata**
 
 - **Files:** Gain reference in MRC, DM4, GAIN format
   - Should be able to be associated with a **Run** (e.g. provide CSV-mapping of run name to gain name)
 
-#### Tilt series (required per Run)
+#### Tilt Series (Required per Run)
 
-**Required metadata per Run**
+**Required Metadata per Run**
 
 - **File:** 1 Assembled tilt series in MRC or OME-Zarr format
   - Should be able to be associated to a **Run** by file name or location
@@ -109,11 +109,13 @@ Dataset group depositions contain 1 or more datasets.
 - Tilt axis rotation
 - Whether is already transformed according to alignment in 2D
 
-**Optional metadata**
+**Optional Metadata**
 
 - Subjective quality rating according to [this scale](tilt-series-quality)
 
-#### Alignment (required per Run)
+#### Alignment (Required per Run)
+
+**Required Metadata per Run**
 
 - **Files:**
   - If aligned in IMOD (global alignments)
@@ -137,12 +139,12 @@ Dataset group depositions contain 1 or more datasets.
 
 #### Tomograms (optional)
 
-**Required metadata per Run**
+**Required Metadata per Run**
 
 - **File**: at least one tomogram in MRC or OME-Zarr format
   - Should be able to be associated to a **Run** by file name or location
 
-- voxel size
+- Voxel size
 - Ctf-corrected (True/False)
 - Reconstruction method
 - Reconstruction software
@@ -151,17 +153,17 @@ Dataset group depositions contain 1 or more datasets.
 
 #### Annotations (optional)
 
-**Required metadata per annotated object:**
+**Required Metadata per Annotated Object**
 
 - Object name
 - Object ID (Gene Ontology or UniprotKB accession number)
 
-**Optional metadata per annotated object:**
+**Optional Metadata per Annotated Object**
 
 - Object state
-- object description
+- Object description
 
-**Required metadata per annotation File:**
+**Required Metadata per Annotation File**
 
 - **File:** Annotation in MRC, OME-Zarr, STAR (RELION, STOPGAP), CSV, GLB, STL, OBJ, VTK format
   - At the same size, alignment, voxel spacing as one of the submitted tomograms.
@@ -178,13 +180,13 @@ Dataset group depositions contain 1 or more datasets.
     - Automated
     - Simulated
 
-### Contribution of annotations for existing datasets
+### Contribution of Annotations for Existing Datasets
 
-#### Deposition (annotation group)
+#### Deposition (Annotation Group)
 
 Annotation group depositions contain annotations for one or more existing datasets
 
-**Required metadata**
+**Required Metadata**
 
 - Title
 - Description (1-5 sentences)
@@ -193,17 +195,17 @@ Annotation group depositions contain annotations for one or more existing datase
 
 #### Annotations
 
-**Required metadata per annotated object:**
+**Required Metadata per Annotated Object**
 
 - Object name
 - Object ID (Gene Ontology or UniprotKB accession number)
 - Object state
 
-**Optional metadata per annotated object:**
+**Optional Metadata per Annotated Object**
 
-- object description
+- Object description
 
-**Required metadata per annotation File:**
+**Required Metadata per Annotation File**
 
 - **File:** Annotation in MRC, OME-Zarr, STAR (RELION, STOPGAP), CSV, GLB, STL, OBJ, VTK format
   - At the same size, alignment, voxel spacing as one of the existing tomograms.
@@ -220,36 +222,38 @@ Annotation group depositions contain annotations for one or more existing datase
     - Automated
     - Simulated
 
-### Contribution of tomograms for existing datasets
+### Contribution of Tomograms for Existing Datasets
 
-#### Deposition (tomogram group)
+#### Deposition (Tomogram Group)
 
 Tomogram group depositions contain 1 or more tomograms for an existing dataset.
 
-**Required metadata**
+**Required Metadata**
 
 - Title
 - Description (1-5 sentences)
 - Authors (Name, ORCID, email, whether primary or corresponding)
 - Cross-References (DOI, EMPIAR, EMDB, PDB)
 
-#### Tomograms (required per Run)
+#### Tomograms (Required per Run)
 
-**Required metadata per Run**
+**Required Metadata per Run**
 
 - **File**: at least one tomogram in MRC or OME-Zarr format
   - Should be able to be associated to a **Run** by file name or location
 
-- voxel size
+- Voxel size
 - Ctf-corrected (True/False)
 - Reconstruction method
 - Reconstruction software
 - Post-Processing (e.g. raw, denoised, filtered)
 - Processing software
 
-#### Alignment (required if new)
+#### Alignment (Required if New)
 
 If none of the existing alignments was used, it is required to submit the new alignment along with the tomograms.
+
+**Required Metadata per Run**
 
 - **Files:**
   - If aligned in IMOD (global alignments)
