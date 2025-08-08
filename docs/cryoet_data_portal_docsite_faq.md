@@ -152,7 +152,7 @@ For more examples of using the <Function>`find`</Function> operator, check out t
 
 :::{admonition} What is the meaning of the tilt series quality score? <a class="headerlink" href="#tilt-series-quality" title="Permalink to this question">¶</a>
 :class: czi-faq
-:name: tilt-series-quality
+:name: tilt-series-quality-faq
 :collapsible:
 The tilt series quality score/rating is a relative subjective scale meant for comparing tilt series within a dataset. The contributor of the dataset assigns quality scores to each of the tilt series to communicate their quality estimate to users. Below is an example scale based mainly on alignability and usefulness for the intended analysis.
 

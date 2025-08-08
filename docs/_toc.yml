@@ -27,5 +27,6 @@ subtrees:
       - file: cryoet_data_portal_docsite_data.md
       - file: cryoet_workflow.md
       - file: cryoet_ctf.md
+      - file: contributing_data.md
   - file: cryoet_data_portal_docsite_faq.md
     title: "FAQ"
