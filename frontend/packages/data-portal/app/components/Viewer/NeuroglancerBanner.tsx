@@ -8,6 +8,8 @@ import { LocalStorageKeys } from 'app/constants/localStorage'
 import { useEffectOnce } from 'app/hooks/useEffectOnce'
 import { cns } from 'app/utils/cns'
 
+import styles from './NeuroglancerBanner.module.css'
+
 const BANNER_ALLOWLIST = [/^\/view\/runs\/.*$/]
 const BANNER_REDISPLAY_UNITS: OpUnitType = 'weeks'
 const NEUROGLANCER_BANNER_DISMISS_WEEKS = 1
@@ -16,12 +18,14 @@ type NeuroglancerBannerProps = {
   onStartTour: (event: React.MouseEvent<HTMLElement>) => void
   open: boolean
   setOpen: (open: boolean) => void
+  tourInProgress?: boolean
 }
 
 export function NeuroglancerBanner({
   onStartTour,
   open,
   setOpen,
+  tourInProgress = false,
 }: NeuroglancerBannerProps) {
   const { value: lastDismissed, set: setLastDismissed } = useLocalStorageValue<
     string | null
@@ -29,6 +33,10 @@ export function NeuroglancerBanner({
 
   // Initialize banner visibility based on localStorage
   useEffectOnce(() => {
+    if (tourInProgress) {
+      setOpen(false)
+      return
+    }
     setOpen(
       lastDismissed
         ? dayjs().diff(dayjs(lastDismissed), BANNER_REDISPLAY_UNITS) >=
@@ -71,7 +79,12 @@ export function NeuroglancerBanner({
   )
 
   return (
-    <div className={cns('hidden screen-716:block sticky bottom-0 w-full')}>
+    <div
+      className={cns(
+        'hidden screen-716:block sticky bottom-0 w-full',
+        styles.banner,
+      )}
+    >
       <Banner
         dismissed={!open}
         dismissible

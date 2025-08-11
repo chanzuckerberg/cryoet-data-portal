@@ -575,6 +575,7 @@ function ViewerPage({
         onStartTour={handleTourStartWithMenuClose}
         open={bannerOpen}
         setOpen={setBannerOpen}
+        tourInProgress={tourRunning}
       />
     </div>
   )
