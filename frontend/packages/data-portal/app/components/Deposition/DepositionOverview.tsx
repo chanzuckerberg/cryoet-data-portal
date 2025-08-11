@@ -67,7 +67,7 @@ export function DepositionOverview() {
           subtle
         />
       </div>
-      <div className="flex flex-row gap-sds-xxl">
+      <div className="flex max-screen-1345:flex-col gap-sds-xxl">
         <div className="flex-1 max-w-[260px]">
           <h3 className={SECTION_HEADER_STYLES}>{t('depositionData')}</h3>
           <p className="flex flex-row gap-sds-xs">

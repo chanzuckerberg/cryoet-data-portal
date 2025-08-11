@@ -102,7 +102,10 @@ export function preserveFeatureFlagParams(
   // Preserve feature flag parameters
   for (const key of SYSTEM_PARAMS) {
     currentSearchParams.getAll(key).forEach((value) => {
-      targetParams.append(key, value)
+      // Only add if the exact key-value pair doesn't already exist
+      if (!targetParams.getAll(key).includes(value)) {
+        targetParams.append(key, value)
+      }
     })
   }
 

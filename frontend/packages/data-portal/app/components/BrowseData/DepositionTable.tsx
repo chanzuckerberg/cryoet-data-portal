@@ -5,7 +5,6 @@ import Skeleton from '@mui/material/Skeleton'
 import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
-import prettyBytes from 'pretty-bytes'
 import { useMemo } from 'react'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
@@ -80,9 +79,8 @@ export function DepositionTable() {
                 renderLoadingSkeleton={false}
                 width={DepositionTableWidths.photo}
               >
-                <Link to={depositionUrl} className="max-w-[134px] self-start">
+                <Link to={depositionUrl} className="self-start">
                   <KeyPhoto
-                    className="max-w-[134px]"
                     title={deposition.title}
                     src={deposition.keyPhotoThumbnailUrl ?? undefined}
                     loading={isLoadingDebounced}
@@ -219,15 +217,16 @@ export function DepositionTable() {
                     })
                   }
 
-                  if (deposition.totalImagingData > 0) {
-                    dataTypes.push({
-                      label: 'imagingData',
-                      value: prettyBytes(deposition.totalImagingData),
-                    })
-                  }
+                  // TODO add when https://github.com/chanzuckerberg/cryoet-data-portal/issues/1840 is fixed
+                  // if (deposition.totalImagingData > 0) {
+                  //   dataTypes.push({
+                  //     label: 'imagingData',
+                  //     value: prettyBytes(deposition.totalImagingData),
+                  //   })
+                  // }
 
                   return (
-                    <TableCell loadingSkeleton={false}>
+                    <TableCell showLoadingSkeleton={false}>
                       {dataTypes.map(({ label, value }) => (
                         <p className="text-sds-body-s-400-wide leading-sds-body-s mb-sds-xxxs">
                           <span>{t(label)}: </span>
@@ -258,7 +257,7 @@ export function DepositionTable() {
 
                 cell({ row: { original: deposition } }) {
                   return (
-                    <TableCell loadingSkeleton={false}>
+                    <TableCell showLoadingSkeleton={false}>
                       <p className="text-sds-body-s-400-wide leading-sds-body-s mb-sds-xxxs">
                         {isLoadingDebounced ? (
                           <Skeleton

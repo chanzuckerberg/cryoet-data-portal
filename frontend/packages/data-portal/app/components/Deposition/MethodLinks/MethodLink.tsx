@@ -12,6 +12,7 @@ export interface MethodLinkProps {
   title?: string
   className?: string
   linkProps?: Partial<VariantLinkProps>
+  simple?: boolean
 }
 
 export function MethodLink({
@@ -21,20 +22,29 @@ export function MethodLink({
   title,
   className,
   linkProps,
+  simple,
 }: MethodLinkProps) {
   const { t } = useI18n()
 
+  if (simple) {
+    return (
+      <Link to={url} {...linkProps}>
+        {title ?? url}
+      </Link>
+    )
+  }
+
   return (
     <span className={cns('flex flex-row', className)}>
-      <span className="text-light-sds-color-primitive-gray-900  items-center flex flex-row">
+      <span className="text-light-sds-color-primitive-gray-900 items-center flex flex-row">
         {icon}
-        <span className="font-semibold ml-sds-xxs mr-sds-xs">
+        <span className="font-semibold ml-sds-xxs mr-sds-xs whitespace-nowrap">
           {t(i18nLabel)}:
         </span>
       </span>
 
       <Link to={url} {...linkProps}>
-        {title ?? url}
+        {title?.replace('on GitHub', '') ?? url}
       </Link>
     </span>
   )

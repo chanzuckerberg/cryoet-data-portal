@@ -2,58 +2,59 @@ import { Fragment } from 'react'
 
 import { CZIIcon, ImageInstituteIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
-import { i18n } from 'app/i18n'
+import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
 import { CryoETHomeLink } from './CryoETHomeLink'
 
-const DEV_LINKS = [
-  {
-    label: i18n.github,
-    href: 'https://github.com/chanzuckerberg/cryoet-data-portal',
-  },
-  {
-    label: i18n.api,
-    href: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/python-api.html',
-  },
-  {
-    label: i18n.napariPlugin,
-    href: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_napari.html',
-  },
-  {
-    label: i18n.contributeData,
-    href: 'https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=ContributionPortalFooter&hide_Event=true',
-  },
-  {
-    label: i18n.feedback,
-    href: 'https://airtable.com/apppmytRJXoXYTO9w/shrjmV9knAC7E7VVM?prefill_Event=FeedbackPortalFooter&hide_Event=true',
-  },
-  {
-    label: i18n.documentation,
-    href: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/index.html',
-  },
-]
-
-const LEGAL_LINKS = [
-  {
-    label: i18n.privacy,
-    href: '/privacy',
-  },
-  // {
-  //   label: i18n.terms,
-  //   href: 'https://example.com',
-  // },
-  // {
-  //   label: i18n.license,
-  //   href: 'https://example.com',
-  // },
-]
-
 export function Footer() {
+  const { t } = useI18n()
+
+  const DEV_LINKS = [
+    {
+      label: t('github'),
+      href: 'https://github.com/chanzuckerberg/cryoet-data-portal',
+    },
+    {
+      label: t('api'),
+      href: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/python-api.html',
+    },
+    {
+      label: t('napariPlugin'),
+      href: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_napari.html',
+    },
+    {
+      label: t('contributeYourData'),
+      href: 'https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=ContributionPortalFooter&hide_Event=true',
+    },
+    {
+      label: t('submitFeedback'),
+      href: 'https://airtable.com/apppmytRJXoXYTO9w/shrjmV9knAC7E7VVM?prefill_Event=FeedbackPortalFooter&hide_Event=true',
+    },
+    {
+      label: t('documentation'),
+      href: 'https://chanzuckerberg.github.io/cryoet-data-portal/stable/index.html',
+    },
+  ]
+
+  const LEGAL_LINKS = [
+    {
+      label: t('privacy'),
+      href: '/privacy',
+    },
+    {
+      label: t('termsOfUse'),
+      href: '/terms',
+    },
+    {
+      label: t('dmcaPolicy'),
+      href: '/dmca',
+    },
+  ]
   const legalLinks = (
     <div className="flex items-center gap-sds-s">
       {LEGAL_LINKS.map(({ label, href }, idx) => (
-        <Fragment key={label + href}>
+        <Fragment key={href}>
           <Link
             className="text-light-sds-color-primitive-gray-50 hover:text-light-sds-color-primitive-gray-300"
             to={href}
@@ -99,7 +100,7 @@ export function Footer() {
         >
           {DEV_LINKS.map(({ label, href }) => (
             <Link
-              key={label + href}
+              key={href}
               className="text-light-sds-color-primitive-gray-50 hover:text-light-sds-color-primitive-gray-300"
               to={href}
             >
