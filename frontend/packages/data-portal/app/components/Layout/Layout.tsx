@@ -13,7 +13,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const isNeuroglancerPage = isNeuroglancerUrl(pathname)
   return (
     <main className="flex flex-col flex-auto">
-      <PolicyBanner />
+      {!isNeuroglancerPage && <PolicyBanner />}
       {!isNeuroglancerPage && <TopNavigation />}
       <div className="flex flex-col flex-[1_0_auto]">{children}</div>
       {!isNeuroglancerPage && <Footer />}

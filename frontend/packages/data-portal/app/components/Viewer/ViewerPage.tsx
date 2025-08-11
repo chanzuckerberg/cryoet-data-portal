@@ -137,6 +137,7 @@ function ViewerPage({
   const [renderVersion, setRenderVersion] = useState(0)
   const [shareClicked, setShareClicked] = useState<boolean>(false)
   const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
+  const [bannerOpen, setBannerOpen] = useState<boolean>(false)
   const iframeRef = useRef<HTMLIFrameElement>()
   const hashReady = useRef<boolean>(false)
   const helpMenuRef = useRef<MenuDropdownRef>(null)
@@ -260,8 +261,9 @@ function ViewerPage({
   }
 
   const handleTourStartWithMenuClose = () => {
-    handleTourStart()
+    setBannerOpen(false)
     helpMenuRef.current?.closeMenu()
+    handleTourStart()
   }
 
   const handleShareClick = () => {
@@ -569,7 +571,12 @@ function ViewerPage({
         severity="success"
         message={t('shareActionSuccess')}
       />
-      <NeuroglancerBanner onStartTour={handleTourStart} />
+      <NeuroglancerBanner
+        onStartTour={handleTourStartWithMenuClose}
+        open={bannerOpen}
+        setOpen={setBannerOpen}
+        tourInProgress={tourRunning}
+      />
     </div>
   )
 }

@@ -2,8 +2,8 @@ import { updateState } from 'neuroglancer'
 import { useState } from 'react'
 import { ACTIONS } from 'react-joyride'
 
-import { SHOW_TOUR_QUERY_PARAM } from 'app/utils/url'
 import { isBigEnoughForTour } from 'app/components/Viewer/state'
+import { SHOW_TOUR_QUERY_PARAM } from 'app/utils/url'
 
 export function useTour(startingStepIndex: number = 0) {
   const [tourRunning, setTourRunning] = useState(false)
