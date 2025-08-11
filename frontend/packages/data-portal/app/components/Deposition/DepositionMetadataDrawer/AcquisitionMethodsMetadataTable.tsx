@@ -1,4 +1,4 @@
-import { ACQUISITION_METHOD_MOCK_DATA } from 'app/components/Deposition/mock'
+import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { getTableData } from 'app/utils/table'
 
@@ -6,11 +6,12 @@ import { MethodTableList } from './MethodTableList'
 
 export function AcquisitionMethodsMetadataTable() {
   const { t } = useI18n()
+  const { acquisitionMethods } = useDepositionById()
 
   return (
     <MethodTableList
       accordionId="acquisition-methods-table"
-      data={ACQUISITION_METHOD_MOCK_DATA}
+      data={acquisitionMethods}
       header="acquisitionMethods"
       getTableData={(data) =>
         getTableData(

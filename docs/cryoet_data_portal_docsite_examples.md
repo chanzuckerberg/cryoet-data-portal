@@ -351,3 +351,48 @@ for frame in frames_list:
   fs.get_file(frame_path, os.path.join(outdir, os.path.basename(frame_path)))
 ```
 :::
+
+:::{admonition} Get all voxel spacings available for this run <a class="headerlink" href="#all-voxel-spacings-example" title="Permalink to this example">¶</a>
+:class: czi-faq
+:name: all-voxel-spacings-example
+:collapsible:
+
+```python
+from cryoet_data_portal import Client, TomogramVoxelSpacing
+
+RUN_ID = 17070  # Example run ID
+client = Client()
+vs = TomogramVoxelSpacing.find(client, [TomogramVoxelSpacing.run_id == RUN_ID])
+vs_num = set([v.voxel_spacing for v in vs])
+```
+:::
+
+:::{admonition} Get all types of post-processing methods for tomograms in this run <a class="headerlink" href="#all-tomogram-processing-example" title="Permalink to this example">¶</a>
+:class: czi-faq
+:name: all-tomogram-processing-example
+:collapsible:
+
+```python
+from cryoet_data_portal import Client, Tomogram
+
+RUN_ID = 17070  # Example run ID
+client = Client()
+tomo = Tomogram.find(client, [Tomogram.run_id == RUN_ID])
+tomo_proc = set([t.processing for t in tomo])
+```
+:::
+
+:::{admonition} Get all annotated object names for this run <a class="headerlink" href="#all-annotated-object-example" title="Permalink to this example">¶</a>
+:class: czi-faq
+:name: all-annotated-object-example
+:collapsible:
+
+```python
+from cryoet_data_portal import Client, Annotation
+
+RUN_ID = 500  # Example run ID
+client = Client()
+anno = Annotation.find(client, [Annotation.run_id == RUN_ID])
+anno_name = set([a.object_name for a in anno])
+```
+:::

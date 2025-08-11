@@ -16,6 +16,8 @@ import {
 } from 'app/constants/tiltSeries'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 
+import { getAggregatedRunIdsByDeposition } from './runsByDepositionIdV2.server'
+
 const GET_DATASET_BY_ID_QUERY_V2 = gql(`
   query GetDatasetByIdV2(
     $id: Int,
@@ -256,6 +258,7 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
 function getRunFilter(
   filterState: FilterState,
   datasetId: number,
+  aggregatedRunIds?: number[],
 ): RunWhereClause {
   const where: RunWhereClause = {
     datasetId: {
@@ -263,11 +266,9 @@ function getRunFilter(
     },
   }
 
-  // Deposition filter:
-  const depositionId = +(filterState.ids.deposition ?? Number.NaN)
-  if (!Number.isNaN(depositionId) && depositionId > 0) {
-    where.annotations ??= {}
-    where.annotations.depositionId = { _eq: depositionId }
+  // Deposition filter (2-pass approach):
+  if (aggregatedRunIds !== undefined) {
+    where.id = { _in: aggregatedRunIds }
   }
 
   // Tilt series filters:
@@ -335,6 +336,27 @@ export async function getDatasetByIdV2({
   page?: number
   params?: URLSearchParams
 }): Promise<ApolloQueryResult<GetDatasetByIdV2Query>> {
+  const filterState = getFilterState(params)
+  const filterDepositionId = filterState.ids.deposition
+    ? parseInt(filterState.ids.deposition)
+    : null
+
+  let aggregatedRunIds: number[] | undefined
+
+  // If we have a deposition ID filter, use 2-pass approach to find runs across all data types
+  if (filterDepositionId) {
+    // Pass 1: Aggregate run IDs from all deposition-related queries
+    aggregatedRunIds = await getAggregatedRunIdsByDeposition({
+      depositionId: filterDepositionId,
+      client,
+    })
+
+    // If no runs found with this deposition ID, use empty array to indicate no results
+    if (aggregatedRunIds.length === 0) {
+      aggregatedRunIds = [] // Use empty array to indicate no results
+    }
+  }
+
   return client.query({
     query: GET_DATASET_BY_ID_QUERY_V2,
     variables: {
@@ -342,7 +364,7 @@ export async function getDatasetByIdV2({
       depositionId,
       runLimit: MAX_PER_PAGE,
       runOffset: (page - 1) * MAX_PER_PAGE,
-      runFilter: getRunFilter(getFilterState(params), id),
+      runFilter: getRunFilter(filterState, id, aggregatedRunIds),
     },
   })
 }

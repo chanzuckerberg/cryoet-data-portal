@@ -185,7 +185,7 @@
 //     ),
 //     ctfCorrected: tomogram.ctfCorrected ? 'Yes' : 'No',
 //     alignmentId: tomogram.alignment!.id,
-//     canonicalStatus: tomogram.isPortalStandard ? 'True' : 'False',
+//     portalStandardStatus: tomogram.isPortalStandard ? 'True' : 'False',
 //     alignmentType: tomogram.alignment!.alignmentType,
 //     dimensionXYZ: `${tomogram.alignment!.volumeXDimension}, ${
 //       tomogram.alignment!.volumeYDimension
