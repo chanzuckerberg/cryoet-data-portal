@@ -112,3 +112,36 @@ const toggleLayersVisibility = () => {
 
 This example takes the super state, iterates on all the layers and toggle their visibility.
 It's important to note that the state that is returned is the one that will be used as new super state. There is no immutability or nothing imposed, you can modify `state` as input, or make a copy, as long as you return the new state.
+
+
+## How to access Neuroglancer and Neuroglancer's internal properties
+
+When the instance of Neuroglancer is created in the iFrame, a relationship is kept inside the iFrame to get a direct access to the Neuroglancer's instance. This gives the capacity to directly manipulate Neuroglancer and its internal properties, as long as you have a knowledge of how Neuroglancer works internally.
+
+NOTE: To gain access to the Neuroglancer's instance, the iFrame needs to be served from the same domain. As the instance is kept at the iFrame window level, the main window that embedds the iFrame needs to gain access to the internal representatio of the iFrame once loaded. Due to browser restrictions, this can only be done if the iFrame is served from the same domain.
+
+First you need to have a reference to the `NeuroglancerWrapper` component:
+
+```tsx
+export MyComponent = () => {
+  const iframeRef = useRef<HTMLIFrameElement>()
+  // ...
+  return <NeuroglancerWrapper ref={iframeRef as any} />
+
+```
+
+Then get the `neuroglancer` field from the iFrame's window:
+
+```ts
+const getNeuroglancer = (iframe: HTMLIFrameElement): HTMLElement | null => {
+  const iframeWindow = iframe?.contentWindow
+
+  if (!iframeWindow) {
+    return
+  }
+
+  return (iframeWindow as any).neuroglancer?.element as HTMLElement | null
+}
+
+const neuroglancerInstance = getNeuroglancer(iframeRef.current)
+```
