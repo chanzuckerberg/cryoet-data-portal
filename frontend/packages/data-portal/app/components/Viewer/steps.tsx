@@ -13,7 +13,7 @@ interface StepContentProps {
 
 const essentialControls = [
   { key: 'CTRL', action: 'scroll or Pinch', description: 'Zoom in 2D images' },
-  { key: "Shift", action: 'scroll or Scroll', description: 'Move in slices' },
+  { key: 'Shift', action: 'scroll or Scroll', description: 'Move in slices' },
   { action: 'Left-click and drag', description: 'Pan 2D images' },
   { action: 'Left-click and drag', description: 'Rotate 3D Volume' },
   {
@@ -174,7 +174,9 @@ export const getTutorialSteps: () => Step[] = () => [
             menu.
           </span>
           <span>
-            You can toggle layer visibility by clicking the layer color indictor and also open detailed layer controls from button on the right of the layer item.
+            You can toggle layer visibility by clicking the layer color indictor
+            and also open detailed layer controls from button on the right of
+            the layer item.
           </span>
         </p>
       </StepContent>
@@ -188,8 +190,8 @@ export const getTutorialSteps: () => Step[] = () => [
     content: (
       <StepContent variant="minimal">
         <p className="text-[#767676]">
-          Change the visualization settings of individual layers here. You can change{' '}
-          <span className="text-black">layer colours</span> or{' '}
+          Change the visualization settings of individual layers here. You can
+          change <span className="text-black">layer colours</span> or{' '}
           <span className="text-black">opacity</span>,{' '}
           <span className="text-black">image contrast limits</span>,{' '}
           <span className="text-black">rendering resolution</span> and more.

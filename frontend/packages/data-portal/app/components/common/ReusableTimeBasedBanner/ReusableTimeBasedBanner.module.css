@@ -1,7 +1,0 @@
-.banner {
-  /* Hide default banner icon */
-  /* TODO Allow custom icon in SDS upstream */
-  > [role='banner'] > div > div:first-of-type {
-    display: none;
-  }
-}
