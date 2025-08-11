@@ -120,7 +120,17 @@ When the instance of Neuroglancer is created in the iFrame, a relationship is ke
 
 NOTE: To gain access to the Neuroglancer's instance, the iFrame needs to be served from the same domain. As the instance is kept at the iFrame window level, the main window that embedds the iFrame needs to gain access to the internal representatio of the iFrame once loaded. Due to browser restrictions, this can only be done if the iFrame is served from the same domain.
 
-First you need to have a reference to the `NeuroglancerWrapper` component:
+To get the `neuroglancer` field from the iFrame's window, there is a simple function called `currentNeuroglancer()` :
+
+```ts
+const viewer: NeuroglancerViewer | undefined = currentNeuroglancer()
+
+if (viewer) {
+  viewer.showAxisLines.value =
+}
+```
+
+If instead you prefer to get access to the raw HTMLElement that is the root Neuroglancer's instance, you need to have a reference to the `NeuroglancerWrapper`:
 
 ```tsx
 export MyComponent = () => {
@@ -130,7 +140,7 @@ export MyComponent = () => {
 
 ```
 
-Then get the `neuroglancer` field from the iFrame's window:
+Then, you need to navigate from the iFrame reference to the content window and get the `neuroglancer` reference.
 
 ```ts
 const getNeuroglancer = (iframe: HTMLIFrameElement): HTMLElement | null => {
