@@ -174,7 +174,9 @@ export const getTutorialSteps: () => Step[] = () => [
             menu.
           </span>
           <span>
-            You can click the layer's color indicator to toggle its visibility or use the button to the right of the layer to open detailed controls.
+            You can click the layer's color indicator to toggle its visibility
+            or use the button to the right of the layer to open detailed
+            controls.
           </span>
         </p>
       </StepContent>
@@ -206,8 +208,8 @@ export const getTutorialSteps: () => Step[] = () => [
       <StepContent variant="minimal">
         <p className="text-[#767676] flex flex-col gap-4">
           <span>
-            You can find further controls in the neuroglancer header bar, such as
-            taking screenshots and showing or hiding panels in the viewer,
+            You can find further controls in the neuroglancer header bar, such
+            as taking screenshots and showing or hiding panels in the viewer,
             should you need them.
           </span>
         </p>

@@ -12,17 +12,17 @@ const onStartTour = jest.fn()
 // Import the component after mocking
 let NeuroglancerBanner: any
 
-function NeuroglancerBannerWrapper({ 
+function NeuroglancerBannerWrapper({
   initialOpen = true,
-  tourInProgress = false 
-}: { 
+  tourInProgress = false,
+}: {
   initialOpen?: boolean
-  tourInProgress?: boolean 
+  tourInProgress?: boolean
 }) {
   const [open, setOpen] = useState(initialOpen)
-  
+
   return (
-    <NeuroglancerBanner 
+    <NeuroglancerBanner
       onStartTour={onStartTour}
       open={open}
       setOpen={setOpen}
@@ -31,9 +31,9 @@ function NeuroglancerBannerWrapper({
   )
 }
 
-async function renderNeuroglancerBanner(props?: { 
+async function renderNeuroglancerBanner(props?: {
   initialOpen?: boolean
-  tourInProgress?: boolean 
+  tourInProgress?: boolean
 }) {
   if (!NeuroglancerBanner) {
     const module = await import('./NeuroglancerBanner')
