@@ -30,7 +30,12 @@ export function NeuroglancerDropdownOption({
           ) : null}
         </div>
         <div
-          className={cns(selected && 'font-semibold', 'flex flex-col w-full')}
+          className={cns(
+            selected && 'font-semibold',
+            'flex',
+            'flex-col',
+            'w-full',
+          )}
         >
           {children}
         </div>
