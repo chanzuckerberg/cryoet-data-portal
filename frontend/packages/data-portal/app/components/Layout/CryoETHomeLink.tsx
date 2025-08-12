@@ -13,7 +13,7 @@ export function CryoETHomeLink({
   return (
     <div className="flex items-center gap-sds-s text-light-sds-color-primitive-gray-50">
       <Link
-        className={cns(textSize, 'font-semibold ml-2 whitespace-nowrap')}
+        className={cns(textSize, 'font-semibold', 'ml-2', 'whitespace-nowrap')}
         to={SITE_LINKS.HOME}
       >
         {t('title')}
