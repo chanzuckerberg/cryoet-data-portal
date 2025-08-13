@@ -80,7 +80,7 @@ export function GroupedAccordion<T>({
   )
 
   return (
-    <div className={`px-sds-xl ${className}`}>
+    <div className={cns('px-sds-xl pt-sds-m', className)}>
       <div>
         {data.map((group) => {
           const groupId = getGroupId
