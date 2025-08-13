@@ -6,7 +6,7 @@ import {
 } from 'app/types/deposition'
 import { DataContentsType } from 'app/types/deposition-queries'
 
-import { LocationTable } from './LocationTable'
+import { AnnotationLocationTable } from './AnnotationLocationTable'
 import { TomogramLocationTable } from './TomogramLocationTable'
 
 type GroupedDepositedLocationData = GroupedData<
@@ -57,7 +57,9 @@ export function DepositedLocationAccordionContent({
   }
 
   const Table =
-    tab === DataContentsType.Tomograms ? TomogramLocationTable : LocationTable
+    tab === DataContentsType.Tomograms
+      ? TomogramLocationTable
+      : AnnotationLocationTable
 
   return (
     <Table
