@@ -109,14 +109,14 @@ export function TomogramRow({
       <TableRow
         className={cns(
           'cursor-pointer',
-          '!bg-light-sds-color-semantic-base-background-secondary hover:!bg-light-sds-color-semantic-base-fill-hover',
-          'border border-light-sds-color-semantic-base-border-secondary',
+          '!bg-light-sds-color-primitive-gray-75',
+          'border-none',
         )}
         onClick={onToggle}
       >
-        <CellComponent colSpan={7} className="!p-2">
+        <CellComponent colSpan={7} className="!py-sds-s !pl-sds-m !pr-sds-xl">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-sds-xs">
+            <div className="flex items-center gap-sds-s">
               <Icon
                 sdsIcon={isExpanded ? 'ChevronUp' : 'ChevronDown'}
                 sdsSize="xs"
@@ -143,7 +143,7 @@ export function TomogramRow({
               ) : (
                 <span
                   className={cns(
-                    'text-sds-body-xxxs-400-wide tracking-sds-body-xxxs-400-wide',
+                    'text-[11px] tracking-sds-body-xxxs-400-wide',
                     'text-light-sds-color-semantic-base-text-secondary',
                   )}
                 >
