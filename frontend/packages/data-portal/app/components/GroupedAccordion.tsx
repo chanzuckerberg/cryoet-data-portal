@@ -33,7 +33,6 @@ interface GroupedAccordionProps<T> {
   externalLinkBuilder?: (group: GroupedData<T>) => string
   pageSize?: number
   className?: string
-  accordionClassName?: string
   showPagination?: boolean
   getGroupId?: (group: GroupedData<T>) => string
 }
@@ -47,7 +46,6 @@ export function GroupedAccordion<T>({
   externalLinkBuilder,
   pageSize = MAX_PER_ACCORDION_GROUP,
   className = '',
-  accordionClassName = '',
   showPagination = true,
   getGroupId,
 }: GroupedAccordionProps<T>) {
@@ -109,7 +107,7 @@ export function GroupedAccordion<T>({
               onChange={(_, nextExpanded) => {
                 toggleGroup(group.groupKey, nextExpanded)
               }}
-              className={`[&_.MuiAccordionDetails-root]:!px-0 ${accordionClassName}`}
+              className="[&_.MuiAccordionDetails-root]:!px-0"
             >
               <AccordionHeader>
                 <GroupedDataHeader
