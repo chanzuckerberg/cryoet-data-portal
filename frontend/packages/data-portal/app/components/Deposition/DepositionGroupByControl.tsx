@@ -123,7 +123,10 @@ function useGroupByOptions(): SingleButtonDefinition[] {
 
     return [
       createButtonDefinition(GroupByOption.None, 'none'),
-      createButtonDefinition(GroupByOption.DepositedLocation, 'location'),
+      createButtonDefinition(
+        GroupByOption.DepositedLocation,
+        'depositedLocation',
+      ),
       createButtonDefinition(GroupByOption.Organism, 'organism'),
     ]
   }, [datasets, isLoading, t])
