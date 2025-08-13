@@ -53,6 +53,7 @@ export function RunRowHeader({
                 totalItems={totalCount}
                 itemLabel={t('annotation')}
                 itemsLabel={t('annotations')}
+                variant="secondary"
               />
             ) : (
               <span

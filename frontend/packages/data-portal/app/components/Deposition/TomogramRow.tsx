@@ -138,6 +138,7 @@ export function TomogramRow({
                   totalItems={totalCount}
                   itemLabel={t('tomogram')}
                   itemsLabel={t('tomograms')}
+                  variant="secondary"
                 />
               ) : (
                 <span
