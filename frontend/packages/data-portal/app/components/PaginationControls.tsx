@@ -52,9 +52,10 @@ function PaginationButton({
 }
 
 interface PaginationControlsProps {
+  variant?: 'primary' | 'secondary'
   currentPage: number
-  totalPages: number
   onPageChange: (page: number) => void
+  totalPages: number
 
   // Optional props for rich pagination (with item count display)
   startIndex?: number
@@ -79,6 +80,7 @@ export function PaginationControls({
   itemsLabel,
   disabled = false,
   onClick,
+  variant = 'primary',
 }: PaginationControlsProps) {
   const { t } = useI18n()
   const isPrevDisabled = disabled || currentPage === 1 || totalPages <= 1
@@ -132,8 +134,16 @@ export function PaginationControls({
       <div className={cns(ROOT_CLASS_NAME, 'gap-sds-s')}>
         <span
           className={cns(
-            'text-sds-body-xxxs-400-wide tracking-sds-body-xxxs-400-wide',
-            'text-light-sds-color-semantic-base-text-secondary',
+            variant === 'primary' && [
+              'text-sds-body-xxs-400-wide',
+              'tracking-sds-body-xxs-400-wide',
+            ],
+
+            variant === 'secondary' && [
+              '!text-sds-body-xxxs-400-wide',
+              'tracking-sds-body-xxxs-400-wide',
+              'text-light-sds-color-semantic-base-text-secondary',
+            ],
           )}
         >
           {t('itemsRange', {

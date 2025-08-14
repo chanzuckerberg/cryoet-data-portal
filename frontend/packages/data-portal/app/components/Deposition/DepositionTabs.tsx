@@ -66,6 +66,10 @@ function useTabs(activeTab: DataContentsType) {
             'font-semibold text-sds-body-s-600-wide',
             'tracking-sds-body-s-600-wide leading-sds-body-s',
             'w-full flex items-center justify-between',
+            // Ensure the entire label (icon, text, and count) turns black when active
+            activeTab === tab
+              ? '!text-black'
+              : '!text-light-sds-color-primitive-gray-600',
           )}
         >
           <span className="flex items-center gap-sds-xs">

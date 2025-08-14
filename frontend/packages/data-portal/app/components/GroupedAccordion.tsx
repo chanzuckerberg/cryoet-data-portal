@@ -10,6 +10,7 @@ import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
 import { useAccordionState } from 'app/hooks/useAccordionState'
 import { useI18n } from 'app/hooks/useI18n'
 import { DataContentsType } from 'app/types/deposition-queries'
+import { cns } from 'app/utils/cns'
 import { formatNumber } from 'app/utils/string'
 
 export interface GroupedData<T> {
@@ -33,7 +34,6 @@ interface GroupedAccordionProps<T> {
   externalLinkBuilder?: (group: GroupedData<T>) => string
   pageSize?: number
   className?: string
-  accordionClassName?: string
   showPagination?: boolean
   getGroupId?: (group: GroupedData<T>) => string
 }
@@ -47,7 +47,6 @@ export function GroupedAccordion<T>({
   externalLinkBuilder,
   pageSize = MAX_PER_ACCORDION_GROUP,
   className = '',
-  accordionClassName = '',
   showPagination = true,
   getGroupId,
 }: GroupedAccordionProps<T>) {
@@ -81,7 +80,7 @@ export function GroupedAccordion<T>({
   )
 
   return (
-    <div className={`px-sds-xl ${className}`}>
+    <div className={cns('px-sds-xl pt-sds-m', className)}>
       <div>
         {data.map((group) => {
           const groupId = getGroupId
@@ -109,7 +108,13 @@ export function GroupedAccordion<T>({
               onChange={(_, nextExpanded) => {
                 toggleGroup(group.groupKey, nextExpanded)
               }}
-              className={`[&_.MuiAccordionDetails-root]:!px-0 ${accordionClassName}`}
+              className={cns(
+                '[&_.MuiAccordionDetails-root]:!p-0',
+                '[&_.MuiAccordionDetails-root]:!pb-sds-xs',
+                '[&_.MuiAccordionSummary-content]:!pl-sds-m',
+                '[&_.MuiAccordionSummary-root]:!pt-sds-m',
+                '[&_.MuiAccordionSummary-root]:!pb-sds-s',
+              )}
             >
               <AccordionHeader>
                 <GroupedDataHeader

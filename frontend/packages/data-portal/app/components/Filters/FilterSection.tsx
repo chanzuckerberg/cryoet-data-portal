@@ -14,7 +14,7 @@ export function FilterSection({
   return (
     <div
       className={cns(
-        'pl-sds-l pb-sds-m',
+        'px-sds-l pb-sds-m',
         border &&
           'border-b last:border-0 border-light-sds-color-primitive-gray-300',
       )}

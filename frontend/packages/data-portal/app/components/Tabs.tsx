@@ -63,7 +63,7 @@ export function Tabs<T>({
                   'transition-colors',
                   tab.disabled && 'opacity-100 !text-[#ccc]',
                   vertical && [
-                    'w-[calc(100%-6px)]',
+                    'w-[calc(100%-6px)] !opacity-100',
                     '!px-sds-xl !h-10 group',
                     'hover:bg-light-sds-color-semantic-base-fill-hover',
                     tab.value === value && '!bg-[#edf3fd]',

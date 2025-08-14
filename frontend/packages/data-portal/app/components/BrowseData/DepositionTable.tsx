@@ -182,7 +182,11 @@ export function DepositionTable() {
           ),
 
           cell({ row: { original: deposition } }) {
-            return <TableCell>{deposition.depositionDate}</TableCell>
+            return (
+              <TableCell width={DepositionTableWidths.depositionDate}>
+                {deposition.depositionDate}
+              </TableCell>
+            )
           },
         }),
 
@@ -226,7 +230,10 @@ export function DepositionTable() {
                   // }
 
                   return (
-                    <TableCell showLoadingSkeleton={false}>
+                    <TableCell
+                      showLoadingSkeleton={false}
+                      width={DepositionTableWidths.dataTypesAndCounts}
+                    >
                       {dataTypes.map(({ label, value }) => (
                         <p className="text-sds-body-s-400-wide leading-sds-body-s mb-sds-xxxs">
                           <span>{t(label)}: </span>

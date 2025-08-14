@@ -56,7 +56,7 @@ export function GroupedDataHeader({
         className,
       )}
     >
-      <div>
+      <div className="max-w-content-small">
         <span className="text-sds-header-m-600-wide tracking-sds-header-m-600-wide font-semibold inline">
           {title}
         </span>

@@ -4,9 +4,22 @@ import { PaginationControls } from 'app/components/PaginationControls'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
-import { RunRowHeaderProps } from './types'
+export interface ExpandableRowHeaderProps {
+  runName: string
+  isExpanded: boolean
+  onToggle: () => void
+  totalCount: number
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
+  startIndex: number
+  endIndex: number
+  colSpan: number
+  itemLabel: string
+  itemsLabel: string
+}
 
-export function RunRowHeader({
+export function ExpandableRowHeader({
   runName,
   isExpanded,
   onToggle,
@@ -16,7 +29,10 @@ export function RunRowHeader({
   onPageChange,
   startIndex,
   endIndex,
-}: RunRowHeaderProps) {
+  colSpan,
+  itemLabel,
+  itemsLabel,
+}: ExpandableRowHeaderProps) {
   const { t } = useI18n()
 
   return (
@@ -28,7 +44,10 @@ export function RunRowHeader({
       )}
       onClick={onToggle}
     >
-      <CellComponent colSpan={3} className="!py-sds-s !pl-sds-m !pr-sds-xl">
+      <CellComponent
+        colSpan={colSpan}
+        className="!py-sds-s !pl-sds-m !pr-sds-xl"
+      >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-sds-s">
             <Icon
@@ -50,8 +69,8 @@ export function RunRowHeader({
                 startIndex={startIndex}
                 endIndex={endIndex}
                 totalItems={totalCount}
-                itemLabel={t('annotation')}
-                itemsLabel={t('annotations')}
+                itemLabel={itemLabel}
+                itemsLabel={itemsLabel}
                 variant="secondary"
               />
             ) : (
@@ -61,8 +80,7 @@ export function RunRowHeader({
                   'text-light-sds-color-semantic-base-text-secondary',
                 )}
               >
-                {totalCount}{' '}
-                {totalCount === 1 ? t('annotation') : t('annotations')}
+                {totalCount} {totalCount === 1 ? itemLabel : itemsLabel}
               </span>
             )}
           </div>

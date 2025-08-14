@@ -29,10 +29,25 @@ export function DepositionGroupByControl() {
   const groupByOptions = useGroupByOptions()
 
   const handleGroupByChange = (value: GroupByOption) => {
+    // Prevent deselection when clicking active tab (value will be null/undefined)
+    if (!value) {
+      return
+    }
+
+    // Don't do anything if clicking the currently active tab
+    if (value === groupBy) {
+      return
+    }
+
     // Remove the page parameter when group by changes
     setSearchParams(
       (prev) => {
-        prev.set(QueryParams.GroupBy, value)
+        if (value === GroupByOption.None) {
+          // Remove the groupBy parameter entirely for cleaner URLs
+          prev.delete(QueryParams.GroupBy)
+        } else {
+          prev.set(QueryParams.GroupBy, value)
+        }
         prev.delete(QueryParams.Page)
         return prev
       },
@@ -123,7 +138,10 @@ function useGroupByOptions(): SingleButtonDefinition[] {
 
     return [
       createButtonDefinition(GroupByOption.None, 'none'),
-      createButtonDefinition(GroupByOption.DepositedLocation, 'location'),
+      createButtonDefinition(
+        GroupByOption.DepositedLocation,
+        'depositedLocation',
+      ),
       createButtonDefinition(GroupByOption.Organism, 'organism'),
     ]
   }, [datasets, isLoading, t])
