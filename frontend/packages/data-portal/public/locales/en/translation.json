@@ -331,7 +331,7 @@
   "nameOrId": "Name/ID",
   "napariPlugin": "napari Plugin",
   "ndJsonLink": "https://zarr.readthedocs.io/en/stable/",
-  "neuroglancerTutorialLink": "https://chanzuckerberg.github.io/cryoet-data-portal/stable/neuroglancer_quickstart.html",
+  "neuroglancerTutorialDocsLink": "https://chanzuckerberg.github.io/cryoet-data-portal/stable/neuroglancer_quickstart.html",
   "next": "Next",
   "no": "No",
   "noAnnotationsAvailable": "No Annotations Available",
@@ -581,5 +581,9 @@
   "yes": "Yes",
   "youMustHaveCliInstalled": "You must have AWS CLI installed. <url to='$t(awsCliLink)'>How to Install AWS CLI.</url>",
   "youMustHaveCurlInstalled": "You must have cURL installed. <url to='$t(curlSetupLink)'>How to Install cURL</url>",
-  "zarrLink": "https://zarr.readthedocs.io/en/stable/"
+  "zarrLink": "https://zarr.readthedocs.io/en/stable/",
+  "goToNeuroglancerDocumentation": "Go to Neuroglancer Documentation",
+  "neuroglancerWalkthrough": "Neuroglancer Walkthrough",
+  "snapActionSuccess": "Snapped to nearest axis",
+  "shareActionSuccess": "Share link copied to clipboard"
 }

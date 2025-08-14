@@ -5,6 +5,9 @@ const tsConfigFile = resolve(__dirname, './tsconfig.json')
 module.exports = {
   root: true,
   extends: ['cryoet-data-portal'],
+  rules: {
+    'react/no-unescaped-entities': 'off',
+  },
 
   parserOptions: {
     project: tsConfigFile,

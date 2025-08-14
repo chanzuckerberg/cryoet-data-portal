@@ -133,7 +133,7 @@ export function RunHeader() {
                   onClick={(e) => {
                     e.stopPropagation()
                     e.preventDefault()
-                    window.open(getNeuroglancerUrl(neuroglancerConfig))
+                    window.open(getNeuroglancerUrl(neuroglancerConfig, run.id))
                   }}
                 >
                   <div className="text-light-sds-color-primitive-gray-50">
@@ -153,7 +153,11 @@ export function RunHeader() {
                       })}
                     </h4>
                     <Link
-                      to={t('neuroglancerTutorialLink')}
+                      to={getNeuroglancerUrl(
+                        neuroglancerConfig,
+                        run.id,
+                        true /* activateTour = */,
+                      )}
                       variant="dashed-underlined"
                       stopPropagation
                       className="text-light-sds-color-semantic-base-text-secondary-inverse"
