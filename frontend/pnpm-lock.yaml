@@ -423,7 +423,7 @@ importers:
     dependencies:
       neuroglancer:
         specifier: git+https://github.com/metacell/neuroglancer.git#feat/cryoet-data-portal
-        version: github.com/metacell/neuroglancer/73d6ac2ecdf5247917ef6c0b710ccca9c2f6beab(typescript@5.6.3)
+        version: github.com/metacell/neuroglancer/021ffa26f8933e8dbb8d766ef5ef4bd943ba2de5(typescript@5.6.3)
       pako:
         specifier: ^2.1.0
         version: 2.1.0
@@ -16121,9 +16121,9 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
-  github.com/metacell/neuroglancer/73d6ac2ecdf5247917ef6c0b710ccca9c2f6beab(typescript@5.6.3):
-    resolution: {tarball: https://codeload.github.com/metacell/neuroglancer/tar.gz/73d6ac2ecdf5247917ef6c0b710ccca9c2f6beab}
-    id: github.com/metacell/neuroglancer/73d6ac2ecdf5247917ef6c0b710ccca9c2f6beab
+  github.com/metacell/neuroglancer/021ffa26f8933e8dbb8d766ef5ef4bd943ba2de5(typescript@5.6.3):
+    resolution: {tarball: https://codeload.github.com/metacell/neuroglancer/tar.gz/021ffa26f8933e8dbb8d766ef5ef4bd943ba2de5}
+    id: github.com/metacell/neuroglancer/021ffa26f8933e8dbb8d766ef5ef4bd943ba2de5
     name: neuroglancer
     version: 2.40.1
     engines: {node: '>=22'}
