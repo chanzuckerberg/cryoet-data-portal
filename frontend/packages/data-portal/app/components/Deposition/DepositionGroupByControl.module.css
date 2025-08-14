@@ -1,7 +1,7 @@
 .segmentedControl {
   button {
     @apply !px-sds-l !py-sds-xs;
-    @apply font-semibold text-sds-header-s-600-wide tracking-sds-header-s-600-wide;
+    @apply font-semibold text-sds-body-xxs-600-wide tracking-sds-body-xxs-600-wide;
     @apply !text-light-sds-color-semantic-base-text-secondary;
     @apply hover:!text-light-sds-color-semantic-accent-text-action;
   }

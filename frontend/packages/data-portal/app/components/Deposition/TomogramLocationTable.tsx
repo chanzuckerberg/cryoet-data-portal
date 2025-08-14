@@ -145,7 +145,7 @@ export function TomogramLocationTable({
 
   return (
     <TableContainer className="!px-0">
-      <SDSTable className="!table-fixed">
+      <SDSTable className="!table-fixed [&>thead]:border-none">
         <TableHeader>
           <CellHeader style={DepositionTomogramTableWidths.photo}> </CellHeader>
           <CellHeader style={DepositionTomogramTableWidths.name}>
