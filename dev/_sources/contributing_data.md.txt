@@ -13,9 +13,9 @@ The CryoET Data Portal supports a rapidly growing cryoET data corpus because of 
 
 ### Glossary
 
-* **Deposition**: Depositions are collections of datasets, annotations, and/or (in the future) tomograms contributed by the same author(s). The website currently shows only depositions that include annotations
-* **Dataset:** Datasets are contributed sets of files associated with imaging one sample type with the same experimental conditions
-* **Run:** A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs.
+* **Deposition**: Depositions are collections of datasets, annotations, and/or (in the future) tomograms contributed by the same author(s). The website currently shows only depositions that include annotations. [Click here for an example](https://cryoetdataportal.czscience.com/depositions/10312)
+* **Dataset:** Datasets are contributed sets of files associated with imaging one sample type with the same experimental conditions. [Click here for an example](https://cryoetdataportal.czscience.com/datasets/10452)
+* **Run:** A tomography run is a collection of all data and annotations related to one physical location in a sample and is associated with a dataset that typically contains many other runs. [Click here for an example](https://cryoetdataportal.czscience.com/runs/18177)
 
 ### Contribution of Full Datasets
 
