@@ -40,7 +40,7 @@ export function ContentsSummaryTable({
   const { t } = useI18n()
   const SUMMARY_TABLE_INFO: {
     labelKey: keyof SummaryData
-    toolTipContentKey: I18nKeys
+    toolTipContentKey: string
     learnMoreLink?: string
   }[] = [
     {

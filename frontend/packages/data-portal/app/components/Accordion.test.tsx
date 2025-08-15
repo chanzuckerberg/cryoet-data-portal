@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { Accordion } from './Accordion'
@@ -20,22 +20,34 @@ describe('<Accordion />', () => {
   })
 
   it('should open on click', async () => {
+    const user = userEvent.setup()
     renderAccordion()
-    await userEvent.click(screen.getByRole('button'))
-    expect(screen.queryByText(CHILDREN_TEXT)).toBeVisible()
+
+    await user.click(screen.getByRole('button'))
+
+    // Wait for the accordion animation to complete and content to be visible
+    await waitFor(() => {
+      expect(screen.queryByText(CHILDREN_TEXT)).toBeVisible()
+    })
   })
 
   it('should close on click', async () => {
+    const user = userEvent.setup()
     renderAccordion()
 
-    await userEvent.click(screen.getByRole('button'))
-    await userEvent.click(screen.getByRole('button'))
-    // Wait for animation.
-    await new Promise((resolve) => {
-      setTimeout(resolve, 1000)
+    // First click to open
+    await user.click(screen.getByRole('button'))
+    await waitFor(() => {
+      expect(screen.queryByText(CHILDREN_TEXT)).toBeVisible()
     })
 
-    expect(screen.queryByText(CHILDREN_TEXT)).not.toBeVisible()
+    // Second click to close
+    await user.click(screen.getByRole('button'))
+
+    // Wait for the accordion animation to complete and content to be hidden
+    await waitFor(() => {
+      expect(screen.queryByText(CHILDREN_TEXT)).not.toBeVisible()
+    })
   })
 
   it('should render opened if initialOpen === true', () => {

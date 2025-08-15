@@ -121,7 +121,6 @@ export default function DatasetByIdPage() {
             title: deposition.title,
             url: `/depositions/${deposition.id}?${previousSingleDepositionParams}`,
           }}
-          tOptions={{ interpolation: { escapeValue: false } }}
         />
       )
 

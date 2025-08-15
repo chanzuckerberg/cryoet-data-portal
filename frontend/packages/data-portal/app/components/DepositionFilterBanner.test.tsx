@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals'
 import { createRemixStub } from '@remix-run/testing'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 const mockOnRemoveFilter = jest.fn()
@@ -43,6 +43,8 @@ describe('<DepositionFilterBanner />', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'removeFilter' }))
 
-    expect(mockOnRemoveFilter).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(mockOnRemoveFilter).toHaveBeenCalledTimes(1)
+    })
   })
 })

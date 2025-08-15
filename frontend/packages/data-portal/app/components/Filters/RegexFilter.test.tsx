@@ -1,5 +1,5 @@
 import { beforeEach } from '@jest/globals'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { IdPrefix } from 'app/constants/idPrefixes'
@@ -7,6 +7,9 @@ import { QueryParams } from 'app/constants/query'
 import { RemixMock } from 'app/mocks/Remix.mock'
 
 import { RegexFilterProps } from './RegexFilter'
+
+// Initialize mock before any imports
+const remixMock = new RemixMock()
 
 async function renderRegexFilter({
   displayNormalizer,
@@ -32,22 +35,25 @@ async function renderRegexFilter({
   )
 }
 
-const remixMock = new RemixMock()
-
 describe('<RegexFilter />', () => {
   beforeEach(() => {
     remixMock.reset()
   })
 
   it('should render title', async () => {
+    const user = userEvent.setup()
     const title = 'Test Title'
     await renderRegexFilter({ title })
-    await userEvent.click(screen.getByRole('button'))
 
-    expect(screen.getByText(title)).toBeVisible()
+    await user.click(screen.getByRole('button'))
+
+    await waitFor(() => {
+      expect(screen.getByText(title)).toBeVisible()
+    })
   })
 
   it('should render initial value', async () => {
+    const user = userEvent.setup()
     const label = 'Open Filters'
     const queryParam = QueryParams.DatasetId
     const value = '123'
@@ -59,11 +65,15 @@ describe('<RegexFilter />', () => {
 
     expect(screen.getByText(`${IdPrefix.Dataset}-${value}`)).toBeVisible()
 
-    await userEvent.click(screen.getByRole('button', { name: label }))
-    expect(screen.getByRole('textbox')).toHaveValue(value)
+    await user.click(screen.getByRole('button', { name: label }))
+
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toHaveValue(value)
+    })
   })
 
   it('should disable apply if value does not match regex', async () => {
+    const user = userEvent.setup()
     const label = 'Open Filters'
     const queryParam = QueryParams.DatasetId
     await renderRegexFilter({
@@ -72,13 +82,21 @@ describe('<RegexFilter />', () => {
       regex: /[a-z]+/,
     })
 
-    await userEvent.click(screen.getByRole('button', { name: label }))
-    await userEvent.type(screen.getByRole('textbox'), '123')
+    await user.click(screen.getByRole('button', { name: label }))
 
-    expect(screen.getByRole('button', { name: 'apply' })).toBeDisabled()
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toBeVisible()
+    })
+
+    await user.type(screen.getByRole('textbox'), '123')
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'apply' })).toBeDisabled()
+    })
   })
 
   it('should set value on apply click', async () => {
+    const user = userEvent.setup()
     const label = 'Open Filters'
     const queryParam = QueryParams.DatasetId
     await renderRegexFilter({
@@ -86,14 +104,25 @@ describe('<RegexFilter />', () => {
       queryParam,
     })
 
-    await userEvent.click(screen.getByRole('button', { name: label }))
-    await userEvent.type(screen.getByRole('textbox'), '123')
-    await userEvent.click(screen.getByRole('button', { name: 'apply' }))
+    await user.click(screen.getByRole('button', { name: label }))
+
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toBeVisible()
+    })
+
+    await user.type(screen.getByRole('textbox'), '123')
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'apply' })).toBeEnabled()
+    })
+
+    await user.click(screen.getByRole('button', { name: 'apply' }))
 
     expect(remixMock.getLastSetParams()?.toString()).toBe(`${queryParam}=123`)
   })
 
   it('should normalize initial value', async () => {
+    const user = userEvent.setup()
     const label = 'Open Filters'
     const queryParam = QueryParams.DatasetId
     const value = '123'
@@ -107,11 +136,15 @@ describe('<RegexFilter />', () => {
 
     expect(screen.getByText(normalizedValue)).toBeVisible()
 
-    await userEvent.click(screen.getByRole('button', { name: label }))
-    expect(screen.getByRole('textbox')).toHaveValue(value)
+    await user.click(screen.getByRole('button', { name: label }))
+
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toHaveValue(value)
+    })
   })
 
   it('should normalize value', async () => {
+    const user = userEvent.setup()
     const label = 'Open Filters'
     const queryParam = QueryParams.DatasetId
     const value = '123'
@@ -122,15 +155,30 @@ describe('<RegexFilter />', () => {
       displayNormalizer: () => normalizedValue,
     })
 
-    await userEvent.click(screen.getByRole('button', { name: label }))
-    await userEvent.type(screen.getByRole('textbox'), value)
-    await userEvent.click(screen.getByRole('button', { name: 'apply' }))
-    await userEvent.click(screen.getByRole('button', { name: label }))
+    await user.click(screen.getByRole('button', { name: label }))
 
-    expect(screen.getByRole('textbox')).toHaveValue(normalizedValue)
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toBeVisible()
+    })
+
+    await user.type(screen.getByRole('textbox'), value)
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'apply' })).toBeEnabled()
+    })
+
+    await user.click(screen.getByRole('button', { name: 'apply' }))
+
+    // Wait for the form to close and reopen
+    await user.click(screen.getByRole('button', { name: label }))
+
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toHaveValue(normalizedValue)
+    })
   })
 
   it('should normalize param value', async () => {
+    const user = userEvent.setup()
     const label = 'Open Filters'
     const queryParam = QueryParams.DatasetId
     const value = `${IdPrefix.Dataset}-123`
@@ -141,9 +189,19 @@ describe('<RegexFilter />', () => {
       paramNormalizer: () => normalizedValue,
     })
 
-    await userEvent.click(screen.getByRole('button', { name: label }))
-    await userEvent.type(screen.getByRole('textbox'), value)
-    await userEvent.click(screen.getByRole('button', { name: 'apply' }))
+    await user.click(screen.getByRole('button', { name: label }))
+
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toBeVisible()
+    })
+
+    await user.type(screen.getByRole('textbox'), value)
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'apply' })).toBeEnabled()
+    })
+
+    await user.click(screen.getByRole('button', { name: 'apply' }))
 
     expect(remixMock.getLastSetParams()?.toString()).toBe(
       `${queryParam}=${normalizedValue}`,

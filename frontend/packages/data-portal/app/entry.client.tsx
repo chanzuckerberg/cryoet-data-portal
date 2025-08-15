@@ -12,7 +12,7 @@ import Backend from 'i18next-http-backend'
 import { startTransition, useMemo, useState } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import { initReactI18next } from 'react-i18next'
-import { getInitialNamespaces } from 'remix-i18next'
+import { getInitialNamespaces } from 'remix-i18next/client'
 
 import {
   ClientStyleContext,

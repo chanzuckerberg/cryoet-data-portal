@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { CopyBox } from './CopyBox'
@@ -12,21 +12,31 @@ describe('<CopyBox />', () => {
   })
 
   it('should copy to clipboard', async () => {
+    const user = userEvent.setup()
     const onCopy = jest.fn()
     const writeText = jest.fn()
 
-    Object.assign(navigator, {
-      clipboard: {
+    // Mock navigator.clipboard using Object.defineProperty since it's read-only
+    Object.defineProperty(navigator, 'clipboard', {
+      value: {
         writeText,
       },
+      writable: true,
     })
 
     render(<CopyBox content="content" onCopy={onCopy} />)
 
     expect(writeText).not.toHaveBeenCalled()
     expect(onCopy).not.toHaveBeenCalled()
-    await userEvent.click(screen.getByRole('button'))
-    expect(writeText).toHaveBeenCalled()
-    expect(onCopy).toHaveBeenCalled()
+
+    await user.click(screen.getByRole('button'))
+
+    // Wait for async clipboard operation and callbacks to complete
+    await waitFor(() => {
+      expect(writeText).toHaveBeenCalledWith('content')
+    })
+    await waitFor(() => {
+      expect(onCopy).toHaveBeenCalled()
+    })
   })
 })
