@@ -44,9 +44,9 @@
       
     
         <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.6e498931fedfae975.min.css?v=123c1ee9" />
-        <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+        <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
         <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0158cc88" />
+        <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=b048cf7c" />
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -1215,6 +1215,30 @@
 
               
             
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="contributing_data.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contribute Data to the Portal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1533,11 +1557,11 @@
 <h1 id="data-organization"><span id="id1"></span>Data Organization<a class="headerlink" href="#data-organization" title="Link to this heading">¶</a></h1>
 <p>The Data Portal is organized in a hierarchical structure. We welcome contributions to the Portal. <a class="reference external" href="https://airtable.com/apppmytRJXoXYTO9w/shr5UxgeQcUTSGyiY?prefill_Event=Portal&amp;amp;hide_Event=true">Use this form</a> to express interest in adding your data to the Portal.</p>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
-<figure class="align-center" id="id2">
+<figure class="align-center" id="id3">
 <img alt="CryoET Data Portal Data Schema" src="_images/data_schema.png" />
 <figcaption>
 <p><span class="caption-text"><span class="caption-text">
-CryoET Data Portal Data Hierarchy</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></figcaption>
+CryoET Data Portal Data Hierarchy</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></figcaption>
 </figure>
 <p>As shown in the diagram above, the CryoET Data Portal has 3 levels in the data hierarchy:</p>
 <ul class="simple">
@@ -1556,11 +1580,11 @@ CryoET Data Portal Data Hierarchy</span><a class="headerlink" href="#id2" title=
 <li><p><a class="reference internal" href="#annotations">Annotations</a></p></li>
 </ol>
 <h2 id="depositions">Depositions<a class="headerlink" href="#depositions" title="Link to this heading">¶</a></h2>
-<figure class="align-center" id="id3">
+<figure class="align-center" id="id4">
 <img alt="Depositions defined" src="_images/depositions.png" />
 <figcaption>
 <p><span class="caption-text"><span class="caption-text">
-Types of depositions</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></figcaption>
+Types of depositions</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></figcaption>
 </figure>
 <p>Depositions are collections of data submitted together. All data being submitted together will be tagged with the same deposition ID, starting with CZCDP (e.g. CZCDP-12345; note that only the numeric part is supported in the API). On the Portal, we will surface depositions that contain annotations submitted together. In the future, depositions surfaced on the Portal may include tomograms added to existing datasets or sets of datasets contributed together.</p>
 <h2 id="datasets">Datasets<a class="headerlink" href="#datasets" title="Link to this heading">¶</a></h2>
@@ -1695,11 +1719,11 @@ Types of depositions</span><a class="headerlink" href="#id3" title="Permalink to
 <h3 id="dataset-overview-page">Dataset Overview Page<a class="headerlink" href="#dataset-overview-page" title="Link to this heading">¶</a></h3>
 <p>The table on a Dataset Overview page contains an overview of the runs in the dataset. Each run has a name defined by the dataset authors as well as a Run ID, which is assigned by the Portal and is subject to change in the rare case where the run data needs to be re-ingested to the Portal. In addition to the run name, the <a class="reference internal" href="#tilt-series-quality">tilt series quality</a> and list of annotated objects is detailed for each run. Each entry has a <code class="docutils literal notranslate"><span class="pre">View</span> <span class="pre">Tomogram</span></code> button which will display the tomogram using an instance of Neuroglancer in the browser. The tomogram is visualized along with annotations that are manually chosen to display as many annotations as possible without overlap or occlusion.</p>
 <h3 id="dataset-download-options">Dataset Download Options<a class="headerlink" href="#dataset-download-options" title="Link to this heading">¶</a></h3>
-<figure class="align-center" id="id4">
+<figure class="align-center" id="id5">
 <img alt="File Structure of a downloaded dataset" src="_images/dataset_download.png" />
 <figcaption>
 <p><span class="caption-text"><span class="caption-text">
-File Structure of a downloaded dataset</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></figcaption>
+File Structure of a downloaded dataset</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></figcaption>
 </figure>
 <p>The <code class="docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Dataset</span></code> button opens a dialog with instructions for downloading the dataset using <a class="reference internal" href="cryoet_data_portal_docsite_aws.html"><span class="doc std std-doc">Amazon Web Services Command Line Interface</span></a> or the <a class="reference internal" href="python-api.html"><span class="doc std std-doc">Portal API</span></a>. Datasets are downloaded as folders named the Dataset ID. As shown in the diagram above, the folder contains subfolders for each run named the author-chosen run name, a folder named Images which contains the key photos of the dataset displayed on the Portal, and a JSON file named <code class="docutils literal notranslate"><span class="pre">dataset_metadata.json</span></code> containing the dataset metadata. The run folders contain subfolders named Tomogram and TiltSeries, containing the tomogram and tilt series image files, and a JSON file named <code class="docutils literal notranslate"><span class="pre">run_metadata.json</span></code> containing the run metadata. More details on the run folder file structure is found in the documentation <a class="reference internal" href="#run-download-options">below</a>.</p>
 <p>The metadata schema of any JSON file stored with the data on the data portal’s S3 bucket is described in LinkML and can be found <a class="reference external" href="https://github.com/chanzuckerberg/cryoet-data-portal-backend/tree/main/schema">here</a>.</p>
@@ -1877,7 +1901,7 @@ File Structure of a downloaded dataset</span><a class="headerlink" href="#id4" t
 <h3 id="tilt-series-assembly">Tilt Series Assembly<a class="headerlink" href="#tilt-series-assembly" title="Link to this heading">¶</a></h3>
 <p>The raw frame stacks from image acquisition are motion corrected and averaged at each tilt angle to form the tilt series. Please refer to our educational article about <a class="reference internal" href="cryoet_workflow.html#data-collection"><span class="std std-ref">CryoET Data Collection</span></a> for a detailed description of tilt series assembly from the raw frame stacks.</p>
 <p>When available, the <code class="docutils literal notranslate"><span class="pre">TiltSeries</span></code> folder in a downloaded run contains the tilt series images in MRC and OME-Zarr file format, tilt series metadata JSON file, and the rawtlt file. The rawtlt file contains a list of the tilt angles from image acquisition and is used by downstream programs for alignment and tomogram reconstruction.</p>
-<h3 id="tilt-series-quality">Tilt Series Quality<a class="headerlink" href="#tilt-series-quality" title="Link to this heading">¶</a></h3>
+<h3 id="tilt-series-quality"><span id="id2"></span>Tilt Series Quality<a class="headerlink" href="#tilt-series-quality" title="Link to this heading">¶</a></h3>
 <p>The tilt series quality score is found on Dataset Overview pages in the run table and on Run Overview pages in the header. This score is assigned by the dataset authors to communicate their quality estimate to users. This score is only applicable for comparing tilt series within a dataset on a relative subjective scale. Score ranges 1-5, with 5 being best. Below is an example scale based mainly on alignability and usefulness for the intended analysis.</p>
 <table class="docutils data align-default">
 <thead>

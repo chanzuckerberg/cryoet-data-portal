@@ -29,4 +29,11 @@ Guide on how the CryoET Data Portal is organized
 
 Overview of the data pipeline from acquisition to analysis
 :::
+
+:::{grid-item-card} Contribute Data to the Portal
+:link: contributing-data
+:link-type: ref
+
+Learn how to contribute data to the Portal
+:::
 ::::
