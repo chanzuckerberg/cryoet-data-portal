@@ -13,7 +13,7 @@ import {
 import { defaults } from 'lodash-es'
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useChangeLanguage } from 'remix-i18next'
+import { useChangeLanguage } from 'remix-i18next/react'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
 import { Layout } from './components/Layout'

@@ -142,14 +142,7 @@ export function APIDownloadTab() {
       <Callout
         className="!w-full !mt-0"
         intent="info"
-        body={
-          <I18n
-            i18nKey={calloutKey as I18nKeys}
-            tOptions={{
-              interpolation: { escapeValue: false },
-            }}
-          />
-        }
+        body={<I18n i18nKey={calloutKey as I18nKeys} />}
       />
 
       <CopyBox

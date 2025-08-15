@@ -101,6 +101,7 @@ export function DropdownFilterButton({
                       onClick={() => onRemoveFilter(filter)}
                       aria-label="remove-filter"
                       sdsStyle="minimal"
+                      sdsType="secondary"
                     >
                       <Icon
                         className="!fill-white !w-[10px] !h-[10px]"

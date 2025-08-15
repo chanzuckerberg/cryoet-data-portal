@@ -2,7 +2,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import Backend from 'i18next-fs-backend'
-import { RemixI18Next } from 'remix-i18next'
+import { RemixI18Next } from 'remix-i18next/server'
 
 import { i18n } from './i18next'
 
