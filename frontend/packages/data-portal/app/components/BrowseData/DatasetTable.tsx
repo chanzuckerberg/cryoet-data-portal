@@ -269,36 +269,59 @@ export function DatasetTable() {
         ),
 
         columnHelper.accessor(
-          (dataset) =>
-            dataset.distinctObjectNames?.aggregate?.reduce((acc, aggregate) => {
-              // Handle annotations
-              const annotationObjectName =
-                aggregate?.groupBy?.annotations?.objectName
-              const groundTruthStatus =
-                !!aggregate?.groupBy?.annotations?.groundTruthStatus
-              if (annotationObjectName) {
-                setObjectNameAndGroundTruthStatus(
-                  annotationObjectName,
-                  groundTruthStatus,
-                  acc,
-                )
-              }
+          (dataset) => {
+            const objectsMap = new Map<string, boolean>()
 
-              // Handle identifiedObjects (add to union) - only if feature flag is enabled
-              if (isIdentifiedObjectsEnabled) {
+            // When feature flag is enabled, use separate queries backward compatibility
+            if (isIdentifiedObjectsEnabled) {
+              // Handle annotations separately
+              dataset.annotationsObjectNames?.aggregate?.forEach(
+                (aggregate) => {
+                  const annotationObjectName =
+                    aggregate?.groupBy?.annotations?.objectName
+                  const groundTruthStatus =
+                    !!aggregate?.groupBy?.annotations?.groundTruthStatus
+                  if (annotationObjectName) {
+                    setObjectNameAndGroundTruthStatus(
+                      annotationObjectName,
+                      groundTruthStatus,
+                      objectsMap,
+                    )
+                  }
+                },
+              )
+
+              // Handle identifiedObjects separately
+              dataset.identifiedObjectNames?.aggregate?.forEach((aggregate) => {
                 const identifiedObjectName =
                   aggregate?.groupBy?.identifiedObjects?.objectName
                 if (identifiedObjectName) {
                   setObjectNameAndGroundTruthStatus(
                     identifiedObjectName,
                     false, // identifiedObjects don't have groundTruthStatus, default to false
-                    acc,
+                    objectsMap,
                   )
                 }
-              }
+              })
+            } else {
+              // Fall back to original query structure when feature flag is off
+              dataset.distinctObjectNames?.aggregate?.forEach((aggregate) => {
+                const annotationObjectName =
+                  aggregate?.groupBy?.annotations?.objectName
+                const groundTruthStatus =
+                  !!aggregate?.groupBy?.annotations?.groundTruthStatus
+                if (annotationObjectName) {
+                  setObjectNameAndGroundTruthStatus(
+                    annotationObjectName,
+                    groundTruthStatus,
+                    objectsMap,
+                  )
+                }
+              })
+            }
 
-              return acc
-            }, new Map<string, boolean>()) || new Map<string, boolean>(),
+            return objectsMap
+          },
           {
             id: 'annotatedObjects',
 

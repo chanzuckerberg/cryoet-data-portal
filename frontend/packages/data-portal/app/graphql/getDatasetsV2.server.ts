@@ -60,6 +60,24 @@ const GET_DATASETS_QUERY = gql(`
               objectName
               groundTruthStatus
             }
+          }
+        }
+      }
+      annotationsObjectNames: runsAggregate {
+        aggregate {
+          count
+          groupBy {
+            annotations {
+              objectName
+              groundTruthStatus
+            }
+          }
+        }
+      }
+      identifiedObjectNames: runsAggregate {
+        aggregate {
+          count
+          groupBy {
             identifiedObjects {
               objectName
             }
