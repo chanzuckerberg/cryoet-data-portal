@@ -11,3 +11,12 @@ export function getErrorMessage(error: unknown): string {
 
   return String(error)
 }
+
+// Helper functions for multi-select string handling
+export const stringToArray = (value: string): string[] => {
+  return value ? value.split(',').filter(Boolean) : []
+}
+
+export const arrayToString = (array: string[]): string => {
+  return array.join(',')
+}
