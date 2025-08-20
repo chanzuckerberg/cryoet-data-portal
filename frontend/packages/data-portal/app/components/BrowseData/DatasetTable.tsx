@@ -19,7 +19,7 @@ import {
   TableLink,
 } from 'app/components/Table'
 import { EMPIAR_ID, EMPIAR_URL } from 'app/constants/external-dbs'
-import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
+import { RUN_FILTERS } from 'app/constants/filterQueryParams'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { ANNOTATED_OBJECTS_MAX, MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
@@ -63,7 +63,7 @@ export function DatasetTable() {
       const url = createUrl(`/datasets/${id}`)
 
       carryOverFilterParams({
-        filters: DATASET_FILTERS,
+        filters: RUN_FILTERS,
         params: url.searchParams,
         prevParams: searchParams,
       })
@@ -90,9 +90,8 @@ export function DatasetTable() {
                 renderLoadingSkeleton={false}
                 width={DatasetTableWidths.photo}
               >
-                <Link to={datasetUrl} className="max-w-[134px] self-start">
+                <Link to={datasetUrl} className="self-start">
                   <KeyPhoto
-                    className="max-w-[134px]"
                     title={dataset.title}
                     src={dataset.keyPhotoThumbnailUrl ?? undefined}
                     loading={isLoadingDebounced}

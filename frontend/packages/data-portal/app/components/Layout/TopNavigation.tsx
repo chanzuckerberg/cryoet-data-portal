@@ -1,9 +1,11 @@
 import { Button } from '@czi-sds/components'
 import { useLocation } from '@remix-run/react'
+import { useAtomValue } from 'jotai'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Link } from 'app/components/Link'
+import { isTopBannerVisibleAtom } from 'app/state/banner'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
 import { AboutAndReportDropdown } from './AboutAndReportDropdown'
@@ -17,6 +19,7 @@ export function TopNavigation() {
   const { pathname } = useLocation()
   const { t } = useTranslation()
   const [mobileMenuIsOpen, setMobileMenuOpen] = useState(false)
+  const isTopBannerVisible = useAtomValue(isTopBannerVisibleAtom)
 
   // force close mobile menu when navigating
   useEffect(() => {
@@ -28,7 +31,8 @@ export function TopNavigation() {
       className={cns(
         'bg-light-sds-color-primitive-gray-900  text-light-sds-color-primitive-gray-50',
         'flex py-sds-m flex-shrink-0 items-center px-sds-xl',
-        'sticky top-0 z-30',
+        'sticky z-30',
+        isTopBannerVisible ? 'top-10' : 'top-0',
       )}
     >
       <CryoETHomeLink />

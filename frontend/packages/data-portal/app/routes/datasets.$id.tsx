@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
-import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
+import { ShouldRevalidateFunctionArgs, useSearchParams } from '@remix-run/react'
 import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { match, P } from 'ts-pattern'
 
 import { apolloClientV2 } from 'app/apollo.server'
 import { DatasetMetadataDrawer } from 'app/components/Dataset'
@@ -10,20 +11,23 @@ import { RunsTable } from 'app/components/Dataset/RunsTable'
 import { getContentSummaryCounts } from 'app/components/Dataset/utils'
 import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
+import { I18n } from 'app/components/I18n'
 import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import { RunFilter } from 'app/components/RunFilter'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { RUN_FILTERS } from 'app/constants/filterQueryParams'
-import { QueryParams } from 'app/constants/query'
+import { FromLocationKey, QueryParams } from 'app/constants/query'
 import { getDatasetByIdV2 } from 'app/graphql/getDatasetByIdV2.server'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import { i18n } from 'app/i18n'
 import {
+  useDepositionHistory,
   useSingleDatasetFilterHistory,
   useSyncParamsWithState,
 } from 'app/state/filterHistory'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -82,25 +86,62 @@ export default function DatasetByIdPage() {
   const { dataset, deposition, unFilteredRuns } = useDatasetById()
   const { t } = useI18n()
   const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
+  const [fromLocation] = useQueryParam<FromLocationKey>(QueryParams.From)
+  const isExpandDepositions = useFeatureFlag('expandDepositions')
 
-  const { setPreviousSingleDatasetParams } = useSingleDatasetFilterHistory()
+  const { previousSingleDepositionParams } = useDepositionHistory()
+  const { previousSingleDatasetParams, setPreviousSingleDatasetParams } =
+    useSingleDatasetFilterHistory()
 
   useSyncParamsWithState({
     filters: RUN_FILTERS,
     setParams: setPreviousSingleDatasetParams,
   })
 
+  const [, setSearchParams] = useSearchParams()
+  const handleRemoveDepositionFilter = () => {
+    const nextParams = new URLSearchParams(previousSingleDatasetParams)
+    nextParams.delete(QueryParams.DepositionId)
+    nextParams.delete(QueryParams.From)
+    nextParams.sort()
+    setPreviousSingleDatasetParams(nextParams.toString())
+    setSearchParams(nextParams)
+  }
+
+  const label = isExpandDepositions
+    ? t('onlyDisplayingRunsFromDeposition', {
+        id: deposition?.id,
+        name: deposition?.title,
+      })
+    : deposition && (
+        <I18n
+          i18nKey="onlyDisplayingRunsWithAnnotations"
+          values={{
+            id: deposition.id,
+            title: deposition.title,
+            url: `/depositions/${deposition.id}?${previousSingleDepositionParams}`,
+          }}
+          tOptions={{ interpolation: { escapeValue: false } }}
+        />
+      )
+
+  const banner = match({
+    depositionId,
+    deposition,
+    isExpandDepositions,
+    fromLocation,
+  })
+    .with({ depositionId: P.nullish }, { deposition: P.nullish }, () => null)
+    .otherwise(() => (
+      <DepositionFilterBanner
+        label={label}
+        onRemoveFilter={handleRemoveDepositionFilter}
+      />
+    ))
+
   return (
     <TablePageLayout
-      banner={
-        depositionId &&
-        deposition && (
-          <DepositionFilterBanner
-            deposition={deposition}
-            labelI18n="onlyDisplayingRunsWithAnnotations"
-          />
-        )
-      }
+      banner={banner}
       header={<DatasetHeader />}
       tabs={[
         {

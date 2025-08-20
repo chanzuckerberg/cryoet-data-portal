@@ -3,21 +3,23 @@
 import { type ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { useMemo } from 'react'
 
-import {
-  EXPERIMENTAL_CONDITIONS_MOCK_DATA,
-  type ExperimentalConditionsMethodItem,
-} from 'app/components/Deposition//mock'
 import { CellHeader, TableCell } from 'app/components/Table'
 import { ExperimentalConditionsTableWidths } from 'app/constants/table'
+import {
+  ExperimentalConditionsMethodMetadata,
+  useDepositionById,
+} from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 
 import { MethodSummaryTable } from './MethodSummaryTable'
 
 export function MethodSummaryExperimentalConditionsTable() {
   const { t } = useI18n()
+  const { experimentalConditions } = useDepositionById()
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<ExperimentalConditionsMethodItem>()
+    const columnHelper =
+      createColumnHelper<ExperimentalConditionsMethodMetadata>()
 
     return [
       columnHelper.accessor('sampleType', {
@@ -45,9 +47,12 @@ export function MethodSummaryExperimentalConditionsTable() {
 
         cell: ({ row }) => (
           <TableCell
+            tooltip={row.original.samplePreparation}
             width={ExperimentalConditionsTableWidths.samplePreparation}
           >
-            {row.original.samplePreparation}
+            <span className="line-clamp-2 pr-2">
+              {row.original.samplePreparation}
+            </span>
           </TableCell>
         ),
       }),
@@ -60,13 +65,18 @@ export function MethodSummaryExperimentalConditionsTable() {
         ),
 
         cell: ({ row }) => (
-          <TableCell width={ExperimentalConditionsTableWidths.gridPreparation}>
-            {row.original.gridPreparation}
+          <TableCell
+            tooltip={row.original.gridPreparation}
+            width={ExperimentalConditionsTableWidths.gridPreparation}
+          >
+            <span className="line-clamp-2 pr-2">
+              {row.original.gridPreparation}
+            </span>
           </TableCell>
         ),
       }),
 
-      columnHelper.accessor('runs', {
+      columnHelper.accessor('count', {
         header: () => (
           <CellHeader width={ExperimentalConditionsTableWidths.runs}>
             {t('runs')}
@@ -75,17 +85,12 @@ export function MethodSummaryExperimentalConditionsTable() {
 
         cell: ({ row }) => (
           <TableCell width={ExperimentalConditionsTableWidths.runs}>
-            {row.original.runs}
+            {row.original.count}
           </TableCell>
         ),
       }),
-    ] as ColumnDef<ExperimentalConditionsMethodItem>[]
+    ] as ColumnDef<ExperimentalConditionsMethodMetadata>[]
   }, [t])
 
-  return (
-    <MethodSummaryTable
-      columns={columns}
-      data={EXPERIMENTAL_CONDITIONS_MOCK_DATA}
-    />
-  )
+  return <MethodSummaryTable columns={columns} data={experimentalConditions} />
 }

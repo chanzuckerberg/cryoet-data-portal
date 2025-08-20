@@ -1,0 +1,23 @@
+.segmentedControl {
+  button {
+    @apply !px-sds-l !py-sds-xs;
+    @apply font-semibold text-sds-body-xxs-600-wide tracking-sds-body-xxs-600-wide;
+    @apply !text-light-sds-color-semantic-base-text-secondary;
+    @apply hover:!text-light-sds-color-semantic-accent-text-action;
+  }
+}
+
+.none button[value='none'] {
+  @apply !text-light-sds-color-semantic-accent-text-action;
+  @apply !bg-light-sds-color-semantic-base-fill-open;
+}
+
+.depositedLocation button[value='deposited_location'] {
+  @apply !text-light-sds-color-semantic-accent-text-action;
+  @apply !bg-light-sds-color-semantic-base-fill-open;
+}
+
+.organism button[value='organism'] {
+  @apply !text-light-sds-color-semantic-accent-text-action;
+  @apply !bg-light-sds-color-semantic-base-fill-open;
+}

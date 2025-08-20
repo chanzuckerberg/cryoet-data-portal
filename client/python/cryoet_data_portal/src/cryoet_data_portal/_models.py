@@ -552,6 +552,12 @@ class Dataset(Model):
         runs (List[Run]): The runs of this dataset
         title (str): Title of a CryoET dataset
         description (str): A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
+        assay_label (str): Label for the type of assay performed in a CryoET dataset, e.g. cryo-electron tomography
+        assay_ontology_id (str): Ontology identifier for the type of assay performed in a CryoET dataset
+        development_stage_name (str): Development stage of the organism from which a biological sample used the study is derived.
+        development_stage_ontology_id (str): Ontology identifier for the development stage
+        disease_name (str): Name of the disease associated with the biological sample used in a CryoET study, e.g. Alzheimer’s disease
+        disease_ontology_id (str): Ontology identifier for the disease associated with the biological sample used in a CryoET study
         organism_name (str): Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
         organism_taxid (int): NCBI taxonomy identifier for the organism, e.g. 9606
         tissue_name (str): Name of the tissue from which a biological sample used in a CryoET study is derived from.
@@ -593,6 +599,12 @@ class Dataset(Model):
     runs: List[Run] = ListRelationship("Run", "id", "dataset_id")
     title: str = StringField()
     description: str = StringField()
+    assay_label: str = StringField()
+    assay_ontology_id: str = StringField()
+    development_stage_name: str = StringField()
+    development_stage_ontology_id: str = StringField()
+    disease_name: str = StringField()
+    disease_ontology_id: str = StringField()
     organism_name: str = StringField()
     organism_taxid: int = IntField()
     tissue_name: str = StringField()

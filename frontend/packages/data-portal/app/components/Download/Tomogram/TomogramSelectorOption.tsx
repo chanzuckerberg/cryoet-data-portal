@@ -2,7 +2,7 @@ import { TomogramTypeBadge } from 'app/components/TomogramTypeBadge'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { useI18n } from 'app/hooks/useI18n'
 import { TomogramV2 } from 'app/types/gql/runPageTypes'
-import { getTomogramName } from 'app/utils/tomograms'
+import { getTomogramNameFromV2 } from 'app/utils/tomograms'
 
 export interface TomogramSelectorOptionProps {
   tomogram: TomogramV2
@@ -18,7 +18,7 @@ export function TomogramSelectorOption({
   return (
     <div>
       <div className={isSelected ? 'font-semibold' : ''}>
-        {getTomogramName(tomogram)}
+        {getTomogramNameFromV2(tomogram)}
       </div>
       <div className="text-sds-body-xxs-400-wide text-light-sds-color-primitive-gray-500 font-normal">
         {t('tomogramId')}: {IdPrefix.Tomogram}-{tomogram.id}{' '}

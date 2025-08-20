@@ -1,9 +1,11 @@
 import {
+  AnnotationShapeWhereClause,
   DatasetWhereClause,
   Deposition_Types_Enum,
   DepositionWhereClause,
   Fiducial_Alignment_Status_Enum,
   Tomogram_Reconstruction_Method_Enum,
+  TomogramWhereClause,
 } from 'app/__generated_v2__/graphql'
 import { Tags } from 'app/constants/tags'
 import {
@@ -34,14 +36,24 @@ export interface GetDatasetsFilterParams {
   filterState: FilterState
   depositionId?: number
   searchText?: string
+  aggregatedDatasetIds?: number[]
 }
 
 export function getDatasetsFilter({
   filterState,
   depositionId,
   searchText,
+  aggregatedDatasetIds,
 }: GetDatasetsFilterParams): DatasetWhereClause {
   const where: DatasetWhereClause = {}
+
+  // If aggregatedDatasetIds is provided, filter by those specific dataset IDs
+  // This is used with the expandDepositions feature flag for multi-deposition filtering
+  if (aggregatedDatasetIds && aggregatedDatasetIds.length > 0) {
+    where.id = {
+      _in: aggregatedDatasetIds,
+    }
+  }
 
   // Search by Dataset Name
   if (searchText) {
@@ -280,11 +292,20 @@ export function getDatasetsFilter({
 
 export function getDepositionsFilter({
   filterState,
+  isExpandDepositions = false,
 }: {
   filterState: FilterState
+  isExpandDepositions?: boolean
 }): DepositionWhereClause {
-  const where: DepositionWhereClause = {
-    depositionTypes: { type: { _eq: Deposition_Types_Enum.Annotation } },
+  const where: DepositionWhereClause = {}
+
+  // Filter by annotation deposition type if expand depositions feature flag is off
+  if (!isExpandDepositions) {
+    where.depositionTypes = {
+      type: {
+        _eq: Deposition_Types_Enum.Annotation,
+      },
+    }
   }
 
   // Competition Filter
@@ -385,6 +406,92 @@ export function getDepositionsFilter({
   }
 
   return where
+}
+
+export interface GetDepositionAnnotationsFilterParams {
+  depositionId: number
+  datasetIds?: number[]
+  organismNames?: string[]
+}
+
+export function getDepositionAnnotationsFilter({
+  depositionId,
+  datasetIds,
+  organismNames,
+}: GetDepositionAnnotationsFilterParams): AnnotationShapeWhereClause {
+  const where: AnnotationShapeWhereClause = {
+    annotation: {
+      depositionId: {
+        _eq: depositionId,
+      },
+    },
+  }
+
+  if (datasetIds && datasetIds.length > 0) {
+    where.annotation!.run = {
+      datasetId: {
+        _in: datasetIds,
+      },
+    }
+  }
+
+  if (organismNames && organismNames.length > 0) {
+    where.annotation!.run = {
+      ...where.annotation!.run,
+      dataset: {
+        organismName: {
+          _in: organismNames,
+        },
+      },
+    }
+  }
+
+  return where
+}
+
+export interface GetDepositionTomogramsFilterParams {
+  depositionId: number
+  datasetIds?: number[]
+  organismNames?: string[]
+}
+
+export function getDepositionTomogramsFilter({
+  depositionId,
+  datasetIds,
+  organismNames,
+}: GetDepositionTomogramsFilterParams): TomogramWhereClause {
+  const where: TomogramWhereClause = {
+    depositionId: {
+      _eq: depositionId,
+    },
+  }
+
+  if (datasetIds && datasetIds.length > 0) {
+    where.run = {
+      datasetId: {
+        _in: datasetIds,
+      },
+    }
+  }
+
+  if (organismNames && organismNames.length > 0) {
+    where.run = {
+      ...where.run,
+      dataset: {
+        organismName: {
+          _in: organismNames,
+        },
+      },
+    }
+  }
+
+  return where
+}
+
+export interface GetDepositionAnnotationsCountFilterParams {
+  depositionId: number
+  datasetIds?: number[]
+  organismNames?: string[]
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, no-param-reassign, @typescript-eslint/no-unsafe-argument */
