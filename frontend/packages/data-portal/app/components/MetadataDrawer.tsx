@@ -1,5 +1,6 @@
 import { Button, Icon } from '@czi-sds/components'
 import { usePrevious } from '@react-hookz/web'
+import { useAtomValue } from 'jotai'
 import { type ComponentType, useCallback, useEffect, useMemo } from 'react'
 
 import { Drawer } from 'app/components/Drawer'
@@ -12,6 +13,7 @@ import {
   useMetadataDrawer,
 } from 'app/hooks/useMetadataDrawer'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
+import { isTopBannerVisibleAtom } from 'app/state/banner'
 import { I18nKeys } from 'app/types/i18n'
 import { cns } from 'app/utils/cns'
 
@@ -22,6 +24,7 @@ interface MetaDataDrawerProps {
   idInfo?: { label: I18nKeys; text: string }
   label: string
   MetadataTabComponent?: ComponentType
+  MethodSummaryTabComponent?: ComponentType
   ObjectOverviewTabComponent?: ComponentType
   onClose?(): void
   title: string
@@ -34,11 +37,13 @@ export function MetadataDrawer({
   idInfo,
   label,
   MetadataTabComponent,
+  MethodSummaryTabComponent,
   ObjectOverviewTabComponent,
   onClose,
   title,
 }: MetaDataDrawerProps) {
   const drawer = useMetadataDrawer()
+  const isTopBannerVisible = useAtomValue(isTopBannerVisibleAtom)
 
   const { t } = useI18n()
 
@@ -77,6 +82,15 @@ export function MetadataDrawer({
           ]
         : []),
 
+      ...(MethodSummaryTabComponent
+        ? [
+            {
+              label: t('methodSummary'),
+              value: MetadataTab.MethodSummary,
+            },
+          ]
+        : []),
+
       ...(HowToCiteTabComponent
         ? [
             {
@@ -89,6 +103,7 @@ export function MetadataDrawer({
     [
       HowToCiteTabComponent,
       MetadataTabComponent,
+      MethodSummaryTabComponent,
       ObjectOverviewTabComponent,
       t,
     ],
@@ -97,7 +112,10 @@ export function MetadataDrawer({
   return (
     <Drawer open={isOpen} onClose={handleClose}>
       <div
-        className="flex flex-col flex-auto"
+        className={cns(
+          'flex flex-col flex-auto',
+          isTopBannerVisible ? 'mt-10' : 'mt-0',
+        )}
         data-testid={TestIds.MetadataDrawer}
       >
         <header className="flex items-start justify-between px-sds-xl pt-sds-xl pb-sds-xxl">
@@ -160,6 +178,9 @@ export function MetadataDrawer({
 
           {drawer.activeTab === MetadataTab.ObjectOverview &&
             ObjectOverviewTabComponent && <ObjectOverviewTabComponent />}
+
+          {drawer.activeTab === MetadataTab.MethodSummary &&
+            MethodSummaryTabComponent && <MethodSummaryTabComponent />}
 
           {drawer.activeTab === MetadataTab.HowToCite &&
             HowToCiteTabComponent && <HowToCiteTabComponent />}

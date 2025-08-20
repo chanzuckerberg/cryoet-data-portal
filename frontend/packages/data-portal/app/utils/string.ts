@@ -20,3 +20,10 @@ export const stringToArray = (value: string): string[] => {
 export const arrayToString = (array: string[]): string => {
   return array.join(',')
 }
+
+export function formatNumber(value: number | undefined): string {
+  if (value === undefined) {
+    return '0'
+  }
+  return value.toLocaleString()
+}

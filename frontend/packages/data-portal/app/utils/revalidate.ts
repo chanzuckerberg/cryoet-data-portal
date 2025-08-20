@@ -16,7 +16,15 @@ export function shouldRevalidatePage({
 }: ShouldRevalidateFunctionArgs & {
   paramsToRefetch?: QueryParams[]
 }) {
-  const allParamsToRefetch = PARAMS_TO_REFETCH.concat(paramsToRefetch)
+  const allParamsToRefetch = PARAMS_TO_REFETCH.concat(paramsToRefetch).filter(
+    (param) => {
+      if (currentUrl.searchParams.has(QueryParams.GroupBy)) {
+        return param !== QueryParams.Page
+      }
+
+      return true
+    },
+  )
 
   if (
     formMethod === 'GET' &&

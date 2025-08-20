@@ -12,7 +12,7 @@ export type FeatureFlagKey =
 
 export const FEATURE_FLAGS: Record<FeatureFlagKey, FeatureFlagEnvironment[]> = {
   depositions: ['local', 'dev', 'staging', 'prod'],
-  expandDepositions: ['local', 'dev'],
+  expandDepositions: ['local', 'dev', 'staging', 'prod'],
   postMlChallenge: ['local', 'dev', 'staging', 'prod'],
   identifiedObjects: ['local', 'dev'],
 }
