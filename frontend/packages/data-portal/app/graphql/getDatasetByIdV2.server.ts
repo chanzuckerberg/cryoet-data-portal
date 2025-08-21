@@ -15,6 +15,7 @@ import {
   DEFAULT_TILT_RANGE_MIN,
 } from 'app/constants/tiltSeries'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
+import { getFeatureFlag } from 'app/utils/featureFlags'
 
 import { getAggregatedRunIdsByDeposition } from './runsByDepositionIdV2.server'
 
@@ -209,6 +210,14 @@ const GET_DATASET_BY_ID_QUERY_V2 = gql(`
         }
       }
     }
+    identifiedObjectsAggregate(where: { run: { datasetId: { _eq: $id }}}) {
+      aggregate {
+        count
+        groupBy {
+          objectName
+        }
+      }
+    }
     annotationShapesAggregate(where: { annotation: { run: { datasetId: { _eq: $id }}}}) {
       aggregate {
         count
@@ -267,6 +276,7 @@ function getRunFilter(
   filterState: FilterState,
   datasetId: number,
   aggregatedRunIds?: number[],
+  isIdentifiedObjectsEnabled = false,
 ): RunWhereClause {
   const where: RunWhereClause = {
     datasetId: {
@@ -307,11 +317,26 @@ function getRunFilter(
     where.annotations ??= {}
     where.annotations.groundTruthStatus = { _eq: true }
   }
-  if (filterState.annotation.objectNames.length > 0) {
-    where.annotations ??= {}
-    where.annotations.objectName = {
-      _in: filterState.annotation.objectNames,
+
+  const { objectNames, annotatedObjectsOnly, _searchIdentifiedObjectsOnly } =
+    filterState.annotation
+
+  if (objectNames.length > 0) {
+    if (_searchIdentifiedObjectsOnly) {
+      // Special case: search only identifiedObjects (for dual query)
+      where.identifiedObjects ??= {}
+      where.identifiedObjects.objectName = {
+        _in: objectNames,
+      }
+    } else if (annotatedObjectsOnly || !isIdentifiedObjectsEnabled) {
+      // Only search annotations when annotated-objects=Yes or feature flag is off
+      where.annotations ??= {}
+      where.annotations.objectName = {
+        _in: objectNames,
+      }
     }
+    // When identifiedObjects is enabled and annotatedObjectsOnly is false,
+    // we use a dual query in getDatasetByIdV2
   }
   if (filterState.annotation.objectShapeTypes.length > 0) {
     where.annotations ??= {}
@@ -349,6 +374,15 @@ export async function getDatasetByIdV2({
     ? parseInt(filterState.ids.deposition)
     : null
 
+  // Check if the identifiedObjects feature flag is enabled
+  const isIdentifiedObjectsEnabled = getFeatureFlag({
+    env: process.env.ENV,
+    key: 'identifiedObjects',
+    params,
+  })
+
+  const { objectNames, annotatedObjectsOnly } = filterState.annotation
+
   let aggregatedRunIds: number[] | undefined
 
   // If we have a deposition ID filter, use 2-pass approach to find runs across all data types
@@ -365,6 +399,126 @@ export async function getDatasetByIdV2({
     }
   }
 
+  // If we have an object filter and feature flag is enabled and not restricted to annotations only,
+  // we need to run two queries and merge the results (similar to datasets dual query pattern)
+  if (
+    objectNames.length > 0 &&
+    isIdentifiedObjectsEnabled &&
+    !annotatedObjectsOnly
+  ) {
+    // Create filter states for dual query
+    const filterStateForAnnotations = {
+      ...filterState,
+      annotation: {
+        ...filterState.annotation,
+        // Keep objectNames for annotations filtering
+      },
+    }
+
+    const filterStateForIdentifiedObjects = {
+      ...filterState,
+      annotation: {
+        ...filterState.annotation,
+        // Use special flag to indicate we want identifiedObjects filtering
+        _searchIdentifiedObjectsOnly: true,
+      },
+    }
+
+    // Common variables for both queries - fetch all results for proper deduplication
+    const commonVariables = {
+      id,
+      depositionId,
+      runLimit: null, // No limit - fetch all matching runs
+      runOffset: 0, // Start from beginning
+    }
+
+    // Run both queries concurrently
+    const [resultsWithAnnotations, resultsWithIdentifiedObjects] =
+      await Promise.all([
+        client.query({
+          query: GET_DATASET_BY_ID_QUERY_V2,
+          variables: {
+            ...commonVariables,
+            runFilter: getRunFilter(
+              filterStateForAnnotations,
+              id,
+              aggregatedRunIds,
+              false,
+            ), // Force annotations-only
+          },
+        }),
+        client.query({
+          query: GET_DATASET_BY_ID_QUERY_V2,
+          variables: {
+            ...commonVariables,
+            runFilter: getRunFilter(
+              filterStateForIdentifiedObjects,
+              id,
+              aggregatedRunIds,
+              isIdentifiedObjectsEnabled,
+            ),
+          },
+        }),
+      ])
+
+    if (!resultsWithIdentifiedObjects.data.runs) {
+      return resultsWithAnnotations
+    }
+
+    if (!resultsWithAnnotations.data.runs) {
+      return resultsWithIdentifiedObjects
+    }
+
+    // Merge and dedupe runs
+    const runsMap = new Map(
+      [
+        ...resultsWithAnnotations.data.runs,
+        ...resultsWithIdentifiedObjects.data.runs,
+      ].map((run) => [run.id, run]), // Map each run by its id
+    )
+
+    const sortedMergedRuns = Array.from(runsMap.values()).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    )
+
+    const totalMergedCount = sortedMergedRuns.length
+
+    // Apply pagination after merging and sorting
+    const startIndex = (page - 1) * MAX_PER_PAGE
+    const endIndex = startIndex + MAX_PER_PAGE
+    const mergedRuns = sortedMergedRuns.slice(startIndex, endIndex)
+
+    resultsWithAnnotations.data.runs = mergedRuns
+
+    // Use the accurate merged count for filteredRunsCount
+    if (resultsWithAnnotations.data.datasets?.[0]?.filteredRunsCount) {
+      // Ensure the aggregate structure exists
+      if (
+        !resultsWithAnnotations.data.datasets[0].filteredRunsCount.aggregate
+      ) {
+        resultsWithAnnotations.data.datasets[0].filteredRunsCount.aggregate = []
+      }
+
+      // Ensure there's at least one aggregate object
+      if (
+        resultsWithAnnotations.data.datasets[0].filteredRunsCount.aggregate
+          .length === 0
+      ) {
+        resultsWithAnnotations.data.datasets[0].filteredRunsCount.aggregate.push(
+          {
+            count: 0,
+            __typename: 'RunAggregateFunctions',
+          },
+        )
+      }
+
+      resultsWithAnnotations.data.datasets[0].filteredRunsCount.aggregate[0].count =
+        totalMergedCount
+    }
+
+    return resultsWithAnnotations
+  }
+
   return client.query({
     query: GET_DATASET_BY_ID_QUERY_V2,
     variables: {
@@ -372,7 +526,12 @@ export async function getDatasetByIdV2({
       depositionId,
       runLimit: MAX_PER_PAGE,
       runOffset: (page - 1) * MAX_PER_PAGE,
-      runFilter: getRunFilter(filterState, id, aggregatedRunIds),
+      runFilter: getRunFilter(
+        filterState,
+        id,
+        aggregatedRunIds,
+        isIdentifiedObjectsEnabled,
+      ),
     },
   })
 }

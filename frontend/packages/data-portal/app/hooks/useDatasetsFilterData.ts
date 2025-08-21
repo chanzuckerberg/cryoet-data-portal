@@ -42,10 +42,18 @@ export function useDatasetsFilterData() {
         ?.map((aggregate) => aggregate.groupBy?.reconstructionSoftware)
         .filter(isDefined) ?? [],
 
-    objectNames:
-      dataSource?.distinctObjectNames?.aggregate
-        ?.map((aggregate) => aggregate.groupBy?.objectName)
-        .filter(isDefined) ?? [],
+    objectNames: Array.from(
+      new Set(
+        [
+          ...(dataSource?.distinctObjectNames?.aggregate
+            ?.map((aggregate) => aggregate.groupBy?.objectName)
+            .filter(isDefined) ?? []),
+          ...(dataSource?.distinctIdentifiedObjectNames?.aggregate
+            ?.map((aggregate) => aggregate.groupBy?.objectName)
+            .filter(isDefined) ?? []),
+        ].filter(isDefined),
+      ),
+    ),
 
     objectShapeTypes:
       dataSource?.distinctShapeTypes?.aggregate

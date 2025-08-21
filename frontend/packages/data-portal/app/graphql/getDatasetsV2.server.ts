@@ -28,7 +28,8 @@ const GET_DATASETS_QUERY = gql(`
     $tiltseriesByDepositionFilter: TiltseriesWhereClause,
     $tomogramsByDepositionFilter: TomogramWhereClause,
     $annotationsByDepositionFilter: AnnotationWhereClause,
-    $annotationShapesByDepositionFilter: AnnotationShapeWhereClause
+    $annotationShapesByDepositionFilter: AnnotationShapeWhereClause,
+    $identifiedObjectsByDepositionFilter: IdentifiedObjectWhereClause
   ) {
     datasets(
       where: $datasetsFilter

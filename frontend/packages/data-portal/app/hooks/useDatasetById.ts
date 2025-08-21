@@ -17,10 +17,18 @@ export function useDatasetById() {
 
   const deposition = v2.depositions[0]
 
-  const objectNames =
-    v2.annotationsAggregate.aggregate
-      ?.map((aggregate) => aggregate.groupBy?.objectName)
-      .filter(isDefined) ?? []
+  const objectNames = Array.from(
+    new Set(
+      [
+        ...(v2.annotationsAggregate.aggregate
+          ?.map((aggregate) => aggregate.groupBy?.objectName)
+          .filter(isDefined) ?? []),
+        ...(v2.identifiedObjectsAggregate?.aggregate
+          ?.map((aggregate) => aggregate.groupBy?.objectName)
+          .filter(isDefined) ?? []),
+      ].filter(isDefined),
+    ),
+  )
 
   const objectShapeTypes =
     v2.annotationShapesAggregate.aggregate
