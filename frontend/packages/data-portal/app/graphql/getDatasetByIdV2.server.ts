@@ -347,10 +347,21 @@ function getRunFilter(
     }
   }
   if (filterState.annotation.objectId !== null) {
-    where.annotations ??= {}
-    where.annotations.objectId = {
-      _ilike: `%${filterState.annotation.objectId.replace(':', '_')}`, // _ is wildcard
+    if (_searchIdentifiedObjectsOnly) {
+      // Special case: search only identifiedObjects (for dual query)
+      where.identifiedObjects ??= {}
+      where.identifiedObjects.objectId = {
+        _ilike: `%${filterState.annotation.objectId.replace(':', '_')}`, // _ is wildcard
+      }
+    } else if (annotatedObjectsOnly || !isIdentifiedObjectsEnabled) {
+      // Only search annotations when annotated-objects=Yes or feature flag is off
+      where.annotations ??= {}
+      where.annotations.objectId = {
+        _ilike: `%${filterState.annotation.objectId.replace(':', '_')}`, // _ is wildcard
+      }
     }
+    // When identifiedObjects is enabled and annotatedObjectsOnly is false,
+    // we use a dual query in getDatasetByIdV2
   }
 
   return where
