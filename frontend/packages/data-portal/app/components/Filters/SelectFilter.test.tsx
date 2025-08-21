@@ -43,8 +43,11 @@ describe('<SelectFilter />', () => {
 
   it('should render title', async () => {
     const title = 'Test Title'
-    renderSelectFilter({ title })
-    await userEvent.click(screen.getByRole('button'))
+    const options = [{ value: 'Option 1' }, { value: 'Option 2' }]
+    renderSelectFilter({ title, options })
+    // Wait for the button to appear and then click it
+    const button = await screen.findByRole('button')
+    await userEvent.click(button)
 
     expect(screen.getByText(title)).toBeVisible()
   })
@@ -72,7 +75,10 @@ describe('<SelectFilter />', () => {
       { value: 'Option 3' },
     ]
     renderSelectFilter({ options })
-    await userEvent.click(screen.getByRole('button'))
+
+    // Wait for the button to appear and then click it
+    const button = await screen.findByRole('button')
+    await userEvent.click(button)
 
     options.forEach(({ value }) => {
       expect(screen.getByText(value)).toBeVisible()
@@ -88,7 +94,9 @@ describe('<SelectFilter />', () => {
     const { value } = options[1]
     renderSelectFilter({ options })
 
-    await userEvent.click(screen.getByRole('button'))
+    // Wait for the button to appear and then click it
+    const button = await screen.findByRole('button')
+    await userEvent.click(button)
     await userEvent.click(screen.getByText(value))
 
     expect(screen.getByText(value)).toBeVisible()
@@ -104,7 +112,9 @@ describe('<SelectFilter />', () => {
     const value2 = options[1].value
     renderSelectFilter({ options, multiple: true })
 
-    await userEvent.click(screen.getByRole('button'))
+    // Wait for the button to appear and then click it
+    const button = await screen.findByRole('button')
+    await userEvent.click(button)
     await userEvent.click(screen.getByText(value1))
     await userEvent.click(screen.getByText(value2))
     await userEvent.keyboard('{Escape}')
@@ -121,8 +131,12 @@ describe('<SelectFilter />', () => {
     ]
     renderSelectFilter({ options, search: true })
 
-    await userEvent.click(screen.getByRole('button'))
-    await userEvent.type(screen.getByRole('combobox'), '1')
+    // Wait for the button to appear and then click it
+    const button = await screen.findByRole('button')
+    await userEvent.click(button)
+    // Wait for the combobox to appear after clicking the button
+    const combobox = await screen.findByRole('combobox')
+    await userEvent.type(combobox, '1')
 
     expect(screen.getByText(options[0].value)).toBeVisible()
     expect(screen.queryByText(options[1].value)).not.toBeInTheDocument()

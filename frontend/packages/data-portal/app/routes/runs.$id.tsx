@@ -21,10 +21,17 @@ import { TablePageLayout } from 'app/components/TablePageLayout'
 import { FromLocationKey, QueryParams } from 'app/constants/query'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
+import { getFilterState } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
+import {
+  MetadataDrawerId,
+  MetadataTab,
+  useMetadataDrawer,
+} from 'app/hooks/useMetadataDrawer'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import { useRunById } from 'app/hooks/useRunById'
 import { DownloadConfig } from 'app/types/download'
+import { shouldShowIdentifiedObjectsEmptyState } from 'app/utils/annotationEmptyState'
 import { useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
@@ -91,6 +98,7 @@ export default function RunByIdPage() {
     annotationFilesAggregates,
     tomogramsCount,
     deposition,
+    identifiedObjectsData,
   } = useRunById()
   const {
     downloadConfig,
@@ -105,7 +113,22 @@ export default function RunByIdPage() {
   const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
   const [fromLocation] = useQueryParam<FromLocationKey>(QueryParams.From)
   const isExpandDepositions = useFeatureFlag('expandDepositions')
+  const isIdentifiedObjectsEnabled = useFeatureFlag('identifiedObjects')
+  const { openDrawer } = useMetadataDrawer()
 
+  const openRunObjectDetails = () => {
+    openDrawer(MetadataDrawerId.Run, MetadataTab.ObjectOverview)
+  }
+  // shouldShowNotAnnotatedYet should be true when
+  // based on the filters applied (specifically the objectName filter)
+  // there are no results to show because you are filtering by an object name that only has identified objects
+  const filterState = getFilterState(searchParams)
+  const shouldShowNotAnnotatedYet = shouldShowIdentifiedObjectsEmptyState({
+    annotationsFiltered: annotationFilesAggregates.filteredCount,
+    identifiedObjectsData,
+    filterState,
+    isIdentifiedObjectsFeatureEnabled: isIdentifiedObjectsEnabled,
+  })
   const activeTomogram =
     downloadConfig === DownloadConfig.Tomogram
       ? tomograms.find((tomogram) => tomogram.id === Number(tomogramId))
@@ -198,7 +221,35 @@ export default function RunByIdPage() {
           filteredCount: annotationFilesAggregates.filteredCount,
           totalCount: annotationFilesAggregates.totalCount,
           countLabel: t('annotations'),
-          noTotalResults: (
+          noTotalResults: shouldShowNotAnnotatedYet ? (
+            <NoTotalResults
+              title={t('notAnnotatedYet')}
+              description={
+                <div className="mt-3.5 text-sds-body-s-400-wide leading-sds-body-s">
+                  <p>{t('notAnnotatedYetSuggestions')}</p>
+                  <ul className="list-disc pl-sds-xxl">
+                    <li>{t('adjustFiltersOrCheckPanel')}</li>
+                    <li>{t('contributeAnnotationsCommunity')}</li>
+                  </ul>
+                </div>
+              }
+              buttons={[
+                {
+                  text: t('seeRunObjectDetails'),
+                  onClick: openRunObjectDetails,
+                },
+                {
+                  text: t('downloadRunData'),
+                  onClick: () => {
+                    openRunDownloadModal({
+                      runId: run.id,
+                      datasetId: run.dataset?.id,
+                    })
+                  },
+                },
+              ]}
+            />
+          ) : (
             <NoTotalResults
               title={t('noAnnotationsAvailable')}
               description={t('downloadTheRunDataToCreateYourOwnAnnotations')}
@@ -225,7 +276,37 @@ export default function RunByIdPage() {
               ]}
             />
           ),
-          noFilteredResults: <NoFilteredResults />,
+          noFilteredResults: shouldShowNotAnnotatedYet ? (
+            <NoTotalResults
+              title={t('notAnnotatedYet')}
+              description={
+                <div className="mt-3.5 text-sds-body-s-400-wide leading-sds-body-s">
+                  <p>{t('notAnnotatedYetSuggestions')}</p>
+                  <ul className="list-disc pl-sds-xxl">
+                    <li>{t('adjustFiltersOrCheckPanel')}</li>
+                    <li>{t('contributeAnnotationsCommunity')}</li>
+                  </ul>
+                </div>
+              }
+              buttons={[
+                {
+                  text: t('seeRunObjectDetails'),
+                  onClick: openRunObjectDetails,
+                },
+                {
+                  text: t('downloadRunData'),
+                  onClick: () => {
+                    openRunDownloadModal({
+                      runId: run.id,
+                      datasetId: run.dataset?.id,
+                    })
+                  },
+                },
+              ]}
+            />
+          ) : (
+            <NoFilteredResults />
+          ),
         },
         {
           title: t('tomograms'),
