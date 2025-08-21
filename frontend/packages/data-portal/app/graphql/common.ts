@@ -37,6 +37,7 @@ export interface GetDatasetsFilterParams {
   depositionId?: number
   searchText?: string
   aggregatedDatasetIds?: number[]
+  isIdentifiedObjectsEnabled?: boolean
 }
 
 export function getDatasetsFilter({
@@ -44,6 +45,7 @@ export function getDatasetsFilter({
   depositionId,
   searchText,
   aggregatedDatasetIds,
+  isIdentifiedObjectsEnabled = false,
 }: GetDatasetsFilterParams): DatasetWhereClause {
   const where: DatasetWhereClause = {}
 
@@ -204,14 +206,32 @@ export function getDatasetsFilter({
   }
 
   // ANNOTATION METADATA SECTION
-  const { objectNames, objectId, objectShapeTypes } = filterState.annotation
+  const {
+    objectNames,
+    objectId,
+    objectShapeTypes,
+    annotatedObjectsOnly,
+    _searchIdentifiedObjectsOnly,
+  } = filterState.annotation
   // Object Name
   if (objectNames.length > 0) {
-    where.runs ??= { annotations: {} }
-    where.runs.annotations ??= {}
-    where.runs.annotations.objectName = {
-      _in: objectNames,
+    if (_searchIdentifiedObjectsOnly) {
+      // Special case: search only identifiedObjects (for dual query)
+      where.runs ??= { identifiedObjects: {} }
+      where.runs.identifiedObjects ??= {}
+      where.runs.identifiedObjects.objectName = {
+        _in: objectNames,
+      }
+    } else if (annotatedObjectsOnly || !isIdentifiedObjectsEnabled) {
+      // Only search annotations when annotated-objects=Yes or feature flag is off
+      where.runs ??= { annotations: {} }
+      where.runs.annotations ??= {}
+      where.runs.annotations.objectName = {
+        _in: objectNames,
+      }
     }
+    // When identifiedObjects is enabled and annotatedObjectsOnly is false,
+    // we use a dual query in getDatasetsV2.server.ts
   }
   // Object ID
   if (objectId) {

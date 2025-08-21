@@ -121,6 +121,133 @@ export async function getDatasetsV2({
     params,
   })
 
+  // Check if the identifiedObjects feature flag is enabled
+  const isIdentifiedObjectsEnabled = getFeatureFlag({
+    env: process.env.ENV,
+    key: 'identifiedObjects',
+    params,
+  })
+
+  const { objectNames, annotatedObjectsOnly } = filterState.annotation
+
+  // If we have an object filter and feature flag is enabled and not restricted to annotations only,
+  // we need to run two queries and merge the results
+  // We want to filter datasets by object names in annotations OR identifiedObjects,
+  // but the API only supports filtering by one at a time atm.
+  // This will need to be addressed by adding an OR operator to the GQL
+  // if the database gets bigger than ~1500 datasets
+  if (
+    objectNames.length > 0 &&
+    isIdentifiedObjectsEnabled &&
+    !annotatedObjectsOnly
+  ) {
+    const filterStateForAnnotations = {
+      ...filterState,
+      annotation: {
+        ...filterState.annotation,
+      },
+    }
+
+    const filterStateForIdentifiedObjects = {
+      ...filterState,
+      annotation: {
+        ...filterState.annotation,
+        _searchIdentifiedObjectsOnly: true,
+      },
+    }
+
+    // Dual query with deduplication
+    // Fetch ALL matching results from both queries
+    // then handle pagination after merging
+    const commonVariables = {
+      limit: null, // No limit - fetch all matching results
+      offset: 0, // Start from beginning
+      orderBy: titleOrderDirection
+        ? [{ title: titleOrderDirection }, { releaseDate: OrderBy.Desc }]
+        : [{ releaseDate: OrderBy.Desc }, { title: OrderBy.Asc }],
+    }
+
+    // Pre-compute filters
+    const annotationsFilter = getDatasetsFilter({
+      filterState: filterStateForAnnotations,
+      searchText,
+      isIdentifiedObjectsEnabled: false, // Force annotations-only filtering
+    })
+
+    const identifiedObjectsFilter = getDatasetsFilter({
+      filterState: filterStateForIdentifiedObjects,
+      searchText,
+      isIdentifiedObjectsEnabled,
+    })
+
+    // Run both queries concurrently
+    const [resultsWithAnnotations, resultsWithIdentifiedObjects] =
+      await Promise.all([
+        client.query({
+          query: GET_DATASETS_QUERY,
+          variables: {
+            datasetsFilter: annotationsFilter,
+            ...commonVariables,
+          },
+        }),
+        client.query({
+          query: GET_DATASETS_QUERY,
+          variables: {
+            datasetsFilter: identifiedObjectsFilter,
+            ...commonVariables,
+          },
+        }),
+      ])
+
+    if (!resultsWithIdentifiedObjects.data.datasets) {
+      return resultsWithAnnotations
+    }
+
+    if (!resultsWithAnnotations.data.datasets) {
+      return resultsWithIdentifiedObjects
+    }
+
+    // Merge and dedupe
+    const datasetsMap = new Map(
+      [
+        ...resultsWithAnnotations.data.datasets,
+        ...resultsWithIdentifiedObjects.data.datasets,
+      ].map((dataset) => [dataset.id, dataset]), // Map each dataset by its id
+    )
+
+    // Sort merged results to maintain consistent ordering
+    const sortedMergedDatasets = Array.from(datasetsMap.values()).sort(
+      (a, b) => {
+        // Apply the same sort order as the query
+        if (titleOrderDirection === 'asc') {
+          return a.title.localeCompare(b.title)
+        }
+        if (titleOrderDirection === 'desc') {
+          return b.title.localeCompare(a.title)
+        }
+        // Default: sort by title asc
+        return a.title.localeCompare(b.title)
+      },
+    )
+
+    const totalMergedCount = sortedMergedDatasets.length
+
+    // Apply pagination after merging and sorting
+    const startIndex = (page - 1) * MAX_PER_PAGE
+    const endIndex = startIndex + MAX_PER_PAGE
+    const mergedDatasets = sortedMergedDatasets.slice(startIndex, endIndex)
+
+    resultsWithAnnotations.data.datasets = mergedDatasets
+
+    // Use the merged count as the filtered count
+    if (resultsWithAnnotations.data.filteredDatasetsCount?.aggregate?.[0]) {
+      resultsWithAnnotations.data.filteredDatasetsCount.aggregate[0].count =
+        totalMergedCount
+    }
+
+    return resultsWithAnnotations
+  }
+
   let datasetsFilter: DatasetWhereClause
 
   // If expandDepositions feature flag is enabled and we have a deposition ID,
@@ -147,6 +274,7 @@ export async function getDatasetsV2({
         },
         searchText,
         aggregatedDatasetIds,
+        isIdentifiedObjectsEnabled,
       })
     }
   } else {
@@ -154,6 +282,7 @@ export async function getDatasetsV2({
     datasetsFilter = getDatasetsFilter({
       filterState,
       searchText,
+      isIdentifiedObjectsEnabled,
     })
   }
 
