@@ -235,11 +235,23 @@ export function getDatasetsFilter({
   }
   // Object ID
   if (objectId) {
-    where.runs ??= { annotations: {} }
-    where.runs.annotations ??= {}
-    where.runs.annotations.objectId = {
-      _eq: objectId,
+    if (_searchIdentifiedObjectsOnly) {
+      // Special case: search only identifiedObjects (for dual query)
+      where.runs ??= { identifiedObjects: {} }
+      where.runs.identifiedObjects ??= {}
+      where.runs.identifiedObjects.objectId = {
+        _eq: objectId,
+      }
+    } else if (annotatedObjectsOnly || !isIdentifiedObjectsEnabled) {
+      // Only search annotations when annotated-objects=Yes or feature flag is off
+      where.runs ??= { annotations: {} }
+      where.runs.annotations ??= {}
+      where.runs.annotations.objectId = {
+        _eq: objectId,
+      }
     }
+    // When identifiedObjects is enabled and annotatedObjectsOnly is false,
+    // we use a dual query in getDatasetsV2.server.ts
   }
   // Object Shape Type
   if (objectShapeTypes.length > 0) {
