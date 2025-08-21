@@ -13,8 +13,8 @@ export function shouldShowIdentifiedObjectsEmptyState({
 }: {
   annotationsFiltered: number
   identifiedObjectsData: NonNullable<
-    GetRunByIdV2Query['identifiedObjectNames']['aggregate']
-  >
+    NonNullable<GetRunByIdV2Query['identifiedObjectNames']['aggregate']>[number]['groupBy']
+  >[]
   filterState: FilterState
   isIdentifiedObjectsFeatureEnabled: boolean
 }): boolean {
@@ -40,7 +40,7 @@ export function shouldShowIdentifiedObjectsEmptyState({
 
   // Check if any of the searched object names exist in identified objects
   const identifiedObjectNames = identifiedObjectsData
-    .map((item) => item.objectName)
+    .map((item) => item?.objectName)
     .filter((name): name is string => Boolean(name))
 
   const hasMatchingIdentifiedObjects = objectNames.some((searchedName) =>
