@@ -17,7 +17,7 @@ export const i18n = {
   affineTransformationMatrix: 'Affine Transformation Matrix',
   alignedTiltSeriesBinning: 'Aligned Tilt Series Binning',
   annotatedObjects: 'Annotated Objects',
-  annotatedObjectsOnly: 'Annotated Objects Only',
+  annotatedObjectsOnly: 'Annotated Objects Only:',
   annotation: 'Annotation',
   annotationConfidence: 'Annotation Confidence',
   annotationDetails: 'Annotation Details',

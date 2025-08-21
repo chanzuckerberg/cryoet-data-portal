@@ -6,7 +6,10 @@ import { ReactNode, useMemo, useRef, useState } from 'react'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
-import { ActiveDropdownFilterData } from './components/FilterChips/FilterChips'
+import {
+  ActiveDropdownFilterData,
+  FilterChips,
+} from './components/FilterChips/FilterChips'
 
 export interface DropdownFilterButtonProps {
   activeFilters: ActiveDropdownFilterData[]
@@ -90,45 +93,10 @@ export function DropdownFilterButton({
 
       {activeFilters.length > 0 && (
         <div className="flex flex-col gap-sds-xs">
-          {/* <FilterChips
+          <FilterChips
             groupedFilters={groupedFilters}
             onRemoveFilter={onRemoveFilter}
-          /> */}
-          {activeFilters.map((filter) => {
-            return (
-              <div
-                key={`${filter.value}-${filter.queryParam}-${filter.label}`}
-                className="pl-sds-s flex flex-col"
-              >
-                {filter.label && (
-                  <p className="text-sds-body-xs-400-wide leading-sds-body-xs text-light-sds-color-primitive-gray-500 uppercase">
-                    {filter.label}
-                  </p>
-                )}
-
-                <div>
-                  <div className="bg-light-sds-color-primitive-blue-600 rounded-sds-m py-sds-xxs px-sds-s inline-flex items-center gap-sds-s">
-                    <span className="text-sds-body-xs-400-wide leading-sds-body-xs font-semibold text-white">
-                      {getPrefixedId(filter.value, filter.queryParam)}
-                    </span>
-
-                    <Button
-                      className="!min-w-0 !w-0"
-                      onClick={() => onRemoveFilter(filter)}
-                      aria-label="remove-filter"
-                      sdsStyle="minimal"
-                    >
-                      <Icon
-                        className="!fill-white !w-[10px] !h-[10px]"
-                        sdsIcon="XMark"
-                        sdsSize="xs"
-                      />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
+          />
         </div>
       )}
 

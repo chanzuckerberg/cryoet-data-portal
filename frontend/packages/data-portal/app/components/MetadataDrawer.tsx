@@ -124,7 +124,7 @@ export function MetadataDrawer({
               {label}
             </p>
 
-            <p className="text-sds-header-xl-600-wide font-semibold text-black leading-sds-header-xl line-clamp-3">
+            <p className="text-sds-header-xl-600-wide max-w-[390px] truncate font-semibold text-black leading-sds-header-xl line-clamp-3">
               {title}
             </p>
 

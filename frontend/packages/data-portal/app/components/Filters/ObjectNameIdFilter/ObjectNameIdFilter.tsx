@@ -236,7 +236,7 @@ export function ObjectNameIdFilter({
           multiple
           title={
             <span className="text-sds-body-xs-600-wide leading-sds-body-xs">
-              {t('objectName')}:{' '}
+              {t('objectName')}{' '}
               <span className="text-sds-body-xs-400-wide font-normal text-light-sds-color-semantic-base-text-secondary">
                 (multi-select)
               </span>
@@ -267,9 +267,9 @@ export function ObjectNameIdFilter({
         <PrefixValueProvider initialOptions={prefixOptions}>
           <div>
             <p className="text-sds-body-xs-600-wide leading-sds-body-xs font-semibold pb-sds-xxxs">
-              {t('objectId')}:{' '}
-              <span className="text-sds-body-xxxs-400-wide font-normal text-light-sds-color-semantic-base-text-secondary">
-                (one ID only)
+              {t('objectId')}{' '}
+              <span className="text-sds-body-xs-400-wide font-normal text-light-sds-color-semantic-base-text-secondary">
+                (one ID only):
               </span>
             </p>
 
