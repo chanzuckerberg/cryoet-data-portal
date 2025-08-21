@@ -13,7 +13,9 @@ export function shouldShowIdentifiedObjectsEmptyState({
 }: {
   annotationsFiltered: number
   identifiedObjectsData: NonNullable<
-    NonNullable<GetRunByIdV2Query['identifiedObjectNames']['aggregate']>[number]['groupBy']
+    NonNullable<
+      GetRunByIdV2Query['identifiedObjectNames']['aggregate']
+    >[number]['groupBy']
   >[]
   filterState: FilterState
   isIdentifiedObjectsFeatureEnabled: boolean

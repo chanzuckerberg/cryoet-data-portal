@@ -18,17 +18,21 @@ import { ObjectIdFilter } from './ObjectIdFilter/ObjectIdFilter'
 export function AnnotationFilter() {
   const { t } = useI18n()
   const showObjectNameIdFilter = useFeatureFlag('identifiedObjects')
-  const { objectNames, objectShapeTypes, annotationSoftwares, identifiedObjectsData } = useRunById()
+  const {
+    objectNames,
+    objectShapeTypes,
+    annotationSoftwares,
+    identifiedObjectsData,
+  } = useRunById()
 
   // Merge annotation and identified object names for filter dropdown
   const identifiedObjectNames = identifiedObjectsData
     .map((item) => item.objectName)
     .filter((name): name is string => Boolean(name))
-  
-  const allObjectNames = Array.from(new Set([
-    ...objectNames,
-    ...identifiedObjectNames,
-  ]))
+
+  const allObjectNames = Array.from(
+    new Set([...objectNames, ...identifiedObjectNames]),
+  )
 
   const annotationMetadataFilters = (
     <>

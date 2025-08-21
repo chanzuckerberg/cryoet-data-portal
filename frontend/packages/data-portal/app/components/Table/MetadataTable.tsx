@@ -5,7 +5,7 @@ import { ComponentProps, ReactNode } from 'react'
 import { match } from 'ts-pattern'
 
 import { useI18n } from 'app/hooks/useI18n'
-import { TableData } from 'app/types/table'
+import { TableData, TableDataValue } from 'app/types/table'
 import { cns, cnsNoMerge } from 'app/utils/cns'
 
 import { TableCell } from './TableCell'
@@ -27,7 +27,7 @@ export function MetadataTable({
 }) {
   const { t } = useI18n()
 
-  const renderValues = (datum: TableData, values: any[]) =>
+  const renderValues = (datum: TableData, values: TableDataValue[]) =>
     datum.renderValues?.(values) ??
     match(values.length)
       .with(0, () => (
@@ -37,7 +37,7 @@ export function MetadataTable({
       ))
       .with(1, () => (
         <span className={datum.className}>
-          {datum.renderValue?.(values[0]) ?? values[0]}
+          {datum.renderValue?.(values[0]) ?? String(values[0])}
         </span>
       ))
       .otherwise(() => (
@@ -49,9 +49,9 @@ export function MetadataTable({
                 datum.inline && 'inline-block',
                 datum.className,
               )}
-              key={value}
+              key={String(value)}
             >
-              {datum.renderValue?.(value) ?? value}
+              {datum.renderValue?.(value) ?? String(value)}
               {valueIdx < values.length - 1 && ', '}
             </li>
           ))}

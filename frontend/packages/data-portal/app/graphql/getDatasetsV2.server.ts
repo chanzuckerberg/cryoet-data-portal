@@ -220,10 +220,10 @@ export async function getDatasetsV2({
     const sortedMergedDatasets = Array.from(datasetsMap.values()).sort(
       (a, b) => {
         // Apply the same sort order as the query
-        if (titleOrderDirection === 'asc') {
+        if (titleOrderDirection === OrderBy.Asc) {
           return a.title.localeCompare(b.title)
         }
-        if (titleOrderDirection === 'desc') {
+        if (titleOrderDirection === OrderBy.Desc) {
           return b.title.localeCompare(a.title)
         }
         // Default: sort by title asc

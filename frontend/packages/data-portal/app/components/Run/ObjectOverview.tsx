@@ -15,7 +15,14 @@ export function ObjectOverview() {
     .filter((name): name is string => Boolean(name))
 
   // Helper function to create object data structure
-  const createObjectData = (objectName: string, objectData?: any) => ({
+  const createObjectData = (
+    objectName: string,
+    objectData?: {
+      objectId?: string | null
+      objectState?: string | null
+      objectDescription?: string | null
+    },
+  ) => ({
     id: objectName.toLowerCase().replace(/\s+/g, '-'),
     title: objectName,
     data: [
@@ -25,15 +32,15 @@ export function ObjectOverview() {
       },
       {
         label: t('objectId'),
-        values: [objectData?.objectId || '--'],
+        values: [objectData?.objectId ?? '--'],
       },
       {
         label: t('objectState'),
-        values: [objectData?.objectState || '--'],
+        values: [objectData?.objectState ?? '--'],
       },
       {
         label: t('objectDescription'),
-        values: [objectData?.objectDescription || '--'],
+        values: [objectData?.objectDescription ?? '--'],
       },
     ],
   })
