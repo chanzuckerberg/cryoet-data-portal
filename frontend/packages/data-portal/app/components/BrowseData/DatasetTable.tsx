@@ -347,9 +347,7 @@ export function DatasetTable() {
                 {getValue().size === 0 ? (
                   '--'
                 ) : (
-                  <>
-                    <AnnotatedObjectsList annotatedObjects={getValue()} />
-                  </>
+                  <AnnotatedObjectsList annotatedObjects={getValue()} />
                 )}
               </TableCell>
             ),
