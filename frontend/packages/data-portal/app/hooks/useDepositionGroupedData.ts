@@ -42,9 +42,10 @@ export function useDepositionGroupedData(
   const [type] = useActiveDepositionDataType()
   const { enabled = true } = options
 
-  // Get selected dataset IDs from filter state
+  // Get selected dataset IDs and organism names from filter state
   const {
     ids: { datasets: selectedDatasetIds },
+    sampleAndExperimentConditions: { organismNames: selectedOrganismNames },
   } = useFilter()
 
   const { fetchRunCounts = true, onError, onLoadingChange } = options
@@ -180,13 +181,21 @@ export function useDepositionGroupedData(
 
     // Calculate filtered counts after filtering
     const filteredDatasetCount = filteredDatasets.length
-    const filteredOrganismCount = [
+
+    const allFilteredOrganismNames = [
       ...new Set(
         filteredDatasets
           .map((dataset) => dataset.organismName)
           .filter(isDefined),
       ),
-    ].length
+    ]
+
+    const filteredOrganismCount =
+      selectedOrganismNames.length > 0
+        ? allFilteredOrganismNames.filter((name) =>
+            selectedOrganismNames.includes(name),
+          ).length
+        : allFilteredOrganismNames.length
 
     // Transform datasets with count data
     const datasetsWithCounts: DatasetWithCounts[] = filteredDatasets.map(
@@ -204,11 +213,22 @@ export function useDepositionGroupedData(
       datasets: datasetsWithCounts,
       organismCounts,
       groupBy,
+      selectedOrganismNames,
     })
+
+    // Filter organism counts based on organism filters when in organism grouping mode
+    const filteredOrganismCounts =
+      groupBy === GroupByOption.Organism && selectedOrganismNames.length > 0
+        ? Object.fromEntries(
+            Object.entries(organismCounts).filter(([organismName]) =>
+              selectedOrganismNames.includes(organismName),
+            ),
+          )
+        : organismCounts
 
     // Consolidate all count data
     const counts: DepositionCounts = {
-      organisms: organismCounts,
+      organisms: filteredOrganismCounts,
       annotations: annotationCounts,
       tomograms: tomogramCounts,
       runs: runCounts,
@@ -237,6 +257,7 @@ export function useDepositionGroupedData(
     runCountsQuery.data,
     groupBy,
     selectedDatasetIds,
+    selectedOrganismNames,
   ])
 
   return result
@@ -249,10 +270,12 @@ function generateOrganismData({
   datasets,
   organismCounts,
   groupBy,
+  selectedOrganismNames,
 }: {
   datasets: DatasetWithCounts[]
   organismCounts: Record<string, number>
   groupBy: GroupByOption
+  selectedOrganismNames: string[]
 }): OrganismData[] {
   // Only generate organism data for organism-grouped views
   if (groupBy !== GroupByOption.Organism) {
@@ -260,13 +283,20 @@ function generateOrganismData({
   }
 
   // Extract unique organisms from datasets
-  const organismNames = [
+  const allOrganismNames = [
     ...new Set(
       datasets.map((dataset) => dataset.organismName).filter(isDefined),
     ),
   ].sort()
 
-  return organismNames.map((name) => {
+  // Filter organisms based on selected organism names
+  // If no organism filters are active, return all organisms
+  const filteredOrganismNames =
+    selectedOrganismNames.length > 0
+      ? allOrganismNames.filter((name) => selectedOrganismNames.includes(name))
+      : allOrganismNames
+
+  return filteredOrganismNames.map((name) => {
     // Count datasets containing this organism
     const datasetCount = datasets.filter(
       (dataset) => dataset.organismName === name,
