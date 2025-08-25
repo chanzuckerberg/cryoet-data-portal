@@ -190,12 +190,10 @@ export function useDepositionGroupedData(
       ),
     ]
 
-    const filteredOrganismCount =
-      selectedOrganismNames.length > 0
-        ? allFilteredOrganismNames.filter((name) =>
-            selectedOrganismNames.includes(name),
-          ).length
-        : allFilteredOrganismNames.length
+    const filteredOrganismCount = filterOrganismsBySelection(
+      allFilteredOrganismNames,
+      selectedOrganismNames,
+    ).length
 
     // Transform datasets with count data
     const datasetsWithCounts: DatasetWithCounts[] = filteredDatasets.map(
@@ -264,6 +262,18 @@ export function useDepositionGroupedData(
 }
 
 /**
+ * Helper function to filter organism names based on selected organism names
+ */
+function filterOrganismsBySelection(
+  organismNames: string[],
+  selectedOrganismNames: string[],
+): string[] {
+  return selectedOrganismNames.length > 0
+    ? organismNames.filter((name) => selectedOrganismNames.includes(name))
+    : organismNames
+}
+
+/**
  * Helper function to generate organism data based on grouping configuration
  */
 function generateOrganismData({
@@ -291,10 +301,10 @@ function generateOrganismData({
 
   // Filter organisms based on selected organism names
   // If no organism filters are active, return all organisms
-  const filteredOrganismNames =
-    selectedOrganismNames.length > 0
-      ? allOrganismNames.filter((name) => selectedOrganismNames.includes(name))
-      : allOrganismNames
+  const filteredOrganismNames = filterOrganismsBySelection(
+    allOrganismNames,
+    selectedOrganismNames,
+  )
 
   return filteredOrganismNames.map((name) => {
     // Count datasets containing this organism
