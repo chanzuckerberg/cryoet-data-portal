@@ -14,12 +14,13 @@ import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
+import { IdPrefix } from 'app/constants/idPrefixes'
+import { QueryParams } from 'app/constants/query'
 import { useAutoHideSnackbar } from 'app/hooks/useAutoHideSnackbar'
 import { useEffectOnce } from 'app/hooks/useEffectOnce'
 import { useI18n } from 'app/hooks/useI18n'
 import { useTour } from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
-import { SHOW_TOUR_QUERY_PARAM } from 'app/utils/url'
 
 import { ReusableSnackbar } from '../common/ReusableSnackbar/ReusableSnackbar'
 import {
@@ -251,7 +252,7 @@ function ViewerPage({
 
   const clearTourQueryParam = () => {
     const url = new URL(window.location.href)
-    url.searchParams.delete(SHOW_TOUR_QUERY_PARAM)
+    url.searchParams.delete(QueryParams.ShowTour)
     window.history.replaceState({}, '', url.toString())
   }
 
@@ -317,7 +318,7 @@ function ViewerPage({
         href={`${window.origin}/runs/${run.id}`}
         className="text-dark-sds-color-primitive-gray-900 opacity-60 pl-1"
       >
-        (RN-{run.id})
+        ({IdPrefix.Run}-{run.id})
       </a>
     </Tooltip>
   )
@@ -374,7 +375,7 @@ function ViewerPage({
                               'Deposition'}
                           </span>
                           <span className="text-sds-body-xxxs-400-narrow text-light-sds-color-primitive-gray-600">
-                            CZCDP-{depositionId}
+                            {IdPrefix.Deposition}-{depositionId}
                           </span>
                         </NeuroglancerDropdownOption>
                       )

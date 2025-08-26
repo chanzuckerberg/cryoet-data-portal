@@ -2,7 +2,7 @@ import { updateState } from 'neuroglancer'
 import { useState } from 'react'
 import { ACTIONS } from 'react-joyride'
 
-import { SHOW_TOUR_QUERY_PARAM } from 'app/utils/url'
+import { QueryParams } from 'app/constants/query'
 
 export function useTour(startingStepIndex: number = 0) {
   const [tourRunning, setTourRunning] = useState(false)
@@ -33,7 +33,7 @@ export function useTour(startingStepIndex: number = 0) {
 
   const handleTourStart = () => {
     const url = new URL(window.location.href)
-    url.searchParams.set(SHOW_TOUR_QUERY_PARAM, 'true')
+    url.searchParams.set(QueryParams.ShowTour, 'true')
     window.history.replaceState({}, '', url.toString())
     resetState()
     setTourRunning(true)

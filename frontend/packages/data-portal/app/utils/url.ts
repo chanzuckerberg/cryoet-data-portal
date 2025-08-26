@@ -1,8 +1,6 @@
 import { SYSTEM_PARAMS } from 'app/constants/filterQueryParams'
 import { QueryParams } from 'app/constants/query'
 
-export const SHOW_TOUR_QUERY_PARAM = 'showTour'
-
 /**
  * Checks if the string is an external URL. This works by using the value to
  * create a URL object. URL objects will throw errors for relative URLs if a
@@ -53,7 +51,7 @@ export function getNeuroglancerUrl(
 ): string {
   const url = createUrl(`/view/runs/${runId}`)
   if (activateTour) {
-    url.searchParams.set(SHOW_TOUR_QUERY_PARAM, 'true')
+    url.searchParams.set(QueryParams.ShowTour, 'true')
   }
   url.hash = `#!${encodeURIComponent(config)}`
   return url.pathname + url.search + url.hash
