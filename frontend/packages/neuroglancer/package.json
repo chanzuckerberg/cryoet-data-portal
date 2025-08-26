@@ -13,7 +13,7 @@
     "preview": "vite preview",
     "prebuild": "eslint .",
     "format": "prettier --cache -w -l .",
-    "generate-interface": "pnpm download-schemas && quicktype -s schema viewer_state.yml layer.yml -o src/NeuroglancerState.ts --just-types --nice-property-names",
+    "generate-interface": "pnpm download-schemas && quicktype -s schema viewer_state.yml layer.yml -o src/NeuroglancerState.ts --just-types --nice-property-names && prettier --cache -w -l src/NeuroglancerState.ts",
     "download-schemas": "curl -L https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/viewer_state.yml -o viewer_state.yml && curl -L https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/layer.yml -o layer.yml"
   },
   "dependencies": {
