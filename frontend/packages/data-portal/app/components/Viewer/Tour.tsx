@@ -235,29 +235,31 @@ export function Tour({
     }
   }
 
+  if (!run) {
+    return null
+  }
+
   return (
-    run && (
-      <div>
-        <ProxyOverlayGroup selectors={proxySelectors} stepIndex={proxyIndex} />
-        <Joyride
-          steps={steps}
-          run={run}
-          stepIndex={stepIndex}
-          spotlightClicks
-          spotlightPadding={0}
-          continuous
-          disableOverlayClose
-          disableScrolling
-          floaterProps={{ hideArrow: true }}
-          styles={{
-            options: {
-              zIndex: 10000,
-            },
-          }}
-          callback={handleJoyrideCallback}
-          tooltipComponent={(props) => CustomTooltip(props, onRestart, onClose)}
-        />
-      </div>
-    )
+    <div>
+      <ProxyOverlayGroup selectors={proxySelectors} stepIndex={proxyIndex} />
+      <Joyride
+        steps={steps}
+        run={run}
+        stepIndex={stepIndex}
+        spotlightClicks
+        spotlightPadding={0}
+        continuous
+        disableOverlayClose
+        disableScrolling
+        floaterProps={{ hideArrow: true }}
+        styles={{
+          options: {
+            zIndex: 10000,
+          },
+        }}
+        callback={handleJoyrideCallback}
+        tooltipComponent={(props) => CustomTooltip(props, onRestart, onClose)}
+      />
+    </div>
   )
 }
