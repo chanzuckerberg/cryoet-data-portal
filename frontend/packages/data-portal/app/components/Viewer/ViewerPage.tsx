@@ -141,7 +141,7 @@ function ViewerPage({
   const [shareClicked, setShareClicked] = useState<boolean>(false)
   const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
   const [bannerOpen, setBannerOpen] = useState<boolean>(false)
-  const iframeRef = useRef<NeuroglancerAwareIframe>()
+  const iframeRef = useRef<NeuroglancerAwareIframe>(null)
   const hashReady = useRef<boolean>(false)
   const helpMenuRef = useRef<MenuDropdownRef>(null)
 
@@ -538,7 +538,7 @@ function ViewerPage({
         {hashReady.current && (
           <NeuroglancerWrapper
             onStateChange={handleOnStateChange}
-            ref={iframeRef as any} // eslint-disable-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+            ref={iframeRef}
           />
         )}
       </div>

@@ -8,6 +8,7 @@ import {
   updateNeuroglancerConfigInSuperstate,
   parseState,
   type ResolvedSuperState,
+  NeuroglancerAwareIframe,
 } from './utils'
 
 interface NeuroglancerWrapperProps {
@@ -17,7 +18,7 @@ interface NeuroglancerWrapperProps {
 }
 
 const NeuroglancerWrapper = forwardRef<
-  HTMLIFrameElement,
+  NeuroglancerAwareIframe,
   NeuroglancerWrapperProps
 >(
   (
