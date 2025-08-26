@@ -506,11 +506,7 @@ function ViewerPage({
             >
               <MenuDropdownSection title="About">
                 {ABOUT_LINKS.map((option) => (
-                  <MenuItemLink
-                    key={option.label}
-                    to={option.link}
-                    target="_blank"
-                  >
+                  <MenuItemLink key={option.label} to={option.link} newTab>
                     {t(option.label)}
                   </MenuItemLink>
                 ))}
