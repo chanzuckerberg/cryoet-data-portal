@@ -29,7 +29,6 @@ const NeuroglancerWrapper = forwardRef<
     }: NeuroglancerWrapperProps,
     ref,
   ) => {
-    // const iframeRef = ref || useRef<HTMLIFrameElement>(null)
     const superState = useRef<SuperState>(newSuperState(window.location.hash))
 
     // Add event listeners for hash changes and iframe messages
