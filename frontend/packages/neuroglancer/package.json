@@ -9,10 +9,14 @@
   "scripts": {
     "dev": "vite",
     "build": "pnpm generate-interface && vite build && tsc --build",
-    "lint": "eslint src --report-unused-disable-directives --fix && prettier --cache -w -l .",
+    "lint": "pnpm lint:eslint",
+    "lint:fix": "pnpm lint && pnpm lint:eslint:fix",
+    "lint:eslint": "eslint --report-unused-disable-directives --max-warnings 0 .",
+    "lint:eslint:fix": "pnpm lint:eslint --fix",
+    "lint:prettier": "prettier -c .",
+    "lint:prettier:fix": "prettier -w .",
     "preview": "vite preview",
     "prebuild": "eslint .",
-    "format": "prettier --cache -w -l .",
     "generate-interface": "pnpm download-schemas && quicktype -s schema viewer_state.yml layer.yml -o src/NeuroglancerState.ts --just-types --nice-property-names && prettier --cache -w -l src/NeuroglancerState.ts",
     "download-schemas": "curl -L https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/viewer_state.yml -o viewer_state.yml && curl -L https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/layer.yml -o layer.yml"
   },
@@ -23,12 +27,14 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.15.0",
+    "@eslint/js": "^8.57.0",
     "@types/pako": "^2.0.3",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.15.0",
+    "eslint": "^8.57.0",
+    "eslint-config-cryoet-data-portal": "workspace:*",
+    "eslint-plugin-cryoet-data-portal": "workspace:*",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.12.0",
