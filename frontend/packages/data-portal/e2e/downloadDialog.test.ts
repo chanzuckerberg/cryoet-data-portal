@@ -24,7 +24,6 @@ test.describe('downloadDialog', () => {
   let downloadDialogActor: DownloadDialogActor
 
   test.beforeEach(({ page }) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     client = getApolloClientV2()
     downloadDialogPage = new DownloadDialogPage(page)
     downloadDialogActor = new DownloadDialogActor(downloadDialogPage)
