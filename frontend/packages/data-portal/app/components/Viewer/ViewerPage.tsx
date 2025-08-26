@@ -117,7 +117,7 @@ const isSmallScreen = () => {
   )
 }
 
-function ViewerPage({
+export function ViewerPage({
   run,
   shouldStartTour = false,
 }: {
@@ -577,6 +577,3 @@ function ViewerPage({
     </div>
   )
 }
-
-// eslint-disable-next-line import/no-default-export
-export default ViewerPage

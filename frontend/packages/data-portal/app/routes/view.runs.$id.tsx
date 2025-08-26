@@ -9,7 +9,6 @@ import { apolloClientV2 } from 'app/apollo.server'
 import { QueryParams } from 'app/constants/query'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useRunById } from 'app/hooks/useRunById'
-import { SHOW_TOUR_QUERY_PARAM } from 'app/utils/url'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
@@ -22,7 +21,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   }
 
   const url = new URL(request.url)
-  const shouldStartTour = url.searchParams.get(SHOW_TOUR_QUERY_PARAM) === 'true'
+  const shouldStartTour = url.searchParams.get(QueryParams.ShowTour) === 'true'
 
   const annotationsPage = +(
     url.searchParams.get(QueryParams.AnnotationsPage) ?? '1'
@@ -50,7 +49,11 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   })
 }
 
-const ViewerPage = lazy(() => import('app/components/Viewer/ViewerPage'))
+const ViewerPage = lazy(() =>
+  import('app/components/Viewer/ViewerPage').then((mod) => ({
+    default: mod.ViewerPage,
+  })),
+)
 
 export default function RunByIdViewerPage() {
   const { run } = useRunById()
