@@ -7,10 +7,13 @@ import { LocalStorageMock } from 'app/mocks/LocalStorage.mock'
 import { RemixMock } from 'app/mocks/Remix.mock'
 import { getMockUser, setMockTime } from 'app/utils/mock'
 
+import { NeuroglancerBannerProps } from './NeuroglancerBanner'
+
 const onStartTour = jest.fn()
 
 // Import the component after mocking
-let NeuroglancerBanner: any
+let NeuroglancerBanner: React.ComponentType<NeuroglancerBannerProps> | null =
+  null
 
 function NeuroglancerBannerWrapper({
   initialOpen = true,
@@ -20,6 +23,10 @@ function NeuroglancerBannerWrapper({
   tourInProgress?: boolean
 }) {
   const [open, setOpen] = useState(initialOpen)
+
+  if (!NeuroglancerBanner) {
+    return null
+  }
 
   return (
     <NeuroglancerBanner

@@ -14,7 +14,7 @@ const BANNER_ALLOWLIST = [/^\/view\/runs\/.*$/]
 const BANNER_REDISPLAY_UNITS: OpUnitType = 'weeks'
 const NEUROGLANCER_BANNER_DISMISS_WEEKS = 1
 
-type NeuroglancerBannerProps = {
+export type NeuroglancerBannerProps = {
   onStartTour: (event: React.MouseEvent<HTMLElement>) => void
   open: boolean
   setOpen: (open: boolean) => void

@@ -21,7 +21,7 @@ export default defineConfig(() => {
       ],
     },
     esbuild: {
-      // Needed to acommodate decorator usage in Neuroglancer TypeScript sources.
+      // Needed to accommodate decorator usage in Neuroglancer TypeScript sources.
       target: 'es2022',
     },
     worker: {
