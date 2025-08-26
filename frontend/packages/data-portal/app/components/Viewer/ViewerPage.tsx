@@ -138,8 +138,6 @@ export function ViewerPage({
     setProxyIndex,
   } = useTour()
   const [renderVersion, setRenderVersion] = useState(0)
-  const [shareClicked, setShareClicked] = useState<boolean>(false)
-  const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
   const [bannerOpen, setBannerOpen] = useState<boolean>(false)
   const iframeRef = useRef<NeuroglancerAwareIframe>(null)
   const hashReady = useRef<boolean>(false)
@@ -271,7 +269,8 @@ export function ViewerPage({
     navigator.clipboard
       .writeText(window.location.href)
       .then(() => {
-        shareSnackbar.show(setShareClicked)
+        // shareSnackbar.show(setShareClicked)
+        shareSnackbar.show()
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
@@ -286,12 +285,12 @@ export function ViewerPage({
     if (reason === 'clickaway') {
       return
     }
-    shareSnackbar.hide(setShareClicked)
+    shareSnackbar.hide()
   }
 
   const handleSnapActionClick = () => {
     snap()
-    snapSnackbar.show(setSnapActionClicked)
+    snapSnackbar.show()
   }
 
   const handleSnapSnackbarClose = (
@@ -301,7 +300,7 @@ export function ViewerPage({
     if (reason === 'clickaway') {
       return
     }
-    snapSnackbar.hide(setSnapActionClicked)
+    snapSnackbar.hide()
   }
 
   const helperText =
@@ -494,7 +493,7 @@ export function ViewerPage({
             <Button
               sdsType="primary"
               sdsStyle="rounded"
-              disabled={shareClicked}
+              disabled={shareSnackbar.visible}
               onClick={handleShareClick}
             >
               Share
@@ -555,14 +554,14 @@ export function ViewerPage({
         />
       )}
       <ReusableSnackbar
-        open={snapActionClicked}
+        open={snapSnackbar.visible}
         handleClose={handleSnapSnackbarClose}
         variant="filled"
         severity="success"
         message={t('snapActionSuccess')}
       />
       <ReusableSnackbar
-        open={shareClicked}
+        open={shareSnackbar.visible}
         handleClose={handleShareSnackbarClose}
         variant="filled"
         severity="success"
