@@ -4,6 +4,7 @@ import { Button } from '@czi-sds/components'
 import { SnackbarCloseReason } from '@mui/material/Snackbar'
 import {
   currentNeuroglancerState,
+  NeuroglancerAwareIframe,
   NeuroglancerWrapper,
   updateState,
 } from 'neuroglancer'
@@ -14,6 +15,7 @@ import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
 import { useAutoHideSnackbar } from 'app/hooks/useAutoHideSnackbar'
+import { useEffectOnce } from 'app/hooks/useEffectOnce'
 import { useI18n } from 'app/hooks/useI18n'
 import { useTour } from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
@@ -138,7 +140,7 @@ function ViewerPage({
   const [shareClicked, setShareClicked] = useState<boolean>(false)
   const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
   const [bannerOpen, setBannerOpen] = useState<boolean>(false)
-  const iframeRef = useRef<HTMLIFrameElement>()
+  const iframeRef = useRef<NeuroglancerAwareIframe>()
   const hashReady = useRef<boolean>(false)
   const helpMenuRef = useRef<MenuDropdownRef>(null)
 
@@ -152,19 +154,23 @@ function ViewerPage({
     setRenderVersion(renderVersion + 1)
   }
 
-  useEffect(() => {
+  useEffectOnce(() => {
     // Allows to handle neuroglancer key events while dropdown is open
     const keyDownHandler = (event: KeyboardEvent) => {
       const iframe = iframeRef.current
-      const iframeWindow = iframe?.contentWindow
-
+      if (!iframe) {
+        return
+      }
+      const iframeWindow = iframe.contentWindow
       if (!iframeWindow) {
         return
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-      const targetElement = (iframeWindow as any).neuroglancer
-        ?.element as HTMLElement | null
+      const neuroglancerDiv = iframeWindow.neuroglancer
+      if (!neuroglancerDiv) {
+        return
+      }
+      const targetElement = neuroglancerDiv.element as HTMLElement | null
       if (!targetElement) {
         return
       }
@@ -203,14 +209,13 @@ function ViewerPage({
     return () => {
       window.removeEventListener('keydown', keyDownHandler)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   useEffect(() => {
     if (tourRunning && hashReady.current) {
       setupTourPanelState()
     }
-  }, [tourRunning, hashReady])
+  }, [tourRunning])
 
   const handleOnStateChange = (state: ViewerPageSuperState) => {
     scheduleRefresh()

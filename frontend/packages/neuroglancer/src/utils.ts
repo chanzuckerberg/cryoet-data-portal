@@ -31,12 +31,17 @@ export interface ResolvedSuperState extends Record<string, unknown> {
 export type NeuroglancerLayout = `${The2_X2GridLayoutWithXyYzXzAnd3_DPanels}`
 
 export type NeurogancerAwareContentWindow = Window & {
-  viewer?: NeuroglancerViewer
+  neuroglancer?: NeuroglancerViewer
+}
+
+export type NeuroglancerAwareIframe = HTMLIFrameElement & {
+  contentWindow: NeurogancerAwareContentWindow | null
 }
 
 // The neuroglancer viewer has more available properties,
 // here we define a subset of the properties on the viewer
 export interface NeuroglancerViewer {
+  element: HTMLElement
   showDefaultAnnotations: WatchableBoolean
   showAxisLines: WatchableBoolean
   showScaleBar: WatchableBoolean
@@ -249,5 +254,5 @@ export function currentNeuroglancer(
   const frameElement = document.getElementById(neuroglancerIframeID) as
     | HTMLIFrameElement
     | undefined
-  return (frameElement?.contentWindow as NeurogancerAwareContentWindow)?.viewer
+  return (frameElement?.contentWindow as NeurogancerAwareContentWindow)?.neuroglancer
 }
