@@ -5,7 +5,7 @@
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm -r build",
     "clean": "pnpm -r clean",
-    "clean:modules": "run-p -l 'clean:modules:*'",
+    "clean:modules": "concurrently -n root,packages 'pnpm clean:modules:root' 'pnpm clean:modules:packages'",
     "clean:modules:root": "rm -rf node_modules",
     "clean:modules:packages": "pnpm -r clean:modules",
     "data-portal": "pnpm --filter data-portal",
@@ -15,13 +15,14 @@
     "test": "pnpm -r test"
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5",
-    "prettier": "^3.0.3"
+    "prettier": "^3.0.3",
+    "concurrently": "^9.1.2"
   },
   "pnpm": {
     "overrides": {
       "@babel/traverse": "^7.23.2",
-      "cross-spawn": "^7.0.3",
+      "braces": "^3.0.3",
+      "cross-spawn": "^7.0.5",
       "dset": "^3.1.4",
       "rollup": "^3.29.5",
       "vite": "^4.5.3",
@@ -30,9 +31,5 @@
   },
   "engines": {
     "pnpm": "8.10.5"
-  },
-  "resolutions": {
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
   }
 }
