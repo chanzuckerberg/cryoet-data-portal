@@ -12,9 +12,6 @@ module.exports = {
     'NeuroglancerState.ts', // do not lint generated code
     'vite.config.ts', // do not lint vite config
   ],
-  rules: {
-    'react/no-unescaped-entities': 'off',
-  },
 
   parserOptions: {
     project: tsConfigFile,

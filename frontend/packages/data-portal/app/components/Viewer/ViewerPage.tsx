@@ -1,5 +1,3 @@
-import styles from './ViewerPage.module.css'
-
 import { Button } from '@czi-sds/components'
 import { SnackbarCloseReason } from '@mui/material/Snackbar'
 import { useSearchParams } from '@remix-run/react'
@@ -68,6 +66,7 @@ import {
 } from './state'
 import { getTutorialSteps, proxyStepSelectors } from './steps'
 import { Tour } from './Tour'
+import styles from './ViewerPage.module.css'
 
 type Run = GetRunByIdV2Query['runs'][number]
 type Annotations = Run['annotations']
