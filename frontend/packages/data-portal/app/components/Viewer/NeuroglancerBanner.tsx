@@ -8,8 +8,8 @@ import { LocalStorageKeys } from 'app/constants/localStorage'
 import { useEffectOnce } from 'app/hooks/useEffectOnce'
 import { cns } from 'app/utils/cns'
 
-import styles from './NeuroglancerBanner.module.css'
 import { I18n } from '../I18n'
+import styles from './NeuroglancerBanner.module.css'
 
 const BANNER_ALLOWLIST = [/^\/view\/runs\/.*$/]
 const BANNER_REDISPLAY_UNITS: OpUnitType = 'weeks'
@@ -85,7 +85,11 @@ export function NeuroglancerBanner({
               <I18n
                 i18nKey="tourBanner"
                 components={{
-                  button: <button onClick={handleClick} />,
+                  button: (
+                    <button type="button" onClick={handleClick}>
+                      tmp
+                    </button>
+                  ),
                 }}
               />
             </span>

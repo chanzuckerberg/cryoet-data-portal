@@ -10,6 +10,7 @@ import Joyride, {
   TooltipRenderProps,
 } from 'react-joyride'
 
+import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 
 function ProxyOverlay({
@@ -112,6 +113,8 @@ function CustomTooltip(
       : 'text-sds-body-m-400-wide leading-6'
   const buttonContainerStyles = index === 0 || isLastStep ? 'mt-10' : 'mt-6'
 
+  const { t } = useI18n()
+
   return (
     <div
       className={cns(
@@ -142,7 +145,7 @@ function CustomTooltip(
       >
         {index > 0 && (
           <p className="text-light-sds-color-primitive-gray-600 text-sds-body-s-400-narrow">
-            Step {index} of {size - 1}
+            {t('stepCount', { count: index, max: size - 1 })}
           </p>
         )}
 
@@ -155,14 +158,14 @@ function CustomTooltip(
                 {...closePropsWithoutTitle}
                 onClick={onClose}
               >
-                Close
+                {t('close')}
               </Button>
               <Button
                 sdsType="primary"
                 sdsStyle="rounded"
                 {...primaryPropsWithoutTitle}
               >
-                Take a tour
+                {t('takeTour')}
               </Button>
             </>
           ) : (
@@ -173,7 +176,7 @@ function CustomTooltip(
                   sdsStyle="rounded"
                   {...backPropsWithoutTitle}
                 >
-                  Previous
+                  {t('previous')}
                 </Button>
               )}
               {index > 0 && isLastStep && (
@@ -182,7 +185,7 @@ function CustomTooltip(
                   sdsStyle="rounded"
                   onClick={onRestart}
                 >
-                  Restart
+                  {t('restart')}
                 </Button>
               )}
               {!isLastStep && (
@@ -191,12 +194,12 @@ function CustomTooltip(
                   sdsStyle="rounded"
                   {...primaryPropsWithoutTitle}
                 >
-                  Next
+                  {t('next')}
                 </Button>
               )}
               {isLastStep && (
                 <Button sdsType="primary" sdsStyle="rounded" onClick={onClose}>
-                  Close tour
+                  {t('closeTour')}
                 </Button>
               )}
             </>
