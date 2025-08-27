@@ -94,7 +94,7 @@ function TransTour(props: I18nProps) {
 export const getTutorialSteps: (t: Translator) => Step[] = (t) => {
   return [
     {
-      target: '.neuroglancerIframe',
+      target: '#neuroglancerIframe',
       placement: 'center',
       disableBeacon: true,
       title: t('neuroglancerWT.main.title'),
@@ -218,7 +218,7 @@ export const getTutorialSteps: (t: Translator) => Step[] = (t) => {
       ),
     },
     {
-      target: '.neuroglancerIframe',
+      target: '#neuroglancerIframe',
       placement: 'center',
       title: t('neuroglancerWT.step7.title'),
       disableBeacon: true,
