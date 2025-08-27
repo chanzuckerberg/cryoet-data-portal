@@ -1,10 +1,11 @@
 import { TFunction } from 'i18next'
 import { Step } from 'react-joyride'
 
-import { NEUROGLANCER_DOC_LINK } from '../Layout/constants'
 import { I18n, I18nProps } from 'app/components/I18n'
 import { InfoIcon } from 'app/components/icons'
 import { cns } from 'app/utils/cns'
+
+import { NEUROGLANCER_DOC_LINK } from '../Layout/constants'
 
 type Translator = TFunction<'translation', undefined>
 

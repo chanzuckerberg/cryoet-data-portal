@@ -9,6 +9,7 @@ import { useEffectOnce } from 'app/hooks/useEffectOnce'
 import { cns } from 'app/utils/cns'
 
 import styles from './NeuroglancerBanner.module.css'
+import { I18n } from '../I18n'
 
 const BANNER_ALLOWLIST = [/^\/view\/runs\/.*$/]
 const BANNER_REDISPLAY_UNITS: OpUnitType = 'weeks'
@@ -64,20 +65,6 @@ export function NeuroglancerBanner({
     setOpen(false)
   }
 
-  const bannerMessage = (
-    <span>
-      New to Neuroglancer? Learn the essentials in{' '}
-      <button
-        type="button"
-        className="text-light-sds-color-primitive-blue-500"
-        onClick={handleClick}
-      >
-        this guided tour
-      </button>
-      .
-    </span>
-  )
-
   return (
     <div
       className={cns(
@@ -94,7 +81,14 @@ export function NeuroglancerBanner({
         <div className="flex items-center gap-sds-default">
           <Icon sdsIcon="Book" sdsSize="l" />
           <p className="text-sds-body-s-400-wide leading-sds-body-s">
-            {bannerMessage}
+            <span>
+              <I18n
+                i18nKey="tourBanner"
+                components={{
+                  button: <button onClick={handleClick} />,
+                }}
+              />
+            </span>
           </p>
         </div>
       </Banner>

@@ -618,6 +618,7 @@
   "totalRuns": "Total Runs",
   "totalRunsCount": "Total {{count}} runs",
   "totalTomograms": "Total Tomograms",
+  "tourBanner": "New to Neuroglancer? Learn the essentials in <button type='button' className='text-light-sds-color-primitive-blue-500'>this guided tour</button>.",
   "true": "True",
   "tutorials": "Tutorials",
   "tutorialsSectionContent": "Example notebooks for existing models, such as TomoTwin and DeepFinder, are provided to serve as onboarding materials and baseline solutions. These examples include preliminary results to set performance benchmarks for the competition.",
