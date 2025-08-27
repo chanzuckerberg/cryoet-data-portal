@@ -1,4 +1,4 @@
-import './ViewerPage.css'
+import styles from './ViewerPage.module.css'
 
 import { Button } from '@czi-sds/components'
 import { SnackbarCloseReason } from '@mui/material/Snackbar'
@@ -540,11 +540,12 @@ export function ViewerPage({
           </div>
         </div>
       </nav>
-      <div className="iframeContainer">
+      <div className={styles.iframeContainer}>
         {hashReady.current && (
           <NeuroglancerWrapper
             onStateChange={handleOnStateChange}
             ref={iframeRef}
+            className={styles.neuroglancerIframe}
           />
         )}
       </div>

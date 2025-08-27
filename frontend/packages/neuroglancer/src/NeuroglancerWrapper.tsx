@@ -15,6 +15,7 @@ interface NeuroglancerWrapperProps {
   baseUrl?: string
   onStateChange?: (state: ResolvedSuperState) => void
   compressURL?: boolean
+  className?: string
 }
 
 const NeuroglancerWrapper = forwardRef<
@@ -26,6 +27,7 @@ const NeuroglancerWrapper = forwardRef<
       baseUrl = '/neuroglancer',
       onStateChange,
       compressURL = true,
+      className = 'neuroglancerIframe',
     }: NeuroglancerWrapperProps,
     ref,
   ) => {
@@ -89,7 +91,7 @@ const NeuroglancerWrapper = forwardRef<
 
     return (
       <iframe
-        className="neuroglancerIframe"
+        className={className}
         id="neuroglancerIframe"
         ref={ref}
         src={`${baseUrl}/${superState.current.neuroglancer}`} // We need to give an uncompress hash initially
