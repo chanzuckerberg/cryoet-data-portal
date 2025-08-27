@@ -277,7 +277,6 @@ export function ViewerPage({
     navigator.clipboard
       .writeText(window.location.href)
       .then(() => {
-        // shareSnackbar.show(setShareClicked)
         shareSnackbar.show()
       })
       .catch((err) => {
