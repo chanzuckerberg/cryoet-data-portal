@@ -254,5 +254,6 @@ export function currentNeuroglancer(
   const frameElement = document.getElementById(neuroglancerIframeID) as
     | HTMLIFrameElement
     | undefined
-  return (frameElement?.contentWindow as NeurogancerAwareContentWindow)?.neuroglancer
+  return (frameElement?.contentWindow as NeurogancerAwareContentWindow)
+    ?.neuroglancer
 }

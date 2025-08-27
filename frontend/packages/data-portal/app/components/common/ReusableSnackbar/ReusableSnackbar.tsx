@@ -1,6 +1,7 @@
 import { CheckCircleOutlineOutlined } from '@mui/icons-material'
 import Alert from '@mui/material/Alert'
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
+
 import { cns } from 'app/utils/cns'
 
 type ReusableSnackbarProps = {

@@ -149,7 +149,8 @@ const getNeuroglancer = (iframe: HTMLIFrameElement): HTMLElement | null => {
     return
   }
 
-  return (iframeWindow as NeuroglancerAwareContentWindow).neuroglancer?.element as HTMLElement | null
+  return (iframeWindow as NeuroglancerAwareContentWindow).neuroglancer
+    ?.element as HTMLElement | null
 }
 
 const neuroglancerInstance = getNeuroglancer(iframeRef.current)
