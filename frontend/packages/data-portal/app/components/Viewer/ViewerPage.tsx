@@ -2,6 +2,7 @@ import './ViewerPage.css'
 
 import { Button } from '@czi-sds/components'
 import { SnackbarCloseReason } from '@mui/material/Snackbar'
+import { useSearchParams } from '@remix-run/react'
 import {
   currentNeuroglancerState,
   NeuroglancerAwareIframe,
@@ -149,6 +150,8 @@ export function ViewerPage({
   const depositionConfigs = buildDepositionsConfig(run.annotations)
   const shouldShowAnnotationDropdown = Object.keys(depositionConfigs).length > 0
 
+  const [, setSearchParams] = useSearchParams()
+
   const scheduleRefresh = () => {
     setRenderVersion(renderVersion + 1)
   }
@@ -249,9 +252,14 @@ export function ViewerPage({
   }
 
   const clearTourQueryParam = () => {
-    const url = new URL(window.location.href)
-    url.searchParams.delete(QueryParams.ShowTour)
-    window.history.replaceState({}, '', url.toString())
+    setSearchParams(
+      (prev) => {
+        const newParams = new URLSearchParams(prev)
+        newParams.delete(QueryParams.ShowTour)
+        return newParams
+      },
+      { replace: true },
+    )
   }
 
   const handleTourCloseWithCleanup = () => {

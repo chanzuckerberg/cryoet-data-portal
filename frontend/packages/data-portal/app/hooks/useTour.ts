@@ -1,3 +1,4 @@
+import { useSearchParams } from '@remix-run/react'
 import { updateState } from 'neuroglancer'
 import { useState } from 'react'
 import { ACTIONS } from 'react-joyride'
@@ -6,6 +7,7 @@ import { QueryParams } from 'app/constants/query'
 
 export function useTour(startingStepIndex: number = 0) {
   const [tourRunning, setTourRunning] = useState(false)
+  const [, setSearchParams] = useSearchParams()
   // Don't directly set the step index, set the state instead in
   // the neuroglancer super state and then the callback for the
   // onStateChange in the viewer page will update the step index
@@ -32,9 +34,14 @@ export function useTour(startingStepIndex: number = 0) {
   }
 
   const handleTourStart = () => {
-    const url = new URL(window.location.href)
-    url.searchParams.set(QueryParams.ShowTour, 'true')
-    window.history.replaceState({}, '', url.toString())
+    setSearchParams(
+      (prev) => {
+        const newParams = new URLSearchParams(prev)
+        newParams.set(QueryParams.ShowTour, 'true')
+        return newParams
+      },
+      { replace: true },
+    )
     resetState()
     setTourRunning(true)
     setIgnoreStepMove(false)
