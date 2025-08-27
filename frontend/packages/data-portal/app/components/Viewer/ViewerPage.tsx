@@ -364,7 +364,7 @@ export function ViewerPage({
                     selected={isAllLayerActive()}
                     onSelect={() => toggleAllDepositions()}
                   >
-                    All depositions
+                    {t('allDepositions')}
                   </NeuroglancerDropdownOption>
                   {Object.entries(depositionConfigs).map(
                     ([depositionId, depositions]) => {
@@ -399,7 +399,7 @@ export function ViewerPage({
                   }
                   onSelect={() => setCurrentLayout('4panel')}
                 >
-                  4 panel
+                  {t('4panels')}
                 </NeuroglancerDropdownOption>
                 <NeuroglancerDropdownOption
                   selected={isCurrentLayout('xy')}
@@ -431,19 +431,19 @@ export function ViewerPage({
                   selected={getCurrentState().savedPanelsStatus !== undefined}
                   onSelect={() => togglePanels()}
                 >
-                  Hide UI
+                  {t('hideUI')}
                 </NeuroglancerDropdownOption>
                 <NeuroglancerDropdownOption
                   selected={isTopBarVisible()}
                   onSelect={() => toggleTopBar()}
                 >
-                  Show top layer bar
+                  {t('showTopLayerBar')}
                 </NeuroglancerDropdownOption>
                 <NeuroglancerDropdownOption
                   selected={isDimensionPanelVisible()}
                   onSelect={toggleOrMakeDimensionPanel}
                 >
-                  Show position selector
+                  {t('showPositionSelector')}
                 </NeuroglancerDropdownOption>
               </MenuDropdownSection>
             </NeuroglancerDropdown>
@@ -454,7 +454,7 @@ export function ViewerPage({
                   onSelect={toggleBoundingBox}
                 >
                   <div className="flex justify-between items-center">
-                    <p>Bounding box</p>
+                    <p>{t('bbox')}</p>
                     <p className={helperText}>v</p>
                   </div>
                 </NeuroglancerDropdownOption>
@@ -463,7 +463,7 @@ export function ViewerPage({
                   onSelect={toggleAxisLine}
                 >
                   <div className="flex justify-between items-center">
-                    <p>Axis lines</p>
+                    <p>{t('axisLines')}</p>
                     <p className={helperText}>a</p>
                   </div>
                 </NeuroglancerDropdownOption>
@@ -472,7 +472,7 @@ export function ViewerPage({
                   onSelect={toggleShowScaleBar}
                 >
                   <div className="flex justify-between items-center">
-                    <p>Scale bar</p>
+                    <p>{t('scaleBar')}</p>
                     <p className={helperText}>b</p>
                   </div>
                 </NeuroglancerDropdownOption>
@@ -481,7 +481,7 @@ export function ViewerPage({
                   onSelect={toggleShowSections}
                 >
                   <div className="flex justify-between items-center">
-                    <p>Cross-sections</p>
+                    <p>{t('crossSection')}</p>
                     <p className={helperText}>s</p>
                   </div>
                 </NeuroglancerDropdownOption>
@@ -492,7 +492,7 @@ export function ViewerPage({
                   onSelect={handleSnapActionClick}
                 >
                   <div className="flex justify-between items-center">
-                    <p>Snap to nearest axis</p>
+                    <p>{t('snapAction')}</p>
                     <p className={helperText}>z</p>
                   </div>
                 </NeuroglancerDropdownOption>
@@ -504,7 +504,7 @@ export function ViewerPage({
               disabled={shareSnackbar.visible}
               onClick={handleShareClick}
             >
-              Share
+              {t('share')}
             </Button>
             <NeuroglancerDropdown
               ref={helpMenuRef}
@@ -553,7 +553,7 @@ export function ViewerPage({
         <Tour
           run={tourRunning}
           stepIndex={stepIndex}
-          steps={getTutorialSteps()}
+          steps={getTutorialSteps(t)}
           onRestart={handleRestart}
           onClose={handleTourCloseWithCleanup}
           onMove={handleTourStepMove}
