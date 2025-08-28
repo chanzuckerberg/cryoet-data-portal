@@ -1,6 +1,5 @@
 import { Button } from '@czi-sds/components'
 import { SnackbarCloseReason } from '@mui/material/Snackbar'
-import { useSearchParams } from '@remix-run/react'
 import {
   currentNeuroglancerState,
   NeuroglancerAwareIframe,
@@ -67,6 +66,9 @@ import {
 import { getTutorialSteps, proxyStepSelectors } from './steps'
 import { Tour } from './Tour'
 import styles from './ViewerPage.module.css'
+
+import { replace } from "@remix-run/node"; // or cloudflare/deno
+
 
 type Run = GetRunByIdV2Query['runs'][number]
 type Annotations = Run['annotations']
@@ -148,8 +150,6 @@ export function ViewerPage({
 
   const depositionConfigs = buildDepositionsConfig(run.annotations)
   const shouldShowAnnotationDropdown = Object.keys(depositionConfigs).length > 0
-
-  const [, setSearchParams] = useSearchParams()
 
   const scheduleRefresh = () => {
     setRenderVersion(renderVersion + 1)
@@ -251,14 +251,9 @@ export function ViewerPage({
   }
 
   const clearTourQueryParam = () => {
-    setSearchParams(
-      (prev) => {
-        const newParams = new URLSearchParams(prev)
-        newParams.delete(QueryParams.ShowTour)
-        return newParams
-      },
-      { replace: true },
-    )
+    const url = new URL(window.location.href)
+    url.searchParams.delete(QueryParams.ShowTour)
+    replace(url.toString())
   }
 
   const handleTourCloseWithCleanup = () => {
