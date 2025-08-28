@@ -379,16 +379,16 @@
     },
     "step1": {
       "title": "Main viewport",
-      "content": "<div className='text-[#767676]'><p>The default visualization is a synchronized four panel layout:</p><ul className='list-disc ps-5'><li>Three cross-sectional views showing orthogonal XY, XZ, and YZ slices</li><li>One 3D view for model visualization and volume rendering</li></ul></div><p className='text-black'>This is configurable from the 'Layout' dropdown in the top bar.</p>"
+      "content": "<div><p>The default visualization is a synchronized four panel layout:</p><ul><li>Three cross-sectional views showing orthogonal XY, XZ, and YZ slices</li><li>One 3D view for model visualization and volume rendering</li></ul></div><p className='text-black'>This is configurable from the 'Layout' dropdown in the top bar.</p>"
     },
     "step2": {
       "title": "Essential controls",
-      "content": "<p className='text-[#767676]'>Move, pan and zoom in each panel with these mouse navigation controls:</p>"
+      "content": "Move, pan and zoom in each panel with these mouse navigation controls:"
     },
     "step3": {
       "title": "Keyboard shortcuts",
-      "content": "<p className='text-[#767676]'>Quickly access top tools with shortcuts. Here are some useful shortcuts:</p>",
-      "complement": "<p>These actions are also easily accessible on the top bar.</p>"
+      "content": "Quickly access top tools with shortcuts. Here are some useful shortcuts:",
+      "complement": "These actions are also easily accessible on the top bar."
     },
     "step4": {
       "title": "Layer management",
@@ -406,8 +406,8 @@
       "title": "Congratulations!",
       "content": "<span>You've just learned the basics of navigating annotated tomograms from the CryoET Data Portal with Neuroglancer!</span><span>We've extracted some of the most crucial functionality of neuroglancer into the portal header, including loading groups of annotations, changing the viewer layout, and more.</span>",
       "recap": "<p>As a recap, here are some useful shortcuts</p>",
-      "learnMore": "Ready to learn more? Visit our <span className='font-semibold text-[#0B68F8]'><doclink>documentation</doclink></span>.",
-      "access": "<p className='flex gap-1'>Easily access this walkthrough again through the <span><InfoIcon className='w-5 h-5' /></span>help menu.</p>"
+      "learnMore": "Ready to learn more? Visit our <doclink>documentation</doclink>.",
+      "access": "Easily access this walkthrough again through the <span><InfoIcon /></span>help menu."
     }
   },
   "next": "Next",

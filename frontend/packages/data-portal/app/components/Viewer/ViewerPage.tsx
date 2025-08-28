@@ -1,5 +1,6 @@
 import { Button } from '@czi-sds/components'
 import { SnackbarCloseReason } from '@mui/material/Snackbar'
+import { replace } from '@remix-run/node' // or cloudflare/deno
 import {
   currentNeuroglancerState,
   NeuroglancerAwareIframe,
@@ -66,9 +67,6 @@ import {
 import { getTutorialSteps, proxyStepSelectors } from './steps'
 import { Tour } from './Tour'
 import styles from './ViewerPage.module.css'
-
-import { replace } from "@remix-run/node"; // or cloudflare/deno
-
 
 type Run = GetRunByIdV2Query['runs'][number]
 type Annotations = Run['annotations']

@@ -78,13 +78,17 @@ function TransTour(props: I18nProps) {
   return (
     <I18n
       components={{
-        span: <span />,
-        p: <p />,
-        div: <div />,
-        ul: <ul />,
-        li: <li />,
-        InfoIcon: <InfoIcon />,
-        doclink: <a href={NEUROGLANCER_DOC_LINK}>tmp</a>,
+        span: <span>tmp</span>,
+        p: <p>tmp</p>,
+        div: <div className="text-[#767676]">tmp</div>,
+        ul: <ul className="list-disc ps-5">tmp</ul>,
+        li: <li>tmp</li>,
+        InfoIcon: <InfoIcon className="w-5 h-5" />,
+        doclink: (
+          <span className="font-semibold text-[#0B68F8]">
+            <a href={NEUROGLANCER_DOC_LINK}>tmp</a>
+          </span>
+        ),
       }}
       {...props}
     />
@@ -140,7 +144,9 @@ export const getTutorialSteps: (t: Translator) => Step[] = (t) => {
               alt="essential controls gif"
             />
           </div>
-          <TransTour i18nKey="neuroglancerWT.step2.content" />
+          <p className="text-[#767676]">
+            <TransTour i18nKey="neuroglancerWT.step2.content" />
+          </p>
           <div className="flex flex-col gap-3 mt-3">
             <KeyActionList actions={essentialControls(t)} />
           </div>
@@ -161,11 +167,15 @@ export const getTutorialSteps: (t: Translator) => Step[] = (t) => {
               alt="keyboard shortcuts gif"
             />
           </div>
-          <TransTour i18nKey="neuroglancerWT.step3.content" />
+          <p className="text-[#767676]">
+            <TransTour i18nKey="neuroglancerWT.step3.content" />
+          </p>
           <div className="flex flex-col gap-3 mt-3 mb-4">
             <KeyActionList actions={keyboardShortcuts(t)} />
           </div>
-          <TransTour i18nKey="neuroglancerWT.step3.complement" />
+          <p>
+            <TransTour i18nKey="neuroglancerWT.step3.complement" />
+          </p>
         </StepContent>
       ),
     },
@@ -233,8 +243,12 @@ export const getTutorialSteps: (t: Translator) => Step[] = (t) => {
               <KeyActionList actions={essentialControls(t)} />
             </div>
           </div>
-          <TransTour i18nKey="neuroglancerWT.step7.learnMore" />
-          <TransTour i18nKey="neuroglancerWT.step7.access" />
+          <p>
+            <TransTour i18nKey="neuroglancerWT.step7.learnMore" />
+          </p>
+          <p className="flex gap-1">
+            <TransTour i18nKey="neuroglancerWT.step7.access" />
+          </p>
         </StepContent>
       ),
     },
