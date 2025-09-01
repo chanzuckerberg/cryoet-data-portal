@@ -1,6 +1,5 @@
 import { Button } from '@czi-sds/components'
 import { SnackbarCloseReason } from '@mui/material/Snackbar'
-import { replace } from '@remix-run/node' // or cloudflare/deno
 import {
   currentNeuroglancerState,
   NeuroglancerAwareIframe,
@@ -251,7 +250,7 @@ export function ViewerPage({
   const clearTourQueryParam = () => {
     const url = new URL(window.location.href)
     url.searchParams.delete(QueryParams.ShowTour)
-    replace(url.toString())
+    window.history.replaceState({}, '', url.toString())
   }
 
   const handleTourCloseWithCleanup = () => {
