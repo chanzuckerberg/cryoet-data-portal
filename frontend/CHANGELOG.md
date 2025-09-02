@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.75.4](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.75.3...cryoet-data-portal-frontend-v1.75.4) (2025-09-02)
+
+
+### 🐞 Bug Fixes
+
+* organism name filter not working in annotations and tomograms tabs ([#1960](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1960)) ([7b08ddf](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7b08ddfc759b0cbe334e46103d7b7f3485ab4c43))
+
+
+### 🧹 Miscellaneous Chores
+
+* add security overrides for form-data and path-to-regexp ([#1962](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1962)) ([8f9c5e6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8f9c5e628ffc9ec8e33e83b1058533033980bd36))
+
 ## [1.75.3](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.75.2...cryoet-data-portal-frontend-v1.75.3) (2025-08-15)
 
 
