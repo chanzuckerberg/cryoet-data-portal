@@ -113,7 +113,6 @@ const toggleLayersVisibility = () => {
 This example takes the super state, iterates on all the layers and toggle their visibility.
 It's important to note that the state that is returned is the one that will be used as new super state. There is no immutability or nothing imposed, you can modify `state` as input, or make a copy, as long as you return the new state.
 
-
 ## How to access Neuroglancer and Neuroglancer's internal properties
 
 When the instance of Neuroglancer is created in the iFrame, a relationship is kept inside the iFrame to get a direct access to the Neuroglancer's instance. This gives the capacity to directly manipulate Neuroglancer and its internal properties, as long as you have a knowledge of how Neuroglancer works internally.
@@ -150,7 +149,8 @@ const getNeuroglancer = (iframe: HTMLIFrameElement): HTMLElement | null => {
     return
   }
 
-  return (iframeWindow as any).neuroglancer?.element as HTMLElement | null
+  return (iframeWindow as NeuroglancerAwareContentWindow).neuroglancer
+    ?.element as HTMLElement | null
 }
 
 const neuroglancerInstance = getNeuroglancer(iframeRef.current)

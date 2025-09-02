@@ -1,8 +1,9 @@
 import pako from 'pako'
+
 import {
   CompleteStateOfANeuroglancerInstance,
-  The2_X2GridLayoutWithXyYzXzAnd3_DPanels,
   LayerElement,
+  The2_X2GridLayoutWithXyYzXzAnd3_DPanels,
 } from './NeuroglancerState'
 
 // TODO could try to update this in neuroglancer main in the state yaml
@@ -19,19 +20,28 @@ export interface NeuroglancerState
   layers?: LayerWithSource[]
 }
 
-export interface SuperState extends Record<string, any> {
+export interface SuperState extends Record<string, unknown> {
   neuroglancer: string
 }
 
-export interface ResolvedSuperState extends Record<string, any> {
+export interface ResolvedSuperState extends Record<string, unknown> {
   neuroglancer: NeuroglancerState
 }
 
 export type NeuroglancerLayout = `${The2_X2GridLayoutWithXyYzXzAnd3_DPanels}`
 
+export type NeurogancerAwareContentWindow = Window & {
+  neuroglancer?: NeuroglancerViewer
+}
+
+export type NeuroglancerAwareIframe = HTMLIFrameElement & {
+  contentWindow: NeurogancerAwareContentWindow | null
+}
+
 // The neuroglancer viewer has more available properties,
 // here we define a subset of the properties on the viewer
 export interface NeuroglancerViewer {
+  element: HTMLElement
   showDefaultAnnotations: WatchableBoolean
   showAxisLines: WatchableBoolean
   showScaleBar: WatchableBoolean
@@ -125,12 +135,12 @@ export const parseSuperState = (
     }
     return emptySuperState(hash)
   }
-  return { ...superState, neuroglancer: superState.neuroglancer }
+  return { ...superState, neuroglancer: superState.neuroglancer as string }
 }
 
 export const extractConfigFromSuperState = (hash: string): string => {
   const superstate = parseState(hash)
-  return superstate.neuroglancer || ''
+  return (superstate.neuroglancer as string) || ''
 }
 
 export function hash2jsonString(hash: string): string {
@@ -156,7 +166,7 @@ export const currentNeuroglancerState = (
 ): NeuroglancerState => {
   const superState = parseState(hash)
   if (superState.neuroglancer) {
-    return parseState(superState.neuroglancer)
+    return parseState(superState.neuroglancer as string)
   }
   return superState
 }
@@ -179,10 +189,15 @@ export const parseState = (
   }
   const hash = decompressHash(hash2jsonString(hashState))
   const decodedHash = decodeURIComponent(hash)
-  return JSON.parse(hash2jsonString(decodedHash))
+  return JSON.parse(hash2jsonString(decodedHash)) as
+    | SuperState
+    | NeuroglancerState
 }
 
-export const encodeState = (jsonObject: any, compress: boolean = true) => {
+export const encodeState = (
+  jsonObject: unknown,
+  compress: boolean = true,
+): string => {
   const jsonString = JSON.stringify(jsonObject)
   const encodedString = encodeURIComponent(jsonString)
   if (compress) {
@@ -236,6 +251,9 @@ export function decompressHash(hash: string): string {
 export function currentNeuroglancer(
   neuroglancerIframeID = 'neuroglancerIframe',
 ): NeuroglancerViewer | undefined {
-  return (document.getElementById(neuroglancerIframeID) as any)?.contentWindow
-    ?.viewer as NeuroglancerViewer | undefined
+  const frameElement = document.getElementById(neuroglancerIframeID) as
+    | HTMLIFrameElement
+    | undefined
+  return (frameElement?.contentWindow as NeurogancerAwareContentWindow)
+    ?.neuroglancer
 }

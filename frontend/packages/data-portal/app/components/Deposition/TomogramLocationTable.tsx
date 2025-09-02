@@ -85,7 +85,7 @@ export function TomogramLocationTable({
           items: [], // Empty for unexpanded case
           tomogramCount:
             'tomogramsAggregate' in run
-              ? run.tomogramsAggregate?.aggregate?.[0]?.count ?? 0
+              ? (run.tomogramsAggregate?.aggregate?.[0]?.count ?? 0)
               : 0,
         })),
       }
@@ -145,7 +145,7 @@ export function TomogramLocationTable({
 
   return (
     <TableContainer className="!px-0">
-      <SDSTable className="!table-fixed">
+      <SDSTable className="!table-fixed [&>thead]:border-none">
         <TableHeader>
           <CellHeader style={DepositionTomogramTableWidths.photo}> </CellHeader>
           <CellHeader style={DepositionTomogramTableWidths.name}>

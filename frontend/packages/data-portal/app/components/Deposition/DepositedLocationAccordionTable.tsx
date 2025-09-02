@@ -182,7 +182,6 @@ export function DepositedLocationAccordionTable({
       pageSize={MAX_PER_ACCORDION_GROUP} // Use the standard accordion pagination size (10)
       showPagination // Enable pagination at location level
       externalLinkBuilder={(group) => getDatasetUrl(group.groupKey)}
-      accordionClassName=""
     />
   )
 }

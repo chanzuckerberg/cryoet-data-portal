@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.75.3](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.75.2...cryoet-data-portal-frontend-v1.75.3) (2025-08-15)
+
+
+### 🧹 Miscellaneous Chores
+
+* update deps ([#1955](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1955)) ([3a34d11](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3a34d11a594b3d305d16ce41037bc93d7a6a60a5))
+
+## [1.75.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.75.1...cryoet-data-portal-frontend-v1.75.2) (2025-08-14)
+
+
+### 🐞 Bug Fixes
+
+* address Expand Depositions P1 design feedback ([#1947](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1947)) ([27cd2f4](https://github.com/chanzuckerberg/cryoet-data-portal/commit/27cd2f4373b7a5b0f9c4c67e332a547dcee4638b))
+
 ## [1.75.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.75.0...cryoet-data-portal-frontend-v1.75.1) (2025-08-07)
 
 
