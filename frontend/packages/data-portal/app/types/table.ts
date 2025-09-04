@@ -15,4 +15,5 @@ export interface TableData {
   renderValue?(value: TableDataValue): ReactNode
   renderValues?(values: TableDataValue[]): ReactNode
   values: TableDataValue[] | (() => TableDataValue[])
+  fullWidth?: boolean // When true, renders a single cell spanning both columns
 }

@@ -29,6 +29,7 @@ export function GroundTruthAnnotationFilter({
           }
           value={isGroundTruthEnabled}
           wrapped
+          hasTag
           // FIXME: once sds upgraded to 0.20.x uncomment this
           // caption={
           //   depositionPageVariant ? t('depositionAnnotationsOnly') : undefined
