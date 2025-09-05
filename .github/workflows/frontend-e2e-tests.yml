@@ -26,7 +26,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20.8.x
+          node-version: lts/jod
 
       - name: Install PNPM
         uses: pnpm/action-setup@v4
