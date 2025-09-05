@@ -57,7 +57,7 @@ jobs:
 
       - name: Install dependencies with PNPM
         if: steps.changes.outputs.frontend == 'true'
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
         working-directory: frontend
 
       - name: run pre-commit
