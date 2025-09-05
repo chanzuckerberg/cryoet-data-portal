@@ -1,0 +1,21 @@
+/* TODO the changes to tool palette can be removed if neuroglancer supports horizontal palettes in main */
+.neuroglancer-tool-palette-query {
+  display: none !important;
+}
+
+.neuroglancer-tool-palette-items {
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  overflow-x: auto !important;
+  height: 100% !important;
+}
+
+.neuroglancer-tool-palette-tool-container {
+  width: 100% !important;
+  align-items: flex-start !important;
+}
+
+/* This is required to hide the eye icon in the layer list panel */
+.neuroglancer-layer-list-panel-item-visibility {
+  display: none !important;
+}
