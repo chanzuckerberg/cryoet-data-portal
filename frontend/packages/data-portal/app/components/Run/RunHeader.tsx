@@ -10,6 +10,7 @@ import { PageHeader } from 'app/components/PageHeader'
 import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
 import { MetadataTable } from 'app/components/Table'
 import { TiltSeriesQualityScoreBadge } from 'app/components/TiltSeriesQualityScoreBadge'
+import { Tooltip } from 'app/components/Tooltip'
 import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
 import { DATA_TYPES } from 'app/constants/dataTypes'
 import { IdPrefix } from 'app/constants/idPrefixes'
@@ -22,6 +23,7 @@ import {
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { TableDataValue } from 'app/types/table'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 import { getNeuroglancerUrl } from 'app/utils/url'
 
@@ -33,6 +35,7 @@ export function RunHeader() {
     run,
     processingMethods,
     objectNames,
+    identifiedObjectsData,
     resolutions,
     annotationFilesAggregates,
     tomogramsCount,
@@ -42,6 +45,7 @@ export function RunHeader() {
   } = useRunById()
   const { toggleDrawer } = useMetadataDrawer()
   const { t } = useI18n()
+  const isIdentifiedObjectsEnabled = useFeatureFlag('identifiedObjects')
 
   const tiltSeries = run.tiltseries.edges[0]?.node
 
@@ -237,23 +241,119 @@ export function RunHeader() {
                       values: processingMethods,
                       className: 'capitalize',
                     },
-                    {
-                      label: i18n.annotatedObjects,
-                      inline: true,
-                      values: objectNames,
-                      renderValues: (values: TableDataValue[]) => (
-                        <CollapsibleList
-                          entries={values.map((value) => ({
-                            key: value.toString(),
-                            entry: value.toString(),
-                          }))}
-                          inlineVariant
-                          collapseAfter={6}
-                        />
-                      ),
-                    },
+                    ...(!isIdentifiedObjectsEnabled
+                      ? [
+                          {
+                            label: i18n.annotatedObjects,
+                            inline: true,
+                            values: objectNames,
+                            renderValues: (values: TableDataValue[]) => (
+                              <CollapsibleList
+                                entries={values.map((value) => ({
+                                  key: value.toString(),
+                                  entry: value.toString(),
+                                }))}
+                                inlineVariant
+                                collapseAfter={6}
+                              />
+                            ),
+                          },
+                        ]
+                      : []),
                   ]}
                 />
+                {isIdentifiedObjectsEnabled && (
+                  <MetadataTable
+                    title={
+                      <div className="flex items-center gap-sds-xxs ">
+                        <span>{i18n.objects}</span>
+                        <Tooltip
+                          tooltip={
+                            <div className="flex flex-col gap-sds-xs py-sds-xxs w-[215px]">
+                              <p>
+                                <span className="font-semibold">Source:</span>{' '}
+                                Objects are identified by the authors, curators
+                                or contributed annotations.
+                              </p>
+                              <hr className="border-t border-light-sds-color-primitive-gray-300" />
+                              <div className="flex items-center justify-between w-full">
+                                <Icon
+                                  sdsIcon="FlagOutline"
+                                  sdsSize="xs"
+                                  color="gray"
+                                  shade={800}
+                                  className="!w-[8px] !h-[8px]"
+                                />
+                                Annotation Available
+                              </div>
+                            </div>
+                          }
+                          placement="top"
+                          sdsStyle="light"
+                          offset={[0, -8]}
+                        >
+                          <Icon
+                            sdsIcon="InfoCircle"
+                            sdsSize="xs"
+                            color="gray"
+                            shade={500}
+                            className="relative top-[-1px]"
+                          />
+                        </Tooltip>
+                      </div>
+                    }
+                    data={[
+                      {
+                        label: '', // Empty label for full-width row
+                        inline: true,
+                        values: (() => {
+                          if (isIdentifiedObjectsEnabled) {
+                            // Create union of objectNames and identifiedObjectNames
+                            const identifiedObjectNames = identifiedObjectsData
+                              .map((obj) => obj?.objectName)
+                              .filter(Boolean) as string[]
+                            const allObjects = new Set([
+                              ...objectNames.filter(Boolean),
+                              ...identifiedObjectNames,
+                            ])
+                            return Array.from(allObjects).sort()
+                          }
+                          // Only show objectNames when feature flag is disabled
+                          return objectNames.filter(Boolean)
+                        })(),
+                        fullWidth: true,
+                        renderValues: (values: TableDataValue[]) => (
+                          <div className="[&_li]:inline-flex [&_li]:items-center">
+                            <CollapsibleList
+                              entries={values.map((value) => ({
+                                key: value.toString(),
+                                entry: (
+                                  <span className="flex items-center gap-[2px]">
+                                    {value.toString()}
+                                    {isIdentifiedObjectsEnabled &&
+                                      objectNames.includes(
+                                        value.toString(),
+                                      ) && (
+                                        <Icon
+                                          sdsIcon="FlagOutline"
+                                          sdsSize="xs"
+                                          color="gray"
+                                          shade={800}
+                                          className="!w-[8px] !h-[8px] relative top-[-3px]"
+                                        />
+                                      )}
+                                  </span>
+                                ),
+                              }))}
+                              inlineVariant
+                              collapseAfter={undefined}
+                            />
+                          </div>
+                        ),
+                      },
+                    ]}
+                  />
+                )}
               </div>
               {moreInfo}
             </div>

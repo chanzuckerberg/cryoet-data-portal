@@ -80,6 +80,12 @@ export function getFilterState(searchParams: URLSearchParams) {
             shapeType,
           ),
         ),
+
+      annotatedObjectsOnly:
+        searchParams.get(QueryParams.AnnotatedObjectsOnly) === 'Yes',
+
+      // Internal flag used for dual query approach (not from URL)
+      _searchIdentifiedObjectsOnly: undefined as boolean | undefined,
     },
 
     tags: {
