@@ -85,7 +85,7 @@ export function TomogramLocationTable({
           items: [], // Empty for unexpanded case
           tomogramCount:
             'tomogramsAggregate' in run
-              ? (run.tomogramsAggregate?.aggregate?.[0]?.count ?? 0)
+              ? run.tomogramsAggregate?.aggregate?.[0]?.count ?? 0
               : 0,
         })),
       }

@@ -31,8 +31,8 @@ export function IncludedContentsFilterSection({
   const numberOfRunsOptions = useMemo(
     () =>
       numberOfRuns
-        ? (NUMBER_OF_RUN_OPTIONS.find(({ value }) => value === numberOfRuns) ??
-          null)
+        ? NUMBER_OF_RUN_OPTIONS.find(({ value }) => value === numberOfRuns) ??
+          null
         : null,
     [numberOfRuns],
   )

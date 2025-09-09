@@ -123,7 +123,7 @@ export default function RunByIdPage() {
 
   const httpsPath = activeFile
     ? activeFile.node.httpsPath
-    : (activeTomogram?.httpsMrcFile ?? undefined)
+    : activeTomogram?.httpsMrcFile ?? undefined
 
   const getFileSize = () => {
     if (activeFile) {
