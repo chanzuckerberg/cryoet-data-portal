@@ -31,7 +31,8 @@ jobs:
       - uses: actions/setup-node@v3
         if: steps.changes.outputs.frontend == 'true'
         with:
-          node-version: 20.8.x
+          node-version: 22
+
 
       - name: Install PNPM
         if: steps.changes.outputs.frontend == 'true'
@@ -57,8 +58,13 @@ jobs:
 
       - name: Install dependencies with PNPM
         if: steps.changes.outputs.frontend == 'true'
-        run: pnpm install --frozen-lockfile --ignore-scripts
+        run: pnpm install --frozen-lockfile
         working-directory: frontend
+
+      - name: Build neuroglancer
+        if: steps.changes.outputs.frontend == 'true'
+        run: pnpm build:neuroglancer
+        working-directory: frontend/packages/data-portal
 
       - name: run pre-commit
         if: steps.changes.outputs.frontend == 'true'

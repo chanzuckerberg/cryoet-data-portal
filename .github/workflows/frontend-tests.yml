@@ -36,7 +36,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20.8.x
+          node-version: 22
 
       - name: Install PNPM
         uses: pnpm/action-setup@v4
@@ -58,8 +58,12 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies with PNPM
-        run: pnpm install --frozen-lockfile --ignore-scripts
+        run: pnpm install --frozen-lockfile
         working-directory: frontend
+
+      - name: Build neuroglancer
+        run: pnpm build:neuroglancer
+        working-directory: frontend/packages/data-portal
 
       - name: Build GraphQL Types
         run: pnpm build:codegen
