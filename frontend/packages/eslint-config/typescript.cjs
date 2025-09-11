@@ -6,21 +6,19 @@ module.exports = {
     'airbnb-typescript',
     'airbnb/hooks',
     'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:prettier/recommended',
   ],
 
   plugins: ['simple-import-sort', 'unused-imports'],
 
   rules: {
+    'import/no-cycle': 'off',
+
     'cryoet-data-portal/no-root-mui-import': 'error',
     'cryoet-data-portal/prefer-lodash-es': 'error',
 
     // It's helpful to split functionality into multiple functions within a class.
     'class-methods-use-this': 'off',
-
-    // Throws errors for exported functions, which is a common pattern with ES modules.
-    '@typescript-eslint/unbound-method': 'off',
 
     // Named exports are nicer to work with for a variety of reasons:
     // https://basarat.gitbook.io/typescript/main-1/defaultisbad
@@ -63,8 +61,6 @@ module.exports = {
     // Rule only exists b/c of an edge case in IE8
     radix: 'off',
 
-    // Sometimes it's safe to call async functions and not handle their errors.
-    '@typescript-eslint/no-misused-promises': 'off',
     // Allow us to use function/variable hoisting.
     '@typescript-eslint/no-use-before-define': 'off',
 
