@@ -15,8 +15,8 @@
     "test": "pnpm -r test"
   },
   "devDependencies": {
-    "prettier": "^3.0.3",
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.2.1",
+    "prettier": "^3.6.2"
   },
   "pnpm": {
     "overrides": {
