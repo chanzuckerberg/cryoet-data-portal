@@ -353,7 +353,7 @@ export function DatasetsTable() {
 
   return (
     <PageTable
-      data={isLoadingDebounced ? LOADING_DATASETS : datasets ?? []}
+      data={isLoadingDebounced ? LOADING_DATASETS : (datasets ?? [])}
       columns={columns}
       hoverType="group"
       onTableRowClick={(row) => {

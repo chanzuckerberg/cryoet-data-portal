@@ -1,5 +1,6 @@
 import { createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 
 import {
@@ -26,12 +27,14 @@ function renderBreadcrumbs({
   previousSingleDatasetParams,
   previousSingleDepositionParams,
   variant,
+  activeBreadcrumbText,
 }: {
   previousBrowseDatasetParams?: string
   previousDepositionId?: number
   previousSingleDatasetParams?: string
   previousSingleDepositionParams?: string
   variant: BreadcrumbsProp['variant']
+  activeBreadcrumbText?: React.ReactNode
 }) {
   function BreadcrumbWrapper() {
     const initialValues: AtomTupleWithValue[] = []
@@ -63,7 +66,11 @@ function renderBreadcrumbs({
 
     return (
       <HydrateAtomsProvider initialValues={initialValues}>
-        <Breadcrumbs variant={variant} data={BREADCRUMB_DATA} />
+        <Breadcrumbs
+          variant={variant}
+          data={BREADCRUMB_DATA}
+          activeBreadcrumbText={activeBreadcrumbText}
+        />
       </HydrateAtomsProvider>
     )
   }
@@ -82,6 +89,7 @@ const BROWSE_DATASETS_URL = '/browse-data/datasets'
 const BROWSE_DEPOSITIONS_URL = '/browse-data/depositions'
 const SINGLE_DATASET_URL = `/datasets/${BREADCRUMB_DATA.id}`
 const SINGLE_DATASET_TITLE = `dataset: ${BREADCRUMB_DATA.title}`
+const SINGLE_RUN_URL = `/runs/RUN-123`
 
 function testReturnToDepositionLink() {
   it('should show return to deposition link', () => {
@@ -200,6 +208,56 @@ describe('<Breadcrumbs />', () => {
       renderBreadcrumbs({ variant: 'deposition' })
 
       expect(screen.queryByText('deposition')).toBeVisible()
+    })
+  })
+
+  describe('variant=neuroglancer', () => {
+    it(`should render a breadcrumb link back to the dataset`, () => {
+      renderBreadcrumbs({ variant: 'neuroglancer' })
+
+      expect(screen.getByText(BREADCRUMB_DATA.title)).toHaveAttribute(
+        'href',
+        SINGLE_DATASET_URL,
+      )
+    })
+
+    it(`should render a tooltip with the dataset title`, async () => {
+      renderBreadcrumbs({ variant: 'neuroglancer' })
+      const option = screen.getByText(BREADCRUMB_DATA.title)
+      await userEvent.hover(option)
+      const dataTooltip = `Go to Dataset ${BREADCRUMB_DATA.title}`
+      const tooltip = await screen.findByText(dataTooltip)
+
+      expect(tooltip).toBeVisible()
+    })
+
+    it(`should render a custom active breadcrumb text if provided`, () => {
+      const activeBreadcrumbText = (
+        <div>
+          <span>Active Breadcrumb</span>
+        </div>
+      )
+
+      renderBreadcrumbs({
+        variant: 'neuroglancer',
+        activeBreadcrumbText,
+      })
+
+      expect(screen.getByText('Active Breadcrumb')).toBeVisible()
+    })
+
+    it(`should respect the links on the custom active breadcrumb text`, () => {
+      const activeBreadcrumbText = <a href={SINGLE_RUN_URL}>My run name</a>
+
+      renderBreadcrumbs({
+        variant: 'neuroglancer',
+        activeBreadcrumbText,
+      })
+
+      expect(screen.getByText('My run name')).toHaveAttribute(
+        'href',
+        SINGLE_RUN_URL,
+      )
     })
   })
 })

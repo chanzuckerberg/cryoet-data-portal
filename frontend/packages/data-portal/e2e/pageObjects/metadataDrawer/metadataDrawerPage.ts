@@ -135,7 +135,7 @@ export class MetadataDrawerPage extends BasePage {
 
   public async expectMetadataTableCellsToDisplayValues(data: DrawerTestData) {
     for (const [key, value] of Object.entries(data.metadata)) {
-      const label = translations[key as keyof typeof translations]
+      const label = translations[key as keyof typeof translations] as string
 
       // Array:
       if (isArray(value)) {

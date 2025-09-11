@@ -17,6 +17,13 @@ export function isExternalUrl(url: string): boolean {
   }
 }
 /**
+ * Checks if the URL is a neuroglancer URL
+ */
+export function isNeuroglancerUrl(url: string): boolean {
+  return url.includes('/view/runs/')
+}
+
+/**
  * Wrapper over the URL constructor with additional functionality. URLs that
  * cannot be constructor without a base will automatically have the base
  * `http://tmp.com` added to the URL. This is to ensure URLs can be created from
@@ -37,8 +44,17 @@ export function createUrl(urlOrPath: string, baseUrl?: string): URL {
   return new URL(urlOrPath, base)
 }
 
-export function getNeuroglancerUrl(config: string): string {
-  return `https://neuroglancer-demo.appspot.com/#!${encodeURIComponent(config)}`
+export function getNeuroglancerUrl(
+  config: string,
+  runId: number,
+  activateTour: boolean = false,
+): string {
+  const url = createUrl(`/view/runs/${runId}`)
+  if (activateTour) {
+    url.searchParams.set(QueryParams.ShowTour, 'true')
+  }
+  url.hash = `#!${encodeURIComponent(config)}`
+  return url.pathname + url.search + url.hash
 }
 
 export function carryOverFilterParams({

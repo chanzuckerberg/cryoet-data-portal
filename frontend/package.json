@@ -15,8 +15,8 @@
     "test": "pnpm -r test"
   },
   "devDependencies": {
-    "prettier": "^3.0.3",
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.2.1",
+    "prettier": "^3.6.2"
   },
   "pnpm": {
     "overrides": {
@@ -28,7 +28,8 @@
       "path-to-regexp": "^0.1.12",
       "rollup": "^3.29.5",
       "vite": "^4.5.3",
-      "ws": "^7.5.10"
+      "ws": "^7.5.10",
+      "xmldom": "^0.6.0"
     }
   },
   "engines": {
