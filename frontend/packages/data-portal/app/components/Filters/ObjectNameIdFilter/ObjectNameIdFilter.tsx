@@ -112,16 +112,17 @@ export function ObjectNameIdFilter({
     return hasInvalidPrefix || isEqual(values, getQueryParamValues())
   }, [filters, getQueryParamValues, values])
 
-  return (
-    <DropdownFilterButton
-      activeFilters={filters
+  const activeFilters = useMemo(
+    () =>
+      filters
         .filter((filter) => searchParams.has(filter.queryParam))
         .flatMap((filter) => {
           const value = values[filter.id]
 
           // For ObjectName filter, split comma-separated values into individual tags
           if (filter.queryParam === QueryParams.ObjectName && value) {
-            return stringToArray(value).map((name) => ({
+            const names = stringToArray(value)
+            return names.map((name) => ({
               label: filters.length > 1 ? filter.label : '',
               value: name,
               queryParam: filter.queryParam,
@@ -136,7 +137,13 @@ export function ObjectNameIdFilter({
               queryParam: filter.queryParam,
             },
           ]
-        })}
+        }),
+    [filters, searchParams, values],
+  )
+
+  return (
+    <DropdownFilterButton
+      activeFilters={activeFilters}
       description={
         <>
           <p className="text-sds-header-s-600-wide leading-sds-header-s font-semibold">
@@ -287,8 +294,14 @@ export function ObjectNameIdFilter({
               }
               prefixOptions={prefixOptions}
               hideLabel
-              // Use the unified disabled logic
-              error={!!values[QueryParams.ObjectId] && isDisabled}
+              // Show error only if value is present and invalid
+              error={
+                !!values[QueryParams.ObjectId] &&
+                !isFilterPrefixValid(
+                  values[QueryParams.ObjectId],
+                  QueryParams.ObjectId,
+                )
+              }
             />
           </div>
         </PrefixValueProvider>

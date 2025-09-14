@@ -16,6 +16,7 @@ const COMMON_DATASET_FILTERS = [
   QueryParams.ReconstructionSoftware,
   QueryParams.ObjectName,
   QueryParams.ObjectShapeType,
+  QueryParams.AnnotatedObjectsOnly,
 ] as const
 
 export const DATASET_FILTERS = [
@@ -33,6 +34,7 @@ export const RUN_FILTERS = [
   QueryParams.ObjectId,
   QueryParams.ObjectName,
   QueryParams.ObjectShapeType,
+  QueryParams.AnnotatedObjectsOnly,
   QueryParams.DepositionId,
 ] as const
 

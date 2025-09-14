@@ -42,7 +42,7 @@ export interface SelectPropsBase {
 
 export interface SingleSelectProps extends SelectPropsBase {
   multiple?: false
-  activeKey: string | null
+  activeKey?: string | null
   onChange(key: string | null): void
 }
 
