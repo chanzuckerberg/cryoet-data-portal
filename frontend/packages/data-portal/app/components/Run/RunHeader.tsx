@@ -190,6 +190,7 @@ export function RunHeader() {
                       },
                       label: t('tiltQuality'),
                       // hack to align with score badge
+                      // note to trigger re deploy
                       labelExtra: <span className="mt-sds-xxxs h-[18px]" />,
                       values:
                         tiltSeries?.tiltSeriesQuality !== undefined
