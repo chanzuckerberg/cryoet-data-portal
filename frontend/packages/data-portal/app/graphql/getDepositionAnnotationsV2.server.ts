@@ -7,26 +7,39 @@ import type {
 import { gql } from 'app/__generated_v2__'
 import type { GetDepositionAnnotationsQuery } from 'app/__generated_v2__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
+import { getFilterState } from 'app/hooks/useFilter'
+
+import { getDepositionAnnotationsFilter } from './common'
 
 const GET_DEPOSITION_ANNOTATIONS = gql(`
   query GetDepositionAnnotations(
-    $id: Int!,
+    $depositionAnnotationsFilter: AnnotationShapeWhereClause!,
     $limit: Int!,
     $offset: Int!,
   ) {
     annotationShapes(
-      where: {
-        annotation: {
-          depositionId: {
-            _eq: $id
-          },
-        },
-      },
-
+      where: $depositionAnnotationsFilter,
       limitOffset: {
         limit: $limit,
         offset: $offset,
       },
+      orderBy: [
+        {
+          annotation: {
+            groundTruthStatus: desc
+          }
+        },
+        {
+          annotation: {
+            depositionDate: desc
+          }
+        },
+        {
+          annotation: {
+            id: desc
+          }
+        }
+      ]
     ) {
       id
       shapeType
@@ -55,26 +68,39 @@ const GET_DEPOSITION_ANNOTATIONS = gql(`
           }
         }
       }
-
     }
   }
 `)
 
 export async function getDepositionAnnotations({
   client,
-  id,
+  depositionId,
   page,
+  pageSize = MAX_PER_PAGE,
+  params = new URLSearchParams(),
 }: {
   client: ApolloClient<NormalizedCacheObject>
-  id: number
+  depositionId: number
   page: number
+  pageSize?: number
+  params?: URLSearchParams
 }): Promise<ApolloQueryResult<GetDepositionAnnotationsQuery>> {
+  const filterState = getFilterState(params)
+  const datasetIds = filterState.ids.datasets
+    .map((id) => parseInt(id))
+    .filter((id) => Number.isInteger(id))
+  const { organismNames } = filterState.sampleAndExperimentConditions
+
   return client.query({
     query: GET_DEPOSITION_ANNOTATIONS,
     variables: {
-      id,
-      limit: MAX_PER_PAGE,
-      offset: (page - 1) * MAX_PER_PAGE,
+      depositionAnnotationsFilter: getDepositionAnnotationsFilter({
+        depositionId,
+        datasetIds: datasetIds.length > 0 ? datasetIds : undefined,
+        organismNames: organismNames.length > 0 ? organismNames : undefined,
+      }),
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
     },
   })
 }

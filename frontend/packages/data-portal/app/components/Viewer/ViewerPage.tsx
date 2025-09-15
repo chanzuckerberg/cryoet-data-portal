@@ -1,9 +1,8 @@
-import './ViewerPage.css'
-
 import { Button } from '@czi-sds/components'
 import { SnackbarCloseReason } from '@mui/material/Snackbar'
 import {
   currentNeuroglancerState,
+  NeuroglancerAwareIframe,
   NeuroglancerWrapper,
   updateState,
 } from 'neuroglancer'
@@ -13,11 +12,13 @@ import { GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { Breadcrumbs } from 'app/components/Breadcrumbs'
 import { InfoIcon } from 'app/components/icons'
 import { MenuItemLink } from 'app/components/MenuItemLink'
+import { IdPrefix } from 'app/constants/idPrefixes'
+import { QueryParams } from 'app/constants/query'
 import { useAutoHideSnackbar } from 'app/hooks/useAutoHideSnackbar'
+import { useEffectOnce } from 'app/hooks/useEffectOnce'
 import { useI18n } from 'app/hooks/useI18n'
 import { useTour } from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
-import { SHOW_TOUR_QUERY_PARAM } from 'app/utils/url'
 
 import { ReusableSnackbar } from '../common/ReusableSnackbar/ReusableSnackbar'
 import {
@@ -64,6 +65,7 @@ import {
 } from './state'
 import { getTutorialSteps, proxyStepSelectors } from './steps'
 import { Tour } from './Tour'
+import styles from './ViewerPage.module.css'
 
 type Run = GetRunByIdV2Query['runs'][number]
 type Annotations = Run['annotations']
@@ -114,7 +116,7 @@ const isSmallScreen = () => {
   )
 }
 
-function ViewerPage({
+export function ViewerPage({
   run,
   shouldStartTour = false,
 }: {
@@ -135,9 +137,8 @@ function ViewerPage({
     setProxyIndex,
   } = useTour()
   const [renderVersion, setRenderVersion] = useState(0)
-  const [shareClicked, setShareClicked] = useState<boolean>(false)
-  const [snapActionClicked, setSnapActionClicked] = useState<boolean>(false)
-  const iframeRef = useRef<HTMLIFrameElement>()
+  const [bannerOpen, setBannerOpen] = useState<boolean>(false)
+  const iframeRef = useRef<NeuroglancerAwareIframe>(null)
   const hashReady = useRef<boolean>(false)
   const helpMenuRef = useRef<MenuDropdownRef>(null)
 
@@ -151,19 +152,23 @@ function ViewerPage({
     setRenderVersion(renderVersion + 1)
   }
 
-  useEffect(() => {
+  useEffectOnce(() => {
     // Allows to handle neuroglancer key events while dropdown is open
     const keyDownHandler = (event: KeyboardEvent) => {
       const iframe = iframeRef.current
-      const iframeWindow = iframe?.contentWindow
-
+      if (!iframe) {
+        return
+      }
+      const iframeWindow = iframe.contentWindow
       if (!iframeWindow) {
         return
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-      const targetElement = (iframeWindow as any).neuroglancer
-        ?.element as HTMLElement | null
+      const neuroglancerDiv = iframeWindow.neuroglancer
+      if (!neuroglancerDiv) {
+        return
+      }
+      const targetElement = neuroglancerDiv.element as HTMLElement | null
       if (!targetElement) {
         return
       }
@@ -202,14 +207,13 @@ function ViewerPage({
     return () => {
       window.removeEventListener('keydown', keyDownHandler)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   useEffect(() => {
     if (tourRunning && hashReady.current) {
       setupTourPanelState()
     }
-  }, [tourRunning, hashReady])
+  }, [tourRunning])
 
   const handleOnStateChange = (state: ViewerPageSuperState) => {
     scheduleRefresh()
@@ -245,7 +249,7 @@ function ViewerPage({
 
   const clearTourQueryParam = () => {
     const url = new URL(window.location.href)
-    url.searchParams.delete(SHOW_TOUR_QUERY_PARAM)
+    url.searchParams.delete(QueryParams.ShowTour)
     window.history.replaceState({}, '', url.toString())
   }
 
@@ -255,15 +259,16 @@ function ViewerPage({
   }
 
   const handleTourStartWithMenuClose = () => {
-    handleTourStart()
+    setBannerOpen(false)
     helpMenuRef.current?.closeMenu()
+    handleTourStart()
   }
 
   const handleShareClick = () => {
     navigator.clipboard
       .writeText(window.location.href)
       .then(() => {
-        shareSnackbar.show(setShareClicked)
+        shareSnackbar.show()
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
@@ -278,12 +283,12 @@ function ViewerPage({
     if (reason === 'clickaway') {
       return
     }
-    shareSnackbar.hide(setShareClicked)
+    shareSnackbar.hide()
   }
 
   const handleSnapActionClick = () => {
     snap()
-    snapSnackbar.show(setSnapActionClicked)
+    snapSnackbar.show()
   }
 
   const handleSnapSnackbarClose = (
@@ -293,7 +298,7 @@ function ViewerPage({
     if (reason === 'clickaway') {
       return
     }
-    snapSnackbar.hide(setSnapActionClicked)
+    snapSnackbar.hide()
   }
 
   const helperText =
@@ -310,7 +315,7 @@ function ViewerPage({
         href={`${window.origin}/runs/${run.id}`}
         className="text-dark-sds-color-primitive-gray-900 opacity-60 pl-1"
       >
-        (RN-{run.id})
+        ({IdPrefix.Run}-{run.id})
       </a>
     </Tooltip>
   )
@@ -349,7 +354,7 @@ function ViewerPage({
                     selected={isAllLayerActive()}
                     onSelect={() => toggleAllDepositions()}
                   >
-                    All depositions
+                    {t('allDepositions')}
                   </NeuroglancerDropdownOption>
                   {Object.entries(depositionConfigs).map(
                     ([depositionId, depositions]) => {
@@ -367,7 +372,7 @@ function ViewerPage({
                               'Deposition'}
                           </span>
                           <span className="text-sds-body-xxxs-400-narrow text-light-sds-color-primitive-gray-600">
-                            CZCDP-{depositionId}
+                            {IdPrefix.Deposition}-{depositionId}
                           </span>
                         </NeuroglancerDropdownOption>
                       )
@@ -384,7 +389,7 @@ function ViewerPage({
                   }
                   onSelect={() => setCurrentLayout('4panel')}
                 >
-                  4 panel
+                  {t('4panels')}
                 </NeuroglancerDropdownOption>
                 <NeuroglancerDropdownOption
                   selected={isCurrentLayout('xy')}
@@ -416,19 +421,19 @@ function ViewerPage({
                   selected={getCurrentState().savedPanelsStatus !== undefined}
                   onSelect={() => togglePanels()}
                 >
-                  Hide UI
+                  {t('hideUI')}
                 </NeuroglancerDropdownOption>
                 <NeuroglancerDropdownOption
                   selected={isTopBarVisible()}
                   onSelect={() => toggleTopBar()}
                 >
-                  Show top layer bar
+                  {t('showTopLayerBar')}
                 </NeuroglancerDropdownOption>
                 <NeuroglancerDropdownOption
                   selected={isDimensionPanelVisible()}
                   onSelect={toggleOrMakeDimensionPanel}
                 >
-                  Show position selector
+                  {t('showPositionSelector')}
                 </NeuroglancerDropdownOption>
               </MenuDropdownSection>
             </NeuroglancerDropdown>
@@ -439,7 +444,7 @@ function ViewerPage({
                   onSelect={toggleBoundingBox}
                 >
                   <div className="flex justify-between items-center">
-                    <p>Bounding box</p>
+                    <p>{t('bbox')}</p>
                     <p className={helperText}>v</p>
                   </div>
                 </NeuroglancerDropdownOption>
@@ -448,7 +453,7 @@ function ViewerPage({
                   onSelect={toggleAxisLine}
                 >
                   <div className="flex justify-between items-center">
-                    <p>Axis lines</p>
+                    <p>{t('axisLines')}</p>
                     <p className={helperText}>a</p>
                   </div>
                 </NeuroglancerDropdownOption>
@@ -457,7 +462,7 @@ function ViewerPage({
                   onSelect={toggleShowScaleBar}
                 >
                   <div className="flex justify-between items-center">
-                    <p>Scale bar</p>
+                    <p>{t('scaleBar')}</p>
                     <p className={helperText}>b</p>
                   </div>
                 </NeuroglancerDropdownOption>
@@ -466,7 +471,7 @@ function ViewerPage({
                   onSelect={toggleShowSections}
                 >
                   <div className="flex justify-between items-center">
-                    <p>Cross-sections</p>
+                    <p>{t('crossSection')}</p>
                     <p className={helperText}>s</p>
                   </div>
                 </NeuroglancerDropdownOption>
@@ -477,7 +482,7 @@ function ViewerPage({
                   onSelect={handleSnapActionClick}
                 >
                   <div className="flex justify-between items-center">
-                    <p>Snap to nearest axis</p>
+                    <p>{t('snapAction')}</p>
                     <p className={helperText}>z</p>
                   </div>
                 </NeuroglancerDropdownOption>
@@ -486,10 +491,10 @@ function ViewerPage({
             <Button
               sdsType="primary"
               sdsStyle="rounded"
-              disabled={shareClicked}
+              disabled={shareSnackbar.visible}
               onClick={handleShareClick}
             >
-              Share
+              {t('share')}
             </Button>
             <NeuroglancerDropdown
               ref={helpMenuRef}
@@ -498,11 +503,7 @@ function ViewerPage({
             >
               <MenuDropdownSection title="About">
                 {ABOUT_LINKS.map((option) => (
-                  <MenuItemLink
-                    key={option.label}
-                    to={option.link}
-                    target="_blank"
-                  >
+                  <MenuItemLink key={option.label} to={option.link} newTab>
                     {t(option.label)}
                   </MenuItemLink>
                 ))}
@@ -530,11 +531,12 @@ function ViewerPage({
           </div>
         </div>
       </nav>
-      <div className="iframeContainer">
+      <div className={styles.iframeContainer}>
         {hashReady.current && (
           <NeuroglancerWrapper
             onStateChange={handleOnStateChange}
-            ref={iframeRef as any} // eslint-disable-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+            ref={iframeRef}
+            className={styles.neuroglancerIframe}
           />
         )}
       </div>
@@ -542,7 +544,7 @@ function ViewerPage({
         <Tour
           run={tourRunning}
           stepIndex={stepIndex}
-          steps={getTutorialSteps()}
+          steps={getTutorialSteps(t)}
           onRestart={handleRestart}
           onClose={handleTourCloseWithCleanup}
           onMove={handleTourStepMove}
@@ -551,23 +553,25 @@ function ViewerPage({
         />
       )}
       <ReusableSnackbar
-        open={snapActionClicked}
+        open={snapSnackbar.visible}
         handleClose={handleSnapSnackbarClose}
         variant="filled"
         severity="success"
         message={t('snapActionSuccess')}
       />
       <ReusableSnackbar
-        open={shareClicked}
+        open={shareSnackbar.visible}
         handleClose={handleShareSnackbarClose}
         variant="filled"
         severity="success"
         message={t('shareActionSuccess')}
       />
-      <NeuroglancerBanner onStartTour={handleTourStart} />
+      <NeuroglancerBanner
+        onStartTour={handleTourStartWithMenuClose}
+        open={bannerOpen}
+        setOpen={setBannerOpen}
+        tourInProgress={tourRunning}
+      />
     </div>
   )
 }
-
-// eslint-disable-next-line import/no-default-export
-export default ViewerPage

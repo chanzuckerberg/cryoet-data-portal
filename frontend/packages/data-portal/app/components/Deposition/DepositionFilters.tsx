@@ -3,16 +3,34 @@ import { useMemo } from 'react'
 
 import { OrganismNameFilter } from 'app/components/Filters/OrganismNameFilter'
 import { useDepositionById } from 'app/hooks/useDepositionById'
+import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 import { getDataContents } from 'app/utils/deposition'
+import { useFeatureFlag } from 'app/utils/featureFlags'
+import { isDefined } from 'app/utils/nullish'
 
+import { DatasetFilter } from '../DatasetFilter'
 import { DatasetNameOrIdFilter } from '../Filters/DatasetNameOrIdFilter'
 import { DepositionTabs } from './DepositionTabs'
 
-export function DepositionFilters() {
+function DepositionFiltersContent() {
   const { allRuns } = useDepositionById()
-  const dataContents = getDataContents(allRuns)
+
+  // Use the new hook to get datasets
+  const { datasets } = useDepositionGroupedData({
+    fetchRunCounts: false, // Only need organism names
+  })
+
+  // Extract unique organism names from datasets
+  const organismNames = useMemo(
+    () =>
+      [
+        ...new Set(datasets.map((d) => d.organismName).filter(isDefined)),
+      ].sort(),
+    [datasets],
+  )
+  const dataContents = getDataContents(allRuns ?? [])
   const dataContentItems = useMemo(
     () =>
       [
@@ -68,7 +86,7 @@ export function DepositionFilters() {
         ))}
       </div>
 
-      <Divider className="bg-light-sds-color-semantic-base-divider h-[3px] !mt-[60px] !mb-sds-xl" />
+      <Divider className="bg-light-sds-color-semantic-base-divider h-[3px] !mt-6 !mb-sds-xl" />
 
       <div>
         <h3
@@ -81,11 +99,21 @@ export function DepositionFilters() {
           {t('filterBy')}:
         </h3>
 
-        <div className="px-sds-l flex flex-col gap-sds-xxs">
+        <div className="px-sds-l flex flex-col gap-sds-xxs pb-sds-xl">
           <DatasetNameOrIdFilter />
-          <OrganismNameFilter />
+          <OrganismNameFilter organismNames={organismNames} />
         </div>
       </div>
     </div>
   )
+}
+
+export function DepositionFilters() {
+  const isExpandDepositions = useFeatureFlag('expandDepositions')
+
+  if (isExpandDepositions) {
+    return <DepositionFiltersContent />
+  }
+
+  return <DatasetFilter depositionPageVariant />
 }

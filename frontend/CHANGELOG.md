@@ -1,5 +1,52 @@
 # Changelog
 
+## [1.75.4](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.75.3...cryoet-data-portal-frontend-v1.75.4) (2025-09-02)
+
+
+### 🐞 Bug Fixes
+
+* organism name filter not working in annotations and tomograms tabs ([#1960](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1960)) ([7b08ddf](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7b08ddfc759b0cbe334e46103d7b7f3485ab4c43))
+
+
+### 🧹 Miscellaneous Chores
+
+* add security overrides for form-data and path-to-regexp ([#1962](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1962)) ([8f9c5e6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8f9c5e628ffc9ec8e33e83b1058533033980bd36))
+
+## [1.75.3](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.75.2...cryoet-data-portal-frontend-v1.75.3) (2025-08-15)
+
+
+### 🧹 Miscellaneous Chores
+
+* update deps ([#1955](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1955)) ([3a34d11](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3a34d11a594b3d305d16ce41037bc93d7a6a60a5))
+
+## [1.75.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.75.1...cryoet-data-portal-frontend-v1.75.2) (2025-08-14)
+
+
+### 🐞 Bug Fixes
+
+* address Expand Depositions P1 design feedback ([#1947](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1947)) ([27cd2f4](https://github.com/chanzuckerberg/cryoet-data-portal/commit/27cd2f4373b7a5b0f9c4c67e332a547dcee4638b))
+
+## [1.75.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.75.0...cryoet-data-portal-frontend-v1.75.1) (2025-08-07)
+
+
+### 🐞 Bug Fixes
+
+* depositions ID filtering and UI improvements ([#1942](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1942)) ([d349daa](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d349daa22f005544fd3b423b433033dd53fbb570))
+
+## [1.75.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.74.1...cryoet-data-portal-frontend-v1.75.0) (2025-08-04)
+
+
+### ✨ Features
+
+* add legal policy pages and footer links ([#1925](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1925)) ([1de35c9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/1de35c92a20a1f20e0ef79152d265bfdd3a82922))
+* group-by frontend + backend integration ([#1916](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1916)) ([3e9df45](https://github.com/chanzuckerberg/cryoet-data-portal/commit/3e9df45f17ca0db7dd18d66ddf5e132161f71ca9))
+
+
+### 🐞 Bug Fixes
+
+* improve deposition design and UI functionality ([#1941](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1941)) ([ad6c5b4](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ad6c5b4fa989d4442f95d8bc06a2be3b7df6068e))
+* improve depositions UI and filter handling ([#1937](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1937)) ([7befd36](https://github.com/chanzuckerberg/cryoet-data-portal/commit/7befd36f88114de94d47b59098d8f3217e25ae13))
+
 ## [1.74.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.74.0...cryoet-data-portal-frontend-v1.74.1) (2025-07-29)
 
 

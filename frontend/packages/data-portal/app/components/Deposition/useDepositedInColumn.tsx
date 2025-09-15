@@ -13,9 +13,11 @@ type DepositedInData = ComponentProps<typeof DepositedInTableCell>
 export function useDepositedInColumn<T>({
   getDepositedInData,
   width,
+  isLoading,
 }: {
   getDepositedInData(value: T): DepositedInData
   width: TableColumnWidth
+  isLoading?: boolean
 }) {
   const { t } = useI18n()
   const columnHelper = createColumnHelper<T>()
@@ -28,8 +30,12 @@ export function useDepositedInColumn<T>({
     cell: ({ row: { original } }) => (
       <TableCell
         renderLoadingSkeleton={() => (
-          <Skeleton className="w-[200px]" variant="text" />
+          <>
+            <Skeleton className="w-[200px]" variant="text" />
+            <Skeleton className="w-[200px]" variant="text" />
+          </>
         )}
+        showLoadingSkeleton={isLoading}
         width={width}
       >
         <DepositedInTableCell {...getDepositedInData(original)} />

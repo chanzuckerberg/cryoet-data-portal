@@ -14,6 +14,7 @@ export function TableCell({
   horizontalAlign,
   primaryText,
   renderLoadingSkeleton = () => <Skeleton variant="text" />,
+  showLoadingSkeleton,
   tooltip,
   tooltipProps,
   width,
@@ -21,9 +22,14 @@ export function TableCell({
   children?: ReactNode
   className?: string
   horizontalAlign?: 'left' | 'center' | 'right'
-  loadingSkeleton?: boolean
   primaryText?: string
   renderLoadingSkeleton?: (() => ReactNode) | false
+  /**
+   * Explicitly controls whether to show the loading skeleton.
+   * When true, forces the skeleton to display regardless of global loading state.
+   * When false/undefined, relies on automatic loading detection via useIsLoading hook.
+   */
+  showLoadingSkeleton?: boolean
   tooltip?: ReactNode
   tooltipProps?: Partial<TooltipProps>
   width?: TableColumnWidth
@@ -46,7 +52,7 @@ export function TableCell({
     },
   }
 
-  if (renderLoadingSkeleton && isLoadingDebounced) {
+  if (renderLoadingSkeleton && (isLoadingDebounced || showLoadingSkeleton)) {
     return (
       <CellComponent {...cellProps}>{renderLoadingSkeleton()}</CellComponent>
     )
@@ -74,7 +80,7 @@ export function TableCell({
 
   let content = (
     <>
-      {renderLoadingSkeleton && isLoadingDebounced
+      {renderLoadingSkeleton && (isLoadingDebounced || showLoadingSkeleton)
         ? renderLoadingSkeleton()
         : children}
     </>

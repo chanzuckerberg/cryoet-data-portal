@@ -29,6 +29,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return redirect('/404')
   }
 
+  const isExpandDepositions = getFeatureFlag({
+    env: process.env.ENV,
+    key: 'expandDepositions',
+    params: url.searchParams,
+  })
+
   const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
   const sort = (url.searchParams.get(QueryParams.Sort) ?? undefined) as
     | CellHeaderDirection
@@ -41,6 +47,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     page,
     client: apolloClientV2,
     params: url.searchParams,
+    isExpandDepositions,
   })
 
   return json({

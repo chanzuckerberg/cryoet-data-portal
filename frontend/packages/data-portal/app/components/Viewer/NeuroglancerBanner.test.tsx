@@ -1,15 +1,64 @@
 import { beforeEach, jest } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
+import { useState } from 'react'
 
-import { MockI18n } from 'app/components/I18n.mock'
 import { LocalStorageMock } from 'app/mocks/LocalStorage.mock'
 import { RemixMock } from 'app/mocks/Remix.mock'
 import { getMockUser, setMockTime } from 'app/utils/mock'
 
+import { NeuroglancerBannerProps } from './NeuroglancerBanner'
+
 const onStartTour = jest.fn()
-async function renderNeuroglancerBanner() {
-  const { NeuroglancerBanner } = await import('./NeuroglancerBanner')
-  render(<NeuroglancerBanner onStartTour={onStartTour} />)
+
+// Import the component after mocking
+let NeuroglancerBanner: React.ComponentType<NeuroglancerBannerProps> | null =
+  null
+
+function NeuroglancerBannerWrapper({
+  initialOpen = true,
+  tourInProgress = false,
+}: {
+  initialOpen?: boolean
+  tourInProgress?: boolean
+}) {
+  const [open, setOpen] = useState(initialOpen)
+
+  if (!NeuroglancerBanner) {
+    return null
+  }
+
+  return (
+    <NeuroglancerBanner
+      onStartTour={onStartTour}
+      open={open}
+      setOpen={setOpen}
+      tourInProgress={tourInProgress}
+    />
+  )
+}
+
+async function renderNeuroglancerBanner(props?: {
+  initialOpen?: boolean
+  tourInProgress?: boolean
+}) {
+  if (!NeuroglancerBanner) {
+    const module = await import('./NeuroglancerBanner')
+    NeuroglancerBanner = module.NeuroglancerBanner
+  }
+  render(<NeuroglancerBannerWrapper {...props} />)
+}
+
+function MockI18n({
+  i18nKey,
+  components,
+}: {
+  i18nKey: string
+  components?: Record<string, React.ReactNode>
+}) {
+  if (i18nKey === 'tourBanner') {
+    return <>{components?.button}</>
+  }
+  return <>{i18nKey}</>
 }
 
 jest.unstable_mockModule('app/components/I18n', () => ({ I18n: MockI18n }))
@@ -23,6 +72,8 @@ describe('<NeuroglancerBanner />', () => {
     remixMock.reset()
     remixMock.mockPathname('/view/runs/123/#!')
     localStorageMock.reset()
+    onStartTour.mockClear()
+    NeuroglancerBanner = null // Reset the component for each test
   })
 
   const pages = ['/view/runs/123/#!']
@@ -77,7 +128,7 @@ describe('<NeuroglancerBanner />', () => {
     setMockTime('2024-12-01')
     localStorageMock.mockValue(new Date('2024-11-25').toISOString())
 
-    await renderNeuroglancerBanner()
+    await renderNeuroglancerBanner({ initialOpen: false })
     expect(screen.queryByRole('banner')).not.toBeInTheDocument()
   })
 
@@ -87,5 +138,15 @@ describe('<NeuroglancerBanner />', () => {
 
     await renderNeuroglancerBanner()
     expect(screen.queryByRole('banner')).toBeVisible()
+  })
+
+  it('should not render banner if tour is in progress', async () => {
+    await renderNeuroglancerBanner({ tourInProgress: true })
+    expect(screen.queryByRole('banner')).not.toBeInTheDocument()
+  })
+
+  it('should hide banner when tourInProgress is true even if open is true', async () => {
+    await renderNeuroglancerBanner({ initialOpen: true, tourInProgress: true })
+    expect(screen.queryByRole('banner')).not.toBeInTheDocument()
   })
 })

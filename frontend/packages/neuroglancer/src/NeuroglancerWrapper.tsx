@@ -8,16 +8,18 @@ import {
   updateNeuroglancerConfigInSuperstate,
   parseState,
   type ResolvedSuperState,
+  NeuroglancerAwareIframe,
 } from './utils'
 
 interface NeuroglancerWrapperProps {
   baseUrl?: string
   onStateChange?: (state: ResolvedSuperState) => void
   compressURL?: boolean
+  className?: string
 }
 
 const NeuroglancerWrapper = forwardRef<
-  HTMLIFrameElement,
+  NeuroglancerAwareIframe,
   NeuroglancerWrapperProps
 >(
   (
@@ -25,10 +27,10 @@ const NeuroglancerWrapper = forwardRef<
       baseUrl = '/neuroglancer',
       onStateChange,
       compressURL = true,
+      className = 'neuroglancerIframe',
     }: NeuroglancerWrapperProps,
     ref,
   ) => {
-    // const iframeRef = ref || useRef<HTMLIFrameElement>(null)
     const superState = useRef<SuperState>(newSuperState(window.location.hash))
 
     // Add event listeners for hash changes and iframe messages
@@ -89,7 +91,7 @@ const NeuroglancerWrapper = forwardRef<
 
     return (
       <iframe
-        className="neuroglancerIframe"
+        className={className}
         id="neuroglancerIframe"
         ref={ref}
         src={`${baseUrl}/${superState.current.neuroglancer}`} // We need to give an uncompress hash initially

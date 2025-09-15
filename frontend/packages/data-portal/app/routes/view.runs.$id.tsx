@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
+import { useSearchParams } from '@remix-run/react'
 import { type LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { lazy, Suspense } from 'react'
-import { typedjson, useTypedLoaderData } from 'remix-typedjson'
+import { typedjson } from 'remix-typedjson'
 
-import { type GetRunByIdV2Query } from 'app/__generated_v2__/graphql'
 import { apolloClientV2 } from 'app/apollo.server'
 import { QueryParams } from 'app/constants/query'
 import { getRunByIdV2 } from 'app/graphql/getRunByIdV2.server'
 import { useRunById } from 'app/hooks/useRunById'
-import { SHOW_TOUR_QUERY_PARAM } from 'app/utils/url'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
@@ -22,7 +21,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   }
 
   const url = new URL(request.url)
-  const shouldStartTour = url.searchParams.get(SHOW_TOUR_QUERY_PARAM) === 'true'
 
   const annotationsPage = +(
     url.searchParams.get(QueryParams.AnnotationsPage) ?? '1'
@@ -46,18 +44,19 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   return typedjson({
     v2: responseV2,
-    shouldStartTour,
   })
 }
 
-const ViewerPage = lazy(() => import('app/components/Viewer/ViewerPage'))
+const ViewerPage = lazy(() =>
+  import('app/components/Viewer/ViewerPage').then((mod) => ({
+    default: mod.ViewerPage,
+  })),
+)
 
 export default function RunByIdViewerPage() {
   const { run } = useRunById()
-  const { shouldStartTour } = useTypedLoaderData<{
-    v2: GetRunByIdV2Query
-    shouldStartTour: boolean
-  }>()
+  const [searchParams] = useSearchParams()
+  const shouldStartTour = searchParams.get(QueryParams.ShowTour) === 'true'
 
   return (
     <Suspense fallback={<div>Loading...</div>}>

@@ -7,6 +7,7 @@ import { performance } from 'perf_hooks'
 
 import { gql } from 'app/__generated_v2__'
 import {
+  Deposition_Types_Enum,
   GetDepositionsDataV2Query,
   OrderBy,
 } from 'app/__generated_v2__/graphql'
@@ -21,6 +22,7 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
     $offset: Int,
     $orderByDeposition: orderBy,
     $depositionFilter: DepositionWhereClause,
+    $totalDepositionFilter: DepositionWhereClause,
   ) {
     depositions(
       limitOffset: {
@@ -123,7 +125,7 @@ const GET_DEPOSITIONS_DATA_QUERY = gql(`
       }
     }
 
-    totalDepositionCount: depositionsAggregate(where: {depositionTypes: {type: {_eq: annotation}}}) {
+    totalDepositionCount: depositionsAggregate(where: $totalDepositionFilter) {
       aggregate {
         count
       }
@@ -160,17 +162,26 @@ export async function getBrowseDepositionsV2({
   orderBy,
   page = 1,
   params,
+  isExpandDepositions = false,
 }: {
   client: ApolloClient<NormalizedCacheObject>
   orderBy?: OrderBy | null
   page?: number
   params: URLSearchParams
+  isExpandDepositions?: boolean
 }) {
   const start = performance.now()
 
   const filters = getDepositionsFilter({
     filterState: getFilterState(params),
+    isExpandDepositions,
   })
+
+  // Determine the total deposition filter based on feature flag
+  const totalDepositionFilter = isExpandDepositions
+    ? null // No filter - query all deposition types
+    : { depositionTypes: { type: { _eq: Deposition_Types_Enum.Annotation } } } // Filter for annotation types only
+
   // If we have an author filter, we need to run two queries and merge the results
   if (filters.authors) {
     // (smccanny - Feb 2025) We want to filter depositions by author name or kaggleId,
@@ -195,6 +206,7 @@ export async function getBrowseDepositionsV2({
         query: GET_DEPOSITIONS_DATA_QUERY,
         variables: {
           depositionFilter: filters,
+          totalDepositionFilter,
           orderByDeposition: orderBy ?? OrderBy.Desc,
         },
       }),
@@ -202,6 +214,7 @@ export async function getBrowseDepositionsV2({
         query: GET_DEPOSITIONS_DATA_QUERY,
         variables: {
           depositionFilter: filtersWithKaggleId,
+          totalDepositionFilter,
           orderByDeposition: orderBy ?? OrderBy.Desc,
         },
       }),
@@ -244,6 +257,7 @@ export async function getBrowseDepositionsV2({
     query: GET_DEPOSITIONS_DATA_QUERY,
     variables: {
       depositionFilter: filters,
+      totalDepositionFilter,
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
       orderByDeposition: orderBy ?? OrderBy.Desc,

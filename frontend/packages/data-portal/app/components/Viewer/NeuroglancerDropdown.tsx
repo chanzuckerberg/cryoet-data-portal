@@ -21,7 +21,7 @@ export function NeuroglancerDropdownOption({
     <MenuItem
       {...props}
       onClick={onSelect}
-      sx={{ '& .primary-text': { width: '100%' } }}
+      className="[&_.primary-text]:w-full"
     >
       <div className="flex items-center justify-center flex-auto gap-3 w-full">
         <div className="inline-flex w-4 h-4">
@@ -30,7 +30,12 @@ export function NeuroglancerDropdownOption({
           ) : null}
         </div>
         <div
-          className={cns(selected && 'font-semibold', 'flex flex-col w-full')}
+          className={cns(
+            selected && 'font-semibold',
+            'flex',
+            'flex-col',
+            'w-full',
+          )}
         >
           {children}
         </div>

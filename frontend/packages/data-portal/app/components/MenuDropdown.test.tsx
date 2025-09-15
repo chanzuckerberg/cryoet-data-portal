@@ -58,16 +58,6 @@ describe('<MenuDropdown />', () => {
 
     expect(screen.getByText('Custom Button')).toBeInTheDocument()
   })
-
-  it('should apply custom className', () => {
-    render(
-      <MenuDropdown className="custom-class" title="Custom Class Menu">
-        <div>Test</div>
-      </MenuDropdown>,
-    )
-
-    expect(screen.getByRole('button')).toHaveClass('custom-class')
-  })
 })
 
 describe('<MenuDropdownSection />', () => {

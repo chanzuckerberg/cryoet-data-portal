@@ -19,6 +19,7 @@ export enum QueryParams {
   EmpiarId = 'empiar_id',
   FiducialAlignmentStatus = 'fiducial_alignment',
   FileFormat = 'file-format',
+  From = 'from',
   GroundTruthAnnotation = 'ground_truth',
   MetadataDrawer = 'metadata',
   MethodSummaryTab = 'method-summary-tab',
@@ -34,6 +35,7 @@ export enum QueryParams {
   ReconstructionSoftware = 'reconstruction_software',
   ReferenceTomogramId = 'ref-tomogram',
   Search = 'search',
+  ShowTour = 'showTour',
   Sort = 'sort',
   Tab = 'tab',
   TableTab = 'table-tab',
@@ -44,4 +46,10 @@ export enum QueryParams {
   TomogramsPage = 'tomograms-page',
   EnableFeature = 'enable-feature',
   DisableFeature = 'disable-feature',
+  GroupBy = 'group-by',
+}
+
+export enum FromLocationKey {
+  DepositionAnnotations = 'deposition-annotations',
+  DepositionTomograms = 'deposition-tomograms',
 }

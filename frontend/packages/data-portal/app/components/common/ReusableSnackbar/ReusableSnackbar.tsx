@@ -2,6 +2,8 @@ import { CheckCircleOutlineOutlined } from '@mui/icons-material'
 import Alert from '@mui/material/Alert'
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
 
+import { cns } from 'app/utils/cns'
+
 type ReusableSnackbarProps = {
   open?: boolean
   variant?: 'filled' | 'outlined' | 'standard'
@@ -11,39 +13,6 @@ type ReusableSnackbarProps = {
     event: React.SyntheticEvent | Event,
     reason?: SnackbarCloseReason,
   ) => void
-}
-
-const styles = {
-  width: '100%',
-  padding: '1rem',
-  alignItems: 'center',
-  '& .MuiAlert-icon': {
-    fontSize: '24px',
-    padding: '0px',
-  },
-  '& .MuiAlert-message': {
-    fontSize: '13px',
-    lineHeight: '20px',
-    padding: '0px',
-  },
-  '& .MuiAlert-action': {
-    padding: '0px',
-    marginLeft: '0.75rem',
-    marginRight: '0px',
-    '& .MuiIconButton-root': {
-      padding: '0px',
-    },
-    '& .MuiSvgIcon-root': {
-      fontSize: '1rem',
-    },
-  },
-  '&.MuiAlert-filledSuccess': {
-    backgroundColor: '#DAF4DE',
-    borderLeft: '0.25rem solid #105B2B',
-    '& .MuiAlert-icon': {
-      color: '#105B2B',
-    },
-  },
 }
 
 export function ReusableSnackbar({
@@ -59,7 +28,16 @@ export function ReusableSnackbar({
         onClose={handleClose}
         severity={severity}
         variant={variant}
-        sx={styles}
+        classes={{
+          root: 'w-full items-center !px-[16px] !py-[10px]',
+          icon: 'p-0 text-[#105B2B]',
+          message: 'text-[13px] leading-[20px] p-0',
+          action: cns(
+            'p-0 ml-12 mr-0 !px-[2px] !pt-[2px]',
+            '[&_.MuiSvgIcon-root]:!text-[16px]',
+          ),
+          filledSuccess: '!bg-[#DAF4DE] border-l-4 border-[#105B2B]',
+        }}
         icon={
           severity === 'success' ? <CheckCircleOutlineOutlined /> : undefined
         }

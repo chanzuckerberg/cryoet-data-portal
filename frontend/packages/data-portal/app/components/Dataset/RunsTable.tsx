@@ -21,13 +21,14 @@ import { ViewTomogramButton } from 'app/components/ViewTomogramButton'
 import { RUN_FILTERS } from 'app/constants/filterQueryParams'
 import { IdPrefix } from 'app/constants/idPrefixes'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
-import { QueryParams } from 'app/constants/query'
+import { FromLocationKey, QueryParams } from 'app/constants/query'
 import { RunTableWidths } from 'app/constants/table'
 import { useDatasetById } from 'app/hooks/useDatasetById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { Run } from 'app/types/gql/datasetPageTypes'
 import { cnsNoMerge } from 'app/utils/cns'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
@@ -47,6 +48,7 @@ export function RunsTable() {
   const { dataset, deposition, runs } = useDatasetById()
   const { t } = useI18n()
   const [searchParams] = useSearchParams()
+  const isExpandDepositions = useFeatureFlag('expandDepositions')
 
   const [isHoveringOverInteractable, setIsHoveringOverInteractable] =
     useState(false)
@@ -66,9 +68,19 @@ export function RunsTable() {
         url.searchParams.set(QueryParams.DepositionId, `${deposition.id}`)
       }
 
+      // Handle tab selection based on expandDepositions feature flag and from parameter
+      if (isExpandDepositions) {
+        const from = searchParams.get(QueryParams.From)
+
+        // If from is not deposition-annotations, set table-tab to tomograms
+        if (from !== FromLocationKey.DepositionAnnotations) {
+          url.searchParams.set(QueryParams.TableTab, t('tomograms'))
+        }
+      }
+
       return url.pathname + url.search
     },
-    [deposition, searchParams],
+    [deposition, searchParams, isExpandDepositions, t],
   )
 
   const columns = useMemo(() => {
@@ -87,7 +99,6 @@ export function RunsTable() {
               renderLoadingSkeleton={false}
             >
               <KeyPhoto
-                className="max-w-[134px]"
                 title={run.name}
                 src={getValue()}
                 loading={isLoadingDebounced}

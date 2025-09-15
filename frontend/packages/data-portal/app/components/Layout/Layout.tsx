@@ -1,6 +1,7 @@
 import { useLocation } from '@remix-run/react'
 import { ReactNode } from 'react'
 
+import { PolicyBanner } from 'app/components/PolicyBanner'
 import { SurveyBanner } from 'app/components/SurveyBanner'
 import { isNeuroglancerUrl } from 'app/utils/url'
 
@@ -12,6 +13,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const isNeuroglancerPage = isNeuroglancerUrl(pathname)
   return (
     <main className="flex flex-col flex-auto">
+      {!isNeuroglancerPage && <PolicyBanner />}
       {!isNeuroglancerPage && <TopNavigation />}
       <div className="flex flex-col flex-[1_0_auto]">{children}</div>
       {!isNeuroglancerPage && <Footer />}

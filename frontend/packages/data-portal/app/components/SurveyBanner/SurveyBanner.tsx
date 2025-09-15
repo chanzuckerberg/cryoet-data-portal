@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { Icon } from '@czi-sds/components'
 
+import { I18n } from 'app/components/I18n'
 import { LocalStorageKeys } from 'app/constants/localStorage'
 
-import { ReusableTimeBasedBanner } from '../common/ReusableTimeBasedBanner/ReusableTimeBasedBanner'
+import { ReusableBanner } from '../ReusableBanner/ReusableBanner'
+import styles from './SurveyBanner.module.css'
 
 const BANNER_ALLOWLIST = [
   /^\/datasets\/.*$/,
@@ -11,17 +13,21 @@ const BANNER_ALLOWLIST = [
 ]
 
 export function SurveyBanner() {
-  const [open, setOpen] = useState(false)
-
   return (
-    <ReusableTimeBasedBanner
-      open={open}
-      setOpen={setOpen}
+    <ReusableBanner
       localStorageKey={LocalStorageKeys.SurveyBannerDismissed}
-      messageKey="surveyBanner"
       sdsType="secondary"
-      icon="SpeechBubbles"
-      pathRegexAllowList={BANNER_ALLOWLIST}
-    />
+      position="bottom"
+      allowedPathsRegex={BANNER_ALLOWLIST}
+      className={styles.banner}
+    >
+      <div className="flex items-center gap-sds-default">
+        <Icon sdsIcon="SpeechBubbles" sdsSize="l" />
+
+        <p className="text-sds-body-s-400-wide leading-sds-body-s">
+          <I18n i18nKey="surveyBanner" />
+        </p>
+      </div>
+    </ReusableBanner>
   )
 }

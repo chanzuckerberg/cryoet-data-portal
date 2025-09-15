@@ -222,14 +222,14 @@ describe('<Tour />', () => {
         ).toBeInTheDocument()
         expect(screen.getByRole('button', { name: '' })).toBeInTheDocument()
         if (index === 0) {
-          expect(screen.getByText('Close')).toBeInTheDocument()
-          expect(screen.getByText('Take a tour')).toBeInTheDocument()
+          expect(screen.getByText('close')).toBeInTheDocument()
+          expect(screen.getByText('takeTour')).toBeInTheDocument()
         } else if (index !== mockSteps.length - 1) {
-          expect(screen.getByText('Previous')).toBeInTheDocument()
-          expect(screen.getByText('Next')).toBeInTheDocument()
+          expect(screen.getByText('previous')).toBeInTheDocument()
+          expect(screen.getByText('next')).toBeInTheDocument()
         } else {
-          expect(screen.getByText('Restart')).toBeInTheDocument()
-          expect(screen.getByText('Close tour')).toBeInTheDocument()
+          expect(screen.getByText('restart')).toBeInTheDocument()
+          expect(screen.getByText('closeTour')).toBeInTheDocument()
         }
       })
     })
@@ -283,7 +283,8 @@ describe('<Tour />', () => {
 
       await renderTour()
 
-      const restartButton = screen.getByText('Restart')
+      const restartButton = screen.getByText('restart')
+      expect(restartButton).toBeInTheDocument()
       await getMockUser().click(restartButton)
       expect(mockOnRestart).toHaveBeenCalled()
     })
