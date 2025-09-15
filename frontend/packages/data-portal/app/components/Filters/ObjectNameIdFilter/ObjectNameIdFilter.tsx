@@ -109,7 +109,19 @@ export function ObjectNameIdFilter({
       (filter) => !isFilterPrefixValid(values[filter.id], filter.queryParam),
     )
 
-    return hasInvalidPrefix || isEqual(values, getQueryParamValues())
+    const hasAnnotatedObjectsOnly =
+      values[QueryParams.AnnotatedObjectsOnly] === 'Yes'
+    const hasObjectName = !!values[QueryParams.ObjectName]
+    const hasObjectId = !!values[QueryParams.ObjectId]
+
+    const isAnnotatedObjectsOnlyWithoutObjectFilter =
+      hasAnnotatedObjectsOnly && !hasObjectName && !hasObjectId
+
+    return (
+      hasInvalidPrefix ||
+      isAnnotatedObjectsOnlyWithoutObjectFilter ||
+      isEqual(values, getQueryParamValues())
+    )
   }, [filters, getQueryParamValues, values])
 
   const activeFilters = useMemo(
@@ -200,9 +212,19 @@ export function ObjectNameIdFilter({
             (name) => name !== filterToRemove.value,
           )
           const newValue = arrayToString(updatedValues)
+
+          // Check if we're removing the last object name and need to also remove AnnotatedObjectsOnly
+          const willHaveNoObjectName = !newValue
+          const hasObjectId = !!values[QueryParams.ObjectId]
+          const shouldRemoveAnnotatedObjectsOnly =
+            willHaveNoObjectName && !hasObjectId
+
           setValues((prev) => ({
             ...prev,
             [filter.id]: newValue,
+            ...(shouldRemoveAnnotatedObjectsOnly && {
+              [QueryParams.AnnotatedObjectsOnly]: '',
+            }),
           }))
 
           setSearchParams(
@@ -216,20 +238,36 @@ export function ObjectNameIdFilter({
                   prev.append(filter.queryParam, name)
                 })
               }
+              // Remove AnnotatedObjectsOnly if no object filters remain
+              if (shouldRemoveAnnotatedObjectsOnly) {
+                prev.delete(QueryParams.AnnotatedObjectsOnly)
+              }
               return prev
             },
             { preventScrollReset: true },
           )
         } else {
           // For other filters, clear completely
+          const isRemovingObjectId = filter.queryParam === QueryParams.ObjectId
+          const hasObjectName = !!values[QueryParams.ObjectName]
+          const shouldRemoveAnnotatedObjectsOnly =
+            isRemovingObjectId && !hasObjectName
+
           setValues((prev) => ({
             ...prev,
             [filter.id]: '',
+            ...(shouldRemoveAnnotatedObjectsOnly && {
+              [QueryParams.AnnotatedObjectsOnly]: '',
+            }),
           }))
 
           setSearchParams(
             (prev) => {
               prev.delete(filter.queryParam)
+              // Remove AnnotatedObjectsOnly if no object filters remain
+              if (shouldRemoveAnnotatedObjectsOnly) {
+                prev.delete(QueryParams.AnnotatedObjectsOnly)
+              }
               return prev
             },
             { preventScrollReset: true },

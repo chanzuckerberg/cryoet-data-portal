@@ -15,20 +15,23 @@ export function NoTotalResults({
 }: NoTotalResultsProps) {
   return (
     <div className="flex justify-center items-center gap-sds-xxl -mt-[50px]">
-      <div className="flex flex-col justify-center items-baseline h-[425px] gap-[20px]">
+      <div className="flex flex-col justify-center items-baseline h-[425px] gap-[16px]">
         <h1 className="text-sds-header-l-600-wide font-semibold">{title}</h1>
         <div className="text-sds-body-s-400-wide">{description}</div>
-        {buttons.map((button) => (
-          <Button
-            sdsType="primary"
-            sdsStyle="minimal"
-            className="!normal-case !text-sds-body-s-400-wide"
-            onClick={button.onClick}
-          >
-            {button.text}
-            <SmallChevronRightIcon className="w-[12px] h-[12px] fill-[#0b68f8] ml-sds-xxs" />
-          </Button>
-        ))}
+        <div className="flex flex-col items-start gap-0">
+          {buttons.map((button) => (
+            <Button
+              key={button.text}
+              sdsType="primary"
+              sdsStyle="minimal"
+              className="!normal-case !text-sds-body-s-400-wide"
+              onClick={button.onClick}
+            >
+              {button.text}
+              <SmallChevronRightIcon className="w-[12px] h-[12px] fill-[#0b68f8] ml-sds-xxs" />
+            </Button>
+          ))}
+        </div>
       </div>
       <svg xmlns="http://www.w3.org/2000/svg" width="240" height="240">
         <path

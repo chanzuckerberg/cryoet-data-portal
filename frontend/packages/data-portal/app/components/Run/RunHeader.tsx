@@ -5,6 +5,7 @@ import { CitationButton } from 'app/components/CitationButton'
 import { CollapsibleList } from 'app/components/CollapsibleList'
 import { HeaderKeyPhoto } from 'app/components/HeaderKeyPhoto'
 import { I18n } from 'app/components/I18n'
+import { SmallFlagIcon } from 'app/components/icons/SmallFlagIcon'
 import { getKeyPhotoCaption } from 'app/components/KeyPhotoCaption/KeyPhotoCaption'
 import { PageHeader } from 'app/components/PageHeader'
 import { PageHeaderSubtitle } from 'app/components/PageHeaderSubtitle'
@@ -277,13 +278,7 @@ export function RunHeader() {
                               </p>
                               <hr className="border-t border-light-sds-color-primitive-gray-300" />
                               <div className="flex items-center justify-between w-full">
-                                <Icon
-                                  sdsIcon="FlagOutline"
-                                  sdsSize="xs"
-                                  color="gray"
-                                  shade={800}
-                                  className="!w-[8px] !h-[8px]"
-                                />
+                                <SmallFlagIcon className="text-gray-800" />
                                 Annotation Available
                               </div>
                             </div>
@@ -334,13 +329,7 @@ export function RunHeader() {
                                       objectNames.includes(
                                         value.toString(),
                                       ) && (
-                                        <Icon
-                                          sdsIcon="FlagOutline"
-                                          sdsSize="xs"
-                                          color="gray"
-                                          shade={800}
-                                          className="!w-[8px] !h-[8px] relative top-[-3px]"
-                                        />
+                                        <SmallFlagIcon className="relative top-[-3px] text-gray-800" />
                                       )}
                                   </span>
                                 ),

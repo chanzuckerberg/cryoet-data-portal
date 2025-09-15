@@ -17,6 +17,7 @@ export function ObjectOverview() {
   // Helper function to create object data structure
   const createObjectData = (
     objectName: string,
+    index: number,
     objectData?: {
       objectId?: string | null
       objectState?: string | null
@@ -24,7 +25,7 @@ export function ObjectOverview() {
     },
   ) => ({
     id: objectName.toLowerCase().replace(/\s+/g, '-'),
-    title: objectName,
+    title: `Object ${index}`,
     data: [
       {
         label: t('objectName'),
@@ -50,14 +51,14 @@ export function ObjectOverview() {
       (name): name is string =>
         Boolean(name) && identifiedObjectNames.includes(name),
     )
-    .map((name) => {
+    .map((name, index) => {
       const annotatedData = annotatedObjectsData.find(
         (obj) => obj?.objectName === name,
       )
       const identifiedData = identifiedObjectsData.find(
         (obj) => obj?.objectName === name,
       )
-      return createObjectData(name, identifiedData || annotatedData)
+      return createObjectData(name, index + 1, identifiedData || annotatedData)
     })
 
   // Verified Objects Unannotated = Objects only in identifiedObjects (not in annotatedObjects)
@@ -65,11 +66,11 @@ export function ObjectOverview() {
     .filter(
       (name): name is string => Boolean(name) && !objectNames.includes(name),
     )
-    .map((name) => {
+    .map((name, index) => {
       const identifiedData = identifiedObjectsData.find(
         (obj) => obj?.objectName === name,
       )
-      return createObjectData(name, identifiedData)
+      return createObjectData(name, index + 1, identifiedData)
     })
 
   // Unverified Objects Annotated = Objects only in annotatedObjects (not in identifiedObjects)
@@ -78,11 +79,11 @@ export function ObjectOverview() {
       (name): name is string =>
         Boolean(name) && !identifiedObjectNames.includes(name),
     )
-    .map((name) => {
+    .map((name, index) => {
       const annotatedData = annotatedObjectsData.find(
         (obj) => obj?.objectName === name,
       )
-      return createObjectData(name, annotatedData)
+      return createObjectData(name, index + 1, annotatedData)
     })
 
   const createAccordionHeader = (title: string, tooltipText: string) => (
