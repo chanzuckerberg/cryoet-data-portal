@@ -266,7 +266,7 @@ export function RunHeader() {
                   <MetadataTable
                     title={
                       <div className="flex items-center gap-sds-xxs ">
-                        <span>{i18n.objects}</span>
+                        <span>{t('objects')}</span>
                         <Tooltip
                           tooltip={
                             <div className="flex flex-col gap-sds-xs py-sds-xxs w-[215px]">

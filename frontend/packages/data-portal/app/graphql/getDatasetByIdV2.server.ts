@@ -17,6 +17,11 @@ import {
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
 import { getFeatureFlag } from 'app/utils/featureFlags'
 
+import {
+  createAnnotationVsIdentifiedObjectFilters,
+  createObjectNameVsObjectIdFilters,
+  dedupeById,
+} from './common'
 import { getAggregatedRunIdsByDeposition } from './runsByDepositionIdV2.server'
 
 const GET_DATASET_BY_ID_QUERY_V2 = gql(`
@@ -323,7 +328,7 @@ function getRunFilter(
 
   if (objectNames.length > 0) {
     if (_searchIdentifiedObjectsOnly) {
-      // Special case: search only identifiedObjects (for dual query)
+      // Special case: search only identifiedObjects for front end OR query
       where.identifiedObjects ??= {}
       where.identifiedObjects.objectName = {
         _in: objectNames,
@@ -336,7 +341,7 @@ function getRunFilter(
       }
     }
     // When identifiedObjects is enabled and annotatedObjectsOnly is false,
-    // we use a dual query in getDatasetByIdV2
+    // we search multiple tables in getDatasetByIdV2 and merge the results
   }
   if (filterState.annotation.objectShapeTypes.length > 0) {
     where.annotations ??= {}
@@ -348,20 +353,20 @@ function getRunFilter(
   }
   if (filterState.annotation.objectId !== null) {
     if (_searchIdentifiedObjectsOnly) {
-      // Special case: search only identifiedObjects (for dual query)
+      // Special case: search only identifiedObjects for front end OR query
       where.identifiedObjects ??= {}
       where.identifiedObjects.objectId = {
-        _ilike: `%${filterState.annotation.objectId.replace(':', '_')}`, // _ is wildcard
+        _ilike: `%${filterState.annotation.objectId.replace(':', '_')}%`, // _ is wildcard
       }
     } else if (annotatedObjectsOnly || !isIdentifiedObjectsEnabled) {
       // Only search annotations when annotated-objects=Yes or feature flag is off
       where.annotations ??= {}
       where.annotations.objectId = {
-        _ilike: `%${filterState.annotation.objectId.replace(':', '_')}`, // _ is wildcard
+        _ilike: `%${filterState.annotation.objectId.replace(':', '_')}%`, // _ is wildcard
       }
     }
     // When identifiedObjects is enabled and annotatedObjectsOnly is false,
-    // we use a dual query in getDatasetByIdV2
+    // we search multiple tables in getDatasetByIdV2 and merge the results
   }
 
   return where
@@ -392,7 +397,12 @@ export async function getDatasetByIdV2({
     params,
   })
 
-  const { objectNames, annotatedObjectsOnly } = filterState.annotation
+  const { objectNames, objectId, annotatedObjectsOnly } = filterState.annotation
+
+  // Check if we have both object filters for intersection approach
+  const hasBothObjectFilters = objectNames.length > 0 && objectId
+  const hasSingleObjectFilter =
+    (objectNames.length > 0 || objectId) && !hasBothObjectFilters
 
   let aggregatedRunIds: number[] | undefined
 
@@ -410,30 +420,211 @@ export async function getDatasetByIdV2({
     }
   }
 
-  // If we have an object filter and feature flag is enabled and not restricted to annotations only,
-  // we need to run two queries and merge the results (similar to datasets dual query pattern)
+  // Handle ObjectName + ObjectId filter combinations
+  if (hasBothObjectFilters && isIdentifiedObjectsEnabled) {
+    // Create filter states for intersection query
+    const { objectNameFilter, objectIdFilter } =
+      createObjectNameVsObjectIdFilters(filterState)
+
+    // Common variables for all queries - fetch all results for proper deduplication
+    const commonVariables = {
+      id,
+      depositionId,
+      runLimit: null, // No limit - fetch all matching runs
+      runOffset: 0, // Start from beginning
+    }
+
+    let objectNamesResults: GetDatasetByIdV2Query['runs']
+    let objectIdResults: GetDatasetByIdV2Query['runs']
+    let firstQueryResult: ApolloQueryResult<GetDatasetByIdV2Query>
+
+    if (annotatedObjectsOnly) {
+      // When "Annotated Objects Only" is enabled, only search annotations table
+      const [objectNamesFromAnnotations, objectIdFromAnnotations] =
+        await Promise.all([
+          client.query({
+            query: GET_DATASET_BY_ID_QUERY_V2,
+            variables: {
+              ...commonVariables,
+              runFilter: getRunFilter(
+                objectNameFilter,
+                id,
+                aggregatedRunIds,
+                false, // Force annotations-only
+              ),
+            },
+          }),
+          client.query({
+            query: GET_DATASET_BY_ID_QUERY_V2,
+            variables: {
+              ...commonVariables,
+              runFilter: getRunFilter(
+                objectIdFilter,
+                id,
+                aggregatedRunIds,
+                false, // Force annotations-only
+              ),
+            },
+          }),
+        ])
+
+      objectNamesResults = objectNamesFromAnnotations.data.runs ?? []
+      objectIdResults = objectIdFromAnnotations.data.runs ?? []
+      firstQueryResult = objectNamesFromAnnotations // For return structure
+    } else {
+      // When "Annotated Objects Only" is disabled, search across both tables
+
+      // SEARCH BOTH TABLES FOR OBJECTNAMES: annotations + identifiedObjects
+      const [
+        objectNamesFromAnnotations,
+        objectNamesFromIdentified,
+        objectIdFromAnnotations,
+        objectIdFromIdentified,
+      ] = await Promise.all([
+        client.query({
+          query: GET_DATASET_BY_ID_QUERY_V2,
+          variables: {
+            ...commonVariables,
+            runFilter: getRunFilter(
+              objectNameFilter,
+              id,
+              aggregatedRunIds,
+              false, // Force annotations-only
+            ),
+          },
+        }),
+        client.query({
+          query: GET_DATASET_BY_ID_QUERY_V2,
+          variables: {
+            ...commonVariables,
+            runFilter: getRunFilter(
+              {
+                ...objectNameFilter,
+                annotation: {
+                  ...objectNameFilter.annotation,
+                  _searchIdentifiedObjectsOnly: true,
+                },
+              },
+              id,
+              aggregatedRunIds,
+              isIdentifiedObjectsEnabled,
+            ),
+          },
+        }),
+        client.query({
+          query: GET_DATASET_BY_ID_QUERY_V2,
+          variables: {
+            ...commonVariables,
+            runFilter: getRunFilter(
+              objectIdFilter,
+              id,
+              aggregatedRunIds,
+              false, // Force annotations-only
+            ),
+          },
+        }),
+        client.query({
+          query: GET_DATASET_BY_ID_QUERY_V2,
+          variables: {
+            ...commonVariables,
+            runFilter: getRunFilter(
+              {
+                ...objectIdFilter,
+                annotation: {
+                  ...objectIdFilter.annotation,
+                  _searchIdentifiedObjectsOnly: true,
+                },
+              },
+              id,
+              aggregatedRunIds,
+              isIdentifiedObjectsEnabled,
+            ),
+          },
+        }),
+      ])
+
+      // Union and dedupe ObjectNames results
+      objectNamesResults = dedupeById([
+        ...(objectNamesFromAnnotations.data.runs ?? []),
+        ...(objectNamesFromIdentified.data.runs ?? []),
+      ])
+
+      // Union and dedupe ObjectId results
+      objectIdResults = dedupeById([
+        ...(objectIdFromAnnotations.data.runs ?? []),
+        ...(objectIdFromIdentified.data.runs ?? []),
+      ])
+      firstQueryResult = objectNamesFromAnnotations // For return structure
+    }
+
+    if (objectNamesResults.length === 0 || objectIdResults.length === 0) {
+      // If either union returns no results, intersection is empty
+      return {
+        ...firstQueryResult,
+        data: {
+          ...firstQueryResult.data,
+          runs: [],
+          datasets: firstQueryResult.data.datasets?.map((dataset) => ({
+            ...dataset,
+            filteredRunsCount: {
+              ...dataset.filteredRunsCount,
+              aggregate: [{ count: 0 }],
+            },
+          })),
+        },
+      }
+    }
+
+    // Find intersection: runs that appear in BOTH deduped result sets
+    const objectNamesIds = new Set(objectNamesResults.map((r) => r.id))
+    const objectIdIds = new Set(objectIdResults.map((r) => r.id))
+    const intersectionIds = new Set(
+      [...objectNamesIds].filter((runId) => objectIdIds.has(runId)),
+    )
+
+    // Get the full run objects for the intersection
+    const intersectedRuns = objectNamesResults.filter((run) =>
+      intersectionIds.has(run.id),
+    )
+
+    // Sort intersection results
+    const sortedIntersectedRuns = intersectedRuns.sort((a, b) =>
+      a.name.localeCompare(b.name),
+    )
+
+    const totalIntersectedCount = sortedIntersectedRuns.length
+
+    // Apply pagination after intersection
+    const startIndex = (page - 1) * MAX_PER_PAGE
+    const endIndex = startIndex + MAX_PER_PAGE
+    const paginatedRuns = sortedIntersectedRuns.slice(startIndex, endIndex)
+
+    // Return results using the first query's structure
+    return {
+      ...firstQueryResult,
+      data: {
+        ...firstQueryResult.data,
+        runs: paginatedRuns,
+        datasets: firstQueryResult.data.datasets?.map((dataset) => ({
+          ...dataset,
+          filteredRunsCount: {
+            ...dataset.filteredRunsCount,
+            aggregate: [{ count: totalIntersectedCount }],
+          },
+        })),
+      },
+    }
+  }
+
+  // SINGLE OBJECT FILTER: Multiple table search logic for single filters (OR logic)
   if (
-    objectNames.length > 0 &&
+    hasSingleObjectFilter &&
     isIdentifiedObjectsEnabled &&
     !annotatedObjectsOnly
   ) {
-    // Create filter states for dual query
-    const filterStateForAnnotations = {
-      ...filterState,
-      annotation: {
-        ...filterState.annotation,
-        // Keep objectNames for annotations filtering
-      },
-    }
-
-    const filterStateForIdentifiedObjects = {
-      ...filterState,
-      annotation: {
-        ...filterState.annotation,
-        // Use special flag to indicate we want identifiedObjects filtering
-        _searchIdentifiedObjectsOnly: true,
-      },
-    }
+    // Create filter states for multiple table search
+    const { annotationFilter, identifiedObjectFilter } =
+      createAnnotationVsIdentifiedObjectFilters(filterState)
 
     // Common variables for both queries - fetch all results for proper deduplication
     const commonVariables = {
@@ -451,7 +642,7 @@ export async function getDatasetByIdV2({
           variables: {
             ...commonVariables,
             runFilter: getRunFilter(
-              filterStateForAnnotations,
+              annotationFilter,
               id,
               aggregatedRunIds,
               false,
@@ -463,7 +654,7 @@ export async function getDatasetByIdV2({
           variables: {
             ...commonVariables,
             runFilter: getRunFilter(
-              filterStateForIdentifiedObjects,
+              identifiedObjectFilter,
               id,
               aggregatedRunIds,
               isIdentifiedObjectsEnabled,
@@ -481,14 +672,12 @@ export async function getDatasetByIdV2({
     }
 
     // Merge and dedupe runs
-    const runsMap = new Map(
-      [
-        ...resultsWithAnnotations.data.runs,
-        ...resultsWithIdentifiedObjects.data.runs,
-      ].map((run) => [run.id, run]), // Map each run by its id
-    )
+    const mergedRuns = dedupeById([
+      ...resultsWithAnnotations.data.runs,
+      ...resultsWithIdentifiedObjects.data.runs,
+    ])
 
-    const sortedMergedRuns = Array.from(runsMap.values()).sort((a, b) =>
+    const sortedMergedRuns = mergedRuns.sort((a, b) =>
       a.name.localeCompare(b.name),
     )
 
@@ -497,9 +686,9 @@ export async function getDatasetByIdV2({
     // Apply pagination after merging and sorting
     const startIndex = (page - 1) * MAX_PER_PAGE
     const endIndex = startIndex + MAX_PER_PAGE
-    const mergedRuns = sortedMergedRuns.slice(startIndex, endIndex)
+    const paginatedRuns = sortedMergedRuns.slice(startIndex, endIndex)
 
-    resultsWithAnnotations.data.runs = mergedRuns
+    resultsWithAnnotations.data.runs = paginatedRuns
 
     // Use the accurate merged count for filteredRunsCount
     if (resultsWithAnnotations.data.datasets?.[0]?.filteredRunsCount) {
