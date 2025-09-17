@@ -1,4 +1,5 @@
 {
+  "4panels": "4 panels",
   "about": "About",
   "aboutAndReport": "About & Report",
   "aboutCryoEtData": "About CryoET Data",
@@ -66,11 +67,13 @@
   "available": "Available",
   "availableProcessing": "Available Processing",
   "awsCliLink": "https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html",
+  "axisLines": "Axis lines",
   "back": "Back",
   "backToResults": "Back to Results",
   "beta": "Beta",
   "bingingFromFrames": "Binning from Frames",
   "boldedText": "Bolded text",
+  "bbox": "Bounding box",
   "browse": "Browse",
   "browseData": "Browse Data",
   "browseRunData": "Browse Run Contents",
@@ -87,6 +90,7 @@
   "citePortalText": "Learn how to cite this data and the Portal",
   "clickToDownloadViaBrowser": "Click to download via your browser",
   "close": "Close",
+  "closeTour": "Close tour",
   "comingFall2024": "Coming in Fall 2024",
   "competition": "Competition",
   "competitionContributors": "Competition Contributors",
@@ -120,6 +124,7 @@
   "copyAndRunCurlCommand": "Copy and run cURL command in your terminal",
   "copyApiCodeSnippet": "Copy Python code snippet",
   "correspondingAuthor": "Corresponding Author",
+  "crossSection": "Cross-sections",
   "cryoetDataAnnotationMLComp": "Competition for Particle Detection in 3D Cryo-Electron Tomography",
   "ctf": "CTF",
   "ctfCorrected": "Ctf Corrected",
@@ -232,6 +237,7 @@
   "github": "GitHub",
   "glossaryOfTerms": "Glossary of Terms",
   "goToDocs": "Go to Documentation",
+  "goToNeuroglancerDocumentation": "Go to Neuroglancer Documentation",
   "goToTomograms": "Go to Tomograms",
   "good": "Good",
   "grantID": "Grant ID",
@@ -250,6 +256,7 @@
   "haveMoreQuestions": "Have a question? Reach out to our team at <url to='mailto:cryoetdataportal@chanzuckerberg.com'>cryoetdataportal@chanzuckerberg.com</url>.",
   "headshotOfName": "Headshot of {{name}}",
   "helpUsAchieveThisVision": "Help us achieve this vision",
+  "hideUI": "Hide UI",
   "howIsScoreCalculated": "How is this score calculated",
   "howToCite": "How to cite",
   "howToParticipate": "How to Participate",
@@ -331,7 +338,78 @@
   "nameOrId": "Name/ID",
   "napariPlugin": "napari Plugin",
   "ndJsonLink": "https://zarr.readthedocs.io/en/stable/",
-  "neuroglancerTutorialLink": "https://chanzuckerberg.github.io/cryoet-data-portal/stable/neuroglancer_quickstart.html",
+  "neuroglancerTutorialDocsLink": "https://chanzuckerberg.github.io/cryoet-data-portal/stable/neuroglancer_quickstart.html",
+  "neuroglancerWalkthrough": "Neuroglancer Walkthrough",
+  "neuroglancerWTShortcuts": {
+    "bbox": "Toggle bounding box",
+    "axisLines": "Toggle axis lines",
+    "scaleBar": "Toggle scale bar",
+    "crossSection": "Toggle cross-sections"
+  },
+  "neuroglancerWTCtls": {
+    "scrollPinch": {
+      "action": "scroll or Pinch",
+      "description": "Zoom in 2D images"
+    },
+    "scroll": {
+      "action": "scroll or Scroll",
+      "description": "Move in slices"
+    },
+    "leftClickDrag1": {
+      "action": "Left-click and drag",
+      "description": "Pan 2D images"
+    },
+    "leftClickDrag2": {
+      "action": "Left-click and drag",
+      "description": "Rotate 3D Volume"
+    },
+    "clickDrag1": {
+      "action": "click and drag",
+      "description": "Oblique slice in 2D"
+    },
+    "clickDrag2": {
+      "action": "click and drag",
+      "description": "Pan in 3D"
+    }
+  },
+  "neuroglancerWT": {
+    "main": {
+      "title": "Exploring CryoET Data in Neuroglancer",
+      "content": "<span>The CryoET Data Portal provides an interactive data viewer powered by Neuroglancer for visualizing and analyzing volumetric cryo-electron tomography (CryoET) data and annotations.</span><span>Let's run through some key aspects of the data viewer and essential controls.</span>"
+    },
+    "step1": {
+      "title": "Main viewport",
+      "content": "<div><p>The default visualization is a synchronized four panel layout:</p><ul><li>Three cross-sectional views showing orthogonal XY, XZ, and YZ slices</li><li>One 3D view for model visualization and volume rendering</li></ul></div><p className='text-black'>This is configurable from the 'Layout' dropdown in the top bar.</p>"
+    },
+    "step2": {
+      "title": "Essential controls",
+      "content": "Move, pan and zoom in each panel with these mouse navigation controls:"
+    },
+    "step3": {
+      "title": "Keyboard shortcuts",
+      "content": "Quickly access top tools with shortcuts. Here are some useful shortcuts:",
+      "complement": "These actions are also easily accessible on the top bar."
+    },
+    "step4": {
+      "title": "Layer management",
+      "content": "<span>Data is organized into distinct layers, which all appear in this menu.</span><span>You can click the layer's color indicator to toggle its visibility or use the button to the right of the layer to open detailed controls.</span>"
+    },
+    "step5": {
+      "title": "Layer controls",
+      "content": "Change the visualization settings of individual layers here. You can change <span className='text-black'>layer colours</span> or <span className='text-black'>opacity</span>, <span className='text-black'>image contrast limits</span>, <span className='text-black'>rendering resolution</span> and more."
+    },
+    "step6": {
+      "title": "Controls top panel",
+      "content": "You can find further controls in the neuroglancer header bar, such as taking screenshots and showing or hiding panels in the viewer, should you need them."
+    },
+    "step7": {
+      "title": "Congratulations!",
+      "content": "<span>You've just learned the basics of navigating annotated tomograms from the CryoET Data Portal with Neuroglancer!</span><span>We've extracted some of the most crucial functionality of neuroglancer into the portal header, including loading groups of annotations, changing the viewer layout, and more.</span>",
+      "recap": "<p>As a recap, here are some useful shortcuts</p>",
+      "learnMore": "Ready to learn more? Visit our <doclink>documentation</doclink>.",
+      "access": "Easily access this walkthrough again through the <span><InfoIcon /></span>help menu."
+    }
+  },
   "next": "Next",
   "no": "No",
   "noAnnotationsAvailable": "No Annotations Available",
@@ -438,6 +516,7 @@
   "resetAll": "Reset All",
   "resolutionsAvailable": "Samplings Available",
   "resultsMustIncludeAllFileTypes": "Results will include all selected Data Types",
+  "restart": "Restart",
   "returnToDeposition": "Return To Deposition",
   "rotationX": "Rotation (x)",
   "run": "Run",
@@ -454,6 +533,7 @@
   "sampleAndExperimentConditions": "Sample and Experiment Conditions",
   "samplePreparation": "Sample Preparation",
   "sampleType": "Sample Type",
+  "scaleBar": "Scale bar",
   "scoreTooltip": "Submissions were scored using an average F <sub className='relative top-sds-xxxs'>&beta;</sub> metric, adjusted for the detection difficulty of each species.",
   "search": "Search",
   "searchByDatasetName": "Search by Dataset Name",
@@ -469,14 +549,20 @@
   "selectTheTomogramToReferenceWith": "Select the tomogram to reference with these annotations. For tomograms other than the Portal Standard, annotations may require transformation to be compatible. <url to='https://chanzuckerberg.github.io/cryoet-data-portal/stable/cryoet_data_portal_docsite_data.html#annotations'>Learn More</url>.",
   "selectTomogram": "Select Tomogram",
   "seriesIsAligned": "Series is Aligned",
+  "share": "Share",
+  "shareActionSuccess": "Share link copied to clipboard",
   "showAll": "Show all",
   "showLess": "Show less",
   "showMore": "Show more",
   "showNumberMore": "Show {{count}} more",
+  "showPositionSelector": "Show position selector",
+  "showTopLayerBar": "Show top layer bar",
   "simulated": "Simulated",
   "size": "Size",
   "sizeXYZ": "Size (x,y,z)",
   "smallestAvailableVoxelSpacing": "Smallest Available Voxel Spacing",
+  "snapAction": "Snap to nearest axis",
+  "snapActionSuccess": "Snapped to nearest axis",
   "somethingWentWrong": "Something went wrong",
   "sourceCode": "Source Code",
   "species": "Species",
@@ -491,6 +577,7 @@
   "surveyLink": "https://airtable.com/apppmytRJXoXYTO9w/shrjmV9knAC7E7VVM?prefill_Event=Banner&hide_Event=true",
   "policyBanner": "We are including <url to='/terms'>Terms of Use</url> and a <url to='/dmca'>DMCA Policy</url> on the portal which will take effect September 3, 2025. Please review them to understand your rights.",
   "symbolPeriod": ".",
+  "takeTour": "Take a tour",
   "teamsEntrants": "931 Teams / 6855 Entrants",
   "tellUsMore": "Tell us More",
   "tenWinningTeams": "10 Winning Teams",
@@ -534,6 +621,7 @@
   "totalRuns": "Total Runs",
   "totalRunsCount": "Total {{count}} runs",
   "totalTomograms": "Total Tomograms",
+  "tourBanner": "New to Neuroglancer? Learn the essentials in <button type='button' className='text-light-sds-color-primitive-blue-500'>this guided tour</button>.",
   "true": "True",
   "tutorials": "Tutorials",
   "tutorialsSectionContent": "Example notebooks for existing models, such as TomoTwin and DeepFinder, are provided to serve as onboarding materials and baseline solutions. These examples include preliminary results to set performance benchmarks for the competition.",
