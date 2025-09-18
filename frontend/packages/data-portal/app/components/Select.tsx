@@ -126,7 +126,7 @@ export function Select(props: SelectProps) {
     return singleActiveSdsOption ? [singleActiveSdsOption] : []
   }, [multiple, activeKeys, activeKey, options, sdsOptions, labelMap])
 
-  const activeSdsOption = multiple ? null : activeSdsOptions[0] ?? null
+  const activeSdsOption = multiple ? null : (activeSdsOptions[0] ?? null)
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [open, setOpen] = useState(false)
@@ -187,8 +187,8 @@ export function Select(props: SelectProps) {
         </span>
       )
     }
-
-    return activeOptions[0]?.value ?? 'None'
+    console.log('Active options:', activeOptions)
+    return activeOptions[0]?.value ?? ''
   }, [showActiveValue, multiple, activeOptions])
 
   return (

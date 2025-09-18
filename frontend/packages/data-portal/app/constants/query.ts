@@ -36,6 +36,7 @@ export enum QueryParams {
   ReconstructionSoftware = 'reconstruction_software',
   ReferenceTomogramId = 'ref-tomogram',
   Search = 'search',
+  ShowTour = 'showTour',
   Sort = 'sort',
   Tab = 'tab',
   TableTab = 'table-tab',

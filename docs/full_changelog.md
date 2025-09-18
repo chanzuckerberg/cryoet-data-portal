@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.5.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.4.1...cryoet-data-portal-python-client-v4.5.0) (2025-07-28)
+
+
+### ✨ Features
+
+* Adding cross modality fields to schema ([#1911](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1911)) ([d57111e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d57111e79cc9030901d9c9b41cd08235dde6c422))
+
+
+### 🧹 Miscellaneous Chores
+
+* Fix typo in AnnotationFile API documentation ([#1844](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1844)) ([d538d9c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d538d9c3db05a661c2b28b1f4bcedf0580c84148))
+* Update example IDs to more realistic number ([#1845](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1845)) ([8f48185](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8f48185e68c329b2efc780d540ddb0341158e913))
+
 ## [4.4.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.4.0...cryoet-data-portal-python-client-v4.4.1) (2025-04-08)
 
 

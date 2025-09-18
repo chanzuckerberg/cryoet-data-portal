@@ -1,0 +1,46 @@
+{
+  "name": "neuroglancer",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "pnpm generate-interface && vite build && tsc --build",
+    "lint": "pnpm lint:eslint",
+    "lint:fix": "pnpm lint && pnpm lint:eslint:fix",
+    "lint:eslint": "eslint --report-unused-disable-directives --max-warnings 0 .",
+    "lint:eslint:fix": "pnpm lint:eslint --fix",
+    "lint:prettier": "prettier -c .",
+    "lint:prettier:fix": "prettier -w .",
+    "preview": "vite preview",
+    "prebuild": "eslint .",
+    "generate-interface": "pnpm download-schemas && quicktype -s schema viewer_state.yml layer.yml -o src/NeuroglancerState.ts --just-types --nice-property-names && prettier --cache -w -l src/NeuroglancerState.ts",
+    "download-schemas": "curl -L https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/viewer_state.yml -o viewer_state.yml && curl -L https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/layer.yml -o layer.yml"
+  },
+  "dependencies": {
+    "neuroglancer": "git+https://github.com/metacell/neuroglancer.git#feat/cryoet-data-portal",
+    "pako": "^2.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^8.57.0",
+    "@types/pako": "^2.0.3",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^8.57.1",
+    "eslint-config-cryoet-data-portal": "workspace:*",
+    "eslint-plugin-cryoet-data-portal": "workspace:*",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "globals": "^15.12.0",
+    "quicktype": "^23.0.171",
+    "typescript": "~5.2.2",
+    "typescript-eslint": "^8.15.0",
+    "vite": "^6.0.1"
+  }
+}
