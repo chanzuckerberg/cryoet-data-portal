@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { ReactNode, useMemo } from 'react'
 
 import { SmallChevronRightIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
@@ -13,6 +13,8 @@ import {
 import { BreadcrumbType } from 'app/types/breadcrumbs'
 import { cns } from 'app/utils/cns'
 
+import { Tooltip } from './Tooltip'
+
 function Breadcrumb({
   text,
   link,
@@ -20,7 +22,7 @@ function Breadcrumb({
   type,
   datasetId,
 }: {
-  text: string
+  text: ReactNode
   link?: string
   className?: string
   type?: BreadcrumbType
@@ -28,35 +30,43 @@ function Breadcrumb({
 }) {
   const plausible = usePlausible()
 
-  return link ? (
-    <Link
-      to={link}
-      className={cns(
-        className,
-        'hover:text-light-sds-color-primitive-blue-500',
-      )}
-      onClick={() => {
-        if (type) {
-          plausible(Events.ClickBreadcrumb, {
-            type,
-            ...(datasetId && { datasetId }),
-          })
-        }
-      }}
-    >
-      {text}
-    </Link>
-  ) : (
-    <p className={cns(className, 'font-semibold')}>{text}</p>
-  )
+  if (link) {
+    return (
+      <Link
+        to={link}
+        className={cns(
+          'hover:text-light-sds-color-primitive-blue-500',
+          className,
+        )}
+        onClick={() => {
+          if (type) {
+            plausible(Events.ClickBreadcrumb, {
+              type,
+              ...(datasetId && { datasetId }),
+            })
+          }
+        }}
+      >
+        {text}
+      </Link>
+    )
+  }
+
+  if (typeof text === 'string') {
+    return <p className={cns(className, 'font-semibold')}>{text}</p>
+  }
+
+  return <div className={cns(className, 'font-semibold')}>{text}</div>
 }
 
 export function Breadcrumbs({
   variant,
   data,
+  activeBreadcrumbText,
 }: {
-  variant: 'dataset' | 'deposition' | 'run'
+  variant: 'dataset' | 'deposition' | 'run' | 'neuroglancer'
   data: { id: number; title: string }
+  activeBreadcrumbText?: ReactNode
 }) {
   const { t } = useI18n()
 
@@ -164,15 +174,51 @@ export function Breadcrumbs({
     )
   }
 
+  const buildNeuroglancerBreadcrumb = () => {
+    const neuroglancerChevronIcon = (
+      <SmallChevronRightIcon className="w-[8px] h-[8px] shrink-0 text-light-sds-color-primitive-gray-300 fill-light-sds-color-primitive-gray-300" />
+    )
+    return (
+      <div className="flex flex-row gap-sds-s text-dark-sds-color-primitive-gray-500 fill-[#999] font-normal text-sds-body-s-400-wide leading-sds-body-s items-center whitespace-nowrap content-start">
+        <Tooltip
+          tooltip={`Go to Dataset ${data.title}`}
+          className="truncate max-w-0 lg:max-w-[8rem] xl:max-w-[16rem] 2xl:max-w-xl"
+        >
+          <Breadcrumb
+            text={data.title}
+            link={singleDatasetLink}
+            className="overflow-ellipsis overflow-hidden flex-initial hover:text-light-sds-color-primitive-gray-50"
+            type={BreadcrumbType.SingleDataset}
+            datasetId={data.id}
+          />
+        </Tooltip>
+
+        {activeBreadcrumbText && (
+          <>
+            {neuroglancerChevronIcon}
+            <Breadcrumb
+              text={activeBreadcrumbText}
+              className="text-dark-sds-color-primitive-gray-900 shrink-0 !font-normal"
+            />
+          </>
+        )}
+      </div>
+    )
+  }
+
   const breadCrumbVariations = {
     dataset: buildDatasetBreadcrumb,
     deposition: buildDepositionBreadcrumb,
     run: buildRunBreadcrumb,
+    neuroglancer: buildNeuroglancerBreadcrumb,
   }
 
   return (
     <div
-      className="flex flex-col flex-auto gap-1"
+      className={cns(
+        'flex-col flex-auto gap-1',
+        variant === 'neuroglancer' ? 'hidden lg:flex' : 'flex',
+      )}
       data-testid={TestIds.Breadcrumbs}
     >
       {returnToDepositionLink && (

@@ -1,9 +1,11 @@
 FROM node:20.8-alpine as build
 
+RUN apk add --no-cache curl
+
 COPY . /app
 
 WORKDIR /app
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store npm -g i pnpm@8.10.5 && pnpm i --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store npm -g i pnpm@8.10.5 && pnpm i --frozen-lockfile --ignore-scripts
 
 WORKDIR /app/packages/data-portal
 RUN pnpm build
