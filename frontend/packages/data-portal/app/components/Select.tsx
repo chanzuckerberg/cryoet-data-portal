@@ -187,7 +187,6 @@ export function Select(props: SelectProps) {
         </span>
       )
     }
-    console.log('Active options:', activeOptions)
     return activeOptions[0]?.value ?? ''
   }, [showActiveValue, multiple, activeOptions])
 
