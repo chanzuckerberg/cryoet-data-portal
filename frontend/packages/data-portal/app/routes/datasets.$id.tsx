@@ -78,6 +78,7 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
       QueryParams.TiltRangeMax,
       QueryParams.QualityScore,
       QueryParams.GroundTruthAnnotation,
+      QueryParams.AnnotatedObjectsOnly,
     ],
   })
 }

@@ -37,6 +37,7 @@ export interface GetDatasetsFilterParams {
   depositionId?: number
   searchText?: string
   aggregatedDatasetIds?: number[]
+  isIdentifiedObjectsEnabled?: boolean
 }
 
 export function getDatasetsFilter({
@@ -44,6 +45,7 @@ export function getDatasetsFilter({
   depositionId,
   searchText,
   aggregatedDatasetIds,
+  isIdentifiedObjectsEnabled = false,
 }: GetDatasetsFilterParams): DatasetWhereClause {
   const where: DatasetWhereClause = {}
 
@@ -204,22 +206,66 @@ export function getDatasetsFilter({
   }
 
   // ANNOTATION METADATA SECTION
-  const { objectNames, objectId, objectShapeTypes } = filterState.annotation
+  const {
+    objectNames,
+    objectId,
+    objectShapeTypes,
+    annotatedObjectsOnly,
+    _searchIdentifiedObjectsOnly,
+  } = filterState.annotation
   // Object Name
   if (objectNames.length > 0) {
-    where.runs ??= { annotations: {} }
-    where.runs.annotations ??= {}
-    where.runs.annotations.objectName = {
-      _in: objectNames,
+    if (_searchIdentifiedObjectsOnly) {
+      // Special case: search only identifiedObjects (for front end OR logic)
+      where.runs ??= { identifiedObjects: {} }
+      where.runs.identifiedObjects ??= {}
+      where.runs.identifiedObjects.objectName = {
+        _in: objectNames,
+      }
+    } else if (annotatedObjectsOnly || !isIdentifiedObjectsEnabled) {
+      // Only search annotations when annotated-objects=Yes or feature flag is off
+      where.runs ??= { annotations: {} }
+      where.runs.annotations ??= {}
+      where.runs.annotations.objectName = {
+        _in: objectNames,
+      }
+    } else {
+      // For multiple table search
+      where.runs ??= { annotations: {} }
+      where.runs.annotations ??= {}
+      where.runs.annotations.objectName = {
+        _in: objectNames,
+      }
     }
+    // When identifiedObjects is enabled and annotatedObjectsOnly is false,
+    // we use a multiple table search in getDatasetsV2.server.ts
   }
   // Object ID
   if (objectId) {
-    where.runs ??= { annotations: {} }
-    where.runs.annotations ??= {}
-    where.runs.annotations.objectId = {
-      _eq: objectId,
+    if (_searchIdentifiedObjectsOnly) {
+      // Special case: search only identifiedObjects (for front end OR logic)
+      where.runs ??= { identifiedObjects: {} }
+      where.runs.identifiedObjects ??= {}
+      where.runs.identifiedObjects.objectId = {
+        _eq: objectId,
+      }
+    } else if (annotatedObjectsOnly || !isIdentifiedObjectsEnabled) {
+      // Only search annotations when annotated-objects=Yes or feature flag is off
+      where.runs ??= { annotations: {} }
+      where.runs.annotations ??= {}
+      where.runs.annotations.objectId = {
+        _eq: objectId,
+      }
+    } else {
+      // For multiple table search: annotations query should also filter by objectId
+      where.runs ??= { annotations: {} }
+      where.runs.annotations ??= {}
+      where.runs.annotations.objectId = {
+        _eq: objectId,
+      }
     }
+    // When identifiedObjects is enabled and annotatedObjectsOnly is false,
+    // we use a multiple table search in getDatasetsV2.server.ts
   }
   // Object Shape Type
   if (objectShapeTypes.length > 0) {
@@ -287,6 +333,7 @@ export function getDatasetsFilter({
       _eq: filterState.tomogram.reconstructionSoftware,
     }
   }
+
   return where
 }
 
@@ -506,4 +553,51 @@ export function removeTypenames(object: any): void {
       value.forEach(removeTypenames)
     }
   }
+}
+
+// Query helper functions for searching across both tables
+export function createAnnotationVsIdentifiedObjectFilters(
+  filterState: FilterState,
+) {
+  const annotationFilter = {
+    ...filterState,
+    annotation: {
+      ...filterState.annotation,
+    },
+  }
+
+  const identifiedObjectFilter = {
+    ...filterState,
+    annotation: {
+      ...filterState.annotation,
+      _searchIdentifiedObjectsOnly: true,
+    },
+  }
+
+  return { annotationFilter, identifiedObjectFilter }
+}
+
+export function createObjectNameVsObjectIdFilters(filterState: FilterState) {
+  const objectNameFilter = {
+    ...filterState,
+    annotation: {
+      ...filterState.annotation,
+      objectId: null, // Only filter by objectNames
+    },
+  }
+
+  const objectIdFilter = {
+    ...filterState,
+    annotation: {
+      ...filterState.annotation,
+      objectNames: [], // Only filter by objectId
+    },
+  }
+
+  return { objectNameFilter, objectIdFilter }
+}
+
+export function dedupeById<T extends { id: number }>(items: T[]): T[] {
+  const itemMap = new Map(items.map((item) => [item.id, item]))
+  return Array.from(itemMap.values())
 }

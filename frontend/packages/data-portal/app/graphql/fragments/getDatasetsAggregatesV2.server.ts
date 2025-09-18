@@ -10,6 +10,7 @@ import { gql } from 'app/__generated_v2__'
  * - $tomogramsByDepositionFilter: TomogramWhereClause
  * - $annotationsByDepositionFilter: AnnotationWhereClause
  * - $annotationShapesByDepositionFilter: AnnotationShapeWhereClause
+ * - $identifiedObjectsByDepositionFilter: IdentifiedObjectWhereClause
  */
 export const GET_DATASETS_AGGREGATES_FRAGMENT = gql(`
   fragment DatasetsAggregates on Query {
@@ -57,6 +58,14 @@ export const GET_DATASETS_AGGREGATES_FRAGMENT = gql(`
       }
     }
     distinctObjectNames: annotationsAggregate(where: $annotationsByDepositionFilter) {
+      aggregate {
+        count
+        groupBy {
+          objectName
+        }
+      }
+    }
+    distinctIdentifiedObjectNames: identifiedObjectsAggregate(where: $identifiedObjectsByDepositionFilter) {
       aggregate {
         count
         groupBy {

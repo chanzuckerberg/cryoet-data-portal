@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { Select, SelectOption, SelectProps } from './Select'
@@ -12,19 +12,46 @@ const TEST_OPTIONS: SelectOption[] = Array(3)
     label: `Label ${idx}`,
   }))
 
+interface TestSelectProps
+  extends Partial<Omit<SelectProps, 'activeKey' | 'activeKeys' | 'onChange'>> {
+  activeKey?: string | null
+  activeKeys?: string[]
+  onChange?:
+    | jest.Mock
+    | ((key: string | null) => void)
+    | ((keys: string[]) => void)
+}
+
 function renderSelect({
   activeKey = null,
   label = 'Test Label',
   onChange = jest.fn(),
   ...props
-}: Partial<SelectProps> = {}) {
+}: TestSelectProps = {}) {
+  const baseProps = {
+    label,
+    options: TEST_OPTIONS,
+    ...props,
+  }
+
+  // Default to single select props if no multiple specified
+  if (props.multiple) {
+    return render(
+      <Select
+        {...baseProps}
+        multiple
+        activeKeys={props.activeKeys || []}
+        onChange={onChange as (keys: string[]) => void}
+      />,
+    )
+  }
+
   return render(
     <Select
+      {...baseProps}
+      multiple={false}
       activeKey={activeKey}
-      label={label}
-      onChange={onChange}
-      options={TEST_OPTIONS}
-      {...props}
+      onChange={onChange as (key: string | null) => void}
     />,
   )
 }
@@ -103,9 +130,22 @@ describe('<Select />', () => {
   })
 
   it('should set active value on click', async () => {
-    renderSelect()
-
     const activeOption = TEST_OPTIONS[1]
+    let selectedKey: string | null = null
+
+    const onChange = jest.fn((key: string | null) => {
+      selectedKey = key
+    })
+
+    const { container, rerender } = render(
+      <Select
+        activeKey={selectedKey}
+        label="Test Label"
+        onChange={onChange}
+        options={TEST_OPTIONS}
+      />,
+    )
+
     expect(screen.queryByText(activeOption.value)).not.toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button'))
@@ -113,9 +153,32 @@ describe('<Select />', () => {
       screen.getByText(`${activeOption.label ?? activeOption.key}`),
     )
 
-    expect(
-      screen.queryByText(activeOption.label ?? activeOption.key),
-    ).not.toBeInTheDocument()
-    expect(screen.queryByText(activeOption.value)).not.toBeInTheDocument()
+    // Verify onChange was called with the correct key
+    expect(onChange).toHaveBeenCalledWith(activeOption.key)
+
+    // Re-render with the new selected state
+    rerender(
+      <Select
+        activeKey={selectedKey}
+        label="Test Label"
+        onChange={onChange}
+        options={TEST_OPTIONS}
+      />,
+    )
+
+    // Close the dropdown by clicking outside since disableCloseOnSelect is true
+    await userEvent.click(container)
+
+    // Wait for the dropdown to close and verify the option is selected
+    await waitFor(() => {
+      expect(screen.getByText(activeOption.value)).toBeVisible()
+    })
+
+    // The dropdown should be closed, so the option labels should not be visible
+    await waitFor(() => {
+      expect(
+        screen.queryByText(activeOption.label ?? activeOption.key),
+      ).not.toBeInTheDocument()
+    })
   })
 })

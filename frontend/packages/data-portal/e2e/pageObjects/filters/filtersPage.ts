@@ -15,7 +15,35 @@ export class FiltersPage extends BasePage {
 
   // #region Click
   public async clickFilterDropdown(label: string) {
-    await this.page.locator('button', { hasText: label }).click()
+    // Handle both "Object Name" and "Object Name / ID" button texts
+    if (label === translations.objectName) {
+      // Debug: Log all buttons on the page
+      const allButtons = await this.page.locator('button').all()
+      console.log('All buttons on page:')
+      for (const button of allButtons) {
+        const text = await button.innerText().catch(() => 'N/A')
+        console.log(`- "${text}"`)
+      }
+
+      // Try to find the object name button more carefully
+      const objectNameButtons = await this.page
+        .locator('button')
+        .filter({ hasText: /Object Name/ })
+        .all()
+      console.log(
+        `Found ${objectNameButtons.length} buttons with "Object Name" text`,
+      )
+
+      if (objectNameButtons.length > 0) {
+        const buttonText = await objectNameButtons[0].innerText()
+        console.log(`Clicking button with text: "${buttonText}"`)
+        await objectNameButtons[0].click()
+      } else {
+        throw new Error('No Object Name button found')
+      }
+    } else {
+      await this.page.locator('button', { hasText: label }).click()
+    }
   }
 
   public async selectFilterOption(label: string) {

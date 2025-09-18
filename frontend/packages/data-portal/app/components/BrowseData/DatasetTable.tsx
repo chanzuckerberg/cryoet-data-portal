@@ -30,6 +30,7 @@ import { useIsLoading } from 'app/hooks/useIsLoading'
 import { Dataset } from 'app/types/gql/datasetsPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 import { sendLogs } from 'app/utils/logging'
 import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { getErrorMessage } from 'app/utils/string'
@@ -46,6 +47,7 @@ const LOADING_DATASETS: Dataset[] = range(0, MAX_PER_PAGE).map(() => ({
 export function DatasetTable() {
   const { t } = useI18n()
   const { datasets } = useDatasets()
+  const isIdentifiedObjectsEnabled = useFeatureFlag('identifiedObjects')
 
   const [searchParams, setSearchParams] = useSearchParams()
   const datasetSort = (searchParams.get(QueryParams.Sort) ?? undefined) as
@@ -266,23 +268,68 @@ export function DatasetTable() {
         ),
 
         columnHelper.accessor(
-          (dataset) =>
-            dataset.distinctObjectNames?.aggregate?.reduce((acc, aggregate) => {
-              const objectName = aggregate?.groupBy?.annotations?.objectName
-              const groundTruthStatus =
-                !!aggregate?.groupBy?.annotations?.groundTruthStatus
-              return setObjectNameAndGroundTruthStatus(
-                objectName,
-                groundTruthStatus,
-                acc,
+          (dataset) => {
+            const objectsMap = new Map<string, boolean>()
+
+            // When feature flag is enabled, use separate queries backward compatibility
+            if (isIdentifiedObjectsEnabled) {
+              // Handle annotations separately
+              dataset.annotationsObjectNames?.aggregate?.forEach(
+                (aggregate) => {
+                  const annotationObjectName =
+                    aggregate?.groupBy?.annotations?.objectName
+                  const groundTruthStatus =
+                    !!aggregate?.groupBy?.annotations?.groundTruthStatus
+                  if (annotationObjectName) {
+                    setObjectNameAndGroundTruthStatus(
+                      annotationObjectName,
+                      groundTruthStatus,
+                      objectsMap,
+                    )
+                  }
+                },
               )
-            }, new Map<string, boolean>()) || new Map<string, boolean>(),
+
+              // Handle identifiedObjects separately
+              dataset.identifiedObjectNames?.aggregate?.forEach((aggregate) => {
+                const identifiedObjectName =
+                  aggregate?.groupBy?.identifiedObjects?.objectName
+                if (identifiedObjectName) {
+                  setObjectNameAndGroundTruthStatus(
+                    identifiedObjectName,
+                    false, // identifiedObjects don't have groundTruthStatus, default to false
+                    objectsMap,
+                  )
+                }
+              })
+            } else {
+              // Fall back to original query structure when feature flag is off
+              dataset.distinctObjectNames?.aggregate?.forEach((aggregate) => {
+                const annotationObjectName =
+                  aggregate?.groupBy?.annotations?.objectName
+                const groundTruthStatus =
+                  !!aggregate?.groupBy?.annotations?.groundTruthStatus
+                if (annotationObjectName) {
+                  setObjectNameAndGroundTruthStatus(
+                    annotationObjectName,
+                    groundTruthStatus,
+                    objectsMap,
+                  )
+                }
+              })
+            }
+
+            return objectsMap
+          },
           {
             id: 'annotatedObjects',
 
             header: () => (
-              <CellHeader width={DatasetTableWidths.annotatedObjects}>
-                {t('annotatedObjects')}
+              <CellHeader
+                tooltip="Objects are identified by the authors, curators or contributed annotations."
+                width={DatasetTableWidths.annotatedObjects}
+              >
+                {t('objects')}
               </CellHeader>
             ),
 
@@ -329,6 +376,7 @@ export function DatasetTable() {
     t,
     searchParams,
     setSearchParams,
+    isIdentifiedObjectsEnabled,
   ])
 
   return (

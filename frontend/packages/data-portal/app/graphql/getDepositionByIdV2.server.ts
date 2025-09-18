@@ -176,7 +176,8 @@ const GET_DEPOSITION_LEGACY_DATA = gql(`
     $tiltseriesByDepositionFilter: TiltseriesWhereClause!,
     $tomogramsByDepositionFilter: TomogramWhereClause!,
     $annotationsByDepositionFilter: AnnotationWhereClause!,
-    $annotationShapesByDepositionFilter: AnnotationShapeWhereClause!
+    $annotationShapesByDepositionFilter: AnnotationShapeWhereClause!,
+    $identifiedObjectsByDepositionFilter: IdentifiedObjectWhereClause!
   ) {
     # Datasets:
     # This section is very similar to the datasets page.
@@ -318,6 +319,11 @@ export async function getDepositionLegacyData({
       annotationsByDepositionFilter: depositionIdFilter,
       annotationShapesByDepositionFilter: {
         annotation: depositionIdFilter,
+      },
+      identifiedObjectsByDepositionFilter: {
+        run: {
+          annotations: depositionIdFilter,
+        },
       },
     },
   })

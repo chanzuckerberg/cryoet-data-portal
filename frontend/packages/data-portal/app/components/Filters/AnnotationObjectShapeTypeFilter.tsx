@@ -6,6 +6,7 @@ import { QueryParams } from 'app/constants/query'
 import { useFilter } from 'app/hooks/useFilter'
 import { useI18n } from 'app/hooks/useI18n'
 import { BaseFilterOption } from 'app/types/filter'
+import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { SelectFilter } from './SelectFilter'
 
@@ -25,6 +26,7 @@ export function AnnotatedObjectShapeTypeFilter({
   allObjectShapeTypes: Annotation_File_Shape_Type_Enum[]
 }) {
   const { t } = useI18n()
+  const hasIdentifiedObjects = useFeatureFlag('identifiedObjects')
 
   const {
     updateValue,
@@ -44,7 +46,9 @@ export function AnnotatedObjectShapeTypeFilter({
   return (
     <SelectFilter
       multiple
-      label={t('objectShapeType')}
+      label={
+        hasIdentifiedObjects ? t('annotationShapeType') : t('objectShapeTypes')
+      }
       onChange={(options) => updateValue(QueryParams.ObjectShapeType, options)}
       options={objectShapeTypeOptions}
       value={objectShapeTypeValue}

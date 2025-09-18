@@ -3,165 +3,88 @@ import { Icon } from '@czi-sds/components'
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { Tooltip } from 'app/components/Tooltip'
 import { useI18n } from 'app/hooks/useI18n'
-// import { useRunById } from 'app/hooks/useRunById'
+import { useRunById } from 'app/hooks/useRunById'
 
 export function ObjectOverview() {
-  // const { run } = useRunById()
+  const { objectNames, annotatedObjectsData, identifiedObjectsData } =
+    useRunById()
   const { t } = useI18n()
 
-  // Mock data for demonstration with custom titles and IDs
-  const mockVerifiedAnnotatedObjects = [
-    {
-      id: 'ribosome-1',
-      title: 'Ribosome (80S)',
-      data: [
-        {
-          label: t('objectName'),
-          values: ['Ribosome'],
-        },
-        {
-          label: t('objectId'),
-          values: ['GO:0005840'],
-        },
-        {
-          label: t('objectState'),
-          values: ['Verified'],
-        },
-        {
-          label: t('objectDescription'),
-          values: [
-            'A cytoplasmic ribonucleoprotein complex responsible for protein synthesis.',
-          ],
-        },
-      ],
-    },
-    {
-      id: 'proteasome-1',
-      title: 'Proteasome (26S)',
-      data: [
-        {
-          label: t('objectName'),
-          values: ['Proteasome'],
-        },
-        {
-          label: t('objectId'),
-          values: ['GO:0000502'],
-        },
-        {
-          label: t('objectState'),
-          values: ['Verified'],
-        },
-        {
-          label: t('objectDescription'),
-          values: [
-            'A large protein complex that degrades proteins tagged for destruction.',
-          ],
-        },
-      ],
-    },
-  ]
+  const identifiedObjectNames = identifiedObjectsData
+    .map((obj) => obj?.objectName)
+    .filter((name): name is string => Boolean(name))
 
-  const mockVerifiedNonAnnotatedObjects = [
-    {
-      id: 'mitochondria-1',
-      title: 'Mitochondria',
-      data: [
-        {
-          label: t('objectName'),
-          values: ['Mitochondria'],
-        },
-        {
-          label: t('objectId'),
-          values: ['GO:0005739'],
-        },
-        {
-          label: t('objectState'),
-          values: ['Verified'],
-        },
-        {
-          label: t('objectDescription'),
-          values: [
-            'A double-membrane organelle responsible for cellular respiration.',
-          ],
-        },
-      ],
+  // Helper function to create object data structure
+  const createObjectData = (
+    objectName: string,
+    index: number,
+    objectData?: {
+      objectId?: string | null
+      objectState?: string | null
+      objectDescription?: string | null
     },
-    {
-      id: 'er-1',
-      title: 'Endoplasmic Reticulum',
-      data: [
-        {
-          label: t('objectName'),
-          values: ['Endoplasmic Reticulum'],
-        },
-        {
-          label: t('objectId'),
-          values: ['GO:0005783'],
-        },
-        {
-          label: t('objectState'),
-          values: ['Verified'],
-        },
-        {
-          label: t('objectDescription'),
-          values: [
-            'A continuous membrane system that forms a network of tubules and flattened sacs.',
-          ],
-        },
-      ],
-    },
-  ]
+  ) => ({
+    id: objectName.toLowerCase().replace(/\s+/g, '-'),
+    title: `Object ${index}`,
+    data: [
+      {
+        label: t('objectName'),
+        values: [objectName],
+      },
+      {
+        label: t('objectId'),
+        values: [objectData?.objectId ?? '--'],
+      },
+      {
+        label: t('objectState'),
+        values: [objectData?.objectState ?? '--'],
+      },
+      {
+        label: t('objectDescription'),
+        values: [objectData?.objectDescription ?? '--'],
+      },
+    ],
+  })
+  // Verified Objects Annotated = Objects present in BOTH identifiedObjects and annotatedObjects
+  const verifiedAnnotatedObjects = objectNames
+    .filter(
+      (name): name is string =>
+        Boolean(name) && identifiedObjectNames.includes(name),
+    )
+    .map((name, index) => {
+      const annotatedData = annotatedObjectsData.find(
+        (obj) => obj?.objectName === name,
+      )
+      const identifiedData = identifiedObjectsData.find(
+        (obj) => obj?.objectName === name,
+      )
+      return createObjectData(name, index + 1, identifiedData || annotatedData)
+    })
 
-  const mockUnverifiedAnnotatedObjects = [
-    {
-      id: 'unknown-particle-a',
-      title: 'Unknown Particle A',
-      data: [
-        {
-          label: t('objectName'),
-          values: ['Unknown Particle A'],
-        },
-        {
-          label: t('objectId'),
-          values: ['UNK:001'],
-        },
-        {
-          label: t('objectState'),
-          values: ['Unverified'],
-        },
-        {
-          label: t('objectDescription'),
-          values: [
-            'An unidentified particle structure requiring further validation.',
-          ],
-        },
-      ],
-    },
-    {
-      id: 'unknown-particle-b',
-      title: 'Unknown Particle B',
-      data: [
-        {
-          label: t('objectName'),
-          values: ['Unknown Particle B'],
-        },
-        {
-          label: t('objectId'),
-          values: ['UNK:002'],
-        },
-        {
-          label: t('objectState'),
-          values: ['Unverified'],
-        },
-        {
-          label: t('objectDescription'),
-          values: [
-            'A spherical structure of unknown composition and function.',
-          ],
-        },
-      ],
-    },
-  ]
+  // Verified Objects Unannotated = Objects only in identifiedObjects (not in annotatedObjects)
+  const verifiedNonAnnotatedObjects = identifiedObjectNames
+    .filter(
+      (name): name is string => Boolean(name) && !objectNames.includes(name),
+    )
+    .map((name, index) => {
+      const identifiedData = identifiedObjectsData.find(
+        (obj) => obj?.objectName === name,
+      )
+      return createObjectData(name, index + 1, identifiedData)
+    })
+
+  // Unverified Objects Annotated = Objects only in annotatedObjects (not in identifiedObjects)
+  const unverifiedAnnotatedObjects = objectNames
+    .filter(
+      (name): name is string =>
+        Boolean(name) && !identifiedObjectNames.includes(name),
+    )
+    .map((name, index) => {
+      const annotatedData = annotatedObjectsData.find(
+        (obj) => obj?.objectName === name,
+      )
+      return createObjectData(name, index + 1, annotatedData)
+    })
 
   const createAccordionHeader = (title: string, tooltipText: string) => (
     <div className="flex items-center gap-sds-xxs">
@@ -183,38 +106,44 @@ export function ObjectOverview() {
 
   return (
     <div className="divide-y divide-light-sds-color-primitive-gray-300">
-      <AccordionMetadataTable
-        id="verified-objects-annotated"
-        header={createAccordionHeader(
-          t('verifiedObjectsAnnotated'),
-          t('verifiedObjectsAnnotatedTooltip'),
-        )}
-        data={mockVerifiedAnnotatedObjects}
-        initialOpen={false}
-        multipleTables
-      />
+      {verifiedAnnotatedObjects.length > 0 && (
+        <AccordionMetadataTable
+          id="verified-objects-annotated"
+          header={createAccordionHeader(
+            t('verifiedObjectsAnnotated'),
+            t('verifiedObjectsAnnotatedTooltip'),
+          )}
+          data={verifiedAnnotatedObjects}
+          initialOpen={false}
+          multipleTables
+        />
+      )}
 
-      <AccordionMetadataTable
-        id="verified-objects-non-annotated"
-        header={createAccordionHeader(
-          t('verifiedObjectsNonAnnotated'),
-          t('verifiedObjectsNonAnnotatedTooltip'),
-        )}
-        data={mockVerifiedNonAnnotatedObjects}
-        initialOpen={false}
-        multipleTables
-      />
+      {verifiedNonAnnotatedObjects.length > 0 && (
+        <AccordionMetadataTable
+          id="verified-objects-non-annotated"
+          header={createAccordionHeader(
+            t('verifiedObjectsNonAnnotated'),
+            t('verifiedObjectsNonAnnotatedTooltip'),
+          )}
+          data={verifiedNonAnnotatedObjects}
+          initialOpen={false}
+          multipleTables
+        />
+      )}
 
-      <AccordionMetadataTable
-        id="unverified-objects-annotated"
-        header={createAccordionHeader(
-          t('unverifiedObjectsAnnotated'),
-          t('unverifiedObjectsAnnotatedTooltip'),
-        )}
-        data={mockUnverifiedAnnotatedObjects}
-        initialOpen={false}
-        multipleTables
-      />
+      {unverifiedAnnotatedObjects.length > 0 && (
+        <AccordionMetadataTable
+          id="unverified-objects-annotated"
+          header={createAccordionHeader(
+            t('unverifiedObjectsAnnotated'),
+            t('unverifiedObjectsAnnotatedTooltip'),
+          )}
+          data={unverifiedAnnotatedObjects}
+          initialOpen={false}
+          multipleTables
+        />
+      )}
     </div>
   )
 }

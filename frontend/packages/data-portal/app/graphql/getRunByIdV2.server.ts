@@ -404,6 +404,21 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
         count
         groupBy {
           objectName
+          objectId
+          objectDescription
+          objectState
+        }
+      }
+    }
+
+    identifiedObjectNames: identifiedObjectsAggregate(where: { runId: { _eq: $id }}) {
+      aggregate {
+        count
+        groupBy {
+          objectName
+          objectState
+          objectId
+          objectDescription
         }
       }
     }
@@ -580,7 +595,7 @@ function getAnnotationShapesFilter(
   if (objectId) {
     where.annotation ??= {}
     where.annotation.objectId = {
-      _ilike: `%${objectId.replace(':', '_')}`, // _ is wildcard
+      _ilike: `%${objectId.replace(':', '_')}%`, // _ is wildcard
     }
   }
   if (methodTypes.length > 0) {
