@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.76.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.75.4...cryoet-data-portal-frontend-v1.76.0) (2025-09-18)
+
+
+### ✨ Features
+
+* add viewer page which uses neuroglancer as a library ([#1870](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1870)) ([9384cd8](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9384cd8da7c35cfdd3bed82591bd764b84ff50b0))
+* Global Image Labels ([#1958](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1958)) ([e06c8e1](https://github.com/chanzuckerberg/cryoet-data-portal/commit/e06c8e18153948e6f2864f66888493e7dc2d2f17))
+
+
+### 🧹 Miscellaneous Chores
+
+* temporarily downgrade dependencies to fix E2E tests ([#1969](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1969)) ([c68ab13](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c68ab1305c7198660e3afcf1360742c1da572648))
+
 ## [1.75.4](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.75.3...cryoet-data-portal-frontend-v1.75.4) (2025-09-02)
 
 
