@@ -9,6 +9,7 @@
     "lint:fix": "prettier -w ."
   },
   "engines": {
-    "pnpm": "8.10.5"
+    "node": ">=22.19.0",
+    "pnpm": "10.17.0"
   }
 }
