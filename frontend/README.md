@@ -31,7 +31,7 @@ nvm install
 nvm use
 
 # install pnpm globally
-npm -g install pnpm@8.10.5
+npm -g install pnpm@10.17.0
 
 # install project dependencies
 pnpm install

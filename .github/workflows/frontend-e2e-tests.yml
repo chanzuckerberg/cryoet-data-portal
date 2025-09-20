@@ -26,12 +26,12 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20.8.x
+          node-version: 22.x
 
       - name: Install PNPM
         uses: pnpm/action-setup@v4
         with:
-          version: 8.10.5
+          version: 10.17.0
           run_install: false
 
       - name: Get pnpm store directory
@@ -101,12 +101,12 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20.8.x
+          node-version: 22.x
 
       - name: Install PNPM
         uses: pnpm/action-setup@v4
         with:
-          version: 8.10.5
+          version: 10.17.0
           run_install: false
 
       - name: Get pnpm store directory
@@ -193,11 +193,11 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.12.0
+          node-version: 22.x
       - name: Install PNPM
         uses: pnpm/action-setup@v4
         with:
-          version: 8.10.5
+          version: 10.17.0
           run_install: false
       - name: Get pnpm store directory
         shell: bash
