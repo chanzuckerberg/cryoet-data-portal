@@ -378,6 +378,11 @@ export function replaceOnlyTomogram(
   if (tomogramLayerIndex === -1) {
     newLayers.unshift(newTomogramLayer)
   } else {
+    const currentTomogram = newLayers[tomogramLayerIndex]
+    const openedTab = currentTomogram.tab
+    if (openedTab) {
+      newTomogramLayer.tab = openedTab
+    }
     newLayers[tomogramLayerIndex] = newTomogramLayer
   }
 
