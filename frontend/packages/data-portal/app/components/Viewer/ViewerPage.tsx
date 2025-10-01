@@ -75,6 +75,7 @@ import styles from './ViewerPage.module.css'
 
 type Run = GetRunByIdV2Query['runs'][number]
 type Tomograms = GetRunByIdV2Query['tomograms']
+type Tomogram = Tomograms[number]
 type Annotations = Run['annotations']
 type Annotation = Annotations['edges'][number]['node']
 interface AnnotationUIConfig {
@@ -82,9 +83,15 @@ interface AnnotationUIConfig {
   annotation: Annotation
 }
 
-function toZarr(httpsMrcFile: string | undefined | null) {
+const toZarr = (httpsMrcFile: string | undefined | null) => {
   if (!httpsMrcFile) return httpsMrcFile
   return `zarr://${httpsMrcFile.replace('.mrc', '.zarr')}`
+}
+
+const selectedTomogram = (tomogram: Tomogram) => {
+  return tomogram.neuroglancerConfig
+    ? isTomogramActivatedFromConfig(tomogram.neuroglancerConfig)
+    : isTomogramActivated(toZarr(tomogram.httpsMrcFile))
 }
 
 const buildDepositionsConfig = (
@@ -376,27 +383,14 @@ export function ViewerPage({
                   return (
                     <NeuroglancerDropdownOption
                       key={tomogram.id.toString()}
-                      selected={
-                        tomogram.neuroglancerConfig
-                          ? isTomogramActivatedFromConfig(
-                              tomogram.neuroglancerConfig,
-                            )
-                          : isTomogramActivated(toZarr(tomogram.httpsMrcFile))
-                      }
+                      selected={selectedTomogram(tomogram)}
                       disabled={
                         (!tomogram.s3OmezarrDir ||
                           voxelSpacing.current !== tomogram.voxelSpacing) &&
                         !tomogram.neuroglancerConfig
                       }
                       onSelect={() => {
-                        const isCurrentlyActive = tomogram.neuroglancerConfig
-                          ? isTomogramActivatedFromConfig(
-                              tomogram.neuroglancerConfig,
-                            )
-                          : isTomogramActivated(toZarr(tomogram.httpsMrcFile))
-                        if (isCurrentlyActive) {
-                          return
-                        }
+                        if (selectedTomogram(tomogram)) return
                         voxelSpacing.current = tomogram.voxelSpacing
                         updateState((state) => {
                           return {
