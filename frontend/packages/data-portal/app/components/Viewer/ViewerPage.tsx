@@ -3,6 +3,7 @@ import { SnackbarCloseReason } from '@mui/material/Snackbar'
 import {
   currentNeuroglancerState,
   NeuroglancerAwareIframe,
+  NeuroglancerState,
   NeuroglancerWrapper,
   updateState,
 } from 'neuroglancer'
@@ -19,6 +20,7 @@ import { useEffectOnce } from 'app/hooks/useEffectOnce'
 import { useI18n } from 'app/hooks/useI18n'
 import { useTour } from 'app/hooks/useTour'
 import { cns } from 'app/utils/cns'
+import { getTomogramName } from 'app/utils/tomograms'
 
 import { ReusableSnackbar } from '../common/ReusableSnackbar/ReusableSnackbar'
 import {
@@ -43,8 +45,10 @@ import {
   isCurrentLayout,
   isDepositionActivated,
   isDimensionPanelVisible,
+  isTomogramActivated,
   isTopBarVisible,
   panelsDefaultValues,
+  replaceOnlyTomogram,
   resolveStateBool,
   setCurrentLayout,
   setTopBarVisibleFromSuperState,
@@ -68,6 +72,7 @@ import { Tour } from './Tour'
 import styles from './ViewerPage.module.css'
 
 type Run = GetRunByIdV2Query['runs'][number]
+type Tomograms = GetRunByIdV2Query['tomograms']
 type Annotations = Run['annotations']
 type Annotation = Annotations['edges'][number]['node']
 interface AnnotationUIConfig {
@@ -118,9 +123,11 @@ const isSmallScreen = () => {
 
 export function ViewerPage({
   run,
+  tomograms,
   shouldStartTour = false,
 }: {
   run: Run
+  tomograms: Tomograms
   shouldStartTour?: boolean
 }) {
   const { t } = useI18n()
@@ -147,6 +154,7 @@ export function ViewerPage({
 
   const depositionConfigs = buildDepositionsConfig(run.annotations)
   const shouldShowAnnotationDropdown = Object.keys(depositionConfigs).length > 0
+  const shouldShowTomogramDropdown = tomograms.length > 1
 
   const scheduleRefresh = () => {
     setRenderVersion(renderVersion + 1)
@@ -347,6 +355,54 @@ export function ViewerPage({
         <div className="basis-sds-xxl flex-grow md:mr-sds-xxl" />
         <div className="flex basis-auto flex-shrink-0">
           <div className="flex items-center pt-1 gap-[1px] sm:gap-1 sm:pt-0">
+            {shouldShowTomogramDropdown && (
+              <NeuroglancerDropdown title="Tomograms" variant="outlined">
+                {tomograms.map((tomogram) => {
+                  return (
+                    <NeuroglancerDropdownOption
+                      key={tomogram.id.toString()}
+                      selected={isTomogramActivated(
+                        tomogram.neuroglancerConfig,
+                      )}
+                      disabled={!tomogram.neuroglancerConfig}
+                      onSelect={() => {
+                        const isCurrentlyActive = isTomogramActivated(
+                          tomogram.neuroglancerConfig,
+                        )
+                        if (isCurrentlyActive) {
+                          return
+                        }
+                        updateState((state) => {
+                          return {
+                            ...state,
+                            neuroglancer: replaceOnlyTomogram(
+                              state.neuroglancer,
+                              JSON.parse(
+                                tomogram.neuroglancerConfig!,
+                              ) as NeuroglancerState,
+                            ),
+                          }
+                        })
+                      }}
+                    >
+                      <span className="line-clamp-3">
+                        {getTomogramName(tomogram)}
+                      </span>
+                      <span className="text-sds-body-xxxs-400-narrow text-light-sds-color-primitive-gray-600">
+                        {[
+                          `${IdPrefix.Tomogram}-${tomogram.id}`,
+                          `${t('unitAngstrom', { value: tomogram.voxelSpacing })} (${tomogram.sizeX}, ${tomogram.sizeY}, ${tomogram.sizeZ}) px`,
+                          tomogram.alignment?.id != null &&
+                            `${IdPrefix.Alignment}-${tomogram.alignment.id}`,
+                        ]
+                          .filter(Boolean)
+                          .join(' · ')}
+                      </span>
+                    </NeuroglancerDropdownOption>
+                  )
+                })}
+              </NeuroglancerDropdown>
+            )}
             {shouldShowAnnotationDropdown && (
               <NeuroglancerDropdown title="Annotations" variant="outlined">
                 <MenuDropdownSection title="Show annotations for deposition">
