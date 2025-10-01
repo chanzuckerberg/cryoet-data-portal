@@ -46,9 +46,11 @@ import {
   isDepositionActivated,
   isDimensionPanelVisible,
   isTomogramActivated,
+  isTomogramActivatedFromConfig,
   isTopBarVisible,
   panelsDefaultValues,
   replaceOnlyTomogram,
+  replaceOnlyTomogramSource,
   resolveStateBool,
   setCurrentLayout,
   setTopBarVisibleFromSuperState,
@@ -78,6 +80,11 @@ type Annotation = Annotations['edges'][number]['node']
 interface AnnotationUIConfig {
   name?: string
   annotation: Annotation
+}
+
+function toZarr(httpsMrcFile: string | undefined | null) {
+  if (!httpsMrcFile) return httpsMrcFile
+  return `zarr://${httpsMrcFile.replace('.mrc', '.zarr')}`
 }
 
 const buildDepositionsConfig = (
@@ -148,6 +155,7 @@ export function ViewerPage({
   const iframeRef = useRef<NeuroglancerAwareIframe>(null)
   const hashReady = useRef<boolean>(false)
   const helpMenuRef = useRef<MenuDropdownRef>(null)
+  const voxelSpacing = useRef<number>(0)
 
   const shareSnackbar = useAutoHideSnackbar()
   const snapSnackbar = useAutoHideSnackbar()
@@ -209,6 +217,13 @@ export function ViewerPage({
       scheduleRefresh()
     }
     hashReady.current = true
+
+    const currentlyActiveTomogram = tomograms.find(
+      (tomogram) =>
+        isTomogramActivatedFromConfig(tomogram.neuroglancerConfig) ||
+        isTomogramActivated(toZarr(tomogram.httpsMrcFile)),
+    )
+    voxelSpacing.current = currentlyActiveTomogram?.voxelSpacing || 0
 
     window.addEventListener('keydown', keyDownHandler)
     setTourRunning(shouldStartTour)
@@ -361,26 +376,42 @@ export function ViewerPage({
                   return (
                     <NeuroglancerDropdownOption
                       key={tomogram.id.toString()}
-                      selected={isTomogramActivated(
-                        tomogram.neuroglancerConfig,
-                      )}
-                      disabled={!tomogram.neuroglancerConfig}
+                      selected={
+                        tomogram.neuroglancerConfig
+                          ? isTomogramActivatedFromConfig(
+                              tomogram.neuroglancerConfig,
+                            )
+                          : isTomogramActivated(toZarr(tomogram.httpsMrcFile))
+                      }
+                      disabled={
+                        (!tomogram.s3OmezarrDir ||
+                          voxelSpacing.current !== tomogram.voxelSpacing) &&
+                        !tomogram.neuroglancerConfig
+                      }
                       onSelect={() => {
-                        const isCurrentlyActive = isTomogramActivated(
-                          tomogram.neuroglancerConfig,
-                        )
+                        const isCurrentlyActive = tomogram.neuroglancerConfig
+                          ? isTomogramActivatedFromConfig(
+                              tomogram.neuroglancerConfig,
+                            )
+                          : isTomogramActivated(toZarr(tomogram.httpsMrcFile))
                         if (isCurrentlyActive) {
                           return
                         }
+                        voxelSpacing.current = tomogram.voxelSpacing
                         updateState((state) => {
                           return {
                             ...state,
-                            neuroglancer: replaceOnlyTomogram(
-                              state.neuroglancer,
-                              JSON.parse(
-                                tomogram.neuroglancerConfig!,
-                              ) as NeuroglancerState,
-                            ),
+                            neuroglancer: tomogram.neuroglancerConfig
+                              ? replaceOnlyTomogram(
+                                  state.neuroglancer,
+                                  JSON.parse(
+                                    tomogram.neuroglancerConfig,
+                                  ) as NeuroglancerState,
+                                )
+                              : replaceOnlyTomogramSource(
+                                  state.neuroglancer,
+                                  toZarr(tomogram.httpsMrcFile)!,
+                                ),
                           }
                         })
                       }}

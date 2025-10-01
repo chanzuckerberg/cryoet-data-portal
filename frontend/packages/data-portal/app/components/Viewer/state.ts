@@ -304,7 +304,9 @@ export function toggleOrMakeDimensionPanel() {
   else updateState(toggleDimensionPanelVisible)
 }
 
-export function isTomogramActivated(tomogramConfig: string | undefined | null) {
+export function isTomogramActivatedFromConfig(
+  tomogramConfig: string | undefined | null,
+) {
   if (!tomogramConfig) return false
   const layers = currentNeuroglancerState().layers || []
   const jsonConfig = JSON.parse(tomogramConfig) as NeuroglancerState
@@ -312,7 +314,17 @@ export function isTomogramActivated(tomogramConfig: string | undefined | null) {
   const tomogramLayer = newLayers.find((l) => l.type === 'image')
   if (!tomogramLayer) return false
   return layers.some(
-    (l) => l.source === getLayerSourceUrl(tomogramLayer) && l.type === 'image',
+    (l) =>
+      l.type === 'image' &&
+      getLayerSourceUrl(l) === getLayerSourceUrl(tomogramLayer),
+  )
+}
+
+export function isTomogramActivated(tomogramPath: string | undefined | null) {
+  if (!tomogramPath) return false
+  const layers = currentNeuroglancerState().layers || []
+  return layers.some(
+    (l) => l.type === 'image' && getLayerSourceUrl(l) === tomogramPath,
   )
 }
 
@@ -327,6 +339,23 @@ function inferVoxelSpacingFromState(state: NeuroglancerState) {
     dimensionValues.reduce((a: number, b: DimensionValue) => a + b[0], 0) /
     dimensionValues.length
   return averageUnit
+}
+
+export function replaceOnlyTomogramSource(
+  incomingState: NeuroglancerState,
+  newPath: string,
+) {
+  const newState = incomingState
+  const tomogramLayer = newState.layers?.find((l) => l.type === 'image')
+  if (tomogramLayer) {
+    // Replace either the source directly or the url inside the source object
+    if (typeof tomogramLayer.source === 'string') {
+      tomogramLayer.source = newPath
+    } else {
+      tomogramLayer.source.url = newPath
+    }
+  }
+  return newState
 }
 
 export function replaceOnlyTomogram(
