@@ -65,16 +65,24 @@ class Alignment(Model):
         "id",
         "alignment_id",
     )
-    per_section_alignments: List[PerSectionAlignmentParameters] = ListRelationship(
-        "PerSectionAlignmentParameters",
-        "id",
-        "alignment_id",
+    per_section_alignments: List[PerSectionAlignmentParameters] = (
+        ListRelationship(
+            "PerSectionAlignmentParameters",
+            "id",
+            "alignment_id",
+        )
     )
-    deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
+    deposition: Deposition = ItemRelationship(
+        "Deposition", "deposition_id", "id"
+    )
     deposition_id: int = IntField()
-    tiltseries: TiltSeries = ItemRelationship("TiltSeries", "tiltseries_id", "id")
+    tiltseries: TiltSeries = ItemRelationship(
+        "TiltSeries", "tiltseries_id", "id"
+    )
     tiltseries_id: int = IntField()
-    tomograms: List[Tomogram] = ListRelationship("Tomogram", "id", "alignment_id")
+    tomograms: List[Tomogram] = ListRelationship(
+        "Tomogram", "id", "alignment_id"
+    )
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
     alignment_type: str = StringField()
@@ -180,7 +188,9 @@ class Annotation(Model):
         "id",
         "annotation_id",
     )
-    deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
+    deposition: Deposition = ItemRelationship(
+        "Deposition", "deposition_id", "id"
+    )
     deposition_id: int = IntField()
     s3_metadata_path: str = StringField()
     https_metadata_path: str = StringField()
@@ -295,7 +305,9 @@ class AnnotationAuthor(Model):
     _gql_root_field: str = "annotationAuthors"
 
     id: int = IntField()
-    annotation: Annotation = ItemRelationship("Annotation", "annotation_id", "id")
+    annotation: Annotation = ItemRelationship(
+        "Annotation", "annotation_id", "id"
+    )
     annotation_id: int = IntField()
     author_list_order: int = IntField()
     orcid: str = StringField()
@@ -442,7 +454,9 @@ class AnnotationMethodLink(Model):
     _gql_root_field: str = "annotationMethodLinks"
 
     id: int = IntField()
-    annotation: Annotation = ItemRelationship("Annotation", "annotation_id", "id")
+    annotation: Annotation = ItemRelationship(
+        "Annotation", "annotation_id", "id"
+    )
     annotation_id: int = IntField()
     link_type: str = StringField()
     name: str = StringField()
@@ -490,14 +504,16 @@ class AnnotationShape(Model):
         annotation (Annotation): The annotation this annotation shape is a part of
         annotation_id (int): None
         annotation_files (List[AnnotationFile]): The annotation files of this annotation shape
-        shape_type (str): The shape of the annotation (SegmentationMask, OrientedPoint, Point, InstanceSegmentation, Mesh)
+        shape_type (str): The shape of the annotation (SegmentationMask, OrientedPoint, Point, InstanceSegmentation, InstanceSegmentationMask, Mesh)
     """
 
     _gql_type: str = "AnnotationShape"
     _gql_root_field: str = "annotationShapes"
 
     id: int = IntField()
-    annotation: Annotation = ItemRelationship("Annotation", "annotation_id", "id")
+    annotation: Annotation = ItemRelationship(
+        "Annotation", "annotation_id", "id"
+    )
     annotation_id: int = IntField()
     annotation_files: List[AnnotationFile] = ListRelationship(
         "AnnotationFile",
@@ -588,14 +604,18 @@ class Dataset(Model):
     _gql_root_field: str = "datasets"
 
     id: int = IntField()
-    deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
+    deposition: Deposition = ItemRelationship(
+        "Deposition", "deposition_id", "id"
+    )
     deposition_id: int = IntField()
     funding_sources: List[DatasetFunding] = ListRelationship(
         "DatasetFunding",
         "id",
         "dataset_id",
     )
-    authors: List[DatasetAuthor] = ListRelationship("DatasetAuthor", "id", "dataset_id")
+    authors: List[DatasetAuthor] = ListRelationship(
+        "DatasetAuthor", "id", "dataset_id"
+    )
     runs: List[Run] = ListRelationship("Run", "id", "dataset_id")
     title: str = StringField()
     description: str = StringField()
@@ -668,7 +688,9 @@ class Dataset(Model):
         Args:
             dest_path (Optional[str], optional): Choose a destination directory. Defaults to $CWD.
         """
-        recursive_prefix = "/".join(self.s3_prefix.strip("/").split("/")[:-1]) + "/"
+        recursive_prefix = (
+            "/".join(self.s3_prefix.strip("/").split("/")[:-1]) + "/"
+        )
         download_directory(self.s3_prefix, recursive_prefix, dest_path)
 
 
@@ -834,16 +856,24 @@ class Deposition(Model):
         "id",
         "deposition_id",
     )
-    alignments: List[Alignment] = ListRelationship("Alignment", "id", "deposition_id")
+    alignments: List[Alignment] = ListRelationship(
+        "Alignment", "id", "deposition_id"
+    )
     annotations: List[Annotation] = ListRelationship(
         "Annotation",
         "id",
         "deposition_id",
     )
-    datasets: List[Dataset] = ListRelationship("Dataset", "id", "deposition_id")
+    datasets: List[Dataset] = ListRelationship(
+        "Dataset", "id", "deposition_id"
+    )
     frames: List[Frame] = ListRelationship("Frame", "id", "deposition_id")
-    tiltseries: List[TiltSeries] = ListRelationship("TiltSeries", "id", "deposition_id")
-    tomograms: List[Tomogram] = ListRelationship("Tomogram", "id", "deposition_id")
+    tiltseries: List[TiltSeries] = ListRelationship(
+        "TiltSeries", "id", "deposition_id"
+    )
+    tomograms: List[Tomogram] = ListRelationship(
+        "Tomogram", "id", "deposition_id"
+    )
     title: str = StringField()
     description: str = StringField()
     tag: str = StringField()
@@ -916,7 +946,9 @@ class DepositionAuthor(Model):
     _gql_root_field: str = "depositionAuthors"
 
     id: int = IntField()
-    deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
+    deposition: Deposition = ItemRelationship(
+        "Deposition", "deposition_id", "id"
+    )
     deposition_id: int = IntField()
     author_list_order: int = IntField()
     orcid: str = StringField()
@@ -976,7 +1008,9 @@ class DepositionType(Model):
     _gql_root_field: str = "depositionTypes"
 
     id: int = IntField()
-    deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
+    deposition: Deposition = ItemRelationship(
+        "Deposition", "deposition_id", "id"
+    )
     deposition_id: int = IntField()
     type: str = StringField()
 
@@ -1036,7 +1070,9 @@ class Frame(Model):
     _gql_root_field: str = "frames"
 
     id: int = IntField()
-    deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
+    deposition: Deposition = ItemRelationship(
+        "Deposition", "deposition_id", "id"
+    )
     deposition_id: int = IntField()
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
@@ -1236,7 +1272,9 @@ class PerSectionAlignmentParameters(Model):
 
             >>> per_section_alignment_parameters = PerSectionAlignmentParameters.find(client)
         """
-        return super(PerSectionAlignmentParameters, cls).find(client, query_filters)
+        return super(PerSectionAlignmentParameters, cls).find(
+            client, query_filters
+        )
 
     find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
 
@@ -1290,7 +1328,9 @@ class PerSectionParameters(Model):
     raw_angle: float = FloatField()
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
-    tiltseries: TiltSeries = ItemRelationship("TiltSeries", "tiltseries_id", "id")
+    tiltseries: TiltSeries = ItemRelationship(
+        "TiltSeries", "tiltseries_id", "id"
+    )
     tiltseries_id: int = IntField()
     z_index: int = IntField()
 
@@ -1354,7 +1394,9 @@ class Run(Model):
 
     id: int = IntField()
     alignments: List[Alignment] = ListRelationship("Alignment", "id", "run_id")
-    annotations: List[Annotation] = ListRelationship("Annotation", "id", "run_id")
+    annotations: List[Annotation] = ListRelationship(
+        "Annotation", "id", "run_id"
+    )
     dataset: Dataset = ItemRelationship("Dataset", "dataset_id", "id")
     dataset_id: int = IntField()
     frames: List[Frame] = ListRelationship("Frame", "id", "run_id")
@@ -1369,7 +1411,9 @@ class Run(Model):
         "id",
         "run_id",
     )
-    tiltseries: List[TiltSeries] = ListRelationship("TiltSeries", "id", "run_id")
+    tiltseries: List[TiltSeries] = ListRelationship(
+        "TiltSeries", "id", "run_id"
+    )
     tomogram_voxel_spacings: List[TomogramVoxelSpacing] = ListRelationship(
         "TomogramVoxelSpacing",
         "id",
@@ -1484,10 +1528,14 @@ class TiltSeries(Model):
     _gql_root_field: str = "tiltseries"
 
     id: int = IntField()
-    alignments: List[Alignment] = ListRelationship("Alignment", "id", "tiltseries_id")
+    alignments: List[Alignment] = ListRelationship(
+        "Alignment", "id", "tiltseries_id"
+    )
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
-    deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
+    deposition: Deposition = ItemRelationship(
+        "Deposition", "deposition_id", "id"
+    )
     deposition_id: int = IntField()
     s3_omezarr_dir: str = StringField()
     file_size_omezarr: float = FloatField()
@@ -1663,7 +1711,9 @@ class Tomogram(Model):
         "id",
         "tomogram_id",
     )
-    deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
+    deposition: Deposition = ItemRelationship(
+        "Deposition", "deposition_id", "id"
+    )
     deposition_id: int = IntField()
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
@@ -1774,7 +1824,8 @@ class Tomogram(Model):
             format (Optional[str], optional): Choose a specific file format to download (e.g.: mrc, ndjson)
         """
         filters = [
-            AnnotationFile.tomogram_voxel_spacing_id == self.tomogram_voxel_spacing_id,
+            AnnotationFile.tomogram_voxel_spacing_id
+            == self.tomogram_voxel_spacing_id,
             AnnotationFile.alignment_id == self.alignment_id,
         ]
         if shape:

@@ -20,7 +20,7 @@ function getObjectShapeTypeOptions(
   }))
 }
 
-export function AnnotatedObjectShapeTypeFilter({
+export function ennotatedObjectShapeTypeFilter({
   allObjectShapeTypes,
 }: {
   allObjectShapeTypes: Annotation_File_Shape_Type_Enum[]

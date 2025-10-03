@@ -276,6 +276,8 @@
   "info": "Info",
   "instanceSegmentation": "Instance Segmentation",
   "instanceSegmentations": "Instance Segmentations",
+  "instanceSegmentationMask": "Instance Segmentation Mask",
+  "instanceSegmentationMasks": "Instance Segmentation Masks",
   "itemsRange": "{{startIndex}}-{{endIndex}} of {{total}} {{itemLabel}}",
   "keyPhoto": "key photo",
   "keyPhotoCaptionDataset": "Central slab from a representative tomogram of a {{organismName}} sample.",
