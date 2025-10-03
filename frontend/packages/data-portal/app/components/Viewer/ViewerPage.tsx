@@ -163,6 +163,7 @@ export function ViewerPage({
   const hashReady = useRef<boolean>(false)
   const helpMenuRef = useRef<MenuDropdownRef>(null)
   const voxelSpacing = useRef<number>(0)
+  const alignmentId = useRef<number>(0)
 
   const shareSnackbar = useAutoHideSnackbar()
   const snapSnackbar = useAutoHideSnackbar()
@@ -231,6 +232,7 @@ export function ViewerPage({
         isTomogramActivated(toZarr(tomogram.httpsMrcFile)),
     )
     voxelSpacing.current = currentlyActiveTomogram?.voxelSpacing || 0
+    alignmentId.current = currentlyActiveTomogram?.alignment?.id || 0
 
     window.addEventListener('keydown', keyDownHandler)
     setTourRunning(shouldStartTour)
@@ -244,6 +246,15 @@ export function ViewerPage({
       setupTourPanelState()
     }
   }, [tourRunning])
+
+  const unsupportedTomogramSwitch = (tomogram: Tomogram) => {
+    const hasFullState = !!tomogram.neuroglancerConfig
+    const hasSourceInSameSpace =
+      !!tomogram.s3OmezarrDir &&
+      voxelSpacing.current === tomogram.voxelSpacing &&
+      alignmentId.current === (tomogram.alignment?.id || 0)
+    return !(hasFullState || hasSourceInSameSpace)
+  }
 
   const handleOnStateChange = (state: ViewerPageSuperState) => {
     scheduleRefresh()
@@ -384,14 +395,11 @@ export function ViewerPage({
                     <NeuroglancerDropdownOption
                       key={tomogram.id.toString()}
                       selected={selectedTomogram(tomogram)}
-                      disabled={
-                        (!tomogram.s3OmezarrDir ||
-                          voxelSpacing.current !== tomogram.voxelSpacing) &&
-                        !tomogram.neuroglancerConfig
-                      }
+                      disabled={unsupportedTomogramSwitch(tomogram)}
                       onSelect={() => {
                         if (selectedTomogram(tomogram)) return
                         voxelSpacing.current = tomogram.voxelSpacing
+                        alignmentId.current = tomogram.alignment?.id || 0
                         updateState((state) => {
                           return {
                             ...state,
