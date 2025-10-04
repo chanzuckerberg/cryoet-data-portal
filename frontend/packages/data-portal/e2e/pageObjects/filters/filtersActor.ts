@@ -1,3 +1,4 @@
+import { translations } from 'e2e/constants'
 import { waitForTableReload } from 'e2e/utils'
 
 import { FiltersPage } from './filtersPage'
@@ -42,6 +43,24 @@ export class FiltersActor {
     // Click again to close
     await this.filtersPage.clickFilterDropdown(label)
     await waitForTableReload(this.filtersPage.page)
+  }
+
+  public async addObjectNameFilter({
+    objectNames,
+  }: {
+    objectNames: string | string[]
+  }) {
+    const names = Array.isArray(objectNames) ? objectNames : [objectNames]
+
+    await this.filtersPage.clickFilterDropdown(translations.objectNameOrId)
+    await this.filtersPage.clickObjectNameDropdown()
+
+    for (const name of names) {
+      await this.filtersPage.selectFilterOption(name)
+    }
+
+    await this.filtersPage.applyMultiInputFilter()
+    await this.filtersPage.waitForTableLoad()
   }
 
   public async addMultiInputFilter({
