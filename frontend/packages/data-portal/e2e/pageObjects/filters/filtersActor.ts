@@ -63,6 +63,12 @@ export class FiltersActor {
     await this.filtersPage.waitForTableLoad()
   }
 
+  public async addObjectIdFilter({ objectId }: { objectId: string }) {
+    await this.filtersPage.clickFilterDropdown(translations.objectNameOrId)
+    await this.filtersPage.fillObjectIdInput(objectId)
+    await this.filtersPage.applyMultiInputFilter()
+  }
+
   public async addMultiInputFilter({
     buttonLabel,
     filter,
