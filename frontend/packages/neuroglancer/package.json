@@ -21,7 +21,7 @@
     "download-schemas": "curl -L https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/viewer_state.yml -o viewer_state.yml && curl -L https://raw.githubusercontent.com/google/neuroglancer/refs/heads/master/docs/json_schema/layer.yml -o layer.yml"
   },
   "dependencies": {
-    "neuroglancer": "git+https://github.com/metacell/neuroglancer.git#feat/cryoet-data-portal",
+    "neuroglancer": "file:./neuroglancer-2.40.1.tgz",
     "pako": "^2.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
