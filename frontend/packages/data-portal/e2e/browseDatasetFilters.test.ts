@@ -1282,12 +1282,12 @@ test.describe('Browse datasets page filters', () => {
     })
   })
 
-  test.describe('Object Shape Type filter', () => {
+  test.describe('Annotation Shape Type filter', () => {
     test('should filter when selecting', async () => {
       await filtersPage.goTo(BROWSE_DATASETS_URL)
 
       await filtersActor.addSingleSelectFilter({
-        label: translations.objectShapeType,
+        label: translations.annotationShapeType,
         value: getObjectShapeTypeLabel(
           E2E_CONFIG.objectShapeType as ObjectShapeType,
         ),
