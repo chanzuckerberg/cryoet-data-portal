@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.77.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.76.0...cryoet-data-portal-frontend-v1.77.0) (2025-10-09)
+
+
+### ✨ Features
+
+* launch global image labels ([#1981](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1981)) ([8890e45](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8890e45e5875b7590e2f6387cfd436e2de51f802))
+
+
+### 🐞 Bug Fixes
+
+* update E2E tests for global image labels and resolve neuroglancer installation ([#1978](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1978)) ([07e431e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/07e431efdb7580252ab402b217beccb21c7fdb86))
+
 ## [1.76.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.75.4...cryoet-data-portal-frontend-v1.76.0) (2025-09-18)
 
 
