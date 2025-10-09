@@ -71,7 +71,12 @@ export function useDepositionById() {
       if (!node) continue
       for (const methodLinkEdge of node.methodLinks?.edges ?? []) {
         const { link, name, linkType, id } = methodLinkEdge.node
-        const key = JSON.stringify([node?.annotationMethod, link, name, linkType])
+        const key = JSON.stringify([
+          node?.annotationMethod,
+          link,
+          name,
+          linkType,
+        ])
         if (!methodLinkToId.has(key) || id < methodLinkToId.get(key)!) {
           methodLinkToId.set(key, id)
         }
@@ -110,7 +115,12 @@ export function useDepositionById() {
     for (const [method, metadata] of annotationMethodToMetadata) {
       const unique = new Map<string, (typeof metadata.methodLinks)[0]>()
       for (const link of metadata.methodLinks) {
-        const key = JSON.stringify([method, link.link, link.name, link.linkType])
+        const key = JSON.stringify([
+          method,
+          link.link,
+          link.name,
+          link.linkType,
+        ])
         // Keep only the smallest id per unique key (to preserve original ordering)
         if (!unique.has(key) || link.id < unique.get(key)!.id) {
           unique.set(key, link)
