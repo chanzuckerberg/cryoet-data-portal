@@ -33,7 +33,10 @@ export function AnnotationsSummaryMetadataTable({
       values: [],
       renderValue: () => (
         <CollapsibleList
-          entries={organismNames.map((name) => ({ key: name, entry: name }))}
+          entries={organismNames.map((name: string) => ({
+            key: name,
+            entry: name,
+          }))}
           collapseAfter={4}
           tableVariant
         />
@@ -45,7 +48,10 @@ export function AnnotationsSummaryMetadataTable({
       values: [],
       renderValue: () => (
         <CollapsibleList
-          entries={objectNames.map((name) => ({ key: name, entry: name }))}
+          entries={objectNames.map((name: string) => ({
+            key: name,
+            entry: name,
+          }))}
           collapseAfter={4}
           tableVariant
         />
@@ -57,8 +63,8 @@ export function AnnotationsSummaryMetadataTable({
       values: [],
       renderValue: () => (
         <ul className="flex flex-col list-none gap-sds-xs text-sds-body-s-400-wide leading-sds-body-s">
-          {objectShapeTypes.map((shapeType) => {
-            switch (shapeType) {
+          {objectShapeTypes.map((shapeType: string) => {
+            switch (shapeType as Annotation_File_Shape_Type_Enum) {
               case Annotation_File_Shape_Type_Enum.InstanceSegmentation:
                 return <li key={shapeType}>{t('instanceSegmentations')}</li>
               case Annotation_File_Shape_Type_Enum.OrientedPoint:
@@ -70,7 +76,7 @@ export function AnnotationsSummaryMetadataTable({
               case Annotation_File_Shape_Type_Enum.Mesh:
                 return <li key={shapeType}>{t('meshes')}</li>
               default:
-                return checkExhaustive(shapeType)
+                return checkExhaustive(shapeType as never)
             }
           })}
         </ul>

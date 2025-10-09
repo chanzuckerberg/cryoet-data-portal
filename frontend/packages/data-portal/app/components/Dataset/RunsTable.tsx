@@ -49,7 +49,6 @@ export function RunsTable() {
   const { t } = useI18n()
   const isIdentifiedObjectsEnabled = useFeatureFlag('identifiedObjects')
   const [searchParams] = useSearchParams()
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
 
   const [isHoveringOverInteractable, setIsHoveringOverInteractable] =
     useState(false)
@@ -69,19 +68,17 @@ export function RunsTable() {
         url.searchParams.set(QueryParams.DepositionId, `${deposition.id}`)
       }
 
-      // Handle tab selection based on expandDepositions feature flag and from parameter
-      if (isExpandDepositions) {
-        const from = searchParams.get(QueryParams.From)
+      // Handle tab selection based on from parameter
+      const from = searchParams.get(QueryParams.From)
 
-        // If from is not deposition-annotations, set table-tab to tomograms
-        if (from !== FromLocationKey.DepositionAnnotations) {
-          url.searchParams.set(QueryParams.TableTab, t('tomograms'))
-        }
+      // If from is not deposition-annotations, set table-tab to tomograms
+      if (from !== FromLocationKey.DepositionAnnotations) {
+        url.searchParams.set(QueryParams.TableTab, t('tomograms'))
       }
 
       return url.pathname + url.search
     },
-    [deposition, searchParams, isExpandDepositions, t],
+    [deposition, searchParams, t],
   )
 
   const columns = useMemo(() => {

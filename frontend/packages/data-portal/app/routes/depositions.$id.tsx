@@ -24,7 +24,6 @@ import {
   parseLoaderParams,
   validateDepositionId,
 } from 'app/utils/deposition/loaderValidation'
-import { getFeatureFlag, useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -35,18 +34,12 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const loaderParams = parseLoaderParams(url, id)
 
   const client = apolloClientV2
-  const isExpandDepositions = getFeatureFlag({
-    env: process.env.ENV,
-    key: 'expandDepositions',
-    params: url.searchParams,
-  })
 
   // Fetch all deposition data
   const data = await fetchDepositionData({
     client,
     params: loaderParams,
     url,
-    isExpandDepositions,
   })
 
   return typedjson(data)
@@ -81,7 +74,6 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
 }
 
 export default function DepositionByIdPage() {
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
   const [type] = useActiveDepositionDataType()
   const [groupBy] = useGroupBy()
   const { t } = useI18n()
@@ -90,7 +82,6 @@ export default function DepositionByIdPage() {
 
   // Calculate counts using extracted utility
   const { totalCount, filteredCount } = getTableCounts({
-    isExpandDepositions,
     tab: type,
     groupBy,
     groupedData: state.groupedData,
@@ -104,7 +95,6 @@ export default function DepositionByIdPage() {
 
   // Get count label using extracted utility
   const countLabelKey = getCountLabelI18nKey({
-    isExpandDepositions,
     type,
     groupBy,
   })
@@ -112,7 +102,7 @@ export default function DepositionByIdPage() {
   return (
     <TablePageLayout
       title={t('depositedData')}
-      titleContent={isExpandDepositions ? <DepositionGroupByControl /> : null}
+      titleContent={<DepositionGroupByControl />}
       header={<DepositionHeader />}
       tabs={[
         {
@@ -126,7 +116,7 @@ export default function DepositionByIdPage() {
           totalCount,
           filteredCount,
           filterPanel: <DepositionFilters />,
-          pageSize: isExpandDepositions ? MAX_PER_ACCORDION_GROUP : undefined,
+          pageSize: MAX_PER_ACCORDION_GROUP,
         },
       ]}
       drawers={<DepositionMetadataDrawer />}
