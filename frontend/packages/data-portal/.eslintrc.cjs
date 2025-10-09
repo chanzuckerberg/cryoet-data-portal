@@ -51,9 +51,6 @@ if (ALL) {
 
       // Sometimes it's safe to call async functions and not handle their errors.
       '@typescript-eslint/no-misused-promises': 'off',
-
-      // Allow us to use function/variable hoisting.
-      '@typescript-eslint/no-use-before-define': 'off',
     },
   })
 }
