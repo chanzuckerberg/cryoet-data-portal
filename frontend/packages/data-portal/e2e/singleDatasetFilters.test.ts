@@ -150,9 +150,8 @@ test.describe('Single dataset page filters', () => {
     test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_DATASET_URL)
 
-      await filtersActor.addSingleSelectFilter({
-        label: translations.objectName,
-        value: E2E_CONFIG.objectName,
+      await filtersActor.addObjectNameFilter({
+        objectNames: E2E_CONFIG.objectName,
       })
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
@@ -187,7 +186,7 @@ test.describe('Single dataset page filters', () => {
         ],
       })
 
-      await filtersPage.removeFilterOption(E2E_CONFIG.objectName)
+      await filtersPage.removeObjectNameFilter(E2E_CONFIG.objectName)
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_DATASET_URL,
@@ -202,12 +201,12 @@ test.describe('Single dataset page filters', () => {
       await filtersPage.waitForTableLoad()
     })
   })
-  test.describe('Object Shape Type filter', () => {
+  test.describe('Annotation Shape Type filter', () => {
     test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_DATASET_URL)
 
       await filtersActor.addSingleSelectFilter({
-        label: translations.objectShapeType,
+        label: translations.annotationShapeType,
         value: getObjectShapeTypeLabel(
           E2E_CONFIG.objectShapeType as ObjectShapeType,
         ),
