@@ -7,10 +7,8 @@ import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 import { getDataContents } from 'app/utils/deposition'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 import { isDefined } from 'app/utils/nullish'
 
-import { DatasetFilter } from '../DatasetFilter'
 import { DatasetNameOrIdFilter } from '../Filters/DatasetNameOrIdFilter'
 import { DepositionTabs } from './DepositionTabs'
 
@@ -109,11 +107,5 @@ function DepositionFiltersContent() {
 }
 
 export function DepositionFilters() {
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
-
-  if (isExpandDepositions) {
-    return <DepositionFiltersContent />
-  }
-
-  return <DatasetFilter depositionPageVariant />
+  return <DepositionFiltersContent />
 }

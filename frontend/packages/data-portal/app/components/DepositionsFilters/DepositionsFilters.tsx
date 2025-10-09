@@ -14,7 +14,6 @@ import { DataTypesFilter } from '../Filters/DataTypesFilter'
 
 export function DepositionsFilters() {
   const showCompetitionFilter = useFeatureFlag('postMlChallenge')
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
 
   const {
     updateValue,
@@ -42,19 +41,14 @@ export function DepositionsFilters() {
       logId: 'author-filter',
       filter: <AuthorFilter label="Deposition Author" />,
     },
-
-    ...(isExpandDepositions
-      ? [
-          {
-            logId: 'deposition-id-filter',
-            filter: <DepositionIdFilter />,
-          },
-          {
-            logId: 'data-types-filter',
-            filter: <DataTypesFilter />,
-          },
-        ]
-      : []),
+    {
+      logId: 'deposition-id-filter',
+      filter: <DepositionIdFilter />,
+    },
+    {
+      logId: 'data-types-filter',
+      filter: <DataTypesFilter />,
+    },
   ]
 
   return (
