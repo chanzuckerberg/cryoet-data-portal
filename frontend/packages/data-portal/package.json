@@ -19,7 +19,7 @@
     "e2e:install-browsers": "playwright install --with-deps",
     "lint": "pnpm build:codegen && concurrently -n eslint,prettier,stylelint 'pnpm lint:eslint' 'pnpm lint:prettier' 'pnpm lint:stylelint'",
     "lint:fix": "concurrently -n eslint,prettier,stylelint 'pnpm lint:eslint:fix' 'pnpm lint:prettier:fix' 'pnpm lint:stylelint:fix'",
-    "lint:eslint": "eslint --report-unused-disable-directives --max-warnings 0 .",
+    "lint:eslint": "ALL=true eslint --report-unused-disable-directives --max-warnings 0 .",
     "lint:eslint:fix": "pnpm lint:eslint --fix",
     "lint:prettier": "prettier -c .",
     "lint:prettier:fix": "prettier -w .",
