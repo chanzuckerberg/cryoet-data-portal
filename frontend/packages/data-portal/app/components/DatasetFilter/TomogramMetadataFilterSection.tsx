@@ -40,7 +40,10 @@ export function TomogramMetadataFilterSection() {
     useDatasetsFilterData()
 
   const reconstructionMethodOptions = useMemo(
-    () => reconstructionMethods.map<BaseFilterOption>((value) => ({ value })),
+    () =>
+      reconstructionMethods.map<BaseFilterOption>((value: string) => ({
+        value,
+      })),
     [reconstructionMethods],
   )
 
@@ -49,7 +52,10 @@ export function TomogramMetadataFilterSection() {
   }, [reconstructionMethod])
 
   const reconstructionSoftwareOptions = useMemo(
-    () => reconstructionSoftwares.map<BaseFilterOption>((value) => ({ value })),
+    () =>
+      reconstructionSoftwares.map<BaseFilterOption>((value: string) => ({
+        value,
+      })),
     [reconstructionSoftwares],
   )
 
