@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.77.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.77.0...cryoet-data-portal-frontend-v1.77.1) (2025-10-10)
+
+
+### 🐞 Bug Fixes
+
+* preserve deposition method links order ([#1974](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1974)) ([dde833d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/dde833decf47d5d4518a5f06acd8813811923409))
+
 ## [1.77.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.76.0...cryoet-data-portal-frontend-v1.77.0) (2025-10-09)
 
 
