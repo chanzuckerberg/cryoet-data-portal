@@ -72,17 +72,22 @@ const GET_DEPOSITION_BASE_DATA = gql(`
           }
         }
       }
-      annotationMethodAndMethodLinksCombinations: annotationsAggregate {
-        aggregate {
-          count
-          groupBy {
+
+      annotations(where: {depositionId: {_eq: $id}}) {
+        edges {
+          node {
             annotationMethod
             annotationSoftware
             methodType
             methodLinks {
-              link
-              linkType
-              name
+              edges {
+                node {
+                  id
+                  link
+                  linkType
+                  name
+                }
+              }
             }
           }
         }
