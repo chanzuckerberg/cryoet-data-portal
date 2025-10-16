@@ -224,9 +224,8 @@ test.describe('Single run page filters', () => {
     test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_RUN_URL)
 
-      await filtersActor.addSingleSelectFilter({
-        label: translations.objectName,
-        value: E2E_CONFIG.objectName,
+      await filtersActor.addObjectNameFilter({
+        objectNames: E2E_CONFIG.objectName,
       })
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
@@ -263,7 +262,7 @@ test.describe('Single run page filters', () => {
         ],
       })
 
-      await filtersPage.removeFilterOption(E2E_CONFIG.objectName)
+      await filtersPage.removeObjectNameFilter(E2E_CONFIG.objectName)
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: SINGLE_RUN_URL,
@@ -283,13 +282,8 @@ test.describe('Single run page filters', () => {
     test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_RUN_URL)
 
-      await filtersActor.addMultiInputFilter({
-        buttonLabel: translations.objectId,
-        filter: {
-          label: translations.objectId,
-          value: E2E_CONFIG.objectId,
-        },
-        hasMultipleFilters: false,
+      await filtersActor.addObjectIdFilter({
+        objectId: E2E_CONFIG.objectId,
       })
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
@@ -343,12 +337,12 @@ test.describe('Single run page filters', () => {
     })
   })
 
-  test.describe('Object Shape Type filter', () => {
+  test.describe('Annotation Shape Type filter', () => {
     test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_RUN_URL)
 
       await filtersActor.addSingleSelectFilter({
-        label: translations.objectShapeType,
+        label: translations.annotationShapeType,
         value: getObjectShapeTypeLabel(
           E2E_CONFIG.objectShapeType as ObjectShapeType,
         ),
