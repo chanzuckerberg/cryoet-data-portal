@@ -12,10 +12,14 @@ export function NeuroglancerDropdownOption({
   selected,
   onSelect,
   children,
+  title,
+  subtitle,
   ...props
 }: ComponentProps<typeof MenuItem> & {
   selected?: boolean
   onClick?: () => void
+  title?: any
+  subtitle?: any
 }) {
   return (
     <MenuItem
@@ -29,14 +33,16 @@ export function NeuroglancerDropdownOption({
             <Icon sdsIcon="Check" sdsSize="s" className="!fill-[#0B68F8]" />
           ) : null}
         </div>
-        <div
-          className={cns(
-            selected && 'font-semibold',
-            'flex',
-            'flex-col',
-            'w-full',
-          )}
-        >
+        <div className={cns(selected && 'font-semibold', "flex flex-col w-full")}>
+          <span className={cns(selected && 'font-semibold')}>{title}</span>
+          {subtitle && <span
+            className={cns(
+              "text-sds-body-xxxs-400-narrow text-light-sds-color-primitive-gray-600 !font-normal",
+              props.disabled && 'text-light-sds-color-primitive-gray-300',
+            )}
+          >
+            {subtitle}
+          </span>}
           {children}
         </div>
       </div>
