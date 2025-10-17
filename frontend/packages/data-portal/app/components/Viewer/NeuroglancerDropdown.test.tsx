@@ -26,24 +26,23 @@ describe('<NeuroglancerDropdown />', () => {
 })
 
 describe('<NeuroglancerDropdownOption />', () => {
-  it('should render children and handle clicks', async () => {
+  it('should render children, title, subtitle and handle clicks', async () => {
     const handleClick = jest.fn()
     render(
-      <NeuroglancerDropdownOption onSelect={handleClick}>
-        Option Text
-      </NeuroglancerDropdownOption>,
+      <NeuroglancerDropdownOption
+        title="Option Title"
+        onSelect={handleClick}
+      />,
     )
 
-    const option = screen.getByText('Option Text')
+    const option = screen.getByText('Option Title')
     await userEvent.click(option)
     expect(handleClick).toHaveBeenCalled()
   })
 
   it('should show check icon when selected', () => {
     const { container } = render(
-      <NeuroglancerDropdownOption selected>
-        Selected Option
-      </NeuroglancerDropdownOption>,
+      <NeuroglancerDropdownOption title="Selected Option" selected />,
     )
 
     expect(container.querySelector('svg')).toBeInTheDocument() // eslint-disable-line testing-library/no-node-access, testing-library/no-container
@@ -52,14 +51,19 @@ describe('<NeuroglancerDropdownOption />', () => {
 
   it('should not show check icon when not selected', () => {
     const { container } = render(
-      <NeuroglancerDropdownOption>
-        Unselected Option
-      </NeuroglancerDropdownOption>,
+      <NeuroglancerDropdownOption title="Unselected Option" />,
     )
 
     expect(container.querySelector('svg')).toBeNull() // eslint-disable-line testing-library/no-node-access, testing-library/no-container
     expect(screen.getByText('Unselected Option')).not.toHaveClass(
       'font-semibold',
     )
+  })
+
+  it('should render subtitle if provided', () => {
+    render(
+      <NeuroglancerDropdownOption title="Option title" subtitle="Subtitle" />,
+    )
+    expect(screen.getByText('Subtitle')).toBeInTheDocument()
   })
 })
