@@ -33,17 +33,19 @@ export function NeuroglancerDropdownOption({
             <Icon sdsIcon="Check" sdsSize="s" className="!fill-[#0B68F8]" />
           ) : null}
         </div>
-        <div className='flex justify-between w-full'>
-          <div className='flex flex-col'>
+        <div className="flex justify-between w-full">
+          <div className="flex flex-col">
             <span className={cns(selected && 'font-semibold')}>{title}</span>
-            {subtitle && <span
-              className={cns(
-                "text-sds-body-xxxs-400-narrow text-light-sds-color-primitive-gray-600",
-                props.disabled && 'text-light-sds-color-primitive-gray-300',
-              )}
-            >
-              {subtitle}
-            </span>}
+            {subtitle && (
+              <span
+                className={cns(
+                  'text-sds-body-xxxs-400-narrow text-light-sds-color-primitive-gray-600',
+                  props.disabled && 'text-light-sds-color-primitive-gray-300',
+                )}
+              >
+                {subtitle}
+              </span>
+            )}
           </div>
           {children}
         </div>

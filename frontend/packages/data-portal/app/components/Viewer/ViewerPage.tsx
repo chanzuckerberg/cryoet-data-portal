@@ -406,15 +406,15 @@ export function ViewerPage({
                               ...state,
                               neuroglancer: tomogram.neuroglancerConfig
                                 ? replaceOnlyTomogram(
-                                  state.neuroglancer,
-                                  JSON.parse(
-                                    tomogram.neuroglancerConfig,
-                                  ) as NeuroglancerState,
-                                )
+                                    state.neuroglancer,
+                                    JSON.parse(
+                                      tomogram.neuroglancerConfig,
+                                    ) as NeuroglancerState,
+                                  )
                                 : replaceOnlyTomogramSource(
-                                  state.neuroglancer,
-                                  toZarr(tomogram.httpsMrcFile)!,
-                                ),
+                                    state.neuroglancer,
+                                    toZarr(tomogram.httpsMrcFile)!,
+                                  ),
                             }
                           })
                         }}
@@ -422,7 +422,8 @@ export function ViewerPage({
                         subtitle={[
                           `${IdPrefix.Tomogram}-${tomogram.id}`,
                           `${t('unitAngstrom', { value: tomogram.voxelSpacing })} (${tomogram.sizeX}, ${tomogram.sizeY}, ${tomogram.sizeZ}) px`,
-                          tomogram.alignment?.id != null && `${IdPrefix.Alignment}-${tomogram.alignment.id}`,
+                          tomogram.alignment?.id != null &&
+                            `${IdPrefix.Alignment}-${tomogram.alignment.id}`,
                         ]
                           .filter(Boolean)
                           .join(' · ')}
@@ -450,7 +451,10 @@ export function ViewerPage({
                           onSelect={() => {
                             toggleDepositions(layersOfInterest)
                           }}
-                          title={depositions?.[0].annotation?.deposition?.title || 'Deposition'}
+                          title={
+                            depositions?.[0].annotation?.deposition?.title ||
+                            'Deposition'
+                          }
                           subtitle={`${IdPrefix.Deposition}-${depositionId}`}
                         />
                       )
