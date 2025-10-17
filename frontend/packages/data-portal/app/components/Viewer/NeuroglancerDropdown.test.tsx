@@ -26,10 +26,10 @@ describe('<NeuroglancerDropdown />', () => {
 })
 
 describe('<NeuroglancerDropdownOption />', () => {
-  it('should render children and handle clicks', async () => {
+  it('should render children, title, subtitle and handle clicks', async () => {
     const handleClick = jest.fn()
     render(
-      <NeuroglancerDropdownOption onSelect={handleClick}>
+      <NeuroglancerDropdownOption title="Option title" onSelect={handleClick}>
         Option Text
       </NeuroglancerDropdownOption>,
     )
@@ -41,7 +41,7 @@ describe('<NeuroglancerDropdownOption />', () => {
 
   it('should show check icon when selected', () => {
     const { container } = render(
-      <NeuroglancerDropdownOption selected>
+      <NeuroglancerDropdownOption title="Option title" selected>
         Selected Option
       </NeuroglancerDropdownOption>,
     )
@@ -52,7 +52,7 @@ describe('<NeuroglancerDropdownOption />', () => {
 
   it('should not show check icon when not selected', () => {
     const { container } = render(
-      <NeuroglancerDropdownOption>
+      <NeuroglancerDropdownOption title="Option title">
         Unselected Option
       </NeuroglancerDropdownOption>,
     )
@@ -61,5 +61,10 @@ describe('<NeuroglancerDropdownOption />', () => {
     expect(screen.getByText('Unselected Option')).not.toHaveClass(
       'font-semibold',
     )
+  })
+
+  it('should not render subtitle if not provided', () => {
+    render(<NeuroglancerDropdownOption title="Option title" />)
+    expect(screen.queryByText('Subtitle')).not.toBeInTheDocument()
   })
 })

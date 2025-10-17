@@ -512,36 +512,36 @@ export function ViewerPage({
                 <NeuroglancerDropdownOption
                   selected={hasBoundingBox()}
                   onSelect={toggleBoundingBox}
+                  title={t('bbox')}
                 >
                   <div className="flex justify-between items-center">
-                    <p>{t('bbox')}</p>
                     <p className={helperText}>v</p>
                   </div>
                 </NeuroglancerDropdownOption>
                 <NeuroglancerDropdownOption
                   selected={axisLineEnabled()}
                   onSelect={toggleAxisLine}
+                  title={t('axisLines')}
                 >
                   <div className="flex justify-between items-center">
-                    <p>{t('axisLines')}</p>
                     <p className={helperText}>a</p>
                   </div>
                 </NeuroglancerDropdownOption>
                 <NeuroglancerDropdownOption
                   selected={showScaleBarEnabled()}
                   onSelect={toggleShowScaleBar}
+                  title={t('scaleBar')}
                 >
                   <div className="flex justify-between items-center">
-                    <p>{t('scaleBar')}</p>
                     <p className={helperText}>b</p>
                   </div>
                 </NeuroglancerDropdownOption>
                 <NeuroglancerDropdownOption
                   selected={showSectionsEnabled()}
                   onSelect={toggleShowSections}
+                  title={t('crossSection')}
                 >
                   <div className="flex justify-between items-center">
-                    <p>{t('crossSection')}</p>
                     <p className={helperText}>s</p>
                   </div>
                 </NeuroglancerDropdownOption>
@@ -550,9 +550,9 @@ export function ViewerPage({
                 <NeuroglancerDropdownOption
                   selected={false}
                   onSelect={handleSnapActionClick}
+                  title={t('snapAction')}
                 >
                   <div className="flex justify-between items-center">
-                    <p>{t('snapAction')}</p>
                     <p className={helperText}>z</p>
                   </div>
                 </NeuroglancerDropdownOption>
