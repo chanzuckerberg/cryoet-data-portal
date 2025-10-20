@@ -676,6 +676,7 @@
   "whatIsCryoET": "What is CryoET?",
   "winningTeams": "10 Winning Teams",
   "withDepositionData": "With deposition data",
+  "xyAnd3D": "XY-3D",
   "yes": "Yes",
   "youMustHaveCliInstalled": "You must have AWS CLI installed. <url to='$t(awsCliLink)'>How to Install AWS CLI.</url>",
   "youMustHaveCurlInstalled": "You must have cURL installed. <url to='$t(curlSetupLink)'>How to Install cURL</url>",
