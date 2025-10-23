@@ -33,8 +33,8 @@ export function DepositionOverview() {
   const depositionDataItems = useMemo(
     () =>
       [
-        { label: 'annotations', count: annotationsCount },
-        { label: 'tomograms', count: tomogramsCount },
+        { label: 'annotations', count: annotationsCount ?? 0 },
+        { label: 'tomograms', count: tomogramsCount ?? 0 },
       ] as const,
     [annotationsCount, tomogramsCount],
   )
