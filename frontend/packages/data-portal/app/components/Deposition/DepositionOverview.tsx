@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { AuthorLegend } from 'app/components/AuthorLegend'
 import { AuthorList } from 'app/components/AuthorList'
 import { DatabaseList } from 'app/components/DatabaseList'
@@ -22,11 +24,20 @@ const SECTION_HEADER_STYLES = cnsNoMerge(
 )
 
 export function DepositionOverview() {
-  const { deposition } = useDepositionById()
+  const { deposition, annotationsCount, tomogramsCount } = useDepositionById()
 
   const { t } = useI18n()
 
   const isExpandDepositions = useFeatureFlag('expandDepositions')
+
+  const depositionDataItems = useMemo(
+    () =>
+      [
+        { label: 'annotations', count: annotationsCount },
+        { label: 'tomograms', count: tomogramsCount },
+      ] as const,
+    [annotationsCount, tomogramsCount],
+  )
 
   return (
     <div className="flex flex-col gap-sds-xl">
@@ -70,17 +81,14 @@ export function DepositionOverview() {
       <div className="flex max-screen-1345:flex-col gap-sds-xxl">
         <div className="flex-1 max-w-[260px]">
           <h3 className={SECTION_HEADER_STYLES}>{t('depositionData')}</h3>
-          <p className="flex flex-row gap-sds-xs">
-            <span className="font-semibold text-light-sds-color-primitive-gray-900 ">
-              {t('annotations')}:
-            </span>
-            {(
-              deposition.annotationsAggregate?.aggregate?.reduce(
-                (total, { count }) => total + (count ?? 0),
-                0,
-              ) ?? 0
-            ).toLocaleString()}
-          </p>
+          {depositionDataItems.map(({ label, count }) => (
+            <p key={label} className="flex flex-row gap-sds-xs">
+              <span className="font-semibold text-light-sds-color-primitive-gray-900 ">
+                {t(label)}:
+              </span>
+              {count.toLocaleString()}
+            </p>
+          ))}
         </div>
 
         <div className="flex-1 max-w-[260px]">
