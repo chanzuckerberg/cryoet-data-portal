@@ -347,7 +347,7 @@ export function ViewerPage({
   const activeRunBreadcrumb = (
     <Tooltip
       tooltip={`Go to Run ${run.name || t('runName')}`}
-      className="flex items-center truncate max-w-0 lg:max-w-[12rem] 2xl:max-w-[20rem]"
+      className="flex items-center truncate max-w-0 lg:max-w-[10rem] xl:max-w-[14rem] 2xl:max-w-[20rem] screen-1800:max-w-[24rem]"
     >
       <a href={`${window.origin}/runs/${run.id}`} className="truncate">
         {run.name}{' '}
@@ -373,7 +373,7 @@ export function ViewerPage({
           'bg-dark-sds-color-primitive-gray-50 text-dark-sds-color-primitive-gray-900',
           'flex flex-shrink-0 py-1 flex-col',
           'sticky top-0 z-30 max-h-20 items-start',
-          'sm:flex-row sm:max-h-12 sm:items-center',
+          'screen-760:flex-row screen-760:max-h-12 screen-760:items-center',
         )}
       >
         <div className="flex items-center gap-1 md:gap-4">
@@ -385,7 +385,7 @@ export function ViewerPage({
           />
         </div>
         {/* Add empty space to push content to right */}
-        <div className="basis-sds-xxl flex-grow md:mr-sds-xxl" />
+        <div className="basis-sds-xxl flex-grow lg:mr-sds-default xl:mr-sds-xxl" />
         <div className="flex basis-auto flex-shrink-0">
           <div className="flex items-center pt-1 gap-[1px] sm:gap-1 sm:pt-0">
             {shouldShowTomogramDropdown && (
