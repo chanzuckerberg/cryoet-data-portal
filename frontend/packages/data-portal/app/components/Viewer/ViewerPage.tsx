@@ -250,6 +250,7 @@ export function ViewerPage({
     const hasFullState = !!tomogram.neuroglancerConfig
     const hasSourceInSameSpace =
       !!tomogram.s3OmezarrDir &&
+      !!convertMrcUrlToZarr(tomogram.httpsMrcFile) &&
       voxelSpacing.current === tomogram.voxelSpacing &&
       alignmentId.current === (tomogram.alignment?.id || 0)
     return !(hasFullState || hasSourceInSameSpace)
