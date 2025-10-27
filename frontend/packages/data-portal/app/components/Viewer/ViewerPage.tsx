@@ -170,7 +170,6 @@ export function ViewerPage({
 
   const depositionConfigs = buildDepositionsConfig(run.annotations)
   const shouldShowAnnotationDropdown = Object.keys(depositionConfigs).length > 0
-  const shouldShowTomogramDropdown = tomograms.length > 1
 
   const scheduleRefresh = () => {
     setRenderVersion(renderVersion + 1)
@@ -419,24 +418,22 @@ export function ViewerPage({
         <div className="basis-sds-xxl flex-grow lg:mr-sds-default xl:mr-sds-xxl" />
         <div className="flex basis-auto flex-shrink-0">
           <div className="flex items-center pt-1 gap-[1px] sm:gap-1 sm:pt-0">
-            {shouldShowTomogramDropdown && (
-              <NeuroglancerDropdown title="Tomograms" variant="outlined">
-                <MenuDropdownSection title="Select tomogram">
-                  {tomograms.map((tomogram) => {
-                    return (
-                      <NeuroglancerDropdownOption
-                        key={tomogram.id.toString()}
-                        selected={selectedTomogram(tomogram)}
-                        disabled={unsupportedTomogramSwitch(tomogram)}
-                        onSelect={() => handleTomogramChanged(tomogram)}
-                        title={getTomogramName(tomogram)}
-                        subtitle={createTomogramInfoString(tomogram)}
-                      />
-                    )
-                  })}
-                </MenuDropdownSection>
-              </NeuroglancerDropdown>
-            )}
+            <NeuroglancerDropdown title="Tomograms" variant="outlined">
+              <MenuDropdownSection title="Select tomogram">
+                {tomograms.map((tomogram) => {
+                  return (
+                    <NeuroglancerDropdownOption
+                      key={tomogram.id.toString()}
+                      selected={selectedTomogram(tomogram)}
+                      disabled={unsupportedTomogramSwitch(tomogram)}
+                      onSelect={() => handleTomogramChanged(tomogram)}
+                      title={getTomogramName(tomogram)}
+                      subtitle={createTomogramInfoString(tomogram)}
+                    />
+                  )
+                })}
+              </MenuDropdownSection>
+            </NeuroglancerDropdown>
             {shouldShowAnnotationDropdown && (
               <NeuroglancerDropdown title="Annotations" variant="outlined">
                 <MenuDropdownSection title="Show annotations for deposition">
