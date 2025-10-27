@@ -45,12 +45,12 @@ import {
   isCurrentLayout,
   isDepositionActivated,
   isDimensionPanelVisible,
-  isTomogramActivated,
-  isTomogramActivatedFromConfig,
+  isTomogramActiveFromConfig,
+  isTomogramActiveFromPath,
   isTopBarVisible,
   panelsDefaultValues,
-  replaceOnlyTomogram,
-  replaceOnlyTomogramSource,
+  replaceTomogramLayerInState,
+  replaceTomogramSourceInState,
   resolveStateBool,
   setCurrentLayout,
   setTopBarVisibleFromSuperState,
@@ -83,15 +83,15 @@ interface AnnotationUIConfig {
   annotation: Annotation
 }
 
-const toZarr = (httpsMrcFile: string | undefined | null) => {
+function convertMrcUrlToZarr(httpsMrcFile: string | undefined | null) {
   if (!httpsMrcFile) return httpsMrcFile
   return `zarr://${httpsMrcFile.replace('.mrc', '.zarr')}`
 }
 
-const selectedTomogram = (tomogram: Tomogram) => {
+function selectedTomogram(tomogram: Tomogram) {
   return tomogram.neuroglancerConfig
-    ? isTomogramActivatedFromConfig(tomogram.neuroglancerConfig)
-    : isTomogramActivated(toZarr(tomogram.httpsMrcFile))
+    ? isTomogramActiveFromConfig(tomogram.neuroglancerConfig)
+    : isTomogramActiveFromPath(convertMrcUrlToZarr(tomogram.httpsMrcFile))
 }
 
 const buildDepositionsConfig = (
@@ -228,8 +228,8 @@ export function ViewerPage({
 
     const currentlyActiveTomogram = tomograms.find(
       (tomogram) =>
-        isTomogramActivatedFromConfig(tomogram.neuroglancerConfig) ||
-        isTomogramActivated(toZarr(tomogram.httpsMrcFile)),
+        isTomogramActiveFromConfig(tomogram.neuroglancerConfig) ||
+        isTomogramActiveFromPath(convertMrcUrlToZarr(tomogram.httpsMrcFile)),
     )
     voxelSpacing.current = currentlyActiveTomogram?.voxelSpacing || 0
     alignmentId.current = currentlyActiveTomogram?.alignment?.id || 0
@@ -342,6 +342,37 @@ export function ViewerPage({
     snapSnackbar.hide()
   }
 
+  const handleTomogramChanged = (tomogram: Tomogram) => {
+    if (selectedTomogram(tomogram)) return
+    voxelSpacing.current = tomogram.voxelSpacing
+    alignmentId.current = tomogram.alignment?.id || 0
+    updateState((state) => {
+      return {
+        ...state,
+        neuroglancer: tomogram.neuroglancerConfig
+          ? replaceTomogramLayerInState(
+              state.neuroglancer,
+              JSON.parse(tomogram.neuroglancerConfig) as NeuroglancerState,
+            )
+          : replaceTomogramSourceInState(
+              state.neuroglancer,
+              convertMrcUrlToZarr(tomogram.httpsMrcFile)!,
+            ),
+      }
+    })
+  }
+
+  const createTomogramInfoString = (tomogram: Tomogram) => {
+    const tomogramStringParts = [
+      `${IdPrefix.Tomogram}-${tomogram.id}`,
+      `${t('unitAngstrom', { value: tomogram.voxelSpacing })} (${tomogram.sizeX}, ${tomogram.sizeY}, ${tomogram.sizeZ}) px`,
+    ]
+    if (tomogram.alignment?.id != null) {
+      tomogramStringParts.push(`${IdPrefix.Alignment}-${tomogram.alignment.id}`)
+    }
+    return tomogramStringParts.join(' · ')
+  }
+
   const helperText =
     'text-light-sds-color-primitive-gray-600 text-sds-body-xxxs-400-narrow'
   const activeRunBreadcrumb = (
@@ -397,36 +428,9 @@ export function ViewerPage({
                         key={tomogram.id.toString()}
                         selected={selectedTomogram(tomogram)}
                         disabled={unsupportedTomogramSwitch(tomogram)}
-                        onSelect={() => {
-                          if (selectedTomogram(tomogram)) return
-                          voxelSpacing.current = tomogram.voxelSpacing
-                          alignmentId.current = tomogram.alignment?.id || 0
-                          updateState((state) => {
-                            return {
-                              ...state,
-                              neuroglancer: tomogram.neuroglancerConfig
-                                ? replaceOnlyTomogram(
-                                    state.neuroglancer,
-                                    JSON.parse(
-                                      tomogram.neuroglancerConfig,
-                                    ) as NeuroglancerState,
-                                  )
-                                : replaceOnlyTomogramSource(
-                                    state.neuroglancer,
-                                    toZarr(tomogram.httpsMrcFile)!,
-                                  ),
-                            }
-                          })
-                        }}
+                        onSelect={() => handleTomogramChanged(tomogram)}
                         title={getTomogramName(tomogram)}
-                        subtitle={[
-                          `${IdPrefix.Tomogram}-${tomogram.id}`,
-                          `${t('unitAngstrom', { value: tomogram.voxelSpacing })} (${tomogram.sizeX}, ${tomogram.sizeY}, ${tomogram.sizeZ}) px`,
-                          tomogram.alignment?.id != null &&
-                            `${IdPrefix.Alignment}-${tomogram.alignment.id}`,
-                        ]
-                          .filter(Boolean)
-                          .join(' · ')}
+                        subtitle={createTomogramInfoString(tomogram)}
                       />
                     )
                   })}

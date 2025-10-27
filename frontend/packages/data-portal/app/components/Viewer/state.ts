@@ -304,7 +304,7 @@ export function toggleOrMakeDimensionPanel() {
   else updateState(toggleDimensionPanelVisible)
 }
 
-export function isTomogramActivatedFromConfig(
+export function isTomogramActiveFromConfig(
   tomogramConfig: string | undefined | null,
 ) {
   if (!tomogramConfig) return false
@@ -320,7 +320,9 @@ export function isTomogramActivatedFromConfig(
   )
 }
 
-export function isTomogramActivated(tomogramPath: string | undefined | null) {
+export function isTomogramActiveFromPath(
+  tomogramPath: string | undefined | null,
+) {
   if (!tomogramPath) return false
   const layers = currentNeuroglancerState().layers || []
   return layers.some(
@@ -341,7 +343,7 @@ function inferVoxelSpacingFromState(state: NeuroglancerState) {
   return averageUnit
 }
 
-export function replaceOnlyTomogramSource(
+export function replaceTomogramSourceInState(
   incomingState: NeuroglancerState,
   newPath: string,
 ) {
@@ -358,7 +360,7 @@ export function replaceOnlyTomogramSource(
   return newState
 }
 
-export function replaceOnlyTomogram(
+export function replaceTomogramLayerInState(
   incomingState: NeuroglancerState,
   newState: NeuroglancerState,
 ) {
