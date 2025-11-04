@@ -5,7 +5,10 @@ import {
   currentNeuroglancer,
   currentNeuroglancerState,
   currentState,
+  DimensionValue,
+  getLayerSourceUrl,
   NeuroglancerLayout,
+  NeuroglancerState,
   ResolvedSuperState,
   updateState,
 } from 'neuroglancer'
@@ -299,6 +302,125 @@ export function toggleOrMakeDimensionPanel() {
     Object.keys(currentState().neuroglancer?.toolPalettes || {}).length > 0
   if (!hasToolPalette) updateState(makeDimensionPanel)
   else updateState(toggleDimensionPanelVisible)
+}
+
+export function isTomogramActiveFromConfig(
+  tomogramConfig: string | undefined | null,
+) {
+  if (!tomogramConfig) return false
+  const layers = currentNeuroglancerState().layers || []
+  const jsonConfig = JSON.parse(tomogramConfig) as NeuroglancerState
+  const newLayers = jsonConfig.layers || []
+  const tomogramLayer = newLayers.find((l) => l.type === 'image')
+  if (!tomogramLayer) return false
+  return layers.some(
+    (l) =>
+      l.type === 'image' &&
+      getLayerSourceUrl(l) === getLayerSourceUrl(tomogramLayer),
+  )
+}
+
+export function isTomogramActiveFromPath(
+  tomogramPath: string | undefined | null,
+) {
+  if (!tomogramPath) return false
+  const layers = currentNeuroglancerState().layers || []
+  return layers.some(
+    (l) => l.type === 'image' && getLayerSourceUrl(l) === tomogramPath,
+  )
+}
+
+function inferVoxelSpacingFromState(state: NeuroglancerState) {
+  const { dimensions } = state
+  if (dimensions === undefined) {
+    throw new Error('Cannot infer voxel spacing without dimensions')
+  }
+  // Get the average of all dims, usually isotropic but just in case
+  const dimensionValues = Object.values(dimensions)
+  const averageUnit =
+    dimensionValues.reduce((a: number, b: DimensionValue) => a + b[0], 0) /
+    dimensionValues.length
+  return averageUnit
+}
+
+export function replaceTomogramSourceInState(
+  incomingState: NeuroglancerState,
+  newPath: string,
+) {
+  const newState = incomingState
+  const tomogramLayer = newState.layers?.find((l) => l.type === 'image')
+  if (tomogramLayer) {
+    // Replace either the source directly or the url inside the source object
+    if (typeof tomogramLayer.source === 'string') {
+      tomogramLayer.source = newPath
+    } else {
+      tomogramLayer.source.url = newPath
+    }
+  }
+  return newState
+}
+
+export function replaceTomogramLayerInState(
+  incomingState: NeuroglancerState,
+  newState: NeuroglancerState,
+) {
+  // The first image layer is always the tomogram -- we can completely replace that layer
+  // For the other layers, we only need to adjust the "source" because they can have
+  // different transforms needed
+  if (!newState.layers) return incomingState
+  const incomingLayers = newState.layers
+  const newTomogramLayer = incomingLayers.find((l) => l.type === 'image')
+  if (!newTomogramLayer) return incomingState // No tomogram layer in the new state
+  newTomogramLayer.visible = true
+  newTomogramLayer.archived = false
+  const newLayers = incomingState.layers || []
+
+  // First, let's check for the tomogram layer in the current state
+  const tomogramLayerIndex = newLayers.findIndex((l) => l.type === 'image')
+  if (tomogramLayerIndex === -1) {
+    newLayers.unshift(newTomogramLayer)
+  } else {
+    const currentTomogram = newLayers[tomogramLayerIndex]
+    const openedTab = currentTomogram.tab
+    if (openedTab) {
+      newTomogramLayer.tab = openedTab
+    }
+    newLayers[tomogramLayerIndex] = newTomogramLayer
+  }
+
+  // For the other layers, we need to update their sources if they exist in both states
+  for (const newLayer of incomingLayers) {
+    if (newLayer.type === 'image') continue // Skip the tomogram layer
+    const matchingLayer = newLayers.find(
+      (l) => getLayerSourceUrl(l) === getLayerSourceUrl(newLayer),
+    )
+    if (matchingLayer) {
+      matchingLayer.source = newLayer.source
+    } else {
+      newLayers.push(newLayer)
+    }
+  }
+
+  // Adjust the zoom levels and position to keep view consistent when switching
+  const currentSpacing = inferVoxelSpacingFromState(incomingState)
+  const newSpacing = inferVoxelSpacingFromState(newState)
+  const voxelRatio = newSpacing / currentSpacing
+  const newCrossSectionScale = incomingState.crossSectionScale
+    ? incomingState.crossSectionScale * voxelRatio
+    : undefined
+  const newProjectionScale = incomingState.projectionScale
+    ? incomingState.projectionScale * voxelRatio
+    : undefined
+  const newPosition = incomingState.position
+    ? incomingState.position.map((x) => x * voxelRatio)
+    : undefined
+  return {
+    ...incomingState,
+    layers: newLayers,
+    crossSectionScale: newCrossSectionScale,
+    projectionScale: newProjectionScale,
+    position: newPosition,
+  }
 }
 
 export function isDepositionActivated(

@@ -33,6 +33,7 @@ export default {
         'screen-1024': '1024px',
         'screen-1345': '1345px',
         'screen-1500': '1500px',
+        'screen-1800': '1800px',
         'screen-2040': '2040px',
       },
 

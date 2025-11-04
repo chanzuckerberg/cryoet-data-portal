@@ -182,7 +182,7 @@ export function Breadcrumbs({
       <div className="flex flex-row gap-sds-s text-dark-sds-color-primitive-gray-500 fill-[#999] font-normal text-sds-body-s-400-wide leading-sds-body-s items-center whitespace-nowrap content-start">
         <Tooltip
           tooltip={`Go to Dataset ${data.title}`}
-          className="truncate max-w-0 lg:max-w-[8rem] xl:max-w-[16rem] 2xl:max-w-xl"
+          className="truncate max-w-0 lg:max-w-[4rem] xl:max-w-[16rem] 2xl:max-w-[24rem] screen-1800:max-w-[36rem]"
         >
           <Breadcrumb
             text={data.title}
