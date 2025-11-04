@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.78.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.77.1...cryoet-data-portal-frontend-v1.78.0) (2025-10-23)
+
+
+### ✨ Features
+
+* add XY-3d as option in layout ([#1983](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1983)) ([6306e89](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6306e89fb04bdba050ba7f25acbcf14eb408ce00))
+
+
+### 🐞 Bug Fixes
+
+* add tomogram count to deposition + update browse depositions description copy ([#1988](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1988)) ([f5416d4](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f5416d4e4d5e151f593eae15d153b656be327f3d))
+
+
+### ⚡️ Performance Improvements
+
+* split ESLint config to optimize VS Code performance by excluding TypeScript type-checking rules ([#1965](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1965)) ([d8a794c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d8a794cfc1eadf471d00b66652d09b9c2f926f26))
+
 ## [1.77.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.77.0...cryoet-data-portal-frontend-v1.77.1) (2025-10-10)
 
 
