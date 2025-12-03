@@ -31,7 +31,7 @@ describe('<NeuroglancerDropdownOption />', () => {
     render(
       <NeuroglancerDropdownOption
         title="Option Title"
-        onSelect={handleClick}
+        onClick={handleClick}
       />,
     )
 

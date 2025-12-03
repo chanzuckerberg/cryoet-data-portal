@@ -427,7 +427,7 @@ export function ViewerPage({
                       key={tomogram.id.toString()}
                       selected={selectedTomogram(tomogram)}
                       disabled={unsupportedTomogramSwitch(tomogram)}
-                      onSelect={() => handleTomogramChanged(tomogram)}
+                      onClick={() => handleTomogramChanged(tomogram)}
                       title={getTomogramName(tomogram)}
                       subtitle={createTomogramInfoString(tomogram)}
                     />
@@ -440,7 +440,7 @@ export function ViewerPage({
                 <MenuDropdownSection title="Show annotations for deposition">
                   <NeuroglancerDropdownOption
                     selected={isAllLayerActive()}
-                    onSelect={() => toggleAllDepositions()}
+                    onClick={() => toggleAllDepositions()}
                     title={t('allDepositions')}
                   />
                   {Object.entries(depositionConfigs).map(
@@ -450,7 +450,7 @@ export function ViewerPage({
                         <NeuroglancerDropdownOption
                           key={depositionId.toString()}
                           selected={isDepositionActivated(layersOfInterest)}
-                          onSelect={() => {
+                          onClick={() => {
                             toggleDepositions(layersOfInterest)
                           }}
                           title={
@@ -471,44 +471,44 @@ export function ViewerPage({
                   selected={
                     isCurrentLayout('4panel') || isCurrentLayout('4panel-alt')
                   }
-                  onSelect={() => setCurrentLayout('4panel')}
+                  onClick={() => setCurrentLayout('4panel')}
                   title={t('4panels')}
                 />
                 <NeuroglancerDropdownOption
                   selected={isCurrentLayout('xy')}
-                  onSelect={() => setCurrentLayout('xy')}
+                  onClick={() => setCurrentLayout('xy')}
                   title="XY"
                 />
                 <NeuroglancerDropdownOption
                   selected={isCurrentLayout('xz')}
-                  onSelect={() => setCurrentLayout('xz')}
+                  onClick={() => setCurrentLayout('xz')}
                   title="XZ"
                 />
                 <NeuroglancerDropdownOption
                   selected={isCurrentLayout('yz')}
-                  onSelect={() => setCurrentLayout('yz')}
+                  onClick={() => setCurrentLayout('yz')}
                   title="YZ"
                 />
                 <NeuroglancerDropdownOption
                   selected={isCurrentLayout('3d')}
-                  onSelect={() => setCurrentLayout('3d')}
+                  onClick={() => setCurrentLayout('3d')}
                   title="3D"
                 />
               </MenuDropdownSection>
               <MenuDropdownSection title="Toggle Panels">
                 <NeuroglancerDropdownOption
                   selected={getCurrentState().savedPanelsStatus !== undefined}
-                  onSelect={() => togglePanels()}
+                  onClick={() => togglePanels()}
                   title={t('hideUI')}
                 />
                 <NeuroglancerDropdownOption
                   selected={isTopBarVisible()}
-                  onSelect={() => toggleTopBar()}
+                  onClick={() => toggleTopBar()}
                   title={t('showTopLayerBar')}
                 />
                 <NeuroglancerDropdownOption
                   selected={isDimensionPanelVisible()}
-                  onSelect={toggleOrMakeDimensionPanel}
+                  onClick={toggleOrMakeDimensionPanel}
                   title={t('showPositionSelector')}
                 />
               </MenuDropdownSection>
@@ -517,7 +517,7 @@ export function ViewerPage({
               <MenuDropdownSection title="Appearance">
                 <NeuroglancerDropdownOption
                   selected={hasBoundingBox()}
-                  onSelect={toggleBoundingBox}
+                  onClick={toggleBoundingBox}
                   title={t('bbox')}
                 >
                   <div className="flex justify-between items-center">
@@ -526,7 +526,7 @@ export function ViewerPage({
                 </NeuroglancerDropdownOption>
                 <NeuroglancerDropdownOption
                   selected={axisLineEnabled()}
-                  onSelect={toggleAxisLine}
+                  onClick={toggleAxisLine}
                   title={t('axisLines')}
                 >
                   <div className="flex justify-between items-center">
@@ -535,7 +535,7 @@ export function ViewerPage({
                 </NeuroglancerDropdownOption>
                 <NeuroglancerDropdownOption
                   selected={showScaleBarEnabled()}
-                  onSelect={toggleShowScaleBar}
+                  onClick={toggleShowScaleBar}
                   title={t('scaleBar')}
                 >
                   <div className="flex justify-between items-center">
@@ -544,7 +544,7 @@ export function ViewerPage({
                 </NeuroglancerDropdownOption>
                 <NeuroglancerDropdownOption
                   selected={showSectionsEnabled()}
-                  onSelect={toggleShowSections}
+                  onClick={toggleShowSections}
                   title={t('crossSection')}
                 >
                   <div className="flex justify-between items-center">
@@ -555,7 +555,7 @@ export function ViewerPage({
               <MenuDropdownSection title="Move">
                 <NeuroglancerDropdownOption
                   selected={false}
-                  onSelect={handleSnapActionClick}
+                  onClick={handleSnapActionClick}
                   title={t('snapAction')}
                 >
                   <div className="flex justify-between items-center">

@@ -10,21 +10,20 @@ import { cns } from 'app/utils/cns'
 
 export function NeuroglancerDropdownOption({
   selected,
-  onSelect,
+  onClick,
   children,
   title,
   subtitle,
   ...props
 }: ComponentProps<typeof MenuItem> & {
   selected?: boolean
-  onClick?: () => void
   title: React.ReactNode
   subtitle?: React.ReactNode
 }) {
   return (
     <MenuItem
       {...props}
-      onClick={onSelect}
+      onClick={onClick}
       className="[&_.primary-text]:w-full"
     >
       <div className="flex items-center justify-center flex-auto gap-3 w-full">
