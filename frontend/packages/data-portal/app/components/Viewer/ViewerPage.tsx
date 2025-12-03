@@ -475,6 +475,12 @@ export function ViewerPage({
                   title={t('4panels')}
                 />
                 <NeuroglancerDropdownOption
+                  selected={isCurrentLayout('xy-3d')}
+                  onSelect={() => setCurrentLayout('xy-3d')}
+                >
+                  {t('xyAnd3D')}
+                </NeuroglancerDropdownOption>
+                <NeuroglancerDropdownOption
                   selected={isCurrentLayout('xy')}
                   onClick={() => setCurrentLayout('xy')}
                   title="XY"
