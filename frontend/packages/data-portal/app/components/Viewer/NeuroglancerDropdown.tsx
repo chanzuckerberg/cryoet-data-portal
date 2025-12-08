@@ -21,11 +21,7 @@ export function NeuroglancerDropdownOption({
   subtitle?: React.ReactNode
 }) {
   return (
-    <MenuItem
-      {...props}
-      onClick={onClick}
-      className="[&_.primary-text]:w-full"
-    >
+    <MenuItem {...props} onClick={onClick} className="[&_.primary-text]:w-full">
       <div className="flex items-center justify-center flex-auto gap-3 w-full">
         <div className="inline-flex w-4 h-4">
           {selected ? (

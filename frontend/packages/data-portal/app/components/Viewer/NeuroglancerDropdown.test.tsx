@@ -29,10 +29,7 @@ describe('<NeuroglancerDropdownOption />', () => {
   it('should render children, title, subtitle and handle clicks', async () => {
     const handleClick = jest.fn()
     render(
-      <NeuroglancerDropdownOption
-        title="Option Title"
-        onClick={handleClick}
-      />,
+      <NeuroglancerDropdownOption title="Option Title" onClick={handleClick} />,
     )
 
     const option = screen.getByText('Option Title')
