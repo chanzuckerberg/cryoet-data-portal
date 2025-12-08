@@ -54,13 +54,17 @@ const ViewerPage = lazy(() =>
 )
 
 export default function RunByIdViewerPage() {
-  const { run } = useRunById()
+  const { run, tomograms } = useRunById()
   const [searchParams] = useSearchParams()
   const shouldStartTour = searchParams.get(QueryParams.ShowTour) === 'true'
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ViewerPage run={run} shouldStartTour={shouldStartTour} />
+      <ViewerPage
+        run={run}
+        tomograms={tomograms}
+        shouldStartTour={shouldStartTour}
+      />
     </Suspense>
   )
 }
