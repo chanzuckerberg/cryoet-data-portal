@@ -27,6 +27,8 @@ export function getShapeTypeI18nKey(
       return 'segmentationMask'
     case Annotation_File_Shape_Type_Enum.Mesh:
       return 'mesh'
+    case Annotation_File_Shape_Type_Enum.InstanceSegmentationMask:
+      return 'instanceSegmentationMask'
     default:
       return checkExhaustive(shapeType)
   }
