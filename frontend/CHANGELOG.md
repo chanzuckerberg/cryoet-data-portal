@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.79.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.78.0...cryoet-data-portal-frontend-v1.79.0) (2025-12-08)
+
+
+### ✨ Features
+
+* Add tomogram selection dropdown to the viewer page ([#1989](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1989)) ([a85665d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/a85665d6475ef859b8e6116fb3b32abceac1ed76))
+
 ## [1.78.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.77.1...cryoet-data-portal-frontend-v1.78.0) (2025-10-23)
 
 
