@@ -2,12 +2,17 @@ import { ReactNode } from 'react'
 
 import { useI18n } from 'app/hooks/useI18n'
 
+const DATE_TEXT_STYLES =
+  'text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-primitive-gray-600'
+
 export function MdxPageTitle({
   children,
   lastModified,
+  effectiveDate,
 }: {
   children: ReactNode
   lastModified: string
+  effectiveDate?: string
 }) {
   const { t } = useI18n()
 
@@ -18,8 +23,14 @@ export function MdxPageTitle({
       </h1>
 
       {lastModified && (
-        <p className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-primitive-gray-600">
+        <p className={DATE_TEXT_STYLES}>
           {t('lastUpdated')}: {lastModified}
+        </p>
+      )}
+
+      {effectiveDate && (
+        <p className={DATE_TEXT_STYLES}>
+          {t('effectiveDate')}: {effectiveDate}
         </p>
       )}
     </div>
