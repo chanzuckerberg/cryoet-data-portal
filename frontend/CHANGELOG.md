@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.80.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.79.0...cryoet-data-portal-frontend-v1.80.0) (2025-12-18)
+
+
+### ✨ Features
+
+* Update policies ([#1994](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1994)) ([23c6fb6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/23c6fb606b6a8182bc1c50c4334f780b7004e962))
+
 ## [1.79.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.78.0...cryoet-data-portal-frontend-v1.79.0) (2025-12-08)
 
 
