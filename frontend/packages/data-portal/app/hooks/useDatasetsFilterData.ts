@@ -1,10 +1,6 @@
 import { useTypedLoaderData } from 'remix-typedjson'
 
-import {
-  Annotation_File_Shape_Type_Enum,
-  GetDatasetsV2Query,
-  Tomogram_Reconstruction_Method_Enum,
-} from 'app/__generated_v2__/graphql'
+import { GetDatasetsV2Query } from 'app/__generated_v2__/graphql'
 import { isDefined } from 'app/utils/nullish'
 
 export function useDatasetsFilterData() {
@@ -23,57 +19,32 @@ export function useDatasetsFilterData() {
 
     organismNames:
       dataSource?.distinctOrganismNames?.aggregate
-        ?.map(
-          (aggregate: { groupBy?: { organismName?: string | null } | null }) =>
-            aggregate.groupBy?.organismName,
-        )
+        ?.map((aggregate) => aggregate.groupBy?.organismName)
         .filter(isDefined) ?? [],
 
     cameraManufacturers:
       dataSource?.distinctCameraManufacturers?.aggregate
-        ?.map(
-          (aggregate: {
-            groupBy?: { cameraManufacturer?: string | null } | null
-          }) => aggregate.groupBy?.cameraManufacturer,
-        )
+        ?.map((aggregate) => aggregate.groupBy?.cameraManufacturer)
         .filter(isDefined) ?? [],
 
     reconstructionMethods:
       dataSource?.distinctReconstructionMethods?.aggregate
-        ?.map(
-          (aggregate: {
-            groupBy?: {
-              reconstructionMethod?: Tomogram_Reconstruction_Method_Enum | null
-            } | null
-          }) => aggregate.groupBy?.reconstructionMethod,
-        )
+        ?.map((aggregate) => aggregate.groupBy?.reconstructionMethod)
         .filter(isDefined) ?? [],
 
     reconstructionSoftwares:
       dataSource?.distinctReconstructionSoftwares?.aggregate
-        ?.map(
-          (aggregate: {
-            groupBy?: { reconstructionSoftware?: string | null } | null
-          }) => aggregate.groupBy?.reconstructionSoftware,
-        )
+        ?.map((aggregate) => aggregate.groupBy?.reconstructionSoftware)
         .filter(isDefined) ?? [],
 
     objectNames: Array.from(
       new Set(
         [
           ...(dataSource?.distinctObjectNames?.aggregate
-            ?.map(
-              (aggregate: {
-                groupBy?: { objectName?: string | null } | null
-              }) => aggregate.groupBy?.objectName,
-            )
+            ?.map((aggregate) => aggregate.groupBy?.objectName)
             .filter(isDefined) ?? []),
           ...(dataSource?.distinctIdentifiedObjectNames?.aggregate
-            ?.map(
-              (aggregate: {
-                groupBy?: { objectName?: string | null } | null
-              }) => aggregate.groupBy?.objectName,
-            )
+            ?.map((aggregate) => aggregate.groupBy?.objectName)
             .filter(isDefined) ?? []),
         ].filter(isDefined),
       ),
@@ -81,13 +52,7 @@ export function useDatasetsFilterData() {
 
     objectShapeTypes:
       dataSource?.distinctShapeTypes?.aggregate
-        ?.map(
-          (aggregate: {
-            groupBy?: {
-              shapeType?: Annotation_File_Shape_Type_Enum | null
-            } | null
-          }) => aggregate.groupBy?.shapeType,
-        )
+        ?.map((aggregate) => aggregate.groupBy?.shapeType)
         .filter(isDefined) ?? [],
   }
 }

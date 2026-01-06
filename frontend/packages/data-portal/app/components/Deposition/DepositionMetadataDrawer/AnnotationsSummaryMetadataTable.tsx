@@ -63,8 +63,8 @@ export function AnnotationsSummaryMetadataTable({
       values: [],
       renderValue: () => (
         <ul className="flex flex-col list-none gap-sds-xs text-sds-body-s-400-wide leading-sds-body-s">
-          {objectShapeTypes.map((shapeType: string) => {
-            switch (shapeType as Annotation_File_Shape_Type_Enum) {
+          {objectShapeTypes.map((shapeType) => {
+            switch (shapeType) {
               case Annotation_File_Shape_Type_Enum.InstanceSegmentation:
                 return <li key={shapeType}>{t('instanceSegmentations')}</li>
               case Annotation_File_Shape_Type_Enum.OrientedPoint:
@@ -76,7 +76,7 @@ export function AnnotationsSummaryMetadataTable({
               case Annotation_File_Shape_Type_Enum.Mesh:
                 return <li key={shapeType}>{t('meshes')}</li>
               default:
-                return checkExhaustive(shapeType as never)
+                return checkExhaustive(shapeType)
             }
           })}
         </ul>
