@@ -5,7 +5,6 @@ import { GroupByOption } from 'app/types/depositionTypes'
 import type { I18nKeys } from 'app/types/i18n'
 
 export interface LabelSelectorOptions {
-  isExpandDepositions: boolean
   type: DataContentsType | null
   groupBy: GroupByOption
 }
@@ -16,29 +15,16 @@ export interface LabelSelectorOptions {
  * @returns i18n key for the count label
  */
 export function getCountLabelI18nKey({
-  isExpandDepositions,
   type,
   groupBy,
 }: LabelSelectorOptions): I18nKeys {
-  return match({ isExpandDepositions, type, groupBy })
+  return match({ type, groupBy })
     .with(
-      {
-        isExpandDepositions: true,
-        groupBy: GroupByOption.DepositedLocation,
-      },
+      { groupBy: GroupByOption.DepositedLocation },
       () => 'datasets' as const,
     )
-    .with(
-      { isExpandDepositions: true, groupBy: GroupByOption.Organism },
-      () => 'organisms' as const,
-    )
-    .with(
-      { isExpandDepositions: true, type: DataContentsType.Annotations },
-      () => 'annotations' as const,
-    )
-    .with(
-      { isExpandDepositions: true, type: DataContentsType.Tomograms },
-      () => 'tomograms' as const,
-    )
+    .with({ groupBy: GroupByOption.Organism }, () => 'organisms' as const)
+    .with({ type: DataContentsType.Annotations }, () => 'annotations' as const)
+    .with({ type: DataContentsType.Tomograms }, () => 'tomograms' as const)
     .otherwise(() => 'datasets' as const)
 }

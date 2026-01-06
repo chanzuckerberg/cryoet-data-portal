@@ -4,13 +4,9 @@ import { useEnvironment } from 'app/context/Environment.context'
 
 export type FeatureFlagEnvironment = typeof process.env.ENV
 
-export type FeatureFlagKey =
-  | 'expandDepositions'
-  | 'postMlChallenge'
-  | 'identifiedObjects'
+export type FeatureFlagKey = 'postMlChallenge' | 'identifiedObjects'
 
 export const FEATURE_FLAGS: Record<FeatureFlagKey, FeatureFlagEnvironment[]> = {
-  expandDepositions: ['local', 'dev', 'staging', 'prod'],
   postMlChallenge: ['local', 'dev', 'staging', 'prod'],
   identifiedObjects: ['local', 'dev', 'staging', 'prod'],
 }

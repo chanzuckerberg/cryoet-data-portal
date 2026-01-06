@@ -9,25 +9,15 @@ import { SampleAndExperimentFilterSection } from './SampleAndExperimentFilterSec
 import { TiltSeriesMetadataFilterSection } from './TiltSeriesMetadataFilterSection'
 import { TomogramMetadataFilterSection } from './TomogramMetadataFilterSection'
 
-export function DatasetFilter({
-  depositionPageVariant,
-}: {
-  depositionPageVariant?: boolean
-}) {
+export function DatasetFilter() {
   const filters = [
     {
       logId: 'included-contents-filter',
-      filter: (
-        <IncludedContentsFilterSection
-          depositionPageVariant={depositionPageVariant}
-        />
-      ),
+      filter: <IncludedContentsFilterSection />,
     },
     {
       logId: 'name-or-id-filter',
-      filter: (
-        <NameOrIdFilterSection depositionPageVariant={depositionPageVariant} />
-      ),
+      filter: <NameOrIdFilterSection />,
     },
     {
       logId: 'sample-and-experiments-filter',
@@ -35,11 +25,7 @@ export function DatasetFilter({
     },
     {
       logId: 'annotation-metadata-filter',
-      filter: (
-        <AnnotationMetadataFilterSection
-          depositionPageVariant={depositionPageVariant}
-        />
-      ),
+      filter: <AnnotationMetadataFilterSection />,
     },
     {
       logId: 'hardware-filter',

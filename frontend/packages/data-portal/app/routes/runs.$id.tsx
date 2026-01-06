@@ -112,7 +112,6 @@ export default function RunByIdPage() {
   const [searchParams] = useSearchParams()
   const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
   const [fromLocation] = useQueryParam<FromLocationKey>(QueryParams.From)
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
   const isIdentifiedObjectsEnabled = useFeatureFlag('identifiedObjects')
   const { openDrawer } = useMetadataDrawer()
 
@@ -189,15 +188,13 @@ export default function RunByIdPage() {
   const banner = match({
     depositionId,
     deposition,
-    isExpandDepositions,
     fromLocation,
     currentTab,
   })
     .with(
       { depositionId: P.nullish },
       { deposition: P.nullish },
-      { isExpandDepositions: false },
-      { isExpandDepositions: true, currentTab: t('tomograms') },
+      { currentTab: t('tomograms') },
       () => null,
     )
     .otherwise(() => (

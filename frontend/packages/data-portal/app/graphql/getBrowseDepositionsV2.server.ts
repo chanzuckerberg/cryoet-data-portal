@@ -7,7 +7,6 @@ import { performance } from 'perf_hooks'
 
 import { gql } from 'app/__generated_v2__'
 import {
-  Deposition_Types_Enum,
   GetDepositionsDataV2Query,
   OrderBy,
 } from 'app/__generated_v2__/graphql'
@@ -162,25 +161,19 @@ export async function getBrowseDepositionsV2({
   orderBy,
   page = 1,
   params,
-  isExpandDepositions = false,
 }: {
   client: ApolloClient<NormalizedCacheObject>
   orderBy?: OrderBy | null
   page?: number
   params: URLSearchParams
-  isExpandDepositions?: boolean
 }) {
   const start = performance.now()
 
   const filters = getDepositionsFilter({
     filterState: getFilterState(params),
-    isExpandDepositions,
   })
 
-  // Determine the total deposition filter based on feature flag
-  const totalDepositionFilter = isExpandDepositions
-    ? null // No filter - query all deposition types
-    : { depositionTypes: { type: { _eq: Deposition_Types_Enum.Annotation } } } // Filter for annotation types only
+  const totalDepositionFilter = null
 
   // If we have an author filter, we need to run two queries and merge the results
   if (filters.authors) {

@@ -4,7 +4,6 @@ import { DataContentsType } from 'app/types/deposition-queries'
 import { GroupByOption } from 'app/types/depositionTypes'
 
 export interface CountOptions {
-  isExpandDepositions: boolean
   tab: DataContentsType | null
   groupBy: GroupByOption
   groupedData: {
@@ -38,7 +37,6 @@ export interface TableCounts {
  * @returns Total count number
  */
 export function getTotalCount({
-  isExpandDepositions,
   tab,
   groupBy,
   groupedData,
@@ -46,26 +44,17 @@ export function getTotalCount({
   tomogramsCount,
   totalDatasetsCount,
 }: CountOptions): number {
-  return match({ isExpandDepositions, tab, groupBy })
+  return match({ tab, groupBy })
     .with(
-      { isExpandDepositions: true, groupBy: GroupByOption.Organism },
+      { groupBy: GroupByOption.Organism },
       () => groupedData.totalOrganismCount,
     )
     .with(
-      {
-        isExpandDepositions: true,
-        groupBy: GroupByOption.DepositedLocation,
-      },
+      { groupBy: GroupByOption.DepositedLocation },
       () => groupedData.totalDatasetCount,
     )
-    .with(
-      { isExpandDepositions: true, tab: DataContentsType.Annotations },
-      () => annotationsCount,
-    )
-    .with(
-      { isExpandDepositions: true, tab: DataContentsType.Tomograms },
-      () => tomogramsCount,
-    )
+    .with({ tab: DataContentsType.Annotations }, () => annotationsCount)
+    .with({ tab: DataContentsType.Tomograms }, () => tomogramsCount)
     .otherwise(() => totalDatasetsCount)
 }
 
@@ -75,7 +64,6 @@ export function getTotalCount({
  * @returns Filtered count number
  */
 export function getFilteredCount({
-  isExpandDepositions,
   tab,
   groupBy,
   groupedData,
@@ -83,26 +71,17 @@ export function getFilteredCount({
   filteredTomogramsCount,
   filteredDatasetsCount,
 }: CountOptions): number {
-  return match({ isExpandDepositions, tab, groupBy })
+  return match({ tab, groupBy })
     .with(
-      { isExpandDepositions: true, groupBy: GroupByOption.Organism },
+      { groupBy: GroupByOption.Organism },
       () => groupedData.filteredOrganismCount,
     )
     .with(
-      {
-        isExpandDepositions: true,
-        groupBy: GroupByOption.DepositedLocation,
-      },
+      { groupBy: GroupByOption.DepositedLocation },
       () => groupedData.filteredDatasetCount,
     )
-    .with(
-      { isExpandDepositions: true, tab: DataContentsType.Annotations },
-      () => filteredAnnotationsCount,
-    )
-    .with(
-      { isExpandDepositions: true, tab: DataContentsType.Tomograms },
-      () => filteredTomogramsCount,
-    )
+    .with({ tab: DataContentsType.Annotations }, () => filteredAnnotationsCount)
+    .with({ tab: DataContentsType.Tomograms }, () => filteredTomogramsCount)
     .otherwise(() => filteredDatasetsCount)
 }
 

@@ -3,7 +3,6 @@ import { IdPrefix } from 'app/constants/idPrefixes'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { MetadataDrawerId } from 'app/hooks/useMetadataDrawer'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { DepositionMetadataTab } from './DepositionMetadataTab'
 import { DepositionMethodSummaryTab } from './DepositionMethodSummaryTab'
@@ -11,7 +10,6 @@ import { DepositionMethodSummaryTab } from './DepositionMethodSummaryTab'
 export function DepositionMetadataDrawer() {
   const { t } = useI18n()
   const { deposition } = useDepositionById()
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
 
   return (
     <MetadataDrawer
@@ -23,9 +21,7 @@ export function DepositionMetadataDrawer() {
         text: `${IdPrefix.Deposition}-${deposition?.id}`,
       }}
       MetadataTabComponent={DepositionMetadataTab}
-      MethodSummaryTabComponent={
-        isExpandDepositions ? DepositionMethodSummaryTab : undefined
-      }
+      MethodSummaryTabComponent={DepositionMethodSummaryTab}
     />
   )
 }

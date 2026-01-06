@@ -120,13 +120,6 @@ export async function getDatasetsV2({
     ? parseInt(filterState.ids.deposition)
     : null
 
-  // Check if the expandDepositions feature flag is enabled
-  const isExpandDepositionsEnabled = getFeatureFlag({
-    env: process.env.ENV,
-    key: 'expandDepositions',
-    params,
-  })
-
   // Check if the identifiedObjects feature flag is enabled
   const isIdentifiedObjectsEnabled = getFeatureFlag({
     env: process.env.ENV,
@@ -454,9 +447,8 @@ export async function getDatasetsV2({
 
   let datasetsFilter: DatasetWhereClause
 
-  // If expandDepositions feature flag is enabled and we have a deposition ID,
-  // use the two-pass approach to find all datasets with content from this deposition
-  if (isExpandDepositionsEnabled && depositionId) {
+  // If we have a deposition ID, use the two-pass approach to find all datasets with content from this deposition
+  if (depositionId) {
     // Pass 1: Aggregate dataset IDs from all deposition-related queries
     const aggregatedDatasetIds = await getAggregatedDatasetIdsByDeposition({
       depositionId,

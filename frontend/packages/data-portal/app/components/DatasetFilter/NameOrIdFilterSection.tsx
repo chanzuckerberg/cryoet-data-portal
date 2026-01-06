@@ -10,11 +10,7 @@ import {
 import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'
 
-export function NameOrIdFilterSection({
-  depositionPageVariant,
-}: {
-  depositionPageVariant?: boolean
-}) {
+export function NameOrIdFilterSection() {
   const { t } = useI18n()
 
   const datasetIdFilters = useMemo<InputFilterData[]>(
@@ -45,7 +41,7 @@ export function NameOrIdFilterSection({
     <FilterSection title={t('nameOrId')}>
       <MultiInputFilter label={t('datasetIds')} filters={datasetIdFilters} />
       <AuthorFilter label={t('datasetAuthor')} />
-      {!depositionPageVariant && <DepositionIdFilter />}
+      <DepositionIdFilter />
     </FilterSection>
   )
 }

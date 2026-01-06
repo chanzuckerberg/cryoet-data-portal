@@ -14,16 +14,9 @@ import { QueryParams } from 'app/constants/query'
 import { getBrowseDepositionsV2 } from 'app/graphql/getBrowseDepositionsV2.server'
 import { useDepositions } from 'app/hooks/useDepositions'
 import { useI18n } from 'app/hooks/useI18n'
-import { getFeatureFlag } from 'app/utils/featureFlags'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
-
-  const isExpandDepositions = getFeatureFlag({
-    env: process.env.ENV,
-    key: 'expandDepositions',
-    params: url.searchParams,
-  })
 
   const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
   const sort = (url.searchParams.get(QueryParams.Sort) ?? undefined) as
@@ -37,7 +30,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
     page,
     client: apolloClientV2,
     params: url.searchParams,
-    isExpandDepositions,
   })
 
   return json({

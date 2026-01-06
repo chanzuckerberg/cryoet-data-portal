@@ -10,9 +10,7 @@ import { Tags } from 'app/constants/tags'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { cnsNoMerge } from 'app/utils/cns'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 
-import { MethodLinksOverview } from './MethodLinks'
 import { MethodSummary } from './MethodSummary'
 
 // use clsx here instead of cns since it erroneously merges text-light-sds-color-primitive-gray-500 and text-sds-caps-xxxs-600-wide
@@ -27,8 +25,6 @@ export function DepositionOverview() {
   const { deposition, annotationsCount, tomogramsCount } = useDepositionById()
 
   const { t } = useI18n()
-
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
 
   const depositionDataItems = useMemo(
     () =>
@@ -115,7 +111,7 @@ export function DepositionOverview() {
         </div>
       </div>
 
-      {isExpandDepositions ? <MethodSummary /> : <MethodLinksOverview />}
+      <MethodSummary />
     </div>
   )
 }
