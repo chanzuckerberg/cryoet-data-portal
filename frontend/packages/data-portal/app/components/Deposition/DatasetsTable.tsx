@@ -27,13 +27,31 @@ import { useDepositionByIdLegacy } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { Events, usePlausible } from 'app/hooks/usePlausible'
-import { Dataset } from 'app/types/gql/depositionPageTypes'
+import { Dataset as BaseDataset } from 'app/types/gql/depositionPageTypes'
 import { LogLevel } from 'app/types/logging'
 import { cnsNoMerge } from 'app/utils/cns'
 import { sendLogs } from 'app/utils/logging'
 import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { getErrorMessage } from 'app/utils/string'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
+
+// Extended type for datasets with runs (for legacy compatibility)
+type Dataset = BaseDataset & {
+  runs?: {
+    edges: Array<{
+      node: {
+        annotationsAggregate?: {
+          aggregate?: Array<{
+            groupBy?: {
+              objectName?: string | null
+              groundTruthStatus?: boolean | null
+            } | null
+          }> | null
+        } | null
+      }
+    }>
+  }
+}
 
 const LOADING_DATASETS: Dataset[] = range(0, MAX_PER_PAGE).map(() => ({
   authors: {
@@ -101,7 +119,7 @@ export function DatasetsTable() {
                 <Link to={datasetUrl} className="self-start">
                   <KeyPhoto
                     title={dataset.title}
-                    src={getValue() ?? undefined}
+                    src={(getValue() as string | null) ?? undefined}
                     loading={isLoadingDebounced}
                     textOnGroupHover="openDataset"
                   />
@@ -182,7 +200,13 @@ export function DatasetsTable() {
                     ) : (
                       <AuthorList
                         authors={dataset.authors.edges.map(
-                          (author) => author.node,
+                          (author: {
+                            node: {
+                              name: string
+                              primaryAuthorStatus?: boolean | null
+                              correspondingAuthorStatus?: boolean | null
+                            }
+                          }) => author.node,
                         )}
                         compact
                       />
@@ -271,22 +295,46 @@ export function DatasetsTable() {
 
         columnHelper.accessor(
           (dataset) =>
-            dataset.runs.edges.reduce((acc, run) => {
-              const annotations = run.node.annotationsAggregate?.aggregate
-              if (annotations) {
-                annotations.forEach((annotation) => {
-                  const objectName = annotation.groupBy?.objectName
-                  const groundTruthStatus =
-                    !!annotation.groupBy?.groundTruthStatus
-                  return setObjectNameAndGroundTruthStatus(
-                    objectName,
-                    groundTruthStatus,
-                    acc,
+            dataset.runs?.edges.reduce(
+              (
+                acc: Map<string, boolean>,
+                run: {
+                  node: {
+                    annotationsAggregate?: {
+                      aggregate?: Array<{
+                        groupBy?: {
+                          objectName?: string | null
+                          groundTruthStatus?: boolean | null
+                        } | null
+                      }> | null
+                    } | null
+                  }
+                },
+              ) => {
+                const annotations = run.node.annotationsAggregate?.aggregate
+                if (annotations) {
+                  annotations.forEach(
+                    (annotation: {
+                      groupBy?: {
+                        objectName?: string | null
+                        groundTruthStatus?: boolean | null
+                      } | null
+                    }) => {
+                      const objectName = annotation.groupBy?.objectName
+                      const groundTruthStatus =
+                        !!annotation.groupBy?.groundTruthStatus
+                      return setObjectNameAndGroundTruthStatus(
+                        objectName,
+                        groundTruthStatus,
+                        acc,
+                      )
+                    },
                   )
-                })
-              }
-              return acc
-            }, new Map<string, boolean>()) || new Map<string, boolean>(),
+                }
+                return acc
+              },
+              new Map<string, boolean>(),
+            ) || new Map<string, boolean>(),
           {
             id: 'annotatedObjects',
 

@@ -4,10 +4,10 @@ import { useTypedLoaderData } from 'remix-typedjson'
 import {
   Annotation_Method_Link_Type_Enum,
   Annotation_Method_Type_Enum,
+  GetDatasetsV2Query,
   type GetDepositionAnnotationsQuery,
   GetDepositionBaseDataV2Query,
   GetDepositionExpandedDataV2Query,
-  GetDepositionLegacyDataV2Query,
   type GetDepositionTomogramsQuery,
 } from 'app/__generated_v2__/graphql'
 import { METHOD_TYPE_ORDER } from 'app/constants/methodTypes'
@@ -253,7 +253,7 @@ export function useDepositionById() {
 export function useDepositionByIdLegacy() {
   const { v2, legacyData } = useTypedLoaderData<{
     v2: GetDepositionBaseDataV2Query
-    legacyData?: GetDepositionLegacyDataV2Query
+    legacyData?: GetDatasetsV2Query
     annotations?: GetDepositionAnnotationsQuery
     tomograms?: GetDepositionTomogramsQuery
   }>()
