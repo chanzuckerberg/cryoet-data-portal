@@ -36,7 +36,6 @@ export interface GetDatasetsFilterParams {
   depositionId?: number
   searchText?: string
   aggregatedDatasetIds?: number[]
-  isIdentifiedObjectsEnabled?: boolean
 }
 
 export function getDatasetsFilter({
@@ -44,7 +43,6 @@ export function getDatasetsFilter({
   depositionId,
   searchText,
   aggregatedDatasetIds,
-  isIdentifiedObjectsEnabled = false,
 }: GetDatasetsFilterParams): DatasetWhereClause {
   const where: DatasetWhereClause = {}
 
@@ -208,7 +206,6 @@ export function getDatasetsFilter({
     objectNames,
     objectId,
     objectShapeTypes,
-    annotatedObjectsOnly,
     _searchIdentifiedObjectsOnly,
   } = filterState.annotation
   // Object Name
@@ -220,23 +217,14 @@ export function getDatasetsFilter({
       where.runs.identifiedObjects.objectName = {
         _in: objectNames,
       }
-    } else if (annotatedObjectsOnly || !isIdentifiedObjectsEnabled) {
-      // Only search annotations when annotated-objects=Yes or feature flag is off
-      where.runs ??= { annotations: {} }
-      where.runs.annotations ??= {}
-      where.runs.annotations.objectName = {
-        _in: objectNames,
-      }
     } else {
-      // For multiple table search
+      // Search annotations (for multiple table search, we also query identifiedObjects separately)
       where.runs ??= { annotations: {} }
       where.runs.annotations ??= {}
       where.runs.annotations.objectName = {
         _in: objectNames,
       }
     }
-    // When identifiedObjects is enabled and annotatedObjectsOnly is false,
-    // we use a multiple table search in getDatasetsV2.server.ts
   }
   // Object ID
   if (objectId) {
@@ -247,23 +235,14 @@ export function getDatasetsFilter({
       where.runs.identifiedObjects.objectId = {
         _eq: objectId,
       }
-    } else if (annotatedObjectsOnly || !isIdentifiedObjectsEnabled) {
-      // Only search annotations when annotated-objects=Yes or feature flag is off
-      where.runs ??= { annotations: {} }
-      where.runs.annotations ??= {}
-      where.runs.annotations.objectId = {
-        _eq: objectId,
-      }
     } else {
-      // For multiple table search: annotations query should also filter by objectId
+      // Search annotations (for multiple table search, we also query identifiedObjects separately)
       where.runs ??= { annotations: {} }
       where.runs.annotations ??= {}
       where.runs.annotations.objectId = {
         _eq: objectId,
       }
     }
-    // When identifiedObjects is enabled and annotatedObjectsOnly is false,
-    // we use a multiple table search in getDatasetsV2.server.ts
   }
   // Object Shape Type
   if (objectShapeTypes.length > 0) {

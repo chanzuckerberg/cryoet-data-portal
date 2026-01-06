@@ -9,7 +9,6 @@ export function shouldShowIdentifiedObjectsEmptyState({
   annotationsFiltered,
   identifiedObjectsData,
   filterState,
-  isIdentifiedObjectsFeatureEnabled,
 }: {
   annotationsFiltered: number
   identifiedObjectsData: NonNullable<
@@ -18,17 +17,11 @@ export function shouldShowIdentifiedObjectsEmptyState({
     >[number]['groupBy']
   >[]
   filterState: FilterState
-  isIdentifiedObjectsFeatureEnabled: boolean
 }): boolean {
   // Only show this state if:
-  // 1. Feature flag is enabled
-  // 2. User is filtering by object names
-  // 3. No annotations match the current filter (filtered count is 0)
-  // 4. But identified objects exist for the searched object names
-
-  if (!isIdentifiedObjectsFeatureEnabled) {
-    return false
-  }
+  // 1. User is filtering by object names
+  // 2. No annotations match the current filter (filtered count is 0)
+  // 3. But identified objects exist for the searched object names
 
   const { objectNames } = filterState.annotation
 
