@@ -4,7 +4,6 @@ import { useTypedLoaderData } from 'remix-typedjson'
 import {
   Annotation_Method_Link_Type_Enum,
   Annotation_Method_Type_Enum,
-  GetDatasetsV2Query,
   type GetDepositionAnnotationsQuery,
   GetDepositionBaseDataV2Query,
   GetDepositionExpandedDataV2Query,
@@ -246,20 +245,5 @@ export function useDepositionById() {
         (total, node) => total + (node.count ?? 0),
         0,
       ) ?? 0,
-  }
-}
-
-// Legacy hook for components that need legacy data (datasets)
-export function useDepositionByIdLegacy() {
-  const { v2, legacyData } = useTypedLoaderData<{
-    v2: GetDepositionBaseDataV2Query
-    legacyData?: GetDatasetsV2Query
-    annotations?: GetDepositionAnnotationsQuery
-    tomograms?: GetDepositionTomogramsQuery
-  }>()
-
-  return {
-    datasets: legacyData?.datasets,
-    deposition: v2.depositions[0],
   }
 }
