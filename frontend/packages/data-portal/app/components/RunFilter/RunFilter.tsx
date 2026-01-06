@@ -17,7 +17,6 @@ import { QualityScoreFilter } from './QualityScoreFilter'
 
 export function RunFilter() {
   const { t } = useI18n()
-  const showDepositions = useFeatureFlag('depositions')
   const showObjectNameIdFilter = useFeatureFlag('identifiedObjects')
   const { objectNames, objectShapeTypes } = useDatasetById()
 
@@ -27,7 +26,7 @@ export function RunFilter() {
         <GroundTruthAnnotationFilter />
       </FilterSection>
 
-      {showDepositions && <NameOrIdFilterSection />}
+      <NameOrIdFilterSection />
 
       <FilterSection title={t('objectMetadata')}>
         {showObjectNameIdFilter ? (

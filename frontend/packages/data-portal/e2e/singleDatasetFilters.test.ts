@@ -7,7 +7,7 @@ import { ObjectShapeType } from 'app/types/shapeTypes'
 import { getPrefixedId } from 'app/utils/idPrefixes'
 
 import { E2E_CONFIG, SINGLE_DATASET_URL, translations } from './constants'
-import { getObjectShapeTypeLabel, onlyRunIfEnabled } from './utils'
+import { getObjectShapeTypeLabel } from './utils'
 
 test.describe('Single dataset page filters', () => {
   let filtersPage: FiltersPage
@@ -73,8 +73,6 @@ test.describe('Single dataset page filters', () => {
     })
   })
   test.describe('Deposition ID filter', () => {
-    onlyRunIfEnabled('depositions')
-
     test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_DATASET_URL)
 
