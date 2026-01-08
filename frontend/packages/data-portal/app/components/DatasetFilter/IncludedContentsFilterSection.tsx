@@ -34,7 +34,7 @@ export function IncludedContentsFilterSection() {
   )
 
   return (
-    <FilterSection title={t('depositionContents')}>
+    <FilterSection title={t('datasetContents')}>
       <DataTypesFilter />
 
       <GroundTruthAnnotationFilter />
@@ -48,11 +48,6 @@ export function IncludedContentsFilterSection() {
             QueryParams.NumberOfRuns,
             option ? JSON.stringify(option.value) : null,
           )
-        }
-        details={
-          <p className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-primitive-gray-500">
-            {t('withDepositionData')}
-          </p>
         }
       />
     </FilterSection>
