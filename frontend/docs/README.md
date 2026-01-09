@@ -17,7 +17,7 @@ This documentation is organized into focused sections that build upon each other
 | Section                                         | Description                                                                       | Files    |
 | ----------------------------------------------- | --------------------------------------------------------------------------------- | -------- |
 | [**00-getting-started**](./00-getting-started/) | Essential onboarding to run the app locally and understand the codebase structure | 4 files  |
-| [**01-architecture**](./01-architecture/)       | Core technical decisions, patterns, and how major systems work together           | 20 files |
+| [**01-architecture**](./01-architecture/)       | Core technical decisions, patterns, and how major systems work together           | 21 files |
 | [**03-development**](./03-development/)         | Step-by-step guides for common development tasks                                  | 5 files  |
 | [**04-reference**](./04-reference/)             | Quick-lookup reference documentation for APIs, types, and configuration           | 6 files  |
 | [**05-contributing**](./05-contributing/)       | Guidelines for contributing to the project                                        | 6 files  |
@@ -65,6 +65,7 @@ Architecture documentation is organized by topic:
 - [Table Page Layout](./01-architecture/04-components/02-table-page-layout.md)
 - [Metadata Drawers](./01-architecture/04-components/03-metadata-drawers.md)
 - [Download Modal](./01-architecture/04-components/04-download-modal.md)
+- [Neuroglancer Viewer](./01-architecture/04-components/05-neuroglancer-viewer.md)
 
 #### Styling
 

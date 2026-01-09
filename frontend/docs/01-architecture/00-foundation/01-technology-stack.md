@@ -509,7 +509,7 @@ pnpm is the package manager, chosen for its speed and disk efficiency.
 - `packages/data-portal` - Main application
 - `packages/eslint-config` - Shared ESLint configuration
 - `packages/eslint-plugin` - Custom ESLint rules
-- `packages/neuroglancer` - 3D visualization library
+- `packages/neuroglancer` - 3D visualization library (see [Neuroglancer Viewer](../04-components/05-neuroglancer-viewer.md))
 
 **Enforcement:** The `preinstall` script prevents using npm or yarn.
 
