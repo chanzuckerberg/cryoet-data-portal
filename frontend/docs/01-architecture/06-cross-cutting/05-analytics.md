@@ -18,6 +18,8 @@ This document covers the analytics tracking system in the CryoET Data Portal fro
 | `ENV`                          | Yes      | -         | Selects Plausible domain (local/dev/staging/prod) |
 | `LOCALHOST_PLAUSIBLE_TRACKING` | No       | `'false'` | Enable analytics tracking on localhost            |
 
+**Dashboard Access:** Credentials are in 1Password `Imaging` vault under `Plausible (current)`.
+
 ---
 
 ## Why Plausible?
@@ -654,12 +656,6 @@ If you get type errors when adding events:
 1. Ensure event is added to `Events` enum
 2. Ensure payload type is added to `EventPayloads`
 3. Verify payload matches the type definition
-
----
-
-## Access and Credentials
-
-Credentials to access the Plausible dashboard are located in the 1Password `Imaging` vault under `Plausible (current)`.
 
 ---
 
