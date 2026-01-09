@@ -84,7 +84,6 @@ Architecture documentation is organized by topic:
 - [Adding New Components](./03-development/02-adding-new-components.md)
 - [GraphQL Queries](./03-development/03-graphql-queries.md)
 - [Adding Filters](./03-development/04-adding-filters.md)
-- [Styling System](./01-architecture/05-styling/01-styling-system.md)
 - [Testing Guide](./03-development/06-testing-guide.md)
 
 ### Reference
