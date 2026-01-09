@@ -17,10 +17,10 @@ This documentation is organized into focused sections that build upon each other
 | Section                                         | Description                                                                       | Files    |
 | ----------------------------------------------- | --------------------------------------------------------------------------------- | -------- |
 | [**00-getting-started**](./00-getting-started/) | Essential onboarding to run the app locally and understand the codebase structure | 4 files  |
-| [**01-architecture**](./01-architecture/)       | Core technical decisions, patterns, and how major systems work together           | 16 files |
-| [**03-development**](./03-development/)         | Step-by-step guides for common development tasks                                  | 8 files  |
+| [**01-architecture**](./01-architecture/)       | Core technical decisions, patterns, and how major systems work together           | 20 files |
+| [**03-development**](./03-development/)         | Step-by-step guides for common development tasks                                  | 5 files  |
 | [**04-reference**](./04-reference/)             | Quick-lookup reference documentation for APIs, types, and configuration           | 6 files  |
-| [**05-contributing**](./06-contributing/)       | Guidelines for contributing to the project                                        | 6 files  |
+| [**05-contributing**](./05-contributing/)       | Guidelines for contributing to the project                                        | 6 files  |
 | [**07-appendix**](./07-appendix/)               | Supplementary material including glossary and external resources                  | 2 files  |
 
 ---
@@ -98,12 +98,12 @@ Architecture documentation is organized by topic:
 
 ### Contributing
 
-- [Code Style](./06-contributing/01-code-style.md)
-- [PR Guidelines](./06-contributing/02-pr-guidelines.md)
-- [Commit Conventions](./06-contributing/03-commit-conventions.md)
-- [Release Process](./06-contributing/04-release-process.md)
-- [GitHub Actions & Deployment](./06-contributing/05-github-actions-deployment.md)
-- [Claude Code Commands](./06-contributing/06-claude-code-commands.md)
+- [Code Style](./05-contributing/01-code-style.md)
+- [PR Guidelines](./05-contributing/02-pr-guidelines.md)
+- [Commit Conventions](./05-contributing/03-commit-conventions.md)
+- [Release Process](./05-contributing/04-release-process.md)
+- [GitHub Actions & Deployment](./05-contributing/05-github-actions-deployment.md)
+- [Claude Code Commands](./05-contributing/06-claude-code-commands.md)
 
 ### Appendix
 
@@ -129,4 +129,4 @@ Found an error or want to improve the documentation? We welcome contributions!
 - Include code examples with file path references
 - Keep documents focused and split if they grow too large
 
-See [PR Guidelines](./06-contributing/02-pr-guidelines.md) for the contribution process.
+See [PR Guidelines](./05-contributing/02-pr-guidelines.md) for the contribution process.
