@@ -23,7 +23,7 @@ Release Please is a GitHub Action that automates releases based on conventional 
 ### How It Works
 
 ```mermaid
-graph LR
+graph TD
     A[Merge PR to main] --> B[Release Please runs]
     B --> C{Changes since<br/>last release?}
     C -->|Yes| D[Create/update<br/>release PR]
