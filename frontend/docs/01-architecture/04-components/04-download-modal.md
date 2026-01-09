@@ -1,12 +1,11 @@
 # Download Modal
 
-This document describes the download modal pattern used for configuring and initiating data downloads throughout the CryoET Data Portal.
-
+The download modal guides users through configuring and initiating data downloads. It presents multiple download methods (AWS CLI, Python API, cURL, direct browser download) and, for complex downloads like runs or annotations, includes a configuration step to select specific files or formats.
 
 ## Quick Reference
 
-| Component                           | Purpose                   | Location                                                                                                              |
-| ----------------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Component                           | Purpose                   | Location                                                                                                                 |
+| ----------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `<DownloadModal>`                   | Main modal component      | [`components/Download/DownloadModal.tsx`](../../../packages/data-portal/app/components/Download/DownloadModal.tsx)       |
 | `useDownloadModalQueryParamState()` | State management hook     | [`hooks/useDownloadModalQueryParamState.ts`](../../../packages/data-portal/app/hooks/useDownloadModalQueryParamState.ts) |
 | `DownloadModalContext`              | Context for download data | [`context/DownloadModal.context.ts`](../../../packages/data-portal/app/context/DownloadModal.context.ts)                 |
@@ -15,7 +14,13 @@ This document describes the download modal pattern used for configuring and init
 
 ## Architecture Overview
 
-The download modal provides a multi-step configuration flow for downloading datasets, runs, and annotations:
+The modal supports three download types, each with different configuration needs:
+
+| Type       | Flow                                | Configuration Options               |
+| ---------- | ----------------------------------- | ----------------------------------- |
+| Dataset    | Single step → download options      | None (direct download)              |
+| Run        | Configure → download options        | Select tomogram processing/sampling |
+| Annotation | Configure → download options        | Choose file format and alignment    |
 
 ```
 Step 1: Configure           Step 2: Download Options
@@ -27,13 +32,7 @@ Step 1: Configure           Step 2: Download Options
                             └────────────────────┘
 ```
 
-### Download Types
-
-| Type       | Steps | Configuration Options               |
-| ---------- | ----- | ----------------------------------- |
-| Dataset    | 1     | None - direct to download options   |
-| Run        | 2     | Select tomogram processing/sampling |
-| Annotation | 2     | Choose file format and alignment    |
+Dataset downloads skip the configuration step since they download the entire dataset. Run and annotation downloads require users to specify what to download before seeing download instructions.
 
 ---
 
@@ -41,28 +40,21 @@ Step 1: Configure           Step 2: Download Options
 
 ### Opening the Modal
 
+Use the `useDownloadModalQueryParamState` hook to open the modal with appropriate context:
+
 ```typescript
-import { useDownloadModalQueryParamState } from 'app/hooks/useDownloadModalQueryParamState'
+const { openDatasetDownloadModal } = useDownloadModalQueryParamState()
 
-function DatasetRow({ dataset }: Props) {
-  const { openDatasetDownloadModal } = useDownloadModalQueryParamState()
-
-  return (
-    <Button
-      onClick={() =>
-        openDatasetDownloadModal({
-          datasetId: dataset.id,
-          fileSize: dataset.size,
-        })
-      }
-    >
-      Download
-    </Button>
-  )
-}
+<Button onClick={() => openDatasetDownloadModal({ datasetId: 123, fileSize: 456789 })}>
+  Download
+</Button>
 ```
 
+Different openers exist for each download type: `openDatasetDownloadModal`, `openRunDownloadModal`, `openAnnotationDownloadModal`, and `openTomogramDownloadModal`.
+
 ### Rendering the Modal
+
+Place the modal at the page level, typically via `TablePageLayout`'s `downloadModal` prop:
 
 ```typescript
 <DownloadModal
@@ -74,428 +66,105 @@ function DatasetRow({ dataset }: Props) {
 />
 ```
 
-**Location:** [`routes/datasets.$id.tsx`](../../../packages/data-portal/app/routes/datasets.$id.tsx)
+**Example:** [`routes/datasets.$id.tsx`](../../../packages/data-portal/app/routes/datasets.$id.tsx)
 
 ---
 
 ## State Management
 
-### useDownloadModalQueryParamState Hook
+The hook manages modal state via URL query parameters, making download flows bookmarkable and shareable.
 
-Manages modal state via URL query parameters:
+### Key State Values
 
-```typescript
-export function useDownloadModalQueryParamState() {
-  return {
-    // State
-    isModalOpen: boolean
-    downloadStep: DownloadStep | null
-    downloadTab: DownloadTab | null
-    downloadConfig: DownloadConfig | null
-    tomogramProcessing: string | null
-    tomogramSampling: string | null
-    annotationId: string | null
-    fileFormat: string | null
+| State                | Purpose                                          |
+| -------------------- | ------------------------------------------------ |
+| `isModalOpen`        | Whether the modal is currently displayed         |
+| `downloadStep`       | Current step (`configure` or `download`)         |
+| `downloadTab`        | Active download method tab                       |
+| `downloadConfig`     | Selected configuration (`tomogram` or `all-annotations`) |
+| `tomogramProcessing` | Selected tomogram processing type                |
+| `tomogramSampling`   | Selected tomogram sampling rate                  |
+| `annotationId`       | Selected annotation ID                           |
+| `fileFormat`         | Selected annotation file format                  |
 
-    // Open methods
-    openDatasetDownloadModal: (payload) => void
-    openRunDownloadModal: (payload) => void
-    openAnnotationDownloadModal: (payload) => void
-    openTomogramDownloadModal: (payload) => void
+### Navigation Methods
 
-    // Navigation methods
-    configureDownload: (payload) => void
-    goBackToConfigure: (payload) => void
-    closeDownloadModal: (payload) => void
-
-    // Update methods
-    setDownloadTab: (payload) => void
-    setDownloadConfig: (config) => void
-    setTomogramConfig: (id?) => void
-    setAllAnnotationsConfig: () => void
-  }
-}
-```
+| Method                | Purpose                                |
+| --------------------- | -------------------------------------- |
+| `configureDownload()` | Advance from configure to download step |
+| `goBackToConfigure()` | Return to configuration step           |
+| `closeDownloadModal()`| Close and reset modal state            |
+| `setDownloadTab()`    | Switch between download method tabs    |
 
 **Location:** [`hooks/useDownloadModalQueryParamState.ts`](../../../packages/data-portal/app/hooks/useDownloadModalQueryParamState.ts)
 
-### Download Steps
-
-```typescript
-export enum DownloadStep {
-  Configure = 'configure',
-  Download = 'download',
-}
-```
-
-### Download Tabs
-
-```typescript
-export enum DownloadTab {
-  API = 'api',
-  AWS = 'aws',
-  Curl = 'curl',
-  Direct = 'direct',
-}
-```
-
-### Download Config
-
-```typescript
-export enum DownloadConfig {
-  AllAnnotations = 'all-annotations',
-  Tomogram = 'tomogram',
-}
-```
-
 ---
 
-## DownloadModalContext
+## Download Modal Context
 
-### Context Interface
+The `DownloadModalContext` provides data to child components without prop drilling. It contains information about the entity being downloaded (dataset, run, tomogram, or annotation) along with available options and paths.
 
-```typescript
-export interface DownloadModalContextValue {
-  // Type of download
-  type: 'dataset' | 'runs' | 'annotation'
+Key fields include:
+- **Entity info**: `datasetId`, `datasetTitle`, `runId`, `runName`, `tomogramId`, `annotationId`
+- **Available options**: `allTomograms`, `allTomogramProcessing`, `allAnnotationShapes`
+- **Selected items**: `tomogramToDownload`, `annotationShapeToDownload`
+- **Download paths**: `s3Path`, `httpsPath`
+- **Metadata**: `fileSize`, `objectName`
 
-  // Dataset information
-  datasetId?: number
-  datasetTitle?: string
-  datasetContentsSummary?: SummaryData
-
-  // Run information
-  runId?: number
-  runName?: string
-  totalRuns?: number
-
-  // Tomogram information
-  tomogramId?: number
-  allTomograms?: TomogramV2[]
-  allTomogramProcessing?: string[]
-  tomogramToDownload?: TomogramV2
-
-  // Annotation information
-  annotationShapeToDownload?: AnnotationShape
-  allAnnotationShapes?: AnnotationShape[]
-  objectName?: string
-
-  // Download paths
-  s3Path?: string
-  httpsPath?: string
-
-  // Metadata
-  fileSize?: number
-}
-```
+Access via `useDownloadModalContext()` in any component within the modal.
 
 **Location:** [`context/DownloadModal.context.ts`](../../../packages/data-portal/app/context/DownloadModal.context.ts)
-
-### Using the Context
-
-```typescript
-import { useDownloadModalContext } from 'app/context/DownloadModal.context'
-
-function ConfigureDownloadContent() {
-  const { type, datasetId, runName, allTomograms } = useDownloadModalContext()
-
-  // Access modal context data
-}
-```
-
----
-
-## Modal Structure
-
-### Two-Step Flow
-
-```typescript
-const modalData = useMemo(() => {
-  const hasMultipleSteps = ['runs', 'annotation'].includes(type)
-
-  return match({ downloadStep, type })
-    .with(
-      { type: 'dataset' },
-      { type: 'runs', downloadStep: DownloadStep.Download },
-      { type: 'annotation', downloadStep: DownloadStep.Download },
-      () => ({
-        // Step 2: Download Options
-        buttonText: t('close'),
-        content: <DownloadOptionsContent />,
-        onClick: closeModal,
-        showBackButton: hasMultipleSteps,
-        subtitle: hasMultipleSteps ? t('stepCount', { count: 2, max: 2 }) : null,
-        title: type === 'dataset' ? t('downloadDatasetTitle') : t('downloadOptions'),
-      }),
-    )
-    .otherwise(() => ({
-      // Step 1: Configure
-      buttonDisabled: !downloadConfig,
-      buttonText: t('next'),
-      content: <ConfigureDownloadContent />,
-      onClick: () => configureDownload(plausiblePayload),
-      showBackButton: false,
-      subtitle: t('stepCount', { count: 1, max: 2 }),
-      title: t('configureDownload'),
-    }))
-}, [downloadStep, type, downloadConfig, ...])
-```
-
-**Location:** [`components/Download/DownloadModal.tsx`](../../../packages/data-portal/app/components/Download/DownloadModal.tsx)
 
 ---
 
 ## Configuration Step
 
-### For Runs (Tomogram Selection)
+The configuration step appears for runs and annotations, allowing users to specify exactly what to download.
 
-```typescript
-function ConfigureTomogramDownloadContent() {
-  const { allTomograms } = useDownloadModalContext()
-  const { setTomogramConfig } = useDownloadModalQueryParamState()
+### Tomogram Configuration (Runs)
 
-  return (
-    <div className="flex flex-col gap-sds-l">
-      <p>{t('selectTomogramToDownload')}</p>
+Users select from available tomograms based on processing type and sampling rate. The `TomogramSelector` dropdown displays details about each option (processing method, voxel spacing, file size).
 
-      <TomogramSelector
-        tomograms={allTomograms}
-        onSelect={(tomogramId) => setTomogramConfig(tomogramId)}
-      />
-    </div>
-  )
-}
-```
+### Annotation Configuration
 
-**Location:** [`components/Download/ConfigureTomogramDownloadContent.tsx`](../../../packages/data-portal/app/components/Download/ConfigureTomogramDownloadContent.tsx)
+Users choose the file format for annotation download. A warning callout reminds users that annotations may need transformation if used with different tomogram alignments.
 
-### For Annotations (Format Selection)
-
-```typescript
-function ConfigureAnnotationDownloadContent() {
-  const { allAnnotationShapes } = useDownloadModalContext()
-  const { setFileFormat } = useDownloadModalQueryParamState()
-
-  return (
-    <div className="flex flex-col gap-sds-l">
-      <FileFormatDropdown
-        formats={getAvailableFormats(allAnnotationShapes)}
-        onSelect={setFileFormat}
-      />
-
-      <AnnotationAlignmentCallout />
-    </div>
-  )
-}
-```
-
-**Location:** [`components/Download/ConfigureAnnotationDownloadContent.tsx`](../../../packages/data-portal/app/components/Download/ConfigureAnnotationDownloadContent.tsx)
+The "Next" button remains disabled until a valid configuration is selected.
 
 ---
 
 ## Download Options Step
 
-### Tab Navigation
+Once configured (or immediately for datasets), users see four download method tabs:
 
-```typescript
-function DownloadOptionsContent() {
-  const { downloadTab, setDownloadTab } = useDownloadModalQueryParamState()
+### AWS CLI
 
-  return (
-    <>
-      <Tabs
-        value={downloadTab ?? DownloadTab.AWS}
-        onChange={(tab) => setDownloadTab({ tab })}
-        tabs={[
-          { label: 'AWS', value: DownloadTab.AWS },
-          { label: 'API', value: DownloadTab.API },
-          { label: 'cURL', value: DownloadTab.Curl },
-          { label: 'Direct Download', value: DownloadTab.Direct },
-        ]}
-      />
+Provides a copyable `aws s3 cp` command for downloading via Amazon's CLI tool. Best for large downloads and programmatic access. Includes a link to AWS CLI installation instructions.
 
-      {downloadTab === DownloadTab.AWS && <AWSDownloadTab />}
-      {downloadTab === DownloadTab.API && <APIDownloadTab />}
-      {downloadTab === DownloadTab.Curl && <CurlDownloadTab />}
-      {downloadTab === DownloadTab.Direct && <DirectDownloadTab />}
-    </>
-  )
-}
-```
+### API (Python)
 
-**Location:** [`components/Download/DownloadOptionsContent.tsx`](../../../packages/data-portal/app/components/Download/DownloadOptionsContent.tsx)
+Shows Python code using the `cryoet_data_portal` library. This is the recommended approach for researchers who want to integrate downloads into analysis scripts. Links to API documentation.
 
----
+### cURL
 
-## Download Tabs
+Provides a copyable `curl` command for command-line downloads via HTTPS. Useful for environments where AWS CLI isn't available.
 
-### AWS CLI Tab
+### Direct Download
 
-```typescript
-function AWSDownloadTab() {
-  const { s3Path } = useDownloadModalContext()
-  const { t } = useI18n()
-
-  return (
-    <div className="flex flex-col gap-sds-l">
-      <p>{t('awsInstructions')}</p>
-
-      <CopyBox
-        content={`aws s3 cp --recursive ${s3Path} ./destination/`}
-        label="AWS CLI Command"
-      />
-
-      <Link to={t('awsCliLink')} target="_blank">
-        {t('installAwsCli')}
-      </Link>
-    </div>
-  )
-}
-```
-
-**Location:** [`components/Download/AWSDownloadTab.tsx`](../../../packages/data-portal/app/components/Download/AWSDownloadTab.tsx)
-
-### API Tab
-
-```typescript
-function APIDownloadTab() {
-  const { datasetId } = useDownloadModalContext()
-  const { t } = useI18n()
-
-  return (
-    <div className="flex flex-col gap-sds-l">
-      <p>{t('apiInstructions')}</p>
-
-      <CopyBox
-        content={`
-from cryoet_data_portal import Dataset
-
-dataset = Dataset.get_by_id(${datasetId})
-dataset.download()
-        `.trim()}
-        language="python"
-      />
-
-      <Link to={t('apiDocLink')} target="_blank">
-        {t('viewApiDocs')}
-      </Link>
-    </div>
-  )
-}
-```
-
-**Location:** [`components/Download/APIDownloadTab.tsx`](../../../packages/data-portal/app/components/Download/APIDownloadTab.tsx)
-
-### cURL Tab
-
-```typescript
-function CurlDownloadTab() {
-  const { httpsPath } = useDownloadModalContext()
-
-  return (
-    <div className="flex flex-col gap-sds-l">
-      <p>{t('curlInstructions')}</p>
-
-      <CopyBox
-        content={`curl -O ${httpsPath}`}
-        label="cURL Command"
-      />
-    </div>
-  )
-}
-```
-
-**Location:** [`components/Download/CurlDownloadTab.tsx`](../../../packages/data-portal/app/components/Download/CurlDownloadTab.tsx)
-
-### Direct Download Tab
-
-```typescript
-function DirectDownloadTab() {
-  const { httpsPath, fileSize } = useDownloadModalContext()
-  const { t } = useI18n()
-
-  return (
-    <div className="flex flex-col gap-sds-l items-center">
-      <p className="text-center">
-        {t('directDownloadDescription')}
-      </p>
-
-      <Button
-        component="a"
-        href={httpsPath}
-        download
-        sdsType="primary"
-      >
-        {t('clickToDownloadViaBrowser')}
-      </Button>
-
-      {fileSize && (
-        <p className="text-sds-body-s-400-wide text-light-sds-color-primitive-gray-500">
-          {t('fileSize')}: {formatFileSize(fileSize)}
-        </p>
-      )}
-    </div>
-  )
-}
-```
-
-**Location:** [`components/Download/DirectDownloadTab.tsx`](../../../packages/data-portal/app/components/Download/DirectDownloadTab.tsx)
+A browser-based download button for the HTTPS URL. Suitable for smaller files. Displays the file size to help users decide if browser download is appropriate.
 
 ---
 
 ## Analytics Integration
 
-### Tracked Events
+All modal interactions are tracked via Plausible analytics to understand usage patterns:
 
-All modal interactions are tracked via Plausible:
+- **Modal opens**: Which download types are most used
+- **Step progression**: How often users complete configuration
+- **Tab selection**: Which download methods are preferred
+- **Modal closes**: At which step users abandon the flow
 
-```typescript
-// Opening modal
-plausible(Events.OpenDownloadModal, {
-  datasetId,
-  runId,
-  fileSize,
-  step: DownloadStep.Configure,
-})
-
-// Progressing to download options
-plausible(Events.ClickNextToDownloadOptions, {
-  datasetId,
-  config: downloadConfig,
-  tomogramProcessing,
-  tomogramSampling,
-})
-
-// Switching tabs
-plausible(Events.ClickDownloadTab, {
-  tab: DownloadTab.AWS,
-  datasetId,
-})
-
-// Closing modal
-plausible(Events.CloseDownloadModal, {
-  datasetId,
-  step: downloadStep,
-})
-```
-
-### Payload Structure
-
-```typescript
-export type PlausibleDownloadModalPayload = {
-  datasetId?: number
-  runId?: number
-  fileSize?: number
-  tomogramProcessing?: string
-  tomogramSampling?: string
-  annotationId?: string
-  objectShapeType?: string
-  step?: DownloadStep
-  config?: DownloadConfig
-  tab?: DownloadTab
-  fileFormat?: string
-}
-```
+This data informs UX improvements and documentation priorities.
 
 ---
 
@@ -503,141 +172,37 @@ export type PlausibleDownloadModalPayload = {
 
 ### Annotation Alignment Warning
 
-```typescript
-function AnnotationAlignmentCallout() {
-  const { t } = useI18n()
-
-  return (
-    <Callout intent="warning">
-      <p>{t('annotationsMayRequireTransformation')}</p>
-      <Link to="https://docs.portal.com/annotations" target="_blank">
-        {t('learnAboutAnnotationTransformation')}
-      </Link>
-    </Callout>
-  )
-}
-```
-
-**Purpose:** Warn users that annotations may need transformation if used with different tomogram alignments.
-
-**Location:** [`components/Download/AnnotationAlignmentCallout.tsx`](../../../packages/data-portal/app/components/Download/AnnotationAlignmentCallout.tsx)
+When downloading annotations, a callout warns that annotations may require transformation to align with different tomogram reconstructions. This links to documentation explaining the coordinate transformation process.
 
 ### Tomogram Selector
 
-```typescript
-function TomogramSelector({ tomograms, onSelect }: Props) {
-  const [selectedId, setSelectedId] = useState<string>()
+The dropdown displays rich information about each tomogram option:
+- Processing method (e.g., "WBP", "SIRT")
+- Voxel spacing
+- File size
 
-  return (
-    <Select
-      value={selectedId}
-      onChange={(id) => {
-        setSelectedId(id)
-        onSelect(id)
-      }}
-    >
-      {tomograms.map((tomogram) => (
-        <MenuItem key={tomogram.id} value={String(tomogram.id)}>
-          <TomogramSelectorLabel tomogram={tomogram} />
-        </MenuItem>
-      ))}
-    </Select>
-  )
-}
-```
-
-Shows tomogram details (processing, sampling, size) in dropdown.
-
-**Location:** [`components/Download/Tomogram/TomogramSelector.tsx`](../../../packages/data-portal/app/components/Download/Tomogram/TomogramSelector.tsx)
+This helps users choose the appropriate tomogram for their needs.
 
 ---
 
 ## Best Practices
 
-### Do's
+**Do:**
+- Provide clear context (title, file size) when opening the modal
+- Track user interactions for analytics
+- Validate configuration before enabling the "Next" button
+- Clean up URL parameters when closing the modal
 
-✅ **Provide context in the modal**
-
-```typescript
-<DownloadModal
-  type="dataset"
-  datasetTitle="Clear, descriptive title"
-  fileSize={12345678} // Show file size
-/>
-```
-
-✅ **Track all user interactions**
-
-```typescript
-// Log when users configure downloads
-plausible(Events.ClickNextToDownloadOptions, payload)
-```
-
-✅ **Validate before advancing steps**
-
-```typescript
-buttonDisabled={!downloadConfig || !fileFormat}
-```
-
-### Don'ts
-
-❌ **Don't forget to clean up URL params**
-
-```typescript
-// Close should clear all download params
-closeDownloadModal() {
-  setDownloadParams(null) // Clear all
-}
-```
-
-❌ **Don't mix modal types**
-
-```typescript
-// Each modal should handle one download type
-<DownloadModal type="dataset" {...datasetProps} />
-<DownloadModal type="annotation" {...annotationProps} />
-// Not: <DownloadModal type="dataset-and-annotation" />
-```
-
-❌ **Don't skip loading states**
-
-```typescript
-{isLoadingTomograms ? (
-  <Skeleton />
-) : (
-  <TomogramSelector tomograms={tomograms} />
-)}
-```
+**Don't:**
+- Mix modal types (each modal handles one download type)
+- Skip loading states when fetching available options
+- Forget to handle missing required data gracefully
 
 ---
 
 ## Error Handling
 
-### Missing Required Data
-
-```typescript
-function DownloadModal({ type, datasetId }: Props) {
-  if (type === 'dataset' && !datasetId) {
-    console.error('datasetId required for dataset downloads')
-    return null
-  }
-
-  // ... rest of component
-}
-```
-
-### Download Failures
-
-```typescript
-try {
-  await downloadFile(url)
-} catch (error) {
-  showNotification({
-    message: t('downloadFailed'),
-    type: 'error',
-  })
-}
-```
+The modal validates required data on render. If essential information (like `datasetId` for dataset downloads) is missing, the modal logs an error and renders nothing. Download failures should show user-friendly notifications guiding users to retry or use an alternative method.
 
 ## Next Steps
 
