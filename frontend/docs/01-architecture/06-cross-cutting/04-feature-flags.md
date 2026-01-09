@@ -12,14 +12,7 @@ This document covers the feature flag system in the CryoET Data Portal frontend,
 | URL Override | `?enable-feature=key` | Enable feature via URL |
 | URL Disable | `?disable-feature=key` | Disable feature via URL |
 
-**Active Feature Flags:**
-
-| Flag | Environments | Description |
-|------|-------------|-------------|
-| `depositions` | All | Enable depositions browsing and pages |
-| `expandDepositions` | All | Show all deposition types (not just annotations) |
-| `postMlChallenge` | All | Post-ML Challenge 2024 features |
-| `identifiedObjects` | All | Search identified objects table |
+> **Note:** Feature flags are added as needed for gradual rollouts and removed once features are stable. Check [`featureFlags.ts`](../../../packages/data-portal/app/utils/featureFlags.ts) for current flags.
 
 ---
 
@@ -55,17 +48,13 @@ From [`featureFlags.ts`](../../../packages/data-portal/app/utils/featureFlags.ts
 ```typescript
 export type FeatureFlagEnvironment = typeof process.env.ENV
 
-export type FeatureFlagKey =
-  | 'depositions'
-  | 'expandDepositions'
-  | 'postMlChallenge'
-  | 'identifiedObjects'
+// Add new flags to this union type
+export type FeatureFlagKey = 'myNewFeature' | 'betaFeature'
 
+// Configure which environments each flag is enabled in
 export const FEATURE_FLAGS: Record<FeatureFlagKey, FeatureFlagEnvironment[]> = {
-  depositions: ['local', 'dev', 'staging', 'prod'],
-  expandDepositions: ['local', 'dev', 'staging', 'prod'],
-  postMlChallenge: ['local', 'dev', 'staging', 'prod'],
-  identifiedObjects: ['local', 'dev', 'staging', 'prod'],
+  myNewFeature: ['local', 'dev'],        // Dev only initially
+  betaFeature: ['local', 'dev', 'staging', 'prod'],  // All environments
 }
 ```
 
@@ -106,21 +95,19 @@ import { getFeatureFlag } from 'app/utils/featureFlags'
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
 
-  const isExpandDepositionsEnabled = getFeatureFlag({
+  const isNewFeatureEnabled = getFeatureFlag({
     env: process.env.ENV,
-    key: 'expandDepositions',
+    key: 'myNewFeature',
     params: url.searchParams,
   })
 
-  if (isExpandDepositionsEnabled) {
-    // Fetch data for expanded depositions
-    const depositions = await getExpandedDepositions()
-  } else {
-    // Fetch only annotation depositions
-    const depositions = await getAnnotationDepositions()
+  if (isNewFeatureEnabled) {
+    // Fetch additional data for new feature
+    const extraData = await getExtraData()
+    return json({ data, extraData })
   }
 
-  return json({ depositions })
+  return json({ data })
 }
 ```
 
@@ -145,16 +132,16 @@ Use `useFeatureFlag()` hook in components:
 ```typescript
 import { useFeatureFlag } from 'app/utils/featureFlags'
 
-function DepositionBrowser() {
-  const isExpandDepositionsEnabled = useFeatureFlag('expandDepositions')
+function MyComponent() {
+  const isNewFeatureEnabled = useFeatureFlag('myNewFeature')
 
   return (
     <div>
-      <h1>Depositions</h1>
-      {isExpandDepositionsEnabled ? (
-        <ExpandedDepositionList />
+      <h1>Title</h1>
+      {isNewFeatureEnabled ? (
+        <NewFeatureUI />
       ) : (
-        <AnnotationDepositionList />
+        <StandardUI />
       )}
     </div>
   )
@@ -193,13 +180,13 @@ Feature flags can be **overridden via URL parameters** for testing.
 Add `?enable-feature=flagKey` to any URL:
 
 ```
-https://cryoetdataportal.czscience.com/browse-data/datasets?enable-feature=identifiedObjects
+https://cryoetdataportal.czscience.com/browse-data/datasets?enable-feature=myNewFeature
 ```
 
 **Multiple flags:**
 
 ```
-?enable-feature=identifiedObjects&enable-feature=expandDepositions
+?enable-feature=myNewFeature&enable-feature=betaFeature
 ```
 
 ### Disable Feature via URL
@@ -207,7 +194,7 @@ https://cryoetdataportal.czscience.com/browse-data/datasets?enable-feature=ident
 Add `?disable-feature=flagKey` to any URL:
 
 ```
-https://cryoetdataportal.czscience.com/browse-data/datasets?disable-feature=depositions
+https://cryoetdataportal.czscience.com/browse-data/datasets?disable-feature=myNewFeature
 ```
 
 ### Override Logic
@@ -257,13 +244,13 @@ export function getFeatureFlag({
 
 ```typescript
 function Header() {
-  const isDepositionsEnabled = useFeatureFlag('depositions')
+  const isBetaEnabled = useFeatureFlag('betaFeature')
 
   return (
     <nav>
       <Link to="/browse-data/datasets">Datasets</Link>
-      {isDepositionsEnabled && (
-        <Link to="/browse-data/depositions">Depositions</Link>
+      {isBetaEnabled && (
+        <Link to="/beta">Beta Features</Link>
       )}
     </nav>
   )
@@ -273,15 +260,15 @@ function Header() {
 **Alternative content:**
 
 ```typescript
-function CompetitionBanner() {
-  const isPostMlChallenge = useFeatureFlag('postMlChallenge')
+function Banner() {
+  const isNewFeatureEnabled = useFeatureFlag('myNewFeature')
 
   return (
     <div>
-      {isPostMlChallenge ? (
-        <div>Thank you for participating in ML Challenge 2024!</div>
+      {isNewFeatureEnabled ? (
+        <div>Try our new feature!</div>
       ) : (
-        <div>Join ML Challenge 2024 - Submissions open now!</div>
+        <div>Standard banner content</div>
       )}
     </div>
   )
@@ -291,24 +278,24 @@ function CompetitionBanner() {
 ### Feature-Gated Routes
 
 ```typescript
-// app/routes/depositions.$id.tsx
+// app/routes/beta-feature.tsx
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const url = new URL(request.url)
 
-  // Check if depositions feature is enabled
-  const isDepositionsEnabled = getFeatureFlag({
+  // Check if feature is enabled
+  const isBetaEnabled = getFeatureFlag({
     env: process.env.ENV,
-    key: 'depositions',
+    key: 'betaFeature',
     params: url.searchParams,
   })
 
-  if (!isDepositionsEnabled) {
+  if (!isBetaEnabled) {
     throw new Response('Not Found', { status: 404 })
   }
 
   // Feature is enabled, proceed with loading
-  const deposition = await getDepositionById(params.id)
-  return json({ deposition })
+  const data = await getBetaData(params.id)
+  return json({ data })
 }
 ```
 
@@ -317,199 +304,24 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 ```typescript
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
-  const isIdentifiedObjectsEnabled = getFeatureFlag({
+  const isNewFeatureEnabled = getFeatureFlag({
     env: process.env.ENV,
-    key: 'identifiedObjects',
+    key: 'myNewFeature',
     params: url.searchParams,
   })
 
-  if (isIdentifiedObjectsEnabled) {
-    // Fetch from both annotations and identified objects tables
-    const [annotations, identifiedObjects] = await Promise.all([
-      getAnnotations(),
-      getIdentifiedObjects(),
+  if (isNewFeatureEnabled) {
+    // Fetch additional data when feature is enabled
+    const [baseData, extraData] = await Promise.all([
+      getBaseData(),
+      getExtraData(),
     ])
-    return json({ annotations, identifiedObjects })
+    return json({ baseData, extraData })
   }
 
-  // Only fetch annotations
-  const annotations = await getAnnotations()
-  return json({ annotations, identifiedObjects: [] })
-}
-```
-
-### Conditional Query Logic
-
-From [`getDatasetsV2.server.ts`](../../../packages/data-portal/app/graphql/getDatasetsV2.server.ts):
-
-```typescript
-export async function getDatasetsV2({
-  params,
-  client,
-}: GetDatasetsParams) {
-  const filterState = getFilterState(params)
-
-  const isIdentifiedObjectsEnabled = getFeatureFlag({
-    env: process.env.ENV,
-    key: 'identifiedObjects',
-    params,
-  })
-
-  // Build filter based on feature flag
-  const datasetsFilter = getDatasetsFilter({
-    filterState,
-    isIdentifiedObjectsEnabled,
-  })
-
-  return client.query({
-    query: GET_DATASETS_QUERY,
-    variables: { datasetsFilter },
-  })
-}
-```
-
----
-
-## Feature Flag Examples
-
-### 1. Depositions Feature
-
-**Purpose:** Enable browsing and viewing of deposition pages.
-
-**Implementation:**
-
-```typescript
-// Navigation link
-function Navigation() {
-  const isDepositionsEnabled = useFeatureFlag('depositions')
-
-  return (
-    <nav>
-      <Link to="/browse-data/datasets">Datasets</Link>
-      {isDepositionsEnabled && (
-        <Link to="/browse-data/depositions">Depositions</Link>
-      )}
-    </nav>
-  )
-}
-
-// Route protection
-export async function loader({ request }: LoaderFunctionArgs) {
-  const url = new URL(request.url)
-  const isDepositionsEnabled = getFeatureFlag({
-    env: process.env.ENV,
-    key: 'depositions',
-    params: url.searchParams,
-  })
-
-  if (!isDepositionsEnabled) {
-    throw new Response('Not Found', { status: 404 })
-  }
-
-  // Load deposition data...
-}
-```
-
-### 2. Expand Depositions Feature
-
-**Purpose:** Show all deposition types (dataset, annotation, tomogram) instead of just annotation depositions.
-
-**Implementation:**
-
-```typescript
-export function getDepositionsFilter({
-  filterState,
-  isExpandDepositions = false,
-}: {
-  filterState: FilterState
-  isExpandDepositions?: boolean
-}): DepositionWhereClause {
-  const where: DepositionWhereClause = {}
-
-  // Filter by annotation deposition type if expand depositions is off
-  if (!isExpandDepositions) {
-    where.depositionTypes = {
-      type: {
-        _eq: Deposition_Types_Enum.Annotation,
-      },
-    }
-  }
-
-  // ... more filters
-  return where
-}
-
-// In loader:
-const isExpandDepositionsEnabled = getFeatureFlag({
-  env: process.env.ENV,
-  key: 'expandDepositions',
-  params: url.searchParams,
-})
-
-const filter = getDepositionsFilter({
-  filterState,
-  isExpandDepositions: isExpandDepositionsEnabled,
-})
-```
-
-### 3. Post-ML Challenge Feature
-
-**Purpose:** Show post-competition content after ML Challenge 2024 ends.
-
-**Implementation:**
-
-```typescript
-function CompetitionPage() {
-  const isPostMlChallenge = useFeatureFlag('postMlChallenge')
-
-  return (
-    <div>
-      <h1>ML Challenge 2024</h1>
-      {isPostMlChallenge ? (
-        <div>
-          <h2>Thank you for participating!</h2>
-          <WinnerAnnouncement />
-          <CompetitionResults />
-        </div>
-      ) : (
-        <div>
-          <h2>Join the Challenge</h2>
-          <SubmissionForm />
-          <Leaderboard />
-        </div>
-      )}
-    </div>
-  )
-}
-```
-
-### 4. Identified Objects Feature
-
-**Purpose:** Enable searching the identified objects table (in addition to annotations).
-
-**Implementation:**
-
-```typescript
-// Multi-table search when enabled
-const isIdentifiedObjectsEnabled = getFeatureFlag({
-  env: process.env.ENV,
-  key: 'identifiedObjects',
-  params,
-})
-
-if (isIdentifiedObjectsEnabled && !annotatedObjectsOnly) {
-  // Search both tables and merge results
-  const [resultsWithAnnotations, resultsWithIdentifiedObjects] =
-    await Promise.all([
-      client.query({ query: GET_DATASETS_QUERY, variables: { filter: annotationsFilter } }),
-      client.query({ query: GET_DATASETS_QUERY, variables: { filter: identifiedObjectsFilter } }),
-    ])
-
-  // Merge and dedupe
-  const unionDatasets = dedupeById([
-    ...resultsWithAnnotations.data.datasets,
-    ...resultsWithIdentifiedObjects.data.datasets,
-  ])
+  // Standard data fetching
+  const baseData = await getBaseData()
+  return json({ baseData, extraData: null })
 }
 ```
 
@@ -606,21 +418,18 @@ describe('Feature Flag: myNewFeature', () => {
 In Playwright tests:
 
 ```typescript
-test('displays expanded depositions when feature enabled', async ({ page }) => {
-  await page.goto('/browse-data/depositions?enable-feature=expandDepositions')
+test('displays new feature when enabled', async ({ page }) => {
+  await page.goto('/browse-data/datasets?enable-feature=myNewFeature')
 
-  // Verify all deposition types are shown
-  await expect(page.locator('[data-testid="dataset-deposition"]')).toBeVisible()
-  await expect(page.locator('[data-testid="annotation-deposition"]')).toBeVisible()
-  await expect(page.locator('[data-testid="tomogram-deposition"]')).toBeVisible()
+  // Verify new feature UI is shown
+  await expect(page.locator('[data-testid="new-feature"]')).toBeVisible()
 })
 
-test('displays only annotation depositions when feature disabled', async ({ page }) => {
-  await page.goto('/browse-data/depositions?disable-feature=expandDepositions')
+test('hides new feature when disabled', async ({ page }) => {
+  await page.goto('/browse-data/datasets?disable-feature=myNewFeature')
 
-  // Verify only annotation depositions are shown
-  await expect(page.locator('[data-testid="annotation-deposition"]')).toBeVisible()
-  await expect(page.locator('[data-testid="dataset-deposition"]')).not.toBeVisible()
+  // Verify new feature UI is hidden
+  await expect(page.locator('[data-testid="new-feature"]')).not.toBeVisible()
 })
 ```
 
@@ -636,18 +445,12 @@ Add to `FeatureFlagKey` type and `FEATURE_FLAGS` object:
 // app/utils/featureFlags.ts
 
 export type FeatureFlagKey =
-  | 'depositions'
-  | 'expandDepositions'
-  | 'postMlChallenge'
-  | 'identifiedObjects'
-  | 'newFeature'  // ← Add new flag
+  | 'existingFlag'
+  | 'myNewFeature'  // ← Add new flag
 
 export const FEATURE_FLAGS: Record<FeatureFlagKey, FeatureFlagEnvironment[]> = {
-  depositions: ['local', 'dev', 'staging', 'prod'],
-  expandDepositions: ['local', 'dev', 'staging', 'prod'],
-  postMlChallenge: ['local', 'dev', 'staging', 'prod'],
-  identifiedObjects: ['local', 'dev', 'staging', 'prod'],
-  newFeature: ['local', 'dev'],  // ← Enable in local and dev only
+  existingFlag: ['local', 'dev', 'staging', 'prod'],
+  myNewFeature: ['local', 'dev'],  // ← Enable in local and dev only
 }
 ```
 
@@ -796,13 +599,13 @@ return useOptimizedRenderer
 ### Flag Naming
 
 ✅ **Do:**
-- Use camelCase: `expandDepositions`
-- Be descriptive: `postMlChallenge` not `mlc`
+- Use camelCase: `advancedSearch`
+- Be descriptive: `betaAnalytics` not `ba`
 - Use positive names: `enableFeature` not `disableFeature`
 
 ❌ **Don't:**
 - Use generic names: `feature1`, `newThing`
-- Use abbreviations: `expDep`, `pmc`
+- Use abbreviations: `advSrch`, `ba`
 - Use negative names: `hideOldUI`
 
 ### Flag Lifecycle
