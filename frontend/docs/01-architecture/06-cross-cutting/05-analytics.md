@@ -657,6 +657,12 @@ If you get type errors when adding events:
 
 ---
 
+## Access and Credentials
+
+Credentials to access the Plausible dashboard are located in the 1Password `Imaging` vault under `Plausible (current)`.
+
+---
+
 ## Related Documentation
 
 - [Hooks Guide](./03-hooks-guide.md) - Full hook catalog including analytics hooks
