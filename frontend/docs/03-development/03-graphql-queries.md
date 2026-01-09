@@ -2,14 +2,13 @@
 
 This guide covers writing GraphQL queries, generating TypeScript types, and using the Apollo Client in the CryoET Data Portal frontend.
 
-
 ## Quick Reference
 
-| Task | Command |
-|------|---------|
-| Generate types once | `pnpm data-portal build:codegen` |
-| Watch mode during dev | `pnpm data-portal dev:codegen` |
-| Full dev server (includes codegen) | `pnpm dev` |
+| Task                               | Command                          |
+| ---------------------------------- | -------------------------------- |
+| Generate types once                | `pnpm data-portal build:codegen` |
+| Watch mode during dev              | `pnpm data-portal dev:codegen`   |
+| Full dev server (includes codegen) | `pnpm dev`                       |
 
 **GraphQL endpoint:** Configured via `API_URL_V2` environment variable
 
@@ -32,108 +31,64 @@ const config: CodegenConfig = {
   generates: {
     './app/__generated_v2__/': {
       schema: SCHEMA_URL_V2,
-      documents: [
-        'app/**/*V2*.{ts,tsx}',
-        'app/routes/_index.tsx',
-        'app/routes/browse-data.tsx',
-      ],
+      documents: ['app/**/*V2*.{ts,tsx}', 'app/routes/_index.tsx'],
       preset: 'client',
-      presetConfig: {
-        fragmentMasking: false,  // Simpler type access
-      },
-      config: {
-        scalars: {
-          DateTime: 'string',
-          numeric: 'number',
-        },
-      },
+      presetConfig: { fragmentMasking: false }, // Simpler type access
+      config: { scalars: { DateTime: 'string', numeric: 'number' } },
     },
   },
 }
 ```
 
 **Key decisions:**
+
 - Fragment masking disabled for simpler type inference
-- Custom scalar mappings (DateTime → string, numeric → number)
+- Custom scalar mappings (DateTime to string, numeric to number)
 - Server-only queries have `.server.ts` suffix
 
 ---
 
-## Step-by-Step: Creating a GraphQL Query
+## Creating a GraphQL Query
 
-### 1. Create a Query File
+### 1. Define the Query
 
-Create a `.server.ts` file in `app/graphql/`:
-
-**File:** `/packages/data-portal/app/graphql/getDatasetByIdV2.server.ts`
+Create a `.server.ts` file in `app/graphql/` and define your query using the `gql` tagged template:
 
 ```typescript
-import type {
-  ApolloClient,
-  ApolloQueryResult,
-  NormalizedCacheObject,
-} from '@apollo/client'
-
 import { gql } from 'app/__generated_v2__'
-import {
-  GetDatasetByIdV2Query,
-  DatasetWhereClause,
-} from 'app/__generated_v2__/graphql'
 
 const GET_DATASET_BY_ID_QUERY_V2 = gql(`
-  query GetDatasetByIdV2(
-    $id: Int,
-    $runLimit: Int,
-    $runOffset: Int,
-    $runFilter: RunWhereClause,
-  ) {
+  query GetDatasetByIdV2($id: Int, $runLimit: Int, $runOffset: Int) {
     datasets(where: { id: { _eq: $id } }) {
       id
       title
       description
-      keyPhotoUrl
-      releaseDate
-
       authors(orderBy: { authorListOrder: asc }) {
-        edges {
-          node {
-            name
-            email
-            orcid
-            primaryAuthorStatus
-          }
-        }
+        edges { node { name, email, orcid } }
       }
-
-      runsAggregate {
-        aggregate {
-          count
-        }
-      }
+      runsAggregate { aggregate { count } }
     }
-
-    runs(
-      where: $runFilter,
-      orderBy: { name: asc },
-      limitOffset: {
-        limit: $runLimit,
-        offset: $runOffset
-      }
-    ) {
+    runs(where: { datasetId: { _eq: $id } }, limitOffset: { limit: $runLimit, offset: $runOffset }) {
       id
       name
-      tomograms(first: 1, where: { isVisualizationDefault: { _eq: true } }) {
-        edges {
-          node {
-            id
-            keyPhotoThumbnailUrl
-          }
-        }
-      }
     }
   }
 `)
+```
 
+**Key patterns:**
+
+- Import `gql` from generated types, not from `@apollo/client`
+- Use `V2` suffix in query names to distinguish from older API versions
+- Action + Resource naming: `GetDatasetByIdV2`, `GetRunsV2`, `GetAnnotationsV2`
+
+See full implementation: [`getDatasetByIdV2.server.ts`](../packages/data-portal/app/graphql/getDatasetByIdV2.server.ts)
+
+### 2. Export an Async Wrapper Function
+
+Wrap the query in a typed async function that handles variables:
+
+```typescript
 export async function getDatasetByIdV2({
   client,
   id,
@@ -145,427 +100,146 @@ export async function getDatasetByIdV2({
 }): Promise<ApolloQueryResult<GetDatasetByIdV2Query>> {
   return client.query({
     query: GET_DATASET_BY_ID_QUERY_V2,
-    variables: {
-      id,
-      runLimit: 25,
-      runOffset: (page - 1) * 25,
-      runFilter: { datasetId: { _eq: id } },
-    },
+    variables: { id, runLimit: 25, runOffset: (page - 1) * 25 },
   })
 }
 ```
 
-**Key patterns from `/packages/data-portal/app/graphql/getDatasetByIdV2.server.ts`:**
-- Use `gql` tagged template from generated types
-- Define query variables with proper types
-- Export async function that calls `client.query()`
-- Return typed `ApolloQueryResult<T>`
-
-### 2. Name Your Query
-
-Use descriptive names with the `V2` suffix:
-
-```graphql
-query GetDatasetByIdV2($id: Int) {
-  # Query fields
-}
-```
-
-**Naming conventions:**
-- Action + Resource + V2: `GetDatasetByIdV2`, `GetRunsV2`
-- Pluralize for lists: `GetDatasetsV2`, `GetAnnotationsV2`
-- Include V2 to distinguish from older API versions
+This pattern provides type safety for variables and return types while encapsulating pagination logic.
 
 ### 3. Generate TypeScript Types
 
-Run the code generator:
-
 ```bash
-# One-time generation
-pnpm data-portal build:codegen
-
-# Watch mode (auto-regenerate on file changes)
-pnpm data-portal dev:codegen
-
-# Or start full dev server (includes codegen)
-pnpm dev
+pnpm data-portal build:codegen    # One-time generation
+pnpm data-portal dev:codegen      # Watch mode
 ```
 
-This creates type files in `app/__generated_v2__/`:
+The generator creates typed document nodes in `app/__generated_v2__/`. Import these types for components and props:
 
 ```typescript
-// Auto-generated types
-export type GetDatasetByIdV2Query = {
-  __typename?: 'Query'
-  datasets: Array<{
-    __typename?: 'Dataset'
-    id: number
-    title: string
-    description?: string | null
-    // ... more fields
-  }>
-  runs: Array<{
-    __typename?: 'Run'
-    id: number
-    name: string
-    // ... more fields
-  }>
-}
+import {
+  GetDatasetByIdV2Query,
+  RunWhereClause,
+} from 'app/__generated_v2__/graphql'
+
+type DatasetResult = GetDatasetByIdV2Query['datasets'][0]
 ```
 
-### 4. Use Query in a Loader
-
-Import and use your query function in a Remix loader:
-
-**File:** `/packages/data-portal/app/routes/datasets.$id.tsx`
+### 4. Use in a Remix Loader
 
 ```typescript
-import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { apolloClientV2 } from 'app/apollo.server'
 import { getDatasetByIdV2 } from 'app/graphql/getDatasetByIdV2.server'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const id = params.id ? +params.id : NaN
+  if (Number.isNaN(id)) throw new Response(null, { status: 400 })
 
-  if (Number.isNaN(+id)) {
-    throw new Response(null, {
-      status: 400,
-      statusText: 'ID is not defined',
-    })
-  }
+  const { data } = await getDatasetByIdV2({ id, client: apolloClientV2 })
+  if (data.datasets.length === 0) throw new Response(null, { status: 404 })
 
-  const url = new URL(request.url)
-  const page = +(url.searchParams.get('page') ?? '1')
-
-  const { data } = await getDatasetByIdV2({
-    id,
-    page,
-    client: apolloClientV2,
-  })
-
-  if (data.datasets.length === 0) {
-    throw new Response(null, {
-      status: 404,
-      statusText: `Dataset with ID ${id} not found`,
-    })
-  }
-
-  return json({
-    dataset: data.datasets[0],
-    runs: data.runs,
-  })
+  return json({ dataset: data.datasets[0], runs: data.runs })
 }
 ```
 
 ### 5. Access Data in Component
 
-Use `useLoaderData` with type inference:
-
 ```typescript
-import { useLoaderData } from '@remix-run/react'
-
 export default function DatasetPage() {
   const { dataset, runs } = useLoaderData<typeof loader>()
-
-  return (
-    <div>
-      <h1>{dataset.title}</h1>
-      <p>{dataset.description}</p>
-
-      <h2>Runs ({runs.length})</h2>
-      <ul>
-        {runs.map((run) => (
-          <li key={run.id}>{run.name}</li>
-        ))}
-      </ul>
-    </div>
-  )
+  return <div><h1>{dataset.title}</h1></div>
 }
 ```
 
 ---
 
-## GraphQL Query Patterns
+## Query Pattern Reference
 
-### Basic Query with Variables
+The GraphQL API supports several query patterns. Here's a quick reference with examples:
 
-```typescript
-const GET_DATASETS_QUERY_V2 = gql(`
-  query GetDatasetsV2($limit: Int, $offset: Int) {
-    datasets(
-      limitOffset: { limit: $limit, offset: $offset }
-      orderBy: { releaseDate: desc }
-    ) {
-      id
-      title
-      description
-    }
-  }
-`)
-```
+| Pattern              | Use Case                      | Key Syntax                                        |
+| -------------------- | ----------------------------- | ------------------------------------------------- |
+| Basic with variables | Pagination, single item fetch | `limitOffset: { limit: $limit, offset: $offset }` |
+| Filtering            | Search, faceted browse        | `where: { field: { _eq: value } }`                |
+| Aggregations         | Counts, statistics            | `runsAggregate { aggregate { count } }`           |
+| Nested relationships | Related entities              | `authors { edges { node { name } } }`             |
+| Fragments            | Reusable field sets           | `...DatasetCoreFields`                            |
 
-### Query with Filtering
+### Complete Example: Filtering with Aggregations
 
 ```typescript
-const GET_FILTERED_RUNS_QUERY_V2 = gql(`
-  query GetFilteredRunsV2($filter: RunWhereClause) {
-    runs(
-      where: $filter
-      orderBy: { name: asc }
-    ) {
+const GET_FILTERED_RUNS_V2 = gql(`
+  query GetFilteredRunsV2($filter: RunWhereClause, $limit: Int) {
+    runs(where: $filter, orderBy: { name: asc }, limitOffset: { limit: $limit }) {
       id
       name
-      annotations {
-        id
-        objectName
-      }
-    }
-  }
-`)
-
-// Usage
-const { data } = await client.query({
-  query: GET_FILTERED_RUNS_QUERY_V2,
-  variables: {
-    filter: {
-      datasetId: { _eq: 123 },
-      annotations: {
-        objectName: { _in: ['ribosome', 'membrane'] }
-      }
-    }
-  }
-})
-```
-
-### Query with Aggregations
-
-```typescript
-const GET_DATASET_STATS_QUERY_V2 = gql(`
-  query GetDatasetStatsV2($id: Int) {
-    datasets(where: { id: { _eq: $id } }) {
-      id
-      title
-
-      runsAggregate {
-        aggregate {
-          count
-        }
-      }
-
       annotationsAggregate {
-        aggregate {
-          count
-          groupBy {
-            objectName
-          }
-        }
+        aggregate { count, groupBy { objectName } }
       }
+    }
+    runsAggregate(where: $filter) {
+      aggregate { count }
     }
   }
 `)
-```
 
-### Query with Nested Relationships
-
-```typescript
-const GET_DATASET_WITH_RUNS_QUERY_V2 = gql(`
-  query GetDatasetWithRunsV2($id: Int) {
-    datasets(where: { id: { _eq: $id } }) {
-      id
-      title
-
-      authors(orderBy: { authorListOrder: asc }) {
-        edges {
-          node {
-            name
-            affiliationName
-          }
-        }
-      }
-
-      runs(first: 10) {
-        id
-        name
-        tomograms(where: { isVisualizationDefault: { _eq: true } }) {
-          edges {
-            node {
-              id
-              keyPhotoThumbnailUrl
-            }
-          }
-        }
-      }
-    }
-  }
-`)
-```
-
-### Query with Fragments
-
-```typescript
-// Define fragment
-const DATASET_CORE_FIELDS_FRAGMENT = gql(`
-  fragment DatasetCoreFields on Dataset {
-    id
-    title
-    description
-    releaseDate
-    keyPhotoUrl
-  }
-`)
-
-// Use fragment in query
-const GET_DATASETS_QUERY_V2 = gql(`
-  query GetDatasetsV2 {
-    datasets {
-      ...DatasetCoreFields
-      runsAggregate {
-        aggregate {
-          count
-        }
-      }
-    }
-  }
-`)
-```
-
----
-
-## Advanced Query Techniques
-
-### Pagination
-
-Implement offset-based pagination:
-
-```typescript
-const PAGE_SIZE = 25
-
-export async function getDatasetsPaginated({
-  client,
-  page = 1,
-}: {
-  client: ApolloClient<NormalizedCacheObject>
-  page?: number
-}) {
-  const offset = (page - 1) * PAGE_SIZE
-
-  return client.query({
-    query: GET_DATASETS_QUERY_V2,
-    variables: {
-      limit: PAGE_SIZE,
-      offset,
-    },
-  })
-}
-```
-
-### Dynamic Filters
-
-Build filter objects dynamically:
-
-```typescript
-import { RunWhereClause } from 'app/__generated_v2__/graphql'
-
+// Dynamic filter building
 function buildRunFilter(params: URLSearchParams): RunWhereClause {
   const filter: RunWhereClause = {}
-
   const datasetId = params.get('datasetId')
-  if (datasetId) {
-    filter.datasetId = { _eq: parseInt(datasetId, 10) }
-  }
+  if (datasetId) filter.datasetId = { _eq: parseInt(datasetId, 10) }
 
   const objectNames = params.getAll('objectName')
   if (objectNames.length > 0) {
-    filter.annotations = {
-      objectName: { _in: objectNames }
-    }
+    filter.annotations = { objectName: { _in: objectNames } }
   }
-
   return filter
 }
-
-// Usage in loader
-export async function loader({ request }: LoaderFunctionArgs) {
-  const url = new URL(request.url)
-  const filter = buildRunFilter(url.searchParams)
-
-  const { data } = await getFilteredRunsV2({
-    client: apolloClientV2,
-    filter,
-  })
-
-  return json({ runs: data.runs })
-}
 ```
 
-### Error Handling
+### Filter Operators
 
-Handle GraphQL errors gracefully:
-
-```typescript
-export async function getDatasetByIdV2({
-  client,
-  id,
-}: {
-  client: ApolloClient<NormalizedCacheObject>
-  id: number
-}) {
-  try {
-    const result = await client.query({
-      query: GET_DATASET_BY_ID_QUERY_V2,
-      variables: { id },
-    })
-
-    if (result.error) {
-      console.error('GraphQL error:', result.error)
-      throw new Error('Failed to fetch dataset')
-    }
-
-    return result
-  } catch (error) {
-    console.error('Network error:', error)
-    throw new Error('Failed to connect to API')
-  }
-}
-```
+| Operator       | Example                                 | Description           |
+| -------------- | --------------------------------------- | --------------------- |
+| `_eq`          | `{ id: { _eq: 123 } }`                  | Equals                |
+| `_in`          | `{ objectName: { _in: ['ribosome'] } }` | In list               |
+| `_ilike`       | `{ name: { _ilike: '%search%' } }`      | Case-insensitive like |
+| `_gte`, `_lte` | `{ count: { _gte: 10 } }`               | Range comparisons     |
 
 ---
 
 ## Working with Generated Types
 
-### Import Generated Types
+### Import and Use Types
 
 ```typescript
 import {
   GetDatasetByIdV2Query,
   Dataset,
-  Run,
   RunWhereClause,
 } from 'app/__generated_v2__/graphql'
-```
 
-### Type Query Results
-
-```typescript
+// Extract nested types
 type DatasetResult = GetDatasetByIdV2Query['datasets'][0]
 
-function processDataset(dataset: DatasetResult) {
-  // TypeScript knows all fields on dataset
-  console.log(dataset.title, dataset.description)
-}
-```
-
-### Type Component Props
-
-```typescript
-import { Dataset } from 'app/__generated_v2__/graphql'
-
+// Type component props
 interface DatasetCardProps {
   dataset: Dataset
 }
+```
 
-export function DatasetCard({ dataset }: DatasetCardProps) {
-  return <div>{dataset.title}</div>
+### Error Handling
+
+```typescript
+try {
+  const result = await client.query({
+    query: GET_DATASET_BY_ID_QUERY_V2,
+    variables: { id },
+  })
+  if (result.error) throw new Error('Failed to fetch dataset')
+  return result
+} catch (error) {
+  throw new Error('Failed to connect to API')
 }
 ```
 
@@ -573,70 +247,29 @@ export function DatasetCard({ dataset }: DatasetCardProps) {
 
 ## Apollo Client Configuration
 
-The Apollo Client is configured for server-side rendering:
-
-**File:** `/packages/data-portal/app/apollo.server.ts`
+**File:** [`/packages/data-portal/app/apollo.server.ts`](../packages/data-portal/app/apollo.server.ts)
 
 ```typescript
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client'
-
 export const apolloClientV2 = new ApolloClient({
-  ssrMode: true,  // Enable server-side rendering
+  ssrMode: true,
   cache: new InMemoryCache(),
-  link: createHttpLink({
-    uri: process.env.API_URL_V2,
-  }),
-  defaultOptions: {
-    query: {
-      fetchPolicy: 'no-cache',  // Fresh data on every request
-    },
-  },
+  link: createHttpLink({ uri: process.env.API_URL_V2 }),
+  defaultOptions: { query: { fetchPolicy: 'no-cache' } },
 })
 ```
 
-**Why no-cache policy?**
-- Each request should have fresh data
-- Server-rendered pages don't benefit from client-side caching
-- Simplifies cache invalidation logic
+**Why no-cache?** Each SSR request should have fresh data. Server-rendered pages don't benefit from client-side caching, and this simplifies cache invalidation.
 
 ---
 
 ## Troubleshooting
 
-### Types Not Generated
-
-1. Ensure query file matches naming pattern: `*V2*.{ts,tsx}`
-2. Check query syntax is valid GraphQL
-3. Run `pnpm data-portal build:codegen` manually
-4. Check `codegen.ts` documents array includes your file
-
-### Type Errors After Schema Changes
-
-```bash
-# Regenerate types from updated schema
-pnpm data-portal build:codegen
-```
-
-### Query Not Found at Runtime
-
-Ensure you're importing from the generated types:
-
-```typescript
-// Correct
-import { gql } from 'app/__generated_v2__'
-
-// Incorrect
-import { gql } from '@apollo/client'
-```
-
-### Network Errors
-
-Check environment variable is set:
-
-```bash
-# .env file
-API_URL_V2=https://graphql.cryoetdataportal.czscience.com/graphql
-```
+| Problem                          | Solution                                                                          |
+| -------------------------------- | --------------------------------------------------------------------------------- |
+| Types not generated              | Ensure file matches `*V2*.{ts,tsx}` pattern; run `pnpm data-portal build:codegen` |
+| Type errors after schema changes | Regenerate types with codegen                                                     |
+| Query not found at runtime       | Import `gql` from `app/__generated_v2__`, not `@apollo/client`                    |
+| Network errors                   | Check `API_URL_V2` in `.env` file                                                 |
 
 ---
 
@@ -645,11 +278,9 @@ API_URL_V2=https://graphql.cryoetdataportal.czscience.com/graphql
 1. **Server-only queries:** Use `.server.ts` suffix for loader queries
 2. **Type everything:** Import and use generated types
 3. **Descriptive names:** Use clear query names like `GetDatasetByIdV2`
-4. **Fragments for reuse:** Extract common fields into fragments
-5. **Pagination:** Always implement pagination for list queries
+4. **Pagination:** Always implement pagination for list queries
+5. **Minimize fields:** Only query fields you actually need
 6. **Error handling:** Handle both GraphQL and network errors
-7. **Variable types:** Use proper GraphQL types for variables
-8. **Minimize fields:** Only query fields you actually need
 
 ---
 

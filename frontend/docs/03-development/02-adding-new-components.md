@@ -2,14 +2,13 @@
 
 This guide covers creating reusable React components in the CryoET Data Portal frontend, including file structure, naming conventions, and best practices.
 
-
 ## Quick Reference
 
-| Component Type | Location | Example |
-|----------------|----------|---------|
-| Feature component | `app/components/FeatureName/` | `app/components/Dataset/` |
-| Shared UI component | `app/components/` | `app/components/ModalSubtitle.tsx` |
-| Filter component | `app/components/Filters/` | `app/components/Filters/BooleanFilter.tsx` |
+| Component Type      | Location                      | Example                                    |
+| ------------------- | ----------------------------- | ------------------------------------------ |
+| Feature component   | `app/components/FeatureName/` | `app/components/Dataset/`                  |
+| Shared UI component | `app/components/`             | `app/components/ModalSubtitle.tsx`         |
+| Filter component    | `app/components/Filters/`     | `app/components/Filters/BooleanFilter.tsx` |
 
 ---
 
@@ -76,6 +75,7 @@ export function ModalSubtitle({
 ```
 
 **Key patterns:**
+
 - Use named exports (not default exports) for consistency
 - Use TypeScript for type safety
 - Use inline prop types or extract to interfaces
@@ -292,6 +292,7 @@ export function BooleanFilter({
 ```
 
 **From `/packages/data-portal/app/components/Filters/BooleanFilter.tsx`:**
+
 - Combine Tailwind and CSS Module classes with `cns()` utility
 - Use CSS Modules for complex styles (animations, pseudo-elements, etc.)
 
@@ -387,7 +388,7 @@ interface DatasetListProps {
 export function DatasetList({
   datasets,
   onSelect,
-  loading = false
+  loading = false,
 }: DatasetListProps) {
   // Implementation
 }
@@ -507,6 +508,6 @@ See [Testing Guide](./06-testing-guide.md) for comprehensive testing patterns.
 
 ## Next Steps
 
-- [Styling Guide](./05-styling-guide.md) - Learn when to use Tailwind vs CSS Modules vs MUI
+- [Styling System](../01-architecture/05-styling/01-styling-system.md) - Learn when to use Tailwind vs CSS Modules vs MUI
 - [Testing Guide](./06-testing-guide.md) - Write unit tests for your components
 - [GraphQL Queries](./03-graphql-queries.md) - Fetch data for your components

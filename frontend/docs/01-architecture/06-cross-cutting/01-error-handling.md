@@ -1,22 +1,34 @@
 # Error Handling
 
-This document describes error handling patterns used throughout the CryoET Data Portal, including error boundaries, 404 pages, and error states.
-
+This document describes error handling patterns used throughout the CryoET Data Portal.
 
 ## Quick Reference
 
-| Pattern          | Implementation         | Location                                                                                              |
-| ---------------- | ---------------------- | ----------------------------------------------------------------------------------------------------- |
+| Pattern          | Implementation         | Location                                                                                                 |
+| ---------------- | ---------------------- | -------------------------------------------------------------------------------------------------------- |
 | Error Boundaries | `<ErrorBoundary>`      | [`components/ErrorBoundary.tsx`](../../../packages/data-portal/app/components/ErrorBoundary.tsx)         |
 | Route Errors     | Remix error boundaries | [`root.tsx`](../../../packages/data-portal/app/root.tsx)                                                 |
 | Loading States   | `useIsLoading()` hook  | [`hooks/useIsLoading.ts`](../../../packages/data-portal/app/hooks/useIsLoading.ts)                       |
 | Empty States     | `<NoFilteredResults>`  | [`components/NoFilteredResults.tsx`](../../../packages/data-portal/app/components/NoFilteredResults.tsx) |
 
+## Error Handling Decision Table
+
+Use this table to determine which error handling approach to use:
+
+| Scenario                    | Approach             | Why                                         |
+| --------------------------- | -------------------- | ------------------------------------------- |
+| Component render errors     | `<ErrorBoundary>`    | Catches JS errors, prevents full page crash |
+| Missing resource (404)      | Throw Response       | Remix handles with route ErrorBoundary      |
+| Server data loading failure | Throw Response       | Shows proper error page with status code    |
+| GraphQL query errors        | Try/catch in loader  | Log error, throw appropriate Response       |
+| Network failures            | Try/catch + toast    | Show user-friendly notification             |
+| Form validation errors      | Local state          | Display inline errors near fields           |
+| Async client-side errors    | Try/catch + snackbar | Inform user without navigation              |
+| Table rendering issues      | Auto-retry boundary  | Session storage tracks retries (max 3)      |
+
 ---
 
 ## Error Boundary Pattern
-
-### Basic Usage
 
 Wrap components that might throw errors:
 
@@ -32,16 +44,13 @@ function MyPage() {
 }
 ```
 
-### ErrorBoundary Component
+### Implementation
+
+The ErrorBoundary wraps React's error boundary with logging and recovery:
 
 ```typescript
-export function ErrorBoundary({
-  children,
-  logId,
-}: {
-  children: ReactNode
-  logId?: string
-}) {
+// components/ErrorBoundary.tsx
+export function ErrorBoundary({ children, logId }: { children: ReactNode; logId?: string }) {
   return (
     <FallbackRenderContext.Provider value={{ logId }}>
       <ReactErrorBoundary FallbackComponent={FallbackRender}>
@@ -50,163 +59,82 @@ export function ErrorBoundary({
     </FallbackRenderContext.Provider>
   )
 }
-```
 
-**Location:** [`components/ErrorBoundary.tsx`](../../../packages/data-portal/app/components/ErrorBoundary.tsx)
-
-### Fallback UI
-
-```typescript
 function FallbackRender({ error, resetErrorBoundary }: FallbackProps) {
   const { t } = useI18n()
   const { logId } = useContext(FallbackRenderContext)
-  const errorMessage = getErrorMessage(error)
 
   useEffect(() => {
     if (logId) {
-      sendLogs({
-        level: LogLevel.Error,
-        messages: [{
-          type: 'browser',
-          message: 'ErrorBoundary error',
-          error: errorMessage,
-          logId,
-        }],
-      })
+      sendLogs({ level: LogLevel.Error, messages: [{ type: 'browser', error: getErrorMessage(error), logId }] })
     }
-  }, [errorMessage, logId])
+  }, [error, logId])
 
   return (
     <div role="alert" className="p-2">
-      <p className="font-bold text-black ml-2">
-        {t('somethingWentWrong')}:
-      </p>
-      <pre className="text-red-500 ml-2">{errorMessage}</pre>
-      <Button onClick={resetErrorBoundary}>
-        {t('refresh')}
-      </Button>
+      <p className="font-bold">{t('somethingWentWrong')}:</p>
+      <pre className="text-red-500">{getErrorMessage(error)}</pre>
+      <Button onClick={resetErrorBoundary}>{t('refresh')}</Button>
     </div>
   )
 }
 ```
 
-**Features:**
+**Features:** Displays error message, logs to backend, provides refresh button, shows details in development.
 
-- Displays error message to user
-- Logs error to backend
-- Provides refresh button to retry
-- Shows full error details in development
+### Automatic Table Error Recovery
 
----
-
-## Automatic Error Recovery
-
-### Table Render Errors
-
-Special handling for table rendering errors with automatic reload:
+Table rendering errors auto-reload up to 3 times using session storage:
 
 ```typescript
-const MAX_RELOADS_FOR_TABLE_RENDER_ERROR = 3
-
-function FallbackRender({ error }: FallbackProps) {
-  const tableRenderErrorCountStorage = useSessionStorageValue(
-    LocalStorageKeys.TableRenderErrorPageReloadCount,
-    { defaultValue: 0 },
-  )
-
-  useEffect(() => {
-    if (
-      logId === TABLE_PAGE_LAYOUT_LOG_ID &&
-      (tableRenderErrorCountStorage.value ?? 0) <
-        MAX_RELOADS_FOR_TABLE_RENDER_ERROR
-    ) {
-      tableRenderErrorCountStorage.set((prev) => (prev ?? 0) + 1)
-      window.location.reload()
-    }
-  }, [logId, tableRenderErrorCountStorage])
-
-  // ... fallback UI
+// Inside FallbackRender for TABLE_PAGE_LAYOUT_LOG_ID
+if (
+  logId === TABLE_PAGE_LAYOUT_LOG_ID &&
+  reloadCount < MAX_RELOADS_FOR_TABLE_RENDER_ERROR
+) {
+  tableRenderErrorCountStorage.set((prev) => (prev ?? 0) + 1)
+  window.location.reload()
 }
 ```
 
-**Behavior:**
-
-- Automatically reloads page on table errors (up to 3 times)
-- Uses session storage to track reload count
-- Prevents infinite reload loops
-- Only applies to specific log IDs
-
 ---
 
-## Remix Error Boundaries
+## Remix Route Error Handling
 
-### Route-Level Error Handling
-
-Remix provides route-level error boundaries:
-
-```typescript
-// In any route file
-export function ErrorBoundary() {
-  const error = useRouteError()
-
-  if (isRouteErrorResponse(error)) {
-    return (
-      <div>
-        <h1>
-          {error.status} {error.statusText}
-        </h1>
-        <p>{error.data}</p>
-      </div>
-    )
-  }
-
-  return (
-    <div>
-      <h1>Error</h1>
-      <p>{error.message}</p>
-    </div>
-  )
-}
-```
-
-### 404 Not Found
-
-Handle missing resources gracefully:
+### Throwing Errors in Loaders
 
 ```typescript
 export async function loader({ params }: LoaderFunctionArgs) {
   const dataset = await getDataset(params.id)
-
   if (!dataset) {
     throw new Response('Dataset not found', { status: 404 })
   }
-
   return json({ dataset })
 }
+```
 
+### Route ErrorBoundary
+
+Each route can export an ErrorBoundary to handle errors:
+
+```typescript
 export function ErrorBoundary() {
   const error = useRouteError()
 
   if (isRouteErrorResponse(error) && error.status === 404) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
-        <h1 className="text-sds-header-xxl-600-wide font-semibold mb-sds-l">
-          404 - Dataset Not Found
-        </h1>
-        <p className="text-sds-body-l-400-wide mb-sds-xl">
-          The dataset you're looking for doesn't exist.
-        </p>
-        <Link to="/browse-data/datasets">
-          <Button>Browse Datasets</Button>
-        </Link>
+        <h1 className="text-sds-header-xxl-600-wide font-semibold">404 - Not Found</h1>
+        <Link to="/browse-data/datasets"><Button>Browse Datasets</Button></Link>
       </div>
     )
   }
 
-  // Handle other errors
   return <GenericErrorPage error={error} />
 }
 ```
+
+See [`root.tsx`](../../../packages/data-portal/app/root.tsx) for the root error boundary implementation.
 
 ---
 
@@ -214,51 +142,48 @@ export function ErrorBoundary() {
 
 ### useIsLoading Hook
 
-Provides loading state with debouncing:
+Provides loading state with debouncing to prevent UI flashing:
 
 ```typescript
 export function useIsLoading() {
   const navigation = useNavigation()
   const isLoading = navigation.state === 'loading'
+  const [isLoadingDebounced] = useDebouncedState(isLoading, 250)
 
-  const [isLoadingDebounced, setIsLoadingDebounced] = useDebouncedState(
-    isLoading,
-    250, // 250ms delay
-  )
-
-  useEffect(
-    () => setIsLoadingDebounced(isLoading),
-    [isLoading, setIsLoadingDebounced],
-  )
-
-  return {
-    isLoading, // Immediate state
-    isLoadingDebounced, // Debounced (prevents flashing)
-  }
+  return { isLoading, isLoadingDebounced }
 }
 ```
 
-**Location:** [`hooks/useIsLoading.ts`](../../../packages/data-portal/app/hooks/useIsLoading.ts)
-
-### Usage in Components
+**Usage:**
 
 ```typescript
 function DataTable() {
   const { isLoadingDebounced } = useIsLoading()
-
-  if (isLoadingDebounced) {
-    return <TableSkeleton rows={10} />
-  }
-
+  if (isLoadingDebounced) return <TableSkeleton rows={10} />
   return <Table data={data} />
 }
 ```
 
-**Why debounce?**
+**Why debounce?** Prevents UI flashing on fast navigation, especially for cached routes.
 
-- Prevents UI flashing on fast navigation
-- Especially important for cached routes
-- Better UX for quick interactions
+### Skeleton Components
+
+```typescript
+// Table skeleton
+export function TableSkeleton({ rows = 10, columns = 5 }: Props) {
+  return (
+    <div className="flex flex-col gap-sds-s">
+      {Array.from({ length: rows }).map((_, i) => (
+        <div key={i} className="flex gap-sds-m">
+          {Array.from({ length: columns }).map((_, j) => (
+            <Skeleton key={j} variant="rectangular" height={40} />
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+```
 
 ---
 
@@ -275,27 +200,10 @@ export function NoFilteredResults({ showSearchTip }: Props) {
 
   return (
     <div className="flex flex-col items-center gap-sds-l py-sds-xxl">
-      <Icon
-        sdsIcon="InfoCircle"
-        sdsSize="xl"
-        className="text-light-sds-color-primitive-gray-400"
-      />
-
-      <div className="text-center">
-        <h3 className="text-sds-header-l-600-wide font-semibold mb-sds-xs">
-          {t('noResultsFound')}
-        </h3>
-        <p className="text-sds-body-m-400-wide text-light-sds-color-primitive-gray-600">
-          {showSearchTip
-            ? t('tryAdjustingFiltersOrSearch')
-            : t('tryAdjustingFilters')
-          }
-        </p>
-      </div>
-
-      <Button onClick={filter.reset} sdsType="secondary">
-        {t('clearAllFilters')}
-      </Button>
+      <Icon sdsIcon="InfoCircle" sdsSize="xl" />
+      <h3>{t('noResultsFound')}</h3>
+      <p>{showSearchTip ? t('tryAdjustingFiltersOrSearch') : t('tryAdjustingFilters')}</p>
+      <Button onClick={filter.reset} sdsType="secondary">{t('clearAllFilters')}</Button>
     </div>
   )
 }
@@ -303,95 +211,22 @@ export function NoFilteredResults({ showSearchTip }: Props) {
 
 **Location:** [`components/NoFilteredResults.tsx`](../../../packages/data-portal/app/components/NoFilteredResults.tsx)
 
-### EmptyState Component
-
-Generic empty state for various scenarios:
-
-```typescript
-export function EmptyState({
-  title,
-  description,
-  icon,
-  action,
-}: EmptyStateProps) {
-  return (
-    <div className="flex flex-col items-center gap-sds-l py-sds-xxl">
-      {icon && <Icon sdsIcon={icon} sdsSize="xl" />}
-
-      <div className="text-center">
-        <h3 className="text-sds-header-l-600-wide font-semibold mb-sds-xs">
-          {title}
-        </h3>
-        {description && (
-          <p className="text-sds-body-m-400-wide text-light-sds-color-primitive-gray-600">
-            {description}
-          </p>
-        )}
-      </div>
-
-      {action}
-    </div>
-  )
-}
-```
-
-**Usage:**
+### Generic EmptyState
 
 ```typescript
 <EmptyState
   icon="InboxEmpty"
   title="No annotations available"
   description="This dataset doesn't have any annotations yet."
-  action={
-    <Link to="/browse-data/depositions">
-      <Button>Browse Depositions</Button>
-    </Link>
-  }
+  action={<Link to="/browse-data/depositions"><Button>Browse Depositions</Button></Link>}
 />
-```
-
----
-
-## Skeleton Loading States
-
-### Table Skeleton
-
-```typescript
-export function TableSkeleton({ rows = 10, columns = 5 }: Props) {
-  return (
-    <div className="flex flex-col gap-sds-s p-sds-l">
-      {Array.from({ length: rows }).map((_, i) => (
-        <div key={i} className="flex gap-sds-m">
-          {Array.from({ length: columns }).map((_, j) => (
-            <Skeleton key={j} variant="rectangular" height={40} />
-          ))}
-        </div>
-      ))}
-    </div>
-  )
-}
-```
-
-### Content Skeleton
-
-```typescript
-export function ContentSkeleton() {
-  return (
-    <div className="flex flex-col gap-sds-l p-sds-xl">
-      <Skeleton variant="text" width="60%" height={40} />
-      <Skeleton variant="rectangular" height={200} />
-      <Skeleton variant="text" width="80%" />
-      <Skeleton variant="text" width="70%" />
-    </div>
-  )
-}
 ```
 
 ---
 
 ## API Error Handling
 
-### GraphQL Errors
+### GraphQL Errors in Loaders
 
 ```typescript
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -400,12 +235,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
       query: GetDatasetsV2Document,
       variables: { where },
     })
-
     if (errors) {
       console.error('GraphQL errors:', errors)
       throw new Error('Failed to fetch datasets')
     }
-
     return json({ data })
   } catch (error) {
     console.error('Loader error:', error)
@@ -414,32 +247,18 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 ```
 
-### Network Errors
+### Client-Side Network Errors
 
 ```typescript
 async function fetchData() {
   try {
     const response = await fetch(url)
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-    }
-
+    if (!response.ok) throw new Error(`HTTP ${response.status}`)
     return await response.json()
   } catch (error) {
-    if (error instanceof TypeError) {
-      // Network error (offline, CORS, etc.)
-      showNotification({
-        message: t('networkError'),
-        type: 'error',
-      })
-    } else {
-      // Other errors
-      showNotification({
-        message: t('genericError'),
-        type: 'error',
-      })
-    }
+    const message =
+      error instanceof TypeError ? t('networkError') : t('genericError')
+    showNotification({ message, type: 'error' })
     throw error
   }
 }
@@ -459,60 +278,27 @@ export function sendLogs({
   level: LogLevel
   messages: LogMessage[]
 }) {
-  const endpoint = '/api/logs'
-
-  fetch(endpoint, {
+  fetch('/api/logs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       level,
       messages,
       timestamp: new Date().toISOString(),
-      userAgent: navigator.userAgent,
       url: window.location.href,
     }),
-  }).catch((error) => {
-    console.error('Failed to send logs:', error)
-  })
+  }).catch(console.error)
 }
-```
 
-### Log Levels
-
-```typescript
-export enum LogLevel {
-  Debug = 'debug',
-  Info = 'info',
-  Warning = 'warning',
-  Error = 'error',
-}
-```
-
-### Usage
-
-```typescript
-// Log an error
+// Log levels: Debug, Info, Warning, Error
 sendLogs({
   level: LogLevel.Error,
   messages: [
     {
       type: 'browser',
       message: 'Failed to load dataset',
-      error: error.message,
       logId: 'dataset-page',
       datasetId: params.id,
-    },
-  ],
-})
-
-// Log info
-sendLogs({
-  level: LogLevel.Info,
-  messages: [
-    {
-      type: 'browser',
-      message: 'User downloaded dataset',
-      datasetId: dataset.id,
     },
   ],
 })
@@ -533,211 +319,56 @@ function MyComponent() {
   const handleAction = async () => {
     try {
       await performAction()
-      enqueueSnackbar('Action completed successfully', {
-        variant: 'success',
-      })
-    } catch (error) {
-      enqueueSnackbar('Action failed', {
-        variant: 'error',
-      })
+      enqueueSnackbar('Action completed', { variant: 'success' })
+    } catch {
+      enqueueSnackbar('Action failed', { variant: 'error' })
     }
   }
 }
 ```
 
-### Auto-Hide Snackbar Hook
-
-```typescript
-export function useAutoHideSnackbar() {
-  const { enqueueSnackbar } = useSnackbar()
-
-  return useCallback(
-    (message: string, options?: SnackbarOptions) => {
-      enqueueSnackbar(message, {
-        ...options,
-        autoHideDuration: 3000,
-      })
-    },
-    [enqueueSnackbar],
-  )
-}
-```
-
-**Location:** [`hooks/useAutoHideSnackbar.ts`](../../../packages/data-portal/app/hooks/useAutoHideSnackbar.ts)
-
----
-
-## Validation Errors
-
-### Form Validation
-
-```typescript
-function DatasetForm() {
-  const [errors, setErrors] = useState<Record<string, string>>({})
-
-  const validate = (values: FormValues) => {
-    const newErrors: Record<string, string> = {}
-
-    if (!values.title) {
-      newErrors.title = 'Title is required'
-    }
-
-    if (!values.organismName) {
-      newErrors.organismName = 'Organism name is required'
-    }
-
-    return newErrors
-  }
-
-  const handleSubmit = (values: FormValues) => {
-    const validationErrors = validate(values)
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors)
-      return
-    }
-
-    // Submit form
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <Input
-        label="Title"
-        error={!!errors.title}
-        helperText={errors.title}
-      />
-      <Input
-        label="Organism"
-        error={!!errors.organismName}
-        helperText={errors.organismName}
-      />
-    </form>
-  )
-}
-```
+**Auto-hide hook:** [`hooks/useAutoHideSnackbar.ts`](../../../packages/data-portal/app/hooks/useAutoHideSnackbar.ts)
 
 ---
 
 ## Best Practices
 
-### Do's
+### Do
 
-✅ **Always provide user-friendly error messages**
+- **Provide user-friendly messages:** `'Failed to load dataset. Please try again.'` not `'500 Internal Server Error'`
+- **Log errors for debugging:** Always `console.error` and `sendLogs` before re-throwing
+- **Provide recovery actions:** Include retry buttons or navigation links
+- **Use specific logIds:** Helps identify error sources in logs
 
-```typescript
-// Good
-throw new Error('Failed to load dataset. Please try again.')
+### Don't
 
-// Avoid
-throw new Error('Network request failed with status 500')
-```
-
-✅ **Log errors for debugging**
-
-```typescript
-try {
-  await action()
-} catch (error) {
-  console.error('Action failed:', error)
-  sendLogs({ level: LogLevel.Error, messages: [...] })
-  throw error
-}
-```
-
-✅ **Provide recovery actions**
+- **Expose sensitive information:** Never show stack traces to users in production
+- **Ignore errors silently:** Always log and inform the user
+- **Nest error boundaries:** One boundary at the appropriate level is sufficient
 
 ```typescript
-<ErrorState
-  message="Failed to load data"
-  action={<Button onClick={retry}>Retry</Button>}
-/>
-```
+// Avoid nested boundaries
+<ErrorBoundary><ErrorBoundary><Component /></ErrorBoundary></ErrorBoundary>
 
-✅ **Use appropriate error boundaries**
-
-```typescript
-<ErrorBoundary logId="specific-feature">
-  <FeatureComponent />
-</ErrorBoundary>
-```
-
-### Don'ts
-
-❌ **Don't expose sensitive information**
-
-```typescript
-// Avoid
-<div>Error: {error.stack}</div>
-
-// Better
-<div>An error occurred. Please try again.</div>
-```
-
-❌ **Don't ignore errors silently**
-
-```typescript
-// Avoid
-try {
-  await action()
-} catch (error) {
-  // Silent failure
-}
-
-// Better
-try {
-  await action()
-} catch (error) {
-  console.error(error)
-  showNotification('Action failed')
-}
-```
-
-❌ **Don't create error boundary waterfalls**
-
-```typescript
-// Avoid
-<ErrorBoundary>
-  <ErrorBoundary>
-    <ErrorBoundary>
-      <Component />
-    </ErrorBoundary>
-  </ErrorBoundary>
-</ErrorBoundary>
-
-// Better - one boundary at appropriate level
-<ErrorBoundary logId="page">
-  <Component />
-</ErrorBoundary>
+// Better: single boundary at appropriate level
+<ErrorBoundary logId="page"><Component /></ErrorBoundary>
 ```
 
 ---
 
 ## Testing Error States
 
-### Testing Error Boundaries
-
 ```typescript
 describe('ErrorBoundary', () => {
   it('catches errors and displays fallback', () => {
-    const ThrowError = () => {
-      throw new Error('Test error')
-    }
-
-    render(
-      <ErrorBoundary>
-        <ThrowError />
-      </ErrorBoundary>
-    )
-
+    const ThrowError = () => { throw new Error('Test error') }
+    render(<ErrorBoundary><ThrowError /></ErrorBoundary>)
     expect(screen.getByText(/something went wrong/i)).toBeInTheDocument()
   })
 
   it('allows retry after error', async () => {
-    const user = userEvent.setup()
     render(<ErrorBoundary><ComponentThatThrows /></ErrorBoundary>)
-
-    await user.click(screen.getByText('Refresh'))
+    await userEvent.click(screen.getByText('Refresh'))
     expect(mockReset).toHaveBeenCalled()
   })
 })

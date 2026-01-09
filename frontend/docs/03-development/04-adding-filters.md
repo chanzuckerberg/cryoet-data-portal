@@ -1,32 +1,27 @@
 # Adding Filters
 
-This guide provides step-by-step instructions for implementing filters in the CryoET Data Portal, including UI components, URL state management, and GraphQL query integration.
-
+This guide covers implementing filters in the CryoET Data Portal, including UI components, URL state management, and GraphQL query integration.
 
 ## Quick Reference
 
-| Component | Purpose | Location |
-|-----------|---------|----------|
-| `BooleanFilter` | Checkbox filters | `app/components/Filters/BooleanFilter.tsx` |
-| `SelectFilter` | Dropdown/multi-select | `app/components/Filters/SelectFilter.tsx` |
-| `MultiInputFilter` | Numeric range inputs | `app/components/Filters/MultiInputFilter.tsx` |
-| `useFilter` hook | Filter state management | `app/hooks/useFilter.ts` |
+| Component          | Purpose                 | Location                                      |
+| ------------------ | ----------------------- | --------------------------------------------- |
+| `BooleanFilter`    | Checkbox filters        | `app/components/Filters/BooleanFilter.tsx`    |
+| `SelectFilter`     | Dropdown/multi-select   | `app/components/Filters/SelectFilter.tsx`     |
+| `MultiInputFilter` | Numeric range inputs    | `app/components/Filters/MultiInputFilter.tsx` |
+| `useFilter` hook   | Filter state management | `app/hooks/useFilter.ts`                      |
 
 ---
 
 ## Filter Architecture
 
-Filters in the portal use a three-layer architecture:
+Filters use a three-layer architecture:
 
 1. **URL State** - Filter values stored in search parameters (shareable, bookmarkable)
 2. **Filter Hook** - `useFilter()` manages state and URL synchronization
 3. **UI Components** - Reusable filter components render inputs and handle updates
 
-**Benefits:**
-- Shareable URLs with filters applied
-- Browser back/forward navigation works
-- Filters persist across page refreshes
-- Clean separation of concerns
+This approach ensures shareable URLs, working browser navigation, and filter persistence across refreshes.
 
 ---
 
@@ -34,48 +29,35 @@ Filters in the portal use a three-layer architecture:
 
 ### 1. Define the Query Parameter
 
-Add your filter parameter to the constants:
-
-**File:** `/packages/data-portal/app/constants/filterQueryParams.ts`
+**File:** `app/constants/filterQueryParams.ts`
 
 ```typescript
 export enum QueryParams {
-  // Existing params
   ObjectName = 'object-name',
   ObjectShapeType = 'object-shape-type',
-
-  // Add your new param
-  ExperimentType = 'experiment-type',
+  ExperimentType = 'experiment-type', // Add your new param
 }
 ```
 
 ### 2. Update Filter State Type
 
-Add your filter to the filter state interface:
-
-**File:** `/packages/data-portal/app/hooks/useFilter.ts`
+**File:** `app/hooks/useFilter.ts`
 
 ```typescript
 export interface FilterState {
   annotation: {
     objectNames: string[]
     objectShapeTypes: string[]
-    objectId: string | null
   }
-  // Add your new filter group
   experiment: {
-    type: string[]
-    minDate: string | null
-    maxDate: string | null
+    type: string[] // Add your new filter
   }
 }
 ```
 
 ### 3. Update Filter State Parser
 
-Add logic to parse your filter from URL parameters:
-
-**File:** `/packages/data-portal/app/hooks/useFilter.ts`
+Add logic to parse your filter from URL parameters in `getFilterState()`:
 
 ```typescript
 export function getFilterState(params: URLSearchParams): FilterState {
@@ -83,12 +65,9 @@ export function getFilterState(params: URLSearchParams): FilterState {
     annotation: {
       objectNames: params.getAll(QueryParams.ObjectName),
       objectShapeTypes: params.getAll(QueryParams.ObjectShapeType),
-      objectId: params.get(QueryParams.ObjectId),
     },
     experiment: {
       type: params.getAll(QueryParams.ExperimentType),
-      minDate: params.get(QueryParams.MinDate),
-      maxDate: params.get(QueryParams.MaxDate),
     },
   }
 }
@@ -96,110 +75,36 @@ export function getFilterState(params: URLSearchParams): FilterState {
 
 ### 4. Create the Filter Component
 
-Create a new filter component or use an existing one:
-
-**File:** `/packages/data-portal/app/components/Filters/ExperimentTypeFilter.tsx`
+The core pattern for any filter component uses the `useFilter` hook to access state and trigger updates:
 
 ```typescript
-import { useMemo } from 'react'
-import { QueryParams } from 'app/constants/query'
-import { useFilter } from 'app/hooks/useFilter'
-import { BaseFilterOption } from 'app/types/filter'
-import { SelectFilter } from './SelectFilter'
-
-export function ExperimentTypeFilter({
-  availableTypes,
-}: {
-  availableTypes: string[]
-}) {
-  const {
-    updateValue,
-    experiment: { type },
-  } = useFilter()
-
-  const typeOptions: BaseFilterOption[] = useMemo(
-    () => availableTypes.map((t) => ({ label: t, value: t })),
-    [availableTypes],
-  )
-
-  const selectedTypes: BaseFilterOption[] = useMemo(
-    () => type.map((t) => ({ label: t, value: t })),
-    [type],
-  )
+export function ExperimentTypeFilter({ availableTypes }: Props) {
+  const { updateValue, experiment: { type } } = useFilter()
 
   return (
     <SelectFilter
       multiple
       search
       label="Experiment Type"
+      options={availableTypes.map((t) => ({ label: t, value: t }))}
+      value={type.map((t) => ({ label: t, value: t }))}
       onChange={(options) => updateValue(QueryParams.ExperimentType, options)}
-      options={typeOptions}
-      value={selectedTypes}
     />
   )
 }
 ```
 
-**Key patterns from `/packages/data-portal/app/components/Filters/AnnotationObjectNameFilter.tsx`:**
-- Use `useFilter()` hook to access state and update function
-- Use `useMemo` to transform data for filter components
-- Call `updateValue()` with param name and new value
+The `useFilter()` hook provides the current filter state and an `updateValue()` function that synchronizes changes to the URL. Use `useMemo` for expensive option transformations in production components. See `app/components/Filters/AnnotationObjectNameFilter.tsx` for the complete pattern with memoization.
 
 ### 5. Update GraphQL Query
 
-Modify your GraphQL query to support the new filter:
-
-**File:** `/packages/data-portal/app/graphql/getExperimentsV2.server.ts`
-
-```typescript
-const GET_EXPERIMENTS_QUERY_V2 = gql(`
-  query GetExperimentsV2($filter: ExperimentWhereClause) {
-    experiments(where: $filter) {
-      id
-      type
-      date
-      title
-    }
-  }
-`)
-
-function buildExperimentFilter(
-  filterState: FilterState
-): ExperimentWhereClause {
-  const filter: ExperimentWhereClause = {}
-
-  // Add type filter
-  if (filterState.experiment.type.length > 0) {
-    filter.type = { _in: filterState.experiment.type }
-  }
-
-  // Add date range filter
-  if (filterState.experiment.minDate) {
-    filter.date = { _gte: filterState.experiment.minDate }
-  }
-  if (filterState.experiment.maxDate) {
-    filter.date = {
-      ...filter.date,
-      _lte: filterState.experiment.maxDate,
-    }
-  }
-
-  return filter
-}
-```
+Modify your GraphQL query to support the new filter. See [Building Dynamic Where Clauses](#building-dynamic-where-clauses) for the pattern.
 
 ### 6. Use Filter in Loader
 
 Apply the filter in your route loader:
 
-**File:** `/packages/data-portal/app/routes/experiments.tsx`
-
 ```typescript
-import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { apolloClientV2 } from 'app/apollo.server'
-import { getFilterState } from 'app/hooks/useFilter'
-import { getExperimentsV2 } from 'app/graphql/getExperimentsV2.server'
-
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
   const filterState = getFilterState(url.searchParams)
@@ -211,9 +116,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   return json({
     experiments: data.experiments,
-    filters: {
-      availableTypes: getAvailableTypes(data),
-    },
+    filters: { availableTypes: getAvailableTypes(data) },
   })
 }
 ```
@@ -223,15 +126,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
 Include your filter component in the filter panel:
 
 ```typescript
-import { ExperimentTypeFilter } from 'app/components/Filters/ExperimentTypeFilter'
-
 export function ExperimentFilterPanel() {
   const { filters } = useLoaderData<typeof loader>()
 
   return (
     <div className="space-y-4">
       <ExperimentTypeFilter availableTypes={filters.availableTypes} />
-      {/* Other filters */}
     </div>
   )
 }
@@ -241,51 +141,32 @@ export function ExperimentFilterPanel() {
 
 ## Filter Component Types
 
-### Boolean Filter (Checkbox)
+Choose the right filter component based on your data type and user interaction needs:
 
-Simple on/off toggle:
+| Filter Type        | Use When                         | Example Use Cases                      |
+| ------------------ | -------------------------------- | -------------------------------------- |
+| `BooleanFilter`    | Binary yes/no choice             | Ground truth only, Has tomograms       |
+| `SelectFilter`     | Choosing from predefined options | Object name, Quality score, Shape type |
+| `MultiInputFilter` | Numeric ranges with min/max      | Tilt range, Resolution range           |
 
-**From `/packages/data-portal/app/components/Filters/BooleanFilter.tsx`:**
+### BooleanFilter
+
+Use for simple toggles where users enable/disable a constraint:
 
 ```typescript
-import { BooleanFilter } from 'app/components/Filters/BooleanFilter'
-
-export function GroundTruthFilter() {
-  const { updateValue, includedContents } = useFilter()
-
-  return (
-    <BooleanFilter
-      label="Ground Truth Annotations Only"
-      caption="Show only manually annotated data"
-      value={includedContents.isGroundTruthEnabled}
-      onChange={(value) =>
-        updateValue(QueryParams.GroundTruthAnnotation, value)
-      }
-    />
-  )
-}
+<BooleanFilter
+  label="Ground Truth Annotations Only"
+  caption="Show only manually annotated data"
+  value={includedContents.isGroundTruthEnabled}
+  onChange={(value) => updateValue(QueryParams.GroundTruthAnnotation, value)}
+/>
 ```
 
-### Select Filter (Single or Multiple)
+### SelectFilter
 
-Dropdown selection:
+Use for single or multiple selection from a list. Add `multiple` for multi-select and `search` for filterable dropdowns with many options:
 
 ```typescript
-import { SelectFilter } from 'app/components/Filters/SelectFilter'
-
-// Single select
-<SelectFilter
-  label="Quality Score"
-  options={[
-    { label: 'Excellent (4-5)', value: '4-5' },
-    { label: 'Good (3-4)', value: '3-4' },
-    { label: 'Fair (2-3)', value: '2-3' },
-  ]}
-  value={selectedQuality}
-  onChange={(option) => updateValue(QueryParams.QualityScore, option)}
-/>
-
-// Multiple select with search
 <SelectFilter
   multiple
   search
@@ -296,26 +177,18 @@ import { SelectFilter } from 'app/components/Filters/SelectFilter'
 />
 ```
 
-### Multi-Input Filter (Numeric Range)
+### MultiInputFilter
 
-Min/max range inputs:
+Use for numeric ranges with separate min/max inputs:
 
 ```typescript
-import { MultiInputFilter } from 'app/components/Filters/MultiInputFilter'
-
-export function TiltRangeFilter() {
-  const { updateValue, tiltSeries } = useFilter()
-
-  return (
-    <MultiInputFilter
-      label="Tilt Range"
-      min={tiltSeries.min}
-      max={tiltSeries.max}
-      onMinChange={(value) => updateValue(QueryParams.TiltRangeMin, value)}
-      onMaxChange={(value) => updateValue(QueryParams.TiltRangeMax, value)}
-    />
-  )
-}
+<MultiInputFilter
+  label="Tilt Range"
+  min={tiltSeries.min}
+  max={tiltSeries.max}
+  onMinChange={(value) => updateValue(QueryParams.TiltRangeMin, value)}
+  onMaxChange={(value) => updateValue(QueryParams.TiltRangeMax, value)}
+/>
 ```
 
 ---
@@ -324,27 +197,18 @@ export function TiltRangeFilter() {
 
 ### Using the useFilter Hook
 
-The `useFilter()` hook provides:
-
 ```typescript
 const {
-  // Current filter state
-  annotation,
-  experiment,
-  tiltSeries,
-  includedContents,
-
-  // Update function
-  updateValue,
-
-  // Raw filter state
-  filterState,
+  annotation, // Filter state for annotations
+  experiment, // Filter state for experiments
+  tiltSeries, // Filter state for tilt series
+  includedContents, // Boolean filter states
+  updateValue, // Function to update filter values
+  filterState, // Raw filter state object
 } = useFilter()
 ```
 
 ### Updating Filter Values
-
-Call `updateValue()` with the parameter name and new value:
 
 ```typescript
 // Single value
@@ -356,28 +220,18 @@ updateValue(QueryParams.ObjectName, ['ribosome', 'membrane'])
 // Boolean
 updateValue(QueryParams.GroundTruthAnnotation, true)
 
-// Remove a filter (set to null/empty)
+// Clear a filter
 updateValue(QueryParams.ObjectName, [])
-updateValue(QueryParams.Search, null)
 ```
 
-### Multiple Filter Updates
-
-Update multiple filters at once:
+### Clearing All Filters
 
 ```typescript
 const [searchParams, setSearchParams] = useSearchParams()
 
-// Clear all filters
 const clearAllFilters = () => {
   const newParams = new URLSearchParams()
-  setSearchParams(newParams)
-}
-
-// Reset to defaults
-const resetFilters = () => {
-  const newParams = new URLSearchParams()
-  newParams.set('page', '1')
+  newParams.set('page', '1') // Preserve pagination reset
   setSearchParams(newParams)
 }
 ```
@@ -392,19 +246,13 @@ Show/hide filters based on other selections:
 
 ```typescript
 export function FilterPanel() {
-  const { annotation, updateValue } = useFilter()
+  const { annotation } = useFilter()
   const showAdvanced = annotation.objectNames.length > 0
 
   return (
     <div>
       <AnnotationObjectNameFilter />
-
-      {showAdvanced && (
-        <>
-          <ObjectShapeTypeFilter />
-          <ObjectIdFilter />
-        </>
-      )}
+      {showAdvanced && <ObjectShapeTypeFilter />}
     </div>
   )
 }
@@ -412,14 +260,12 @@ export function FilterPanel() {
 
 ### Dynamic Filter Options
 
-Filter options that change based on data:
+Load filter options based on current selections:
 
 ```typescript
 export async function loader({ request }: LoaderFunctionArgs) {
-  const url = new URL(request.url)
-  const filterState = getFilterState(url.searchParams)
+  const filterState = getFilterState(new URL(request.url).searchParams)
 
-  // Get available filter options based on current filters
   const { data: aggregates } = await getFilterAggregatesV2({
     client: apolloClientV2,
     baseFilter: filterState,
@@ -429,25 +275,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
     filters: {
       availableObjectNames: aggregates.objectNames,
       availableShapeTypes: aggregates.shapeTypes,
-      // Options update based on current selection
     },
   })
 }
-```
-
-### Filter with Search/Autocomplete
-
-Enable search for large option lists:
-
-```typescript
-<SelectFilter
-  multiple
-  search  // Enable search input
-  label="Object Name"
-  options={largeObjectNameList}
-  value={selectedNames}
-  onChange={(options) => updateValue(QueryParams.ObjectName, options)}
-/>
 ```
 
 ---
@@ -456,44 +286,38 @@ Enable search for large option lists:
 
 ### Building Dynamic Where Clauses
 
-**Pattern from `/packages/data-portal/app/graphql/getDatasetByIdV2.server.ts`:**
+The pattern for converting filter state to GraphQL where clauses:
+
+```
+1. Create empty where clause object
+2. For each active filter:
+   - Check if filter has values
+   - Add appropriate condition (_in, _eq, _gte, _lte)
+   - Merge with existing conditions on same field
+3. Return completed where clause
+```
+
+**Example implementation** (from `app/graphql/getDatasetByIdV2.server.ts`):
 
 ```typescript
-import { RunWhereClause } from 'app/__generated_v2__/graphql'
-
 function buildRunFilter(filterState: FilterState): RunWhereClause {
   const where: RunWhereClause = {}
 
-  // Tilt range filter
-  if (filterState.tiltSeries.min || filterState.tiltSeries.max) {
-    where.tiltseries = {
-      tiltRange: {
-        _gte: parseFloat(filterState.tiltSeries.min) || -90,
-        _lte: parseFloat(filterState.tiltSeries.max) || 90,
-      },
-    }
-  }
-
-  // Quality score filter (multiple values)
-  if (filterState.tiltSeries.qualityScore.length > 0) {
-    where.tiltseries = {
-      ...where.tiltseries,
-      tiltSeriesQuality: {
-        _in: filterState.tiltSeries.qualityScore.map((s) => parseInt(s, 10)),
-      },
-    }
-  }
-
-  // Object name filter (array)
+  // Array filter: use _in operator
   if (filterState.annotation.objectNames.length > 0) {
     where.annotations = {
-      objectName: {
-        _in: filterState.annotation.objectNames,
-      },
+      objectName: { _in: filterState.annotation.objectNames },
     }
   }
 
-  // Boolean filter
+  // Range filter: use _gte/_lte operators
+  if (filterState.tiltSeries.min) {
+    where.tiltseries = {
+      tiltRange: { _gte: parseFloat(filterState.tiltSeries.min) },
+    }
+  }
+
+  // Boolean filter: use _eq operator
   if (filterState.includedContents.isGroundTruthEnabled) {
     where.annotations = {
       ...where.annotations,
@@ -507,34 +331,14 @@ function buildRunFilter(filterState: FilterState): RunWhereClause {
 
 ### Combining Multiple Filters
 
-Use GraphQL `_and` and `_or` operators:
+Use GraphQL `_and` for complex conditions:
 
 ```typescript
-function buildComplexFilter(filterState: FilterState): RunWhereClause {
-  const where: RunWhereClause = {}
-
-  // AND condition: both filters must match
-  if (
-    filterState.annotation.objectNames.length > 0 &&
-    filterState.tiltSeries.qualityScore.length > 0
-  ) {
-    where._and = [
-      {
-        annotations: {
-          objectName: { _in: filterState.annotation.objectNames },
-        },
-      },
-      {
-        tiltseries: {
-          tiltSeriesQuality: {
-            _in: filterState.tiltSeries.qualityScore.map((s) => +s),
-          },
-        },
-      },
-    ]
-  }
-
-  return where
+if (hasMultipleFilterTypes) {
+  where._and = [
+    { annotations: { objectName: { _in: objectNames } } },
+    { tiltseries: { tiltSeriesQuality: { _in: qualityScores } } },
+  ]
 }
 ```
 
@@ -542,13 +346,9 @@ function buildComplexFilter(filterState: FilterState): RunWhereClause {
 
 ## Filter UI Layout
 
-### Filter Panel Structure
-
 Organize filters in collapsible sections:
 
 ```typescript
-import { FilterSection } from 'app/components/Filters/FilterSection'
-
 export function RunFilterPanel() {
   return (
     <div className="space-y-2">
@@ -562,42 +362,7 @@ export function RunFilterPanel() {
         <TiltRangeFilter />
         <QualityScoreFilter />
       </FilterSection>
-
-      <FilterSection title="Advanced">
-        <ObjectIdFilter />
-        <MethodTypeFilter />
-      </FilterSection>
     </div>
-  )
-}
-```
-
-### Clear Filters Button
-
-Add functionality to reset filters:
-
-```typescript
-import { useSearchParams } from '@remix-run/react'
-
-export function ClearFiltersButton() {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const hasFilters = Array.from(searchParams.keys()).some(
-    (key) => key !== 'page'
-  )
-
-  if (!hasFilters) return null
-
-  return (
-    <button
-      onClick={() => {
-        const newParams = new URLSearchParams()
-        newParams.set('page', '1')
-        setSearchParams(newParams)
-      }}
-      className="text-blue-600 hover:underline"
-    >
-      Clear All Filters
-    </button>
   )
 }
 ```
@@ -606,21 +371,12 @@ export function ClearFiltersButton() {
 
 ## Testing Filters
 
-### Unit Test Filter Components
+### Unit Tests
 
-**Pattern from `/packages/data-portal/app/components/Filters/BooleanFilter.test.tsx`:**
+Test filter components respond to user interaction:
 
 ```typescript
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { BooleanFilter } from './BooleanFilter'
-
 describe('<BooleanFilter />', () => {
-  it('should render label', () => {
-    render(<BooleanFilter label="Test" onChange={() => {}} value={false} />)
-    expect(screen.getByText('Test')).toBeVisible()
-  })
-
   it('should update value on click', async () => {
     const onChange = jest.fn()
     render(<BooleanFilter label="Test" onChange={onChange} value={false} />)
@@ -631,29 +387,22 @@ describe('<BooleanFilter />', () => {
 })
 ```
 
-### E2E Test Filters
+See `app/components/Filters/BooleanFilter.test.tsx` for complete examples.
 
-Test filters in E2E tests:
+### E2E Tests
+
+Test filter behavior in the full application:
 
 ```typescript
-import { test, expect } from '@playwright/test'
-
 test('should filter runs by object name', async ({ page }) => {
   await page.goto('/datasets/123')
-
-  // Open filter
-  await page.click('text=Filters')
-
-  // Select object name
   await page.click('text=Object Name')
   await page.click('text=ribosome')
 
-  // Verify URL updated
   await expect(page).toHaveURL(/object-name=ribosome/)
-
-  // Verify results filtered
-  const runCount = await page.locator('[data-testid="run-row"]').count()
-  expect(runCount).toBeGreaterThan(0)
+  expect(await page.locator('[data-testid="run-row"]').count()).toBeGreaterThan(
+    0,
+  )
 })
 ```
 
@@ -661,14 +410,12 @@ test('should filter runs by object name', async ({ page }) => {
 
 ## Best Practices
 
-1. **URL as source of truth:** Always sync filter state with URL parameters
-2. **Type safety:** Use TypeScript for filter state and GraphQL where clauses
-3. **Debounce text inputs:** Prevent excessive URL updates while typing
-4. **Preserve page state:** Keep non-filter params (like page number) when updating filters
-5. **Show active filters:** Display applied filters clearly in the UI
-6. **Performance:** Use `useMemo` for expensive filter option transformations
-7. **Accessibility:** Ensure all filter controls are keyboard-navigable
-8. **Clear feedback:** Show loading states during filter application
+1. **URL as source of truth** - Always sync filter state with URL parameters
+2. **Type safety** - Use TypeScript for filter state and GraphQL where clauses
+3. **Debounce text inputs** - Prevent excessive URL updates while typing
+4. **Preserve page state** - Reset pagination when filters change
+5. **Performance** - Use `useMemo` for expensive filter option transformations
+6. **Accessibility** - Ensure all filter controls are keyboard-navigable
 
 ---
 

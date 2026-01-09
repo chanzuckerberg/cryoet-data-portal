@@ -2,16 +2,15 @@
 
 This document covers state management in the CryoET Data Portal frontend, including Jotai atoms for UI state, URL-based state via Remix, React contexts for shared data, and state synchronization patterns.
 
-
 ## Quick Reference
 
-| State Type | Technology | Use Case | Location |
-|------------|-----------|----------|----------|
-| Server State | Remix loaders | Data from GraphQL API | Route loaders, [GraphQL Integration](../02-data/01-graphql-integration.md) |
-| Route State | Remix params | Page-specific data (e.g., ID) | `params.id` in loaders |
-| Filter State | URL params | Shareable, bookmarkable filters | `useFilter()`, `useQueryParam()` |
-| Global Context | React Context | Environment config, modals | [`app/context/`](../../../packages/data-portal/app/context/) |
-| UI State | Jotai atoms | Transient component state | [`app/state/`](../../../packages/data-portal/app/state/) |
+| State Type     | Technology    | Use Case                        | Location                                                                   |
+| -------------- | ------------- | ------------------------------- | -------------------------------------------------------------------------- |
+| Server State   | Remix loaders | Data from GraphQL API           | Route loaders, [GraphQL Integration](../02-data/01-graphql-integration.md) |
+| Route State    | Remix params  | Page-specific data (e.g., ID)   | `params.id` in loaders                                                     |
+| Filter State   | URL params    | Shareable, bookmarkable filters | `useFilter()`, `useQueryParam()`                                           |
+| Global Context | React Context | Environment config, modals      | [`app/context/`](../../../packages/data-portal/app/context/)               |
+| UI State       | Jotai atoms   | Transient component state       | [`app/state/`](../../../packages/data-portal/app/state/)                   |
 
 ---
 
@@ -26,10 +25,27 @@ The CryoET Data Portal follows a **distributed state management** approach:
 5. **Jotai atoms** manage ephemeral UI state (modals, selections, history)
 
 **Benefits:**
+
 - Shareable URLs with filters applied
 - Browser back/forward works naturally
 - No complex client-side cache invalidation
 - Minimal global state reduces bugs
+
+---
+
+## Choosing the Right State Approach
+
+Before diving into implementation details, use this decision guide:
+
+**Use Remix loaders** when data comes from the GraphQL API. Loaders run on the server before rendering, ensuring fresh data on every navigation. This eliminates client-side caching complexity.
+
+**Use URL parameters** when state should be shareable or bookmarkable. Filters, pagination, search queries, and sorting all belong in the URL. This enables users to share links with applied filters and makes browser history work naturally.
+
+**Use React Context** for configuration that rarely changes and needs to be globally accessible. Environment variables, feature flags, and modal contexts fit this category. Avoid Context for frequently-changing state as it triggers re-renders in all consuming components.
+
+**Use Jotai atoms** for ephemeral UI state that changes frequently but doesn't need persistence. Selected items, expanded/collapsed states, and UI mode toggles are good candidates. Jotai's atomic model ensures only components reading the changed atom re-render.
+
+**Use local state (useState)** for component-specific state that doesn't need to be shared, like form inputs or local toggle states.
 
 ---
 
@@ -68,7 +84,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   })
 
   if (data.datasets.length === 0) {
-    throw new Response(null, { status: 404, statusText: `Dataset ${id} not found` })
+    throw new Response(null, {
+      status: 404,
+      statusText: `Dataset ${id} not found`,
+    })
   }
 
   return json({ v2: data })
@@ -83,12 +102,12 @@ import { useTypedLoaderData } from 'remix-typedjson'
 function DatasetPage() {
   const { v2 } = useTypedLoaderData<typeof loader>()
   const dataset = v2.datasets[0]
-
   return <DatasetHeader title={dataset.title} />
 }
 ```
 
 **Key patterns:**
+
 - Validate route params before querying
 - Throw `Response` objects for error handling (400, 404)
 - Use `json()` helper to return typed data
@@ -102,46 +121,15 @@ For detailed GraphQL patterns, see [GraphQL Integration](../02-data/01-graphql-i
 
 Route state consists of **URL path parameters** like `/datasets/123` where `123` is the dataset ID. These parameters identify the specific resource being viewed.
 
-### How It Works
+Route files define params via filename (e.g., `datasets.$id.tsx` creates `params.id`). Params are always strings from the URL, so convert to numbers as needed and validate early to throw errors before querying.
 
-1. **Route files define params** via filename (e.g., `datasets.$id.tsx` → `params.id`)
-2. **Loaders extract and validate** params from `LoaderFunctionArgs`
-3. **Params are always strings** - convert to numbers as needed
-4. **Validation happens early** - throw errors before querying
-
-### Example: Extracting Route Params
-
-```typescript
-// Route file: app/routes/datasets.$id.tsx
-// URL: /datasets/123 → params.id = "123"
-
-export async function loader({ params }: LoaderFunctionArgs) {
-  // 1. Extract param (always a string from URL)
-  const id = params.id ? +params.id : NaN
-
-  // 2. Validate immediately
-  if (Number.isNaN(id)) {
-    throw new Response(null, {
-      status: 400,
-      statusText: 'ID is not defined',
-    })
-  }
-
-  // 3. Use validated param in query
-  const data = await fetchDataset(id)
-  return json({ data })
-}
-```
-
-### Common Route Param Patterns
-
-| Route File | URL Example | Params |
-|------------|-------------|--------|
-| `datasets.$id.tsx` | `/datasets/123` | `params.id = "123"` |
-| `runs.$id.tsx` | `/runs/456` | `params.id = "456"` |
+| Route File            | URL Example        | Params              |
+| --------------------- | ------------------ | ------------------- |
+| `datasets.$id.tsx`    | `/datasets/123`    | `params.id = "123"` |
+| `runs.$id.tsx`        | `/runs/456`        | `params.id = "456"` |
 | `depositions.$id.tsx` | `/depositions/789` | `params.id = "789"` |
 
-**Note:** Route params identify *which* resource. Query params (covered next) control *how* to display it (filters, pagination, sorting).
+**Note:** Route params identify _which_ resource. Query params (covered next) control _how_ to display it (filters, pagination, sorting).
 
 ---
 
@@ -158,30 +146,32 @@ All filters, pagination, and sorting are stored in the URL:
 ```
 
 **Benefits:**
-- ✅ Shareable links with filters applied
-- ✅ Bookmarkable search results
-- ✅ Browser back/forward works naturally
-- ✅ No state synchronization bugs
-- ✅ SEO-friendly (server can read params)
 
-### useFilter Hook
+- Shareable links with filters applied
+- Bookmarkable search results
+- Browser back/forward works naturally
+- SEO-friendly (server can read params)
+
+### Comprehensive Filter Management Example
 
 The [`useFilter`](../../../packages/data-portal/app/hooks/useFilter.ts) hook provides a typed API for filter manipulation:
 
 ```typescript
 import { useFilter } from 'app/hooks/useFilter'
+import { useQueryParam, useQueryParams } from 'app/hooks/useQueryParam'
+import { QueryParams } from 'app/constants/query'
 
-function DatasetFilter() {
+function DatasetFilters() {
   const filter = useFilter()
 
-  // Read filter values
+  // Read filter values (typed from URL params)
   const organismNames = filter.sampleAndExperimentConditions.organismNames
   const objectNames = filter.annotation.objectNames
 
   // Update single filter
   filter.updateValue(QueryParams.Organism, ['Homo sapiens'])
 
-  // Update multiple filters
+  // Update multiple filters atomically
   filter.updateValues({
     [QueryParams.Organism]: ['Homo sapiens'],
     [QueryParams.ObjectName]: ['ribosome'],
@@ -189,12 +179,31 @@ function DatasetFilter() {
 
   // Reset all filters
   filter.reset()
+
+  // For individual params, useQueryParam provides type-safe access
+  const [search, setSearch] = useQueryParam<string>(QueryParams.Search, {
+    defaultValue: '',
+  })
+
+  // For related params, useQueryParams manages them together
+  const [{ min, max }, setRange] = useQueryParams({
+    min: QueryParams.TiltRangeMin,
+    max: QueryParams.TiltRangeMax,
+  })
+
+  return (
+    <input
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      placeholder="Search datasets..."
+    />
+  )
 }
 ```
 
 ### Filter State Structure
 
-From [`useFilter.ts`](../../../packages/data-portal/app/hooks/useFilter.ts):
+From [`useFilter.ts`](../../../packages/data-portal/app/hooks/useFilter.ts), the filter state is organized into logical sections:
 
 ```typescript
 export function getFilterState(searchParams: URLSearchParams) {
@@ -203,75 +212,38 @@ export function getFilterState(searchParams: URLSearchParams) {
       isGroundTruthEnabled:
         searchParams.get(QueryParams.GroundTruthAnnotation) === 'true',
       availableFiles: searchParams.getAll(QueryParams.AvailableFiles),
-      numberOfRuns: JSON.parse(searchParams.get(QueryParams.NumberOfRuns) ?? 'null'),
+      numberOfRuns: JSON.parse(
+        searchParams.get(QueryParams.NumberOfRuns) ?? 'null',
+      ),
     },
-
     ids: {
       datasets: searchParams.getAll(QueryParams.DatasetId),
       deposition: searchParams.get(QueryParams.DepositionId),
-      empiar: searchParams.get(QueryParams.EmpiarId),
-      emdb: searchParams.get(QueryParams.EmdbId),
+      // ... more ID fields
     },
-
     author: {
       name: searchParams.get(QueryParams.AuthorName),
       orcid: searchParams.get(QueryParams.AuthorOrcid),
     },
-
     sampleAndExperimentConditions: {
       organismNames: searchParams.getAll(QueryParams.Organism),
     },
-
     annotation: {
       objectNames: searchParams.getAll(QueryParams.ObjectName),
-      objectId: searchParams.get(QueryParams.ObjectId),
       objectShapeTypes: searchParams.getAll(QueryParams.ObjectShapeType),
-      annotatedObjectsOnly: searchParams.get(QueryParams.AnnotatedObjectsOnly) === 'Yes',
+      // ... more annotation fields
     },
-
-    // ... more sections
   }
 }
 
 export type FilterState = ReturnType<typeof getFilterState>
 ```
 
-**Key features:**
-1. Centralized parsing from URL params
-2. Type-safe with exported `FilterState` type
-3. Handles arrays, booleans, nulls
-4. Used by both client and server (Remix loaders)
+This centralized parsing handles arrays (`getAll`), booleans, and nulls. The exported `FilterState` type ensures type safety across both client and server code.
 
-### useQueryParam Hook
+### Custom Serialization
 
-For individual URL parameters, use [`useQueryParam`](../../../packages/data-portal/app/hooks/useQueryParam.ts):
-
-```typescript
-import { useQueryParam } from 'app/hooks/useQueryParam'
-import { QueryParams } from 'app/constants/query'
-
-function SearchBox() {
-  const [query, setQuery] = useQueryParam<string>(QueryParams.Search, {
-    defaultValue: '',
-  })
-
-  return (
-    <input
-      value={query}
-      onChange={(e) => setQuery(e.target.value)}
-      placeholder="Search datasets..."
-    />
-  )
-}
-```
-
-**Features:**
-- Type-safe with generics
-- Optional default values
-- Custom serialization/deserialization
-- Automatic URL synchronization
-
-**Advanced usage with custom serialization:**
+For complex values, provide custom serialization:
 
 ```typescript
 interface Filters {
@@ -285,55 +257,23 @@ const [filters, setFilters] = useQueryParam<Filters>(QueryParams.TiltRange, {
 })
 ```
 
-### Multiple Query Parameters
-
-For managing multiple related parameters:
-
-```typescript
-import { useQueryParams } from 'app/hooks/useQueryParam'
-
-function TiltRangeFilter() {
-  const [{ min, max }, setRange] = useQueryParams({
-    min: QueryParams.TiltRangeMin,
-    max: QueryParams.TiltRangeMax,
-  })
-
-  const handleUpdate = () => {
-    setRange({ min: '-60', max: '60' })
-  }
-
-  const handleReset = () => {
-    setRange(null) // Clears both params
-  }
-}
-```
-
 ---
 
 ## React Context
 
-Global configuration and utilities are provided via React Context.
+Global configuration and utilities are provided via React Context. See [`app/context/`](../../../packages/data-portal/app/context/) for all context implementations.
 
 ### Environment Context
 
 From [`Environment.context.ts`](../../../packages/data-portal/app/context/Environment.context.ts):
 
 ```typescript
-import { createContext, useContext } from 'react'
-
 export type EnvironmentContextValue = Required<
   Pick<
     NodeJS.ProcessEnv,
     'API_URL' | 'API_URL_V2' | 'ENV' | 'LOCALHOST_PLAUSIBLE_TRACKING'
   >
 >
-
-export const ENVIRONMENT_CONTEXT_DEFAULT_VALUE: EnvironmentContextValue = {
-  API_URL: 'https://graphql-cryoet-api.cryoet.prod.si.czi.technology/v1/graphql',
-  API_URL_V2: 'https://graphql.cryoetdataportal.czscience.com/graphql',
-  ENV: 'local',
-  LOCALHOST_PLAUSIBLE_TRACKING: 'false',
-}
 
 export const EnvironmentContext = createContext<EnvironmentContextValue>(
   ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
@@ -351,109 +291,20 @@ import { useEnvironment } from 'app/context/Environment.context'
 
 function FeatureFlaggedComponent() {
   const { ENV } = useEnvironment()
-
-  if (ENV === 'prod') {
-    return <ProductionFeature />
-  }
-
-  return <DevFeature />
+  return ENV === 'prod' ? <ProductionFeature /> : <DevFeature />
 }
 ```
 
-**Context is provided in root:**
+Context is provided in the root layout (`app/root.tsx`), where environment values are loaded from the server and passed to the provider. This pattern makes server-side configuration available client-side without exposing it in JavaScript bundles.
 
-```typescript
-// app/root.tsx
-import { EnvironmentContext } from 'app/context/Environment.context'
+### Other Contexts
 
-export function loader() {
-  return json({
-    env: {
-      API_URL: process.env.API_URL,
-      API_URL_V2: process.env.API_URL_V2,
-      ENV: process.env.ENV,
-      LOCALHOST_PLAUSIBLE_TRACKING: process.env.LOCALHOST_PLAUSIBLE_TRACKING,
-    },
-  })
-}
+The codebase includes additional contexts following the same pattern:
 
-export default function App() {
-  const { env } = useLoaderData<typeof loader>()
+- **DownloadModalContext**: Manages download modal state and configuration (dataset/run/annotation downloads)
+- Additional contexts in [`app/context/`](../../../packages/data-portal/app/context/)
 
-  return (
-    <EnvironmentContext.Provider value={env}>
-      <Outlet />
-    </EnvironmentContext.Provider>
-  )
-}
-```
-
-### Download Modal Context
-
-From [`DownloadModal.context.ts`](../../../packages/data-portal/app/context/DownloadModal.context.ts):
-
-```typescript
-import { createContext, useContext } from 'react'
-
-export type DownloadModalType = 'dataset' | 'runs' | 'annotation'
-
-export interface DownloadModalContextValue {
-  annotationShapeToDownload?: AnnotationShape
-  tomogramToDownload?: TomogramV2
-  datasetId?: number
-  datasetTitle?: string
-  fileSize?: number
-  httpsPath?: string
-  s3Path?: string
-  type: DownloadModalType
-  // ... more fields
-}
-
-export const DownloadModalContext =
-  createContext<DownloadModalContextValue | null>(null)
-
-export function useDownloadModalContext() {
-  const value = useContext(DownloadModalContext)
-
-  if (!value) {
-    throw new Error(
-      'useDownloadModal must be used within a DownloadModalContext',
-    )
-  }
-
-  return value
-}
-```
-
-**Usage pattern:**
-
-```typescript
-import { DownloadModalContext } from 'app/context/DownloadModal.context'
-
-function DatasetPage() {
-  const [modalData, setModalData] = useState<DownloadModalContextValue | null>(null)
-
-  return (
-    <DownloadModalContext.Provider value={modalData}>
-      <DatasetView />
-      {modalData && <DownloadModal />}
-    </DownloadModalContext.Provider>
-  )
-}
-
-function DownloadButton() {
-  const datasetId = useDatasetId()
-  const setModalData = /* ... */
-
-  const handleClick = () => {
-    setModalData({
-      type: 'dataset',
-      datasetId,
-      datasetTitle: 'My Dataset',
-    })
-  }
-}
-```
+Each context exports a typed value interface, a context with sensible defaults, and a `use*` hook that throws if used outside its provider.
 
 ---
 
@@ -463,13 +314,13 @@ The application uses Jotai for lightweight, atomic state management of ephemeral
 
 ### Why Jotai?
 
-| Feature | Benefit |
-|---------|---------|
-| **Atomic model** | Small, focused pieces of state |
-| **Minimal boilerplate** | No actions, reducers, or providers |
+| Feature                    | Benefit                                            |
+| -------------------------- | -------------------------------------------------- |
+| **Atomic model**           | Small, focused pieces of state                     |
+| **Minimal boilerplate**    | No actions, reducers, or providers                 |
 | **Automatic optimization** | Only re-renders components that read changed atoms |
-| **TypeScript-first** | Excellent type inference |
-| **Small bundle** | ~3KB gzipped |
+| **TypeScript-first**       | Excellent type inference                           |
+| **Small bundle**           | ~3KB gzipped                                       |
 
 ### Atom Organization
 
@@ -484,7 +335,7 @@ app/state/
 └── search.ts                  # Search input state
 ```
 
-### Basic Atom Pattern
+### Standard Atom Pattern
 
 From [`annotation.ts`](../../../packages/data-portal/app/state/annotation.ts):
 
@@ -493,7 +344,7 @@ import { atom, useAtom } from 'jotai'
 import { useMemo } from 'react'
 import { AnnotationShape } from 'app/types/gql/runPageTypes'
 
-// Define the atom
+// Define the atom (private, not exported)
 const selectedAnnotationAtom = atom<AnnotationShape | null>(null)
 
 // Export a custom hook that wraps the atom
@@ -503,16 +354,13 @@ export function useSelectedAnnotationShape() {
   )
 
   return useMemo(
-    () => ({
-      selectedAnnotationShape,
-      setSelectedAnnotationShape,
-    }),
+    () => ({ selectedAnnotationShape, setSelectedAnnotationShape }),
     [selectedAnnotationShape, setSelectedAnnotationShape],
   )
 }
 ```
 
-**Usage in components:**
+**Usage:**
 
 ```typescript
 import { useSelectedAnnotationShape } from 'app/state/annotation'
@@ -535,103 +383,44 @@ function AnnotationViewer() {
 ```
 
 **Key patterns:**
-1. Atom defined privately (not exported)
+
+1. Atom defined privately (not exported directly)
 2. Custom hook wraps `useAtom()` for cleaner API
 3. Hook memoized to prevent unnecessary re-renders
 4. TypeScript types ensure type safety
 
-### Filter History Atoms
+### Atom Variations
 
-From [`filterHistory.ts`](../../../packages/data-portal/app/state/filterHistory.ts):
+All atoms in `app/state/` follow the same pattern above. Variations include:
 
-```typescript
-import { atom, useAtom } from 'jotai'
-import { useSearchParams } from '@remix-run/react'
-import { useEffect } from 'react'
+- **Filter history atoms** (`filterHistory.ts`): Store previous URL params as strings for "back" navigation with filters preserved
+- **Sync hooks**: `useSyncParamsWithState()` keeps atoms in sync with URL state
+- **Simple primitives**: Banner visibility, drawer states stored as booleans or strings
 
-// Atoms for storing previous filter states
-export const previousBrowseDatasetParamsAtom = atom('')
-export const previousSingleDatasetParamsAtom = atom('')
-export const previousDepositionIdAtom = atom<number | null>(null)
-export const previousSingleDepositionParamsAtom = atom('')
-
-// Hook to access browse dataset filter history
-export function useBrowseDatasetFilterHistory() {
-  const [previousBrowseDatasetParams, setPreviousBrowseDatasetParams] = useAtom(
-    previousBrowseDatasetParamsAtom,
-  )
-
-  return {
-    previousBrowseDatasetParams,
-    setPreviousBrowseDatasetParams,
-  }
-}
-
-// Syncs URL params with atom state
-export function useSyncParamsWithState({
-  filters,
-  setParams,
-}: {
-  filters: readonly QueryParams[]
-  setParams(params: string): void
-}) {
-  const [searchParams] = useSearchParams()
-
-  useEffect(() => {
-    const newParams = new URLSearchParams(searchParams)
-
-    // Keep only allowed filters and system parameters
-    for (const key of newParams.keys()) {
-      const isAllowedFilter = filters.includes(key as QueryParams)
-      const isSystemParam = SYSTEM_PARAMS.includes(key as QueryParams)
-
-      if (!isAllowedFilter && !isSystemParam) {
-        newParams.delete(key)
-      }
-    }
-
-    newParams.sort()
-    setParams(newParams.toString())
-  }, [filters, searchParams, setParams])
-}
-```
-
-**Usage:**
+For derived values or action atoms, Jotai supports:
 
 ```typescript
-import { useBrowseDatasetFilterHistory, useSyncParamsWithState } from 'app/state/filterHistory'
-import { DATASET_FILTERS } from 'app/constants/filterQueryParams'
+// Derived atom (read-only) - computes from another atom
+const selectedIdAtom = atom((get) => get(selectedAnnotationAtom)?.id ?? null)
 
-function BrowseDatasetsPage() {
-  const { previousBrowseDatasetParams, setPreviousBrowseDatasetParams } =
-    useBrowseDatasetFilterHistory()
+// Action atom (write-only) - custom write logic
+const clearSelectionAtom = atom(null, (get, set) => {
+  set(selectedAnnotationAtom, null)
+})
 
-  // Automatically sync URL params with atom
-  useSyncParamsWithState({
-    filters: DATASET_FILTERS,
-    setParams: setPreviousBrowseDatasetParams,
-  })
-
-  // Navigate back with previous filters
-  const handleBack = () => {
-    const params = new URLSearchParams(previousBrowseDatasetParams)
-    navigate(`/browse-data/datasets?${params.toString()}`)
-  }
-}
+// Atom family - dynamic atoms for collections
+const expandedFamily = atomFamily((id: number) => atom(false))
 ```
 
-**Purpose:**
-- Remember filter state when navigating between pages
-- Enable "back" navigation with filters preserved
-- Provide breadcrumb trails with context
+See Jotai documentation for advanced patterns: https://jotai.org/docs/guides/composing-atoms
 
 ---
 
 ## State Synchronization Patterns
 
-### URL ↔ Atom Sync
+### URL to Atom Sync
 
-Pattern for keeping atoms in sync with URL state:
+Pattern for keeping atoms in sync with URL state (used for filter history):
 
 ```typescript
 export function useSyncParamsWithState({
@@ -645,17 +434,14 @@ export function useSyncParamsWithState({
 
   useEffect(() => {
     const newParams = new URLSearchParams(searchParams)
-
-    // Keep only allowed filters
     for (const key of newParams.keys()) {
-      const isAllowedFilter = filters.includes(key as QueryParams)
-      const isSystemParam = SYSTEM_PARAMS.includes(key as QueryParams)
-
-      if (!isAllowedFilter && !isSystemParam) {
+      if (
+        !filters.includes(key as QueryParams) &&
+        !SYSTEM_PARAMS.includes(key as QueryParams)
+      ) {
         newParams.delete(key)
       }
     }
-
     newParams.sort()
     setParams(newParams.toString())
   }, [filters, searchParams, setParams])
@@ -664,91 +450,23 @@ export function useSyncParamsWithState({
 
 **Use case:** Remember browse page filters when navigating to detail page, then restore when returning.
 
-### Server State → Atom Hydration
+### Server State to Atom Hydration
 
-Pattern for initializing atoms from server-rendered data:
+Initialize atoms from server-rendered data using `useHydrateAtoms`:
 
 ```typescript
 import { useHydrateAtoms } from 'jotai/utils'
 
 function DatasetPage() {
   const loaderData = useTypedLoaderData<typeof loader>()
-
-  // Hydrate atom with server data
-  useHydrateAtoms([
-    [selectedAnnotationAtom, loaderData.defaultAnnotation],
-  ])
-
+  useHydrateAtoms([[selectedAnnotationAtom, loaderData.defaultAnnotation]])
   return <AnnotationViewer />
 }
 ```
 
 ---
 
-## Advanced Patterns
-
-### Derived Atoms
-
-Atoms can derive values from other atoms:
-
-```typescript
-import { atom } from 'jotai'
-
-const selectedAnnotationAtom = atom<AnnotationShape | null>(null)
-
-// Derived atom (read-only)
-const selectedAnnotationIdAtom = atom((get) => {
-  const annotation = get(selectedAnnotationAtom)
-  return annotation?.id ?? null
-})
-
-// Usage
-const [annotationId] = useAtom(selectedAnnotationIdAtom)
-```
-
-### Write-Only Atoms (Actions)
-
-Atoms can define custom write logic:
-
-```typescript
-const selectedAnnotationAtom = atom<AnnotationShape | null>(null)
-
-// Action atom
-const clearSelectionAtom = atom(
-  null, // No read value
-  (get, set) => {
-    set(selectedAnnotationAtom, null)
-    // Could trigger side effects here
-  }
-)
-
-// Usage
-const [, clearSelection] = useAtom(clearSelectionAtom)
-```
-
-### Atom Families
-
-For dynamic collections of atoms:
-
-```typescript
-import { atomFamily } from 'jotai/utils'
-
-// Create atom for each dataset ID
-const datasetExpandedFamily = atomFamily((datasetId: number) =>
-  atom(false)
-)
-
-// Usage
-function DatasetRow({ id }: { id: number }) {
-  const [isExpanded, setIsExpanded] = useAtom(datasetExpandedFamily(id))
-}
-```
-
----
-
 ## State Management Decision Tree
-
-Use this decision tree to choose the right state management approach:
 
 ```
 Is the state server data?
@@ -763,11 +481,12 @@ Is the state server data?
 ```
 
 **Examples:**
+
 - GraphQL data → Remix loader
 - Filter values → URL params
-- Environment config → React Context (rarely changes)
+- Environment config → React Context
 - Form input → useState
-- Selected annotation → Jotai atom (changes frequently)
+- Selected annotation → Jotai atom
 
 ---
 
@@ -775,132 +494,41 @@ Is the state server data?
 
 ### URL State
 
-✅ **Do:**
-- Use URL params for all shareable state (filters, pagination, search)
-- Keep URL params human-readable
-- Validate and sanitize URL params on server
-- Use typed query param hooks
+**Do:** Use URL params for shareable state (filters, pagination), keep params human-readable, validate on server, use typed hooks.
 
-❌ **Don't:**
-- Store ephemeral UI state (modal open/closed) in URL
-- Create URLs longer than ~2000 characters
-- Store sensitive data in URL params
+**Don't:** Store ephemeral UI state in URL, create URLs > 2000 chars, store sensitive data in params.
 
 ### Jotai Atoms
 
-✅ **Do:**
-- Keep atoms small and focused
-- Export custom hooks, not raw atoms
-- Memoize custom hook return values
-- Use descriptive atom names
+**Do:** Keep atoms small and focused, export custom hooks (not raw atoms), memoize hook returns, use descriptive names.
 
-❌ **Don't:**
-- Create giant atoms with many unrelated fields
-- Export atoms directly (export hooks instead)
-- Use atoms for state that should be in URL
-- Duplicate URL state in atoms
+**Don't:** Create giant atoms with unrelated fields, export atoms directly, use atoms for URL-appropriate state, duplicate URL state in atoms.
 
 ### React Context
 
-✅ **Do:**
-- Use for truly global configuration (environment, theme)
-- Provide context at highest common ancestor
-- Throw error in useContext if not in provider
-- Document what each context provides
+**Do:** Use for global config that rarely changes, provide at highest common ancestor, throw in useContext if not in provider.
 
-❌ **Don't:**
-- Use context for frequently changing state (causes re-renders)
-- Create deeply nested context providers
-- Use context for state that could be props
-- Forget to provide default values
+**Don't:** Use for frequently-changing state, create deeply nested providers, use context for state that could be props.
 
 ---
 
 ## Performance Considerations
 
-### Jotai Optimization
+**Jotai:** Automatically optimizes re-renders. Only components reading a changed atom re-render; others in the same tree don't.
 
-Jotai automatically optimizes re-renders:
+**URL State:** Updates are batched by Remix and don't cause full page reloads. Multiple rapid updates create only one history entry.
 
-```typescript
-// Only components reading selectedAnnotationAtom re-render
-const [annotation] = useAtom(selectedAnnotationAtom)
-
-// Components not using the atom don't re-render, even if in same tree
-```
-
-### URL State Performance
-
-URL updates are debounced by Remix and don't cause full page reloads:
-
-```typescript
-// Fast updates are batched
-filter.updateValue(QueryParams.Organism, 'Homo sapiens')
-filter.updateValue(QueryParams.Page, '2') // Only one history entry
-```
-
-### Context Performance
-
-Splitting contexts prevents unnecessary re-renders:
-
-```typescript
-// ✅ Good: Separate contexts for independent concerns
-<EnvironmentContext.Provider value={env}>
-  <DownloadModalContext.Provider value={modal}>
-    <App />
-  </DownloadModalContext.Provider>
-</EnvironmentContext.Provider>
-
-// ❌ Bad: One giant context causes re-renders for all consumers
-<AppContext.Provider value={{ env, modal, user, theme, ... }}>
-```
+**Context:** Split contexts for independent concerns to prevent unnecessary re-renders. One giant context causes all consumers to re-render on any change.
 
 ---
 
 ## Debugging
 
-### Jotai DevTools
+**Jotai DevTools:** Install `jotai-devtools` for atom inspection during development.
 
-Install Jotai DevTools for atom inspection:
+**URL State:** Inspect in browser DevTools: `Object.fromEntries(new URLSearchParams(location.search))`
 
-```bash
-pnpm add jotai-devtools
-```
-
-```typescript
-import { DevTools } from 'jotai-devtools'
-
-function App() {
-  return (
-    <>
-      <DevTools />
-      <Routes />
-    </>
-  )
-}
-```
-
-### URL State Debugging
-
-View URL state in browser DevTools:
-
-```typescript
-// In console:
-const params = new URLSearchParams(window.location.search)
-console.log(Object.fromEntries(params))
-```
-
-### React Context Debugging
-
-Add debug logging to context hooks:
-
-```typescript
-export function useEnvironment() {
-  const value = useContext(EnvironmentContext)
-  console.log('Environment:', value)
-  return value
-}
-```
+**React Context:** Add console logging to context hooks for debugging value changes.
 
 ## Next Steps
 
