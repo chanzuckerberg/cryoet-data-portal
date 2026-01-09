@@ -1,8 +1,6 @@
-import { DatasetsTable } from 'app/components/Deposition/DatasetsTable'
 import { DepositionTableRenderer } from 'app/components/Deposition/DepositionTableRenderer'
 import { useGroupBy } from 'app/hooks/useGroupBy'
 import { GroupByOption } from 'app/types/depositionTypes'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 
 export interface GroupedDataset {
   id: number
@@ -37,11 +35,6 @@ export function DepositionTableSection({
   groupedData,
 }: DepositionTableSectionProps): JSX.Element {
   const [groupBy] = useGroupBy()
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
-
-  if (!isExpandDepositions) {
-    return <DatasetsTable />
-  }
 
   // Transform datasets to dataset counts mapping
   const datasetCounts =

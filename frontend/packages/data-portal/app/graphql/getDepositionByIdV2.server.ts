@@ -8,14 +8,10 @@ import { gql } from 'app/__generated_v2__'
 import {
   GetDepositionBaseDataV2Query,
   GetDepositionExpandedDataV2Query,
-  GetDepositionLegacyDataV2Query,
-  OrderBy,
 } from 'app/__generated_v2__/graphql'
-import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { getFilterState } from 'app/hooks/useFilter'
 
 import {
-  getDatasetsFilter,
   getDepositionAnnotationsFilter,
   getDepositionTomogramsFilter,
 } from './common'
@@ -170,70 +166,7 @@ const GET_DEPOSITION_BASE_DATA = gql(`
   }
 `)
 
-// Legacy query - only when isExpandDepositions === false, contains datasets and aggregates for DatasetsTable
-const GET_DEPOSITION_LEGACY_DATA = gql(`
-  query GetDepositionLegacyDataV2(
-    $datasetsLimit: Int!,
-    $datasetsOffset: Int!,
-    $datasetsOrderBy: [DatasetOrderByClause!],
-    $datasetsFilter: DatasetWhereClause!,
-    $datasetsByDepositionFilter: DatasetWhereClause!,
-    $tiltseriesByDepositionFilter: TiltseriesWhereClause!,
-    $tomogramsByDepositionFilter: TomogramWhereClause!,
-    $annotationsByDepositionFilter: AnnotationWhereClause!,
-    $annotationShapesByDepositionFilter: AnnotationShapeWhereClause!,
-    $identifiedObjectsByDepositionFilter: IdentifiedObjectWhereClause!
-  ) {
-    # Datasets:
-    # This section is very similar to the datasets page.
-    datasets(
-      where: $datasetsFilter
-      orderBy: $datasetsOrderBy,
-      limitOffset: {
-        limit: $datasetsLimit,
-        offset: $datasetsOffset
-      }
-    ) {
-      id
-      title
-      organismName
-      keyPhotoThumbnailUrl
-      authors(orderBy: { authorListOrder: asc }) {
-        edges {
-          node {
-            name
-            primaryAuthorStatus
-            correspondingAuthorStatus
-          }
-        }
-      }
-      runsCount: runsAggregate(where: { annotations: $annotationsByDepositionFilter }) {
-        aggregate {
-          count
-        }
-      }
-      runs {
-        edges {
-          node {
-            annotationsAggregate(where: $annotationsByDepositionFilter) {
-              aggregate {
-                count
-                groupBy {
-                  objectName
-                  groundTruthStatus
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    ...DatasetsAggregates
-  }
-`)
-
-// Expanded query - only when isExpandDepositions === true, contains allRuns for DepositionFilters
+// Query for allRuns data used in DepositionFilters
 const GET_DEPOSITION_EXPANDED_DATA = gql(`
   query GetDepositionExpandedDataV2($id: Int!) {
     allRuns: runs(where: {
@@ -284,57 +217,7 @@ export async function getDepositionBaseData({
   })
 }
 
-// Legacy data function - for datasets table and filters when isExpandDepositions === false
-export async function getDepositionLegacyData({
-  client,
-  id,
-  orderBy,
-  page,
-  params,
-}: {
-  client: ApolloClient<NormalizedCacheObject>
-  orderBy?: OrderBy
-  id: number
-  page: number
-  params: URLSearchParams
-}): Promise<ApolloQueryResult<GetDepositionLegacyDataV2Query>> {
-  const depositionIdFilter = {
-    depositionId: {
-      _eq: id,
-    },
-  }
-
-  return client.query({
-    query: GET_DEPOSITION_LEGACY_DATA,
-    variables: {
-      datasetsLimit: MAX_PER_PAGE,
-      datasetsOffset: (page - 1) * MAX_PER_PAGE,
-      datasetsOrderBy: orderBy !== undefined ? [{ title: orderBy }] : [],
-      datasetsFilter: getDatasetsFilter({
-        filterState: getFilterState(params),
-        depositionId: id,
-      }),
-      datasetsByDepositionFilter: {
-        runs: {
-          annotations: depositionIdFilter,
-        },
-      },
-      tiltseriesByDepositionFilter: depositionIdFilter,
-      tomogramsByDepositionFilter: depositionIdFilter,
-      annotationsByDepositionFilter: depositionIdFilter,
-      annotationShapesByDepositionFilter: {
-        annotation: depositionIdFilter,
-      },
-      identifiedObjectsByDepositionFilter: {
-        run: {
-          annotations: depositionIdFilter,
-        },
-      },
-    },
-  })
-}
-
-// Expanded data function - for allRuns when isExpandDepositions === true
+// Data function for allRuns used in DepositionFilters
 export async function getDepositionExpandedData({
   client,
   id,

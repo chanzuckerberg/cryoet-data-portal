@@ -33,7 +33,10 @@ export function AnnotationsSummaryMetadataTable({
       values: [],
       renderValue: () => (
         <CollapsibleList
-          entries={organismNames.map((name) => ({ key: name, entry: name }))}
+          entries={organismNames.map((name: string) => ({
+            key: name,
+            entry: name,
+          }))}
           collapseAfter={4}
           tableVariant
         />
@@ -45,7 +48,10 @@ export function AnnotationsSummaryMetadataTable({
       values: [],
       renderValue: () => (
         <CollapsibleList
-          entries={objectNames.map((name) => ({ key: name, entry: name }))}
+          entries={objectNames.map((name: string) => ({
+            key: name,
+            entry: name,
+          }))}
           collapseAfter={4}
           tableVariant
         />

@@ -1,4 +1,3 @@
-export * from './AnnotationObjectNameFilter'
 export * from './AnnotationObjectShapeTypeFilter'
 export * from './AuthorFilter'
 export * from './BooleanFilter'

@@ -7,7 +7,7 @@ import { ObjectShapeType } from 'app/types/shapeTypes'
 import { getPrefixedId } from 'app/utils/idPrefixes'
 
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
-import { getObjectShapeTypeLabel, onlyRunIfEnabled } from './utils'
+import { getObjectShapeTypeLabel } from './utils'
 
 test.describe('Browse datasets page filters', () => {
   let filtersPage: FiltersPage
@@ -393,8 +393,6 @@ test.describe('Browse datasets page filters', () => {
   })
 
   test.describe('Deposition IDs filter group', () => {
-    onlyRunIfEnabled('depositions')
-
     test.describe('Deposition ID filter', () => {
       test('should filter when selecting', async () => {
         await filtersPage.goTo(BROWSE_DATASETS_URL)

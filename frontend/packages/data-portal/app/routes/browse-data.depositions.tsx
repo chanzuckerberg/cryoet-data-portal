@@ -1,5 +1,5 @@
 import { CellHeaderDirection } from '@czi-sds/components'
-import { json, LoaderFunctionArgs, redirect } from '@remix-run/node'
+import { json, LoaderFunctionArgs } from '@remix-run/node'
 
 import { OrderBy } from 'app/__generated_v2__/graphql'
 import { apolloClientV2 } from 'app/apollo.server'
@@ -14,26 +14,9 @@ import { QueryParams } from 'app/constants/query'
 import { getBrowseDepositionsV2 } from 'app/graphql/getBrowseDepositionsV2.server'
 import { useDepositions } from 'app/hooks/useDepositions'
 import { useI18n } from 'app/hooks/useI18n'
-import { getFeatureFlag } from 'app/utils/featureFlags'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
-
-  const showDepositions = getFeatureFlag({
-    env: process.env.ENV,
-    key: 'depositions',
-    params: url.searchParams,
-  })
-
-  if (!showDepositions) {
-    return redirect('/404')
-  }
-
-  const isExpandDepositions = getFeatureFlag({
-    env: process.env.ENV,
-    key: 'expandDepositions',
-    params: url.searchParams,
-  })
 
   const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
   const sort = (url.searchParams.get(QueryParams.Sort) ?? undefined) as
@@ -47,7 +30,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
     page,
     client: apolloClientV2,
     params: url.searchParams,
-    isExpandDepositions,
   })
 
   return json({

@@ -1,7 +1,7 @@
 import { useSearchParams } from '@remix-run/react'
 import { useMemo, useState } from 'react'
 
-import { PrefixOption } from 'app/components/AnnotationFilter/ObjectIdFilter/PrefixValueContext'
+import { PrefixOption } from 'app/components/Filters/PrefixValueContext'
 import { QueryParams } from 'app/constants/query'
 
 import { DropdownFilterButton } from './DropdownFilterButton/DropdownFilterButton'

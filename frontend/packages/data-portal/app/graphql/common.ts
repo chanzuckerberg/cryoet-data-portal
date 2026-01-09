@@ -1,7 +1,6 @@
 import {
   AnnotationShapeWhereClause,
   DatasetWhereClause,
-  Deposition_Types_Enum,
   DepositionWhereClause,
   Fiducial_Alignment_Status_Enum,
   Tomogram_Reconstruction_Method_Enum,
@@ -37,7 +36,6 @@ export interface GetDatasetsFilterParams {
   depositionId?: number
   searchText?: string
   aggregatedDatasetIds?: number[]
-  isIdentifiedObjectsEnabled?: boolean
 }
 
 export function getDatasetsFilter({
@@ -45,12 +43,10 @@ export function getDatasetsFilter({
   depositionId,
   searchText,
   aggregatedDatasetIds,
-  isIdentifiedObjectsEnabled = false,
 }: GetDatasetsFilterParams): DatasetWhereClause {
   const where: DatasetWhereClause = {}
 
   // If aggregatedDatasetIds is provided, filter by those specific dataset IDs
-  // This is used with the expandDepositions feature flag for multi-deposition filtering
   if (aggregatedDatasetIds && aggregatedDatasetIds.length > 0) {
     where.id = {
       _in: aggregatedDatasetIds,
@@ -210,7 +206,6 @@ export function getDatasetsFilter({
     objectNames,
     objectId,
     objectShapeTypes,
-    annotatedObjectsOnly,
     _searchIdentifiedObjectsOnly,
   } = filterState.annotation
   // Object Name
@@ -222,23 +217,14 @@ export function getDatasetsFilter({
       where.runs.identifiedObjects.objectName = {
         _in: objectNames,
       }
-    } else if (annotatedObjectsOnly || !isIdentifiedObjectsEnabled) {
-      // Only search annotations when annotated-objects=Yes or feature flag is off
-      where.runs ??= { annotations: {} }
-      where.runs.annotations ??= {}
-      where.runs.annotations.objectName = {
-        _in: objectNames,
-      }
     } else {
-      // For multiple table search
+      // Search annotations (for multiple table search, we also query identifiedObjects separately)
       where.runs ??= { annotations: {} }
       where.runs.annotations ??= {}
       where.runs.annotations.objectName = {
         _in: objectNames,
       }
     }
-    // When identifiedObjects is enabled and annotatedObjectsOnly is false,
-    // we use a multiple table search in getDatasetsV2.server.ts
   }
   // Object ID
   if (objectId) {
@@ -249,23 +235,14 @@ export function getDatasetsFilter({
       where.runs.identifiedObjects.objectId = {
         _eq: objectId,
       }
-    } else if (annotatedObjectsOnly || !isIdentifiedObjectsEnabled) {
-      // Only search annotations when annotated-objects=Yes or feature flag is off
-      where.runs ??= { annotations: {} }
-      where.runs.annotations ??= {}
-      where.runs.annotations.objectId = {
-        _eq: objectId,
-      }
     } else {
-      // For multiple table search: annotations query should also filter by objectId
+      // Search annotations (for multiple table search, we also query identifiedObjects separately)
       where.runs ??= { annotations: {} }
       where.runs.annotations ??= {}
       where.runs.annotations.objectId = {
         _eq: objectId,
       }
     }
-    // When identifiedObjects is enabled and annotatedObjectsOnly is false,
-    // we use a multiple table search in getDatasetsV2.server.ts
   }
   // Object Shape Type
   if (objectShapeTypes.length > 0) {
@@ -339,21 +316,10 @@ export function getDatasetsFilter({
 
 export function getDepositionsFilter({
   filterState,
-  isExpandDepositions = false,
 }: {
   filterState: FilterState
-  isExpandDepositions?: boolean
 }): DepositionWhereClause {
   const where: DepositionWhereClause = {}
-
-  // Filter by annotation deposition type if expand depositions feature flag is off
-  if (!isExpandDepositions) {
-    where.depositionTypes = {
-      type: {
-        _eq: Deposition_Types_Enum.Annotation,
-      },
-    }
-  }
 
   // Competition Filter
   if (filterState.tags.competition) {

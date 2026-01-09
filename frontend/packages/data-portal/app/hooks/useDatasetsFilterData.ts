@@ -1,19 +1,14 @@
 import { useTypedLoaderData } from 'remix-typedjson'
 
-import {
-  GetDatasetsV2Query,
-  GetDepositionLegacyDataV2Query,
-} from 'app/__generated_v2__/graphql'
+import { GetDatasetsV2Query } from 'app/__generated_v2__/graphql'
 import { isDefined } from 'app/utils/nullish'
 
 export function useDatasetsFilterData() {
-  const { v2, legacyData } = useTypedLoaderData<{
+  const { v2 } = useTypedLoaderData<{
     v2: GetDatasetsV2Query
-    legacyData?: GetDepositionLegacyDataV2Query // For deposition pages
   }>()
 
-  // Use legacyData for deposition pages, otherwise use v2 for dataset pages
-  const dataSource = legacyData ?? v2
+  const dataSource = v2
 
   return {
     filteredDatasetsCount:

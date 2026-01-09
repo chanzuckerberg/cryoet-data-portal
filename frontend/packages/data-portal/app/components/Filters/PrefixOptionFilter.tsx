@@ -4,7 +4,7 @@ import { useRef, useState } from 'react'
 import {
   PrefixOption,
   usePrefixValueContext,
-} from 'app/components/AnnotationFilter/ObjectIdFilter/PrefixValueContext'
+} from 'app/components/Filters/PrefixValueContext'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
 

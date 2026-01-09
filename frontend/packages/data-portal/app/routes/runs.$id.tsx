@@ -32,7 +32,6 @@ import { useQueryParam } from 'app/hooks/useQueryParam'
 import { useRunById } from 'app/hooks/useRunById'
 import { DownloadConfig } from 'app/types/download'
 import { shouldShowIdentifiedObjectsEmptyState } from 'app/utils/annotationEmptyState'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
@@ -112,8 +111,6 @@ export default function RunByIdPage() {
   const [searchParams] = useSearchParams()
   const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
   const [fromLocation] = useQueryParam<FromLocationKey>(QueryParams.From)
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
-  const isIdentifiedObjectsEnabled = useFeatureFlag('identifiedObjects')
   const { openDrawer } = useMetadataDrawer()
 
   const openRunObjectDetails = () => {
@@ -127,7 +124,6 @@ export default function RunByIdPage() {
     annotationsFiltered: annotationFilesAggregates.filteredCount,
     identifiedObjectsData,
     filterState,
-    isIdentifiedObjectsFeatureEnabled: isIdentifiedObjectsEnabled,
   })
   const activeTomogram =
     downloadConfig === DownloadConfig.Tomogram
@@ -189,15 +185,13 @@ export default function RunByIdPage() {
   const banner = match({
     depositionId,
     deposition,
-    isExpandDepositions,
     fromLocation,
     currentTab,
   })
     .with(
       { depositionId: P.nullish },
       { deposition: P.nullish },
-      { isExpandDepositions: false },
-      { isExpandDepositions: true, currentTab: t('tomograms') },
+      { currentTab: t('tomograms') },
       () => null,
     )
     .otherwise(() => (
