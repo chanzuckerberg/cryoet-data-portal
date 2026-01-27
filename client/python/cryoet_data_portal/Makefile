@@ -3,18 +3,18 @@ SHELL := /bin/bash
 export BACKEND_DIR=/tmp/cryoet-data-portal-backend-test-infra
 .PHONY: set-api-version
 set-api-version:
-	if [ ! -e $(BACKEND_DIR) ]; then git clone https://github.com/chanzuckerberg/cryoet-data-portal-backend.git $(BACKEND_DIR); fi
+	if [ ! -e $(BACKEND_DIR) ]; then git clone --branch daniel-ji/fix-fe-python-client-tests --single-branch https://github.com/chanzuckerberg/cryoet-data-portal-backend.git /tmp/cryoet-data-portal-backend-test-infra; fi
 	export STAGING_SHA=$$(./tests/test_infra/get_deployment.sh staging); \
-	if [ -n "$${STAGING_SHA}" ]; then \
-	    echo "Setting backend to SHA: $${STAGING_SHA}"; \
-	    cd $(BACKEND_DIR); \
-	    git fetch; \
-	    git reset --hard $$STAGING_SHA; \
-	else \
-	    echo "Could not get staging SHA!"; \
-	    exit 1; \
-	fi
-	cd $(BACKEND_DIR) && make apiv2-init
+	# if [ -n "$${STAGING_SHA}" ]; then \
+	#     echo "Setting backend to SHA: $${STAGING_SHA}"; \
+	#     cd $(BACKEND_DIR); \
+	#     git fetch; \
+	#     git reset --hard $$STAGING_SHA; \
+	# else \
+	#     echo "Could not get staging SHA!"; \
+	#     exit 1; \
+	# fi
+	cd $(BACKEND_DIR) && git status && make apiv2-init
 
 .PHONY: test-infra
 test-infra: set-api-version
