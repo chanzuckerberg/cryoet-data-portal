@@ -57,7 +57,7 @@ jobs:
   submit-codecoverage:
     needs:
       - test-client-python
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
