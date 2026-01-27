@@ -17,14 +17,22 @@ on:
 jobs:
   test-client-python:
     name: Test Python Client
-    runs-on: ubuntu-latest
 
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
+    runs-on: ${{ matrix.os }}
+
     steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+
+
       - name: Checkout Repo
         uses: actions/checkout@v3
 
