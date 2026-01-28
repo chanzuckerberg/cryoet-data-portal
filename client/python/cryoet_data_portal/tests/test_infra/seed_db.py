@@ -16,6 +16,7 @@ from test_infra.factories.dataset_author import DatasetAuthorFactory
 from test_infra.factories.dataset_funding import DatasetFundingFactory
 from test_infra.factories.deposition import DepositionFactory
 from test_infra.factories.deposition_author import DepositionAuthorFactory
+from test_infra.factories.identified_object import IdentifiedObjectFactory
 from test_infra.factories.run import RunFactory
 from test_infra.factories.tiltseries import TiltseriesFactory
 from test_infra.factories.tomogram import TomogramFactory
@@ -488,6 +489,31 @@ def use_factoryboy() -> None:
     TomogramAuthorFactory.create(tomogram=tomo3, author_list_order=2)
     TomogramAuthorFactory.create(tomogram=tomo4, author_list_order=1)
     TomogramAuthorFactory.create(tomogram=tomo4, author_list_order=2)
+
+    IdentifiedObjectFactory.create(
+        id=30001,
+        run=r1,
+        object_id="GO:0005840",
+        object_name="ribosome",
+        object_description="A large ribonucleoprotein complex",
+        object_state="assembled",
+    )
+    IdentifiedObjectFactory.create(
+        id=30002,
+        run=r1,
+        object_id="GO:0005739",
+        object_name="mitochondrion",
+        object_description="A semiautonomous organelle",
+        object_state=None,
+    )
+    IdentifiedObjectFactory.create(
+        id=30003,
+        run=r2,
+        object_id="GO:0005840",
+        object_name="ribosome",
+        object_description="A large ribonucleoprotein complex",
+        object_state="assembled",
+    )
 
     FileFactory.update_file_ids()
 
