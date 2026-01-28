@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.6.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.6.0...cryoet-data-portal-python-client-v4.6.1) (2026-01-28)
+
+
+### 🐞 Bug Fixes
+
+* add identified_objects to _models.py ([#2015](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2015)) ([844c0f4](https://github.com/chanzuckerberg/cryoet-data-portal/commit/844c0f46594c664b08d37fe121aa1611006c1137))
+
 ## [4.6.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.5.0...cryoet-data-portal-python-client-v4.6.0) (2026-01-28)
 
 
