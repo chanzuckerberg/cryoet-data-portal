@@ -1195,6 +1195,64 @@ class GainFile(Model):
     )
 
 
+class IdentifiedObject(Model):
+    """An ontology term/ID or accession code, state and description associated with a Run, describing cellular components that were visually identified, but not labeled, in a tomogram associated with the Run
+
+    Attributes:
+        id (int): Numeric identifier (May change!)
+        run (Run): The run this identified object is a part of
+        run_id (int): None
+        object_id (str): Gene Ontology Cellular Component identifier or UniProtKB accession for the identified object.
+        object_name (str): Name of the identified object (e.g. ribosome, nuclear pore complex, actin filament, membrane)
+        object_description (str): A textual description of the identified object, can be a longer description to include additional information not covered by the IdentifiedObject object name and state.
+        object_state (str): Molecule state of the identified object (e.g. open, closed)
+    """
+
+    _gql_type: str = "IdentifiedObject"
+    _gql_root_field: str = "identifiedObjects"
+
+    id: int = IntField()
+    run: Run = ItemRelationship("Run", "run_id", "id")
+    run_id: int = IntField()
+    object_id: str = StringField()
+    object_name: str = StringField()
+    object_description: str = StringField()
+    object_state: str = StringField()
+
+    @classmethod
+    def find(
+        cls,
+        client: Client,
+        query_filters: Optional[Iterable[GQLExpression]] = None,
+    ):
+        """
+        Examples:
+            >>> identified_objects = IdentifiedObject.find(client, query_filters=[IdentifiedObject.run.name == "TS_026"])
+
+            Get all results for this type:
+
+            >>> identified_objects = IdentifiedObject.find(client)
+        """
+        return super(IdentifiedObject, cls).find(client, query_filters)
+
+    find.__func__.__doc__ = Model.find.__func__.__doc__ + find.__func__.__doc__
+
+    @classmethod
+    def get_by_id(cls, client: Client, id: int):
+        """
+        Examples:
+            Get an IdentifiedObject by ID:
+
+            >>> identified_object = IdentifiedObject.get_by_id(client, 10000)
+            >>> print(identified_object.id)
+        """
+        return super(IdentifiedObject, cls).get_by_id(client, id)
+
+    get_by_id.__func__.__doc__ = (
+        Model.get_by_id.__func__.__doc__ + get_by_id.__func__.__doc__
+    )
+
+
 class PerSectionAlignmentParameters(Model):
     """Map alignment parameters to tilt series frames
 
@@ -1339,6 +1397,7 @@ class Run(Model):
         dataset_id (int): None
         frames (List[Frame]): The frames of this run
         gain_files (List[GainFile]): The gain files of this run
+        identified_objects (List[IdentifiedObject]): The identified objects of this run
         frame_acquisition_files (List[FrameAcquisitionFile]): The frame acquisition files of this run
         per_section_parameters (List[PerSectionParameters]): The per section parameters of this run
         tiltseries (List[TiltSeries]): The tilt series of this run
@@ -1359,6 +1418,11 @@ class Run(Model):
     dataset_id: int = IntField()
     frames: List[Frame] = ListRelationship("Frame", "id", "run_id")
     gain_files: List[GainFile] = ListRelationship("GainFile", "id", "run_id")
+    identified_objects: List[IdentifiedObject] = ListRelationship(
+        "IdentifiedObject",
+        "id",
+        "run_id",
+    )
     frame_acquisition_files: List[FrameAcquisitionFile] = ListRelationship(
         "FrameAcquisitionFile",
         "id",
@@ -1951,6 +2015,7 @@ DepositionType.setup()
 Frame.setup()
 FrameAcquisitionFile.setup()
 GainFile.setup()
+IdentifiedObject.setup()
 PerSectionAlignmentParameters.setup()
 PerSectionParameters.setup()
 Run.setup()
