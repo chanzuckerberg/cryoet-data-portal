@@ -142,6 +142,7 @@ class Annotation(Model):
         https_metadata_path (str): HTTPS path for the metadata json file for this annotation
         annotation_publication (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
         annotation_method (str): Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
+        annotation_ingest_id (str): An identifier for the annotation to be used during ingestion.
         ground_truth_status (bool): Whether an annotation is considered ground truth, as determined by the annotator.
         object_id (str): Ontology identifier for the annotation object.
         object_name (str): Name of the object being annotated (e.g. ribosome, nuclear pore complex, actin filament, membrane)
@@ -186,6 +187,7 @@ class Annotation(Model):
     https_metadata_path: str = StringField()
     annotation_publication: str = StringField()
     annotation_method: str = StringField()
+    annotation_ingest_id: str = StringField()
     ground_truth_status: bool = BooleanField()
     object_id: str = StringField()
     object_name: str = StringField()
