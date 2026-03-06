@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.6.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.5.0...cryoet-data-portal-python-client-v4.6.0) (2026-01-28)
+
+
+### ✨ Features
+
+* sync API schema with backend graphql schema ([23761b3](https://github.com/chanzuckerberg/cryoet-data-portal/commit/23761b3bf49d006ece1c4f36f6cbe2d1099b4877))
+* sync python API client with backend API schema  ([#2011](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2011)) ([23761b3](https://github.com/chanzuckerberg/cryoet-data-portal/commit/23761b3bf49d006ece1c4f36f6cbe2d1099b4877))
+
 ## [4.5.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.4.1...cryoet-data-portal-python-client-v4.5.0) (2025-07-28)
 
 

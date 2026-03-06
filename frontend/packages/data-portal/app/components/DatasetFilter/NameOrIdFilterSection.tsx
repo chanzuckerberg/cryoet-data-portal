@@ -9,15 +9,9 @@ import {
 } from 'app/components/Filters'
 import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 
-export function NameOrIdFilterSection({
-  depositionPageVariant,
-}: {
-  depositionPageVariant?: boolean
-}) {
+export function NameOrIdFilterSection() {
   const { t } = useI18n()
-  const showDepositions = useFeatureFlag('depositions')
 
   const datasetIdFilters = useMemo<InputFilterData[]>(
     () => [
@@ -46,8 +40,8 @@ export function NameOrIdFilterSection({
   return (
     <FilterSection title={t('nameOrId')}>
       <MultiInputFilter label={t('datasetIds')} filters={datasetIdFilters} />
-      <AuthorFilter label={t(showDepositions ? 'datasetAuthor' : 'author')} />
-      {showDepositions && !depositionPageVariant && <DepositionIdFilter />}
+      <AuthorFilter label={t('datasetAuthor')} />
+      <DepositionIdFilter />
     </FilterSection>
   )
 }

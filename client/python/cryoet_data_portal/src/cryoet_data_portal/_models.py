@@ -143,7 +143,7 @@ class Annotation(Model):
         annotation_publication (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
         annotation_method (str): Describe how the annotation is made (e.g. Manual, crYoLO, Positive Unlabeled Learning, template matching)
         ground_truth_status (bool): Whether an annotation is considered ground truth, as determined by the annotator.
-        object_id (str): Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object.
+        object_id (str): Ontology identifier for the annotation object.
         object_name (str): Name of the object being annotated (e.g. ribosome, nuclear pore complex, actin filament, membrane)
         object_description (str): A textual description of the annotation object, can be a longer description to include additional information not covered by the Annotation object name and state.
         object_state (str): Molecule state annotated (e.g. open, closed)
@@ -355,7 +355,7 @@ class AnnotationFile(Model):
         tomogram_voxel_spacing_id (int): None
         format (str): File format for this file
         s3_path (str): s3 path of the annotation file
-        file_size (float): Size of annotation file in bytes
+        file_size (float): Size of annota file in bytes
         https_path (str): HTTPS path for this annotation file
         is_visualization_default (bool): Data curator’s subjective choice of default annotation to display in visualization for an object
         source (str): The source type for the annotation file (dataset_author, community, or portal_standard)
@@ -553,7 +553,7 @@ class Dataset(Model):
         title (str): Title of a CryoET dataset
         description (str): A short description of a CryoET dataset, similar to an abstract for a journal article or dataset.
         assay_label (str): Label for the type of assay performed in a CryoET dataset, e.g. cryo-electron tomography
-        assay_ontology_id (str): Ontology identifier for the type of assay performed in a CryoET dataset
+        assay_ontology_id (str): EFO ontology identifier for the type of assay performed in a CryoET dataset
         development_stage_name (str): Development stage of the organism from which a biological sample used the study is derived.
         development_stage_ontology_id (str): Ontology identifier for the development stage
         disease_name (str): Name of the disease associated with the biological sample used in a CryoET study, e.g. Alzheimer’s disease
@@ -561,9 +561,9 @@ class Dataset(Model):
         organism_name (str): Name of the organism from which a biological sample used in a CryoET study is derived from, e.g. homo sapiens
         organism_taxid (int): NCBI taxonomy identifier for the organism, e.g. 9606
         tissue_name (str): Name of the tissue from which a biological sample used in a CryoET study is derived from.
-        tissue_id (str): UBERON identifier for the tissue
+        tissue_id (str): The ontology identifier for the tissue.
         cell_name (str): Name of the cell from which a biological sample used in a CryoET study is derived from.
-        cell_type_id (str): Cell Ontology identifier for the cell type
+        cell_type_id (str): The ontology identifier for the cell type.
         cell_strain_name (str): Cell line or strain for the sample.
         cell_strain_id (str): Link to more information about the cell strain
         sample_type (str): Type of samples used in a CryoET study. (cell, tissue, organism, intact organelle, in-vitro mixture, in-silico synthetic data, other)
@@ -1267,7 +1267,7 @@ class PerSectionParameters(Model):
         major_defocus (float): Defocus (major axis) estimated for this tilt image in Angstrom (underfocus has positive sign).
         max_resolution (float): Maximum resolution of the frame
         minor_defocus (float): Defocus (minor axis) estimated for this tilt image in Angstrom (underfocus has positive sign).
-        phase_shift (float): Phase shift estimated for this tilt image in degrees.
+        phase_shift (float): Phase shift estimated for this tilt image in radians.
         raw_angle (float): Nominal tilt angle for this tilt image reported by the microscope.
         run (Run): The run this per section parameters is a part of
         run_id (int): None

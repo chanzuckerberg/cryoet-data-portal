@@ -15,7 +15,6 @@ import {
   DEFAULT_TILT_RANGE_MIN,
 } from 'app/constants/tiltSeries'
 import { FilterState, getFilterState } from 'app/hooks/useFilter'
-import { getFeatureFlag } from 'app/utils/featureFlags'
 
 import {
   createAnnotationVsIdentifiedObjectFilters,
@@ -281,7 +280,6 @@ function getRunFilter(
   filterState: FilterState,
   datasetId: number,
   aggregatedRunIds?: number[],
-  isIdentifiedObjectsEnabled = false,
 ): RunWhereClause {
   const where: RunWhereClause = {
     datasetId: {
@@ -333,15 +331,15 @@ function getRunFilter(
       where.identifiedObjects.objectName = {
         _in: objectNames,
       }
-    } else if (annotatedObjectsOnly || !isIdentifiedObjectsEnabled) {
-      // Only search annotations when annotated-objects=Yes or feature flag is off
+    } else if (annotatedObjectsOnly) {
+      // Only search annotations when annotated-objects=Yes
       where.annotations ??= {}
       where.annotations.objectName = {
         _in: objectNames,
       }
     }
-    // When identifiedObjects is enabled and annotatedObjectsOnly is false,
-    // we search multiple tables in getDatasetByIdV2 and merge the results
+    // When annotatedObjectsOnly is false, we search multiple tables in
+    // getDatasetByIdV2 and merge the results
   }
   if (filterState.annotation.objectShapeTypes.length > 0) {
     where.annotations ??= {}
@@ -358,15 +356,15 @@ function getRunFilter(
       where.identifiedObjects.objectId = {
         _ilike: `%${filterState.annotation.objectId.replace(':', '_')}%`, // _ is wildcard
       }
-    } else if (annotatedObjectsOnly || !isIdentifiedObjectsEnabled) {
-      // Only search annotations when annotated-objects=Yes or feature flag is off
+    } else if (annotatedObjectsOnly) {
+      // Only search annotations when annotated-objects=Yes
       where.annotations ??= {}
       where.annotations.objectId = {
         _ilike: `%${filterState.annotation.objectId.replace(':', '_')}%`, // _ is wildcard
       }
     }
-    // When identifiedObjects is enabled and annotatedObjectsOnly is false,
-    // we search multiple tables in getDatasetByIdV2 and merge the results
+    // When annotatedObjectsOnly is false, we search multiple tables in
+    // getDatasetByIdV2 and merge the results
   }
 
   return where
@@ -389,13 +387,6 @@ export async function getDatasetByIdV2({
   const filterDepositionId = filterState.ids.deposition
     ? parseInt(filterState.ids.deposition)
     : null
-
-  // Check if the identifiedObjects feature flag is enabled
-  const isIdentifiedObjectsEnabled = getFeatureFlag({
-    env: process.env.ENV,
-    key: 'identifiedObjects',
-    params,
-  })
 
   const { objectNames, objectId, annotatedObjectsOnly } = filterState.annotation
 
@@ -421,7 +412,7 @@ export async function getDatasetByIdV2({
   }
 
   // Handle ObjectName + ObjectId filter combinations
-  if (hasBothObjectFilters && isIdentifiedObjectsEnabled) {
+  if (hasBothObjectFilters) {
     // Create filter states for intersection query
     const { objectNameFilter, objectIdFilter } =
       createObjectNameVsObjectIdFilters(filterState)
@@ -446,24 +437,14 @@ export async function getDatasetByIdV2({
             query: GET_DATASET_BY_ID_QUERY_V2,
             variables: {
               ...commonVariables,
-              runFilter: getRunFilter(
-                objectNameFilter,
-                id,
-                aggregatedRunIds,
-                false, // Force annotations-only
-              ),
+              runFilter: getRunFilter(objectNameFilter, id, aggregatedRunIds),
             },
           }),
           client.query({
             query: GET_DATASET_BY_ID_QUERY_V2,
             variables: {
               ...commonVariables,
-              runFilter: getRunFilter(
-                objectIdFilter,
-                id,
-                aggregatedRunIds,
-                false, // Force annotations-only
-              ),
+              runFilter: getRunFilter(objectIdFilter, id, aggregatedRunIds),
             },
           }),
         ])
@@ -485,12 +466,7 @@ export async function getDatasetByIdV2({
           query: GET_DATASET_BY_ID_QUERY_V2,
           variables: {
             ...commonVariables,
-            runFilter: getRunFilter(
-              objectNameFilter,
-              id,
-              aggregatedRunIds,
-              false, // Force annotations-only
-            ),
+            runFilter: getRunFilter(objectNameFilter, id, aggregatedRunIds),
           },
         }),
         client.query({
@@ -507,7 +483,6 @@ export async function getDatasetByIdV2({
               },
               id,
               aggregatedRunIds,
-              isIdentifiedObjectsEnabled,
             ),
           },
         }),
@@ -515,12 +490,7 @@ export async function getDatasetByIdV2({
           query: GET_DATASET_BY_ID_QUERY_V2,
           variables: {
             ...commonVariables,
-            runFilter: getRunFilter(
-              objectIdFilter,
-              id,
-              aggregatedRunIds,
-              false, // Force annotations-only
-            ),
+            runFilter: getRunFilter(objectIdFilter, id, aggregatedRunIds),
           },
         }),
         client.query({
@@ -537,7 +507,6 @@ export async function getDatasetByIdV2({
               },
               id,
               aggregatedRunIds,
-              isIdentifiedObjectsEnabled,
             ),
           },
         }),
@@ -617,11 +586,7 @@ export async function getDatasetByIdV2({
   }
 
   // SINGLE OBJECT FILTER: Multiple table search logic for single filters (OR logic)
-  if (
-    hasSingleObjectFilter &&
-    isIdentifiedObjectsEnabled &&
-    !annotatedObjectsOnly
-  ) {
+  if (hasSingleObjectFilter && !annotatedObjectsOnly) {
     // Create filter states for multiple table search
     const { annotationFilter, identifiedObjectFilter } =
       createAnnotationVsIdentifiedObjectFilters(filterState)
@@ -641,12 +606,7 @@ export async function getDatasetByIdV2({
           query: GET_DATASET_BY_ID_QUERY_V2,
           variables: {
             ...commonVariables,
-            runFilter: getRunFilter(
-              annotationFilter,
-              id,
-              aggregatedRunIds,
-              false,
-            ), // Force annotations-only
+            runFilter: getRunFilter(annotationFilter, id, aggregatedRunIds),
           },
         }),
         client.query({
@@ -657,7 +617,6 @@ export async function getDatasetByIdV2({
               identifiedObjectFilter,
               id,
               aggregatedRunIds,
-              isIdentifiedObjectsEnabled,
             ),
           },
         }),
@@ -726,12 +685,7 @@ export async function getDatasetByIdV2({
       depositionId,
       runLimit: MAX_PER_PAGE,
       runOffset: (page - 1) * MAX_PER_PAGE,
-      runFilter: getRunFilter(
-        filterState,
-        id,
-        aggregatedRunIds,
-        isIdentifiedObjectsEnabled,
-      ),
+      runFilter: getRunFilter(filterState, id, aggregatedRunIds),
     },
   })
 }

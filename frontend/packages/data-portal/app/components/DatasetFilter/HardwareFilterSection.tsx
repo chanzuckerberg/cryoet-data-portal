@@ -11,7 +11,8 @@ export function HardwareFilterSection() {
   const { cameraManufacturers } = useDatasetsFilterData()
 
   const cameraManufacturerOptions = useMemo(
-    () => cameraManufacturers.map<BaseFilterOption>((value) => ({ value })),
+    () =>
+      cameraManufacturers.map<BaseFilterOption>((value: string) => ({ value })),
     [cameraManufacturers],
   )
 

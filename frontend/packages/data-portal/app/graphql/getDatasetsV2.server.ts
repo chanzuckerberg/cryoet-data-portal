@@ -12,7 +12,6 @@ import {
 } from 'app/__generated_v2__/graphql'
 import { MAX_PER_PAGE } from 'app/constants/pagination'
 import { getFilterState } from 'app/hooks/useFilter'
-import { getFeatureFlag } from 'app/utils/featureFlags'
 
 import {
   createAnnotationVsIdentifiedObjectFilters,
@@ -120,20 +119,6 @@ export async function getDatasetsV2({
     ? parseInt(filterState.ids.deposition)
     : null
 
-  // Check if the expandDepositions feature flag is enabled
-  const isExpandDepositionsEnabled = getFeatureFlag({
-    env: process.env.ENV,
-    key: 'expandDepositions',
-    params,
-  })
-
-  // Check if the identifiedObjects feature flag is enabled
-  const isIdentifiedObjectsEnabled = getFeatureFlag({
-    env: process.env.ENV,
-    key: 'identifiedObjects',
-    params,
-  })
-
   const { objectNames, objectId, annotatedObjectsOnly } = filterState.annotation
 
   // If we have both object filters, use intersection logic to handle cross-table scenarios
@@ -142,7 +127,7 @@ export async function getDatasetsV2({
   const hasSingleObjectFilter =
     (objectNames.length > 0 || objectId) && !hasBothObjectFilters
 
-  if (hasBothObjectFilters && isIdentifiedObjectsEnabled) {
+  if (hasBothObjectFilters) {
     // Find datasets that match BOTH filters across any tables
     const { objectNameFilter, objectIdFilter } =
       createObjectNameVsObjectIdFilters(filterState)
@@ -170,13 +155,11 @@ export async function getDatasetsV2({
       const objectNamesAnnotationsFilter = getDatasetsFilter({
         filterState: objectNameFilter,
         searchText,
-        isIdentifiedObjectsEnabled: false, // Force annotations-only
       })
 
       const objectIdAnnotationsFilter = getDatasetsFilter({
         filterState: objectIdFilter,
         searchText,
-        isIdentifiedObjectsEnabled: false, // Force annotations-only
       })
 
       // Run both queries concurrently (annotations only)
@@ -208,7 +191,6 @@ export async function getDatasetsV2({
       const objectNamesAnnotationsFilter = getDatasetsFilter({
         filterState: objectNameFilter,
         searchText,
-        isIdentifiedObjectsEnabled: false, // Force annotations-only
       })
 
       const objectNamesIdentifiedFilter = getDatasetsFilter({
@@ -220,14 +202,12 @@ export async function getDatasetsV2({
           },
         },
         searchText,
-        isIdentifiedObjectsEnabled,
       })
 
       // SEARCH BOTH TABLES FOR ObjectId: annotations + identifiedObjects
       const objectIdAnnotationsFilter = getDatasetsFilter({
         filterState: objectIdFilter,
         searchText,
-        isIdentifiedObjectsEnabled: false, // Force annotations-only
       })
 
       const objectIdIdentifiedFilter = getDatasetsFilter({
@@ -239,7 +219,6 @@ export async function getDatasetsV2({
           },
         },
         searchText,
-        isIdentifiedObjectsEnabled,
       })
 
       // Run all four queries concurrently
@@ -358,11 +337,7 @@ export async function getDatasetsV2({
   }
 
   // Multiple table search logic for single object filters (OR logic)
-  if (
-    hasSingleObjectFilter &&
-    isIdentifiedObjectsEnabled &&
-    !annotatedObjectsOnly
-  ) {
+  if (hasSingleObjectFilter && !annotatedObjectsOnly) {
     const { annotationFilter, identifiedObjectFilter } =
       createAnnotationVsIdentifiedObjectFilters(filterState)
 
@@ -379,13 +354,11 @@ export async function getDatasetsV2({
     const annotationsFilter = getDatasetsFilter({
       filterState: annotationFilter,
       searchText,
-      isIdentifiedObjectsEnabled: false, // Force annotations-only filtering
     })
 
     const identifiedObjectsFilter = getDatasetsFilter({
       filterState: identifiedObjectFilter,
       searchText,
-      isIdentifiedObjectsEnabled,
     })
 
     // Run both queries concurrently
@@ -454,9 +427,8 @@ export async function getDatasetsV2({
 
   let datasetsFilter: DatasetWhereClause
 
-  // If expandDepositions feature flag is enabled and we have a deposition ID,
-  // use the two-pass approach to find all datasets with content from this deposition
-  if (isExpandDepositionsEnabled && depositionId) {
+  // If we have a deposition ID, use the two-pass approach to find all datasets with content from this deposition
+  if (depositionId) {
     // Pass 1: Aggregate dataset IDs from all deposition-related queries
     const aggregatedDatasetIds = await getAggregatedDatasetIdsByDeposition({
       depositionId,
@@ -478,15 +450,13 @@ export async function getDatasetsV2({
         },
         searchText,
         aggregatedDatasetIds,
-        isIdentifiedObjectsEnabled,
       })
     }
   } else {
-    // Use original filtering logic (backward compatibility)
+    // Use original filtering logic
     datasetsFilter = getDatasetsFilter({
       filterState,
       searchText,
-      isIdentifiedObjectsEnabled,
     })
   }
 

@@ -11,7 +11,6 @@ import { RunsTable } from 'app/components/Dataset/RunsTable'
 import { getContentSummaryCounts } from 'app/components/Dataset/utils'
 import { DepositionFilterBanner } from 'app/components/DepositionFilterBanner'
 import { DownloadModal } from 'app/components/Download'
-import { I18n } from 'app/components/I18n'
 import { NoFilteredResults } from 'app/components/NoFilteredResults'
 import { RunFilter } from 'app/components/RunFilter'
 import { TablePageLayout } from 'app/components/TablePageLayout'
@@ -23,11 +22,9 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useQueryParam } from 'app/hooks/useQueryParam'
 import { i18n } from 'app/i18n'
 import {
-  useDepositionHistory,
   useSingleDatasetFilterHistory,
   useSyncParamsWithState,
 } from 'app/state/filterHistory'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -88,9 +85,7 @@ export default function DatasetByIdPage() {
   const { t } = useI18n()
   const [depositionId] = useQueryParam<string>(QueryParams.DepositionId)
   const [fromLocation] = useQueryParam<FromLocationKey>(QueryParams.From)
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
 
-  const { previousSingleDepositionParams } = useDepositionHistory()
   const { previousSingleDatasetParams, setPreviousSingleDatasetParams } =
     useSingleDatasetFilterHistory()
 
@@ -109,27 +104,14 @@ export default function DatasetByIdPage() {
     setSearchParams(nextParams)
   }
 
-  const label = isExpandDepositions
-    ? t('onlyDisplayingRunsFromDeposition', {
-        id: deposition?.id,
-        name: deposition?.title,
-      })
-    : deposition && (
-        <I18n
-          i18nKey="onlyDisplayingRunsWithAnnotations"
-          values={{
-            id: deposition.id,
-            title: deposition.title,
-            url: `/depositions/${deposition.id}?${previousSingleDepositionParams}`,
-          }}
-          tOptions={{ interpolation: { escapeValue: false } }}
-        />
-      )
+  const label = t('onlyDisplayingRunsFromDeposition', {
+    id: deposition?.id,
+    name: deposition?.title,
+  })
 
   const banner = match({
     depositionId,
     deposition,
-    isExpandDepositions,
     fromLocation,
   })
     .with({ depositionId: P.nullish }, { deposition: P.nullish }, () => null)

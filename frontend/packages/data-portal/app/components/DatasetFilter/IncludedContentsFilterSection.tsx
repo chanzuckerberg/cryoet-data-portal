@@ -17,11 +17,7 @@ const NUMBER_OF_RUN_OPTIONS: NumberOfRunsFilterOption[] = [
   { value: '>100' },
 ]
 
-export function IncludedContentsFilterSection({
-  depositionPageVariant,
-}: {
-  depositionPageVariant?: boolean
-}) {
+export function IncludedContentsFilterSection() {
   const {
     updateValue,
     includedContents: { numberOfRuns },
@@ -38,16 +34,10 @@ export function IncludedContentsFilterSection({
   )
 
   return (
-    <FilterSection
-      title={
-        depositionPageVariant ? t('depositionContents') : t('datasetContents')
-      }
-    >
+    <FilterSection title={t('datasetContents')}>
       <DataTypesFilter />
 
-      <GroundTruthAnnotationFilter
-        depositionPageVariant={depositionPageVariant}
-      />
+      <GroundTruthAnnotationFilter />
 
       <SelectFilter
         options={NUMBER_OF_RUN_OPTIONS}
@@ -58,13 +48,6 @@ export function IncludedContentsFilterSection({
             QueryParams.NumberOfRuns,
             option ? JSON.stringify(option.value) : null,
           )
-        }
-        details={
-          depositionPageVariant ? (
-            <p className="text-sds-body-xxs-400-wide leading-sds-body-xxs text-light-sds-color-primitive-gray-500">
-              {t('withDepositionData')}
-            </p>
-          ) : undefined
         }
       />
     </FilterSection>

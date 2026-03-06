@@ -1,4 +1,4 @@
-FROM node:20.8-alpine as build
+FROM node:20.10-alpine as build
 
 RUN apk add --no-cache curl
 
@@ -10,7 +10,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store npm -g i pnpm@8.10.5 && pnpm i
 WORKDIR /app/packages/data-portal
 RUN pnpm build
 
-FROM node:20.8-alpine as server
+FROM node:20.10-alpine as server
 
 COPY --from=build /app /app
 

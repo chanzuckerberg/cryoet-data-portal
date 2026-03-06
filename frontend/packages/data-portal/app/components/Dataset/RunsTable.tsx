@@ -28,7 +28,6 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useIsLoading } from 'app/hooks/useIsLoading'
 import { Run } from 'app/types/gql/datasetPageTypes'
 import { cnsNoMerge } from 'app/utils/cns'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
 import { inQualityScoreRange } from 'app/utils/tiltSeries'
 import { carryOverFilterParams, createUrl } from 'app/utils/url'
@@ -47,9 +46,7 @@ export function RunsTable() {
   const { isLoadingDebounced } = useIsLoading()
   const { dataset, deposition, runs } = useDatasetById()
   const { t } = useI18n()
-  const isIdentifiedObjectsEnabled = useFeatureFlag('identifiedObjects')
   const [searchParams] = useSearchParams()
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
 
   const [isHoveringOverInteractable, setIsHoveringOverInteractable] =
     useState(false)
@@ -69,19 +66,17 @@ export function RunsTable() {
         url.searchParams.set(QueryParams.DepositionId, `${deposition.id}`)
       }
 
-      // Handle tab selection based on expandDepositions feature flag and from parameter
-      if (isExpandDepositions) {
-        const from = searchParams.get(QueryParams.From)
+      // Handle tab selection based on from parameter
+      const from = searchParams.get(QueryParams.From)
 
-        // If from is not deposition-annotations, set table-tab to tomograms
-        if (from !== FromLocationKey.DepositionAnnotations) {
-          url.searchParams.set(QueryParams.TableTab, t('tomograms'))
-        }
+      // If from is not deposition-annotations, set table-tab to tomograms
+      if (from !== FromLocationKey.DepositionAnnotations) {
+        url.searchParams.set(QueryParams.TableTab, t('tomograms'))
       }
 
       return url.pathname + url.search
     },
-    [deposition, searchParams, isExpandDepositions, t],
+    [deposition, searchParams, t],
   )
 
   const columns = useMemo(() => {
@@ -205,18 +200,16 @@ export function RunsTable() {
             }
           })
 
-          if (isIdentifiedObjectsEnabled) {
-            run.identifiedObjectsAggregate?.aggregate?.forEach((aggregate) => {
-              const objectName = aggregate.groupBy?.objectName
-              if (objectName) {
-                setObjectNameAndGroundTruthStatus(
-                  objectName,
-                  false, // identifiedObjects don't have groundTruthStatus, default to false
-                  objectsMap,
-                )
-              }
-            })
-          }
+          run.identifiedObjectsAggregate?.aggregate?.forEach((aggregate) => {
+            const objectName = aggregate.groupBy?.objectName
+            if (objectName) {
+              setObjectNameAndGroundTruthStatus(
+                objectName,
+                false, // identifiedObjects don't have groundTruthStatus, default to false
+                objectsMap,
+              )
+            }
+          })
 
           return objectsMap
         },
@@ -289,7 +282,6 @@ export function RunsTable() {
     getRunUrl,
     dataset.id,
     dataset.organismName,
-    isIdentifiedObjectsEnabled,
   ])
 
   return (

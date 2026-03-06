@@ -46,6 +46,17 @@ export class FiltersPage extends BasePage {
     }
   }
 
+  public async clickObjectNameDropdown() {
+    await this.page.getByRole('button', { name: 'Dropdown input' }).click()
+  }
+
+  public async fillObjectIdInput(value: string) {
+    await this.page.getByRole('textbox', { name: 'Object Name / ID' }).click()
+    await this.page
+      .getByRole('textbox', { name: 'Object Name / ID' })
+      .fill(value)
+  }
+
   public async selectFilterOption(label: string) {
     await this.page
       .getByRole('option', { name: label })
@@ -59,6 +70,14 @@ export class FiltersPage extends BasePage {
       .locator('span', { hasText: new RegExp(`^${escapeRegExp(label)}$`, 'i') })
       .locator('..')
       .getByLabel('Delete tag')
+      .click()
+  }
+
+  public async removeObjectNameFilter(label: string) {
+    await this.page
+      .locator('span', { hasText: new RegExp(`^${escapeRegExp(label)}$`, 'i') })
+      .locator('..')
+      .getByLabel('remove-filter')
       .click()
   }
 

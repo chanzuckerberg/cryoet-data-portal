@@ -34,7 +34,7 @@ async function getLastPageButton(page: Page) {
 }
 
 async function clickVisiblePageButton(page: Page, pageNumber: number) {
-  await getPagination(page).getByText(`${pageNumber}`).click()
+  await getPagination(page).getByText(`${pageNumber}`, { exact: true }).click()
 }
 
 async function openPaginationDropdown(page: Page) {

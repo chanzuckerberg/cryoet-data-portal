@@ -1,5 +1,55 @@
 # Changelog
 
+## [1.80.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.79.0...cryoet-data-portal-frontend-v1.80.0) (2025-12-18)
+
+
+### ✨ Features
+
+* Update policies ([#1994](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1994)) ([23c6fb6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/23c6fb606b6a8182bc1c50c4334f780b7004e962))
+
+## [1.79.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.78.0...cryoet-data-portal-frontend-v1.79.0) (2025-12-08)
+
+
+### ✨ Features
+
+* Add tomogram selection dropdown to the viewer page ([#1989](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1989)) ([a85665d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/a85665d6475ef859b8e6116fb3b32abceac1ed76))
+
+## [1.78.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.77.1...cryoet-data-portal-frontend-v1.78.0) (2025-10-23)
+
+
+### ✨ Features
+
+* add XY-3d as option in layout ([#1983](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1983)) ([6306e89](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6306e89fb04bdba050ba7f25acbcf14eb408ce00))
+
+
+### 🐞 Bug Fixes
+
+* add tomogram count to deposition + update browse depositions description copy ([#1988](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1988)) ([f5416d4](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f5416d4e4d5e151f593eae15d153b656be327f3d))
+
+
+### ⚡️ Performance Improvements
+
+* split ESLint config to optimize VS Code performance by excluding TypeScript type-checking rules ([#1965](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1965)) ([d8a794c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d8a794cfc1eadf471d00b66652d09b9c2f926f26))
+
+## [1.77.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.77.0...cryoet-data-portal-frontend-v1.77.1) (2025-10-10)
+
+
+### 🐞 Bug Fixes
+
+* preserve deposition method links order ([#1974](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1974)) ([dde833d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/dde833decf47d5d4518a5f06acd8813811923409))
+
+## [1.77.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.76.0...cryoet-data-portal-frontend-v1.77.0) (2025-10-09)
+
+
+### ✨ Features
+
+* launch global image labels ([#1981](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1981)) ([8890e45](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8890e45e5875b7590e2f6387cfd436e2de51f802))
+
+
+### 🐞 Bug Fixes
+
+* update E2E tests for global image labels and resolve neuroglancer installation ([#1978](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1978)) ([07e431e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/07e431efdb7580252ab402b217beccb21c7fdb86))
+
 ## [1.76.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.75.4...cryoet-data-portal-frontend-v1.76.0) (2025-09-18)
 
 

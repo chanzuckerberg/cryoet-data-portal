@@ -12,7 +12,7 @@ export interface RepoFile {
   content: string
 }
 
-export async function getRepoFileContent(path: string): Promise<string> {
+async function getRepoFileContent(path: string): Promise<string> {
   const response = await axios.get(
     `https://raw.githubusercontent.com/chanzuckerberg/cryoet-data-portal/main/${path}`,
   )
@@ -35,7 +35,7 @@ async function serializeMdx(content: string) {
   })
 }
 
-export async function getRepoFileContentResponse(path: string) {
+async function getRepoFileContentResponse(path: string) {
   const content = await getRepoFileContent(path)
 
   return serializeMdx(content)
@@ -52,4 +52,11 @@ export async function getLocalFileContent(
   )
 
   return options.raw ? serializeMdxRaw(mdxContent) : serializeMdx(mdxContent)
+}
+
+export async function getMdxContent(path: string) {
+  if (process.env.ENV === 'local') {
+    return getLocalFileContent(path)
+  }
+  return getRepoFileContentResponse(path)
 }

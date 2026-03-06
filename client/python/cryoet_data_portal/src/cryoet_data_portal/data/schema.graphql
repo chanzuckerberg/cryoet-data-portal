@@ -13,6 +13,7 @@ type Query {
   depositions(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Deposition!]!
   depositionTypes(where: DepositionTypeWhereClause = null, orderBy: [DepositionTypeOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [DepositionType!]!
   frames(where: FrameWhereClause = null, orderBy: [FrameOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Frame!]!
+  identifiedObjects(where: IdentifiedObjectWhereClause = null, orderBy: [IdentifiedObjectOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [IdentifiedObject!]!
   perSectionAlignmentParameters(where: PerSectionAlignmentParametersWhereClause = null, orderBy: [PerSectionAlignmentParametersOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [PerSectionAlignmentParameters!]!
   perSectionParameters(where: PerSectionParametersWhereClause = null, orderBy: [PerSectionParametersOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [PerSectionParameters!]!
   runs(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [Run!]!
@@ -35,6 +36,7 @@ type Query {
   depositionsAggregate(where: DepositionWhereClause = null): DepositionAggregate!
   depositionTypesAggregate(where: DepositionTypeWhereClause = null): DepositionTypeAggregate!
   framesAggregate(where: FrameWhereClause = null): FrameAggregate!
+  identifiedObjectsAggregate(where: IdentifiedObjectWhereClause = null): IdentifiedObjectAggregate!
   perSectionAlignmentParametersAggregate(where: PerSectionAlignmentParametersWhereClause = null): PerSectionAlignmentParametersAggregate!
   perSectionParametersAggregate(where: PerSectionParametersWhereClause = null): PerSectionParametersAggregate!
   runsAggregate(where: RunWhereClause = null): RunAggregate!
@@ -154,6 +156,23 @@ type Run implements EntityInterface & Node {
     last: Int = null
   ): GainFileConnection!
   gainFilesAggregate(where: GainFileWhereClause = null): GainFileAggregate
+  identifiedObjects(
+    where: IdentifiedObjectWhereClause = null
+    orderBy: [IdentifiedObjectOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): IdentifiedObjectConnection!
+  identifiedObjectsAggregate(where: IdentifiedObjectWhereClause = null): IdentifiedObjectAggregate
   frameAcquisitionFiles(
     where: FrameAcquisitionFileWhereClause = null
     orderBy: [FrameAcquisitionFileOrderByClause!] = []
@@ -429,7 +448,7 @@ type AnnotationFile implements EntityInterface & Node {
   """s3 path of the annotation file"""
   s3Path: String!
 
-  """Size of annotation file in bytes"""
+  """Size of annota file in bytes"""
   fileSize: Float
 
   """HTTPS path for this annotation file"""
@@ -557,6 +576,8 @@ input RunWhereClause {
   framesAggregate: FrameAggregateWhereClause
   gainFiles: GainFileWhereClause
   gainFilesAggregate: GainFileAggregateWhereClause
+  identifiedObjects: IdentifiedObjectWhereClause
+  identifiedObjectsAggregate: IdentifiedObjectAggregateWhereClause
   frameAcquisitionFiles: FrameAcquisitionFileWhereClause
   frameAcquisitionFilesAggregate: FrameAcquisitionFileAggregateWhereClause
   perSectionParameters: PerSectionParametersWhereClause
@@ -1454,6 +1475,35 @@ enum GainFileCountColumns {
   id
 }
 
+input IdentifiedObjectWhereClause {
+  run: RunWhereClause
+  runId: IntComparators
+  objectId: StrComparators
+  objectName: StrComparators
+  objectDescription: StrComparators
+  objectState: StrComparators
+  id: IntComparators
+}
+
+input IdentifiedObjectAggregateWhereClause {
+  count: IdentifiedObjectAggregateWhereClauseCount!
+}
+
+input IdentifiedObjectAggregateWhereClauseCount {
+  arguments: IdentifiedObjectCountColumns
+  distinct: Boolean
+  filter: IdentifiedObjectWhereClause
+  predicate: IntComparators
+}
+
+enum IdentifiedObjectCountColumns {
+  objectId
+  objectName
+  objectDescription
+  objectState
+  id
+}
+
 input FrameAcquisitionFileWhereClause {
   run: RunWhereClause
   runId: IntComparators
@@ -1972,9 +2022,7 @@ type Annotation implements EntityInterface & Node {
   """
   groundTruthStatus: Boolean
 
-  """
-  Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object.
-  """
+  """Ontology identifier for the annotation object."""
   objectId: String!
 
   """
@@ -2142,6 +2190,7 @@ type RunGroupByOptions {
   dataset: DatasetGroupByOptions
   frames: FrameGroupByOptions
   gainFiles: GainFileGroupByOptions
+  identifiedObjects: IdentifiedObjectGroupByOptions
   frameAcquisitionFiles: FrameAcquisitionFileGroupByOptions
   perSectionParameters: PerSectionParametersGroupByOptions
   tiltseries: TiltseriesGroupByOptions
@@ -2450,6 +2499,15 @@ type GainFileGroupByOptions {
   run: RunGroupByOptions
   s3FilePath: String
   httpsFilePath: String
+  id: Int
+}
+
+type IdentifiedObjectGroupByOptions {
+  run: RunGroupByOptions
+  objectId: String
+  objectName: String
+  objectDescription: String
+  objectState: String
   id: Int
 }
 
@@ -3148,7 +3206,7 @@ type Dataset implements EntityInterface & Node {
   assayLabel: String
 
   """
-  Ontology identifier for the type of assay performed in a CryoET dataset
+  EFO ontology identifier for the type of assay performed in a CryoET dataset
   """
   assayOntologyId: String
 
@@ -3183,7 +3241,7 @@ type Dataset implements EntityInterface & Node {
   """
   tissueName: String
 
-  """UBERON identifier for the tissue"""
+  """The ontology identifier for the tissue."""
   tissueId: String
 
   """
@@ -3191,7 +3249,7 @@ type Dataset implements EntityInterface & Node {
   """
   cellName: String
 
-  """Cell Ontology identifier for the cell type"""
+  """The ontology identifier for the cell type."""
   cellTypeId: String
 
   """Cell line or strain for the sample."""
@@ -3650,7 +3708,7 @@ type PerSectionParameters implements EntityInterface & Node {
   """
   minorDefocus: Float
 
-  """Phase shift estimated for this tilt image in degrees."""
+  """Phase shift estimated for this tilt image in radians."""
   phaseShift: Float
 
   """Nominal tilt angle for this tilt image reported by the microscope."""
@@ -4703,6 +4761,91 @@ type GainFileMinMaxColumns {
 }
 
 """A connection to a list of items."""
+type IdentifiedObjectConnection {
+  """Pagination data for this connection"""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [IdentifiedObjectEdge!]!
+}
+
+"""An edge in a connection."""
+type IdentifiedObjectEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: IdentifiedObject!
+}
+
+"""
+An ontology term/ID or accession code, state and description associated with a Run, describing cellular components that were visually identified, but not labeled, in a tomogram associated with the Run
+"""
+type IdentifiedObject implements EntityInterface & Node {
+  """The Globally Unique ID of this object"""
+  _id: GlobalID!
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+  run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
+  runId: Int
+
+  """
+  Gene Ontology Cellular Component identifier or UniProtKB accession for the identified object.
+  """
+  objectId: String!
+
+  """
+  Name of the identified object (e.g. ribosome, nuclear pore complex, actin filament, membrane)
+  """
+  objectName: String!
+
+  """
+  A textual description of the identified object, can be a longer description to include additional information not covered by the IdentifiedObject object name and state.
+  """
+  objectDescription: String
+
+  """Molecule state of the identified object (e.g. open, closed)"""
+  objectState: String
+}
+
+input IdentifiedObjectOrderByClause {
+  run: RunOrderByClause
+  objectId: orderBy
+  objectName: orderBy
+  objectDescription: orderBy
+  objectState: orderBy
+  id: orderBy
+}
+
+type IdentifiedObjectAggregate {
+  aggregate: [IdentifiedObjectAggregateFunctions!]
+}
+
+type IdentifiedObjectAggregateFunctions {
+  sum: IdentifiedObjectNumericalColumns
+  avg: IdentifiedObjectNumericalColumns
+  stddev: IdentifiedObjectNumericalColumns
+  variance: IdentifiedObjectNumericalColumns
+  min: IdentifiedObjectMinMaxColumns
+  max: IdentifiedObjectMinMaxColumns
+  groupBy: IdentifiedObjectGroupByOptions
+  count(distinct: Boolean = false, columns: IdentifiedObjectCountColumns = null): Int
+}
+
+type IdentifiedObjectNumericalColumns {
+  id: Int
+}
+
+type IdentifiedObjectMinMaxColumns {
+  objectId: String
+  objectName: String
+  objectDescription: String
+  objectState: String
+  id: Int
+}
+
+"""A connection to a list of items."""
 type FrameAcquisitionFileConnection {
   """Pagination data for this connection"""
   pageInfo: PageInfo!
@@ -4911,6 +5054,9 @@ type Mutation {
   createFrame(input: FrameCreateInput!): Frame!
   updateFrame(input: FrameUpdateInput!, where: FrameWhereClauseMutations!): [Frame!]!
   deleteFrame(where: FrameWhereClauseMutations!): [Frame!]!
+  createIdentifiedObject(input: IdentifiedObjectCreateInput!): IdentifiedObject!
+  updateIdentifiedObject(input: IdentifiedObjectUpdateInput!, where: IdentifiedObjectWhereClauseMutations!): [IdentifiedObject!]!
+  deleteIdentifiedObject(where: IdentifiedObjectWhereClauseMutations!): [IdentifiedObject!]!
   createPerSectionAlignmentParameters(input: PerSectionAlignmentParametersCreateInput!): PerSectionAlignmentParameters!
   updatePerSectionAlignmentParameters(input: PerSectionAlignmentParametersUpdateInput!, where: PerSectionAlignmentParametersWhereClauseMutations!): [PerSectionAlignmentParameters!]!
   deletePerSectionAlignmentParameters(where: PerSectionAlignmentParametersWhereClauseMutations!): [PerSectionAlignmentParameters!]!
@@ -5211,7 +5357,7 @@ input AnnotationFileCreateInput {
   """s3 path of the annotation file"""
   s3Path: String!
 
-  """Size of annotation file in bytes"""
+  """Size of annota file in bytes"""
   fileSize: Float = null
 
   """HTTPS path for this annotation file"""
@@ -5247,7 +5393,7 @@ input AnnotationFileUpdateInput {
   """s3 path of the annotation file"""
   s3Path: String
 
-  """Size of annotation file in bytes"""
+  """Size of annota file in bytes"""
   fileSize: Float = null
 
   """HTTPS path for this annotation file"""
@@ -5326,9 +5472,7 @@ input AnnotationCreateInput {
   """
   groundTruthStatus: Boolean = null
 
-  """
-  Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object.
-  """
+  """Ontology identifier for the annotation object."""
   objectId: String!
 
   """
@@ -5411,9 +5555,7 @@ input AnnotationUpdateInput {
   """
   groundTruthStatus: Boolean = null
 
-  """
-  Gene Ontology Cellular Component identifier or UniProtKB accession for the annotation object.
-  """
+  """Ontology identifier for the annotation object."""
   objectId: String
 
   """
@@ -5613,7 +5755,7 @@ input DatasetCreateInput {
   assayLabel: String = null
 
   """
-  Ontology identifier for the type of assay performed in a CryoET dataset
+  EFO ontology identifier for the type of assay performed in a CryoET dataset
   """
   assayOntologyId: String = null
 
@@ -5648,7 +5790,7 @@ input DatasetCreateInput {
   """
   tissueName: String = null
 
-  """UBERON identifier for the tissue"""
+  """The ontology identifier for the tissue."""
   tissueId: String = null
 
   """
@@ -5656,7 +5798,7 @@ input DatasetCreateInput {
   """
   cellName: String = null
 
-  """Cell Ontology identifier for the cell type"""
+  """The ontology identifier for the cell type."""
   cellTypeId: String = null
 
   """Cell line or strain for the sample."""
@@ -5747,7 +5889,7 @@ input DatasetUpdateInput {
   assayLabel: String = null
 
   """
-  Ontology identifier for the type of assay performed in a CryoET dataset
+  EFO ontology identifier for the type of assay performed in a CryoET dataset
   """
   assayOntologyId: String = null
 
@@ -5782,7 +5924,7 @@ input DatasetUpdateInput {
   """
   tissueName: String = null
 
-  """UBERON identifier for the tissue"""
+  """The ontology identifier for the tissue."""
   tissueId: String = null
 
   """
@@ -5790,7 +5932,7 @@ input DatasetUpdateInput {
   """
   cellName: String = null
 
-  """Cell Ontology identifier for the cell type"""
+  """The ontology identifier for the cell type."""
   cellTypeId: String = null
 
   """Cell line or strain for the sample."""
@@ -6113,6 +6255,62 @@ input FrameWhereClauseMutations {
   id: IntComparators
 }
 
+input IdentifiedObjectCreateInput {
+  """Run that this identified object is a part of"""
+  runId: ID = null
+
+  """
+  Gene Ontology Cellular Component identifier or UniProtKB accession for the identified object.
+  """
+  objectId: String!
+
+  """
+  Name of the identified object (e.g. ribosome, nuclear pore complex, actin filament, membrane)
+  """
+  objectName: String!
+
+  """
+  A textual description of the identified object, can be a longer description to include additional information not covered by the IdentifiedObject object name and state.
+  """
+  objectDescription: String = null
+
+  """Molecule state of the identified object (e.g. open, closed)"""
+  objectState: String = null
+
+  """Numeric identifier (May change!)"""
+  id: Int!
+}
+
+input IdentifiedObjectUpdateInput {
+  """Run that this identified object is a part of"""
+  runId: ID = null
+
+  """
+  Gene Ontology Cellular Component identifier or UniProtKB accession for the identified object.
+  """
+  objectId: String
+
+  """
+  Name of the identified object (e.g. ribosome, nuclear pore complex, actin filament, membrane)
+  """
+  objectName: String
+
+  """
+  A textual description of the identified object, can be a longer description to include additional information not covered by the IdentifiedObject object name and state.
+  """
+  objectDescription: String = null
+
+  """Molecule state of the identified object (e.g. open, closed)"""
+  objectState: String = null
+
+  """Numeric identifier (May change!)"""
+  id: Int
+}
+
+input IdentifiedObjectWhereClauseMutations {
+  id: IntComparators
+}
+
 input PerSectionAlignmentParametersCreateInput {
   """Tiltseries Alignment"""
   alignmentId: ID!
@@ -6191,7 +6389,7 @@ input PerSectionParametersCreateInput {
   """
   minorDefocus: Float = null
 
-  """Phase shift estimated for this tilt image in degrees."""
+  """Phase shift estimated for this tilt image in radians."""
   phaseShift: Float = null
 
   """Nominal tilt angle for this tilt image reported by the microscope."""
@@ -6232,7 +6430,7 @@ input PerSectionParametersUpdateInput {
   """
   minorDefocus: Float = null
 
-  """Phase shift estimated for this tilt image in degrees."""
+  """Phase shift estimated for this tilt image in radians."""
   phaseShift: Float = null
 
   """Nominal tilt angle for this tilt image reported by the microscope."""

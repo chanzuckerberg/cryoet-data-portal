@@ -5,7 +5,6 @@ import { getDepositionAnnotations } from 'app/graphql/getDepositionAnnotationsV2
 import {
   getDepositionBaseData,
   getDepositionExpandedData,
-  getDepositionLegacyData,
 } from 'app/graphql/getDepositionByIdV2.server'
 import { getDepositionTomograms } from 'app/graphql/getDepositionTomogramsV2.server'
 import { DataContentsType } from 'app/types/deposition-queries'
@@ -16,13 +15,11 @@ export interface FetchDepositionDataParams {
   client: ApolloClient<NormalizedCacheObject>
   params: LoaderParams
   url: URL
-  isExpandDepositions: boolean
 }
 
 export interface DepositionData {
   expandedData: unknown
   v2: unknown
-  legacyData: unknown
   annotations: unknown
   tomograms: unknown
 }
@@ -58,74 +55,33 @@ async function validateDepositionExists(
 }
 
 /**
- * Fetches expanded deposition data when the feature flag is enabled
- * @param client - Apollo client instance
- * @param id - Deposition ID
- * @param isExpandDepositions - Whether expand depositions feature is enabled
- * @returns Promise resolving to expanded data or undefined
- */
-async function fetchExpandedData(
-  client: ApolloClient<NormalizedCacheObject>,
-  id: number,
-  isExpandDepositions: boolean,
-) {
-  return isExpandDepositions
-    ? getDepositionExpandedData({ client, id })
-    : Promise.resolve({ data: undefined })
-}
-
-/**
- * Fetches conditional data based on feature flags and tab selection
+ * Fetches conditional data based on tab selection
  * @param client - Apollo client instance
  * @param params - Loader parameters
  * @param url - Request URL for search params
- * @param isExpandDepositions - Whether expand depositions feature is enabled
  * @returns Promise resolving to conditional data
  */
 async function fetchConditionalData(
   client: ApolloClient<NormalizedCacheObject>,
   params: LoaderParams,
   url: URL,
-  isExpandDepositions: boolean,
 ) {
-  return match({
-    isExpandDepositions,
-    depositionTab: params.type,
-  })
-    .with({ isExpandDepositions: false }, () =>
-      getDepositionLegacyData({
+  return match(params.type)
+    .with(P.union(DataContentsType.Annotations, null), () =>
+      getDepositionAnnotations({
         client,
-        id: params.id,
         page: params.page,
-        orderBy: params.orderByV2,
+        depositionId: params.id,
         params: url.searchParams,
       }),
     )
-    .with(
-      {
-        isExpandDepositions: true,
-        depositionTab: P.union(DataContentsType.Annotations, null),
-      },
-      () =>
-        getDepositionAnnotations({
-          client,
-          page: params.page,
-          depositionId: params.id,
-          params: url.searchParams,
-        }),
-    )
-    .with(
-      {
-        isExpandDepositions: true,
-        depositionTab: DataContentsType.Tomograms,
-      },
-      () =>
-        getDepositionTomograms({
-          client,
-          page: params.page,
-          depositionId: params.id,
-          params: url.searchParams,
-        }),
+    .with(DataContentsType.Tomograms, () =>
+      getDepositionTomograms({
+        client,
+        page: params.page,
+        depositionId: params.id,
+        params: url.searchParams,
+      }),
     )
     .otherwise(() => Promise.resolve({ data: undefined }))
 }
@@ -139,7 +95,6 @@ export async function fetchDepositionData({
   client,
   params,
   url,
-  isExpandDepositions,
 }: FetchDepositionDataParams): Promise<DepositionData> {
   // First validate existence
   const responseV2 = await validateDepositionExists(
@@ -150,14 +105,13 @@ export async function fetchDepositionData({
 
   // Then fetch remaining data in parallel
   const [{ data: expandedData }, { data }] = await Promise.all([
-    fetchExpandedData(client, params.id, isExpandDepositions),
-    fetchConditionalData(client, params, url, isExpandDepositions),
+    getDepositionExpandedData({ client, id: params.id }),
+    fetchConditionalData(client, params, url),
   ])
 
   return {
     expandedData,
     v2: responseV2,
-    legacyData: data && 'datasets' in data ? data : undefined,
     annotations: data && 'annotationShapes' in data ? data : undefined,
     tomograms: data && 'tomograms' in data ? data : undefined,
   }

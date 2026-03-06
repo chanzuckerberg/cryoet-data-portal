@@ -7,7 +7,6 @@ import {
   type GetDepositionAnnotationsQuery,
   GetDepositionBaseDataV2Query,
   GetDepositionExpandedDataV2Query,
-  GetDepositionLegacyDataV2Query,
   type GetDepositionTomogramsQuery,
 } from 'app/__generated_v2__/graphql'
 import { METHOD_TYPE_ORDER } from 'app/constants/methodTypes'
@@ -18,6 +17,7 @@ export interface AnnotationMethodMetadata {
   methodType?: Annotation_Method_Type_Enum
   count: number
   methodLinks: Array<{
+    id: number // internal use only, for sorting
     name?: string
     linkType?: Annotation_Method_Link_Type_Enum
     link?: string
@@ -64,28 +64,71 @@ export function useDepositionById() {
       string,
       Omit<AnnotationMethodMetadata, 'annotationMethod'>
     >()
-    // Populate everything except counts:
-    for (const { groupBy } of v2.depositions[0]
-      ?.annotationMethodAndMethodLinksCombinations?.aggregate ?? []) {
-      const annotationMethod = groupBy?.annotationMethod
-      if (annotationMethod == null) {
-        continue
+    // To preserve original ordering of annotations' method links, we track the minimum id for each method link of each annotation method
+    const methodLinkToId = new Map<string, number>()
+    for (const { node } of v2.depositions[0]?.annotations?.edges ?? []) {
+      if (!node) continue
+      for (const methodLinkEdge of node.methodLinks?.edges ?? []) {
+        const { link, name, linkType, id } = methodLinkEdge.node
+        const key = JSON.stringify([
+          node?.annotationMethod,
+          link,
+          name,
+          linkType,
+        ])
+        if (!methodLinkToId.has(key) || id < methodLinkToId.get(key)!) {
+          methodLinkToId.set(key, id)
+        }
       }
+    }
+
+    // Parse deposition annotations
+    for (const { node } of v2.depositions[0]?.annotations?.edges ?? []) {
+      const annotationMethod = node?.annotationMethod
+      if (annotationMethod == null) continue
+
       if (!annotationMethodToMetadata.has(annotationMethod)) {
         annotationMethodToMetadata.set(annotationMethod, {
-          annotationSoftware: groupBy?.annotationSoftware ?? undefined,
-          methodType: groupBy?.methodType ?? undefined,
+          annotationSoftware: node?.annotationSoftware ?? undefined,
+          methodType: node?.methodType ?? undefined,
           count: 0,
           methodLinks: [],
         })
       }
-      if (groupBy?.methodLinks != null) {
-        annotationMethodToMetadata.get(annotationMethod)!.methodLinks.push({
-          name: groupBy.methodLinks.name ?? undefined,
-          linkType: groupBy.methodLinks.linkType ?? undefined,
-          link: groupBy.methodLinks.link ?? undefined,
+
+      const meta = annotationMethodToMetadata.get(annotationMethod)!
+
+      // Collect all method link metadata
+      for (const methodLinkEdge of node.methodLinks?.edges ?? []) {
+        const { id, link, name, linkType } = methodLinkEdge.node
+        meta.methodLinks.push({
+          id,
+          name: name ?? undefined,
+          linkType: linkType ?? undefined,
+          link: link ?? undefined,
         })
       }
+    }
+
+    // Deduplicate and sort method links
+    for (const [method, metadata] of annotationMethodToMetadata) {
+      const unique = new Map<string, (typeof metadata.methodLinks)[0]>()
+      for (const link of metadata.methodLinks) {
+        const key = JSON.stringify([
+          method,
+          link.link,
+          link.name,
+          link.linkType,
+        ])
+        // Keep only the smallest id per unique key (to preserve original ordering)
+        if (!unique.has(key) || link.id < unique.get(key)!.id) {
+          unique.set(key, link)
+        }
+      }
+
+      metadata.methodLinks = Array.from(unique.values()).sort(
+        (a, b) => a.id - b.id,
+      )
     }
     // Populate counts:
     for (const aggregate of v2.depositions[0]?.annotationMethodCounts
@@ -202,20 +245,5 @@ export function useDepositionById() {
         (total, node) => total + (node.count ?? 0),
         0,
       ) ?? 0,
-  }
-}
-
-// Legacy hook for components that need legacy data (datasets)
-export function useDepositionByIdLegacy() {
-  const { v2, legacyData } = useTypedLoaderData<{
-    v2: GetDepositionBaseDataV2Query
-    legacyData?: GetDepositionLegacyDataV2Query
-    annotations?: GetDepositionAnnotationsQuery
-    tomograms?: GetDepositionTomogramsQuery
-  }>()
-
-  return {
-    datasets: legacyData?.datasets,
-    deposition: v2.depositions[0],
   }
 }

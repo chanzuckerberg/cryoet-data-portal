@@ -2,7 +2,6 @@ import { CollapsibleList } from 'app/components/CollapsibleList'
 import { Tooltip } from 'app/components/Tooltip'
 import { AnnotationMethodMetadata } from 'app/hooks/useDepositionById'
 import { cns } from 'app/utils/cns'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { generateMethodLinkProps } from './common'
 import { MethodLink } from './MethodLink'
@@ -16,9 +15,7 @@ export function MethodLinkList({
   methodLinks: AnnotationMethodMetadata['methodLinks']
   simple?: boolean
 }) {
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
-  const shouldShowPillTooltip =
-    isExpandDepositions && !simple && (methodLinks?.length ?? 0) > 1
+  const shouldShowPillTooltip = !simple && (methodLinks?.length ?? 0) > 1
 
   const methodLinkProps = generateMethodLinkProps(methodLinks)
 

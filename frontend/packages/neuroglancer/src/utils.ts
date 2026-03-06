@@ -18,7 +18,10 @@ export interface NeuroglancerState
   selection?: PanelState
   toolPalettes?: Record<string, ToolPaletteState>
   layers?: LayerWithSource[]
+  dimensions?: { [key: string]: DimensionValue }
 }
+
+export type DimensionValue = [number, string]
 
 export interface SuperState extends Record<string, unknown> {
   neuroglancer: string
@@ -79,12 +82,25 @@ interface ToolPaletteState extends PanelState {
 }
 
 interface LayerWithSource extends LayerElement {
-  source: string | { url?: string }
+  source:
+    | string
+    | {
+        url: string
+        transform?: { outputDimensions: unknown; inputDimensions: unknown }
+      }
   archived?: boolean
+  tab: string
 }
 
 interface WatchableBoolean {
   value: boolean
+}
+
+export function getLayerSourceUrl(layer: LayerWithSource): string {
+  if (typeof layer.source === 'string') {
+    return layer.source
+  }
+  return layer.source.url
 }
 
 const emptySuperState = (config: string): SuperState => {

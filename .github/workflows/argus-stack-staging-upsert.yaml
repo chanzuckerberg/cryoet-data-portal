@@ -32,4 +32,4 @@ jobs:
         with:
           appName: cryoet-frontend
           envName: staging
-          postStackDetails: false
+          postStackDetails: comment

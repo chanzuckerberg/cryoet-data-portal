@@ -7,7 +7,6 @@ import {
   useDepositionHistory,
   useSyncParamsWithState,
 } from 'app/state/filterHistory'
-import { useFeatureFlag } from 'app/utils/featureFlags'
 
 import { useDatasetsFilterData } from './useDatasetsFilterData'
 
@@ -70,9 +69,8 @@ export function useDepositionPageState(): DepositionPageState {
     setParams: setPreviousSingleDepositionParams,
   })
 
-  const isExpandDepositions = useFeatureFlag('expandDepositions')
   const groupedData = useDepositionGroupedData({
-    enabled: isExpandDepositions,
+    enabled: true,
   })
 
   return {

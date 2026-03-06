@@ -101,7 +101,7 @@ Individual linters:
 - Supports multiple environments (dev, staging, prod) via ENV variable
 - Plausible analytics integration with environment-specific domains
 - Create `.env` file from `.env.sample` for local development
-- Node.js v20.8.0 required (see `.nvmrc`)
+- Node.js v20.10.0 required (see `.nvmrc`)
 - PNPM v8.10.5 enforced
 
 ### Testing Configuration

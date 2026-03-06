@@ -7,7 +7,7 @@ import { ObjectShapeType } from 'app/types/shapeTypes'
 import { getPrefixedId } from 'app/utils/idPrefixes'
 
 import { BROWSE_DATASETS_URL, E2E_CONFIG, translations } from './constants'
-import { getObjectShapeTypeLabel, onlyRunIfEnabled } from './utils'
+import { getObjectShapeTypeLabel } from './utils'
 
 test.describe('Browse datasets page filters', () => {
   let filtersPage: FiltersPage
@@ -393,8 +393,6 @@ test.describe('Browse datasets page filters', () => {
   })
 
   test.describe('Deposition IDs filter group', () => {
-    onlyRunIfEnabled('depositions')
-
     test.describe('Deposition ID filter', () => {
       test('should filter when selecting', async () => {
         await filtersPage.goTo(BROWSE_DATASETS_URL)
@@ -1230,9 +1228,8 @@ test.describe('Browse datasets page filters', () => {
     test('should filter when selecting', async () => {
       await filtersPage.goTo(BROWSE_DATASETS_URL)
 
-      await filtersActor.addSingleSelectFilter({
-        label: translations.objectName,
-        value: E2E_CONFIG.objectName,
+      await filtersActor.addObjectNameFilter({
+        objectNames: E2E_CONFIG.objectName,
       })
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
@@ -1267,7 +1264,7 @@ test.describe('Browse datasets page filters', () => {
         ],
       })
 
-      await filtersPage.removeFilterOption(E2E_CONFIG.objectName)
+      await filtersPage.removeObjectNameFilter(E2E_CONFIG.objectName)
 
       await filtersActor.expectUrlQueryParamsToBeCorrect({
         url: BROWSE_DATASETS_URL,
@@ -1283,12 +1280,12 @@ test.describe('Browse datasets page filters', () => {
     })
   })
 
-  test.describe('Object Shape Type filter', () => {
+  test.describe('Annotation Shape Type filter', () => {
     test('should filter when selecting', async () => {
       await filtersPage.goTo(BROWSE_DATASETS_URL)
 
       await filtersActor.addSingleSelectFilter({
-        label: translations.objectShapeType,
+        label: translations.annotationShapeType,
         value: getObjectShapeTypeLabel(
           E2E_CONFIG.objectShapeType as ObjectShapeType,
         ),
