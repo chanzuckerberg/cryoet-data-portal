@@ -11,6 +11,7 @@ export const shapeTypeToI18nKey = {
   OrientedPoint: 'orientedPoint',
   Point: 'point',
   SegmentationMask: 'segmentationMask',
+  InstanceSegmentationMask: 'instanceSegmentationMask',
 } as const satisfies ShapeTypeToI18nKeyMap
 
 export function getShapeTypeI18nKey(

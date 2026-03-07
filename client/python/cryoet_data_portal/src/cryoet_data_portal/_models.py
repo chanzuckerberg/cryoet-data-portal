@@ -490,7 +490,7 @@ class AnnotationShape(Model):
         annotation (Annotation): The annotation this annotation shape is a part of
         annotation_id (int): None
         annotation_files (List[AnnotationFile]): The annotation files of this annotation shape
-        shape_type (str): The shape of the annotation (SegmentationMask, OrientedPoint, Point, InstanceSegmentation, Mesh)
+        shape_type (str): The shape of the annotation (SegmentationMask, OrientedPoint, Point, InstanceSegmentation, Mesh, InstanceSegmentationMask)
     """
 
     _gql_type: str = "AnnotationShape"
