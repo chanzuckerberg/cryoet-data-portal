@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.81.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.80.0...cryoet-data-portal-frontend-v1.81.0) (2026-03-09)
+
+
+### ✨ Features
+
+* Update supported shape types to include the instance segmentation mask type ([#2020](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2020)) ([22b6cda](https://github.com/chanzuckerberg/cryoet-data-portal/commit/22b6cda5d03037d91c3c2b2caa9af73a17910629))
+
+
+### 📝 Documentation
+
+* CryoET Frontend Docs ([#2006](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2006)) ([be7cbf4](https://github.com/chanzuckerberg/cryoet-data-portal/commit/be7cbf4d8ca9a6339e33dadc2d5259c58c4e86b1))
+
+
+### 🧹 Miscellaneous Chores
+
+* cleanup feature flags and dependency updates ([#1979](https://github.com/chanzuckerberg/cryoet-data-portal/issues/1979)) ([db0b399](https://github.com/chanzuckerberg/cryoet-data-portal/commit/db0b3996fc9cc6da597350a33b00b5f9b3a8d0f1))
+
 ## [1.80.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.79.0...cryoet-data-portal-frontend-v1.80.0) (2025-12-18)
 
 
