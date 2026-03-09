@@ -3,7 +3,7 @@ stack:
     frontend:
       image:
         tag: sha-bc04a9f
-      replicaCount: 1
+      replicaCount: 2
       env:
         - name: API_URL_V2
           value: https://graphql.cryoetdataportal.czscience.com/graphql
