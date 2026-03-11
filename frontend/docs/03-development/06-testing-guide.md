@@ -124,19 +124,40 @@ Key settings:
 - 2 retries on CI
 - Browsers: Chromium, Firefox, WebKit
 
+### E2E Test Environments
+
+The repository supports three environments: **local**, **staging**, and **prod**. E2E tests are only run in the **local** environment in CI, where a local server is started on port 8080.
+
+When running E2E tests locally against a different environment, you must ensure both the frontend URL and GraphQL endpoint have consistent data. Tests make GraphQL queries using the `API_URL_V2` environment variable, which defaults to production. Running tests against a non-production frontend without setting `API_URL_V2` to match will cause failures due to data mismatches.
+
 ### E2E Configuration Override
 
 E2E tests use values from `e2e/config.json`. Override at runtime with `E2E_CONFIG`:
 
 ```bash
-# Test against staging
-E2E_CONFIG='{"url":"https://staging.cryoetdataportal.czscience.com"}' pnpm e2e
+# Override frontend URL and GraphQL endpoint
+API_URL_V2='<graphql-endpoint>' \
+E2E_CONFIG='{"url":"<frontend-url>"}' pnpm e2e
 
 # Use specific dataset
 E2E_CONFIG='{"datasetId":"12345","runId":"999"}' pnpm e2e
 ```
 
-Available config keys: `url`, `datasetId`, `runId`, `depositionId`, `organismName1`, `objectName`
+**Required config values:** The base `config.json` contains placeholder values that must be overridden:
+
+| Key          | Description                              | Example Value                  |
+| ------------ | ---------------------------------------- | ------------------------------ |
+| `authorName` | Author name for filter tests             | `"Author Name"`                |
+| `authorOrcId`| Author ORCID for filter tests            | `"0000-0000-0000-0000"`        |
+| `runId`      | Run ID that exists in the test database  | `"19"`                         |
+
+Other available config keys: `url`, `datasetId`, `depositionId`, `organismName1`, `objectName`
+
+### API_URL_V2 Environment Variable
+
+The `API_URL_V2` environment variable specifies the GraphQL endpoint used by E2E tests. This is separate from the frontend URL configured in `E2E_CONFIG`.
+
+**Important:** If `API_URL_V2` is not set, it defaults to the production GraphQL endpoint (`https://graphql.cryoetdataportal.czscience.com/graphql`). This can cause test failures when the frontend and GraphQL endpoint have different data.
 
 ### E2E Test Template
 
