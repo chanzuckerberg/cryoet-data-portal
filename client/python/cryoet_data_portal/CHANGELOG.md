@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.7.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.6.1...cryoet-data-portal-python-client-v4.7.0) (2026-03-11)
+
+
+### ✨ Features
+
+* Add annotation ingest id to python client ([#2018](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2018)) ([0007748](https://github.com/chanzuckerberg/cryoet-data-portal/commit/00077483d0ee5d580be357dd9a578b27c8eceae5))
+* Update supported shape types to include the instance segmentation mask type ([#2020](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2020)) ([22b6cda](https://github.com/chanzuckerberg/cryoet-data-portal/commit/22b6cda5d03037d91c3c2b2caa9af73a17910629))
+
 ## [4.6.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.6.0...cryoet-data-portal-python-client-v4.6.1) (2026-01-28)
 
 
