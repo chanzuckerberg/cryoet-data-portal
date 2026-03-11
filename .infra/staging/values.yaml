@@ -9,3 +9,6 @@ stack:
           value: https://graphql.cryoet.staging.si.czi.technology/graphql
         - name: ENV
           value: staging
+      livenessProbe:
+        httpGet:
+          path: /healthz

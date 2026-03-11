@@ -2,10 +2,13 @@ stack:
   services:
     frontend:
       image:
-        tag: sha-5566f1d
+        tag: sha-dfe9dab
       replicaCount: 1
       env:
         - name: API_URL_V2
           value: https://graphql.cryoet.staging.si.czi.technology/graphql
         - name: ENV
           value: dev
+      livenessProbe:
+        httpGet:
+          path: /healthz
