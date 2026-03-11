@@ -96,6 +96,10 @@ async function main() {
 
   app.use(morgan('tiny'))
 
+  app.get('/healthz', (_req, res) => {
+    res.status(200).json({ status: 'ok' })
+  })
+
   // Check if the server is running in development mode and use the devBuild to reflect realtime changes in the codebase.
   app.all('*', await getRequestHandler())
 
