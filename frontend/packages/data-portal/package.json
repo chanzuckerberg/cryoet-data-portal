@@ -75,7 +75,7 @@
     "jotai": "^2.4.3",
     "katex": "^0.16.10",
     "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.17.23",
     "morgan": "^1.10.0",
     "neuroglancer": "workspace:*",
     "next-mdx-remote": "^4.4.1",
