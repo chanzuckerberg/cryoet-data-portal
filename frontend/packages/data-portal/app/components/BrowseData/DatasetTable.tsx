@@ -361,7 +361,9 @@ export function DatasetTable() {
       data={isLoadingDebounced ? LOADING_DATASETS : datasets}
       columns={columns}
       onTableRowClick={(row) =>
-        !isHoveringOverInteractable && navigate(getDatasetUrl(row.original.id))
+        !isHoveringOverInteractable &&
+        !isLoadingDebounced &&
+        navigate(getDatasetUrl(row.original.id))
       }
       hoverType="group"
     />
