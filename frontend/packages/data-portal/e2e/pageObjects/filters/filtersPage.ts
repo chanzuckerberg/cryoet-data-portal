@@ -59,7 +59,9 @@ export class FiltersPage extends BasePage {
 
   public async selectFilterOption(label: string) {
     await this.page
-      .getByRole('option', { name: label })
+      .getByRole('option', {
+        name: new RegExp(`^${escapeRegExp(label)}$`, 'i'),
+      })
       .locator('span')
       .first()
       .click()
