@@ -289,7 +289,9 @@ export function RunsTable() {
       data={isLoadingDebounced ? LOADING_RUNS : runs}
       columns={columns}
       onTableRowClick={(row) =>
-        !isHoveringOverInteractable && navigate(getRunUrl(row.original.id))
+        !isHoveringOverInteractable &&
+        !isLoadingDebounced &&
+        navigate(getRunUrl(row.original.id))
       }
       hoverType="group"
     />

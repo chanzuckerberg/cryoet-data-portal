@@ -267,6 +267,7 @@ export function DepositionTable() {
       data={isLoadingDebounced ? LOADING_DEPOSITIONS : depositions}
       columns={columns}
       onTableRowClick={(row) => {
+        if (isLoadingDebounced) return
         plausible(Events.ClickDeposition, { id: row.original.id })
         const url = createUrl(`/depositions/${row.original.id}`)
         carryOverFilterParams({
