@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.82.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.81.0...cryoet-data-portal-frontend-v1.82.0) (2026-03-11)
+
+
+### ✨ Features
+
+* add /healthz health check endpoint ([#2029](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2029)) ([c98c956](https://github.com/chanzuckerberg/cryoet-data-portal/commit/c98c956b1ecae7c21cc653c0214cafa414bbf852))
+
+
+### 🐞 Bug Fixes
+
+* prevent navigation to /datasets/0 when clicking skeleton rows du… ([#2028](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2028)) ([a0c3f80](https://github.com/chanzuckerberg/cryoet-data-portal/commit/a0c3f8045a643c6e4bae8bbac7971c8a825edcd5))
+* prevent skeleton row navigation in RunsTable and DepositionTable ([#2030](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2030)) ([ad5c0bc](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ad5c0bceb4230728f44671e74e44b73feddc58c0))
+* Use exact match for filter labels in E2E filter tests ([#2024](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2024)) ([31ec0ba](https://github.com/chanzuckerberg/cryoet-data-portal/commit/31ec0ba825e04752f4d08b88bbd65a6c816ac5a0))
+
+
+### 📝 Documentation
+
+* Improve E2E test documentation. ([#2027](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2027)) ([6871321](https://github.com/chanzuckerberg/cryoet-data-portal/commit/68713211e7ab73823b9b6b99ae0e3b37b9893f51))
+
 ## [1.81.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.80.0...cryoet-data-portal-frontend-v1.81.0) (2026-03-09)
 
 
