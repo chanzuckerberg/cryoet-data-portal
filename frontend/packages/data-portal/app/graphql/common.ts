@@ -562,8 +562,3 @@ export function createObjectNameVsObjectIdFilters(filterState: FilterState) {
 
   return { objectNameFilter, objectIdFilter }
 }
-
-export function dedupeById<T extends { id: number }>(items: T[]): T[] {
-  const itemMap = new Map(items.map((item) => [item.id, item]))
-  return Array.from(itemMap.values())
-}
