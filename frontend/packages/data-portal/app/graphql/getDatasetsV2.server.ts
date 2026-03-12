@@ -16,10 +16,15 @@ import { getFilterState } from 'app/hooks/useFilter'
 import {
   createAnnotationVsIdentifiedObjectFilters,
   createObjectNameVsObjectIdFilters,
-  dedupeById,
   getDatasetsFilter,
 } from './common'
 import { getAggregatedDatasetIdsByDeposition } from './datasetsByDepositionIdV2.server'
+import {
+  buildDatasetsOrderBy,
+  extractIds,
+  intersectIds,
+  unionIds,
+} from './queryUtils'
 
 const GET_DATASETS_QUERY = gql(`
   query GetDatasetsV2(
@@ -101,6 +106,61 @@ const GET_DATASETS_QUERY = gql(`
   }
 `)
 
+const GET_DATASET_IDS_QUERY = gql(`
+  query GetDatasetIdsV2(
+    $datasetsFilter: DatasetWhereClause!
+  ) {
+    datasets(where: $datasetsFilter) {
+      id
+    }
+  }
+`)
+
+async function fetchIdsByFilter({
+  client,
+  filterState,
+  searchText,
+}: {
+  client: ApolloClient<NormalizedCacheObject>
+  filterState: Parameters<typeof getDatasetsFilter>[0]['filterState']
+  searchText?: string
+}): Promise<number[]> {
+  const filter = getDatasetsFilter({ filterState, searchText })
+  const result = await client.query({
+    query: GET_DATASET_IDS_QUERY,
+    variables: { datasetsFilter: filter },
+  })
+  return extractIds(result.data.datasets)
+}
+
+async function fetchPageByIds({
+  ids,
+  page,
+  titleOrderDirection,
+  client,
+}: {
+  ids: number[]
+  page: number
+  titleOrderDirection?: OrderBy
+  client: ApolloClient<NormalizedCacheObject>
+}): Promise<ApolloQueryResult<GetDatasetsV2Query>> {
+  const result = await client.query({
+    query: GET_DATASETS_QUERY,
+    variables: {
+      datasetsFilter: { id: { _in: ids } },
+      limit: MAX_PER_PAGE,
+      offset: (page - 1) * MAX_PER_PAGE,
+      orderBy: buildDatasetsOrderBy(titleOrderDirection),
+    },
+  })
+
+  if (result.data.filteredDatasetsCount?.aggregate?.[0]) {
+    result.data.filteredDatasetsCount.aggregate[0].count = ids.length
+  }
+
+  return result
+}
+
 export async function getDatasetsV2({
   page,
   titleOrderDirection,
@@ -128,301 +188,111 @@ export async function getDatasetsV2({
     (objectNames.length > 0 || objectId) && !hasBothObjectFilters
 
   if (hasBothObjectFilters) {
-    // Find datasets that match BOTH filters across any tables
     const { objectNameFilter, objectIdFilter } =
       createObjectNameVsObjectIdFilters(filterState)
 
-    // Search across both tables with deduplication
-    // Fetch ALL matching results from both tables
-    // then handle pagination after merging
-    const commonVariables = {
-      limit: null, // No limit - fetch all matching results
-      offset: 0, // Start from beginning
-      orderBy: titleOrderDirection
-        ? [{ title: titleOrderDirection }, { releaseDate: OrderBy.Desc }]
-        : [{ releaseDate: OrderBy.Desc }, { title: OrderBy.Asc }],
-    }
-
-    // For intersection approach, we need to run multiple table searches for EACH filter separately
-    // Then intersect the deduplicated results
-
-    let objectNamesResults
-    let objectIdResults
-    let firstQueryResult
+    // fetch only IDs from each filter x table combination
+    let objectNameIds: number[]
+    let objectIdIds: number[]
 
     if (annotatedObjectsOnly) {
       // When "Annotated Objects Only" is enabled, only search annotations table
-      const objectNamesAnnotationsFilter = getDatasetsFilter({
-        filterState: objectNameFilter,
-        searchText,
-      })
-
-      const objectIdAnnotationsFilter = getDatasetsFilter({
-        filterState: objectIdFilter,
-        searchText,
-      })
-
-      // Run both queries concurrently (annotations only)
-      const [objectNamesFromAnnotations, objectIdFromAnnotations] =
-        await Promise.all([
-          client.query({
-            query: GET_DATASETS_QUERY,
-            variables: {
-              datasetsFilter: objectNamesAnnotationsFilter,
-              ...commonVariables,
-            },
-          }),
-          client.query({
-            query: GET_DATASETS_QUERY,
-            variables: {
-              datasetsFilter: objectIdAnnotationsFilter,
-              ...commonVariables,
-            },
-          }),
-        ])
-
-      objectNamesResults = objectNamesFromAnnotations.data.datasets || []
-      objectIdResults = objectIdFromAnnotations.data.datasets || []
-      firstQueryResult = objectNamesFromAnnotations // For return structure
+      ;[objectNameIds, objectIdIds] = await Promise.all([
+        fetchIdsByFilter({ client, filterState: objectNameFilter, searchText }),
+        fetchIdsByFilter({ client, filterState: objectIdFilter, searchText }),
+      ])
     } else {
       // When "Annotated Objects Only" is disabled, search across both tables
-
-      // SEARCH BOTH TABLES FOR ObjectNames: annotations + identifiedObjects
-      const objectNamesAnnotationsFilter = getDatasetsFilter({
-        filterState: objectNameFilter,
-        searchText,
-      })
-
-      const objectNamesIdentifiedFilter = getDatasetsFilter({
-        filterState: {
-          ...objectNameFilter,
-          annotation: {
-            ...objectNameFilter.annotation,
-            _searchIdentifiedObjectsOnly: true,
+      const [nameAnnot, nameIdent, idAnnot, idIdent] = await Promise.all([
+        fetchIdsByFilter({ client, filterState: objectNameFilter, searchText }),
+        fetchIdsByFilter({
+          client,
+          filterState: {
+            ...objectNameFilter,
+            annotation: {
+              ...objectNameFilter.annotation,
+              _searchIdentifiedObjectsOnly: true,
+            },
           },
-        },
-        searchText,
-      })
-
-      // SEARCH BOTH TABLES FOR ObjectId: annotations + identifiedObjects
-      const objectIdAnnotationsFilter = getDatasetsFilter({
-        filterState: objectIdFilter,
-        searchText,
-      })
-
-      const objectIdIdentifiedFilter = getDatasetsFilter({
-        filterState: {
-          ...objectIdFilter,
-          annotation: {
-            ...objectIdFilter.annotation,
-            _searchIdentifiedObjectsOnly: true,
-          },
-        },
-        searchText,
-      })
-
-      // Run all four queries concurrently
-      const [
-        objectNamesFromAnnotations,
-        objectNamesFromIdentified,
-        objectIdFromAnnotations,
-        objectIdFromIdentified,
-      ] = await Promise.all([
-        client.query({
-          query: GET_DATASETS_QUERY,
-          variables: {
-            datasetsFilter: objectNamesAnnotationsFilter,
-            ...commonVariables,
-          },
+          searchText,
         }),
-        client.query({
-          query: GET_DATASETS_QUERY,
-          variables: {
-            datasetsFilter: objectNamesIdentifiedFilter,
-            ...commonVariables,
+        fetchIdsByFilter({ client, filterState: objectIdFilter, searchText }),
+        fetchIdsByFilter({
+          client,
+          filterState: {
+            ...objectIdFilter,
+            annotation: {
+              ...objectIdFilter.annotation,
+              _searchIdentifiedObjectsOnly: true,
+            },
           },
-        }),
-        client.query({
-          query: GET_DATASETS_QUERY,
-          variables: {
-            datasetsFilter: objectIdAnnotationsFilter,
-            ...commonVariables,
-          },
-        }),
-        client.query({
-          query: GET_DATASETS_QUERY,
-          variables: {
-            datasetsFilter: objectIdIdentifiedFilter,
-            ...commonVariables,
-          },
+          searchText,
         }),
       ])
 
-      // Union and dedupe ObjectNames results
-      objectNamesResults = dedupeById([
-        ...(objectNamesFromAnnotations.data.datasets ?? []),
-        ...(objectNamesFromIdentified.data.datasets ?? []),
-      ])
-
-      // Union and dedupe ObjectId results
-      objectIdResults = dedupeById([
-        ...(objectIdFromAnnotations.data.datasets ?? []),
-        ...(objectIdFromIdentified.data.datasets ?? []),
-      ])
-      firstQueryResult = objectNamesFromAnnotations // For return structure
+      objectNameIds = unionIds(nameAnnot, nameIdent)
+      objectIdIds = unionIds(idAnnot, idIdent)
     }
 
-    if (objectNamesResults.length === 0 || objectIdResults.length === 0) {
-      // If either union returns no results, intersection is empty
-      return {
-        ...firstQueryResult,
-        data: {
-          ...firstQueryResult.data,
-          datasets: [],
-          filteredDatasetsCount: {
-            ...firstQueryResult.data.filteredDatasetsCount,
-            aggregate: [{ count: 0 }],
-          },
+    const intersectedIds = intersectIds(objectNameIds, objectIdIds)
+
+    if (intersectedIds.length === 0) {
+      return client.query({
+        query: GET_DATASETS_QUERY,
+        variables: {
+          datasetsFilter: { id: { _in: [] } },
+          limit: MAX_PER_PAGE,
+          offset: 0,
+          orderBy: buildDatasetsOrderBy(titleOrderDirection),
         },
-      }
+      })
     }
 
-    // Find intersection: datasets that appear in BOTH unionized result sets
-    const objectNamesIds = new Set(objectNamesResults.map((d) => d.id))
-    const objectIdIds = new Set(objectIdResults.map((d) => d.id))
-    const intersectionIds = new Set(
-      [...objectNamesIds].filter((id) => objectIdIds.has(id)),
-    )
-
-    // Get the full dataset objects for the intersection
-    const intersectedDatasets = objectNamesResults.filter((dataset) =>
-      intersectionIds.has(dataset.id),
-    )
-
-    // Sort intersection results to maintain consistent ordering
-    const sortedIntersectedDatasets = intersectedDatasets.sort((a, b) => {
-      // Apply the same sort order as the query
-      if (titleOrderDirection === OrderBy.Asc) {
-        return a.title.localeCompare(b.title)
-      }
-      if (titleOrderDirection === OrderBy.Desc) {
-        return b.title.localeCompare(a.title)
-      }
-      // Default: sort by title asc
-      return a.title.localeCompare(b.title)
+    // fetch full data for the paginated subset only
+    return fetchPageByIds({
+      ids: intersectedIds,
+      page,
+      titleOrderDirection,
+      client,
     })
-
-    const totalIntersectedCount = sortedIntersectedDatasets.length
-
-    // Apply pagination after sorting
-    const startIndex = (page - 1) * MAX_PER_PAGE
-    const endIndex = startIndex + MAX_PER_PAGE
-    const paginatedDatasets = sortedIntersectedDatasets.slice(
-      startIndex,
-      endIndex,
-    )
-
-    // Return results using the first query's structure
-    return {
-      ...firstQueryResult,
-      data: {
-        ...firstQueryResult.data,
-        datasets: paginatedDatasets,
-        filteredDatasetsCount: {
-          ...firstQueryResult.data.filteredDatasetsCount,
-          aggregate: [{ count: totalIntersectedCount }],
-        },
-      },
-    }
   }
 
-  // Multiple table search logic for single object filters (OR logic)
+  // Single object filter across both tables (OR logic via ID union)
   if (hasSingleObjectFilter && !annotatedObjectsOnly) {
     const { annotationFilter, identifiedObjectFilter } =
       createAnnotationVsIdentifiedObjectFilters(filterState)
 
-    // Search across both tables with deduplication (OR logic)
-    const commonVariables = {
-      limit: null, // No limit - fetch all matching results
-      offset: 0, // Start from beginning
-      orderBy: titleOrderDirection
-        ? [{ title: titleOrderDirection }, { releaseDate: OrderBy.Desc }]
-        : [{ releaseDate: OrderBy.Desc }, { title: OrderBy.Asc }],
-    }
-
-    // Pre-compute filters
-    const annotationsFilter = getDatasetsFilter({
-      filterState: annotationFilter,
-      searchText,
-    })
-
-    const identifiedObjectsFilter = getDatasetsFilter({
-      filterState: identifiedObjectFilter,
-      searchText,
-    })
-
-    // Run both queries concurrently
-    const [resultsWithAnnotations, resultsWithIdentifiedObjects] =
-      await Promise.all([
-        client.query({
-          query: GET_DATASETS_QUERY,
-          variables: {
-            datasetsFilter: annotationsFilter,
-            ...commonVariables,
-          },
-        }),
-        client.query({
-          query: GET_DATASETS_QUERY,
-          variables: {
-            datasetsFilter: identifiedObjectsFilter,
-            ...commonVariables,
-          },
-        }),
-      ])
-
-    if (!resultsWithIdentifiedObjects.data.datasets) {
-      return resultsWithAnnotations
-    }
-
-    if (!resultsWithAnnotations.data.datasets) {
-      return resultsWithIdentifiedObjects
-    }
-
-    // Merge and dedupe (OR logic)
-    const unionDatasets = dedupeById([
-      ...resultsWithAnnotations.data.datasets,
-      ...resultsWithIdentifiedObjects.data.datasets,
+    // fetch IDs from both tables concurrently
+    const [annotationIds, identifiedIds] = await Promise.all([
+      fetchIdsByFilter({ client, filterState: annotationFilter, searchText }),
+      fetchIdsByFilter({
+        client,
+        filterState: identifiedObjectFilter,
+        searchText,
+      }),
     ])
 
-    // Sort merged results to maintain consistent ordering
-    const sortedUnionDatasets = unionDatasets.sort((a, b) => {
-      // Apply the same sort order as the query
-      if (titleOrderDirection === OrderBy.Asc) {
-        return a.title.localeCompare(b.title)
-      }
-      if (titleOrderDirection === OrderBy.Desc) {
-        return b.title.localeCompare(a.title)
-      }
-      // Default: sort by title asc
-      return a.title.localeCompare(b.title)
-    })
+    const mergedIds = unionIds(annotationIds, identifiedIds)
 
-    const totalUnionCount = sortedUnionDatasets.length
-
-    // Apply pagination after merging and sorting
-    const startIndex = (page - 1) * MAX_PER_PAGE
-    const endIndex = startIndex + MAX_PER_PAGE
-    const paginatedDatasets = sortedUnionDatasets.slice(startIndex, endIndex)
-
-    resultsWithAnnotations.data.datasets = paginatedDatasets
-
-    // Use the merged count as the filtered count
-    if (resultsWithAnnotations.data.filteredDatasetsCount?.aggregate?.[0]) {
-      resultsWithAnnotations.data.filteredDatasetsCount.aggregate[0].count =
-        totalUnionCount
+    if (mergedIds.length === 0) {
+      return client.query({
+        query: GET_DATASETS_QUERY,
+        variables: {
+          datasetsFilter: { id: { _in: [] } },
+          limit: MAX_PER_PAGE,
+          offset: 0,
+          orderBy: buildDatasetsOrderBy(titleOrderDirection),
+        },
+      })
     }
 
-    return resultsWithAnnotations
+    // fetch full data for the paginated subset only
+    return fetchPageByIds({
+      ids: mergedIds,
+      page,
+      titleOrderDirection,
+      client,
+    })
   }
 
   let datasetsFilter: DatasetWhereClause
@@ -466,15 +336,7 @@ export async function getDatasetsV2({
       datasetsFilter,
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
-      // Default order primarily by release date.
-      orderBy: titleOrderDirection
-        ? [
-            { title: titleOrderDirection },
-            {
-              releaseDate: OrderBy.Desc,
-            },
-          ]
-        : [{ releaseDate: OrderBy.Desc }, { title: OrderBy.Asc }],
+      orderBy: buildDatasetsOrderBy(titleOrderDirection),
     },
   })
 }

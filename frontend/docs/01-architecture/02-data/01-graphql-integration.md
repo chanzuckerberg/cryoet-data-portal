@@ -464,7 +464,9 @@ export function getDatasetsFilter({
 
 ### Multi-Table Search Example
 
-For advanced features like searching across both `annotations` and `identifiedObjects` tables:
+For advanced features like searching across both `annotations` and `identifiedObjects` tables, using a **two-phase ID-first approach** to avoid unbounded queries that could cause OOM crashes:
+
+**Phase 1 - Fetch only IDs:**
 
 ```typescript
 // Helper to create separate filters for each table
@@ -473,9 +475,7 @@ export function createAnnotationVsIdentifiedObjectFilters(
 ) {
   const annotationFilter = {
     ...filterState,
-    annotation: {
-      ...filterState.annotation,
-    },
+    annotation: { ...filterState.annotation },
   }
 
   const identifiedObjectFilter = {
@@ -489,21 +489,41 @@ export function createAnnotationVsIdentifiedObjectFilters(
   return { annotationFilter, identifiedObjectFilter }
 }
 
-// In query function:
+// query that fetches only IDs
+const GET_DATASET_IDS_QUERY = gql(`
+  query GetDatasetIdsV2($datasetsFilter: DatasetWhereClause!) {
+    datasets(where: $datasetsFilter) {
+      id
+    }
+  }
+`)
+
+// Fetch IDs from both tables concurrently
 const { annotationFilter, identifiedObjectFilter } =
   createAnnotationVsIdentifiedObjectFilters(filterState)
 
-const [resultsWithAnnotations, resultsWithIdentifiedObjects] =
-  await Promise.all([
-    client.query({ query: GET_DATASETS_QUERY, variables: { datasetsFilter: getDatasetsFilter({ filterState: annotationFilter }) } }),
-    client.query({ query: GET_DATASETS_QUERY, variables: { datasetsFilter: getDatasetsFilter({ filterState: identifiedObjectFilter }) } }),
-  ])
-
-// Merge and dedupe results
-const unionDatasets = dedupeById([
-  ...resultsWithAnnotations.data.datasets,
-  ...resultsWithIdentifiedObjects.data.datasets,
+const [annotationIds, identifiedIds] = await Promise.all([
+  fetchIdsByFilter({ client, filterState: annotationFilter, searchText }),
+  fetchIdsByFilter({ client, filterState: identifiedObjectFilter, searchText }),
 ])
+
+// Union IDs (OR logic) — operates on lightweight integer arrays
+const mergedIds = unionIds(annotationIds, identifiedIds)
+```
+
+**Phase 2 — Fetch full data for the current page only (bounded):**
+
+```typescript
+// Fetch full dataset objects only for the paginated subset
+const result = await client.query({
+  query: GET_DATASETS_QUERY,
+  variables: {
+    datasetsFilter: { id: { _in: mergedIds } },
+    limit: MAX_PER_PAGE,
+    offset: (page - 1) * MAX_PER_PAGE,
+    orderBy: buildOrderBy(titleOrderDirection),
+  },
+})
 ```
 
 ---
