@@ -19,6 +19,12 @@ import {
   getDatasetsFilter,
 } from './common'
 import { getAggregatedDatasetIdsByDeposition } from './datasetsByDepositionIdV2.server'
+import {
+  buildDatasetsOrderBy,
+  extractIds,
+  intersectIds,
+  unionIds,
+} from './queryUtils'
 
 const GET_DATASETS_QUERY = gql(`
   query GetDatasetsV2(
@@ -110,27 +116,6 @@ const GET_DATASET_IDS_QUERY = gql(`
   }
 `)
 
-function buildOrderBy(titleOrderDirection?: OrderBy) {
-  return titleOrderDirection
-    ? [{ title: titleOrderDirection }, { releaseDate: OrderBy.Desc }]
-    : [{ releaseDate: OrderBy.Desc }, { title: OrderBy.Asc }]
-}
-
-function extractIds(
-  result: ApolloQueryResult<{ datasets: Array<{ id: number }> }>,
-): number[] {
-  return result.data.datasets?.map((d) => d.id) ?? []
-}
-
-function unionIds(...idArrays: number[][]): number[] {
-  return Array.from(new Set(idArrays.flat()))
-}
-
-function intersectIds(idsA: number[], idsB: number[]): number[] {
-  const setB = new Set(idsB)
-  return idsA.filter((id) => setB.has(id))
-}
-
 async function fetchIdsByFilter({
   client,
   filterState,
@@ -145,7 +130,7 @@ async function fetchIdsByFilter({
     query: GET_DATASET_IDS_QUERY,
     variables: { datasetsFilter: filter },
   })
-  return extractIds(result)
+  return extractIds(result.data.datasets)
 }
 
 async function fetchPageByIds({
@@ -165,7 +150,7 @@ async function fetchPageByIds({
       datasetsFilter: { id: { _in: ids } },
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
-      orderBy: buildOrderBy(titleOrderDirection),
+      orderBy: buildDatasetsOrderBy(titleOrderDirection),
     },
   })
 
@@ -258,7 +243,7 @@ export async function getDatasetsV2({
           datasetsFilter: { id: { _in: [] } },
           limit: MAX_PER_PAGE,
           offset: 0,
-          orderBy: buildOrderBy(titleOrderDirection),
+          orderBy: buildDatasetsOrderBy(titleOrderDirection),
         },
       })
     }
@@ -296,7 +281,7 @@ export async function getDatasetsV2({
           datasetsFilter: { id: { _in: [] } },
           limit: MAX_PER_PAGE,
           offset: 0,
-          orderBy: buildOrderBy(titleOrderDirection),
+          orderBy: buildDatasetsOrderBy(titleOrderDirection),
         },
       })
     }
@@ -351,7 +336,7 @@ export async function getDatasetsV2({
       datasetsFilter,
       limit: MAX_PER_PAGE,
       offset: (page - 1) * MAX_PER_PAGE,
-      orderBy: buildOrderBy(titleOrderDirection),
+      orderBy: buildDatasetsOrderBy(titleOrderDirection),
     },
   })
 }

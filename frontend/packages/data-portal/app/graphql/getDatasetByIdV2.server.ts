@@ -20,6 +20,7 @@ import {
   createAnnotationVsIdentifiedObjectFilters,
   createObjectNameVsObjectIdFilters,
 } from './common'
+import { extractIds, intersectIds, unionIds } from './queryUtils'
 import { getAggregatedRunIdsByDeposition } from './runsByDepositionIdV2.server'
 
 const GET_DATASET_BY_ID_QUERY_V2 = gql(`
@@ -377,21 +378,6 @@ const GET_RUN_IDS_QUERY = gql(`
   }
 `)
 
-function extractRunIds(
-  result: ApolloQueryResult<{ runs: Array<{ id: number }> }>,
-): number[] {
-  return result.data.runs?.map((r) => r.id) ?? []
-}
-
-function unionRunIds(...idArrays: number[][]): number[] {
-  return Array.from(new Set(idArrays.flat()))
-}
-
-function intersectRunIds(idsA: number[], idsB: number[]): number[] {
-  const setB = new Set(idsB)
-  return idsA.filter((id) => setB.has(id))
-}
-
 async function fetchRunIdsByFilter({
   client,
   filterState,
@@ -408,7 +394,7 @@ async function fetchRunIdsByFilter({
     query: GET_RUN_IDS_QUERY,
     variables: { runFilter },
   })
-  return extractRunIds(result)
+  return extractIds(result.data.runs)
 }
 
 async function fetchRunPageByIds({
@@ -549,11 +535,11 @@ export async function getDatasetByIdV2({
         }),
       ])
 
-      objectNameIds = unionRunIds(nameAnnot, nameIdent)
-      objectIdIds = unionRunIds(idAnnot, idIdent)
+      objectNameIds = unionIds(nameAnnot, nameIdent)
+      objectIdIds = unionIds(idAnnot, idIdent)
     }
 
-    const intersectedIds = intersectRunIds(objectNameIds, objectIdIds)
+    const intersectedIds = intersectIds(objectNameIds, objectIdIds)
 
     if (intersectedIds.length === 0) {
       return client.query({
@@ -599,7 +585,7 @@ export async function getDatasetByIdV2({
       }),
     ])
 
-    const mergedIds = unionRunIds(annotationIds, identifiedIds)
+    const mergedIds = unionIds(annotationIds, identifiedIds)
 
     if (mergedIds.length === 0) {
       return client.query({
