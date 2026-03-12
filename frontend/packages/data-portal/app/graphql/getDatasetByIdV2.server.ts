@@ -494,7 +494,7 @@ export async function getDatasetByIdV2({
 
     if (annotatedObjectsOnly) {
       // When "Annotated Objects Only" is enabled, only search annotations table
-      ;[objectNameIds, objectIdIds] = await Promise.all([ // eslint-disable-line no-unused-vars
+      ;[objectNameIds, objectIdIds] = await Promise.all([
         fetchRunIdsByFilter({
           client,
           filterState: objectNameFilter,
