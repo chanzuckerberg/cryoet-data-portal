@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.83.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.82.0...cryoet-data-portal-frontend-v1.83.0) (2026-03-13)
+
+
+### ✨ Features
+
+* add frontend support for CheBI, UBERON and CDPO ([#2035](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2035)) ([aa3e3c6](https://github.com/chanzuckerberg/cryoet-data-portal/commit/aa3e3c6e148f7a29b301f417cda97cd8cd07013b))
+
+
+### 🐞 Bug Fixes
+
+* apply Object ID/Name filter to annotations when "Annotated Objec… ([#2039](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2039)) ([91c86c2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/91c86c2da0beaf75e77686488ee7fcc0a11e1a62))
+* **graphql:** replace unbounded queries with two-phase ID-first approach ([#2031](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2031)) ([b521f30](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b521f30a08e28b2927abffbae8d317484f526c99))
+
+
+### ♻️ Code Refactoring
+
+* remove unused per-dataset distinctObjectNames from datasets query ([d673758](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d6737581378b643f16c244cab5cc5398c778e047))
+* remove unused per-dataset distinctObjectNames from datasets… ([#2032](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2032)) ([d673758](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d6737581378b643f16c244cab5cc5398c778e047))
+
 ## [1.82.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.81.0...cryoet-data-portal-frontend-v1.82.0) (2026-03-11)
 
 
