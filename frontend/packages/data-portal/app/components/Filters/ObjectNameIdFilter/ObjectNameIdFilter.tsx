@@ -5,7 +5,13 @@ import { useCallback, useMemo, useState } from 'react'
 import { PrefixOptionFilter } from 'app/components/Filters/PrefixOptionFilter'
 import { PrefixValueProvider } from 'app/components/Filters/PrefixValueContext'
 import { Select, SelectOption } from 'app/components/Select'
-import { GO, UNIPROTKB } from 'app/constants/annotationObjectIdLinks'
+import {
+  CDPO,
+  CHEBI,
+  GO,
+  UBERON,
+  UNIPROTKB,
+} from 'app/constants/annotationObjectIdLinks'
 import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'
 import { isFilterPrefixValid, removeIdPrefix } from 'app/utils/idPrefixes'
@@ -52,6 +58,30 @@ const prefixOptions = [
     link: UNIPROTKB,
     prefix: 'UniProtKB:',
     placeholder: 'P01267 or UniProtKB:P01267',
+  },
+  {
+    id: 'chebi',
+    name: 'ChEBI',
+    details: 'Chemical Entities of Biological Interest',
+    link: CHEBI,
+    prefix: 'CHEBI:',
+    placeholder: '4705 or CHEBI:4705',
+  },
+  {
+    id: 'uberon',
+    name: 'UBERON',
+    details: 'Uber-anatomy Ontology',
+    link: UBERON,
+    prefix: 'UBERON:',
+    placeholder: '0003527 or UBERON:0003527',
+  },
+  {
+    id: 'cdpo',
+    name: 'CDPO',
+    details: 'CryoET Data Portal Ontology',
+    link: CDPO,
+    prefix: 'CDPO:',
+    placeholder: '0000001 or CDPO:0000001',
   },
 ]
 export function ObjectNameIdFilter({

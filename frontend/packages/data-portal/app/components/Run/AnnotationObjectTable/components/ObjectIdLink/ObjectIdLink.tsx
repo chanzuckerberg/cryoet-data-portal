@@ -1,19 +1,39 @@
 import { Link } from 'app/components/Link'
 import {
+  CDPO,
+  CDPO_PREFIX,
+  CHEBI,
+  CHEBI_PREFIX,
   GO,
   GO_PREFIX,
+  UBERON,
+  UBERON_PREFIX,
   UNIPROTKB,
   UNIPROTKB_PREFIX,
 } from 'app/constants/annotationObjectIdLinks'
 
-export function ObjectIdLink({ id }: { id: string }) {
-  let link
+function getObjectIdLink(id: string): string | undefined {
   if (id.startsWith(GO_PREFIX)) {
-    link = `${GO}${id}`
-  } else if (id.startsWith(UNIPROTKB_PREFIX)) {
-    link = `${UNIPROTKB}${id.replaceAll('UniProtKB:', '')}`
+    return `${GO}${id}`
   }
-  // don't link if no patterns match
+  if (id.startsWith(UNIPROTKB_PREFIX)) {
+    return `${UNIPROTKB}${id.replace(UNIPROTKB_PREFIX, '')}`
+  }
+  if (id.startsWith(CHEBI_PREFIX)) {
+    return `${CHEBI}${id.replace(CHEBI_PREFIX, '')}`
+  }
+  if (id.startsWith(UBERON_PREFIX)) {
+    return `${UBERON}${id.replace(UBERON_PREFIX, '')}`
+  }
+  if (id.startsWith(CDPO_PREFIX)) {
+    return CDPO
+  }
+  return undefined
+}
+
+export function ObjectIdLink({ id }: { id: string }) {
+  const link = getObjectIdLink(id)
+
   if (link) {
     return (
       <Link to={link} className="text-light-sds-color-primitive-blue-500">

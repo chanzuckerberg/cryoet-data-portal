@@ -1,7 +1,13 @@
 import { createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
 
-import { GO, UNIPROTKB } from 'app/constants/annotationObjectIdLinks'
+import {
+  CDPO,
+  CHEBI,
+  GO,
+  UBERON,
+  UNIPROTKB,
+} from 'app/constants/annotationObjectIdLinks'
 
 async function renderObjectIdLink(id: string) {
   const { ObjectIdLink } = await import('./ObjectIdLink')
@@ -37,6 +43,32 @@ describe('<ObjectIdLink />', () => {
       'href',
       `${UNIPROTKB}${rawId}`,
     )
+  })
+
+  it('should render CheBI link', async () => {
+    const rawId = '4705'
+    const id = `CHEBI:${rawId}`
+    await renderObjectIdLink(id)
+
+    expect(screen.getByRole('link')).toHaveAttribute('href', `${CHEBI}${rawId}`)
+  })
+
+  it('should render UBERON link', async () => {
+    const rawId = '0003527'
+    const id = `UBERON:${rawId}`
+    await renderObjectIdLink(id)
+
+    expect(screen.getByRole('link')).toHaveAttribute(
+      'href',
+      `${UBERON}${rawId}`,
+    )
+  })
+
+  it('should render CDPO link', async () => {
+    const id = 'CDPO:0000001'
+    await renderObjectIdLink(id)
+
+    expect(screen.getByRole('link')).toHaveAttribute('href', CDPO)
   })
 
   it('should not render link if not matched', async () => {
