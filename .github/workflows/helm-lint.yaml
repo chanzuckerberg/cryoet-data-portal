@@ -35,4 +35,3 @@ jobs:
         with:
           chart_path: .infra/staging
           values_files: ../common.yaml,./values.yaml
-
