@@ -1,4 +1,4 @@
-name: Lint argus stack helm chart
+name: Lint argus helm chart
 
 on:
   - pull_request
