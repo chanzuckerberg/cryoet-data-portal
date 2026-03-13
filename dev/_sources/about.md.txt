@@ -43,4 +43,11 @@ A discussion of major challenges that affect tomogram resolution and analysis
 
 Learn how to contribute data to the Portal
 :::
+
+:::{grid-item-card} CryoET Data Portal Ontology (CDPO)
+:link: cdpo
+:link-type: ref
+
+Reference of CDPO terms for non-biological components in cryo-ET data
+:::
 ::::
