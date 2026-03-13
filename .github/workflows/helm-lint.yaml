@@ -1,7 +1,10 @@
 name: Lint argus helm chart
 
 on:
-  - pull_request
+  pull_request:
+    paths:
+      - '.infra/**'
+      - '.github/workflows/helm-lint.yaml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
