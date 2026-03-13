@@ -1,0 +1,32 @@
+name: Lint argus stack helm chart
+
+on:
+  - pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-prod:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: chanzuckerberg/github-actions/.github/actions/helm-lint@v6
+        with:
+          chart_path: .infra/prod
+          values_files: ../common.yaml,./values.yaml
+  lint-rdev:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: chanzuckerberg/github-actions/.github/actions/helm-lint@v6
+        with:
+          chart_path: .infra/rdev
+          values_files: ../common.yaml,./values.yaml
+  lint-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: chanzuckerberg/github-actions/.github/actions/helm-lint@v6
+        with:
+          chart_path: .infra/staging
+          values_files: ../common.yaml,./values.yaml
+
