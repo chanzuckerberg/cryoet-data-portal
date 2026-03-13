@@ -321,25 +321,20 @@ function getRunFilter(
     where.annotations.groundTruthStatus = { _eq: true }
   }
 
-  const { objectNames, annotatedObjectsOnly, _searchIdentifiedObjectsOnly } =
-    filterState.annotation
+  const { objectNames, _searchIdentifiedObjectsOnly } = filterState.annotation
 
   if (objectNames.length > 0) {
     if (_searchIdentifiedObjectsOnly) {
-      // Special case: search only identifiedObjects for front end OR query
       where.identifiedObjects ??= {}
       where.identifiedObjects.objectName = {
         _in: objectNames,
       }
-    } else if (annotatedObjectsOnly) {
-      // Only search annotations when annotated-objects=Yes
+    } else {
       where.annotations ??= {}
       where.annotations.objectName = {
         _in: objectNames,
       }
     }
-    // When annotatedObjectsOnly is false, we search multiple tables in
-    // getDatasetByIdV2 and merge the results
   }
   if (filterState.annotation.objectShapeTypes.length > 0) {
     where.annotations ??= {}
@@ -351,20 +346,16 @@ function getRunFilter(
   }
   if (filterState.annotation.objectId !== null) {
     if (_searchIdentifiedObjectsOnly) {
-      // Special case: search only identifiedObjects for front end OR query
       where.identifiedObjects ??= {}
       where.identifiedObjects.objectId = {
-        _ilike: `%${filterState.annotation.objectId.replace(':', '_')}%`, // _ is wildcard
+        _ilike: `%${filterState.annotation.objectId.replace(':', '_')}%`,
       }
-    } else if (annotatedObjectsOnly) {
-      // Only search annotations when annotated-objects=Yes
+    } else {
       where.annotations ??= {}
       where.annotations.objectId = {
-        _ilike: `%${filterState.annotation.objectId.replace(':', '_')}%`, // _ is wildcard
+        _ilike: `%${filterState.annotation.objectId.replace(':', '_')}%`,
       }
     }
-    // When annotatedObjectsOnly is false, we search multiple tables in
-    // getDatasetByIdV2 and merge the results
   }
 
   return where
