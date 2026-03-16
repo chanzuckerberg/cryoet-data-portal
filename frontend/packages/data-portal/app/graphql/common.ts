@@ -152,6 +152,23 @@ export function getDatasetsFilter({
     where.id =
       datasetIds.length === 1 ? { _eq: datasetIds[0] } : { _in: datasetIds }
   }
+
+  // Run IDs
+  const runIds = filterState.ids.runId
+    .map((id) => parseInt(id))
+    .filter((id) => Number.isInteger(id))
+
+  if (runIds.length > 0) {
+    where.runs ??= {}
+    where.runs.id = runIds.length === 1 ? { _eq: runIds[0] } : { _in: runIds }
+  }
+  // Run Name
+  if (filterState.ids.runName) {
+    where.runs ??= {}
+    where.runs.name = {
+      _ilike: `%${filterState.ids.runName}%`,
+    }
+  }
   const empiarId = filterState.ids.empiar
   const emdbId = filterState.ids.emdb
   if (empiarId && emdbId) {

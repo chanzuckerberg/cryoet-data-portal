@@ -31,6 +31,8 @@ export function getFilterState(searchParams: URLSearchParams) {
       deposition: searchParams.get(QueryParams.DepositionId),
       empiar: searchParams.get(QueryParams.EmpiarId),
       emdb: searchParams.get(QueryParams.EmdbId),
+      runId: searchParams.getAll(QueryParams.RunId),
+      runName: searchParams.get(QueryParams.RunName),
     },
 
     author: {

@@ -33,6 +33,18 @@ export function NameOrIdFilterSection() {
         queryParam: QueryParams.EmdbId,
         placeholder: t('emdbPlaceholder'),
       },
+      {
+        id: 'run-id-input',
+        label: `${t('runId')}`,
+        queryParam: QueryParams.RunId,
+        placeholder: t('runIdPlaceholder'),
+      },
+      {
+        id: 'run-name-input',
+        label: `${t('runName')}`,
+        queryParam: QueryParams.RunName,
+        placeholder: t('runNamePlaceholder'),
+      },
     ],
     [t],
   )

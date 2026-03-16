@@ -35,6 +35,8 @@ export enum QueryParams {
   ReconstructionMethod = 'reconstruction_method',
   ReconstructionSoftware = 'reconstruction_software',
   ReferenceTomogramId = 'ref-tomogram',
+  RunId = 'run-id',
+  RunName = 'run-name',
   Search = 'search',
   ShowTour = 'showTour',
   Sort = 'sort',

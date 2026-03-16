@@ -5,6 +5,8 @@ const COMMON_DATASET_FILTERS = [
   QueryParams.AvailableFiles,
   QueryParams.NumberOfRuns,
   QueryParams.DatasetId,
+  QueryParams.RunId,
+  QueryParams.RunName,
   QueryParams.AuthorName,
   QueryParams.AuthorOrcid,
   QueryParams.Organism,
