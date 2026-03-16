@@ -12,6 +12,7 @@ export const shapeTypeToI18nKey = {
   Point: 'point',
   SegmentationMask: 'segmentationMask',
   InstanceSegmentationMask: 'instanceSegmentationMask',
+  GlobalCaption: 'globalCaption',
 } as const satisfies ShapeTypeToI18nKeyMap
 
 export function getShapeTypeI18nKey(
@@ -30,6 +31,8 @@ export function getShapeTypeI18nKey(
       return 'mesh'
     case Annotation_File_Shape_Type_Enum.InstanceSegmentationMask:
       return 'instanceSegmentationMask'
+    case Annotation_File_Shape_Type_Enum.GlobalCaption:
+      return 'globalCaption'
     default:
       return checkExhaustive(shapeType)
   }

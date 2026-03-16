@@ -4,3 +4,4 @@ export type ObjectShapeType =
   | 'Point'
   | 'SegmentationMask'
   | 'InstanceSegmentationMask'
+  | 'GlobalCaption'

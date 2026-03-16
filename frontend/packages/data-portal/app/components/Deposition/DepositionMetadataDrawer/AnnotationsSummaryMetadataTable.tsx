@@ -77,6 +77,8 @@ export function AnnotationsSummaryMetadataTable({
                 return <li key={shapeType}>{t('meshes')}</li>
               case Annotation_File_Shape_Type_Enum.InstanceSegmentationMask:
                 return <li key={shapeType}>{t('instanceSegmentationMasks')}</li>
+              case Annotation_File_Shape_Type_Enum.GlobalCaption:
+                return <li key={shapeType}>{t('globalCaptions')}</li>
               default:
                 return checkExhaustive(shapeType)
             }
