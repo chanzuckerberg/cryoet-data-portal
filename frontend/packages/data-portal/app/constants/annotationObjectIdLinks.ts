@@ -10,3 +10,10 @@ export const UNIPROTKB_PREFIX = 'UniProtKB:'
 export const CHEBI_PREFIX = 'CHEBI:'
 export const UBERON_PREFIX = 'UBERON:'
 export const CDPO_PREFIX = 'CDPO:'
+
+export const GO_LEARN_MORE = 'https://geneontology.org/'
+export const UNIPROTKB_LEARN_MORE = 'https://www.uniprot.org/uniprotkb/'
+export const CHEBI_LEARN_MORE = 'https://www.ebi.ac.uk/chebi/'
+export const UBERON_LEARN_MORE = 'https://obophenotype.github.io/uberon/'
+export const CDPO_LEARN_MORE =
+  'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cdpo.html'

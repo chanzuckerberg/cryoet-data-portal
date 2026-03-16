@@ -143,7 +143,7 @@ export function PrefixOptionFilter({
           <Link
             variant="dashed-underlined"
             className="text-light-sds-color-primitive-gray-700"
-            to={prefixValue.link}
+            to={prefixValue.learnMoreLink}
           >
             {' '}
             {t('learnMore')}

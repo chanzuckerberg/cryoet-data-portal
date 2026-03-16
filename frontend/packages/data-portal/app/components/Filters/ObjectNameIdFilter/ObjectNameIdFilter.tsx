@@ -7,10 +7,15 @@ import { PrefixValueProvider } from 'app/components/Filters/PrefixValueContext'
 import { Select, SelectOption } from 'app/components/Select'
 import {
   CDPO,
+  CDPO_LEARN_MORE,
   CHEBI,
+  CHEBI_LEARN_MORE,
   GO,
+  GO_LEARN_MORE,
   UBERON,
+  UBERON_LEARN_MORE,
   UNIPROTKB,
+  UNIPROTKB_LEARN_MORE,
 } from 'app/constants/annotationObjectIdLinks'
 import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'
@@ -48,6 +53,7 @@ const prefixOptions = [
     name: 'GO ID',
     details: 'Gene Ontology ID',
     link: GO,
+    learnMoreLink: GO_LEARN_MORE,
     prefix: 'GO:',
     placeholder: '0016020 or GO:0016020',
   },
@@ -56,6 +62,7 @@ const prefixOptions = [
     name: 'UniProtKB',
     details: 'The UniProt Knowledgebase',
     link: UNIPROTKB,
+    learnMoreLink: UNIPROTKB_LEARN_MORE,
     prefix: 'UniProtKB:',
     placeholder: 'P01267 or UniProtKB:P01267',
   },
@@ -64,6 +71,7 @@ const prefixOptions = [
     name: 'ChEBI',
     details: 'Chemical Entities of Biological Interest',
     link: CHEBI,
+    learnMoreLink: CHEBI_LEARN_MORE,
     prefix: 'CHEBI:',
     placeholder: '4705 or CHEBI:4705',
   },
@@ -72,6 +80,7 @@ const prefixOptions = [
     name: 'UBERON',
     details: 'Uber-anatomy Ontology',
     link: UBERON,
+    learnMoreLink: UBERON_LEARN_MORE,
     prefix: 'UBERON:',
     placeholder: '0003527 or UBERON:0003527',
   },
@@ -80,6 +89,7 @@ const prefixOptions = [
     name: 'CDPO',
     details: 'CryoET Data Portal Ontology',
     link: CDPO,
+    learnMoreLink: CDPO_LEARN_MORE,
     prefix: 'CDPO:',
     placeholder: '0000001 or CDPO:0000001',
   },
