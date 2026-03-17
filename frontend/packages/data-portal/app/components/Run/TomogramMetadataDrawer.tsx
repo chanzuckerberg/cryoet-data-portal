@@ -292,6 +292,7 @@ function parseAffineTransformationMatrix(
   }
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const parsed = JSON.parse(json)
     if (Array.isArray(parsed)) {
       return parsed.flat().join(' ')

@@ -5,7 +5,7 @@ import { LogApiRequestBody } from 'app/types/logging'
 export async function action({ request }: ActionFunctionArgs) {
   const { logs } = (await request.json()) as LogApiRequestBody
 
-  // eslint-disable-next-line no-console
+  // eslint-disable-next-line no-console, @typescript-eslint/no-unsafe-argument
   logs.forEach((entry) => console[entry.level](...entry.messages))
 
   return 'OK'

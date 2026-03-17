@@ -141,6 +141,7 @@ export function usePlausible() {
         }
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       axios.post(PLAUSIBLE_EVENT_API, payload, {
         headers: {
           'Content-Type': 'application/json',

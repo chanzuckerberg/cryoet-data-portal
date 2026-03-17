@@ -507,7 +507,7 @@ export interface GetDepositionAnnotationsCountFilterParams {
   organismNames?: string[]
 }
 
-/* eslint-disable @typescript-eslint/no-explicit-any, no-param-reassign */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, no-param-reassign, @typescript-eslint/no-unsafe-argument */
 // TODO(bchu): Delete this after migration.
 export function removeTypenames(object: any): void {
   delete object?.__typename

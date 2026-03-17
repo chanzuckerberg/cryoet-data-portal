@@ -80,6 +80,7 @@ export function APIDownloadTab() {
     useDownloadModalQueryParamState()
   const { logPlausibleCopyEvent } = useLogPlausibleCopyEvent()
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { label, content, calloutKey, logType } = useMemo(
     () =>
       match({ fileFormat, type, downloadConfig })
@@ -119,8 +120,8 @@ export function APIDownloadTab() {
         }))
         .otherwise(() => ({
           // no idea why this is throwing an error
-
-          label: t('tomogramId') as string,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          label: t('tomogramId'),
           content: tomogramId,
           calloutKey: 'preferToDownloadViaApi',
           logType: 'tomogram-id',
@@ -156,6 +157,7 @@ export function APIDownloadTab() {
         className="mt-sds-l"
         codeClassName="whitespace-pre"
         content={content}
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         title={label}
         onCopy={() => logPlausibleCopyEvent(logType, String(content))}
       />

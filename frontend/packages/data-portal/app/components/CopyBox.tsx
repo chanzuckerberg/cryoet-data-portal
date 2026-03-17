@@ -56,6 +56,7 @@ export function CopyBox({
             onClick={() => {
               onCopy?.()
 
+              // eslint-disable-next-line @typescript-eslint/no-floating-promises
               navigator.clipboard.writeText(String(content))
             }}
           >
