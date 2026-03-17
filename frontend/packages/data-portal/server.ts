@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
-
 import 'dotenv/config'
 
 import { createRequestHandler } from '@remix-run/express'

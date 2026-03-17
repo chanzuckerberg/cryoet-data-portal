@@ -12,8 +12,9 @@ const TEST_OPTIONS: SelectOption[] = Array(3)
     label: `Label ${idx}`,
   }))
 
-interface TestSelectProps
-  extends Partial<Omit<SelectProps, 'activeKey' | 'activeKeys' | 'onChange'>> {
+interface TestSelectProps extends Partial<
+  Omit<SelectProps, 'activeKey' | 'activeKeys' | 'onChange'>
+> {
   activeKey?: string | null
   activeKeys?: string[]
   onChange?:

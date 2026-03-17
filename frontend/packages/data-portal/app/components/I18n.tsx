@@ -5,8 +5,10 @@ import type { I18nKeys } from 'app/types/i18n'
 
 import { Link, VariantLinkProps } from './Link'
 
-export interface I18nProps
-  extends Omit<TransProps<I18nKeys>, 'ns' | 'i18nKey'> {
+export interface I18nProps extends Omit<
+  TransProps<I18nKeys>,
+  'ns' | 'i18nKey'
+> {
   i18nKey: I18nKeys
   linkProps?: Partial<VariantLinkProps>
 }

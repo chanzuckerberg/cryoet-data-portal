@@ -9,8 +9,7 @@ import type {
 } from 'app/types/deposition-queries'
 import { DataContentsType } from 'app/types/deposition-queries'
 
-interface UseDepositionItemsByOrganismParams
-  extends UnifiedItemsByOrganismParams {}
+interface UseDepositionItemsByOrganismParams extends UnifiedItemsByOrganismParams {}
 
 /**
  * Hook to fetch deposition items (annotations or tomograms) filtered by organism name and dataset IDs.

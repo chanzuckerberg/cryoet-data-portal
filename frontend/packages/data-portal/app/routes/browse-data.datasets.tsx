@@ -110,9 +110,9 @@ export default function BrowseDatasetsPage() {
   // Show banner when all conditions are met
   const shouldShowBanner = Boolean(
     depositionId &&
-      organism &&
-      fromLocation === FromLocationKey.DepositionAnnotations &&
-      deposition,
+    organism &&
+    fromLocation === FromLocationKey.DepositionAnnotations &&
+    deposition,
   )
 
   return (

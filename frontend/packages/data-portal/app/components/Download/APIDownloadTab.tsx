@@ -119,7 +119,7 @@ export function APIDownloadTab() {
         }))
         .otherwise(() => ({
           // no idea why this is throwing an error
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+
           label: t('tomogramId') as string,
           content: tomogramId,
           calloutKey: 'preferToDownloadViaApi',

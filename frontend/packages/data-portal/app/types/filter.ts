@@ -8,8 +8,10 @@ export type NumberOfRunsFilterValue = `>${
   | '50'
   | '100'}`
 
-export interface BaseFilterOption<T extends string = string>
-  extends Omit<DefaultAutocompleteOption, 'name'> {
+export interface BaseFilterOption<T extends string = string> extends Omit<
+  DefaultAutocompleteOption,
+  'name'
+> {
   value: T
   label?: string
 }
