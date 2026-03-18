@@ -38,6 +38,8 @@ export const RUN_FILTERS = [
   QueryParams.ObjectShapeType,
   QueryParams.AnnotatedObjectsOnly,
   QueryParams.DepositionId,
+  QueryParams.RunId,
+  QueryParams.RunName,
 ] as const
 
 export const ANNOTATION_FILTERS = [
