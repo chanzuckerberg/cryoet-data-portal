@@ -13,6 +13,8 @@ export const QueryParamToIdPrefixMap: Partial<Record<QueryParams, IdPrefix>> = {
   [QueryParams.AnnotationId]: IdPrefix.Annotation,
   [QueryParams.DatasetId]: IdPrefix.Dataset,
   [QueryParams.DepositionId]: IdPrefix.Deposition,
+  [QueryParams.RunId]: IdPrefix.Run,
+  // [QueryParams.RunName]: IdPrefix.Run,
   // Currently we cannot filter by Run or Tiltseries ID, so they are not here
 }
 

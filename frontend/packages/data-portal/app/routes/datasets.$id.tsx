@@ -76,6 +76,8 @@ export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {
       QueryParams.QualityScore,
       QueryParams.GroundTruthAnnotation,
       QueryParams.AnnotatedObjectsOnly,
+      QueryParams.RunId,
+      QueryParams.RunName,
     ],
   })
 }

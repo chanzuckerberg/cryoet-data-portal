@@ -5,6 +5,8 @@ const COMMON_DATASET_FILTERS = [
   QueryParams.AvailableFiles,
   QueryParams.NumberOfRuns,
   QueryParams.DatasetId,
+  QueryParams.RunId,
+  QueryParams.RunName,
   QueryParams.AuthorName,
   QueryParams.AuthorOrcid,
   QueryParams.Organism,
@@ -36,6 +38,8 @@ export const RUN_FILTERS = [
   QueryParams.ObjectShapeType,
   QueryParams.AnnotatedObjectsOnly,
   QueryParams.DepositionId,
+  QueryParams.RunId,
+  QueryParams.RunName,
 ] as const
 
 export const ANNOTATION_FILTERS = [

@@ -358,6 +358,21 @@ function getRunFilter(
     }
   }
 
+  // Run ID filter
+  const runIds = filterState.ids.runId
+    .map((id) => parseInt(id))
+    .filter((id) => Number.isInteger(id))
+
+  if (runIds.length > 0) {
+    where.id = runIds.length === 1 ? { _eq: runIds[0] } : { _in: runIds }
+  }
+
+  // Run Name filter
+  if (filterState.ids.runName) {
+    where.name = {
+      _ilike: `%${filterState.ids.runName}%`,
+    }
+  }
   return where
 }
 
