@@ -57,7 +57,7 @@
     "@remix-run/testing": "^2.17.4",
     "@tanstack/react-query": "^5.83.0",
     "@tanstack/react-table": "^8.10.6",
-    "axios": "^1.11.0",
+    "axios": "^1.13.6",
     "chokidar": "^3.5.3",
     "clsx": "^2.0.0",
     "compression": "^1.7.4",
