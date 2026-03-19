@@ -29,6 +29,7 @@ function getNextButton(page: Page) {
 
 async function getLastPageButton(page: Page) {
   const items = getPagination(page).locator('li')
+  await items.first().waitFor()
   const itemCount = await items.count()
   return items.nth(itemCount - 2)
 }
@@ -170,6 +171,7 @@ export function testPagination({
       const lastPageButton = await getLastPageButton(page)
       await lastPageButton.click()
 
+      await waitForTableReload(page)
       await expect(getNextButton(page)).toHaveAttribute('disabled')
     })
 
