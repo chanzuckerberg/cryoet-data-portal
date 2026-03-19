@@ -144,6 +144,141 @@ test.describe('Single dataset page filters', () => {
       await filtersPage.waitForTableLoad()
     })
   })
+
+  test.describe('Run IDs filter group', () => {
+    test.describe('Run ID filter', () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(SINGLE_DATASET_URL)
+
+        await filtersActor.addMultiInputFilter({
+          buttonLabel: translations.run,
+          filter: {
+            label: translations.runId,
+            value: E2E_CONFIG.runId,
+          },
+          hasMultipleFilters: true,
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: SINGLE_DATASET_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.RunId,
+              queryParamValue: E2E_CONFIG.runId,
+            },
+          ],
+        })
+
+        await filtersPage.waitForTableLoad()
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: SINGLE_DATASET_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.RunId,
+              queryParamValue: E2E_CONFIG.runId,
+            },
+          ],
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: SINGLE_DATASET_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.RunId,
+              queryParamValue: E2E_CONFIG.runId,
+            },
+          ],
+        })
+
+        await filtersPage.removeMultiInputFilter(
+          getPrefixedId(E2E_CONFIG.runId, QueryParams.RunId),
+        )
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: SINGLE_DATASET_URL,
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
+        })
+
+        await filtersPage.waitForTableLoad()
+      })
+    })
+
+    test.describe('Run Name filter', () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(SINGLE_DATASET_URL)
+
+        await filtersActor.addMultiInputFilter({
+          buttonLabel: translations.run,
+          filter: {
+            label: translations.runName,
+            value: E2E_CONFIG.runName,
+          },
+          hasMultipleFilters: true,
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: SINGLE_DATASET_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.RunName,
+              queryParamValue: E2E_CONFIG.runName,
+            },
+          ],
+        })
+
+        await filtersPage.waitForTableLoad()
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: SINGLE_DATASET_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.RunName,
+              queryParamValue: E2E_CONFIG.runName,
+            },
+          ],
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: SINGLE_DATASET_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.RunName,
+              queryParamValue: E2E_CONFIG.runName,
+            },
+          ],
+        })
+
+        await filtersPage.removeMultiInputFilter(E2E_CONFIG.runName)
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: SINGLE_DATASET_URL,
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
+        })
+
+        await filtersPage.waitForTableLoad()
+      })
+    })
+  })
+
   test.describe('Object Name filter', () => {
     test('should filter when selecting', async () => {
       await filtersPage.goTo(SINGLE_DATASET_URL)

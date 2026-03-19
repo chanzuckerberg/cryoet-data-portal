@@ -35,13 +35,13 @@ export function NameOrIdFilterSection() {
       },
       {
         id: 'run-id-input',
-        label: `${t('runId')}`,
+        label: `${t('runId')}:`,
         queryParam: QueryParams.RunId,
         placeholder: t('runIdPlaceholder'),
       },
       {
         id: 'run-name-input',
-        label: `${t('runName')}`,
+        label: `${t('runName')}:`,
         queryParam: QueryParams.RunName,
         placeholder: t('runNamePlaceholder'),
       },

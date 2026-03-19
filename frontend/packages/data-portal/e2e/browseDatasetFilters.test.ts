@@ -467,6 +467,140 @@ test.describe('Browse datasets page filters', () => {
     })
   })
 
+  test.describe('Run IDs filter group', () => {
+    test.describe('Run ID filter', () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addMultiInputFilter({
+          buttonLabel: translations.datasetIds,
+          filter: {
+            label: translations.runId,
+            value: E2E_CONFIG.runId,
+          },
+          hasMultipleFilters: true,
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.RunId,
+              queryParamValue: E2E_CONFIG.runId,
+            },
+          ],
+        })
+
+        await filtersPage.waitForTableLoad()
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.RunId,
+              queryParamValue: E2E_CONFIG.runId,
+            },
+          ],
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.RunId,
+              queryParamValue: E2E_CONFIG.runId,
+            },
+          ],
+        })
+
+        await filtersPage.removeMultiInputFilter(
+          getPrefixedId(E2E_CONFIG.runId, QueryParams.RunId),
+        )
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
+        })
+
+        await filtersPage.waitForTableLoad()
+      })
+    })
+
+    test.describe('Run Name filter', () => {
+      test('should filter when selecting', async () => {
+        await filtersPage.goTo(BROWSE_DATASETS_URL)
+
+        await filtersActor.addMultiInputFilter({
+          buttonLabel: translations.datasetIds,
+          filter: {
+            label: translations.runName,
+            value: E2E_CONFIG.runName,
+          },
+          hasMultipleFilters: true,
+        })
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.RunName,
+              queryParamValue: E2E_CONFIG.runName,
+            },
+          ],
+        })
+
+        await filtersPage.waitForTableLoad()
+      })
+
+      test('should filter when opening URL', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.RunName,
+              queryParamValue: E2E_CONFIG.runName,
+            },
+          ],
+        })
+      })
+
+      test('should disable filter when deselecting', async () => {
+        await filtersActor.goToFilteredUrl({
+          baseUrl: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: QueryParams.RunName,
+              queryParamValue: E2E_CONFIG.runName,
+            },
+          ],
+        })
+
+        await filtersPage.removeMultiInputFilter(E2E_CONFIG.runName)
+
+        await filtersActor.expectUrlQueryParamsToBeCorrect({
+          url: BROWSE_DATASETS_URL,
+          queryParamsList: [
+            {
+              queryParamKey: undefined,
+              queryParamValue: '',
+            },
+          ],
+        })
+
+        await filtersPage.waitForTableLoad()
+      })
+    })
+  })
+
   // TODO: (ehoops) add multi-select filter tests
   test.describe('Organism Name filter', () => {
     test.describe('Selecting one organism', () => {
