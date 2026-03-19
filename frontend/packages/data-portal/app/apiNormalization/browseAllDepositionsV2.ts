@@ -7,6 +7,7 @@ import {
   BrowseAllDepositionsPageDataType,
   Deposition,
 } from 'app/types/PageData/browseAllDepositionsPageData'
+import { ObjectShapeType } from 'app/types/shapeTypes'
 import { remapAPI } from 'app/utils/apiMigration'
 import { isDefined } from 'app/utils/nullish'
 import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
@@ -98,15 +99,14 @@ export const remapV2BrowseAllDepositions = (
     allObjectShapeTypes: (data) =>
       Array.from(
         new Set(
-          data.allObjectShapeTypes?.aggregate
+          (data.allObjectShapeTypes?.aggregate
             ?.map((aggregate) => aggregate.groupBy?.shapeType)
             .filter(isDefined)
-            .filter(
-              (shapeType): shapeType is Annotation_File_Shape_Type_Enum =>
-                Object.values<string>(Annotation_File_Shape_Type_Enum).includes(
-                  shapeType,
-                ),
-            ) ?? [],
+            .filter((shapeType) =>
+              Object.values<string>(Annotation_File_Shape_Type_Enum).includes(
+                shapeType,
+              ),
+            ) ?? []) as ObjectShapeType[],
         ),
       ).sort((a, b) => a.localeCompare(b)),
   } as const)(v2data)
