@@ -28,10 +28,14 @@ function getNextButton(page: Page) {
 }
 
 async function getLastPageButton(page: Page) {
-  const items = getPagination(page).locator('li')
-  await items.first().waitFor()
-  const itemCount = await items.count()
-  return items.nth(itemCount - 2)
+  const pagination = getPagination(page)
+  await pagination.waitFor()
+  const pageButtons = pagination
+    .getByRole('button')
+    .filter({ hasText: /^\d+$/ })
+  await pageButtons.first().waitFor()
+  const count = await pageButtons.count()
+  return pageButtons.nth(count - 1)
 }
 
 async function clickVisiblePageButton(page: Page, pageNumber: number) {
