@@ -8,7 +8,9 @@ WORKDIR /app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store npm -g i pnpm@8.10.5 && pnpm i --frozen-lockfile --ignore-scripts
 
 WORKDIR /app/packages/data-portal
-RUN pnpm build
+ARG API_URL_V2
+ENV API_URL_V2=$API_URL_V2
+RUN pnpm build 
 
 FROM node:20.10-alpine as server
 
