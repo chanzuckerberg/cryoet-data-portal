@@ -1,6 +1,9 @@
 import { useTypedLoaderData } from 'remix-typedjson'
 
-import { GetDatasetByIdV2Query } from 'app/__generated_v2__/graphql'
+import {
+  Annotation_File_Shape_Type_Enum,
+  GetDatasetByIdV2Query,
+} from 'app/__generated_v2__/graphql'
 import { getAdditionalContributingDepositions } from 'app/utils/deposition'
 import { isDefined } from 'app/utils/nullish'
 
@@ -33,7 +36,12 @@ export function useDatasetById() {
   const objectShapeTypes =
     v2.annotationShapesAggregate.aggregate
       ?.map((aggregate) => aggregate.groupBy?.shapeType)
-      .filter(isDefined) ?? []
+      .filter(isDefined)
+      .filter((shapeType): shapeType is Annotation_File_Shape_Type_Enum =>
+        Object.values<string>(Annotation_File_Shape_Type_Enum).includes(
+          shapeType,
+        ),
+      ) ?? []
 
   const tiltseriesQualityScores =
     v2.tiltseriesAggregate.aggregate

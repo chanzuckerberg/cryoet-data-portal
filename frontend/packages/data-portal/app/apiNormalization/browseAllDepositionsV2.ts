@@ -1,4 +1,5 @@
 import {
+  Annotation_File_Shape_Type_Enum,
   GetDepositionsDataV2Query,
   OrderBy,
 } from 'app/__generated_v2__/graphql'
@@ -6,7 +7,6 @@ import {
   BrowseAllDepositionsPageDataType,
   Deposition,
 } from 'app/types/PageData/browseAllDepositionsPageData'
-import { ObjectShapeType } from 'app/types/shapeTypes'
 import { remapAPI } from 'app/utils/apiMigration'
 import { isDefined } from 'app/utils/nullish'
 import { setObjectNameAndGroundTruthStatus } from 'app/utils/setObjectNameAndGroundTruthStatus'
@@ -37,6 +37,11 @@ const remapV2Deposition = remapAPI<
     deposition.distinctShapeTypes?.aggregate
       ?.map((aggregate) => aggregate.groupBy?.annotationShapes?.shapeType)
       .filter(isDefined)
+      .filter((shapeType): shapeType is Annotation_File_Shape_Type_Enum =>
+        Object.values<string>(Annotation_File_Shape_Type_Enum).includes(
+          shapeType,
+        ),
+      )
       .sort((shapeTypeA, shapeTypeB) => shapeTypeA.localeCompare(shapeTypeB)) ??
     [],
   acrossDatasets: (deposition) =>
@@ -93,9 +98,15 @@ export const remapV2BrowseAllDepositions = (
     allObjectShapeTypes: (data) =>
       Array.from(
         new Set(
-          data.allObjectShapeTypes?.aggregate?.map(
-            (aggregate) => aggregate.groupBy?.shapeType as ObjectShapeType,
-          ) ?? [],
+          data.allObjectShapeTypes?.aggregate
+            ?.map((aggregate) => aggregate.groupBy?.shapeType)
+            .filter(isDefined)
+            .filter(
+              (shapeType): shapeType is Annotation_File_Shape_Type_Enum =>
+                Object.values<string>(Annotation_File_Shape_Type_Enum).includes(
+                  shapeType,
+                ),
+            ) ?? [],
         ),
       ).sort((a, b) => a.localeCompare(b)),
   } as const)(v2data)
