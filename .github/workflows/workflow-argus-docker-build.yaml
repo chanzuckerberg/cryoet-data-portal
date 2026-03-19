@@ -47,6 +47,6 @@ jobs:
           "frontend": {
             "context": "frontend",
             "dockerfile": "frontend/packages/data-portal/Dockerfile",
-            "build_args": "API_URL_V2=${{ inputs.api_url_v2 }}"
+            "build_args": ["API_URL_V2=${{ inputs.api_url_v2 }}"]
           }
         }
