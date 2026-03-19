@@ -7,11 +7,6 @@ on:
         description: "Env names, comma delimited"
         required: true
         type: string
-      api_url_v2:
-        description: "GraphQL API URL to use for codegen during Docker build"
-        required: false
-        type: string
-        default: ""
       path_filters:
         description: "Glob patterns to match against changed files in the repository, comma delimited"
         required: true
@@ -46,7 +41,6 @@ jobs:
         {
           "frontend": {
             "context": "frontend",
-            "dockerfile": "frontend/packages/data-portal/Dockerfile",
-            "build_args": ["API_URL_V2=${{ inputs.api_url_v2 }}"]
+            "dockerfile": "frontend/packages/data-portal/Dockerfile"
           }
         }

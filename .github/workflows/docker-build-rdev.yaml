@@ -19,4 +19,3 @@ jobs:
       envs: rdev
       path_filters: 'frontend/**'
       branches_ignore: main,release-please--branches--main--components--cryoet-data-portal-frontend
-      api_url_v2: 'https://graphql.cryoet.staging.si.czi.technology/graphql'

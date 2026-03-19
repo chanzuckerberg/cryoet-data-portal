@@ -8,22 +8,11 @@ on:
     - release-please--branches--main--components--cryoet-data-portal-frontend
 
 jobs:
-  build_staging:
+  argus_builder:
     uses: ./.github/workflows/workflow-argus-docker-build.yaml
     secrets: inherit
     with:
-      envs: staging
+      envs: staging,prod
       path_filters: '!.infra/**,frontend/**'
       branches_include: release-please--branches--main--components--cryoet-data-portal-frontend
       force_update_manifests: true
-      api_url_v2: 'https://graphql.cryoet.staging.si.czi.technology/graphql'
-
-  build_prod:
-    uses: ./.github/workflows/workflow-argus-docker-build.yaml
-    secrets: inherit
-    with:
-      envs: prod
-      path_filters: '!.infra/**,frontend/**'
-      branches_include: release-please--branches--main--components--cryoet-data-portal-frontend
-      force_update_manifests: true
-      api_url_v2: 'https://graphql.cryoetdataportal.cziscience.com/graphql'
