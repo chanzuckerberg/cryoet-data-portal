@@ -1,6 +1,9 @@
 import { useTypedLoaderData } from 'remix-typedjson'
 
-import { GetDatasetsV2Query } from 'app/__generated_v2__/graphql'
+import {
+  Annotation_File_Shape_Type_Enum,
+  GetDatasetsV2Query,
+} from 'app/__generated_v2__/graphql'
 import { isDefined } from 'app/utils/nullish'
 
 export function useDatasetsFilterData() {
@@ -53,6 +56,11 @@ export function useDatasetsFilterData() {
     objectShapeTypes:
       dataSource?.distinctShapeTypes?.aggregate
         ?.map((aggregate) => aggregate.groupBy?.shapeType)
-        .filter(isDefined) ?? [],
+        .filter(isDefined)
+        .filter((shapeType): shapeType is Annotation_File_Shape_Type_Enum =>
+          Object.values<string>(Annotation_File_Shape_Type_Enum).includes(
+            shapeType,
+          ),
+        ) ?? [],
   }
 }
