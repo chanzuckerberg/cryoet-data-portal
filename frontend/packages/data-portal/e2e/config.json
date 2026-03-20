@@ -17,8 +17,7 @@
   "reconstructionMethod": "SIRT",
   "reconstructionObjectName": "Actin filament",
   "reconstructionSoftware": "IMOD",
-  "runId": "251",
-  "runName": "TS_0001",
+  "runId": "19",
   "url": "http://localhost:8080",
 
   "pagination": {
