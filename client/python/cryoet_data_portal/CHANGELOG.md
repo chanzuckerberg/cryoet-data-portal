@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.8.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.7.0...cryoet-data-portal-python-client-v4.8.0) (2026-03-20)
+
+
+### ✨ Features
+
+* add GlobalCaption annotation shape type to frontend ([#2042](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2042)) ([379a3d0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/379a3d0de8150f497d51f46e136c6d0592ede55e))
+
 ## [4.7.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.6.1...cryoet-data-portal-python-client-v4.7.0) (2026-03-11)
 
 
