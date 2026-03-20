@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.84.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.83.0...cryoet-data-portal-frontend-v1.84.0) (2026-03-20)
+
+
+### ✨ Features
+
+* add GlobalCaption annotation shape type to frontend ([#2042](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2042)) ([379a3d0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/379a3d0de8150f497d51f46e136c6d0592ede55e))
+* add run ID and run name filters to browse datasets page ([#2043](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2043)) ([e5dedbf](https://github.com/chanzuckerberg/cryoet-data-portal/commit/e5dedbffe15ad30969ee9d56db12ca4db6dff7a5))
+
+
+### 🐞 Bug Fixes
+
+* Dependabot PR's ([#2045](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2045)) ([5fa4427](https://github.com/chanzuckerberg/cryoet-data-portal/commit/5fa44275ab879ed747eaf9b2caed2eaf5430ef1d))
+* **e2e:** stabilize browse pagination tests ([#2049](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2049)) ([81e7388](https://github.com/chanzuckerberg/cryoet-data-portal/commit/81e7388a45696c3055a7bedc40bed7a1d3de5ad8))
+* Use separate learn more link for object ID filter ([#2040](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2040)) ([0bf715a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/0bf715a2db162fdefce0dd3f13725733d3ddb9d4))
+
+
+### 🧹 Miscellaneous Chores
+
+* **deps:** bump @remix-run/* from 2.17.0 to 2.17.4 in /frontend ([#2047](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2047)) ([f2513e0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f2513e09508c0fc6953a04d1c99bdedbe1b651ae))
+* **deps:** bump axios from 1.11.0 to 1.13.5 in /frontend ([#2046](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2046)) ([80f203b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/80f203b064a71bd247268a269c9e8aa88e4f46b9))
+* **deps:** bump lodash and lodash-es from 4.17.21 to 4.17.23  ([#2048](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2048)) ([25b1db9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/25b1db932aa11ce1dc30b062fcdfb13be5048e04))
+* **deps:** bump lodash and lodash-es from 4.17.21 to 4.17.23 in /frontend ([25b1db9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/25b1db932aa11ce1dc30b062fcdfb13be5048e04))
+
 ## [1.83.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.82.0...cryoet-data-portal-frontend-v1.83.0) (2026-03-13)
 
 
