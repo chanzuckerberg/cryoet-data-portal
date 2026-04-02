@@ -64,41 +64,48 @@ export function useDepositionById() {
       string,
       Omit<AnnotationMethodMetadata, 'annotationMethod'>
     >()
-    // To preserve original ordering of annotations' method links, we track the minimum id for each method link of each annotation method
-    const methodLinkToId = new Map<string, number>()
-    for (const { node } of v2.depositions[0]?.annotations?.edges ?? []) {
-      if (!node) continue
-      for (const methodLinkEdge of node.methodLinks?.edges ?? []) {
-        const { link, name, linkType, id } = methodLinkEdge.node
-        const key = JSON.stringify([
-          node?.annotationMethod,
-          link,
-          name,
-          linkType,
-        ])
-        if (!methodLinkToId.has(key) || id < methodLinkToId.get(key)!) {
-          methodLinkToId.set(key, id)
-        }
+
+    // Authoritative method list + counts from aggregate (annotations.edges is paginated)
+    for (const aggregate of v2.depositions[0]?.annotationMethodCounts
+      ?.aggregate ?? []) {
+      const annotationMethod = aggregate.groupBy?.annotationMethod
+      if (annotationMethod == null) {
+        continue
       }
+      annotationMethodToMetadata.set(annotationMethod, {
+        annotationSoftware: undefined,
+        methodType: undefined,
+        count: aggregate.count ?? 0,
+        methodLinks: [],
+      })
     }
 
-    // Parse deposition annotations
+    // Enrich from annotations (may be a subset of rows); metadata comes from edges when present
     for (const { node } of v2.depositions[0]?.annotations?.edges ?? []) {
-      const annotationMethod = node?.annotationMethod
+      if (!node) continue
+      const { annotationMethod } = node
       if (annotationMethod == null) continue
 
       if (!annotationMethodToMetadata.has(annotationMethod)) {
         annotationMethodToMetadata.set(annotationMethod, {
-          annotationSoftware: node?.annotationSoftware ?? undefined,
-          methodType: node?.methodType ?? undefined,
+          annotationSoftware: node.annotationSoftware ?? undefined,
+          methodType: node.methodType ?? undefined,
           count: 0,
           methodLinks: [],
         })
       }
 
       const meta = annotationMethodToMetadata.get(annotationMethod)!
+      if (
+        meta.annotationSoftware === undefined &&
+        node.annotationSoftware != null
+      ) {
+        meta.annotationSoftware = node.annotationSoftware
+      }
+      if (meta.methodType === undefined && node.methodType != null) {
+        meta.methodType = node.methodType
+      }
 
-      // Collect all method link metadata
       for (const methodLinkEdge of node.methodLinks?.edges ?? []) {
         const { id, link, name, linkType } = methodLinkEdge.node
         meta.methodLinks.push({
@@ -129,18 +136,6 @@ export function useDepositionById() {
       metadata.methodLinks = Array.from(unique.values()).sort(
         (a, b) => a.id - b.id,
       )
-    }
-    // Populate counts:
-    for (const aggregate of v2.depositions[0]?.annotationMethodCounts
-      ?.aggregate ?? []) {
-      const annotationMethod = aggregate.groupBy?.annotationMethod
-      if (annotationMethod == null) {
-        continue
-      }
-      if (annotationMethodToMetadata.has(annotationMethod)) {
-        annotationMethodToMetadata.get(annotationMethod)!.count =
-          aggregate.count ?? 0
-      }
     }
     // Convert to sorted array:
     return [...annotationMethodToMetadata.entries()]
