@@ -5,3 +5,4 @@ export type ObjectShapeType =
   | 'SegmentationMask'
   | 'InstanceSegmentationMask'
   | 'GlobalCaption'
+  | 'AnnotationCaption'

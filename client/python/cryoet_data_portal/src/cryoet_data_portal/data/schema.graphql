@@ -1694,6 +1694,7 @@ enum annotation_file_shape_type_enum {
   InstanceSegmentation
   InstanceSegmentationMask
   GlobalCaption
+  AnnotationCaption
   Mesh
 }
 
@@ -1940,7 +1941,7 @@ type AnnotationShape implements EntityInterface & Node {
   annotationFilesAggregate(where: AnnotationFileWhereClause = null): AnnotationFileAggregate
 
   """
-  The shape of the annotation (SegmentationMask, OrientedPoint, Point, InstanceSegmentation, Mesh, InstanceSegmentationMask, GlobalCaption)
+  The shape of the annotation (SegmentationMask, OrientedPoint, Point, InstanceSegmentation, Mesh, InstanceSegmentationMask, GlobalCaption, AnnotationCaption)
   """
   shapeType: annotation_file_shape_type_enum
 }
@@ -5435,7 +5436,7 @@ input AnnotationShapeCreateInput {
   annotationId: ID = null
 
   """
-  The shape of the annotation (SegmentationMask, OrientedPoint, Point, InstanceSegmentation, Mesh, InstanceSegmentationMask, GlobalCaption)
+  The shape of the annotation (SegmentationMask, OrientedPoint, Point, InstanceSegmentation, Mesh, InstanceSegmentationMask, GlobalCaption, AnnotationCaption)
   """
   shapeType: annotation_file_shape_type_enum = null
 
@@ -5448,7 +5449,7 @@ input AnnotationShapeUpdateInput {
   annotationId: ID = null
 
   """
-  The shape of the annotation (SegmentationMask, OrientedPoint, Point, InstanceSegmentation, Mesh, InstanceSegmentationMask, GlobalCaption)
+  The shape of the annotation (SegmentationMask, OrientedPoint, Point, InstanceSegmentation, Mesh, InstanceSegmentationMask, GlobalCaption, AnnotationCaption)
   """
   shapeType: annotation_file_shape_type_enum = null
 
