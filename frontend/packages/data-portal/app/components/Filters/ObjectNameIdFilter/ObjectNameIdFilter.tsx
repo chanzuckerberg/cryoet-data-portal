@@ -209,7 +209,7 @@ export function ObjectNameIdFilter({
           (prev) => {
             filters.forEach((filter) => {
               prev.delete(filter.queryParam)
-              const value = values[filter.id]
+              const value = values[filter.id]?.trim()
 
               if (value) {
                 // Handle ObjectId with prefix removal
