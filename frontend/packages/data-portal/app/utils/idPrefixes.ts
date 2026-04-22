@@ -1,6 +1,7 @@
 import {
   CDPO_PREFIX,
   CHEBI_PREFIX,
+  CL_PREFIX,
   GO_PREFIX,
   UBERON_PREFIX,
   UNIPROTKB_PREFIX,
@@ -47,7 +48,7 @@ export const getEntityIdPrefixRegex = (prefix: string) =>
 
 export const ALL_DIGITS_REGEX = /^\d+$/
 export const OBJECT_ID_REGEX = RegExp(
-  `^(?:${GO_PREFIX}|${UNIPROTKB_PREFIX}|${CHEBI_PREFIX}|${UBERON_PREFIX}|${CDPO_PREFIX}).+$`,
+  `^(?:${GO_PREFIX}|${UNIPROTKB_PREFIX}|${CHEBI_PREFIX}|${UBERON_PREFIX}|${CDPO_PREFIX}|${CL_PREFIX}).+$`,
 )
 
 export function isFilterPrefixValid(value: string, queryParam?: QueryParams) {

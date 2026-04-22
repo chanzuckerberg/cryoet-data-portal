@@ -4,6 +4,8 @@ import {
   CDPO_PREFIX,
   CHEBI,
   CHEBI_PREFIX,
+  CL,
+  CL_PREFIX,
   GO,
   GO_PREFIX,
   UBERON,
@@ -27,6 +29,9 @@ function getObjectIdLink(id: string): string | undefined {
   }
   if (id.startsWith(CDPO_PREFIX)) {
     return CDPO
+  }
+  if (id.startsWith(CL_PREFIX)) {
+    return `${CL}${id.replace(CL_PREFIX, '')}`
   }
   return undefined
 }

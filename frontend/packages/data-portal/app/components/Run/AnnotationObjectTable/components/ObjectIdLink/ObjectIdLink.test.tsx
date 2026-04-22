@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react'
 import {
   CDPO,
   CHEBI,
+  CL,
   GO,
   UBERON,
   UNIPROTKB,
@@ -71,6 +72,13 @@ describe('<ObjectIdLink />', () => {
     expect(screen.getByRole('link')).toHaveAttribute('href', CDPO)
   })
 
+  it('should render CL link', async () => {
+    const rawId = '0000972'
+    const id = `CL:${rawId}`
+    await renderObjectIdLink(id)
+
+    expect(screen.getByRole('link')).toHaveAttribute('href', `${CL}${rawId}`)
+  })
   it('should not render link if not matched', async () => {
     const id = 'test-id-123'
     await renderObjectIdLink(id)

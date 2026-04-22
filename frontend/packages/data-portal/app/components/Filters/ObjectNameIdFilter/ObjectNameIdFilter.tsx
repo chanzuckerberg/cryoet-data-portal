@@ -10,6 +10,8 @@ import {
   CDPO_LEARN_MORE,
   CHEBI,
   CHEBI_LEARN_MORE,
+  CL,
+  CL_LEARN_MORE,
   GO,
   GO_LEARN_MORE,
   UBERON,
@@ -92,6 +94,15 @@ const prefixOptions = [
     learnMoreLink: CDPO_LEARN_MORE,
     prefix: 'CDPO:',
     placeholder: '0000001 or CDPO:0000001',
+  },
+  {
+    id: 'cl',
+    name: 'CL',
+    details: 'Cell Ontology',
+    link: CL,
+    learnMoreLink: CL_LEARN_MORE,
+    prefix: 'CL:',
+    placeholder: '0000972 or CL:0000972',
   },
 ]
 export function ObjectNameIdFilter({
