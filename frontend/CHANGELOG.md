@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.85.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.84.0...cryoet-data-portal-frontend-v1.85.0) (2026-04-22)
+
+
+### ✨ Features
+
+* add CL (Cell Ontology) support to object ID ([#2067](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2067)) ([11f29e0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/11f29e0f74aa2ba381dc0454db8dd2990fdefd81))
+* handle AnnotationCaption shape type in frontend ([#2057](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2057)) ([feb3e10](https://github.com/chanzuckerberg/cryoet-data-portal/commit/feb3e1089499961b897f9a79fc17b9efde0dae8b))
+
+
+### 🐞 Bug Fixes
+
+* show all annotation methods on deposition page ([#2056](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2056)) ([a21f1a2](https://github.com/chanzuckerberg/cryoet-data-portal/commit/a21f1a2a63414873e4a86e1d9d9ab881c7a3920c))
+* trim leading whitespace in Object ID filter on apply ([#2062](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2062)) ([6def4ad](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6def4adc30e060ac880ecfaaa98c63d7d4baaf6e))
+
 ## [1.84.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.83.0...cryoet-data-portal-frontend-v1.84.0) (2026-03-20)
 
 
