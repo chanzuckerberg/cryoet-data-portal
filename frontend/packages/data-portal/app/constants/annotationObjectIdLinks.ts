@@ -4,7 +4,7 @@ export const CHEBI = 'http://purl.obolibrary.org/obo/CHEBI_'
 export const UBERON = 'http://purl.obolibrary.org/obo/UBERON_'
 export const CDPO =
   'https://chanzuckerberg.github.io/cryoet-data-portal/stable/cdpo.html'
-export const CL = 'https://obofoundry.org/ontology/cl.html'
+export const CL = 'https://purl.obolibrary.org/obo/CL_'
 
 export const GO_PREFIX = 'GO:'
 export const UNIPROTKB_PREFIX = 'UniProtKB:'
