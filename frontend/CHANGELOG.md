@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.86.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.85.0...cryoet-data-portal-frontend-v1.86.0) (2026-05-08)
+
+
+### ✨ Features
+
+* Update homepage and footer logo to reference Biohub ([#2071](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2071)) ([8ad5b9e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/8ad5b9e0682c04dde76f81867ded70ca861770df))
+
 ## [1.85.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.84.0...cryoet-data-portal-frontend-v1.85.0) (2026-04-22)
 
 
