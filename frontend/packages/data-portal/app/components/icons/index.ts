@@ -1,3 +1,4 @@
+export * from './BiohubIcon'
 export * from './CryoETIcon'
 export * from './CZIIcon'
 export * from './EnvelopeIcon'
