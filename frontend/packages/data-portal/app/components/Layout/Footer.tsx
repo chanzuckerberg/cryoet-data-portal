@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import { CZIIcon, ImageInstituteIcon } from 'app/components/icons'
+import { BiohubIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
@@ -72,14 +72,8 @@ export function Footer() {
 
   const cziLinks = (
     <div className="flex items-center gap-sds-xl">
-      <Link to="https://chanzuckerberg.com">
-        <CZIIcon />
-      </Link>
-
-      <div className="h-[34px] w-px bg-light-sds-color-primitive-gray-50/30" />
-
-      <Link to="https://www.czimaginginstitute.org/">
-        <ImageInstituteIcon />
+      <Link to="https://www.biohub.org/">
+        <BiohubIcon className="text-white" />
       </Link>
     </div>
   )
