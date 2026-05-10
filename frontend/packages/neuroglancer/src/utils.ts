@@ -248,8 +248,18 @@ export function compressHash(hash: string): string {
     return hash
   }
   const gzipHash = pako.gzip(hash2jsonString(hash))
-  // @ts-expect-error: UInt8Array and number[] are compatible in this context
-  const base64UrlFragment = btoa(String.fromCharCode.apply(null, gzipHash))
+  // String.fromCharCode.apply fills the stack when the array is large
+  // (e.g. many instance segmentation labels), so we need to do it in chunks
+  let binaryString = ''
+  const chunkSize = 0x8000
+  for (let i = 0; i < gzipHash.length; i += chunkSize) {
+    binaryString += String.fromCharCode.apply(
+      null,
+      // @ts-expect-error: Uint8Array and number[] are compatible here
+      gzipHash.subarray(i, i + chunkSize),
+    )
+  }
+  const base64UrlFragment = btoa(binaryString)
   const newHash = `#!${b64Tob64Url(base64UrlFragment)}`
   return newHash
 }
