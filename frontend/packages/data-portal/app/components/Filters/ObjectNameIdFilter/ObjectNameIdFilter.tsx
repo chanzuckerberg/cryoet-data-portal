@@ -14,6 +14,8 @@ import {
   CL_LEARN_MORE,
   GO,
   GO_LEARN_MORE,
+  PDB,
+  PDB_LEARN_MORE,
   UBERON,
   UBERON_LEARN_MORE,
   UNIPROTKB,
@@ -103,6 +105,15 @@ const prefixOptions = [
     learnMoreLink: CL_LEARN_MORE,
     prefix: 'CL:',
     placeholder: '0000972 or CL:0000972',
+  },
+  {
+    id: 'pdb',
+    name: 'PDB',
+    details: 'Protein Data Bank',
+    link: PDB,
+    learnMoreLink: PDB_LEARN_MORE,
+    prefix: 'PDB-',
+    placeholder: '1ABC or PDB-1ABC',
   },
 ]
 export function ObjectNameIdFilter({

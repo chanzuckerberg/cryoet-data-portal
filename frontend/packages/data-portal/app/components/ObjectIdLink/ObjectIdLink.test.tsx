@@ -6,6 +6,7 @@ import {
   CHEBI,
   CL,
   GO,
+  PDB,
   UBERON,
   UNIPROTKB,
 } from 'app/constants/annotationObjectIdLinks'
@@ -79,6 +80,15 @@ describe('<ObjectIdLink />', () => {
 
     expect(screen.getByRole('link')).toHaveAttribute('href', `${CL}${rawId}`)
   })
+
+  it('should render PDB link', async () => {
+    const rawId = '1ABC'
+    const id = `PDB-${rawId}`
+    await renderObjectIdLink(id)
+
+    expect(screen.getByRole('link')).toHaveAttribute('href', `${PDB}${rawId}`)
+  })
+
   it('should not render link if not matched', async () => {
     const id = 'test-id-123'
     await renderObjectIdLink(id)
