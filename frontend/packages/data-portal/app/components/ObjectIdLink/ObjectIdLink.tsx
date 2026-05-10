@@ -8,6 +8,8 @@ import {
   CL_PREFIX,
   GO,
   GO_PREFIX,
+  PDB,
+  PDB_PREFIX,
   UBERON,
   UBERON_PREFIX,
   UNIPROTKB,
@@ -32,6 +34,9 @@ function getObjectIdLink(id: string): string | undefined {
   }
   if (id.startsWith(CL_PREFIX)) {
     return `${CL}${id.replace(CL_PREFIX, '')}`
+  }
+  if (id.startsWith(PDB_PREFIX)) {
+    return `${PDB}${id.replace(PDB_PREFIX, '')}`
   }
   return undefined
 }
