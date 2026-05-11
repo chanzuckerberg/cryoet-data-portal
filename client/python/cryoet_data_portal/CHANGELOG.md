@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.9.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.8.0...cryoet-data-portal-python-client-v4.9.0) (2026-05-11)
+
+
+### ✨ Features
+
+* handle AnnotationCaption shape type in frontend ([#2057](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2057)) ([feb3e10](https://github.com/chanzuckerberg/cryoet-data-portal/commit/feb3e1089499961b897f9a79fc17b9efde0dae8b))
+
 ## [4.8.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-python-client-v4.7.0...cryoet-data-portal-python-client-v4.8.0) (2026-03-20)
 
 
