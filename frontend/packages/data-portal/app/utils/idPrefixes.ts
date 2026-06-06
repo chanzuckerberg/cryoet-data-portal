@@ -3,6 +3,7 @@ import {
   CHEBI_PREFIX,
   CL_PREFIX,
   GO_PREFIX,
+  PDB_PREFIX,
   UBERON_PREFIX,
   UNIPROTKB_PREFIX,
 } from 'app/constants/annotationObjectIdLinks'
@@ -48,7 +49,7 @@ export const getEntityIdPrefixRegex = (prefix: string) =>
 
 export const ALL_DIGITS_REGEX = /^\d+$/
 export const OBJECT_ID_REGEX = RegExp(
-  `^(?:${GO_PREFIX}|${UNIPROTKB_PREFIX}|${CHEBI_PREFIX}|${UBERON_PREFIX}|${CDPO_PREFIX}|${CL_PREFIX}).+$`,
+  `^(?:${GO_PREFIX}|${UNIPROTKB_PREFIX}|${CHEBI_PREFIX}|${UBERON_PREFIX}|${CDPO_PREFIX}|${CL_PREFIX}|${PDB_PREFIX}).+$`,
 )
 
 export function isFilterPrefixValid(value: string, queryParam?: QueryParams) {
