@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.87.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.86.0...cryoet-data-portal-frontend-v1.87.0) (2026-06-06)
+
+
+### ✨ Features
+
+* support PDB IDs for annotation object IDs ([#2075](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2075)) ([9b96e70](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9b96e70abdf35b8fb73935ac6b04349697734b2a))
+
+
+### 🐞 Bug Fixes
+
+* neuroglancer tomogram switcher fails on tomograms with many annotations ([#2073](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2073)) ([70159f0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/70159f04c95e895a1f61b804f63b7498980a6048))
+* neuroglancer tomogram switcher fails on tomograms with many annotations (segmentations) ([70159f0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/70159f04c95e895a1f61b804f63b7498980a6048))
+* render object ID as a link in the run Object Overview tab ([#2074](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2074)) ([202459c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/202459cd76c297b28001913d1457a3e6e46a657e))
+
 ## [1.86.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.85.0...cryoet-data-portal-frontend-v1.86.0) (2026-05-08)
 
 
