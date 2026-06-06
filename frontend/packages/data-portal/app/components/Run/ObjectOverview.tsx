@@ -1,6 +1,7 @@
 import { Icon } from '@czi-sds/components'
 
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
+import { ObjectIdLink } from 'app/components/ObjectIdLink'
 import { Tooltip } from 'app/components/Tooltip'
 import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
@@ -34,6 +35,8 @@ export function ObjectOverview() {
       {
         label: t('objectId'),
         values: [objectData?.objectId ?? '--'],
+        renderValue: (value: string) =>
+          value === '--' ? value : <ObjectIdLink id={value} />,
       },
       {
         label: t('objectState'),
