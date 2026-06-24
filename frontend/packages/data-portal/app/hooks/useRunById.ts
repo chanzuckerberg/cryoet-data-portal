@@ -4,6 +4,7 @@ import {
   Annotation_File_Shape_Type_Enum,
   GetRunByIdV2Query,
 } from 'app/__generated_v2__/graphql'
+import { dedupeObjectsByIdentity } from 'app/utils/annotationObject'
 import { getAdditionalContributingDepositions } from 'app/utils/deposition'
 import { isDefined } from 'app/utils/nullish'
 
@@ -40,19 +41,24 @@ export function useRunById() {
     return t2.id - t1.id
   })
 
-  const annotatedObjectsData =
+  // An object's identity is determined by all 4 fields (name, id, state,
+  // description). The query already groups by these, but dedupe defensively so
+  // every consumer sees a consistent, exact-duplicate-free list.
+  const annotatedObjectsData = dedupeObjectsByIdentity(
     v2.uniqueObjectNames.aggregate
       ?.map((aggregate) => aggregate.groupBy)
-      .filter(isDefined) ?? []
+      .filter(isDefined) ?? [],
+  )
 
   const objectNames = annotatedObjectsData
     .map((obj) => obj?.objectName)
     .filter(isDefined)
 
-  const identifiedObjectsData =
+  const identifiedObjectsData = dedupeObjectsByIdentity(
     v2.identifiedObjectNames.aggregate
       ?.map((aggregate) => aggregate.groupBy)
-      .filter(isDefined) ?? []
+      .filter(isDefined) ?? [],
+  )
 
   const objectShapeTypes =
     v2.uniqueShapeTypes.aggregate

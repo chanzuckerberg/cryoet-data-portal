@@ -24,6 +24,7 @@ import {
 import { useRunById } from 'app/hooks/useRunById'
 import { i18n } from 'app/i18n'
 import { TableDataValue } from 'app/types/table'
+import { dedupeObjectsByIdentity } from 'app/utils/annotationObject'
 import { getTiltRangeLabel } from 'app/utils/tiltSeries'
 import { getNeuroglancerUrl } from 'app/utils/url'
 
@@ -35,6 +36,7 @@ export function RunHeader() {
     run,
     processingMethods,
     objectNames,
+    annotatedObjectsData,
     identifiedObjectsData,
     resolutions,
     annotationFilesAggregates,
@@ -283,23 +285,24 @@ export function RunHeader() {
                     {
                       label: '', // Empty label for full-width row
                       inline: true,
-                      values: (() => {
-                        // Create union of objectNames and identifiedObjectNames
-                        const identifiedObjectNames = identifiedObjectsData
-                          .map((obj) => obj?.objectName)
-                          .filter(Boolean) as string[]
-                        const allObjects = new Set([
-                          ...objectNames.filter(Boolean),
-                          ...identifiedObjectNames,
+                      values: (() =>
+                        // Union of annotated + identified objects. An object's
+                        // identity is all 4 fields (name, id, state,
+                        // description), so a name can legitimately repeat when
+                        // its description/state differ.
+                        dedupeObjectsByIdentity([
+                          ...annotatedObjectsData,
+                          ...identifiedObjectsData,
                         ])
-                        return Array.from(allObjects).sort()
-                      })(),
+                          .map((object) => object.objectName)
+                          .filter((name): name is string => Boolean(name))
+                          .sort())(),
                       fullWidth: true,
                       renderValues: (values: TableDataValue[]) => (
                         <div className="[&_li]:inline-flex [&_li]:items-center">
                           <CollapsibleList
-                            entries={values.map((value) => ({
-                              key: value.toString(),
+                            entries={values.map((value, index) => ({
+                              key: `${value.toString()}-${index}`,
                               entry: (
                                 <span className="flex items-center gap-[2px]">
                                   {value.toString()}
@@ -310,7 +313,7 @@ export function RunHeader() {
                               ),
                             }))}
                             inlineVariant
-                            collapseAfter={undefined}
+                            collapseAfter={5}
                           />
                         </div>
                       ),

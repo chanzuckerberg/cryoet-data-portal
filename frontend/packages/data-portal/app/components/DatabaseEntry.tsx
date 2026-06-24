@@ -1,3 +1,4 @@
+import { CollapsibleList } from 'app/components/CollapsibleList'
 import { Link } from 'app/components/Link'
 import {
   DatabaseType,
@@ -59,16 +60,25 @@ export function DatabaseEntry(props: DatabaseEntryProps) {
   )
 }
 
-export function DatabaseEntryList({ entries }: { entries: string }) {
+export function DatabaseEntryList({
+  entries,
+  collapseAfter = 5,
+}: {
+  entries: string
+  collapseAfter?: number
+}) {
   return (
-    <ul className="flex flex-col gap-sds-xs text-sds-body-s-400-wide leading-sds-body-xs">
-      {entries.split(',').map((entry) => {
-        return (
-          <li key={entry}>
-            <DatabaseEntry entry={entry.trim()} inline />
-          </li>
-        )
-      })}
-    </ul>
+    <CollapsibleList
+      tableVariant
+      collapseAfter={collapseAfter}
+      entries={entries
+        .split(',')
+        .map((entry) => entry.trim())
+        .filter(Boolean)
+        .map((entry) => ({
+          key: entry,
+          entry: <DatabaseEntry entry={entry} inline />,
+        }))}
+    />
   )
 }
