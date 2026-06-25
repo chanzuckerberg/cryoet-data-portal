@@ -7,12 +7,12 @@ export const GET_DATA_CONTENTS_FRAGMENT = gql(`
         count
       }
     }
-    framesAggregate {
+    framesAggregate(where: {httpsFramePath: {_is_null: false}}) {
       aggregate {
         count
       }
     }
-    alignmentsAggregate {
+    alignmentsAggregate(where: {alignmentMethod: {_is_null: false}}) {
       aggregate {
         count
       }
