@@ -1,4 +1,5 @@
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
+import { CollapsibleDescription } from 'app/components/common/CollapsibleDescription/CollapsibleDescription'
 import { useI18n } from 'app/hooks/useI18n'
 import { Dataset } from 'app/types/gql/genericTypes'
 import { getTableData } from 'app/utils/table'
@@ -66,14 +67,17 @@ export function SampleAndExperimentConditionsTable({
     {
       label: t('samplePreparation'),
       values: [dataset.samplePreparation ?? ''],
+      renderValue: (value: string) => <CollapsibleDescription text={value} />,
     },
     {
       label: t('gridPreparation'),
       values: [dataset.gridPreparation ?? ''],
+      renderValue: (value: string) => <CollapsibleDescription text={value} />,
     },
     {
       label: t('otherSetup'),
       values: [dataset.otherSetup ?? ''],
+      renderValue: (value: string) => <CollapsibleDescription text={value} />,
     },
   )
 

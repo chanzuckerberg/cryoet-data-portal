@@ -7,11 +7,14 @@ import { useI18n } from 'app/hooks/useI18n'
 import { useRunById } from 'app/hooks/useRunById'
 
 export function ObjectOverview() {
-  const { objectNames, annotatedObjectsData, identifiedObjectsData } =
-    useRunById()
+  const { annotatedObjectsData, identifiedObjectsData } = useRunById()
   const { t } = useI18n()
 
   const identifiedObjectNames = identifiedObjectsData
+    .map((obj) => obj?.objectName)
+    .filter((name): name is string => Boolean(name))
+
+  const annotatedObjectNames = annotatedObjectsData
     .map((obj) => obj?.objectName)
     .filter((name): name is string => Boolean(name))
 
@@ -25,7 +28,9 @@ export function ObjectOverview() {
       objectDescription?: string | null
     },
   ) => ({
-    id: objectName.toLowerCase().replace(/\s+/g, '-'),
+    // Suffix with the index so distinct objects that share a name (e.g. same
+    // name with different descriptions) get unique React keys.
+    id: `${objectName.toLowerCase().replace(/\s+/g, '-')}-${index}`,
     title: `Object ${index}`,
     data: [
       {
@@ -48,46 +53,33 @@ export function ObjectOverview() {
       },
     ],
   })
+  // Each object is identified by all 4 fields (name, id, state, description),
+  // so we iterate the deduped object rows directly — this keeps each row's own
+  // description/state on its card and counts distinct objects (not just names).
+
   // Verified Objects Annotated = Objects present in BOTH identifiedObjects and annotatedObjects
-  const verifiedAnnotatedObjects = objectNames
+  const verifiedAnnotatedObjects = annotatedObjectsData
     .filter(
-      (name): name is string =>
-        Boolean(name) && identifiedObjectNames.includes(name),
+      (obj) =>
+        obj?.objectName && identifiedObjectNames.includes(obj.objectName),
     )
-    .map((name, index) => {
-      const annotatedData = annotatedObjectsData.find(
-        (obj) => obj?.objectName === name,
-      )
-      const identifiedData = identifiedObjectsData.find(
-        (obj) => obj?.objectName === name,
-      )
-      return createObjectData(name, index + 1, identifiedData || annotatedData)
-    })
+    .map((obj, index) => createObjectData(obj.objectName ?? '', index + 1, obj))
 
   // Verified Objects Unannotated = Objects only in identifiedObjects (not in annotatedObjects)
-  const verifiedNonAnnotatedObjects = identifiedObjectNames
+  const verifiedNonAnnotatedObjects = identifiedObjectsData
     .filter(
-      (name): name is string => Boolean(name) && !objectNames.includes(name),
+      (obj) =>
+        obj?.objectName && !annotatedObjectNames.includes(obj.objectName),
     )
-    .map((name, index) => {
-      const identifiedData = identifiedObjectsData.find(
-        (obj) => obj?.objectName === name,
-      )
-      return createObjectData(name, index + 1, identifiedData)
-    })
+    .map((obj, index) => createObjectData(obj.objectName ?? '', index + 1, obj))
 
   // Unverified Objects Annotated = Objects only in annotatedObjects (not in identifiedObjects)
-  const unverifiedAnnotatedObjects = objectNames
+  const unverifiedAnnotatedObjects = annotatedObjectsData
     .filter(
-      (name): name is string =>
-        Boolean(name) && !identifiedObjectNames.includes(name),
+      (obj) =>
+        obj?.objectName && !identifiedObjectNames.includes(obj.objectName),
     )
-    .map((name, index) => {
-      const annotatedData = annotatedObjectsData.find(
-        (obj) => obj?.objectName === name,
-      )
-      return createObjectData(name, index + 1, annotatedData)
-    })
+    .map((obj, index) => createObjectData(obj.objectName ?? '', index + 1, obj))
 
   const createAccordionHeader = (title: string, tooltipText: string) => (
     <div className="flex items-center gap-sds-xxs">
