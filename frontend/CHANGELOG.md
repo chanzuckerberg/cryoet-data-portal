@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.87.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.86.0...cryoet-data-portal-frontend-v1.87.0) (2026-06-25)
+
+
+### ✨ Features
+
+* support PDB IDs for annotation object IDs ([#2075](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2075)) ([9b96e70](https://github.com/chanzuckerberg/cryoet-data-portal/commit/9b96e70abdf35b8fb73935ac6b04349697734b2a))
+
+
+### 🐞 Bug Fixes
+
+* collapse overflowing run metadata lists and consolidate annotatd object counts ([#2082](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2082)) ([35f2874](https://github.com/chanzuckerberg/cryoet-data-portal/commit/35f2874abf0f5a17816100a8638955bbede7839c))
+* collapse overflowing run metadata lists and consolidate annotated object counts ([35f2874](https://github.com/chanzuckerberg/cryoet-data-portal/commit/35f2874abf0f5a17816100a8638955bbede7839c))
+* disable i18next HTML escaping to prevent special chars being con… ([#2069](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2069)) ([6c56e1b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6c56e1b6080db3318d216f1cf0641edc6fd376d5))
+* neuroglancer tomogram switcher fails on tomograms with many annotations ([#2073](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2073)) ([70159f0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/70159f04c95e895a1f61b804f63b7498980a6048))
+* neuroglancer tomogram switcher fails on tomograms with many annotations (segmentations) ([70159f0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/70159f04c95e895a1f61b804f63b7498980a6048))
+* queries to check for whether frames and alignment metadata is available ([#2083](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2083)) ([4e54fdb](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4e54fdb1289364428804d2ba5da0445852fa742f))
+* render object ID as a link in the run Object Overview tab ([#2074](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2074)) ([202459c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/202459cd76c297b28001913d1457a3e6e46a657e))
+
 ## [1.86.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.85.0...cryoet-data-portal-frontend-v1.86.0) (2026-05-08)
 
 
