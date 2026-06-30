@@ -113,7 +113,9 @@ export function MetadataDrawer({
     <Drawer open={isOpen} onClose={handleClose}>
       <div
         className={cns(
-          'flex flex-col flex-auto',
+          // min-w-0 lets this flex child shrink when a vertical scrollbar narrows the
+          // drawer, so content reflows instead of forcing a horizontal scrollbar.
+          'flex flex-col flex-auto min-w-0',
           isTopBannerVisible ? 'mt-10' : 'mt-0',
         )}
         data-testid={TestIds.MetadataDrawer}
@@ -166,7 +168,7 @@ export function MetadataDrawer({
 
         <div
           className={cns(
-            'flex flex-col flex-auto',
+            'flex flex-col flex-auto min-w-0',
             'px-sds-xl pt-sds-xl pb-sds-xxl',
 
             drawer.activeTab === MetadataTab.Metadata &&
