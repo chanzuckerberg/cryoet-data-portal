@@ -47,15 +47,6 @@ const GET_DEPOSITION_BASE_DATA = gql(`
           }
         }
       }
-      annotationMethodCounts: annotationsAggregate {
-        aggregate {
-          count
-          groupBy {
-            annotationMethod
-          }
-        }
-      }
-
       annotations(where: {depositionId: {_eq: $id}}) {
         edges {
           node {
@@ -102,6 +93,19 @@ const GET_DEPOSITION_BASE_DATA = gql(`
             samplePreparation
             sampleType
             gridPreparation
+          }
+        }
+      }
+    }
+
+    # Method counts use annotation SHAPES (not parent annotations) so they match
+    # "# annotations" shown elsewhere on the portal and add up to the total.
+    annotationMethodCounts: annotationShapesAggregate(where: { annotation: { depositionId: { _eq: $id } } }) {
+      aggregate {
+        count
+        groupBy {
+          annotation {
+            annotationMethod
           }
         }
       }
