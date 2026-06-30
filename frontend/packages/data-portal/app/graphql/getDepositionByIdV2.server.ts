@@ -66,16 +66,6 @@ const GET_DEPOSITION_BASE_DATA = gql(`
             annotationMethod
             annotationSoftware
             methodType
-            methodLinks {
-              edges {
-                node {
-                  id
-                  link
-                  linkType
-                  name
-                }
-              }
-            }
           }
         }
       }
@@ -127,6 +117,22 @@ const GET_DEPOSITION_BASE_DATA = gql(`
       aggregate {
         count
         groupBy {
+          annotation {
+            annotationMethod
+          }
+        }
+      }
+    }
+
+    # Distinct method links per method via aggregate groupBy, so the set is complete
+    # regardless of annotation pagination (depositions can have tens of thousands).
+    annotationMethodLinks: annotationMethodLinksAggregate(where: { annotation: { depositionId: { _eq: $id } } }) {
+      aggregate {
+        count
+        groupBy {
+          link
+          linkType
+          name
           annotation {
             annotationMethod
           }

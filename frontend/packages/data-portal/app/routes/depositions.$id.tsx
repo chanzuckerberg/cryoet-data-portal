@@ -11,12 +11,13 @@ import { DepositionTableSection } from 'app/components/Deposition/DepositionTabl
 import { NoResultsRenderer } from 'app/components/Deposition/NoResultsRenderer'
 import { TablePageLayout } from 'app/components/TablePageLayout'
 import { TableCountHeader } from 'app/components/TablePageLayout/TableCountHeader'
-import { MAX_PER_ACCORDION_GROUP } from 'app/constants/pagination'
+import { MAX_PER_ACCORDION_GROUP, MAX_PER_PAGE } from 'app/constants/pagination'
 import { QueryParams } from 'app/constants/query'
 import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'
 import { useDepositionPageState } from 'app/hooks/useDepositionPageState'
 import { useGroupBy } from 'app/hooks/useGroupBy'
 import { useI18n } from 'app/hooks/useI18n'
+import { GroupByOption } from 'app/types/depositionTypes'
 import { getTableCounts } from 'app/utils/deposition/countSelectors'
 import { fetchDepositionData } from 'app/utils/deposition/dataFetchers'
 import { getCountLabelI18nKey } from 'app/utils/deposition/labelSelectors'
@@ -99,6 +100,12 @@ export default function DepositionByIdPage() {
     groupBy,
   })
 
+  // The ungrouped view server-paginates the flat shape/tomogram table by MAX_PER_PAGE;
+  // grouped views page accordion groups by MAX_PER_ACCORDION_GROUP. The pagination page
+  // size must match the active view's, or the page count overruns the available data.
+  const pageSize =
+    groupBy === GroupByOption.None ? MAX_PER_PAGE : MAX_PER_ACCORDION_GROUP
+
   return (
     <TablePageLayout
       title={t('depositedData')}
@@ -116,7 +123,7 @@ export default function DepositionByIdPage() {
           totalCount,
           filteredCount,
           filterPanel: <DepositionFilters />,
-          pageSize: MAX_PER_ACCORDION_GROUP,
+          pageSize,
         },
       ]}
       drawers={<DepositionMetadataDrawer />}
