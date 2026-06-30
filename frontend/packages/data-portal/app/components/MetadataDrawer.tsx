@@ -113,8 +113,6 @@ export function MetadataDrawer({
     <Drawer open={isOpen} onClose={handleClose}>
       <div
         className={cns(
-          // min-w-0 lets this flex child shrink when a vertical scrollbar narrows the
-          // drawer, so content reflows instead of forcing a horizontal scrollbar.
           'flex flex-col flex-auto min-w-0',
           isTopBannerVisible ? 'mt-10' : 'mt-0',
         )}
