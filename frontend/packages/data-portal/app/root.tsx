@@ -18,6 +18,7 @@ import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
 import { Layout } from './components/Layout'
 import { LiveReload, LiveReloadOverlay } from './components/LiveReload'
+import { useMetadataDrawerUrlSync } from './hooks/useMetadataDrawer'
 import { ClientStyleContext } from './context/ClientStyle.context'
 import {
   ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
@@ -161,11 +162,20 @@ export const handle = {
   i18n: 'translation',
 }
 
+// Keeps the metadata drawer's local state in sync with the URL on initial load
+// and navigations. Renders nothing; isolated into its own component so that
+// subscribing to the router location here does not re-render the document shell.
+function MetadataDrawerUrlSync() {
+  useMetadataDrawerUrlSync()
+  return null
+}
+
 // https://remix.run/api/conventions#default-export
 // https://remix.run/api/conventions#route-filenames
 export default function App() {
   return (
     <Document>
+      <MetadataDrawerUrlSync />
       <Outlet />
     </Document>
   )
