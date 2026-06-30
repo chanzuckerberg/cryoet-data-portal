@@ -153,10 +153,16 @@ export function DatasetMetadataTable({
     {
       label: t('additionalContributions'),
       values: additionalContributingDepositions,
-      renderValues(values) {
+      // Use the source list directly: getTableData substitutes ['--'] for an empty
+      // array, which would otherwise render a broken "CZCDP---" / /depositions/-- link.
+      renderValues() {
+        if (additionalContributingDepositions.length === 0) {
+          return '--'
+        }
+
         return (
           <ul>
-            {values.map((value) => (
+            {additionalContributingDepositions.map((value) => (
               <li key={value}>
                 <Link
                   className="text-light-sds-color-primitive-blue-500"
