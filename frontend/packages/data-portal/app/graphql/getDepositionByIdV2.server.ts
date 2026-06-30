@@ -47,19 +47,6 @@ const GET_DEPOSITION_BASE_DATA = gql(`
           }
         }
       }
-      annotationsAggregate {
-        aggregate {
-          count
-
-          groupBy {
-            run {
-              dataset {
-                id
-              }
-            }
-          }
-        }
-      }
       annotationMethodCounts: annotationsAggregate {
         aggregate {
           count
