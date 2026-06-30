@@ -19,15 +19,8 @@ export enum MetadataTab {
   ObjectOverview = 'objectOverview',
 }
 
-// The drawer's open/close state is view state, not navigation state. Keeping it
-// in React Router search params meant every toggle changed the router location
-// context and re-rendered the entire page tree (MUI + Emotion re-serializing
-// styles for thousands of nodes ~ 1s of work), which is the open/close lag.
-//
-// Instead we hold it in local Jotai atoms (only the drawer + its trigger button
-// subscribe, so a toggle re-renders almost nothing) and mirror it into the URL
-// via the History API below — which keeps the address bar shareable/reloadable
-// WITHOUT a React Router navigation, so the page never re-renders on toggle.
+// Drawer open/close is view state in local Jotai atoms (not router params), so toggling
+// avoids a React Router re-render; the URL is mirrored via the History API to stay shareable.
 const activeDrawerAtom = atom<MetadataDrawerId | null>(null)
 const activeTabAtom = atom<MetadataTab | null>(null)
 
@@ -108,16 +101,10 @@ export function useMetadataDrawer() {
   }
 }
 
-/**
- * Seeds the drawer atoms from the URL on initial load and on page navigations,
- * restoring deep-links like `?metadata=deposition&tab=metadata`. Mount once at
- * the app root.
- *
- * Depends on `pathname` only, on purpose: search-param changes (filters, sort,
- * and our own `writeDrawerToUrl` calls) must NOT reset the drawer, while a real
- * navigation to another page should.
- */
-export function useMetadataDrawerUrlSync() {
+// Seeds the drawer atoms from the URL on initial load and real navigations (deep links).
+// Renders nothing; depends on pathname only so filter/sort/our own URL writes don't reset
+// the drawer. Mount once at the app root so deep-links work on any page.
+export function MetadataDrawerUrlSync() {
   const { pathname } = useLocation()
   const setActiveDrawer = useSetAtom(activeDrawerAtom)
   const setActiveTab = useSetAtom(activeTabAtom)
@@ -130,6 +117,8 @@ export function useMetadataDrawerUrlSync() {
     const tab = params.get(QueryParams.Tab) as MetadataTab | null
 
     setActiveDrawer(drawer)
-    setActiveTab(drawer ? tab ?? MetadataTab.Metadata : null)
+    setActiveTab(drawer ? (tab ?? MetadataTab.Metadata) : null)
   }, [pathname, setActiveDrawer, setActiveTab])
+
+  return null
 }
