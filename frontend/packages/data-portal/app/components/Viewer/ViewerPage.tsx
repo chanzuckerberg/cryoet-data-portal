@@ -2,6 +2,7 @@ import { Button } from '@czi-sds/components'
 import { SnackbarCloseReason } from '@mui/material/Snackbar'
 import {
   currentNeuroglancerState,
+  flushStateToUrl,
   NeuroglancerAwareIframe,
   NeuroglancerState,
   NeuroglancerWrapper,
@@ -306,6 +307,7 @@ export function ViewerPage({
   }
 
   const handleShareClick = () => {
+    flushStateToUrl()
     navigator.clipboard
       .writeText(window.location.href)
       .then(() => {
