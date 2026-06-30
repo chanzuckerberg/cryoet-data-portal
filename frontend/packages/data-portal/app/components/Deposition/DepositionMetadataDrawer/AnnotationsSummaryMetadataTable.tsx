@@ -1,7 +1,6 @@
 import { Annotation_File_Shape_Type_Enum } from 'app/__generated_v2__/graphql'
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { CollapsibleList } from 'app/components/CollapsibleList'
-import { useDatasetsFilterData } from 'app/hooks/useDatasetsFilterData'
 import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useI18n } from 'app/hooks/useI18n'
 import { checkExhaustive } from 'app/types/utils'
@@ -14,9 +13,12 @@ export function AnnotationsSummaryMetadataTable({
 }) {
   const { t } = useI18n()
 
-  const { annotationsCount } = useDepositionById()
-  const { organismNames, objectNames, objectShapeTypes } =
-    useDatasetsFilterData()
+  const {
+    annotationsCount,
+    annotatedOrganisms,
+    annotatedObjects,
+    objectShapeTypes,
+  } = useDepositionById()
 
   const annotationsSummaryMetadata = getTableData(
     {
@@ -29,7 +31,7 @@ export function AnnotationsSummaryMetadataTable({
       values: [],
       renderValue: () => (
         <CollapsibleList
-          entries={organismNames.map((name: string) => ({
+          entries={annotatedOrganisms.map((name: string) => ({
             key: name,
             entry: name,
           }))}
@@ -44,7 +46,7 @@ export function AnnotationsSummaryMetadataTable({
       values: [],
       renderValue: () => (
         <CollapsibleList
-          entries={objectNames.map((name: string) => ({
+          entries={annotatedObjects.map((name: string) => ({
             key: name,
             entry: name,
           }))}

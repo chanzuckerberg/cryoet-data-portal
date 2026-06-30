@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useTypedLoaderData } from 'remix-typedjson'
 
 import {
+  Annotation_File_Shape_Type_Enum,
   Annotation_Method_Link_Type_Enum,
   Annotation_Method_Type_Enum,
   type GetDepositionAnnotationsQuery,
@@ -10,6 +11,7 @@ import {
   type GetDepositionTomogramsQuery,
 } from 'app/__generated_v2__/graphql'
 import { METHOD_TYPE_ORDER } from 'app/constants/methodTypes'
+import { isDefined } from 'app/utils/nullish'
 
 export interface AnnotationMethodMetadata {
   annotationMethod: string
@@ -201,11 +203,49 @@ export function useDepositionById() {
         .sort((a, b) => b.count - a.count)
     }, [v2.experimentalConditionsCounts])
 
+  const annotatedOrganisms = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          v2.distinctAnnotatedOrganisms?.aggregate
+            ?.map((aggregate) => aggregate.groupBy?.dataset?.organismName)
+            .filter(isDefined) ?? [],
+        ),
+      ).sort((a, b) => a.localeCompare(b)),
+    [v2.distinctAnnotatedOrganisms],
+  )
+
+  const annotatedObjects = useMemo(
+    () =>
+      (
+        v2.distinctAnnotatedObjects?.aggregate
+          ?.map((aggregate) => aggregate.groupBy?.objectName)
+          .filter(isDefined) ?? []
+      ).sort((a, b) => a.localeCompare(b)),
+    [v2.distinctAnnotatedObjects],
+  )
+
+  const objectShapeTypes = useMemo(
+    () =>
+      v2.distinctObjectShapeTypes?.aggregate
+        ?.map((aggregate) => aggregate.groupBy?.shapeType)
+        .filter(isDefined)
+        .filter((shapeType): shapeType is Annotation_File_Shape_Type_Enum =>
+          Object.values<string>(Annotation_File_Shape_Type_Enum).includes(
+            shapeType,
+          ),
+        ) ?? [],
+    [v2.distinctObjectShapeTypes],
+  )
+
   return {
     annotationMethods,
     tomogramMethods,
     acquisitionMethods,
     experimentalConditions,
+    annotatedOrganisms,
+    annotatedObjects,
+    objectShapeTypes,
     annotations,
     tomograms,
     allRuns: expandedData?.allRuns,

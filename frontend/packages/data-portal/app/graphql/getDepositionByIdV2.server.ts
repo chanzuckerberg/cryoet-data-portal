@@ -47,19 +47,6 @@ const GET_DEPOSITION_BASE_DATA = gql(`
           }
         }
       }
-      annotationsAggregate {
-        aggregate {
-          count
-
-          groupBy {
-            run {
-              dataset {
-                id
-              }
-            }
-          }
-        }
-      }
       annotations(where: {depositionId: {_eq: $id}}) {
         edges {
           node {
@@ -136,6 +123,37 @@ const GET_DEPOSITION_BASE_DATA = gql(`
           annotation {
             annotationMethod
           }
+        }
+      }
+    }
+
+    # Distinct organisms / annotated objects / shape types for this deposition, for the
+    # metadata drawer's Annotations Summary.
+    distinctAnnotatedOrganisms: runsAggregate(where: { annotations: { depositionId: { _eq: $id } } }) {
+      aggregate {
+        count
+        groupBy {
+          dataset {
+            organismName
+          }
+        }
+      }
+    }
+
+    distinctAnnotatedObjects: annotationsAggregate(where: { depositionId: { _eq: $id } }) {
+      aggregate {
+        count
+        groupBy {
+          objectName
+        }
+      }
+    }
+
+    distinctObjectShapeTypes: annotationShapesAggregate(where: { annotation: { depositionId: { _eq: $id } } }) {
+      aggregate {
+        count
+        groupBy {
+          shapeType
         }
       }
     }
