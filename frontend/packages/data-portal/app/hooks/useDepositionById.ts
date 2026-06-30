@@ -19,7 +19,6 @@ export interface AnnotationMethodMetadata {
   methodType?: Annotation_Method_Type_Enum
   count: number
   methodLinks: Array<{
-    id: number // internal use only, for sorting
     name?: string
     linkType?: Annotation_Method_Link_Type_Enum
     link?: string
@@ -107,38 +106,33 @@ export function useDepositionById() {
       if (meta.methodType === undefined && node.methodType != null) {
         meta.methodType = node.methodType
       }
-
-      for (const methodLinkEdge of node.methodLinks?.edges ?? []) {
-        const { id, link, name, linkType } = methodLinkEdge.node
-        meta.methodLinks.push({
-          id,
-          name: name ?? undefined,
-          linkType: linkType ?? undefined,
-          link: link ?? undefined,
-        })
-      }
     }
 
-    // Deduplicate and sort method links
-    for (const [method, metadata] of annotationMethodToMetadata) {
-      const unique = new Map<string, (typeof metadata.methodLinks)[0]>()
-      for (const link of metadata.methodLinks) {
-        const key = JSON.stringify([
-          method,
-          link.link,
-          link.name,
-          link.linkType,
-        ])
-        // Keep only the smallest id per unique key (to preserve original ordering)
-        if (!unique.has(key) || link.id < unique.get(key)!.id) {
-          unique.set(key, link)
+    // Method links come from an aggregate groupBy, so the set is complete and distinct
+    // regardless of annotation pagination.
+    for (const aggregate of v2.annotationMethodLinks?.aggregate ?? []) {
+      const { groupBy } = aggregate
+      const annotationMethod = groupBy?.annotation?.annotationMethod
+      if (annotationMethod == null) continue
+
+      let meta = annotationMethodToMetadata.get(annotationMethod)
+      if (!meta) {
+        meta = {
+          annotationSoftware: undefined,
+          methodType: undefined,
+          count: 0,
+          methodLinks: [],
         }
+        annotationMethodToMetadata.set(annotationMethod, meta)
       }
 
-      metadata.methodLinks = Array.from(unique.values()).sort(
-        (a, b) => a.id - b.id,
-      )
+      meta.methodLinks.push({
+        name: groupBy?.name ?? undefined,
+        linkType: groupBy?.linkType ?? undefined,
+        link: groupBy?.link ?? undefined,
+      })
     }
+
     // Convert to sorted array:
     return [...annotationMethodToMetadata.entries()]
       .map(([annotationMethod, metadata]) => ({
@@ -157,7 +151,7 @@ export function useDepositionById() {
             annotationMethodB.methodType ?? Annotation_Method_Type_Enum.Manual,
           ),
       )
-  }, [v2.depositions])
+  }, [v2.depositions, v2.annotationMethodLinks])
 
   const tomogramMethods: TomogramMethodMetadata[] = useMemo(() => {
     const tomogramMethodsData =

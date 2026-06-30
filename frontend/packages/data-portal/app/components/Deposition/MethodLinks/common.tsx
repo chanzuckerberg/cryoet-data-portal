@@ -45,11 +45,17 @@ export function generateMethodLinkProps(
   links: Array<Pick<AnnotationMethodLink, 'name' | 'linkType' | 'link'>>,
 ): MethodLinkProps[] {
   return links
-    .sort(
-      (a, b) =>
+    .slice()
+    .sort((a, b) => {
+      const typeOrder =
         METHOD_LINK_TYPE_ORDER.indexOf(getLinkType(a)) -
-        METHOD_LINK_TYPE_ORDER.indexOf(getLinkType(b)),
-    )
+        METHOD_LINK_TYPE_ORDER.indexOf(getLinkType(b))
+
+      // Tiebreak by name so ordering is deterministic within a link type.
+      return typeOrder !== 0
+        ? typeOrder
+        : (a.name ?? '').localeCompare(b.name ?? '')
+    })
     .map((link) => ({
       title: link.name ?? '',
       url: link.link ?? '',

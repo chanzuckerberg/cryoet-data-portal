@@ -13,17 +13,17 @@ export function AnnotationsSummaryMetadataTable({
 }) {
   const { t } = useI18n()
 
-  const { deposition, annotatedOrganisms, annotatedObjects, objectShapeTypes } =
-    useDepositionById()
+  const {
+    annotationsCount,
+    annotatedOrganisms,
+    annotatedObjects,
+    objectShapeTypes,
+  } = useDepositionById()
 
   const annotationsSummaryMetadata = getTableData(
     {
       label: t('annotationsTotal'),
-      values: [
-        (
-          deposition.annotationsAggregate?.aggregate?.[0]?.count ?? 0
-        ).toLocaleString(),
-      ],
+      values: [annotationsCount.toLocaleString()],
     },
 
     {
