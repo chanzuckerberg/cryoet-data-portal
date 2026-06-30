@@ -65,10 +65,10 @@ export function useDepositionById() {
       Omit<AnnotationMethodMetadata, 'annotationMethod'>
     >()
 
-    // Authoritative method list + counts from aggregate (annotations.edges is paginated)
-    for (const aggregate of v2.depositions[0]?.annotationMethodCounts
-      ?.aggregate ?? []) {
-      const annotationMethod = aggregate.groupBy?.annotationMethod
+    // Authoritative method list + SHAPE counts (annotations.edges is paginated). Counts
+    // use annotation shapes so they match "# annotations" shown elsewhere and add up.
+    for (const aggregate of v2.annotationMethodCounts?.aggregate ?? []) {
+      const annotationMethod = aggregate.groupBy?.annotation?.annotationMethod
       if (annotationMethod == null) {
         continue
       }
@@ -155,7 +155,7 @@ export function useDepositionById() {
             annotationMethodB.methodType ?? Annotation_Method_Type_Enum.Manual,
           ),
       )
-  }, [v2.depositions])
+  }, [v2.depositions, v2.annotationMethodCounts])
 
   const tomogramMethods: TomogramMethodMetadata[] = useMemo(() => {
     const tomogramMethodsData =
