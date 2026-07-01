@@ -4,6 +4,7 @@ import { useSearchParams } from '@remix-run/react'
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'
+import { useMetadataDrawer } from 'app/hooks/useMetadataDrawer'
 import { useRunById } from 'app/hooks/useRunById'
 import { TableDataValue } from 'app/types/table'
 import { getTableData } from 'app/utils/table'
@@ -13,6 +14,7 @@ import { CollapsibleList } from '../CollapsibleList'
 export function TomogramsSummarySection() {
   const { t } = useI18n()
   const [, setSearchParams] = useSearchParams()
+  const { closeDrawer } = useMetadataDrawer()
   const { processingMethods, objectNames, resolutions, tomogramsCount } =
     useRunById()
 
@@ -27,11 +29,10 @@ export function TomogramsSummarySection() {
             <Button
               sdsStyle="minimal"
               onClick={() => {
+                // Drawer state lives in local atoms now, so close it directly;
+                // the table-tab switch stays a real navigation.
+                closeDrawer()
                 setSearchParams((prev) => {
-                  // Cannot use closeDrawer()
-                  // https://github.com/remix-run/react-router/issues/9757
-                  prev.delete(QueryParams.MetadataDrawer)
-                  prev.delete(QueryParams.Tab)
                   prev.set(QueryParams.TableTab, t('tomograms'))
                   return prev
                 })

@@ -23,6 +23,7 @@ import {
   ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
   EnvironmentContext,
 } from './context/Environment.context'
+import { MetadataDrawerUrlSync } from './hooks/useMetadataDrawer'
 import { getPlausibleUrl, PLAUSIBLE_ENV_URL_MAP } from './hooks/usePlausible'
 import { i18next } from './i18next.server'
 import tailwindStyles from './tailwind.css'
@@ -166,6 +167,7 @@ export const handle = {
 export default function App() {
   return (
     <Document>
+      <MetadataDrawerUrlSync />
       <Outlet />
     </Document>
   )
