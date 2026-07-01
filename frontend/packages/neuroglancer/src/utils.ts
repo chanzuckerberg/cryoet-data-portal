@@ -109,6 +109,15 @@ const emptySuperState = (config: string): SuperState => {
   }
 }
 
+// In-memory source of truth for the current viewer state, published by the
+// wrapper each frame. Reads below prefer it so they stay fresh while the URL is
+// written lazily; null falls back to parsing window.location.hash.
+let liveSuperState: SuperState | null = null
+
+export const setLiveSuperState = (state: SuperState | null): void => {
+  liveSuperState = state
+}
+
 export const updateState = (
   onStateChange: (state: ResolvedSuperState) => ResolvedSuperState | undefined,
 ) => {
@@ -166,35 +175,56 @@ export function hash2jsonString(hash: string): string {
   return hash
 }
 
-// Helper functions for parsing and encoding state
-export const currentState = (
-  hash = window.location.hash,
-): ResolvedSuperState => {
-  const superState = parseSuperState(hash)
+// Helper functions for parsing and encoding state. Without an explicit hash,
+// these read the live state if published, else parse window.location.hash.
+export const currentState = (hash?: string): ResolvedSuperState => {
+  if (hash === undefined && liveSuperState !== null) {
+    return {
+      ...liveSuperState,
+      neuroglancer: parseState(liveSuperState.neuroglancer),
+    }
+  }
+  const superState = parseSuperState(hash ?? window.location.hash)
   if (superState.neuroglancer) {
     return { ...superState, neuroglancer: parseState(superState.neuroglancer) }
   }
   return { ...superState, neuroglancer: {} }
 }
 
-export const currentNeuroglancerState = (
-  hash = window.location.hash,
-): NeuroglancerState => {
-  const superState = parseState(hash)
+export const currentNeuroglancerState = (hash?: string): NeuroglancerState => {
+  if (hash === undefined && liveSuperState !== null) {
+    return parseState(liveSuperState.neuroglancer)
+  }
+  const superState = parseState(hash ?? window.location.hash)
   if (superState.neuroglancer) {
     return parseState(superState.neuroglancer as string)
   }
   return superState
 }
 
-export const currentSuperState = (hash = window.location.hash) => {
-  return parseSuperState(hash)
+export const currentSuperState = (hash?: string): SuperState => {
+  if (hash === undefined && liveSuperState !== null) {
+    return { ...liveSuperState }
+  }
+  return parseSuperState(hash ?? window.location.hash)
 }
 
 export const commitState = (state: SuperState | ResolvedSuperState) => {
   state.neuroglancer = encodeState(state.neuroglancer, /* compress = */ false)
+  // Sync live state before the (async) hashchange, so reads after a commit are fresh.
+  setLiveSuperState(state as SuperState)
   const newHash = encodeState(state)
   window.location.hash = newHash // This triggers the hashchange listener
+}
+
+// Flush the live state into the URL (compressed) immediately, bypassing the
+// settle debounce — for actions that read window.location.href directly (Share).
+export const flushStateToUrl = (): void => {
+  const superState = liveSuperState ?? parseSuperState(window.location.hash)
+  const newHash = encodeState(superState)
+  if (window.location.hash !== newHash) {
+    window.history.replaceState(null, '', newHash)
+  }
 }
 
 export const parseState = (
