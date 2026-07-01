@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.87.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.87.0...cryoet-data-portal-frontend-v1.87.1) (2026-07-01)
+
+
+### 🐞 Bug Fixes
+
+* correct deposition table pagination page size ([#2089](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2089)) ([ae3a54e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/ae3a54e39219cc1c4659b6ce5f56c84a59919d89))
+* count annotation shapes in deposition method summary ([#2086](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2086)) ([d416f4c](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d416f4c432c14d6c2f361524ad5ae2f5e145ef48))
+* don't render a broken deposition link for empty additional contributions ([#2092](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2092)) ([fc387ad](https://github.com/chanzuckerberg/cryoet-data-portal/commit/fc387ad27acef020a9b4f1dfb6765f0255bd2455))
+* populate annotated organisms/objects/shape types in deposition drawer ([#2088](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2088)) ([62356f7](https://github.com/chanzuckerberg/cryoet-data-portal/commit/62356f7fedeabb50351a3da9b8bda3b98c163fc4))
+* populate deposition method links for all annotation methods ([#2085](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2085)) ([b937c9e](https://github.com/chanzuckerberg/cryoet-data-portal/commit/b937c9e5f8a36d0d49a47e9017fb455bec4a6156))
+* prevent metadata drawer horizontal overflow when scrollbar appears ([#2090](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2090)) ([6052a57](https://github.com/chanzuckerberg/cryoet-data-portal/commit/6052a57e7f565d7e9a6198f6be2ca934f3972764))
+* reduce metadata drawer open/close lag on large depositions ([#2091](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2091)) ([76dd0d8](https://github.com/chanzuckerberg/cryoet-data-portal/commit/76dd0d8eb210cde20e795d5a865212b2ae5d38e6))
+* reduce neuroglancer viewer camera-drag lag on large states ([#2093](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2093)) ([f6c14ba](https://github.com/chanzuckerberg/cryoet-data-portal/commit/f6c14bab2f0d726be28f6c20ee6f80e878d601c7))
+* show correct total annotations in deposition metadata drawer ([#2087](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2087)) ([4f772a7](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4f772a78ea9d2412b54e4849dbea32920ebeb945))
+* strip metadata/tab params when navigating to tomograms ([#2095](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2095)) ([aba0801](https://github.com/chanzuckerberg/cryoet-data-portal/commit/aba0801003416f317f4fee57613b34045428aecc))
+
 ## [1.87.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.86.0...cryoet-data-portal-frontend-v1.87.0) (2026-06-25)
 
 
