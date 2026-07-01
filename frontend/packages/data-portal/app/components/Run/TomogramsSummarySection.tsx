@@ -33,6 +33,8 @@ export function TomogramsSummarySection() {
                 // the table-tab switch stays a real navigation.
                 closeDrawer()
                 setSearchParams((prev) => {
+                  prev.delete(QueryParams.MetadataDrawer)
+                  prev.delete(QueryParams.Tab)
                   prev.set(QueryParams.TableTab, t('tomograms'))
                   return prev
                 })
