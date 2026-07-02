@@ -2,7 +2,7 @@ stack:
   services:
     frontend:
       image:
-        tag: sha-60661a0
+        tag: sha-f06d8bd
       replicaCount: 1
       env:
         - name: API_URL_V2
