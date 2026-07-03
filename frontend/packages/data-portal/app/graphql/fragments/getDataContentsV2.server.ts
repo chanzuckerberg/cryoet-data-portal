@@ -12,7 +12,7 @@ export const GET_DATA_CONTENTS_FRAGMENT = gql(`
         count
       }
     }
-    alignmentsAggregate(where: {alignmentMethod: {_is_null: false}}) {
+    alignmentsAggregate(where: {perSectionAlignmentsAggregate: {count: {predicate: {_gt: 0}}}}) {
       aggregate {
         count
       }
