@@ -230,9 +230,9 @@ const GET_RUN_BY_ID_QUERY_V2 = gql(`
     }
 
     # Header
-    # Filter by non-null alignment method since it can be null
+    # Filter to real alignments (those with per-section parameters), since default/identity alignments have none
     alignments(where: {
-      alignmentMethod: { _is_null: false, },
+      perSectionAlignmentsAggregate: { count: { predicate: { _gt: 0 } } },
       runId: { _eq: $id }
     }) {
       id
