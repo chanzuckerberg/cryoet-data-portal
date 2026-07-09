@@ -22,6 +22,11 @@ const LANDING_PAGE_DATA_QUERY = gql(`
         count
       }
     }
+    annotationsAggregate {
+      aggregate {
+        count
+      }
+    }
   }
 `)
 
