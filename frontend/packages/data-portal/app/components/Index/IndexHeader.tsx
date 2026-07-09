@@ -70,6 +70,11 @@ export function IndexHeader() {
               title={t('tomograms')}
               count={data.tomogramsAggregate.aggregate?.[0]?.count ?? 0}
             />
+            {DIVIDER}
+            <MetricField
+              title={t('annotations')}
+              count={data.annotationsAggregate.aggregate?.[0]?.count ?? 0}
+            />
           </div>
           <Link to="/browse-data/datasets">
             <Button
