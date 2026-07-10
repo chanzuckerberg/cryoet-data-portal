@@ -99,8 +99,7 @@ const GET_DEPOSITION_BASE_DATA = gql(`
       }
     }
 
-    # Distinct (method, software, methodType) tuples via aggregate groupBy, so per-method
-    # metadata is complete regardless of pagination (much cheaper than fetching annotation rows).
+    # Distinct (method, software, methodType) tuples for per-method metadata.
     annotationMethodMetadata: annotationsAggregate(where: { depositionId: { _eq: $id } }) {
       aggregate {
         count
@@ -195,12 +194,8 @@ const GET_DEPOSITION_BASE_DATA = gql(`
   }
 `)
 
-// DepositionFilters only needs to know whether each data type exists anywhere in
-// the deposition's runs. Fetching per-run aggregates over every run was O(runs) and
-// pathologically slow for large depositions (tens of thousands of runs). These
-// existence checks are cheap, but the API errors when several of these deep
-// run-relation aggregates are combined into one query, so each is issued separately
-// (in parallel) below.
+// Separate queries: the API errors when these run-relation aggregates are combined
+// into one request. Run in parallel by getDepositionExpandedData.
 const GET_DEPOSITION_TILT_SERIES_AVAILABLE = gql(`
   query GetDepositionTiltSeriesAvailableV2($id: Int!) {
     tiltseriesAggregate(where: { run: { annotations: { depositionId: { _eq: $id } } } }) {
@@ -287,8 +282,6 @@ function hasAny(
   )
 }
 
-// Data contents availability used in DepositionFilters. Each existence check is a
-// separate query (see note above) run in parallel.
 export async function getDepositionExpandedData({
   client,
   id,

@@ -66,8 +66,8 @@ export function useDepositionById() {
       Omit<AnnotationMethodMetadata, 'annotationMethod'>
     >()
 
-    // Authoritative method list + SHAPE counts (annotations.edges is paginated). Counts
-    // use annotation shapes so they match "# annotations" shown elsewhere and add up.
+    // Authoritative method list + SHAPE counts (counts use annotation shapes so they
+    // match "# annotations" shown elsewhere and add up).
     for (const aggregate of v2.annotationMethodCounts?.aggregate ?? []) {
       const annotationMethod = aggregate.groupBy?.annotation?.annotationMethod
       if (annotationMethod == null) {
@@ -81,8 +81,7 @@ export function useDepositionById() {
       })
     }
 
-    // Enrich software/methodType per method from distinct (method, software, methodType)
-    // tuples (aggregate groupBy — complete and cheap, unlike paginated annotation rows).
+    // Enrich software/methodType per method.
     for (const { groupBy } of v2.annotationMethodMetadata?.aggregate ?? []) {
       const annotationMethod = groupBy?.annotationMethod
       if (groupBy == null || annotationMethod == null) continue

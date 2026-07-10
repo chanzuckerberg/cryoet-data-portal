@@ -66,8 +66,6 @@ export async function fetchDepositionData({
   params,
   url,
 }: FetchDepositionDataParams): Promise<DepositionData> {
-  // Fetch all three in parallel — base data no longer blocks the others (the 404
-  // check just moves after the await).
   const [{ data: responseV2 }, { data: expandedData }, { data }] =
     await Promise.all([
       getDepositionBaseData({
