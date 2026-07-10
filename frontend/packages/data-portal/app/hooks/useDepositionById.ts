@@ -81,16 +81,16 @@ export function useDepositionById() {
       })
     }
 
-    // Enrich from annotations (may be a subset of rows); metadata comes from edges when present
-    for (const { node } of v2.depositions[0]?.annotations?.edges ?? []) {
-      if (!node) continue
-      const { annotationMethod } = node
-      if (annotationMethod == null) continue
+    // Enrich software/methodType per method from distinct (method, software, methodType)
+    // tuples (aggregate groupBy — complete and cheap, unlike paginated annotation rows).
+    for (const { groupBy } of v2.annotationMethodMetadata?.aggregate ?? []) {
+      const annotationMethod = groupBy?.annotationMethod
+      if (groupBy == null || annotationMethod == null) continue
 
       if (!annotationMethodToMetadata.has(annotationMethod)) {
         annotationMethodToMetadata.set(annotationMethod, {
-          annotationSoftware: node.annotationSoftware ?? undefined,
-          methodType: node.methodType ?? undefined,
+          annotationSoftware: groupBy.annotationSoftware ?? undefined,
+          methodType: groupBy.methodType ?? undefined,
           count: 0,
           methodLinks: [],
         })
@@ -99,12 +99,12 @@ export function useDepositionById() {
       const meta = annotationMethodToMetadata.get(annotationMethod)!
       if (
         meta.annotationSoftware === undefined &&
-        node.annotationSoftware != null
+        groupBy.annotationSoftware != null
       ) {
-        meta.annotationSoftware = node.annotationSoftware
+        meta.annotationSoftware = groupBy.annotationSoftware
       }
-      if (meta.methodType === undefined && node.methodType != null) {
-        meta.methodType = node.methodType
+      if (meta.methodType === undefined && groupBy.methodType != null) {
+        meta.methodType = groupBy.methodType
       }
     }
 
@@ -151,7 +151,11 @@ export function useDepositionById() {
             annotationMethodB.methodType ?? Annotation_Method_Type_Enum.Manual,
           ),
       )
-  }, [v2.depositions, v2.annotationMethodCounts, v2.annotationMethodLinks])
+  }, [
+    v2.annotationMethodCounts,
+    v2.annotationMethodMetadata,
+    v2.annotationMethodLinks,
+  ])
 
   const tomogramMethods: TomogramMethodMetadata[] = useMemo(() => {
     const tomogramMethodsData =

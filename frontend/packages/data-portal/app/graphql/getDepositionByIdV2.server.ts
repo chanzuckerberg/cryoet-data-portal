@@ -45,16 +45,6 @@ const GET_DEPOSITION_BASE_DATA = gql(`
           }
         }
       }
-      annotations(where: {depositionId: {_eq: $id}}) {
-        edges {
-          node {
-            annotationMethod
-            annotationSoftware
-            methodType
-          }
-        }
-      }
-
       tomogramMethodCounts: tomogramsAggregate(where: { depositionId: { _eq: $id } }) {
         aggregate {
           count
@@ -105,6 +95,19 @@ const GET_DEPOSITION_BASE_DATA = gql(`
           annotation {
             annotationMethod
           }
+        }
+      }
+    }
+
+    # Distinct (method, software, methodType) tuples via aggregate groupBy, so per-method
+    # metadata is complete regardless of pagination (much cheaper than fetching annotation rows).
+    annotationMethodMetadata: annotationsAggregate(where: { depositionId: { _eq: $id } }) {
+      aggregate {
+        count
+        groupBy {
+          annotationMethod
+          annotationSoftware
+          methodType
         }
       }
     }
