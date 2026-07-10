@@ -7,10 +7,10 @@ import {
   Annotation_Method_Type_Enum,
   type GetDepositionAnnotationsQuery,
   GetDepositionBaseDataV2Query,
-  GetDepositionExpandedDataV2Query,
   type GetDepositionTomogramsQuery,
 } from 'app/__generated_v2__/graphql'
 import { METHOD_TYPE_ORDER } from 'app/constants/methodTypes'
+import { DepositionDataContents } from 'app/types/deposition-queries'
 import { isDefined } from 'app/utils/nullish'
 
 export interface AnnotationMethodMetadata {
@@ -55,7 +55,7 @@ export interface ExperimentalConditionsMethodMetadata {
 export function useDepositionById() {
   const { v2, expandedData, annotations, tomograms } = useTypedLoaderData<{
     v2: GetDepositionBaseDataV2Query
-    expandedData?: GetDepositionExpandedDataV2Query
+    expandedData?: { dataContents: DepositionDataContents }
     annotations?: GetDepositionAnnotationsQuery
     tomograms?: GetDepositionTomogramsQuery
   }>()
@@ -248,7 +248,7 @@ export function useDepositionById() {
     objectShapeTypes,
     annotations,
     tomograms,
-    allRuns: expandedData?.allRuns,
+    dataContents: expandedData?.dataContents,
     deposition: v2.depositions[0],
 
     annotationsCount:
