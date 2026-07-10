@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.88.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.87.1...cryoet-data-portal-frontend-v1.88.0) (2026-07-09)
+
+
+### ✨ Features
+
+* Show number of Annotations on the front page. ([#2097](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2097)) ([4d13ef9](https://github.com/chanzuckerberg/cryoet-data-portal/commit/4d13ef9273f2b6f1ec7fb028c9b61c461cf1e425))
+
 ## [1.87.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.87.0...cryoet-data-portal-frontend-v1.87.1) (2026-07-01)
 
 
