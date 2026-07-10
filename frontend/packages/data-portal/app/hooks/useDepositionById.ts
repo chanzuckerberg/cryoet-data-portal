@@ -29,7 +29,9 @@ export interface TomogramMethodMetadata {
   count: number
   voxelSpacing: string
   reconstructionMethod: string
+  reconstructionSoftware: string
   processing: string
+  processingSoftware: string
   ctfCorrected: boolean
 }
 
@@ -162,7 +164,10 @@ export function useDepositionById() {
         count: aggregate.count ?? 0,
         voxelSpacing: aggregate.groupBy?.voxelSpacing?.toString() ?? '--',
         reconstructionMethod: aggregate.groupBy?.reconstructionMethod ?? '--',
+        reconstructionSoftware:
+          aggregate.groupBy?.reconstructionSoftware ?? '--',
         processing: aggregate.groupBy?.processing ?? '--',
+        processingSoftware: aggregate.groupBy?.processingSoftware ?? '--',
         ctfCorrected: aggregate.groupBy?.ctfCorrected ?? false,
       }))
       .sort((a, b) => b.count - a.count)

@@ -10,6 +10,7 @@ import { PageTable } from 'app/components/Table'
 import { TableClassNames } from 'app/components/Table/types'
 import { usePostProcessingColumn } from 'app/components/TomogramsTable/usePostProcessingColumn'
 import { useReconstructionMethodColumn } from 'app/components/TomogramsTable/useReconstructionMethodColumn'
+import { useSoftwareColumn } from 'app/components/TomogramsTable/useSoftwareColumn'
 import { useTomogramActionsColumn } from 'app/components/TomogramsTable/useTomogramActionsColumn'
 import { useTomogramKeyPhotoColumn } from 'app/components/TomogramsTable/useTomogramKeyPhotoColumn'
 import { useTomogramNameColumn } from 'app/components/TomogramsTable/useTomogramNameColumn'
@@ -86,6 +87,11 @@ export function DepositionTomogramTable({
     isLoading,
   })
 
+  const softwareColumn = useSoftwareColumn({
+    width: DepositionTomogramTableWidths.software,
+    isLoading,
+  })
+
   const depositedInColumn = useDepositedInColumn<DepositionTomogramTableData>({
     width: DepositionTomogramTableWidths.depositedIn,
     isLoading,
@@ -117,6 +123,7 @@ export function DepositionTomogramTable({
         voxelSpacingColumn,
         reconstructionMethodColumn,
         postProcessingColumn,
+        softwareColumn,
         depositedInColumn,
         tomogramActionsColumn,
       ] as ColumnDef<DepositionTomogramTableData>[],
@@ -125,6 +132,7 @@ export function DepositionTomogramTable({
       keyPhotoColumn,
       postProcessingColumn,
       reconstructionMethodColumn,
+      softwareColumn,
       tomogramActionsColumn,
       tomogramNameColumn,
       voxelSpacingColumn,

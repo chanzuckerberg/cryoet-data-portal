@@ -63,7 +63,9 @@ const GET_DEPOSITION_BASE_DATA = gql(`
           groupBy {
             voxelSpacing
             reconstructionMethod
+            reconstructionSoftware
             processing
+            processingSoftware
             ctfCorrected
           }
         }

@@ -8,6 +8,7 @@ import { I18n } from 'app/components/I18n'
 import { CellHeader, PageTable, TableCell } from 'app/components/Table'
 import { usePostProcessingColumn } from 'app/components/TomogramsTable/usePostProcessingColumn'
 import { useReconstructionMethodColumn } from 'app/components/TomogramsTable/useReconstructionMethodColumn'
+import { useSoftwareColumn } from 'app/components/TomogramsTable/useSoftwareColumn'
 import { useTomogramActionsColumn } from 'app/components/TomogramsTable/useTomogramActionsColumn'
 import { useTomogramKeyPhotoColumn } from 'app/components/TomogramsTable/useTomogramKeyPhotoColumn'
 import { useTomogramNameColumn } from 'app/components/TomogramsTable/useTomogramNameColumn'
@@ -62,6 +63,10 @@ export function RunTomogramsTable() {
 
   const postProcessingColumn = usePostProcessingColumn({
     width: TomogramTableWidths.postProcessing,
+  })
+
+  const softwareColumn = useSoftwareColumn({
+    width: TomogramTableWidths.software,
   })
 
   const tomogramActionsColumn = useTomogramActionsColumn({
@@ -141,6 +146,7 @@ export function RunTomogramsTable() {
       voxelSpacingColumn,
       reconstructionMethodColumn,
       postProcessingColumn,
+      softwareColumn,
       tomogramActionsColumn,
     ] as ColumnDef<TomogramV2>[] // https://github.com/TanStack/table/issues/4382
   }, [
@@ -149,6 +155,7 @@ export function RunTomogramsTable() {
     voxelSpacingColumn,
     reconstructionMethodColumn,
     postProcessingColumn,
+    softwareColumn,
     tomogramActionsColumn,
     t,
   ])
