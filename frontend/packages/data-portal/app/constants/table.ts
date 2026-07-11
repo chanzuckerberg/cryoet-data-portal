@@ -40,6 +40,7 @@ export const TomogramTableWidths = {
   voxelSpacing: { max: 200 },
   reconstructionMethod: { max: 200 },
   postProcessing: { max: 200 },
+  software: { min: 200, max: 280 },
   actions: { width: 164 },
 }
 
@@ -83,6 +84,7 @@ export const TomogramMethodTableWidths = {
   reconstructionMethod: { width: 138 },
   postProcessing: { width: 96 },
   ctfCorrected: { width: 89 },
+  software: { width: 200 },
 }
 
 export const AcquisitionMethodTableWidths = {
@@ -113,6 +115,7 @@ export const DepositionTomogramTableWidths = {
   photo: PHOTO_COLUMN_WIDTH,
   name: { width: 200 },
   voxelSpacing: { width: 160 },
+  software: { width: 200 },
   reconstructionMethod: { width: 142 },
   postProcessing: { width: 120 },
   depositedIn: { width: 230 },

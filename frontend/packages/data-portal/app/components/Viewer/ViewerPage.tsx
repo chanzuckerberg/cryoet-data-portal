@@ -431,7 +431,23 @@ export function ViewerPage({
                       disabled={unsupportedTomogramSwitch(tomogram)}
                       onClick={() => handleTomogramChanged(tomogram)}
                       title={getTomogramName(tomogram)}
-                      subtitle={createTomogramInfoString(tomogram)}
+                      subtitle={
+                        <>
+                          <span className="block">
+                            {createTomogramInfoString(tomogram)}
+                          </span>
+                          {tomogram.reconstructionSoftware && (
+                            <span className="block">
+                              Rec: {tomogram.reconstructionSoftware}
+                            </span>
+                          )}
+                          {tomogram.processingSoftware && (
+                            <span className="block">
+                              Proc: {tomogram.processingSoftware}
+                            </span>
+                          )}
+                        </>
+                      }
                     />
                   )
                 })}

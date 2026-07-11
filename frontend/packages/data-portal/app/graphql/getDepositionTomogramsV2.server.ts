@@ -40,7 +40,9 @@ const GET_DEPOSITION_TOMOGRAMS = gql(`
       name
       neuroglancerConfig
       processing
+      processingSoftware
       reconstructionMethod
+      reconstructionSoftware
       sizeX
       sizeY
       sizeZ

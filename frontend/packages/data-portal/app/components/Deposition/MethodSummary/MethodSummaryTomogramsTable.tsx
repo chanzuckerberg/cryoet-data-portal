@@ -3,6 +3,7 @@
 import { type ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { useMemo } from 'react'
 
+import { SoftwareCell } from 'app/components/Deposition/SoftwareCell'
 import { CellHeader, TableCell } from 'app/components/Table'
 import { TomogramMethodTableWidths } from 'app/constants/table'
 import {
@@ -87,6 +88,22 @@ export function MethodSummaryTomogramsTable() {
           <TableCell width={TomogramMethodTableWidths.ctfCorrected}>
             {t(row.original.ctfCorrected ? 'true' : 'false')}
           </TableCell>
+        ),
+      }),
+
+      columnHelper.accessor('reconstructionSoftware', {
+        header: () => (
+          <CellHeader width={TomogramMethodTableWidths.software}>
+            {t('software')}
+          </CellHeader>
+        ),
+
+        cell: ({ row }) => (
+          <SoftwareCell
+            reconstructionSoftware={row.original.reconstructionSoftware}
+            processingSoftware={row.original.processingSoftware}
+            width={TomogramMethodTableWidths.software}
+          />
         ),
       }),
     ] as ColumnDef<TomogramMethodMetadata>[]
