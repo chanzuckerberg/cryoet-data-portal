@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.89.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.88.0...cryoet-data-portal-frontend-v1.89.0) (2026-07-11)
+
+
+### ✨ Features
+
+* better surface tomogram processing/reconstruction software ([#2099](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2099)) ([676b95b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/676b95b20da63999af77870de5062340ab658467))
+* surface tomogram processing/reconstruction software ([676b95b](https://github.com/chanzuckerberg/cryoet-data-portal/commit/676b95b20da63999af77870de5062340ab658467))
+
 ## [1.88.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.87.1...cryoet-data-portal-frontend-v1.88.0) (2026-07-09)
 
 
