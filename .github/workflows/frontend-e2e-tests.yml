@@ -47,6 +47,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Force HTTPS for GitHub git dependencies
+        run: |
+          git config --global url."https://github.com/".insteadOf ssh://git@github.com/
+          git config --global url."https://github.com/".insteadOf git@github.com:
+
       - name: Install dependencies with PNPM
         run: pnpm install --frozen-lockfile --ignore-scripts
         working-directory: frontend
@@ -120,6 +125,14 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
+
+      # Rewrite GitHub SSH URLs to anonymous HTTPS so pnpm can fetch the
+      # public `ikonate` git dependency on a cold store cache; otherwise its
+      # fallback `git clone git@github.com:` fails on keyless CI runners.
+      - name: Force HTTPS for GitHub git dependencies
+        run: |
+          git config --global url."https://github.com/".insteadOf ssh://git@github.com/
+          git config --global url."https://github.com/".insteadOf git@github.com:
 
       - name: Install dependencies with PNPM
         run: pnpm install --frozen-lockfile
@@ -209,6 +222,14 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
+      # Rewrite GitHub SSH URLs to anonymous HTTPS so pnpm can fetch the
+      # public `ikonate` git dependency on a cold store cache; otherwise its
+      # fallback `git clone git@github.com:` fails on keyless CI runners.
+      - name: Force HTTPS for GitHub git dependencies
+        run: |
+          git config --global url."https://github.com/".insteadOf ssh://git@github.com/
+          git config --global url."https://github.com/".insteadOf git@github.com:
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         working-directory: frontend

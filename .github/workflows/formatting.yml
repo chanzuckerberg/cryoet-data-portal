@@ -56,6 +56,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Force HTTPS for GitHub git dependencies
+        if: steps.changes.outputs.frontend == 'true'
+        run: |
+          git config --global url."https://github.com/".insteadOf ssh://git@github.com/
+          git config --global url."https://github.com/".insteadOf git@github.com:
+
       - name: Install dependencies with PNPM
         if: steps.changes.outputs.frontend == 'true'
         run: pnpm install --frozen-lockfile
