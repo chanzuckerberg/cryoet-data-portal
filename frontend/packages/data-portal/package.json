@@ -76,7 +76,7 @@
     "katex": "^0.16.10",
     "lodash": "^4.17.23",
     "lodash-es": "^4.17.23",
-    "morgan": "^1.10.0",
+    "morgan": "^1.11.0",
     "neuroglancer": "workspace:*",
     "next-mdx-remote": "^4.4.1",
     "number-to-words": "^1.2.4",
