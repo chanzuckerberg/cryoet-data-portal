@@ -6,14 +6,13 @@ import { useDepositionById } from 'app/hooks/useDepositionById'
 import { useDepositionGroupedData } from 'app/hooks/useDepositionGroupedData'
 import { useI18n } from 'app/hooks/useI18n'
 import { cns } from 'app/utils/cns'
-import { getDataContents } from 'app/utils/deposition'
 import { isDefined } from 'app/utils/nullish'
 
 import { DatasetNameOrIdFilter } from '../Filters/DatasetNameOrIdFilter'
 import { DepositionTabs } from './DepositionTabs'
 
 function DepositionFiltersContent() {
-  const { allRuns } = useDepositionById()
+  const { dataContents } = useDepositionById()
 
   // Use the new hook to get datasets
   const { datasets } = useDepositionGroupedData({
@@ -28,25 +27,24 @@ function DepositionFiltersContent() {
       ].sort(),
     [datasets],
   )
-  const dataContents = getDataContents(allRuns ?? [])
   const dataContentItems = useMemo(
     () =>
       [
         {
           label: 'tiltSeries',
-          isAvailable: dataContents.tiltSeriesAvailable,
+          isAvailable: dataContents?.tiltSeriesAvailable ?? false,
         },
         {
           label: 'frames',
-          isAvailable: dataContents.framesAvailable,
+          isAvailable: dataContents?.framesAvailable ?? false,
         },
         {
           label: 'ctf',
-          isAvailable: dataContents.ctfAvailable,
+          isAvailable: dataContents?.ctfAvailable ?? false,
         },
         {
           label: 'alignment',
-          isAvailable: dataContents.alignmentAvailable,
+          isAvailable: dataContents?.alignmentAvailable ?? false,
         },
       ] as const,
     [dataContents],
