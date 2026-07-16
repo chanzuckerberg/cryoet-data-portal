@@ -9,8 +9,7 @@ import {
 // TODO could try to update this in neuroglancer main in the state yaml
 // so that the auto-generated types are more complete
 // for now, we just extend the auto-generated types from the neuroglancer docs
-export interface NeuroglancerState
-  extends CompleteStateOfANeuroglancerInstance {
+export interface NeuroglancerState extends CompleteStateOfANeuroglancerInstance {
   helpPanel?: PanelState
   settingsPanel?: PanelState
   selectedLayer?: PanelState
@@ -236,8 +235,7 @@ export const parseState = (
   const hash = decompressHash(hash2jsonString(hashState))
   const decodedHash = decodeURIComponent(hash)
   return JSON.parse(hash2jsonString(decodedHash)) as
-    | SuperState
-    | NeuroglancerState
+    SuperState | NeuroglancerState
 }
 
 export const encodeState = (
@@ -308,8 +306,7 @@ export function currentNeuroglancer(
   neuroglancerIframeID = 'neuroglancerIframe',
 ): NeuroglancerViewer | undefined {
   const frameElement = document.getElementById(neuroglancerIframeID) as
-    | HTMLIFrameElement
-    | undefined
+    HTMLIFrameElement | undefined
   return (frameElement?.contentWindow as NeurogancerAwareContentWindow)
     ?.neuroglancer
 }

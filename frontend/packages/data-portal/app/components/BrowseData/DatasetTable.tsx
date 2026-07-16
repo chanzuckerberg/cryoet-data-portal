@@ -49,8 +49,7 @@ export function DatasetTable() {
 
   const [searchParams, setSearchParams] = useSearchParams()
   const datasetSort = (searchParams.get(QueryParams.Sort) ?? undefined) as
-    | CellHeaderDirection
-    | undefined
+    CellHeaderDirection | undefined
 
   const { isLoadingDebounced } = useIsLoading()
   const [isHoveringOverInteractable, setIsHoveringOverInteractable] =

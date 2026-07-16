@@ -31,8 +31,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
   const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
   const sort = (url.searchParams.get(QueryParams.Sort) ?? undefined) as
-    | CellHeaderDirection
-    | undefined
+    CellHeaderDirection | undefined
   const query = url.searchParams.get(QueryParams.Search) ?? ''
   const depositionId = url.searchParams.get(QueryParams.DepositionId)
 
@@ -110,9 +109,9 @@ export default function BrowseDatasetsPage() {
   // Show banner when all conditions are met
   const shouldShowBanner = Boolean(
     depositionId &&
-      organism &&
-      fromLocation === FromLocationKey.DepositionAnnotations &&
-      deposition,
+    organism &&
+    fromLocation === FromLocationKey.DepositionAnnotations &&
+    deposition,
   )
 
   return (

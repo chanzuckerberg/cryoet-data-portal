@@ -1,15 +1,12 @@
 import { DefaultAutocompleteOption } from '@czi-sds/components'
 
 export type NumberOfRunsFilterValue = `>${
-  | '1'
-  | '5'
-  | '10'
-  | '20'
-  | '50'
-  | '100'}`
+  '1' | '5' | '10' | '20' | '50' | '100'}`
 
-export interface BaseFilterOption<T extends string = string>
-  extends Omit<DefaultAutocompleteOption, 'name'> {
+export interface BaseFilterOption<T extends string = string> extends Omit<
+  DefaultAutocompleteOption,
+  'name'
+> {
   value: T
   label?: string
 }
@@ -33,8 +30,4 @@ export type FiducialAlignmentStatusFilterOption =
   BaseFilterOption<FiducialAlignmentStatusFilterValue>
 
 export type FilterValue =
-  | string
-  | null
-  | string[]
-  | BaseFilterOption
-  | BaseFilterOption[]
+  string | null | string[] | BaseFilterOption | BaseFilterOption[]

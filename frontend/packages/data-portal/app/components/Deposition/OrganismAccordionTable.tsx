@@ -40,14 +40,12 @@ export function OrganismAccordionTable({
     interface EmptyItem {
       id: string
     }
-    return organisms.map(
-      (organism): GroupedData<EmptyItem> => ({
-        groupKey: organism,
-        groupLabel: organism,
-        items: [], // Items will be fetched on demand when accordion expands
-        itemCount: organismCounts[organism] || 0, // Use real count for both annotations and tomograms
-      }),
-    )
+    return organisms.map((organism): GroupedData<EmptyItem> => ({
+      groupKey: organism,
+      groupLabel: organism,
+      items: [], // Items will be fetched on demand when accordion expands
+      itemCount: organismCounts[organism] || 0, // Use real count for both annotations and tomograms
+    }))
   }, [organisms, organismCounts])
 
   // Create external link builder for organism accordion headers

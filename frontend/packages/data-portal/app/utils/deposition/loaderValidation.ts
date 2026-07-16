@@ -41,8 +41,7 @@ export function validateDepositionId(id: string | undefined): number {
 export function parseLoaderParams(url: URL, id: number): LoaderParams {
   const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
   const sort = (url.searchParams.get(QueryParams.Sort) ?? undefined) as
-    | CellHeaderDirection
-    | undefined
+    CellHeaderDirection | undefined
 
   let orderByV2: OrderBy | undefined
   if (sort) {

@@ -88,12 +88,10 @@ export interface UnifiedItemsByOrganismParams extends OrganismFilterParams {
 
 // Union types for responses
 export type RunsQueryResponse =
-  | GetDepositionAnnoRunsForDatasetQuery
-  | GetDepositionTomoRunsForDatasetQuery
+  GetDepositionAnnoRunsForDatasetQuery | GetDepositionTomoRunsForDatasetQuery
 
 export type ItemsForRunResponse =
-  | GetAnnotationsForRunAndDepositionQuery
-  | GetTomogramsForRunAndDepositionQuery
+  GetAnnotationsForRunAndDepositionQuery | GetTomogramsForRunAndDepositionQuery
 
 // API endpoint mappings
 export const API_ENDPOINTS = {

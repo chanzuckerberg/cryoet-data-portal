@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type FieldMapValue<Source, TargetValue> =
-  | keyof Source
-  | ((source: Source) => TargetValue)
+  keyof Source | ((source: Source) => TargetValue)
 type FieldMap<Source, Target, NotMapped extends keyof Target> = {
   [TargetKey in keyof Omit<Target, NotMapped>]: FieldMapValue<
     Source,

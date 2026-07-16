@@ -52,8 +52,7 @@ export function DepositionTable() {
 
   const [searchParams, setSearchParams] = useSearchParams()
   const depositionSort = (searchParams.get(QueryParams.Sort) ?? undefined) as
-    | CellHeaderDirection
-    | undefined
+    CellHeaderDirection | undefined
 
   const { isLoadingDebounced } = useIsLoading()
   const navigate = useNavigate()
