@@ -9,9 +9,8 @@ import { GroupByOption } from 'app/types/depositionTypes'
 
 // Create async render function with proper mocking
 async function renderUseDepositionGroupedData(options = { enabled: true }) {
-  const { useDepositionGroupedData } = await import(
-    './useDepositionGroupedData'
-  )
+  const { useDepositionGroupedData } =
+    await import('./useDepositionGroupedData')
 
   const wrapper = createTestWrapper()
   return renderHook(() => useDepositionGroupedData(options), { wrapper })

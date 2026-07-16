@@ -55,12 +55,7 @@ export function useDepositionQuery<TData, TParams extends BaseQueryParams>(
   const queryKeyValues = getQueryKeyValues
     ? getQueryKeyValues(params)
     : (Object.values(params).filter((v) => v !== undefined) as (
-        | string
-        | number
-        | boolean
-        | string[]
-        | undefined
-        | null
+        string | number | boolean | string[] | undefined | null
       )[])
 
   const queryKey = createQueryKey(queryKeyPrefix, ...queryKeyValues)

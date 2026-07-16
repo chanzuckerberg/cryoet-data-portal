@@ -20,8 +20,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const page = +(url.searchParams.get(QueryParams.Page) ?? '1')
   const sort = (url.searchParams.get(QueryParams.Sort) ?? undefined) as
-    | CellHeaderDirection
-    | undefined
+    CellHeaderDirection | undefined
 
   const orderByV2 = sort === 'asc' ? OrderBy.Asc : OrderBy.Desc
 

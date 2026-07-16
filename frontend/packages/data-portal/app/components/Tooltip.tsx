@@ -15,8 +15,10 @@ export interface TooltipArrowPadding {
   top?: number
 }
 
-export interface TooltipProps
-  extends Omit<SDSTooltipProps, 'children' | 'PopperOptions' | 'title'> {
+export interface TooltipProps extends Omit<
+  SDSTooltipProps,
+  'children' | 'PopperOptions' | 'title'
+> {
   arrowPadding?: TooltipArrowPadding
   children: ReactNode
   className?: string

@@ -4,8 +4,7 @@ import { jest } from '@jest/globals'
 const DEFAULT_PATHNAME = '/'
 
 type SetURLSearchParamsValue =
-  | URLSearchParams
-  | ((prev: URLSearchParams) => URLSearchParams)
+  URLSearchParams | ((prev: URLSearchParams) => URLSearchParams)
 
 export class RemixMock {
   useLocation = jest.fn()
@@ -40,8 +39,7 @@ export class RemixMock {
 
   getLastSetParams(prevParams = new URLSearchParams()) {
     const setParams = this.setParams.mock.lastCall?.[0] as
-      | SetURLSearchParamsValue
-      | undefined
+      SetURLSearchParamsValue | undefined
 
     const params =
       typeof setParams === 'function' ? setParams(prevParams) : setParams
