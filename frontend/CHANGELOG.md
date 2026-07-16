@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.89.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.89.0...cryoet-data-portal-frontend-v1.89.1) (2026-07-16)
+
+
+### 🐞 Bug Fixes
+
+* **deps:** repair broken pnpm lockfile (duplicate @types/estree key) ([#2110](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2110)) ([24768b0](https://github.com/chanzuckerberg/cryoet-data-portal/commit/24768b016691f899543cf2fade1613fa94add471))
+
+
+### 🧹 Miscellaneous Chores
+
+* **deps:** bump @remix-run/* to 2.17.5 and remediate qs DoS advisory ([#2106](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2106)) ([95efb1a](https://github.com/chanzuckerberg/cryoet-data-portal/commit/95efb1ad2938cc82030d33ed1fcf4eee4ff3ad5a))
+* **deps:** bump i18next-http-backend to v3 ([#2107](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2107)) ([5667b32](https://github.com/chanzuckerberg/cryoet-data-portal/commit/5667b3260d5f68cf10c9b17979d23a36be3d655c))
+* **deps:** bump js-cookie to 3.0.8 via override (security) ([#2109](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2109)) ([0bbe423](https://github.com/chanzuckerberg/cryoet-data-portal/commit/0bbe423369202227da18d226c0ed0492c5043054))
+* **deps:** bump vite to 6 and rollup to 4 ([#2108](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2108)) ([face691](https://github.com/chanzuckerberg/cryoet-data-portal/commit/face6911a03156b066ff8a0287a5b0d531d52311))
+* **deps:** consolidate dependency updates and unblock CI ([#2104](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2104)) ([fec9aa3](https://github.com/chanzuckerberg/cryoet-data-portal/commit/fec9aa35a55bd41cd071e62d7964e5e3760e5ada))
+
 ## [1.89.0](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.88.0...cryoet-data-portal-frontend-v1.89.0) (2026-07-11)
 
 
