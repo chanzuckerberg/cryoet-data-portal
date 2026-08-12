@@ -7,10 +7,10 @@ import {
   Annotation_Method_Type_Enum,
   type GetDepositionAnnotationsQuery,
   GetDepositionBaseDataV2Query,
-  GetDepositionExpandedDataV2Query,
   type GetDepositionTomogramsQuery,
 } from 'app/__generated_v2__/graphql'
 import { METHOD_TYPE_ORDER } from 'app/constants/methodTypes'
+import { DepositionDataContents } from 'app/types/deposition-queries'
 import { isDefined } from 'app/utils/nullish'
 
 export interface AnnotationMethodMetadata {
@@ -57,7 +57,7 @@ export interface ExperimentalConditionsMethodMetadata {
 export function useDepositionById() {
   const { v2, expandedData, annotations, tomograms } = useTypedLoaderData<{
     v2: GetDepositionBaseDataV2Query
-    expandedData?: GetDepositionExpandedDataV2Query
+    expandedData?: { dataContents: DepositionDataContents }
     annotations?: GetDepositionAnnotationsQuery
     tomograms?: GetDepositionTomogramsQuery
   }>()
@@ -68,8 +68,8 @@ export function useDepositionById() {
       Omit<AnnotationMethodMetadata, 'annotationMethod'>
     >()
 
-    // Authoritative method list + SHAPE counts (annotations.edges is paginated). Counts
-    // use annotation shapes so they match "# annotations" shown elsewhere and add up.
+    // Authoritative method list + SHAPE counts (counts use annotation shapes so they
+    // match "# annotations" shown elsewhere and add up).
     for (const aggregate of v2.annotationMethodCounts?.aggregate ?? []) {
       const annotationMethod = aggregate.groupBy?.annotation?.annotationMethod
       if (annotationMethod == null) {
@@ -83,16 +83,15 @@ export function useDepositionById() {
       })
     }
 
-    // Enrich from annotations (may be a subset of rows); metadata comes from edges when present
-    for (const { node } of v2.depositions[0]?.annotations?.edges ?? []) {
-      if (!node) continue
-      const { annotationMethod } = node
-      if (annotationMethod == null) continue
+    // Enrich software/methodType per method.
+    for (const { groupBy } of v2.annotationMethodMetadata?.aggregate ?? []) {
+      const annotationMethod = groupBy?.annotationMethod
+      if (groupBy == null || annotationMethod == null) continue
 
       if (!annotationMethodToMetadata.has(annotationMethod)) {
         annotationMethodToMetadata.set(annotationMethod, {
-          annotationSoftware: node.annotationSoftware ?? undefined,
-          methodType: node.methodType ?? undefined,
+          annotationSoftware: groupBy.annotationSoftware ?? undefined,
+          methodType: groupBy.methodType ?? undefined,
           count: 0,
           methodLinks: [],
         })
@@ -101,12 +100,12 @@ export function useDepositionById() {
       const meta = annotationMethodToMetadata.get(annotationMethod)!
       if (
         meta.annotationSoftware === undefined &&
-        node.annotationSoftware != null
+        groupBy.annotationSoftware != null
       ) {
-        meta.annotationSoftware = node.annotationSoftware
+        meta.annotationSoftware = groupBy.annotationSoftware
       }
-      if (meta.methodType === undefined && node.methodType != null) {
-        meta.methodType = node.methodType
+      if (meta.methodType === undefined && groupBy.methodType != null) {
+        meta.methodType = groupBy.methodType
       }
     }
 
@@ -153,7 +152,11 @@ export function useDepositionById() {
             annotationMethodB.methodType ?? Annotation_Method_Type_Enum.Manual,
           ),
       )
-  }, [v2.depositions, v2.annotationMethodCounts, v2.annotationMethodLinks])
+  }, [
+    v2.annotationMethodCounts,
+    v2.annotationMethodMetadata,
+    v2.annotationMethodLinks,
+  ])
 
   const tomogramMethods: TomogramMethodMetadata[] = useMemo(() => {
     const tomogramMethodsData =
@@ -253,7 +256,7 @@ export function useDepositionById() {
     objectShapeTypes,
     annotations,
     tomograms,
-    allRuns: expandedData?.allRuns,
+    dataContents: expandedData?.dataContents,
     deposition: v2.depositions[0],
 
     annotationsCount:
