@@ -3,6 +3,10 @@ stack:
     frontend:
       image:
         tag: sha-ad07559
+      ingress:
+        enabled: true
+      gateway:
+        dnsOwner: ingress
       replicaCount: 2
       env:
         - name: API_URL_V2

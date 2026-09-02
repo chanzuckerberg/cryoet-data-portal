@@ -24,3 +24,8 @@ stack:
         paths:
           - path: /
             pathType: Prefix
+      gateway:
+        enabled: true
+        paths:
+          - path: /
+            pathType: Prefix
