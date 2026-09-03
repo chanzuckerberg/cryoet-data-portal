@@ -45,6 +45,21 @@ The npm script `dev` can be used for starting the data portal dev server:
 pnpm dev
 ```
 
+## Lint, Test and Build
+
+The same scripts exist at the workspace root and run recursively across every package:
+
+```sh
+# lint all packages (add :fix to apply fixable findings)
+pnpm lint
+
+# run all package test suites
+pnpm test
+
+# production build of all packages
+pnpm build
+```
+
 ## Docker Compose
 
 A docker compose file is provided for convenience in starting up and destroying frontend services during local development:
