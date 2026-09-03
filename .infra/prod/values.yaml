@@ -2,7 +2,7 @@ stack:
   services:
     frontend:
       image:
-        tag: sha-ad07559
+        tag: sha-d44aa17
       ingress:
         enabled: true
       gateway:
