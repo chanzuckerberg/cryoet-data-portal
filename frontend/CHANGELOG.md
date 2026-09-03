@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.89.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.89.1...cryoet-data-portal-frontend-v1.89.2) (2026-09-03)
+
+
+### 📝 Documentation
+
+* document the lint, test and build scripts ([#2122](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2122)) ([82c71e5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/82c71e5421322812812d834babd3245a1152d541))
+* **frontend:** document the lint, test and build scripts ([82c71e5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/82c71e5421322812812d834babd3245a1152d541))
+
 ## [1.89.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.89.0...cryoet-data-portal-frontend-v1.89.1) (2026-07-16)
 
 
