@@ -6,20 +6,38 @@ on:
     paths:
       - '.infra/common.yaml'
       - '.infra/staging/values.yaml'
+  push:
+    branches: [ main ]
+    paths:
+      - '.infra/common.yaml'
+      - '.infra/staging/values.yaml'
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  run_if:
-    if: github.head_ref == 'release-please--branches--main--components--cryoet-data-portal-frontend'
+  should_run:
     runs-on: ARM64
+    outputs:
+      run: ${{ steps.decide.outputs.run }}
     steps:
-      - run: echo "The head branch of this PR is the release please branch"
+      - id: decide
+        env:
+          RELEASE_BRANCH: release-please--branches--main--components--cryoet-data-portal-frontend
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.head_ref }}" = "$RELEASE_BRANCH" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
 
   staging_stack_upsert:
-    needs: run_if
+    needs: should_run
+    if: needs.should_run.outputs.run == 'true'
     runs-on: ARM64
     permissions:
       id-token: write
