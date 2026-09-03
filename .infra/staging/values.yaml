@@ -6,7 +6,7 @@ stack:
       ingress:
         enabled: true
       gateway:
-        dnsOwner: ingress
+        dnsOwner: gateway
       replicaCount: 1
       env:
         - name: API_URL_V2
