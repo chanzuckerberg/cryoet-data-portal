@@ -1,5 +1,7 @@
 import { Link } from 'app/components/Link'
 import {
+  CELLOSAURUS,
+  CELLOSAURUS_PATTERN,
   NCBI,
   NCBI_ONTOLOGY_PATTERN,
   OBO,
@@ -24,6 +26,8 @@ export function InfoLink({ value, id }: InfoLinkProps) {
       link = `${NCBI}${id}`
     } else if (id.match(NCBI_ONTOLOGY_PATTERN)) {
       link = `${NCBI}${id.replace('NCBITaxon:', '')}`
+    } else if (id.match(CELLOSAURUS_PATTERN)) {
+      link = `${CELLOSAURUS}${id}`
     } else if (id.match(WORMBASE_PATTERN)) {
       link = `${WORMBASE}${id.replaceAll(':', '_')}`
     } else if (id.match(OBO_PATTERN)) {

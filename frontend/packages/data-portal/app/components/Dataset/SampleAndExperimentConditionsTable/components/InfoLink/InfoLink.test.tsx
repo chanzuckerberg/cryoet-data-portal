@@ -1,7 +1,12 @@
 import { createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
 
-import { NCBI, OBO, WORMBASE } from 'app/constants/datasetInfoLinks'
+import {
+  CELLOSAURUS,
+  NCBI,
+  OBO,
+  WORMBASE,
+} from 'app/constants/datasetInfoLinks'
 
 import { InfoLinkProps } from './InfoLink'
 
@@ -47,6 +52,17 @@ describe('<InfoLink />', () => {
     const link = screen.queryByRole('link', { name: value })
     expect(link).toBeVisible()
     expect(link).toHaveAttribute('href', `${NCBI}${rawId}`)
+  })
+
+  it('should render cellosaurus link', async () => {
+    // CVCL ids use an underscore, so they never matched the colon-based OBO pattern.
+    const id = 'CVCL_2959'
+    const value = 'HUVEC-C'
+    await renderInfoLink({ id, value })
+
+    const link = screen.queryByRole('link', { name: value })
+    expect(link).toBeVisible()
+    expect(link).toHaveAttribute('href', `${CELLOSAURUS}${id}`)
   })
 
   it('should render wormbase link', async () => {
