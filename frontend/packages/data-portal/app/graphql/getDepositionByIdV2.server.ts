@@ -5,11 +5,9 @@ import {
 } from '@apollo/client'
 
 import { gql } from 'app/__generated_v2__'
-import {
-  GetDepositionBaseDataV2Query,
-  GetDepositionExpandedDataV2Query,
-} from 'app/__generated_v2__/graphql'
+import { GetDepositionBaseDataV2Query } from 'app/__generated_v2__/graphql'
 import { getFilterState } from 'app/hooks/useFilter'
+import { DepositionDataContents } from 'app/types/deposition-queries'
 
 import {
   getDepositionAnnotationsFilter,
@@ -47,16 +45,6 @@ const GET_DEPOSITION_BASE_DATA = gql(`
           }
         }
       }
-      annotations(where: {depositionId: {_eq: $id}}) {
-        edges {
-          node {
-            annotationMethod
-            annotationSoftware
-            methodType
-          }
-        }
-      }
-
       tomogramMethodCounts: tomogramsAggregate(where: { depositionId: { _eq: $id } }) {
         aggregate {
           count
@@ -109,6 +97,18 @@ const GET_DEPOSITION_BASE_DATA = gql(`
           annotation {
             annotationMethod
           }
+        }
+      }
+    }
+
+    # Distinct (method, software, methodType) tuples for per-method metadata.
+    annotationMethodMetadata: annotationsAggregate(where: { depositionId: { _eq: $id } }) {
+      aggregate {
+        count
+        groupBy {
+          annotationMethod
+          annotationSoftware
+          methodType
         }
       }
     }
@@ -196,15 +196,44 @@ const GET_DEPOSITION_BASE_DATA = gql(`
   }
 `)
 
-// Query for allRuns data used in DepositionFilters
-const GET_DEPOSITION_EXPANDED_DATA = gql(`
-  query GetDepositionExpandedDataV2($id: Int!) {
-    allRuns: runs(where: {
-      annotations: {
-        depositionId: { _eq: $id }
+// Separate queries: the API errors when these run-relation aggregates are combined
+// into one request. Run in parallel by getDepositionExpandedData.
+const GET_DEPOSITION_TILT_SERIES_AVAILABLE = gql(`
+  query GetDepositionTiltSeriesAvailableV2($id: Int!) {
+    tiltseriesAggregate(where: { run: { annotations: { depositionId: { _eq: $id } } } }) {
+      aggregate {
+        count
       }
-    }) {
-      ...DataContents
+    }
+  }
+`)
+
+const GET_DEPOSITION_FRAMES_AVAILABLE = gql(`
+  query GetDepositionFramesAvailableV2($id: Int!) {
+    framesAggregate(where: { run: { annotations: { depositionId: { _eq: $id } } }, httpsFramePath: { _is_null: false } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`)
+
+const GET_DEPOSITION_CTF_AVAILABLE = gql(`
+  query GetDepositionCtfAvailableV2($id: Int!) {
+    perSectionParametersAggregate(where: { run: { annotations: { depositionId: { _eq: $id } } }, majorDefocus: { _is_null: false } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`)
+
+const GET_DEPOSITION_ALIGNMENTS_AVAILABLE = gql(`
+  query GetDepositionAlignmentsAvailableV2($id: Int!) {
+    alignmentsAggregate(where: { run: { annotations: { depositionId: { _eq: $id } } }, alignmentMethod: { _is_null: false } }) {
+      aggregate {
+        count
+      }
     }
   }
 `)
@@ -247,18 +276,52 @@ export async function getDepositionBaseData({
   })
 }
 
-// Data function for allRuns used in DepositionFilters
+function hasAny(
+  aggregate: ({ count?: number | null } | null)[] | null | undefined,
+): boolean {
+  return (
+    (aggregate?.reduce((total, node) => total + (node?.count ?? 0), 0) ?? 0) > 0
+  )
+}
+
 export async function getDepositionExpandedData({
   client,
   id,
 }: {
   client: ApolloClient<NormalizedCacheObject>
   id: number
-}): Promise<ApolloQueryResult<GetDepositionExpandedDataV2Query>> {
-  return client.query({
-    query: GET_DEPOSITION_EXPANDED_DATA,
-    variables: {
-      id,
+}): Promise<{ data: { dataContents: DepositionDataContents } }> {
+  const [tiltSeries, frames, ctf, alignments] = await Promise.all([
+    client.query({
+      query: GET_DEPOSITION_TILT_SERIES_AVAILABLE,
+      variables: { id },
+    }),
+    client.query({
+      query: GET_DEPOSITION_FRAMES_AVAILABLE,
+      variables: { id },
+    }),
+    client.query({
+      query: GET_DEPOSITION_CTF_AVAILABLE,
+      variables: { id },
+    }),
+    client.query({
+      query: GET_DEPOSITION_ALIGNMENTS_AVAILABLE,
+      variables: { id },
+    }),
+  ])
+
+  return {
+    data: {
+      dataContents: {
+        tiltSeriesAvailable: hasAny(
+          tiltSeries.data.tiltseriesAggregate.aggregate,
+        ),
+        framesAvailable: hasAny(frames.data.framesAggregate.aggregate),
+        ctfAvailable: hasAny(ctf.data.perSectionParametersAggregate.aggregate),
+        alignmentAvailable: hasAny(
+          alignments.data.alignmentsAggregate.aggregate,
+        ),
+      },
     },
-  })
+  }
 }

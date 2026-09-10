@@ -63,6 +63,15 @@ export interface ItemsByOrganismResponse {
   tomograms?: GetDepositionTomogramsQuery['tomograms']
 }
 
+// Whether each data type exists anywhere in a deposition's runs, shown in the
+// DepositionFilters "Data Contents" panel.
+export interface DepositionDataContents {
+  tiltSeriesAvailable: boolean
+  framesAvailable: boolean
+  ctfAvailable: boolean
+  alignmentAvailable: boolean
+}
+
 // Generic types for unified hooks
 export enum DataContentsType {
   Annotations = 'annotations',
