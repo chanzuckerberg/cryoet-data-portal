@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.89.2](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.89.1...cryoet-data-portal-frontend-v1.89.2) (2026-09-10)
+
+
+### 🐞 Bug Fixes
+
+* **frontend:** link cell line ids out to Cellosaurus ([#2131](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2131)) ([d0c145d](https://github.com/chanzuckerberg/cryoet-data-portal/commit/d0c145de5013b54f12ee4822ddc7d74531d2e977))
+
+
+### ⚡️ Performance Improvements
+
+* **deposition:** fix slow deposition page load for large depositions ([#2100](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2100)) ([958480f](https://github.com/chanzuckerberg/cryoet-data-portal/commit/958480fb1e505463dd63a37e5c6d7e328ae7070b))
+
+
+### 📝 Documentation
+
+* document the lint, test and build scripts ([#2122](https://github.com/chanzuckerberg/cryoet-data-portal/issues/2122)) ([82c71e5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/82c71e5421322812812d834babd3245a1152d541))
+* **frontend:** document the lint, test and build scripts ([82c71e5](https://github.com/chanzuckerberg/cryoet-data-portal/commit/82c71e5421322812812d834babd3245a1152d541))
+
 ## [1.89.1](https://github.com/chanzuckerberg/cryoet-data-portal/compare/cryoet-data-portal-frontend-v1.89.0...cryoet-data-portal-frontend-v1.89.1) (2026-07-16)
 
 
