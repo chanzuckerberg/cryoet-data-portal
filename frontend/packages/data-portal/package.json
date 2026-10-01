@@ -101,7 +101,7 @@
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@chromatic-com/playwright": "^0.12.7",
+    "@chromatic-com/playwright": "^0.14.12",
     "@jest/globals": "^29.7.0",
     "@parcel/watcher": "^2.3.0",
     "@playwright/test": "^1.56.0",
