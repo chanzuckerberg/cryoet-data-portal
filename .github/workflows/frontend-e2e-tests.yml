@@ -26,7 +26,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20.10.x
+          node-version: 24.21.x
 
       - name: Install PNPM
         uses: pnpm/action-setup@v4
@@ -106,7 +106,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20.10.x
+          node-version: 24.21.x
 
       - name: Install PNPM
         uses: pnpm/action-setup@v4
@@ -206,7 +206,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.12.0
+          node-version: 24.21.x
       - name: Install PNPM
         uses: pnpm/action-setup@v4
         with:
