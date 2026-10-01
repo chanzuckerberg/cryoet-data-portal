@@ -4,7 +4,17 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
-  plugins: [remix(), tsconfigPaths()],
+  plugins: [
+    remix({
+      future: {
+        v3_fetcherPersist: true,
+        v3_relativeSplatPath: true,
+        v3_routeConfig: true,
+        v3_throwAbortReason: true,
+      },
+    }),
+    tsconfigPaths(),
+  ],
 
   optimizeDeps: {
     // Server-only dependency (uses top-level await) that the dev dependency
