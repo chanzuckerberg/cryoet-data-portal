@@ -1,7 +1,6 @@
 import { withEmotionCache } from '@emotion/react'
 // eslint-disable-next-line cryoet-data-portal/no-root-mui-import
 import { unstable_useEnhancedEffect as useEnhancedEffect } from '@mui/material'
-import { cssBundleHref } from '@remix-run/css-bundle'
 import { LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
 import {
   Links,
@@ -13,11 +12,10 @@ import {
 import { defaults } from 'lodash-es'
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useChangeLanguage } from 'remix-i18next'
+import { useChangeLanguage } from 'remix-i18next/react'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
 import { Layout } from './components/Layout'
-import { LiveReload, LiveReloadOverlay } from './components/LiveReload'
 import { ClientStyleContext } from './context/ClientStyle.context'
 import {
   ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
@@ -26,7 +24,7 @@ import {
 import { MetadataDrawerUrlSync } from './hooks/useMetadataDrawer'
 import { getPlausibleUrl, PLAUSIBLE_ENV_URL_MAP } from './hooks/usePlausible'
 import { i18next } from './i18next.server'
-import tailwindStyles from './tailwind.css'
+import tailwindStyles from './tailwind.css?url'
 import { theme } from './theme'
 
 interface DocumentProps {
@@ -140,8 +138,6 @@ const Document = withEmotionCache(
 
           <ScrollRestoration />
           <Scripts />
-          <LiveReload />
-          <LiveReloadOverlay />
         </body>
       </html>
     )
@@ -155,7 +151,6 @@ export const links: LinksFunction = () => [
     type: 'image/png',
   },
   { rel: 'stylesheet', href: tailwindStyles },
-  ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
 ]
 
 export const handle = {
