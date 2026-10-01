@@ -1,5 +1,5 @@
 import { Button } from '@czi-sds/components'
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData } from 'react-router'
 
 import { LandingPageDataQuery } from 'app/__generated_v2__/graphql'
 import { I18n } from 'app/components/I18n'

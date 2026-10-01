@@ -1,18 +1,19 @@
 import { withEmotionCache } from '@emotion/react'
 // eslint-disable-next-line cryoet-data-portal/no-root-mui-import
 import { unstable_useEnhancedEffect as useEnhancedEffect } from '@mui/material'
-import { LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
+import { defaults } from 'lodash-es'
+import { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Links,
+  LinksFunction,
+  LoaderFunctionArgs,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
   useLoaderData,
-} from '@remix-run/react'
-import { defaults } from 'lodash-es'
-import { useContext } from 'react'
-import { useTranslation } from 'react-i18next'
+} from 'react-router'
 import { useChangeLanguage } from 'remix-i18next/react'
 
 import { Layout } from './components/Layout'

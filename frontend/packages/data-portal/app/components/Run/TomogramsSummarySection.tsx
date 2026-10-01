@@ -1,5 +1,5 @@
 import { Button } from '@czi-sds/components'
-import { useSearchParams } from '@remix-run/react'
+import { useSearchParams } from 'react-router'
 
 import { AccordionMetadataTable } from 'app/components/AccordionMetadataTable'
 import { QueryParams } from 'app/constants/query'

@@ -1,6 +1,6 @@
-import { useSearchParams } from '@remix-run/react'
 import { isEqual } from 'lodash-es'
 import { useCallback, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router'
 
 import { PrefixOptionFilter } from 'app/components/Filters/PrefixOptionFilter'
 import { PrefixValueProvider } from 'app/components/Filters/PrefixValueContext'

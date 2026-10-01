@@ -1,6 +1,6 @@
-import { useLocation } from '@remix-run/react'
 import { atom, useAtom, useSetAtom } from 'jotai'
 import { useCallback, useEffect } from 'react'
+import { useLocation } from 'react-router'
 
 import { QueryParams } from 'app/constants/query'
 

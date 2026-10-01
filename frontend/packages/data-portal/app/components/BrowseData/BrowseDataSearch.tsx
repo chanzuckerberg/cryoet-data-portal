@@ -1,9 +1,9 @@
 import { InputSearch } from '@czi-sds/components'
 import { useDebouncedEffect } from '@react-hookz/web'
-import { useSearchParams } from '@remix-run/react'
 import { useAtom } from 'jotai'
 import { useHydrateAtoms } from 'jotai/utils'
 import { useEffect, useRef } from 'react'
+import { useSearchParams } from 'react-router'
 
 import { QueryParams } from 'app/constants/query'
 import { useI18n } from 'app/hooks/useI18n'

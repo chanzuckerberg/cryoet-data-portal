@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals'
-import { createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { createRoutesStub } from 'react-router'
 
 const mockReset = jest.fn()
 
@@ -19,7 +19,7 @@ async function renderNoFilteredResults(showSearchTip = false) {
     return <NoFilteredResults showSearchTip={showSearchTip} />
   }
 
-  const NoFilteredResultsStub = createRemixStub([
+  const NoFilteredResultsStub = createRoutesStub([
     {
       path: '/',
       Component: NoFilteredResultsWrapper,

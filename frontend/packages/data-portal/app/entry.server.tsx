@@ -7,13 +7,13 @@ import {
 import createEmotionServer from '@emotion/server/create-instance'
 import CssBaseline from '@mui/material/CssBaseline'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
-import type { EntryContext } from '@remix-run/node'
-import { RemixServer } from '@remix-run/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createInstance } from 'i18next'
 import Backend from 'i18next-fs-backend'
 import { renderToPipeableStream } from 'react-dom/server'
 import { I18nextProvider, initReactI18next } from 'react-i18next'
+import type { EntryContext } from 'react-router'
+import { ServerRouter } from 'react-router'
 
 import { createEmotionCache } from 'app/utils/createEmotionCache'
 
@@ -89,7 +89,7 @@ export default async function handleRequest(
                 <EmotionThemeProvider theme={theme}>
                   {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                   <CssBaseline />
-                  <RemixServer context={remixContext} url={request.url} />
+                  <ServerRouter context={remixContext} url={request.url} />
                 </EmotionThemeProvider>
               </ThemeProvider>
             </StyledEngineProvider>

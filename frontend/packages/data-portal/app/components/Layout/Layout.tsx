@@ -1,5 +1,5 @@
-import { useLocation } from '@remix-run/react'
 import { ReactNode } from 'react'
+import { useLocation } from 'react-router'
 
 import { PolicyBanner } from 'app/components/PolicyBanner'
 import { SurveyBanner } from 'app/components/SurveyBanner'

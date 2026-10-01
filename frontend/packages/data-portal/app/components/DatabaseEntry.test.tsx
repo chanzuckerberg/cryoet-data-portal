@@ -1,5 +1,5 @@
-import { createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
+import { createRoutesStub } from 'react-router'
 
 import { DOI_URL, EMDB_URL, EMPIAR_URL } from 'app/constants/external-dbs'
 
@@ -33,7 +33,7 @@ function renderDatabaseEntry({ entry, inline }: DatabaseEntryProps) {
     return <DatabaseEntry entry={entry} inline={inline} />
   }
 
-  const DatasetEntryStub = createRemixStub([
+  const DatasetEntryStub = createRoutesStub([
     {
       path: '/',
       Component: DatabaseEntryWrapper,

@@ -1,5 +1,4 @@
-import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
-import { LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { LoaderFunctionArgs, ShouldRevalidateFunctionArgs } from 'react-router'
 
 import { apolloClientV2 } from 'app/apollo.server'
 import { DepositionFilters } from 'app/components/Deposition/DepositionFilters'

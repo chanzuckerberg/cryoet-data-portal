@@ -1,4 +1,4 @@
-import { useLocation } from '@remix-run/react'
+import { useLocation } from 'react-router'
 import { match, P } from 'ts-pattern'
 
 import { CopyBox } from 'app/components/CopyBox'

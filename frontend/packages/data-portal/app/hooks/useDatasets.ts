@@ -1,4 +1,4 @@
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData } from 'react-router'
 
 import { GetDatasetsV2Query } from 'app/__generated_v2__/graphql'
 
