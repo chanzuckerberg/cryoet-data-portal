@@ -20,11 +20,17 @@ async function getRepoFileContent(path: string): Promise<string> {
   return response.data as string
 }
 
+type RehypePlugins = NonNullable<
+  NonNullable<Parameters<typeof serialize>[1]>['mdxOptions']
+>['rehypePlugins']
+
 async function serializeMdxRaw(content: string) {
   return serialize(content, {
     mdxOptions: {
       remarkPlugins: [sectionize, remarkGfm],
-      rehypePlugins: [rehypePrism],
+      // @types/mapbox__rehype-prism is typed against unified v10, while MDX v3
+      // uses unified v11. The plugin itself is compatible at runtime.
+      rehypePlugins: [rehypePrism] as unknown as RehypePlugins,
     },
   })
 }
