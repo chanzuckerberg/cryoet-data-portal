@@ -523,7 +523,7 @@ The dev server runs multiple processes concurrently:
 pnpm dev
 # Runs:
 # 1. pnpm dev:codegen   - Watch GraphQL schema changes
-# 2. pnpm dev:remix     - Remix dev server with HMR
+# 2. pnpm dev:server    - Express + Vite dev server with HMR
 # 3. pnpm dev:tcm       - Watch CSS Module type generation
 ```
 

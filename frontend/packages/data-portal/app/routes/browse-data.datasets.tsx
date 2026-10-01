@@ -1,6 +1,9 @@
 import { CellHeaderDirection } from '@czi-sds/components'
-import { LoaderFunctionArgs } from '@remix-run/node'
-import { useLoaderData, useSearchParams } from '@remix-run/react'
+import {
+  LoaderFunctionArgs,
+  useLoaderData,
+  useSearchParams,
+} from 'react-router'
 
 import { OrderBy } from 'app/__generated_v2__/graphql'
 import { apolloClientV2 } from 'app/apollo.server'

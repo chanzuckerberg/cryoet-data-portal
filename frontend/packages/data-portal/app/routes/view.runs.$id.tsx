@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
-import { useSearchParams } from '@remix-run/react'
-import { type LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { lazy, Suspense } from 'react'
+import { useSearchParams } from 'react-router'
+import { type LoaderFunctionArgs } from 'react-router'
 
 import { apolloClientV2 } from 'app/apollo.server'
 import { QueryParams } from 'app/constants/query'

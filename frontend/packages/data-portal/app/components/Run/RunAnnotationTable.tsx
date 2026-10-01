@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 
 import { Button, Icon } from '@czi-sds/components'
-import { useSearchParams } from '@remix-run/react'
 import {
   ColumnDef,
   createColumnHelper,
@@ -10,6 +9,7 @@ import {
 } from '@tanstack/react-table'
 import { range, toNumber } from 'lodash-es'
 import { ComponentProps, ReactNode, useCallback, useMemo } from 'react'
+import { useSearchParams } from 'react-router'
 
 import {
   Annotation_File_Shape_Type_Enum,

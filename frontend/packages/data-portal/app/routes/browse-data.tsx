@@ -1,5 +1,5 @@
-import { Outlet } from '@remix-run/react'
 import { useEffect } from 'react'
+import { Outlet } from 'react-router'
 
 import { gql } from 'app/__generated_v2__'
 import { apolloClientV2 } from 'app/apollo.server'

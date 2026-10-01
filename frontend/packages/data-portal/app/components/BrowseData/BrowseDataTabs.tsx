@@ -3,7 +3,7 @@ import {
   useLocation,
   useNavigate,
   useSearchParams,
-} from '@remix-run/react'
+} from 'react-router'
 
 import { GetToolbarDataQuery } from 'app/__generated_v2__/graphql'
 import { Tabs } from 'app/components/Tabs'
@@ -24,6 +24,7 @@ export function BrowseDataTabs() {
       onChange={(nextTab) => {
         plausible(Events.ClickBrowseDataTab, { tab: nextTab })
         const search = searchParams.toString()
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         navigate(`/browse-data/${nextTab}${search ? `?${search}` : ''}`)
       }}
       value={

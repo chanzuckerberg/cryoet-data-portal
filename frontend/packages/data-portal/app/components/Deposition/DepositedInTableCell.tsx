@@ -1,5 +1,5 @@
-import { useSearchParams } from '@remix-run/react'
 import { useCallback, useMemo } from 'react'
+import { useSearchParams } from 'react-router'
 
 import { Link } from 'app/components/Link'
 import { DATASET_FILTERS, RUN_FILTERS } from 'app/constants/filterQueryParams'

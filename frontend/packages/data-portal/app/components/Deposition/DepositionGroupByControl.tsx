@@ -3,8 +3,8 @@ import {
   type SingleButtonDefinition,
 } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
-import { useSearchParams } from '@remix-run/react'
 import { useMemo } from 'react'
+import { useSearchParams } from 'react-router'
 
 import { QueryParams } from 'app/constants/query'
 import { useActiveDepositionDataType } from 'app/hooks/useActiveDepositionDataType'

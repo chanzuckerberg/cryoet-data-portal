@@ -1,4 +1,4 @@
-import { useSearchParams } from '@remix-run/react'
+import { useSearchParams } from 'react-router'
 
 import { NameOrIdFilterSection } from 'app/components/DepositionFilter'
 import {

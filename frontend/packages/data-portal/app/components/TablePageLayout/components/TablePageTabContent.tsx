@@ -1,6 +1,6 @@
 import { Pagination } from '@czi-sds/components'
-import { useSearchParams } from '@remix-run/react'
 import { useEffect } from 'react'
+import { useSearchParams } from 'react-router'
 
 import { ErrorBoundary } from 'app/components/ErrorBoundary'
 import { TABLE_PAGE_LAYOUT_LOG_ID } from 'app/constants/error'

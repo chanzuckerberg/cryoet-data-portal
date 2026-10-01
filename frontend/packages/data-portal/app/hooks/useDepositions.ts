@@ -1,5 +1,5 @@
-import { useLoaderData } from '@remix-run/react'
 import { useMemo } from 'react'
+import { useLoaderData } from 'react-router'
 
 import {
   GetDepositionsDataV2Query,

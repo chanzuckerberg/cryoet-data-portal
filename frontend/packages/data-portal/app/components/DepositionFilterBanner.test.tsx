@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals'
-import { createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { createRoutesStub } from 'react-router'
 
 const mockOnRemoveFilter = jest.fn()
 
@@ -17,7 +17,7 @@ async function renderDepositionFilterBanner() {
     )
   }
 
-  const DepositionFilterBannerStub = createRemixStub([
+  const DepositionFilterBannerStub = createRoutesStub([
     {
       path: '/',
       Component: DepositionFilterBannerWrapper,

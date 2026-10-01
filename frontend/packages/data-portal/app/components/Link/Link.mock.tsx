@@ -1,5 +1,5 @@
-import { LinkProps } from '@remix-run/react'
 import { isString } from 'lodash-es'
+import { LinkProps } from 'react-router'
 
 export function MockLinkComponent({ to, ...props }: LinkProps) {
   // eslint-disable-next-line jsx-a11y/anchor-has-content

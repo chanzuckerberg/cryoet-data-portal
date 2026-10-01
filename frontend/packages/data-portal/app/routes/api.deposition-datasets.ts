@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { LoaderFunctionArgs } from 'react-router'
 
 import {
   getDatasetsForDepositionViaAnnotationShapes,

@@ -1,4 +1,4 @@
-import { useParams } from '@remix-run/react'
+import { useParams } from 'react-router'
 
 /**
  * Hook to get the current deposition ID from URL parameters

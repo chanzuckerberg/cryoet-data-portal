@@ -1,5 +1,5 @@
-import { LinkProps } from '@remix-run/react'
 import { ComponentType } from 'react'
+import { LinkProps } from 'react-router'
 
 import { EnvelopeIcon, KaggleIcon, ORCIDIcon } from 'app/components/icons'
 import { Link } from 'app/components/Link'

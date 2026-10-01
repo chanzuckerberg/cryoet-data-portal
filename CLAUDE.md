@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 CryoET Data Portal is a monorepo containing:
 
-- **frontend/**: React/Remix web application (pnpm monorepo)
+- **frontend/**: React Router v7 web application (pnpm monorepo)
 - **client/python/**: Python API client library
 - **docs/**: Sphinx documentation
 - **utilities/**: Utility scripts
@@ -66,7 +66,7 @@ cd client/python/cryoet_data_portal && make coverage
 
 The frontend uses:
 
-- **Remix**: Full-stack React framework with SSR
+- **React Router v7** (framework mode, formerly Remix): Full-stack React framework with SSR, built with Vite
 - **TypeScript**: Strict mode enabled
 - **GraphQL**: Apollo Client with automatic type generation
 - **Styling**: Tailwind CSS + CSS Modules + Material-UI
@@ -75,7 +75,7 @@ The frontend uses:
 
 Key patterns:
 
-- Route-based code splitting via Remix
+- Route-based code splitting via React Router
 - Server-side data loading in route loaders
 - GraphQL-first API approach with generated types
 - Component-driven architecture using CZI design system
@@ -84,7 +84,7 @@ Key patterns:
 
 ```
 frontend/packages/data-portal/app/
-├── routes/              # Remix routes (pages)
+├── routes/              # React Router routes (pages)
 ├── components/          # Reusable React components
 ├── graphql/            # GraphQL queries/fragments
 ├── hooks/              # Custom React hooks

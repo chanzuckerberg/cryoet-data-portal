@@ -1,4 +1,4 @@
-import { ActionFunctionArgs } from '@remix-run/server-runtime'
+import { ActionFunctionArgs } from 'react-router'
 
 import { ServerContext } from 'app/types/context'
 import { removeNullishValues } from 'app/utils/object'
