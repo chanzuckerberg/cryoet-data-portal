@@ -4,12 +4,10 @@ import { OrderBy } from 'app/__generated_v2__/graphql'
 import { apolloClientV2 } from 'app/apollo.server'
 import { CompletedMLChallenge } from 'app/components/MLChallenge/CompletedMLChallenge/CompletedMLChallenge'
 import { getWinningDepositions } from 'app/graphql/getWinningDepositionsV2.server'
-import { getLocalFileContent } from 'app/utils/repo.server'
+import { getPackageMdxContent } from 'app/utils/repo.server'
 
 export async function loader() {
-  const prefix = `${
-    process.env.NODE_ENV === 'production' ? 'app' : 'frontend'
-  }/packages/data-portal/app/components/MLChallenge/MdxContent`
+  const prefix = 'app/components/MLChallenge/MdxContent'
 
   const { data } = await getWinningDepositions({
     limit: 10,
@@ -24,13 +22,11 @@ export async function loader() {
     competitionContributors,
     challengeResources,
   ] = await Promise.all([
-    getLocalFileContent(`${prefix}/AboutTheCompetition-completed.mdx`, {
-      raw: true,
-    }),
-    getLocalFileContent(`${prefix}/Glossary.mdx`, { raw: true }),
-    getLocalFileContent(`${prefix}/WhatIsCryoET.mdx`, { raw: true }),
-    getLocalFileContent(`${prefix}/CompetitionContributors.mdx`, { raw: true }),
-    getLocalFileContent(`${prefix}/ChallengeResources.mdx`, { raw: true }),
+    getPackageMdxContent(`${prefix}/AboutTheCompetition-completed.mdx`),
+    getPackageMdxContent(`${prefix}/Glossary.mdx`),
+    getPackageMdxContent(`${prefix}/WhatIsCryoET.mdx`),
+    getPackageMdxContent(`${prefix}/CompetitionContributors.mdx`),
+    getPackageMdxContent(`${prefix}/ChallengeResources.mdx`),
   ])
 
   return {
