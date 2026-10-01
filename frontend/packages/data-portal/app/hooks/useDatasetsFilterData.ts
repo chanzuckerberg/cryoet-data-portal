@@ -1,4 +1,4 @@
-import { useTypedLoaderData } from 'remix-typedjson'
+import { useLoaderData } from '@remix-run/react'
 
 import {
   Annotation_File_Shape_Type_Enum,
@@ -7,7 +7,7 @@ import {
 import { isDefined } from 'app/utils/nullish'
 
 export function useDatasetsFilterData() {
-  const { v2 } = useTypedLoaderData<{
+  const { v2 } = useLoaderData<{
     v2: GetDatasetsV2Query
   }>()
 

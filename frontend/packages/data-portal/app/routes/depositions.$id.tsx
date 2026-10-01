@@ -1,6 +1,5 @@
 import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
 import { LoaderFunctionArgs } from '@remix-run/server-runtime'
-import { typedjson } from 'remix-typedjson'
 
 import { apolloClientV2 } from 'app/apollo.server'
 import { DepositionFilters } from 'app/components/Deposition/DepositionFilters'
@@ -43,7 +42,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     url,
   })
 
-  return typedjson(data)
+  return data
 }
 
 export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {

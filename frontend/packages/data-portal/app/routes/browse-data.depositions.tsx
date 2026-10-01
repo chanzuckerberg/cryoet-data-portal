@@ -1,5 +1,5 @@
 import { CellHeaderDirection } from '@czi-sds/components'
-import { json, LoaderFunctionArgs } from '@remix-run/node'
+import { LoaderFunctionArgs } from '@remix-run/node'
 
 import { OrderBy } from 'app/__generated_v2__/graphql'
 import { apolloClientV2 } from 'app/apollo.server'
@@ -31,10 +31,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
     params: url.searchParams,
   })
 
-  return json({
+  return {
     v2: responseV2,
     orderBy: orderByV2,
-  })
+  }
 }
 
 export default function BrowseDepositionsPage() {

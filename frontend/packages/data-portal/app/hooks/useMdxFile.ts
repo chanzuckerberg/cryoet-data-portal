@@ -1,6 +1,6 @@
+import { useLoaderData } from '@remix-run/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
-import { useTypedLoaderData } from 'remix-typedjson'
 
 export function useMdxFile() {
-  return useTypedLoaderData<{ content: MDXRemoteSerializeResult }>()
+  return useLoaderData<{ content: MDXRemoteSerializeResult }>()
 }

@@ -248,9 +248,6 @@ importers:
       remix-i18next:
         specifier: ^6.4.1
         version: 6.4.1(@remix-run/node@2.17.5)(@remix-run/react@2.17.5)(i18next@23.16.8)(react-i18next@13.5.0)(react@18.2.0)
-      remix-typedjson:
-        specifier: ^0.2.2
-        version: 0.2.2(@remix-run/react@2.17.5)(@remix-run/server-runtime@2.17.5)(react@18.2.0)
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
@@ -13282,18 +13279,6 @@ packages:
       i18next: 23.16.8
       react: 18.2.0
       react-i18next: 13.5.0(i18next@23.16.8)(react-dom@18.2.0)(react@18.2.0)
-    dev: false
-
-  /remix-typedjson@0.2.2(@remix-run/react@2.17.5)(@remix-run/server-runtime@2.17.5)(react@18.2.0):
-    resolution: {integrity: sha512-M6U7OHDReFoinDh5m2m7gJtmLlKrqxdeS+aygyIqHeTu7TLGahcQ8h0RZ0fs2JSd3QV1zJirG2zHpwCN1SK+TQ==}
-    peerDependencies:
-      '@remix-run/react': ^1.16.0 || ^2.0
-      '@remix-run/server-runtime': ^1.16.0 || ^2.0
-      react: ^17.0.2 || ^18.0.0
-    dependencies:
-      '@remix-run/react': 2.17.5(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)
-      '@remix-run/server-runtime': 2.17.5(typescript@5.2.2)
-      react: 18.2.0
     dev: false
 
   /remove-trailing-separator@1.1.0:

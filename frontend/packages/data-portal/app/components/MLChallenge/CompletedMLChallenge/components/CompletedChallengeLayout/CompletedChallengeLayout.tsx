@@ -1,7 +1,7 @@
 import { Button } from '@czi-sds/components'
+import { useLoaderData } from '@remix-run/react'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { ReactNode } from 'react'
-import { useTypedLoaderData } from 'remix-typedjson'
 
 import { GetWinningDepositionsDataQuery } from 'app/__generated_v2__/graphql'
 import { I18n } from 'app/components/I18n'
@@ -80,7 +80,7 @@ export function CompletedChallengeLayout() {
     competitionContributors,
     challengeResources,
     winningDepositions,
-  } = useTypedLoaderData<{
+  } = useLoaderData<{
     aboutTheCompetitionCompleted: MDXRemoteSerializeResult
     glossary: MDXRemoteSerializeResult
     whatIsCryoET: MDXRemoteSerializeResult

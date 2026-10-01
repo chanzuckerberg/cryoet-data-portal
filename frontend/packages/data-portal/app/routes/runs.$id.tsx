@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
 import { ShouldRevalidateFunctionArgs, useSearchParams } from '@remix-run/react'
-import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { startCase, toNumber } from 'lodash-es'
 import { match, P } from 'ts-pattern'
 
@@ -65,9 +65,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     })
   }
 
-  return json({
+  return {
     v2: responseV2,
-  })
+  }
 }
 
 export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {

@@ -1,4 +1,4 @@
-import { useTypedLoaderData } from 'remix-typedjson'
+import { useLoaderData } from '@remix-run/react'
 
 import {
   Annotation_File_Shape_Type_Enum,
@@ -8,7 +8,7 @@ import { getAdditionalContributingDepositions } from 'app/utils/deposition'
 import { isDefined } from 'app/utils/nullish'
 
 export function useDatasetById() {
-  const { v2 } = useTypedLoaderData<{
+  const { v2 } = useLoaderData<{
     v2: GetDatasetByIdV2Query
   }>()
 
