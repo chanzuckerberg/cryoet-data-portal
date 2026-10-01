@@ -3,7 +3,6 @@
 import { useSearchParams } from '@remix-run/react'
 import { type LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { lazy, Suspense } from 'react'
-import { typedjson } from 'remix-typedjson'
 
 import { apolloClientV2 } from 'app/apollo.server'
 import { QueryParams } from 'app/constants/query'
@@ -42,9 +41,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     })
   }
 
-  return typedjson({
+  return {
     v2: responseV2,
-  })
+  }
 }
 
 const ViewerPage = lazy(() =>

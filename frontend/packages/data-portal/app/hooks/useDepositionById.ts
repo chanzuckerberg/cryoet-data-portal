@@ -1,5 +1,5 @@
+import { useLoaderData } from '@remix-run/react'
 import { useMemo } from 'react'
-import { useTypedLoaderData } from 'remix-typedjson'
 
 import {
   Annotation_File_Shape_Type_Enum,
@@ -55,7 +55,7 @@ export interface ExperimentalConditionsMethodMetadata {
 }
 
 export function useDepositionById() {
-  const { v2, expandedData, annotations, tomograms } = useTypedLoaderData<{
+  const { v2, expandedData, annotations, tomograms } = useLoaderData<{
     v2: GetDepositionBaseDataV2Query
     expandedData?: { dataContents: DepositionDataContents }
     annotations?: GetDepositionAnnotationsQuery

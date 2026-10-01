@@ -1,5 +1,4 @@
 import { Outlet } from '@remix-run/react'
-import { json } from '@remix-run/server-runtime'
 import { useEffect } from 'react'
 
 import { gql } from 'app/__generated_v2__'
@@ -31,7 +30,7 @@ export async function loader() {
     },
   })
 
-  return json(data)
+  return data
 }
 
 export function shouldRevalidate() {

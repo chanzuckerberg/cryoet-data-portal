@@ -1,5 +1,4 @@
 import type { MetaFunction } from '@remix-run/node'
-import { typedjson } from 'remix-typedjson'
 
 import { OrderBy } from 'app/__generated_v2__/graphql'
 import { apolloClientV2 } from 'app/apollo.server'
@@ -34,14 +33,14 @@ export async function loader() {
     getLocalFileContent(`${prefix}/ChallengeResources.mdx`, { raw: true }),
   ])
 
-  return typedjson({
+  return {
     aboutTheCompetitionCompleted,
     glossary,
     whatIsCryoET,
     competitionContributors,
     challengeResources,
     winningDepositions: data,
-  })
+  }
 }
 
 export const meta: MetaFunction = () => {

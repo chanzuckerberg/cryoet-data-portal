@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 
 import { ShouldRevalidateFunctionArgs, useSearchParams } from '@remix-run/react'
-import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { LoaderFunctionArgs } from '@remix-run/server-runtime'
 import { match, P } from 'ts-pattern'
 
 import { apolloClientV2 } from 'app/apollo.server'
@@ -56,9 +56,9 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     })
   }
 
-  return json({
+  return {
     v2: responseV2,
-  })
+  }
 }
 
 export function shouldRevalidate(args: ShouldRevalidateFunctionArgs) {

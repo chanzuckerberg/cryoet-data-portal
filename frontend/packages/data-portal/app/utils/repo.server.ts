@@ -5,7 +5,6 @@ import { serialize } from 'next-mdx-remote/serialize'
 import { resolve } from 'path'
 import remarkGfm from 'remark-gfm'
 import sectionize from 'remark-sectionize'
-import { typedjson } from 'remix-typedjson'
 
 export interface RepoFile {
   content: string
@@ -35,9 +34,9 @@ async function serializeMdxRaw(content: string) {
 }
 
 async function serializeMdx(content: string) {
-  return typedjson({
+  return {
     content: await serializeMdxRaw(content),
-  })
+  }
 }
 
 async function getRepoFileContentResponse(path: string) {

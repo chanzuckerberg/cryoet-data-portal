@@ -8,12 +8,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from '@remix-run/react'
 import { defaults } from 'lodash-es'
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useChangeLanguage } from 'remix-i18next/react'
-import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
 import { Layout } from './components/Layout'
 import { ClientStyleContext } from './context/ClientStyle.context'
@@ -35,7 +35,7 @@ interface DocumentProps {
 export async function loader({ request }: LoaderFunctionArgs) {
   const locale = await i18next.getLocale(request)
 
-  return typedjson({
+  return {
     locale,
     ENV: defaults(
       {
@@ -46,7 +46,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       },
       ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
     ),
-  })
+  }
 }
 
 export function shouldRevalidate() {
@@ -58,7 +58,7 @@ export function shouldRevalidate() {
 const Document = withEmotionCache(
   ({ children, title }: DocumentProps, emotionCache) => {
     const clientStyleData = useContext(ClientStyleContext)
-    const { ENV, locale } = useTypedLoaderData<typeof loader>()
+    const { ENV, locale } = useLoaderData<typeof loader>()
 
     // This hook will change the i18n instance language to the current locale
     // detected by the loader, this way, when we do something to change the

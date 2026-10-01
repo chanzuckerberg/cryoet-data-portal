@@ -1,7 +1,6 @@
 import { CellHeaderDirection } from '@czi-sds/components'
-import { json, LoaderFunctionArgs } from '@remix-run/node'
-import { useSearchParams } from '@remix-run/react'
-import { useTypedLoaderData } from 'remix-typedjson'
+import { LoaderFunctionArgs } from '@remix-run/node'
+import { useLoaderData, useSearchParams } from '@remix-run/react'
 
 import { OrderBy } from 'app/__generated_v2__/graphql'
 import { apolloClientV2 } from 'app/apollo.server'
@@ -64,10 +63,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
     }
   }
 
-  return json({
+  return {
     v2: responseV2,
     deposition,
-  })
+  }
 }
 
 function BrowseDatasetTableHeader(props: TableHeaderProps) {
@@ -101,7 +100,7 @@ export default function BrowseDatasetsPage() {
   }
 
   // Get deposition data from loader
-  const { deposition } = useTypedLoaderData<{
+  const { deposition } = useLoaderData<{
     v2: unknown
     deposition: { id: number; title: string } | null
   }>()
