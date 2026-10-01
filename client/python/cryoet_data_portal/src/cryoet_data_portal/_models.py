@@ -138,6 +138,8 @@ class Annotation(Model):
         authors (List[AnnotationAuthor]): The annotation authors of this annotation
         deposition (Deposition): The deposition this annotation is a part of
         deposition_id (int): None
+        tomogram_voxel_spacing (TomogramVoxelSpacing): The tomogram voxel spacing this annotation is a part of
+        tomogram_voxel_spacing_id (int): None
         s3_metadata_path (str): S3 path for the metadata json file for this annotation
         https_metadata_path (str): HTTPS path for the metadata json file for this annotation
         annotation_publication (str): DOIs for publications that describe the dataset. Use a comma to separate multiple DOIs.
@@ -183,6 +185,12 @@ class Annotation(Model):
     )
     deposition: Deposition = ItemRelationship("Deposition", "deposition_id", "id")
     deposition_id: int = IntField()
+    tomogram_voxel_spacing: TomogramVoxelSpacing = ItemRelationship(
+        "TomogramVoxelSpacing",
+        "tomogram_voxel_spacing_id",
+        "id",
+    )
+    tomogram_voxel_spacing_id: int = IntField()
     s3_metadata_path: str = StringField()
     https_metadata_path: str = StringField()
     annotation_publication: str = StringField()
@@ -1204,7 +1212,7 @@ class IdentifiedObject(Model):
         id (int): Numeric identifier (May change!)
         run (Run): The run this identified object is a part of
         run_id (int): None
-        object_id (str): Gene Ontology Cellular Component identifier or UniProtKB accession for the identified object.
+        object_id (str): Ontology identifier for the identified object.
         object_name (str): Name of the identified object (e.g. ribosome, nuclear pore complex, actin filament, membrane)
         object_description (str): A textual description of the identified object, can be a longer description to include additional information not covered by the IdentifiedObject object name and state.
         object_state (str): Molecule state of the identified object (e.g. open, closed)
@@ -1934,6 +1942,7 @@ class TomogramVoxelSpacing(Model):
         annotation_files (List[AnnotationFile]): The annotation files of this tomogram voxel spacing
         run (Run): The run this tomogram voxel spacing is a part of
         run_id (int): None
+        annotations (List[Annotation]): The annotations of this tomogram voxel spacing
         tomograms (List[Tomogram]): The tomograms of this tomogram voxel spacing
         voxel_spacing (float): The voxel spacing for the tomograms in this set in angstroms
         s3_prefix (str): The S3 public bucket path where this tomogram voxel spacing is contained
@@ -1951,6 +1960,11 @@ class TomogramVoxelSpacing(Model):
     )
     run: Run = ItemRelationship("Run", "run_id", "id")
     run_id: int = IntField()
+    annotations: List[Annotation] = ListRelationship(
+        "Annotation",
+        "id",
+        "tomogram_voxel_spacing_id",
+    )
     tomograms: List[Tomogram] = ListRelationship(
         "Tomogram",
         "id",

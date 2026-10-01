@@ -1,6 +1,3 @@
-"""Indicates an Input Object is a OneOf Input Object."""
-directive @oneOf on INPUT_OBJECT
-
 type Query {
   gainFiles(where: GainFileWhereClause = null, orderBy: [GainFileOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [GainFile!]!
   frameAcquisitionFiles(where: FrameAcquisitionFileWhereClause = null, orderBy: [FrameAcquisitionFileOrderByClause!] = [], limitOffset: LimitOffsetClause = null): [FrameAcquisitionFile!]!
@@ -53,7 +50,7 @@ type Query {
 """Gain values for frames in this run"""
 type GainFile implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -69,23 +66,18 @@ type GainFile implements EntityInterface & Node {
 
 interface EntityInterface implements Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 }
 
 """An object with a Globally Unique ID"""
 interface Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 }
-
-"""
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-"""
-scalar GlobalID
 
 type Run implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -308,7 +300,7 @@ type AlignmentEdge {
 """Tiltseries Alignment"""
 type Alignment implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -434,7 +426,7 @@ type AnnotationFileEdge {
 """Metadata for files associated with an annotation"""
 type AnnotationFile implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -546,6 +538,8 @@ input AnnotationWhereClause {
   authorsAggregate: AnnotationAuthorAggregateWhereClause
   deposition: DepositionWhereClause
   depositionId: IntComparators
+  tomogramVoxelSpacing: TomogramVoxelSpacingWhereClause
+  tomogramVoxelSpacingId: IntComparators
   s3MetadataPath: StrComparators
   httpsMetadataPath: StrComparators
   annotationPublication: StrComparators
@@ -1153,6 +1147,8 @@ input TomogramVoxelSpacingWhereClause {
   annotationFilesAggregate: AnnotationFileAggregateWhereClause
   run: RunWhereClause
   runId: IntComparators
+  annotations: AnnotationWhereClause
+  annotationsAggregate: AnnotationAggregateWhereClause
   tomograms: TomogramWhereClause
   tomogramsAggregate: TomogramAggregateWhereClause
   voxelSpacing: FloatComparators
@@ -1693,9 +1689,9 @@ enum annotation_file_shape_type_enum {
   Point
   InstanceSegmentation
   InstanceSegmentationMask
+  Mesh
   GlobalCaption
   AnnotationCaption
-  Mesh
 }
 
 input Annotation_file_source_enumEnumComparators {
@@ -1781,6 +1777,7 @@ enum alignment_method_type_enum {
   projection_matching
   patch_tracking
   fiducial_based
+  simulated
 }
 
 input AlignmentOrderByClause {
@@ -1916,7 +1913,7 @@ input DatasetOrderByClause {
 """Shapes associated with an annotation"""
 type AnnotationShape implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -1949,7 +1946,7 @@ type AnnotationShape implements EntityInterface & Node {
 """Metadata for an annotation"""
 type Annotation implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -2008,6 +2005,8 @@ type Annotation implements EntityInterface & Node {
   authorsAggregate(where: AnnotationAuthorWhereClause = null): AnnotationAuthorAggregate
   deposition(where: DepositionWhereClause = null, orderBy: [DepositionOrderByClause!] = []): Deposition
   depositionId: Int
+  tomogramVoxelSpacing(where: TomogramVoxelSpacingWhereClause = null, orderBy: [TomogramVoxelSpacingOrderByClause!] = []): TomogramVoxelSpacing
+  tomogramVoxelSpacingId: Int
 
   """S3 path for the metadata json file for this annotation"""
   s3MetadataPath: String!
@@ -2026,7 +2025,7 @@ type Annotation implements EntityInterface & Node {
   annotationMethod: String!
 
   """An identifier for the annotation to be used during ingestion."""
-  annotationIngestId: String
+  annotationIngestId: String!
 
   """
   Whether an annotation is considered ground truth, as determined by the annotator.
@@ -2115,6 +2114,7 @@ input AnnotationShapeOrderByClause {
 input AnnotationOrderByClause {
   run: RunOrderByClause
   deposition: DepositionOrderByClause
+  tomogramVoxelSpacing: TomogramVoxelSpacingOrderByClause
   s3MetadataPath: orderBy
   httpsMetadataPath: orderBy
   annotationPublication: orderBy
@@ -2135,6 +2135,14 @@ input AnnotationOrderByClause {
   depositionDate: orderBy
   releaseDate: orderBy
   lastModifiedDate: orderBy
+  id: orderBy
+}
+
+input TomogramVoxelSpacingOrderByClause {
+  run: RunOrderByClause
+  voxelSpacing: orderBy
+  s3Prefix: orderBy
+  httpsPrefix: orderBy
   id: orderBy
 }
 
@@ -2174,6 +2182,7 @@ type AnnotationGroupByOptions {
   methodLinks: AnnotationMethodLinkGroupByOptions
   authors: AnnotationAuthorGroupByOptions
   deposition: DepositionGroupByOptions
+  tomogramVoxelSpacing: TomogramVoxelSpacingGroupByOptions
   s3MetadataPath: String
   httpsMetadataPath: String
   annotationPublication: String
@@ -2255,6 +2264,7 @@ type AnnotationFileGroupByOptions {
 type TomogramVoxelSpacingGroupByOptions {
   annotationFiles: AnnotationFileGroupByOptions
   run: RunGroupByOptions
+  annotations: AnnotationGroupByOptions
   tomograms: TomogramGroupByOptions
   voxelSpacing: Float
   s3Prefix: String
@@ -2577,7 +2587,7 @@ A set of links to models, source code, documentation, etc referenced by annotati
 """
 type AnnotationMethodLink implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -2648,7 +2658,7 @@ type AnnotationAuthorEdge {
 """Metadata for an annotation's authors"""
 type AnnotationAuthor implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -2742,7 +2752,7 @@ type AnnotationAuthorMinMaxColumns {
 """Deposition metadata"""
 type Deposition implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -2935,7 +2945,7 @@ type DepositionAuthorEdge {
 """Authors for a deposition"""
 type DepositionAuthor implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -3146,7 +3156,7 @@ type DatasetEdge {
 """A collection of imaging experiments on the same organism"""
 type Dataset implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """
   An identifier for a CryoET dataset, assigned by the Data Portal. Used to identify the dataset as the directory name in data tree
@@ -3352,7 +3362,7 @@ type DatasetFundingEdge {
 """Metadata for a dataset's funding sources"""
 type DatasetFunding implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -3419,7 +3429,7 @@ type DatasetAuthorEdge {
 """An author of a dataset"""
 type DatasetAuthor implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -3628,7 +3638,7 @@ type FrameEdge {
 
 type Frame implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -3697,7 +3707,7 @@ type PerSectionParametersEdge {
 """Map individual Frames to a Tiltseries"""
 type PerSectionParameters implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -3751,7 +3761,7 @@ input FrameOrderByClause {
 
 type Tiltseries implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -4104,7 +4114,7 @@ type TomogramEdge {
 """Metadata describing a tomogram."""
 type Tomogram implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -4273,7 +4283,7 @@ type TomogramAuthorEdge {
 """Author of a tomogram"""
 type TomogramAuthor implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -4356,14 +4366,6 @@ input TomogramOrderByClause {
   lastModifiedDate: orderBy
 }
 
-input TomogramVoxelSpacingOrderByClause {
-  run: RunOrderByClause
-  voxelSpacing: orderBy
-  s3Prefix: orderBy
-  httpsPrefix: orderBy
-  id: orderBy
-}
-
 input TomogramAuthorOrderByClause {
   tomogram: TomogramOrderByClause
   id: orderBy
@@ -4414,7 +4416,7 @@ type TomogramAuthorMinMaxColumns {
 """Voxel spacings for a run"""
 type TomogramVoxelSpacing implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -4437,6 +4439,23 @@ type TomogramVoxelSpacing implements EntityInterface & Node {
   annotationFilesAggregate(where: AnnotationFileWhereClause = null): AnnotationFileAggregate
   run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
   runId: Int
+  annotations(
+    where: AnnotationWhereClause = null
+    orderBy: [AnnotationOrderByClause!] = []
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): AnnotationConnection!
+  annotationsAggregate(where: AnnotationWhereClause = null): AnnotationAggregate
   tomograms(
     where: TomogramWhereClause = null
     orderBy: [TomogramOrderByClause!] = []
@@ -4591,7 +4610,7 @@ type DepositionTypeEdge {
 
 type DepositionType implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -4654,7 +4673,7 @@ type PerSectionAlignmentParametersEdge {
 """Map alignment parameters to tilt series frames"""
 type PerSectionAlignmentParameters implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -4797,16 +4816,14 @@ An ontology term/ID or accession code, state and description associated with a R
 """
 type IdentifiedObject implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
   run(where: RunWhereClause = null, orderBy: [RunOrderByClause!] = []): Run
   runId: Int
 
-  """
-  Gene Ontology Cellular Component identifier or UniProtKB accession for the identified object.
-  """
+  """Ontology identifier for the identified object."""
   objectId: String!
 
   """
@@ -4882,7 +4899,7 @@ References to files containing more information about frame acquisition
 """
 type FrameAcquisitionFile implements EntityInterface & Node {
   """The Globally Unique ID of this object"""
-  _id: GlobalID!
+  _id: ID!
 
   """Numeric identifier (May change!)"""
   id: Int!
@@ -5465,6 +5482,9 @@ input AnnotationCreateInput {
   runId: ID = null
   depositionId: ID = null
 
+  """The voxel spacing this annotation is associated with"""
+  tomogramVoxelSpacingId: ID = null
+
   """S3 path for the metadata json file for this annotation"""
   s3MetadataPath: String!
 
@@ -5482,7 +5502,7 @@ input AnnotationCreateInput {
   annotationMethod: String!
 
   """An identifier for the annotation to be used during ingestion."""
-  annotationIngestId: String = null
+  annotationIngestId: String!
 
   """
   Whether an annotation is considered ground truth, as determined by the annotator.
@@ -5551,6 +5571,9 @@ input AnnotationUpdateInput {
   runId: ID = null
   depositionId: ID = null
 
+  """The voxel spacing this annotation is associated with"""
+  tomogramVoxelSpacingId: ID = null
+
   """S3 path for the metadata json file for this annotation"""
   s3MetadataPath: String
 
@@ -5568,7 +5591,7 @@ input AnnotationUpdateInput {
   annotationMethod: String
 
   """An identifier for the annotation to be used during ingestion."""
-  annotationIngestId: String = null
+  annotationIngestId: String
 
   """
   Whether an annotation is considered ground truth, as determined by the annotator.
@@ -6279,9 +6302,7 @@ input IdentifiedObjectCreateInput {
   """Run that this identified object is a part of"""
   runId: ID = null
 
-  """
-  Gene Ontology Cellular Component identifier or UniProtKB accession for the identified object.
-  """
+  """Ontology identifier for the identified object."""
   objectId: String!
 
   """
@@ -6305,9 +6326,7 @@ input IdentifiedObjectUpdateInput {
   """Run that this identified object is a part of"""
   runId: ID = null
 
-  """
-  Gene Ontology Cellular Component identifier or UniProtKB accession for the identified object.
-  """
+  """Ontology identifier for the identified object."""
   objectId: String
 
   """
