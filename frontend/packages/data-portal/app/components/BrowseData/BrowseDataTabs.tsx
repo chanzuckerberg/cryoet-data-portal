@@ -1,5 +1,9 @@
-import { useLocation, useNavigate, useSearchParams } from '@remix-run/react'
-import { useTypedLoaderData } from 'remix-typedjson'
+import {
+  useLoaderData,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from 'react-router'
 
 import { GetToolbarDataQuery } from 'app/__generated_v2__/graphql'
 import { Tabs } from 'app/components/Tabs'
@@ -13,13 +17,14 @@ export function BrowseDataTabs() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const [searchParams] = useSearchParams()
-  const data = useTypedLoaderData<GetToolbarDataQuery>()
+  const data = useLoaderData<GetToolbarDataQuery>()
 
   return (
     <Tabs
       onChange={(nextTab) => {
         plausible(Events.ClickBrowseDataTab, { tab: nextTab })
         const search = searchParams.toString()
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         navigate(`/browse-data/${nextTab}${search ? `?${search}` : ''}`)
       }}
       value={

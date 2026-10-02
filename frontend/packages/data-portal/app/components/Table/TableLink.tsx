@@ -1,5 +1,5 @@
 import { Icon } from '@czi-sds/components'
-import { LinkProps } from '@remix-run/react'
+import { LinkProps } from 'react-router'
 
 import { cns } from 'app/utils/cns'
 

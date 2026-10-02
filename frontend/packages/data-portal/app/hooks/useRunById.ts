@@ -1,4 +1,4 @@
-import { useTypedLoaderData } from 'remix-typedjson'
+import { useLoaderData } from 'react-router'
 
 import {
   Annotation_File_Shape_Type_Enum,
@@ -9,7 +9,7 @@ import { getAdditionalContributingDepositions } from 'app/utils/deposition'
 import { isDefined } from 'app/utils/nullish'
 
 export function useRunById() {
-  const { v2 } = useTypedLoaderData<{
+  const { v2 } = useLoaderData<{
     v2: GetRunByIdV2Query
   }>()
 

@@ -1,4 +1,4 @@
-import { AppLoadContext } from '@remix-run/server-runtime'
+import { AppLoadContext } from 'react-router'
 
 export interface ServerContext extends AppLoadContext {
   clientIp: string

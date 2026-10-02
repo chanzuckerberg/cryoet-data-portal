@@ -1,9 +1,9 @@
 import { Banner, BannerProps } from '@czi-sds/components'
 import { useLocalStorageValue } from '@react-hookz/web'
-import { useLocation } from '@remix-run/react'
 import dayjs from 'dayjs'
 import { useAtom } from 'jotai'
 import { ReactNode, useEffect, useState } from 'react'
+import { useLocation } from 'react-router'
 
 import type { I18nProps } from 'app/components/I18n'
 import { I18n } from 'app/components/I18n'

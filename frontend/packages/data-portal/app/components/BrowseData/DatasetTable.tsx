@@ -2,10 +2,10 @@
 
 import { CellHeaderDirection } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
-import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
 import { useCallback, useMemo, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router'
 
 import { AnnotatedObjectsList } from 'app/components/AnnotatedObjectsList'
 import { AuthorList } from 'app/components/AuthorList'

@@ -4,7 +4,6 @@ import {
 } from '@emotion/react'
 import CssBaseline from '@mui/material/CssBaseline'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
-import { RemixBrowser } from '@remix-run/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
@@ -12,6 +11,7 @@ import Backend from 'i18next-http-backend'
 import { startTransition, useMemo, useState } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import { initReactI18next } from 'react-i18next'
+import { HydratedRouter } from 'react-router/dom'
 import { getInitialNamespaces } from 'remix-i18next/client'
 
 import {
@@ -80,7 +80,7 @@ async function hydrate() {
               <EmotionThemeProvider theme={theme}>
                 {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                 <CssBaseline />
-                <RemixBrowser />
+                <HydratedRouter />
               </EmotionThemeProvider>
             </ThemeProvider>
           </StyledEngineProvider>

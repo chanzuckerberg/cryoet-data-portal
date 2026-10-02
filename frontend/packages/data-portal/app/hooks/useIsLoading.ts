@@ -1,6 +1,6 @@
 import { useDebouncedState } from '@react-hookz/web'
-import { useNavigation } from '@remix-run/react'
 import { useEffect } from 'react'
+import { useNavigation } from 'react-router'
 
 /**
  * Returns props related to loading state.

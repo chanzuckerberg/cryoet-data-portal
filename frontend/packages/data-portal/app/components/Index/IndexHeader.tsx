@@ -1,5 +1,5 @@
 import { Button } from '@czi-sds/components'
-import { useTypedLoaderData } from 'remix-typedjson'
+import { useLoaderData } from 'react-router'
 
 import { LandingPageDataQuery } from 'app/__generated_v2__/graphql'
 import { I18n } from 'app/components/I18n'
@@ -32,7 +32,7 @@ const DIVIDER = (
 
 export function IndexHeader() {
   const { t } = useI18n()
-  const data = useTypedLoaderData<LandingPageDataQuery>()
+  const data = useLoaderData<LandingPageDataQuery>()
 
   return (
     <div

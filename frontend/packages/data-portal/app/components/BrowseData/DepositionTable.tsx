@@ -2,10 +2,10 @@
 
 import { CellHeaderDirection } from '@czi-sds/components'
 import Skeleton from '@mui/material/Skeleton'
-import { useNavigate, useSearchParams } from '@remix-run/react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { range } from 'lodash-es'
 import { useMemo } from 'react'
+import { useNavigate, useSearchParams } from 'react-router'
 
 import { AuthorList } from 'app/components/AuthorList'
 import { KeyPhoto } from 'app/components/KeyPhoto'
@@ -274,6 +274,7 @@ export function DepositionTable() {
           params: url.searchParams,
           prevParams: searchParams,
         })
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         navigate(`${url.pathname}${url.search}`)
       }}
       hoverType="group"

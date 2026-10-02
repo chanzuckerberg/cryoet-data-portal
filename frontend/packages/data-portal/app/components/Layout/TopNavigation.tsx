@@ -1,8 +1,8 @@
 import { Button } from '@czi-sds/components'
-import { useLocation } from '@remix-run/react'
 import { useAtomValue } from 'jotai'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router'
 
 import { Link } from 'app/components/Link'
 import { isTopBannerVisibleAtom } from 'app/state/banner'

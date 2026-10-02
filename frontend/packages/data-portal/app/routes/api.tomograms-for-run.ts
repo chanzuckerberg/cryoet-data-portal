@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { LoaderFunctionArgs } from 'react-router'
 
 import { apolloClientV2 } from 'app/apollo.server'
 import { getTomogramsForRunAndDeposition } from 'app/graphql/getDepositionRunsV2.server'

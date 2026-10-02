@@ -1,7 +1,7 @@
-import { createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
+import { createRoutesStub } from 'react-router'
 
 import {
   previousBrowseDatasetParamsAtom,
@@ -75,7 +75,7 @@ function renderBreadcrumbs({
     )
   }
 
-  const BreadcrumbsStub = createRemixStub([
+  const BreadcrumbsStub = createRoutesStub([
     {
       path: '/',
       Component: BreadcrumbWrapper,
