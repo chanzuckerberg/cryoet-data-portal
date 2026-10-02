@@ -2,27 +2,26 @@
 
 This document describes the i18next-based internationalization system used throughout the CryoET Data Portal.
 
-
 ## Quick Reference
 
-| Concept           | Implementation    | Location                                                                                              |
-| ----------------- | ----------------- | ----------------------------------------------------------------------------------------------------- |
-| Translation Hook  | `useI18n()`       | [`hooks/useI18n.ts`](../../../packages/data-portal/app/hooks/useI18n.ts)                                 |
-| Translation Files | JSON format       | [`public/locales/en/translation.json`](../../../packages/data-portal/public/locales/en/translation.json) |
-| Configuration     | Remix integration | [`i18next.server.ts`](../../../packages/data-portal/app/i18next.server.ts)                               |
+| Concept           | Implementation | Location                                                                                                 |
+| ----------------- | -------------- | -------------------------------------------------------------------------------------------------------- |
+| Translation Hook  | `useI18n()`    | [`hooks/useI18n.ts`](../../../packages/data-portal/app/hooks/useI18n.ts)                                 |
+| Translation Files | JSON format    | [`public/locales/en/translation.json`](../../../packages/data-portal/public/locales/en/translation.json) |
+| Configuration     | remix-i18next  | [`i18next.server.ts`](../../../packages/data-portal/app/i18next.server.ts)                               |
 
 ---
 
 ## Architecture Overview
 
-The i18n system uses i18next with Remix integration:
+The i18n system uses i18next integrated with React Router (formerly Remix) via `remix-i18next`:
 
 ```
 Translation Files (JSON)
          ↓
    i18next Server
          ↓
-   Remix Loader
+   Route Loader
          ↓
    useI18n() Hook
          ↓
@@ -31,9 +30,9 @@ Translation Files (JSON)
 
 ### Key Technologies
 
-- **i18next** - Core i18n framework
+- **i18next** (v24) - Core i18n framework
 - **react-i18next** - React bindings
-- **remix-i18next** - Remix server-side integration
+- **remix-i18next** (v7) - Server-side integration for React Router framework mode (`remix-i18next/server`, `remix-i18next/react`, `remix-i18next/client`)
 - **i18next-browser-languagedetector** - Automatic language detection
 
 ---
@@ -345,9 +344,11 @@ t('datasets')
 // ❌ Invalid key - TypeScript error
 t('nonExistentKey')
 
-// Type definition
-export type I18nKeys = keyof typeof translation
+// Type definition (app/types/i18n.ts)
+export type I18nKeys = ParseKeys<I18nNamespace>
 ```
+
+Key typing comes from the `CustomTypeOptions` module augmentation in [`types/i18n.ts`](../../../packages/data-portal/app/types/i18n.ts), which passes the type of `public/locales/en/translation.json` to i18next. With `moduleResolution: "bundler"` in `tsconfig.json` this augmentation is applied, so `t()` only accepts known keys and unknown keys fail `pnpm type-check`.
 
 ### Function Type
 
@@ -363,39 +364,59 @@ function MyComponent({ t }: { t: I18nTFunction }) {
 
 ## Server-Side Integration
 
-### Remix Loader
+### Route Loader
 
 ```typescript
+import { LoaderFunctionArgs } from 'react-router'
+
+import { i18next } from 'app/i18next.server'
+
 export async function loader({ request }: LoaderFunctionArgs) {
   const t = await i18next.getFixedT(request)
 
-  return json({
+  return {
     title: t('datasets'),
     description: t('datasetsDescription'),
-  })
+  }
 }
 ```
+
+The root loader in [`root.tsx`](../../../packages/data-portal/app/root.tsx) uses `i18next.getLocale(request)` to detect the locale, and the root component calls `useChangeLanguage(locale)` from `remix-i18next/react` to keep the client i18n instance in sync.
 
 ### Configuration
 
 ```typescript
 // i18next.server.ts
+import { resolve } from 'node:path'
+
 import Backend from 'i18next-fs-backend'
-import { RemixI18Next } from 'remix-i18next'
+import { RemixI18Next } from 'remix-i18next/server'
+
+import { i18n } from './i18next'
+
+// Resolved from the working directory so it works for both `pnpm dev`
+// and the production server started from the package root
+export const LOCALES_PATH = resolve(
+  process.cwd(),
+  'public/locales/{{lng}}/{{ns}}.json',
+)
 
 export const i18next = new RemixI18Next({
   detection: {
-    supportedLanguages: ['en'],
-    fallbackLanguage: 'en',
+    supportedLanguages: i18n.supportedLngs,
+    fallbackLanguage: i18n.fallbackLng,
   },
   i18next: {
+    ...i18n,
     backend: {
-      loadPath: './public/locales/{{lng}}/{{ns}}.json',
+      loadPath: LOCALES_PATH,
     },
   },
-  backend: Backend,
+  plugins: [Backend],
 })
 ```
+
+The shared options (`supportedLngs: ['en']`, `fallbackLng: 'en'`, interpolation and React settings) live in [`i18next.ts`](../../../packages/data-portal/app/i18next.ts). On the client, [`entry.client.tsx`](../../../packages/data-portal/app/entry.client.tsx) initializes i18next with `getInitialNamespaces()` from `remix-i18next/client` and loads translations over HTTP from `/locales/{{lng}}/{{ns}}.json` before hydrating `<HydratedRouter />`. [`entry.server.tsx`](../../../packages/data-portal/app/entry.server.tsx) creates a per-request instance using `i18next.getRouteNamespaces(...)`.
 
 **Location:** [`i18next.server.ts`](../../../packages/data-portal/app/i18next.server.ts)
 
@@ -581,6 +602,8 @@ t('showingResults', { count })
 
 ### Mock Translations
 
+[`setupTests.ts`](../../../packages/data-portal/setupTests.ts) already mocks `react-i18next` globally so `t()` returns the key. A per-test mock looks like this:
+
 ```typescript
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
@@ -629,8 +652,9 @@ it('renders in different languages', () => {
 The portal currently supports English only:
 
 ```typescript
-supportedLanguages: ['en']
-fallbackLanguage: 'en'
+// app/i18next.ts
+supportedLngs: ['en'],
+fallbackLng: 'en',
 ```
 
 ### Adding New Languages
@@ -638,13 +662,11 @@ fallbackLanguage: 'en'
 To add a new language (e.g., Spanish):
 
 1. Create translation file: `public/locales/es/translation.json`
-2. Update i18next config:
+2. Update the shared i18next config in `app/i18next.ts` (used by `i18next.server.ts` for detection):
 
 ```typescript
-detection: {
-  supportedLanguages: ['en', 'es'],
-  fallbackLanguage: 'en',
-}
+supportedLngs: ['en', 'es'],
+fallbackLng: 'en',
 ```
 
 3. Add language selector UI:

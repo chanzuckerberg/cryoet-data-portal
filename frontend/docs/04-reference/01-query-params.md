@@ -463,7 +463,7 @@ const url = `/browse-data/datasets?${params.toString()}`
 ### Reading Query Parameters
 
 ```typescript
-import { useSearchParams } from '@remix-run/react'
+import { useSearchParams } from 'react-router'
 import { QueryParams } from 'app/constants/query'
 
 function MyComponent() {

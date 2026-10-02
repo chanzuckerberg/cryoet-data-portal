@@ -102,9 +102,11 @@ Modify your GraphQL query to support the new filter. See [Building Dynamic Where
 
 ### 6. Use Filter in Loader
 
-Apply the filter in your route loader:
+Apply the filter in your route loader. Loaders return plain objects (React Router single fetch), so no `json()` wrapper is needed:
 
 ```typescript
+import { LoaderFunctionArgs } from 'react-router'
+
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
   const filterState = getFilterState(url.searchParams)
@@ -114,10 +116,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
     filterState,
   })
 
-  return json({
+  return {
     experiments: data.experiments,
     filters: { availableTypes: getAvailableTypes(data) },
-  })
+  }
 }
 ```
 
@@ -126,6 +128,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 Include your filter component in the filter panel:
 
 ```typescript
+import { useLoaderData } from 'react-router'
+
 export function ExperimentFilterPanel() {
   const { filters } = useLoaderData<typeof loader>()
 
@@ -271,12 +275,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
     baseFilter: filterState,
   })
 
-  return json({
+  return {
     filters: {
       availableObjectNames: aggregates.objectNames,
       availableShapeTypes: aggregates.shapeTypes,
     },
-  })
+  }
 }
 ```
 

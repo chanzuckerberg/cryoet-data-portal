@@ -24,16 +24,22 @@ Environment variables are configured in `.env` file at the package root:
 /packages/data-portal/.env
 ```
 
+The Express server (`server.ts`) loads this file with `import 'dotenv/config'` at startup, so the values are available through `process.env` in loaders and other server code, both in development (where `server.ts` runs Vite in middleware mode) and in production. These variables are not exposed through Vite's `import.meta.env`.
+
 ### Example Configuration
 
-A sample configuration is provided in `.env.example`:
+A sample configuration is provided in `.env.sample`:
 
-**Location:** `/packages/data-portal/.env.example`
+**Location:** `/packages/data-portal/.env.sample`
 
 ```bash
+API_URL=https://graphql-cryoet-api.cryoet.prod.si.czi.technology/v1/graphql
 API_URL_V2=https://graphql.cryoetdataportal.czscience.com/graphql
-ENV=local
+E2E_CONFIG={}
 LOCALHOST_PLAUSIBLE_TRACKING=false
+
+# Possible values: local, dev, staging, prod
+ENV=local
 ```
 
 ---
@@ -68,7 +74,7 @@ export const apolloClientV2 = new ApolloClient({
   ssrMode: true,
   cache: new InMemoryCache(),
   link: createHttpLink({
-    uri: process.env.API_URL_V2,
+    uri: process.env.API_URL_V2 ?? ENVIRONMENT_CONTEXT_DEFAULT_VALUE.API_URL_V2,
   }),
 })
 ```
@@ -97,12 +103,16 @@ Identifies the current deployment environment. Used to enable/disable features, 
 - Feature flag logic
 - Environment-specific behavior
 - Root loader context (`app/root.tsx`)
+- MDX loading (`app/utils/repo.server.ts`): when `ENV=local`, `getMdxContent()` reads `website-docs/` MDX from the local repository instead of fetching it from GitHub
 
 **Example usage:**
 ```typescript
 // app/root.tsx
 export async function loader({ request }: LoaderFunctionArgs) {
-  return typedjson({
+  const locale = await i18next.getLocale(request)
+
+  return {
+    locale,
     ENV: defaults(
       {
         ENV: process.env.ENV,
@@ -110,7 +120,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       },
       ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
     ),
-  })
+  }
 }
 ```
 
@@ -190,7 +200,7 @@ export async function loader() {
 Access environment variables through the `EnvironmentContext`:
 
 ```typescript
-import { useEnvironment } from 'app/hooks/useEnvironment'
+import { useEnvironment } from 'app/context/Environment.context'
 
 function MyComponent() {
   const { ENV, API_URL_V2 } = useEnvironment()
@@ -202,16 +212,17 @@ function MyComponent() {
 **Context definition:**
 ```typescript
 // app/context/Environment.context.ts
-export interface EnvironmentContextValue {
-  API_URL?: string
-  API_URL_V2?: string
-  ENV?: string
-  LOCALHOST_PLAUSIBLE_TRACKING?: string
-}
+export type EnvironmentContextValue = Required<
+  Pick<
+    NodeJS.ProcessEnv,
+    'API_URL' | 'API_URL_V2' | 'ENV' | 'LOCALHOST_PLAUSIBLE_TRACKING'
+  >
+>
 
 export const ENVIRONMENT_CONTEXT_DEFAULT_VALUE: EnvironmentContextValue = {
-  API_URL: undefined,
-  API_URL_V2: undefined,
+  API_URL:
+    'https://graphql-cryoet-api.cryoet.prod.si.czi.technology/v1/graphql',
+  API_URL_V2: 'https://graphql.cryoetdataportal.czscience.com/graphql',
   ENV: 'local',
   LOCALHOST_PLAUSIBLE_TRACKING: 'false',
 }
@@ -221,7 +232,11 @@ export const ENVIRONMENT_CONTEXT_DEFAULT_VALUE: EnvironmentContextValue = {
 ```typescript
 // app/root.tsx
 export async function loader({ request }: LoaderFunctionArgs) {
-  return typedjson({
+  const locale = await i18next.getLocale(request)
+
+  // Plain object return (single fetch)
+  return {
+    locale,
     ENV: defaults(
       {
         API_URL: process.env.API_URL,
@@ -231,8 +246,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
       },
       ENVIRONMENT_CONTEXT_DEFAULT_VALUE,
     ),
-  })
+  }
 }
+
+// Read in the Document component
+const { ENV, locale } = useLoaderData<typeof loader>()
 
 // Context is provided in Document component
 <EnvironmentContext.Provider value={ENV}>
@@ -281,7 +299,7 @@ pnpm data-portal dev:codegen
 1. Copy the example environment file:
 ```bash
 cd packages/data-portal
-cp .env.example .env
+cp .env.sample .env
 ```
 
 2. Edit `.env` with your settings:

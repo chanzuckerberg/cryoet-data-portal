@@ -1,6 +1,6 @@
 # Adding New Routes
 
-This guide walks through creating new routes/pages in the CryoET Data Portal frontend using Remix's file-based routing system.
+This guide walks through creating new routes/pages in the CryoET Data Portal frontend using React Router's (formerly Remix) file-based routing system.
 
 
 > **Before you start:** Review [Route Patterns](../01-architecture/01-routing/02-route-patterns.md) to choose the appropriate pattern for your use case. The codebase has 6 distinct route patterns—selecting the right one upfront saves refactoring later.
@@ -18,7 +18,7 @@ This guide walks through creating new routes/pages in the CryoET Data Portal fro
 
 ## Route File Naming Convention
 
-Remix uses file-based routing with special naming conventions:
+React Router uses the flat-file routing convention (`flatRoutes()` from `@react-router/fs-routes`, configured in [`app/routes.ts`](../../packages/data-portal/app/routes.ts)). Any new file in `app/routes/` is picked up automatically—no registration needed. Naming conventions:
 
 - **Dots (`.`)** represent URL path segments: `browse-data.datasets.tsx` → `/browse-data/datasets`
 - **Dollar signs (`$`)** denote dynamic parameters: `datasets.$id.tsx` → `/datasets/:id`
@@ -44,7 +44,7 @@ touch app/routes/experiments.tsx
 The loader runs on the server before rendering and provides data to your component:
 
 ```typescript
-import { json, LoaderFunctionArgs } from '@remix-run/server-runtime'
+import { LoaderFunctionArgs } from 'react-router'
 import { apolloClientV2 } from 'app/apollo.server'
 import { getExperimentsV2 } from 'app/graphql/getExperimentsV2.server'
 
@@ -58,10 +58,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
     page,
   })
 
-  // Return JSON response
-  return json({
+  // Return a plain object (serialized automatically)
+  return {
     experiments: data.experiments,
-  })
+  }
 }
 ```
 
@@ -69,7 +69,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 - Use `LoaderFunctionArgs` for type-safe loader parameters
 - Extract URL parameters via `params` or search params via `request.url`
 - Use Apollo Client to fetch GraphQL data
-- Return data with `json()` helper
+- Return a plain object (use `data(value, { status, headers })` from `react-router` if you need to set a status or headers)
 - Throw `Response` objects for errors (404, 400, etc.)
 
 ### 3. Create the Component
@@ -77,7 +77,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 Export a default React component that renders the page:
 
 ```typescript
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData } from 'react-router'
 import { useI18n } from 'app/hooks/useI18n'
 
 export default function ExperimentsPage() {
@@ -137,7 +137,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     })
   }
 
-  return json({ experiment: data.experiments[0] })
+  return { experiment: data.experiments[0] }
 }
 ```
 
@@ -146,7 +146,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 Control when your route data refetches using `shouldRevalidate`:
 
 ```typescript
-import { ShouldRevalidateFunctionArgs } from '@remix-run/react'
+import { ShouldRevalidateFunctionArgs } from 'react-router'
 import { shouldRevalidatePage } from 'app/utils/revalidate'
 import { QueryParams } from 'app/constants/query'
 
@@ -203,7 +203,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     filter,
   })
 
-  return json({ results: data.results })
+  return { results: data.results }
 }
 ```
 
@@ -226,7 +226,7 @@ Create hierarchical URLs using dot notation:
 ### Access Loader Data in Components
 
 ```typescript
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData } from 'react-router'
 
 export default function MyPage() {
   const { dataset, runs } = useLoaderData<typeof loader>()
@@ -238,7 +238,7 @@ export default function MyPage() {
 ### Access Route Parameters
 
 ```typescript
-import { useParams } from '@remix-run/react'
+import { useParams } from 'react-router'
 
 export default function MyPage() {
   const { id } = useParams()
@@ -250,7 +250,7 @@ export default function MyPage() {
 ### Access Search Parameters
 
 ```typescript
-import { useSearchParams } from '@remix-run/react'
+import { useSearchParams } from 'react-router'
 
 export default function MyPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -290,7 +290,7 @@ throw new Response(null, {
 })
 ```
 
-Remix will automatically render error boundaries for thrown responses.
+React Router will automatically render error boundaries for thrown responses.
 
 ---
 

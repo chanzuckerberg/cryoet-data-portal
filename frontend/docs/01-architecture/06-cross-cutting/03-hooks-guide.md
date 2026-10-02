@@ -88,42 +88,44 @@ drawer.closeDrawer()
 
 ## Data Fetching Hooks
 
-Access data loaded by Remix route loaders or fetch data by ID.
+Access data loaded by React Router route loaders.
 
-**When to use:** Access server-loaded data in components, or fetch individual entities by ID.
+**When to use:** Access server-loaded data in components rendered under the matching route.
 
 > **Note:** For client-side data fetching with React Query, see [Deposition Data Fetching](../02-data/04-deposition-data-fetching.md).
 
 ### Hook API Overview
 
-| Hook                | Input          | Returns                          |
-| ------------------- | -------------- | -------------------------------- |
-| `useDatasets`       | -              | `{ datasets: Dataset[] }`        |
-| `useDatasetById`    | `id`           | `{ dataset, loading, error }`    |
-| `useRunById`        | `runId`        | `{ run, loading, error }`        |
-| `useDepositionById` | `depositionId` | `{ deposition, loading, error }` |
+| Hook                | Route loader           | Returns (selection)                               |
+| ------------------- | ---------------------- | ------------------------------------------------- |
+| `useDatasets`       | `browse-data.datasets` | `{ datasets }`                                    |
+| `useDatasetById`    | `datasets.$id`         | `{ dataset, runs, deposition, objectNames, ... }` |
+| `useRunById`        | `runs.$id`             | `{ run, tomograms, annotationShapes, ... }`       |
+| `useDepositionById` | `depositions.$id`      | `{ deposition, annotations, tomograms, ... }`     |
 
 ### Representative Example: useDatasetById
 
-All data hooks follow similar loading/error patterns:
+These hooks take no arguments. They read the current route's loader data with `useLoaderData()` from `react-router` and derive convenient values from the GraphQL response:
 
 ```typescript
-function DatasetDetails({ id }: { id: number }) {
-  const { dataset, loading, error } = useDatasetById(id)
+// hooks/useDatasetById.ts
+import { useLoaderData } from 'react-router'
 
-  if (loading) return <Skeleton />
-  if (error) return <ErrorState error={error} />
+export function useDatasetById() {
+  const { v2 } = useLoaderData<{ v2: GetDatasetByIdV2Query }>()
+  const dataset = v2.datasets[0]
+  // ...derive objectNames, objectShapeTypes, etc.
+  return { runs: v2.runs, dataset, deposition: v2.depositions[0] /* ... */ }
+}
 
-  return (
-    <div>
-      <h1>{dataset.title}</h1>
-      <p>{dataset.description}</p>
-    </div>
-  )
+// In a component rendered by routes/datasets.$id.tsx
+function DatasetDetails() {
+  const { dataset } = useDatasetById()
+  return <h1>{dataset.title}</h1>
 }
 ```
 
-The pattern is consistent across all `use*ById` hooks - they return data, loading state, and error state.
+Loading and error states are handled at the route level (`useIsLoading()` and thrown loader responses), not by these hooks.
 
 ---
 
